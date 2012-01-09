@@ -246,7 +246,7 @@ static void display_speed(int num_frames)
     frame_rate = num_frames / diff_sec;
     speed_index = 100.0 * diff_clk / (cycles_per_sec * diff_sec);
     
-    if (!console_mode) {
+    if (!console_mode && machine_class != VICE_MACHINE_VSID) {
         vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
     }
 

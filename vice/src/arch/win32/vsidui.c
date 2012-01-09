@@ -73,7 +73,7 @@ static const int c64_sid_baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -
 
 int psid_ui_set_tune(resource_value_t tune, void *param);
 
-char szAppName[] = "VICE: VSID - SID player";
+char szAppName[] = "VSID - The VICE SID player";
 char vsidstrings[VSID_S_LASTLINE + 1][80] = { { 0 } };
 
 static int current_song;
@@ -382,6 +382,14 @@ static void ui_set_language(unsigned int lang_id)
     }
 }
 
+static void vsid_ui_translate(void)
+{
+    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(IDR_MENUVSID));
+    ui_translate_menu_items(menu, vsidui_menu_translation_table);
+    ui_translate_menu_popups(menu, vsidui_popup_translation_table);
+    SetMenu(hwnd, menu);
+}
+
 int vsid_ui_init(void)
 {
     wndclass.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
@@ -405,10 +413,8 @@ int vsid_ui_init(void)
         SetForegroundWindow(hwnd);
     }
 
-    menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(IDR_MENUVSID));
-    ui_translate_menu_items(menu, vsidui_menu_translation_table);
-    ui_translate_menu_popups(menu, vsidui_popup_translation_table);
-    SetMenu(hwnd, menu);
+    vsid_ui_translate();
+
     ShowWindow(hwnd, SW_SHOW);
     DragAcceptFiles(hwnd, TRUE);
     return 0;
@@ -494,13 +500,34 @@ void vsid_ui_display_irqtype(const char *irq)
     sprintf(vsidstrings[VSID_S_IRQ], "Using %s interrupt", irq);
 }
 
+static int quitting = 0;
+
 void vsid_ui_close(void)
 {
-    if (hwnd) {
-        while (DestroyWindow(hwnd) == 0) {
+    int quit = 1;
+    int confirm_on_exit, save_on_exit;
+
+    resources_get_int("ConfirmOnExit", &confirm_on_exit);
+    resources_get_int("SaveResourcesOnExit", &save_on_exit);
+
+    if (!quitting && confirm_on_exit) {
+        if (MessageBox(hwnd, translate_text(IDS_REALLY_EXIT), TEXT("VICE"), MB_YESNO | MB_ICONQUESTION | MB_DEFBUTTON2 | MB_TASKMODAL) == IDYES) {
+            quit = 1;
+        } else {
+            quit = 0;
         }
     }
-    hwnd = NULL;
+
+    if (!quitting && quit) {
+        if (save_on_exit) {
+            if (resources_save(NULL) < 0) {
+                ui_error(translate_text(IDS_CANNOT_SAVE_SETTINGS));
+            }
+        }
+        DestroyWindow(hwnd);
+        hwnd = NULL;
+        quitting = 1;
+    }
 }
 
 void vsid_ui_setdrv(char* driver_info_text)
@@ -778,6 +805,7 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
         case IDM_LANG_SV:
         case IDM_LANG_TR:
             ui_set_language((unsigned int)wparam);
+            vsid_ui_translate();
             break;
         case IDM_ABOUT:
         case IDM_HELP:

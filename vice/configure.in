@@ -2744,6 +2744,7 @@ unsigned long test; ],
     XPET_WINRES="\$(top_builddir)/src/arch/win32/respet.o"
     XPLUS4_WINRES="\$(top_builddir)/src/arch/win32/resplus4.o"
     XCBM2_WINRES="\$(top_builddir)/src/arch/win32/rescbm2.o"
+    XCBM5X0_WINRES="\$(top_builddir)/src/arch/win32/rescbm5x0.o"
   fi
 
   AC_SUBST(LDFLAGS)
@@ -2795,6 +2796,7 @@ AC_SUBST(XVIC_WINRES)
 AC_SUBST(XPET_WINRES)
 AC_SUBST(XPLUS4_WINRES)
 AC_SUBST(XCBM2_WINRES)
+AC_SUBST(XCBM5X0_WINRES)
 
 
 dnl disable building of x64dtv for native gp2x, wiz, dingoo and riscos

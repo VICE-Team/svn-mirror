@@ -1377,7 +1377,7 @@ xcbm2-all: \
 
 # xcbm5x0
 xcbm5x0_libs = \
-	@XCBM2_WINRES@ \
+	@XCBM5X0_WINRES@ \
 	$(xcbm5x0_lib) \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \

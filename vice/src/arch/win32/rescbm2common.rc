@@ -1,0 +1,606 @@
+// CBM2 specific resources.
+//
+
+#include "vice.h"
+
+#include "debug.h"
+#include "res.h"
+#include "rescommon.h"
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_CBM2ROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 150
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT       "", IDC_KERNAL,
+                9, 8, 40, 8
+    EDITTEXT    IDC_CBM2ROM_KERNAL_FILE,
+                55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_KERNAL_BROWSE,
+                185, 7, 50, 14, 0
+
+    LTEXT       "", IDC_BASIC,
+                9, 28, 40, 8
+    EDITTEXT    IDC_CBM2ROM_BASIC_FILE,
+                55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_BASIC_BROWSE,
+                185, 27, 50, 14, 0
+
+    LTEXT       "", IDC_CHARACTER,
+                9, 48, 40, 8
+    EDITTEXT    IDC_CBM2ROM_CHARGEN_FILE,
+                55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_CHARGEN_BROWSE,
+                185, 47, 50, 14, 0
+
+    LTEXT       "", IDC_CART_1,
+                9, 68, 40, 8
+    EDITTEXT    IDC_CBM2ROM_CART1_FILE,
+                55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_CART1_BROWSE,
+                185, 67, 50, 14, 0
+
+    LTEXT       "", IDC_CART_2,
+                9, 88, 40, 8
+    EDITTEXT    IDC_CBM2ROM_CART2_FILE,
+                55, 87, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_CART2_BROWSE,
+                185, 87, 50, 14, 0
+
+    LTEXT       "", IDC_CART_4,
+                9, 108, 40, 8
+    EDITTEXT    IDC_CBM2ROM_CART4_FILE,
+                55, 107, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_CART4_BROWSE,
+                185, 107, 50, 14, 0
+
+    LTEXT       "", IDC_CART_6,
+                9, 128, 40, 8
+    EDITTEXT    IDC_CBM2ROM_CART6_FILE,
+                55, 127, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_CBM2ROM_CART6_BROWSE,
+                185, 127, 50, 14, 0
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_CBM2DRIVEROM_SETTINGS_DIALOG DIALOG DISCARDABLE  0, 0, 240, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT       "", IDC_2031,
+                9, 8, 40, 8
+    EDITTEXT    IDC_DRIVEROM_2031_FILE,
+                55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_DRIVEROM_2031_BROWSE,
+                185, 7, 50, 14, 0
+
+    LTEXT       "", IDC_2040,
+                9, 28, 40, 8
+    EDITTEXT    IDC_DRIVEROM_2040_FILE,
+                55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_DRIVEROM_2040_BROWSE,
+                185, 27, 50, 14, 0
+
+    LTEXT       "", IDC_3040,
+                9, 48, 40, 8
+    EDITTEXT    IDC_DRIVEROM_3040_FILE,
+                55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_DRIVEROM_3040_BROWSE,
+                185, 47, 50, 14, 0
+
+    LTEXT       "", IDC_4040,
+                9, 68, 40, 8
+    EDITTEXT    IDC_DRIVEROM_4040_FILE,
+                55, 67, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_DRIVEROM_4040_BROWSE,
+                185, 67, 50, 14, 0
+
+    LTEXT       "", IDC_1001,
+                9, 88, 40, 8
+    EDITTEXT    IDC_DRIVEROM_1001_FILE,
+                55, 87, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+    PUSHBUTTON  "", IDC_DRIVEROM_1001_BROWSE,
+                185, 87, 50, 14, 0
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_CBM2ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 145
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "", IDC_COMPUTER_RESOURCES,
+                    4, 3, 151, 115
+    AUTOCHECKBOX    "", IDC_CBM2ROM_KERNAL_RESOURCE,
+                    11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_CBM2ROM_BASIC_RESOURCE,
+                    11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_CBM2ROM_CHARGEN_RESOURCE,
+                    11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_CBM2ROM_CART1_RESOURCE,
+                    11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_CBM2ROM_CART2_RESOURCE,
+                    11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_CBM2ROM_CART4_RESOURCE,
+                    11, 88, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_CBM2ROM_CART6_RESOURCE,
+                    11, 103, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    20, 125, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    80, 125, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_CBM2ROMDRIVE_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 115
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "", IDC_DRIVE_RESOURCES,
+                    4, 3, 151, 85
+    AUTOCHECKBOX    "", IDC_DRIVEROM_2031_RESOURCE,
+                    11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DRIVEROM_2040_RESOURCE,
+                    11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DRIVEROM_3040_RESOURCE,
+                    11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DRIVEROM_4040_RESOURCE,
+                    11, 58, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_DRIVEROM_1001_RESOURCE,
+                    11, 73, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    20, 95, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    80, 95, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_CBM2KBD_MAPPING_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 180
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTORADIOBUTTON "", IDC_CBM2KBD_MAPPING_SELECT_GRSYM,
+                    10, 10, 54, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_CBM2KBD_MAPPING_SELECT_GRPOS,
+                    10, 30, 54, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "", IDC_CBM2KBD_MAPPING_SELECT_UKSYM,
+                    10, 50, 54, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_CBM2KBD_MAPPING_SELECT_UKPOS,
+                    10, 70, 54, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "", IDC_CBM2KBD_MAPPING_SELECT_DESYM,
+                    10, 90, 54, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_CBM2KBD_MAPPING_SELECT_DEPOS,
+                    10, 110, 54, 10, BS_AUTORADIOBUTTON
+
+    EDITTEXT        IDC_CBM2KBD_MAPPING_GRSYM,
+                    65, 9, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_GRSYM_BROWSE,
+                    185, 9, 50, 14, 0
+    EDITTEXT        IDC_CBM2KBD_MAPPING_GRPOS,
+                    65, 29, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_GRPOS_BROWSE,
+                    185, 29, 50, 14, 0
+    EDITTEXT        IDC_CBM2KBD_MAPPING_UKSYM,
+                    65, 49, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_UKSYM_BROWSE,
+                    185, 49, 50, 14, 0
+    EDITTEXT        IDC_CBM2KBD_MAPPING_UKPOS,
+                    65, 69, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_UKPOS_BROWSE,
+                    185, 69, 50, 14, 0
+    EDITTEXT        IDC_CBM2KBD_MAPPING_DESYM,
+                    65, 89, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_DESYM_BROWSE,
+                    185, 89, 50, 14, 0
+    EDITTEXT        IDC_CBM2KBD_MAPPING_DEPOS,
+                    65, 109, 110, 12, WS_TABSTOP
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_DEPOS_BROWSE,
+                    185, 109, 50, 14, 0
+
+    PUSHBUTTON      "", IDC_CBM2KBD_MAPPING_DUMP,
+                    10, 134, 60, 14, 0
+    PUSHBUTTON      "", IDC_KBD_SHORTCUT_DUMP,
+                    80, 134, 60, 14, 0
+
+    DEFPUSHBUTTON   "", IDOK,
+                    20, 160, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    80, 160, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// dialog template for all languages
+
+IDD_CBM2MODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 80
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION ""
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT         "", IDC_CBM2MODEL_LABEL,
+                  4, 12, 60, 8
+    COMBOBOX      IDC_CBM2MODEL_LIST,
+                  45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+
+    DEFPUSHBUTTON   "", IDOK,
+                    20, 60, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    80, 60, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Memory"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Model line"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM banks"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Hukommelse"
+  IDS_CART_1                "Cartridge 1"
+  IDS_CART_2                "Cartridge 2"
+  IDS_CART_4                "Cartridge 4"
+  IDS_CART_6                "Cartridge 6"
+  IDS_MODEL_LINE            "Modelltyp"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 byte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM-banke"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Speicher"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Modell Linie"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM Bänke"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Memoria"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Linea modelo"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "Bancos de RAM"
+  IDS_TOGGLE_CBMII_RAM08    "Banco 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Banco 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Banco 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Banco 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Banco 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Banco 15 $6000-$7FFF RAM"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Mémoire"
+  IDS_CART_1                "Cartouche 1"
+  IDS_CART_2                "Cartouche 2"
+  IDS_CART_4                "Cartouche 4"
+  IDS_CART_6                "Cartouche 6"
+  IDS_MODEL_LINE            "Ligne du modèle"
+  IDS_SELECT_CBMII_MEM_128  "128 kOctets"
+  IDS_SELECT_CBMII_MEM_256  "256 Octets"
+  IDS_SELECT_CBMII_MEM_512  "512 kOctets"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kOctets"
+  IDS_CBM2_RAM_BANKS        "Banques de RAM"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+
+
+// HUNGARIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Memória"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Model line"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM bankok"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Memoria"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Linea"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "Banchi di Ram"
+  IDS_TOGGLE_CBMII_RAM08    "RAM banco 15 a $0800-$0FFF"
+  IDS_TOGGLE_CBMII_RAM1     "RAM banco 15 a $1000-$1FFF"
+  IDS_TOGGLE_CBMII_RAM2     "RAM banco 15 a $2000-$3FFF"
+  IDS_TOGGLE_CBMII_RAM4     "RAM banco 15 a $4000-$5FFF"
+  IDS_TOGGLE_CBMII_RAM6     "RAM banco 15 a $6000-$7FFF"
+  IDS_TOGGLE_CBMII_RAMC     "RAM banco 15 a $C000-$CFFF"
+END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "¸Þ¸ð¸®"
+  IDS_CART_1                "Ä«Æ®¸®Áö1"
+  IDS_CART_2                "Ä«Æ®¸®Áö2"
+  IDS_CART_4                "Ä«Æ®¸®Áö4"
+  IDS_CART_6                "Ä«Æ®¸®Áö6"
+  IDS_MODEL_LINE            "Model line"
+  IDS_SELECT_CBMII_MEM_128  "128 kbyte"
+  IDS_SELECT_CBMII_MEM_256  "256 kbyte"
+  IDS_SELECT_CBMII_MEM_512  "512 kbyte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kbyte"
+  IDS_CBM2_RAM_BANKS        "RAM banks"
+  IDS_TOGGLE_CBMII_RAM08    "¹ðÅ© 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "¹ðÅ© 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "¹ðÅ© 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "¹ðÅ© 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "¹ðÅ© 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "¹ðÅ© 15 $C000-$CFFF RAM"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Geheugen"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Model lijn"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "Ram banken"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Pamiêæ"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Linia modelu"
+  IDS_SELECT_CBMII_MEM_128  "128 kBajtów"
+  IDS_SELECT_CBMII_MEM_256  "256 kBajtów"
+  IDS_SELECT_CBMII_MEM_512  "512 kBajtów"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kBajty"
+  IDS_CBM2_RAM_BANKS        "Banki RAM"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Memory"
+  IDS_CART_1                "Cart 1"
+  IDS_CART_2                "Cart 2"
+  IDS_CART_4                "Cart 4"
+  IDS_CART_6                "Cart 6"
+  IDS_MODEL_LINE            "Model line"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM banks"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Minne"
+  IDS_CART_1                "Modul 1"
+  IDS_CART_2                "Modul 2"
+  IDS_CART_4                "Modul 4"
+  IDS_CART_6                "Modul 6"
+  IDS_MODEL_LINE            "Modelltyp"
+  IDS_SELECT_CBMII_MEM_128  "128 kbyte"
+  IDS_SELECT_CBMII_MEM_256  "256 byte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM-bankar"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+
+
+// TURKISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28599)
+#endif
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+  IDS_MEMORY                "Bellek"
+  IDS_CART_1                "Kartuþ 1"
+  IDS_CART_2                "Kartuþ 2"
+  IDS_CART_4                "Kartuþ 4"
+  IDS_CART_6                "Kartuþ 6"
+  IDS_MODEL_LINE            "Model hattý"
+  IDS_SELECT_CBMII_MEM_128  "128 kByte"
+  IDS_SELECT_CBMII_MEM_256  "256 kByte"
+  IDS_SELECT_CBMII_MEM_512  "512 kByte"
+  IDS_SELECT_CBMII_MEM_1024 "1024 kByte"
+  IDS_CBM2_RAM_BANKS        "RAM banklarý"
+  IDS_TOGGLE_CBMII_RAM08    "Bank 15 $0800-$0FFF RAM"
+  IDS_TOGGLE_CBMII_RAM1     "Bank 15 $1000-$1FFF RAM"
+  IDS_TOGGLE_CBMII_RAM2     "Bank 15 $2000-$3FFF RAM"
+  IDS_TOGGLE_CBMII_RAM4     "Bank 15 $4000-$5FFF RAM"
+  IDS_TOGGLE_CBMII_RAM6     "Bank 15 $6000-$7FFF RAM"
+  IDS_TOGGLE_CBMII_RAMC     "Bank 15 $C000-$CFFF RAM"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif

@@ -40,6 +40,7 @@ libarch_a_SOURCES = \
 	c64dtvui.c \
 	catweaselmkiii.c \
 	cbm2ui.c \
+	cbm5x0ui.c \
 	console.c \
 	dinput_handle.c \
 	dinput_handle.h \
@@ -70,7 +71,9 @@ libarch_a_SOURCES = \
 	resc64.rc \
 	resc64dtv.rc \
 	resc64_256k.rc \
+	rescbm2common.rc \
 	rescbm2.rc \
+	rescbm5x0.rc \
 	rescommon.h \
 	resdigimax.rc \
 	resdqbb.rc \
@@ -144,8 +147,14 @@ libarch_a_SOURCES = \
 	uic64dtvmodel.h \
 	uicart.c \
 	uicart.h \
+	uicbm2model.c \
+	uicbm2model.h \
+	uicbm5x0model.c \
+	uicbm5x0model.h \
 	uicbm2set.c \
 	uicbm2set.h \
+	uicbm5x0set.c \
+	uicbm5x0set.h \
 	uicmdline.c \
 	uiconsole.c \
 	uidatasette.c \
@@ -278,10 +287,10 @@ libarch_a_SOURCES = \
 
 if OWCC
 libarch_a_DEPENDENCIES = \
-	resc128.res resc64.res resc64dtv.res rescbm2.res respet.res resplus4.res resvic20.res resvsid.res
+	resc128.res resc64.res resc64dtv.res rescbm2.res rescbm5x0.res respet.res resplus4.res resvic20.res resvsid.res
 else
 libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o resc64dtv.o rescbm2.o respet.o resplus4.o resvic20.o resvsid.o
+	resc128.o resc64.o resc64dtv.o rescbm2.o rescbm5x0.o respet.o resplus4.o resvic20.o resvsid.o
 endif
 
 EXTRA_DIST = \
@@ -546,13 +555,21 @@ resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resdrivec64.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc
 
-rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/ressid.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc \
+rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
+	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressid.rc \
+	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
 	$(top_builddir)/src/debug.h
-	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/res.rc \
-	$(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc $(srcdir)/ressid.rc \
-	$(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
+	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
+	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
+	$(srcdir)/ressid.rc $(srcdir)/resautostart.rc
+
+rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
+	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressid.rc \
+	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h
+	cat >rescbm2cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
+	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
+	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
 
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
@@ -655,6 +672,22 @@ rescbm2.o: rescbm2cat.rc
 	--include-dir $(top_srcdir)/src/arch/win32 \
 	--include-dir $(top_srcdir)/src
 	$(WINDRES) -i rescbm2.res -o $@
+endif
+
+if OWCC
+rescbm5x0.res: rescbm5x0cat.rc
+	wrc -fo=rescbm5x0.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	rescbm5x0cat.rc
+else
+rescbm5x0.o: rescbm5x0cat.rc
+	$(WRC) -i rescbm5x0cat.rc -o rescbm5x0.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32 \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i rescbm5x0.res -o $@
 endif
 
 if OWCC

@@ -1,8 +1,8 @@
 /*
- * uicbm2set.c - Implementation of CBM2 settings dialog box.
+ * uicbm5x0set.c - Implementation of CBM5x0 settings dialog box.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -37,7 +37,7 @@
 #include "system.h"
 #include "translate.h"
 #include "ui.h"
-#include "uicbm2set.h"
+#include "uicbm5x0set.h"
 #include "uilib.h"
 #include "winlong.h"
 #include "winmain.h"
@@ -45,7 +45,7 @@
 static int modelline = -1;
 static int ramsize = -1;
 
-static uilib_localize_dialog_param cbm2_dialog_trans[] = {
+static uilib_localize_dialog_param cbm5x0_dialog_trans[] = {
     { IDC_MODEL_LINE, IDS_MODEL_LINE, 0 },
     { 0, 0, 0 }
 };
@@ -56,25 +56,22 @@ static uilib_localize_dialog_param ok_cancel_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group cbm2_main_group[] = {
+static uilib_dialog_group cbm5x0_main_group[] = {
     { IDC_MODEL_LINE, 1 },
     { IDC_SELECT_CBMII_HW0, 1 },
     { IDC_SELECT_CBMII_HW1, 1 },
-    { IDC_SELECT_CBMII_HW2, 1 },
     { 0, 0 }
 };
 
-static uilib_dialog_group cbm2_size_group[] = {
+static uilib_dialog_group cbm5x0_size_group[] = {
     { IDC_SELECT_CBMII_HW0, 0 },
     { IDC_SELECT_CBMII_HW1, 0 },
-    { IDC_SELECT_CBMII_HW2, 0 },
     { 0, 0 }
 };
 
 static generic_trans_table_t generic_items[] = {
-    { IDC_SELECT_CBMII_HW0, "&7x0 (50 Hz)" },
-    { IDC_SELECT_CBMII_HW1, "6x0 &60 Hz" },
-    { IDC_SELECT_CBMII_HW2, "6x0 &50 Hz" },
+    { IDC_SELECT_CBMII_HW0, "5x0 &60 Hz" },
+    { IDC_SELECT_CBMII_HW1, "5x0 &50 Hz" },
     { 0, NULL }
 };
 
@@ -89,7 +86,7 @@ static void init_dialog(HWND hwnd)
     parent_hwnd = GetParent(hwnd);
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, cbm2_dialog_trans);
+    uilib_localize_dialog(hwnd, cbm5x0_dialog_trans);
 
     /* translate all generic items */
     for (n = 0; generic_items[n].text != NULL; n++) {
@@ -101,13 +98,13 @@ static void init_dialog(HWND hwnd)
     uilib_localize_dialog(parent_hwnd, ok_cancel_trans);
 
     /* adjust the size of the elements in the main group */
-    uilib_adjust_group_width(hwnd, cbm2_main_group);
+    uilib_adjust_group_width(hwnd, cbm5x0_main_group);
 
     /* get the min x of the size group */
-    uilib_get_group_min_x(hwnd, cbm2_size_group, &xstart);
+    uilib_get_group_min_x(hwnd, cbm5x0_size_group, &xstart);
 
     /* get the max x of the size group */
-    uilib_get_group_max_x(hwnd, cbm2_size_group, &xpos);
+    uilib_get_group_max_x(hwnd, cbm5x0_size_group, &xpos);
 
     /* move and resize the right group element */
     uilib_move_and_set_element_width(hwnd, IDC_MODEL_LINE, xstart - 10, xpos - xstart + 20);
@@ -115,21 +112,19 @@ static void init_dialog(HWND hwnd)
     resources_get_int("ModelLine", &res);
     modelline = res;
     switch (res) {
-        case 0:
+        case 1:
             n = IDC_SELECT_CBMII_HW0;
             break;
-        case 1:
+        case 2:
             n = IDC_SELECT_CBMII_HW1;
             break;
-        case 2:
-            n = IDC_SELECT_CBMII_HW2;
-            break;
     }
-    CheckRadioButton(hwnd, IDC_SELECT_CBMII_HW0, IDC_SELECT_CBMII_HW2, n);
+    CheckRadioButton(hwnd, IDC_SELECT_CBMII_HW0, IDC_SELECT_CBMII_HW1, n);
 }
 
-static uilib_localize_dialog_param cbm2_memory_dialog_trans[] = {
+static uilib_localize_dialog_param cbm5x0_memory_dialog_trans[] = {
     { IDC_CBM2_MEMORY, IDS_A_MEMORY, 0 },
+    { IDC_SELECT_CBMII_MEM_64, IDS_SELECT_CBMII_MEM_64, 0 },
     { IDC_SELECT_CBMII_MEM_128, IDS_SELECT_CBMII_MEM_128, 0 },
     { IDC_SELECT_CBMII_MEM_256, IDS_SELECT_CBMII_MEM_256, 0 },
     { IDC_SELECT_CBMII_MEM_512, IDS_SELECT_CBMII_MEM_512, 0 },
@@ -144,14 +139,15 @@ static uilib_localize_dialog_param cbm2_memory_dialog_trans[] = {
     { 0, 0, 0 }
 };
 
-static uilib_dialog_group cbm2_memory_main_group[] = {
+static uilib_dialog_group cbm5x0_memory_main_group[] = {
     { IDC_CBM2_MEMORY, 1 },
     { IDC_RAM_BANKS, 1 },
     { 0, 0 }
 };
 
-static uilib_dialog_group cbm2_memory_left_group[] = {
+static uilib_dialog_group cbm5x0_memory_left_group[] = {
     { IDC_CBM2_MEMORY, 0 },
+    { IDC_SELECT_CBMII_MEM_64, 0 },
     { IDC_SELECT_CBMII_MEM_128, 0 },
     { IDC_SELECT_CBMII_MEM_256, 0 },
     { IDC_SELECT_CBMII_MEM_512, 0 },
@@ -159,7 +155,7 @@ static uilib_dialog_group cbm2_memory_left_group[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group cbm2_memory_move_right_group[] = {
+static uilib_dialog_group cbm5x0_memory_move_right_group[] = {
     { IDC_TOGGLE_CBMII_RAM08, 0 },
     { IDC_TOGGLE_CBMII_RAM1, 0 },
     { IDC_TOGGLE_CBMII_RAM2, 0 },
@@ -169,7 +165,7 @@ static uilib_dialog_group cbm2_memory_move_right_group[] = {
     { 0, 0 }
 };
 
-static uilib_dialog_group cbm2_memory_right_group[] = {
+static uilib_dialog_group cbm5x0_memory_right_group[] = {
     { IDC_RAM_BANKS, 0 },
     { IDC_TOGGLE_CBMII_RAM08, 0 },
     { IDC_TOGGLE_CBMII_RAM1, 0 },
@@ -190,19 +186,19 @@ static void init_memory_dialog(HWND hwnd)
     parent_hwnd = GetParent(hwnd);
 
     /* translate all dialog items */
-    uilib_localize_dialog(hwnd, cbm2_memory_dialog_trans);
+    uilib_localize_dialog(hwnd, cbm5x0_memory_dialog_trans);
 
     /* translate ok and cancel */
     uilib_localize_dialog(parent_hwnd, ok_cancel_trans);
 
     /* adjust the size of the elements in the main group */
-    uilib_adjust_group_width(hwnd, cbm2_memory_main_group);
+    uilib_adjust_group_width(hwnd, cbm5x0_memory_main_group);
 
     /* get the min x of the 128K ram element */
-    uilib_get_element_min_x(hwnd, IDC_SELECT_CBMII_MEM_128, &xstart);
+    uilib_get_element_min_x(hwnd, IDC_SELECT_CBMII_MEM_64, &xstart);
 
     /* get the max x of the left group */
-    uilib_get_group_max_x(hwnd, cbm2_memory_left_group, &xpos);
+    uilib_get_group_max_x(hwnd, cbm5x0_memory_left_group, &xpos);
 
     /* move and resize the left group element */
     uilib_move_and_set_element_width(hwnd, IDC_CBM2_MEMORY, xstart - 10, xpos - xstart + 20);
@@ -214,12 +210,12 @@ static void init_memory_dialog(HWND hwnd)
     uilib_move_element(hwnd, IDC_RAM_BANKS, xpos + 10);
 
     /* move the right group elements */
-    uilib_move_group(hwnd, cbm2_memory_move_right_group, xpos + 20);
+    uilib_move_group(hwnd, cbm5x0_memory_move_right_group, xpos + 20);
 
     xstart = xpos + 20;
 
     /* get the max x of the right group */
-    uilib_get_group_max_x(hwnd, cbm2_memory_right_group, &xpos);
+    uilib_get_group_max_x(hwnd, cbm5x0_memory_right_group, &xpos);
 
     /* move and resize the right group element */
     uilib_move_and_set_element_width(hwnd, IDC_RAM_BANKS, xstart - 10, xpos - xstart + 20);
@@ -240,6 +236,9 @@ static void init_memory_dialog(HWND hwnd)
     resources_get_int("RamSize", &res);
     ramsize = res;
     switch (res) {
+        case 64:
+            n = IDC_SELECT_CBMII_MEM_64;
+            break;
         case 128:
             n = IDC_SELECT_CBMII_MEM_128;
             break;
@@ -253,7 +252,7 @@ static void init_memory_dialog(HWND hwnd)
             n = IDC_SELECT_CBMII_MEM_1024;
             break;
     }
-    CheckRadioButton(hwnd, IDC_SELECT_CBMII_MEM_128, IDC_SELECT_CBMII_MEM_1024, n);
+    CheckRadioButton(hwnd, IDC_SELECT_CBMII_MEM_64, IDC_SELECT_CBMII_MEM_1024, n);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -277,12 +276,9 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
             type = LOWORD(wparam);
             switch (type) {
                 case IDC_SELECT_CBMII_HW0:
-                    modelline = 0;
-                    break;
-                case IDC_SELECT_CBMII_HW1:
                     modelline = 1;
                     break;
-                case IDC_SELECT_CBMII_HW2:
+                case IDC_SELECT_CBMII_HW1:
                     modelline = 2;
                     break;
             }
@@ -315,6 +311,9 @@ static INT_PTR CALLBACK memory_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, L
         case WM_COMMAND:
             type = LOWORD(wparam);
             switch (type) {
+                case IDC_SELECT_CBMII_MEM_64:
+                    ramsize = 64;
+                    break;
                 case IDC_SELECT_CBMII_MEM_128:
                     ramsize = 128;
                     break;
@@ -340,7 +339,7 @@ static INT_PTR CALLBACK memory_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, L
     return FALSE;
 }
 
-void ui_cbm2_settings_dialog(HWND hwnd)
+void ui_cbm5x0_settings_dialog(HWND hwnd)
 {
     PROPSHEETPAGE psp[4];
     PROPSHEETHEADER psh;
@@ -365,18 +364,18 @@ void ui_cbm2_settings_dialog(HWND hwnd)
     psp[1].pszTitle = translate_text(IDS_MEMORY);
 
 #ifdef _ANONYMOUS_UNION
-    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
-    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+    psp[0].pszTemplate = MAKEINTRESOURCE(IDD_CBM5X0_SETTINGS_MODEL_DIALOG);
+    psp[1].pszTemplate = MAKEINTRESOURCE(IDD_CBM5X0_SETTINGS_IO_DIALOG);
 #else
-    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_MODEL_DIALOG);
-    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBMII_SETTINGS_IO_DIALOG);
+    psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBM5X0_SETTINGS_MODEL_DIALOG);
+    psp[1].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_CBM5X0_SETTINGS_IO_DIALOG);
 #endif
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
     psh.dwFlags = PSH_PROPSHEETPAGE | PSH_NOAPPLYNOW;
     psh.hwndParent = hwnd;
     psh.hInstance = winmain_instance;
-    psh.pszCaption = translate_text(IDS_CBM2_SETTINGS);
+    psh.pszCaption = translate_text(IDS_CBM5X0_SETTINGS);
     psh.nPages = 2;
 #ifdef _ANONYMOUS_UNION
     psh.pszIcon = NULL;

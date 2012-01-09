@@ -132,7 +132,9 @@ src/arch/win32/resc128.rc.po.c
 src/arch/win32/resc64.rc.po.c
 src/arch/win32/resc64_256k.rc.po.c
 src/arch/win32/resc64dtv.rc.po.c
+src/arch/win32/rescbm2common.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
+src/arch/win32/rescbm5x0.rc.po.c
 src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdqbb.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c
@@ -169,6 +171,7 @@ src/arch/win32/restfe.rc.po.c
 src/arch/win32/resv364speech.rc.po.c
 src/arch/win32/resvic20.rc.po.c
 src/arch/win32/resvicii.rc.po.c
+src/arch/win32/resvsid.rc.po.c
 
 #amiga files
 src/arch/amigaos/intl_text.c.po.c

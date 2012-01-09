@@ -1,4 +1,4 @@
-// CBM2 specific resources.
+// CBM5x0 specific resources.
 //
 
 #include "vice.h"
@@ -11,7 +11,7 @@
 #pragma code_page(28591)
 #endif
 
-#define FILE_DESCRIPTION  "Vice CBM2 Emulator"
+#define FILE_DESCRIPTION  "Vice CBM5x0 Emulator"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -20,7 +20,7 @@
 
 // template of menu for all languages
 
-IDR_MENUCBM2 MENU DISCARDABLE
+IDR_MENUCBM5X0 MENU DISCARDABLE
 BEGIN
     POPUP "File"
     BEGIN
@@ -161,10 +161,9 @@ BEGIN
         MENUITEM "", IDM_TOGGLE_DX9DISABLE
 #endif
         MENUITEM SEPARATOR
-        MENUITEM "", IDM_TOGGLE_CRTCVIDEOCACHE, CHECKED
-        MENUITEM "", IDM_TOGGLE_CRTCDOUBLESIZE, CHECKED
-        MENUITEM "", IDM_TOGGLE_CRTCDOUBLESCAN, CHECKED
-        MENUITEM "", IDM_TOGGLE_CRTCDOUBLEVERTICAL, CHECKED
+        MENUITEM "", IDM_TOGGLE_VIDEOCACHE, CHECKED
+        MENUITEM "", IDM_TOGGLE_DOUBLESIZE, CHECKED
+        MENUITEM "", IDM_TOGGLE_DOUBLESCAN, CHECKED
         MENUITEM SEPARATOR
         MENUITEM "", IDM_SWAP_JOYSTICK
         MENUITEM "", IDM_ALLOW_JOY_OPPOSITE_TOGGLE
@@ -245,7 +244,7 @@ END
 
 // dialog template for all languages
 
-IDD_CBMII_SETTINGS_MODEL_DIALOG DIALOG DISCARDABLE 0, 0, 230, 145
+IDD_CBM5X0_SETTINGS_MODEL_DIALOG DIALOG DISCARDABLE 0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -255,28 +254,28 @@ BEGIN
                     25, 30, 65, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "", IDC_SELECT_CBMII_HW1,
                     25, 45, 65, 10, BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "", IDC_SELECT_CBMII_HW2,
-                    25,60,65,10, BS_AUTORADIOBUTTON
 END
 
 // -----------------------------------------------------------------------------
 
 // dialog template for all languages
 
-IDD_CBMII_SETTINGS_IO_DIALOG DIALOG DISCARDABLE 0, 0, 230, 145
+IDD_CBM5X0_SETTINGS_IO_DIALOG DIALOG DISCARDABLE 0, 0, 230, 145
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX        "", IDC_CBM2_MEMORY,
-                    5, 15, 70, 75
-    AUTORADIOBUTTON "", IDC_SELECT_CBMII_MEM_128,
+                    5, 15, 70, 90
+    AUTORADIOBUTTON "", IDC_SELECT_CBMII_MEM_64,
                     15, 30, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_SELECT_CBMII_MEM_128,
+                    15, 45, 55, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
     AUTORADIOBUTTON "", IDC_SELECT_CBMII_MEM_256,
-                    15, 45, 55, 10, BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "", IDC_SELECT_CBMII_MEM_512,
                     15, 60, 55, 10, BS_AUTORADIOBUTTON
-    AUTORADIOBUTTON "",IDC_SELECT_CBMII_MEM_1024,
+    AUTORADIOBUTTON "", IDC_SELECT_CBMII_MEM_512,
                     15, 75, 55, 10, BS_AUTORADIOBUTTON
+    AUTORADIOBUTTON "",IDC_SELECT_CBMII_MEM_1024,
+                    15, 90, 55, 10, BS_AUTORADIOBUTTON
     GROUPBOX        "", IDC_RAM_BANKS,
                     95, 15, 130, 105
     AUTOCHECKBOX    "", IDC_TOGGLE_CBMII_RAM08,
@@ -300,10 +299,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -312,10 +312,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -324,10 +325,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -336,10 +338,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -348,10 +351,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -363,10 +367,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -378,10 +383,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -393,10 +399,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -408,10 +415,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -423,10 +431,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -441,10 +450,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -456,10 +466,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 
 
@@ -471,10 +482,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
-  IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_CBM5X0MODEL               "CBM5x0 model"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

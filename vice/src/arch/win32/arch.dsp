@@ -160,6 +160,10 @@ SOURCE=.\cbm2ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\cbm5x0ui.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\console.c
 # End Source File
 # Begin Source File
@@ -361,7 +365,19 @@ SOURCE=.\uicart.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uicbm2model.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uicbm5x0model.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uicbm2set.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uicbm5x0set.c
 # End Source File
 # Begin Source File
 
