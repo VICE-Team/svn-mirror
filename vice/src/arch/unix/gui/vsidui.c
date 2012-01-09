@@ -52,10 +52,14 @@
 #include "uisid.h"
 #include "uisound.h"
 #include "util.h"
+#include "vicii.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "vsidui.h"
 #include "vsiduiunix.h"
+
+#define VSID_WINDOW_MINW     (400)
+#define VSID_WINDOW_MINH     (300)
 
 /* FIXME: sid menus need to be handled differently, but still need to 
    figure out the right way. */
@@ -531,9 +535,9 @@ static void vsid_create_menus(void)
 int vsid_ui_init(void)
 {
     int res;
-    video_canvas_t canvas;
+    video_canvas_t *canvas = vicii_get_canvas();
 
-    res = ui_open_canvas_window(&canvas, _("VSID: The SID Emulator"), 300, 100, 0);
+    res = ui_open_canvas_window(canvas, _("VSID: The SID Emulator"), VSID_WINDOW_MINW, VSID_WINDOW_MINH, 0);
     if (res < 0) {
         return -1;
     }
