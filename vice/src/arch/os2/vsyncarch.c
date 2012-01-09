@@ -188,6 +188,10 @@ void vsyncarch_sleep(signed long delay)
     if (delay < 1) {
         return;
     }
+
+    DosResetEventSem(hevTimer, &ret);
+    DosAsyncTimer(delay, (HSEM) hevTimer, &htimer);
+    DosWaitEventSem(hevTimer, (ULONG) SEM_INDEFINITE_WAIT);
 }
 
 int trigger_shutdown = 0;
