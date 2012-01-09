@@ -139,7 +139,7 @@ static int fullscrn_res_valid(void)
 }
 
 #ifdef HAVE_D3D9_H
-void fullscreen_getmodes_dx9(void)
+static void fullscreen_getmodes_dx9(void)
 {
     int adapter, numAdapter, mode, numAdapterModes;
     D3DADAPTER_IDENTIFIER9 d3didentifier;
