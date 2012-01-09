@@ -139,57 +139,54 @@ static int fullscrn_res_valid(void)
 }
 
 #ifdef HAVE_D3D9_H
-static void fullscreen_use_devices_dx9(DirectDrawDeviceList **devices,
-                                DirectDrawModeList **modes)
+void fullscreen_getmodes_dx9(void)
 {
-    if (devices == NULL) {
-        int adapter, numAdapter, mode, numAdapterModes;
-        D3DADAPTER_IDENTIFIER9 d3didentifier;
-        D3DDISPLAYMODE displayMode;
-        DirectDrawDeviceList *new_device;
-        DirectDrawDeviceList *search_device;
-        DirectDrawModeList *new_mode;
-        DirectDrawModeList *search_mode;
+    int adapter, numAdapter, mode, numAdapterModes;
+    D3DADAPTER_IDENTIFIER9 d3didentifier;
+    D3DDISPLAYMODE displayMode;
+    DirectDrawDeviceList *new_device;
+    DirectDrawDeviceList *search_device;
+    DirectDrawModeList *new_mode;
+    DirectDrawModeList *search_mode;
 
-        numAdapter = 0;
-        while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
-            new_device = lib_malloc(sizeof(DirectDrawDeviceList));
-            new_device->next = NULL;
-            new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
-            if (devices == NULL) {
-                *devices = new_device;
-            } else {
-                search_device = *devices;
-                while (search_device->next != NULL) {
-                    search_device = search_device->next;
-                }
-                search_device->next = new_device;
+    numAdapter = 0;
+    while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
+        new_device = lib_malloc(sizeof(DirectDrawDeviceList));
+        new_device->next = NULL;
+        new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
+        if (devices == NULL) {
+            devices = new_device;
+        } else {
+            search_device = devices;
+            while (search_device->next != NULL) {
+                search_device = search_device->next;
             }
-            numAdapter++;
+            search_device->next = new_device;
         }
+        numAdapter++;
+    }
 
-        for (adapter = 0; adapter < numAdapter; adapter++) {
-            numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
+    for (adapter = 0; adapter < numAdapter; adapter++) {
+        numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
 
-            for (mode = 0; mode < numAdapterModes; mode++) {
-                if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, D3DFMT_X8R8G8B8, mode, &displayMode)) {
-                    new_mode = lib_malloc(sizeof(DirectDrawModeList));
-                    new_mode->next = NULL;
-                    new_mode->devicenumber = adapter;
-                    new_mode->width = displayMode.Width;
-                    new_mode->height = displayMode.Height;
-                    new_mode->bitdepth = 32;
-                    new_mode->refreshrate = displayMode.RefreshRate;
+        for (mode = 0; mode < numAdapterModes; mode++) {
+            if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, D3DFMT_X8R8G8B8, mode, &displayMode)) {
+                new_mode = lib_malloc(sizeof(DirectDrawModeList));
+                new_mode->next = NULL;
+                new_mode->devicenumber = adapter;
+                new_mode->width = displayMode.Width;
+                new_mode->height = displayMode.Height;
+                new_mode->bitdepth = 32;
+                new_mode->refreshrate = displayMode.RefreshRate;
 
-                    if (modes == NULL) {
-                        *modes = new_mode;
-                    } else {
-                        search_mode = *modes;
-                        while (search_mode->next != NULL) {
-                            search_mode = search_mode->next;
-                        }
-                        search_mode->next = new_mode;
+                if (modes == NULL) {
+                    modes = new_mode;
+                } else {
+                    search_mode = modes;
+                    while (search_mode->next != NULL) {
+                        search_mode = search_mode->next;
                     }
+                    search_mode->next = new_mode;
                 }
             }
         }
@@ -201,7 +198,9 @@ void fullscreen_getmodes(void)
 {
 #ifdef HAVE_D3D9_H
     if (video_dx9_enabled()) {
-        fullscreen_use_devices_dx9(&devices, &modes);
+        if (devices == NULL) {
+            fullscreen_getmodes_dx9();
+        }
     }
 #endif
     
@@ -215,56 +214,7 @@ void ui_fullscreen_init(void)
 {
 #ifdef HAVE_D3D9_H
     if (video_dx9_enabled()) {
-        int adapter, numAdapter, mode, numAdapterModes;
-        D3DADAPTER_IDENTIFIER9 d3didentifier;
-        D3DDISPLAYMODE displayMode;
-        DirectDrawDeviceList *new_device;
-        DirectDrawDeviceList *search_device;
-        DirectDrawModeList *new_mode;
-        DirectDrawModeList *search_mode;
-
-        numAdapter = 0;
-        while (D3D_OK == IDirect3D9_GetAdapterIdentifier(d3d, numAdapter, 0, &d3didentifier)) {
-            new_device = lib_malloc(sizeof(DirectDrawDeviceList));
-            new_device->next = NULL;
-            new_device->desc = util_concat(d3didentifier.DeviceName, " - ", d3didentifier.Description, NULL);
-            if (devices == NULL) {
-                devices = new_device;
-            } else {
-                search_device = devices;
-                while (search_device->next != NULL) {
-                    search_device = search_device->next;
-                }
-                search_device->next = new_device;
-            }
-            numAdapter++;
-        }
-
-        for (adapter = 0; adapter < numAdapter; adapter++) {
-            numAdapterModes = IDirect3D9_GetAdapterModeCount(d3d, adapter, D3DFMT_X8R8G8B8);
-
-            for (mode = 0; mode < numAdapterModes; mode++) {
-                if (S_OK == IDirect3D9_EnumAdapterModes(d3d, adapter, D3DFMT_X8R8G8B8, mode, &displayMode)) {
-                    new_mode = lib_malloc(sizeof(DirectDrawModeList));
-                    new_mode->next = NULL;
-                    new_mode->devicenumber = adapter;
-                    new_mode->width = displayMode.Width;
-                    new_mode->height = displayMode.Height;
-                    new_mode->bitdepth = 32;
-                    new_mode->refreshrate = displayMode.RefreshRate;
-
-                    if (modes == NULL) {
-                        modes = new_mode;
-                    } else {
-                        search_mode = modes;
-                        while (search_mode->next != NULL) {
-                            search_mode = search_mode->next;
-                        }
-                        search_mode->next = new_mode;
-                    }
-                }
-            }
-        }
+        fullscreen_getmodes_dx9();
     }
 #endif
 }
@@ -276,7 +226,9 @@ void ui_fullscreen_shutdown(void)
         DirectDrawModeList *m1, *m2;
         DirectDrawDeviceList *d1, *d2;
 
-        fullscreen_use_devices_dx9(&devices, &modes);
+        if (devices == NULL) {
+            fullscreen_getmodes_dx9(&devices, &modes);
+        }
 
         m1 = modes;
         while (m1 != NULL) {
@@ -496,7 +448,7 @@ static void validate_mode(int *device, int *width, int *height, int *bitdepth, i
         }
         mode = mode->next;
     }
-    if (mode == NULL) {
+    if (mode == NULL && modes != NULL) {
         *device = modes->devicenumber;
     }
 

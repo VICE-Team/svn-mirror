@@ -97,8 +97,11 @@ static int set_dx9_disable(int val, void *param)
 
         for (i = 0; i < old_num_of_canvases; i++) {
             if (old_dx9_disable) {
-                video_canvas_create_dx9(video_canvases[i], &old_width[i], &old_height[i]);
-            } else {
+                if (video_canvas_create_dx9(video_canvases[i], &old_width[i], &old_height[i]) == NULL) {
+                    dx9_disable = old_dx9_disable;
+                }
+            }
+            if (dx9_disable) {
                 video_canvas_create_ddraw(video_canvases[i], &old_width[i], &old_height[i]);
             }
             ui_canvas_child_window(video_canvases[i], old_dx9_disable);
