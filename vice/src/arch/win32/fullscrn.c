@@ -227,7 +227,7 @@ void ui_fullscreen_shutdown(void)
         DirectDrawDeviceList *d1, *d2;
 
         if (devices == NULL) {
-            fullscreen_getmodes_dx9(&devices, &modes);
+            fullscreen_getmodes_dx9();
         }
 
         m1 = modes;
