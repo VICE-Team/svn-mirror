@@ -567,7 +567,7 @@ rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressid.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h
-	cat >rescbm2cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
+	cat >rescbm5x0cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
 	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
 
