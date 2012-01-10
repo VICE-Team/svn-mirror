@@ -43,6 +43,8 @@ void uimon_window_close(void)
 {
     console_close(console_log_local);
     console_log_local = NULL;
+
+    ui_restore_focus();
 #ifdef HAVE_MOUSE
     ui_check_mouse_cursor();
 #endif
@@ -56,6 +58,7 @@ console_t *uimon_window_open(void)
 
 void uimon_window_suspend( void )
 {
+    ui_restore_focus();
 #ifdef HAVE_MOUSE
     ui_check_mouse_cursor();
 #endif

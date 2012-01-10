@@ -28,6 +28,14 @@
 
 /* Warning: this code sucks.  It does work, but it sucks.  */
 
+/* #define DEBUG_MENUS */
+
+#ifdef DEBUG_MENUS
+#define DBG(_x_)  log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -36,6 +44,7 @@
 #include <string.h>
 
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -144,9 +153,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
 
     level++;
 
-#ifdef DEBUG_MENUS
-    printf("allocate new: %s\t(%p)\t%s\n", gtk_type_name(GTK_WIDGET_TYPE(w)), w, menu_name);
-#endif
+    DBG(("ui_menu_create: allocate new: %s\t(%p)\t%s", gtk_type_name(GTK_WIDGET_TYPE(w)), w, menu_name));
 
     for (i = j = 0; list[i].string; i++) {
         GtkWidget *new_item = NULL;
@@ -218,9 +225,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
             if (do_right_justify) {
                 gtk_menu_item_set_right_justified(GTK_MENU_ITEM(new_item), TRUE);
             }
-#ifdef DEBUG_MENUS
-            printf("allocate new: %s\t(%p)\t%s\n", gtk_type_name(GTK_WIDGET_TYPE(new_item)), new_item, list[i].string);
-#endif
+            DBG(("ui_menu_create: allocate new: %s\t(%p)\t%s", gtk_type_name(GTK_WIDGET_TYPE(new_item)), new_item, list[i].string));
         }
 
         if (list[i].sub_menu) {
@@ -287,7 +292,7 @@ void ui_menu_set_tick(GtkWidget *w, int flag) {
 
 void ui_menu_set_sensitive(GtkWidget *w, int flag)
 {
-    gtk_widget_set_sensitive(w,flag);
+    gtk_widget_set_sensitive(w, flag);
 }
 
 /* ------------------------------------------------------------------------- */

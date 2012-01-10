@@ -234,7 +234,7 @@ typedef struct {
 } app_shell_type;
 
 static app_shell_type app_shells[MAX_APP_SHELLS];
-static int num_app_shells = 0;
+static unsigned int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
 GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel, 
@@ -269,10 +269,14 @@ static void setup_aspect(video_canvas_t *canvas);
 
 /* ------------------------------------------------------------------------- */
 
-static int active_shell = 0;
-static void set_active_shell(int shell)
+static unsigned int active_shell = 0;
+static void set_active_shell(unsigned int shell)
 {
     DBG(("set_active_shell (%d)", shell));
+    if (shell >= num_app_shells) {
+        log_error(ui_log, "set_active_shell: bad params (%d)", shell);
+        return;
+    }
     active_shell = shell;
 }
 static int get_active_shell(void)
@@ -281,7 +285,7 @@ static int get_active_shell(void)
 }
 GtkWidget *get_active_toplevel(void)
 {
-    int key = get_active_shell();
+    unsigned int key = get_active_shell();
     if (app_shells[key].shell) {
         return gtk_widget_get_toplevel(app_shells[key].shell);
     }
@@ -290,7 +294,7 @@ GtkWidget *get_active_toplevel(void)
 
 static video_canvas_t *get_active_canvas(void)
 {
-    int key = get_active_shell();
+    unsigned int key = get_active_shell();
     return app_shells[key].canvas;
 }
 
@@ -345,6 +349,41 @@ static void get_window_resources(video_canvas_t *canvas, int *x, int *y, int *w,
 /* ------------------------------------------------------------------------- */
 
 /*
+    restore the main emulator window and transfer focus to it. in detail this
+    function should:
+
+    - move the active toplevel shell window to top of the window stack
+    - make sure the window is visible (move if offscreen, de-iconify, etc)
+    - transfer the window managers keyboard focus to the window
+
+    note: the "focus stealing prevention" feature of eg KDE must be disabled or
+          all this will not work at all.
+
+    this function is called by uimon_window_close and -_suspend, ie when exiting
+    the ml monitor.
+*/
+void ui_restore_focus(void)
+{
+    GtkWidget *widget = get_active_toplevel();
+    GdkWindow *window;
+
+    window = widget ? widget->window : NULL;
+    DBG(("ui_restore_focus %p:%p", window, widget));
+    if (window) {
+        ui_dispatch_events();
+        gdk_flush();
+        ui_unblock_shells();
+        /* yes it looks weird, and it is. GTK sucks */
+        gdk_window_raise(window);
+        gdk_window_show(window);
+        gtk_window_present(GTK_WINDOW(widget));
+        gdk_window_focus(window, GDK_CURRENT_TIME);
+    }
+}
+
+/* ------------------------------------------------------------------------- */
+
+/*
     grab pointer and keyboard, set mouse pointer shape
 
     TODO: also route lightpen stuff through this function
@@ -353,13 +392,20 @@ static int mouse_grabbed = 0;
 static void mouse_cursor_grab(int grab, GdkCursor *cursor)
 {
     GtkWidget *widget = get_active_toplevel();
-    GdkWindow *window = widget ? widget->window : NULL;
+    GdkWindow *window;
+    window = widget ? widget->window : NULL;
     if (mouse_grabbed) {
         gdk_keyboard_ungrab(GDK_CURRENT_TIME);
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
         mouse_grabbed = 0;
     }
-    if ((window) && (grab)) {
+
+    if ((widget == NULL) || (window == NULL)) {
+        log_error(ui_log, "mouse_cursor_grab: bad params");
+        return;
+    }
+
+    if (grab) {
         gdk_keyboard_grab(window, 1, GDK_CURRENT_TIME);
         gdk_pointer_grab(window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, window, cursor, GDK_CURRENT_TIME);
         mouse_grabbed = 1;
@@ -1323,7 +1369,10 @@ static void build_screen_canvas_widget(video_canvas_t *c)
                           GDK_EXPOSURE_MASK);
 }
 
-/* Create a shell with a canvas widget in it.  */
+/* Create a shell with a canvas widget in it.  
+   called from arch/unix/gui/vsidui.c:vsid_ui_init (vsid) or
+               arch/unix/x11/gnome/gnomevideo.c:video_canvas_create (other)
+ */
 int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, int no_autorepeat)
 {
     GtkWidget *new_window, *topmenu, *panelcontainer, *sb, *pal_ctrl_widget = NULL;
@@ -1332,7 +1381,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     int i;
     gint window_width, window_height, window_xpos, window_ypos;
 
-    DBG(("ui_open_canvas_window (w: %d h: %d)", w, h));
+    DBG(("ui_open_canvas_window %p (w: %d h: %d)", c, w, h));
 
     if (++num_app_shells > MAX_APP_SHELLS) {
         log_error(ui_log, "Maximum number of toplevel windows reached.");
@@ -1371,6 +1420,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         GtkWidget *new_canvas = build_vsid_ctrl_widget();
         gtk_container_add(GTK_CONTAINER(c->pane), new_canvas);
         gtk_widget_show(new_canvas);
+        c->emuwindow = NULL;
     } else {
         build_screen_canvas_widget(c);
     }
@@ -1480,6 +1530,10 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
     int i;
     static GtkAccelGroup *accel;
 
+    DBG(("ui_set_left_menu"));
+
+    ui_block_shells();
+
     if (accel) {
         g_object_unref(accel);
     }
@@ -1494,6 +1548,8 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
     }
     left_menu = gtk_menu_new();
     ui_menu_create(left_menu, accel, "LeftMenu", menu);
+
+    ui_unblock_shells();
 }
 
 /* Attach `w' as the right menu of all the current open windows.  */
@@ -1502,10 +1558,14 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     int i;
     static GtkAccelGroup *accel;
 
+    DBG(("ui_set_right_menu"));
+
+    ui_block_shells();
+
     if (accel) {
         g_object_unref(accel);
     }
-    
+
     accel = gtk_accel_group_new();
     for (i = 0; i < num_app_shells; i++) {
         gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
@@ -1516,19 +1576,27 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     }
     right_menu = gtk_menu_new();
     ui_menu_create(right_menu, accel, "RightMenu", menu);
+
+    ui_unblock_shells();
 }
 
 void ui_set_topmenu(ui_menu_entry_t *menu)
 {
     int i;
 
-    for (i = 0; i < num_app_shells; i++) {
-        gtk_container_foreach(GTK_CONTAINER(app_shells[i].topmenu), (GtkCallback)gtk_widget_destroy, NULL);
-    }
+    DBG(("ui_set_topmenu (%d)", num_app_shells));
+
+    ui_block_shells();
 
     for (i = 0; i < num_app_shells; i++) {
-        ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, "TopLevelMenu", menu);
+        DBG(("ui_set_topmenu %d: %p", i, app_shells[i].topmenu));
+        if (app_shells[i].topmenu) {
+            gtk_container_foreach(GTK_CONTAINER(app_shells[i].topmenu), (GtkCallback)gtk_widget_destroy, NULL);
+            ui_menu_create(app_shells[i].topmenu, app_shells[i].accel, "TopLevelMenu", menu);
+        }
     }
+
+    ui_unblock_shells();
 }
 
 void ui_set_speedmenu(ui_menu_entry_t *menu)
@@ -2081,9 +2149,10 @@ static void toggle_aspect(video_canvas_t *canvas)
     int keep_aspect_ratio, flags = 0;
     app_shell_type *appshell = &app_shells[canvas->app_shell];
 
-    DBG(("toggle_aspect fs:%d", canvas->fullscreenconfig->enable));
+    DBG(("toggle_aspect"));
     if ((appshell != NULL) && (appshell->shell != NULL)) {
 #ifdef HAVE_FULLSCREEN
+        DBG(("toggle_aspect fs:%d", canvas->fullscreenconfig->enable));
         if (!canvas->fullscreenconfig->enable) {
 #endif
             resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
@@ -2128,7 +2197,11 @@ static void setup_aspect(video_canvas_t *canvas)
     GtkWidget *sb;
     GtkWidget *palctrl;
 
+#ifdef HAVE_FULLSCREEN
     DBG(("setup_aspect fullscreen:%d", canvas->fullscreenconfig->enable));
+#else
+    DBG(("setup_aspect"));
+#endif
 
     if (appshell == NULL) {
         return;
@@ -2831,6 +2904,8 @@ void ui_block_shells(void)
 {
     int i;
 
+    DBG(("ui_block_shells (%d)", num_app_shells));
+
     for (i = 0; i < num_app_shells; i++) {
         gtk_widget_set_sensitive(app_shells[i].shell, FALSE);
     }
@@ -2841,6 +2916,8 @@ void ui_unblock_shells(void)
     video_canvas_t *canvas = get_active_canvas();
     int i;
 
+    DBG(("ui_unblock_shells (%d)", num_app_shells));
+
     for (i = 0; i < num_app_shells; i++) {
         gtk_widget_set_sensitive(app_shells[i].shell, TRUE);
     }
@@ -2850,11 +2927,15 @@ void ui_unblock_shells(void)
        which is evil UI design, imho; unfortunately I don't know a "better" way :( - pottendo */
     keyboard_key_clear();
     if (canvas) {
-	gdk_pointer_grab(canvas->emuwindow->window, 1, 0, 
-			 canvas->emuwindow->window, 
-			 blankCursor, GDK_CURRENT_TIME);
-	gdk_pointer_ungrab(GDK_CURRENT_TIME);
-	ui_check_mouse_cursor();
+        if (machine_class == VICE_MACHINE_VSID) {
+            /* FIXME */
+        } else {
+            gdk_pointer_grab(canvas->emuwindow->window, 1, 0, 
+                            canvas->emuwindow->window, 
+                            blankCursor, GDK_CURRENT_TIME);
+        }
+        gdk_pointer_ungrab(GDK_CURRENT_TIME);
+        ui_check_mouse_cursor();
     }
 }
 
@@ -3055,6 +3136,8 @@ static GtkWidget *build_confirm_dialog(GtkWidget **confirm_dialog_message)
 
 gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
+    DBG(("enter_window_callback %p", p));
+
     set_active_shell(((video_canvas_t *)p)->app_shell);
 
     /* cv: ensure focus after dialogs were opened */
@@ -3071,6 +3154,7 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 
 gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
+    DBG(("leave_window_callback %p", p));
 #ifdef HAVE_FULLSCREEN
     fullscreen_mouse_moved((struct video_canvas_s *)p, 0, 0, 1);
 #endif
@@ -3093,6 +3177,7 @@ gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
         gdk_gl_drawable_gl_end(gl_drawable);
     }
 #endif
+    DBG(("map_callback %p", user_data));
 
     return FALSE;
 }
@@ -3100,8 +3185,8 @@ gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
 gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
-    float ow, oh;
 #ifdef HAVE_HWSCALE
+    float ow, oh;
 #ifdef HAVE_FULLSCREEN
     int keep_aspect_ratio;
 #endif
@@ -3193,26 +3278,28 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
-    app_shell_type *appshell = &app_shells[canvas->app_shell];
+    app_shell_type *appshell;
     GdkEventConfigure e2;
 
-    if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
+    if ((canvas == NULL) || (e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
         /* DBG(("configure_callback_app skipped")); */
         return 0;
     }
 
+    appshell = &app_shells[canvas->app_shell];
+
     if ((canvas->app_shell >= num_app_shells) || (canvas != appshell->canvas)) {
-        log_error(ui_log, "configure_callback_app: bad params");
+        log_error(ui_log, "configure_callback_app: bad params (%p) %d", client_data, canvas->app_shell);
         return 0;
     }
 
 #ifdef DEBUG_X11UI
 #ifdef HAVE_FULLSCREEN
-    if ((machine_class != VICE_MACHINE_VSID) && (canvas->fullscreenconfig)) {
-        DBG(("configure_callback_app (fullscreen: %d x %d y %d w %d h %d)",canvas->fullscreenconfig->enable, e->x, e->y,e->width, e->height));
+    if (canvas->fullscreenconfig) {
+        DBG(("configure_callback_app (fullscreen: %d x %d y %d w %d h %d) (%p)",canvas->fullscreenconfig->enable, e->x, e->y,e->width, e->height, canvas));
     } else {
 #endif
-        DBG(("configure_callback_app (fullscreen: -- x %d y %d w %d h %d)", e->x, e->y,e->width, e->height));
+        DBG(("configure_callback_app (fullscreen: -- x %d y %d w %d h %d) (%p)", e->x, e->y,e->width, e->height, canvas));
 #ifdef HAVE_FULLSCREEN
     }
 #endif

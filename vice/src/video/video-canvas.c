@@ -24,12 +24,21 @@
  *
  */
 
+/* #define DEBUG_VIDEO */
+
+#ifdef DEBUG_VIDEO
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 #include "vice.h"
 
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "lib.h"
+#include "log.h"
 #include "machine.h"
 #include "types.h"
 #include "video-canvas.h"
@@ -45,12 +54,13 @@
 #define MIN(a, b) ((a) < (b) ? (a) : (b))
 #endif
 
-
+/* called from raster/raster-resources.c:raster_resources_chip_init */
 video_canvas_t *video_canvas_init(void)
 {
     video_canvas_t *canvas;
 
     canvas = lib_calloc(1, sizeof(video_canvas_t));
+    DBG(("video_canvas_init %p", canvas));
 
     canvas->videoconfig = lib_calloc(1, sizeof(video_render_config_t));
 

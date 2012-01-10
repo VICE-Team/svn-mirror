@@ -200,12 +200,37 @@ static char *filesel_dir = NULL;
 static void mouse_cursor_grab(int grab, Cursor cursor);
 
 /* ------------------------------------------------------------------------- */
-
+/*
+ * TODO: drag and drop support
+ *
+ * setup a handler for "drop" event, and then pass the filename associated with
+ * the dropped object to drop_cb
+ */
 static int (*drop_cb)(char*) = NULL; 
 
 void ui_set_drop_callback(void *cb)
 {
     drop_cb = cb;
+}
+
+/* ------------------------------------------------------------------------- */
+/*
+ *  TODO:
+    restore the main emulator window and transfer focus to it. in detail this
+    function should:
+
+    - move the active toplevel shell window to top of the window stack
+    - make sure the window is visible (move if offscreen, de-iconify, etc)
+    - transfer the window managers keyboard focus to the window
+
+    note: the "focus stealing prevention" feature of eg KDE must be disabled or
+          all this will not work at all.
+
+    this function is called by uimon_window_close and -_suspend, ie when exiting
+    the ml monitor.
+*/
+void ui_restore_focus(void)
+{
 }
 
 /* ------------------------------------------------------------------------- */

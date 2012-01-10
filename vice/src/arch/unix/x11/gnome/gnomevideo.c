@@ -116,20 +116,25 @@ int video_init_cmdline_options(void)
     return 0;
 }
 
+/* called from video/video-canvas.c:video_canvas_init */
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
+    DBG(("video_arch_canvas_init %p", canvas));
     canvas->video_draw_buffer_callback = NULL;
 
 #ifdef HAVE_FULLSCREEN
-    canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
-    fullscreen_init_alloc_hooks(canvas);
+    if (machine_class != VICE_MACHINE_VSID) {
+        canvas->fullscreenconfig = lib_calloc(1, sizeof(fullscreenconfig_t));
+        fullscreen_init_alloc_hooks(canvas);
+    }
 #endif
 }
 
-
+/* called from raster/raster.c:realize_canvas */
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     int res;
+    DBG(("video_canvas_create %p", canvas));
 
     canvas->gdk_image = NULL;
 #ifdef HAVE_HWSCALE
@@ -144,25 +149,26 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #ifdef HAVE_OPENGL_SYNC
     openGL_sync_init(canvas);
 #endif
-
     return canvas;
 }
 
 void video_canvas_destroy(video_canvas_t *canvas)
 {
+    DBG(("video_canvas_destroy %p", canvas));
+
+    if (canvas) {
 #ifdef HAVE_FULLSCREEN
-    if (canvas != NULL) {
         fullscreen_shutdown_alloc_hooks(canvas);
         lib_free(canvas->fullscreenconfig);
-    }
 #endif
-    if (canvas->gdk_image != NULL) {
-        g_object_unref(canvas->gdk_image);
-    }
+        if (canvas->gdk_image != NULL) {
+            g_object_unref(canvas->gdk_image);
+        }
 
 #ifdef HAVE_HWSCALE
-    lib_free(canvas->hwscale_image);
+        lib_free(canvas->hwscale_image);
 #endif
+    }
 }
 
 /* set it, update if we know the endianness required by the image */

@@ -62,8 +62,8 @@ struct video_canvas_s {
     unsigned char *hwscale_image;
     GLuint screen_texture;
 #endif
-    int offx;
-    int app_shell;
+    int offx; /* for lightpen */
+    int app_shell; /* app shell that belongs to this canvas */
 };
 typedef struct video_canvas_s video_canvas_t;
 
