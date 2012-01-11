@@ -52,11 +52,6 @@
 #include "vsync.h"
 
 
-/* Big kludge to get the ticks right in the refresh rate submenu.  This only
-   works if the callback for the "custom" setting is the last one to be
-   called, and the "Auto" one is the first one.  */
-static int have_custom_refresh_rate;
-
 static UI_CALLBACK(set_refresh_rate)
 {
     int current_refresh_rate;
@@ -69,12 +64,8 @@ static UI_CALLBACK(set_refresh_rate)
             ui_update_menus();
         }
     } else {
-        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 0) {
-            have_custom_refresh_rate = 1;
-        }
         if (vice_ptr_to_int(UI_MENU_CB_PARAM) == current_refresh_rate) {
             ui_menu_set_tick(w, 1);
-            have_custom_refresh_rate = 0;
         } else {
             ui_menu_set_tick(w, 0);
         }
@@ -108,12 +99,11 @@ static UI_CALLBACK(set_custom_refresh_rate)
     }
 
     if (CHECK_MENUS) {
-        if (have_custom_refresh_rate) {
+        if (current_refresh_rate < 0 || current_refresh_rate > 10) {
             ui_menu_set_tick(w, 1);
         } else {
             ui_menu_set_tick(w, 0);
         }
-        have_custom_refresh_rate = 0;
     } else {
         int current_speed;
 
@@ -134,11 +124,6 @@ static UI_CALLBACK(set_custom_refresh_rate)
 
 /* ------------------------------------------------------------------------- */
 
-/* Big kludge to get the ticks right in the maximum speed submenu.  This only
-   works if the callback for the "custom" setting is the last one to be
-   called, and the "200%" one is the first one.  */
-static int have_custom_maximum_speed;
-
 static UI_CALLBACK(set_maximum_speed)
 {
     int current_speed;
@@ -151,12 +136,8 @@ static UI_CALLBACK(set_maximum_speed)
             ui_update_menus();
         }
     } else {
-        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 200) {
-            have_custom_maximum_speed = 1;
-        }
         if (current_speed == vice_ptr_to_int(UI_MENU_CB_PARAM)) {
             ui_menu_set_tick(w, 1);
-            have_custom_maximum_speed = 0;
         } else {
             ui_menu_set_tick(w, 0);
         }
@@ -184,12 +165,18 @@ static UI_CALLBACK(set_custom_maximum_speed)
     }
 
     if (CHECK_MENUS) {
-        if (have_custom_maximum_speed) {
-            ui_menu_set_tick(w, 1);
-        } else {
+	switch (current_speed) {
+	case 200:
+	case 100:
+	case  50:
+	case  20:
+	case  10:
+	case   0:
             ui_menu_set_tick(w, 0);
-        }
-        have_custom_maximum_speed = 0;
+	    break;
+	default:
+            ui_menu_set_tick(w, 1);
+	}
     } else {
         vsync_suspend_speed_eval();
         msg_string = lib_stralloc(_("Enter speed"));
@@ -329,6 +316,10 @@ UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * If you change the list of refresh rates,
+ * also adjust set_custom_refresh_rate().
+ */
 static ui_menu_entry_t set_refresh_rate_submenu[] = {
     { N_("Auto"), UI_MENU_TYPE_TICK,
       (ui_callback_t)set_refresh_rate, (ui_callback_data_t)0, NULL },
@@ -358,6 +349,10 @@ static ui_menu_entry_t set_refresh_rate_submenu[] = {
     { NULL }
 };
 
+/*
+ * If you change the list of maximum speeds,
+ * also adjust set_custom_maximum_speed().
+ */
 static ui_menu_entry_t set_maximum_speed_submenu[] = {
     { "200%", UI_MENU_TYPE_TICK,
       (ui_callback_t)set_maximum_speed, (ui_callback_data_t)200, NULL },
