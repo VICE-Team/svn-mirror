@@ -823,6 +823,7 @@ static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list
                                                    NULL);
                 break;
             case UI_MENU_TYPE_TICK:         /* toggle */
+            case UI_MENU_TYPE_TICKDOTS:     /* toggle */
                 {
                     char *label = make_menu_label(&list[i]);
 

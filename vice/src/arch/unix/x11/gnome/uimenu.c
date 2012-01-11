@@ -167,6 +167,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
                 new_item  = gtk_menu_item_new();
                 break;
             case UI_MENU_TYPE_TICK:         /* toggle */
+            case UI_MENU_TYPE_TICKDOTS:     /* toggle */
                 {
                     /* Add this item to the list of calls to perform to update the
                        menu status. */
