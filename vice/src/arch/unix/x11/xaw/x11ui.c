@@ -214,8 +214,20 @@ void ui_set_drop_callback(void *cb)
 }
 
 /* ------------------------------------------------------------------------- */
+
 /*
- *  TODO:
+    TODO:
+    transfer focus to the monitor ui window
+
+    note: the respective code in gnome/x11ui.c can probably be shared between
+          xaw and gtk (it is plain X11 code anyway).
+*/
+int ui_focus_monitor(void) 
+{
+}
+
+/*
+    TODO:
     restore the main emulator window and transfer focus to it. in detail this
     function should:
 

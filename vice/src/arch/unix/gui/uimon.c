@@ -53,6 +53,7 @@ void uimon_window_close(void)
 console_t *uimon_window_open(void)
 {
     console_log_local = console_open("Monitor");
+    ui_focus_monitor();
     return console_log_local;
 }
 
@@ -67,6 +68,7 @@ void uimon_window_suspend( void )
 console_t *uimon_window_resume(void)
 {
     if (console_log_local) {
+        ui_focus_monitor();
         return console_log_local;
     }
     log_error(LOG_DEFAULT, "uimon_window_resume: log was not opened.");

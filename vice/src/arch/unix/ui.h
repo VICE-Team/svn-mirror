@@ -102,6 +102,7 @@ extern void ui_pause_emulation(int flag);
 extern int ui_emulation_is_paused(void);
 extern void ui_check_mouse_cursor(void);
 extern void ui_restore_mouse(void);
+extern int ui_focus_monitor(void);
 extern void ui_restore_focus(void);
 
 extern void archdep_ui_init(int argc, char *argv[]);
