@@ -136,7 +136,7 @@ static UI_CALLBACK(set_custom_refresh_rate)
 
 /* Big kludge to get the ticks right in the maximum speed submenu.  This only
    works if the callback for the "custom" setting is the last one to be
-   called, and the "100%" one is the first one.  */
+   called, and the "200%" one is the first one.  */
 static int have_custom_maximum_speed;
 
 static UI_CALLBACK(set_maximum_speed)
@@ -151,7 +151,7 @@ static UI_CALLBACK(set_maximum_speed)
             ui_update_menus();
         }
     } else {
-        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 100) {
+        if (vice_ptr_to_int(UI_MENU_CB_PARAM) == 200) {
             have_custom_maximum_speed = 1;
         }
         if (current_speed == vice_ptr_to_int(UI_MENU_CB_PARAM)) {
