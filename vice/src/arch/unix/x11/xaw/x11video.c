@@ -100,9 +100,6 @@ static log_t x11video_log = LOG_ERR;
 #ifdef HAVE_X11_EXTENSIONS_SHMPROTO_H
 #include <X11/extensions/shmproto.h>
 #endif
-extern int shmhandler(Display* display, XErrorEvent* err);
-extern int mitshm_failed; /* will be set to true if XShmAttach() failed */
-extern int shmmajor;          /* major number of MITSHM error codes */
 /* Define this for additional shared memory verbosity. */
 /*  #define MITSHM_DEBUG */
 
@@ -366,7 +363,10 @@ int video_init(void)
             use_mitshm = 0;
         } else {
             DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."), major_version, minor_version));
-            use_mitshm = 1;
+	    if (!pixmap_flag) {
+		log_warning(x11video_log, "The MITSHM extension is supported on this display, but shared pixmaps are not available.");
+	    }
+            use_mitshm = pixmap_flag;
         }
     }
 
@@ -383,15 +383,12 @@ void video_shutdown(void)
 }
 
 #ifdef USE_MITSHM
-int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
-int shmmajor;          /* major number of MITSHM error codes */
+static int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
 
 /* Catch XShmAttach()-failure. */
-int shmhandler(Display *display, XErrorEvent *err)
+static int shm_attach_handler(Display *display, XErrorEvent *err)
 {
-    if (err->request_code == shmmajor && err->minor_code == X_ShmAttach) {
-        mitshm_failed = 1;
-    }
+    mitshm_failed = 1;
 
     return 0;
 }
@@ -411,7 +408,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
-        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+        XShmSegmentInfo* shminfo = canvas->using_mitshm ? &canvas->xshm_info : NULL;
 #endif
 
         display = x11ui_get_display_ptr();
@@ -524,7 +521,6 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
     Display *display;
 #ifdef USE_MITSHM
     int (*olderrorhandler)(Display *, XErrorEvent *);
-    int dummy;
 #endif
 
 #ifdef USE_MITSHM
@@ -549,13 +545,22 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
-        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+        XShmSegmentInfo* shminfo = canvas->using_mitshm ? &canvas->xshm_info : NULL;
 #endif
+	for (;;) {
+	    canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo);
+	    if (canvas->xv_image) {
+		break;
+	    }
 
-        canvas->xv_image = create_yuv_image(display, canvas->xv_port, canvas->xv_format, width, height, shminfo);
-        if (!(canvas->xv_image)) {
-            return -1;
+	    if (shminfo) {
+		canvas->using_mitshm = 0;
+		shminfo = NULL;
+		continue;
+	    }
+	    return -1;
         }
+        XSync(display, False);
 
         /* Copy data for architecture independent rendering. */
         canvas->yuv_image.width = canvas->xv_image->width;
@@ -566,7 +571,9 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
         canvas->yuv_image.offsets = canvas->xv_image->offsets;
         canvas->yuv_image.data = (unsigned char *)canvas->xv_image->data;
 
-        log_message(x11video_log, "Successfully initialized using XVideo (%dx%d %.4s).", width, height, canvas->xv_format.label);
+        log_message(x11video_log, "Successfully initialized using XVideo (%dx%d %.4s)%s shared memory.",
+		width, height, canvas->xv_format.label,
+		canvas->using_mitshm ? ", using" : " without");
 
         return 0;
     }
@@ -609,8 +616,7 @@ tryagain:
         canvas->xshm_info.readOnly = True;
         mitshm_failed = 0;
 
-        XQueryExtension(display,"MIT-SHM",&shmmajor,&dummy,&dummy);
-        olderrorhandler = XSetErrorHandler(shmhandler);
+        olderrorhandler = XSetErrorHandler(shm_attach_handler);
 
         if (!XShmAttach(display, &(canvas->xshm_info))) {
             log_warning(x11video_log, "Cannot attach shared memory; falling back to non MITSHM extension mode.");
@@ -621,7 +627,7 @@ tryagain:
             goto tryagain;
         }
 
-        /* Wait for XShmAttach to fail or to succede. */
+        /* Wait for XShmAttach to fail or to succeed. */
         XSync(display,False);
         XSetErrorHandler(olderrorhandler);
 
@@ -880,7 +886,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
 #else
-        XShmSegmentInfo* shminfo = use_mitshm ? &canvas->xshm_info : NULL;
+        XShmSegmentInfo* shminfo = canvas->using_mitshm ? &canvas->xshm_info : NULL;
 #endif
         Window root;
         int x, y;

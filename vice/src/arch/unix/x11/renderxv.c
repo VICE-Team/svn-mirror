@@ -199,11 +199,23 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
     return 0;
 }
 
+static int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
+
+/* Catch XShmAttach()-failure. */
+static int shm_attach_handler(Display *display, XErrorEvent *err)
+{
+    mitshm_failed = 1;
+
+    return 0;
+}
+
 XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format, int width, int height, XShmSegmentInfo* shminfo)
 {
     XvImage* image;
 
     if (shminfo) {
+	int (*olderrorhandler)(Display *, XErrorEvent *);
+
         if (!(image = XvShmCreateImage(display, port, format.id, NULL, width, height, shminfo))) {
             printf("Unable to create shm XvImage\n");
             return NULL;
@@ -214,27 +226,40 @@ XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format, int 
             XFree(image);
             return NULL;
         }
+
         if (!(shminfo->shmaddr = shmat(shminfo->shmid, 0, 0))) {
             printf("Unable to attach shared memory\n");
-            XFree(image);
             shmctl(shminfo->shmid, IPC_RMID, 0);
+            XFree(image);
             return NULL;
         }
         shminfo->readOnly = False;
 
         image->data = shminfo->shmaddr;
 
-        if (!XShmAttach(display, shminfo)) {
+	mitshm_failed = 0;
+        olderrorhandler = XSetErrorHandler(shm_attach_handler);
+
+        if (!XShmAttach(display, shminfo) || mitshm_failed) {
             printf("XShmAttach failed\n");
-            XFree(image);
-            shmctl(shminfo->shmid, IPC_RMID, 0);
+	    XSetErrorHandler(olderrorhandler);
             shmdt(shminfo->shmaddr);
+            shmctl(shminfo->shmid, IPC_RMID, 0);
+            XFree(image);
             return NULL;
         }
 
         /* Send image to X server. This instruction is required, since having
          * built a Shm XImage and not using it causes an error on XCloseDisplay. */
         XSync(display, False);
+        XSetErrorHandler(olderrorhandler);
+
+	if (mitshm_failed) {
+            shmdt(shminfo->shmaddr);
+            shmctl(shminfo->shmid, IPC_RMID, 0);
+            XFree(image);
+            return NULL;
+	}
 
         /* Mark the segment to be automatically removed when the last
            attachment is broken (i.e. on shmdt or process exit). */
