@@ -720,7 +720,12 @@ void mem_initialize_memory(void)
         l = 128;                /* fix 8096 / 8296 */
 
     /* Setup RAM from $0000 to petres.ramSize */
-    for (i = 0x00; i < l; i++) {
+    _mem_read_tab[0] = zero_read;
+    _mem_write_tab[0] = zero_store;
+    _mem_read_base_tab[0] = mem_ram;
+    mem_read_limit_tab[0] = 0x00fd;     /* is this correct? */
+
+    for (i = 0x01; i < l; i++) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
         _mem_read_base_tab[i] = mem_ram + (i << 8);
