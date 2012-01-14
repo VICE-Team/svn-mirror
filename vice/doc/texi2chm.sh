@@ -3,22 +3,26 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# texi2chm.sh <hhc> <chm-file> <texi-file>
-#             $1    $2         $3
+# texi2chm.sh <hhc> <chm-file> <texi-file> <fixdox.sh> <t2h.pl>
+#             $1    $2         $3          $4          $5
 
 HHC=$1
 CHMFILE=$2
 TEXIFILE=$3
+FIXDOXSH=$4
+T2HPL=$5
 
 rm -f -r chmtmp
 mkdir chmtmp
+cp $FIXDOXSH chmtmp
+cp $T2HPL chmtmp
+cp $TEXIFILE chmtmp
 cd chmtmp
-cp ../$TEXIFILE ./
-../fixdox.sh chm <vice.texi >vicefix.texi
+./fixdox.sh chm <vice.texi >vicefix.texi
 rm -f vice.texi
 mv vicefix.texi vice.texi
-../t2h.pl vice.texi
+./t2h.pl vice.texi
 $HHC vice.hhp
-mv vice.chm ../$CHMFILE
 cd ..
+mv chmtmp/vice.chm $CHMFILE
 rm -f -r chmtmp
