@@ -497,7 +497,7 @@ static pid_t getwinpid (Display *disp, Window win)
     pid_t _pid;
 
     if (XGetWindowProperty(disp, win, prop, 0, 1024, False, XA_CARDINAL,
-        &type, &form, &len, &remain, &pid) != Success) {
+        &type, &form, &len, &remain, &pid) != Success || len < 1) {
         log_error(ui_log, "getwinpid: XGetWindowProperty");
         return 0;
     }
