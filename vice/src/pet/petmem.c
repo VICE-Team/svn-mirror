@@ -473,7 +473,7 @@ static void set_std_9tof(void)
     }
 
     if (petdww_enabled && petdww_mem_at_9000()) {
-        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab);
+        petdww_override_std_9toa(_mem_read_tab, _mem_write_tab, _mem_read_base_tab, mem_read_limit_tab);
     }
 
     /* Setup ROM at $B000 - $E7FF. */
@@ -526,15 +526,29 @@ static void set_std_9tof(void)
     mem_read_limit_tab_ptr = mem_read_limit_tab;
 }
 
-void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write)
+void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, BYTE ***base, int **limit)
 {
     *read = _mem_read_tab;
     *write = _mem_write_tab;
+    *base = _mem_read_base_tab;
+    *limit = mem_read_limit_tab;
 }
+
+static BYTE **mem_base_ptr;
+static int *mem_limit_ptr;
 
 void mem_set_bank_pointer(BYTE **base, int *limit)
 {
-    /* We do not need MMU support.  */
+    mem_base_ptr = base;
+    mem_limit_ptr = limit;
+}
+
+void invalidate_mem_limit(int lower, int upper)
+{
+    if (mem_limit_ptr && *mem_limit_ptr >= lower && *mem_limit_ptr < upper) {
+	*mem_limit_ptr = -1;
+	*mem_base_ptr = NULL;
+    }
 }
 
 /* FIXME: TODO! */
@@ -624,6 +638,7 @@ static void store_8x96(WORD addr, BYTE value)
                     _mem_read_base_tab[l] = mem_ram + bank8offset + (l << 8);
                     mem_read_limit_tab[l] = 0xbffd;
                 }
+		invalidate_mem_limit(0x8000, 0xc000);
             }
             if (changed & 0xca) {       /* $c000-$ffff */
                 protected = value & 0x02;
@@ -651,6 +666,7 @@ static void store_8x96(WORD addr, BYTE value)
                 }
                 store_ff = _mem_write_tab[0xff];
                 _mem_write_tab[0xff] = store_8x96;
+		invalidate_mem_limit(0xc000, 0x10000);
             }
         } else {                /* disable ext. RAM */
             for (l = 0x80; l < 0x90; l++) {
@@ -662,6 +678,7 @@ static void store_8x96(WORD addr, BYTE value)
             set_std_9tof();
             store_ff = _mem_write_tab[0xff];
             _mem_write_tab[0xff] = store_8x96;
+	    invalidate_mem_limit(0x8000, 0x10000);
         }
         petmem_map_reg = value;
 

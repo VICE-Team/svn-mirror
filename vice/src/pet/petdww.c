@@ -277,6 +277,8 @@ void petdww_shutdown(void)
 
 static read_func_ptr_t save_mem_read_tab[PET_DWW_RAM_SIZE >> 8];
 static store_func_ptr_t save_mem_write_tab[PET_DWW_RAM_SIZE >> 8];
+static BYTE *save_mem_base_tab[PET_DWW_RAM_SIZE >> 8];
+static int save_mem_limit_tab[PET_DWW_RAM_SIZE >> 8];
 
 static BYTE dww_ram9000_read(WORD addr)
 {
@@ -298,7 +300,7 @@ static void dww_ram9000_store(WORD addr, BYTE value)
     petdww_ram[min9000] = value;
 }
 
-void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab)
+void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, BYTE **mem_base_tab, int *mem_limit_tab)
 {
     int i;
 
@@ -326,13 +328,19 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
     for (i = 0x90; i < 0xb0; i++) {
         save_mem_read_tab[i - 0x90] = mem_read_tab[i];
         save_mem_write_tab[i - 0x90] = mem_write_tab[i];
+	save_mem_base_tab[i - 0x90] = mem_base_tab[i];
+	save_mem_limit_tab[i - 0x90] = mem_limit_tab[i];
 
         mem_read_tab[i] = dww_ram9000_read;
         mem_write_tab[i] = dww_ram9000_store;
+	mem_base_tab[i] = &petdww_ram[(i - 0x90) << 8];
+	mem_limit_tab[i] = 0xaffd;
+
     }
+    invalidate_mem_limit(0x9000, 0xb000);
 }
 
-void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab)
+void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, BYTE **mem_base_tab, int *mem_limit_tab)
 {
     int i;
 
@@ -345,7 +353,10 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
         for (i = 0x90; i < 0xb0; i++) {
             mem_read_tab[i] = save_mem_read_tab[i - 0x90];
             mem_write_tab[i] = save_mem_write_tab[i - 0x90];
+	    mem_base_tab[i] = save_mem_base_tab[i - 0x90];
+	    mem_limit_tab[i] = save_mem_limit_tab[i - 0x90];
         }
+	invalidate_mem_limit(0x9000, 0xb000);
     }
 #if DWW_DEBUG_RAM
     else {
@@ -553,13 +564,15 @@ static void store_pb(BYTE byte)
     {
         read_func_ptr_t *read;
         store_func_ptr_t *write;
+	BYTE **base;
+	int *limit;
 
-        get_mem_access_tables(&read, &write);
+        get_mem_access_tables(&read, &write, &base, &limit);
 
         if (mem_at_9000) {
-            petdww_override_std_9toa(read, write);
+            petdww_override_std_9toa(read, write, base, limit);
         } else {
-            petdww_restore_std_9toa(read, write);
+            petdww_restore_std_9toa(read, write, base, limit);
         }
     }
 }
