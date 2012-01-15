@@ -73,224 +73,204 @@ static double sinq3 = .1326534908786136358911494e3;
 
 double floor(double d)
 {
-  double fract;
+    double fract;
 
-  if (d < 0.0)
-  {
-    d = -d;
-    fract = modf(d, &d);
-    if (fract != 0.0)
-    {
-      d += 1;
+    if (d < 0.0) {
+        d = -d;
+        fract = modf(d, &d);
+        if (fract != 0.0) {
+            d += 1;
+        }
+        d = -d;
+    } else {
+        modf(d, &d);
     }
-    d = -d;
-  }
-  else
-  {
-    modf(d, &d);
-  }
-  return (d);
+    return (d);
 }
 
 double ceil(double d)
 {
-  return (-floor(-d));
+    return (-floor(-d));
 }
 
 static double sinus(double arg, int quad)
 {
-  double e, f;
-  double ysq;
-  double x,y;
-  int k;
-  double temp1, temp2;
+    double e, f;
+    double ysq;
+    double x,y;
+    int k;
+    double temp1, temp2;
 
-  x = arg;
-  if (x < 0)
-  {
-    x = -x;
-    quad = quad + 2;
-  }
-  x = x * twoopi;
-  if (x > 32764)
-  {
-    y = modf(x, &e);
-    e = e + quad;
-    modf(0.25 * e, &f);
-    quad = e - 4 * f;
-  }
-  else
-  {
-    k = x;
-    y = x - k;
-    quad = (quad + k) & 03;
-  }
-  if (quad & 01)
-  {
-    y = 1 - y;
-  }
-  if (quad > 1)
-  {
-    y = -y;
-  }
-  ysq = y * y;
-  temp1 = ((((sinp4 * ysq + sinp3) * ysq + sinp2) * ysq + sinp1) * ysq + sinp0) * y;
-  temp2 = ((((ysq + sinq3) * ysq + sinq2) * ysq + sinq1) * ysq + sinq0);
-  return (temp1 / temp2);
+    x = arg;
+    if (x < 0) {
+        x = -x;
+        quad = quad + 2;
+    }
+    x = x * twoopi;
+    if (x > 32764) {
+        y = modf(x, &e);
+        e = e + quad;
+        modf(0.25 * e, &f);
+        quad = e - 4 * f;
+    } else {
+        k = x;
+        y = x - k;
+        quad = (quad + k) & 03;
+    }
+    if (quad & 1) {
+        y = 1 - y;
+    }
+    if (quad > 1) {
+        y = -y;
+    }
+    ysq = y * y;
+    temp1 = ((((sinp4 * ysq + sinp3) * ysq + sinp2) * ysq + sinp1) * ysq + sinp0) * y;
+    temp2 = ((((ysq + sinq3) * ysq + sinq2) * ysq + sinq1) * ysq + sinq0);
+    return (temp1 / temp2);
 }
 
 double cos(double arg)
 {
-  if (arg < 0)
-  {
-    arg = -arg;
-  }
-  return (sinus(arg, 1));
+    if (arg < 0) {
+        arg = -arg;
+    }
+    return (sinus(arg, 1));
 }
 
 double sin(double arg)
 {
-  return (sinus(arg, 0));
+    return (sinus(arg, 0));
 }
 
 double exp(double arg)
 {
-  double fract;
-  double temp1, temp2, xsq;
-  int ent;
+    double fract;
+    double temp1, temp2, xsq;
+    int ent;
 
-  if (arg == 0.)
-  {
-    return (1.);
-  }
-  if (arg < -maxf)
-  {
-    return (0.);
-  }
-  if (arg > maxf)
-  {
-    errno = ERANGE;
-    return (HUGE);
-  }
-  arg *= log2e;
-  ent = floor(arg);
-  fract = (arg - ent) - 0.5;
-  xsq = fract * fract;
-  temp1 = ((expp2 * xsq + expp1) * xsq + expp0) * fract;
-  temp2 = ((1.0 * xsq + expq2) * xsq + expq1) * xsq + expq0;
-  return (ldexp(sqrt2 * (temp2 + temp1) / (temp2 - temp1), ent));
+    if (arg == 0.) {
+        return (1.);
+    }
+    if (arg < -maxf) {
+        return (0.);
+    }
+    if (arg > maxf) {
+        errno = ERANGE;
+        return (HUGE);
+    }
+    arg *= log2e;
+    ent = floor(arg);
+    fract = (arg - ent) - 0.5;
+    xsq = fract * fract;
+    temp1 = ((expp2 * xsq + expp1) * xsq + expp0) * fract;
+    temp2 = ((1.0 * xsq + expq2) * xsq + expq1) * xsq + expq0;
+    return (ldexp(sqrt2 * (temp2 + temp1) / (temp2 - temp1), ent));
 }
 
 double log(double arg)
 {
-  double x,z, zsq, temp;
-  int exp;
+    double x,z, zsq, temp;
+    int exp;
 
-  if (arg <= 0.)
-  {
-    errno = EDOM;
-    return (-HUGE);
-  }
-  x = frexp(arg, &exp);
-  while (x < 0.5)
-  {
-    x = x*2;
-    exp = exp - 1;
-  }
-  if (x < sqrto2)
-  {
-    x = 2 * x;
-    exp = exp - 1;
-  }
+    if (arg <= 0.) {
+        errno = EDOM;
+        return (-HUGE);
+    }
+    x = frexp(arg, &exp);
+    while (x < 0.5) {
+        x = x*2;
+        exp = exp - 1;
+    }
+    if (x < sqrto2) {
+        x = 2 * x;
+        exp = exp - 1;
+    }
 
-  z = (x - 1) / (x + 1);
-  zsq = z * z;
+    z = (x - 1) / (x + 1);
+    zsq = z * z;
 
-  temp = ((logp3 * zsq + logp2) * zsq + logp1) * zsq + logp0;
-  temp = temp / (((1.0 * zsq + logq2) * zsq + logq1) * zsq + logq0);
-  temp = temp * z + exp * log2;
-  return (temp);
+    temp = ((logp3 * zsq + logp2) * zsq + logp1) * zsq + logp0;
+    temp = temp / (((1.0 * zsq + logq2) * zsq + logq1) * zsq + logq0);
+    temp = temp * z + exp * log2;
+    return (temp);
 }
 
 double pow(double arg1, double arg2)
 {
-  double temp;
-  long l;
+    double temp;
+    long l;
 
-  if (arg1 <= 0.)
-  {
-    if (arg1 == 0.)
-    {
-      if (arg2 <= 0.) goto domain;
-	return (0.);
+    if (arg1 <= 0.) {
+        if (arg1 == 0.) {
+            if (arg2 <= 0.) {
+                goto domain;
+            }
+            return (0.);
+        }
+        l = arg2;
+        if (l != arg2) {
+            goto domain;
+        }
+        temp = exp(arg2 * log(-arg1));
+        if (l & 1) {
+            temp = -temp;
+        }
+        return(temp);
     }
-    l = arg2;
-    if (l != arg2) goto domain;
-    temp = exp(arg2 * log(-arg1));
-    if (l & 1)
-    {
-      temp = -temp;
-    }
-    return(temp);
-  }
-  return (exp(arg2 * log(arg1)));
+    return (exp(arg2 * log(arg1)));
 
 domain:
-  errno = EDOM;
-  return (0.);
+    errno = EDOM;
+    return (0.);
 }
 
 double sqrt(double arg)
 {
-  double x, temp;
-  int exp;
-  int i;
+    double x, temp;
+    int exp;
+    int i;
 
-  if (arg <= 0.)
-  {
-    if (arg < 0.)
-    {
-      errno = EDOM;
+    if (arg <= 0.) {
+        if (arg < 0.) {
+            errno = EDOM;
+        }
+        return (0.);
     }
-    return (0.);
-  }
 
-  x = frexp(arg,&exp);
+    x = frexp(arg,&exp);
 
-  while (x < 0.5)
-  {
-    x *= 2;
-    exp--;
-  }
+    while (x < 0.5) {
+        x *= 2;
+        exp--;
+    }
 
-  if (exp & 1)
-  {
-    x *= 2;
-    exp--;
-  }
+    if (exp & 1) {
+        x *= 2;
+        exp--;
+    }
 
-  temp = 0.5*(1.0+x);
+    temp = 0.5*(1.0+x);
 
-  while (exp > 60)
-  {
-    temp *= (1L<<30);
-    exp -= 60;
-  }
+    while (exp > 60) {
+        temp *= (1L<<30);
+        exp -= 60;
+    }
 
-  while (exp < -60)
-  {
-    temp /= (1L<<30);
-    exp += 60;
-  }
+    while (exp < -60) {
+        temp /= (1L<<30);
+        exp += 60;
+    }
 
-  if (exp >= 0)
-    temp *= 1L << (exp/2);
-  else
-    temp /= 1L << (-exp/2);
+    if (exp >= 0) {
+        temp *= 1L << (exp/2);
+    } else {
+        temp /= 1L << (-exp/2);
+    }
 
-  for (i=0; i<=4; i++)
-    temp = 0.5*(temp + arg/temp);
+    for (i=0; i<=4; i++) {
+        temp = 0.5*(temp + arg/temp);
+    }
 
-  return(temp);
+    return (temp);
 }
 #endif
