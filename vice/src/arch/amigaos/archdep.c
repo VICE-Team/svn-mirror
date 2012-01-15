@@ -53,6 +53,36 @@
 #include "ui.h"
 #include "util.h"
 
+#if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
+struct Library *TimerBase = NULL;
+struct MsgPort *TimerMP = NULL;
+struct timerequest *TimerIO = NULL;
+
+static void gettimeofday_init(void)
+{
+    if (TimerMP = CreatePort(NULL, NULL)) {
+        if (TimerIO = (struct timerequest *)CreateExtIO(TimerMP, sizeof(struct timerequest))) {
+            if (!(OpenDevice(TIMERNAME, UNIT_MICROHZ, TimerIO, 0))) {
+                TimerBase = (struct Library *)TimerIO->tr_node.io_Device;
+            }
+        }
+    }
+}
+
+static void gettimeofday_shutdown(void)
+{
+    if (TimerIO) {
+        CloseDevice(TimerIO);
+        DeleteExtIO(TimerIO);
+    }
+
+    if (TimerMP) {
+      DeletePort(TimerMP);
+    }
+    TimerBase = NULL;
+}
+#endif
+
 static char *boot_path = NULL;
 static int run_from_wb = 0;
 
@@ -63,6 +93,10 @@ int archdep_init(int *argc, char **argv)
     } else { /* run from CLI */
         run_from_wb = 0;
     }
+
+#if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
+    gettimeofday_init();
+#endif
 
     return 0;
 }
@@ -343,4 +377,15 @@ int archdep_file_is_chardev(const char *name)
 void archdep_shutdown(void)
 {
     lib_free(boot_path);
+#if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
+    gettimeofday_shutdown();
+#endif
+}
+
+int archdep_rtc_get_centisecond(void)
+{
+    struct timeval now;
+
+    GetSysTime(&now);
+    return now.tv_usec / 10;
 }
