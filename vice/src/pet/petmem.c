@@ -686,6 +686,34 @@ static void store_8x96(WORD addr, BYTE value)
     return;
 }
 
+static int fff0_dump()
+{
+    mon_out("fff0 = %02x: ", petmem_map_reg);
+    if (petmem_map_reg & 0x80) {
+	mon_out("enabled, ");
+	if (petmem_map_reg & 0x40) {
+	    mon_out("I/O peek through, ");
+	}
+	if (petmem_map_reg & 0x20) {
+	    mon_out("screen peek through, ");
+	}
+	if (petmem_map_reg & 0x10) {
+	    mon_out("$10 unused bit set, ");
+	}
+	mon_out("\nC000-FFFF: bank %d %s, ",
+	    ((petmem_map_reg & 0x08) ? 3 : 1),
+	    ((petmem_map_reg & 0x02) ? "(write protected)" : "(r/w)")
+	       );
+	mon_out("8000-BFFF: bank %d %s.\n",
+	    ((petmem_map_reg & 0x04) ? 2 : 0),
+	    ((petmem_map_reg & 0x01) ? "(write protected)" : "(r/w)")
+	       );
+    } else {
+	mon_out("disabled.\n");
+    }
+    return 0;
+}
+
 /* ------------------------------------------------------------------------- */
 
 static void set_vidmem(void) {
@@ -995,6 +1023,10 @@ static int mem_dump_io(WORD addr) {
         if (petdww_enabled) {
             /* return dwwpiacore_dump(machine_context.dwwpia); */ /* FIXME */
         }
+    } else if (addr == 0xfff0) {
+	if (petres.map) {
+	    return fff0_dump();
+	}
     }
     return -1;
 }
@@ -1011,6 +1043,9 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     }
     if (petdww_enabled) {
         mon_ioreg_add_list(&mem_ioreg_list, "DWWPIA", 0xeb00, 0xeb0f, mem_dump_io);
+    }
+    if (petres.map) {
+        mon_ioreg_add_list(&mem_ioreg_list, "8096", 0xfff0, 0xfff0, mem_dump_io);
     }
 
     return mem_ioreg_list;
