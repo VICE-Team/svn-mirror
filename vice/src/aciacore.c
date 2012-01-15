@@ -1003,9 +1003,9 @@ static BYTE myacia_read_(WORD addr)
         return 0xff;
       case T232_ECTRL:
         return acia.ectrl 
-                     + ((acia.ctrl & ACIA_CTRL_BITS_BPS_MASK) == ACIA_CTRL_BITS_BPS_16X_EXT_CLK) 
+                     + (((acia.ctrl & ACIA_CTRL_BITS_BPS_MASK) == ACIA_CTRL_BITS_BPS_16X_EXT_CLK) 
                        ? T232_ECTRL_BITS_EXT_ACTIVE 
-                       : 0;
+                       : 0);
     }
     /* should never happen */
     return 0;
