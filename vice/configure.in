@@ -405,6 +405,7 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_CATWEASELMKIII,,[Support for Catweasel MKIII.])
     AC_DEFINE(HAVE_HARDSID,,[Support for HardSID.])
     with_picasso96=yes
+    LIBS="$LIBS -lsupc++ -lgcc_eh"
   fi
 
   is_amiga=yes

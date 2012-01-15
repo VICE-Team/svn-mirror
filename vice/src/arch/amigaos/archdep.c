@@ -382,6 +382,7 @@ void archdep_shutdown(void)
 #endif
 }
 
+#if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
 int archdep_rtc_get_centisecond(void)
 {
     struct timeval now;
@@ -389,3 +390,4 @@ int archdep_rtc_get_centisecond(void)
     GetSysTime(&now);
     return now.tv_usec / 10;
 }
+#endif
