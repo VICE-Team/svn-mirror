@@ -5812,39 +5812,39 @@ msgstr "메모리"
 
 #: src/arch/win32/res.rc.po.c:1352 src/arch/amigaos/intl_text.c.po.c:5355
 msgid "Drive type"
-msgstr ""
+msgstr "드라이브 타입"
 
 #: src/arch/win32/res.rc.po.c:1353 src/arch/amigaos/intl_text.c.po.c:5369
 msgid "40 track handling"
-msgstr ""
+msgstr "40 트랙 핸드링"
 
 #: src/arch/win32/res.rc.po.c:1357 src/arch/amigaos/intl_text.c.po.c:5397
 msgid "Idle method"
-msgstr ""
+msgstr "방법"
 
 #: src/arch/win32/res.rc.po.c:1361 src/arch/amigaos/intl_text.c.po.c:5383
 msgid "Drive expansion"
-msgstr ""
+msgstr "드라이브 확장"
 
 #: src/arch/win32/res.rc.po.c:1362
 msgid "$2000-$3FFF RAM"
-msgstr ""
+msgstr "$2000-$3FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1363
 msgid "$4000-$5FFF RAM"
-msgstr ""
+msgstr "$4000-$5FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1364
 msgid "$6000-$7FFF RAM"
-msgstr ""
+msgstr "$6000-$7FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1365
 msgid "$8000-$9FFF RAM"
-msgstr ""
+msgstr "$8000-$9FFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1366
 msgid "$A000-$BFFF RAM"
-msgstr ""
+msgstr "$A000-$BFFF RAM"
 
 #: src/arch/win32/res.rc.po.c:1379 src/arch/win32/resc128.rc.po.c:103
 #: src/arch/win32/resc64.rc.po.c:103 src/arch/win32/resc64dtv.rc.po.c:70
@@ -5888,7 +5888,7 @@ msgstr "나가기"
 
 #: src/arch/win32/res.rc.po.c:1410 src/arch/amigaos/intl_text.c.po.c:1729
 msgid "Sound playback"
-msgstr ""
+msgstr "소리 재생"
 
 #: src/arch/win32/res.rc.po.c:1413
 msgid "Double vertical"
@@ -5900,7 +5900,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1419 src/arch/amigaos/intl_text.c.po.c:637
 msgid "CRT image"
-msgstr ""
+msgstr "CRT 이미지"
 
 #: src/arch/win32/res.rc.po.c:1420 src/arch/amigaos/intl_text.c.po.c:651
 msgid "Generic 8KB image"
@@ -5912,55 +5912,55 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1422 src/arch/amigaos/intl_text.c.po.c:679
 msgid "Action Replay image"
-msgstr ""
+msgstr "Action Replay 이미지"
 
 #: src/arch/win32/res.rc.po.c:1423 src/arch/amigaos/intl_text.c.po.c:693
 msgid "Action Replay MK3 image"
-msgstr ""
+msgstr "Action Replay MK3 이미지"
 
 #: src/arch/win32/res.rc.po.c:1424 src/arch/amigaos/intl_text.c.po.c:707
 msgid "Action Replay MK4 image"
-msgstr ""
+msgstr "Action Replay MK4 이미지"
 
 #: src/arch/win32/res.rc.po.c:1425 src/arch/amigaos/intl_text.c.po.c:721
 msgid "Stardos image"
-msgstr ""
+msgstr "Stardos 이미지"
 
 #: src/arch/win32/res.rc.po.c:1426 src/arch/amigaos/intl_text.c.po.c:735
 msgid "Atomic Power image"
-msgstr ""
+msgstr "Atomic Power 이미지"
 
 #: src/arch/win32/res.rc.po.c:1427 src/arch/amigaos/intl_text.c.po.c:749
 msgid "Epyx FastLoad image"
-msgstr ""
+msgstr "Epyx FastLoad 이미지"
 
 #: src/arch/win32/res.rc.po.c:1428
 msgid "IEEE-488 Interface image"
-msgstr ""
+msgstr "IEEE-488 인터페이스 이미지"
 
 #: src/arch/win32/res.rc.po.c:1429 src/arch/amigaos/intl_text.c.po.c:777
 msgid "Retro Replay image"
-msgstr ""
+msgstr "Retro Replay 이미지"
 
 #: src/arch/win32/res.rc.po.c:1430
 msgid "MMC Replay image"
-msgstr ""
+msgstr "MMC Replay 이미지"
 
 #: src/arch/win32/res.rc.po.c:1432 src/arch/amigaos/intl_text.c.po.c:805
 msgid "Super Snapshot V4 image"
-msgstr ""
+msgstr "Super Snapshot V4 이미지"
 
 #: src/arch/win32/res.rc.po.c:1433 src/arch/amigaos/intl_text.c.po.c:819
 msgid "Super Snapshot V5 image"
-msgstr ""
+msgstr "Super Snapshot V5 이미지"
 
 #: src/arch/win32/res.rc.po.c:1434 src/arch/amigaos/intl_text.c.po.c:833
 msgid "Structured BASIC image"
-msgstr ""
+msgstr "Structured BASIC 이미지"
 
 #: src/arch/win32/res.rc.po.c:1442 src/arch/amigaos/intl_text.c.po.c:287
 msgid "Start"
-msgstr ""
+msgstr "시작"
 
 #: src/arch/win32/res.rc.po.c:1447 src/arch/amigaos/intl_text.c.po.c:357
 msgid "Reset Counter"

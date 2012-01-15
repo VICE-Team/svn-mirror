@@ -11,6 +11,6 @@ tr     Turkish      99       18           1
 sv     Swedish      94      110          13
 da     Danish       93      144          16
 hu     Hungarian    61      773         133
+ru     Russian      58      227         759
 fr     French       50      973         199
-ko     Korean       42        0        1344
-ru     Russian      22      227        1582
+ko     Korean       43        0        1320
