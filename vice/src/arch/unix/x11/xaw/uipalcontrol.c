@@ -295,7 +295,7 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent)
 
     toggle = XtVaCreateManagedWidget("toggle",
                                      toggleWidgetClass, parent,
-                                     XtNlabel, "CRT Controls",
+                                     XtNlabel, _("CRT Controls"),
                                      XtNwidth, 100,
                                      XtNheight, 18,
                                      XtNresizable, 0,
@@ -317,7 +317,6 @@ void destroy_pal_ctrl_widget(Widget w, XtPointer client_data, XtPointer call_dat
 {
     cleanup_data_t *clean = (cleanup_data_t *)client_data;
 
-    printf("destroy_pal_ctrl_widget\n");
     if (clean->shell) {
         XtDestroyWidget(clean->shell);
     }

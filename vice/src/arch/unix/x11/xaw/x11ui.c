@@ -121,6 +121,7 @@ static video_canvas_t *ui_cached_video_canvas;
 static Widget last_visited_canvas;
 
 static void ui_display_drive_current_image2(void);
+static Widget get_last_visited_app_shell(void);
 
 /* ------------------------------------------------------------------------- */
 
@@ -213,6 +214,25 @@ void ui_set_drop_callback(void *cb)
     drop_cb = cb;
 }
 
+/*
+ * Wait for the window to de-iconify, and handle events in the mean time.
+ * This needs to have MapNotify (StructureNotifyMask) events selected
+ * or there is no sensible event to wait for.
+ */
+static int wait_for_deiconify(Window w)
+{
+    for (;;) {
+	XWindowAttributes wa;
+
+	XGetWindowAttributes(display, w, &wa);
+	if (wa.map_state == IsUnviewable)
+	    return 0;
+	if (wa.map_state == IsViewable)
+	    return 1;
+	ui_dispatch_next_event();
+    }
+}
+
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -243,6 +263,25 @@ int ui_focus_monitor(void)
 */
 void ui_restore_focus(void)
 {
+    Widget s;
+
+    ui_dispatch_events();
+
+    s = get_last_visited_app_shell();
+    if (s) {
+	Window w = XtWindow(s);
+
+	XMapRaised(display, w);		/* raise and de-iconify */
+	/* TODO? move into view if needed */
+	if (wait_for_deiconify(w)) {
+	    XSetInputFocus(display, w, RevertToParent, CurrentTime);
+	    /*
+	     * Move the pointer to the window.
+	     * I think that is very irritating.
+	     */
+	    XWarpPointer(display, 0, w,  0, 0, 0, 0,  2, 2);
+	}
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -503,7 +542,7 @@ static Widget build_confirm_dialog(Widget parent, ui_button_t *button_return, Wi
 static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_params);
 
 UI_CALLBACK(enter_window_callback_shell);
-UI_CALLBACK(exposure_callback_shell);
+UI_CALLBACK(structure_callback_shell);
 UI_CALLBACK(exposure_callback_canvas);
 
 static UI_CALLBACK(rec_button_callback)
@@ -914,7 +953,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
     /* XVideo must be refreshed when the shell window is moved. */
     if (machine_class != VICE_MACHINE_VSID) {
-        XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)exposure_callback_shell, (XtPointer)c);
+        XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)structure_callback_shell, (XtPointer)c);
 
         XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
     }
@@ -2243,18 +2282,9 @@ Widget ui_create_transient_shell(Widget parent, const char *name)
     return ui_create_shell(parent, name, transientShellWidgetClass);
 }
 
-/* Pop up a popup shell and center it to the last visited AppShell */
-void ui_popup(Widget w, const char *title, Boolean wait_popdown)
+static Widget get_last_visited_app_shell(void)
 {
     Widget s = NULL;
-
-#ifdef HAVE_FULLSCREEN
-    fullscreen_suspend(1);
-#endif
-
-    ui_restore_mouse();
-    /* Keep sure that we really know which was the last visited shell. */
-    ui_dispatch_events();
 
     if (last_visited_app_shell) {
         s = last_visited_app_shell;
@@ -2268,6 +2298,24 @@ void ui_popup(Widget w, const char *title, Boolean wait_popdown)
             }
         }
     }
+
+    return s;
+}
+
+/* Pop up a popup shell and center it to the last visited AppShell */
+void ui_popup(Widget w, const char *title, Boolean wait_popdown)
+{
+    Widget s = NULL;
+
+#ifdef HAVE_FULLSCREEN
+    fullscreen_suspend(1);
+#endif
+
+    ui_restore_mouse();
+    /* Keep sure that we really know which was the last visited shell. */
+    ui_dispatch_events();
+
+    s = get_last_visited_app_shell();
 
     {
         /* Center the popup. */
@@ -2522,38 +2570,61 @@ UI_CALLBACK(enter_window_callback_shell)
     }
 }
 
-UI_CALLBACK(exposure_callback_shell)
+/*
+ * Structure Notify (mapping, unmapping, configure).
+ * This callback appears to do nothing, but the mapping events are wanted
+ * in wait_for_deiconify().
+ */
+UI_CALLBACK(structure_callback_shell)
 {
-#ifdef HAVE_XVIDEO
-    video_canvas_t *canvas = (video_canvas_t *)client_data;
+#if 0 && defined(HAVE_XVIDEO)
+    XEvent *event = (XEvent *)call_data;
 
-    /* XVideo must be refreshed when the shell window is moved. */
-    if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        video_canvas_refresh_all(canvas);
+    if (event->xany.type == ConfigureNotify) {
+	video_canvas_t *canvas = (video_canvas_t *)client_data;
+	/*
+	 * XVideo must be refreshed when the shell window is moved.
+	 * Actually, that doesn't seem to be needed, since a MapNotify
+	 * also generates an Expose, and if the window is moved
+	 * and not all contents is preserved, this would also generate
+	 * an Expose.
+	 */
+	if (canvas->videoconfig->hwscale && canvas->xv_image) {
+	    video_canvas_refresh_all(canvas);
+	}
     }
 #endif
 }
 
+/*
+ * Exposure (expose) and Structure Notify (mapping, unmapping, configure),
+ * except that the canvas isn't a top-level window and therefore doesn't
+ * get the (un)mapping notifications.
+ */
 UI_CALLBACK(exposure_callback_canvas)
 {
+    XEvent *event = (XEvent *)call_data;
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
     if (!canvas) {
         return;
     }
 
+    if (event->xany.type == Expose && event->xexpose.count == 0 ||
+	event->xany.type == ConfigureNotify) {
 #ifdef HAVE_XVIDEO
-    /* No resize for XVideo. */
-    if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        video_canvas_refresh_all(canvas);
-    }
-    else
+	/* No resize for XVideo. */
+	if (canvas->videoconfig->hwscale && canvas->xv_image) {
+	    video_canvas_refresh_all(canvas);
+	}
+	else
 #endif
-    {
-        Dimension width, height;
+	{
+	    Dimension width, height;
 
-        XtVaGetValues(w, XtNwidth, (XtPointer)&width, XtNheight, (XtPointer)&height, NULL);
-        video_canvas_redraw_size(canvas, (unsigned int)width, (unsigned int)height);
+	    XtVaGetValues(w, XtNwidth, (XtPointer)&width, XtNheight, (XtPointer)&height, NULL);
+	    video_canvas_redraw_size(canvas, (unsigned int)width, (unsigned int)height);
+	}
     }
 }
 
