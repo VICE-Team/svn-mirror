@@ -88,9 +88,9 @@ struct os_s {
 extern video_canvas_t *canvaslist;
 
 #ifdef AMIGA_OS4
-extern timer_t *timer;
+extern timer_t *vice_timer;
 #else
-extern void *timer;
+extern void *vice_timer;
 #endif
 
 typedef struct ui_menu_toggle_s {
