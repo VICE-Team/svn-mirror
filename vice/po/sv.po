@@ -1,13 +1,13 @@
 # Swedish translation file for VICE
-# Copyright 2000-2011
-# Peter Krefting <peter@softwolves.pp.se>, 2011.
+# Copyright 2000-2012
+# Peter Krefting <peter@softwolves.pp.se>, 2011, 2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2011-06-16 08:10+0100\n"
+"PO-Revision-Date: 2012-01-16 21:47+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -18,7 +18,7 @@ msgstr ""
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:388
 msgid "Set device for joystick port 1"
-msgstr "Välj enhet för spelport 1÷"
+msgstr "Välj enhet för spelport 1"
 
 #: src/arch/unix/joy.c:111 src/arch/unix/macosx/joy.c:397
 msgid "Set device for joystick port 2"
@@ -80,9 +80,8 @@ msgstr "Ange baudhastighet för fjärde RS232-enheten"
 
 #: src/arch/unix/gui/c128ui.c:267 src/arch/unix/gui/c64scui.c:365
 #: src/arch/unix/gui/c64ui.c:425 src/arch/unix/gui/vsidui.c:232
-#, fuzzy
 msgid "Extra SIDs"
-msgstr "Aktivera SID"
+msgstr "Ytterligare SID-kretsar"
 
 #: src/arch/unix/gui/c128ui.c:268 src/arch/unix/gui/c64scui.c:366
 #: src/arch/unix/gui/c64ui.c:426 src/arch/unix/gui/vsidui.c:233
@@ -91,9 +90,8 @@ msgstr "Basadress för andra SID"
 
 #: src/arch/unix/gui/c128ui.c:269 src/arch/unix/gui/c64scui.c:367
 #: src/arch/unix/gui/c64ui.c:427 src/arch/unix/gui/vsidui.c:234
-#, fuzzy
 msgid "Third SID base address"
-msgstr "Basadress för andra SID"
+msgstr "Basadress för tredje SID"
 
 #.
 #. { N_("Second SID"), UI_MENU_TYPE_TICK,
@@ -287,9 +285,8 @@ msgid "Screenshots"
 msgstr "Skärmdump"
 
 #: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c128ui.c:548
-#, fuzzy
 msgid "C128 model"
-msgstr "CIA 1-modell"
+msgstr "C128-modell"
 
 #: src/arch/unix/gui/c128ui.c:510 src/arch/win32/resc128.rc.po.c:681
 #: src/arch/amigaos/intl_text.c.po.c:3143
@@ -397,9 +394,8 @@ msgstr "Modellinställningar"
 #: src/arch/unix/gui/c64scui.c:546 src/arch/unix/gui/c64ui.c:606
 #: src/arch/unix/gui/cbm2ui.c:411 src/arch/unix/gui/petui.c:393
 #: src/arch/unix/gui/plus4ui.c:311 src/arch/unix/gui/vic20ui.c:537
-#, fuzzy
 msgid "RAM reset pattern"
-msgstr "ROM-uppsättningstyp"
+msgstr "RAM-nollställningsmönster"
 
 #: src/arch/unix/gui/c128ui.c:590 src/arch/unix/gui/c64dtvui.c:183
 #: src/arch/unix/gui/c64scui.c:548 src/arch/unix/gui/c64ui.c:608
@@ -558,9 +554,8 @@ msgid "Save media file"
 msgstr "Spara mediafil"
 
 #: src/arch/unix/gui/c64dtvui.c:150 src/arch/unix/gui/c64dtvui.c:289
-#, fuzzy
 msgid "DTV model"
-msgstr "SID-modell"
+msgstr "DTV-modell"
 
 #: src/arch/unix/gui/c64dtvui.c:153 src/arch/win32/resc64dtv.rc.po.c:439
 #: src/arch/amigaos/intl_text.c.po.c:5005
@@ -652,16 +647,15 @@ msgstr "Ingen"
 
 #: src/arch/unix/gui/c64scui.c:391 src/arch/unix/gui/c64ui.c:451
 msgid "CIA1"
-msgstr ""
+msgstr "CIA1"
 
 #: src/arch/unix/gui/c64scui.c:393 src/arch/unix/gui/c64ui.c:453
 msgid "CIA2"
-msgstr ""
+msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:440 src/arch/unix/gui/c64ui.c:500
-#, fuzzy
 msgid "Burst Mode Modification"
-msgstr "Emulatoridentifiering"
+msgstr "Burst Mode-modifiering"
 
 #: src/arch/unix/gui/c64ui.c:209
 msgid "Old PAL-G"
@@ -705,9 +699,8 @@ msgid "Model defaults"
 msgstr "Modellens förval"
 
 #: src/arch/unix/gui/cbm2ui.c:286
-#, fuzzy
 msgid "CIA model"
-msgstr "CIA 1-modell"
+msgstr "CIA-modell"
 
 #: src/arch/unix/gui/cbm2ui.c:288 src/arch/unix/gui/cbm2ui.c:321
 #: src/arch/unix/gui/petui.c:313
@@ -947,29 +940,24 @@ msgid "Load new 3 plus 1 HI ROM"
 msgstr "Läs ny 3 plus 1 hög-ROM"
 
 #: src/arch/unix/gui/plus4ui.c:158
-#, fuzzy
 msgid "Load new c1 LO ROM"
-msgstr "Läs ny låg Basic-ROM"
+msgstr "Läs ny c1-låg-ROM"
 
 #: src/arch/unix/gui/plus4ui.c:160
-#, fuzzy
 msgid "Load new c1 HI ROM"
-msgstr "Läs ny hög Basic-ROM"
+msgstr "Läs ny c1-hög-ROM"
 
 #: src/arch/unix/gui/plus4ui.c:162
-#, fuzzy
 msgid "Load new c2 LO ROM"
-msgstr "Läs ny låg Basic-ROM"
+msgstr "Läs ny c2-låg-ROM"
 
 #: src/arch/unix/gui/plus4ui.c:164
-#, fuzzy
 msgid "Load new c2 HI ROM"
-msgstr "Läs ny hög Basic-ROM"
+msgstr "Läs ny c2-låg-ROM"
 
 #: src/arch/unix/gui/plus4ui.c:254
-#, fuzzy
 msgid "ACIA"
-msgstr "ACIA-läge"
+msgstr "ACIA"
 
 #: src/arch/unix/gui/plus4ui.c:256 src/arch/amigaos/intl_text.c.po.c:8170
 msgid "Digiblaster add-on"
@@ -1155,9 +1143,8 @@ msgid "Autostart warp"
 msgstr "Starta warp automatiskt"
 
 #: src/arch/unix/gui/uiautostart.c:68
-#, fuzzy
 msgid "Autostart random delay"
-msgstr "Autostarta diskettavbildning"
+msgstr "Slumpmässig fördröjning för autostart"
 
 #: src/arch/unix/gui/uiautostart.c:70 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:9752
@@ -1527,19 +1514,14 @@ msgid "Run C1541"
 msgstr "Kör C1541"
 
 #: src/arch/unix/gui/uicommands.c:591
-#, fuzzy
 msgid "Available command-line options:"
-msgstr ""
-"\n"
-"Tillgängliga kommandoradsflaggor:\n"
-"\n"
+msgstr "Tillgängliga kommandoradsflaggor:"
 
 #: src/arch/unix/gui/uicommands.c:596
 msgid "Browse manuals"
 msgstr "Läs manualer"
 
 #: src/arch/unix/gui/uicommands.c:598
-#, fuzzy
 msgid "Commandline options"
 msgstr "Kommandoradsflaggor"
 
@@ -1639,9 +1621,8 @@ msgid "Double size"
 msgstr "Dubbel storlek"
 
 #: src/arch/unix/gui/uicrtc.c:144 src/arch/unix/gui/uivdc.c:161
-#, fuzzy
 msgid "Stretch vertically"
-msgstr "Sida vid sida"
+msgstr "Dra ut vertikalt"
 
 #: src/arch/unix/gui/uicrtc.c:146 src/arch/unix/gui/uited.c:133
 #: src/arch/unix/gui/uivdc.c:163 src/arch/unix/gui/uivic.c:147
@@ -1666,9 +1647,8 @@ msgstr "Färger"
 #: src/arch/unix/gui/uicrtc.c:154 src/arch/unix/gui/uited.c:141
 #: src/arch/unix/gui/uivdc.c:171 src/arch/unix/gui/uivic.c:155
 #: src/arch/unix/gui/uivicii.c:180
-#, fuzzy
 msgid "Color settings"
-msgstr "Modellinställningar"
+msgstr "Färginställningar"
 
 #: src/arch/unix/gui/uicrtc.c:158 src/arch/unix/gui/uited.c:145
 #: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:159
@@ -1686,9 +1666,8 @@ msgstr "Inställningar för CRT-emulering"
 #: src/arch/unix/gui/uicrtc.c:165 src/arch/unix/gui/uited.c:152
 #: src/arch/unix/gui/uivdc.c:182 src/arch/unix/gui/uivic.c:168
 #: src/arch/unix/gui/uivicii.c:193
-#, fuzzy
 msgid "Audio leak emulation"
-msgstr "Paddelemulering"
+msgstr "Emulera audioläckage"
 
 #: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:156
 #: src/arch/unix/gui/uivdc.c:186 src/arch/unix/gui/uivic.c:172
@@ -1861,9 +1840,8 @@ msgstr "Äkta diskettenhetsemulering"
 #: src/arch/unix/gui/uidrivec64.c:45 src/arch/unix/gui/uidrivec64dtv.c:46
 #: src/arch/unix/gui/uidrivepetcbm2.c:95 src/arch/unix/gui/uidriveplus4.c:229
 #: src/arch/unix/gui/uidrivevic20.c:68
-#, fuzzy
 msgid "Drive sound emulation"
-msgstr "Skrivaremulering"
+msgstr "Emulera ljud från diskettstation"
 
 #: src/arch/unix/gui/uidrive.c:191 src/arch/unix/gui/uidrivec64dtv.c:48
 #: src/translate_text.c.po.c:12568
@@ -2006,15 +1984,13 @@ msgstr "Läs ny 1581-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:242 src/arch/unix/gui/uidrivec64vic20.c:162
 #: src/arch/unix/gui/uidriveplus4.c:309
-#, fuzzy
 msgid "Load new 2000 ROM"
-msgstr "Läs ny 2040-ROM"
+msgstr "Läs ny 2000-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:245 src/arch/unix/gui/uidrivec64vic20.c:165
 #: src/arch/unix/gui/uidriveplus4.c:312
-#, fuzzy
 msgid "Load new 4000 ROM"
-msgstr "Läs ny 4040-ROM"
+msgstr "Läs ny 4000-ROM"
 
 #: src/arch/unix/gui/uidrivec128.c:248 src/arch/unix/gui/uidrivec64vic20.c:168
 #: src/arch/unix/gui/uidrivepetcbm2.c:145
@@ -2271,9 +2247,8 @@ msgstr "Storlek"
 #. Translators: "RR-Net" is the name of the network addon and should not get translated
 #: src/arch/unix/gui/uigeoram.c:86 src/arch/unix/gui/uisoundexpander.c:59
 #: src/arch/unix/gui/uitfe.c:70 src/arch/amigaos/intl_text.c.po.c:5453
-#, fuzzy
 msgid "MasC=uerade I/O swap"
-msgstr "Aktivera MasC=uerade I/O-växling"
+msgstr "MasC=uerade I/O-växling"
 
 #: src/arch/unix/gui/uigeoram.c:101 src/arch/win32/resgeoram.rc.po.c:70
 #: src/arch/amigaos/intl_text.c.po.c:5467
@@ -2328,9 +2303,8 @@ msgstr "Version 4"
 
 #: src/arch/unix/gui/uiide64.c:180 src/arch/unix/gui/uiide64.c:199
 #: src/arch/unix/gui/uiide64.c:218 src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "HD image name"
-msgstr "Namn på hårddiskavbildning 1"
+msgstr "Namn på hårddiskavbildning"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2346,24 +2320,20 @@ msgid "Revision"
 msgstr "Utgåva"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "HD 1 settings"
-msgstr "VDC-inställningar"
+msgstr "HD 1-inställningar"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "HD 2 settings"
-msgstr "VDC-inställningar"
+msgstr "HD 2-inställningar"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "HD 3 settings"
-msgstr "VDC-inställningar"
+msgstr "HD 3-inställningar"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "HD 4 settings"
-msgstr "IDE64-inställningar"
+msgstr "HD 4-inställningar"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2851,9 +2821,8 @@ msgid "Odd lines offset"
 msgstr "Utjämning för udda linjer"
 
 #: src/arch/unix/gui/uipalemu.c:93
-#, fuzzy
 msgid "in percent"
-msgstr "procent"
+msgstr "i procent"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
@@ -3059,65 +3028,59 @@ msgstr "Kommando att köra för utskrift (inled med \"|\")"
 #: src/arch/unix/gui/uiprinteriecplus4.c:39
 #: src/arch/unix/gui/uiprinterieee.c:39 src/arch/amigaos/intl_text.c.po.c:6854
 msgid "Printer #4 emulation"
-msgstr "Skrivaremulering för enhet 4"
+msgstr "Emulering av skrivare 4"
 
 #: src/arch/unix/gui/uiprinteriec.c:42
 #: src/arch/unix/gui/uiprinteriecplus4.c:41
-#, fuzzy
 msgid "Printer #4 enable IEC device"
-msgstr "Aktivera IEC-enhet för IEC-skrivare 4"
+msgstr "Aktivera IEC-enhet för skrivare 4"
 
 #: src/arch/unix/gui/uiprinteriec.c:44
 #: src/arch/unix/gui/uiprinteriecplus4.c:43
 #: src/arch/unix/gui/uiprinterieee.c:41 src/arch/amigaos/intl_text.c.po.c:6896
 msgid "Printer #4 driver"
-msgstr "Skrivardrivrutin för enhet 4"
+msgstr "Drivrutin för skrivare 4"
 
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 text output device"
 msgstr "Textutenhet för skrivare 4"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
 #: src/arch/unix/gui/uiprinterieee.c:45
-#, fuzzy
 msgid "Printer #4 formfeed"
-msgstr "Mata fram sida för IEC-enhet 4"
+msgstr "Sidmatning för skrivare 4"
 
 #: src/arch/unix/gui/uiprinteriec.c:52
 #: src/arch/unix/gui/uiprinteriecplus4.c:51
 #: src/arch/unix/gui/uiprinterieee.c:49 src/arch/amigaos/intl_text.c.po.c:6868
 msgid "Printer #5 emulation"
-msgstr "Skrivaremulering för enhet 5"
+msgstr "Emulering av skrivare 5"
 
 #: src/arch/unix/gui/uiprinteriec.c:54
 #: src/arch/unix/gui/uiprinteriecplus4.c:53
-#, fuzzy
 msgid "Printer #5 enable IEC device"
-msgstr "Aktivera IEC-enhet för IEC-skrivare 5"
+msgstr "Aktivera IEC-enhet för skrivare 5"
 
 #: src/arch/unix/gui/uiprinteriec.c:56
 #: src/arch/unix/gui/uiprinteriecplus4.c:55
 #: src/arch/unix/gui/uiprinterieee.c:51 src/arch/amigaos/intl_text.c.po.c:6910
 msgid "Printer #5 driver"
-msgstr "Skrivardrivrutin för enhet 5"
+msgstr "Drivrutin för skrivare 5"
 
 #: src/arch/unix/gui/uiprinteriec.c:58
 #: src/arch/unix/gui/uiprinteriecplus4.c:57
 #: src/arch/unix/gui/uiprinterieee.c:53
-#, fuzzy
 msgid "Printer #5 text output device"
 msgstr "Textutenhet för skrivare 5"
 
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 formfeed"
-msgstr "Mata fram sida för IEC-enhet 5"
+msgstr "Sidmatnings för skrivare 5"
 
 #: src/arch/unix/gui/uiprinteriec.c:64 src/arch/unix/gui/uiprinterieee.c:59
 #: src/arch/amigaos/intl_text.c.po.c:6882
@@ -3341,9 +3304,8 @@ msgstr "ACIA-enhet"
 #: src/arch/unix/gui/uirs232c64c128.c:135
 #: src/arch/unix/gui/uirs232c64c128.c:172
 #: src/arch/amigaos/intl_text.c.po.c:4851
-#, fuzzy
 msgid "ACIA base address"
-msgstr "basadress"
+msgstr "ACIA-basadress"
 
 #: src/arch/unix/gui/uirs232c64c128.c:100
 #: src/arch/unix/gui/uirs232c64c128.c:137
@@ -3414,9 +3376,8 @@ msgid "Program name to exec"
 msgstr "Program att starta"
 
 #: src/arch/unix/gui/uirs232c64c128.c:168
-#, fuzzy
 msgid "ACIA RS232 interface emulation (MasC=uerade)"
-msgstr "ACIA RS232-gränssnittsemulering"
+msgstr "ACIA RS232-gränssnittsemulering (MasC=uerade)"
 
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:46
 msgid "Serial 2 device"
@@ -3618,13 +3579,12 @@ msgid "Passband percentage"
 msgstr "Passbandsprocent"
 
 #: src/arch/unix/gui/uisid.c:255
-#, fuzzy
 msgid "One"
-msgstr "På"
+msgstr "En"
 
 #: src/arch/unix/gui/uisid.c:256
 msgid "Two"
-msgstr ""
+msgstr "Två"
 
 #: src/arch/unix/gui/uisound.c:49 src/arch/unix/gui/uisound.c:147
 msgid "Sound driver argument"
@@ -3685,18 +3645,16 @@ msgid "Exact"
 msgstr "Exakt"
 
 #: src/arch/unix/gui/uisound.c:128
-#, fuzzy
 msgid "System"
-msgstr "Filsystem"
+msgstr "System"
 
 #: src/arch/unix/gui/uisound.c:131
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/arch/unix/gui/uisound.c:134
-#, fuzzy
 msgid "Stereo"
-msgstr "SID-stereo"
+msgstr "Stereo"
 
 #: src/arch/unix/gui/uisound.c:141 src/translate_text.c.po.c:11667
 msgid "Enable sound playback"
@@ -3708,7 +3666,6 @@ msgid "Sound device name"
 msgstr "Namn på ljudenhet"
 
 #: src/arch/unix/gui/uisound.c:151
-#, fuzzy
 msgid "Output mode"
 msgstr "Utdata"
 
@@ -3952,9 +3909,8 @@ msgid "Memory expansions"
 msgstr "Minnesutökningar"
 
 #: src/arch/unix/gui/vic20ui.c:498
-#, fuzzy
 msgid "Ethernet emulation (MasC=uerade)"
-msgstr "Ethernetemulering"
+msgstr "Ethernetemulering (MasC=uerade)"
 
 #: src/arch/unix/gui/vic20ui.c:502
 msgid "Paddle emulation"
@@ -3975,9 +3931,8 @@ msgid "Load PSID file"
 msgstr "Läs PSID-fil"
 
 #: src/arch/unix/gui/vsidui.c:376
-#, fuzzy
 msgid "Sound recording"
-msgstr "Inställningar för ljudinspelning"
+msgstr "Ljudinspelning"
 
 #: src/arch/unix/gui/vsidui.c:384
 msgid "Override PSID settings"
@@ -4026,7 +3981,6 @@ msgid "Official VICE homepage:"
 msgstr "Officiell VICE-webbsida:"
 
 #: src/arch/unix/x11/gnome/about.c:102
-#, fuzzy
 msgid ""
 "Mikkel Holm Olsen - Danish\n"
 "Martin Pottendorfer - German\n"
@@ -4043,11 +3997,13 @@ msgid ""
 msgstr ""
 "Mikkel Holm Olsen - danska\n"
 "Martin Pottendorfer - tyska\n"
+"Manuel Antonio Rodriguez Bas - spanska\n"
 "Paul Dube - franska\n"
 "Czirkos Zoltan, Karai Csaba - ungerska\n"
 "Andrea Musuruane - italienska\n"
 "Jesse Lee - koreanska\n"
 "Marco van den Heuvel - nederländska\n"
+"Jarek Sobolewski - polska\n"
 "Mihail Litvinov - ryska\n"
 "Peter Krefting - svenska\n"
 "Emir Akaydin (alias Skate) - turkiska\n"
@@ -4480,7 +4436,6 @@ msgid "Cancel"
 msgstr "Avbryt"
 
 #: src/arch/unix/x11/xaw/uiedisk.c:98
-#, fuzzy
 msgid "Save empty disk file"
 msgstr "Spara tom diskettfil"
 
@@ -4733,29 +4688,24 @@ msgid "Copyright (c) 2010-2011 Olaf Seibert"
 msgstr "Upphovsrättsskyddad © 2010-2011 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011      Marcus Sutton"
-msgstr "Upphovsrättsskyddad © 1999-2011 Martin Pottendorfer"
+msgstr "Upphovsrättsskyddad © 2011      Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011      Ulrich Schulz"
-msgstr "Upphovsrättsskyddad © 2009-2011 Errol Smith"
+msgstr "Upphovsrättsskyddad © 2011      Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011      Stefan Haubenthal"
-msgstr "Upphovsrättsskyddad © 2005-2011 Marco van den Heuvel"
+msgstr "Upphovsrättsskyddad © 2011      Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011      Thomas Giesel"
-msgstr "Upphovsrättsskyddad © 1999-2011 Andreas Matthies"
+msgstr "Upphovsrättsskyddad © 2011      Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2011      Kajtar Zsolt"
-msgstr "Upphovsrättsskyddad © 2009-2011 Errol Smith"
+msgstr "Upphovsrättsskyddad © 2011      Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:963 src/arch/amigaos/intl_text.c.po.c:4109
 msgid "VICE Question"
@@ -5375,12 +5325,10 @@ msgid "Set input device for extra joystick #2"
 msgstr "Välj indataenhet för extra spelport 2"
 
 #: src/arch/win32/res.rc.po.c:1145
-#, fuzzy
 msgid "Confirm quitting VICE"
 msgstr "Bekräfta för att avsluta VICE"
 
 #: src/arch/win32/res.rc.po.c:1146
-#, fuzzy
 msgid "Never confirm quitting VICE"
 msgstr "Bekräfta inte för att avsluta VICE"
 
@@ -5584,79 +5532,64 @@ msgid "TED Palette"
 msgstr "TED-palett"
 
 #: src/arch/win32/res.rc.po.c:1250
-#, fuzzy
 msgid "VICII Colors"
-msgstr "Färger"
+msgstr "Färger för VICII"
 
 #: src/arch/win32/res.rc.po.c:1251
-#, fuzzy
 msgid "VIC Colors"
-msgstr "Färger"
+msgstr "Färger för VIC"
 
 #: src/arch/win32/res.rc.po.c:1252
-#, fuzzy
 msgid "CRTC Colors"
-msgstr "Färger"
+msgstr "Färger för CRTC"
 
 #: src/arch/win32/res.rc.po.c:1253
-#, fuzzy
 msgid "VDC Colors"
-msgstr "Färger"
+msgstr "Färger för VDC"
 
 #: src/arch/win32/res.rc.po.c:1254
-#, fuzzy
 msgid "TED Colors"
-msgstr "Färger"
+msgstr "Färger för TED"
 
 #: src/arch/win32/res.rc.po.c:1255
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "CRT-emulering"
+msgstr "CRT-emulering för VICII"
 
 #: src/arch/win32/res.rc.po.c:1256
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "CRT-emulering"
+msgstr "CRT-emulering för VIC"
 
 #: src/arch/win32/res.rc.po.c:1257
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "CRT-emulering"
+msgstr "CRT-emulering för CRTC"
 
 #: src/arch/win32/res.rc.po.c:1258
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "CRT-emulering"
+msgstr "CRT-emulering för VDC"
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "CRT-emulering"
+msgstr "CRT-emulering för TED"
 
 #: src/arch/win32/res.rc.po.c:1260
-#, fuzzy
 msgid "VICII Render filter"
-msgstr "Rendrerarfilter"
+msgstr "Rendrerarfilter för VICII"
 
 #: src/arch/win32/res.rc.po.c:1261
-#, fuzzy
 msgid "VIC Render filter"
-msgstr "Rendrerarfilter"
+msgstr "Rendrerarfilter för VIC"
 
 #: src/arch/win32/res.rc.po.c:1262
-#, fuzzy
 msgid "CRTC Render filter"
-msgstr "Rendrerarfilter"
+msgstr "Rendrerarfilter för CRTC"
 
 #: src/arch/win32/res.rc.po.c:1263
-#, fuzzy
 msgid "VDC Render filter"
-msgstr "Rendrerarfilter"
+msgstr "Rendrerarfilter för VDC"
 
 #: src/arch/win32/res.rc.po.c:1264
-#, fuzzy
 msgid "TED Render filter"
-msgstr "Rendrerarfilter"
+msgstr "Rendrerarfilter för TED"
 
 #: src/arch/win32/res.rc.po.c:1265
 msgid "External Palette"
@@ -6001,9 +5934,8 @@ msgid "Sound playback"
 msgstr "Aktivera ljudåtergivning"
 
 #: src/arch/win32/res.rc.po.c:1413
-#, fuzzy
 msgid "Double vertical"
-msgstr "Sida vid sida"
+msgstr "Dubbel vertikal"
 
 #: src/arch/win32/res.rc.po.c:1418 src/arch/amigaos/intl_text.c.po.c:455
 msgid "Smart-attach image"
@@ -6299,9 +6231,8 @@ msgid "Danish"
 msgstr "Danska"
 
 #: src/arch/win32/res.rc.po.c:1537 src/arch/amigaos/intl_text.c.po.c:3199
-#, fuzzy
 msgid "Spanish"
-msgstr "Danska"
+msgstr "Spanska"
 
 #: src/arch/win32/res.rc.po.c:1539 src/arch/amigaos/intl_text.c.po.c:3241
 msgid "Hungarian"
@@ -6445,9 +6376,8 @@ msgid "ACIA mode"
 msgstr "ACIA-läge"
 
 #: src/arch/win32/resautostart.rc.po.c:47
-#, fuzzy
 msgid "Random delay"
-msgstr "Autostarta diskettavbildning"
+msgstr "Slumpmässig fördröjning"
 
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:9724
@@ -6816,29 +6746,24 @@ msgid "Save GEO-RAM image when changed"
 msgstr "Spara GEO-RAM-avbildning vid ändringar"
 
 #: src/arch/win32/reside64.rc.po.c:54
-#, fuzzy
 msgid "IDE64 V4 settings"
-msgstr "IDE64-inställningar"
+msgstr "IDE64 V4-inställningar"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 HD image #1 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD-avbild 1"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 HD image #2 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD-avbild 2"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 HD image #3 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD-avbild 3"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 HD image #4 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD-avbild 4"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
@@ -7047,14 +6972,12 @@ msgid "Plus4 settings"
 msgstr "Plus4-inställningar"
 
 #: src/arch/win32/resplus4.rc.po.c:458
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 Low"
-msgstr "Anslut insticksmodulfil för modul1 låg"
+msgstr "Anslut insticksmodulfil för modul0 låg"
 
 #: src/arch/win32/resplus4.rc.po.c:459
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 High"
-msgstr "Anslut insticksmodulfil för modul1 hög"
+msgstr "Anslut insticksmodulfil för modul0 hög"
 
 #: src/arch/win32/resplus4.rc.po.c:460 src/arch/amigaos/intl_text.c.po.c:8282
 msgid "Attach cartridge image for Cartridge1 Low"
@@ -7073,14 +6996,12 @@ msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Anslut insticksmodulfil för modul2 hög"
 
 #: src/arch/win32/resplus4.rc.po.c:464
-#, fuzzy
 msgid "Function Lo"
-msgstr "Funktions-ROM"
+msgstr "Funktion låg"
 
 #: src/arch/win32/resplus4.rc.po.c:465
-#, fuzzy
 msgid "Function Hi"
-msgstr "Funktions-ROM"
+msgstr "Funktion hög"
 
 #: src/arch/win32/resplus4.rc.po.c:467
 msgid "16 kByte"
@@ -7111,19 +7032,16 @@ msgid "4096 kByte (HANNES)"
 msgstr "4096KB (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:474
-#, fuzzy
 msgid "Plus4 model"
-msgstr "C64-modell"
+msgstr "Plus4-modell"
 
 #: src/arch/win32/resplus4.rc.po.c:475
-#, fuzzy
 msgid "C0 low  image"
-msgstr "C1 låg-avbildning"
+msgstr "C0 låg-avbildning"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "C0 high image"
-msgstr "C1 hög-avbildning"
+msgstr "C0 hög-avbildning"
 
 #: src/arch/win32/resplus4.rc.po.c:477 src/arch/amigaos/intl_text.c.po.c:553
 msgid "C1 low  image"
@@ -7148,9 +7066,8 @@ msgid "V364 Speech settings"
 msgstr "V364-röstinställningar"
 
 #: src/arch/win32/resplus4.rc.po.c:483
-#, fuzzy
 msgid "Plus4 model settings"
-msgstr "C64-modellinställningar"
+msgstr "Plus4-modellinställningar"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12092
 msgid "Enable the PLUS60K RAM expansion"
@@ -7277,9 +7194,8 @@ msgstr "Aktivera SFX Sound Expander-insticksmodul"
 #: src/arch/win32/ressoundsampler.rc.po.c:20
 #: src/arch/win32/resvic20.rc.po.c:547 src/arch/amigaos/intl_text.c.po.c:2723
 #: src/arch/amigaos/intl_text.c.po.c:9346
-#, fuzzy
 msgid "SFX Sound Sampler settings"
-msgstr "Inställningar för SFX Sound Expander"
+msgstr "Inställningar för SFX Sound Sampler"
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -7889,24 +7805,20 @@ msgid "Speed Adjustment"
 msgstr "Hastighetsjusering"
 
 #: src/arch/amigaos/intl_text.c.po.c:7638
-#, fuzzy
 msgid "IDE64 HD 1 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:7652
-#, fuzzy
 msgid "IDE64 HD 2 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:7666
-#, fuzzy
 msgid "IDE64 HD 3 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:7680
-#, fuzzy
 msgid "IDE64 HD 4 settings"
-msgstr "IDE64-inställningar"
+msgstr "Inställningar för IDE64 HD 4"
 
 #: src/arch/amigaos/intl_text.c.po.c:7694
 msgid "IDE64 V4"
@@ -8045,9 +7957,8 @@ msgid "SFX Sound Expander Chip"
 msgstr "SFX Sound Expander-krets"
 
 #: src/arch/amigaos/intl_text.c.po.c:9318
-#, fuzzy
 msgid "SFX Sound Sampler Enabled"
-msgstr "SFX Sound Expander aktiverad"
+msgstr "SFX Sound Sampler aktiverad"
 
 #: src/arch/amigaos/intl_text.c.po.c:9388
 msgid "Select Sound Record File"
@@ -8071,12 +7982,11 @@ msgstr "Amigamus"
 
 #: src/arch/amigaos/intl_text.c.po.c:9654
 msgid "Atari CX-22 trackball"
-msgstr ""
+msgstr "Atari CX-22-styrkula"
 
 #: src/arch/amigaos/intl_text.c.po.c:9668
-#, fuzzy
 msgid "Atari ST mouse"
-msgstr "Amigamus"
+msgstr "Atari ST-mus"
 
 #: src/arch/amigaos/intl_text.c.po.c:9850
 msgid "Save to EasyFlash CRT file on detach"
@@ -8726,7 +8636,6 @@ msgid "cond_expr"
 msgstr "villkorsuttryck"
 
 #: src/translate_text.c.po.c:2018
-#, fuzzy
 msgid ""
 "Set a breakpoint, If no address is given, the currently valid break-\n"
 "points are printed.\n"
@@ -8738,9 +8647,14 @@ msgid ""
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
 msgstr ""
-"Om ingen adress anges visas de övervakningspunkter som är giltiga.\n"
+"Sätt en övervakningspunkt, Om ingen adress anges visas de \n"
+"övervakningspunkter som är giltiga.\n"
 "Om en adress anges sätts en brytpunkt på den adressen och dess\n"
-"nummer visas. Ett villkorsuttryck kan också anges för brytpunkten.\n"
+"nummer visas.\n"
+"\"load|store|exec\" är antingen \"load\", \"store\" eller \"exec\"\n"
+"(eller en kombination därutav) för att ange på vilken operation\n"
+"monitorn stoppar. Om det inte anges bryter monitorn på \"exec\".\n"
+"Ett villkorsuttryck kan också anges för brytpunkten.\n"
 "För mer information om villkor, se kommandot CONDITION."
 
 #: src/translate_text.c.po.c:2052
@@ -8807,12 +8721,10 @@ msgstr ""
 "tas bort när den har nåtts."
 
 #: src/translate_text.c.po.c:2156
-#, fuzzy
 msgid "load|store|exec"
-msgstr "loadstore"
+msgstr "load|store|exec"
 
 #: src/translate_text.c.po.c:2175
-#, fuzzy
 msgid ""
 "Set a watchpoint. If no address is given, the currently valid watch-\n"
 "points are printed. If a single address is specified, set a watchpoint\n"
@@ -8822,15 +8734,17 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor breaks on `load' and `store'.\n"
 msgstr ""
-"Sätt en övervakningspunkt. Om du anger en ensam adress sätts en\n"
+"Sätt en övervakningspunkt. Om du inte anger någon adress, visas\n"
+"nu giltiga övervakningspunkter. Om du anger en ensam adress sätts en\n"
 "övervakningspunkt för adressen. Om två adresser anges sätts en\n"
 "övervakningspunkt för minnesområdet mellan adresserna.\n"
-"\"loadstore\" är antingen \"load\" eller \"store\" och anger vilken\n"
-"operation emulatorn skall stoppa för. Om den inte anges stoppar\n"
-"emulatorn på bägge operationerna."
+"\"load|store|exec\" är antingen \"load\". \"store\" eller \"exec\" (eller "
+"en\n"
+"kombination därutav) och anger vilken operation monitorn skall\n"
+"stoppa för. Om den inte anges stoppar emulatorn på både \"load\" och\n"
+"\"store\".\n"
 
 #: src/translate_text.c.po.c:2194
-#, fuzzy
 msgid ""
 "Set a tracepoint. If no address is given, the currently valid trace-\n"
 "points are printed. If a single address is specified, set a tracepoint\n"
@@ -8840,12 +8754,14 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
 msgstr ""
-"Sätt en övervakningspunkt. Om du anger en ensam adress sätts en\n"
-"övervakningspunkt för adressen. Om två adresser anges sätts en\n"
-"övervakningspunkt för minnesområdet mellan adresserna.\n"
-"\"loadstore\" är antingen \"load\" eller \"store\" och anger vilken\n"
-"operation emulatorn skall stoppa för. Om den inte anges stoppar\n"
-"emulatorn på bägge operationerna."
+"Sätt en spårningspunkt. Om ingen adress anges visas befintliga\n"
+"spårningspunkter. Om du anger en ensam adress sätts en spårningspunkt\n"
+"för adressen. Om två adresser anges sätts en spårningspunkt för\n"
+"minnesområdet mellan adresserna.\n"
+"\"load|store|exec\" är antingen \"load\", \"store\" eller \"exec\" (eller "
+"en\n"
+"kombination därutav) och anger vilken operation monitorn skall stoppa\n"
+"för. Om den inte anges spårar monitorn alla tre operationerna.\n"
 
 #: src/translate_text.c.po.c:2211
 msgid "Monitor state commands"
@@ -9136,17 +9052,15 @@ msgstr "Ange diskavbildning för autostart av PRG-filer"
 
 #: src/translate_text.c.po.c:3165
 msgid "Set initial autostart delay (0: use default)"
-msgstr ""
+msgstr "Ange inledande fördröjning för autostart (0: använd standard)"
 
 #: src/translate_text.c.po.c:3182
-#, fuzzy
 msgid "Enable random initial autostart delay."
-msgstr "Aktivera warpläge för autostart"
+msgstr "Aktivera slumpmässig inledande autostartfördröjning"
 
 #: src/translate_text.c.po.c:3199
-#, fuzzy
 msgid "Disable random initial autostart delay."
-msgstr "Inaktivera warpläge för autostart"
+msgstr "Inaktivera slumpmässig inledande autostartfördröjning"
 
 #: src/translate_text.c.po.c:3216
 msgid "Use PAL sync factor"
@@ -9162,7 +9076,7 @@ msgstr "Använd PAL N-synkfaktor"
 
 #: src/translate_text.c.po.c:3267
 msgid "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
-msgstr ""
+msgstr "Burstmodifiering (0 = ingen, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3301
 msgid "Specify name of international Kernal ROM image"
@@ -9249,14 +9163,12 @@ msgid "Disable the ACIA RS232 interface emulation"
 msgstr "Inaktivera ACIA-RS232-gränssnittsemulering"
 
 #: src/translate_text.c.po.c:3694
-#, fuzzy
 msgid "Enable the ACIA emulation"
-msgstr "Aktivera MIDI-emulering"
+msgstr "Aktivera ACIA-emuleringen"
 
 #: src/translate_text.c.po.c:3711
-#, fuzzy
 msgid "Disable the ACIA emulation"
-msgstr "Inaktivera MIDI-emulering"
+msgstr "Inaktivera ACIA-emuleringen"
 
 #: src/translate_text.c.po.c:3746
 msgid "Specify index of keymap file (0=symbol, 1=positional)"
@@ -9322,17 +9234,19 @@ msgstr "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
 
 #: src/translate_text.c.po.c:4070
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
-msgstr ""
+msgstr "Välj C128-modell (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4087
 msgid ""
 "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
 "c232)"
 msgstr ""
+"Välj Plus4-modell (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
+"c232)"
 
 #: src/translate_text.c.po.c:4104
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
-msgstr ""
+msgstr "Välj DTV-modell (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
 
 #: src/translate_text.c.po.c:4121
 msgid "Specify name of Kernal ROM image"
@@ -9697,9 +9611,8 @@ msgid "Attach raw 16kB KCS Power cartridge image"
 msgstr "Anslut rå 16KB KCS Power-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:6148
-#, fuzzy
 msgid "Attach raw 24kB Kingsoft cartridge image"
-msgstr "Anslut rå 4kB Snapshot 64-insticksmodulfil"
+msgstr "Anslut rå 24kB-Kingsoft-insticksmodulfil"
 
 #: src/translate_text.c.po.c:6165
 msgid "Attach raw 8kB MACH 5 cartridge image"
@@ -9738,9 +9651,8 @@ msgid "Attach raw 16kB Zaxxon cartridge image"
 msgstr "Anslut rå 16kB Zaxxon-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:6352
-#, fuzzy
 msgid "Attach raw 64KB Pagefox cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 64KB-Pagefox-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:6369
 msgid "Attach raw 256KB Prophet 64 cartridge image"
@@ -9962,14 +9874,12 @@ msgid "Disable hardware-level emulation of disk drives"
 msgstr "Inaktivera emulering av diskettstationer på maskinvarunivå"
 
 #: src/translate_text.c.po.c:7340
-#, fuzzy
 msgid "Enable sound emulation of disk drives"
-msgstr "Aktivera emulering av diskettstationer på maskinvarunivå"
+msgstr "Aktivera ljudemulering för diskettstationer"
 
 #: src/translate_text.c.po.c:7357
-#, fuzzy
 msgid "Disable sound emulation of disk drives"
-msgstr "Inaktivera emulering av diskettstationer på maskinvarunivå"
+msgstr "Inaktivera ljudemulering för diskettstationer"
 
 #: src/translate_text.c.po.c:7391
 msgid "Set drive type (0: no drive)"
@@ -10037,14 +9947,12 @@ msgid "Specify name of 1581 DOS ROM image"
 msgstr "Ange namn på 1581-DOS-ROM-avbildning"
 
 #: src/translate_text.c.po.c:7612
-#, fuzzy
 msgid "Specify name of 2000 DOS ROM image"
-msgstr "Ange namn på 2040-DOS-ROM-avbildning"
+msgstr "Ange namn på 2000-DOS-ROM-avbildning"
 
 #: src/translate_text.c.po.c:7629
-#, fuzzy
 msgid "Specify name of 4000 DOS ROM image"
-msgstr "Ange namn på 4040-DOS-ROM-avbildning"
+msgstr "Ange namn på 4000-DOS-ROM-avbildning"
 
 #: src/translate_text.c.po.c:7646
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
@@ -10349,14 +10257,12 @@ msgid "Specify name of printer text device or dump file"
 msgstr "Ange namn på textenhet för utskrift eller dumpfil"
 
 #: src/translate_text.c.po.c:8940
-#, fuzzy
 msgid "Specify printer text output device for printer #4"
-msgstr "Ange skrivartextutenhet för IEC-skrivare 4"
+msgstr "Ange skrivartextutenhet för skrivare 4"
 
 #: src/translate_text.c.po.c:8957
-#, fuzzy
 msgid "Specify printer text output device for printer #5"
-msgstr "Ange skrivartextutenhet för IEC-skrivare 5"
+msgstr "Ange skrivartextutenhet för skrivare 5"
 
 #: src/translate_text.c.po.c:8974
 msgid "Specify printer text output device for userport printer"
@@ -10504,9 +10410,8 @@ msgid "Specify base address for 2nd SID"
 msgstr "Ange basadress för andra SID"
 
 #: src/translate_text.c.po.c:9598
-#, fuzzy
 msgid "Specify base address for 3rd SID"
-msgstr "Ange basadress för andra SID"
+msgstr "Ange basadress för tredje SID"
 
 #: src/translate_text.c.po.c:9615
 msgid "Emulate SID filters"
@@ -10546,11 +10451,11 @@ msgstr "Gain för reSID i procent (90 - 100)"
 
 #: src/translate_text.c.po.c:9736
 msgid "Enable additional vertical stretching."
-msgstr ""
+msgstr "Aktivera ytterligare vertikal utdragning."
 
 #: src/translate_text.c.po.c:9753
 msgid "Disable additional vertical stretching."
-msgstr ""
+msgstr "Inaktivera ytterligare vertikal utdragning."
 
 #: src/translate_text.c.po.c:9770
 msgid "Set the VDC memory size to 16KB"
@@ -10677,14 +10582,12 @@ msgid "Disable double scan"
 msgstr "Inaktivera dubbelskanning"
 
 #: src/translate_text.c.po.c:10348
-#, fuzzy
 msgid "Enable audio leak emulation"
-msgstr "Aktivera emulering av ljuspenna"
+msgstr "Aktivera emulering av audioläckage"
 
 #: src/translate_text.c.po.c:10365
-#, fuzzy
 msgid "Disable audio leak emulation"
-msgstr "Inaktivera emulering ljuspenna"
+msgstr "Inaktivera emulering av audioläckage"
 
 #: src/translate_text.c.po.c:10382
 msgid "Enable hardware scaling"
@@ -10696,7 +10599,7 @@ msgstr "Inaktivera maskinvaruskalning"
 
 #: src/translate_text.c.po.c:10416
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr ""
+msgstr "Ange rendreringsfiler, 0:ingen, 1:CRT-emulering, 2:scale2x"
 
 #: src/translate_text.c.po.c:10433
 msgid "Use an internal calculated palette"
@@ -10947,11 +10850,11 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
 #: src/translate_text.c.po.c:11548
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST)"
-msgstr "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar)"
+msgstr ""
+"Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST)"
 
 #: src/translate_text.c.po.c:11565
 msgid "Enable PS/2 mouse on userport"
@@ -11095,9 +10998,8 @@ msgid "Attach raw 64kB Super Games cartridge image"
 msgstr "Anslut rå 64kB-Super Games-insticksmodulfil"
 
 #: src/translate_text.c.po.c:12279
-#, fuzzy
 msgid "Attach raw Silverrock 128 cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå Silverrock 128-insticksmodulavbilding"
 
 #: src/translate_text.c.po.c:12296
 msgid "Attach raw 16kB Simons Basic cartridge image"
