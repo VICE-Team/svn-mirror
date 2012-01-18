@@ -231,7 +231,7 @@ void DeviceWindow::MessageReceived(BMessage *msg) {
             break;
         case MESSAGE_DEVICE_BROWSE:
             resources_get_string_sprintf("FSDevice%dDir", &s, device_num);
-            filepanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_DIRECTORY_NODE, false);
+            filepanel = new BFilePanel(B_OPEN_PANEL, new BMessenger(this), NULL, B_DIRECTORY_NODE, false, NULL, NULL, true);
             sprintf(str,"Choose directory for device %d", device_num);
             filepanel->Window()->SetTitle(str);
             filepanel->SetPanelDirectory(s);
