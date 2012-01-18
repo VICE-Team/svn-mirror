@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-12 21:19+0200\n"
+"PO-Revision-Date: 2012-01-18 20:28+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -9011,7 +9011,7 @@ msgstr "Select file for C64DTV ROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:5019
 msgid "Writes to C64DTV ROM"
-msgstr ""
+msgstr "Writes to C64DTV ROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:5075
 #: src/translate_text.c.po.c:6879
@@ -9021,39 +9021,39 @@ msgstr "Объём памяти"
 
 #: src/arch/amigaos/intl_text.c.po.c:5089
 msgid "RAM Block $0400-$0FFF"
-msgstr ""
+msgstr "RAM Block $0400-$0FFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5103
 msgid "RAM Block $0800-$0FFF"
-msgstr ""
+msgstr "RAM Block $0800-$0FFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5117
 msgid "RAM Block $1000-$1FFF"
-msgstr ""
+msgstr "RAM Block $1000-$1FFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5131
 msgid "RAM Block $2000-$3FFF"
-msgstr ""
+msgstr "RAM Block $2000-$3FFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5145
 msgid "RAM Block $4000-$5FFF"
-msgstr ""
+msgstr "RAM Block $4000-$5FFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5159
 msgid "RAM Block $6000-$7FFF"
-msgstr ""
+msgstr "RAM Block $6000-$7FFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5173
 msgid "RAM Block $A000-$BFFF"
-msgstr ""
+msgstr "RAM Block $A000-$BFFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5187
 msgid "RAM Block $C000-$CFFF"
-msgstr ""
+msgstr "RAM Block $C000-$CFFF"
 
 #: src/arch/amigaos/intl_text.c.po.c:5229
 msgid "Additional Delay"
-msgstr ""
+msgstr "Additional Delay"
 
 #: src/arch/amigaos/intl_text.c.po.c:5523
 #, fuzzy
@@ -9062,207 +9062,207 @@ msgstr "Эксперт картридж"
 
 #: src/arch/amigaos/intl_text.c.po.c:5775
 msgid "Select config file"
-msgstr ""
+msgstr "Select config file"
 
 #: src/arch/amigaos/intl_text.c.po.c:5888
 msgid "Joystick in SIDcart joystick port"
-msgstr ""
+msgstr "Joystick in SIDcart joystick port"
 
 #: src/arch/amigaos/intl_text.c.po.c:5930
 msgid "Joy Port 0"
-msgstr ""
+msgstr "Joy Port 0"
 
 #: src/arch/amigaos/intl_text.c.po.c:5944
 msgid "Joy Port 1"
-msgstr ""
+msgstr "Joy Port 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:5958
 msgid "Joy Port 2"
-msgstr ""
+msgstr "Joy Port 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:5972
 msgid "Joy Port 3"
-msgstr ""
+msgstr "Joy Port 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:5986
 msgid "Stop/Blue"
-msgstr ""
+msgstr "Stop/Blue"
 
 #: src/arch/amigaos/intl_text.c.po.c:6000
 msgid "Select/Red"
-msgstr ""
+msgstr "Select/Red"
 
 #: src/arch/amigaos/intl_text.c.po.c:6014
 msgid "Repeat/Yellow"
-msgstr ""
+msgstr "Repeat/Yellow"
 
 #: src/arch/amigaos/intl_text.c.po.c:6028
 msgid "Shuffle/Green"
-msgstr ""
+msgstr "Shuffle/Green"
 
 #: src/arch/amigaos/intl_text.c.po.c:6042
 msgid "Forward/Charcoal"
-msgstr ""
+msgstr "Forward/Charcoal"
 
 #: src/arch/amigaos/intl_text.c.po.c:6056
 msgid "Reverse/Charcoal"
-msgstr ""
+msgstr "Reverse/Charcoal"
 
 #: src/arch/amigaos/intl_text.c.po.c:6070
 msgid "Play-Pause/Grey"
-msgstr ""
+msgstr "Play-Pause/Grey"
 
 #: src/arch/amigaos/intl_text.c.po.c:6084
 msgid "Joy 1 Device"
-msgstr ""
+msgstr "Joy 1 Device"
 
 #: src/arch/amigaos/intl_text.c.po.c:6098
 msgid "Joy 2 Device"
-msgstr ""
+msgstr "Joy 2 Device"
 
 #: src/arch/amigaos/intl_text.c.po.c:6112
 msgid "Userport Joy 1 Device"
-msgstr ""
+msgstr "Userport Joy 1 Device"
 
 #: src/arch/amigaos/intl_text.c.po.c:6126
 msgid "Userport Joy 2 Device"
-msgstr ""
+msgstr "Userport Joy 2 Device"
 
 #: src/arch/amigaos/intl_text.c.po.c:6140
 msgid "SIDcart Joy Device"
-msgstr ""
+msgstr "SIDcart Joy Device"
 
 #: src/arch/amigaos/intl_text.c.po.c:6154
 msgid "Joy 1 Fire"
-msgstr ""
+msgstr "Joy 1 Fire"
 
 #: src/arch/amigaos/intl_text.c.po.c:6168
 msgid "Joy 2 Fire"
-msgstr ""
+msgstr "Joy 2 Fire"
 
 #: src/arch/amigaos/intl_text.c.po.c:6182
 msgid "Userport Joy 1 Fire"
-msgstr ""
+msgstr "Userport Joy 1 Fire"
 
 #: src/arch/amigaos/intl_text.c.po.c:6196
 msgid "Userport Joy 2 Fire"
-msgstr ""
+msgstr "Userport Joy 2 Fire"
 
 #: src/arch/amigaos/intl_text.c.po.c:6210
 msgid "SIDcart Joy Fire"
-msgstr ""
+msgstr "SIDcart Joy Fire"
 
 #: src/arch/amigaos/intl_text.c.po.c:6224
 msgid "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-msgstr ""
+msgstr "Joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6238
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-msgstr ""
+msgstr "Joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6252
 msgid "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-msgstr ""
+msgstr "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6266
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
-msgstr ""
+msgstr "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6280
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr ""
+msgstr "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6294
 msgid "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr ""
+msgstr "Joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6308
 msgid "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr ""
+msgstr "Extra joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6322
 msgid "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
-msgstr ""
+msgstr "Extra joystick #2 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6462
 msgid "Select file for V364 Speech"
-msgstr ""
+msgstr "Select file for V364 Speech"
 
 #: src/arch/amigaos/intl_text.c.po.c:6686
 msgid "RamCart Read/Write"
-msgstr ""
+msgstr "RamCart Read/Write"
 
 #: src/arch/amigaos/intl_text.c.po.c:6728
 msgid "Save RamCart image when changed"
-msgstr ""
+msgstr "Save RamCart image when changed"
 
 #: src/arch/amigaos/intl_text.c.po.c:6938
 msgid "Printer #4 output type"
-msgstr ""
+msgstr "Printer #4 output type"
 
 #: src/arch/amigaos/intl_text.c.po.c:6952
 msgid "Printer #5 output type"
-msgstr ""
+msgstr "Printer #5 output type"
 
 #: src/arch/amigaos/intl_text.c.po.c:6966
 msgid "Userport printer output type"
-msgstr ""
+msgstr "Userport printer output type"
 
 #: src/arch/amigaos/intl_text.c.po.c:6980
 msgid "Printer #4 output device"
-msgstr ""
+msgstr "Printer #4 output device"
 
 #: src/arch/amigaos/intl_text.c.po.c:6994
 msgid "Printer #5 output device"
-msgstr ""
+msgstr "Printer #5 output device"
 
 #: src/arch/amigaos/intl_text.c.po.c:7008
 msgid "Userport printer output device"
-msgstr ""
+msgstr "Userport printer output device"
 
 #: src/arch/amigaos/intl_text.c.po.c:7022
 msgid "Send formfeed to printer #4"
-msgstr ""
+msgstr "Send formfeed to printer #4"
 
 #: src/arch/amigaos/intl_text.c.po.c:7036
 msgid "Send formfeed to printer #5"
-msgstr ""
+msgstr "Send formfeed to printer #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:7050
 msgid "Send formfeed to userport printer"
-msgstr ""
+msgstr "Send formfeed to userport printer"
 
 #: src/arch/amigaos/intl_text.c.po.c:7064
 msgid "Printer device #1 output"
-msgstr ""
+msgstr "Printer device #1 output"
 
 #: src/arch/amigaos/intl_text.c.po.c:7078
 msgid "Printer device #2 output"
-msgstr ""
+msgstr "Printer device #2 output"
 
 #: src/arch/amigaos/intl_text.c.po.c:7092
 msgid "Printer device #3 output"
-msgstr ""
+msgstr "Printer device #3 output"
 
 #: src/arch/amigaos/intl_text.c.po.c:7106
 msgid "IEC emulation for printer #4"
-msgstr ""
+msgstr "IEC emulation for printer #4"
 
 #: src/arch/amigaos/intl_text.c.po.c:7120
 msgid "IEC emulation for printer #5"
-msgstr ""
+msgstr "IEC emulation for printer #5"
 
 #: src/arch/amigaos/intl_text.c.po.c:7190
 msgid "Userport RS232"
-msgstr ""
+msgstr "Userport RS232"
 
 #: src/arch/amigaos/intl_text.c.po.c:7372
 msgid "Not implemented yet!"
-msgstr ""
+msgstr "Not implemented yet!"
 
 #: src/arch/amigaos/intl_text.c.po.c:7484
 msgid "Speed Adjustment"
-msgstr ""
+msgstr "Настройка скорости"
 
 #: src/arch/amigaos/intl_text.c.po.c:7638
 #, fuzzy
@@ -9286,27 +9286,27 @@ msgstr "Настройки SID"
 
 #: src/arch/amigaos/intl_text.c.po.c:7694
 msgid "IDE64 V4"
-msgstr ""
+msgstr "IDE64 V4"
 
 #: src/arch/amigaos/intl_text.c.po.c:7792
 msgid "BIOS Flash Jumper"
-msgstr ""
+msgstr "BIOS Flash Jumper"
 
 #: src/arch/amigaos/intl_text.c.po.c:7834
 msgid "Select BIOS file"
-msgstr ""
+msgstr "Select BIOS file"
 
 #: src/arch/amigaos/intl_text.c.po.c:7890
 msgid "Select MMC/SD image file"
-msgstr ""
+msgstr "Select MMC/SD image file"
 
 #: src/arch/amigaos/intl_text.c.po.c:7918
 msgid "Select EEPROM file"
-msgstr ""
+msgstr "Select EEPROM file"
 
 #: src/arch/amigaos/intl_text.c.po.c:7932
 msgid "Select card image file"
-msgstr ""
+msgstr "Select card image file"
 
 #: src/arch/amigaos/intl_text.c.po.c:7960
 #, fuzzy
@@ -9315,51 +9315,51 @@ msgstr "Hardwired switches"
 
 #: src/arch/amigaos/intl_text.c.po.c:7988
 msgid "Save EEPROM image when changed"
-msgstr ""
+msgstr "Save EEPROM image when changed"
 
 #: src/arch/amigaos/intl_text.c.po.c:8002
 msgid "EEPROM read/write"
-msgstr ""
+msgstr "EEPROM read/write"
 
 #: src/arch/amigaos/intl_text.c.po.c:8254
 msgid "Attach cartridge image for Function Low"
-msgstr ""
+msgstr "Attach cartridge image for Function Low"
 
 #: src/arch/amigaos/intl_text.c.po.c:8268
 msgid "Attach cartridge image for Function High"
-msgstr ""
+msgstr "Attach cartridge image for Function High"
 
 #: src/arch/amigaos/intl_text.c.po.c:8422
 msgid "snapshot file"
-msgstr ""
+msgstr "snapshot file"
 
 #: src/arch/amigaos/intl_text.c.po.c:8436
 msgid "Select snapshot file"
-msgstr ""
+msgstr "Select snapshot file"
 
 #: src/arch/amigaos/intl_text.c.po.c:8492
 msgid "Select External Palette file"
-msgstr ""
+msgstr "Select External Palette file"
 
 #: src/arch/amigaos/intl_text.c.po.c:8590
 msgid "External VICII palette"
-msgstr ""
+msgstr "External VICII palette"
 
 #: src/arch/amigaos/intl_text.c.po.c:8604
 msgid "External VIC palette"
-msgstr ""
+msgstr "External VIC palette"
 
 #: src/arch/amigaos/intl_text.c.po.c:8618
 msgid "External TED palette"
-msgstr ""
+msgstr "External TED palette"
 
 #: src/arch/amigaos/intl_text.c.po.c:8632
 msgid "External VDC palette"
-msgstr ""
+msgstr "External VDC palette"
 
 #: src/arch/amigaos/intl_text.c.po.c:8646
 msgid "External CRTC palette"
-msgstr ""
+msgstr "External CRTC palette"
 
 #: src/arch/amigaos/intl_text.c.po.c:8660
 #, fuzzy
@@ -9373,7 +9373,7 @@ msgstr "Сохранить медиа файл VIC II"
 
 #: src/arch/amigaos/intl_text.c.po.c:8688
 msgid "TED palette file"
-msgstr ""
+msgstr "TED palette file"
 
 #: src/arch/amigaos/intl_text.c.po.c:8702
 #, fuzzy
@@ -9387,43 +9387,43 @@ msgstr "Файл установки ПЗУ"
 
 #: src/arch/amigaos/intl_text.c.po.c:8870
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: src/arch/amigaos/intl_text.c.po.c:8898
 msgid "Set PET Model"
-msgstr ""
+msgstr "Установить модель PET"
 
 #: src/arch/amigaos/intl_text.c.po.c:8968
 msgid "CRTC chip"
-msgstr ""
+msgstr "CRTC chip"
 
 #: src/arch/amigaos/intl_text.c.po.c:9038
 msgid "Current Model"
-msgstr ""
+msgstr "Current Model"
 
 #: src/arch/amigaos/intl_text.c.po.c:9052
 msgid "PET Model"
-msgstr ""
+msgstr "Модель PET"
 
 #: src/arch/amigaos/intl_text.c.po.c:9178
 msgid "RAM banks 2 & 3"
-msgstr ""
+msgstr "RAM banks 2 & 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:9206
 msgid "Select ROM file"
-msgstr ""
+msgstr "Выбрать файл ROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:9248
 msgid "DigiMAX Enabled"
-msgstr ""
+msgstr "DigiMAX Enabled"
 
 #: src/arch/amigaos/intl_text.c.po.c:9290
 msgid "SFX Sound Expander Enabled"
-msgstr ""
+msgstr "SFX Sound Expander Enabled"
 
 #: src/arch/amigaos/intl_text.c.po.c:9304
 msgid "SFX Sound Expander Chip"
-msgstr ""
+msgstr "SFX Sound Expander Chip"
 
 #: src/arch/amigaos/intl_text.c.po.c:9318
 #, fuzzy
@@ -9432,135 +9432,135 @@ msgstr "*Эмуляция семплера SFX"
 
 #: src/arch/amigaos/intl_text.c.po.c:9388
 msgid "Select Sound Record File"
-msgstr ""
+msgstr "Select Sound Record File"
 
 #: src/arch/amigaos/intl_text.c.po.c:9542
 msgid "Volume (0-100%)"
-msgstr ""
+msgstr "Volume (0-100%)"
 
 #: src/arch/amigaos/intl_text.c.po.c:9598
 msgid "1351 mouse"
-msgstr ""
+msgstr "1351 mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9612
 msgid "NEOS mouse"
-msgstr ""
+msgstr "NEOS mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9626
 msgid "Amiga mouse"
-msgstr ""
+msgstr "Amiga mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9654
 msgid "Atari CX-22 trackball"
-msgstr ""
+msgstr "Atari CX-22 trackball"
 
 #: src/arch/amigaos/intl_text.c.po.c:9668
 msgid "Atari ST mouse"
-msgstr ""
+msgstr "Atari ST mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:9850
 msgid "Save to EasyFlash CRT file on detach"
-msgstr ""
+msgstr "Save to EasyFlash CRT file on detach"
 
 #: src/arch/amigaos/intl_text.c.po.c:9864
 msgid "Save to EasyFlash CRT now"
-msgstr ""
+msgstr "Save to EasyFlash CRT now"
 
 #: src/translate_text.c.po.c:8
 msgid "Cannot load snapshot file."
-msgstr ""
+msgstr "Cannot load snapshot file."
 
 #: src/translate_text.c.po.c:25
 #, c-format
 msgid "Playback error: %s different from line %d of file debug%06d"
-msgstr ""
+msgstr "Playback error: %s different from line %d of file debug%06d"
 
 #: src/translate_text.c.po.c:59
 #, c-format
 msgid "Cannot write image file %s"
-msgstr ""
+msgstr "Cannot write image file %s"
 
 #: src/translate_text.c.po.c:76
 #, c-format
 msgid "Cannot find mapped name for %s"
-msgstr ""
+msgstr "Cannot find mapped name for %s"
 
 #: src/translate_text.c.po.c:93
 #, c-format
 msgid "Could not create start snapshot file %s."
-msgstr ""
+msgstr "Could not create start snapshot file %s."
 
 #: src/translate_text.c.po.c:110
 #, c-format
 msgid "Error reading end snapshot file %s."
-msgstr ""
+msgstr "Error reading end snapshot file %s."
 
 #: src/translate_text.c.po.c:127
 #, c-format
 msgid "Could not create end snapshot file %s."
-msgstr ""
+msgstr "Could not create end snapshot file %s."
 
 #: src/translate_text.c.po.c:144
 #, c-format
 msgid "Could not open end snapshot file %s."
-msgstr ""
+msgstr "Could not open end snapshot file %s."
 
 #: src/translate_text.c.po.c:161
 msgid "Could not find event section in end snapshot file."
-msgstr ""
+msgstr "Could not find event section in end snapshot file."
 
 #: src/translate_text.c.po.c:178
 #, c-format
 msgid "Error reading start snapshot file. Tried %s and %s"
-msgstr ""
+msgstr "Error reading start snapshot file. Tried %s and %s"
 
 #: src/translate_text.c.po.c:195
 msgid "Error reading start snapshot file."
-msgstr ""
+msgstr "Error reading start snapshot file."
 
 #: src/translate_text.c.po.c:212
 msgid "Sorry. Multiple recording is not supported."
-msgstr ""
+msgstr "Sorry. Multiple recording is not supported."
 
 #: src/translate_text.c.po.c:229
 msgid "write to sound device failed."
-msgstr ""
+msgstr "write to sound device failed."
 
 #: src/translate_text.c.po.c:246
 msgid "Cannot open SID engine"
-msgstr ""
+msgstr "Cannot open SID engine"
 
 #: src/translate_text.c.po.c:263
 msgid "Cannot initialize SID engine"
-msgstr ""
+msgstr "Cannot initialize SID engine"
 
 #: src/translate_text.c.po.c:280
 #, c-format
 msgid "initialization failed for device `%s'."
-msgstr ""
+msgstr "initialization failed for device `%s'."
 
 #: src/translate_text.c.po.c:297
 #, c-format
 msgid "device '%s' not found or not supported."
-msgstr ""
+msgstr "device '%s' not found or not supported."
 
 #: src/translate_text.c.po.c:314
 #, c-format
 msgid "Recording device %s doesn't exist!"
-msgstr ""
+msgstr "Recording device %s doesn't exist!"
 
 #: src/translate_text.c.po.c:331
 msgid "Recording device must be different from playback device"
-msgstr ""
+msgstr "Устройство записи должно отличаться от устройства воспроизведения"
 
 #: src/translate_text.c.po.c:348
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
-msgstr ""
+msgstr "Warning! Recording device %s seems to be a realtime device!"
 
 #: src/translate_text.c.po.c:365
 msgid "The recording device doesn't support current sound parameters"
-msgstr ""
+msgstr "The recording device doesn't support current sound parameters"
 
 #: src/translate_text.c.po.c:382
 msgid "Sound buffer overflow (cycle based)"
