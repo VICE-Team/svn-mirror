@@ -54,4 +54,4 @@ vice_1.html vice_2.html vice_3.html vice_4.html vice_5.html vice_6.html vice_7.h
 
 vice_toc.html: $(top_srcdir)/doc/vice.texi
 	(cd $(builddir); \
-	$(PERL) $(srcdir)/texi2html -number -split_chapter (top_srcdir)/doc/vice.texi)
+	$(PERL) $(srcdir)/texi2html -number -split_chapter $(top_srcdir)/doc/vice.texi)
