@@ -43,9 +43,9 @@
 #include <dos/dos.h>
 
 #ifdef AMIGA_OS4
-timer_t *timer = NULL;
+timer_t *vice_timer = NULL;
 #else
-void *timer = NULL;
+void *vice_timer = NULL;
 #endif
 
 #ifdef AMIGA_MORPHOS
@@ -54,8 +54,8 @@ const unsigned long __stack = 512 * 1024;
 
 int main(int argc, char **argv)
 {
-    timer = timer_init();
-    if (timer == NULL) {
+    vice_timer = timer_init();
+    if (vice_timer == NULL) {
         return RETURN_FAIL;
     }
     return main_program(argc, argv);
@@ -71,5 +71,5 @@ void main_exit(void)
     log_message(LOG_DEFAULT, "\nExiting...");
 
     machine_shutdown();
-    timer_exit(timer);
+    timer_exit(vice_timer);
 }

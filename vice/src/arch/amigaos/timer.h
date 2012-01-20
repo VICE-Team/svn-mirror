@@ -31,7 +31,7 @@
 
 #include <proto/timer.h>
 
-#ifdef AMIGA_AROS
+#if defined(AMIGA_AROS) && defined(HAVE_AROS__TIMEVAL_H)
 #include <aros/_timeval.h>
 #endif
 

@@ -73,7 +73,7 @@ unsigned long vsyncarch_gettime(void)
 {
     struct timeval tv;
 
-    timer_gettime(timer, &tv);
+    timer_gettime(vice_timer, &tv);
     return (tv.tv_secs * 1000000) + tv.tv_micro;
 }
 
@@ -100,7 +100,7 @@ void vsyncarch_display_speed(double speed, double fps, int warp_enabled)
 /* sleep the given amount of timer units */
 void vsyncarch_sleep(signed long delay)
 {
-    timer_usleep(timer, delay);
+    timer_usleep(vice_timer, delay);
 }
 
 /* synchronize with vertical blanks */

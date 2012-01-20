@@ -488,7 +488,7 @@ static void pause_trap(WORD addr, void *data)
     ui_display_paused(1);
     vsync_suspend_speed_eval();
     while (is_paused) {
-        timer_usleep(timer, 1000000 / 100);
+        timer_usleep(vice_timer, 1000000 / 100);
         ui_event_handle();
     }
 }
