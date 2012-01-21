@@ -67,6 +67,12 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
         case IDC_SELECT_DRIVE_TYPE_1581:
             drive_type = DRIVE_TYPE_1581;
             break;
+        case IDC_SELECT_DRIVE_TYPE_2000:
+            drive_type = DRIVE_TYPE_2000;
+            break;
+        case IDC_SELECT_DRIVE_TYPE_4000:
+            drive_type = DRIVE_TYPE_4000;
+            break;
         case IDC_SELECT_DRIVE_TYPE_2031:
             drive_type = DRIVE_TYPE_2031;
             break;
@@ -162,6 +168,8 @@ static uilib_dialog_group drive_left_group[] = {
     { IDC_SELECT_DRIVE_TYPE_1571, 0 },
     { IDC_SELECT_DRIVE_TYPE_1571cr, 0 },
     { IDC_SELECT_DRIVE_TYPE_1581, 0 },
+    { IDC_SELECT_DRIVE_TYPE_2000, 0 },
+    { IDC_SELECT_DRIVE_TYPE_4000, 0 },
     { IDC_SELECT_DRIVE_TYPE_2031, 0 },
     { IDC_SELECT_DRIVE_TYPE_2040, 0 },
     { IDC_SELECT_DRIVE_TYPE_3040, 0 },
@@ -235,6 +243,8 @@ static generic_trans_table_t generic_items[] = {
     { IDC_SELECT_DRIVE_TYPE_1571, "1571" },
     { IDC_SELECT_DRIVE_TYPE_1571cr, "1571cr" },
     { IDC_SELECT_DRIVE_TYPE_1581, "1581" },
+    { IDC_SELECT_DRIVE_TYPE_2000, "2000" },
+    { IDC_SELECT_DRIVE_TYPE_4000, "4000" },
     { IDC_SELECT_DRIVE_TYPE_2031, "2031" },
     { IDC_SELECT_DRIVE_TYPE_2040, "2040" },
     { IDC_SELECT_DRIVE_TYPE_3040, "3040" },
@@ -329,6 +339,8 @@ static void init_dialog(HWND hwnd, int num)
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571), enabled && drive_check_type(DRIVE_TYPE_1571, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1571cr), enabled && drive_check_type(DRIVE_TYPE_1571CR, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_1581), enabled && drive_check_type(DRIVE_TYPE_1581, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2000), enabled && drive_check_type(DRIVE_TYPE_2000, num - 8));
+    EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_4000), enabled && drive_check_type(DRIVE_TYPE_4000, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2031), enabled && drive_check_type(DRIVE_TYPE_2031, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_2040), enabled && drive_check_type(DRIVE_TYPE_2040, num - 8));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_TYPE_3040), enabled && drive_check_type(DRIVE_TYPE_3040, num - 8));
@@ -364,6 +376,12 @@ static void init_dialog(HWND hwnd, int num)
             break;
         case DRIVE_TYPE_1581:
             n = IDC_SELECT_DRIVE_TYPE_1581;
+            break;
+        case DRIVE_TYPE_2000:
+            n = IDC_SELECT_DRIVE_TYPE_2000;
+            break;
+        case DRIVE_TYPE_4000:
+            n = IDC_SELECT_DRIVE_TYPE_4000;
             break;
         case DRIVE_TYPE_2031:
             n = IDC_SELECT_DRIVE_TYPE_2031;
@@ -497,6 +515,14 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
                     break;
                 case IDC_SELECT_DRIVE_TYPE_1581:
                     dialog_drive_type[num - 8] = DRIVE_TYPE_1581;
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_2000:
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_2000;
+                    enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
+                    break;
+                case IDC_SELECT_DRIVE_TYPE_4000:
+                    dialog_drive_type[num - 8] = DRIVE_TYPE_4000;
                     enable_controls_for_drive_settings(hwnd, LOWORD(wparam));
                     break;
                 case IDC_SELECT_DRIVE_TYPE_2031:

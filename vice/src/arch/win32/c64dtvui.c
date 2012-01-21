@@ -91,6 +91,12 @@ static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_DRIVE, TEXT("1581"), "DosName1581",
       IDC_DRIVEROM_1581_FILE, IDC_DRIVEROM_1581_BROWSE,
       IDC_DRIVEROM_1581_RESOURCE },
+    { UIROM_TYPE_DRIVE, TEXT("2000"), "DosName2000",
+      IDC_DRIVEROM_2000_FILE, IDC_DRIVEROM_2000_BROWSE,
+      IDC_DRIVEROM_2000_RESOURCE },
+    { UIROM_TYPE_DRIVE, TEXT("4000"), "DosName4000",
+      IDC_DRIVEROM_4000_FILE, IDC_DRIVEROM_4000_BROWSE,
+      IDC_DRIVEROM_4000_RESOURCE },
     { 0, NULL, NULL, 0, 0, 0 }
 };
 
@@ -323,6 +329,8 @@ static uilib_localize_dialog_param c64dtv_drive_trans[] = {
     { IDC_DRIVEROM_1570_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1571_BROWSE, IDS_BROWSE, 0 },
     { IDC_DRIVEROM_1581_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_2000_BROWSE, IDS_BROWSE, 0 },
+    { IDC_DRIVEROM_4000_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
 };
 
@@ -364,6 +372,8 @@ static uilib_dialog_group c64dtv_drive_left_group[] = {
     { IDC_1570, 0 },
     { IDC_1571, 0 },
     { IDC_1581, 0 },
+    { IDC_2000, 0 },
+    { IDC_4000, 0 },
     { 0, 0 }
 };
 
@@ -373,6 +383,8 @@ static uilib_dialog_group c64dtv_drive_middle_group[] = {
     { IDC_DRIVEROM_1570_FILE, 0 },
     { IDC_DRIVEROM_1571_FILE, 0 },
     { IDC_DRIVEROM_1581_FILE, 0 },
+    { IDC_DRIVEROM_2000_FILE, 0 },
+    { IDC_DRIVEROM_4000_FILE, 0 },
     { 0, 0 }
 };
 
@@ -382,6 +394,8 @@ static uilib_dialog_group c64dtv_drive_right_group[] = {
     { IDC_DRIVEROM_1570_BROWSE, 0 },
     { IDC_DRIVEROM_1571_BROWSE, 0 },
     { IDC_DRIVEROM_1581_BROWSE, 0 },
+    { IDC_DRIVEROM_2000_BROWSE, 0 },
+    { IDC_DRIVEROM_4000_BROWSE, 0 },
     { 0, 0 }
 };
 
@@ -391,6 +405,8 @@ static generic_trans_table_t c64dtv_generic_trans[] = {
     { IDC_1570, "1570" },
     { IDC_1571, "1571" },
     { IDC_1581, "1581" },
+    { IDC_2000, "2000" },
+    { IDC_4000, "4000" },
     { 0, NULL }
 };
 
@@ -400,6 +416,8 @@ static generic_trans_table_t c64dtv_generic_res_trans[] = {
     { IDC_DRIVEROM_1570_RESOURCE, "1570" },
     { IDC_DRIVEROM_1571_RESOURCE, "1571" },
     { IDC_DRIVEROM_1581_RESOURCE, "1581" },
+    { IDC_DRIVEROM_2000_RESOURCE, "2000" },
+    { IDC_DRIVEROM_4000_RESOURCE, "4000" },
     { 0, NULL }
 };
 
