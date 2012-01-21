@@ -156,7 +156,7 @@ SOURCE=.\resvic20.rc
 !IF  "$(CFG)" == "xvic - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resautostart.rc"	"resmidi.rc"	"resacia.rc"	"resgeoram.rc"	"resdigimax.rc"	"restfe.rc"	"ressoundexpander.rc"	"ressoundsamler.rc"	
+USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resautostart.rc"	"resmidi.rc"	"resacia.rc"	"resgeoram.rc"	"resdigimax.rc"	"restfe.rc"	"ressoundexpander.rc"	"ressoundsampler.rc"	
 # Begin Custom Build
 InputPath=.\resvic20.rc
 
@@ -180,7 +180,7 @@ InputPath=.\resvic20.rc
 !ELSEIF  "$(CFG)" == "xvic - Win32 DX Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resautostart.rc"	"resmidi.rc"	"resacia.rc"	"resgeoram.rc"	"resdigimax.rc"	"restfe.rc"	"ressoundexpander.rc"	"ressoundsamler.rc"	
+USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resautostart.rc"	"resmidi.rc"	"resacia.rc"	"resgeoram.rc"	"resdigimax.rc"	"restfe.rc"	"ressoundexpander.rc"	"ressoundsampler.rc"	
 # Begin Custom Build
 InputPath=.\resvic20.rc
 
@@ -192,7 +192,7 @@ InputPath=.\resvic20.rc
 !ELSEIF  "$(CFG)" == "xvic - Win32 DX Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resautostart.rc"	"resmidi.rc"	"resacia.rc"	"resgeoram.rc"	"resdigimax.rc"	"restfe.rc"	"ressoundexpander.rc"	"ressoundsamler.rc"	
+USERDEP__RESVI="..\..\debug.h"	"resvic20.rc"	"res.rc"	"resdrivevic20.rc"	"resrs232user.rc"	"ressidcart.rc"	"reslightpen.rc"	"resautostart.rc"	"resmidi.rc"	"resacia.rc"	"resgeoram.rc"	"resdigimax.rc"	"restfe.rc"	"ressoundexpander.rc"	"ressoundsampler.rc"	
 # Begin Custom Build
 InputPath=.\resvic20.rc
 
