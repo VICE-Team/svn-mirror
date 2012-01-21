@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <windows.h>
 
+#include "cartridge.h"
 #include "debug.h"
 #include "machine.h"
 #include "petui.h"
@@ -39,6 +40,7 @@
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
+#include "uicart.h"
 #include "uicbm5x0model.h"
 #include "uicbm5x0set.h"
 #include "uidrivepetcbm2.h"
@@ -60,6 +62,7 @@ static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
 
@@ -73,18 +76,6 @@ static const uirom_settings_t uirom_settings[] = {
     { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
       IDC_CBM2ROM_CHARGEN_FILE, IDC_CBM2ROM_CHARGEN_BROWSE,
       IDC_CBM2ROM_CHARGEN_RESOURCE },
-    { UIROM_TYPE_MAIN, TEXT("Cart 1"), "Cart1Name",
-      IDC_CBM2ROM_CART1_FILE, IDC_CBM2ROM_CART1_BROWSE,
-      IDC_CBM2ROM_CART1_RESOURCE },
-    { UIROM_TYPE_MAIN, TEXT("Cart 2"), "Cart2Name",
-      IDC_CBM2ROM_CART2_FILE, IDC_CBM2ROM_CART2_BROWSE,
-      IDC_CBM2ROM_CART2_RESOURCE },
-    { UIROM_TYPE_MAIN, TEXT("Cart 4"), "Cart4Name",
-      IDC_CBM2ROM_CART4_FILE, IDC_CBM2ROM_CART4_BROWSE,
-      IDC_CBM2ROM_CART4_RESOURCE },
-    { UIROM_TYPE_MAIN, TEXT("Cart 6"), "Cart6Name",
-      IDC_CBM2ROM_CART6_FILE, IDC_CBM2ROM_CART6_BROWSE,
-      IDC_CBM2ROM_CART6_RESOURCE },
     { UIROM_TYPE_DRIVE, TEXT("2031"), "DosName2031",
       IDC_DRIVEROM_2031_FILE, IDC_DRIVEROM_2031_BROWSE,
       IDC_DRIVEROM_2031_RESOURCE },
@@ -197,6 +188,14 @@ static uikeyboard_config_t uikeyboard_config = {
     cbm5x0_kbd_move_buttons_group
 };
 
+static const uicart_params_t cbm5x0_ui_cartridges[] = {
+    { IDM_LOAD_CART_1000, CARTRIDGE_CBM2_8KB_1000, IDS_ATTACH_CBM2_CART_1000, UILIB_FILTER_ALL },
+    { IDM_LOAD_CART_2000_3000, CARTRIDGE_CBM2_8KB_2000, IDS_ATTACH_CBM2_CART_2000_3000, UILIB_FILTER_ALL },
+    { IDM_LOAD_CART_4000_5000, CARTRIDGE_CBM2_16KB_4000, IDS_ATTACH_CBM2_CART_4000_5000, UILIB_FILTER_ALL },
+    { IDM_LOAD_CART_6000_7000, CARTRIDGE_CBM2_16KB_6000, IDS_ATTACH_CBM2_CART_6000_7000, UILIB_FILTER_ALL },
+    { 0, 0, 0, 0 }
+};
+
 ui_menu_translation_table_t cbm5x0ui_menu_translation_table[] = {
     { IDM_EXIT, IDS_MI_EXIT },
     { IDM_ABOUT, IDS_MI_ABOUT },
@@ -242,6 +241,15 @@ ui_menu_translation_table_t cbm5x0ui_menu_translation_table[] = {
     { IDM_DATASETTE_CONTROL_RECORD, IDS_MI_DATASETTE_RECORD },
     { IDM_DATASETTE_CONTROL_RESET, IDS_MI_DATASETTE_RESET },
     { IDM_DATASETTE_RESET_COUNTER, IDS_MI_DATASETTE_RESET_COUNTER },
+    { IDM_LOAD_CART_1000, IDS_MI_LOAD_CART_1000 },
+    { IDM_UNLOAD_CART_1000, IDS_MI_UNLOAD_CART_1000 },
+    { IDM_LOAD_CART_2000_3000, IDS_MI_LOAD_CART_2000_3000 },
+    { IDM_UNLOAD_CART_2000_3000, IDS_MI_UNLOAD_CART_2000_3000 },
+    { IDM_LOAD_CART_4000_5000, IDS_MI_LOAD_CART_4000_5000 },
+    { IDM_UNLOAD_CART_4000_5000, IDS_MI_UNLOAD_CART_4000_5000 },
+    { IDM_LOAD_CART_6000_7000, IDS_MI_LOAD_CART_6000_7000 },
+    { IDM_UNLOAD_CART_6000_7000, IDS_MI_UNLOAD_CART_6000_7000 },
+    { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_MONITOR, IDS_MI_MONITOR },
 #ifdef DEBUG
     { IDM_DEBUG_MODE_NORMAL, IDS_MI_DEBUG_MODE_NORMAL },
@@ -326,6 +334,7 @@ ui_popup_translation_table_t cbm5x0ui_popup_translation_table[] = {
     { 2, IDS_MP_DETACH_DISK_IMAGE },
     { 2, IDS_MP_FLIP_LIST },
     { 2, IDS_MP_DATASETTE_CONTROL },
+    { 2, IDS_MP_ATTACH_CARTRIDGE_IMAGE },
     { 2, IDS_MP_RESET },
 #ifdef DEBUG
     { 2, IDS_MP_DEBUG },
@@ -352,14 +361,6 @@ static uilib_localize_dialog_param cbm5x0_main_trans[] = {
     { IDC_CBM2ROM_BASIC_BROWSE, IDS_BROWSE, 0 },
     { IDC_CHARACTER, IDS_CHARACTER, 0 },
     { IDC_CBM2ROM_CHARGEN_BROWSE, IDS_BROWSE, 0 },
-    { IDC_CART_1, IDS_CART_1, 0 },
-    { IDC_CBM2ROM_CART1_BROWSE, IDS_BROWSE, 0 },
-    { IDC_CART_2, IDS_CART_2, 0 },
-    { IDC_CBM2ROM_CART2_BROWSE, IDS_BROWSE, 0 },
-    { IDC_CART_4, IDS_CART_4, 0 },
-    { IDC_CBM2ROM_CART4_BROWSE, IDS_BROWSE, 0 },
-    { IDC_CART_6, IDS_CART_6, 0 },
-    { IDC_CBM2ROM_CART6_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
 };
 
@@ -378,10 +379,6 @@ static uilib_localize_dialog_param cbm5x0_main_res_trans[] = {
     { IDC_CBM2ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
     { IDC_CBM2ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
     { IDC_CBM2ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
-    { IDC_CBM2ROM_CART1_RESOURCE, IDS_CART_1, 0 },
-    { IDC_CBM2ROM_CART2_RESOURCE, IDS_CART_2, 0 },
-    { IDC_CBM2ROM_CART4_RESOURCE, IDS_CART_4, 0 },
-    { IDC_CBM2ROM_CART6_RESOURCE, IDS_CART_6, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
@@ -391,10 +388,6 @@ static uilib_dialog_group cbm5x0_main_left_group[] = {
     { IDC_KERNAL, 0 },
     { IDC_BASIC, 0 },
     { IDC_CHARACTER, 0 },
-    { IDC_CART_1, 0 },
-    { IDC_CART_2, 0 },
-    { IDC_CART_4, 0 },
-    { IDC_CART_6, 0 },
     { 0, 0 }
 };
 
@@ -402,10 +395,6 @@ static uilib_dialog_group cbm5x0_main_middle_group[] = {
     { IDC_CBM2ROM_KERNAL_FILE, 0 },
     { IDC_CBM2ROM_BASIC_FILE, 0 },
     { IDC_CBM2ROM_CHARGEN_FILE, 0 },
-    { IDC_CBM2ROM_CART1_FILE, 0 },
-    { IDC_CBM2ROM_CART2_FILE, 0 },
-    { IDC_CBM2ROM_CART4_FILE, 0 },
-    { IDC_CBM2ROM_CART6_FILE, 0 },
     { 0, 0 }
 };
 
@@ -413,10 +402,6 @@ static uilib_dialog_group cbm5x0_main_right_group[] = {
     { IDC_CBM2ROM_KERNAL_BROWSE, 0 },
     { IDC_CBM2ROM_BASIC_BROWSE, 0 },
     { IDC_CBM2ROM_CHARGEN_BROWSE, 0 },
-    { IDC_CBM2ROM_CART1_BROWSE, 0 },
-    { IDC_CBM2ROM_CART2_BROWSE, 0 },
-    { IDC_CBM2ROM_CART4_BROWSE, 0 },
-    { IDC_CBM2ROM_CART6_BROWSE, 0 },
     { 0, 0 }
 };
 
@@ -470,6 +455,24 @@ static const int cbm5x0_sid_baseaddress[] = { 0xda, -1 };
 static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
+        case IDM_LOAD_CART_1000:
+        case IDM_LOAD_CART_2000_3000:
+        case IDM_LOAD_CART_4000_5000:
+        case IDM_LOAD_CART_6000_7000:
+            uicart_attach(wparam, hwnd, cbm5x0_ui_cartridges);
+            break;
+        case IDM_UNLOAD_CART_1000:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_1000);
+            break;
+        case IDM_UNLOAD_CART_2000_3000:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_2000);
+            break;
+        case IDM_UNLOAD_CART_4000_5000:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_4000);
+            break;
+        case IDM_UNLOAD_CART_6000_7000:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_6000);
+            break;
         case IDM_CBM2MODEL_SETTINGS:
             ui_cbm5x0model_settings_dialog(hwnd);
             break;
