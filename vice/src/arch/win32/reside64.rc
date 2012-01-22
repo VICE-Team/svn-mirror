@@ -64,20 +64,20 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 HD image #1 settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 HD image #2 settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 HD image #3 settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 HD image #4 settings"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
     IDS_IDE64_SETTINGS              "IDE64 settings"
     IDS_IDE64_V4                    "Enable IDE64 V4"
-    IDS_IDE64_IMAGE                 "HD image file"
+    IDS_IDE64_IMAGE                 "ATA device image file"
     IDS_IDE64_GEOMETRY              "Geometry"
     IDS_IDE64_AUTODETECT            "Autodetect image size"
     IDS_IDE64_CYLINDERS             "Cylinders"
     IDS_IDE64_HEADS                 "Heads"
     IDS_IDE64_SECTORS               "Sectors"
     IDS_IDE64_TOTAL_SIZE            "Total size: %iKB"
-    IDS_IDE64_SELECT_IMAGE          "Select HD image file"
+    IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
 END
 
 
