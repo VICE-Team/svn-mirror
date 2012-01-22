@@ -262,7 +262,7 @@ static INT_PTR CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam,
                     update_text(hwnd);
                     break;
                 case IDC_IDE64_HDIMAGE_BROWSE:
-                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
+                    uilib_select_browse(hwnd, translate_text(IDS_IDE64_SELECT_IMAGE), UILIB_FILTER_ALL | UILIB_FILTER_IDE64, UILIB_SELECTOR_TYPE_FILE_SAVE, IDC_IDE64_HDIMAGE_FILE);
                     break;
             }
             return TRUE;

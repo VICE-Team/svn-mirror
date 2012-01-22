@@ -80,6 +80,7 @@ static uilib_filefilter_t uilib_filefilter[] = {
     { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
     { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64") },
     { IDS_CBM_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00") },
+    { IDS_IDE64_IMAGE_FILES_FILTER, TEXT("*.fdd;*.hdd;*.iso;*.cfa") },
     { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
     { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
     { IDS_FLIP_LIST_FILES_FILTER, TEXT("*.vfl") },

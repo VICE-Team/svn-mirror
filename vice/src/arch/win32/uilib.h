@@ -55,13 +55,13 @@
 #define UILIB_FILTER_TAPE           (1 << 5)
 #define UILIB_FILTER_DISK           (1 << 6)
 #define UILIB_FILTER_CBM            (1 << 7)
-#define UILIB_FILTER_CRT            (1 << 8)
-#define UILIB_FILTER_BIN            (1 << 9)
-#define UILIB_FILTER_FLIPLIST       (1 << 10)
-#define UILIB_FILTER_ROMSET_FILE    (1 << 11)
-#define UILIB_FILTER_ROMSET_ARCHIVE (1 << 12)
-#define UILIB_FILTER_KEYMAP         (1 << 13)
-
+#define UILIB_FILTER_IDE64          (1 << 8)
+#define UILIB_FILTER_CRT            (1 << 9)
+#define UILIB_FILTER_BIN            (1 << 10)
+#define UILIB_FILTER_FLIPLIST       (1 << 11)
+#define UILIB_FILTER_ROMSET_FILE    (1 << 12)
+#define UILIB_FILTER_ROMSET_ARCHIVE (1 << 13)
+#define UILIB_FILTER_KEYMAP         (1 << 14)
 
 extern TCHAR *uilib_select_file(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style);
 extern TCHAR *uilib_select_file_autostart(HWND hwnd, const TCHAR *title, DWORD filterlist, unsigned int type, int style, int *autostart, char *resource_readonly);
