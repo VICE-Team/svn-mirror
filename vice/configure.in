@@ -382,6 +382,17 @@ elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" =
     AC_DEFINE(HAVE_HTONS,,[Define to 1 if you have the htons function.])
     AC_DEFINE(HAVE_NETWORK,,[Enable netplay support])
     AC_CHECK_HEADERS(aros/_timeval.h)
+    AC_MSG_CHECKING(if common library bases are auto resolved)
+    aros_common_resolve=no
+    AC_TRY_LINK([#include <proto/asl.h>],
+                [AbortAslRequest(0)],
+                aros_common_resolve=yes)
+    if test x"$aros_common_resolve" = "xyes"; then
+       AC_MSG_RESULT(yes)
+       AC_DEFINE(WORKING_AROS_AUTO,,[Define to 1 if aros can handle auto resolving of library bases.])
+    else
+       AC_MSG_RESULT(no)
+    fi
     is_amigaos4=no
     is_amiga_aros=yes
   fi

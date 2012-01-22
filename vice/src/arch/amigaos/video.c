@@ -143,6 +143,15 @@ struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
 #ifdef AMIGA_AROS
 struct Library *LowLevelBase;
 
+#ifndef WORKING_AROS_AUTO
+struct Library *AslBase;
+struct Library *DiskfontBase;
+struct Library *GadToolsBase;
+struct GfxBase *GfxBase;
+struct IntuitionBase *IntuitionBase;
+struct Library *LocaleBase;
+#endif
+
 /* Use these on ALL amiga platforms not just AROS */
 UBYTE *unlockable_buffer = NULL;            /* Used to render the vice-buffer so we can WPA it into our backbuffer if we cant lock a bitmap! */
 
@@ -152,6 +161,52 @@ static struct RastPort *backRPort = NULL;   /* RastPort for our backbuffer (canv
 
 struct Process *self;
 struct Window *orig_windowptr;
+
+#ifndef WORKING_AROS_AUTO
+int aros_extra_init(void)
+{
+    if ((AslBase = OpenLibrary("asl.library", 39L))) {
+        if ((DiskfontBase = OpenLibrary("diskfont.library", 39L))) {
+            if ((GadToolsBase = OpenLibrary("gadtools.library", 39L))) {
+                if ((GfxBase = OpenLibrary("graphics.library", 39L))) {
+                    if ((IntuitionBase = OpenLibrary("intuition.library", 39L))) {
+                        if ((LocaleBase = OpenLibrary("locale.library", 39L))) {
+                            return 0;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+void aros_extra_shutdown(void)
+{
+    if (AslBase) {
+        CloseLibrary(AslBase);
+    }
+
+    if (DiskfontBase) {
+        CloseLibrary(DiskfontBase);
+    }
+
+    if (GadToolsBase) {
+        CloseLibrary(GadToolsBase);
+    }
+
+    if (GfxBase) {
+        CloseLibrary(GfxBase);
+    }
+
+    if (IntuitionBase) {
+        CloseLibrary(IntuitionBase);
+    }
+
+    if (LocaleBase) {
+        CloseLibrary(LocaleBase);
+    }
+}
+#endif
 
 #ifdef AMIGA_OS4
 int video_init(void)
@@ -183,6 +238,7 @@ int video_init(void)
 {
     self = (APTR)FindTask(NULL);
     orig_windowptr = self->pr_WindowPtr;
+
     if ((CyberGfxBase=OpenLibrary(CYBERGFXNAME, 41))) {
 #ifdef HAVE_XVIDEO
         CGXVideoBase = OpenLibrary("cgxvideo.library", 41);
