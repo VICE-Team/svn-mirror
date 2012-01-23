@@ -118,33 +118,32 @@ fi
 if test x"$HOSTSYSTEM" = "xmorphos"; then
   cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/VICE.info VICE-$AMIGAFLAVOR.info
   cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/x*.info VICE-$AMIGAFLAVOR
-  cp VICE-$AMIGAFLAVOR/x64.info VICE-$AMIGAFLAVOR/x64\ \(no\ sound\).info
-  cp VICE-$AMIGAFLAVOR/x64.info VICE-$AMIGAFLAVOR/x64dtv.info
-  cp VICE-$AMIGAFLAVOR/x64.info VICE-$AMIGAFLAVOR/x64dtv\ \(no\ sound\).info
-  if test x"$X64SC" = "xyes"; then
-    cp VICE-$AMIGAFLAVOR/x64.info VICE-$AMIGAFLAVOR/x64sc.info
-    cp VICE-$AMIGAFLAVOR/x64.info VICE-$AMIGAFLAVOR/x64sc\ \(no\ sound\).info
+  if test x"$X64SC" != "xyes"; then
+    rm -f VICE-$AMIGAFLAVOR/x64sc.info
+  else
+    cp VICE-$AMIGAFLAVOR/x64sc.info VICE-$AMIGAFLAVOR/x64sc\ \(no\ sound\).info
   fi
   cp VICE-$AMIGAFLAVOR/x128.info VICE-$AMIGAFLAVOR/x128\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/xvic.info VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/xpet.info VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/xplus4.info VICE-$AMIGAFLAVOR/xplus4\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/xcbm2.info VICE-$AMIGAFLAVOR/xcbm2\ \(no\ sound\).info
+  cp VICE-$AMIGAFLAVOR/xcbm5x0.info VICE-$AMIGAFLAVOR/xcbm5x0\ \(no\ sound\).info
 else
   cp $TOPSCRDIR/src/arch/amigaos/info-files/VICE.info VICE-$AMIGAFLAVOR.info
   cp $TOPSCRDIR/src/arch/amigaos/info-files/*.exe.info VICE-$AMIGAFLAVOR
   cp VICE-$AMIGAFLAVOR/x64.exe.info VICE-$AMIGAFLAVOR/x64\ \(no\ sound\).exe.info
-  cp VICE-$AMIGAFLAVOR/x64.exe.info VICE-$AMIGAFLAVOR/x64dtv.exe.info
-  cp VICE-$AMIGAFLAVOR/x64.exe.info VICE-$AMIGAFLAVOR/x64dtv\ \(no\ sound\).exe.info
-  if test x"$X64SC" = "xyes"; then
-    cp VICE-$AMIGAFLAVOR/x64.exe.info VICE-$AMIGAFLAVOR/x64sc.exe.info
-    cp VICE-$AMIGAFLAVOR/x64.exe.info VICE-$AMIGAFLAVOR/x64sc\ \(no\ sound\).exe.info
+  if test x"$X64SC" != "xyes"; then
+    rm -f VICE-$AMIGAFLAVOR/x64sc.exe.info
+  else
+    cp VICE-$AMIGAFLAVOR/x64sc.exe.info VICE-$AMIGAFLAVOR/x64sc\ \(no\ sound\).exe.info
   fi
   cp VICE-$AMIGAFLAVOR/x128.exe.info VICE-$AMIGAFLAVOR/x128\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/xvic.exe.info VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/xpet.exe.info VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/xplus4.exe.info VICE-$AMIGAFLAVOR/xplus4\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/xcbm2.exe.info VICE-$AMIGAFLAVOR/xcbm2\ \(no\ sound\).exe.info
+  cp VICE-$AMIGAFLAVOR/xcbm5x0.exe.info VICE-$AMIGAFLAVOR/xcbm5x0\ \(no\ sound\).exe.info
 fi
 rm `find VICE-$AMIGAFLAVOR -name "Makefile*"`
 rm `find VICE-$AMIGAFLAVOR -name "dos_*.vkm"`

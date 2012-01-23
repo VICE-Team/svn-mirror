@@ -2,6 +2,8 @@
 
 bin_PROGRAMS = x64ns x64dtvns x64scns x128ns xvicns xplus4ns xcbm2ns xpetns
 
+vsidns_SOURCES = vsidns.c
+
 x64ns_SOURCES = x64ns.c
 
 x64dtvns_SOURCES = x64dtvns.c
@@ -15,6 +17,8 @@ xvicns_SOURCES = xvicns.c
 xplus4ns_SOURCES = xplus4ns.c
 
 xcbm2ns_SOURCES = xcbm2ns.c
+
+xcbm5x0ns_SOURCES = xcbm5x0ns.c
 
 xpetns_SOURCES = xpetns.c
 
@@ -113,7 +117,6 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.c \
 	vsyncapi.c \
-	x64scns.c \
 	mui/filereq.c \
 	mui/filereq.h \
 	mui/mui.c \
@@ -230,16 +233,24 @@ libarch_a_SOURCES = \
 EXTRA_DIST = \
 	intl_text.c \
 	info-files/VICE.info \
+	info-files/vsid.exe.info \
 	info-files/x128.exe.info \
 	info-files/x64.exe.info \
+	info-files/x64dtv.exe.info \
+	info-files/x64sc.exe.info \
 	info-files/xcbm2.exe.info \
+	info-files/xcbm5x0.exe.info \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
 	info-files/xvic.exe.info \
 	info-files/morphos/VICE.info \
+	info-files/morphos/vsid.info \
 	info-files/morphos/x128.info \
 	info-files/morphos/x64.info \
+	info-files/morphos/x64dtv.info \
+	info-files/morphos/x64sc.info \
 	info-files/morphos/xcbm2.info \
+	info-files/morphos/xcbm5x0.info \
 	info-files/morphos/xpet.info \
 	info-files/morphos/xplus4.info \
 	info-files/morphos/xvic.info \
