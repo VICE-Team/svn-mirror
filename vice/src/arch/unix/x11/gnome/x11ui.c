@@ -440,6 +440,7 @@ static unsigned long check_ancestor(pid_t winpid, pid_t pid)
     return 0;
 }
 
+#include <X11/Xlib.h>
 #include <X11/Xatom.h>
 /* get list of client windows for given display */
 static Window *getwinlist (Display *disp, unsigned long *len) 

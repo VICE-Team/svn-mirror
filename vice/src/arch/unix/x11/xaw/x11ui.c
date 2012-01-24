@@ -104,6 +104,13 @@
 #include "lightpendrv.h"
 #include "uipalcontrol.h"
 
+/* #define DEBUG_X11UI */
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
 /* FIXME: We want these to be static.  */
 Visual *visual;
 static int have_truecolor;
@@ -215,39 +222,281 @@ void ui_set_drop_callback(void *cb)
 }
 
 /*
- * Wait for the window to de-iconify, and handle events in the mean time.
+ * Wait for the window to de-iconify, and optionally handle events in the mean
+ * time, so that it is safe to call XSetInputFocus() on it.
+ *
+ * Use another approach than the Gnome UI: looking at a window property
+ * depends on the window manager maintaining it, so just ask X.
+ * When the window is in another workspace, a window is typically not mapped
+ * (due to the way window managers typically implement workspaces), and it will
+ * never get mapped.
+ *
+ * Therefore, if the window is not our own, loop a limited number of times with
+ * a small delay. As long as the delay isn't ridiculously long, it doesn't
+ * matter, since the user doesn't see the target window anyway.
+ *
+ * If the window is our own, we can wait indefinitely, since the user
+ * interacting with the window will keep generating new events, one of which
+ * must be the result of the de-iconification.
  * This needs to have MapNotify (StructureNotifyMask) events selected
  * or there is no sensible event to wait for.
  */
-static int wait_for_deiconify(Window w)
+static int wait_for_deiconify(Window w, int dispatch, int *width, int *height)
 {
-    for (;;) {
-	XWindowAttributes wa;
+    int loop = 0;
 
-	XGetWindowAttributes(display, w, &wa);
-	if (wa.map_state == IsUnviewable)
-	    return 0;
-	if (wa.map_state == IsViewable)
-	    return 1;
-	ui_dispatch_next_event();
+    for (;;) {
+        XWindowAttributes wa;
+
+        XGetWindowAttributes(display, w, &wa);
+        if (width) {
+            *width = wa.width;
+        }
+        if (height) {
+            *height = wa.height;
+        }
+        if (wa.map_state == IsUnviewable) {
+            DBG(("wait_for_deiconify: IsUnviewable, %d loops", loop));
+            return 0;
+        }
+        if (wa.map_state == IsViewable) {
+            DBG(("wait_for_deiconify: IsViewable, %d loops", loop));
+            return 1;
+        }
+        if (dispatch) {
+            ui_dispatch_next_event();
+        } else {
+            if (loop > 10) {
+                DBG(("wait_for_deiconify: IsUnmapped, %d loops", loop));
+                return 0;
+            }
+            usleep(30 * 1000);
+        }
+        loop++;
     }
 }
 
 /* ------------------------------------------------------------------------- */
 
 /*
-    TODO:
     transfer focus to the monitor ui window
 
     note: the respective code in gnome/x11ui.c can probably be shared between
           xaw and gtk (it is plain X11 code anyway).
+    This version has been generalised somewhat compared to the gtk version
+    though.
 */
+
+
+/* TODO: put this properly in configure */
+#if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFlyBSD__)
+# define PROCFS_STATUS          "status"
+# define PROCFS_STATUS_PPID     3               /* 3rd field */
+#else
+# define PROCFS_STATUS          "stat"          /* 4th field */
+# define PROCFS_STATUS_PPID     4
+#endif
+
+#define PROCSTATLEN     0x200
+static pid_t get_ppid_from_pid(pid_t pid) 
+{
+    pid_t ppid = 0;
+    FILE *f;
+    char *p;
+    char pscmd[0x40];
+    char status[PROCSTATLEN + 1];
+    int ret;
+    char *saveptr;
+    int i;
+
+    sprintf(pscmd, "/proc/%d/"PROCFS_STATUS, pid);
+
+    f = fopen(pscmd, "r");
+    if (f == NULL) {
+        return 0;
+    }
+    memset(status, 0, PROCSTATLEN + 1);
+    ret = fread(status, 1, PROCSTATLEN, f);
+    fclose(f);
+    if (ret < 1) {
+        return 0;
+    }
+
+    /* Get the PROCFS_STATUS_PPID'th field */
+    p = strtok_r(status, " ", &saveptr);
+    for (i = 1; i < PROCFS_STATUS_PPID; i++) {
+        p = strtok_r(NULL, " ", &saveptr);
+    }
+
+    if (p) {
+        ppid = strtoul(p, NULL, 10);
+        return ppid;
+    }
+    return 0;
+}
+
+/* check if winpid is an ancestor of pid, returns distance if found or 0 if not */
+#define NUM_PARENT_PIDS         20
+static int num_parent_pids;
+static pid_t parent_pids[NUM_PARENT_PIDS];
+
+static void initialize_parent_pids(pid_t pid)
+{
+    pid_t ppid;
+    int i;
+
+    if (num_parent_pids > 0) {
+        return;
+    }
+
+    for (i = 0; i < NUM_PARENT_PIDS && pid > 1; i++) {
+        ppid = get_ppid_from_pid(pid);
+        DBG(("initialize_parent_pids: [%d] = %ld", i, (long)ppid));
+        parent_pids[i] = ppid;
+        pid = ppid;
+    }
+    num_parent_pids = i;
+}
+
+static int check_ancestor(pid_t winpid)
+{
+    int i;
+    pid_t pid = winpid;
+
+    for (i = 0; i < num_parent_pids && pid > 1; i++) {
+        pid = parent_pids[i];
+        if (pid == winpid) {
+            return i;
+        }
+    }
+
+    return 0;
+}
+
+//#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+/* get list of client windows for given display */
+static Window *getwinlist (Display *disp, unsigned long *len) 
+{
+    Atom type;
+    Atom net_client_list = XInternAtom(disp, "_NET_CLIENT_LIST", False);
+    int form;
+    unsigned long remain;
+    unsigned char *list;
+
+    if (XGetWindowProperty(disp, XDefaultRootWindow(disp), net_client_list,
+                0, 1024, False, AnyPropertyType, &type, &form,
+                len, &remain, &list) != Success) {
+        log_error(ui_log, "getwinlist: XGetWindowProperty");
+        return 0;
+    }
+    if (*len == 0) {
+        Atom win_client_list = XInternAtom(disp, "_WIN_CLIENT_LIST", False);
+
+        if (XGetWindowProperty(disp, XDefaultRootWindow(disp), win_client_list,
+                    0, 1024, False, AnyPropertyType, &type, &form,
+                    len, &remain, &list) != Success) {
+            log_error(ui_log, "getwinlist: XGetWindowProperty");
+            return NULL;
+        }
+    }
+
+    if (type == XA_WINDOW || type == XA_CARDINAL) {
+        return (Window *)list;
+    }
+
+    XFree(list);
+
+    return NULL;
+}
+
+/* get the pid associated with a given window */
+static pid_t getwinpid (Display *disp, Window win)
+{
+    Atom prop = XInternAtom(disp, "_NET_WM_PID", False), type;
+    int form;
+    unsigned long remain, len;
+    unsigned char *pid_p = NULL;
+    pid_t pid;
+
+    if (XGetWindowProperty(disp, win, prop, 0, 1024, False, XA_CARDINAL,
+        &type, &form, &len, &remain, &pid_p) != Success || len < 1) {
+        /* log_error(ui_log, "getwinpid: XGetWindowProperty; win=%lx, len=%ld", (long)win, len); */
+        return 0;
+    }
+
+    pid = *(pid_t *)pid_p;
+    XFree(pid_p);
+    return pid;
+}
+
 int ui_focus_monitor(void) 
 {
+    int i;
+    unsigned long len;
+    Window *list;
+    Window foundwin;
+    pid_t winpid, mypid;
+    int num, maxnum;
+
+    DBG(("uimon_focus_monitor"));
+
+    mypid = getpid();
+    maxnum = INT_MAX;
+    foundwin = 0;
+
+    /* get a list of our parent process ids */
+    initialize_parent_pids(mypid);
+
+    /* get list of all client windows on current display */
+    list = (Window*)getwinlist(display, &len);
+    DBG(("getwinlist: %ld windows\n", len));
+
+    /* for every window, check if it is an ancestor of the current process. the
+       one which is the closest ancestor will be the one we are interested in */
+    for (i = 0; i < (int)len; i++) {
+        winpid = getwinpid(display, list[i]);
+        num = check_ancestor(winpid);
+        if (num > 0) {
+            DBG(("found: n:%d win:%lx pid:%ld", num, (long)list[i], (long)winpid));
+            if ((num < maxnum) ||
+                /*
+                 * Skip hidden Gnome client leader windows; they have the
+                 * PID set on them anyway.
+                 */
+                (num == maxnum && list[i] > foundwin)) {
+                maxnum = num;
+                foundwin = list[i];
+            }
+        }
+    }
+
+    XFree(list);
+
+    /* if a matching window was found, raise it and transfer focus to it */
+    if (foundwin) {
+        int width, height;
+
+        DBG(("using win: %lx\n", (long)foundwin));
+        XMapRaised(display, foundwin);
+        XSync(display, False);
+        /* The window manager may ignore the request to raise the window (for
+           example because it is in a different workspace). We have to check if
+           the window is actually visible, because a call to XSetInputFocus()
+           will crash if it is not.
+        */
+        if (wait_for_deiconify(foundwin, 0, &width, &height)) {
+            XSetInputFocus(display, foundwin, RevertToParent, CurrentTime);
+            XWarpPointer(display, 0, foundwin,  0, 0, 0, 0,  width/2, height/2);
+            XSync(display, False);
+        }
+    }
+
+
+    return 0;
 }
 
 /*
-    TODO:
     restore the main emulator window and transfer focus to it. in detail this
     function should:
 
@@ -269,18 +518,16 @@ void ui_restore_focus(void)
 
     s = get_last_visited_app_shell();
     if (s) {
-	Window w = XtWindow(s);
+        Window w = XtWindow(s);
+        int width, height;
 
-	XMapRaised(display, w);		/* raise and de-iconify */
-	/* TODO? move into view if needed */
-	if (wait_for_deiconify(w)) {
-	    XSetInputFocus(display, w, RevertToParent, CurrentTime);
-	    /*
-	     * Move the pointer to the window.
-	     * I think that is very irritating.
-	     */
-	    XWarpPointer(display, 0, w,  0, 0, 0, 0,  2, 2);
-	}
+        XMapRaised(display, w);                 /* raise and de-iconify */
+        /* TODO? move into view if needed */
+        if (wait_for_deiconify(w, 1, &width, &height)) {
+            XSetInputFocus(display, w, RevertToParent, CurrentTime);
+            /* Move the pointer to the middle of the window. */
+            XWarpPointer(display, 0, w,  0, 0, 0, 0,  width/2, height/2);
+        }
     }
 }
 
@@ -951,7 +1198,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
     XtAddEventHandler(shell, EnterWindowMask, False, (XtEventHandler)enter_window_callback_shell, (XtPointer)c);
 
-    /* XVideo must be refreshed when the shell window is moved. */
+    /* XVideo must be refreshed when the shell window is moved. */
     if (machine_class != VICE_MACHINE_VSID) {
         XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)structure_callback_shell, (XtPointer)c);
 
@@ -2581,17 +2828,17 @@ UI_CALLBACK(structure_callback_shell)
     XEvent *event = (XEvent *)call_data;
 
     if (event->xany.type == ConfigureNotify) {
-	video_canvas_t *canvas = (video_canvas_t *)client_data;
-	/*
-	 * XVideo must be refreshed when the shell window is moved.
-	 * Actually, that doesn't seem to be needed, since a MapNotify
-	 * also generates an Expose, and if the window is moved
-	 * and not all contents is preserved, this would also generate
-	 * an Expose.
-	 */
-	if (canvas->videoconfig->hwscale && canvas->xv_image) {
-	    video_canvas_refresh_all(canvas);
-	}
+        video_canvas_t *canvas = (video_canvas_t *)client_data;
+        /*
+         * XVideo must be refreshed when the shell window is moved.
+         * Actually, that doesn't seem to be needed, since a MapNotify
+         * also generates an Expose, and if the window is moved
+         * and not all contents is preserved, this would also generate
+         * an Expose.
+         */
+        if (canvas->videoconfig->hwscale && canvas->xv_image) {
+            video_canvas_refresh_all(canvas);
+        }
     }
 #endif
 }
@@ -2610,21 +2857,21 @@ UI_CALLBACK(exposure_callback_canvas)
         return;
     }
 
-    if (event->xany.type == Expose && event->xexpose.count == 0 ||
-	event->xany.type == ConfigureNotify) {
+    if ((event->xany.type == Expose && event->xexpose.count == 0) ||
+            (event->xany.type == ConfigureNotify)) {
 #ifdef HAVE_XVIDEO
-	/* No resize for XVideo. */
-	if (canvas->videoconfig->hwscale && canvas->xv_image) {
-	    video_canvas_refresh_all(canvas);
-	}
-	else
+        /* No resize for XVideo. */
+        if (canvas->videoconfig->hwscale && canvas->xv_image) {
+            video_canvas_refresh_all(canvas);
+        }
+        else
 #endif
-	{
-	    Dimension width, height;
+        {
+            Dimension width, height;
 
-	    XtVaGetValues(w, XtNwidth, (XtPointer)&width, XtNheight, (XtPointer)&height, NULL);
-	    video_canvas_redraw_size(canvas, (unsigned int)width, (unsigned int)height);
-	}
+            XtVaGetValues(w, XtNwidth, (XtPointer)&width, XtNheight, (XtPointer)&height, NULL);
+            video_canvas_redraw_size(canvas, (unsigned int)width, (unsigned int)height);
+        }
     }
 }
 
