@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-19 23:18+0200\n"
+"PO-Revision-Date: 2012-01-24 13:34+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -10095,14 +10095,16 @@ msgid ""
 "Move memory from the source specified by the address range to\n"
 "the destination specified by the address.  The regions may overlap."
 msgstr ""
+"Move memory from the source specified by the address range to\n"
+"the destination specified by the address.  The regions may overlap."
 
 #: src/translate_text.c.po.c:1982
 msgid "Checkpoint commands"
-msgstr ""
+msgstr "Checkpoint commands"
 
 #: src/translate_text.c.po.c:1999
 msgid "cond_expr"
-msgstr ""
+msgstr "cond_expr"
 
 #: src/translate_text.c.po.c:2018
 msgid ""
@@ -10116,6 +10118,15 @@ msgid ""
 "A conditional expression can also be specified for the breakpoint.\n"
 "For more information on conditions, see the CONDITION command."
 msgstr ""
+"Set a breakpoint, If no address is given, the currently valid break-\n"
+"points are printed.\n"
+"If an address is given, a breakpoint is set for that address and the\n"
+"breakpoint number is printed.\n"
+"`load|store|exec' is either `load', `store' or `exec' (or any combina-\n"
+"tion of these) to specify on which operation the monitor breaks. If\n"
+"not specified, the monitor breaks on `exec'.\n"
+"A conditional expression can also be specified for the breakpoint.\n"
+"For more information on conditions, see the CONDITION command."
 
 #: src/translate_text.c.po.c:2052
 msgid ""
@@ -10123,6 +10134,9 @@ msgid ""
 "is hit.  Note that the `x' command is not yet supported as a\n"
 "command argument."
 msgstr ""
+"Specify `command' as the command to execute when checkpoint `checknum'\n"
+"is hit.  Note that the `x' command is not yet supported as a\n"
+"command argument."
 
 #: src/translate_text.c.po.c:2069
 msgid ""
@@ -10137,20 +10151,32 @@ msgid ""
 "a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
 "Examples: .A == 0, .X == .Y, 8:.X == .X\n"
 msgstr ""
+"Each time the specified checkpoint is examined, the condition is\n"
+"evaluated.  If it evalutes to true, the checkpoint is activated.\n"
+"Otherwise, it is ignored.  If registers are specified in the expression,\n"
+"the values used are those at the time the checkpoint is examined, not\n"
+"when the condition is set.\n"
+"The condition can make use of registers (.A, .X, .Y, .PC, .SP) and\n"
+"compare them (==, !=, <, >, <=, >=) again other registers or constants.\n"
+"Registers can be the registers of other devices; this is denoted by\n"
+"a memspace prefix (i.e., c:, 8:, 9:, 10:, 11:\n"
+"Examples: .A == 0, .X == .Y, 8:.X == .X\n"
 
 #: src/translate_text.c.po.c:2086
 msgid "Disable checkpoint `checknum'."
-msgstr ""
+msgstr "Disable checkpoint `checknum'."
 
 #: src/translate_text.c.po.c:2103
 msgid "Enable checkpoint `checknum'."
-msgstr ""
+msgstr "Enable checkpoint `checknum'."
 
 #: src/translate_text.c.po.c:2120
 msgid ""
 "Ignore a checkpoint a given number of crossings.  If no count is given,\n"
 "the default value is 1."
 msgstr ""
+"Ignore a checkpoint a given number of crossings.  If no count is given,\n"
+"the default value is 1."
 
 #: src/translate_text.c.po.c:2137
 msgid ""
@@ -10159,10 +10185,14 @@ msgid ""
 "and the breakpoint number is printed.  Control is returned to the\n"
 "emulator by this command.  The breakpoint is deleted once it is hit."
 msgstr ""
+"If no address is given, the currently valid breakpoints are printed.\n"
+"If an address is given, a temporary breakpoint is set for that address\n"
+"and the breakpoint number is printed.  Control is returned to the\n"
+"emulator by this command.  The breakpoint is deleted once it is hit."
 
 #: src/translate_text.c.po.c:2156
 msgid "load|store|exec"
-msgstr ""
+msgstr "load|store|exec"
 
 #: src/translate_text.c.po.c:2175
 msgid ""
@@ -10174,6 +10204,13 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor breaks on `load' and `store'.\n"
 msgstr ""
+"Set a watchpoint. If no address is given, the currently valid watch-\n"
+"points are printed. If a single address is specified, set a watchpoint\n"
+"for that address.  If two addresses are specified, set a watchpoint\n"
+"for the memory locations between the two addresses.\n"
+"`load|store|exec' is either `load', `store' or `exec' (or any combina-\n"
+"tion of these) to specify on which operation the monitor breaks. If\n"
+"not specified, the monitor breaks on `load' and `store'.\n"
 
 #: src/translate_text.c.po.c:2194
 msgid ""
@@ -10185,30 +10222,41 @@ msgid ""
 "tion of these) to specify on which operation the monitor breaks. If\n"
 "not specified, the monitor traces all three operations.\n"
 msgstr ""
+"Set a tracepoint. If no address is given, the currently valid trace-\n"
+"points are printed. If a single address is specified, set a tracepoint\n"
+"for that address.  If two addresses are specified, set a tracepoint\n"
+"for the memory locations between the two addresses.\n"
+"`load|store|exec' is either `load', `store' or `exec' (or any combina-\n"
+"tion of these) to specify on which operation the monitor breaks. If\n"
+"not specified, the monitor traces all three operations.\n"
 
 #: src/translate_text.c.po.c:2211
 msgid "Monitor state commands"
-msgstr ""
+msgstr "Monitor state commands"
 
 #: src/translate_text.c.po.c:2228
 msgid ""
 "Set the default memory device to either the computer `c:' or the\n"
 "specified disk drive (`8:', `9:')."
 msgstr ""
+"Set the default memory device to either the computer `c:' or the\n"
+"specified disk drive (`8:', `9:')."
 
 #: src/translate_text.c.po.c:2245
 msgid "Leave the monitor and return to execution."
-msgstr ""
+msgstr "Leave the monitor and return to execution."
 
 #: src/translate_text.c.po.c:2262
 msgid "Exit the emulator immediately."
-msgstr ""
+msgstr "Выйти из эмулятора немедленно."
 
 #: src/translate_text.c.po.c:2279
 msgid ""
 "Set the default radix to hex, decimal, octal, or binary.  With no\n"
 "argument, the current radix is printed."
 msgstr ""
+"Set the default radix to hex, decimal, octal, or binary.  With no\n"
+"argument, the current radix is printed."
 
 #: src/translate_text.c.po.c:2296
 msgid ""
@@ -10218,55 +10266,64 @@ msgid ""
 "side-effects.  If the argument is 'toggle' then the current mode is\n"
 "switched.  No argument displays the current state."
 msgstr ""
+"Control how monitor generated reads affect memory locations that have\n"
+"read side-effects.  If the argument is 'on' then reads may cause\n"
+"side-effects.  If the argument is 'off' then reads don't cause\n"
+"side-effects.  If the argument is 'toggle' then the current mode is\n"
+"switched.  No argument displays the current state."
 
 #: src/translate_text.c.po.c:2313
 msgid "Disk commands"
-msgstr ""
+msgstr "Disk commands"
 
 #: src/translate_text.c.po.c:2330
 msgid "disk command"
-msgstr ""
+msgstr "disk command"
 
 #: src/translate_text.c.po.c:2347
 msgid ""
 "Perform a disk command on the currently attached disk image on drive 8.\n"
 "The specified disk command is sent to the drive's channel #15."
 msgstr ""
+"Perform a disk command on the currently attached disk image on drive 8.\n"
+"The specified disk command is sent to the drive's channel #15."
 
 #: src/translate_text.c.po.c:2364
 #: src/translate_text.c.po.c:10484
 msgid "device"
-msgstr ""
+msgstr "device"
 
 #: src/translate_text.c.po.c:2381
 msgid "file_index"
-msgstr ""
+msgstr "file_index"
 
 #: src/translate_text.c.po.c:2398
 msgid "autostart a given disk/tape image or program"
-msgstr ""
+msgstr "autostart a given disk/tape image or program"
 
 #: src/translate_text.c.po.c:2415
 msgid "autoload given disk/tape image or program"
-msgstr ""
+msgstr "autoload given disk/tape image or program"
 
 #: src/translate_text.c.po.c:2432
 msgid "Attach file to device. (device 32 = cart)"
-msgstr ""
+msgstr "Attach file to device. (device 32 = cart)"
 
 #: src/translate_text.c.po.c:2449
 msgid ""
 "Load the specified file into memory at the specified address.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
+"Load the specified file into memory at the specified address.\n"
+"If device is 0, the file is read from the file system."
 
 #: src/translate_text.c.po.c:2466
 msgid "track"
-msgstr ""
+msgstr "track"
 
 #: src/translate_text.c.po.c:2483
 msgid "sector"
-msgstr ""
+msgstr "сектор"
 
 #: src/translate_text.c.po.c:2500
 msgid ""
@@ -10274,34 +10331,41 @@ msgid ""
 "specified, the data is loaded into memory.  If no address is given, the\n"
 "data is displayed using the default datatype."
 msgstr ""
+"Read the block at the specified track and sector.  If an address is\n"
+"specified, the data is loaded into memory.  If no address is given, the\n"
+"data is displayed using the default datatype."
 
 #: src/translate_text.c.po.c:2517
 msgid ""
 "Save the memory from address1 to address2 to the specified file.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"Save the memory from address1 to address2 to the specified file.\n"
+"If device is 0, the file is written to the file system."
 
 #: src/translate_text.c.po.c:2534
 msgid ""
 "Write a block of data at `address' on the specified track and sector\n"
 "of disk in drive 8."
 msgstr ""
+"Write a block of data at `address' on the specified track and sector\n"
+"of disk in drive 8."
 
 #: src/translate_text.c.po.c:2585
 msgid "Change current working directory."
-msgstr ""
+msgstr "Сменить текущую рабочую директорию."
 
 #: src/translate_text.c.po.c:2602
 msgid "Detach file from device. (device 32 = cart)"
-msgstr ""
+msgstr "Detach file from device. (device 32 = cart)"
 
 #: src/translate_text.c.po.c:2619
 msgid "Display the directory contents."
-msgstr ""
+msgstr "Отобразить содержание директории."
 
 #: src/translate_text.c.po.c:2636
 msgid "List disk contents."
-msgstr ""
+msgstr "List disk contents."
 
 #: src/translate_text.c.po.c:2653
 msgid ""
@@ -10311,10 +10375,15 @@ msgid ""
 "specified.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
+"Load the specified file into memory at the specified address. Set BASIC\n"
+"pointers appropriately if loaded into computer memory (not all emulators).\n"
+"Use (otherwise ignored) two-byte load address from file if no address\n"
+"specified.\n"
+"If device is 0, the file is read from the file system."
 
 #: src/translate_text.c.po.c:2670
 msgid "Show current working directory."
-msgstr ""
+msgstr "Отобразить текущую рабочую директорию."
 
 #: src/translate_text.c.po.c:2687
 msgid ""
@@ -10322,76 +10391,87 @@ msgid ""
 "Write two-byte load address.\n"
 "If device is 0, the file is written to the file system."
 msgstr ""
+"Save the memory from address1 to address2 to the specified file.\n"
+"Write two-byte load address.\n"
+"If device is 0, the file is written to the file system."
 
 #: src/translate_text.c.po.c:2704
 msgid "Other commands"
-msgstr ""
+msgstr "Другие команды"
 
 #: src/translate_text.c.po.c:2721
 msgid "Display the specified number in decimal, hex, octal and binary."
-msgstr ""
+msgstr "Display the specified number in decimal, hex, octal and binary."
 
 #: src/translate_text.c.po.c:2738
 msgid "Use cartridge freeze."
-msgstr ""
+msgstr "Use cartridge freeze."
 
 #: src/translate_text.c.po.c:2755
 msgid ""
 "If no argument is given, prints out a list of all available commands\n"
 "If an argument is given, prints out specific help for that command."
 msgstr ""
+"If no argument is given, prints out a list of all available commands\n"
+"If an argument is given, prints out specific help for that command."
 
 #: src/translate_text.c.po.c:2772
 #: src/translate_text.c.po.c:11429
 msgid "string"
-msgstr ""
+msgstr "string"
 
 #: src/translate_text.c.po.c:2789
 #: src/translate_text.c.po.c:11446
 msgid "Put the specified string into the keyboard buffer."
-msgstr ""
+msgstr "Put the specified string into the keyboard buffer."
 
 #: src/translate_text.c.po.c:2806
 msgid ""
 "Monitor commands from the specified file are read and executed.  This\n"
 "command stops at the end of file or when a STOP command is read."
 msgstr ""
+"Monitor commands from the specified file are read and executed.  This\n"
+"command stops at the end of file or when a STOP command is read."
 
 #: src/translate_text.c.po.c:2823
 msgid "expression"
-msgstr ""
+msgstr "expression"
 
 #: src/translate_text.c.po.c:2840
 msgid "Evaluate the specified expression and output the result."
-msgstr ""
+msgstr "Evaluate the specified expression and output the result."
 
 #: src/translate_text.c.po.c:2857
 msgid ""
 "After this command, all commands entered are written to the specified\n"
 "file until the STOP command is entered."
 msgstr ""
+"After this command, all commands entered are written to the specified\n"
+"file until the STOP command is entered."
 
 #: src/translate_text.c.po.c:2874
 msgid "resource"
-msgstr ""
+msgstr "resource"
 
 #: src/translate_text.c.po.c:2891
 msgid "Displays the value of the resource."
-msgstr ""
+msgstr "Displays the value of the resource."
 
 #: src/translate_text.c.po.c:2925
 msgid "Sets the value of the resource."
-msgstr ""
+msgstr "Sets the value of the resource."
 
 #: src/translate_text.c.po.c:2942
 msgid "Stop recording commands.  See `record'."
-msgstr ""
+msgstr "Stop recording commands.  See `record'."
 
 #: src/translate_text.c.po.c:2959
 msgid ""
 "Take a screenshot. Format is:\n"
 "default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 msgstr ""
+"Take a screenshot. Format is:\n"
+"default = BMP, 1 = PCX, 2 = PNG, 3 = GIF, 4 = IFF."
 
 #: src/translate_text.c.po.c:2976
 msgid ""
@@ -10399,14 +10479,17 @@ msgid ""
 "0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
 "5 = reset, 6 = reset counter."
 msgstr ""
+"Control the datasette. Valid commands:\n"
+"0 = stop, 1 = start, 2 = forward, 3 = rewind, 4 = record,\n"
+"5 = reset, 6 = reset counter."
 
 #: src/translate_text.c.po.c:2995
 msgid "On autostart, load to BASIC start (without ',1')"
-msgstr ""
+msgstr "On autostart, load to BASIC start (without ',1')"
 
 #: src/translate_text.c.po.c:3012
 msgid "On autostart, load with ',1'"
-msgstr ""
+msgstr "On autostart, load with ',1'"
 
 #: src/translate_text.c.po.c:3029
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
