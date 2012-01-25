@@ -583,12 +583,6 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
     video_canvas_t *canvas = (video_canvas_t *)client_data;
     app_shell_type *appshell;
 
-    /* HACK avoid segfaults on vsid */
-    if (machine_class == VICE_MACHINE_VSID) {
-        return;
-    }
-
-    canvas = ui_cached_video_canvas; /* FIXME */
     appshell = &app_shells[canvas->app_shell];
 
     switch(report->type) {
@@ -1203,8 +1197,8 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)structure_callback_shell, (XtPointer)c);
 
         XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
+        XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, (XtPointer)c);
     }
-    XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, canvas);
 
     /* Create the status bar on the bottom.  */
     {
