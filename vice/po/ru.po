@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-12-28 13:34-0800\n"
-"PO-Revision-Date: 2012-01-24 13:34+0200\n"
+"PO-Revision-Date: 2012-01-26 22:07+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: \n"
@@ -10493,119 +10493,119 @@ msgstr "On autostart, load with ',1'"
 
 #: src/translate_text.c.po.c:3029
 msgid "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
-msgstr ""
+msgstr "On autostart, use the 'RUN' command with a colon, i.e., 'RUN:'"
 
 #: src/translate_text.c.po.c:3046
 msgid "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
-msgstr ""
+msgstr "On autostart, do not use the 'RUN' command with a colon; i.e., 'RUN'"
 
 #: src/translate_text.c.po.c:3080
 msgid "Do not handle True Drive Emulation on autostart"
-msgstr ""
+msgstr "Do not handle True Drive Emulation on autostart"
 
 #: src/translate_text.c.po.c:3097
 msgid "Enable warp mode during autostart"
-msgstr ""
+msgstr "Enable warp mode during autostart"
 
 #: src/translate_text.c.po.c:3114
 msgid "Disable warp mode during autostart"
-msgstr ""
+msgstr "Disable warp mode during autostart"
 
 #: src/translate_text.c.po.c:3131
 msgid "Set autostart mode for PRG files"
-msgstr ""
+msgstr "Set autostart mode for PRG files"
 
 #: src/translate_text.c.po.c:3148
 msgid "Set disk image for autostart of PRG files"
-msgstr ""
+msgstr "Set disk image for autostart of PRG files"
 
 #: src/translate_text.c.po.c:3165
 msgid "Set initial autostart delay (0: use default)"
-msgstr ""
+msgstr "Set initial autostart delay (0: use default)"
 
 #: src/translate_text.c.po.c:3182
 msgid "Enable random initial autostart delay."
-msgstr ""
+msgstr "Enable random initial autostart delay."
 
 #: src/translate_text.c.po.c:3199
 msgid "Disable random initial autostart delay."
-msgstr ""
+msgstr "Disable random initial autostart delay."
 
 #: src/translate_text.c.po.c:3216
 msgid "Use PAL sync factor"
-msgstr ""
+msgstr "Use PAL sync factor"
 
 #: src/translate_text.c.po.c:3233
 msgid "Use NTSC sync factor"
-msgstr ""
+msgstr "Use NTSC sync factor"
 
 #: src/translate_text.c.po.c:3250
 msgid "Use PAL-N sync factor"
-msgstr ""
+msgstr "Use PAL-N sync factor"
 
 #: src/translate_text.c.po.c:3267
 msgid "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
-msgstr ""
+msgstr "Burst modification (0 = None, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3301
 msgid "Specify name of international Kernal ROM image"
-msgstr ""
+msgstr "Specify name of international Kernal ROM image"
 
 #: src/translate_text.c.po.c:3318
 msgid "Specify name of German Kernal ROM image"
-msgstr ""
+msgstr "Specify name of German Kernal ROM image"
 
 #: src/translate_text.c.po.c:3335
 msgid "Specify name of Finnish Kernal ROM image"
-msgstr ""
+msgstr "Specify name of Finnish Kernal ROM image"
 
 #: src/translate_text.c.po.c:3352
 msgid "Specify name of French Kernal ROM image"
-msgstr ""
+msgstr "Specify name of French Kernal ROM image"
 
 #: src/translate_text.c.po.c:3369
 msgid "Specify name of Italian Kernal ROM image"
-msgstr ""
+msgstr "Specify name of Italian Kernal ROM image"
 
 #: src/translate_text.c.po.c:3386
 msgid "Specify name of Norwegian Kernal ROM image"
-msgstr ""
+msgstr "Specify name of Norwegian Kernal ROM image"
 
 #: src/translate_text.c.po.c:3403
 msgid "Specify name of Swedish Kernal ROM image"
-msgstr ""
+msgstr "Specify name of Swedish Kernal ROM image"
 
 #: src/translate_text.c.po.c:3420
 msgid "Specify name of BASIC ROM image (lower part)"
-msgstr ""
+msgstr "Specify name of BASIC ROM image (lower part)"
 
 #: src/translate_text.c.po.c:3437
 msgid "Specify name of BASIC ROM image (higher part)"
-msgstr ""
+msgstr "Specify name of BASIC ROM image (higher part)"
 
 #: src/translate_text.c.po.c:3454
 msgid "Specify name of international character generator ROM image"
-msgstr ""
+msgstr "Specify name of international character generator ROM image"
 
 #: src/translate_text.c.po.c:3471
 msgid "Specify name of German character generator ROM image"
-msgstr ""
+msgstr "Указать имя ROM образа генератора немецких символов"
 
 #: src/translate_text.c.po.c:3488
 msgid "Specify name of French character generator ROM image"
-msgstr ""
+msgstr "Указать имя ROM образа генератора французских символов"
 
 #: src/translate_text.c.po.c:3505
 msgid "Specify name of Swedish character generator ROM image"
-msgstr ""
+msgstr "Указать имя ROM образа генератора шведских символов"
 
 #: src/translate_text.c.po.c:3522
 msgid "Specify name of C64 mode Kernal ROM image"
-msgstr ""
+msgstr "Specify name of C64 mode Kernal ROM image"
 
 #: src/translate_text.c.po.c:3539
 msgid "Specify name of C64 mode BASIC ROM image"
-msgstr ""
+msgstr "Указать имя ROM образа режима C64 BASIC"
 
 #: src/translate_text.c.po.c:3556
 msgid "Enable the OEM userport joystick adapter"
