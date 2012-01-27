@@ -162,7 +162,7 @@ static struct RastPort *backRPort = NULL;   /* RastPort for our backbuffer (canv
 struct Process *self;
 struct Window *orig_windowptr;
 
-#ifndef WORKING_AROS_AUTO
+#if defined(AMIGA_AROS) && !defined(WORKING_AROS_AUTO)
 int aros_extra_init(void)
 {
     if ((AslBase = OpenLibrary("asl.library", 39L))) {
