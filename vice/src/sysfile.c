@@ -253,11 +253,17 @@ int sysfile_locate(const char *name, char **complete_path_return)
 
 /* ------------------------------------------------------------------------- */
 
+/*
+ * If minsize >= 0, and the file is smaller than maxsize, load the data
+ * into the end of the memory range.
+ * If minsize < 0, load it at the start.
+ */
 int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
 {
     FILE *fp = NULL;
     size_t rsize = 0;
     char *complete_path = NULL;
+    int load_at_end;
 
 
 /*
@@ -300,6 +306,12 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);
 
     rsize = util_file_length(fp);
+    if (minsize < 0) {
+	minsize = -minsize;
+	load_at_end = 0;
+    } else {
+	load_at_end = 1;
+    }
 
     if (rsize < ((size_t)minsize)) {
         log_error(LOG_DEFAULT, "ROM %s: short file.", complete_path);
@@ -314,7 +326,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         }
         rsize -= 2;
     }
-    if (rsize < ((size_t)maxsize)) {
+    if (load_at_end && rsize < ((size_t)maxsize)) {
         dest += maxsize - rsize;
     } else if (rsize > ((size_t)maxsize)) {
         log_warning(LOG_DEFAULT, "ROM `%s': long file, discarding end.",

@@ -303,6 +303,39 @@ static ui_menu_entry_t pet_romset_submenu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(SuperPET)
+UI_MENU_DEFINE_RADIO(CPUswitch)
+
+static ui_menu_entry_t superpet_cpuswitch_submenu[] = {
+    { "6502", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_CPUswitch, (ui_callback_data_t)SUPERPET_CPU_6502, NULL },
+    { "6809", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_CPUswitch, (ui_callback_data_t)SUPERPET_CPU_6809, NULL },
+    { "Prog", UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_CPUswitch, (ui_callback_data_t)SUPERPET_CPU_PROG, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t superpet_6809_roms_submenu[] = {
+    { N_("Load new $A*** ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"H6809RomAName", NULL },
+    { N_("Load new $B*** ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"H6809RomBName", NULL },
+    { N_("Load new $C*** ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"H6809RomCName", NULL },
+    { N_("Load new $D*** ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"H6809RomDName", NULL },
+    { N_("Load new $E*** ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"H6809RomEName", NULL },
+    { N_("Load new $F*** ROM"), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)ui_load_rom_file,
+      (ui_callback_data_t)"H6809RomFName", NULL },
+    { NULL }
+};
 
 static ui_menu_entry_t model_settings_submenu[] = {
     { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
@@ -321,6 +354,10 @@ static ui_menu_entry_t model_settings_submenu[] = {
       (ui_callback_t)toggle_SuperPET, NULL, NULL },
     { N_("SuperPET ACIA"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
+    { N_("SuperPET CPU Switch"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, superpet_cpuswitch_submenu },
+    { N_("SuperPET 6809 ROMs"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, superpet_6809_roms_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("$9*** as RAM (8296 only)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_Ram9, NULL, NULL },

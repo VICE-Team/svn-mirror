@@ -70,7 +70,7 @@
 #define KBD_INDEX_PET_BDES  4
 #define KBD_INDEX_PET_BDEP  5
 
-static int romset_firmware[7];
+static int romset_firmware[7 + NUM_6809_ROMS];
 
 static int sync_factor;
 
@@ -125,13 +125,13 @@ static int set_ramsize(int size, void *param)
     int i;
     const int sizes[] = { 4, 8, 16, 32, 96, 128 };
 
-    for (i = 0; i < 6; i++) {
+    for (i = 0; i < util_arraysize(sizes); i++) {
         if (size <= sizes[i])
             break;
     }
 
-    if (i > 5)
-        i = 5;
+    if (i > util_arraysize(sizes) - 1)
+        i = util_arraysize(sizes) - 1;
 
     size = sizes[i];
 
@@ -139,9 +139,9 @@ static int set_ramsize(int size, void *param)
     petres.map = 0;
 
     if (size == 96) {
-        petres.map = 1;         /* 8096 mapping */
+        petres.map = PET_MAP_8096;         /* 8096 mapping */
     } else if (size == 128) {
-        petres.map = 2;         /* 8296 mapping */
+        petres.map = PET_MAP_8296;         /* 8296 mapping */
     }
 
     petmem_check_info(&petres);
@@ -302,6 +302,41 @@ static int set_romset_firmware(int val, void *param)
     return 0;
 }
 
+static int set_h6809_rom_name(const char *val, void *param)
+{
+    unsigned int num = vice_ptr_to_uint(param);
+
+    if (util_string_set(&petres.h6809romName[num], val))
+        return 0;
+
+    return petrom_load_6809rom(num);
+}
+
+static int set_superpet_cpu_switch(int val, void *param)
+{
+    int i;
+    
+    switch (val) {
+	case 6502:
+	case SUPERPET_CPU_6502:
+	    i = SUPERPET_CPU_6502;
+	    break;
+	case 6809:
+	case SUPERPET_CPU_6809:
+	    i = SUPERPET_CPU_6809;
+	    break;
+	case SUPERPET_CPU_PROG:
+	    i = SUPERPET_CPU_PROG;
+	    break;
+	default:
+	    return -1;
+    }
+
+    petres.superpet_cpu_switch = i;
+
+    return 0;
+}
+
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
       &petres.chargenName, set_chargen_rom_name, NULL },
@@ -331,6 +366,18 @@ static const resource_string_t resources_string[] = {
     { "KeymapBusinessDEPosFile", KBD_PET_POS_DE, RES_EVENT_NO, NULL,
       &machine_keymap_file_list[5], keyboard_set_keymap_file, (void *)5 },
 #endif
+    { "H6809RomAName", "", RES_EVENT_NO, NULL,
+      &petres.h6809romName[0], set_h6809_rom_name, (void *)0 },
+    { "H6809RomBName", "", RES_EVENT_NO, NULL,
+      &petres.h6809romName[1], set_h6809_rom_name, (void *)1 },
+    { "H6809RomCName", "", RES_EVENT_NO, NULL,
+      &petres.h6809romName[2], set_h6809_rom_name, (void *)2 },
+    { "H6809RomDName", "", RES_EVENT_NO, NULL,
+      &petres.h6809romName[3], set_h6809_rom_name, (void *)3 },
+    { "H6809RomEName", "", RES_EVENT_NO, NULL,
+      &petres.h6809romName[4], set_h6809_rom_name, (void *)4 },
+    { "H6809RomFName", "", RES_EVENT_NO, NULL,
+      &petres.h6809romName[5], set_h6809_rom_name, (void *)5 },
     { NULL }
 };
 
@@ -358,28 +405,46 @@ static const resource_int_t resources_int[] = {
     { "EoiBlank", 0, RES_EVENT_SAME, NULL,
       &petres.eoiblank, set_eoiblank_enabled, NULL },
     { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
+      &romset_firmware[ 0], set_romset_firmware, (void *) 0 },
     { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
+      &romset_firmware[ 1], set_romset_firmware, (void *) 1 },
     { "RomsetEditorName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
+      &romset_firmware[ 2], set_romset_firmware, (void *) 2 },
     { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[3], set_romset_firmware, (void *)3 },
+      &romset_firmware[ 3], set_romset_firmware, (void *) 3 },
     { "RomsetRomModule9Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[4], set_romset_firmware, (void *)4 },
+      &romset_firmware[ 4], set_romset_firmware, (void *) 4 },
     { "RomsetRomModuleAName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[5], set_romset_firmware, (void *)5 },
+      &romset_firmware[ 5], set_romset_firmware, (void *) 5 },
     { "RomsetRomModuleBName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[6], set_romset_firmware, (void *)6 },
+      &romset_firmware[ 6], set_romset_firmware, (void *) 6 },
+    { "RomsetH6809RomAName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[ 7], set_romset_firmware, (void *) 7 },
+    { "RomsetH6809RomBName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[ 8], set_romset_firmware, (void *) 8 },
+    { "RomsetH6809RomCName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[ 9], set_romset_firmware, (void *) 9 },
+    { "RomsetH6809RomDName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[10], set_romset_firmware, (void *)10 },
+    { "RomsetH6809RomEName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[11], set_romset_firmware, (void *)11 },
+    { "RomsetH6809RomFName", 0, RES_EVENT_NO, NULL,
+      &romset_firmware[12], set_romset_firmware, (void *)12 },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_PET_BUKS, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },
 #endif
+    { "CPUswitch", 0, RES_EVENT_SAME, NULL,
+      &petres.superpet_cpu_switch, set_superpet_cpu_switch, NULL },
+//  { "SuperPETRamWriteProtect", 0, RES_EVENT_SAME, NULL,
+//    &petres.ramwp, set_super_write_protect, NULL },
     { NULL }
 };
 
 int pet_resources_init(void)
 {
+    int i;
+
     petres.chargenName = NULL;
     petres.kernalName = NULL;
     petres.editorName = NULL;
@@ -387,6 +452,11 @@ int pet_resources_init(void)
     petres.memBname = NULL;
     petres.memAname = NULL;
     petres.mem9name = NULL;
+
+    for (i = 0; i < NUM_6809_ROMS; i++) {
+	petres.h6809romName[i] = NULL;
+    }
+    petres.superpet_cpu_switch = SUPERPET_CPU_6502;
 
     if (resources_register_string(resources_string) < 0)
         return -1;
@@ -396,6 +466,8 @@ int pet_resources_init(void)
 
 void pet_resources_shutdown(void)
 {
+    int i;
+
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
     lib_free(machine_keymap_file_list[2]);
@@ -409,5 +481,9 @@ void pet_resources_shutdown(void)
     lib_free(petres.memBname);
     lib_free(petres.memAname);
     lib_free(petres.mem9name);
+
+    for (i = 0; i < NUM_6809_ROMS; i++) {
+	lib_free(petres.h6809romName[i]);
+    }
 }
 

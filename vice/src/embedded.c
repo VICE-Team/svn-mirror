@@ -67,11 +67,19 @@ static embedded_t commonfiles[] = {
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
 {
     int i = 0;
+    int load_at_start;
+
+    if (minsize < 0) {
+	minsize = -minsize;
+	load_at_start = 1;
+    } else {
+	load_at_start = 0;
+    }
 
     while (emb[i].name != NULL) {
         if (!strcmp(name, emb[i].name) && minsize == emb[i].minsize && maxsize == emb[i].maxsize) {
             if (emb[i].esrc != NULL) {
-                if (emb[i].size != minsize) {
+                if (emb[i].size != minsize || load_at_start) {
                     memcpy(dest, emb[i].esrc, maxsize);
                 } else {
                     memcpy(dest + maxsize - minsize, emb[i].esrc, minsize);

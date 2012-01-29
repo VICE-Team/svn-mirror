@@ -67,9 +67,12 @@ unsigned int mem_old_reg_pc;
 /* we keep the current system config in here. */
 
 petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-                    NULL, NULL, NULL,
-                    NULL, NULL, NULL,
-                    0, 0, 0, 0, 0, 0, 0, 0
+		    /* ROM image resources */
+                    NULL, NULL, NULL, NULL, NULL, NULL, NULL,
+		    /* SuperPET resources */
+		    { NULL }, SUPERPET_CPU_6502,
+		    /* runtime (derived) variables */
+                    0, PET_MAP_LINEAR, 0, 0, 0, 0, 0, 0
 };
 
 /* ------------------------------------------------------------------------- */
@@ -77,10 +80,12 @@ petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
 /* The PET memory. */
 
 #define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
+#define PET_6809_ROMSIZE	(NUM_6809_ROMS * 0x1000)
 
 BYTE mem_ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE mem_rom[PET_ROM_SIZE];
 BYTE mem_chargen_rom[PET_CHARGEN_ROM_SIZE];
+BYTE mem_6809rom[PET_6809_ROMSIZE];
 
 static int ram_size = RAM_ARRAY;       /* FIXME? */
 
@@ -101,6 +106,14 @@ int *mem_read_limit_tab_ptr;
 BYTE petmem_map_reg = 0;
 static int bank8offset = 0;
 static int bankCoffset = 0;
+
+/* memory tables for the 6809 */
+static read_func_ptr_t _mem6809_read_tab[0x101];
+static store_func_ptr_t _mem6809_write_tab[0x101];
+static read_func_ptr_t _mem_6809read_tab_watch[0x101];
+static store_func_ptr_t _mem6809_write_tab_watch[0x101];
+static BYTE *_mem6809_read_base_tab[0x101];
+static int mem6809_read_limit_tab[0x101];
 
 static log_t pet_mem_log = LOG_ERR;
 
@@ -170,30 +183,45 @@ void rom_store(WORD addr, BYTE value)
     mem_rom[addr & 0x7fff] = value;
 }
 
+#define ROM6809_BASE	0xA000
+
+BYTE rom6809_read(WORD addr)
+{
+    return mem_rom[addr - ROM6809_BASE];
+}
+
+void rom6809_store(WORD addr, BYTE value)
+{
+    mem_rom[addr - ROM6809_BASE] = value;
+}
+
 static BYTE read_unused(WORD addr)
 {
-    if (petreu_enabled && addr>=0x8800 && addr<0x8900)
-      return read_petreu_reg(addr);
-
-    if (petreu_enabled && addr>=0x8900 && addr<0x8a00)
-      return read_petreu_ram(addr);
-
-    if (petreu_enabled && addr>=0x8a00 && addr<0x8b00)
-      return read_petreu2_reg(addr);
+    if (petreu_enabled) {
+	if (addr >= 0x8800 && addr < 0x8900) {
+	    return read_petreu_reg(addr);
+	} else if (addr >= 0x8900 && addr < 0x8a00) {
+	    return read_petreu_ram(addr);
+	} else if (addr >= 0x8a00 && addr < 0x8b00) {
+	    return read_petreu2_reg(addr);
+	}
+    }
 
     if (petdww_enabled) {
-        if (addr>=0xeb00 && addr<0xec00) {
+        if (addr >= 0xeb00 && addr < 0xec00) {
             return read_petdww_reg(addr);
-        } else if (addr>=0xec00 && addr<0xf000 && !petdww_mem_at_9000()) {
+        } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
             return read_petdww_ec00_ram(addr);
         }
     }
 
-    if (sidcart_enabled() && sidcart_address==1 && addr>=0xe900 && addr<=0xe91f)
-      return sid_read(addr);
-
-    if (sidcart_enabled() && sidcart_address==0 && addr>=0x8f00 && addr<=0x8f1f)
-      return sid_read(addr);
+    if (sidcart_enabled()) {
+	if (sidcart_address == 1 && addr >= 0xe900 && addr <= 0xe91f) {
+	    return sid_read(addr);
+	} else if (sidcart_address == 0 && addr >= 0x8f00 && addr <= 0x8f1f) {
+	    return sid_read(addr);
+	}
+    }
 
     return (addr >> 8) & 0xff;
 }
@@ -403,30 +431,43 @@ static BYTE read_io(WORD addr)
     }
 }
 
+static void store_void(WORD addr, BYTE value)
+{
+    (void)value;
+}
+
+/*
+ * store_dummy() stores in normally-unassigned memory space,
+ * except that some hardware expansions may be there.
+ * For adresses < 0x8000 it is faster to use store_void().
+ */
 static void store_dummy(WORD addr, BYTE value)
 {
-    if (petreu_enabled && addr>=0x8800 && addr<0x8900)
-      store_petreu_reg(addr,value);
-
-    if (petreu_enabled && addr>=0x8900 && addr<0x8a00)
-      store_petreu_ram(addr,value);
-
-    if (petreu_enabled && addr>=0x8a00 && addr<0x8b00)
-      store_petreu2_reg(addr,value);
+    if (petreu_enabled) {
+	if (addr >= 0x8800 && addr < 0x8900) {
+	    store_petreu_reg(addr,value);
+	} else if (addr >= 0x8900 && addr < 0x8a00) {
+	    store_petreu_ram(addr,value);
+	} else if (addr >= 0x8a00 && addr < 0x8b00) {
+	    store_petreu2_reg(addr,value);
+	}
+    }
 
     if (petdww_enabled) {
-        if (addr>=0xeb00 && addr<0xec00) {
+        if (addr >= 0xeb00 && addr < 0xec00) {
             store_petdww_reg(addr, value);
-        } else if (addr>=0xec00 && addr<0xf000 && !petdww_mem_at_9000()) {
+        } else if (addr >= 0xec00 && addr < 0xf000 && !petdww_mem_at_9000()) {
             store_petdww_ec00_ram(addr, value);
         }
     }
 
-    if (sidcart_enabled() && sidcart_address==1 && addr>=0xe900 && addr<0xe91f)
-      sid_store(addr,value);
-
-    if (sidcart_enabled() && sidcart_address==0 && addr>=0x8f00 && addr<0x8f1f)
-      sid_store(addr,value);
+    if (sidcart_enabled()) {
+	if (sidcart_address == 1 && addr >= 0xe900 && addr < 0xe91f) {
+	    sid_store(addr,value);
+	} else if (sidcart_address == 0 && addr >= 0x8f00 && addr < 0x8f1f) {
+	    sid_store(addr,value);
+	}
+    }
 
     return;
 }
@@ -441,9 +482,9 @@ static void set_std_9tof(void)
     static void (*store)(WORD, BYTE);
     int ram9, rama;
 
-    store = (petres.map == 2) ? ram_store : store_dummy;
-    ram9 = (petres.map == 2 && petres.mem9) ? 1 : 0;
-    rama = (petres.map == 2 && petres.memA) ? 1 : 0;
+    store = (petres.map == PET_MAP_8296) ? ram_store : store_dummy;
+    ram9 = (petres.map == PET_MAP_8296 && petres.mem9) ? 1 : 0;
+    rama = (petres.map == PET_MAP_8296 && petres.memA) ? 1 : 0;
 
     /* Setup RAM/ROM at $9000 - $9FFF. */
     if (petres.superpet) {
@@ -509,7 +550,7 @@ static void set_std_9tof(void)
     } else
     if (petres.rompatch) {
         _mem_read_tab[0xef] = mem_read_patchbuf;
-        _mem_write_tab[0xef] = store_dummy;
+        _mem_write_tab[0xef] = store_void;
         _mem_read_base_tab[0xef] = petmem_2001_buf_ef;
         mem_read_limit_tab[0xef] = 0xeffd;
     }
@@ -534,20 +575,21 @@ void get_mem_access_tables(read_func_ptr_t **read, store_func_ptr_t **write, BYT
     *limit = mem_read_limit_tab;
 }
 
-static BYTE **mem_base_ptr;
-static int *mem_limit_ptr;
+static BYTE **cpu_mem_base_ptr;
+static int *cpu_mem_limit_ptr;
 
 void mem_set_bank_pointer(BYTE **base, int *limit)
 {
-    mem_base_ptr = base;
-    mem_limit_ptr = limit;
+    cpu_mem_base_ptr = base;
+    cpu_mem_limit_ptr = limit;
 }
 
 void invalidate_mem_limit(int lower, int upper)
 {
-    if (mem_limit_ptr && *mem_limit_ptr >= lower && *mem_limit_ptr < upper) {
-	*mem_limit_ptr = -1;
-	*mem_base_ptr = NULL;
+    if (cpu_mem_limit_ptr &&
+	    *cpu_mem_limit_ptr >= lower && *cpu_mem_limit_ptr < upper) {
+	*cpu_mem_limit_ptr = -1;
+	*cpu_mem_base_ptr = NULL;
     }
 }
 
@@ -686,7 +728,7 @@ static void store_8x96(WORD addr, BYTE value)
     return;
 }
 
-static int fff0_dump()
+static int fff0_dump(void)
 {
     mon_out("fff0 = %02x: ", petmem_map_reg);
     if (petmem_map_reg & 0x80) {
@@ -768,7 +810,7 @@ void mem_initialize_memory(void)
     _mem_read_tab[0] = zero_read;
     _mem_write_tab[0] = zero_store;
     _mem_read_base_tab[0] = mem_ram;
-    mem_read_limit_tab[0] = 0x00fd;     /* is this correct? */
+    mem_read_limit_tab[0] = 0x00fd;
 
     for (i = 0x01; i < l; i++) {
         _mem_read_tab[i] = ram_read;
@@ -780,7 +822,7 @@ void mem_initialize_memory(void)
     /* Setup unused from petres.ramSize to $7fff */
     for (i = l; i < 0x80; i++) {
         _mem_read_tab[i] = read_unused;
-        _mem_write_tab[i] = store_dummy;
+        _mem_write_tab[i] = store_void;
         _mem_read_base_tab[i] = NULL;
         mem_read_limit_tab[i] = -1;
     }
@@ -815,6 +857,46 @@ void mem_initialize_memory(void)
         store_8x96(0xfff0, old_map_reg);
     } else {
         petmem_map_reg = 0;
+    }
+
+
+    if (petres.superpet) {
+	/*
+	 * Initialize SuperPET 6809 memory view.
+	 * Basically, it is the same as the 6502 view, except for the
+	 * ROMs in addresses $A000 - $FFFF and but including the I/O range
+	 * of $E800 - $EFFF.
+	 */
+	for (i = 0x00; i < 0xa0; i++) {
+	    _mem6809_read_tab[i]      = _mem_read_tab[i];
+	    _mem6809_write_tab[i]     = _mem_write_tab[i];
+	    _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
+	    mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+	}
+	/*
+	 * Set up the ROMs.
+	 */
+	for (i = 0xa0; i < 0xe8; i++) {
+	    _mem6809_read_tab[i]      = rom6809_read;
+	    _mem6809_write_tab[i]     = store_void;
+	    _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
+	    mem6809_read_limit_tab[i] = 0xe7fc;
+	}
+	for (i = 0xf0; i < 0x100; i++) {
+	    _mem6809_read_tab[i]      = rom6809_read;
+	    _mem6809_write_tab[i]     = store_void;
+	    _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
+	    mem6809_read_limit_tab[i] = 0xfffc;
+	}
+	/*
+	 * Also copy the I/O setup from the 6502 view.
+	 */
+	for (i = 0xe8; i < 0xf0; i++) {
+	    _mem6809_read_tab[i]      = _mem_read_tab[i];
+	    _mem6809_write_tab[i]     = _mem_write_tab[i];
+	    _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
+	    mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+	}
     }
 }
 
@@ -1128,7 +1210,15 @@ static pet_table_t pet_table[] = {
     { "SuperPET",
       { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
         PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
-        NULL, NULL, NULL } },
+        NULL, NULL, NULL,
+        /*{ "waterloo-a000.901898-01.bin",
+            "waterloo-b000.901898-02.bin",
+            "waterloo-c000.901898-03.bin",
+            "waterloo-d000.901898-04.bin",
+            "waterloo-e000.901897-01.bin",
+            "waterloo-f000.901898-05.bin" }*/
+	{ NULL }	/* until the above files are in the distribution. */
+	} },
     { NULL }
 };
 
@@ -1172,6 +1262,17 @@ int pet_set_model_info(petinfo_t *pi)
         resources_set_string("RomModuleAName", pi->memAname);
     if (pi->memBname)
         resources_set_string("RomModuleBName", pi->memBname);
+    if (pi->superpet) {
+	int i;
+
+	for (i = 0; i < NUM_6809_ROMS; i++) {
+	    if (pi->h6809romName[i]) {
+		resources_set_string_sprintf("H6809Rom%cName",
+					    pi->h6809romName[i],
+					    'A'+i);
+	    }
+	}
+    }
     return 0;
 }
 

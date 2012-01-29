@@ -380,7 +380,7 @@ void petrom_checksum(void)
             || petres.editor_checksum == PET_EDIT4G40_CHECKSUM) {
             if (petres.editor_checksum != last_editor)
                 log_message(petrom_log,
-                            "Identified 80 columns editor by checksum.");
+                            "Identified 40 columns editor by checksum.");
             petres.rom_video = 40;
             autostart_init((CLOCK)(delay * PET_PAL_RFSH_PER_SEC
                            * PET_PAL_CYCLES_PER_RFSH),
@@ -417,17 +417,27 @@ void petrom_convert_chargen(BYTE *charrom)
 {
     int i, j;
 
-    /* Copy graphics charom to second part.  */
-    memmove(charrom + 0x800, charrom + 0x400, 0x400);
+    /*
+     * Make space for inverted versions of the characters,
+     * by moving 1K blocks of character data (128 chars each) apart.
+     */
+    memmove(charrom + 0x1800, charrom + 0x0c00, 0x400);
+    memmove(charrom + 0x1000, charrom + 0x0800, 0x400);
+    memmove(charrom + 0x0800, charrom + 0x0400, 0x400);
 
-    /* Inverted chargen into second half. This is a PET hardware feature.  */
+    /*
+     * Inverted chargen into second half. This is a PET hardware feature.
+     * After that we have 256-char charsets (2K each).
+     */
     for (i = 0; i < 0x400; i++) {
-        charrom[i + 0x400] = charrom[i] ^ 0xff;
-        charrom[i + 0xc00] = charrom[i + 0x800] ^ 0xff;
+        charrom[i + 0x0400] = charrom[i         ] ^ 0xff;
+        charrom[i + 0x0c00] = charrom[i + 0x0800] ^ 0xff;
+        charrom[i + 0x1400] = charrom[i + 0x1000] ^ 0xff;
+        charrom[i + 0x1c00] = charrom[i + 0x1800] ^ 0xff;
     }
 
     /* now expand 8 byte/char to 16 byte/char charrom for the CRTC */
-    for (i = 511; i>=0; i--) {
+    for (i = 1023; i>=0; i--) {
         for (j=7; j>=0; j--) {
             charrom[i*16+j] = charrom[i*8+j];
         }
@@ -466,8 +476,21 @@ void petrom_convert_chargen_2k(void)
     }
 }
 
+/*
+ * The Waterloo chargen rom is actually 4K, containing 2 sets of
+ * characters: Commodore's original, and Waterloo ASCII/APL.
+ * Selecting between the 2 is done with CRTC register $0C: $30 for the
+ * Waterloo fonts, $10 for the Commodore fonts.
+ * (Source: Appendix C of the SuperPET System Overview manual)
+ * From crtc/crtc-mem.c:
+ *       * Bit 5: use top half of 4K character generator
+ */
+
 int petrom_load_chargen(void)
 {
+    int rsize;
+    int numchars;
+
     if (!rom_loaded)
         return 0;
 
@@ -476,9 +499,14 @@ int petrom_load_chargen(void)
 
     /* Load chargen ROM - we load 2k with 8 bytes/char, and generate
        the inverted 2k. Then we expand the chars to 16 bytes/char
-       for the CRTC, filling the rest with zeros */
+       for the CRTC, filling the rest with zeros.
+       The SuperPET has a 4k ROM. The second half contains ASCII/APL
+       characters.
+     */
 
-    if (sysfile_load(petres.chargenName, mem_chargen_rom, 0x800, 0x800) < 0) {
+    //memset(mem_chargen_rom, 1, 0x1000);
+    rsize = sysfile_load(petres.chargenName, mem_chargen_rom, -0x800, 0x1000);
+    if (rsize < 0) {
         log_error(petrom_log,
                   "Couldn't load character ROM (%s).", petres.chargenName);
         return -1;
@@ -489,7 +517,8 @@ int petrom_load_chargen(void)
 
     petrom_convert_chargen(mem_chargen_rom);
 
-    crtc_set_chargen_addr(mem_chargen_rom, 512);
+    numchars = (rsize == 0x1000) ? 4 * 256 : 2 * 256;
+    crtc_set_chargen_addr(mem_chargen_rom, numchars);
 
     return 0;
 }
@@ -585,13 +614,12 @@ int petrom_load_editor(void)
     if (!util_check_null_string(petres.editorName)) {
         const char *name = petres.editorName;
 
-        if ((rsize = sysfile_load(name, mem_rom + 0x6000, 0x0800,
+        if ((rsize = sysfile_load(name, mem_rom + 0x6000, -0x0800,
             0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.", name);
             return -1;
         }
         if (rsize == 0x800) {
-            memcpy(mem_rom + 0x6000, mem_rom + 0x6800, 0x800);
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x6000 + i) = 0xe0 | (i >> 8);
         }
@@ -612,12 +640,11 @@ int petrom_load_rom9(void)
 
     if (!util_check_null_string(petres.mem9name)) {
         if ((rsize = sysfile_load(petres.mem9name,
-            mem_rom + 0x1000, 0x0800, 0x1000)) < 0) {
+            mem_rom + 0x1000, -0x0800, 0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.", petres.mem9name);
             return -1;
         }
         if (rsize == 0x800) {
-            memcpy(mem_rom + 0x1000, mem_rom + 0x1800, 0x800);
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x1000 + i) = 0x90 | (i >> 8);
         }
@@ -641,12 +668,11 @@ int petrom_load_romA(void)
 
     if (!util_check_null_string(petres.memAname)) {
         if ((rsize = sysfile_load(petres.memAname,
-            mem_rom + 0x2000, 0x0800, 0x1000)) < 0) {
+            mem_rom + 0x2000, -0x0800, 0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.", petres.memAname);
             return -1;
         }
         if (rsize == 0x800) {
-            memcpy(mem_rom + 0x2000, mem_rom + 0x2800, 0x800);
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x2000 + i) = 0xA0 | (i >> 8);
         }
@@ -670,13 +696,12 @@ int petrom_load_romB(void)
 
     if (!util_check_null_string(petres.memBname)) {
         if ((rsize = sysfile_load(petres.memBname, mem_rom + 0x3000,
-            0x0800, 0x1000)) < 0) {
+            -0x0800, 0x1000)) < 0) {
             log_error(petrom_log, "Couldn't load ROM `%s'.",
                       petres.memBname);
             return -1;
         }
         if (rsize == 0x800) {
-            memcpy(mem_rom + 0x3000, mem_rom + 0x3800, 0x800);
             for (i = 0x800; i < 0x1000; i++)
                 *(mem_rom + 0x3000 + i) = 0xB0 | (i >>  8);
         }
@@ -686,6 +711,42 @@ int petrom_load_romB(void)
             for (i = 0; i < 16; i++)
                 memset(mem_rom + 0x3000 + (i << 8), 0xB0 + i, 256);
             petrom_B_loaded = 0;
+        }
+    }
+    return 0;
+}
+
+/*
+ * Load a SuperPET 6809 ROM.
+ * This is set up so that there is a resource to name an image file for each
+ * original 4K (EP)ROM, but if a file is larger than that, it works too
+ * (unless you have overlapping files).
+ * It suffices to set H6809RomAName="waterloo-everything" if you
+ * have a single 24 KB file with all the ROM contents.
+ * Whatever is loaded into the I/O range E800..EFFF is automatically
+ * ignored by the memory mapping.
+ */
+int petrom_load_6809rom(int num)
+{
+    if (!rom_loaded)
+        return 0;
+
+    if (num >= NUM_6809_ROMS) {
+	return -1;
+    }
+
+    if (!util_check_null_string(petres.h6809romName[num])) {
+	int rsize;
+	int startoff = num * 0x1000;
+	int startaddr = 0xa000 + startoff;
+	int maxsize = 0x10000 - startaddr;
+	int minsize = (startaddr == 0xE000) ? -0x800 : -0x1000;
+
+        if ((rsize = sysfile_load(petres.h6809romName[num],
+			    mem_6809rom + startoff, minsize, maxsize)) < 0) {
+            log_error(petrom_log, "Couldn't load 6809 ROM `%s'.",
+                      petres.h6809romName[num]);
+            return -1;
         }
     }
     return 0;
@@ -733,6 +794,16 @@ int mem_load(void)
                     petres.rom_video);
     } else {
         log_message(petrom_log, "ROM screen width is unknown.");
+    }
+
+    {
+	int i;
+
+	for (i = 0; i < NUM_6809_ROMS; i++) {
+	    if (petrom_load_6809rom(i) < 0) {
+		return -1;
+	    }
+	}
     }
 
     mem_initialize_memory();

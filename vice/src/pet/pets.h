@@ -45,6 +45,15 @@
 #define PET_EDITOR4B40NAME  "edit4b40"
 
 #define PET_COLS 80
+#define PET_MAP_LINEAR          0
+#define PET_MAP_8096            1
+#define PET_MAP_8296            2
+
+#define SUPERPET_CPU_6502       0
+#define SUPERPET_CPU_6809       1
+#define SUPERPET_CPU_PROG       2
+
+#define NUM_6809_ROMS           6       /* at 0x[ABCDEF]000 */
 
 /* This struct is used to hold the default values for the different models */
 typedef struct petinfo_s {
@@ -69,6 +78,8 @@ typedef struct petinfo_s {
     const char  *memBname;      /* $B*** ROM image filename */
     const char  *memAname;      /* $A*** ROM image filename */
     const char  *mem9name;      /* $9*** ROM image filename */
+    /* SuperPET resources */
+    char        *h6809romName[NUM_6809_ROMS];   /* $[ABCDEF]*** */
 } petinfo_t;
 
 /* This struct holds the resources and some other runtime-derived info */
@@ -94,6 +105,10 @@ typedef struct petres_s {
     char        *memBname;      /* $B*** ROM image filename */
     char        *memAname;      /* $A*** ROM image filename */
     char        *mem9name;      /* $9*** ROM image filename */
+
+    /* SuperPET resources */
+    char        *h6809romName[NUM_6809_ROMS];   /* $[ABCDEF]*** */
+    int         superpet_cpu_switch; /* 0 = 6502, 1 = 6809E, 2 = "prog" */
 
     /* runtime (derived) variables */
     int         videoSize;      /* video RAM size (1k or 2k) */

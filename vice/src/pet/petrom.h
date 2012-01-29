@@ -38,6 +38,7 @@ extern int petrom_load_editor(void);
 extern int petrom_load_rom9(void);
 extern int petrom_load_romA(void);
 extern int petrom_load_romB(void);
+extern int petrom_load_6809rom(int num);
 
 extern void petrom_convert_chargen_2k(void);
 extern void petrom_convert_chargen(BYTE *charrom);

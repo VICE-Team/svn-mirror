@@ -36,7 +36,7 @@
 
 #define PET_RAM_SIZE            0x8000
 #define PET_ROM_SIZE            0x8000
-#define PET_CHARGEN_ROM_SIZE    0x2000
+#define PET_CHARGEN_ROM_SIZE    0x4000
 
 #define PET_KERNAL1_CHECKSUM    3236
 #define PET_KERNAL2_CHECKSUM    31896
@@ -51,6 +51,7 @@
 
 extern BYTE mem_chargen_rom[PET_CHARGEN_ROM_SIZE];
 extern BYTE mem_rom[PET_ROM_SIZE];
+extern BYTE mem_6809rom[];
 
 struct petres_s;
 struct petinfo_s;

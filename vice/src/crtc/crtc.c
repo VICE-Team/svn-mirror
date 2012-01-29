@@ -87,7 +87,7 @@ crtc_t crtc = {
     1,              /* hw_cols */
     0,              /* hw_blank */
     0x3ff,          /* vaddr_mask */
-    0x800,          /* vaddr_charswitch */
+    0x2000,         /* vaddr_charswitch */
     512,            /* vaddr_charoffset */
     0x1000          /* vaddr_revswitch */
 };
@@ -239,7 +239,10 @@ static inline void crtc_update_disp_char(void)
 /* return pixel aspect ratio for current video mode */
 /* FIXME: calculate proper values.
    look at http://www.codebase64.org/doku.php?id=base:pixel_aspect_ratio&s[]=aspect
-   for an example calculation
+   for an example calculation.
+   The Fat-40 models have a different aspect ratio than the older,
+   CRTC-less models, since they display their 40 characters in the same
+   space as 80 characters, and the screen is wider than before.
 */
 static float crtc_get_pixel_aspect(void)
 {
@@ -254,7 +257,7 @@ static float crtc_get_pixel_aspect(void)
             return 0.75f;
     }
 */
-    return 1.0f; /* assume 1:1 for CRTC */
+    return 1.0f; /* assume 1:1 for CRTC; corrected by 1x2 render mode */
 }
 
 /* return type of monitor used for current video mode */
