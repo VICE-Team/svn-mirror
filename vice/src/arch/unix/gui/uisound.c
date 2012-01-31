@@ -111,7 +111,7 @@ static ui_menu_entry_t set_sound_suspend_time_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_sound_adjustment_submenu [] = {
+static ui_menu_entry_t set_sound_adjustment_submenu[] = {
     { N_("Flexible"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SoundSpeedAdjustment,
       (ui_callback_data_t)SOUND_ADJUST_FLEXIBLE, NULL },
@@ -124,7 +124,7 @@ static ui_menu_entry_t set_sound_adjustment_submenu [] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_sound_outmode_submenu [] = {
+static ui_menu_entry_t set_sound_outmode_submenu[] = {
     { N_("System"), UI_MENU_TYPE_TICK,
       (ui_callback_t)radio_SoundOutput,
       (ui_callback_data_t)SOUND_OUTPUT_SYSTEM, NULL },
