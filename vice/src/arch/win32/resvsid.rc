@@ -160,11 +160,11 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "Indlæs PSID-fil"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "Overstyr PSID-indstillinger"
   IDS_MP_MEDIA            "Media"
 END
 
@@ -176,11 +176,11 @@ LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "PSID Datei laden"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "PSID Einstellungen ignorieren"
   IDS_MP_MEDIA            "Media"
 END
 
@@ -192,11 +192,11 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "Cargar fichero PSID"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "No utilizar ajustes PSID"
   IDS_MP_MEDIA            "Media"
 END
 
@@ -208,7 +208,7 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "Charger le fichier PSID"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
@@ -227,7 +227,7 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "PSID fájl betöltése"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
@@ -246,11 +246,11 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "Carica file PSID"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "Sovrascrivi impostazioni PSID"
   IDS_MP_MEDIA            "Media"
 END
 
@@ -265,11 +265,11 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "PSID ÆÄÀÏ ºÒ·¯¿À±â"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "PSID ¼ÂÆÃ ¿À¹ö¶óÀÌµå ÇÏ±â"
   IDS_MP_MEDIA            "Media"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -282,13 +282,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_PSID_FILE           "Selecteer PSID bestand"
+  IDS_TUNE_NR             "Deuntje nummer"
+  IDS_MI_LOAD_PSID_FILE   "Laad PSID bestand"
+  IDS_MI_SELECT_TUNE      "Selecteer deuntje"
+  IDS_MI_NEXT_TUNE        "Volgend deuntje"
+  IDS_MI_PREVIOUS_TUNE    "Vorig deuntje"
+  IDS_MI_PSID_OVERRIDE    "Overschrijf PSID instellingen"
   IDS_MP_MEDIA            "Media"
 END
 
@@ -303,11 +303,11 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "Wczytaj plik PSID"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "Nadpisz ustawienia PSID"
   IDS_MP_MEDIA            "Media"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -344,11 +344,11 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "Läs PSID-fil"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "Överskugga PSID-inställningar"
   IDS_MP_MEDIA            "Media"
 END
 
@@ -363,13 +363,15 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Select PSID file"
   IDS_TUNE_NR             "Tune number"
-  IDS_MI_LOAD_PSID_FILE   "Load PSID file"
+  IDS_MI_LOAD_PSID_FILE   "PSID dosyasý yükle"
   IDS_MI_SELECT_TUNE      "Select tune"
   IDS_MI_NEXT_TUNE        "Next tune"
   IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
+  IDS_MI_PSID_OVERRIDE    "PSID ayarlarýný geçersiz kýl"
   IDS_MP_MEDIA            "Media"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

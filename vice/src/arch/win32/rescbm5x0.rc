@@ -326,7 +326,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
-  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_SELECT_CBMII_MEM_64       "64 kbyte"
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
@@ -365,7 +365,7 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
-  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_SELECT_CBMII_MEM_64       "64 kOctets"
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
@@ -413,7 +413,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
-  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_SELECT_CBMII_MEM_64       "64 kbyte"
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
@@ -428,11 +428,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_CBM5X0_SETTINGS           "CBM5x0 instellingen"
   IDS_SELECT_CBMII_MEM_64       "64 kByte"
   IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 instellingen..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model instellingen..."
 END
 
 
@@ -445,7 +445,7 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
-  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_SELECT_CBMII_MEM_64       "64 kBajty"
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
@@ -480,7 +480,7 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
-  IDS_SELECT_CBMII_MEM_64       "64 kByte"
+  IDS_SELECT_CBMII_MEM_64       "64 kbyte"
   IDS_CBM5X0MODEL               "CBM5x0 model"
   IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
   IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
@@ -504,3 +504,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

@@ -90,7 +90,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Autostart Warp"
     IDS_AUTOSTART_COLON_RUN                  "Verwende ':' mit RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Lade an Basic Start"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Zufallsverzögerung"
     IDS_AUTOSTART_PRG_MODE                   "PRG Autostartmodus"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG Autostart Disk Image"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Datei für PRG Autostart auswählen"
@@ -109,7 +109,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Autoarranque Warp"
     IDS_AUTOSTART_COLON_RUN                  "Usar ':' con RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Cargar a inicio BASIC"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Retardo aleatorio"
     IDS_AUTOSTART_PRG_MODE                   "Modo autoarranque PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "Autoarranque imagen disco PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Seleccionar fichero par autorranque disco para PRG"
@@ -172,7 +172,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Avvio automatico in turbo"
     IDS_AUTOSTART_COLON_RUN                  "Usa ':' con RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Carica all'inizio del BASIC"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Ritardo casuale"
     IDS_AUTOSTART_PRG_MODE                   "Avvio automatico PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "Immagine disco avvio automatico PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Seleziona file per avvio automatico PRG"
@@ -238,7 +238,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Turbo przy autostarcie"
     IDS_AUTOSTART_COLON_RUN                  "U¿ywaj ':' z RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Wczytuj do BASIC-a"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Losowe opó¼nienie"
     IDS_AUTOSTART_PRG_MODE                   "Tryb autostartu z PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "Obraz dyskietki do autostartu z PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Wybierz plik dysku do automatycznego startu z PRG"
@@ -259,9 +259,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart settings"
+    IDS_AUTOSTART_CAPTION                    "½ÐáâàÞÙÚØ ÐÒâÞ×ÐßãáÚÐ"
     IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use '"
+    IDS_AUTOSTART_COLON_RUN                  "Use ':' with RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
     IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
     IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
@@ -269,7 +269,7 @@ BEGIN
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
     IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
     IDS_AUTOSTART_INJECT                     "Inject to RAM"
-    IDS_AUTOSTART_DISK                       "Disk image"
+    IDS_AUTOSTART_DISK                       "¾ÑàÐ× ÔØáÚÐ"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -285,7 +285,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Starta warp automatiskt"
     IDS_AUTOSTART_COLON_RUN                  "Använd \042:\042 med RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Läs till BASIC-start"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Slumpmässig fördröjning"
     IDS_AUTOSTART_PRG_MODE                   "Autostartläge för PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "Autostartdiskavbildning för PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Välj fil för PRG-autostartdisk"

@@ -340,7 +340,7 @@ BEGIN
   IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE    "Sample method"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
-  IDS_HARDSID_GROUP       "Device selection"
+  IDS_HARDSID_GROUP       "Выбор устройства"
   IDS_HARDSID_LEFT_LABEL  "Left/Main device"
   IDS_HARDSID_RIGHT_LABEL "Right device"
 END

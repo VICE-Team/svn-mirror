@@ -1240,7 +1240,7 @@ BEGIN
     IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernetinställningar (MasC=uerade)..."
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Inställningar för SFX Sound Expander (MasC=uerade)..."
-    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
+    IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Inställningar för SFX Sound Sampler (MasC=uerade)..."
 END
 
 

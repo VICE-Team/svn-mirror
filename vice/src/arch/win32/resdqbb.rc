@@ -196,7 +196,7 @@ BEGIN
   IDS_DQBB_CAPTION      "Double Quick Brown Box settings"
   IDS_DQBB_ENABLE       "Enable Double Quick Brown Box"
   IDS_DQBB_WRITE_ENABLE "Save DQBB image when changed"
-  IDS_DQBB_FILE_LABEL   "DQBB file"
+  IDS_DQBB_FILE_LABEL   "дпыш DQBB"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

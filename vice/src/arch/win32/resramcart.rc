@@ -219,7 +219,7 @@ LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart settings"
   IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_READONLY     "Только чтение"
   IDS_RAMCART_SIZE         "RamCart size"
   IDS_RAMCART_WRITE_ENABLE "Save to RamCart image when changed"
   IDS_RAMCART_FILE         "RamCart file"

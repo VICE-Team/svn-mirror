@@ -325,9 +325,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "CBM2-indstillinger"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "CBM2-indstillinger..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 
@@ -337,9 +337,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "CBM2 Einstellungen"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "CBM2 Einstellungen..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 
@@ -349,9 +349,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "Ajustes CBM2"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "Ajustes CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 
@@ -361,9 +361,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "Paramètres CBM2"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "Paramètres CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 
@@ -376,9 +376,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "CBM2 beállításai"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "CBM2 beállításai..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -391,9 +391,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "Impostazioni CBM2"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "Impostazioni CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 
@@ -421,10 +421,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "CBM2 instellingen"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2_SETTINGS        "CBM2 instellingen..."
+  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model instellingen..."
 END
 
 
@@ -436,9 +436,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "Ustawienia CBM2"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "Ustawienia CBM2..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -469,9 +469,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "CBM2-inställningar"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "CBM2-inställningar..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 
@@ -484,11 +484,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM2_SETTINGS           "CBM2 settings"
+  IDS_CBM2_SETTINGS           "CBM2 ayarlarý"
   IDS_CBM2MODEL               "CBM2 model"
-  IDS_MI_CBM2_SETTINGS        "CBM2 settings..."
+  IDS_MI_CBM2_SETTINGS        "CBM2 ayarlarý..."
   IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
