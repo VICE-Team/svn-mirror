@@ -905,24 +905,20 @@ msgid "Unload $B*** ROM"
 msgstr "Verwijder $B*** ROM"
 
 #: src/arch/unix/gui/petui.c:325
-#, fuzzy
 msgid "Load new $C*** ROM"
-msgstr "Laad nieuw $9*** ROM"
+msgstr "Laad nieuw $C*** ROM"
 
 #: src/arch/unix/gui/petui.c:328
-#, fuzzy
 msgid "Load new $D*** ROM"
-msgstr "Laad nieuw $9*** ROM"
+msgstr "Laad nieuw $D*** ROM"
 
 #: src/arch/unix/gui/petui.c:331
-#, fuzzy
 msgid "Load new $E*** ROM"
-msgstr "Laad nieuw $9*** ROM"
+msgstr "Laad nieuw $E*** ROM"
 
 #: src/arch/unix/gui/petui.c:334
-#, fuzzy
 msgid "Load new $F*** ROM"
-msgstr "Laad nieuw $9*** ROM"
+msgstr "Laad nieuw $F*** ROM"
 
 #: src/arch/unix/gui/petui.c:344 src/arch/amigaos/intl_text.c.po.c:8926
 msgid "Video size"
@@ -946,13 +942,12 @@ msgid "SuperPET ACIA"
 msgstr "SuperPET ACIA"
 
 #: src/arch/unix/gui/petui.c:357
-#, fuzzy
 msgid "SuperPET CPU Switch"
-msgstr "SuperPET ACIA"
+msgstr "SuperPET CPU Schakelaar"
 
 #: src/arch/unix/gui/petui.c:359
 msgid "SuperPET 6809 ROMs"
-msgstr ""
+msgstr "SuperPET 6809 ROMs"
 
 #: src/arch/unix/gui/petui.c:362
 msgid "$9*** as RAM (8296 only)"
@@ -4054,9 +4049,8 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - Turks\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
-#, fuzzy
 msgid "(c) 1998 - 2012 The VICE Team"
-msgstr "(c) 1998 - 2011 The VICE Team"
+msgstr "(c) 1998 - 2012 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:128 src/arch/win32/res.rc.po.c:1084
 #: src/arch/win32/res.rc.po.c:1552 src/arch/amigaos/intl_text.c.po.c:3115
@@ -4684,94 +4678,76 @@ msgid "Version 0.0"
 msgstr "Versie 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2012 Dag Lem"
-msgstr "Copyright (c) 1998-2011 Dag Lem"
+msgstr "Copyright (c) 1998-2012 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2012 Andreas Matthies"
-msgstr "Copyright (c) 1999-2011 Andreas Matthies"
+msgstr "Copyright (c) 1999-2012 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 1999-2012 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2011 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2012 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2000-2012 Spiro Trikaliotis"
-msgstr "Copyright (c) 2000-2011 Spiro Trikaliotis"
+msgstr "Copyright (c) 2000-2012 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2005-2012 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2010 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2012 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2006-2012 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2011 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2012 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2012 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2011 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2012 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2007-2012 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2011 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2012 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2008-2012 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2011 Antti S. Lankila"
+msgstr "Copyright (c) 2008-2012 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Groepaz"
-msgstr "Copyright (c) 2009-2011 Groepaz"
+msgstr "Copyright (c) 2009-2012 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Ingo Korb"
-msgstr "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Copyright (c) 2009-2012 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Errol Smith"
-msgstr "Copyright (c) 2009-2011 Errol Smith"
+msgstr "Copyright (c) 2009-2012 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:194
-#, fuzzy
 msgid "Copyright (c) 2010-2012 Olaf Seibert"
-msgstr "Copyright (c) 2010-2011 Olaf Seibert"
+msgstr "Copyright (c) 2010-2012 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Marcus Sutton"
-msgstr "Copyright (c) 2011      Marcus Sutton"
+msgstr "Copyright (c) 2011-2012 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Ulrich Schulz"
-msgstr "Copyright (c) 2011      Ulrich Schulz"
+msgstr "Copyright (c) 2011-2012 Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Stefan Haubenthal"
-msgstr "Copyright (c) 2011      Stefan Haubenthal"
+msgstr "Copyright (c) 2011-2012 Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Thomas Giesel"
-msgstr "Copyright (c) 2011      Thomas Giesel"
+msgstr "Copyright (c) 2011-2012 Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Kajtar Zsolt"
-msgstr "Copyright (c) 2011      Kajtar Zsolt"
+msgstr "Copyright (c) 2011-2012 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:965 src/arch/amigaos/intl_text.c.po.c:4109
 msgid "VICE Question"
@@ -5264,24 +5240,21 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE momentopnamebestanden (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1113
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
 "*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*."
-"prg;*.p00)"
+"CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1114
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-msgstr ""
+msgstr "IDE64 bestanden (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1115
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.x64)"
-msgstr "Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr "Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1116
 msgid "Tape image files (*.t64;*.tap)"
@@ -6689,9 +6662,8 @@ msgid "C64DTV settings"
 msgstr "C64DTV Instellingen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:474 src/arch/win32/resc64dtv.rc.po.c:481
-#, fuzzy
 msgid "C64DTV model"
-msgstr "DTV model"
+msgstr "C64DTV model"
 
 #: src/arch/win32/resc64dtv.rc.po.c:475 src/translate_text.c.po.c:4225
 msgid "Enable Hummer ADC"
@@ -6714,9 +6686,8 @@ msgid "Create"
 msgstr "Maak"
 
 #: src/arch/win32/resc64dtv.rc.po.c:483
-#, fuzzy
 msgid "C64DTV model settings"
-msgstr "C64 model instellingen"
+msgstr "C64DTV model instellingen"
 
 #: src/arch/win32/resc64dtv.rc.po.c:485
 msgid "Attach flash rom image"
@@ -6752,24 +6723,20 @@ msgid "1024 kByte"
 msgstr "1024 kByte"
 
 #: src/arch/win32/rescbm2common.rc.po.c:207
-#, fuzzy
 msgid "Attach cartridge image at $1000"
-msgstr "Koppel 4KB bestand op $B000"
+msgstr "Koppel cartridge bestand op $1000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:208
-#, fuzzy
 msgid "Attach cartridge image at $2000/$3000"
-msgstr "Koppel 4KB bestand op $B000"
+msgstr "Koppel cartridge bestand op $2000/$3000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:209
-#, fuzzy
 msgid "Attach cartridge image at $4000/$5000"
-msgstr "Koppel 4KB bestand op $B000"
+msgstr "Koppel cartridge bestand op $4000/$5000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:210
-#, fuzzy
 msgid "Attach cartridge image at $6000/$7000"
-msgstr "Koppel 4KB bestand op $B000"
+msgstr "Koppel cartridge bestand op $6000/$7000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
 msgid "Load new Cart $1***"
@@ -6810,33 +6777,28 @@ msgid "CBM2 settings"
 msgstr "CBM2 instellingen"
 
 #: src/arch/win32/rescbm2.rc.po.c:299
-#, fuzzy
 msgid "CBM2 model"
-msgstr "C128 model"
+msgstr "CBM2 model"
 
 #: src/arch/win32/rescbm2.rc.po.c:301
-#, fuzzy
 msgid "CBM2 model settings"
-msgstr "CBM-II model instellingen"
+msgstr "CBM2 model instellingen"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:297 src/arch/win32/rescbm5x0.rc.po.c:300
-#, fuzzy
 msgid "CBM5x0 settings"
-msgstr "CBM2 instellingen"
+msgstr "CBM5x0 instellingen"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:298 src/arch/win32/resplus4.rc.po.c:487
 msgid "64 kByte"
 msgstr "64 kByte"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:299
-#, fuzzy
 msgid "CBM5x0 model"
-msgstr "VDC model"
+msgstr "CBM5x0 model"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:301
-#, fuzzy
 msgid "CBM5x0 model settings"
-msgstr "CBM-II model instellingen"
+msgstr "CBM5x0 model instellingen"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:12978
 msgid "Enable the DigiMAX cartridge"
@@ -6904,33 +6866,28 @@ msgid "IDE64 V4 settings"
 msgstr "IDE64 V4 instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 primary master device settings"
-msgstr "IDE64 HD bestand #1 instellingen"
+msgstr "IDE64 primair hoofd apparaat instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 primary slave device settings"
-msgstr "IDE64 HD bestand #1 instellingen"
+msgstr "IDE64 HD primair slaaf apparaat instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 secondary master device settings"
-msgstr "IDE64 HD bestand #4 instellingen"
+msgstr "IDE64 secondair hoofd apparaat instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 secondary slave device settings"
-msgstr "Opgeslagen instellingen laden"
+msgstr "IDE64 secondair slaaf apparaat instellingen"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
 msgstr "Activeer IDE64 V4"
 
 #: src/arch/win32/reside64.rc.po.c:61
-#, fuzzy
 msgid "ATA device image file"
-msgstr "Card bestand"
+msgstr "ATA apparaat bestand"
 
 #: src/arch/win32/reside64.rc.po.c:62
 msgid "Geometry"
@@ -6942,9 +6899,8 @@ msgid "Total size: %iKB"
 msgstr "Totale grootte: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:68
-#, fuzzy
 msgid "Select ATA device image file"
-msgstr "Selecteer card bestand"
+msgstr "Selecteer ATA apparaat bestand"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:5747
 msgid "Select file for ISEPIC"
@@ -7462,34 +7418,28 @@ msgid "Sprite Collisions"
 msgstr "Sprite Botsingen"
 
 #: src/arch/win32/resvsid.rc.po.c:31 src/arch/win32/resvsid.rc.po.c:138
-#, fuzzy
 msgid "Media"
-msgstr "Middelmatig"
+msgstr "Media"
 
 #: src/arch/win32/resvsid.rc.po.c:131
-#, fuzzy
 msgid "Select PSID file"
-msgstr "Selecteer BIOS bestand"
+msgstr "Selecteer PSID bestand"
 
 #: src/arch/win32/resvsid.rc.po.c:132
-#, fuzzy
 msgid "Tune number"
-msgstr "lijnnummer"
+msgstr "Deuntje nummer"
 
 #: src/arch/win32/resvsid.rc.po.c:134
-#, fuzzy
 msgid "Select tune"
-msgstr "Selecteer Stuurprogramma"
+msgstr "Selecteer deuntje"
 
 #: src/arch/win32/resvsid.rc.po.c:135
-#, fuzzy
 msgid "Next tune"
-msgstr "Volgende: "
+msgstr "Volgend deuntje"
 
 #: src/arch/win32/resvsid.rc.po.c:136
-#, fuzzy
 msgid "Previous tune"
-msgstr "Vorige: "
+msgstr "Vorig deuntje"
 
 #: src/arch/amigaos/intl_text.c.po.c:609
 msgid "Function low  image (3plus1)"
