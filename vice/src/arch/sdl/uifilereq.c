@@ -131,6 +131,8 @@ static void sdl_ui_print_translate_seperator(const char *text, int x, int y)
     sdl_ui_print(new_text, x, y);
     lib_free(new_text);
 }
+#else
+#define sdl_ui_print_translate_seperator(t, x, y) sdl_ui_print(t, x, y)
 #endif
 
 static void sdl_ui_display_path(const char *current_dir)
@@ -180,17 +182,9 @@ static void sdl_ui_display_path(const char *current_dir)
             text[before + 3 + i] = text[pos + i];
         }
         text[before + 3 + after] = 0;
-#if (FSDEV_DIR_SEP_CHR=='\\')
         sdl_ui_print_translate_seperator(text, 0, 2);
-#else
-        sdl_ui_print(text, 0, 2);
-#endif
     } else {
-#if (FSDEV_DIR_SEP_CHR=='\\')
         sdl_ui_print_translate_seperator(current_dir, 0, 2);
-#else
-        sdl_ui_print(current_dir, 0, 2);
-#endif
     }
 
     lib_free(text);
