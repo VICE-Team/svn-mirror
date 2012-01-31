@@ -1,5 +1,747 @@
 ------------------------------------------------------------------------------
 
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
+	doc/vice.guide, doc/vice.chm, configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, po/es.po, po/ko.po, po/fr.po,
+	po/da.po, po/tr.po, po/sv.po, po/de.po, po/hu.po, po/ru.po, po/nl.po,
+	po/pl.po, po/it.po: VICE 2.3.14
+
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/sv.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm2common.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmouse.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressiddtv.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-01-31  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/monitor.h: Remove.
+
+
+2012-01-31  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/monitor6809.h: Rename, to avoid clash with already existing
+	file with the same name.
+
+
+2012-01-31  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/6809.h, src/pet/monitor.c,
+	src/pet/monitor.h: Throw in a 6809 CPU! It rattles around inside the
+	SuperPET box, since 
+it isn't plugged in yet. 
+These are the original
+	files I intend to use, before any change, in order to 
+keep history.
+	Source: https://github.com/bcd/exec09 rev
+	commit/642e684b9d225a6d0a3d7121ed23ba79c76b9fc5
+ found via:
+	http://koti.mbnet.fi/~atjs/mc6809/#Emu, gcc6809
+
+
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_amiga.c: Fixed a typo.
+
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/uifilereq.c: Simplified the directory separation
+	handling.
+
+2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uisound.c: Consistency.
+
+2012-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/vsidns.c: Fixed
+	amigaos Makefile.am
+
+2012-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uilib.c: Added d1m, d2m and d4m image creation to the
+	windows ui.
+
+2012-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resvic20.rc: Made the cart and I/O-extensions show up
+	in alphabetical order.
+
+2012-01-29  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/petui.c, src/crtc/crtc.c, src/embedded.c,
+	src/pet/pet-cmdline-options.c, src/pet/pet-resources.c, src/pet/pet.c,
+	src/pet/petmem.c, src/pet/petmem.h, src/pet/petrom.c,
+	src/pet/petrom.h, src/pet/petromset.c, src/pet/pets.h, src/sysfile.c:
+	Add some SuperPET hardware. Most of it doesn't do anything yet without
+	a CPU, but the double sized character generator ROM can be seen
+	working 
+according to the instructions in the SuperPET overview
+	manual:
+	100 for i = 0 to 255
+	110 poke 32768 + i, i
+
+	120 next
+
+	200 poke 59520,12: poke 59521,16+32
+
+	210 for t=0 to 3000: next
+	220 poke 59520,12: poke 59521,16
+	230 for t=0 to 3000: next
+	240 goto 200
+
+
+2012-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/video.c: Fixed for non-aros amiga systems.
+
+2012-01-26  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-24  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Fix a HACK and a FIXME in Xaw's
+	mouse_handler_canvas().
+
+
+2012-01-24  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/x11ui.c:
+	Implement ui_focus_monitor() for Xaw UI, slightly changed from the
+	gnome 
+version.
+
+
+2012-01-24  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/info-files/morphos/vsid.info,
+	src/arch/amigaos/info-files/morphos/x64dtv.info,
+	src/arch/amigaos/info-files/morphos/x64sc.info,
+	src/arch/amigaos/info-files/morphos/xcbm5x0.info,
+	src/arch/amigaos/info-files/vsid.exe.info,
+	src/arch/amigaos/info-files/x64dtv.exe.info,
+	src/arch/amigaos/info-files/x64sc.exe.info,
+	src/arch/amigaos/info-files/xcbm5x0.exe.info,
+	src/arch/amigaos/make-bindist.sh, src/arch/amigaos/vsidns.c,
+	src/arch/amigaos/xcbm5x0ns.c: Fixed amiga icons and bindist script.
+
+2012-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/reside64.rc: Changed ide64 references to 'hd image'
+	to 'primary/secondary master/slave device image' in the windows gui.
+
+2012-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/uilib.c: Added d1m/d2m/d4m to
+	the disk filters for the windows gui.
+
+2012-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uiide64.c, src/arch/win32/uilib.c,
+	src/arch/win32/uilib.h: Added ide64 file filters to the windows gui.
+
+2012-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/amigaos/amigamain.c,
+	src/arch/amigaos/video.c: Some 64bit aros fixes.
+
+2012-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm2common.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt: Fixed the
+	cbm2/cbm5x0 carts for the windows gui.
+
+2012-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/psid.c: Warning fix.
+
+2012-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/plus4ui.c,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	src/arch/win32/resdriveplus4.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/uidrivec128.c,
+	src/arch/win32/uidrivec64.c, src/arch/win32/uidriveplus4.c,
+	src/arch/win32/uidrivevic20.c, src/arch/win32/vic20ui.c: Added
+	fd2000/fd4000 items to the windows dialogs.
+
+2012-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/xvic.dsp: Fixed a typo.
+
+2012-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/Makefile.am: Fixed.
+
+2012-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/amigaos/amigamain.c,
+	src/arch/amigaos/timer.h, src/arch/amigaos/ui.c,
+	src/arch/amigaos/vsyncapi.c: Aros fixes.
+
+2012-01-19  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-18  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/cbm5x0ui.cc, src/cbm2/cbm2model.c,
+	src/cbm2/cbm2model.h, src/cbm2/cbm5x0.c, src/plus4/plus4model.c,
+	src/plus4/plus4model.h, src/vic20/vic-timing.c,
+	src/vic20/vic-timing.h, src/vic20/victypes.h: Fixed svn properties on
+	some files. There are probably more that need fixing.
+
+2012-01-16  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_device.cc: Fix file panel popping up behind BeVICE
+	Device settings dialog (and being unuseable.)
+
+2012-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/private.h: Fixed for morphos.
+
+2012-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated sv.po
+
+2012-01-16  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2349t0f0u).
+
+2012-01-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petmem.c: Add 8096 bank switching register to the monitor
+	"io" command.
+
+
+2012-01-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uipalcontrol.c, src/arch/unix/x11/xaw/x11ui.c:
+	Implement ui_restore_focus() for Xaw UI.
+
+
+2012-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/html/Makefile.am, src/arch/amigaos/archdep.c,
+	src/arch/amigaos/make-bindist.sh: Fixed for amiga os4.
+
+2012-01-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petdww.c, src/pet/petdww.h, src/pet/petmem.c,
+	src/pet/petmem.h: Reset the memory limit pointers for PET 8x96 models
+	and PET DWW board.
+They are switching banks so if code is executing in
+	it while they are 
+switched, the memory base and limit should be
+	invalidated.
+
+
+2012-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c: Added rtc_get_centiseconds for amigaos3
+	(when no getttimeofday is available).
+
+2012-01-15  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po, po/translations-status.txt: Updated.
+
+2012-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/libm_math.c: Style fixes.
+
+2012-01-15  Ingo Korb <ingo@akana.de>
+
+	* src/aciacore.c: Fix wrong operator precedence for reading T232
+	ectrl register
+
+
+2012-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm5x0.c: Fixed.
+
+2012-01-14  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Fix a crash when activating monitor
+
+
+2012-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/texi2chm.sh: Started on fixing the
+	out-of-source-tree build issues.
+
+2012-01-12  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petmem.c: Commit 24448 broke the PET zero page access in a
+	subtle way. It replaced 
+a direct call to zero_store() with an indirect
+	call via
+_mem_write_tab_ptr. And the same for zero_read().
+	Unfortunately the PET 
+didn't initialise its table of pointers to
+	zero_store() but to the 
+generic ram_store(), which is almost the same,
+	but it doesn't mask its 
+address to the zero page.
+So... this breaks the
+	zero page adressing mode where an index wraps around...
+ and apparently
+	this can have interesting effects even on BASIC programs. 
+Fix: use
+	zero_store() and zero_read() in _mem_write_tab[0] and
+_mem_read_tab[0].
+
+
+2012-01-12  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/renderxv.c, src/arch/unix/x11/xaw/x11video.c: If
+	the user tries to use hardware scaling using XVideo (in Xaw ui), and
+	
+shared memory is unavailable (for instance because the display is
+	remote), retry without shared memory rather than terminating with an
+	X
+error.
+
+
+2012-01-11  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uimon.c, src/arch/unix/ui.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/x11ui.c: hack
+	to transfer focus to terminal window when entering the monitor
+
+2012-01-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uisettings.c: Remove hack for setting ticks in the
+	refresh rate and maximum speed menus.
+ It depended on the callbacks
+	being called in order, which was not true 
+(any more) for the gnome ui.
+
+
+2012-01-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/win64/xcbm5x0.vcproj: Fix debug compilation
+
+2012-01-10  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/gnome/uimenu.c, src/arch/unix/x11/xaw/uimenu.c:
+	Treat UI_MENU_TYPE_TICKDOTS like UI_MENU_TYPE_TICK so that it gets 
+a
+	checkmark too.
+
+
+2012-01-10  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uisettings.c: The first maximum speed entry is
+	now 200%.
+
+
+2012-01-10  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/Makefile.am: Generate the right file
+
+
+2012-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/fullscrn.c: Fixed a call to
+	fullscreen_getmodes_dx9().
+
+2012-01-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uimon.c, src/arch/unix/ui.h,
+	src/arch/unix/x11/fullscreen.c, src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uimenu.c, src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/video/video-canvas.c: transfer focus to emulator window after
+	exiting monitor, some more sanity checks/debug stuff to track down
+	vsid ui problems
+
+2012-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vsyncarch.c: Fixed os/2 speed issue.
+
+2012-01-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c: use proper canvas, fixes some random
+	crashes when moving and/or resizing the vsid window
+
+2012-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, po/POTFILES.in, src/Makefile.am,
+	src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/cbm2ui.c, src/arch/win32/cbm5x0ui.c,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm2common.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/ui.c, src/arch/win32/uicbm2model.c,
+	src/arch/win32/uicbm2model.h, src/arch/win32/uicbm2set.c,
+	src/arch/win32/uicbm5x0model.c, src/arch/win32/uicbm5x0model.h,
+	src/arch/win32/uicbm5x0set.c, src/arch/win32/uicbm5x0set.h,
+	src/arch/win32/vsidui.c, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xcbm5x0.dsp,
+	src/arch/win64/arch.vcproj, src/arch/win64/xcbm2.vcproj,
+	src/arch/win64/xcbm5x0.vcproj, src/cbm2/cbm5x0.c, src/vsync.c:
+	Finished windows vsid menu and split off and fixed/updated windows
+	cbm2/cbm5x0 menus and dialogs.
+
+
+2012-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated pl.po
+
+2012-01-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/fullscrn.c: Make a function static
+
+2012-01-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/video.c: Fix crash in
+	video settings when starting with DX9Disable=0
+
+2012-01-09  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/msvc/ide-config.h: Fix an x64 compile error
+
+2012-01-08  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-07  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am, src/arch/win32/Makefile.am,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvsid.rc,
+	src/arch/win32/ui.c, src/arch/win32/vsid.dsp, src/arch/win32/vsidui.c,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win64/vsid.vcproj: Started on a gui for the windows vsid
+	program.
+
+2012-01-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uiattach.c,
+	src/arch/unix/gui/uiattach.h, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/gui/vsidui.c, src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/uiarch.h,
+	src/arch/unix/x11/xaw/x11ui.c: rudimentary drag and drop support for
+	gtk ui
+
+2012-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated de.po
+
+2012-01-07  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2012-01-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uic64.c: Use machine_class to determine machine
+	class.
+
+2012-01-06  groepaz <groepaz@gmx.net>
+
+	* src/plus4/ted-draw.c, src/plus4/tedtypes.h: attempt to fix bug
+	#3467159
+
+2012-01-06  groepaz <groepaz@gmx.net>
+
+	* src/fileio/cbmfile.c, src/fileio/p00.c, src/fileio.h,
+	src/fsdevice/fsdevice-read.c, src/rawfile.c: hack to allow "opening"
+	directory entries which are directories themselves for stats purposes.
+	this makes it explicitly work the same on windows and *nix (which
+	allowed it before). fixes bug #3388946
+
+2012-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisound.c: Fixed a warning.
+
+2012-01-06  groepaz <groepaz@gmx.net>
+
+	* src/video/video-color.c: remove obsolete palette calculation for
+	(no more existing) fake PAL emulation, fixes bug #3367825
+
+2012-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/vsidui.c: Cosmetic fix.
+
+2012-01-05  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/win32/utils/geninfocontrib.c,
+	src/infocontrib.sed: Fixed.
+
+2012-01-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uited.c, src/plus4/plus4.c,
+	src/plus4/ted-cmdline-options.c, src/plus4/ted-draw.c,
+	src/plus4/ted-resources.c, src/plus4/ted-resources.h,
+	src/plus4/ted-timing.c, src/plus4/ted-timing.h, src/plus4/ted.c,
+	src/plus4/ted.h, src/plus4/tedtypes.h: added border mode selection to
+	ted/xplus4 (see devlog)
+
+2012-01-04  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Removed email addy (wasn't supposed to be there in
+	the 1st place, copy/paste error).
+
+2012-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: fix typo
+
+2012-01-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/plus4ui.c: Fixed missing italian language menu item.
+
+2012-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uic64dtvmodel.c: Allow unknown c64dtv model (99) in
+	the windows dialog.
+
+2012-01-03  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/c64dtvui.c, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uic64dtvmodel.c,
+	src/arch/win32/uic64dtvmodel.h, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/arch.vcproj: Added
+	c64dtv model selection to the windows ui.
+
+
+2012-01-02  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/_vice.dsp, src/arch/win32/arch.dsp,
+	src/arch/win32/base.dsp, src/arch/win32/c128.dsp,
+	src/arch/win32/c1541.dsp, src/arch/win32/c64.dsp,
+	src/arch/win32/c64c128.dsp, src/arch/win32/c64c64dtv.dsp,
+	src/arch/win32/c64cart.dsp, src/arch/win32/c64cartsystem.dsp,
+	src/arch/win32/c64commoncart.dsp, src/arch/win32/c64dtv.dsp,
+	src/arch/win32/c64dtvstubs.dsp, src/arch/win32/c64exp.dsp,
+	src/arch/win32/c64sc.dsp, src/arch/win32/cartconv.dsp,
+	src/arch/win32/cbm2.dsp, src/arch/win32/cbm2common.dsp,
+	src/arch/win32/cbm5x0.dsp, src/arch/win32/core.dsp,
+	src/arch/win32/crtc.dsp, src/arch/win32/diskimage.dsp,
+	src/arch/win32/drive.dsp, src/arch/win32/fileio.dsp,
+	src/arch/win32/fsdevice.dsp, src/arch/win32/geninfocontrib.dsp,
+	src/arch/win32/genmsvcver.dsp, src/arch/win32/gentranslate.dsp,
+	src/arch/win32/genwinres.dsp, src/arch/win32/gfxoutputdrv.dsp,
+	src/arch/win32/iec.dsp, src/arch/win32/iec128dcr.dsp,
+	src/arch/win32/iecbus.dsp, src/arch/win32/iecieee.dsp,
+	src/arch/win32/ieee.dsp, src/arch/win32/imagecontents.dsp,
+	src/arch/win32/monitor.dsp, src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/msvc-d3d.h, src/arch/win32/parallel.dsp,
+	src/arch/win32/pet.dsp, src/arch/win32/petcat.dsp,
+	src/arch/win32/plus4.dsp, src/arch/win32/plus4exp.dsp,
+	src/arch/win32/printerdrv.dsp, src/arch/win32/raster.dsp,
+	src/arch/win32/resid.dsp, src/arch/win32/residdtv.dsp,
+	src/arch/win32/residfp.dsp, src/arch/win32/rs232drv.dsp,
+	src/arch/win32/rtc.dsp, src/arch/win32/serial.dsp,
+	src/arch/win32/sid.dsp, src/arch/win32/sounddrv.dsp,
+	src/arch/win32/tape.dsp, src/arch/win32/tcbm.dsp,
+	src/arch/win32/uisound.c, src/arch/win32/userport.dsp,
+	src/arch/win32/vdc.dsp, src/arch/win32/vdrive.dsp,
+	src/arch/win32/vic20.dsp, src/arch/win32/vic20cart.dsp,
+	src/arch/win32/vicii.dsp, src/arch/win32/viciidtv.dsp,
+	src/arch/win32/viciisc.dsp, src/arch/win32/video.dsp,
+	src/arch/win32/vsid.dsp, src/arch/win32/vsidlib.dsp,
+	src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	src/arch/win32/x64dtv.dsp, src/arch/win32/x64sc.dsp,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xcbm5x0.dsp,
+	src/arch/win32/xpet.dsp, src/arch/win32/xplus4.dsp,
+	src/arch/win32/xvic.dsp: Changed win32 msvc project files to compile
+	for no-directx by default and added direct-x targets to the win32 msvc
+	project files.
+
+2012-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimon.c: Fixed the interlocked assembly code for
+	windows, now also compiles for msvc.
+
+2012-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/amigaos/mui/mui.c, src/arch/beos/ui.cc,
+	src/arch/msdos/menudefs.c, src/arch/os2/dialogs/dialogs.rc,
+	src/arch/sdl/menu_help.c, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc: Changed some
+	2011's to 2012's, happy new year ;)
+
+2012-01-01  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2012-01-01  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y: Break is on exec by default (again)
+
+
+2012-01-01  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uipalcontrol.c,
+	src/arch/unix/x11/xaw/uipalcontrol.h: Files belonging with previous
+	update.
+
+
+2012-01-01  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uifliplist.c, src/arch/unix/ui.h,
+	src/arch/unix/x11/x11menu.h, src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/uiarch.h, src/arch/unix/x11/xaw/uimenu.c,
+	src/arch/unix/x11/xaw/x11ui.c: Several Xaw improvements:
+ introduce
+	pop-up window with sliders for controlling the CRT emulation
+	settings. clean up drive/fliplist widget mess (worked not even for 2
+	drives, if they were
+  not 8 and 9).
+
+
+2012-01-01  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/widgets/FileSel.c: Fix compiler warnings by
+	removing unused code.
+
+
+2012-01-01  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/html/plain/PETdoc.txt: Fix typo.
+
+
+2011-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/vsidstubs.c: More stubs.
+
+2011-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated ru.po
+
+2011-12-31  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2011-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated es.po
+
+2011-12-31  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Since r25059, GTK+ UI was
+	consistently crashing at startup
+
+
+2011-12-31  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/crtc/crtc.c, src/plus4/ted-mem.c, src/plus4/ted.c,
+	src/raster/raster-changes.h, src/raster/raster-line.c,
+	src/raster/raster.c, src/raster/raster.h, src/vdc/vdc.c,
+	src/vic20/vic-cycle.c, src/vic20/vic-mem.c, src/vicii/vicii-badline.c,
+	src/vicii/vicii-fetch.c, src/vicii/vicii-mem.c,
+	src/vicii/vicii-sprites.c, src/vicii/vicii.c: Consolidate
+	raster-related inline functions in one header file
+
+
+2011-12-31  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2011-12-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/ru.po: Fixed.
+
+2011-12-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated ru.po
+
+2011-12-30  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2011-12-30  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/raster/raster.c, src/raster/raster.h: Make a member static
+
+
+2011-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated ru.po
+
+2011-12-29  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po: Updated
+
+2011-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2011-12-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-sound.c: Fix of the warning fixes ;)
+
+
 2011-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.pdf, doc/vice.hlp, doc/vice.txt, doc/vice.guide,
@@ -117,16 +859,11 @@ caused them
 2011-12-24  Olaf Seibert <rhialto@falu.nl>
 
 	* src/video/video-resources.c: set_double_size_enabled() could leave 3
-	key settings (regarding double
-size rendering) in an inconsistent
-	state, in particular at startup time. 
-Now check all conditions first
-	and set the settings consistently. They 
-are
-	canvas->videoconfig->doublesizex, ...y, and ->rendermode. 
-Fixes a YUV
+	key settings (regarding double size rendering) in an inconsistent
+	state, in particular at startup time. Now check all conditions first
+	and set the settings consistently. They are
+	canvas->videoconfig->doublesizex, ...y, and ->rendermode. Fixes a YUV
 	buffer overflow when using XVideo hardware scaling.
-
 
 2011-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
 

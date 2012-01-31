@@ -10609,9 +10609,9 @@ emulation code and fixed the sound core for lower latency. Rewrote
 DTV SID support (ReSID-dtv). Improved 1541 drive rotation
 emulation. Worked on x64sc.
 
-* Groepaz/Hitmen Added new more precise CRT emulation. Added support
-for the new cartridge system and many new cartridges. Fixed up
-parts of cartconv. Implemented many bug fixes. Wrote test programs.
+* Groepaz Added new more precise CRT emulation. Added support for
+the new cartridge system and many new cartridges. Fixed up parts of
+cartconv. Implemented many bug fixes. Wrote test programs.
 
 * Ingo Korb Corrected block allocation and interleave for
 c1541/vdrive, added rudimentary xplus4 tape recording support,
@@ -11012,23 +11012,39 @@ compete with.  :-)
 17 Copyright
 ************
 
-* Copyright (C) 1998-2011 Dag Lem
+* Copyright (C) 1998-2012 Dag Lem
 
-* Copyright (C) 1999-2011 Andreas Matthies
+* Copyright (C) 1999-2012 Andreas Matthies
 
-* Copyright (C) 1999-2011 Martin Pottendorfer
+* Copyright (C) 1999-2012 Martin Pottendorfer
 
-* Copyright (C) 2000-2011 Spiro Trikaliotis
+* Copyright (C) 2000-2012 Spiro Trikaliotis
 
-* Copyright (C) 2005-2011 Marco van den Heuvel
+* Copyright (C) 2005-2012 Marco van den Heuvel
 
-* Copyright (C) 2006-2011 Christian Vogelgsang
+* Copyright (C) 2006-2012 Christian Vogelgsang
 
-* Copyright (C) 2007-2011 Fabrizio Gennari
+* Copyright (C) 2007-2012 Fabrizio Gennari
 
-* Copyright (C) 2007-2011 Daniel Kahlin
+* Copyright (C) 2007-2012 Daniel Kahlin
 
-* Copyright (C) 2008-2011 Antti S. Lankila
+* Copyright (C) 2009-2012 Groepaz
+
+* Copyright (C) 2009-2012 Ingo Korb
+
+* Copyright (C) 2009-2012 Errol Smith
+
+* Copyright (C) 2010-2012 Olaf Seibert
+
+* Copyright (C) 2011-2012 Marcus Sutton
+
+* Copyright (C) 2011-2012 Ulrich Schulz
+
+* Copyright (C) 2011-2012 Stefan Haubenthal
+
+* Copyright (C) 2011-2012 Thomas Giesel
+
+* Copyright (C) 2011-2012 Kajtar Zsolt
 
 * Copyright (C) 1998-2010 Tibor Biczo
 
@@ -11055,8 +11071,6 @@ compete with.  :-)
 * Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
 
 * Copyright (C) 1993-1996 Jouko Valta
-
-* Copyright (C) 1993-1994 Jarkko Sonninen
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
