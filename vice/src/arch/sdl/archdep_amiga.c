@@ -73,7 +73,7 @@ struct Library *SDLBase = NULL;
 #ifdef POWERSDL_AMIGA_INLINE
 struct Library *PowerSDLBase;
 #define SDLLIBBASE PowerSDLBase
-#define SDLLIBNAME "powersld.library"
+#define SDLLIBNAME "powersdl.library"
 #endif
 
 #if defined(SDL_AMIGA_INLINE) || defined(POWERSDL_AMIGA_INLINE)
