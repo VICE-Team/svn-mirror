@@ -229,6 +229,7 @@ BEGIN
         BEGIN
             MENUITEM "", IDM_ACIA_SETTINGS
             MENUITEM "", IDM_C64_256K_SETTINGS
+            MENUITEM "", IDM_C64BURSTMOD_SETTINGS
             MENUITEM "", IDM_DIGIMAX_SETTINGS
             MENUITEM "", IDM_DQBB_SETTINGS
             MENUITEM "", IDM_EASYFLASH_SETTINGS
@@ -608,34 +609,59 @@ END
 
 // -----------------------------------------------------------------------------
 
+// template of dialog for all languages
+
+IDD_C64BURSTMOD_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 110
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    AUTOCHECKBOX    "", IDC_C64BURSTMOD_ENABLE,
+                    7, 7, 99, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    LTEXT           "", IDC_C64BURSTMOD_CIA_LABEL,
+                    9, 24, 30, 8
+    COMBOBOX        IDC_C64BURSTMOD_CIA,
+                    45, 22, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK,
+                    30, 90, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL,
+                    90, 90, 50, 14, WS_TABSTOP
+END
+
+// -----------------------------------------------------------------------------
+
 // original and default ENGLISH text
 
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MI_NETWORK_SETTINGS  "Netplay (experimental)..."
-  IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
-  IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
-  IDS_MI_C64_256K_SETTINGS "256K settings..."
-  IDS_C64_MODEL            "C64 model"
-  IDS_VICII_MODEL          "VIC-II model"
-  IDS_NEW_LUMINANCES       "New luminances"
-  IDS_SID_MODEL            "SID model"
-  IDS_CIA1_MODEL           "CIA 1 model"
-  IDS_CIA2_MODEL           "CIA 2 model"
-  IDS_GLUE_LOGIC           "Glue logic"
-  IDS_6526_OLD             "6526 (old)"
-  IDS_6526A_NEW            "6526A (new)"
-  IDS_DISCRETE             "Discrete"
-  IDS_CUSTOM_IC            "Custom IC"
-  IDS_6569_PAL             "6569 (PAL)"
-  IDS_8565_PAL             "8565 (PAL)"
-  IDS_6569R1_OLD_PAL       "6569R1 (old PAL)"
-  IDS_6567_NTSC            "6567 (NTSC)"
-  IDS_8562_NTSC            "8562 (NTSC)"
-  IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
-  IDS_6572_PAL_N           "6572 (PAL-N)"
-  IDS_C64_MODEL_CAPTION    "C64 model settings"
+  IDS_C64_MODEL                 "C64 model"
+  IDS_VICII_MODEL               "VIC-II model"
+  IDS_NEW_LUMINANCES            "New luminances"
+  IDS_SID_MODEL                 "SID model"
+  IDS_CIA1_MODEL                "CIA 1 model"
+  IDS_CIA2_MODEL                "CIA 2 model"
+  IDS_GLUE_LOGIC                "Glue logic"
+  IDS_6526_OLD                  "6526 (old)"
+  IDS_6526A_NEW                 "6526A (new)"
+  IDS_DISCRETE                  "Discrete"
+  IDS_CUSTOM_IC                 "Custom IC"
+  IDS_6569_PAL                  "6569 (PAL)"
+  IDS_8565_PAL                  "8565 (PAL)"
+  IDS_6569R1_OLD_PAL            "6569R1 (old PAL)"
+  IDS_6567_NTSC                 "6567 (NTSC)"
+  IDS_8562_NTSC                 "8562 (NTSC)"
+  IDS_6567R56A_OLD_NTSC         "6567R56A (old NTSC)"
+  IDS_6572_PAL_N                "6572 (PAL-N)"
+  IDS_C64_MODEL_CAPTION         "C64 model settings"
+  IDS_C64BURSTMOD_CAPTION       "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE        "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA           "C64 drive burst modification CIA"
+  IDS_MI_NETWORK_SETTINGS       "Netplay (experimental)..."
+  IDS_MI_PLUS60K_SETTINGS       "PLUS60K settings..."
+  IDS_MI_PLUS256K_SETTINGS      "PLUS256K settings..."
+  IDS_MI_C64_256K_SETTINGS      "256K settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
 END
 
 
@@ -648,6 +674,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K-indstillinger..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K-indstillinger..."
   IDS_MI_C64_256K_SETTINGS "256K-indstillinger..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64-model"
   IDS_VICII_MODEL          "VIC-II-model"
   IDS_NEW_LUMINANCES       "Nye lysstyrker"
@@ -667,6 +694,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (gammel NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64-model indstillinger"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -679,6 +709,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K Einstellungen..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K Einstellungen..."
   IDS_MI_C64_256K_SETTINGS "256K Einstellungen..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64 Modell"
   IDS_VICII_MODEL          "VIC-II Modell"
   IDS_NEW_LUMINANCES       "Neue Helligkeitsemulation"
@@ -698,6 +729,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (alt NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 Modell Einstellungen"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -710,6 +744,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "Ajustes PLUS60K..."
   IDS_MI_PLUS256K_SETTINGS "Ajustes PLUS256K..."
   IDS_MI_C64_256K_SETTINGS "Ajustes 256K..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "Modelo C64"
   IDS_VICII_MODEL          "Modelo VIC-II"
   IDS_NEW_LUMINANCES       "Nuevas luminancias"
@@ -729,6 +764,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (NTSC antiguo)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "Ajustes modelo C64"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -741,6 +779,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -760,6 +799,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model settings"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -775,6 +817,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -794,6 +837,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model settings"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -809,6 +855,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "Impostazioni PLUS256K..."
   IDS_MI_PLUS256K_SETTINGS "Impostazioni PLUS256K..."
   IDS_MI_C64_256K_SETTINGS "Impostazioni 256K..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "Modello C64"
   IDS_VICII_MODEL          "Modello VIC-II"
   IDS_NEW_LUMINANCES       "Nuove luminanze"
@@ -828,6 +875,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (NTSC vecchio)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "Impostazioni modello C64"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -843,6 +893,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64 ¸ðµ¨"
   IDS_VICII_MODEL          "VIC-II ¸ðµ¨"
   IDS_NEW_LUMINANCES       "¼¼·Î¿î ¹à±â"
@@ -862,6 +913,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (¿Ãµå NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model settings"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -877,6 +931,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K instellingen..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K instellingen..."
   IDS_MI_C64_256K_SETTINGS "256K instellingen..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64 model"
   IDS_VICII_MODEL          "VIC-II model"
   IDS_NEW_LUMINANCES       "Nieuwe kleuren"
@@ -896,6 +951,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (oud NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model instellingen"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -911,6 +969,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "Ustawienia PLUS60K..."
   IDS_MI_PLUS256K_SETTINGS "Ustawienia PLUS256K..."
   IDS_MI_C64_256K_SETTINGS "Ustawienia 256K..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "Model C64"
   IDS_VICII_MODEL          "Model VIC-II"
   IDS_NEW_LUMINANCES       "Nowy typ jaskrawo¶ci"
@@ -930,6 +989,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (stary NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "Ustawienia modelu C64"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -948,6 +1010,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K settings..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K settings..."
   IDS_MI_C64_256K_SETTINGS "256K settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "¼ÞÔÕÛì C64"
   IDS_VICII_MODEL          "¼ÞÔÕÛì VIC-II"
   IDS_NEW_LUMINANCES       "New luminances"
@@ -967,6 +1030,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (old NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model settings"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -982,6 +1048,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K-inställningar..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K-inställningar..."
   IDS_MI_C64_256K_SETTINGS "256K-inställningar..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64-modell"
   IDS_VICII_MODEL          "VIC II-modell"
   IDS_NEW_LUMINANCES       "Nya ljusstyrkor"
@@ -1001,6 +1068,9 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (gammal NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64-modellinställningar"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 
 
@@ -1016,6 +1086,7 @@ BEGIN
   IDS_MI_PLUS60K_SETTINGS  "PLUS60K Ayarlarý..."
   IDS_MI_PLUS256K_SETTINGS "PLUS256K Ayarlarý..."
   IDS_MI_C64_256K_SETTINGS "256K Ayarlarý..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
   IDS_C64_MODEL            "C64 modeli"
   IDS_VICII_MODEL          "VIC-II modeli"
   IDS_NEW_LUMINANCES       "Yeni parlaklýklar"
@@ -1035,9 +1106,10 @@ BEGIN
   IDS_6567R56A_OLD_NTSC    "6567R56A (eski NTSC)"
   IDS_6572_PAL_N           "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION    "C64 model ayarlarý"
+  IDS_C64BURSTMOD_CAPTION  "C64 drive burst modification settings"
+  IDS_C64BURSTMOD_ENABLE   "Enable the C64 drive burst modification"
+  IDS_C64BURSTMOD_CIA      "C64 drive burst modification CIA"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

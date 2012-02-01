@@ -349,6 +349,10 @@ SOURCE=.\uic64_256k.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uic64burstmod.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic64cart.c
 # End Source File
 # Begin Source File

@@ -139,6 +139,8 @@ libarch_a_SOURCES = \
 	uic64.h \
 	uic64_256k.c \
 	uic64_256k.h \
+	uic64burstmod.c \
+	uic64burstmod.h \
 	uic64cart.c \
 	uic64cart.h \
 	uic64dtv.c \

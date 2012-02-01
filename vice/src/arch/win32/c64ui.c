@@ -40,6 +40,7 @@
 #include "uiacia.h"
 #include "uic64.h"
 #include "uic64_256k.h"
+#include "uic64burstmod.h"
 #include "uic64cart.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
@@ -334,6 +335,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_MMCREPLAY_SETTINGS, IDS_MI_MMCREPLAY_SETTINGS },
     { IDM_MAGICVOICE_SETTINGS, IDS_MI_MAGICVOICE_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
+    { IDM_C64BURSTMOD_SETTINGS, IDS_MI_C64BURSTMOD_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
 #ifdef HAVE_TFE
     { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS },
@@ -545,6 +547,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
     uic64cart_proc(wparam, hwnd);
 
     switch (wparam) {
+        case IDM_C64BURSTMOD_SETTINGS:
+            ui_c64burstmod_settings_dialog(hwnd);
+            break;
         case IDM_C64MODEL_SETTINGS:
             ui_c64model_settings_dialog(hwnd);
             break;
