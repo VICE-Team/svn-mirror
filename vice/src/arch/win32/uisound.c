@@ -75,6 +75,7 @@ static uilib_localize_dialog_param sound_dialog[] = {
     { IDC_SOUND_DIRECTX, IDS_SOUND_DIRECTX, 0 },
     { IDC_SOUND_WMM, IDS_SOUND_WMM, 0 },
 #endif
+    { IDC_SOUND_OUTPUT_MODE, IDS_SOUND_OUTPUT_MODE, 0 },
     { IDC_SOUND_SAMPLE_FREQUENCY, IDS_SOUND_SAMPLE_FREQUENCY, 0 },
     { IDC_SOUND_BUFFER_SIZE, IDS_SOUND_BUFFER_SIZE, 0 },
     { IDC_SOUND_FRAGMENT_SIZE_LABEL, IDS_SOUND_FRAGMENT_SIZE_LABEL, 0 },
@@ -93,6 +94,7 @@ static uilib_dialog_group sound_driver_group[] = {
 #endif
 
 static uilib_dialog_group sound_left_group[] = {
+    { IDC_SOUND_OUTPUT_MODE, 0 },
     { IDC_SOUND_SAMPLE_FREQUENCY, 0 },
     { IDC_SOUND_BUFFER_SIZE, 0 },
     { IDC_SOUND_FRAGMENT_SIZE_LABEL, 0 },
@@ -101,6 +103,7 @@ static uilib_dialog_group sound_left_group[] = {
 };
 
 static uilib_dialog_group sound_right_group[] = {
+    { IDC_SOUND_OUTPUT, 0 },
     { IDC_SOUND_FREQ, 0 },
     { IDC_SOUND_BUFFER, 0 },
     { IDC_SOUND_FRAGMENT_SIZE, 0 },
@@ -112,6 +115,7 @@ static uilib_dialog_group sound_filling_group[] = {
 #ifndef NODIRECTX
     { IDC_SOUND_WMM, 0 },
 #endif
+    { IDC_SOUND_OUTPUT, 0 },
     { IDC_SOUND_FREQ, 0 },
     { IDC_SOUND_BUFFER, 0 },
     { IDC_SOUND_FRAGMENT_SIZE, 0 },
@@ -179,6 +183,13 @@ static void init_sound_dialog(HWND hwnd)
         }
     }
 
+    snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_OUTPUT);
+    resources_get_int("SoundOutput", &res_value);
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SYSTEM));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_MONO));
+    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_STEREO));
+    SendMessage(snd_hwnd, CB_SETCURSEL, res_value, 0);
+
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_BUFFER);
     resources_get_int("SoundBufferSize", &res_value);
     for (i = 0; i < sizeof(ui_sound_buffer) / sizeof(*ui_sound_buffer); i ++) {
@@ -228,6 +239,7 @@ static void init_sound_dialog(HWND hwnd)
 
 static void end_sound_dialog(HWND hwnd)
 {
+    resources_set_int("SoundOutput", (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_OUTPUT), CB_GETCURSEL, 0, 0));
     resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundFragmentSize", (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE), CB_GETCURSEL, 0, 0));

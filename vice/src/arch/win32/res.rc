@@ -490,7 +490,7 @@ END
 
 // dialog template for all languages
 
-IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 115
+IDD_SOUND_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 180, 130
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -500,26 +500,35 @@ BEGIN
     AUTORADIOBUTTON "", IDC_SOUND_WMM,
                     75, 10, 60, 10, BS_AUTORADIOBUTTON
 #endif
-    LTEXT           "", IDC_SOUND_SAMPLE_FREQUENCY,
+    LTEXT           "", IDC_SOUND_OUTPUT_MODE,
                     7, 25, 118, 8
-    COMBOBOX        IDC_SOUND_FREQ,
+    COMBOBOX        IDC_SOUND_OUTPUT,
                     100, 22, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_SOUND_BUFFER_SIZE,
+
+    LTEXT           "", IDC_SOUND_SAMPLE_FREQUENCY,
                     7, 40, 118, 8
-    COMBOBOX        IDC_SOUND_BUFFER,
-                    100, 37, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_SOUND_FRAGMENT_SIZE_LABEL,
+    COMBOBOX        IDC_SOUND_FREQ,
+                    100, 37, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+    LTEXT           "", IDC_SOUND_BUFFER_SIZE,
                     7, 55, 118, 8
-    COMBOBOX        IDC_SOUND_FRAGMENT_SIZE,
-                    100, 52, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
-    LTEXT           "", IDC_SOUND_SYNCH_METHOD,
+    COMBOBOX        IDC_SOUND_BUFFER,
+                    100, 52, 70, 76, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+    LTEXT           "", IDC_SOUND_FRAGMENT_SIZE_LABEL,
                     7, 70, 118, 8
-    COMBOBOX        IDC_SOUND_SYNCH,
+    COMBOBOX        IDC_SOUND_FRAGMENT_SIZE,
                     100, 67, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
+    LTEXT           "", IDC_SOUND_SYNCH_METHOD,
+                    7, 85, 118, 8
+    COMBOBOX        IDC_SOUND_SYNCH,
+                    100, 82, 70, 68, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP
+
     DEFPUSHBUTTON   "", IDOK,
-                    40, 95, 50, 14, WS_TABSTOP
+                    40, 110, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
-                    95, 95, 50, 14, WS_TABSTOP
+                    95, 110, 50, 14, WS_TABSTOP
 END
 
 
@@ -1270,6 +1279,9 @@ BEGIN
   IDS_EXACT                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX        "Sound driver: DirectX"
   IDS_SOUND_DRIVER_WMM            "Sound driver: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Configure Keyset A"
@@ -1360,6 +1372,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Configure Sound Device Settings"
   IDS_SOUND_DIRECTX               "DirectX driver"
   IDS_SOUND_WMM                   "WMM driver"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Sample rate :"
   IDS_SOUND_BUFFER_SIZE           "Sound Buffer Size :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Sound Fragment Size :"
@@ -1895,6 +1908,9 @@ BEGIN
   IDS_EXACT                       "Nøjagtig"
   IDS_SOUND_DRIVER_DIRECTX        "Lyd-driver: DirectX"
   IDS_SOUND_DRIVER_WMM            "Lyd-driver: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Mediefiler (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Konfigurér tastesæt A"
@@ -1985,6 +2001,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Indstillinger for lydenheder"
   IDS_SOUND_DIRECTX               "DirectX-driver"
   IDS_SOUND_WMM                   "WMM-driver"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Samplingfrekvens :"
   IDS_SOUND_BUFFER_SIZE           "Lydbufferstørrelse :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "lydfragmentstørrelse :"
@@ -2520,6 +2537,9 @@ BEGIN
   IDS_EXACT                       "Exakt"
   IDS_SOUND_DRIVER_DIRECTX        "Sound Treiber: DirectX"
   IDS_SOUND_DRIVER_WMM            "Sound Treiber: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Media Dateien (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Konfiguriere Tastaturbelegung A"
@@ -2610,6 +2630,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Sound Gerät Einstellungen konfigurieren"
   IDS_SOUND_DIRECTX               "DirectX Treiber"
   IDS_SOUND_WMM                   "WMM Treiber"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Sample Rate :"
   IDS_SOUND_BUFFER_SIZE           "Sound Puffergröße :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Sound Fragmentgröße :"
@@ -3145,6 +3166,9 @@ BEGIN
   IDS_EXACT                       "Exacto"
   IDS_SOUND_DRIVER_DIRECTX        "controlador de sonido: DirectX"
   IDS_SOUND_DRIVER_WMM            "controlador de sonido: VMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Fichero media (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    "kB"
   IDS_CONFIGURE_KEYSET_A          "Configurar Keyset A"
@@ -3235,6 +3259,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Ajustes de configuración del periférico de sonido"
   IDS_SOUND_DIRECTX               "controlador DirectX"
   IDS_SOUND_WMM                   "controlador WMM"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Velocidad de sampleado :"
   IDS_SOUND_BUFFER_SIZE           "Tamaño Buffer de sonido :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Tamaño fragmento de sonido :"
@@ -3770,6 +3795,9 @@ BEGIN
   IDS_EXACT                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX        "Sound driver"
   IDS_SOUND_DRIVER_WMM            "Pilote son: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kO"
   IDS_CONFIGURE_KEYSET_A          "Configurer Touches A"
@@ -3860,6 +3888,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Configurer les paramètres du périphérique son"
   IDS_SOUND_DIRECTX               "Pilote DirectX"
   IDS_SOUND_WMM                   "Pilote WMM"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Taux d'échantillonage :"
   IDS_SOUND_BUFFER_SIZE           "Sound Buffer Size :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Sound Fragment Size :"
@@ -4398,6 +4427,9 @@ BEGIN
   IDS_EXACT                       "Pontos"
   IDS_SOUND_DRIVER_DIRECTX        "Hang meghajtó: DirectX"
   IDS_SOUND_DRIVER_WMM            "Hang meghajtó: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Média fájlok (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "'A' gombkészlet beállítása"
@@ -4488,6 +4520,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Hang eszköz beállítása"
   IDS_SOUND_DIRECTX               "DirectX meghajtó"
   IDS_SOUND_WMM                   "WMM meghajtó"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Mintavételezési ráta :"
   IDS_SOUND_BUFFER_SIZE           "Sound Buffer Size :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Sound Fragment Size :"
@@ -5026,6 +5059,9 @@ BEGIN
   IDS_EXACT                       "Esatta"
   IDS_SOUND_DRIVER_DIRECTX        "Driver audio: DirectX"
   IDS_SOUND_DRIVER_WMM            "Driver sonoro: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "File multimediali (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Configura Keyset A"
@@ -5116,6 +5152,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Configura impostazioni scheda audio"
   IDS_SOUND_DIRECTX               "Driver DirectX"
   IDS_SOUND_WMM                   "Driver WMM"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Frequenza di campionamento :"
   IDS_SOUND_BUFFER_SIZE           "Dimensione buffer audio :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Dimensione frammento audio :"
@@ -5654,6 +5691,9 @@ BEGIN
   IDS_EXACT                       "Á¤È®ÇÑ"
   IDS_SOUND_DRIVER_DIRECTX        "»ç¿îµå µå¶óÀÌ¹ö: DirectX"
   IDS_SOUND_DRIVER_WMM            "»ç¿îµå µå¶óÀÌ¹ö: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "¹Ìµð¾î ÆÄÀÏ (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kb"
   IDS_CONFIGURE_KEYSET_A          "Å°¼Â A ¸¦ ¼³Á¤ ÇÏ¼¼¿ä"
@@ -5744,6 +5784,7 @@ BEGIN
   IDS_SOUND_CAPTION               "»ç¿îµå µð¹ÙÀÌ½º È¯°æ ¼³Á¤ ÇÏ±â"
   IDS_SOUND_DIRECTX               "DirextX µå¶óÀÌ¹ö"
   IDS_SOUND_WMM                   "WMM µå¶óÀÌ¹ö"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "»ùÇÃ ·¡ÀÌÆ® :"
   IDS_SOUND_BUFFER_SIZE           "»ç¿îµå ¹öÆÛ »çÀÌÁî :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "»ç¿îµå ÇÁ·¡±×¸ÕÆ® »çÀÌÁî :"
@@ -6282,6 +6323,9 @@ BEGIN
   IDS_EXACT                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX        "Geluid stuurprogramma: DirectX"
   IDS_SOUND_DRIVER_WMM            "Geluid stuurprogramma: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Mediabestanden (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Configureer Keyset A"
@@ -6372,6 +6416,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Geluidsapparaat instellingen"
   IDS_SOUND_DIRECTX               "DirectX stuurprogramma"
   IDS_SOUND_WMM                   "WMM stuurprogramma"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Sample snelheid :"
   IDS_SOUND_BUFFER_SIZE           "Geluidsbuffergrootte :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Geluidsfragmentgrootte :"
@@ -6910,6 +6955,9 @@ BEGIN
   IDS_EXACT                       "Dok³adna"
   IDS_SOUND_DRIVER_DIRECTX        "Sterownik d¼wiêku: DirectX"
   IDS_SOUND_DRIVER_WMM            "Sterownik d¼wiêku: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Pliki multimedialne (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Skonfiguruj uk³ad klawiszy A"
@@ -7000,6 +7048,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Konfiguruj ustawienia urz±dzenia d¼wiêku"
   IDS_SOUND_DIRECTX               "Sterownik DirectX"
   IDS_SOUND_WMM                   "Sterownik WMM"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Próbkowanie :"
   IDS_SOUND_BUFFER_SIZE           "Rozmiar bufora d¼wiêku :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Rozmiar fragmentu d¼wiêku :"
@@ -7541,6 +7590,9 @@ BEGIN
   IDS_EXACT                       "Exact"
   IDS_SOUND_DRIVER_DIRECTX        "Sound driver: DirectX"
   IDS_SOUND_DRIVER_WMM            "Sound driver: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "¼ÕÔØÐ äÐÙÛë (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    "Ú±"
   IDS_CONFIGURE_KEYSET_A          "ÃÚÐ×Ðâì ÝÐÑÞà ÚÛÐÒØè °"
@@ -7631,6 +7683,7 @@ BEGIN
   IDS_SOUND_CAPTION               "¾ßàÕÔÕÛØâì ÝÐáâàÞÙÚØ ×ÒãÚÞÒÞÓÞ ãáâàÞÙáâÒÐ"
   IDS_SOUND_DIRECTX               "´àÐÙÒÕà DirectX"
   IDS_SOUND_WMM                   "WMM driver"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Sample rate :"
   IDS_SOUND_BUFFER_SIZE           "Sound Buffer Size :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Sound Fragment Size :"
@@ -8169,6 +8222,9 @@ BEGIN
   IDS_EXACT                       "Exakt"
   IDS_SOUND_DRIVER_DIRECTX        "Ljuddrivrutin: DirectX"
   IDS_SOUND_DRIVER_WMM            "Ljuddrivrutin: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Mediafiler (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Konfigurera uppsättning A"
@@ -8259,6 +8315,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Inställningar för ljudenheter"
   IDS_SOUND_DIRECTX               "DirectX-drivrutiner"
   IDS_SOUND_WMM                   "WMM-drivrutin"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Samplingshastighet :"
   IDS_SOUND_BUFFER_SIZE           "Ljudbuffertstorlek :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Storlek på ljudfragment :"
@@ -8797,6 +8854,9 @@ BEGIN
   IDS_EXACT                       "Aynen"
   IDS_SOUND_DRIVER_DIRECTX        "Ses sürücüsü: DirectX"
   IDS_SOUND_DRIVER_WMM            "Ses sürücüsü: WMM"
+  IDS_SYSTEM                      "System"
+  IDS_MONO                        "Mono"
+  IDS_STEREO                      "Stereo"
   IDS_MEDIA_FILES_FILTER          "Ortam dosyalarý (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
   IDS_SPACE_KB                    " kB"
   IDS_CONFIGURE_KEYSET_A          "Tuþ Seti A'yý Konfigüre Et"
@@ -8887,6 +8947,7 @@ BEGIN
   IDS_SOUND_CAPTION               "Ses Aygýtý Ayarlarýný Konfigüre Et"
   IDS_SOUND_DIRECTX               "DirectX sürücüsü"
   IDS_SOUND_WMM                   "WMM sürücüsü"
+  IDS_SOUND_OUTPUT_MODE           "Sound output mode"
   IDS_SOUND_SAMPLE_FREQUENCY      "Örnek hýzý :"
   IDS_SOUND_BUFFER_SIZE           "Ses Arabellek Boyutu :"
   IDS_SOUND_FRAGMENT_SIZE_LABEL   "Ses Parça Boyutu :"
