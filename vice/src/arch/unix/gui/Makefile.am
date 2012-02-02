@@ -104,7 +104,6 @@ libarchgui_a_SOURCES = \
 	uimmc64.h \
 	uimmcreplay.c \
 	uimmcreplay.h \
-	uimon.c \
 	uimouse.c \
 	uimouse.h \
 	uilightpen.c \

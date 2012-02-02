@@ -2499,8 +2499,9 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
         AC_MSG_RESULT(no)
       )
-    X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS"
-    LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS"
+    PKG_CHECK_MODULES(VTE, [vte])
+    X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS $VTE_LIBS"
+    LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS $VTE_LIBS"
   else
     AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
     dnl instead of assuming that libsocket needs libnsl, we
@@ -2868,7 +2869,7 @@ if test x"$is_unix" = "xyes"; then
         AC_DEFINE(USE_XAWUI,,[Are we using the Unix/X11/Xaw ui?])
       else
         ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/gui/libarchgui.a $ARCH_DIR/x11/gnome/libgnomeui.a $ARCH_DIR/x11/libx11ui.a"
-        ARCH_INCLUDES="-I$ARCH_SRC_DIR $GTK_CFLAGS $GTKGL_CFLAGS"
+        ARCH_INCLUDES="-I$ARCH_SRC_DIR $GTK_CFLAGS $GTKGL_CFLAGS $VTE_CFLAGS"
       fi
     
       AC_DEFINE(HAVE_READLINE,,[Are we using the readline library replacement?])
