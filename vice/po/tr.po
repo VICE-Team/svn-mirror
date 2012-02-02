@@ -1,14 +1,14 @@
 # Turkish Translation File for VICE
-# Copyright (C) 2008-2011
+# Copyright (C) 2008-2012
 # This file is distributed under the same license as the PACKAGE package.
-# Emir Akaydin <emir@akaydin.com>, 2008-2011.
+# Emir Akaydin <emir@akaydin.com>, 2008-2012.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-01-31 14:56-0800\n"
-"PO-Revision-Date: 2011-12-06 18:41+0100\n"
+"PO-Revision-Date: 2012-02-02 03:02+0200\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -285,9 +285,8 @@ msgid "Screenshots"
 msgstr "Ekran Görüntüleri"
 
 #: src/arch/unix/gui/c128ui.c:502 src/arch/unix/gui/c128ui.c:548
-#, fuzzy
 msgid "C128 model"
-msgstr "CIA 1 modeli"
+msgstr "C128 modeli"
 
 #: src/arch/unix/gui/c128ui.c:510 src/arch/win32/resc128.rc.po.c:699
 #: src/arch/amigaos/intl_text.c.po.c:3144
@@ -705,9 +704,8 @@ msgid "Model defaults"
 msgstr "Varsayýlan model ayarlarý"
 
 #: src/arch/unix/gui/cbm2ui.c:286
-#, fuzzy
 msgid "CIA model"
-msgstr "CIA 1 modeli"
+msgstr "CIA modeli"
 
 #: src/arch/unix/gui/cbm2ui.c:288 src/arch/unix/gui/cbm2ui.c:321
 #: src/arch/unix/gui/petui.c:346
@@ -906,24 +904,20 @@ msgid "Unload $B*** ROM"
 msgstr "$B*** ROM kaldýr"
 
 #: src/arch/unix/gui/petui.c:325
-#, fuzzy
 msgid "Load new $C*** ROM"
-msgstr "Yeni $9*** ROM yükle"
+msgstr "Yeni $C*** ROM yükle"
 
 #: src/arch/unix/gui/petui.c:328
-#, fuzzy
 msgid "Load new $D*** ROM"
-msgstr "Yeni $9*** ROM yükle"
+msgstr "Yeni $D*** ROM yükle"
 
 #: src/arch/unix/gui/petui.c:331
-#, fuzzy
 msgid "Load new $E*** ROM"
-msgstr "Yeni $9*** ROM yükle"
+msgstr "Yeni $E*** ROM yükle"
 
 #: src/arch/unix/gui/petui.c:334
-#, fuzzy
 msgid "Load new $F*** ROM"
-msgstr "Yeni $9*** ROM yükle"
+msgstr "Yeni $F*** ROM yükle"
 
 #: src/arch/unix/gui/petui.c:344 src/arch/amigaos/intl_text.c.po.c:8927
 msgid "Video size"
@@ -947,13 +941,12 @@ msgid "SuperPET ACIA"
 msgstr "SuperPET ACIA"
 
 #: src/arch/unix/gui/petui.c:357
-#, fuzzy
 msgid "SuperPET CPU Switch"
-msgstr "SuperPET ACIA"
+msgstr "SuperPET CPU Anahtarý"
 
 #: src/arch/unix/gui/petui.c:359
 msgid "SuperPET 6809 ROMs"
-msgstr ""
+msgstr "SuperPET 6809 ROMlarý"
 
 #: src/arch/unix/gui/petui.c:362
 msgid "$9*** as RAM (8296 only)"
@@ -1554,21 +1547,16 @@ msgid "Run C1541"
 msgstr "C1541'i çalýþtýr"
 
 #: src/arch/unix/gui/uicommands.c:591
-#, fuzzy
 msgid "Available command-line options:"
-msgstr ""
-"\n"
-"Mevcut komut satýrý seçenekleri:\n"
-"\n"
+msgstr "Mevcut komut-satýrý seçenekleri:"
 
 #: src/arch/unix/gui/uicommands.c:596
 msgid "Browse manuals"
 msgstr "Klavuza göz at"
 
 #: src/arch/unix/gui/uicommands.c:598
-#, fuzzy
 msgid "Commandline options"
-msgstr "Komut satýrý seçenekleri"
+msgstr "Komutsatýrý seçenekleri"
 
 #: src/arch/unix/gui/uicommands.c:600 src/arch/win32/res.rc.po.c:176
 #: src/arch/win32/res.rc.po.c:1399 src/arch/amigaos/intl_text.c.po.c:3074
@@ -1713,9 +1701,8 @@ msgstr "CRT emülasyonu ayarlarý"
 #: src/arch/unix/gui/uicrtc.c:165 src/arch/unix/gui/uited.c:169
 #: src/arch/unix/gui/uivdc.c:182 src/arch/unix/gui/uivic.c:168
 #: src/arch/unix/gui/uivicii.c:193
-#, fuzzy
 msgid "Audio leak emulation"
-msgstr "Paddle emülasyonu"
+msgstr "Ses kaçaðý emülasyonu"
 
 #: src/arch/unix/gui/uicrtc.c:169 src/arch/unix/gui/uited.c:173
 #: src/arch/unix/gui/uivdc.c:186 src/arch/unix/gui/uivic.c:172
@@ -1888,9 +1875,8 @@ msgstr "Gerçek sürücü emülasyonu"
 #: src/arch/unix/gui/uidrivec64.c:45 src/arch/unix/gui/uidrivec64dtv.c:46
 #: src/arch/unix/gui/uidrivepetcbm2.c:95 src/arch/unix/gui/uidriveplus4.c:229
 #: src/arch/unix/gui/uidrivevic20.c:68
-#, fuzzy
 msgid "Drive sound emulation"
-msgstr "Yazýcý emülasyonu"
+msgstr "Sürücü ses emülasyonu"
 
 #: src/arch/unix/gui/uidrive.c:191 src/arch/unix/gui/uidrivec64dtv.c:48
 #: src/translate_text.c.po.c:12569
@@ -4062,9 +4048,8 @@ msgstr ""
 "Emir Akaydýn (aka: Skate) - Türkçe\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
-#, fuzzy
 msgid "(c) 1998 - 2012 The VICE Team"
-msgstr "(c) 1998 - 2011 The VICE Team"
+msgstr "(c) 1998 - 2012 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:128 src/arch/win32/res.rc.po.c:1084
 #: src/arch/win32/res.rc.po.c:1552 src/arch/amigaos/intl_text.c.po.c:3116
@@ -4692,94 +4677,76 @@ msgid "Version 0.0"
 msgstr "Versiyon 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2012 Dag Lem"
-msgstr "Copyright (c) 1998-2011 Dag Lem"
+msgstr "Copyright (c) 1998-2012 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2012 Andreas Matthies"
-msgstr "Copyright (c) 1999-2011 Andreas Matthies"
+msgstr "Copyright (c) 1999-2012 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 1999-2012 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2011 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2012 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2000-2012 Spiro Trikaliotis"
-msgstr "Copyright (c) 2000-2011 Spiro Trikaliotis"
+msgstr "Copyright (c) 2000-2012 Spiro Trikaliotis"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2005-2012 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2011 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2012 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2006-2012 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2011 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2012 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2012 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2011 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2012 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2007-2012 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2011 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2012 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2008-2012 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2011 M. Kiesel"
+msgstr "Copyright (c) 2008-2012 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Groepaz"
-msgstr "Copyright (c) 2009-2011 Groepaz"
+msgstr "Copyright (c) 2009-2012 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Ingo Korb"
-msgstr "Copyright (c) 2009-2011 Ingo Korb"
+msgstr "Copyright (c) 2009-2012 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Errol Smith"
-msgstr "Copyright (c) 2009-2011 Error Smith"
+msgstr "Copyright (c) 2009-2012 Error Smith"
 
 #: src/arch/win32/res.rc.po.c:194
-#, fuzzy
 msgid "Copyright (c) 2010-2012 Olaf Seibert"
-msgstr "Copyright (c) 2010-2011 Olaf Seibert"
+msgstr "Copyright (c) 2010-2012 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Marcus Sutton"
-msgstr "Copyright (c) 2011      Marcus Sutton"
+msgstr "Copyright (c) 2011-2012 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Ulrich Schulz"
-msgstr "Copyright (c) 2011      Ulrich Schulz"
+msgstr "Copyright (c) 2011-2012 Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Stefan Haubenthal"
-msgstr "Copyright (c) 2011      Stefan Haubenthal"
+msgstr "Copyright (c) 2011-2012 Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Thomas Giesel"
-msgstr "Copyright (c) 2011      Thomas Giesel"
+msgstr "Copyright (c) 2011-2012 Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Kajtar Zsolt"
-msgstr "Copyright (c) 2011      Kajtar Zsolt"
+msgstr "Copyright (c) 2011-2012 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:965 src/arch/amigaos/intl_text.c.po.c:4110
 msgid "VICE Question"
@@ -5270,24 +5237,24 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE anlýk görüntü dosyalarý (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1113
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
 "*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*."
-"prg;*.p00)"
+"CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
+"*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1114
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-msgstr ""
+msgstr "IDE64 dosyalarý (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1115
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.x64)"
-msgstr "Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr ""
+"Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
+"g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1116
 msgid "Tape image files (*.t64;*.tap)"
@@ -6022,9 +5989,8 @@ msgid "Sound playback"
 msgstr "Ses"
 
 #: src/arch/win32/res.rc.po.c:1416
-#, fuzzy
 msgid "Double vertical"
-msgstr "Dikey döþe"
+msgstr "Çift dikey"
 
 #: src/arch/win32/res.rc.po.c:1421 src/arch/amigaos/intl_text.c.po.c:456
 msgid "Smart-attach image"
@@ -6465,9 +6431,8 @@ msgid "ACIA mode"
 msgstr "ACIA modu"
 
 #: src/arch/win32/resautostart.rc.po.c:47
-#, fuzzy
 msgid "Random delay"
-msgstr "Rastgele gecikmeyle otomatik baþlat"
+msgstr "Rastgele gecikme"
 
 #: src/arch/win32/resautostart.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:9725
@@ -6697,9 +6662,8 @@ msgid "C64DTV settings"
 msgstr "C64DTV Ayarlarý"
 
 #: src/arch/win32/resc64dtv.rc.po.c:474 src/arch/win32/resc64dtv.rc.po.c:481
-#, fuzzy
 msgid "C64DTV model"
-msgstr "DTV modeli"
+msgstr "C64DTV modeli"
 
 #: src/arch/win32/resc64dtv.rc.po.c:475 src/translate_text.c.po.c:4226
 msgid "Enable Hummer ADC"
@@ -6722,9 +6686,8 @@ msgid "Create"
 msgstr "Yarat"
 
 #: src/arch/win32/resc64dtv.rc.po.c:483
-#, fuzzy
 msgid "C64DTV model settings"
-msgstr "C64 model ayarlarý"
+msgstr "C64DTV model ayarlarý"
 
 #: src/arch/win32/resc64dtv.rc.po.c:485
 msgid "Attach flash rom image"
@@ -6760,24 +6723,20 @@ msgid "1024 kByte"
 msgstr "1024 kByte"
 
 #: src/arch/win32/rescbm2common.rc.po.c:207
-#, fuzzy
 msgid "Attach cartridge image at $1000"
-msgstr "$B000 adresine 4KB kartuþ imajý yerleþtir"
+msgstr "$1000 adresine kartuþ imajý yerleþtir"
 
 #: src/arch/win32/rescbm2common.rc.po.c:208
-#, fuzzy
 msgid "Attach cartridge image at $2000/$3000"
-msgstr "$B000 adresine 4KB kartuþ imajý yerleþtir"
+msgstr "$2000/$3000 adresine kartuþ imajý yerleþtir"
 
 #: src/arch/win32/rescbm2common.rc.po.c:209
-#, fuzzy
 msgid "Attach cartridge image at $4000/$5000"
-msgstr "$B000 adresine 4KB kartuþ imajý yerleþtir"
+msgstr "$4000/$5000 adresine kartuþ imajý yerleþtir"
 
 #: src/arch/win32/rescbm2common.rc.po.c:210
-#, fuzzy
 msgid "Attach cartridge image at $6000/$7000"
-msgstr "$B000 adresine 4KB kartuþ imajý yerleþtir"
+msgstr "$6000/$7000 adresine kartuþ imajý yerleþtir"
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
 msgid "Load new Cart $1***"
@@ -6818,33 +6777,28 @@ msgid "CBM2 settings"
 msgstr "CBM2 ayarlarý"
 
 #: src/arch/win32/rescbm2.rc.po.c:299
-#, fuzzy
 msgid "CBM2 model"
-msgstr "CIA 1 modeli"
+msgstr "CBM2 modeli"
 
 #: src/arch/win32/rescbm2.rc.po.c:301
-#, fuzzy
 msgid "CBM2 model settings"
-msgstr "CBM-II model ayarlarý"
+msgstr "CBM2 model ayarlarý"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:297 src/arch/win32/rescbm5x0.rc.po.c:300
-#, fuzzy
 msgid "CBM5x0 settings"
-msgstr "CBM2 ayarlarý"
+msgstr "CBM5x0 ayarlarý"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:298 src/arch/win32/resplus4.rc.po.c:487
 msgid "64 kByte"
 msgstr "64 kByte"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:299
-#, fuzzy
 msgid "CBM5x0 model"
-msgstr "VDC modeli"
+msgstr "CBM5x0 modeli"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:301
-#, fuzzy
 msgid "CBM5x0 model settings"
-msgstr "CBM-II model ayarlarý"
+msgstr "CBM5x0 model ayarlarý"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:12979
 msgid "Enable the DigiMAX cartridge"
@@ -6912,33 +6866,28 @@ msgid "IDE64 V4 settings"
 msgstr "IDE64 V4 ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 primary master device settings"
-msgstr "IDE64 HD imajý #1 ayarlarý"
+msgstr "IDE64 birincil ana sürücü ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 primary slave device settings"
-msgstr "IDE64 HD imajý #1 ayarlarý"
+msgstr "IDE64 birincil baðýmlý sürücü ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 secondary master device settings"
-msgstr "SID kartuþ ayarlarý"
+msgstr "IDE64 ikincil ana sürücü ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 secondary slave device settings"
-msgstr "Kaydedilmiþ ayarlarý yükle"
+msgstr "IDE64 ikincil baðýmlý sürücü ayarlarý"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
 msgstr "IDE64 V4'ü aktif et"
 
 #: src/arch/win32/reside64.rc.po.c:61
-#, fuzzy
 msgid "ATA device image file"
-msgstr "Kart imaj dosyasý"
+msgstr "ATA sürücü imaj dosyasý"
 
 #: src/arch/win32/reside64.rc.po.c:62
 msgid "Geometry"
@@ -6950,9 +6899,8 @@ msgid "Total size: %iKB"
 msgstr "Toplam boyut: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:68
-#, fuzzy
 msgid "Select ATA device image file"
-msgstr "Kart imaj dosyasý seç"
+msgstr "ATA sürücü imaj dosyasý seç"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:5748
 msgid "Select file for ISEPIC"
@@ -7144,14 +7092,12 @@ msgid "Plus4 settings"
 msgstr "Plus4 ayarlarý"
 
 #: src/arch/win32/resplus4.rc.po.c:476
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 Low"
-msgstr "Kartuþ1 Low için kartuþ imajý yerleþtirin"
+msgstr "Kartuþ0 Low için kartuþ imajý yerleþtirin"
 
 #: src/arch/win32/resplus4.rc.po.c:477
-#, fuzzy
 msgid "Attach cartridge image for Cartridge0 High"
-msgstr "Kartuþ1 High için kartuþ imajý yerleþtirin"
+msgstr "Kartuþ0 High için kartuþ imajý yerleþtirin"
 
 #: src/arch/win32/resplus4.rc.po.c:478 src/arch/amigaos/intl_text.c.po.c:8283
 msgid "Attach cartridge image for Cartridge1 Low"
@@ -7170,14 +7116,12 @@ msgid "Attach cartridge image for Cartridge2 High"
 msgstr "Kartuþ2 High için kartuþ imajý yerleþtirin"
 
 #: src/arch/win32/resplus4.rc.po.c:482
-#, fuzzy
 msgid "Function Lo"
-msgstr "Function ROM"
+msgstr "Fonksiyon Lo"
 
 #: src/arch/win32/resplus4.rc.po.c:483
-#, fuzzy
 msgid "Function Hi"
-msgstr "Function ROM"
+msgstr "Fonksiyon Hi"
 
 #: src/arch/win32/resplus4.rc.po.c:485
 msgid "16 kByte"
@@ -7204,23 +7148,20 @@ msgid "4096 kByte (HANNES)"
 msgstr "4096 kByte (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:492
-#, fuzzy
 msgid "Plus4 model"
-msgstr "C64 modeli"
+msgstr "Plus4 modeli"
 
 #: src/arch/win32/resplus4.rc.po.c:493
-#, fuzzy
 msgid "C0 low  image"
-msgstr "C1 low imajý"
+msgstr "C0 low  imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:494
-#, fuzzy
 msgid "C0 high image"
-msgstr "C1 high imajý"
+msgstr "C0 high imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:495 src/arch/amigaos/intl_text.c.po.c:554
 msgid "C1 low  image"
-msgstr "C1 low imajý"
+msgstr "C1 low  imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:496 src/arch/amigaos/intl_text.c.po.c:568
 msgid "C1 high image"
@@ -7228,7 +7169,7 @@ msgstr "C1 high imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:497 src/arch/amigaos/intl_text.c.po.c:582
 msgid "C2 low  image"
-msgstr "C2 low imajý"
+msgstr "C2 low  imajý"
 
 #: src/arch/win32/resplus4.rc.po.c:498 src/arch/amigaos/intl_text.c.po.c:596
 msgid "C2 high image"
@@ -7241,9 +7182,8 @@ msgid "V364 Speech settings"
 msgstr "V364 Speech ayarlarý"
 
 #: src/arch/win32/resplus4.rc.po.c:501
-#, fuzzy
 msgid "Plus4 model settings"
-msgstr "C64 model ayarlarý"
+msgstr "Plus4 model ayarlarý"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12093
 msgid "Enable the PLUS60K RAM expansion"
@@ -7478,34 +7418,28 @@ msgid "Sprite Collisions"
 msgstr "Yaratýk Çarpýþmalarý"
 
 #: src/arch/win32/resvsid.rc.po.c:31 src/arch/win32/resvsid.rc.po.c:138
-#, fuzzy
 msgid "Media"
-msgstr "Orta"
+msgstr "Ortam"
 
 #: src/arch/win32/resvsid.rc.po.c:131
-#, fuzzy
 msgid "Select PSID file"
-msgstr "BIOS dosyasý seçin"
+msgstr "PSID dosyasý seçin"
 
 #: src/arch/win32/resvsid.rc.po.c:132
-#, fuzzy
 msgid "Tune number"
-msgstr "satýrnumarasý"
+msgstr "Þarký numarasý"
 
 #: src/arch/win32/resvsid.rc.po.c:134
-#, fuzzy
 msgid "Select tune"
-msgstr "Sürücü Seç"
+msgstr "Þarký Seç"
 
 #: src/arch/win32/resvsid.rc.po.c:135
-#, fuzzy
 msgid "Next tune"
-msgstr "Sonraki: "
+msgstr "Sonraki þarký"
 
 #: src/arch/win32/resvsid.rc.po.c:136
-#, fuzzy
 msgid "Previous tune"
-msgstr "Önceki: "
+msgstr "Önceki þarký"
 
 #: src/arch/amigaos/intl_text.c.po.c:610
 msgid "Function low  image (3plus1)"
@@ -9441,7 +9375,7 @@ msgstr "C64 modelini belirle (c64/c64c/c64eski, ntsc/yenintsc/eskintsc, drean)"
 
 #: src/translate_text.c.po.c:4071
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
-msgstr ""
+msgstr "C128 modelini belirle (c128/c128dcr, pal/ntsc)"
 
 #: src/translate_text.c.po.c:4088
 msgid ""
@@ -10785,14 +10719,12 @@ msgid "Disable double scan"
 msgstr "Çift taramayý pasifleþtir"
 
 #: src/translate_text.c.po.c:10349
-#, fuzzy
 msgid "Enable audio leak emulation"
-msgstr "*Gerçek sürücü emülasyonunu aktif et"
+msgstr "Ses kaçaðý emülasyonunu aktif et"
 
 #: src/translate_text.c.po.c:10366
-#, fuzzy
 msgid "Disable audio leak emulation"
-msgstr "Iþýklý Kalem emülasyonunu pasifleþtir"
+msgstr "Ses kaçaðý emülasyonunu pasifleþtir"
 
 #: src/translate_text.c.po.c:10383
 msgid "Enable hardware scaling"
