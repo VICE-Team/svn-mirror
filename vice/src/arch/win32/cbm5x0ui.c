@@ -48,7 +48,7 @@
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uirom.h"
-#include "uisid.h"
+#include "uisiddtv.h"
 #include "uivideo.h"
 #include "winmain.h"
 
@@ -451,8 +451,6 @@ static generic_trans_table_t cbm5x0_generic_res_trans[] = {
     { 0, NULL }
 };
 
-static const int cbm5x0_sid_baseaddress[] = { 0xda, -1 };
-
 static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
@@ -484,7 +482,7 @@ static void cbm5x0_ui_specific(WPARAM wparam, HWND hwnd)
             ui_joystick_settings_dialog(hwnd);
             break;
         case IDM_SID_SETTINGS:
-            ui_sid_settings_dialog(hwnd, cbm5x0_sid_baseaddress);
+            ui_siddtv_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,

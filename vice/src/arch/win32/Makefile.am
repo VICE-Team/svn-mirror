@@ -558,20 +558,20 @@ resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resautostart.rc $(srcdir)/resvicii.rc
 
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
-	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressid.rc \
+	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
 	$(top_builddir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/ressid.rc $(srcdir)/resautostart.rc
+	$(srcdir)/ressiddtv.rc $(srcdir)/resautostart.rc
 
 rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
-	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressid.rc \
+	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h
 	cat >rescbm5x0cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/ressid.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
+	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
 
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
