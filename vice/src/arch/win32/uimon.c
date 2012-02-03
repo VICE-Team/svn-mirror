@@ -164,7 +164,7 @@ static HWND hwndActive = NULL;
 static void update_shown(void);
 
 #if defined(__GNUC__) && (defined(__i386__) || defined(__x86_64__))
-extern inline void *uimon_icep(void **dest, void *xchg, void *compare)
+static inline void *uimon_icep(void **dest, void *xchg, void *compare)
 {
     void *ret;
 #ifdef __x86_64__
@@ -382,7 +382,7 @@ static HWND iOpenGeneric(HWND hwnd, DWORD dwStyleMDI, DWORD dwStylePopup, int x,
     window_data->extra->window_type = window_type;
 
     /* wait until we are the only window to be opened */
-    while (uimon_icep(&window_data_create, window_data, NULL)) {
+    while (uimon_icep((void **)&window_data_create, window_data, NULL)) {
         ui_dispatch_next_event();
     }
 
@@ -2409,7 +2409,7 @@ static LRESULT CALLBACK generic_window_proc(HWND hwnd, UINT msg, WPARAM wParam, 
     window_data.window_procedure = (void *)GetWindowLongPtr(hwnd, offsetof(window_data_t, window_procedure));
 
     if (window_data.window_procedure == NULL) {
-        window_data_t * new_window_data = uimon_iep((PULONG)&window_data_create, NULL);
+        window_data_t * new_window_data = uimon_iep((void **)&window_data_create, NULL);
 
         assert(new_window_data != NULL);
 
