@@ -110,10 +110,13 @@ static int bankCoffset = 0;
 /* memory tables for the 6809 */
 static read_func_ptr_t _mem6809_read_tab[0x101];
 static store_func_ptr_t _mem6809_write_tab[0x101];
-static read_func_ptr_t _mem_6809read_tab_watch[0x101];
+static read_func_ptr_t _mem6809_read_tab_watch[0x101];
 static store_func_ptr_t _mem6809_write_tab_watch[0x101];
 static BYTE *_mem6809_read_base_tab[0x101];
 static int mem6809_read_limit_tab[0x101];
+
+read_func_ptr_t *_mem6809_read_tab_ptr;
+store_func_ptr_t *_mem6809_write_tab_ptr;
 
 static log_t pet_mem_log = LOG_ERR;
 
@@ -187,12 +190,15 @@ void rom_store(WORD addr, BYTE value)
 
 BYTE rom6809_read(WORD addr)
 {
-    return mem_rom[addr - ROM6809_BASE];
+    return mem_6809rom[addr - ROM6809_BASE];
+    //BYTE val = mem_6809rom[addr - ROM6809_BASE];
+    //printf("rom6809_read %04x -> %02x\n", addr, val);
+    //return val;
 }
 
 void rom6809_store(WORD addr, BYTE value)
 {
-    mem_rom[addr - ROM6809_BASE] = value;
+    mem_6809rom[addr - ROM6809_BASE] = value;
 }
 
 static BYTE read_unused(WORD addr)
@@ -247,6 +253,18 @@ static void store_watch(WORD addr, BYTE value)
     _mem_write_tab[addr >> 8](addr, value);
 }
 
+static BYTE read6809_watch(WORD addr)
+{
+    monitor_watch_push_load_addr(addr, e_comp_space);
+    return _mem6809_read_tab[addr >> 8](addr);
+}
+
+static void store6809_watch(WORD addr, BYTE value)
+{
+    monitor_watch_push_store_addr(addr, e_comp_space);
+    _mem6809_write_tab[addr >> 8](addr, value);
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* SuperPET handling
@@ -275,7 +293,7 @@ static void superpet_powerup(void)
 {
 /* Those two are not reset by a soft reset (/RES), only by power down */
     spet_diag = 0;
-    spet_ramwp = 1;
+    spet_ramwp = 0;     /* should look at hardware switch */
     petmem_reset();
 }
 
@@ -283,6 +301,8 @@ int petmem_superpet_diag(void)
 {
     return petres.superpet && spet_diag;
 }
+
+static BYTE dongle_value;
 
 static BYTE read_super_io(WORD addr)
 {
@@ -292,11 +312,19 @@ static BYTE read_super_io(WORD addr)
     if (addr >= 0xeff0) {       /* ACIA */
         return acia1_read((WORD)(addr & 0x03));
     } else
+#if 0
     if (addr >= 0xefe4) {       /* unused */
         return read_unused(addr);
     } else
     if (addr >= 0xefe0) {       /* dongle */
+        fprintf(stderr, "*** DONGLE ***\n");
     }
+#else
+    if ((addr & 0x0010) == 0) { /* dongle E F xxx0 xxxx, see schematics/computers/pet/SuperPET/324055.gif */
+        fprintf(stderr, "*** DONGLE %04x -> %02X ***\n", addr, dongle_value);
+        return dongle_value;
+    }
+#endif
     return read_unused(addr);   /* fallback */
 }
 
@@ -304,18 +332,22 @@ static void store_super_io(WORD addr, BYTE value)
 {
     if (addr >= 0xeffe) {       /* RAM/ROM switch */
         spet_ramen = !(value & 1);
+        printf("spet_ramen := %d\n", spet_ramen);
     } else
     if (addr >= 0xeffc) {       /* Bank select */
         spet_bank = value & 0x0f;
         spet_ctrlwp = !(value & 0x80);
+        printf("spet_bank := %d\n", spet_bank);
+        printf("spet_ctrlwp := %d\n", spet_ctrlwp);
     } else {
         if (addr >= 0xeff8) {
             if (!spet_ctrlwp) {
                 if (!(value & 1)) {
-                    log_error(pet_mem_log, "SuperPET: 6809 not emulated!");
+                    log_error(pet_mem_log, "SuperPET: switching to 6809 not emulated!");
                     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 }
-                spet_ramwp = !(value & 0x2);
+                spet_ramwp = !(value & 0x2);    /* IF hardware w/p switch is PROG */
+                printf("spet_ramwp := %d\n", spet_ramwp);
                 spet_diag = (value & 0x8);
             }
         } else
@@ -324,10 +356,18 @@ static void store_super_io(WORD addr, BYTE value)
         if (addr >= 0xeff0) {   /* ACIA */
             acia1_store((WORD)(addr & 0x03), value);
         } else
+#if 0
         if (addr >= 0xefe4) {   /* unused */
         } else
         if (addr >= 0xefe0) {   /* dongle? */
+            fprintf(stderr, "*** DONGLE ***\n");
         }
+#else
+    if ((addr & 0x0010) == 0) { /* dongle E F xxx0 xxxx, see schematics/computers/pet/SuperPET/324055.gif */
+        fprintf(stderr, "*** DONGLE %04x := %02X ***\n", addr, value);
+        dongle_value = value;
+    }
+#endif
     }
 }
 
@@ -342,6 +382,9 @@ static BYTE read_super_9(WORD addr)
 static void store_super_9(WORD addr, BYTE value)
 {
     if (spet_ramen && !spet_ramwp) {
+        /* printf("store_super_9: %04x <- %04x <- %02x\n",
+                (spet_bank << 12) | (addr & 0x0fff),
+                addr, value); */
         (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)] = value;
     }
 }
@@ -359,6 +402,50 @@ void mem_store(WORD addr, BYTE value)
 BYTE mem_read(WORD addr)
 {
     return _mem_read_tab_ptr[addr >> 8](addr);
+}
+
+#define PRINT_6809_STORE        0
+#define PRINT_6809_READ         0
+
+void mem6809_store(WORD addr, BYTE value)
+{
+#if PRINT_6809_STORE
+    if (addr >= 0x8000 && addr < 0x9000)
+        printf("mem6809_store   %04x <- %02x\n", addr, value);
+#endif
+    _mem6809_write_tab_ptr[addr >> 8](addr, value);
+}
+
+BYTE mem6809_read(WORD addr)
+{
+#if PRINT_6809_READ
+    BYTE v;
+    v = _mem6809_read_tab_ptr[addr >> 8](addr);
+    printf("mem6809_read   %04x -> %02x\n", addr, v);
+    return v;
+#else
+    return _mem6809_read_tab_ptr[addr >> 8](addr);
+#endif
+}
+
+void mem6809_store16(WORD addr, WORD value)
+{
+#if PRINT_6809_STORE0
+    printf("mem6809_store16 %04x <- %04x\n", addr, value);
+#endif
+    _mem6809_write_tab_ptr[addr >> 8](addr+1, value & 0xFF);
+    _mem6809_write_tab_ptr[addr >> 8](addr  , value >> 8);
+}
+
+WORD mem6809_read16(WORD addr)
+{
+    WORD val;
+    val  = _mem6809_read_tab_ptr[addr >> 8](addr)   << 8;
+    val |= _mem6809_read_tab_ptr[addr >> 8](addr+1);
+#if PRINT_6809_READ
+    printf("mem6809_read16 %04x -> %04x\n", addr, val);
+#endif
+    return val;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -599,9 +686,13 @@ void mem_toggle_watchpoints(int flag, void *context)
     if (flag) {
         _mem_read_tab_ptr = _mem_read_tab_watch;
         _mem_write_tab_ptr = _mem_write_tab_watch;
+        _mem6809_read_tab_ptr = _mem6809_read_tab_watch;
+        _mem6809_write_tab_ptr = _mem6809_write_tab_watch;
     } else {
         _mem_read_tab_ptr = _mem_read_tab;
         _mem_write_tab_ptr = _mem_write_tab;
+        _mem6809_read_tab_ptr = _mem6809_read_tab;
+        _mem6809_write_tab_ptr = _mem6809_write_tab;
     }
 }
 
@@ -867,6 +958,7 @@ void mem_initialize_memory(void)
 	 * ROMs in addresses $A000 - $FFFF and but including the I/O range
 	 * of $E800 - $EFFF.
 	 */
+
 	for (i = 0x00; i < 0xa0; i++) {
 	    _mem6809_read_tab[i]      = _mem_read_tab[i];
 	    _mem6809_write_tab[i]     = _mem_write_tab[i];
@@ -897,6 +989,19 @@ void mem_initialize_memory(void)
 	    _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
 	    mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
 	}
+
+        _mem6809_read_tab[0x100] = _mem6809_read_tab[0];
+        _mem6809_write_tab[0x100] = _mem6809_write_tab[0];
+        _mem6809_read_base_tab[0x100] = _mem6809_read_base_tab[0];
+        mem6809_read_limit_tab[0x100] = -1;
+
+        _mem6809_read_tab_ptr = _mem6809_read_tab;
+        _mem6809_write_tab_ptr = _mem6809_write_tab;
+
+        for (i = 0; i < 0x101; i++) {
+            _mem6809_read_tab_watch[i] = read6809_watch;
+            _mem6809_write_tab_watch[i] = store6809_watch;
+        }
     }
 }
 
@@ -989,11 +1094,17 @@ static BYTE peek_bank_io(WORD addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram", "rom", "io", "extram", NULL
+    "default", "cpu", "ram", "rom", "io", "extram", "6809", NULL
+};
+
+enum {
+    bank_default, bank_cpu = 0, bank_ram, bank_rom, bank_io, bank_extram,
+    bank_cpu6809
 };
 
 static const int banknums[] = {
-    0, 0, 1, 2, 3, 4
+    bank_default, bank_cpu, bank_ram, bank_rom, bank_io, bank_extram,
+    bank_cpu6809,
 };
 
 const char **mem_bank_list(void)
@@ -1017,13 +1128,13 @@ int mem_bank_from_name(const char *name)
 BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
+      case bank_default:        /* current */
         return mem_read(addr);
         break;
-      case 4:                   /* extended RAM area (8x96) */
+      case bank_extram:         /* extended RAM area (8x96) */
         return mem_ram[addr + 0x10000];
         break;
-      case 3:                   /* io */
+      case bank_io:            /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
             return read_io(addr);
         }
@@ -1031,11 +1142,13 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             return read_unused(addr);
         }
         /* fallthrough to rom */
-      case 2:                   /* rom */
+      case bank_rom:           /* rom */
         if (addr >= 0x9000) {
             return mem_rom[addr & 0x7fff];
         }
-      case 1:                   /* ram */
+      case bank_cpu6809:       /* 6809 */
+        return mem6809_read(addr);
+      case bank_ram:           /* ram */
         break;
     }
     return mem_ram[addr];
@@ -1044,10 +1157,10 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
 BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
+      case bank_default:        /* current */
         return mem_read(addr);  /* FIXME */
         break;
-      case 3:                   /* io */
+      case bank_io:             /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
             return peek_bank_io(addr);
         }
@@ -1065,13 +1178,13 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
+      case bank_default:        /* current */
         mem_store(addr, byte);
         return;
-      case 4:                   /* extended RAM area (8x96) */
+      case bank_extram:         /* extended RAM area (8x96) */
         mem_ram[addr + 0x10000] = byte;
         return;
-      case 3:                   /* io */
+      case bank_io:             /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
             store_io(addr, byte);
             return;
@@ -1080,10 +1193,13 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
             store_dummy(addr, byte);
             return;
         }
-      case 2:                   /* rom */
+      case bank_rom:            /* rom */
         if (addr >= 0x9000) {
             return;
         }
+      case bank_cpu6809:        /* rom */
+        mem6809_store(addr, byte);
+        return;
       case 1:                   /* ram */
         break;
     }
@@ -1152,6 +1268,7 @@ int pet_init_ok = 0;
 /* ------------------------------------------------------------------------- */
 
 #define PET_CHARGEN_NAME        "chargen"
+#define SUPERPET_CHARGEN_NAME   "characters.901640-01.bin"
 
 /*
  * table with Model information
@@ -1209,7 +1326,7 @@ static pet_table_t pet_table[] = {
         NULL, NULL, NULL } },
     { "SuperPET",
       { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
-        PET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
+        "characters.901640-01.bin", PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,
         /*{ "waterloo-a000.901898-01.bin",
             "waterloo-b000.901898-02.bin",

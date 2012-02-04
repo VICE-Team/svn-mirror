@@ -238,6 +238,8 @@ int find_cpu_type_from_string(const char *cpu_string)
 {
     if ((strcasecmp(cpu_string, "6502")==0)||(strcasecmp(cpu_string, "6510")==0)) {
         return CPU_6502;
+    } else if (strcasecmp(cpu_string, "h6809")==0||strcmp(cpu_string, "6809")==0) {
+        return CPU_6809;
     } else if (strcasecmp(cpu_string, "z80")==0) {
         return CPU_Z80;
     } else if ((strcasecmp(cpu_string, "6502dtv")==0)||(strcasecmp(cpu_string, "6510dtv")==0)) {
@@ -276,6 +278,9 @@ void monitor_print_cpu_types_supported(MEMSPACE mem)
                 break;
             case CPU_6502DTV:
                 mon_out(" 6502DTV");
+                break;
+            case CPU_6809:
+                mon_out(" 6809");
                 break;
             case CPU_Z80:
                 mon_out(" Z80");
@@ -1089,6 +1094,9 @@ static void add_monitor_cpu_type_supported(supported_cpu_type_list_t **list_ptr,
 
 static void find_supported_monitor_cpu_types(supported_cpu_type_list_t **list_ptr, monitor_interface_t *mon_interface)
 {
+    if (mon_interface->h6809_cpu_regs) {
+        add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_6809));
+    }
     if (mon_interface->z80_cpu_regs) {
         add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_Z80));
     }

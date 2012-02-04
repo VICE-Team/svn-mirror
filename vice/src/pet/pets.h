@@ -44,6 +44,13 @@
 #define PET_EDITOR4B80NAME  "edit4b80"
 #define PET_EDITOR4B40NAME  "edit4b40"
 
+#define SUPERPET_6809_A_NAME "waterloo-a000.901898-01.bin"
+#define SUPERPET_6809_B_NAME "waterloo-b000.901898-02.bin"
+#define SUPERPET_6809_C_NAME "waterloo-c000.901898-03.bin"
+#define SUPERPET_6809_D_NAME "waterloo-d000.901898-04.bin"
+#define SUPERPET_6809_E_NAME "waterloo-e000.901897-01.bin"
+#define SUPERPET_6809_F_NAME "waterloo-f000.901898-05.bin"
+
 #define PET_COLS 80
 #define PET_MAP_LINEAR          0
 #define PET_MAP_8096            1

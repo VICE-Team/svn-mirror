@@ -81,5 +81,10 @@ extern int spet_ramwp;
 extern BYTE petmem_map_reg;
 extern BYTE petmem_2001_buf_ef[];
 
+extern read_func_t mem6809_read;
+extern store_func_t mem6809_store;
+extern void mem6809_store16(WORD addr, WORD value);
+extern WORD mem6809_read16(WORD addr);
+
 #endif
 

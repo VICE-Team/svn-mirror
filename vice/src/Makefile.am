@@ -139,6 +139,7 @@ noinst_HEADERS = \
 	fullscreen.h \
 	gcr.h \
 	gfxoutput.h \
+	h6809regs.h \
 	hardsid.h \
 	iecbus.h \
 	iecdrive.h \
@@ -1220,7 +1221,7 @@ xpet_libs =  \
 	$(imagecontents_lib) \
 	$(resid_libs)
 
-xpet_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources)
+xpet_SOURCES = $(base_sources) $(mouse_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 xpet_DEPENDENCIES = $(xpet_libs) 
 xpet_LDFLAGS = @xpet_LDFLAGS@
@@ -1499,6 +1500,9 @@ petcat_LDADD = \
 # cartconv
 cartconv_SOURCES = cartconv.c
 cartconv_LDADD = @INTLLIBS@
+
+# distclean
+DISTCLEANFILES = $(BUILT_SOURCES)
 
 # Special targets to build libraries in subdirectories.
 

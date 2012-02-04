@@ -1,10 +1,8 @@
 /*
- * mon_assemble.c - The VICE built-in monitor, 6502 assembler module.
+ * mon_assemble6809.c - The VICE built-in monitor, 6809 assembler module.
  *
  * Written by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
+ *  Olaf Seibert <rhialto@falu.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -55,6 +53,7 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
     mem = addr_memspace(asm_mode_addr);
     loc = addr_location(asm_mode_addr);
 
+#if 0
     do {
         const asm_opcode_info_t *opinfo;
 
@@ -129,14 +128,16 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
         }
         i++;
     } while (i != 0);
+#endif
 
     if (!found) {
         mon_out("Instruction not valid.\n");
         return -1;
     }
 
+#if 0
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
-          ((unsigned int)(operand_mode), 0, 0, 0);
+          ((unsigned int)(operand_mode), 0, 0);
 
     /* EP 98.08.23 use correct memspace for assembling.  */
     mon_set_mem_val(mem, loc, opcode);
@@ -153,9 +154,10 @@ static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
         mon_out("Assemble error: %d\n", len);
     }
     return len;
+#endif
 }
 
-void mon_assemble6502_init(monitor_cpu_type_t *monitor_cpu_type)
+void mon_assemble6809_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_assemble_instr = mon_assemble_instr;
 }

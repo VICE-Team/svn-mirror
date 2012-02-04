@@ -3,27 +3,151 @@
  * Copyright 2006, 2007 by Brian Dominy <brian@oddchange.com>
  *
  * This file is part of GCC6809.
+ * This file is part of VICE.
  *
- * GCC6809 is free software; you can redistribute it and/or modify
+ * VICE is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  *
- * GCC6809 is distributed in the hope that it will be useful,
+ * VICE is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with GCC6809; if not, write to the Free Software
+ * along with VICE; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
 
 
-#include "6809.h"
-#include "monitor.h"
 #include <stdarg.h>
+#include "6809.h"
+#include "monitor6809.h"
+#include "petmem.h"
+#include "interrupt.h"
+#include "alarm.h"
+#include "monitor.h"
+#include "h6809regs.h"
+
+#define CLK maincpu_clk
+#define CPU_INT_STATUS maincpu_int_status
+#define ALARM_CONTEXT maincpu_alarm_context
+
+/* ------------------------------------------------------------------------- */
+/* Hook for additional delay.  */
+
+#ifndef CPU_DELAY_CLK
+#define CPU_DELAY_CLK
+#endif
+
+#ifndef CPU_REFRESH_CLK
+#define CPU_REFRESH_CLK
+#endif
+
+#ifndef DMA_ON_RESET
+#define DMA_ON_RESET
+#endif
+
+#ifndef DMA_FUNC
+#define DMA_FUNC
+#endif
+
+#define CALLER  e_comp_space
+#define LAST_OPCODE_ADDR iPC
+#define GLOBAL_REGS     h6809_regs
+
+h6809_regs_t h6809_regs;
+
+/* Export the local version of the registers.  */
+#define EXPORT_REGISTERS()            \
+  do {                                \
+      GLOBAL_REGS.reg_x  = get_x();   \
+      GLOBAL_REGS.reg_y  = get_y();   \
+      GLOBAL_REGS.reg_u  = get_u();   \
+      GLOBAL_REGS.reg_s  = get_s();   \
+      GLOBAL_REGS.reg_pc = get_pc();  \
+      GLOBAL_REGS.reg_dp = get_dp();  \
+      GLOBAL_REGS.reg_cc = get_cc();  \
+      GLOBAL_REGS.reg_a  = get_a();   \
+      GLOBAL_REGS.reg_b  = get_b();   \
+  } while (0)
+
+/* Import the public version of the registers.  */
+#define IMPORT_REGISTERS()         \
+  do {                             \
+      set_x( GLOBAL_REGS.reg_x );  \
+      set_y( GLOBAL_REGS.reg_y );  \
+      set_u( GLOBAL_REGS.reg_u );  \
+      set_s( GLOBAL_REGS.reg_s );  \
+      set_pc(GLOBAL_REGS.reg_pc);  \
+      set_dp(GLOBAL_REGS.reg_dp);  \
+      set_cc(GLOBAL_REGS.reg_cc);  \
+      set_a (GLOBAL_REGS.reg_a );  \
+      set_b (GLOBAL_REGS.reg_b );  \
+  } while (0)
+#define JUMP(pc)
+
+#define DO_INTERRUPT(int_kind)  do {                                  \
+        BYTE ik = (int_kind);                                         \
+        if (ik & (IK_TRAP | IK_RESET)) {                              \
+            if (ik & IK_TRAP) {                                       \
+                EXPORT_REGISTERS();                                   \
+                interrupt_do_trap(CPU_INT_STATUS, (WORD)PC);          \
+                IMPORT_REGISTERS();                                   \
+                if (CPU_INT_STATUS->global_pending_int & IK_RESET)    \
+                    ik |= IK_RESET;                                   \
+            }                                                         \
+            if (ik & IK_RESET) {                                      \
+                interrupt_ack_reset(CPU_INT_STATUS);                  \
+                cpu6809_reset();                                      \
+                DMA_ON_RESET;                                         \
+            }                                                         \
+        }                                                             \
+        if (ik & (IK_MONITOR | IK_DMA)) {                             \
+            if (ik & IK_MONITOR) {                                    \
+                caller_space = CALLER;                                \
+                if (monitor_force_import(CALLER))                     \
+                    IMPORT_REGISTERS();                               \
+                if (monitor_mask[CALLER])                             \
+                    EXPORT_REGISTERS();                               \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {              \
+                    if (monitor_check_breakpoints(CALLER,             \
+                            (WORD)PC)) {                              \
+                        monitor_startup();                            \
+                        IMPORT_REGISTERS();                           \
+                    }                                                 \
+                }                                                     \
+                if (monitor_mask[CALLER] & (MI_STEP)) {               \
+                    monitor_check_icount((WORD)PC);                   \
+                    IMPORT_REGISTERS();                               \
+                }                                                     \
+                if (monitor_mask[CALLER] & (MI_WATCH)) {              \
+                    monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)PC); \
+                    IMPORT_REGISTERS();                               \
+                }                                                     \
+            }                                                         \
+            if (ik & IK_DMA) {                                        \
+                EXPORT_REGISTERS();                                   \
+                DMA_FUNC;                                             \
+                interrupt_ack_dma(CPU_INT_STATUS);                    \
+                IMPORT_REGISTERS();                                   \
+                JUMP(PC);                                             \
+            }                                                         \
+        }                                                             \
+        if (ik & IK_NMI) {                                            \
+            request_nmi(0);                                           \
+        } else if (ik & IK_IRQ) {                                     \
+            request_irq(0);                                           \
+        }                                                             \
+    } while (0)
+
+#ifdef LAST_OPCODE_ADDR
+#define SET_LAST_ADDR(x) LAST_OPCODE_ADDR = (x)
+#else
+#error "please define LAST_OPCODE_ADDR"
+#endif
 
 unsigned X, Y, S, U, PC;
 unsigned A, B, DP;
@@ -41,10 +165,8 @@ unsigned E, F, V, MD;
 
 unsigned iPC;
 
-unsigned long irq_start_time;
+//unsigned long irq_start_time;
 unsigned ea = 0;
-long cpu_clk = 0;
-long cpu_period = 0;
 int cpu_quit = 1;
 unsigned int irqs_pending = 0;
 unsigned int firqs_pending = 0;
@@ -56,19 +178,35 @@ extern int dump_cycles_on_success;
 
 extern int trace_enabled;
 
+extern void nmi (void);
 extern void irq (void);
 extern void firq (void);
 
+/* Stubs: */
+#define monitor_call(arg)       0
+#define monitor_return()        0
+#define monitor_addr_name(arg)  0
+/* -- */
+
+
+void request_nmi (unsigned int source)
+{
+        /* If the interrupt is not masked, generate
+         * IRQ immediately.  Else, mark it pending and
+         * we'll check it later when the flags change.
+         */
+        nmi ();
+}
 
 void request_irq (unsigned int source)
 {
-	/* If the interrupt is not masked, generate
-	 * IRQ immediately.  Else, mark it pending and
-	 * we'll check it later when the flags change.
-	 */
-	irqs_pending |= (1 << source);
-	if (!(EFI & I_FLAG))
-		irq ();
+        /* If the interrupt is not masked, generate
+         * IRQ immediately.  Else, mark it pending and
+         * we'll check it later when the flags change.
+         */
+        irqs_pending |= (1 << source);
+        if (!(EFI & I_FLAG))
+                irq ();
 }
 
 void release_irq (unsigned int source)
@@ -108,65 +246,16 @@ check_stack (void)
 	/* TODO */
 }
 
-
 void
 sim_error (const char *format, ...)
 {
-	va_list ap;
+        va_list ap;
 
-	va_start (ap, format);
-	fprintf (stderr, "m6809-run: (at PC=%04X) ", iPC);
-	vfprintf (stderr, format, ap);
-	va_end (ap);
-
-	if (debug_enabled)
-		monitor_on = 1;
-	else
-		exit (2);
+        va_start (ap, format);
+        fprintf (stderr, "m6809-run: (at PC=%04X) ", iPC);
+        vfprintf (stderr, format, ap);
+        va_end (ap);
 }
-
-
-unsigned long
-get_cycles (void)
-{
-	return total + cpu_period - cpu_clk;
-}
-
-
-void
-sim_exit (uint8_t exit_code)
-{
-	char *s;
-
-	/* On a nonzero exit, always print an error message. */
-	if (exit_code != 0)
-	{
-		printf ("m6809-run: program exited with %d\n", exit_code);
-		if (exit_code)
-			monitor_backtrace ();
-	}
-
-	/* If a cycle count should be printed, do that last. */
-	if (dump_cycles_on_success)
-	{
-		printf ("%s : %ld cycles, %ld ms\n", prog_name, get_cycles (),
-			get_elapsed_realtime ());
-	}
-
-	if ((s = getenv ("LOG6809")) != NULL)
-	{
-		FILE *fp = fopen (s, "a");
-		if (fp)
-		{
-			fprintf (fp, "%s : %ld cycles, %ld ms\n", prog_name, get_cycles (),
-				get_elapsed_realtime ());
-			fclose (fp);
-		}
-	}
-
-	exit (exit_code);
-}
-
 
 static inline void
 change_pc (unsigned newPC)
@@ -188,7 +277,6 @@ change_pc (unsigned newPC)
 #endif
   PC = newPC;
 }
-
 
 static inline unsigned
 imm_byte (void)
@@ -212,7 +300,7 @@ static void
 WRMEM16 (unsigned addr, unsigned data)
 {
   WRMEM (addr, data >> 8);
-  cpu_clk--;
+  CLK++;
   WRMEM ((addr + 1) & 0xffff, data & 0xff);
 }
 
@@ -222,7 +310,7 @@ static unsigned
 RDMEM16 (unsigned addr)
 {
   unsigned val = RDMEM (addr) << 8;
-  cpu_clk--;
+  CLK++;
   val |= RDMEM ((addr + 1) & 0xffff);
   return val;
 }
@@ -260,146 +348,146 @@ indexed (void)			/* note take 1 extra cycle */
   if (post & 0x80)
     {
       switch (post & 0x1f)
-	{
-	case 0x00:
-	  ea = *R;
-	  *R = (*R + 1) & 0xffff;
-	  cpu_clk -= 6;
-	  break;
-	case 0x01:
-	  ea = *R;
-	  *R = (*R + 2) & 0xffff;
-	  cpu_clk -= 7;
-	  break;
-	case 0x02:
-	  *R = (*R - 1) & 0xffff;
-	  ea = *R;
-	  cpu_clk -= 6;
-	  break;
-	case 0x03:
-	  *R = (*R - 2) & 0xffff;
-	  ea = *R;
-	  cpu_clk -= 7;
-	  break;
-	case 0x04:
-	  ea = *R;
-	  cpu_clk -= 4;
-	  break;
-	case 0x05:
-	  ea = (*R + ((INT8) B)) & 0xffff;
-	  cpu_clk -= 5;
-	  break;
-	case 0x06:
-	  ea = (*R + ((INT8) A)) & 0xffff;
-	  cpu_clk -= 5;
-	  break;
-	case 0x08:
-	  ea = (*R + ((INT8) imm_byte ())) & 0xffff;
-	  cpu_clk -= 5;
-	  break;
-	case 0x09:
-	  ea = (*R + imm_word ()) & 0xffff;
-	  cpu_clk -= 8;
-	  break;
-	case 0x0b:
-	  ea = (*R + get_d ()) & 0xffff;
-	  cpu_clk -= 8;
-	  break;
-	case 0x0c:
-	  ea = (INT8) imm_byte ();
-	  ea = (ea + PC) & 0xffff;
-	  cpu_clk -= 5;
-	  break;
-	case 0x0d:
-	  ea = imm_word ();
-	  ea = (ea + PC) & 0xffff;
-	  cpu_clk -= 9;
-	  break;
+        {
+        case 0x00:
+          ea = *R;
+          *R = (*R + 1) & 0xffff;
+          CLK += 6;
+          break;
+        case 0x01:
+          ea = *R;
+          *R = (*R + 2) & 0xffff;
+          CLK += 7;
+          break;
+        case 0x02:
+          *R = (*R - 1) & 0xffff;
+          ea = *R;
+          CLK += 6;
+          break;
+        case 0x03:
+          *R = (*R - 2) & 0xffff;
+          ea = *R;
+          CLK += 7;
+          break;
+        case 0x04:
+          ea = *R;
+          CLK += 4;
+          break;
+        case 0x05:
+          ea = (*R + ((INT8) B)) & 0xffff;
+          CLK += 5;
+          break;
+        case 0x06:
+          ea = (*R + ((INT8) A)) & 0xffff;
+          CLK += 5;
+          break;
+        case 0x08:
+          ea = (*R + ((INT8) imm_byte ())) & 0xffff;
+          CLK += 5;
+          break;
+        case 0x09:
+          ea = (*R + imm_word ()) & 0xffff;
+          CLK += 8;
+          break;
+        case 0x0b:
+          ea = (*R + get_d ()) & 0xffff;
+          CLK += 8;
+          break;
+        case 0x0c:
+          ea = (INT8) imm_byte ();
+          ea = (ea + PC) & 0xffff;
+          CLK += 5;
+          break;
+        case 0x0d:
+          ea = imm_word ();
+          ea = (ea + PC) & 0xffff;
+          CLK += 9;
+          break;
 
-	case 0x11:
-	  ea = *R;
-	  *R = (*R + 2) & 0xffff;
-	  cpu_clk -= 7;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x13:
-	  *R = (*R - 2) & 0xffff;
-	  ea = *R;
-	  cpu_clk -= 7;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x14:
-	  ea = *R;
-	  cpu_clk -= 4;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x15:
-	  ea = (*R + ((INT8) B)) & 0xffff;
-	  cpu_clk -= 5;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x16:
-	  ea = (*R + ((INT8) A)) & 0xffff;
-	  cpu_clk -= 5;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x18:
-	  ea = (*R + ((INT8) imm_byte ())) & 0xffff;
-	  cpu_clk -= 5;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x19:
-	  ea = (*R + imm_word ()) & 0xffff;
-	  cpu_clk -= 8;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x1b:
-	  ea = (*R + get_d ()) & 0xffff;
-	  cpu_clk -= 8;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x1c:
-	  ea = (INT8) imm_byte ();
-	  ea = (ea + PC) & 0xffff;
-	  cpu_clk -= 5;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x1d:
-	  ea = imm_word ();
-	  ea = (ea + PC) & 0xffff;
-	  cpu_clk -= 9;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	case 0x1f:
-	  ea = imm_word ();
-	  cpu_clk -= 6;
-	  ea = RDMEM16 (ea);
-	  cpu_clk -= 2;
-	  break;
-	default:
-	  ea = 0;
-	  sim_error ("invalid index post $%02X\n", post);
-	  break;
-	}
+        case 0x11:
+          ea = *R;
+          *R = (*R + 2) & 0xffff;
+          CLK += 7;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x13:
+          *R = (*R - 2) & 0xffff;
+          ea = *R;
+          CLK += 7;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x14:
+          ea = *R;
+          CLK += 4;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x15:
+          ea = (*R + ((INT8) B)) & 0xffff;
+          CLK += 5;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x16:
+          ea = (*R + ((INT8) A)) & 0xffff;
+          CLK += 5;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x18:
+          ea = (*R + ((INT8) imm_byte ())) & 0xffff;
+          CLK += 5;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x19:
+          ea = (*R + imm_word ()) & 0xffff;
+          CLK += 8;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x1b:
+          ea = (*R + get_d ()) & 0xffff;
+          CLK += 8;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x1c:
+          ea = (INT8) imm_byte ();
+          ea = (ea + PC) & 0xffff;
+          CLK += 5;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x1d:
+          ea = imm_word ();
+          ea = (ea + PC) & 0xffff;
+          CLK += 9;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        case 0x1f:
+          ea = imm_word ();
+          CLK += 6;
+          ea = RDMEM16 (ea);
+          CLK += 2;
+          break;
+        default:
+          ea = 0;
+          sim_error ("invalid index post $%02X\n", post);
+          break;
+        }
     }
   else
     {
       if (post & 0x10)
-	post |= 0xfff0;
+        post |= 0xfff0;
       else
-	post &= 0x000f;
+        post &= 0x000f;
       ea = (*R + post) & 0xffff;
-      cpu_clk -= 5;
+      CLK += 5;
     }
 }
 
@@ -824,7 +912,7 @@ asl (unsigned arg)		/* same as lsl */
   C = res & 0x100;
   N = Z = res &= 0xff;
   OV = arg ^ res;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -836,7 +924,7 @@ asr (unsigned arg)
 
   C = res & 1;
   N = Z = res = (res >> 1) & 0xff;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -854,7 +942,7 @@ static unsigned
 clr (unsigned arg)
 {
   C = N = Z = OV = arg = 0;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return arg;
 }
@@ -877,7 +965,7 @@ com (unsigned arg)
   N = Z = res;
   OV = 0;
   C = 1;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -900,7 +988,7 @@ daa (void)
   A = N = Z = res &= 0xff;
   OV = 0;			/* fix this */
 
-  cpu_clk -= 2;
+  CLK += 2;
 }
 
 static unsigned
@@ -910,7 +998,7 @@ dec (unsigned arg)
 
   N = Z = res;
   OV = arg & ~res;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -942,7 +1030,7 @@ exg (void)
   set_reg (post & 15, tmp1);
   set_reg (post >> 4, tmp2);
 
-  cpu_clk -= 8;
+  CLK += 8;
 }
 
 static unsigned
@@ -952,7 +1040,7 @@ inc (unsigned arg)
 
   N = Z = res;
   OV = ~arg & res;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -976,7 +1064,7 @@ lsr (unsigned arg)
   N = 0;
   Z = res;
   C = arg & 1;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -990,7 +1078,7 @@ mul (void)
   C = res & 0x80;
   A = res >> 8;
   B = res & 0xff;
-  cpu_clk -= 11;
+  CLK += 11;
 }
 
 static unsigned
@@ -1000,7 +1088,7 @@ neg (int arg)
 
   C = N = Z = res;
   OV = res & arg;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -1024,7 +1112,7 @@ rol (unsigned arg)
   C = res & 0x100;
   N = Z = res &= 0xff;
   OV = arg ^ res;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -1038,7 +1126,7 @@ ror (unsigned arg)
     res |= 0x100;
   C = res & 1;
   N = Z = res >>= 1;
-  cpu_clk -= 2;
+  CLK += 2;
 
   return res;
 }
@@ -1085,7 +1173,7 @@ tst (unsigned arg)
 
   N = Z = res;
   OV = 0;
-  cpu_clk -= 2;
+  CLK += 2;
 }
 
 static void
@@ -1099,7 +1187,7 @@ tfr (void)
 
   set_reg (post & 15, tmp1);
 
-  cpu_clk -= 6;
+  CLK += 6;
 }
 
 
@@ -1109,7 +1197,7 @@ static void
 abx (void)
 {
   X = (X + B) & 0xffff;
-  cpu_clk -= 3;
+  CLK += 3;
 }
 
 static void
@@ -1169,7 +1257,7 @@ sex (void)
   if (res != 0)
     res = 0xff;
   A = res;
-  cpu_clk -= 2;
+  CLK += 2;
 }
 
 static void
@@ -1214,53 +1302,53 @@ pshs (void)
 {
   unsigned post = imm_byte ();
 
-  cpu_clk -= 5;
+  CLK += 5;
 
   if (post & 0x80)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       S = (S - 2) & 0xffff;
       write_stack16 (S, PC & 0xffff);
     }
   if (post & 0x40)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       S = (S - 2) & 0xffff;
       write_stack16 (S, U);
     }
   if (post & 0x20)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       S = (S - 2) & 0xffff;
       write_stack16 (S, Y);
     }
   if (post & 0x10)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       S = (S - 2) & 0xffff;
       write_stack16 (S, X);
     }
   if (post & 0x08)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       S = (S - 1) & 0xffff;
       write_stack (S, DP >> 8);
     }
   if (post & 0x04)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       S = (S - 1) & 0xffff;
       write_stack (S, B);
     }
   if (post & 0x02)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       S = (S - 1) & 0xffff;
       write_stack (S, A);
     }
   if (post & 0x01)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       S = (S - 1) & 0xffff;
       write_stack (S, get_cc ());
     }
@@ -1271,53 +1359,53 @@ pshu (void)
 {
   unsigned post = imm_byte ();
 
-  cpu_clk -= 5;
+  CLK += 5;
 
   if (post & 0x80)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       U = (U - 2) & 0xffff;
       write_stack16 (U, PC & 0xffff);
     }
   if (post & 0x40)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       U = (U - 2) & 0xffff;
       write_stack16 (U, S);
     }
   if (post & 0x20)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       U = (U - 2) & 0xffff;
       write_stack16 (U, Y);
     }
   if (post & 0x10)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       U = (U - 2) & 0xffff;
       write_stack16 (U, X);
     }
   if (post & 0x08)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       U = (U - 1) & 0xffff;
       write_stack (U, DP >> 8);
     }
   if (post & 0x04)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       U = (U - 1) & 0xffff;
       write_stack (U, B);
     }
   if (post & 0x02)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       U = (U - 1) & 0xffff;
       write_stack (U, A);
     }
   if (post & 0x01)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       U = (U - 1) & 0xffff;
       write_stack (U, get_cc ());
     }
@@ -1328,56 +1416,56 @@ puls (void)
 {
   unsigned post = imm_byte ();
 
-  cpu_clk -= 5;
+  CLK += 5;
 
   if (post & 0x01)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       set_cc (read_stack (S));
       S = (S + 1) & 0xffff;
     }
   if (post & 0x02)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       A = read_stack (S);
       S = (S + 1) & 0xffff;
     }
   if (post & 0x04)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       B = read_stack (S);
       S = (S + 1) & 0xffff;
     }
   if (post & 0x08)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       DP = read_stack (S) << 8;
       S = (S + 1) & 0xffff;
     }
   if (post & 0x10)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       X = read_stack16 (S);
       S = (S + 2) & 0xffff;
     }
   if (post & 0x20)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       Y = read_stack16 (S);
       S = (S + 2) & 0xffff;
     }
   if (post & 0x40)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       U = read_stack16 (S);
       S = (S + 2) & 0xffff;
     }
   if (post & 0x80)
     {
       monitor_return ();
-      cpu_clk -= 2;
+      CLK += 2;
       PC = read_stack16 (S);
-		check_pc ();
+      check_pc ();
       S = (S + 2) & 0xffff;
     }
 }
@@ -1387,56 +1475,56 @@ pulu (void)
 {
   unsigned post = imm_byte ();
 
-  cpu_clk -= 5;
+  CLK += 5;
 
   if (post & 0x01)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       set_cc (read_stack (U));
       U = (U + 1) & 0xffff;
     }
   if (post & 0x02)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       A = read_stack (U);
       U = (U + 1) & 0xffff;
     }
   if (post & 0x04)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       B = read_stack (U);
       U = (U + 1) & 0xffff;
     }
   if (post & 0x08)
     {
-      cpu_clk -= 1;
+      CLK += 1;
       DP = read_stack (U) << 8;
       U = (U + 1) & 0xffff;
     }
   if (post & 0x10)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       X = read_stack16 (U);
       U = (U + 2) & 0xffff;
     }
   if (post & 0x20)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       Y = read_stack16 (U);
       U = (U + 2) & 0xffff;
     }
   if (post & 0x40)
     {
-      cpu_clk -= 2;
+      CLK += 2;
       S = read_stack16 (U);
       U = (U + 2) & 0xffff;
     }
   if (post & 0x80)
     {
       monitor_return ();
-      cpu_clk -= 2;
+      CLK += 2;
       PC = read_stack16 (U);
-		check_pc ();
+      check_pc ();
       U = (U + 2) & 0xffff;
     }
 }
@@ -1446,7 +1534,7 @@ pulu (void)
 static void
 nop (void)
 {
-  cpu_clk -= 2;
+  CLK += 2;
 }
 
 static void
@@ -1462,14 +1550,14 @@ static void
 rti (void)
 {
   monitor_return ();
-  cpu_clk -= 6;
-  command_exit_irq_hook (get_cycles () - irq_start_time);
+  CLK += 6;
+  //command_exit_irq_hook (get_cycles () - irq_start_time);
   set_cc (read_stack (S));
   S = (S + 1) & 0xffff;
 
   if ((EFI & E_FLAG) != 0)
     {
-      cpu_clk -= 9;
+      CLK += 9;
       A = read_stack (S);
       S = (S + 1) & 0xffff;
       B = read_stack (S);
@@ -1492,10 +1580,35 @@ static void
 rts (void)
 {
   monitor_return ();
-  cpu_clk -= 5;
+  CLK += 5;
   PC = read_stack16 (S);
   check_pc ();
   S = (S + 2) & 0xffff;
+}
+
+void
+nmi (void)
+{
+  EFI |= E_FLAG;
+  S = (S - 2) & 0xffff;
+  write_stack16 (S, PC & 0xffff);
+  S = (S - 2) & 0xffff;
+  write_stack16 (S, U);
+  S = (S - 2) & 0xffff;
+  write_stack16 (S, Y);
+  S = (S - 2) & 0xffff;
+  write_stack16 (S, X);
+  S = (S - 1) & 0xffff;
+  write_stack (S, DP >> 8);
+  S = (S - 1) & 0xffff;
+  write_stack (S, B);
+  S = (S - 1) & 0xffff;
+  write_stack (S, A);
+  S = (S - 1) & 0xffff;
+  write_stack (S, get_cc ());
+  EFI |= I_FLAG;
+
+  change_pc (read16 (0xfffc));
 }
 
 void
@@ -1520,7 +1633,7 @@ irq (void)
   write_stack (S, get_cc ());
   EFI |= I_FLAG;
 
-  irq_start_time = get_cycles ();
+  //irq_start_time = get_cycles ();
   change_pc (read16 (0xfff8));
 #if 1
   irqs_pending = 0;
@@ -1548,7 +1661,8 @@ firq (void)
 void
 swi (void)
 {
-  cpu_clk -= 19;
+  CLK += 19;
+  //CLK++;        /* /VMA cycle */
   EFI |= E_FLAG;
   S = (S - 2) & 0xffff;
   write_stack16 (S, PC & 0xffff);
@@ -1567,6 +1681,7 @@ swi (void)
   S = (S - 1) & 0xffff;
   write_stack (S, get_cc ());
   EFI |= (I_FLAG | F_FLAG);
+  //CLK++;        /* /VMA cycle */
 
   change_pc (read16 (0xfffa));
 }
@@ -1574,7 +1689,8 @@ swi (void)
 void
 swi2 (void)
 {
-  cpu_clk -= 20;
+  CLK += 20;
+  //CLK++;        /* /VMA cycle */
   EFI |= E_FLAG;
   S = (S - 2) & 0xffff;
   write_stack16 (S, PC & 0xffff);
@@ -1592,6 +1708,7 @@ swi2 (void)
   write_stack (S, A);
   S = (S - 1) & 0xffff;
   write_stack (S, get_cc ());
+  //CLK++;        /* /VMA cycle */
 
   change_pc (read16 (0xfff4));
 }
@@ -1599,7 +1716,8 @@ swi2 (void)
 void
 swi3 (void)
 {
-  cpu_clk -= 20;
+  CLK += 20;
+  //CLK++;        /* /VMA cycle */
   EFI |= E_FLAG;
   S = (S - 2) & 0xffff;
   write_stack16 (S, PC & 0xffff);
@@ -1617,6 +1735,7 @@ swi3 (void)
   write_stack (S, A);
   S = (S - 1) & 0xffff;
   write_stack (S, get_cc ());
+  //CLK++;        /* /VMA cycle */
 
   change_pc (read16 (0xfff2));
 }
@@ -1625,7 +1744,8 @@ swi3 (void)
 void
 trap (void)
 {
-  cpu_clk -= 20;
+  CLK += 20;
+  //CLK++;        /* /VMA cycle */
   EFI |= E_FLAG;
   S = (S - 2) & 0xffff;
   write_stack16 (S, PC & 0xffff);
@@ -1643,6 +1763,7 @@ trap (void)
   write_stack (S, A);
   S = (S - 1) & 0xffff;
   write_stack (S, get_cc ());
+  //CLK++;        /* /VMA cycle */
 
   change_pc (read16 (0xfff0));
 }
@@ -1657,7 +1778,7 @@ cwai (void)
 void
 sync (void)
 {
-  cpu_clk -= 4;
+  CLK += 4;
   sim_error ("SYNC - not supported yet!");
 }
 
@@ -1667,7 +1788,7 @@ orcc (void)
   unsigned tmp = imm_byte ();
 
   set_cc (get_cc () | tmp);
-  cpu_clk -= 3;
+  CLK += 3;
 }
 
 static void
@@ -1676,7 +1797,7 @@ andcc (void)
   unsigned tmp = imm_byte ();
 
   set_cc (get_cc () & tmp);
-  cpu_clk -= 3;
+  CLK += 3;
 }
 
 /* Branch Instructions */
@@ -1711,7 +1832,7 @@ branch (unsigned cond)
   else
     change_pc (PC+1);
 
-  cpu_clk -= 3;
+  CLK += 3;
 }
 
 static void
@@ -1727,12 +1848,12 @@ long_branch (unsigned cond)
   if (cond)
     {
       long_bra ();
-      cpu_clk -= 6;
+      CLK += 6;
     }
   else
     {
       change_pc (PC + 2);
-      cpu_clk -= 5;
+      CLK += 5;
     }
 }
 
@@ -1743,7 +1864,7 @@ long_bsr (void)
   ea = PC + tmp;
   S = (S - 2) & 0xffff;
   write_stack16 (S, PC & 0xffff);
-  cpu_clk -= 9;
+  CLK += 9;
   change_pc (ea);
   monitor_call (0);
 }
@@ -1755,38 +1876,62 @@ bsr (void)
   ea = PC + tmp;
   S = (S - 2) & 0xffff;
   write_stack16 (S, PC & 0xffff);
-  cpu_clk -= 7;
+  CLK += 7;
   change_pc (ea);
   monitor_call (0);
 }
 
 
 /* Execute 6809 code for a certain number of cycles. */
-int
-cpu_execute (int cycles)
+void
+h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
   unsigned opcode;
 
-  cpu_period = cpu_clk = cycles;
-
   do
     {
-	 	command_insn_hook ();
-		if (check_break () != 0)
-			monitor_on = 1;
 
-		if (monitor_on != 0)
-			if (monitor6809 () != 0)
-				goto cpu_exit;
+#ifndef CYCLE_EXACT_ALARM
+    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
+        alarm_context_dispatch(ALARM_CONTEXT, CLK);
+        CPU_DELAY_CLK
+    }
+#endif
 
-      iPC = PC;
+    {
+        enum cpu_int pending_interrupt;
+
+        if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
+            && (CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
+            && CPU_INT_STATUS->irq_pending_clk <= CLK) {
+            interrupt_ack_irq(CPU_INT_STATUS);
+            release_irq(0);
+        }
+
+        pending_interrupt = CPU_INT_STATUS->global_pending_int;
+        if (pending_interrupt != IK_NONE) {
+            DO_INTERRUPT(pending_interrupt);
+            if (!(CPU_INT_STATUS->global_pending_int & IK_IRQ)
+                && CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
+                    CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
+            CPU_DELAY_CLK
+#ifndef CYCLE_EXACT_ALARM
+            while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
+                alarm_context_dispatch(ALARM_CONTEXT, CLK);
+                CPU_DELAY_CLK
+            }
+#endif
+        }
+    }
+
+      SET_LAST_ADDR(PC);
       opcode = imm_byte ();
 
       switch (opcode)
 	{
 	case 0x00:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, neg (RDMEM (ea)));
 	  break;		/* NEG direct */
 #ifdef H6309
@@ -1797,12 +1942,12 @@ cpu_execute (int cycles)
 #endif
 	case 0x03:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, com (RDMEM (ea)));
 	  break;		/* COM direct */
 	case 0x04:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, lsr (RDMEM (ea)));
 	  break;		/* LSR direct */
 #ifdef H6309
@@ -1811,27 +1956,27 @@ cpu_execute (int cycles)
 #endif
 	case 0x06:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, ror (RDMEM (ea)));
 	  break;		/* ROR direct */
 	case 0x07:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, asr (RDMEM (ea)));
 	  break;		/* ASR direct */
 	case 0x08:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, asl (RDMEM (ea)));
 	  break;		/* ASL direct */
 	case 0x09:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, rol (RDMEM (ea)));
 	  break;		/* ROL direct */
 	case 0x0a:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, dec (RDMEM (ea)));
 	  break;		/* DEC direct */
 #ifdef H6309
@@ -1840,24 +1985,24 @@ cpu_execute (int cycles)
 #endif
 	case 0x0c:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, inc (RDMEM (ea)));
 	  break;		/* INC direct */
 	case 0x0d:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  tst (RDMEM (ea));
 	  break;		/* TST direct */
 	case 0x0e:
 	  direct ();
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  PC = ea;
-     check_pc ();
+          check_pc ();
 	  monitor_call (FC_TAIL_CALL);
 	  break;		/* JMP direct */
 	case 0x0f:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  WRMEM (ea, clr (RDMEM (ea)));
 	  break;		/* CLR direct */
 	case 0x10:
@@ -1867,7 +2012,7 @@ cpu_execute (int cycles)
 	    switch (opcode)
 	      {
 	      case 0x21:
-		cpu_clk -= 5;
+		CLK += 5;
 		PC += 2;
 		break;
 	      case 0x22:
@@ -1988,7 +2133,7 @@ cpu_execute (int cycles)
 		break;
 #endif
 	      case 0x83:
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (get_d (), imm_word ());
 		break;
 #ifdef H6309
@@ -2008,11 +2153,11 @@ cpu_execute (int cycles)
 		break;
 #endif
 	      case 0x8c:
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (Y, imm_word ());
 		break;
 	      case 0x8e:
-		cpu_clk -= 4;
+		CLK += 4;
 		Y = ld16 (imm_word ());
 		break;
 #ifdef H6309
@@ -2025,102 +2170,102 @@ cpu_execute (int cycles)
 #endif
 	      case 0x93:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (get_d (), RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0x9c:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (Y, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0x9e:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		Y = ld16 (RDMEM16 (ea));
 		break;
 	      case 0x9f:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		st16 (Y);
 		break;
 	      case 0xa3:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		cmp16 (get_d (), RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xac:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		cmp16 (Y, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xae:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		Y = ld16 (RDMEM16 (ea));
 		break;
 	      case 0xaf:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		st16 (Y);
 		break;
 	      case 0xb3:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		cmp16 (get_d (), RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xbc:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		cmp16 (Y, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xbe:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		Y = ld16 (RDMEM16 (ea));
 		break;
 	      case 0xbf:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		st16 (Y);
 		break;
 	      case 0xce:
-		cpu_clk -= 4;
+		CLK += 4;
 		S = ld16 (imm_word ());
 		break;
 	      case 0xde:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		S = ld16 (RDMEM16 (ea));
 		break;
 	      case 0xdf:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		st16 (S);
 		break;
 	      case 0xee:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		S = ld16 (RDMEM16 (ea));
 		break;
 	      case 0xef:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		st16 (S);
 		break;
 	      case 0xfe:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		S = ld16 (RDMEM16 (ea));
 		break;
 	      case 0xff:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		st16 (S);
 		break;
 	      default:
@@ -2144,7 +2289,7 @@ cpu_execute (int cycles)
 			case 0x81: /* CMPE */
 #endif
 	      case 0x83:
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (U, imm_word ());
 		break;
 #ifdef H6309
@@ -2152,7 +2297,7 @@ cpu_execute (int cycles)
 			case 0x8B: /* ADDE */
 #endif
 	      case 0x8c:
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (S, imm_word ());
 		break;
 #ifdef H6309
@@ -2164,39 +2309,39 @@ cpu_execute (int cycles)
 #endif
 	      case 0x93:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (U, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0x9c:
 		direct ();
-		cpu_clk -= 5;
+		CLK += 5;
 		cmp16 (S, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xa3:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		cmp16 (U, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xac:
-		cpu_clk--;
+		CLK++;
 		indexed ();
 		cmp16 (S, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xb3:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		cmp16 (U, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      case 0xbc:
 		extended ();
-		cpu_clk -= 6;
+		CLK += 6;
 		cmp16 (S, RDMEM16 (ea));
-		cpu_clk--;
+		CLK++;
 		break;
 	      default:
 	        sim_error ("invalid opcode (2) at %s\n", monitor_addr_name (iPC));
@@ -2217,7 +2362,7 @@ cpu_execute (int cycles)
 #endif
 	case 0x16:
 	  long_bra ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  break;
 	case 0x17:
 	  long_bsr ();
@@ -2243,11 +2388,11 @@ cpu_execute (int cycles)
 
 	case 0x20:
 	  bra ();
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  break;
 	case 0x21:
 	  PC++;
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  break;
 	case 0x22:
 	  branch (cond_HI ());
@@ -2462,9 +2607,9 @@ cpu_execute (int cycles)
 	  break;		/* TST indexed */
 	case 0x6e:
 	  indexed ();
-	  cpu_clk += 1;
+	  CLK += 1;
 	  PC = ea;
-     check_pc ();
+          check_pc ();
 	  monitor_call (FC_TAIL_CALL);
 	  break;		/* JMP indexed */
 	case 0x6f:
@@ -2473,7 +2618,7 @@ cpu_execute (int cycles)
 	  break;		/* CLR indexed */
 	case 0x70:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, neg (RDMEM (ea)));
 	  break;		/* NEG extended */
 #ifdef H6309
@@ -2484,12 +2629,12 @@ cpu_execute (int cycles)
 #endif
 	case 0x73:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, com (RDMEM (ea)));
 	  break;		/* COM extended */
 	case 0x74:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, lsr (RDMEM (ea)));
 	  break;		/* LSR extended */
 #ifdef H6309
@@ -2498,27 +2643,27 @@ cpu_execute (int cycles)
 #endif
 	case 0x76:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, ror (RDMEM (ea)));
 	  break;		/* ROR extended */
 	case 0x77:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, asr (RDMEM (ea)));
 	  break;		/* ASR extended */
 	case 0x78:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, asl (RDMEM (ea)));
 	  break;		/* ASL extended */
 	case 0x79:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, rol (RDMEM (ea)));
 	  break;		/* ROL extended */
 	case 0x7a:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, dec (RDMEM (ea)));
 	  break;		/* DEC extended */
 #ifdef H6309
@@ -2527,162 +2672,162 @@ cpu_execute (int cycles)
 #endif
 	case 0x7c:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, inc (RDMEM (ea)));
 	  break;		/* INC extended */
 	case 0x7d:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  tst (RDMEM (ea));
 	  break;		/* TST extended */
 	case 0x7e:
 	  extended ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  PC = ea;
-     check_pc ();
+          check_pc ();
 	  monitor_call (FC_TAIL_CALL);
 	  break;		/* JMP extended */
 	case 0x7f:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  WRMEM (ea, clr (RDMEM (ea)));
 	  break;		/* CLR extended */
 	case 0x80:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = sub (A, imm_byte ());
 	  break;
 	case 0x81:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  cmp (A, imm_byte ());
 	  break;
 	case 0x82:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = sbc (A, imm_byte ());
 	  break;
 	case 0x83:
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  subd (imm_word ());
 	  break;
 	case 0x84:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = and (A, imm_byte ());
 	  break;
 	case 0x85:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  bit (A, imm_byte ());
 	  break;
 	case 0x86:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = ld (imm_byte ());
 	  break;
 	case 0x88:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = eor (A, imm_byte ());
 	  break;
 	case 0x89:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = adc (A, imm_byte ());
 	  break;
 	case 0x8a:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = or (A, imm_byte ());
 	  break;
 	case 0x8b:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  A = add (A, imm_byte ());
 	  break;
 	case 0x8c:
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  cmp16 (X, imm_word ());
 	  break;
 	case 0x8d:
 	  bsr ();
 	  break;
 	case 0x8e:
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  X = ld16 (imm_word ());
 	  break;
 
 	case 0x90:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = sub (A, RDMEM (ea));
 	  break;
 	case 0x91:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  cmp (A, RDMEM (ea));
 	  break;
 	case 0x92:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = sbc (A, RDMEM (ea));
 	  break;
 	case 0x93:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  subd (RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0x94:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = and (A, RDMEM (ea));
 	  break;
 	case 0x95:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  bit (A, RDMEM (ea));
 	  break;
 	case 0x96:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = ld (RDMEM (ea));
 	  break;
 	case 0x97:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  st (A);
 	  break;
 	case 0x98:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = eor (A, RDMEM (ea));
 	  break;
 	case 0x99:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = adc (A, RDMEM (ea));
 	  break;
 	case 0x9a:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = or (A, RDMEM (ea));
 	  break;
 	case 0x9b:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  A = add (A, RDMEM (ea));
 	  break;
 	case 0x9c:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  cmp16 (X, RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0x9d:
 	  direct ();
-	  cpu_clk -= 7;
+	  CLK += 7;
 	  jsr ();
 	  break;
 	case 0x9e:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  X = ld16 (RDMEM16 (ea));
 	  break;
 	case 0x9f:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  st16 (X);
 	  break;
 
@@ -2701,7 +2846,7 @@ cpu_execute (int cycles)
 	case 0xa3:
 	  indexed ();
 	  subd (RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xa4:
 	  indexed ();
@@ -2738,11 +2883,11 @@ cpu_execute (int cycles)
 	case 0xac:
 	  indexed ();
 	  cmp16 (X, RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xad:
 	  indexed ();
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  jsr ();
 	  break;
 	case 0xae:
@@ -2756,133 +2901,133 @@ cpu_execute (int cycles)
 
 	case 0xb0:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = sub (A, RDMEM (ea));
 	  break;
 	case 0xb1:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  cmp (A, RDMEM (ea));
 	  break;
 	case 0xb2:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = sbc (A, RDMEM (ea));
 	  break;
 	case 0xb3:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  subd (RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xb4:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = and (A, RDMEM (ea));
 	  break;
 	case 0xb5:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  bit (A, RDMEM (ea));
 	  break;
 	case 0xb6:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = ld (RDMEM (ea));
 	  break;
 	case 0xb7:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  st (A);
 	  break;
 	case 0xb8:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = eor (A, RDMEM (ea));
 	  break;
 	case 0xb9:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = adc (A, RDMEM (ea));
 	  break;
 	case 0xba:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = or (A, RDMEM (ea));
 	  break;
 	case 0xbb:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  A = add (A, RDMEM (ea));
 	  break;
 	case 0xbc:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  cmp16 (X, RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xbd:
 	  extended ();
-	  cpu_clk -= 8;
+	  CLK += 8;
 	  jsr ();
 	  break;
 	case 0xbe:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  X = ld16 (RDMEM16 (ea));
 	  break;
 	case 0xbf:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  st16 (X);
 	  break;
 
 	case 0xc0:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = sub (B, imm_byte ());
 	  break;
 	case 0xc1:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  cmp (B, imm_byte ());
 	  break;
 	case 0xc2:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = sbc (B, imm_byte ());
 	  break;
 	case 0xc3:
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  addd (imm_word ());
 	  break;
 	case 0xc4:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = and (B, imm_byte ());
 	  break;
 	case 0xc5:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  bit (B, imm_byte ());
 	  break;
 	case 0xc6:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = ld (imm_byte ());
 	  break;
 	case 0xc8:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = eor (B, imm_byte ());
 	  break;
 	case 0xc9:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = adc (B, imm_byte ());
 	  break;
 	case 0xca:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = or (B, imm_byte ());
 	  break;
 	case 0xcb:
-	  cpu_clk -= 2;
+	  CLK += 2;
 	  B = add (B, imm_byte ());
 	  break;
 	case 0xcc:
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  ldd (imm_word ());
 	  break;
 #ifdef H6309
@@ -2890,89 +3035,89 @@ cpu_execute (int cycles)
 	  break;
 #endif
 	case 0xce:
-	  cpu_clk -= 3;
+	  CLK += 3;
 	  U = ld16 (imm_word ());
 	  break;
 
 	case 0xd0:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = sub (B, RDMEM (ea));
 	  break;
 	case 0xd1:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  cmp (B, RDMEM (ea));
 	  break;
 	case 0xd2:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = sbc (B, RDMEM (ea));
 	  break;
 	case 0xd3:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  addd (RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xd4:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = and (B, RDMEM (ea));
 	  break;
 	case 0xd5:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  bit (B, RDMEM (ea));
 	  break;
 	case 0xd6:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = ld (RDMEM (ea));
 	  break;
 	case 0xd7:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  st (B);
 	  break;
 	case 0xd8:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = eor (B, RDMEM (ea));
 	  break;
 	case 0xd9:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = adc (B, RDMEM (ea));
 	  break;
 	case 0xda:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = or (B, RDMEM (ea));
 	  break;
 	case 0xdb:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  B = add (B, RDMEM (ea));
 	  break;
 	case 0xdc:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  ldd (RDMEM16 (ea));
 	  break;
 	case 0xdd:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  std ();
 	  break;
 	case 0xde:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  U = ld16 (RDMEM16 (ea));
 	  break;
 	case 0xdf:
 	  direct ();
-	  cpu_clk -= 4;
+	  CLK += 4;
 	  st16 (U);
 	  break;
 
@@ -2991,7 +3136,7 @@ cpu_execute (int cycles)
 	case 0xe3:
 	  indexed ();
 	  addd (RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xe4:
 	  indexed ();
@@ -3044,106 +3189,104 @@ cpu_execute (int cycles)
 
 	case 0xf0:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = sub (B, RDMEM (ea));
 	  break;
 	case 0xf1:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  cmp (B, RDMEM (ea));
 	  break;
 	case 0xf2:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = sbc (B, RDMEM (ea));
 	  break;
 	case 0xf3:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  addd (RDMEM16 (ea));
-	  cpu_clk--;
+	  CLK++;
 	  break;
 	case 0xf4:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = and (B, RDMEM (ea));
 	  break;
 	case 0xf5:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  bit (B, RDMEM (ea));
 	  break;
 	case 0xf6:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = ld (RDMEM (ea));
 	  break;
 	case 0xf7:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  st (B);
 	  break;
 	case 0xf8:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = eor (B, RDMEM (ea));
 	  break;
 	case 0xf9:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = adc (B, RDMEM (ea));
 	  break;
 	case 0xfa:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = or (B, RDMEM (ea));
 	  break;
 	case 0xfb:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  B = add (B, RDMEM (ea));
 	  break;
 	case 0xfc:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  ldd (RDMEM16 (ea));
 	  break;
 	case 0xfd:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  std ();
 	  break;
 	case 0xfe:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  U = ld16 (RDMEM16 (ea));
 	  break;
 	case 0xff:
 	  extended ();
-	  cpu_clk -= 5;
+	  CLK += 5;
 	  st16 (U);
 	  break;
 
 	default:
-	  cpu_clk -= 2;
-     sim_error ("invalid opcode '%02X'\n", opcode);
-     PC = iPC;
+	  CLK += 2;
+          sim_error ("invalid opcode '%02X'\n", opcode);
+          //PC = iPC;
 	  break;
 	}
 
 	if (cc_changed)
 		cc_modified ();
     }
-  while (cpu_clk > 0);
+  while (1 /*CLK > 0*/);
 
 cpu_exit:
-   cpu_period -= cpu_clk;
-   cpu_clk = cpu_period;
-   return cpu_period;
+   return;
 }
 
 void
-cpu_reset (void)
+cpu6809_reset (void)
 {
   X = Y = S = U = A = B = DP = 0;
   H = N = OV = C = 0;
@@ -3154,5 +3297,4 @@ cpu_reset (void)
 #endif
 
   change_pc (read16 (0xfffe));
-  cpu_is_running ();
 }

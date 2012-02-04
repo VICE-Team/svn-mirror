@@ -77,7 +77,12 @@ enum t_reg_id {
    e_R14,
    e_R15,
    e_ACM,
-   e_YXM
+   e_YXM,
+/* Registers in the 6809 not covered by the above */
+   e_B,
+   e_U,
+   e_DP
+
 };
 typedef enum t_reg_id REG_ID;
 

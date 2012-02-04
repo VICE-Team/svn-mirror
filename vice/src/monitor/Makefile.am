@@ -17,9 +17,11 @@ noinst_HEADERS = \
 libmonitor_a_SOURCES = \
 	asm6502.c \
 	asm6502dtv.c \
+	asm6809.c \
 	asmz80.c \
 	asm.h \
 	mon_assemble6502.c \
+	mon_assemble6809.c \
 	mon_assemblez80.c \
 	mon_assemble.h \
 	mon_breakpoint.c \
@@ -36,6 +38,7 @@ libmonitor_a_SOURCES = \
 	mon_memory.h \
 	mon_register6502.c \
 	mon_register6502dtv.c \
+	mon_register6809.c \
 	mon_registerz80.c \
 	mon_register.h \
 	mon_ui.c \

@@ -43,6 +43,7 @@
 #else
 #include "mos6510.h"
 #endif
+#include "h6809regs.h"
 #include "snapshot.h"
 #include "traps.h"
 #include "types.h"
@@ -287,6 +288,11 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
     maincpu_monitor_interface->z80_cpu_regs = &z80_regs;
 #else
     maincpu_monitor_interface->z80_cpu_regs = NULL;
+#endif
+#ifdef HAVE_6809_REGS
+    maincpu_monitor_interface->h6809_cpu_regs = &h6809_regs;
+#else
+    maincpu_monitor_interface->h6809_cpu_regs = NULL;
 #endif
 
     maincpu_monitor_interface->int_status = maincpu_int_status;

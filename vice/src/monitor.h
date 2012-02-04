@@ -32,7 +32,7 @@
 #include "types.h"
 
 /** Generic interface.  **/
-#define NUM_MEMSPACES 6
+#define NUM_MEMSPACES e_invalid_space
 
 enum mon_int {
     MI_NONE = 0,
@@ -55,7 +55,8 @@ typedef enum t_memspace MEMSPACE;
 enum CPU_TYPE_s {
     CPU_6502,
     CPU_Z80,
-    CPU_6502DTV
+    CPU_6502DTV,
+    CPU_6809
 };
 typedef enum CPU_TYPE_s CPU_TYPE_t;
 
@@ -64,7 +65,7 @@ struct interrupt_cpu_status_s;
 struct monitor_cpu_type_s {
     CPU_TYPE_t cpu_type;
     unsigned int (*asm_addr_mode_get_size)(unsigned int mode, unsigned int p0,
-                                           unsigned int p1);
+                                           unsigned int p1, unsigned int p2);
     const struct asm_opcode_info_s *(*asm_opcode_info_get)(unsigned int p0, unsigned int p1,
                                                            unsigned int p2);
     int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
@@ -88,6 +89,9 @@ struct monitor_interface_s {
 
     /* Pointer to the registers of the DTV CPU.  */
     struct mos6510dtv_regs_s *dtv_cpu_regs;
+
+    /* Pointer to the registers of the DTV CPU.  */
+    struct h6809_regs_s *h6809_cpu_regs;
 
     /* Pointer to the alarm/interrupt status.  */
     struct interrupt_cpu_status_s *int_status;
@@ -178,7 +182,9 @@ extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
 /* Assembler initialization.  */
 extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
 extern void asm6502dtv_init(struct monitor_cpu_type_s *monitor_cpu_type);
+extern void asm6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
 extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
+extern void asm6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 struct monitor_cartridge_commands_s {
     int (*cartridge_attach_image)(int type, const char *filename);

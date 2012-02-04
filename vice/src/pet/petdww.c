@@ -304,6 +304,10 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
 {
     int i;
 
+    /* Check this just in case */
+    if (petres.superpet) {
+        return;
+    }
     /*
      * Check if this was already done.
      * FIXME: What if something else also overrides these entries?

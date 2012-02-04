@@ -14,7 +14,14 @@ roms = \
 	edit4b40 \
 	edit4b80 \
 	chargen \
-	chargen.de
+	chargen.de \
+	characters.901640-01.bin \
+	waterloo-a000.901898-01.bin \
+	waterloo-b000.901898-02.bin \
+	waterloo-c000.901898-03.bin \
+	waterloo-d000.901898-04.bin \
+	waterloo-e000.901897-01.bin \
+	waterloo-f000.901898-05.bin
 
 romsets = \
 	rom1g.vrs \
@@ -22,7 +29,8 @@ romsets = \
 	rom2g.vrs \
 	rom4b40.vrs \
 	rom4b80.vrs \
-	rom4g40.vrs
+	rom4g40.vrs \
+	romsuperpet.vrs
 
 palettes = \
 	amber.vpl \
