@@ -199,8 +199,8 @@ void mon_set_command(console_t *console_log, char *command,
 {
     pchCommandLine = command;
 
-    if (console_log)
-        console_out(console_log, "%s\n", command);
+    uimon_out(command);
+    uimon_out("\n");
 
     if (pAfter)
         (*pAfter)();

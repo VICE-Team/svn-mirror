@@ -32,9 +32,10 @@
 #include <vte/vte.h>
 
 #include "console.h"
-#include "linenoise.h"
-#include "uimon.h"
 #include "lib.h"
+#include "linenoise.h"
+#include "uiarch.h"
+#include "uimon.h"
 
 struct console_private_s {
     GtkWidget *window;
@@ -68,49 +69,46 @@ static gboolean key_press_event (GtkWidget   *widget,
 {
     struct term_read_result *r = (struct term_read_result *)user_data;
     if (!r->ended && event->type == GDK_KEY_PRESS){
-        if(event->keyval >= GDK_KEY_space && event->keyval <= GDK_KEY_ydiaeresis){
-            r->key_pressed = TRUE;
-            r->pressed_key = (char)event->keyval;
-        }
-        else if(event->keyval == GDK_KEY_Return){
-            r->key_pressed = TRUE;
+        r->key_pressed = TRUE;
+        switch (event->keyval) {
+        default:
+            if(event->keyval >= GDK_KEY_space && event->keyval <= GDK_KEY_ydiaeresis){
+                r->pressed_key = (char)event->keyval;
+            }
+            else {
+                r->key_pressed = FALSE;
+            }
+            break;
+        case GDK_KEY_Return:
             r->pressed_key = 13;
-        }
-        else if(event->keyval == GDK_KEY_BackSpace){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_BackSpace:
             r->pressed_key = 127;
-        }
-        else if(event->keyval == GDK_KEY_Left){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Left:
             r->pressed_key = 2;
-        }
-        else if(event->keyval == GDK_KEY_Right){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Right:
             r->pressed_key = 6;
-        }
-        else if(event->keyval == GDK_KEY_Up){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Up:
             r->pressed_key = 16;
-        }
-        else if(event->keyval == GDK_KEY_Down){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Down:
             r->pressed_key = 14;
-        }
-        else if(event->keyval == GDK_KEY_Tab){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Tab:
             r->pressed_key = 8;
-        }
-        else if(event->keyval == GDK_KEY_Delete){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Delete:
             r->pressed_key = 4;
-        }
-        else if(event->keyval == GDK_KEY_Home){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_Home:
             r->pressed_key = 1;
-        }
-        else if(event->keyval == GDK_KEY_End){
-            r->key_pressed = TRUE;
+            break;
+        case GDK_KEY_End:
             r->pressed_key = 5;
+            break;
         }
     }
     return r->key_pressed;
@@ -216,4 +214,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 
     return ret_string;
 }
+
+int console_init(void){}
+int console_close_all(void){}
 

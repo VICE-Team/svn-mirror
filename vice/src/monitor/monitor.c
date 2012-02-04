@@ -113,11 +113,6 @@ console_t *console_log = NULL;
 
 static int monitor_trap_triggered = 0;
 
-/* External functions */
-#ifdef HAVE_READLINE
-# include "editline.h"
-#endif
-
 monitor_cartridge_commands_t mon_cart_cmd;
 
 /* Types */
@@ -2235,12 +2230,6 @@ static int monitor_process(char *cmd)
                 /* Leave asm mode */
             }
         }
-#ifdef HAVE_READLINE
-        else {
-            /* Nonempty line */
-            add_history(cmd);
-        }
-#endif
 
         if (cmd) {
             if (recording) {

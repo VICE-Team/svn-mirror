@@ -21,6 +21,7 @@ noinst_LIBRARIES = libxawui.a
 libxawui_a_SOURCES = \
 	about.c \
 	checkmark.xbm \
+	console.c \
 	lightpendrv.c \
 	lightpendrv.h \
 	right_arrow.xbm \

@@ -38,8 +38,8 @@
 
 static FILE *mon_input, *mon_output;
 
-#if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
-extern char *rl_readline_name;
+#if defined(HAVE_READLINE)
+#include <readline/readline.h>
 #endif
 
 int console_init(void)
@@ -95,9 +95,7 @@ int console_out(console_t *log, const char *format, ...)
     return 0;
 }
 
-#ifdef HAVE_READLINE
-# include "editline.h"
-#else
+#ifndef HAVE_READLINE
 char *readline(const char *prompt)
 {
     char *p = lib_malloc(1024);
@@ -127,7 +125,7 @@ char *console_in(console_t *log, const char *prompt)
     char *p, *ret_sting;
 
     p = readline(prompt);
-
+    add_history(p);
     ret_sting = lib_stralloc(p);
     free(p);
 
