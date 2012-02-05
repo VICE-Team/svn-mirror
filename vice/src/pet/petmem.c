@@ -1328,13 +1328,12 @@ static pet_table_t pet_table[] = {
       { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
         "characters.901640-01.bin", PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,
-        /*{ "waterloo-a000.901898-01.bin",
+          { "waterloo-a000.901898-01.bin",
             "waterloo-b000.901898-02.bin",
             "waterloo-c000.901898-03.bin",
             "waterloo-d000.901898-04.bin",
             "waterloo-e000.901897-01.bin",
-            "waterloo-f000.901898-05.bin" }*/
-	{ NULL }	/* until the above files are in the distribution. */
+            "waterloo-f000.901898-05.bin" }
 	} },
     { NULL }
 };

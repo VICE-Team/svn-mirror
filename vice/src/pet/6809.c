@@ -24,7 +24,6 @@
 
 #include <stdarg.h>
 #include "6809.h"
-#include "monitor6809.h"
 #include "petmem.h"
 #include "interrupt.h"
 #include "alarm.h"
@@ -2007,10 +2006,14 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  break;		/* CLR direct */
 	case 0x10:
 	  {
+            page_10:
 	    opcode = imm_byte ();
 
 	    switch (opcode)
 	      {
+              case 0x10:        /* ignore further prefix bytes (UNDOC) */
+              case 0x11:
+                goto page_10;
 	      case 0x21:
 		CLK += 5;
 		PC += 2;
@@ -2277,10 +2280,14 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 
 	case 0x11:
 	  {
+          page_11:
 	    opcode = imm_byte ();
 
 	    switch (opcode)
 	      {
+              case 0x10:        /* ignore further prefix bytes (UNDOC) */
+              case 0x11:
+                goto page_11;
 	      case 0x3f:
 		swi3 ();
 		break;

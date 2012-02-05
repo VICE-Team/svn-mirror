@@ -58,14 +58,6 @@ typedef unsigned int absolute_address_t;
 #define V_FLAG 0x02
 #define C_FLAG 0x01
 
-extern int debug_enabled;
-extern int need_flush;
-extern unsigned long total;
-extern int dump_cycles_on_success;
-extern const char *prog_name;
-
-long get_elapsed_realtime (void);
-
 /* Primitive read/write macros */
 #define read8(addr)      mem6809_read((addr))
 #define write8(addr,val) mem6809_store((addr), (val))
@@ -85,7 +77,6 @@ long get_elapsed_realtime (void);
 #define fetch16()          (pc += 2, abs_read16(pc-2))
 
 /* 6809.c */
-extern int cpu_quit;
 extern void h6809_mainloop (struct interrupt_cpu_status_s *, struct alarm_context_s *);
 extern void cpu6809_reset (void);
 
@@ -110,49 +101,5 @@ extern void set_s  (unsigned);
 extern void set_u  (unsigned);
 extern void set_pc (unsigned);
 extern void set_d  (unsigned);
-
-/* monitor.c */
-extern int monitor_on;
-extern int check_break (void);
-extern void monitor6809_init (void); 
-extern int monitor6809 (void);
-extern int dasm (char *, absolute_address_t);
-
-typedef void (*command_handler_t) (void);
-
-typedef void (*virtual_handler_t) (unsigned long *val, int writep);
-
-typedef unsigned int thread_id_t;
-
-typedef struct
-{
-   unsigned int id : 8;
-   unsigned int used : 1;
-   unsigned int enabled : 1;
-   unsigned int conditional : 1;
-   unsigned int threaded : 1;
-   unsigned int on_read : 1;
-   unsigned int on_write : 1;
-   unsigned int on_execute : 1;
-   unsigned int size : 4;
-   unsigned int keep_running : 1;
-	unsigned int temp : 1;
-	unsigned int last_write : 16;
-	unsigned int write_mask : 16;
-   absolute_address_t addr;
-   char condition[128];
-   thread_id_t tid;
-   unsigned int pass_count;
-   unsigned int ignore_count;
-} breakpoint_t;
-
-
-
-#define MAX_BREAKS 32
-#define MAX_DISPLAYS 32
-#define MAX_HISTORY 10
-#define MAX_THREADS 64
-
-void command_irq_hook (unsigned long cycles);
 
 #endif /* M6809_H */

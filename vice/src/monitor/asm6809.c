@@ -905,6 +905,11 @@ static const asm_opcode_info_t opcode_list_11[256] = {
 
 static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned int p1, unsigned int p2)
 {
+    /*
+     * Extra prefix bytes after the first one should be ignored (UNDOC),
+     * but since we get only a limited amount of bytes here we can't
+     * really do that.
+     */
     if (p0 == 0x10) {
         return opcode_list_10 + p1;
     }
