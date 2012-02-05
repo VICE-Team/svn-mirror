@@ -278,7 +278,7 @@ int spet_ramen  = 1;
 int spet_bank   = 0;
 int spet_ctrlwp = 1;
 int spet_diag   = 0;
-int spet_ramwp  = 1;
+int spet_ramwp  = 0;
 
 void petmem_reset(void)
 {
