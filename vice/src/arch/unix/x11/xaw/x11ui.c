@@ -410,7 +410,22 @@ static Window *getwinlist (Display *disp, unsigned long *len)
     return NULL;
 }
 
-/* get the pid associated with a given window */
+int getprop_failed = 0;
+
+static int getprop_handler(Display *display, XErrorEvent *err)
+{
+    getprop_failed = 1;
+
+    return 0;
+}
+
+/*
+ * Get the pid associated with a given window.
+ * Since it might have gone away by now (race condition!)
+ * we trap errors.
+ * This is actually not even very unlikely in case the user just clicked
+ * "monitor" in the "JAM" pop-up.
+ */
 static pid_t getwinpid (Display *disp, Window win)
 {
     Atom prop = XInternAtom(disp, "_NET_WM_PID", False), type;
@@ -418,12 +433,17 @@ static pid_t getwinpid (Display *disp, Window win)
     unsigned long remain, len;
     unsigned char *pid_p = NULL;
     pid_t pid;
+    int (*olderrorhandler)(Display *, XErrorEvent *);
 
+    getprop_failed = 0;
+    olderrorhandler = XSetErrorHandler(getprop_handler);
     if (XGetWindowProperty(disp, win, prop, 0, 1024, False, XA_CARDINAL,
-        &type, &form, &len, &remain, &pid_p) != Success || len < 1) {
+        &type, &form, &len, &remain, &pid_p) != Success || len < 1 ||
+            getprop_failed) {
         /* log_error(ui_log, "getwinpid: XGetWindowProperty; win=%lx, len=%ld", (long)win, len); */
         return 0;
     }
+    XSetErrorHandler(olderrorhandler);
 
     pid = *(pid_t *)pid_p;
     XFree(pid_p);
