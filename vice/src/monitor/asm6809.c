@@ -128,17 +128,17 @@ static const int indexed_size[0x20] = {
 
 static const asm_opcode_info_t opcode_list[256] = {
     /* 00 */ { "NEG", ASM_ADDR_MODE_DIRECT },
-    /* 01 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 02 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 01 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEG direct (6809), OIM direct (6309) */
+    /* 02 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COM direct : NEG direct (6809), AIM direct (6309) */
     /* 03 */ { "COM", ASM_ADDR_MODE_DIRECT },
     /* 04 */ { "LSR", ASM_ADDR_MODE_DIRECT },
-    /* 05 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 05 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSR direct (6809), EIM direct (6309) */
     /* 06 */ { "ROR", ASM_ADDR_MODE_DIRECT },
     /* 07 */ { "ASR", ASM_ADDR_MODE_DIRECT },
     /* 08 */ { "ASL", ASM_ADDR_MODE_DIRECT },
     /* 09 */ { "ROL", ASM_ADDR_MODE_DIRECT },
     /* 0a */ { "DEC", ASM_ADDR_MODE_DIRECT },
-    /* 0b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 0b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DEC direct (6809), TIM direct (6309) */
     /* 0c */ { "INC", ASM_ADDR_MODE_DIRECT },
     /* 0d */ { "TST", ASM_ADDR_MODE_DIRECT },
     /* 0e */ { "JMP", ASM_ADDR_MODE_DIRECT },
@@ -147,14 +147,14 @@ static const asm_opcode_info_t opcode_list[256] = {
     /* 11 */ { "PREFIX", ASM_ADDR_MODE_ILLEGAL },
     /* 12 */ { "NOP", ASM_ADDR_MODE_IMPLIED },
     /* 13 */ { "SYNC", ASM_ADDR_MODE_IMPLIED },
-    /* 14 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 15 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 14 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* HCF (6809), SEXW (6309) */
+    /* 15 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* HCF (6809), illegal trap (6309) */
     /* 16 */ { "LBRA", ASM_ADDR_MODE_REL_WORD },
     /* 17 */ { "LBSR", ASM_ADDR_MODE_REL_WORD },
-    /* 18 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 18 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CCRS (6809), illegal trap (6309) */
     /* 19 */ { "DAA", ASM_ADDR_MODE_IMPLIED },
     /* 1a */ { "ORCC", ASM_ADDR_MODE_IMM_BYTE },
-    /* 1b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 1b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NOP (6809), illegal trap (6309) */
     /* 1c */ { "ANDCC", ASM_ADDR_MODE_IMM_BYTE },
     /* 1d */ { "SEX", ASM_ADDR_MODE_IMPLIED },
     /* 1e */ { "EXG", ASM_ADDR_MODE_REG_POST },
@@ -183,7 +183,7 @@ static const asm_opcode_info_t opcode_list[256] = {
     /* 35 */ { "PULS", ASM_ADDR_MODE_SYS_POST },
     /* 36 */ { "PSHU", ASM_ADDR_MODE_USR_POST },
     /* 37 */ { "PULU", ASM_ADDR_MODE_USR_POST },
-    /* 38 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 38 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDCC immediate +1 cycle (6809), illegal trap (6309) */
     /* 39 */ { "RTS", ASM_ADDR_MODE_IMPLIED },
     /* 3a */ { "ABX", ASM_ADDR_MODE_IMPLIED },
     /* 3b */ { "RTI", ASM_ADDR_MODE_IMPLIED },
@@ -192,36 +192,36 @@ static const asm_opcode_info_t opcode_list[256] = {
     /* 3e */ { "RESET", ASM_ADDR_MODE_IMPLIED },
     /* 3f */ { "SWI", ASM_ADDR_MODE_IMPLIED },
     /* 40 */ { "NEGA", ASM_ADDR_MODE_IMPLIED },
-    /* 41 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 42 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 41 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEGA (6809), illegal trap (6309) */
+    /* 42 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COMA : NEGA (6809), illegal trap (6309) */
     /* 43 */ { "COMA", ASM_ADDR_MODE_IMPLIED },
     /* 44 */ { "LSRA", ASM_ADDR_MODE_IMPLIED },
-    /* 45 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 45 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSRA (6809), illegal trap (6309) */
     /* 46 */ { "RORA", ASM_ADDR_MODE_IMPLIED },
     /* 47 */ { "ASRA", ASM_ADDR_MODE_IMPLIED },
     /* 48 */ { "ASLA", ASM_ADDR_MODE_IMPLIED },
     /* 49 */ { "ROLA", ASM_ADDR_MODE_IMPLIED },
     /* 4a */ { "DECA", ASM_ADDR_MODE_IMPLIED },
-    /* 4b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 4b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DECA (6809), illegal trap (6309) */
     /* 4c */ { "INCA", ASM_ADDR_MODE_IMPLIED },
     /* 4d */ { "TSTA", ASM_ADDR_MODE_IMPLIED },
-    /* 4e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 4e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLRA (6809), illegal trap (6309) */
     /* 4f */ { "CLRA", ASM_ADDR_MODE_IMPLIED },
     /* 50 */ { "NEGB", ASM_ADDR_MODE_IMPLIED },
-    /* 51 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 52 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 51 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEGB (6809), illegal trap (6309) */
+    /* 52 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COMB : NEGB (6809), illegal trap (6309) */
     /* 53 */ { "COMB", ASM_ADDR_MODE_IMPLIED },
     /* 54 */ { "LSRB", ASM_ADDR_MODE_IMPLIED },
-    /* 55 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 55 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSRB (6809), illegal trap (6309) */
     /* 56 */ { "RORB", ASM_ADDR_MODE_IMPLIED },
     /* 57 */ { "ASRB", ASM_ADDR_MODE_IMPLIED },
     /* 58 */ { "ASLB", ASM_ADDR_MODE_IMPLIED },
     /* 59 */ { "ROLB", ASM_ADDR_MODE_IMPLIED },
     /* 5a */ { "DECB", ASM_ADDR_MODE_IMPLIED },
-    /* 5b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 5b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DECB (6809), illegal trap (6309) */
     /* 5c */ { "INCB", ASM_ADDR_MODE_IMPLIED },
     /* 5d */ { "TSTB", ASM_ADDR_MODE_IMPLIED },
-    /* 5e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 5e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLRB (6809), illegal trap (6309) */
     /* 5f */ { "CLRB", ASM_ADDR_MODE_IMPLIED },
     /* 60 */ { "NEG", ASM_ADDR_MODE_INDEXED },
     /* 61 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
