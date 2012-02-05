@@ -441,6 +441,7 @@ static pid_t getwinpid (Display *disp, Window win)
         &type, &form, &len, &remain, &pid_p) != Success || len < 1 ||
             getprop_failed) {
         /* log_error(ui_log, "getwinpid: XGetWindowProperty; win=%lx, len=%ld", (long)win, len); */
+        XSetErrorHandler(olderrorhandler);
         return 0;
     }
     XSetErrorHandler(olderrorhandler);
