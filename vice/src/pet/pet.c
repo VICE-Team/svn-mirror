@@ -228,7 +228,7 @@ static void pet_monitor_init(void)
     monitor_cpu_type_t asm6502;
     monitor_cpu_type_t asm6809;
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
-    monitor_cpu_type_t *asmarray[2];
+    monitor_cpu_type_t *asmarray[3];
 
     asmarray[0]=&asm6502;
     asmarray[1]=&asm6809;
