@@ -204,7 +204,9 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 
     p = linenoise(prompt, &fixed);
     if (p) {
-        linenoiseHistoryAdd(p);
+        if (*p) {
+            linenoiseHistoryAdd(p);
+        }
         ret_string = lib_stralloc(p);
         free(p);
     }
