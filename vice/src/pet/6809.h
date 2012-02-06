@@ -23,14 +23,15 @@
 #ifndef M6809_H
 #define M6809_H
 
-#include "config.h"
+#include "vice.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdint.h>
 
-#include "interrupt.h"
 #include "alarm.h"
+#include "interrupt.h"
 
 typedef uint8_t UINT8;
 typedef int8_t INT8;

@@ -20,15 +20,16 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-
+#include "vice.h"
 
 #include <stdarg.h>
+
 #include "6809.h"
-#include "petmem.h"
-#include "interrupt.h"
 #include "alarm.h"
-#include "monitor.h"
 #include "h6809regs.h"
+#include "interrupt.h"
+#include "monitor.h"
+#include "petmem.h"
 
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
