@@ -23,6 +23,7 @@ VICE_ARG_WITH_LIST(alsa,          [  --without-alsa          do not use the ALSA
 VICE_ARG_WITH_LIST(oss,           [  --without-oss           do not use the OSS sound system])
 VICE_ARG_WITH_LIST(sdlsound,      [  --with-sdlsound         use SDL sound system])
 VICE_ARG_WITH_LIST(resid,         [  --without-resid         do not use the reSID engine])
+VICE_ARG_WITH_LIST(residfp,       [  --without-residfp       do not use the reSID-fp engine])
 VICE_ARG_WITH_LIST(png,           [  --without-png           do not use the PNG screenshot system])
 VICE_ARG_WITH_LIST(zlib,          [  --without-zlib          do not use the zlib support])
 VICE_ARG_WITH_LIST(picasso96,     [  --with-picasso96        use Amiga P96 grafix system instead of cgx])
@@ -55,7 +56,7 @@ VICE_ARG_ENABLE_LIST(hidutils,    [  --disable-hidutils      disable HID Uitliti
 VICE_ARG_ENABLE_LIST(debug,       [  --enable-debug          enable debug source options])
 VICE_ARG_ENABLE_LIST(debug-code,  [  --enable-debug-code     enable debugging code])
 
-dnl register ReSID-fp options here to pass arg checks
+dnl register ReSID(-fp) options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
 VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=native]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(sse,         [  --enable-sse            enable the use of SSE [[default=yes]]])
@@ -549,6 +550,7 @@ elif test x"$enable_dingoo" = "xyes"; then
   with_png="no"
   dynlib_support="no"
   with_resid=no
+  with_residfp=no
   enable_sdlui=yes
   enable_embedded=yes
 elif test x"$host_os" = "xwiz" -o x"$host_os" = "xlinux-wiz" -o x"$host_vendor" = "xwiz" -o x"$enable_wiz" = "xyes"; then
@@ -1002,15 +1004,6 @@ dnl Set output drivers to none
 SOUND_DRIVERS=""
 GFXOUTPUT_DRIVERS=""
 
-dnl Setup reSID compilation.  We need a C++ compiler for this.
-if test x"$with_resid" != "xno" -a -z "$CXX"; then
-  AC_CHECK_PROGS(cxx, $CCC c++ g++ gcc CC cxx cc++, no)
-  if test x"$cxx" = "xno"; then
-    AC_MSG_WARN([C++ compiler missing, reSID will not be configured])
-    with_resid=no
-  fi
-fi
-
 RESID_DIR=
 RESID_LIBS=
 RESID_INCLUDES=
@@ -1029,8 +1022,21 @@ RESID_DTV_DEP=
 
 LINKCC='$(CC)'
 
-if test x"$with_resid" = "xno"; then
-  dnl Do not attempt to configure reSID.
+dnl disable reSID-FP for certain platforms
+if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
+  with_residfp=no
+fi
+
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
+  with_residfp=no
+fi
+
+if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
+  with_residfp=no
+fi
+
+if test x"$with_resid" = "xno" -a x"$with_residfp" = "xno"; then
+  dnl Do not attempt to configure reSID(-fp).
   dnl NOTE: no_recursion is set because directories specified with
   dnl AC_CONFIG_SUBDIRS are always recursed into regardless of where the
   dnl macro is used.
@@ -1046,26 +1052,48 @@ else
   AC_LANG_CPLUSPLUS
   AC_PROG_CXX
 
-  dnl Set CXXFLAGS. Use -fno-exceptions for G++ if supported.
-  if test "$ac_test_CXXFLAGS" != set; then
-    if test "$GXX" = yes; then
-      CXXFLAGS="$CFLAGS -fno-exceptions"
-      AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
-      AC_TRY_COMPILE([],
-                     [ int test; ],
-                     [ AC_MSG_RESULT(yes) ],
-                     [ AC_MSG_RESULT(no)
-                       CXXFLAGS="$CFLAGS"
-                       ])
-    else
-      CXXFLAGS="$CFLAGS"
+  dnl when using --host=, check if the C++ compiler is the intended cross compiler
+  if test x"$CXX" != "x" ; then
+    if test -n "$ac_tool_prefix"; then
+      valid_cxx=no
+      for cxx_compiler in g++ c++ gpp aCC CC cxx cc++ cl.exe FCC KCC RCC xlC_r xlC
+      do
+        if test x"$ac_tool_prefix$cxx_compiler" = x"$CXX"; then
+          valid_cxx=yes
+        fi
+      done
+
+      if test x"$valid_cxx" = "xno"; then
+        AC_MSG_WARN([$CXX is not the intended cross-compiler, ReSID and ReSID-fp will not be configured])
+        with_resid=no
+        with_residfp=no
+        CXX=""
+      fi
     fi
   fi
 
-  AC_PROG_CXXCPP
+  dnl disable resid and residfp when no C++ compiler is found
   if test x"$CXX" != "x" ; then
     LINKCC='$(CXX)'
+
+    dnl Set CXXFLAGS. Use -fno-exceptions for G++ if supported.
+    if test "$ac_test_CXXFLAGS" != set; then
+      if test "$GXX" = yes; then
+        CXXFLAGS="$CFLAGS -fno-exceptions"
+        AC_MSG_CHECKING([whether the C++ compiler ($CXX $CXXFLAGS $LDFLAGS) works])
+        AC_TRY_COMPILE([],
+                       [ int test; ],
+                       [ AC_MSG_RESULT(yes) ],
+                       [ AC_MSG_RESULT(no)
+                         CXXFLAGS="$CFLAGS"
+                         ])
+      else
+        CXXFLAGS="$CFLAGS"
+      fi
+    fi
+    AC_PROG_CXXCPP
   fi
+
   if test x"$with_resid" = "xyes" -o x"$with_resid" = "x"; then
     AC_DEFINE(HAVE_RESID,,[This version provides ReSID support.])
     AC_CONFIG_SUBDIRS(src/resid)
@@ -1074,55 +1102,21 @@ else
     RESID_INCLUDES="-I\$(top_builddir)/src/resid"
     RESID_DEP=libresid
 
-    disable_resid_fp=no
-
-    dnl disable reSID-FP for certain platforms
-    if test x"$host_os" = "xamigaos" -a x"$host_cpu" = "xm68k"; then
-        disable_resid_fp=yes
-    fi
-    if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes"; then
-        disable_resid_fp=yes
-    fi
-
-    if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
-        disable_resid_fp=yes
-    fi
-
-    if test x"$disable_resid_fp" != "xyes"; then
-      AC_DEFINE(HAVE_RESID_FP,,[This version provides ReSID_FP support.])
-      AC_CONFIG_SUBDIRS(src/resid-fp)
-      RESID_FP_DIR=resid-fp
-      RESID_FP_LIBS="\$(top_builddir)/src/resid-fp/libresidfp.a"
-      RESID_FP_INCLUDES="-I\$(top_builddir)/src/resid-fp"
-      RESID_FP_DEP=libresidfp
-    fi
-
     AC_DEFINE(HAVE_RESID_DTV,,[This version provides ReSID-DTV support.])
     AC_CONFIG_SUBDIRS(src/resid-dtv)
     RESID_DTV_DIR=resid-dtv
     RESID_DTV_LIBS="\$(top_builddir)/src/resid-dtv/libresiddtv.a"
     RESID_DTV_INCLUDES="-I\$(top_builddir)/src/resid-dtv"
     RESID_DTV_DEP=libresiddtv
+  fi
 
-  else
-    dnl reSID is installed elsewhere, no need to configure.
-    no_recursion=yes
-
-    LDFLAGS="$LDFLAGS -L$with_resid/lib"
-    CPPFLAGS="$CPPFLAGS -I$with_resid/include"
-
-    dnl Test for libresid.a and resid/sid.h
-    AC_CHECK_LIB(resid, resid_version_string,
-                 [],
-                 AC_MSG_ERROR([reSID library not found]))
-    AC_CHECK_HEADER(resid/sid.h,
-                    [],
-                    AC_MSG_ERROR([reSID header file not found]))
-
-    AC_DEFINE(HAVE_RESID,,[This version provides ReSID support.])
-    RESID_DIR=
-    RESID_LIBS="$with_resid/lib/libresid.a"
-    RESID_INCLUDES="-I$with_resid/include"
+  if test x"$with_residfp" != "xno"; then
+    AC_DEFINE(HAVE_RESID_FP,,[This version provides ReSID_FP support.])
+    AC_CONFIG_SUBDIRS(src/resid-fp)
+    RESID_FP_DIR=resid-fp
+    RESID_FP_LIBS="\$(top_builddir)/src/resid-fp/libresidfp.a"
+    RESID_FP_INCLUDES="-I\$(top_builddir)/src/resid-fp"
+    RESID_FP_DEP=libresidfp
   fi
 
   AC_LANG_RESTORE
@@ -1137,10 +1131,10 @@ AC_SUBST(RESID_LIBS)
 AC_SUBST(RESID_INCLUDES)
 AC_SUBST(RESID_DEP)
 
-if test x"$disable_resid_fp" = "xyes"; then
+if test x"$with_residfp" = "xno"; then
   AM_CONDITIONAL(HAVE_RESID_FP, false)
 else
-  AM_CONDITIONAL(HAVE_RESID_FP, test x"$with_resid" != "xno")
+  AM_CONDITIONAL(HAVE_RESID_FP, true)
 fi
 
 AC_SUBST(RESID_FP_DIR)
