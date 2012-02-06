@@ -698,209 +698,209 @@ static const asm_opcode_info_t opcode_list_11[256] = {
     /* 32 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LEAS indexed (6809), BOR direct (6309) */
     /* 33 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LEAU indexed (6809), BIOR direct (6309) */
     /* 34 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* PSHS post (6809), BEOR direct (6309) */
-    /* 35 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 36 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 37 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 38 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 39 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 3a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 3b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 3c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 3d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 3e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 35 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* PULS post (6809), BIEOR direct (6309) */
+    /* 36 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* PSHU post (6809), LDBT direct (6309) */
+    /* 37 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* PULU post (6809), STBT direct (6309) */
+    /* 38 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDCC immediate + 1 cycle (6809), TFM R+,R+ (6309) */
+    /* 39 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* RTS cycle (6809), TFM R-,R- (6309) */
+    /* 3a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ABX (6809), TFM R+,R (6309) */
+    /* 3b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* RTI (6809), TFM R,R+ (6309) */
+    /* 3c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CWAI immediate (6809), BITMD immediate (6309) */
+    /* 3d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* MUL (6809), LDMD immediate (6309) */
+    /* 3e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SWIRES (6809), illegal trap (6309) */
     /* 3f */ { "SWI3", ASM_ADDR_MODE_IMPLIED },
-    /* 40 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL }, /* 11 40 */
-    /* 41 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 42 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 43 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 44 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 45 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 46 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 47 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 48 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 49 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 4a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 4b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 4c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 4d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 4e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 4f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 50 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 51 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 52 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 53 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 54 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 55 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 56 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 57 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 58 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 59 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 5a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 5b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 5c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 5d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 5e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 5f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 60 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 61 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 62 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 63 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 64 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 65 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 66 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 67 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 68 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 69 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 6a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 6b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 6c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 6d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 6e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 6f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 70 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 71 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 72 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 73 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 74 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 75 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 76 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 77 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 78 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 79 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 7a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 7b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 7c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 7d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 7e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 7f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 80 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 81 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 82 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 40 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEGA (6809), illegal trap (6309) */
+    /* 41 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEGA (6809), illegal trap (6309) */
+    /* 42 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COMA : NEGA (6809), illegal trap (6309) */
+    /* 43 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* COMA (6809), COME (6309) */
+    /* 44 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSRA (6809), illegal trap (6309) */
+    /* 45 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSRA (6809), illegal trap (6309) */
+    /* 46 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* RORA (6809), illegal trap (6309) */
+    /* 47 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASRA (6809), illegal trap (6309) */
+    /* 48 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASLA/LSLA (6809), illegal trap (6309) */
+    /* 49 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ROLA (6809), illegal trap (6309) */
+    /* 4a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DECA (6809), DECE (6309) */
+    /* 4b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DECA (6809), illegal trap (6309) */
+    /* 4c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* INCA (6809), INCE (6309) */
+    /* 4d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* TSTA (6809), TSTE (6309) */
+    /* 4e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLRA (6809), illegal trap (6309) */
+    /* 4f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLRA (6809), CLRE (6309) */
+    /* 50 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEGB (6809), illegal trap (6309) */
+    /* 51 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEGB (6809), illegal trap (6309) */
+    /* 52 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COMB : NEGB (6809), illegal trap (6309) */
+    /* 53 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* COMB (6809), COMF (6309) */
+    /* 54 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSRB (6809), illegal trap (6309) */
+    /* 55 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSRB (6809), illegal trap (6309) */
+    /* 56 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* RORB (6809), illegal trap (6309) */
+    /* 57 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASRB (6809), illegal trap (6309) */
+    /* 58 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASLB/LSLB (6809), illegal trap (6309) */
+    /* 59 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ROLB (6809), illegal trap (6309) */
+    /* 5a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DECB (6809), DECF (6309) */
+    /* 5b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DECB (6809), illegal trap (6309) */
+    /* 5c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* INCB (6809), INCF (6309) */
+    /* 5d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* TSTB (6809), TSTF (6309) */
+    /* 5e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLRB (6809), illegal trap (6309) */
+    /* 5f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLRB (6809), CLRF (6309) */
+    /* 60 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEG indexed (6809), illegal trap (6309) */
+    /* 61 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEG indexed (6809), illegal trap (6309) */
+    /* 62 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COM indexed : NEG indexed (6809), illegal trap (6309) */
+    /* 63 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* COM indexed (6809), illegal trap (6309) */
+    /* 64 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSR indexed (6809), illegal trap (6309) */
+    /* 65 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSR indexed (6809), illegal trap (6309) */
+    /* 66 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ROR indexed (6809), illegal trap (6309) */
+    /* 67 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASR indexed (6809), illegal trap (6309) */
+    /* 68 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASL/LSL indexed (6809), illegal trap (6309) */
+    /* 69 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ROL indexed (6809), illegal trap (6309) */
+    /* 6a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DEC indexed (6809), illegal trap (6309) */
+    /* 6b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DEC indexed (6809), illegal trap (6309) */
+    /* 6c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* INC indexed (6809), illegal trap (6309) */
+    /* 6d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* TST indexed (6809), illegal trap (6309) */
+    /* 6e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* JMP indexed (6809), illegal trap (6309) */
+    /* 6f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLR indexed (6809), illegal trap (6309) */
+    /* 70 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEG extended (6809), illegal trap (6309) */
+    /* 71 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* NEG extended (6809), illegal trap (6309) */
+    /* 72 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* carry ? COM extended : NEG extended (6809), illegal trap (6309) */
+    /* 73 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* COM extended (6809), illegal trap (6309) */
+    /* 74 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSR extended (6809), illegal trap (6309) */
+    /* 75 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LSR extended (6809), illegal trap (6309) */
+    /* 76 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ROR extended (6809), illegal trap (6309) */
+    /* 77 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASR extended (6809), illegal trap (6309) */
+    /* 78 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ASL/LSL extended (6809), illegal trap (6309) */
+    /* 79 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ROL extended (6809), illegal trap (6309) */
+    /* 7a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DEC extended (6809), illegal trap (6309) */
+    /* 7b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* DEC extended (6809), illegal trap (6309) */
+    /* 7c */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* INC extended (6809), illegal trap (6309) */
+    /* 7d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* TST extended (6809), illegal trap (6309) */
+    /* 7e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* JMP extended (6809), illegal trap (6309) */
+    /* 7f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CLR extended (6809), illegal trap (6309) */
+    /* 80 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBA immediate (6809), SUBE immediate (6309) */
+    /* 81 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPA immediate (6809), CMPE immediate (6309) */
+    /* 82 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCA immediate (6809), illegal trap (6309) */
     /* 83 */ { "CMPU", ASM_ADDR_MODE_IMM_WORD },
-    /* 84 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 85 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 86 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 87 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 88 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 89 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 8a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 8b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 84 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDA immediate (6809), illegal trap (6309) */
+    /* 85 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITA immediate (6809), illegal trap (6309) */
+    /* 86 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDA immediate (6809), LDE immediate (6309) */
+    /* 87 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SCC immediate (6809), illegal trap (6309) */
+    /* 88 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORA immediate (6809), illegal trap (6309) */
+    /* 89 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCA immediate (6809), illegal trap (6309) */
+    /* 8a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORA immediate (6809), illegal trap (6309) */
+    /* 8b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDA immediate (6809), ADDE immediate (6309) */
     /* 8c */ { "CMPS", ASM_ADDR_MODE_IMM_WORD },
-    /* 8d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 8e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 8f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 90 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 91 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 92 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 8d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BSR offset (6809), DIVD immediate (6309) */
+    /* 8e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDX immediate (6809), DIVQ immediate (6309) */
+    /* 8f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STX immediate (6809), MULD immediate (6309) */
+    /* 90 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBA direct (6809), SUBE direct (6309) */
+    /* 91 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPA direct (6809), CMPE direct (6309) */
+    /* 92 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCA direct (6809), illegal trap (6309) */
     /* 93 */ { "CMPU", ASM_ADDR_MODE_DIRECT },
-    /* 94 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 95 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 96 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 97 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 98 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 99 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 9a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 9b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 94 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDA direct (6809), illegal trap (6309) */
+    /* 95 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITA direct (6809), illegal trap (6309) */
+    /* 96 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDA direct (6809), LDE direct (6309) */
+    /* 97 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STA direct (6809), STE direct (6309) */
+    /* 98 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORA direct (6809), illegal trap (6309) */
+    /* 99 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCA direct (6809), illegal trap (6309) */
+    /* 9a */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORA direct (6809), illegal trap (6309) */
+    /* 9b */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDA direct (6809), ADDE direct (6309) */
     /* 9c */ { "CMPS", ASM_ADDR_MODE_DIRECT },
-    /* 9d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 9e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* 9f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* 9d */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* JSR direct (6809), DIVD direct (6309) */
+    /* 9e */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDX direct (6809), DIVQ direct (6309) */
+    /* 9f */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STX direct (6809), MULD direct (6309) */
+    /* a0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBA indexed (6809), SUBE indexed (6309) */
+    /* a1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPA indexed (6809), CMPE indexed (6309) */
+    /* a2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCA indexed (6809), illegal trap (6309) */
     /* a3 */ { "CMPU", ASM_ADDR_MODE_INDEXED },
-    /* a4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* a9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* aa */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ab */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* a4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDA indexed (6809), illegal trap (6309) */
+    /* a5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITA indexed (6809), illegal trap (6309) */
+    /* a6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDA indexed (6809), LDE indexed (6309) */
+    /* a7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STA indexed (6809), STE indexed (6309) */
+    /* a8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORA indexed (6809), illegal trap (6309) */
+    /* a9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCA indexed (6809), illegal trap (6309) */
+    /* aa */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORA indexed (6809), illegal trap (6309) */
+    /* ab */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDA indexed (6809), ADDE indexed (6309) */
     /* ac */ { "CMPS", ASM_ADDR_MODE_INDEXED },
-    /* ad */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ae */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* af */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* ad */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* JSR indexed (6809), DIVD indexed (6309) */
+    /* ae */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDX indexed (6809), DIVQ indexed (6309) */
+    /* af */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STX indexed (6809), MULD indexed (6309) */
+    /* b0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBA extended (6809), SUBE extended (6309) */
+    /* b1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPA extended (6809), CMPE extended (6309) */
+    /* b2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCA extended (6809), illegal trap (6309) */
     /* b3 */ { "CMPU", ASM_ADDR_MODE_EXTENDED },
-    /* b4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* b9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ba */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* bb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
+    /* b4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDA extended (6809), illegal trap (6309) */
+    /* b5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITA extended (6809), illegal trap (6309) */
+    /* b6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDA extended (6809), LDE extended (6309) */
+    /* b7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STA extended (6809), STE extended (6309) */
+    /* b8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORA extended (6809), illegal trap (6309) */
+    /* b9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCA extended (6809), illegal trap (6309) */
+    /* ba */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORA extended (6809), illegal trap (6309) */
+    /* bb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDA extended (6809), ADDE extended (6309) */
     /* bc */ { "CMPS", ASM_ADDR_MODE_EXTENDED },
-    /* bd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* be */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* bf */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* c9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ca */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* cb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* cc */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* cd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ce */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* cf */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* d9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* da */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* db */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* dc */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* dd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* de */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* df */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* e9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ea */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* eb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ec */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ed */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ee */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ef */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* f9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* fa */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* fb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* fc */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* fd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* fe */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },
-    /* ff */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL }
+    /* bd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* JSR extended (6809), DIVD extended (6309) */
+    /* be */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDX extended (6809), DIVQ extended (6309) */
+    /* bf */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STX extended (6809), MULD extended (6309) */
+    /* c0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBB immediate (6809), SUBF immediate (6309) */
+    /* c1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPB immediate (6809), CMPF immediate (6309) */
+    /* c2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCB immediate (6809), illegal trap (6309) */
+    /* c3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDD immediate (6809), illegal trap (6309) */
+    /* c4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDB immediate (6809), illegal trap (6309) */
+    /* c5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITB immediate (6809), illegal trap (6309) */
+    /* c6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDB immediate (6809), LDF immediate (6309) */
+    /* c7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SCC immediate (6809), illegal trap (6309) */
+    /* c8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORB immediate (6809), illegal trap (6309) */
+    /* c9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCB immediate (6809), illegal trap (6309) */
+    /* ca */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORB immediate (6809), illegal trap (6309) */
+    /* cb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDB immediate (6809), ADDF immediate (6309) */
+    /* cc */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDD immediate (6809), illegal trap (6309) */
+    /* cd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* HCF (6809), illegal trap (6309) */
+    /* ce */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDU immediate (6809), illegal trap (6309) */
+    /* cf */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STU immediate (6809), illegal trap (6309) */
+    /* d0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBB direct (6809), SUBF direct (6309) */
+    /* d1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPB direct (6809), CMPF direct (6309) */
+    /* d2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCB direct (6809), illegal trap (6309) */
+    /* d3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDD direct (6809), illegal trap (6309) */
+    /* d4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDB direct (6809), illegal trap (6309) */
+    /* d5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITB direct (6809), illegal trap (6309) */
+    /* d6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDB direct (6809), LDF direct (6309) */
+    /* d7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STB direct (6809), STF direct (6309) */
+    /* d8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORB direct (6809), illegal trap (6309) */
+    /* d9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCB direct (6809), illegal trap (6309) */
+    /* da */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORB direct (6809), illegal trap (6309) */
+    /* db */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDB direct (6809), ADDF direct (6309) */
+    /* dc */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDD direct (6809), illegal trap (6309) */
+    /* dd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STD direct (6809), illegal trap (6309) */
+    /* de */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDU direct (6809), illegal trap (6309) */
+    /* df */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STU direct (6809), illegal trap (6309) */
+    /* e0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBB indexed (6809), SUBF indexed (6309) */
+    /* e1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPB indexed (6809), CMPF indexed (6309) */
+    /* e2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCB indexed (6809), illegal trap (6309) */
+    /* e3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDD indexed (6809), illegal trap (6309) */
+    /* e4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDB indexed (6809), illegal trap (6309) */
+    /* e5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITB indexed (6809), illegal trap (6309) */
+    /* e6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDB indexed (6809), LDF indexed (6309) */
+    /* e7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STB indexed (6809), STF indexed (6309) */
+    /* e8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORB indexed (6809), illegal trap (6309) */
+    /* e9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCB indexed (6809), illegal trap (6309) */
+    /* ea */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORB indexed (6809), illegal trap (6309) */
+    /* eb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDB indexed (6809), ADDF indexed (6309) */
+    /* ec */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDD indexed (6809), illegal trap (6309) */
+    /* ed */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STD indexed (6809), illegal trap (6309) */
+    /* ee */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDU indexed (6809), illegal trap (6309) */
+    /* ef */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STU indexed (6809), illegal trap (6309) */
+    /* f0 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SUBB extended (6809), SUBF extended (6309) */
+    /* f1 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* CMPB extended (6809), CMPF extended (6309) */
+    /* f2 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* SBCB extended (6809), illegal trap (6309) */
+    /* f3 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDD extended (6809), illegal trap (6309) */
+    /* f4 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ANDB extended (6809), illegal trap (6309) */
+    /* f5 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* BITB extended (6809), illegal trap (6309) */
+    /* f6 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDB extended (6809), LDF extended (6309) */
+    /* f7 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STB extended (6809), STF extended (6309) */
+    /* f8 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* EORB extended (6809), illegal trap (6309) */
+    /* f9 */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADCB extended (6809), illegal trap (6309) */
+    /* fa */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ORB extended (6809), illegal trap (6309) */
+    /* fb */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* ADDB extended (6809), ADDF extended (6309) */
+    /* fc */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDD extended (6809), illegal trap (6309) */
+    /* fd */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* STD extended (6809), illegal trap (6309) */
+    /* fe */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL },	/* LDU extended (6809), illegal trap (6309) */
+    /* ff */ { "UNDOC", ASM_ADDR_MODE_ILLEGAL }		/* STU extended (6809), illegal trap (6309) */
 };
 
 static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned int p1, unsigned int p2)
