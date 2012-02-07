@@ -56,6 +56,8 @@
 
 #include "lib.h"
 
+#include "loadlibs.h"
+
 #ifndef MAKE_ID
 #define MAKE_ID(a,b,c,d) ((ULONG) (a)<<24 | (ULONG) (b)<<16 | (ULONG) (c)<<8 | (ULONG) (d))
 #endif
@@ -362,6 +364,10 @@ static void ai_exit(void)
 
 static int ai_init(void)
 {
+    if (!amigainput_lib_loaded) {
+        return -1;
+    }
+
     if ((ai_port = CreateMsgPort())) {
         struct TagItem tags[] = { { AINCC_Port, (ULONG)ai_port}, { TAG_DONE, TAG_DONE } };
 
@@ -650,6 +656,10 @@ int joyai_config(int joy)
     keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
     ULONG signals;
 
+    if (!amigainput_lib_loaded) {
+        return -1;
+    }
+
     if (CTX == NULL) {
         return -1;
     }
@@ -860,6 +870,10 @@ int joyai_update(int joy, int dst)
     void *ptr;
     keysym_type *keysym = (joy == 2) ? keysym_2 : keysym_1;
     BYTE value = 0;
+
+    if (!amigainput_lib_loaded) {
+        return -1;
+    }
 
     if ((CTX == NULL) || (ai_handle[joy - 1] == NULL)) {
         return -1;

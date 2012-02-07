@@ -32,4 +32,8 @@ extern void close_libs(void);
 
 extern int pci_lib_loaded;
 
+#ifdef AMIGA_OS4
+extern int amigainput_lib_loaded;
+#endif
+
 #endif
