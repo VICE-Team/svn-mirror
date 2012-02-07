@@ -394,7 +394,6 @@
         }                                                             \
         if (ik & (IK_MONITOR | IK_DMA)) {                             \
             if (ik & IK_MONITOR) {                                    \
-                caller_space = CALLER;                                \
                 if (monitor_force_import(CALLER))                     \
                     IMPORT_REGISTERS();                               \
                 if (monitor_mask[CALLER])                             \
@@ -402,7 +401,7 @@
                 if (monitor_mask[CALLER] & (MI_BREAK)) {              \
                     if (monitor_check_breakpoints(CALLER,             \
                         (WORD)reg_pc)) {                              \
-                        monitor_startup();                            \
+                        monitor_startup(CALLER);                      \
                         IMPORT_REGISTERS();                           \
                     }                                                 \
                 }                                                     \
@@ -959,7 +958,7 @@ be found that works for both.
           }                                                      \
       }                                                          \
   } while (0)
-  
+
 #define JMP(addr)     \
   do {                \
       JUMP(addr);     \
@@ -1968,7 +1967,7 @@ static const BYTE rewind_fetch_tab[] = {
             debug_drive((DWORD)(reg_pc), debug_clk,
                         mon_disassemble_to_string(e_disk8_space,
                                                   reg_pc, op,
-                                                  lo, hi, 0, 1, "6502"), 
+                                                  lo, hi, 0, 1, "6502"),
                         reg_a_read, reg_x, reg_y, reg_sp, drv->mynumber + 8);
         }
 #else

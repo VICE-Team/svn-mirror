@@ -91,7 +91,7 @@ static UI_CALLBACK(activate_monitor)
     if (!ui_emulation_is_paused()) {
         monitor_startup_trap();
     } else {
-        monitor_startup();
+        monitor_startup(e_default_space);
 #ifdef HAVE_FULLSCREEN
 	fullscreen_resume();
 #endif

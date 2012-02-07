@@ -598,8 +598,7 @@ static void drive_jam(drive_context_t *drv)
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
         break;
       case JAM_MONITOR:
-        caller_space = drv->cpu->monspace;
-        monitor_startup();
+        monitor_startup(drv->cpu->monspace);
         break;
       default:
         CLK++;

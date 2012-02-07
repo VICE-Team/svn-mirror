@@ -122,7 +122,6 @@ struct monitor_interface_s {
 typedef struct monitor_interface_s monitor_interface_t;
 
 /* Externals */
-extern MEMSPACE caller_space;
 extern unsigned monitor_mask[NUM_MEMSPACES];
 
 
@@ -134,7 +133,7 @@ extern void monitor_init(monitor_interface_t *maincpu_interface,
                          struct monitor_cpu_type_s **asmarray);
 extern void monitor_shutdown(void);
 extern int monitor_cmdline_options_init(void);
-extern void monitor_startup(void);
+void monitor_startup(MEMSPACE mem);
 extern void monitor_startup_trap(void);
 
 extern void monitor_abort(void);
@@ -199,7 +198,7 @@ extern monitor_cartridge_commands_t mon_cart_cmd;
 
 /* CPU history/memmap prototypes */
 extern void monitor_cpuhistory_store(unsigned int addr, unsigned int op, unsigned int p1, unsigned int p2,
-                                     BYTE reg_a, BYTE reg_x, BYTE reg_y, 
+                                     BYTE reg_a, BYTE reg_x, BYTE reg_y,
                                      BYTE reg_sp, unsigned int reg_st);
 extern void monitor_memmap_store(unsigned int addr, unsigned int type);
 

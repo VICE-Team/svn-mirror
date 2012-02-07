@@ -420,7 +420,7 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
 
             mon_out("#%d (%s %5s %04x) ", cp->checknum, action_str, op_str, addr);
 
-            if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
+            if (mon_interfaces[mem]->get_line_cycle != NULL) {
                 unsigned int line, cycle;
                 int half_cycle;
 

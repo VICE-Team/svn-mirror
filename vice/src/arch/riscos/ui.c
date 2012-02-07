@@ -2228,7 +2228,7 @@ int ui_init_finish(void)
 
     CMOS_DragType = ReadDragType();
 
-    if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) && 
+    if ((machine_class != VICE_MACHINE_PET) && (machine_class != VICE_MACHINE_VIC20) &&
       (machine_class != VICE_MACHINE_CBM5x0) && (machine_class != VICE_MACHINE_CBM6x0) &&
       (machine_class != VICE_MACHINE_C128)) {
         wimp_menu_set_grey_item((RO_MenuHead*)&MenuConfigure, Menu_Config_Machine, 1);
@@ -4997,7 +4997,7 @@ static void mon_trap_full(WORD addr, void *unused_data)
 {
     ui_temp_suspend_sound();
     OS_FlushBuffer(0);
-    monitor_startup();
+    monitor_startup(e_default_space);
     video_full_screen_refresh();
     ui_temp_resume_sound();
 }
@@ -5008,7 +5008,7 @@ static void mon_trap_wimp(WORD addr, void *unused_data)
     if (!ui_message_window_is_open(msg_win_monitor)) {
         EmuPaused = 1;
         ui_display_paused(EmuPaused);
-        monitor_startup();
+        monitor_startup(e_default_space);
         EmuPaused = 0;
         ui_display_paused(EmuPaused);
     }

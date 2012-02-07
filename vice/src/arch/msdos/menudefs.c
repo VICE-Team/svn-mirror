@@ -497,7 +497,7 @@ static tui_menu_item_def_t quit_submenu[] = {
 static TUI_MENU_CALLBACK(monitor_callback)
 {
     if (been_activated) {
-        monitor_startup();
+        monitor_startup(e_default_space);
     }
 
     return NULL;

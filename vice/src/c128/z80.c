@@ -511,7 +511,6 @@ static void export_registers(void)
             }                                                                             \
         }                                                                                 \
         if (ik & (IK_MONITOR)) {                                                          \
-            caller_space = e_comp_space;                                                  \
             if (monitor_force_import(e_comp_space)) {                                     \
                 import_registers();                                                       \
             }                                                                             \
@@ -520,7 +519,7 @@ static void export_registers(void)
             }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_BREAK)) {                                \
                 if (monitor_check_breakpoints(e_comp_space, (WORD)z80_reg_pc)) {          \
-                    monitor_startup();                                                    \
+                    monitor_startup(e_comp_space);                                       \
                 }                                                                         \
             }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_STEP)) {                                 \

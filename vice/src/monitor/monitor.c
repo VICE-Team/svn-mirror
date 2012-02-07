@@ -149,7 +149,6 @@ static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
 static bool trigger_break_on_next_instruction;
-MEMSPACE caller_space;
 
 const char *_mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
@@ -1188,7 +1187,7 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
             monitor_labels[i].addr_hash_table[j] = NULL;
     }
 
-    caller_space = e_comp_space;
+    default_memspace = e_comp_space;
 
     asm_mode_addr = BAD_ADDR;
 
@@ -1275,7 +1274,7 @@ int monitor_cmdline_options_init(void)
 
 monitor_interface_t *monitor_interface_new(void)
 {
-    return (monitor_interface_t *)lib_malloc(sizeof(monitor_interface_t));
+    return (monitor_interface_t *)lib_calloc(sizeof(monitor_interface_t), 1);
 }
 
 void monitor_interface_destroy(monitor_interface_t *monitor_interface)
@@ -1764,8 +1763,8 @@ void mon_instructions_step(int count)
         mon_console_close_on_leaving = 0;
     }
 
-    monitor_mask[caller_space] |= MI_STEP;
-    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
+    monitor_mask[default_memspace] |= MI_STEP;
+    interrupt_monitor_trap_on(mon_interfaces[default_memspace]->int_status);
 }
 
 void mon_instructions_next(int count)
@@ -1782,8 +1781,8 @@ void mon_instructions_next(int count)
         mon_console_close_on_leaving = 0;
     }
 
-    monitor_mask[caller_space] |= MI_STEP;
-    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
+    monitor_mask[default_memspace] |= MI_STEP;
+    interrupt_monitor_trap_on(mon_interfaces[default_memspace]->int_status);
 }
 
 void mon_instruction_return(void)
@@ -1793,8 +1792,8 @@ void mon_instruction_return(void)
     skip_jsrs = TRUE;
     exit_mon = 1;
 
-    monitor_mask[caller_space] |= MI_STEP;
-    interrupt_monitor_trap_on(mon_interfaces[caller_space]->int_status);
+    monitor_mask[default_memspace] |= MI_STEP;
+    interrupt_monitor_trap_on(mon_interfaces[default_memspace]->int_status);
 }
 
 void mon_stack_up(int count)
@@ -1995,15 +1994,15 @@ void monitor_check_icount(WORD pc)
 {
     if (trigger_break_on_next_instruction) {
         trigger_break_on_next_instruction = FALSE;
-        if (monitor_mask[caller_space] & MI_STEP) {
-            monitor_mask[caller_space] &= ~MI_STEP;
+        if (monitor_mask[default_memspace] & MI_STEP) {
+            monitor_mask[default_memspace] &= ~MI_STEP;
             disassemble_on_entry = 1;
         }
-        if (!monitor_mask[caller_space]) {
-            interrupt_monitor_trap_off(mon_interfaces[caller_space]->int_status);
+        if (!monitor_mask[default_memspace]) {
+            interrupt_monitor_trap_off(mon_interfaces[default_memspace]->int_status);
         }
 
-        monitor_startup();
+        monitor_startup(e_default_space);
     }
 
     if (!instruction_count) {
@@ -2017,14 +2016,14 @@ void monitor_check_icount(WORD pc)
             - if the current address is the start of a trap, the respective opcode
               is not actually executed and thus is ignored.
         */
-        if ((caller_space != e_comp_space) || (traps_checkaddr(pc) == 0)) {
-            if (MONITOR_GET_OPCODE(caller_space) == OP_JSR) {
+        if ((default_memspace != e_comp_space) || (traps_checkaddr(pc) == 0)) {
+            if (MONITOR_GET_OPCODE(default_memspace) == OP_JSR) {
                 wait_for_return_level++;
             }
-            if (MONITOR_GET_OPCODE(caller_space) == OP_RTS) {
+            if (MONITOR_GET_OPCODE(default_memspace) == OP_RTS) {
                 wait_for_return_level--;
             }
-            if (MONITOR_GET_OPCODE(caller_space) == OP_RTI) {
+            if (MONITOR_GET_OPCODE(default_memspace) == OP_RTI) {
                 wait_for_return_level--;
             }
             if (wait_for_return_level < 0) {
@@ -2047,7 +2046,7 @@ void monitor_check_icount_interrupt(void)
 {
     /* This is a helper for monitor_check_icount.
     It's called whenever a IRQ or NMI is executed
-    and the monitor_mask[caller_space] | MI_STEP is
+    and the monitor_mask[default_memspace] | MI_STEP is
     active, i.e., we're in the single step mode.   */
 
     if (instruction_count) {
@@ -2069,13 +2068,11 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
 
     if (watch_load_occurred) {
         if (watchpoints_check_loads(e_comp_space, lastpc, pc)) {
-            caller_space = e_comp_space;
-            monitor_startup();
+            monitor_startup(e_comp_space);
         }
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             if (watchpoints_check_loads(monitor_diskspace_mem(dnr), lastpc, pc)) {
-                caller_space = monitor_diskspace_mem(dnr);
-                monitor_startup();
+                monitor_startup(monitor_diskspace_mem(dnr));
             }
         }
         watch_load_occurred = FALSE;
@@ -2083,13 +2080,11 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
 
     if (watch_store_occurred) {
         if (watchpoints_check_stores(e_comp_space, lastpc, pc)) {
-            caller_space = e_comp_space;
-            monitor_startup();
+            monitor_startup(e_comp_space);
         }
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
             if (watchpoints_check_stores(monitor_diskspace_mem(dnr), lastpc, pc)) {
-                caller_space = monitor_diskspace_mem(dnr);
-                monitor_startup();
+                monitor_startup(monitor_diskspace_mem(dnr));
             }
         }
         watch_store_occurred = FALSE;
@@ -2208,7 +2203,7 @@ static void monitor_open(void)
     }
 
     if (disassemble_on_entry) {
-        mon_disassemble_with_regdump(caller_space, dot_addr[caller_space]);
+        mon_disassemble_with_regdump(default_memspace, dot_addr[default_memspace]);
         disassemble_on_entry = 0;
     }
 }
@@ -2299,9 +2294,12 @@ static void monitor_close(int check)
 }
 
 
-void monitor_startup(void)
+void monitor_startup(MEMSPACE mem)
 {
     char prompt[40];
+
+    if (mem != e_default_space)
+        default_memspace = mem;
 
     monitor_open();
     while (!exit_mon) {
@@ -2313,7 +2311,7 @@ void monitor_startup(void)
 
 static void monitor_trap(WORD addr, void *unused_data)
 {
-    monitor_startup();
+    monitor_startup(e_default_space);
 #ifdef HAVE_FULLSCREEN
     fullscreen_resume();
 #endif

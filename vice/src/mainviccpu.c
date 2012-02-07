@@ -410,8 +410,7 @@ void maincpu_mainloop(void)
             DO_INTERRUPT(IK_RESET);                                   \
             break;                                                    \
           case JAM_MONITOR:                                           \
-            caller_space = e_comp_space;                              \
-            monitor_startup();                                        \
+            monitor_startup(e_comp_space);                            \
             IMPORT_REGISTERS();                                       \
             break;                                                    \
           default:                                                    \
