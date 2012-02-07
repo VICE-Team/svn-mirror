@@ -32,6 +32,7 @@
 #include <string.h>
 
 #include "hardsid.h"
+#include "loadlibs.h"
 #include "log.h"
 #include "types.h"
 
@@ -106,6 +107,10 @@ int hardsid_open(void)
     static int atexitinitialized = 0;
     unsigned int i;
     unsigned char bus=0;
+
+    if (!pci_lib_loaded) {
+        return -1;
+    }
 
     if (atexitinitialized) {
         hardsid_close();
@@ -214,6 +219,7 @@ void hardsid_set_machine_parameter(long cycles_per_sec)
 #include <string.h>
 
 #include "hardsid.h"
+#include "loadlibs.h"
 #include "log.h"
 #include "types.h"
 
@@ -281,6 +287,10 @@ int hardsid_open(void)
 {
     static int atexitinitialized = 0;
     unsigned int i;
+
+    if (!pci_lib_loaded) {
+        return -1;
+    }
 
     if (atexitinitialized) {
       hardsid_close();

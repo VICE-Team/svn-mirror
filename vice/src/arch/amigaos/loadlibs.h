@@ -30,4 +30,6 @@
 extern int load_libs(void);
 extern void close_libs(void);
 
+extern int pci_lib_loaded;
+
 #endif
