@@ -57,7 +57,6 @@ libarch_a_SOURCES = \
 	cbm2ui.c \
 	cbm2uires.h \
 	console.c \
-	expansionbase.h \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid.c \
@@ -71,6 +70,8 @@ libarch_a_SOURCES = \
 	joyll.h \
 	kbd.c \
 	kbd.h \
+	loadlibs.c \
+	loadlibs.h \
 	memory.h \
 	mousedrv.c \
 	mousedrv.h \

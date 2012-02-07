@@ -30,6 +30,7 @@
 
 #include <signal.h>
 
+#include "loadlibs.h"
 #include "log.h"
 #include "machine.h"
 #include "main.h"
@@ -58,13 +59,6 @@ int main(int argc, char **argv)
     if (vice_timer == NULL) {
         return RETURN_FAIL;
     }
-#ifdef AMIGA_AROS
-#ifndef WORKING_AROS_AUTO
-    if (aros_extra_init() < 0) {
-        return RETURN_FAIL;
-    }
-#endif
-#endif
     return main_program(argc, argv);
 }
 
@@ -79,10 +73,7 @@ void main_exit(void)
 
     machine_shutdown();
 
-#ifdef AMIGA_AROS
-#ifndef WORKING_AROS_AUTO
-    aros_extra_shutdown();
-#endif
-#endif
     timer_exit(vice_timer);
+
+    close_libs();
 }

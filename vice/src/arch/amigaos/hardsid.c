@@ -40,8 +40,6 @@
 static unsigned char read_sid(unsigned char reg); // Read a SID register
 static void write_sid(unsigned char reg, unsigned char data); // Write a SID register
 
-static struct Library *OpenPciBase = NULL;
-
 static int sidfh = 0;
 
 /* buffer containing current register state of SIDs */
@@ -112,13 +110,6 @@ int hardsid_open(void)
     if (atexitinitialized) {
         hardsid_close();
     }
-
-    if ((OpenPciBase = (struct Library *)OpenLibrary("openpci.library", 0)) == NULL) {
-        log_message(LOG_DEFAULT, "Error opening openpci.library\n");
-        return -1;
-    }
-
-    log_message(LOG_DEFAULT, "openpci.library v%ld.%ld opened\n",(long)OpenPciBase->lib_Version,(long)OpenPciBase->lib_Revision);
 
     bus = pci_bus();
 
@@ -203,10 +194,6 @@ int hardsid_close(void)
     }
 #endif
 
-    if (OpenPciBase) {
-        CloseLibrary((struct Library*)OpenPciBase);
-    }
-
     log_message(LOG_DEFAULT, "HardSID PCI: closed");
 
     return 0;
@@ -284,8 +271,6 @@ void hardsid_store(WORD addr, BYTE val, int chipno)
 #include <proto/expansion.h>
 #include <proto/exec.h>
 
-#include "expansionbase.h"
-
 static struct PCIIFace *IPCI = NULL;
 
 static struct PCIDevice *HSDevPCI = NULL;
@@ -299,12 +284,6 @@ int hardsid_open(void)
 
     if (atexitinitialized) {
       hardsid_close();
-    }
-
-    ExpansionBase = IExec->OpenLibrary("expansion.library", 50);
-    if (!ExpansionBase) {
-        log_message(LOG_DEFAULT, "Unable to open expansion.library\n");
-        return -1;
     }
 
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
@@ -380,9 +359,6 @@ int hardsid_close(void)
     }
     if (IPCI) {
         IExec->DropInterface((struct Interface *)IPCI);
-    }
-    if (ExpansionBase) {
-        IExec->CloseLibrary(ExpansionBase);
     }
 
     log_message(LOG_DEFAULT, "HardSID PCI: closed");

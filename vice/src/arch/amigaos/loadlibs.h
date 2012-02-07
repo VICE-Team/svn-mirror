@@ -1,5 +1,5 @@
 /*
- * expansionbase.h
+ * loadlibs.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,11 +24,10 @@
  *
  */
 
-#ifndef VICE_EXPANSIONBASE_H
-#define VICE_EXPANSIONBASE_H
+#ifndef VICE_LOADLIBS_H
+#define VICE_LOADLIBS_H
 
-extern struct Library *ExpansionBase;
-extern struct ExpansionIFace *IExpansion;
+extern int load_libs(void);
+extern void close_libs(void);
 
 #endif
-

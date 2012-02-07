@@ -266,8 +266,6 @@ static char *joy_resource[2] = { NULL, NULL };
 
 static AIN_DeviceID default_id = -1, default_count = 0;
 
-struct Library *AIN_Base = NULL;
-struct AIN_IFace *IAIN = NULL;
 static void *CTX = NULL;
 static AIN_DeviceHandle *ai_handle[2] = { NULL, NULL };
 static struct MsgPort *ai_port = NULL;
@@ -360,28 +358,16 @@ static void ai_exit(void)
         DeleteMsgPort(ai_port);
         ai_port = NULL;
     }
-    if (IAIN) {
-        DropInterface((struct Interface *)IAIN);
-        IAIN = NULL;
-    }
-    if (AIN_Base) {
-        CloseLibrary(AIN_Base);
-        AIN_Base = NULL;
-    }
 }
 
 static int ai_init(void)
 {
-    if ((AIN_Base = OpenLibrary("AmigaInput.library", 51))) {
-        if ((IAIN = (struct AIN_IFace *)GetInterface(AIN_Base, "main", 1, NULL))) {
-            if ((ai_port = CreateMsgPort())) {
-                struct TagItem tags[] = { { AINCC_Port, (ULONG)ai_port}, { TAG_DONE, TAG_DONE } };
+    if ((ai_port = CreateMsgPort())) {
+        struct TagItem tags[] = { { AINCC_Port, (ULONG)ai_port}, { TAG_DONE, TAG_DONE } };
 
-                CTX = AIN_CreateContext(1, tags);
-                if (CTX != NULL) {
-                    return 0;
-                }
-            }
+        CTX = AIN_CreateContext(1, tags);
+        if (CTX != NULL) {
+            return 0;
         }
     }
 

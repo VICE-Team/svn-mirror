@@ -3,6 +3,7 @@
  *
  * Written by
  *  Mathias Roslund <vice.emu@amidog.se>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -93,15 +94,6 @@
 #include "video/renderyuv.h"
 #endif
 
-
-#ifdef AMIGA_OS4
-struct Library *GadToolsBase = NULL;
-struct GadToolsIFace *IGadTools = NULL;
-struct MUIMasterIFace *IMUIMaster = NULL;
-#endif
-
-struct Library *MUIMasterBase = NULL;
-
 video_canvas_t *canvaslist = NULL;
 
 int video_init_cmdline_options(void)
@@ -109,29 +101,16 @@ int video_init_cmdline_options(void)
     return 0;
 }
 
-#ifdef AMIGA_OS4
-struct Library *SocketBase  = NULL;
-struct SocketIFace *ISocket = NULL;
-#else
-#ifdef HAVE_PROTO_CYBERGRAPHICS_H
-struct Library *CyberGfxBase = NULL;
-#ifdef HAVE_XVIDEO
-struct Library *CGXVideoBase = NULL;
-#endif
-#else
-struct Library *P96Base = NULL;
-#endif
-#endif
-
 #ifndef AMIGA_AROS
 struct RastPort *CreateRastPort(void)
 {
-    return lib_AllocVec(sizeof(struct RastPort),MEMF_ANY|MEMF_PUBLIC);
+    return lib_AllocVec(sizeof(struct RastPort), MEMF_ANY | MEMF_PUBLIC);
 }
 
 struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
 {
     struct RastPort *tmpRPort = CreateRastPort();
+
     if (tmpRPort != NULL) {
         CopyMem(friend_rastport, tmpRPort, sizeof(struct RastPort));
         return tmpRPort;
@@ -141,17 +120,6 @@ struct RastPort *CloneRastPort(struct RastPort *friend_rastport)
 #endif
 
 #ifdef AMIGA_AROS
-struct Library *LowLevelBase;
-
-#ifndef WORKING_AROS_AUTO
-struct Library *AslBase;
-struct Library *DiskfontBase;
-struct Library *GadToolsBase;
-struct GfxBase *GfxBase;
-struct IntuitionBase *IntuitionBase;
-struct Library *LocaleBase;
-#endif
-
 /* Use these on ALL amiga platforms not just AROS */
 UBYTE *unlockable_buffer = NULL;            /* Used to render the vice-buffer so we can WPA it into our backbuffer if we cant lock a bitmap! */
 
@@ -162,135 +130,16 @@ static struct RastPort *backRPort = NULL;   /* RastPort for our backbuffer (canv
 struct Process *self;
 struct Window *orig_windowptr;
 
-#if defined(AMIGA_AROS) && !defined(WORKING_AROS_AUTO)
-int aros_extra_init(void)
-{
-    if ((AslBase = OpenLibrary("asl.library", 39L))) {
-        if ((DiskfontBase = OpenLibrary("diskfont.library", 39L))) {
-            if ((GadToolsBase = OpenLibrary("gadtools.library", 39L))) {
-                if ((GfxBase = OpenLibrary("graphics.library", 39L))) {
-                    if ((IntuitionBase = OpenLibrary("intuition.library", 39L))) {
-                        if ((LocaleBase = OpenLibrary("locale.library", 39L))) {
-                            return 0;
-                        }
-                    }
-                }
-            }
-        }
-    }
-}
-
-void aros_extra_shutdown(void)
-{
-    if (AslBase) {
-        CloseLibrary(AslBase);
-    }
-
-    if (DiskfontBase) {
-        CloseLibrary(DiskfontBase);
-    }
-
-    if (GadToolsBase) {
-        CloseLibrary(GadToolsBase);
-    }
-
-    if (GfxBase) {
-        CloseLibrary(GfxBase);
-    }
-
-    if (IntuitionBase) {
-        CloseLibrary(IntuitionBase);
-    }
-
-    if (LocaleBase) {
-        CloseLibrary(LocaleBase);
-    }
-}
-#endif
-
-#ifdef AMIGA_OS4
 int video_init(void)
 {
     self = (APTR)FindTask(NULL);
     orig_windowptr = self->pr_WindowPtr;
-    if ((SocketBase = OpenLibrary("bsdsocket.library", 4))) {
-        if ((ISocket = (struct SocketIFace *)GetInterface(SocketBase, "main", 1, NULL))) {
-
-            if ((GadToolsBase = OpenLibrary("gadtools.library", 39))) {
-                if ((IGadTools = (struct GadToolsIFace *)GetInterface(GadToolsBase, "main", 1, NULL))) {
-                    if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
-                        if ((IMUIMaster = (struct MUIMasterIFace *)GetInterface(MUIMasterBase, "main", 1, NULL))) {
-                            if (mui_init() == 0) {
-                                return 0;
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    if (mui_init() == 0) {
+        return 0;
     }
     return -1;
 }
-#endif
 
-#ifdef AMIGA_AROS
-int video_init(void)
-{
-    self = (APTR)FindTask(NULL);
-    orig_windowptr = self->pr_WindowPtr;
-
-    if ((CyberGfxBase=OpenLibrary(CYBERGFXNAME, 41))) {
-#ifdef HAVE_XVIDEO
-        CGXVideoBase = OpenLibrary("cgxvideo.library", 41);
-#endif
-        if ((MUIMasterBase = OpenLibrary("muimaster.library", 11))) {
-            if ((LowLevelBase = OpenLibrary("lowlevel.library",37))) {
-                if (mui_init() == 0) {
-                    return 0;
-                }
-            }
-        }
-    }
-    return -1;
-}
-#endif
-
-#if (defined(AMIGA_M68K) && defined(HAVE_PROTO_CYBERGRAPHICS_H)) || defined(AMIGA_MORPHOS)
-int video_init(void)
-{
-    self = (APTR)FindTask(NULL);
-    orig_windowptr = self->pr_WindowPtr;
-    if ((CyberGfxBase=OpenLibrary(CYBERGFXNAME,41))) {
-#ifdef HAVE_XVIDEO
-        CGXVideoBase = OpenLibrary("cgxvideo.library",41);
-#endif
-        if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
-            if (mui_init() == 0) {
-                return 0;
-            }
-        }
-    }
-    return -1;
-}
-#endif
-
-#if defined(AMIGA_M68K) && !defined(HAVE_PROTO_CYBERGRAPHICS_H)
-int video_init(void)
-{
-    self = (APTR)FindTask(NULL);
-    orig_windowptr = self->pr_WindowPtr;
-    if ((P96Base=OpenLibrary("Picasso96API.library",2))) {
-        if ((MUIMasterBase = OpenLibrary(MUIMASTER_NAME, MUIMASTER_VMIN))) {
-            if (mui_init() == 0) {
-                return 0;
-            }
-        }
-    }
-    return -1;
-}
-#endif
-
-#ifdef AMIGA_OS4
 void video_shutdown(void)
 {
     struct video_canvas_s *nextcanvas, *canvas;
@@ -307,118 +156,7 @@ void video_shutdown(void)
 
         video_canvas_destroy(canvas);
     }
-    if (IMUIMaster) {
-        DropInterface((struct Interface *)IMUIMaster);
-    }
-    if (MUIMasterBase) {
-        CloseLibrary(MUIMasterBase);
-    }
-    if (IGadTools) {
-        DropInterface((struct Interface *)IGadTools);
-    }
-    if (GadToolsBase) {
-        CloseLibrary(GadToolsBase);
-    }
-
-    if (ISocket) {
-        DropInterface((struct Interface *)ISocket);
-    }
-    if (SocketBase) {
-        CloseLibrary(SocketBase);
-    }
 }
-#endif
-
-#ifdef AMIGA_AROS
-void video_shutdown(void)
-{
-    struct video_canvas_s *nextcanvas, *canvas;
-
-    mui_exit();
-
-    /* make sure the process window ref won't be bad */
-    self->pr_WindowPtr = orig_windowptr;
-
-    /* close any possibly open canvas */
-    nextcanvas = canvaslist;
-    while ((canvas = nextcanvas)) {
-        nextcanvas = canvas->next;
-
-        video_canvas_destroy(canvas);
-    }
-#ifdef HAVE_XVIDEO
-    if (CGXVideoBase) {
-        CloseLibrary(CGXVideoBase);
-    }
-#endif
-    if (CyberGfxBase) {
-        CloseLibrary(CyberGfxBase);
-    }
-    if (MUIMasterBase) {
-        CloseLibrary(MUIMasterBase);
-    }
-    if (LowLevelBase) {
-        CloseLibrary(LowLevelBase);
-    }
-}
-#endif
-
-#if (defined(AMIGA_M68K) && defined(HAVE_PROTO_CYBERGRAPHICS_H)) || defined(AMIGA_MORPHOS)
-void video_shutdown(void)
-{
-    struct video_canvas_s *nextcanvas, *canvas;
-
-    mui_exit();
-
-    /* make sure the process window ref won't be bad */
-    self->pr_WindowPtr = orig_windowptr;
-
-    /* close any possibly open canvas */
-    nextcanvas = canvaslist;
-    while ((canvas = nextcanvas)) {
-        nextcanvas = canvas->next;
-
-        video_canvas_destroy(canvas);
-    }
-#ifdef HAVE_XVIDEO
-    if (CGXVideoBase) {
-        CloseLibrary(CGXVideoBase);
-    }
-#endif
-    if (CyberGfxBase) {
-        CloseLibrary(CyberGfxBase);
-    }
-    if (MUIMasterBase) {
-        CloseLibrary(MUIMasterBase);
-    }
-}
-#endif
-
-#if defined(AMIGA_M68K) && !defined(HAVE_PROTO_CYBERGRAPHICS_H)
-void video_shutdown(void)
-{
-    struct video_canvas_s *nextcanvas, *canvas;
-
-    mui_exit();
-
-    /* make sure the process window ref won't be bad */
-    self->pr_WindowPtr = orig_windowptr;
-
-    /* close any possibly open canvas */
-    nextcanvas = canvaslist;
-    while ((canvas = nextcanvas)) {
-        nextcanvas = canvas->next;
-
-        video_canvas_destroy(canvas);
-    }
-    if (P96Base) {
-        CloseLibrary(P96Base);
-    }
-    if (MUIMasterBase) {
-        CloseLibrary(MUIMasterBase);
-    }
-}
-#endif
 
 static int IsFullscreenEnabled(void)
 {

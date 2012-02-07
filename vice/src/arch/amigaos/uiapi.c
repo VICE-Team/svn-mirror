@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "cmdline.h"
 #include "lib.h"
+#include "loadlibs.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
@@ -258,7 +259,7 @@ int ui_init(int *argc, char **argv)
 
 int ui_init_finish(void)
 {
-    return 0;
+    return load_libs();
 }
 
 int ui_init_finalize(void)
