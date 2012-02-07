@@ -28,21 +28,24 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
 
 #include "alarm.h"
 #include "interrupt.h"
 
-typedef uint8_t UINT8;
-typedef int8_t INT8;
+typedef unsigned char UINT8;
+typedef signed char INT8;
 
-typedef uint16_t UINT16;
-typedef int16_t INT16;
+typedef WORD UINT16;
+typedef SWORD INT16;
 
-typedef uint32_t UINT32;
-typedef signed int INT32;
+typedef DWORD UINT32;
+typedef SDWORD INT32;
 
-typedef uint16_t target_addr_t;
+typedef WORD target_addr_t;
 
 typedef unsigned int absolute_address_t;
 

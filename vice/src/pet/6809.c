@@ -107,6 +107,7 @@ h6809_regs_t h6809_regs;
         }                                                             \
         if (ik & (IK_MONITOR | IK_DMA)) {                             \
             if (ik & IK_MONITOR) {                                    \
+                caller_space = CALLER;                                \
                 if (monitor_force_import(CALLER))                     \
                     IMPORT_REGISTERS();                               \
                 if (monitor_mask[CALLER])                             \
@@ -114,7 +115,7 @@ h6809_regs_t h6809_regs;
                 if (monitor_mask[CALLER] & (MI_BREAK)) {              \
                     if (monitor_check_breakpoints(CALLER,             \
                             (WORD)PC)) {                              \
-                        monitor_startup(CALLER);                      \
+                        monitor_startup();                            \
                         IMPORT_REGISTERS();                           \
                     }                                                 \
                 }                                                     \
