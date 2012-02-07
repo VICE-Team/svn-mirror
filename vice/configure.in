@@ -339,6 +339,9 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
     AC_DEFINE(HAVE_PARSID,,[Support for ParSID.])
   fi
 
+  dnl disable resid
+  with_resid=no
+
 elif test x"$host_os" = "xamigaos" -o x"$host_os" = "xamigaos4" -o x"$host_os" = "xamithlon" -o x"$host_os" = "xaros" -o x"$host_os" = "xmorphos" -o x"$host_os" = "xwarpos" -o x"$host_os" = "xpowerup"; then
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
 
@@ -1034,6 +1037,8 @@ fi
 if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
   with_residfp=no
 fi
+
+dnl disable reSID for certain platforms
 
 if test x"$with_resid" = "xno" -a x"$with_residfp" = "xno"; then
   dnl Do not attempt to configure reSID(-fp).

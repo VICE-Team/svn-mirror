@@ -55,7 +55,7 @@
 
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
-#ifdef HAVE_RESID
+#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
 static int sid_resid_sampling;
 static int sid_resid_passband;
 static int sid_resid_gain;
