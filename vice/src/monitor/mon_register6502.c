@@ -77,7 +77,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 {
     mos6510_regs_t *reg_ptr;
 
-    
+
     if (monitor_diskspace_dnr(mem) >= 0)
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return;
@@ -126,12 +126,12 @@ static void mon_register_print(int mem)
 
     regs = mon_interfaces[mem]->cpu_regs;
 
-    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC");
+    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC ");
 
-    if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL)
-        mon_out(" LIN CYC\n");
+    if (mon_interfaces[mem]->get_line_cycle != NULL)
+        mon_out("LIN CYC  STOPWATCH\n");
     else
-        mon_out("\n");
+        mon_out(" STOPWATCH\n");
 
     mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
               addr_location(mon_register_get_val(mem, e_PC)),
@@ -150,19 +150,18 @@ static void mon_register_print(int mem)
               TEST(MOS6510_REGS_GET_ZERO(regs)),
               TEST(MOS6510_REGS_GET_CARRY(regs)));
 
-    if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
+    if (mon_interfaces[mem]->get_line_cycle != NULL) {
         unsigned int line, cycle;
         int half_cycle;
 
         mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
 
         if (half_cycle==-1)
-          mon_out(" %03i %03i\n", line, cycle);
+          mon_out(" %03i %03i", line, cycle);
         else
-          mon_out(" %03i %03i %i\n", line, cycle, half_cycle);
-    } else {
-        mon_out("\n");
+          mon_out(" %03i %03i %i", line, cycle, half_cycle);
     }
+    mon_stopwatch_show(" ", "\n");
 }
 
 static const char* mon_register_print_ex(int mem)

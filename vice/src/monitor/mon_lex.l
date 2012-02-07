@@ -101,7 +101,7 @@ static void unescape(char *s) {
     }
 send:
     *d = 0;
-} 
+}
 
 %}
 
@@ -147,6 +147,7 @@ HDIGIT  [0-9a-f]
         block_write|bw  { BEGIN(INITIAL);       return CMD_BLOCK_WRITE; }
         cartfreeze      { BEGIN(INITIAL);       return CMD_CARTFREEZE; }
         cd              { BEGIN(ROL);           return CMD_CHDIR; }
+        stopwatch|sw    { BEGIN(INITIAL);       return CMD_STOPWATCH; }
         command         { BEGIN(INITIAL);       return CMD_COMMAND; }
         compare|c       { BEGIN(INITIAL);       return CMD_COMPARE; }
         condition|cond  { BEGIN(INITIAL);       return CMD_CONDITION; }
@@ -221,6 +222,8 @@ toggle		{ yylval.i = e_TOGGLE; return TOGGLE; }
 load { yylval.i = e_load; return MEM_OP; }
 store { yylval.i = e_store; return MEM_OP; }
 exec { yylval.i = e_exec; return MEM_OP; }
+
+reset		{ return RESET; }
 
 if		{ BEGIN (COND_MODE); return IF; }
 

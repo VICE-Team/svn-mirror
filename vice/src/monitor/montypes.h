@@ -311,4 +311,7 @@ extern void monitor_change_device(MEMSPACE mem);
 
 extern void mon_export(void);
 
+extern void mon_stopwatch_show(const char* prefix, const char* suffix);
+extern void mon_stopwatch_reset(void);
+
 #endif

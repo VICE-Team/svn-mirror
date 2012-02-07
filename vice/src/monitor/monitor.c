@@ -158,8 +158,9 @@ static WORD watch_load_array[10][NUM_MEMSPACES];
 static WORD watch_store_array[10][NUM_MEMSPACES];
 static unsigned int watch_load_count[NUM_MEMSPACES];
 static unsigned int watch_store_count[NUM_MEMSPACES];
-bool force_array[NUM_MEMSPACES];
 static symbol_table_t monitor_labels[NUM_MEMSPACES];
+static CLOCK stopwatch_start_time[NUM_MEMSPACES];
+bool force_array[NUM_MEMSPACES];
 monitor_interface_t *mon_interfaces[NUM_MEMSPACES];
 
 MON_ADDR dot_addr[NUM_MEMSPACES];
@@ -1060,6 +1061,24 @@ void mon_export(void)
     } else {
         mon_out("Unsupported.\n");
     }
+}
+
+void mon_stopwatch_show(const char* prefix, const char* suffix)
+{
+    unsigned long t;
+    monitor_interface_t* interface;
+    interface = mon_interfaces[default_memspace];
+    t = (unsigned long)
+            (*interface->clk - stopwatch_start_time[default_memspace]);
+    mon_out("%s%10lu%s", prefix, t, suffix);
+}
+
+void mon_stopwatch_reset(void)
+{
+    monitor_interface_t* interface;
+    interface = mon_interfaces[default_memspace];
+    stopwatch_start_time[default_memspace] = *interface->clk;
+    mon_out("Stopwatch reset to 0.\n");
 }
 
 /* Local helper functions for building the lists */

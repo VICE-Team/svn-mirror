@@ -56,7 +56,7 @@ char *reg6809[] = {
 char index_reg6809[] = { 'X', 'Y', 'U', 'S' };
 
 static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
-        unsigned int addr, BYTE opc[5], 
+        unsigned int addr, BYTE opc[5],
         int hex_mode, unsigned *opc_size_p,
         monitor_cpu_type_t *mon_cpu_type)
 {
@@ -574,7 +574,7 @@ static const char* mon_disassemble_instr_interal(unsigned *opc_size,
     opc[3] = mon_get_mem_val(mem, (WORD)(loc + 3));
     opc[4] = mon_get_mem_val(mem, (WORD)(loc + 4));
 
-    dis_inst = mon_disassemble_to_string_internal(mem, loc, opc, 
+    dis_inst = mon_disassemble_to_string_internal(mem, loc, opc,
                             hex_mode, opc_size, monitor_cpu_for_memspace[mem]);
 
     sprintf(buff, ".%s:%04x  %s", mon_memspace_string[mem], loc, dis_inst);
@@ -648,11 +648,12 @@ void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr)
 
     dis_inst = mon_disassemble_instr_interal(&opc_size, addr);
     if (monitor_cpu->mon_register_print_ex) {
-        mon_out("%-40s - %s\n", dis_inst,
+        mon_out("%-35s - %s ", dis_inst,
                 monitor_cpu->mon_register_print_ex(mem));
     } else {
-        mon_out("%s\n", dis_inst);
+        mon_out("%s ", dis_inst);
     }
+    mon_stopwatch_show("", "\n");
 }
 
 
