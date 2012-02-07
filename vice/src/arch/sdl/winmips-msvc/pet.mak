@@ -48,6 +48,7 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
+	-@erase "$(INTDIR)\6809.obj"
 	-@erase "$(INTDIR)\pet-cmdline-options.obj"
 	-@erase "$(INTDIR)\pet-resources.obj"
 	-@erase "$(INTDIR)\pet-sidcart.obj"
@@ -55,6 +56,7 @@ CLEAN :
 	-@erase "$(INTDIR)\pet.obj"
 	-@erase "$(INTDIR)\petacia1.obj"
 	-@erase "$(INTDIR)\petbus.obj"
+	-@erase "$(INTDIR)\petcpu.obj"
 	-@erase "$(INTDIR)\petdatasette.obj"
 	-@erase "$(INTDIR)\petdrive.obj"
 	-@erase "$(INTDIR)\petdww.obj"
@@ -117,6 +119,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\pet.lib" 
 LIB32_OBJS= \
+	"$(INTDIR)\6809" \
 	"$(INTDIR)\pet-cmdline-options.obj" \
 	"$(INTDIR)\pet-resources.obj" \
 	"$(INTDIR)\pet-sidcart.obj" \
@@ -124,6 +127,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\pet.obj" \
 	"$(INTDIR)\petacia1.obj" \
 	"$(INTDIR)\petbus.obj" \
+	"$(INTDIR)\petcpu.obj" \
 	"$(INTDIR)\petdatasette.obj" \
 	"$(INTDIR)\petdrive.obj" \
 	"$(INTDIR)\petdww.obj" \
@@ -169,6 +173,7 @@ CLEAN :"base - Win32 DebugCLEAN"
 !ELSE 
 CLEAN :
 !ENDIF 
+	-@erase "$(INTDIR)\6809.obj"
 	-@erase "$(INTDIR)\pet-cmdline-options.obj"
 	-@erase "$(INTDIR)\pet-resources.obj"
 	-@erase "$(INTDIR)\pet-sidcart.obj"
@@ -176,6 +181,7 @@ CLEAN :
 	-@erase "$(INTDIR)\pet.obj"
 	-@erase "$(INTDIR)\petacia1.obj"
 	-@erase "$(INTDIR)\petbus.obj"
+	-@erase "$(INTDIR)\petcpu.obj"
 	-@erase "$(INTDIR)\petdatasette.obj"
 	-@erase "$(INTDIR)\petdrive.obj"
 	-@erase "$(INTDIR)\petdww.obj"
@@ -238,6 +244,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\pet.lib" 
 LIB32_OBJS= \
+	"$(INTDIR)\6809.obj" \
 	"$(INTDIR)\pet-cmdline-options.obj" \
 	"$(INTDIR)\pet-resources.obj" \
 	"$(INTDIR)\pet-sidcart.obj" \
@@ -245,6 +252,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\pet.obj" \
 	"$(INTDIR)\petacia1.obj" \
 	"$(INTDIR)\petbus.obj" \
+	"$(INTDIR)\petcpu.obj" \
 	"$(INTDIR)\petdatasette.obj" \
 	"$(INTDIR)\petdrive.obj" \
 	"$(INTDIR)\petdww.obj" \
@@ -298,6 +306,12 @@ LIB32_OBJS= \
 
 !ENDIF 
 
+SOURCE="..\..\..\pet\6809.c"
+
+"$(INTDIR)\6809.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE="..\..\..\pet\pet-cmdline-options.c"
 
 "$(INTDIR)\pet-cmdline-options.obj" : $(SOURCE) "$(INTDIR)"
@@ -337,6 +351,12 @@ SOURCE=..\..\..\pet\petacia1.c
 SOURCE=..\..\..\pet\petbus.c
 
 "$(INTDIR)\petbus.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\pet\petcpu.c
+
+"$(INTDIR)\petcpu.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

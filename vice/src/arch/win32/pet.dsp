@@ -132,6 +132,10 @@ LIB32=link.exe -lib
 # Name "pet - Win32 DX Debug"
 # Begin Source File
 
+SOURCE="..\..\pet\6809.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\pet\pet-cmdline-options.c"
 # End Source File
 # Begin Source File
@@ -157,6 +161,10 @@ SOURCE=..\..\pet\petacia1.c
 # Begin Source File
 
 SOURCE=..\..\pet\petbus.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\pet\petcpu.c
 # End Source File
 # Begin Source File
 

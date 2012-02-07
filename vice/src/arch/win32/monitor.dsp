@@ -140,11 +140,19 @@ SOURCE=..\..\monitor\asm6502dtv.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\monitor\asm6809.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\monitor\asmz80.c
 # End Source File
 # Begin Source File
 
 SOURCE=..\..\monitor\mon_assemble6502.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_assemble6809.c
 # End Source File
 # Begin Source File
 
@@ -197,6 +205,10 @@ SOURCE=..\..\monitor\mon_register6502.c
 # Begin Source File
 
 SOURCE=..\..\monitor\mon_register6502dtv.c
+# End Source File
+# Begin Source File
+
+SOURCE=..\..\monitor\mon_register6809.c
 # End Source File
 # Begin Source File
 
