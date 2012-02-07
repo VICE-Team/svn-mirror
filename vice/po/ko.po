@@ -6012,7 +6012,7 @@ msgstr "시작"
 
 #: src/arch/win32/res.rc.po.c:1450 src/arch/amigaos/intl_text.c.po.c:358
 msgid "Reset Counter"
-msgstr ""
+msgstr "리셋 카운터"
 
 #: src/arch/win32/res.rc.po.c:1459
 msgid "History"
@@ -6020,47 +6020,47 @@ msgstr "히스토리"
 
 #: src/arch/win32/res.rc.po.c:1460
 msgid "History Autoplay"
-msgstr ""
+msgstr "히스토리 오토플래이"
 
 #: src/arch/win32/res.rc.po.c:1461
 msgid "Main CPU Trace"
-msgstr ""
+msgstr "메인 CPU 트레이스"
 
 #: src/arch/win32/res.rc.po.c:1462
 msgid "Drive0 CPU Trace"
-msgstr ""
+msgstr "드라이브0 CPU 트레이스"
 
 #: src/arch/win32/res.rc.po.c:1463
 msgid "Drive1 CPU Trace"
-msgstr ""
+msgstr "드라이브1 CPU 트레이스"
 
 #: src/arch/win32/res.rc.po.c:1467
 msgid "Load quicksnapshot image"
-msgstr ""
+msgstr "빠른 스냅샷 이미지 불러오기"
 
 #: src/arch/win32/res.rc.po.c:1468
 msgid "Save quicksnapshot image"
-msgstr ""
+msgstr "빠른 스냅샷 이미지 저장하기"
 
 #: src/arch/win32/res.rc.po.c:1469 src/arch/amigaos/intl_text.c.po.c:1058
 msgid "Start/Stop Recording History"
-msgstr ""
+msgstr "시작/정지 레코딩 히스토리"
 
 #: src/arch/win32/res.rc.po.c:1470 src/arch/amigaos/intl_text.c.po.c:1072
 msgid "Start/Stop Playback History"
-msgstr ""
+msgstr "시작/정지 재생 히스토리"
 
 #: src/arch/win32/res.rc.po.c:1476 src/arch/amigaos/intl_text.c.po.c:1170
 msgid "Overwrite Playback"
-msgstr ""
+msgstr "덮어쓰기 재생"
 
 #: src/arch/win32/res.rc.po.c:1477 src/arch/amigaos/intl_text.c.po.c:1184
 msgid "Select History files/directory"
-msgstr ""
+msgstr "선택 히스토리 파일/디렉토리"
 
 #: src/arch/win32/res.rc.po.c:1478 src/arch/amigaos/intl_text.c.po.c:1198
 msgid "Save/stop media file"
-msgstr ""
+msgstr "저장/정지 미디어 파일"
 
 #: src/arch/win32/res.rc.po.c:1484 src/arch/amigaos/intl_text.c.po.c:1520
 msgid "Warp mode"
@@ -6068,7 +6068,7 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1485
 msgid "Always on Top"
-msgstr ""
+msgstr "항상 위로"
 
 #: src/arch/win32/res.rc.po.c:1490 src/arch/amigaos/intl_text.c.po.c:1702
 msgid "Enable Joy Keys"
@@ -6076,62 +6076,62 @@ msgstr ""
 
 #: src/arch/win32/res.rc.po.c:1491 src/arch/amigaos/intl_text.c.po.c:1772
 msgid "Virtual device traps"
-msgstr ""
+msgstr "가상 디바이스 트랩"
 
 #: src/arch/win32/res.rc.po.c:1493 src/arch/win32/resc64.rc.po.c:600
 #: src/arch/amigaos/intl_text.c.po.c:1968
 #: src/arch/amigaos/intl_text.c.po.c:10089
 msgid "C64 model settings"
-msgstr ""
+msgstr "C64 모델 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1498
 msgid "Userport joystick settings"
-msgstr ""
+msgstr "유져포트 조이스틱 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1499
 msgid "Sidcart joystick settings"
-msgstr ""
+msgstr "Sidcart 조이스틱 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1506 src/arch/amigaos/intl_text.c.po.c:2318
 #: src/arch/amigaos/intl_text.c.po.c:9571
 msgid "Mouse settings"
-msgstr ""
+msgstr "마우스 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1509 src/arch/amigaos/intl_text.c.po.c:2444
 #: src/arch/amigaos/intl_text.c.po.c:6827
 msgid "REU settings"
-msgstr ""
+msgstr "REU 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1510 src/arch/win32/resgeoram.rc.po.c:66
 #: src/arch/win32/resvic20.rc.po.c:559 src/arch/amigaos/intl_text.c.po.c:2472
 #: src/arch/amigaos/intl_text.c.po.c:2486
 #: src/arch/amigaos/intl_text.c.po.c:5510
 msgid "GEO-RAM settings"
-msgstr ""
+msgstr "GEO-RAM 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1511 src/arch/win32/resramcart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:2500
 #: src/arch/amigaos/intl_text.c.po.c:6757
 msgid "RamCart settings"
-msgstr ""
+msgstr "RamCart 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1512 src/arch/win32/resdqbb.rc.po.c:13
 #: src/arch/win32/resdqbb.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:2514
 #: src/arch/amigaos/intl_text.c.po.c:5678
 msgid "Double Quick Brown Box settings"
-msgstr ""
+msgstr "Double Quick Brown Box 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1513 src/arch/win32/resexpert.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:2542
 #: src/arch/amigaos/intl_text.c.po.c:5622
 msgid "Expert Cartridge settings"
-msgstr ""
+msgstr "Expert 카트리지 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1514 src/arch/win32/resisepic.rc.po.c:38
 #: src/arch/amigaos/intl_text.c.po.c:2528
 #: src/arch/amigaos/intl_text.c.po.c:5692
 msgid "ISEPIC settings"
-msgstr ""
+msgstr "ISEPIC 셋팅"
 
 #: src/arch/win32/res.rc.po.c:1515 src/arch/amigaos/intl_text.c.po.c:2640
 #: src/arch/amigaos/intl_text.c.po.c:7905
