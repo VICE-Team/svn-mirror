@@ -37,6 +37,15 @@
 #include "uiarch.h"
 #include "uimon.h"
 
+/* Work around an incompatible change in GDK header files
+ * http://git.gnome.org/browse/gtk+/commit/gdk/gdkkeysyms.h?id=913cdf3be750a1e74c09b20edf55a57f9a919fcc */
+
+#if defined GDK_KEY_0
+#define GDK_KEY(symbol) GDK_KEY_##symbol
+#else
+#define GDK_KEY(symbol) GDK_##symbol
+#endif
+
 struct console_private_s {
     GtkWidget *window;
     GtkWidget *term;
@@ -72,41 +81,41 @@ static gboolean key_press_event (GtkWidget   *widget,
         r->key_pressed = TRUE;
         switch (event->keyval) {
         default:
-            if(event->keyval >= GDK_KEY_space && event->keyval <= GDK_KEY_ydiaeresis){
+            if(event->keyval >= GDK_KEY(space) && event->keyval <= GDK_KEY(ydiaeresis)){
                 r->pressed_key = (char)event->keyval;
             }
             else {
                 r->key_pressed = FALSE;
             }
             break;
-        case GDK_KEY_Return:
+        case GDK_KEY(Return):
             r->pressed_key = 13;
             break;
-        case GDK_KEY_BackSpace:
+        case GDK_KEY(BackSpace):
             r->pressed_key = 127;
             break;
-        case GDK_KEY_Left:
+        case GDK_KEY(Left):
             r->pressed_key = 2;
             break;
-        case GDK_KEY_Right:
+        case GDK_KEY(Right):
             r->pressed_key = 6;
             break;
-        case GDK_KEY_Up:
+        case GDK_KEY(Up):
             r->pressed_key = 16;
             break;
-        case GDK_KEY_Down:
+        case GDK_KEY(Down):
             r->pressed_key = 14;
             break;
-        case GDK_KEY_Tab:
-            r->pressed_key = 8;
+        case GDK_KEY(Tab):
+            r->pressed_key = 9;
             break;
-        case GDK_KEY_Delete:
+        case GDK_KEY(Delete):
             r->pressed_key = 4;
             break;
-        case GDK_KEY_Home:
+        case GDK_KEY(Home):
             r->pressed_key = 1;
             break;
-        case GDK_KEY_End:
+        case GDK_KEY(End):
             r->pressed_key = 5;
             break;
         }
