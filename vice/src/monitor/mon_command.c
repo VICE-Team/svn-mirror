@@ -358,8 +358,8 @@ static const mon_cmds_t mon_cmd_array[] = {
 
    { "break", "",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
-     "[%s] [%s [%s] [if <%s>]]", 4,
-     { IDGS_LOADSTORE, IDGS_ADDRESS, IDGS_ADDRESS, IDGS_COND_EXPR },
+     "[load|store|exec] [%s [%s] [if <%s>]]", 3,
+     { IDGS_ADDRESS, IDGS_ADDRESS, IDGS_COND_EXPR, IDGS_UNUSED },
      IDGS_MON_BREAK_DESCRIPTION,
      NULL, NULL },
 
@@ -407,15 +407,15 @@ static const mon_cmds_t mon_cmd_array[] = {
 
    { "watch", "w",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
-     "[%s] [%s [%s] [if <%s>]]", 4,
-     { IDGS_LOADSTORE, IDGS_ADDRESS, IDGS_ADDRESS, IDGS_COND_EXPR },
+     "[load|store|exec] [%s [%s] [if <%s>]]", 3,
+     { IDGS_ADDRESS, IDGS_ADDRESS, IDGS_COND_EXPR, IDGS_UNUSED },
      IDGS_MON_WATCH_DESCRIPTION,
      NULL, NULL },
 
    { "trace", "tr",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
-     "[%s] [%s [%s] [if <%s>]]", 4,
-     { IDGS_LOADSTORE, IDGS_ADDRESS, IDGS_ADDRESS, IDGS_COND_EXPR },
+     "[load|store|exec] [%s [%s] [if <%s>]]", 3,
+     { IDGS_ADDRESS, IDGS_ADDRESS, IDGS_COND_EXPR, IDGS_UNUSED },
      IDGS_MON_TRACE_DESCRIPTION,
      NULL, NULL },
 

@@ -2199,27 +2199,6 @@ translate_t string_table[] = {
 #endif
 
 /*
-   Translators: this is part of an actual command and should not get translated
-*/
-
-/* monitor/mon_command.c */
-/* en */ {IDGS_LOADSTORE,    N_("load|store|exec")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDGS_LOADSTORE_DA, ""},  /* fuzzy */
-/* de */ {IDGS_LOADSTORE_DE, "load|store|exec"},
-/* es */ {IDGS_LOADSTORE_ES, "Carga|almacenamiento|ejecución"},
-/* fr */ {IDGS_LOADSTORE_FR, ""},  /* fuzzy */
-/* hu */ {IDGS_LOADSTORE_HU, ""},  /* fuzzy */
-/* it */ {IDGS_LOADSTORE_IT, "load|store|exec"},
-/* ko */ {IDGS_LOADSTORE_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_LOADSTORE_NL, "load|store|exec"},
-/* pl */ {IDGS_LOADSTORE_PL, "load|store|exec"},
-/* ru */ {IDGS_LOADSTORE_RU, "load|store|exec"},
-/* sv */ {IDGS_LOADSTORE_SV, "load|store|exec"},
-/* tr */ {IDGS_LOADSTORE_TR, "yükle|depola|yürüt"},
-#endif
-
-/*
    Translators: this command was extended:
 
    - "loadstore" option is now "load|store|exec"
