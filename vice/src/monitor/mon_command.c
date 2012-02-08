@@ -174,6 +174,13 @@ static const mon_cmds_t mon_cmd_array[] = {
      IDGS_MON_STEP_DESCRIPTION,
      NULL, NULL },
 
+   { "stopwatch", "sw",
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     "[reset]", 0,
+     { IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
+     IDGS_MON_STOPWATCH_DESCRIPTION,
+     NULL, NULL },
+
    { "undump", "",
      USE_PARAM_ID, USE_DESCRIPTION_ID,
      "\"<%s>\"", 1,
@@ -753,7 +760,7 @@ void mon_command_print_help(const char *cmd)
 
             c = &mon_cmd_array[cmd_num];
 
-            if (c->use_param_names_id == USE_PARAM_ID) {            
+            if (c->use_param_names_id == USE_PARAM_ID) {
                 braces = c->braces;
                 param_amount = c->param_amount;
                 switch (param_amount) {

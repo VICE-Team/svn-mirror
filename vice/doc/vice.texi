@@ -7056,9 +7056,6 @@ feeling;
 
 @table @code
 
-@cindex -vsid
-@item -vsid
-SID player mode (@code{x64} only).
 @cindex -keepenv
 @item -keepenv
 Override PSID settings for Video standard and SID model
@@ -8687,6 +8684,9 @@ after the next RTS or RTI is executed.
 @itemx z [<count>]
 Single step through instructions.  An optional count allows stepping
 more than a single instruction at a time.
+
+@item stopwatch [reset]
+Print the CPU cycle counter of the current device. 'reset' sets the counter to 0.
 
 @item undump "<filename>"
 Read a snapshot of the machine from the file specified.

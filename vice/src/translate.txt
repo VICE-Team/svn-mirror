@@ -2062,6 +2062,9 @@ IDGS_MON_SCREEN_DESCRIPTION
 IDGS_MON_STEP_DESCRIPTION
 
 /* monitor/mon_command.c */
+IDGS_MON_STOPWATCH_DESCRIPTION
+
+/* monitor/mon_command.c */
 IDGS_MON_UNDUMP_DESCRIPTION
 
 /* monitor/mon_command.c */

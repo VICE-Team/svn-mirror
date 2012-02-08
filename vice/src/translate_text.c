@@ -1443,6 +1443,23 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
+/* en */ {IDGS_MON_STOPWATCH_DESCRIPTION,    N_("Print the CPU cycle counter of the current device. 'reset' sets the counter to 0.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_STOPWATCH_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_STOPWATCH_DESCRIPTION_DE, "Zeigt den CPU-Taktzyklenzähler der aktiven Geräts an. Mit 'reset' wird dieser Zähler auf 0 gesetzt."},
+/* es */ {IDGS_MON_STOPWATCH_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_STOPWATCH_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_STOPWATCH_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_STOPWATCH_DESCRIPTION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MON_STOPWATCH_DESCRIPTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_STOPWATCH_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_STOPWATCH_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_STOPWATCH_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_STOPWATCH_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_STOPWATCH_DESCRIPTION_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
 /* en */ {IDGS_MON_UNDUMP_DESCRIPTION,    N_("Read a snapshot of the machine from the file specified.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_UNDUMP_DESCRIPTION_DA, "Indlæs snapshot af maskinen fra den angivne fil."},

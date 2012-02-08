@@ -5726,9 +5726,6 @@ feeling;
 7.8.1.1 VSID command-line options
 .................................
 
-`-vsid'
-SID player mode (`x64' only).
-
 `-keepenv'
 Override PSID settings for Video standard and SID model
 
@@ -6800,6 +6797,10 @@ next RTS or RTI is executed.
 `z [<count>]'
 Single step through instructions.  An optional count allows
 stepping more than a single instruction at a time.
+
+`stopwatch [reset]'
+Print the CPU cycle counter of the current device. 'reset' sets
+the counter to 0.
 
 `undump "<filename>"'
 Read a snapshot of the machine from the file specified.
@@ -10560,14 +10561,13 @@ emulation. Worked on x64sc, especially interrupt timing. Wrote
 test programs. Various bug(fixe)s. ;-)
 
 * Martin Pottendorfer Implemented the Gnome Port based on Oliver
-Schaertels GTK+ port.  Added support code for internationalization
-based on gettext.  Improved the *nix fullscreen support.
-Translated the UI to German.  Implemented the fliplists + UI
-(*nix).
+Schaertels GTK+ port. Added support code for internationalization
+based on gettext. Improved the *nix fullscreen support. Translated
+the UI to German. Implemented the fliplists + UI (*nix).
 
 * Spiro Trikaliotis Wrote the Win32 console implementation for the
-built-in monitor, corrected some REU related bugs, improved the
-CIA emulation, added com-port CIA support to the Win32 port, added
+built-in monitor, corrected some REU related bugs, improved the CIA
+emulation, added com-port CIA support to the Win32 port, added
 text copy and paste support to the Win32 port, added support for
 the TFE and RR-Net (cs8900a), and wrote some further patches.
 
@@ -10575,34 +10575,39 @@ the TFE and RR-Net (cs8900a), and wrote some further patches.
 internationalization support for the Win32 and Amiga ports. Wrote
 the GEO-RAM and RamCart cartridge code. Wrote the c64 +60K, +256K
 and 256K memory expansions code. Wrote the pet REU code. Wrote the
-plus4 memory expansions code. Made the ethernet support for the
-DOS port. Maintains the QNX 4.x, QNX 6.x, Solaris, Openserver,
-Unixware, Minix 3.x, Amiga, BeOS, Syllable and OS/2 binary ports.
-Maintains the Win64 and Watcom project files. Maintains the SDL
-port(s). Added new .crt support. Added new screenshot formats.
+plus4 memory expansions code. Made the ethernet support for the DOS
+port. Maintains the QNX 4.x, QNX 6.x, Solaris, Openserver,
+Unixware, Minix 3.x, Amiga, Syllable and OS/2 binary ports.
+Maintains the Win64 and Open Watcom project files. Maintains the
+SDL port(s). Added new .crt support. Added new screenshot formats.
 Added new sound recording support. Added SIDcart support for xpet,
 xplus4 and xvic. Improved the MMC64 emulation. Added 2 MHz mode
-and banks 2/3 support for x128. Added the various userport
+and banks 2/3 support for x128.  Added the various userport
 joystick emulations. Added text copy and paste support to the
 Amiga and BeOS ports. Added DQBB and ISEPIC cartridge support.
-Added SFX Sound Sampler and SFX Sound Expander support. Added
-digiblaster support. And lots of other fixes and improvements.
+Added SFX Sound Sampler and SFX Sound Expander support. Added PCI
+support to the Amiga and DOS ports.  Rewrote the sound system into
+a modular one, added always mono and always stereo support for the
+sound output. Added the RTC system. Added digiblaster support. And
+lots of other fixes and improvements.
 
 * Christian Vogelgsang Maintains the Mac OS X port. Added Intel Mac
 support and universal binary creation. Wrote the build scripts for
 all external Mac libraries and the bindist bundle tool. Improved
 the TFE chip emulation. Added some GTK+ fixes.
 
-* Fabrizio Gennari Added some improvements to the DOS and GTK+ ports.
+* Fabrizio Gennari Added some improvements to the DOS and GTK+
+ports. Changed the Windows video to use GDI as fallback, making it
+compile without DX if needed.
 
 * Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID
 support in resid, better DMA/Blitter support and did lots of
 refactoring. Added new monitor commands and features. Improved the
-VIC emulation for xvic.  Made MIDI driver code for Win32. Rewrote
-the xvic cartridge system.  Added Mega-Cart and Final Expansion
-V3.2 support to xvic. Wrote large parts of the new VIC-II
-emulation used in x64sc, especially the dot clock domain
-emulation. Wrote many test programs for hardware analysis.
+VIC emulation for xvic. Made MIDI driver code for Win32. Rewrote
+the xvic cartridge system. Added Mega-Cart and Final Expansion V3.2
+support to xvic. Wrote large parts of the new VIC-II emulation
+used in x64sc, especially the dot clock domain emulation. Wrote
+many test programs for hardware analysis.
 
 * Antti S. Lankila Made the ReSID-fp engine, rewrote the PAL
 emulation code and fixed the sound core for lower latency. Rewrote
@@ -10631,7 +10636,7 @@ Xaw UI.
 * Thomas Giesel Added new monitor commands and features.
 
 * Marcus Sutton Made some console, dialog and joystick fixes for the
-BeOS port.
+BeOS port.  Maintains the BeOS port.
 
 Ulrich Schulz Maintains the Dingoo port(s).
 
@@ -10645,11 +10650,11 @@ Former/inactive team members:
 emulation, DTV support in the monitor, large parts of the DTV VIC,
 burst mode and skip cycle emulation as well as many other things.
 Added NEOS and Amiga mouse, paddle and light pen support. Added
-new monitor commands and features, including memmap.  Made MIDI
+new monitor commands and features, including memmap. Made MIDI
 support and OSS MIDI driver. Implemented most of the SDL UI.
-Rewrote xvic CPU/VIC-I core for cycle based emulation.
-Implemented C64 cartridge snapshot support. Initiated and worked on
-all parts of implementing x64sc. Wrote test programs.
+Rewrote xvic CPU/VIC-I core for cycle based emulation. Implemented
+C64 cartridge snapshot support. Initiated and worked on all parts
+of implementing x64sc. Wrote test programs.
 
 * Andreas Boose Copyright (C) 1998-2010 Gave lots of information and
 bug reports about the VIC-II, the 6510 and the CIAs; moreover, he
@@ -10667,7 +10672,7 @@ plus4 emulation.
 
 * M. Kiesel Copyright (C) 2007-2010 Started implementing x64dtv. The
 C64DTV memory model and early versions of the DMA and Blitter
-engine have been implemented by him.  Added new monitor commands
+engine have been implemented by him. Added new monitor commands
 and features.
 
 * Andreas Dehmel Copyright (C) 1999-2007 Wrote the Acorn RISC OS
@@ -10718,7 +10723,7 @@ Internationalization Team:
 * Mikkel Holm Olsen Provided the Danish user interface translations
 and fixed a few monitor bugs.
 
-Manuel Antonio Rodriguez Bas provided the Spanish user interface
+Manuel Antonio Rodriguez Bas Provided the Spanish user interface
 translations.
 
 Paul Dubé From Rivière-du-Loup, Québec, provided the French user
@@ -10835,9 +10840,9 @@ Plugin cartridge emulation in xvic.
 * Robert W. McMullen Provided parts of the widget set for
 implementing the Xaw GUI.
 
-* Jennifer Medkief Checked the windows gui dialog items in various
-languages for things that look wrong and suggested changes needed
-to make the gui more user friendly.
+* Jennifer Medkief Is in charge of checking up on the GUIs for
+elements that are wrong, unaccessable, and missing. Future user
+documentation writer.
 
 * Dan Miner Contributed some patches to the fast disk drive
 emulation.
@@ -11277,15 +11282,15 @@ Concept Index
 -attach9ro:                                    See 3.1.     (line   972)
 -attach9rw:                                    See 3.1.     (line   976)
 -autoload:                                     See 3.1.     (line   932)
--autostart <1>:                                See 3.1.     (line   929)
--autostart:                                    See 3.2.     (line  1004)
+-autostart <1>:                                See 3.2.     (line  1004)
+-autostart:                                    See 3.1.     (line   929)
 -autostart-handle-tde, +autostart-handle-tde:  See 3.1.     (line   948)
 -autostart-warp, +autostart-warp:              See 3.1.     (line   952)
 -autostartprgdiskimage:                        See 3.1.     (line   958)
 -autostartprgmode:                             See 3.1.     (line   955)
 -autostartwithcolon, +autostartwithcolon:      See 3.1.     (line   941)
--basic <1>:                                    See 7.4.5.2. (line  5085)
--basic <2>:                                    See 7.7.2.   (line  5651)
+-basic <1>:                                    See 7.7.2.   (line  5651)
+-basic <2>:                                    See 7.4.5.2. (line  5085)
 -basic:                                        See 7.1.7.2. (line  4412)
 -basic1, +basic1:                              See 7.6.4.   (line  5508)
 -basic1char, +basic1char:                      See 7.6.4.   (line  5512)
@@ -11295,13 +11300,13 @@ Concept Index
 -basicload, +basicload:                        See 3.1.     (line   935)
 -bdesymkeymap, -bdeposkeymap:                  See 6.5.2.   (line  1975)
 -brightness <1>:                               See 7.6.2.2. (line  5444)
--brightness <2>:                               See 7.4.3.2. (line  4935)
--brightness <3>:                               See 7.5.1.1. (line  5164)
+-brightness <2>:                               See 7.5.1.1. (line  5164)
+-brightness <3>:                               See 7.4.3.2. (line  4935)
 -brightness <4>:                               See 7.2.1.1. (line  4515)
 -brightness:                                   See 7.1.4.2. (line  4019)
 -buksymkeymap, -bukposkeymap:                  See 6.5.2.   (line  1963)
 -burstmod:                                     See 7.1.6.2. (line  4352)
--c:                                            See 14.1.    (line  7664)
+-c:                                            See 14.1.    (line  7665)
 -c1hi:                                         See 7.5.3.1. (line  5229)
 -c1lo:                                         See 7.5.3.1. (line  5228)
 -c2hi:                                         See 7.5.3.1. (line  5235)
@@ -11310,15 +11315,15 @@ Concept Index
 -c64dtvromrw, +c64dtvromrw:                    See 7.3.1.   (line  4658)
 -cart1:                                        See 7.7.2.   (line  5657)
 -cart16:                                       See 7.1.2.2. (line  3521)
--cart2 <1>:                                    See 7.4.5.2. (line  5091)
--cart2 <2>:                                    See 7.4.2.1. (line  4813)
--cart2:                                        See 7.7.2.   (line  5659)
--cart4 <1>:                                    See 7.4.5.2. (line  5091)
--cart4 <2>:                                    See 7.4.2.1. (line  4814)
--cart4:                                        See 7.7.2.   (line  5663)
--cart6 <1>:                                    See 7.4.2.1. (line  4817)
--cart6 <2>:                                    See 7.7.2.   (line  5667)
--cart6:                                        See 7.4.5.2. (line  5091)
+-cart2 <1>:                                    See 7.7.2.   (line  5659)
+-cart2 <2>:                                    See 7.4.5.2. (line  5091)
+-cart2:                                        See 7.4.2.1. (line  4813)
+-cart4 <1>:                                    See 7.7.2.   (line  5663)
+-cart4 <2>:                                    See 7.4.5.2. (line  5091)
+-cart4:                                        See 7.4.2.1. (line  4814)
+-cart6 <1>:                                    See 7.7.2.   (line  5667)
+-cart6 <2>:                                    See 7.4.5.2. (line  5091)
+-cart6:                                        See 7.4.2.1. (line  4817)
 -cart8:                                        See 7.1.2.2. (line  3518)
 -cartA <1>:                                    See 7.4.5.2. (line  5091)
 -cartA:                                        See 7.4.2.1. (line  4820)
@@ -11327,8 +11332,8 @@ Concept Index
 -cartar3:                                      See 7.1.2.2. (line  3536)
 -cartar4:                                      See 7.1.2.2. (line  3539)
 -cartar5:                                      See 7.1.2.2. (line  3542)
--cartB <1>:                                    See 7.4.2.1. (line  4823)
--cartB:                                        See 7.4.5.2. (line  5091)
+-cartB <1>:                                    See 7.4.5.2. (line  5091)
+-cartB:                                        See 7.4.2.1. (line  4823)
 -cartcap:                                      See 7.1.2.2. (line  3545)
 -cartcomal:                                    See 7.1.2.2. (line  3548)
 -cartcrt:                                      See 7.1.2.2. (line  3527)
@@ -11392,8 +11397,7 @@ Concept Index
 -chargde:                                      See 7.2.2.1. (line  4579)
 -chargen <1>:                                  See 7.7.2.   (line  5654)
 -chargen <2>:                                  See 7.6.4.   (line  5492)
--chargen <3>:                                  See 7.2.2.1. (line  4578)
--chargen <4>:                                  See 7.4.5.2. (line  5088)
+-chargen <3>:                                  See 7.4.5.2. (line  5088)
 -chargen:                                      See 7.1.7.2. (line  4415)
 -chargfr:                                      See 7.2.2.1. (line  4582)
 -chargse:                                      See 7.2.2.1. (line  4585)
@@ -11404,17 +11408,17 @@ Concept Index
 -config:                                       See 3.1.     (line   911)
 -confirmexit, +confirmexit:                    See 6.15.2.  (line  3017)
 -console:                                      See 3.1.     (line   923)
--contrast <1>:                                 See 7.1.4.2. (line  4016)
--contrast <2>:                                 See 7.2.1.1. (line  4512)
--contrast <3>:                                 See 7.5.1.1. (line  5161)
--contrast <4>:                                 See 7.4.3.2. (line  4932)
--contrast:                                     See 7.6.2.2. (line  5441)
+-contrast <1>:                                 See 7.6.2.2. (line  5441)
+-contrast <2>:                                 See 7.5.1.1. (line  5161)
+-contrast <3>:                                 See 7.4.3.2. (line  4932)
+-contrast <4>:                                 See 7.2.1.1. (line  4512)
+-contrast:                                     See 7.1.4.2. (line  4016)
 -core, +core:                                  See 6.15.2.  (line  3023)
--crtblur <1>:                                  See 7.1.4.2. (line  4034)
--crtblur <2>:                                  See 7.6.2.2. (line  5459)
--crtblur <3>:                                  See 7.5.1.1. (line  5179)
--crtblur <4>:                                  See 7.4.3.2. (line  4950)
--crtblur:                                      See 7.2.1.1. (line  4530)
+-crtblur <1>:                                  See 7.6.2.2. (line  5459)
+-crtblur <2>:                                  See 7.5.1.1. (line  5179)
+-crtblur <3>:                                  See 7.4.3.2. (line  4950)
+-crtblur <4>:                                  See 7.2.1.1. (line  4530)
+-crtblur:                                      See 7.1.4.2. (line  4034)
 -Crtcdscan, +Crtcdscan:                        See 7.6.2.2. (line  5407)
 -Crtcdsize, +Crtcdsize:                        See 7.6.2.2. (line  5403)
 -Crtcextpal:                                   See 7.6.2.2. (line  5423)
@@ -11426,11 +11430,11 @@ Concept Index
 -Crtcvcache, +Crtcvcache:                      See 7.6.2.2. (line  5401)
 -CrtcVidmodefullmode:                          See 7.6.2.2. (line  5435)
 -CrtcXRANDRfullmode:                           See 7.6.2.2. (line  5432)
--crtscanlineshade <1>:                         See 7.5.1.1. (line  5182)
--crtscanlineshade <2>:                         See 7.2.1.1. (line  4533)
--crtscanlineshade <3>:                         See 7.1.4.2. (line  4037)
--crtscanlineshade <4>:                         See 7.4.3.2. (line  4953)
--crtscanlineshade:                             See 7.6.2.2. (line  5462)
+-crtscanlineshade <1>:                         See 7.6.2.2. (line  5462)
+-crtscanlineshade <2>:                         See 7.5.1.1. (line  5182)
+-crtscanlineshade <3>:                         See 7.4.3.2. (line  4953)
+-crtscanlineshade <4>:                         See 7.2.1.1. (line  4533)
+-crtscanlineshade:                             See 7.1.4.2. (line  4037)
 -cs256k:                                       See 7.5.4.1. (line  5257)
 -default:                                      See 3.1.     (line   906)
 -device10:                                     See 6.10.1.2.
@@ -11451,10 +11455,10 @@ Concept Index
 -digimaxbase:                                  See 7.1.6.2. (line  4275)
 -directory:                                    See 6.15.2.  (line  3005)
 -displaydepth:                                 See 6.4.2.   (line  1886)
--doodlecrtctextcolor:                          See 9.1.     (line  6646)
--doodlemc:                                     See 9.1.     (line  6638)
--doodleoversize:                               See 9.1.     (line  6634)
--doodletedlum:                                 See 9.1.     (line  6642)
+-doodlecrtctextcolor:                          See 9.1.     (line  6643)
+-doodlemc:                                     See 9.1.     (line  6635)
+-doodleoversize:                               See 9.1.     (line  6631)
+-doodletedlum:                                 See 9.1.     (line  6639)
 -dos1001:                                      See 6.9.2.   (line  2364)
 -dos1541:                                      See 6.9.2.   (line  2364)
 -dos1541II:                                    See 6.9.2.   (line  2364)
@@ -11527,10 +11531,10 @@ Concept Index
 -extfunc, +extfunc:                            See 7.2.2.1. (line  4597)
 -extrajoydev1:                                 See 6.6.1.   (line  1991)
 -extrajoydev2:                                 See 6.6.1.   (line  1991)
--f:                                            See 13.1.    (line  7431)
+-f:                                            See 13.1.    (line  7432)
 -fewriteback, +fewriteback:                    See 7.4.2.1. (line  4842)
--ffmpegaudiobitrate:                           See 9.1.     (line  6651)
--ffmpegvideobitrate:                           See 9.1.     (line  6652)
+-ffmpegaudiobitrate:                           See 9.1.     (line  6648)
+-ffmpegvideobitrate:                           See 9.1.     (line  6649)
 -flipname:                                     See 6.10.1.2.
 (line  2540)
 -fpwriteback, +fpwriteback:                    See 7.4.2.1. (line  4849)
@@ -11546,11 +11550,11 @@ Concept Index
 -fullscreen, +fullscreen:                      See 6.4.2.   (line  1889)
 -functionhi:                                   See 7.5.3.1. (line  5223)
 -functionlo:                                   See 7.5.3.1. (line  5222)
--gamma <1>:                                    See 7.1.4.2. (line  4022)
--gamma <2>:                                    See 7.2.1.1. (line  4518)
--gamma <3>:                                    See 7.6.2.2. (line  5447)
--gamma <4>:                                    See 7.5.1.1. (line  5167)
--gamma:                                        See 7.4.3.2. (line  4938)
+-gamma <1>:                                    See 7.6.2.2. (line  5447)
+-gamma <2>:                                    See 7.5.1.1. (line  5167)
+-gamma <3>:                                    See 7.4.3.2. (line  4938)
+-gamma <4>:                                    See 7.2.1.1. (line  4518)
+-gamma:                                        See 7.1.4.2. (line  4022)
 -georam, +georam:                              See 7.1.6.2. (line  4295)
 -georamimage:                                  See 7.1.6.2. (line  4302)
 -georamimagerw, +georamimagerw:                See 7.1.6.2. (line  4305)
@@ -11558,16 +11562,16 @@ Concept Index
 -gluelogictype:                                See 7.1.8.1. (line  4428)
 -go64, +go64:                                  See 7.2.3.1. (line  4617)
 -grsymkeymap, -grposkeymap:                    See 6.5.2.   (line  1969)
--h:                                            See 14.1.    (line  7674)
+-h:                                            See 14.1.    (line  7675)
 -h1024k:                                       See 7.5.4.1. (line  5251)
 -h256k:                                        See 7.5.4.1. (line  5250)
 -h4096k:                                       See 7.5.4.1. (line  5254)
--help <1>:                                     See 14.1.    (line  7660)
+-help <1>:                                     See 14.1.    (line  7661)
 -help:                                         See 3.1.     (line   904)
 -htmlbrowser:                                  See 6.15.2.  (line  3006)
 -hummeradc, +hummeradc:                        See 7.3.4.   (line  4717)
--i:                                            See 13.1.    (line  7410)
--ic:                                           See 14.1.    (line  7671)
+-i:                                            See 13.1.    (line  7411)
+-ic:                                           See 14.1.    (line  7672)
 -IDE64autosize1, +IDE64autosize1, -IDE64autosize2, +IDE64autosize2, -IDE64autosize3, +IDE64autosize3, -IDE64autosize4, +IDE64autosize4:See 7.1.2.2.
 (line  3674)
 -IDE64cyl1:                                    See 7.1.2.2. (line  3647)
@@ -11599,8 +11603,8 @@ Concept Index
 (line  2509)
 -iecdevice9, +iecdevice9:                      See 6.10.1.2.
 (line  2511)
--ieee488, +ieee488 <1>:                        See 7.1.2.2. (line  3695)
--ieee488, +ieee488:                            See 7.4.2.1. (line  4855)
+-ieee488, +ieee488 <1>:                        See 7.4.2.1. (line  4855)
+-ieee488, +ieee488:                            See 7.1.2.2. (line  3695)
 -ieee488image:                                 See 7.1.2.2. (line  3700)
 -initbreak:                                    See 6.12.1.  (line  2888)
 -install, +install:                            See 6.4.2.   (line  1881)
@@ -11611,14 +11615,13 @@ Concept Index
 -isepicimagerw, +isepicimagerw:                See 7.1.2.2. (line  3713)
 -joydev1:                                      See 6.6.1.   (line  1988)
 -joydev2:                                      See 6.6.1.   (line  1988)
--k:                                            See 14.1.    (line  7695)
--k<version>:                                   See 14.1.    (line  7692)
--keepenv:                                      See 7.8.1.1. (line  5732)
--kernal <1>:                                   See 7.1.7.2. (line  4409)
--kernal <2>:                                   See 7.4.5.2. (line  5082)
--kernal <3>:                                   See 7.6.4.   (line  5486)
--kernal <4>:                                   See 7.2.2.1. (line  4557)
--kernal:                                       See 7.7.2.   (line  5648)
+-k:                                            See 14.1.    (line  7696)
+-k<version>:                                   See 14.1.    (line  7693)
+-keepenv:                                      See 7.8.1.1. (line  5731)
+-kernal <1>:                                   See 7.7.2.   (line  5648)
+-kernal <2>:                                   See 7.6.4.   (line  5486)
+-kernal <3>:                                   See 7.4.5.2. (line  5082)
+-kernal:                                       See 7.1.7.2. (line  4409)
 -kernal64:                                     See 7.2.2.1. (line  4546)
 -kernalde:                                     See 7.2.2.1. (line  4558)
 -kernalfi:                                     See 7.2.2.1. (line  4561)
@@ -11629,7 +11632,7 @@ Concept Index
 -kernalse:                                     See 7.2.2.1. (line  4573)
 -keybuf:                                       See 3.1.     (line   920)
 -keymap:                                       See 6.5.2.   (line  1949)
--l:                                            See 14.1.    (line  7698)
+-l:                                            See 13.1.    (line  7427)
 -lightpen, +lightpen:                          See 6.6.1.   (line  2007)
 -lightpentype:                                 See 6.6.1.   (line  2009)
 -logfile:                                      See 3.1.     (line   914)
@@ -11641,8 +11644,8 @@ Concept Index
 -midiin:                                       See 7.1.6.2. (line  4286)
 -midiout:                                      See 7.1.6.2. (line  4289)
 -miditype:                                     See 7.1.6.2. (line  4278)
--mitshm, +mitshm <1>:                          See 2.11.2.  (line   810)
--mitshm, +mitshm:                              See 6.4.2.   (line  1876)
+-mitshm, +mitshm <1>:                          See 6.4.2.   (line  1876)
+-mitshm, +mitshm:                              See 2.11.2.  (line   810)
 -mmc64, +mmc64:                                See 7.1.2.2. (line  3735)
 -mmc64bios:                                    See 7.1.2.2. (line  3742)
 -mmc64bioswrite:                               See 7.1.2.2. (line  3754)
@@ -11662,21 +11665,21 @@ Concept Index
 -mouseport:                                    See 6.6.1.   (line  2002)
 -mousetype:                                    See 6.6.1.   (line  1999)
 -myaciadev:                                    See 6.11.2.  (line  2819)
--n:                                            See 13.1.    (line  7422)
--nc:                                           See 14.1.    (line  7667)
+-n:                                            See 13.1.    (line  7423)
+-nc:                                           See 14.1.    (line  7668)
 -newluminance, +newluminance:                  See 7.1.4.2. (line  4010)
--nh:                                           See 14.1.    (line  7677)
+-nh:                                           See 14.1.    (line  7678)
 -ntsc:                                         See 6.13.1.  (line  2907)
 -ntscold:                                      See 6.13.1.  (line  2910)
--o:                                            See 13.1.    (line  7414)
--o <name>:                                     See 14.1.    (line  7701)
--oddlinesoffset <1>:                           See 7.4.3.2. (line  4947)
--oddlinesoffset <2>:                           See 7.6.2.2. (line  5456)
--oddlinesoffset <3>:                           See 7.2.1.1. (line  4527)
--oddlinesoffset <4>:                           See 7.1.4.2. (line  4031)
--oddlinesoffset:                               See 7.5.1.1. (line  5176)
--oddlinesphase <1>:                            See 7.5.1.1. (line  5173)
--oddlinesphase <2>:                            See 7.6.2.2. (line  5453)
+-o:                                            See 13.1.    (line  7415)
+-o <name>:                                     See 14.1.    (line  7702)
+-oddlinesoffset <1>:                           See 7.6.2.2. (line  5456)
+-oddlinesoffset <2>:                           See 7.5.1.1. (line  5176)
+-oddlinesoffset <3>:                           See 7.4.3.2. (line  4947)
+-oddlinesoffset <4>:                           See 7.2.1.1. (line  4527)
+-oddlinesoffset:                               See 7.1.4.2. (line  4031)
+-oddlinesphase <1>:                            See 7.6.2.2. (line  5453)
+-oddlinesphase <2>:                            See 7.5.1.1. (line  5173)
 -oddlinesphase <3>:                            See 7.4.3.2. (line  4944)
 -oddlinesphase <4>:                            See 7.2.1.1. (line  4524)
 -oddlinesphase:                                See 7.1.4.2. (line  4028)
@@ -11694,7 +11697,7 @@ Concept Index
 -petreu, +petreu:                              See 7.6.4.   (line  5523)
 -petreuimage:                                  See 7.6.4.   (line  5527)
 -petreuramsize:                                See 7.6.4.   (line  5528)
--playback:                                     See 10.1.    (line  6664)
+-playback:                                     See 10.1.    (line  6661)
 -plus256k, +plus256k:                          See 7.1.8.1. (line  4441)
 -plus256kimage:                                See 7.1.8.1. (line  4443)
 -plus60k, +plus60k:                            See 7.1.8.1. (line  4431)
@@ -11729,7 +11732,7 @@ Concept Index
 -prusertxtdev:                                 See 6.10.2.2.
 (line  2659)
 -ps2mouse, +ps2mouse:                          See 7.3.4.   (line  4721)
--r:                                            See 13.1.    (line  7436)
+-r:                                            See 13.1.    (line  7437)
 -ram08, +ram08:                                See 7.7.2.   (line  5673)
 -ram1, +ram1:                                  See 7.7.2.   (line  5676)
 -ram2, +ram2:                                  See 7.7.2.   (line  5681)
@@ -11773,11 +11776,11 @@ Concept Index
 -rsuser, +rsuser:                              See 6.11.2.  (line  2822)
 -rsuserbaud:                                   See 6.11.2.  (line  2827)
 -rsuserdev:                                    See 6.11.2.  (line  2830)
--saturation <1>:                               See 7.1.4.2. (line  4015)
--saturation <2>:                               See 7.4.3.2. (line  4931)
--saturation <3>:                               See 7.2.1.1. (line  4511)
--saturation <4>:                               See 7.6.2.2. (line  5440)
--saturation:                                   See 7.5.1.1. (line  5160)
+-saturation <1>:                               See 7.6.2.2. (line  5440)
+-saturation <2>:                               See 7.5.1.1. (line  5160)
+-saturation <3>:                               See 7.4.3.2. (line  4931)
+-saturation <4>:                               See 7.2.1.1. (line  4511)
+-saturation:                                   See 7.1.4.2. (line  4015)
 -saveres, +saveres:                            See 6.15.2.  (line  3012)
 -sfxse, +sfxse:                                See 7.1.6.2. (line  4330)
 -sfxsetype:                                    See 7.1.6.2. (line  4334)
@@ -11790,7 +11793,7 @@ Concept Index
 -sidfilters, +sidfilters:                      See 7.1.5.2. (line  4152)
 -sidstereo:                                    See 7.1.5.2. (line  4134)
 -sidstereoaddress:                             See 7.1.5.2. (line  4137)
--skip <n>:                                     See 14.1.    (line  7680)
+-skip <n>:                                     See 14.1.    (line  7681)
 -sound, +sound:                                See 6.7.2.   (line  2137)
 -soundarg:                                     See 6.7.2.   (line  2158)
 -soundbufsize:                                 See 6.7.2.   (line  2148)
@@ -11806,7 +11809,7 @@ Concept Index
 -superpet, +superpet:                          See 7.6.4.   (line  5505)
 -symdekeymap:                                  See 6.5.2.   (line  1960)
 -symkeymap:                                    See 6.5.2.   (line  1954)
--t:                                            See 13.1.    (line  7418)
+-t:                                            See 13.1.    (line  7419)
 -TEDdscan, +TEDdscan:                          See 7.5.1.1. (line  5127)
 -TEDdsize, +TEDdsize:                          See 7.5.1.1. (line  5123)
 -TEDextpal:                                    See 7.5.1.1. (line  5143)
@@ -11818,21 +11821,21 @@ Concept Index
 -TEDvcache, +TEDvcache:                        See 7.5.1.1. (line  5121)
 -TEDVidmodefullmode:                           See 7.5.1.1. (line  5155)
 -TEDXRANDRfullmode:                            See 7.5.1.1. (line  5152)
--text:                                         See 14.1.    (line  7683)
+-text:                                         See 14.1.    (line  7684)
 -tfe, +tfe:                                    See 7.1.6.2. (line  4341)
 -tfeif:                                        See 7.1.6.2. (line  4345)
 -tferrnet, +tferrnet:                          See 7.1.6.2. (line  4348)
--tint <1>:                                     See 7.1.4.2. (line  4025)
+-tint <1>:                                     See 7.6.2.2. (line  5450)
 -tint <2>:                                     See 7.5.1.1. (line  5170)
--tint <3>:                                     See 7.6.2.2. (line  5450)
+-tint <3>:                                     See 7.4.3.2. (line  4941)
 -tint <4>:                                     See 7.2.1.1. (line  4521)
--tint:                                         See 7.4.3.2. (line  4941)
+-tint:                                         See 7.1.4.2. (line  4025)
 -truedrive, +truedrive:                        See 6.9.2.   (line  2323)
 -trueflashfs, +trueflashfs:                    See 7.3.1.   (line  4667)
--tune <number>:                                See 7.8.1.1. (line  5735)
+-tune <number>:                                See 7.8.1.1. (line  5732)
 -userportdac, +userportdac:                    See 7.6.4.   (line  5533)
 -usevicii, +usevicii:                          See 7.7.2.   (line  5643)
--v:                                            See 14.1.    (line  7661)
+-v:                                            See 14.1.    (line  7662)
 -VDC16KB:                                      See 7.2.1.1. (line  4500)
 -VDC64KB:                                      See 7.2.1.1. (line  4503)
 -VDCdscan, +VDCdscan:                          See 7.2.1.1. (line  4474)
@@ -11875,8 +11878,7 @@ Concept Index
 -VICXRANDRfullmode:                            See 7.4.3.2. (line  4923)
 -virtualdev, +virtualdev:                      See 6.10.3.2.
 (line  2691)
--vsid:                                         See 7.8.1.1. (line  5731)
--w<version>:                                   See 14.1.    (line  7689)
+-w<version>:                                   See 14.1.    (line  7690)
 -warp, +warp:                                  See 6.3.2.   (line  1795)
 -xsync, +xsync:                                See 6.4.2.   (line  1871)
 ACIA (Swiftlink, Turbo232):                    See 7.1.6.   (line  4186)
@@ -11925,17 +11927,17 @@ Acia1Enable:                                   See 7.1.6.1. (line  4211)
 Acia1Irq:                                      See 6.11.1.  (line  2782)
 Basic1:                                        See 7.6.1.   (line  5300)
 Basic1Chars:                                   See 7.6.1.   (line  5304)
-BasicName <1>:                                 See 7.1.7.1. (line  4373)
-BasicName:                                     See 7.4.5.1. (line  5064)
+BasicName <1>:                                 See 7.4.5.1. (line  5064)
+BasicName:                                     See 7.1.7.1. (line  4373)
 Cart2Name:                                     See 7.7.1.   (line  5594)
 Cart4Name:                                     See 7.7.1.   (line  5594)
 Cart6Name:                                     See 7.7.1.   (line  5594)
 CartridgeFile:                                 See 7.1.2.1. (line  3354)
 CartridgeReset:                                See 7.1.2.1. (line  3351)
 CartridgeType:                                 See 7.1.2.1. (line  3352)
-ChargenName <1>:                               See 7.4.5.1. (line  5067)
-ChargenName <2>:                               See 7.1.7.1. (line  4378)
-ChargenName:                                   See 7.6.1.   (line  5315)
+ChargenName <1>:                               See 7.6.1.   (line  5315)
+ChargenName <2>:                               See 7.4.5.1. (line  5067)
+ChargenName:                                   See 7.1.7.1. (line  4378)
 Crtc:                                          See 7.6.2.1. (line  5381)
 CrtcDoubleScan:                                See 7.6.2.1. (line  5390)
 CrtcDoubleSize:                                See 7.6.2.1. (line  5387)
@@ -12049,8 +12051,8 @@ IsepicImageWrite:                              See 7.1.2.1. (line  3452)
 IsepicSwitch:                                  See 7.1.2.1. (line  3450)
 JoyDevice1:                                    See 6.15.1.  (line  2991)
 JoyDevice2:                                    See 6.15.1.  (line  2991)
-KernalName <1>:                                See 7.4.5.1. (line  5061)
-KernalName <2>:                                See 7.6.1.   (line  5318)
+KernalName <1>:                                See 7.6.1.   (line  5318)
+KernalName <2>:                                See 7.4.5.1. (line  5061)
 KernalName:                                    See 7.1.7.1. (line  4370)
 KernalRev:                                     See 7.1.7.1. (line  4382)
 KeymapBusinessDEPosFile:                       See 6.5.1.   (line  1939)
@@ -12132,8 +12134,8 @@ RAMCART_RO:                                    See 7.1.2.1. (line  3498)
 RAMCARTfilename:                               See 7.1.2.1. (line  3493)
 RAMCARTImageWrite:                             See 7.1.2.1. (line  3496)
 RAMCARTsize:                                   See 7.1.2.1. (line  3500)
-RamSize <1>:                                   See 7.6.1.   (line  5280)
-RamSize:                                       See 7.7.1.   (line  5585)
+RamSize <1>:                                   See 7.7.1.   (line  5585)
+RamSize:                                       See 7.6.1.   (line  5280)
 RefreshRate:                                   See 6.3.1.   (line  1774)
 REU:                                           See 7.1.6.1. (line  4244)
 REUfilename:                                   See 7.1.6.1. (line  4247)
