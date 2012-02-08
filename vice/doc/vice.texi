@@ -86,7 +86,7 @@ Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 Copyright @copyright{} 1999-2004 Thomas Bretz
 Copyright @copyright{} 1997-2001 Daniel Sladic
-Copyright @copyright{} 1996-2001 André Fachat
+Copyright @copyright{} 1996-2001 Andrï¿½ Fachat
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 Copyright @copyright{} 1993-1996 Jouko Valta
@@ -144,8 +144,8 @@ Commodore Emulator.
 * Copyright::                   Legal stuff.
 * Contacts::                    Official home page, email addresses...
 
-* Concept Index::               
-* Resource Index::              
+* Concept Index::
+* Resource Index::
 @end menu
 
 @node License, Preface, Top, Top
@@ -575,17 +575,17 @@ be as good as the C64 or VIC20 one, as they are still under construction.
 @emph{Notice:} This documentation is written for the Unix release of VICE.
 
 @menu
-* C64 emulator features::       
-* C64DTV emulator features::    
-* C128 emulator features::      
-* VIC20 emulator features::     
-* PET emulator features::       
-* CBM-II emulator features::    
-* Keyboard emulation::          
-* Joystick emulation::          
-* Disk drive emulation::        
-* Supported file formats::      
-* Common problems::             
+* C64 emulator features::
+* C64DTV emulator features::
+* C128 emulator features::
+* VIC20 emulator features::
+* PET emulator features::
+* CBM-II emulator features::
+* Keyboard emulation::
+* Joystick emulation::
+* Disk drive emulation::
+* Supported file formats::
+* Common problems::
 @end menu
 
 
@@ -609,8 +609,8 @@ the basic features are implemented as well as most of the complex ones
 including synchronisation, ring modulation and filters.  There are three
 emulators of the SID chip available: first is the ``standard'' VICE
 emulator, available since VICE 0.12; the second is Dag Lem's reSID
-engine and the third one is reSID-fp. The reSID engines are a lot more 
-accurate than the standard engine, but they are also a lot slower, and 
+engine and the third one is reSID-fp. The reSID engines are a lot more
+accurate than the standard engine, but they are also a lot slower, and
 only suitable for faster machines.
 
 Naturally, also both CIAs (or VIAs, in some cases) are fully emulated
@@ -635,7 +635,7 @@ and decreased performance.
 
 The C128 emulator, called @samp{x128}, features a complete emulation of
 the internal MMU (@dfn{Memory Management Unit}), 80 column VDC screen, fast
-IEC bus emulation, 2 MHz mode, Z80 emulation plus all the features of the 
+IEC bus emulation, 2 MHz mode, Z80 emulation plus all the features of the
 C64 emulation.
 
 
@@ -643,16 +643,16 @@ C64 emulation.
 @section VIC20 emulator features
 
 The VIC20 emulates all the internal hardware, including the VIA chips.
-The VIC-I video chip is fully emulated except NTSC interlace mode, so most 
+The VIC-I video chip is fully emulated except NTSC interlace mode, so most
 graphical effects will work correctly.
 
 Sound support is implemented, but is still at an experimental stage.  If
 you think it could be improved and know how to do so, feel
 free to contact us (@pxref{Contacts}).
 
-The VIC20 emulator now allows the use of the VIC1112 IEEE488 
+The VIC20 emulator now allows the use of the VIC1112 IEEE488
 interface. You have to enable the hardware (by menu, resource, or
-commandline option) and then load the IEEE488 ROM (see for 
+commandline option) and then load the IEEE488 ROM (see for
 example @code{http://www.funet.fi/pub/cbm/schematics/cartridges/vic20/ieee-488/325329-04.bin}, but you have to double the size to 4k for now).
 The IEEE-488 code is then started by @code{SYS45065}.
 
@@ -748,7 +748,7 @@ The business line machines (C6xx/7xx) have the RAM in banks 1-2, resp.
 1-4. All available banks are used for BASIC, where program code is separated
 from all variables, resp. from normal variables, strings and arrays that
 are distributed over other banks. The C510 instead has RAM in banks 0 and 1,
-and uses bank 1 for program and all variables. Bank 0, though, can be 
+and uses bank 1 for program and all variables. Bank 0, though, can be
 accessed by the VIC-II to display graphics.
 
 Many models have been expanded to more than the built-in memory.  In fact
@@ -832,7 +832,7 @@ and @key{space} for the fire button instead.
 
 All the emulators support up to 4 external disk drives as
 devices 8, 9, 10 and 11.  Each of these devices can emulate virtual
-Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and 
+Commodore 1541, 1541-II, 1571, 1581, 2031, 2040, 3040, 4040, 1001, 8050 and
 8250 drives in one of four ways:
 
 @itemize @bullet
@@ -1006,8 +1006,8 @@ This section tries to describe the most common known problems with VICE,
 and how to resolve them.
 
 @menu
-* Sound problems::              
-* Shared memory problems::      
+* Sound problems::
+* Shared memory problems::
 * Printer problems::
 * PET keyboard problems::
 @end menu
@@ -1034,7 +1034,7 @@ finding HP-UX and SUN consoles to work at@dots{}
 @cindex OSS/Linux problems
 Some problems have been reported with the proprietary version of the
 Open Sound System for Linux.  With a Crystal sound card, sound output
-was significantly delayed and, apparently, the allocated buffer size was 
+was significantly delayed and, apparently, the allocated buffer size was
 completely wrong.  This is not a VICE bug, but rather an OSS bug.
 
 
@@ -1072,14 +1072,14 @@ from the right-button menu.
 @node Printer problems, PET keyboard problems ,Shared memory problems, Common problems
 @subsection Printer problems
 
-VICE supports the emulation of a printer either on the userport or as 
+VICE supports the emulation of a printer either on the userport or as
 IEC device 4. Unfortunately the Commodore IEC routines do not
 send all commands to the IEC bus. For example an @code{OPEN 1,4}
 is not seen on the IEC bus. Also a @code{CLOSE 1} after that
 is not seen. VICE can see from printing that there was an @code{OPEN},
-but it cannot see when the close was. Also a "finish print job" 
+but it cannot see when the close was. Also a "finish print job"
 cannot be seen on the userport device.
-To flush the printer buffer (write to @code{print.dump} or to the 
+To flush the printer buffer (write to @code{print.dump} or to the
 printer) now a menu entry can be used. Disabling and re-enabling the printer
 should work as well.
 
@@ -1089,10 +1089,10 @@ from the problem mentioned above it should work fine now.
 @node PET keyboard problems, ,Printer problems, Common problems
 @subsection PET keyboard problems
 
-If you find that the German keyboard mapping (plus German charset) 
-does not print uppercase umlauts, then you are right. 
+If you find that the German keyboard mapping (plus German charset)
+does not print uppercase umlauts, then you are right.
 The umlauts replace the [,\ and ] characters in the charset. The keys
-that make these characters do not have a different entry in the 
+that make these characters do not have a different entry in the
 PET editor ROM tables when shifted.
 Thus it is not possible to get the uppercase umlauts in the editor.
 Nevertheless other programs are reported to change the keyboard
@@ -1147,8 +1147,8 @@ xterm -e x64
 
 
 @menu
-* Command-line initialization::  
-* Command-line autostart::      
+* Command-line initialization::
+* Command-line autostart::
 @end menu
 
 @node Command-line initialization, Command-line autostart, Usage, Usage
@@ -1332,7 +1332,7 @@ Where @code{PREFIX} is the installation prefix (usually
 @file{/usr/local}), @code{EMU} is the name of the emulated machine
 (@code{C64}, @code{C128}, @code{PET}, @code{CBM-II} or @code{VIC20}) and
 @code{BOOTPATH} is the directory where the executable resides.
-The disk drive ROMs are looked for in a directory with @code{EMU} set to 
+The disk drive ROMs are looked for in a directory with @code{EMU} set to
 @code{DRIVES}. @code{$HOME} is the user's home directory.
 
 For example, if you have the C64 emulator installed in
@@ -1433,7 +1433,7 @@ drives:
 
 @end itemize
 
-In addition to those all emulators can handle 
+In addition to those all emulators can handle
 a parallel IEEE488 interface (the C64 and C128 via @code{$df**} extension,
 the VIC20 via VIC1112 emulation)
 so they also need the DOS ROM for the IEEE disk drives:
@@ -1466,15 +1466,15 @@ Note that there are other DOS images on the internet. The DOS 2.5 images
 might be used with the 8050, but it cannot handle the double sided drives
 of the 1001 and 8250 and it is not supported by VICE.
 
-The PET emulator uses an expanded setup, because there are three major 
-versions of the Basic and the Kernal, and many versions of the 
+The PET emulator uses an expanded setup, because there are three major
+versions of the Basic and the Kernal, and many versions of the
 Editor ROM. In addition there are cartridge ROM sockets.
 
 The Kernal files contain the memory from range $F000-$FFFF, the Basic
 ROMs either the range $C000-$DFFF or $B000-$DFFF.
 To handle the different screen
 sizes and keyboards, different so-called ``editor-ROMs'' for the memory
-range $E000-$E800 are provided. 
+range $E000-$E800 are provided.
 The PET ROMs have the following names:
 
 @itemize @bullet
@@ -1498,7 +1498,7 @@ The -09 ROM is the revised -01 ROM)
 (Commodore ROM images 901465-01 and 901465-01)
 @item
 @file{basic4}, the PET4032/8032 Basic 4 ROM (12 KBytes)
-(Commodore ROM images 901465-23, 901465-20 and 901465-21. 
+(Commodore ROM images 901465-23, 901465-20 and 901465-21.
 The -23 ROM is a revised -19 ROM)
 
 @item
@@ -1527,7 +1527,7 @@ with 128 chars each.  The second (inverted) half of each set is computed from
 the first half by inverting it.  This is a PET hardware feature.
 (Commodore ROM image 901447-10)
 @item
-@file{chargen.de}, the character generator ROM (2k). This version is a 
+@file{chargen.de}, the character generator ROM (2k). This version is a
 patched German charset, with the characters [, \ and ] replaced by umlauts.
 It has been provided by U. Guettich and he reports that it is supported
 by some programs.
@@ -1735,14 +1735,14 @@ background and 1 for foreground), looks like the following:
 @node Romset files, , Palette files, System files
 @section Romset files
 
-The Romset files are not used by default on all emulators. 
-You might have recognized that the names of the ROM images are 
+The Romset files are not used by default on all emulators.
+You might have recognized that the names of the ROM images are
 saved in resources. Loading a Romset file now just means a `shortcut'
 to changing all the resources with ROM image names and reloading
-the ROMs. 
+the ROMs.
 
 The PET and CBM-II emulators use this feature to change between the
-different ROM versions available for those machines. E.g. the 
+different ROM versions available for those machines. E.g. the
 Romset file for the PET 2001 is
 
 @example
@@ -1754,7 +1754,7 @@ RomModuleAName=
 RomModuleBName=
 @end example
 
-As you can see, the file even uses the same syntax as the 
+As you can see, the file even uses the same syntax as the
 resource file, it is just a bit stripped down.
 
 @node Basics, Settings and resources, System files, Top
@@ -1995,7 +1995,7 @@ compressed archives. Get gzip and unzip for Windows at
 for MSDOS, it doesn't work. The programs to use BZip2 archives may be
 found at @uref{http://sourceware.cygnus.com/bzip2}.
 Just put the programs (unzip.exe, gzip.exe, bzip2.exe) into a directory
-of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at 
+of your search path (e.g. C:\DOS or C:\WINDOWS\COMMAND; have a look at
 the PATH variable).
 
 @node Zipcode and Lynx,  , Compressed files, Disk and tape images
@@ -2076,7 +2076,7 @@ Resource values can be changed via the right-button menu (the
 file}.
 
 The @dfn{resource file} is a human-readable file containing resource
-values: it is called @file{vicerc} and is stored in the directory 
+values: it is called @file{vicerc} and is stored in the directory
 @file{.vice/} in the user's home
 directory.  It is possible to dump the current values of the resources
 into that file or load the values stored into that file as the current
@@ -2213,8 +2213,8 @@ off and use a 1/10 refresh rate, so that it will run at the maximum
 possible speed.
 
 @menu
-* Performance resources::       
-* Performance options::         
+* Performance resources::
+* Performance options::
 @end menu
 
 @node Performance resources, Performance options, Performance settings, Performance settings
@@ -2310,15 +2310,15 @@ resources that it becomes impossible for the user to interact with it.
 
 
 @menu
-* Video resources::             
-* Video options::               
+* Video resources::
+* Video options::
 @end menu
 
 @node Video resources, Video options, Video settings, Video settings
 @subsection Video resources
 
 The following resources affect the screen emulation. The prefix of
-some of the resources and commandline options denote the video chip 
+some of the resources and commandline options denote the video chip
 the values apply to.
 
 @table @code
@@ -2409,8 +2409,8 @@ file'').
 
 
 @menu
-* Keyboard resources::          
-* Keyboard options::            
+* Keyboard resources::
+* Keyboard options::
 @end menu
 
 @node Keyboard resources, Keyboard options, Keyboard settings, Keyboard settings
@@ -2439,7 +2439,7 @@ String specifying the name of the keymap file for the positional mapping
 @vindex KeymapBusinessUKPosFile
 @item KeymapBusinessUKSymFile
 @itemx KeymapBusinessUKPosFile
-String specifying the name of the keymap file for the symbolic 
+String specifying the name of the keymap file for the symbolic
 and positional mapping for the UK business keyboard
 (@pxref{Keyboard emulation}, PET and CBM-II).
 
@@ -2447,7 +2447,7 @@ and positional mapping for the UK business keyboard
 @vindex KeymapGraphicsPosFile
 @item KeymapGraphicsSymFile
 @itemx KeymapGraphicsPosFile
-String specifying the name of the keymap file for the symbolic and 
+String specifying the name of the keymap file for the symbolic and
 positional mapping for the graphics keyboard
 (@pxref{Keyboard emulation}, PET only).
 
@@ -2455,7 +2455,7 @@ positional mapping for the graphics keyboard
 @vindex KeymapBusinessDEPosFile
 @item KeymapBusinessDESymFile
 @itemx KeymapBusinessDEPosFile
-String specifying the name of the keymap file for the symbolic 
+String specifying the name of the keymap file for the symbolic
 and positional mapping for the German business keyboard.
 (@pxref{Keyboard emulation}, PET only).
 
@@ -2609,8 +2609,8 @@ going'' is selected, no pausing is done.
 @end itemize
 
 @menu
-* Sound resources::             
-* Sound options::               
+* Sound resources::
+* Sound options::
 @end menu
 
 @node Sound resources, Sound options, Sound settings, Sound settings
@@ -2888,8 +2888,8 @@ needs it, without prompting the user.
 
 
 @menu
-* Drive resources::             
-* Drive options::               
+* Drive resources::
+* Drive options::
 @end menu
 
 @node Drive resources, Drive options, Drive settings, Drive settings
@@ -3134,17 +3134,17 @@ custom-made C routines.
 @subsection Settings for file system devices
 
 These settings deal with the drive-like peripherals connected to the bus
-of the emulated machine. 
-The first setting relates to the parallel IEEE488 interface. With 
-this interface a special engine is used to listen to the bus lines 
+of the emulated machine.
+The first setting relates to the parallel IEEE488 interface. With
+this interface a special engine is used to listen to the bus lines
 to translates them to the filesystem code. Thus the PET will always
 detect a drive for example, but it can also use drives 10 and 11 even
-together with true disk drive emulation. 
+together with true disk drive emulation.
 
 @itemize @bullet
 @item
 ``Enable virtual devices'', enables the peripheral access via
-the fast disk emulation (either kernal traps or IEEE488 interface). 
+the fast disk emulation (either kernal traps or IEEE488 interface).
 Both, filesystem and disk image access via fast
 drive emulation, are affected.
 @end itemize
@@ -3170,13 +3170,13 @@ raw CBM files) whenever a program creates a file.
 @end itemize
 
 Note that, by default, all drives except 11 create P00 files on save,
-while drive 11 creates raw CBM files. Those files come without any header, 
+while drive 11 creates raw CBM files. Those files come without any header,
 but also with the filename restrictions given by the operating system
 VICE runs on.
 
 @menu
-* File system device resources::  
-* File system device options::  
+* File system device resources::
+* File system device options::
 @end menu
 
 
@@ -3316,13 +3316,13 @@ So, basically, by default printer device 1 will dump printer
 output to @file{print.dump}; printer device 2 will print it via
 @code{lpr} directly to the printer and device 3 will print it via
 @code{petlp} (a not-yet-complete utility that will produce Postscript
-output from the Commodore printer code) and then to the printer via 
+output from the Commodore printer code) and then to the printer via
 @code{lpr}.
 
 
 @menu
-* Printer resources::           
-* Printer options::             
+* Printer resources::
+* Printer options::
 @end menu
 
 @node Printer resources, Printer options, Printer settings, Printer settings
@@ -3459,8 +3459,8 @@ emulation (so you will have to turn true 1541 emulation on if you want
 to be able to read or write disk images) and tape support.
 
 @menu
-* No traps resources::          
-* No traps options::            
+* No traps resources::
+* No traps options::
 @end menu
 
 @node No traps resources, No traps options, No kernal traps, No kernal traps
@@ -3471,7 +3471,7 @@ to be able to read or write disk images) and tape support.
 @vindex VirtualDevices
 @item VirtualDevices
 Boolean specifying whether all the mechanisms for virtual device
-emulation should be enabled. Serial IEC devices use kernal traps, 
+emulation should be enabled. Serial IEC devices use kernal traps,
 parallel IEEE488 devices use an own IEEE488 engine. Both are switched
 on and off with this resource.
 
@@ -3486,7 +3486,7 @@ on and off with this resource.
 @cindex -virtualdev, +virtualdev
 @item -virtualdev
 @itemx +virtualdev
-Enable (@code{VirtualDevices=1}) or disable (@code{VirtualDevices=0}) 
+Enable (@code{VirtualDevices=1}) or disable (@code{VirtualDevices=0})
 virtual devices.
 
 @end table
@@ -3528,7 +3528,7 @@ written (not appended) to the file @file{filename}, while printer device
 @samp{|lpr} will cause the @code{lpr} command to be executed and be fed
 the rs232 output.  The rs232 output will not be converted but saved as
 sent by the emulated machine.  The same holds true for the rs232 input.
-If the command writes data to the standard output it will be caught by VICE 
+If the command writes data to the standard output it will be caught by VICE
 and sent back to the emulator.  Also the data sent by the pseudo device will
 be sent back to VICE.
 
@@ -3563,9 +3563,9 @@ by resources (The baudrate is independent from the baudrate the emulator
 actually expects).
 
 @menu
-* RS232 resources::             
-* RS232 options::               
-* RS232 usage::               
+* RS232 resources::
+* RS232 options::
+* RS232 usage::
 @end menu
 
 @node RS232 resources, RS232 options, RS232 settings, RS232 settings
@@ -3596,12 +3596,12 @@ to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings}).
 
 @vindex Acia1Dev
 @item Acia1Dev
-Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
+Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
 (@pxref{RS232 settings}) the ACIA is using (all except VIC20).
 
 @vindex Acia1Irq
 @item Acia1Irq
-Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI 
+Integer specifying which interrupt to use. 0 = none, 1 = IRQ, 2 = NMI
 (C64 and C128 only)
 
 @vindex RsUserEnable
@@ -3616,7 +3616,7 @@ Integer specifying the baudrate of the user-port RS232 interface
 
 @vindex RsUserDev
 @item RsUserDev
-Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device 
+Integer (ranging from 0 to 3, for device 1-4) specifying what RS232 device
 the user-port interface is using (C64, C128 and VIC20).
 
 @end table
@@ -3646,9 +3646,9 @@ Specify @code{NAME} as RS232 devices 1, 2, 3 and 4, respectively
 @cindex -rsdev4baud
 @itemx -rsdev4 BAUDRATE
 Specify @code{BAUDRATE} as baudrate for the RS232 devices if the device name
-specifies a special device (like @file{/dev/ttyS0} for example, 
+specifies a special device (like @file{/dev/ttyS0} for example,
 @pxref{RS232 settings};
-@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and 
+@code{RsDevice1Baud}, @code{RsDevice2Baud} @code{RsDevice3Baud} and
 @code{RsDevice4Baud}).
 
 @cindex -myaciadev
@@ -3667,7 +3667,7 @@ Set the baud rate of the RS232 userport emulation.
 
 @cindex -rsuserdev
 @item -rsuserdev <0-3>
-Specify device for the userport RS232 emulation (@code{RsUserDev}; 
+Specify device for the userport RS232 emulation (@code{RsUserDev};
 C64, C128 and VIC20).
 
 @end table
@@ -3679,7 +3679,7 @@ Here we give you a simple example how to set up an emulated C64 using
 the modem connected to your PC. The following list shows each step.
 
 @table @code
-@item Attach your modem to your PC at a serial port. 
+@item Attach your modem to your PC at a serial port.
 Normally you should set it up to use the modem as "/dev/modem".
 @item start VICE
 
@@ -3688,13 +3688,13 @@ Go to the RS232 settings menu and change "Serial 1 device" to "/dev/modem" (or t
 Then go to the RS232 settings menu and change "Serial 1 baudrate" to the baudrate your modem should run at.
   Watch out, e.g. on Linux there is an additional multiplier
   to multiply with the baudrate (so e.g. 19200 gives 115200 or so baud)
-  See the "setserial" manpage on Linux for example. 
-  However, most modems should be able to autodetect the speed to 
+  See the "setserial" manpage on Linux for example.
+  However, most modems should be able to autodetect the speed to
   the computer as well.
 
 @item Select the RS232 emulation your programs use
-If you want to use the Userport emulation, go to the RS232 settings and 
-  change "Userport RS232 Device" to 
+If you want to use the Userport emulation, go to the RS232 settings and
+  change "Userport RS232 Device" to
   "Serial 1". If you want ACIA emulation (swiftlink or what's it called?)
   then change "ACIA $DE** device" to "Serial 1".
 
@@ -3705,7 +3705,7 @@ If you want to use the Userport emulation, go to the RS232 settings and
 @item Load your program and start it.
 If it is able to detect an
   RS232 cartridge like swiftlink or so, try to detect the ACIA emulation
-  if enabled. 
+  if enabled.
   Otherwise just set the baudrate to either 300, 1200 or 9600 according
   to what you enabled in the VICE menu for the userport.
 
@@ -3717,7 +3717,7 @@ If it is able to detect an
 This section lists command-line options specific to the built-in monitor.
 
 @menu
-* Monitor options::                
+* Monitor options::
 @end menu
 
 @node Monitor options,  ,  , Monitor settings
@@ -3802,8 +3802,8 @@ This section lists generic resources that do not fit in the other
 categories.
 
 @menu
-* Misc resources::              
-* Misc options::                
+* Misc resources::
+* Misc options::
 @end menu
 
 @node Misc resources, Misc options, Misc settings, Misc settings
@@ -3842,7 +3842,7 @@ directory for them.)
 @end itemize
 
 Notice that the middle entry points to a default location in
-the user's home directory. Here private ROM versions (e.g. 
+the user's home directory. Here private ROM versions (e.g.
 speeddos or JiffyDos) can be stored for example.
 
 @xref{System files}. for a description of the method used to load the
@@ -3875,7 +3875,7 @@ joystick emulation for ports 1 and 2, respectively
 (0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
 5=Digital joystick 1, 6=Digital joystick 2 on Unix)
 The available joysticks might differ depending on operating system and
-joystick support in the OS (Linux joystick module must be 
+joystick support in the OS (Linux joystick module must be
 available for example).
 
 @end table
@@ -3961,7 +3961,7 @@ x64, x64sc and x128 allow you to attach the following kinds of images:
 
 @itemize @bullet
 @item
-@file{.crt} images, as used by the CCS64 emulator by Per Håkan Sundell
+@file{.crt} images, as used by the CCS64 emulator by Per Hï¿½kan Sundell
 @item
 raw @file{.bin} images, with or without load address
 @end itemize
@@ -4189,7 +4189,7 @@ Swithlink and all similar expansionport devices.
 
 @code{-cartXYZ} options should generally attach AND activate a cart of type XYZ.
 As a consequence, attaching carts this way which are NOT in the "Main Slot" will
-also enable the cart permanently. 
+also enable the cart permanently.
 
 @c @node FIXME
 @subsubsection Common problems
@@ -4819,7 +4819,7 @@ being used by choosing one of the available predefined color sets:
 emulator by Miha Peternel.
 @item
 @file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64
-emulator by Per Håkan Sundell.
+emulator by Per Hï¿½kan Sundell.
 @item
 @file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator
 by Christian Bauer
@@ -4836,8 +4836,8 @@ C64 graphics package GoDot
 @end itemize
 
 @menu
-* VIC-II resources::            
-* VIC-II options::              
+* VIC-II resources::
+* VIC-II options::
 @end menu
 
 @node VIC-II resources, VIC-II options, VIC-II settings, VIC-II settings
@@ -5060,8 +5060,8 @@ almost 20kHz).
 @end itemize
 
 @menu
-* SID resources::               
-* SID options::                 
+* SID resources::
+* SID options::
 @end menu
 
 @node SID resources, SID options, SID settings, SID settings
@@ -5196,7 +5196,7 @@ The following I/O extensions are available:
 @item MIDI (Passport, Datel, Maplin, Namesoft, Sequential)
 
 @cindex REU
-@item REU - 
+@item REU -
 The ``RAM Expansion Module'' extension emulates a standard
 Commodore RAM Expansion Unit; this can be used with GEOS and other
 programs that are designed to take advantage of it.  This currently
@@ -5211,8 +5211,8 @@ works only in the C64 emulator.
 @end itemize
 
 @menu
-* C64 I/O extension resources::  
-* C64 I/O extension options::   
+* C64 I/O extension resources::
+* C64 I/O extension options::
 @end menu
 
 @node C64 I/O extension resources, C64 I/O extension options, C64 I/O extension settings, C64 I/O extension settings
@@ -5384,8 +5384,8 @@ These settings can be used to control what system ROMs are loaded in the
 C64/128 emulators at startup.  They cannot be changed from the menus.
 
 @menu
-* C64/128 system ROM resources::  
-* C64/128 system ROM options::  
+* C64/128 system ROM resources::
+* C64/128 system ROM options::
 @end menu
 
 @node C64/128 system ROM resources, C64/128 system ROM options, C64/128 system ROM settings, C64/128 system ROM settings
@@ -5688,12 +5688,12 @@ This section lists the settings and commands that are C64DTV specific
 and thus are not present in the other emulators.
 
 @menu
-* C64DTV ROM image::            
-* DTV revision::                
-* LumaFix::                     
-* Userport::                    
-* Debug::                       
-* Monitor DTV features::        
+* C64DTV ROM image::
+* DTV revision::
+* LumaFix::
+* Userport::
+* Debug::
+* Monitor DTV features::
 @end menu
 
 
@@ -5860,9 +5860,9 @@ This section lists the settings and commands that are VIC20-specific and
 thus are not present in the other emulators.
 
 @menu
-* VIC20 cartridges::            
-* VIC20 memory expansions::     
-* VIC20 system ROM settings::   
+* VIC20 cartridges::
+* VIC20 memory expansions::
+* VIC20 system ROM settings::
 @end menu
 
 
@@ -5897,11 +5897,11 @@ specified in the file name) and use the ``attach'' command twice.
 A special kind of cartridge file is where the two files mentioned
 above are concatenated (with removing the two byte load address of
 the second image) into one 16k image. There are only few of those
-images, though. Normally the second part is located at $A000. 
+images, though. Normally the second part is located at $A000.
 Vice can now attach such concatenated files at the start address
 $2000, $4000, and $6000. The second half of such an image is
 moved to $A000. If you encounter 16k images that have the second
-half not at $A000 you can split the image into two halfs 
+half not at $A000 you can split the image into two halfs
 (i.e. one 8194 byte and one 8192 byte, because the first has the load
 address) and attach both files separately.
 
@@ -6133,8 +6133,8 @@ all RAM expansion blocks enabled;
 @end itemize
 
 @menu
-* VIC20 memconf resources::     
-* VIC20 memconf options::       
+* VIC20 memconf resources::
+* VIC20 memconf options::
 @end menu
 
 @node VIC20 memconf resources, VIC20 memconf options, VIC20 memory expansions, VIC20 memory expansions
@@ -6218,8 +6218,8 @@ These settings can be used to control what system ROMs are loaded in the
 VIC20 emulator at startup.  They cannot be changed from the menus.
 
 @menu
-* VIC20 system ROM resources::  
-* VIC20 system ROM options::    
+* VIC20 system ROM resources::
+* VIC20 system ROM options::
 @end menu
 
 @node VIC20 system ROM resources, VIC20 system ROM options, VIC20 system ROM settings, VIC20 system ROM settings
@@ -6479,10 +6479,10 @@ This section lists the settings and commands that are PET-specific and
 thus are not present in the other emulators.
 
 @menu
-* PET model::                   
-* PET diagnostic pin::          
-* PET commandline options::     
-* PET colors::                  
+* PET model::
+* PET diagnostic pin::
+* PET commandline options::
+* PET colors::
 @end menu
 
 @node PET model, PET diagnostic pin, PET-specific, PET-specific
@@ -6526,7 +6526,7 @@ and disables the 8x96 mappings.
 
 @vindex Basic1
 @item Basic1
-If (by checksum) a version 1 kernal is detected, then the 
+If (by checksum) a version 1 kernal is detected, then the
 kernal ROM is patched to make the IEEE488 interface work.
 
 @vindex Basic1Chars
@@ -6536,7 +6536,7 @@ between the first PET 2001 and all newer versions.
 
 @vindex EoiBlank
 @item EoiBlank
-This resource enables the "blank screen on EOI" feature of the 
+This resource enables the "blank screen on EOI" feature of the
 oldest PET 2001.
 
 @vindex DiagPin
@@ -6756,8 +6756,8 @@ Specify @file{NAME} as the character generator ROM file
 @cindex -romA
 @cindex -romB
 @item -rom9 NAME, -romA NAME, -romB NAME
-Specify @file{NAME} as the ROM image file for the respective 
-cartridge areas (@code{RomModule9Name}, @code{RomModuleAName}, 
+Specify @file{NAME} as the ROM image file for the respective
+cartridge areas (@code{RomModule9Name}, @code{RomModuleAName},
 @code{RomModuleBName}).
 
 @cindex -petram9, +petram9
@@ -6767,7 +6767,7 @@ $9000-$9fff (@code{Ram9}).
 
 @cindex -petramA, +petramA
 @item -petramA, +petramA
-Switch on RAM mapping on addresses 
+Switch on RAM mapping on addresses
 $a000-$afff (@code{RamA}).
 
 @cindex -superpet, +superpet
@@ -6792,7 +6792,7 @@ Enable/Disable EOI blanking the screen
 @cindex -diagpin, +diagpin
 @item -diagpin
 @itemx +diagpin
-Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the 
+Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the
 diagnostic pin at the PET userport.
 
 @cindex -petreu, +petreu
@@ -6853,9 +6853,9 @@ This section lists the settings and commands that are CBM-II-specific and
 thus are not present in the other emulators.
 
 @menu
-* CBM-II model::                
-* CBM-II commandline options::  
-* CBM-II colors::               
+* CBM-II model::
+* CBM-II commandline options::
+* CBM-II colors::
 @end menu
 
 @node CBM-II model, CBM-II commandline options, CBM-II-specific, CBM-II-specific
@@ -6901,7 +6901,7 @@ Expansion ROM file.  This file contains an 8k ROM dump.
 @vindex ModelLine
 @item ModelLine
 The CBM-II business models have two hardcoded lines at one of the I/O ports.
-From those lines the kernal determines how it should init the 
+From those lines the kernal determines how it should init the
 CRTC video chip for either 50Hz (Europe) or 60Hz (North America),
 and either for 8 (C6x0) or 14 (C7x0) scanlines per character.
 0 = CBM 7x0 (50Hz), 1 = 60Hz C6x0, 2 = 50Hz C6x0).
@@ -6954,7 +6954,7 @@ Specify size of RAM (64/128/256/512/1024 kByte)
 @cindex -usevicii, +usevicii
 @item -usevicii
 @itemx +usevicii
-Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II 
+Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II
 emulation.
 
 @cindex -kernal
@@ -7076,11 +7076,11 @@ Specify PSID tune <number>
 Every VICE emulator has a built-in snapshot feature, that saves the
 complete emulator state into one file for later use.
 You can therefore save the emulator state - including the state of
-the game you are playing for example - in a single file. 
+the game you are playing for example - in a single file.
 
 @menu
-* Snapshot usage::              
-* Snapshot format::             
+* Snapshot usage::
+* Snapshot format::
 @end menu
 
 @node Snapshot usage, Snapshot format, Snapshots, Snapshots
@@ -7101,18 +7101,18 @@ The memory configuration of the emulator is saved in the snapshot file as
 well. This configuration is restored when the snapshot is loaded.
 
 A quick snapshot can now be made by pressing the @code{M-F11} key and
-reloaded by pressing the @code{M-F10} key. 
+reloaded by pressing the @code{M-F10} key.
 
 @node Snapshot format,  , Snapshot usage, Snapshots
 @section Snapshot format
 
 A snapshot file consists of several modules of mostly different types.
-Each module has a name and saves the state of an entity like a CIA, the CPU, 
+Each module has a name and saves the state of an entity like a CIA, the CPU,
 or the memory.
 
 @menu
-* Emulator modules::            
-* Module formats::              
+* Emulator modules::
+* Module formats::
 @end menu
 
 @node Emulator modules, Module formats, Snapshot format, Snapshot format
@@ -7122,12 +7122,12 @@ This section lists the modules that are contained in each of the
 emulators snapshot files.
 
 @menu
-* x64 modules::                 
-* x128 modules::                
-* xvic modules::                
-* xpet modules::                
-* xcbm2 modules::               
-* Drive modules::               
+* x64 modules::
+* x128 modules::
+* xvic modules::
+* xpet modules::
+* xcbm2 modules::
+* Drive modules::
 @end menu
 
 @node x64 modules, x128 modules, Emulator modules, Emulator modules
@@ -7223,7 +7223,7 @@ Some of the modules are optional and are only saved if the specific
 feature is enabled at save-time.  If the module is found when restoring
 the state the optional features are enabled, and disabled otherwise.
 
-Not yet supported are the 80 column video chip, cartridges and 
+Not yet supported are the 80 column video chip, cartridges and
 RAM expansion unit.
 
 @node xvic modules, xpet modules, x128 modules, Emulator modules
@@ -7237,7 +7237,7 @@ The modules in the xvic emulator are:
 @tab Description
 @item MAINCPU
 @tab 6502
-@tab The Main CPU 
+@tab The Main CPU
 @item VIC20MEM
 @tab Memory
 @tab Holds the RAM contents of the VIC20.
@@ -7269,7 +7269,7 @@ The modules in the xpet emulator are:
 @tab Description
 @item MAINCPU
 @tab 6502
-@tab The Main CPU 
+@tab The Main CPU
 @item PETMEM
 @tab Memory
 @tab Holds the RAM contents of the PET.
@@ -7312,7 +7312,7 @@ The modules in the xcbm2 emulator are:
 @tab Memory
 @tab Holds the RAM contents of the CBM-II models.  Also holds the exec-bank and indirection bank registers
 @item C500DATA
-@tab 
+@tab
 @tab Holds additional state information necessary for the C500 (e.g. cycles till the next IRQ)
 @item CBM2ROM
 @tab Memory
@@ -7345,7 +7345,7 @@ The modules in the xcbm2 emulator are:
 
 The snapshot either contains CRTC or VIC-II snapshot modules, but
 not both. Currently switching between the two video emulations is not
-possible at runtime, so only snapshots that fit the current UseVicII 
+possible at runtime, so only snapshots that fit the current UseVicII
 resource are accepted.
 
 @node Drive modules,  , xcbm2 modules, Emulator modules
@@ -7378,25 +7378,25 @@ possible, to allow reuse of snapshots in later versions of this
 emulator, or even in other emulators.
 
 @menu
-* Module Terminology::          
-* Module framework::            
-* CPU 6502 module::             
-* CIA 6526 module::             
-* VIA 6522 module::             
-* PIA 6520 module::             
-* TPI 6525 module::             
-* RIOT 6532 module::             
-* SID 6581 module::             
-* ACIA 6551 module::            
-* VIC-I module::                
-* VIC-II module::               
-* CRTC module::                 
-* C64 memory module::           
-* C128 memory module::          
-* VIC20 memory module::         
-* PET memory module::           
-* CBM-II memory module::        
-* C500 data module::        
+* Module Terminology::
+* Module framework::
+* CPU 6502 module::
+* CIA 6526 module::
+* VIA 6522 module::
+* PIA 6520 module::
+* TPI 6525 module::
+* RIOT 6532 module::
+* SID 6581 module::
+* ACIA 6551 module::
+* VIC-I module::
+* VIC-II module::
+* CRTC module::
+* C64 memory module::
+* C128 memory module::
+* VIC20 memory module::
+* PET memory module::
+* CBM-II memory module::
+* C500 data module::
 @end menu
 
 @node Module Terminology, Module framework, Module formats, Module formats
@@ -7642,10 +7642,10 @@ Version numbers: Major 1, Minor 1.
 @end multitable
 
 The last two items have been added in CIA snapshot version 1.1 due
-to the improved CIA emulation in the newer VICE versions. 
+to the improved CIA emulation in the newer VICE versions.
 Some state bits correspond to the CIA state as described in the
 "A Software Model of the CIA 6526" document by Wolfgang Lorenz,
-some are delayed versions. For more read the source file 
+some are delayed versions. For more read the source file
 @code{ciatimer.h}.
 
 @node VIA 6522 module, PIA 6520 module, CIA 6526 module, Module formats
@@ -7805,8 +7805,8 @@ Version numbers: Major 1, Minor 0.
 @node RIOT 6532 module, SID 6581 module, TPI 6525 module, Module formats
 @subsubsection RIOT module
 
-The RIOT 6532 is a chip with two I/O ports, some RAM and a Timer. 
-The chip contains 128 byte RAM, but the RAM is not saved in the 
+The RIOT 6532 is a chip with two I/O ports, some RAM and a Timer.
+The chip contains 128 byte RAM, but the RAM is not saved in the
 RIOT snapshot, but in the memory section.
 
 @b{Warning:} This module is still under construction
@@ -7935,7 +7935,7 @@ Version numbers: Major 1, Minor 1.
 @tab The offset in characters in the character generator that CHARSWITCH switches.
 @item WORD
 @tab VADDR_REVSWITCH
-@tab If one bit in the video address inverts the screen, it is masked here. 
+@tab If one bit in the video address inverts the screen, it is masked here.
 @item WORD
 @tab CHARGEN_MASK
 @tab size of character generator in byte - 1
@@ -7951,7 +7951,7 @@ Version numbers: Major 1, Minor 1.
 @item BYTE
 @tab HW_BLANK
 @tab set if the hardware blank feature is available
-@item 
+@item
 @tab
 @tab CRTC register
 @item 20 BYTE
@@ -8039,7 +8039,7 @@ Version numbers: Major 0, Minor 0.
 @tab The number of clock cycles from rasterlines start
 @item WORD
 @tab RASTERLINE
-@tab The current rasterline 
+@tab The current rasterline
 @item WORD
 @tab ADDRMASK
 @tab The address mask valid for the CRTC.  All memory accesses are masked with this value
@@ -8284,7 +8284,7 @@ Version numbers: Major 1, Minor 2
 @tab Value of the 8x96 configuration register
 @item BYTE
 @tab SUPERPET
-@tab SuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block in use. 
+@tab SuperPET config. Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM block in use.
 @item ARRAY
 @tab RAM
 @tab 4-32k RAM (not 8296, size depends on MEMSIZE)
@@ -8316,7 +8316,7 @@ ignored by earlier restore routines (V1.0) and the V1.1 restore routines
 do not change the current setting when reading a V1.0 snapshot.
 
 In V1.2 the new EOIBLANK variable has been added. This implements
-the "blank screen on EOI" feature that was previously linked to a wrong 
+the "blank screen on EOI" feature that was previously linked to a wrong
 resource.
 
 @b{The PETROM module}
@@ -8339,19 +8339,19 @@ Version numbers: Major 1, Minor 0
 @item ARRAY
 @tab CHARGEN
 @tab 2k CHARGEN ROM image
-@item ARRAY 
+@item ARRAY
 @tab ROM9
 @tab 4k $9*** ROM image (if CONFIG & 1)
-@item ARRAY 
+@item ARRAY
 @tab ROMA
 @tab 4k $A*** ROM image (if CONFIG & 2)
-@item ARRAY 
+@item ARRAY
 @tab ROMB
 @tab 4k $B*** ROM image (if CONFIG & 4)
-@item ARRAY 
+@item ARRAY
 @tab ROMC
-@tab 4k $C*** ROM image  
-@item ARRAY 
+@tab 4k $C*** ROM image
+@item ARRAY
 @tab ROMD
 @tab 4k $D*** ROM image
 @item ARRAY
@@ -8545,16 +8545,16 @@ have to run the emulator from a terminal emulation program (such as
 and some of the features are not fully working yet.
 
 @menu
-* Terminology::                 
-* Machine state commands::      
-* Memory commands::             
-* Assembly commands::           
-* Checkpoint commands::         
-* General commands::            
-* Disk commands::               
-* Command file commands::       
-* Label commands::              
-* Miscellaneous commands::      
+* Terminology::
+* Machine state commands::
+* Memory commands::
+* Assembly commands::
+* Checkpoint commands::
+* General commands::
+* Disk commands::
+* Command file commands::
+* Label commands::
+* Miscellaneous commands::
 @end menu
 
 @node Terminology, Machine state commands, Monitor, Monitor
@@ -8572,7 +8572,7 @@ the mentioned processors.
 The CPU can only see 64k of memory at any one time, due to its 16 bit
 address bus. The C64 and other computers have more than this amount,
 and this is handled by banking: a memory address can have different
-contents, depending on the active memory bank. 
+contents, depending on the active memory bank.
 A bankname names a specific bank in the current address_space.
 
 @item register
@@ -8786,7 +8786,7 @@ Displays the contents of the screen.
 @item sidefx [on|off|toggle]
 @itemx sfx [on|off|toggle]
 Control how monitor generated reads affect memory locations that have
-read side-effects, like CIA interrupt registers for example.  
+read side-effects, like CIA interrupt registers for example.
 If the argument is 'on' then reads may cause side-effects.  If the
 argument is 'off' then reads don't cause side-effects.  If the
 argument is 'toggle' then the current mode is switched.  No argument
@@ -9157,10 +9157,10 @@ and command line editing with history are provided via GNU
 exit.
 
 @menu
-* c1541 file specification::    
-* c1541 quoting::               
-* c1541 commands and options::  
-* c1541 executing shell commands::  
+* c1541 file specification::
+* c1541 quoting::
+* c1541 commands and options::
+* c1541 executing shell commands::
 @end menu
 
 @node c1541 file specification, c1541 quoting, c1541, c1541
@@ -9265,9 +9265,9 @@ Extract all the files to the file system.
 If @code{unit} is specified, format the disk in unit @code{unit}.  If
 @code{type} and @code{imagename} are specified, create a new image named
 @code{imagename}, attach it to unit 8 and format it.  @code{type} is a
-disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031), 
+disk image type, and must be either @code{x64}, @code{d64} (both VC1541/2031),
 @code{g64} (VC1541/2031 but in GCR coding), @code{d71} (VC1571), @code{d81}
-(VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001). 
+(VC1581), @code{d80} (CBM8050) or @code{d82} (CBM8250/1001).
 Otherwise, format the disk in the current unit, if any.
 
 @item gcrformat <diskname,id> <imagename>
@@ -9290,7 +9290,7 @@ Exit (same as @code{exit}).
 @item read <source> [<destination>]
 Read @code{source} from the disk image and copy it into @code{destination} in
 the file system.  If @code{destination} is not specified, copy it into a
-file with the same name as @code{source}.", 
+file with the same name as @code{source}.",
 
 @item rename <oldname> <newname>
 Rename @code{oldname} into @code{newname}.  The files must be on the
@@ -9707,9 +9707,9 @@ The @code{T64} File Structure was developed by Miha Peternel for use in
 the C64S emulator.  It is easy to use and allows future extensions.
 
 @menu
-* T64 file structure::          
-* T64 tape record::             
-* T64 file record::             
+* T64 file structure::
+* T64 tape record::
+* T64 file record::
 @end menu
 
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
@@ -9829,7 +9829,7 @@ are rarely  used).
 Ettore Perazzoli.)
 
 This format was defined in 1998 as a cooperative effort between several
-emulator people, mainly Per Håkan Sundell, author of the CCS64 C64
+emulator people, mainly Per Hï¿½kan Sundell, author of the CCS64 C64
 emulator, Andreas Boose of the VICE CBM emulator team and Joe
 Forster/STA, the author of Star Commander.  It was the first real public
 attempt to create a format for the emulator community which removed
@@ -11020,7 +11020,7 @@ disk by either using the proper cable and software on the PC, or
 send it down to the C64 and writing it back to a 1541. It is the
 best documented format since it is also native to the C64, with
 many books explaining the disk layout and the internals of the
-1541. 
+1541.
 
 @node X64, D71, D64, File formats
 @section The X64 disk image format
@@ -12693,7 +12693,7 @@ Bytes:
 $03-($03+SZ-1): Program data
         $03+SZ: Checksum byte
 @end example
- 
+
 @node D80, D82, D81, File formats
 @section The D80 disk image format
 
@@ -14746,7 +14746,7 @@ Started the work on hardware-level 1541 emulation and wrote the
 new monitor introduced with VICE 0.15.
 
 @item
-@b{André Fachat}
+@b{Andrï¿½ Fachat}
 Copyright @copyright{} 1996-2001
 Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
 the IEEE488 interface, implemented the IEC serial bus in `xvic'
@@ -14798,8 +14798,8 @@ monitor bugs.
 @b{Manuel Antonio Rodriguez Bas}
 Provided the Spanish user interface translations.
 
-@b{Paul Dubé}
-From Rivière-du-Loup, Québec, provided the French user
+@b{Paul Dubï¿½}
+From Riviï¿½re-du-Loup, Quï¿½bec, provided the French user
 interface translations.
 
 @b{Czirkos Zoltan} and @b{Karai Csaba}
@@ -14943,7 +14943,7 @@ Contributed the ESD sound driver, basic support for the OPENCBM
 library and some other patches.
 
 @item
-@b{Frank König}
+@b{Frank Kï¿½nig}
 Contributed the Win32 joystick autofire feature.
 
 @item
@@ -14975,7 +14975,7 @@ Wrote an excellent 6510 test suite that helped us to debug the
 CPU emulation.
 
 @item
-@b{Marko Mäkelä}
+@b{Marko Mï¿½kelï¿½}
 Wrote lots of CPU documentation. Wrote the VIC Flash Plugin
 cartridge emulation in xvic.
 
@@ -15016,7 +15016,7 @@ Donated @code{findpath.c}.
 Digitalized the C64 colors used in the (old) default palette.
 
 @item
-@b{Lasse Öörni}
+@b{Lasse ï¿½ï¿½rni}
 Contributed the Windows Multimedia sound driver
 
 @item
@@ -15047,7 +15047,7 @@ Rewrote the VIC20 sound code.
 Fixed various issues related to ffmpeg settings.
 
 @item
-@b{Pablo Roldán}
+@b{Pablo Roldï¿½n}
 Contributed initial patch for VIC-II PAL-N model selection.
 
 @item
@@ -15232,7 +15232,7 @@ thanks goes to the following people:
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
-Peternel, Per Håkan Sundell and David Horrocks for writing
+Peternel, Per Hï¿½kan Sundell and David Horrocks for writing
 cool emulators to compete with.  @t{:-)}
 
 @node Copyright, Contacts, Acknowledgments, Top
@@ -15296,7 +15296,7 @@ Copyright @copyright{} 1997-2001 Daniel Sladic
 @item
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 @item
-Copyright @copyright{} 1996-1999 André Fachat
+Copyright @copyright{} 1996-1999 Andrï¿½ Fachat
 @item
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 @item
@@ -15343,7 +15343,7 @@ home page:
 @end example
 
 VICE has moved its source repository to public services provided by
-SourceForge. You can find it at 
+SourceForge. You can find it at
 @example
 @uref{http://sf.net/projects/vice-emu}.
 @end example
