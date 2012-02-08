@@ -156,10 +156,10 @@ console_t *uimon_window_open(void)
     fixed.term = vte_terminal_new();
     gtk_container_add(GTK_CONTAINER(fixed.window), fixed.term);
 
-    g_signal_connect(G_OBJECT(fixed.window), "destroy", 
+    g_signal_connect(G_OBJECT(fixed.window), "destroy",
         G_CALLBACK(close_window), &fixed.read_result);
 
-    g_signal_connect(G_OBJECT(fixed.window), "key-press-event", 
+    g_signal_connect(G_OBJECT(fixed.window), "key-press-event",
         G_CALLBACK(key_press_event), &fixed.read_result);
 
     vte_console.console_xres = vte_terminal_get_column_count(VTE_TERMINAL(fixed.term));
@@ -226,6 +226,13 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
     return ret_string;
 }
 
-int console_init(void){}
-int console_close_all(void){}
+int console_init(void)
+{
+    return 0;
+}
+
+int console_close_all(void)
+{
+    return 0;
+}
 
