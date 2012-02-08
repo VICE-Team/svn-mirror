@@ -68,6 +68,8 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
             return H6809_REGS_GET_A(reg_ptr);
         case e_B:
             return H6809_REGS_GET_B(reg_ptr);
+        case e_D:
+            return H6809_REGS_GET_D(reg_ptr);
         default:
             log_error(LOG_ERR, "Unknown register!");
     }
@@ -113,6 +115,9 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
             break;
         case e_B:
             H6809_REGS_SET_B(reg_ptr, val);
+            break;
+        case e_D:
+            H6809_REGS_SET_D(reg_ptr, val);
             break;
         default:
             log_error(LOG_ERR, "Unknown register!");
@@ -195,7 +200,7 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
 {
     mon_reg_list_t *mon_reg_list;
 
-    mon_reg_list = lib_malloc(sizeof(mon_reg_list_t) * 9);
+    mon_reg_list = lib_malloc(sizeof(mon_reg_list_t) * 11);
 
     mon_reg_list[0].name = "X";
     mon_reg_list[0].val = (unsigned int)mon_register_get_val(mem, e_X);
@@ -255,7 +260,13 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
     mon_reg_list[9].val = (unsigned int)mon_register_get_val(mem, e_B);
     mon_reg_list[9].size = 8;
     mon_reg_list[9].flags = 0;
-    mon_reg_list[9].next = NULL;
+    mon_reg_list[9].next = &mon_reg_list[10];
+
+    mon_reg_list[10].name = "D";
+    mon_reg_list[10].val = (unsigned int)mon_register_get_val(mem, e_D);
+    mon_reg_list[10].size = 16;
+    mon_reg_list[10].flags = 0;
+    mon_reg_list[10].next = NULL;
 
     return mon_reg_list;
 }
@@ -289,6 +300,9 @@ static void mon_register_list_set6809(mon_reg_list_t *reg_list, int mem)
         }
         if (!strcmp(reg_list->name, "B")) {
             mon_register_set_val(mem, e_B, (WORD)(reg_list->val));
+        }
+        if (!strcmp(reg_list->name, "D")) {
+            mon_register_set_val(mem, e_D, (WORD)(reg_list->val));
         }
 
         reg_list = reg_list->next;

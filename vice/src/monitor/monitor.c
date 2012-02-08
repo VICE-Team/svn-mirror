@@ -67,6 +67,7 @@
 #include "mon_breakpoint.h"
 #include "mon_disassemble.h"
 #include "mon_memory.h"
+#include "asm.h"
 #include "mon_parse.h"
 #include "mon_register.h"
 #include "mon_ui.h"

@@ -40,10 +40,10 @@
 #include "types.h"
 #include "uimon.h"
 
-static int mon_assemble_instr(const char *opcode_name, unsigned int operand)
+static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t operand)
 {
-    WORD operand_value = LO16(operand);
-    WORD operand_mode = HI16_TO_LO16(operand);
+    WORD operand_value = operand.param;
+    WORD operand_mode = operand.addr_mode;
     BYTE opcode = 0;
     int len, branch_offset;
     BYTE i, j;

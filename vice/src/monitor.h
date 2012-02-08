@@ -30,6 +30,7 @@
 #define VICE_MONITOR_H
 
 #include "types.h"
+#include "monitor/asm.h"
 
 /** Generic interface.  **/
 #define NUM_MEMSPACES e_invalid_space
@@ -68,7 +69,7 @@ struct monitor_cpu_type_s {
                                            unsigned int p1, unsigned int p2);
     const struct asm_opcode_info_s *(*asm_opcode_info_get)(unsigned int p0, unsigned int p1,
                                                            unsigned int p2);
-    int (*mon_assemble_instr)(const char *opcode_name, unsigned int operand);
+    int (*mon_assemble_instr)(const char *opcode_name, asm_mode_addr_info_t operand);
     unsigned int (*mon_register_get_val)(int mem, int reg_id);
     void (*mon_register_set_val)(int mem, int reg_id, WORD val);
     void (*mon_register_print)(int mem);

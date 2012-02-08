@@ -37,6 +37,7 @@
 
 #include "lib.h"
 #include "mon_command.h"
+#include "asm.h"
 #include "montypes.h"
 #include "mon_parse.h" /* FIXME ! */
 #include "mon_util.h"

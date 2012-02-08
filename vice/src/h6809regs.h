@@ -52,6 +52,7 @@ extern h6809_regs_t h6809_regs;
 #define H6809_REGS_GET_CC(reg_ptr) ((reg_ptr)->reg_cc)
 #define H6809_REGS_GET_A(reg_ptr)  ((reg_ptr)->reg_a)
 #define H6809_REGS_GET_B(reg_ptr)  ((reg_ptr)->reg_b)
+#define H6809_REGS_GET_D(reg_ptr)  (((reg_ptr)->reg_a << 8) | (reg_ptr)->reg_b)
 
 #define H6809_REGS_TEST_E(reg_ptr) ((reg_ptr)->reg_cc & 0x80)
 #define H6809_REGS_TEST_F(reg_ptr) ((reg_ptr)->reg_cc & 0x40)
@@ -71,6 +72,10 @@ extern h6809_regs_t h6809_regs;
 #define H6809_REGS_SET_CC(reg_ptr, val) ((reg_ptr)->reg_cc = (val))
 #define H6809_REGS_SET_A(reg_ptr, val)  ((reg_ptr)->reg_a  = (val))
 #define H6809_REGS_SET_B(reg_ptr, val)  ((reg_ptr)->reg_b  = (val))
+#define H6809_REGS_SET_D(reg_ptr, val)  do { \
+					(reg_ptr)->reg_a  = ((val) >> 8); \
+					(reg_ptr)->reg_b = (val) & 0xFF;  \
+					} while (0);
 
 #endif
 

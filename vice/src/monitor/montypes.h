@@ -80,6 +80,7 @@ enum t_reg_id {
    e_YXM,
 /* Registers in the 6809 not covered by the above */
    e_B,
+   e_D,
    e_U,
    e_DP
 

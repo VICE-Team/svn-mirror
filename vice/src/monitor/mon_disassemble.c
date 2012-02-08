@@ -106,7 +106,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                 p3 & 0xff, string);
         break;
       case 5:
-        sprintf(buff, "%02X %02X%02X%02X%02X %s", x, p1 & 0xff, p2 & 0xff,
+        sprintf(buff, "%02X%02X%02X %02X%02X %s", x, p1 & 0xff, p2 & 0xff,
                 p3 & 0xff, p4 & 0xFF, string);
         break;
       default:
@@ -429,11 +429,11 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             sprintf(buffp, " A,%c", R);
             break;
         /* ASM_ADDR_MODE_INDEXED_OFF8   0x08*/
-        case 0x08:
+        case 0x08:      /* TODO should be signed! */
             sprintf(buffp, " $%02X,%c", opc[prefix+2], R);
             break;
         /* ASM_ADDR_MODE_INDEXED_OFF16  0x09*/
-        case 0x09:
+        case 0x09:      /* TODO should signed! */
             sprintf(buffp, " $%04X,%c", (opc[prefix+2] << 8) + opc[prefix+3], R);
             break;
         /* ASM_ADDR_MODE_INDEXED_OFFD   0x0B*/

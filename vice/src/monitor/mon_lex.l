@@ -41,6 +41,7 @@
 #include "lib.h"
 #include "mon_command.h"
 #include "montypes.h"
+#include "asm.h"
 #include "mon_parse.h" /* FIXME ! */
 #include "types.h"
 
@@ -424,6 +425,8 @@ if		{ BEGIN (COND_MODE); return IF; }
 <ASM_MODE>e|E           { return REG_E; }
 <ASM_MODE>h|H           { return REG_H; }
 <ASM_MODE>l|L           { return REG_L; }
+<ASM_MODE>s|S           { return REG_S; }
+<ASM_MODE>u|U           { return REG_U; }
 <ASM_MODE>x|X           { return REG_X; }
 <ASM_MODE>y|Y           { return REG_Y; }
 
@@ -431,6 +434,11 @@ if		{ BEGIN (COND_MODE); return IF; }
 <ASM_MODE>\)            { dont_match_reg_a = 0; return R_PAREN; }
 <ASM_MODE>#             { dont_match_reg_a = 1; return ARG_IMMEDIATE; }
 <ASM_MODE>:             { dont_match_reg_a = 0; return INST_SEP; }
+<ASM_MODE>\[            { dont_match_reg_a = 1; return L_BRACKET; }
+<ASM_MODE>\]            { dont_match_reg_a = 0; return R_BRACKET; }
+<ASM_MODE>\<            { dont_match_reg_a = 1; return LESS_THAN; }
+<ASM_MODE>\+            { return PLUS; }
+<ASM_MODE>-             { return MINUS; }
 
 <ASM_MODE,INITIAL,COND_MODE,REG_ASGN,LABEL_ASGN>{
     {HDIGIT}{8}             { yylval.str = lib_stralloc(yytext); return H_RANGE_GUESS; }

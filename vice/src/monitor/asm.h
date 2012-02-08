@@ -46,18 +46,18 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_ABSOLUTE_X,
     ASM_ADDR_MODE_ABSOLUTE_Y,
     ASM_ADDR_MODE_ABS_INDIRECT,
-    ASM_ADDR_MODE_INDIRECT_X,
+    ASM_ADDR_MODE_INDIRECT_X,   /* 10 */
     ASM_ADDR_MODE_INDIRECT_Y,
     ASM_ADDR_MODE_RELATIVE,
     /* more modes needed for z80 */
-    ASM_ADDR_MODE_ABSOLUTE_A,
+    ASM_ADDR_MODE_ABSOLUTE_A,   /* 13 */
     ASM_ADDR_MODE_ABSOLUTE_HL,
     ASM_ADDR_MODE_ABSOLUTE_IX,
     ASM_ADDR_MODE_ABSOLUTE_IY,
     ASM_ADDR_MODE_ABS_INDIRECT_ZP,
     ASM_ADDR_MODE_IMMEDIATE_16,
     ASM_ADDR_MODE_REG_B,
-    ASM_ADDR_MODE_REG_C,
+    ASM_ADDR_MODE_REG_C,        /* 20 */
     ASM_ADDR_MODE_REG_D,
     ASM_ADDR_MODE_REG_E,
     ASM_ADDR_MODE_REG_H,
@@ -67,7 +67,7 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_REG_IXL,
     ASM_ADDR_MODE_REG_IYL,
     ASM_ADDR_MODE_REG_AF,
-    ASM_ADDR_MODE_REG_BC,
+    ASM_ADDR_MODE_REG_BC,       /* 30 */
     ASM_ADDR_MODE_REG_DE,
     ASM_ADDR_MODE_REG_HL,
     ASM_ADDR_MODE_REG_IX,
@@ -77,20 +77,20 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_REG_IND_DE,
     ASM_ADDR_MODE_REG_IND_HL,
     ASM_ADDR_MODE_REG_IND_IX,
-    ASM_ADDR_MODE_REG_IND_IY,
+    ASM_ADDR_MODE_REG_IND_IY,   /* 40 */
     ASM_ADDR_MODE_REG_IND_SP,
     /* more modes needed for 6809 */
-    ASM_ADDR_MODE_ILLEGAL,
-    ASM_ADDR_MODE_IMM_BYTE,
-    ASM_ADDR_MODE_IMM_WORD,
-    ASM_ADDR_MODE_DIRECT,
-    ASM_ADDR_MODE_EXTENDED,
-    ASM_ADDR_MODE_INDEXED,      /* post-byte determines sub-mode */
-    ASM_ADDR_MODE_REL_BYTE,
-    ASM_ADDR_MODE_REL_WORD,
-    ASM_ADDR_MODE_REG_POST,
-    ASM_ADDR_MODE_SYS_POST,
-    ASM_ADDR_MODE_USR_POST,
+    ASM_ADDR_MODE_ILLEGAL,      /* 42 */
+    ASM_ADDR_MODE_IMM_BYTE,     /* 43 looks like  ASM_ADDR_MODE_IMMEDIATE, */
+    ASM_ADDR_MODE_IMM_WORD,     /* 44 looks like  ASM_ADDR_MODE_IMMEDIATE_16, */
+    ASM_ADDR_MODE_DIRECT,       /* 45 looks like  ASM_ADDR_MODE_ZERO_PAGE, */
+    ASM_ADDR_MODE_EXTENDED,     /* 46 looks like  ASM_ADDR_MODE_ABSOLUTE, */
+    ASM_ADDR_MODE_INDEXED,      /* 47 post-byte determines sub-mode */
+    ASM_ADDR_MODE_REL_BYTE,     /* 48 */
+    ASM_ADDR_MODE_REL_WORD,     /* 48 */
+    ASM_ADDR_MODE_REG_POST,     /* 50 */
+    ASM_ADDR_MODE_SYS_POST,     /* 51 */
+    ASM_ADDR_MODE_USR_POST,     /* 52 */
 };
 typedef enum asm_addr_mode asm_addr_mode_t;
 
@@ -137,6 +137,13 @@ struct asm_opcode_info_s {
     asm_addr_mode_t addr_mode;
 };
 typedef struct asm_opcode_info_s asm_opcode_info_t;
+
+struct asm_mode_addr_info_s {
+    asm_addr_mode_t addr_mode;
+    int addr_submode;
+    int param;
+};
+typedef struct asm_mode_addr_info_s asm_mode_addr_info_t;
 
 struct monitor_cpu_type_s;
 
