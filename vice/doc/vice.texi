@@ -86,7 +86,7 @@ Copyright @copyright{} 2003-2005 David Hansel
 Copyright @copyright{} 2000-2004 Markus Brenner
 Copyright @copyright{} 1999-2004 Thomas Bretz
 Copyright @copyright{} 1997-2001 Daniel Sladic
-Copyright @copyright{} 1996-2001 Andrï¿½ Fachat
+Copyright @copyright{} 1996-2001 André Fachat
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 Copyright @copyright{} 1993-1996 Jouko Valta
@@ -3961,7 +3961,7 @@ x64, x64sc and x128 allow you to attach the following kinds of images:
 
 @itemize @bullet
 @item
-@file{.crt} images, as used by the CCS64 emulator by Per Hï¿½kan Sundell
+@file{.crt} images, as used by the CCS64 emulator by Per Håkan Sundell
 @item
 raw @file{.bin} images, with or without load address
 @end itemize
@@ -4819,7 +4819,7 @@ being used by choosing one of the available predefined color sets:
 emulator by Miha Peternel.
 @item
 @file{ccs64.vpl} (``CCS64''), palette taken from the shareware CCS64
-emulator by Per Hï¿½kan Sundell.
+emulator by Per Håkan Sundell.
 @item
 @file{frodo.vpl} (``Frodo''), palette taken from the free Frodo emulator
 by Christian Bauer
@@ -9829,7 +9829,7 @@ are rarely  used).
 Ettore Perazzoli.)
 
 This format was defined in 1998 as a cooperative effort between several
-emulator people, mainly Per Hï¿½kan Sundell, author of the CCS64 C64
+emulator people, mainly Per Håkan Sundell, author of the CCS64 C64
 emulator, Andreas Boose of the VICE CBM emulator team and Joe
 Forster/STA, the author of Star Commander.  It was the first real public
 attempt to create a format for the emulator community which removed
@@ -14746,7 +14746,7 @@ Started the work on hardware-level 1541 emulation and wrote the
 new monitor introduced with VICE 0.15.
 
 @item
-@b{Andrï¿½ Fachat}
+@b{André Fachat}
 Copyright @copyright{} 1996-2001
 Wrote the PET and CBM-II emulators, the CIA and VIA emulation,
 the IEEE488 interface, implemented the IEC serial bus in `xvic'
@@ -14798,8 +14798,8 @@ monitor bugs.
 @b{Manuel Antonio Rodriguez Bas}
 Provided the Spanish user interface translations.
 
-@b{Paul Dubï¿½}
-From Riviï¿½re-du-Loup, Quï¿½bec, provided the French user
+@b{Paul Dubé}
+From Rivière-du-Loup, Québec, provided the French user
 interface translations.
 
 @b{Czirkos Zoltan} and @b{Karai Csaba}
@@ -14943,7 +14943,7 @@ Contributed the ESD sound driver, basic support for the OPENCBM
 library and some other patches.
 
 @item
-@b{Frank Kï¿½nig}
+@b{Frank König}
 Contributed the Win32 joystick autofire feature.
 
 @item
@@ -14975,7 +14975,7 @@ Wrote an excellent 6510 test suite that helped us to debug the
 CPU emulation.
 
 @item
-@b{Marko Mï¿½kelï¿½}
+@b{Marko Mäkelä}
 Wrote lots of CPU documentation. Wrote the VIC Flash Plugin
 cartridge emulation in xvic.
 
@@ -15016,7 +15016,7 @@ Donated @code{findpath.c}.
 Digitalized the C64 colors used in the (old) default palette.
 
 @item
-@b{Lasse ï¿½ï¿½rni}
+@b{Lasse Öörni}
 Contributed the Windows Multimedia sound driver
 
 @item
@@ -15047,7 +15047,7 @@ Rewrote the VIC20 sound code.
 Fixed various issues related to ffmpeg settings.
 
 @item
-@b{Pablo Roldï¿½n}
+@b{Pablo Roldán}
 Contributed initial patch for VIC-II PAL-N model selection.
 
 @item
@@ -15232,7 +15232,7 @@ thanks goes to the following people:
 
 Last but not least, a very special thank to Andreas Arens, Lutz
 Sammer, Edgar Tornig, Christian Bauer, Wolfgang Lorenz, Miha
-Peternel, Per Hï¿½kan Sundell and David Horrocks for writing
+Peternel, Per Håkan Sundell and David Horrocks for writing
 cool emulators to compete with.  @t{:-)}
 
 @node Copyright, Contacts, Acknowledgments, Top
@@ -15296,7 +15296,7 @@ Copyright @copyright{} 1997-2001 Daniel Sladic
 @item
 Copyright @copyright{} 1996-1999 Ettore Perazzoli
 @item
-Copyright @copyright{} 1996-1999 Andrï¿½ Fachat
+Copyright @copyright{} 1996-1999 André Fachat
 @item
 Copyright @copyright{} 1993-1994, 1997-1999 Teemu Rantanen
 @item
