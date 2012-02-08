@@ -37,38 +37,39 @@
 #include "uimon.h"
 #include "h6809regs.h"
 
-
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
     h6809_regs_t *reg_ptr;
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
+        }
+    }
 
     reg_ptr = mon_interfaces[mem]->h6809_cpu_regs;
 
     switch(reg_id) {
-      case e_X:
-        return H6809_REGS_GET_X(reg_ptr);
-      case e_Y:
-        return H6809_REGS_GET_Y(reg_ptr);
-      case e_U:
-        return H6809_REGS_GET_U(reg_ptr);
-      case e_SP:
-        return H6809_REGS_GET_S(reg_ptr);
-      case e_PC:
-        return H6809_REGS_GET_PC(reg_ptr);
-      case e_DP:
-        return H6809_REGS_GET_DP(reg_ptr);
-      case e_FLAGS:
-        return H6809_REGS_GET_CC(reg_ptr);
-      case e_A:
-        return H6809_REGS_GET_A(reg_ptr);
-      case e_B:
-        return H6809_REGS_GET_B(reg_ptr);
-      default:
-        log_error(LOG_ERR, "Unknown register!");
+        case e_X:
+            return H6809_REGS_GET_X(reg_ptr);
+        case e_Y:
+            return H6809_REGS_GET_Y(reg_ptr);
+        case e_U:
+            return H6809_REGS_GET_U(reg_ptr);
+        case e_SP:
+            return H6809_REGS_GET_S(reg_ptr);
+        case e_PC:
+            return H6809_REGS_GET_PC(reg_ptr);
+        case e_DP:
+            return H6809_REGS_GET_DP(reg_ptr);
+        case e_FLAGS:
+            return H6809_REGS_GET_CC(reg_ptr);
+        case e_A:
+            return H6809_REGS_GET_A(reg_ptr);
+        case e_B:
+            return H6809_REGS_GET_B(reg_ptr);
+        default:
+            log_error(LOG_ERR, "Unknown register!");
     }
     return 0;
 }
@@ -77,43 +78,45 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 {
     h6809_regs_t *reg_ptr;
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
+    }
 
     reg_ptr = mon_interfaces[mem]->h6809_cpu_regs;
 
     switch(reg_id) {
-      case e_X:
-        H6809_REGS_SET_X(reg_ptr, val);
-        break;
-      case e_Y:
-        H6809_REGS_SET_Y(reg_ptr, val);
-        break;
-      case e_U:
-        H6809_REGS_SET_U(reg_ptr, val);
-        break;
-      case e_SP:
-        H6809_REGS_SET_S(reg_ptr, val);
-        break;
-      case e_PC:
-        H6809_REGS_SET_PC(reg_ptr, val);
-        break;
-      case e_DP:
-        H6809_REGS_SET_DP(reg_ptr, val);
-        break;
-      case e_FLAGS:
-        H6809_REGS_SET_CC(reg_ptr, val);
-        break;
-      case e_A:
-        H6809_REGS_SET_A(reg_ptr, val);
-        break;
-      case e_B:
-        H6809_REGS_SET_B(reg_ptr, val);
-        break;
-      default:
-        log_error(LOG_ERR, "Unknown register!");
-        return;
+        case e_X:
+            H6809_REGS_SET_X(reg_ptr, val);
+            break;
+        case e_Y:
+            H6809_REGS_SET_Y(reg_ptr, val);
+            break;
+        case e_U:
+            H6809_REGS_SET_U(reg_ptr, val);
+            break;
+        case e_SP:
+            H6809_REGS_SET_S(reg_ptr, val);
+            break;
+        case e_PC:
+            H6809_REGS_SET_PC(reg_ptr, val);
+            break;
+        case e_DP:
+            H6809_REGS_SET_DP(reg_ptr, val);
+            break;
+        case e_FLAGS:
+            H6809_REGS_SET_CC(reg_ptr, val);
+            break;
+        case e_A:
+            H6809_REGS_SET_A(reg_ptr, val);
+            break;
+        case e_B:
+            H6809_REGS_SET_B(reg_ptr, val);
+            break;
+        default:
+            log_error(LOG_ERR, "Unknown register!");
+            return;
     }
     force_array[mem] = 1;
 }
@@ -260,24 +263,33 @@ static mon_reg_list_t *mon_register_list_get6809(int mem)
 static void mon_register_list_set6809(mon_reg_list_t *reg_list, int mem)
 {
     do {
-        if (!strcmp(reg_list->name, "X"))
+        if (!strcmp(reg_list->name, "X")) {
             mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "Y"))
+        }
+        if (!strcmp(reg_list->name, "Y")) {
             mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "U"))
+        }
+        if (!strcmp(reg_list->name, "U")) {
             mon_register_set_val(mem, e_U, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "S"))
+        }
+        if (!strcmp(reg_list->name, "S")) {
             mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "PC"))
+        }
+        if (!strcmp(reg_list->name, "PC")) {
             mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "DP"))
+        }
+        if (!strcmp(reg_list->name, "DP")) {
             mon_register_set_val(mem, e_DP, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "CC"))
+        }
+        if (!strcmp(reg_list->name, "CC")) {
             mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "A"))
+        }
+        if (!strcmp(reg_list->name, "A")) {
             mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "B"))
+        }
+        if (!strcmp(reg_list->name, "B")) {
             mon_register_set_val(mem, e_B, (WORD)(reg_list->val));
+        }
 
         reg_list = reg_list->next;
     } while (reg_list != NULL);
@@ -292,4 +304,3 @@ void mon_register6809_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6809;
     monitor_cpu_type->mon_register_list_set = mon_register_list_set6809;
 }
-
