@@ -36,6 +36,7 @@
 #include "joyll.h"
 #include "joystick.h"
 #include "keyboard.h"
+#include "loadlibs.h"
 #include "machine.h"
 #include "maincpu.h"
 #include "types.h"
@@ -458,6 +459,10 @@ static void joyll_update(ULONG amiga_joy_port, int cbm_joy_port)
 {
     ULONG portstate;
     BYTE value = 0;
+
+    if (!lowlevel_lib_loaded) {
+        return;
+    }
 
     portstate = ReadJoyPort(amiga_joy_port);
 
