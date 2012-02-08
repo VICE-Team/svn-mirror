@@ -97,9 +97,12 @@ static int set_fullscreen_enabled(int val, void *param)
 }
 
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
-
 static int set_videooverlay_enabled(int val, void *param)
 {
+    if (!xvideo_lib_loaded && val) {
+        return -1;
+    }
+
     ui_resources.videooverlayenabled = val;
 
     /* reuse the fullscreen toggle */
@@ -107,7 +110,6 @@ static int set_videooverlay_enabled(int val, void *param)
 
     return 0;
 }
-
 #endif
 
 static int set_statusbar_enabled(int val, void *param)

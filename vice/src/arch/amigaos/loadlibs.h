@@ -36,4 +36,10 @@ extern int pci_lib_loaded;
 extern int amigainput_lib_loaded;
 #endif
 
+#if (defined(AMIGA_M68K) && defined(HAVE_PROTO_CYBERGRAPHICS_H)) || defined(AMIGA_MORPHOS) || defined(AMIGA_AROS)
+#ifdef HAVE_XVIDEO
+extern int xvideo_lib_loaded;
+#endif
+#endif
+
 #endif
