@@ -84,26 +84,4 @@ typedef unsigned int absolute_address_t;
 extern void h6809_mainloop (struct interrupt_cpu_status_s *, struct alarm_context_s *);
 extern void cpu6809_reset (void);
 
-extern unsigned get_a  (void);
-extern unsigned get_b  (void);
-extern unsigned get_cc (void);
-extern unsigned get_dp (void);
-extern unsigned get_x  (void);
-extern unsigned get_y  (void);
-extern unsigned get_s  (void);
-extern unsigned get_u  (void);
-extern unsigned get_pc (void);
-extern unsigned get_d  (void);
-extern unsigned get_flags (void);
-extern void set_a  (unsigned);
-extern void set_b  (unsigned);
-extern void set_cc (unsigned);
-extern void set_dp (unsigned);
-extern void set_x  (unsigned);
-extern void set_y  (unsigned);
-extern void set_s  (unsigned);
-extern void set_u  (unsigned);
-extern void set_pc (unsigned);
-extern void set_d  (unsigned);
-
 #endif /* M6809_H */

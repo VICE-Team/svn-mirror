@@ -105,16 +105,16 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
             H6809_REGS_SET_PC(reg_ptr, val);
             break;
         case e_DP:
-            H6809_REGS_SET_DP(reg_ptr, val);
+            H6809_REGS_SET_DP(reg_ptr, (BYTE)val);
             break;
         case e_FLAGS:
-            H6809_REGS_SET_CC(reg_ptr, val);
+            H6809_REGS_SET_CC(reg_ptr, (BYTE)val);
             break;
         case e_A:
-            H6809_REGS_SET_A(reg_ptr, val);
+            H6809_REGS_SET_A(reg_ptr, (BYTE)val);
             break;
         case e_B:
-            H6809_REGS_SET_B(reg_ptr, val);
+            H6809_REGS_SET_B(reg_ptr, (BYTE)val);
             break;
         case e_D:
             H6809_REGS_SET_D(reg_ptr, val);
