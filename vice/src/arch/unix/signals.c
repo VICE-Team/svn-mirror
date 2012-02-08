@@ -98,33 +98,12 @@ void signals_init(int do_core_dumps)
 
 typedef void (*signal_handler_t)(int);
 
-static signal_handler_t old_abort_handler;
 static signal_handler_t old_pipe_handler;
 
 static void handle_pipe(int signo)
 {
     log_message(LOG_DEFAULT, "Received signal %d (%s), aborting remote monitor.", signo, signal_name(signo));
     monitor_abort();
-}
-
-static void handle_abort(int signo)
-{
-    monitor_abort();
-    signal(SIGINT, (signal_handler_t)handle_abort);
-}
-
-/*
-    these two are used by the monitor, to handle aborting ongoing output by
-    pressing CTRL+C (SIGINT)
-*/
-void signals_abort_set(void)
-{
-    old_abort_handler = signal(SIGINT, (signal_handler_t)handle_abort);
-}
-
-void signals_abort_unset(void)
-{
-    signal(SIGINT, old_abort_handler);
 }
 
 /*

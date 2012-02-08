@@ -2201,9 +2201,7 @@ static void monitor_open(void)
 
     mon_console_close_on_leaving = console_log->console_can_stay_open ^ 1;
 
-    if ( ! monitor_is_remote() ) {
-        signals_abort_set();
-    } else {
+    if ( monitor_is_remote() ) {
         signals_pipe_set();
     }
 
@@ -2286,9 +2284,7 @@ static void monitor_close(int check)
 
     exit_mon = 0;
 
-    if ( ! monitor_is_remote() ) {
-        signals_abort_unset();
-    } else {
+    if ( monitor_is_remote() ) {
         signals_pipe_unset();
     }
 

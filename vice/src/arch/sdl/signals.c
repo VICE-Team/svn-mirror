@@ -38,18 +38,6 @@ void signals_init(int do_core_dumps)
 }
 
 /*
-    these two are used by the monitor, to handle aborting ongoing output by
-    pressing CTRL+C (SIGINT). this is bogus in SDL, so these are empty :)
-*/
-void signals_abort_set(void)
-{
-}
-
-void signals_abort_unset(void)
-{
-}
-
-/*
     these two are used if the monitor is in remote mode. in this case we might
     get SIGPIPE if the connection is unexpectedly closed.
 */
