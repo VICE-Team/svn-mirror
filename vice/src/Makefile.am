@@ -450,7 +450,7 @@ if MINIX_SUPPORT
 	cc $(srcdir)/arch/win32/utils/gentranslate.c -o gentranslate
 	./gentranslate translate.txt translate.h translate_table.h
 else
-	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >$(srcdir)/translate.h
+	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >$(builddir)/translate.h
 endif
 
 if OWCC
