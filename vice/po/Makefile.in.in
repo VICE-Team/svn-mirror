@@ -14,6 +14,7 @@ SHELL = /bin/sh
 
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
+top_builddir = @top_builddir@
 VPATH = @srcdir@
 
 prefix = @prefix@
@@ -79,10 +80,10 @@ INSTOBJEXT = @INSTOBJEXT@
 	  && rm -f $@ && $(GENCAT) $@ $*.msg
 
 .rc.rc.po.c:
-	./intl2po win32 $< $@
+	./intl2po win32 $< $@ $(top_srcdir) $(top_builddir)
 
 .c.c.po.c:
-	./intl2po intl $< $@
+	./intl2po intl $< $@ $(top_srcdir) $(top_builddir)
 
 all: all-@USE_NLS@
 
@@ -91,7 +92,7 @@ all-no:
 
 @PO_SRCDIR_PREFIX_TRUE@$(srcdir)/$(PACKAGE).pot: $(POTFILES)
 @PO_SRCDIR_PREFIX_FALSE@$(PACKAGE).pot: $(POTFILES)
-	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) \
+	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) --directory=$(top_builddir) \
 	  --add-comments --keyword=_ --keyword=N_ \
 	  --files-from=$(srcdir)/POTFILES.in \
 	&& test ! -f $(PACKAGE).po \

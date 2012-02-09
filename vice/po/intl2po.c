@@ -59,6 +59,34 @@ static int gettext_open_mark = 0;
 
 static char line_buffer[512];
 
+char *convert_filename(char *name, char *src, char *dst)
+{
+    int src_len = strlen(src);
+    int dst_len = strlen(dst);
+    int name_len = strlen(name) - src_len + dst_len;
+    char *real_name = NULL;
+    int i = 0;
+
+    /* sanity check */
+    if (name_len < 1) {
+        return strdup(name);
+    }
+
+    real_name = malloc(name_len);
+
+    while (dst[i]) {
+        real_name[i] = dst[i];
+        i++;
+    }
+
+    while (name[src_len]) {
+        real_name[i++] = name[src_len++];
+    }
+    real_name[i] = 0;
+
+    return real_name;
+}
+
 int intl2po_getline(FILE *file)
 {
     char c = 0;
@@ -407,13 +435,14 @@ void wrong_location(char *text, FILE *infile, FILE *outfile, char *filename)
     fclose(outfile);
 }
 
-int convert_rc(char *in_filename, char *out_filename)
+int convert_rc(char *in_filename, char *out_filename, char *src, char *dst)
 {
     struct stat statbuf;
     FILE *infile, *outfile;
     int status = SCANNING;
     int found = UNKNOWN;
     int stringtable_found = 0;
+    char *real_out_filename;
 
     if (stat(in_filename, &statbuf) < 0) {
         printf("cannot stat %s\n", in_filename);
@@ -431,10 +460,13 @@ int convert_rc(char *in_filename, char *out_filename)
         return 0;
     }
 
-    outfile = fopen(out_filename, "wb");
+    real_out_filename = convert_filename(out_filename, src, dst);
+
+    outfile = fopen(real_out_filename, "wb");
     if (outfile == NULL) {
-        printf("cannot open %s for writing\n", out_filename);
+        printf("cannot open %s for writing\n", real_out_filename);
         fclose(infile);
+        free(real_out_filename);
         return 0;
     }
 
@@ -520,6 +552,7 @@ int convert_rc(char *in_filename, char *out_filename)
     }
     fclose(infile);
     fclose(outfile);
+    free(real_out_filename);
     return 1;
 }
 
@@ -543,10 +576,11 @@ void strip_comments(char *text)
     }
 }
 
-int convert_intl(char *in_filename, char *out_filename)
+int convert_intl(char *in_filename, char *out_filename, char *src, char *dst)
 {
     struct stat statbuf;
     FILE *infile, *outfile;
+    char *real_out_filename;
 
     if (stat(in_filename, &statbuf) < 0) {
         printf("cannot stat %s\n", in_filename);
@@ -564,9 +598,12 @@ int convert_intl(char *in_filename, char *out_filename)
         return 0;
     }
 
-    outfile = fopen(out_filename, "wb");
+    real_out_filename = convert_filename(out_filename, src, dst);
+
+    outfile = fopen(real_out_filename, "wb");
     if (outfile == NULL) {
-        printf("cannot open %s for writing\n", out_filename);
+        printf("cannot open %s for writing\n", real_out_filename);
+        free(real_out_filename);
         fclose(infile);
         return 0;
     }
@@ -585,24 +622,25 @@ int convert_intl(char *in_filename, char *out_filename)
     }
     fclose(infile);
     fclose(outfile);
+    free(real_out_filename);
     return 1;
 }
 
 int main(int argc, char *argv[])
 {
-    int result = 1;
+    int result = 0;
 
-    if (argc < 3) {
+    if (argc < 6) {
         printf("too few arguments\n");
         exit(1);
     }
 
-    if (!strcasecmp(argv[1], "win32") && argc == 4) {
-        result = convert_rc(argv[2], argv[3]);
+    if (!strcasecmp(argv[1], "win32") && argc == 6) {
+        result = convert_rc(argv[2], argv[3], argv[4], argv[5]);
     }
 
-    if (!strcasecmp(argv[1], "intl") && argc == 4) {
-        result = convert_intl(argv[2], argv[3]);
+    if (!strcasecmp(argv[1], "intl") && argc == 6) {
+        result = convert_intl(argv[2], argv[3], argv[4], argv[5]);
     }
 
     if (result == 0) {
