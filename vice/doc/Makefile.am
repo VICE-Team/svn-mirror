@@ -53,7 +53,8 @@ VICE_DOX = \
 	vice.chm \
 	vice.hlp \
 	vice.guide \
-	vice.inf
+	vice.inf \
+	vice.info
 
 info_TEXINFOS = vice.texi
 
@@ -131,5 +132,8 @@ else
 
 IPF_DEPS=
 endif
+
+$(builddir)/vice.info:	$(srcdir)/vice.texi
+	$(MAKEINFO) -o $(builddir)/vice.info --no-split $(srcdir)/vice.texi
 
 INFO_DEPS = $(builddir)/vice.txt $(builddir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS) $(IPF_DEPS)
