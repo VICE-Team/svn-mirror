@@ -90,14 +90,11 @@ all: all-@USE_NLS@
 all-yes: cat-id-tbl.c $(CATALOGS)
 all-no:
 
-@PO_SRCDIR_PREFIX_TRUE@$(srcdir)/$(PACKAGE).pot: $(POTFILES)
+@PO_SRCDIR_PREFIX_TRUE@$(builddir)/$(PACKAGE).pot: $(POTFILES)
 @PO_SRCDIR_PREFIX_FALSE@$(PACKAGE).pot: $(POTFILES)
 	$(XGETTEXT) --default-domain=$(PACKAGE) --directory=$(top_srcdir) --directory=$(top_builddir) \
 	  --add-comments --keyword=_ --keyword=N_ \
-	  --files-from=$(srcdir)/POTFILES.in \
-	&& test ! -f $(PACKAGE).po \
-	   || ( rm -f $(srcdir)/$(PACKAGE).pot \
-		&& mv $(PACKAGE).po $(srcdir)/$(PACKAGE).pot )
+	  --files-from=$(srcdir)/POTFILES.in
 
 $(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
 @PO_SRCDIR_PREFIX_TRUE@$(srcdir)/stamp-cat-id: $(PACKAGE).pot
