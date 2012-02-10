@@ -115,6 +115,7 @@ copy ..\..\..\data\PET\rom4b40.vrs   Vice2\PET
 copy ..\..\..\data\PET\rom4b80.vrs   Vice2\PET
 copy ..\..\..\data\PET\rom4g40.vrs   Vice2\PET
 copy ..\..\..\data\PET\white.vpl     Vice2\PET
+copy ..\..\..\data\PET\*.bin         Vice2\PET
 
 md Vice2\PLUS4
 copy ..\..\..\data\PLUS4\3plus1hi      Vice2\PLUS4

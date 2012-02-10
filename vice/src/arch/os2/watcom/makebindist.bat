@@ -127,6 +127,7 @@ copy ..\..\..\..\data\PET\rom4b40.vrs %VICEDIR%\PET
 copy ..\..\..\..\data\PET\rom4b80.vrs %VICEDIR%\PET
 copy ..\..\..\..\data\PET\rom4g40.vrs %VICEDIR%\PET
 copy ..\..\..\..\data\PET\white.vpl   %VICEDIR%\PET
+copy ..\..\..\..\data\PET\*.bin       %VICEDIR%\PET
 
 mkdir %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\3plus1hi    %VICEDIR%\PLUS4

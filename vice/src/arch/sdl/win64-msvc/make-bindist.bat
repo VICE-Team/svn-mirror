@@ -73,6 +73,7 @@ copy ..\..\..\..\data\PET\edit* %VICEDIR%\PET
 copy ..\..\..\..\data\PET\kernal* %VICEDIR%\PET
 copy ..\..\..\..\data\PET\*.vrs %VICEDIR%\PET
 copy ..\..\..\..\data\PET\sdl*.* %VICEDIR%\PET
+copy ..\..\..\..\data\PET\*.bin %VICEDIR%\PET
 mkdir %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\3plus1* %VICEDIR%\PLUS4
 copy ..\..\..\..\data\PLUS4\basic %VICEDIR%\PLUS4
