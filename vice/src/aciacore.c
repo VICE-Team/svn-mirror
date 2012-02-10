@@ -911,7 +911,9 @@ void myacia_store(WORD addr, BYTE byte)
         acia.in_tx = ACIA_TX_STATE_NO_TRANSMIT;
         acia_set_int(acia.irq_type, acia.int_num, IK_NONE);
         acia.irq = 0;
-        alarm_unset(acia.alarm_tx);
+        if (acia.alarm_tx) {
+            alarm_unset(acia.alarm_tx);
+        }
         acia.alarm_active_tx = 0;
         acia_set_handshake_lines();
         break;
