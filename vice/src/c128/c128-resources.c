@@ -493,7 +493,7 @@ static const resource_int_t resources_int[] = {
       &machine_type, set_machine_type, NULL },
     { "RomsetChargenIntName", 0, RES_EVENT_NO, NULL,
       &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomseChargenDENamet", 0, RES_EVENT_NO, NULL,
+    { "RomsetChargenDEName", 0, RES_EVENT_NO, NULL,
       &romset_firmware[1], set_romset_firmware, (void *)1 },
     { "RomsetChargenFRName", 0, RES_EVENT_NO, NULL,
       &romset_firmware[2], set_romset_firmware, (void *)2 },
