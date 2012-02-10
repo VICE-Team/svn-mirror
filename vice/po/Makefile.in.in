@@ -15,6 +15,7 @@ SHELL = /bin/sh
 srcdir = @srcdir@
 top_srcdir = @top_srcdir@
 top_builddir = @top_builddir@
+builddir = @builddir@
 VPATH = @srcdir@
 
 prefix = @prefix@
@@ -96,20 +97,20 @@ all-no:
 	  --add-comments --keyword=_ --keyword=N_ \
 	  --files-from=$(srcdir)/POTFILES.in
 
-$(srcdir)/cat-id-tbl.c: stamp-cat-id; @:
-@PO_SRCDIR_PREFIX_TRUE@$(srcdir)/stamp-cat-id: $(PACKAGE).pot
+$(builddir)/cat-id-tbl.c: stamp-cat-id; @:
+@PO_SRCDIR_PREFIX_TRUE@$(builddir)/stamp-cat-id: $(PACKAGE).pot
 @PO_SRCDIR_PREFIX_FALSE@stamp-cat-id: $(PACKAGE).pot
 	rm -f cat-id-tbl.tmp
-	sed -f $(srcdir)/po2tbl.sed $(srcdir)/$(PACKAGE).pot \
+	sed -f $(srcdir)/po2tbl.sed $(builddir)/$(PACKAGE).pot \
 		| sed -e "s/@PACKAGE NAME@/$(PACKAGE)/" > cat-id-tbl.tmp
-	if cmp -s cat-id-tbl.tmp $(srcdir)/cat-id-tbl.c; then \
+	if cmp -s cat-id-tbl.tmp $(builddir)/cat-id-tbl.c; then \
 	  rm cat-id-tbl.tmp; \
 	else \
 	  echo cat-id-tbl.c changed; \
-	  rm -f $(srcdir)/cat-id-tbl.c; \
-	  mv cat-id-tbl.tmp $(srcdir)/cat-id-tbl.c; \
+	  rm -f $(builddir)/cat-id-tbl.c; \
+	  mv cat-id-tbl.tmp $(builddir)/cat-id-tbl.c; \
 	fi
-	cd $(srcdir) && rm -f stamp-cat-id && echo timestamp > stamp-cat-id
+	cd $(builddir) && rm -f stamp-cat-id && echo timestamp > stamp-cat-id
 
 
 install: install-exec install-data
