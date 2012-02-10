@@ -190,8 +190,8 @@ union regs {
 static WORD X, Y, S, U, PC;
 static BYTE DP;
 static BYTE EFI;
-static BYTE H, N, Z, OV;
-static WORD C;
+static BYTE H, N, OV;
+static DWORD C, Z;
 
 #ifdef H6309
 static WORD V;
