@@ -82,7 +82,15 @@ char *convert_filename(char *name, char *src, char *dst)
     while (name[src_len]) {
         real_name[i++] = name[src_len++];
     }
-    real_name[i] = 0;
+    real_name[i--] = 0;
+
+    /* somehow needed safeguard */
+    while (real_name[i] != 'c' && i > 0) {
+        real_name[i--] = 0;
+    }
+    if (!i) {
+        return strdup(name);
+    }
 
     return real_name;
 }
