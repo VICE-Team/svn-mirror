@@ -81,10 +81,10 @@ INSTOBJEXT = @INSTOBJEXT@
 	  && rm -f $@ && $(GENCAT) $@ $*.msg
 
 .rc.rc.po.c:
-	./intl2po win32 $< $@ $(top_srcdir) $(top_builddir)
+	./intl2po win32 $< $@ $(srcdir) $(builddir)
 
 .c.c.po.c:
-	./intl2po intl $< $@ $(top_srcdir) $(top_builddir)
+	./intl2po intl $< $@ $(srcdir) $(builddir)
 
 all: all-@USE_NLS@
 
