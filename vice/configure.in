@@ -1058,21 +1058,23 @@ else
   AC_PROG_CXX
 
   dnl when using --host=, check if the C++ compiler is the intended cross compiler
-  if test x"$CXX" != "x" ; then
-    if test -n "$ac_tool_prefix"; then
-      valid_cxx=no
-      for cxx_compiler in g++ c++ gpp aCC CC cxx cc++ cl.exe FCC KCC RCC xlC_r xlC
-      do
-        if test x"$ac_tool_prefix$cxx_compiler" = x"$CXX"; then
-          valid_cxx=yes
-        fi
-      done
+  if [[ x"$ac_cv_prog_cc_cross" != "xno" ]]; then
+    if test x"$CXX" != "x" ; then
+      if test -n "$ac_tool_prefix"; then
+        valid_cxx=no
+        for cxx_compiler in g++ c++ gpp aCC CC cxx cc++ cl.exe FCC KCC RCC xlC_r xlC
+        do
+          if test x"$ac_tool_prefix$cxx_compiler" = x"$CXX"; then
+            valid_cxx=yes
+          fi
+        done
 
-      if test x"$valid_cxx" = "xno"; then
-        AC_MSG_WARN([$CXX is not the intended cross-compiler, ReSID and ReSID-fp will not be configured])
-        with_resid=no
-        with_residfp=no
-        CXX=""
+        if test x"$valid_cxx" = "xno"; then
+          AC_MSG_WARN([$CXX is not the intended cross-compiler, ReSID and ReSID-fp will not be configured])
+          with_resid=no
+          with_residfp=no
+          CXX=""
+        fi
       fi
     fi
   fi
