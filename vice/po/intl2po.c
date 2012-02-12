@@ -72,6 +72,10 @@ char *convert_filename(char *name, char *src, char *dst)
         return strdup(name);
     }
 
+    if (!strcmp(src, dst)) {
+        return strdup(name);
+    }
+
     real_name = malloc(name_len);
 
     while (dst[i]) {
