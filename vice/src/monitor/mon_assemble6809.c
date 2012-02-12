@@ -171,31 +171,42 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
 		    found = TRUE;
 		    break;
 		}
-		/* It's safe to assume ABSOULTE if ZERO_PAGE not yet found since
-		* ZERO_PAGE versions always precede ABSOLUTE versions if they
-		* exist.
-		*/
-		if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
-		    && opinfo->addr_mode == ASM_ADDR_MODE_ABSOLUTE) {
-		    opcode = i;
-		    operand_mode = ASM_ADDR_MODE_ABSOLUTE;
-		    operand_value = 0x000a;
-		    found = TRUE;
-		    break;
-		}
-
-		/* It's safe to assume ABSOULTE if ZERO_PAGE not yet found since
-		* ZERO_PAGE versions always precede ABSOLUTE versions if they
-		* exist.
-		*/
-		if (operand_mode == ASM_ADDR_MODE_ZERO_PAGE
-		    && opinfo->addr_mode == ASM_ADDR_MODE_ABSOLUTE) {
-		    opcode = i;
-		    operand_mode = ASM_ADDR_MODE_ABSOLUTE;
-		    found = TRUE;
-		    break;
-		}
 #endif
+		/* If there is no operand and the opcode wants a register
+		 * list, it could be an empty list.
+		 */
+		if (operand_mode == ASM_ADDR_MODE_IMPLIED
+		    && (opinfo->addr_mode == ASM_ADDR_MODE_SYS_POST ||
+			opinfo->addr_mode == ASM_ADDR_MODE_USR_POST)) {
+		    opcode = i;
+		    operand_mode = opinfo->addr_mode;
+		    operand_value = 0x00;
+		    found = TRUE;
+		    break;
+		}
+		/* If there are exactly 2 registers the parser thought it
+		 * would be _REG_POST but it could also be a 2-item list.
+		 * Fortunately it kept the other interpretation hidden away
+		 * in the submode field.
+		 */
+		if (operand_mode == ASM_ADDR_MODE_REG_POST
+		    && (opinfo->addr_mode == ASM_ADDR_MODE_SYS_POST ||
+			opinfo->addr_mode == ASM_ADDR_MODE_USR_POST)) {
+		    opcode = i;
+		    operand_mode = opinfo->addr_mode;
+		    operand_value = operand_submode;
+		    found = TRUE;
+		    break;
+		}
+		/* The parser doesn't distinguish 2 kinds of register lists.
+		 * Too bad if you write PSHS S or PSHU U.
+		 */
+		if (operand_mode == ASM_ADDR_MODE_SYS_POST
+		    && opinfo->addr_mode == ASM_ADDR_MODE_USR_POST) {
+		    opcode = i;
+		    found = TRUE;
+		    break;
+		}
 	    }
 	    i++;
 	} while (i != 0);
