@@ -2345,6 +2345,7 @@ dnl ----- Readline -----
 dnl Check whether we have GNU readline.  If not, use our replacement.
 dnl The user can force us to use the replacement with `--without-readline'.
 READLINE_LIBS=
+EDITLINE_LIBS=
 if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   if test x"$with_readline" != "xno" ; then
     READLINE=""
@@ -2396,7 +2397,7 @@ elif test x"$enable_editline" != "xno" -a x"$with_cocoa" = "xyes" ; then
                   [history_init();],
                   [AC_MSG_RESULT(yes);
                    AC_DEFINE(HAVE_EDITLINE,,[Have editline library])
-                   READLINE_LIBS="-ledit"],
+                   EDITLINE_LIBS="-ledit"],
                   [AC_MSG_RESULT(no)])
       LIBS="$old_LIBS"],)
 
@@ -2406,6 +2407,7 @@ fi
 AM_CONDITIONAL(NEED_READLINE, test x"$READLINE" != "x")
 AC_SUBST(READLINE)
 AC_SUBST(READLINE_LIBS)
+AC_SUBST(EDITLINE_LIBS)
 
 dnl check Amiga graphics support
 if test x"$is_amiga" = "xyes" -a x"$enable_sdlui" != "xyes"; then
