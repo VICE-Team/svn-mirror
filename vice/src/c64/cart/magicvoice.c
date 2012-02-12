@@ -1091,6 +1091,7 @@ static const resource_string_t resources_string[] = {
       &magicvoice_filename, set_magicvoice_filename, NULL },
     { NULL }
 };
+
 static const resource_int_t resources_int[] = {
     { "MagicVoiceCartridgeEnabled", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &magicvoice_sound_chip.chip_enabled, set_magicvoice_enabled, (void *)1 },

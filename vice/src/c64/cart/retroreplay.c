@@ -672,7 +672,6 @@ int retroreplay_resources_init(void)
 
 void retroreplay_resources_shutdown(void)
 {
-
 }
 
 /* ------------------------------------------------------------------------- */
