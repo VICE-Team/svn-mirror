@@ -187,6 +187,7 @@ static int set_video_halve_framerate(int val, void *param)
 }
 
 /*---------- Resources ------------------------------------------------*/
+
 static const resource_string_t resources_string[] = {
     { "FFMPEGFormat", "avi", RES_EVENT_NO, NULL,
       &ffmpeg_format, set_format, NULL },
@@ -208,7 +209,6 @@ static const resource_int_t resources_int[] = {
       &video_halve_framerate, set_video_halve_framerate, NULL },
     { NULL }
 };
-
 
 static int ffmpegdrv_resources_init(void)
 {
