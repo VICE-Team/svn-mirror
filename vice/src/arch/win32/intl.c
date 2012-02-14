@@ -388,7 +388,7 @@ static void intl_set_hotkey(void)
     line_buffer[i++] = 0;
 
     /* skip spaces */
-    while (isspace(line_buffer[i])) {
+    while (isspace((unsigned char)line_buffer[i])) {
         i++;
     }
 
@@ -400,7 +400,7 @@ static void intl_set_hotkey(void)
     hotkeypos = line_buffer + i;
 
     /* get the the first 'space' */
-    while (!isspace(line_buffer[i]) && line_buffer[i] != 0) {
+    while (!isspace((unsigned char)line_buffer[i]) && line_buffer[i] != 0) {
         i++;
     }
 
