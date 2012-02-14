@@ -490,7 +490,7 @@ static int intl_load_hotkey_table(void)
         }
     }
 
-    name = util_concat(machine_name, "/win_hotkeys.vhk", NULL);
+    name = util_concat(archdep_boot_path(), "\\", machine_name, "/win_hotkeys.vhk", NULL);
     fhotkeys = fopen(name, MODE_READ_TEXT);
     lib_free(name);
     if (fhotkeys == NULL) {
