@@ -47,30 +47,6 @@ static char *dos_rom_name_2040 = NULL;
 static char *dos_rom_name_3040 = NULL;
 static char *dos_rom_name_4040 = NULL;
 
-static int set_drive_idling_method(int val, void *param)
-{
-    unsigned int dnr;
-    drive_t *drive;
-
-    dnr = vice_ptr_to_uint(param);
-    drive = drive_context[dnr]->drive;
-
-    /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
-    if (val != DRIVE_IDLE_SKIP_CYCLES
-        && val != DRIVE_IDLE_TRAP_IDLE
-        && val != DRIVE_IDLE_NO_IDLE)
-        return -1;
-
-    drive->idling_method = val;
-
-    if (!rom_loaded) {
-        return 0;
-    }
-
-    driverom_initialize_traps(drive, 0);
-    return 0;
-}
-
 static int set_dos_rom_name_2040(const char *val, void *param)
 {
     if (util_string_set(&dos_rom_name_2040, val))
@@ -149,30 +125,8 @@ static const resource_int_t resources_int[] = {
     { NULL }
 };
 
-static resource_int_t res_drive[] = {
-    { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
-      NULL, set_drive_idling_method, NULL },
-    { NULL }
-};
-
 int ieee_resources_init(void)
 {
-    unsigned int dnr;
-    drive_t *drive;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive = drive_context[dnr]->drive;
-
-        res_drive[0].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        res_drive[0].value_ptr = &(drive->idling_method);
-        res_drive[0].param = uint_to_void_ptr(dnr);
-
-        if (resources_register_int(res_drive) < 0)
-            return -1;
-
-        lib_free((char *)(res_drive[0].name));
-    }
-
     if (resources_register_string(resources_string) < 0)
         return -1;
 
@@ -187,4 +141,3 @@ void ieee_resources_shutdown(void)
     lib_free(dos_rom_name_3040);
     lib_free(dos_rom_name_4040);
 }
-

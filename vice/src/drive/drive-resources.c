@@ -192,7 +192,6 @@ static int drive_resources_type(int val, void *param)
     }
 }
 
-
 static resource_int_t res_drive_type[] = {
     { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, drive_resources_type, NULL },
@@ -226,6 +225,29 @@ int drive_resources_type_init(unsigned int default_type)
     return 0;
 }
 
+static int set_drive_idling_method(int val, void *param)
+{
+    unsigned int dnr;
+    drive_t *drive;
+
+    dnr = vice_ptr_to_uint(param);
+    drive = drive_context[dnr]->drive;
+
+    /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
+    if (val != DRIVE_IDLE_SKIP_CYCLES
+        && val != DRIVE_IDLE_TRAP_IDLE
+        && val != DRIVE_IDLE_NO_IDLE)
+        return -1;
+
+    drive->idling_method = val;
+
+    if (!rom_loaded) {
+        return 0;
+    }
+
+    driverom_initialize_traps(drive, 0);
+    return 0;
+}
 
 static const resource_int_t resources_int[] = {
     { "DriveTrueEmulation", 1, RES_EVENT_STRICT, (resource_value_t)1,
@@ -238,6 +260,8 @@ static const resource_int_t resources_int[] = {
 static resource_int_t res_drive[] = {
     { NULL, DRIVE_EXTEND_NEVER, RES_EVENT_SAME, NULL,
       NULL, set_drive_extend_image_policy, NULL },
+    { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
+      NULL, set_drive_idling_method, NULL },
     { NULL }
 };
 
@@ -252,11 +276,15 @@ int drive_resources_init(void)
         res_drive[0].name = lib_msprintf("Drive%iExtendImagePolicy", dnr + 8);
         res_drive[0].value_ptr = (int *)&(drive->extend_image_policy);
         res_drive[0].param = uint_to_void_ptr(dnr);
+        res_drive[1].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
+        res_drive[1].value_ptr = &(drive->idling_method);
+        res_drive[1].param = uint_to_void_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0)
             return -1;
 
         lib_free((char *)(res_drive[0].name));
+        lib_free((char *)(res_drive[1].name));
     }
 
     return machine_drive_resources_init()

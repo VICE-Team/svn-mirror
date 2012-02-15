@@ -39,7 +39,6 @@
 #include "traps.h"
 #include "util.h"
 
-
 static int romset_firmware[6];
 
 static char *dos_rom_name_1541 = NULL;
@@ -49,7 +48,6 @@ static char *dos_rom_name_1571 = NULL;
 static char *dos_rom_name_1581 = NULL;
 static char *dos_rom_name_2000 = NULL;
 static char *dos_rom_name_4000 = NULL;
-
 
 static void set_drive_ram(unsigned int dnr)
 {
@@ -61,30 +59,6 @@ static void set_drive_ram(unsigned int dnr)
     drivemem_init(drive_context[dnr], drive->type);
 
     return;
-}
-
-static int set_drive_idling_method(int val, void *param)
-{
-    unsigned int dnr;
-    drive_t *drive;
-
-    dnr = vice_ptr_to_uint(param);
-    drive = drive_context[dnr]->drive;
-
-    /* FIXME: Maybe we should call `drive_cpu_execute()' here?  */
-    if (val != DRIVE_IDLE_SKIP_CYCLES
-        && val != DRIVE_IDLE_TRAP_IDLE
-        && val != DRIVE_IDLE_NO_IDLE)
-        return -1;
-
-    drive->idling_method = val;
-
-    if (!rom_loaded) {
-        return 0;
-    }
-
-    driverom_initialize_traps(drive, 0);
-    return 0;
 }
 
 static int set_dos_rom_name_1541(const char *val, void *param)
@@ -235,8 +209,6 @@ static const resource_int_t resources_int[] = {
 };
 
 static resource_int_t res_drive[] = {
-    { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
-      NULL, set_drive_idling_method, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
       NULL, set_drive_ram2, NULL },
     { NULL, 0, RES_EVENT_SAME, NULL,
@@ -258,24 +230,21 @@ int iec_resources_init(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        res_drive[0].name = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        res_drive[0].value_ptr = &(drive->idling_method);
+        res_drive[0].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
+        res_drive[0].value_ptr = &(drive->drive_ram2_enabled);
         res_drive[0].param = uint_to_void_ptr(dnr);
-        res_drive[1].name = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        res_drive[1].value_ptr = &(drive->drive_ram2_enabled);
+        res_drive[1].name = lib_msprintf("Drive%iRAM4000", dnr + 8);
+        res_drive[1].value_ptr = &(drive->drive_ram4_enabled);
         res_drive[1].param = uint_to_void_ptr(dnr);
-        res_drive[2].name = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        res_drive[2].value_ptr = &(drive->drive_ram4_enabled);
+        res_drive[2].name = lib_msprintf("Drive%iRAM6000", dnr + 8);
+        res_drive[2].value_ptr = &(drive->drive_ram6_enabled);
         res_drive[2].param = uint_to_void_ptr(dnr);
-        res_drive[3].name = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        res_drive[3].value_ptr = &(drive->drive_ram6_enabled);
+        res_drive[3].name = lib_msprintf("Drive%iRAM8000", dnr + 8);
+        res_drive[3].value_ptr = &(drive->drive_ram8_enabled);
         res_drive[3].param = uint_to_void_ptr(dnr);
-        res_drive[4].name = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        res_drive[4].value_ptr = &(drive->drive_ram8_enabled);
+        res_drive[4].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
+        res_drive[4].value_ptr = &(drive->drive_rama_enabled);
         res_drive[4].param = uint_to_void_ptr(dnr);
-        res_drive[5].name = lib_msprintf("Drive%iRAMA000", dnr + 8);
-        res_drive[5].value_ptr = &(drive->drive_rama_enabled);
-        res_drive[5].param = uint_to_void_ptr(dnr);
 
         if (resources_register_int(res_drive) < 0)
             return -1;
@@ -285,7 +254,6 @@ int iec_resources_init(void)
         lib_free((char *)(res_drive[2].name));
         lib_free((char *)(res_drive[3].name));
         lib_free((char *)(res_drive[4].name));
-        lib_free((char *)(res_drive[5].name));
     }
 
     if (resources_register_string(resources_string) < 0)
