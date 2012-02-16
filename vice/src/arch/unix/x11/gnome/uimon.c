@@ -203,6 +203,7 @@ static gboolean key_press_event (GtkWidget   *widget,
     if (!r->ended && event->type == GDK_KEY_PRESS){
         switch(state & (GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_CONTROL_MASK)) {
         case 0:
+        case GDK_SHIFT_MASK:
             return plain_key_pressed(r, event->keyval);
         case GDK_CONTROL_MASK:
             return ctrl_plus_key_pressed(r, event->keyval, widget);
