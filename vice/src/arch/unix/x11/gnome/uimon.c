@@ -80,19 +80,26 @@ static char* append_char_to_input_buffer(char *old_input_buffer, char new_char)
     return new_input_buffer;
 }
 
-static char* append_string_to_input_buffer(char *old_input_buffer, char *new_string)
+static char* append_string_to_input_buffer(char *old_input_buffer, GtkWidget *terminal, GdkAtom clipboard_to_use)
 {
-    char *new_input_buffer = lib_realloc(old_input_buffer, strlen(old_input_buffer) + strlen(new_string) + 1);
-    char *char_in, *char_out = new_input_buffer;
+    GtkClipboard *clipboard = gtk_widget_get_clipboard(terminal, clipboard_to_use);
+    gchar *new_string = gtk_clipboard_wait_for_text(clipboard);
 
-    for (char_in = new_string; *char_in; char_in++) {
-        if (*char_in < 0 || *char_in >= 32) {
-            *char_out++ = *char_in;
+    if (new_string != NULL) {
+        char *new_input_buffer = lib_realloc(old_input_buffer, strlen(old_input_buffer) + strlen(new_string) + 1);
+        char *char_in, *char_out = new_input_buffer + strlen(new_input_buffer);
+
+        for (char_in = new_string; *char_in; char_in++) {
+            if (*char_in < 0 || *char_in >= 32) {
+                *char_out++ = *char_in;
+            }
         }
-    }
-    *char_out = 0;
+        *char_out = 0;
+        g_free(new_string);
 
-    return new_input_buffer;
+        return new_input_buffer;
+    }
+    return old_input_buffer;
 }
 
 static gboolean plain_key_pressed(struct term_read_result *r, guint keyval)
@@ -143,50 +150,61 @@ static gboolean ctrl_plus_key_pressed(struct term_read_result *r, guint keyval, 
     default:
         return FALSE;
     case GDK_KEY(h):
+    case GDK_KEY(H):
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 127);
         return TRUE;
     case GDK_KEY(b):
+    case GDK_KEY(B):
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 2);
         return TRUE;
     case GDK_KEY(f):
+    case GDK_KEY(F):
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 6);
         return TRUE;
     case GDK_KEY(p):
+    case GDK_KEY(P):
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 16);
         return TRUE;
     case GDK_KEY(n):
+    case GDK_KEY(N):
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 14);
         return TRUE;
     case GDK_KEY(t):
+    case GDK_KEY(T):
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 20);
         return TRUE;
     case GDK_KEY(d):
+    case GDK_KEY(D):
+        /* ctrl-d, remove char at right of cursor */
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 4);
         return TRUE;
     case GDK_KEY(u):
+    case GDK_KEY(U):
+        /* Ctrl+u, delete the whole line. */
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 21);
         return TRUE;
     case GDK_KEY(k):
+    case GDK_KEY(K):
+        /* Ctrl+k, delete from current to end of line. */
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 11);
         return TRUE;
     case GDK_KEY(a):
+    case GDK_KEY(A):
+        /* Ctrl+a, go to the start of the line */
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 1);
         return TRUE;
     case GDK_KEY(e):
+    case GDK_KEY(E):
+        /* ctrl+e, go to the end of the line */
         r->input_buffer = append_char_to_input_buffer(r->input_buffer, 5);
         return TRUE;
     case GDK_KEY(c):
+    case GDK_KEY(C):
         vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
         return TRUE;
     case GDK_KEY(v):
-        {
-            GtkClipboard *clipboard = gtk_widget_get_clipboard(terminal, GDK_SELECTION_CLIPBOARD);
-            gchar *new_string = gtk_clipboard_wait_for_text(clipboard);
-            if (new_string != NULL) {
-                r->input_buffer = append_string_to_input_buffer(r->input_buffer, new_string);
-                g_free(new_string);
-            }
-        }
+    case GDK_KEY(V):
+        r->input_buffer = append_string_to_input_buffer(r->input_buffer, terminal, GDK_SELECTION_CLIPBOARD);
         return TRUE;
     }
 }
@@ -201,7 +219,7 @@ static gboolean key_press_event (GtkWidget   *widget,
     gdk_event_get_state((GdkEvent*)event, &state);
 
     if (!r->ended && event->type == GDK_KEY_PRESS){
-        switch(state & (GDK_SHIFT_MASK | GDK_LOCK_MASK | GDK_CONTROL_MASK)) {
+        switch(state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) {
         case 0:
         case GDK_SHIFT_MASK:
             return plain_key_pressed(r, event->keyval);
@@ -219,19 +237,13 @@ gboolean button_press_event(GtkWidget *widget,
                             gpointer   user_data)
 {
     struct term_read_result *r = (struct term_read_result *)user_data;
-    GtkClipboard *clipboard;
-    gchar *new_string;
     GdkEventButton *button_event = (GdkEventButton*)event;
 
     if (button_event->button != 2
      || button_event->type   != GDK_BUTTON_PRESS)
         return FALSE;
-    clipboard = gtk_widget_get_clipboard(widget, GDK_SELECTION_PRIMARY);
-    new_string = gtk_clipboard_wait_for_text(clipboard);
-    if (new_string != NULL) {
-        r->input_buffer = append_string_to_input_buffer(r->input_buffer, new_string);
-        g_free(new_string);
-    }
+
+    r->input_buffer = append_string_to_input_buffer(r->input_buffer, widget, GDK_SELECTION_PRIMARY);
     return TRUE;
 }
 
