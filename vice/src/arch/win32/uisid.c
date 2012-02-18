@@ -59,14 +59,6 @@ static const int ui_sid_samplemethod[] = {
 
 static const int *ui_sid_baseaddress;
 
-static void enable_general_sid_controls(HWND hwnd)
-{
-    int is_enabled;
-
-    resources_get_int("SidStereo", &is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_SID_STEREOADDRESS), is_enabled);
-}
-
 static void enable_resid_sid_controls(HWND hwnd)
 {
     int engine, is_enabled;
@@ -90,9 +82,9 @@ static void enable_hardsid_sid_controls(HWND hwnd)
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_RIGHT_ENGINE), is_enabled && stereo);
 }
 
-static void CreateAndGetSidAddress(HWND sid_hwnd, int mode, int cur_value)
+static void CreateAndGetSidAddress(HWND sid_hwnd, int mode, int cur_value, char *resource)
 {
-    /* mode=0: Create - cur_value = value of "SidStereoAddressStart" resource */
+    /* mode=0: Create - cur_value = value of resource */
     /* mode=1: Get - cur_value = index of selected item */
     TCHAR st[12];
     int adr, ladr, hi, index = -1;
@@ -111,7 +103,7 @@ static void CreateAndGetSidAddress(HWND sid_hwnd, int mode, int cur_value)
                 }
             } else {
                 if (index == cur_value) {
-                    resources_set_int("SidStereoAddressStart", adr);
+                    resources_set_int(resource, adr);
                     return;
                 }
             }
@@ -130,8 +122,12 @@ static void init_general_sid_dialog(HWND hwnd)
     SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP1));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP3);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP3));
-    sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREO);
-    SetWindowText(sid_hwnd, translate_text(IDS_SID_STEREO_AT));
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT_LABEL);
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_EXTRA_AMOUNT_LABEL));
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS_LABEL);
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_STEREOADDRESS_LABEL));
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS_LABEL);
+    SetWindowText(sid_hwnd, translate_text(IDS_SID_TRIPLEADDRESS_LABEL));
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_FILTERS));
 
@@ -141,11 +137,19 @@ static void init_general_sid_dialog(HWND hwnd)
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
     
     resources_get_int("SidStereo", &res_value);
-    CheckDlgButton(hwnd, IDC_SID_STEREO, res_value ? BST_CHECKED : BST_UNCHECKED);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT);
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)"0");
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)"1");
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)"2");
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     resources_get_int("SidStereoAddressStart", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
-    CreateAndGetSidAddress(sid_hwnd, 0, res_value);
+    CreateAndGetSidAddress(sid_hwnd, 0, res_value, "SidStereoAddressStart");
+
+    resources_get_int("SidTripleAddressStart", &res_value);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS);
+    CreateAndGetSidAddress(sid_hwnd, 0, res_value, "SidTripleAddressStart");
 
     ui_sid_engine_model_list = sid_get_engine_model_list();
 
@@ -168,8 +172,6 @@ static void init_general_sid_dialog(HWND hwnd)
         }
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
-
-    enable_general_sid_controls(hwnd);
 }
 
 union rect_point_s {
@@ -184,6 +186,7 @@ static void resize_general_sid_dialog(HWND hwnd)
     HWND child_hwnd;
     RECT rect;
     rect_point_u child_rect;
+    int new_xpos = 0;
     int xpos;
 
     GetClientRect(hwnd, &rect);
@@ -193,17 +196,49 @@ static void resize_general_sid_dialog(HWND hwnd)
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, rect.right - 2 * child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
-    child_hwnd = GetDlgItem(hwnd, IDC_SID_STEREO);
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT_LABEL);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    new_xpos = child_rect.rect.left + xsize + 20 + 10;
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS_LABEL);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
     uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
     MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
     xpos = child_rect.rect.left + xsize + 20 + 10;
 
+    if (xpos > new_xpos) {
+        new_xpos = xpos;
+    }
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS_LABEL);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    uilib_get_general_window_extents(child_hwnd, &xsize, &ysize);
+    MoveWindow(child_hwnd, child_rect.rect.left, child_rect.rect.top, xsize + 20, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    xpos = child_rect.rect.left + xsize + 20 + 10;
+
+    if (xpos > new_xpos) {
+        new_xpos = xpos;
+    }
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, new_xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+
     child_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
     GetClientRect(child_hwnd, &child_rect.rect);
     MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
-    MoveWindow(child_hwnd, xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+    MoveWindow(child_hwnd, new_xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
+
+    child_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS);
+    GetClientRect(child_hwnd, &child_rect.rect);
+    MapWindowPoints(child_hwnd, hwnd, &child_rect.point, 2);
+    MoveWindow(child_hwnd, new_xpos, child_rect.rect.top, child_rect.rect.right - child_rect.rect.left, child_rect.rect.bottom - child_rect.rect.top, TRUE);
 
     child_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP3);
     GetClientRect(child_hwnd, &child_rect.rect);
@@ -378,39 +413,32 @@ static void resize_hardsid_sid_dialog(HWND hwnd)
 
 static void end_general_dialog(HWND hwnd)
 {
+    int engine, model, temp;
     HWND sid_hwnd;
 
     resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS) == BST_CHECKED ? 1 : 0));
-    resources_set_int("SidStereo", (IsDlgButtonChecked(hwnd, IDC_SID_STEREO) == BST_CHECKED ? 1 : 0));
+
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT);
+    resources_set_int("SidStereo", (int)SendMessage(sid_hwnd, CB_GETCURSEL, 0, 0));
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
-    CreateAndGetSidAddress(sid_hwnd, 1, (int)SendMessage(sid_hwnd, CB_GETCURSEL, 0, 0));
+    CreateAndGetSidAddress(sid_hwnd, 1, (int)SendMessage(sid_hwnd, CB_GETCURSEL, 0, 0), "SidStereoAddressStart");
+
+    sid_hwnd = GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS);
+    CreateAndGetSidAddress(sid_hwnd, 1, (int)SendMessage(sid_hwnd, CB_GETCURSEL, 0, 0), "SidTripleAddressStart");
+
+    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
+    engine = temp >> 8;
+    model = temp & 0xff;
+    sid_set_engine_model(engine, model);
 }
 
 static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
-    int engine, model, temp;
-
     switch (msg) {
-        case WM_COMMAND:
-            command = LOWORD(wparam);
-            switch (command) {
-                case IDC_SID_ENGINE_MODEL:
-                    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
-                    engine = temp >> 8;
-                    model = temp & 0xff;
-                    sid_set_engine_model(engine, model);
-                    break;
-                case IDC_SID_STEREO:
-                    resources_toggle("SidStereo", NULL);
-                    enable_general_sid_controls(hwnd);
-                    break;
-            }
-            return FALSE;
         case WM_NOTIFY:
             switch (((NMHDR FAR *)lparam)->code) {
-                case PSN_KILLACTIVE:
+                case PSN_APPLY:
                     end_general_dialog(hwnd);
                     return TRUE;
             }
@@ -461,7 +489,7 @@ static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
                 case PSN_SETACTIVE:
                     enable_resid_sid_controls(hwnd);
                     return TRUE;
-                case PSN_KILLACTIVE:
+                case PSN_APPLY:
                     end_resid_dialog(hwnd);
                     return TRUE;
             }
@@ -499,7 +527,7 @@ static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, 
                 case PSN_SETACTIVE:
                     enable_hardsid_sid_controls(hwnd);
                     return TRUE;
-                case PSN_KILLACTIVE:
+                case PSN_APPLY:
                     end_hardsid_dialog(hwnd);
                     return TRUE;
             }

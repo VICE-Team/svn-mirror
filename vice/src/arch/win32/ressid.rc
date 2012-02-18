@@ -21,10 +21,18 @@ BEGIN
     COMBOBOX     IDC_SID_ENGINE_MODEL,
                  15, 15, 150, 50, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     GROUPBOX     "", IDC_SID_GENGROUP3,
-                 10, 65, 125, 25
-    AUTOCHECKBOX "", IDC_SID_STEREO,
-                 15, 75, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+                 10, 35, 125, 55
+    LTEXT        "", IDC_SID_EXTRA_AMOUNT_LABEL,
+                 15, 45, 55, 10
+    COMBOBOX     IDC_SID_EXTRA_AMOUNT,
+                 85, 43, 45, 100, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT        "", IDC_SID_STEREOADDRESS_LABEL,
+                 15, 60, 55, 10
     COMBOBOX     IDC_SID_STEREOADDRESS,
+                 85, 58, 45, 100, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
+    LTEXT        "", IDC_SID_TRIPLEADDRESS_LABEL,
+                 15, 75, 55, 10
+    COMBOBOX     IDC_SID_TRIPLEADDRESS,
                  85, 73, 45, 100, CBS_DROPDOWNLIST | WS_GROUP | WS_TABSTOP | WS_VSCROLL
     AUTOCHECKBOX "", IDC_SID_FILTERS,
                  15, 105, 55, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
@@ -77,21 +85,23 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID "This machine may not have a SID"
-  IDS_GENERAL             "General"
-  IDS_SID_SETTINGS        "SID settings"
-  IDS_FAST                "Fast"
-  IDS_INTERPOLATING       "Interpolating"
-  IDS_RESAMPLING          "Resampling"
-  IDS_FAST_RESAMPLING     "Fast resampling"
-  IDS_SID_GENGROUP3       "SID Stereo"
-  IDS_SID_STEREO_AT       "Stereo SID at"
-  IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
-  IDS_SID_RESID_SAMPLE    "Sample method"
-  IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
-  IDS_HARDSID_GROUP       "Device selection"
-  IDS_HARDSID_LEFT_LABEL  "Left/Main device"
-  IDS_HARDSID_RIGHT_LABEL "Right device"
+  IDS_THIS_MACHINE_NO_SID     "This machine may not have a SID"
+  IDS_GENERAL                 "General"
+  IDS_SID_SETTINGS            "SID settings"
+  IDS_FAST                    "Fast"
+  IDS_INTERPOLATING           "Interpolating"
+  IDS_RESAMPLING              "Resampling"
+  IDS_FAST_RESAMPLING         "Fast resampling"
+  IDS_SID_GENGROUP3           "Extra SID chips"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
+  IDS_SID_RESID_GROUP         "reSID/reSID-fp options"
+  IDS_SID_RESID_SAMPLE        "Sample method"
+  IDS_SID_RESID_PASSBAND      "Passband (0..90%)"
+  IDS_HARDSID_GROUP           "Device selection"
+  IDS_HARDSID_LEFT_LABEL      "Left/Main device"
+  IDS_HARDSID_RIGHT_LABEL     "Right device"
 END
 
 
@@ -108,7 +118,9 @@ BEGIN
   IDS_RESAMPLING          "Resampling"
   IDS_FAST_RESAMPLING     "Hurtig omsampling"
   IDS_SID_GENGROUP3       "SID-stereo"
-  IDS_SID_STEREO_AT       "Stereo-SID på"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID-/reSID-fp-indstillinger"
   IDS_SID_RESID_SAMPLE    "Samplingmetode"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -131,7 +143,9 @@ BEGIN
   IDS_RESAMPLING          "Resampling"
   IDS_FAST_RESAMPLING     "Schnelles Resampling"
   IDS_SID_GENGROUP3       "SID Stereo"
-  IDS_SID_STEREO_AT       "Stereo SID bei"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp Optionen"
   IDS_SID_RESID_SAMPLE    "Sample Methode"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -154,7 +168,9 @@ BEGIN
   IDS_RESAMPLING          "Remuestreo"
   IDS_FAST_RESAMPLING     "Remuestreo rápido"
   IDS_SID_GENGROUP3       "SID estereo"
-  IDS_SID_STEREO_AT       "SID estereo en"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "Opciones reSID/reSID-fp"
   IDS_SID_RESID_SAMPLE    "Método de muestreo"
   IDS_SID_RESID_PASSBAND  "Pasabanda (0..90%)"
@@ -177,7 +193,9 @@ BEGIN
   IDS_RESAMPLING          "Resampling"
   IDS_FAST_RESAMPLING     "Fast resampling"
   IDS_SID_GENGROUP3       "SID Stéréo"
-  IDS_SID_STEREO_AT       "SID Stéréo à"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE    "Méthode d'échantillonnage"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -203,7 +221,9 @@ BEGIN
   IDS_RESAMPLING          "Resampling"
   IDS_FAST_RESAMPLING     "Fast resampling"
   IDS_SID_GENGROUP3       "SID sztereó"
-  IDS_SID_STEREO_AT       "Sztereó SID itt:"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSIP-fp opciók"
   IDS_SID_RESID_SAMPLE    "Mintavételezés módja"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -229,7 +249,9 @@ BEGIN
   IDS_RESAMPLING          "Ricampionamento"
   IDS_FAST_RESAMPLING     "Ricampionamento veloce"
   IDS_SID_GENGROUP3       "Stereo SID"
-  IDS_SID_STEREO_AT       "Stereo SID a"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "Opzioni reSID/reSID-fp"
   IDS_SID_RESID_SAMPLE    "Metodo di campionamento"
   IDS_SID_RESID_PASSBAND  "Banda passante (0..90%)"
@@ -255,7 +277,9 @@ BEGIN
   IDS_RESAMPLING          "¸®»ùÇÃ¸µ"
   IDS_FAST_RESAMPLING     "ºü¸¥ ¸®¼Àºí¸µ"
   IDS_SID_GENGROUP3       "SID Stereo"
-  IDS_SID_STEREO_AT       "Stereo SID at"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE    "Sample method"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -281,7 +305,9 @@ BEGIN
   IDS_RESAMPLING          "Resampling"
   IDS_FAST_RESAMPLING     "Snelle resampling"
   IDS_SID_GENGROUP3       "Stereo SID"
-  IDS_SID_STEREO_AT       "Stereo SID op"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp opties"
   IDS_SID_RESID_SAMPLE    "Sample methode"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -307,7 +333,9 @@ BEGIN
   IDS_RESAMPLING          "Przesamplowanie"
   IDS_FAST_RESAMPLING     "Szybkie przesamplowanie"
   IDS_SID_GENGROUP3       "Stereo SID"
-  IDS_SID_STEREO_AT       "SID stereo w"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "Opcje reSID/reSID-fp"
   IDS_SID_RESID_SAMPLE    "Metoda samplowania"
   IDS_SID_RESID_PASSBAND  "Pasmo przepuszczania (0..90%)"
@@ -336,7 +364,9 @@ BEGIN
   IDS_RESAMPLING          "Resampling"
   IDS_FAST_RESAMPLING     "Fast resampling"
   IDS_SID_GENGROUP3       "SID Stereo"
-  IDS_SID_STEREO_AT       "Stereo SID at"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp options"
   IDS_SID_RESID_SAMPLE    "Sample method"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -362,7 +392,9 @@ BEGIN
   IDS_RESAMPLING          "Omsamplande"
   IDS_FAST_RESAMPLING     "Snabb omsampling"
   IDS_SID_GENGROUP3       "SID-stereo"
-  IDS_SID_STEREO_AT       "Stereo-SID på"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID-/reSID-fp-inställningar"
   IDS_SID_RESID_SAMPLE    "Samplingsmetod"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -388,7 +420,9 @@ BEGIN
   IDS_RESAMPLING          "Yeniden örnekleme"
   IDS_FAST_RESAMPLING     "Hýzlý yeniden örnekleme"
   IDS_SID_GENGROUP3       "Stereo SID"
-  IDS_SID_STEREO_AT       "Stereo SID konumu"
+  IDS_SID_EXTRA_AMOUNT_LABEL  "Amount of extra SID chips"
+  IDS_SID_STEREOADDRESS_LABEL "Second SID at"
+  IDS_SID_TRIPLEADDRESS_LABEL "Third SID at"
   IDS_SID_RESID_GROUP     "reSID/reSID-fp seçenekleri"
   IDS_SID_RESID_SAMPLE    "Örnekleme metodu"
   IDS_SID_RESID_PASSBAND  "Passband (0..90%)"
@@ -399,5 +433,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
