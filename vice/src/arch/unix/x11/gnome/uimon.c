@@ -282,6 +282,8 @@ console_t *uimon_window_open(void)
     gtk_window_set_deletable(GTK_WINDOW(fixed.window), FALSE);
     gtk_window_set_transient_for(GTK_WINDOW(fixed.window), GTK_WINDOW(get_active_toplevel()));
     fixed.term = vte_terminal_new();
+    vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
+    vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
     gtk_container_add(GTK_CONTAINER(fixed.window), fixed.term);
 
     g_signal_connect(G_OBJECT(fixed.window), "destroy",
