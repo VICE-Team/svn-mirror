@@ -30,6 +30,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <vte/vte.h>
+#include <dirent.h>
 
 #include "console.h"
 #include "lib.h"
@@ -56,6 +57,8 @@ struct console_private_s {
 } fixed;
 
 static console_t vte_console;
+static linenoiseCompletions command_lc = {0, NULL};
+static linenoiseCompletions need_filename_lc = {0, NULL};
 
 void write_to_terminal(struct console_private_s *t,
                        const char *data,
@@ -335,12 +338,123 @@ void uimon_set_interface(struct monitor_interface_s **interf, int i)
 {
 }
 
+static char* concat_strings(const char *string1, int nchars, const char *string2)
+{
+    char *ret = malloc(nchars + strlen(string2) + 1);
+    memcpy(ret, string1, nchars);
+    strcpy(ret + nchars, string2);
+    return ret;
+}
+
+static void fill_completions(const char *string_so_far, int initial_chars, int token_len, const linenoiseCompletions *possible_lc, linenoiseCompletions *lc)
+{
+    int word_index;
+
+    lc->len = 0;
+    for(word_index = 0; word_index < possible_lc->len; word_index++) {
+        int i;
+        for(i = 0; i < token_len; i++)
+            if (string_so_far[initial_chars + i] != possible_lc->cvec[word_index][i])
+                break;
+        if (i == token_len && possible_lc->cvec[word_index][token_len] != 0) {
+            char *string_to_append = concat_strings(string_so_far, initial_chars, possible_lc->cvec[word_index]);
+            linenoiseAddCompletion(lc, string_to_append);
+            free(string_to_append);
+        }
+    }
+}
+
+static void find_next_token(const char *string_so_far, int start_of_search, int *start_of_token, int *token_len)
+{
+    for(*start_of_token = start_of_search; string_so_far[*start_of_token] && isspace(string_so_far[*start_of_token]); (*start_of_token)++);
+    for(*token_len = 0; string_so_far[*start_of_token + *token_len] && !isspace(string_so_far[*start_of_token + *token_len]); (*token_len)++);
+}
+
+static gboolean is_token_in(const char *string_so_far, int token_len, const linenoiseCompletions *lc)
+{
+    int i;
+    for(i = 0; i < lc->len; i++) {
+        if(strlen(lc->cvec[i]) == token_len
+       && !strncmp(string_so_far, lc->cvec[i], token_len))
+            return TRUE;
+    }
+    return FALSE;
+}
+
+static void monitor_completions(const char *string_so_far, linenoiseCompletions *lc)
+{
+    int start_of_token, token_len;
+    char *help_commands[] = {"help", "?"};
+    const linenoiseCompletions help_lc = {
+         sizeof(help_commands)/sizeof(*help_commands),
+         help_commands
+    };
+
+    find_next_token(string_so_far, 0, &start_of_token, &token_len);
+    if (!string_so_far[start_of_token + token_len]){
+         fill_completions(string_so_far, start_of_token, token_len, &command_lc, lc);
+         return;
+    }
+    if (is_token_in(string_so_far + start_of_token, token_len, &help_lc)) {
+        find_next_token(string_so_far, start_of_token + token_len, &start_of_token, &token_len);
+        if (!string_so_far[start_of_token + token_len]){
+             fill_completions(string_so_far, start_of_token, token_len, &command_lc, lc);
+             return;
+        }
+    }
+    if (is_token_in(string_so_far + start_of_token, token_len, &need_filename_lc)) {
+        int start_of_path;
+        DIR* dir;
+        struct dirent *direntry;
+        struct linenoiseCompletions files_lc = {0, NULL};
+        int i;
+
+        for(start_of_token += token_len; string_so_far[start_of_token] && isspace(string_so_far[start_of_token]); start_of_token++);
+        if(string_so_far[start_of_token] != '"') {
+            char *string_to_append = concat_strings(string_so_far, start_of_token, "\"");
+            linenoiseAddCompletion(lc, string_to_append);
+            free(string_to_append);
+            return;
+        }
+        for (start_of_path = ++start_of_token, token_len = 0; string_so_far[start_of_token + token_len]; token_len++) {
+            if(string_so_far[start_of_token + token_len] == '"'
+            && string_so_far[start_of_token + token_len - 1] != '\\')
+                return;
+            if(string_so_far[start_of_token + token_len] == '/') {
+                start_of_token += token_len + 1;
+                token_len = -1;
+            }
+        }
+        if (start_of_token == start_of_path)
+            dir = opendir(".");
+        else {
+            char *path = concat_strings(string_so_far + start_of_path, start_of_token - start_of_path, "");
+            dir = opendir(path);
+            free(path);
+        }
+        if (dir) {
+            for (direntry = readdir(dir); direntry; direntry = readdir(dir)) {
+                if (strcmp(direntry->d_name, ".")
+                 && strcmp(direntry->d_name, "..")) {
+                    char *entryname = lib_msprintf("%s%s", direntry->d_name, direntry->d_type == DT_DIR ? "/" : "\"");
+                    linenoiseAddCompletion(&files_lc, entryname);
+                    lib_free(entryname);
+                }
+            }
+            fill_completions(string_so_far, start_of_token, token_len, &files_lc, lc);
+            for(i = 0; i < files_lc.len; i++)
+                free(files_lc.cvec[i]);
+            return;
+        }
+    }
+}
+
 char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 {
     char *p, *ret_string;
 
     fixed.read_result.input_buffer = lib_stralloc("");;
-
+    linenoiseSetCompletionCallback(monitor_completions);
     p = linenoise(prompt, &fixed);
     if (p) {
         if (*p) {
@@ -359,11 +473,33 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
 
 int console_init(void)
 {
+    int i = 0;
+    char *full_name;
+    char *short_name;
+    int takes_filename_as_arg;
+    while(mon_get_nth_command(i++, &full_name, &short_name, &takes_filename_as_arg)) {
+        if (strlen(full_name)) {
+            linenoiseAddCompletion(&command_lc, full_name);
+            if (strlen(short_name))
+                linenoiseAddCompletion(&command_lc, short_name);
+            if (takes_filename_as_arg) {
+                linenoiseAddCompletion(&need_filename_lc, full_name);
+                if (strlen(short_name))
+                    linenoiseAddCompletion(&need_filename_lc, short_name);
+            }
+        }
+    }
     return 0;
 }
 
 int console_close_all(void)
 {
+    int i;
+    for(i = 0; i < command_lc.len; i++)
+        free(command_lc.cvec[i]);
+    for(i = 0; i < need_filename_lc.len; i++)
+        free(need_filename_lc.cvec[i]);
+
     return 0;
 }
 

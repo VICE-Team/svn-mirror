@@ -672,6 +672,16 @@ static const mon_cmds_t mon_cmd_array[] = {
 
 };
 
+int mon_get_nth_command(int index, const char** full_name, const char **short_name, int *takes_filename_as_arg)
+{
+    if (index < 0 || index >= sizeof(mon_cmd_array) / sizeof(*mon_cmd_array) - 1)
+        return 0;
+    *full_name = mon_cmd_array[index].str;
+    *short_name = mon_cmd_array[index].abbrev;
+    *takes_filename_as_arg = mon_cmd_array[index].param_ids[0] == IDGS_FILENAME;
+    return 1;
+}
+
 static int mon_command_lookup_index(const char *str)
 {
     int num = 0;
