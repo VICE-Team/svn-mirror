@@ -6136,30 +6136,30 @@ msgstr "ISEPIC 셋팅"
 #: src/arch/win32/res.rc.po.c:1515 src/arch/amigaos/intl_text.c.po.c:2640
 #: src/arch/amigaos/intl_text.c.po.c:7905
 msgid "MMC64 settings"
-msgstr ""
+msgstr "MMC64 설정"
 
 #: src/arch/win32/res.rc.po.c:1516 src/arch/win32/resmmcreplay.rc.po.c:47
 #: src/arch/amigaos/intl_text.c.po.c:2654
 #: src/arch/amigaos/intl_text.c.po.c:8031
 msgid "MMC Replay settings"
-msgstr ""
+msgstr "MMC Replay 설정"
 
 #: src/arch/win32/res.rc.po.c:1517 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2458
 #: src/arch/amigaos/intl_text.c.po.c:7177
 msgid "Magic Voice settings"
-msgstr ""
+msgstr "Magic Voice 설정"
 
 #: src/arch/win32/res.rc.po.c:1518 src/arch/win32/resmidi.rc.po.c:38
 msgid "MIDI settings"
-msgstr ""
+msgstr "MIDI 설정"
 
 #: src/arch/win32/res.rc.po.c:1519 src/arch/win32/resdigimax.rc.po.c:22
 #: src/arch/win32/resvic20.rc.po.c:560 src/arch/amigaos/intl_text.c.po.c:2668
 #: src/arch/amigaos/intl_text.c.po.c:2682
 #: src/arch/amigaos/intl_text.c.po.c:9277
 msgid "DigiMAX settings"
-msgstr ""
+msgstr "DigiMAX 설정"
 
 #: src/arch/win32/res.rc.po.c:1520 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
@@ -6169,63 +6169,63 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:2626
 #: src/arch/amigaos/intl_text.c.po.c:7765
 msgid "IDE64 settings"
-msgstr ""
+msgstr "IDE64 설정"
 
 #: src/arch/win32/res.rc.po.c:1523 src/arch/win32/restfe.rc.po.c:61
 #: src/arch/win32/resvic20.rc.po.c:562 src/arch/amigaos/intl_text.c.po.c:2780
 msgid "Ethernet settings"
-msgstr ""
+msgstr "이더넷 설정"
 
 #: src/arch/win32/res.rc.po.c:1525 src/arch/win32/resacia.rc.po.c:84
 #: src/arch/win32/resvic20.rc.po.c:558 src/arch/amigaos/intl_text.c.po.c:2794
 #: src/arch/amigaos/intl_text.c.po.c:2808
 #: src/arch/amigaos/intl_text.c.po.c:4894
 msgid "ACIA settings"
-msgstr ""
+msgstr "ACIA 설정"
 
 #: src/arch/win32/res.rc.po.c:1526 src/arch/win32/resrs232user.rc.po.c:34
 #: src/arch/amigaos/intl_text.c.po.c:2948
 #: src/arch/amigaos/intl_text.c.po.c:7233
 msgid "RS232 userport settings"
-msgstr ""
+msgstr "RS232 유져포트 설정"
 
 #: src/arch/win32/res.rc.po.c:1527 src/arch/win32/reseasyflash.rc.po.c:29
 #: src/arch/amigaos/intl_text.c.po.c:2738
 #: src/arch/amigaos/intl_text.c.po.c:5762
 msgid "EasyFlash settings"
-msgstr ""
+msgstr "EasyFlash 설정"
 
 #: src/arch/win32/res.rc.po.c:1528 src/arch/win32/ressoundexpander.rc.po.c:42
 #: src/arch/win32/resvic20.rc.po.c:564 src/arch/amigaos/intl_text.c.po.c:2696
 #: src/arch/amigaos/intl_text.c.po.c:2710
 #: src/arch/amigaos/intl_text.c.po.c:9333
 msgid "SFX Sound Expander settings"
-msgstr ""
+msgstr "SFX Sound Expander 설정"
 
 #: src/arch/win32/res.rc.po.c:1529 src/arch/win32/ressoundsampler.rc.po.c:21
 #: src/arch/amigaos/intl_text.c.po.c:2752 src/translate_text.c.po.c:12826
 msgid "Enable the SFX Sound Sampler cartridge"
-msgstr ""
+msgstr "SFX Sound Sampler 카트리지 를 작동시킨다"
 
 #: src/arch/win32/res.rc.po.c:1530 src/arch/amigaos/intl_text.c.po.c:2962
 msgid "Save current settings to specified file"
-msgstr ""
+msgstr "현제 설정 을 선택된 파일에 저장 합니다"
 
 #: src/arch/win32/res.rc.po.c:1531 src/arch/amigaos/intl_text.c.po.c:2976
 msgid "Load settings from specified file"
-msgstr ""
+msgstr "선택된 파일에서 설정을 불러옵니다"
 
 #: src/arch/win32/res.rc.po.c:1532 src/arch/amigaos/intl_text.c.po.c:2990
 msgid "Save current settings"
-msgstr ""
+msgstr "현제 설정 저장"
 
 #: src/arch/win32/res.rc.po.c:1533 src/arch/amigaos/intl_text.c.po.c:3004
 msgid "Load saved settings"
-msgstr ""
+msgstr "저장된 설정 불러오기"
 
 #: src/arch/win32/res.rc.po.c:1534 src/arch/amigaos/intl_text.c.po.c:3018
 msgid "Set default settings"
-msgstr ""
+msgstr "설정 초기화"
 
 #: src/arch/win32/res.rc.po.c:1537 src/arch/amigaos/intl_text.c.po.c:3158
 msgid "English"
@@ -6270,7 +6270,7 @@ msgstr "전체화면"
 #: src/arch/win32/res.rc.po.c:1555 src/arch/amigaos/intl_text.c.po.c:2850
 #: src/arch/amigaos/intl_text.c.po.c:8185
 msgid "SID cart settings"
-msgstr ""
+msgstr "SID 카트 설정"
 
 #: src/arch/win32/res.rc.po.c:1556
 msgid "Open"
@@ -6286,23 +6286,23 @@ msgstr "나가기\tAlt+F4"
 
 #: src/arch/win32/res.rc.po.c:1560
 msgid "Stop Debug"
-msgstr ""
+msgstr "디버그 중지"
 
 #: src/arch/win32/res.rc.po.c:1561
 msgid "Stop Execution"
-msgstr ""
+msgstr "실행 중지"
 
 #: src/arch/win32/res.rc.po.c:1562
 msgid "Step into"
-msgstr ""
+msgstr "드러서다"
 
 #: src/arch/win32/res.rc.po.c:1563
 msgid "Step over"
-msgstr ""
+msgstr "넘다"
 
 #: src/arch/win32/res.rc.po.c:1564
 msgid "Step until return"
-msgstr ""
+msgstr "리턴 까지 가다 "
 
 #: src/arch/win32/res.rc.po.c:1565
 msgid "Go to cursor"

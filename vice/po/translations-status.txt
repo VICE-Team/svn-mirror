@@ -13,4 +13,4 @@ da     Danish       91      184          18
 ru     Russian      68      276         465
 hu     Hungarian    60      798         132
 fr     French       49      997         202
-ko     Korean       44        0        1332
+ko     Korean       44        0        1309
