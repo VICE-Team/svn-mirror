@@ -132,17 +132,14 @@ char * monitor_network_get_command_line(void)
     char * cr_end = NULL;
 
     do {
-        if (monitor_network_data_available()) {
+        int n = monitor_network_receive(buffer + bufferpos, sizeof buffer - bufferpos - 1);
 
-            int n = monitor_network_receive(buffer + bufferpos, sizeof buffer - bufferpos - 1);
-
-            if (n > 0) {
-                bufferpos += n;
-            }
-            else if (n <= 0) {
-                monitor_network_quit();
-                break;
-            }
+        if (n > 0) {
+            bufferpos += n;
+        }
+        else if (n <= 0) {
+            monitor_network_quit();
+            break;
         }
 
         cr_start = strchr(buffer, '\n');
@@ -187,7 +184,7 @@ char * monitor_network_get_command_line(void)
             break;
         }
 
-        ui_dispatch_next_event();
+        ui_dispatch_events();
 
     } while (1);
 
