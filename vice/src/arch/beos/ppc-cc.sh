@@ -1,4 +1,10 @@
 #!/bin/sh
+# ppc-cc.sh for the BEOS port
+#
+# written by Marco van den Heuvel <blackystardust68@yahoo.com>
+#
+# This script makes sure a 'valid' output file is generated
+#   for when the configure script checks the compiled(-wrapper)
 
 foundo=no
 
