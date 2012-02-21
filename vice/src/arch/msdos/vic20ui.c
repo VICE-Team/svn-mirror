@@ -466,6 +466,10 @@ int vic20ui_init(void)
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
+    ui_vic_flash_plugin_submenu = tui_menu_create("Vic Flash Plugin settings", 1);
+
+    tui_menu_add(ui_vic_flash_plugin_submenu, vic_flash_plugin_menu_items);
+
     tui_menu_add_submenu(ui_ioextensions_submenu, "_Vic Flash Plugin settings...",
                          "Vic Flash Plugin settings",
                          ui_vic_flash_plugin_submenu,
