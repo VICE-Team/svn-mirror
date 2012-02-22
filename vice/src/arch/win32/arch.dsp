@@ -553,6 +553,10 @@ SOURCE=.\uiramcart.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uiretroreplay.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uireu.c
 # End Source File
 # Begin Source File

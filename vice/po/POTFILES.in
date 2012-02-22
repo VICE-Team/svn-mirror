@@ -160,6 +160,7 @@ src/arch/win32/resplus256k.rc.po.c
 src/arch/win32/resplus4.rc.po.c
 src/arch/win32/resplus60k.rc.po.c
 src/arch/win32/resramcart.rc.po.c
+src/arch/win32/resretroreplay.rc.po.c
 src/arch/win32/resreu.rc.po.c
 src/arch/win32/resrs232user.rc.po.c
 src/arch/win32/ressid.rc.po.c

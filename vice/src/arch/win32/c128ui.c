@@ -53,6 +53,7 @@
 #include "uimidi.h"
 #include "uimmc64.h"
 #include "uimmcreplay.h"
+#include "uiretroreplay.h"
 #include "uireu.h"
 #include "uigeoram.h"
 #include "uimouse.h"
@@ -384,6 +385,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_MIDI_SETTINGS, IDS_MI_MIDI_SETTINGS },
     { IDM_MMC64_SETTINGS, IDS_MI_MMC64_SETTINGS },
     { IDM_MMCREPLAY_SETTINGS, IDS_MI_MMCREPLAY_SETTINGS },
+    { IDM_RR_SETTINGS, IDS_MI_RR_SETTINGS },
     { IDM_MAGICVOICE_SETTINGS, IDS_MI_MAGICVOICE_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
@@ -690,6 +692,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_MMCREPLAY_SETTINGS:
             ui_mmcreplay_settings_dialog(hwnd);
+            break;
+        case IDM_RR_SETTINGS:
+            ui_rr_settings_dialog(hwnd);
             break;
         case IDM_MAGICVOICE_SETTINGS:
             ui_magicvoice_settings_dialog(hwnd);

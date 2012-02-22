@@ -1671,6 +1671,7 @@ BEGIN
   IDS_MI_ISEPIC_SETTINGS          "ISEPIC settings..."
   IDS_MI_MMC64_SETTINGS           "MMC64 settings..."
   IDS_MI_MMCREPLAY_SETTINGS       "MMC Replay settings..."
+  IDS_MI_RR_SETTINGS              "Retro Replay settings..."
   IDS_MI_MAGICVOICE_SETTINGS      "Magic Voice settings..."
   IDS_MI_MIDI_SETTINGS            "MIDI settings..."
   IDS_MI_DIGIMAX_SETTINGS         "DigiMAX settings..."

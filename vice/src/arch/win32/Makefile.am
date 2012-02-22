@@ -100,6 +100,7 @@ libarch_a_SOURCES = \
 	resplus4.rc \
 	resplus60k.rc \
 	resramcart.rc \
+	resretroreplay.rc \
 	resreu.rc \
 	resrs232user.rc \
 	ressid.rc \
@@ -239,6 +240,8 @@ libarch_a_SOURCES = \
 	uiram.h \
 	uiramcart.c \
 	uiramcart.h \
+	uiretroreplay.c \
+	uiretroreplay.h \
 	uireu.c \
 	uireu.h \
 	uirom.c \
@@ -507,15 +510,17 @@ res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/
 @CROSS_FALSE@	(cd utils; $(MAKE))
 @CROSS_FALSE@	utils/genwinres$(EXEEXT) res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 
-resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
-	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
-	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
-	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc $(srcdir)/resdrivec128.rc \
-	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
-	$(srcdir)/resmidi.rc $(srcdir)/reslightpen.rc \
-	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
-	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
-	$(srcdir)/resautostart.rc $(srcdir)/resmmcreplay.rc $(top_builddir)/src/debug.h
+resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
+	$(srcdir)/resacia.rc $(srcdir)/resrs232user.rc $(srcdir)/ressid.rc \
+	$(srcdir)/resvicii.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
+	$(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc $(srcdir)/reside64.rc \
+	$(srcdir)/resdrivec128.rc $(srcdir)/resdigimax.rc \
+	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/resmidi.rc \
+	$(srcdir)/reslightpen.rc $(srcdir)/ressoundexpander.rc \
+	$(srcdir)/reseasyflash.rc $(srcdir)/resmagicvoice.rc \
+	$(srcdir)/resexpert.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -524,7 +529,8 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc 
 	$(srcdir)/resmouse.rc $(srcdir)/restfe.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
 	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
-	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc $(srcdir)/resmmcreplay.rc 
+	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc \
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -537,7 +543,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
 	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
-	$(srcdir)/resmmcreplay.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
+	$(top_builddir)/src/debug.h
 	cat >resc64cat.rc $(srcdir)/resc64.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
@@ -548,7 +555,8 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
 	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
-	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc $(srcdir)/resmmcreplay.rc
+	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc
 
 resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resdrivec64.rc \
