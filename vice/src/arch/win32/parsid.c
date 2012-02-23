@@ -50,6 +50,8 @@ static unsigned short parsid_ctrport;
 static int parsid_use_lib = 0;
 static int parsid_port_address[4];
 
+#define sleep(x) Sleep(x * 1000)
+
 #ifndef MSVC_RC
 typedef short _stdcall (*inpfuncPtr)(short portaddr);
 typedef void _stdcall (*oupfuncPtr)(short portaddr, short datum);
@@ -57,8 +59,6 @@ typedef void _stdcall (*oupfuncPtr)(short portaddr, short datum);
 inpfuncPtr inp32fp;
 oupfuncPtr oup32fp;
 #else
-#define sleep Sleep
-
 typedef short (CALLBACK* Inp32_t)(short);
 typedef void (CALLBACK* Out32_t)(short, short);
 
