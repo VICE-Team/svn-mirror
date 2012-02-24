@@ -42,9 +42,6 @@ typedef signed char INT8;
 typedef WORD UINT16;
 typedef SWORD INT16;
 
-typedef DWORD UINT32;
-typedef SDWORD INT32;
-
 typedef WORD target_addr_t;
 
 typedef unsigned int absolute_address_t;
