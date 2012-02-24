@@ -29,7 +29,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <jpeglib.h>
 
 #include "archdep.h"
 #include "jpegdrv.h"
@@ -41,6 +40,7 @@
 #include "types.h"
 #include "util.h"
 
+#include <jpeglib.h>
 
 typedef struct gfxoutputdrv_data_s
 {
