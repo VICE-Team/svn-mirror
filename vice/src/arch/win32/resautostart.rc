@@ -307,7 +307,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Warp modunda otomatik baþlat"
     IDS_AUTOSTART_COLON_RUN                  "ÇALIÞTIR ile ':' kullan"
     IDS_AUTOSTART_LOAD_TO_BASIC              "BASIC baþlangýcýna yükle"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Rastgele gecikme"
     IDS_AUTOSTART_PRG_MODE                   "PRG otomatik baþlatma modu"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG otomatik baþlatma disk imajý"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "PRG otomatik baþlatma için dosya seçin"

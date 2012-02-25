@@ -173,7 +173,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
-  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
+  IDS_EXPERT_CAPTION      "Expert 카트리지 셋팅"
   IDS_EXPERT_ENABLE       "Enable the Expert Cartridge"
   IDS_EXPERT_MODE_LABEL   "모드"
   IDS_EXPERT_WRITE_ENABLE "Save Expert Cartridge image when changed"

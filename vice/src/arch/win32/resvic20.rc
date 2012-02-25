@@ -995,13 +995,13 @@ BEGIN
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK    "Enable Vic Flash Plugin write back to ROM file"
     IDS_MI_MEGACART_WRITEBACK            "Enable Mega-Cart NvRAM writeback"
     IDS_MI_MEGACART_WRITEBACK_FILE       "Select Mega-Cart non-volatile RAM file"
-    IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA settings (MasC=uerade)..."
-    IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM settings (MasC=uerade)..."
-    IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX settings (MasC=uerade)..."
+    IDS_MI_ACIA_SETTINGS_MASCUERADE      "ACIA 설정 (MasC=uerade)..."
+    IDS_MI_GEORAM_SETTINGS_MASCUERADE    "GEO-RAM 셋팅 (MasC=uerade)..."
+    IDS_MI_DIGIMAX_SETTINGS_MASCUERADE   "DigiMAX 설정 (MasC=uerade)..."
 #ifdef HAVE_TFE
-    IDS_MI_TFE_SETTINGS_MASCUERADE       "Ethernet settings (MasC=uerade)..."
+    IDS_MI_TFE_SETTINGS_MASCUERADE       "이더넷 설정 (MasC=uerade)..."
 #endif
-    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
+    IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander 설정 (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
 END
 #ifndef WINDRES_CP_IGNORE

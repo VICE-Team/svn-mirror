@@ -2,7 +2,7 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
@@ -8602,7 +8602,9 @@ msgstr ""
 msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
-msgstr "Toon de CPY cycli teller voor het huidige apparaat. 'reset' zet de teller naar 0."
+msgstr ""
+"Toon de CPY cycli teller voor het huidige apparaat. 'reset' zet de teller "
+"naar 0."
 
 #: src/translate_text.c.po.c:1439
 msgid "Read a snapshot of the machine from the file specified."

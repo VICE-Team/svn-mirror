@@ -105,7 +105,7 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDSAMPLER_CAPTION "SFX Sound Sampler settings"
-    IDS_SFX_SOUNDSAMPLER_ENABLE  "Enable the SFX Sound Sampler cartridge"
+    IDS_SFX_SOUNDSAMPLER_ENABLE  "SFX Sound Sampler 카트리지 를 작동시킨다"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -71,8 +71,8 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CIA1_MODEL                "CIA 1 model"
   IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_6526_OLD                  "6526 (gammel)"
+  IDS_6526A_NEW                 "6526A (ny)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 
@@ -82,10 +82,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "CIA 1 Modell"
+  IDS_CIA2_MODEL                "CIA 2 Modell"
+  IDS_6526_OLD                  "6526 (alt)"
+  IDS_6526A_NEW                 "6526A (neu)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 
@@ -95,10 +95,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "Modelo CIA 1"
+  IDS_CIA2_MODEL                "Modelo CIA 2"
+  IDS_6526_OLD                  "6526 (antiguo)"
+  IDS_6526A_NEW                 "6526A (nuevo)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 
@@ -140,10 +140,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "Modello CIA 1"
+  IDS_CIA2_MODEL                "Modello CIA 2"
+  IDS_6526_OLD                  "6526 (vecchio)"
+  IDS_6526A_NEW                 "6526A (nuovo)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 
@@ -156,10 +156,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "CIA 1 ¸ðµ¨"
+  IDS_CIA2_MODEL                "CIA 2 ¸ðµ¨"
+  IDS_6526_OLD                  "6526 (¿À·¡µÈ)"
+  IDS_6526A_NEW                 "6526A (»õ·Î¿î)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -174,9 +174,9 @@ LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CIA1_MODEL                "CIA 1 model"
   IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
-  IDS_MI_CIA_SETTINGS           "CIA settings..."
+  IDS_6526_OLD                  "6526 (oud)"
+  IDS_6526A_NEW                 "6526A (nieuw)"
+  IDS_MI_CIA_SETTINGS           "CIA instellingen..."
 END
 
 
@@ -188,10 +188,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "Model CIA 1"
+  IDS_CIA2_MODEL                "Model CIA 2"
+  IDS_6526_OLD                  "6526 (stary)"
+  IDS_6526A_NEW                 "6526A (nowy)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 #ifndef WINDRES_CP_IGNORE
@@ -207,8 +207,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
+  IDS_CIA1_MODEL                "¼ÞÔÕÛì CIA 1"
+  IDS_CIA2_MODEL                "¼ÞÔÕÛì CIA 2"
   IDS_6526_OLD                  "6526 (old)"
   IDS_6526A_NEW                 "6526A (new)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
@@ -223,10 +223,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "CIA 1-modell"
+  IDS_CIA2_MODEL                "CIA 2-modell"
+  IDS_6526_OLD                  "6526 (gammal)"
+  IDS_6526A_NEW                 "6526A (ny)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 
@@ -239,12 +239,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
+  IDS_CIA1_MODEL                "CIA 1 modeli"
+  IDS_CIA2_MODEL                "CIA 2 modeli"
+  IDS_6526_OLD                  "6526 (eski)"
+  IDS_6526A_NEW                 "6526A (yeni)"
   IDS_MI_CIA_SETTINGS           "CIA settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

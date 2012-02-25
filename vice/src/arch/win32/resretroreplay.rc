@@ -54,7 +54,7 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Udgave"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 
@@ -78,7 +78,7 @@ LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Revisión"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 
@@ -90,7 +90,7 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Révision"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 
@@ -105,7 +105,7 @@ LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Változatszám"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -120,7 +120,7 @@ LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Revisione"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 
@@ -135,7 +135,7 @@ LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "¼öÁ¤"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 #ifndef WINDRES_CP_IGNORE
@@ -148,10 +148,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_FLASH_JUMPER   "Activeer RR flash jumper"
+  IDS_RR_BANK_JUMPER    "Activeer RR bank jumper"
+  IDS_RR_REVISION_LABEL "Revisie"
+  IDS_RR_BIOS_SAVE      "RR flasg bestand opslaan indien gewijzigd"
 END
 
 
@@ -163,10 +163,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_FLASH_JUMPER   "W³±cz prze³±cznik RR flash"
+  IDS_RR_BANK_JUMPER    "W³±cz prze³±cznik RR bank"
+  IDS_RR_REVISION_LABEL "Poprawka"
+  IDS_RR_BIOS_SAVE      "Zapisuj RR flash przy zmianie"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -198,7 +198,7 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Utgåva"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 
@@ -213,9 +213,11 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
   IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
-  IDS_RR_REVISION_LABEL "Revision"
+  IDS_RR_REVISION_LABEL "Revizyon"
   IDS_RR_BIOS_SAVE      "Save RR flash when changed"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

@@ -29,6 +29,7 @@ translate_t string_table[] = {
 
 
 
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -1446,14 +1447,14 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_STOPWATCH_DESCRIPTION,    N_("Print the CPU cycle counter of the current device. 'reset' sets the counter to 0.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_STOPWATCH_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_STOPWATCH_DESCRIPTION_DE, "Zeigt den CPU-Taktzyklenzähler der aktiven Geräts an. Mit 'reset' wird dieser Zähler auf 0 gesetzt."},
+/* de */ {IDGS_MON_STOPWATCH_DESCRIPTION_DE, ""},  /* fuzzy */
 /* es */ {IDGS_MON_STOPWATCH_DESCRIPTION_ES, ""},  /* fuzzy */
 /* fr */ {IDGS_MON_STOPWATCH_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_STOPWATCH_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_STOPWATCH_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_STOPWATCH_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_STOPWATCH_DESCRIPTION_NL, ""},  /* fuzzy */
-/* pl */ {IDGS_MON_STOPWATCH_DESCRIPTION_PL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_STOPWATCH_DESCRIPTION_NL, "Toon de CPY cycli teller voor het huidige apparaat. 'reset' zet de teller naar 0."},
+/* pl */ {IDGS_MON_STOPWATCH_DESCRIPTION_PL, "Poka¿ licznik cykli CPU obecnego urz±dzenia. 'reset' zeruje licznik."},
 /* ru */ {IDGS_MON_STOPWATCH_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_STOPWATCH_DESCRIPTION_SV, ""},  /* fuzzy */
 /* tr */ {IDGS_MON_STOPWATCH_DESCRIPTION_TR, ""},  /* fuzzy */
@@ -3918,7 +3919,7 @@ translate_t string_table[] = {
 /* es */ {IDCLS_GO128_MODE_ES, "Al reiniciar, pasar siempre al modo C128"},
 /* fr */ {IDCLS_GO128_MODE_FR, "Toujours revenir au mode C128 au redémarrage"},
 /* hu */ {IDCLS_GO128_MODE_HU, "Mindig C128 mód újraindítás után"},
-/* it */ {IDCLS_GO128_MODE_IT, "Cambia sempre in modalita C128 al reset"},
+/* it */ {IDCLS_GO128_MODE_IT, "Cambia sempre in modalità C128 al reset"},
 /* ko */ {IDCLS_GO128_MODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_GO128_MODE_NL, "Start altijd op in C128 modus na reset"},
 /* pl */ {IDCLS_GO128_MODE_PL, "Przy restarcie zawsze prze³±czaj w tryb C128"},
@@ -4145,7 +4146,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SET_C128_MODEL_PL, "Ustaw model C128 (c128/c128dcr, pal/ntsc)"},
 /* ru */ {IDCLS_SET_C128_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_C128_MODEL_SV, "Välj C128-modell (c128/c128dcr, pal/ntsc)"},
-/* tr */ {IDCLS_SET_C128_MODEL_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_C128_MODEL_TR, "C128 modelini belirle (c128/c128dcr, pal/ntsc)"},
 #endif
 
 /* plus4/plus4-cmdline-options.c */
@@ -10432,7 +10433,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_ENABLE_AUDIO_LEAK_PL, "W³±cz emulacjê brudów w d¼wiêku"},
 /* ru */ {IDCLS_ENABLE_AUDIO_LEAK_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_AUDIO_LEAK_SV, "Aktivera emulering av audioläckage"},
-/* tr */ {IDCLS_ENABLE_AUDIO_LEAK_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_AUDIO_LEAK_TR, "Ses kaçaðý emülasyonunu aktif et"},
 #endif
 
 /* video/video-cmdline-options.c */
@@ -10449,7 +10450,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_DISABLE_AUDIO_LEAK_PL, "Wy³±cz emulacjê brudów w d¼wiêku"},
 /* ru */ {IDCLS_DISABLE_AUDIO_LEAK_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_AUDIO_LEAK_SV, "Inaktivera emulering av audioläckage"},
-/* tr */ {IDCLS_DISABLE_AUDIO_LEAK_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_AUDIO_LEAK_TR, "Ses kaçaðý emülasyonunu pasifleþtir"},
 #endif
 
 /* video/video-cmdline-options.c */
@@ -12904,7 +12905,7 @@ translate_t string_table[] = {
 /* fr */ {IDCLS_ENABLE_SFX_SS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SFX_SS_HU, "SFX Sound Sampler engedélyezése"},
 /* it */ {IDCLS_ENABLE_SFX_SS_IT, "Attiva cartuccia SFX Sound Sampler"},
-/* ko */ {IDCLS_ENABLE_SFX_SS_KO, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SFX_SS_KO, "SFX Sound Sampler Ä«Æ®¸®Áö ¸¦ ÀÛµ¿½ÃÅ²´Ù"},
 /* nl */ {IDCLS_ENABLE_SFX_SS_NL, "Activeer de SFX Sound Sampler cartridge"},
 /* pl */ {IDCLS_ENABLE_SFX_SS_PL, "W³±cz kartrid¿ SFX Sound Sampler"},
 /* ru */ {IDCLS_ENABLE_SFX_SS_RU, "Enable the SFX Sound Sampler cartridge"},

@@ -340,11 +340,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_CBM5X0_SETTINGS           "CBM5x0 Einstellungen"
   IDS_SELECT_CBMII_MEM_64       "64 kByte"
-  IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_CBM5X0MODEL               "CBM5x0 Modell"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 Einstellungen..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 Modell Einstellungen..."
 END
 
 
@@ -353,11 +353,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_CBM5X0_SETTINGS           "Ajustes CBM5x0"
   IDS_SELECT_CBMII_MEM_64       "64 kByte"
-  IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_CBM5X0MODEL               "Modelo CBM5x0"
+  IDS_MI_CBM5X0_SETTINGS        "Ajustes CBM5x0..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "Ajustes modelo CBM5x0..."
 END
 
 
@@ -398,11 +398,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_CBM5X0_SETTINGS           "Impostazioni CBM5x0"
   IDS_SELECT_CBMII_MEM_64       "64 kByte"
-  IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_CBM5X0MODEL               "Modello CBM5x0"
+  IDS_MI_CBM5X0_SETTINGS        "Impostazioni CBM5x0..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "Impostazioni modello CBM5x0..."
 END
 
 
@@ -446,11 +446,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_CBM5X0_SETTINGS           "Ustawienia CBM5x0"
   IDS_SELECT_CBMII_MEM_64       "64 kBajty"
-  IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_CBM5X0MODEL               "Model CBM5x0"
+  IDS_MI_CBM5X0_SETTINGS        "Ustawienia CBM5x0..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "Ustawienia modelu CBM5x0..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -497,11 +497,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
+  IDS_CBM5X0_SETTINGS           "CBM5x0 ayarlarý"
   IDS_SELECT_CBMII_MEM_64       "64 kByte"
-  IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_CBM5X0MODEL               "CBM5x0 modeli"
+  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 ayarlarý..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

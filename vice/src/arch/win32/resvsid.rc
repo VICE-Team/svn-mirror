@@ -174,14 +174,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "PSID Datei wählen"
+  IDS_TUNE_NR             "Titel Nummer"
   IDS_MI_LOAD_PSID_FILE   "PSID Datei laden"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Titel auswählen"
+  IDS_MI_NEXT_TUNE        "Nächster Titel "
+  IDS_MI_PREVIOUS_TUNE    "Vorheriger Titel "
   IDS_MI_PSID_OVERRIDE    "PSID Einstellungen ignorieren"
-  IDS_MP_MEDIA            "Media"
+  IDS_MP_MEDIA            "Medien"
 END
 
 
@@ -190,14 +190,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "Seleccionar fichero PSID"
+  IDS_TUNE_NR             "número melodia"
   IDS_MI_LOAD_PSID_FILE   "Cargar fichero PSID"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Seleccionar melodia"
+  IDS_MI_NEXT_TUNE        "Siguiente melodia"
+  IDS_MI_PREVIOUS_TUNE    "melodia previa"
   IDS_MI_PSID_OVERRIDE    "No utilizar ajustes PSID"
-  IDS_MP_MEDIA            "Media"
+  IDS_MP_MEDIA            "Medio"
 END
 
 
@@ -244,12 +244,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "Seleziona file PSID"
+  IDS_TUNE_NR             "Numero melodia"
   IDS_MI_LOAD_PSID_FILE   "Carica file PSID"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Seleziona melodia"
+  IDS_MI_NEXT_TUNE        "Melodia successiva"
+  IDS_MI_PREVIOUS_TUNE    "Melodia precedente"
   IDS_MI_PSID_OVERRIDE    "Sovrascrivi impostazioni PSID"
   IDS_MP_MEDIA            "Media"
 END
@@ -301,12 +301,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "Wybierz plik PSID"
+  IDS_TUNE_NR             "Numer tonu"
   IDS_MI_LOAD_PSID_FILE   "Wczytaj plik PSID"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Wybór tonu"
+  IDS_MI_NEXT_TUNE        "Nastêpny ton"
+  IDS_MI_PREVIOUS_TUNE    "Poprzedni ton"
   IDS_MI_PSID_OVERRIDE    "Nadpisz ustawienia PSID"
   IDS_MP_MEDIA            "Media"
 END
@@ -361,14 +361,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "PSID dosyasý seçin"
+  IDS_TUNE_NR             "Þarký numarasý"
   IDS_MI_LOAD_PSID_FILE   "PSID dosyasý yükle"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Þarký Seç"
+  IDS_MI_NEXT_TUNE        "Sonraki þarký"
+  IDS_MI_PREVIOUS_TUNE    "Önceki þarký"
   IDS_MI_PSID_OVERRIDE    "PSID ayarlarýný geçersiz kýl"
-  IDS_MP_MEDIA            "Media"
+  IDS_MP_MEDIA            "Ortam"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

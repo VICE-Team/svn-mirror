@@ -340,9 +340,9 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM2_SETTINGS           "CBM2 Einstellungen"
-  IDS_CBM2MODEL               "CBM2 model"
+  IDS_CBM2MODEL               "CBM2 Modell"
   IDS_MI_CBM2_SETTINGS        "CBM2 Einstellungen..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 Modell Einstellungen..."
 END
 
 
@@ -352,9 +352,9 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM2_SETTINGS           "Ajustes CBM2"
-  IDS_CBM2MODEL               "CBM2 model"
+  IDS_CBM2MODEL               "Modelo CBM2"
   IDS_MI_CBM2_SETTINGS        "Ajustes CBM2..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2MODEL_SETTINGS   "Ajustes modelo CBM2..."
 END
 
 
@@ -394,9 +394,9 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM2_SETTINGS           "Impostazioni CBM2"
-  IDS_CBM2MODEL               "CBM2 model"
+  IDS_CBM2MODEL               "Modello CBM2"
   IDS_MI_CBM2_SETTINGS        "Impostazioni CBM2..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2MODEL_SETTINGS   "Impostazioni modello CBM2..."
 END
 
 
@@ -439,9 +439,9 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM2_SETTINGS           "Ustawienia CBM2"
-  IDS_CBM2MODEL               "CBM2 model"
+  IDS_CBM2MODEL               "Model CBM2"
   IDS_MI_CBM2_SETTINGS        "Ustawienia CBM2..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2MODEL_SETTINGS   "Ustawienia modelu CBM2..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -487,9 +487,9 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM2_SETTINGS           "CBM2 ayarlarý"
-  IDS_CBM2MODEL               "CBM2 model"
+  IDS_CBM2MODEL               "CBM2 modeli"
   IDS_MI_CBM2_SETTINGS        "CBM2 ayarlarý..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -122,7 +122,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
+  IDS_MAGICVOICE_CAPTION     "Magic Voice ¼³Á¤"
   IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
   IDS_MAGICVOICE_FILE        "Magic Voice file"
   IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"

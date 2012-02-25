@@ -237,7 +237,7 @@ BEGIN
   IDS_NORMAL         "보통"
   IDS_SWIFTLINK      "스위프트링크"
   IDS_TURBO232       "터보232"
-  IDS_ACIA_CAPTION   "ACIA settings"
+  IDS_ACIA_CAPTION   "ACIA 설정"
   IDS_ACIA_ENABLE    "Enable the ACIA RS232 interface emulation"
   IDS_ACIA_DEVICE    "ACIA device"
   IDS_ACIA_LOCATION  "ACIA location"
