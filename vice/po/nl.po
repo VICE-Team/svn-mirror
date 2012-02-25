@@ -5526,9 +5526,8 @@ msgid "WMM driver"
 msgstr "WMM stuurprogramma"
 
 #: src/arch/win32/res.rc.po.c:1232
-#, fuzzy
 msgid "Sound output mode"
-msgstr "Uitvoer modus"
+msgstr "Geluid uitvoer modus"
 
 #: src/arch/win32/res.rc.po.c:1234
 msgid "Sound Buffer Size"
@@ -6202,9 +6201,8 @@ msgid "MMC Replay settings"
 msgstr "MMC Replay instellingen"
 
 #: src/arch/win32/res.rc.po.c:1531
-#, fuzzy
 msgid "Retro Replay settings"
-msgstr "MMC Replay instellingen"
+msgstr "Retro Replay instellingen"
 
 #: src/arch/win32/res.rc.po.c:1532 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2458
@@ -6623,18 +6621,16 @@ msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:617 src/arch/win32/resc64.rc.po.c:624
-#, fuzzy
 msgid "C64 drive burst modification settings"
-msgstr "Autovuur knop instellingen"
+msgstr "C64 drive burst modificatie instellingen"
 
 #: src/arch/win32/resc64.rc.po.c:618
-#, fuzzy
 msgid "Enable the C64 drive burst modification"
-msgstr "Activeer de ACIA emulatie"
+msgstr "Activeer de C64 drive burst modificatie"
 
 #: src/arch/win32/resc64.rc.po.c:619
 msgid "C64 drive burst modification CIA"
-msgstr ""
+msgstr "C64 drive burst modificatie CIA"
 
 #: src/arch/win32/resc64.rc.po.c:621 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:2556
@@ -6827,9 +6823,8 @@ msgid "CBM5x0 model settings"
 msgstr "CBM5x0 model instellingen"
 
 #: src/arch/win32/rescia.rc.po.c:53
-#, fuzzy
 msgid "CIA settings"
-msgstr "ACIA instellingen"
+msgstr "CIA instellingen"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:12977
 msgid "Enable the DigiMAX cartridge"
@@ -7245,19 +7240,16 @@ msgid "Select file for RamCart"
 msgstr "Selecteer bestand voor RamCart"
 
 #: src/arch/win32/resretroreplay.rc.po.c:35
-#, fuzzy
 msgid "Enable RR flash jumper"
-msgstr "Activeer flashjumper"
+msgstr "Activeer RR flash jumper"
 
 #: src/arch/win32/resretroreplay.rc.po.c:36
-#, fuzzy
 msgid "Enable RR bank jumper"
-msgstr "Activeer bankjumper"
+msgstr "Activeer RR bank jumper"
 
 #: src/arch/win32/resretroreplay.rc.po.c:38
-#, fuzzy
 msgid "Save RR flash when changed"
-msgstr "REU bestand opslaan indien gewijzigd"
+msgstr "RR flasg bestand opslaan indien gewijzigd"
 
 #: src/arch/win32/resreu.rc.po.c:39
 msgid "REU Settings"
@@ -7300,23 +7292,20 @@ msgid "General"
 msgstr "Algemeen"
 
 #: src/arch/win32/ressid.rc.po.c:79
-#, fuzzy
 msgid "Extra SID chips"
-msgstr "Extra SIDs"
+msgstr "Extra SID chips"
 
 #: src/arch/win32/ressid.rc.po.c:80
 msgid "Amount of extra SID chips"
-msgstr ""
+msgstr "Aantel extra SID chips"
 
 #: src/arch/win32/ressid.rc.po.c:81
-#, fuzzy
 msgid "Second SID at"
-msgstr "Tweede SID"
+msgstr "Tweede SID op"
 
 #: src/arch/win32/ressid.rc.po.c:82
-#, fuzzy
 msgid "Third SID at"
-msgstr "Derde SID basis adres"
+msgstr "Derde SID op"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:60
 msgid "reSID/reSID-fp options"
@@ -7471,21 +7460,20 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Selecteer Mega-Cart non-volatile RAM bestand"
 
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "Normal borders"
-msgstr "Normaal"
+msgstr "Normale borders"
 
 #: src/arch/win32/resvicii.rc.po.c:43
 msgid "Full borders"
-msgstr ""
+msgstr "Volle borders"
 
 #: src/arch/win32/resvicii.rc.po.c:44
 msgid "Debug borders"
-msgstr ""
+msgstr "Debug borders"
 
 #: src/arch/win32/resvicii.rc.po.c:45
 msgid "No borders"
-msgstr ""
+msgstr "Geen borders"
 
 #: src/arch/win32/resvicii.rc.po.c:46
 msgid "Sprite Collisions"
@@ -8614,7 +8602,7 @@ msgstr ""
 msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
-msgstr ""
+msgstr "Toon de CPY cycli teller voor het huidige apparaat. 'reset' zet de teller naar 0."
 
 #: src/translate_text.c.po.c:1439
 msgid "Read a snapshot of the machine from the file specified."
