@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-02-23 04:32+0100\n"
+"POT-Creation-Date: 2012-02-25 12:55-0800\n"
 "PO-Revision-Date: 2012-02-23 04:43+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -133,7 +133,7 @@ msgstr ""
 "Nie można wczytać obrazu Function ROM\n"
 "'%s'"
 
-#: src/arch/unix/gui/c128ui.c:308 src/arch/win32/resc128.rc.po.c:709
+#: src/arch/unix/gui/c128ui.c:308 src/arch/win32/resc128.rc.po.c:710
 #: src/translate_text.c.po.c:3899
 msgid "Enable the internal Function ROM"
 msgstr "Włącz wewnętrzny Function ROM"
@@ -142,7 +142,7 @@ msgstr "Włącz wewnętrzny Function ROM"
 msgid "Internal Function ROM file"
 msgstr "Plik wewnętrznego Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:314 src/arch/win32/resc128.rc.po.c:712
+#: src/arch/unix/gui/c128ui.c:314 src/arch/win32/resc128.rc.po.c:713
 #: src/translate_text.c.po.c:3933
 msgid "Enable the external Function ROM"
 msgstr "Włącz zewnętrzny Function ROM"
@@ -151,7 +151,7 @@ msgstr "Włącz zewnętrzny Function ROM"
 msgid "External Function ROM file"
 msgstr "Plik zewnętrznego Function ROM"
 
-#: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:670
+#: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:671
 msgid "Function ROM"
 msgstr "Function ROM"
 
@@ -287,18 +287,18 @@ msgstr "Zrzuty ekranu"
 msgid "C128 model"
 msgstr "Model C128"
 
-#: src/arch/unix/gui/c128ui.c:510 src/arch/win32/resc128.rc.po.c:701
+#: src/arch/unix/gui/c128ui.c:510 src/arch/win32/resc128.rc.po.c:702
 #: src/arch/amigaos/intl_text.c.po.c:3144
 msgid "International"
 msgstr "Międzynarodowy"
 
-#: src/arch/unix/gui/c128ui.c:512 src/arch/win32/resc128.rc.po.c:702
+#: src/arch/unix/gui/c128ui.c:512 src/arch/win32/resc128.rc.po.c:703
 #: src/arch/amigaos/intl_text.c.po.c:3214
 msgid "Finnish"
 msgstr "Fiński"
 
 #: src/arch/unix/gui/c128ui.c:514 src/arch/win32/res.rc.po.c:1556
-#: src/arch/win32/resc128.rc.po.c:703 src/arch/amigaos/intl_text.c.po.c:3228
+#: src/arch/win32/resc128.rc.po.c:704 src/arch/amigaos/intl_text.c.po.c:3228
 msgid "French"
 msgstr "Francuski"
 
@@ -307,22 +307,22 @@ msgstr "Francuski"
 #: src/arch/unix/gui/c64ui.c:597 src/arch/unix/gui/cbm2ui.c:396
 #: src/arch/unix/gui/petui.c:415 src/arch/unix/gui/petui.c:421
 #: src/arch/unix/gui/plus4ui.c:296 src/arch/win32/res.rc.po.c:1554
-#: src/arch/win32/resc128.rc.po.c:704 src/arch/amigaos/intl_text.c.po.c:3186
+#: src/arch/win32/resc128.rc.po.c:705 src/arch/amigaos/intl_text.c.po.c:3186
 msgid "German"
 msgstr "Niemiecki"
 
 #: src/arch/unix/gui/c128ui.c:518 src/arch/win32/res.rc.po.c:1558
-#: src/arch/win32/resc128.rc.po.c:705 src/arch/amigaos/intl_text.c.po.c:3256
+#: src/arch/win32/resc128.rc.po.c:706 src/arch/amigaos/intl_text.c.po.c:3256
 msgid "Italian"
 msgstr "Włoski"
 
-#: src/arch/unix/gui/c128ui.c:520 src/arch/win32/resc128.rc.po.c:706
+#: src/arch/unix/gui/c128ui.c:520 src/arch/win32/resc128.rc.po.c:707
 #: src/arch/amigaos/intl_text.c.po.c:3312
 msgid "Norwegian"
 msgstr "Norweski"
 
 #: src/arch/unix/gui/c128ui.c:522 src/arch/win32/res.rc.po.c:1563
-#: src/arch/win32/resc128.rc.po.c:707 src/arch/amigaos/intl_text.c.po.c:3340
+#: src/arch/win32/resc128.rc.po.c:708 src/arch/amigaos/intl_text.c.po.c:3340
 msgid "Swedish"
 msgstr "Szwedzki"
 
@@ -330,17 +330,17 @@ msgstr "Szwedzki"
 #: src/arch/unix/gui/c64scui.c:151 src/arch/unix/gui/c64scui.c:161
 #: src/arch/unix/gui/c64ui.c:223 src/arch/unix/gui/c64ui.c:233
 #: src/arch/unix/gui/cbm2ui.c:264 src/arch/win32/resc64.rc.po.c:605
-#: src/arch/amigaos/intl_text.c.po.c:9977
+#: src/arch/win32/rescia.rc.po.c:51 src/arch/amigaos/intl_text.c.po.c:9977
 msgid "6526 (old)"
 msgstr "6526 (stary)"
 
 #: src/arch/unix/gui/c128ui.c:533 src/arch/unix/gui/c128ui.c:542
 #: src/arch/unix/gui/cbm2ui.c:266 src/arch/win32/resc64.rc.po.c:606
-#: src/arch/amigaos/intl_text.c.po.c:9991
+#: src/arch/win32/rescia.rc.po.c:52 src/arch/amigaos/intl_text.c.po.c:9991
 msgid "6526A (new)"
 msgstr "6526A (nowy)"
 
-#: src/arch/unix/gui/c128ui.c:551 src/arch/win32/resc128.rc.po.c:669
+#: src/arch/unix/gui/c128ui.c:551 src/arch/win32/resc128.rc.po.c:670
 #: src/arch/amigaos/intl_text.c.po.c:9109
 msgid "Machine type"
 msgstr "Typ maszyny"
@@ -368,13 +368,14 @@ msgstr "Model VDC"
 
 #: src/arch/unix/gui/c128ui.c:559 src/arch/unix/gui/c64scui.c:186
 #: src/arch/unix/gui/c64ui.c:248 src/arch/unix/gui/cbm2ui.c:319
-#: src/arch/win32/resc64.rc.po.c:602 src/arch/amigaos/intl_text.c.po.c:10047
+#: src/arch/win32/resc64.rc.po.c:602 src/arch/win32/rescia.rc.po.c:49
+#: src/arch/amigaos/intl_text.c.po.c:10047
 msgid "CIA 1 model"
 msgstr "Model CIA 1"
 
 #: src/arch/unix/gui/c128ui.c:561 src/arch/unix/gui/c64scui.c:188
 #: src/arch/unix/gui/c64ui.c:250 src/arch/win32/resc64.rc.po.c:603
-#: src/arch/amigaos/intl_text.c.po.c:10061
+#: src/arch/win32/rescia.rc.po.c:50 src/arch/amigaos/intl_text.c.po.c:10061
 msgid "CIA 2 model"
 msgstr "Model CIA 2"
 
@@ -414,7 +415,7 @@ msgid "VIC-II settings"
 msgstr "Ustawienia VIC-II"
 
 #: src/arch/unix/gui/c128ui.c:594 src/arch/win32/resc128.rc.po.c:184
-#: src/arch/win32/resc128.rc.po.c:714 src/arch/amigaos/intl_text.c.po.c:1590
+#: src/arch/win32/resc128.rc.po.c:715 src/arch/amigaos/intl_text.c.po.c:1590
 msgid "VDC settings"
 msgstr "Ustawienia VDC"
 
@@ -3795,7 +3796,7 @@ msgstr "Rev 1"
 msgid "Rev 2"
 msgstr "Rev 2"
 
-#: src/arch/unix/gui/uivdc.c:151 src/arch/win32/resc128.rc.po.c:716
+#: src/arch/unix/gui/uivdc.c:151 src/arch/win32/resc128.rc.po.c:717
 #: src/arch/amigaos/intl_text.c.po.c:1604
 msgid "64KB video memory"
 msgstr "Pamięć wideo 64KB"
@@ -4453,7 +4454,7 @@ msgstr "Informacje o VICE"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:113 src/arch/unix/x11/xaw/uiedisk.c:204
 #: src/arch/unix/x11/xaw/uiscreenshot.c:151
-#: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:710
+#: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:711
 msgid "File name"
 msgstr "Nazwa pliku"
 
@@ -5236,8 +5237,8 @@ msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
 "*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"Pliki CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64"
-";*.t64;*.tap;*.prg;*.p00)"
+"Pliki CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
+"*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1123
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
@@ -5248,8 +5249,8 @@ msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.x64)"
 msgstr ""
-"Pliki obrazu dysków "
-"(*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+"Pliki obrazu dysków (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
+"g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1125
 msgid "Tape image files (*.t64;*.tap)"
@@ -5301,8 +5302,8 @@ msgid ""
 "Media files (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*."
 "mpg)"
 msgstr ""
-"Pliki multimedialne "
-"(*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*.avi;*.mpg)"
+"Pliki multimedialne (*.bmp;*.gif;*.iff;*.jpg;*.pcx;*.png;*.ppm;*.wav;*.mp3;*."
+"avi;*.mpg)"
 
 #: src/arch/win32/res.rc.po.c:1143
 msgid " kB"
@@ -5953,26 +5954,26 @@ msgstr "Tryb"
 msgid "Drive sync factor"
 msgstr "Czynnik synchronizacji stacji"
 
-#: src/arch/win32/res.rc.po.c:1406 src/arch/win32/resc128.rc.po.c:240
-#: src/arch/win32/resc64.rc.po.c:222 src/arch/win32/rescbm2.rc.po.c:207
-#: src/arch/win32/rescbm5x0.rc.po.c:206 src/arch/win32/respet.rc.po.c:192
+#: src/arch/win32/res.rc.po.c:1406 src/arch/win32/resc128.rc.po.c:241
+#: src/arch/win32/resc64.rc.po.c:222 src/arch/win32/rescbm2.rc.po.c:208
+#: src/arch/win32/rescbm5x0.rc.po.c:207 src/arch/win32/respet.rc.po.c:192
 #: src/arch/win32/resplus4.rc.po.c:210 src/arch/win32/resvic20.rc.po.c:219
 #: src/arch/amigaos/intl_text.c.po.c:2430
 msgid "Cartridge/IO settings"
 msgstr "Ustawienia kartridża i we/wy"
 
-#: src/arch/win32/res.rc.po.c:1407 src/arch/win32/resc128.rc.po.c:272
+#: src/arch/win32/res.rc.po.c:1407 src/arch/win32/resc128.rc.po.c:273
 #: src/arch/win32/resc64.rc.po.c:260 src/arch/win32/resc64dtv.rc.po.c:202
-#: src/arch/win32/rescbm2.rc.po.c:221 src/arch/win32/rescbm5x0.rc.po.c:220
+#: src/arch/win32/rescbm2.rc.po.c:222 src/arch/win32/rescbm5x0.rc.po.c:221
 #: src/arch/win32/respet.rc.po.c:210 src/arch/win32/resplus4.rc.po.c:226
 #: src/arch/win32/resvic20.rc.po.c:247 src/arch/win32/resvsid.rc.po.c:84
 #: src/arch/amigaos/intl_text.c.po.c:3368
 msgid "Language"
 msgstr "Język"
 
-#: src/arch/win32/res.rc.po.c:1408 src/arch/win32/resc128.rc.po.c:288
+#: src/arch/win32/res.rc.po.c:1408 src/arch/win32/resc128.rc.po.c:289
 #: src/arch/win32/resc64.rc.po.c:276 src/arch/win32/resc64dtv.rc.po.c:218
-#: src/arch/win32/rescbm2.rc.po.c:237 src/arch/win32/rescbm5x0.rc.po.c:236
+#: src/arch/win32/rescbm2.rc.po.c:238 src/arch/win32/rescbm5x0.rc.po.c:237
 #: src/arch/win32/respet.rc.po.c:226 src/arch/win32/resplus4.rc.po.c:242
 #: src/arch/win32/resvic20.rc.po.c:263 src/arch/win32/resvsid.rc.po.c:100
 #: src/arch/amigaos/intl_text.c.po.c:3060
@@ -6442,154 +6443,154 @@ msgstr "Losowe opóźnienie"
 msgid "Select file for PRG autostart disk"
 msgstr "Wybierz plik dysku do automatycznego startu z PRG"
 
-#: src/arch/win32/resc128.rc.po.c:192 src/arch/win32/resc128.rc.po.c:715
+#: src/arch/win32/resc128.rc.po.c:192 src/arch/win32/resc128.rc.po.c:716
 #: src/arch/amigaos/intl_text.c.po.c:1618
 msgid "VDC revision"
 msgstr "Wersja VDC"
 
-#: src/arch/win32/resc128.rc.po.c:667 src/arch/amigaos/intl_text.c.po.c:9081
+#: src/arch/win32/resc128.rc.po.c:668 src/arch/amigaos/intl_text.c.po.c:9081
 msgid "Select Internal Function ROM file"
 msgstr "Wybierz plik ROM Internal Function"
 
-#: src/arch/win32/resc128.rc.po.c:668 src/arch/amigaos/intl_text.c.po.c:9095
+#: src/arch/win32/resc128.rc.po.c:669 src/arch/amigaos/intl_text.c.po.c:9095
 msgid "Select External Function ROM file"
 msgstr "Wybierz plik ROM External Function"
 
-#: src/arch/win32/resc128.rc.po.c:671 src/arch/win32/rescbm2common.rc.po.c:200
+#: src/arch/win32/resc128.rc.po.c:672 src/arch/win32/rescbm2common.rc.po.c:200
 msgid "RAM banks"
 msgstr "Banki RAM"
 
-#: src/arch/win32/resc128.rc.po.c:672 src/arch/win32/resc128.rc.po.c:718
+#: src/arch/win32/resc128.rc.po.c:673 src/arch/win32/resc128.rc.po.c:719
 #: src/arch/amigaos/intl_text.c.po.c:2416
 #: src/arch/amigaos/intl_text.c.po.c:9193
 msgid "C128 settings"
 msgstr "Ustawienia C128"
 
-#: src/arch/win32/resc128.rc.po.c:673
+#: src/arch/win32/resc128.rc.po.c:674
 msgid "Kernal Int."
 msgstr "Kernal Int."
 
-#: src/arch/win32/resc128.rc.po.c:674
+#: src/arch/win32/resc128.rc.po.c:675
 msgid "Kernal DE"
 msgstr "Kernal DE"
 
-#: src/arch/win32/resc128.rc.po.c:675
+#: src/arch/win32/resc128.rc.po.c:676
 msgid "Kernal FI"
 msgstr "Kernal FI"
 
-#: src/arch/win32/resc128.rc.po.c:676
+#: src/arch/win32/resc128.rc.po.c:677
 msgid "Kernal FR"
 msgstr "Kernal FR"
 
-#: src/arch/win32/resc128.rc.po.c:677
+#: src/arch/win32/resc128.rc.po.c:678
 msgid "Kernal IT"
 msgstr "Kernal IT"
 
-#: src/arch/win32/resc128.rc.po.c:678
+#: src/arch/win32/resc128.rc.po.c:679
 msgid "Kernal NO"
 msgstr "Kernal NO"
 
-#: src/arch/win32/resc128.rc.po.c:679
+#: src/arch/win32/resc128.rc.po.c:680
 msgid "Kernal SE"
 msgstr "Kernal SE"
 
-#: src/arch/win32/resc128.rc.po.c:680
+#: src/arch/win32/resc128.rc.po.c:681
 msgid "Basic LO"
 msgstr "Basic LO"
 
-#: src/arch/win32/resc128.rc.po.c:681
+#: src/arch/win32/resc128.rc.po.c:682
 msgid "Basic HI"
 msgstr "Basic HI"
 
-#: src/arch/win32/resc128.rc.po.c:682
+#: src/arch/win32/resc128.rc.po.c:683
 msgid "Char. Int."
 msgstr "Znak Int."
 
-#: src/arch/win32/resc128.rc.po.c:683
+#: src/arch/win32/resc128.rc.po.c:684
 msgid "Char. DE"
 msgstr "Znak DE"
 
-#: src/arch/win32/resc128.rc.po.c:684
+#: src/arch/win32/resc128.rc.po.c:685
 msgid "Char. FR"
 msgstr "Znak FR"
 
-#: src/arch/win32/resc128.rc.po.c:685
+#: src/arch/win32/resc128.rc.po.c:686
 msgid "Char. SE"
 msgstr "Znak SE"
 
-#: src/arch/win32/resc128.rc.po.c:686
+#: src/arch/win32/resc128.rc.po.c:687
 msgid "Kernal C64"
 msgstr "Kernal C64"
 
-#: src/arch/win32/resc128.rc.po.c:687
+#: src/arch/win32/resc128.rc.po.c:688
 msgid "Basic C64"
 msgstr "Basic C64"
 
-#: src/arch/win32/resc128.rc.po.c:688
+#: src/arch/win32/resc128.rc.po.c:689
 msgid "International Kernal"
 msgstr "Międzynarodowy Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:689
+#: src/arch/win32/resc128.rc.po.c:690
 msgid "German Kernal"
 msgstr "Niemiecki Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:690
+#: src/arch/win32/resc128.rc.po.c:691
 msgid "Finnish Kernal"
 msgstr "Fiński Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:691
+#: src/arch/win32/resc128.rc.po.c:692
 msgid "French Kernal"
 msgstr "Francuski Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:692
+#: src/arch/win32/resc128.rc.po.c:693
 msgid "Italian Kernal"
 msgstr "Włoski Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:693
+#: src/arch/win32/resc128.rc.po.c:694
 msgid "Norwegian Kernal"
 msgstr "Norweski Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:694
+#: src/arch/win32/resc128.rc.po.c:695
 msgid "Swedish Kernal"
 msgstr "Szwedzki Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:695
+#: src/arch/win32/resc128.rc.po.c:696
 msgid "International Character"
 msgstr "Znak międzynarodowy"
 
-#: src/arch/win32/resc128.rc.po.c:696
+#: src/arch/win32/resc128.rc.po.c:697
 msgid "German Character"
 msgstr "Znak niemiecki"
 
-#: src/arch/win32/resc128.rc.po.c:697
+#: src/arch/win32/resc128.rc.po.c:698
 msgid "French Character"
 msgstr "Znak francuski"
 
-#: src/arch/win32/resc128.rc.po.c:698
+#: src/arch/win32/resc128.rc.po.c:699
 msgid "Swedish Character"
 msgstr "Znak szwedzki"
 
-#: src/arch/win32/resc128.rc.po.c:699
+#: src/arch/win32/resc128.rc.po.c:700
 msgid "C64 mode Kernal"
 msgstr "Tryb C64 Kernal"
 
-#: src/arch/win32/resc128.rc.po.c:700
+#: src/arch/win32/resc128.rc.po.c:701
 msgid "C64 mode Basic"
 msgstr "Tryb C64 Basic"
 
-#: src/arch/win32/resc128.rc.po.c:708 src/arch/amigaos/intl_text.c.po.c:9123
+#: src/arch/win32/resc128.rc.po.c:709 src/arch/amigaos/intl_text.c.po.c:9123
 msgid "Internal Function ROM"
 msgstr "Wewnętrzna funkcja ROM"
 
-#: src/arch/win32/resc128.rc.po.c:711 src/arch/amigaos/intl_text.c.po.c:9151
+#: src/arch/win32/resc128.rc.po.c:712 src/arch/amigaos/intl_text.c.po.c:9151
 msgid "External Function ROM"
 msgstr "Zewnętrzna funkcja ROM"
 
-#: src/arch/win32/resc128.rc.po.c:713
+#: src/arch/win32/resc128.rc.po.c:714
 msgid "Enable RAM banks 2 and 3"
 msgstr "Włącz banki RAM 2 i 3"
 
-#: src/arch/win32/resc128.rc.po.c:717 src/arch/amigaos/intl_text.c.po.c:1912
+#: src/arch/win32/resc128.rc.po.c:718 src/arch/amigaos/intl_text.c.po.c:1912
 msgid "IEEE488 Interface emulation"
 msgstr "Emulacja interfejsu IEEE488"
 
@@ -6785,35 +6786,40 @@ msgstr "Wczytaj nowy kartridż $6-7***"
 msgid "Unload Cart $6-7***"
 msgstr "Usuń kartridż $6-7***"
 
-#: src/arch/win32/rescbm2.rc.po.c:299 src/arch/win32/rescbm2.rc.po.c:301
+#: src/arch/win32/rescbm2.rc.po.c:300 src/arch/win32/rescbm2.rc.po.c:302
 #: src/arch/amigaos/intl_text.c.po.c:2136
 #: src/arch/amigaos/intl_text.c.po.c:5202
 msgid "CBM2 settings"
 msgstr "Ustawienia CBM2"
 
-#: src/arch/win32/rescbm2.rc.po.c:300
+#: src/arch/win32/rescbm2.rc.po.c:301
 msgid "CBM2 model"
 msgstr "Model CBM2"
 
-#: src/arch/win32/rescbm2.rc.po.c:302
+#: src/arch/win32/rescbm2.rc.po.c:303
 msgid "CBM2 model settings"
 msgstr "Ustawienia modelu CBM2"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:298 src/arch/win32/rescbm5x0.rc.po.c:301
+#: src/arch/win32/rescbm5x0.rc.po.c:299 src/arch/win32/rescbm5x0.rc.po.c:302
 msgid "CBM5x0 settings"
 msgstr "Ustawienia CBM5x0"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:299 src/arch/win32/resplus4.rc.po.c:488
+#: src/arch/win32/rescbm5x0.rc.po.c:300 src/arch/win32/resplus4.rc.po.c:488
 msgid "64 kByte"
 msgstr "64 kBajty"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:300
+#: src/arch/win32/rescbm5x0.rc.po.c:301
 msgid "CBM5x0 model"
 msgstr "Model CBM5x0"
 
-#: src/arch/win32/rescbm5x0.rc.po.c:302
+#: src/arch/win32/rescbm5x0.rc.po.c:303
 msgid "CBM5x0 model settings"
 msgstr "Ustawienia modelu CBM5x0"
+
+#: src/arch/win32/rescia.rc.po.c:53
+#, fuzzy
+msgid "CIA settings"
+msgstr "Ustawienia ACIA"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:12977
 msgid "Enable the DigiMAX cartridge"
@@ -7878,16 +7884,16 @@ msgid ""
 "Extra joystick #1 emulation: (0:None, 1: Numpad, 2: Keyset A/AI, 3: Keyset B/"
 "AI)"
 msgstr ""
-"Emulacja dodatkowego joysticka #1: (0: brak, 1: numeryczna, 2: klawisze "
-"A/AI, 3: klawisze B/AI)"
+"Emulacja dodatkowego joysticka #1: (0: brak, 1: numeryczna, 2: klawisze A/"
+"AI, 3: klawisze B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6267
 msgid ""
 "Extra joystick #2 emulation: (0: None, 1: Numpad, 2: Keyset A/AI, 3: Keyset "
 "B/AI)"
 msgstr ""
-"Emulacja dodatkowego joysticka #2: (0: brak, 1: numeryczna, 2: klawisze "
-"A/AI, 3: klawisze B/AI)"
+"Emulacja dodatkowego joysticka #2: (0: brak, 1: numeryczna, 2: klawisze A/"
+"AI, 3: klawisze B/AI)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6281
 msgid "Joystick #1 emulation: (0: None, 1: Numpad, 2-5: Amiga Joy 0-3)"
@@ -8890,8 +8896,8 @@ msgstr ""
 "jest stan. Jeśli jest oszacowany na 'prawda', punkt kontrolny jest\n"
 "uaktywniany. W innym razie jest ignorowany. Jeśli w wyrażeniu\n"
 "podano rejestry, używane są wartości z czasu szacowania punktu\n"
-"kontrolnego, nie z czasu ustawienia stanu.Stan może korzystać z rejestrów "
-"(.A, .X, .Y, .PC, .SP) i porównywać je\n"
+"kontrolnego, nie z czasu ustawienia stanu.Stan może korzystać z rejestrów (."
+"A, .X, .Y, .PC, .SP) i porównywać je\n"
 "(==, !=, <, >, <=, >=) z innymi rejestrami lub stałymi. Rejestry mogą być\n"
 "rejestrami innych urządzeń, co jest określone przedrostkiem przestrzeni\n"
 "pamięci (np. c:, 8:, 9:, 10:, 11)\n"
@@ -10042,7 +10048,8 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7253
 msgid "Specify name of UK business keyboard positional keymap file"
-msgstr "Określ nazwę pliku pozycyjnego układu angielskiej klawiatury biznesowej"
+msgstr ""
+"Określ nazwę pliku pozycyjnego układu angielskiej klawiatury biznesowej"
 
 #: src/translate_text.c.po.c:7270
 msgid "Specify name of German business keyboard symbolic keymap file"
@@ -10051,7 +10058,8 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7287
 msgid "Specify name of German business keyboard positional keymap file"
-msgstr "Określ nazwę pliku pozycyjnego układu niemieckiej klawiatury biznesowej"
+msgstr ""
+"Określ nazwę pliku pozycyjnego układu niemieckiej klawiatury biznesowej"
 
 #: src/translate_text.c.po.c:7305
 msgid "Enable hardware-level emulation of disk drives"
