@@ -653,8 +653,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\resautostart.rc;..\win32\ressiddtv.rc;"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\rescia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\rescia.rc;..\win32\resdrivepetcbm2.rc;..\win32\resautostart.rc;..\win32\ressiddtv.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>
@@ -663,8 +663,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\rescia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\rescia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>
@@ -673,8 +673,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\rescia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\rescia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>
@@ -683,8 +683,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\rescia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\rescia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>
@@ -693,8 +693,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\rescia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\rescia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>
@@ -703,8 +703,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
+					CommandLine="copy /b ..\win32\rescbm2.rc + ..\win32\rescbm2common.rc +..\win32\res.rc + ..\win32\resacia.rc + ..\win32\rescia.rc + ..\win32\resdrivepetcbm2.rc + ..\win32\ressiddtv.rc + ..\win32\resautostart.rc ..\win32\rescbm2cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\rescbm2.rc;..\win32\rescbm2common.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\rescia.rc;..\win32\resdrivepetcbm2.rc;..\win32\ressiddtv.rc;..\win32\resautostart.rc;"
 					Outputs="..\win32\rescbm2cat.rc"
 				/>
 			</FileConfiguration>

@@ -156,48 +156,48 @@ SOURCE=.\rescbm2.rc
 !IF  "$(CFG)" == "xcbm2 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
+USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"rescia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
 # Begin Custom Build
 InputPath=.\rescbm2.rc
 
 "rescbm2cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
+	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + rescia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xcbm2 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
+USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"rescia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
 # Begin Custom Build
 InputPath=.\rescbm2.rc
 
 "rescbm2cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
+	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + rescia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xcbm2 - Win32 DX Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
+USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"rescia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
 # Begin Custom Build
 InputPath=.\rescbm2.rc
 
 "rescbm2cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
+	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + rescia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xcbm2 - Win32 DX Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
+USERDEP__RESCB="..\..\debug.h"	"rescbm2.rc"	"rescbm2common.rc"	"res.rc"	"resacia.rc"	"rescia.rc"	"resdrivepetcbm2.rc"	"ressiddtv.rc"	"resautostart.rc"
 # Begin Custom Build
 InputPath=.\rescbm2.rc
 
 "rescbm2cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
+	copy /b rescbm2.rc + rescbm2common.rc + res.rc + resacia.rc + rescia.rc + resdrivepetcbm2.rc + ressiddtv.rc + resautostart.rc rescbm2cat.rc /b
 
 # End Custom Build
 

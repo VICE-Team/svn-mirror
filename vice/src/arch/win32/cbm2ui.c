@@ -42,6 +42,7 @@
 #include "uicart.h"
 #include "uicbm2model.h"
 #include "uicbm2set.h"
+#include "uicia.h"
 #include "uidrivepetcbm2.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
@@ -299,6 +300,7 @@ ui_menu_translation_table_t cbm2ui_menu_translation_table[] = {
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
+    { IDM_CIA_SETTINGS, IDS_MI_CIA_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
@@ -484,6 +486,9 @@ static void cbm2_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_SID_SETTINGS:
             ui_siddtv_settings_dialog(hwnd);
+            break;
+        case IDM_CIA_SETTINGS:
+            ui_cia_settings_dialog(hwnd, 1);
             break;
         case IDM_ROM_SETTINGS:
             uirom_settings_dialog(hwnd, IDD_CBM2ROM_SETTINGS_DIALOG, IDD_CBM2DRIVEROM_SETTINGS_DIALOG,

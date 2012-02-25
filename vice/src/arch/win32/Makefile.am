@@ -74,6 +74,7 @@ libarch_a_SOURCES = \
 	rescbm2common.rc \
 	rescbm2.rc \
 	rescbm5x0.rc \
+	rescia.rc \
 	rescommon.h \
 	resdigimax.rc \
 	resdqbb.rc \
@@ -158,6 +159,8 @@ libarch_a_SOURCES = \
 	uicbm2set.h \
 	uicbm5x0set.c \
 	uicbm5x0set.h \
+	uicia.c \
+	uicia.h \
 	uicmdline.c \
 	uiconsole.c \
 	uidatasette.c \

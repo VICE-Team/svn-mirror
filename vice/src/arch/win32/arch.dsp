@@ -385,6 +385,10 @@ SOURCE=.\uicbm5x0set.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uicia.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uicmdline.c
 # End Source File
 # Begin Source File

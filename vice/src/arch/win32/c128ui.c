@@ -40,6 +40,7 @@
 #include "uiacia.h"
 #include "uic128.h"
 #include "uic64cart.h"
+#include "uicia.h"
 #include "uidigimax.h"
 #include "uidrivec128.h"
 #include "uieasyflash.h"
@@ -376,6 +377,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_VICII_SETTINGS, IDS_MI_VICII_SETTINGS },
     { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
+    { IDM_CIA_SETTINGS, IDS_MI_CIA_SETTINGS },
     { IDM_C128_SETTINGS, IDS_MI_C128_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_REU_SETTINGS, IDS_MI_REU_SETTINGS },
@@ -713,6 +715,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_GEORAM_SETTINGS:
             ui_georam_settings_dialog(hwnd);
+            break;
+        case IDM_CIA_SETTINGS:
+            ui_cia_settings_dialog(hwnd, 2);
             break;
         case IDM_RAMCART_SETTINGS:
             ui_ramcart_settings_dialog(hwnd);

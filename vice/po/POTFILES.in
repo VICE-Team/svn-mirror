@@ -135,6 +135,7 @@ src/arch/win32/resc64dtv.rc.po.c
 src/arch/win32/rescbm2common.rc.po.c
 src/arch/win32/rescbm2.rc.po.c
 src/arch/win32/rescbm5x0.rc.po.c
+src/arch/win32/rescia.rc.po.c
 src/arch/win32/resdigimax.rc.po.c
 src/arch/win32/resdqbb.rc.po.c
 src/arch/win32/resdrivec128.rc.po.c
