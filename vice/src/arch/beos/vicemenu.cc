@@ -485,7 +485,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(extsubmenu = new BMenu("SFX Sound Expander YM chip"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("3526", new BMessage(MENU_SFX_SE_3526)));
-                    extsubmenu->AddItem(new BMenuItem("3812", new BMessage(MENU_SFX_SE_3526)));
+                    extsubmenu->AddItem(new BMenuItem("3812", new BMessage(MENU_SFX_SE_3812)));
             menu->AddItem(new BMenuItem("SFX Sound Sampler emulation", new BMessage(MENU_TOGGLE_SFX_SS)));
             menu->AddItem(submenu = new BMenu("EasyFlash Options"));
                 submenu->AddItem(new BMenuItem("Jumper", new BMessage(MENU_TOGGLE_EASYFLASH_JUMPER)));
@@ -564,7 +564,7 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_C128) {
-        menu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
+        uppermenu->AddItem(new BMenuItem("IEEE488 Interface", new BMessage(MENU_TOGGLE_IEEE488)));
     }
 
     /* create the SETTINGS menu */

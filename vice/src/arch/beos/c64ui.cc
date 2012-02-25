@@ -70,6 +70,7 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "RAMCARTImageWrite", MENU_TOGGLE_RAMCART_SWC },
     { "MagicVoiceCartridgeEnabled", MENU_TOGGLE_MAGICVOICE },
     { "DQBB", MENU_TOGGLE_DQBB },
+    { "DQBBImageWrite", MENU_TOGGLE_DQBB_SWC },
     { "IsepicCartridgeEnabled", MENU_TOGGLE_ISEPIC },
     { "IsepicSwitch", MENU_TOGGLE_ISEPIC_SWITCH },
     { "IsepicImageWrite", MENU_TOGGLE_ISEPIC_SWC },
@@ -250,6 +251,7 @@ ui_res_possible_values ExpertModes[] = {
 };
 
 ui_res_value_list c64_ui_res_values[] = {
+    { "VICIIModel", viciimodels },
     { "REUsize", ReuSize },
     { "GeoRAMsize", GeoRAMSize },
     { "RAMCARTsize", RamCartSize },
@@ -262,7 +264,6 @@ ui_res_value_list c64_ui_res_values[] = {
     { "MMCRSDType", MMCRCardType },
     { "Mousetype", c64mousetypes },
     { "Mouseport", c64mouseports },
-    { "VICIIModel", viciimodels },
     { "CIA1Model", cia1models },
     { "CIA2Model", cia2models },
     { "GlueLogic", gluelogic },
@@ -435,18 +436,25 @@ void c64_ui_specific(void *msg, void *window)
 }
 
 extern "C" {
-int c64ui_init(void)
+int c64ui_common_init(void)
 {
     ui_register_machine_specific(c64_ui_specific);
     ui_register_menu_toggles(c64_ui_menu_toggles);
-    ui_register_res_values(c64_ui_res_values);
     ui_update_menus();
     return 0;
 }
 
+int c64ui_init(void)
+{
+    /* Hack to avoid sc-only VICIIModel resource. */
+    ui_register_res_values(&c64_ui_res_values[1]);
+    return c64ui_common_init();
+}
+
 int c64scui_init(void)
 {
-    return c64ui_init();
+    ui_register_res_values(c64_ui_res_values);
+    return c64ui_common_init();
 }
 
 void c64ui_shutdown(void)
