@@ -150,13 +150,36 @@ h6809_regs_t h6809_regs;
 #error "please define LAST_OPCODE_ADDR"
 #endif
 
-unsigned X, Y, S, U, PC;
-unsigned A, B, DP;
-unsigned H, N, Z, OV, C;
-unsigned EFI;
+union regs {
+    DWORD reg_l;
+    WORD reg_s[2];
+    BYTE reg_c[4];
+} regs6309;
+
+#define Q regs6309_reg_l
+#ifndef WORDS_BIGENDIAN
+#define W regs6309.reg_s[0]
+#define D regs6309.reg_s[1]
+#define F regs6309.reg_c[0]
+#define E regs6309.reg_c[1]
+#define B regs6309.reg_c[2]
+#define A regs6309.reg_c[3]
+#else
+#define W regs6309.reg_s[1]
+#define D regs6309.reg_s[0]
+#define F regs6309.reg_c[3]
+#define E regs6309.reg_c[2]
+#define B regs6309.reg_c[1]
+#define A regs6309.reg_c[0]
+#endif
+
+static WORD X, Y, S, U, DP, PC, iPC;
+static BYTE EFI;
+static DWORD H, N, Z, OV, C;
 
 #ifdef H6309
-unsigned E, F, V, MD;
+static BYTE MD;
+static WORD V;
 
 #define MD_NATIVE 0x1		/* if 1, execute in 6309 mode */
 #define MD_FIRQ_LIKE_IRQ 0x2	/* if 1, FIRQ acts like IRQ */
@@ -164,7 +187,6 @@ unsigned E, F, V, MD;
 #define MD_DBZ 0x80		/* divide by zero */
 #endif /* H6309 */
 
-unsigned iPC;
 
 //unsigned long irq_start_time;
 unsigned ea = 0;
@@ -173,7 +195,7 @@ unsigned int irqs_pending = 0;
 unsigned int firqs_pending = 0;
 unsigned int cc_changed = 0;
 
-unsigned *index_regs[4] = { &X, &Y, &U, &S };
+static WORD *index_regs[4] = { &X, &Y, &U, &S };
 
 extern int dump_cycles_on_success;
 
@@ -327,7 +349,7 @@ static void direct(void)
 static void indexed(void)			/* note take 1 extra cycle */
 {
     unsigned post = imm_byte();
-    unsigned *R = index_regs[(post >> 5) & 0x3];
+    WORD *R = index_regs[(post >> 5) & 0x3];
 
     if (post & 0x80) {
         switch (post & 0x1f) {
