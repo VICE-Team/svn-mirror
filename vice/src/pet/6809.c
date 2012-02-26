@@ -187,7 +187,6 @@ static WORD V;
 
 
 static WORD ea = 0;
-static int cpu_quit = 1;
 static unsigned int irqs_pending = 0;
 static unsigned int firqs_pending = 0;
 static unsigned int cc_changed = 0;
@@ -1069,27 +1068,28 @@ static void tfr(void)
 
 /* 16-Bit Accumulator Instructions */
 
+/* ------------------------marco------------------------------- */
+
 static void abx(void)
 {
-    X = (X + B) & 0xffff;
+    X += B;
     CLK += 3;
 }
 
-static void addd(unsigned val)
+static void addd(WORD val)
 {
-    unsigned arg = (A << 8) | B;
-    unsigned res = arg + val;
+    DWORD res = D + val;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
-    OV = ((arg ^ res) & (val ^ res)) >> 8;
-    A = N = res >> 8;
-    B = res & 0xff;
+    OV = ((D ^ res) & (val ^ res)) >> 8;
+    N = res >> 8;
+    D = res;
 }
 
-static void cmp16(unsigned arg, unsigned val)
+static void cmp16(WORD arg, WORD val)
 {
-    unsigned res = arg - val;
+    DWORD res = arg - val;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
@@ -1097,263 +1097,241 @@ static void cmp16(unsigned arg, unsigned val)
     OV = ((arg ^ val) & (arg ^ res)) >> 8;
 }
 
-static void ldd(unsigned arg)
+static void ldd(WORD arg)
 {
-    unsigned res = arg;
-
-    Z = res;
-    A = N = res >> 8;
-    B = res & 0xff;
+    Z = D = arg;
+    N = arg >> 8;
     OV = 0;
 }
 
-static unsigned ld16(unsigned arg)
+static WORD ld16(WORD arg)
 {
-    unsigned res = arg;
-
-    Z = res;
-    N = res >> 8;
+    Z = arg;
+    N = arg >> 8;
     OV = 0;
 
-    return res;
+    return arg;
 }
 
 static void sex(void)
 {
-    unsigned res = B;
+    D = (INT8)B;
 
-    Z = res;
-    N = res &= 0x80;
-    if (res != 0) {
-        res = 0xff;
-    }
-    A = res;
+    Z = D;
+    N = D >> 8;
     CLK += 2;
 }
 
 static void std(void)
 {
-    unsigned res = (A << 8) | B;
-
-    Z = res;
-    N = A;
+    Z = D;
+    N = D >> 8;
     OV = 0;
-    WRMEM16(ea, res);
+    WRMEM16(ea, D);
 }
 
-static void st16(unsigned arg)
+static void st16(WORD arg)
 {
-    unsigned res = arg;
-
-    Z = res;
-    N = res >> 8;
+    Z = arg;
+    N = arg >> 8;
     OV = 0;
-    WRMEM16(ea, res);
+    WRMEM16(ea, arg);
 }
 
-static void subd(unsigned val)
+static void subd(WORD val)
 {
-    unsigned arg = (A << 8) | B;
-    unsigned res = arg - val;
+    DWORD res = D - val;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
-    OV = ((arg ^ val) & (arg ^ res)) >> 8;
-    A = N = res >> 8;
-    B = res & 0xff;
+    OV = ((D ^ val) & (D ^ res)) >> 8;
+    N = res >> 8;
+    D = res;
 }
 
 /* stack instructions */
 
 static void pshs(void)
 {
-    unsigned post = imm_byte();
+    BYTE post = imm_byte();
 
     CLK += 5;
 
     if (post & 0x80) {
         CLK += 2;
-        S = (S - 2) & 0xffff;
-        write_stack16(S, PC & 0xffff);
+        S -= 2;
+        write_stack16(S, PC);
     }
     if (post & 0x40) {
         CLK += 2;
-        S = (S - 2) & 0xffff;
+        S -= 2;
         write_stack16(S, U);
     }
     if (post & 0x20) {
         CLK += 2;
-        S = (S - 2) & 0xffff;
+        S -= 2;
         write_stack16(S, Y);
     }
     if (post & 0x10) {
         CLK += 2;
-        S = (S - 2) & 0xffff;
+        S -= 2;
         write_stack16(S, X);
     }
     if (post & 0x08) {
-        CLK += 1;
-        S = (S - 1) & 0xffff;
+        CLK++;
+        S--;
         write_stack(S, DP >> 8);
     }
     if (post & 0x04) {
-        CLK += 1;
-        S = (S - 1) & 0xffff;
+        CLK++;
+        S--;
         write_stack(S, B);
     }
     if (post & 0x02) {
-        CLK += 1;
-        S = (S - 1) & 0xffff;
+        CLK++;
+        S--;
         write_stack(S, A);
     }
     if (post & 0x01) {
-        CLK += 1;
-        S = (S - 1) & 0xffff;
-        write_stack (S, get_cc ());
+        CLK++;
+        S--;
+        write_stack(S, get_cc());
     }
 }
 
 static void pshu(void)
 {
-    unsigned post = imm_byte();
+    BYTE post = imm_byte();
 
     CLK += 5;
 
     if (post & 0x80) {
         CLK += 2;
-        U = (U - 2) & 0xffff;
-        write_stack16(U, PC & 0xffff);
+        U -= 2;
+        write_stack16(U, PC);
     }
     if (post & 0x40) {
         CLK += 2;
-        U = (U - 2) & 0xffff;
+        U -= 2;
         write_stack16(U, S);
     }
     if (post & 0x20) {
         CLK += 2;
-        U = (U - 2) & 0xffff;
+        U -= 2;
         write_stack16(U, Y);
     }
     if (post & 0x10) {
         CLK += 2;
-        U = (U - 2) & 0xffff;
+        U -= 2;
         write_stack16(U, X);
     }
     if (post & 0x08) {
-        CLK += 1;
-        U = (U - 1) & 0xffff;
+        CLK++;
+        U--;
         write_stack(U, DP >> 8);
     }
     if (post & 0x04) {
-        CLK += 1;
-        U = (U - 1) & 0xffff;
+        CLK++;
+        U--;
         write_stack(U, B);
     }
     if (post & 0x02) {
-        CLK += 1;
-        U = (U - 1) & 0xffff;
+        CLK++;
+        U--;
         write_stack(U, A);
     }
     if (post & 0x01) {
-        CLK += 1;
-        U = (U - 1) & 0xffff;
-        write_stack(U, get_cc ());
+        CLK++;
+        U--;
+        write_stack(U, get_cc());
     }
 }
 
 static void puls(void)
 {
-    unsigned post = imm_byte();
+    BYTE post = imm_byte();
 
     CLK += 5;
 
     if (post & 0x01) {
-        CLK += 1;
-        set_cc(read_stack(S));
-        S = (S + 1) & 0xffff;
+        CLK++;
+        set_cc(read_stack(S++));
     }
     if (post & 0x02) {
-        CLK += 1;
-        A = read_stack(S);
-        S = (S + 1) & 0xffff;
+        CLK++;
+        A = read_stack(S++);
     }
     if (post & 0x04) {
-        CLK += 1;
-        B = read_stack(S);
-        S = (S + 1) & 0xffff;
+        CLK++;
+        B = read_stack(S++);
     }
     if (post & 0x08) {
-        CLK += 1;
-        DP = read_stack(S) << 8;
-        S = (S + 1) & 0xffff;
+        CLK++;
+        DP = read_stack(S++) << 8;
     }
     if (post & 0x10) {
         CLK += 2;
         X = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
     }
     if (post & 0x20) {
         CLK += 2;
         Y = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
     }
     if (post & 0x40) {
         CLK += 2;
         U = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
     }
     if (post & 0x80) {
         CLK += 2;
         PC = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
     }
 }
 
 static void pulu(void)
 {
-    unsigned post = imm_byte();
+    BYTE post = imm_byte();
 
     CLK += 5;
 
     if (post & 0x01) {
-        CLK += 1;
-        set_cc(read_stack(U));
-        U = (U + 1) & 0xffff;
+        CLK++;
+        set_cc(read_stack(U++));
     }
     if (post & 0x02) {
-        CLK += 1;
-        A = read_stack(U);
-        U = (U + 1) & 0xffff;
+        CLK++;
+        A = read_stack(U++);
     }
     if (post & 0x04) {
-        CLK += 1;
-        B = read_stack(U);
-        U = (U + 1) & 0xffff;
+        CLK++;
+        B = read_stack(U++);
     }
     if (post & 0x08) {
-        CLK += 1;
-        DP = read_stack(U) << 8;
-        U = (U + 1) & 0xffff;
+        CLK++;
+        DP = read_stack(U++) << 8;
     }
     if (post & 0x10) {
         CLK += 2;
         X = read_stack16(U);
-        U = (U + 2) & 0xffff;
+        U += 2;
     }
     if (post & 0x20) {
         CLK += 2;
         Y = read_stack16(U);
-        U = (U + 2) & 0xffff;
+        U += 2;
     }
     if (post & 0x40) {
         CLK += 2;
         S = read_stack16(U);
-        U = (U + 2) & 0xffff;
+        U += 2;
     }
     if (post & 0x80) {
         CLK += 2;
         PC = read_stack16(U);
-        U = (U + 2) & 0xffff;
+        U += 2;
     }
 }
 
@@ -1366,8 +1344,8 @@ static void nop(void)
 
 static void jsr(void)
 {
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
+    S -= 2;
+    write_stack16(S, PC);
     change_pc(ea);
 }
 
@@ -1375,52 +1353,45 @@ static void rti(void)
 {
     CLK += 6;
     set_cc(read_stack(S));
-    S = (S + 1) & 0xffff;
+    S++;
 
     if ((EFI & E_FLAG) != 0) {
         CLK += 9;
-        A = read_stack(S);
-        S = (S + 1) & 0xffff;
-        B = read_stack(S);
-        S = (S + 1) & 0xffff;
-        DP = read_stack(S) << 8;
-        S = (S + 1) & 0xffff;
+        A = read_stack(S++);
+        B = read_stack(S++);
+        DP = read_stack(S++) << 8;
         X = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
         Y = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
         U = read_stack16(S);
-        S = (S + 2) & 0xffff;
+        S += 2;
     }
     PC = read_stack16(S);
-    S = (S + 2) & 0xffff;
+    S += 2;
 }
 
 static void rts(void)
 {
     CLK += 5;
     PC = read_stack16(S);
-    S = (S + 2) & 0xffff;
+    S += 2;
 }
 
 void nmi(void)
 {
     EFI |= E_FLAG;
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
-    S = (S - 2) & 0xffff;
+    S -= 2;
+    write_stack16(S, PC);
+    S -= 2;
     write_stack16(S, U);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, Y);
-    S = (S - 2) & 0xffff;
-    write_stack16(S, X);
-    S = (S - 1) & 0xffff;
-    write_stack(S, DP >> 8);
-    S = (S - 1) & 0xffff;
-    write_stack(S, B);
-    S = (S - 1) & 0xffff;
-    write_stack(S, A);
-    S = (S - 1) & 0xffff;
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
     write_stack(S, get_cc());
     EFI |= I_FLAG;
 
@@ -1430,21 +1401,17 @@ void nmi(void)
 void irq(void)
 {
     EFI |= E_FLAG;
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
-    S = (S - 2) & 0xffff;
+    S -= 2;
+    write_stack16(S, PC);
+    S -= 2;
     write_stack16(S, U);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, Y);
-    S = (S - 2) & 0xffff;
-    write_stack16(S, X);
-    S = (S - 1) & 0xffff;
-    write_stack(S, DP >> 8);
-    S = (S - 1) & 0xffff;
-    write_stack(S, B);
-    S = (S - 1) & 0xffff;
-    write_stack(S, A);
-    S = (S - 1) & 0xffff;
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
     write_stack(S, get_cc());
     EFI |= I_FLAG;
 
@@ -1455,10 +1422,9 @@ void irq(void)
 void firq(void)
 {
     EFI &= ~E_FLAG;
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
-    S = (S - 1) & 0xffff;
-    write_stack(S, get_cc ());
+    S -= 2;
+    write_stack16(S--, PC);
+    write_stack(S, get_cc());
     EFI |= (I_FLAG | F_FLAG);
 
     change_pc(read16(0xfff6));
@@ -1470,21 +1436,17 @@ void swi(void)
     CLK += 19;
     //CLK++;        /* /VMA cycle */
     EFI |= E_FLAG;
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
-    S = (S - 2) & 0xffff;
+    S -= 2;
+    write_stack16(S, PC);
+    S -= 2;
     write_stack16(S, U);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, Y);
-    S = (S - 2) & 0xffff;
-    write_stack16(S, X);
-    S = (S - 1) & 0xffff;
-    write_stack(S, DP >> 8);
-    S = (S - 1) & 0xffff;
-    write_stack(S, B);
-    S = (S - 1) & 0xffff;
-    write_stack(S, A);
-    S = (S - 1) & 0xffff;
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
     write_stack(S, get_cc());
     EFI |= (I_FLAG | F_FLAG);
     //CLK++;        /* /VMA cycle */
@@ -1497,21 +1459,17 @@ void swi2(void)
     CLK += 20;
     //CLK++;        /* /VMA cycle */
     EFI |= E_FLAG;
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, PC & 0xffff);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, U);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, Y);
-    S = (S - 2) & 0xffff;
-    write_stack16(S, X);
-    S = (S - 1) & 0xffff;
-    write_stack(S, DP >> 8);
-    S = (S - 1) & 0xffff;
-    write_stack(S, B);
-    S = (S - 1) & 0xffff;
-    write_stack(S, A);
-    S = (S - 1) & 0xffff;
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
     write_stack(S, get_cc());
     //CLK++;        /* /VMA cycle */
 
@@ -1523,22 +1481,18 @@ void swi3(void)
     CLK += 20;
     //CLK++;        /* /VMA cycle */
     EFI |= E_FLAG;
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, PC & 0xffff);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, U);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, Y);
-    S = (S - 2) & 0xffff;
-    write_stack16(S, X);
-    S = (S - 1) & 0xffff;
-    write_stack(S, DP >> 8);
-    S = (S - 1) & 0xffff;
-    write_stack(S, B);
-    S = (S - 1) & 0xffff;
-    write_stack(S, A);
-    S = (S - 1) & 0xffff;
-    write_stack(S, get_cc ());
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
+    write_stack(S, get_cc());
     //CLK++;        /* /VMA cycle */
 
     change_pc(read16(0xfff2));
@@ -1550,21 +1504,17 @@ void trap(void)
     CLK += 20;
     //CLK++;        /* /VMA cycle */
     EFI |= E_FLAG;
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, PC & 0xffff);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, U);
-    S = (S - 2) & 0xffff;
+    S -= 2;
     write_stack16(S, Y);
-    S = (S - 2) & 0xffff;
-    write_stack16(S, X);
-    S = (S - 1) & 0xffff;
-    write_stack(S, DP >> 8);
-    S = (S - 1) & 0xffff;
-    write_stack(S, B);
-    S = (S - 1) & 0xffff;
-    write_stack(S, A);
-    S = (S - 1) & 0xffff;
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
     write_stack(S, get_cc());
     //CLK++;        /* /VMA cycle */
 
@@ -1585,7 +1535,7 @@ void sync(void)
 
 static void orcc(void)
 {
-    unsigned tmp = imm_byte();
+    BYTE tmp = imm_byte();
 
     set_cc(get_cc() | tmp);
     CLK += 3;
@@ -1593,7 +1543,7 @@ static void orcc(void)
 
 static void andcc(void)
 {
-    unsigned tmp = imm_byte();
+    BYTE tmp = imm_byte();
 
     set_cc(get_cc() & tmp);
     CLK += 3;
@@ -1654,8 +1604,8 @@ static void long_bsr(void)
 {
     INT16 tmp = (INT16)imm_word();
     ea = PC + tmp;
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
+    S -= 2;
+    write_stack16(S, PC);
     CLK += 9;
     change_pc(ea);
 }
@@ -1664,16 +1614,15 @@ static void bsr(void)
 {
     INT8 tmp = (INT8)imm_byte();
     ea = PC + tmp;
-    S = (S - 2) & 0xffff;
-    write_stack16(S, PC & 0xffff);
+    S -= 2;
+    write_stack16(S, PC);
     CLK += 7;
     change_pc(ea);
 }
 
 
 /* Execute 6809 code for a certain number of cycles. */
-void
-h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
+void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
   unsigned opcode;
 
