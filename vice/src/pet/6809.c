@@ -674,7 +674,7 @@ static void cc_modified(void)
 
 static WORD get_reg(BYTE nro)
 {
-    WORD val = 0xff;
+    WORD val;
 
     switch (nro) {
         case 0:
@@ -704,23 +704,23 @@ static WORD get_reg(BYTE nro)
             break;
 #endif
         case 8:
-            val = A;
+            val = A & 0xffff;
             break;
         case 9:
-            val = B;
+            val = B & 0xffff;
             break;
         case 10:
-            val = get_cc();
+            val = get_cc() & 0xffff;
             break;
         case 11:
-            val = DP >> 8;
+            val = (DP >> 8) & 0xffff;
             break;
 #ifdef H6309
         case 14:
-            val = E;
+            val = E & 0xffff;
             break;
         case 15:
-            val = F;
+            val = F & 0xffff;
             break;
 #endif
     }
@@ -757,23 +757,23 @@ static void set_reg(BYTE nro, WORD val)
             break;
 #endif
         case 8:
-            A = val;
+            A = val & 0xff;
             break;
         case 9:
-            B = val;
+            B = val & 0xff;
             break;
         case 10:
-            set_cc(val);
+            set_cc(val & 0xff);
             break;
         case 11:
-            DP = val << 8;
+            DP = (val & 0xff) << 8;
             break;
 #ifdef H6309
         case 14:
-            E = val;
+            E = val & 0xff;
             break;
         case 15:
-            F = val;
+            F = val & 0xff;
             break;
 #endif
     }
