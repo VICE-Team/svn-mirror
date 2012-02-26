@@ -31,6 +31,14 @@
 #include "monitor.h"
 #include "petmem.h"
 
+/* Uncomment the following if you want emulation of the
+   6809 illegal/undocumented opcodes/behaviour. */
+/* #define FULL6809 */
+
+/* Uncomment the following if you want emulation of the
+   6309 CPU. */
+/* #define H6309 */
+
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
 #define ALARM_CONTEXT maincpu_alarm_context
@@ -1072,8 +1080,6 @@ static void tfr(void)
 }
 
 /* 16-Bit Accumulator Instructions */
-
-/* ------------------------marco------------------------------- */
 
 static void abx(void)
 {
@@ -3030,16 +3036,15 @@ cpu_exit:
    return;
 }
 
-void
-cpu6809_reset (void)
+void cpu6809_reset (void)
 {
-  X = Y = S = U = A = B = DP = 0;
-  H = N = OV = C = 0;
-  Z = 1;
-  EFI = F_FLAG | I_FLAG;
+    X = Y = S = U = A = B = DP = 0;
+    H = N = OV = C = 0;
+    Z = 1;
+    EFI = F_FLAG | I_FLAG;
 #ifdef H6309
-  MD = E = F = V = 0;
+    MD = E = F = 0;
 #endif
 
-  change_pc (read16 (0xfffe));
+    change_pc read16(0xfffe));
 }
