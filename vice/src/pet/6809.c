@@ -184,7 +184,6 @@ extern void irq(void);
 extern void firq(void);
 
 /* Stubs: */
-#define monitor_call(arg)       0
 #define monitor_return()        0
 #define monitor_addr_name(arg)  0
 /* -- */
@@ -1425,7 +1424,6 @@ static void jsr(void)
     S = (S - 2) & 0xffff;
     write_stack16(S, PC & 0xffff);
     change_pc(ea);
-    monitor_call(0);
 }
 
 static void rti(void)
@@ -1719,7 +1717,6 @@ static void long_bsr(void)
     write_stack16(S, PC & 0xffff);
     CLK += 9;
     change_pc(ea);
-    monitor_call(0);
 }
 
 static void bsr(void)
@@ -1730,7 +1727,6 @@ static void bsr(void)
     write_stack16(S, PC & 0xffff);
     CLK += 7;
     change_pc(ea);
-    monitor_call(0);
 }
 
 
@@ -1850,7 +1846,6 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  CLK += 3;
 	  PC = ea;
           check_pc ();
-	  monitor_call (FC_TAIL_CALL);
 	  break;		/* JMP direct */
 	case 0x0f:
 	  direct ();
@@ -2470,7 +2465,6 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  CLK += 1;
 	  PC = ea;
           check_pc ();
-	  monitor_call (FC_TAIL_CALL);
 	  break;		/* JMP indexed */
 	case 0x6f:
 	  indexed ();
@@ -2545,7 +2539,6 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  CLK += 4;
 	  PC = ea;
           check_pc ();
-	  monitor_call (FC_TAIL_CALL);
 	  break;		/* JMP extended */
 	case 0x7f:
 	  extended ();
