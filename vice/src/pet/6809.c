@@ -662,7 +662,7 @@ static void set_cc(BYTE arg)
     cc_changed = 1;
 }
 
-void cc_modified(void)
+static void cc_modified(void)
 {
     /* Check for pending interrupts */
     if (firqs_pending && !(EFI & F_FLAG)) {
@@ -673,13 +673,13 @@ void cc_modified(void)
     cc_changed = 0;
 }
 
-unsigned get_reg(unsigned nro)
+static WORD get_reg(BYTE nro)
 {
-    unsigned val = 0xff;
+    WORD val = 0xff;
 
     switch (nro) {
         case 0:
-            val = (A << 8) | B;
+            val = D;
             break;
         case 1:
             val = X;
@@ -694,11 +694,11 @@ unsigned get_reg(unsigned nro)
             val = S;
             break;
         case 5:
-            val = PC & 0xffff;
+            val = PC;
             break;
 #ifdef H6309
         case 6:
-            val = (E << 8) | F;
+            val = W;
             break;
         case 7:
             val = V;
@@ -725,16 +725,14 @@ unsigned get_reg(unsigned nro)
             break;
 #endif
     }
-
     return val;
 }
 
-void set_reg(unsigned nro, unsigned val)
+static void set_reg(BYTE nro, WORD val)
 {
     switch (nro) {
         case 0:
-            A = val >> 8;
-            B = val & 0xff;
+            D = val;
             break;
         case 1:
             X = val;
@@ -753,8 +751,7 @@ void set_reg(unsigned nro, unsigned val)
             break;
 #ifdef H6309
         case 6:
-            E = val >> 8;
-            F = val & 0xff;
+            W = val;
             break;
         case 7:
             V = val;
@@ -785,9 +782,9 @@ void set_reg(unsigned nro, unsigned val)
 
 /* 8-Bit Accumulator and Memory Instructions */
 
-static unsigned adc(unsigned arg, unsigned val)
+static BYTE adc(BYTE arg, BYTE val)
 {
-    unsigned res = arg + val + (C != 0);
+    WORD res = arg + val + (C != 0);
 
     C = (res >> 1) & 0x80;
     N = Z = res &= 0xff;
@@ -796,9 +793,9 @@ static unsigned adc(unsigned arg, unsigned val)
     return res;
 }
 
-static unsigned add(unsigned arg, unsigned val)
+static BYTE add(BYTE arg, BYTE val)
 {
-    unsigned res = arg + val;
+    WORD res = arg + val;
 
     C = (res >> 1) & 0x80;
     N = Z = res &= 0xff;
@@ -807,9 +804,9 @@ static unsigned add(unsigned arg, unsigned val)
     return res;
 }
 
-static unsigned and(unsigned arg, unsigned val)
+static BYTE and(BYTE arg, BYTE val)
 {
-    unsigned res = arg & val;
+    BYTE res = arg & val;
 
     N = Z = res;
     OV = 0;
@@ -817,9 +814,9 @@ static unsigned and(unsigned arg, unsigned val)
     return res;
 }
 
-static unsigned asl(unsigned arg)		/* same as lsl */
+static BYTE asl(BYTE arg)		/* same as lsl */
 {
-    unsigned res = arg << 1;
+    WORD res = arg << 1;
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -829,9 +826,9 @@ static unsigned asl(unsigned arg)		/* same as lsl */
     return res;
 }
 
-static unsigned asr(unsigned arg)
+static BYTE asr(BYTE arg)
 {
-    unsigned res = (INT8) arg;
+    WORD res = (INT8)arg;
 
     C = res & 1;
     N = Z = res = (res >> 1) & 0xff;
@@ -840,34 +837,32 @@ static unsigned asr(unsigned arg)
     return res;
 }
 
-static void bit(unsigned arg, unsigned val)
+static void bit(BYTE arg, BYTE val)
 {
-    unsigned res = arg & val;
-
-    N = Z = res;
+    N = Z = arg & val;
     OV = 0;
 }
 
-static unsigned clr(unsigned arg)
+static BYTE clr(BYTE arg)
 {
-    C = N = Z = OV = arg = 0;
+    C = N = Z = OV = 0;
     CLK += 2;
 
-    return arg;
+    return 0;
 }
 
-static void cmp(unsigned arg, unsigned val)
+static void cmp(BYTE arg, BYTE val)
 {
-    unsigned res = arg - val;
+    WORD res = arg - val;
 
     C = res & 0x100;
     N = Z = res &= 0xff;
     OV = (arg ^ val) & (arg ^ res);
 }
 
-static unsigned com(unsigned arg)
+static BYTE com(BYTE arg)
 {
-    unsigned res = arg ^ 0xff;
+    BYTE res = ~arg;
 
     N = Z = res;
     OV = 0;
@@ -879,9 +874,9 @@ static unsigned com(unsigned arg)
 
 static void daa(void)
 {
-    unsigned res = A;
-    unsigned msn = res & 0xf0;
-    unsigned lsn = res & 0x0f;
+    WORD res = A;
+    BYTE msn = res & 0xf0;
+    BYTE lsn = res & 0x0f;
 
     if (lsn > 0x09 || (H & 0x10)) {
         res += 0x06;
@@ -895,14 +890,13 @@ static void daa(void)
 
     C |= (res & 0x100);
     A = N = Z = res &= 0xff;
-    OV = 0;			/* fix this */
 
     CLK += 2;
 }
 
-static unsigned dec(unsigned arg)
+static BYTE dec(BYTE arg)
 {
-    unsigned res = (arg - 1) & 0xff;
+    BYTE res = arg - 1;
 
     N = Z = res;
     OV = arg & ~res;
@@ -911,9 +905,9 @@ static unsigned dec(unsigned arg)
     return res;
 }
 
-unsigned eor(unsigned arg, unsigned val)
+static BYTE eor(BYTE arg, BYTE val)
 {
-    unsigned res = arg ^ val;
+    BYTE res = arg ^ val;
 
     N = Z = res;
     OV = 0;
@@ -923,24 +917,24 @@ unsigned eor(unsigned arg, unsigned val)
 
 static void exg(void)
 {
-    unsigned tmp1 = 0xff;
-    unsigned tmp2 = 0xff;
-    unsigned post = imm_byte ();
+    WORD tmp1 = 0xff;
+    WORD tmp2 = 0xff;
+    BYTE post = imm_byte();
 
     if (((post ^ (post << 4)) & 0x80) == 0) {
         tmp1 = get_reg(post >> 4);
         tmp2 = get_reg(post & 15);
     }
 
-    set_reg (post & 15, tmp1);
-    set_reg (post >> 4, tmp2);
+    set_reg(post & 15, tmp1);
+    set_reg(post >> 4, tmp2);
 
     CLK += 8;
 }
 
-static unsigned inc(unsigned arg)
+static BYTE inc(BYTE arg)
 {
-    unsigned res = (arg + 1) & 0xff;
+    BYTE res = arg + 1;
 
     N = Z = res;
     OV = ~arg & res;
@@ -949,19 +943,17 @@ static unsigned inc(unsigned arg)
     return res;
 }
 
-static unsigned ld(unsigned arg)
+static BYTE ld(BYTE arg)
 {
-    unsigned res = arg;
-
-    N = Z = res;
+    N = Z = arg;
     OV = 0;
 
-    return res;
+    return arg;
 }
 
-static unsigned lsr(unsigned arg)
+static BYTE lsr(BYTE arg)
 {
-    unsigned res = arg >> 1;
+    BYTE res = arg >> 1;
 
     N = 0;
     Z = res;
@@ -973,18 +965,16 @@ static unsigned lsr(unsigned arg)
 
 static void mul(void)
 {
-    unsigned res = (A * B) & 0xffff;
+    WORD res = A * B;
 
-    Z = res;
+    Z = D = res;
     C = res & 0x80;
-    A = res >> 8;
-    B = res & 0xff;
     CLK += 11;
 }
 
-static unsigned neg(int arg)
+static BYTE neg(BYTE arg)
 {
-    unsigned res = (-arg) & 0xff;
+    BYTE res = ~arg + 1;
 
     C = N = Z = res;
     OV = res & arg;
@@ -993,9 +983,9 @@ static unsigned neg(int arg)
     return res;
 }
 
-static unsigned or(unsigned arg, unsigned val)
+static BYTE or(BYTE arg, BYTE val)
 {
-    unsigned res = arg | val;
+    BYTE res = arg | val;
 
     N = Z = res;
     OV = 0;
@@ -1003,9 +993,9 @@ static unsigned or(unsigned arg, unsigned val)
     return res;
 }
 
-static unsigned rol(unsigned arg)
+static BYTE rol(BYTE arg)
 {
-    unsigned res = (arg << 1) + (C != 0);
+    WORD res = (arg << 1) + (C != 0);
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1015,23 +1005,20 @@ static unsigned rol(unsigned arg)
     return res;
 }
 
-static unsigned ror(unsigned arg)
+static BYTE ror(BYTE arg)
 {
-    unsigned res = arg;
+    BYTE res = (arg >> 1) | ((C != 0) << 7);
 
-    if (C != 0) {
-        res |= 0x100;
-    }
-    C = res & 1;
-    N = Z = res >>= 1;
+    C = arg & 1;
+    N = Z = res;
     CLK += 2;
 
     return res;
 }
 
-static unsigned sbc(unsigned arg, unsigned val)
+static BYTE sbc(BYTE arg, BYTE val)
 {
-    unsigned res = arg - val - (C != 0);
+    WORD res = arg - val - (C != 0);
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1040,19 +1027,17 @@ static unsigned sbc(unsigned arg, unsigned val)
     return res;
 }
 
-static void st(unsigned arg)
+static void st(BYTE arg)
 {
-    unsigned res = arg;
-
-    N = Z = res;
+    N = Z = arg;
     OV = 0;
 
-    WRMEM (ea, res);
+    WRMEM(ea, arg);
 }
 
-static unsigned sub(unsigned arg, unsigned val)
+static BYTE sub(BYTE arg, BYTE val)
 {
-    unsigned res = arg - val;
+    WORD res = arg - val;
 
     C = res & 0x100;
     N = Z = res &= 0xff;
@@ -1061,19 +1046,17 @@ static unsigned sub(unsigned arg, unsigned val)
     return res;
 }
 
-static void tst(unsigned arg)
+static void tst(BYTE arg)
 {
-    unsigned res = arg;
-
-    N = Z = res;
+    N = Z = arg;
     OV = 0;
     CLK += 2;
 }
 
 static void tfr(void)
 {
-    unsigned tmp1 = 0xff;
-    unsigned post = imm_byte();
+    WORD tmp1 = 0xff;
+    BYTE post = imm_byte();
 
     if (((post ^ (post << 4)) & 0x80) == 0) {
         tmp1 = get_reg (post >> 4);
@@ -1083,7 +1066,6 @@ static void tfr(void)
 
     CLK += 6;
 }
-
 
 /* 16-Bit Accumulator Instructions */
 
