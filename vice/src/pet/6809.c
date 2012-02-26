@@ -58,8 +58,6 @@
 #define LAST_OPCODE_ADDR iPC
 #define GLOBAL_REGS     h6809_regs
 
-unsigned get_d(void);
-
 h6809_regs_t h6809_regs;
 
 /* Export the local version of the registers.  */
@@ -188,18 +186,13 @@ static WORD V;
 #endif /* H6309 */
 
 
-//unsigned long irq_start_time;
-unsigned ea = 0;
-int cpu_quit = 1;
-unsigned int irqs_pending = 0;
-unsigned int firqs_pending = 0;
-unsigned int cc_changed = 0;
+static WORD ea = 0;
+static int cpu_quit = 1;
+static unsigned int irqs_pending = 0;
+static unsigned int firqs_pending = 0;
+static unsigned int cc_changed = 0;
 
 static WORD *index_regs[4] = { &X, &Y, &U, &S };
-
-extern int dump_cycles_on_success;
-
-extern int trace_enabled;
 
 extern void nmi(void);
 extern void irq(void);
@@ -249,19 +242,6 @@ void release_firq(unsigned int source)
     firqs_pending &= ~(1 << source);
 }
 
-
-
-static inline void check_pc(void)
-{
-    /* TODO */
-}
-
-
-static inline void check_stack(void)
-{
-    /* TODO */
-}
-
 void sim_error(const char *format, ...)
 {
     va_list ap;
@@ -272,206 +252,193 @@ void sim_error(const char *format, ...)
     va_end(ap);
 }
 
-static inline void change_pc(unsigned newPC)
+static inline void change_pc(WORD newPC)
 {
-#if 0
-  /* TODO - will let some RAM execute for trampolines */
-  if ((newPC < 0x1C00) || (newPC > 0xFFFF))
-  {
-	  fprintf (stderr, "m6809-run: invalid PC = %04X, previous was %s\n",
-	  	newPC, monitor_addr_name (PC));
-	  exit (2);
-  }
-
-  if (trace_enabled)
-  {
-		fprintf (stderr, "PC : %s ", monitor_addr_name (PC));
-		fprintf (stderr, "-> %s\n", monitor_addr_name (newPC));
-	}
-#endif
-  PC = newPC;
+    PC = newPC;
 }
 
-static inline unsigned imm_byte(void)
+static inline BYTE imm_byte(void)
 {
-    unsigned val = read8(PC);
+    BYTE val = read8(PC);
+
     PC++;
     return val;
 }
 
-static inline unsigned imm_word(void)
+static inline WORD imm_word(void)
 {
-      unsigned val = read16(PC);
-      PC += 2;
-      return val;
+    WORD val = read16(PC);
+
+    PC += 2;
+    return val;
 }
 
 #define WRMEM(addr, data) write8(addr, data)
 
-static void WRMEM16(unsigned addr, unsigned data)
+static void WRMEM16(WORD addr, WORD data)
 {
     WRMEM(addr, data >> 8);
     CLK++;
-    WRMEM((addr + 1) & 0xffff, data & 0xff);
+    WRMEM(addr + 1, data & 0xff);
 }
 
 #define RDMEM(addr) read8(addr)
 
-static unsigned RDMEM16(unsigned addr)
+static WORD RDMEM16(WORD addr)
 {
-    unsigned val = RDMEM(addr) << 8;
+    WORD val = RDMEM(addr) << 8;
+
     CLK++;
-    val |= RDMEM((addr + 1) & 0xffff);
+    val |= RDMEM(addr + 1);
     return val;
 }
 
 #define write_stack WRMEM
 #define read_stack  RDMEM
 
-static void write_stack16(unsigned addr, unsigned data)
+static void write_stack16(WORD addr, WORD data)
 {
-    write_stack((addr + 1) & 0xffff, data & 0xff);
+    write_stack(addr + 1, data & 0xff);
     write_stack(addr, data >> 8);
 }
 
-static unsigned read_stack16(unsigned addr)
+static unsigned read_stack16(WORD addr)
 {
-    return (read_stack(addr) << 8) | read_stack((addr + 1) & 0xffff);
+    return (read_stack(addr) << 8) | read_stack(addr + 1);
 }
 
 static void direct(void)
 {
-    unsigned val = read8 (PC) | DP;
+    ea = read8(PC) | DP;
     PC++;
-    ea = val;
 }
 
-static void indexed(void)			/* note take 1 extra cycle */
+static void indexed(void)		/* note take 1 extra cycle */
 {
-    unsigned post = imm_byte();
+    BYTE post = imm_byte();
     WORD *R = index_regs[(post >> 5) & 0x3];
 
     if (post & 0x80) {
         switch (post & 0x1f) {
-            case 0x00:
+            case 0x00:	/* ,R+ */
                 ea = *R;
-                *R = (*R + 1) & 0xffff;
+                *R += 1;
                 CLK += 6;
                 break;
-            case 0x01:
+            case 0x01:	/* ,R++ */
                 ea = *R;
-                *R = (*R + 2) & 0xffff;
+                *R += 2;
                 CLK += 7;
                 break;
-            case 0x02:
-                *R = (*R - 1) & 0xffff;
+            case 0x02:	/* ,-R */
+                *R -= 1;
                 ea = *R;
                 CLK += 6;
                 break;
-            case 0x03:
-                *R = (*R - 2) & 0xffff;
+            case 0x03:	/* ,--R */
+                *R -= 2;
                 ea = *R;
                 CLK += 7;
                 break;
-            case 0x04:
+            case 0x04:	/* ,R */
                 ea = *R;
                 CLK += 4;
                 break;
-            case 0x05:
-                ea = (*R + ((INT8)B)) & 0xffff;
+            case 0x05:	/* B,R */
+                ea = *R + (INT8)B;
                 CLK += 5;
                 break;
-            case 0x06:
-                ea = (*R + ((INT8)A)) & 0xffff;
+            case 0x06:	/* A,R */
+                ea = *R + (INT8)A;
                 CLK += 5;
                 break;
-            case 0x08:
-                ea = (*R + ((INT8)imm_byte())) & 0xffff;
+            case 0x08:	/* 8bit,R */
+                ea = *R + (INT8)imm_byte();
                 CLK += 5;
                 break;
-            case 0x09:
-                ea = (*R + imm_word()) & 0xffff;
+            case 0x09:	/* 16bit,R */
+                ea = *R + imm_word();
                 CLK += 8;
                 break;
-            case 0x0b:
-                ea = (*R + get_d()) & 0xffff;
+            case 0x0b:	/* D,R */
+                ea = *R + D;
                 CLK += 8;
                 break;
-            case 0x0c:
+            case 0x0c:	/* 8bit,PC */
                 ea = (INT8)imm_byte();
-                ea = (ea + PC) & 0xffff;
+                ea += PC;
                 CLK += 5;
                 break;
-            case 0x0d:
+            case 0x0d:	/* 16bit,PC */
                 ea = imm_word();
-                ea = (ea + PC) & 0xffff;
+                ea += PC;
                 CLK += 9;
                 break;
-            case 0x11:
+            case 0x11:	/* [,R++] */
                 ea = *R;
-                *R = (*R + 2) & 0xffff;
+                *R += 2;
                 CLK += 7;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x13:
-                *R = (*R - 2) & 0xffff;
+            case 0x13:	/* [,--R] */
+                *R -= 2;
                 ea = *R;
                 CLK += 7;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x14:
+            case 0x14:	/* [,R] */
                 ea = *R;
                 CLK += 4;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x15:
-                ea = (*R + ((INT8)B)) & 0xffff;
+            case 0x15:	/* [B,R] */
+                ea = *R + (INT8)B;
                 CLK += 5;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x16:
-                ea = (*R + ((INT8)A)) & 0xffff;
+            case 0x16:	/* [A,R] */
+                ea = *R + (INT8)A;
                 CLK += 5;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x18:
-                ea = (*R + ((INT8)imm_byte())) & 0xffff;
+            case 0x18:	/* [8bit,R] */
+                ea = *R + (INT8)imm_byte();
                 CLK += 5;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x19:
-                ea = (*R + imm_word()) & 0xffff;
+            case 0x19:	/* [16bit,R] */
+                ea = *R + imm_word();
                 CLK += 8;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x1b:
-                ea = (*R + get_d()) & 0xffff;
+            case 0x1b:	/* [D,R] */
+                ea = *R + D;
                 CLK += 8;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x1c:
+            case 0x1c:	/* [8bit,PC] */
                 ea = (INT8)imm_byte();
-                ea = (ea + PC) & 0xffff;
+                ea += PC;
                 CLK += 5;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x1d:
+            case 0x1d:	/* [16bit,PC] */
                 ea = imm_word();
-                ea = (ea + PC) & 0xffff;
+                ea += PC;
                 CLK += 9;
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
-            case 0x1f:
+            case 0x1f:	/* [16bit] */
                 ea = imm_word();
                 CLK += 6;
                 ea = RDMEM16(ea);
@@ -484,203 +451,187 @@ static void indexed(void)			/* note take 1 extra cycle */
         }
     } else {
         if (post & 0x10) {
-            post |= 0xfff0;
+            ea = *R + (post | 0xfff0);
         } else {
-            post &= 0x000f;
+            ea = *R + (post & 0x000f);
         }
-        ea = (*R + post) & 0xffff;
         CLK += 5;
     }
 }
 
 static void extended(void)
 {
-    unsigned val = read16(PC);
+    ea = read16(PC);
     PC += 2;
-    ea = val;
 }
 
 /* external register functions */
 
-unsigned get_a(void)
+static BYTE get_a(void)
 {
     return A;
 }
 
-unsigned get_b(void)
+static BYTE get_b(void)
 {
     return B;
 }
 
-unsigned get_dp(void)
+static BYTE get_dp(void)
 {
     return DP >> 8;
 }
 
-unsigned get_x(void)
+static WORD get_x(void)
 {
     return X;
 }
 
-unsigned get_y(void)
+static WORD get_y(void)
 {
     return Y;
 }
 
-unsigned get_s(void)
+static WORD get_s(void)
 {
     return S;
 }
 
-unsigned get_u(void)
+static WORD get_u(void)
 {
     return U;
 }
 
-unsigned get_pc(void)
+static WORD get_pc(void)
 {
-    return PC & 0xffff;
+    return PC;
 }
 
-unsigned get_d(void)
+static WORD get_d(void)
 {
-    return (A << 8) | B;
+    return D;
 }
 
-unsigned get_flags(void)
+static BYTE get_flags(void)
 {
     return EFI;
 }
 
 #ifdef H6309
-unsigned get_e(void)
+static BYTE get_e(void)
 {
     return E;
 }
 
-unsigned get_f(void)
+static BYTE get_f(void)
 {
     return F;
 }
 
-unsigned get_w(void)
+static WORD get_w(void)
 {
-    return (E << 8) | F;
+    return W;
 }
 
-unsigned get_q(void)
+static DWORD get_q(void)
 {
-    return (get_w () << 16) | get_d ();
+    return Q;
 }
 
-unsigned get_v(void)
+static WORD get_v(void)
 {
     return V;
 }
 
-unsigned get_zero(void)
-{
-    return 0;
-}
-
-unsigned get_md(void)
+static BYTE get_md(void)
 {
     return MD;
 }
 #endif
 
-void set_a(unsigned val)
+static void set_a(BYTE val)
 {
-    A = val & 0xff;
+    A = val;
 }
 
-void set_b(unsigned val)
+static void set_b(BYTE val)
 {
-    B = val & 0xff;
+    B = val;
 }
 
-void set_dp(unsigned val)
+static void set_dp(BYTE val)
 {
-    DP = (val & 0xff) << 8;
+    DP = val << 8;
 }
 
-void set_x(unsigned val)
+static void set_x(WORD val)
 {
-    X = val & 0xffff;
+    X = val;
 }
 
-void set_y(unsigned val)
+static void set_y(WORD val)
 {
-    Y = val & 0xffff;
+    Y = val;
 }
 
-void set_s(unsigned val)
+static void set_s(WORD val)
 {
-    S = val & 0xffff;
-    check_stack();
+    S = val;
 }
 
-void set_u(unsigned val)
+static void set_u(WORD val)
 {
-    U = val & 0xffff;
+    U = val;
 }
 
-void set_pc(unsigned val)
+static void set_pc(WORD val)
 {
-    PC = val & 0xffff;
-    check_pc();
+    PC = val;
 }
 
-void set_d(unsigned val)
+static void set_d(WORD val)
 {
-    A = (val >> 8) & 0xff;
-    B = val & 0xff;
+    D = val;
 }
 
 #ifdef H6309
-void set_e(unsigned val)
+static void set_e(BYTE val)
 {
-    E = val & 0xff;
+    E = val;
 }
 
-void set_f(unsigned val)
+static void set_f(BYTE val)
 {
-    F = val & 0xff;
+    F = val;
 }
 
-void set_w(unsigned val)
+static void set_w(WORD val)
 {
-    E = (val >> 8) & 0xff;
-    F = val & 0xff;
+    W = val;
 }
 
-void set_q(unsigned val)
+static void set_q(DWORD val)
 {
-    set_w((val >> 16) & 0xffff);
-    set_d(val & 0xffff);
+    Q = val;
 }
 
-void set_v(unsigned val)
+static void set_v(WORD val)
 {
-    V = val & 0xff;
+    V = val;
 }
 
-void set_zero(unsigned val)
+static void set_md(BYTE val)
 {
-}
-
-void set_md(unsigned val)
-{
-    MD = val & 0xff;
+    MD = val;
 }
 #endif
 
 
 /* handle condition code register */
 
-unsigned get_cc(void)
+static BYTE get_cc(void)
 {
-    unsigned res = EFI & (E_FLAG | F_FLAG | I_FLAG);
+    BYTE res = EFI & (E_FLAG | F_FLAG | I_FLAG);
 
     if (H & 0x10) {
         res |= H_FLAG;
@@ -700,7 +651,7 @@ unsigned get_cc(void)
     return res;
 }
 
-void set_cc(unsigned arg)
+static void set_cc(BYTE arg)
 {
     EFI = arg & (E_FLAG | F_FLAG | I_FLAG);
     H = (arg & H_FLAG ? 0x10 : 0);
@@ -799,7 +750,6 @@ void set_reg(unsigned nro, unsigned val)
             break;
         case 5:
             PC = val;
-            check_pc();
             break;
 #ifdef H6309
         case 6:
@@ -1373,7 +1323,6 @@ static void puls(void)
     if (post & 0x80) {
         CLK += 2;
         PC = read_stack16(S);
-        check_pc();
         S = (S + 2) & 0xffff;
     }
 }
@@ -1422,7 +1371,6 @@ static void pulu(void)
     if (post & 0x80) {
         CLK += 2;
         PC = read_stack16(U);
-        check_pc();
         U = (U + 2) & 0xffff;
     }
 }
@@ -1463,7 +1411,6 @@ static void rti(void)
         S = (S + 2) & 0xffff;
     }
     PC = read_stack16(S);
-    check_pc();
     S = (S + 2) & 0xffff;
 }
 
@@ -1471,7 +1418,6 @@ static void rts(void)
 {
     CLK += 5;
     PC = read_stack16(S);
-    check_pc();
     S = (S + 2) & 0xffff;
 }
 
@@ -1858,7 +1804,6 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  direct ();
 	  CLK += 3;
 	  PC = ea;
-          check_pc ();
 	  break;		/* JMP direct */
 	case 0x0f:
 	  direct ();
@@ -2477,7 +2422,6 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  indexed ();
 	  CLK += 1;
 	  PC = ea;
-          check_pc ();
 	  break;		/* JMP indexed */
 	case 0x6f:
 	  indexed ();
@@ -2551,7 +2495,6 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 	  extended ();
 	  CLK += 4;
 	  PC = ea;
-          check_pc ();
 	  break;		/* JMP extended */
 	case 0x7f:
 	  extended ();
