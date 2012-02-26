@@ -179,9 +179,9 @@ extern int dump_cycles_on_success;
 
 extern int trace_enabled;
 
-extern void nmi (void);
-extern void irq (void);
-extern void firq (void);
+extern void nmi(void);
+extern void irq(void);
+extern void firq(void);
 
 /* Stubs: */
 #define monitor_call(arg)       0
@@ -189,77 +189,74 @@ extern void firq (void);
 #define monitor_addr_name(arg)  0
 /* -- */
 
-
-void request_nmi (unsigned int source)
+void request_nmi(unsigned int source)
 {
-        /* If the interrupt is not masked, generate
-         * IRQ immediately.  Else, mark it pending and
-         * we'll check it later when the flags change.
-         */
-        nmi ();
+    /* If the interrupt is not masked, generate
+     * IRQ immediately.  Else, mark it pending and
+     * we'll check it later when the flags change.
+     */
+    nmi();
 }
 
-void request_irq (unsigned int source)
+void request_irq(unsigned int source)
 {
-        /* If the interrupt is not masked, generate
-         * IRQ immediately.  Else, mark it pending and
-         * we'll check it later when the flags change.
-         */
-        irqs_pending |= (1 << source);
-        if (!(EFI & I_FLAG))
-                irq ();
+    /* If the interrupt is not masked, generate
+     * IRQ immediately.  Else, mark it pending and
+     * we'll check it later when the flags change.
+     */
+    irqs_pending |= (1 << source);
+    if (!(EFI & I_FLAG)) {
+        irq();
+    }
 }
 
-void release_irq (unsigned int source)
+void release_irq(unsigned int source)
 {
-	irqs_pending &= ~(1 << source);
+    irqs_pending &= ~(1 << source);
 }
 
 
 void request_firq (unsigned int source)
 {
-	/* If the interrupt is not masked, generate
-	 * IRQ immediately.  Else, mark it pending and
-	 * we'll check it later when the flags change.
-	 */
-	firqs_pending |= (1 << source);
-	if (!(EFI & F_FLAG))
-		firq ();
+    /* If the interrupt is not masked, generate
+     * IRQ immediately.  Else, mark it pending and
+     * we'll check it later when the flags change.
+     */
+    firqs_pending |= (1 << source);
+    if (!(EFI & F_FLAG)) {
+        firq();
+    }
 }
 
-void release_firq (unsigned int source)
+void release_firq(unsigned int source)
 {
-	firqs_pending &= ~(1 << source);
+    firqs_pending &= ~(1 << source);
 }
 
 
 
-static inline void
-check_pc (void)
+static inline void check_pc(void)
 {
-	/* TODO */
+    /* TODO */
 }
 
 
-static inline void
-check_stack (void)
+static inline void check_stack(void)
 {
-	/* TODO */
+    /* TODO */
 }
 
-void
-sim_error (const char *format, ...)
+void sim_error(const char *format, ...)
 {
-        va_list ap;
+    va_list ap;
 
-        va_start (ap, format);
-        fprintf (stderr, "m6809-run: (at PC=%04X) ", iPC);
-        vfprintf (stderr, format, ap);
-        va_end (ap);
+    va_start(ap, format);
+    fprintf(stderr, "m6809-run: (at PC=%04X) ", iPC);
+    vfprintf(stderr, format, ap);
+    va_end(ap);
 }
 
-static inline void
-change_pc (unsigned newPC)
+static inline void change_pc(unsigned newPC)
 {
 #if 0
   /* TODO - will let some RAM execute for trampolines */
@@ -279,1526 +276,1388 @@ change_pc (unsigned newPC)
   PC = newPC;
 }
 
-static inline unsigned
-imm_byte (void)
+static inline unsigned imm_byte(void)
 {
-  unsigned val = read8 (PC);
-  PC++;
-  return val;
+    unsigned val = read8(PC);
+    PC++;
+    return val;
 }
 
-static inline unsigned
-imm_word (void)
+static inline unsigned imm_word(void)
 {
-  unsigned val = read16 (PC);
-  PC += 2;
-  return val;
+      unsigned val = read16(PC);
+      PC += 2;
+      return val;
 }
 
-#define WRMEM(addr, data) write8 (addr, data)
+#define WRMEM(addr, data) write8(addr, data)
 
-static void
-WRMEM16 (unsigned addr, unsigned data)
+static void WRMEM16(unsigned addr, unsigned data)
 {
-  WRMEM (addr, data >> 8);
-  CLK++;
-  WRMEM ((addr + 1) & 0xffff, data & 0xff);
+    WRMEM(addr, data >> 8);
+    CLK++;
+    WRMEM((addr + 1) & 0xffff, data & 0xff);
 }
 
-#define RDMEM(addr) read8 (addr)
+#define RDMEM(addr) read8(addr)
 
-static unsigned
-RDMEM16 (unsigned addr)
+static unsigned RDMEM16(unsigned addr)
 {
-  unsigned val = RDMEM (addr) << 8;
-  CLK++;
-  val |= RDMEM ((addr + 1) & 0xffff);
-  return val;
+    unsigned val = RDMEM(addr) << 8;
+    CLK++;
+    val |= RDMEM((addr + 1) & 0xffff);
+    return val;
 }
 
 #define write_stack WRMEM
 #define read_stack  RDMEM
 
-static void
-write_stack16 (unsigned addr, unsigned data)
+static void write_stack16(unsigned addr, unsigned data)
 {
-  write_stack ((addr + 1) & 0xffff, data & 0xff);
-  write_stack (addr, data >> 8);
+    write_stack((addr + 1) & 0xffff, data & 0xff);
+    write_stack(addr, data >> 8);
 }
 
-static unsigned
-read_stack16 (unsigned addr)
+static unsigned read_stack16(unsigned addr)
 {
-  return (read_stack (addr) << 8) | read_stack ((addr + 1) & 0xffff);
+    return (read_stack(addr) << 8) | read_stack((addr + 1) & 0xffff);
 }
 
-static void
-direct (void)
+static void direct(void)
 {
-  unsigned val = read8 (PC) | DP;
-  PC++;
-  ea = val;
+    unsigned val = read8 (PC) | DP;
+    PC++;
+    ea = val;
 }
 
-static void
-indexed (void)			/* note take 1 extra cycle */
+static void indexed(void)			/* note take 1 extra cycle */
 {
-  unsigned post = imm_byte ();
-  unsigned *R = index_regs[(post >> 5) & 0x3];
+    unsigned post = imm_byte();
+    unsigned *R = index_regs[(post >> 5) & 0x3];
 
-  if (post & 0x80)
-    {
-      switch (post & 0x1f)
-        {
-        case 0x00:
-          ea = *R;
-          *R = (*R + 1) & 0xffff;
-          CLK += 6;
-          break;
-        case 0x01:
-          ea = *R;
-          *R = (*R + 2) & 0xffff;
-          CLK += 7;
-          break;
-        case 0x02:
-          *R = (*R - 1) & 0xffff;
-          ea = *R;
-          CLK += 6;
-          break;
-        case 0x03:
-          *R = (*R - 2) & 0xffff;
-          ea = *R;
-          CLK += 7;
-          break;
-        case 0x04:
-          ea = *R;
-          CLK += 4;
-          break;
-        case 0x05:
-          ea = (*R + ((INT8) B)) & 0xffff;
-          CLK += 5;
-          break;
-        case 0x06:
-          ea = (*R + ((INT8) A)) & 0xffff;
-          CLK += 5;
-          break;
-        case 0x08:
-          ea = (*R + ((INT8) imm_byte ())) & 0xffff;
-          CLK += 5;
-          break;
-        case 0x09:
-          ea = (*R + imm_word ()) & 0xffff;
-          CLK += 8;
-          break;
-        case 0x0b:
-          ea = (*R + get_d ()) & 0xffff;
-          CLK += 8;
-          break;
-        case 0x0c:
-          ea = (INT8) imm_byte ();
-          ea = (ea + PC) & 0xffff;
-          CLK += 5;
-          break;
-        case 0x0d:
-          ea = imm_word ();
-          ea = (ea + PC) & 0xffff;
-          CLK += 9;
-          break;
-
-        case 0x11:
-          ea = *R;
-          *R = (*R + 2) & 0xffff;
-          CLK += 7;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x13:
-          *R = (*R - 2) & 0xffff;
-          ea = *R;
-          CLK += 7;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x14:
-          ea = *R;
-          CLK += 4;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x15:
-          ea = (*R + ((INT8) B)) & 0xffff;
-          CLK += 5;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x16:
-          ea = (*R + ((INT8) A)) & 0xffff;
-          CLK += 5;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x18:
-          ea = (*R + ((INT8) imm_byte ())) & 0xffff;
-          CLK += 5;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x19:
-          ea = (*R + imm_word ()) & 0xffff;
-          CLK += 8;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x1b:
-          ea = (*R + get_d ()) & 0xffff;
-          CLK += 8;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x1c:
-          ea = (INT8) imm_byte ();
-          ea = (ea + PC) & 0xffff;
-          CLK += 5;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x1d:
-          ea = imm_word ();
-          ea = (ea + PC) & 0xffff;
-          CLK += 9;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        case 0x1f:
-          ea = imm_word ();
-          CLK += 6;
-          ea = RDMEM16 (ea);
-          CLK += 2;
-          break;
-        default:
-          ea = 0;
-          sim_error ("invalid index post $%02X\n", post);
-          break;
+    if (post & 0x80) {
+        switch (post & 0x1f) {
+            case 0x00:
+                ea = *R;
+                *R = (*R + 1) & 0xffff;
+                CLK += 6;
+                break;
+            case 0x01:
+                ea = *R;
+                *R = (*R + 2) & 0xffff;
+                CLK += 7;
+                break;
+            case 0x02:
+                *R = (*R - 1) & 0xffff;
+                ea = *R;
+                CLK += 6;
+                break;
+            case 0x03:
+                *R = (*R - 2) & 0xffff;
+                ea = *R;
+                CLK += 7;
+                break;
+            case 0x04:
+                ea = *R;
+                CLK += 4;
+                break;
+            case 0x05:
+                ea = (*R + ((INT8)B)) & 0xffff;
+                CLK += 5;
+                break;
+            case 0x06:
+                ea = (*R + ((INT8)A)) & 0xffff;
+                CLK += 5;
+                break;
+            case 0x08:
+                ea = (*R + ((INT8)imm_byte())) & 0xffff;
+                CLK += 5;
+                break;
+            case 0x09:
+                ea = (*R + imm_word()) & 0xffff;
+                CLK += 8;
+                break;
+            case 0x0b:
+                ea = (*R + get_d()) & 0xffff;
+                CLK += 8;
+                break;
+            case 0x0c:
+                ea = (INT8)imm_byte();
+                ea = (ea + PC) & 0xffff;
+                CLK += 5;
+                break;
+            case 0x0d:
+                ea = imm_word();
+                ea = (ea + PC) & 0xffff;
+                CLK += 9;
+                break;
+            case 0x11:
+                ea = *R;
+                *R = (*R + 2) & 0xffff;
+                CLK += 7;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x13:
+                *R = (*R - 2) & 0xffff;
+                ea = *R;
+                CLK += 7;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x14:
+                ea = *R;
+                CLK += 4;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x15:
+                ea = (*R + ((INT8)B)) & 0xffff;
+                CLK += 5;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x16:
+                ea = (*R + ((INT8)A)) & 0xffff;
+                CLK += 5;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x18:
+                ea = (*R + ((INT8)imm_byte())) & 0xffff;
+                CLK += 5;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x19:
+                ea = (*R + imm_word()) & 0xffff;
+                CLK += 8;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x1b:
+                ea = (*R + get_d()) & 0xffff;
+                CLK += 8;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x1c:
+                ea = (INT8)imm_byte();
+                ea = (ea + PC) & 0xffff;
+                CLK += 5;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x1d:
+                ea = imm_word();
+                ea = (ea + PC) & 0xffff;
+                CLK += 9;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            case 0x1f:
+                ea = imm_word();
+                CLK += 6;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+            default:
+                ea = 0;
+                sim_error("invalid index post $%02X\n", post);
+                break;
         }
-    }
-  else
-    {
-      if (post & 0x10)
-        post |= 0xfff0;
-      else
-        post &= 0x000f;
-      ea = (*R + post) & 0xffff;
-      CLK += 5;
+    } else {
+        if (post & 0x10) {
+            post |= 0xfff0;
+        } else {
+            post &= 0x000f;
+        }
+        ea = (*R + post) & 0xffff;
+        CLK += 5;
     }
 }
 
-static void
-extended (void)
+static void extended(void)
 {
-  unsigned val = read16 (PC);
-  PC += 2;
-  ea = val;
+    unsigned val = read16(PC);
+    PC += 2;
+    ea = val;
 }
 
 /* external register functions */
 
-unsigned
-get_a (void)
+unsigned get_a(void)
 {
-  return A;
+    return A;
 }
 
-unsigned
-get_b (void)
+unsigned get_b(void)
 {
-  return B;
+    return B;
 }
 
-unsigned
-get_dp (void)
+unsigned get_dp(void)
 {
-  return DP >> 8;
+    return DP >> 8;
 }
 
-unsigned
-get_x (void)
+unsigned get_x(void)
 {
-  return X;
+    return X;
 }
 
-unsigned
-get_y (void)
+unsigned get_y(void)
 {
-  return Y;
+    return Y;
 }
 
-unsigned
-get_s (void)
+unsigned get_s(void)
 {
-  return S;
+    return S;
 }
 
-unsigned
-get_u (void)
+unsigned get_u(void)
 {
-  return U;
+    return U;
 }
 
-unsigned
-get_pc (void)
+unsigned get_pc(void)
 {
-  return PC & 0xffff;
+    return PC & 0xffff;
 }
 
-unsigned
-get_d (void)
+unsigned get_d(void)
 {
-  return (A << 8) | B;
+    return (A << 8) | B;
 }
 
-unsigned
-get_flags (void)
+unsigned get_flags(void)
 {
-  return EFI;
+    return EFI;
 }
 
 #ifdef H6309
-unsigned
-get_e (void)
+unsigned get_e(void)
 {
-  return E;
+    return E;
 }
 
-unsigned
-get_f (void)
+unsigned get_f(void)
 {
-  return F;
+    return F;
 }
 
-unsigned
-get_w (void)
+unsigned get_w(void)
 {
-  return (E << 8) | F;
+    return (E << 8) | F;
 }
 
-unsigned
-get_q (void)
+unsigned get_q(void)
 {
-  return (get_w () << 16) | get_d ();
+    return (get_w () << 16) | get_d ();
 }
 
-unsigned
-get_v (void)
+unsigned get_v(void)
 {
-  return V;
+    return V;
 }
 
-unsigned
-get_zero (void)
+unsigned get_zero(void)
 {
-  return 0;
+    return 0;
 }
 
-unsigned
-get_md (void)
+unsigned get_md(void)
 {
-  return MD;
+    return MD;
 }
 #endif
 
-void
-set_a (unsigned val)
+void set_a(unsigned val)
 {
-  A = val & 0xff;
+    A = val & 0xff;
 }
 
-void
-set_b (unsigned val)
+void set_b(unsigned val)
 {
-  B = val & 0xff;
+    B = val & 0xff;
 }
 
-void
-set_dp (unsigned val)
+void set_dp(unsigned val)
 {
-  DP = (val & 0xff) << 8;
+    DP = (val & 0xff) << 8;
 }
 
-void
-set_x (unsigned val)
+void set_x(unsigned val)
 {
-  X = val & 0xffff;
+    X = val & 0xffff;
 }
 
-void
-set_y (unsigned val)
+void set_y(unsigned val)
 {
-  Y = val & 0xffff;
+    Y = val & 0xffff;
 }
 
-void
-set_s (unsigned val)
+void set_s(unsigned val)
 {
-  S = val & 0xffff;
-  check_stack ();
+    S = val & 0xffff;
+    check_stack();
 }
 
-void
-set_u (unsigned val)
+void set_u(unsigned val)
 {
-  U = val & 0xffff;
+    U = val & 0xffff;
 }
 
-void
-set_pc (unsigned val)
+void set_pc(unsigned val)
 {
-  PC = val & 0xffff;
-  check_pc ();
+    PC = val & 0xffff;
+    check_pc();
 }
 
-void
-set_d (unsigned val)
+void set_d(unsigned val)
 {
-  A = (val >> 8) & 0xff;
-  B = val & 0xff;
+    A = (val >> 8) & 0xff;
+    B = val & 0xff;
 }
 
 #ifdef H6309
-void
-set_e (unsigned val)
+void set_e(unsigned val)
 {
-  E = val & 0xff;
+    E = val & 0xff;
 }
 
-void
-set_f (unsigned val)
+void set_f(unsigned val)
 {
-  F = val & 0xff;
+    F = val & 0xff;
 }
 
-void
-set_w (unsigned val)
+void set_w(unsigned val)
 {
-  E = (val >> 8) & 0xff;
-  F = val & 0xff;
+    E = (val >> 8) & 0xff;
+    F = val & 0xff;
 }
 
-void
-set_q (unsigned val)
+void set_q(unsigned val)
 {
-  set_w ((val >> 16) & 0xffff);
-  set_d (val & 0xffff);
+    set_w((val >> 16) & 0xffff);
+    set_d(val & 0xffff);
 }
 
-void
-set_v (unsigned val)
+void set_v(unsigned val)
 {
-  V = val & 0xff;
+    V = val & 0xff;
 }
 
-void
-set_zero (unsigned val)
+void set_zero(unsigned val)
 {
 }
-void
-set_md (unsigned val)
+
+void set_md(unsigned val)
 {
-  MD = val & 0xff;
+    MD = val & 0xff;
 }
 #endif
 
 
 /* handle condition code register */
 
-unsigned
-get_cc (void)
+unsigned get_cc(void)
 {
-  unsigned res = EFI & (E_FLAG | F_FLAG | I_FLAG);
+    unsigned res = EFI & (E_FLAG | F_FLAG | I_FLAG);
 
-  if (H & 0x10)
-    res |= H_FLAG;
-  if (N & 0x80)
-    res |= N_FLAG;
-  if (Z == 0)
-    res |= Z_FLAG;
-  if (OV & 0x80)
-    res |= V_FLAG;
-  if (C != 0)
-    res |= C_FLAG;
-
-  return res;
+    if (H & 0x10) {
+        res |= H_FLAG;
+    }
+    if (N & 0x80) {
+        res |= N_FLAG;
+    }
+    if (Z == 0) {
+        res |= Z_FLAG;
+    }
+    if (OV & 0x80) {
+        res |= V_FLAG;
+    }
+    if (C != 0) {
+        res |= C_FLAG;
+    }
+    return res;
 }
 
-void
-set_cc (unsigned arg)
+void set_cc(unsigned arg)
 {
-  EFI = arg & (E_FLAG | F_FLAG | I_FLAG);
-  H = (arg & H_FLAG ? 0x10 : 0);
-  N = (arg & N_FLAG ? 0x80 : 0);
-  Z = (~arg) & Z_FLAG;
-  OV = (arg & V_FLAG ? 0x80 : 0);
-  C = arg & C_FLAG;
-  cc_changed = 1;
+    EFI = arg & (E_FLAG | F_FLAG | I_FLAG);
+    H = (arg & H_FLAG ? 0x10 : 0);
+    N = (arg & N_FLAG ? 0x80 : 0);
+    Z = (~arg) & Z_FLAG;
+    OV = (arg & V_FLAG ? 0x80 : 0);
+    C = arg & C_FLAG;
+    cc_changed = 1;
 }
 
-
-void
-cc_modified (void)
+void cc_modified(void)
 {
-  /* Check for pending interrupts */
-	if (firqs_pending && !(EFI & F_FLAG))
-		firq ();
-	else if (irqs_pending && !(EFI & I_FLAG))
-		irq ();
-	cc_changed = 0;
+    /* Check for pending interrupts */
+    if (firqs_pending && !(EFI & F_FLAG)) {
+        firq();
+    } else if (irqs_pending && !(EFI & I_FLAG)) {
+        irq();
+    }
+    cc_changed = 0;
 }
 
-unsigned
-get_reg (unsigned nro)
+unsigned get_reg(unsigned nro)
 {
-  unsigned val = 0xff;
+    unsigned val = 0xff;
 
-  switch (nro)
-    {
-    case 0:
-      val = (A << 8) | B;
-      break;
-    case 1:
-      val = X;
-      break;
-    case 2:
-      val = Y;
-      break;
-    case 3:
-      val = U;
-      break;
-    case 4:
-      val = S;
-      break;
-    case 5:
-      val = PC & 0xffff;
-      break;
+    switch (nro) {
+        case 0:
+            val = (A << 8) | B;
+            break;
+        case 1:
+            val = X;
+            break;
+        case 2:
+            val = Y;
+            break;
+        case 3:
+            val = U;
+            break;
+        case 4:
+            val = S;
+            break;
+        case 5:
+            val = PC & 0xffff;
+            break;
 #ifdef H6309
-    case 6:
-      val = (E << 8) | F;
-      break;
-    case 7:
-      val = V;
-      break;
+        case 6:
+            val = (E << 8) | F;
+            break;
+        case 7:
+            val = V;
+            break;
 #endif
-    case 8:
-      val = A;
-      break;
-    case 9:
-      val = B;
-      break;
-    case 10:
-      val = get_cc ();
-      break;
-    case 11:
-      val = DP >> 8;
-      break;
+        case 8:
+            val = A;
+            break;
+        case 9:
+            val = B;
+            break;
+        case 10:
+            val = get_cc();
+            break;
+        case 11:
+            val = DP >> 8;
+            break;
 #ifdef H6309
-    case 14:
-      val = E;
-      break;
-    case 15:
-      val = F;
-      break;
+        case 14:
+            val = E;
+            break;
+        case 15:
+            val = F;
+            break;
 #endif
     }
 
-  return val;
+    return val;
 }
 
-void
-set_reg (unsigned nro, unsigned val)
+void set_reg(unsigned nro, unsigned val)
 {
-  switch (nro)
-    {
-    case 0:
-      A = val >> 8;
-      B = val & 0xff;
-      break;
-    case 1:
-      X = val;
-      break;
-    case 2:
-      Y = val;
-      break;
-    case 3:
-      U = val;
-      break;
-    case 4:
-      S = val;
-      break;
-    case 5:
-      PC = val;
-      check_pc ();
-      break;
+    switch (nro) {
+        case 0:
+            A = val >> 8;
+            B = val & 0xff;
+            break;
+        case 1:
+            X = val;
+            break;
+        case 2:
+            Y = val;
+            break;
+        case 3:
+            U = val;
+            break;
+        case 4:
+            S = val;
+            break;
+        case 5:
+            PC = val;
+            check_pc();
+            break;
 #ifdef H6309
-    case 6:
-      E = val >> 8;
-      F = val & 0xff;
-      break;
-    case 7:
-      V = val;
-      break;
+        case 6:
+            E = val >> 8;
+            F = val & 0xff;
+            break;
+        case 7:
+            V = val;
+            break;
 #endif
-    case 8:
-      A = val;
-      break;
-    case 9:
-      B = val;
-      break;
-    case 10:
-      set_cc (val);
-      break;
-    case 11:
-      DP = val << 8;
-      break;
+        case 8:
+            A = val;
+            break;
+        case 9:
+            B = val;
+            break;
+        case 10:
+            set_cc(val);
+            break;
+        case 11:
+            DP = val << 8;
+            break;
 #ifdef H6309
-    case 14:
-      E = val;
-      break;
-    case 15:
-      F = val;
-      break;
+        case 14:
+            E = val;
+            break;
+        case 15:
+            F = val;
+            break;
 #endif
     }
 }
 
 /* 8-Bit Accumulator and Memory Instructions */
 
-static unsigned
-adc (unsigned arg, unsigned val)
+static unsigned adc(unsigned arg, unsigned val)
 {
-  unsigned res = arg + val + (C != 0);
+    unsigned res = arg + val + (C != 0);
 
-  C = (res >> 1) & 0x80;
-  N = Z = res &= 0xff;
-  OV = H = arg ^ val ^ res ^ C;
+    C = (res >> 1) & 0x80;
+    N = Z = res &= 0xff;
+    OV = H = arg ^ val ^ res ^ C;
 
-  return res;
+    return res;
 }
 
-static unsigned
-add (unsigned arg, unsigned val)
+static unsigned add(unsigned arg, unsigned val)
 {
-  unsigned res = arg + val;
+    unsigned res = arg + val;
 
-  C = (res >> 1) & 0x80;
-  N = Z = res &= 0xff;
-  OV = H = arg ^ val ^ res ^ C;
+    C = (res >> 1) & 0x80;
+    N = Z = res &= 0xff;
+    OV = H = arg ^ val ^ res ^ C;
 
-  return res;
+    return res;
 }
 
-static unsigned
-and (unsigned arg, unsigned val)
+static unsigned and(unsigned arg, unsigned val)
 {
-  unsigned res = arg & val;
+    unsigned res = arg & val;
 
-  N = Z = res;
-  OV = 0;
+    N = Z = res;
+    OV = 0;
 
-  return res;
+    return res;
 }
 
-static unsigned
-asl (unsigned arg)		/* same as lsl */
+static unsigned asl(unsigned arg)		/* same as lsl */
 {
-  unsigned res = arg << 1;
+    unsigned res = arg << 1;
 
-  C = res & 0x100;
-  N = Z = res &= 0xff;
-  OV = arg ^ res;
-  CLK += 2;
+    C = res & 0x100;
+    N = Z = res &= 0xff;
+    OV = arg ^ res;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static unsigned
-asr (unsigned arg)
+static unsigned asr(unsigned arg)
 {
-  unsigned res = (INT8) arg;
+    unsigned res = (INT8) arg;
 
-  C = res & 1;
-  N = Z = res = (res >> 1) & 0xff;
-  CLK += 2;
+    C = res & 1;
+    N = Z = res = (res >> 1) & 0xff;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static void
-bit (unsigned arg, unsigned val)
+static void bit(unsigned arg, unsigned val)
 {
-  unsigned res = arg & val;
+    unsigned res = arg & val;
 
-  N = Z = res;
-  OV = 0;
+    N = Z = res;
+    OV = 0;
 }
 
-static unsigned
-clr (unsigned arg)
+static unsigned clr(unsigned arg)
 {
-  C = N = Z = OV = arg = 0;
-  CLK += 2;
+    C = N = Z = OV = arg = 0;
+    CLK += 2;
 
-  return arg;
+    return arg;
 }
 
-static void
-cmp (unsigned arg, unsigned val)
+static void cmp(unsigned arg, unsigned val)
 {
-  unsigned res = arg - val;
+    unsigned res = arg - val;
 
-  C = res & 0x100;
-  N = Z = res &= 0xff;
-  OV = (arg ^ val) & (arg ^ res);
+    C = res & 0x100;
+    N = Z = res &= 0xff;
+    OV = (arg ^ val) & (arg ^ res);
 }
 
-static unsigned
-com (unsigned arg)
+static unsigned com(unsigned arg)
 {
-  unsigned res = arg ^ 0xff;
+    unsigned res = arg ^ 0xff;
 
-  N = Z = res;
-  OV = 0;
-  C = 1;
-  CLK += 2;
+    N = Z = res;
+    OV = 0;
+    C = 1;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static void
-daa (void)
+static void daa(void)
 {
-  unsigned res = A;
-  unsigned msn = res & 0xf0;
-  unsigned lsn = res & 0x0f;
+    unsigned res = A;
+    unsigned msn = res & 0xf0;
+    unsigned lsn = res & 0x0f;
 
-  if (lsn > 0x09 || (H & 0x10))
-    res += 0x06;
-  if (msn > 0x80 && lsn > 0x09)
-    res += 0x60;
-  if (msn > 0x90 || (C != 0))
-    res += 0x60;
-
-  C |= (res & 0x100);
-  A = N = Z = res &= 0xff;
-  OV = 0;			/* fix this */
-
-  CLK += 2;
-}
-
-static unsigned
-dec (unsigned arg)
-{
-  unsigned res = (arg - 1) & 0xff;
-
-  N = Z = res;
-  OV = arg & ~res;
-  CLK += 2;
-
-  return res;
-}
-
-unsigned
-eor (unsigned arg, unsigned val)
-{
-  unsigned res = arg ^ val;
-
-  N = Z = res;
-  OV = 0;
-
-  return res;
-}
-
-static void
-exg (void)
-{
-  unsigned tmp1 = 0xff;
-  unsigned tmp2 = 0xff;
-  unsigned post = imm_byte ();
-
-  if (((post ^ (post << 4)) & 0x80) == 0)
-    {
-      tmp1 = get_reg (post >> 4);
-      tmp2 = get_reg (post & 15);
+    if (lsn > 0x09 || (H & 0x10)) {
+        res += 0x06;
+    }
+    if (msn > 0x80 && lsn > 0x09) {
+        res += 0x60;
+    }
+    if (msn > 0x90 || (C != 0)) {
+        res += 0x60;
     }
 
-  set_reg (post & 15, tmp1);
-  set_reg (post >> 4, tmp2);
+    C |= (res & 0x100);
+    A = N = Z = res &= 0xff;
+    OV = 0;			/* fix this */
 
-  CLK += 8;
+    CLK += 2;
 }
 
-static unsigned
-inc (unsigned arg)
+static unsigned dec(unsigned arg)
 {
-  unsigned res = (arg + 1) & 0xff;
+    unsigned res = (arg - 1) & 0xff;
 
-  N = Z = res;
-  OV = ~arg & res;
-  CLK += 2;
+    N = Z = res;
+    OV = arg & ~res;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static unsigned
-ld (unsigned arg)
+unsigned eor(unsigned arg, unsigned val)
 {
-  unsigned res = arg;
+    unsigned res = arg ^ val;
 
-  N = Z = res;
-  OV = 0;
+    N = Z = res;
+    OV = 0;
 
-  return res;
+    return res;
 }
 
-static unsigned
-lsr (unsigned arg)
+static void exg(void)
 {
-  unsigned res = arg >> 1;
+    unsigned tmp1 = 0xff;
+    unsigned tmp2 = 0xff;
+    unsigned post = imm_byte ();
 
-  N = 0;
-  Z = res;
-  C = arg & 1;
-  CLK += 2;
+    if (((post ^ (post << 4)) & 0x80) == 0) {
+        tmp1 = get_reg(post >> 4);
+        tmp2 = get_reg(post & 15);
+    }
 
-  return res;
+    set_reg (post & 15, tmp1);
+    set_reg (post >> 4, tmp2);
+
+    CLK += 8;
 }
 
-static void
-mul (void)
+static unsigned inc(unsigned arg)
 {
-  unsigned res = (A * B) & 0xffff;
+    unsigned res = (arg + 1) & 0xff;
 
-  Z = res;
-  C = res & 0x80;
-  A = res >> 8;
-  B = res & 0xff;
-  CLK += 11;
+    N = Z = res;
+    OV = ~arg & res;
+    CLK += 2;
+
+    return res;
 }
 
-static unsigned
-neg (int arg)
+static unsigned ld(unsigned arg)
 {
-  unsigned res = (-arg) & 0xff;
+    unsigned res = arg;
 
-  C = N = Z = res;
-  OV = res & arg;
-  CLK += 2;
+    N = Z = res;
+    OV = 0;
 
-  return res;
+    return res;
 }
 
-static unsigned
-or (unsigned arg, unsigned val)
+static unsigned lsr(unsigned arg)
 {
-  unsigned res = arg | val;
+    unsigned res = arg >> 1;
 
-  N = Z = res;
-  OV = 0;
+    N = 0;
+    Z = res;
+    C = arg & 1;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static unsigned
-rol (unsigned arg)
+static void mul(void)
 {
-  unsigned res = (arg << 1) + (C != 0);
+    unsigned res = (A * B) & 0xffff;
 
-  C = res & 0x100;
-  N = Z = res &= 0xff;
-  OV = arg ^ res;
-  CLK += 2;
-
-  return res;
+    Z = res;
+    C = res & 0x80;
+    A = res >> 8;
+    B = res & 0xff;
+    CLK += 11;
 }
 
-static unsigned
-ror (unsigned arg)
+static unsigned neg(int arg)
 {
-  unsigned res = arg;
+    unsigned res = (-arg) & 0xff;
 
-  if (C != 0)
-    res |= 0x100;
-  C = res & 1;
-  N = Z = res >>= 1;
-  CLK += 2;
+    C = N = Z = res;
+    OV = res & arg;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static unsigned
-sbc (unsigned arg, unsigned val)
+static unsigned or(unsigned arg, unsigned val)
 {
-  unsigned res = arg - val - (C != 0);
+    unsigned res = arg | val;
 
-  C = res & 0x100;
-  N = Z = res &= 0xff;
-  OV = (arg ^ val) & (arg ^ res);
+    N = Z = res;
+    OV = 0;
 
-  return res;
+    return res;
 }
 
-static void
-st (unsigned arg)
+static unsigned rol(unsigned arg)
 {
-  unsigned res = arg;
+    unsigned res = (arg << 1) + (C != 0);
 
-  N = Z = res;
-  OV = 0;
+    C = res & 0x100;
+    N = Z = res &= 0xff;
+    OV = arg ^ res;
+    CLK += 2;
 
-  WRMEM (ea, res);
+    return res;
 }
 
-static unsigned
-sub (unsigned arg, unsigned val)
+static unsigned ror(unsigned arg)
 {
-  unsigned res = arg - val;
+    unsigned res = arg;
 
-  C = res & 0x100;
-  N = Z = res &= 0xff;
-  OV = (arg ^ val) & (arg ^ res);
+    if (C != 0) {
+        res |= 0x100;
+    }
+    C = res & 1;
+    N = Z = res >>= 1;
+    CLK += 2;
 
-  return res;
+    return res;
 }
 
-static void
-tst (unsigned arg)
+static unsigned sbc(unsigned arg, unsigned val)
 {
-  unsigned res = arg;
+    unsigned res = arg - val - (C != 0);
 
-  N = Z = res;
-  OV = 0;
-  CLK += 2;
+    C = res & 0x100;
+    N = Z = res &= 0xff;
+    OV = (arg ^ val) & (arg ^ res);
+
+    return res;
 }
 
-static void
-tfr (void)
+static void st(unsigned arg)
 {
-  unsigned tmp1 = 0xff;
-  unsigned post = imm_byte ();
+    unsigned res = arg;
 
-  if (((post ^ (post << 4)) & 0x80) == 0)
-    tmp1 = get_reg (post >> 4);
+    N = Z = res;
+    OV = 0;
 
-  set_reg (post & 15, tmp1);
+    WRMEM (ea, res);
+}
 
-  CLK += 6;
+static unsigned sub(unsigned arg, unsigned val)
+{
+    unsigned res = arg - val;
+
+    C = res & 0x100;
+    N = Z = res &= 0xff;
+    OV = (arg ^ val) & (arg ^ res);
+
+    return res;
+}
+
+static void tst(unsigned arg)
+{
+    unsigned res = arg;
+
+    N = Z = res;
+    OV = 0;
+    CLK += 2;
+}
+
+static void tfr(void)
+{
+    unsigned tmp1 = 0xff;
+    unsigned post = imm_byte();
+
+    if (((post ^ (post << 4)) & 0x80) == 0) {
+        tmp1 = get_reg (post >> 4);
+    }
+
+    set_reg(post & 15, tmp1);
+
+    CLK += 6;
 }
 
 
 /* 16-Bit Accumulator Instructions */
 
-static void
-abx (void)
+static void abx(void)
 {
-  X = (X + B) & 0xffff;
-  CLK += 3;
+    X = (X + B) & 0xffff;
+    CLK += 3;
 }
 
-static void
-addd (unsigned val)
+static void addd(unsigned val)
 {
-  unsigned arg = (A << 8) | B;
-  unsigned res = arg + val;
+    unsigned arg = (A << 8) | B;
+    unsigned res = arg + val;
 
-  C = res & 0x10000;
-  Z = res &= 0xffff;
-  OV = ((arg ^ res) & (val ^ res)) >> 8;
-  A = N = res >> 8;
-  B = res & 0xff;
+    C = res & 0x10000;
+    Z = res &= 0xffff;
+    OV = ((arg ^ res) & (val ^ res)) >> 8;
+    A = N = res >> 8;
+    B = res & 0xff;
 }
 
-static void
-cmp16 (unsigned arg, unsigned val)
+static void cmp16(unsigned arg, unsigned val)
 {
-  unsigned res = arg - val;
+    unsigned res = arg - val;
 
-  C = res & 0x10000;
-  Z = res &= 0xffff;
-  N = res >> 8;
-  OV = ((arg ^ val) & (arg ^ res)) >> 8;
+    C = res & 0x10000;
+    Z = res &= 0xffff;
+    N = res >> 8;
+    OV = ((arg ^ val) & (arg ^ res)) >> 8;
 }
 
-static void
-ldd (unsigned arg)
+static void ldd(unsigned arg)
 {
-  unsigned res = arg;
+    unsigned res = arg;
 
-  Z = res;
-  A = N = res >> 8;
-  B = res & 0xff;
-  OV = 0;
+    Z = res;
+    A = N = res >> 8;
+    B = res & 0xff;
+    OV = 0;
 }
 
-static unsigned
-ld16 (unsigned arg)
+static unsigned ld16(unsigned arg)
 {
-  unsigned res = arg;
+    unsigned res = arg;
 
-  Z = res;
-  N = res >> 8;
-  OV = 0;
+    Z = res;
+    N = res >> 8;
+    OV = 0;
 
-  return res;
+    return res;
 }
 
-static void
-sex (void)
+static void sex(void)
 {
-  unsigned res = B;
+    unsigned res = B;
 
-  Z = res;
-  N = res &= 0x80;
-  if (res != 0)
-    res = 0xff;
-  A = res;
-  CLK += 2;
+    Z = res;
+    N = res &= 0x80;
+    if (res != 0) {
+        res = 0xff;
+    }
+    A = res;
+    CLK += 2;
 }
 
-static void
-std (void)
+static void std(void)
 {
-  unsigned res = (A << 8) | B;
+    unsigned res = (A << 8) | B;
 
-  Z = res;
-  N = A;
-  OV = 0;
-  WRMEM16 (ea, res);
+    Z = res;
+    N = A;
+    OV = 0;
+    WRMEM16(ea, res);
 }
 
-static void
-st16 (unsigned arg)
+static void st16(unsigned arg)
 {
-  unsigned res = arg;
+    unsigned res = arg;
 
-  Z = res;
-  N = res >> 8;
-  OV = 0;
-  WRMEM16 (ea, res);
+    Z = res;
+    N = res >> 8;
+    OV = 0;
+    WRMEM16(ea, res);
 }
 
-static void
-subd (unsigned val)
+static void subd(unsigned val)
 {
-  unsigned arg = (A << 8) | B;
-  unsigned res = arg - val;
+    unsigned arg = (A << 8) | B;
+    unsigned res = arg - val;
 
-  C = res & 0x10000;
-  Z = res &= 0xffff;
-  OV = ((arg ^ val) & (arg ^ res)) >> 8;
-  A = N = res >> 8;
-  B = res & 0xff;
+    C = res & 0x10000;
+    Z = res &= 0xffff;
+    OV = ((arg ^ val) & (arg ^ res)) >> 8;
+    A = N = res >> 8;
+    B = res & 0xff;
 }
 
 /* stack instructions */
 
-static void
-pshs (void)
+static void pshs(void)
 {
-  unsigned post = imm_byte ();
+    unsigned post = imm_byte();
 
-  CLK += 5;
+    CLK += 5;
 
-  if (post & 0x80)
-    {
-      CLK += 2;
-      S = (S - 2) & 0xffff;
-      write_stack16 (S, PC & 0xffff);
+    if (post & 0x80) {
+        CLK += 2;
+        S = (S - 2) & 0xffff;
+        write_stack16(S, PC & 0xffff);
     }
-  if (post & 0x40)
-    {
-      CLK += 2;
-      S = (S - 2) & 0xffff;
-      write_stack16 (S, U);
+    if (post & 0x40) {
+        CLK += 2;
+        S = (S - 2) & 0xffff;
+        write_stack16(S, U);
     }
-  if (post & 0x20)
-    {
-      CLK += 2;
-      S = (S - 2) & 0xffff;
-      write_stack16 (S, Y);
+    if (post & 0x20) {
+        CLK += 2;
+        S = (S - 2) & 0xffff;
+        write_stack16(S, Y);
     }
-  if (post & 0x10)
-    {
-      CLK += 2;
-      S = (S - 2) & 0xffff;
-      write_stack16 (S, X);
+    if (post & 0x10) {
+        CLK += 2;
+        S = (S - 2) & 0xffff;
+        write_stack16(S, X);
     }
-  if (post & 0x08)
-    {
-      CLK += 1;
-      S = (S - 1) & 0xffff;
-      write_stack (S, DP >> 8);
+    if (post & 0x08) {
+        CLK += 1;
+        S = (S - 1) & 0xffff;
+        write_stack(S, DP >> 8);
     }
-  if (post & 0x04)
-    {
-      CLK += 1;
-      S = (S - 1) & 0xffff;
-      write_stack (S, B);
+    if (post & 0x04) {
+        CLK += 1;
+        S = (S - 1) & 0xffff;
+        write_stack(S, B);
     }
-  if (post & 0x02)
-    {
-      CLK += 1;
-      S = (S - 1) & 0xffff;
-      write_stack (S, A);
+    if (post & 0x02) {
+        CLK += 1;
+        S = (S - 1) & 0xffff;
+        write_stack(S, A);
     }
-  if (post & 0x01)
-    {
-      CLK += 1;
-      S = (S - 1) & 0xffff;
-      write_stack (S, get_cc ());
+    if (post & 0x01) {
+        CLK += 1;
+        S = (S - 1) & 0xffff;
+        write_stack (S, get_cc ());
     }
 }
 
-static void
-pshu (void)
+static void pshu(void)
 {
-  unsigned post = imm_byte ();
+    unsigned post = imm_byte();
 
-  CLK += 5;
+    CLK += 5;
 
-  if (post & 0x80)
-    {
-      CLK += 2;
-      U = (U - 2) & 0xffff;
-      write_stack16 (U, PC & 0xffff);
+    if (post & 0x80) {
+        CLK += 2;
+        U = (U - 2) & 0xffff;
+        write_stack16(U, PC & 0xffff);
     }
-  if (post & 0x40)
-    {
-      CLK += 2;
-      U = (U - 2) & 0xffff;
-      write_stack16 (U, S);
+    if (post & 0x40) {
+        CLK += 2;
+        U = (U - 2) & 0xffff;
+        write_stack16(U, S);
     }
-  if (post & 0x20)
-    {
-      CLK += 2;
-      U = (U - 2) & 0xffff;
-      write_stack16 (U, Y);
+    if (post & 0x20) {
+        CLK += 2;
+        U = (U - 2) & 0xffff;
+        write_stack16(U, Y);
     }
-  if (post & 0x10)
-    {
-      CLK += 2;
-      U = (U - 2) & 0xffff;
-      write_stack16 (U, X);
+    if (post & 0x10) {
+        CLK += 2;
+        U = (U - 2) & 0xffff;
+        write_stack16(U, X);
     }
-  if (post & 0x08)
-    {
-      CLK += 1;
-      U = (U - 1) & 0xffff;
-      write_stack (U, DP >> 8);
+    if (post & 0x08) {
+        CLK += 1;
+        U = (U - 1) & 0xffff;
+        write_stack(U, DP >> 8);
     }
-  if (post & 0x04)
-    {
-      CLK += 1;
-      U = (U - 1) & 0xffff;
-      write_stack (U, B);
+    if (post & 0x04) {
+        CLK += 1;
+        U = (U - 1) & 0xffff;
+        write_stack(U, B);
     }
-  if (post & 0x02)
-    {
-      CLK += 1;
-      U = (U - 1) & 0xffff;
-      write_stack (U, A);
+    if (post & 0x02) {
+        CLK += 1;
+        U = (U - 1) & 0xffff;
+        write_stack(U, A);
     }
-  if (post & 0x01)
-    {
-      CLK += 1;
-      U = (U - 1) & 0xffff;
-      write_stack (U, get_cc ());
+    if (post & 0x01) {
+        CLK += 1;
+        U = (U - 1) & 0xffff;
+        write_stack(U, get_cc ());
     }
 }
 
-static void
-puls (void)
+static void puls(void)
 {
-  unsigned post = imm_byte ();
+    unsigned post = imm_byte();
 
-  CLK += 5;
+    CLK += 5;
 
-  if (post & 0x01)
-    {
-      CLK += 1;
-      set_cc (read_stack (S));
-      S = (S + 1) & 0xffff;
+    if (post & 0x01) {
+        CLK += 1;
+        set_cc(read_stack(S));
+        S = (S + 1) & 0xffff;
     }
-  if (post & 0x02)
-    {
-      CLK += 1;
-      A = read_stack (S);
-      S = (S + 1) & 0xffff;
+    if (post & 0x02) {
+        CLK += 1;
+        A = read_stack(S);
+        S = (S + 1) & 0xffff;
     }
-  if (post & 0x04)
-    {
-      CLK += 1;
-      B = read_stack (S);
-      S = (S + 1) & 0xffff;
+    if (post & 0x04) {
+        CLK += 1;
+        B = read_stack(S);
+        S = (S + 1) & 0xffff;
     }
-  if (post & 0x08)
-    {
-      CLK += 1;
-      DP = read_stack (S) << 8;
-      S = (S + 1) & 0xffff;
+    if (post & 0x08) {
+        CLK += 1;
+        DP = read_stack(S) << 8;
+        S = (S + 1) & 0xffff;
     }
-  if (post & 0x10)
-    {
-      CLK += 2;
-      X = read_stack16 (S);
-      S = (S + 2) & 0xffff;
+    if (post & 0x10) {
+        CLK += 2;
+        X = read_stack16(S);
+        S = (S + 2) & 0xffff;
     }
-  if (post & 0x20)
-    {
-      CLK += 2;
-      Y = read_stack16 (S);
-      S = (S + 2) & 0xffff;
+    if (post & 0x20) {
+        CLK += 2;
+        Y = read_stack16(S);
+        S = (S + 2) & 0xffff;
     }
-  if (post & 0x40)
-    {
-      CLK += 2;
-      U = read_stack16 (S);
-      S = (S + 2) & 0xffff;
+    if (post & 0x40) {
+        CLK += 2;
+        U = read_stack16(S);
+        S = (S + 2) & 0xffff;
     }
-  if (post & 0x80)
-    {
-      monitor_return ();
-      CLK += 2;
-      PC = read_stack16 (S);
-      check_pc ();
-      S = (S + 2) & 0xffff;
+    if (post & 0x80) {
+        monitor_return();
+        CLK += 2;
+        PC = read_stack16(S);
+        check_pc();
+        S = (S + 2) & 0xffff;
     }
 }
 
-static void
-pulu (void)
+static void pulu(void)
 {
-  unsigned post = imm_byte ();
+    unsigned post = imm_byte();
 
-  CLK += 5;
+    CLK += 5;
 
-  if (post & 0x01)
-    {
-      CLK += 1;
-      set_cc (read_stack (U));
-      U = (U + 1) & 0xffff;
+    if (post & 0x01) {
+        CLK += 1;
+        set_cc(read_stack(U));
+        U = (U + 1) & 0xffff;
     }
-  if (post & 0x02)
-    {
-      CLK += 1;
-      A = read_stack (U);
-      U = (U + 1) & 0xffff;
+    if (post & 0x02) {
+        CLK += 1;
+        A = read_stack(U);
+        U = (U + 1) & 0xffff;
     }
-  if (post & 0x04)
-    {
-      CLK += 1;
-      B = read_stack (U);
-      U = (U + 1) & 0xffff;
+    if (post & 0x04) {
+        CLK += 1;
+        B = read_stack(U);
+        U = (U + 1) & 0xffff;
     }
-  if (post & 0x08)
-    {
-      CLK += 1;
-      DP = read_stack (U) << 8;
-      U = (U + 1) & 0xffff;
+    if (post & 0x08) {
+        CLK += 1;
+        DP = read_stack(U) << 8;
+        U = (U + 1) & 0xffff;
     }
-  if (post & 0x10)
-    {
-      CLK += 2;
-      X = read_stack16 (U);
-      U = (U + 2) & 0xffff;
+    if (post & 0x10) {
+        CLK += 2;
+        X = read_stack16(U);
+        U = (U + 2) & 0xffff;
     }
-  if (post & 0x20)
-    {
-      CLK += 2;
-      Y = read_stack16 (U);
-      U = (U + 2) & 0xffff;
+    if (post & 0x20) {
+        CLK += 2;
+        Y = read_stack16(U);
+        U = (U + 2) & 0xffff;
     }
-  if (post & 0x40)
-    {
-      CLK += 2;
-      S = read_stack16 (U);
-      U = (U + 2) & 0xffff;
+    if (post & 0x40) {
+        CLK += 2;
+        S = read_stack16(U);
+        U = (U + 2) & 0xffff;
     }
-  if (post & 0x80)
-    {
-      monitor_return ();
-      CLK += 2;
-      PC = read_stack16 (U);
-      check_pc ();
-      U = (U + 2) & 0xffff;
+    if (post & 0x80) {
+        monitor_return();
+        CLK += 2;
+        PC = read_stack16(U);
+        check_pc();
+        U = (U + 2) & 0xffff;
     }
 }
 
 /* Miscellaneous Instructions */
 
-static void
-nop (void)
+static void nop(void)
 {
-  CLK += 2;
+    CLK += 2;
 }
 
-static void
-jsr (void)
+static void jsr(void)
 {
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  change_pc (ea);
-  monitor_call (0);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    change_pc(ea);
+    monitor_call(0);
 }
 
-static void
-rti (void)
+static void rti(void)
 {
-  monitor_return ();
-  CLK += 6;
-  //command_exit_irq_hook (get_cycles () - irq_start_time);
-  set_cc (read_stack (S));
-  S = (S + 1) & 0xffff;
+    monitor_return();
+    CLK += 6;
+    set_cc(read_stack(S));
+    S = (S + 1) & 0xffff;
 
-  if ((EFI & E_FLAG) != 0)
-    {
-      CLK += 9;
-      A = read_stack (S);
-      S = (S + 1) & 0xffff;
-      B = read_stack (S);
-      S = (S + 1) & 0xffff;
-      DP = read_stack (S) << 8;
-      S = (S + 1) & 0xffff;
-      X = read_stack16 (S);
-      S = (S + 2) & 0xffff;
-      Y = read_stack16 (S);
-      S = (S + 2) & 0xffff;
-      U = read_stack16 (S);
-      S = (S + 2) & 0xffff;
+    if ((EFI & E_FLAG) != 0) {
+        CLK += 9;
+        A = read_stack(S);
+        S = (S + 1) & 0xffff;
+        B = read_stack(S);
+        S = (S + 1) & 0xffff;
+        DP = read_stack(S) << 8;
+        S = (S + 1) & 0xffff;
+        X = read_stack16(S);
+        S = (S + 2) & 0xffff;
+        Y = read_stack16(S);
+        S = (S + 2) & 0xffff;
+        U = read_stack16(S);
+        S = (S + 2) & 0xffff;
     }
-  PC = read_stack16 (S);
-  check_pc ();
-  S = (S + 2) & 0xffff;
+    PC = read_stack16(S);
+    check_pc();
+    S = (S + 2) & 0xffff;
 }
 
-static void
-rts (void)
+static void rts(void)
 {
-  monitor_return ();
-  CLK += 5;
-  PC = read_stack16 (S);
-  check_pc ();
-  S = (S + 2) & 0xffff;
+    monitor_return();
+    CLK += 5;
+    PC = read_stack16(S);
+    check_pc();
+    S = (S + 2) & 0xffff;
 }
 
-void
-nmi (void)
+void nmi(void)
 {
-  EFI |= E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, U);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, Y);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, X);
-  S = (S - 1) & 0xffff;
-  write_stack (S, DP >> 8);
-  S = (S - 1) & 0xffff;
-  write_stack (S, B);
-  S = (S - 1) & 0xffff;
-  write_stack (S, A);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  EFI |= I_FLAG;
+    EFI |= E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, U);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, Y);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, X);
+    S = (S - 1) & 0xffff;
+    write_stack(S, DP >> 8);
+    S = (S - 1) & 0xffff;
+    write_stack(S, B);
+    S = (S - 1) & 0xffff;
+    write_stack(S, A);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc());
+    EFI |= I_FLAG;
 
-  change_pc (read16 (0xfffc));
+    change_pc(read16(0xfffc));
 }
 
-void
-irq (void)
+void irq(void)
 {
-  EFI |= E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, U);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, Y);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, X);
-  S = (S - 1) & 0xffff;
-  write_stack (S, DP >> 8);
-  S = (S - 1) & 0xffff;
-  write_stack (S, B);
-  S = (S - 1) & 0xffff;
-  write_stack (S, A);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  EFI |= I_FLAG;
+    EFI |= E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, U);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, Y);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, X);
+    S = (S - 1) & 0xffff;
+    write_stack(S, DP >> 8);
+    S = (S - 1) & 0xffff;
+    write_stack(S, B);
+    S = (S - 1) & 0xffff;
+    write_stack(S, A);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc());
+    EFI |= I_FLAG;
 
-  //irq_start_time = get_cycles ();
-  change_pc (read16 (0xfff8));
-#if 1
-  irqs_pending = 0;
-#endif
+    change_pc(read16(0xfff8));
+    irqs_pending = 0;
 }
 
-
-void
-firq (void)
+void firq(void)
 {
-  EFI &= ~E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  EFI |= (I_FLAG | F_FLAG);
+    EFI &= ~E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc ());
+    EFI |= (I_FLAG | F_FLAG);
 
-  change_pc (read16 (0xfff6));
-#if 1
-  firqs_pending = 0;
-#endif
+    change_pc(read16(0xfff6));
+    firqs_pending = 0;
 }
 
-
-void
-swi (void)
+void swi(void)
 {
-  CLK += 19;
-  //CLK++;        /* /VMA cycle */
-  EFI |= E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, U);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, Y);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, X);
-  S = (S - 1) & 0xffff;
-  write_stack (S, DP >> 8);
-  S = (S - 1) & 0xffff;
-  write_stack (S, B);
-  S = (S - 1) & 0xffff;
-  write_stack (S, A);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  EFI |= (I_FLAG | F_FLAG);
-  //CLK++;        /* /VMA cycle */
+    CLK += 19;
+    //CLK++;        /* /VMA cycle */
+    EFI |= E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, U);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, Y);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, X);
+    S = (S - 1) & 0xffff;
+    write_stack(S, DP >> 8);
+    S = (S - 1) & 0xffff;
+    write_stack(S, B);
+    S = (S - 1) & 0xffff;
+    write_stack(S, A);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc());
+    EFI |= (I_FLAG | F_FLAG);
+    //CLK++;        /* /VMA cycle */
 
-  change_pc (read16 (0xfffa));
+    change_pc(read16(0xfffa));
 }
 
-void
-swi2 (void)
+void swi2(void)
 {
-  CLK += 20;
-  //CLK++;        /* /VMA cycle */
-  EFI |= E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, U);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, Y);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, X);
-  S = (S - 1) & 0xffff;
-  write_stack (S, DP >> 8);
-  S = (S - 1) & 0xffff;
-  write_stack (S, B);
-  S = (S - 1) & 0xffff;
-  write_stack (S, A);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  //CLK++;        /* /VMA cycle */
+    CLK += 20;
+    //CLK++;        /* /VMA cycle */
+    EFI |= E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, U);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, Y);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, X);
+    S = (S - 1) & 0xffff;
+    write_stack(S, DP >> 8);
+    S = (S - 1) & 0xffff;
+    write_stack(S, B);
+    S = (S - 1) & 0xffff;
+    write_stack(S, A);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc());
+    //CLK++;        /* /VMA cycle */
 
-  change_pc (read16 (0xfff4));
+    change_pc(read16(0xfff4));
 }
 
-void
-swi3 (void)
+void swi3(void)
 {
-  CLK += 20;
-  //CLK++;        /* /VMA cycle */
-  EFI |= E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, U);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, Y);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, X);
-  S = (S - 1) & 0xffff;
-  write_stack (S, DP >> 8);
-  S = (S - 1) & 0xffff;
-  write_stack (S, B);
-  S = (S - 1) & 0xffff;
-  write_stack (S, A);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  //CLK++;        /* /VMA cycle */
+    CLK += 20;
+    //CLK++;        /* /VMA cycle */
+    EFI |= E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, U);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, Y);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, X);
+    S = (S - 1) & 0xffff;
+    write_stack(S, DP >> 8);
+    S = (S - 1) & 0xffff;
+    write_stack(S, B);
+    S = (S - 1) & 0xffff;
+    write_stack(S, A);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc ());
+    //CLK++;        /* /VMA cycle */
 
-  change_pc (read16 (0xfff2));
+    change_pc(read16(0xfff2));
 }
 
 #ifdef H6309
-void
-trap (void)
+void trap(void)
 {
-  CLK += 20;
-  //CLK++;        /* /VMA cycle */
-  EFI |= E_FLAG;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, U);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, Y);
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, X);
-  S = (S - 1) & 0xffff;
-  write_stack (S, DP >> 8);
-  S = (S - 1) & 0xffff;
-  write_stack (S, B);
-  S = (S - 1) & 0xffff;
-  write_stack (S, A);
-  S = (S - 1) & 0xffff;
-  write_stack (S, get_cc ());
-  //CLK++;        /* /VMA cycle */
+    CLK += 20;
+    //CLK++;        /* /VMA cycle */
+    EFI |= E_FLAG;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, U);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, Y);
+    S = (S - 2) & 0xffff;
+    write_stack16(S, X);
+    S = (S - 1) & 0xffff;
+    write_stack(S, DP >> 8);
+    S = (S - 1) & 0xffff;
+    write_stack(S, B);
+    S = (S - 1) & 0xffff;
+    write_stack(S, A);
+    S = (S - 1) & 0xffff;
+    write_stack(S, get_cc());
+    //CLK++;        /* /VMA cycle */
 
-  change_pc (read16 (0xfff0));
+    change_pc(read16(0xfff0));
 }
 #endif
 
-void
-cwai (void)
+void cwai(void)
 {
-  sim_error ("CWAI - not supported yet!");
+    sim_error("CWAI - not supported yet!");
 }
 
-void
-sync (void)
+void sync(void)
 {
-  CLK += 4;
-  sim_error ("SYNC - not supported yet!");
+    CLK += 4;
+    sim_error("SYNC - not supported yet!");
 }
 
-static void
-orcc (void)
+static void orcc(void)
 {
-  unsigned tmp = imm_byte ();
+    unsigned tmp = imm_byte();
 
-  set_cc (get_cc () | tmp);
-  CLK += 3;
+    set_cc(get_cc() | tmp);
+    CLK += 3;
 }
 
-static void
-andcc (void)
+static void andcc(void)
 {
-  unsigned tmp = imm_byte ();
+    unsigned tmp = imm_byte();
 
-  set_cc (get_cc () & tmp);
-  CLK += 3;
+    set_cc(get_cc() & tmp);
+    CLK += 3;
 }
 
 /* Branch Instructions */
@@ -1818,68 +1677,60 @@ andcc (void)
 #define cond_GT() ((((N^OV) & 0x80) == 0) && (Z != 0))
 #define cond_LE() ((((N^OV) & 0x80) != 0) || (Z == 0))
 
-static void
-bra (void)
+static void bra(void)
 {
-  INT8 tmp = (INT8) imm_byte ();
-  change_pc (PC + tmp);
+    INT8 tmp = (INT8)imm_byte();
+    change_pc(PC + tmp);
 }
 
-static void
-branch (unsigned cond)
+static void branch(unsigned cond)
 {
-  if (cond)
-    bra ();
-  else
-    change_pc (PC+1);
-
-  CLK += 3;
-}
-
-static void
-long_bra (void)
-{
-  INT16 tmp = (INT16) imm_word ();
-  change_pc (PC + tmp);
-}
-
-static void
-long_branch (unsigned cond)
-{
-  if (cond)
-    {
-      long_bra ();
-      CLK += 6;
+    if (cond) {
+        bra();
+    } else {
+        change_pc(PC + 1);
     }
-  else
-    {
-      change_pc (PC + 2);
-      CLK += 5;
+
+    CLK += 3;
+}
+
+static void long_bra(void)
+{
+    INT16 tmp = (INT16)imm_word();
+    change_pc(PC + tmp);
+}
+
+static void long_branch(unsigned cond)
+{
+    if (cond) {
+        long_bra();
+        CLK += 6;
+    } else {
+        change_pc(PC + 2);
+        CLK += 5;
     }
 }
 
-static void
-long_bsr (void)
+static void long_bsr(void)
 {
-  INT16 tmp = (INT16) imm_word ();
-  ea = PC + tmp;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  CLK += 9;
-  change_pc (ea);
-  monitor_call (0);
+    INT16 tmp = (INT16)imm_word();
+    ea = PC + tmp;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    CLK += 9;
+    change_pc(ea);
+    monitor_call(0);
 }
 
-static void
-bsr (void)
+static void bsr(void)
 {
-  INT8 tmp = (INT8) imm_byte ();
-  ea = PC + tmp;
-  S = (S - 2) & 0xffff;
-  write_stack16 (S, PC & 0xffff);
-  CLK += 7;
-  change_pc (ea);
-  monitor_call (0);
+    INT8 tmp = (INT8)imm_byte();
+    ea = PC + tmp;
+    S = (S - 2) & 0xffff;
+    write_stack16(S, PC & 0xffff);
+    CLK += 7;
+    change_pc(ea);
+    monitor_call(0);
 }
 
 
