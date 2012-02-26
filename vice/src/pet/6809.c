@@ -672,6 +672,11 @@ static void cc_modified(void)
     cc_changed = 0;
 }
 
+/* Undocumented: When the 6809 transfers an 8bit register
+   to a 16bit register the LSB is filled with the 8bit
+   register value and the MSB is filled with 0xff.
+ */
+
 static WORD get_reg(BYTE nro)
 {
     WORD val;
