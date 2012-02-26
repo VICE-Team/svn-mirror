@@ -184,7 +184,6 @@ extern void irq(void);
 extern void firq(void);
 
 /* Stubs: */
-#define monitor_return()        0
 #define monitor_addr_name(arg)  0
 /* -- */
 
@@ -1354,7 +1353,6 @@ static void puls(void)
         S = (S + 2) & 0xffff;
     }
     if (post & 0x80) {
-        monitor_return();
         CLK += 2;
         PC = read_stack16(S);
         check_pc();
@@ -1404,7 +1402,6 @@ static void pulu(void)
         U = (U + 2) & 0xffff;
     }
     if (post & 0x80) {
-        monitor_return();
         CLK += 2;
         PC = read_stack16(U);
         check_pc();
@@ -1428,7 +1425,6 @@ static void jsr(void)
 
 static void rti(void)
 {
-    monitor_return();
     CLK += 6;
     set_cc(read_stack(S));
     S = (S + 1) & 0xffff;
@@ -1455,7 +1451,6 @@ static void rti(void)
 
 static void rts(void)
 {
-    monitor_return();
     CLK += 5;
     PC = read_stack16(S);
     check_pc();
