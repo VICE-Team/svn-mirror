@@ -435,7 +435,7 @@ BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) i
 
 translate_table.h:	$(srcdir)/translate.txt gentranslatetable.sh
 	echo "generating translate_table.h..."
-	$(SHELL) gentranslatetable.sh <$(srcdir)/translate.txt >$(srcdir)/translate_table.h
+	$(SHELL) gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
 endif
@@ -450,7 +450,7 @@ if MINIX_SUPPORT
 	cc $(srcdir)/arch/win32/utils/gentranslate.c -o gentranslate
 	./gentranslate translate.txt translate.h translate_table.h
 else
-	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >$(builddir)/translate.h
+	$(SHELL) $(srcdir)/gentranslate_h.sh <$(srcdir)/translate.txt >translate.h
 endif
 
 if OWCC
