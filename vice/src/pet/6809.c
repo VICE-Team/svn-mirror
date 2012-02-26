@@ -183,10 +183,6 @@ extern void nmi(void);
 extern void irq(void);
 extern void firq(void);
 
-/* Stubs: */
-#define monitor_addr_name(arg)  0
-/* -- */
-
 void request_nmi(unsigned int source)
 {
     /* If the interrupt is not masked, generate
@@ -2115,7 +2111,7 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 		st16 (S);
 		break;
 	      default:
-	        sim_error ("invalid opcode (1) at %s\n", monitor_addr_name (iPC));
+	        sim_error ("invalid opcode (1) at %X\n", iPC);
 		break;
 	      }
 	  }
@@ -2194,7 +2190,7 @@ h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context
 		CLK++;
 		break;
 	      default:
-	        sim_error ("invalid opcode (2) at %s\n", monitor_addr_name (iPC));
+	        sim_error ("invalid opcode (2) at %X\n", iPC);
 		break;
 	      }
 	  }
