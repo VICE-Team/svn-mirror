@@ -359,6 +359,18 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea = *R + (INT8)A;
                 CLK += 5;
                 break;
+#ifdef FULL6809
+            case 0x07:	/* ,R (UNDOC) */
+                ea = *R;
+                CLK += 4;
+                break;
+#endif
+#ifdef H6309
+            case 0x07:	/* E,R */
+                ea = *R + (INT8)E;
+                /* TODO: cycle count */
+                break;
+#endif
             case 0x08:	/* 8bit,R */
                 ea = *R + (INT8)imm_byte();
                 CLK += 5;
@@ -367,6 +379,18 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea = *R + imm_word();
                 CLK += 8;
                 break;
+#ifdef FULL6809
+            case 0x0a:	/* ,PC | 0xff (UNDOC) */
+                ea = PC | 0xff;
+                CLK += 4;
+                break;
+#endif
+#ifdef H6309
+            case 0x0a:	/* F,R */
+                ea = *R + (INT8)F;
+                /* TODO: cycle count */
+                break;
+#endif
             case 0x0b:	/* D,R */
                 ea = *R + D;
                 CLK += 8;
@@ -381,6 +405,85 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea += PC;
                 CLK += 9;
                 break;
+#ifdef H6309
+            case 0x0e:	/* W,R */
+                ea = *R + W;
+                /* TODO: cycle count */
+                break;
+#endif
+#ifdef FULL6809
+            case 0x0f:	/* ,extended (UNDOC) */
+                ea = imm_word();
+                CLK += 5;
+                break;
+#endif
+#ifdef H6309
+            case 0x0f:	/* relative to W */
+                switch (post & 0x60) {
+                    case 0x00:	/* ,W */
+                        ea = W;
+                        /* TODO: cycle count */
+                        break;
+                    case 0x20:	/* 16bit,W */
+                        ea = imm_word();
+                        ea += W;
+                        /* TODO: cycle count */
+                        break;
+                    case 0x40:	/* ,W++ */
+                        ea = W;
+                        W += 2;
+                        /* TODO: cycle count */
+                        break;
+                    case 0x60:	/* ,--W */
+                        W -= 2;
+                        ea = W;
+                        /* TODO: cycle count */
+                        break;
+                }
+                break;
+#endif
+#ifdef FULL6809
+            case 0x10:	/* [,R+] (UNDOC) */
+                ea = *R;
+                *R += 1;
+                CLK += 6;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+#endif
+#ifdef H6309
+            case 0x10:	/* indirect relative to W */
+                switch (post & 0x60) {
+                    case 0x00:	/* [,W] */
+                        ea = W;
+                        /* TODO: cycle count */
+                        ea = RDMEM16(ea);
+                        /* TODO: cycle count */
+                        break
+                    case 0x20:	/* [16bit,W] */
+                        ea = imm_word();
+                        ea += W;
+                        /* TODO: cycle count */
+                        ea = RDMEM16(ea);
+                        /* TODO: cycle count */
+                        break;
+                    case 0x40:	/* [,W++] */
+                        ea = W;
+                        W += 2;
+                        /* TODO: cycle count */
+                        ea = RDMEM16(ea);
+                        /* TODO: cycle count */
+                        break;
+                     case 0x60:	/* [,--W] */
+                        W -= 2;
+                        ea = W;
+                        /* TODO: cycle count */
+                        ea = RDMEM16(ea);
+                        /* TODO: cycle count */
+                        break;
+                }
+                break;
+#endif
             case 0x11:	/* [,R++] */
                 ea = *R;
                 *R += 2;
@@ -388,6 +491,15 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
+#if defined(FULL6809) || defined(H6309)
+            case 0x12:	/* [,-R] (UNDOC) */
+                *R -= 1;
+                ea = *R;
+                CLK += 6;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+#endif
             case 0x13:	/* [,--R] */
                 *R -= 2;
                 ea = *R;
@@ -413,6 +525,22 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
+#ifdef FULL6809
+            case 0x17:	/* [,R] (UNDOC) */
+                ea = *R;
+                CLK += 4;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+#endif
+#ifdef H6309
+            case 0x17:	/* [E,R] */
+                ea = *R + (INT8)E;
+                /* TODO: cycle count */
+                ea = RDMEM16(ea);
+                /* TODO: cycle count */
+                break;
+#endif
             case 0x18:	/* [8bit,R] */
                 ea = *R + (INT8)imm_byte();
                 CLK += 5;
@@ -425,6 +553,22 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
+#ifdef FULL6809
+            case 0x1a:	/* [,PC | 0xff] (UNDOC) */
+                ea = PC | 0xff;
+                CLK += 4;
+                ea = RDMEM16(ea);
+                CLK += 2;
+                break;
+#endif
+#ifdef H6309
+            case 0x1a:	/* [F,R] */
+                ea = *R + (INT8)F;
+                /* TODO: cycle count */
+                ea = RDMEM16(ea);
+                /* TODO: cycle count */
+                break;
+#endif
             case 0x1b:	/* [D,R] */
                 ea = *R + D;
                 CLK += 8;
@@ -445,6 +589,14 @@ static void indexed(void)		/* note take 1 extra cycle */
                 ea = RDMEM16(ea);
                 CLK += 2;
                 break;
+#ifdef H6309
+            case 0x1e:	/* [W,R] */
+                ea = *R + W;
+                /* TODO: cycle count */
+                ea = RDMEM16(ea);
+                /* TODO: cycle count */
+                break;
+#endif
             case 0x1f:	/* [16bit] */
                 ea = imm_word();
                 CLK += 6;
@@ -687,7 +839,7 @@ static void cc_modified(void)
 
 static WORD get_reg(BYTE nro)
 {
-    WORD val;
+    WORD val = 0xffff;
 
     switch (nro) {
         case 0:
@@ -1635,10 +1787,12 @@ static void bsr(void)
 /* Execute 6809 code for a certain number of cycles. */
 void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
-  unsigned opcode;
+    BYTE opcode;
+#ifdef H6309
+    BYTE post_byte;
+#endif
 
-  do
-    {
+    do {
 
 #ifndef CYCLE_EXACT_ALARM
     while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
@@ -1673,56 +1827,94 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         }
     }
 
-      SET_LAST_ADDR(PC);
-      opcode = imm_byte ();
+    SET_LAST_ADDR(PC);
+    opcode = imm_byte();
 
-      switch (opcode)
-	{
-	case 0x00:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, neg (RDMEM (ea)));
-	  break;		/* NEG direct */
-#ifdef H6309
-	case 0x01:		/* OIM */
-	  break;
-	case 0x02:		/* AIM */
-	  break;
+    switch (opcode) {
+        case 0x00:	/* NEG direct */	
+            direct();
+            CLK += 4;
+            WRMEM(ea, neg(RDMEM(ea)));
+            break;
+#ifdef FULL6809
+        case 0x01:	/* NEG direct (UNDOC) */
+            direct();
+            CLK += 4;
+            WRMEM(ea, neg(RDMEM(ea)));
+            break;
 #endif
-	case 0x03:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, com (RDMEM (ea)));
-	  break;		/* COM direct */
-	case 0x04:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, lsr (RDMEM (ea)));
-	  break;		/* LSR direct */
 #ifdef H6309
-	case 0x05:		/* EIM */
-	  break;
+        case 0x01:	/* OIM post,direct */
+            post_byte = imm_byte();
+            direct();
+            /* TODO: cycle count */
+            WRMEM(ea, or(RDMEM(ea), post_byte));
+            break;
 #endif
-	case 0x06:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, ror (RDMEM (ea)));
-	  break;		/* ROR direct */
-	case 0x07:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, asr (RDMEM (ea)));
-	  break;		/* ASR direct */
-	case 0x08:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, asl (RDMEM (ea)));
-	  break;		/* ASL direct */
-	case 0x09:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, rol (RDMEM (ea)));
-	  break;		/* ROL direct */
+#ifdef FULL6809
+        case 0x02:	/* NEG/COM direct (UNDOC) */
+            direct();
+            CLK += 4;
+            if (C) {
+                WRMEM(ea, com(RDMEM(ea)));
+            } else {
+                WRMEM(ea, neg(RDMEM(ea)));
+            }
+            break;
+#endif
+#ifdef H6309
+        case 0x02:	/* AIM post,direct */
+            post_byte = imm_byte();
+            direct();
+            /* TODO: cycle count */
+            WRMEM(ea, and(RDMEM(ea), post_byte));
+            break;
+#endif
+        case 0x03:	/* COM direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, com(RDMEM(ea)));
+            break;
+        case 0x04:	/* LSR direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, lsr(RDMEM(ea)));
+            break;
+#ifdef FULL6809
+        case 0x05:	/* LSR direct (UNDOC) */
+            direct();
+            CLK += 4;
+            WRMEM(ea, lsr(RDMEM(ea)));
+            break;
+#endif
+#ifdef H6309
+        case 0x05:	/* EIM post,direct */
+            post_byte = imm_byte();
+            direct();
+            /* TODO: cycle count */
+            WRMEM(ea, eor(RDMEM(ea), pos_byte));
+            break;
+#endif
+        case 0x06:	/* ROR direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, ror(RDMEM(ea)));
+            break;
+        case 0x07:	/* ASR direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, asr(RDMEM(ea)));
+            break;
+        case 0x08:	/* ASL/LSL direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, asl(RDMEM(ea)));
+            break;
+        case 0x09:	/* ROL direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, rol(RDMEM(ea)));
+            break;
 	case 0x0a:
 	  direct ();
 	  CLK += 4;
@@ -3046,5 +3238,5 @@ void cpu6809_reset (void)
     MD = E = F = 0;
 #endif
 
-    change_pc read16(0xfffe));
+    change_pc(read16(0xfffe));
 }
