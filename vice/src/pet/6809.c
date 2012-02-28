@@ -1783,6 +1783,91 @@ static void bsr(void)
     change_pc(ea);
 }
 
+/* Undocumented 6809 specific code */
+#ifdef FULL6809
+void hcf(void)
+{
+    sim_error("CWAI - not supported yet!");
+}
+
+void ccrs(void)
+{
+    DWORD tmp_c = (OV != 0);
+    DWORD tmp_h = ((EFI & FLAGS_I) != 0);
+
+    set_cc(0);
+    C = tmp_c;
+    H = tmp_h << 4;
+    /* TODO: cycle count */
+}
+#endif
+
+/* 6309 specific code */
+#ifdef H6309
+static BYTE tim(BYTE val)
+{
+    OV = 0;
+    N = Z = val;
+}
+
+static void pshsw(void)
+{
+    /* TODO: cycle count */
+
+    CLK += 2;
+    S -= 2;
+    write_stack16(S, W);
+}
+
+static void pshuw(void)
+{
+    /* TODO: cycle count */
+
+    CLK += 2;
+    U -= 2;
+    write_stack16(U, W);
+}
+
+static void pulsw(void)
+{
+    /* TODO: cycle count */
+
+    CLK += 2;
+    W = read_stack16(S);
+    S += 2;
+}
+
+static void puluw(void)
+{
+    /* TODO: cycle count */
+
+    CLK += 2;
+    W = read_stack16(U);
+    U += 2;
+}
+
+void swires(void)
+{
+    /* TODO: cycle count */
+
+    EFI |= E_FLAG;
+    S -= 2;
+    write_stack16(S, PC);
+    S -= 2;
+    write_stack16(S, U);
+    S -= 2;
+    write_stack16(S, Y);
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
+    write_stack(S, get_cc());
+    EFI |= (I_FLAG | F_FLAG);
+
+    change_pc(read16(0xfffe));
+}
+#endif
 
 /* Execute 6809 code for a certain number of cycles. */
 void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
@@ -1915,120 +2000,388 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             CLK += 4;
             WRMEM(ea, rol(RDMEM(ea)));
             break;
-	case 0x0a:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, dec (RDMEM (ea)));
-	  break;		/* DEC direct */
-#ifdef H6309
-	case 0x0B:		/* TIM */
-	  break;
+        case 0x0a:	/* DEC direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, dec(RDMEM(ea)));
+            break;
+#ifdef FULL6809
+        case 0x0b:	/* DEC direct (UNDOC) */
+            direct();
+            CLK += 4;
+            WRMEM(ea, dec(RDMEM(ea)));
+            break;
 #endif
-	case 0x0c:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, inc (RDMEM (ea)));
-	  break;		/* INC direct */
-	case 0x0d:
-	  direct ();
-	  CLK += 4;
-	  tst (RDMEM (ea));
-	  break;		/* TST direct */
-	case 0x0e:
-	  direct ();
-	  CLK += 3;
-	  PC = ea;
-	  break;		/* JMP direct */
-	case 0x0f:
-	  direct ();
-	  CLK += 4;
-	  WRMEM (ea, clr (RDMEM (ea)));
-	  break;		/* CLR direct */
-	case 0x10:
-	  {
-            page_10:
-	    opcode = imm_byte ();
-
-	    switch (opcode)
-	      {
-              case 0x10:        /* ignore further prefix bytes (UNDOC) */
-              case 0x11:
-                goto page_10;
-	      case 0x21:
-		CLK += 5;
-		PC += 2;
-		break;
-	      case 0x22:
-		long_branch (cond_HI ());
-		break;
-	      case 0x23:
-		long_branch (cond_LS ());
-		break;
-	      case 0x24:
-		long_branch (cond_HS ());
-		break;
-	      case 0x25:
-		long_branch (cond_LO ());
-		break;
-	      case 0x26:
-		long_branch (cond_NE ());
-		break;
-	      case 0x27:
-		long_branch (cond_EQ ());
-		break;
-	      case 0x28:
-		long_branch (cond_VC ());
-		break;
-	      case 0x29:
-		long_branch (cond_VS ());
-		break;
-	      case 0x2a:
-		long_branch (cond_PL ());
-		break;
-	      case 0x2b:
-		long_branch (cond_MI ());
-		break;
-	      case 0x2c:
-		long_branch (cond_GE ());
-		break;
-	      case 0x2d:
-		long_branch (cond_LT ());
-		break;
-	      case 0x2e:
-		long_branch (cond_GT ());
-		break;
-	      case 0x2f:
-		long_branch (cond_LE ());
-		break;
 #ifdef H6309
-	      case 0x30:	/* ADDR */
-		break;
-	      case 0x31:	/* ADCR */
-		break;
-	      case 0x32:	/* SUBR */
-		break;
-	      case 0x33:	/* SBCR */
-		break;
-	      case 0x34:	/* ANDR */
-		break;
-	      case 0x35:	/* ORR */
-		break;
-	      case 0x36:	/* EORR */
-		break;
-	      case 0x37:	/* CMPR */
-		break;
-	      case 0x38:	/* PSHSW */
-		break;
-	      case 0x39:	/* PULSW */
-		break;
-	      case 0x3a:	/* PSHUW */
-		break;
-	      case 0x3b:	/* PULUW */
-		break;
+        case 0x0b:	/* TIM post,direct */
+            post_byte = imm_byte();
+            direct();
+            /* TODO: cycle count */
+            WRMEM(ea, tim(post_byte));
+            break;
 #endif
-	      case 0x3f:
-		swi2 ();
-		break;
+        case 0x0c:	/* INC direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, inc(RDMEM(ea)));
+            break;
+        case 0x0d:	/* TST direct */
+            direct();
+            CLK += 4;
+            tst(RDMEM(ea));
+            break;
+        case 0x0e:	/* JMP direct */
+            direct();
+            CLK += 3;
+            PC = ea;
+            break;
+        case 0x0f:	/* CLR direct */
+            direct();
+            CLK += 4;
+            WRMEM(ea, clr(RDMEM(ea)));
+            break;
+        case 0x10:
+            {
+                page_10:
+                    opcode = imm_byte();
+                    switch (opcode) {
+#ifdef FULL6809
+                        case 0x00:	/* NEG direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, neg(RDMEM(ea)));
+                            break;
+                        case 0x01:	/* NEG direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, neg(RDMEM(ea)));
+                            break;
+                        case 0x02:	/* NEG/COM direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            if (C) {
+                                WRMEM(ea, com(RDMEM(ea)));
+                            } else {
+                                WRMEM(ea, neg(RDMEM(ea)));
+                            }
+                            break;
+                        case 0x03:	/* COM direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, com(RDMEM(ea)));
+                            break;
+                        case 0x04:	/* LSR direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, lsr(RDMEM(ea)));
+                            break;
+                        case 0x05:	/* LSR direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, lsr(RDMEM(ea)));
+                            break;
+                        case 0x06:	/* ROR direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, ror(RDMEM(ea)));
+                            break;
+                        case 0x07:	/* ASR direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, asr(RDMEM(ea)));
+                            break;
+                        case 0x08:	/* ASL/LSL direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, asl(RDMEM(ea)));
+                            break;
+                        case 0x09:	/* ROL direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, rol(RDMEM(ea)));
+                            break;
+                        case 0x0a:	/* DEC direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, dec(RDMEM(ea)));
+                            break;
+                        case 0x0b:	/* DEC direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, dec(RDMEM(ea)));
+                            break;
+                        case 0x0c:	/* INC direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, inc(RDMEM(ea)));
+                            break;
+                        case 0x0d:	/* TST direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            tst(RDMEM(ea));
+                            break;
+                        case 0x0e:	/* JMP direct (UNDOC) */
+                            direct();
+                            CLK += 3;
+                            PC = ea;
+                            break;
+                        case 0x0f:	/* CLR direct (UNDOC) */
+                            direct();
+                            CLK += 4;
+                            WRMEM(ea, clr(RDMEM(ea)));
+                            break;
+#endif
+                        case 0x10:	/* ignore further prefix bytes (UNDOC) */
+                        case 0x11:	/* ignore further prefix bytes (UNDOC) */
+                            goto page_10;
+#ifdef FULL6809
+                        case 0x12:	/* NOP (UNDOC) */
+                            nop();
+                            break;
+                        case 0x13:	/* SYNC (UNDOC) */
+                            sync();
+                            break;
+                        case 0x14:	/* HCF (UNDOC) */
+                        case 0x15:	/* HCF (UNDOC) */
+                            hcf();
+                            break;
+                        case 0x16:	/* LBRA (UNDOC) */
+                            long_bra();
+                            CLK += 5;
+                            break;
+                        case 0x17:	/* LBSR (UNDOC) */
+                            long_bsr();
+                            break;
+                        case 0x18:	/* CCRS (UNDOC) */
+                            ccrs();
+                            break;
+                        case 0x19:	/* DAA (UNDOC) */
+                            daa();
+                            break;
+                        case 0x1a:	/* ORCC immediate (UNDOC) */
+                            orcc();
+                            break;
+                        case 0x1b:	/* NOP (UNDOC) */
+                            nop();
+                            break;
+                        case 0x1c:	/* ANDCC immediate (UNDOC) */
+                            andcc();
+                            break;
+                        case 0x1d:	/* SEX (UNDOC) */
+                            sex();
+                            break;
+                        case 0x1e:	/* EXG post (UNDOC) */
+                            exg();
+                            break;
+                        case 0x1f:	/* TFR post (UNDOC) */
+                            tfr();
+                            break;
+                        case 0x20:	/* LBRA (UNDOC) */
+                            long_bra();
+                            CLK += 5;
+                            break;
+#endif
+                        case 0x21:	/* LBRN */
+                            CLK += 5;
+                            PC += 2;
+                            break;
+                        case 0x22:	/* LBHI */
+                            long_branch(cond_HI());
+                            break;
+                        case 0x23:	/* LBLS */
+                            long_branch(cond_LS());
+                            break;
+                        case 0x24:	/* LBCC/LBHS */
+                            long_branch(cond_HS());
+                            break;
+                        case 0x25:	/* LBCS/LBLO */
+                            long_branch(cond_LO());
+                            break;
+                        case 0x26:	/* LBNE */
+                            long_branch(cond_NE());
+                            break;
+                        case 0x27:	/* LBEQ */
+                            long_branch(cond_EQ());
+                            break;
+                        case 0x28:	/* LBVC */
+                            long_branch(cond_VC());
+                            break;
+                        case 0x29:	/* LBVS */
+                            long_branch(cond_VS());
+                            break;
+                        case 0x2a:	/* LBPL */
+                            long_branch(cond_PL());
+                            break;
+                        case 0x2b:	/* LBMI */
+                            long_branch(cond_MI());
+                            break;
+                        case 0x2c:	/* LBGE */
+                            long_branch(cond_GE());
+                            break;
+                        case 0x2d:	/* LBLT */
+                            long_branch(cond_LT());
+                            break;
+                        case 0x2e:	/* LBGT */
+                            long_branch(cond_GT());
+                            break;
+                        case 0x2f:	/* LBLE */
+                            long_branch(cond_LE());
+                            break;
+#ifdef FULL6809
+                        case 0x30:	/* LEAX indexed (UNDOC) */
+                            indexed();
+                            Z = X = ea;
+                            break;
+#endif
+#ifdef H6309
+                        case 0x30:	/* ADDR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, add(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x31:	/* LEAY indexed (UNDOC) */
+                            indexed();
+                            Z = Y = ea;
+                            break;
+#endif
+#ifdef H6309
+                        case 0x31:	/* ADCR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, adc(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x32:	/* LEAS indexed (UNDOC) */
+                            indexed();
+                            S = ea;
+                            break;
+#endif
+#ifdef H6309
+                        case 0x32:	/* SUBR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, sub(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x33:	/* LEAU indexed (UNDOC) */
+                            indexed();
+                            U = ea;
+                            break;
+#endif
+#ifdef H6309
+                        case 0x33:	/* SBCR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, sbc(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x34:	/* PSHS implied (UNDOC) */
+                            pshs();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x34:	/* ANDR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, and(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x35:	/* PULS implied (UNDOC) */
+                            puls();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x35:	/* ORR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, or(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x36:	/* PSHU implied (UNDOC) */
+                            pshu();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x36:	/* EORR post */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, eor(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x37:	/* PULU implied (UNDOC) */
+                            pulu();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x37:	/* CMPR */
+                            post_byte = imm_byte();
+                            set_reg(post_byte & 0x0f, cmp(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                            /* TODO: cycle count */
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x38:	/* ANDCC immediate (+1 extra cycle) (UNDOC) */
+                            andcc();
+                            CLK++;
+                            break;
+#endif
+#ifdef H6309
+                        case 0x38:	/* PSHSW */
+                            pshsw();
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x39:	/* RTS (UNDOC) */
+                            rts();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x39:	/* PULSW */
+                            pulsw();
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x3a:	/* ABX (UNDOC) */
+                            abx();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x3a:	/* PSHUW */
+                            pshuw();
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x3b:	/* RTI (UNDOC) */
+                            rti();
+                            break;
+#endif
+#ifdef H6309
+                        case 0x3b:	/* PULUW */
+                            puluw();
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x3c:	/* CWAI (UNDOC) */
+                            cwai();
+                            break;
+                        case 0x3d:	/* MUL (UNDOC) */
+                            mul();
+                            break;
+                        case 0x3e:	/* SWIRES (UNDOC) */
+                            swires();
+                            break;
+#endif
+                        case 0x3f:	/* SWI2 */
+                            swi2();
+                            break;
 #ifdef H6309
 	      case 0x40:	/* NEGD */
 		break;
