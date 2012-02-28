@@ -6647,9 +6647,6 @@ VSID settings
 VSID command-line options
 .........................
 
-`-vsid'
-     SID player mode (`x64' only).
-
 `-keepenv'
      Override PSID settings for Video standard and SID model
 
@@ -7813,6 +7810,10 @@ Machine state commands
 `z [<count>]'
      Single step through instructions.  An optional count allows
      stepping more than a single instruction at a time.
+
+`stopwatch [reset]'
+     Print the CPU cycle counter of the current device. 'reset' sets
+     the counter to 0.
 
 `undump "<filename>"'
      Read a snapshot of the machine from the file specified.
@@ -11276,14 +11277,13 @@ involved in the development of X64 and VICE:
      test programs. Various bug(fixe)s. ;-)
 
    * Martin Pottendorfer Implemented the Gnome Port based on Oliver
-     Schaertels GTK+ port.  Added support code for internationalization
-     based on gettext.  Improved the *nix fullscreen support.
-     Translated the UI to German.  Implemented the fliplists + UI
-     (*nix).
+     Schaertels GTK+ port. Added support code for internationalization
+     based on gettext. Improved the *nix fullscreen support. Translated
+     the UI to German. Implemented the fliplists + UI (*nix).
 
    * Spiro Trikaliotis Wrote the Win32 console implementation for the
-     built-in monitor, corrected some REU related bugs, improved the
-     CIA emulation, added com-port CIA support to the Win32 port, added
+     built-in monitor, corrected some REU related bugs, improved the CIA
+     emulation, added com-port CIA support to the Win32 port, added
      text copy and paste support to the Win32 port, added support for
      the TFE and RR-Net (cs8900a), and wrote some further patches.
 
@@ -11291,34 +11291,39 @@ involved in the development of X64 and VICE:
      internationalization support for the Win32 and Amiga ports. Wrote
      the GEO-RAM and RamCart cartridge code. Wrote the c64 +60K, +256K
      and 256K memory expansions code. Wrote the pet REU code. Wrote the
-     plus4 memory expansions code. Made the ethernet support for the
-     DOS port. Maintains the QNX 4.x, QNX 6.x, Solaris, Openserver,
-     Unixware, Minix 3.x, Amiga, BeOS, Syllable and OS/2 binary ports.
-     Maintains the Win64 and Watcom project files. Maintains the SDL
-     port(s). Added new .crt support. Added new screenshot formats.
+     plus4 memory expansions code. Made the ethernet support for the DOS
+     port. Maintains the QNX 4.x, QNX 6.x, Solaris, Openserver,
+     Unixware, Minix 3.x, Amiga, Syllable and OS/2 binary ports.
+     Maintains the Win64 and Open Watcom project files. Maintains the
+     SDL port(s). Added new .crt support. Added new screenshot formats.
      Added new sound recording support. Added SIDcart support for xpet,
      xplus4 and xvic. Improved the MMC64 emulation. Added 2 MHz mode
-     and banks 2/3 support for x128. Added the various userport
+     and banks 2/3 support for x128.  Added the various userport
      joystick emulations. Added text copy and paste support to the
      Amiga and BeOS ports. Added DQBB and ISEPIC cartridge support.
-     Added SFX Sound Sampler and SFX Sound Expander support. Added
-     digiblaster support. And lots of other fixes and improvements.
+     Added SFX Sound Sampler and SFX Sound Expander support. Added PCI
+     support to the Amiga and DOS ports.  Rewrote the sound system into
+     a modular one, added always mono and always stereo support for the
+     sound output. Added the RTC system. Added digiblaster support. And
+     lots of other fixes and improvements.
 
    * Christian Vogelgsang Maintains the Mac OS X port. Added Intel Mac
      support and universal binary creation. Wrote the build scripts for
      all external Mac libraries and the bindist bundle tool. Improved
      the TFE chip emulation. Added some GTK+ fixes.
 
-   * Fabrizio Gennari Added some improvements to the DOS and GTK+ ports.
+   * Fabrizio Gennari Added some improvements to the DOS and GTK+
+     ports. Changed the Windows video to use GDI as fallback, making it
+     compile without DX if needed.
 
    * Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID
      support in resid, better DMA/Blitter support and did lots of
      refactoring. Added new monitor commands and features. Improved the
-     VIC emulation for xvic.  Made MIDI driver code for Win32. Rewrote
-     the xvic cartridge system.  Added Mega-Cart and Final Expansion
-     V3.2 support to xvic. Wrote large parts of the new VIC-II
-     emulation used in x64sc, especially the dot clock domain
-     emulation. Wrote many test programs for hardware analysis.
+     VIC emulation for xvic. Made MIDI driver code for Win32. Rewrote
+     the xvic cartridge system. Added Mega-Cart and Final Expansion V3.2
+     support to xvic. Wrote large parts of the new VIC-II emulation
+     used in x64sc, especially the dot clock domain emulation. Wrote
+     many test programs for hardware analysis.
 
    * Antti S. Lankila Made the ReSID-fp engine, rewrote the PAL
      emulation code and fixed the sound core for lower latency. Rewrote
@@ -11347,7 +11352,7 @@ involved in the development of X64 and VICE:
    * Thomas Giesel Added new monitor commands and features.
 
    * Marcus Sutton Made some console, dialog and joystick fixes for the
-     BeOS port.
+     BeOS port.  Maintains the BeOS port.
 
      Ulrich Schulz Maintains the Dingoo port(s).
 
@@ -11360,11 +11365,11 @@ involved in the development of X64 and VICE:
      emulation, DTV support in the monitor, large parts of the DTV VIC,
      burst mode and skip cycle emulation as well as many other things.
      Added NEOS and Amiga mouse, paddle and light pen support. Added
-     new monitor commands and features, including memmap.  Made MIDI
+     new monitor commands and features, including memmap. Made MIDI
      support and OSS MIDI driver. Implemented most of the SDL UI.
-     Rewrote xvic CPU/VIC-I core for cycle based emulation.
-     Implemented C64 cartridge snapshot support. Initiated and worked on
-     all parts of implementing x64sc. Wrote test programs.
+     Rewrote xvic CPU/VIC-I core for cycle based emulation. Implemented
+     C64 cartridge snapshot support. Initiated and worked on all parts
+     of implementing x64sc. Wrote test programs.
 
    * Andreas Boose Copyright (C) 1998-2010 Gave lots of information and
      bug reports about the VIC-II, the 6510 and the CIAs; moreover, he
@@ -11382,7 +11387,7 @@ involved in the development of X64 and VICE:
 
    * M. Kiesel Copyright (C) 2007-2010 Started implementing x64dtv. The
      C64DTV memory model and early versions of the DMA and Blitter
-     engine have been implemented by him.  Added new monitor commands
+     engine have been implemented by him. Added new monitor commands
      and features.
 
    * Andreas Dehmel Copyright (C) 1999-2007 Wrote the Acorn RISC OS
@@ -11432,11 +11437,11 @@ involved in the development of X64 and VICE:
    * Mikkel Holm Olsen Provided the Danish user interface translations
      and fixed a few monitor bugs.
 
-     Manuel Antonio Rodriguez Bas provided the Spanish user interface
+     Manuel Antonio Rodriguez Bas Provided the Spanish user interface
      translations.
 
-     Paul Dubé From Rivière-du-Loup, Québec, provided the French
-     user interface translations.
+     Paul Dubé From Rivière-du-Loup, Québec, provided the French user
+     interface translations.
 
      Czirkos Zoltan and Karai Csaba Provided the Hungarian user
      interface translations.
@@ -11548,9 +11553,9 @@ involved in the development of X64 and VICE:
    * Robert W. McMullen Provided parts of the widget set for
      implementing the Xaw GUI.
 
-   * Jennifer Medkief Checked the windows gui dialog items in various
-     languages for things that look wrong and suggested changes needed
-     to make the gui more user friendly.
+   * Jennifer Medkief Is in charge of checking up on the GUIs for
+     elements that are wrong, unaccessable, and missing. Future user
+     documentation writer.
 
    * Dan Miner Contributed some patches to the fast disk drive
      emulation.
@@ -12062,16 +12067,16 @@ Concept Index
  @{" -attach9ro " Link "Command-line initialization"}                           Command-line initialization
  @{" -attach9rw " Link "Command-line initialization"}                           Command-line initialization
  @{" -autoload " Link "Command-line initialization"}                            Command-line initialization
- @{" -autostart " Link "Command-line initialization"}                           Command-line initialization
  @{" -autostart " Link "Command-line autostart"}                           Command-line autostart
+ @{" -autostart " Link "Command-line initialization"}                           Command-line initialization
  @{" -autostart-handle-tde, +autostart-handle-tde " Link "Command-line initialization"} Command-line initialization
  @{" -autostart-warp, +autostart-warp " Link "Command-line initialization"}     Command-line initialization
  @{" -autostartprgdiskimage " Link "Command-line initialization"}               Command-line initialization
  @{" -autostartprgmode " Link "Command-line initialization"}                    Command-line initialization
  @{" -autostartwithcolon, +autostartwithcolon " Link "Command-line initialization"} Command-line initialization
+ @{" -basic " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -basic " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -basic " Link "CBM-II commandline options"}                               CBM-II commandline options
- @{" -basic " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -basic1, +basic1 " Link "PET commandline options"}                     PET commandline options
  @{" -basic1char, +basic1char " Link "PET commandline options"}             PET commandline options
  @{" -basic64 " Link "C64-128 system ROM options"}                             C64-128 system ROM options
@@ -12080,10 +12085,10 @@ Concept Index
  @{" -basicload, +basicload " Link "Command-line initialization"}               Command-line initialization
  @{" -bdesymkeymap, -bdeposkeymap " Link "Keyboard options"}         Keyboard options
  @{" -brightness " Link "PET model"}                          PET model
- @{" -brightness " Link "VIC20 cartridges"}                          VIC20 cartridges
- @{" -brightness " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" -brightness " Link "C64-128 system ROM options"}                          C64-128 system ROM options
  @{" -brightness " Link "VIC-II options"}                          VIC-II options
+ @{" -brightness " Link "VIC20 cartridges"}                          VIC20 cartridges
+ @{" -brightness " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" -buksymkeymap, -bukposkeymap " Link "Keyboard options"}         Keyboard options
  @{" -burstmod " Link "C64 I-O extension options"}                            C64 I-O extension options
  @{" -c " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
@@ -12095,15 +12100,15 @@ Concept Index
  @{" -c64dtvromrw, +c64dtvromrw " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -cart1 " Link "CBM-II commandline options"}                               CBM-II commandline options
  @{" -cart16 " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cart2 " Link "CBM-II commandline options"}                               CBM-II commandline options
  @{" -cart2 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart2 " Link "VIC20 cartridges"}                               VIC20 cartridges
- @{" -cart2 " Link "CBM-II commandline options"}                               CBM-II commandline options
- @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
- @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart4 " Link "CBM-II commandline options"}                               CBM-II commandline options
+ @{" -cart4 " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -cart4 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
+ @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart6 " Link "VIC20 cartridges"}                               VIC20 cartridges
  @{" -cart6 " Link "CBM-II commandline options"}                               CBM-II commandline options
- @{" -cart6 " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cart8 " Link "C64 cartridges"}                               C64 cartridges
  @{" -cartA " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -cartA " Link "VIC20 cartridges"}                               VIC20 cartridges
@@ -12133,8 +12138,8 @@ Concept Index
  @{" -cartfe " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartff " Link "C64 cartridges"}                              C64 cartridges
  @{" -cartfm " Link "C64 cartridges"}                              C64 cartridges
- @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartfp " Link "C64 cartridges"}                              C64 cartridges
+ @{" -cartfp " Link "VIC20 cartridges"}                              VIC20 cartridges
  @{" -cartgeneric " Link "VIC20 cartridges"}                         VIC20 cartridges
  @{" -cartgeoram " Link "C64 I-O extension options"}                          C64 I-O extension options
  @{" -cartgk " Link "C64 cartridges"}                              C64 cartridges
@@ -12176,10 +12181,10 @@ Concept Index
  @{" -cartzaxxon " Link "C64 cartridges"}                          C64 cartridges
  @{" -chargde " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "CBM-II commandline options"}                             CBM-II commandline options
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
+ @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "PET commandline options"}                             PET commandline options
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargen " Link "VIC20 system ROM options"}                             VIC20 system ROM options
- @{" -chargen " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargfr " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chargse " Link "C64-128 system ROM options"}                             C64-128 system ROM options
  @{" -chdir " Link "Command-line initialization"}                               Command-line initialization
@@ -12189,11 +12194,11 @@ Concept Index
  @{" -config " Link "Command-line initialization"}                              Command-line initialization
  @{" -confirmexit, +confirmexit " Link "Misc options"}           Misc options
  @{" -console " Link "Command-line initialization"}                             Command-line initialization
- @{" -contrast " Link "VIC-II options"}                            VIC-II options
- @{" -contrast " Link "C64-128 system ROM options"}                            C64-128 system ROM options
- @{" -contrast " Link "VIC20 system ROM options"}                            VIC20 system ROM options
- @{" -contrast " Link "VIC20 cartridges"}                            VIC20 cartridges
  @{" -contrast " Link "PET model"}                            PET model
+ @{" -contrast " Link "VIC20 cartridges"}                            VIC20 cartridges
+ @{" -contrast " Link "C64-128 system ROM options"}                            C64-128 system ROM options
+ @{" -contrast " Link "VIC-II options"}                            VIC-II options
+ @{" -contrast " Link "VIC20 system ROM options"}                            VIC20 system ROM options
  @{" -core, +core " Link "Misc options"}                         Misc options
  @{" -crtblur " Link "VIC-II options"}                             VIC-II options
  @{" -crtblur " Link "PET model"}                             PET model
@@ -12211,11 +12216,11 @@ Concept Index
  @{" -Crtcvcache, +Crtcvcache " Link "PET model"}             PET model
  @{" -CrtcVidmodefullmode " Link "PET model"}                 PET model
  @{" -CrtcXRANDRfullmode " Link "PET model"}                  PET model
+ @{" -crtscanlineshade " Link "PET model"}                    PET model
  @{" -crtscanlineshade " Link "VIC20 system ROM options"}                    VIC20 system ROM options
  @{" -crtscanlineshade " Link "C64-128 system ROM options"}                    C64-128 system ROM options
  @{" -crtscanlineshade " Link "VIC-II options"}                    VIC-II options
  @{" -crtscanlineshade " Link "VIC20 cartridges"}                    VIC20 cartridges
- @{" -crtscanlineshade " Link "PET model"}                    PET model
  @{" -cs256k " Link "VIC20 system ROM options"}                              VIC20 system ROM options
  @{" -default " Link "Command-line initialization"}                             Command-line initialization
  @{" -device10 " Link "File system device options"}                            File system device options
@@ -12321,11 +12326,11 @@ Concept Index
  @{" -fullscreen, +fullscreen " Link "Video options"}             Video options
  @{" -functionhi " Link "VIC20 system ROM options"}                          VIC20 system ROM options
  @{" -functionlo " Link "VIC20 system ROM options"}                          VIC20 system ROM options
- @{" -gamma " Link "VIC-II options"}                               VIC-II options
+ @{" -gamma " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -gamma " Link "C64-128 system ROM options"}                               C64-128 system ROM options
  @{" -gamma " Link "PET model"}                               PET model
- @{" -gamma " Link "VIC20 system ROM options"}                               VIC20 system ROM options
  @{" -gamma " Link "VIC20 cartridges"}                               VIC20 cartridges
+ @{" -gamma " Link "VIC-II options"}                               VIC-II options
  @{" -georam, +georam " Link "C64 I-O extension options"}                     C64 I-O extension options
  @{" -georamimage " Link "C64 I-O extension options"}                         C64 I-O extension options
  @{" -georamimagerw, +georamimagerw " Link "C64 I-O extension options"}       C64 I-O extension options
@@ -12367,8 +12372,8 @@ Concept Index
  @{" -iecdevice5, +iecdevice5 " Link "Printer options"}             Printer options
  @{" -iecdevice8, +iecdevice8 " Link "File system device options"}             File system device options
  @{" -iecdevice9, +iecdevice9 " Link "File system device options"}             File system device options
- @{" -ieee488, +ieee488 " Link "C64 cartridges"}                   C64 cartridges
  @{" -ieee488, +ieee488 " Link "VIC20 cartridges"}                   VIC20 cartridges
+ @{" -ieee488, +ieee488 " Link "C64 cartridges"}                   C64 cartridges
  @{" -ieee488image " Link "C64 cartridges"}                        C64 cartridges
  @{" -initbreak " Link "Monitor options"}                           Monitor options
  @{" -install, +install " Link "Video options"}                   Video options
@@ -12382,9 +12387,9 @@ Concept Index
  @{" -k " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -k<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -keepenv " Link "CBM-II colors"}                             CBM-II colors
+ @{" -kernal " Link "PET commandline options"}                              PET commandline options
  @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "VIC20 system ROM options"}                              VIC20 system ROM options
- @{" -kernal " Link "PET commandline options"}                              PET commandline options
  @{" -kernal " Link "C64-128 system ROM options"}                              C64-128 system ROM options
  @{" -kernal " Link "CBM-II commandline options"}                              CBM-II commandline options
  @{" -kernal64 " Link "C64-128 system ROM options"}                            C64-128 system ROM options
@@ -12439,16 +12444,16 @@ Concept Index
  @{" -ntscold " Link "Monitor options"}                             Monitor options
  @{" -o " Link "c1541 executing shell commands"}                                   c1541 executing shell commands
  @{" -o <name> " Link "c1541 executing shell commands"}                            c1541 executing shell commands
- @{" -oddlinesoffset " Link "VIC20 cartridges"}                      VIC20 cartridges
  @{" -oddlinesoffset " Link "PET model"}                      PET model
+ @{" -oddlinesoffset " Link "VIC20 system ROM options"}                      VIC20 system ROM options
+ @{" -oddlinesoffset " Link "VIC20 cartridges"}                      VIC20 cartridges
  @{" -oddlinesoffset " Link "C64-128 system ROM options"}                      C64-128 system ROM options
  @{" -oddlinesoffset " Link "VIC-II options"}                      VIC-II options
- @{" -oddlinesoffset " Link "VIC20 system ROM options"}                      VIC20 system ROM options
- @{" -oddlinesphase " Link "VIC20 system ROM options"}                       VIC20 system ROM options
- @{" -oddlinesphase " Link "PET model"}                       PET model
  @{" -oddlinesphase " Link "VIC20 cartridges"}                       VIC20 cartridges
- @{" -oddlinesphase " Link "C64-128 system ROM options"}                       C64-128 system ROM options
+ @{" -oddlinesphase " Link "VIC20 system ROM options"}                       VIC20 system ROM options
  @{" -oddlinesphase " Link "VIC-II options"}                       VIC-II options
+ @{" -oddlinesphase " Link "C64-128 system ROM options"}                       C64-128 system ROM options
+ @{" -oddlinesphase " Link "PET model"}                       PET model
  @{" -OEMjoy, +OEMjoy " Link "VIC20 system ROM options"}                     VIC20 system ROM options
  @{" -pal " Link "Monitor options"}                                 Monitor options
  @{" -paln " Link "Monitor options"}                                Monitor options
@@ -12499,8 +12504,8 @@ Concept Index
  @{" -raminitpatterninvert " Link "Monitor options"}                Monitor options
  @{" -raminitstartvalue " Link "Monitor options"}                   Monitor options
  @{" -raminitvalueinvert " Link "Monitor options"}                  Monitor options
- @{" -ramsize " Link "CBM-II commandline options"}                             CBM-II commandline options
  @{" -ramsize " Link "VIC20 system ROM options"}                             VIC20 system ROM options
+ @{" -ramsize " Link "CBM-II commandline options"}                             CBM-II commandline options
  @{" -refresh " Link "Performance options"}                             Performance options
  @{" -remotemonitor, +remotemonitor " Link "Monitor options"}       Monitor options
  @{" -remotemonitoraddress " Link "Monitor options"}                Monitor options
@@ -12529,18 +12534,18 @@ Concept Index
  @{" -rsuser, +rsuser " Link "RS232 options"}                     RS232 options
  @{" -rsuserbaud " Link "RS232 options"}                          RS232 options
  @{" -rsuserdev " Link "RS232 options"}                           RS232 options
- @{" -saturation " Link "VIC-II options"}                          VIC-II options
- @{" -saturation " Link "VIC20 cartridges"}                          VIC20 cartridges
- @{" -saturation " Link "C64-128 system ROM options"}                          C64-128 system ROM options
- @{" -saturation " Link "PET model"}                          PET model
  @{" -saturation " Link "VIC20 system ROM options"}                          VIC20 system ROM options
+ @{" -saturation " Link "VIC20 cartridges"}                          VIC20 cartridges
+ @{" -saturation " Link "VIC-II options"}                          VIC-II options
+ @{" -saturation " Link "PET model"}                          PET model
+ @{" -saturation " Link "C64-128 system ROM options"}                          C64-128 system ROM options
  @{" -saveres, +saveres " Link "Misc options"}                   Misc options
  @{" -sfxse, +sfxse " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sfxsetype " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -sfxss, +sfxss " Link "C64 I-O extension options"}                       C64 I-O extension options
  @{" -sidcart, +sidcart " Link "PET commandline options"}                   PET commandline options
- @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcart, +sidcart " Link "VIC20 cartridges"}                   VIC20 cartridges
+ @{" -sidcart, +sidcart " Link "VIC20 system ROM options"}                   VIC20 system ROM options
  @{" -sidcartjoy, +sidcartjoy " Link "VIC20 system ROM options"}             VIC20 system ROM options
  @{" -sidenginemodel " Link "SID options"}                      SID options
  @{" -sidfilters, +sidfilters " Link "SID options"}             SID options
@@ -12578,11 +12583,11 @@ Concept Index
  @{" -tfe, +tfe " Link "C64 I-O extension options"}                           C64 I-O extension options
  @{" -tfeif " Link "C64 I-O extension options"}                               C64 I-O extension options
  @{" -tferrnet, +tferrnet " Link "C64 I-O extension options"}                 C64 I-O extension options
- @{" -tint " Link "VIC-II options"}                                VIC-II options
- @{" -tint " Link "VIC20 system ROM options"}                                VIC20 system ROM options
- @{" -tint " Link "PET model"}                                PET model
  @{" -tint " Link "C64-128 system ROM options"}                                C64-128 system ROM options
+ @{" -tint " Link "VIC-II options"}                                VIC-II options
+ @{" -tint " Link "PET model"}                                PET model
  @{" -tint " Link "VIC20 cartridges"}                                VIC20 cartridges
+ @{" -tint " Link "VIC20 system ROM options"}                                VIC20 system ROM options
  @{" -truedrive, +truedrive " Link "Drive options"}               Drive options
  @{" -trueflashfs, +trueflashfs " Link "C64DTV ROM image"}           C64DTV ROM image
  @{" -tune <number> " Link "CBM-II colors"}                       CBM-II colors
@@ -12630,7 +12635,6 @@ Concept Index
  @{" -VICVidmodefullmode " Link "VIC20 cartridges"}                  VIC20 cartridges
  @{" -VICXRANDRfullmode " Link "VIC20 cartridges"}                   VIC20 cartridges
  @{" -virtualdev, +virtualdev " Link "No traps options"}             No traps options
- @{" -vsid " Link "CBM-II colors"}                                CBM-II colors
  @{" -w<version> " Link "c1541 executing shell commands"}                          c1541 executing shell commands
  @{" -warp, +warp " Link "Performance options"}                         Performance options
  @{" -xsync, +xsync " Link "Video options"}                       Video options

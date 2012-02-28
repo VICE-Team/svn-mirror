@@ -1,5 +1,778 @@
 ------------------------------------------------------------------------------
 
+2012-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
+	doc/vice.guide, doc/vice.chm, configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h, po/es.po, po/ko.po,
+	po/fr.po, po/da.po, po/tr.po, po/de.po, po/sv.po, po/hu.po, po/ru.po,
+	po/nl.po, po/pl.po, po/it.po: VICE 2.3.15
+
+2012-02-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: More updates.
+
+2012-02-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: More updates.
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Some more 6809 core improvements.
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Added a comment about the register transfer.
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Fixed the register transfer handling (undocumented).
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: More 6809 core improvements.
+
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: More 6809 core improvements.
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Fixed.
+
+2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: 6809 core improvements.
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Redefined the types of the registers.
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Removed monitor_addr_name().
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Removed monitor_return().
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Removed monitor_call().
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Code style fixes.
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/nl.po, po/sv.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resacia.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/rescia.rc, src/arch/win32/resdigimax.rc,
+	src/arch/win32/resdqbb.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/resmagicvoice.rc, src/arch/win32/resmidi.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resramcart.rc, src/arch/win32/resretroreplay.rc,
+	src/arch/win32/resrs232user.rc, src/arch/win32/ressid.rc,
+	src/arch/win32/ressoundexpander.rc, src/arch/win32/ressoundsampler.rc,
+	src/arch/win32/restfe.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/arch/win32/resvsid.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/c128ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/resc128.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/rescia.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/uicia.c, src/arch/win32/uicia.h,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/x128.dsp,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xcbm5x0.dsp,
+	src/arch/win64/arch.vcproj, src/arch/win64/x128.vcproj,
+	src/arch/win64/xcbm2.vcproj, src/arch/win64/xcbm5x0.vcproj: Added CIA
+	settings support to x128, xcbm2 and xcbm5x0 in the windows gui.
+
+2012-02-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* data/C64/beos_sym.vkm, data/C64DTV/beos_sym.vkm: Proper US symbolic
+	keymap for BeVICE x64/x64sc/x64dtv.
+
+2012-02-25  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/vicemenu.cc: BeVICE menu item
+	fixes.
+
+2012-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.h: No need for (the possibly conflicting) (U)INT32.
+
+2012-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/jpegdrv.c: Moved the position of the jpeglib.h
+	include to avoid INT32 conflicts.
+
+2012-02-22  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/parsid.c: Fix windows parsid sleep call.
+
+2012-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvicii.rc, src/arch/win32/uivicii.c: Added
+	'no border' to the windows vicii dialog.
+
+2012-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resmenu.txt, src/arch/win32/resretroreplay.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uiretroreplay.c,
+	src/arch/win32/uiretroreplay.h, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	src/arch/win32/x64sc.dsp, src/arch/win64/arch.vcproj,
+	src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj,
+	src/arch/win64/x64sc.vcproj: Added retro replay dialog to the windows
+	gui.
+
+2012-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ppc-ar.sh, src/arch/beos/ppc-cc.sh,
+	src/arch/unix/minix/minix-ar.sh: Added some 'what does it do'
+	descriptions to certain shell scripts.
+
+2012-02-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/vic20ui.c: Fixed dos xvic.
+
+2012-02-21  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Add a scrollbar to the monitor
+	window
+
+
+2012-02-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/monitor_network.c: This seems to work now as I expect
+	it. 
+Which platform was it working originally? On win32 and x11/xaw
+	surely not...
+	
+http://sourceforge.net/tracker/index.php?func=detail&aid=3196471&group_id=223021&atid=1057617 
+
+
+2012-02-19  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Increase monitor history
+
+
+2012-02-19  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po, po/translations-status.txt: Updated.
+
+2012-02-19  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c, src/monitor/mon_command.c,
+	src/monitor/mon_command.h: Add TAB completion to monitor. If the
+	command is known to take a file name as argument, completion to file
+	name will be used for that
+
+
+2012-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdialogs.txt, src/arch/win32/ressid.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/uisid.c: Changed the
+	windows sid dialog to deal with the 3rd sid, and fixed the fact that
+	cancel still saved the changes.
+
+2012-02-18  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/kbd.c, src/arch/beos/kbd.h: BeOS uses COMMON_KBD.
+
+2012-02-17  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/console.c,
+	src/arch/unix/x11/xaw/uimon.c: Unify Xaw versions of uimon.c and
+	console.c
+
+
+2012-02-17  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Fix Caps Lock in monitor
+
+
+2012-02-16  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Fix Shift key in monitor
+
+
+2012-02-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-resources.c, src/drive/iec/iec-resources.c,
+	src/drive/ieee/ieee-resources.c: Don't register the drive idle method
+	twice.
+
+2012-02-15  Thomas Giesel <skoe@directbox.com>
+
+	* po/intl2po.c: Allocate enough memory for '\0'-termination
+
+
+2012-02-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Don't check for pcap when using mingw.
+
+2012-02-14  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/intl.c: Find win_hotkeys.vhk no matter what the
+	current directory is
+
+2012-02-14  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/win32/intl.c: 'c [...] must have the value of an unsigned
+	char or EOF', says isspace's man page
+
+2012-02-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/ffmpegdrv.c: Cosmetic fixes.
+
+2012-02-12  Olaf Seibert <rhialto@falu.nl>
+
+	* src/h6809regs.h, src/monitor/asm6809.c,
+	src/monitor/mon_register6809.c, src/pet/6809.c, src/pet/6809.h:
+	mime-type and eol properties.
+
+
+2012-02-12  Olaf Seibert <rhialto@falu.nl>
+
+	* src/monitor/mon_assemble6809.c: Add in some addressing mode
+	decoding, useful when monitor-split is done.
+
+
+2012-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/intl2po.c: Don't convert the filename if source and destination
+	paths are the same.
+
+2012-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Only check c++ compiler validity when cross compiling.
+
+2012-02-12  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/reu.c: handle extra bank bits of hacked reu correctly,
+	they are not affected by the REC chip.
+
+2012-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am: Unbreak the osx build.
+
+2012-02-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/magicvoice.c, src/c64/cart/retroreplay.c: Cosmetic
+	fixes.
+
+2012-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Reverted to a working state, will improve upon it in
+	a separate branch.
+
+2012-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in: Fixed.
+
+2012-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in, po/intl2po.c: Use builddir and srcdir, not
+	top_builddir and top_srcdir.
+
+2012-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/intl2po.c: Added safeguard for malformed filenames.
+
+2012-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Some 6809 code cleanups.
+
+2012-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/aciacore.c: Don't unset a NULL alarm.
+
+2012-02-10  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Add copy (Ctrl-C), paste (Ctrl-V),
+	paste from X11 clipboard (middle mouse button), plus some other tricks
+	with Ctrl (Ctrl-A: home, Ctrl-E: end etc.) to monitor window
+
+
+2012-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-resources.c: Changed resource "RomseChargenDENamet" to
+	"RomsetChargenDEName", resource doesn't seem to be used anywhere
+	(unused resources will be revealed in the upcoming feature checking
+	action).
+
+2012-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in: Dependency fix.
+
+2012-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/makedist.cmd, src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/make-bindist.bat,
+	src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win64/make-msvc-bindist.bat: Make sure the superpet roms are
+	included in the bindist scripts.
+
+2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Extended flag sizes.
+
+2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Extend the 6809 carry indicator to 16bit size.
+
+2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/amigaos/Makefile.am: Fix usage of
+	generated script files.
+
+2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in: Finished the out-of-source compile fixing.
+
+2012-02-09  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: Undo some (too short) shortcuts. Not all are found
+	yet.
+
+
+2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am: Generate translate.h in the build tree, not the
+	source tree.
+
+2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/Makefile.in.in, po/intl2po.c: Made intl2po generate files in the
+	build tree instead of the source tree.
+
+2012-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am: Made vice.info be generated in the build tree
+	instead of the source tree.
+
+2012-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_register6809.c, src/pet/6809.c, src/pet/6809.h:
+	Started on the 6809 cleanup.
+
+2012-02-08  Thomas Giesel <skoe@directbox.com>
+
+	* src/arch/amigaos/signals.c, src/arch/beos/signals.c,
+	src/arch/msdos/signals.c, src/arch/os2/signals.c,
+	src/arch/riscos/signals.c, src/arch/sdl/signals.c,
+	src/arch/unix/signals.c, src/arch/win32/signals.c,
+	src/monitor/monitor.c, src/signals.h: Don't handle SIGINT anymore.
+	It's not needed with the new monitor.
+
+2012-02-08  Thomas Giesel <skoe@directbox.com>
+
+	* src/arch/unix/x11/gnome/uimon.c: Warnings fixed
+
+2012-02-08  Thomas Giesel <skoe@directbox.com>
+
+	* src/monitor/mon_command.c, src/translate.txt, src/translate_text.c:
+	Pointless (and partially wrong) translations of load|store|exec
+	removed.
+
+2012-02-08  Thomas Giesel <skoe@directbox.com>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt,
+	src/monitor/mon_command.c, src/translate.txt, src/translate_text.c:
+	Documentation for stopwatch added	
+
+
+2012-02-08  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Fix compilation error occurring
+	with old version of GTK+ headers
+
+
+2012-02-08  Thomas Giesel <skoe@directbox.com>
+
+	* doc/vice.texi: Restored Latin-1 encoding I messed up before :/
+
+2012-02-08  Thomas Giesel <skoe@directbox.com>
+
+	* doc/vice.texi: trailing white space removed
+
+2012-02-08  Olaf Seibert <rhialto@falu.nl>
+
+	* src/h6809regs.h, src/monitor/asm.h, src/monitor/mon_assemble6502.c,
+	src/monitor/mon_assemble6809.c, src/monitor/mon_assemblez80.c,
+	src/monitor/mon_command.c, src/monitor/mon_disassemble.c,
+	src/monitor/mon_lex.c, src/monitor/mon_lex.l, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y,
+	src/monitor/mon_register6809.c, src/monitor/monitor.c,
+	src/monitor/montypes.h, src/monitor.h: Add most (but not all!) 6809
+	addressing modes in monitor command parser, and 6809 assembly. Also
+	add D register to monitor interface.
+
+
+2012-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_register6809.c: Style cleanups.
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joyll.c, src/arch/amigaos/loadlibs.h: Added
+	disabling of lowlevel joystick support if the lowlevel library could
+	not be loaded.
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/loadlibs.h, src/arch/amigaos/uiapi.c: Added
+	disabling of video overlay support if the correct library could not be
+	loaded.
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/joyai.c, src/arch/amigaos/loadlibs.h: Added
+	disabling of amiga os4 joystick support if the AI library could not be
+	loaded.
+
+2012-02-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: Somehow `caller_space' popped up again.
+
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/catweaselmkiii.c, src/arch/amigaos/hardsid.c,
+	src/arch/amigaos/loadlibs.h: Added disabling of catweasel and hardsid
+	support if the pci library could not be loaded.
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/amigamain.c,
+	src/arch/amigaos/catweaselmkiii.c, src/arch/amigaos/expansionbase.h,
+	src/arch/amigaos/hardsid.c, src/arch/amigaos/joyai.c,
+	src/arch/amigaos/loadlibs.c, src/arch/amigaos/loadlibs.h,
+	src/arch/amigaos/uiapi.c, src/arch/amigaos/video.c: Added a better
+	library loading system for the amiga ports, optional library feature
+	disabling not implemented yet.
+
+2012-02-07  Thomas Giesel <skoe@directbox.com>
+
+	* src/monitor/mon_disassemble.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y,
+	src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/monitor.c, src/monitor/montypes.h: New commands "sw" and
+	"sw reset" (or "stopwatch", "stopwatch reset")
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c, src/pet/6809.h: Some fixes.
+
+2012-02-07  Thomas Giesel <skoe@directbox.com>
+
+	* src/c64/cart: Ignore all *.a files in c64/cart
+
+2012-02-07  Thomas Giesel <skoe@directbox.com>
+
+	* src/6510core.c, src/6510dtvcore.c, src/arch/msdos/menudefs.c,
+	src/arch/riscos/ui.c, src/arch/sdl/menu_common.c,
+	src/arch/unix/gui/uicommands.c, src/c128/z80.c, src/drive/drivecpu.c,
+	src/mainc64cpu.c, src/maincpu.c, src/mainviccpu.c,
+	src/monitor/mon_breakpoint.c, src/monitor/monitor.c, src/monitor.h,
+	src/pet/6809.c: Remove global variable caller_space and merge it with
+	default_memspace to bring some light into the memspace odyssey. Solves
+	bug 3485476.
+
+2012-02-07  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/ko.po, po/translations-status.txt: Updated.
+
+2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/monitor.tgt, src/arch/os2/watcom/pet.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-msvc/monitor.dsp,
+	src/arch/sdl/win32-msvc/pet.dsp,
+	src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/pet.tgt, src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/monitor.vcproj,
+	src/arch/sdl/win64-msvc/pet.vcproj,
+	src/arch/sdl/winmips-msvc/monitor.mak,
+	src/arch/sdl/winmips-msvc/pet.mak, src/arch/win32/monitor.dsp,
+	src/arch/win32/pet.dsp, src/arch/win32/watcom/monitor.tgt,
+	src/arch/win32/watcom/pet.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win64/monitor.vcproj, src/arch/win64/pet.vcproj: Added the
+	6809-related sources to the project files.
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Updated to fit in the dos port help window.
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/msdos/make-bindist.sh,
+	src/sid/sid-resources.c: Added --without-residfp, made the dos port
+	compile without resid and fixed the sid resources for compiling
+	without resid but with resid-fp.
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added cross compilation C++ sanity checks to the
+	configure script.
+
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c, src/pet/6809.h: Include vice.h instead of config.h
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/asm6809.c: Added the rest of the 6809/6309 comments.
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uidrive.c: Reverted to a state that doesn't crash the
+	dos port.
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/asm6809.c: Added more 6809/6309 comments.
+
+2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/asm6809.c: Added more 6809/6309 comments.
+
+2012-02-05  Olaf Seibert <rhialto@falu.nl>
+
+	src/pet/pet.c, src/pet/petmem.c: Add a hard reset (call to
+	machine_trigger_reset(MACHINE_RESET_MODE_HARD)) 
+in the PET's
+	machine_change_timing(). Copied from the 64. Strangely 
+enough, this
+	seems to be the only way that a hard reset, and hence a
+ mem_powerup(),
+	is done at the start. (call trace: resources_set_defaults
+ >
+	set_sync_factor >  machine_change_timing > machine_trigger_reset >
+	machine_trigger_reset_internal > mem_powerup) 
+mem_powerup() was needed
+	to disable the initial write protection of the
+ SuperPET ram.
+
+
+2012-02-05  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11ui.c: On the error return, the error
+	handler should be restored as well.
+
+
+2012-02-05  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Plug a race condition.
+
+
+2012-02-05  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2012-02-05  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c, src/arch/unix/x11/xaw/console.c:
+	Do not add empty lines to history
+
+
+2012-02-05  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/pet.c: Forgot to increase array.
+
+
+2012-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/asm6809.c: Added some comments for future 6809-illegal
+	opcodes and 6309 opcodes.
+
+2012-02-04  Olaf Seibert <rhialto@falu.nl>
+
+	* src/monitor/asm6809.c, src/monitor/mon_register.h, src/pet/6809.c,
+	src/pet/6809.h, src/pet/monitor.c, src/pet/monitor6809.h,
+	src/pet/petmem.c: SuperPET cleanup that can be done now that initial
+	support is in.
+
+
+2012-02-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in, src/Makefile.am, src/arch/unix/Makefile.am,
+	src/arch/unix/console.c, src/arch/unix/x11/gnome/uimon.c,
+	src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/console.c,
+	src/monitor/mon_util.c, src/monitor/monitor.c: Readline is only a
+	dependency for the Xaw port and the c1541 tool (and not, for example,
+	for the GTK+ port)
+
+
+2012-02-04  Olaf Seibert <rhialto@falu.nl>
+
+	* data/PET/Makefile.am, data/PET/characters.901640-01.bin,
+	data/PET/romsuperpet.vrs, data/PET/waterloo-a000.901898-01.bin,
+	data/PET/waterloo-b000.901898-02.bin,
+	data/PET/waterloo-c000.901898-03.bin,
+	data/PET/waterloo-d000.901898-04.bin,
+	data/PET/waterloo-e000.901897-01.bin,
+	data/PET/waterloo-f000.901898-05.bin, src/Makefile.am,
+	src/h6809regs.h, src/maincpu.c, src/monitor/Makefile.am,
+	src/monitor/asm.h, src/monitor/asm6502.c, src/monitor/asm6502dtv.c,
+	src/monitor/asm6809.c, src/monitor/asmz80.c,
+	src/monitor/mon_assemble.h, src/monitor/mon_assemble6502.c,
+	src/monitor/mon_assemble6809.c, src/monitor/mon_assemblez80.c,
+	src/monitor/mon_disassemble.c, src/monitor/mon_register6809.c,
+	src/monitor/monitor.c, src/monitor/montypes.h, src/monitor.h,
+	src/pet/6809.c, src/pet/6809.h, src/pet/Makefile.am, src/pet/pet.c,
+	src/pet/petcpu.c, src/pet/petdww.c, src/pet/petmem.c,
+	src/pet/petmem.h, src/pet/pets.h: Some more SuperPET support. The ROMs
+	actually run, if you get the machine 
+to the correct configuration
+	(SuperPET, 6809 cpu, no other memory or I/O 
+extensions, true drive
+	emulation). The 6702 dongle foils running software
+ from the
+	"SuperPET WCS" disk though. Disassembly works in the monitor, 
+but
+	assembly not yet.
+
+
+2012-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated de.po.
+
+2012-02-04  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2012-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xcbm5x0.dsp,
+	src/arch/win64/xcbm2.vcproj, src/arch/win64/xcbm5x0.vcproj: Made xcbm*
+	use ressiddtv.rc instead of ressid.rc in the windows project files.
+
+2012-02-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c: Use single-SID (DTV) version of the SID
+	settings dialog for WinVICE xcbm2/xcbm5x0. (Project files will need
+	updated rescbm*cat.rc.)
+
+2012-02-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uimon.c: Fix error & warningS reported by
+	gcc/mingw32/4.5.2.
+
+2012-02-02  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/linenoise.h: Add header file for Linenoise
+
+
+2012-02-02  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* configure.in, src/arch/unix/gui/Makefile.am,
+	src/arch/unix/gui/uimon.c, src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/gnome/linenoise.c, src/arch/unix/x11/gnome/uimon.c,
+	src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/uimon.c:
+	Introduce a separate window for the monitor when using GTK+, based on
+	VTE terminal widget and Linenoise for readline
+
+
+2012-02-02  Jesse Lee <interpreters.jesse@gmail.com>
+
+	* po/tr.po, po/translations-status.txt: Updated.
+
+2012-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64dtvui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/cbm2ui.c,
+	src/arch/win32/cbm5x0ui.c, src/arch/win32/petui.c,
+	src/arch/win32/plus4ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/resmenu.txt,
+	src/arch/win32/respet.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/ui.c, src/arch/win32/vic20ui.c: Added drive sound
+	emulation to the windows gui.
+
+2012-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uisound.c: Added sound
+	output mode to the windows gui.
+
+2012-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated es.po.
+
+2012-02-01  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/c64ui.c, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uic64burstmod.c,
+	src/arch/win32/uic64burstmod.h, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/arch.vcproj: Added c64
+	drive burst modification to the windows gui.
+
+2012-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated pl.po.
+
+2012-01-31  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
 2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
@@ -38,27 +811,20 @@
 
 	* src/pet/monitor.h: Remove.
 
-
 2012-01-31  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/monitor6809.h: Rename, to avoid clash with already existing
 	file with the same name.
 
-
 2012-01-31  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/6809.c, src/pet/6809.h, src/pet/monitor.c,
 	src/pet/monitor.h: Throw in a 6809 CPU! It rattles around inside the
-	SuperPET box, since 
-it isn't plugged in yet. 
-These are the original
-	files I intend to use, before any change, in order to 
-keep history.
+	SuperPET box, since it isn't plugged in yet. These are the original
+	files I intend to use, before any change, in order to keep history.
 	Source: https://github.com/bcd/exec09 rev
-	commit/642e684b9d225a6d0a3d7121ed23ba79c76b9fc5
- found via:
+	commit/642e684b9d225a6d0a3d7121ed23ba79c76b9fc5 found via:
 	http://koti.mbnet.fi/~atjs/mc6809/#Emu, gcc6809
-
 
 2012-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -97,8 +863,7 @@ keep history.
 	src/pet/petrom.h, src/pet/petromset.c, src/pet/pets.h, src/sysfile.c:
 	Add some SuperPET hardware. Most of it doesn't do anything yet without
 	a CPU, but the double sized character generator ROM can be seen
-	working 
-according to the instructions in the SuperPET overview
+	working according to the instructions in the SuperPET overview
 	manual:
 	100 for i = 0 to 255
 	110 poke 32768 + i, i
@@ -111,7 +876,6 @@ according to the instructions in the SuperPET overview
 	220 poke 59520,12: poke 59521,16
 	230 for t=0 to 3000: next
 	240 goto 200
-
 
 2012-01-27  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -126,14 +890,11 @@ according to the instructions in the SuperPET overview
 	* src/arch/unix/x11/xaw/x11ui.c: Fix a HACK and a FIXME in Xaw's
 	mouse_handler_canvas().
 
-
 2012-01-24  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/x11ui.c:
 	Implement ui_focus_monitor() for Xaw UI, slightly changed from the
-	gnome 
-version.
-
+	gnome version.
 
 2012-01-24  Michael Litvinov <litvinov.m@i.ua>
 
@@ -251,12 +1012,10 @@ version.
 	* src/pet/petmem.c: Add 8096 bank switching register to the monitor
 	"io" command.
 
-
 2012-01-15  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/uipalcontrol.c, src/arch/unix/x11/xaw/x11ui.c:
 	Implement ui_restore_focus() for Xaw UI.
-
 
 2012-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -267,12 +1026,9 @@ version.
 
 	* src/pet/petdww.c, src/pet/petdww.h, src/pet/petmem.c,
 	src/pet/petmem.h: Reset the memory limit pointers for PET 8x96 models
-	and PET DWW board.
-They are switching banks so if code is executing in
-	it while they are 
-switched, the memory base and limit should be
+	and PET DWW board. They are switching banks so if code is executing in
+	it while they are switched, the memory base and limit should be
 	invalidated.
-
 
 2012-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -292,7 +1048,6 @@ switched, the memory base and limit should be
 	* src/aciacore.c: Fix wrong operator precedence for reading T232
 	ectrl register
 
-
 2012-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/cbm2/cbm5x0.c: Fixed.
@@ -300,7 +1055,6 @@ switched, the memory base and limit should be
 2012-01-14  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/unix/x11/gnome/x11ui.c: Fix a crash when activating monitor
-
 
 2012-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -310,24 +1064,14 @@ switched, the memory base and limit should be
 2012-01-12  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/petmem.c: Commit 24448 broke the PET zero page access in a
-	subtle way. It replaced 
-a direct call to zero_store() with an indirect
-	call via
-_mem_write_tab_ptr. And the same for zero_read().
-	Unfortunately the PET 
-didn't initialise its table of pointers to
-	zero_store() but to the 
-generic ram_store(), which is almost the same,
-	but it doesn't mask its 
-address to the zero page.
-So... this breaks the
-	zero page adressing mode where an index wraps around...
- and apparently
-	this can have interesting effects even on BASIC programs. 
-Fix: use
-	zero_store() and zero_read() in _mem_write_tab[0] and
-_mem_read_tab[0].
-
+	subtle way. It replaced a direct call to zero_store() with an indirect
+	call via _mem_write_tab_ptr. And the same for zero_read().
+	Unfortunately the PET didn't initialise its table of pointers to
+	zero_store() but to the generic ram_store(), which is almost the same,
+	but it doesn't mask its address to the zero page. So... this breaks the
+	zero page adressing mode where an index wraps around... and apparently
+	this can have interesting effects even on BASIC programs. Fix: use
+	zero_store() and zero_read() in _mem_write_tab[0] and _mem_read_tab[0].
 
 2012-01-12  Michael Litvinov <litvinov.m@i.ua>
 
@@ -337,12 +1081,9 @@ _mem_read_tab[0].
 
 	* src/arch/unix/x11/renderxv.c, src/arch/unix/x11/xaw/x11video.c: If
 	the user tries to use hardware scaling using XVideo (in Xaw ui), and
-	
-shared memory is unavailable (for instance because the display is
+	shared memory is unavailable (for instance because the display is
 	remote), retry without shared memory rather than terminating with an
-	X
-error.
-
+	X error.
 
 2012-01-11  groepaz <groepaz@gmx.net>
 
@@ -353,11 +1094,8 @@ error.
 2012-01-11  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/gui/uisettings.c: Remove hack for setting ticks in the
-	refresh rate and maximum speed menus.
- It depended on the callbacks
-	being called in order, which was not true 
-(any more) for the gnome ui.
-
+	refresh rate and maximum speed menus. It depended on the callbacks
+	being called in order, which was not true (any more) for the gnome ui.
 
 2012-01-11  Olaf Seibert <rhialto@falu.nl>
 
@@ -366,21 +1104,17 @@ error.
 2012-01-10  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/gnome/uimenu.c, src/arch/unix/x11/xaw/uimenu.c:
-	Treat UI_MENU_TYPE_TICKDOTS like UI_MENU_TYPE_TICK so that it gets 
-a
+	Treat UI_MENU_TYPE_TICKDOTS like UI_MENU_TYPE_TICK so that it gets a
 	checkmark too.
-
 
 2012-01-10  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/gui/uisettings.c: The first maximum speed entry is
 	now 200%.
 
-
 2012-01-10  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/win32/Makefile.am: Generate the right file
-
 
 2012-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
 
