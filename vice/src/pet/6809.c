@@ -1800,6 +1800,28 @@ void ccrs(void)
     H = tmp_h << 4;
     /* TODO: cycle count */
 }
+
+void swires(void)
+{
+    /* TODO: cycle count */
+
+    EFI |= E_FLAG;
+    S -= 2;
+    write_stack16(S, PC);
+    S -= 2;
+    write_stack16(S, U);
+    S -= 2;
+    write_stack16(S, Y);
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, DP >> 8);
+    write_stack(S--, B);
+    write_stack(S--, A);
+    write_stack(S, get_cc());
+    EFI |= (I_FLAG | F_FLAG);
+
+    change_pc(read16(0xfffe));
+}
 #endif
 
 /* 6309 specific code */
@@ -1846,26 +1868,123 @@ static void puluw(void)
     U += 2;
 }
 
-void swires(void)
+static WORD neg16(WORD arg)
 {
+    WORD res = ~arg + 1;
+
+    C = Z = res;
+    N = res >> 8;
+    OV = (res & arg) >> 8;
     /* TODO: cycle count */
 
-    EFI |= E_FLAG;
-    S -= 2;
-    write_stack16(S, PC);
-    S -= 2;
-    write_stack16(S, U);
-    S -= 2;
-    write_stack16(S, Y);
-    S -= 2;
-    write_stack16(S--, X);
-    write_stack(S--, DP >> 8);
-    write_stack(S--, B);
-    write_stack(S--, A);
-    write_stack(S, get_cc());
-    EFI |= (I_FLAG | F_FLAG);
+    return res;
+}
 
-    change_pc(read16(0xfffe));
+static WORD com16(WORD arg)
+{
+    WORD res = ~arg;
+
+    N = Z = res;
+    OV = 0;
+    C = 1;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static WORD lsr16(WORD arg)
+{
+    WORD res = arg >> 1;
+
+    N = 0;
+    Z = res;
+    C = arg & 1;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static WORD ror16(WORD arg)
+{
+    WORD res = (arg >> 1) | ((C != 0) << 15);
+
+    C = arg & 1;
+    N = Z = res;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static WORD asr16(WORD arg)
+{
+    DWORD res = (SWORD)arg;
+
+    C = res & 1;
+    N = Z = res = (res >> 1) & 0xffff;
+    CLK += 2;
+
+    return res;
+}
+
+static WORD asl16(WORD arg)		/* same as lsl16 */
+{
+    DWORD res = arg << 1;
+
+    C = res & 0x10000;
+    N = Z = res &= 0xffff;
+    OV = (arg ^ res) >> 8;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static WORD rol16(WORD arg)
+{
+    DWORD res = (arg << 1) + (C != 0);
+
+    C = res & 0x10000;
+    N = Z = res &= 0xffff;
+    OV = (arg ^ res) >> 8;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static WORD dec16(WORD arg)
+{
+    WORD res = arg - 1;
+
+    N = Z = res;
+    OV = (arg & ~res) >> 8;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static WORD inc16(WORD arg)
+{
+    WORD res = arg + 1;
+
+    N = Z = res;
+    OV = (~arg & res) >> 8;
+    /* TODO: cycle count */
+
+    return res;
+}
+
+static void tst16(WORD arg)
+{
+    N = Z = arg;
+    OV = 0;
+    /* TODO: cycle count */
+}
+
+static WORD clr16(WORD arg)
+{
+    C = N = Z = OV = 0;
+    /* TODO: cycle count */
+
+    return 0;
 }
 #endif
 
@@ -2382,45 +2501,246 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                         case 0x3f:	/* SWI2 */
                             swi2();
                             break;
+#ifdef FULL6809
+                        case 0x40:	/* NEGA (UNDOC) */
+                            A = neg(A);
+                            break;
+#endif
 #ifdef H6309
-	      case 0x40:	/* NEGD */
-		break;
-	      case 0x43:	/* COMD */
-		break;
-	      case 0x44:	/* LSRD */
-		break;
-	      case 0x46:	/* RORD */
-		break;
-	      case 0x47:	/* ASRD */
-		break;
-	      case 0x48:	/* ASLD/LSLD */
-		break;
-	      case 0x49:	/* ROLD */
-		break;
-	      case 0x4a:	/* DECD */
-		break;
-	      case 0x4c:	/* INCD */
-		break;
-	      case 0x4d:	/* TSTD */
-		break;
-	      case 0x4f:	/* CLRD */
-		break;
-	      case 0x53:	/* COMW */
-		break;
-	      case 0x54:	/* LSRW */
-		break;
-	      case 0x56:	/* ??RORW */
-		break;
-	      case 0x59:	/* ROLW */
-		break;
-	      case 0x5a:	/* DECW */
-		break;
-	      case 0x5c:	/* INCW */
-		break;
-	      case 0x5d:	/* TSTW */
-		break;
-	      case 0x5f:	/* CLRW */
-		break;
+                        case 0x40:	/* NEGD */
+                            D = neg16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x41:	/* NEGA (UNDOC) */
+                            A = neg(A);
+                            break;
+                        case 0x42:	/* NEGA/COMA (UNDOC) */
+                            if (C != 0) {
+                                A = com(A);
+                            } else {
+                                A = neg(A);
+                            }
+                            break;
+                        case 0x43:	/* COMA (UNDOC) */
+                            A = com(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x43:	/* COMD */
+                            D = com16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x44:	/* LSRA (UNDOC) */
+                            A = lsr(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x44:	/* LSRD */
+                            D = lsr16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x45:	/* LSRA (UNDOC) */
+                            A = lsr(A);
+                            break;
+                        case 0x46:	/* RORA (UNDOC) */
+                            A = ror(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x46:	/* RORD */
+                            D = ror16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x47:	/* ASRA (UNDOC) */
+                            A = asr(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x47:	/* ASRD */
+                            D = asr16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x48:	/* ASLA/LSLA (UNDOC) */
+                            A = asl(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x48:	/* ASLD/LSLD */
+                            D = asl16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x49:	/* ROLA (UNDOC) */
+                            A = rol(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x49:	/* ROLD */
+                            D = rol16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x4a:	/* DECA (UNDOC) */
+                            A = dec(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x4a:	/* DECD */
+                            D = dec16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x4b:	/* DECA (UNDOC) */
+                            A = dec(A);
+                            break;
+                        case 0x4c:	/* INCA (UNDOC) */
+                            A = inc(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x4c:	/* INCD */
+                            D = inc16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x4d:	/* TSTA (UNDOC) */
+                            tst(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x4d:	/* TSTD */
+                            tst16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x4e:	/* CLRA (UNDOC) */
+                            A = clr(A);
+                            break;
+                        case 0x4f:	/* CLRA (UNDOC) */
+                            A = clr(A);
+                            break;
+#endif
+#ifdef H6309
+                        case 0x4f:	/* CLRD */
+                            D = clr16(D);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0x50:	/* NEGB (UNDOC) */
+                            B = neg(B);
+                            break;
+                        case 0x51:	/* NEGB (UNDOC) */
+                            B = neg(B);
+                            break;
+                        case 0x52:	/* NEGB/COMB (UNDOC) */
+                            if (C != 0) {
+                                B = com(B);
+                            } else {
+                                B = neg(B);
+                            }
+                            break;
+                        case 0x53:	/* COMB (UNDOC) */
+                            B = com(B);
+                            break;
+#endif
+#ifdef H6309
+                         case 0x53:	/* COMW */
+                             W = com16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x54:	/* LSRB (UNDOC) */
+                             B = lsr(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x54:	/* LSRW */
+                             W = lsr16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x55:	/* LSRB (UNDOC) */
+                             B = lsr(B);
+                             break;
+                         case 0x56:	/* RORB (UNDOC) */
+                             B = ror(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x56:	/* RORW */
+                             W = ror16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x57:	/* ASRB (UNDOC) */
+                             B = asr(B);
+                             break;
+                         case 0x58:	/* ALSB/LSLB (UNDOC) */
+                             B = asl(B);
+                             break;
+                         case 0x59:	/* ROLB (UNDOC) */
+                             B = rol(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x59:	/* ROLW */
+                             W = rol16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x5a:	/* DECB (UNDOC) */
+                             B = dec(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x5a:	/* DECW */
+                             W = dec16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x5b:	/* DECB (UNDOC) */
+                             B = dec(B);
+                             break;
+                         case 0x5c:	/* INCB (UNDOC) */
+                             B = inc(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x5c:	/* INCW */
+                             W = inc16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x5d:	/* TSTB (UNDOC) */
+                             tst(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x5d:	/* TSTW */
+                             tst16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x5e:	/* CLRB (UNDOC) */
+                             B = clr(B);
+                             break;
+                         case 0x5f:	/* CLRB (UNDOC) */
+                             B = clr(B);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x5f:	/* CLRW */
+                             W = clr16(W);
+                             break;
+#endif
+#ifdef FULL6809
+#endif
+#ifdef H6309
 	      case 0x80:	/* SUBW */
 		break;
 	      case 0x81:	/* CMPW */
