@@ -1801,6 +1801,20 @@ void ccrs(void)
     /* TODO: cycle count */
 }
 
+void scc(BYTE arg)
+{
+    N = 0x80;
+    Z = OV = 0;
+}
+
+void st_imm(WORD arg)
+{
+    WRMEM(PC++, arg & 0xff);
+    N = 0x80;
+    Z = OV = 0;
+    /* TODO: cycle count */
+}
+
 void swires(void)
 {
     /* TODO: cycle count */
@@ -1884,7 +1898,8 @@ static WORD com16(WORD arg)
 {
     WORD res = ~arg;
 
-    N = Z = res;
+    Z = res;
+    N = res >> 8;
     OV = 0;
     C = 1;
     /* TODO: cycle count */
@@ -1909,7 +1924,8 @@ static WORD ror16(WORD arg)
     WORD res = (arg >> 1) | ((C != 0) << 15);
 
     C = arg & 1;
-    N = Z = res;
+    Z = res;
+    N = res >> 8;
     /* TODO: cycle count */
 
     return res;
@@ -1920,7 +1936,8 @@ static WORD asr16(WORD arg)
     DWORD res = (SWORD)arg;
 
     C = res & 1;
-    N = Z = res = (res >> 1) & 0xffff;
+    Z = res = (res >> 1) & 0xffff;
+    N = res >> 8;
     CLK += 2;
 
     return res;
@@ -1931,7 +1948,8 @@ static WORD asl16(WORD arg)		/* same as lsl16 */
     DWORD res = arg << 1;
 
     C = res & 0x10000;
-    N = Z = res &= 0xffff;
+    Z = res &= 0xffff;
+    N = res >> 8;
     OV = (arg ^ res) >> 8;
     /* TODO: cycle count */
 
@@ -1943,7 +1961,8 @@ static WORD rol16(WORD arg)
     DWORD res = (arg << 1) + (C != 0);
 
     C = res & 0x10000;
-    N = Z = res &= 0xffff;
+    Z = res &= 0xffff;
+    N = res >> 8;
     OV = (arg ^ res) >> 8;
     /* TODO: cycle count */
 
@@ -1954,7 +1973,8 @@ static WORD dec16(WORD arg)
 {
     WORD res = arg - 1;
 
-    N = Z = res;
+    Z = res;
+    N = res >> 8;
     OV = (arg & ~res) >> 8;
     /* TODO: cycle count */
 
@@ -1965,7 +1985,8 @@ static WORD inc16(WORD arg)
 {
     WORD res = arg + 1;
 
-    N = Z = res;
+    Z = res;
+    N = res >> 8;
     OV = (~arg & res) >> 8;
     /* TODO: cycle count */
 
@@ -1974,7 +1995,8 @@ static WORD inc16(WORD arg)
 
 static void tst16(WORD arg)
 {
-    N = Z = arg;
+    Z = arg;
+    N = arg >> 8;
     OV = 0;
     /* TODO: cycle count */
 }
@@ -1985,6 +2007,96 @@ static WORD clr16(WORD arg)
     /* TODO: cycle count */
 
     return 0;
+}
+
+static WORD sub16(WORD arg, WORD val)
+{
+    DWORD res = arg - val;
+
+    C = res & 0x10000;
+    Z = res &= 0xffff;
+    N = res >> 8;
+    OV = ((arg ^ val) & (arg ^ res)) >> 8;
+
+    return res;
+}
+
+static WORD sbc16(WORD arg, WORD val)
+{
+    DWORD res = arg - val - (C != 0);
+
+    C = res & 0x10000;
+    Z = res &= 0xffff;
+    N = res >> 8;
+    OV = ((arg ^ val) & (arg ^ res)) >> 8;
+
+    return res;
+}
+
+static WORD and16(WORD arg, WORD val)
+{
+    WORD res = arg & val;
+
+    Z = res;
+    N = res >> 8;
+    OV = 0;
+
+    return res;
+}
+
+static void bit16(WORD arg, WORD val)
+{
+    WORD res = arg & val;
+
+    Z = res;
+    N = res >> 8;
+    OV = 0;
+}
+
+static WORD eor16(WORD arg, WORD val)
+{
+    WORD res = arg ^ val;
+
+    Z = res;
+    N = res >> 8;
+    OV = 0;
+
+    return res;
+}
+
+static WORD adc16(WORD arg, WORD val)
+{
+    DWORD res = arg + val + (C != 0);
+
+    C = (res >> 1) & 0x8000;
+    Z = res &= 0xffff;
+    N = res >> 8;
+    OV = H = (arg ^ val ^ res ^ C) >> 8;
+
+    return res;
+}
+
+static WORD or16(WORD arg, WORD val)
+{
+    WORD res = arg | val;
+
+    Z = res;
+    N = res >> 8;
+    OV = 0;
+
+    return res;
+}
+
+static WORD add16(WORD arg, WORD val)
+{
+    DWORD res = arg + val;
+
+    C = (res >> 1) & 0x8000;
+    Z = res &= 0xffff;
+    N = res >> 8;
+    OV = H = (arg ^ val ^ res ^ C) >> 8;
+
+    return res;
 }
 #endif
 
@@ -2893,42 +3005,153 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              WRMEM(ea, clr(RDMEM(ea)));
                              break;
 #endif
-#ifdef H6309
-	      case 0x80:	/* SUBW */
-		break;
-	      case 0x81:	/* CMPW */
-		break;
-	      case 0x82:	/* SBCD */
-		break;
+#ifdef FULL6809
+                         case 0x80:	/* SUBA immediate (UNDOC) */
+                             CLK += 2;
+                             A = sub(A, imm_byte());
+                             break;
 #endif
-	      case 0x83:
-		CLK += 5;
-		cmp16 (get_d (), imm_word ());
-		break;
 #ifdef H6309
-	      case 0x84:	/* ANDD */
-		break;
-	      case 0x85:	/* BITD */
-		break;
-	      case 0x86:	/* LDW */
-		break;
-	      case 0x88:	/* EORD */
-		break;
-	      case 0x89:	/* ADCD */
-		break;
-	      case 0x8a:	/* ORD */
-		break;
-	      case 0x8b:	/* ADDW */
-		break;
+                         case 0x80:	/* SUBW immediate */
+                             /* TODO: cycle count */
+                             W = sub16(W, imm_word());
+                             break;
 #endif
-	      case 0x8c:
-		CLK += 5;
-		cmp16 (Y, imm_word ());
-		break;
-	      case 0x8e:
-		CLK += 4;
-		Y = ld16 (imm_word ());
-		break;
+#ifdef FULL6809
+                         case 0x81:	/* CMPA immediate (UNDOC) */
+                             CLK += 2;
+                             cmp(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x81:	/* CMPW immediate */
+                             /* TODO: cycle count */
+                             cmp16(W, imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x82:	/* SBCA immediate (UNDOC) */
+                             CLK += 2;
+                             A = sbc(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x82:	/* SBCD immediate */
+                             /* TODO: cycle count */
+                             D = sbc16(D, imm_word());
+                             break;
+#endif
+                         case 0x83:	/* CMPD immediate */
+                             CLK += 5;
+                             cmp16(D, imm_word());
+                             break;
+#ifdef FULL6809
+                         case 0x84:	/* ANDA immediate (UNDOC) */
+                             CLK += 2;
+                             A = and(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x84:	/* ANDD immediate */
+                             /* TODO: cycle count */
+                             D = and16(D, imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x85:	/* BITA immediate (UNDOC) */
+                             CLK += 2;
+                             bit(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x85:	/* BITD immediate */
+                             /* TODO: cycle count */
+                             bit16(D, imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x86:	/* LDA immediate (UNDOC) */
+                             CLK += 2;
+                             A = ld(imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x86:	/* LDW immediate */
+                             /* TODO: cycle count */
+                             W = ld16(imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x87:	/* SCC immediate (UNDOC) */
+                             /* TODO: cycle count */
+                             scc(imm_byte());
+                             break;
+                         case 0x88:	/* EORA immediate (UNDOC) */
+                             CLK += 2;
+                             A = eor(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x88:	/* EORD immediate */
+                             /* TODO: cycle count */
+                             D = eor16(D, imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x89:	/* ADCA immediate (UNDOC) */
+                             CLK += 2;
+                             A = adc(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x89:	/* ADCD immediate */
+                             /* TODO: cycle count */
+                             D = adc16(D, imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x8a:	/* ORA immediate (UNDOC) */
+                             CLK += 2;
+                             A = or(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x8a:	/* ORD immediate */
+                             /* TODO: cycle count */
+                             D = or16(D, imm_word());
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x8b:	/* ADDA immediate (UNDOC) */
+                             CLK += 2;
+                             A = add(A, imm_byte());
+                             break;
+#endif
+#ifdef H6309
+                         case 0x8b:	/* ADDW immediate */
+                             /* TODO: cycle count */
+                             W = add16(W, imm_word());
+                             break;
+#endif
+                         case 0x8c:	/* CMPY immediate */
+                             CLK += 5;
+                             cmp16(Y, imm_word());
+                             break;
+#ifdef FULL6809
+                         case 0x8d:	/* BSR (UNDOC) */
+                             bsr();
+                             break;
+#endif
+                         case 0x8e:	/* LDY immediate (UNDOC) */
+                             CLK += 4;
+                             Y = ld16(imm_word());
+                             break;
+#ifdef FULL6809
+                         case 0x8f:	/* STX immediate (UNDOC) */
+                             /* TODO: cycle count */
+                             st_imm(X);
+                             break;
+#endif
 #ifdef H6309
 	      case 0x90:	/* SUBW */
 		break;
