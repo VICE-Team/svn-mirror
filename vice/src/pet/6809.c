@@ -2516,7 +2516,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                             A = neg(A);
                             break;
                         case 0x42:	/* NEGA/COMA (UNDOC) */
-                            if (C != 0) {
+                            if (C) {
                                 A = com(A);
                             } else {
                                 A = neg(A);
@@ -2638,7 +2638,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                             B = neg(B);
                             break;
                         case 0x52:	/* NEGB/COMB (UNDOC) */
-                            if (C != 0) {
+                            if (C) {
                                 B = com(B);
                             } else {
                                 B = neg(B);
@@ -2739,6 +2739,159 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              break;
 #endif
 #ifdef FULL6809
+                         case 0x60:	/* NEG indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, neg(RDMEM(ea)));
+                             break;
+                         case 0x61:	/* NEG indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, neg(RDMEM(ea)));
+                             break;
+                         case 0x62:	/* NEG/COM indexed (UNDOC) */
+                             indexed();
+                             if (C) {
+                                 WRMEM(ea, com(RDMEM(ea)));
+                             } else {
+                                 WRMEM(ea, neg(RDMEM(ea)));
+                             }
+                             break;
+                         case 0x63:	/* COM indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, com(RDMEM(ea)));
+                             break;
+                         case 0x64:	/* LSR indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, lsr(RDMEM(ea)));
+                             break;
+                         case 0x65:	/* LSR indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, lsr(RDMEM(ea)));
+                             break;
+                         case 0x66:	/* ROR indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, ror(RDMEM(ea)));
+                             break;
+                         case 0x67:	/* ASR indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, asr(RDMEM(ea)));
+                             break;
+                         case 0x68:	/* ASL/LSL indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, asl(RDMEM(ea)));
+                             break;
+                         case 0x69:	/* ROL indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, rol(RDMEM(ea)));
+                             break;
+                         case 0x6a:	/* DEC indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, dec(RDMEM(ea)));
+                             break;
+                         case 0x6b:	/* DEC indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, dec(RDMEM(ea)));
+                             break;
+                         case 0x6c:	/* INC indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, inc(RDMEM(ea)));
+                             break;
+                         case 0x6d:	/* TST indexed (UNDOC) */
+                             indexed();
+                             tst(RDMEM(ea));
+                             break;
+                         case 0x6e:	/* JMP indexed (UNDOC) */
+                             indexed();
+                             CLK += 1;
+                             PC = ea;
+                             break;
+                         case 0x6f:	/* CLR indexed (UNDOC) */
+                             indexed();
+                             WRMEM(ea, clr(RDMEM(ea)));
+                             break;
+                         case 0x70:	/* NEG extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, neg(RDMEM(ea)));
+                             break;
+                         case 0x71:	/* NEG extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, neg(RDMEM(ea)));
+                             break;
+                         case 0x72:	/* NEG/COM extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             if (C) {
+                                 WRMEM(ea, com(RDMEM(ea)));
+                             } else {
+                                 WRMEM(ea, neg(RDMEM(ea)));
+                             }
+                             break;
+                         case 0x73:	/* COM extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, com(RDMEM(ea)));
+                             break;
+                         case 0x74:	/* LSR extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, lsr(RDMEM(ea)));
+                             break;
+                         case 0x75:	/* LSR extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, lsr(RDMEM(ea)));
+                             break;
+                         case 0x76:	/* ROR extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, ror(RDMEM(ea)));
+                             break;
+                         case 0x77:	/* ASR extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, asr(RDMEM(ea)));
+                             break;
+                         case 0x78:	/* ASL/LSL extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, asl(RDMEM(ea)));
+                             break;
+                         case 0x79:	/* ROL extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, rol(RDMEM(ea)));
+                             break;
+                         case 0x7a:	/* DEC extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, dec(RDMEM(ea)));
+                             break;
+                         case 0x7b:	/* DEC extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, dec(RDMEM(ea)));
+                             break;
+                         case 0x7c:	/* INC extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, inc(RDMEM(ea)));
+                             break;
+                         case 0x7d:	/* TST extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             tst(RDMEM(ea));
+                             break;
+                         case 0x7e:	/* JMP extended (UNDOC) */
+                             extended();
+                             CLK += 4;
+                             PC = ea;
+                             break;
+                         case 0x7f:	/* CLR extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             WRMEM(ea, clr(RDMEM(ea)));
+                             break;
 #endif
 #ifdef H6309
 	      case 0x80:	/* SUBW */
