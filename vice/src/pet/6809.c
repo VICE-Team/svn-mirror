@@ -3151,37 +3151,188 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              /* TODO: cycle count */
                              st_imm(X);
                              break;
+                         case 0x90:	/* SUBA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = sub(A, RDMEM(ea));
+                             break;
 #endif
 #ifdef H6309
-	      case 0x90:	/* SUBW */
-		break;
-	      case 0x91:	/* CMPW */
-		break;
-	      case 0x92:	/* SBCD */
-		break;
+                         case 0x90:	/* SUBW direct */
+                             direct();
+                             /* TODO: cycle count */
+                             W = sub16(W, RDMEM16(ea));                             
+                             break;
 #endif
-	      case 0x93:
-		direct ();
-		CLK += 5;
-		cmp16 (get_d (), RDMEM16 (ea));
-		CLK++;
-		break;
-	      case 0x9c:
-		direct ();
-		CLK += 5;
-		cmp16 (Y, RDMEM16 (ea));
-		CLK++;
-		break;
-	      case 0x9e:
-		direct ();
-		CLK += 5;
-		Y = ld16 (RDMEM16 (ea));
-		break;
-	      case 0x9f:
-		direct ();
-		CLK += 5;
-		st16 (Y);
-		break;
+#ifdef FULL6809
+                         case 0x91:	/* CMPA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             cmp(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x91:	/* CMPW direct */
+                             direct();
+                             /* TODO: cycle count */
+                             cmp16(W, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x92:	/* SBCA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = sbc(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x92:	/* SBCD direct */
+                             direct();
+                             /* TODO: cycle count */
+                             D = sbc16(D, RDMEM16(ea));
+                             break;
+#endif
+                         case 0x93:	/* CMPD direct */
+                             direct();
+                             CLK += 5;
+                             cmp16(D, RDMEM16(ea));
+                             CLK++;
+                             break;
+#ifdef FULL6809
+                         case 0x94:	/* ANDA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = and(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x94:	/* ANDD direct */
+                             direct();
+                             /* TODO: cycle count */
+                             D = and16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x95:	/* BITA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             bit(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x95:	/* BITD direct */
+                             direct();
+                             /* TODO: cycle count */
+                             bit16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x96:	/* LDA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = ld(RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x96:	/* LDW direct */
+                             direct();
+                             /* TODO: cycle count */
+                             W = ld16(RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x97:	/* STA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             st(A);
+                             break;
+#endif
+#ifdef H6309
+                         case 0x97:	/* STW direct */
+                             direct();
+                             /* TODO: cycle count */
+                             st16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x98:	/* EORA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = eor(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x98:	/* EORD direct */
+                             direct();
+                             /* TODO: cycle count */
+                             D = eor16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x99:	/* ADCA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = adc(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x99:	/* ADCD direct */
+                             direct();
+                             /* TODO: cycle count */
+                             D = adc16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x9a:	/* ORA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = or(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x9a:	/* ORD direct */
+                             direct();
+                             /* TODO: cycle count */
+                             D = or16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0x9b:	/* ADDA direct (UNDOC) */
+                             direct();
+                             CLK += 4;
+                             A = add(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0x9b:	/* ADDW direct */
+                             direct();
+                             /* TODO: cycle count */
+                             W = add16(W, RDMEM16(ea));
+                             break;
+#endif
+                         case 0x9c:	/* CMPY direct */
+                             direct();
+                             CLK += 5;
+                             cmp16(Y, RDMEM16(ea));
+                             CLK++;
+                             break;
+#ifdef FULL6809
+                         case 0x9d:	/* JSR direct (undoc) */
+                             direct();
+                             CLK += 7;
+                             jsr();
+                             break;
+#endif
+                         case 0x9e:	/* LDY direct */
+                             direct();
+                             CLK += 5;
+                             Y = ld16(RDMEM16(ea));
+                             break;
+                         case 0x9f:	/* STY direct */
+                             direct();
+                             CLK += 5;
+                             st16(Y);
+                             break;
 	      case 0xa3:
 		CLK++;
 		indexed ();
