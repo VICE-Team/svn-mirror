@@ -137,6 +137,8 @@ libarch_a_SOURCES = \
 	uiautostart.h \
 	uic128.c \
 	uic128.h \
+	uic128model.c \
+	uic128model.h \
 	uic64.c \
 	uic64.h \
 	uic64_256k.c \

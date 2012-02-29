@@ -341,6 +341,10 @@ SOURCE=.\uic128.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uic128model.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uic64.c
 # End Source File
 # Begin Source File

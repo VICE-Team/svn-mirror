@@ -39,6 +39,7 @@
 #include "ui.h"
 #include "uiacia.h"
 #include "uic128.h"
+#include "uic128model.h"
 #include "uic64cart.h"
 #include "uicia.h"
 #include "uidigimax.h"
@@ -363,6 +364,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_IEEE488, IDS_MI_IEEE488 },
     { IDM_MOUSE, IDS_MI_MOUSE },
+    { IDM_C128MODEL_SETTINGS, IDS_MI_C128MODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
@@ -677,6 +679,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
     uic64cart_proc(wparam, hwnd);
 
     switch (wparam) {
+        case IDM_C128MODEL_SETTINGS:
+            ui_c128model_settings_dialog(hwnd);
+            break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog(hwnd);
             break;
