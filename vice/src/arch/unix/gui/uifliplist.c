@@ -86,7 +86,7 @@ static UI_CALLBACK(load_save_fliplist)
 
     vsync_suspend_speed_eval();
     title = util_concat(what ? _("Load ") : _("Save"), _("Flip list file"), NULL);
-    filename = ui_select_file(title, NULL, 0, load_save_fliplist_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, UI_FC_LOAD);
+    filename = ui_select_file(title, NULL, 0, load_save_fliplist_last_dir, filter, sizeof(filter) / sizeof(*filter), &button, 1, NULL, what ? UI_FC_LOAD : UI_FC_SAVE);
     lib_free(title);
     switch (button) {
         case UI_BUTTON_OK:
