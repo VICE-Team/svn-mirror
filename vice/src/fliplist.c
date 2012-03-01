@@ -326,24 +326,25 @@ int fliplist_save_list(unsigned int unit, const char *filename)
 
         if (flip != NULL) {
             if (!fp) {
-                if ((fp = fopen(filename, MODE_WRITE)) == NULL)
+                if ((fp = fopen(filename, MODE_WRITE)) == NULL) {
                     return -1;
-                fprintf(fp, "%s\n\n", flip_file_header);
+                }
+                fprintf(fp, "%s\n", flip_file_header);
             }
 
-            fprintf(fp, "UNIT %d\n", unit);
+            fprintf(fp, "\nUNIT %d", unit);
             do {
-                fprintf(fp, "%s\n", flip->image);
+                fprintf(fp, "\n%s", flip->image);
                 flip = flip->next;
             }
             while (flip != fliplist[unit - 8]);
-
         }
         unit++;
     } while (all_units && ((unit - 8) < NUM_DRIVES));
 
-    if (fp)
+    if (fp) {
         fclose(fp);
+    }
     return 0;
 }
 
@@ -352,6 +353,7 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     FILE *fp;
     char buffer[buffer_size];
     int all_units = 0, i;
+    int listok = 0;
 
     if (filename == NULL || *filename == 0 || (fp = fopen(filename, MODE_READ)) == NULL) {
         return -1;
@@ -370,19 +372,19 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
     }
     if (unit == (unsigned int)-1) {
         all_units = 1;
-        for (i = 0; i < NUM_DRIVES; i++)
-            fliplist_clear_list(i+8);
-    }
-    else
+        for (i = 0; i < NUM_DRIVES; i++) {
+            fliplist_clear_list(i + 8);
+        }
+    } else {
         fliplist_clear_list(unit);
+    }
 
     while (!feof(fp)) {
         char *b;
 
         buffer[0] = '\0';
         if (fgets(buffer, buffer_size, fp) == NULL) {
-            fclose(fp);
-            return -1;
+            break;
         }
 
         if (strncmp("UNIT ", buffer, 5) == 0) {
@@ -398,8 +400,9 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
 
         /* remove trailing whitespace (linefeeds etc) */
         b = buffer + strlen(buffer);
-        while ((b > buffer) && (isspace((unsigned int)(b[-1]))))
+        while ((b > buffer) && (isspace((unsigned int)(b[-1])))) {
             b--;
+        }
 
         if (b > buffer) {
             fliplist_t tmp;
@@ -426,24 +429,31 @@ int fliplist_load_list(unsigned int unit, const char *filename, int autoattach)
                 tmp->prev->next = tmp;
                 fliplist[unit - 8] = tmp;
             }
+            listok = 1;
         }
     }
 
-    current_drive = unit;
-
     fclose(fp);
 
-    if (all_units) {
-        for (i = 0; i < NUM_DRIVES; i++)
-            show_fliplist(i + 8);
-    } else
-        show_fliplist(unit);
+    if (listok) {
+        current_drive = unit;
+    
+        if (all_units) {
+            for (i = 0; i < NUM_DRIVES; i++) {
+                show_fliplist(i + 8);
+            }
+        } else {
+            show_fliplist(unit);
+        }
 
+        if (autoattach) {
+            fliplist_attach_head(unit, 1);
+        }
 
-    if (autoattach)
-        fliplist_attach_head(unit, 1);
+        return 0;
+    }
 
-    return 0;
+    return -1;
 }
 
 /* ------------------------------------------------------------------------- */
