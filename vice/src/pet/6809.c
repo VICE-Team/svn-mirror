@@ -3493,28 +3493,189 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              indexed();
                              st16(Y);
                              break;
-	      case 0xb3:
-		extended ();
-		CLK += 6;
-		cmp16 (get_d (), RDMEM16 (ea));
-		CLK++;
-		break;
-	      case 0xbc:
-		extended ();
-		CLK += 6;
-		cmp16 (Y, RDMEM16 (ea));
-		CLK++;
-		break;
-	      case 0xbe:
-		extended ();
-		CLK += 6;
-		Y = ld16 (RDMEM16 (ea));
-		break;
-	      case 0xbf:
-		extended ();
-		CLK += 6;
-		st16 (Y);
-		break;
+#ifdef FULL6809
+                         case 0xb0:	/* SUBA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = sub(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb0:	/* SUBW extended */
+                             extended();
+                             /* TODO: cycle count */
+                             W = sub16(W, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb1:	/* CMPA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             cmp(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb1:	/* CMPW extended */
+                             extended();
+                             /* TODO: cycle count */
+                             cmp16(W, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb2:	/* SBCA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = sbc(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb2:	/* SBCD extended */
+                             extended();
+                             /* TODO: cycle count */
+                             D = sbc16(D, RDMEM16(ea));
+                             break;
+#endif
+                         case 0xb3:	/* CMPD extended */
+                             extended();
+                             CLK += 6;
+                             cmp16(D, RDMEM16(ea));
+                             CLK++;
+                             break;
+#ifdef FULL6809
+                         case 0xb4:	/* ANDA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = and(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb4:	/* ANDD extended */
+                             extended();
+                             /* TODO: cycle count */
+                             D = and16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb5:	/* BITA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             bit(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb5:	/* BITD extended */
+                             extended();
+                             /* TODO: cycle count */
+                             bit16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb6:	/* LDA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = ld(RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb6:	/* LDW extended */
+                             extended();
+                             /* TODO: cycle count */
+                             W = ld16(RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb7:	/* STA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             st(A);
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb7:	/* STW extended */
+                             extended();
+                             /* TODO: cycle count */
+                             st16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb8:	/* EORA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = eor(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb8:	/* EORD extended */
+                             extended();
+                             /* TODO: cycle count */
+                             D = eor16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xb9:	/* ADCA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = adc(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xb9:	/* ADCD extended */
+                             extended();
+                             /* TODO: cycle count */
+                             D = adc16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xba:	/* ORA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = or(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xba:	/* ORD extended */
+                             extended();
+                             /* TODO: cycle count */
+                             D = or16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xbb:	/* ADDA extended (UNDOC) */
+                             extended();
+                             CLK += 5;
+                             A = add(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xbb:	/* ADDW extended */
+                             extended();
+                             /* TODO: cycle count */
+                             W = add16(W, RDMEM16(ea));
+                             break;
+#endif
+                         case 0xbc:	/* CMPY extended */
+                             extended();
+                             CLK += 6;
+                             cmp16(Y, RDMEM16(ea));
+                             CLK++;
+                             break;
+#ifdef FULL6809
+                         case 0xbd:	/* JSR extended (UNDOC) */
+                             extended();
+                             CLK += 8;
+                             jsr();
+                             break;
+#endif
+                         case 0xbe:	/* LDY extended */
+                             extended();
+                             CLK += 6;
+                             Y = ld16(RDMEM16(ea));
+                             break;
+                         case 0xbf:	/* STY extended */
+                             extended();
+                             CLK += 6;
+                             st16(Y);
+                             break;
 	      case 0xce:
 		CLK += 4;
 		S = ld16 (imm_word ());
