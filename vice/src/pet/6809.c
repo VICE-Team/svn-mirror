@@ -3332,28 +3332,167 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              CLK += 5;
                              st16(Y);
                              break;
-	      case 0xa3:
-		CLK++;
-		indexed ();
-		cmp16 (get_d (), RDMEM16 (ea));
-		CLK++;
-		break;
-	      case 0xac:
-		CLK++;
-		indexed ();
-		cmp16 (Y, RDMEM16 (ea));
-		CLK++;
-		break;
-	      case 0xae:
-		CLK++;
-		indexed ();
-		Y = ld16 (RDMEM16 (ea));
-		break;
-	      case 0xaf:
-		CLK++;
-		indexed ();
-		st16 (Y);
-		break;
+#ifdef FULL6809
+                         case 0xa0:	/* SUBA indexed (UNDOC) */
+                             indexed();
+                             A = sub(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa0:	/* SUBW indexed */
+                             indexed();
+                             W = sub16(W, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa1:	/* CMPA indexed (UNDOC) */
+                             indexed();
+                             cmp(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa1:	/* CMPW indexed */
+                             indexed();
+                             cmp16(W, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa2:	/* SBCA indexed (UNDOC) */
+                             indexed();
+                             A = sbc(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa2:	/* SBCD indexed */
+                             indexed();
+                             D = sbc16(D, RDMEM16(ea));
+                             break;
+#endif
+                         case 0xa3:	/* CMPD indexed */
+                             CLK++;
+                             indexed();
+                             cmp16(D, RDMEM16(ea));
+                             CLK++;
+                             break;
+#ifdef FULL6809
+                         case 0xa4:	/* ANDA indexed (UNDOC) */
+                             indexed();
+                             A = and(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa4:	/* ANDD indexed */
+                             indexed();
+                             D = and16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa5:	/* BITA indexed (UNDOC) */
+                             indexed();
+                             bit(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa5:	/* BITD indexed */
+                             indexed();
+                             bit16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa6:	/* LDA indexed (UNDOC) */
+                             indexed();
+                             A = ld(RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa6:	/* LDW indexed */
+                             indexed();
+                             W = ld16(RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa7:	/* STA indexed (UNDOC) */
+                             indexed();
+                             st(A);
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa7:	/* STW indexed */
+                             indexed();
+                             st16(W);
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa8:	/* EORA indexed (UNDOC) */
+                             indexed();
+                             A = eor(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa8:	/* EORD indexed */
+                             indexed();
+                             D = eor16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xa9:	/* ADCA indexed (UNDOC) */
+                             indexed();
+                             A = adc(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xa9:	/* ADCD indexed */
+                             indexed();
+                             D = adc16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xaa:	/* ORA indexed (UNDOC) */
+                             indexed();
+                             A = or(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xaa:	/* ORD indexed */ 
+                             indexed();
+                             D = or16(D, RDMEM16(ea));
+                             break;
+#endif
+#ifdef FULL6809
+                         case 0xab:	/* ADDA indexed (UNDOC) */
+                             indexed();
+                             A = add(A, RDMEM(ea));
+                             break;
+#endif
+#ifdef H6309
+                         case 0xab:	/* ADDW indexed */
+                             indexed();
+                             W = add16(W, RDMEM16(ea));
+                             break;
+#endif
+                         case 0xac:	/* CMPY indexed */
+                             CLK++;
+                             indexed();
+                             cmp16(Y, RDMEM16(ea));
+                             CLK++;
+                             break;
+#ifdef FULL6809
+                         case 0xad:	/* JSR indexed (UNDOC) */
+                             indexed();
+                             CLK += 3;
+                             jsr();
+                             break;
+#endif
+                         case 0xae:	/* LDY indexed */
+                             CLK++;
+                             indexed();
+                             Y = ld16(RDMEM16(ea));
+                             break;
+                         case 0xaf:	/* STY indexed */
+                             CLK++;
+                             indexed();
+                             st16(Y);
+                             break;
 	      case 0xb3:
 		extended ();
 		CLK += 6;
