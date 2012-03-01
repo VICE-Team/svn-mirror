@@ -107,6 +107,8 @@ typedef struct {
     char *res_crt_emu_oddlineoffset;
     int render_filter_title;
     char *res_render_filter;
+    int audio_leak_title;
+    char *res_audio_leak;
 } Chip_Parameters;
 
 static Chip_Parameters chip_param_table[] =
@@ -117,41 +119,47 @@ static Chip_Parameters chip_param_table[] =
       "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness",
       IDS_VICII_CRT_EMULATION, "VICIIPALScanLineShade", "VICIIPALBlur",
       "VICIIPALOddLinePhase", "VICIIPALOddLineOffset",
-      IDS_VICII_RENDER_FILTER, "VICIIFilter" },
+      IDS_VICII_RENDER_FILTER, "VICIIFilter",
+      IDS_VICII_AUDIO_LEAK, "VICIIAudioLeak" },
     { vic_palettes, "VICPaletteFile", "VICExternalPalette",
       IDS_VIC_PALETTE, 0, NULL,
       IDS_VIC_COLORS, "VICColorGamma", "VICColorTint",
       "VICColorSaturation", "VICColorContrast", "VICColorBrightness",
       IDS_VIC_CRT_EMULATION, "VICPALScanLineShade", "VICPALBlur",
       "VICPALOddLinePhase", "VICPALOddLineOffset",
-      IDS_VIC_RENDER_FILTER, "VICFilter" },
-    { crtc_palettes, "CRTCPaletteFile", "CRTCExternalPalette",
+      IDS_VIC_RENDER_FILTER, "VICFilter",
+      IDS_VIC_AUDIO_LEAK, "VICAudioLeak" },
+    { crtc_palettes, "CrtcPaletteFile", "CrtcExternalPalette",
       IDS_CRTC_PALETTE, 0, NULL,
-      IDS_CRTC_COLORS, "CRTCColorGamma", "CRTCColorTint",
-      "CRTCColorSaturation", "CRTCColorContrast", "CRTCColorBrightness",
-      IDS_CRTC_CRT_EMULATION, "CRTCPALScanLineShade", "CRTCPALBlur",
-      "CRTCPALOddLinePhase", "CRTCPALOddLineOffset",
-      IDS_CRTC_RENDER_FILTER, "CRTCFilter" },
+      IDS_CRTC_COLORS, "CrtcColorGamma", "CrtcColorTint",
+      "CrtcColorSaturation", "CrtcColorContrast", "CrtcColorBrightness",
+      IDS_CRTC_CRT_EMULATION, "CrtcPALScanLineShade", "CrtcPALBlur",
+      "CrtcPALOddLinePhase", "CrtcPALOddLineOffset",
+      IDS_CRTC_RENDER_FILTER, "CrtcFilter",
+      IDS_CRTC_AUDIO_LEAK, "CrtcAudioLeak" },
     { vdc_palettes, "VDCPaletteFile", "VDCExternalPalette",
       IDS_VDC_PALETTE, 0, NULL,
       IDS_VDC_COLORS, "VDCColorGamma", "VDCColorTint",
       "VDCColorSaturation", "VDCColorContrast", "VDCColorBrightness",
       IDS_VDC_CRT_EMULATION, "VDCPALScanLineShade", "VDCPALBlur",
       "VDCPALOddLinePhase", "VDCPALOddLineOffset",
-      IDS_VDC_RENDER_FILTER, "VDCFilter" },
+      IDS_VDC_RENDER_FILTER, "VDCFilter",
+      IDS_VDC_AUDIO_LEAK, "VDCAudioLeak" },
     { ted_palettes, "TEDPaletteFile", "TEDExternalPalette",
       IDS_TED_PALETTE, 0, NULL,
       IDS_TED_COLORS, "TEDColorGamma", "TEDColorTint",
       "TEDColorSaturation", "TEDColorContrast", "TEDColorBrightness",
       IDS_TED_CRT_EMULATION, "TEDPALScanLineShade", "TEDPALBlur",
       "TEDPALOddLinePhase", "TEDPALOddLineOffset",
-      IDS_TED_RENDER_FILTER, "TEDFilter" },
+      IDS_TED_RENDER_FILTER, "TEDFilter",
+      IDS_TED_AUDIO_LEAK, "TEDAudioLeak" },
 };
 
 static HWND palette_dialog_1 = NULL;
 static HWND color_dialog_1 = NULL;
 static HWND crt_emu_dialog_1 = NULL;
 static HWND render_filter_dialog_1 = NULL;
+static HWND audio_leak_dialog_1 = NULL;
 static Chip_Parameters *current_chip_1 = NULL;
 static Chip_Parameters *current_chip_2 = NULL;
 
@@ -400,6 +408,34 @@ static void init_render_filter_dialog(HWND hwnd, Chip_Parameters *chip_type)
 
     resources_get_int(chip_type->res_render_filter, &res_value);
     SendMessage(setting_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+}
+
+static uilib_localize_dialog_param audio_leak_dialog_trans[] = {
+    {IDC_TOGGLE_VIDEO_AUDIO_LEAK, IDS_AUDIO_LEAK, 0},
+    {0, 0, 0}
+};
+
+static uilib_dialog_group audio_leak_group[] = {
+    {IDC_TOGGLE_VIDEO_AUDIO_LEAK,  1},
+    {0, 0}
+};
+
+static void init_audio_leak_dialog(HWND hwnd, Chip_Parameters *chip_type)
+{
+    int n;
+
+    if (chip_type == current_chip_1) {
+        audio_leak_dialog_1 = hwnd;
+    }
+
+    /* translate all dialog items */
+    uilib_localize_dialog(hwnd, audio_leak_dialog_trans);
+
+    /* adjust the size of the elements in the group */
+    uilib_adjust_group_width(hwnd, audio_leak_group);
+
+    resources_get_int(chip_type->res_audio_leak, &n);
+    CheckDlgButton(hwnd, IDC_TOGGLE_VIDEO_AUDIO_LEAK, n ? BST_CHECKED : BST_UNCHECKED);
 }
 
 static INT_PTR CALLBACK dialog_color_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -706,14 +742,43 @@ static INT_PTR CALLBACK dialog_render_filter_proc(HWND hwnd, UINT msg, WPARAM wp
     return FALSE;
 }
 
+static INT_PTR CALLBACK dialog_audio_leak_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+    int type;
+
+    Chip_Parameters *chip_type = (hwnd == audio_leak_dialog_1) ? current_chip_1 : current_chip_2;
+
+    switch (msg) {
+        case WM_NOTIFY:
+            if (((NMHDR FAR *)lparam)->code == (UINT)PSN_APPLY) {
+                resources_set_int(chip_type->res_audio_leak, (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VIDEO_AUDIO_LEAK) == BST_CHECKED ? 1 : 0));
+                audio_leak_dialog_1 = NULL;
+                SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
+                return TRUE;
+            }
+            return FALSE;
+        case WM_INITDIALOG:
+            init_audio_leak_dialog(hwnd, (Chip_Parameters*)((PROPSHEETPAGE*)lparam)->lParam);
+            return TRUE;
+        case WM_COMMAND:
+            type = LOWORD(wparam);
+            switch (type) {
+                case IDC_TOGGLE_VIDEO_AUDIO_LEAK:
+                break;
+            }
+            return TRUE;
+    }
+    return FALSE;
+}
+
 void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
 {
-    PROPSHEETPAGE psp[9];
+    PROPSHEETPAGE psp[11];
     PROPSHEETHEADER psh;
     int i;
     Chip_Parameters *chip_param;
 
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < 11; i++) {
         psp[i].dwSize = sizeof(PROPSHEETPAGE);
         psp[i].dwFlags = PSP_USETITLE /*| PSP_HASHELP*/ ;
         psp[i].hInstance = winmain_instance;
@@ -743,6 +808,9 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psp[4].pfnDlgProc = dialog_render_filter_proc;
     psp[4].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->render_filter_title));
     psp[4].lParam = (LPARAM)chip_param;
+    psp[5].pfnDlgProc = dialog_audio_leak_proc;
+    psp[5].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->audio_leak_title));
+    psp[5].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
     if (video_dx9_enabled()) {
@@ -754,6 +822,7 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psp[2].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
     psp[3].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
     psp[4].pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+    psp[5].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_AUDIO_LEAK_DIALOG);
 #else
     if (video_dx9_enabled()) {
         psp[0].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_FULLSCREEN_SETTINGS_DX9_DIALOG);
@@ -764,54 +833,65 @@ void ui_video_settings_dialog(HWND hwnd, int chip_type1, int chip_type2)
     psp[2].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
     psp[3].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
     psp[4].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+    psp[5].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_AUDIO_LEAK_DIALOG);
 #endif
-    psh.nPages = 5;
+    psh.nPages = 6;
 
     if (chip_type2 != UI_VIDEO_CHIP_NONE) {
         chip_param = &chip_param_table[chip_type2];
         current_chip_2 = chip_param;
 
-        psp[5].pfnDlgProc = dialog_palette_proc;
-        psp[5].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->palette_title));
-        psp[5].lParam = (LPARAM)chip_param;
-
-#ifdef _ANONYMOUS_UNION
-        psp[5].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
-#else
-        psp[5].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
-#endif
-
-        psp[6].pfnDlgProc = dialog_color_proc;
-        psp[6].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->color_title));
+        psp[6].pfnDlgProc = dialog_palette_proc;
+        psp[6].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->palette_title));
         psp[6].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-        psp[6].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+        psp[6].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #else
-        psp[6].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
+        psp[6].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_PALETTE_DIALOG);
 #endif
 
-        psp[7].pfnDlgProc = dialog_crt_emulation_proc;
-        psp[7].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->crt_emu_title));
+        psp[7].pfnDlgProc = dialog_color_proc;
+        psp[7].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->color_title));
         psp[7].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-        psp[7].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
+        psp[7].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #else
-        psp[7].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
+        psp[7].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_COLORS_DIALOG);
 #endif
 
-        psp[8].pfnDlgProc = dialog_render_filter_proc;
-        psp[8].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->render_filter_title));
+        psp[8].pfnDlgProc = dialog_crt_emulation_proc;
+        psp[8].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->crt_emu_title));
         psp[8].lParam = (LPARAM)chip_param;
 
 #ifdef _ANONYMOUS_UNION
-        psp[8].pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+        psp[8].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
 #else
-        psp[8].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+        psp[8].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_CRT_EMULATION_DIALOG);
 #endif
 
-        psh.nPages += 4;
+        psp[9].pfnDlgProc = dialog_render_filter_proc;
+        psp[9].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->render_filter_title));
+        psp[9].lParam = (LPARAM)chip_param;
+
+#ifdef _ANONYMOUS_UNION
+        psp[9].pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+#else
+        psp[9].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_RENDER_FILTER_DIALOG);
+#endif
+
+        psp[10].pfnDlgProc = dialog_audio_leak_proc;
+        psp[10].pszTitle = system_mbstowcs_alloc(translate_text(chip_param->audio_leak_title));
+        psp[10].lParam = (LPARAM)chip_param;
+
+#ifdef _ANONYMOUS_UNION
+        psp[10].pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_AUDIO_LEAK_DIALOG);
+#else
+        psp[10].DUMMYUNIONNAME.pszTemplate = MAKEINTRESOURCE(IDD_VIDEO_AUDIO_LEAK_DIALOG);
+#endif
+
+        psh.nPages += 5;
     }
 
     psh.dwSize = sizeof(PROPSHEETHEADER);
