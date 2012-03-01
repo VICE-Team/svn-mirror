@@ -47,24 +47,29 @@ fileio_info_t *fileio_open(const char *file_name, const char *path,
         util_fname_split(file_name, &new_path, &new_file);
     } else {
         new_file = lib_stralloc(file_name);
-        if (path != NULL)
+        if (path != NULL) {
             new_path = lib_stralloc(path);
-        else
+        } else {
             new_path = NULL;
+        }
     }
 
     do {
-        if (format & FILEIO_FORMAT_P00)
+        if (format & FILEIO_FORMAT_P00) {
             info = p00_open(new_file, new_path, command, type);
+        }
 
-        if (info != NULL)
+        if (info != NULL) {
             break;
+        }
 
-        if (format & FILEIO_FORMAT_RAW)
+        if (format & FILEIO_FORMAT_RAW) {
            info = cbmfile_open(new_file, new_path, command, type);
+        }
 
-        if (info != NULL)
+        if (info != NULL) {
             break;
+        }
     } while (0);
 
     lib_free(new_file);

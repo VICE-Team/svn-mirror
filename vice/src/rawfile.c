@@ -79,8 +79,12 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
     }
 
     if (ioutil_stat(complete, &len, &isdir) != 0) {
-        lib_free(complete);
-        return NULL;
+        /* if stat failed exit early, except in write mode
+           (since opening a non existing file creates a new file) */
+        if (command != FILEIO_COMMAND_WRITE) {
+            lib_free(complete);
+            return NULL;
+        }
     }
 
     info = lib_malloc(sizeof(rawfile_info_t));
