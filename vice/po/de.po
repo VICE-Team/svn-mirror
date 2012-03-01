@@ -2163,7 +2163,7 @@ msgstr "`%s' erfolgreich gelesen."
 #: src/arch/unix/gui/uifliplist.c:97
 #, c-format
 msgid "Error reading `%s'."
-msgstr "Fehler beim Schreiben: %s."
+msgstr "Fehler beim Lesen: %s."
 
 #: src/arch/unix/gui/uifliplist.c:101 src/arch/unix/x11/gnome/uicartridge.c:74
 #: src/arch/unix/x11/gnome/uiscreenshot.c:522
