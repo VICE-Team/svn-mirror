@@ -206,6 +206,7 @@ BEGIN
         MENUITEM "", IDM_DEVICEMANAGER
         MENUITEM "", IDM_DRIVE_SETTINGS
         MENUITEM "", IDM_DATASETTE_SETTINGS
+        MENUITEM "", IDM_TED_SETTINGS
         MENUITEM "", IDM_PLUS4_SETTINGS
         MENUITEM "", IDM_JOY_SETTINGS
         MENUITEM "", IDM_EXTRA_JOY_SETTINGS
@@ -538,6 +539,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -572,6 +574,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4-indstillinger..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 tale-indstillinger..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -606,6 +609,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 Einstellungen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Stimme Einstellungen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 Modell Einstellungen..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -640,6 +644,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Ajustes Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "Ajustes V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ajustes modelo Plus4..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -674,6 +679,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Paramètres Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -711,6 +717,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 beállításai..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -748,6 +755,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Impostazioni Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "Impostazioni V364 Speech..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Impostazioni modello Plus4..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -785,6 +793,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech settings..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -822,6 +831,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 instellingen..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Spraak instellingen..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model instellingen..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -859,6 +869,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Ustawienia Plus4..."
   IDS_MI_V364SPEECH_SETTINGS      "Ustawienia mowy V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Ustawienia modelu Plus4..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -899,6 +910,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 settings..."
   IDS_MI_V364SPEECH_SETTINGS      "¿ÐàÐÜÕâàë àÕçØ V364..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model settings..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -936,6 +948,7 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4-inställningar..."
   IDS_MI_V364SPEECH_SETTINGS      "V364-röstinställningar..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4-modellinställningar..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 
 
@@ -973,9 +986,8 @@ BEGIN
   IDS_MI_PLUS4_SETTINGS           "Plus4 ayarlarý..."
   IDS_MI_V364SPEECH_SETTINGS      "V364 Speech ayarlarý..."
   IDS_MI_PLUS4MODEL_SETTINGS      "Plus4 model ayarlarý..."
+  IDS_MI_TED_SETTINGS             "TED settings..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

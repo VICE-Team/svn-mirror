@@ -55,6 +55,7 @@
 #include "uisoundexpander.h"
 #include "uisoundsampler.h"
 #include "uitfe.h"
+#include "uivic.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
@@ -341,6 +342,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_CART_VIC20_4KB_B000, IDS_MI_CART_VIC20_4KB_B000 },
     { IDM_TOGGLE_CART_RESET, IDS_MI_TOGGLE_CART_RESET },
     { IDM_VIC_SETTINGS, IDS_MI_VIC_SETTINGS },
+    { IDM_VIC20_SETTINGS, IDS_MI_VIC20_SETTINGS },
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS_MASCUERADE },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS_MASCUERADE },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS_MASCUERADE },
@@ -548,11 +550,14 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
         case IDM_CART_SET_DEFAULT:
             cartridge_set_default();
             break;
+        case IDM_VIC_SETTINGS:
+            ui_vic_settings_dialog(hwnd);
+            break;
         case IDM_CART_DETACH:
             cartridge_detach_image(-1);
             break;
-        case IDM_VIC_SETTINGS:
-            ui_vic_settings_dialog(hwnd);
+        case IDM_VIC20_SETTINGS:
+            ui_vic20_settings_dialog(hwnd);
             break;
         case IDM_SIDCART_SETTINGS:
             ui_sidcart_settings_dialog(hwnd);

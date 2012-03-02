@@ -613,11 +613,19 @@ SOURCE=.\uispeed.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uited.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uitfe.c
 # End Source File
 # Begin Source File
 
 SOURCE=.\uiv364speech.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uivic.c
 # End Source File
 # Begin Source File
 

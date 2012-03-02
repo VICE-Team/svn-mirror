@@ -117,17 +117,11 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
             type = LOWORD(wparam);
             switch (type) {
                 case IDC_TOGGLE_VICII_NORMALBORDERS:
-                    break;
                 case IDC_TOGGLE_VICII_FULLBORDERS:
-                    break;
                 case IDC_TOGGLE_VICII_DEBUGBORDERS:
-                    break;
                 case IDC_TOGGLE_VICII_NOBORDERS:
-                    break;
                 case IDC_TOGGLE_VICII_SSC:
-                    break;
                 case IDC_TOGGLE_VICII_SBC:
-                    break;
                 case IDC_TOGGLE_VICII_NEWLUM:
                     break;
                 case IDOK:

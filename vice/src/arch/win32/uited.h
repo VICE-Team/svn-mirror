@@ -1,8 +1,8 @@
 /*
- * uivicset.h - Implementation of VIC settings dialog box.
+ * uited.h - Implementation of TED settings dialog box.
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +24,11 @@
  *
  */
 
-#ifndef VICE_UIVICSET_H
-#define VICE_UIVICSET_H
+#ifndef VICE_UITED_H
+#define VICE_UITED_H
 
 #include <windows.h>
 
-void ui_vic20_settings_dialog(HWND hwnd);
+void ui_ted_settings_dialog(HWND hwnd);
 
 #endif

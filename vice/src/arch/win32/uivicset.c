@@ -107,7 +107,7 @@ static void update_config(HWND hwnd)
 }
 
 static uilib_localize_dialog_param vic_settings_dialog[] = {
-    { 0, IDS_VIC_CAPTION, -1 },
+    { 0, IDS_VIC20_CAPTION, -1 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { IDC_VIC_MEMORY, IDS_A_MEMORY, 0 },
@@ -247,7 +247,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
     return FALSE;
 }
 
-void ui_vic_settings_dialog(HWND hwnd)
+void ui_vic20_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC_SETTINGS_DIALOG), hwnd, dialog_proc);
+    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VIC20_SETTINGS_DIALOG), hwnd, dialog_proc);
 }

@@ -109,8 +109,10 @@ libarch_a_SOURCES = \
 	ressiddtv.rc \
 	ressoundexpander.rc \
 	ressoundsampler.rc \
+	rested.rc \
 	restfe.rc \
 	resv364speech.rc \
+	resvic.rc \
 	resvic20.rc \
 	resvicii.rc \
 	resvsid.rc \
@@ -271,10 +273,14 @@ libarch_a_SOURCES = \
 	uisoundsampler.h \
 	uispeed.c \
 	uispeed.h \
+	uited.c \
+	uited.h \
 	uitfe.c \
 	uitfe.h \
 	uiv364speech.c \
 	uiv364speech.h \
+	uivic.c \
+	uivic.h \
 	uivicii.h \
 	uivicii.c \
 	uivicset.h \

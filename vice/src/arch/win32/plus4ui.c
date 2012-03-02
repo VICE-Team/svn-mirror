@@ -47,6 +47,7 @@
 #include "uiplus4model.h"
 #include "uirom.h"
 #include "uisidcart.h"
+#include "uited.h"
 #include "uiv364speech.h"
 #include "uivideo.h"
 #include "winmain.h"
@@ -273,6 +274,7 @@ ui_menu_translation_table_t plus4ui_menu_translation_table[] = {
     { IDM_ROM_SETTINGS, IDS_MI_ROM_SETTINGS },
     { IDM_RAM_SETTINGS, IDS_MI_RAM_SETTINGS },
     { IDM_DATASETTE_SETTINGS, IDS_MI_DATASETTE_SETTINGS },
+    { IDM_TED_SETTINGS, IDS_MI_TED_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS },
     { IDM_V364SPEECH_SETTINGS, IDS_MI_V364SPEECH_SETTINGS },
@@ -462,6 +464,9 @@ static void plus4_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_PLUS4_SETTINGS:
             ui_plus4_memory_dialog(hwnd);
+            break;
+        case IDM_TED_SETTINGS:
+            ui_ted_settings_dialog(hwnd);
             break;
         case IDM_V364SPEECH_SETTINGS:
             ui_v364speech_settings_dialog(hwnd);

@@ -653,8 +653,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\rested.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\rested.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\resplus4cat.rc"
 				/>
 			</FileConfiguration>
@@ -663,8 +663,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\rested.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\rested.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\resplus4cat.rc"
 				/>
 			</FileConfiguration>
@@ -673,8 +673,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\rested.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\rested.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\resplus4cat.rc"
 				/>
 			</FileConfiguration>
@@ -683,8 +683,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\rested.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\rested.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\resplus4cat.rc"
 				/>
 			</FileConfiguration>
@@ -693,8 +693,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\rested.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\rested.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\resplus4cat.rc"
 				/>
 			</FileConfiguration>
@@ -703,8 +703,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
-					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
+					CommandLine="copy /b ..\win32\resplus4.rc + ..\win32\res.rc + ..\win32\rested.rc + ..\win32\resacia.rc + ..\win32\resdriveplus4.rc + ..\win32\resautostart.rc + ..\win32\resv364speech.rc + ..\win32\ressidcart.rc ..\win32\resplus4cat.rc /b&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\debug.h;..\win32\resplus4.rc;..\win32\res.rc;..\win32\rested.rc;..\win32\resacia.rc;..\win32\resdriveplus4.rc;..\win32\resautostart.rc;..\win32\resv364speech.rc;..\win32\ressidcart.rc;"
 					Outputs="..\win32\resplus4cat.rc"
 				/>
 			</FileConfiguration>

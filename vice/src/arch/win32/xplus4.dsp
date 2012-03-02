@@ -156,48 +156,48 @@ SOURCE=.\resplus4.rc
 !IF  "$(CFG)" == "xplus4 - Win32 Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
+USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"rested.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resplus4.rc
 
 "resplus4cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resplus4.rc + res.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
+	copy /b resplus4.rc + res.rc + rested.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xplus4 - Win32 Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
+USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"rested.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resplus4.rc
 
 "resplus4cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resplus4.rc + res.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
+	copy /b resplus4.rc + res.rc + rested.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xplus4 - Win32 DX Release"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
+USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"rested.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resplus4.rc
 
 "resplus4cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resplus4.rc + res.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
+	copy /b resplus4.rc + res.rc + rested.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
 
 # End Custom Build
 
 !ELSEIF  "$(CFG)" == "xplus4 - Win32 DX Debug"
 
 # PROP Ignore_Default_Tool 1
-USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
+USERDEP__RESPL="..\..\debug.h"	"resplus4.rc"	"res.rc"	"rested.rc"	"resacia.rc"	"resdriveplus4.rc"	"resautostart.rc"	"resv364speech.rc"	"ressidcart.rc"	
 # Begin Custom Build
 InputPath=.\resplus4.rc
 
 "resplus4cat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resplus4.rc + res.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
+	copy /b resplus4.rc + res.rc + rested.rc + resacia.rc + resdriveplus4.rc + resautostart.rc + resv364speech.rc + ressidcart.rc resplus4cat.rc /b
 
 # End Custom Build
 

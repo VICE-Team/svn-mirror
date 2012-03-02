@@ -1,0 +1,244 @@
+// TED specific resources.
+//
+
+#include "vice.h"
+
+#include "res.h"
+#include "rescommon.h"
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+// template of dialog for all languages
+
+IDD_TED_DIALOG DIALOG DISCARDABLE 0, 0, 145, 160
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "", IDC_TED_BORDERSGROUP,
+                    10, 5, 125, 70
+    AUTORADIOBUTTON "", IDC_TOGGLE_TED_NORMALBORDERS,
+                    15, 15, 115, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_TOGGLE_TED_FULLBORDERS,
+                    15, 30, 115, 10, BS_AUTORADIOBUTTON | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_TOGGLE_TED_DEBUGBORDERS,
+                    15, 45, 115, 10, BS_AUTORADIOBUTTON | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_TOGGLE_TED_NOBORDERS,
+                    15, 60, 115, 10, BS_AUTORADIOBUTTON | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 15, 140, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 70, 140, 50, 14, WS_TABSTOP
+END
+
+
+// original and default ENGLISH text
+
+STRINGTABLE
+LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// DANISH text
+
+STRINGTABLE
+LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// GERMAN text
+
+STRINGTABLE
+LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// SPANISH text
+
+STRINGTABLE
+LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// FRENCH text
+
+STRINGTABLE
+LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// HUNGARIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// ITALIAN text
+
+STRINGTABLE
+LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// KOREAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(949)
+#endif
+STRINGTABLE
+LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// DUTCH text
+
+STRINGTABLE
+LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// POLISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28592)
+#endif
+STRINGTABLE
+LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// RUSSIAN text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28595)
+#endif
+STRINGTABLE
+LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
+
+
+// SWEDISH text
+
+STRINGTABLE
+LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+
+
+// TURKISH text
+
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28599)
+#endif
+STRINGTABLE
+LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
+BEGIN
+    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_NORMALBORDERS "Normal borders"
+    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_DEBUGBORDERS  "Debug borders"
+    IDS_TED_NOBORDERS     "No borders"
+END
+#ifndef WINDRES_CP_IGNORE
+#pragma code_page(28591)
+#endif
