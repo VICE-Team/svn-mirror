@@ -51,6 +51,16 @@ ui_menu_entry_t uiprinter_pr4_driver_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_STRING_RADIO(Printer4Output)
+
+ui_menu_entry_t uiprinter_pr4_output_submenu[] = {
+    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Output,
+      (ui_callback_data_t)"text", NULL },
+    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer4Output,
+      (ui_callback_data_t)"graphics", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_STRING_RADIO(Printer5Driver)
 
 ui_menu_entry_t uiprinter_pr5_driver_submenu[] = {
@@ -65,6 +75,16 @@ ui_menu_entry_t uiprinter_pr5_driver_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_STRING_RADIO(Printer5Output)
+
+ui_menu_entry_t uiprinter_pr5_output_submenu[] = {
+    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Output,
+      (ui_callback_data_t)"text", NULL },
+    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Printer5Output,
+      (ui_callback_data_t)"graphics", NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_STRING_RADIO(PrinterUserportDriver)
 
 ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
@@ -76,6 +96,16 @@ ui_menu_entry_t uiprinter_pruser_driver_submenu[] = {
       (ui_callback_data_t)"nl10", NULL },
     { "RAW", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportDriver,
       (ui_callback_data_t)"raw", NULL },
+    { NULL }
+};
+
+UI_MENU_DEFINE_STRING_RADIO(PrinterUserportOutput)
+
+ui_menu_entry_t uiprinter_pruser_output_submenu[] = {
+    { "Text", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportOutput,
+      (ui_callback_data_t)"text", NULL },
+    { "Graphics", UI_MENU_TYPE_TICK, (ui_callback_t)radio_PrinterUserportOutput,
+      (ui_callback_data_t)"graphics", NULL },
     { NULL }
 };
 

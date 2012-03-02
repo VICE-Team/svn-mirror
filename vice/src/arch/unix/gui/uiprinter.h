@@ -31,14 +31,17 @@ extern UI_CALLBACK(uiprinter_set_printer_exec_file);
 extern UI_CALLBACK(uiprinter_formfeed);
 
 extern ui_menu_entry_t uiprinter_pr4_driver_submenu[];
+extern ui_menu_entry_t uiprinter_pr4_output_submenu[];
 extern ui_menu_entry_t uiprinter_pr4_device_submenu[];
 extern ui_menu_entry_t uiprinter_set_printer4_type_submenu[];
 
 extern ui_menu_entry_t uiprinter_pr5_driver_submenu[];
+extern ui_menu_entry_t uiprinter_pr5_output_submenu[];
 extern ui_menu_entry_t uiprinter_pr5_device_submenu[];
 extern ui_menu_entry_t uiprinter_set_printer5_type_submenu[];
 
 extern ui_menu_entry_t uiprinter_pruser_driver_submenu[];
+extern ui_menu_entry_t uiprinter_pruser_output_submenu[];
 extern ui_menu_entry_t uiprinter_pruser_device_submenu[];
 
 #endif
