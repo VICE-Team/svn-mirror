@@ -93,7 +93,7 @@ static void end_vicii_dialog(HWND hwnd)
 {
     resources_set_int("VICIIBorderMode", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_DEBUGBORDERS) == BST_CHECKED ? VICII_DEBUG_BORDERS : 
                       IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_FULLBORDERS) == BST_CHECKED ? VICII_FULL_BORDERS :
-                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_DEBUGBORDERS) == BST_CHECKED ? VICII_NORMAL_BORDERS : VICII_NO_BORDERS));
+                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_NORMALBORDERS) == BST_CHECKED ? VICII_NORMAL_BORDERS : VICII_NO_BORDERS));
 
     resources_set_int("VICIICheckSsColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SSC) == BST_CHECKED ? 1 : 0 ));
 
