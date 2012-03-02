@@ -111,24 +111,41 @@ static int get_charset_bit(mps_t *mps, int nr, unsigned int col,
 static void print_cbm_char(mps_t *mps, const BYTE rawchar)
 {
     unsigned int y, x;
-    int c;
+    int c, err = 0;
 
     c = (int)rawchar;
 
-    if (is_mode(mps, MPS_CRSRUP))
+    if (is_mode(mps, MPS_CRSRUP)) {
         c += 256;
+    }
 
     for (y = 0; y < 7; y++) {
-        if (is_mode(mps, MPS_DBLWDTH))
+        if (is_mode(mps, MPS_DBLWDTH)) {
             for (x = 0; x < 6; x++) {
-                mps->line[mps->pos + x * 2][y]
-                    = get_charset_bit(mps, c, x, y);
-                mps->line[mps->pos + x * 2 + 1][y]
-                    = get_charset_bit(mps, c, x, y);
+                if ((mps->pos + x * 2) >= MAX_COL) {
+                    err = 1;
+                    break;
+                }
+                mps->line[mps->pos + x * 2][y] = get_charset_bit(mps, c, x, y);
+                if ((mps->pos + x * 2 + 1) >= MAX_COL) {
+                    err = 1;
+                    break;
+                }
+                mps->line[mps->pos + x * 2 + 1][y] = get_charset_bit(mps, c, x, y);
             }
-        else
-            for (x = 0; x < 6; x++)
+        } else {
+            for (x = 0; x < 6; x++) {
+                if ((mps->pos + x) >= MAX_COL) {
+                    err = 1;
+                    break;
+                }
                 mps->line[mps->pos + x][y] = get_charset_bit(mps, c, x, y);
+            }
+        }
+    }
+    
+    if (err) {
+        log_error(drv803_log, "Printing beyond limit of %d dots.", MAX_COL);
     }
 
     mps->pos += is_mode(mps, MPS_DBLWDTH) ? 12 : 6;
@@ -170,16 +187,33 @@ static void clear_buffer(mps_t *mps)
 static void bitmode_off(mps_t *mps)
 {
     unsigned int i, x, y;
+    unsigned int err = 0;
 
     for (i = 0; i < (unsigned int)mps->repeatn; i++) {
-        for (x = 0; x < (unsigned int)mps->bitcnt; x++)
-            for (y = 0; y < 7; y++)
+        for (x = 0; x < (unsigned int)mps->bitcnt; x++) {
+            if ((mps->pos + x) >= MAX_COL) {
+                err = 1;
+                break;
+            }
+            if ((mps->pos - mps->bitcnt + x) >= MAX_COL) {
+                err = 1;
+                break;
+            }
+            if ((mps->pos - mps->bitcnt + x) < 0) {
+                err = 1;
+                break;
+            }
+            for (y = 0; y < 7; y++) {
                 mps->line[mps->pos + x][y]
-                    = mps->line[mps->pos-mps->bitcnt + x][y];
-
+                    = mps->line[mps->pos - mps->bitcnt + x][y];
+            }
+        }
         mps->pos += mps->bitcnt;
     }
     del_mode(mps, MPS_BITMODE);
+    if (err) {
+        log_error(drv803_log, "Printing beyond limit of %d dots.", MAX_COL);
+    }
 }
 
 static void print_bitmask(mps_t *mps, const char c)
@@ -199,8 +233,8 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
         write_line(mps, prnr);
         clear_buffer(mps);
     }
-
     if (mps->tab) {     /* decode tab-number*/
+
         mps->tabc[2 - mps->tab] = c;
 
         if (mps->tab == 1)

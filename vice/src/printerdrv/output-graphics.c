@@ -254,9 +254,12 @@ static int output_graphics_putc(unsigned int prnr, BYTE b)
   else
     {
       /* store pixel in buffer */
-      o->line[o->line_pos] = b;
-      if (o->line_pos < o->screenshot.width - 1)
+      if (o->line_pos < o->screenshot.width) {
+        o->line[o->line_pos] = b;
+      }
+      if (o->line_pos < o->screenshot.width - 1) {
         o->line_pos++;
+      }
     }
 
   return 0;
