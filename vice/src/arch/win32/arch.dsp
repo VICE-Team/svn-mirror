@@ -521,6 +521,10 @@ SOURCE=.\uipetdww.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uipetmodel.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uipetreu.c
 # End Source File
 # Begin Source File

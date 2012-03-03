@@ -41,6 +41,7 @@
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uipetdww.h"
+#include "uipetmodel.h"
 #include "uipetreu.h"
 #include "uipetset.h"
 #include "uirom.h"
@@ -276,6 +277,7 @@ ui_menu_translation_table_t petui_menu_translation_table[] = {
     { IDM_ALLOW_JOY_OPPOSITE_TOGGLE, IDS_MI_ALLOW_JOY_OPPOSITE },
     { IDM_JOYKEYS_TOGGLE, IDS_MI_JOYKEYS_TOGGLE },
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
+    { IDM_PETMODEL_SETTINGS, IDS_MI_PETMODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
@@ -468,6 +470,9 @@ static generic_trans_table_t pet_generic_res_trans[] = {
 static void pet_ui_specific(WPARAM wparam, HWND hwnd)
 {
     switch (wparam) {
+        case IDM_PETMODEL_SETTINGS:
+            ui_petmodel_settings_dialog(hwnd);
+            break;
         case IDM_PET_SETTINGS:
             ui_pet_settings_dialog(hwnd);
             break;

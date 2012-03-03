@@ -227,6 +227,8 @@ libarch_a_SOURCES = \
 	uiperipheral.h \
 	uipetdww.c \
 	uipetdww.h \
+	uipetmodel.c \
+	uipetmodel.h \
 	uipetreu.c \
 	uipetreu.h \
 	uipetset.c \
