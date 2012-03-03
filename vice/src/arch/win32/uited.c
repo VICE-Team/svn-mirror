@@ -77,7 +77,7 @@ static void end_ted_dialog(HWND hwnd)
 {
     resources_set_int("TEDBorderMode", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_TED_DEBUGBORDERS) == BST_CHECKED ? TED_DEBUG_BORDERS : 
                       IsDlgButtonChecked(hwnd, IDC_TOGGLE_TED_FULLBORDERS) == BST_CHECKED ? TED_FULL_BORDERS :
-                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_TED_DEBUGBORDERS) == BST_CHECKED ? TED_NORMAL_BORDERS : TED_NO_BORDERS));
+                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_TED_NORMALBORDERS) == BST_CHECKED ? TED_NORMAL_BORDERS : TED_NO_BORDERS));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)

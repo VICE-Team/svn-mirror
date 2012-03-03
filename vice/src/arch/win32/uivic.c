@@ -77,7 +77,7 @@ static void end_vic_dialog(HWND hwnd)
 {
     resources_set_int("VICBorderMode", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VIC_DEBUGBORDERS) == BST_CHECKED ? VIC_DEBUG_BORDERS : 
                       IsDlgButtonChecked(hwnd, IDC_TOGGLE_VIC_FULLBORDERS) == BST_CHECKED ? VIC_FULL_BORDERS :
-                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_VIC_DEBUGBORDERS) == BST_CHECKED ? VIC_NORMAL_BORDERS : VIC_NO_BORDERS));
+                      IsDlgButtonChecked(hwnd, IDC_TOGGLE_VIC_NORMALBORDERS) == BST_CHECKED ? VIC_NORMAL_BORDERS : VIC_NO_BORDERS));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
