@@ -413,7 +413,7 @@ BYTE mouse_poll(void)
         if (os_iv > (unsigned long)vsyncarch_frequency()) {
             os_iv = (unsigned long)vsyncarch_frequency(); /* more than a second response time?! */
         }
-        emu_iv = os_iv * (unsigned long)emu_units_per_os_units;
+        emu_iv = (CLOCK)((float)os_iv * emu_units_per_os_units);
 #ifdef DEBUG_MOUSE
         log_message(mouse_log,
                     "New interval os_now %lu, os_iv %lu, emu_iv %lu",
