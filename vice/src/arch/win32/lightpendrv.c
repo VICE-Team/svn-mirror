@@ -67,8 +67,8 @@ void win32_lightpen_update(void)
 
     lp_canvas = video_canvas_for_hwnd(ui_active_window);
     GetClientRect(ui_active_window, &rcClient);
-    dx = lp_canvas->width;
-    dy = lp_canvas->height;
+    dx = lp_canvas->draw_buffer->canvas_physical_width;
+    dy = lp_canvas->draw_buffer->canvas_physical_height;
     cx = rcClient.right;
     cy = rcClient.bottom;
     dx9 = video_dx9_enabled();

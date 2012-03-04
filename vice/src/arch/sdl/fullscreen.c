@@ -66,7 +66,7 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
             sdl_video_resize(0, 0);
         }
         sdl_forced_resize = 1;
-        video_viewport_resize(canvas);
+        video_viewport_resize(canvas, 1);
     }
     return 0;
 }

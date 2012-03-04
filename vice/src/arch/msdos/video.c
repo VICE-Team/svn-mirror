@@ -231,27 +231,27 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
     /* If the user wants triple buffering, try Mode X first of all, as that
        is (currently) the only reliable way to achieve the result.  Virtual
        height is twice visible height to allow smooth page flipping.  */
-    if (try_triple_buffering && (set_gfx_mode(GFX_MODEX, c->width, c->height, 0, c->height * 2) >= 0)) {
-        DEBUG(("GFX_MODEX successful with width=%d height=%d vheight=%d", c->width, c->height, c->height * 2));
+    if (try_triple_buffering && (set_gfx_mode(GFX_MODEX, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, 0, c->draw_buffer->canvas_physical_height * 2) >= 0)) {
+        DEBUG(("GFX_MODEX successful with width=%d height=%d vheight=%d", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, c->draw_buffer->canvas_physical_height * 2));
         c->use_triple_buffering = 1;
     } else
 #endif
     /* If we don't want triple buffering, try to get a VESA linear mode
        first, which might not be the default. */
-    if (set_gfx_mode(GFX_VESA2L, c->width, c->height, 0, 0) >= 0) {
-        DEBUG(("GFX_VESA2L successful with width=%d height=%d", c->width, c->height));
+    if (set_gfx_mode(GFX_VESA2L, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, 0, 0) >= 0) {
+        DEBUG(("GFX_VESA2L successful with width=%d height=%d", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height));
         c->use_triple_buffering = 0;
         statusbar_append_bitmap_to_update(screen);
-    } else if (set_gfx_mode(GFX_AUTODETECT, c->width, c->height, 0, 0) >= 0) {
-        DEBUG(("GFX_AUTODETECT successful with width=%d height=%d", c->width, c->height));
+    } else if (set_gfx_mode(GFX_AUTODETECT, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, 0, 0) >= 0) {
+        DEBUG(("GFX_AUTODETECT successful with width=%d height=%d", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height));
         c->use_triple_buffering = 0;
         statusbar_append_bitmap_to_update(screen);
     } else {
-        log_error(video_log, "Cannot enable %dx%d (%dBit) graphics.", c->width, c->height, c->depth);
+        log_error(video_log, "Cannot enable %dx%d (%dBit) graphics.", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, c->depth);
         return -1;
     }
 
-    log_message(video_log, "Using mode %dx%d (%dBit) (%s)%s.", c->width, c->height, c->depth,
+    log_message(video_log, "Using mode %dx%d (%dBit) (%s)%s.", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, c->depth,
                 is_linear_bitmap(screen) ? "linear" : "planar", c->use_triple_buffering ? "; triple buffering possible" : "");
     in_gfx_mode = 1;
 
@@ -263,17 +263,17 @@ static int canvas_set_vga_mode(struct video_canvas_s *c)
 
     canvas_free_bitmaps(c);
 
-    c->render_bitmap = create_bitmap(c->width, c->height);
+    c->render_bitmap = create_bitmap(c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
     if (c->use_triple_buffering) {
-        c->pages[0] = create_sub_bitmap(screen, 0, 0, c->width, c->height);
-        c->pages[1] = create_sub_bitmap(screen, 0, c->height, c->width, c->height);
+        c->pages[0] = create_sub_bitmap(screen, 0, 0, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
+        c->pages[1] = create_sub_bitmap(screen, 0, c->draw_buffer->canvas_physical_height, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
         c->back_page = 1;
 
         statusbar_append_bitmap_to_update(c->pages[0]);
         statusbar_append_bitmap_to_update(c->pages[1]);
     }
 
-    statusbar_set_width(c->width);
+    statusbar_set_width(c->draw_buffer->canvas_physical_width);
 
     canvas_update_colors(c);
 
@@ -302,9 +302,9 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     DEBUG(("Setting VGA mode"));
     do {
-        video_canvas_resize(canvas, 0, 0);
-        *width = canvas->width;
-        *height = canvas->height;
+        video_canvas_resize(canvas, 1);
+        *width = canvas->draw_buffer->canvas_physical_width;
+        *height = canvas->draw_buffer->canvas_physical_height;
         result += canvas_set_vga_mode(canvas);
         if (result == -1) {
             log_error(video_log, "Falling back to default VGA mode.");
@@ -416,15 +416,8 @@ void video_canvas_unmap(video_canvas_t *canvas)
 
 /* Warning: this does not do what you would expect from it.  It just sets the
    canvas size according to the `VGAMode' resource. */
-void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
-                         unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 {
-    if (canvas->videoconfig->doublesizex)
-        width *= 2;
-
-    if (canvas->videoconfig->doublesizey)
-        height *= 2;
-
     /*
     FIXME: the possible height for the statusbar isn't calculated,
     it's only checked whether VGA-mode has >200 lines
@@ -433,22 +426,18 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width,
         STATUSBAR_HEIGHT : 0);
 
     DEBUG(("Resizing, vga_mode=%d", vga_mode));
-    canvas->width = vga_modes[vga_mode].width;
-    canvas->height = vga_modes[vga_mode].height;
+    canvas->draw_buffer->canvas_physical_width = vga_modes[vga_mode].width;
+    canvas->draw_buffer->canvas_physical_height = vga_modes[vga_mode].height;
     canvas->depth = vga_modes[vga_mode].depth;
-    canvas->bytes_per_line = canvas->width * canvas->depth / 8;
+    canvas->bytes_per_line = canvas->draw_buffer->canvas_physical_width * canvas->depth / 8;
 }
 
 void video_ack_vga_mode(void)
 {
     if (last_canvas != NULL) {
-        video_canvas_resize(last_canvas, last_canvas->width,
-                            last_canvas->height);
-
-        /* Is this necessary? */
-        last_canvas->draw_buffer->canvas_width = last_canvas->width;
-        last_canvas->draw_buffer->canvas_height = last_canvas->height;
-        video_viewport_resize(last_canvas);
+        last_canvas->draw_buffer->canvas_width = last_canvas->draw_buffer->canvas_physical_width;
+        last_canvas->draw_buffer->canvas_height = last_canvas->draw_buffer->canvas_physical_height;
+        video_viewport_resize(last_canvas, 0);
 
         DEBUG(("Acknowledged vgaMode %d", vga_mode));
     }
@@ -480,19 +469,17 @@ void disable_text(void)
     for (i = 0; i<MAX_CANVAS_NUM; i++) {
         canvas = canvaslist[i];
         if (canvas != NULL) {
-            video_canvas_resize(canvas,0,0);
             if (canvas_set_vga_mode(canvas) < 0) {
                 resources_set_int("VGAMode", (int)VGA_320x200x8);
-                video_canvas_resize(canvas,0,0);
+                video_canvas_resize(canvas, 1);
                 canvas_set_vga_mode(canvas);
                 ui_error("Cannot enable the selected VGA mode, falling back to default.");
             }
             canvas_change_palette(canvas);
 
-            /* Is this necessary? */
-            canvas->draw_buffer->canvas_width = canvas->width;
-            canvas->draw_buffer->canvas_height = canvas->height;
-            video_viewport_resize(canvas);
+            canvas->draw_buffer->canvas_width = canvas->draw_buffer->canvas_physical_width;
+            canvas->draw_buffer->canvas_height = canvas->draw_buffer->canvas_physical_height;
+            video_viewport_resize(canvas, 0);
         }
     }
     
@@ -547,8 +534,8 @@ inline void video_canvas_refresh(video_canvas_t *c,
         h -= y_diff;
     }
     if (statusbar_enabled() && (c->use_triple_buffering)
-        && (yi >= c->height) && (yi < c->height + STATUSBAR_HEIGHT)) {
-        y_diff = STATUSBAR_HEIGHT + c->height - yi;
+        && (yi >= c->draw_buffer->canvas_physical_height) && (yi < c->draw_buffer->canvas_physical_height + STATUSBAR_HEIGHT)) {
+        y_diff = STATUSBAR_HEIGHT + c->draw_buffer->canvas_physical_height - yi;
         ys += y_diff;
         yi += y_diff;
         h -= y_diff;
@@ -582,11 +569,11 @@ inline void video_canvas_refresh(video_canvas_t *c,
             return;
 #endif
         blit(c->render_bitmap, c->pages[c->back_page], xi, yi, xi, yi, w, h);
-        request_scroll(0, c->back_page * c->height);
+        request_scroll(0, c->back_page * c->draw_buffer->canvas_physical_height);
         c->back_page = 1 - c->back_page;
     } else {
         blit(c->render_bitmap, screen, xi, yi, xi, yi, w, h);
-    }
+   }
 }
 
 
@@ -603,3 +590,7 @@ void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
     cap_fullscreen->device_num = 0;
 }
 
+char video_canvas_can_resize(struct video_canvas_s *canvas)
+{
+  return 0;
+}

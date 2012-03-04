@@ -379,7 +379,9 @@ static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsign
     if (limiting) {
         log_warning(sdlvideo_log, "Resolution %ux%u doesn't follow limit %ux%u, resizing...", w, h, limit_w, limit_h);
         sdl_forced_resize = 1;
-        video_canvas_redraw_size(canvas, new_w, new_h);
+        canvas->draw_buffer->canvas_physical_width = new_w;
+        canvas->draw_buffer->canvas_physical_height = new_h;
+        video_viewport_resize(canvas, 0);
         sdl_forced_resize = 0;
     }
 
@@ -825,8 +827,10 @@ static inline int check_resize(struct video_canvas_s *canvas)
     return 0;
 }
 
-void video_canvas_resize(struct video_canvas_s *canvas, unsigned int width, unsigned int height)
+void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
+    int width = canvas->draw_buffer->canvas_width;
+    int height = canvas->draw_buffer->canvas_height;
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s: %ix%i (%i)\n", __func__, width, height, canvas->index);
 #endif
@@ -881,7 +885,9 @@ void sdl_video_resize(unsigned int w, unsigned int h)
     } else
 #endif
     {
-        video_canvas_redraw_size(sdl_active_canvas, w, h);
+        sdl_active_canvas->draw_buffer->canvas_physical_width = w;
+        sdl_active_canvas->draw_buffer->canvas_physical_height = h;
+        video_viewport_resize(sdl_active_canvas, 0);
     }
     sdl_forced_resize = 0;
 }
@@ -1006,3 +1012,9 @@ void video_add_handlers(void)
     fprintf(stderr, "%s\n", __func__);
 #endif
 }
+
+char video_canvas_can_resize(video_canvas_t *canvas)
+{
+    return 1;
+}
+

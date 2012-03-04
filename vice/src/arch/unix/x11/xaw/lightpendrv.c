@@ -155,8 +155,8 @@ void x11_lightpen_update(void)
             offy = viewport->y_offset - viewport->first_line
                                       + geom->first_displayed_line;
 
-            scalex = (float)c->width  / draw_buffer->canvas_width;
-            scaley = (float)c->height / draw_buffer->canvas_height;
+            scalex = (float)draw_buffer->canvas_physical_width  / draw_buffer->canvas_width;
+            scaley = (float)draw_buffer->canvas_physical_height / draw_buffer->canvas_height;
 
             x = (saved_x / scalex) - offx;
             y = (saved_y / scaley) - offy;

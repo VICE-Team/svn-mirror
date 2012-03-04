@@ -112,9 +112,9 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
             } else {
                 resources_get_int("AspectRatio", &aspect_ratio);
             }
-            canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->width / canvas->height;
+            canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->draw_buffer->canvas_physical_width / canvas->draw_buffer->canvas_physical_height;
             canvas_aspect_ratio = aspect_ratio / 1000.0 
-                                    * canvas->width / canvas->height;
+                                    * canvas->draw_buffer->canvas_physical_width / canvas->draw_buffer->canvas_physical_height;
             if (canvas_aspect_ratio < (double) width / height) {
                 shrinked_width = (int)(height * canvas_aspect_ratio);
                 canvas->dest_rect.top = 0;
@@ -135,8 +135,8 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
     } else {
         canvas->dest_rect_ptr = NULL;
         canvas->d3dpp.Windowed = TRUE;
-        canvas->d3dpp.BackBufferWidth = canvas->width;
-        canvas->d3dpp.BackBufferHeight = canvas->height;
+        canvas->d3dpp.BackBufferWidth = canvas->draw_buffer->canvas_physical_width;
+        canvas->d3dpp.BackBufferHeight = canvas->draw_buffer->canvas_physical_height;
     }
 
     if (S_OK != IDirect3D9_CreateDevice(d3d, device, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &canvas->d3dpp, &canvas->d3ddev)) {
@@ -145,7 +145,7 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
     }
 
 
-    if (S_OK != IDirect3DDevice9_CreateOffscreenPlainSurface(canvas->d3ddev, canvas->width, canvas->height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &canvas->d3dsurface, NULL)) {
+    if (S_OK != IDirect3DDevice9_CreateOffscreenPlainSurface(canvas->d3ddev, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &canvas->d3dsurface, NULL)) {
         log_debug("video_dx9: Failed to create the offscreen surface!");
         return -1;
     }
@@ -213,8 +213,8 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
         canvas->d3dpp.BackBufferWidth = width;
         canvas->d3dpp.BackBufferHeight = height;
     } else {
-        canvas->d3dpp.BackBufferWidth = canvas->width;
-        canvas->d3dpp.BackBufferHeight = canvas->height;
+        canvas->d3dpp.BackBufferWidth = canvas->draw_buffer->canvas_physical_width;
+        canvas->d3dpp.BackBufferHeight = canvas->draw_buffer->canvas_physical_height;
     }
 
     if (dx_primary_surface_rendering) {
@@ -231,7 +231,7 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     }
     
     if (S_OK != (ddresult = IDirect3DDevice9_CreateOffscreenPlainSurface(
-                                canvas->d3ddev, canvas->width, canvas->height,
+                                canvas->d3ddev, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height,
                                 D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT,
                                 &canvas->d3dsurface, NULL)))
     {

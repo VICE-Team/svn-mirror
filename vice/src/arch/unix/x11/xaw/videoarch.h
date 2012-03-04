@@ -64,7 +64,6 @@ struct video_draw_buffer_callback_s;
 struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
-    unsigned int width, height;
     ui_window_t emuwindow;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;

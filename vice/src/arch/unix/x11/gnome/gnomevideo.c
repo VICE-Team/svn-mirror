@@ -179,26 +179,16 @@ int video_canvas_set_palette(video_canvas_t *canvas, struct palette_s *palette)
 }
 
 /* Change the size of the canvas. */
-void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 {
     if (console_mode || video_disabled_mode) {
         return;
     }
 
-    DBG(("video_canvas_resize (w:%d h:%d)", width, height));
-
-    if (canvas->videoconfig->doublesizex) {
-        width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        height *= (canvas->videoconfig->doublesizey + 1);
-    }
-
     if (canvas->gdk_image != NULL) {
         g_object_unref(canvas->gdk_image);
     }
-    canvas->gdk_image = gdk_image_new(GDK_IMAGE_FASTEST, gtk_widget_get_visual(canvas->emuwindow), width, height);
+    canvas->gdk_image = gdk_image_new(GDK_IMAGE_FASTEST, gtk_widget_get_visual(canvas->emuwindow), canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height);
 
 #ifdef HAVE_HWSCALE
     lib_free(canvas->hwscale_image);
@@ -210,8 +200,8 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
         exit(-1);
     }
 
-    ui_resize_canvas_window(canvas, width, height);
-    video_canvas_redraw_size(canvas, width, height);
+    if (resize_canvas)
+        ui_resize_canvas_window(canvas);
 }
 
 /* Make the canvas visible. */
@@ -272,3 +262,9 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
         gtk_widget_queue_draw_area(canvas->emuwindow, xi, yi, w, h);
     }
 }
+
+char video_canvas_can_resize(video_canvas_t *canvas)
+{
+    return !(gdk_window_get_state(gtk_widget_get_window(get_active_toplevel())) & GDK_WINDOW_STATE_MAXIMIZED);
+}
+

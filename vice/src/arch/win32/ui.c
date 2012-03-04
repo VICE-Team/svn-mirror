@@ -37,6 +37,7 @@
 #ifdef HAVE_COMMCTRL_H
 #include <commctrl.h>
 #endif
+#include <limits.h>
 
 #include "attach.h"
 #include "autostart.h"
@@ -108,8 +109,6 @@ static TCHAR *hwnd_titles[2];
 HWND window_handles[2];
 HMENU translated_menu;
 int number_of_windows = 0;
-int window_canvas_xsize[2];
-int window_canvas_ysize[2];
 int window_padding_x[2];
 int window_padding_y[2];
 
@@ -562,14 +561,10 @@ void ui_open_canvas_window(video_canvas_t *canvas)
     }
 
     window_handles[number_of_windows] = hwnd;
-    window_canvas_xsize[number_of_windows] = canvas->width;
-    window_canvas_ysize[number_of_windows] = canvas->height;
     number_of_windows++;
 
     statusbar_create(hwnd);
     canvas->hwnd = hwnd;
-
-    ui_resize_canvas_window(canvas);
 
     menu = LoadMenu(winmain_instance, MAKEINTRESOURCE(emu_menu));
     ui_translate_menu_items(menu, menu_translation_table);
@@ -648,7 +643,7 @@ void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
     } else {
         resources_get_int("AspectRatio", &aspect_ratio);
     }
-    canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->width / canvas->height;
+    canvas_aspect_ratio = aspect_ratio / 1000.0 * canvas->draw_buffer->canvas_physical_width / canvas->draw_buffer->canvas_physical_height;
 
     switch (wparam) {
         case WMSZ_TOP:
@@ -692,6 +687,29 @@ void ui_handle_aspect_ratio(int window_index, WPARAM wparam, LPARAM lparam)
     }
 }
 
+static int ui_get_menu_height(HWND w)
+{
+	RECT rect;
+    int i;
+    LONG min_y = LONG_MAX, max_y = LONG_MIN;
+	HMENU hmenu = GetMenu(w);
+ 
+    for(i = 0; i < GetMenuItemCount(hmenu); i++)
+    {
+        GetMenuItemRect(w, hmenu, i, &rect);
+        if (rect.top < min_y) {
+			min_y = rect.top;
+		}
+        if (rect.bottom > max_y) {
+			max_y = rect.bottom;
+		}
+    }
+	if (max_y < min_y) {
+		return 0;
+	}
+	return (int)(max_y - min_y);
+}
+
 /* Resize `w' so that the client rectangle is of the requested size.  */
 void ui_resize_canvas_window(video_canvas_t *canvas)
 {
@@ -705,8 +723,8 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
 
     w = canvas->hwnd;
     cw = canvas->client_hwnd;
-    width = canvas->width;
-    height = canvas->height;
+    width = canvas->draw_buffer->visible_width * (canvas->videoconfig->doublesizex + 1);
+    height = canvas->draw_buffer->visible_height * (canvas->videoconfig->doublesizey + 1);
 
     if (video_dx9_enabled()) {
         resources_get_int("KeepAspectRatio", &keep_aspect_ratio);
@@ -738,22 +756,22 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     place.length = sizeof(WINDOWPLACEMENT);
     GetWindowPlacement(w, &place);
 
-    window_canvas_xsize[window_index] = width;
-    window_canvas_ysize[window_index] = height;
-
     GetClientRect(w, &wrect);
     ClientToScreen(w, (LPPOINT)&wrect);
     wrect.right = wrect.left + width;
-    wrect.bottom = wrect.top + height + statusbar_get_status_height();
+    wrect.bottom = wrect.top + height + statusbar_get_status_height() + ui_get_menu_height(w);
     adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
-    AdjustWindowRect(&wrect, adjust_style, TRUE);
+	/* As MSDN says, "The AdjustWindowRect function does not add extra space when a menu bar wraps
+	   to two or more rows". Therefore, pass FALSE as argument bMenu of AdjustWindowRect: the menu
+	   height is calculated by ui_get_menu_height() */
+    AdjustWindowRect(&wrect, adjust_style, FALSE);
     window_padding_x[window_index] = wrect.right - wrect.left - width;
     window_padding_y[window_index] = wrect.bottom - wrect.top - height;
 
     if (place.showCmd == SW_SHOWNORMAL) {
         MoveWindow(w, wrect.left, wrect.top, wrect.right - wrect.left, wrect.bottom - wrect.top, TRUE);
         if (cw != 0) {
-            MoveWindow(cw, 0, 0, width, height, TRUE);
+            MoveWindow(cw, 0, 0, width, canvas->draw_buffer->canvas_physical_height, TRUE);
         }
     } else {
         place.rcNormalPosition.right = place.rcNormalPosition.left + wrect.right - wrect.left;
@@ -776,7 +794,9 @@ static void ui_resize_render_window(video_canvas_t *canvas)
         MoveWindow(canvas->render_hwnd, 0, 0, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height(), TRUE);
     }
     else if (wrect.right > wrect.left && wrect.bottom > wrect.top) {
-        video_canvas_redraw_size(canvas, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height());
+		canvas->draw_buffer->canvas_physical_width = wrect.right - wrect.left;
+		canvas->draw_buffer->canvas_physical_height = wrect.bottom - wrect.top - statusbar_get_status_height();
+        video_viewport_resize(canvas, 0);
     }
 }
 

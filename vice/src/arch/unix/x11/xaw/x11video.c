@@ -321,7 +321,7 @@ void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canva
     }
 #endif
 
-    switch (canvas->x_image->bits_per_pixel) {
+    switch (canvas->depth) {
         case 8:
             video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(*data), 8);
             break;
@@ -329,7 +329,7 @@ void video_convert_color_table(unsigned int i, BYTE *data, long col, video_canva
         case 24:
         case 32:
         default:
-            video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(col), canvas->x_image->bits_per_pixel);
+            video_render_setphysicalcolor(canvas->videoconfig, i, (DWORD)(col), canvas->depth);
             break;
     }
 }
@@ -601,7 +601,7 @@ tryagain:
             canvas->using_mitshm = 0;
             goto tryagain;
         }
-        DEBUG_MITSHM(("Done, id = 0x%x.", i->xshm_info.shmid));
+        DEBUG_MITSHM(("Done, id = 0x%x.", canvas->xshm_info.shmid));
         DEBUG_MITSHM(("frame_buffer_alloc(): getting address... "));
         canvas->xshm_info.shmaddr = shmat(canvas->xshm_info.shmid, 0, 0);
         canvas->x_image->data = canvas->xshm_info.shmaddr;
@@ -612,7 +612,7 @@ tryagain:
             canvas->using_mitshm = 0;
             goto tryagain;
         }
-        DEBUG_MITSHM(("0x%lx OK.", (unsigned long) i->xshm_info.shmaddr));
+        DEBUG_MITSHM(("0x%lx OK.", (unsigned long) canvas->xshm_info.shmaddr));
         canvas->xshm_info.readOnly = True;
         mitshm_failed = 0;
 
@@ -720,17 +720,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
     canvas->depth = x11ui_get_display_depth();
 
-    new_width = *width;
-    new_height = *height;
-
-    if (canvas->videoconfig->doublesizex) {
-        new_width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        new_height *= (canvas->videoconfig->doublesizey + 1);
-    }
-
 #ifdef HAVE_XVIDEO
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
@@ -746,11 +735,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     resources_set_int("HwScalePossible", 0);
 #endif
 
-    if (video_arch_frame_buffer_alloc(canvas, new_width, new_height) < 0) {
-        return NULL;
-    }
-
-    res = ui_open_canvas_window(canvas, canvas->viewport->title, new_width, new_height, 1);
+    res = ui_open_canvas_window(canvas, canvas->viewport->title, 300, 100, 1);
     if (res < 0) {
         return NULL;
     }
@@ -758,9 +743,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     if (!_video_gc) {
         _video_gc = video_get_gc(&gc_values);
     }
-
-    canvas->width = new_width;
-    canvas->height = new_height;
 
     ui_finish_canvas(canvas);
 
@@ -824,35 +806,18 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 }
 
 /* Change the size of the canvas. */
-void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 {
     if (console_mode || video_disabled_mode) {
         return;
     }
 
-#ifdef HAVE_XVIDEO
-    if (canvas->videoconfig->hwscale) {
-        struct geometry_s *geometry = canvas->geometry;
-        width = geometry->gfx_size.width + geometry->gfx_position.x * 2;
-        height = geometry->last_displayed_line - geometry->first_displayed_line + 1;
-    }
-#endif
-    if (canvas->videoconfig->doublesizex) {
-        width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        height *= (canvas->videoconfig->doublesizey + 1);
-    }
-
     video_arch_frame_buffer_free(canvas);
-    video_arch_frame_buffer_alloc(canvas, width, height);
+    video_arch_frame_buffer_alloc(canvas, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height);
 
-    x11ui_resize_canvas_window(canvas->emuwindow, width, height, canvas->videoconfig->hwscale);
-    canvas->width = width;
-    canvas->height = height;
-
-    video_canvas_redraw_size(canvas, width, height);
+    if (resize_canvas) {
+        x11ui_resize_canvas_window(canvas->emuwindow, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height, canvas->videoconfig->hwscale);
+    }
 
     ui_finish_canvas(canvas);
 
@@ -947,8 +912,8 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     }
 #endif
 
-    if (xi + w > canvas->width || yi + h > canvas->height) {
-        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, canvas->width, canvas->height);
+    if (xi + w > canvas->draw_buffer->canvas_physical_width || yi + h > canvas->draw_buffer->canvas_physical_height) {
+        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height);
         return; /* this makes `-fullscreen -80col' work
                    XXX fix me some day */
     }
@@ -967,3 +932,12 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
         XSync(display, False);
     }
 }
+
+/* FIXME: This should return 0 if the window is maximized
+   (and therefore cannot change size).
+   What is a pure X11 method to detect that? */
+char video_canvas_can_resize(video_canvas_t *canvas)
+{
+    return 1;
+}
+

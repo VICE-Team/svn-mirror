@@ -129,25 +129,6 @@ void video_canvas_refresh_all(video_canvas_t *canvas)
                      viewport->last_line - viewport->first_line + 1));
 }
 
-void video_canvas_redraw_size(video_canvas_t *canvas, unsigned int width,
-                              unsigned int height)
-{
-    if (canvas->videoconfig->doublesizex) {
-        width /= (canvas->videoconfig->doublesizex + 1);
-    }
-    if (canvas->videoconfig->doublesizey) {
-        height /= (canvas->videoconfig->doublesizey + 1);
-    }
-
-    if (width != canvas->draw_buffer->canvas_width
-        || height != canvas->draw_buffer->canvas_height) {
-        canvas->draw_buffer->canvas_width = width;
-        canvas->draw_buffer->canvas_height = height;
-        video_viewport_resize(canvas);
-    }
-    video_canvas_refresh_all(canvas);
-}
-
 int video_canvas_palette_set(struct video_canvas_s *canvas,
                              struct palette_s *palette)
 {

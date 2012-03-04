@@ -85,14 +85,9 @@ static void video_debug(const char *format, ...)
 
 /* Create a video canvas.  If specified width/height is not possible,
    return an alternative in `*width' and `*height'.  */
-video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *width, unsigned int *height)
+video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas)
 {
     ui_make_resizable(canvas, 0);
-
-    {
-        canvas->client_width = canvas->width;
-        canvas->client_height = canvas->height;
-    }
 
     canvas->depth = 24;
 
@@ -117,12 +112,12 @@ error:
 void video_canvas_reset_ddraw(video_canvas_t *canvas)
 {
     canvas->bmp_info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    canvas->bmp_info.bmiHeader.biWidth = canvas->width;
-    canvas->bmp_info.bmiHeader.biHeight = -(LONG)canvas->height;
+    canvas->bmp_info.bmiHeader.biWidth = canvas->draw_buffer->canvas_physical_width;
+    canvas->bmp_info.bmiHeader.biHeight = -(LONG)canvas->draw_buffer->canvas_physical_height;
     canvas->bmp_info.bmiHeader.biPlanes = 1;
     canvas->bmp_info.bmiHeader.biBitCount = canvas->depth;
     canvas->bmp_info.bmiHeader.biCompression = BI_RGB;
-    canvas->bmp_info.bmiHeader.biSizeImage = canvas->depth / 8 * canvas->width * canvas->height;
+    canvas->bmp_info.bmiHeader.biSizeImage = canvas->depth / 8 * canvas->draw_buffer->canvas_physical_width * canvas->draw_buffer->canvas_physical_height;
     lib_free(canvas->pixels);
     canvas->pixels = lib_malloc(canvas->bmp_info.bmiHeader.biSizeImage);
 }
@@ -208,8 +203,8 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
     GetClientRect(hwnd, &rect);
 
     /*  Calculate upperleft point's framebuffer coords */
-    xs = xclient - ((rect.right - window_canvas_xsize[window_index]) / 2) + (c->viewport->first_x - c->viewport->x_offset + c->geometry->extra_offscreen_border_left) * pixel_width;
-    ys = yclient - ((rect.bottom - statusbar_get_status_height() - window_canvas_ysize[window_index]) / 2) + (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
+    xs = xclient - ((rect.right - c->draw_buffer->canvas_physical_width) / 2) + (c->viewport->first_x - c->viewport->x_offset + c->geometry->extra_offscreen_border_left) * pixel_width;
+    ys = yclient - ((rect.bottom - statusbar_get_status_height() - c->draw_buffer->canvas_physical_height) / 2) + (c->viewport->first_line - c->viewport->y_offset) * pixel_height;
 
     /*  Cut off areas outside of framebuffer and clear them */
     xi = xclient;
@@ -277,7 +272,7 @@ void video_canvas_update_ddraw(HWND hwnd, HDC hdc, int xclient, int yclient, int
                 palettechanged = 0;
             }
 
-            video_canvas_render(c, c->pixels, w, h, xs, ys, xi, yi, c->depth / 8 * c->width, c->depth);
+            video_canvas_render(c, c->pixels, w, h, xs, ys, xi, yi, c->depth / 8 * c->draw_buffer->canvas_physical_width, c->depth);
             SetDIBitsToDevice(hdc,
                 xi, yi, w, h, xi, yi, yi, yi+h,
                 c->pixels, &c->bmp_info, DIB_RGB_COLORS);
@@ -312,10 +307,10 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
     }
 
     GetClientRect(canvas->hwnd, &rect);
-    rect.left = xi + (rect.right - window_canvas_xsize[window_index]) / 2;
-    rect.top = yi + (rect.bottom - statusbar_get_status_height() - window_canvas_ysize[window_index]) / 2;
+    rect.left = xi + (rect.right - canvas->draw_buffer->canvas_physical_width) / 2;
+    rect.top = yi + (rect.bottom - statusbar_get_status_height() - canvas->draw_buffer->canvas_physical_height) / 2;
     rect.right = w + rect.left;
-    rect.bottom = w + rect.top;
+    rect.bottom = h + rect.top;
 
     InvalidateRect(canvas->hwnd, &rect, FALSE);
 }

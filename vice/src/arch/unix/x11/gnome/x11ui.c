@@ -2488,7 +2488,7 @@ static void setup_aspect(video_canvas_t *canvas)
 }
 
 /* Resize one window. */
-void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
+void ui_resize_canvas_window(video_canvas_t *canvas)
 {
     int window_xpos, window_ypos, window_width, window_height;
     app_shell_type *appshell;
@@ -2501,8 +2501,8 @@ void ui_resize_canvas_window(video_canvas_t *canvas, int width, int height)
     def = 0;
     if (!canvas->videoconfig->hwscale || (window_width < WINDOW_MINW) || (window_height < WINDOW_MINH)) {
         def = 1;
-        window_width = width;
-        window_height = height;
+        window_width = canvas->draw_buffer->canvas_physical_width;
+        window_height = canvas->draw_buffer->canvas_physical_height;
     }
 
     appshell = &app_shells[canvas->app_shell];
@@ -3441,14 +3441,8 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
 
 #ifdef HAVE_HWSCALE
     /* get size of drawing buffer */
-    ow = canvas->draw_buffer->canvas_width;
-    oh = canvas->draw_buffer->canvas_height;
-    if (canvas->videoconfig->doublesizex) {
-        ow *= (canvas->videoconfig->doublesizex + 1);
-    }
-    if (canvas->videoconfig->doublesizey) {
-        oh *= (canvas->videoconfig->doublesizey + 1);
-    }
+    ow = canvas->draw_buffer->canvas_physical_width;
+    oh = canvas->draw_buffer->canvas_physical_height;
 
 #ifdef HAVE_FULLSCREEN
     /* in fullscreen mode, scale with aspect ratio */

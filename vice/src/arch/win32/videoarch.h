@@ -52,7 +52,6 @@ typedef struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
     char *title;
-    int width, height;
     int mapped;
     int depth;
     float refreshrate; /* currently displayed refresh rate */
@@ -73,8 +72,6 @@ typedef struct video_canvas_s {
     RECT *dest_rect_ptr;
     RECT dest_rect;
 #endif
-    int client_width;
-    int client_height;
     struct video_draw_buffer_callback_s *video_draw_buffer_callback;
 } video_canvas_t;
 
@@ -98,7 +95,7 @@ extern int video_dx9_enabled(void);
 extern int video_dx9_available(void);
 
 /* DDraw functions */
-extern video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas, unsigned int *width, unsigned int *height);
+extern video_canvas_t *video_canvas_create_ddraw(video_canvas_t *canvas);
 extern void video_canvas_reset_ddraw(video_canvas_t *canvas);
 extern void video_canvas_destroy_ddraw(video_canvas_t *canvas);
 extern void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h);

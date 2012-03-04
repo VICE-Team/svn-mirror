@@ -88,7 +88,7 @@ extern GtkWidget *get_active_toplevel(void);
 extern GdkVisual *visual;
 
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int heigth, int no_autorepeat);
-extern void ui_resize_canvas_window(struct video_canvas_s *c, int height, int width);
+extern void ui_resize_canvas_window(struct video_canvas_s *c);
 extern GtkWidget *ui_create_transient_shell(GtkWidget *parent, const char *name);
 extern void ui_popdown(GtkWidget *w);
 extern void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown);

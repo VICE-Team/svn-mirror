@@ -71,12 +71,29 @@ struct canvas_refresh_s
 typedef struct canvas_refresh_s canvas_refresh_t;
 
 struct draw_buffer_s {
+    /* The memory buffer where the screen of the emulated machine is drawn. Palettized, 1 byte per pixel */
     BYTE *draw_buffer;
+    /* Width of draw_buffer in pixels */
     unsigned int draw_buffer_width;
+    /* Height of draw_buffer in pixels. Typically same as geometry->screen_size.height */
     unsigned int draw_buffer_height;
     unsigned int draw_buffer_pitch;
+    /* Width of emulator screen (physical screen on the machine where the emulator runs) in pixels */
+    unsigned int canvas_physical_width;
+    /* Height of emulator screen (physical screen on the machine where the emulator runs) in pixels */
+    unsigned int canvas_physical_height;
+    /* Maximum theoretical width of draw_buffer that would fit in the emulator screen.
+    Typically, it is the same as canvas_physical_width if no horizontal stretch is used (videoconfig->doublesizex == 0) and smaller if it is used.
+    TODO do we really need it? */
     unsigned int canvas_width;
+    /* Maximum theoretical height of draw_buffer that would fit in the emulator screen.
+    Typically, it is the same as canvas_physical_width if no vertical stretch is used (videoconfig->doublesizey == 0) and smaller if it is used.
+    TODO do we really need it? */
     unsigned int canvas_height;
+    /* Width of the visible subset of draw_buffer, in pixels. Typically same as geometry->screen_size.width */
+    unsigned int visible_width;
+    /* Height of the visible subset of draw_buffer, in pixels */
+    unsigned int visible_height;
 };
 typedef struct draw_buffer_s draw_buffer_t;
 
@@ -220,18 +237,16 @@ extern void video_canvas_create_set(struct video_canvas_s *canvas);
 extern void video_canvas_destroy(struct video_canvas_s *canvas);
 extern void video_canvas_map(struct video_canvas_s *canvas);
 extern void video_canvas_unmap(struct video_canvas_s *canvas);
-extern void video_canvas_resize(struct video_canvas_s *canvas,
-                                unsigned int width, unsigned int height);
+extern void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas);
 extern void video_canvas_render(struct video_canvas_s *canvas, BYTE *trg,
                                 int width, int height, int xs, int ys,
                                 int xt, int yt, int pitcht, int depth);
 extern void video_canvas_refresh_all(struct video_canvas_s *canvas);
-extern void video_canvas_redraw_size(struct video_canvas_s *canvas,
-                                     unsigned int width, unsigned int height);
+extern char video_canvas_can_resize(struct video_canvas_s *canvas);
 extern void video_viewport_get(struct video_canvas_s *canvas,
                                struct viewport_s **viewport,
                                struct geometry_s **geometry);
-extern void video_viewport_resize(struct video_canvas_s *canvas);
+extern void video_viewport_resize(struct video_canvas_s *canvas, char resize_canvas);
 extern void video_viewport_title_set(struct video_canvas_s *canvas,
                                      const char *title);
 extern void video_viewport_title_free(struct viewport_s *viewport);

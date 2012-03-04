@@ -2882,10 +2882,8 @@ UI_CALLBACK(exposure_callback_canvas)
         else
 #endif
         {
-            Dimension width, height;
-
-            XtVaGetValues(w, XtNwidth, (XtPointer)&width, XtNheight, (XtPointer)&height, NULL);
-            video_canvas_redraw_size(canvas, (unsigned int)width, (unsigned int)height);
+            XtVaGetValues(w, XtNwidth, (XtPointer)&canvas->draw_buffer->canvas_physical_width, XtNheight, (XtPointer)&canvas->draw_buffer->canvas_physical_height, NULL);
+            video_viewport_resize(canvas, 0);
         }
     }
 }
@@ -2909,3 +2907,4 @@ void ui_display_statustext(const char *text, int fade_out)
         statustext_display_time = 0;
     }
 }
+

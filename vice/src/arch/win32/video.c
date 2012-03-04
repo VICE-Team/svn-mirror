@@ -83,8 +83,8 @@ static int set_dx9_disable(int val, void *param)
 
     if (old_dx9_disable != val) {
         for (i = 0; i < video_number_of_canvases; i++) {       
-            old_width[i] = video_canvases[i]->width;
-            old_height[i] = video_canvases[i]->height;
+            old_width[i] = video_canvases[i]->draw_buffer->canvas_physical_width;
+            old_height[i] = video_canvases[i]->draw_buffer->canvas_physical_height;
             if (old_dx9_disable) {
                 /* Anything to do here?? */
             } else {
@@ -102,7 +102,7 @@ static int set_dx9_disable(int val, void *param)
                 }
             }
             if (dx9_disable) {
-                video_canvas_create_ddraw(video_canvases[i], &old_width[i], &old_height[i]);
+                video_canvas_create_ddraw(video_canvases[i]);
             }
             ui_canvas_child_window(video_canvases[i], old_dx9_disable);
             ui_resize_canvas_window(video_canvases[i]);
@@ -231,16 +231,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     video_canvas_t *canvas_temp;
 
     canvas->title = lib_stralloc(canvas->viewport->title);
-    canvas->width = *width;
-    canvas->height = *height;
-
-    if (canvas->videoconfig->doublesizex) {
-        canvas->width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        canvas->height *= (canvas->videoconfig->doublesizey + 1);
-    }
 
     ui_open_canvas_window(canvas);
     ui_canvas_child_window(canvas, video_dx9_enabled());
@@ -255,7 +245,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
             return canvas_temp;
         }
     }
-    return video_canvas_create_ddraw(canvas, width, height);
+    return video_canvas_create_ddraw(canvas);
 }
 
 void video_canvas_destroy(video_canvas_t *canvas)
@@ -325,7 +315,7 @@ int video_set_physical_colors(video_canvas_t *c)
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 {
     int device;
     int fullscreen_width;
@@ -333,21 +323,9 @@ void video_canvas_resize(video_canvas_t *canvas, unsigned int width, unsigned in
     int bitdepth;
     int refreshrate;
 
-    if (canvas->videoconfig->doublesizex) {
-        width *= (canvas->videoconfig->doublesizex + 1);
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        height *= (canvas->videoconfig->doublesizey + 1);
-    }
-
-    canvas->width = width;
-    canvas->height = height;
     if (IsFullscreenEnabled()) {
         GetCurrentModeParameters(&device, &fullscreen_width, &fullscreen_height, &bitdepth, &refreshrate);
     } else {
-        canvas->client_width = width;
-        canvas->client_height = height;
         ui_resize_canvas_window(canvas);
     }
 
@@ -378,4 +356,9 @@ void video_canvas_update(HWND hwnd, HDC hdc, int xclient, int yclient, int w, in
     } else {
         video_canvas_update_ddraw(hwnd, hdc, xclient, yclient, w, h);
     }
+}
+
+char video_canvas_can_resize(video_canvas_t *canvas)
+{
+    return !IsZoomed(canvas->hwnd);
 }
