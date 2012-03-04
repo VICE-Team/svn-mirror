@@ -1,0 +1,131 @@
+body {
+    background: #ffffff fixed;
+    color: #000000;
+
+    margin:0.5em 0.5em 0.5em 0.5em;
+    padding:0.5em 0.5em 0.5em 0.5em;
+
+    font-family:fixed, lucida, arial, geneva, sans-serif;
+}
+
+#menu p {
+    border:0px solid white;
+    margin-left:auto;
+    margin-right:auto;
+    display: block;
+    text-align:center;
+    margin:0.5em 0.1em 0.5em 0.1em;
+}
+
+#menu table {
+    border:1px solid black;
+    padding:0 0 0 0;
+    margin-left:auto;
+    margin-right:auto;
+    width:95%;
+}
+#menu tr {
+    border:1px solid black;
+    padding:0 0 0 0;
+    width:100%;
+}
+#menu td {
+    border:1px solid black;
+    width:10%;
+    padding:0.5em 0.5em 0.5em 0.5em;
+    font-weight:bold;
+}
+
+#footer {
+    text-align:right;
+}
+
+h1 {
+    margin:0;
+    border:0px solid white;
+    padding:0.1em 0.2em 0.2em 0.1em;
+
+    font-family:fixed;
+    font-size:160%;
+    font-weight:normal;
+    text-align:left;
+}
+h2 {
+    margin:.5em 0 .5em 0;
+    border:0px solid white;
+    padding:0.2em 0.2em 0.2em 0.2em;
+
+    font-size:130%;
+    font-weight:normal;
+    text-align:justify;
+}
+h3{
+    margin:.5em 0 .5em 0;
+    border:0px solid;
+    padding:0.2em 0.2em 0.2em 0.2em;
+
+    font-size:110%;
+    font-weight:bold;
+}
+
+b {
+    font-weight:bold;
+}
+tt{
+    font-weight:bold;
+    margin:0em 0em 0em 0em;
+}
+pre{
+    margin:0em 0em 0em 0em;
+}
+li {
+    list-style-type:square;
+}
+ul {
+    margin-left:1em;
+    padding-left:0em;
+}
+
+a {
+    color:#0000ff;
+}
+
+img {
+    border:0px solid white;
+    text-align:justify;
+    margin:0.5em 0.1em 0.5em 0.1em;
+}
+
+table{
+    border:0px solid;
+    margin:0.5em 0em 0.5em 0;
+    text-align:left;
+    width:100%;
+    border-spacing:0;
+    padding:0.5em 0em 0em 0em;
+}
+
+table tr{
+    text-align:left;
+    vertical-align: top;
+    border-spacing:0;
+    margin:0 0 0 0;
+}
+
+table th{
+    text-align:left;
+    vertical-align: top;
+    font-size:100%;
+    font-weight:normal;
+    border-spacing:0;
+    margin:0 0 0 0;
+    padding:0.2em 0.25em 0.0em 0.5em;
+}
+
+table td{
+    text-align:left;
+    vertical-align: top;
+    border-spacing:0;
+    margin:0em 0em 0em 0em;
+    padding:0.2em 0.25em 0.0em 0.25em;
+} 
