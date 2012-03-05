@@ -30,7 +30,9 @@
 
 #include "types.h"
 
+#include "c128model.h"
 #include "cartridge.h"
+#include "cia.h"
 #include "menu_c64_common_expansions.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
@@ -58,6 +60,44 @@
 #endif
 
 #include "uimenu.h"
+
+#define CIA_MODEL_MENU(xyz)           \
+UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
+static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
+    { "6526  (old)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526 },                 \
+    { "6526A (new)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526A },                \
+    SDL_MENU_LIST_END                                       \
+};
+
+CIA_MODEL_MENU(1)
+CIA_MODEL_MENU(2)
+
+/* C128 MODEL SELECTION */
+
+static UI_MENU_CALLBACK(select_c128_model_callback)
+{
+    int model;
+
+    model = vice_ptr_to_int(param);
+    if (activated) {
+        c128model_set(model);
+    }
+    return NULL;
+}
+
+static const ui_menu_entry_t c128_model_menu[] = {
+    { "C128 (PAL)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128_PAL },
+    { "C128 DCR (PAL)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128DCR_PAL },
+    { "C128 (NTSC)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128_NTSC },
+    { "C128 DCR (NTSC)", MENU_ENTRY_OTHER, select_c128_model_callback, (ui_callback_data_t)C128MODEL_C128DCR_NTSC },
+    SDL_MENU_LIST_END
+};
 
 UI_MENU_DEFINE_RADIO(VDC64KB)
 UI_MENU_DEFINE_RADIO(VDCRevision)
@@ -93,6 +133,11 @@ UI_MENU_DEFINE_TOGGLE(IEEE488)
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 
 const ui_menu_entry_t c128_hardware_menu[] = {
+    { "Select C128 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)c128_model_menu },
+    SDL_MENU_ITEM_SEPARATOR,
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -101,6 +146,15 @@ const ui_menu_entry_t c128_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_c128_menu },
+    SDL_MENU_ITEM_TITLE("CIA models"),
+    { "CIA 1 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia1_model_submenu },
+    { "CIA 2 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia2_model_submenu },
     { "VDC settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,

@@ -33,15 +33,19 @@
 #include "menu_common.h"
 #include "menu_video.h"
 #include "resources.h"
+#include "ted.h"
 #include "ui.h"
 #include "uifilereq.h"
 #include "uimenu.h"
+#include "vic.h"
 #include "vicii.h"
 #include "videoarch.h"
 
 /* Border mode menu */
 
 UI_MENU_DEFINE_RADIO(VICIIBorderMode)
+UI_MENU_DEFINE_RADIO(VICBorderMode)
+UI_MENU_DEFINE_RADIO(TEDBorderMode)
 
 static const ui_menu_entry_t vicii_border_menu[] = {
     { "Normal",
@@ -56,9 +60,60 @@ static const ui_menu_entry_t vicii_border_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_VICIIBorderMode_callback,
       (ui_callback_data_t)VICII_DEBUG_BORDERS },
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VICIIBorderMode_callback,
+      (ui_callback_data_t)VICII_NO_BORDERS },
     SDL_MENU_LIST_END
 };
 
+static const ui_menu_entry_t vic_border_menu[] = {
+    { "Normal",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VICBorderMode_callback,
+      (ui_callback_data_t)VIC_NORMAL_BORDERS },
+    { "Full",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VICBorderMode_callback,
+      (ui_callback_data_t)VIC_FULL_BORDERS },
+    { "Debug",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VICBorderMode_callback,
+      (ui_callback_data_t)VIC_DEBUG_BORDERS },
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_VICBorderMode_callback,
+      (ui_callback_data_t)VIC_NO_BORDERS },
+    SDL_MENU_LIST_END
+};
+
+static const ui_menu_entry_t ted_border_menu[] = {
+    { "Normal",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_TEDBorderMode_callback,
+      (ui_callback_data_t)TED_NORMAL_BORDERS },
+    { "Full",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_TEDBorderMode_callback,
+      (ui_callback_data_t)TED_FULL_BORDERS },
+    { "Debug",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_TEDBorderMode_callback,
+      (ui_callback_data_t)TED_DEBUG_BORDERS },
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_TEDBorderMode_callback,
+      (ui_callback_data_t)TED_NO_BORDERS },
+    SDL_MENU_LIST_END
+};
+
+/* audio leak */
+
+UI_MENU_DEFINE_TOGGLE(VICIIAudioLeak)
+UI_MENU_DEFINE_TOGGLE(VDCAudioLeak)
+UI_MENU_DEFINE_TOGGLE(CrtcAudioLeak)
+UI_MENU_DEFINE_TOGGLE(TEDAudioLeak)
+UI_MENU_DEFINE_TOGGLE(VICAudioLeak)
 
 /* CRT emulation menu */
 
@@ -570,6 +625,10 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose VICII palette file" },
+    { "VICII Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIAudioLeak_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     { "VDC Video cache",
       MENU_ENTRY_RESOURCE_TOGGLE,
@@ -595,6 +654,10 @@ const ui_menu_entry_t c128_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VDCPaletteFile_callback,
       (ui_callback_data_t)"Choose VDC palette file" },
+    { "VDC Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VDCAudioLeak_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -656,6 +719,10 @@ const ui_menu_entry_t c64_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "VICII Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIAudioLeak_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -698,6 +765,10 @@ const ui_menu_entry_t c64sc_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "VICII Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIAudioLeak_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -750,6 +821,10 @@ const ui_menu_entry_t c64dtv_video_menu[] = {
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
 #endif
+    { "VICII Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIAudioLeak_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -807,6 +882,10 @@ const ui_menu_entry_t cbm5x0_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICIIPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "VICII Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICIIAudioLeak_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -858,6 +937,10 @@ const ui_menu_entry_t cbm6x0_7x0_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "CRTC Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CrtcAudioLeak_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -899,6 +982,10 @@ const ui_menu_entry_t pet_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_CrtcPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "CRTC Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_CrtcAudioLeak_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -920,6 +1007,10 @@ const ui_menu_entry_t plus4_video_menu[] = {
       toggle_TEDVideoCache_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "TED border mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)ted_border_menu },
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -941,6 +1032,10 @@ const ui_menu_entry_t plus4_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_TEDPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "TED Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_TEDAudioLeak_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",
@@ -983,6 +1078,10 @@ const ui_menu_entry_t vic20_video_menu[] = {
       toggle_VICVideoCache_callback,
       NULL },
     SDL_MENU_ITEM_SEPARATOR,
+    { "VIC border mode",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)vic_border_menu },
     { "Color controls",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -1004,6 +1103,10 @@ const ui_menu_entry_t vic20_video_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_VICPaletteFile_callback,
       (ui_callback_data_t)"Choose palette file" },
+    { "VIC Audio Leak emulation",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_VICAudioLeak_callback,
+      NULL },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Video Standard"),
     { "PAL",

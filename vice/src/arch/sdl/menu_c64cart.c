@@ -824,10 +824,27 @@ static const ui_menu_entry_t mmcreplay_cart_menu[] = {
 /* Retro Replay */
 
 UI_MENU_DEFINE_TOGGLE(RRBankJumper)
+UI_MENU_DEFINE_RADIO(RRRevision)
 UI_MENU_DEFINE_TOGGLE(RRFlashJumper)
 UI_MENU_DEFINE_TOGGLE(RRBiosWrite)
 
+static const ui_menu_entry_t retroreplay_revision_menu[] = {
+    { "Retro Replay",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_RRRevision_callback,
+      (ui_callback_data_t)0 },
+    { "Nordic Replay",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_RRRevision_callback,
+      (ui_callback_data_t)1 },
+    SDL_MENU_LIST_END
+};
+
 static const ui_menu_entry_t retroreplay_cart_menu[] = {
+    { "Revision",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)retroreplay_revision_menu },
     { "Bank jumper",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_RRBankJumper_callback,

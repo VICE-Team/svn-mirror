@@ -32,6 +32,7 @@
 
 #include "cbm2mem.h"
 #include "cbm2model.h"
+#include "cia.h"
 #include "menu_cbm2hw.h"
 #include "menu_common.h"
 #include "menu_joystick.h"
@@ -52,6 +53,22 @@ UI_MENU_DEFINE_TOGGLE(Ram2)
 UI_MENU_DEFINE_TOGGLE(Ram4)
 UI_MENU_DEFINE_TOGGLE(Ram6)
 UI_MENU_DEFINE_TOGGLE(RamC)
+
+#define CIA_MODEL_MENU(xyz)           \
+UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
+static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
+    { "6526  (old)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526 },                 \
+    { "6526A (new)",                                        \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      radio_CIA##xyz##Model_callback,                       \
+      (ui_callback_data_t)CIA_MODEL_6526A },                \
+    SDL_MENU_LIST_END                                       \
+};
+
+CIA_MODEL_MENU(1)
 
 /* CBM2 MODEL SELECTION */
 
@@ -197,6 +214,10 @@ const ui_menu_entry_t cbm5x0_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_cbm2_menu },
+    { "CIA model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia1_model_submenu },
     { "RAM pattern settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
@@ -232,6 +253,10 @@ const ui_menu_entry_t cbm6x0_7x0_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)sid_cbm2_menu },
+    { "CIA model",
+      MENU_ENTRY_SUBMENU,
+      submenu_radio_callback,
+      (ui_callback_data_t)cia1_model_submenu },
     { "RAM pattern settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
