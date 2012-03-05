@@ -51,6 +51,9 @@ static struct {
     { "d80", NULL, DISK_IMAGE_TYPE_D80 },
     { "d81", NULL, DISK_IMAGE_TYPE_D81 },
     { "d82", NULL, DISK_IMAGE_TYPE_D82 },
+    { "d1m", NULL, DISK_IMAGE_TYPE_D1M },
+    { "d2m", NULL, DISK_IMAGE_TYPE_D2M },
+    { "d4m", NULL, DISK_IMAGE_TYPE_D4M },
     { "g64", NULL, DISK_IMAGE_TYPE_G64 },
     { "x64", NULL, DISK_IMAGE_TYPE_X64 },
     { NULL, NULL, 0 }

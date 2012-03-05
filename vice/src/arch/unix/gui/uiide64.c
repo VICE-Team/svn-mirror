@@ -177,7 +177,7 @@ static ui_menu_entry_t ide64_revision_submenu[] = {
 };
 
 static ui_menu_entry_t ide64_hd1_submenu[] = {
-    { N_("HD image name"), UI_MENU_TYPE_DOTS,
+    { N_("Device 1 image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image1", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -196,7 +196,7 @@ static ui_menu_entry_t ide64_hd1_submenu[] = {
 };
 
 static ui_menu_entry_t ide64_hd2_submenu[] = {
-    { N_("HD image name"), UI_MENU_TYPE_DOTS,
+    { N_("Device 2 image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image2", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -215,7 +215,7 @@ static ui_menu_entry_t ide64_hd2_submenu[] = {
 };
 
 static ui_menu_entry_t ide64_hd3_submenu[] = {
-    { N_("HD image name"), UI_MENU_TYPE_DOTS,
+    { N_("Device 3 image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image3", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -234,7 +234,7 @@ static ui_menu_entry_t ide64_hd3_submenu[] = {
 };
 
 static ui_menu_entry_t ide64_hd4_submenu[] = {
-    { N_("HD image name"), UI_MENU_TYPE_DOTS,
+    { N_("Device 4 image name"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_ide64_image_name,
       (ui_callback_data_t)"IDE64Image4", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -256,13 +256,13 @@ ui_menu_entry_t ide64_submenu[] = {
     { N_("Revision"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_revision_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("HD 1 settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Device 1 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd1_submenu },
-    { N_("HD 2 settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Device 2 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd2_submenu },
-    { N_("HD 3 settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Device 3 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd3_submenu },
-    { N_("HD 4 settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Device 4 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ide64_hd4_submenu },
     { NULL }
 };

@@ -74,8 +74,9 @@ static Widget options_form;
 
 static Widget disk_type_d64_button, disk_type_d67_button;
 static Widget disk_type_d71_button;
-static Widget disk_type_d81_button, disk_type_d80_button;
-static Widget disk_type_d82_button, disk_type_g64_button;
+static Widget disk_type_d81_button, disk_type_d80_button, disk_type_d82_button;
+static Widget disk_type_d1m_button, disk_type_d2m_button, disk_type_d4m_button;
+static Widget disk_type_g64_button;
 static Widget disk_type_x64_button;
 static Widget disk_type_label;
 
@@ -109,9 +110,9 @@ static UI_CALLBACK(cancel_callback)
     ui_popdown(emptydisk_dialog);
 }
 
-#define NR_FORMATS 8
+#define NR_FORMATS 11
 
-static char *extensions[NR_FORMATS] = { "d64", "d67", "d71", "d81", "d80", "d82", "g64", "x64" };
+static char *extensions[NR_FORMATS] = { "d64", "d67", "d71", "d81", "d80", "d82", "d1m", "d2m", "d4m", "g64", "x64" };
 
 static UI_CALLBACK(save_callback)
 {
@@ -122,6 +123,9 @@ static UI_CALLBACK(save_callback)
          DISK_IMAGE_TYPE_D81,
          DISK_IMAGE_TYPE_D80,
          DISK_IMAGE_TYPE_D82,
+         DISK_IMAGE_TYPE_D1M,
+         DISK_IMAGE_TYPE_D2M,
+         DISK_IMAGE_TYPE_D4M,
          DISK_IMAGE_TYPE_G64,
          DISK_IMAGE_TYPE_X64,
     };
@@ -153,12 +157,24 @@ static UI_CALLBACK(save_callback)
                         XtVaGetValues(disk_type_d82_button, XtNstate, &disk_type_flag, NULL);
                         if (disk_type_flag == False) {
                             type_cnt ++;
-                            XtVaGetValues(disk_type_g64_button, XtNstate, &disk_type_flag, NULL);
+                            XtVaGetValues(disk_type_d1m_button, XtNstate, &disk_type_flag, NULL);
                             if (disk_type_flag == False) {
                                 type_cnt ++;
-                                XtVaGetValues(disk_type_x64_button, XtNstate, &disk_type_flag, NULL);
+                                XtVaGetValues(disk_type_d2m_button, XtNstate, &disk_type_flag, NULL);
                                 if (disk_type_flag == False) {
                                     type_cnt ++;
+                                    XtVaGetValues(disk_type_d4m_button, XtNstate, &disk_type_flag, NULL);
+                                    if (disk_type_flag == False) {
+                                        type_cnt ++;
+                                        XtVaGetValues(disk_type_g64_button, XtNstate, &disk_type_flag, NULL);
+                                        if (disk_type_flag == False) {
+                                            type_cnt ++;
+                                            XtVaGetValues(disk_type_x64_button, XtNstate, &disk_type_flag, NULL);
+                                            if (disk_type_flag == False) {
+                                                type_cnt ++;
+                                            }
+                                        }
+                                    }
                                 }
                             }
                         }
@@ -369,9 +385,45 @@ static void build_emptydisk_dialog(void)
                                                    XtNradioGroup, disk_type_d64_button,
                                                    NULL);
 
-    disk_type_g64_button = XtVaCreateManagedWidget("ImageTypeG64Button",
+    disk_type_d1m_button = XtVaCreateManagedWidget("ImageTypeD1MButton",
                                                    toggleWidgetClass, options_form,
                                                    XtNfromHoriz, disk_type_d82_button,
+                                                   XtNfromVert, disk_type_label,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D1M",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
+
+    disk_type_d2m_button = XtVaCreateManagedWidget("ImageTypeD2MButton",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d1m_button,
+                                                   XtNfromVert, disk_type_label,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D2M",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
+
+    disk_type_d4m_button = XtVaCreateManagedWidget("ImageTypeD4MButton",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d2m_button,
+                                                   XtNfromVert, disk_type_label,
+                                                   XtNwidth, 40,
+                                                   XtNheight, 20,
+                                                   XtNright, XtChainRight,
+                                                   XtNleft, XtChainRight,
+                                                   XtNlabel, "D4M",
+                                                   XtNradioGroup, disk_type_d64_button,
+                                                   NULL);
+
+    disk_type_g64_button = XtVaCreateManagedWidget("ImageTypeG64Button",
+                                                   toggleWidgetClass, options_form,
+                                                   XtNfromHoriz, disk_type_d4m_button,
                                                    XtNfromVert, disk_type_label,
                                                    XtNwidth, 40,
                                                    XtNheight, 20,
