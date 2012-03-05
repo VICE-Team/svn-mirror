@@ -134,7 +134,9 @@ UI_MENU_DEFINE_TOGGLE(UseXSync)
 UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
 UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
 #ifndef USE_GNOMEUI
+#ifdef HAVE_XVIDEO
 extern UI_CALLBACK(set_custom_aspect_ratio);
+#endif
 #endif /* USE_GNOMEUI */
 #endif /* HAVE_HWSCALE */
 
@@ -173,9 +175,11 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("True aspect ratio"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_TrueAspectRatio, NULL, NULL },
 #ifndef USE_GNOMEUI
+#ifdef HAVE_XVIDEO
     { N_("Set custom aspect ratio"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_custom_aspect_ratio,
       (ui_callback_data_t)"AspectRatio", NULL },
+#endif
 #endif /* USE_GNOMEUI */
 #endif /* HAVE_HWSCALE */
 #ifdef HAVE_OPENGL_SYNC
