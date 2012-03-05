@@ -200,7 +200,7 @@ static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
 
     canvas->draw_buffer->canvas_width = fs_w;
     canvas->draw_buffer->canvas_height = fs_h;
-    video_viewport_resize(canvas);
+    video_viewport_resize(canvas, 1);
     ui_dispatch_events();
 }
 
@@ -374,7 +374,7 @@ int vidmode_enable(struct video_canvas_s *canvas, int enable)
         /* restore canvas size for windowed mode */
         canvas->draw_buffer->canvas_width = saved_w;
         canvas->draw_buffer->canvas_height = saved_h;
-        video_viewport_resize(canvas);
+        video_viewport_resize(canvas, 1);
         vm_is_enabled = 0;
     }
 #endif
