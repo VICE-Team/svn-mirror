@@ -1632,19 +1632,20 @@ dnl ----- Ethernet -----
 TFE_LIBS=
 if test x"$is_dos" = "xyes" ; then
   if test x"$enable_ethernet" = "xyes"; then
-    AC_CHECK_LIB(watt, gethostbyname,
-                 [ AC_DEFINE(DOS_TCP,,
-                             [Can we use the dos WATTCP library?]) ],,)
-    AC_CHECK_LIB(pcap, pcap_open_live,
-                 [ AC_DEFINE(DOS_TFE,,
-                             [Can we use the dos PCAP library?])
-                   AC_DEFINE(HAVE_TFE,,
-                             [Support for The Final Ethernet]) ],,)
-    AC_CHECK_LIB(net, libnet_write_link_layer,
-                 [ TFE_LIBS="-lnet";
-                   AC_DEFINE(HAVE_DOS_LIBNET,,
-                             [Can we use the dos NET library?]) ],,)
+    old_LIBS="$LIBS"
+    AC_CHECK_LIB(watt, gethostbyname,[ AC_DEFINE(DOS_TCP,,[Can we use the dos WATTCP library?])
+                                       TFE_LIBS="-lwatt $TFE_LIBS";
+                                       LIBS="-lwatt $LIBS"],,)
+
+    AC_CHECK_LIB(pcap, pcap_open_live,[ AC_DEFINE(DOS_TFE,,[Can we use the dos PCAP library?])
+                                        AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
+                                        LIBS="-lpcap $LIBS"],,)
+
+    AC_CHECK_LIB(net, libnet_write_link_layer,[ AC_DEFINE(HAVE_DOS_LIBNET,,[Can we use the dos NET library?])
+                                        TFE_LIBS="-lnet $TFE_LIBS"],,)
+
     DOS_TFE_PCAP_LIB="libpcap_nodma.a"
+    LIBS=$old_LIBS
   fi
 else
   if test x"$is_win32" = "xno"; then
@@ -2499,12 +2500,19 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
   if [[ x"${enable_gnomeui}" = "xyes" ]] ; then
 
+    have_vte=no
+
     PKG_CHECK_MODULES(GTK, [gtk+-2.0])
+
+    PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no))
+    if test x"$have_vte" = "xno"; then
+      PKG_CHECK_MODULES(VTE, [vte])
+    fi
+
     PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
         AC_MSG_RESULT(no)
       )
-    PKG_CHECK_MODULES(VTE, [vte])
     X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS $VTE_LIBS"
     LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS $VTE_LIBS"
   else

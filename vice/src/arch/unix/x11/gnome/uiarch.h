@@ -28,6 +28,9 @@
 #ifndef VICE_UIARCH_H
 #define VICE_UIARCH_H
 
+/* FIXME: really fix the code for gtk3 */
+#undef GSEAL_ENABLE
+
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
