@@ -429,7 +429,7 @@ BYTE mouse_poll(void)
             /* lets calculate the interval between x-quad rotations */
             update_x_emu_iv = emu_iv / abs(diff_x);
             /* and the emulated cpu cycle count when to do the first one */
-            next_update_x_emu_ts = emu_now + update_x_emu_iv / 2;
+            next_update_x_emu_ts = emu_now;
         } else {
             next_update_x_emu_ts = CLOCK_MAX; /* never */
         }
@@ -438,7 +438,7 @@ BYTE mouse_poll(void)
             /* lets calculate the interval between y-quad rotations */
             update_y_emu_iv = emu_iv / abs(diff_y);
             /* and the emulated cpu cycle count when to do the first one */
-            next_update_y_emu_ts = emu_now + update_y_emu_iv / 2;
+            next_update_y_emu_ts = emu_now;
         } else {
             next_update_y_emu_ts = CLOCK_MAX; /* never */
         }
