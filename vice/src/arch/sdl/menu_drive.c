@@ -35,6 +35,9 @@
 #include "machine.h"
 #include "menu_common.h"
 #include "menu_drive.h"
+#ifdef HAVE_OPENCBM
+#include "opencbmlib.h"
+#endif
 #include "resources.h"
 #include "ui.h"
 #include "uifilereq.h"
@@ -540,17 +543,31 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
 {
     int drive;
     int parameter;
-    int support;
+    int support = 0;
     int current;
 
     drive = (int)(vice_ptr_to_int(param) >> 16);
     parameter = (int)(vice_ptr_to_int(param) & 0xffff);
-    support = (is_fs(parameter) || drive_check_type(parameter, drive - 8));
+
+    if (parameter == ATTACH_DEVICE_REAL) {
+#ifdef HAVE_OPENCBM
+        support = opencbmlib_is_available();
+#else
+		support = 0;
+#endif
+    } else {
+        support = (is_fs(parameter) || drive_check_type(parameter, drive - 8));
+    }
     current = check_current_drive_type(parameter, drive);
 
     if (activated) {
         if (support) {
-            if (is_fs(parameter)) {
+            if (parameter == ATTACH_DEVICE_REAL) {
+#ifdef HAVE_OPENCBM
+                resources_set_int_sprintf("IECDevice%i", 1, drive);
+                resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
+#endif
+            } else if (is_fs(parameter)) {
                 resources_set_int_sprintf("IECDevice%i", 1, drive);
                 resources_set_int_sprintf("FileSystemDevice%i", parameter, drive);
             } else {
