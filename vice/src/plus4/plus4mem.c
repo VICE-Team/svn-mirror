@@ -516,42 +516,56 @@ static void fexx_store(WORD addr, BYTE value)
     }
 }
 
+/*
+    note: the TED pseudo registers at ff3e/3f can't be read.
+
+    FIXME: "You should also note that if RAM is selected (after a write to ff3f) 
+    the contents of RAM are never visible in these locations (usually seems to
+    return FF) Likewise, writing to these locations is never mirrored to
+    underlying RAM either. You can prove this quite easily on a stock 16k
+    machine, where the memory is mirrored 4x across the entire address space."
+*/
 static BYTE h256k_ram_ffxx_read(WORD addr)
 {
-    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
         return h256k_read(addr);
+    }
 
     return ted_read(addr);
 }
 
 static BYTE cs256k_ram_ffxx_read(WORD addr)
 {
-    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
         return cs256k_read(addr);
+    }
 
     return ted_read(addr);
 }
 
 static BYTE ram_ffxx_read(WORD addr)
 {
-    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
         return ram_read(addr);
+    }
 
     return ted_read(addr);
 }
 
 static BYTE ram_ffxx_read_32k(WORD addr)
 {
-    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
         return ram_read_32k(addr);
+    }
 
     return ted_read(addr);
 }
 
 static BYTE ram_ffxx_read_16k(WORD addr)
 {
-    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f)) {
         return ram_read_16k(addr);
+    }
 
     return ted_read(addr);
 }
@@ -601,11 +615,16 @@ static void ram_ffxx_store_16k(WORD addr, BYTE value)
         ram_store_16k(addr, value);
     }
 }
-
+/*
+    If the ROM is currently visible, ie after a write to ff3e, then reading ff3e 
+    and ff3f returns the contents of the underlying ROM, exactly as is does with 
+    ff20 - ff3d.
+*/
 static BYTE rom_ffxx_read(WORD addr)
 {
-    if ((addr >= 0xff20) && (addr != 0xff3e) && (addr != 0xff3f))
+    if (addr >= 0xff20) {
         return plus4memrom_rom_read(addr);
+    }
 
     return ted_read(addr);
 }
