@@ -885,7 +885,11 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
         /* Xv does subpixel scaling. Since coordinates are in integers we
            refresh the entire image to get it right. */
-        display_yuv_image(display, canvas->xv_port, canvas->drawable, _video_gc, canvas->xv_image, shminfo, 0, 0, canvas->width, canvas->height, &canvas->xv_geometry, local_aspect_ratio);
+        display_yuv_image(display, canvas->xv_port, canvas->drawable,
+                _video_gc, canvas->xv_image, shminfo, 0, 0,
+                canvas->draw_buffer->canvas_width,
+                canvas->draw_buffer->canvas_height,
+                &canvas->xv_geometry, local_aspect_ratio);
 
         if (_video_use_xsync) {
             XSync(display, False);
