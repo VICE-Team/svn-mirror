@@ -146,7 +146,7 @@ static UI_CALLBACK(uiromset_archive_list)
 
     list = romset_archive_list();
 
-    ui_show_text(_("Current ROM set archive"), list, -1, -1);
+    ui_show_text(_("Current ROM set archive"), list, 300, 400);
 
     lib_free(list);
 }
@@ -287,7 +287,7 @@ static UI_CALLBACK(uiromset_file_list)
 
     list = machine_romset_file_list();
 
-    ui_show_text(_("Current ROM set"), list, -1, -1);
+    ui_show_text(_("Current ROM set"), list, 300, 400);
 
     lib_free(list);
 }

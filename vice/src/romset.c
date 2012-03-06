@@ -194,8 +194,7 @@ int romset_file_save(const char *filename, const char **resource_list)
 
         resources_get_int_sprintf("Romset%s", &enable, s);
 
-        if (enable != 0)
-            resources_write_item_to_file(fp, s);
+        resources_write_item_to_file(fp, s);
 
         s = *resource_list++;
     }
@@ -220,10 +219,9 @@ char *romset_file_list(const char **resource_list)
 
         resources_get_int_sprintf("Romset%s", &enable, s);
 
-        if (enable != 0) {
-            line = resources_write_item_to_string(s, ARCHDEP_LINE_DELIMITER);
-            if (line != NULL)
-                util_addline_free(&list, line);
+        line = resources_write_item_to_string(s, ARCHDEP_LINE_DELIMITER);
+        if (line != NULL) {
+            util_addline_free(&list, line);
         }
 
         s = *resource_list++;

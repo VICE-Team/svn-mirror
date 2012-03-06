@@ -234,7 +234,7 @@ static const resource_int_t resources_int[] = {
     { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetKernalName", 1, RES_EVENT_NO, NULL,
+    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
       &romset_firmware[1], set_romset_firmware, (void *)1 },
     { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
