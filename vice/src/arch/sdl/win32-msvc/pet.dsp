@@ -142,6 +142,10 @@ SOURCE=..\..\..\pet\petmemsnapshot.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\pet\petmodel.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\pet\petpia1.c
 # End Source File
 # Begin Source File

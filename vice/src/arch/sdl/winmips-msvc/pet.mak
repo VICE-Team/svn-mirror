@@ -63,6 +63,7 @@ CLEAN :
 	-@erase "$(INTDIR)\petiec.obj"
 	-@erase "$(INTDIR)\petmem.obj"
 	-@erase "$(INTDIR)\petmemsnapshot.obj"
+	-@erase "$(INTDIR)\petmodel.obj"
 	-@erase "$(INTDIR)\petpia1.obj"
 	-@erase "$(INTDIR)\petpia2.obj"
 	-@erase "$(INTDIR)\petprinter.obj"
@@ -134,6 +135,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\petiec.obj" \
 	"$(INTDIR)\petmem.obj" \
 	"$(INTDIR)\petmemsnapshot.obj" \
+	"$(INTDIR)\petmodel.obj" \
 	"$(INTDIR)\petpia1.obj" \
 	"$(INTDIR)\petpia2.obj" \
 	"$(INTDIR)\petprinter.obj" \
@@ -188,6 +190,7 @@ CLEAN :
 	-@erase "$(INTDIR)\petiec.obj"
 	-@erase "$(INTDIR)\petmem.obj"
 	-@erase "$(INTDIR)\petmemsnapshot.obj"
+	-@erase "$(INTDIR)\petmodel.obj"
 	-@erase "$(INTDIR)\petpia1.obj"
 	-@erase "$(INTDIR)\petpia2.obj"
 	-@erase "$(INTDIR)\petprinter.obj"
@@ -259,6 +262,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\petiec.obj" \
 	"$(INTDIR)\petmem.obj" \
 	"$(INTDIR)\petmemsnapshot.obj" \
+	"$(INTDIR)\petmodel.obj" \
 	"$(INTDIR)\petpia1.obj" \
 	"$(INTDIR)\petpia2.obj" \
 	"$(INTDIR)\petprinter.obj" \
@@ -393,6 +397,12 @@ SOURCE=..\..\..\pet\petmem.c
 SOURCE=..\..\..\pet\petmemsnapshot.c
 
 "$(INTDIR)\petmemsnapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\pet\petmodel.c
+
+"$(INTDIR)\petmodel.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
