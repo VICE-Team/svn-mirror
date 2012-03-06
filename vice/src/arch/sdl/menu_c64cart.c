@@ -292,13 +292,71 @@ static UI_MENU_CALLBACK(set_c64_cart_default_callback)
     return NULL;
 }
 
+/* FIXME: we need an error reporting system, so all this
+          stuff can go away. */
+typedef struct c64_cart_flush_s {
+    int cartid;
+    char *enable_res;
+    char *image_res;
+} c64_cart_flush_t;
+
+static c64_cart_flush_t carts[] = {
+    { CARTRIDGE_RAMCART, "RAMCART", "RAMCARTfilename" },
+    { CARTRIDGE_REU, "REU", "REUfilename" },
+    { CARTRIDGE_EXPERT, "ExpertCartridgeEnabled", "Expertfilename" },
+    { CARTRIDGE_DQBB, "DQBB", "DQBBfilename" },
+    { CARTRIDGE_ISEPIC, "IsepicCartridgeEnabled", "Isepicfilename" },
+    { CARTRIDGE_EASYFLASH, NULL, NULL },
+    { CARTRIDGE_GEORAM, "GEORAM", "GEORAMfilename" },
+    { CARTRIDGE_MMC64, "MMC64", "MMC64BIOSfilename" },
+    { CARTRIDGE_MMC_REPLAY, NULL, "MMCREEPROMImage" },
+    { CARTRIDGE_RETRO_REPLAY, NULL, NULL },
+    { 0, NULL, NULL }
+};
+
 static UI_MENU_CALLBACK(c64_cart_flush_callback)
 {
+    int i;
+    int found = 0;
+    int enabled = 1;
+    const char *filename = "a";
+
     if (activated) {
         int cartid = vice_ptr_to_int(param);
 
         if (cartridge_flush_image(cartid) < 0) {
-            ui_error("Cannot save cartridge image.");
+
+            /* find cartid in carts */
+            for (i = 0; carts[i].cartid != 0 && !found; i++) {
+                if (carts[i].cartid == cartid) {
+                    found = 1;
+                }
+            }
+            i--;
+
+            /* check if cart was enabled */
+            if (found) {
+                if (carts[i].enable_res) {
+                    resources_get_int(carts[i].enable_res, &enabled);
+                }
+            }
+
+            /* check if cart has image */
+            if (found) {
+                if (carts[i].image_res) {
+                    resources_get_string(carts[i].image_res, &filename);
+                }
+            }
+
+            if (!enabled) {
+                ui_error("Cartridge is not enabled.");
+            } else if (!filename) {
+                ui_error("No name defined for cart image.");
+            } else if (!*filename) {
+                ui_error("No name defined for cart image.");
+            } else {
+                ui_error("Cannot save cartridge image.");
+            }
         }
     }
     return NULL;
