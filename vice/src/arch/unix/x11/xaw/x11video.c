@@ -846,7 +846,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
 #ifdef HAVE_XVIDEO
     if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        int doublesize = canvas->videoconfig->doublesizex && canvas->videoconfig->doublesizey;
+        //int doublesize = canvas->videoconfig->doublesizex && canvas->videoconfig->doublesizey;
 
 #if defined(__QNX__) || defined(MINIX_SUPPORT)
         XShmSegmentInfo* shminfo = NULL;
@@ -860,7 +860,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
         display = x11ui_get_display_ptr();
 
-        render_yuv_image(doublesize,
+        render_yuv_image(0 /*doublesize*/,
                          canvas->viewport,
                          (canvas->videoconfig->filter == VIDEO_FILTER_CRT),
                          canvas->videoconfig->video_resources.pal_blur * 64 / 1000,
@@ -887,8 +887,8 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
            refresh the entire image to get it right. */
         display_yuv_image(display, canvas->xv_port, canvas->drawable,
                 _video_gc, canvas->xv_image, shminfo, 0, 0,
-                canvas->draw_buffer->canvas_width,
-                canvas->draw_buffer->canvas_height,
+                canvas->draw_buffer->canvas_physical_width,
+                canvas->draw_buffer->canvas_physical_height,
                 &canvas->xv_geometry, local_aspect_ratio);
 
         if (_video_use_xsync) {
