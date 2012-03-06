@@ -131,16 +131,13 @@ typedef struct petres_s {
 
 extern petres_t petres;
 
-extern int pet_set_model(const char *model_name, void *extra);
-extern const char *get_pet_model(void);
-extern int pet_set_ramsize(int v);
+extern int pet_set_model(const char *model_name, void *extra); /* used by cmdline options */
+/* FIXME: still used in os/2, sdl, beos, msdos, win32, riscos, amigaos ui */
+extern const char *get_pet_model(void); /* FIXME: remove, still used in os/2 and win32 ui */
 
-extern int pet_init_resources(void);
-extern int pet_init_cmdline_options(void);
+extern int pet_init_ok; /* used in pet.c */
 
-extern int pet_set_model_info(petinfo_t *pi);
-
-extern int pet_init_ok;
+extern int petmem_set_conf_info(petinfo_t *pi); /* used in petmemsnapshot.c */
 
 #endif
 

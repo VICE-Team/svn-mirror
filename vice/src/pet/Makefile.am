@@ -38,6 +38,8 @@ libpet_a_SOURCES = \
 	petmem.h \
 	petmemsnapshot.c \
 	petmemsnapshot.h \
+	petmodel.c \
+	petmodel.h \
 	petpia.h \
 	petpia1.c \
 	petpia2.c \
