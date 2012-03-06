@@ -35,6 +35,7 @@
 #include "keyboard.h"
 #include "machine.h"
 #include "machine-video.h"
+#include "petmodel.h"
 #include "pets.h"
 #include "petui.h"
 #include "resources.h"
@@ -70,12 +71,6 @@ UI_MENU_DEFINE_RADIO(RamSize)
 UI_MENU_DEFINE_RADIO(IOSize)
 UI_MENU_DEFINE_TOGGLE(Basic1)
 UI_MENU_DEFINE_TOGGLE(Basic1Chars)
-
-static UI_CALLBACK(petui_set_model)
-{
-    pet_set_model(UI_MENU_CB_PARAM, NULL);
-    ui_update_menus();
-}
 
 /* this is partially modeled after the radio_* callbacks */
 static UI_CALLBACK(set_KeyboardType)
@@ -178,31 +173,57 @@ static ui_menu_entry_t pet_video_submenu[] = {
     { NULL }
 };
 
+static UI_CALLBACK(radio_petmodel)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        petmodel_set(selected);
+        ui_update_menus();
+    } else {
+        model = petmodel_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
 static ui_menu_entry_t model_defaults_submenu[] = {
-    { "PET 2001-8N", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"2001", NULL },
-    { "PET 3008", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"3008", NULL },
-    { "PET 3016", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"3016", NULL },
-    { "PET 3032", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"3032", NULL },
-    { "PET 3032B", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"3032B", NULL },
-    { "PET 4016", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"4016", NULL },
-    { "PET 4032", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"4032", NULL },
-    { "PET 4032B", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"4032B", NULL },
-    { "PET 8032", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"8032", NULL },
-    { "PET 8096", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"8096", NULL },
-    { "PET 8296", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"8296", NULL },
-    { "SuperPET", UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)petui_set_model, (ui_callback_data_t)"SuperPET", NULL },
+    { "PET 2001-8N", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_2001, NULL },
+    { "PET 3008", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_3008, NULL },
+    { "PET 3016", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_3016, NULL },
+    { "PET 3032", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_3032, NULL },
+    { "PET 3032B", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_3032B, NULL },
+    { "PET 4016", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_4016, NULL },
+    { "PET 4032", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_4032, NULL },
+    { "PET 4032B", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_4032B, NULL },
+    { "PET 8032", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_8032, NULL },
+    { "PET 8096", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_8096, NULL },
+    { "PET 8296", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_8296, NULL },
+    { "SuperPET", UI_MENU_TYPE_TICK, (ui_callback_t)radio_petmodel,
+      (ui_callback_data_t)PETMODEL_SUPERPET, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t model_options_submenu[] = {
+    { N_("PET model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, model_defaults_submenu },
     { NULL }
 };
 
@@ -338,7 +359,7 @@ static ui_menu_entry_t superpet_6809_roms_submenu[] = {
 };
 
 static ui_menu_entry_t model_settings_submenu[] = {
-    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
+    { N_("PET model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, model_defaults_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Video size"), UI_MENU_TYPE_NORMAL,
@@ -425,7 +446,7 @@ static ui_menu_entry_t keymap_pos_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t pet_menu[] = {
-    { N_("PET model settings"), UI_MENU_TYPE_NORMAL,
+    { N_("Model settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, model_settings_submenu },
     { N_("RAM reset pattern"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_ram_pattern_submenu },
@@ -569,6 +590,8 @@ static ui_menu_entry_t petui_options_menu[] = {
       NULL, NULL, ui_performance_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_options_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, model_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, io_extensions_submenu },
     { NULL }
