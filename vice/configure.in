@@ -2509,10 +2509,10 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
     PKG_CHECK_MODULES(GTK, [gtk+-2.0])
 
-    PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no))
-    if test x"$have_vte" = "xno"; then
+    dnl PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no))
+    dnl if test x"$have_vte" = "xno"; then
       PKG_CHECK_MODULES(VTE, [vte])
-    fi
+    dnl fi
 
     PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
