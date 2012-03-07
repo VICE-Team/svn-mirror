@@ -243,6 +243,7 @@ dnl test for openwatcom CC for library conversion
 if test x"$CC" = "xowcc"; then
   CFLAGS="$CFLAGS -O2"
   AM_CONDITIONAL(OWCC, true)
+  AC_DEFINE(WATCOM_COMPILE,,[owcc is being used.])
 else
   AM_CONDITIONAL(OWCC, false)
 fi
@@ -471,22 +472,26 @@ elif test x"$host_os" = "xcygwin32" -o x"$host_os" = "xcygwin" -o x"$host_os" = 
   fi
 
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
-  dinput_header_no_lib="no"
-  AC_CHECK_HEADER(dinput.h,
-              [ AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
-              [ AC_MSG_CHECKING(for -ldinput) ]
-              [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
-              [ AC_LINK_IFELSE([
-                               AC_LANG_PROGRAM([#include <dinput.h>],[return DirectInputCreateA(0,0,0,0);])
-                               ],
-                            [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
-   	                        [ AC_MSG_RESULT(yes) ],
-                            [ dinput_header_no_lib="yes" ]
-                            [ LIBS="$SAVELIBS" ]
-                            [ AC_MSG_RESULT(no) ]
-              )]
-		 )
 
+  dinput_header_no_lib="no"
+
+  dnl don't use dinput for owcc
+  if test x"$CC" != "xowcc"; then
+    AC_CHECK_HEADER(dinput.h,
+                [ AC_DEFINE(HAVE_DINPUT,,[Use DirectInput joystick driver]) ]
+                [ AC_MSG_CHECKING(for -ldinput) ]
+                [SAVELIBS="$LIBS"] [ LIBS="-ldinput $LIBS" ]
+                [ AC_LINK_IFELSE([
+                                 AC_LANG_PROGRAM([#include <dinput.h>],[return DirectInputCreateA(0,0,0,0);])
+                                 ],
+                              [ AC_DEFINE(HAVE_DINPUT_LIB, [], [dinput.lib or libdinput.a are present]) ]
+     	                        [ AC_MSG_RESULT(yes) ],
+                              [ dinput_header_no_lib="yes" ]
+                              [ LIBS="$SAVELIBS" ]
+                              [ AC_MSG_RESULT(no) ]
+                )]
+	  	 )
+  fi
 elif test x"$host_os" = "xbeos"; then
 
   dnl This is used by subsequent tests.

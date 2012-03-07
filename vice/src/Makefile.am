@@ -1453,17 +1453,16 @@ c1541_SOURCES = \
 	zipcode.c
 
 if OWCC
-OWCC_SYSTEM = @ARCH_DIR@/system.o
+ARCH_EXTRA_OBJECTS = @ARCH_DIR@/libarch.a
 else
-OWCC_SYSTEM =
+ARCH_EXTRA_OBJECTS = 	@ARCH_DIR@/archdep.o
 endif
 
 # FIXME: I don't like linking `archdep.o' this way, but we cannot use
 # the generic `ARCH_LIBS', because we would have to link against X11
 # libs too then.
 c1541_LDADD = \
-	@ARCH_DIR@/archdep.o \
-	$(OWCC_SYSTEM) \
+	$(ARCH_EXTRA_OBJECTS) \
 	$(blockdev_lib) \
 	$(realdevice_lib) \
 	$(vdrive_lib) \
@@ -1491,8 +1490,7 @@ petcat_SOURCES = \
 	zipcode.c
 
 petcat_LDADD = \
-	@ARCH_DIR@/archdep.o \
-	$(OWCC_SYSTEM) \
+	$(ARCH_EXTRA_OBJECTS) \
 	$(fileio_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
@@ -1638,6 +1636,9 @@ x128ow$(EXEEXT): x128$(EXEEXT)
 xcbm2ow$(EXEEXT): xcbm2$(EXEEXT)
 	wrc -fe=xcbm2ow$(EXEEXT) arch/win32/rescbm2.res xcbm2$(EXEEXT)
 
+xcbm5x0ow$(EXEEXT): xcbm5x0$(EXEEXT)
+	wrc -fe=xcbm5x0ow$(EXEEXT) arch/win32/rescbm5x0.res xcbm5x0$(EXEEXT)
+
 xpetow$(EXEEXT): xpet$(EXEEXT)
 	wrc -fe=xpetow$(EXEEXT) arch/win32/respet.res xpet$(EXEEXT)
 
@@ -1646,3 +1647,6 @@ xplus4ow$(EXEEXT): xplus4$(EXEEXT)
 
 xvicow$(EXEEXT): xvic$(EXEEXT)
 	wrc -fe=xvicow$(EXEEXT) arch/win32/resvic20.res xvic$(EXEEXT)
+
+vsidow$(EXEEXT): vsid$(EXEEXT)
+	wrc -fe=vsidow$(EXEEXT) arch/win32/resvsid.res vsid$(EXEEXT)
