@@ -559,8 +559,8 @@ reopenwindow:
     }
 #endif
 
-    canvas->width = width;
-    canvas->height = height;
+    canvas->draw_buffer->canvas_physical_width = width;
+    canvas->draw_buffer->canvas_physical_height = height;
     canvas->depth = (canvas->os->bpp * 8);
     canvas->bytes_per_line = canvas->os->bpr;
     canvas->use_triple_buffering = 0;
@@ -743,8 +743,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 
     sx = xi;
     sy = yi;
-    dx = xi + ((canvas->os->visible_width - (int)canvas->width) / 2);
-    dy = yi + ((canvas->os->visible_height - (int)canvas->height) / 2);
+    dx = xi + ((canvas->os->visible_width - (int)canvas->draw_buffer->canvas_physical_width) / 2);
+    dy = yi + ((canvas->os->visible_height - (int)canvas->draw_buffer->canvas_physical_height) / 2);
     if (dx < 0) {
         sx += -dx;
         w += dx;
@@ -766,8 +766,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         struct Window *window = canvas->os->window;
 #ifdef AMIGA_AROS
         if (fullscreen == 0) {
-            int blit_width = canvas->width;
-            int blit_height = canvas->height;
+            int blit_width = canvas->draw_buffer->canvas_physical_width;
+            int blit_height = canvas->draw_buffer->canvas_physical_height;
    
             if (blit_width > (window->RPort->Layer->bounds.MaxX - window->RPort->Layer->bounds.MinX)) {
                 blit_width = (window->RPort->Layer->bounds.MaxX - window->RPort->Layer->bounds.MinX);
@@ -1060,17 +1060,9 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
     }
 }
 
-void video_canvas_resize(struct video_canvas_s *canvas, unsigned int width, unsigned int height)
+void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
-    if (canvas->videoconfig->doublesizex) {
-        width *= 2;
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        height *= 2;
-    }
-
-    if (reopen(canvas, width, height) == NULL) {
+    if (reopen(canvas, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height) == NULL) {
         exit(20);
     }
 }
@@ -1095,10 +1087,15 @@ void video_arch_fullscreen_update(void)
 {
     if (fullscreen_update_needed == 1) {
         if (canvaslist != NULL) {
-            if (reopen(canvaslist, canvaslist->width, canvaslist->height) == NULL) {
+            if (reopen(canvaslist, canvaslist->draw_buffer->canvas_physical_width, canvaslist->draw_buffer->canvas_physical_height) == NULL) {
                 exit(20);
             }
         }
         fullscreen_update_needed = 0;
     }
+}
+
+char video_canvas_can_resize(struct video_canvas_s *canvas)
+{
+    return 1;
 }

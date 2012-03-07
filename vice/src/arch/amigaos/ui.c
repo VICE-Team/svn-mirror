@@ -1126,6 +1126,11 @@ void ui_dispatch_next_event(void)
 {
 }
 
+void ui_dispatch_events(void)
+{
+    ui_event_handle();
+}
+
 int ui_menu_destroy(video_canvas_t *canvas)
 {
     if (canvas->os->menu) {
