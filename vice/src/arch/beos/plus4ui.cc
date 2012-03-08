@@ -110,6 +110,7 @@ int plus4ui_init(void)
     ui_register_machine_specific(plus4_ui_specific);
     ui_register_menu_toggles(plus4_ui_menu_toggles);
     ui_register_res_values(plus4_ui_res_values);
+    ui_update_menus();
     return 0;
 }
 
