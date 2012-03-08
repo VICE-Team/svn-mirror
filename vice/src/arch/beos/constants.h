@@ -191,7 +191,6 @@ const uint32 MENU_TOGGLE_DQBB                     = 'M098';
 
 const uint32 MENU_TOGGLE_MAGICVOICE               = 'M165';
 const uint32 MENU_TOGGLE_IDE64_V4                 = 'M262';
-const uint32 MENU_TOGGLE_IDE64_AUTODETECT         = 'M263';
 const uint32 MENU_TOGGLE_ISEPIC                   = 'M166';
 const uint32 MENU_TOGGLE_ISEPIC_SWITCH            = 'M167';
 
@@ -231,8 +230,6 @@ const uint32 MENU_TOGGLE_EASYFLASH_JUMPER         = 'M187';
 const uint32 MENU_TOGGLE_EASYFLASH_AUTOSAVE       = 'M188';
 
 const uint32 MENU_EASYFLASH_SAVE_NOW              = 'M189';
-
-const uint32 MENU_IDE64_CUSTOM_SIZE               = 'M268';
 
 const uint32 MENU_VDC_REV_0                       = 'M172';
 const uint32 MENU_VDC_REV_1                       = 'M173';
@@ -375,6 +372,11 @@ const uint32 MENU_IDE64_FILE1                     = 'M264';
 const uint32 MENU_IDE64_FILE2                     = 'M265';
 const uint32 MENU_IDE64_FILE3                     = 'M266';
 const uint32 MENU_IDE64_FILE4                     = 'M267';
+
+const uint32 MENU_IDE64_SIZE1                     = 'M364';
+const uint32 MENU_IDE64_SIZE2                     = 'M365';
+const uint32 MENU_IDE64_SIZE3                     = 'M366';
+const uint32 MENU_IDE64_SIZE4                     = 'M367';
 
 const uint32 MENU_MAGICVOICE_FILE                 = 'M414';
 

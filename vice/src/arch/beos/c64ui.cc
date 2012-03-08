@@ -93,7 +93,6 @@ ui_menu_toggle  c64_ui_menu_toggles[] = {
     { "EasyFlashWriteCRT", MENU_TOGGLE_EASYFLASH_AUTOSAVE },
     { "VICIINewLuminances", MENU_VICII_NEW_LUMINANCES },
     { "IDE64version4", MENU_TOGGLE_IDE64_V4 },
-    { "IDE64AutodetectSize", MENU_TOGGLE_IDE64_AUTODETECT },
     { "ExpertCartridgeEnabled", MENU_TOGGLE_EXPERT },
     { "ExpertImageWrite", MENU_TOGGLE_EXPERT_SWC },
     { NULL, 0 }
@@ -353,14 +352,26 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_IDE64_FILE1:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE1, (void*)0);
             break;
+        case MENU_IDE64_SIZE1:
+            ui_ide64(1);
+            break;
         case MENU_IDE64_FILE2:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE2, (void*)0);
+            break;
+        case MENU_IDE64_SIZE2:
+            ui_ide64(2);
             break;
         case MENU_IDE64_FILE3:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE3, (void*)0);
             break;
+        case MENU_IDE64_SIZE3:
+            ui_ide64(3);
+            break;
         case MENU_IDE64_FILE4:
             ui_select_file(B_SAVE_PANEL, IDE64_FILE4, (void*)0);
+            break;
+        case MENU_IDE64_SIZE4:
+            ui_ide64(4);
             break;
         case MENU_REU_FILE:
             ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);
@@ -405,9 +416,6 @@ void c64_ui_specific(void *msg, void *window)
             if (cartridge_flush_image(CARTRIDGE_EASYFLASH) < 0) {
                 ui_error("Error saving EasyFlash .crt file");
             }
-            break;
-        case MENU_IDE64_CUSTOM_SIZE:
-            ui_ide64();
             break;
         case MENU_C64_MODEL_C64_PAL:
             c64model_set(C64MODEL_C64_PAL);

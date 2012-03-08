@@ -449,12 +449,14 @@ BMenuBar *menu_create(int machine_class)
 
             menu->AddItem(submenu = new BMenu("IDE64 Options"));
                 submenu->AddItem(new BMenuItem("IDE64 V4 emulation", new BMessage(MENU_TOGGLE_IDE64_V4)));
-                submenu->AddItem(new BMenuItem("IDE64 HD #1 File", new BMessage(MENU_IDE64_FILE1)));
-                submenu->AddItem(new BMenuItem("IDE64 HD #2 File", new BMessage(MENU_IDE64_FILE2)));
-                submenu->AddItem(new BMenuItem("IDE64 HD #3 File", new BMessage(MENU_IDE64_FILE3)));
-                submenu->AddItem(new BMenuItem("IDE64 HD #4 File", new BMessage(MENU_IDE64_FILE4)));
-                submenu->AddItem(new BMenuItem("Autodetect IDE64 image size", new BMessage(MENU_TOGGLE_IDE64_AUTODETECT)));
-                submenu->AddItem(new BMenuItem("Custom IDE64 image size", new BMessage(MENU_IDE64_CUSTOM_SIZE)));
+                submenu->AddItem(new BMenuItem("IDE64 device #1 File", new BMessage(MENU_IDE64_FILE1)));
+                submenu->AddItem(new BMenuItem("IDE64 device #1 image size ...", new BMessage(MENU_IDE64_SIZE1)));
+                submenu->AddItem(new BMenuItem("IDE64 device #2 File", new BMessage(MENU_IDE64_FILE2)));
+                submenu->AddItem(new BMenuItem("IDE64 device #2 image size ...", new BMessage(MENU_IDE64_SIZE2)));
+                submenu->AddItem(new BMenuItem("IDE64 device #3 File", new BMessage(MENU_IDE64_FILE3)));
+                submenu->AddItem(new BMenuItem("IDE64 device #3 image size ...", new BMessage(MENU_IDE64_SIZE3)));
+                submenu->AddItem(new BMenuItem("IDE64 device #4 File", new BMessage(MENU_IDE64_FILE4)));
+                submenu->AddItem(new BMenuItem("IDE64 device #4 image size ...", new BMessage(MENU_IDE64_SIZE4)));
 
             menu->AddItem(submenu = new BMenu("Magic Voice Options"));
                 submenu->AddItem(new BMenuItem("Magic Voice emulation", new BMessage(MENU_TOGGLE_MAGICVOICE)));

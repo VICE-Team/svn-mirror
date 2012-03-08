@@ -27,8 +27,9 @@
 #ifndef VICE__UI_IDE64_H__
 #define VICE__UI_IDE64_H__
 
-const uint32 MESSAGE_IDE64_APPLY = 'MID6';
+const uint32 MESSAGE_IDE64_AUTODETECT = 'MID5';
+const uint32 MESSAGE_IDE64_APPLY      = 'MID6';
 
-extern void ui_ide64(void);
+extern void ui_ide64(int img_num);
 
 #endif

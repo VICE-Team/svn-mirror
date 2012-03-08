@@ -3,6 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,7 +25,9 @@
  *
  */
  
+#include <Box.h>
 #include <Button.h>
+#include <CheckBox.h>
 #include <stdlib.h>
 #include <string.h>
 #include <TextControl.h>
@@ -39,64 +42,94 @@ extern "C" {
 
 class IDE64Window : public BWindow {
     public:
-        IDE64Window();
+        IDE64Window(int img_num);
         ~IDE64Window();
         virtual void MessageReceived(BMessage *msg);
     private:
+        BBox *customsizebox;
         BTextControl *cylinderstextcontrol;
         BTextControl *headstextcontrol;
         BTextControl *sectorstextcontrol;
+
+        void EnableSizeControls(int enable);
 };
 
 static IDE64Window *ide64window = NULL;
 
-IDE64Window::IDE64Window() 
-    : BWindow(BRect(50, 50, 200, 150), "IDE64 size settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+void IDE64Window::EnableSizeControls(int enable)
 {
-    int cylinders;
-    int heads;
-    int sectors;
-    char cyl_str[256];
-    char hds_str[256];
-    char sec_str[256];
+    int32 children, i;
+
+    children = customsizebox->CountChildren();
+    for (i = 0; i < children; i++) {
+        ((BControl *)customsizebox->ChildAt(i))->SetEnabled(enable);
+    }
+
+}
+
+IDE64Window::IDE64Window(int img_num) 
+    : BWindow(BRect(50, 50, 230, 235), "IDE64 size settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+{
+    int cylinders, heads, sectors, autodetect;
+    char temp_str[32];
     BView *background;
+    BCheckBox *checkbox;
+    BMessage *msg;
     BRect r;
+
+    sprintf(temp_str, "IDE64 HD #%d size settings", img_num);
+    SetTitle(temp_str);
 
     r = Bounds();
     background = new BView(r, "backview", B_FOLLOW_NONE, B_WILL_DRAW);
     background->SetViewColor(220, 220, 220, 0);
     AddChild(background);
 
-    resources_get_int("IDE64Cylinders", &cylinders);
-    resources_get_int("IDE64Heads", &heads);
-    resources_get_int("IDE64Sectors", &sectors);
-    sprintf(cyl_str, "%d", cylinders);
-    sprintf(hds_str, "%d", heads);
-    sprintf(sec_str, "%d", sectors);
+    r.bottom = 30;
+    r.InsetBy(10, 5);
+    msg = new BMessage(MESSAGE_IDE64_AUTODETECT);
+    msg->AddInt32("img_num", img_num);
+    checkbox = new BCheckBox(r, "autodetect", "Autodetect image size", msg);
+    background->AddChild(checkbox);
+    resources_get_int_sprintf("IDE64AutodetectSize%d", &autodetect, img_num);
+    checkbox->SetValue(autodetect);
 
-    r.bottom -= r.Height() * 2 / 3;
-    r.InsetBy(5, 5);
+    r = Bounds();
+    r.top = 20;
+    r.InsetBy(10, 10);
+    customsizebox = new BBox(r, "Custom size");
+    customsizebox->SetLabel("Custom size");
+    background->AddChild(customsizebox);
 
-    cylinderstextcontrol = new BTextControl(r, "cylinders", "Cylinders", cyl_str, NULL);
-    cylinderstextcontrol->SetDivider(50);
-    background->AddChild(cylinderstextcontrol);
+    resources_get_int_sprintf("IDE64Cylinders%d", &cylinders, img_num);
+    resources_get_int_sprintf("IDE64Heads%d", &heads, img_num);
+    resources_get_int_sprintf("IDE64Sectors%d", &sectors, img_num);
 
-    r.OffsetBy(0, r.Height() + 5);
+    r = customsizebox->Bounds();
+    r.bottom = 60;
+    r.InsetBy(10, 20);
+    sprintf(temp_str, "%d", cylinders);
+    cylinderstextcontrol = new BTextControl(r, "Cylinders", "Cylinders", temp_str, NULL);
+    cylinderstextcontrol->SetDivider(60);
+    customsizebox->AddChild(cylinderstextcontrol);
 
-    headstextcontrol = new BTextControl(r, "heads", "Heads", hds_str, NULL);
-    headstextcontrol->SetDivider(50);
-    background->AddChild(headstextcontrol);
+    r.OffsetBy(0, 30);
+    sprintf(temp_str, "%d", heads);
+    headstextcontrol = new BTextControl(r, "Heads", "Heads", temp_str, NULL);
+    headstextcontrol->SetDivider(60);
+    customsizebox->AddChild(headstextcontrol);
 
-    r.OffsetBy(0, r.Height() + 5);
+    r.OffsetBy(0, 30);
+    sprintf(temp_str, "%d", sectors);
+    sectorstextcontrol = new BTextControl(r, "Sectors", "Sectors", temp_str, NULL);
+    sectorstextcontrol->SetDivider(60);
+    customsizebox->AddChild(sectorstextcontrol);
 
-    sectorstextcontrol = new BTextControl(r, "sectors", "Sectors", sec_str, NULL);
-    sectorstextcontrol->SetDivider(50);
-    background->AddChild(sectorstextcontrol);
+    msg = new BMessage(MESSAGE_IDE64_APPLY);
+    msg->AddInt32("img_num", img_num);
+    customsizebox->AddChild(new BButton(BRect(10, 110, 150, 135), "Apply", "Apply custom size", msg));
 
-    r.OffsetBy(0, r.Height() + 5);
-
-    background->AddChild(new BButton(r, "apply", "Apply settings", new BMessage(MESSAGE_IDE64_APPLY)));
-
+    EnableSizeControls(!autodetect);
     Show();
 }
 
@@ -107,44 +140,60 @@ IDE64Window::~IDE64Window()
 
 void IDE64Window::MessageReceived(BMessage *msg)
 {
-    int cylinders;
-    int heads;
-    int sectors;
+    int cylinders, heads, sectors;
+    int temp;
+    int32 img_num;
 
     switch (msg->what) {
+        case MESSAGE_IDE64_AUTODETECT:
+            msg->FindInt32("img_num", &img_num);
+            resources_get_int_sprintf("IDE64AutodetectSize%d", &temp, img_num);
+            resources_set_int_sprintf("IDE64AutodetectSize%d", !temp, img_num);
+            EnableSizeControls(temp);
+            break;
         case MESSAGE_IDE64_APPLY:
-            cylinders = atoi(cylinderstextcontrol->Text());
-            if (cylinders < 1) {
-                ui_error("Value for IDE64 cylinders was invalid, using 1 instead.");
+            msg->FindInt32("img_num", &img_num);
+            temp = atoi(cylinderstextcontrol->Text());
+            if (temp < 1) {
                 cylinders = 1;
-            }
-            if (cylinders > 1024) {
-                ui_error("Value for IDE64 cylinders was invalid, using 1024 instead.");
+            } else if (temp > 1024) {
                 cylinders = 1024;
+            } else {
+                cylinders = temp;
             }
-            resources_set_int("IDE64Cylinders", cylinders);
 
-            heads = atoi(headstextcontrol->Text());
-            if (heads < 1) {
-                ui_error("Value for IDE64 heads was invalid, using 1 instead.");
+            if (temp != cylinders) {
+                ui_error("Value for IDE64 cylinders was invalid, using %d instead.", cylinders);
+            }
+            resources_set_int_sprintf("IDE64Cylinders%d", cylinders, img_num);
+
+            temp = atoi(headstextcontrol->Text());
+            if (temp < 1) {
                 heads = 1;
-            }
-            if (heads > 16) {
-                ui_error("Value for IDE64 heads was invalid, using 16 instead.");
+            } else if (temp > 16) {
                 heads = 16;
+            } else {
+                heads = temp;
             }
-            resources_set_int("IDE64Heads", heads);
 
-            sectors = atoi(sectorstextcontrol->Text());
-            if (sectors < 1) {
-                ui_error("Value for IDE64 sectors was invalid, using 1 instead.");
+            if (temp != heads) {
+                ui_error("Value for IDE64 heads was invalid, using %d instead.", heads);
+            }
+            resources_set_int_sprintf("IDE64Heads%d", heads, img_num);
+
+            temp = atoi(sectorstextcontrol->Text());
+            if (temp < 1) {
                 sectors = 1;
-            }
-            if (sectors > 63) {
-                ui_error("Value for IDE64 sectors was invalid, using 63 instead.");
+            } else if (temp > 63) {
                 sectors = 63;
+            } else {
+                sectors = temp;
             }
-            resources_set_int("IDE64Sectors", sectors);
+
+            if (temp != sectors) {
+                ui_error("Value for IDE64 sectors was invalid, using %d instead.", sectors);
+            }
+            resources_set_int_sprintf("IDE64Sectors%d", sectors, img_num);
             BWindow::Quit();
             break;
         default:
@@ -152,7 +201,7 @@ void IDE64Window::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_ide64()
+void ui_ide64(int img_num)
 {
     thread_id ide64thread;
     status_t exit_value;
@@ -161,7 +210,7 @@ void ui_ide64()
         return;
     }
 
-    ide64window = new IDE64Window;
+    ide64window = new IDE64Window(img_num);
 
     vsync_suspend_speed_eval();
 
