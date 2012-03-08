@@ -5811,148 +5811,413 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                             CLK += 4;
                             st16(U);
                             break;
+                        case 0xe0:	/* SUBB indexed (UNDOC) */
+                            indexed();
+                            B = sub(B, RDMEM(ea));
+                            break;
 #endif
-
-	      default:
-	        sim_error ("invalid opcode (2) at %X\n", iPC);
-		break;
-	      }
-	  }
-	  break;
-
-	case 0x12:
-	  nop ();
-	  break;
-	case 0x13:
-	  sync ();
-	  break;
 #ifdef H6309
-	case 0x14:		/* SEXW */
-	  break;
+                        case 0xe0:	/* SUBF indexed */
+                            indexed();
+                            F = sub(F, RDMEM(ea));
+                            break;
 #endif
-	case 0x16:
-	  long_bra ();
-	  CLK += 5;
-	  break;
-	case 0x17:
-	  long_bsr ();
-	  break;
-	case 0x19:
-	  daa ();
-	  break;
-	case 0x1a:
-	  orcc ();
-	  break;
-	case 0x1c:
-	  andcc ();
-	  break;
-	case 0x1d:
-	  sex ();
-	  break;
-	case 0x1e:
-	  exg ();
-	  break;
-	case 0x1f:
-	  tfr ();
-	  break;
-
-	case 0x20:
-	  bra ();
-	  CLK += 3;
-	  break;
-	case 0x21:
-	  PC++;
-	  CLK += 3;
-	  break;
-	case 0x22:
-	  branch (cond_HI ());
-	  break;
-	case 0x23:
-	  branch (cond_LS ());
-	  break;
-	case 0x24:
-	  branch (cond_HS ());
-	  break;
-	case 0x25:
-	  branch (cond_LO ());
-	  break;
-	case 0x26:
-	  branch (cond_NE ());
-	  break;
-	case 0x27:
-	  branch (cond_EQ ());
-	  break;
-	case 0x28:
-	  branch (cond_VC ());
-	  break;
-	case 0x29:
-	  branch (cond_VS ());
-	  break;
-	case 0x2a:
-	  branch (cond_PL ());
-	  break;
-	case 0x2b:
-	  branch (cond_MI ());
-	  break;
-	case 0x2c:
-	  branch (cond_GE ());
-	  break;
-	case 0x2d:
-	  branch (cond_LT ());
-	  break;
-	case 0x2e:
-	  branch (cond_GT ());
-	  break;
-	case 0x2f:
-	  branch (cond_LE ());
-	  break;
-
-	case 0x30:
-	  indexed ();
-	  Z = X = ea;
-	  break;		/* LEAX indexed */
-	case 0x31:
-	  indexed ();
-	  Z = Y = ea;
-	  break;		/* LEAY indexed */
-	case 0x32:
-	  indexed ();
-	  S = ea;
-	  break;		/* LEAS indexed */
-	case 0x33:
-	  indexed ();
-	  U = ea;
-	  break;		/* LEAU indexed */
-	case 0x34:
-	  pshs ();
-	  break;		/* PSHS implied */
-	case 0x35:
-	  puls ();
-	  break;		/* PULS implied */
-	case 0x36:
-	  pshu ();
-	  break;		/* PSHU implied */
-	case 0x37:
-	  pulu ();
-	  break;		/* PULU implied */
-	case 0x39:
-	  rts ();
-	  break;		/* RTS implied  */
-	case 0x3a:
-	  abx ();
-	  break;		/* ABX implied  */
-	case 0x3b:
-	  rti ();
-	  break;		/* RTI implied  */
-	case 0x3c:
-	  cwai ();
-	  break;		/* CWAI implied */
-	case 0x3d:
-	  mul ();
-	  break;		/* MUL implied  */
-	case 0x3f:
-	  swi ();
-	  break;		/* SWI implied  */
+#ifdef FULL6809
+                        case 0xe1:	/* CMPB indexed (UNDOC) */
+                            indexed();
+                            cmp(B, RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xe1:	/* CMPF indexed */
+                            indexed();
+                            cmp(F, RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xe2:	/* SBCB indexed (UNDOC) */
+                            indexed();
+                            B = sbc(B, RDMEM(ea));
+                            break;
+                        case 0xe3:	/* ADDD indexed (UNDOC) */
+                            indexed();
+                            addd(RDMEM16(ea));
+                            CLK++;
+                            break;
+                        case 0xe4:	/* ANDB indexed (UNDOC) */
+                            indexed();
+                            B = and(B, RDMEM(ea));
+                            break;
+                        case 0xe5:	/* BITB indexed (UNDOC) */
+                            indexed();
+                            bit(B, RDMEM(ea));
+                            break;
+                        case 0xe6:	/* LDB indexed (UNDOC) */
+                            indexed();
+                            B = ld(RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xe6:	/* LDF indexed */
+                            indexed();
+                            F = ld(RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xe7:	/* STB indexed (UNDOC) */
+                            indexed();
+                            st(B);
+                            break;
+#endif
+#ifdef H6309
+                        case 0xe7:	/* STF indexed (UNDOC) */
+                            indexed();
+                            st(F);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xe8:	/* EORB indexed (UNDOC) */
+                            indexed();
+                            B = eor(B, RDMEM(ea));
+                            break;
+                        case 0xe9:	/* ADCB indexed (UNDOC) */
+                            indexed();
+                            B = adc(B, RDMEM(ea));
+                            break;
+                        case 0xea:	/* ORB indexed (UNDOC) */
+                            indexed();
+                            B = or(B, RDMEM(ea));
+                            break;
+                        case 0xeb:	/* ADDB indexed (UNDOC) */
+                            indexed();
+                            B = add(B, RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xeb:	/* ADDF indexed */
+                            indexed();
+                            F = add(F, RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xec:	/* LDD indexed (UNDOC) */
+                            indexed ();
+                            ldd(RDMEM16(ea));
+                            break;
+                        case 0xed:	/* STD indexed (UNDOC) */
+                            indexed();
+                            std();
+                            break;
+                        case 0xee:	/* LDU indexed (UNDOC) */
+                            indexed();
+                            U = ld16(RDMEM16(ea));
+                            break;
+                        case 0xef:	/* STU indexed (UNDOC) */
+                            indexed();
+                            st16(U);
+                            break;
+                        case 0xf0:	/* SUBB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = sub(B, RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xf0:	/* SUBF extended */
+                            extended();
+                            /* TODO: cycle count */
+                            F = sub(F, RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xf1:	/* CMPB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            cmp(B, RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xf1:	/* CMPF extended */
+                            extended();
+                            /* TODO: cycle count */
+                            cmp(F, RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xf2:	/* SBCB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = sbc(B, RDMEM(ea));
+                            break;
+                        case 0xf3:	/* ADDD extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            addd(RDMEM16(ea));
+                            CLK++;
+                            break;
+                        case 0xf4:	/* ANDB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = and(B, RDMEM(ea));
+                            break;
+                        case 0xf5:	/* BITB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            bit(B, RDMEM(ea));
+                            break;
+                        case 0xf6:	/* LDB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = ld(RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xf6:	/* LDF extended */
+                            extended();
+                            /* TODO: cycle count */
+                            F = ld(RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xf7:	/* STB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            st(B);
+                            break;
+#endif
+#ifdef H6309
+                        case 0xf7:	/* STF extended */
+                            extended();
+                            /* TODO: cycle count */
+                            st(F);
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xf8:	/* EORB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = eor(B, RDMEM(ea));
+                            break;
+                        case 0xf9:	/* ADCB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = adc(B, RDMEM(ea));
+                            break;
+                        case 0xfa:	/* ORB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = or(B, RDMEM(ea));
+                            break;
+                        case 0xfb:	/* ADDB extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            B = add(B, RDMEM(ea));
+                            break;
+#endif
+#ifdef H6309
+                        case 0xfb:	/* ADDF extended */
+                            extended();
+                            /* TODO: cycle count */
+                            F = add(F, RDMEM(ea));
+                            break;
+#endif
+#ifdef FULL6809
+                        case 0xfc:	/* LDD extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            ldd(RDMEM16(ea));
+                            break;
+                        case 0xfd:	/* STD extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            std();
+                            break;
+                        case 0xfe:	/* LDU extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            U = ld16(RDMEM16(ea));
+                            break;
+                        case 0xff:	/* STU extended (UNDOC) */
+                            extended();
+                            CLK += 5;
+                            st16(U);
+                            break;
+#endif
+#ifdef H6309
+                         default:	/* 6309 illegal opcode trap */
+                             opcode_trap();
+                             break;
+#else
+#ifndef FULL6809
+                         default:
+                             sim_error("invalid opcode (2) at %X\n", iPC);
+                             break;
+#endif
+#endif
+                     }
+            }
+            break;
+        case 0x12:	/* NOP */
+            nop();
+            break;
+        case 0x13:	/* SYNC */
+            sync();
+            break;
+#ifdef FULL6809
+        case 0x14:	/* HCF (UNDOC) */
+            hcf();
+            break;
+#endif
+#ifdef H6309
+        case 0x14:	/* SEXW */
+            sexw();
+            break;
+#endif
+#ifdef FULL6809
+        case 0x15:	/* HCF (UNDOC) */
+            hcf();
+            break;
+#endif
+        case 0x16:	/* LBRA */
+            long_bra();
+            CLK += 5;
+            break;
+        case 0x17:	/* LBSR */
+            long_bsr();
+            break;
+#ifdef FULL6809
+        case 0x18:	/* CCRS (UNDOC) */
+            ccrs();
+            break;
+#endif
+        case 0x19:	/* DAA */
+            daa();
+            break;
+        case 0x1a:	/* ORCC immediate */
+            orcc();
+            break;
+#ifdef FULL6809
+        case 0x1b:	/* NOP (UNDOC) */
+            nop();
+            break;
+#endif
+        case 0x1c:	/* ANDCC immediate */
+            andcc();
+            break;
+        case 0x1d:	/* SEX */
+            sex();
+            break;
+        case 0x1e:	/* EXG post */
+            exg();
+            break;
+        case 0x1f:	/* TFR post */
+            tfr();
+            break;
+        case 0x20:	/* BRA */
+            bra();
+            CLK += 3;
+            break;
+        case 0x21:	/* BRN */
+            PC++;
+            CLK += 3;
+            break;
+        case 0x22:	/* BHI */
+            branch(cond_HI());
+            break;
+        case 0x23:	/* BLS */
+            branch(cond_LS());
+            break;
+        case 0x24:	/* BCC/BHI */
+            branch(cond_HS());
+            break;
+        case 0x25:	/* BCS/BLO */
+            branch(cond_LO());
+            break;
+        case 0x26:	/* BNE */
+            branch(cond_NE());
+            break;
+        case 0x27:	/* BEQ */
+            branch(cond_EQ());
+            break;
+        case 0x28:	/* BVC */
+            branch(cond_VC());
+            break;
+        case 0x29:	/* BVS */
+            branch(cond_VS());
+            break;
+        case 0x2a:	/* BPL */
+            branch(cond_PL());
+            break;
+        case 0x2b:	/* BMI */
+            branch(cond_MI());
+            break;
+        case 0x2c:	/* BGE */
+            branch(cond_GE());
+            break;
+        case 0x2d:	/* BLT */
+            branch(cond_LT());
+            break;
+        case 0x2e:	/* BGT */
+            branch(cond_GT());
+            break;
+        case 0x2f:	/* BLE */
+            branch(cond_LE());
+            break;
+        case 0x30:	/* LEAX indexed */
+            indexed();
+            Z = X = ea;
+            break;
+        case 0x31:	/* LEAY indexed */
+            indexed();
+            Z = Y = ea;
+            break;
+        case 0x32:	/* LEAS indexed */
+            indexed();
+            S = ea;
+            break;
+        case 0x33:	/* LEAU indexed */
+            indexed();
+            U = ea;
+            break;
+        case 0x34:	/* PSHS post */
+            pshs();
+            break;
+        case 0x35:	/* PULS post */
+            puls();
+            break;
+        case 0x36:	/* PSHU post */
+            pshu();
+            break;
+        case 0x37:	/* PULU post */
+            pulu();
+            break;
+#ifdef FULL6809
+        case 0x38:	/* ANDCC immediate (+1 cycle) (UNDOC) */
+            andcc();
+            CLK++;
+            break;
+#endif
+        case 0x39:	/* RTS */
+            rts();
+            break;
+        case 0x3a:	/* ABX */
+            abx();
+            break;
+        case 0x3b:	/* RTI */
+            rti();
+            break;
+        case 0x3c:	/* CWAI */
+            cwai();
+            break;
+        case 0x3d:	/* MUL */
+            mul();
+            break;
+        case 0x3e:	/* RESET */
+            cpu6809_reset();
+            break;
+        case 0x3f:	/* SWI */
+            swi();
+            break;
 
 	case 0x40:
 	  A = neg (A);
