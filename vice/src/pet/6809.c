@@ -146,7 +146,7 @@ h6809_regs_t h6809_regs;
         if (ik & IK_NMI) {                                            \
             request_nmi(0);                                           \
         } else if (ik & IK_IRQ) {                                     \
-            request_irq(0);                                           \
+            req_irq(0);                                               \
         }                                                             \
     } while (0)
 
@@ -214,7 +214,7 @@ void request_nmi(unsigned int source)
     nmi();
 }
 
-void request_irq(unsigned int source)
+void req_irq(unsigned int source)
 {
     /* If the interrupt is not masked, generate
      * IRQ immediately.  Else, mark it pending and
