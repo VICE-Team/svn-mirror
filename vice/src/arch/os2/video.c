@@ -203,7 +203,10 @@ static int set_stretch_factor(int val, void *param)
             const int dsx = c->videoconfig->doublesizex + 1;
             const int dsy = c->videoconfig->doublesizey + 1;
 
-            video_canvas_resize(c, c->width/dsx, c->height/dsy);
+            c->draw_buffer->canvas_physical_width = c->draw_buffer->canvas_physical_width / dsx;
+            c->draw_buffer->canvas_physical_height = c->draw_buffer->canvas_physical_height / dsy;
+
+            video_viewport_resize(c, 0);
 
             DosReleaseMutexSem(c->hmtx);
         }
@@ -267,7 +270,7 @@ static UINT statusbar_height(void)
 
 static UINT GetWindowHeight(video_canvas_t *c)
 {
-    UINT height = c->height;
+    UINT height = c->draw_buffer->canvas_physical_height;
 
     height *= c->stretch;
     height += WinQuerySysValue(HWND_DESKTOP, SV_CYTITLEBAR);
@@ -284,7 +287,7 @@ static UINT GetWindowHeight(video_canvas_t *c)
 
 static UINT GetWindowWidth(video_canvas_t *c)
 {
-    UINT width = c->width;
+    UINT width = c->draw_buffer->canvas_physical_width;
 
     width *= c->stretch;
 #ifdef __XVIC__
@@ -867,7 +870,7 @@ void WmVrnEnabled(HWND hwnd)
 #ifndef DIRECT_ACCESS
             c->divesetup.lScreenPosY = pointl.y;
 #else
-            c->divesetup.lScreenPosY = divecaps.ulVerticalResolution - (pointl.y + c->height);
+            c->divesetup.lScreenPosY = divecaps.ulVerticalResolution - (pointl.y + c->draw_buffer->canvas_physical_height);
 #endif
             c->divesetup.ulNumDstRects = rgnCtl.crcReturned;
 
@@ -881,11 +884,11 @@ void WmVrnEnabled(HWND hwnd)
                 c->divesetup.pVisDstRects[0].xRight = w;
                 c->divesetup.pVisDstRects[0].yBottom = 0;
                 c->divesetup.pVisDstRects[0].yTop = h;
-                c->divesetup.lScreenPosY = (h - c->stretch * c->height) / 2;
+                c->divesetup.lScreenPosY = (h - c->stretch * c->draw_buffer->canvas_physical_height) / 2;
 #ifdef __XVIC__
-                c->divesetup.lScreenPosX = (w - c->stretch * c->width * 2) / 2;
+                c->divesetup.lScreenPosX = (w - c->stretch * c->draw_buffer->canvas_physical_width * 2) / 2;
 #else
-                c->divesetup.lScreenPosX = (w - c->stretch * c->width) / 2;
+                c->divesetup.lScreenPosX = (w - c->stretch * c->draw_buffer->canvas_physical_width) / 2;
 #endif
             }
         }
@@ -948,20 +951,20 @@ void VideoCanvasBlit(video_canvas_t *c, UINT xs, UINT ys, UINT xi, UINT yi, UINT
     // xi, yi is double sized
     //
     if (xs +w > linesz) {
-        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d, c->width=%d", xs, w, linesz, c->width);
+        log_message(vidlog, "Debug - fbuf read x: %d + %d > %d, c->width=%d", xs, w, linesz, c->draw_buffer->canvas_physical_width);
         w = linesz - xs;
     }
     if (ys + h > bufh) {
-        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d, c->height=%d", ys, h, bufh, c->height);
+        log_message(vidlog, "Debug - fbuf read y: %d + %d > %d, c->height=%d", ys, h, bufh, c->draw_buffer->canvas_physical_height);
         h = bufh - ys;
     }
-    if (xi + w > c->width) {
-        log_message(vidlog, "Debug - scr write x x%d: %d + %d > %d", dsx, xi, w, c->width);
-        w = c->width - xi;
+    if (xi + w > c->draw_buffer->canvas_physical_width) {
+        log_message(vidlog, "Debug - scr write x x%d: %d + %d > %d", dsx, xi, w, c->draw_buffer->canvas_physical_width);
+        w = c->draw_buffer->canvas_physical_width - xi;
     }
-    if (yi + h > c->height) {
-        log_message(vidlog, "Debug - scr write y x%d: %d + %d > %d", dsy, yi, h, c->height);
-        h = c->height - yi;
+    if (yi + h > c->draw_buffer->canvas_physical_height) {
+        log_message(vidlog, "Debug - scr write y x%d: %d + %d > %d", dsy, yi, h, c->draw_buffer->canvas_physical_height);
+        h = c->draw_buffer->canvas_physical_height - yi;
     }
 
 #ifndef DIRECT_ACCESS
@@ -980,7 +983,7 @@ void VideoCanvasBlit(video_canvas_t *c, UINT xs, UINT ys, UINT xi, UINT yi, UINT
     c->divesetup.ulDstWidth = stretch * w;
     c->divesetup.lDstPosX = stretch * xi;
 #endif
-    c->divesetup.lDstPosY = (c->height - (yi + h)) * stretch;
+    c->divesetup.lDstPosY = (c->draw_buffer->canvas_physical_height - (yi + h)) * stretch;
 
     //
     // now setup the draw areas
@@ -1034,8 +1037,8 @@ void VideoCanvasBlit(video_canvas_t *c, UINT xs, UINT ys, UINT xi, UINT yi, UINT
         RECTL rectl = {
             c->divesetup.lScreenPosX,
             c->divesetup.lScreenPosY,
-            c->divesetup.lScreenPosX + c->width,
-            c->divesetup.lScreenPosY + c->height
+            c->divesetup.lScreenPosX + c->draw_buffer->canvas_physical_width,
+            c->divesetup.lScreenPosY + c->draw_buffer->canvas_physical_height
         };
         rc = DiveAcquireFrameBuffer(c->hDiveInst, &rectl);
     }
@@ -1112,7 +1115,7 @@ void WmPaint(HWND hwnd)
         //
         // blit to canvas (canvas_refresh should be thread safe by itself)
         //
-        VideoCanvasBlit(c, ref.x, ref.y, 0, 0, c->width, c->height);
+        VideoCanvasBlit(c, ref.x, ref.y, 0, 0, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
     }
     DosReleaseMutexSem(c->hmtx);
 
@@ -1324,7 +1327,7 @@ void VideoBufferAlloc(video_canvas_t *c)
     //
     // FIXME: bitmaptrg needs some additional lines!
     //
-    c->bitmaptrg = (char*)calloc(c->height + 4, c->width * c->bDepth / 8);
+    c->bitmaptrg = (char*)calloc(c->draw_buffer->canvas_physical_height + 4, c->draw_buffer->canvas_physical_width * c->bDepth / 8);
 
     //
     // allocate image buffer, I might be faster to specify 0 for
@@ -1335,7 +1338,7 @@ void VideoBufferAlloc(video_canvas_t *c)
     // if ulBuffer != 0 the call to DiveAllocImageBuffer fails
     //
     c->ulBuffer = 0;
-    rc=DiveAllocImageBuffer(c->hDiveInst, &c->ulBuffer, c->divesetup.fccSrcColorFormat, c->width, c->height, 0, c->bitmaptrg);
+    rc=DiveAllocImageBuffer(c->hDiveInst, &c->ulBuffer, c->divesetup.fccSrcColorFormat, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height, 0, c->bitmaptrg);
 
     //
     // check for error oocursion
@@ -1343,7 +1346,7 @@ void VideoBufferAlloc(video_canvas_t *c)
     if (rc) {
         log_error(vidlog, "DiveAllocImageBuffer (rc=0x%x).", rc);
     } else {
-        log_message(vidlog, "Dive buffer #%d allocated (%lix%li)", c->ulBuffer, c->width, c->height);
+        log_message(vidlog, "Dive buffer #%d allocated (%lix%li)", c->ulBuffer, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
     }
 }
 
@@ -1541,18 +1544,10 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width, UINT *h
     *strrchr(canvas->viewport->title, ' ') = 0; // FIXME?
 
     canvas->title = util_concat(szTitleBarText, " - ", canvas->viewport->title + 6, NULL);
-    canvas->width = *width;
-    canvas->height = *height;
+    canvas->draw_buffer->canvas_physical_width = *width;
+    canvas->draw_buffer->canvas_physical_height = *height;
     canvas->stretch = stretch;
     canvas->initialized = 2;
-
-    if (canvas->videoconfig->doublesizex) {
-        canvas->width *= 2;
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        canvas->height *= 2;
-    }
 
     _beginthread(CanvasMainLoop, NULL, 0x4000, canvas);
 
@@ -1644,7 +1639,7 @@ void video_canvas_destroy(video_canvas_t *c)
     DosCloseMutexSem(hmtx);
 }
 
-void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
+void video_canvas_resize(video_canvas_t *c, char canvas_resize)
 {
     //
     // if this function is called from the outside of
@@ -1652,26 +1647,11 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     // a mutex semaphore to avoid conflicts between
     // dive_alloc/free and video_canvas_refresh
     //
+    UINT wnew = c->draw_buffer->canvas_physical_width;
+    UINT hnew = c->draw_buffer->canvas_physical_height;
     SWP swp;
 
-    UINT wold = c->width;
-    UINT hold = c->height;
     UINT sold = c->stretch;
-
-    if (c->videoconfig->doublesizex) {
-        wnew *= 2;
-    }
-
-    if (c->videoconfig->doublesizey) {
-        hnew *= 2;
-    }
-
-    //
-    // if nothing has changed do nothing
-    //
-    if (wold == wnew && hold == hnew && sold == stretch) {
-        return;
-    }
 
     //
     // Disable all drawing into window, we can change either
@@ -1692,13 +1672,8 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     //
     // resize the buffer from which we blit to the window, too
     //
-    if (wold != wnew || hold != hnew) {
-        c->width  = wnew;
-        c->height = hnew;
-
-        VideoBufferFree(c);
-        VideoBufferAlloc(c);
-    }
+    VideoBufferFree(c);
+    VideoBufferAlloc(c);
 
     //
     // make anchor left, top corner and resize window physically
@@ -1709,13 +1684,8 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
 
         c->stretch = sold;
 
-        if (wold != wnew || hold != hnew) {
-            c->width = wold;
-            c->height = hold;
-
-            VideoBufferFree(c);
-            VideoBufferAlloc(c);
-        }
+        VideoBufferFree(c);
+        VideoBufferAlloc(c);
 
         return;
     }
@@ -1732,7 +1702,7 @@ void video_canvas_resize(video_canvas_t *c, UINT wnew, UINT hnew)
     WmVrnEnabled(c->hwndClient);
     WinSetVisibleRegionNotify(c->hwndClient, TRUE); // turn VRN on
 
-    log_message(vidlog, "Canvas resized (%ix%i * %i --> %ix%i * %i)", wold, hold, sold, wnew, hnew, stretch);
+    log_message(vidlog, "Canvas resized (%ix%i * %i)", wnew, hnew, stretch);
 }
 
 void VideoConvertPalette8(video_canvas_t *c, int num)
@@ -1938,4 +1908,9 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
+}
+
+char video_canvas_can_resize(video_canvas_t *canvas)
+{
+    return 1;
 }
