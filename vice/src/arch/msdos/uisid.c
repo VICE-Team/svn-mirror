@@ -70,7 +70,7 @@ static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
         case SID_PARSID_PORT2:
             s = "ParSID in Port 2";
             break;
-        case SIDPARSID_PORT3:
+        case SID_PARSID_PORT3:
             s = "ParSID in Port 3";
             break;
 #endif
