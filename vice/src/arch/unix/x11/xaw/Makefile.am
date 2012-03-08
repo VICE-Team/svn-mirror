@@ -33,6 +33,7 @@ libxawui_a_SOURCES = \
 	uimenu.c \
 	uimenu.h \
 	uipalcontrol.c \
+	uipalcontrol.h \
 	uiscreenshot.c \
 	uisnapshot.c \
 	uivsidcontrol.c \
@@ -40,4 +41,3 @@ libxawui_a_SOURCES = \
 	x11video.c \
 	x11kbd.c \
 	x11ui.c
-
