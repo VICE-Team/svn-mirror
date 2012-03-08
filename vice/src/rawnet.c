@@ -31,6 +31,7 @@
 
 #include <assert.h>
 #include <stddef.h>
+#include <stdlib.h>
 
 #include "rawnet.h"
 #include "rawnetarch.h"
