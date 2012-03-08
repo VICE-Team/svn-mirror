@@ -14,6 +14,7 @@ noinst_LIBRARIES = libpet.a
 
 libpet_a_SOURCES = \
 	6809.c \
+	6809.h \
 	petcpu.c \
 	pet-cmdline-options.c \
 	pet-cmdline-options.h \
