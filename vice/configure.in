@@ -306,11 +306,6 @@ if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" =
   dnl instead of using the GCC architecture targeting features.
   dnl Check for the most common ones.
 
-  if test "x$CC" = "xgcc" -a "x$host_vendor" != "xmsdos" -a "x`uname -s`" != "xMS-DOS"; then
-    CFLAGS="$CFLAGS -b i386-go32"
-    LDFLAGS="$CFLAGS -b i386-go32"
-  fi
-
   dnl This is used by subsequent tests.
   ac_cv_prog_gcc=yes
   GCC=yes
