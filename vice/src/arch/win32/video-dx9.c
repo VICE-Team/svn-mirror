@@ -130,24 +130,9 @@ int video_device_create_dx9(video_canvas_t *canvas, int fullscreen)
             }
         }
         canvas->d3dpp.Windowed = FALSE;
-        canvas->d3dpp.BackBufferWidth = width;
-        canvas->d3dpp.BackBufferHeight = height;
     } else {
         canvas->dest_rect_ptr = NULL;
         canvas->d3dpp.Windowed = TRUE;
-        canvas->d3dpp.BackBufferWidth = canvas->draw_buffer->canvas_physical_width;
-        canvas->d3dpp.BackBufferHeight = canvas->draw_buffer->canvas_physical_height;
-    }
-
-    if (S_OK != IDirect3D9_CreateDevice(d3d, device, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &canvas->d3dpp, &canvas->d3ddev)) {
-        log_debug("video_dx9: Failed to create the DirectX9 device!");
-        return -1;
-    }
-
-
-    if (S_OK != IDirect3DDevice9_CreateOffscreenPlainSurface(canvas->d3ddev, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &canvas->d3dsurface, NULL)) {
-        log_debug("video_dx9: Failed to create the offscreen surface!");
-        return -1;
     }
 
     d3dpreffilter = D3DTEXF_LINEAR;
@@ -191,15 +176,12 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
     LPDIRECT3DSWAPCHAIN9 d3dsc;
     HRESULT ddresult;
 
-    if (canvas->d3ddev == NULL) {
-        log_debug("video_dx9: Cannot reset canvas. Invalid D3D objects.");
-        return -1;
-    }
-
     if ((canvas->d3dsurface != NULL) 
             && (S_OK != IDirect3DSurface9_Release(canvas->d3dsurface))
-        || S_OK != IDirect3DDevice9_GetSwapChain(canvas->d3ddev, 0, &d3dsc)
-        || S_OK != IDirect3DSwapChain9_Release(d3dsc))
+        || (canvas->d3ddev != NULL &&
+		 ((S_OK != IDirect3DDevice9_GetSwapChain(canvas->d3ddev, 0, &d3dsc))
+        || (S_OK != IDirect3DSwapChain9_Release(d3dsc)))
+		))
     {
         log_debug("video_dx9: Failed to release the DirectX9 device resources!");
     }
@@ -223,11 +205,18 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
         canvas->d3dpp.PresentationInterval = D3DPRESENT_INTERVAL_DEFAULT;
     }
 
-    if (S_OK != (ddresult = IDirect3DDevice9_Reset(
+    if (canvas->d3ddev == NULL) {
+        if (S_OK != IDirect3D9_CreateDevice(d3d, D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, canvas->render_hwnd, D3DCREATE_SOFTWARE_VERTEXPROCESSING, &canvas->d3dpp, &canvas->d3ddev)) {
+            log_debug("video_dx9: Failed to create the DirectX9 device!");
+            return -1;
+        }
+    }
+    else {
+        if (S_OK != (ddresult = IDirect3DDevice9_Reset(
                                 canvas->d3ddev,
-                                &canvas->d3dpp)))
-    {
-        log_debug("video_dx9: Failed to reset the DirectX9 device!");
+                                &canvas->d3dpp))) {
+            log_debug("video_dx9: Failed to reset the DirectX9 device!");
+        }
     }
     
     if (S_OK != (ddresult = IDirect3DDevice9_CreateOffscreenPlainSurface(

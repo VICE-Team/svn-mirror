@@ -105,7 +105,7 @@ static int set_dx9_disable(int val, void *param)
                 video_canvas_create_ddraw(video_canvases[i]);
             }
             ui_canvas_child_window(video_canvases[i], old_dx9_disable);
-            ui_resize_canvas_window(video_canvases[i]);
+            video_canvas_resize(video_canvases[i], 1);
         }
         
         fullscreen_getmodes();

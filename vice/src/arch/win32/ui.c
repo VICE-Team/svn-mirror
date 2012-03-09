@@ -759,7 +759,8 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     GetClientRect(w, &wrect);
     ClientToScreen(w, (LPPOINT)&wrect);
     wrect.right = wrect.left + width;
-    wrect.bottom = wrect.top + height + statusbar_get_status_height() + ui_get_menu_height(w);
+    wrect.bottom = wrect.top + height + statusbar_get_status_height();
+    wrect.top -= ui_get_menu_height(w);
     adjust_style = WS_CAPTION | WS_BORDER | WS_DLGFRAME | (GetWindowLong(w, GWL_STYLE) & WS_SIZEBOX);
 	/* As MSDN says, "The AdjustWindowRect function does not add extra space when a menu bar wraps
 	   to two or more rows". Therefore, pass FALSE as argument bMenu of AdjustWindowRect: the menu
@@ -771,7 +772,7 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     if (place.showCmd == SW_SHOWNORMAL) {
         MoveWindow(w, wrect.left, wrect.top, wrect.right - wrect.left, wrect.bottom - wrect.top, TRUE);
         if (cw != 0) {
-            MoveWindow(cw, 0, 0, width, canvas->draw_buffer->canvas_physical_height, TRUE);
+            MoveWindow(cw, 0, 0, width, height, TRUE);
         }
     } else {
         place.rcNormalPosition.right = place.rcNormalPosition.left + wrect.right - wrect.left;
