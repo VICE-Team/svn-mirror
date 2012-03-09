@@ -45,8 +45,6 @@
 
 void destroy_pal_ctrl_widget(Widget w, XtPointer client_data, XtPointer call_data);
 
-static video_canvas_t *cached_canvas;
-
 typedef struct pal_res_s {
     char *label;        /* Label of Adjustmentbar */
     char *res;          /* Associated resource */
@@ -69,7 +67,8 @@ static pal_res_t ctrls[] = {
 
 typedef struct {
     Widget shell;
-    /* pal_res_t ctrls[] */
+    video_canvas_t *cached_canvas;
+    pal_res_t ctrls[0];
 } cleanup_data_t;
 
 #define THUMB_SIZE      ((float) 0.05)
@@ -131,22 +130,21 @@ static void GetWH(Widget widget, int *w, int *h)
 
 static void ResetProc(Widget w, XtPointer client_data, XtPointer dummy)
 {
-    pal_res_t *p = (pal_res_t *)client_data;
+    cleanup_data_t *p = (cleanup_data_t *)client_data;
     unsigned int i;
     int tmp;
     float fraction;
 
     for (i = 0; i < util_arraysize(ctrls); i++) {
-        resources_get_default_value(p[i].res, (void *)&tmp);
-        resources_set_int(p[i].res, tmp);
-        //printf("%s: %d\n", p[i].res, tmp);
-        fraction = (float)tmp / p[i].scale;
-        if (p[i].scrollbar) {
-            ScrollbarSetThumb(p[i].scrollbar, fraction);
+        resources_get_default_value(p->ctrls[i].res, (void *)&tmp);
+        resources_set_int(p->ctrls[i].res, tmp);
+        fraction = (float)tmp / p->ctrls[i].scale;
+        if (p->ctrls[i].scrollbar) {
+            ScrollbarSetThumb(p->ctrls[i].scrollbar, fraction);
         }
     }
 
-    video_canvas_refresh_all(cached_canvas);
+    video_canvas_refresh_all(p->cached_canvas);
 }
 
 Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, cleanup_data_t **cleanup_p)
@@ -161,8 +159,8 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
     Widget fromVert;
     cleanup_data_t *cleanupdata;
 
-    chip = canvas->videoconfig->chip_name;
     cleanupdata = lib_malloc(sizeof(cleanup_data_t) + sizeof(ctrls));
+    cleanupdata->cached_canvas = canvas;
     ctrldata = (pal_res_t *)(cleanupdata + 1);
     memcpy(ctrldata, ctrls, sizeof(ctrls));
     *cleanup_p = cleanupdata;
@@ -193,8 +191,9 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
                                     XtNtop, XawChainTop,
                                     XtNbottom, XawChainTop,
                                     NULL);
-    XtAddCallback(reset, XtNcallback, ResetProc, (XtPointer)&ctrldata[0]);
+    XtAddCallback(reset, XtNcallback, ResetProc, (XtPointer)cleanupdata);
 
+    chip = canvas->videoconfig->chip_name;
     fromVert = toplabel;
 
     /* First place the labels, from top to bottom */
@@ -264,12 +263,16 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
     return form;
 }
 
+/* This is needed to catch the `Close' command from the Window Manager. */
+/*static Atom wm_delete_window;*/
+
 void ToggleProc(Widget w, XtPointer client_data, XtPointer toggle)
 {
     Widget showhide = (Widget)client_data;
 
     if (toggle) {
         XtPopup(showhide, XtGrabNone);
+	/*XSetWMProtocols(display, XtWindow(showhide), &wm_delete_window, 1);*/
     } else {
         XtPopdown(showhide);
     }
@@ -291,8 +294,6 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent)
     Widget shell;
     cleanup_data_t *cleanupdata;
 
-    cached_canvas = canvas;
-
     toggle = XtVaCreateManagedWidget("toggle",
                                      toggleWidgetClass, parent,
                                      XtNlabel, _("CRT Controls"),
@@ -306,9 +307,12 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent)
     /* put in the sliders */
     sliders = build_pal_ctrl_widget_sliders(canvas, shell, &cleanupdata);
     (void)sliders;
+    cleanupdata->shell = shell;
 
     XtAddCallback(toggle, XtNcallback, ToggleProc, (XtPointer)shell);
     XtAddCallback(toggle, XtNdestroyCallback, destroy_pal_ctrl_widget, cleanupdata);
+
+    /*wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);*/
 
     return toggle;
 }
@@ -316,9 +320,13 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent)
 void destroy_pal_ctrl_widget(Widget w, XtPointer client_data, XtPointer call_data)
 {
     cleanup_data_t *clean = (cleanup_data_t *)client_data;
+    int i;
 
     if (clean->shell) {
         XtDestroyWidget(clean->shell);
+    }
+    for (i = 0; i < util_arraysize(ctrls); i++) {
+        lib_free(clean->ctrls[i].res);
     }
     lib_free(clean);
 }
