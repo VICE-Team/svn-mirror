@@ -186,22 +186,14 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas, unsigned int 
     }
     video_canvas_set_palette(canvas, canvas->palette);
 
-    canvas->width = *width;
-    canvas->height = *height;
+    canvas->draw_buffer->canvas_physical_width = *width;
+    canvas->draw_buffer->canvas_physical_height = *height;
 
-    if (canvas->videoconfig->doublesizex) {
-        canvas->width *= 2;
-    }
-
-    if (canvas->videoconfig->doublesizey) {
-        canvas->height *= 2;
-    }
-
-    canvas->vicewindow = new ViceWindow(BRect(0, 0, canvas->width - 1, canvas->height - 1), canvas->viewport->title);
+    canvas->vicewindow = new ViceWindow(BRect(0, 0, canvas->draw_buffer->canvas_physical_width - 1, canvas->draw_buffer->canvas_physical_height - 1), canvas->viewport->title);
 
     canvas->vicewindow->canvas = canvas;
 
-    canvas_create_bitmap(canvas, canvas->width, canvas->height);
+    canvas_create_bitmap(canvas, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height);
 
     number_of_canvas++;
     canvas->vicewindow->MoveTo(number_of_canvas * 30, number_of_canvas * 30);
@@ -224,31 +216,17 @@ void video_canvas_destroy(video_canvas_t *c)
 }
 
 /* Change the size of `s' to `width' * `height' pixels.  */
-void video_canvas_resize(video_canvas_t *c, unsigned int width, unsigned int height)
+void video_canvas_resize(video_canvas_t *c, char canvas_resize)
 {
     if (c->vicewindow == NULL) {
         return;
     }
 
-    if (c->videoconfig->doublesizex) {
-        width *= 2;
-    }
-
-    if (c->videoconfig->doublesizey) {
-        height *= 2;
-    }
-
-    if (c->width == width && c->height == height) {
-        return;
-    }
-
     delete c->vicewindow->bitmap;
-    canvas_create_bitmap(c, width, height);
+    canvas_create_bitmap(c, c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
     
-    c->vicewindow->Resize(width, height);
-    c->width = width;
-    c->height = height;
-    DEBUG(("video_canvas_resize to %d x %d", width, height));
+    c->vicewindow->Resize(c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height);
+    DEBUG(("video_canvas_resize to %d x %d", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height));
 }
 
 int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
@@ -329,8 +307,8 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
     }
 
     if (!use_direct_window) {
-        w = MIN(w, c->width - xi);
-        h = MIN(h, c->height - yi);
+        w = MIN(w, c->draw_buffer->canvas_physical_width - xi);
+        h = MIN(h, c->draw_buffer->canvas_physical_height - yi);
 
         video_canvas_render(c, (BYTE *)(c->vicewindow->bitmap->Bits()),
                             w, h,
@@ -399,4 +377,9 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
     cap_fullscreen->device_num = 0;
+}
+
+char video_canvas_can_resize(struct video_canvas_s *canvas)
+{
+    return 1;
 }
