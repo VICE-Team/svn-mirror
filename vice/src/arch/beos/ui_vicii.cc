@@ -38,17 +38,15 @@ extern "C" {
 #include "vsync.h"
 }
 
-static int ui_border_mode_count = 3;
-static int ui_border_mode[] = {
-    VICII_NORMAL_BORDERS,
-    VICII_FULL_BORDERS,
-    VICII_DEBUG_BORDERS
-};
-
-static char *ui_border_mode_text[] = {
-    "Normal",
-    "Full",
-    "Debug"
+static struct border_mode_s {
+    char *text;
+    int value;
+} border_mode[] = {
+    { "Normal", VICII_NORMAL_BORDERS },
+    { "Full", VICII_FULL_BORDERS },
+    { "Debug", VICII_DEBUG_BORDERS },
+    { "None", VICII_NO_BORDERS },
+    { NULL, 0 }
 };
 
 class ViciiWindow : public BWindow {
@@ -61,7 +59,7 @@ class ViciiWindow : public BWindow {
 static ViciiWindow *viciiwindow = NULL;
 
 ViciiWindow::ViciiWindow() 
-    : BWindow(BRect(50, 50, 350, 155), "VIC-II settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(50, 50, 350, 175), "VIC-II settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BView *background;
     BRect r;
@@ -78,46 +76,43 @@ ViciiWindow::ViciiWindow()
     AddChild(background);
 
     /* sprite collisions */
-    r = Bounds();
-    r.right = r.left + r.Width() / 2 + 10;
-    r.InsetBy(10, 10);
-    r.bottom -= 20;
-    box = new BBox(r, "Sprite Collision");
+    box = new BBox(BRect(10, 10, 150, 75), "Sprite Collision");
     box->SetLabel("Sprite Collision");
     background->AddChild(box);
 
-    checkbox = new BCheckBox(BRect(10, 20, 120, 35), NULL, "Sprite-Sprite", new BMessage(MESSAGE_VICII_SSCOLL));
+    checkbox = new BCheckBox(BRect(10, 20, 130, 35), NULL, "Sprite-Sprite", new BMessage(MESSAGE_VICII_SSCOLL));
     resources_get_int("VICIICheckSsColl", &res_val);
     checkbox->SetValue(res_val);
     box->AddChild(checkbox);
 
-    checkbox = new BCheckBox(BRect(10, 40, 120, 55), NULL, "Sprite-Background", new BMessage(MESSAGE_VICII_SBCOLL));
+    checkbox = new BCheckBox(BRect(10, 40, 130, 55), NULL, "Sprite-Background", new BMessage(MESSAGE_VICII_SBCOLL));
     resources_get_int("VICIICheckSbColl", &res_val);
     checkbox->SetValue(res_val);
     box->AddChild(checkbox);
 
     /* new colors */
-    checkbox = new BCheckBox(BRect(20, 80, 120, 95), NULL, "New Luminances", new BMessage(MESSAGE_VICII_NEWLUMINANCE));
+    checkbox = new BCheckBox(BRect(20, 80, 140, 95), NULL, "New Luminances", new BMessage(MESSAGE_VICII_NEWLUMINANCE));
     resources_get_int("VICIINewLuminances", &res_val);
     checkbox->SetValue(res_val);
     background->AddChild(checkbox);
 
     /* border mode */
     r = Bounds();
-    r.right = r.left + r.Width() / 2;
-    r.OffsetBy(r.Width(), 0);
+    r.left = r.Width() / 2;
     r.InsetBy(10, 10);
     box = new BBox(r, "Border Mode");
     box->SetLabel("Border Mode");
     background->AddChild(box);
 
     resources_get_int("VICIIBorderMode", &res_val);
-
-    for (i = 0; i < ui_border_mode_count; i++) {
+    r = box->Bounds();
+    r.InsetBy(10, 20);
+    r.bottom = 35;
+    for (i = 0; border_mode[i].text; i++) {
         msg = new BMessage(MESSAGE_VICII_BORDERS);
-        msg->AddInt32("border", ui_border_mode[i]);
-        radiobutton = new BRadioButton(BRect(10, 20 + 20 * i, r.Width() - 10, 35 + 20 * i), ui_border_mode_text[i], ui_border_mode_text[i], msg);
-        radiobutton->SetValue(res_val == ui_border_mode[i]);
+        msg->AddInt32("border", border_mode[i].value);
+        radiobutton = new BRadioButton(r.OffsetByCopy(0, i * 20), border_mode[i].text, border_mode[i].text, msg);
+        radiobutton->SetValue(res_val == border_mode[i].value);
         box->AddChild(radiobutton);
     }
 
@@ -126,7 +121,7 @@ ViciiWindow::ViciiWindow()
 
 ViciiWindow::~ViciiWindow() 
 {
-    viciiwindow = NULL;	
+    viciiwindow = NULL;
 }
 
 void ViciiWindow::MessageReceived(BMessage *msg)
