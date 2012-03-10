@@ -298,6 +298,7 @@ void SwitchToFullscreenMode(HWND hwnd)
 
         ui_set_render_window(c, 1);
         video_device_create_dx9(c, 1);
+		video_canvas_reset_dx9(c);
         video_canvas_refresh_all(c);
     }
 #endif
@@ -332,6 +333,7 @@ void SwitchToWindowedMode(HWND hwnd)
         LockWindowUpdate(NULL);
 
         video_device_create_dx9(c, 0);
+		video_canvas_reset_dx9(c);
         video_canvas_refresh_all(c);
 
         c->refreshrate = old_refreshrate;
