@@ -6712,455 +6712,476 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             CLK += 4;
             st16(X);
             break;
-	case 0xa0:
-	  indexed ();
-	  A = sub (A, RDMEM (ea));
-	  break;
-	case 0xa1:
-	  indexed ();
-	  cmp (A, RDMEM (ea));
-	  break;
-	case 0xa2:
-	  indexed ();
-	  A = sbc (A, RDMEM (ea));
-	  break;
-	case 0xa3:
-	  indexed ();
-	  subd (RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xa4:
-	  indexed ();
-	  A = and (A, RDMEM (ea));
-	  break;
-	case 0xa5:
-	  indexed ();
-	  bit (A, RDMEM (ea));
-	  break;
-	case 0xa6:
-	  indexed ();
-	  A = ld (RDMEM (ea));
-	  break;
-	case 0xa7:
-	  indexed ();
-	  st (A);
-	  break;
-	case 0xa8:
-	  indexed ();
-	  A = eor (A, RDMEM (ea));
-	  break;
-	case 0xa9:
-	  indexed ();
-	  A = adc (A, RDMEM (ea));
-	  break;
-	case 0xaa:
-	  indexed ();
-	  A = or (A, RDMEM (ea));
-	  break;
-	case 0xab:
-	  indexed ();
-	  A = add (A, RDMEM (ea));
-	  break;
-	case 0xac:
-	  indexed ();
-	  cmp16 (X, RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xad:
-	  indexed ();
-	  CLK += 3;
-	  jsr ();
-	  break;
-	case 0xae:
-	  indexed ();
-	  X = ld16 (RDMEM16 (ea));
-	  break;
-	case 0xaf:
-	  indexed ();
-	  st16 (X);
-	  break;
-
-	case 0xb0:
-	  extended ();
-	  CLK += 5;
-	  A = sub (A, RDMEM (ea));
-	  break;
-	case 0xb1:
-	  extended ();
-	  CLK += 5;
-	  cmp (A, RDMEM (ea));
-	  break;
-	case 0xb2:
-	  extended ();
-	  CLK += 5;
-	  A = sbc (A, RDMEM (ea));
-	  break;
-	case 0xb3:
-	  extended ();
-	  CLK += 5;
-	  subd (RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xb4:
-	  extended ();
-	  CLK += 5;
-	  A = and (A, RDMEM (ea));
-	  break;
-	case 0xb5:
-	  extended ();
-	  CLK += 5;
-	  bit (A, RDMEM (ea));
-	  break;
-	case 0xb6:
-	  extended ();
-	  CLK += 5;
-	  A = ld (RDMEM (ea));
-	  break;
-	case 0xb7:
-	  extended ();
-	  CLK += 5;
-	  st (A);
-	  break;
-	case 0xb8:
-	  extended ();
-	  CLK += 5;
-	  A = eor (A, RDMEM (ea));
-	  break;
-	case 0xb9:
-	  extended ();
-	  CLK += 5;
-	  A = adc (A, RDMEM (ea));
-	  break;
-	case 0xba:
-	  extended ();
-	  CLK += 5;
-	  A = or (A, RDMEM (ea));
-	  break;
-	case 0xbb:
-	  extended ();
-	  CLK += 5;
-	  A = add (A, RDMEM (ea));
-	  break;
-	case 0xbc:
-	  extended ();
-	  CLK += 5;
-	  cmp16 (X, RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xbd:
-	  extended ();
-	  CLK += 8;
-	  jsr ();
-	  break;
-	case 0xbe:
-	  extended ();
-	  CLK += 5;
-	  X = ld16 (RDMEM16 (ea));
-	  break;
-	case 0xbf:
-	  extended ();
-	  CLK += 5;
-	  st16 (X);
-	  break;
-
-	case 0xc0:
-	  CLK += 2;
-	  B = sub (B, imm_byte ());
-	  break;
-	case 0xc1:
-	  CLK += 2;
-	  cmp (B, imm_byte ());
-	  break;
-	case 0xc2:
-	  CLK += 2;
-	  B = sbc (B, imm_byte ());
-	  break;
-	case 0xc3:
-	  CLK += 4;
-	  addd (imm_word ());
-	  break;
-	case 0xc4:
-	  CLK += 2;
-	  B = and (B, imm_byte ());
-	  break;
-	case 0xc5:
-	  CLK += 2;
-	  bit (B, imm_byte ());
-	  break;
-	case 0xc6:
-	  CLK += 2;
-	  B = ld (imm_byte ());
-	  break;
-	case 0xc8:
-	  CLK += 2;
-	  B = eor (B, imm_byte ());
-	  break;
-	case 0xc9:
-	  CLK += 2;
-	  B = adc (B, imm_byte ());
-	  break;
-	case 0xca:
-	  CLK += 2;
-	  B = or (B, imm_byte ());
-	  break;
-	case 0xcb:
-	  CLK += 2;
-	  B = add (B, imm_byte ());
-	  break;
-	case 0xcc:
-	  CLK += 3;
-	  ldd (imm_word ());
-	  break;
-#ifdef H6309
-	case 0xcd:		/* LDQ immed */
-	  break;
+        case 0xa0:	/* SUBA indexed */
+            indexed();
+            A = sub(A, RDMEM(ea));
+            break;
+        case 0xa1:	/* CMPA indexed */
+            indexed();
+            cmp(A, RDMEM(ea));
+            break;
+        case 0xa2:	/* SBCA indexed */
+            indexed();
+            A = sbc(A, RDMEM(ea));
+            break;
+        case 0xa3:	/* SUBD indexed */
+            indexed();
+            subd(RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xa4:	/* ANDA indexed */
+            indexed();
+            A = and(A, RDMEM(ea));
+            break;
+        case 0xa5:	/* BITA indexed */
+            indexed();
+            bit(A, RDMEM(ea));
+            break;
+        case 0xa6:	/* LDA indexed */
+            indexed();
+            A = ld(RDMEM(ea));
+            break;
+        case 0xa7:	/* STA indexed */
+            indexed();
+            st(A);
+            break;
+        case 0xa8:	/* EORA indexed */
+            indexed();
+            A = eor(A, RDMEM(ea));
+            break;
+        case 0xa9:	/* ADCA indexed */
+            indexed();
+            A = adc(A, RDMEM(ea));
+            break;
+        case 0xaa:	/* ORA indexed */
+            indexed();
+            A = or(A, RDMEM(ea));
+            break;
+        case 0xab:	/* ADDA indexed */
+            indexed();
+            A = add(A, RDMEM(ea));
+            break;
+        case 0xac:	/* CMPX indexed */
+            indexed();
+            cmp16(X, RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xad:	/* JSR indexed */
+            indexed();
+            CLK += 3;
+            jsr();
+            break;
+        case 0xae:	/* LDX indexed */
+            indexed();
+            X = ld16(RDMEM16(ea));
+            break;
+        case 0xaf:	/* STX indexed */
+            indexed();
+            st16(X);
+            break;
+        case 0xb0:	/* SUBA extended */
+            extended();
+            CLK += 5;
+            A = sub(A, RDMEM(ea));
+            break;
+        case 0xb1:	/* CMPA extended */
+            extended();
+            CLK += 5;
+            cmp(A, RDMEM(ea));
+            break;
+        case 0xb2:	/* SBCA extended */
+            extended();
+            CLK += 5;
+            A = sbc(A, RDMEM(ea));
+            break;
+        case 0xb3:	/* SUBD extended */
+            extended();
+            CLK += 5;
+            subd(RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xb4:	/* ANDA extended */
+            extended();
+            CLK += 5;
+            A = and(A, RDMEM(ea));
+            break;
+        case 0xb5:	/* BITA extended */
+            extended();
+            CLK += 5;
+            bit(A, RDMEM(ea));
+            break;
+        case 0xb6:	/* LDA extended */
+            extended();
+            CLK += 5;
+            A = ld(RDMEM(ea));
+            break;
+        case 0xb7:	/* STA extended */
+            extended();
+            CLK += 5;
+            st(A);
+            break;
+        case 0xb8:	/* EORA extended */
+            extended();
+            CLK += 5;
+            A = eor(A, RDMEM(ea));
+            break;
+        case 0xb9:	/* ADCA extended */
+            extended();
+            CLK += 5;
+            A = adc(A, RDMEM(ea));
+            break;
+        case 0xba:	/* ORA extended */
+            extended();
+            CLK += 5;
+            A = or(A, RDMEM(ea));
+            break;
+        case 0xbb:	/* ADDA extended */
+            extended();
+            CLK += 5;
+            A = add(A, RDMEM(ea));
+            break;
+        case 0xbc:	/* CMPX extended */
+            extended();
+            CLK += 5;
+            cmp16(X, RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xbd:	/* JSR extended */
+            extended();
+            CLK += 8;
+            jsr();
+            break;
+        case 0xbe:	/* LDX extended */
+            extended();
+            CLK += 5;
+            X = ld16(RDMEM16(ea));
+            break;
+        case 0xbf:	/* STX extended */
+            extended();
+            CLK += 5;
+            st16(X);
+            break;
+        case 0xc0:	/* SUBB immediate */
+            CLK += 2;
+            B = sub(B, imm_byte());
+            break;
+        case 0xc1:	/* CMPB immediate */
+            CLK += 2;
+            cmp(B, imm_byte());
+            break;
+        case 0xc2:	/* SBCB immediate */
+            CLK += 2;
+            B = sbc(B, imm_byte());
+            break;
+        case 0xc3:	/* ADDD immediate */
+            CLK += 4;
+            addd(imm_word());
+            break;
+        case 0xc4:	/* ANDB immediate */
+            CLK += 2;
+            B = and(B, imm_byte());
+            break;
+        case 0xc5:	/* BITB immediate */
+            CLK += 2;
+            bit(B, imm_byte());
+            break;
+        case 0xc6:	/* LDB immediate */
+            CLK += 2;
+            B = ld(imm_byte());
+            break;
+#ifdef FULL6809
+        case 0xc7:	/* SCC immediate (UNDOC) */
+            /* TODO: cycle count */
+            scc(imm_byte());
+            break;
 #endif
-	case 0xce:
-	  CLK += 3;
-	  U = ld16 (imm_word ());
-	  break;
-
-	case 0xd0:
-	  direct ();
-	  CLK += 4;
-	  B = sub (B, RDMEM (ea));
-	  break;
-	case 0xd1:
-	  direct ();
-	  CLK += 4;
-	  cmp (B, RDMEM (ea));
-	  break;
-	case 0xd2:
-	  direct ();
-	  CLK += 4;
-	  B = sbc (B, RDMEM (ea));
-	  break;
-	case 0xd3:
-	  direct ();
-	  CLK += 4;
-	  addd (RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xd4:
-	  direct ();
-	  CLK += 4;
-	  B = and (B, RDMEM (ea));
-	  break;
-	case 0xd5:
-	  direct ();
-	  CLK += 4;
-	  bit (B, RDMEM (ea));
-	  break;
-	case 0xd6:
-	  direct ();
-	  CLK += 4;
-	  B = ld (RDMEM (ea));
-	  break;
-	case 0xd7:
-	  direct ();
-	  CLK += 4;
-	  st (B);
-	  break;
-	case 0xd8:
-	  direct ();
-	  CLK += 4;
-	  B = eor (B, RDMEM (ea));
-	  break;
-	case 0xd9:
-	  direct ();
-	  CLK += 4;
-	  B = adc (B, RDMEM (ea));
-	  break;
-	case 0xda:
-	  direct ();
-	  CLK += 4;
-	  B = or (B, RDMEM (ea));
-	  break;
-	case 0xdb:
-	  direct ();
-	  CLK += 4;
-	  B = add (B, RDMEM (ea));
-	  break;
-	case 0xdc:
-	  direct ();
-	  CLK += 4;
-	  ldd (RDMEM16 (ea));
-	  break;
-	case 0xdd:
-	  direct ();
-	  CLK += 4;
-	  std ();
-	  break;
-	case 0xde:
-	  direct ();
-	  CLK += 4;
-	  U = ld16 (RDMEM16 (ea));
-	  break;
-	case 0xdf:
-	  direct ();
-	  CLK += 4;
-	  st16 (U);
-	  break;
-
-	case 0xe0:
-	  indexed ();
-	  B = sub (B, RDMEM (ea));
-	  break;
-	case 0xe1:
-	  indexed ();
-	  cmp (B, RDMEM (ea));
-	  break;
-	case 0xe2:
-	  indexed ();
-	  B = sbc (B, RDMEM (ea));
-	  break;
-	case 0xe3:
-	  indexed ();
-	  addd (RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xe4:
-	  indexed ();
-	  B = and (B, RDMEM (ea));
-	  break;
-	case 0xe5:
-	  indexed ();
-	  bit (B, RDMEM (ea));
-	  break;
-	case 0xe6:
-	  indexed ();
-	  B = ld (RDMEM (ea));
-	  break;
-	case 0xe7:
-	  indexed ();
-	  st (B);
-	  break;
-	case 0xe8:
-	  indexed ();
-	  B = eor (B, RDMEM (ea));
-	  break;
-	case 0xe9:
-	  indexed ();
-	  B = adc (B, RDMEM (ea));
-	  break;
-	case 0xea:
-	  indexed ();
-	  B = or (B, RDMEM (ea));
-	  break;
-	case 0xeb:
-	  indexed ();
-	  B = add (B, RDMEM (ea));
-	  break;
-	case 0xec:
-	  indexed ();
-	  ldd (RDMEM16 (ea));
-	  break;
-	case 0xed:
-	  indexed ();
-	  std ();
-	  break;
-	case 0xee:
-	  indexed ();
-	  U = ld16 (RDMEM16 (ea));
-	  break;
-	case 0xef:
-	  indexed ();
-	  st16 (U);
-	  break;
-
-	case 0xf0:
-	  extended ();
-	  CLK += 5;
-	  B = sub (B, RDMEM (ea));
-	  break;
-	case 0xf1:
-	  extended ();
-	  CLK += 5;
-	  cmp (B, RDMEM (ea));
-	  break;
-	case 0xf2:
-	  extended ();
-	  CLK += 5;
-	  B = sbc (B, RDMEM (ea));
-	  break;
-	case 0xf3:
-	  extended ();
-	  CLK += 5;
-	  addd (RDMEM16 (ea));
-	  CLK++;
-	  break;
-	case 0xf4:
-	  extended ();
-	  CLK += 5;
-	  B = and (B, RDMEM (ea));
-	  break;
-	case 0xf5:
-	  extended ();
-	  CLK += 5;
-	  bit (B, RDMEM (ea));
-	  break;
-	case 0xf6:
-	  extended ();
-	  CLK += 5;
-	  B = ld (RDMEM (ea));
-	  break;
-	case 0xf7:
-	  extended ();
-	  CLK += 5;
-	  st (B);
-	  break;
-	case 0xf8:
-	  extended ();
-	  CLK += 5;
-	  B = eor (B, RDMEM (ea));
-	  break;
-	case 0xf9:
-	  extended ();
-	  CLK += 5;
-	  B = adc (B, RDMEM (ea));
-	  break;
-	case 0xfa:
-	  extended ();
-	  CLK += 5;
-	  B = or (B, RDMEM (ea));
-	  break;
-	case 0xfb:
-	  extended ();
-	  CLK += 5;
-	  B = add (B, RDMEM (ea));
-	  break;
-	case 0xfc:
-	  extended ();
-	  CLK += 5;
-	  ldd (RDMEM16 (ea));
-	  break;
-	case 0xfd:
-	  extended ();
-	  CLK += 5;
-	  std ();
-	  break;
-	case 0xfe:
-	  extended ();
-	  CLK += 5;
-	  U = ld16 (RDMEM16 (ea));
-	  break;
-	case 0xff:
-	  extended ();
-	  CLK += 5;
-	  st16 (U);
-	  break;
-
-	default:
-	  CLK += 2;
-          sim_error ("invalid opcode '%02X'\n", opcode);
-          //PC = iPC;
-	  break;
-	}
-
-	if (cc_changed)
-		cc_modified ();
+        case 0xc8:	/* EORB immediate */
+            CLK += 2;
+            B = eor(B, imm_byte());
+            break;
+        case 0xc9:	/* ADCB immediate */
+            CLK += 2;
+            B = adc(B, imm_byte());
+            break;
+        case 0xca:	/* ORB immediate */
+            CLK += 2;
+            B = or(B, imm_byte());
+            break;
+        case 0xcb:	/* ADDB immediate */
+            CLK += 2;
+            B = add(B, imm_byte());
+            break;
+        case 0xcc:	/* LDD immediate */
+            CLK += 3;
+            ldd(imm_word());
+            break;
+#ifdef FULL6809
+        case 0xcd:	/* HCF (UNDOC) */
+            hcf();
+            break;
+#endif
+#ifdef H6309
+        case 0xcd:	/* LDQ immediate */
+            /* TODO: cycle count */
+            Q = ld32(imm_dword());
+            break;
+#endif
+        case 0xce:	/* LDU immediate */
+            CLK += 3;
+            U = ld16(imm_word());
+            break;
+#ifdef FULL6809
+        case 0xcf:	/* STU immediate (UNDOC) */
+            /* TODO: cycle count */
+            st_imm(U);
+            break;
+#endif
+        case 0xd0:	/* SUBB direct */
+            direct();
+            CLK += 4;
+            B = sub(B, RDMEM(ea));
+            break;
+        case 0xd1:	/* CMPB direct */
+            direct();
+            CLK += 4;
+            cmp(B, RDMEM(ea));
+            break;
+        case 0xd2:	/* SBCB direct */
+            direct();
+            CLK += 4;
+            B = sbc(B, RDMEM(ea));
+            break;
+        case 0xd3:	/* ADDD direct */
+            direct();
+            CLK += 4;
+            addd(RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xd4:	/* ANDB direct */
+            direct();
+            CLK += 4;
+            B = and(B, RDMEM(ea));
+            break;
+        case 0xd5:	/* BITB direct */
+            direct();
+            CLK += 4;
+            bit(B, RDMEM(ea));
+            break;
+        case 0xd6:	/* LDB direct */
+            direct();
+            CLK += 4;
+            B = ld(RDMEM(ea));
+            break;
+        case 0xd7:	/* STB direct */
+            direct();
+            CLK += 4;
+            st(B);
+            break;
+        case 0xd8:	/* EORB direct */
+            direct();
+            CLK += 4;
+            B = eor(B, RDMEM(ea));
+            break;
+        case 0xd9:	/* ADCB direct */
+            direct();
+            CLK += 4;
+            B = adc(B, RDMEM(ea));
+            break;
+        case 0xda:	/* ORB direct */
+            direct();
+            CLK += 4;
+            B = or(B, RDMEM(ea));
+            break;
+        case 0xdb:	/* ADDB direct */
+            direct();
+            CLK += 4;
+            B = add(B, RDMEM(ea));
+            break;
+        case 0xdc:	/* LDD direct */
+            direct();
+            CLK += 4;
+            ldd(RDMEM16(ea));
+            break;
+        case 0xdd:	/* STD direct */
+            direct();
+            CLK += 4;
+            std();
+            break;
+        case 0xde:	/* LDU direct */
+            direct();
+            CLK += 4;
+            U = ld16(RDMEM16(ea));
+            break;
+        case 0xdf:	/* STU direct */
+            direct();
+            CLK += 4;
+            st16(U);
+            break;
+        case 0xe0:	/* SUBB indexed */
+            indexed();
+            B = sub(B, RDMEM(ea));
+            break;
+        case 0xe1:	/* CMPB indexed */
+            indexed();
+            cmp(B, RDMEM(ea));
+            break;
+        case 0xe2:	/* SBCB indexed */
+            indexed();
+            B = sbc(B, RDMEM(ea));
+            break;
+        case 0xe3:	/* ADDD indexed */
+            indexed();
+            addd(RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xe4:	/* ANDB indexed */
+            indexed();
+            B = and(B, RDMEM(ea));
+            break;
+        case 0xe5:	/* BITB indexed */
+            indexed();
+            bit(B, RDMEM(ea));
+            break;
+        case 0xe6:	/* LDB indexed */
+            indexed();
+            B = ld(RDMEM(ea));
+            break;
+        case 0xe7:	/* STB indexed */
+            indexed();
+            st(B);
+            break;
+        case 0xe8:	/* EORB indexed */
+            indexed();
+            B = eor(B, RDMEM(ea));
+            break;
+        case 0xe9:	/* ADCB indexed */
+            indexed();
+            B = adc(B, RDMEM(ea));
+            break;
+        case 0xea:	/* ORB indexed */
+            indexed();
+            B = or(B, RDMEM(ea));
+            break;
+        case 0xeb:	/* ADDB indexed */
+            indexed();
+            B = add(B, RDMEM(ea));
+            break;
+        case 0xec:	/* LDD indexed */
+            indexed();
+            ldd(RDMEM16(ea));
+            break;
+        case 0xed:	/* STD indexed */
+            indexed();
+            std();
+            break;
+        case 0xee:	/* LDU indexed */
+            indexed();
+            U = ld16(RDMEM16(ea));
+            break;
+        case 0xef:	/* STU indexed */
+            indexed();
+            st16(U);
+            break;
+        case 0xf0:	/* SUBB extended */
+            extended();
+            CLK += 5;
+            B = sub(B, RDMEM(ea));
+            break;
+        case 0xf1:	/* CMPB extended */
+            extended();
+            CLK += 5;
+            cmp(B, RDMEM(ea));
+            break;
+        case 0xf2:	/* SBCB extended */
+            extended();
+            CLK += 5;
+            B = sbc(B, RDMEM(ea));
+            break;
+        case 0xf3:	/* ADDD extended */
+            extended();
+            CLK += 5;
+            addd(RDMEM16(ea));
+            CLK++;
+            break;
+        case 0xf4:	/* ANDB extended */
+            extended();
+            CLK += 5;
+            B = and(B, RDMEM(ea));
+            break;
+        case 0xf5:	/* BITB extended */
+            extended();
+            CLK += 5;
+            bit(B, RDMEM(ea));
+            break;
+        case 0xf6:	/* LDB extended */
+            extended();
+            CLK += 5;
+            B = ld(RDMEM(ea));
+            break;
+        case 0xf7:	/* STB extended */
+            extended();
+            CLK += 5;
+            st(B);
+            break;
+        case 0xf8:	/* EORB extended */
+            extended();
+            CLK += 5;
+            B = eor(B, RDMEM(ea));
+            break;
+        case 0xf9:	/* ADCB extended */
+            extended();
+            CLK += 5;
+            B = adc(B, RDMEM(ea));
+            break;
+        case 0xfa:	/* ORB extended */
+            extended();
+            CLK += 5;
+            B = or(B, RDMEM(ea));
+            break;
+        case 0xfb:	/* ADDB extended */
+            extended();
+            CLK += 5;
+            B = add(B, RDMEM(ea));
+            break;
+        case 0xfc:	/* LDD extended */
+            extended();
+            CLK += 5;
+            ldd(RDMEM16(ea));
+            break;
+        case 0xfd:	/* STD extended */
+            extended();
+            CLK += 5;
+            std();
+            break;
+        case 0xfe:	/* LDU extended */
+            extended();
+            CLK += 5;
+            U = ld16(RDMEM16(ea));
+            break;
+        case 0xff:	/* STU extended */
+            extended();
+            CLK += 5;
+            st16(U);
+            break;
+#ifdef H6309
+        default:	/* 6309 illegal opcode trap */
+            opcode_trap();
+            break;
+#else
+#ifndef FULL6809
+        default:
+            CLK += 2;
+            sim_error ("invalid opcode '%02X'\n", opcode);
+            break;
+#endif
+#endif
     }
-  while (1 /*CLK > 0*/);
+
+    if (cc_changed) {
+        cc_modified();
+    }
+
+    } while (1);
 
 cpu_exit:
    return;
