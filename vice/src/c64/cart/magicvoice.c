@@ -140,6 +140,10 @@ static int mv_gameE000_enabled = 0;
 static int mv_mapped_game = 1, mv_mapped_exrom = 1;
 
 static int mv_game8000_enabled = 0; /* gamecart at passthrough enabled */
+static int mv_game8000_atB000_enabled = 0;
+static int mv_gameA000_at3000_enabled = 0;
+
+static int mv_passthrough_addr = 0;
 
 static void ga_memconfig_changed(int mode);
 
@@ -373,21 +377,27 @@ int n = 1;
 int this;
 static int last;
 #endif
+    mv_game8000_atB000_enabled = 0;
+    mv_gameA000_at3000_enabled = 0;
     if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 0 */
-        /* "game */
-        mv_romA000_enabled = 0; /* ! */
+        /* only with cart */
+        /* game, before reading from memory */
+        mv_game8000_atB000_enabled = 1;
+        mv_gameA000_at3000_enabled = 1;
+        mv_romA000_enabled = 1; /* ! */ /* code switching to this cfg is at 0xa... in mv rom */
         mv_romE000_enabled = 0; /* ! */
         mv_game = 0;
-        mv_game8000_enabled = 0; /* ! */
-        mv_gameA000_enabled = 0; /* ! */
+        mv_game8000_enabled = 1; /* ! */
+        mv_gameA000_enabled = 0; /* ! */ /* code switching to this cfg is at 0xa... in mv rom */
         mv_gameE000_enabled = 1; /* ? */
     } else if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 2 */
-        /* in init with "no cart" */
-        mv_romA000_enabled = 0;
+        /* in init with "no cart", after "turn off basic" */
+        /* game, after reading from memory */
+        mv_romA000_enabled = 0;  /* ! */
         mv_romE000_enabled = 0;  /* ! */
         mv_game = 0;
         mv_game8000_enabled = 0;
-        mv_gameA000_enabled = 0; /* ? */
+        mv_gameA000_enabled = 0; /* ! */
         mv_gameE000_enabled = 0; /* ! */
 #if 1
     } else if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 3 */
@@ -401,6 +411,7 @@ static int last;
         mv_gameE000_enabled = 0; /* ? */
 #endif
     } else if (((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 6 */
+        /* only with cart */
         /* "game */
         mv_romA000_enabled = 0;
         mv_romE000_enabled = 0;
@@ -426,13 +437,14 @@ static int last;
         mv_gameA000_enabled = 0; /* ? */
         mv_gameE000_enabled = 0; /* ? */
     } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 10 */
-        /* "game" */
+        /* only with cart */
+        /* (intermediate in "turn on/off basic") */
         mv_romA000_enabled = 0;
         mv_romE000_enabled = 0;
         mv_game = 1;
-        mv_game8000_enabled = 1;
+        mv_game8000_enabled = 1; /* ? */
         mv_gameA000_enabled = 1; /* ? */
-        mv_gameE000_enabled = 1; /* ? */
+        mv_gameE000_enabled = 0; /* ? */
     } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 11 */
         /* in init with "no cart" */
         mv_romE000_enabled = 1;
@@ -452,7 +464,8 @@ static int last;
         mv_gameE000_enabled = 0; /* ? */
 #endif
     } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 14 */
-        /* before running "16k cart" */
+        /* only with cart */
+        /* before running "16k cart", after "turn on basic" */
         mv_romA000_enabled = 0;
         mv_romE000_enabled = 0;
         mv_game = 1;
@@ -489,6 +502,9 @@ static int last;
         if (n) {
             DBG(("MV: @$%04x config (%2d) exrom %d pc6: %d pb5: %d pb6: %d | game: %d mv A000: %d E000: %d game 8000: %d  A000: %d E000: %d ",
                  reg_pc, this, mv_exrom, ga_pc6, ga_pb5, ga_pb6, mv_game,  mv_romA000_enabled, mv_romE000_enabled, mv_game8000_enabled, mv_gameA000_enabled, mv_gameE000_enabled));
+            if(mv_game8000_atB000_enabled || mv_gameA000_at3000_enabled) {
+            DBG(("(%04x)",mv_passthrough_addr));
+            }
             switch((mv_exrom << 1) | mv_game) {
                 case 0:
                     DBG(("(ram)\n"));
@@ -607,6 +623,7 @@ static void store_pa(tpi_context_t *tpi_context, BYTE byte)
 
     PB0..3      OUT: D0..D3 Data -> T6721 D0..D3 (highest Nibble first)
                 IN: T6721 D0..D3 (Status)
+                OUT: A15,14,13,12 for passthrough port (if enabled)
     PB4         OUT: !WR -> T6721 WR (write to T6721, L->H "Pretty Please")
     PB5         OUT? -> Gate Array (with pullup)
     PB6         OUT? -> Gate Array (with pullup)
@@ -619,6 +636,7 @@ static void store_pb(tpi_context_t *tpi_context, BYTE byte)
     /* out: PB3..PB0 go to D3..D0*/
     t6721_store(t6721, (BYTE)(byte & 0x0f));
 
+    mv_passthrough_addr = (int)(byte & 0x0f) << 12;
     ga_pb5 = (byte >> 5) & 1;
     ga_pb6 = (byte >> 6) & 1;
     ga_memconfig_changed(CMODE_READ);
@@ -742,6 +760,7 @@ static void magicvoice_io2_store(WORD addr, BYTE data)
             break;
     }
     tpicore_store(tpi_context, (WORD)(addr & 7), data);
+
 }
 
 static BYTE magicvoice_io2_read(WORD addr)
@@ -755,8 +774,9 @@ static BYTE magicvoice_io2_read(WORD addr)
         case 7:
             /* FIXME: this register contains a wrong value when checked by the software */
 #if 1
-            value &= ~(3 << 2);
+            value &= ~(1 << 3);
             value |= ((t6721->playing) << 3);   /* hack: dtrd */
+            value &= ~(1 << 2);
             value |= ((t6721->eos) << 2);  /* hack: eos */
 #endif
             DBGREG(("MV: @:%04x io2 r %04x %02x (Active IRQs)\n", reg_pc, addr, value));
@@ -854,8 +874,25 @@ int magicvoice_cart_enabled(void)
 
 /* ---------------------------------------------------------------------*/
 
+static BYTE read_remapped(WORD addr)
+{
+    addr &= 0x0fff;
+    addr |= mv_passthrough_addr;
+    if (addr <= 0x9fff) {
+        return roml_banks[addr & 0x1fff];
+    }
+    return romh_banks[addr & 0x1fff];
+}
+
 int magicvoice_ultimax_read(WORD addr, BYTE *value)
 {
+    if (mv_gameA000_at3000_enabled) {
+        /* FIXME: hack! */
+        if ((addr >= 0x3000) && (addr <= 0x3fff)) {
+            *value = read_remapped(addr);
+            return 1;
+        }
+    }
     /* disabled, read c64 memory */
     return CART_READ_C64MEM;
 }
@@ -899,6 +936,13 @@ int magicvoice_a000_bfff_read(WORD addr, BYTE *value)
     }
     return 1;
 #else
+    if (mv_game8000_atB000_enabled) {
+        /* FIXME: hack! */
+        if ((addr >= 0xb000) && (addr <= 0xbfff)) {
+            *value = read_remapped(addr);
+            return 1;
+        }
+    }
     if (mv_gameA000_enabled) {
         /* "passthrough" */
         return CART_READ_THROUGH_NO_ULTIMAX;
@@ -1018,12 +1062,12 @@ char *magicvoice_filename = NULL;
 
 static int set_magicvoice_enabled(int val, void *param)
 {
-    DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, mv_enabled, val));
+    DBG(("MV: set_enabled: '%s' %d to %d\n", magicvoice_filename, magicvoice_sound_chip.chip_enabled, val));
     if (magicvoice_sound_chip.chip_enabled && !val) {
         cart_power_off();
 #ifdef MVDEBUG
         if (magicvoice_io2_list_item == NULL) {
-            DBG(("MV: BUG: mv_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
+            DBG(("MV: BUG: magicvoice_sound_chip.chip_enabled == 1 and magicvoice_io2_list_item == NULL ?!\n"));
         }
 #endif
         c64export_remove(&export_res);
@@ -1040,7 +1084,7 @@ static int set_magicvoice_enabled(int val, void *param)
                         DBG(("MV: set_enabled did not register\n"));
                         return -1;
                     }
-                    /* mv_enabled = 1; */ /* cartridge_attach_image will end up calling set_magicvoice_enabled again */
+                    /* magicvoice_sound_chip.chip_enabled = 1; */ /* cartridge_attach_image will end up calling set_magicvoice_enabled again */
                     return 0;
                 }
             }
@@ -1058,7 +1102,7 @@ static int set_magicvoice_enabled(int val, void *param)
         }
     }
 
-    DBG(("MV: set_enabled done: '%s' %d : %d\n",magicvoice_filename , val, mv_enabled));
+    DBG(("MV: set_enabled done: '%s' %d : %d\n",magicvoice_filename , val, magicvoice_sound_chip.chip_enabled));
     return 0;
 }
 
@@ -1071,7 +1115,7 @@ static int set_magicvoice_filename(const char *name, void *param)
             return -1;
         }
     }
-    DBG(("MV: set_name: %d '%s'\n",mv_enabled, magicvoice_filename));
+    DBG(("MV: set_name: %d '%s'\n",magicvoice_sound_chip.chip_enabled, magicvoice_filename));
 
     util_string_set(&magicvoice_filename, name);
     resources_get_int("MagicVoiceCartridgeEnabled", &enabled);
@@ -1079,10 +1123,10 @@ static int set_magicvoice_filename(const char *name, void *param)
     if (set_magicvoice_enabled(enabled, (void*)1) < 0 ) {
         lib_free(magicvoice_filename);
         magicvoice_filename = NULL;
-        DBG(("MV: set_name done: %d '%s'\n",mv_enabled, magicvoice_filename));
+        DBG(("MV: set_name done: %d '%s'\n",magicvoice_sound_chip.chip_enabled, magicvoice_filename));
         return -1;
     }
-    DBG(("MV: set_name done: %d '%s'\n",mv_enabled, magicvoice_filename));
+    DBG(("MV: set_name done: %d '%s'\n",magicvoice_sound_chip.chip_enabled, magicvoice_filename));
     return 0;
 }
 
@@ -1245,7 +1289,7 @@ int magicvoice_crt_attach(FILE *fd, BYTE *rawcart)
 
 void magicvoice_detach(void)
 {
-    DBG(("MV: detach %d %p\n", mv_enabled, magicvoice_io2_list_item));
+    DBG(("MV: detach %d %p\n", magicvoice_sound_chip.chip_enabled, magicvoice_io2_list_item));
     set_magicvoice_enabled(0, NULL);
 }
 
