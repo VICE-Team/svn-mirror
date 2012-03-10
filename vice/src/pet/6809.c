@@ -39,6 +39,11 @@
    6309 CPU. */
 /* #define H6309 */
 
+/* Sanity check */
+#if defined(FULL6809) && defined(H6309)
+#error cannot use FULL6809 and H6309 at the same time.
+#endif
+
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
 #define ALARM_CONTEXT maincpu_alarm_context
