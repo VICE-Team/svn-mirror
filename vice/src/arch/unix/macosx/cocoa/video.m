@@ -214,10 +214,24 @@ video_canvas_t *video_canvas_create(struct video_canvas_s *canvas,
                                     unsigned int *width,
                                     unsigned int *height,
                                     int mapped)
-{
-    int w = *width;
-    int h = *height;
-    
+{	
+	// visible width/height seem to be the only sensible values here...
+	struct draw_buffer_s *db = canvas->draw_buffer;
+    int w = db->visible_width;
+    int h = db->visible_height;
+    if (canvas->videoconfig->doublesizex) {
+        w *= (canvas->videoconfig->doublesizex + 1);
+    }
+    if (canvas->videoconfig->doublesizey) {
+        h *= (canvas->videoconfig->doublesizey + 1);
+    }
+
+	// this actually sets the canvas_physical_width/height in canvas->draw_buffer (?!)
+	*width = w;
+	*height = h;
+	canvas->width = w;
+	canvas->height = h;
+	
     // encapsulate canvas ptr
     video_canvas_t *canvasPtr = canvas;
     NSData *data = [NSData dataWithBytes:&canvasPtr length:sizeof(video_canvas_t *)];
@@ -247,27 +261,32 @@ void video_canvas_destroy(video_canvas_t *canvas)
     [[theVICEMachine app] destroyCanvas:data];
 }
 
-// VICE wants to change the size of the canvas -> adapt View
-void video_canvas_resize(video_canvas_t * canvas,
-                         unsigned int width,
-                         unsigned int height)
+char video_canvas_can_resize(video_canvas_t *canvas)
 {
-    if (canvas->videoconfig->doublesizex)
-        width *= (canvas->videoconfig->doublesizex + 1);
-    if (canvas->videoconfig->doublesizey)
-        height *= 2;
-    if (canvas->width == width && canvas->height == height)
-        return;
+    return 1;
+}
 
-    canvas->width = width;
-    canvas->height = height;
+// VICE wants to change the size of the canvas -> adapt View
+void video_canvas_resize(video_canvas_t * canvas, char resize_canvas)
+{
+	struct draw_buffer_s *db = canvas->draw_buffer;	
+    int width = db->visible_width;
+    int height = db->visible_height;
+    if (canvas->videoconfig->doublesizex) {
+        width *= (canvas->videoconfig->doublesizex + 1);
+    }
+    if (canvas->videoconfig->doublesizey) {
+        height *= (canvas->videoconfig->doublesizey + 1);
+    }
+	canvas->width = width;
+	canvas->height = height;
 
     // encapsulate canvas ptr
     video_canvas_t *canvasPtr = canvas;
     NSData *data = [NSData dataWithBytes:&canvasPtr length:sizeof(video_canvas_t *)];
 
     // call UI thread to resize canvas
-    [[theVICEMachine app] resizeCanvas:data withSize:NSMakeSize(width,height)];
+    [[theVICEMachine app] resizeCanvas:data withSize:NSMakeSize(width, height)];
 }
 
 extern int vsync_frame_counter;
@@ -278,13 +297,15 @@ void video_canvas_refresh(video_canvas_t *canvas,
                           unsigned int w, unsigned int h)
 {
     if (canvas->videoconfig->doublesizex) {
-        xi *= 2;
-        w *= 2;
+        xi *= (canvas->videoconfig->doublesizex + 1);
+        w *= (canvas->videoconfig->doublesizex + 1);
     }
+
     if (canvas->videoconfig->doublesizey) {
-        yi *= 2;
-        h *= 2;
+        yi *= (canvas->videoconfig->doublesizey + 1);
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
+
     w = MIN(w, canvas->width - xi);
     h = MIN(h, canvas->height - yi);
 
