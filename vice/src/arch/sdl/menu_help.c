@@ -324,20 +324,20 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 1998-2012 Dag Lem", 6);
         sdl_ui_print_center("(C) 1999-2012 Andreas Matthies", 7);
         sdl_ui_print_center("(C) 1999-2012 Martin Pottendorfer", 8);
-        sdl_ui_print_center("(C) 2005-2012 Marco van den Heuvel", 10);
-        sdl_ui_print_center("(C) 2006-2012 Christian Vogelgsang", 11);
-        sdl_ui_print_center("(C) 2007-2012 Fabrizio Gennari", 12);
-        sdl_ui_print_center("(C) 2007-2012 Daniel Kahlin", 13);
-        sdl_ui_print_center("(C) 2008-2012 Antti S. Lankila", 14);
-        sdl_ui_print_center("(C) 2009-2012 Groepaz", 15);
-        sdl_ui_print_center("(C) 2009-2012 Ingo Korb", 16);
-        sdl_ui_print_center("(C) 2009-2012 Errol Smith", 17);
-        sdl_ui_print_center("(C) 2010-2012 Olaf Seibert", 18);
-        sdl_ui_print_center("(C) 2011-2012 Marcus Sutton", 19);
-        sdl_ui_print_center("(C) 2011-2012 Ulrich Schulz", 20);
-        sdl_ui_print_center("(C) 2011-2012 Stefan Haubenthal", 21);
-        sdl_ui_print_center("(C) 2011-2012 Thomas Giesel", 22);
-        sdl_ui_print_center("(C) 2011-2012 Kajtar Zsolt", 23);
+        sdl_ui_print_center("(C) 2005-2012 Marco van den Heuvel", 9);
+        sdl_ui_print_center("(C) 2006-2012 Christian Vogelgsang", 10);
+        sdl_ui_print_center("(C) 2007-2012 Fabrizio Gennari", 11);
+        sdl_ui_print_center("(C) 2007-2012 Daniel Kahlin", 12);
+        sdl_ui_print_center("(C) 2008-2012 Antti S. Lankila", 13);
+        sdl_ui_print_center("(C) 2009-2012 Groepaz", 14);
+        sdl_ui_print_center("(C) 2009-2012 Ingo Korb", 15);
+        sdl_ui_print_center("(C) 2009-2012 Errol Smith", 16);
+        sdl_ui_print_center("(C) 2010-2012 Olaf Seibert", 17);
+        sdl_ui_print_center("(C) 2011-2012 Marcus Sutton", 18);
+        sdl_ui_print_center("(C) 2011-2012 Ulrich Schulz", 19);
+        sdl_ui_print_center("(C) 2011-2012 Stefan Haubenthal", 20);
+        sdl_ui_print_center("(C) 2011-2012 Thomas Giesel", 21);
+        sdl_ui_print_center("(C) 2011-2012 Kajtar Zsolt", 22);
         sdl_ui_refresh();
 
         while (active) {
