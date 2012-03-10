@@ -1058,7 +1058,7 @@ else
   AC_PROG_CXX
 
   dnl when using --host=, check if the C++ compiler is the intended cross compiler
-  if [[ x"$ac_cv_prog_cc_cross" != "xno" ]]; then
+  if [[ x"$ac_cv_prog_cc_cross" != "xno" -a x"$is_unix_macosx" != "xyes" ]]; then
     if test x"$CXX" != "x" ; then
       if test -n "$ac_tool_prefix"; then
         valid_cxx=no
