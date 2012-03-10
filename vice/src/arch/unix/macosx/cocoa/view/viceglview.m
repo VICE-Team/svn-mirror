@@ -1374,15 +1374,18 @@ static const unsigned int modifierMasks[] = {
     if (trackMouse) {
         int w = (int)textureSize.width;
         int h = (int)textureSize.height;
-        int px = (int)((pos.x-viewOrigin.x) * mouseXScale);
-        int py = (int)((pos.y-viewOrigin.y) * mouseYScale);
+        float px = (pos.x-viewOrigin.x) * mouseXScale;
+        float py = (pos.y-viewOrigin.y) * mouseYScale;
+
+        // allow movement outside of window as mouse driver actually only uses deltas
+        if(mouseEmuEnabled) {
+            [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
+        }
+
         if ((px>=0)&&(px<w)&&(py>=0)&&(py<h)) {
-            if(mouseEmuEnabled) {
-                [[VICEApplication theMachineController] mouseMoveToX:px andY:py];
-            }
             if(lightpenEmuEnabled) {
-                mouseX = px;
-                mouseY = h - 1 - py;
+                mouseX = (int)(px + 0.5f);
+                mouseY = h - 1 - (int)(py + 0.5f);
                 [[VICEApplication theMachineController]
                     lightpenUpdateOnScreen:canvasId 
                     toX:mouseX andY:mouseY 
@@ -1464,6 +1467,17 @@ static const unsigned int modifierMasks[] = {
         [self stopHideTimer:TRUE];
     } else {
         [self startHideTimer];
+    }
+    
+    // toggle cursor shape
+    [[self window] invalidateCursorRectsForView:self];
+}
+
+- (void)resetCursorRects
+{
+    if(trackMouse) {
+        // show crosshair if mouse emulation is enabled
+        [self addCursorRect:[self bounds] cursor:[NSCursor crosshairCursor]];
     }
 }
 

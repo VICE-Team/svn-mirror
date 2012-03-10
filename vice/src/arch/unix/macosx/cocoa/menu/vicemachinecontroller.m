@@ -643,9 +643,11 @@ static void saveSnapshotTrap(WORD unusedWord, void *unusedData)
 
 // ----- Mouse & Lightpen -----
 
--(void)mouseMoveToX:(int)x andY:(int)y
+extern void mouse_move_f(float x, float y);
+
+-(void)mouseMoveToX:(float)x andY:(float)y
 {
-    mouse_move(x,y);
+    mouse_move_f(x,y);
 }
 
 -(void)mouseButton:(BOOL)left withState:(BOOL)pressed

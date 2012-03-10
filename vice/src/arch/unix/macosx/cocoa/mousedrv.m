@@ -35,10 +35,10 @@
 extern int _mouse_enabled;
 
 static BOOL firstMove;
-static int  pointerX;
-static int  pointerY;
-static int  emuX;
-static int  emuY;
+static float pointerX;
+static float pointerY;
+static float lastX;
+static float lastY;
 static unsigned long mouse_timestamp = 0;
 
 static int  scaleX;
@@ -56,9 +56,9 @@ static int set_scale_y(int val, void *param)
 
 static resource_int_t resources_int[] =
 {
-    { "MouseScaleX", 4, RES_EVENT_NO, NULL,
+    { "MouseScaleX", 2, RES_EVENT_NO, NULL,
        &scaleX, set_scale_x, NULL },
-    { "MouseScaleY", 4, RES_EVENT_NO, NULL,
+    { "MouseScaleY", 2, RES_EVENT_NO, NULL,
        &scaleY, set_scale_y, NULL },
     { NULL }
  };
@@ -100,48 +100,57 @@ void mousedrv_mouse_changed(void)
     }
 }
 
-#define MAX_DELTA  16
+#define MOUSE_MAX_DIFF  16
+
+static void domove(void)
+{
+    float dx, dy, ax, ay;
+    float f;
+
+    dx = pointerX - lastX;
+    dy = pointerY - lastY;
+    ax = fabs(dx); ay = fabs(dy);
+
+    if ((ax > MOUSE_MAX_DIFF) || (ay > MOUSE_MAX_DIFF)) {
+        if (ay > ax) {
+            /* do big step in Y */
+            f = ay / MOUSE_MAX_DIFF;
+        } else {
+            /* do big step in X */
+            f = ax / MOUSE_MAX_DIFF;
+        }
+        lastX += (dx / f);
+        lastY += (dy / f);
+    } else {
+        lastX = pointerX;
+        lastY = pointerY;
+    }
+}
 
 // the HW polls the position
 BYTE mousedrv_get_x(void)
 {
-    int delta = pointerX - emuX;
-    
-    if (delta > MAX_DELTA) {
-        delta = MAX_DELTA;
-    }
-    else if (delta < -MAX_DELTA) {
-        delta = -MAX_DELTA;
-    }
-
-    emuX += delta;
-    return (BYTE)((emuX & 63) << 1) & 0x7e;
+    domove();
+    int x = (int)(lastX + 0.5f);
+    return (BYTE)((x * scaleX)  & 0x7e);
 }
 
 BYTE mousedrv_get_y(void)
 {
-    int delta = pointerY - emuY;
-    
-    if (delta > MAX_DELTA) {
-        delta = MAX_DELTA;
-    }
-    else if (delta < -MAX_DELTA) {
-        delta = -MAX_DELTA;
-    }
-
-    emuY += delta;
-    return (BYTE)((emuY & 63) << 1) & 0x7e;
+    domove();
+    int y = (int)(lastY + 0.5f);
+    return (BYTE)((y * scaleY) & 0x7e);
 }
 
-void mouse_move(int x, int y)
+void mouse_move_f(float x, float y)
 {
-    pointerX = x * scaleX;
-    pointerY = y * scaleY;
+    pointerX = x;
+    pointerY = y;
     mouse_timestamp = vsyncarch_gettime();
     if(firstMove) {
         firstMove = NO;
-        emuX = x * scaleX;
-        emuY = y * scaleY;
+        lastX = x;
+        lastY = y;
     }
 }
 

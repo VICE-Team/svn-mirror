@@ -126,7 +126,7 @@
 
 // ----- Mouse & Lightpen -----
 // mouse moved
--(void)mouseMoveToX:(int)x andY:(int)y;
+-(void)mouseMoveToX:(float)x andY:(float)y;
 // mouse pressed
 -(void)mouseButton:(BOOL)left withState:(BOOL)pressed;
 // lightpen update
