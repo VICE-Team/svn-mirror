@@ -46,15 +46,6 @@
     - generates output for 20ms (or 10ms) out of 6 byte voice data!
     - uses PARCOR voice synthesizing and analyzing method (Nippon Telegraph and Telephon Public Corporation)
 
-    problematic words:
-
-    magicvoice:
-     68 "ing" (uses 48bits/frame)
-
-    WoW (uses 48bits/frame)
-
-    v364:
-     246 "repeat" (end not detected)
 */
 
 #ifndef M_PI
@@ -106,12 +97,51 @@ static double p_z[11] = { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 
 /* FIXME: MOVE  parcor parameters: energy + pitch + k1..10 */
 static WORD parcor_param[1 + 1 + 10];
 
+/*
+    words that use 48bits/frame:
+
+    magicvoice rom:
+
+     68 "ing"
+     78 "what"
+     80 "who"
+     105 "is"
+     129 "as"
+     130 "but"
+     148 "thuh"
+     151 "with"
+     158 "bad"
+     164 "because"
+     193 "orange"
+     209 "may"
+     225 "program"
+
+     v364 and WoW do NOT use 48bit frames !
+*/
+
 /* parameter lengths (bits) */
+/* [1] k0..k9 from speak and spell
+ * (48bit frames) 5, 5, 4, 4,  4, 4, 4, 3, 3, 3 (18bits + 21bits = 39bits, 9 free)
+ * [2] k0..k9 from "Handbook of Data Compression By David Salomon, Giovanni Motta, David (CON) Bryant
+ * (48bit frames) 3, 4, 4, 4,  4, 3, 3, 3, 3, 3 (15bits + 19bits = 34bits, 14 free)
+ */
 static const int parcor_param_len[2][1 + 1 + 10] = {
-    /* FIXME: 48 bits/frame */
-    { 5, 5, 5, 5, 5, 4, 4, 4, 3, 3, 3, 3 },
-    /* 96 bits/frame (these seem correct) */
-    { 7, 7, 10, 10, 10, 8, 8, 8, 7, 7, 7, 7 }
+    /* FIXME: 48 bits/frame  (this is vaguely guessed and totally wrong)
+        12 ? bits for energy+pitch
+        21 ? bits for k1..4
+        15 ? bits for k5..10
+     */
+    {6, 6,   6,  5,  5,  5,   3, 3, 3, 2, 2, 2},
+#if 0
+    { 4, 5,   5,  5,  4, 4,   4, 4, 4, 3, 3, 3 }, /* [1] vaguely recognizeable */
+    { 7, 7,   3,  4,  4, 4,   4, 3, 3, 3, 3, 3 }, /* [2] not working */
+#endif
+    /* 96 bits/frame (these seem correct) 
+        14 bits for energy+pitch
+        38 bits for k1..4
+        44 bits for k5..10
+     */
+    { 7, 7,  10, 10, 10, 8,   8, 8, 7, 7, 7, 7 }
 };
 static WORD chip_buf = 0;
 static int chip_bit_i = 0;
@@ -323,6 +353,36 @@ SWORD output_update_sample(t6721_state *t6721)
     return this;
 }
 
+static int framestretch[0x10] =
+{
+    100, /* 0 : 1,0  */
+     70, /* 1 : 0,7  (1.4% faster) */
+     80, /* 2 : 0,8  */
+     90, /* 3 : 0,9  */
+    100, /* 4 : 1,0  (default) */
+    110, /* 5 : 1,1  */
+    120, /* 6 : 1,2  */
+    130, /* 7 : 1,3  */
+    140, /* 8 : 1,4  */
+    150, /* 9 : 1,5  */
+    155, /* a : 1,55 (0.65% slower) */
+    100, /* b : 1,0  */
+    100, /* c : 1,0  */
+    100, /* d : 1,0  */
+    100, /* e : 1,0  */
+    100  /* f : 1,0  */
+};
+
+static int get_frame_samples(t6721_state *t6721)
+{
+    return ((t6721->cycles_per_sec * t6721->cond2_framelen * framestretch[t6721->speed]) / (100 * 100));
+}
+
+static int get_subframe_samples(t6721_state *t6721)
+{
+    return ((PARCOR_OUTPUT_HZ * t6721->cond2_framelen * framestretch[t6721->speed]) / (100 * 100 * 8));
+}
+
 /*****************************************************************************
     PARCOR Synthesis
 *****************************************************************************/
@@ -369,7 +429,7 @@ static int render_subframe(t6721_state *t6721, int sub_i, int voiced)
     }
 /* DBGADD(("\n")); */
 
-    for (i = 0; i < ((PARCOR_OUTPUT_HZ / 100 / 8) * t6721->cond2_framelen); ++i) {
+    for (i = 0; i < get_subframe_samples(t6721); ++i) {
         /* sample */
         if (voiced) {
             phase += phase_inc;
@@ -403,7 +463,7 @@ static int render_silence(t6721_state *t6721)
 {
     int i;
 
-    for (i = 0; i < ((PARCOR_OUTPUT_HZ / 100) * t6721->cond2_framelen); ++i) {
+    for (i = 0; i < (get_subframe_samples(t6721) * 8); ++i) {
         if (parcor_output_sample(t6721, 0)) {
             return 1;
         }
@@ -436,7 +496,8 @@ static int parcor_render_frame(t6721_state *t6721, WORD *new_param)
     p_to.pitch = new_pitch;
 
     if (!silent) {
-        for (i = 0; i < (voiced ? 10 : 4); ++i) {
+
+        for (i = 0; i < (voiced ? (12 - 2) : (6 - 2)); ++i) {
             p_to.k[i] = (SWORD)(new_param[i + 2]);
         }
 
@@ -621,7 +682,7 @@ static void set_eos(t6721_state *t6721, int eos)
     if (eos) {
         /* FIXME: confirm: is this correct ? */
         /* 10ms or 20ms depending on current framelen */
-        t6721->eos_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100);
+        t6721->eos_samples = get_frame_samples(t6721);
     }
 }
 
@@ -671,7 +732,7 @@ void t6721_update_tick(t6721_state *t6721)
             }
             /* FIXME: confirm: is this correct ? */
             /* 10ms or 20ms depending on current framelen */
-            phrase_samples = ((t6721->cycles_per_sec * t6721->cond2_framelen) / 100) - ((t6721->cond2_framebits ? 96 : 48) * 10);
+            phrase_samples = get_frame_samples(t6721) - (((t6721->cond2_framebits ? 96 : 48) * 10 * framestretch[t6721->speed]) / 100);
             set_dtrd(t6721, 0);
 #ifdef T6721DEBUG
             DBG(("got Frame: "));
