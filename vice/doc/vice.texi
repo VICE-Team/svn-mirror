@@ -61,7 +61,6 @@ notice identical to this one.
 Copyright @copyright{} 1998-2012 Dag Lem
 Copyright @copyright{} 1999-2012 Andreas Matthies
 Copyright @copyright{} 1999-2012 Martin Pottendorfer
-Copyright @copyright{} 2000-2012 Spiro Trikaliotis
 Copyright @copyright{} 2005-2012 Marco van den Heuvel
 Copyright @copyright{} 2006-2012 Christian Vogelgsang
 Copyright @copyright{} 2007-2012 Fabrizio Gennari
@@ -77,6 +76,7 @@ Copyright @copyright{} 2011-2012 Stefan Haubenthal
 Copyright @copyright{} 2011-2012 Thomas Giesel
 Copyright @copyright{} 2011-2012 Kajtar Zsolt
 
+Copyright @copyright{} 2000-2011 Spiro Trikaliotis
 Copyright @copyright{} 2007-2011 Hannu Nuotio
 Copyright @copyright{} 1998-2010 Andreas Boose
 Copyright @copyright{} 1998-2010 Tibor Biczo
@@ -14566,15 +14566,6 @@ gettext. Improved the *nix fullscreen support. Translated the
 UI to German. Implemented the fliplists + UI (*nix).
 
 @item
-@b{Spiro Trikaliotis}
-Wrote the Win32 console implementation for the built-in
-monitor, corrected some REU related bugs, improved the CIA
-emulation, added com-port CIA support to the Win32 port, added
-text copy and paste support to the Win32 port, added support
-for the TFE and RR-Net (cs8900a), and wrote some further
-patches.
-
-@item
 @b{Marco van den Heuvel}
 Translated the UI to Dutch. Made the internationalization
 support for the Win32 and Amiga ports. Wrote the GEO-RAM and
@@ -14677,6 +14668,16 @@ and did some fixes.
 Former/inactive team members:
 
 @itemize @bullet
+
+@item
+@b{Spiro Trikaliotis}
+Copyright @copyright{} 2000-2011
+Wrote the Win32 console implementation for the built-in
+monitor, corrected some REU related bugs, improved the CIA
+emulation, added com-port CIA support to the Win32 port, added
+text copy and paste support to the Win32 port, added support
+for the TFE and RR-Net (cs8900a), and wrote some further
+patches.
 
 @item
 @b{Hannu Nuotio}
@@ -15246,8 +15247,6 @@ Copyright @copyright{} 1999-2012 Andreas Matthies
 @item
 Copyright @copyright{} 1999-2012 Martin Pottendorfer
 @item
-Copyright @copyright{} 2000-2012 Spiro Trikaliotis
-@item
 Copyright @copyright{} 2005-2012 Marco van den Heuvel
 @item
 Copyright @copyright{} 2006-2012 Christian Vogelgsang
@@ -15274,6 +15273,8 @@ Copyright @copyright{} 2011-2012 Thomas Giesel
 @item
 Copyright @copyright{} 2011-2012 Kajtar Zsolt
 
+@item
+Copyright @copyright{} 2000-2011 Spiro Trikaliotis
 @item
 Copyright @copyright{} 1998-2010 Tibor Biczo
 @item

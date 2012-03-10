@@ -402,7 +402,6 @@ void ui_about(void)
         "Copyright \xa9 1998-2012 Dag Lem",
         "Copyright \xa9 1999-2012 Andreas Matthies",
         "Copyright \xa9 1999-2012 Martin Pottendorfer",
-        "Copyright \xa9 2000-2012 Spiro Trikaliotis",
         "Copyright \xa9 2005-2012 Marco van den Heuvel",
         "Copyright \xa9 2006-2012 Christian Vogelgsang",
         "Copyright \xa9 2007-2012 Fabrizio Gennari",

@@ -581,7 +581,6 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
                                "                   Copyright (c) 1998-2012 Dag Lem\n"
                                "               Copyright (c) 1999-2012 Andreas Matthies\n"
                                "             Copyright (c) 1999-2012 Martin Pottendorfer\n"
-                               "              Copyright (c) 2000-2012 Spiro Trikaliotis\n"
                                "             Copyright (c) 2005-2012 Marco van den Heuvel\n"
                                "             Copyright (c) 2006-2012 Christian Vogelgsang\n"
                                "               Copyright (c) 2007-2012 Fabrizio Gennari\n"

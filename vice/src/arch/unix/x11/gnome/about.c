@@ -68,7 +68,6 @@ void ui_about(gpointer data)
         "Copyright @ 1998-2012 Dag Lem",
         "Copyright @ 1999-2012 Andreas Matthies",
         "Copyright @ 1999-2012 Martin Pottendorfer",
-        "Copyright @ 2000-2012 Spiro Trikaliotis",
         "Copyright @ 2005-2012 Marco van den Heuvel",
         "Copyright @ 2006-2012 Christian Vogelgsang",
         "Copyright @ 2007-2012 Fabrizio Gennari",

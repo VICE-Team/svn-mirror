@@ -146,7 +146,6 @@ UI_CALLBACK(ui_about)
                                         "Copyright C 1998-2012 Dag Lem",
                                         "Copyright C 1999-2012 Andreas Matthies",
                                         "Copyright C 1999-2012 Martin Pottendorfer",
-                                        "Copyright C 2000-2012 Spiro Trikaliotis",
                                         "Copyright C 2005-2012 Marco van den Heuvel",
                                         "Copyright C 2006-2012 Christian Vogelgsang",
                                         "Copyright C 2007-2012 Fabrizio Gennari",

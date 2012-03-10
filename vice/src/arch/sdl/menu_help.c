@@ -324,7 +324,6 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 1998-2012 Dag Lem", 6);
         sdl_ui_print_center("(C) 1999-2012 Andreas Matthies", 7);
         sdl_ui_print_center("(C) 1999-2012 Martin Pottendorfer", 8);
-        sdl_ui_print_center("(C) 2000-2012 Spiro Trikaliotis", 9);
         sdl_ui_print_center("(C) 2005-2012 Marco van den Heuvel", 10);
         sdl_ui_print_center("(C) 2006-2012 Christian Vogelgsang", 11);
         sdl_ui_print_center("(C) 2007-2012 Fabrizio Gennari", 12);

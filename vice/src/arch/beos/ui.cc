@@ -897,7 +897,6 @@ void ui_dispatch_events(void)
                                         "(c) 1998-2012 Dag Lem\n",
                                         "(c) 1999-2012 Andreas Matthies\n",
                                         "(c) 1999-2012 Martin Pottendorfer\n",
-                                        "(c) 2000-2012 Spiro Trikaliotis\n",
                                         "(c) 2005-2012 Marco van den Heuvel\n",
                                         "(c) 2006-2012 Christian Vogelgsang\n",
                                         "(c) 2007-2012 Fabrizio Gennari\n",
