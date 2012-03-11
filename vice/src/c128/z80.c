@@ -43,35 +43,10 @@
 
 /*#define DEBUG_Z80*/
 
-/* in preparation for a better handling of the 'real' speed of the Z80 */
-/* #define Z80_4MHZ */
-
-#if Z80_4MHZ
+#ifdef Z80_4MHZ
 #define CLK_ADD(clock, amount) clock = z80cpu_clock_add(clock, amount)
 #else
 #define CLK_ADD(clock, amount) clock += amount
-#endif
-
-#ifdef Z80_4MHZ
-static int z80_half_cycle = 0;
-
-inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
-{
-    CLOCK tmp_clock = clock;
-    int left = amount;
-
-    while (left > 0) {
-        if (left >= (2 - z80_half_cycle) {
-            left -= (2 - z80_half_cycle);
-            z80_half_cycle = 0;
-            tmp_clock++;
-        } else {
-            z80_half_cycle += left;
-        }
-    }
-
-    return tmp_clock;
-}
 #endif
 
 static BYTE reg_a = 0;
@@ -176,6 +151,34 @@ inline static int z80mem_read_limit(int addr)
 #define CLK maincpu_clk
 
 #define INC_PC(value) (z80_reg_pc += (value))
+
+#ifdef Z80_4MHZ
+static int z80_half_cycle = 0;
+
+inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
+{
+    CLOCK tmp_clock = clock;
+    int left = amount;
+
+    while (left > 0) {
+        if (left >= (2 - z80_half_cycle)) {
+            left -= (2 - z80_half_cycle);
+            z80_half_cycle = 0;
+            tmp_clock++;
+        } else {
+            z80_half_cycle += left;
+        }
+    }
+
+    return tmp_clock;
+}
+
+void z80_stretch_clock(void)
+{
+    CLK++;
+    z80_half_cycle = 0;
+}
+#endif
 
 /* ------------------------------------------------------------------------- */
 

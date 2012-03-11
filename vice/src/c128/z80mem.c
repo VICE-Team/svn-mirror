@@ -131,13 +131,195 @@ static void z80_store_zero(WORD addr, BYTE value)
 static BYTE read_unconnected_io(WORD addr)
 {
     log_message(z80mem_log, "Read from unconnected IO %04x", addr);
+#ifdef Z80_4MHZ
+    z80_clock_stretch();
+#endif
     return 0;
 }
 
 static void store_unconnected_io(WORD addr, BYTE value)
 {
     log_message(z80mem_log, "Store to unconnected IO %04x %02x", addr, value);
+#ifdef Z80_4MHZ
+    z80_clock_stretch();
+#endif
 }
+
+#ifdef Z80_4MHZ
+static BYTE z80_c64io_d000_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_d000_read(adr);
+}
+
+static void z80_c64io_d000_store(WORD adr, BYTE val)
+{
+    z80_clock_stretch();
+    c64io_d000_store(adr, val);
+}
+
+static BYTE z80_c64io_d100_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_d100_read(adr);
+}
+
+static void z80_c64io_d100_store(WORD adr, BYTE val)
+{
+    z80_clock_stretch();
+    c64io_d100_store(adr, val);
+}
+
+static BYTE z80_c64io_d200_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_d200_read(adr);
+}
+
+static void z80_c64io_d200_store(WORD adr, BYTE val)
+{
+    z80_clock_stretch();
+    c64io_d200_store(adr, val);
+}
+
+static BYTE z80_c64io_d300_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_d300_read(adr);
+}
+
+static void z80_c64io_d300_store(WORD adr, BYTE val)
+{
+    z80_clock_stretch();
+    c64io_d300_store(adr, val);
+}
+
+static BYTE z80_c64io_d400_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_d400_read(adr);
+}
+
+static void z80_c64io_d400_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    c64io_d400_store(adr, val);
+}
+
+static BYTE z80_mmu_read(WORD adr)
+{
+    z80_clock_stretch();
+    return mmu_read(adr);
+}
+
+static void z80_mmu_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    mmu_store(adr, val);
+}
+
+static BYTE z80_vdc_read(WORD adr)
+{
+    z80_clock_stretch();
+    return vdc_read(adr);
+}
+
+static void z80_vdc_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    vdc_store(adr, val);
+}
+
+static BYTE z80_c64io_d700_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_d700_read(adr);
+}
+
+static void z80_c64io_d700_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    c64io_d700_store(adr, val);
+}
+
+static BYTE z80_colorram_read(WORD adr)
+{
+    z80_clock_stretch();
+    return colorram_read(adr);
+}
+
+static void z80_colorram_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    colorram_store(adr, val);
+}
+
+static BYTE z80_cia1_read(WORD adr)
+{
+    z80_clock_stretch();
+    return cia1_read(adr);
+}
+
+static void z80_cia1_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    cia1_store(adr, val);
+}
+
+static BYTE z80_cia2_read(WORD adr)
+{
+    z80_clock_stretch();
+    return cia2_read(adr);
+}
+
+static void z80_cia2_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    cia2_store(adr, val);
+}
+
+static BYTE z80_c64io_de00_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_de00_read(adr);
+}
+
+static void z80_c64io_de00_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    c64io_de00_store(adr, val);
+}
+
+static BYTE z80_c64io_df00_read(WORD adr)
+{
+    z80_clock_stretch();
+    return c64io_df00_read(adr);
+}
+
+static void z80_c64io_df00_store(WORD adr, BYTE val)
+    z80_clock_stretch();
+    c64io_df00_store(adr, val);
+}
+#else
+#define z80_c64io_d000_read   c64io_d000_read
+#define z80_c64io_d000_store  c64io_d000_store
+#define z80_c64io_d100_read   c64io_d100_read
+#define z80_c64io_d100_store  c64io_d100_store
+#define z80_c64io_d200_read   c64io_d200_read
+#define z80_c64io_d200_store  c64io_d200_store
+#define z80_c64io_d300_read   c64io_d300_read
+#define z80_c64io_d300_store  c64io_d300_store
+#define z80_c64io_d400_read   c64io_d400_read
+#define z80_c64io_d400_store  c64io_d400_store
+#define z80_mmu_read          mmu_read
+#define z80_mmu_store         mmu_store
+#define z80_vdc_read          vdc_read
+#define z80_vdc_store         vdc_store
+#define z80_c64io_d700_read   c64io_d700_read
+#define z80_c64io_d700_store  c64io_d700_store
+#define z80_colorram_read     colorram_read
+#define z80_colorram_store    colorram_store
+#define z80_cia1_read         cia1_read
+#define z80_cia1_store        cia1_store
+#define z80_cia2_read         cia2_read
+#define z80_cia2_store        cia2_store
+#define z80_c64io_de00_read   c64io_de00_read
+#define z80_c64io_de00_store  c64io_de00_store
+#define z80_c64io_df00_read   c64io_df00_read
+#define z80_c64io_df00_store  c64io_df00_store
+#endif
 
 #ifdef _MSC_VER
 #pragma optimize("",off)
@@ -331,45 +513,45 @@ void z80mem_initialize(void)
         io_read_tab[i] = read_unconnected_io;
         io_write_tab[i] = store_unconnected_io;
     }
-    io_read_tab[0xd0] = c64io_d000_read;
-    io_write_tab[0xd0] = c64io_d000_store;
-    io_read_tab[0xd1] = c64io_d100_read;
-    io_write_tab[0xd1] = c64io_d100_store;
-    io_read_tab[0xd2] = c64io_d200_read;
-    io_write_tab[0xd2] = c64io_d200_store;
-    io_read_tab[0xd3] = c64io_d300_read;
-    io_write_tab[0xd3] = c64io_d300_store;
+    io_read_tab[0xd0] = z80_c64io_d000_read;
+    io_write_tab[0xd0] = z80_c64io_d000_store;
+    io_read_tab[0xd1] = z80_c64io_d100_read;
+    io_write_tab[0xd1] = z80_c64io_d100_store;
+    io_read_tab[0xd2] = z80_c64io_d200_read;
+    io_write_tab[0xd2] = z80_c64io_d200_store;
+    io_read_tab[0xd3] = z80_c64io_d300_read;
+    io_write_tab[0xd3] = z80_c64io_d300_store;
 
-    io_read_tab[0xd4] = c64io_d400_read;
-    io_write_tab[0xd4] = c64io_d400_store;
+    io_read_tab[0xd4] = z80_c64io_d400_read;
+    io_write_tab[0xd4] = z80_c64io_d400_store;
 
-    io_read_tab[0xd5] = mmu_read;
-    io_write_tab[0xd5] = mmu_store;
+    io_read_tab[0xd5] = z80_mmu_read;
+    io_write_tab[0xd5] = z80_mmu_store;
 
-    io_read_tab[0xd6] = vdc_read;
-    io_write_tab[0xd6] = vdc_store;
+    io_read_tab[0xd6] = z80_vdc_read;
+    io_write_tab[0xd6] = z80_vdc_store;
 
-    io_read_tab[0xd7] = c64io_d700_read;
-    io_write_tab[0xd7] = c64io_d700_store;
+    io_read_tab[0xd7] = z80_c64io_d700_read;
+    io_write_tab[0xd7] = z80_c64io_d700_store;
 
-    io_read_tab[0xd8] = colorram_read;
-    io_write_tab[0xd8] = colorram_store;
-    io_read_tab[0xd9] = colorram_read;
-    io_write_tab[0xd9] = colorram_store;
-    io_read_tab[0xda] = colorram_read;
-    io_write_tab[0xda] = colorram_store;
-    io_read_tab[0xdb] = colorram_read;
-    io_write_tab[0xdb] = colorram_store;
+    io_read_tab[0xd8] = z80_colorram_read;
+    io_write_tab[0xd8] = z80_colorram_store;
+    io_read_tab[0xd9] = z80_colorram_read;
+    io_write_tab[0xd9] = z80_colorram_store;
+    io_read_tab[0xda] = z80_colorram_read;
+    io_write_tab[0xda] = z80_colorram_store;
+    io_read_tab[0xdb] = z80_colorram_read;
+    io_write_tab[0xdb] = z80_colorram_store;
 
-    io_read_tab[0xdc] = cia1_read;
-    io_write_tab[0xdc] = cia1_store;
-    io_read_tab[0xdd] = cia2_read;
-    io_write_tab[0xdd] = cia2_store;
+    io_read_tab[0xdc] = z80_cia1_read;
+    io_write_tab[0xdc] = z80_cia1_store;
+    io_read_tab[0xdd] = z80_cia2_read;
+    io_write_tab[0xdd] = z80_cia2_store;
 
-    io_read_tab[0xde] = c64io_de00_read;
-    io_write_tab[0xde] = c64io_de00_store;
-    io_read_tab[0xdf] = c64io_df00_read;
-    io_write_tab[0xdf] = c64io_df00_store;
+    io_read_tab[0xde] = z80_c64io_de00_read;
+    io_write_tab[0xde] = z80_c64io_de00_store;
+    io_read_tab[0xdf] = z80_c64io_df00_read;
+    io_write_tab[0xdf] = z80_c64io_df00_store;
 }
 
 #ifdef _MSC_VER
