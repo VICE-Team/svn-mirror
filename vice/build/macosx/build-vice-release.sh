@@ -21,7 +21,8 @@ DEFAULT_UI="cocoa"
 DEFAULT_ARCH="i386+ppc"
 DEFAULT_SDK_VERSION="10.4"
 DEFAULT_COMPILER="gcc40"
-JOBS="sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang_gcc cocoa-i386+x86_64-10.6-clang"
+ALL_JOBS="sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang_gcc cocoa-i386+x86_64-10.6-clang"
+JOBS="cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang"
 
 usage() {
   cat <<EOF
@@ -43,10 +44,12 @@ usage() {
     
     -u <uis>                 set default ui:       sdl x11 gtk cocoa       [$DEFAULT_UI]
     -a <arch>                set default arch:     i386 ppc x86_64 i386+ppc i386+x86_64 [$DEFAULT_ARCH]
-    -k <sdk_version>         set default sdk:      10.4 10.5 10.6          [$DEFAULT_SDK_VERSION]
+    -k <sdk_version>         set default sdk:      10.4 10.5 10.6 10.7     [$DEFAULT_SDK_VERSION]
     -c <compiler>            set default compiler: gcc40 gcc42 clang       [$DEFAULT_COMPILER]
     -j <jobs>                set build jobs
                              [$JOBS]
+    -J                       build all jobs
+                             [$ALL_JOBS]
     
     -D                       quick debug preset: -slbfdi -j cocoa-i386-10.4
 EOF
@@ -54,7 +57,7 @@ EOF
 }
 
 # parse arguments
-while getopts "slbfe:o:diu:a:k:c:j:D" i ; do
+while getopts "slbfe:o:diu:a:k:c:j:DJ" i ; do
   case "$i" in
     s) SNAPSHOT=1;;
     l) LINK_SRC=1;;
@@ -70,6 +73,7 @@ while getopts "slbfe:o:diu:a:k:c:j:D" i ; do
     k) DEFAULT_SDK_VERSION="$OPTARG";;
     c) DEFAULT_COMPILER="$OPTARG";;
     j) JOBS="$OPTARG";;
+    J) JOBS="$ALL_JOBS";;
 
     D) DEBUG=1
        SNAPSHOT=1
@@ -168,7 +172,7 @@ if [ $LINK_SRC = 1 ]; then
 else
   # export fresh source
   echo "exporting src:  $SRC_DIR"
-  svn export "$SVN_REPO" "$SRC_DIR"
+  svn export -q "$SVN_REPO" "$SRC_DIR"
   if [ $? != 0 ]; then
     echo "ERROR: export faild!"
     exit 1
