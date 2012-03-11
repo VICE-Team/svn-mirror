@@ -231,9 +231,11 @@ static int pngdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
         png_destroy_write_struct(&(pngdrv_memmap_png_ptr), (png_infopp)NULL);
         return -1;
     }
-/* pngdrv.c:232: warning: ‘jmpbuf‘ is deprecated (declared at /usr/include/libpng14/png.h:1096) */
-/*    if (setjmp(pngdrv_memmap_png_ptr->jmpbuf)) { */
+#if (PNG_LIBPNG_VER < 10006)
+    if (setjmp(pngdrv_memmap_png_ptr)) {
+#else
     if (setjmp(png_jmpbuf(pngdrv_memmap_png_ptr))) {
+#endif
         png_destroy_write_struct(&(pngdrv_memmap_png_ptr), &(pngdrv_memmap_info_ptr));
         return -1;
     }
