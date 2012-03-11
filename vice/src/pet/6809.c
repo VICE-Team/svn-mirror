@@ -1242,15 +1242,16 @@ static void abx(void)
     CLK += 3;
 }
 
-static void addd(WORD val)
+static WORD add16(WORD arg, WORD val)
 {
-    DWORD res = D + val;
+    DWORD res = arg + val;
 
-    C = res & 0x10000;
+    C = (res >> 1) & 0x8000;
     Z = res &= 0xffff;
-    OV = ((D ^ res) & (val ^ res)) >> 8;
     N = res >> 8;
-    D = (WORD)res;
+    OV = ((arg ^ res) & (val ^ res)) >> 8;
+
+    return (WORD)res;
 }
 
 static void cmp16(WORD arg, WORD val)
@@ -1261,13 +1262,6 @@ static void cmp16(WORD arg, WORD val)
     Z = res &= 0xffff;
     N = res >> 8;
     OV = ((arg ^ val) & (arg ^ res)) >> 8;
-}
-
-static void ldd(WORD arg)
-{
-    Z = D = arg;
-    N = arg >> 8;
-    OV = 0;
 }
 
 static WORD ld16(WORD arg)
@@ -1288,14 +1282,6 @@ static void sex(void)
     CLK += 2;
 }
 
-static void std(void)
-{
-    Z = D;
-    N = D >> 8;
-    OV = 0;
-    WRMEM16(ea, D);
-}
-
 static void st16(WORD arg)
 {
     Z = arg;
@@ -1304,15 +1290,16 @@ static void st16(WORD arg)
     WRMEM16(ea, arg);
 }
 
-static void subd(WORD val)
+static WORD sub16(WORD arg, WORD val)
 {
-    DWORD res = D - val;
+    DWORD res = arg - val;
 
     C = res & 0x10000;
     Z = res &= 0xffff;
-    OV = ((D ^ val) & (D ^ res)) >> 8;
     N = res >> 8;
-    D = (WORD)res;
+    OV = ((arg ^ val) & (arg ^ res)) >> 8;
+
+    return (WORD)res;
 }
 
 /* stack instructions */
@@ -2073,18 +2060,6 @@ static WORD clr16(WORD arg)
     return 0;
 }
 
-static WORD sub16(WORD arg, WORD val)
-{
-    DWORD res = arg - val;
-
-    C = res & 0x10000;
-    Z = res &= 0xffff;
-    N = res >> 8;
-    OV = ((arg ^ val) & (arg ^ res)) >> 8;
-
-    return res;
-}
-
 static WORD sbc16(WORD arg, WORD val)
 {
     DWORD res = arg - val - (C != 0);
@@ -2147,18 +2122,6 @@ static WORD or16(WORD arg, WORD val)
     Z = res;
     N = res >> 8;
     OV = 0;
-
-    return res;
-}
-
-static WORD add16(WORD arg, WORD val)
-{
-    DWORD res = arg + val;
-
-    C = (res >> 1) & 0x8000;
-    Z = res &= 0xffff;
-    N = res >> 8;
-    OV = H = (arg ^ val ^ res ^ C) >> 8;
 
     return res;
 }
@@ -4142,7 +4105,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              break;
                          case 0xc3:	/* ADDD immediate (UNDOC) */
                              CLK += 4;
-                             addd(imm_word());
+                             D = add16(D, imm_word());
                              break;
                          case 0xc4:	/* ANDB immediate (UNDOC) */
                              CLK += 2;
@@ -4178,7 +4141,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              break;
                          case 0xcc:	/* LDD immediate (UNDOC) */
                              CLK += 3;
-                             ldd(imm_word());
+                             D = ld16(imm_word());
                              break;
                          case 0xcd:	/* HCF (UNDOC) */
                              hcf();
@@ -4210,7 +4173,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                          case 0xd3:	/* ADDD direct (UNDOC) */
                              direct();
                              CLK += 4;
-                             addd(RDMEM16(ea));
+                             D = add16(D, RDMEM16(ea));
                              CLK++;
                              break;
                          case 0xd4:	/* ANDB direct (UNDOC) */
@@ -4256,12 +4219,12 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                          case 0xdc:	/* LDD direct (UNDOC) */
                              direct();
                              CLK += 4;
-                             ldd(RDMEM16(ea));
+                             D = ld16(RDMEM16(ea));
                              break;
                          case 0xdd:	/* STD direct (UNDOC) */
                              direct();
                              CLK += 4;
-                             std();
+                             st16(D);
                              break;
 #endif
                          case 0xde:	/* LDS direct */
@@ -4289,7 +4252,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              break;
                          case 0xe3:	/* ADDD indexed (UNDOC) */
                              indexed();
-                             addd(RDMEM16(ea));
+                             D = add16(D, RDMEM16(ea));
                              CLK++;
                              break;
                          case 0xe4:	/* ANDB indexed (UNDOC) */
@@ -4326,11 +4289,11 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                              break;
                          case 0xec:	/* LDD indexed (UNDOC) */
                              indexed();
-                             ldd(RDMEM16(ea));
+                             D = ld16(RDMEM16(ea));
                              break;
                          case 0xed:	/* STD indexed (UNDOC) */
                              indexed();
-                             std();
+                             st16(D);
                              break;
 #endif
                          case 0xee:	/* LDS indexed */
@@ -4362,7 +4325,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                          case 0xf3:	/* ADDD extended (UNDOC) */
                              extended();
                              CLK += 5;
-                             addd(RDMEM16(ea));
+                             D = add16(D, RDMEM16(ea));
                              CLK++;
                              break;
                          case 0xf4:	/* ANDB extended (UNDOC) */
@@ -4408,12 +4371,12 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                          case 0xfc:	/* LDD extended (UNDOC) */
                              extended();
                              CLK += 5;
-                             ldd(RDMEM16(ea));
+                             D = ld16(RDMEM16(ea));
                              break;
                          case 0xfd:	/* STD extended (UNDOC) */
                              extended();
                              CLK += 5;
-                             std();
+                             st16(D);
                              break;
 #endif
                          case 0xfe:	/* LDS extended */
@@ -5683,7 +5646,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                             break;
                         case 0xc3:	/* ADDD immediate (UNDOC) */
                             CLK += 4;
-                            addd(imm_word());
+                            D = add16(D, imm_word());
                             break;
                         case 0xc4:	/* ANDB immediate (UNDOC) */
                             CLK += 2;
@@ -5735,7 +5698,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef FULL6809
                         case 0xcc:	/* LDD immediate (UNDOC) */
                             CLK += 3;
-                            ldd(imm_word());
+                            D = ld16(imm_word());
                             break;
                         case 0xcd:	/* HCF (UNDOC) */
                             hcf();
@@ -5784,7 +5747,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                         case 0xd3:	/* ADDD direct (UNDOC) */
                             direct();
                             CLK += 4;
-                            addd(RDMEM16(ea));
+                            D = add16(D, RDMEM16(ea));
                             CLK++;
                             break;
                         case 0xd4:	/* ANDB direct (UNDOC) */
@@ -5857,12 +5820,12 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                         case 0xdc:	/* LDD direct (UNDOC) */
                             direct();
                             CLK += 4;
-                            ldd(RDMEM16(ea));
+                            D = ld16(RDMEM16(ea));
                             break;
                         case 0xdd:	/* STD direct (UNDOC) */
                             direct();
                             CLK += 4;
-                            std();
+                            st16(D);
                             break;
                         case 0xde:	/* LDU direct (UNDOC) */
                             direct();
@@ -5904,7 +5867,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                             break;
                         case 0xe3:	/* ADDD indexed (UNDOC) */
                             indexed();
-                            addd(RDMEM16(ea));
+                            D = add16(D, RDMEM16(ea));
                             CLK++;
                             break;
                         case 0xe4:	/* ANDB indexed (UNDOC) */
@@ -5965,11 +5928,11 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef FULL6809
                         case 0xec:	/* LDD indexed (UNDOC) */
                             indexed ();
-                            ldd(RDMEM16(ea));
+                            D = ld16(RDMEM16(ea));
                             break;
                         case 0xed:	/* STD indexed (UNDOC) */
                             indexed();
-                            std();
+                            st16(D);
                             break;
                         case 0xee:	/* LDU indexed (UNDOC) */
                             indexed();
@@ -6015,7 +5978,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                         case 0xf3:	/* ADDD extended (UNDOC) */
                             extended();
                             CLK += 5;
-                            addd(RDMEM16(ea));
+                            D = add16(D, RDMEM16(ea));
                             CLK++;
                             break;
                         case 0xf4:	/* ANDB extended (UNDOC) */
@@ -6088,12 +6051,12 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                         case 0xfc:	/* LDD extended (UNDOC) */
                             extended();
                             CLK += 5;
-                            ldd(RDMEM16(ea));
+                            D = ld16(RDMEM16(ea));
                             break;
                         case 0xfd:	/* STD extended (UNDOC) */
                             extended();
                             CLK += 5;
-                            std();
+                            st16(D);
                             break;
                         case 0xfe:	/* LDU extended (UNDOC) */
                             extended();
@@ -6640,7 +6603,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             break;
         case 0x83:	/* SUBD immediate */
             CLK += 4;
-            subd(imm_word());
+            sub16(D, imm_word());
             break;
         case 0x84:	/* ANDA immediate */
             CLK += 2;
@@ -6711,7 +6674,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         case 0x93:	/* SUBD direct */
             direct();
             CLK += 4;
-            subd(RDMEM16(ea));
+            sub16(D, RDMEM16(ea));
             CLK++;
             break;
         case 0x94:	/* ANDA direct */
@@ -6789,7 +6752,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             break;
         case 0xa3:	/* SUBD indexed */
             indexed();
-            subd(RDMEM16(ea));
+            sub16(D, RDMEM16(ea));
             CLK++;
             break;
         case 0xa4:	/* ANDA indexed */
@@ -6860,7 +6823,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         case 0xb3:	/* SUBD extended */
             extended();
             CLK += 5;
-            subd(RDMEM16(ea));
+            sub16(D, RDMEM16(ea));
             CLK++;
             break;
         case 0xb4:	/* ANDA extended */
@@ -6938,7 +6901,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             break;
         case 0xc3:	/* ADDD immediate */
             CLK += 4;
-            addd(imm_word());
+            D = add16(D, imm_word());
             break;
         case 0xc4:	/* ANDB immediate */
             CLK += 2;
@@ -6976,7 +6939,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             break;
         case 0xcc:	/* LDD immediate */
             CLK += 3;
-            ldd(imm_word());
+            D = ld16(imm_word());
             break;
 #ifdef FULL6809
         case 0xcd:	/* HCF (UNDOC) */
@@ -7017,7 +6980,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         case 0xd3:	/* ADDD direct */
             direct();
             CLK += 4;
-            addd(RDMEM16(ea));
+            D = add16(D, RDMEM16(ea));
             CLK++;
             break;
         case 0xd4:	/* ANDB direct */
@@ -7063,12 +7026,12 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         case 0xdc:	/* LDD direct */
             direct();
             CLK += 4;
-            ldd(RDMEM16(ea));
+            D = ld16(RDMEM16(ea));
             break;
         case 0xdd:	/* STD direct */
             direct();
             CLK += 4;
-            std();
+            st16(D);
             break;
         case 0xde:	/* LDU direct */
             direct();
@@ -7094,7 +7057,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             break;
         case 0xe3:	/* ADDD indexed */
             indexed();
-            addd(RDMEM16(ea));
+            D = add16(D, RDMEM16(ea));
             CLK++;
             break;
         case 0xe4:	/* ANDB indexed */
@@ -7131,11 +7094,11 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             break;
         case 0xec:	/* LDD indexed */
             indexed();
-            ldd(RDMEM16(ea));
+            D = ld16(RDMEM16(ea));
             break;
         case 0xed:	/* STD indexed */
             indexed();
-            std();
+            st16(D);
             break;
         case 0xee:	/* LDU indexed */
             indexed();
@@ -7163,7 +7126,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         case 0xf3:	/* ADDD extended */
             extended();
             CLK += 5;
-            addd(RDMEM16(ea));
+            D = add16(D, RDMEM16(ea));
             CLK++;
             break;
         case 0xf4:	/* ANDB extended */
@@ -7209,12 +7172,12 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         case 0xfc:	/* LDD extended */
             extended();
             CLK += 5;
-            ldd(RDMEM16(ea));
+            D = ld16(RDMEM16(ea));
             break;
         case 0xfd:	/* STD extended */
             extended();
             CLK += 5;
-            std();
+            st16(D);
             break;
         case 0xfe:	/* LDU extended */
             extended();
