@@ -53,7 +53,7 @@
 #endif
 
 #ifdef Z80_4MHZ
-static int z80_quarter_cycle = 0;
+static int z80_half_cycle = 0;
 
 inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
 {
@@ -61,12 +61,12 @@ inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
     int left = amount;
 
     while (left > 0) {
-        if (left >= (4 - z80_quarter_cycle) {
-            left -= (4 - z80_quarter_cycle);
-            z80_quarter_cycle = 0;
+        if (left >= (2 - z80_half_cycle) {
+            left -= (2 - z80_half_cycle);
+            z80_half_cycle = 0;
             tmp_clock++;
         } else {
-            z80_quarter_cycle += left;
+            z80_half_cycle += left;
         }
     }
 
