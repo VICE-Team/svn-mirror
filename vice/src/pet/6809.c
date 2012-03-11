@@ -192,10 +192,10 @@ static DWORD H, N, Z, OV, C;
 static BYTE MD;
 static WORD V;
 
-#define MD_NATIVE 0x1		/* if 1, execute in 6309 mode */
-#define MD_FIRQ_LIKE_IRQ 0x2	/* if 1, FIRQ acts like IRQ */
-#define MD_ILL 0x40		/* illegal instruction */
-#define MD_DBZ 0x80		/* divide by zero */
+#define MD_NATIVE        0x01	/* if 1, execute in 6309 mode */
+#define MD_FIRQ_LIKE_IRQ 0x02	/* if 1, FIRQ acts like IRQ */
+#define MD_ILL           0x40	/* illegal instruction */
+#define MD_DBZ           0x80	/* divide by zero */
 #endif /* H6309 */
 
 
@@ -704,8 +704,7 @@ static WORD get_v(void)
 
 static BYTE get_md(void)
 {
-    /* FIXME */
-    return MD;
+    return (MD & (MD_ILL | MD_DBZ));
 }
 #endif
 
@@ -782,8 +781,7 @@ static void set_v(WORD val)
 
 static void set_md(BYTE val)
 {
-    /* FIXME */
-    MD = val;
+    MD = (MD & (MD_ILL | MD_DBZ)) | (val & (MD_NATIVE | MD_FIRQ_LIKE_IRQ));
 }
 #endif
 
@@ -4713,7 +4711,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                         case 0x3c:	/* BITMD immediate */
                             /* TODO: cycle count */
-                            bit(MD, imm_byte());
+                            bit(get_md(), imm_byte());
                             break;
 #endif
 #ifdef FULL6809
