@@ -194,8 +194,10 @@ static WORD V;
 
 #define MD_NATIVE        0x01	/* if 1, execute in 6309 mode */
 #define MD_FIRQ_LIKE_IRQ 0x02	/* if 1, FIRQ acts like IRQ */
-#define MD_ILL           0x40	/* illegal instruction */
-#define MD_DBZ           0x80	/* divide by zero */
+#define MD_ILL 0x40		/* illegal instruction */
+#define MD_DBZ 0x80		/* divide by zero */
+
+#define H6309_NATIVE_MODE() (MD & 1)
 #endif /* H6309 */
 
 
@@ -1523,6 +1525,12 @@ static void rti(void)
         CLK += 9;
         A = read_stack(S++);
         B = read_stack(S++);
+#ifdef H6309
+        if (H6309_NATIVE_MODE()) {
+            E = read_stack(S++);
+            F = read_stack(S++);
+        }
+#endif
         DP = read_stack(S++) << 8;
         X = read_stack16(S);
         S += 2;
@@ -1554,6 +1562,12 @@ void nmi(void)
     S -= 2;
     write_stack16(S--, X);
     write_stack(S--, (BYTE)(DP >> 8));
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
+#endif
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -1574,6 +1588,12 @@ void irq(void)
     S -= 2;
     write_stack16(S--, X);
     write_stack(S--, (BYTE)(DP >> 8));
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
+#endif
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -1588,7 +1608,25 @@ void firq(void)
     EFI &= ~E_FLAG;
     S -= 2;
     write_stack16(S--, PC);
+#ifdef H6309
+    if (MD & MD_FIRQ_LIKE_IRQ) {
+        S -= 2;
+        write_stack16(S, U);
+        S -= 2;
+        write_stack16(S, Y);
+        S -= 2;
+        write_stack16(S--, X);
+        write_stack(S--, (BYTE)(DP >> 8));
+        if (H6309_NATIVE_MODE()) {
+            write_stack(S--, F);
+            write_stack(S--, E);
+        }
+        write_stack(S--, B);
+        write_stack(S--, A);
+    }
+#endif
     write_stack(S, get_cc());
+
     EFI |= (I_FLAG | F_FLAG);
 
     PC = read16(0xfff6);
@@ -1609,6 +1647,12 @@ void swi(void)
     S -= 2;
     write_stack16(S--, X);
     write_stack(S--, (BYTE)(DP >> 8));
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
+#endif
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -1632,6 +1676,12 @@ void swi2(void)
     S -= 2;
     write_stack16(S--, X);
     write_stack(S--, (BYTE)(DP >> 8));
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
+#endif
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -1654,6 +1704,12 @@ void swi3(void)
     S -= 2;
     write_stack16(S--, X);
     write_stack(S--, (BYTE)(DP >> 8));
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
+#endif
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -1677,6 +1733,10 @@ void opcode_trap(void)
     S -= 2;
     write_stack16(S--, X);
     write_stack(S--, DP >> 8);
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
