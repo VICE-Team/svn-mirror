@@ -25,8 +25,8 @@ OVERVIEW
 ========
 
 VICE is a set of advanced emulators for the Commodore C64, C128, VIC20,
-PET, PLUS4 and CBM-II.  It runs on Unix, MS-DOS, MS-Windows, RiscOS,
-OS/2 and BeOS systems.
+PET, PLUS4 and CBM-II.  It runs on Unix, MS-DOS, MS-Windows, OS/2 and
+BeOS systems.
 
 VICE is Free Software, released under the GNU General Public License,
 and you must read the License before using this program.  The License

@@ -126,7 +126,7 @@ static inline SWORD sound_audio_mix(int ch1, int ch2)
 /* external functions for vice */
 extern void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame);
 extern void sound_reset(void);
-#if defined(__MSDOS__) || defined(__riscos)
+#ifdef __MSDOS__
 extern int sound_flush(void);
 #else
 extern double sound_flush(void);
@@ -195,14 +195,6 @@ extern void sound_machine_enable(int enable);
 
 extern unsigned int sound_device_num(void);
 extern const char *sound_device_name(unsigned int num);
-
-#ifdef __riscos
-extern int SoundPollEvery;
-extern int SoundMachineReady;
-extern int SoundThreadActive;
-extern void sound_poll(void);
-extern void sound_synthesize(SWORD *buffer, int length);
-#endif
 
 extern sound_t *sound_get_psid(unsigned int channel);
 

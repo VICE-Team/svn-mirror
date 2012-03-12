@@ -22,12 +22,6 @@ SUBDIRS = msdos
 
 endif
 
-if RISCOS_COMPILE
-
-SUBDIRS = riscos
-
-endif
-
 if OS2_COMPILE
 
 SUBDIRS = os2

@@ -132,7 +132,7 @@ typedef struct petres_s {
 extern petres_t petres;
 
 extern int pet_set_model(const char *model_name, void *extra); /* used by cmdline options */
-/* FIXME: still used in os/2, sdl, beos, msdos, win32, riscos, amigaos ui */
+/* FIXME: still used in os/2, sdl, beos, msdos, win32, amigaos ui */
 extern const char *get_pet_model(void); /* FIXME: remove, still used in os/2 and win32 ui */
 
 extern int pet_init_ok; /* used in pet.c */

@@ -971,14 +971,6 @@ static int sound_run_sound(void)
         }
     }
 
-#ifdef __riscos
-    /* RISC OS vidc device uses a different approach... */
-    SoundMachineReady = 1;
-    if (SoundThreadActive != 0) {
-        return 0;
-    }
-#endif
-
     /* Handling of cycle based sound engines. */
     if (cycle_based) {
         delta_t = maincpu_clk - snddata.lastclk;
@@ -1065,37 +1057,9 @@ static void prevent_clk_overflow_callback(CLOCK sub, void *data)
     }
 }
 
-/* Not updated since riscos support might get scrapped */
-#ifdef __riscos
-void sound_synthesize(SWORD *buffer, int length)
-{
-    /* Handling of cycle based sound engines. */
-    if (cycle_based) {
-        /* FIXME: This is not implemented yet. A possible solution is
-        to make the main thread call sound_run at shorter intervals,
-        and reduce the responsibility of the sound thread to only
-        flush the sample buffer. On the other hand if sound_run were
-        called at shorter intervals the sound thread would probably
-        not be necessary at all. */
-        snddata.lastclk = maincpu_clk;
-    }
-    /* Handling of sample based sound engines. */
-    else {
-        int delta_t = 0;
-        int c;
-        for (c = 0; c < snddata.channels; c++) {
-            sound_machine_calculate_samples(snddata.psid[c], buffer + c,
-                                            length, snddata.channels,
-                                            &delta_t, c);
-        }
-        snddata.fclk += length * snddata.clkstep;
-    }
-}
-#endif
-
 /* flush all generated samples from buffer to sounddevice. adjust sid runspeed
    to match real running speed of program */
-#if defined(__MSDOS__) || defined(__riscos)
+#ifdef __MSDOS__
 int sound_flush()
 #else
 double sound_flush()
@@ -1281,7 +1245,7 @@ double sound_flush()
 
     if (snddata.playdev->bufferspace
         && (cycle_based || speed_adjustment_setting == SOUND_ADJUST_EXACT))
-#if defined(__MSDOS__) || (__riscos)
+#ifdef __MSDOS__
     {
         /* finetune VICE timer */
         static int lasttime = 0;
@@ -1449,10 +1413,6 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
         /* For now we disable sound for Haiku */
         if (!CheckForHaiku())
             sound_init_beos_device();
-#endif
-
-#ifdef __riscos
-    sound_init_vidc_device();
 #endif
 
 #if defined(AMIGA_SUPPORT) && defined(HAVE_DEVICES_AHI_H)

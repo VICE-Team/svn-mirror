@@ -36,10 +36,6 @@
 
 #include <stdio.h>
 
-#ifdef __riscos
-#include "archdep.h"
-#endif
-
 #include "cbmdos.h"
 #include "fileio.h"
 #include "fsdevice-close.h"
@@ -54,10 +50,6 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
     bufinfo_t *bufinfo;
 
     bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
-
-#ifdef __riscos
-    archdep_set_drive_leds(vdrive->unit - 8, 0);
-#endif
 
     if (secondary == 15) {
         fsdevice_error(vdrive, CBMDOS_IPE_OK);

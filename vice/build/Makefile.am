@@ -19,7 +19,5 @@ EXTRA_DIST = \
 	openwatcom/win32-build.sh \
 	qnx4/build.sh \
 	rhapsody/build.sh \
-	riscos/build-cross.sh \
-	riscos/build-cross-sdl.sh \
 	vms/build.sh \
 	xbox-sdl/build.sh

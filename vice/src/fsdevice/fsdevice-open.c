@@ -369,9 +369,6 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         goto out;
     }
 
-#ifdef __riscos
-    archdep_set_drive_leds(vdrive->unit - 8, 1);
-#endif
     fsdevice_error(vdrive, CBMDOS_IPE_OK);
 
 out:

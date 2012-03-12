@@ -112,12 +112,10 @@ int main_program(int argc, char **argv)
 
     archdep_init(&argc, argv);
 
-#ifndef __riscos
     if (atexit(main_exit) < 0) {
         archdep_startup_log_error("atexit");
         return -1;
     }
-#endif
 
     maincpu_early_init();
     machine_setup_context();

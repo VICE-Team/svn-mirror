@@ -101,11 +101,6 @@
 #define ALLOW_UNALIGNED_ACCESS
 #endif
 
-/* RISC OS specific stuff */
-#ifdef __riscos
-#include "ROlib.h"
-#endif
-
 /* SunOS 4.x specific stuff */
 #if defined(sun) || defined(__sun)
 #  if !defined(__SVR4) && !defined(__svr4__)
@@ -116,7 +111,7 @@
 
 /* ------------------------------------------------------------------------- */
 /* Which OS is using the common keyboard routines?  */
-#if (!defined(__riscos) && !defined(__OS2__)) || defined(USE_SDLUI)
+#if !defined(__OS2__) || defined(USE_SDLUI)
 #define COMMON_KBD
 #endif
 

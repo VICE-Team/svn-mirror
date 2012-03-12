@@ -27,7 +27,6 @@
  *
  */
 
-#ifndef __riscos
 #include "vice.h"
 
 #include <stdio.h>
@@ -197,6 +196,3 @@ char *findpath(const char *cmd, const char *syspath, int mode)
     lib_free(buf);
     return NULL;
 }
-
-#endif /* __riscos */
-

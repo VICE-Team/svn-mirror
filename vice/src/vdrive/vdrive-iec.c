@@ -47,10 +47,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __riscos
-#include "archdep.h"
-#endif
-
 #include "cbmdos.h"
 #include "diskimage.h"
 #include "lib.h"
@@ -333,9 +329,6 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
 #ifdef DEBUG_DRIVE
     log_debug("VDRIVE#%i: OPEN: Name '%s' (%d) on ch %d.",
               vdrive->unit, name, length, secondary);
-#endif
-#ifdef __riscos
-    archdep_set_drive_leds(vdrive->unit - 8, 1);
 #endif
 
     /*
@@ -650,10 +643,6 @@ int vdrive_iec_close(vdrive_t *vdrive, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
     int status = SERIAL_OK;
-
-#ifdef __riscos
-    archdep_set_drive_leds(vdrive->unit - 8, 0);
-#endif
 
     switch (p->mode) {
       case BUFFER_NOT_IN_USE:

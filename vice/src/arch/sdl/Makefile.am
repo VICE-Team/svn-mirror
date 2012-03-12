@@ -185,8 +185,6 @@ EXTRA_DIST = \
 	archdep_cegcc.h \
 	archdep_dingoo.c \
 	archdep_dingoo.h \
-	archdep_riscos.c \
-	archdep_riscos.h \
 	archdep_unix.c \
 	archdep_unix.h \
 	archdep_win32.c \
@@ -199,7 +197,6 @@ EXTRA_DIST = \
 	make-bindist_dingoo_native.sh \
 	make-bindist_gp2x.sh \
 	make-bindist_qnx6.sh \
-	make-bindist_riscos.sh \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \

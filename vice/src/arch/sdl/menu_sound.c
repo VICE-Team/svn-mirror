@@ -148,12 +148,6 @@ static UI_MENU_CALLBACK(start_recording_callback)
 }
 
 static ui_menu_entry_t sound_output_driver_menu[] = {
-#ifdef __riscos
-    { "Acorn",
-      MENU_ENTRY_RESOURCE_RADIO,
-      radio_SoundDeviceName_callback,
-      (ui_callback_data_t)"vidcs" },
-#endif
 #ifdef HAVE_DEVICES_AHI_H
     { "AHI",
       MENU_ENTRY_RESOURCE_RADIO,

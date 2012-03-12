@@ -54,11 +54,6 @@
 #include "util.h"
 #include "vice-event.h"
 
-#ifdef __riscos
-#include "machine.h"
-#endif
-
-
 typedef struct resource_ram_s {
     /* Resource name.  */
     char *name;

@@ -72,10 +72,6 @@ extern int archdep_require_vkbd(void);
 #include "archdep_beos.h"
 #endif
 
-#ifdef __riscos
-#include "archdep_riscos.h"
-#endif
-
 #if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.h"
 #endif

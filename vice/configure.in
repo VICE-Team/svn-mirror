@@ -125,7 +125,6 @@ is_unix_macosx=no
 is_dos=no
 is_win32=no
 is_win32_x11=no
-is_riscos=no
 is_os2=no
 is_beos=no
 is_beos_x11=no
@@ -498,20 +497,6 @@ elif test x"$host_os" = "xbeos"; then
   if test x"$enable_sdlui" != "xyes"; then
     AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
     AC_DEFINE(HAVE_MOUSE,,[Enable 1351 mouse support])
-  fi
-  AM_CONDITIONAL(HAVE_RAWDRIVE, false)
-
-elif test x"$host_os" = "xriscos"; then
-
-  dnl This is used by subsequent tests.
-  ac_cv_prog_gcc=yes
-  GCC=yes
-  READLINE=""
-    
-  is_riscos=yes
-
-  if test x"$enable_sdlui" != "xyes"; then
-    AC_DEFINE(HAS_JOYSTICK,,[Enable joystick emulation.])
   fi
   AM_CONDITIONAL(HAVE_RAWDRIVE, false)
 
@@ -1688,13 +1673,7 @@ AC_SUBST(TFE_LIBS)
 dnl Check and setup SDL compilation.
 if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
 
-    if test x"$is_riscos" = "xyes" -a x"$enable_sdlui" = "xyes"; then
-        LIBS="-lSDLmain -lSDL -lwimp -lstdc++"
-        SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
-        AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
-        AC_DEFINE(HAVE_SDLMAIN,,[Enable SDLmain replacement])
-    elif test x"$enable_dingoo" = "xyes"; then
+    if test x"$enable_dingoo" = "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
         AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
@@ -2191,10 +2170,6 @@ if test x"$is_beos" = "xyes" -o x"$is_beos_x11" = "xyes"; then
     SOUND_DRIVERS="$SOUND_DRIVERS soundbeos.o"
 fi
 
-if [[ x"$is_riscos" = "xyes" ]]; then
-    SOUND_DRIVERS="$SOUND_DRIVERS soundacorn.o"
-fi
-
 if test x"$is_unix_macosx" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
   dnl --- check for CoreAudio ---
@@ -2307,7 +2282,7 @@ if test x"$is_unix" = "xyes" -a x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" !=
 fi
 
 dnl Check for library functions
-if test x"$is_dos" = "xno" -a x"$is_win32" = "xno" -a x"$is_riscos" = "xno"; then
+if test x"$is_dos" = "xno" -a x"$is_win32" = "xno"; then
   AC_FUNC_MEMCMP
 fi
 AC_TYPE_SIGNAL
@@ -2335,7 +2310,7 @@ fi
 AC_SUBST(LIBS)
 
 dnl if usleep is not defined, compile our own version for it (usleep.o)
-if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno" -a x"$is_riscos" = "xno"; then
+if test x"$is_win32" = "xno" -a x"$is_amiga_aros" = "xno"; then
   AC_REPLACE_FUNCS(usleep)
 fi
 
@@ -2831,8 +2806,8 @@ AC_SUBST(XCBM2_WINRES)
 AC_SUBST(XCBM5X0_WINRES)
 
 
-dnl disable building of x64dtv for native gp2x, wiz, dingoo and riscos
-if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$is_riscos" = "xyes"; then
+dnl disable building of x64dtv for native gp2x, wiz, and dingoo
+if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$is_unix_dingux" = "xyes"; then
   if test x"$enable_sdlui" != "xyes"; then
     AM_CONDITIONAL(SUPPORT_X64DTV, false)
   else
@@ -2846,12 +2821,7 @@ dnl disable building of x64sc for gp2x, wiz, dingoo and disabled resid configura
 if test x"$is_unix_gp2x" = "xyes" -o x"$is_unix_wiz" = "xyes" -o x"$enable_dingoo" = "xyes" -o x"$is_unix_dingux" = "xyes" -o x"$with_resid" = "xno"; then
   AM_CONDITIONAL(SUPPORT_X64SC, false)
 else
-  dnl also disable building of x64sc for native riscos
-  if test x"$is_riscos" = "xyes" -a x"$enable_sdlui" != "xyes"; then
-    AM_CONDITIONAL(SUPPORT_X64SC, false)
-  else
-    AM_CONDITIONAL(SUPPORT_X64SC, true)
-  fi
+  AM_CONDITIONAL(SUPPORT_X64SC, true)
 fi
 
 dnl Setup the system-specific object files.
@@ -2943,7 +2913,6 @@ if test x"$is_unix" = "xyes"; then
   AM_CONDITIONAL(UNIX_COMPILE, true)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3115,7 +3084,6 @@ elif test x"$enable_dingoo" = "xyes" ; then
   AM_CONDITIONAL(UNIX_COMPILE, true)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3188,7 +3156,6 @@ elif test x"$is_win32" = "xyes"; then
   AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3222,7 +3189,6 @@ elif test x"$is_amiga" = "xyes"; then
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, true)
@@ -3258,7 +3224,6 @@ elif test x"$is_dos" = "xyes"; then
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, true)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3290,7 +3255,6 @@ elif test x"$is_os2" = "xyes"; then
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, true)
   AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
@@ -3324,43 +3288,8 @@ elif test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(SYLLABLE_COMPILE, false)
   AM_CONDITIONAL(WIN32_COMPILE, false)
   AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, false)
   AM_CONDITIONAL(OS2_COMPILE, false)
   AM_CONDITIONAL(BEOS_COMPILE, true)
-  AM_CONDITIONAL(AMIGA_COMPILE, false)
-  AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
-  AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
-  AM_CONDITIONAL(SUPPORT_CMDLINE_TOOLS, true)
-  AM_CONDITIONAL(HAVE_TRANSLATION, false)
-  AM_CONDITIONAL(MAKE_BINDIST, true)
-elif test x"$is_riscos" = "xyes"; then
-  if test x"$enable_sdlui" != "xyes"; then
-    ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/riscos"
-    ARCH_DIR="\$(top_builddir)/src/arch/riscos"
-    ARCH_SRC_DIR="\$(top_srcdir)/src/arch/riscos"
-    ARCH_LIBS="$ARCH_DIR/libarch.a"
-  fi
-  AM_CONDITIONAL(UNIX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_GP2X_COMPILE, false)
-  AM_CONDITIONAL(UNIX_WIZ_COMPILE, false)
-  AM_CONDITIONAL(UNIX_DINGUX_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SKYOS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX4_COMPILE, false)
-  AM_CONDITIONAL(UNIX_QNX6_COMPILE, false)
-  AM_CONDITIONAL(UNIX_SOLARIS_COMPILE, false)
-  AM_CONDITIONAL(UNIX_RHAPSODY_COMPILE, false)
-  AM_CONDITIONAL(UNIX_OPENSTEP_COMPILE, false)
-  AM_CONDITIONAL(UNIX_NEXTSTEP_COMPILE, false)
-  AM_CONDITIONAL(UNIX_OPENSERVER5_COMPILE, false)
-  AM_CONDITIONAL(UNIX_OPENSERVER6_COMPILE, false)
-  AM_CONDITIONAL(UNIX_UNIXWARE_COMPILE, false)
-  AM_CONDITIONAL(UNIX_HPUX_COMPILE, false)
-  AM_CONDITIONAL(SYLLABLE_COMPILE, false)
-  AM_CONDITIONAL(WIN32_COMPILE, false)
-  AM_CONDITIONAL(MSDOS_COMPILE, false)
-  AM_CONDITIONAL(RISCOS_COMPILE, true)
-  AM_CONDITIONAL(OS2_COMPILE, false)
-  AM_CONDITIONAL(BEOS_COMPILE, false)
   AM_CONDITIONAL(AMIGA_COMPILE, false)
   AM_CONDITIONAL(UNIX_MACOSX_COMPILE, false)
   AM_CONDITIONAL(DINGOO_NATIVE_COMPILE, false)
@@ -3459,7 +3388,6 @@ if false ; then
     mkdir -p arch/os2/kbd
     mkdir -p arch/os2/snippets
     mkdir -p arch/os2/vac++
-    mkdir -p arch/riscos
     mkdir -p arch/sdl
     mkdir -p arch/sdl/win32-msvc
     mkdir -p arch/sdl/win32-watcom
@@ -3576,7 +3504,6 @@ AC_OUTPUT([Makefile
            src/arch/os2/kbd/Makefile
            src/arch/os2/snippets/Makefile
            src/arch/os2/vac++/Makefile
-           src/arch/riscos/Makefile
            src/arch/sdl/Makefile
            src/arch/sdl/win32-msvc/Makefile
            src/arch/sdl/win32-watcom/Makefile

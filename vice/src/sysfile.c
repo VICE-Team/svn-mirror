@@ -160,9 +160,6 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
 #ifndef DINGOO_NATIVE
     char *p = NULL;
 #endif
-#ifdef __riscos
-    char buffer[256];
-#endif
     FILE *f;
 
 #ifdef DINGOO_NATIVE
@@ -173,50 +170,11 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
     }
     return f;
 #else
-
     if (name == NULL || *name == '\0') {
         log_error(LOG_DEFAULT, "Missing name for system file.");
         return NULL;
     }
 
-#ifdef __riscos
-    p = (char*)name;
-    while (*p != '\0') {
-        if ((*p == ':') || (*p == '$'))
-            break;
-        p++;
-    }
-    if (*p != '\0') {
-        if (complete_path_return != NULL)
-            *complete_path_return = lib_stralloc(name);
-        return fopen(name, open_mode);
-    }
-
-    f = NULL;
-    sprintf(buffer, "%s%s",default_path, name);
-
-    if (ioutil_access(buffer, IOUTIL_ACCESS_R_OK)) {
-        sprintf(buffer, "Vice:DRIVES.%s", name);
-        if (ioutil_access(buffer, IOUTIL_ACCESS_R_OK)) {
-            sprintf(buffer, "Vice:PRINTER.%s", name);
-            if (ioutil_access(buffer, IOUTIL_ACCESS_R_OK)) {
-                buffer[0] = '\0';
-            }
-        }
-    }
-    if (buffer[0] != '\0')
-        f = fopen(buffer, open_mode);
-
-    if (f == NULL) {
-        if (complete_path_return != NULL)
-            *complete_path_return = NULL;
-        return NULL;
-    } else {
-        if (complete_path_return != NULL)
-            *complete_path_return = lib_stralloc(buffer);
-        return f;
-    }
-#else
     p = findpath(name, expanded_system_path, IOUTIL_ACCESS_R_OK);
 
     if (p == NULL) {
@@ -234,7 +192,6 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
             *complete_path_return = p;
         return f;
     }
-#endif
 #endif	/* DINGOO_NATIVE */
 }
 
@@ -285,9 +242,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     fp = sysfile_open(name, &complete_path, MODE_READ);
 
     if (fp == NULL) {
-#ifdef __riscos
-        goto fail;
-#else
+
         /* Try to open the file from the current directory. */
         const char working_dir_prefix[3] = { '.', FSDEV_DIR_SEP_CHR, '\0' };
         char *local_name = NULL;
@@ -300,7 +255,6 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         if (fp == NULL) {
             goto fail;
         }
-#endif
     }
 
     log_message(LOG_DEFAULT, "Loading system file `%s'.", complete_path);

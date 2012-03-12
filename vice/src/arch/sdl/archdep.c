@@ -37,10 +37,6 @@
 #include "archdep_beos.c"
 #endif
 
-#ifdef __riscos
-#include "archdep_riscos.c"
-#endif
-
 #if defined(UNIX_COMPILE) && !defined(CEGCC_COMPILE)
 #include "archdep_unix.c"
 #endif
