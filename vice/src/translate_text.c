@@ -6029,6 +6029,23 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/c64cart.c */
+/* en */ {IDCLS_ATTACH_RAW_F64_CART,    N_("Attach raw 32kB Formel 64 image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ATTACH_RAW_F64_CART_DA, "Tilslut råt 16KB Formel 64 image"},
+/* de */ {IDCLS_ATTACH_RAW_F64_CART_DE, "32kB Formel 64 Image (raw) einlegen"},
+/* es */ {IDCLS_ATTACH_RAW_F64_CART_ES, "Insertar imagen cartucho Formel 64 16KB"},
+/* fr */ {IDCLS_ATTACH_RAW_F64_CART_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ATTACH_RAW_F64_CART_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ATTACH_RAW_F64_CART_IT, "Seleziona immagine cartuccia Formel 64 di 32kB"},
+/* ko */ {IDCLS_ATTACH_RAW_F64_CART_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ATTACH_RAW_F64_CART_NL, "Koppel binair 32kB Formel 64 bestand"},
+/* pl */ {IDCLS_ATTACH_RAW_F64_CART_PL, "Zamontuj surowy obraz 32kB Formel 64"},
+/* ru */ {IDCLS_ATTACH_RAW_F64_CART_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ATTACH_RAW_F64_CART_SV, "Anslut rå 32kB Formel 64-avbilding"},
+/* tr */ {IDCLS_ATTACH_RAW_F64_CART_TR, "Düz 32kB Final kartuþ imajý yerleþtir"},
+#endif
+
+/* c64/cart/c64cart.c */
 /* en */ {IDCLS_ATTACH_RAW_FC1_CART,    N_("Attach raw 16kB Final Cartridge image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ATTACH_RAW_FC1_CART_DA, "Tilslut råt 16KB Final Cartridge image"},

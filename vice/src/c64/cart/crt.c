@@ -58,6 +58,7 @@
 #include "final.h"
 #include "finalplus.h"
 #include "final3.h"
+#include "formel64.h"
 #include "freezeframe.h"
 #include "freezemachine.h"
 #include "funplay.h"
@@ -386,6 +387,9 @@ int crt_attach(const char *filename, BYTE *rawcart)
             break;
         case CARTRIDGE_FINAL_PLUS:
             rc = final_plus_crt_attach(fd, rawcart);
+            break;
+        case CARTRIDGE_FORMEL64:
+            rc = formel64_crt_attach(fd, rawcart);
             break;
         case CARTRIDGE_FREEZE_FRAME:
             rc = freezeframe_crt_attach(fd, rawcart);

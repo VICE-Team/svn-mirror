@@ -14,6 +14,8 @@ libcore_a_SOURCES = \
 	flash040core.c \
 	fmopl.c \
 	fmopl.h \
+	mc6821core.c \
+	mc6821core.h \
 	riotcore.c \
 	ser-eeprom.c \
 	ser-eeprom.h \

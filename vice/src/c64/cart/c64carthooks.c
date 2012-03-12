@@ -83,6 +83,7 @@
 #include "final.h"
 #include "finalplus.h"
 #include "final3.h"
+#include "formel64.h"
 #include "freezeframe.h"
 #include "freezemachine.h"
 #include "funplay.h"
@@ -281,6 +282,11 @@ static const cmdline_option_t cmdline_options[] =
       cart_attach_cmdline, (void *)CARTRIDGE_EXPERT, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_ATTACH_RAW_EXPERT_CART,
+      NULL, NULL },
+    { "-cartf64", CALL_FUNCTION, 1,
+      cart_attach_cmdline, (void *)CARTRIDGE_FORMEL64, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_ATTACH_RAW_F64_CART,
       NULL, NULL },
     { "-cartfc1", CALL_FUNCTION, 1,
       cart_attach_cmdline, (void *)CARTRIDGE_FINAL_I, NULL, NULL,
@@ -871,6 +877,8 @@ int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
             return final_v3_bin_attach(filename, rawcart);
         case CARTRIDGE_FINAL_PLUS:
             return final_plus_bin_attach(filename, rawcart);
+        case CARTRIDGE_FORMEL64:
+            return formel64_bin_attach(filename, rawcart);
         case CARTRIDGE_FREEZE_FRAME:
             return freezeframe_bin_attach(filename, rawcart);
         case CARTRIDGE_FREEZE_MACHINE:
@@ -1038,6 +1046,9 @@ void cart_attach(int type, BYTE *rawcart)
             break;
         case CARTRIDGE_FINAL_PLUS:
             final_plus_config_setup(rawcart);
+            break;
+        case CARTRIDGE_FORMEL64:
+            formel64_config_setup(rawcart);
             break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_config_setup(rawcart);
@@ -1439,6 +1450,9 @@ void cart_detach(int type)
         case CARTRIDGE_FINAL_PLUS:
             final_plus_detach();
             break;
+        case CARTRIDGE_FORMEL64:
+            formel64_detach();
+            break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_detach();
             break;
@@ -1662,6 +1676,9 @@ void cartridge_init_config(void)
         case CARTRIDGE_FINAL_III:
             final_v3_config_init();
             break;
+        case CARTRIDGE_FORMEL64:
+            formel64_config_init();
+            break;
         case CARTRIDGE_FREEZE_FRAME:
             freezeframe_config_init();
             break;
@@ -1866,6 +1883,9 @@ void cartridge_reset(void)
             break;
         case CARTRIDGE_EPYX_FASTLOAD:
             epyxfastload_reset();
+            break;
+        case CARTRIDGE_FORMEL64:
+            formel64_reset();
             break;
         case CARTRIDGE_FREEZE_MACHINE:
             freezemachine_reset();
@@ -2398,6 +2418,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_FORMEL64:
+                if (formel64_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_FREEZE_FRAME:
                 if (freezeframe_snapshot_write_module(s) < 0) {
                     return -1;
@@ -2849,6 +2874,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
                 break;
             case CARTRIDGE_FINAL_PLUS:
                 if (final_plus_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_FORMEL64:
+                if (formel64_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

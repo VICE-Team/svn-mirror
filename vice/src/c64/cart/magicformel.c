@@ -92,9 +92,6 @@ CB2            - enable Cartridge (?)
 
 */
 
-/* if defined, permanently use ultimax mode to fake full external decoding. */
-/* #define USE_ULTIMAX_CONFIG */
-
 /* permanently enable RAM in io1 */
 /* #define DEBUG_IO1_NO_DISABLE  */
 
@@ -125,6 +122,7 @@ CB2            - enable Cartridge (?)
 #include "maincpu.h"
 #include "machine.h"
 #include "magicformel.h"
+#include "mc6821core.h"
 #include "snapshot.h"
 #include "types.h"
 #include "util.h"
@@ -186,6 +184,8 @@ static int freeze_enabled = 0;
 static int export_game = 1;
 static int hwversion = 0;
 
+static mc6821_state my6821;
+
 /****************************************************************************
 * 
 ****************************************************************************/
@@ -222,13 +222,11 @@ static int kernal_decoder(WORD addr)
 {
     export_game = kernal_enabled || freeze_enabled;
 
-#ifndef USE_ULTIMAX_CONFIG
     if (export_game) {
         cart_config_changed_slotmain(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
     } else {
         cart_config_changed_slotmain(2, (BYTE)(2 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_PHI2_RAM);
     }
-#endif
 
     if (addr < 0xe000) {
         return 0;
@@ -252,15 +250,11 @@ static void freeze_flipflop(int reset,int freeze,int clear)
 }
 
 /***************************************************************************
-    very fake mc6821 "emulation" :)
+    connection to the mc6821 emulation
  ***************************************************************************/
 
-static int ctrlA = 0, ctrlB = 0;
-static int dataA = 0, dataB = 0;
-static int CB2 = 0, CB2state = 0;
-
 #ifdef LOG_PORTS
-static void mc6821_print_pa(BYTE data)
+static void mf_print_pa(BYTE data)
 {
     /*
         PA (Output Data)
@@ -277,13 +271,13 @@ static void mc6821_print_pa(BYTE data)
     DBG(("[UNUSED %02x] ", (data) & 0xe0));
 }
 
-static void mc6821_print_pb(BYTE data)
+static void mf_print_pb(BYTE data)
 {
     BYTE page;
 
     /*
         PB (Output Data)
-        
+
         B3,B2,B0,B1,B4 - RAM Bank
         B5-B6 (unused)
         B7             - rom enable (?)
@@ -302,218 +296,100 @@ static void mc6821_print_pb(BYTE data)
 }
 #endif
 
-static void mc6821_reset(void)
+static void mf_set_pa(mc6821_state *ctx)
 {
-    romh_bank = 0;      /* PA0..PA3 */
-    io1_enabled = 0;    /* PA4 */
+    BYTE data = ctx->dataA;
+#ifdef LOG_PORTS
+    mf_print_pa(ctx->dataA);
+    mf_print_pb(ctx->dataB);
+    DBG(("\n"));
+#endif
+    /*
+    PA (Output Data)
 
-    ram_page = 0;       /* PB0..PB4 */
-    kernal_enabled = 0; /* PB7 */
-
-    CB2 = 0;            /* CB2 */
-    CB2state = 0;
-
-    ctrlA = 0;
-    dataA = 0;
-
-    ctrlB = 0;
-    dataB = 0;
-}
-
-static BYTE mc6821_read(int port /* rs1 */,int reg /* rs0 */)
-{
-    BYTE data = 0;
-
-    if (port == 0) {
-        /* MC6821 Port A */
-        if (reg == 1) {
-            /* control register */
-            data = ctrlA;
-        } else {
-            if (ctrlA & 0x04) {
-                data = dataA;
-            } else {
-                /* ? */
-            }
-        }
+    A0,A1,A2       - ROM Bank
+    A3             - extra ROM enable/disable (?)
+    A4             - RAM enable/disable (?)
+    A5-A7 unused
+    */
+    if (hwversion == 0) {
+        romh_bank = data & 0x07;
     } else {
-        /* MC6821 Port B */
-        if (reg == 1) {
-            /* control register */
-            data = ctrlB;
-        } else {
-            if (ctrlB & 0x04) {
-                data = dataB;
-            } else {
-                /* ? */
-            }
-        }
+        romh_bank = data & 0x0f;
     }
-    return data;
-}
-
-/* FIXME: mc6821 register peek is incomplete */
-static BYTE mc6821_peek(int port /* rs1 */,int reg /* rs0 */)
-{
-    BYTE data = 0;
-
-    if (port == 0) {
-        /* MC6821 Port A */
-        if (reg == 1) {
-            /* control register */
-            data = ctrlA;
-        } else {
-            if (ctrlA & 0x04) {
-                data = dataA;
-            } else {
-                /* ? */
-            }
-        }
-    } else {
-        /* MC6821 Port B */
-        if (reg == 1) {
-            /* control register */
-            data = ctrlB;
-        } else {
-            if (ctrlB & 0x04) {
-                data = dataB;
-            } else {
-                /* ? */
-            }
-        }
-    }
-    return data;
-}
-
-static void mc6821_store(int port /* rs1 */,int reg /* rs0 */,BYTE data)
-{
-    if (port == 0) {
-        /* MC6821 Port A */
-        if (reg == 1) {
-            /* control register */
-            ctrlA = data;
-            /* DBG(("PA CTRL %02x    %02x %02x %02x %x %x\n",data,data&0x80,data&0x40,data&0x38,data&0x04,data&3)); */
-        } else {
-            if (ctrlA & 0x04) {
-                /* output register */
-                /* DBG(("PA DATA %02x\n",data)); */
-
-                /*
-                PA (Output Data)
-
-                A0,A1,A2       - ROM Bank
-                A3             - extra ROM enable/disable (?)
-                A4             - RAM enable/disable (?)
-                A5-A7 unused
-                */
-                if (hwversion == 0) {
-                    romh_bank = data & 0x07;
-                } else {
-                    romh_bank = data & 0x0f;
-                }
-                freeze_flipflop(0 /* reset */,0 /* freeze */,CB2);
-                kernal_decoder(0xdf00);
+    freeze_flipflop(0 /* reset */,0 /* freeze */, ctx->CB2);
+    kernal_decoder(0xdf00);
 
 #ifdef LOG_BANKS
-                log_bank(romh_bank);
+    log_bank(romh_bank);
 #endif
 
-                /* DBG(("ROM Bank %02x\n",data&0x0f)); */
-                if (data & 0x10) {
-                    /* DBG(("  %04x PA DATA %02x [IO1 RAM DISABLE?]\n",addr,data)); */
-                    io1_enabled = 0;
-                } else {
-                    /* DBG(("  %04x PA DATA %02x [IO1 RAM ENABLE?]\n",addr,data)); */
-                    io1_enabled = 1;
-                }
-                dataA = data;
-#if 0
-                mc6821_print_pa(dataA);
-                mc6821_print_pb(dataB);
-                DBG(("\n"));
-#endif
-            } else {
-                /* data direction register */
-                /* DBG(("PA DDR %02x\n",data)); */
-            }
-        }
+    /* DBG(("ROM Bank %02x\n",data&0x0f)); */
+    if (data & 0x10) {
+        /* DBG(("  %04x PA DATA %02x [IO1 RAM DISABLE?]\n",addr,data)); */
+        io1_enabled = 0;
     } else {
-        /* MC6821 Port B */
-        if (reg == 1) {
-            /* control register */
-            ctrlB = data;
-            DBG(("PB CTRL %02x    %02x %02x %02x %x %x\n",data,data&0x80,data&0x40,data&0x38,data&0x04,data&3));
-
-            if ((data & 0x30) == 0x30) {
-                /* update CB2 immediately */
-                CB2 = (data & 0x8) >> 3;
-                CB2state = 0;
-
-                freeze_flipflop(0 /* reset */, 0 /* freeze */, CB2);
-                kernal_decoder(0xdf00);
-
-            } else if ((data & 0x30) == 0x20) {
-                /* TODO */
-                CB2state = 1;
-                DBG(("MF: PB CTRL TODO mode for CB2\n"));
-            } else {
-                DBG(("MF: PB CTRL unhandled mode %02x for CB2\n",(data&0x30)));
-            }
-        } else {
-            if (ctrlB&0x04) {
-                /* output register */
-                /* DBG(("PB DATA %02x\n",data)); */
-
-                /*
-                PB (Output Data)
-
-                B3,B2,B0,B1,B4 - RAM Bank
-                B5-B6 (unused)
-                B7             - rom enable (?)
-                */
-                /* ram_page = data & 0x1f; */
-                ram_page =
-                    (((data >> 3) & 1) << 0) |
-                    (((data >> 2) & 1) << 1) |
-                    (((data >> 0) & 1) << 2) |
-                    (((data >> 1) & 1) << 3) |
-                    (((data >> 4) & 1) << 4);
-
-                /* DBG(("RAM Bank %02x\n",data&0x0f)); */
-
-                if (CB2state == 1) {
-                    CB2 = 0;
-                }
-
-                if (data & 0x80) {
-                    /* DBG(("  %04x PB DATA %02x [ROM ENABLE?] [RAM BANK %02x]\n",0xdf00,data,ram_page)); */
-                    kernal_enabled = 1;
-                } else {
-                    /* DBG(("  %04x PB DATA %02x [ROM DISABLE?] [RAM BANK %02x]\n",0xdf00,data,ram_page)); */
-                    kernal_enabled = 0;
-                }
-
-                if (CB2state == 1) {
-                    CB2state = 0;
-                }
-
-                freeze_flipflop(0 /* reset */,0 /* freeze */,CB2);
-                kernal_decoder(0xdf00);
-
-                dataB = data;
-#ifdef LOG_PORTS
-                mc6821_print_pa(dataA);
-                mc6821_print_pb(dataB);
-                DBG(("\n"));
-#endif
-            } else {
-                /* data direction register */
-                /* DBG(("PB DDR %02x\n",data)); */
-            }
-        }
+        /* DBG(("  %04x PA DATA %02x [IO1 RAM ENABLE?]\n",addr,data)); */
+        io1_enabled = 1;
     }
 }
 
+static void mf_set_pb(mc6821_state *ctx)
+{
+    BYTE data = ctx->dataB;
+#ifdef LOG_PORTS
+    mf_print_pa(ctx->dataA);
+    mf_print_pb(ctx->dataB);
+    DBG(("\n"));
+#endif
+    /*
+    PB (Output Data)
+
+    B3,B2,B0,B1,B4 - RAM Bank
+    B5-B6 (unused)
+    B7             - rom enable (?)
+    */
+    /* ram_page = data & 0x1f; */
+    ram_page =
+        (((data >> 3) & 1) << 0) |
+        (((data >> 2) & 1) << 1) |
+        (((data >> 0) & 1) << 2) |
+        (((data >> 1) & 1) << 3) |
+        (((data >> 4) & 1) << 4);
+
+    /* DBG(("RAM Bank %02x\n",data&0x0f)); */
+
+    if (data & 0x80) {
+        /* DBG(("  %04x PB DATA %02x [ROM ENABLE?] [RAM BANK %02x]\n",0xdf00,data,ram_page)); */
+        kernal_enabled = 1;
+    } else {
+        /* DBG(("  %04x PB DATA %02x [ROM DISABLE?] [RAM BANK %02x]\n",0xdf00,data,ram_page)); */
+        kernal_enabled = 0;
+    }
+
+    freeze_flipflop(0 /* reset */, 0 /* freeze */, ctx->CB2);
+    kernal_decoder(0xdf00);
+}
+
+/*
+static int mf_get_pa(mc6821_state *ctx)
+{
+}
+
+static int mf_get_pb(mc6821_state *ctx)
+{
+}
+
+static void mf_set_ca2(mc6821_state *ctx)
+{
+}
+*/
+
+static void mf_set_cb2(mc6821_state *ctx)
+{
+    freeze_flipflop(0 /* reset */,0 /* freeze */, ctx->CB2);
+    kernal_decoder(0xdf00);
+}
 
 /****************************************************************************
 * 
@@ -564,13 +440,13 @@ static BYTE magicformel_io2_read(WORD addr)
     int data, port, reg;
 
     /* fixme: what about d0..d5 ? */
-    data = (addr & 0x3f);   /* d0..d5 d7 */
+    data = (addr & 0x3f);   /* d0..d5 (d7) */
     port = (addr >> 7) & 1; /* rs1 */
     reg = (addr >> 6) & 1;  /* rs0 */
 
     DBG(("MF: read from io2 %04x data %02x port %02x reg %02x\n",addr,data,port,reg));
 
-    return mc6821_read(port /* rs1 */, reg /* rs0 */);
+    return mc6821core_read(&my6821, port /* rs1 */, reg /* rs0 */);
 }
 
 static BYTE magicformel_io2_peek(WORD addr)
@@ -578,11 +454,11 @@ static BYTE magicformel_io2_peek(WORD addr)
     int data, port, reg;
 
     /* fixme: what about d0..d5 ? */
-    data = (addr & 0x3f);   /* d0..d5 d7 */
+    data = (addr & 0x3f);   /* d0..d5 (d7) */
     port = (addr >> 7) & 1; /* rs1 */
     reg = (addr >> 6) & 1;  /* rs0 */
 
-    return mc6821_peek(port /* rs1 */, reg /* rs0 */);
+    return mc6821core_peek(&my6821, port /* rs1 */, reg /* rs0 */);
 }
 
 static void magicformel_io2_store(WORD addr, BYTE value)
@@ -595,7 +471,7 @@ static void magicformel_io2_store(WORD addr, BYTE value)
     port = (addr >> 7) & 1; /* rs1 */
     reg = (addr >> 6) & 1;  /* rs0 */
 
-    mc6821_store(port /* rs1 */, reg /* rs0 */, data);
+    mc6821core_store(&my6821, port /* rs1 */, reg /* rs0 */, data);
 }
 
 
@@ -667,36 +543,40 @@ void magicformel_freeze(void)
     romh_bank = 0x01;
     io1_enabled = 1;
 
-    freeze_flipflop(0 /* reset */, 1 /* freeze */, CB2);
+    freeze_flipflop(0 /* reset */, 1 /* freeze */, my6821.CB2);
     kernal_decoder(0xfffe);
 
-#ifdef USE_ULTIMAX_CONFIG
     cart_config_changed_slotmain(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
-#else
-    cart_config_changed_slotmain(2, (BYTE)(3 | ((romh_bank & 0x0f) << CMODE_BANK_SHIFT)), CMODE_READ | CMODE_RELEASE_FREEZE);
-#endif
 }
 
 void magicformel_config_init(void)
 {
     DBG(("MF: init\n"));
 
+    my6821.set_pa = mf_set_pa;
+    my6821.set_pb = mf_set_pb;
+    /* my6821.set_ca2 = mf_set_ca2; */
+    my6821.set_cb2 = mf_set_cb2;
+
     kernal_enabled = 1;   /* PB7 */
 
-    freeze_flipflop(1 /* reset */,0 /* freeze */,CB2);
+    freeze_flipflop(1 /* reset */,0 /* freeze */, my6821.CB2);
     kernal_decoder(0xfffe);
 
-#ifdef USE_ULTIMAX_CONFIG
     cart_config_changed_slotmain(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
-#else
-    cart_config_changed_slotmain(2, (BYTE)(3 | (romh_bank << CMODE_BANK_SHIFT)), CMODE_READ);
-#endif
 }
 
 void magicformel_reset(void)
 {
     DBG(("MF: reset\n"));
-    mc6821_reset();
+
+    romh_bank = 0;      /* PA0..PA3 */
+    io1_enabled = 0;    /* PA4 */
+
+    ram_page = 0;       /* PB0..PB4 */
+    kernal_enabled = 0; /* PB7 */
+
+    mc6821core_reset(&my6821);
 }
 
 void magicformel_config_setup(BYTE *rawcart)
@@ -804,15 +684,13 @@ int magicformel_snapshot_write_module(snapshot_t *s)
         || (SMW_B(m, (BYTE)freeze_enabled) < 0)
         || (SMW_B(m, (BYTE)export_game) < 0)
         || (SMW_B(m, (BYTE)hwversion) < 0)
-        || (SMW_B(m, (BYTE)ctrlA) < 0)
-        || (SMW_B(m, (BYTE)ctrlB) < 0)
-        || (SMW_B(m, (BYTE)dataA) < 0)
-        || (SMW_B(m, (BYTE)dataB) < 0)
-        || (SMW_B(m, (BYTE)CB2) < 0)
-        || (SMW_B(m, (BYTE)CB2state) < 0)
         || (SMW_BA(m, roml_banks, 0x20000) < 0)
         || (SMW_BA(m, export_ram0, 0x2000) < 0)) {
         snapshot_module_close(m);
+        return -1;
+    }
+
+    if (mc6821core_snapshot_write_data(&my6821, m)  < 0) {
         return -1;
     }
 
@@ -842,15 +720,13 @@ int magicformel_snapshot_read_module(snapshot_t *s)
         || (SMR_B_INT(m, &freeze_enabled) < 0)
         || (SMR_B_INT(m, &export_game) < 0)
         || (SMR_B_INT(m, &hwversion) < 0)
-        || (SMR_B_INT(m, &ctrlA) < 0)
-        || (SMR_B_INT(m, &ctrlB) < 0)
-        || (SMR_B_INT(m, &dataA) < 0)
-        || (SMR_B_INT(m, &dataB) < 0)
-        || (SMR_B_INT(m, &CB2) < 0)
-        || (SMR_B_INT(m, &CB2state) < 0)
         || (SMR_BA(m, roml_banks, 0x20000) < 0)
         || (SMR_BA(m, export_ram0, 0x2000) < 0)) {
         snapshot_module_close(m);
+        return -1;
+    }
+
+    if (mc6821core_snapshot_read_data(&my6821, m)  < 0) {
         return -1;
     }
 

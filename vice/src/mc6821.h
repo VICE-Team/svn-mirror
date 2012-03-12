@@ -27,6 +27,10 @@
 #ifndef VICE_MC6821_H
 #define VICE_MC6821_H
 
+/*
+    FIXME: this code should get reworked to use the generic MC6821 core
+ */
+
 #include "types.h"
 
 /* Signal values (for signaling edges on the control lines)  */

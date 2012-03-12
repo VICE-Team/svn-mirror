@@ -38,6 +38,9 @@
 #include "log.h"
 #include "mc6821.h"
 
+/*
+    FIXME: this code should get reworked to use the generic MC6821 core
+ */
 
 /* mc6821 structure.  */
 mc6821_t mc6821[DRIVE_NUM];

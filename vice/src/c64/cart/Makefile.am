@@ -67,6 +67,8 @@ libc64cart_a_SOURCES = \
 	final3.h \
 	finalplus.c \
 	finalplus.h \
+	formel64.c \
+	formel64.h \
 	freezeframe.c \
 	freezeframe.h \
 	freezemachine.c \
