@@ -174,6 +174,10 @@ SOURCE="..\..\..\c64\cart\finalplus.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\c64\cart\formel64.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\c64\cart\freezeframe.c"
 # End Source File
 # Begin Source File

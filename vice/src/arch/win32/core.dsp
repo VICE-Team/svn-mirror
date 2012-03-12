@@ -156,6 +156,10 @@ SOURCE="..\..\core\fmopl.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\core\mc6821core.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\core\riotcore.c"
 # End Source File
 # Begin Source File

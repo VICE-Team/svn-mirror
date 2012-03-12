@@ -71,6 +71,7 @@ CLEAN :
 	-@erase "$(INTDIR)\final.obj"
 	-@erase "$(INTDIR)\final3.obj"
 	-@erase "$(INTDIR)\finalplus.obj"
+	-@erase "$(INTDIR)\formel64.obj"
 	-@erase "$(INTDIR)\freezeframe.obj"
 	-@erase "$(INTDIR)\freezemachine.obj"
 	-@erase "$(INTDIR)\funplay.obj"
@@ -178,6 +179,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\final.obj" \
 	"$(INTDIR)\final3.obj" \
 	"$(INTDIR)\finalplus.obj" \
+	"$(INTDIR)\formel64.obj" \
 	"$(INTDIR)\freezeframe.obj" \
 	"$(INTDIR)\freezemachine.obj" \
 	"$(INTDIR)\funplay.obj" \
@@ -268,6 +270,7 @@ CLEAN :
 	-@erase "$(INTDIR)\final.obj"
 	-@erase "$(INTDIR)\final3.obj"
 	-@erase "$(INTDIR)\finalplus.obj"
+	-@erase "$(INTDIR)\formel64.obj"
 	-@erase "$(INTDIR)\freezeframe.obj"
 	-@erase "$(INTDIR)\freezemachine.obj"
 	-@erase "$(INTDIR)\funplay.obj"
@@ -375,6 +378,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\final.obj" \
 	"$(INTDIR)\final3.obj" \
 	"$(INTDIR)\finalplus.obj" \
+	"$(INTDIR)\formel64.obj" \
 	"$(INTDIR)\freezeframe.obj" \
 	"$(INTDIR)\freezemachine.obj" \
 	"$(INTDIR)\funplay.obj" \
@@ -585,6 +589,12 @@ SOURCE="..\..\..\c64\cart\final3.c"
 SOURCE="..\..\..\c64\cart\finalplus.c"
 
 "$(INTDIR)\finalplus.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\c64\cart\formel64.c"
+
+$(INTDIR)\formel64.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

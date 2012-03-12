@@ -42,6 +42,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ciatimer.obj"
 	-@erase "$(INTDIR)\flash040core.obj"
 	-@erase "$(INTDIR)\fmopl.obj"
+	-@erase "$(INTDIR)\mc6821core.obj"
 	-@erase "$(INTDIR)\riotcore.obj"
 	-@erase "$(INTDIR)\ser-eeprom.obj"
 	-@erase "$(INTDIR)\spi-sdcard.obj"
@@ -100,6 +101,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\ciatimer.obj" \
 	"$(INTDIR)\flash040core.obj" \
 	"$(INTDIR)\fmopl.obj" \
+	"$(INTDIR)\mc6821core.obj" \
 	"$(INTDIR)\riotcore.obj" \
 	"$(INTDIR)\ser-eeprom.obj" \
 	"$(INTDIR)\spi-sdcard.obj" \
@@ -129,6 +131,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ciatimer.obj"
 	-@erase "$(INTDIR)\flash040core.obj"
 	-@erase "$(INTDIR)\fmopl.obj"
+	-@erase "$(INTDIR)\mc6821core.obj"
 	-@erase "$(INTDIR)\riotcore.obj"
 	-@erase "$(INTDIR)\ser-eeprom.obj"
 	-@erase "$(INTDIR)\spi-sdcard.obj"
@@ -187,6 +190,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\ciatimer.obj" \
 	"$(INTDIR)\flash040core.obj" \
 	"$(INTDIR)\fmopl.obj" \
+	"$(INTDIR)\mc6821core.obj" \
 	"$(INTDIR)\riotcore.obj" \
 	"$(INTDIR)\ser-eeprom.obj" \
 	"$(INTDIR)\spi-sdcard.obj" \
@@ -230,6 +234,12 @@ SOURCE="..\..\..\core\flash040core.c"
 SOURCE=..\..\..\core\fmopl.c
 
 "$(INTDIR)\fmopl.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\core\mc6821core.c"
+
+"$(INTDIR)\mc6821core.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
