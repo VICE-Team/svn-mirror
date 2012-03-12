@@ -24,6 +24,9 @@
  *
  */
 
+
+#include "vice.h"
+
 /* define for debug messages */
 /* #define MC6821_DEBUG */
 
@@ -34,7 +37,7 @@
 #define DBG(x)
 #endif
 
-#include "vice.h"
+#include <stdlib.h>
 
 #include "mc6821core.h"
 #include "snapshot.h"
