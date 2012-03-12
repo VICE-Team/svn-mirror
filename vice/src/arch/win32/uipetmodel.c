@@ -31,7 +31,7 @@
 #include <windows.h>
 #include <tchar.h>
 
-#include "pets.h"
+#include "petmodel.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -64,29 +64,12 @@ static int move_buttons_group[] = {
     0
 };
 
-static char *models[] = {
-    "2001",
-    "3008",
-    "3016",
-    "3032",
-    "3032B",
-    "4016",
-    "4032",
-    "4032B",
-    "8032",
-    "8096",
-    "8296",
-    "SuperPET",
-    NULL
-};
-
 static void init_petmodel_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
     int xpos;
     RECT rect;
-    const char *model;
-    int i;
+    int model;
 
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, petmodel_dialog_trans);
@@ -124,18 +107,13 @@ static void init_petmodel_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"PET 8296");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"SUPERPET");
 
-    model = get_pet_model();
-    for (i = 0; models[i] != NULL; i++) {
-        if (!strcmp(models[i], model)) {
-            SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i, 0);
-        }
-    }
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)i, 0);
+    model = petmodel_get();
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)model, 0);
 }
 
 static void end_petmodel_dialog(HWND hwnd)
 {
-    pet_set_model(models[SendMessage(GetDlgItem(hwnd, IDC_PETMODEL_LIST), CB_GETCURSEL, 0, 0)], NULL);
+    petmodel_set((int)SendMessage(GetDlgItem(hwnd, IDC_PETMODEL_LIST), CB_GETCURSEL, 0, 0));
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
