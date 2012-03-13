@@ -67,8 +67,8 @@ o?2??Include directories:
 1
 17
 WString
-58
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive
+72
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..\..\core
 0
 18
 MVState
@@ -167,8 +167,8 @@ WVList
 0
 40
 MItem
-38
-..\..\..\DRIVE\IEC\C64EXP\iec-c64exp.c
+39
+..\..\..\drive\iec\c64exp\dolphindos3.c
 41
 WString
 4
@@ -185,8 +185,8 @@ WVList
 0
 44
 MItem
-34
-..\..\..\DRIVE\IEC\C64EXP\mc6821.c
+38
+..\..\..\DRIVE\IEC\C64EXP\iec-c64exp.c
 45
 WString
 4

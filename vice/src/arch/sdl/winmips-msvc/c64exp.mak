@@ -50,8 +50,8 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64exp-cmdline-options.obj"
 	-@erase "$(INTDIR)\c64exp-resources.obj"
+	-@erase "$(INTDIR)\dolphindos3.obj"
 	-@erase "$(INTDIR)\iec-c64exp.obj"
-	-@erase "$(INTDIR)\mc6821.obj"
 	-@erase "$(INTDIR)\profdos.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\c64exp.lib"
@@ -60,7 +60,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64exp.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\core" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64exp.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -102,8 +102,8 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\c64exp.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\c64exp-cmdline-options.obj" \
 	"$(INTDIR)\c64exp-resources.obj" \
+	"$(INTDIR)\dolphindos3.obj" \
 	"$(INTDIR)\iec-c64exp.obj" \
-	"$(INTDIR)\mc6821.obj" \
 	"$(INTDIR)\profdos.obj" \
 	".\libs\base\Release\base.lib"
 
@@ -137,8 +137,8 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64exp-cmdline-options.obj"
 	-@erase "$(INTDIR)\c64exp-resources.obj"
+	-@erase "$(INTDIR)\dolphindos3.obj"
 	-@erase "$(INTDIR)\iec-c64exp.obj"
-	-@erase "$(INTDIR)\mc6821.obj"
 	-@erase "$(INTDIR)\profdos.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\c64exp.lib"
@@ -147,7 +147,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64exp.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\core" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\c64exp.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -189,8 +189,8 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\c64exp.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\c64exp-cmdline-options.obj" \
 	"$(INTDIR)\c64exp-resources.obj" \
+	"$(INTDIR)\dolphindos3.obj" \
 	"$(INTDIR)\iec-c64exp.obj" \
-	"$(INTDIR)\mc6821.obj" \
 	"$(INTDIR)\profdos.obj" \
 	".\libs\base\Debug\base.lib"
 
@@ -242,15 +242,15 @@ SOURCE="..\..\..\drive\iec\c64exp\c64exp-resources.c"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE="..\..\..\drive\iec\c64exp\iec-c64exp.c"
+SOURCE=..\..\..\drive\iec\c64exp\dolphindos3.c
 
-"$(INTDIR)\iec-c64exp.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\dolphindos3.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
-SOURCE=..\..\..\drive\iec\c64exp\mc6821.c
+SOURCE="..\..\..\drive\iec\c64exp\iec-c64exp.c"
 
-"$(INTDIR)\mc6821.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\iec-c64exp.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
