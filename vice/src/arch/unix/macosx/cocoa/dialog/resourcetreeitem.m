@@ -425,6 +425,7 @@
         // range
         else if (hint == ResourceTreeItemHintRange) {
             if (numArgs == 4) {
+                value = [string intValue];
                 int min = [[args objectAtIndex:2] intValue];
                 int max = [[args objectAtIndex:3] intValue];
                 if (value < min) {
