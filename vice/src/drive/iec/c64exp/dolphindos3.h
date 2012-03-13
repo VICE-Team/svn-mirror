@@ -1,8 +1,9 @@
 /*
- * mc6821.h - MC6821 emulation for the 1571 disk drives with DD3.
+ * dolphindos3.h - Parallel cable emulation for drives with DD3.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,43 +25,15 @@
  *
  */
 
-#ifndef VICE_MC6821_H
-#define VICE_MC6821_H
-
-/*
-    FIXME: this code should get reworked to use the generic MC6821 core
- */
-
-#include "types.h"
-
-/* Signal values (for signaling edges on the control lines)  */
-#define MC6821_SIG_CA1 0
-#define MC6821_SIG_CA2 1
-#define MC6821_SIG_CB1 2
-#define MC6821_SIG_CB2 3
-
-struct drive_s;
-
-struct mc6821_s {
-    /* MC6821 register.  */
-    BYTE pra;
-    BYTE ddra;
-    BYTE cra;
-    BYTE prb;
-    BYTE ddrb;
-    BYTE crb;
-
-    /* Drive structure */
-    struct drive_s *drive;
-};
-typedef struct mc6821_s mc6821_t;
+#ifndef VICE_DD3_H
+#define VICE_DD3_H
 
 struct drive_context_s;
-extern void mc6821_init(struct drive_context_s *drv);
-extern void mc6821_reset(struct drive_context_s *drv);
-extern void mc6821_mem_init(struct drive_context_s *drv, unsigned int type);
+extern void dd3_init(struct drive_context_s *drv);
+extern void dd3_reset(struct drive_context_s *drv);
+extern void dd3_mem_init(struct drive_context_s *drv, unsigned int type);
 
-extern void mc6821_set_signal(struct drive_context_s *drive_context, int line);
+extern void dd3_set_signal(struct drive_context_s *drive_context);
 
 #endif 
 

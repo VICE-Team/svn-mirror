@@ -33,7 +33,6 @@
 #include "drivemem.h"
 #include "drivetypes.h"
 #include "lib.h"
-#include "mc6821.h"
 #include "memiec.h"
 #include "types.h"
 #include "via1d1541.h"
@@ -41,7 +40,6 @@
 #include "wd1770.h"
 #include "via4000.h"
 #include "pc8477.h"
-
 
 static BYTE drive_read_ram(drive_context_t *drv, WORD address)
 {

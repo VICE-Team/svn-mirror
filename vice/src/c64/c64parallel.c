@@ -24,19 +24,29 @@
  *
  */
 
+/* define for debug messages */
+/* #define C64PAR_DEBUG */
+
 #include "vice.h"
 
 #include "c64.h"
 #include "c64parallel.h"
 #include "cia.h"
+#include "dolphindos3.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivetypes.h"
 #include "iecdrive.h"
+#include "log.h"
 #include "maincpu.h"
-#include "mc6821.h"
 #include "types.h"
 #include "via.h"
+
+#ifdef C64PAR_DEBUG
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 static BYTE parallel_cable_cpu_value = 0xff;
 static BYTE parallel_cable_drive_value[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
@@ -59,9 +69,7 @@ static BYTE parallel_cable_value(void)
 
 void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
 {
-#if 0
-    log_debug("DW DATA %02x HS %02x", data, handshake);
-#endif
+    DBG(("DRV (%d) W DATA %02x HS %02x", dnr, data, handshake));
 
     if (handshake == PARALLEL_WRITE_HS || handshake == PARALLEL_HS) {
         ciacore_set_flag(machine_context.cia2);
@@ -82,9 +90,7 @@ BYTE parallel_cable_drive_read(int handshake)
 
     rc = parallel_cable_value();
 
-#if 0
-    log_debug("DR DATA %02x HS %02x", rc, handshake);
-#endif
+    DBG(("DRV R DATA %02x HS %02x", rc, handshake));
 
     return rc;
 }
@@ -106,9 +112,7 @@ void parallel_cable_cpu_write(BYTE data)
 
     parallel_cable_cpu_value = data;
 
-#if 0
-    log_debug("CW DATA %02x", data);
-#endif
+    DBG(("CPU W DATA %02x", data));
 }
 
 BYTE parallel_cable_cpu_read(void)
@@ -119,9 +123,7 @@ BYTE parallel_cable_cpu_read(void)
 
     rc = parallel_cable_value();
 
-#if 0
-    log_debug("CR %02x", rc);
-#endif
+    DBG(("CPU R %02x", rc));
 
     return rc;
 }
@@ -132,9 +134,7 @@ void parallel_cable_cpu_pulse(void)
 
     parallel_cable_cpu_execute();
 
-#if 0
-    log_debug("CP");
-#endif
+    DBG(("CPU Pulse"));
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_t *drive;
@@ -143,7 +143,7 @@ void parallel_cable_cpu_pulse(void)
 
         if (drive->enable && drive->parallel_cable) {
             if (drive->parallel_cable == DRIVE_PC_DD3) {
-                mc6821_set_signal(drive_context[dnr], MC6821_SIG_CA1);
+                dd3_set_signal(drive_context[dnr]);
             } else if (drive->type == DRIVE_TYPE_1570 || drive->type == DRIVE_TYPE_1571 || drive->type == DRIVE_TYPE_1571CR) {
                 ciacore_set_flag(drive_context[dnr]->cia1571);
             } else {
