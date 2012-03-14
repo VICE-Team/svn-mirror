@@ -68,6 +68,8 @@ static ui_menu_entry_t set_drive0_parallel_cable_submenu[] = {
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
       (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive8ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
     { NULL }
 };
 
@@ -78,6 +80,8 @@ static ui_menu_entry_t set_drive1_parallel_cable_submenu[] = {
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
       (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive9ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
     { NULL }
 };
 
@@ -88,6 +92,8 @@ static ui_menu_entry_t set_drive2_parallel_cable_submenu[] = {
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
       (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
     { NULL }
 };
 
@@ -98,6 +104,8 @@ static ui_menu_entry_t set_drive3_parallel_cable_submenu[] = {
       (ui_callback_data_t)DRIVE_PC_STANDARD, NULL },
     { N_("Dolphin DOS 3"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
       (ui_callback_data_t)DRIVE_PC_DD3, NULL },
+    { N_("Formel 64"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive11ParallelCable,
+      (ui_callback_data_t)DRIVE_PC_FORMEL64, NULL },
     { NULL }
 };
 

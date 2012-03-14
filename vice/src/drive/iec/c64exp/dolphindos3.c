@@ -54,7 +54,7 @@ static mc6821_state my6821[DRIVE_NUM];
 static void dd3_set_pa(mc6821_state *ctx)
 {
     unsigned int dnr = ((drive_context_t *)(ctx->p))->mynumber;
-    parallel_cable_drive_write(ctx->dataA, PARALLEL_WRITE, dnr);
+    parallel_cable_drive_write(DRIVE_PC_DD3, ctx->dataA, PARALLEL_WRITE, dnr);
     /* DBG(("DD3 (%d) 6821 PA WR %02x\n", dnr, ctx->dataA)); */
 }
 
@@ -65,7 +65,7 @@ static BYTE dd3_get_pa(mc6821_state *ctx)
     int hs = 0;
 
     /* output all pins that are in input mode as 1 first */
-    parallel_cable_drive_write((BYTE)((~ctx->ddrA) | ctx->dataA), PARALLEL_WRITE, dnr);
+    parallel_cable_drive_write(DRIVE_PC_DD3, (BYTE)((~ctx->ddrA) | ctx->dataA), PARALLEL_WRITE, dnr);
 
     /* FIXME: this is an ugly hack */
     hs = 0;
@@ -73,7 +73,7 @@ static BYTE dd3_get_pa(mc6821_state *ctx)
         hs = 1;
     }
 
-    data = parallel_cable_drive_read(hs);
+    data = parallel_cable_drive_read(DRIVE_PC_DD3, hs);
 
     DBG(("DD3 6821 PA RD %02x CTRLA %02x CA2 %02x\n", data, ctx->ctrlA, ctx->CA2));
     return data;

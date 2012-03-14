@@ -35,38 +35,38 @@
 #include "ted.h"
 #include "types.h"
 
-
 static BYTE parallel_cable_cpu_value = 0xff;
 static BYTE parallel_cable_drive_value[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
 
-
-void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
+void parallel_cable_drive_write(int port, BYTE data, int handshake, unsigned int dnr)
 {
     parallel_cable_drive_value[dnr] = data;
 }
 
-BYTE parallel_cable_drive_read(int handshake)
+BYTE parallel_cable_drive_read(int type, int handshake)
 {
     return parallel_cable_cpu_value & parallel_cable_drive_value[0]
         & parallel_cable_drive_value[1];
 }
 
-void parallel_cable_cpu_write(BYTE data)
+void parallel_cable_cpu_write(int type, BYTE data)
 {
     if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
+        && !(drive_context[1]->drive->enable)) {
         return;
+    }
 
     drivecpu_execute_all(last_write_cycle);
 
     parallel_cable_cpu_value = data;
 }
 
-BYTE parallel_cable_cpu_read(void)
+BYTE parallel_cable_cpu_read(int type)
 {
     if (!(drive_context[0]->drive->enable)
-        && !(drive_context[1]->drive->enable))
+        && !(drive_context[1]->drive->enable)) {
         return 0;
+    }
 
     drivecpu_execute_all(maincpu_clk);
 
@@ -74,3 +74,7 @@ BYTE parallel_cable_cpu_read(void)
         & parallel_cable_drive_value[1];
 }
 
+void parallel_cable_cpu_undump(int type, BYTE data)
+{
+    parallel_cable_cpu_value = data;
+}

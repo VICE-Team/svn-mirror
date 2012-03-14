@@ -48,11 +48,11 @@ MC6821 registers mapped to io2 at dfc0..dfc4
   - f7/f8, 2            show drive error channel
   - control, cursor     back to basic
 
-  - assembler ?
+  - type "help" in basic to get a list of available commands
 
 *** MC6821 Port usage
 
-Port A (used in floppy(?)routines):
+Port A (parallel cable to floppy drive):
 dfc0 port a ddr
 dfc1 port a (in/out)
 
@@ -69,7 +69,8 @@ bit0    ?
 /* define for debug messages */
 /* #define FORMEL64_DEBUG */
 
-#define LOG_PORTS
+/* #define LOG_PORTA */
+/* #define LOG_PORTB */
 
 #ifdef FORMEL64_DEBUG
 #define DBG(x)  printf x
@@ -87,8 +88,10 @@ bit0    ?
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64mem.h"
+#include "c64parallel.h"
 #include "cartio.h"
 #include "cartridge.h"
+#include "drive.h"
 #include "maincpu.h"
 #include "machine.h"
 #include "mc6821core.h"
@@ -136,13 +139,15 @@ static int f64_enabled = 1;
 
 static mc6821_state my6821;
 
-#ifdef LOG_PORTS
+#ifdef LOG_PORTA
 static void f64_print_pa(BYTE data)
 {
     DBG(("6821 PA %02x ", data));
     DBG(("[??? %02x] ", data & 0xff));
 }
+#endif
 
+#ifdef LOG_PORTB
 static void f64_print_pb(BYTE data)
 {
     BYTE page;
@@ -154,30 +159,44 @@ static void f64_print_pb(BYTE data)
 }
 #endif
 
+/* parallel cable data */
 static void f64_set_pa(mc6821_state *ctx)
 {
-#ifdef LOG_PORTS
+#ifdef LOG_PORTA
+    DBG(("Formel64: to drive     "));
     f64_print_pa(ctx->dataA);
-    f64_print_pb(ctx->dataB);
     DBG(("\n"));
 #endif
-}
-static void f64_set_pb(mc6821_state *ctx)
-{
-    romh_bank = (ctx->dataB >> 1) & 3;
-    f64_enabled = (ctx->dataB >> 3);
-
-#ifdef LOG_PORTS
-    f64_print_pa(ctx->dataA);
-    f64_print_pb(ctx->dataB);
-    DBG(("\n"));
-#endif
+    parallel_cable_cpu_pulse(DRIVE_PC_FORMEL64);
+    parallel_cable_cpu_write(DRIVE_PC_FORMEL64, (BYTE)ctx->dataA);
 }
 
 static BYTE f64_get_pa(mc6821_state *ctx)
 {
     BYTE data = 0;
+
+    parallel_cable_cpu_write(DRIVE_PC_FORMEL64, 0xff);
+    data = parallel_cable_cpu_read(DRIVE_PC_FORMEL64);
+
+#ifdef LOG_PORTA
+    DBG(("Formel64: from drive   "));
+    f64_print_pa(data);
+    DBG(("\n"));
+#endif
     return data;
+}
+
+/* banking */
+static void f64_set_pb(mc6821_state *ctx)
+{
+    romh_bank = (ctx->dataB >> 1) & 3;
+    f64_enabled = (ctx->dataB >> 3);
+
+#ifdef LOG_PORTB
+    DBG(("Formel64: banking      "));
+    f64_print_pb(ctx->dataB);
+    DBG(("\n"));
+#endif
 }
 
 static BYTE f64_get_pb(mc6821_state *ctx)
@@ -402,5 +421,7 @@ int formel64_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
+    parallel_cable_cpu_undump(DRIVE_PC_FORMEL64, (BYTE)my6821.dataA);
+    
     return formel64_common_attach();
 }

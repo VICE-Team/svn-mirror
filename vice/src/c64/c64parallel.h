@@ -29,10 +29,10 @@
 
 #include "types.h"
 
-extern void parallel_cable_cpu_execute(void);
-extern void parallel_cable_cpu_write(BYTE data);
-extern void parallel_cable_cpu_pulse(void);
-extern BYTE parallel_cable_cpu_read(void);
-extern void parallel_cable_cpu_undump(BYTE data);
+extern void parallel_cable_cpu_execute(int type);
+extern void parallel_cable_cpu_write(int type, BYTE data);
+extern void parallel_cable_cpu_pulse(int type);
+extern BYTE parallel_cable_cpu_read(int type);
+extern void parallel_cable_cpu_undump(int type, BYTE data);
 
 #endif

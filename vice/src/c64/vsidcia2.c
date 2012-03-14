@@ -36,7 +36,6 @@
 #include "c64iec.h"
 #include "c64cia.h"
 #include "c64gluelogic.h"
-#include "c64parallel.h"
 #include "cia.h"
 #include "iecbus.h"
 #include "drivecpu.h"
@@ -159,7 +158,7 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 /* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
-    BYTE value;
+    BYTE value = 0xff;
 
     value = ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA])) & 0x3f);
 
@@ -169,9 +168,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 /* read_* functions must return 0xff if nothing to read!!! */
 static BYTE read_ciapb(cia_context_t *cia_context)
 {
-    BYTE byte;
-
-    byte = parallel_cable_cpu_read();
+    BYTE byte = 0xff;
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB])) | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
 

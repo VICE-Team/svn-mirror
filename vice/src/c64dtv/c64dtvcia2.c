@@ -38,6 +38,7 @@
 #include "c64parallel.h"
 #include "c64dtv-resources.h"
 #include "cia.h"
+#include "drive.h"
 #include "hummeradc.h"
 #include "iecbus.h"
 #include "interrupt.h"
@@ -189,7 +190,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_write((BYTE)byte);
+    parallel_cable_cpu_write(DRIVE_PC_STANDARD, (BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
@@ -197,7 +198,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-    parallel_cable_cpu_pulse();
+    parallel_cable_cpu_pulse(DRIVE_PC_STANDARD);
     printer_userport_write_data((BYTE)(cia_context->old_pb));
 }
 
@@ -205,7 +206,7 @@ static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
                                 BYTE byte)
 {
-    parallel_cable_cpu_undump((BYTE)byte);
+    parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (BYTE)byte);
     printer_userport_write_data((BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
@@ -230,7 +231,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         byte = rsuser_read_ctrl();
     } else 
 #endif
-    byte = parallel_cable_cpu_read();
+    byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB]))
            | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
@@ -239,7 +240,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
 static void read_ciaicr(cia_context_t *cia_context)
 {
-    parallel_cable_cpu_execute();
+    parallel_cable_cpu_execute(DRIVE_PC_STANDARD);
 }
 
 static void read_sdr(cia_context_t *cia_context)

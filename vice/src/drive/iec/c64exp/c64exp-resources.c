@@ -57,9 +57,9 @@ static int set_drive_parallel_cable(int val, void *param)
 {
     drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
-    if (val != DRIVE_PC_NONE && val != DRIVE_PC_STANDARD
-        && val != DRIVE_PC_DD3)
+    if (val >= DRIVE_PC_NUM) {
         return -1;
+    }
 
     drive->parallel_cable = val;
     set_drive_ram(vice_ptr_to_uint(param));

@@ -90,6 +90,8 @@
 #define DRIVE_PC_DD3      2  /* dolphin-dos 3 userport cable */
 #define DRIVE_PC_FORMEL64 3  /* formel 64 cartridge */
 
+#define DRIVE_PC_NUM 4
+
 /* ------------------------------------------------------------------------- */
 
 struct gcr_s;

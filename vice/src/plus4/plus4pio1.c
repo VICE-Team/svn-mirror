@@ -51,13 +51,15 @@ BYTE pio1_read(WORD addr)
     ted_handle_pending_alarms(0);
 
     if (drive_context[0]->drive->parallel_cable
-        || drive_context[1]->drive->parallel_cable)
-        pio1_value = parallel_cable_cpu_read();
-    else 
+        || drive_context[1]->drive->parallel_cable) {
+        pio1_value = parallel_cable_cpu_read(DRIVE_PC_STANDARD);
+    } else {
         pio1_value = pio1_data;
+    }
 
-    if (tape_sense)
+    if (tape_sense) {
         pio1_value &= ~4;
+    }
 
     return pio1_value;
 }
@@ -73,12 +75,14 @@ void pio1_store(WORD addr, BYTE value)
 
     pio1_outline = value;
 
-    if (tape_sense)
+    if (tape_sense) {
         pio1_outline &= ~4;
+    }
 
     if (drive_context[0]->drive->parallel_cable
-        || drive_context[1]->drive->parallel_cable)
-        parallel_cable_cpu_write(pio1_outline);
+        || drive_context[1]->drive->parallel_cable) {
+        parallel_cable_cpu_write(DRIVE_PC_STANDARD, pio1_outline);
+    }
 }
 
 void pio1_set_tape_sense(int sense)
@@ -93,7 +97,12 @@ void pio1_set_tape_sense(int sense)
         pio1_outline &= ~4;
 
     if (drive_context[0]->drive->parallel_cable
-        || drive_context[1]->drive->parallel_cable)
-        parallel_cable_cpu_write(pio1_outline);
+        || drive_context[1]->drive->parallel_cable) {
+        parallel_cable_cpu_write(DRIVE_PC_STANDARD, pio1_outline);
+    }
 }
 
+/*
+    FIXME: snapshot support
+    parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (BYTE)data);
+ */

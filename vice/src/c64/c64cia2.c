@@ -40,8 +40,9 @@
 #include "c64gluelogic.h"
 #include "c64parallel.h"
 #include "cia.h"
-#include "iecbus.h"
+#include "drive.h"
 #include "drivecpu.h"
+#include "iecbus.h"
 #include "interrupt.h"
 #include "keyboard.h"
 #include "lib.h"
@@ -175,7 +176,7 @@ static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_write((BYTE)byte);
+    parallel_cable_cpu_write(DRIVE_PC_STANDARD, (BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
@@ -185,14 +186,14 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-    parallel_cable_cpu_pulse();
+    parallel_cable_cpu_pulse(DRIVE_PC_STANDARD);
     printer_userport_write_data((BYTE)(cia_context->old_pb));
 }
 
 /* FIXME! */
 static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
-    parallel_cable_cpu_undump((BYTE)byte);
+    parallel_cable_cpu_undump(DRIVE_PC_STANDARD, (BYTE)byte);
     printer_userport_write_data((BYTE)byte);
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
@@ -222,7 +223,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
         byte = rsuser_read_ctrl();
     } else
 #endif
-    byte = parallel_cable_cpu_read();
+    byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD);
 
     /* FIXME: in the upcoming userport system this call needs to be conditional */
     byte = userport_joystick_read_pbx(byte);
@@ -236,7 +237,7 @@ static void read_ciaicr(cia_context_t *cia_context)
     if (burst_mod == BURST_MOD_CIA2) {
         drivecpu_execute_all(maincpu_clk);
     }
-    parallel_cable_cpu_execute();
+    parallel_cable_cpu_execute(DRIVE_PC_STANDARD);
 }
 
 static void read_sdr(cia_context_t *cia_context)

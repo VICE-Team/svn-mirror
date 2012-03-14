@@ -246,11 +246,11 @@ iecbus_t *iecbus_drive_port(void)
     return NULL;
 }
 
-void parallel_cable_drive_write(BYTE data, int handshake, unsigned int dnr)
+void parallel_cable_drive_write(int port, BYTE data, int handshake, unsigned int dnr)
 {
 }
 
-BYTE parallel_cable_drive_read(int handshake)
+BYTE parallel_cable_drive_read(int port, int handshake)
 {
     return 0;
 }
