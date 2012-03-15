@@ -348,10 +348,14 @@ static int set_userport_joystick_enable(int val, void *param)
 
 static int set_userport_joystick_type(int val, void *param)
 {
+    if (val >= USERPORT_JOYSTICK_NUM) {
+        return -1;
+    }
     userport_joystick_type = val;
     return 0;
 }
 
+/* FIXME: command line options to set these resources are missing */
 /* FIXME: ExtraJoy* needs to be renamed to UserportJoy* in due time */
 static const resource_int_t userport_resources_int[] = {
     { "ExtraJoy", 0, RES_EVENT_NO, NULL,

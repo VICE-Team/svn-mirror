@@ -34,6 +34,10 @@
 #define USERPORT_JOYSTICK_HUMMER   2
 #define USERPORT_JOYSTICK_OEM      3
 #define USERPORT_JOYSTICK_HIT      4
+#define USERPORT_JOYSTICK_KINGSOFT 5
+#define USERPORT_JOYSTICK_STARBYTE 6
+
+#define USERPORT_JOYSTICK_NUM 7
 
 extern int userport_joystick_enable;
 extern int userport_joystick_type;

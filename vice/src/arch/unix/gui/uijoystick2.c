@@ -135,6 +135,10 @@ static ui_menu_entry_t userport_joystick_type_c64_submenu[] = {
       (ui_callback_data_t)USERPORT_JOYSTICK_OEM, NULL },
     { N_("HIT userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
       (ui_callback_data_t)USERPORT_JOYSTICK_HIT, NULL },
+    { N_("Kingsoft userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)USERPORT_JOYSTICK_KINGSOFT, NULL },
+    { N_("Starbyte userport joy adapter"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_ExtraJoyType,
+      (ui_callback_data_t)USERPORT_JOYSTICK_STARBYTE, NULL },
     { NULL }
 };
 

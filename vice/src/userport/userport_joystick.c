@@ -38,7 +38,7 @@ int userport_joystick_enable = 0;
 int userport_joystick_type = 0;
 
 static int userport_joystick_cga_select = 0;
-static BYTE userport_joystick_hit_button_sp2 = 0xff;
+static BYTE userport_joystick_button_sp2 = 0xff;
 
 /* ------------------------------------------------------------------------- */
 
@@ -57,8 +57,16 @@ void userport_joystick_store_pbx(BYTE value)
 
 void userport_joystick_store_sdr(BYTE value)
 {
-    if (userport_joystick_enable && userport_joystick_type == USERPORT_JOYSTICK_HIT) {
-        userport_joystick_hit_button_sp2 = (get_joystick_value(4) & 0x10) ? 0 : 0xff;
+    if (userport_joystick_enable) {
+        switch (userport_joystick_type) {
+            case USERPORT_JOYSTICK_HIT:
+            case USERPORT_JOYSTICK_KINGSOFT:
+                userport_joystick_button_sp2 = (get_joystick_value(4) & 0x10) ? 0 : 0xff;
+                break;
+            case USERPORT_JOYSTICK_STARBYTE:
+                userport_joystick_button_sp2 = (get_joystick_value(3) & 0x10) ? 0 : 0xff;
+                break;
+        }
     }
 }
 
@@ -66,9 +74,19 @@ BYTE userport_joystick_read_pa2(BYTE orig)
 {
     BYTE retval = orig;
 
-    if (userport_joystick_enable && userport_joystick_type == USERPORT_JOYSTICK_HIT) {
+    if (userport_joystick_enable) {
         retval &= 0xfb;
-        retval |= (BYTE)((get_joystick_value(3) & 0x10) ? 0 : 4);
+        switch (userport_joystick_type) {
+            case USERPORT_JOYSTICK_HIT:
+                retval |= (BYTE)((get_joystick_value(3) & 0x10) ? 0 : 4);
+                break;
+            case USERPORT_JOYSTICK_KINGSOFT:
+                retval |= (BYTE)((get_joystick_value(3) & 0x01) ? 0 : 4);
+                break;
+            case USERPORT_JOYSTICK_STARBYTE:
+                retval |= (BYTE)((get_joystick_value(4) & 0x01) ? 0 : 4);
+                break;
+        }
     }
     return retval;
 }
@@ -107,6 +125,28 @@ BYTE userport_joystick_read_pbx(BYTE orig)
                 retval |= ((jv3 & 16) >> 1);
                 retval = (BYTE)~!retval;
                 break;
+            case USERPORT_JOYSTICK_KINGSOFT:
+                retval = ((jv4 >> 3) & 1) << 0;
+                retval |= ((jv4 >> 2) & 1) << 1;
+                retval |= ((jv4 >> 1) & 1) << 2;
+                retval |= ((jv4 >> 0) & 1) << 3;
+                retval |= ((jv3 >> 4) & 1) << 4;
+                retval |= ((jv3 >> 3) & 1) << 5;
+                retval |= ((jv3 >> 2) & 1) << 6;
+                retval |= ((jv3 >> 1) & 1) << 7;
+                retval = (BYTE)~retval;
+                break;
+            case USERPORT_JOYSTICK_STARBYTE:
+                retval = ((jv3 >> 1) & 1) << 0;
+                retval |= ((jv3 >> 3) & 1) << 1;
+                retval |= ((jv3 >> 2) & 1) << 2;
+                retval |= ((jv3 >> 0) & 1) << 3;
+                retval |= ((jv4 >> 4) & 1) << 4;
+                retval |= ((jv4 >> 1) & 1) << 5;
+                retval |= ((jv4 >> 3) & 1) << 6;
+                retval |= ((jv4 >> 2) & 1) << 7;
+                retval = (BYTE)~retval;
+                break;
         }
     }
     return retval;
@@ -116,8 +156,14 @@ BYTE userport_joystick_read_sdr(BYTE orig)
 {
     BYTE retval = orig;
 
-    if (userport_joystick_enable && userport_joystick_type == USERPORT_JOYSTICK_HIT) {
-        retval = userport_joystick_hit_button_sp2;
+    if (userport_joystick_enable) {
+        switch (userport_joystick_type) {
+            case USERPORT_JOYSTICK_HIT:
+            case USERPORT_JOYSTICK_KINGSOFT:
+            case USERPORT_JOYSTICK_STARBYTE:
+                retval = userport_joystick_button_sp2;
+                break;
+        }
     }
     return retval;
 }
