@@ -783,6 +783,8 @@ static void init_extra_joystick_dialog(HWND hwnd)
         SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_OEM_USERPORT_ADAPTER));
         if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_C128) {
             SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_HIT_USERPORT_ADAPTER));
+            SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_KINGSOFT_USERPORT_ADAPTER));
+            SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_STARBYTE_USERPORT_ADAPTER));
         }
         resources_get_int("ExtraJoy", &res_value);
         if (res_value == 0) {
@@ -1145,14 +1147,16 @@ static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
                             case USERPORT_JOYSTICK_CGA + 1:
                             case USERPORT_JOYSTICK_PET + 1:
                             case USERPORT_JOYSTICK_HIT + 1:
+                            case USERPORT_JOYSTICK_KINGSOFT + 1:
+                            case USERPORT_JOYSTICK_STARBYTE + 1:
                                 if (machine_class == VICE_MACHINE_PLUS4) {
                                     joyamount = 1;
                                 } else {
                                     joyamount = 2;
                                 }
                                 break;
-                            case USERPORT_JOYSTICK_HUMMER+1:
-                            case USERPORT_JOYSTICK_OEM+1:
+                            case USERPORT_JOYSTICK_HUMMER + 1:
+                            case USERPORT_JOYSTICK_OEM + 1:
                                 joyamount = 1;
                                 break;
                         }

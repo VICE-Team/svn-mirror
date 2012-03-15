@@ -44,6 +44,7 @@ static BYTE userport_joystick_button_sp2 = 0xff;
 
 /* FIXME: direction and unused bits are not yet taken into account */
 
+/* C64/C128 only */
 void userport_joystick_store_pa2(BYTE value)
 {
 }
@@ -55,6 +56,7 @@ void userport_joystick_store_pbx(BYTE value)
     }
 }
 
+/* C64/C128 only */
 void userport_joystick_store_sdr(BYTE value)
 {
     if (userport_joystick_enable) {
@@ -70,6 +72,7 @@ void userport_joystick_store_sdr(BYTE value)
     }
 }
 
+/* C64/C128 only */
 BYTE userport_joystick_read_pa2(BYTE orig)
 {
     BYTE retval = orig;
@@ -152,6 +155,7 @@ BYTE userport_joystick_read_pbx(BYTE orig)
     return retval;
 }
 
+/* C64/C128 only */
 BYTE userport_joystick_read_sdr(BYTE orig)
 {
     BYTE retval = orig;
