@@ -6604,7 +6604,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 break;
             case 0x83:	/* SUBD immediate */
                 CLK += 4;
-                sub16(D, imm_word());
+                D = sub16(D, imm_word());
                 break;
             case 0x84:	/* ANDA immediate */
                 CLK += 2;
@@ -6675,7 +6675,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x93:	/* SUBD direct */
                 direct();
                 CLK += 4;
-                sub16(D, RDMEM16(ea));
+                D = sub16(D, RDMEM16(ea));
                 CLK++;
                 break;
             case 0x94:	/* ANDA direct */
@@ -6753,7 +6753,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 break;
             case 0xa3:	/* SUBD indexed */
                 indexed();
-                sub16(D, RDMEM16(ea));
+                D = sub16(D, RDMEM16(ea));
                 CLK++;
                 break;
             case 0xa4:	/* ANDA indexed */
@@ -6824,7 +6824,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0xb3:	/* SUBD extended */
                 extended();
                 CLK += 5;
-                sub16(D, RDMEM16(ea));
+                D = sub16(D, RDMEM16(ea));
                 CLK++;
                 break;
             case 0xb4:	/* ANDA extended */
