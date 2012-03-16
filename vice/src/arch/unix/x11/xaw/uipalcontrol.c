@@ -287,20 +287,16 @@ void ToggleProc(Widget w, XtPointer client_data, XtPointer toggle)
  * X and terminates VICE:
  * XIO:  fatal IO error 11 (Resource temporarily unavailable) on X server ":0.0"
  */
-Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent)
+Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args, Cardinal num_args)
 {
     Widget sliders;
     Widget toggle;
     Widget shell;
     cleanup_data_t *cleanupdata;
 
-    toggle = XtVaCreateManagedWidget("toggle",
+    toggle = XtCreateManagedWidget("toggle",
                                      toggleWidgetClass, parent,
-                                     XtNlabel, _("CRT Controls"),
-                                     XtNwidth, 100,
-                                     XtNheight, 18,
-                                     XtNresizable, 0,
-                                     NULL);
+                                     args, num_args);
 
     /* popup window */
     shell = ui_create_transient_shell(parent, "PAL CRT Controls");

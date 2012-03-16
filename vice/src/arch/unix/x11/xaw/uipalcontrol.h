@@ -24,4 +24,4 @@
  *
  */
 
-Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent);
+Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args, Cardinal num_args);

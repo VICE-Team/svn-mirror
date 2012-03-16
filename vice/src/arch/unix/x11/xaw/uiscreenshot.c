@@ -108,13 +108,13 @@ static UI_CALLBACK(save_callback)
     String name;
     Boolean driver_flag;
     gfxoutputdrv_t *driver;
-    
+
     ui_popdown(screenshot_dialog);
     canvas = (struct video_canvas_s *)UI_MENU_CB_PARAM;
 
     num_buttons = gfxoutput_num_drivers();
     driver = gfxoutput_drivers_iter_init();
-    
+
     for (i = 0; i < num_buttons; i++) {
         XtVaGetValues(driver_buttons[i], XtNstate, &driver_flag, NULL);
         if (driver_flag) {
@@ -123,16 +123,15 @@ static UI_CALLBACK(save_callback)
 
         driver = gfxoutput_drivers_iter_next();
     }
-    
+
     if (!driver) {
         return;
     }
- 
+
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
     util_add_extension(&name, driver->default_extension);
     if (name && (strcmp(driver->name, "FFMPEG") == 0)) {
-        XtRealizeWidget(rec_button);
-        XtManageChild(rec_button);
+        XtMapWidget(rec_button);
     }
     screenshot_save(driver->name, name, canvas);
 }
@@ -160,12 +159,12 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
     screenshot_dialog_pane = XtVaCreateManagedWidget("screenshotDialogPane",
                                                      panedWidgetClass, screenshot_dialog,
                                                      NULL);
-    
+
     file_name_form = XtVaCreateManagedWidget("fileNameForm",
                                              formWidgetClass, screenshot_dialog_pane,
                                              XtNshowGrip, False,
                                              NULL);
-    
+
     file_name_label = XtVaCreateManagedWidget("fileNameLabel",
                                               labelWidgetClass, file_name_form,
                                               XtNjustify, XtJustifyLeft,
@@ -259,7 +258,7 @@ static void build_screenshot_dialog(struct video_canvas_s *canvas)
                                           XtNlabel, _("Save"),
                                           NULL);
     XtAddCallback(save_button, XtNcallback, save_callback, (XtPointer)canvas);
-    
+
     cancel_button = XtVaCreateManagedWidget("cancelButton",
                                             commandWidgetClass, button_box,
                                             XtNlabel, _("Cancel"),
@@ -274,7 +273,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *canvas)
 {
     screenshot_file_name = name;
     *screenshot_file_name= 0;
-    
+
     build_screenshot_dialog(canvas);
     ui_popup(screenshot_dialog, _("Screen Snapshot"), True);
     return *name ? 0 : -1;
