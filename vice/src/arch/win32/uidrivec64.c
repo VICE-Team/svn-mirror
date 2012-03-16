@@ -100,7 +100,8 @@ static void enable_controls_for_drive_settings(HWND hwnd, int type)
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_TRAP_IDLE), drive_check_idle_method(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES), drive_check_idle_method(drive_type));
 
-    EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE), drive_check_parallel_cable(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_DRIVE_PARALLEL_CABLE_LABEL), drive_check_parallel_cable(drive_type));
+    EnableWindow(GetDlgItem(hwnd, IDC_DRIVE_PARALLEL_CABLE), drive_check_parallel_cable(drive_type));
 
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000), drive_check_expansion2000(drive_type));
     EnableWindow(GetDlgItem(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000), drive_check_expansion4000(drive_type));
@@ -120,7 +121,7 @@ static uilib_localize_dialog_param drive_dialog_trans[] = {
     { IDC_SELECT_DRIVE_IDLE_NO_IDLE, IDS_NONE, 0 },
     { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, IDS_SELECT_DRIVE_IDLE_TRAP_IDLE, 0 },
     { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, IDS_SELECT_DRIVE_IDLE_SKIP_CYC, 0 },
-    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, IDS_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { IDC_DRIVE_PARALLEL_CABLE_LABEL, IDS_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
     { IDC_DRIVE_EXPANSION, IDS_DRIVE_EXPANSION, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_2000, IDS_TOGGLE_DRIVE_EXPANSION_2000, 0 },
     { IDC_TOGGLE_DRIVE_EXPANSION_4000, IDS_TOGGLE_DRIVE_EXPANSION_4000, 0 },
@@ -147,7 +148,7 @@ static uilib_dialog_group drive_main_group[] = {
     { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 1 },
     { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 1 },
     { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 1 },
-    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 1 },
+    { IDC_DRIVE_PARALLEL_CABLE_LABEL, 0 },
     { IDC_DRIVE_EXPANSION, 1 },
     { IDC_TOGGLE_DRIVE_EXPANSION_2000, 1 },
     { IDC_TOGGLE_DRIVE_EXPANSION_4000, 1 },
@@ -208,13 +209,13 @@ static uilib_dialog_group drive_right_group[] = {
     { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0 },
     { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0 },
     { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0 },
-    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { IDC_DRIVE_PARALLEL_CABLE_LABEL, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group drive_right_window_group[] = {
     { IDC_IDLE_METHOD, 0 },
-    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { IDC_DRIVE_PARALLEL_CABLE, 0 },
     { 0, 0 }
 };
 
@@ -222,7 +223,7 @@ static uilib_dialog_group drive_right_move_group[] = {
     { IDC_SELECT_DRIVE_IDLE_NO_IDLE, 0 },
     { IDC_SELECT_DRIVE_IDLE_TRAP_IDLE, 0 },
     { IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, 0 },
-    { IDC_TOGGLE_DRIVE_PARALLEL_CABLE, 0 },
+    { IDC_DRIVE_PARALLEL_CABLE_LABEL, 0 },
     { 0, 0 }
 };
 
@@ -260,6 +261,7 @@ static void init_dialog(HWND hwnd, int num)
     int drive_true_emulation, iecdevice, enabled;
     int xpos;
     int xstart;
+    HWND temp_hwnd;
     HWND parent_hwnd;
     HWND element;
 
@@ -320,6 +322,12 @@ static void init_dialog(HWND hwnd, int num)
 
     /* resize and move the right group element to the correct position */
     uilib_move_and_set_element_width(hwnd, IDC_IDLE_METHOD, xstart - 10, xpos - xstart + 20);
+
+    /* get the max x of the drive parallel cable label element */
+    uilib_get_element_max_x(hwnd, IDC_DRIVE_PARALLEL_CABLE_LABEL, &xpos);
+
+    /* move the drive parallel cable element to the right position */
+    uilib_move_element(hwnd, IDC_DRIVE_PARALLEL_CABLE, xpos + 10);
 
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
@@ -436,7 +444,13 @@ static void init_dialog(HWND hwnd, int num)
     CheckRadioButton(hwnd, IDC_SELECT_DRIVE_IDLE_NO_IDLE, IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES, n);
 
     resources_get_int_sprintf("Drive%dParallelCable", &n, num);
-    CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE, n ? BST_CHECKED : BST_UNCHECKED);
+
+    temp_hwnd = GetDlgItem(hwnd, IDC_DRIVE_PARALLEL_CABLE);
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_NONE));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_STANDARD));
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Dolphin DOS 3");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Formel 64");
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)n, 0);
 
     resources_get_int_sprintf("Drive%dRAM2000", &n, num);
     CheckDlgButton(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000, n ? BST_CHECKED : BST_UNCHECKED);
@@ -464,7 +478,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
                 resources_set_int_sprintf("Drive%dType", dialog_drive_type[num - 8], num);
                 resources_set_int_sprintf("Drive%dExtendImagePolicy", dialog_drive_extend[num - 8], num);
                 resources_set_int_sprintf("Drive%dIdleMethod", dialog_drive_idle[num - 8], num);
-                resources_set_int_sprintf("Drive%dParallelCable", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_PARALLEL_CABLE) == BST_CHECKED ? 1 : 0), num);
+                resources_set_int_sprintf("Drive%dParallelCable", (int)SendMessage(GetDlgItem(hwnd, IDC_DRIVE_PARALLEL_CABLE), CB_GETCURSEL, 0, 0), num);
                 resources_set_int_sprintf("Drive%dRAM2000", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_2000) == BST_CHECKED ? 1 : 0), num);
                 resources_set_int_sprintf("Drive%dRAM4000", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_4000) == BST_CHECKED ? 1 : 0), num);
                 resources_set_int_sprintf("Drive%dRAM6000", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_DRIVE_EXPANSION_6000) == BST_CHECKED ? 1 : 0), num);
@@ -558,7 +572,7 @@ static BOOL CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam, LP
                 case IDC_SELECT_DRIVE_IDLE_SKIP_CYCLES:
                     dialog_drive_idle[num - 8] = DRIVE_IDLE_SKIP_CYCLES;
                     break;
-                case IDC_TOGGLE_DRIVE_PARALLEL_CABLE:
+                case IDC_DRIVE_PARALLEL_CABLE:
                 case IDC_TOGGLE_DRIVE_EXPANSION_2000:
                 case IDC_TOGGLE_DRIVE_EXPANSION_4000:
                 case IDC_TOGGLE_DRIVE_EXPANSION_6000:
