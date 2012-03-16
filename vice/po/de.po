@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-02-28 14:08-0800\n"
-"PO-Revision-Date: 2012-02-04 12:35+0100\n"
+"PO-Revision-Date: 2012-03-16 18:45+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -5504,9 +5504,8 @@ msgid "WMM driver"
 msgstr "WMM Treiber"
 
 #: src/arch/win32/res.rc.po.c:1232
-#, fuzzy
 msgid "Sound output mode"
-msgstr "Ausgabe Modus"
+msgstr "Ton Ausgabe Modus"
 
 #: src/arch/win32/res.rc.po.c:1234
 msgid "Sound Buffer Size"
@@ -6180,9 +6179,8 @@ msgid "MMC Replay settings"
 msgstr "MMC Replay Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1531
-#, fuzzy
 msgid "Retro Replay settings"
-msgstr "MMC Replay Einstellungen"
+msgstr "Retro Replay Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1532 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2459
@@ -6601,18 +6599,16 @@ msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:617 src/arch/win32/resc64.rc.po.c:624
-#, fuzzy
 msgid "C64 drive burst modification settings"
-msgstr "Automatische Feuerknopf Einstellungen"
+msgstr "C64 Laufwerk Burstmodifkation Einstellungen"
 
 #: src/arch/win32/resc64.rc.po.c:618
-#, fuzzy
 msgid "Enable the C64 drive burst modification"
-msgstr "ACIA Emulation aktivieren"
+msgstr "C64 Laufwerk Burstmodifikation aktivieren"
 
 #: src/arch/win32/resc64.rc.po.c:619
 msgid "C64 drive burst modification CIA"
-msgstr ""
+msgstr "C64 Laufwerk Burstmodifikation CIA"
 
 #: src/arch/win32/resc64.rc.po.c:621 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:2557
@@ -6805,9 +6801,8 @@ msgid "CBM5x0 model settings"
 msgstr "CBM5x0 Modell Einstellungen"
 
 #: src/arch/win32/rescia.rc.po.c:53
-#, fuzzy
 msgid "CIA settings"
-msgstr "ACIA Einstellungen"
+msgstr "CIA Einstellungen"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:12978
 msgid "Enable the DigiMAX cartridge"
@@ -7223,19 +7218,16 @@ msgid "Select file for RamCart"
 msgstr "Datei für RamCart auswählen"
 
 #: src/arch/win32/resretroreplay.rc.po.c:35
-#, fuzzy
 msgid "Enable RR flash jumper"
-msgstr "Flashjumper aktivieren"
+msgstr "RR Flashjumper aktivieren"
 
 #: src/arch/win32/resretroreplay.rc.po.c:36
-#, fuzzy
 msgid "Enable RR bank jumper"
-msgstr "Bankjumper aktivieren"
+msgstr "RR Bankjumper aktivieren"
 
 #: src/arch/win32/resretroreplay.rc.po.c:38
-#, fuzzy
 msgid "Save RR flash when changed"
-msgstr "REU Imagedatei bei Änderung speichern"
+msgstr "RR Imagedatei bei Änderung speichern"
 
 #: src/arch/win32/resreu.rc.po.c:39
 msgid "REU Settings"
@@ -7278,23 +7270,20 @@ msgid "General"
 msgstr "Allgemein"
 
 #: src/arch/win32/ressid.rc.po.c:79
-#, fuzzy
 msgid "Extra SID chips"
-msgstr "Extra SIDs"
+msgstr "Extra SID Chips"
 
 #: src/arch/win32/ressid.rc.po.c:80
 msgid "Amount of extra SID chips"
-msgstr ""
+msgstr "Anzahl der extra SID Chips"
 
 #: src/arch/win32/ressid.rc.po.c:81
-#, fuzzy
 msgid "Second SID at"
-msgstr "Zweiter SID"
+msgstr "Zweiter SID auf"
 
 #: src/arch/win32/ressid.rc.po.c:82
-#, fuzzy
 msgid "Third SID at"
-msgstr "Dritter SID Chip Basisadresse"
+msgstr "Dritter SID auf"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:60
 msgid "reSID/reSID-fp options"
@@ -7449,24 +7438,20 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Mega-Cart nicht-flüchtiges RAM Datei wählen"
 
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "Normal borders"
-msgstr "Normal"
+msgstr "Normaler Rahmen"
 
 #: src/arch/win32/resvicii.rc.po.c:43
-#, fuzzy
 msgid "Full borders"
-msgstr "Rahmen"
+msgstr "Voller Rahmen"
 
 #: src/arch/win32/resvicii.rc.po.c:44
-#, fuzzy
 msgid "Debug borders"
-msgstr "Rahmen"
+msgstr "Rahmen debuggen"
 
 #: src/arch/win32/resvicii.rc.po.c:45
-#, fuzzy
 msgid "No borders"
-msgstr "Rahmen"
+msgstr "Kein Rahmen"
 
 #: src/arch/win32/resvicii.rc.po.c:46
 msgid "Sprite Collisions"
@@ -8600,6 +8585,8 @@ msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
 msgstr ""
+"Zeige CPU Zykluszähler des aktuellen Geräts. 'reset' setzt den Zähler\n"
+"auf 0."
 
 #: src/translate_text.c.po.c:1440
 msgid "Read a snapshot of the machine from the file specified."
