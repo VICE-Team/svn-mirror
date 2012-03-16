@@ -160,7 +160,7 @@ extern int cur_len, last_len;
 %token CMD_EXPORT CMD_AUTOSTART CMD_AUTOLOAD
 %token<str> CMD_LABEL_ASGN
 %token<i> L_PAREN R_PAREN ARG_IMMEDIATE REG_A REG_X REG_Y COMMA INST_SEP
-%token<i> L_BRACKET R_BRACKET LESS_THAN REG_U REG_S REG_PC, REG_PCR
+%token<i> L_BRACKET R_BRACKET LESS_THAN REG_U REG_S REG_PC REG_PCR
 %token<i> REG_B REG_C REG_D REG_E REG_H REG_L
 %token<i> REG_AF REG_BC REG_DE REG_HL REG_IX REG_IY REG_SP
 %token<i> REG_IXH REG_IXL REG_IYH REG_IYL
@@ -174,7 +174,7 @@ extern int cur_len, last_len;
 %type<a>  address opt_address
 %type<cond_node> opt_if_cond_expr cond_expr compare_operand
 %type<i> number expression d_number guess_default device_num
-%type<i> memspace memloc memaddr checkpt_num opt_mem_op
+%type<i> memspace memloc memaddr checkpt_num mem_op opt_mem_op
 %type<i> top_level value
 %type<i> assembly_instruction register
 %type<str> rest_of_line opt_rest_of_line data_list data_element filename
@@ -581,8 +581,11 @@ device_num: expression
       | error { return ERR_EXPECT_DEVICE_NUM; }
       ;
 
-opt_mem_op: opt_mem_op MEM_OP { $$ = $1 | $2; }
-          | MEM_OP { $$ = $1; }
+mem_op: mem_op MEM_OP { $$ = $1 | $2; }
+      | MEM_OP { $$ = $1; }
+      ;
+
+opt_mem_op: mem_op { $$ = $1; }
           | { $$ = 0; }
           ;
 
