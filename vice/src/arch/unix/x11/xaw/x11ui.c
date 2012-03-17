@@ -195,7 +195,8 @@ typedef struct {
 static app_shell_type app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
 
-char last_attached_images[NUM_DRIVES][256];
+#define ATT_IMG_SIZE 256
+char last_attached_images[NUM_DRIVES][ATT_IMG_SIZE];
 
 /* Pixels for updating the drive LED's state.  */
 Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
@@ -806,6 +807,7 @@ static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_
 UI_CALLBACK(enter_window_callback_shell);
 UI_CALLBACK(structure_callback_shell);
 UI_CALLBACK(exposure_callback_canvas);
+UI_CALLBACK(structure_callback_canvas);
 
 static UI_CALLBACK(rec_button_callback)
 {
@@ -1217,7 +1219,8 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     if (machine_class != VICE_MACHINE_VSID) {
         XtAddEventHandler(shell, StructureNotifyMask, False, (XtEventHandler)structure_callback_shell, (XtPointer)c);
 
-        XtAddEventHandler(canvas, ExposureMask | StructureNotifyMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
+        XtAddEventHandler(canvas, ExposureMask, False, (XtEventHandler)exposure_callback_canvas, (XtPointer)c);
+        XtAddEventHandler(canvas, StructureNotifyMask, False, (XtEventHandler)structure_callback_canvas, (XtPointer)c);
         XtAddEventHandler(canvas, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, False, (XtEventHandler)mouse_handler_canvas, (XtPointer)c);
     }
 
@@ -1225,6 +1228,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     {
         Dimension height;
         Dimension led_width = 14, led_height = 5;
+        Dimension led_dist = 8;
         Widget fromvert;
 
         speed_label = XtVaCreateManagedWidget("speedStatus",
@@ -1249,6 +1253,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                 { XtNlabel, (XtArgVal)_("CRT Controls") },
                 { XtNwidth, width / 3 - 2 },
                 { XtNfromVert, (XtArgVal)fromvert },
+                { XtNvertDistance, 2 + 2 * 1 }, /* 2 + 2*border of drive_current_image */
                 { XtNtop, XawChainBottom },
                 { XtNbottom, XawChainBottom },
             };
@@ -1263,17 +1268,16 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
                 name = lib_msprintf("driveCurrentImage%d", i + 1);
                 drive_current_image[i] = XtVaCreateManagedWidget(name,
-                                    labelWidgetClass, pane,
+                                    commandWidgetClass, pane,
                                     XtNmappedWhenManaged, False,
                                     XtNlabel, "",
-                                    XtNwidth, (width / 3)  - led_width - 2,
+                                    XtNwidth, (width / 3) - 2,
                                     XtNfromVert, drivefromvert,
                                     XtNfromHoriz, speed_label,
                                     XtNhorizDistance, 0,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
                                     XtNjustify, XtJustifyLeft,
-                                    XtNborderWidth, 0,
                                     NULL);
                 lib_free(name);
 
@@ -1282,13 +1286,12 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                     labelWidgetClass, pane,
                                     XtNmappedWhenManaged, False,
                                     XtNlabel, "",
-                                    XtNwidth, (width / 3) - led_width - 2,
+                                    XtNwidth, (width / 3) - led_width - 2 * led_dist - 2,
                                     XtNfromVert, drivefromvert,
                                     XtNfromHoriz, drive_current_image[i],
                                     XtNhorizDistance, 0,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
-                                    XtNleft, XawChainRight,
                                     XtNright, XawChainRight,
                                     XtNjustify, XtJustifyRight,
                                     XtNborderWidth, 0,
@@ -1303,13 +1306,13 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                     XtNheight, led_height,
                                     XtNfromVert, drivefromvert,
                                     XtNfromHoriz, drive_track_label[i],
-                                    XtNhorizDistance, 8,
+                                    XtNhorizDistance, led_dist,
                                     XtNvertDistance, (height-led_height)/2 + 1,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
                                     XtNleft, XawChainRight,
                                     XtNright, XawChainRight,
-                                    XtNborderWidth, 1,
+                                    XtNborderWidth, 0,
                                     NULL);
                 lib_free(name);
 
@@ -1323,7 +1326,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                     XtNheight, led_height,
                                     XtNfromVert, drivefromvert,
                                     XtNfromHoriz, drive_track_label[i],
-                                    XtNhorizDistance, 8,
+                                    XtNhorizDistance, led_dist,
                                     XtNvertDistance, (height-led_height)/2 + 1,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
@@ -1341,7 +1344,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                     XtNheight, led_height,
                                     XtNfromVert, drivefromvert,
                                     XtNfromHoriz, drive_led1[i],
-                                    XtNhorizDistance, 8,
+                                    XtNhorizDistance, led_dist,
                                     XtNvertDistance, (height-led_height)/2 + 1,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
@@ -1760,7 +1763,14 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 
     for (i = 0; i < num_app_shells; i++) {
         /* now show `num' widgets ... */
-        for (j = 0; j < NUM_DRIVES && num && true_emu > 0; j++, num--) {
+        for (j = 0; j < num; j++) {
+            XtMapWidget(app_shells[i].drive_widgets[j].current_image);
+        }
+        for (; j < NUM_DRIVES; j++) {
+            XtUnmapWidget(app_shells[i].drive_widgets[j].current_image);
+        }
+        /* Show label+led widgets in true drive emulation mode */
+        for (j = 0; j < num && true_emu > 0; j++) {
             XtMapWidget(app_shells[i].drive_widgets[j].track_label);
 
             for (k = 0; k < NUM_DRIVES; k++) {
@@ -1779,11 +1789,8 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                 XtMapWidget(app_shells[i].drive_widgets[j].driveled2);
             }
         }
-        /* ...and hide the rest until `NUM_DRIVES' */
-        if (! true_emu) {
-            num = j = 0;        /* hide all label+led widgets in normal mode */
-        }
 
+        /* ...and hide the rest until `NUM_DRIVES' */
         for (; j < NUM_DRIVES; j++) {
             XtUnmapWidget(app_shells[i].drive_widgets[j].track_label);
             XtUnmapWidget(app_shells[i].drive_widgets[j].driveled);
@@ -1864,7 +1871,10 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
         return;
     }
 
-    strcpy(&(last_attached_images[drive_number][0]), image);
+    /*if (strcmp(image, "") == 0) {
+        image = "<detached>";
+    }*/
+    strncpy(&(last_attached_images[drive_number][0]), image, ATT_IMG_SIZE);
 
     /* update drive mapping */
     ui_enable_drive_status(enabled_drives, drive_active_led);
@@ -1899,6 +1909,11 @@ static void ui_display_drive_current_image2 (void)
             util_fname_split(&(last_attached_images[j][0]), NULL, &name);
             XtVaSetValues(w, XtNlabel, name, NULL);
             lib_free(name);
+
+            /* Also update drive menu; will call ui_set_drive_menu() */
+            if (i == 0) {
+                uifliplist_update_menus(8 + j, 8 + j);
+            }
         }
     }
 }
@@ -2883,8 +2898,21 @@ UI_CALLBACK(exposure_callback_canvas)
         return;
     }
 
-    if ((event->xany.type == Expose && event->xexpose.count == 0) ||
-            (event->xany.type == ConfigureNotify)) {
+    if (event->xany.type == Expose && event->xexpose.count == 0) {
+        video_canvas_refresh_all(canvas);
+    }
+}
+
+UI_CALLBACK(structure_callback_canvas)
+{
+    XEvent *event = (XEvent *)call_data;
+    video_canvas_t *canvas = (video_canvas_t *)client_data;
+
+    if (!canvas) {
+        return;
+    }
+
+    if (event->xany.type == ConfigureNotify) {
 #ifdef HAVE_XVIDEO
         /* No resize for XVideo. */
         if (canvas->videoconfig->hwscale && canvas->xv_image) {
@@ -2893,12 +2921,23 @@ UI_CALLBACK(exposure_callback_canvas)
         else
 #endif
         {
-            XtVaGetValues(w, XtNwidth, (XtPointer)&canvas->draw_buffer->canvas_physical_width, XtNheight, (XtPointer)&canvas->draw_buffer->canvas_physical_height, NULL);
-            video_viewport_resize(canvas, 0);
+            Dimension width, height;
+            draw_buffer_t *b = canvas->draw_buffer;
+
+            XtVaGetValues(w, XtNwidth, (XtPointer)&width,
+                             XtNheight, (XtPointer)&height,
+                             NULL);
+
+            if (width != b->canvas_physical_width ||
+                height != b->canvas_physical_height) {
+                b->canvas_physical_width = width;
+                b->canvas_physical_height = height;
+
+                video_viewport_resize(canvas, 0);
+            }
         }
     }
 }
-
 
 /* FIXME: this does not handle multiple application shells. */
 static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
