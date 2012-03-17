@@ -108,7 +108,8 @@ static UI_CALLBACK(save_callback)
     String name;
     Boolean driver_flag;
     gfxoutputdrv_t *driver;
-
+    char *tmp;
+    
     ui_popdown(screenshot_dialog);
     canvas = (struct video_canvas_s *)UI_MENU_CB_PARAM;
 
@@ -129,11 +130,21 @@ static UI_CALLBACK(save_callback)
     }
 
     XtVaGetValues(file_name_field, XtNstring, &name, NULL);
-    util_add_extension(&name, driver->default_extension);
-    if (name && (strcmp(driver->name, "FFMPEG") == 0)) {
-        XtMapWidget(rec_button);
+    tmp = lib_stralloc(name);   /* Make a copy of widget-managed string */
+    if (!util_get_extension(tmp)) {
+        util_add_extension(&tmp, driver->default_extension);
     }
-    screenshot_save(driver->name, name, canvas);
+    if (screenshot_save(driver->name, tmp, canvas) < 0) {
+        ui_error(_("Couldn't write screenshot to `%s' with driver `%s'."), tmp, driver->name);
+        lib_free(tmp);
+        return -1;
+    } else {
+        if (screenshot_is_recording()) {
+            XtMapWidget(rec_button);
+        }
+        /* ui_message(_("Successfully wrote `%s'"), tmp); */
+        lib_free(tmp);
+    }
 }
 
 static void build_screenshot_dialog(struct video_canvas_s *canvas)
