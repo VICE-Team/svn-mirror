@@ -146,6 +146,59 @@ static void setaccess(u_long * map, u_int bit, int allow)
     }
 }
 #endif
+#if defined(__NetBSD__) && defined(HAVE_I386_SET_IOPERM)
+static int vice_i386_set_ioperm(unsigned long *iomap)
+{
+    struct i386_set_ioperm_args arg;
+
+    arg.iomap = iomap;
+    return sysarch(I386_SET_IOPERM, &arg);
+}
+
+static int vice_i386_get_ioperm(unsigned long *iomap)
+{
+    struct i386_get_ioperm_args arg;
+
+    arg.iomap = iomap;
+    return sysarch(I386_GET_IOPERM, &arg);
+}
+#endif
+#if defined(__NetBSD__) && defined(HAVE_LIBAMD64)
+static int vice_amd64_set_ioperm(unsigned long *iomap)
+{
+    struct x86_64_set_ioperm_args arg;
+
+    arg.iomap = iomap;
+    return sysarch(X86_64_SET_IOPERM, &arg);
+}
+
+static int vice_amd64_get_ioperm(unsigned long *iomap)
+{
+    struct x86_64_get_ioperm_args arg;
+
+    arg.iomap = iomap;
+    return sysarch(X86_64_SET_IOPERM, &arg);
+}
+#endif
+#endif
+
+#if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
+#ifdef __NetBSD__
+static inline void vice_outb(WORD port, BYTE val)
+{
+    asm volatile("outb %0, %1"
+                 : : "a"(val), "Nd"(port));
+}
+
+static inline BYTE vice_inb(WORD port)
+{
+    BYTE ret;
+
+    asm volatile("inb %1, %0"
+                 : "=a"(ret) : "Nd"(port));
+    return ret;
+}
+#endif
 #endif
 
 void parsid_outb(int addr, BYTE value)
@@ -157,7 +210,11 @@ void parsid_outb(int addr, BYTE value)
     out8(addr, value);
 #endif
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
+#ifdef __NetBSD__
+    vice_outb(addr, value);
+#else
     outb(addr, value);
+#endif
 #endif
 #ifdef HAVE_IOPERM
     outb_p(value, addr);
@@ -173,7 +230,11 @@ BYTE parsid_inb(int addr)
     return in8(addr);
 #endif
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
+#ifdef __NetBSD__
+    return vice_inb((WORD)addr);
+#else
     return inb((unsigned short)addr);
+#endif
 #endif
 #ifdef HAVE_IOPERM
     return inb_p((unsigned short)addr);
@@ -322,24 +383,24 @@ int parsid_check_port(int port)
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
 #ifndef __FreeBSD__
 #ifdef HAVE_LIBAMD64
-    if (amd64_get_ioperm(iomap) != -1) {
+    if (vice_amd64_get_ioperm(iomap) != -1) {
 #else
-    if (i386_get_ioperm(iomap) != -1) {
+    if (vice_i386_get_ioperm(iomap) != -1) {
 #endif
         setaccess(iomap, port_addr, 1);
         setaccess(iomap, port_addr + 2, 1);
 #ifdef HAVE_LIBAMD64
-        if (amd64_set_ioperm(iomap) != -1) {
+        if (vice_amd64_set_ioperm(iomap) != -1) {
 #else
-        if (i386_set_ioperm(iomap) != -1) {
+        if (vice_i386_set_ioperm(iomap) != -1) {
 #endif
             if (old_parsid_port != 0) {
                 setaccess(iomap, old_port_addr, 0);
                 setaccess(iomap, old_port_addr + 2, 0);
 #ifdef HAVE_LIBAMD64
-                amd64_set_ioperm(iomap);
+                vice_amd64_set_ioperm(iomap);
 #else
-                i386_set_ioperm(iomap);
+                vice_i386_set_ioperm(iomap);
 #endif
             }
         } else {
@@ -350,11 +411,11 @@ int parsid_check_port(int port)
     }
     old_parsid_port = real_port;
 #else
-    if (i386_set_ioperm(port_addr, 3, 1) != 0) {
+    if (vice_i386_set_ioperm(port_addr, 3, 1) != 0) {
         return -1;
     }
     if (old_parsid_port != 0) {
-        i386_set_ioperm(old_port_addr, 3, 0);
+        vice_i386_set_ioperm(old_port_addr, 3, 0);
     }
     old_parsid_port = real_port;
 #endif
@@ -425,37 +486,37 @@ static int parsid_init(void)
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
 #ifndef __FreeBSD__
 #ifdef HAVE_LIBAMD64
-        if (amd64_get_ioperm(iomap) != -1)
+        if (vice_amd64_get_ioperm(iomap) != -1)
 #else
-        if (i386_get_ioperm(iomap) != -1)
+        if (vice_i386_get_ioperm(iomap) != -1)
 #endif
         {
             setaccess(iomap, port_addr, 1);
             setaccess(iomap, port_addr + 2, 1);
 #ifdef HAVE_LIBAMD64
-            if (amd64_set_ioperm(iomap) != -1)
+            if (vice_amd64_set_ioperm(iomap) != -1)
 #else
-            if (i386_set_ioperm(iomap) != -1)
+            if (vice_i386_set_ioperm(iomap) != -1)
 #endif
             {
                 parsid_port_address[j] = port_addr;
                 setaccess(iomap, port_addr, 0);
                 setaccess(iomap, port_addr + 2, 0);
 #ifdef HAVE_LIBAMD64
-                amd64_set_ioperm(iomap);
+                vice_amd64_set_ioperm(iomap);
 #else
-                i386_set_ioperm(iomap);
+                vice_i386_set_ioperm(iomap);
 #endif
             } else {
                 parsid_port_address[j] = 0;
             }
-        } else
+        } else {
             parsid_port_address[j] = 0;
         }
 #else
-        parsid_port_address[j] = i386_set_ioperm(port_addr, 3, 1);
+        parsid_port_address[j] = vice_i386_set_ioperm(port_addr, 3, 1);
         if (parsid_port_address[j] == 0) {
-            i386_set_ioperm(port_addr, 3, 0);
+            vice_i386_set_ioperm(port_addr, 3, 0);
             parsid_port_address[j] = port_addr;
         } else {
             parsid_port_address[j] = 0;
@@ -479,9 +540,8 @@ static int parsid_init(void)
 
     if (ports == 0) {
         return -1;
-    } else {
-        return 0;
     }
+    return 0;
 }
 
 void parsid_reset(void)
@@ -556,25 +616,25 @@ int parsid_close(void)
 #if defined(HAVE_LIBAMD64) || defined(HAVE_I386_SET_IOPERM)
 #ifndef __FreeBSD__
 #ifdef HAVE_LIBAMD64
-        if (amd64_get_ioperm(iomap) != -1)
+        if (vice_amd64_get_ioperm(iomap) != -1)
 #else
-        if (i386_get_ioperm(iomap) != -1)
+        if (vice_i386_get_ioperm(iomap) != -1)
 #endif
         {
             if (old_parsid_port != 0) {
                 setaccess(iomap, old_port_addr, 0);
                 setaccess(iomap, old_port_addr + 2, 0);
 #ifdef HAVE_LIBAMD64
-                amd64_set_ioperm(iomap);
+                vice_amd64_set_ioperm(iomap);
 #else
-                i386_set_ioperm(iomap);
+                vice_i386_set_ioperm(iomap);
 #endif
             }
         }
         old_parsid_port = 0;
 #else
         if (old_parsid_port != 0) {
-            i386_set_ioperm(old_port_addr, 3, 0);
+            vice_i386_set_ioperm(old_port_addr, 3, 0);
             old_parsid_port = 0;
         }
 #endif
