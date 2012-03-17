@@ -152,7 +152,6 @@ rm `find VICE-$AMIGAFLAVOR -name "osx*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "beos_*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "win_*.v*"`
 rm `find VICE-$AMIGAFLAVOR -name "x11_*.vkm"`
-rm `find VICE-$AMIGAFLAVOR -name "RO*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "sdl*.vkm"`
 rm `find VICE-$AMIGAFLAVOR -name "*.vsc"`
 rm VICE-$AMIGAFLAVOR/html/texi2html

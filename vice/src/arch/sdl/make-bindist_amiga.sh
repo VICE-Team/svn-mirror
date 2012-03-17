@@ -123,7 +123,6 @@ rm `find SDLVICE-$AMIGAFLAVOR -name "osx*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "beos_*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "win_*.v*"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "x11_*.vkm"`
-rm `find SDLVICE-$AMIGAFLAVOR -name "RO*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "amiga*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "*.vsc"`
 rm SDLVICE-$AMIGAFLAVOR/html/texi2html

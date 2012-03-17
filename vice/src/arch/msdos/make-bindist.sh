@@ -53,7 +53,6 @@ rm `find dosvice -name "osx*.vkm"`
 rm `find dosvice -name "beos_*.vkm"`
 rm `find dosvice -name "win_*.v*"`
 rm `find dosvice -name "x11_*.vkm"`
-rm `find dosvice -name "RO*.vkm"`
 rm `find dosvice -name "sdl*.vkm"`
 rm `find dosvice -name "*.vsc"`
 rm dosvice/html/texi2html

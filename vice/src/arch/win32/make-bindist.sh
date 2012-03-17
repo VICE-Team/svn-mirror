@@ -89,7 +89,6 @@ rm `find $WINVICE -name "osx*.vkm"`
 rm `find $WINVICE -name "beos_*.vkm"`
 rm `find $WINVICE -name "sdl*.vkm"`
 rm `find $WINVICE -name "x11_*.vkm"`
-rm `find $WINVICE -name "RO*.vkm"`
 rm $WINVICE/html/texi2html
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then

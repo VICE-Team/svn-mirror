@@ -62,7 +62,6 @@ rm `find SDLVICE-$VICEVERSION-$WINXX -name "os2*.vkm"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "osx*.vkm"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "beos_*.vkm"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "x11_*.vkm"`
-rm `find SDLVICE-$VICEVERSION-$WINXX -name "RO*.vkm"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "win*.v*"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "*.vsc"`
 rm SDLVICE-$VICEVERSION-$WINXX/html/texi2html

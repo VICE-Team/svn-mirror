@@ -48,7 +48,6 @@ rm `find vice-$smallsystem-$VICEVERSION -name "beos_*.vkm"`
 rm `find vice-$smallsystem-$VICEVERSION -name "dos_*.vkm"`
 rm `find vice-$smallsystem-$VICEVERSION -name "os2*.vkm"`
 rm `find vice-$smallsystem-$VICEVERSION -name "win_*.vkm"`
-rm `find vice-$smallsystem-$VICEVERSION -name "RO*.vkm"`
 rm `find vice-$smallsystem-$VICEVERSION -name "sdl*.vkm"`
 rm `find vice-$smallsystem-$VICEVERSION -name "*.vsc"`
 if test x"$ZIPKIND" = "xzip"; then
