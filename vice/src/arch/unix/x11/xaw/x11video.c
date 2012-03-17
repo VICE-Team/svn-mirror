@@ -490,7 +490,7 @@ static void init_xv_settings(video_canvas_t *canvas)
         xv_settings[2].value = &(canvas->videoconfig->video_resources.color_brightness);
         xv_settings[3].value = &(canvas->videoconfig->video_resources.color_gamma);
 
-        for (i = 0; i < (int)(sizeof(xv_settings)/sizeof(xv_settings[0])); i++) {
+        for (i = 0; i < (int)util_arraysize(xv_settings); i++) {
             xv_settings[i].atom = 0;
 
             for (j = 0; j < numattr; j++) {
@@ -664,13 +664,16 @@ tryagain:
     }
 
 #ifdef USE_MITSHM
-    log_message(x11video_log, "Successfully initialized%s shared memory.", (canvas->using_mitshm) ? ", using" : " without");
+    log_message(x11video_log, "Successfully initialized (%dx%d)%s shared memory.",
+            width, height,
+            (canvas->using_mitshm) ? ", using" : " without");
 
     if (!(canvas->using_mitshm)) {
         log_warning(x11video_log, "Performance will be poor.");
     }
 #else
-    log_message(x11video_log, "Successfully initialized without shared memory.");
+    log_message(x11video_log, "Successfully initialized (%dx%d) without shared memory.",
+            width, height);
 #endif
 
     return 0;
@@ -780,8 +783,11 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 
         Display *dpy = x11ui_get_display_ptr();
 
-        for (i = 0; i < (int)(sizeof(xv_settings) / sizeof(xv_settings[0])); i++) {
+        for (i = 0; i < (int)util_arraysize(xv_settings); i++) {
             /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
+            /* Problem with gamma: vice's values range [0,4000] with 2200 being
+             * neutral; XVideo ranges [100,10 000] with 1000 being neutral.
+             */
             int v_min = 0, v_max = xv_settings[i].v_max;
             int v_zero = (v_min + v_max) / 2;
             int v_range = v_max - v_min;
