@@ -533,7 +533,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/reseasyflash.rc $(srcdir)/resmagicvoice.rc \
 	$(srcdir)/resexpert.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/rescia.rc $(top_builddir)/src/debug.h
 	cat >resc128cat.rc $(srcdir)/resc128.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/reside64.rc $(srcdir)/resreu.rc \
 	$(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc $(srcdir)/resmmc64.rc \
@@ -543,7 +543,8 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
 	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc \
-	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
+	$(srcdir)/rescia.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
@@ -581,18 +582,20 @@ resc64dtvcat.rc : $(srcdir)/resc64dtv.rc $(srcdir)/res.rc res.h \
 rescbm2cat.rc: $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/rescia.rc $(top_builddir)/src/debug.h
 	cat >rescbm2cat.rc $(srcdir)/rescbm2.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/ressiddtv.rc $(srcdir)/resautostart.rc
+	$(srcdir)/ressiddtv.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/rescia.rc
 
 rescbm5x0cat.rc: $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc res.h $(srcdir)/resacia.rc $(srcdir)/ressiddtv.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/resautostart.rc \
-	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resvicii.rc $(srcdir)/rescia.rc $(top_builddir)/src/debug.h
 	cat >rescbm5x0cat.rc $(srcdir)/rescbm5x0.rc $(srcdir)/rescbm2common.rc \
 	$(srcdir)/res.rc $(srcdir)/resacia.rc $(srcdir)/resdrivepetcbm2.rc \
-	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc
+	$(srcdir)/ressiddtv.rc $(srcdir)/resvicii.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/rescia.rc
 
 respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resdrivepetcbm2.rc $(srcdir)/respetreu.rc \
@@ -606,11 +609,13 @@ respetcat.rc: $(srcdir)/respet.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 resplus4cat.rc: $(srcdir)/resplus4.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/ressidcart.rc \
-	$(srcdir)/resv364speech.rc $(top_builddir)/src/debug.h
+	$(srcdir)/resv364speech.rc $(srcdir)/rested.rc \
+	$(top_builddir)/src/debug.h
 	cat >resplus4cat.rc $(srcdir)/resplus4.rc $(srcdir)/res.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resdriveplus4.rc \
 	$(srcdir)/resv364speech.rc \
-	$(srcdir)/ressidcart.rc $(srcdir)/resautostart.rc
+	$(srcdir)/ressidcart.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/rested.rc
 
 resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resrs232user.rc $(srcdir)/resdrivevic20.rc \
@@ -619,14 +624,15 @@ resvic20cat.rc : $(srcdir)/resvic20.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
 	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc \
-	$(top_builddir)/src/debug.h
+	$(srcdir)/resvic.rc $(top_builddir)/src/debug.h
 	cat >resvic20cat.rc $(srcdir)/resvic20.rc $(srcdir)/res.rc \
 	$(srcdir)/resdrivevic20.rc $(srcdir)/resrs232user.rc \
 	$(srcdir)/ressidcart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/reslightpen.rc $(srcdir)/resautostart.rc \
 	$(srcdir)/resacia.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/restfe.rc \
-	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc
+	$(srcdir)/ressoundexpander.rc $(srcdir)/ressoundsampler.rc \
+	$(srcdir)/resvic.rc
 
 resvsidcat.rc: $(srcdir)/resvsid.rc $(srcdir)/res.rc res.h $(srcdir)/ressid.rc \
 	$(srcdir)/resvicii.rc $(top_builddir)/src/debug.h
