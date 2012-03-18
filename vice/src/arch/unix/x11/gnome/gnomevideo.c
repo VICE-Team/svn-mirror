@@ -200,8 +200,7 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
         exit(-1);
     }
 
-    if (resize_canvas)
-        ui_resize_canvas_window(canvas);
+    ui_resize_canvas_window(canvas);
 }
 
 /* Make the canvas visible. */
