@@ -180,7 +180,7 @@ static int set_hwscale_enabled(int val, void *param)
     canvas->videoconfig->hwscale = val;
 
     if (canvas->initialized) {
-        video_viewport_resize(canvas, 0);
+        video_viewport_resize(canvas, 1);
         video_color_update_palette(canvas);
     }
 
