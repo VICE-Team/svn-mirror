@@ -2552,6 +2552,103 @@ static void muld(WORD m)
 }
 #endif
 
+#ifdef H6309
+static BYTE base_6309_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  2,  2,  3
+};
+
+static BYTE page10_6309_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 0
+};
+
+static BYTE page11_6309_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 0
+};
+
+static BYTE base_6809_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 4,  3,  3,  4,  4,  3,  4,  4,  4,  4,  4,  3,  4,  4,  3,  4
+};
+
+static BYTE page10_6809_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 0
+};
+
+static BYTE page11_6809_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 0
+};
+#else
+static BYTE base_6809_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  3,  4
+};
+
+static BYTE page10_6809_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 0
+};
+
+static BYTE page11_6809_cycle_table[] = {
+           /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
+    /* 0x00 */ 0
+};
+#endif
+
+/* The following function adds extra cycles based
+   on the cpu, and in the case of the 6309 the mode
+   the cpu is in.
+ */
+inline static void CLK_ADD(int opcode)
+{
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        switch (opcode >> 8) {
+            case 0x00:
+            default:
+                CLK += base_6309_cycle_table[opcode & 0xff];
+                return;
+            case 0x10:
+                CLK += page10_6309_cycle_table[opcode & 0xff];
+                return;
+            case 0x11:
+                CLK += page11_6309_cycle_table[opcode & 0xff];
+                return;
+        }
+    } else {
+        switch (opcode >> 8) {
+            case 0x00:
+            default:
+                CLK += base_6809_cycle_table[opcode & 0xff];
+                return;
+            case 0x10:
+                CLK += page10_6809_cycle_table[opcode & 0xff];
+                return;
+            case 0x11:
+                CLK += page11_6809_cycle_table[opcode & 0xff];
+                return;
+        }
+    }
+#else
+    switch (opcode >> 8) {
+        case 0x00:
+        default:
+            CLK += base_6809_cycle_table[opcode & 0xff];
+            return;
+        case 0x10:
+            CLK += page10_6809_cycle_table[opcode & 0xff];
+            return;
+        case 0x11:
+            CLK += page11_6809_cycle_table[opcode & 0xff];
+            return;
+    }
+#endif
+}
+
 /* Execute 6809 code for a certain number of cycles. */
 void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
@@ -2600,15 +2697,15 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
         opcode = imm_byte();
 
         switch (opcode) {
-            case 0x00:	/* NEG direct */	
+            case 0x00:	/* NEG direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0000);
                 WRMEM(ea, neg(RDMEM(ea)));
                 break;
 #ifdef FULL6809
             case 0x01:	/* NEG direct (UNDOC) */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0001);
                 WRMEM(ea, neg(RDMEM(ea)));
                 break;
 #endif
@@ -2616,14 +2713,14 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x01:	/* OIM post,direct */
                 post_byte = imm_byte();
                 direct();
-                /* TODO: cycle count */
+                CLK_ADD(0x0001);
                 WRMEM(ea, or(RDMEM(ea), post_byte));
                 break;
 #endif
 #ifdef FULL6809
             case 0x02:	/* NEG/COM direct (UNDOC) */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0002);
                 if (C) {
                     WRMEM(ea, com(RDMEM(ea)));
                 } else {
@@ -2635,24 +2732,24 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x02:	/* AIM post,direct */
                 post_byte = imm_byte();
                 direct();
-                /* TODO: cycle count */
+                CLK_ADD(0x0002);
                 WRMEM(ea, and(RDMEM(ea), post_byte));
                 break;
 #endif
             case 0x03:	/* COM direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0003);
                 WRMEM(ea, com(RDMEM(ea)));
                 break;
             case 0x04:	/* LSR direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0004);
                 WRMEM(ea, lsr(RDMEM(ea)));
                 break;
 #ifdef FULL6809
             case 0x05:	/* LSR direct (UNDOC) */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0005);
                 WRMEM(ea, lsr(RDMEM(ea)));
                 break;
 #endif
@@ -2660,39 +2757,39 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x05:	/* EIM post,direct */
                 post_byte = imm_byte();
                 direct();
-                /* TODO: cycle count */
+                CLK_ADD(0x0005);
                 WRMEM(ea, eor(RDMEM(ea), pos_byte));
                 break;
 #endif
             case 0x06:	/* ROR direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0006);
                 WRMEM(ea, ror(RDMEM(ea)));
                 break;
             case 0x07:	/* ASR direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0007);
                 WRMEM(ea, asr(RDMEM(ea)));
                 break;
             case 0x08:	/* ASL/LSL direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0008);
                 WRMEM(ea, asl(RDMEM(ea)));
                 break;
             case 0x09:	/* ROL direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x0009);
                 WRMEM(ea, rol(RDMEM(ea)));
                 break;
             case 0x0a:	/* DEC direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x000a);
                 WRMEM(ea, dec(RDMEM(ea)));
                 break;
 #ifdef FULL6809
             case 0x0b:	/* DEC direct (UNDOC) */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x000b);
                 WRMEM(ea, dec(RDMEM(ea)));
                 break;
 #endif
@@ -2700,27 +2797,27 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x0b:	/* TIM post,direct */
                 post_byte = imm_byte();
                 direct();
-                /* TODO: cycle count */
+                CLK_ADD(0x000b);
                 WRMEM(ea, tim(post_byte));
                 break;
 #endif
             case 0x0c:	/* INC direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x000c);
                 WRMEM(ea, inc(RDMEM(ea)));
                 break;
             case 0x0d:	/* TST direct */
                 direct();
-                CLK += 4;
+                CLK_ADD(0x000d);
                 tst(RDMEM(ea));
                 break;
             case 0x0e:	/* JMP direct */
                 direct();
-                CLK += 3;
+                CLK_ADD(0x000e);
                 PC = ea;
                 break;
             case 0x0f:	/* CLR direct */
-                direct();
+                CLK_ADD(0x000f);
                 CLK += 4;
                 WRMEM(ea, clr(RDMEM(ea)));
                 break;
