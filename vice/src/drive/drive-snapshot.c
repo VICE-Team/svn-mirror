@@ -145,6 +145,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
         return -1;
     }
 
+    /* TODO: NUM_DRIVES drives instead of 2 */
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (0
@@ -285,6 +286,7 @@ int drive_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
+    /* TODO: NUM_DRIVES drives instead of 2 */
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
 

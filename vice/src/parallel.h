@@ -62,6 +62,8 @@ extern BYTE parallel_bus;       /* data lines */
 #define PARALLEL_CPU    0x02
 #define PARALLEL_DRV0   0x04
 #define PARALLEL_DRV1   0x08
+#define PARALLEL_DRV2   0x10
+#define PARALLEL_DRV3   0x20
 
 /* methods to set handshake lines active for the devices */
 extern void parallel_set_eoi(BYTE mask);
@@ -140,6 +142,22 @@ PARALLEL_SET_LINE(nrfd, drv1, DRV1)
 PARALLEL_SET_LINE(ndac, drv1, DRV1)
 
 extern void parallel_drv1_set_bus(BYTE b);
+
+/* Drive 2 functions */
+PARALLEL_SET_LINE(eoi, drv2, DRV2)
+PARALLEL_SET_LINE(dav, drv2, DRV2)
+PARALLEL_SET_LINE(nrfd, drv2, DRV2)
+PARALLEL_SET_LINE(ndac, drv2, DRV2)
+
+extern void parallel_drv2_set_bus(BYTE b);
+
+/* Drive 3 functions */
+PARALLEL_SET_LINE(eoi, drv3, DRV3)
+PARALLEL_SET_LINE(dav, drv3, DRV3)
+PARALLEL_SET_LINE(nrfd, drv3, DRV3)
+PARALLEL_SET_LINE(ndac, drv3, DRV3)
+
+extern void parallel_drv3_set_bus(BYTE b);
 
 #endif
 

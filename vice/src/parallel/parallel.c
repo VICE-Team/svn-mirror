@@ -605,13 +605,14 @@ void parallel_clr_ndac(BYTE mask)
 
 static BYTE par_emu_bus = 0xff;
 static BYTE par_cpu_bus = 0xff;
-static BYTE par_drv0_bus = 0xff;
-static BYTE par_drv1_bus = 0xff;
+static BYTE par_drv_bus[DRIVE_NUM] = { 0xff, 0xff, 0xff, 0xff };
 
 void parallel_emu_set_bus(BYTE b)
 {
     par_emu_bus = b;
-    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
+    parallel_bus = par_emu_bus & par_cpu_bus &
+                   par_drv_bus[0] & par_drv_bus[1] &
+                   par_drv_bus[2] & par_drv_bus[3];
 
     PARALLEL_DEBUG_SET_BUS(emu)
 }
@@ -619,27 +620,76 @@ void parallel_emu_set_bus(BYTE b)
 void parallel_cpu_set_bus(BYTE b)
 {
     par_cpu_bus = b;
-    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
+    parallel_bus = par_emu_bus & par_cpu_bus &
+                   par_drv_bus[0] & par_drv_bus[1] &
+                   par_drv_bus[2] & par_drv_bus[3];
 
     PARALLEL_DEBUG_SET_BUS(cpu)
 }
 
 void parallel_drv0_set_bus(BYTE b)
 {
-    par_drv0_bus = b;
-    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
+    par_drv_bus[0] = b;
+    parallel_bus = par_emu_bus & par_cpu_bus &
+                   par_drv_bus[0] & par_drv_bus[1] &
+                   par_drv_bus[2] & par_drv_bus[3];
 
     PARALLEL_DEBUG_SET_BUS(drv0)
 }
 
 void parallel_drv1_set_bus(BYTE b)
 {
-    par_drv1_bus = b;
-    parallel_bus = par_emu_bus & par_cpu_bus & par_drv0_bus & par_drv1_bus;
+    par_drv_bus[1] = b;
+    parallel_bus = par_emu_bus & par_cpu_bus &
+                   par_drv_bus[0] & par_drv_bus[1] &
+                   par_drv_bus[2] & par_drv_bus[3];
 
     PARALLEL_DEBUG_SET_BUS(drv1)
 }
 
+void parallel_drv2_set_bus(BYTE b)
+{
+    par_drv_bus[2] = b;
+    parallel_bus = par_emu_bus & par_cpu_bus &
+                   par_drv_bus[0] & par_drv_bus[1] &
+                   par_drv_bus[2] & par_drv_bus[3];
+
+    PARALLEL_DEBUG_SET_BUS(drv2)
+}
+
+void parallel_drv3_set_bus(BYTE b)
+{
+    par_drv_bus[3] = b;
+    parallel_bus = par_emu_bus & par_cpu_bus &
+                   par_drv_bus[0] & par_drv_bus[1] &
+                   par_drv_bus[2] & par_drv_bus[3];
+
+    PARALLEL_DEBUG_SET_BUS(drv3)
+}
+
+drivefunc_context_t drive_funcs[DRIVE_NUM] = {
+    { parallel_drv0_set_bus,
+      parallel_drv0_set_eoi,
+      parallel_drv0_set_dav,
+      parallel_drv0_set_ndac,
+      parallel_drv0_set_nrfd, },
+    { parallel_drv1_set_bus,
+      parallel_drv1_set_eoi,
+      parallel_drv1_set_dav,
+      parallel_drv1_set_ndac,
+      parallel_drv1_set_nrfd, },
+    { parallel_drv2_set_bus,
+      parallel_drv2_set_eoi,
+      parallel_drv2_set_dav,
+      parallel_drv2_set_ndac,
+      parallel_drv2_set_nrfd, },
+    { parallel_drv3_set_bus,
+      parallel_drv3_set_eoi,
+      parallel_drv3_set_dav,
+      parallel_drv3_set_ndac,
+      parallel_drv3_set_nrfd, },
+};
+    
 /**************************************************************************
  *
  */

@@ -43,6 +43,7 @@
 
 typedef struct driveriot2_context_s {
     unsigned int number;
+    BYTE drivenumberjumper;
     struct drive_s *drive;
     int r_atn_active;     /* init to 0 */
     unsigned int int_num;
@@ -236,7 +237,7 @@ static BYTE read_pra(riot_context_t *riot_context)
 static BYTE read_prb(riot_context_t *riot_context)
 {
     driveriot2_context_t *riot2p;
-    BYTE byte = 0xff;
+    BYTE byte = 0xff - 7;
 
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
@@ -245,10 +246,8 @@ static BYTE read_prb(riot_context_t *riot_context)
     if (parallel_ndac)
         byte -= 0x40;
 
-    if (riot2p->number == 0)
-        byte -= 1;        /* device address bit 0 */
-    byte -= 2;          /* device address bit 1 */
-    byte -= 4;          /* device address bit 2 */
+    /* Here the device number is made known to the disk. */
+    byte += riot2p->drivenumberjumper;     /* device address bit 0, 1, 2 */
 
     return (byte & ~(riot_context->riot_io)[3])
         | ((riot_context->riot_io)[2] & (riot_context->riot_io)[3]);
@@ -271,6 +270,7 @@ void riot2_setup_context(drive_context_t *ctxptr)
     riot->prv = lib_malloc(sizeof(driveriot2_context_t));
     riot2p = (driveriot2_context_t *)(riot->prv);
     riot2p->number = ctxptr->mynumber;
+    riot2p->drivenumberjumper = ctxptr->mynumber & 0x07; /* 3 bits */
 
     riot->context = (void *)ctxptr;
 

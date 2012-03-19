@@ -163,6 +163,8 @@ int drive_init(void)
     if (driverom_load_images() < 0) {
         resources_set_int("Drive8Type", DRIVE_TYPE_NONE);
         resources_set_int("Drive9Type", DRIVE_TYPE_NONE);
+        resources_set_int("Drive10Type", DRIVE_TYPE_NONE);
+        resources_set_int("Drive11Type", DRIVE_TYPE_NONE);
         return -1;
     }
 

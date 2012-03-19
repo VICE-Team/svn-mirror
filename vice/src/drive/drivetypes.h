@@ -134,6 +134,7 @@ typedef struct drivefunc_context_s {
     void (*parallel_set_nrfd)(BYTE);
 } drivefunc_context_t;
 
+extern drivefunc_context_t drive_funcs[DRIVE_NUM];
 
 /*
  * The context for an entire drive.
@@ -147,7 +148,7 @@ struct pc8477_s;
 struct wd1770_s;
 
 typedef struct drive_context_s {
-    int mynumber;         /* init to [01] */
+    int mynumber;         /* init to [0123] */
     CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
     struct drive_s *drive;    /* shortcut to drive[mynumber] */
 

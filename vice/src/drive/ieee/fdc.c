@@ -755,7 +755,7 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
                 image, unit);
 #endif
 
-    if (unit != 8 && unit != 9)
+    if (unit < 8 || unit >= 8 + DRIVE_NUM)
         return -1;
 
     if (drive_check_dual(fdc[0].drive_type)) {
@@ -819,7 +819,7 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
                 image, unit);
 #endif
 
-    if (image == NULL || (unit != 8 && unit != 9))
+    if (image == NULL || unit < 8 || unit >= (8+DRIVE_NUM))
         return -1;
 
     if (drive_check_dual(fdc[0].drive_type)) {
