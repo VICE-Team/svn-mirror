@@ -819,7 +819,6 @@ msgstr "80 Kolommen"
 
 #: src/arch/unix/gui/petui.c:225 src/arch/unix/gui/petui.c:362
 #: src/arch/win32/respet.rc.po.c:557
-#, fuzzy
 msgid "PET model"
 msgstr "PET model"
 
@@ -2076,7 +2075,7 @@ msgstr "Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:95
 #: src/arch/unix/gui/uidrivec64c128.c:107
 msgid "Formel 64"
-msgstr ""
+msgstr "Formel 64"
 
 #: src/arch/unix/gui/uidrivec64c128.c:113
 #: src/arch/unix/gui/uidrivec64c128.c:126
@@ -2351,9 +2350,8 @@ msgid "Version 4"
 msgstr "Versie 4"
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "Device 1 image name"
-msgstr "HD bestand naam"
+msgstr "Apparaat 1 bestand naam"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2363,19 +2361,16 @@ msgid "Autodetect image size"
 msgstr "Automatisch detecteren bestandsgrootte"
 
 #: src/arch/unix/gui/uiide64.c:199
-#, fuzzy
 msgid "Device 2 image name"
-msgstr "HD bestand naam"
+msgstr "Apparaat 2 bestand naam"
 
 #: src/arch/unix/gui/uiide64.c:218
-#, fuzzy
 msgid "Device 3 image name"
-msgstr "HD bestand naam"
+msgstr "Apparaat 3 bestand naam"
 
 #: src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "Device 4 image name"
-msgstr "HD bestand naam"
+msgstr "Apparaat 4 bestand naam"
 
 #: src/arch/unix/gui/uiide64.c:256 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uiretroreplay.c:59 src/arch/unix/gui/uivdc.c:155
@@ -2384,24 +2379,20 @@ msgid "Revision"
 msgstr "Revisie"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "Device 1 settings"
-msgstr "HD 1 instellingen"
+msgstr "Apparaat 1 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "Device 2 settings"
-msgstr "HD 2 instellingen"
+msgstr "Apparaat 2 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "Device 3 settings"
-msgstr "HD 3 instellingen"
+msgstr "Apparaat 3 instellingen"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "Device 4 settings"
-msgstr "HD 4 instellingen"
+msgstr "Apparaat 4 instellingen"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2436,14 +2427,12 @@ msgid "HIT userport joy adapter"
 msgstr "HIT userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1100
-#, fuzzy
 msgid "Kingsoft userport joy adapter"
-msgstr "Geen userport joy adapter"
+msgstr "Kingsoft userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1101
-#, fuzzy
 msgid "Starbyte userport joy adapter"
-msgstr "Geen userport joy adapter"
+msgstr "Starbyte userport joy adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:161 src/arch/unix/gui/uijoystick2.c:213
 #: src/arch/unix/gui/uijoystick2.c:265 src/arch/unix/gui/uijoystick2.c:317
@@ -3122,9 +3111,8 @@ msgstr "Printer #4 stuurprogramma"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 output"
-msgstr "Printer #4 uitvoer soort"
+msgstr "Printer #4 uitvoer"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
@@ -3158,9 +3146,8 @@ msgstr "Printer #5 stuurprogramma"
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 output"
-msgstr "Printer #5 uitvoer soort"
+msgstr "Printer #5 uitvoer"
 
 #: src/arch/unix/gui/uiprinteriec.c:62
 #: src/arch/unix/gui/uiprinteriecplus4.c:61
@@ -3185,9 +3172,8 @@ msgid "Userport printer driver"
 msgstr "Userport printer stuurprogramma"
 
 #: src/arch/unix/gui/uiprinteriec.c:72 src/arch/unix/gui/uiprinterieee.c:67
-#, fuzzy
 msgid "Userport printer output"
-msgstr "Userport printer uitvoer soort"
+msgstr "Userport printer uitvoer"
 
 #: src/arch/unix/gui/uiprinteriec.c:74 src/arch/unix/gui/uiprinterieee.c:69
 msgid "Userport printer text output device"
@@ -5627,9 +5613,8 @@ msgid "Value %d for %s is out of range, using %d instead"
 msgstr "Waarde %d voor %s is buiten het bereik, %d zal gebruikt worden"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "Audio leak"
-msgstr "Audio lek emulatie"
+msgstr "Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1253
 msgid "VICII Palette"
@@ -5713,23 +5698,23 @@ msgstr "TED Render filter"
 
 #: src/arch/win32/res.rc.po.c:1273
 msgid "VICII Audio leak"
-msgstr ""
+msgstr "VICII Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "VIC Audio leak"
-msgstr ""
+msgstr "VIC Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "CRTC Audio leak"
-msgstr ""
+msgstr "CRTC Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "VDC Audio leak"
-msgstr ""
+msgstr "VDC Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "TED Audio leak"
-msgstr ""
+msgstr "TED Audio lek"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "External Palette"
@@ -6006,9 +5991,8 @@ msgid "Idle method"
 msgstr "Idlemethode"
 
 #: src/arch/win32/res.rc.po.c:1374
-#, fuzzy
 msgid "Standard"
-msgstr "Standaard userport"
+msgstr "Standaard"
 
 #: src/arch/win32/res.rc.po.c:1375 src/arch/amigaos/intl_text.c.po.c:5385
 msgid "Drive expansion"
@@ -6690,9 +6674,8 @@ msgid "IEEE488 Interface emulation"
 msgstr "IEEE488 Interface emulatie"
 
 #: src/arch/win32/resc128.rc.po.c:738
-#, fuzzy
 msgid "C128 model settings"
-msgstr "CBM2 model instellingen"
+msgstr "C128 model instellingen"
 
 #: src/arch/win32/resc64.rc.po.c:609 src/arch/amigaos/intl_text.c.po.c:9880
 msgid "6569 (PAL)"
@@ -7491,9 +7474,8 @@ msgid "Select ROM file for V364 Speech"
 msgstr "Selecteer bestand voor V364 spraak"
 
 #: src/arch/win32/resvic20.rc.po.c:520 src/arch/win32/resvic20.rc.po.c:555
-#, fuzzy
 msgid "VIC20 settings"
-msgstr "VIC instellingen"
+msgstr "VIC20 instellingen"
 
 #: src/arch/win32/resvic20.rc.po.c:526
 msgid "Full (blocks 0/1/2/3/5)"
@@ -9923,9 +9905,8 @@ msgid "Attach raw 8kB Expert Cartridge image"
 msgstr "Koppel binair 8kB Expert Cartridge bestand"
 
 #: src/translate_text.c.po.c:5961
-#, fuzzy
 msgid "Attach raw 32kB Formel 64 image"
-msgstr "Koppel binair 32kB Freeze Machine cartridge bestand"
+msgstr "Koppel binair 32kB Formel 64 cartridge bestand"
 
 #: src/translate_text.c.po.c:5978
 msgid "Attach raw 16kB Final Cartridge image"
@@ -10354,11 +10335,10 @@ msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM uitbreiding op adres $A000-$BFFF uitschakelen"
 
 #: src/translate_text.c.po.c:7850
-#, fuzzy
 msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
-msgstr "Zet parallele kabelsoort (0: geen, 1: standaard, 2: Dolphin DOS 3)"
+msgstr "Zet parallele kabelsoort (0: geen, 1: standaard, 2: Dolphin DOS 3, 3: Formel 64)"
 
 #: src/translate_text.c.po.c:7884
 msgid "Disable Professional DOS"
