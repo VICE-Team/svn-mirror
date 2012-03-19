@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 15:47-0700\n"
+"POT-Creation-Date: 2012-03-19 16:16-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -11059,7 +11059,8 @@ msgstr "8KB RAM kiterjeszés tiltása a $A000-$BFFF címen"
 #: src/translate_text.c.po.c:7850
 #, fuzzy
 msgid ""
-"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3 3:Formel 64)"
+"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
+"64)"
 msgstr ""
 "Adja meg a párhuzamos kábel típusát (0: nincs, 1: standard, 2: Dolphin DOS 3)"
 

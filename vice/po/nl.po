@@ -2,12 +2,12 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 15:47-0700\n"
+"POT-Creation-Date: 2012-03-19 16:16-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -10356,7 +10356,8 @@ msgstr "8KB RAM uitbreiding op adres $A000-$BFFF uitschakelen"
 #: src/translate_text.c.po.c:7850
 #, fuzzy
 msgid ""
-"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3 3:Formel 64)"
+"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
+"64)"
 msgstr "Zet parallele kabelsoort (0: geen, 1: standaard, 2: Dolphin DOS 3)"
 
 #: src/translate_text.c.po.c:7884

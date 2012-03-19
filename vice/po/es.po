@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 15:47-0700\n"
+"POT-Creation-Date: 2012-03-19 16:16-0700\n"
 "PO-Revision-Date: 2032-02-29 19:27+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -10336,7 +10336,8 @@ msgstr "Deshabilitar expansión RAM de 8KB en $A000-$BFFF"
 #: src/translate_text.c.po.c:7850
 #, fuzzy
 msgid ""
-"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3 3:Formel 64)"
+"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
+"64)"
 msgstr "Seleccionar tipo de cable paralelo (0:no, 1:standard, 2:Dolphin DOS 3)"
 
 #: src/translate_text.c.po.c:7884

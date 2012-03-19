@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 15:47-0700\n"
+"POT-Creation-Date: 2012-03-19 16:16-0700\n"
 "PO-Revision-Date: 2012-02-23 04:43+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -10310,7 +10310,8 @@ msgstr "Wyłącz rozszerzenie 8KB RAM w $A000-$BFFF"
 #: src/translate_text.c.po.c:7850
 #, fuzzy
 msgid ""
-"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3 3:Formel 64)"
+"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
+"64)"
 msgstr "Określ typ łącza równoległego (0: brak, 1: zwykłe, 2: Dolphin DOS 3)"
 
 #: src/translate_text.c.po.c:7884

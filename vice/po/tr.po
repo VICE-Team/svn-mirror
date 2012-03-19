@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 15:47-0700\n"
+"POT-Creation-Date: 2012-03-19 16:16-0700\n"
 "PO-Revision-Date: 2012-02-02 03:02+0200\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -10327,7 +10327,8 @@ msgstr "$A000-$BFFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 #: src/translate_text.c.po.c:7850
 #, fuzzy
 msgid ""
-"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3 3:Formel 64)"
+"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
+"64)"
 msgstr "Paralel kablo tipini ayarla (0: yok, 1: standart, 2: Dolphin DOS 3)"
 
 #: src/translate_text.c.po.c:7884

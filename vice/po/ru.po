@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 15:47-0700\n"
+"POT-Creation-Date: 2012-03-19 16:16-0700\n"
 "PO-Revision-Date: 2012-03-10 22:53+0200\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -10560,7 +10560,8 @@ msgstr ""
 
 #: src/translate_text.c.po.c:7850
 msgid ""
-"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3 3:Formel 64)"
+"Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
+"64)"
 msgstr ""
 
 #: src/translate_text.c.po.c:7884
