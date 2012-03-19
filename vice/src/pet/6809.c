@@ -31,19 +31,6 @@
 #include "monitor.h"
 #include "petmem.h"
 
-/* Uncomment the following if you want emulation of the
-   6809 illegal/undocumented opcodes/behaviour. */
-/* #define FULL6809 */
-
-/* Uncomment the following if you want emulation of the
-   6309 CPU. */
-/* #define H6309 */
-
-/* Sanity check */
-#if defined(FULL6809) && defined(H6309)
-#error cannot use FULL6809 and H6309 at the same time.
-#endif
-
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
 #define ALARM_CONTEXT maincpu_alarm_context
@@ -167,7 +154,7 @@ union regs {
     BYTE reg_c[4];
 } regs6309;
 
-#define Q regs6309_reg_l
+#define Q regs6309.reg_l
 #ifndef WORDS_BIGENDIAN
 #define W regs6309.reg_s[0]
 #define D regs6309.reg_s[1]
@@ -281,6 +268,16 @@ static inline WORD imm_word(void)
     PC += 2;
     return val;
 }
+
+#ifdef H6309
+static inline DWORD imm_dword(void)
+{
+    DWORD val = read32(PC);
+
+    PC += 4;
+    return val;
+}
+#endif
 
 #define WRMEM(addr, data) write8(addr, data)
 
@@ -461,7 +458,7 @@ static void indexed(void)		/* note take 1 extra cycle */
                         /* TODO: cycle count */
                         ea = RDMEM16(ea);
                         /* TODO: cycle count */
-                        break
+                        break;
                     case 0x20:	/* [16bit,W] */
                         ea = imm_word();
                         ea += W;
@@ -1061,6 +1058,27 @@ static void daa(void)
     CLK += 2;
 }
 
+static void daa_new(void)
+{
+    WORD res = A;
+    BYTE msn = res & 0xf0;
+    BYTE lsn = res & 0x0f;
+
+    if (lsn > 0x09 || (H & 0x10)) {
+        res += 0x06;
+    }
+    if (msn > 0x80 && lsn > 0x09) {
+        res += 0x60;
+    }
+    if (msn > 0x90 || (C != 0)) {
+        res += 0x60;
+    }
+
+    C |= (res & 0x100);
+    N = Z = res &= 0xff;
+    A = (BYTE)res;
+}
+
 static BYTE dec(BYTE arg)
 {
     BYTE res = arg - 1;
@@ -1097,6 +1115,21 @@ static void exg(void)
     set_reg((BYTE)(post >> 4), tmp2);
 
     CLK += 8;
+}
+
+static void exg_new(void)
+{
+    WORD tmp1 = 0xff;
+    WORD tmp2 = 0xff;
+    BYTE post = imm_byte();
+
+    if (((post ^ (post << 4)) & 0x80) == 0) {
+        tmp1 = get_reg((BYTE)(post >> 4));
+        tmp2 = get_reg((BYTE)(post & 15));
+    }
+
+    set_reg((BYTE)(post & 15), tmp1);
+    set_reg((BYTE)(post >> 4), tmp2);
 }
 
 static BYTE inc(BYTE arg)
@@ -1234,6 +1267,18 @@ static void tfr(void)
     CLK += 6;
 }
 
+static void tfr_new(void)
+{
+    WORD tmp1 = 0xff;
+    BYTE post = imm_byte();
+
+    if (((post ^ (post << 4)) & 0x80) == 0) {
+        tmp1 = get_reg ((BYTE)(post >> 4));
+    }
+
+    set_reg((BYTE)(post & 15), tmp1);
+}
+
 /* 16-Bit Accumulator Instructions */
 
 static void abx(void)
@@ -1280,6 +1325,14 @@ static void sex(void)
     Z = D;
     N = D >> 8;
     CLK += 2;
+}
+
+static void sex_new(void)
+{
+    D = (INT8)B;
+
+    Z = D;
+    N = D >> 8;
 }
 
 static void st16(WORD arg)
@@ -1711,15 +1764,43 @@ void opcode_trap(void)
     CLK += 20;
     //CLK++;        /* /VMA cycle */
     EFI |= E_FLAG;
+    MD &= MD_ILL;
     S -= 2;
-    write_stack16(S, PC & 0xffff);
+    write_stack16(S, PC);
     S -= 2;
     write_stack16(S, U);
     S -= 2;
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, DP >> 8);
+    write_stack(S--, (BYTE)(DP >> 8));
+    if (H6309_NATIVE_MODE()) {
+        write_stack(S--, F);
+        write_stack(S--, E);
+    }
+    write_stack(S--, B);
+    write_stack(S--, A);
+    write_stack(S, get_cc());
+    //CLK++;        /* /VMA cycle */
+
+    PC = read16(0xfff0);
+}
+
+void div0_trap(void)
+{
+    CLK += 20;
+    //CLK++;        /* /VMA cycle */
+    EFI |= E_FLAG;
+    MD &= MD_DBZ;
+    S -= 2;
+    write_stack16(S, PC);
+    S -= 2;
+    write_stack16(S, U);
+    S -= 2;
+    write_stack16(S, Y);
+    S -= 2;
+    write_stack16(S--, X);
+    write_stack(S--, (BYTE)(DP >> 8));
     if (H6309_NATIVE_MODE()) {
         write_stack(S--, F);
         write_stack(S--, E);
@@ -1738,6 +1819,7 @@ void cwai(void)
     sim_error("CWAI - not supported yet!");
 }
 
+/* FIXME: cycle count */
 void sync(void)
 {
     CLK += 4;
@@ -1750,6 +1832,13 @@ static void orcc(void)
 
     set_cc((BYTE)(get_cc() | tmp));
     CLK += 3;
+}
+
+static void orcc_new(void)
+{
+    BYTE tmp = imm_byte();
+
+    set_cc((BYTE)(get_cc() | tmp));
 }
 
 static void andcc(void)
@@ -1819,7 +1908,22 @@ static void long_bsr(void)
     ea = PC + tmp;
     S -= 2;
     write_stack16(S, PC);
+#ifdef H6309
+    if (H6309_NATIVE_MODE()) {
+        CLK += 7;
+    } else
+#endif
     CLK += 9;
+    PC = ea;
+}
+
+static void long_bsr_new(void)
+{
+    WORD tmp = imm_word();
+
+    ea = PC + tmp;
+    S -= 2;
+    write_stack16(S, PC);
     PC = ea;
 }
 
@@ -1836,20 +1940,21 @@ static void bsr(void)
 
 /* Undocumented 6809 specific code */
 #ifdef FULL6809
+
+/* FIXME: cycle count */
 void hcf(void)
 {
-    sim_error("CWAI - not supported yet!");
+    sim_error("HCF - not supported yet!");
 }
 
 void ccrs(void)
 {
     DWORD tmp_c = (OV != 0);
-    DWORD tmp_h = ((EFI & FLAGS_I) != 0);
+    DWORD tmp_h = ((EFI & I_FLAG) != 0);
 
     set_cc(0);
     C = tmp_c;
     H = tmp_h << 4;
-    /* TODO: cycle count */
 }
 
 void scc(BYTE arg)
@@ -1860,7 +1965,7 @@ void scc(BYTE arg)
 
 void st_imm(WORD arg)
 {
-    WRMEM(PC++, arg & 0xff);
+    WRMEM(PC++, (BYTE)(arg & 0xff));
     N = 0x80;
     Z = OV = 0;
     /* TODO: cycle count */
@@ -1879,7 +1984,7 @@ void swires(void)
     write_stack16(S, Y);
     S -= 2;
     write_stack16(S--, X);
-    write_stack(S--, DP >> 8);
+    write_stack(S--, (BYTE)(DP >> 8));
     write_stack(S--, B);
     write_stack(S--, A);
     write_stack(S, get_cc());
@@ -1895,6 +2000,8 @@ static BYTE tim(BYTE val)
 {
     OV = 0;
     N = Z = val;
+
+    return val;
 }
 
 static void pshsw(void)
@@ -1991,7 +2098,7 @@ static WORD asr16(WORD arg)
     N = res >> 8;
     CLK += 2;
 
-    return res;
+    return (WORD)res;
 }
 
 static WORD asl16(WORD arg)		/* same as lsl16 */
@@ -2004,7 +2111,7 @@ static WORD asl16(WORD arg)		/* same as lsl16 */
     OV = (arg ^ res) >> 8;
     /* TODO: cycle count */
 
-    return res;
+    return (WORD)res;
 }
 
 static WORD rol16(WORD arg)
@@ -2017,7 +2124,7 @@ static WORD rol16(WORD arg)
     OV = (arg ^ res) >> 8;
     /* TODO: cycle count */
 
-    return res;
+    return (WORD)res;
 }
 
 static WORD dec16(WORD arg)
@@ -2069,7 +2176,7 @@ static WORD sbc16(WORD arg, WORD val)
     N = res >> 8;
     OV = ((arg ^ val) & (arg ^ res)) >> 8;
 
-    return res;
+    return (WORD)res;
 }
 
 static WORD and16(WORD arg, WORD val)
@@ -2112,7 +2219,7 @@ static WORD adc16(WORD arg, WORD val)
     N = res >> 8;
     OV = H = (arg ^ val ^ res ^ C) >> 8;
 
-    return res;
+    return (WORD)res;
 }
 
 static WORD or16(WORD arg, WORD val)
@@ -2254,6 +2361,26 @@ static BYTE bior(BYTE rnr, BYTE arg)
     return tmp;
 }
 
+static BYTE bor(BYTE rnr, BYTE arg)
+{
+    BYTE rr = get_breg(rnr);
+    BYTE tmp = arg;
+    BYTE sbit = (rnr >> 3) & 7;
+    BYTE dbit = rnr & 7;
+    BYTE stmp = (rr & (1 << sbit)) ? 1 : 0;
+    BYTE dtmp = (tmp & (1 << dbit)) ? 1 : 0;
+    BYTE atmp = stmp | dtmp;
+
+    tmp = (tmp & ~(1 << dbit)) | (atmp << dbit);
+
+    OV = 0;
+    N = Z = tmp;
+
+    /* TODO: cycle count */
+
+    return tmp;
+}
+
 static void ldbt(BYTE rnr, BYTE arg)
 {
     BYTE rr = get_breg(rnr);
@@ -2339,7 +2466,7 @@ static void tfm_set_reg(BYTE rnr, WORD val)
     switch (rnr) {
         case 0x0:
             D = val;
-            break
+            break;
         case 0x1:
             X = val;
             break;
@@ -2351,13 +2478,13 @@ static void tfm_set_reg(BYTE rnr, WORD val)
             break;
         case 0x4:
             S = val;
-            break
+            break;
         case 0x8:
             A = (BYTE)val;
             break;
         case 0x9:
             B = (BYTE)val;
-            break
+            break;
         case 0xe:
             E = (BYTE)val;
             break;
@@ -2380,7 +2507,7 @@ static void tfmpp(BYTE rnr)
     if (r0_type && r1_type) {
         while (W) {
             val = RDMEM(r0++);
-            WRMEM(r1++);
+            WRMEM(r1++, val);
             if (r0_type == 1) {
                 r0 &= 0xff;
             }
@@ -2411,7 +2538,7 @@ static void tfmmm(BYTE rnr)
     if (r0_type && r1_type) {
         while (W) {
             val = RDMEM(r0--);
-            WRMEM(r1--);
+            WRMEM(r1--, val);
             if (r0_type == 1) {
                 r0 &= 0xff;
             }
@@ -2442,7 +2569,7 @@ static void tfmpc(BYTE rnr)
     if (r0_type && r1_type) {
         while (W) {
             val = RDMEM(r0--);
-            WRMEM(r1;
+            WRMEM(r1, val);
             if (r0_type == 1) {
                 r0 &= 0xff;
             }
@@ -2469,7 +2596,7 @@ static void tfmcp(BYTE rnr)
     if (r0_type && r1_type) {
         while (W) {
             val = RDMEM(r0);
-            WRMEM(r1--);
+            WRMEM(r1--, val);
             if (r1_type == 1) {
                 r1 &= 0xff;
             }
@@ -2498,9 +2625,9 @@ static void divd(BYTE m)
           Z = 0x80;
         }
         OV = 0;
-        if ((val > 127) || (v < -128)) {
+        if ((val > 127) || (val < -128)) {
             OV = 0x80;
-            if ((v > 255) || (v < -256)) {
+            if ((val > 255) || (val < -256)) {
                 N = (WORD)(bak) >> 8;
                 Z = bak;
                 D = abs(bak);
@@ -2537,7 +2664,7 @@ static void divq(WORD m)
             }
         }
     } else {
-        div_trap();
+        div0_trap();
     }
     /* TODO: cycle count */
 }
@@ -2550,12 +2677,31 @@ static void muld(WORD m)
     Z = D;
     /* TODO: cycle count */
 }
+
+static void sexw(void)
+{
+    W = (INT8)F;
+
+    Z = W;
+    N = W >> 8;
+}
+
+static DWORD ld32(DWORD arg)
+{
+    Z = arg;
+    N = arg >> 24;
+    OV = 0;
+
+    return arg;
+}
 #endif
 
 #ifdef H6309
 static BYTE base_6309_cycle_table[] = {
            /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
-    /* 0x00 */ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  2,  2,  3
+    /* 0x00 */ 3,  6,  6,  3,  3,  6,  3,  3,  3,  3,  3,  6,  3,  2,  2,  3,
+    /* 0x10 */ 0,  0,  1,  0,  4,  0,  4,  7,  0,  1,  2,  0,  3,  1,  5,  4,
+    /* 0x20 */ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3
 };
 
 static BYTE page10_6309_cycle_table[] = {
@@ -2570,7 +2716,9 @@ static BYTE page11_6309_cycle_table[] = {
 
 static BYTE base_6809_cycle_table[] = {
            /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
-    /* 0x00 */ 4,  3,  3,  4,  4,  3,  4,  4,  4,  4,  4,  3,  4,  4,  3,  4
+    /* 0x00 */ 4,  6,  6,  4,  4,  6,  4,  4,  4,  4,  4,  6,  4,  4,  3,  4,
+    /* 0x10 */ 0,  0,  2,  0,  4,  0,  5,  9,  0,  2,  3,  0,  3,  2,  8,  6,
+    /* 0x20 */ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3
 };
 
 static BYTE page10_6809_cycle_table[] = {
@@ -2585,7 +2733,9 @@ static BYTE page11_6809_cycle_table[] = {
 #else
 static BYTE base_6809_cycle_table[] = {
            /* 0x0 0x1 0x2 0x3 0x4 0x5 0x6 0x7 0x8 0x9 0xA 0xB 0xC 0xD 0xE 0xF */
-    /* 0x00 */ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  3,  4
+    /* 0x00 */ 4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  4,  3,  4,
+    /* 0x10 */ 0,  0,  2,  0,  0,  0,  5,  9,  3,  2,  3,  2,  3,  2,  8,  6,
+    /* 0x20 */ 3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3,  3
 };
 
 static BYTE page10_6809_cycle_table[] = {
@@ -2758,7 +2908,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 post_byte = imm_byte();
                 direct();
                 CLK_ADD(0x0005);
-                WRMEM(ea, eor(RDMEM(ea), pos_byte));
+                WRMEM(ea, eor(RDMEM(ea), post_byte));
                 break;
 #endif
             case 0x06:	/* ROR direct */
@@ -3005,7 +3155,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x30:	/* ADDR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, add(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), add16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3018,7 +3168,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x31:	/* ADCR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, adc(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), adc16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3031,7 +3181,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x32:	/* SUBR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, sub(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), sub16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3044,7 +3194,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x33:	/* SBCR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, sbc(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), sbc16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3056,7 +3206,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x34:	/* ANDR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, and(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), and16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3068,7 +3218,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x35:	/* ORR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, or(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), or16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3080,7 +3230,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x36:	/* EORR post */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, eor(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                set_reg((BYTE)(post_byte & 0x0f), eor16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f))));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -3092,7 +3242,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #ifdef H6309
                             case 0x37:	/* CMPR R,R */
                                 post_byte = imm_byte();
-                                set_reg(post_byte & 0x0f, cmp(get_reg(post_byte >> 4), get_reg(post_byte & 0x0f)));
+                                cmp16(get_reg((BYTE)(post_byte >> 4)), get_reg((BYTE)(post_byte & 0x0f)));
                                 /* TODO: cycle count */
                                 break;
 #endif
@@ -4791,7 +4941,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #endif
 #ifdef H6309
                             case 0x38:	/* TFM R+,R+ */
-                                tfmpp();
+                                tfmpp(imm_byte());
                                 break;
 #endif
 #ifdef FULL6809
@@ -4801,7 +4951,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #endif
 #ifdef H6309
                             case 0x39:	/* TFM R-,R- */
-                                tfmmm();
+                                tfmmm(imm_byte());
                                 break;
 #endif
 #ifdef FULL6809
@@ -4811,7 +4961,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #endif
 #ifdef H6309
                             case 0x3a:	/* TFM R+,R */
-                                tfmpc();
+                                tfmpc(imm_byte());
                                 break;
 #endif
 #ifdef FULL6809
@@ -4821,7 +4971,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #endif
 #ifdef H6309
                             case 0x3b:	/* TFM R,R+ */
-                                tfmcp();
+                                tfmcp(imm_byte());
                                 break;
 #endif
 #ifdef FULL6809
@@ -6182,7 +6332,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 }
                 break;
             case 0x12:	/* NOP */
-                nop();
+                CLK_ADD(0x0012);
                 break;
             case 0x13:	/* SYNC */
                 sync();
@@ -6194,6 +6344,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #endif
 #ifdef H6309
             case 0x14:	/* SEXW */
+                CLK_ADD(0x0014);
                 sexw();
                 break;
 #endif
@@ -6204,38 +6355,45 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
 #endif
             case 0x16:	/* LBRA */
                 long_bra();
-                CLK += 5;
+                CLK_ADD(0x0016);
                 break;
             case 0x17:	/* LBSR */
-                long_bsr();
+                long_bsr_new();
+                CLK_ADD(0x0017);
                 break;
 #ifdef FULL6809
             case 0x18:	/* CCRS (UNDOC) */
                 ccrs();
+                CLK_ADD(0x0018);
                 break;
 #endif
             case 0x19:	/* DAA */
-                daa();
+                daa_new();
+                CLK_ADD(0x0019);
                 break;
             case 0x1a:	/* ORCC immediate */
-                orcc();
+                orcc_new();
+                CLK_ADD(0x001a);
                 break;
 #ifdef FULL6809
             case 0x1b:	/* NOP (UNDOC) */
-                nop();
+                CLK_ADD(0x001b);
                 break;
 #endif
             case 0x1c:	/* ANDCC immediate */
                 andcc();
                 break;
             case 0x1d:	/* SEX */
-                sex();
+                sex_new();
+                CLK_ADD(0x001d);
                 break;
             case 0x1e:	/* EXG post */
-                exg();
+                exg_new();
+                CLK_ADD(0x001e);
                 break;
             case 0x1f:	/* TFR post */
-                tfr();
+                tfr_new();
+                CLK_ADD(0x001f);
                 break;
             case 0x20:	/* BRA */
                 bra();

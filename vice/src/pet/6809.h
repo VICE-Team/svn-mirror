@@ -36,6 +36,19 @@
 #include "alarm.h"
 #include "interrupt.h"
 
+/* Uncomment the following if you want emulation of the
+   6809 illegal/undocumented opcodes/behaviour. */
+/* #define FULL6809 */
+
+/* Uncomment the following if you want emulation of the
+   6309 CPU. */
+/* #define H6309 */
+
+/* Sanity check */
+#if defined(FULL6809) && defined(H6309)
+#error cannot use FULL6809 and H6309 at the same time.
+#endif
+
 typedef unsigned char UINT8;
 typedef signed char INT8;
 
@@ -68,6 +81,12 @@ typedef unsigned int absolute_address_t;
 #define read16(addr)       mem6809_read16((addr))
 #define write16(addr,val)  do { write8((addr)+1, (val) & 0xFF); write8((addr), ((val) >> 8) & 0xFF); } while (0)
 
+
+/* 32-bit versions */
+#ifdef H6309
+#define read32(addr)       mem6809_read32((addr))
+#define write32(addr,val)  do { write16((addr)+2, (val) & 0xFFFF); write16((addr), ((val) >> 16) & 0xFFFF); } while (0)
+#endif
 
 /* Fetch macros */
 

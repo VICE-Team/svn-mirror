@@ -31,6 +31,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "6809.h"
 #include "crtc-mem.h"
 #include "crtctypes.h"
 #include "log.h"
@@ -434,20 +435,46 @@ void mem6809_store16(WORD addr, WORD value)
 #if PRINT_6809_STORE0
     printf("mem6809_store16 %04x <- %04x\n", addr, value);
 #endif
-    _mem6809_write_tab_ptr[addr >> 8](addr+1, value & 0xFF);
-    _mem6809_write_tab_ptr[addr >> 8](addr  , value >> 8);
+    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 1), (BYTE)(value & 0xFF));
+    _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)(value >> 8));
 }
 
 WORD mem6809_read16(WORD addr)
 {
     WORD val;
-    val  = _mem6809_read_tab_ptr[addr >> 8](addr)   << 8;
-    val |= _mem6809_read_tab_ptr[addr >> 8](addr+1);
+    val  = _mem6809_read_tab_ptr[addr >> 8](addr) << 8;
+    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 1));
 #if PRINT_6809_READ
     printf("mem6809_read16 %04x -> %04x\n", addr, val);
 #endif
     return val;
 }
+
+#ifdef H6309
+void mem6809_store32(WORD addr, DWORD value)
+{
+#if PRINT_6809_STORE0
+    printf("mem6809_store32 %04x <- %04x\n", addr, value);
+#endif
+    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 3), (BYTE)(value & 0xFF));
+    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 2), (BYTE)((value >> 8) & 0xFF));
+    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 1), (BYTE)((value >> 16) & 0xFF));
+    _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)(value >> 24));
+}
+
+DWORD mem6809_read32(WORD addr)
+{
+    DWORD val;
+    val = _mem6809_read_tab_ptr[addr >> 8](addr) << 24;
+    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 1)) << 16;
+    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 2)) << 8;
+    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 3));
+#if PRINT_6809_READ
+    printf("mem6809_read32 %04x -> %04x\n", addr, val);
+#endif
+    return val;
+}
+#endif
 
 /* ------------------------------------------------------------------------- */
 

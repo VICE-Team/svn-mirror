@@ -85,6 +85,9 @@ extern read_func_t mem6809_read;
 extern store_func_t mem6809_store;
 extern void mem6809_store16(WORD addr, WORD value);
 extern WORD mem6809_read16(WORD addr);
-
+#ifdef H6309
+extern void mem6809_store32(WORD addr, DWORD value);
+extern DWORD mem6809_read32(WORD addr);
 #endif
 
+#endif
