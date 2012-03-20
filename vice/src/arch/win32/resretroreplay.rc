@@ -64,10 +64,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "RR Flashjumper aktivieren"
+  IDS_RR_BANK_JUMPER    "RR Bankjumper aktivieren"
   IDS_RR_REVISION_LABEL "Revision"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "RR Imagedatei bei Änderung speichern"
 END
 
 
@@ -76,10 +76,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "Permitir RR flahsjumper"
+  IDS_RR_BANK_JUMPER    "Permitir commutación de bancos RR"
   IDS_RR_REVISION_LABEL "Revisión"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "Grabar Flash RR cuando cambie"
 END
 
 
@@ -118,10 +118,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "Attiva ponticello flash della RR"
+  IDS_RR_BANK_JUMPER    "Attiva ponticello bank della RR"
   IDS_RR_REVISION_LABEL "Revisione"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "Salva la flash della RR al cambio"
 END
 
 

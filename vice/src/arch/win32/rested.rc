@@ -51,8 +51,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_CAPTION       "TED-indstillinger"
+    IDS_TED_BORDERSGROUP  "Ramme-tilstand"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
@@ -65,12 +65,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_CAPTION       "TED Einstellungen"
+    IDS_TED_BORDERSGROUP  "Rahmen Modus"
+    IDS_TED_NORMALBORDERS "Normaler Rahmen"
+    IDS_TED_FULLBORDERS   "Voller Rahmen"
+    IDS_TED_DEBUGBORDERS  "Rahmen debuggen"
+    IDS_TED_NOBORDERS     "Kein Rahmen"
 END
 
 
@@ -79,12 +79,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_CAPTION       "Ajustes TED"
+    IDS_TED_BORDERSGROUP  "Modo del borde"
+    IDS_TED_NORMALBORDERS "Bordes normales"
+    IDS_TED_FULLBORDERS   "Bordes completos"
+    IDS_TED_DEBUGBORDERS  "Bordes de prueba"
+    IDS_TED_NOBORDERS     "Sin bordes"
 END
 
 
@@ -93,7 +93,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_CAPTION       "Paramètres TED"
     IDS_TED_BORDERSGROUP  "Border mode"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
@@ -110,8 +110,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_CAPTION       "TED beállításai"
+    IDS_TED_BORDERSGROUP  "Keret mód"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
@@ -127,12 +127,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_CAPTION       "Impostazioni TED"
+    IDS_TED_BORDERSGROUP  "Modalità del bordo"
+    IDS_TED_NORMALBORDERS "Bordi normali"
+    IDS_TED_FULLBORDERS   "Bordi pieni"
+    IDS_TED_DEBUGBORDERS  "Bordi in debug"
+    IDS_TED_NOBORDERS     "Senza bordi"
 END
 
 
@@ -144,8 +144,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_CAPTION       "TED ¼ÂÆÃ"
+    IDS_TED_BORDERSGROUP  "º¸´õ ¸ðµå"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
@@ -161,12 +161,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
+    IDS_TED_CAPTION       "TED instellingen"
+    IDS_TED_BORDERSGROUP  "Bordermodus"
+    IDS_TED_NORMALBORDERS "Normale borders"
+    IDS_TED_FULLBORDERS   "Volle borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_NOBORDERS     "Geen borders"
 END
 
 
@@ -178,12 +178,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_CAPTION       "Ustawienia TED"
+    IDS_TED_BORDERSGROUP  "Tryb ramki"
+    IDS_TED_NORMALBORDERS "Zwyk³a ramka"
+    IDS_TED_FULLBORDERS   "Pe³na ramka"
+    IDS_TED_DEBUGBORDERS  "Ramka debugowania"
+    IDS_TED_NOBORDERS     "Bez ramki"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -198,7 +198,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
+    IDS_TED_CAPTION       "½ÐáâàÞÙÚØ TED"
     IDS_TED_BORDERSGROUP  "Border mode"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
@@ -215,8 +215,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_CAPTION       "TED-inställningar"
+    IDS_TED_BORDERSGROUP  "Ramläge"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
@@ -232,8 +232,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TED_CAPTION       "TED settings"
-    IDS_TED_BORDERSGROUP  "Border mode"
+    IDS_TED_CAPTION       "TED ayarlarý"
+    IDS_TED_BORDERSGROUP  "Çerçeve modu"
     IDS_TED_NORMALBORDERS "Normal borders"
     IDS_TED_FULLBORDERS   "Full borders"
     IDS_TED_DEBUGBORDERS  "Debug borders"
@@ -242,3 +242,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

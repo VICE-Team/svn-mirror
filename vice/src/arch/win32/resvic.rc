@@ -51,8 +51,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
+    IDS_VIC_CAPTION       "VIC-indstillinger"
+    IDS_VIC_BORDERSGROUP  "Ramme-tilstand"
     IDS_VIC_NORMALBORDERS "Normal borders"
     IDS_VIC_FULLBORDERS   "Full borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
@@ -65,12 +65,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_CAPTION       "VIC Einstellungen"
+    IDS_VIC_BORDERSGROUP  "Rahmen Modus"
+    IDS_VIC_NORMALBORDERS "Normaler Rahmen"
+    IDS_VIC_FULLBORDERS   "Voller Rahmen"
+    IDS_VIC_DEBUGBORDERS  "Rahmen debuggen"
+    IDS_VIC_NOBORDERS     "Kein Rahmen"
 END
 
 
@@ -79,12 +79,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_CAPTION       "Ajustes VIC"
+    IDS_VIC_BORDERSGROUP  "Modo del borde"
+    IDS_VIC_NORMALBORDERS "Bordes normales"
+    IDS_VIC_FULLBORDERS   "Bordes completos"
+    IDS_VIC_DEBUGBORDERS  "Bordes de prueba"
+    IDS_VIC_NOBORDERS     "Sin bordes"
 END
 
 
@@ -93,7 +93,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
+    IDS_VIC_CAPTION       "Paramètres VIC"
     IDS_VIC_BORDERSGROUP  "Border mode"
     IDS_VIC_NORMALBORDERS "Normal borders"
     IDS_VIC_FULLBORDERS   "Full borders"
@@ -110,8 +110,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
+    IDS_VIC_CAPTION       "VIC beállításai"
+    IDS_VIC_BORDERSGROUP  "Keret mód"
     IDS_VIC_NORMALBORDERS "Normal borders"
     IDS_VIC_FULLBORDERS   "Full borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
@@ -127,12 +127,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_CAPTION       "Impostazioni VIC"
+    IDS_VIC_BORDERSGROUP  "Modalità del bordo"
+    IDS_VIC_NORMALBORDERS "Bordi normali"
+    IDS_VIC_FULLBORDERS   "Bordi pieni"
+    IDS_VIC_DEBUGBORDERS  "Bordi in debug"
+    IDS_VIC_NOBORDERS     "Senza bordi"
 END
 
 
@@ -144,8 +144,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
+    IDS_VIC_CAPTION       "VIC ¼ÂÆÃ"
+    IDS_VIC_BORDERSGROUP  "º¸´õ ¸ðµå"
     IDS_VIC_NORMALBORDERS "Normal borders"
     IDS_VIC_FULLBORDERS   "Full borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
@@ -161,12 +161,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
+    IDS_VIC_CAPTION       "VIC instellingen"
+    IDS_VIC_BORDERSGROUP  "Bordermodus"
+    IDS_VIC_NORMALBORDERS "Normale borders"
+    IDS_VIC_FULLBORDERS   "Volle borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_NOBORDERS     "Geen borders"
 END
 
 
@@ -178,12 +178,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_CAPTION       "Ustawienia VIC"
+    IDS_VIC_BORDERSGROUP  "Tryb ramki"
+    IDS_VIC_NORMALBORDERS "Zwyk³a ramka"
+    IDS_VIC_FULLBORDERS   "Pe³na ramka"
+    IDS_VIC_DEBUGBORDERS  "Ramka debugowania"
+    IDS_VIC_NOBORDERS     "Bez ramki"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -215,8 +215,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
+    IDS_VIC_CAPTION       "VIC-inställningar"
+    IDS_VIC_BORDERSGROUP  "Ramläge"
     IDS_VIC_NORMALBORDERS "Normal borders"
     IDS_VIC_FULLBORDERS   "Full borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
@@ -232,8 +232,8 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC_CAPTION       "VIC settings"
-    IDS_VIC_BORDERSGROUP  "Border mode"
+    IDS_VIC_CAPTION       "VIC ayarlarý"
+    IDS_VIC_BORDERSGROUP  "Çerçeve modu"
     IDS_VIC_NORMALBORDERS "Normal borders"
     IDS_VIC_FULLBORDERS   "Full borders"
     IDS_VIC_DEBUGBORDERS  "Debug borders"
@@ -242,3 +242,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

@@ -30,6 +30,7 @@ intl_translate_t intl_string_table[] = {
 
 
 
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },

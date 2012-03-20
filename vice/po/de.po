@@ -1,11 +1,11 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-03-19 16:16-0700\n"
+"POT-Creation-Date: 2012-03-20 10:42-0700\n"
 "PO-Revision-Date: 2012-03-16 18:45+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"

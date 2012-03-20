@@ -726,14 +726,14 @@ BEGIN
   IDS_6567R56A_OLD_NTSC         "6567R56A (alt NTSC)"
   IDS_6572_PAL_N                "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION         "C64 Modell Einstellungen"
-  IDS_C64BURSTMOD_CAPTION       "C64 drive burst modification settings"
-  IDS_C64BURSTMOD_ENABLE        "Enable the C64 drive burst modification"
-  IDS_C64BURSTMOD_CIA           "C64 drive burst modification CIA"
+  IDS_C64BURSTMOD_CAPTION       "C64 Laufwerk Burstmodifkation Einstellungen"
+  IDS_C64BURSTMOD_ENABLE        "C64 Laufwerk Burstmodifikation aktivieren"
+  IDS_C64BURSTMOD_CIA           "C64 Laufwerk Burstmodifikation CIA"
   IDS_MI_NETWORK_SETTINGS       "Netplay (experimentell)..."
   IDS_MI_PLUS60K_SETTINGS       "PLUS60K Einstellungen..."
   IDS_MI_PLUS256K_SETTINGS      "PLUS256K Einstellungen..."
   IDS_MI_C64_256K_SETTINGS      "256K Einstellungen..."
-  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "C64 Laufwerk Burstmodifkation Einstellungen..."
 END
 
 
@@ -761,14 +761,14 @@ BEGIN
   IDS_6567R56A_OLD_NTSC         "6567R56A (NTSC antiguo)"
   IDS_6572_PAL_N                "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION         "Ajustes modelo C64"
-  IDS_C64BURSTMOD_CAPTION       "C64 drive burst modification settings"
-  IDS_C64BURSTMOD_ENABLE        "Enable the C64 drive burst modification"
-  IDS_C64BURSTMOD_CIA           "C64 drive burst modification CIA"
+  IDS_C64BURSTMOD_CAPTION       "Ajuste modificación Burst en controlador C64"
+  IDS_C64BURSTMOD_ENABLE        "Habilitar modificación Burst en Controlador C64"
+  IDS_C64BURSTMOD_CIA           "Modificación Burst en CIA de controlador C64"
   IDS_MI_NETWORK_SETTINGS       "Juego en red (experimental)..."
   IDS_MI_PLUS60K_SETTINGS       "Ajustes PLUS60K..."
   IDS_MI_PLUS256K_SETTINGS      "Ajustes PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Ajustes 256K..."
-  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "Ajuste modificación Burst en controlador C64..."
 END
 
 
@@ -872,14 +872,14 @@ BEGIN
   IDS_6567R56A_OLD_NTSC         "6567R56A (NTSC vecchio)"
   IDS_6572_PAL_N                "6572 (PAL-N)"
   IDS_C64_MODEL_CAPTION         "Impostazioni modello C64"
-  IDS_C64BURSTMOD_CAPTION       "C64 drive burst modification settings"
-  IDS_C64BURSTMOD_ENABLE        "Enable the C64 drive burst modification"
-  IDS_C64BURSTMOD_CIA           "C64 drive burst modification CIA"
+  IDS_C64BURSTMOD_CAPTION       "Impostazioni modifica burst del drive C64"
+  IDS_C64BURSTMOD_ENABLE        "Attiva modifica burst del drive C64"
+  IDS_C64BURSTMOD_CIA           "Modifica CIA burst del drive C64 "
   IDS_MI_NETWORK_SETTINGS       "Netplay (sperimentale)..."
   IDS_MI_PLUS60K_SETTINGS       "Impostazioni PLUS256K..."
   IDS_MI_PLUS256K_SETTINGS      "Impostazioni PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Impostazioni 256K..."
-  IDS_MI_C64BURSTMOD_SETTINGS   "C64 drive burst modification settings..."
+  IDS_MI_C64BURSTMOD_SETTINGS   "Impostazioni modifica burst del drive C64..."
 END
 
 

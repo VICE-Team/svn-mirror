@@ -612,7 +612,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC-indstillinger"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Ingen hukommelsesudviddelse"
     IDS_VIC_3KEXPANSION                  "3K (block 0)"
     IDS_VIC_8KEXPANSION                  "8K (block 1)"
@@ -660,7 +660,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander-indstillinger (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC-indstillinger..."
 END
 
 
@@ -669,7 +669,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC Einstellungen"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Keine Speichererweiterung"
     IDS_VIC_3KEXPANSION                  "3K (Block 0)"
     IDS_VIC_8KEXPANSION                  "8K (Block 1)"
@@ -717,7 +717,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander Einstellungen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler Einstellungen (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC Einstellungen..."
 END
 
 
@@ -726,7 +726,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "Ajustes VIC"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Sin expansión de memoria"
     IDS_VIC_3KEXPANSION                  "3K (bloque 0)"
     IDS_VIC_8KEXPANSION                  "8K (bloque 1)"
@@ -774,7 +774,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Ajustes SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Ajustes SFX Sound Sampler (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "Ajustes VIC..."
 END
 
 
@@ -783,7 +783,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "Paramètres VIC"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Aucune expansion de mémoire"
     IDS_VIC_3KEXPANSION                  "3Ko (block 0)"
     IDS_VIC_8KEXPANSION                  "8Ko (block 1)"
@@ -831,7 +831,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "Paramètres VIC..."
 END
 
 
@@ -843,7 +843,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC beállításai"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Nincs memória bõvítés"
     IDS_VIC_3KEXPANSION                  "3K (blokk 0)"
     IDS_VIC_8KEXPANSION                  "8K (blokk 1)"
@@ -891,7 +891,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander settings (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC beállításai..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -903,7 +903,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "Impostazioni VIC"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Nessuna espansione di memoria"
     IDS_VIC_3KEXPANSION                  "3K (blocco 0)"
     IDS_VIC_8KEXPANSION                  "8K (blocco 1)"
@@ -951,7 +951,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Impostazioni SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Impostazioni SFX Sound Sampler (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "Impostazioni VIC..."
 END
 
 
@@ -963,7 +963,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC ¼ÂÆÃ"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "È®Àå ¸Þ¸ð¸® ¾øÀ½"
     IDS_VIC_3KEXPANSION                  "3k (block 0)"
     IDS_VIC_8KEXPANSION                  "8k (block 1)"
@@ -1011,7 +1011,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander ¼³Á¤ (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler settings (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC ¼ÂÆÃ..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1023,7 +1023,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC instellingen"
+    IDS_VIC20_CAPTION                    "VIC20 instellingen"
     IDS_VIC_NOEXPANSION                  "Geen geheugenuitbreiding"
     IDS_VIC_3KEXPANSION                  "3K (blok 0)"
     IDS_VIC_8KEXPANSION                  "8K (blok 1)"
@@ -1058,7 +1058,7 @@ BEGIN
     IDS_MI_CART_VIC20_8KB_6000           "4/8/16KB bestand in $6000..."
     IDS_MI_CART_VIC20_8KB_A000           "4/8KB bestand in $A000..."
     IDS_MI_CART_VIC20_4KB_B000           "4KB bestand in $B000..."
-    IDS_MI_VIC20_SETTINGS                "VIC20 settings..."
+    IDS_MI_VIC20_SETTINGS                "VIC20 instellingen..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK     "Activeer terug schrijven naar ROM bestand voor Final Expansion"
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK    "Activeer terug schrijven naar ROM bestand voor Vic Flash Plugin"
     IDS_MI_MEGACART_WRITEBACK            "Activeer Mega-Cart NvRAM terug schrijven"
@@ -1071,7 +1071,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander instellingen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler instellingen (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC instellingen..."
 END
 
 
@@ -1083,7 +1083,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "Ustawienia VIC"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Bez rozszerzenia pamiêci"
     IDS_VIC_3KEXPANSION                  "3K (blok 0)"
     IDS_VIC_8KEXPANSION                  "8K (blok 1)"
@@ -1131,7 +1131,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Ustawienia SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Ustawienia samplera d¼wiêku SFX (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "Ustawienia VIC..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1146,7 +1146,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC settings"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "No expansion memory"
     IDS_VIC_3KEXPANSION                  "3K (block 0)"
     IDS_VIC_8KEXPANSION                  "8K (block 1)"
@@ -1206,7 +1206,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC-inställningar"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Ingen minnesutökning"
     IDS_VIC_3KEXPANSION                  "3K (block 0)"
     IDS_VIC_8KEXPANSION                  "8K (block 1)"
@@ -1254,7 +1254,7 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "Inställningar för SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "Inställningar för SFX Sound Sampler (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC-inställningar..."
 END
 
 
@@ -1266,7 +1266,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC ayarlarý"
+    IDS_VIC20_CAPTION                    "VIC20 settings"
     IDS_VIC_NOEXPANSION                  "Geniþletiþmiþ bellek yok"
     IDS_VIC_3KEXPANSION                  "3K (blok 0)"
     IDS_VIC_8KEXPANSION                  "8K (blok 1)"
@@ -1314,8 +1314,10 @@ BEGIN
 #endif
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE    "SFX Sound Expander Ayarlarý (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE    "SFX Sound Sampler ayarlarý (MasC=uerade)..."
-    IDS_MI_VIC_SETTINGS                  "VIC settings..."
+    IDS_MI_VIC_SETTINGS                  "VIC ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+
