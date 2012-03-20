@@ -432,9 +432,9 @@ endif
 if HAVE_TRANSLATION
 BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
 
-translate_table.h:	$(srcdir)/translate.txt gentranslatetable.sh
+translate_table.h:	$(srcdir)/translate.txt $(srcdir)/gentranslatetable.sh
 	echo "generating translate_table.h..."
-	$(SHELL) gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
+	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
 endif
