@@ -129,19 +129,21 @@ int drive_check_type(unsigned int drive_type, unsigned int dnr)
         return 0;
 
     if (drive_check_dual(drive_type)) {
-        if (dnr > 0) {
-            /* A second dual drive is not supported.  */
+        if (is_drive1(dnr)) {
+            /* Dual drives only supported on even device numbers.  */
             return 0;
         } else {
-            if (drive_context[1]->drive->type != DRIVE_TYPE_NONE)
-                /* Disable dual drive if second drive is enabled.  */
+            if (drive_context[mk_drive1(dnr)]->drive->type != DRIVE_TYPE_NONE)
+                /* Disable dual drive if second device is enabled.  */
                 return 0;
         }
+    } else {
+        if (is_drive1(dnr)) {
+            if (drive_check_dual(drive_context[mk_drive0(dnr)]->drive->type))
+                /* Disable second device if dual drive is enabled.  */
+                return drive_type == DRIVE_TYPE_NONE;
+        }
     }
-
-    /* If the first drive is dual no second drive is supported at all.  */
-    if (drive_check_dual(drive_context[0]->drive->type) && dnr > 0)
-        return 0;
 
     if (machine_drive_rom_check_loaded(drive_type) < 0)
         return 0;

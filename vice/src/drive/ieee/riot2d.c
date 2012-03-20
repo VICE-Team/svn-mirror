@@ -172,8 +172,8 @@ static void undump_prb(riot_context_t *riot_context, BYTE byte)
     /* 1001 only needs LED 0 and Error LED */
     riot2p->drive->led_status = (byte >> 4) & 0x03;
 
-    if ((riot2p->number == 0) && (drive_check_dual(riot2p->drive->type))) {
-        drive_context[1]->drive->led_status
+    if ((is_drive0(riot2p->number)) && (drive_check_dual(riot2p->drive->type))) {
+        drive_context[mk_drive1(riot2p->number)]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 
@@ -196,8 +196,8 @@ static void store_prb(riot_context_t *riot_context, BYTE byte)
     /* 1001 only needs LED 0 and Error LED */
     riot2p->drive->led_status = (byte >> 4) & 0x03;
 
-    if ((riot2p->number == 0) && (drive_check_dual(riot2p->drive->type))) {
-        drive_context[1]->drive->led_status
+    if ((is_drive0(riot2p->number)) && (drive_check_dual(riot2p->drive->type))) {
+        drive_context[mk_drive1(riot2p->number)]->drive->led_status
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 }

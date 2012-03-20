@@ -77,20 +77,28 @@ static fdc_t fdc[NUM_FDC];
 
 void fdc_reset(unsigned int fnum, unsigned int drive_type)
 {
+    int drive1 = mk_drive1(fnum);
+    disk_image_t *saved_image0,
+                 *saved_image1;
 #ifdef FDC_DEBUG
     log_message(fdc_log, "fdc_reset: drive %d type=%d\n",fnum, drive_type);
 #endif
+
+    saved_image0 = fdc[fnum].realimage;
+    saved_image1 = NULL;
 
     /* detach disk images */
     if (fdc[fnum].image) {
         fdc[fnum].wps_change = 0;
         fdc_detach_image(fdc[fnum].image, fnum + 8);
     }
-    if (fnum == 0
-        && drive_check_dual(fdc[fnum].drive_type)
-        && fdc[1].image) {
-        fdc[1].wps_change = 0;
-        fdc_detach_image(fdc[1].image, 9);
+    if (is_drive0(fnum)
+        && drive_check_dual(fdc[fnum].drive_type)) {
+        saved_image1 = fdc[drive1].realimage;
+        if (fdc[drive1].image) {
+            fdc[drive1].wps_change = 0;
+            fdc_detach_image(fdc[drive1].image, drive1 + 8);
+        }
     }
 
     if (drive_check_old(drive_type)) {
@@ -104,13 +112,11 @@ void fdc_reset(unsigned int fnum, unsigned int drive_type)
     }
 
     /* re-attach disk images */
-    if (fdc[fnum].realimage) {
-        fdc_attach_image(fdc[fnum].realimage, fnum + 8);
+    if (saved_image0) {
+        fdc_attach_image(saved_image0, fnum + 8);
     }
-    if (fnum == 0
-        && drive_check_dual(drive_type)
-        && fdc[1].realimage) {
-        fdc_attach_image(fdc[1].realimage, 9);
+    if (saved_image1) {
+        fdc_attach_image(saved_image1, drive1 + 8);
     }
 }
 
@@ -334,13 +340,15 @@ static BYTE fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
 /*****************************************************************************
  * execute an FDC job sent by the main CPU
  */
+#ifdef FDC_DEBUG
+static BYTE fdc_do_job_(unsigned int fnum, int buf,
+                        unsigned int drv, BYTE job, BYTE *header);
+#endif
 
 static BYTE fdc_do_job(unsigned int fnum, int buf,
                        unsigned int drv, BYTE job, BYTE *header)
 {
 #ifdef FDC_DEBUG
-static BYTE fdc_do_job_(unsigned int fnum, int buf,
-                        unsigned int drv, BYTE job, BYTE *header);
     BYTE retval = fdc_do_job_(fnum, buf, drv, job, header);
     const char *jobs[] =
         { "Read", "Write", "Verify", "Seek", "Bump", "Jump",
@@ -377,7 +385,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
     /* determine drive/disk image to use */
     if (drive_check_dual(fdc[fnum].drive_type)) {
         /* dual disk drive */
-        dnr = drv;
+        dnr = fnum + drv;
     } else {
         /* single disk drive */
         if (drv) {
@@ -646,10 +654,10 @@ static void int_fdc(CLOCK offset, void *data)
                         fnum + 8, fnum);
 #endif
         }
-        if (fnum == 0 && drive_check_dual(fdc[0].drive_type)) {
-            if (fdc[1].wps_change) {
-                fdc[0].buffer[0xA6 + 1] = 1;
-                fdc[1].wps_change--;
+        if (is_drive0(fnum) && drive_check_dual(fdc[fnum].drive_type)) {
+            if (fdc[mk_drive1(fnum)].wps_change) {
+                fdc[fnum].buffer[0xA6 + 1] = 1;
+                fdc[mk_drive1(fnum)].wps_change--;
 #ifdef FDC_DEBUG
                 log_message(fdc_log, "Detect Unit %d Drive 1 wps change",
                             fnum + 8);
@@ -758,20 +766,25 @@ int fdc_attach_image(disk_image_t *image, unsigned int unit)
     if (unit < 8 || unit >= 8 + DRIVE_NUM)
         return -1;
 
-    if (drive_check_dual(fdc[0].drive_type)) {
-        drive_no = 0;
-    } else {
-        drive_no = unit - 8;
+    {
+        int drive0 = mk_drive0(unit - 8);
+        if (drive_check_dual(fdc[drive0].drive_type)) {
+            drive_no = drive0;
+        } else {
+            drive_no = unit - 8;
+        }
     }
 
     imgno = unit - 8;
 
     /* FIXME: hack - we need to save the image to be able to re-attach
-       when the disk drive type changes */
+       when the disk drive type changes, in particular from the initial
+       DRIVE_TYPE_NONE to a proper drive. */
     fdc[imgno].realimage = image;
 
-    if (fdc[drive_no].drive_type == DRIVE_TYPE_NONE)
+    if (fdc[drive_no].drive_type == DRIVE_TYPE_NONE) {
         return -1;
+    }
 
     if (fdc[drive_no].drive_type == DRIVE_TYPE_8050
         || fdc[drive_no].drive_type == DRIVE_TYPE_8250
@@ -822,10 +835,13 @@ int fdc_detach_image(disk_image_t *image, unsigned int unit)
     if (image == NULL || unit < 8 || unit >= (8+DRIVE_NUM))
         return -1;
 
-    if (drive_check_dual(fdc[0].drive_type)) {
-        drive_no = 0;
-    } else {
-        drive_no = unit - 8;
+    {
+        int drive0 = mk_drive0(unit - 8);
+        if (drive_check_dual(fdc[drive0].drive_type)) {
+            drive_no = drive0;
+        } else {
+            drive_no = unit - 8;
+        }
     }
 
     imgno = unit - 8;

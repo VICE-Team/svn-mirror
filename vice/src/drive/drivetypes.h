@@ -137,6 +137,14 @@ typedef struct drivefunc_context_s {
 extern drivefunc_context_t drive_funcs[DRIVE_NUM];
 
 /*
+ * Helper macros for dual disk drives.
+ */
+#define is_drive0(d)    (!is_drive1(d))
+#define is_drive1(d)    ((d) &  1)
+#define mk_drive0(d)    ((d) & ~1)
+#define mk_drive1(d)    ((d) |  1)
+
+/*
  * The context for an entire drive.
  */
 

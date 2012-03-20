@@ -124,24 +124,22 @@ static int drive_resources_type(int val, void *param)
             type = DRIVE_TYPE_NONE;
     }
 
-    if (dnr == 0) {
+    if (is_drive0(dnr)) {
         if (drive_check_dual(type)) {
-            int d;
+            int drive1 = mk_drive1(dnr);
 
             /* dual disk drives disable second emulated unit */
             log_warning(drive->log,
-                    "Dual disk drive disables other emulated drives");
+                    "Dual disk drive %d disables emulated drive %d", dnr, drive1);
 
-            for (d = 1; d < DRIVE_NUM; d++) {
-                drive_resources_type(DRIVE_TYPE_NONE, int_to_void_ptr(d));
-            }
+            drive_resources_type(DRIVE_TYPE_NONE, int_to_void_ptr(drive1));
         }
     } else {
-        drive0 = drive_context[0]->drive;
+        drive0 = drive_context[mk_drive0(dnr)]->drive;
         if (drive0->enable && drive_check_dual(drive0->type)) {
             /* dual disk drives disable second emulated unit */
             log_warning(drive->log,
-                    "Dual disk drive disables other emulated drives");
+                    "Dual disk drive %d disables emulated drive %d", mk_drive0(dnr), dnr);
 
             type = DRIVE_TYPE_NONE;
         }
