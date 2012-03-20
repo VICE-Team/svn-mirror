@@ -786,7 +786,7 @@ static void tick_destroy(Widget w, XtPointer client_data, XtPointer call_data)
      * the end of the list, certainly after the first destroy/create
      * iteration.
      */
-    while (index > 0) {
+    while (index >= 0) {
         if (checkmark_menu_items[index] == w) {
             if (index == num_checkmark_menu_items - 1) {
                 /* The last item in the list: just forget it. */
