@@ -1811,8 +1811,9 @@ void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, 
     /* FIXME: Fixed length.  */
     char str[256];
     double track_number = (double)half_track_number / 2.0;
+    int d = drive_base ? (drive_base + drive_number) : (drive_number & 1);
 
-    sprintf(str, _("%d: Track %.1f"), drive_number + drive_base, (double)track_number);
+    sprintf(str, _("%d: Track %.1f"), d, (double)track_number);
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
         Widget w;
@@ -1842,20 +1843,23 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive_number];
         Widget w;
+        Pixel on_pixel;
 
         if (n < 0) {
             return;             /* bad mapping */
         }
 
-        pixel = status ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+        on_pixel = drive_active_led[drive_number] ? drive_led_on_green_pixel
+                                                  : drive_led_on_red_pixel;
+        pixel = status ? on_pixel : drive_led_off_pixel;
         w = app_shells[i].drive_widgets[n].driveled;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
-        pixel = (status & 1) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+        pixel = (status & 1) ? on_pixel : drive_led_off_pixel;
         w = app_shells[i].drive_widgets[n].driveled1;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
-        pixel = (status & 2) ? (drive_active_led[drive_number] ? drive_led_on_green_pixel : drive_led_on_red_pixel) : drive_led_off_pixel;
+        pixel = (status & 2) ? on_pixel : drive_led_off_pixel;
         w = app_shells[i].drive_widgets[n].driveled2;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
