@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-20 16:45-0700\n"
-"PO-Revision-Date: 2012-01-16 21:47+0100\n"
+"PO-Revision-Date: 2012-03-21 22:53+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -818,7 +818,6 @@ msgstr "80 kolumner"
 
 #: src/arch/unix/gui/petui.c:225 src/arch/unix/gui/petui.c:362
 #: src/arch/win32/respet.rc.po.c:557
-#, fuzzy
 msgid "PET model"
 msgstr "PET-modell"
 
@@ -912,24 +911,20 @@ msgid "Unload $B*** ROM"
 msgstr "Läs ur $B***-ROM"
 
 #: src/arch/unix/gui/petui.c:346
-#, fuzzy
 msgid "Load new $C*** ROM"
-msgstr "Läs ny $9***-ROM"
+msgstr "Läs ny $C***-ROM"
 
 #: src/arch/unix/gui/petui.c:349
-#, fuzzy
 msgid "Load new $D*** ROM"
-msgstr "Läs ny $9***-ROM"
+msgstr "Läs ny $D***-ROM"
 
 #: src/arch/unix/gui/petui.c:352
-#, fuzzy
 msgid "Load new $E*** ROM"
-msgstr "Läs ny $9***-ROM"
+msgstr "Läs ny $E***-ROM"
 
 #: src/arch/unix/gui/petui.c:355
-#, fuzzy
 msgid "Load new $F*** ROM"
-msgstr "Läs ny $9***-ROM"
+msgstr "Läs ny $F***-ROM"
 
 #: src/arch/unix/gui/petui.c:365 src/arch/amigaos/intl_text.c.po.c:8929
 msgid "Video size"
@@ -953,13 +948,12 @@ msgid "SuperPET ACIA"
 msgstr "SuperPET-ACIA"
 
 #: src/arch/unix/gui/petui.c:378
-#, fuzzy
 msgid "SuperPET CPU Switch"
-msgstr "SuperPET-ACIA"
+msgstr "Växla SuperPET-CPU"
 
 #: src/arch/unix/gui/petui.c:380
 msgid "SuperPET 6809 ROMs"
-msgstr ""
+msgstr "SuperPET-6809-ROMar"
 
 #: src/arch/unix/gui/petui.c:383
 msgid "$9*** as RAM (8296 only)"
@@ -1047,7 +1041,7 @@ msgstr "Ogiltig diskettavbildningsfil"
 
 #: src/arch/unix/gui/uiattach.c:106
 msgid "Invalid Disk Image or Filename"
-msgstr "Ogiltig diskettavbildingsfil eller filnamn"
+msgstr "Ogiltig diskettavbildningsfil eller filnamn"
 
 #: src/arch/unix/gui/uiattach.c:121 src/arch/unix/gui/uiattach.c:158
 #: src/arch/unix/gui/uiattach.c:178 src/arch/unix/gui/uicommands.c:456
@@ -1249,12 +1243,12 @@ msgstr "Smartanslut CRT-avbildning"
 #: src/arch/unix/gui/uic64cart.c:106 src/arch/win32/res.rc.po.c:1055
 #: src/arch/amigaos/intl_text.c.po.c:4238 src/translate_text.c.po.c:5537
 msgid "Attach raw 8KB cartridge image"
-msgstr "Anslut rå 8KB-insticksmodulavbilding"
+msgstr "Anslut rå 8KB-insticksmodulavbildning"
 
 #: src/arch/unix/gui/uic64cart.c:109 src/arch/win32/res.rc.po.c:1056
 #: src/arch/amigaos/intl_text.c.po.c:4252 src/translate_text.c.po.c:5554
 msgid "Attach raw 16KB cartridge image"
-msgstr "Anslut rå 16KB-insticksmodulavbilding"
+msgstr "Anslut rå 16KB-insticksmodulavbildning"
 
 #. Translators: "Action Replay V5" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:114
@@ -1270,7 +1264,7 @@ msgstr "Anslut rå 32KB Atomic Power-insticksmodulfil"
 #. Translators: "EasyFlash" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:122 src/translate_text.c.po.c:5809
 msgid "Attach raw EasyFlash cartridge image"
-msgstr "Anslut rå EasyFlash-insticksmodulavbilding"
+msgstr "Anslut rå EasyFlash-insticksmodulavbildning"
 
 #. Translators: "Epyx FastLoad" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:126 src/arch/win32/res.rc.po.c:1062
@@ -1287,7 +1281,7 @@ msgstr "Anslut rå 64KB IDE64-insticksmodulfil"
 #. Translators: "Magic Formel" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:134 src/translate_text.c.po.c:6217
 msgid "Attach raw Magic Formel cartridge image"
-msgstr "Anslut rå Magic Romel-insticksmodulavbilding"
+msgstr "Anslut rå Magic Romel-insticksmodulavbildning"
 
 #. Translators: "MMC Replay" is the name of the cartridge and should not get translated.
 #: src/arch/unix/gui/uic64cart.c:138 src/arch/win32/res.rc.po.c:1065
@@ -2080,7 +2074,7 @@ msgstr "Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:95
 #: src/arch/unix/gui/uidrivec64c128.c:107
 msgid "Formel 64"
-msgstr ""
+msgstr "Formel 64"
 
 #: src/arch/unix/gui/uidrivec64c128.c:113
 #: src/arch/unix/gui/uidrivec64c128.c:126
@@ -2355,9 +2349,8 @@ msgid "Version 4"
 msgstr "Version 4"
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "Device 1 image name"
-msgstr "Namn på hårddiskavbildning"
+msgstr "Namn på avbildning enhet 1"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2367,19 +2360,16 @@ msgid "Autodetect image size"
 msgstr "Autodetektera storlek på avbildning"
 
 #: src/arch/unix/gui/uiide64.c:199
-#, fuzzy
 msgid "Device 2 image name"
-msgstr "Namn på hårddiskavbildning"
+msgstr "Namn på avbildning enhet 2"
 
 #: src/arch/unix/gui/uiide64.c:218
-#, fuzzy
 msgid "Device 3 image name"
-msgstr "Namn på hårddiskavbildning"
+msgstr "Namn på avbildning enhet 3"
 
 #: src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "Device 4 image name"
-msgstr "Namn på hårddiskavbildning"
+msgstr "Namn på avbildning enhet 4"
 
 #: src/arch/unix/gui/uiide64.c:256 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uiretroreplay.c:59 src/arch/unix/gui/uivdc.c:155
@@ -2388,24 +2378,20 @@ msgid "Revision"
 msgstr "Utgåva"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "Device 1 settings"
-msgstr "HD 1-inställningar"
+msgstr "Inställningar enhet 1"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "Device 2 settings"
-msgstr "HD 2-inställningar"
+msgstr "Inställningar enhet 2"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "Device 3 settings"
-msgstr "HD 3-inställningar"
+msgstr "Inställningar enhet 3"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "Device 4 settings"
-msgstr "HD 4-inställningar"
+msgstr "Inställningar enhet 4"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2440,14 +2426,12 @@ msgid "HIT userport joy adapter"
 msgstr "HIT-användarportsspakadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1100
-#, fuzzy
 msgid "Kingsoft userport joy adapter"
-msgstr "Ingen användarportsspakadapter"
+msgstr "Kingsoft användarportsspakadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1101
-#, fuzzy
 msgid "Starbyte userport joy adapter"
-msgstr "Ingen användarportsspakadapter"
+msgstr "Starbyte användarportsspakadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:161 src/arch/unix/gui/uijoystick2.c:213
 #: src/arch/unix/gui/uijoystick2.c:265 src/arch/unix/gui/uijoystick2.c:317
@@ -3126,9 +3110,8 @@ msgstr "Drivrutin för skrivare 4"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 output"
-msgstr "Utdatatyp för skrivare 4"
+msgstr "Utdata för skrivare 4"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
@@ -3162,9 +3145,8 @@ msgstr "Drivrutin för skrivare 5"
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 output"
-msgstr "Utdatatyp för skrivare 5"
+msgstr "Utdata för skrivare 5"
 
 #: src/arch/unix/gui/uiprinteriec.c:62
 #: src/arch/unix/gui/uiprinteriecplus4.c:61
@@ -3189,9 +3171,8 @@ msgid "Userport printer driver"
 msgstr "Skrivardrivrutin för användarporten"
 
 #: src/arch/unix/gui/uiprinteriec.c:72 src/arch/unix/gui/uiprinterieee.c:67
-#, fuzzy
 msgid "Userport printer output"
-msgstr "Utdatatyp för användarportskrivare"
+msgstr "Utdata för användarportskrivare"
 
 #: src/arch/unix/gui/uiprinteriec.c:74 src/arch/unix/gui/uiprinterieee.c:69
 msgid "Userport printer text output device"
@@ -4114,9 +4095,8 @@ msgstr ""
 "Emir Akaydin (alias Skate) - turkiska\n"
 
 #: src/arch/unix/x11/gnome/about.c:120
-#, fuzzy
 msgid "(c) 1998 - 2012 The VICE Team"
-msgstr "© 1998 - 2011 Vice-gruppen"
+msgstr "© 1998 - 2012 Vice-gruppen"
 
 #: src/arch/unix/x11/gnome/about.c:127 src/arch/win32/res.rc.po.c:1082
 #: src/arch/win32/res.rc.po.c:1565 src/arch/amigaos/intl_text.c.po.c:3118
@@ -4743,89 +4723,72 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2012 Dag Lem"
-msgstr "Upphovsrättsskyddad © 1998-2011 Dag Lem"
+msgstr "Upphovsrättsskyddad © 1998-2012 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2012 Andreas Matthies"
-msgstr "Upphovsrättsskyddad © 1999-2011 Andreas Matthies"
+msgstr "Upphovsrättsskyddad © 1999-2012 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 1999-2012 Martin Pottendorfer"
-msgstr "Upphovsrättsskyddad © 1999-2011 Martin Pottendorfer"
+msgstr "Upphovsrättsskyddad © 1999-2012 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2012 Marco van den Heuvel"
-msgstr "Upphovsrättsskyddad © 2005-2011 Marco van den Heuvel"
+msgstr "Upphovsrättsskyddad © 2005-2012 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2012 Christian Vogelgsang"
-msgstr "Upphovsrättsskyddad © 2006-2011 Christian Vogelgsang"
+msgstr "Upphovsrättsskyddad © 2006-2012 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2012 Fabrizio Gennari"
-msgstr "Upphovsrättsskyddad © 2007-2011 Fabrizio Gennari"
+msgstr "Upphovsrättsskyddad © 2007-2012 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2012 Daniel Kahlin"
-msgstr "Upphovsrättsskyddad © 2007-2011 Daniel Kahlin"
+msgstr "Upphovsrättsskyddad © 2007-2012 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2008-2012 Antti S. Lankila"
-msgstr "Upphovsrättsskyddad © 2008-2011 Antti S. Lankila"
+msgstr "Upphovsrättsskyddad © 2008-2012 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Groepaz"
-msgstr "Upphovsrättsskyddad © 2009-2011 Groepaz"
+msgstr "Upphovsrättsskyddad © 2009-2012 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Ingo Korb"
-msgstr "Upphovsrättsskyddad © 2009-2011 Ingo Korb"
+msgstr "Upphovsrättsskyddad © 2009-2012 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 2009-2012 Errol Smith"
-msgstr "Upphovsrättsskyddad © 2009-2011 Errol Smith"
+msgstr "Upphovsrättsskyddad © 2009-2012 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2010-2012 Olaf Seibert"
-msgstr "Upphovsrättsskyddad © 2010-2011 Olaf Seibert"
+msgstr "Upphovsrättsskyddad © 2010-2012 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:194
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Marcus Sutton"
-msgstr "Upphovsrättsskyddad © 2011      Marcus Sutton"
+msgstr "Upphovsrättsskyddad © 2011-2012 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Ulrich Schulz"
-msgstr "Upphovsrättsskyddad © 2011      Ulrich Schulz"
+msgstr "Upphovsrättsskyddad © 2011-2012 Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Stefan Haubenthal"
-msgstr "Upphovsrättsskyddad © 2011      Stefan Haubenthal"
+msgstr "Upphovsrättsskyddad © 2011-2012 Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Thomas Giesel"
-msgstr "Upphovsrättsskyddad © 2011      Thomas Giesel"
+msgstr "Upphovsrättsskyddad © 2011-2012 Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011-2012 Kajtar Zsolt"
-msgstr "Upphovsrättsskyddad © 2011      Kajtar Zsolt"
+msgstr "Upphovsrättsskyddad © 2011-2012 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:963 src/arch/amigaos/intl_text.c.po.c:4112
 msgid "VICE Question"
@@ -5316,24 +5279,24 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE-ögonblicksbildfiler (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1113
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
 "*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;"
-"*.p00)"
+"CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
+"*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1114
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-msgstr ""
+msgstr "IDE64-filer (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1115
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.x64)"
-msgstr "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+msgstr ""
+"Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
+"g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1116
 msgid "Tape image files (*.t64;*.tap)"
@@ -5602,9 +5565,8 @@ msgid "WMM driver"
 msgstr "WMM-drivrutin"
 
 #: src/arch/win32/res.rc.po.c:1223
-#, fuzzy
 msgid "Sound output mode"
-msgstr "Utdata"
+msgstr "Utdataläge för ljud"
 
 #: src/arch/win32/res.rc.po.c:1225
 msgid "Sound Buffer Size"
@@ -5645,9 +5607,8 @@ msgid "Value %d for %s is out of range, using %d instead"
 msgstr "Värdet %d för %s är utanför gränserna, använder %d istället"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "Audio leak"
-msgstr "Emulera audioläckage"
+msgstr "Audioläckage"
 
 #: src/arch/win32/res.rc.po.c:1253
 msgid "VICII Palette"
@@ -5731,23 +5692,23 @@ msgstr "Rendrerarfilter för TED"
 
 #: src/arch/win32/res.rc.po.c:1273
 msgid "VICII Audio leak"
-msgstr ""
+msgstr "VICII audioläckage"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "VIC Audio leak"
-msgstr ""
+msgstr "VIC audioläckage"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "CRTC Audio leak"
-msgstr ""
+msgstr "CRTC audioläckage"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "VDC Audio leak"
-msgstr ""
+msgstr "VDC audioläckage"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "TED Audio leak"
-msgstr ""
+msgstr "TED audioläckage"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "External Palette"
@@ -6024,9 +5985,8 @@ msgid "Idle method"
 msgstr "Pausmetod"
 
 #: src/arch/win32/res.rc.po.c:1374
-#, fuzzy
 msgid "Standard"
-msgstr "Standard användarport"
+msgstr "Standard"
 
 #: src/arch/win32/res.rc.po.c:1375 src/arch/amigaos/intl_text.c.po.c:5386
 msgid "Drive expansion"
@@ -6308,9 +6268,8 @@ msgid "MMC Replay settings"
 msgstr "MMC Replay-inställningar"
 
 #: src/arch/win32/res.rc.po.c:1529
-#, fuzzy
 msgid "Retro Replay settings"
-msgstr "MMC Replay-inställningar"
+msgstr "Retro Replay-inställningar"
 
 #: src/arch/win32/res.rc.po.c:1530 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2460
@@ -6709,9 +6668,8 @@ msgid "IEEE488 Interface emulation"
 msgstr "Emulering av IEEE488-gränssnitt"
 
 #: src/arch/win32/resc128.rc.po.c:738
-#, fuzzy
 msgid "C128 model settings"
-msgstr "CBM-II-modellinställningar"
+msgstr "C128-modellinställningar"
 
 #: src/arch/win32/resc64.rc.po.c:609 src/arch/amigaos/intl_text.c.po.c:9881
 msgid "6569 (PAL)"
@@ -6734,18 +6692,16 @@ msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:617 src/arch/win32/resc64.rc.po.c:624
-#, fuzzy
 msgid "C64 drive burst modification settings"
-msgstr "Inställningar för autofire"
+msgstr "Inställningar för C64 diskettburstmodifiering"
 
 #: src/arch/win32/resc64.rc.po.c:618
-#, fuzzy
 msgid "Enable the C64 drive burst modification"
-msgstr "Aktivera ACIA-emuleringen"
+msgstr "Aktivera C64 diskettburstmodifiering"
 
 #: src/arch/win32/resc64.rc.po.c:619
 msgid "C64 drive burst modification CIA"
-msgstr ""
+msgstr "C64 diskettburstmodifiering CIA"
 
 #: src/arch/win32/resc64.rc.po.c:621 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:2558
@@ -6799,9 +6755,8 @@ msgid "C64DTV settings"
 msgstr "C64DTV-inställningar"
 
 #: src/arch/win32/resc64dtv.rc.po.c:475 src/arch/win32/resc64dtv.rc.po.c:482
-#, fuzzy
 msgid "C64DTV model"
-msgstr "DTV-modell"
+msgstr "C64DTV-modell"
 
 #: src/arch/win32/resc64dtv.rc.po.c:476 src/translate_text.c.po.c:4226
 msgid "Enable Hummer ADC"
@@ -6824,9 +6779,8 @@ msgid "Create"
 msgstr "Skapa"
 
 #: src/arch/win32/resc64dtv.rc.po.c:484
-#, fuzzy
 msgid "C64DTV model settings"
-msgstr "C64-modellinställningar"
+msgstr "C64DTV-modellinställningar"
 
 #: src/arch/win32/resc64dtv.rc.po.c:486
 msgid "Attach flash rom image"
@@ -6862,24 +6816,20 @@ msgid "1024 kByte"
 msgstr "1024 kByte"
 
 #: src/arch/win32/rescbm2common.rc.po.c:207
-#, fuzzy
 msgid "Attach cartridge image at $1000"
-msgstr "Anslut 4KB-modulfil vid $B000"
+msgstr "Anslut modulfil vid $1000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:208
-#, fuzzy
 msgid "Attach cartridge image at $2000/$3000"
-msgstr "Anslut 4KB-modulfil vid $B000"
+msgstr "Anslut modulfil vid $2000/$3000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:209
-#, fuzzy
 msgid "Attach cartridge image at $4000/$5000"
-msgstr "Anslut 4KB-modulfil vid $B000"
+msgstr "Anslut modulfil vid $4000/$5000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:210
-#, fuzzy
 msgid "Attach cartridge image at $6000/$7000"
-msgstr "Anslut 4KB-modulfil vid $B000"
+msgstr "Anslut modulfil vid $6000/$7000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
 msgid "Load new Cart $1***"
@@ -6920,38 +6870,32 @@ msgid "CBM2 settings"
 msgstr "CBM2-inställningar"
 
 #: src/arch/win32/rescbm2.rc.po.c:301
-#, fuzzy
 msgid "CBM2 model"
-msgstr "C128-modell"
+msgstr "CBM2-modell"
 
 #: src/arch/win32/rescbm2.rc.po.c:303
-#, fuzzy
 msgid "CBM2 model settings"
-msgstr "CBM-II-modellinställningar"
+msgstr "CBM2-modellinställningar"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:299 src/arch/win32/rescbm5x0.rc.po.c:302
-#, fuzzy
 msgid "CBM5x0 settings"
-msgstr "CBM2-inställningar"
+msgstr "CBM5x0-inställningar"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:300 src/arch/win32/resplus4.rc.po.c:489
 msgid "64 kByte"
 msgstr "64 kbyte"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:301
-#, fuzzy
 msgid "CBM5x0 model"
-msgstr "VDC-modell"
+msgstr "CBM5x0-modell"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:303
-#, fuzzy
 msgid "CBM5x0 model settings"
-msgstr "CBM-II-modellinställningar"
+msgstr "CBM5x0-modellinställningar"
 
 #: src/arch/win32/rescia.rc.po.c:53
-#, fuzzy
 msgid "CIA settings"
-msgstr "ACIA-inställningar"
+msgstr "CIA-inställningar"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:12996
 msgid "Enable the DigiMAX cartridge"
@@ -7019,33 +6963,28 @@ msgid "IDE64 V4 settings"
 msgstr "IDE64 V4-inställningar"
 
 #: src/arch/win32/reside64.rc.po.c:55
-#, fuzzy
 msgid "IDE64 primary master device settings"
-msgstr "Inställningar för IDE64 HD-avbild 1"
+msgstr "Inställningar för primär IDE64-masterenhet"
 
 #: src/arch/win32/reside64.rc.po.c:56
-#, fuzzy
 msgid "IDE64 primary slave device settings"
-msgstr "Inställningar för IDE64 HD-avbild 1"
+msgstr "Inställningar för primär IDE64-slavenhet"
 
 #: src/arch/win32/reside64.rc.po.c:57
-#, fuzzy
 msgid "IDE64 secondary master device settings"
-msgstr "Inställningar för SID-insticksmodul"
+msgstr "Inställningar för sekundär IDE64-masterenhet"
 
 #: src/arch/win32/reside64.rc.po.c:58
-#, fuzzy
 msgid "IDE64 secondary slave device settings"
-msgstr "Läs sparade inställningar"
+msgstr "Inställningar för sekundär IDE64-slavenhet"
 
 #: src/arch/win32/reside64.rc.po.c:60
 msgid "Enable IDE64 V4"
 msgstr "Aktivera IDE64 V4"
 
 #: src/arch/win32/reside64.rc.po.c:61
-#, fuzzy
 msgid "ATA device image file"
-msgstr "Kortavbildningsfil"
+msgstr "ATA-enhetsavbildning"
 
 #: src/arch/win32/reside64.rc.po.c:62
 msgid "Geometry"
@@ -7057,9 +6996,8 @@ msgid "Total size: %iKB"
 msgstr "Total storlek: %iKB"
 
 #: src/arch/win32/reside64.rc.po.c:68
-#, fuzzy
 msgid "Select ATA device image file"
-msgstr "Ange kortavbildningsfil"
+msgstr "Ange ATA-enhetsavbildning"
 
 #: src/arch/win32/resisepic.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:5750
 msgid "Select file for ISEPIC"
@@ -7373,19 +7311,16 @@ msgid "Select file for RamCart"
 msgstr "Välj fil för RamCart"
 
 #: src/arch/win32/resretroreplay.rc.po.c:35
-#, fuzzy
 msgid "Enable RR flash jumper"
-msgstr "Aktivera flashbygel"
+msgstr "Aktivera RR-flashbygel"
 
 #: src/arch/win32/resretroreplay.rc.po.c:36
-#, fuzzy
 msgid "Enable RR bank jumper"
-msgstr "Aktivera bankbygel"
+msgstr "Aktivera RR-bankbygel"
 
 #: src/arch/win32/resretroreplay.rc.po.c:38
-#, fuzzy
 msgid "Save RR flash when changed"
-msgstr "Spara REU-avbildning vid ändringar"
+msgstr "Spara RR-flash när ändrad"
 
 #: src/arch/win32/resreu.rc.po.c:39
 msgid "REU Settings"
@@ -7428,23 +7363,20 @@ msgid "General"
 msgstr "Allmänt"
 
 #: src/arch/win32/ressid.rc.po.c:79
-#, fuzzy
 msgid "Extra SID chips"
 msgstr "Ytterligare SID-kretsar"
 
 #: src/arch/win32/ressid.rc.po.c:80
 msgid "Amount of extra SID chips"
-msgstr ""
+msgstr "Antal extra SID-kretsar"
 
 #: src/arch/win32/ressid.rc.po.c:81
-#, fuzzy
 msgid "Second SID at"
-msgstr "Andra SID"
+msgstr "Andra SID på"
 
 #: src/arch/win32/ressid.rc.po.c:82
-#, fuzzy
 msgid "Third SID at"
-msgstr "Basadress för tredje SID"
+msgstr "Tredje SID på"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:60
 msgid "reSID/reSID-fp options"
@@ -7500,27 +7432,23 @@ msgstr "Inställningar för SFX Sound Sampler"
 
 #: src/arch/win32/rested.rc.po.c:35 src/arch/win32/resvic.rc.po.c:35
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "Normal borders"
-msgstr "Normal"
+msgstr "Vanliga ramar"
 
 #: src/arch/win32/rested.rc.po.c:36 src/arch/win32/resvic.rc.po.c:36
 #: src/arch/win32/resvicii.rc.po.c:43
-#, fuzzy
 msgid "Full borders"
-msgstr "Ramar"
+msgstr "Fullständinga ramar"
 
 #: src/arch/win32/rested.rc.po.c:37 src/arch/win32/resvic.rc.po.c:37
 #: src/arch/win32/resvicii.rc.po.c:44
-#, fuzzy
 msgid "Debug borders"
-msgstr "Ramar"
+msgstr "Felsökningsramar"
 
 #: src/arch/win32/rested.rc.po.c:38 src/arch/win32/resvic.rc.po.c:38
 #: src/arch/win32/resvicii.rc.po.c:45
-#, fuzzy
 msgid "No borders"
-msgstr "Ramar"
+msgstr "Inga ramar"
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -7540,9 +7468,8 @@ msgid "Select ROM file for V364 Speech"
 msgstr "Välj ROM-fil för V364-röst"
 
 #: src/arch/win32/resvic20.rc.po.c:520 src/arch/win32/resvic20.rc.po.c:555
-#, fuzzy
 msgid "VIC20 settings"
-msgstr "VIC-inställningar"
+msgstr "VIC20-inställningar"
 
 #: src/arch/win32/resvic20.rc.po.c:526
 msgid "Full (blocks 0/1/2/3/5)"
@@ -7632,34 +7559,28 @@ msgid "Sprite Collisions"
 msgstr "Spritekollisioner"
 
 #: src/arch/win32/resvsid.rc.po.c:31 src/arch/win32/resvsid.rc.po.c:138
-#, fuzzy
 msgid "Media"
-msgstr "Medium"
+msgstr "Media"
 
 #: src/arch/win32/resvsid.rc.po.c:131
-#, fuzzy
 msgid "Select PSID file"
-msgstr "Välj BIOS-fil"
+msgstr "Välj PSID-fil"
 
 #: src/arch/win32/resvsid.rc.po.c:132
-#, fuzzy
 msgid "Tune number"
-msgstr "linjenummer"
+msgstr "Låtnummer"
 
 #: src/arch/win32/resvsid.rc.po.c:134
-#, fuzzy
 msgid "Select tune"
-msgstr "Välj drivrutin"
+msgstr "Välj låt"
 
 #: src/arch/win32/resvsid.rc.po.c:135
-#, fuzzy
 msgid "Next tune"
-msgstr "Nästa: "
+msgstr "Nästa låt"
 
 #: src/arch/win32/resvsid.rc.po.c:136
-#, fuzzy
 msgid "Previous tune"
-msgstr "Föregående: "
+msgstr "Föregående låt"
 
 #: src/arch/amigaos/intl_text.c.po.c:612
 msgid "Function low  image (3plus1)"
@@ -8767,6 +8688,8 @@ msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
 msgstr ""
+"Visa processorcykelräknaren för aktuell enhet. \"reset\" sätter räknaren på "
+"0."
 
 #: src/translate_text.c.po.c:1441
 msgid "Read a snapshot of the machine from the file specified."
@@ -9910,15 +9833,15 @@ msgstr "Anslut rå 16KB-Action Replay MK2-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5673
 msgid "Attach raw 8kB Capture cartridge image"
-msgstr "Anslut rå 8KB Capture-insticksmodulavbilding"
+msgstr "Anslut rå 8KB Capture-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5690
 msgid "Attach raw 64kB Comal 80 cartridge image"
-msgstr "Anslut rå 64kB Comal 80-insticksmodulavbilding"
+msgstr "Anslut rå 64kB Comal 80-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5707
 msgid "Attach raw Dela EP256 cartridge image"
-msgstr "Anslut rå dela EP256-insticksmodulavbilding"
+msgstr "Anslut rå dela EP256-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5724
 msgid "Attach raw Dela EP64 cartridge image"
@@ -9926,15 +9849,15 @@ msgstr "Anslut rå Dela EP64-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5741
 msgid "Attach raw Dela EP7x8 cartridge image"
-msgstr "Anslut rå Dela EP7x8-insticksmodulavbilding"
+msgstr "Anslut rå Dela EP7x8-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5758
 msgid "Attach raw 128kB Dinamic cartridge image"
-msgstr "Anslut rå 12kB Dinamic-insticksmodulavbilding"
+msgstr "Anslut rå 12kB Dinamic-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5775
 msgid "Attach raw 8kB Diashow-Maker cartridge image"
-msgstr "Anslut rå 8kB Diashow-Maker-insticksmodulavbilding"
+msgstr "Anslut rå 8kB Diashow-Maker-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5792
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
@@ -9942,7 +9865,7 @@ msgstr "Anslut rå 16KB Double Quick Brown Box-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5843
 msgid "Attach raw 8kB REX Utility cartridge image"
-msgstr "Anslut rå 8kB REX Utility-insticksmodulavbilding"
+msgstr "Anslut rå 8kB REX Utility-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5860
 msgid "Attach raw 4kB Snapshot 64 cartridge image"
@@ -9950,24 +9873,23 @@ msgstr "Anslut rå 4kB Snapshot 64-insticksmodulfil"
 
 #: src/translate_text.c.po.c:5928
 msgid "Attach raw 8kB EXOS cartridge image"
-msgstr "Anslut rå 8kB EXOS-insticksmodulavbilding"
+msgstr "Anslut rå 8kB EXOS-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:5945
 msgid "Attach raw 8kB Expert Cartridge image"
-msgstr "Anslut rå 8kB Expert Cartridge-avbilding"
+msgstr "Anslut rå 8kB Expert Cartridge-avbildning"
 
 #: src/translate_text.c.po.c:5962
-#, fuzzy
 msgid "Attach raw 32kB Formel 64 image"
-msgstr "Anslut rå 32kB Freeze Machine-avbilding"
+msgstr "Anslut rå 32kB Formel 64-avbildning"
 
 #: src/translate_text.c.po.c:5979
 msgid "Attach raw 16kB Final Cartridge image"
-msgstr "Anslut rå 16kB Final Cartridge-avbilding"
+msgstr "Anslut rå 16kB Final Cartridge-avbildning"
 
 #: src/translate_text.c.po.c:5996
 msgid "Attach raw 64kB Final Cartridge III image"
-msgstr "Anslut rå 64kB Final Cartridge III-avbilding"
+msgstr "Anslut rå 64kB Final Cartridge III-avbildning"
 
 #: src/translate_text.c.po.c:6013
 msgid "Attach raw 32kB Final Cartridge Plus image"
@@ -9975,11 +9897,11 @@ msgstr "Anslut rå 32kB Final Cartridge Plus-fil"
 
 #: src/translate_text.c.po.c:6030
 msgid "Attach raw 8kB Freeze Frame image"
-msgstr "Anslut rå 8kB Freeze Frame-avbilding"
+msgstr "Anslut rå 8kB Freeze Frame-avbildning"
 
 #: src/translate_text.c.po.c:6047
 msgid "Attach raw 32kB Freeze Machine image"
-msgstr "Anslut rå 32kB Freeze Machine-avbilding"
+msgstr "Anslut rå 32kB Freeze Machine-avbildning"
 
 #: src/translate_text.c.po.c:6064
 msgid "Attach raw 128kB Fun Play/Power Play cartridge image"
@@ -9991,7 +9913,7 @@ msgstr "Anslut rå 2kB ISEPIC-insticksmodulfil"
 
 #: src/translate_text.c.po.c:6149
 msgid "Attach raw 16kB KCS Power cartridge image"
-msgstr "Anslut rå 16KB KCS Power-insticksmodulavbilding"
+msgstr "Anslut rå 16KB KCS Power-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6166
 msgid "Attach raw 24kB Kingsoft cartridge image"
@@ -9999,7 +9921,7 @@ msgstr "Anslut rå 24kB-Kingsoft-insticksmodulfil"
 
 #: src/translate_text.c.po.c:6183
 msgid "Attach raw 8kB MACH 5 cartridge image"
-msgstr "Anslut rå 8kB MACH 5-insticksmodulavbilding"
+msgstr "Anslut rå 8kB MACH 5-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6200
 msgid "Attach raw 32/64/128kB Magic Desk cartridge image"
@@ -10007,19 +9929,19 @@ msgstr "Anslut rå 32/64/128kB Magic Desk-insticksmodulfil"
 
 #: src/translate_text.c.po.c:6234
 msgid "Attach raw 8kB Mikro Assembler cartridge image"
-msgstr "Anslut rå 8kB Mikro Assembler-insticksmodulavbilding"
+msgstr "Anslut rå 8kB Mikro Assembler-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6251
 msgid "Attach raw 8kB MMC64 cartridge image"
-msgstr "Anslut rå 8kB MMC64-insticksmodulavbilding"
+msgstr "Anslut rå 8kB MMC64-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6285
 msgid "Attach raw 16kB Magic Voice cartridge image"
-msgstr "Anslut rå 16kB Magic Voice-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Magic Voice-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6302
 msgid "Attach raw Ocean cartridge image"
-msgstr "Anslut rå Ocean-insticksmodulavbilding"
+msgstr "Anslut rå Ocean-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6319
 msgid "Attach raw 16KB Westermann Learning cartridge image"
@@ -10027,15 +9949,15 @@ msgstr "Anslut rå 16KB Westermann Learning-insticksmodulfil"
 
 #: src/translate_text.c.po.c:6336
 msgid "Attach raw 8kB Warp Speed cartridge image"
-msgstr "Anslut rå 8kB-Warp Speed-insticksmodulavbilding"
+msgstr "Anslut rå 8kB-Warp Speed-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6353
 msgid "Attach raw 16kB Zaxxon cartridge image"
-msgstr "Anslut rå 16kB Zaxxon-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Zaxxon-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6370
 msgid "Attach raw 64KB Pagefox cartridge image"
-msgstr "Anslut rå 64KB-Pagefox-insticksmodulavbilding"
+msgstr "Anslut rå 64KB-Pagefox-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6387
 msgid "Attach raw 256KB Prophet 64 cartridge image"
@@ -10043,31 +9965,31 @@ msgstr "Anslut rå 256KB Prophet 64-insticksmodulfil"
 
 #: src/translate_text.c.po.c:6404
 msgid "Attach raw RamCart cartridge image"
-msgstr "Anslut rå RamCart-insticksmodulavbilding"
+msgstr "Anslut rå RamCart-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6421
 msgid "Attach raw REU cartridge image"
-msgstr "Anslut rå REU-insticksmodulavbilding"
+msgstr "Anslut rå REU-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6438
 msgid "Attach raw REX EP256 cartridge image"
-msgstr "Anslut rå REX EP256-insticksmodulavbilding"
+msgstr "Anslut rå REX EP256-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6455
 msgid "Attach raw 16/32kB ROSS cartridge image"
-msgstr "Anslut rå 16/32kB ROSS-insticksmodulavbilding"
+msgstr "Anslut rå 16/32kB ROSS-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6472
 msgid "Attach raw 8KB Game Killer cartridge image"
-msgstr "Anslut rå 8KB Game Killer-insticksmodulavbilding"
+msgstr "Anslut rå 8KB Game Killer-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6489
 msgid "Attach raw GEO-RAM cartridge image"
-msgstr "Anslut rå GEO-RAM-insticksmodulavbilding"
+msgstr "Anslut rå GEO-RAM-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6506
 msgid "Attach raw 512kB Game System cartridge image"
-msgstr "Anslut rå 512kB Game System-insticksmodulavbilding"
+msgstr "Anslut rå 512kB Game System-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:6540
 msgid "Disable the Expert Cartridge"
@@ -10384,11 +10306,12 @@ msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "Inaktivera 8KB RAM-expansion på $A000-$BFFF"
 
 #: src/translate_text.c.po.c:7851
-#, fuzzy
 msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
-msgstr "Välj typ av parallellkabel (0: ingen, 1: standard, 2: Dolphin DOS 3)"
+msgstr ""
+"Välj typ av parallellkabel (0: ingen, 1: standard, 2: Dolphin DOS 3, 3: "
+"Formel 64)"
 
 #: src/translate_text.c.po.c:7885
 msgid "Disable Professional DOS"
@@ -11385,11 +11308,11 @@ msgstr "Anslut rå 64kB-Super Games-insticksmodulfil"
 
 #: src/translate_text.c.po.c:12297
 msgid "Attach raw Silverrock 128 cartridge image"
-msgstr "Anslut rå Silverrock 128-insticksmodulavbilding"
+msgstr "Anslut rå Silverrock 128-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:12314
 msgid "Attach raw 16kB Simons Basic cartridge image"
-msgstr "Anslut rå 16kB Simons Basic-insticksmodulavbilding"
+msgstr "Anslut rå 16kB Simons Basic-insticksmodulavbildning"
 
 #: src/translate_text.c.po.c:12331
 msgid "Enable the CSORY 256K RAM expansion"
