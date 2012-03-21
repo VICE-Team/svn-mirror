@@ -1676,7 +1676,9 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
     if test x"$enable_dingoo" = "xyes"; then
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable sdl sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        if test x"$enable_sdlui" = "xyes";
+            AC_DEFINE(USE_SDLUI,,[Enable sdl ui support.])
+        fi
         AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
     elif test x"$is_unix_macosx" = "xyes"; then
         LIBS="$LIBS -lSDLmain -framework SDL -framework Cocoa -framework OpenGL -framework CoreVideo"
@@ -1684,7 +1686,9 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         CXXFLAGS="$CXXFLAGS -I/Library/Frameworks/SDL.framework/Headers -I/System/Library/Frameworks/OpenGL.framework/Headers"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        if test x"$enable_sdlui" = "xyes";
+            AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        fi
         AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling])
         AC_DEFINE(HAVE_FULLSCREEN,,[Enable Fullscreen support.])
         AC_CHECK_FUNCS(SDL_NumJoysticks)
@@ -1692,10 +1696,14 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         LIBS="$LIBS -lSDL -lwinsock"
         SOUND_DRIVERS="$SOUND_DRIVERS soundsdl.o"
         AC_DEFINE(USE_SDL_AUDIO,,[Enable SDL sound support.])
-        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        if test x"$enable_sdlui" = "xyes";
+            AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        fi
         AC_DEFINE(CEGCC_COMPILE,,[Enable cegcc support.])
     elif test x"$is_amiga" = "xyes"; then
-        AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        if test x"$enable_sdlui" = "xyes";
+            AC_DEFINE(USE_SDLUI,,[Enable SDL UI support.])
+        fi
         AC_CHECK_HEADER(inline/SDL.h,[SDL_AMIGA_INLINE=yes], [SDL_AMIGA_INLINE=no],)
         AC_CHECK_HEADER(ppcinline/powersdl.h,[POWERSDL_AMIGA_INLINE=yes], [POWERSDL_AMIGA_INLINE=no],)
         AC_CHECK_LIB(debug, kprintf, [LIBS="$LIBS -ldebug"])
