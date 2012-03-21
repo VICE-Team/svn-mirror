@@ -317,7 +317,6 @@
 	experimental c128 4mhz z80 support (activated by default, but can be
 	disabled by commenting out the Z80_4MHZ define).
 
-
 2012-03-11  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/c128/z80.c: Even though the z80 is clocked at 4mhz it is only
@@ -468,7 +467,6 @@
 
 	* configure.in: Remove obsolete lines for MS-DOS cross-compilation
 
-
 2012-03-07  Marcus Sutton <loggedoubt@gmail.com>
 
 	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
@@ -502,7 +500,6 @@
 	* configure.in: Commented out the vte-2.90 check, since gtk3/gtk2
 	mixed binaries don't work, VICE really needs to be 'fixed' for gtk3.
 
-
 2012-03-06  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in, src/Makefile.am, src/arch/sdl/win32-msvc,
@@ -531,16 +528,13 @@
 2012-03-06  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/x11video.c: Fix double double-sizing.
-	(Strangely enough, this seemed to crash when I tried 
-it the previous
+	(Strangely enough, this seemed to crash when I tried it the previous
 	time). Still goes with r25369.
-
 
 2012-03-06  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/x11video.c: Fix HAVE_XVIDEO case. This seems
 	to work.
-
 
 2012-03-05  groepaz <groepaz@gmx.net>
 
@@ -564,9 +558,7 @@ it the previous
 2012-03-05  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/mouse.c: This is more accurate. Still not very accurate at
-	higher speeds, but it's at 
-least something.
-
+	higher speeds, but it's at least something.
 
 2012-03-05  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -634,7 +626,6 @@ least something.
 	incorrect size when unmaximizing. Refactor canvas a bit, reducing the
 	need for multiplying/dividing by doublesizex/y
 
-
 2012-03-03  groepaz <groepaz@gmx.net>
 
 	* doc/html/amigaos.html, doc/html/beos.html, doc/html/checklinks.sh,
@@ -646,7 +637,6 @@ least something.
 2012-03-03  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/mouse.c: Unbreak Amiga mouse emulation.
-
 
 2012-03-03  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -820,7 +810,6 @@ least something.
 2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/pet/6809.c: More 6809 core improvements.
-
 
 2012-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1110,7 +1099,6 @@ least something.
 	paste from X11 clipboard (middle mouse button), plus some other tricks
 	with Ctrl (Ctrl-A: home, Ctrl-E: end etc.) to monitor window
 
-
 2012-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/c128/c128-resources.c: Changed resource "RomseChargenDENamet" to
@@ -1155,7 +1143,6 @@ least something.
 
 	* src/pet/6809.c: Undo some (too short) shortcuts. Not all are found
 	yet.
-
 
 2012-02-09  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1202,12 +1189,10 @@ least something.
 	src/monitor/mon_command.c, src/translate.txt, src/translate_text.c:
 	Documentation for stopwatch added	
 
-
 2012-02-08  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/unix/x11/gnome/uimon.c: Fix compilation error occurring
 	with old version of GTK+ headers
-
 
 2012-02-08  Thomas Giesel <skoe@directbox.com>
 
@@ -1228,7 +1213,6 @@ least something.
 	src/monitor/montypes.h, src/monitor.h: Add most (but not all!) 6809
 	addressing modes in monitor command parser, and 6809 assembly. Also
 	add D register to monitor interface.
-
 
 2012-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1255,7 +1239,6 @@ least something.
 2012-02-07  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/6809.c: Somehow `caller_space' popped up again.
-
 
 2012-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1337,7 +1320,6 @@ least something.
 	* configure.in: Added cross compilation C++ sanity checks to the
 	configure script.
 
-
 2012-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/pet/6809.c, src/pet/6809.h: Include vice.h instead of config.h
@@ -1362,31 +1344,22 @@ least something.
 2012-02-05  Olaf Seibert <rhialto@falu.nl>
 
 	src/pet/pet.c, src/pet/petmem.c: Add a hard reset (call to
-	machine_trigger_reset(MACHINE_RESET_MODE_HARD)) 
-in the PET's
-	machine_change_timing(). Copied from the 64. Strangely 
-enough, this
-	seems to be the only way that a hard reset, and hence a
- mem_powerup(),
-	is done at the start. (call trace: resources_set_defaults
- >
+	machine_trigger_reset(MACHINE_RESET_MODE_HARD)) in the PET's
+	machine_change_timing(). Copied from the 64. Strangely enough, this
+	seems to be the only way that a hard reset, and hence a mem_powerup(),
+	is done at the start. (call trace: resources_set_defaults >
 	set_sync_factor >  machine_change_timing > machine_trigger_reset >
-	machine_trigger_reset_internal > mem_powerup) 
-mem_powerup() was needed
-	to disable the initial write protection of the
- SuperPET ram.
-
+	machine_trigger_reset_internal > mem_powerup) mem_powerup() was needed
+	to disable the initial write protection of the SuperPET ram.
 
 2012-02-05  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/x11ui.c: On the error return, the error
 	handler should be restored as well.
 
-
 2012-02-05  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/x11ui.c: Plug a race condition.
-
 
 2012-02-05  Andrea Musuruane <musuruan@gmail.com>
 
@@ -1397,11 +1370,9 @@ mem_powerup() was needed
 	* src/arch/unix/x11/gnome/uimon.c, src/arch/unix/x11/xaw/console.c:
 	Do not add empty lines to history
 
-
 2012-02-05  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/pet.c: Forgot to increase array.
-
 
 2012-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1415,7 +1386,6 @@ mem_powerup() was needed
 	src/pet/petmem.c: SuperPET cleanup that can be done now that initial
 	support is in.
 
-
 2012-02-04  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* configure.in, src/Makefile.am, src/arch/unix/Makefile.am,
@@ -1424,7 +1394,6 @@ mem_powerup() was needed
 	src/monitor/mon_util.c, src/monitor/monitor.c: Readline is only a
 	dependency for the Xaw port and the c1541 tool (and not, for example,
 	for the GTK+ port)
-
 
 2012-02-04  Olaf Seibert <rhialto@falu.nl>
 
@@ -1445,16 +1414,11 @@ mem_powerup() was needed
 	src/pet/6809.c, src/pet/6809.h, src/pet/Makefile.am, src/pet/pet.c,
 	src/pet/petcpu.c, src/pet/petdww.c, src/pet/petmem.c,
 	src/pet/petmem.h, src/pet/pets.h: Some more SuperPET support. The ROMs
-	actually run, if you get the machine 
-to the correct configuration
-	(SuperPET, 6809 cpu, no other memory or I/O 
-extensions, true drive
-	emulation). The 6702 dongle foils running software
- from the
-	"SuperPET WCS" disk though. Disassembly works in the monitor, 
-but
+	actually run, if you get the machine to the correct configuration
+	(SuperPET, 6809 cpu, no other memory or I/O extensions, true drive
+	emulation). The 6702 dongle foils running software from the
+	"SuperPET WCS" disk though. Disassembly works in the monitor, but
 	assembly not yet.
-
 
 2012-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1463,7 +1427,6 @@ but
 2012-02-04  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
-
 
 2012-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -1488,7 +1451,6 @@ but
 
 	* src/arch/unix/x11/gnome/linenoise.h: Add header file for Linenoise
 
-
 2012-02-02  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* configure.in, src/arch/unix/gui/Makefile.am,
@@ -1497,7 +1459,6 @@ but
 	src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/uimon.c:
 	Introduce a separate window for the monitor when using GTK+, based on
 	VTE terminal widget and Linenoise for readline
-
 
 2012-02-02  Jesse Lee <interpreters.jesse@gmail.com>
 
@@ -1643,11 +1604,8 @@ but
 	manual:
 	100 for i = 0 to 255
 	110 poke 32768 + i, i
-
 	120 next
-
 	200 poke 59520,12: poke 59521,16+32
-
 	210 for t=0 to 3000: next
 	220 poke 59520,12: poke 59521,16
 	230 for t=0 to 3000: next
@@ -1936,7 +1894,6 @@ but
 	Finished windows vsid menu and split off and fixed/updated windows
 	cbm2/cbm5x0 menus and dialogs.
 
-
 2012-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/translations-status.txt: Updated for updated pl.po
@@ -2078,7 +2035,6 @@ but
 	src/arch/win32/watcom/vice.wpj, src/arch/win64/arch.vcproj: Added
 	c64dtv model selection to the windows ui.
 
-
 2012-01-02  Michael Litvinov <litvinov.m@i.ua>
 
 	* po/ru.po: Updated
@@ -2149,13 +2105,11 @@ but
 	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
 	src/monitor/mon_parse.y: Break is on exec by default (again)
 
-
 2012-01-01  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/uipalcontrol.c,
 	src/arch/unix/x11/xaw/uipalcontrol.h: Files belonging with previous
 	update.
-
 
 2012-01-01  Olaf Seibert <rhialto@falu.nl>
 
@@ -2166,20 +2120,16 @@ but
  introduce
 	pop-up window with sliders for controlling the CRT emulation
 	settings. clean up drive/fliplist widget mess (worked not even for 2
-	drives, if they were
-  not 8 and 9).
-
+	drives, if they were  not 8 and 9).
 
 2012-01-01  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/x11/xaw/widgets/FileSel.c: Fix compiler warnings by
 	removing unused code.
 
-
 2012-01-01  Olaf Seibert <rhialto@falu.nl>
 
 	* doc/html/plain/PETdoc.txt: Fix typo.
-
 
 2011-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -2202,7 +2152,6 @@ but
 	* src/arch/unix/x11/gnome/x11ui.c: Since r25059, GTK+ UI was
 	consistently crashing at startup
 
-
 2011-12-31  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/crtc/crtc.c, src/plus4/ted-mem.c, src/plus4/ted.c,
@@ -2212,7 +2161,6 @@ but
 	src/vicii/vicii-fetch.c, src/vicii/vicii-mem.c,
 	src/vicii/vicii-sprites.c, src/vicii/vicii.c: Consolidate
 	raster-related inline functions in one header file
-
 
 2011-12-31  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
 
@@ -2234,7 +2182,6 @@ but
 
 	* src/raster/raster.c, src/raster/raster.h: Make a member static
 
-
 2011-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/translations-status.txt: Updated for updated ru.po
@@ -2250,7 +2197,6 @@ but
 2011-12-29  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/drive/drive-sound.c: Fix of the warning fixes ;)
-
 
 2011-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -2307,14 +2253,11 @@ but
 	src/arch/unix/x11/xaw/uiedit.c: Add copy/paste support to Xaw gui
 	(like gnome).
 
-
 2011-12-27  Olaf Seibert <rhialto@falu.nl>
 
 	* configure.in, src/cbm2/cbm5x0.c: Introduce a #define USE_XAWUI, for
-	affirmative checking for Xaw
- (rather than Unix + X11 but without
+	affirmative checking for Xaw (rather than Unix + X11 but without
 	USE_GNOMEUI). Use this in cbm5x0 ui.
-
 
 2011-12-27  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
@@ -2356,10 +2299,8 @@ but
 2011-12-25  Olaf Seibert <rhialto@falu.nl>
 
 	* src/video/video-resources.c: Relax previous changes to
-	double-size-related values; just remove the check now that 
-caused them
+	double-size-related values; just remove the check now that caused them
 	not to set up at startup-time, when there is no canvas yet.
-
 
 2011-12-25  groepaz <groepaz@gmx.net>
 
@@ -2521,7 +2462,6 @@ caused them
 
 	* src/core/ata.c, src/drive/drive-sound.c: Fix some warnings
 
-
 2011-12-22  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/arch/win32/arch.dsp, src/arch/win32/watcom/arch.tgt,
@@ -2619,9 +2559,7 @@ caused them
 
 	* src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalemu.h:
 	Eliminated some magic constants. Re-ordered menu arrays for
-	consistency
- with the order of their use, and made them static.
-
+	consistency with the order of their use, and made them static.
 
 2011-12-20  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -2643,14 +2581,11 @@ caused them
 
 	* src/arch/unix/gui/uipalemu.c: Corresponding change on cleanup.
 
-
 2011-12-20  Olaf Seibert <rhialto@falu.nl>
 
 	* src/arch/unix/gui/uipalemu.c: Fix 2 off-by-ones, causing a crash
-	when the bottom item of the
- PALColor_submenu or PALMode_submenu is
+	when the bottom item of the PALColor_submenu or PALMode_submenu is
 	selected. Noticable in Xaw only.
-
 
 2011-12-20  groepaz <groepaz@gmx.net>
 
@@ -2848,7 +2783,6 @@ caused them
 	* src/vdrive/vdrive.c: Fix a c&p error that resulted in incorrect disk
 	labels for d81 images
 
-
 2011-12-14  groepaz <groepaz@gmx.net>
 
 	* src/fsdevice/fsdevice-flush.c, src/fsdevice/fsdevice-open.c: support
@@ -2901,7 +2835,6 @@ caused them
 2011-12-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/win32/Makefile.am: Fix MinGW compilation
-
 
 2011-12-13  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
@@ -2962,25 +2895,21 @@ caused them
 	img_convert... but recent versions of libavcodec do not have
 	img_convert!
 
-
 2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/win32/lightpendrv.c, src/arch/win32/videoarch.h: Remove
 	hack to check if d3d9.h is present, the check is done at configure
 	time
 
-
 2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/Makefile.am, src/arch/win32/Makefile.am: Fix build when
 	builddir!=srcdir (that is, configure is not run in its own dir)
 
-
 2011-12-12  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/arch/win32/utils/genwinres.c: Arg 1:res.h Arg 2:menuid.h
 	Arg 3:stringid.h. Therefore, first input file is arg 4
-
 
 2011-12-10  Christian Vogelgsang <chris@vogelgsang.org>
 
@@ -3052,11 +2981,9 @@ caused them
 
 	* src/c64/cart/ross.c: Never mind, this is the right one
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/ross.c: Fix compare mistake
-
 
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
@@ -3087,16 +3014,13 @@ caused them
 	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c,\
 	src/c64/cart/zaxxon.c: Swap argument order
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/crt.c: Simplify
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/ide64.c: Extensions are returned without a dot
-
 
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
@@ -3104,27 +3028,22 @@ caused them
 	src/c64/cart/expert.c, src/c64/cart/isepic.c, src/c64/cart/mmc64.c,
 	src/c64/cart/mmcreplay.c, src/c64/cart/retroreplay.c: Use crt_create
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/crt.c, src/c64/cart/crt.h: More in line with the
 	original code
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/ide64.c: Use util_get_extension
-
 
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/c64cart.c: Do not crash if no extension is supplied
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/retroreplay.c: Use crt_write_chip also in retroreplay
-
 
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
@@ -3133,37 +3052,29 @@ caused them
 	src/c64/cart/mmcreplay.c: Use crt_write_chip, fix crt header check
 	mistake
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/crt.c, src/c64/cart/crt.h, src/c64/cart/easyflash.c,
 	src/c64/cart/easyflash.h: Use struct for crt header as well
 
-
 2011-12-04  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/ide64.c: Use util be functions for converting data
-
 
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/crt.c, src/c64/cart/crt.h: Use util to convert be word
 	and dword
 
-
 2011-12-04  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/util.c, src/util.h: til_be_buf_to_dword and util_be_buf4_to_int
-	were still
- little endian. I wonder why nobody used them ;)
- Add
+	were still little endian. I wonder why nobody used them ;) Add
 	util_be_buf_to_word.
-
 
 2011-12-03  groepaz <groepaz@gmx.net>
 
@@ -3267,12 +3178,10 @@ caused them
 
 	* src/c64/cart/ide64.c: Remove unnecessary vicii_read_phi1 calls
 
-
 2011-12-02  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/tfe.c: Make sure it's not a valid i/o source by
 	mistake
-
 
 2011-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -3284,12 +3193,10 @@ caused them
 	* src/c64/cart/c64tpi.c, src/c64/cart/easyflash.c,
 	src/c64/cart/magicvoice.c: Use util_file_load
 
-
 2011-12-02  Kajtar Zsolt <soci@c64.rulez.org>
 
 	* src/c64/cart/easyflash.c: If bank splitting is done at the right
 	place, loading is simpler
-
 
 2011-12-01  Kajtar Zsolt <soci@c64.rulez.org>
 
@@ -3319,16 +3226,10 @@ caused them
 	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot4.c,
 	src/c64/cart/warpspeed.c, src/c64/cart/westermann.c,
 	src/c64/cart/zaxxon.c: Introduce crt_read_chip_header for pharsing
-	chip headers,
-and crt_read_chip for reading chip data. Then convert
-all
-	c64 cartridges to use this instead of fread().
-
-This gives better error
-	checking and parsing of header,
-and more readability for the cartridge
+	chip headers, and crt_read_chip for reading chip data. Then convert all
+	c64 cartridges to use this instead of fread(). This gives better error
+	checking and parsing of header, and more readability for the cartridge
 	loading code.
-
 
 2011-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -3369,7 +3270,6 @@ and more readability for the cartridge
 	* src/c64/cart/sfx_soundexpander.c, src/core/fmopl.c: Make sfx
 	soundexpander to crash not that often. Actually now it's 
 	possible to use it.
-
 
 2011-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -3919,7 +3819,6 @@ and more readability for the cartridge
 2011-11-07  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
-
 
 2011-11-06 Dag Lem <resid@nimrod.no>
 
@@ -4592,7 +4491,6 @@ and more readability for the cartridge
 
 	* src/gfxoutputdrv/ffmpeglib.h: Fixed build issue. Hopefully the
 	checked libav* version numbers are the ones intended.
-
 
 2011-09-19  pottendo <pottendo@aon.at>
 
