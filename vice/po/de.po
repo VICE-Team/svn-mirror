@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-20 16:45-0700\n"
-"PO-Revision-Date: 2012-03-16 18:45+0100\n"
+"PO-Revision-Date: 2012-03-21 18:54+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -816,13 +816,12 @@ msgstr "80 Spalten"
 
 #: src/arch/unix/gui/petui.c:225 src/arch/unix/gui/petui.c:362
 #: src/arch/win32/respet.rc.po.c:557
-#, fuzzy
 msgid "PET model"
 msgstr "PET Modell"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Load new editor ROM"
-msgstr "EditorROM laden"
+msgstr "Neues Editor ROM laden"
 
 #: src/arch/unix/gui/petui.c:248
 msgid "PET RAM and Expansion Unit"
@@ -2069,7 +2068,7 @@ msgstr "Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:95
 #: src/arch/unix/gui/uidrivec64c128.c:107
 msgid "Formel 64"
-msgstr ""
+msgstr "Formel 64"
 
 #: src/arch/unix/gui/uidrivec64c128.c:113
 #: src/arch/unix/gui/uidrivec64c128.c:126
@@ -2344,9 +2343,8 @@ msgid "Version 4"
 msgstr "Version 4"
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "Device 1 image name"
-msgstr "HD Image Name"
+msgstr "Gerät 1 Image Name"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2356,19 +2354,16 @@ msgid "Autodetect image size"
 msgstr "Image Größe automatisch erkennen"
 
 #: src/arch/unix/gui/uiide64.c:199
-#, fuzzy
 msgid "Device 2 image name"
-msgstr "HD Image Name"
+msgstr "Gerät 2 Image Name"
 
 #: src/arch/unix/gui/uiide64.c:218
-#, fuzzy
 msgid "Device 3 image name"
-msgstr "HD Image Name"
+msgstr "Gerät 3 Image Name"
 
 #: src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "Device 4 image name"
-msgstr "HD Image Name"
+msgstr "Gerät 4 Image Name"
 
 #: src/arch/unix/gui/uiide64.c:256 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uiretroreplay.c:59 src/arch/unix/gui/uivdc.c:155
@@ -2377,24 +2372,20 @@ msgid "Revision"
 msgstr "Revision"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "Device 1 settings"
-msgstr "HD 1 Einstellungen"
+msgstr "Gerät 1 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "Device 2 settings"
-msgstr "HD 2 Einstellungen"
+msgstr "Gerät 2 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "Device 3 settings"
-msgstr "HD 3 Einstellungen"
+msgstr "Gerät 3 Einstellungen"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "Device 4 settings"
-msgstr "HD 4 Einstellungen"
+msgstr "Gerät 4 Einstellungen"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2429,14 +2420,12 @@ msgid "HIT userport joy adapter"
 msgstr "HIT Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1100
-#, fuzzy
 msgid "Kingsoft userport joy adapter"
-msgstr "Kein Userport Joystick Adapter"
+msgstr "Kingsoft Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1101
-#, fuzzy
 msgid "Starbyte userport joy adapter"
-msgstr "Kein Userport Joystick Adapter"
+msgstr "Starbyte Userport Joystick Adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:161 src/arch/unix/gui/uijoystick2.c:213
 #: src/arch/unix/gui/uijoystick2.c:265 src/arch/unix/gui/uijoystick2.c:317
@@ -3113,9 +3102,8 @@ msgstr "Drucker #4 Treiber"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 output"
-msgstr "Drucker #4 Ausgabetyp"
+msgstr "Drucker #4 Ausgabe"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
@@ -3149,9 +3137,8 @@ msgstr "Drucker #5 Treiber"
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 output"
-msgstr "Drucker #5 Ausgabetyp"
+msgstr "Drucker #5 Ausgabe"
 
 #: src/arch/unix/gui/uiprinteriec.c:62
 #: src/arch/unix/gui/uiprinteriecplus4.c:61
@@ -3176,9 +3163,8 @@ msgid "Userport printer driver"
 msgstr "Userport Drucker Treiber"
 
 #: src/arch/unix/gui/uiprinteriec.c:72 src/arch/unix/gui/uiprinterieee.c:67
-#, fuzzy
 msgid "Userport printer output"
-msgstr "Userport Drucker Ausgabetyp"
+msgstr "Userport Drucker Ausgabe"
 
 #: src/arch/unix/gui/uiprinteriec.c:74 src/arch/unix/gui/uiprinterieee.c:69
 msgid "Userport printer text output device"
@@ -5605,9 +5591,8 @@ msgid "Value %d for %s is out of range, using %d instead"
 msgstr "Wert %d für %s ist unzulässig, benutze %d"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "Audio leak"
-msgstr "Audio Leak Emulation"
+msgstr "Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1253
 msgid "VICII Palette"
@@ -5691,23 +5676,23 @@ msgstr "TED Render Filter"
 
 #: src/arch/win32/res.rc.po.c:1273
 msgid "VICII Audio leak"
-msgstr ""
+msgstr "VICII Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "VIC Audio leak"
-msgstr ""
+msgstr "VIC Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "CRTC Audio leak"
-msgstr ""
+msgstr "CRTC Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "VDC Audio leak"
-msgstr ""
+msgstr "VDC Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "TED Audio leak"
-msgstr ""
+msgstr "TED Audio Leak"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "External Palette"
@@ -5984,9 +5969,8 @@ msgid "Idle method"
 msgstr "Idle Methode"
 
 #: src/arch/win32/res.rc.po.c:1374
-#, fuzzy
 msgid "Standard"
-msgstr "Standard Userport"
+msgstr "Standard"
 
 #: src/arch/win32/res.rc.po.c:1375 src/arch/amigaos/intl_text.c.po.c:5386
 msgid "Drive expansion"
@@ -6668,9 +6652,8 @@ msgid "IEEE488 Interface emulation"
 msgstr "IEEE488 Schnittstellen-Emulation"
 
 #: src/arch/win32/resc128.rc.po.c:738
-#, fuzzy
 msgid "C128 model settings"
-msgstr "CBM2 Modell Einstellungen"
+msgstr "C128 Modell Einstellungen"
 
 #: src/arch/win32/resc64.rc.po.c:609 src/arch/amigaos/intl_text.c.po.c:9881
 msgid "6569 (PAL)"
@@ -7469,9 +7452,8 @@ msgid "Select ROM file for V364 Speech"
 msgstr "Datei für V364 Stimme ROM auswählen"
 
 #: src/arch/win32/resvic20.rc.po.c:520 src/arch/win32/resvic20.rc.po.c:555
-#, fuzzy
 msgid "VIC20 settings"
-msgstr "VIC Einstellungen"
+msgstr "VIC20 Einstellungen"
 
 #: src/arch/win32/resvic20.rc.po.c:526
 msgid "Full (blocks 0/1/2/3/5)"
@@ -9895,9 +9877,8 @@ msgid "Attach raw 8kB Expert Cartridge image"
 msgstr "8kB Expert Cartridge Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:5962
-#, fuzzy
 msgid "Attach raw 32kB Formel 64 image"
-msgstr "8kB Freeze Machine Image (raw) einlegen"
+msgstr "32kB Formel 64 Image (raw) einlegen"
 
 #: src/translate_text.c.po.c:5979
 msgid "Attach raw 16kB Final Cartridge image"
@@ -10311,11 +10292,10 @@ msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM Erweiterung bei $A000-Bfff deaktivieren"
 
 #: src/translate_text.c.po.c:7851
-#, fuzzy
 msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
-msgstr "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3)"
+msgstr "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3, 3: Formel 64)"
 
 #: src/translate_text.c.po.c:7885
 msgid "Disable Professional DOS"
