@@ -686,6 +686,13 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ױשנֱױקנ½טµתנûֹת0
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIPתתתתתתתת€תתת
 0050: 30 80 5E FE C3 C2 CD 38 30 20 04 90 4C 38 DF AB   0€^‏ֲֳֽ80תתL8ß«
 
+    The Epyx FastLoad cart uses a simple capacitor to toggle the ROM on
+    and off:
+
+    the capacitor is discharged, and 8k game config enabled, by either
+    reading ROML or reading I/O-1. If none of those accesses happen the
+    capacitor will charge, and if it is charged (after 512 cycles) then
+    the ROM will get disabled.
 
 ===========================================================================
 
@@ -728,8 +735,8 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   ױשנֱױקנ½טµתנûֹת0
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIPתתתתתתתת€תתת
 0050: 08 80 C1 FE C3 C2 CD 38 30 6C 95 E3 20 A3 FD 20   ת€ֱ‏ֲֳֽ80l•דת£‎ת
 
-    When bits 7 and 6 are 1, then the cart is enabled, otherwise  the  cart
-    is disabled.
+    Reading from $DF00-DFBF disables ROM, reading from $DFC0-DFFF enables
+    ROM (8k game config).
 
 
 ===========================================================================
