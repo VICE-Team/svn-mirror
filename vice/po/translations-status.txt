@@ -5,10 +5,10 @@ file   language   % done   fuzzy   untranslated items
 de     German      100        0           0
 it     Italian     100        0           0
 nl     Dutch       100        0           0
+sv     Swedish     100        0           0
 es     Spanish      98       20           6
 pl     Polish       98       21           6
 tr     Turkish      98       35           9
-sv     Swedish      96       83          11
 da     Danish       90      212          27
 ru     Russian      70      302         422
 hu     Hungarian    59      827         140
