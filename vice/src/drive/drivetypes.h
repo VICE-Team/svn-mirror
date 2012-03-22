@@ -158,7 +158,7 @@ struct wd1770_s;
 typedef struct drive_context_s {
     int mynumber;         /* init to [0123] */
     CLOCK *clk_ptr;       /* shortcut to drive_clk[mynumber] */
-    struct drive_s *drive;    /* shortcut to drive[mynumber] */
+    struct drive_s *drive;
 
     struct drivecpu_context_s *cpu;
     struct drivecpud_context_s *cpud;

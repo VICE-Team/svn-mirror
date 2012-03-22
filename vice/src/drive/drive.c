@@ -293,22 +293,37 @@ void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
 {
     unsigned int dnr;
+    drive_t *drive;
+    drive_t *drive1;
 
     dnr = drv->mynumber;
 
     if (machine_drive_rom_check_loaded(type) < 0)
         return -1;
 
-    rotation_rotate_disk(drv->drive);
+    drive = drv->drive;
+    rotation_rotate_disk(drive);
 
-    drivesync_clock_frequency(type, drv->drive);
+    drivesync_clock_frequency(type, drive);
 
     rotation_init(0, dnr);
-    drv->drive->type = type;
-    drv->drive->side = 0;
+    drive->type = type;
+    drive->side = 0;
     machine_drive_rom_setup_image(dnr);
     drivesync_factor(drv);
     drive_set_active_led_color(type, dnr);
+
+    /* set up (relatively) easy detection of dual drives */
+    drive1 = drive_context[mk_drive1(dnr)]->drive;
+    drive->drive0 = NULL;
+    drive1->drive1 = NULL;
+    if (is_drive0(dnr) && drive_check_dual(type)) {
+        drive->drive1 = drive1;
+        drive1->drive0 = drive;
+    } else {
+        drive->drive1 = NULL;
+        drive1->drive0 = NULL;
+    }
 
     drivecpu_init(drv, type);
 
@@ -317,26 +332,19 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
 
 void drive_enable_update_ui(drive_context_t *drv)
 {
-    int i, drive_true_emulation = 0;
-    unsigned int dnr;
-    drive_t *drive;
+    int i;
     unsigned int enabled_drives = 0;
-
-    dnr = drv->mynumber;
-    drive = drv->drive;
 
     for (i = 0; i < DRIVE_NUM; i++) {
         unsigned int the_drive;
+        drive_t *drive = drive_context[i]->drive;
  
-        int drive0 = mk_drive0(i);
-        int dual = drive_context[drive0]->drive->enable &&
-                   drive_check_dual(drive_context[drive0]->drive->type);
         the_drive = 1 << i;
 
-        if (drive_context[i]->drive->enable || dual) {
+        if (drive->enable || (drive->drive0 && drive->drive0->enable)) {
             enabled_drives |= the_drive;
-            drive_context[i]->drive->old_led_status = -1;
-            drive_context[i]->drive->old_half_track = -1;
+            drive->old_led_status = -1;
+            drive->old_half_track = -1;
         }
     }
 
@@ -685,22 +693,20 @@ void drive_update_ui_status(void)
 
     /* Update the LEDs and the track indicators.  */
     for (i = 0; i < DRIVE_NUM; i++) {
-        drive_t *drive;
-        drive_t *drive0 = drive_context[mk_drive0(i)]->drive;
-        int dual = drive0->enable &&
-                   drive_check_dual(drive0->type);
+        drive_t *drive = drive_context[i]->drive;
+        drive_t *drive0 = drive->drive0;
+        int dual = drive0 && drive0->enable;
 
-        drive = drive_context[i]->drive;
-        if (!dual) {
-            drive0 = drive;
-        }
+        if (drive->enable || dual) {
+            if (!drive0) {
+                drive0 = drive;
+            }
 
-        if (drive->enable
-            || (is_drive1(i) && dual)) {
             drive_led_update(drive, drive0);
 
             if (drive->current_half_track != drive->old_half_track) {
                 drive->old_half_track = drive->current_half_track;
+                dual = dual || drive->drive1;   /* also include drive 0 */
                 ui_display_drive_track(i,
                         dual ? 0 : 8,
                         drive->current_half_track);
@@ -711,17 +717,18 @@ void drive_update_ui_status(void)
 
 int drive_num_leds(unsigned int dnr)
 {
-    if (drive_check_old(drive_context[dnr]->drive->type)) {
+    drive_t *drive = drive_context[dnr]->drive;
+
+    if (drive_check_old(drive->type)) {
         return 2;
     }
 
-    if (is_drive1(dnr) &&
-            drive_check_dual(drive_context[mk_drive0(dnr)]->drive->type)) {
+    if (drive->drive0) {
         return 2;
     }
 
-    if (drive_context[dnr]->drive->type == DRIVE_TYPE_2000
-        || drive_context[dnr]->drive->type == DRIVE_TYPE_4000) {
+    if (drive->type == DRIVE_TYPE_2000
+        || drive->type == DRIVE_TYPE_4000) {
         return 2;
     }
 
