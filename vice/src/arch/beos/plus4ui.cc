@@ -47,6 +47,7 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_ted.h"
 #include "video.h"
 }
 
@@ -97,6 +98,9 @@ ui_res_value_list plus4_ui_res_values[] = {
 static void plus4_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
+        case MENU_TED_SETTINGS:
+            ui_ted();
+            break;
         case MENU_V364SPEECH_FILE:
             ui_select_file(B_SAVE_PANEL, V364SPEECH_FILE, (void*)0);
             break;

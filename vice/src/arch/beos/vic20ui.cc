@@ -48,6 +48,7 @@ extern "C" {
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_vic20.h"
+#include "ui_vic.h"
 #include "util.h"
 #include "vic20ui.h"
 #include "video.h"
@@ -148,6 +149,9 @@ void vic20_ui_specific(void *msg, void *window)
             }
         case MENU_VIC20_SETTINGS:
             ui_vic20();
+            break;
+        case MENU_VIC_SETTINGS:
+            ui_vic();
             break;
         default:
             break;

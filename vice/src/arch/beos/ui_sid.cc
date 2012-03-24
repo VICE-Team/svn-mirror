@@ -60,11 +60,13 @@ static int *sidaddressbase;
 
 class SidWindow : public BWindow {
         BOptionPopUp *engine_model_popup;
-        BOptionPopUp *address_popup;
+        BOptionPopUp *second_sid_popup;
+        BOptionPopUp *third_sid_popup;
         BSlider *passbandslider;
+        BBox *extrasidbox;
         BBox *residbox;
 
-        void CreateAddressList();
+        BOptionPopUp *CreateAddressPopUp(BRect r, char *label, char *resource);
         void EnableReSidControls(int engine);
     public:
         SidWindow();
@@ -74,11 +76,14 @@ class SidWindow : public BWindow {
 
 static SidWindow *sidwindow = NULL;
 
-void SidWindow::CreateAddressList()
+BOptionPopUp *SidWindow::CreateAddressPopUp(BRect r, char *label, char *resource)
 {
+    BOptionPopUp *address_popup;
     char st[12];
     int adr, ladr, hi;
     int *hadr = sidaddressbase;
+
+    address_popup = new BOptionPopUp(r, resource, label, new BMessage(MESSAGE_SID_ADDRESS));
 
     for (hi = 0; hadr[hi] >= 0; hi++) {
         for (ladr = (hi == 0 ? 0x20 : 0x0); ladr < 0x100; ladr += 0x20) {
@@ -88,6 +93,12 @@ void SidWindow::CreateAddressList()
             address_popup->AddOption(st, adr);
         }
     }
+
+    resources_get_int(resource, &adr);
+    address_popup->SelectOptionFor(adr);
+    extrasidbox->AddChild(address_popup);
+
+    return address_popup;
 }
 
 void SidWindow::EnableReSidControls(int engine)
@@ -102,14 +113,14 @@ void SidWindow::EnableReSidControls(int engine)
 }
 
 SidWindow::SidWindow() 
-    : BWindow(BRect(250, 50, 500, 240), "Sid settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
+    : BWindow(BRect(250, 50, 500, 310), "SID settings", B_TITLED_WINDOW_LOOK, B_MODAL_APP_WINDOW_FEEL, B_NOT_ZOOMABLE | B_NOT_RESIZABLE) 
 {
     BMessage *msg;
     BCheckBox *checkbox;
     BRect r;
-    BBox *box;
     BRadioButton *radiobutton;
     BView *background;
+    char st[12];
     int engine, res_val, i;
 
     r = Bounds();
@@ -124,7 +135,7 @@ SidWindow::SidWindow()
     res_val = engine << 8;
     res_val |= i;
     r.bottom = 35;
-    r.InsetBy(10, 5);
+    r.InsetBy(10, 10);
     engine_model_popup = new BOptionPopUp(r, "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SID_MODEL));
     for (i = 0; sid_engine_model_list[i] != NULL; i++) {
         engine_model_popup->AddOption(sid_engine_model_list[i]->name, sid_engine_model_list[i]->value);
@@ -139,21 +150,35 @@ SidWindow::SidWindow()
     background->AddChild(checkbox);
 
     if (sidaddressbase) {
-        /* SID address */
-        resources_get_int("SidStereoAddressStart", &res_val);
-        address_popup = new BOptionPopUp(BRect(120, 50, 240, 75), "", "", new BMessage(MESSAGE_SID_ADDRESS));
-        CreateAddressList();
-        address_popup->SelectOptionFor(res_val);
-        background->AddChild(address_popup);
+        extrasidbox = new BBox(BRect(10, 60, 240, 140), "Extra SID chips");
+        extrasidbox->SetViewColor(220, 220, 220, 0);
+        extrasidbox->SetLabel("Extra SID chips");
+        background->AddChild(extrasidbox);
 
-        /* Stereo SID */
+        /* Extra SIDs */
         resources_get_int("SidStereo", &res_val);
-        checkbox = new BCheckBox(BRect(10, 55, 120, 70), "Stereo SID at", "Stereo SID at", new BMessage(MESSAGE_SID_STEREO));
-        checkbox->SetValue(res_val);
-        background->AddChild(checkbox);
-        address_popup->SetEnabled(res_val);
+        for (i = 0; i < 3; i++) {
+            msg = new BMessage(MESSAGE_SID_STEREO);
+            msg->AddInt32("sids", i);
+            sprintf(st, "%d", i);
+            radiobutton = new BRadioButton(BRect(10, 15 + i * 20, 50, 30 + i * 20), st, st, msg);
+            radiobutton->SetValue(res_val == i);
+            extrasidbox->AddChild(radiobutton);
+        }
+
+        /* Extra SID addresses */
+        r = extrasidbox->Bounds();
+        r.InsetBy(10, 0);
+        r.left = 60;
+        r.bottom = 25;
+        second_sid_popup = CreateAddressPopUp(BRect(60, 15, 220, 40), "Second SID at", "SidStereoAddressStart");
+        second_sid_popup->SetEnabled(res_val >= 1);
+        third_sid_popup = CreateAddressPopUp(BRect(60, 45, 220, 70), "Third SID at", "SidTripleAddressStart");
+        third_sid_popup->SetEnabled(res_val >= 2);
     } else {
-        address_popup = NULL;
+        extrasidbox = NULL;
+        second_sid_popup = NULL;
+        third_sid_popup = NULL;
         ResizeTo(250, 170);
     }
 
@@ -197,6 +222,7 @@ SidWindow::~SidWindow()
 
 void SidWindow::MessageReceived(BMessage *msg)
 {
+    BOptionPopUp *address_popup;
     int32 engine, val;
 
     switch (msg->what) {
@@ -212,14 +238,17 @@ void SidWindow::MessageReceived(BMessage *msg)
             resources_toggle("SidFilters", (int *)&val);
             break;
         case MESSAGE_SID_STEREO:
-            if (address_popup) {
-                resources_toggle("SidStereo", (int *)&val);
-                address_popup->SetEnabled(val);
+            if (extrasidbox) {
+                val = msg->FindInt32("sids");
+                resources_set_int("SidStereo", (int)val);
+                second_sid_popup->SetEnabled(val >= 1);
+                third_sid_popup->SetEnabled(val >= 2);
             }
             break;
         case MESSAGE_SID_ADDRESS:
+            msg->FindPointer("source", (void **)&address_popup);
             if (address_popup) {
-                resources_set_int("SidStereoAddressStart", address_popup->Value());
+                resources_set_int(address_popup->Name(), address_popup->Value());
             }
             break;
         case MESSAGE_SID_RESIDSAMPLING:
@@ -234,7 +263,8 @@ void SidWindow::MessageReceived(BMessage *msg)
     }
 }
 
-void ui_sid(int *stereoaddressbase) {
+void ui_sid(int *stereoaddressbase)
+{
     thread_id sidthread;
     status_t exit_value;
 

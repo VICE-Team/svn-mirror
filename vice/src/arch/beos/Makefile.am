@@ -15,6 +15,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/imagecontents \
@@ -75,8 +76,12 @@ libarch_a_SOURCES = \
 	ui_siddtv.h \
 	ui_sound.cc \
 	ui_sound.h \
+	ui_ted.cc \
+	ui_ted.h \
 	ui_vic20.cc \
 	ui_vic20.h \
+	ui_vic.cc \
+	ui_vic.h \
 	ui_vicii.cc \
 	ui_vicii.h \
 	ui_video.cc \

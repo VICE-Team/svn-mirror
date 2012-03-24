@@ -774,6 +774,14 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(new BMenuItem("VIC-II ...", new BMessage(MENU_VICII_SETTINGS)));
     }
 
+    if (machine_class == VICE_MACHINE_VIC20) {
+        uppermenu->AddItem(new BMenuItem("VIC ...", new BMessage(MENU_VIC_SETTINGS)));
+    }
+
+    if (machine_class == VICE_MACHINE_PLUS4) {
+        uppermenu->AddItem(new BMenuItem("TED ...", new BMessage(MENU_TED_SETTINGS)));
+    }
+
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Joystick"));
         if (machine_class != VICE_MACHINE_PET && machine_class != VICE_MACHINE_CBM6x0) {

@@ -290,15 +290,17 @@ const uint32 MENU_USERPORT_JOY_HUMMER             = 'M182';
 const uint32 MENU_USERPORT_JOY_OEM                = 'M183';
 const uint32 MENU_USERPORT_JOY_HIT                = 'M184';
 
-const uint32 MENU_DATASETTE_SETTINGS              = 'M204';
+const uint32 MENU_DATASETTE_SETTINGS              = 'M203';
+const uint32 MENU_VIC20_SETTINGS                  = 'M204';
 const uint32 MENU_CBM2_SETTINGS                   = 'M205';
 const uint32 MENU_PET_SETTINGS                    = 'M206';
 const uint32 MENU_VICII_SETTINGS                  = 'M207';
-const uint32 MENU_VIC20_SETTINGS                  = 'M208';
-const uint32 MENU_VIDEO_SETTINGS                  = 'M209';
-const uint32 MENU_VIDEO_VDC_SETTINGS              = 'M210';
-const uint32 MENU_SID_SETTINGS                    = 'M211';
-const uint32 MENU_RAM_SETTINGS                    = 'M212';
+const uint32 MENU_VIC_SETTINGS                    = 'M208';
+const uint32 MENU_TED_SETTINGS                    = 'M209';
+const uint32 MENU_VIDEO_SETTINGS                  = 'M210';
+const uint32 MENU_VIDEO_VDC_SETTINGS              = 'M211';
+const uint32 MENU_SID_SETTINGS                    = 'M212';
+const uint32 MENU_RAM_SETTINGS                    = 'M213';
 
 const uint32 MENU_C64_MODEL_C64_PAL               = 'M216';
 const uint32 MENU_C64_MODEL_C64C_PAL              = 'M217';
