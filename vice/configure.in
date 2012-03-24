@@ -1707,6 +1707,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
         AC_CHECK_HEADER(inline/SDL.h,[SDL_AMIGA_INLINE=yes], [SDL_AMIGA_INLINE=no],)
         AC_CHECK_HEADER(ppcinline/powersdl.h,[POWERSDL_AMIGA_INLINE=yes], [POWERSDL_AMIGA_INLINE=no],)
         AC_CHECK_LIB(debug, kprintf, [LIBS="$LIBS -ldebug"])
+        AC_CHECK_LIB(GL, AROSMesaCreateContext, [LIBS="$LIBS -lGL"])
         if test x"$SDL_AMIGA_INLINE" = "xyes"; then
             AC_DEFINE(SDL_AMIGA_INLINE,,[Enable amiga shared SDL library support.])
             AC_DEFINE(HAVE_SDL_NUMJOYSTICKS,, [Define to 1 if you have the `SDL_NumJoysticks' function.])
@@ -1718,7 +1719,7 @@ if test x"$with_sdlsound" = "xyes" -o x"$enable_sdlui" = "xyes"; then
             if test x"$found_sdl_lib" = "xno"; then
                 AC_MSG_ERROR([static SDL lib missing])
             else
-                LIBS="$LIBS -lSDL"
+                LIBS="-lSDL $LIBS"
             fi
             AC_CHECK_LIB(SDL, SDL_OpenAudio, [found_sdl_sound=yes], [found_sdl_sound=no])
             if test x"$found_sdl_sound" = "xyes"; then
