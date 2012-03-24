@@ -107,7 +107,12 @@ static void init_cbm2model_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"720 PAL");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"720 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"720+ NTSC");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_UNKNOWN));
+
     res_value = cbm2model_get();
+    if (res_value > 13) {
+        res_value = 13;
+    }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value - 2, 0);
 }
 

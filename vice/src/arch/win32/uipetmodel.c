@@ -106,8 +106,12 @@ static void init_petmodel_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"PET 8096");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"PET 8296");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"SUPERPET");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_UNKNOWN));
 
     model = petmodel_get();
+    if (model > 11) {
+        model = 11;
+    }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)model, 0);
 }
 

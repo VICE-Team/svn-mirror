@@ -98,7 +98,12 @@ static void init_cbm5x0model_dialog(HWND hwnd)
     temp_hwnd = GetDlgItem(hwnd, IDC_CBM2MODEL_LIST);
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"510 PAL");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"510 NTSC");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_UNKNOWN));
+
     res_value = cbm2model_get();
+    if (res_value > 2) {
+        res_value = 2;
+    }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 

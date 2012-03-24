@@ -98,7 +98,11 @@ static void init_c128model_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C128 DCR PAL");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C128 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C128 DCR NTSC");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_UNKNOWN));
     res_value = c128model_get();
+    if (res_value > 4) {
+        res_value = 4;
+    }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 

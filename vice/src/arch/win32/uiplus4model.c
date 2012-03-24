@@ -102,7 +102,12 @@ static void init_plus4model_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Plus4 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"V364 NTSC");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C232 NTSC");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_UNKNOWN));
+
     res_value = plus4model_get();
+    if (res_value > 6) {
+        res_value = 6;
+    }
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 }
 
