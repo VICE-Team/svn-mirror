@@ -50,6 +50,7 @@
 #include "uidrivevic20.h"
 #include "uiedit.h"
 #include "uigeoram.h"
+#include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uilib.h"
 #include "uimenu.h"
@@ -380,52 +381,6 @@ static UI_CALLBACK(set_joystick_device)
     }
 }
 
-static ui_menu_entry_t set_joystick_device_1_submenu[] = {
-    { N_("None"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_NONE, NULL },
-    { N_("Numpad"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_NUMPAD, NULL },
-    { N_("Keyset A"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_KEYSET1, NULL },
-    { N_("Keyset B"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_KEYSET2, NULL },
-#ifdef HAS_JOYSTICK
-    { N_("Analog Joystick 0"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_ANALOG_0, NULL },
-    { N_("Analog Joystick 1"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_ANALOG_1, NULL },
-#ifdef HAS_DIGITAL_JOYSTICK
-    { N_("Digital Joystick 0"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_DIGITAL_0, NULL },
-    { N_("Digital Joystick 1"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_DIGITAL_1, NULL },
-#endif
-#ifdef HAS_USB_JOYSTICK
-    { N_("USB Joystick 0"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_USB_0, NULL },
-    { N_("USB Joystick 1"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)set_joystick_device,
-      (ui_callback_data_t)JOYDEV_USB_1, NULL },
-#endif
-#endif
-    { NULL }
-};
-
-static ui_menu_entry_t joystick_settings_menu[] = {
-    { N_("Joystick settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_joystick_device_1_submenu },
-    { NULL }
-};
-
 /*------------------------------------------------------------*/
 
 static ui_menu_entry_t rs232_settings_menu[] = {
@@ -593,7 +548,7 @@ static ui_menu_entry_t vic20_right_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, joystick_settings_menu },
+      NULL, NULL, joystick_settings_vic20_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, vic20_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -671,7 +626,7 @@ static ui_menu_entry_t vic20_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, joystick_settings_menu },
+      NULL, NULL, joystick_settings_vic20_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, vic20_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
