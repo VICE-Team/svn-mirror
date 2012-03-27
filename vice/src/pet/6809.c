@@ -2870,6 +2870,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 PC = ea;
                 break;
             case 0x0f:	/* CLR direct */
+                direct();
                 CLK_ADD(4, 3);
                 WRMEM(ea, clr(RDMEM(ea)));
                 break;
