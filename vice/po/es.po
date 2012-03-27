@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-03-20 16:45-0700\n"
-"PO-Revision-Date: 2012-03-27 14:18+0100\n"
+"PO-Revision-Date: 2012-03-27 14:24+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
 "Language: \n"
@@ -553,7 +553,7 @@ msgstr "Ajustes ROM"
 #: src/arch/amigaos/intl_text.c.po.c:2250
 #: src/arch/amigaos/intl_text.c.po.c:7571
 msgid "VIC-II settings"
-msgstr "Ajuester VIC-II"
+msgstr "Ajustes VIC-II"
 
 #: src/arch/unix/gui/c128ui.c:594
 #: src/arch/win32/resc128.rc.po.c:184
