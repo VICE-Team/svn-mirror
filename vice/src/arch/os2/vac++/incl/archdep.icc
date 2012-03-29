@@ -1,6 +1,3 @@
-source type(h)
-    "config.h"
-    
 source type(c)
     "archdep.c",
     "blockdev.c",
