@@ -102,7 +102,11 @@ static int checklineignore(void)
 
 static void replacetags(void)
 {
+#ifdef _MSC_VER
     char *temp = _strdup(line_buffer);
+#else
+    char *temp = strdup(line_buffer);
+#endif
     int countersrc = 0;
     int counterdst = 0;
     int i, j, len;
