@@ -11,6 +11,8 @@ EXTRA_DIST = \
 	xvic/Xvic.ICC \
 	fonts1.icc \
 	fonts2.icc \
+	geninfo1.icc \
+	geninfo2.icc \
 	gentranslate.icc \
 	gentransfiles.icc \
 	ide-config.h \
