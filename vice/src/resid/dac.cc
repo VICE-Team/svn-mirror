@@ -22,6 +22,11 @@
 #include "dac.h"
 #include <math.h>
 
+#ifdef __IBMC__
+#include <float.h>
+#define INFINITY _INF
+#endif
+
 #ifndef INFINITY
 union MSVC_EVIL_FLOAT_HACK
 {
