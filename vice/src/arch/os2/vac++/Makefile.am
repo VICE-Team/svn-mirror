@@ -9,11 +9,11 @@ EXTRA_DIST = \
 	xpet/Xpet.ICC \
 	xplus4/Xplus4.ICC \
 	xvic/Xvic.ICC \
-	config.h \
 	fonts1.icc \
 	fonts2.icc \
 	gentranslate.icc \
 	gentransfiles.icc \
+	ide-config.h \
 	PETcat.ICC \
 	RESID.ICC \
 	RESIDDTV.ICC \
