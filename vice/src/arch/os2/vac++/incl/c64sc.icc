@@ -1,4 +1,3 @@
 source type(c)
     "c64cpu.c",
-    "c64memsc.c",
-    "c64scmodel.c"
+    "c64memsc.c"

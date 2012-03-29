@@ -1,0 +1,7 @@
+source type(c)
+    "cbm5x0-resources.c",
+    "cbm5x0-snapshot.c",
+    "cbm5x0.c",
+    "cbm5x0mem.c",
+    "cbm5x0rom.c",
+    "cbm5x0video.c"

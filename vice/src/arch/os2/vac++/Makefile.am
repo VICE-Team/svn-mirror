@@ -19,6 +19,7 @@ EXTRA_DIST = \
 	PETcat.ICC \
 	RESID.ICC \
 	RESIDDTV.ICC \
+	RESIDFP.ICC \
 	vicedll.ICC \
 	incl/archdep.icc \
 	incl/c128.icc \
@@ -28,9 +29,12 @@ EXTRA_DIST = \
 	incl/c64commonc64dtv.icc \
 	incl/c64commonc64sc.icc \
 	incl/c64commonc128.icc \
+	incl/c64commoncart.icc \
 	incl/c64dtv.icc \
 	incl/c64sc.icc \
 	incl/cbm2.icc \
+	incl/cbm2common.icc \
+	incl/cbm5x0.icc \
 	incl/core.icc \
 	incl/crtc.icc \
 	incl/dialogs.icc \
@@ -49,6 +53,7 @@ EXTRA_DIST = \
 	incl/imagecontents.icc \
 	incl/kbd.icc \
 	incl/mainsrc.icc \
+	incl/mon6809.icc \
 	incl/monitor.icc \
 	incl/monz80.icc \
 	incl/parallel.icc \
@@ -65,11 +70,13 @@ EXTRA_DIST = \
 	incl/sounddrv.icc \
 	incl/tape.icc \
 	incl/tcbm.icc \
+	incl/userport.icc \
 	incl/vdc.icc \
 	incl/vdrive.icc \
 	incl/vic20.icc \
 	incl/vic20cart.icc \
 	incl/vicii.icc \
+	incl/viciicommon.icc \
 	incl/viciidtv.icc \
 	incl/viciisc.icc \
 	incl/video.icc \

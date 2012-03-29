@@ -1,0 +1,17 @@
+source type(c)
+    "cbm2-cmdline-options.c",
+    "cbm2acia1.c",
+    "cbm2bus.c",
+    "cbm2cia1.c",
+    "cbm2cpu.c",
+    "cbm2datasette.c",
+    "cbm2drive.c",
+    "cbm2iec.c",
+    "cbm2mem.c",
+    "cbm2memsnapshot.c",
+    "cbm2model.c",
+    "cbm2printer.c",
+    "cbm2romset.c",
+    "cbm2sound.c",
+    "cbm2tpi1.c",
+    "cbm2tpi2.c"

@@ -1,0 +1,4 @@
+source type(c)
+    "asm6809.c",
+    "mon_assemble6809.c",
+    "mon_register6809.c"

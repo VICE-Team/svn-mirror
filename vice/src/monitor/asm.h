@@ -90,7 +90,7 @@ enum asm_addr_mode {
     ASM_ADDR_MODE_REL_WORD,     /* 48 */
     ASM_ADDR_MODE_REG_POST,     /* 50 */
     ASM_ADDR_MODE_SYS_POST,     /* 51 */
-    ASM_ADDR_MODE_USR_POST,     /* 52 */
+    ASM_ADDR_MODE_USR_POST      /* 52 */
 };
 typedef enum asm_addr_mode asm_addr_mode_t;
 

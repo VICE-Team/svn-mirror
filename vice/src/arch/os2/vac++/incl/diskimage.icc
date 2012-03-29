@@ -5,5 +5,4 @@ source type(c)
     "fsimage-gcr.c",
     "fsimage-probe.c",
     "fsimage.c",
-//    "rawimage.c",
     "realimage.c"
