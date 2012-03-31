@@ -18,5 +18,4 @@ source type(c)
     "video-render-crt.c",
     "video-render-pal.c",
     "video-resources.c",
-    "video-resources-pal.c",
     "video-viewport.c"

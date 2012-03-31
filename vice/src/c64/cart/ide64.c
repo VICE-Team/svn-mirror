@@ -34,6 +34,11 @@
 #include <sys/types.h>
 #endif
 
+/* VAC++ has off_t in sys/stat.h */
+#ifdef __IBMC__
+#include <sys/stat.h>
+#endif
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
