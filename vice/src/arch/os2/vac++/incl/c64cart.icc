@@ -35,6 +35,7 @@ source type(c)
     "cart\\ide64.c",
     "cart\\isepic.c",
     "cart\\kcs.c",
+    "cart\\kingsoft.c",
     "cart\\mach5.c",
     "cart\\magicdesk.c",
     "cart\\magicformel.c",
