@@ -32,6 +32,7 @@
 #define VICE_MONITOR_NETWORK_H
 
 #include "types.h"
+#include "uiapi.h"
 
 extern int monitor_network_resources_init(void);
 extern void monitor_network_resources_shutdown(void);
@@ -43,5 +44,7 @@ extern int monitor_network_transmit(const char * buffer, size_t buffer_length);
 extern char * monitor_network_get_command_line(void);
 
 extern int monitor_is_remote(void);
+
+extern ui_jam_action_t monitor_network_ui_jam_dialog(const char *format, ...);
 
 #endif

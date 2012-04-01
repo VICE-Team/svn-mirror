@@ -53,9 +53,7 @@
 #include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
-#ifdef HAVE_NETWORK
 #include "monitor_network.h"
-#endif
 #include "network.h"
 #include "printer.h"
 #include "resources.h"
@@ -90,7 +88,15 @@ unsigned int machine_jam(const char *format, ...)
     va_start(ap, format);
     str = lib_mvsprintf(format, ap);
     va_end(ap);
-    ret = ui_jam_dialog(str);
+
+    if (monitor_is_remote())
+    {
+        ret = monitor_network_ui_jam_dialog(str);
+    }
+    else
+    {
+        ret = ui_jam_dialog(str);
+    }
     lib_free(str);
 
     switch (ret) {

@@ -40,6 +40,7 @@
 #include "monitor_network.h"
 #include "resources.h"
 #include "translate.h"
+#include "ui.h"
 #include "uiapi.h"
 #include "util.h"
 #include "vicesocket.h"
@@ -373,6 +374,27 @@ int monitor_is_remote(void)
     return connected_socket != NULL;
 }
 
+ui_jam_action_t monitor_network_ui_jam_dialog(const char *format, ...)
+{
+    char * txt;
+
+    char init_string[] = "An error occurred: ";
+    char end_string[] = "\n";
+
+    va_list ap;
+    va_start(ap, format);
+    txt = lib_mvsprintf(format, ap);
+    va_end(ap);
+
+    monitor_network_transmit(init_string, sizeof init_string - 1);
+    monitor_network_transmit(txt, strlen(txt));
+    monitor_network_transmit(end_string, sizeof end_string - 1);
+
+    lib_free(txt);
+
+    return UI_JAM_HARD_RESET;
+}
+
 #else
 
 int monitor_network_resources_init(void)
@@ -406,6 +428,11 @@ char * monitor_network_get_command_line(void)
 int monitor_is_remote(void)
 {
     return 0;
+}
+
+ui_jam_action_t monitor_network_ui_jam_dialog(const char *format, ...)
+{
+    return UI_JAM_HARD_RESET;
 }
 
 #endif
