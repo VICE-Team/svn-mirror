@@ -2006,7 +2006,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
             break;
         case WM_MOUSEMOVE:
             _mouse_x = (int)((lparam & 0xFFFF) * 4);
-            _mouse_y = (int)(((lparam >> 16) & 0xFFFF) * 4);
+            _mouse_y = (int)(((~lparam >> 16) & 0xFFFF) * 4);
             _mouse_timestamp = vsyncarch_gettime();
             break;
         case WM_LBUTTONDOWN:

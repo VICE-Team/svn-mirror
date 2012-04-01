@@ -114,33 +114,27 @@ void mousedrv_init(void)
 
 inline static void _update_mouse(void)
 {
-    if (_mouse_coords_dirty) {
+    if (_mouse_coords_dirty && _mouse_available && _mouse_enabled) {
         int x, y;
 
         get_mouse_mickeys(&x, &y);
-        _mouse_x = (_mouse_x + (x / 3)) & 0xff;
-        _mouse_y = (_mouse_y + (y / 3)) & 0xff;
+        _mouse_x += x / 3;
+        _mouse_y -= y / 3;
         _mouse_coords_dirty = 0;
         mouse_timestamp = vsyncarch_gettime();
     }
 }
 
-BYTE mousedrv_get_x(void)
+int mousedrv_get_x(void)
 {
-    if (!_mouse_available || !_mouse_enabled) {
-        return 0xff;
-    }
     _update_mouse();
-    return (BYTE)(_mouse_x >> 1) & 0x7e;
+    return _mouse_x >> 1;
 }
 
-BYTE mousedrv_get_y(void)
+int mousedrv_get_y(void)
 {
-    if (!_mouse_available || !_mouse_enabled) {
-        return 0xff;
-    }
     _update_mouse();
-    return (BYTE)(~_mouse_y >> 1) & 0x7e;
+    return _mouse_y >> 1;
 }
 
 unsigned long mousedrv_get_timestamp(void)

@@ -39,8 +39,6 @@ extern void ps2mouse_store(BYTE value);
 extern int ps2mouse_resources_init(void);
 extern int ps2mouse_cmdline_options_init(void);
 
-extern BYTE ps2mouse_value;
-
 extern int ps2mouse_enabled;
 
 extern int mouse_resources_init(void);

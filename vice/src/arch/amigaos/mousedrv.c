@@ -74,7 +74,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mb |= MB_LEFT;
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -83,7 +83,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mb &= ~MB_LEFT;
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -92,7 +92,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mb |= MB_RIGHT;
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -101,7 +101,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mb &= ~MB_RIGHT;
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -110,7 +110,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mb |= MB_MIDDLE;
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -119,7 +119,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mb &= ~MB_MIDDLE;
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -127,7 +127,7 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                 case (IECODE_NOBUTTON):
                     Forbid();
                     g_mx += event->ie_position.ie_xy.ie_x;
-                    g_my += event->ie_position.ie_xy.ie_y;
+                    g_my -= event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
@@ -231,30 +231,28 @@ void mousedrv_mouse_changed(void)
     }
 }
 
-BYTE mousedrv_get_x(void)
+int mousedrv_get_x(void)
 {
-    int mx;
+    static int mx;
 
-    if (!_mouse_enabled) {
-        return 0xff;
+    if (_mouse_enabled) {
+        Forbid();
+        mx = g_mx;
+        Permit();
     }
-    Forbid();
-    mx = g_mx;
-    Permit();
-    return (BYTE)(mx >> 1) & 0x7e;
+    return mx >> 1;
 }
 
-BYTE mousedrv_get_y(void)
+int mousedrv_get_y(void)
 {
-    int my;
+    static int my;
 
-    if (!_mouse_enabled) {
-        return 0xff;
+    if (_mouse_enabled) {
+        Forbid();
+        my = g_my;
+        Permit();
     }
-    Forbid();
-    my = g_my;
-    Permit();
-    return (BYTE)(~my >> 1) & 0x7e;
+    return my >> 1;
 }
 
 void mousedrv_sync(void)

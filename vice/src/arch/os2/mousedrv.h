@@ -36,8 +36,8 @@ extern void mousedrv_init(void);
 
 extern void mousedrv_mouse_changed(void);
 
-extern BYTE mousedrv_get_x(void);
-extern BYTE mousedrv_get_y(void);
+extern int mousedrv_get_x(void);
+extern int mousedrv_get_y(void);
 extern unsigned long mousedrv_get_timestamp(void);
 
 /* ------------------ OS/2 specific ------------------- */

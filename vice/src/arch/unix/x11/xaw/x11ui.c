@@ -595,7 +595,6 @@ static void freeBlankCursor(void)
 }
 #endif
 
-static int mouse_posx, mouse_posy;
 static int mouse_lasteventx, mouse_lasteventy;
 static int mouse_warped = 0;
 #define MOUSE_WRAP_MARGIN  40
@@ -684,9 +683,7 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                         mouse_warped = 1;
                         XWarpPointer(display, None, XtWindow(last_visited_canvas), 0, 0, 0, 0, x, y);
                     } else {
-                        mouse_posx += ptrx - mouse_lasteventx;
-                        mouse_posy += ptry - mouse_lasteventy;
-                        mouse_move(mouse_posx, mouse_posy);
+                        mouse_move(ptrx - mouse_lasteventx, ptry - mouse_lasteventy);
                         mouse_lasteventx = ptrx;
                         mouse_lasteventy = ptry;
                     }

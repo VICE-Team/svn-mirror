@@ -88,33 +88,50 @@ void mouse_set_input(int port)
 /* --------------------------------------------------------- */
 /* 1351 mouse */
 
-/* FIXME: old code, remove this if the code below is proven correct */
-#if 0
-/* FIXME this is too simplistic as it doesn't take the sampling
-   period into account. Using this code breaks (at least) the
-   Final Cartridge III mouse code, hence disabling it for now.
+/*
+    to avoid strange side effects two things are done here:
+
+    - max delta is limited to MOUSE_MAX_DIFF
+    - if the delta is limited, then the current position is linearly 
+      interpolated towards the real position using MOUSE_MAX_DIFF for the axis
+      with the largest delta
 */
-static BYTE mouse_get_1351_x(void)
-{
-    return (input_port == mouse_port) ? mousedrv_get_x() : 0xff;
-}
+#define MOUSE_MAX_DIFF  16
 
-static BYTE mouse_get_1351_y(void)
-{
-    return (input_port == mouse_port) ? mousedrv_get_y() : 0xff;
-}
-#endif
-#if 0
-static BYTE mouse_get_1351_x(void)
-{
-    return mousedrv_get_x();
-}
+static int last_mouse_x = 0;
+static int last_mouse_y = 0;
+static CLOCK last_update = 0;
 
-static BYTE mouse_get_1351_y(void)
+static void domove(void)
 {
-    return mousedrv_get_y();
+    SWORD dx, dy;
+    int ax, ay;
+    float f;
+    if (maincpu_clk >> 9 == last_update)
+        return; /* update every 512 cycles */
+    last_update = maincpu_clk >> 9;
+
+    dx = (SWORD)(mousedrv_get_x() - last_mouse_x);
+    dy = (SWORD)(mousedrv_get_y() - last_mouse_y);
+    ax = abs((int)dx); ay = abs((int)dy);
+
+    if ((ax > MOUSE_MAX_DIFF) || (ay > MOUSE_MAX_DIFF)) {
+        if (ay > ax) {
+            /* do big step in Y */
+            f = (float)ay / MOUSE_MAX_DIFF;
+        } else {
+            /* do big step in X */
+            f = (float)ax / MOUSE_MAX_DIFF;
+        }
+        last_mouse_x += (int)((float)dx / f);
+        last_mouse_y += (int)((float)dy / f);
+        DBG(("mousex %8d y %8d lastx %8d y %8d dx %d dy %d f:%f dxf:%f dxy:%f",
+            mousedrv_get_x(), mousedrv_get_y(), last_mouse_x, last_mouse_y, (int)dx, (int)dy, f, ((float)dx / f), ((float)dy / f)));
+    } else {
+        last_mouse_x += (int)dx;
+        last_mouse_y += (int)dy;
+    }
 }
-#endif
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
@@ -137,10 +154,14 @@ static BYTE mouse_get_1351_x(void)
 {
     switch (input_port) {
     case 3: /* both */
-	return mousedrv_get_x(); /* HACK: see above */
+        domove();
+        return (last_mouse_x & 0x7f) + 0x40; /* HACK: see above */
     case 1: /* port1 */
     case 2: /* port2 */
-	return (input_port == mouse_port) ? mousedrv_get_x() : 0xff;
+        if (input_port == mouse_port) {
+            domove();
+            return (last_mouse_x & 0x7f) + 0x40;
+        }
     }
     return 0xff;
 }
@@ -149,10 +170,14 @@ static BYTE mouse_get_1351_y(void)
 {
     switch (input_port) {
     case 3: /* both */
-	return mousedrv_get_y(); /* HACK: see above */
+        domove();
+        return (last_mouse_y & 0x7f) + 0x40; /* HACK: see above */
     case 1: /* port1 */
     case 2: /* port2 */
-	return (input_port == mouse_port) ? mousedrv_get_y() : 0xff;
+        if (input_port == mouse_port) {
+            domove();
+            return (last_mouse_y & 0x7f) + 0x40;
+        }
     }
     return 0xff;
 }
@@ -184,59 +209,36 @@ static void neos_get_new_movement(void)
 {
     BYTE new_x, new_y;
 
-    new_x = mousedrv_get_x();
-    new_y = mousedrv_get_y();
-    neos_x = new_x - neos_lastx;
-
-    if (new_x < neos_lastx) {
-        if (neos_lastx > 0x6f && new_x < 0x10) {
-            neos_x += 0x80;
-        }
-    } else if (new_x > neos_lastx) {
-        if (neos_lastx < 0x10 && new_x > 0x6f) {
-            neos_x += 0x80;
-        }
-    }
+    new_x = (BYTE)(mousedrv_get_x() >> 1);
+    new_y = (BYTE)(mousedrv_get_y() >> 1);
+    neos_x = neos_lastx - new_x;
     neos_lastx = new_x;
 
     neos_y = new_y - neos_lasty;
-    if (new_y < neos_lasty) {
-        if (neos_lasty > 0x6f && new_y < 0x10) {
-            neos_y += 0x80;
-        }
-    } else if (new_y > neos_lasty) {
-        if (neos_lasty < 0x10 && new_y > 0x6f) {
-            neos_y += 0x80;
-        }
-    }
     neos_lasty = new_y;
-
-    neos_x = (neos_x & 0x80) ? (neos_x / 2) | 0x80 : neos_x / 2;
-    neos_y = (neos_y & 0x80) ? (neos_y / 2) | 0x80 : neos_y / 2;
-    neos_x = -neos_x;
 }
 
 void neos_mouse_store(BYTE val)
 {
     switch (neos_state) {
         case NEOS_IDLE:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) == 0)) {
+            if ((val ^ neos_prev) & neos_prev & 16) {
                 ++neos_state;
                 neos_get_new_movement();
             }
             break;
         case NEOS_XH:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) != 0)) {
+            if ((val ^ neos_prev) & val & 16) {
                 ++neos_state;
             }
             break;
         case NEOS_XL:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) == 0)) {
+            if ((val ^ neos_prev) & neos_prev & 16) {
                 ++neos_state;
             }
             break;
         case NEOS_YH:
-            if (((val & 16) ^ (neos_prev & 16)) && ((val & 16) != 0)) {
+            if ((val ^ neos_prev) & val & 16) {
                 ++neos_state;
                 alarm_set(neosmouse_alarm, maincpu_clk + NEOS_RESET_CLK);
             }
@@ -283,14 +285,6 @@ static void neosmouse_alarm_handler(CLOCK offset, void *data)
 /* --------------------------------------------------------- */
 /* quadrature encoding mice support (currently experimental) */
 
-/* range of mice coordinates a and b are [0,63] and we must consider
- * situations where we over- and under flow */
-static int subtract_coords(BYTE a, BYTE b)
-{
-    /* range [-64,63] to [-32,31] */
-    return ((a - b + 32) & 63) - 32;
-}
-
 /* The mousedev only updates its returned coordinates at certain *
  * frequency. We try to estimate this interval by timestamping unique
  * successive readings. The estimated interval is then converted from
@@ -299,9 +293,9 @@ static int subtract_coords(BYTE a, BYTE b)
 static unsigned long latest_os_ts = 0; // in vsynchapi units
 static CLOCK done_emu = 0; // in machine cycles
 /* The mouse coordinates returned from the latest unique mousedrv
- * reading, range is [0,63] */
-static BYTE latest_x = 0;
-static BYTE latest_y = 0;
+ * reading */
+static SWORD latest_x = 0;
+static SWORD latest_y = 0;
 
 static CLOCK update_x_emu_iv = 0; // in cpu cycle units
 static CLOCK update_y_emu_iv = 0; // in cpu cycle units
@@ -338,14 +332,14 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 
 BYTE mouse_poll(void)
 {
-    BYTE new_x, new_y;
+    SWORD new_x, new_y;
     unsigned long os_now, os_iv;
     CLOCK emu_now, emu_iv;
     int diff_x, diff_y;
 
-    /* get new mouse values, range [0,127] with lsb=0 */
-    new_x = mousedrv_get_x() / 2;
-    new_y = mousedrv_get_y() / 2;
+    /* get new mouse values */
+    new_x = mousedrv_get_x() >> 1;
+    new_y = mousedrv_get_y() >> 1;
     /* range of new_x and new_y are [0,63] */
     /* fetch now for both emu and os */
     os_now = mousedrv_get_timestamp();
@@ -421,8 +415,8 @@ BYTE mouse_poll(void)
 #endif
 
         /* Let's set up quadrature emulation */
-        diff_x = subtract_coords(new_x, latest_x);
-        diff_y = subtract_coords(new_y, latest_y);
+        diff_x = (SWORD)(new_x - latest_x);
+        diff_y = (SWORD)(new_y - latest_y);
 
         if (diff_x != 0) {
             sx = diff_x >= 0 ? 1 : -1;
@@ -472,65 +466,23 @@ static BYTE paddle_val[] = {
     0x00, 0xff  /* both ports */
 };
 
-static BYTE paddle_old[] = {
-    0xff, 0xff,
-    0xff, 0xff,
-    0xff, 0xff,
-    0xff, 0xff
+static SWORD paddle_old[] = {
+    -1, -1,
+    -1, -1,
+    -1, -1,
+    -1, -1
 };
 
-static inline BYTE mouse_paddle_update(BYTE paddle_v, BYTE *old_v, BYTE new_v)
+static inline BYTE mouse_paddle_update(BYTE paddle_v, SWORD *old_v, SWORD new_v)
 {
-    BYTE diff = new_v - *old_v;
-    BYTE new_paddle;
-
-    /* DBG(("new_v from driver: %d", new_v)); */
-
-    if (new_v < *old_v) {
-        if (*old_v > 0x6f && new_v < 0x10) {
-            diff += 0x80;
-        }
-    } else if (new_v > *old_v) {
-        if (*old_v < 0x10 && new_v > 0x6f) {
-            diff += 0x80;
-        }
-    }
-
-    new_paddle = paddle_v + diff;
-
+    SWORD new_paddle = (SWORD)paddle_v + new_v - *old_v;
     *old_v = new_v;
 
-    if (((paddle_v & 0x80) ^ (new_paddle & 0x80)) && ((new_paddle & 0x80) == (diff & 0x80))) {
-        new_paddle = (paddle_v & 0x80) ? 0xff : 0;
-    }
+    if (new_paddle > 255) return 255;
+    if (new_paddle < 0) return 0;
 
-    return new_paddle;
+    return (BYTE)new_paddle;
 }
-
-/* FIXME: old code, remove this if the code below is proven correct */
-#if 0
-static BYTE mouse_get_paddle_x(void)
-{
-    int i = (input_port << 1);
-
-    if (input_port == mouse_port) {
-        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_x());
-    }
-
-    return 0xff - paddle_val[i];
-}
-
-static BYTE mouse_get_paddle_y(void)
-{
-    int i = (input_port << 1) + 1;
-
-    if (input_port == mouse_port) {
-        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
-    }
-
-    return 0xff - paddle_val[i];
-}
-#endif
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
@@ -551,7 +503,7 @@ static BYTE mouse_get_paddle_x(void)
     if (i != 0) {
         i = i << 1;
         /* one of the ports is selected */
-        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_x());
+        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), (SWORD)mousedrv_get_x());
         return 0xff - paddle_val[i];
     }
     return 0xff;
@@ -563,7 +515,7 @@ static BYTE mouse_get_paddle_y(void)
     if (i != 0) {
         i = (i << 1) + 1;
         /* one of the ports is selected */
-        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), mousedrv_get_y());
+        paddle_val[i] = mouse_paddle_update(paddle_val[i], &(paddle_old[i]), (SWORD)mousedrv_get_y());
         return 0xff - paddle_val[i];
     }
     return 0xff;
@@ -576,6 +528,12 @@ static int set_mouse_enabled(int val, void *param)
 {
     _mouse_enabled = val;
     mousedrv_mouse_changed();
+    last_mouse_x = mousedrv_get_x();
+    last_mouse_y = mousedrv_get_y();
+    neos_lastx = (BYTE)(mousedrv_get_x() >> 1);
+    neos_lasty = (BYTE)(mousedrv_get_y() >> 1);
+    latest_os_ts = 0;
+    last_update = maincpu_clk >> 9;
     return 0;
 }
 

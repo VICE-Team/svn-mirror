@@ -745,13 +745,11 @@ gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data)
     return TRUE;
 }
 
-static gint mouse_posx = 0, mouse_posy = 0;
 static gint mouse_dx = 0, mouse_dy = 0;
 static gint mouse_lasteventx = 0, mouse_lasteventy = 0;
 static gint mouse_warped = 0;
 static gint mouse_warpx = 0, mouse_warpy = 0;
 #define MOUSE_WRAP_MARGIN  50
-#define MOUSE_MAX_DIFF     127  /* +/- */
 
 static gfloat get_aspect(video_canvas_t *canvas);
 
@@ -899,13 +897,8 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                 } else {
                     mouse_dx = ptrx - mouse_lasteventx;
                     mouse_dy = ptry - mouse_lasteventy;
-                    if ((abs(mouse_dx) <= MOUSE_MAX_DIFF) &&
-                        (abs(mouse_dy) <= MOUSE_MAX_DIFF)) {
-                        mouse_posx += mouse_dx;
-                        mouse_posy += mouse_dy;
-                        DBG(("mouse move dx:%8d dy:%8d x:%8d y:%8d", mouse_dx, mouse_dy, mouse_posx, mouse_posy));
-                        mouse_move(mouse_posx, mouse_posy);
-                    }
+                    DBG(("mouse move dx:%8d dy:%8d", mouse_dx, mouse_dy));
+                    mouse_move(mouse_dx, mouse_dy);
                     mouse_lasteventx = ptrx;
                     mouse_lasteventy = ptry;
                 }

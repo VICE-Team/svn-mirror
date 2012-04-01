@@ -70,14 +70,14 @@ static log_t ps2mouse_log = LOG_ERR;
 #define PS2_MDATA_LB 0x01
 
 /* PS/2 mouse variables */
-BYTE ps2mouse_value;
-BYTE ps2mouse_in;
-BYTE ps2mouse_out;
-BYTE ps2mouse_prev;
-BYTE ps2mouse_parity;
-BYTE ps2mouse_lastx;
-BYTE ps2mouse_lasty;
-BYTE ps2mouse_buttons;
+static BYTE ps2mouse_value;
+static BYTE ps2mouse_in;
+static BYTE ps2mouse_out;
+static BYTE ps2mouse_prev;
+static BYTE ps2mouse_parity;
+static SWORD ps2mouse_lastx;
+static SWORD ps2mouse_lasty;
+static BYTE ps2mouse_buttons;
 
 /* PS/2 transmission state */
 enum {
@@ -145,7 +145,8 @@ BYTE ps2mouse_queue_get(void)
 
 int ps2mouse_handle_command(BYTE value)
 {
-    BYTE diff_x, diff_y, new_x, new_y, new_buttons;
+    SWORD diff_x, diff_y, new_x, new_y;
+    BYTE new_buttons;
 #ifdef PS2MOUSE_DEBUG_ENABLED
 PS2MOUSE_DEBUG("cmd: got %02x",value);
 #endif
@@ -175,35 +176,23 @@ PS2MOUSE_DEBUG("parity error");
         case PS2_CMD_READ_DATA:
             new_buttons = ps2mouse_buttons;
 #ifdef HAVE_MOUSE
-            new_x = mousedrv_get_x();
-            new_y = mousedrv_get_y();
-            diff_x = new_x - ps2mouse_lastx;
-            if (new_x < ps2mouse_lastx) {
-                if (ps2mouse_lastx > 0x6f && new_x < 0x10) {
-                    diff_x += 0x80;
-                } else {
-                    new_buttons |= PS2_MDATA_XS;
-                }
-            } else if (new_x > ps2mouse_lastx) {
-                if (ps2mouse_lastx < 0x10 && new_x > 0x6f) {
-                    new_buttons |= PS2_MDATA_XS;
-                    diff_x += 0x80;
-                }
+            new_x = (SWORD)mousedrv_get_x();
+            new_y = (SWORD)mousedrv_get_y();
+            diff_x = (new_x - ps2mouse_lastx);
+            if (diff_x < 0) {
+                new_buttons |= PS2_MDATA_XS;
+            }
+            if (diff_x < -256 || diff_x > 255) {
+                new_buttons |= PS2_MDATA_XO;
             }
             ps2mouse_lastx = new_x;
 
-            diff_y = new_y - ps2mouse_lasty;
-            if (new_y < ps2mouse_lasty) {
-                if (ps2mouse_lasty > 0x6f && new_y < 0x10) {
-                    diff_y += 0x80;
-                } else {
-                    new_buttons |= PS2_MDATA_YS;
-                }
-            } else if (new_y > ps2mouse_lasty) {
-                if (ps2mouse_lasty < 0x10 && new_y > 0x6f) {
-                    new_buttons |= PS2_MDATA_YS;
-                    diff_y += 0x80;
-                }
+            diff_y = (SWORD)(new_y - ps2mouse_lasty);
+            if (diff_y < 0) {
+                new_buttons |= PS2_MDATA_YS;
+            }
+            if (diff_y < -256 || diff_y > 255) {
+                new_buttons |= PS2_MDATA_YO;
             }
             ps2mouse_lasty = new_y;
 #else
@@ -215,8 +204,8 @@ PS2MOUSE_DEBUG("x/y/b: %02x, %02x, %02x", diff_x, diff_y, new_buttons);
 #endif
             return (ps2mouse_queue_put(PS2_REPLY_OK)
                  && ps2mouse_queue_put(new_buttons)
-                 && ps2mouse_queue_put(diff_x)
-                 && ps2mouse_queue_put(diff_y));
+                 && ps2mouse_queue_put((BYTE)diff_x)
+                 && ps2mouse_queue_put((BYTE)diff_y));
             break;
 
         default:

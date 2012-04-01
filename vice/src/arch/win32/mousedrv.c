@@ -89,7 +89,7 @@ void mouse_update_mouse(void)
     }
 
     _mouse_x += state.lX;
-    _mouse_y += state.lY;
+    _mouse_y -= state.lY;
 
     mouse_button_left((int)(state.rgbButtons[0] & 0x80));
     mouse_button_right((int)(state.rgbButtons[1] & 0x80));
@@ -169,20 +169,14 @@ void mouse_update_mouse_acquire(void)
 #endif
 }
 
-BYTE mousedrv_get_x(void)
+int mousedrv_get_x(void)
 {
-    if (!_mouse_enabled) {
-        return 0xff;
-    }
-    return (BYTE)(_mouse_x >> 1) & 0x7e;
+    return _mouse_x >> 1;
 }
 
-BYTE mousedrv_get_y(void)
+int mousedrv_get_y(void)
 {
-    if (!_mouse_enabled) {
-        return 0xff;
-    }
-    return (BYTE)(~_mouse_y >> 1) & 0x7e;
+    return _mouse_y >> 1;
 }
 
 unsigned long mousedrv_get_timestamp(void)

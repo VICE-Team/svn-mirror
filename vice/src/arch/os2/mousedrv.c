@@ -103,64 +103,18 @@ const int mouse_step = 15;
 
 extern int stretch;  // video.c
 
-inline BYTE mousedrv_get_x(void)
+inline int mousedrv_get_x(void)
 {
-    static SHORT last_mouse_x=0;
-    const SHORT diff = last_mouse_x - _mouse_x;
-
-    /*
-     * The problem is that if you click somewhere and your pointer
-     * is outside the window you would click something at the desktop
-     *
-     * POINTL ptl;
-     * APIRET rc=WinQueryPointerPos(HWND_DESKTOP, &ptl);
-     * _mouse_x = ptl.x;
-     *
-     */
-
-    if (diff > mouse_step) {
-        last_mouse_x -= mouse_step;
-    } else {
-        if (diff < -mouse_step) {
-            last_mouse_x += mouse_step;
-        } else {
-            last_mouse_x = _mouse_x;
-        }
-    }
-
 #ifndef __XVIC__
-    return ((last_mouse_x / stretch) << 1) & 0x7e;
+    return (_mouse_x / stretch) << 1;
 #else
-    return ((last_mouse_x / stretch)) & 0x7e;
+    return _mouse_x / stretch;
 #endif
 }
 
-inline BYTE mousedrv_get_y(void)
+inline int mousedrv_get_y(void)
 {
-    static SHORT last_mouse_y = 0;
-    const SHORT diff = last_mouse_y - _mouse_y;
-
-    /*
-     * The problem is that if you click somewhere and your pointer
-     * is outside the window you would click something at the desktop
-     *
-     * POINTL ptl;
-     * APIRET rc=WinQueryPointerPos(HWND_DESKTOP, &ptl);
-     * _mouse_y = ptl.y;
-     *
-     */
-
-    if (diff > mouse_step) {
-        last_mouse_y -= mouse_step;
-    } else {
-        if (diff < -mouse_step) {
-            last_mouse_y += mouse_step;
-        } else {
-            last_mouse_y = _mouse_y;
-        }
-    }
-
-    return ((last_mouse_y / stretch) << 1) & 0x7e;
+    return (_mouse_y / stretch) << 1;
 }
 
 unsigned long mousedrv_get_timestamp(void)

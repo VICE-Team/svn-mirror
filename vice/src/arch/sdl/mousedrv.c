@@ -88,42 +88,20 @@ void mouse_button(int bnumber, int state)
     }
 }
 
-BYTE mousedrv_get_x(void)
+int mousedrv_get_x(void)
 {
-    static int last_mouse_x=0;
-
-    if (last_mouse_x - mouse_x > 16) {
-        last_mouse_x -= 16;
-        return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
-    }
-    if (last_mouse_x - mouse_x < -16) {
-        last_mouse_x += 16;
-        return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
-    }
-    last_mouse_x = mouse_x;
-    return (BYTE)((last_mouse_x * mouse_accelx) >> 1) & 0x7e;
+    return mouse_x >> 1;
 }
 
-BYTE mousedrv_get_y(void)
+int mousedrv_get_y(void)
 {
-    static int last_mouse_y = 0;
-
-    if (last_mouse_y - mouse_y > 16) {
-        last_mouse_y -= 16;
-        return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
-    }
-    if (last_mouse_y - mouse_y < -16) {
-        last_mouse_y += 16;
-        return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
-    }
-    last_mouse_y = mouse_y;
-    return (BYTE)((last_mouse_y * mouse_accely) >> 1) & 0x7e;
+    return mouse_y >> 1;
 }
 
 void mouse_move(int x, int y)
 {
-    mouse_x += x;
-    mouse_y -= y;
+    mouse_x += x * mouse_accelx;
+    mouse_y -= y * mouse_accely;
     mouse_timestamp = vsyncarch_gettime();
 }
 
