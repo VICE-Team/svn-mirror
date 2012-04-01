@@ -519,6 +519,15 @@ void mouse_button_left(int pressed)
     }
 }
 
+void mouse_button_middle(int pressed)
+{
+    if (pressed) {
+        ps2mouse_buttons |= PS2_MDATA_MB;
+    } else {
+        ps2mouse_buttons &= ~PS2_MDATA_MB;
+    }
+}
+
 void mouse_button_right(int pressed)
 {
     if (pressed) {
@@ -526,6 +535,14 @@ void mouse_button_right(int pressed)
     } else {
         ps2mouse_buttons &= ~PS2_MDATA_RB;
     }
+}
+
+void mouse_button_up(int pressed)
+{
+}
+
+void mouse_button_down(int pressed)
+{
 }
 
 BYTE mouse_get_x(void)
