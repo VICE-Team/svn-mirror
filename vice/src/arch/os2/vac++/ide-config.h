@@ -89,7 +89,6 @@
 #define SIZEOF_UNSIGNED_SHORT 2   /* The number of bytes in a unsigned short.         */
 
 #define HAVE_ATEXIT       1   /* Define if you have the atexit function.          */
-#define HAVE_GETTIMEOFDAY 1   /* Define if you have the gettimeofday function.    */
 #define HAVE_MEMMOVE      1   /* Define if you have the memmove function.         */
 #define HAVE_STRERROR     1   /* Define if you have the strerror function.        */
 

@@ -8,6 +8,7 @@ source type(c)
     "render2x2pal.c",
     "render2x2ntsc.c",
     "render2x4.c",
+    "render2x4crt.c",
     "renderscale2x.c",
     "renderyuv.c",
     "video-canvas.c",
