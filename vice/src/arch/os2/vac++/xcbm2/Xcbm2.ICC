@@ -42,7 +42,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
     define("__XCBM__", ),
-    res_rc_options("-i ..\\..\\dialogs -x1 -d __XCBM__")
+    res_rc_options("-i ..\\..\\dialogs -x1 -d __XCBM__ -d __IBMC__")
 {
     target type(exe) "..\\..\\..\\..\\..\\data\\xcbm2.exe"
     {

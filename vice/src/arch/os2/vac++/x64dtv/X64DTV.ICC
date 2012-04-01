@@ -40,7 +40,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
     define("__X64DTV__", ),
-    res_rc_options("-i ..\\..\\dialogs -d __X64DTV__ -dC64DTV -x1")
+    res_rc_options("-i ..\\..\\dialogs -d __X64DTV__ -d C64DTV -d __IBMC__ -x1")
 {
     target type(exe) "..\\..\\..\\..\\..\\data\\x64dtv.exe"
     {

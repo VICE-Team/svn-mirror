@@ -37,7 +37,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
     define("__XPLUS4__", ),
-    res_rc_options("-i ..\\..\\dialogs -d __XPLUS4__ -x1")
+    res_rc_options("-i ..\\..\\dialogs -d __XPLUS4__ -d __IBMC__ -x1")
 {
     target type(exe) "..\\..\\..\\..\\..\\data\\xplus4.exe"
     {
