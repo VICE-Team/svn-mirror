@@ -139,12 +139,25 @@ static struct userport_dac_sound_s snd;
 static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
+    int off = 0;
 
     for (i = 0; i < nr; i++) {
-        pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], snd.voice0 << 8);
+        /*
+         * The userport has unsigned 8-bit values.
+         * The mixer expects signed 16-bit values.
+         * Expanding 8 to 16 bits is easy, but you get a range [0, ffff],
+         * not [-8000, 7fff].
+         * Just shifting the range won't work properly, since the neutral
+         * value would become the most negative value and that doesn't
+         * mix well with other sound sources such as CB2 sound.
+         */
+        /*int sample = snd.voice0 + (snd.voice0 << 8) - 0x8000;*/
+        int sample = (snd.voice0 >> 1) + (snd.voice0 << 7);
+        pbuf[off] = sound_audio_mix(pbuf[off], sample);
         if (soc > 1) {
-            pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], snd.voice0 << 8);
+            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], sample);
         }
+        off += soc;
     }
     return nr;
 }
