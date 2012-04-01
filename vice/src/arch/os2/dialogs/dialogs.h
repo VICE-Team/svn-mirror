@@ -27,7 +27,9 @@
 #ifndef DIALOGS_H
 #define DIALOGS_H
 
-#include "../../../vice.h" // HAVE_*
+#ifndef __IBMC__
+#include "vice.h" // HAVE_*
+#endif
 
 //
 //  --------------- Resource Definitions ----------------

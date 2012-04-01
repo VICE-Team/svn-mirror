@@ -27,7 +27,14 @@
 #include "../../../version.h"
 
 #include "dialogs.h"
+
+#ifndef __IBMC__
 #include "platform.h"
+#else
+#define PLATFORM_CPU "I386"
+#define PLATFORM_OS "OS/2"
+#define PLATFORM_COMPILE "VAC++"
+#endif
 
 #ifdef WATCOM_COMPILE
 #include <pmwin.h>
