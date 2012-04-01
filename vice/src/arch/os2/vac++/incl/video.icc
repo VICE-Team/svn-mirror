@@ -5,6 +5,7 @@ source type(c)
     "render1x2.c",
     "render1x2crt.c",
     "render2x2.c",
+    "render2x2crt.c",
     "render2x2pal.c",
     "render2x2ntsc.c",
     "render2x4.c",

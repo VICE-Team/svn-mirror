@@ -54,6 +54,11 @@
 #include <sys/stat.h>
 #endif
 
+#ifndef HAVE_GETTIMEOFDAY
+#include <sys/timeb.h>
+#include <sys/time.h>
+#endif
+
 #include "archdep.h"
 #include "util.h"
 
@@ -574,3 +579,14 @@ int archdep_file_is_chardev(const char *name)
 void archdep_shutdown(void)
 {
 }
+
+#ifndef HAVE_GETTIMEOFDAY
+int archdep_rtc_get_centisecond(void)
+{
+    struct timeb tb;
+
+    __ftime(&tb);
+
+    return (int)tb.millitm / 10;
+}
+#endif
