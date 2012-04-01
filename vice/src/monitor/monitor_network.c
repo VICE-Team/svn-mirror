@@ -189,23 +189,27 @@ static char * monitor_network_extract_text_command_line(char * pbuffer, int buff
 #define MON_ERR_CMD_TOO_SHORT 0x80  /* command length is not enough for this command */
 #define MON_ERR_INVALID_PARAMETER 0x81  /* command has invalid parameters */
 
-static void monitor_network_binary_answer(unsigned int length, unsigned char * answer)
+static void monitor_network_binary_answer(unsigned int length, unsigned char errorcode, unsigned char * answer)
 {
-    unsigned char binlength[5];
+    unsigned char binlength[6];
 
     binlength[0] = ASC_STX;
     binlength[1] =  length        & 0xFFu;
     binlength[2] = (length >>  8) & 0xFFu;
     binlength[3] = (length >> 16) & 0xFFu;
     binlength[4] = (length >> 24) & 0xFFu;
+    binlength[5] = errorcode;
 
     monitor_network_transmit(binlength, sizeof binlength);
-    monitor_network_transmit(answer, length);
+
+    if (answer != NULL) {
+        monitor_network_transmit(answer, length);
+    }
 }
 
 static void monitor_network_binary_error(unsigned char errorcode)
 {
-    monitor_network_binary_answer(1, &errorcode);
+    monitor_network_binary_answer(0, errorcode, NULL);
 }
 
 static void monitor_network_process_binary_command(unsigned char * pbuffer, int buffer_size, int * pbuffer_pos, unsigned int command_length)
@@ -255,7 +259,7 @@ static void monitor_network_process_binary_command(unsigned char * pbuffer, int 
                     p[i] = mon_get_mem_val(memspace, (WORD)ADDR_LIMIT(startaddress + i));
                 }
                 
-                monitor_network_binary_answer(length, p);
+                monitor_network_binary_answer(length, MON_ERR_OK, p);
                 lib_free(p);
             }
         }
