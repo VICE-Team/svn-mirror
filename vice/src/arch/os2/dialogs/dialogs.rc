@@ -113,7 +113,7 @@ BEGIN
 #ifndef __IBMC__
         TEXT(VERSION " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")", 100, 223,  25, 7)
 #else
-        TEXT(VERSION " (I386 OS/2 VAC++) ", 100, 223, 25, 7)
+        TEXT("VICE (I386 OS/2 VAC++)", 100, 223, 25, 7)
 #endif
         TEXT("Copyright (c) 2011-2012 Kajtar Zsolt", 15, 195, 180, 7)
         TEXT("Copyright (c) 2011-2012 Thomas Giesel", 15, 188, 180, 7)
