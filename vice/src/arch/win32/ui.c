@@ -2014,6 +2014,11 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 mouse_button_left(1);
             }
             break;
+        case WM_MBUTTONDOWN:
+            if (_mouse_enabled) {
+                mouse_button_middle(1);
+            }
+            break;
         case WM_RBUTTONDOWN:
             if (_mouse_enabled) {
                 mouse_button_right(1);
@@ -2024,6 +2029,11 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_LBUTTONUP:
             if (_mouse_enabled) {
                 mouse_button_left(0);
+            }
+            break;
+        case WM_MBUTTONUP:
+            if (_mouse_enabled) {
+                mouse_button_middle(0);
             }
             break;
         case WM_RBUTTONUP:

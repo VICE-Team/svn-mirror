@@ -250,5 +250,11 @@ void mouse_button(HWND hwnd, ULONG msg, MPARAM mp1)
         case WM_BUTTON2UP:
             mouse_button_right(0);
             return;
+        case WM_BUTTON3DOWN:
+            mouse_button_middle(1);
+            return;
+        case WM_BUTTON3UP:
+            mouse_button_middle(0);
+            return;
     }
 }

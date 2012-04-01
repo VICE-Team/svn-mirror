@@ -38,6 +38,9 @@ extern void mouse_init(void);
 
 extern void mouse_button_left(int pressed);
 extern void mouse_button_right(int pressed);
+extern void mouse_button_middle(int pressed);
+extern void mouse_button_up(int pressed);
+extern void mouse_button_down(int pressed);
 
 extern void mouse_set_input(int port);
 

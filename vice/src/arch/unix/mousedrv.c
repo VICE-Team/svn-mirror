@@ -83,11 +83,24 @@ void mousedrv_init(void)
 
 void mouse_button(int bnumber, int state)
 {
-    if (bnumber == 0) {
+    switch (bnumber) {
+    case 0:
         mouse_button_left(state);
-    }
-    if (bnumber == 2) {
+        break;
+    case 1:
+        mouse_button_middle(state);
+        break;
+    case 2:
         mouse_button_right(state);
+        break;
+    case 3:
+        mouse_button_up(state);
+        break;
+    case 4:
+        mouse_button_down(state);
+        break;
+    default:
+        break;
     }
 }
 

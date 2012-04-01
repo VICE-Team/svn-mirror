@@ -80,6 +80,12 @@ static void my_mouse_callback(int flags)
     if (flags & MOUSE_FLAG_LEFT_UP) {
         mouse_button_left(0);
     }
+    if (flags & MOUSE_FLAG_MIDDLE_DOWN) {
+        mouse_button_middle(1);
+    }
+    if (flags & MOUSE_FLAG_MIDDLE_UP) {
+        mouse_button_middle(0);
+    }
     if (flags & MOUSE_FLAG_RIGHT_DOWN) {
         mouse_button_right(1);
     }

@@ -93,6 +93,11 @@ void mouse_update_mouse(void)
 
     mouse_button_left((int)(state.rgbButtons[0] & 0x80));
     mouse_button_right((int)(state.rgbButtons[1] & 0x80));
+    mouse_button_middle((int)(state.rgbButtons[2] & 0x80));
+    /* FIXME: back/forward buttons as up/down? Or state.lZ increase/decrease?
+    mouse_button_up((int)(state.rgbButtons[3] & 0x80));
+    mouse_button_down((int)(state.rgbButtons[4] & 0x80));
+    */
     _mouse_timestamp = vsyncarch_gettime();
 #endif
 }

@@ -751,6 +751,51 @@ void mouse_button_right(int pressed)
     }
 }
 
+void mouse_button_middle(int pressed)
+{
+    switch (mouse_type) {
+    case MOUSE_TYPE_1351: /* Micromys extension */
+	if (pressed) {
+	    joystick_set_value_or(mouse_port, 2);
+	} else {
+	    joystick_set_value_and(mouse_port, ~2);
+	}
+	break;
+    default:
+	break;
+    }
+}
+
+void mouse_button_up(int pressed)
+{
+    switch (mouse_type) {
+    case MOUSE_TYPE_1351: /* Micromys extension */
+	if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
+	    joystick_set_value_or(mouse_port, 4);
+	} else {
+	    joystick_set_value_and(mouse_port, ~4);
+	}
+	break;
+    default:
+	break;
+    }
+}
+
+void mouse_button_down(int pressed)
+{
+    switch (mouse_type) {
+    case MOUSE_TYPE_1351: /* Micromys extension */
+	if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
+	    joystick_set_value_or(mouse_port, 8);
+	} else {
+	    joystick_set_value_and(mouse_port, ~8);
+	}
+	break;
+    default:
+	break;
+    }
+}
+
 BYTE mouse_get_x(void)
 {
     /* DBG(("mouse_get_x: %d", mouse_type)); */

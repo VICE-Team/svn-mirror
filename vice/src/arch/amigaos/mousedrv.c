@@ -49,6 +49,7 @@ static unsigned long mouse_timestamp = 0;
 
 #define MB_LEFT (1 << 0)
 #define MB_RIGHT (1 << 1)
+#define MB_MIDDLE (1 << 2)
 
 #ifdef AMIGA_MORPHOS
 static struct InputEvent *_MyInputHandler(void);
@@ -99,6 +100,24 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                 case (IECODE_RBUTTON | IECODE_UP_PREFIX):
                     Forbid();
                     g_mb &= ~MB_RIGHT;
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    mouse_timestamp = vsyncarch_gettime();
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                case (IECODE_MBUTTON):
+                    Forbid();
+                    g_mb |= MB_MIDDLE;
+                    g_mx += event->ie_position.ie_xy.ie_x;
+                    g_my += event->ie_position.ie_xy.ie_y;
+                    mouse_timestamp = vsyncarch_gettime();
+                    Permit();
+                    event->ie_Class = IECLASS_NULL; /* remove event */
+                    break;
+                case (IECODE_MBUTTON | IECODE_UP_PREFIX):
+                    Forbid();
+                    g_mb &= ~MB_MIDDLE;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my += event->ie_position.ie_xy.ie_y;
                     mouse_timestamp = vsyncarch_gettime();
@@ -248,6 +267,7 @@ void mousedrv_sync(void)
         Permit();
         mouse_button_left(mb & MB_LEFT);
         mouse_button_right(mb & MB_RIGHT);
+        mouse_button_middle(mb & MB_MIDDLE);
     }
 }
 
