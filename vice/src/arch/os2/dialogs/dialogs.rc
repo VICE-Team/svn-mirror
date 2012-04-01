@@ -30,10 +30,6 @@
 
 #ifndef __IBMC__
 #include "platform.h"
-#else
-#define PLATFORM_CPU "I386"
-#define PLATFORM_OS "OS/2"
-#define PLATFORM_COMPILE "VAC++"
 #endif
 
 #ifdef WATCOM_COMPILE
@@ -114,7 +110,11 @@ BEGIN
         TEXT("V I C E", 15, 244, 180, 7)
         TEXT("the Versatile Commodore Emulator", 15, 237, 180, 7)
         TEXT("Version ", 65, 223,  35, 7)
+#ifndef __IBMC__
         TEXT(VERSION " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")", 100, 223,  25, 7)
+#else
+        TEXT(VERSION " (I386 OS/2 VAC++) ", 100, 223, 25, 7)
+#endif
         TEXT("Copyright (c) 2011-2012 Kajtar Zsolt", 15, 195, 180, 7)
         TEXT("Copyright (c) 2011-2012 Thomas Giesel", 15, 188, 180, 7)
         TEXT("Copyright (c) 2011-2012 Stefan Haubenthal", 15, 181, 180, 7)
