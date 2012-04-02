@@ -94,7 +94,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/sounddrv.icc"
         include "../incl/userport.icc"
         include "../incl/vdrive.icc"
-        include "../incl/viciicommon.icc"
         include "../incl/viciisc.icc"
         include "../incl/video.icc"
         include "../incl/vsid.icc"
