@@ -52,7 +52,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "mmpm2.lib"
 
         source type(c)
-            "maincpu.c",
             "mouse.c",
             "mousedrv.c",
             "kbd-c64.c",

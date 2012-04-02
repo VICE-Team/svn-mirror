@@ -1,6 +1,5 @@
 source type(c)
     "c64dtvcart.c",
-    "c64dtvtfe.c",
     "c64dtvmemsnapshot.c",
     "c64dtvmem.c",
     "c64dtvmemrom.c",

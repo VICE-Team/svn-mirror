@@ -33,10 +33,12 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
+    incl(searchpath, "..\\..\\..\\..\\rtc"),
     incl(searchpath, "..\\..\\..\\..\\serial"),
     incl(searchpath, "..\\..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\userport"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\video"),
@@ -84,6 +86,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/serial.icc"
         include "../incl/sounddrv.icc"
         include "../incl/tape.icc"
+        include "../incl/userport.icc"
         include "../incl/vdrive.icc"
         include "../incl/vicii.icc"
         include "../incl/video.icc"

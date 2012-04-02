@@ -16,6 +16,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\dialogs"),
     incl(searchpath, "..\\..\\..\\.."),
     incl(searchpath, "..\\..\\..\\..\\arch"),
+    incl(searchpath, "..\\..\\..\\..\\c64\\cart"),
     incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
@@ -29,10 +30,12 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
+    incl(searchpath, "..\\..\\..\\..\\rtc"),
     incl(searchpath, "..\\..\\..\\..\\serial"),
     incl(searchpath, "..\\..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\userport"),
     incl(searchpath, "..\\..\\..\\..\\vic20"),
     incl(searchpath, "..\\..\\..\\..\\vic20\\cart"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
@@ -79,6 +82,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/serial.icc"
         include "../incl/sounddrv.icc"
         include "../incl/tape.icc"
+        include "../incl/userport.icc"
         include "../incl/vdrive.icc"
         include "../incl/vic20.icc"
         include "../incl/vic20cart.icc"
