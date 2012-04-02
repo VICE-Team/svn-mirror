@@ -22,6 +22,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\core"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
+    incl(searchpath, "..\\..\\..\\..\\drive\\iec\\c64exp"),
     incl(searchpath, "..\\..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\..\\fsdevice"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
@@ -37,6 +38,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\sid"),
     incl(searchpath, "..\\..\\..\\..\\sounddrv"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
+    incl(searchpath, "..\\..\\..\\..\\userport"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
     incl(searchpath, "..\\..\\..\\..\\viciisc"),
     incl(searchpath, "..\\..\\..\\..\\video"),
@@ -63,6 +65,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/c64commonc64dtv.icc"
         include "../incl/c64commonc64sc.icc"
         include "../incl/c64commonc128.icc"
+        include "../incl/c64commoncart.icc"
         include "../incl/core.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
@@ -89,7 +92,9 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/rs232drv.icc"
         include "../incl/rtc.icc"
         include "../incl/sounddrv.icc"
+        include "../incl/userport.icc"
         include "../incl/vdrive.icc"
+        include "../incl/viciicommon.icc"
         include "../incl/viciisc.icc"
         include "../incl/video.icc"
         include "../incl/vsid.icc"
