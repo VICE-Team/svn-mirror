@@ -2,7 +2,7 @@ source type(c)
 	"finalexpansion.c",
      "mascuerade-stubs.c",
 	"megacart.c",
-	"vic-fp",
+	"vic-fp.c",
 	"vic20-generic.c",
      "vic20-ieee488.c",
      "vic20-sidcart.c",
