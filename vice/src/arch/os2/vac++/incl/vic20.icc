@@ -18,6 +18,7 @@ source type(c)
 	"vic20iec.c",
 	"vic20ieeevia1.c",
 	"vic20ieeevia2.c",
+     "vic20io.c",
 	"vic20mem.c",
 	"vic20memrom.c",
 	"vic20memsnapshot.c",

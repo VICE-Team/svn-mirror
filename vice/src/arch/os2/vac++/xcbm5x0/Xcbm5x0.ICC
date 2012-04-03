@@ -62,6 +62,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "video-render-1x2.c"
 
         include "../incl/archdep.icc"
+        include "../incl/cbm2common.icc"
         include "../incl/cbm5x0.icc"
         include "../incl/core.icc"
         include "../incl/crtc.icc"

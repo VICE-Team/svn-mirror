@@ -1,6 +1,5 @@
 option reSiddtv = opt(level, "0"),
-incl(searchpath, "..\\..\\..\\..\\resid-dtv"),
-incl(searchpath, "..\\..\\..\\..\\resid")
+incl(searchpath, "..\\..\\..\\..\\resid-dtv")
 
 {
    source type(cpp) "resid.cc"

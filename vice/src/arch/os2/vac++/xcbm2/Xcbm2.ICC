@@ -63,6 +63,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 
         include "../incl/archdep.icc"
         include "../incl/cbm2.icc"
+        include "../incl/cbm2common.icc"
         include "../incl/core.icc"
         include "../incl/crtc.icc"
         include "../incl/dialogs.icc"
