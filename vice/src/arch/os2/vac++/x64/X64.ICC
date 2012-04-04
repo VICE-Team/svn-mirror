@@ -56,7 +56,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "mouse.c",
             "mousedrv.c",
             "kbd-c64.c",
-            "dialogs\\dlg-color.c"
+            "dialogs\\dlg-color.c",
+            "userport_digimax.c"
 
         include "../incl/archdep.icc"
         include "../incl/c64.icc"

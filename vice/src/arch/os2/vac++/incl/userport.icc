@@ -1,4 +1,3 @@
 source type (c)
     "userport_dac.c",
-    "userport_digimax.c",
     "userport_joystick.c"

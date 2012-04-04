@@ -2,6 +2,7 @@ source type(c)
     "cbm2-cmdline-options.c",
     "cbm2acia1.c",
     "cbm2bus.c",
+    "cbm2cart.c",
     "cbm2cia1.c",
     "cbm2cpu.c",
     "cbm2datasette.c",

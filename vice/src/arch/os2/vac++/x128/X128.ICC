@@ -59,7 +59,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "mousedrv.c",
             "video-render-1x2.c",
             "kbd\\kbd-c128.c",
-            "dialogs\\dlg-color.c"
+            "dialogs\\dlg-color.c",
+            "userport_digimax.c"
 
         source type(c)
             "vicii-clock-stretch.c"

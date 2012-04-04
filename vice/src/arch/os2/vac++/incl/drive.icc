@@ -12,8 +12,4 @@ source type(c)
     "drivemem.c",
     "driverom.c",
     "drivesync.c",
-    "rotation.c",
-    "iec/iec-cmdline-options.c",
-    "iec/iec-resources.c",
-    "iec/iecrom.c",
-    "iec/wd1770.c"
+    "rotation.c"
