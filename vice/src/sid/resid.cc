@@ -54,16 +54,8 @@ extern "C" {
 
 } // extern "C"
 
-#ifdef __IBMC__
-#ifdef __RESIDDTV__
-#include "resid-dtv/sid.h"
-#else
-#include "resid/sid.h"
-#endif
-#else
 #include "resid/sid.h"
 /* resid-dtv/ is used for DTVSID, but the API is the same */
-#endif
 
 using namespace reSID;
 
