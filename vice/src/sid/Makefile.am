@@ -41,7 +41,7 @@ EXTRA_libsid_a_SOURCES = \
 	resid-fp.cc \
 	resid-fp.h
 
-EXTRA_DIST =
+EXTRA_DIST = resid-dtv.cc
 
 libsid_a_LIBADD = $(resid_libadd) $(residfp_libadd)
 
