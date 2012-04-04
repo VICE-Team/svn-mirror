@@ -21,7 +21,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\c64dtv"),
     incl(searchpath, "..\\..\\..\\..\\cbm2"),
     incl(searchpath, "..\\..\\..\\..\\core"),
-    incl(searchpath, "..\\..\\..\\..\\crtc"),
     incl(searchpath, "..\\..\\..\\..\\drive"),
     incl(searchpath, "..\\..\\..\\..\\diskimage"),
     incl(searchpath, "..\\..\\..\\..\\fileio"),
@@ -65,7 +64,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/cbm2common.icc"
         include "../incl/cbm5x0.icc"
         include "../incl/core.icc"
-        include "../incl/crtc.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"
         include "../incl/drive.icc"
@@ -91,6 +89,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/userport.icc"
         include "../incl/vdrive.icc"
         include "../incl/vicii.icc"
+        include "../incl/viciicommon.icc"
         include "../incl/video.icc"
     }
 }

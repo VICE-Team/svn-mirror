@@ -58,7 +58,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
             "dialogs/dlg-color.c"
 
         include "../incl/archdep.icc"
-        include "../incl/c64cartcommon.icc"
+        include "../incl/c64commoncart.icc"
         include "../incl/core.icc"
         include "../incl/dialogs.icc"
         include "../incl/diskimage.icc"

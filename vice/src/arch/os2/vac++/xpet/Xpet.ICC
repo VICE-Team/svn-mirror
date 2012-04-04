@@ -51,7 +51,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
 
         source type(c)
             "cbm2-pet-dummy.c",
-            "maincpu.c",
             "kbd-pet.c",
             "video-render-1x2.c"
 

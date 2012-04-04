@@ -41,7 +41,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\..\\userport"),
     incl(searchpath, "..\\..\\..\\..\\vdrive"),
-    incl(searchpath, "..\\..\\..\\..\\vicii"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
     define("__XCBM__", ),
@@ -90,7 +89,6 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/tape.icc"
         include "../incl/userport.icc"
         include "../incl/vdrive.icc"
-        include "../incl/vicii.icc"
         include "../incl/video.icc"
     }
 }
