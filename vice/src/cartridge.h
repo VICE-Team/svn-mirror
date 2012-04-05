@@ -200,7 +200,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_MACH5                51 /* mach5.c */
 #define CARTRIDGE_DIASHOW_MAKER        52 /* diashowmaker.c */
 #define CARTRIDGE_PAGEFOX              53 /* pagefox.c */
-#define CARTRIDGE_KINGSOFT             54 /* pagefox.c */
+#define CARTRIDGE_KINGSOFT             54 /* kingsoft.c */
 #define CARTRIDGE_SILVERROCK_128       55 /* silverrock128.c */
 #define CARTRIDGE_FORMEL64             56 /* formel64.c */
 
