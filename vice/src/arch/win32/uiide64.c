@@ -113,17 +113,25 @@ static uilib_dialog_group ide64_rightgroup[] = {
     { 0, 0 }
 };
 
+#if 0
 static int move_buttons_group[] = {
     IDOK,
     IDCANCEL,
     0
 };
+#endif
 
 static void init_ide64_v4_dialog(HWND hwnd)
 {
     int res_value;
+    HWND parent_hwnd;
+
+    parent_hwnd = GetParent(hwnd);
 
     uilib_localize_dialog(hwnd, ide64_v4_dialog);
+
+    /* translate the parent window items */
+    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
 
     resources_get_int("IDE64version4", &res_value);
     CheckDlgButton(hwnd, IDC_IDE64_V4, res_value ? BST_CHECKED : BST_UNCHECKED);
@@ -144,15 +152,14 @@ static void init_ide64_dialog(HWND hwnd, int num)
 
     uilib_localize_dialog(hwnd, ide64_dialog);
 
-    /* translate the parent window items */
-    uilib_localize_dialog(parent_hwnd, parent_dialog_trans);
-
     uilib_get_group_extent(hwnd, ide64_leftgroup, &xsize, &ysize);
     uilib_adjust_group_width(hwnd, ide64_leftgroup);
     uilib_move_group(hwnd, ide64_rightgroup, xsize + 30);
 
+#if 0
     /* recenter the buttons in the newly resized dialog window */
     uilib_center_buttons(parent_hwnd, move_buttons_group, 0);
+#endif
 
     sprintf(tmp, "IDE64Image%d", num);
     resources_get_string(tmp, &ide64file);
@@ -185,7 +192,7 @@ static void init_ide64_dialog(HWND hwnd, int num)
         SendMessage(ide64_hwnd, CB_ADDSTRING, 0, (LPARAM)memb);
     }
     resources_get_int_sprintf("IDE64Sectors%i", &res_value, num);
-    SendMessage(ide64_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    SendMessage(ide64_hwnd, CB_SETCURSEL, (WPARAM)(res_value - 1), 0);
 
     update_text(hwnd);
     enable_ide64_controls(hwnd);
@@ -242,7 +249,7 @@ static INT_PTR CALLBACK dialog_proc(int num, HWND hwnd, UINT msg, WPARAM wparam,
                 resources_set_int_sprintf("IDE64Heads%i", res_value + 1, num);
                 ide64_hwnd = GetDlgItem(hwnd, IDC_IDE64_SECTORS);
                 res_value = (int)SendMessage(ide64_hwnd, CB_GETCURSEL, 0, 0);
-                resources_set_int_sprintf("IDE64Sectors%i", res_value, num);
+                resources_set_int_sprintf("IDE64Sectors%i", res_value + 1, num);
                 SetWindowLongPtr(hwnd, DWLP_MSGRESULT, FALSE);
                 return TRUE;
             }
