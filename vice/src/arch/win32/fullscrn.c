@@ -40,6 +40,7 @@
 #include "ui.h"
 #include "uilib.h"
 #include "util.h"
+#include "video.h"
 #include "videoarch.h"
 #include "viewport.h"
 #include "winlong.h"
@@ -284,7 +285,6 @@ void SwitchToFullscreenMode(HWND hwnd)
 
         c = video_canvas_for_hwnd(hwnd);
 
-        video_device_release_dx9(c);
 
         statusbar_destroy(hwnd);
 
@@ -296,6 +296,7 @@ void SwitchToFullscreenMode(HWND hwnd)
         SetMenu(hwnd, NULL);
         ShowCursor(FALSE);
 
+        video_device_release_dx9(c);
         ui_set_render_window(c, 1);
         video_device_create_dx9(c, 1);
 		video_canvas_reset_dx9(c);

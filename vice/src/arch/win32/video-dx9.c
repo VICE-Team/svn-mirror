@@ -195,8 +195,11 @@ HRESULT video_canvas_reset_dx9(video_canvas_t *canvas)
         canvas->d3dpp.BackBufferWidth = width;
         canvas->d3dpp.BackBufferHeight = height;
     } else {
-        canvas->d3dpp.BackBufferWidth = canvas->draw_buffer->canvas_physical_width;
-        canvas->d3dpp.BackBufferHeight = canvas->draw_buffer->canvas_physical_height;
+        RECT wrect;
+
+        GetClientRect(canvas->render_hwnd, &wrect);
+        canvas->d3dpp.BackBufferWidth = wrect.right - wrect.left;
+        canvas->d3dpp.BackBufferHeight = wrect.bottom - wrect.top;
     }
 
     if (dx_primary_surface_rendering) {

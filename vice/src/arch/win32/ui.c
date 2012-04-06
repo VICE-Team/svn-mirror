@@ -793,6 +793,7 @@ static void ui_resize_render_window(video_canvas_t *canvas)
     GetClientRect(canvas->hwnd, &wrect);
     if (video_dx9_enabled()) {
         MoveWindow(canvas->render_hwnd, 0, 0, wrect.right - wrect.left, wrect.bottom - wrect.top - statusbar_get_status_height(), TRUE);
+        video_canvas_reset_dx9(canvas);
     }
     else if (wrect.right > wrect.left && wrect.bottom > wrect.top) {
 		canvas->draw_buffer->canvas_physical_width = wrect.right - wrect.left;
