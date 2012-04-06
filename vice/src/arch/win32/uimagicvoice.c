@@ -105,11 +105,11 @@ static void end_magicvoice_dialog(HWND hwnd)
     TCHAR st[MAX_PATH];
     char s[MAX_PATH];
 
-    resources_set_int("MagicVoiceCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_MAGICVOICE_ENABLE) == BST_CHECKED ? 1 : 0 ));
-
     GetDlgItemText(hwnd, IDC_MAGICVOICE_FILE, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
     resources_set_string("MagicVoiceImage", s);
+
+    resources_set_int("MagicVoiceCartridgeEnabled", (IsDlgButtonChecked(hwnd, IDC_MAGICVOICE_ENABLE) == BST_CHECKED ? 1 : 0 ));
 }
 
 static void browse_magicvoice_file(HWND hwnd)
