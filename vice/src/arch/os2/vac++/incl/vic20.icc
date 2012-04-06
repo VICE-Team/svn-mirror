@@ -6,6 +6,7 @@ source type(c)
 	"vic-mem.c",
 	"vic-resources.c",
 	"vic-snapshot.c",
+     "vic-timing.c",
 	"vic.c",
 	"vic20-cmdline-options.c",
 	"vic20-resources.c",

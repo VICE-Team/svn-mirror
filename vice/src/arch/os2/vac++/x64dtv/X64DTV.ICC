@@ -84,11 +84,13 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/residdtv.icc"
         include "../incl/resources.icc"
         include "../incl/rs232drv.icc"
+        include "../incl/rtc.icc"
         include "../incl/serial.icc"
         include "../incl/sounddrv.icc"
         include "../incl/tape.icc"
         include "../incl/userport.icc"
         include "../incl/vdrive.icc"
+        include "../incl/viciicommon.icc"
         include "../incl/viciidtv.icc"
         include "../incl/video.icc"
     }
