@@ -707,7 +707,7 @@ static int ui_get_menu_height(HWND w)
 	if (max_y < min_y) {
 		return 0;
 	}
-	return (int)(max_y - min_y);
+	return (int)(max_y - min_y + 1);
 }
 
 /* Resize `w' so that the client rectangle is of the requested size.  */
