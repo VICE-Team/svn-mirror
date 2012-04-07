@@ -650,7 +650,7 @@ void mouse_init(void)
 
     emu_units_per_os_units =
         (float)machine_get_cycles_per_second() / vsyncarch_frequency();
-#ifdef DEBUG
+#ifdef DEBUG_MOUSE
     mouse_log = log_open("Mouse");
     log_message(mouse_log, "cpu cycles / time unit %.5f",
                 emu_units_per_os_units);
