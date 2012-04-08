@@ -1538,15 +1538,18 @@ static inline int ignore_dongle_check_1()
 {
     extern int spet_bank;
     extern BYTE mem_ram[];
+    int bank;
+    BYTE *mem;
 
     /* Check if we're in the ROM bankswitch routine, doing a JSR ,X */
     if (PC != 0xbc0d) {
         return 0;
     }
 
-    int bank = spet_bank;
+    bank = spet_bank;
+
     /* Check for false positive; dongle check starts with TFR S,X */
-    BYTE *mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
+    mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
     if (mem[0] != 0x1F) {  /* 9852  1F 41       TFR S,X */
         //printf("ignore_dongle_check: ea = %04x mem[0]=%02x != 1F\n", ea, mem[0]);
         return 0;
@@ -1579,6 +1582,7 @@ static inline int ignore_dongle_check_2()
     extern int spet_bank;
     extern BYTE mem_ram[];
     const int bank = spet_bank;
+    BYTE *mem;
 
     /* Check if we're in the place where FORTRAN 1.1 calls the check */
     if (PC != 0x9072 || bank != 0) {
@@ -1586,7 +1590,7 @@ static inline int ignore_dongle_check_2()
     }
 
     /* Check for false positive; dongle check starts with TFR S,X */
-    BYTE *mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
+    mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
     if (mem[0] != 0x1F) {  /* 9852  1F 41       TFR S,X */
         //printf("ignore_dongle_check_2: ea = %04x mem[0]=%02x != 1F\n", ea, mem[0]);
         return 0;
