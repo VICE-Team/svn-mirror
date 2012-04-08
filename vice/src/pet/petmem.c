@@ -334,13 +334,13 @@ static void store_super_io(WORD addr, BYTE value)
 {
     if (addr >= 0xeffe) {       /* RAM/ROM switch */
         spet_ramen = !(value & 1);
-        printf("spet_ramen := %d\n", spet_ramen);
+        //printf("spet_ramen := %d\n", spet_ramen);
     } else
     if (addr >= 0xeffc) {       /* Bank select */
         spet_bank = value & 0x0f;
         spet_ctrlwp = !(value & 0x80);
-        printf("spet_bank := %d\n", spet_bank);
-        printf("spet_ctrlwp := %d\n", spet_ctrlwp);
+        //printf("spet_bank := %d\n", spet_bank);
+        //printf("spet_ctrlwp := %d\n", spet_ctrlwp);
     } else {
         if (addr >= 0xeff8) {
             if (!spet_ctrlwp) {
@@ -349,7 +349,7 @@ static void store_super_io(WORD addr, BYTE value)
                     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
                 }
                 spet_ramwp = !(value & 0x2);    /* IF hardware w/p switch is PROG */
-                printf("spet_ramwp := %d\n", spet_ramwp);
+                //printf("spet_ramwp := %d\n", spet_ramwp);
                 spet_diag = (value & 0x8);
             }
         } else

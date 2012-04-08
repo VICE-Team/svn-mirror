@@ -1528,8 +1528,57 @@ static void pulu(void)
 
 /* Miscellaneous Instructions */
 
+static inline int ignore_dongle_check()
+{
+    extern int spet_bank;
+    extern BYTE mem_ram[];
+    // Idea from Dave Roberts
+
+    // ******************************
+    // ***                        ***
+    // ***  DER FOR 6702 dongle.  ***
+    // ***                        ***
+    // ******************************
+
+    if (PC != 0xbc0d) {
+        return 0;
+    }
+
+    int bank = spet_bank;
+    BYTE *mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
+    if (mem[0] != 0x1F) {  // 9852  1F 41       TFR S,X
+        return 0;
+    }
+
+    if ( ((ea == 0x9852) && (bank == 0x01)) ||// EDIT 1.1    - WORKS WITH THE PATCH
+            ((ea == 0x9000) && (bank == 0x05)) ||// PASCAL 1.1 - FAILS AFTER RUN (BUT EDITOR WORKS) (6809 EMULATOR PROBLEM?)
+            ((ea == 0x93F0) && (bank == 0x05)) ||// BASIC 1.1   - WORKS WITH THE PATCH
+            ((ea == 0x960C) && (bank == 0x00)) ||// FORTRAN 1.1 - FAILS AFTER RUN (BUT EDITOR WORKS) (6809 EMULATOR PROBLEM?)
+            ((ea == 0x9F12) && (bank == 0x06)) ||// APL 1.1     - NOT QUITE RIGHT YET? (I DON'T KNOW APL)
+            ((ea == 0x9240) && (bank == 0x00)) ||// COBOL 1.0  - SORT OF WORKS? (I DON'T KNOW COBOL)
+            ((ea == 0x9A05) && (bank == 0x05)) ||// DEVELOPMENT (ASSEMBLER) 1.1 - WORKS WITH THE PATCH
+            ((ea == 0x94B6) && (bank == 0x08)) ||// DEVELOPMENT (LINKER) 1.0 - WORKS WITH THE PATCH
+            ((ea == 0x9852) && (bank == 0x02))   // DEVELOPMENT (EDITOR) 1.1 - WORKS WITH THE PATCH
+       ) {
+        A  = 0x00; // register A
+        B  = 0x00; // Register B
+        Z = 1; // Z (Zero/Equal) flag
+        C = 0; // C (Carry) flag
+        OV = 0; // V (overflow) flag
+
+        printf("ignore dongle check: pc=%04x ea=%04x\n", PC, ea);
+        // Ignore the JSR!
+        return 1;
+    }
+    return 0;
+
+
+}
+
 static void jsr(void)
 {
+    // if (ignore_dongle_check()) return;
+
     S -= 2;
     write_stack16(S, PC);
     PC = ea;
@@ -4320,6 +4369,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x11ad:	/* JSR indexed (UNDOC) */
 #endif
                 indexed();
+                if (ignore_dongle_check()) break;
                 jsr();
                 break;
 
