@@ -23,9 +23,9 @@
  *  02111-1307  USA.
  *
  */
+#include "vice.h"
 
 #include <stdlib.h>
-#include "vice.h"
 
 #include "asm.h"
 #include "mon_assemble.h"
