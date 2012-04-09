@@ -66,7 +66,7 @@
      4    eprom selection bit 0
      5    eprom selection bit 1
      6    unused
-     7    EXROM control (1=EXROM off, 0=EXROM on
+     7    EXROM control (1=EXROM off, 0=EXROM on)
 
 
     The following eprom select values result in the following bank selection:
