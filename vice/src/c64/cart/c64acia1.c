@@ -262,9 +262,9 @@ int acia1_set_mode(int mode)
 
 #ifdef HAVE_RS232
 static const resource_int_t resources_i[] = {
-    { "Acia1Enable", 0, RES_EVENT_STRICT, NULL,
+    { "Acia1Enable", 0, RES_EVENT_STRICT, 0,
       &acia_enabled, set_acia_enabled, NULL },
-    { "Acia1Base", 0xffff, RES_EVENT_STRICT, NULL,
+    { "Acia1Base", 0xffff, RES_EVENT_STRICT, 0xffff,
       &acia_base, set_acia_base, NULL },
     { NULL }
 };
