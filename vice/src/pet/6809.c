@@ -1540,6 +1540,7 @@ static inline int ignore_dongle_check_1()
     extern BYTE mem_ram[];
     int bank;
     BYTE *mem;
+    int bea;
 
     /* Check if we're in the ROM bankswitch routine, doing a JSR ,X or JMP ,X */
     if (PC != 0xbc0d && PC != 0xbc21) {
@@ -1554,7 +1555,7 @@ static inline int ignore_dongle_check_1()
         return 0;
     }
 
-    int bea = (bank << 16) | ea;
+    bea = (bank << 16) | ea;
 
     if ( (bea == 0x19852) ||/* EDIT 1.1    - WORKS WITH THE PATCH */
          (bea == 0x59000) ||/* PASCAL 1.1  - WORKS WITH THE PATCH */
@@ -1592,6 +1593,7 @@ static inline int ignore_dongle_check_2()
     extern BYTE mem_ram[];
     const int bank = spet_bank;
     BYTE *mem;
+    DWORD pcea;
 
     /*
      * Check if we're in the place where FORTRAN 1.x or COBOL 1.0
@@ -1601,7 +1603,7 @@ static inline int ignore_dongle_check_2()
         return 0;
     }
 
-    DWORD pcea = (PC << 16) | ea;
+    pcea = (PC << 16) | ea;
 
     if ((pcea == 0x9072960C) || /* FORTRAN 1.1 bank 0 */
         (pcea == 0x90719642) || /* FORTRAN 1.0 bank 0 */
