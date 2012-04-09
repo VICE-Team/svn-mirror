@@ -1528,7 +1528,7 @@ static void pulu(void)
 
 /* Miscellaneous Instructions */
 
-/* Idea from Dave Roberts */
+/* Idea and address information from Dave Roberts */
 /*****************************
 ***                        ***
 ***  DER FOR 6702 dongle.  ***
@@ -1541,8 +1541,8 @@ static inline int ignore_dongle_check_1()
     int bank;
     BYTE *mem;
 
-    /* Check if we're in the ROM bankswitch routine, doing a JSR ,X */
-    if (PC != 0xbc0d) {
+    /* Check if we're in the ROM bankswitch routine, doing a JSR ,X or JMP ,X */
+    if (PC != 0xbc0d && PC != 0xbc21) {
         return 0;
     }
 
@@ -1551,24 +1551,33 @@ static inline int ignore_dongle_check_1()
     /* Check for false positive; dongle check starts with TFR S,X */
     mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
     if (mem[0] != 0x1F) {  /* 9852  1F 41       TFR S,X */
-        //printf("ignore_dongle_check: ea = %04x mem[0]=%02x != 1F\n", ea, mem[0]);
         return 0;
     }
 
-    if ( ((ea == 0x9852) && (bank == 0x01)) ||/* EDIT 1.1    - WORKS WITH THE PATCH */
-         ((ea == 0x9000) && (bank == 0x05)) ||/* PASCAL 1.1  - FAILS AFTER RUN (BUT EDITOR WORKS) (6809 EMULATOR PROBLEM?) */
-         ((ea == 0x93F0) && (bank == 0x05)) ||/* BASIC 1.1   - WORKS WITH THE PATCH */
-         ((ea == 0x9F12) && (bank == 0x06)) ||/* APL 1.1     - NOT QUITE RIGHT YET? (I DON'T KNOW APL) */
-         ((ea == 0x9240) && (bank == 0x00)) ||/* COBOL 1.0   - SORT OF WORKS? (I DON'T KNOW COBOL) */
-         ((ea == 0x9A05) && (bank == 0x05)) ||/* DEVELOPMENT (ASSEMBLER) 1.1 - WORKS WITH THE PATCH */
-         ((ea == 0x94B6) && (bank == 0x08)) ||/* DEVELOPMENT (LINKER) 1.0 - WORKS WITH THE PATCH */
-         ((ea == 0x9852) && (bank == 0x02))   /* DEVELOPMENT (EDITOR) 1.1 - WORKS WITH THE PATCH */
+    int bea = (bank << 16) | ea;
+
+    if ( (bea == 0x19852) ||/* EDIT 1.1    - WORKS WITH THE PATCH */
+         (bea == 0x59000) ||/* PASCAL 1.1  - WORKS WITH THE PATCH */
+         (bea == 0x593F0) ||/* BASIC 1.1   - WORKS WITH THE PATCH */
+         (bea == 0x69F12) ||/* APL 1.1     - NOT QUITE RIGHT YET? (I DON'T KNOW APL) */
+         (bea == 0x09240) ||/* COBOL 1.0   - SORT OF WORKS? (I DON'T KNOW COBOL) */
+         (bea == 0x0960C) ||/* FORTRAN 1.1 - WORKS WITH THE PATCH */
+         (bea == 0x59A05) ||/* DEVELOPMENT (ASSEMBLER) 1.1 - WORKS WITH THE PATCH */
+         (bea == 0x894B6) ||/* DEVELOPMENT (LINKER) 1.0 - WORKS WITH THE PATCH */
+         (bea == 0x29852) ||/* DEVELOPMENT (EDITOR) 1.1 - WORKS WITH THE PATCH */
+         (bea == 0x19889) ||/* EDIT    V1.0 1981 */
+       //(bea == 0x59000) ||/* PASCAL  V1.0 1981 - ALSO USES "JMP ,X" TO GET TO 6702 SUBROUTINE. */
+         (bea == 0x5939c) ||/* BASIC   V1.0 1981 */
+         (bea == 0x09642) ||/* FORTRAN V1.0 1981 - ALSO USES PLAIN JSR */
+         (bea == 0xd9000) ||/* APL     V1.0 1981 - THIS VERSION OF APL SEEMS TO WORK! */
+         (bea == 0x59a14) ||/* DEVELOPMENT (ASSEMBLER) V1.0 1981 */
+         (bea == 0x29889)   /* DEVELOPMENT (EDITOR)    V1.0 1981 */
        ) {
-        A  = 0x00; // register A
-        B  = 0x00; // Register B
-        Z = 1; // Z (Zero/Equal) flag
-        C = 0; // C (Carry) flag
-        OV = 0; // V (overflow) flag
+        A  = 0x00; /* register A */
+        B  = 0x00; /* Register B */
+        Z  = 1;    /* Z (Zero/Equal) flag */
+        C  = 0;    /* C (Carry) flag */
+        OV = 0;    /* V (overflow) flag */
 
         printf("ignore dongle check 1: pc=%04x ea=%x:%04x\n", PC, bank, ea);
         /* Ignore the JSR! */
@@ -1584,36 +1593,43 @@ static inline int ignore_dongle_check_2()
     const int bank = spet_bank;
     BYTE *mem;
 
-    /* Check if we're in the place where FORTRAN 1.1 calls the check */
-    if (PC != 0x9072 || bank != 0) {
+    /*
+     * Check if we're in the place where FORTRAN 1.x or COBOL 1.0
+     * calls the check.
+     */
+    if (bank != 0) {
+        return 0;
+    }
+
+    DWORD pcea = (PC << 16) | ea;
+
+    if ((pcea == 0x9072960C) || /* FORTRAN 1.1 bank 0 */
+        (pcea == 0x90719642) || /* FORTRAN 1.0 bank 0 */
+        (pcea == 0x90609240)) { /* COBOL   1.0 bank 0 */
+    } else {
         return 0;
     }
 
     /* Check for false positive; dongle check starts with TFR S,X */
     mem = (mem_ram + 0x10000) + (bank << 12) + (ea & 0x0fff);
     if (mem[0] != 0x1F) {  /* 9852  1F 41       TFR S,X */
-        //printf("ignore_dongle_check_2: ea = %04x mem[0]=%02x != 1F\n", ea, mem[0]);
         return 0;
     }
 
-    if ( ((ea == 0x960C) && (bank == 0x00))   /* FORTRAN 1.1 - FAILS AFTER RUN (BUT EDITOR WORKS) (6809 EMULATOR PROBLEM?) */
-       ) {
-        A  = 0x00; // register A
-        B  = 0x00; // Register B
-        Z = 1; // Z (Zero/Equal) flag
-        C = 0; // C (Carry) flag
-        OV = 0; // V (overflow) flag
+    A  = 0x00; /* register A */
+    B  = 0x00; /* Register B */
+    Z  = 1;    /* Z (Zero/Equal) flag */
+    C  = 0;    /* C (Carry) flag */
+    OV = 0;    /* V (overflow) flag */
 
-        printf("ignore dongle check 2: pc=%04x ea=%x:%04x\n", PC, bank, ea);
-        /* Ignore the JSR! */
-        return 1;
-    }
-    return 0;
+    printf("ignore dongle check 2: pc=%04x ea=%x:%04x\n", PC, bank, ea);
+    /* Ignore the JSR! */
+    return 1;
 }
 
 static void jsr(void)
 {
-    //if (ignore_dongle_check_1() || ignore_dongle_check_2()) return;
+    /*if (ignore_dongle_check_1()) return;*/
     S -= 2;
     write_stack16(S, PC);
     PC = ea;
@@ -4376,6 +4392,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x116e:	/* JMP indexed (UNDOC) */
 #endif
                 indexed();
+                if (ignore_dongle_check_1()) { rts(); break; }
                 CLK++;
                 PC = ea;
                 break;
