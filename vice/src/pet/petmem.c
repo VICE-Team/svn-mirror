@@ -281,12 +281,14 @@ int spet_bank   = 0;
 int spet_ctrlwp = 1;
 int spet_diag   = 0;
 int spet_ramwp  = 0;
+static int dongle_index;
 
 void petmem_reset(void)
 {
     spet_ramen = 1;
     spet_bank = 0;
     spet_ctrlwp = 1;
+    dongle_index = 0;
 
     petmem_map_reg = 0;
 }
@@ -304,7 +306,60 @@ int petmem_superpet_diag(void)
     return petres.superpet && spet_diag;
 }
 
-static BYTE dongle_value;
+/*
+ * Emulate the 6702 dongle by returning a sequence of fixed values.
+ * We even ignore the values that are written to it!
+ * Idea and recovery of values by Dave Roberts.
+ *
+ * Code references to Editor 1.1, bank 0. The dongle check routine
+ * starts at $9852.
+ */
+static BYTE dongle_values [ 29 ] = { 	// Indexed as 0 to 28.
+    /* Used once at the start of the subroutine.        */
+    0x04, /* 9860: LDA  [<$06,S] ; [ 0]                 */
+
+    /* Iteration 1 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0x91, /* 987F: EORB [<$06,S] ; [ 2]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0x3C, /* 988A: LDA  [<$06,S] ; [ 4]                 */
+
+    /* Iteration 2 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0xAC, /* 987F: EORB [<$06,S] ; [ 6]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0xC7, /* 988A: LDA  [<$06,S] ; [ 8]                 */
+
+    /* Iteration 3 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0xF0, /* 987F: EORB [<$06,S] ; [10]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0xE3, /* 988A: LDA  [<$06,S] ; [12]                 */
+
+    /* Iteration 4 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0x36, /* 987F: EORB [<$06,S] ; [14]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0x5A, /* 988A: LDA  [<$06,S] ; [16]                 */
+
+    /* Iteration 5 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0xBB, /* 987F: EORB [<$06,S] ; [18]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0xC3, /* 988A: LDA  [<$06,S] ; [20]                 */
+
+    /* Iteration 6 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0x6A, /* 987F: EORB [<$06,S] ; [22]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0x75, /* 988A: LDA  [<$06,S] ; [24]                 */
+
+    /* Iteration 7 of the 'outer' loop.                 */
+    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
+    0xA3, /* 987F: EORB [<$06,S] ; [26]                 */
+    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
+    0x3E  /* 988A: LDA  [<$06,S] ; [28]                 */
+};
 
 static BYTE read_super_io(WORD addr)
 {
@@ -314,19 +369,25 @@ static BYTE read_super_io(WORD addr)
     if (addr >= 0xeff0) {       /* ACIA */
         return acia1_read((WORD)(addr & 0x03));
     } else
-#if 0
-    if (addr >= 0xefe4) {       /* unused */
-        return read_unused(addr);
-    } else
-    if (addr >= 0xefe0) {       /* dongle */
-        fprintf(stderr, "*** DONGLE ***\n");
-    }
-#else
-    if ((addr & 0x0010) == 0) { /* dongle E F xxx0 xxxx, see schematics/computers/pet/SuperPET/324055.gif */
-        fprintf(stderr, "*** DONGLE %04x -> %02X ***\n", addr, dongle_value);
+    if ((addr & 0x0010) == 0) {
+        /* Dongle E F xxx0 xxxx, see zimmers.net,
+         * schematics/computers/pet/SuperPET/324055.gif.
+         * Typical address is $EFE0, possibly EFE0...3.
+         */
+        BYTE dongle_value = dongle_values[dongle_index];
+        if (dongle_index == 0) {
+            log_message(pet_mem_log, "Started dongle sequence...");
+        }
+#if DEBUG_DONGLE
+        log_message(pet_mem_log, "*** DONGLE %04x -> %02X [%d]", addr, dongle_value, dongle_index);
+#endif
+        dongle_index++;
+        if (dongle_index >= sizeof(dongle_values)) {
+            dongle_index = 0;
+            log_message(pet_mem_log, "Completed dongle sequence!");
+        }
         return dongle_value;
     }
-#endif
     return read_unused(addr);   /* fallback */
 }
 
@@ -357,19 +418,12 @@ static void store_super_io(WORD addr, BYTE value)
         } else
         if (addr >= 0xeff0) {   /* ACIA */
             acia1_store((WORD)(addr & 0x03), value);
+#if DEBUG_DONGLE
         } else
-#if 0
-        if (addr >= 0xefe4) {   /* unused */
-        } else
-        if (addr >= 0xefe0) {   /* dongle? */
-            fprintf(stderr, "*** DONGLE ***\n");
-        }
-#else
-    if ((addr & 0x0010) == 0) { /* dongle E F xxx0 xxxx, see schematics/computers/pet/SuperPET/324055.gif */
-        fprintf(stderr, "*** DONGLE %04x := %02X ***\n", addr, value);
-        dongle_value = value;
-    }
+        if ((addr & 0x0010) == 0) { /* dongle E F xxx0 xxxx, see schematics/computers/pet/SuperPET/324055.gif */
+            log_message(pet_mem_log, "*** DONGLE %04x := %02X\n", addr, value);
 #endif
+        }
     }
 }
 

@@ -4394,7 +4394,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x116e:	/* JMP indexed (UNDOC) */
 #endif
                 indexed();
-                if (ignore_dongle_check_1()) { rts(); break; }
+                /* if (ignore_dongle_check_1()) { rts(); break; } */
                 CLK++;
                 PC = ea;
                 break;
@@ -4414,7 +4414,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x11bd:	/* JSR extended (UNDOC) */
 #endif
                 extended();
-                if (ignore_dongle_check_2()) break;
+                /* if (ignore_dongle_check_2()) break; */
                 jsr();
                 break;
 
@@ -4424,7 +4424,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x11ad:	/* JSR indexed (UNDOC) */
 #endif
                 indexed();
-                if (ignore_dongle_check_1()) break;
+                /* if (ignore_dongle_check_1()) break; */
                 jsr();
                 break;
 
