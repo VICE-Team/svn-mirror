@@ -832,7 +832,7 @@ translate_t string_table[] = {
 /* tr */ {IDGS_FFMPEG_CANNOT_OPEN_S_TR, "ffmpegdrv: %s açýlamadý"},
 #endif
 
-/* c64/c64io.c */
+/* c64/c64io.c, vic20/vic20io.c */
 /* en */ {IDGS_IO_READ_COLL_AT_X_FROM,    N_("I/O read collision at %X from ")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_IO_READ_COLL_AT_X_FROM_DA, "I/O-læsekollision ved %X fra "},
@@ -849,7 +849,7 @@ translate_t string_table[] = {
 /* tr */ {IDGS_IO_READ_COLL_AT_X_FROM_TR, "G/Ç okuma çakýþmasý %X'de "},
 #endif
 
-/* c64/c64io.c */
+/* c64/c64io.c, vic20/vic20io.c */
 /* en */ {IDGS_AND,    N_(" and ")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_AND_DA, " og "},
@@ -866,7 +866,7 @@ translate_t string_table[] = {
 /* tr */ {IDGS_AND_TR, " ve "},
 #endif
 
-/* c64/c64io.c */
+/* c64/c64io.c, vic20/vic20io.c */
 /* en */ {IDGS_ALL_DEVICES_DETACHED,    N_(".\nAll the named devices will be detached.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ALL_DEVICES_DETACHED_DA, ".\nAlle de navngivne enheder vil blive frakoblet."},
@@ -881,6 +881,40 @@ translate_t string_table[] = {
 /* ru */ {IDGS_ALL_DEVICES_DETACHED_RU, ".\nAll the named devices will be detached."},
 /* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ".\nAlla namngivna enheter kommer kopplas från."},
 /* tr */ {IDGS_ALL_DEVICES_DETACHED_TR, ".\nTüm isimlendirilmiþ aygýtlar çýkartýlacaktýr."},
+#endif
+
+/* c64/c64io.c, vic20/vic20io.c */
+/* en */ {IDGS_ALL_DEVICES_EXCEPT,    N_(".\nAll devices except ")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_ALL_DEVICES_EXCEPT_DA, ""},  /* fuzzy */
+/* de */ {IDGS_ALL_DEVICES_EXCEPT_DE, ""},  /* fuzzy */
+/* es */ {IDGS_ALL_DEVICES_EXCEPT_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_ALL_DEVICES_EXCEPT_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_ALL_DEVICES_EXCEPT_HU, ""},  /* fuzzy */
+/* it */ {IDGS_ALL_DEVICES_EXCEPT_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_ALL_DEVICES_EXCEPT_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_ALL_DEVICES_EXCEPT_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_ALL_DEVICES_EXCEPT_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_ALL_DEVICES_EXCEPT_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_ALL_DEVICES_EXCEPT_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/c64io.c, vic20/vic20io.c */
+/* en */ {IDGS_WILL_BE_DETACHED,    N_(" will be detached.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_WILL_BE_DETACHED_DA, ""},  /* fuzzy */
+/* de */ {IDGS_WILL_BE_DETACHED_DE, ""},  /* fuzzy */
+/* es */ {IDGS_WILL_BE_DETACHED_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_WILL_BE_DETACHED_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_WILL_BE_DETACHED_HU, ""},  /* fuzzy */
+/* it */ {IDGS_WILL_BE_DETACHED_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_WILL_BE_DETACHED_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_WILL_BE_DETACHED_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_WILL_BE_DETACHED_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_WILL_BE_DETACHED_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_WILL_BE_DETACHED_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_WILL_BE_DETACHED_TR, ""},  /* fuzzy */
 #endif
 
 /* c64dtv/c64dtvflash.c */
@@ -4327,6 +4361,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_HUMMER_ADC_TR, "Hummer ADC'yi pasifleþtir"},
 #endif
 
+/* c64/c64io.c, vic20/vic20io.c */
+/* en */ {IDCLS_SELECT_CONFLICT_HANDLING,    N_("Select the way the I/O collisions should be handled, (0: error message and detach all involved carts, 1: error message and detach last attached involved carts, 2: warning in log and 'AND' the valid return values")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_CONFLICT_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_CONFLICT_HANDLING_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_CONFLICT_HANDLING_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_CONFLICT_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_CONFLICT_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_CONFLICT_HANDLING_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SELECT_CONFLICT_HANDLING_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_CONFLICT_HANDLING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_CONFLICT_HANDLING_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_CONFLICT_HANDLING_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_CONFLICT_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_CONFLICT_HANDLING_TR, ""},  /* fuzzy */
+#endif
+
 /* c64/cart/c64tpi.c */
 /* en */ {IDCLS_ENABLE_IEEE488_INTERFACE,    N_("Enable the IEEE488 interface emulation")},
 #ifdef HAS_TRANSLATION
@@ -4461,6 +4512,76 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_RU, "Do not write to GEORAM image"},
 /* sv */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_SV, "Skriv inte till GEORAM-avbildning"},
 /* tr */ {IDCLS_DO_NOT_WRITE_TO_GEORAM_IMAGE_TR, "GEORAM imajýna yazma"},
+#endif
+
+/* c64/cart/georam.c */
+/* en */ {IDCLS_SWAP_CART_IO,    N_("Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SWAP_CART_IO_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SWAP_CART_IO_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SWAP_CART_IO_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SWAP_CART_IO_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SWAP_CART_IO_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SWAP_CART_IO_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SWAP_CART_IO_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SWAP_CART_IO_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SWAP_CART_IO_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SWAP_CART_IO_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SWAP_CART_IO_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SWAP_CART_IO_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/georam.c */
+/* en */ {IDCLS_DONT_SWAP_CART_IO,    N_("Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DONT_SWAP_CART_IO_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DONT_SWAP_CART_IO_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DONT_SWAP_CART_IO_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DONT_SWAP_CART_IO_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DONT_SWAP_CART_IO_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_SWAP_CART_IO_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DONT_SWAP_CART_IO_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DONT_SWAP_CART_IO_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DONT_SWAP_CART_IO_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DONT_SWAP_CART_IO_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_SWAP_CART_IO_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DONT_SWAP_CART_IO_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
+   c64/cart/tfe.c */
+/* en */ {IDCLS_MAP_CART_IO_2,    N_("Swap io mapping (map cart I/O to VIC20 I/O-2")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MAP_CART_IO_2_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MAP_CART_IO_2_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_MAP_CART_IO_2_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_MAP_CART_IO_2_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MAP_CART_IO_2_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MAP_CART_IO_2_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_MAP_CART_IO_2_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_MAP_CART_IO_2_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MAP_CART_IO_2_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_MAP_CART_IO_2_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_MAP_CART_IO_2_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MAP_CART_IO_2_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
+   c64/cart/tfe.c */
+/* en */ {IDCLS_MAP_CART_IO_3,    N_("Don't swap io mapping (map cart I/O to VIC20 I/O-3")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_MAP_CART_IO_3_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_MAP_CART_IO_3_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_MAP_CART_IO_3_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_MAP_CART_IO_3_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_MAP_CART_IO_3_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_MAP_CART_IO_3_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_MAP_CART_IO_3_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_MAP_CART_IO_3_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MAP_CART_IO_3_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_MAP_CART_IO_3_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_MAP_CART_IO_3_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_MAP_CART_IO_3_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/cart/georam.c, c64/cart/ramcart.c, c64/cart/reu.c, pet/petreu.c */
@@ -9491,6 +9612,40 @@ translate_t string_table[] = {
 #endif
 
 /* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_P_AMOUNT,    N_("<amount>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_AMOUNT_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_AMOUNT_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_AMOUNT_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_AMOUNT_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_AMOUNT_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_AMOUNT_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_AMOUNT_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_AMOUNT_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_AMOUNT_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_AMOUNT_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_AMOUNT_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_AMOUNT_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
+/* en */ {IDCLS_AMOUNT_EXTRA_SIDS,    N_("amount of extra SID chips")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_AMOUNT_EXTRA_SIDS_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_AMOUNT_EXTRA_SIDS_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_AMOUNT_EXTRA_SIDS_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_AMOUNT_EXTRA_SIDS_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_AMOUNT_EXTRA_SIDS_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_AMOUNT_EXTRA_SIDS_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_AMOUNT_EXTRA_SIDS_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_AMOUNT_EXTRA_SIDS_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_AMOUNT_EXTRA_SIDS_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_AMOUNT_EXTRA_SIDS_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_AMOUNT_EXTRA_SIDS_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_AMOUNT_EXTRA_SIDS_TR, ""},  /* fuzzy */
+#endif
+
+/* sid/sid-cmdline-options.c */
 /* en */ {IDCLS_FASTSID_ENGINE_MODEL,    N_("0: FastSID 6581, 1: FastSID 8580")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_FASTSID_ENGINE_MODEL_DA, "0: FastSID 6581, 1: FastSID 8580"},
@@ -11958,6 +12113,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_SET_SOUND_SPEED_ADJUST_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SOUND_SPEED_ADJUST_SV, "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"},
 /* tr */ {IDCLS_SET_SOUND_SPEED_ADJUST_TR, "Ses hýzý ayarlamasýný yapýn (0: esnek, 1: düzeltme, 2: aynen)"},
+#endif
+
+/* sound.c */
+/* en */ {IDCLS_P_OUTPUT_MODE,    N_("<output mode>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_OUTPUT_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_OUTPUT_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_OUTPUT_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_OUTPUT_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_OUTPUT_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_OUTPUT_MODE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_OUTPUT_MODE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_OUTPUT_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_OUTPUT_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_OUTPUT_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_OUTPUT_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_OUTPUT_MODE_TR, ""},  /* fuzzy */
+#endif
+
+/* sound.c */
+/* en */ {IDCLS_SOUND_OUTPUT_MODE,    N_("Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SOUND_OUTPUT_MODE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SOUND_OUTPUT_MODE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SOUND_OUTPUT_MODE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SOUND_OUTPUT_MODE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SOUND_OUTPUT_MODE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SOUND_OUTPUT_MODE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SOUND_OUTPUT_MODE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SOUND_OUTPUT_MODE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SOUND_OUTPUT_MODE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SOUND_OUTPUT_MODE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SOUND_OUTPUT_MODE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SOUND_OUTPUT_MODE_TR, ""},  /* fuzzy */
 #endif
 
 /* sysfile.c */

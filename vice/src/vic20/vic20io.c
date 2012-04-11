@@ -198,7 +198,7 @@ static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *s
             }
             if (found == amount - 1) {
                 old_msg = new_msg;
-                new_msg = util_concat(old_msg, translate_text(IDGS_AND), current->device->name, T_(".\nAll devices except "), first_cart, T_(" will be detached."), NULL);
+                new_msg = util_concat(old_msg, translate_text(IDGS_AND), current->device->name, translate_text(IDGS_ALL_DEVICES_EXCEPT), first_cart, translate_text(IDGS_WILL_BE_DETACHED), NULL);
                 lib_free(old_msg);
             }
             found++;
@@ -553,9 +553,9 @@ int cartio_resources_init(void)
 static const cmdline_option_t cmdline_options[] = {
     { "-iocollision", SET_RESOURCE, 1,
       NULL, NULL, "IOCollisionHandling", NULL,
-      USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_METHOD, IDCLS_OVERSIZED_HANDLING,
-      NULL, T_("Select the way the I/O collisions should be handled, (0: error message and detach all involved carts, 1: error message and detach last attached involved carts, 2: warning in log and 'AND' the valid return values")},
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_METHOD, IDCLS_SELECT_CONFLICT_HANDLING,
+      NULL, NULL },
     { NULL }
 };
 

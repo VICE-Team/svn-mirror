@@ -105,9 +105,9 @@ static const cmdline_option_t resid_cmdline_options[] = {
 static const cmdline_option_t stereo_cmdline_options[] = {
     { "-sidstereo", SET_RESOURCE, 1,
       NULL, NULL, "SidStereo", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      T_("<amount>"), T_("amount of extra SID chips") },
+      USE_PARAM_ID, USE_DESCRIPTION_STRING,
+      IDCLS_P_AMOUNT, IDCLS_AMOUNT_EXTRA_SIDS,
+      NULL, NULL },
     { "-sidstereoaddress", SET_RESOURCE, 1,
       NULL, NULL, "SidStereoAddressStart", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

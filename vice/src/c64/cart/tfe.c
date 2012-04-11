@@ -609,14 +609,14 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
 {
     { "-tfeioswap", SET_RESOURCE, 0,
       NULL, NULL, "TFEIOSwap", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Swap io mapping (map TFE I/O to VIC20 I/O-3") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MAP_CART_IO_2,
+      NULL, NULL },
     { "+tfeioswap", SET_RESOURCE, 0,
       NULL, NULL, "TFEIOSwap", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Don't swap io mapping (map TFE I/O to VIC20 I/O-2") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MAP_CART_IO_3,
+      NULL, NULL },
     { NULL }
 };
 

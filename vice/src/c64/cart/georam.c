@@ -494,14 +494,14 @@ static const cmdline_option_t cmdline_mascuerade_options[] =
 {
     { "-georamioswap", SET_RESOURCE, 0,
       NULL, NULL, "GEORAMIOSwap", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Swap io mapping (map GEO-RAM I/O-1 to VIC20 I/O-3 and GEO-RAM I/O-2 to VIC20 I/O-2") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_SWAP_CART_IO,
+      NULL, NULL },
     { "+georamioswap", SET_RESOURCE, 0,
       NULL, NULL, "GEORAMIOSwap", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, T_("Don't swap io mapping (map GEO-RAM I/O-1 to VIC20 I/O-2 and GEO-RAM I/O-2 to VIC20 I/O-3") },
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DONT_SWAP_CART_IO,
+      NULL, NULL },
     { NULL }
 };
 

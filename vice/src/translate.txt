@@ -143,14 +143,20 @@ IDGS_FFMPEG_CANNOT_OPEN_ASTREAM
 /* gfxoutputdrv/ffmpegdrv.c */
 IDGS_FFMPEG_CANNOT_OPEN_S
 
-/* c64/c64io.c */
+/* c64/c64io.c, vic20/vic20io.c */
 IDGS_IO_READ_COLL_AT_X_FROM
 
-/* c64/c64io.c */
+/* c64/c64io.c, vic20/vic20io.c */
 IDGS_AND
 
-/* c64/c64io.c */
+/* c64/c64io.c, vic20/vic20io.c */
 IDGS_ALL_DEVICES_DETACHED
+
+/* c64/c64io.c, vic20/vic20io.c */
+IDGS_ALL_DEVICES_EXCEPT
+
+/* c64/c64io.c, vic20/vic20io.c */
+IDGS_WILL_BE_DETACHED
 
 /* c64dtv/c64dtvflash.c */
 IDGS_NO_FILENAME
@@ -431,6 +437,9 @@ IDCLS_ENABLE_HUMMER_ADC
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_DISABLE_HUMMER_ADC
 
+/* c64/c64io.c, vic20/vic20io.c */
+IDCLS_SELECT_CONFLICT_HANDLING
+
 /* c64/cart/c64tpi.c */
 IDCLS_ENABLE_IEEE488_INTERFACE
 
@@ -460,6 +469,20 @@ IDCLS_P_SIZE_IN_KB
 
 /* c64/cart/georam.c */
 IDCLS_GEORAM_SIZE
+
+/* c64/cart/georam.c */
+IDCLS_SWAP_CART_IO
+
+/* c64/cart/georam.c */
+IDCLS_DONT_SWAP_CART_IO
+
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
+   c64/cart/tfe.c */
+IDCLS_MAP_CART_IO_2
+
+/* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
+   c64/cart/tfe.c */
+IDCLS_MAP_CART_IO_3
 
 /* initcmdline.c */
 IDCLS_SID_PLAYER_MODE
@@ -1327,6 +1350,12 @@ IDCLS_DISABLE_IEC_11
 IDCLS_P_ENGINE_MODEL
 
 /* sid/sid-cmdline-options.c */
+IDCLS_P_AMOUNT
+
+/* sid/sid-cmdline-options.c */
+IDCLS_AMOUNT_EXTRA_SIDS
+
+/* sid/sid-cmdline-options.c */
 IDCLS_FASTSID_ENGINE_MODEL
 
 #ifdef HAVE_RESID
@@ -1774,6 +1803,12 @@ IDCLS_P_SYNC
 
 /* sound.c */
 IDCLS_SET_SOUND_SPEED_ADJUST
+
+/* sound.c */
+IDCLS_P_OUTPUT_MODE
+
+/* sound.c */
+IDCLS_SOUND_OUTPUT_MODE
 
 /* sysfile.c */
 IDCLS_P_PATH

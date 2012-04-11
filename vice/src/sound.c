@@ -451,9 +451,9 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL },
     { "-soundoutput", SET_RESOURCE, 1,
       NULL, NULL, "SoundOutput", NULL,
-      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
-      IDCLS_UNUSED, IDCLS_UNUSED, 
-      T_("<output mode>"), T_("Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo") },
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_OUTPUT_MODE, IDCLS_SOUND_OUTPUT_MODE,
+      NULL, NULL },
     { NULL }
 };
 
