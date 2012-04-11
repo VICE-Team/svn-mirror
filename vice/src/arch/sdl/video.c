@@ -835,7 +835,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     fprintf(stderr, "%s: %ix%i (%i)\n", __func__, width, height, canvas->index);
 #endif
     /* Check if canvas needs to be resized to real size first */
-    if (check_resize(canvas)) {
+    if (check_resize(canvas) && resize_canvas) {
 #ifdef SDL_DEBUG
     fprintf(stderr, "%s: set and resize to real size (%ix%i)\n", __func__, width, height);
 #endif
