@@ -1087,16 +1087,25 @@ static void daa(void)
     if (lsn > 0x09 || (H & 0x10)) {
         res += 0x06;
     }
-    if (msn > 0x80 && lsn > 0x09) {
-        res += 0x60;
-    }
-    if (msn > 0x90 || (C != 0)) {
+    if ((msn > 0x90) ||
+        (C != 0)     ||
+        (msn > 0x80 && lsn > 0x09)) {
         res += 0x60;
     }
 
     C |= (res & 0x100);
     N = Z = res &= 0xff;
     A = (BYTE)res;
+    /* OV = 0;     V is undefined but some sources clear it anyway */
+    /* Another remark: http://members.optushome.com.au/jekent/Spartan3/index.html
+     * 5. DAA (Decimal Adjust Accumulator) should set the Negative (N) and Zero
+     * Flags. It will also affect the Overflow (V) flag although the operation
+     * is undefined in the M6809 Programming Reference Manual. It's anyone's
+     * guess what DAA does to V although I found Exclusive ORing Bit 7 of the
+     * original ACCA value with B7 of the Decimal Adjusted value and Exclusive
+     * ORing that with the pre Decimal Adjust Carry input resulting in
+     * something approximating what you find on an EF68A09P.
+     */
 
     CLK_ADD(1, 0);
 }
