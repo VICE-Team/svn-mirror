@@ -183,13 +183,6 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_IEEE488              41 /* c64tpi.c */
 #define CARTRIDGE_GAME_KILLER          42 /* gamekiller.c */
 #define CARTRIDGE_P64                  43 /* prophet64.c */
-
-#define CARTRIDGE_LASTID               43 /* last valid CRT ID */
-
-/* more carts, which do not have a crt id (yet) */
-/* these have the 'suggested' ID number but possibly */
-/* need to be changed if a different cart already */
-/* has the ID assigned to it */
 #define CARTRIDGE_EXOS                 44 /* exos.c */
 #define CARTRIDGE_FREEZE_FRAME         45 /* freezeframe.c */
 #define CARTRIDGE_FREEZE_MACHINE       46 /* freezemachine.c */
