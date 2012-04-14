@@ -217,10 +217,10 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION       "VIC-inställningar"
     IDS_VIC_BORDERSGROUP  "Ramläge"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_NORMALBORDERS "Vanliga ramar"
+    IDS_VIC_FULLBORDERS   "Fullständinga ramar"
+    IDS_VIC_DEBUGBORDERS  "Felsökningsramar"
+    IDS_VIC_NOBORDERS     "Inga ramar"
 END
 
 

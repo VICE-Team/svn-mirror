@@ -98,7 +98,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VICII_CAPTION       "Ajuester VIC-II"
+    IDS_VICII_CAPTION       "Ajustes VIC-II"
     IDS_VICII_BORDERSGROUP  "Modo del borde"
     IDS_VICII_NORMALBORDERS "Bordes normales"
     IDS_VICII_FULLBORDERS   "Bordes completos"
@@ -268,10 +268,10 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "VIC-II-inställningar"
     IDS_VICII_BORDERSGROUP  "Ramläge"
-    IDS_VICII_NORMALBORDERS "Normal borders"
-    IDS_VICII_FULLBORDERS   "Full borders"
-    IDS_VICII_DEBUGBORDERS  "Debug borders"
-    IDS_VICII_NOBORDERS     "No borders"
+    IDS_VICII_NORMALBORDERS "Vanliga ramar"
+    IDS_VICII_FULLBORDERS   "Fullständinga ramar"
+    IDS_VICII_DEBUGBORDERS  "Felsökningsramar"
+    IDS_VICII_NOBORDERS     "Inga ramar"
     IDS_VICII_SPRITEGROUP   "Spritekollisioner"
     IDS_VICII_SPRITECOLL    "Sprite-till-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-till-bakgrund-kollision"

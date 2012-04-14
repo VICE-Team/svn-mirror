@@ -342,12 +342,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "Välj PSID-fil"
+  IDS_TUNE_NR             "Låtnummer"
   IDS_MI_LOAD_PSID_FILE   "Läs PSID-fil"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Välj låt"
+  IDS_MI_NEXT_TUNE        "Nästa låt"
+  IDS_MI_PREVIOUS_TUNE    "Föregående låt"
   IDS_MI_PSID_OVERRIDE    "Överskugga PSID-inställningar"
   IDS_MP_MEDIA            "Media"
 END

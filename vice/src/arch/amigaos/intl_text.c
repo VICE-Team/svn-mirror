@@ -31,6 +31,7 @@ intl_translate_t intl_string_table[] = {
 
 
 
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -2274,7 +2275,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_VICII_SETTINGS,    "VIC-II settings..." },
 /* da */ { IDMS_VICII_SETTINGS_DA, "VIC-II-indstillinger..." },
 /* de */ { IDMS_VICII_SETTINGS_DE, "VIC-II Einstellungen..." },
-/* es */ { IDMS_VICII_SETTINGS_ES, "Ajuester VIC-II..." },
+/* es */ { IDMS_VICII_SETTINGS_ES, "Ajustes VIC-II..." },
 /* fr */ { IDMS_VICII_SETTINGS_FR, "Paramètres VIC-II..." },
 /* hu */ { IDMS_VICII_SETTINGS_HU, "VIC-II beállításai..." },
 /* it */ { IDMS_VICII_SETTINGS_IT, "Impostazioni VIC-II..." },
@@ -4270,7 +4271,7 @@ intl_translate_t intl_string_table[] = {
 /* nl */ { IDS_ATTACH_RAW_8KB_IMAGE_NL, "Koppel binair 8KB cartridge bestand" },
 /* pl */ { IDS_ATTACH_RAW_8KB_IMAGE_PL, "Zamontuj surowy obraz kartrid¿a 8KB" },
 /* ru */ { IDS_ATTACH_RAW_8KB_IMAGE_RU, "¿àØÚàÕßØâì ßàÞÕÚâ ÞÑàÐ×Ð 8ºÑ ÚÐàâàØÔÖÐ" },
-/* sv */ { IDS_ATTACH_RAW_8KB_IMAGE_SV, "Anslut rå 8KB-insticksmodulavbilding" },
+/* sv */ { IDS_ATTACH_RAW_8KB_IMAGE_SV, "Anslut rå 8KB-insticksmodulavbildning" },
 /* tr */ { IDS_ATTACH_RAW_8KB_IMAGE_TR, "Düz 8KB kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_ATTACH_RAW_16KB_IMAGE,    "Attach raw 16KB cartridge image" },
@@ -4284,7 +4285,7 @@ intl_translate_t intl_string_table[] = {
 /* nl */ { IDS_ATTACH_RAW_16KB_IMAGE_NL, "Koppel binair 16KB cartridge bestand" },
 /* pl */ { IDS_ATTACH_RAW_16KB_IMAGE_PL, "Zamontuj surowy obraz kartrid¿a 16KB" },
 /* ru */ { IDS_ATTACH_RAW_16KB_IMAGE_RU, "¿àØÚàÕßØâì ßàÞÕÚâ ÞÑàÐ×Ð 16ºÑ ÚÐàâàØÔÖÐ" },
-/* sv */ { IDS_ATTACH_RAW_16KB_IMAGE_SV, "Anslut rå 16KB-insticksmodulavbilding" },
+/* sv */ { IDS_ATTACH_RAW_16KB_IMAGE_SV, "Anslut rå 16KB-insticksmodulavbildning" },
 /* tr */ { IDS_ATTACH_RAW_16KB_IMAGE_TR, "Düz 16KB kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_ATTACH_ACTION_REPLAY_IMAGE,    "Attach raw 32KB Action Replay cartridge image" },
@@ -7595,7 +7596,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDS_VICII_SETTINGS,    "VIC-II settings" },
 /* da */ { IDS_VICII_SETTINGS_DA, "VIC-II-indstillinger" },
 /* de */ { IDS_VICII_SETTINGS_DE, "VIC-II Einstellungen" },
-/* es */ { IDS_VICII_SETTINGS_ES, "Ajuester VIC-II" },
+/* es */ { IDS_VICII_SETTINGS_ES, "Ajustes VIC-II" },
 /* fr */ { IDS_VICII_SETTINGS_FR, "Paramètres VIC-II" },
 /* hu */ { IDS_VICII_SETTINGS_HU, "VIC-II beállításai" },
 /* it */ { IDS_VICII_SETTINGS_IT, "Impostazioni VIC-II" },

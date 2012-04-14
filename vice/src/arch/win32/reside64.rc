@@ -341,20 +341,20 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_IDE64_V4_SETTINGS           "IDE64 V4-inställningar"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "Inställningar för primär IDE64-masterenhet"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "Inställningar för primär IDE64-slavenhet"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "Inställningar för sekundär IDE64-masterenhet"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "Inställningar för sekundär IDE64-slavenhet"
     IDS_IDE64_SETTINGS              "IDE64-inställningar"
     IDS_IDE64_V4                    "Aktivera IDE64 V4"
-    IDS_IDE64_IMAGE                 "ATA device image file"
+    IDS_IDE64_IMAGE                 "ATA-enhetsavbildning"
     IDS_IDE64_GEOMETRY              "Geometri"
     IDS_IDE64_AUTODETECT            "Autodetektera storlek på avbildning"
     IDS_IDE64_CYLINDERS             "Cylindrar"
     IDS_IDE64_HEADS                 "Huvuden"
     IDS_IDE64_SECTORS               "Sektorer"
     IDS_IDE64_TOTAL_SIZE            "Total storlek: %iKB"
-    IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
+    IDS_IDE64_SELECT_IMAGE          "Ange ATA-enhetsavbildning"
 END
 
 

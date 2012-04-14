@@ -196,10 +196,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "Aktivera RR-flashbygel"
+  IDS_RR_BANK_JUMPER    "Aktivera RR-bankbygel"
   IDS_RR_REVISION_LABEL "Utgåva"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "Spara RR-flash när ändrad"
 END
 
 

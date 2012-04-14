@@ -217,10 +217,10 @@ LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_TED_CAPTION       "TED-inställningar"
     IDS_TED_BORDERSGROUP  "Ramläge"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_NORMALBORDERS "Vanliga ramar"
+    IDS_TED_FULLBORDERS   "Fullständinga ramar"
+    IDS_TED_DEBUGBORDERS  "Felsökningsramar"
+    IDS_TED_NOBORDERS     "Inga ramar"
 END
 
 
