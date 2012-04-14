@@ -469,8 +469,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #endif
     }
 
-    new_width = *width;
-    new_height = *height;
+    new_width = *width ? *width : 1;
+    new_height = *height ? *height : 1;
 
     if (canvas->videoconfig->doublesizex) {
         new_width *= (canvas->videoconfig->doublesizex + 1);
