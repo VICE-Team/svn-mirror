@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-12 10:31-0700\n"
+"POT-Creation-Date: 2012-04-14 08:51-0700\n"
 "PO-Revision-Date: 2012-03-27 14:24+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -9633,21 +9633,21 @@ msgstr "No grabar en imagen GEORAM"
 
 #: src/translate_text.c.po.c:4447
 msgid ""
-"Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2"
+"Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"
 msgstr ""
 
 #: src/translate_text.c.po.c:4464
 msgid ""
 "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 "
-"I/O-3"
+"I/O-3)"
 msgstr ""
 
 #: src/translate_text.c.po.c:4481
-msgid "Swap io mapping (map cart I/O to VIC20 I/O-2"
+msgid "Swap io mapping (map cart I/O to VIC20 I/O-2)"
 msgstr ""
 
 #: src/translate_text.c.po.c:4498
-msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3"
+msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
 msgstr ""
 
 #: src/translate_text.c.po.c:4515
@@ -11310,7 +11310,7 @@ msgstr "Modo salida"
 #: src/translate_text.c.po.c:12059
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
-"stereo"
+"stereo)"
 msgstr ""
 
 #: src/translate_text.c.po.c:12093
