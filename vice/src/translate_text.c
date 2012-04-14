@@ -4515,7 +4515,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/georam.c */
-/* en */ {IDCLS_SWAP_CART_IO,    N_("Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2")},
+/* en */ {IDCLS_SWAP_CART_IO,    N_("Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SWAP_CART_IO_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SWAP_CART_IO_DE, ""},  /* fuzzy */
@@ -4532,7 +4532,7 @@ translate_t string_table[] = {
 #endif
 
 /* c64/cart/georam.c */
-/* en */ {IDCLS_DONT_SWAP_CART_IO,    N_("Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3")},
+/* en */ {IDCLS_DONT_SWAP_CART_IO,    N_("Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DONT_SWAP_CART_IO_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DONT_SWAP_CART_IO_DE, ""},  /* fuzzy */
@@ -4550,7 +4550,7 @@ translate_t string_table[] = {
 
 /* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
    c64/cart/tfe.c */
-/* en */ {IDCLS_MAP_CART_IO_2,    N_("Swap io mapping (map cart I/O to VIC20 I/O-2")},
+/* en */ {IDCLS_MAP_CART_IO_2,    N_("Swap io mapping (map cart I/O to VIC20 I/O-2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MAP_CART_IO_2_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_MAP_CART_IO_2_DE, ""},  /* fuzzy */
@@ -4568,7 +4568,7 @@ translate_t string_table[] = {
 
 /* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
    c64/cart/tfe.c */
-/* en */ {IDCLS_MAP_CART_IO_3,    N_("Don't swap io mapping (map cart I/O to VIC20 I/O-3")},
+/* en */ {IDCLS_MAP_CART_IO_3,    N_("Don't swap io mapping (map cart I/O to VIC20 I/O-3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MAP_CART_IO_3_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_MAP_CART_IO_3_DE, ""},  /* fuzzy */
@@ -12133,7 +12133,7 @@ translate_t string_table[] = {
 #endif
 
 /* sound.c */
-/* en */ {IDCLS_SOUND_OUTPUT_MODE,    N_("Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo")},
+/* en */ {IDCLS_SOUND_OUTPUT_MODE,    N_("Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SOUND_OUTPUT_MODE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SOUND_OUTPUT_MODE_DE, ""},  /* fuzzy */
