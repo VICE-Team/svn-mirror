@@ -94,6 +94,9 @@ store_func_ptr_t *_mem_write_tab_ptr;
 BYTE **_mem_read_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
+/* Current watchpoint state. 1 = watchpoints active, 0 = no watchpoints */
+static int watchpoints_active = 0;
+
 /* ------------------------------------------------------------------------- */
 
 BYTE zero_read(WORD addr)
@@ -549,7 +552,7 @@ void mem_initialize_memory(void)
         _mem_write_tab_watch[i] = store_watch;
     }
 
-    mem_toggle_watchpoints(0, NULL);
+    mem_toggle_watchpoints(watchpoints_active, NULL);
 }
 
 void mem_toggle_watchpoints(int flag, void *context)
@@ -561,6 +564,7 @@ void mem_toggle_watchpoints(int flag, void *context)
         _mem_read_tab_ptr = _mem_read_tab_nowatch;
         _mem_write_tab_ptr = _mem_write_tab_nowatch;
     }
+    watchpoints_active = flag;
 }
 
 /* ------------------------------------------------------------------------- */
