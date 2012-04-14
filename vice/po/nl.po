@@ -4963,7 +4963,7 @@ msgstr "Laad configuratie bestand"
 
 #: src/arch/win32/res.rc.po.c:1006
 msgid "Mapping"
-msgstr "Mapping"
+msgstr "Toewijzing"
 
 #: src/arch/win32/res.rc.po.c:1008 src/arch/amigaos/intl_text.c.po.c:4532
 msgid "Attach"
@@ -7368,7 +7368,7 @@ msgstr "Extra SID chips"
 
 #: src/arch/win32/ressid.rc.po.c:80
 msgid "Amount of extra SID chips"
-msgstr "Aantel extra SID chips"
+msgstr "Aantal extra SID chips"
 
 #: src/arch/win32/ressid.rc.po.c:81
 msgid "Second SID at"
@@ -8511,14 +8511,11 @@ msgstr ""
 msgid ""
 ".\n"
 "All devices except "
-msgstr ""
+msgstr ".\nAlle apparaten behalve "
 
 #: src/translate_text.c.po.c:880
-#, fuzzy
 msgid " will be detached."
-msgstr ""
-".\n"
-"Alle genoemde apparaten zullen worden ontkoppelt."
+msgstr " zullen worden ontkoppelt."
 
 #: src/translate_text.c.po.c:897
 msgid "No filename!"
@@ -9616,7 +9613,10 @@ msgid ""
 "Select the way the I/O collisions should be handled, (0: error message and "
 "detach all involved carts, 1: error message and detach last attached "
 "involved carts, 2: warning in log and 'AND' the valid return values"
-msgstr ""
+msgstr "Selecteer de manier waarmee I/O conflicten worden afgehandeld, (0: "
+"fout melding en ontkoppel alle betroffene carridges, 1: fout melding en "
+"ontkoppel alle cartridges behalve de eerste cartrdige, 2: waarschuwing in "
+"het log bestand en doe een logische 'AND' met de terug gegeven waarden"
 
 #: src/translate_text.c.po.c:4345
 msgid "specify IEEE488 interface image name"
@@ -9641,21 +9641,21 @@ msgstr "Schrijf niet naar GEORAM bestand"
 #: src/translate_text.c.po.c:4447
 msgid ""
 "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2"
-msgstr ""
+msgstr "Verwissel de io toewijzing (verwijs cart I/O-1 naar VIC20 I/O-3 en cart I/O-2 naar VIC20 I/O-2"
 
 #: src/translate_text.c.po.c:4464
 msgid ""
 "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 "
 "I/O-3"
-msgstr ""
+msgstr "Verwissel de io toewijzing niet (verwijs cart I/O-1 naar VIC20 I/O-2 en cart I/O-2 naar VIC20 I/O-3"
 
 #: src/translate_text.c.po.c:4481
 msgid "Swap io mapping (map cart I/O to VIC20 I/O-2"
-msgstr ""
+msgstr "Verwissel de io toewijzing (verwijs cart I/O naar VIC20 I/O-2"
 
 #: src/translate_text.c.po.c:4498
 msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3"
-msgstr ""
+msgstr "Verwissel de io toewijzing niet (verwijs cart I/O naar VIC20 I/O-3"
 
 #: src/translate_text.c.po.c:4515
 msgid "size in KB"
@@ -10732,14 +10732,12 @@ msgid "engine and model"
 msgstr "kern en model"
 
 #: src/translate_text.c.po.c:9538
-#, fuzzy
 msgid "amount"
 msgstr "hoeveelheid"
 
 #: src/translate_text.c.po.c:9555
-#, fuzzy
 msgid "amount of extra SID chips"
-msgstr "Aantel extra SID chips"
+msgstr "Aantal extra SID chips"
 
 #: src/translate_text.c.po.c:9572
 msgid "0: FastSID 6581, 1: FastSID 8580"
@@ -11312,15 +11310,14 @@ msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Zet geluidssnelheid aanpassing (0: flexibel, 1: aanpassend, 2: exact)"
 
 #: src/translate_text.c.po.c:12042
-#, fuzzy
 msgid "output mode"
-msgstr "Uitvoer modus"
+msgstr "uitvoer modus"
 
 #: src/translate_text.c.po.c:12059
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo"
-msgstr ""
+msgstr "Geluid uitvoer modus: (0: mono/stereo zoals gekozen door het systeem, 1: altijd mono, 2: altijd stereo"
 
 #: src/translate_text.c.po.c:12093
 msgid "Define search path to locate system files"
