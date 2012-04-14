@@ -182,6 +182,56 @@ static char * monitor_network_extract_text_command_line(char * pbuffer, int buff
     return p;
 }
 
+/*
+    The binary remote monitor commands are injected into the "normal" commands. 
+    The remote monitor detects a binary command because it starts with ASCII STX 
+    (0x02). After this, there is one byte telling the length of the command. The 
+    next byte describes the command. Currently, only 0x01 is implemented which 
+    is "memdump". 
+
+    Note that the command length byte (the one after STX) does *not* count the 
+    STX, the command length nor the command byte.
+
+    Also note that there is no termination character. The command length acts as 
+    synchronisation point.
+
+    For the memdump command, the next bytes are as follows:
+    1. start address low
+    2. start address high
+    3. end address low
+    4. end address high
+    5. memspace
+
+    The memspace describes which part of the computer you want to read: 
+    0 --> the computer (C64)
+    1 --> drive 8, 2 --> drive 9, 3 --> drive 10, 4 --> drive 11 
+
+    So, for a memdump of 0xa0fe to 0xa123, you have to issue the bytes 
+    (in this order):
+
+    0x02 (STX), 0x05 (command length), 0x01 (command: memdump), 0xfe (SA low), 
+    0xa0 (SA high), 0x23 (EA low), 0xa1 (EA high), 0x00 (computer memspace) 
+
+    The answer looks as follows:
+
+    byte 0: STX (0x02)
+    byte 1: answer length low
+    byte 2: answer length (bits 8-15)
+    byte 3: answer length (bits 16-23)
+    byte 4: answer length (bits 24-31, that is, high)
+    byte 5: error code
+    byte 6 - (answer length+6): the binary answer
+    [...]
+
+    Error codes are currently:
+    0x00: ok, everything worked
+    0x80: command length is not long enough for this specific command 
+    0x81: an invalid parameter occurred
+
+    If an error stats but "ok" occurs, then VICE will output more details for 
+    the reason into its log. [...]
+*/
+
 #define ASC_STX 0x02
 #define MON_CMD_MEMDUMP 1
 
