@@ -37,7 +37,7 @@
 !LSHIFT 1 3
 !RSHIFT 6 4
 !VSHIFT RSHIFT
-!VSHIFT LSHIFT
+!SHIFTL LSHIFT
 
 27 0 3 8               /*          ESC -> Run/Stop     */
 49 0 0 8               /*            1 -> 1            */
