@@ -3,7 +3,7 @@ This document show the current status of the translations:
 file   language   % done   fuzzy   untranslated items
 ----   --------   ------   -----   ------------------
 nl     Dutch       100        0           0
-de     German       99        5           0
+de     German      100        0           0
 es     Spanish      99        4           7
 it     Italian      99        4           7
 sv     Swedish      99        4           7
