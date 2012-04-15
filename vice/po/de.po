@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-14 08:51-0700\n"
-"PO-Revision-Date: 2012-04-14 12:00+0200\n"
+"PO-Revision-Date: 2012-04-15 17:48+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -9611,31 +9611,23 @@ msgid "Do not write to GEORAM image"
 msgstr "Kein Schreibzugriff auf GEORAM Image"
 
 #: src/translate_text.c.po.c:4447
-#, fuzzy
 msgid ""
 "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"
-msgstr ""
-"Vertausche IO Zuordnung (cart I/O-1 auf VIC20 I/O-3 und cart I/O-2 auf VIC20 "
-"I/O-2"
+msgstr "Vertausche IO Zuordnung (cart I/O-1 auf VIC20 I/O-3 und cart I/O-2 auf VIC20 I/O-2)"
 
 #: src/translate_text.c.po.c:4464
-#, fuzzy
 msgid ""
 "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 "
 "I/O-3)"
-msgstr ""
-"Keine Vertauschung der IO Zuordnung (cart I/O-1 auf VIC20 I/O-2 und cart I/"
-"O-2 auf VIC20 I/O-3"
+msgstr "Keine Vertauschung der IO Zuordnung (cart I/O-1 auf VIC20 I/O-2 und cart I/O-2 auf VIC20 I/O-3)"
 
 #: src/translate_text.c.po.c:4481
-#, fuzzy
 msgid "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-msgstr "Vertasuche IO Zuordnung (cart I/O auf VIC20 I/O-2"
+msgstr "Vertasuche IO Zuordnung (cart I/O auf VIC20 I/O-2)"
 
 #: src/translate_text.c.po.c:4498
-#, fuzzy
 msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
-msgstr "Keine Vertauschung der IO Zuordnung (cart I/O auf VIC20 I/O-3"
+msgstr "Keine Vertauschung der IO Zuordnung (cart I/O auf VIC20 I/O-3)"
 
 #: src/translate_text.c.po.c:4515
 msgid "size in KB"
@@ -11278,7 +11270,6 @@ msgid "output mode"
 msgstr "Ausgabe Modus"
 
 #: src/translate_text.c.po.c:12059
-#, fuzzy
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
