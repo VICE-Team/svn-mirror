@@ -1,5 +1,583 @@
 ------------------------------------------------------------------------------
 
+2012-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, doc/vice.pdf, doc/vice.hlp, doc/vice.chm, configure.in,
+	src/version.h, src/arch/win32/vice-version.bat, po/es.po, po/ko.po,
+	po/fr.po, po/da.po, po/tr.po, po/sv.po, po/de.po, po/hu.po, po/ru.po,
+	po/nl.po, po/pl.po, po/it.po: VICE 2.3.17
+
+2012-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated de.po file.
+
+2012-04-15  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2012-04-14  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor_network.c: added some comments
+
+2012-04-14  groepaz <groepaz@gmx.net>
+
+	* data/VIC20/sdl_pos_fi.vkm: fix shift-lock mapping, patch from
+	vice-minus
+
+2012-04-14  groepaz <groepaz@gmx.net>
+
+	* src/vic20/vic20mem.c: do not disable watchpoints on reset, patch
+	from vice-minus
+
+2012-04-14  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/video.c: prevent maximized window at startup
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.rc: Fixed the os/2 about dialog.
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/vice.wpj:
+	Fixed.
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/rescbm5x0.rc,
+	src/arch/win32/rescia.rc, src/arch/win32/reside64.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resretroreplay.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/rested.rc,
+	src/arch/win32/resvic.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/arch/win32/resvsid.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Fixed some missing brackets in the
+	translation items.
+
+2012-04-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-04-14  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2012-04-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartridge.h: All crt numbers are official now.
+
+2012-04-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-04-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: Fix 6809 DAA instruction; upper nibble could be
+	"adjusted" twice.
+
+
+2012-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64io.c, src/c64/cart/georam.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/tfe.c, src/sid/sid-cmdline-options.c, src/sound.c,
+	src/translate.txt, src/translate_text.c, src/vic20/vic20io.c: Added
+	some previously untranslated items.
+
+2012-04-11  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/sdl/video.c: Fix infinite mutual recursive calls
+
+
+2012-04-10  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/petmem.c: New work from Dave Roberts: let
+	the 6702 return a fixed sequence of values 
+that passes the dongle
+	check. He found the values by creating a C 
+version of the check
+	routine and Monte-Carlo simulation.
+
+
+2012-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Coding style fixes.
+
+2012-04-09  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: More 6702 dongle avoidance. Should work with all
+	language processors.
+
+
+2012-04-09  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/c64/cart/c64acia1.c: Fix for event safe settings.
+
+2012-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/delaep64.c: Fixed a typo.
+
+2012-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/asm6809.c: Be consistent.
+
+2012-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/asm.h, src/monitor/mon_disassemble.c,
+	src/monitor/mon_disassemble.h: Added FULL6809 and H6309 addressing
+	modes for disassembly purposes.
+
+2012-04-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: Coding style fixes.
+
+2012-04-08  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: Refine dongle check, esp.. for FORTRAN 1.1.
+
+
+2012-04-08  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/petmem.c: Put in code to avoid the dongle
+	check. Idea and most details from Dave Roberts 
+in the cbm-hackers
+	mailing list.
+
+
+2012-04-07  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/mouse.c: Fix build with --enable-debug-code
+
+
+2012-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimagicvoice.c: Set magic voice file string before
+	setting enable.
+
+2012-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/vic20.icc,
+	src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC: More vac++ fixes.
+
+2012-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_settings.c: Fixed a copy/paste error.
+
+2012-04-06  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/fullscrn.c, src/arch/win32/ui.c,
+	src/arch/win32/video-dx9.c: Improved DX9 filtering in windowed mode by
+	resizing the D3D backbuffer when the window is resized.
+
+2012-04-06  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uiide64.c: Fix WinVICE IDE64 dialog buttons and
+	number of sectors.
+
+2012-04-06  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/ui.c: Fixed calculation of menu height (bug was
+	visible when switching between double sized without double scan
+	windowed mode and fullscreen).
+
+2012-04-06  Andreas Matthies <andreas.matthies@gmx.net>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/rescbm2.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus4.rc, src/arch/win32/resvic20.rc: Include
+	videoarch.h in the rc files to enable the "Disable DirectX 9 video
+	driver" menu item in MSVC. 
+
+2012-04-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cartridge.h: Fixed a copy/paste error.
+
+2012-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/xvic/Xvic.ICC, src/cbm2/cbm2tpi1.c,
+	src/sid/resid-dtv.cc, src/sid/resid.cc: More vac++ fixes.
+
+2012-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/cbm2common.icc,
+	src/arch/os2/vac++/xpet/Xpet.ICC, src/arch/os2/vac++/xvic/Xvic.ICC,
+	src/sid/Makefile.am, src/sid/resid-dtv.cc: More vac++ fixes.
+
+2012-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/cbm2common.icc,
+	src/arch/os2/vac++/incl/drive.icc, src/arch/os2/vac++/incl/iec.icc,
+	src/arch/os2/vac++/incl/residdtv.icc,
+	src/arch/os2/vac++/incl/userport.icc,
+	src/arch/os2/vac++/x128/X128.ICC, src/arch/os2/vac++/x64/X64.ICC,
+	src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC: More vac++ fixes.
+
+2012-04-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC, src/sid/resid.cc: More vac++ fixes.
+
+2012-04-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/plus4.icc,
+	src/arch/os2/vac++/incl/residdtv.icc,
+	src/arch/os2/vac++/incl/vic20.icc, src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xpet/Xpet.ICC, src/arch/os2/vac++/xvic/Xvic.ICC:
+	More vac++ fixes.
+
+2012-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/vic20cart.icc,
+	src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC: More vac++ fixes.
+
+2012-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/c64dtv.icc,
+	src/arch/os2/vac++/incl/plus4.icc,
+	src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC: More vac++ fixes.
+
+2012-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64sc/X64SC.ICC: More vac++ fixes.
+
+2012-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64/X64.ICC, src/arch/os2/vac++/x64sc/X64SC.ICC:
+	More vac++ fixes.
+
+2012-04-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64/X64.ICC: More x64 vac++ fixes.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64/X64.ICC: X64 vac++ fixes.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64/X64.ICC,
+	src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC: More vac++ fixes.
+
+2012-04-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/mousedrv.c, src/arch/amigaos/mousedrv.h,
+	src/arch/beos/mousedrv.h, src/arch/msdos/mousedrv.c,
+	src/arch/msdos/mousedrv.h, src/arch/os2/mousedrv.c,
+	src/arch/os2/mousedrv.h, src/arch/sdl/mousedrv.c,
+	src/arch/sdl/mousedrv.h, src/arch/unix/mousedrv.c,
+	src/arch/unix/mousedrv.h, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/x11/xaw/x11ui.c, src/arch/win32/mousedrv.c,
+	src/arch/win32/mousedrv.h, src/arch/win32/ui.c, src/mouse.c,
+	src/ps2mouse.c, src/ps2mouse.h: Cleanup the mouse handling. Platform
+	drivers should only return an integer with 
+at least 16 bits of
+	position information, the rest is handled in mouse.c and 
+ps2mouse.c as
+	required by the type of mouse, like speed limiting. Now at least 
+on
+	Linux I don't see pointer jumps anymore, except on very high speed.
+	Straight
+ movement is straight now that the rate limiting was fixed.
+	Overall it's quite
+ ok here now, let's hope the other platform are not
+	broken by mistake.
+
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.rc: Some more vac++ fixes.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.rc: Some more vac++ fixes.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.h, src/arch/os2/dialogs/dialogs.rc,
+	src/arch/os2/vac++/x128/X128.ICC: Some more vac++ fixes.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/archdep.c, src/arch/os2/vac++/incl/video.icc: More
+	vac++ fixes.
+
+2012-04-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* src/monitor/monitor_network.c: Fix the answer for the binary monitor
+	commands: The error code "ok" was forgotten if no error occurred.
+
+
+2012-04-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* src/monitor/monitor_network.c: First try to binary remote monitor
+	commands. Only memdump is implemented currently.
+
+
+2012-04-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
+
+	* src/machine.c, src/monitor/monitor_network.c,
+	src/monitor/monitor_network.h: Do not show JAM dialog if remote
+	monitor is attached.
+
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/ide-config.h, src/arch/os2/vac++/incl/video.icc:
+	More vac++ fixes.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/fonts, src/arch/os2/vac++: Some more svn ignores.
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++, src/arch/os2/vac++/x128, src/arch/os2/vac++/x64,
+	src/arch/os2/vac++/x64dtv, src/arch/os2/vac++/x64sc,
+	src/arch/os2/vac++/xcbm2, src/arch/os2/vac++/xcbm5x0,
+	src/arch/os2/vac++/xpet, src/arch/os2/vac++/xplus4,
+	src/arch/os2/vac++/xvic: Some more svn ignores.
+
+2012-04-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/ps2mouse.c: Also update ps2mouse...
+
+
+2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data, src/arch/os2/dialogs/dialogs.h,
+	src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/incl/c64cart.icc,
+	src/arch/os2/vac++/incl/video.icc, src/arch/os2/vac++/x128,
+	src/arch/os2/vac++/x128/X128.ICC, src/arch/os2/vac++/x64,
+	src/arch/os2/vac++/x64dtv, src/arch/os2/vac++/x64sc,
+	src/arch/os2/vac++/xcbm2, src/arch/os2/vac++/xcbm5x0,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC, src/arch/os2/vac++/xpet,
+	src/arch/os2/vac++/xplus4, src/arch/os2/vac++/xvic: More vac++ fixes.
+
+2012-04-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/mousedrv.c, src/arch/msdos/mousedrv.c,
+	src/arch/os2/mousedrv.c, src/arch/sdl/mousedrv.c,
+	src/arch/unix/mousedrv.c, src/arch/win32/mousedrv.c,
+	src/arch/win32/ui.c, src/mouse.c, src/mouse.h: Add middle button and
+	wheel to mouse emulation.
+http://www.micromys.de/1351mode.htm
+
+
+2012-04-01  Olaf Seibert <rhialto@falu.nl>
+
+	* src/userport/userport_dac.c: Fix distortion in the sound from the
+	PET Userport DAC: unsigned DAC samples 
+were mixed with signed samples.
+	Fix by reducing the range of the DAC samples. 
+Unfortunately this also
+	cuts the volume in half.
+
+
+2012-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c: 6809 and 6309 timing updates and fixes.
+
+2012-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/video.icc, src/arch/os2/vac++/x128/X128.ICC,
+	src/c64/cart/ide64.c, src/core/ata.c: Some vac++ fixes.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/incl/archdep.icc: Do not include config.h from a
+	project file.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/RESIDFP.ICC,
+	src/arch/os2/vac++/incl/c128.icc, src/arch/os2/vac++/incl/c64.icc,
+	src/arch/os2/vac++/incl/c64cart.icc,
+	src/arch/os2/vac++/incl/c64commonc64sc.icc,
+	src/arch/os2/vac++/incl/c64commoncart.icc,
+	src/arch/os2/vac++/incl/c64dtv.icc, src/arch/os2/vac++/incl/c64sc.icc,
+	src/arch/os2/vac++/incl/cbm2.icc,
+	src/arch/os2/vac++/incl/cbm2common.icc,
+	src/arch/os2/vac++/incl/cbm5x0.icc, src/arch/os2/vac++/incl/core.icc,
+	src/arch/os2/vac++/incl/diskimage.icc,
+	src/arch/os2/vac++/incl/iec.icc,
+	src/arch/os2/vac++/incl/iecc64exp.icc,
+	src/arch/os2/vac++/incl/mon6809.icc, src/arch/os2/vac++/incl/pet.icc,
+	src/arch/os2/vac++/incl/plus4.icc, src/arch/os2/vac++/incl/rtc.icc,
+	src/arch/os2/vac++/incl/userport.icc,
+	src/arch/os2/vac++/incl/vic20cart.icc,
+	src/arch/os2/vac++/incl/vicii.icc,
+	src/arch/os2/vac++/incl/viciicommon.icc,
+	src/arch/os2/vac++/incl/viciidtv.icc, src/monitor/asm.h: Some more
+	vac++ project file fixes.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/geninfo2.icc: Fixed a typo.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/utils/geninfocontrib.c: Only use _strdup when msvc.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/geninfo1.icc,
+	src/arch/os2/vac++/geninfo2.icc: Added infocontrib generation project
+	files for vac++.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/config.h,
+	src/arch/os2/vac++/ide-config.h: Renamed vac++ config.h to
+	ide-config.h
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/resid/dac.cc: Define INFINITY for vac++.
+
+2012-03-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/PETcat.ICC, src/arch/os2/vac++/RESID.ICC,
+	src/arch/os2/vac++/RESIDDTV.ICC, src/arch/os2/vac++/X1541.ICC,
+	src/arch/os2/vac++/cartconv.ICC, src/arch/os2/vac++/vicedll.ICC,
+	src/arch/os2/vac++/x128/X128.ICC, src/arch/os2/vac++/x64/X64.ICC,
+	src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC, src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC: Started on fixing the vac++ compile.
+
+2012-03-27  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: Fix accidental breakage of r25457.
+
+
+2012-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated es.po file.
+
+2012-03-27  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-03-27  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-03-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vic20ui.c: fix joystick menu
+
+2012-03-24  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.h,
+	src/arch/beos/plus4ui.cc, src/arch/beos/ui_sid.cc,
+	src/arch/beos/ui_ted.cc, src/arch/beos/ui_ted.h,
+	src/arch/beos/ui_vic.cc, src/arch/beos/ui_vic.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added VIC and TED
+	border mode and triple SID UI elements to BeVICE.
+
+2012-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uic128model.c, src/arch/win32/uicbm2model.c,
+	src/arch/win32/uicbm5x0model.c, src/arch/win32/uipetmodel.c,
+	src/arch/win32/uiplus4model.c: Fixed the windows model selection
+	dialogs to have an 'unknown' element.
+
+2012-03-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Some amiga sdl related fixes.
+
+2012-03-22  Olaf Seibert <rhialto@falu.nl>
+
+	* src/drive/drive.c, src/drive/drive.h, src/drive/drivetypes.h,
+	src/drive/ieee/fdc.c: Simplify the checking for the dual-ness of
+	drives somewhat.
+
+
+2012-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated sv.po file.
+
+2012-03-21  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2414t0f0u).
+
+2012-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated de.po file.
+
+2012-03-21  pottendo <pottendo@aon.at>
+
+	* configure.in: Fixed a few syntax issues.
+
+
+2012-03-21  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+
+2012-03-21  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2012-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog: Cleaned up the ChangeLog.
+
+2012-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/CRT.txt: Updated a bit.
+
+2012-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Only set USE_SDLUI if configured with --enable-sdlui.
+
 2012-03-20  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
