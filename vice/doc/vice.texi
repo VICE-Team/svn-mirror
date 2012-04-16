@@ -976,6 +976,15 @@ VICE supports the most popular Commodore file formats:
 @code{D82} CBM8250/1001 disk image format
 
 @item
+@code{D1M} FD2000/FD4000 DD disk image format
+
+@item
+@code{D2M} FD2000/FD4000 HD disk image format
+
+@item
+@code{D4M} FD4000 ED disk image format
+
+@item
 @code{T64} tape image files (read-only);
 
 @item
@@ -9713,6 +9722,9 @@ the C64S emulator.  It is easy to use and allows future extensions.
 @end menu
 
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+@c FIXME: add D4M FD4000 ED disk image file structure
 @c FIXME: add CRT c64 cartridge images file structure
 
 @node T64 file structure, T64 tape record, T64, T64
