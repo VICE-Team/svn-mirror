@@ -22,6 +22,7 @@
 #define HAVE_CATWEASELMKIII     1
 #define HAVE_HARDSID            1
 #define HAVE_RS232              1
+#define HAVE_DYNLIB_SUPPORT     1
 
 #ifndef WINIA64
 #define HAVE_PARSID             1
