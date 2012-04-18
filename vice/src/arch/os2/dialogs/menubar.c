@@ -1670,6 +1670,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_JUMPER, val);
             resources_get_int("EasyFlashWriteCRT", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
+            resources_get_int("SFXSoundExpander", &val);
+            WinCheckMenuItem(hwnd, IDM_SFX_SE, val);
+            resources_get_int("SFXSoundSampler", &val);
+            WinCheckMenuItem(hwnd, IDM_SFX_SS, val);
 #endif
 
 #ifdef __X64__
