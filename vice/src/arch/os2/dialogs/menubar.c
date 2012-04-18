@@ -1666,6 +1666,10 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("DIGIMAX", &val);
             WinCheckMenuItem(hwnd, IDM_DIGIMAX, val);
             WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
+            resources_get_int("EasyFlashJumper", &val);
+            WinCheckMenuItem(hwnd, IDM_EASYFLASH_JUMPER, val);
+            resources_get_int("EasyFlashWriteCRT", &val);
+            WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
 #endif
 
 #ifdef __X64__
