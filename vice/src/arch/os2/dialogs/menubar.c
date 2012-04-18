@@ -1745,7 +1745,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_1351, val == MOUSE_TYPE_1351);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_NEOS, val == MOUSE_TYPE_NEOS);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_AMIGA, val == MOUSE_TYPE_AMIGA);
-            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_PADDLE, val == MOUSE_TYPE_1351);
+            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_PADDLE, val == MOUSE_TYPE_PADDLE);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_CX22, val == MOUSE_TYPE_CX22);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_ST, val == MOUSE_TYPE_ST);
             return;

@@ -329,7 +329,7 @@ BEGIN
             MENUITEM "Atari ~CX-22",                      IDM_MOUSE_TYPE_CX22,          MIS_TEXT
             MENUITEM "Atari ~ST",                         IDM_MOUSE_TYPE_ST,            MIS_TEXT
         END
-        SUBMENU "Mouse port",                             IDM_MOUSE_TYPE,               MIS_TEXT
+        SUBMENU "Mouse port",                             IDM_MOUSE_PORT,               MIS_TEXT
         BEGIN
             MENUITEM "Port ~1",                           IDM_MOUSE_PORT_1,             MIS_TEXT
             MENUITEM "Port ~2",                           IDM_MOUSE_PORT_2,             MIS_TEXT
