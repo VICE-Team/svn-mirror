@@ -71,7 +71,7 @@ static uilib_dialog_group rr_right_group[] = {
 static uilib_dialog_group rr_window_group[] = {
     { IDC_RR_FLASH_JUMPER, 0 },
     { IDC_RR_BANK_JUMPER, 0 },
-    { IDC_RR_REVISION_LABEL, 0 },
+    { IDC_RR_REVISION, 0 },
     { IDC_RR_SAVE_WHEN_CHANGED, 0 },
     { 0, 0 }
 };
