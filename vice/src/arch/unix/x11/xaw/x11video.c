@@ -364,9 +364,9 @@ int video_init(void)
         } else {
             DEBUG_MITSHM((_("MITSHM extensions version %d.%d detected."), major_version, minor_version));
 	    if (!pixmap_flag) {
-		log_warning(x11video_log, "The MITSHM extension is supported on this display, but shared pixmaps are not available.");
+		DEBUG_MITSHM(("The MITSHM extension is supported on this display, but shared pixmaps are not available."));
 	    }
-            use_mitshm = pixmap_flag;
+            use_mitshm = 1;
         }
     }
 
