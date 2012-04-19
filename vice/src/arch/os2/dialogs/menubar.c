@@ -1706,6 +1706,22 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64_256K, val);
             WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
             WinEnableMenuItem(hwnd, IDM_C64_256KFILE, val);
+            val = c64model_get();
+            WinCheckMenuItem(hwnd, IDM_C64PAL, val == C64MODEL_C64_PAL);
+            WinCheckMenuItem(hwnd, IDM_C64CPAL, val == C64MODEL_C64C_PAL);
+            WinCheckMenuItem(hwnd, IDM_C64OLDPAL, val == C64MODEL_C64_OLD_PAL);
+            WinCheckMenuItem(hwnd, IDM_C64NTSC, val == C64MODEL_C64_NTSC);
+            WinCheckMenuItem(hwnd, IDM_C64CNTSC, val == C64MODEL_C64C_NTSC);
+            WinCheckMenuItem(hwnd, IDM_C64OLDNTSC, val == C64MODEL_C64_OLD_NTSC);
+            WinCheckMenuItem(hwnd, IDM_DREAN, val == C64MODEL_C64_PAL_N);
+            resources_get_int("VICIIModel", &val);
+            WinCheckMenuItem(hwnd, IDM_6569_PAL, val == VICII_MODEL_6569);
+            WinCheckMenuItem(hwnd, IDM_8565_PAL, val == VICII_MODEL_8565);
+            WinCheckMenuItem(hwnd, IDM_6569R1_OLD_PAL, val == VICII_MODEL_6569R1);
+            WinCheckMenuItem(hwnd, IDM_6567_NTSC, val == VICII_MODEL_6567);
+            WinCheckMenuItem(hwnd, IDM_8562_NTSC, val == VICII_MODEL_8562);
+            WinCheckMenuItem(hwnd, IDM_6567R56A_OLD_NTSC, val == VICII_MODEL_6567R56A);
+            WinCheckMenuItem(hwnd, IDM_6572_PAL_N, val == VICII_MODEL_6572);
 #endif
 
 #ifdef __X64DTV__
