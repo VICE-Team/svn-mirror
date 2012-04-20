@@ -74,7 +74,7 @@ const int cbm_set[9] = {
 // Notice that this has to be `int' to make resources work.
 static int keyset[2][9];
 
-// This variables describes which PC devices are conneted to the CBM Port?
+// This variables describes which PC devices are connected to the CBM Port?
 static joystick_device_t cbm_joystick[4];
 
 static int set_cbm_joystick(int val, void *param)
