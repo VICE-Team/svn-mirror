@@ -1,7 +1,7 @@
 /*
- * c128cpu.c - Emulation of the main 8502 processor.
+ * petcpu.c - Emulation of the main 6502 processor.
  *
- * Written by
+ * Written by Olaf Seibert.
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -51,15 +51,14 @@
 #define DMA_FUNC h6809_mainloop(CPU_INT_STATUS, ALARM_CONTEXT)
 
 #define DMA_ON_RESET                       \
-    if (petres.superpet &&                 \
+    while (petres.superpet &&              \
         petres.superpet_cpu_switch == SUPERPET_CPU_6809) {  \
         EXPORT_REGISTERS();                \
         cpu6809_reset();                   \
         DMA_FUNC;                          \
         interrupt_ack_dma(CPU_INT_STATUS); \
         IMPORT_REGISTERS();                \
-    }                                      \
-    JUMP(LOAD_ADDR(0xfffc));
+    }
 
 #define HAVE_6809_REGS
 

@@ -46,8 +46,13 @@
 #define CPU_REFRESH_CLK
 #endif
 
+/*
+ * If the 6809 is reset, return from its main loop.
+ * We come back to the petcpu.c DMA_ON_RESET macro which again may
+ * re-select the 6809, if the CPU switch is set for that.
+ */
 #ifndef DMA_ON_RESET
-#define DMA_ON_RESET
+#define DMA_ON_RESET    return
 #endif
 
 #ifndef DMA_FUNC
