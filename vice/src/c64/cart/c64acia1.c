@@ -264,7 +264,7 @@ int acia1_set_mode(int mode)
 static const resource_int_t resources_i[] = {
     { "Acia1Enable", 0, RES_EVENT_STRICT, 0,
       &acia_enabled, set_acia_enabled, NULL },
-    { "Acia1Base", 0xffff, RES_EVENT_STRICT, 0xffff,
+    { "Acia1Base", 0xffff, RES_EVENT_STRICT, int_to_void_ptr(0xffff),
       &acia_base, set_acia_base, NULL },
     { NULL }
 };
