@@ -112,8 +112,18 @@ ui_menu_entry_t uidrivec64vic20_set_drive2_type_submenu[] = {
       (ui_callback_data_t)DRIVE_TYPE_4000, NULL },
     { "2031", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_2031, NULL },
+    { "2040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_2040, NULL },
+    { "3040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_3040, NULL },
+    { "4040", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_4040, NULL },
     { "1001", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
       (ui_callback_data_t)DRIVE_TYPE_1001, NULL },
+    { "8050", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_8050, NULL },
+    { "8250", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Drive10Type,
+      (ui_callback_data_t)DRIVE_TYPE_8250, NULL },
     { NULL }
 };
 
