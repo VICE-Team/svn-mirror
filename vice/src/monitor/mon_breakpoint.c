@@ -167,11 +167,9 @@ static void remove_checkpoint(checkpoint_t *cp)
 
     mem = addr_memspace(cp->start_addr);
 
-    if (cp != NULL) {
-        mon_delete_conditional(cp->condition);
-        lib_free(cp->command);
-        cp->command = NULL;
-    }
+    mon_delete_conditional(cp->condition);
+    lib_free(cp->command);
+    cp->command = NULL;
 
     if (cp->check_exec) {
         remove_checkpoint_from_list(&(breakpoints[mem]), cp);
