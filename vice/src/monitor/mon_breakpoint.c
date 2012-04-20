@@ -161,6 +161,31 @@ static void update_checkpoint_state(MEMSPACE mem)
     }
 }
 
+static void remove_checkpoint(checkpoint_t *cp)
+{
+    MEMSPACE mem;
+
+    mem = addr_memspace(cp->start_addr);
+
+    if (cp != NULL) {
+        mon_delete_conditional(cp->condition);
+        lib_free(cp->command);
+        cp->command = NULL;
+    }
+
+    if (cp->check_exec) {
+        remove_checkpoint_from_list(&(breakpoints[mem]), cp);
+    }
+    if (cp->check_load) {
+        remove_checkpoint_from_list(&(watchpoints_load[mem]), cp);
+    }
+    if (cp->check_store) {
+        remove_checkpoint_from_list(&(watchpoints_store[mem]), cp);
+    }
+
+    update_checkpoint_state(mem);
+}
+
 void mon_breakpoint_switch_checkpoint(int op, int cp_num)
 {
     checkpoint_t *cp;
@@ -248,36 +273,21 @@ void mon_breakpoint_delete_checkpoint(int cp_num)
 {
     int i;
     checkpoint_t *cp = NULL;
-    MEMSPACE mem;
 
     if (cp_num == -1) {
         /* Add user confirmation here. */
         mon_out("Deleting all checkpoints\n");
         for (i = 1; i < breakpoint_count; i++) {
-            cp = find_checkpoint(i);
-            if (cp)
-                mon_breakpoint_delete_checkpoint(i);
+            if ((cp = find_checkpoint(i))) {
+                remove_checkpoint(cp);
+            }
         }
     }
     else if (!(cp = find_checkpoint(cp_num))) {
         mon_out("#%d not a valid checkpoint\n", cp_num);
         return;
     } else {
-        mem = addr_memspace(cp->start_addr);
-
-        if (cp->check_exec)
-            remove_checkpoint_from_list(&(breakpoints[mem]), cp);
-        if (cp->check_load)
-            remove_checkpoint_from_list(&(watchpoints_load[mem]), cp);
-        if (cp->check_store)
-            remove_checkpoint_from_list(&(watchpoints_store[mem]), cp);
-
-        update_checkpoint_state(mem);
-    }
-    if (cp != NULL) {
-        mon_delete_conditional(cp->condition);
-        lib_free(cp->command);
-        cp->command = NULL;
+        remove_checkpoint(cp);
     }
 }
 
