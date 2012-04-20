@@ -1185,7 +1185,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                     /* ASM_ADDR_MODE_INDEXED_OFFPC16_IND  0x1D*/
                     case 0x1D:
                         ival = (opc[prefix + 3] << 8) + opc[prefix + 4];
-                        sprintf(buffp, " #$%02X,[$%04X,PCR] /* [$%04X,PC] */", (WORD)(ival + addr + opc_size), ival);
+                        sprintf(buffp, " #$%02X,[$%04X,PCR] /* [$%04X,PC] */", (WORD)(ival + addr + opc_size), ival, 0 /*FIXME*/);
                         break;
 
                     /* ASM_ADDR_MODE_INDEXED_H6309_OFFW_IND 0x1E*/
