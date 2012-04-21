@@ -44,7 +44,8 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\video"),
     incl(searchpathfirst, "yes"),
     define("__X64__", ),
-    res_rc_options("-i ..\\..\\dialogs -d __X64__ -d __IBMC__ -x1")
+    define("__X64SC__", ),
+    res_rc_options("-i ..\\..\\dialogs -d __X64__ -d __X64SC__ -d __IBMC__ -x1")
 {
     target type(exe) "..\\..\\..\\..\\..\\data\\x64.exe"
     {
