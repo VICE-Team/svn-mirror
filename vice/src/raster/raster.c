@@ -149,6 +149,7 @@ static int raster_realize_frame_buffer(raster_t *raster)
     return 0;
 }
 
+/* called from raster_realize() */
 static int realize_canvas(raster_t *raster)
 {
     viewport_t *viewport;
@@ -163,8 +164,9 @@ static int realize_canvas(raster_t *raster)
                      &raster->canvas->draw_buffer->canvas_width,
                      &raster->canvas->draw_buffer->canvas_height, 1);
 
-        if (new_canvas == NULL)
+        if (new_canvas == NULL) {
             return -1;
+        }
 
         raster->canvas = new_canvas;
 
@@ -176,8 +178,9 @@ static int realize_canvas(raster_t *raster)
         video_canvas_create_set(raster->canvas);
     }
 
-    if (raster_realize_frame_buffer(raster) < 0)
+    if (raster_realize_frame_buffer(raster) < 0) {
         return -1;
+    }
 
     /* The canvas might give us something different from what we
        requested. FIXME: Only do this if really something changed. */
@@ -400,6 +403,7 @@ void raster_set_geometry(raster_t *raster,
 
 static int raster_realize_init_done = 0;
 
+/* called from init_raster() in the videochip code */
 int raster_realize(raster_t *raster)
 {
     raster_list_t *rlist;

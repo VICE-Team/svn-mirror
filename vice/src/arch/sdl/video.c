@@ -430,6 +430,7 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
 /* ------------------------------------------------------------------------- */
 /* Main API */
 
+/* called from raster/raster.c:realize_canvas */
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     SDL_Surface *new_screen;
@@ -469,8 +470,8 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #endif
     }
 
-    new_width = *width ? *width : 1;
-    new_height = *height ? *height : 1;
+    new_width = *width ? *width : 320;
+    new_height = *height ? *height : 200;
 
     if (canvas->videoconfig->doublesizex) {
         new_width *= (canvas->videoconfig->doublesizex + 1);
