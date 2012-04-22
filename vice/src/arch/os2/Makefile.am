@@ -204,6 +204,7 @@ EXTRA_DIST = \
 	watcom/x64dtv-vsyncarch.c \
 	watcom/x64dtv.tgt \
 	watcom/x64sc.tgt \
+	watcom/x64sc-menubar.c \
 	watcom/x64x128-sid.c \
 	watcom/x64x128-specific.tgt \
 	watcom/xall-specific.tgt \
@@ -215,6 +216,7 @@ EXTRA_DIST = \
 	watcom/xcbm2.tgt \
 	watcom/xcbm5x0.tgt \
 	watcom/xcbm5x0-kbd-pet.c \
+	watcom/xcbm5x0-menubar.c \
 	watcom/xpet-dlg-fileio.c \
 	watcom/xpet-maincpu.c \
 	watcom/xpet-menubar.c \
