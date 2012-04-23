@@ -35,28 +35,29 @@
 //  --------------- Resource Definitions ----------------
 //
 #ifdef WATCOM_COMPILE
-#define IDM_VICE2      0x0fff
+#define IDM_VICE2          0x0fff
 #else
-#define IDM_VICE2      0x0001
+#define IDM_VICE2          0x0001
 #endif
-//#define PTR_VICE2    0x0002
-#define DLG_DRIVE      0x1019
-#define DLG_ABOUT      0x1050
-#define DLG_COLOR      0x1051
-#define DLG_DATASETTE  0x1060
-#define DLG_EMULATOR   0x1090
-#define DLG_MONITOR    0x10b0
-#define DLG_MONREG     0x10b1
-#define DLG_MONDIS     0x10b2
-#define DLG_CONTENTS   0x10c0
-#define DLG_CMDOPT     0x10d0
-#define DLG_LOGGING    0x10e0
-#define DLG_VSID       0x10f0
-#define DLG_FSMODES    0x1100
-#define DLG_JOYSTICK   0x1400
-#define DLG_CALIBRATE  0x1405
-#define DLG_KEYSET     0x140f
-#define DLG_FILEIO     0x2000
+//#define PTR_VICE2        0x0002
+#define DLG_DRIVE          0x1019
+#define DLG_ABOUT          0x1050
+#define DLG_COLOR          0x1051
+#define DLG_DATASETTE      0x1060
+#define DLG_EMULATOR       0x1090
+#define DLG_MONITOR        0x10b0
+#define DLG_MONREG         0x10b1
+#define DLG_MONDIS         0x10b2
+#define DLG_CONTENTS       0x10c0
+#define DLG_CMDOPT         0x10d0
+#define DLG_LOGGING        0x10e0
+#define DLG_VSID           0x10f0
+#define DLG_FSMODES        0x1100
+#define DLG_JOYSTICK       0x1400
+#define DLG_CALIBRATE      0x1405
+#define DLG_KEYSET         0x140f
+#define DLG_EXTRA_JOYSTICK 0x1500
+#define DLG_FILEIO         0x2000
 
 #define ID_NONE        -1
 #define DID_CLOSE      DID_OK

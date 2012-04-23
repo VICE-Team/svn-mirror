@@ -75,6 +75,7 @@
 #define WM_KFILLSPB    WM_USER + 0x9
 #define WM_KENABLECTRL WM_USER + 0xa
 
-extern void joystick_dialog  (HWND hwnd);
-extern void calibrate_dialog (HWND hwnd);
-extern void keyset_dialog    (HWND hwnd);
+extern void joystick_dialog(HWND hwnd);
+extern void joystick_extra_dialog(HWND hwnd);
+extern void calibrate_dialog(HWND hwnd);
+extern void keyset_dialog(HWND hwnd);

@@ -44,6 +44,8 @@
 #include "joy.h"
 #include "resources.h"
 #include "snippets\pmwin2.h"
+#include "machine.h"
+#include "userport_joystick.h"
 
 #ifdef HAS_JOYSTICK
 
@@ -78,6 +80,15 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 }
                 if (number_joysticks == 0) {
                     WinEnableControl(hwnd, ID_CALIBRATE, 0);
+                }
+
+                if (machine_class == VICE_MACHINE_VIC20) {
+                    WinEnableControl(hwnd, CB_JOY12, 0);
+                    WinEnableControl(hwnd, CB_JOY22, 0);
+                    WinEnableControl(hwnd, CB_NUMJOY2, 0);
+                    WinEnableControl(hwnd, CB_KS1JOY2, 0);
+                    WinEnableControl(hwnd, CB_KS2JOY2, 0);
+                    WinEnableControl(hwnd, ID_SWAP, 0);
                 }
 
                 resources_get_int("JoyDevice1", &joy1);
@@ -147,6 +158,146 @@ static MRESULT EXPENTRY pm_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2
                 }
 
                 resources_set_int(port ? "JoyDevice1" : "JoyDevice2", joya);
+                WinSendMsg(hwnd, WM_SETDLGS, (void*)(port ? joya : joyb), (void*)(port ? joyb : joya));
+
+             }
+             break;
+        case WM_SETDLGS:
+            {
+                int joy1 = (int)mp1;
+                int joy2 = (int)mp2;
+                int joys = joy1 | joy2;
+
+                if (WinIsWindowVisible(hwndCalibrate)) {
+                    WinSendMsg(hwndCalibrate, WM_SETJOY, (MPARAM)(joys & JOYDEV_HW1), (MPARAM)(joys & JOYDEV_HW2));
+                }
+
+                if (WinIsWindowVisible(hwndKeyset)) {
+                    WinSendMsg(hwndKeyset, WM_SETKEY, (MPARAM)(joys&JOYDEV_KEYSET1), (MPARAM)(joys&JOYDEV_KEYSET2));
+                }
+            }
+            break;
+        case WM_SETCBS:
+            WinCheckButton(hwnd, CB_JOY11, (JOYDEV_HW1 & (int)mp1) ? 1 : 0);
+            WinCheckButton(hwnd, CB_JOY12, (JOYDEV_HW1 & (int)mp2) ? 1 : 0);
+            WinCheckButton(hwnd, CB_JOY21, (JOYDEV_HW2 & (int)mp1) ? 1 : 0);
+            WinCheckButton(hwnd, CB_JOY22, (JOYDEV_HW2 & (int)mp2) ? 1 : 0);
+            WinCheckButton(hwnd, CB_NUMJOY1, (JOYDEV_NUMPAD & (int)mp1) ? 1 : 0);
+            WinCheckButton(hwnd, CB_NUMJOY2, (JOYDEV_NUMPAD & (int)mp2) ? 1 : 0);
+            WinCheckButton(hwnd, CB_KS1JOY1, (JOYDEV_KEYSET1 & (int)mp1) ? 1 : 0);
+            WinCheckButton(hwnd, CB_KS1JOY2, (JOYDEV_KEYSET1 & (int)mp2) ? 1 : 0);
+            WinCheckButton(hwnd, CB_KS2JOY1, (JOYDEV_KEYSET2 & (int)mp1) ? 1 : 0);
+            WinCheckButton(hwnd, CB_KS2JOY2, (JOYDEV_KEYSET2 & (int)mp2) ? 1 : 0);
+            break;
+    }
+    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+}
+
+static MRESULT EXPENTRY pm_extra_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+    switch (msg) {
+        case WM_INITDLG:
+            {
+                int joy1, joy2;
+                int joy_enable, joy_type;
+                //
+                // disable controls of non existing joysticks
+                // remark: I think this cannot change while runtime
+                //
+                if (!(number_joysticks & JOYDEV_HW1)) {
+                    WinEnableControl(hwnd, CB_JOY11, 0);
+                    WinEnableControl(hwnd, CB_JOY12, 0);
+                }
+                if (!(number_joysticks&JOYDEV_HW2)) {
+                    WinEnableControl(hwnd, CB_JOY21, 0);
+                    WinEnableControl(hwnd, CB_JOY22, 0);
+                }
+                if (number_joysticks == 0) {
+                    WinEnableControl(hwnd, ID_CALIBRATE, 0);
+                }
+
+                if (machine_class != VICE_MACHINE_PLUS4) {
+                    resources_get_int("ExtraJoy", &joy_enable);
+                    resources_get_int("ExtraJoyType", &joy_type);
+                    if (joy_enable) {
+                        if (joy_type == USERPORT_JOYSTICK_HUMMER || joy_type == USERPORT_JOYSTICK_OEM) {
+                            WinEnableControl(hwnd, CB_JOY12, 0);
+                            WinEnableControl(hwnd, CB_JOY22, 0);
+                            WinEnableControl(hwnd, CB_NUMJOY2, 0);
+                            WinEnableControl(hwnd, CB_KS1JOY2, 0);
+                            WinEnableControl(hwnd, CB_KS2JOY2, 0);
+                            WinEnableControl(hwnd, ID_SWAP, 0);
+                        }
+                    }
+                }
+
+                resources_get_int("JoyDevice3", &joy1);
+                resources_get_int("JoyDevice4", &joy2);
+                WinSendMsg(hwnd, WM_SETCBS, (void*)joy1, (void*)joy2);
+            }
+            break;
+        case WM_DESTROY:
+        case WM_CLOSE:
+            {
+                if (WinIsWindowVisible(hwndCalibrate)) {
+                    WinSendMsg(hwndCalibrate, WM_CLOSE, 0, 0);
+                }
+
+                if (WinIsWindowVisible(hwndKeyset)) {
+                    WinSendMsg(hwndKeyset, WM_CLOSE, 0, 0);
+                }
+            }
+            break;
+        case WM_COMMAND:
+            switch(LONGFROMMP(mp1)) {
+                case DID_CLOSE:
+                    {
+                        if (WinIsWindowVisible(hwndCalibrate)) {
+                            WinSendMsg(hwndCalibrate, WM_CLOSE, 0, 0);
+                        }
+
+                        if (WinIsWindowVisible(hwndKeyset)) {
+                            WinSendMsg(hwndKeyset, WM_CLOSE, 0, 0);
+                        }
+                    }
+                    break;
+                case ID_SWAP:
+                    {
+                        int joy1, joy2;
+
+                        resources_get_int("JoyDevice3", &joy1);
+                        resources_get_int("JoyDevice4", &joy2);
+
+                        resources_set_int("JoyDevice3", joy2);
+                        resources_set_int("JoyDevice4", joy1);
+
+                        WinSendMsg(hwnd, WM_SETCBS,  (void*)joy2, (void*)joy1);
+                    }
+                    return FALSE;
+                case ID_CALIBRATE:
+                    calibrate_dialog(hwnd);
+                    return FALSE;
+                case ID_KEYSET:
+                    keyset_dialog(hwnd);
+                    return FALSE;;
+            }
+            break;
+        case WM_CONTROL:
+            {
+                int button =SHORT1FROMMP(mp1);
+                int state = WinQueryButtonCheckstate(hwnd, button);
+                int port = button & JOY_PORT1;
+                int joya, joyb;
+
+                resources_get_int(port ? "JoyDevice3" : "JoyDevice4", &joya);
+                resources_get_int(port ? "JoyDevice4" : "JoyDevice3", &joyb);
+                if (state) {
+                    joya |= button & JOYDEV_ALL;
+                } else {
+                    joya &= ~(button & JOYDEV_ALL);
+                }
+
+                resources_set_int(port ? "JoyDevice3" : "JoyDevice4", joya);
                 WinSendMsg(hwnd, WM_SETDLGS, (void*)(port ? joya : joyb), (void*)(port ? joyb : joya));
 
              }
@@ -475,6 +626,17 @@ void joystick_dialog(HWND hwnd)
     }
 
     hwnd2 = WinLoadStdDlg(hwnd, pm_joystick, DLG_JOYSTICK, NULL);
+}
+
+void joystick_extra_dialog(HWND hwnd)
+{
+    static HWND hwnd3 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd3)) {
+        return;
+    }
+
+    hwnd3 = WinLoadStdDlg(hwnd, pm_extra_joystick, DLG_EXTRA_JOYSTICK, NULL);
 }
 
 void calibrate_dialog(HWND hwnd)

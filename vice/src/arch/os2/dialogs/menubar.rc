@@ -156,8 +156,34 @@ BEGIN
         MENUITEM "~Video Color Settings\tAlt-I",          IDM_COLOR,                    MIS_TEXT
 #endif
 
+#if !defined __XCBM2__ && !defined __XPET__
         MENUITEM "~Joystick Setup\tAlt-J",                IDM_JOYSTICK,                 MIS_TEXT
+#endif
+
+#if defined __XPLUS4__
+        MENUITEM "SID cart joystick",                     IDM_SIDCART_JOY,              MIS_TEXT
+        MENUITEM "SID cart Joystick Setup",               IDM_USERPORT_JOY_SETUP,       MIS_TEXT
+#endif
+
+#if !defined __XCBM5X0__ && !defined __XPLUS4__
+        MENUITEM "Userport joystick adapter",             IDM_USERPORT_JOY,             MIS_TEXT
+        SUBMENU "Userport joystick type",                 IDM_USERPORT_JOY_TYPE,        MIS_TEXT
+        BEGIN
+            MENUITEM "CGA",                               IDM_USERPORT_JOY_CGA,         MIS_TEXT
+            MENUITEM "PET",                               IDM_USERPORT_JOY_PET,         MIS_TEXT
+            MENUITEM "Hummer",                            IDM_USERPORT_JOY_HUMMER,      MIS_TEXT
+            MENUITEM "OEM",                               IDM_USERPORT_JOY_OEM,         MIS_TEXT
+#if defined __X64__ || defined __X128__
+            MENUITEM "HIT",                               IDM_USERPORT_JOY_HIT,         MIS_TEXT
+            MENUITEM "Kingsoft",                          IDM_USERPORT_JOY_KINGSOFT,    MIS_TEXT
+            MENUITEM "Starbyte",                          IDM_USERPORT_JOY_STARBYTE,    MIS_TEXT
+#endif
+        END
+        MENUITEM "Userport Joystick Setup",               IDM_USERPORT_JOY_SETUP,       MIS_TEXT
+#endif
+
         MENUITEM "Allow opposite joystick directions",    IDM_ALLOW_OPPOSITE_JOY,       MIS_TEXT
+
 #if !defined __X64DTV__
         MENUITEM "Datasette ~Control\tAlt-C",             IDM_DATASETTE,                MIS_TEXT
 #endif
@@ -751,7 +777,6 @@ BEGIN
 #endif
 
 #ifdef __XVIC__
-        MENUITEM "OEM userport joystick",                 IDM_OEM_JOY,                  MIS_TEXT
         MENUITEM "Final Expansion Writeback",             IDM_VIC20_FE_WRITEBACK,       MIS_TEXT
         MENUITEM "Vic Flash Plugin Writeback",            IDM_VIC20_VFP_WRITEBACK,      MIS_TEXT
         MENUITEM "MegaCart NvRAM Writeback",              IDM_VIC20_MC_WRITEBACK,       MIS_TEXT

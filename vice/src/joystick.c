@@ -221,6 +221,37 @@ BYTE get_joystick_value(int index)
 
 /*-----------------------------------------------------------------------*/
 
+static int set_userport_joystick_enable(int val, void *param)
+{
+    userport_joystick_enable = val;
+    return 0;
+}
+
+static int set_userport_joystick_type(int val, void *param)
+{
+    if (val >= USERPORT_JOYSTICK_NUM) {
+        return -1;
+    }
+    userport_joystick_type = val;
+    return 0;
+}
+
+/* FIXME: command line options to set these resources are missing */
+/* FIXME: ExtraJoy* needs to be renamed to UserportJoy* in due time */
+static const resource_int_t userport_resources_int[] = {
+    { "ExtraJoy", 0, RES_EVENT_NO, NULL,
+      &userport_joystick_enable, set_userport_joystick_enable, NULL },
+    { "ExtraJoyType", 0, RES_EVENT_NO, NULL,
+      &userport_joystick_type, set_userport_joystick_type, NULL },
+    { NULL }
+};
+
+static int set_joystick_opposite_enable(int val, void *param)
+{
+    joystick_opposite_enable = val;
+    return 0;
+}
+
 #ifdef COMMON_KBD
 /* the order of values in joypad_bits is the same as in joystick_direction_t */
 static int joypad_bits[9] = {
@@ -279,12 +310,6 @@ static int set_joykeys_enable(int val, void *param)
     return 0;
 }
 
-static int set_joystick_opposite_enable(int val, void *param)
-{
-    joystick_opposite_enable = val;
-    return 0;
-}
-
 #define DEFINE_SET_KEYSET(num)                       \
     static int set_keyset##num(int val, void *param) \
     {                                                \
@@ -337,31 +362,6 @@ static const resource_int_t resources_int[] = {
       &joykeys_enable, set_joykeys_enable, NULL },
     { "JoyOpposite", 0, RES_EVENT_NO, NULL,
       &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
-    { NULL }
-};
-
-static int set_userport_joystick_enable(int val, void *param)
-{
-    userport_joystick_enable = val;
-    return 0;
-}
-
-static int set_userport_joystick_type(int val, void *param)
-{
-    if (val >= USERPORT_JOYSTICK_NUM) {
-        return -1;
-    }
-    userport_joystick_type = val;
-    return 0;
-}
-
-/* FIXME: command line options to set these resources are missing */
-/* FIXME: ExtraJoy* needs to be renamed to UserportJoy* in due time */
-static const resource_int_t userport_resources_int[] = {
-    { "ExtraJoy", 0, RES_EVENT_NO, NULL,
-      &userport_joystick_enable, set_userport_joystick_enable, NULL },
-    { "ExtraJoyType", 0, RES_EVENT_NO, NULL,
-      &userport_joystick_type, set_userport_joystick_type, NULL },
     { NULL }
 };
 
@@ -429,6 +429,22 @@ int joystick_init_resources(void)
     }
 
     return joystick_arch_init_resources();
+}
+#else
+static const resource_int_t resources_int[] = {
+    { "JoyOpposite", 0, RES_EVENT_NO, NULL,
+      &joystick_opposite_enable, set_joystick_opposite_enable, NULL },
+    { NULL }
+};
+
+int joystick_extra_init_resources(void)
+{
+    resources_register_int(resources_int);
+
+    if (machine_class != VICE_MACHINE_PLUS4) {
+        return resources_register_int(userport_resources_int);
+    }
+    return 0;
 }
 #endif
 

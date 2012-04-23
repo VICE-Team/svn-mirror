@@ -86,8 +86,8 @@ o?2??Include directories:
 1
 21
 WString
-64
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..
+124
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\dialogs;..\..\..\c64dtv;..\..\..\video;..\..\..\userport
 0
 22
 MVState
@@ -102,8 +102,8 @@ WString
 1
 25
 WString
-11
-IDE_COMPILE
+22
+IDE_COMPILE __X64DTV__
 0
 26
 MRState

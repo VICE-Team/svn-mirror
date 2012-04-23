@@ -60,6 +60,7 @@
 #include "screenshot.h"      // screenshot_save
 #include "dlg-fileio.h"      // ViceFileDialog
 #include "video-resources.h" // VIDEO_RESOURCE_PAL_*
+#include "userport_joystick.h"
 
 #if defined(__X128__) || defined(__X64__)
 #include "cartridge.h"
@@ -569,9 +570,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif
 
 #if defined __XVIC__
-        case IDM_OEM_JOY:
-            toggle("OEMJoy");
-            return;
         case IDM_VIC20_FE_WRITEBACK:
             toggle("FinalExpansionWriteBack");
             return;
@@ -1356,6 +1354,48 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_JOYSTICK:
             joystick_dialog(hwnd);
             return;
+
+#ifdef __XPLUS4__
+        case IDM_SIDCART_JOY:
+            toggle("SIDCartJoy");
+            return;
+        case IDM_USERPORT_JOY_SETUP:
+            joystick_extra_dialog(hwnd);
+            return;
+#endif
+
+#if !defined(__XPLUS4__) && !defined(__XCBM5X0__)
+        case IDM_USERPORT_JOY:
+            toggle("ExtraJoy");
+            return;
+        case IDM_USERPORT_JOY_CGA:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_CGA);
+            return;
+        case IDM_USERPORT_JOY_PET:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_PET);
+            return;
+        case IDM_USERPORT_JOY_HUMMER:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_HUMMER);
+            return;
+        case IDM_USERPORT_JOY_OEM:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_OEM);
+            return;
+#if defined __X64__ || defined __X128__
+        case IDM_USERPORT_JOY_HIT:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_HIT);
+            return;
+        case IDM_USERPORT_JOY_KINGSOFT:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_KINGSOFT);
+            return;
+        case IDM_USERPORT_JOY_STARBYTE:
+            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_STARBYTE);
+            return;
+#endif
+        case IDM_USERPORT_JOY_SETUP:
+            joystick_extra_dialog(hwnd);
+            return;
+#endif
+
         case IDM_ALLOW_OPPOSITE_JOY:
             toggle("JoyOpposite");
             return;
@@ -1536,6 +1576,34 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_LOGWIN, hwndLog != NULLHANDLE);
             WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor != NULLHANDLE);
 
+#ifdef HAS_JOYSTICK
+#ifdef __XPLUS4__
+            WinCheckRes(hwnd, IDM_USERPORT_JOY, "SIDCartJoy");
+            resources_get_int("SIDCartJoy", &val);
+            WinEnableMenuItem(hwnd, IDM_USERPORT_JOY_SETUP, val);
+#endif
+
+#if !defined(__XPLUS4__) && !defined(__XCBM5X0__)
+            WinCheckRes(hwnd, IDM_USERPORT_JOY, "ExtraJoy");
+            resources_get_int("ExtraJoy", &val);
+            WinEnableMenuItem(hwnd, IDM_USERPORT_JOY_SETUP, val);
+            WinEnableMenuItem(hwnd, IDM_USERPORT_JOY_TYPE, val);
+            resources_get_int("ExtraJoyType", &val);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_CGA, val == USERPORT_JOYSTICK_CGA);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_PET, val == USERPORT_JOYSTICK_PET);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_HUMMER, val == USERPORT_JOYSTICK_HUMMER);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_OEM, val == USERPORT_JOYSTICK_OEM);
+#if defined __X64__ || defined __X128__
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_HIT, val == USERPORT_JOYSTICK_HIT);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_KINGSOFT, val == USERPORT_JOYSTICK_KINGSOFT);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_STARBYTE, val == USERPORT_JOYSTICK_STARBYTE);
+#endif
+#endif
+
+            resources_get_int("JoyOpposite", &val);
+            WinCheckMenuItem(hwnd, IDM_ALLOW_OPPOSITE_JOY, val);
+#endif
+
 #if defined(__X64__) || defined(__X128__) || defined(__X64DTV__)
             resources_get_int(EXTERNAL_PALETTE, &val);
             WinEnableMenuItem(hwnd, IDM_COLOR, !val);
@@ -1706,6 +1774,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64_256K, val);
             WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
             WinEnableMenuItem(hwnd, IDM_C64_256KFILE, val);
+
+#ifdef __X64SC__
             val = c64model_get();
             WinCheckMenuItem(hwnd, IDM_C64PAL, val == C64MODEL_C64_PAL);
             WinCheckMenuItem(hwnd, IDM_C64CPAL, val == C64MODEL_C64C_PAL);
@@ -1722,6 +1792,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_8562_NTSC, val == VICII_MODEL_8562);
             WinCheckMenuItem(hwnd, IDM_6567R56A_OLD_NTSC, val == VICII_MODEL_6567R56A);
             WinCheckMenuItem(hwnd, IDM_6572_PAL_N, val == VICII_MODEL_6572);
+#endif
 #endif
 
 #ifdef __X64DTV__

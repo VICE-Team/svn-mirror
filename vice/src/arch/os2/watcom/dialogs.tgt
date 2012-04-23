@@ -69,8 +69,8 @@ o?2??Include directories:
 1
 17
 WString
-91
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\vdrive;..\..\..\drive;..\..\..\monitor
+109
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\vdrive;..\..\..\drive;..\..\..\monitor;..\..\..\userport
 0
 18
 MVState

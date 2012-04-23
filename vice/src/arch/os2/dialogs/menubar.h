@@ -41,6 +41,17 @@
 #define IDM_EMULATOR                 0x109
 #define IDM_DRIVE                    0x10a
 #define IDM_JOYSTICK                 0x10b
+#define IDM_SIDCART_JOY              0x255
+#define IDM_USERPORT_JOY             0x256
+#define IDM_USERPORT_JOY_TYPE        0x257
+#define IDM_USERPORT_JOY_CGA         0x28e
+#define IDM_USERPORT_JOY_PET         0x28f
+#define IDM_USERPORT_JOY_HUMMER      0x295
+#define IDM_USERPORT_JOY_OEM         0x296
+#define IDM_USERPORT_JOY_HIT         0x297
+#define IDM_USERPORT_JOY_KINGSOFT    0x298
+#define IDM_USERPORT_JOY_STARBYTE    0x299
+#define IDM_USERPORT_JOY_SETUP       0x191
 #define IDM_ALLOW_OPPOSITE_JOY       0x1ca
 #define IDM_DATASETTE                0x10c
 #define IDM_LOGWIN                   0x10d
@@ -265,8 +276,6 @@
 #define IDM_EASYFLASH_JUMPER         0x1c2
 #define IDM_EASYFLASH_AUTOSAVE       0x1c3
 #define IDM_EASYFLASH_SAVE_NOW       0x1c4
-
-#define IDM_OEM_JOY                  0x191
 
 #define IDM_VIC20_FE_WRITEBACK       0x21b
 #define IDM_VIC20_VFP_WRITEBACK      0x21c
