@@ -1350,6 +1350,36 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("DriveTrueEmulation");
             return;
 
+#if defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+        case IDM_SIDCART_ENABLE:
+            toggle("SidCart");
+            return;
+        case IDM_SIDCART_6581:
+            sid_set_engine_model(0, 0);
+            return;
+        case IDM_SIDCART_8580:
+            sid_set_engine_model(0, 1);
+            return;
+        case IDM_SIDCART_FILTERS:
+            toggle("SidFilters");
+            return;
+        case IDM_SIDCART_ADDRESS_1:
+            resources_set_int("SidAddress", 0);
+            return;
+        case IDM_SIDCART_ADDRESS_2:
+            resources_set_int("SidAddress", 1);
+            return;
+        case IDM_SIDCART_CLOCK_C64:
+            resources_set_int("SidClock", 0);
+            return;
+        case IDM_SIDCART_CLOCK_NATIVE:
+            resources_set_int("SidClock", 1);
+            return;
+        case IDM_DIGIBLASTER:
+            toggle("DIGIBLASTER");
+            return;
+#endif
+
 #ifdef HAS_JOYSTICK
         case IDM_JOYSTICK:
             joystick_dialog(hwnd);
@@ -1575,6 +1605,30 @@ void menu_select(HWND hwnd, USHORT item)
         case IDM_VIEW:
             WinEnableMenuItem(hwnd, IDM_LOGWIN, hwndLog != NULLHANDLE);
             WinEnableMenuItem(hwnd, IDM_MONITOR, hwndMonitor != NULLHANDLE);
+
+#if defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
+            WinCheckRes(hwnd, IDM_SIDCART_ENABLE, "SidCart");
+            resources_get_int("SidCart", &val);
+#ifdef __XPLUS4__
+            WinEnableMenuItem(hwnd, IDM_SIDCART_JOY, val);
+#endif
+            WinEnableMenuItem(hwnd, IDM_SIDCART_MODEL, val);
+            WinEnableMenuItem(hwnd, IDM_SIDCART_FILTERS, val);
+            WinEnableMenuItem(hwnd, IDM_SIDCART_ADDRESS, val);
+            WinEnableMenuItem(hwnd, IDM_SIDCART_CLOCK, val);
+            WinEnableMenuItem(hwnd, IDM_DIGIBLASTER, val);
+            resources_get_int("SidModel", &val);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_6581, val == 0);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_8580, val == 1);
+            WinCheckRes(hwnd, IDM_SIDCART_FILTERS, "SidFilters");
+            resources_get_int("SidAddress", &val);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_ADDRESS_1, !val);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_ADDRESS_2, val);
+            resources_get_int("SidClock", &val);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_CLOCK_C64, !val);
+            WinCheckMenuItem(hwnd, IDM_SIDCART_CLOCK_NATIVE, val);
+            WinCheckRes(hwnd, IDM_DIGIBLASTER, "DIGIBLASTER");
+#endif
 
 #ifdef HAS_JOYSTICK
 #ifdef __XPLUS4__

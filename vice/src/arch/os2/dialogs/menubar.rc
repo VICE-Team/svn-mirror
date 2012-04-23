@@ -160,9 +160,50 @@ BEGIN
         MENUITEM "~Joystick Setup\tAlt-J",                IDM_JOYSTICK,                 MIS_TEXT
 #endif
 
+#if defined __XPET__ || defined __XPLUS4__ || defined __XVIC__
+        SUBMENU "SID cart",                               IDM_SIDCART,                  MIS_TEXT
+        BEGIN
+            MENUITEM "SID cart enable",                   IDM_SIDCART_ENABLE,           MIS_TEXT
+            SUBMENU "SID model",                          IDM_SIDCART_MODEL,            MIS_TEXT
+            BEGIN
+                MENUITEM "6581",                          IDM_SIDCART_6581,             MIS_TEXT
+                MENUITEM "8580",                          IDM_SIDCART_8580,             MIS_TEXT
+            END
+            MENUITEM "SID filters",                       IDM_SIDCART_FILTERS,          MIS_TEXT
+            SUBMENU "SID cart address",                   IDM_SIDCART_ADDRESS,          MIS_TEXT
+            BEGIN
+#ifdef __XPET__
+                MENUITEM "$8F00",                         IDM_SIDCART_ADDRESS_1,        MIS_TEXT
+                MENUITEM "$E900",                         IDM_SIDCART_ADDRESS_2,        MIS_TEXT
+#endif
+#ifdef __XPLUS4__
+                MENUITEM "$FD40",                         IDM_SIDCART_ADDRESS_1,        MIS_TEXT
+                MENUITEM "$FE80",                         IDM_SIDCART_ADDRESS_2,        MIS_TEXT
+#endif
+#ifdef __XVIC__
+                MENUITEM "$9800",                         IDM_SIDCART_ADDRESS_1,        MIS_TEXT
+                MENUITEM "$9C00",                         IDM_SIDCART_ADDRESS_2,        MIS_TEXT
+#endif
+            END
+            SUBMENU "SID cart clock",                     IDM_SIDCART_CLOCK,            MIS_TEXT
+            BEGIN
+                MENUITEM "C64 clock",                     IDM_SIDCART_CLOCK_C64,        MIS_TEXT
+#ifdef __XPET__
+                MENUITEM "PET clock",                     IDM_SIDCART_CLOCK_NATIVE,     MIS_TEXT
+#endif
+#ifdef __XPLUS4__
+                MENUITEM "PLUS4 clock",                   IDM_SIDCART_CLOCK_NATIVE,     MIS_TEXT
+#endif
+#ifdef __XVIC__
+                MENUITEM "VIC20 clock",                   IDM_SIDCART_CLOCK_NATIVE,     MIS_TEXT
+#endif
+            END
 #if defined __XPLUS4__
-        MENUITEM "SID cart joystick",                     IDM_SIDCART_JOY,              MIS_TEXT
-        MENUITEM "SID cart Joystick Setup",               IDM_USERPORT_JOY_SETUP,       MIS_TEXT
+            MENUITEM "Digiblaster",                       IDM_DIGIBLASTER,              MIS_TEXT
+            MENUITEM "SID cart joystick",                 IDM_SIDCART_JOY,              MIS_TEXT
+            MENUITEM "SID cart Joystick Setup",           IDM_USERPORT_JOY_SETUP,       MIS_TEXT
+#endif
+        END
 #endif
 
 #if !defined __XCBM5X0__ && !defined __XPLUS4__
