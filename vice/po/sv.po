@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-14 12:25-0700\n"
-"PO-Revision-Date: 2012-03-21 22:53+0100\n"
+"PO-Revision-Date: 2012-04-25 12:37+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -8512,13 +8512,12 @@ msgid ""
 ".\n"
 "All devices except "
 msgstr ""
+".\n"
+"Alla enheter förutom "
 
 #: src/translate_text.c.po.c:881
-#, fuzzy
 msgid " will be detached."
-msgstr ""
-".\n"
-"Alla namngivna enheter kommer kopplas från."
+msgstr " kommer kopplas från."
 
 #: src/translate_text.c.po.c:898
 msgid "No filename!"
@@ -9592,6 +9591,9 @@ msgid ""
 "detach all involved carts, 1: error message and detach last attached "
 "involved carts, 2: warning in log and 'AND' the valid return values"
 msgstr ""
+"Väljer hur I/O-kollisioner skall hanteras, (0: felmeddelande och koppla från "
+"alla inblandade moduler, 1: felmeddelande och koppla från sist anslutna "
+"inblandade modul, 2: varning i logg och logisk OCH på giltiga returvärden)"
 
 #: src/translate_text.c.po.c:4346
 msgid "specify IEEE488 interface image name"
@@ -9617,20 +9619,24 @@ msgstr "Skriv inte till GEORAM-avbildning"
 msgid ""
 "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"
 msgstr ""
+"Växla io-mappning (mappa modul-I/O 1 till VIC20-I/O 3 och modul-I/O 2 till "
+"VIC20-I/O 2)"
 
 #: src/translate_text.c.po.c:4465
 msgid ""
 "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 "
 "I/O-3)"
 msgstr ""
+"Växla inte io-mappning (mappa modul-I/O 1 till VIC20-I/O 2 och modul-I/O 2 "
+"till VIC20-I/O 3)"
 
 #: src/translate_text.c.po.c:4482
 msgid "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-msgstr ""
+msgstr "Växla io-mappning (mappa modul-I/O till VIC20-I/O 2)"
 
 #: src/translate_text.c.po.c:4499
 msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
-msgstr ""
+msgstr "Växla io-mappning (mappa modul-I/O till VIC20-I/O 3)"
 
 #: src/translate_text.c.po.c:4516
 msgid "size in KB"
@@ -10703,14 +10709,12 @@ msgid "engine and model"
 msgstr "motor och modell"
 
 #: src/translate_text.c.po.c:9539
-#, fuzzy
 msgid "amount"
 msgstr "antal"
 
 #: src/translate_text.c.po.c:9556
-#, fuzzy
 msgid "amount of extra SID chips"
-msgstr "Antal extra SID-kretsar"
+msgstr "antal extra SID-kretsar"
 
 #: src/translate_text.c.po.c:9573
 msgid "0: FastSID 6581, 1: FastSID 8580"
@@ -11278,15 +11282,16 @@ msgstr ""
 "Ställ in ljudhastighetsjustering (0: flexibel, 1: justerande, 2: exakt)"
 
 #: src/translate_text.c.po.c:12043
-#, fuzzy
 msgid "output mode"
-msgstr "Utdata"
+msgstr "utdataläge"
 
 #: src/translate_text.c.po.c:12060
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
 msgstr ""
+"Utdataläge för ljud (0: system väljer mono/stereo, 1: alltid mono, 2: alltid "
+"stereo)"
 
 #: src/translate_text.c.po.c:12094
 msgid "Define search path to locate system files"
