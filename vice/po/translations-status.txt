@@ -6,9 +6,9 @@ de     German      100        0           0
 it     Italian     100        0           0
 nl     Dutch       100        0           0
 sv     Swedish     100        0           0
+tr     Turkish     100        0           0
 pl     Polish       99        1           0
 es     Spanish      99        4           7
-tr     Turkish      97       39          16
 da     Danish       89      216          34
 ru     Russian      69      306         429
 hu     Hungarian    59      831         147

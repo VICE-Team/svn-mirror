@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-04-14 12:25-0700\n"
-"PO-Revision-Date: 2012-02-02 03:02+0200\n"
+"PO-Revision-Date: 2012-04-27 15:00+0200\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -818,9 +818,8 @@ msgstr "80 Sütun"
 
 #: src/arch/unix/gui/petui.c:225 src/arch/unix/gui/petui.c:362
 #: src/arch/win32/respet.rc.po.c:558
-#, fuzzy
 msgid "PET model"
-msgstr "PET Modeli"
+msgstr "PET modeli"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Load new editor ROM"
@@ -2075,7 +2074,7 @@ msgstr "Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:95
 #: src/arch/unix/gui/uidrivec64c128.c:107
 msgid "Formel 64"
-msgstr ""
+msgstr "Formel 64"
 
 #: src/arch/unix/gui/uidrivec64c128.c:113
 #: src/arch/unix/gui/uidrivec64c128.c:126
@@ -2350,9 +2349,8 @@ msgid "Version 4"
 msgstr "Versiyon 4"
 
 #: src/arch/unix/gui/uiide64.c:180
-#, fuzzy
 msgid "Device 1 image name"
-msgstr "HD imajý ismi"
+msgstr "Cihaz 1 imaj ismi"
 
 #: src/arch/unix/gui/uiide64.c:184 src/arch/unix/gui/uiide64.c:203
 #: src/arch/unix/gui/uiide64.c:222 src/arch/unix/gui/uiide64.c:241
@@ -2362,19 +2360,16 @@ msgid "Autodetect image size"
 msgstr "Imaj boyutunu otomatik algýla"
 
 #: src/arch/unix/gui/uiide64.c:199
-#, fuzzy
 msgid "Device 2 image name"
-msgstr "HD imajý ismi"
+msgstr "Cihaz 2 imaj ismi"
 
 #: src/arch/unix/gui/uiide64.c:218
-#, fuzzy
 msgid "Device 3 image name"
-msgstr "HD imajý ismi"
+msgstr "Cihaz 3 imaj ismi"
 
 #: src/arch/unix/gui/uiide64.c:237
-#, fuzzy
 msgid "Device 4 image name"
-msgstr "HD imajý ismi"
+msgstr "Cihaz 4 imaj ismi"
 
 #: src/arch/unix/gui/uiide64.c:256 src/arch/unix/gui/uimmc64.c:77
 #: src/arch/unix/gui/uiretroreplay.c:59 src/arch/unix/gui/uivdc.c:155
@@ -2383,24 +2378,20 @@ msgid "Revision"
 msgstr "Revizyon"
 
 #: src/arch/unix/gui/uiide64.c:259
-#, fuzzy
 msgid "Device 1 settings"
-msgstr "HD 1 ayarlarý"
+msgstr "Cihaz 1 ayarlarý"
 
 #: src/arch/unix/gui/uiide64.c:261
-#, fuzzy
 msgid "Device 2 settings"
-msgstr "HD 2 ayarlarý"
+msgstr "Cihaz 2 ayarlarý"
 
 #: src/arch/unix/gui/uiide64.c:263
-#, fuzzy
 msgid "Device 3 settings"
-msgstr "HD 3 ayarlarý"
+msgstr "Cihaz 3 ayarlarý"
 
 #: src/arch/unix/gui/uiide64.c:265
-#, fuzzy
 msgid "Device 4 settings"
-msgstr "HD 4 ayarlarý"
+msgstr "Cihaz 4 ayarlarý"
 
 #: src/arch/unix/gui/uiisepic.c:48
 msgid "Enable switch"
@@ -2435,14 +2426,12 @@ msgid "HIT userport joy adapter"
 msgstr "HIT userport joy dönüþtürücü"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1100
-#, fuzzy
 msgid "Kingsoft userport joy adapter"
-msgstr "Userport joy dönüþtürücü yok"
+msgstr "Kingsoft userport joy dönüþtürücü"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1101
-#, fuzzy
 msgid "Starbyte userport joy adapter"
-msgstr "Userport joy dönüþtürücü yok"
+msgstr "Starbyte userport joy dönüþtürücü"
 
 #: src/arch/unix/gui/uijoystick2.c:161 src/arch/unix/gui/uijoystick2.c:213
 #: src/arch/unix/gui/uijoystick2.c:265 src/arch/unix/gui/uijoystick2.c:317
@@ -3115,9 +3104,8 @@ msgstr "Yazýcý #4 sürücüsü"
 #: src/arch/unix/gui/uiprinteriec.c:46
 #: src/arch/unix/gui/uiprinteriecplus4.c:45
 #: src/arch/unix/gui/uiprinterieee.c:43
-#, fuzzy
 msgid "Printer #4 output"
-msgstr "Yazýcý #4 çýktý tipi"
+msgstr "Yazýcý #4 çýktýsý"
 
 #: src/arch/unix/gui/uiprinteriec.c:48
 #: src/arch/unix/gui/uiprinteriecplus4.c:47
@@ -3151,9 +3139,8 @@ msgstr "Yazýcý #5 sürücüsü"
 #: src/arch/unix/gui/uiprinteriec.c:60
 #: src/arch/unix/gui/uiprinteriecplus4.c:59
 #: src/arch/unix/gui/uiprinterieee.c:55
-#, fuzzy
 msgid "Printer #5 output"
-msgstr "Yazýcý #5 çýktý tipi"
+msgstr "Yazýcý #5 çýktýsý"
 
 #: src/arch/unix/gui/uiprinteriec.c:62
 #: src/arch/unix/gui/uiprinteriecplus4.c:61
@@ -3178,9 +3165,8 @@ msgid "Userport printer driver"
 msgstr "Userport yazýcýsý sürücüsü"
 
 #: src/arch/unix/gui/uiprinteriec.c:72 src/arch/unix/gui/uiprinterieee.c:67
-#, fuzzy
 msgid "Userport printer output"
-msgstr "Userport yazýcýsý çýktý tipi"
+msgstr "Userport yazýcýsý çýktýsý"
 
 #: src/arch/unix/gui/uiprinteriec.c:74 src/arch/unix/gui/uiprinterieee.c:69
 msgid "Userport printer text output device"
@@ -3758,7 +3744,7 @@ msgstr "Ses sürücüsü ismi"
 
 #: src/arch/unix/gui/uisound.c:151
 msgid "Output mode"
-msgstr "Çýktý modu"
+msgstr "Çýkýþ modu"
 
 #: src/arch/unix/gui/uisound.c:153
 msgid "Sound synchronization"
@@ -5576,9 +5562,8 @@ msgid "WMM driver"
 msgstr "WMM sürücüsü"
 
 #: src/arch/win32/res.rc.po.c:1223
-#, fuzzy
 msgid "Sound output mode"
-msgstr "Çýktý modu"
+msgstr "Ses çýkýþý modu"
 
 #: src/arch/win32/res.rc.po.c:1225
 msgid "Sound Buffer Size"
@@ -5619,9 +5604,8 @@ msgid "Value %d for %s is out of range, using %d instead"
 msgstr "%d deðeri için %s alan dýþýna çýktý, yerine %d kullanýlýyor"
 
 #: src/arch/win32/res.rc.po.c:1243
-#, fuzzy
 msgid "Audio leak"
-msgstr "Ses kaçaðý emülasyonu"
+msgstr "Ses kaçaðý"
 
 #: src/arch/win32/res.rc.po.c:1253
 msgid "VICII Palette"
@@ -5705,23 +5689,23 @@ msgstr "TED imge oluþturma filtresi"
 
 #: src/arch/win32/res.rc.po.c:1273
 msgid "VICII Audio leak"
-msgstr ""
+msgstr "VICII Ses kaçaðý"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "VIC Audio leak"
-msgstr ""
+msgstr "VIC Ses kaçaðý"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "CRTC Audio leak"
-msgstr ""
+msgstr "CRTC Ses kaçaðý"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "VDC Audio leak"
-msgstr ""
+msgstr "VDC Ses kaçaðý"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "TED Audio leak"
-msgstr ""
+msgstr "TED Ses kaçaðý"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "External Palette"
@@ -5998,9 +5982,8 @@ msgid "Idle method"
 msgstr "Boþa vakit geçirme metodu"
 
 #: src/arch/win32/res.rc.po.c:1374
-#, fuzzy
 msgid "Standard"
-msgstr "Standart Userport"
+msgstr "Standart"
 
 #: src/arch/win32/res.rc.po.c:1375 src/arch/amigaos/intl_text.c.po.c:5387
 msgid "Drive expansion"
@@ -6282,9 +6265,8 @@ msgid "MMC Replay settings"
 msgstr "MMC Replay ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1529
-#, fuzzy
 msgid "Retro Replay settings"
-msgstr "MMC Replay ayarlarý"
+msgstr "Retro Replay ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1530 src/arch/win32/resmagicvoice.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:2461
@@ -6683,9 +6665,8 @@ msgid "IEEE488 Interface emulation"
 msgstr "IEEE488 Arabirimi emülasyonu"
 
 #: src/arch/win32/resc128.rc.po.c:739
-#, fuzzy
 msgid "C128 model settings"
-msgstr "CBM2 model ayarlarý"
+msgstr "C128 model ayarlarý"
 
 #: src/arch/win32/resc64.rc.po.c:610 src/arch/amigaos/intl_text.c.po.c:9882
 msgid "6569 (PAL)"
@@ -6708,18 +6689,16 @@ msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:618 src/arch/win32/resc64.rc.po.c:625
-#, fuzzy
 msgid "C64 drive burst modification settings"
-msgstr "Otomatik ateþ düðmesi ayarlarý"
+msgstr "C64 sürücüsü patlama modifikasyon ayarlarý"
 
 #: src/arch/win32/resc64.rc.po.c:619
-#, fuzzy
 msgid "Enable the C64 drive burst modification"
-msgstr "ACIA emülasyonunu aktif et"
+msgstr "C64 sürücüsü patlama modifikasyonunu aktif et"
 
 #: src/arch/win32/resc64.rc.po.c:620
 msgid "C64 drive burst modification CIA"
-msgstr ""
+msgstr "C64 sürücüsü patlama modifikasyon CIA'sý"
 
 #: src/arch/win32/resc64.rc.po.c:622 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:2559
@@ -6912,9 +6891,8 @@ msgid "CBM5x0 model settings"
 msgstr "CBM5x0 model ayarlarý"
 
 #: src/arch/win32/rescia.rc.po.c:53
-#, fuzzy
 msgid "CIA settings"
-msgstr "ACIA Ayarlarý"
+msgstr "CIA ayarlarý"
 
 #: src/arch/win32/resdigimax.rc.po.c:23 src/translate_text.c.po.c:13184
 msgid "Enable the DigiMAX cartridge"
@@ -7330,19 +7308,16 @@ msgid "Select file for RamCart"
 msgstr "RamCart için dosya seçin"
 
 #: src/arch/win32/resretroreplay.rc.po.c:35
-#, fuzzy
 msgid "Enable RR flash jumper"
-msgstr "Flashjumperý aktif et"
+msgstr "RR flash jumperý aktif et"
 
 #: src/arch/win32/resretroreplay.rc.po.c:36
-#, fuzzy
 msgid "Enable RR bank jumper"
-msgstr "Bankjumperý aktif et"
+msgstr "RR bank jumperý aktif et"
 
 #: src/arch/win32/resretroreplay.rc.po.c:38
-#, fuzzy
 msgid "Save RR flash when changed"
-msgstr "REU imajý deðiþtiðinde kaydet"
+msgstr "RR flashini deðiþtiðinde kaydet"
 
 #: src/arch/win32/resreu.rc.po.c:39
 msgid "REU Settings"
@@ -7385,23 +7360,20 @@ msgid "General"
 msgstr "Genel"
 
 #: src/arch/win32/ressid.rc.po.c:79
-#, fuzzy
 msgid "Extra SID chips"
-msgstr "Ekstra SIDler"
+msgstr "Ekstra SID çipleri"
 
 #: src/arch/win32/ressid.rc.po.c:80
 msgid "Amount of extra SID chips"
-msgstr ""
+msgstr "Ekstra SID çip adedi"
 
 #: src/arch/win32/ressid.rc.po.c:81
-#, fuzzy
 msgid "Second SID at"
-msgstr "Ýkinci SID"
+msgstr "Ýkinci SID konumu"
 
 #: src/arch/win32/ressid.rc.po.c:82
-#, fuzzy
 msgid "Third SID at"
-msgstr "Üçüncü SID taban adresi"
+msgstr "Üçüncü SID konumu"
 
 #: src/arch/win32/ressid.rc.po.c:83 src/arch/win32/ressiddtv.rc.po.c:60
 msgid "reSID/reSID-fp options"
@@ -7457,27 +7429,23 @@ msgstr "SFX Sound Sampler ayarlarý"
 
 #: src/arch/win32/rested.rc.po.c:35 src/arch/win32/resvic.rc.po.c:35
 #: src/arch/win32/resvicii.rc.po.c:42
-#, fuzzy
 msgid "Normal borders"
-msgstr "Normal"
+msgstr "Normal çerçeve"
 
 #: src/arch/win32/rested.rc.po.c:36 src/arch/win32/resvic.rc.po.c:36
 #: src/arch/win32/resvicii.rc.po.c:43
-#, fuzzy
 msgid "Full borders"
-msgstr "Çerçeveler"
+msgstr "Tam çerçeve"
 
 #: src/arch/win32/rested.rc.po.c:37 src/arch/win32/resvic.rc.po.c:37
 #: src/arch/win32/resvicii.rc.po.c:44
-#, fuzzy
 msgid "Debug borders"
-msgstr "Çerçeveler"
+msgstr "Hata ayýklama çerçevesi"
 
 #: src/arch/win32/rested.rc.po.c:38 src/arch/win32/resvic.rc.po.c:38
 #: src/arch/win32/resvicii.rc.po.c:45
-#, fuzzy
 msgid "No borders"
-msgstr "Çerçeveler"
+msgstr "Çerçeve yok"
 
 #: src/arch/win32/restfe.rc.po.c:62
 msgid "Ethernet"
@@ -7497,9 +7465,8 @@ msgid "Select ROM file for V364 Speech"
 msgstr "V364 Speech için ROM dosyasý seçin"
 
 #: src/arch/win32/resvic20.rc.po.c:521 src/arch/win32/resvic20.rc.po.c:556
-#, fuzzy
 msgid "VIC20 settings"
-msgstr "VIC ayarlarý"
+msgstr "VIC20 ayarlarý"
 
 #: src/arch/win32/resvic20.rc.po.c:527
 msgid "Full (blocks 0/1/2/3/5)"
@@ -8542,13 +8509,12 @@ msgid ""
 ".\n"
 "All devices except "
 msgstr ""
+".\n"
+""
 
 #: src/translate_text.c.po.c:881
-#, fuzzy
 msgid " will be detached."
-msgstr ""
-".\n"
-"Tüm isimlendirilmiþ aygýtlar çýkartýlacaktýr."
+msgstr " haricindeki tüm cihazlar çýkartýlacaktýr."
 
 #: src/translate_text.c.po.c:898
 msgid "No filename!"
@@ -8723,6 +8689,7 @@ msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
 msgstr ""
+"Mevcut cihazýn CPU cycle sayacýný yazdýr. 'reset' sayacý 0'a getirir."
 
 #: src/translate_text.c.po.c:1476
 msgid "Read a snapshot of the machine from the file specified."
@@ -9619,6 +9586,10 @@ msgid ""
 "detach all involved carts, 1: error message and detach last attached "
 "involved carts, 2: warning in log and 'AND' the valid return values"
 msgstr ""
+"G/Ç çakýþmalarýnýn deðerlendirilme yöntemini seç, (0: hata mesajý ve "
+"tüm ilgili cihazlarýn çýkarýlmasý, 1: hata mesajý ve en son takýlmýþ "
+"tüm ilgili cihazlarýn çýkarýlmasý, 2: log'a uyarý yazýlmasý ve geçerli "
+"dönüþ deðerlerinin 'VE'lenmesi"
 
 #: src/translate_text.c.po.c:4346
 msgid "specify IEEE488 interface image name"
@@ -9644,20 +9615,24 @@ msgstr "GEORAM imajýna yazma"
 msgid ""
 "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"
 msgstr ""
+"G/Ç haritalamasýný yer deðiþtir (harita kartý G/Ç-1 ile VIC20 G/Ç-3 ve kart "
+"G/Ç-2 ile VIC20 G/Ç-2)"
 
 #: src/translate_text.c.po.c:4465
 msgid ""
 "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 "
 "I/O-3)"
 msgstr ""
+"G/Ç haritalamasýný yer deðiþtirme (harita kartý G/Ç-1 ile VIC20 G/Ç-2 ve kart "
+"G/Ç-2 ile VIC20 G/Ç-3)"
 
 #: src/translate_text.c.po.c:4482
 msgid "Swap io mapping (map cart I/O to VIC20 I/O-2)"
-msgstr ""
+msgstr "G/Ç haritalamasýný yer deðiþtir (harita kartý G/Ç ile VIC20 G/Ç-2)"
 
 #: src/translate_text.c.po.c:4499
 msgid "Don't swap io mapping (map cart I/O to VIC20 I/O-3)"
-msgstr ""
+msgstr "G/Ç haritalamasýný yer deðiþtirme (harita kartý G/Ç ile VIC20 G/Ç-3)"
 
 #: src/translate_text.c.po.c:4516
 msgid "size in KB"
@@ -9940,9 +9915,8 @@ msgid "Attach raw 8kB Expert Cartridge image"
 msgstr "Düz 8kB Expert Kartuþ imajý yerleþtir"
 
 #: src/translate_text.c.po.c:6082
-#, fuzzy
 msgid "Attach raw 32kB Formel 64 image"
-msgstr "Düz 32kB Freeze Machine imajý yerleþtir"
+msgstr "Düz 32kB Formel 64 imajý yerleþtir"
 
 #: src/translate_text.c.po.c:6099
 msgid "Attach raw 16kB Final Cartridge image"
@@ -10358,11 +10332,11 @@ msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "$A000-$BFFF arasýnda 8KB RAM geniþletmeyi pasifleþtir"
 
 #: src/translate_text.c.po.c:7971
-#, fuzzy
 msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
-msgstr "Paralel kablo tipini ayarla (0: yok, 1: standart, 2: Dolphin DOS 3)"
+msgstr "Paralel kablo tipini belirle (0: yok, 1: standart, 2: Dolphin DOS 3, "
+"3: Formel 64)"
 
 #: src/translate_text.c.po.c:8005
 msgid "Disable Professional DOS"
@@ -10721,14 +10695,12 @@ msgid "engine and model"
 msgstr "motor ve model"
 
 #: src/translate_text.c.po.c:9539
-#, fuzzy
 msgid "amount"
 msgstr "adet"
 
 #: src/translate_text.c.po.c:9556
-#, fuzzy
 msgid "amount of extra SID chips"
-msgstr "Ekstra SIDler"
+msgstr "ekstra SID çiplerinin adedi"
 
 #: src/translate_text.c.po.c:9573
 msgid "0: FastSID 6581, 1: FastSID 8580"
@@ -11304,15 +11276,16 @@ msgid "Set sound speed adjustment (0: flexible, 1: adjusting, 2: exact)"
 msgstr "Ses hýzý ayarlamasýný yapýn (0: esnek, 1: düzeltme, 2: aynen)"
 
 #: src/translate_text.c.po.c:12043
-#, fuzzy
 msgid "output mode"
-msgstr "Çýktý modu"
+msgstr "çýkýþ modu"
 
 #: src/translate_text.c.po.c:12060
 msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
 msgstr ""
+"Ses çýkýþ modu: (0: sistem mono/stereo kararýný verir, 1: her zaman mono, 2: "
+"her zaman stereo)"
 
 #: src/translate_text.c.po.c:12094
 msgid "Define search path to locate system files"
