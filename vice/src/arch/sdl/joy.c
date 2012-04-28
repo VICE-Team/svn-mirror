@@ -1054,9 +1054,9 @@ ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
         }
         retval = sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index + 1]), 1);
     } else {
-        if (prev & SDL_HAT_UP) {
+        if ((!(value & SDL_HAT_UP)) && (prev & SDL_HAT_UP)) {
             sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index]), 0);
-        } else if (prev & SDL_HAT_DOWN) {
+        } else if ((!(value & SDL_HAT_DOWN)) && (prev & SDL_HAT_DOWN)) {
             sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index + 1]), 0);
         }
     }
@@ -1073,9 +1073,9 @@ ui_menu_action_t sdljoy_hat_event(Uint8 joynum, Uint8 hat, Uint8 value)
         }
         retval = sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index + 3]), 1);
     } else {
-        if (prev & SDL_HAT_LEFT) {
+        if ((!(value & SDL_HAT_LEFT)) && (prev & SDL_HAT_LEFT)) {
             sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index + 2]), 0);
-        } else if (prev & SDL_HAT_RIGHT) {
+        } else if ((!(value & SDL_HAT_RIGHT)) && (prev & SDL_HAT_RIGHT)) {
             sdljoy_perform_event(&(sdljoystick[joynum].input[HAT][index + 3]), 0);
         }
     }
