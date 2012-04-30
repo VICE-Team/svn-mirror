@@ -62,20 +62,32 @@
     set.
 */
 
+/* ---------------------------------------------------------------------*/
+
 static int currbank = 0;
 
 static BYTE regval = 0;
 
+static size_t cart_size;
+
+static BYTE io1_mask = 0x3f;
+
+/* ---------------------------------------------------------------------*/
 static void ocean_io1_store(WORD addr, BYTE value)
 {
     regval = value;
-    currbank = value & 0x3f;
+    currbank = value & io1_mask & 0x3f;
+
     cart_romhbank_set_slotmain(currbank);
     cart_romlbank_set_slotmain(currbank);
+
     cart_set_port_exrom_slotmain(1);
     cart_set_port_game_slotmain(1);
+
+
     cart_set_port_phi1_slotmain(0);
     cart_set_port_phi2_slotmain(0);
+
     cart_port_config_changed_slotmain();
 }
 
@@ -89,6 +101,7 @@ static int ocean_dump(void)
     mon_out("Bank: %d\n", currbank);
     return 0;
 }
+
 
 /* ---------------------------------------------------------------------*/
 
@@ -123,8 +136,8 @@ BYTE ocean_romh_read(WORD addr)
 
 void ocean_config_init(void)
 {
-    cart_config_changed_slotmain(1, 1, CMODE_READ);
     ocean_io1_store((WORD)0xde00, 0);
+    cart_config_changed_slotmain(1, 1, CMODE_READ);
 }
 
 void ocean_config_setup(BYTE *rawcart)
@@ -146,25 +159,37 @@ static int ocean_common_attach(void)
     ocean_list_item = io_source_register(&ocean_device);
     return 0;
 }
+/* ---------------------------------------------------------------------*/
+
+int ocean_cart_sizes[] = { 0x80000, 0x40000, 0x20000, 0x08000, 0 };
 
 int ocean_bin_attach(const char *filename, BYTE *rawcart)
 {
-    if (util_file_load(filename, rawcart, 0x80000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-        if (util_file_load(filename, rawcart, 0x40000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-            if (util_file_load(filename, rawcart, 0x20000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                if (util_file_load(filename, rawcart, 0x8000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
-                    return -1;
-                }
-            }
-        }
+  int rc = 0;
+  int i;
+  size_t size;
+  for(i = 0; (size = ocean_cart_sizes[i]) != 0; i++ ) {
+    rc = util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS);
+    if ( rc == 0 ) {
+      io1_mask = (size >> 13)-1;
+      printf("rc=%d i=%d sz=0x%x mask=0x%02x\n", rc, i, size, io1_mask);
+      break;
     }
-    return ocean_common_attach();
+  }
+
+  if (rc == 0) {
+    cart_size = size;
+    rc = ocean_common_attach();
+  }
+  return rc;
 }
 
 int ocean_crt_attach(FILE *fd, BYTE *rawcart)
 {
+    size_t rom_size;
     crt_chip_header_t chip;
 
+    rom_size = 0;
     while (1) {
         if (crt_read_chip_header(&chip, fd)) {
             break;
@@ -175,7 +200,11 @@ int ocean_crt_attach(FILE *fd, BYTE *rawcart)
         if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
+    	rom_size += chip.size;
     }
+
+    io1_mask = (rom_size >> 13)-1;
+
     return ocean_common_attach();
 }
 
