@@ -80,7 +80,7 @@ void mouse_update_mouse(void)
     BRect bounds;
     uint32 buttons;
 
-    if (!_mouse_enabled) {
+    if (!_mouse_enabled || window_count == 0) {
         return;
     }
 
@@ -95,7 +95,7 @@ void mouse_update_mouse(void)
     }
 
     _mouse_x += (int)((point.x - last_point.x) / bounds.Width() * 1024) % 1024;
-    _mouse_y += (int)((point.y - last_point.y) / bounds.Height() * 1024) % 1024;
+    _mouse_y -= (int)((point.y - last_point.y) / bounds.Height() * 1024) % 1024;
     mouse_timestamp = vsyncarch_gettime();
 
     last_point = point;
@@ -105,22 +105,16 @@ void mousedrv_init(void)
 {
 }
 
-BYTE mousedrv_get_x(void)
+int mousedrv_get_x(void)
 {
-    if (!_mouse_enabled) {
-        return 0xff;
-    }
     mouse_update_mouse();
-    return (BYTE)_mouse_x;
+    return _mouse_x;
 }
 
-BYTE mousedrv_get_y(void)
+int mousedrv_get_y(void)
 {
-    if (!_mouse_enabled) {
-        return 0xff;
-    }
     mouse_update_mouse();
-    return (BYTE)~_mouse_y;
+    return _mouse_y;
 }
 
 unsigned long mousedrv_get_timestamp(void)
