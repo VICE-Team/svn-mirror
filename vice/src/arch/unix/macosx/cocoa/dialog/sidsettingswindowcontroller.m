@@ -55,6 +55,7 @@ static const int cbm2baseaddress[] = { 0xda, -1 };
         hasStereo  = YES;
         switch(machine_class) {
             case VICE_MACHINE_C64:
+            case VICE_MACHINE_C64SC:
                 stereoAddrs = c64baseaddress;
                 break;
             case VICE_MACHINE_C128:
