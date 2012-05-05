@@ -74,14 +74,14 @@ enum {
     IBOutlet NSPopUpButton *hidXAxis;
     IBOutlet NSButton      *hidXDetect;
     IBOutlet NSTextField   *hidXThreshold;
-	IBOutlet NSButton      *hidXLogical;
-	IBOutlet NSTextField   *hidXInfo;
+    IBOutlet NSButton      *hidXLogical;
+    IBOutlet NSTextField   *hidXInfo;
 
     IBOutlet NSPopUpButton *hidYAxis;
     IBOutlet NSButton      *hidYDetect;
     IBOutlet NSTextField   *hidYThreshold;
-	IBOutlet NSButton	   *hidYLogical;
-	IBOutlet NSTextField   *hidYInfo;
+    IBOutlet NSButton       *hidYLogical;
+    IBOutlet NSTextField   *hidYInfo;
 
     IBOutlet NSButton      *hidNorth;
     IBOutlet NSButton      *hidSouth;
