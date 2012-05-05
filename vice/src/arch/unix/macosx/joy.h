@@ -85,6 +85,9 @@ struct joy_axis {
     int  min_threshold;     /* calculated internal value */
     int  max_threshold;     /* calculated internal value */
     
+    int  logical;            /* read logical values instead of physical values */
+    int  min,max;           /* min, max values */
+    
     int  mapped;            /* is axis successfully mapped by HID driver? */
 };
 typedef struct joy_axis joy_axis_t;

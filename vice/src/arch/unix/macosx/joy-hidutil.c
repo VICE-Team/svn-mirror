@@ -195,8 +195,10 @@ int  joy_hidlib_enumerate_elements(joy_hid_device_t *device)
 
         e->usage_page = (int)element->usagePage;
         e->usage      = (int)element->usage;
-        e->min_value  = (int)element->min;
-        e->max_value  = (int)element->max;
+        e->min_pvalue = (int)element->min;
+        e->max_pvalue = (int)element->max;
+        e->min_lvalue = (int)element->scaledMin;
+        e->max_lvalue = (int)element->scaledMax; 
         e->internal_element = element;
         
         e++;

@@ -134,18 +134,18 @@ static void domove(void)
 }
 
 // the HW polls the position
-BYTE mousedrv_get_x(void)
+int mousedrv_get_x(void)
 {
     domove();
     int x = (int)(lastX + 0.5f);
-    return (BYTE)((x * scaleX)  & 0x7e);
+    return ((x * scaleX)  & 0x7e);
 }
 
-BYTE mousedrv_get_y(void)
+int mousedrv_get_y(void)
 {
     domove();
     int y = (int)(lastY + 0.5f);
-    return (BYTE)((y * scaleY) & 0x7e);
+    return ((y * scaleY) & 0x7e);
 }
 
 void mouse_move_f(float x, float y)

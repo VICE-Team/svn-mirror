@@ -58,8 +58,10 @@ struct joy_hid_element {
     int     usage_page;
     int     usage;
     
-    int     min_value;
-    int     max_value;
+    int     min_pvalue; /* physical value */
+    int     max_pvalue;
+    int     min_lvalue; /* logical value */
+    int     max_lvalue;
     
     hid_element_ref_t internal_element;
 };

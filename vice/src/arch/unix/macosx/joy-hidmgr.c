@@ -290,19 +290,25 @@ int  joy_hidlib_enumerate_elements(joy_hid_device_t *device)
         if ( internal_element ) {
             uint32_t usage_page = IOHIDElementGetUsagePage( internal_element );
             uint32_t usage = IOHIDElementGetUsage( internal_element );
-            CFIndex min = IOHIDElementGetPhysicalMin( internal_element );
-            CFIndex max = IOHIDElementGetPhysicalMax( internal_element );
+            CFIndex pmin = IOHIDElementGetPhysicalMin( internal_element );
+            CFIndex pmax = IOHIDElementGetPhysicalMax( internal_element );
+            CFIndex lmin = IOHIDElementGetLogicalMin( internal_element );
+            CFIndex lmax = IOHIDElementGetLogicalMax( internal_element );
             
             e->usage_page = (int)usage_page;
             e->usage      = (int)usage;
-            e->min_value  = (int)min;
-            e->max_value  = (int)max;
+            e->min_pvalue = (int)pmin;
+            e->max_pvalue = (int)pmax;
+            e->min_lvalue = (int)lmin;
+            e->max_lvalue = (int)lmax;
             e->internal_element = internal_element;
         } else {
             e->usage_page = -1;
             e->usage      = -1;
-            e->min_value  = -1;
-            e->max_value  = -1;
+            e->min_pvalue = -1;
+            e->max_pvalue = -1;
+            e->min_lvalue = -1;
+            e->max_lvalue = -1;
             e->internal_element = NULL;
         }
         e++;

@@ -157,6 +157,28 @@ static int set_joy_a_y_threshold(int val, void *param)
     return 0;
 }
 
+static int set_joy_a_x_logical(int val, void *param)
+{
+    if(joy_a.axis[HID_X_AXIS].logical != val) {
+        joy_a.axis[HID_X_AXIS].logical = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_a);
+        }
+    }
+    return 0;
+}
+
+static int set_joy_a_y_logical(int val, void *param)
+{
+    if(joy_a.axis[HID_Y_AXIS].logical != val) {
+        joy_a.axis[HID_Y_AXIS].logical = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_a);
+        }
+    }
+    return 0;
+}
+
 static int set_joy_b_device_name(const char *val,void *param)
 {
     util_string_set(&joy_b.device_name, val);
@@ -217,6 +239,28 @@ static int set_joy_b_y_threshold(int val, void *param)
 {
     if(joy_b.axis[HID_Y_AXIS].threshold != val) {
         joy_b.axis[HID_Y_AXIS].threshold = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_b);
+        }
+    }
+    return 0;
+}
+
+static int set_joy_b_x_logical(int val, void *param)
+{
+    if(joy_b.axis[HID_X_AXIS].logical != val) {
+        joy_b.axis[HID_X_AXIS].logical = val;
+        if (joy_done_init) {
+            setup_axis_mapping(&joy_b);
+        }
+    }
+    return 0;
+}
+
+static int set_joy_b_y_logical(int val, void *param)
+{
+    if(joy_b.axis[HID_Y_AXIS].logical != val) {
+        joy_b.axis[HID_Y_AXIS].logical = val;
         if (joy_done_init) {
             setup_axis_mapping(&joy_b);
         }
@@ -287,6 +331,14 @@ static const resource_int_t resources_int[] = {
       &joy_b.axis[HID_X_AXIS].threshold, set_joy_b_x_threshold, NULL },
     { "JoyBYThreshold", 50, RES_EVENT_NO, NULL,
       &joy_b.axis[HID_Y_AXIS].threshold, set_joy_b_y_threshold, NULL },
+    { "JoyAXLogical", 0, RES_EVENT_NO, NULL,
+      &joy_a.axis[HID_X_AXIS].logical, set_joy_a_x_logical, NULL },
+    { "JoyAYLogical", 0, RES_EVENT_NO, NULL,
+      &joy_a.axis[HID_Y_AXIS].logical, set_joy_a_y_logical, NULL },
+    { "JoyBXLogical", 0, RES_EVENT_NO, NULL,
+      &joy_b.axis[HID_X_AXIS].logical, set_joy_b_x_logical, NULL },
+    { "JoyBYLogical", 0, RES_EVENT_NO, NULL,
+      &joy_b.axis[HID_Y_AXIS].logical, set_joy_b_y_logical, NULL },
     { "JoyAHatSwitch", 1, RES_EVENT_NO, NULL,
       &joy_a.hat_switch.id, set_joy_a_hat_switch, NULL },
     { "JoyBHatSwitch", 1, RES_EVENT_NO, NULL,
@@ -524,11 +576,12 @@ static void setup_axis_mapping(joystick_descriptor_t *joy)
             axis->mapped = 0;
         } else {
             /* try to map axis with given HID usage */
-            int err = joy_hid_assign_axis(joy, i, usage);
+            int err = joy_hid_assign_axis(joy, i, usage, axis->logical);
             if(err == 0) {
-                log_message(LOG_DEFAULT, "mac_joy:   %s axis mapped to HID '%s'. threshold=%d -> min=%d max=%d",
+                log_message(LOG_DEFAULT, "mac_joy:   %s axis mapped to HID '%s'. threshold=%d -> min=%d max=%d  [%d;%d] %s",
                             desc[i], axis->name,
-                            axis->threshold, axis->min_threshold, axis->max_threshold);
+                            axis->threshold, axis->min_threshold, axis->max_threshold,
+                            axis->min, axis->max, axis->logical ? "logical" : "physical");
             } else {
                 log_message(LOG_DEFAULT, "mac_joy:   NO %s axis not found on HID device",
                             axis->name);
@@ -815,7 +868,7 @@ static BYTE read_axis(joystick_descriptor_t *joy, int id, BYTE min, BYTE max)
         return 0;
 
     int value;
-    if(joy_hid_read_axis(joy, id, &value)!=0)
+    if(joy_hid_read_axis(joy, id, &value, axis->logical)!=0)
         return 0;
     
     if(value < axis->min_threshold)

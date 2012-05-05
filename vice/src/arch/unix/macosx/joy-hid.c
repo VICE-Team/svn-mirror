@@ -113,7 +113,7 @@ static int detect_elements(struct joystick_descriptor *joy)
                         undetected++;
                     } else {
                         /* check for valid axis */
-                        if(element->min_value != element->max_value) {
+                        if(element->min_pvalue != element->max_pvalue) {
                             
                             /* check if axis already occured ? 
                                this works around broken HID devices
@@ -258,7 +258,7 @@ void joy_hid_unmap_device(struct joystick_descriptor *joy)
 
 /* ----- axis ----- */
 
-int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage)
+int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage, int logical)
 {
     joy_hid_descriptor_t *hid = joy->hid;
     
@@ -280,13 +280,19 @@ int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage)
     hid->mapped_axis[id] = e;
     joy->axis[id].mapped = 1;
     
-    joy_calc_threshold(e->min_value, e->max_value, joy->axis[id].threshold,
+	joy->axis[id].logical = logical;
+	joy->axis[id].min = logical ? e->min_lvalue : e->min_pvalue;
+	joy->axis[id].max = logical ? e->max_lvalue : e->max_pvalue;
+	
+    joy_calc_threshold(joy->axis[id].min,
+					   joy->axis[id].max, 
+					   joy->axis[id].threshold,
                        &joy->axis[id].min_threshold,
                        &joy->axis[id].max_threshold);
     return 0;
 }
 
-int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id)
+int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id, int logical)
 {
     int threshold = joy->axis[id].threshold;
 
@@ -298,13 +304,13 @@ int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id)
         joy_hid_element_t *element = joy->hid->all_axis[i];
 
         /* calc threshold for this axis */
-        int min = element->min_value;
-        int max = element->max_value;
+        int min = logical ? element->min_lvalue : element->min_pvalue;
+        int max = logical ? element->max_lvalue : element->max_pvalue;
         int tmin, tmax;
         joy_calc_threshold(min, max, threshold, &tmin, &tmax);
 
         int value;
-        if(joy_hidlib_get_value(device, element, &value, 1)==0) {
+        if(joy_hidlib_get_value(device, element, &value, !logical)==0) {
             if((value < tmin) || (value > tmax)) {
                 return element->usage;
             }
@@ -313,11 +319,26 @@ int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id)
     return -1;
 }
 
-int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value)
+int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value, int logical)
 {
     joy_hid_device_t *device = joy->hid->device;
     joy_hid_element_t *element = joy->hid->mapped_axis[id];
-    return joy_hidlib_get_value(device, element, value, 1);
+    return joy_hidlib_get_value(device, element, value, !logical);
+}
+
+int joy_hid_info_axis(struct joystick_descriptor *joy,int id,int *min, int *max, int logical)
+{
+    joy_hid_device_t *device = joy->hid->device;
+    joy_hid_element_t *element = joy->hid->mapped_axis[id];
+    if(element != NULL) {
+        *min = logical ? element->min_lvalue : element->min_pvalue;
+        *max = logical ? element->max_lvalue : element->max_pvalue;
+        return 0;
+    } else {
+        *min = 0;
+        *max = 0;
+        return -1;
+    }
 }
 
 /* ----- buttons ----- */
