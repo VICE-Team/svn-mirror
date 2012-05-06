@@ -4834,7 +4834,7 @@ msgstr "Bestand uitbreiden naar 40-sporen formaat?"
 #: src/arch/win32/res.rc.po.c:973
 #, c-format
 msgid "Detached device %s"
-msgstr "Apparaat %s ontkoppelt"
+msgstr "Apparaat %s ontkoppeld"
 
 #: src/arch/win32/res.rc.po.c:974
 #, c-format
@@ -4843,7 +4843,7 @@ msgstr "%s aan apparaat#%s gekoppelt"
 
 #: src/arch/win32/res.rc.po.c:975 src/arch/amigaos/intl_text.c.po.c:4155
 msgid "Detached tape"
-msgstr "Tape ontkoppelt"
+msgstr "Tape ontkoppeld"
 
 #: src/arch/win32/res.rc.po.c:976
 msgid "History recorded with unknown release"
@@ -7772,7 +7772,7 @@ msgstr "Scherm afdruk %s opslaan"
 #: src/arch/amigaos/intl_text.c.po.c:4085
 #, c-format
 msgid "Detached device %d"
-msgstr "Apparaat %d ontkoppelt"
+msgstr "Apparaat %d ontkoppeld"
 
 #: src/arch/amigaos/intl_text.c.po.c:4099
 #, c-format
@@ -8505,7 +8505,7 @@ msgid ""
 "All the named devices will be detached."
 msgstr ""
 ".\n"
-"Alle genoemde apparaten zullen worden ontkoppelt."
+"Alle genoemde apparaten zullen worden ontkoppeld."
 
 #: src/translate_text.c.po.c:864
 msgid ""
@@ -8517,7 +8517,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:881
 msgid " will be detached."
-msgstr " zullen worden ontkoppelt."
+msgstr " zullen worden ontkoppeld."
 
 #: src/translate_text.c.po.c:898
 msgid "No filename!"
