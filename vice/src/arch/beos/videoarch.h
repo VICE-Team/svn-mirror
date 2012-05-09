@@ -40,13 +40,13 @@ struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
     char *title;
-    unsigned int width, height, depth;
+    unsigned int depth;
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;
     struct viewport_s *viewport;
     struct geometry_s *geometry;
     struct palette_s *palette;
-	
+
     /* Pointer to the canvas' ViceWindow */
 #ifdef EXACT_TYPE_NEEDED
     ViceWindow *vicewindow;

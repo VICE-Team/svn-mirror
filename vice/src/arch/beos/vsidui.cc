@@ -41,8 +41,6 @@ extern "C" {
 #include "vicemenu.h"
 #include "vsync.h"
 
-extern ViceWindow *windowlist[];  /* arghh */
-static BWindow *window;
 static BTextControl *tc_name;
 static BTextControl *tc_author;
 static BTextControl *tc_copyright;
@@ -122,11 +120,9 @@ int vsid_ui_init(void)
     BView *view;
     BBox *box;
 
-    vsidwindow = new ViceWindow(BRect(0, 0, 384, 272), "VICE: C64 SID player");
-    vsidwindow->MoveTo(30, 30);
+    vsidwindow = new ViceWindow(384, 272, "VICE: C64 SID player");
 
-    window = windowlist[0];
-    frame = window->Bounds();
+    frame = vsidwindow->Bounds();
     view = new BView(frame, "vsid", B_FOLLOW_NONE, B_WILL_DRAW);
     view->SetViewColor(160, 160, 160, 0);
     frame.InsetBy(10, 66);
@@ -177,7 +173,7 @@ int vsid_ui_init(void)
     tc_irqtype->SetAlignment(B_ALIGN_LEFT, B_ALIGN_CENTER);
     box->AddChild(tc_irqtype);
 
-    window->AddChild(view);
+    vsidwindow->AddChild(view);
 
     ui_register_machine_specific(vsid_ui_specific);
     ui_register_menu_toggles(vsid_ui_menu_toggles);
@@ -188,33 +184,33 @@ int vsid_ui_init(void)
 
 void vsid_ui_display_name(const char *name)
 {
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_name->SetText(name);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_author->SetText(author);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_copyright->SetText(copyright);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
 void vsid_ui_display_sync(int sync)
 {
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_sync->SetText(sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
@@ -226,9 +222,9 @@ void vsid_ui_display_sid_model(int model)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_irqtype->SetText(irq);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
@@ -237,9 +233,9 @@ void vsid_ui_set_default_tune(int nr)
     char s[16];
 
     sprintf(s, "%d", nr);
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_default_tune->SetText(s);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
@@ -248,9 +244,9 @@ void vsid_ui_display_tune_nr(int nr)
     char s[16];
 
     sprintf(s, "%d", nr);
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_current_tune->SetText(s);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
@@ -259,9 +255,9 @@ void vsid_ui_display_nr_of_tunes(int count)
     char s[16];
 
     sprintf(s, "%d", count);
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_last_tune->SetText(s);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 
@@ -270,9 +266,9 @@ void vsid_ui_display_time(unsigned int sec)
     char s[16];
 
     sprintf(s, "%02d:%02d", sec/60, sec%60);
-    if (window->Lock()) {
+    if (vsidwindow->Lock()) {
         tc_time->SetText(s);
-        window->Unlock();
+        vsidwindow->Unlock();
     }
 }
 

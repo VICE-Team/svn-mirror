@@ -41,9 +41,10 @@ extern "C" {
 
 class ViceWindow : public BDirectWindow {
     public:
-        ViceWindow(BRect frame, char const *title);
+        ViceWindow(unsigned int width, unsigned int height, char const *title);
         ~ViceWindow();
         void Resize(unsigned int width, unsigned int height);
+        void CreateBitmap(unsigned int width, unsigned int height, unsigned int depth);
         void DrawBitmap(BBitmap *framebitmap, int xs, int ys, int xi, int yi, int w, int h);
         void Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *value_list, ui_res_string_list *string_list);
         virtual bool QuitRequested();
@@ -68,7 +69,5 @@ class ViceWindow : public BDirectWindow {
         void *canvas;
         int use_direct_window;
 };
-
-extern void about_vice(void);
 
 #endif

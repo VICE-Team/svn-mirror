@@ -58,10 +58,25 @@ extern "C" {
 #include "ui.h"
 #include "ui_file.h"
 #include "util.h"
-#include "video.h"
 #include "vicewindow.h"
+#include "video.h"
+#include "videoarch.h"
 #include "vsync.h"
 }
+
+/* #define DEBUG_UI */
+
+#ifdef DEBUG_UI
+void print_rect(const char *view, BRect r)
+{
+    log_debug("%s (Width: %f, Height: %f) (Top: %f, Bottom: %f)", view, r.Width(), r.Height(), r.top, r.bottom);
+}
+#define DBG_RECT(_x_) print_rect _x_
+#define DBG_MSG(_x_) log_debug _x_
+#else
+#define DBG_RECT(_x_)
+#define DBG_MSG(_x_)
+#endif
 
 /* FIXME: some stuff we need from the ui module */
 extern ViceWindow *windowlist[];
@@ -190,11 +205,15 @@ void ViceView::MouseUp(BPoint point)
     mouse_button_left(0);
 }
 
-ViceWindow::ViceWindow(BRect frame, char const *title) 
-    : BDirectWindow(frame, title, B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS) {
+ViceWindow::ViceWindow(unsigned int width, unsigned int height, char const *title) 
+    : BDirectWindow(BRect(0, 0, 300, 100), title, B_TITLED_WINDOW, B_NOT_ZOOMABLE | B_NOT_RESIZABLE | B_ASYNCHRONOUS_CONTROLS)
+{
+    BRect r;
+
     /* create the menubar; key events reserved for the emu */
     menubar = menu_create(machine_class);
     AddChild(menubar);
+    DBG_RECT(("menubar", menubar->Frame()));
     menubar_offset = (int)menubar->Frame().Height() + 1;
     SetKeyMenuBar(NULL);
 
@@ -205,14 +224,16 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
     savepanel = new ViceFilePanel(B_SAVE_PANEL, new BMessenger(this), NULL, B_FILE_NODE, false);
 
     /* the view for the canvas */
-    view = new ViceView(BRect(frame.left, frame.top + menubar_offset, frame.right, frame.bottom+menubar_offset - 1));
-
+    r = Bounds();
+    r.top = menubar_offset;
+    view = new ViceView(r);
     AddChild(view);
+    DBG_RECT(("view", view->Frame()));
 
-    /* bitmap is NULL; will be registered by canvas_refresh */
+    /* bitmap is NULL; will be created by video_canvas_resize() */
     bitmap = NULL;
 
-    /* the statusbar is created in Resize() */
+    /* statusbar is NULL; will be created in Resize() */
     statusbar = NULL;
 
     /* the canvas is set by video_canvas_create */
@@ -236,7 +257,10 @@ ViceWindow::ViceWindow(BRect frame, char const *title)
     resources_set_int("DirectWindow", use_direct_window);
 
     /* finally display the window */
-    Resize(frame.Width(), frame.Height());
+    if (width > 0 && height > 0) {
+        Resize(width, height);
+    }
+    MoveTo(window_count * 30, window_count * 30);
     Show();
 }
 
@@ -247,6 +271,10 @@ ViceWindow::~ViceWindow()
     fconnectiondisabled = true;
     Hide();
     Sync();
+
+    if (bitmap) {
+        delete bitmap;
+    }
     if (vsid) {
         RemoveChild(vsid);
         delete vsid;
@@ -293,10 +321,11 @@ void ViceWindow::MessageReceived(BMessage *message)
 void ViceWindow::Resize(unsigned int width, unsigned int height)
 {
     BRect statusbar_frame;
-    float new_windowheight;
 
     if (BWindow::Lock()) {
-        view->ResizeTo(width, height);
+        view->ResizeTo(width - 1, height - 1);
+        DBG_RECT(("view after resize", view->Frame()));
+
         if (statusbar) {
             RemoveChild(statusbar);
             delete statusbar;
@@ -308,12 +337,38 @@ void ViceWindow::Resize(unsigned int width, unsigned int height)
         statusbar_frame.right = view->Frame().right;
         statusbar = new ViceStatusbar(statusbar_frame);
         AddChild(statusbar);
+        DBG_RECT(("statusbar", statusbar->Frame()));
+
         ui_statusbar_update();
-        new_windowheight = menubar_offset + view->Frame().Height() + statusbar->Frame().Height();
-        BWindow::ResizeTo(width - 1, new_windowheight);
-        /* who knows why the window width has to be width-1 */
+        DBG_MSG(("statusbar_frame.bottom = %f\n", statusbar_frame.bottom));
+
+        BWindow::ResizeTo(width - 1, statusbar_frame.bottom);
         BWindow::Unlock();
     }
+}
+
+void ViceWindow::CreateBitmap(unsigned int width, unsigned int height, unsigned int depth)
+{
+    color_space use_colorspace;
+
+    if (bitmap) {
+        delete bitmap;
+        bitmap = NULL;
+    }
+
+    switch (depth) {
+        case 8:
+            use_colorspace = B_CMAP8;
+            break;
+        case 16:
+            use_colorspace = B_RGB16;
+            break;
+        case 32:
+        default:
+            use_colorspace = B_RGB32;
+    }
+
+    bitmap = new BBitmap(BRect(0, 0, width - 1, height - 1), use_colorspace, false, true);
 }
 
 void ViceWindow::DrawBitmap(BBitmap *bitmap, int xs, int ys, int xi, int yi, int w, int h)
