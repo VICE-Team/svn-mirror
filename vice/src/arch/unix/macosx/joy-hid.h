@@ -68,6 +68,7 @@ extern int  joy_hid_map_device(struct joystick_descriptor *joy, joy_hid_device_t
 extern void joy_hid_unmap_device(struct joystick_descriptor *joy);
 
 /* axis functions */
+extern int  joy_hid_reset_axis_range(struct joystick_descriptor *joy, int id, int usage, int logical);
 extern int  joy_hid_assign_axis(struct joystick_descriptor *joy, int id, int usage, int logical);
 extern int  joy_hid_detect_axis(struct joystick_descriptor *joy, int id, int logical);
 extern int  joy_hid_read_axis(struct joystick_descriptor *joy,int id,int *value, int logical);

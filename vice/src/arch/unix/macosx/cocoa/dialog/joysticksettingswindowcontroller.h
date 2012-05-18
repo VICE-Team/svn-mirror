@@ -75,13 +75,15 @@ enum {
     IBOutlet NSButton      *hidXDetect;
     IBOutlet NSTextField   *hidXThreshold;
     IBOutlet NSButton      *hidXLogical;
-    IBOutlet NSTextField   *hidXInfo;
+    IBOutlet NSTextField   *hidXMin;
+    IBOutlet NSTextField   *hidXMax;
 
     IBOutlet NSPopUpButton *hidYAxis;
     IBOutlet NSButton      *hidYDetect;
     IBOutlet NSTextField   *hidYThreshold;
-    IBOutlet NSButton       *hidYLogical;
-    IBOutlet NSTextField   *hidYInfo;
+    IBOutlet NSButton      *hidYLogical;
+    IBOutlet NSTextField   *hidYMin;
+    IBOutlet NSTextField   *hidYMax;
 
     IBOutlet NSButton      *hidNorth;
     IBOutlet NSButton      *hidSouth;
@@ -129,11 +131,15 @@ enum {
 -(IBAction)pickXAxis:(id)sender;
 -(IBAction)detectXAxis:(id)sender;
 -(IBAction)setXThreshold:(id)sender;
+-(IBAction)setXMin:(id)sender;
+-(IBAction)setXMax:(id)sender;
 -(IBAction)toggleXLogical:(id)sender;
 
 -(IBAction)pickYAxis:(id)sender;
 -(IBAction)detectYAxis:(id)sender;
 -(IBAction)setYThreshold:(id)sender;
+-(IBAction)setYMin:(id)sender;
+-(IBAction)setYMax:(id)sender;
 -(IBAction)toggleYLogical:(id)sender;
 
 -(IBAction)defineHidButton:(id)sender;

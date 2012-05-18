@@ -252,24 +252,13 @@ static char *keyNames[KEYSET_SIZE] = {
     int logical = [self isXLogical];
     [hidXLogical setState:logical ? NSOnState : NSOffState];
 
-    int axis_id = [self findHidAxis:axisName];
-    NSString *msg;
-    if(axis_id == -1) {
-        msg = @"n/a";        
-    } else {
-        int min=0, max=0;
-        int ok = 0;
-#ifdef HAS_JOYSTICK
-        joystick_descriptor_t *joy = hidDeviceNum ? &joy_b : &joy_a;
-        ok = joy_hid_info_axis(joy, axis_id, &min, &max, logical);
-#endif
-        if(ok==0) {
-            msg = [NSString stringWithFormat:@"min=%d, max=%d", min, max];
-        } else {
-            msg = @"not found!";
-        }
-    }
-    [hidXInfo setStringValue:msg];
+    int min = [self getIntResource:
+        [NSString stringWithFormat:@"Joy%cXMin", 'A' + hidDeviceNum]];
+    [hidXMin setIntValue:min];
+
+    int max = [self getIntResource:
+        [NSString stringWithFormat:@"Joy%cXMax", 'A' + hidDeviceNum]];
+    [hidXMax setIntValue:max];
 }
 
 -(int)isYLogical
@@ -297,24 +286,13 @@ static char *keyNames[KEYSET_SIZE] = {
     int logical = [self isYLogical];
     [hidYLogical setState:logical ? NSOnState : NSOffState];
 
-    int axis_id = [self findHidAxis:axisName];
-    NSString *msg;
-    if(axis_id == -1) {
-        msg = @"n/a";        
-    } else {
-        int min=0, max=0;
-        int ok = 0;
-#ifdef HAS_JOYSTICK
-        joystick_descriptor_t *joy = hidDeviceNum ? &joy_b : &joy_a;
-        ok = joy_hid_info_axis(joy, axis_id, &min, &max, logical);
-#endif
-        if(ok == 0) {
-            msg = [NSString stringWithFormat:@"min=%d, max=%d", min, max];
-        } else {
-            msg = @"not found!";
-        }
-    }
-    [hidYInfo setStringValue:msg];
+    int min = [self getIntResource:
+        [NSString stringWithFormat:@"Joy%cYMin", 'A' + hidDeviceNum]];
+    [hidYMin setIntValue:min];
+
+    int max = [self getIntResource:
+        [NSString stringWithFormat:@"Joy%cYMax", 'A' + hidDeviceNum]];
+    [hidYMax setIntValue:max];
 }
 
 -(void)getHidButtons:(int *)ids
@@ -517,6 +495,24 @@ static char *keyNames[KEYSET_SIZE] = {
     [self updateHidName];
 }
 
+-(void)resetHidXAxisRange:(NSString *)axisName
+{
+#ifdef HAS_JOYSTICK
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    joystick_descriptor_t *joy = hidDeviceNum ? &joy_b : &joy_a;
+    joy_reset_axis_range(joy, HID_X_AXIS);
+#endif
+}
+
+-(void)resetHidYAxisRange:(NSString *)axisName
+{
+#ifdef HAS_JOYSTICK
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    joystick_descriptor_t *joy = hidDeviceNum ? &joy_b : &joy_a;
+    joy_reset_axis_range(joy, HID_Y_AXIS);
+#endif    
+}
+
 -(IBAction)pickXAxis:(id)sender
 {
     NSString *axisValue;
@@ -530,6 +526,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [self setStringResource:[NSString stringWithFormat:@"Joy%cXAxis", 'A' + hidDeviceNum]
          toValue:axisValue];
 
+    [self resetHidXAxisRange:axisValue];
     [self updateHidXAxis];
 }
 
@@ -546,6 +543,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [self setStringResource:[NSString stringWithFormat:@"Joy%cYAxis", 'A' + hidDeviceNum]
          toValue:axisValue];
 
+    [self resetHidYAxisRange:axisValue];
     [self updateHidYAxis];
 }
 
@@ -567,6 +565,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [self setStringResource:[NSString stringWithFormat:@"Joy%cXAxis", 'A' + hidDeviceNum]
         toValue:axisName];
 
+    [self resetHidXAxisRange:axisName];
     [self updateHidXAxis];
 }
 
@@ -588,6 +587,7 @@ static char *keyNames[KEYSET_SIZE] = {
     [self setStringResource:[NSString stringWithFormat:@"Joy%cYAxis", 'A' + hidDeviceNum]
         toValue:axisName];
 
+    [self resetHidYAxisRange:axisName];
     [self updateHidYAxis];
 }
 
@@ -613,12 +613,51 @@ static char *keyNames[KEYSET_SIZE] = {
     [self updateHidYAxis];
 }
 
+-(IBAction)setXMin:(id)sender
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    int min = [hidXMin intValue];
+    [self setIntResource:[NSString stringWithFormat:@"Joy%cXMin", 'A' + hidDeviceNum]
+          toValue:min];
+    [self updateHidXAxis];
+}
+
+-(IBAction)setXMax:(id)sender
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    int max = [hidXMax intValue];
+    [self setIntResource:[NSString stringWithFormat:@"Joy%cXMax", 'A' + hidDeviceNum]
+          toValue:max];
+    [self updateHidXAxis];
+}
+
+-(IBAction)setYMin:(id)sender
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    int min = [hidYMin intValue];
+    [self setIntResource:[NSString stringWithFormat:@"Joy%cYMin", 'A' + hidDeviceNum]
+          toValue:min];
+    [self updateHidYAxis];
+}
+
+-(IBAction)setYMax:(id)sender
+{
+    int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
+    int max = [hidYMax intValue];
+    [self setIntResource:[NSString stringWithFormat:@"Joy%cYMax", 'A' + hidDeviceNum]
+          toValue:max];
+    [self updateHidYAxis];
+}
+
 -(IBAction)toggleXLogical:(id)sender
 {
     int hidDeviceNum = [hidDeviceSelect indexOfSelectedItem];
     int logical = ([hidXLogical state] == NSOnState);
     [self setIntResource:[NSString stringWithFormat:@"Joy%cXLogical", 'A' + hidDeviceNum]
           toValue:logical];
+    
+    NSString *axisName = [self getStringResource:[NSString stringWithFormat:@"Joy%cXAxis", 'A' + hidDeviceNum]];
+    [self resetHidXAxisRange:axisName];
     [self updateHidXAxis];    
 }
 
@@ -628,6 +667,9 @@ static char *keyNames[KEYSET_SIZE] = {
     int logical = ([hidYLogical state] == NSOnState);
     [self setIntResource:[NSString stringWithFormat:@"Joy%cYLogical", 'A' + hidDeviceNum]
           toValue:logical];
+
+    NSString *axisName = [self getStringResource:[NSString stringWithFormat:@"Joy%cYAxis", 'A' + hidDeviceNum]];
+    [self resetHidYAxisRange:axisName];
     [self updateHidYAxis];        
 }
 

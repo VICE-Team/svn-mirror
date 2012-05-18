@@ -148,6 +148,8 @@ extern void joystick(void);
 extern void joy_reload_device_list(void);
 extern void joy_calc_threshold(int min, int max, int threshold, int *min_t, int *max_t);
 
+extern void joy_reset_axis_range(joystick_descriptor_t *joy, int id);
+
 #endif /* HAS_JOYSTICK */
 
 #endif /* VICE_JOY_H */
