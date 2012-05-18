@@ -861,6 +861,23 @@ static BYTE read_auto_button(joystick_descriptor_t *joy, int id, BYTE resValue)
     return result;
 }
 
+static void adjust_axis_range(joy_axis_t *axis, int value)
+{
+    if(value < axis->min) {
+        int delta = axis->min - value;
+        axis->min = value;
+        axis->min_threshold -= delta;
+        log_message(LOG_DEFAULT, "mac_joy: axis '%s': adjust min=%d min_threshold=%d", 
+                    axis->name, axis->min, axis->min_threshold);
+    } else if(value > axis->max) {
+        int delta = value - axis->max;
+        axis->max = value;
+        axis->max_threshold += delta;
+        log_message(LOG_DEFAULT, "mac_joy: axis '%s': adjust max=%d max_threshold=%d", 
+                    axis->name, axis->max, axis->max_threshold);
+    }
+}
+
 static BYTE read_axis(joystick_descriptor_t *joy, int id, BYTE min, BYTE max)
 {
     joy_axis_t *axis = &joy->axis[id];
@@ -871,6 +888,11 @@ static BYTE read_axis(joystick_descriptor_t *joy, int id, BYTE min, BYTE max)
     if(joy_hid_read_axis(joy, id, &value, axis->logical)!=0)
         return 0;
     
+    /* work around for joysticks with broken min/max:
+       if current axis value is not inside min/max range 
+       then adjust range automatically */
+    adjust_axis_range(axis, value);
+
     if(value < axis->min_threshold)
         return min;
     else if(value > axis->max_threshold)
