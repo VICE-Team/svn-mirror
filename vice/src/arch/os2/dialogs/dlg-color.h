@@ -36,4 +36,4 @@
 #define ID_ODDLINE_OFFSET 0x19
 #define ID_DEFAULT        0x1a
 
-extern void color_dialog(HWND hwnd);
+extern void color_dialog(HWND hwnd, int vicii, int vdc, int crtc, int ted, int vic);

@@ -55,102 +55,133 @@ static void SetSliderTxt(HWND hwnd, USHORT id, SHORT val, const char *txt)
     WinSendDlgItemMsg(hwnd, id, SLM_SETSCALETEXT, MPFROMSHORT(val), MPFROMP(txt));
 }
 
+static const char *gamma_res = NULL;
+static const char *tint_res = NULL;
+static const char *saturation_res = NULL;
+static const char *contrast_res = NULL;
+static const char *brightness_res = NULL;
+
 static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg) {
         case WM_INITDLG:
             {
                 int val;
+
+                SetSliderTxt(hwnd, ID_GAMMA, 0, "0");
+                SetSliderTxt(hwnd, ID_GAMMA, 100, "2.0");
+                SetSliderTxt(hwnd, ID_GAMMA, 200, "4.0");
+                resources_get_int("VICIIColorGamma", &val);
+                SetSliderPos(hwnd, ID_GAMMA, val / 20);
+
+                SetSliderTxt(hwnd, ID_TINT, 0, "0");
+                SetSliderTxt(hwnd, ID_TINT, 100, "1.0");
+                SetSliderTxt(hwnd, ID_TINT, 200, "1.0");
+                resources_get_int("VICIIColorTint", &val);
+                SetSliderPos(hwnd, ID_TINT, val / 10);
+
                 SetSliderTxt(hwnd, ID_SATURATION, 0, "0");
                 SetSliderTxt(hwnd, ID_SATURATION, 100, "1.0");
-                SetSliderTxt(hwnd, ID_SATURATION, 200, "2.0");
-                resources_get_int("ColorSaturation", &val);
+                SetSliderTxt(hwnd, ID_SATURATION, 200, "1.0");
+                resources_get_int("VICIIColorSaturation", &val);
                 SetSliderPos(hwnd, ID_SATURATION, val / 10);
-                resources_get_int("ColorContrast", &val);
+
+                SetSliderTxt(hwnd, ID_CONTRAST, 0, "0");
+                SetSliderTxt(hwnd, ID_CONTRAST, 100, "1.0");
+                SetSliderTxt(hwnd, ID_CONTRAST, 200, "1.0");
+                resources_get_int("VICIIColorContrast", &val);
                 SetSliderPos(hwnd, ID_CONTRAST, val / 10);
-                resources_get_int("ColorBrightness", &val);
+
+                SetSliderTxt(hwnd, ID_BRIGHTNESS, 0, "0");
+                SetSliderTxt(hwnd, ID_BRIGHTNESS, 100, "1.0");
+                SetSliderTxt(hwnd, ID_BRIGHTNESS, 200, "1.0");
+                resources_get_int("VICIIColorBrightness", &val);
                 SetSliderPos(hwnd, ID_BRIGHTNESS, val / 10);
-                resources_get_int("ColorGamma", &val);
-                SetSliderPos(hwnd, ID_GAMMA, val / 10);
-                resources_get_int("PALScanLineShade", &val);
-                SetSliderPos(hwnd, ID_SCANLINE, val / 5);
-                resources_get_int("PALBlur", &val);
-                SetSliderPos(hwnd, ID_BLUR, val / 5);
-                resources_get_int("ColorTint", &val);
-                SetSliderPos(hwnd, ID_TINT, val / 10);
-                resources_get_int("PALOddLinePhase", &val);
-                SetSliderPos(hwnd, ID_ODDLINE_PHASE, val / 10);
-                resources_get_int("PALOddLineOffset", &val);
-                SetSliderPos(hwnd, ID_ODDLINE_OFFSET, val / 10);
             }
             break;
         case WM_COMMAND:
             if (LONGFROMMP(mp1) != ID_DEFAULT) {
                 break;
             }
-            canvas_set_value("ColorSaturation", 1000);
-            canvas_set_value("ColorContrast", 1000);
-            canvas_set_value("ColorBrightness", 1000);
-            canvas_set_value("ColorGamma", 880);
-            canvas_set_value("PALScanLineShade", 667);
-            canvas_set_value("PALBlur", 500);
-            canvas_set_value("ColorTint", 1000);
-            canvas_set_value("PALOddLinePhase", 1250);
-            canvas_set_value("PALOddLineOffset", 750);
+            emulator_pause();
+            resources_set_int("VICIIColorGamma", 2200);
+            resources_set_int("VICIIColorTint", 1000);
+            resources_set_int("VICIIColorSaturation", 1000);
+            resources_set_int("VICIIColorContrast", 1000);
+            resources_set_int("VICIIColorBrightness", 1000);
+            emulator_resume();
+            SetSliderPos(hwnd, ID_GAMMA, 110);
+            SetSliderPos(hwnd, ID_TINT, 100);
             SetSliderPos(hwnd, ID_SATURATION, 100);
             SetSliderPos(hwnd, ID_CONTRAST, 100);
             SetSliderPos(hwnd, ID_BRIGHTNESS, 100);
-            SetSliderPos(hwnd, ID_GAMMA, 88);
-            SetSliderPos(hwnd, ID_SCANLINE, 133);
-            SetSliderPos(hwnd, ID_BLUR, 100);
-            SetSliderPos(hwnd, ID_TINT, 100);
-            SetSliderPos(hwnd, ID_ODDLINE_PHASE, 125);
-            SetSliderPos(hwnd, ID_ODDLINE_OFFSET, 75);
             return FALSE;
         case WM_CONTROL:
             if (SHORT2FROMMP(mp1) != SLN_CHANGE && SHORT2FROMMP(mp1) != SLN_SLIDERTRACK) {
                 break;
             }
             switch (SHORT1FROMMP(mp1)) {
-                case ID_SATURATION:
-                canvas_set_value("ColorSaturation", (int)mp2 * 10);
-                break;
-                case ID_CONTRAST:
-                    canvas_set_value("ColorContrast", (int)mp2 * 10);
-                    break;
-                case ID_BRIGHTNESS:
-                    canvas_set_value("ColorBrightness", (int)mp2 * 10);
-                    break;
+#if 0
                 case ID_GAMMA:
-                    canvas_set_value("ColorGamma", (int)mp2 * 10);
-                    break;
-                case ID_SCANLINE:
-                    canvas_set_value("PALScanLineShade", (int)mp2 * 5);
-                    break;
-                case ID_BLUR:
-                    canvas_set_value("PALBlur", (int)mp2 * 5);
+                    resources_set_int("VICIIColorGamma", (int)mp2 * 20);
                     break;
                 case ID_TINT:
-                    canvas_set_value("ColorTint", (int)mp2 * 10);
+                    resources_set_int("VICIIColorTint", (int)mp2 * 10);
                     break;
-                case ID_ODDLINE_PHASE:
-                    canvas_set_value("PALOddLinePhase", (int)mp2 * 10);
+                case ID_SATURATION:
+                    resources_set_int("VICIIColorSaturation", (int)mp2 * 10);
                     break;
-                case ID_ODDLINE_OFFSET:
-                    canvas_set_value("PALOddLineOffset", (int)mp2 * 10);
+                case ID_CONTRAST:
+                    resources_set_int("VICIIColorContrast", (int)mp2 * 10);
                     break;
+                case ID_BRIGHTNESS:
+                    resources_set_int("VICIIColorBrightness", (int)mp2 * 10);
+                    break;
+#endif
             }
             break;
     }
-    return WinDefDlgProc (hwnd, msg, mp1, mp2);
+    return WinDefDlgProc(hwnd, msg, mp1, mp2);
 }
 
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
 
-void color_dialog(HWND hwnd)
+void color_dialog(HWND hwnd, int vicii, int vdc, int crtc, int ted, int vic)
 {
     static HWND hwnd2 = NULLHANDLE;
+
+    if (vicii) {
+        gamma_res = "VICIIColorGamma";
+        tint_res = "VICIIColorTint";
+        saturation_res = "VICIIColorSaturation";
+        contrast_res = "VICIIColorContrast";
+        brightness_res = "VICIIColorBrightness";
+    } else if (vdc) {
+        gamma_res = "VDCColorGamma";
+        tint_res = "VDCColorTint";
+        saturation_res = "VDCColorSaturation";
+        contrast_res = "VDCColorContrast";
+        brightness_res = "VDCColorBrightness";
+    } else if (crtc) {
+        gamma_res = "CrtcColorGamma";
+        tint_res = "CrtcColorTint";
+        saturation_res = "CrtcColorSaturation";
+        contrast_res = "CrtcColorContrast";
+        brightness_res = "CrtcColorBrightness";
+    } else if (ted) {
+        gamma_res = "TEDColorGamma";
+        tint_res = "TEDColorTint";
+        saturation_res = "TEDColorSaturation";
+        contrast_res = "TEDColorContrast";
+        brightness_res = "TEDColorBrightness";
+    } else {
+        gamma_res = "VICColorGamma";
+        tint_res = "VICColorTint";
+        saturation_res = "VICColorSaturation";
+        contrast_res = "VICColorContrast";
+        brightness_res = "VICColorBrightness";
+    }
 
     if (WinIsWindowVisible(hwnd2)) {
         return;

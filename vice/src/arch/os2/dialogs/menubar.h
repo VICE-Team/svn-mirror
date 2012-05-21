@@ -69,6 +69,7 @@
 #define IDM_DATASETTE                0x10c
 #define IDM_LOGWIN                   0x10d
 #define IDM_COLOR                    0x10e
+#define IDM_COLOR2                   0x2bf
 
 #define IDM_SETUP                    0x10f
 #define IDM_SOUND                    0x110

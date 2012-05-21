@@ -152,8 +152,24 @@ BEGIN
     BEGIN
         MENUITEM "~Drive Setup\tAlt-D",                   IDM_DRIVE,                    MIS_TEXT
 
-#if defined HAVE_PAL
-        MENUITEM "~Video Color Settings\tAlt-I",          IDM_COLOR,                    MIS_TEXT
+#if defined __X128__ || defined __X64__ || defined __X64SC__ || defined __XCBM5X0__
+        MENUITEM "VICII Color Settings",                  IDM_COLOR,                    MIS_TEXT
+#endif
+
+#if defined __X128__
+        MENUITEM "VDC Color Settings",                    IDM_COLOR2,                   MIS_TEXT
+#endif
+
+#if defined __XCBM2__ || defined __XPET__
+        MENUITEM "CRTC Color Settings",                   IDM_COLOR,                    MIS_TEXT
+#endif
+
+#if defined __XPLUS4__
+        MENUITEM "TED Color Settings",                    IDM_COLOR,                    MIS_TEXT
+#endif
+
+#if defined __XVIC__
+        MENUITEM "VIC Color Settings",                    IDM_COLOR,                    MIS_TEXT
 #endif
 
 #if !defined __XCBM2__ && !defined __XPET__

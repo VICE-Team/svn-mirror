@@ -468,10 +468,26 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             softreset_dialog(hwnd);
             return;
 
-#ifdef HAVE_PAL
         case IDM_COLOR:
-            color_dialog(hwnd);
+#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
+            color_dialog(hwnd, 1, 0, 0, 0, 0);
+#endif
+#if defined(__XCBM2__) || defined(__XPET__)
+            color_dialog(hwnd, 0, 0, 1, 0, 0);
+#endif
+#if defined(__XPLUS4__)
+            color_dialog(hwnd, 0, 0, 0, 1, 0);
+#endif
+#if defined(__XVIC__)
+            color_dialog(hwnd, 0, 0, 0, 0, 1);
+#endif
             return;
+
+        case IDM_COLOR2:
+            color_dialog(hwnd, 0, 1, 0, 0, 0);
+            return;
+
+#ifdef HAVE_PAL
         case IDM_INTERNALPAL:
             toggle(EXTERNAL_PALETTE);
             return;
