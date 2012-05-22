@@ -134,9 +134,7 @@ SidWindow::SidWindow()
     resources_get_int("SidEngine", &engine);
     res_val = engine << 8;
     res_val |= i;
-    r.bottom = 35;
-    r.InsetBy(10, 10);
-    engine_model_popup = new BOptionPopUp(r, "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SID_MODEL));
+    engine_model_popup = new BOptionPopUp(BRect(10, 10, 240, 34), "SID Engine/Model", "SID Engine/Model", new BMessage(MESSAGE_SID_MODEL));
     for (i = 0; sid_engine_model_list[i] != NULL; i++) {
         engine_model_popup->AddOption(sid_engine_model_list[i]->name, sid_engine_model_list[i]->value);
     }

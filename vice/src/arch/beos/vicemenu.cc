@@ -189,6 +189,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Select start snapshot", new BMessage(MENU_EVENT_SNAPSHOT_START)));
             menu->AddItem(new BMenuItem("Select end snapshot", new BMessage(MENU_EVENT_SNAPSHOT_END)));
         uppermenu->AddItem(menu = new BMenu("Recording start mode"));
+            menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("Save new snapshot", new BMessage(MENU_EVENT_START_MODE_SAVE)));
             menu->AddItem(new BMenuItem("Load existing snapshot", new BMessage(MENU_EVENT_START_MODE_LOAD)));
             menu->AddItem(new BMenuItem("Start with Reset", new BMessage(MENU_EVENT_START_MODE_RESET)));
