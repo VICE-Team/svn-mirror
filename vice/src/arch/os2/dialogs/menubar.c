@@ -600,12 +600,109 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__)
+        case IDM_GEORAM:
+            toggle("GEORAM");
+            return;
+        case IDM_GEORAM64:
+        case IDM_GEORAM128:
+        case IDM_GEORAM256:
+        case IDM_GEORAM512:
+        case IDM_GEORAM1024:
+        case IDM_GEORAM2048:
+        case IDM_GEORAM4096:
+            resources_set_int("GEORAMSize", (idm & 0xff) << 6);
+            return;
+        case IDM_SAVE_GEORAM:
+            toggle("GEORAMImageWrite");
+            return;
+        case IDM_GEORAMFILE:
+            resources_set_string("GEORAMfilename", ViceFileSelect(hwnd, 1));
+            return;
+        case IDM_SFX_SE:
+            toggle("SFXSoundExpander");
+            return;
+        case IDM_SFX_SS:
+            toggle("SFXSoundSampler");
+            return;
+        case IDM_SFX_SE_3526:
+            resources_set_int("SFXSoundExpanderChip", 3526);
+            return;
+        case IDM_SFX_SE_3812:
+            resources_set_int("SFXSoundExpanderChip", 3812);
+            return;
+        case IDM_DIGIMAX:
+            toggle("DIGIMAX");
+            return;
+#ifdef HAVE_TFE
+        case IDM_TFE:
+            toggle("ETHERNET_ACTIVE");
+            return;
+#endif
+#endif
+
+#ifndef __XVIC__
+        case IDM_DIGIMAXDE00:
+        case IDM_DIGIMAXDE20:
+        case IDM_DIGIMAXDE40:
+        case IDM_DIGIMAXDE60:
+        case IDM_DIGIMAXDE80:
+        case IDM_DIGIMAXDEA0:
+        case IDM_DIGIMAXDEC0:
+        case IDM_DIGIMAXDEE0:
+        case IDM_DIGIMAXDF00:
+        case IDM_DIGIMAXDF20:
+        case IDM_DIGIMAXDF40:
+        case IDM_DIGIMAXDF60:
+        case IDM_DIGIMAXDF80:
+        case IDM_DIGIMAXDFA0:
+        case IDM_DIGIMAXDFC0:
+        case IDM_DIGIMAXDFE0:
+            resources_set_int("DIGIMAXbase", 0xde00 + ((idm & 0xf) * 0x20));
+            return;
+#else
+        case IDM_DIGIMAXDE00:
+        case IDM_DIGIMAXDE20:
+        case IDM_DIGIMAXDE40:
+        case IDM_DIGIMAXDE60:
+        case IDM_DIGIMAXDE80:
+        case IDM_DIGIMAXDEA0:
+        case IDM_DIGIMAXDEC0:
+        case IDM_DIGIMAXDEE0:
+            resources_set_int("DIGIMAXbase", 0x9800 + ((idm & 0xf) * 0x20));
+            return;
+        case IDM_DIGIMAXDF00:
+        case IDM_DIGIMAXDF20:
+        case IDM_DIGIMAXDF40:
+        case IDM_DIGIMAXDF60:
+        case IDM_DIGIMAXDF80:
+        case IDM_DIGIMAXDFA0:
+        case IDM_DIGIMAXDFC0:
+        case IDM_DIGIMAXDFE0:
+            resources_set_int("DIGIMAXbase", 0x9b00 + ((idm & 0xf) * 0x20));
+            return;
+#endif
+
+#ifdef __XVIC__
+        case IDM_GEORAM_IO_SWAP:
+            toggle("GEORAMIOSwap");
+            return;
+        case IDM_SFX_SE_IO_SWAP:
+            toggle("SFXSoundExpanderIOSwap");
+            return;
+        case IDM_SFX_SS_IO_SWAP:
+            toggle("SFXSoundSamplerIOSwap");
+            return;
+#ifdef HAVE_TFE
+        case IDM_TFE_IO_SWAP:
+            toggle("TFEIOSwap");
+            return;
+#endif
+#endif
+
 #if defined(__X64__) || defined(__X128__)
         case IDM_REU:
             toggle("REU");
-            return;
-        case IDM_GEORAM:
-            toggle("GEORAM");
             return;
         case IDM_RAMCART:
             toggle("RAMCART");
@@ -615,12 +712,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_V364SPEECH:
             toggle("SpeechEnabled");
-            return;
-        case IDM_SFX_SE:
-            toggle("SFXSoundExpander");
-            return;
-        case IDM_SFX_SS:
-            toggle("SFXSoundSampler");
             return;
         case IDM_EASYFLASH_JUMPER:
             toggle("EasyFlashJumper");
@@ -654,9 +745,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SAVE_EXPERT:
             toggle("ExpertImageWrite");
             return;
-        case IDM_DIGIMAX:
-            toggle("DIGIMAX");
-            return;
 
 #ifdef __X64__
         case IDM_PLUS60K:
@@ -667,12 +755,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_C64_256K:
             toggle("C64_256K");
-            return;
-#endif
-
-#ifdef HAVE_TFE
-        case IDM_TFE:
-            toggle("ETHERNET_ACTIVE");
             return;
 #endif
 
@@ -691,21 +773,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_REUFILE:
             resources_set_string("REUfilename", ViceFileSelect(hwnd, 1));
-            return;
-        case IDM_GEORAM64:
-        case IDM_GEORAM128:
-        case IDM_GEORAM256:
-        case IDM_GEORAM512:
-        case IDM_GEORAM1024:
-        case IDM_GEORAM2048:
-        case IDM_GEORAM4096:
-            resources_set_int("GEORAMSize", (idm & 0xff) << 6);
-            return;
-        case IDM_SAVE_GEORAM:
-            toggle("GEORAMImageWrite");
-            return;
-        case IDM_GEORAMFILE:
-            resources_set_string("GEORAMfilename", ViceFileSelect(hwnd, 1));
             return;
         case IDM_RAMCART64:
         case IDM_RAMCART128:
@@ -737,32 +804,8 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_EXPERT_MODE_ON:
             resources_set_int("ExpertCartridgeMode", idm - IDM_EXPERT_MODE_OFF);
             return;
-        case IDM_SFX_SE_3526:
-            resources_set_int("SFXSoundExpanderChip", 3526);
-            return;
-        case IDM_SFX_SE_3812:
-            resources_set_int("SFXSoundExpanderChip", 3812);
-            return;
         case IDM_DIGIMAXDD00:
             resources_set_int("DIGIMAXbase", 0xdd00);
-            return;
-        case IDM_DIGIMAXDE00:
-        case IDM_DIGIMAXDE20:
-        case IDM_DIGIMAXDE40:
-        case IDM_DIGIMAXDE60:
-        case IDM_DIGIMAXDE80:
-        case IDM_DIGIMAXDEA0:
-        case IDM_DIGIMAXDEC0:
-        case IDM_DIGIMAXDEE0:
-        case IDM_DIGIMAXDF00:
-        case IDM_DIGIMAXDF20:
-        case IDM_DIGIMAXDF40:
-        case IDM_DIGIMAXDF60:
-        case IDM_DIGIMAXDF80:
-        case IDM_DIGIMAXDFA0:
-        case IDM_DIGIMAXDFC0:
-        case IDM_DIGIMAXDFE0:
-            resources_set_int("DIGIMAXbase", 0xde00 + ((idm & 0xf) * 0x20));
             return;
 
         case IDM_IDE64_VER_3:
@@ -1773,24 +1816,50 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_IEEE, "IEEE488");
 #endif // __X128__ || __XVIC__
 
-#if defined(__X64__) || defined(__X128__)
-
-#ifdef HAVE_TFE
-            WinCheckRes(hwnd, IDM_TFE, "ETHERNET_ACTIVE");
-#endif
-
-            resources_get_int("REU", &val);
-            WinCheckMenuItem(hwnd, IDM_REU, val);
-            WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
-            WinEnableMenuItem(hwnd, IDM_SAVE_REU, val);
-            WinCheckRes(hwnd, IDM_SAVE_REU, "REUImageWrite");
-            WinEnableMenuItem(hwnd, IDM_REUFILE, val);
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__)
             resources_get_int("GEORAM", &val);
             WinCheckMenuItem(hwnd, IDM_GEORAM, val);
             WinEnableMenuItem(hwnd, IDM_GEORAMSIZE, val);
             WinEnableMenuItem(hwnd, IDM_SAVE_GEORAM, val);
             WinCheckRes(hwnd, IDM_SAVE_GEORAM, "GEORAMImageWrite");
             WinEnableMenuItem(hwnd, IDM_GEORAMFILE, val);
+#ifdef __XVIC__
+            WinEnableMenuItem(hwnd, IDM_GEORAM_IO_SWAP, val);
+            WinCheckRes(hwnd, IDM_GEORAM_IO_SWAP, "GEORAMIOSwap");
+#endif
+            resources_get_int("SFXSoundExpander", &val);
+            WinCheckMenuItem(hwnd, IDM_SFX_SE, val);
+            WinEnableMenuItem(hwnd, IDM_SFX_SE_TYPE, val);
+#ifdef __XVIC__
+            WinEnableMenuItem(hwnd, IDM_SFX_SE_IO_SWAP, val);
+            WinCheckRes(hwnd, IDM_SFX_SE_IO_SWAP, "SFXSoundExpanderIOSwap");
+#endif
+            resources_get_int("SFXSoundSampler", &val);
+            WinCheckMenuItem(hwnd, IDM_SFX_SS, val);
+#ifdef __XVIC__
+            WinEnableMenuItem(hwnd, IDM_SFX_SS_IO_SWAP, val);
+            WinCheckRes(hwnd, IDM_SFX_SS_IO_SWAP, "SFXSoundSamplerIOSwap");
+#endif
+            resources_get_int("DIGIMAX", &val);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAX, val);
+            WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
+#ifdef HAVE_TFE
+            resources_get_int("ETHERNET_ACTIVE", &val);
+            WinCheckMenuItem(hwnd, IDM_TFE, val);
+#ifdef __XVIC__
+            WinEnableMenuItem(hwnd, IDM_TFE_IO_SWAP, val);
+            WinCheckRes(hwnd, IDM_TFE_IO_SWAP, "TFEIOSwap");
+#endif
+#endif
+#endif
+
+#if defined(__X64__) || defined(__X128__)
+            resources_get_int("REU", &val);
+            WinCheckMenuItem(hwnd, IDM_REU, val);
+            WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
+            WinEnableMenuItem(hwnd, IDM_SAVE_REU, val);
+            WinCheckRes(hwnd, IDM_SAVE_REU, "REUImageWrite");
+            WinEnableMenuItem(hwnd, IDM_REUFILE, val);
             resources_get_int("RAMCART", &val);
             WinCheckMenuItem(hwnd, IDM_RAMCART, val);
             WinEnableMenuItem(hwnd, IDM_RAMCARTSIZE, val);
@@ -1801,17 +1870,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MAGICVOICE, val);
             resources_get_int("SpeechEnabled", &val);
             WinCheckMenuItem(hwnd, IDM_V364SPEECH, val);
-            resources_get_int("DIGIMAX", &val);
-            WinCheckMenuItem(hwnd, IDM_DIGIMAX, val);
-            WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
             resources_get_int("EasyFlashJumper", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_JUMPER, val);
             resources_get_int("EasyFlashWriteCRT", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
-            resources_get_int("SFXSoundExpander", &val);
-            WinCheckMenuItem(hwnd, IDM_SFX_SE, val);
-            resources_get_int("SFXSoundSampler", &val);
-            WinCheckMenuItem(hwnd, IDM_SFX_SS, val);
 #endif
 
 #ifdef __X64__
@@ -1979,18 +2041,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__)
-        case IDM_REUSIZE:
-            resources_get_int("REUSize", &val);
-            WinCheckMenuItem(hwnd, IDM_REU128, val == 128);
-            WinCheckMenuItem(hwnd, IDM_REU256, val == 256);
-            WinCheckMenuItem(hwnd, IDM_REU512, val == 512);
-            WinCheckMenuItem(hwnd, IDM_REU1024, val == 1024);
-            WinCheckMenuItem(hwnd, IDM_REU2048, val == 2048);
-            WinCheckMenuItem(hwnd, IDM_REU4096, val == 4096);
-            WinCheckMenuItem(hwnd, IDM_REU8192, val == 8192);
-            WinCheckMenuItem(hwnd, IDM_REU16384, val == 16384);
-            return;
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__)
         case IDM_GEORAMSIZE:
             resources_get_int("GEORAMSize", &val);
             WinCheckMenuItem(hwnd, IDM_GEORAM64, val == 64);
@@ -2001,16 +2052,12 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_GEORAM2048, val == 2048);
             WinCheckMenuItem(hwnd, IDM_GEORAM4096, val == 4096);
             return;
-        case IDM_RAMCARTSIZE:
-            resources_get_int("RAMCARTSize", &val);
-            WinCheckMenuItem(hwnd, IDM_RAMCART64, val == 64);
-            WinCheckMenuItem(hwnd, IDM_RAMCART128, val == 128);
-            return;
         case IDM_SFX_SE_TYPE:
             resources_get_int("SFXSoundExpanderChip", &val);
             WinCheckMenuItem(hwnd, IDM_SFX_SE_3526, val == 3526);
             WinCheckMenuItem(hwnd, IDM_SFX_SE_3812, val == 3812);
             return;
+#ifndef __XVIC__
         case IDM_DIGIMAXBASE:
             resources_get_int("DIGIMAXbase", &val);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDD00, val == 0xdd00);
@@ -2030,6 +2077,46 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDFA0, val == 0xdfa0);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDFC0, val == 0xdfc0);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDFE0, val == 0xdfe0);
+            return;
+#else
+        case IDM_DIGIMAXBASE:
+            resources_get_int("DIGIMAXbase", &val);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDE00, val == 0x9800);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDE20, val == 0x9820);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDE40, val == 0x9840);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDE60, val == 0x9860);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDE80, val == 0x9880);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDEA0, val == 0x98a0);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDEC0, val == 0x98c0);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDEE0, val == 0x98e0);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDF00, val == 0x9c00);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDF20, val == 0x9c20);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDF40, val == 0x9c40);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDF60, val == 0x9c60);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDF80, val == 0x9c80);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDFA0, val == 0x9ca0);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDFC0, val == 0x9cc0);
+            WinCheckMenuItem(hwnd, IDM_DIGIMAXDFE0, val == 0x9ce0);
+            return;
+#endif
+#endif
+
+#if defined(__X64__) || defined(__X128__)
+        case IDM_REUSIZE:
+            resources_get_int("REUSize", &val);
+            WinCheckMenuItem(hwnd, IDM_REU128, val == 128);
+            WinCheckMenuItem(hwnd, IDM_REU256, val == 256);
+            WinCheckMenuItem(hwnd, IDM_REU512, val == 512);
+            WinCheckMenuItem(hwnd, IDM_REU1024, val == 1024);
+            WinCheckMenuItem(hwnd, IDM_REU2048, val == 2048);
+            WinCheckMenuItem(hwnd, IDM_REU4096, val == 4096);
+            WinCheckMenuItem(hwnd, IDM_REU8192, val == 8192);
+            WinCheckMenuItem(hwnd, IDM_REU16384, val == 16384);
+            return;
+        case IDM_RAMCARTSIZE:
+            resources_get_int("RAMCARTSize", &val);
+            WinCheckMenuItem(hwnd, IDM_RAMCART64, val == 64);
+            WinCheckMenuItem(hwnd, IDM_RAMCART128, val == 128);
             return;
 
 #ifdef __X64__

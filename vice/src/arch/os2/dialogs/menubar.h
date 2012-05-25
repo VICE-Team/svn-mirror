@@ -182,6 +182,7 @@
 #define IDM_GEORAM4096               0x940
 #define IDM_SAVE_GEORAM              0x26b
 #define IDM_GEORAMFILE               0x14b
+#define IDM_GEORAM_IO_SWAP           0x2c6
 
 #define IDM_RAMCART_SETTINGS         0x1ed
 #define IDM_RAMCART                  0x12e
@@ -283,8 +284,11 @@
 #define IDM_SFX_SE_TYPE              0x1c1
 #define IDM_SFX_SE_3526              0x193
 #define IDM_SFX_SE_3812              0x1c0
+#define IDM_SFX_SE_IO_SWAP           0x2c7
 
+#define IDM_SFX_SS_SETTINGS          0x2c8
 #define IDM_SFX_SS                   0x112
+#define IDM_SFX_SS_IO_SWAP           0x2c9
 
 #define IDM_EASYFLASH_SETTINGS       0x1ef
 #define IDM_EASYFLASH_JUMPER         0x1c2
@@ -351,7 +355,9 @@
 
 #define IDM_PET_USERPORT_DAC         0x1cc
 
+#define IDM_TFE_SETTINGS             0x2ca
 #define IDM_TFE                      0x158
+#define IDM_TFE_IO_SWAP              0x2cb
 
 #define IDM_MOUSE                    0x151
 #define IDM_HIDEMOUSE                0x152
