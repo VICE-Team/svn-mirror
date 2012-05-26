@@ -33,6 +33,9 @@ libdialogs_a_SOURCES = \
 	dlg-emulator.h \
 	dlg-emulator.c \
 	dlg-emulator.rc \
+	dlg-ide64.h \
+	dlg-ide64.c \
+	dlg-ide64.rc \
 	dlg-joystick.h \
 	dlg-joystick.c \
 	dlg-joystick.rc \

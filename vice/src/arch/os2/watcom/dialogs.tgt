@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-272
-copy /b ..\dialogs\dialogs.rc + ..\dialogs\menubar.rc + ..\dialogs\dlg-datasette.rc + ..\dialogs\dlg-color.rc + ..\dialogs\dlg-drive.rc + ..\dialogs\dlg-emulator.rc + ..\dialogs\dlg-fileio.rc + ..\dialogs\dlg-joystick.rc + ..\dialogs\dlg-monitor.rc ..\dialogs\dlg-all.rc
+298
+copy /b ..\dialogs\dialogs.rc + ..\dialogs\menubar.rc + ..\dialogs\dlg-datasette.rc + ..\dialogs\dlg-color.rc + ..\dialogs\dlg-drive.rc + ..\dialogs\dlg-emulator.rc + ..\dialogs\dlg-fileio.rc + ..\dialogs\dlg-joystick.rc + ..\dialogs\dlg-monitor.rc + ..\dialogs\dlg-ide64.rc ..\dialogs\dlg-all.rc
 
 6
 MItem
@@ -44,7 +44,7 @@ WVList
 0
 10
 WPickList
-9
+10
 11
 MItem
 3
@@ -223,8 +223,8 @@ WVList
 0
 52
 MItem
-25
-..\DIALOGS\dlg-joystick.c
+22
+..\dialogs\dlg-ide64.c
 53
 WString
 4
@@ -241,8 +241,8 @@ WVList
 0
 56
 MItem
-24
-..\DIALOGS\dlg-monitor.c
+25
+..\DIALOGS\dlg-joystick.c
 57
 WString
 4
@@ -259,8 +259,8 @@ WVList
 0
 60
 MItem
-22
-..\DIALOGS\dlg-reset.c
+24
+..\DIALOGS\dlg-monitor.c
 61
 WString
 4
@@ -269,6 +269,24 @@ COBJ
 WVList
 0
 63
+WVList
+0
+11
+1
+1
+0
+64
+MItem
+22
+..\DIALOGS\dlg-reset.c
+65
+WString
+4
+COBJ
+66
+WVList
+0
+67
 WVList
 0
 11

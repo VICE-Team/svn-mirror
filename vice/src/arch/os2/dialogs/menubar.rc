@@ -663,21 +663,25 @@ BEGIN
             BEGIN
                 MENUITEM "HD image name",                 IDM_IDE64_IMAGE1,             MIS_TEXT
                 MENUITEM "Autodetect image size",         IDM_IDE64_AUTO1,              MIS_TEXT
+                MENUITEM "Set Geometry",                  IDM_IDE64_GEO1,               MIS_TEXT
             END
             SUBMENU "HD 2 Settings",                      IDM_IDE64_HD2,                MIS_TEXT
             BEGIN
                 MENUITEM "HD image name",                 IDM_IDE64_IMAGE2,             MIS_TEXT
                 MENUITEM "Autodetect image size",         IDM_IDE64_AUTO2,              MIS_TEXT
+                MENUITEM "Set Geometry",                  IDM_IDE64_GEO2,               MIS_TEXT
             END
             SUBMENU "HD 3 Settings",                      IDM_IDE64_HD3,                MIS_TEXT
             BEGIN
                 MENUITEM "HD image name",                 IDM_IDE64_IMAGE3,             MIS_TEXT
                 MENUITEM "Autodetect image size",         IDM_IDE64_AUTO3,              MIS_TEXT
+                MENUITEM "Set Geometry",                  IDM_IDE64_GEO3,               MIS_TEXT
             END
             SUBMENU "HD 4 Settings",                      IDM_IDE64_HD4,                MIS_TEXT
             BEGIN
                 MENUITEM "HD image name",                 IDM_IDE64_IMAGE4,             MIS_TEXT
                 MENUITEM "Autodetect image size",         IDM_IDE64_AUTO4,              MIS_TEXT
+                MENUITEM "Set Geometry",                  IDM_IDE64_GEO4,               MIS_TEXT
             END
         END
 

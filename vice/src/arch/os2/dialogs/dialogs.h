@@ -44,6 +44,7 @@
 #define DLG_ABOUT          0x1050
 #define DLG_COLOR          0x1051
 #define DLG_DATASETTE      0x1060
+#define DLG_IDE64          0x2060
 #define DLG_EMULATOR       0x1090
 #define DLG_MONITOR        0x10b0
 #define DLG_MONREG         0x10b1

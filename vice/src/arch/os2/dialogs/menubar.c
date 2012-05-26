@@ -37,6 +37,7 @@
 #include "dlg-monitor.h"
 #include "dlg-joystick.h"
 #include "dlg-datasette.h"
+#include "dlg-ide64.h"
 
 #include "snippets\\pmwin2.h"
 
@@ -836,7 +837,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_IDE64_AUTO4:
             toggle("IDE64AutodetectSize4");
             return;
- 
+        case IDM_IDE64_GEO1:
+            ide64_dialog(hwnd, 1);
+            return;
+        case IDM_IDE64_GEO2:
+            ide64_dialog(hwnd, 2);
+            return;
+        case IDM_IDE64_GEO3:
+            ide64_dialog(hwnd, 3);
+            return;
+        case IDM_IDE64_GEO4:
+            ide64_dialog(hwnd, 4);
+            return;
+
         case IDM_MMC64:
             toggle("MMC64");
             return;
