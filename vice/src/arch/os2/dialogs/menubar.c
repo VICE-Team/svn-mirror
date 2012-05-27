@@ -959,6 +959,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_LOAD_TO_BASIC_START:
             toggle("AutostartBasicLoad");
             return;
+        case IDM_AUTOSTART_RANDOM_DELAY:
+            toggle("AutostartDelayRandom");
+            return;
         case IDM_AUTOSTART_PRG_VIRTUAL_FS:
             resources_set_int("AutostartPrgMode", 0);
             return;
@@ -1972,6 +1975,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_AUTOSTART_WARP, "AutostartWarp");
             WinCheckRes(hwnd, IDM_RUN_WITH_COLON, "AutostartRunWithColon");
             WinCheckRes(hwnd, IDM_LOAD_TO_BASIC_START, "AutostartBasicLoad");
+            WinCheckRes(hwnd, IDM_AUTOSTART_RANDOM_DELAY, "AutostartDelayRandom");
 
             resources_get_int("AutostartPrgMode", &val);
             WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_VIRTUAL_FS, val == 0);

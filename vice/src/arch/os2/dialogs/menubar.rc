@@ -342,12 +342,13 @@ BEGIN
             MENUITEM "Autostart warp",                    IDM_AUTOSTART_WARP,           MIS_TEXT
             MENUITEM "Run with ':'",                      IDM_RUN_WITH_COLON,           MIS_TEXT
             MENUITEM "Load to BASIC start",               IDM_LOAD_TO_BASIC_START,      MIS_TEXT
-                SUBMENU "Autostart PRG mode",             IDM_AUTOSTART_PRG_MODE,       MIS_TEXT
-                BEGIN
-                    MENUITEM "Virtual FS",                IDM_AUTOSTART_PRG_VIRTUAL_FS, MIS_TEXT
-                    MENUITEM "Inject",                    IDM_AUTOSTART_PRG_INJECT,     MIS_TEXT
-                    MENUITEM "Disk Image",                IDM_AUTOSTART_PRG_DISK_IMAGE, MIS_TEXT
-                END
+            MENUITEM "Autostart random delay",            IDM_AUTOSTART_RANDOM_DELAY,   MIS_TEXT
+            SUBMENU "Autostart PRG mode",                 IDM_AUTOSTART_PRG_MODE,       MIS_TEXT
+            BEGIN
+                MENUITEM "Virtual FS",                    IDM_AUTOSTART_PRG_VIRTUAL_FS, MIS_TEXT
+                MENUITEM "Inject",                        IDM_AUTOSTART_PRG_INJECT,     MIS_TEXT
+                MENUITEM "Disk Image",                    IDM_AUTOSTART_PRG_DISK_IMAGE, MIS_TEXT
+            END
             MENUITEM "Autostart Disk Image Filename",     IDM_AUTOSTART_DISK_FILE,      MIS_TEXT
         END
         SUBMENU "Printer ~Emulation",                     IDM_PRINTER,                  MIS_TEXT
