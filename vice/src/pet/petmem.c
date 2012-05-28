@@ -272,8 +272,9 @@ static void store6809_watch(WORD addr, BYTE value)
 /* SuperPET handling
  *
  * This adds some write-only registers at $eff*, an ACIA at $eff0 and
- * 64k RAM that are mapped in 4k pages at $9***
+ * 64k RAM that are mapped in 4k pages at $9***.
  * Here the 8x96 expansion RAM doubles as the SuperPET banked RAM.
+ * There is also a dongle (6702) at $efe0.
  */
 
 int spet_ramen  = 1;
@@ -281,16 +282,168 @@ int spet_bank   = 0;
 int spet_ctrlwp = 1;
 int spet_diag   = 0;
 int spet_ramwp  = 0;
-static int dongle_index;
+#define DEBUG_DONGLE    0
+
+/* Internal state of the 6702 dongle */
+#define DONGLE_MAGIC    (128 + 64 + 16 + 4 + 2) /* = 214 = $D6 = %1101 0110 */
+static int shift[8];
+static int leftmost[8] = {
+    1 << (6 - 1),       /*   1 The size of each shift register is 6, 3, 7... */
+    1 << (3 - 1),       /*   2 and therefore those are also the periods of */
+    1 << (7 - 1),       /*   4 the output bits. */
+    1 << (8 - 1),       /*   8 */
+    1 << (1 - 1),       /*  16 */
+    1 << (3 - 1),       /*  32 */
+    1 << (5 - 1),       /*  64 */
+    1 << (2 - 1),       /* 128 */
+};
+static int val6702 = DONGLE_MAGIC;
+static int prevodd;
+static int wantodd;
+
+static void reset6702( void ) {
+    int i;
+
+    for (i = 0; i < 8; i++) {
+    if ((1 << i) & (DONGLE_MAGIC | 1))
+        shift[i] = leftmost[i];
+    else
+        shift[i] = 0;
+    }
+    val6702 = DONGLE_MAGIC;
+    prevodd = 1;
+    wantodd = 0;
+}
+
+static inline
+BYTE read6702(void)
+{
+    return val6702;
+}
+
+/*
+ * Only the first odd value which is written after
+ * an even value has an effect.
+ *
+ * Thanks to Ruud Baltissen, William Levak, Rob Clarke,
+ * Kajtar Zsolt and Segher Boessenkool, from cbm-hackers,
+ * for their contributions.
+ * -Olaf Seibert.
+ */
+static inline
+void write6702(BYTE input)
+{
+    if ((input & 1) == wantodd) {
+        if (wantodd) {
+            int i;
+            int v = val6702;
+            int changed = prevodd ^ input;
+            int mask = 0x80;
+
+            /* loop over all 8 output bits / shift registers */
+            for (i = 7; i >= 0; i--, mask >>= 1) {
+                /* If the input bit changed toggle leftmost bit */
+                if (changed & mask) {
+                    shift[i] ^= leftmost[i];
+                }
+                if (shift[i] & 1) {
+                    v ^= mask;
+                    shift[i] ^= leftmost[i] << 1; /* wrap bit around */
+                }
+                shift[i] >>= 1;
+            }
+
+            prevodd = input;
+            val6702 = v;
+        }
+        wantodd ^= 1;
+    }
+}
+
+/*
+ * It is possible to "emulate" the 6702 dongle by returning a sequence
+ * of fixed values.  We even ignore the values that are written to it!
+ * Idea and recovery of values by Dave E. Roberts.
+ *
+ * Code references to Waterloo Editor 1.1.
+ * The dongle check routine starts at $9852 in bank 0.
+ *
+ * This table is not needed any more since the emulation has been
+ * perfected but it is here for reference.
+ */
+
+/*
+static BYTE dongle_values [ 29 ] = { 	// Indexed as 0 to 28.
+    / * Used once at the start of the subroutine.        * /
+    0x04, / * 9860: LDA  [<$06,S] ; [ 0]                 * /
+
+    / * Iteration 1 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0x91, / * 987F: EORB [<$06,S] ; [ 2]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0x3C, / * 988A: LDA  [<$06,S] ; [ 4]                 * /
+
+    / * Iteration 2 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0xAC, / * 987F: EORB [<$06,S] ; [ 6]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0xC7, / * 988A: LDA  [<$06,S] ; [ 8]                 * /
+
+    / * Iteration 3 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0xF0, / * 987F: EORB [<$06,S] ; [10]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0xE3, / * 988A: LDA  [<$06,S] ; [12]                 * /
+
+    / * Iteration 4 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0x36, / * 987F: EORB [<$06,S] ; [14]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0x5A, / * 988A: LDA  [<$06,S] ; [16]                 * /
+
+    / * Iteration 5 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0xBB, / * 987F: EORB [<$06,S] ; [18]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0xC3, / * 988A: LDA  [<$06,S] ; [20]                 * /
+
+    / * Iteration 6 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0x6A, / * 987F: EORB [<$06,S] ; [22]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0x75, / * 988A: LDA  [<$06,S] ; [24]                 * /
+
+    / * Iteration 7 of the 'outer' loop.                 * /
+    0xFF, / * 987C: ASL  [<$06,S] ; Can ignore!          * /
+    0xA3, / * 987F: EORB [<$06,S] ; [26]                 * /
+    0xFF, / * 9887: ASL  [<$06,S] ; Can ignore!          * /
+    0x3E  / * 988A: LDA  [<$06,S] ; [28]                 * /
+
+    / * In fact, these values below are the ones that are
+      * produced by the real thing, starting from a reset. * /
+
+                   214,
+    214, 214, 214, 214,
+    214, 214, 198, 198,
+    198, 198, 212, 212,
+    212, 212,  84,  84,
+     84,  84,   6,   6,
+      6,   6,  39,  39,
+     39,  39,  51,  51,
+};
+*/
 
 void petmem_reset(void)
 {
     spet_ramen = 1;
     spet_bank = 0;
     spet_ctrlwp = 1;
-    dongle_index = 0;
 
     petmem_map_reg = 0;
+#if DEBUG_DONGLE
+    printf("reset 6702\n");
+#endif
+    reset6702();
 }
 
 static void superpet_powerup(void)
@@ -306,61 +459,6 @@ int petmem_superpet_diag(void)
     return petres.superpet && spet_diag;
 }
 
-/*
- * Emulate the 6702 dongle by returning a sequence of fixed values.
- * We even ignore the values that are written to it!
- * Idea and recovery of values by Dave Roberts.
- *
- * Code references to Editor 1.1, bank 0. The dongle check routine
- * starts at $9852.
- */
-static BYTE dongle_values [ 29 ] = { 	// Indexed as 0 to 28.
-    /* Used once at the start of the subroutine.        */
-    0x04, /* 9860: LDA  [<$06,S] ; [ 0]                 */
-
-    /* Iteration 1 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0x91, /* 987F: EORB [<$06,S] ; [ 2]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0x3C, /* 988A: LDA  [<$06,S] ; [ 4]                 */
-
-    /* Iteration 2 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0xAC, /* 987F: EORB [<$06,S] ; [ 6]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0xC7, /* 988A: LDA  [<$06,S] ; [ 8]                 */
-
-    /* Iteration 3 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0xF0, /* 987F: EORB [<$06,S] ; [10]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0xE3, /* 988A: LDA  [<$06,S] ; [12]                 */
-
-    /* Iteration 4 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0x36, /* 987F: EORB [<$06,S] ; [14]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0x5A, /* 988A: LDA  [<$06,S] ; [16]                 */
-
-    /* Iteration 5 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0xBB, /* 987F: EORB [<$06,S] ; [18]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0xC3, /* 988A: LDA  [<$06,S] ; [20]                 */
-
-    /* Iteration 6 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0x6A, /* 987F: EORB [<$06,S] ; [22]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0x75, /* 988A: LDA  [<$06,S] ; [24]                 */
-
-    /* Iteration 7 of the 'outer' loop.                 */
-    0xFF, /* 987C: ASL  [<$06,S] ; Can ignore!          */
-    0xA3, /* 987F: EORB [<$06,S] ; [26]                 */
-    0xFF, /* 9887: ASL  [<$06,S] ; Can ignore!          */
-    0x3E  /* 988A: LDA  [<$06,S] ; [28]                 */
-};
-
 static BYTE read_super_io(WORD addr)
 {
     if (addr >= 0xeff4) {       /* unused / readonly */
@@ -374,19 +472,14 @@ static BYTE read_super_io(WORD addr)
          * schematics/computers/pet/SuperPET/324055.gif.
          * Typical address is $EFE0, possibly EFE0...3.
          */
-        BYTE dongle_value = dongle_values[dongle_index];
-        if (dongle_index == 0) {
-            log_message(pet_mem_log, "Started dongle sequence...");
-        }
+        if (addr >= 0xefe0 && addr < 0xefe4) {
+            BYTE dongle_value = read6702();
 #if DEBUG_DONGLE
-        log_message(pet_mem_log, "*** DONGLE %04x -> %02X [%d]", addr, dongle_value, dongle_index);
-#endif
-        dongle_index++;
-        if (dongle_index >= sizeof(dongle_values)) {
-            dongle_index = 0;
-            log_message(pet_mem_log, "Completed dongle sequence!");
+            log_message(pet_mem_log, "*** DONGLE %04x -> 0x%02X %3d", addr, dongle_value, dongle_value);
+#endif /* DEBUG_DONGLE */
+            return dongle_value;
         }
-        return dongle_value;
+        return 0xff;
     }
     return read_unused(addr);   /* fallback */
 }
@@ -418,11 +511,11 @@ static void store_super_io(WORD addr, BYTE value)
         } else
         if (addr >= 0xeff0) {   /* ACIA */
             acia1_store((WORD)(addr & 0x03), value);
+        } else if (addr >= 0xefe0 && addr < 0xefe4) { /* dongle */
 #if DEBUG_DONGLE
-        } else
-        if ((addr & 0x0010) == 0) { /* dongle E F xxx0 xxxx, see schematics/computers/pet/SuperPET/324055.gif */
-            log_message(pet_mem_log, "*** DONGLE %04x := %02X\n", addr, value);
+            log_message(pet_mem_log, "*** DONGLE %04x := %02X %3d", addr, value, value);
 #endif
+            write6702(value);
         }
     }
 }
@@ -489,7 +582,9 @@ void mem6809_store16(WORD addr, WORD value)
 #if PRINT_6809_STORE0
     printf("mem6809_store16 %04x <- %04x\n", addr, value);
 #endif
-    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 1), (BYTE)(value & 0xFF));
+    addr++;
+    _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)(value & 0xFF));
+    addr--;
     _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)(value >> 8));
 }
 
@@ -497,7 +592,8 @@ WORD mem6809_read16(WORD addr)
 {
     WORD val;
     val  = _mem6809_read_tab_ptr[addr >> 8](addr) << 8;
-    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 1));
+    addr++;
+    val |= _mem6809_read_tab_ptr[addr >> 8](addr);
 #if PRINT_6809_READ
     printf("mem6809_read16 %04x -> %04x\n", addr, val);
 #endif
@@ -510,19 +606,26 @@ void mem6809_store32(WORD addr, DWORD value)
 #if PRINT_6809_STORE0
     printf("mem6809_store32 %04x <- %04x\n", addr, value);
 #endif
-    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 3), (BYTE)(value & 0xFF));
-    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 2), (BYTE)((value >> 8) & 0xFF));
-    _mem6809_write_tab_ptr[addr >> 8]((WORD)(addr + 1), (BYTE)((value >> 16) & 0xFF));
+    addr += 3;
+    _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)(value & 0xFF));
+    addr--;
+    _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)((value >> 8) & 0xFF));
+    addr--;
+    _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)((value >> 16) & 0xFF));
+    addr--;
     _mem6809_write_tab_ptr[addr >> 8](addr, (BYTE)(value >> 24));
 }
 
 DWORD mem6809_read32(WORD addr)
 {
     DWORD val;
-    val = _mem6809_read_tab_ptr[addr >> 8](addr) << 24;
-    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 1)) << 16;
-    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 2)) << 8;
-    val |= _mem6809_read_tab_ptr[addr >> 8]((WORD)(addr + 3));
+    val  = _mem6809_read_tab_ptr[addr >> 8](addr) << 24;
+    addr++;
+    val |= _mem6809_read_tab_ptr[addr >> 8](addr) << 16;
+    addr++;
+    val |= _mem6809_read_tab_ptr[addr >> 8](addr) << 8;
+    addr++;
+    val |= _mem6809_read_tab_ptr[addr >> 8](addr);
 #if PRINT_6809_READ
     printf("mem6809_read32 %04x -> %04x\n", addr, val);
 #endif
