@@ -532,6 +532,18 @@ BEGIN
         END
 #endif
 
+#ifdef __XPLUS4__
+        SUBMENU "Plus4 model",                            IDM_PLUS4_MODEL,              MIS_TEXT
+        BEGIN
+            MENUITEM "C16 PAL",                           IDM_C16PAL,                   MIS_TEXT
+            MENUITEM "C16 NTSC",                          IDM_C16NTSC,                  MIS_TEXT
+            MENUITEM "Plus4 PAL",                         IDM_PLUS4PAL,                 MIS_TEXT
+            MENUITEM "Plus4 NTSC",                        IDM_PLUS4NTSC,                MIS_TEXT
+            MENUITEM "V364 NTSC",                         IDM_V364NTSC,                 MIS_TEXT
+            MENUITEM "C232 NTSC",                         IDM_C232NTSC,                 MIS_TEXT
+        END
+#endif
+
 #ifdef __XCBM__
         SUBMENU "Model",                                  IDM_MODEL,                    MIS_TEXT
         BEGIN

@@ -570,6 +570,14 @@
 #define IDM_DISCRETE                 0x1e6
 #define IDM_CUSTOM_IC                0x1e7
 
+#define IDM_PLUS4_MODEL              0x2d5
+#define IDM_C16PAL                   0x2d6
+#define IDM_C16NTSC                  0x2d7
+#define IDM_PLUS4PAL                 0x2d8
+#define IDM_PLUS4NTSC                0x2d9
+#define IDM_V364NTSC                 0x2da
+#define IDM_C232NTSC                 0x2db
+
 #define IDM_PETMODEL                 0x270
 
 #define IDM_PET2001                  0x271
