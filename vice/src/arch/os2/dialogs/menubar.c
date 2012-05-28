@@ -117,7 +117,6 @@ static void set_pet_model(WORD addr, void *model)
 static const char *VIDEO_CACHE = "VICIIVideoCache";
 static const char *DOUBLE_SIZE = "VICIIDoubleSize";
 static const char *DOUBLE_SCAN = "VICIIDoubleScan";
-static const char *STRETCH_VERTICAL = NULL;
 static const char *PALETTE_FILE = "VICIIPaletteFile";
 static const char *EXTERNAL_PALETTE = "VICIIExternalPalette";
 static const char *COLOR_GAMMA = "VICIIColorGamma";
@@ -137,7 +136,7 @@ static const char *AUDIO_LEAK = "VICIIAudioLeak";
 static const char *VIDEO_CACHE = "CrtcVideoCache";
 static const char *DOUBLE_SIZE = "CrtcDoubleSize";
 static const char *DOUBLE_SCAN = "CrtcDoubleScan";
-static const char *STRETCH_VERTICAL = "CrtcStretchVertical";
+static const char *VERTICAL_STRETCH = "CrtcStretchVertical";
 static const char *PALETTE_FILE = "CrtcPaletteFile";
 static const char *EXTERNAL_PALETTE = "CrtcExternalPalette";
 static const char *COLOR_GAMMA = "CrtcColorGamma";
@@ -157,7 +156,6 @@ static const char *AUDIO_LEAK = "CrtcAudioLeak";
 static const char *VIDEO_CACHE = "TEDVideoCache";
 static const char *DOUBLE_SIZE = "TEDDoubleSize";
 static const char *DOUBLE_SCAN = "TEDDoubleScan";
-static const char *STRETCH_VERTICAL = NULL;
 static const char *PALETTE_FILE = "TEDPaletteFile";
 static const char *EXTERNAL_PALETTE = "TEDExternalPalette";
 static const char *COLOR_GAMMA = "TEDColorGamma";
@@ -177,7 +175,6 @@ static const char *AUDIO_LEAK = "TEDAudioLeak";
 static const char *VIDEO_CACHE = "VICVideoCache";
 static const char *DOUBLE_SIZE = "VICDoubleSize";
 static const char *DOUBLE_SCAN = "VICDoubleScan";
-static const char *STRETCH_VERTICAL = NULL;
 static const char *PALETTE_FILE = "VICPaletteFile";
 static const char *EXTERNAL_PALETTE = "VICExternalPalette";
 static const char *COLOR_GAMMA = "VICColorGamma";
@@ -191,6 +188,10 @@ static const char *PAL_ODDLINE_PHASE = "VICPALOddLinePhase";
 static const char *PAL_ODDLINE_OFFSET = "VICPALOddLineOffset";
 static const char *RENDER_FILTER = "VICFilter";
 static const char *AUDIO_LEAK = "VICAudioLeak";
+#endif
+
+#ifdef __X128__
+static const char *VERTICAL_STRETCH = "VDCStretchVertical";
 #endif
 
 extern void set_volume(int vol);
@@ -551,6 +552,12 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_AUDIO_LEAK:
             toggle(AUDIO_LEAK);
             return;
+
+#if defined(__X128__) || (defined(__XCBM2__) && !defined(__XCBM5X0__)) || defined(__XPET__) 
+        case IDM_VERTICAL_STRETCH:
+            toggle(VERTICAL_STRETCH);
+            return;
+#endif
 
 #ifdef __X128__
         case IDM_VDC16K:
@@ -2260,6 +2267,9 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_DSCAN, val);
             WinCheckMenuItem(hwnd, IDM_DSIZE, val);
             WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
+#if defined(__XPET__) || (defined(__XCBM2__) && !defined(__XCBM5X0__))
+            WinCheckRes(hwnd, IDM_VERTICAL_STRETCH, VERTICAL_STRETCH);
+#endif
 
 #ifdef __X128__
         case IDM_VDC_VIDEO_SETTINGS:
@@ -2272,6 +2282,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
             WinCheckMenuItem(hwnd, IDM_VDCDSIZE, val);
             WinCheckRes(hwnd, IDM_VDCDSCAN, "VICIIDoubleScan");
+            WinCheckRes(hwnd, IDM_VERTICAL_STRETCH, VERTICAL_STRETCH);
 #endif
 
 #ifdef HAVE_VDC

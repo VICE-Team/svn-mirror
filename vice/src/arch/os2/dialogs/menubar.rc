@@ -257,6 +257,7 @@ BEGIN
             MENUITEM "CRTC Video ~Cache",                 IDM_VCACHE,                   MIS_TEXT
             MENUITEM "CRTC Double Size\tAlt-2",           IDM_DSIZE,                    MIS_TEXT
             MENUITEM "CRTC Double Scan",                  IDM_DSCAN,                    MIS_TEXT
+            MENUITEM "CRTC Vertical Stretch",             IDM_VERTICAL_STRETCH,         MIS_TEXT
             MENUITEM "CRTC External Palette",             IDM_EXTERNALPAL,              MIS_TEXT
             MENUITEM "CRTC External Palette File",        IDM_EXTERNALPAL_FILE,         MIS_TEXT
             MENUITEM "CRTC Audio Leak",                   IDM_AUDIO_LEAK,               MIS_TEXT
@@ -317,6 +318,7 @@ BEGIN
             MENUITEM "VDC Video Cache",                   IDM_VDCVCACHE,                MIS_TEXT
             MENUITEM "VDC Double Size",                   IDM_VDCDSIZE,                 MIS_TEXT
             MENUITEM "VDC Double Scan",                   IDM_VDCDSCAN,                 MIS_TEXT
+            MENUITEM "VDC Vertical Stretch",              IDM_VERTICAL_STRETCH,         MIS_TEXT
             MENUITEM "VDC External Palette",              IDM_VDCEXTERNALPAL,           MIS_TEXT
             MENUITEM "VDC External Palette File",         IDM_VDCEXTERNALPAL_FILE,      MIS_TEXT
             MENUITEM "VDC Audio Leak",                    IDM_VDCAUDIO_LEAK,            MIS_TEXT

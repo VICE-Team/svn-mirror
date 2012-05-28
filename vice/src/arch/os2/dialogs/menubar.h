@@ -139,6 +139,8 @@
 #define IDM_VDCRENDER_CRT            0x2d2
 #define IDM_VDCRENDER_SCALE2X        0x2d3
 
+#define IDM_VERTICAL_STRETCH         0x2d4
+
 #define IDM_VDC16K                   0x141
 #define IDM_VDC64K                   0x142
 
