@@ -43,6 +43,7 @@
 #define DLG_DRIVE          0x1019
 #define DLG_ABOUT          0x1050
 #define DLG_COLOR          0x1051
+#define DLG_CRT            0x2051
 #define DLG_DATASETTE      0x1060
 #define DLG_IDE64          0x2060
 #define DLG_EMULATOR       0x1090

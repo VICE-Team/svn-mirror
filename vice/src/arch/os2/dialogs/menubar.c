@@ -113,36 +113,84 @@ static void set_pet_model(WORD addr, void *model)
 }
 #endif
 
-#ifdef HAVE_VIC_II
-static const char *VIDEO_CACHE = "ViciiVideoCache";
-static const char *DOUBLE_SIZE = "ViciiDoubleSize";
-static const char *DOUBLE_SCAN = "ViciiDoubleScan";
-static const char *DOUBLE_SCALE2X = "ViciiScale2x";
-static const char *EXTERNAL_PALETTE = "ViciiExternalPalette";
+#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
+static const char *VIDEO_CACHE = "VICIIVideoCache";
+static const char *DOUBLE_SIZE = "VICIIDoubleSize";
+static const char *DOUBLE_SCAN = "VICIIDoubleScan";
+static const char *STRETCH_VERTICAL = NULL;
+static const char *PALETTE_FILE = "VICIIPaletteFile";
+static const char *EXTERNAL_PALETTE = "VICIIExternalPalette";
+static const char *COLOR_GAMMA = "VICIIColorGamma";
+static const char *COLOR_TINT = "VICIIColorTint";
+static const char *COLOR_SATURATION = "VICIIColorSaturation";
+static const char *COLOR_CONTRAST = "VICIIColorContrast";
+static const char *COLOR_BRIGHTNESS = "VICIIColorBrightness";
+static const char *PAL_SCANLINE_SHADE = "VICIIPALScanLineShade";
+static const char *PAL_BLUR = "VICIIPALBlur";
+static const char *PAL_ODDLINE_PHASE = "VICIIPALOddLinePhase";
+static const char *PAL_ODDLINE_OFFSET = "VICIIPALOddLineOffset";
+static const char *RENDER_FILTER = "VICIIFilter";
+static const char *AUDIO_LEAK = "VICIIAudioLeak";
 #endif
 
-#ifdef HAVE_VIC
-static const char *VIDEO_CACHE = "VicVideoCache";
-static const char *DOUBLE_SIZE = "VicDoubleSize";
-static const char *DOUBLE_SCAN = "VicDoubleScan";
-static const char *DOUBLE_SCALE2X = "VicScale2x";
-static const char *EXTERNAL_PALETTE = "VicExternalPalette";
-#endif
-
-#ifdef HAVE_TED
-static const char *VIDEO_CACHE = "TedVideoCache";
-static const char *DOUBLE_SIZE = "TedDoubleSize";
-static const char *DOUBLE_SCAN = "TedDoubleScan";
-static const char *DOUBLE_SCALE2X = "TedScale2x";
-static const char *EXTERNAL_PALETTE = "TedExternalPalette";
-#endif
-
-#if defined HAVE_CRTC && !defined __XCBM__
+#if (defined(__XCBM2__) && !defined(__XCBM5X0__)) || defined(__XPET__)
 static const char *VIDEO_CACHE = "CrtcVideoCache";
-#ifdef HAVE_PAL
 static const char *DOUBLE_SIZE = "CrtcDoubleSize";
 static const char *DOUBLE_SCAN = "CrtcDoubleScan";
+static const char *STRETCH_VERTICAL = "CrtcStretchVertical";
+static const char *PALETTE_FILE = "CrtcPaletteFile";
+static const char *EXTERNAL_PALETTE = "CrtcExternalPalette";
+static const char *COLOR_GAMMA = "CrtcColorGamma";
+static const char *COLOR_TINT = "CrtcColorTint";
+static const char *COLOR_SATURATION = "CrtcColorSaturation";
+static const char *COLOR_CONTRAST = "CrtcColorContrast";
+static const char *COLOR_BRIGHTNESS = "CrtcColorBrightness";
+static const char *PAL_SCANLINE_SHADE = "CrtcPALScanLineShade";
+static const char *PAL_BLUR = "CrtcPALBlur";
+static const char *PAL_ODDLINE_PHASE = "CrtcPALOddLinePhase";
+static const char *PAL_ODDLINE_OFFSET = "CrtcPALOddLineOffset";
+static const char *RENDER_FILTER = "CrtcFilter";
+static const char *AUDIO_LEAK = "CrtcAudioLeak";
 #endif
+
+#ifdef __XPLUS4__
+static const char *VIDEO_CACHE = "TEDVideoCache";
+static const char *DOUBLE_SIZE = "TEDDoubleSize";
+static const char *DOUBLE_SCAN = "TEDDoubleScan";
+static const char *STRETCH_VERTICAL = NULL;
+static const char *PALETTE_FILE = "TEDPaletteFile";
+static const char *EXTERNAL_PALETTE = "TEDExternalPalette";
+static const char *COLOR_GAMMA = "TEDColorGamma";
+static const char *COLOR_TINT = "TEDColorTint";
+static const char *COLOR_SATURATION = "TEDColorSaturation";
+static const char *COLOR_CONTRAST = "TEDColorContrast";
+static const char *COLOR_BRIGHTNESS = "TEDColorBrightness";
+static const char *PAL_SCANLINE_SHADE = "TEDPALScanLineShade";
+static const char *PAL_BLUR = "TEDPALBlur";
+static const char *PAL_ODDLINE_PHASE = "TEDPALOddLinePhase";
+static const char *PAL_ODDLINE_OFFSET = "TEDPALOddLineOffset";
+static const char *RENDER_FILTER = "TEDFilter";
+static const char *AUDIO_LEAK = "TEDAudioLeak";
+#endif
+
+#ifdef __XVIC__
+static const char *VIDEO_CACHE = "VICVideoCache";
+static const char *DOUBLE_SIZE = "VICDoubleSize";
+static const char *DOUBLE_SCAN = "VICDoubleScan";
+static const char *STRETCH_VERTICAL = NULL;
+static const char *PALETTE_FILE = "VICPaletteFile";
+static const char *EXTERNAL_PALETTE = "VICExternalPalette";
+static const char *COLOR_GAMMA = "VICColorGamma";
+static const char *COLOR_TINT = "VICColorTint";
+static const char *COLOR_SATURATION = "VICColorSaturation";
+static const char *COLOR_CONTRAST = "VICColorContrast";
+static const char *COLOR_BRIGHTNESS = "VICColorBrightness";
+static const char *PAL_SCANLINE_SHADE = "VICPALScanLineShade";
+static const char *PAL_BLUR = "VICPALBlur";
+static const char *PAL_ODDLINE_PHASE = "VICPALOddLinePhase";
+static const char *PAL_ODDLINE_OFFSET = "VICPALOddLineOffset";
+static const char *RENDER_FILTER = "VICFilter";
+static const char *AUDIO_LEAK = "VICAudioLeak";
 #endif
 
 extern void set_volume(int vol);
@@ -470,72 +518,41 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 
         case IDM_COLOR:
-#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
-            color_dialog(hwnd, 1, 0, 0, 0, 0);
-#endif
-#if defined(__XCBM2__) || defined(__XPET__)
-            color_dialog(hwnd, 0, 0, 1, 0, 0);
-#endif
-#if defined(__XPLUS4__)
-            color_dialog(hwnd, 0, 0, 0, 1, 0);
-#endif
-#if defined(__XVIC__)
-            color_dialog(hwnd, 0, 0, 0, 0, 1);
-#endif
+            color_dialog(hwnd, COLOR_GAMMA, COLOR_TINT, COLOR_SATURATION, COLOR_CONTRAST, COLOR_BRIGHTNESS);
             return;
 
+        case IDM_CRT:
+            crt_dialog(hwnd, PAL_SCANLINE_SHADE, PAL_BLUR, PAL_ODDLINE_PHASE, PAL_ODDLINE_OFFSET);
+            return;
+
+#ifdef __X128__
         case IDM_COLOR2:
-            color_dialog(hwnd, 0, 1, 0, 0, 0);
+            color_dialog(hwnd, "VDCColorGamma", "VDCColorTint", "VDCColorSaturation", "VDCColorContrast", "VDCColorBrightness");
             return;
 
-#ifdef HAVE_PAL
-        case IDM_INTERNALPAL:
+        case IDM_CRT2:
+            crt_dialog(hwnd, "VDCPALScanLineShade", "VDCPALBlur", "VDCPALOddLinePhase", "VDCPALOddLineOffset");
+            return;
+#endif
+
+        case IDM_EXTERNALPAL:
             toggle(EXTERNAL_PALETTE);
             return;
 
-#ifdef HAVE_VIC_II
-        case IDM_LUMINANCES:
-            toggle("VICIINewLuminances");
-            return;
-#endif
-
-        case IDM_TOGGLEPAL:
-            {
-                int val1, val2;
-
-                resources_get_int("PALEmulation", &val1);
-                if (!val1) {
-                    resources_set_int("PALEmulation", 1);
-                    return;
-                }
-
-                switch (val2) {
-#ifndef HAVE_TED
-                    case 0:
-                        resources_set_int("PALEmulation", 1);
-                        return;
-#endif
-                    case 1:
-                        resources_set_int("PALEmulation", 0);
-                        return;
-                }
-            }
-            return;
-        case IDM_PALOFF:
-            resources_set_int("PALEmulation", 0);
-            return;
         case IDM_DSIZE:
             interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SIZE);
             return;
         case IDM_DSCAN:
             interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCAN);
             return;
-        case IDM_SCALE2X:
-            interrupt_maincpu_trigger_trap(toggle_async, (resource_value_t*)DOUBLE_SCALE2X);
+        case IDM_EXTERNALPAL_FILE:
+            resources_set_string(PALETTE_FILE, ViceFileSelect(hwnd, 1));
             return;
-#endif
+        case IDM_AUDIO_LEAK:
+            toggle(AUDIO_LEAK);
+            return;
 
-#ifdef HAVE_VDC
+#ifdef __X128__
         case IDM_VDC16K:
         case IDM_VDC64K:
             resources_set_int("VDC64KB", idm&1);
@@ -552,14 +569,11 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_VDCDSCAN:
             interrupt_maincpu_trigger_trap(toggle_async, "VDCDoubleScan");
             return;
-#endif
-
-#ifdef HAVE_CRTC
-        case IDM_CRTCDSIZE:
-            interrupt_maincpu_trigger_trap(toggle_async, "CrtcDoubleSize");
+        case IDM_VDCEXTERNALPAL_FILE:
+            resources_set_string("VDCPaletteFile", ViceFileSelect(hwnd, 1));
             return;
-        case IDM_CRTCDSCAN:
-            interrupt_maincpu_trigger_trap(toggle_async, "CrtcDoubleScan");
+        case IDM_VDCAUDIO_LEAK:
+            toggle("VDCAudioLeak");
             return;
 #endif
 
@@ -1092,17 +1106,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif // __X128__ || __XVIC__
 
         case IDM_VCACHE:
-
-#ifdef __XCBM__
-            {
-                int val;
-                resources_get_int("UseVicII", &val);
-                toggle(val ? VIDEO_CACHE : "CrtcVideoCache");
-            }
-#else
             toggle(VIDEO_CACHE);
-#endif
-
             return;
 
 #ifdef __X128__
@@ -1115,15 +1119,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_C128SW:
             resources_set_int("MachineType", idm & 0xf);
             return;
-#endif
-
-#ifdef HAVE_VDC
         case IDM_VDCVCACHE:
             toggle("VDCVideoCache");
             return;
-#endif
-
-#ifdef __X128__
         case IDM_C128FULLBANKS:
             toggle("C128FullBanks");
             return;
@@ -1732,22 +1730,6 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("JoyOpposite", &val);
             WinCheckMenuItem(hwnd, IDM_ALLOW_OPPOSITE_JOY, val);
 #endif
-
-#if defined(__X64__) || defined(__X128__) || defined(__X64DTV__)
-            resources_get_int(EXTERNAL_PALETTE, &val);
-            WinEnableMenuItem(hwnd, IDM_COLOR, !val);
-#endif
-
-#ifdef __XCBM__
-            {
-                int val1, val2;
-
-                resources_get_int(EXTERNAL_PALETTE, &val1);
-                resources_get_int("UseVicII", &val2);
-                WinEnableMenuItem(hwnd, IDM_COLOR, !val && val2);
-            }
-#endif
-
             return;
 
 #if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__X64DTV__)
@@ -1764,52 +1746,6 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
         case IDM_SETUP:
-#ifdef __XCBM__
-            {
-                int val1, val2;
-
-                resources_get_int("UseVicII", &val1);
-                resources_get_int("CrtcDoubleSize", &val2);
-
-                WinEnableMenuItem(hwnd, IDM_DSIZE, val1);
-                WinEnableMenuItem(hwnd, IDM_DSCAN, val1);
-                WinEnableMenuItem(hwnd, IDM_SCALE2X, val1);
-                WinEnableMenuItem(hwnd, IDM_PALCONTROL, val1);
-                WinEnableMenuItem(hwnd, IDM_CRTCDSIZE, !val1);
-                WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, !val1 && val2);
-
-                WinCheckMenuItem(hwnd, IDM_CRTCDSIZE, val2);
-                WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
-
-                WinCheckRes(hwnd, IDM_VCACHE, val1 ? VIDEO_CACHE : "CrtcVideoCache");
-            }
-#else
-            WinCheckRes(hwnd, IDM_VCACHE, VIDEO_CACHE);
-#endif
-
-#if defined(HAVE_CRTC) && !defined(__XCBM__)
-            resources_get_int("CrtcDoubleSize", &val);
-            WinEnableMenuItem(hwnd, IDM_CRTCDSCAN, val);
-            WinCheckMenuItem(hwnd, IDM_CRTCDSIZE, val);
-            WinCheckRes(hwnd, IDM_CRTCDSCAN, "CrtcDoubleScan");
-#endif
-
-#ifdef HAVE_PAL
-            resources_get_int(DOUBLE_SIZE, &val);
-            WinEnableMenuItem(hwnd, IDM_DSCAN, val);
-            WinEnableMenuItem(hwnd, IDM_SCALE2X, val);
-            WinCheckMenuItem(hwnd, IDM_DSIZE, val);
-            WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
-            WinCheckRes(hwnd, IDM_SCALE2X, DOUBLE_SCALE2X);
-#endif
-
-#ifdef HAVE_VDC
-            resources_get_int("VDCDoubleSize", &val);
-            WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
-            WinCheckMenuItem(hwnd, IDM_VDCDSIZE, val);
-            WinCheckRes(hwnd, IDM_VDCDSCAN, "VDCDoubleScan");
-            WinCheckRes(hwnd, IDM_VDCVCACHE, "VDCVideoCache");
-#endif
 
 #ifdef HAVE_MOUSE
             WinCheckRes(hwnd, IDM_MOUSE, "Mouse");
@@ -2314,33 +2250,28 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_VOL10, val == 10);
             return;
 
-#ifdef HAVE_PAL
-        case IDM_PALCONTROL:
-            {
-                int val1, val2;
+        case IDM_VIDEO_SETTINGS:
+            resources_get_int(EXTERNAL_PALETTE, &val);
+            WinCheckMenuItem(hwnd, IDM_EXTERNALPAL, val);
+            WinEnableMenuItem(hwnd, IDM_EXTERNALPAL_FILE, val);
+            WinCheckRes(hwnd, IDM_AUDIO_LEAK, AUDIO_LEAK);
+            WinCheckRes(hwnd, IDM_VCACHE, VIDEO_CACHE);
+            resources_get_int(DOUBLE_SIZE, &val);
+            WinEnableMenuItem(hwnd, IDM_DSCAN, val);
+            WinCheckMenuItem(hwnd, IDM_DSIZE, val);
+            WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
 
-                resources_get_int("PALEmulation", &val1);
-                resources_get_int(EXTERNAL_PALETTE, &val2);
-                WinEnableMenuItem(hwnd, IDM_PALEMU, !val2);
-                WinEnableMenuItem(hwnd, IDM_INTERNALPAL, !val1);
-                WinEnableMenuItem(hwnd, IDM_LUMINANCES, !val2 || val1);
-                WinCheckMenuItem(hwnd, IDM_INTERNALPAL, !val2);
-
-#ifdef HAVE_VIC_II
-                WinCheckRes(hwnd, IDM_LUMINANCES, "VICIINewLuminances");
-#endif
-
-            }
-            return;
-        case IDM_PALEMU:
-            {
-                int val1, val2;
-
-                resources_get_int("PALEmulation", &val1);
-
-                WinCheckMenuItem(hwnd, IDM_PALOFF,  !val1);
-            }
-            return;
+#ifdef __X128__
+        case IDM_VDC_VIDEO_SETTINGS:
+            resources_get_int("VICIIExternalPalette", &val);
+            WinCheckMenuItem(hwnd, IDM_VDCEXTERNALPAL, val);
+            WinEnableMenuItem(hwnd, IDM_VDCEXTERNALPAL_FILE, val);
+            WinCheckRes(hwnd, IDM_VDCAUDIO_LEAK, "VDCAudioLeak");
+            WinCheckRes(hwnd, IDM_VDCVCACHE, "VDCVideoCache");
+            resources_get_int("VDCDoubleSize", &val);
+            WinEnableMenuItem(hwnd, IDM_VDCDSCAN, val);
+            WinCheckMenuItem(hwnd, IDM_VDCDSIZE, val);
+            WinCheckRes(hwnd, IDM_VDCDSCAN, "VICIIDoubleScan");
 #endif
 
 #ifdef HAVE_VDC

@@ -117,13 +117,27 @@
 
 #define IDM_DSIZE                    0x131
 #define IDM_DSCAN                    0x132
-#define IDM_SCALE2X                  0x133
-
-#define IDM_CRTCDSIZE                0x134
-#define IDM_CRTCDSCAN                0x135
+#define IDM_EXTERNALPAL              0x135
+#define IDM_EXTERNALPAL_FILE         0x2bb
+#define IDM_AUDIO_LEAK               0x2bd
+#define IDM_CRT                      0x2c4
+#define IDM_RENDER_FILTER            0x2cc
+#define IDM_RENDER_NONE              0x2cd
+#define IDM_RENDER_CRT               0x2ce
+#define IDM_RENDER_SCALE2X           0x2cf
+#define IDM_VIDEO_SETTINGS           0x133
+#define IDM_VDC_VIDEO_SETTINGS       0x134
 
 #define IDM_VDCDSIZE                 0x136
 #define IDM_VDCDSCAN                 0x137
+#define IDM_VDCEXTERNALPAL           0x2b5
+#define IDM_VDCEXTERNALPAL_FILE      0x2bc
+#define IDM_VDCAUDIO_LEAK            0x2c3
+#define IDM_CRT2                     0x2c5
+#define IDM_VDCRENDER_FILTER         0x2d0
+#define IDM_VDCRENDER_NONE           0x2d1
+#define IDM_VDCRENDER_CRT            0x2d2
+#define IDM_VDCRENDER_SCALE2X        0x2d3
 
 #define IDM_VDC16K                   0x141
 #define IDM_VDC64K                   0x142
@@ -627,13 +641,6 @@
 #define IDM_VIC20_SET_DEFAULT_CART   0x210
 #define IDM_VIC20_RESET_ON_CART_CHNG 0x212
 #define IDM_VIC20_DETACH_CART        0x213
-
-#define IDM_PALCONTROL               0x510
-#define IDM_TOGGLEPAL                0x511  // used for accel key
-#define IDM_PALEMU                   0x512
-#define IDM_PALOFF                   0x513
-#define IDM_INTERNALPAL              0x517
-#define IDM_LUMINANCES               0x518
 
 #define IDM_PRINTER                  0x6ff
 

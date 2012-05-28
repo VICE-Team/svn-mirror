@@ -152,26 +152,6 @@ BEGIN
     BEGIN
         MENUITEM "~Drive Setup\tAlt-D",                   IDM_DRIVE,                    MIS_TEXT
 
-#if defined __X128__ || defined __X64__ || defined __X64SC__ || defined __XCBM5X0__
-        MENUITEM "VICII Color Settings",                  IDM_COLOR,                    MIS_TEXT
-#endif
-
-#if defined __X128__
-        MENUITEM "VDC Color Settings",                    IDM_COLOR2,                   MIS_TEXT
-#endif
-
-#if defined __XCBM2__ || defined __XPET__
-        MENUITEM "CRTC Color Settings",                   IDM_COLOR,                    MIS_TEXT
-#endif
-
-#if defined __XPLUS4__
-        MENUITEM "TED Color Settings",                    IDM_COLOR,                    MIS_TEXT
-#endif
-
-#if defined __XVIC__
-        MENUITEM "VIC Color Settings",                    IDM_COLOR,                    MIS_TEXT
-#endif
-
 #if !defined __XCBM2__ && !defined __XPET__
         MENUITEM "~Joystick Setup\tAlt-J",                IDM_JOYSTICK,                 MIS_TEXT
 #endif
@@ -250,38 +230,104 @@ BEGIN
     END
     SUBMENU "Set~up",                                     IDM_SETUP,                    MIS_TEXT
     BEGIN
-        MENUITEM "Video ~Cache",                          IDM_VCACHE,                   MIS_TEXT
 
-#ifdef HAVE_PAL
-        MENUITEM "Double Size\tAlt-2",                    IDM_DSIZE,                    MIS_TEXT
-        MENUITEM "Double Scan",                           IDM_DSCAN,                    MIS_TEXT
-        MENUITEM "Scale 2x",                              IDM_SCALE2X,                  MIS_TEXT
-#endif
-
-#ifdef HAVE_CRTC
-        MENUITEM "Crtc Double Size",                      IDM_CRTCDSIZE,                MIS_TEXT
-        MENUITEM "Crtc Double Scan",                      IDM_CRTCDSCAN,                MIS_TEXT
-#endif
-
-#ifdef HAVE_VDC
-        MENUITEM "VDC Video Cache",                       IDM_VDCVCACHE,                MIS_TEXT
-        MENUITEM "VDC Double Size",                       IDM_VDCDSIZE,                 MIS_TEXT
-        MENUITEM "VDC Double Scan",                       IDM_VDCDSCAN,                 MIS_TEXT
-#endif
-
-#ifdef HAVE_PAL
-        SUBMENU "PAL Control",                            IDM_PALCONTROL,               MIS_TEXT
+#if defined __X64__ || defined __X128__ || defined __X64DTV__ || defined __XCBM5X0__
+        SUBMENU "VICII Settings",                         IDM_VIDEO_SETTINGS,           MIS_TEXT
         BEGIN
-            SUBMENU "PAL Emulation",                      IDM_PALEMU,                   MIS_TEXT
+            MENUITEM "VICII Video ~Cache",                IDM_VCACHE,                   MIS_TEXT
+            MENUITEM "VICII Double Size\tAlt-2",          IDM_DSIZE,                    MIS_TEXT
+            MENUITEM "VICII Double Scan",                 IDM_DSCAN,                    MIS_TEXT
+            MENUITEM "VICII External Palette",            IDM_EXTERNALPAL,              MIS_TEXT
+            MENUITEM "VICII External Palette File",       IDM_EXTERNALPAL_FILE,         MIS_TEXT
+            MENUITEM "VICII Audio Leak",                  IDM_AUDIO_LEAK,               MIS_TEXT
+            MENUITEM "VICII Colors",                      IDM_COLOR,                    MIS_TEXT
+            SUBMENU "VICII Render Filter",                IDM_RENDER_FILTER,            MIS_TEXT
             BEGIN
-                MENUITEM "Off",                           IDM_PALOFF,                   MIS_TEXT
+                MENUITEM "None",                          IDM_RENDER_NONE,              MIS_TEXT
+                MENUITEM "CRT Emulation",                 IDM_RENDER_CRT,               MIS_TEXT
+                MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
             END
-            MENUITEM "Internal Palette",                  IDM_INTERNALPAL,              MIS_TEXT
-
-#ifdef HAVE_VIC_II
-            MENUITEM "New Luminances",                    IDM_LUMINANCES,               MIS_TEXT
+            MENUITEM "VICII CRT Emulation Settings",      IDM_CRT,                      MIS_TEXT
+        END
 #endif
 
+#if (defined __XCBM2__ && !defined __XCBM5X0__) || defined __XPET__
+        SUBMENU "CRTC Settings",                          IDM_VIDEO_SETTINGS,           MIS_TEXT
+        BEGIN
+            MENUITEM "CRTC Video ~Cache",                 IDM_VCACHE,                   MIS_TEXT
+            MENUITEM "CRTC Double Size\tAlt-2",           IDM_DSIZE,                    MIS_TEXT
+            MENUITEM "CRTC Double Scan",                  IDM_DSCAN,                    MIS_TEXT
+            MENUITEM "CRTC External Palette",             IDM_EXTERNALPAL,              MIS_TEXT
+            MENUITEM "CRTC External Palette File",        IDM_EXTERNALPAL_FILE,         MIS_TEXT
+            MENUITEM "CRTC Audio Leak",                   IDM_AUDIO_LEAK,               MIS_TEXT
+            MENUITEM "CRTC Colors",                       IDM_COLOR,                    MIS_TEXT
+            SUBMENU "CRTC Render Filter",                 IDM_RENDER_FILTER,            MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_RENDER_NONE,              MIS_TEXT
+                MENUITEM "CRT Emulation",                 IDM_RENDER_CRT,               MIS_TEXT
+                MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
+            END
+            MENUITEM "CRTC CRT emulation settings",       IDM_CRT,                      MIS_TEXT
+        END
+#endif
+
+#if defined __XPLUS4__
+        SUBMENU "TED Settings",                           IDM_VIDEO_SETTINGS,           MIS_TEXT
+        BEGIN
+            MENUITEM "TED Video ~Cache",                  IDM_VCACHE,                   MIS_TEXT
+            MENUITEM "TED Double Size\tAlt-2",            IDM_DSIZE,                    MIS_TEXT
+            MENUITEM "TED Double Scan",                   IDM_DSCAN,                    MIS_TEXT
+            MENUITEM "TED External Palette",              IDM_EXTERNALPAL,              MIS_TEXT
+            MENUITEM "TED External Palette File",         IDM_EXTERNALPAL_FILE,         MIS_TEXT
+            MENUITEM "TED Audio Leak",                    IDM_AUDIO_LEAK,               MIS_TEXT
+            MENUITEM "TED Colors",                        IDM_COLOR,                    MIS_TEXT
+            SUBMENU "TED Render Filter",                  IDM_RENDER_FILTER,            MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_RENDER_NONE,              MIS_TEXT
+                MENUITEM "CRT Emulation",                 IDM_RENDER_CRT,               MIS_TEXT
+                MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
+            END
+            MENUITEM "TED CRT emulation settings",        IDM_CRT,                      MIS_TEXT
+        END
+#endif
+
+#if defined __XVIC__
+        SUBMENU "VIC Settings",                           IDM_VIDEO_SETTINGS,           MIS_TEXT
+        BEGIN
+            MENUITEM "VIC Video ~Cache",                  IDM_VCACHE,                   MIS_TEXT
+            MENUITEM "VIC Double Size\tAlt-2",            IDM_DSIZE,                    MIS_TEXT
+            MENUITEM "VIC Double Scan",                   IDM_DSCAN,                    MIS_TEXT
+            MENUITEM "VIC External Palette",              IDM_EXTERNALPAL,              MIS_TEXT
+            MENUITEM "VIC External Palette File",         IDM_EXTERNALPAL_FILE,         MIS_TEXT
+            MENUITEM "VIC Audio Leak",                    IDM_AUDIO_LEAK,               MIS_TEXT
+            MENUITEM "VIC Colors",                        IDM_COLOR,                    MIS_TEXT
+            SUBMENU "VIC Render Filter",                  IDM_RENDER_FILTER,            MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_RENDER_NONE,              MIS_TEXT
+                MENUITEM "CRT Emulation",                 IDM_RENDER_CRT,               MIS_TEXT
+                MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
+            END
+            MENUITEM "VIC CRT emulation settings",        IDM_CRT,                      MIS_TEXT
+        END
+#endif
+
+#ifdef __X128__
+        SUBMENU "VDC Settings",                           IDM_VDC_VIDEO_SETTINGS,       MIS_TEXT
+        BEGIN
+            MENUITEM "VDC Video Cache",                   IDM_VDCVCACHE,                MIS_TEXT
+            MENUITEM "VDC Double Size",                   IDM_VDCDSIZE,                 MIS_TEXT
+            MENUITEM "VDC Double Scan",                   IDM_VDCDSCAN,                 MIS_TEXT
+            MENUITEM "VDC External Palette",              IDM_VDCEXTERNALPAL,           MIS_TEXT
+            MENUITEM "VDC External Palette File",         IDM_VDCEXTERNALPAL_FILE,      MIS_TEXT
+            MENUITEM "VDC Audio Leak",                    IDM_VDCAUDIO_LEAK,            MIS_TEXT
+            MENUITEM "VDC Colors",                        IDM_COLOR2,                   MIS_TEXT
+            SUBMENU "VDC Render Filter",                  IDM_VDCRENDER_FILTER,         MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_VDCRENDER_NONE,           MIS_TEXT
+                MENUITEM "CRT Emulation",                 IDM_VDCRENDER_CRT,            MIS_TEXT
+                MENUITEM "Scale2x",                       IDM_VDCRENDER_SCALE2X,        MIS_TEXT
+            END
+            MENUITEM "VDC CRT emulation settings",        IDM_CRT2,                     MIS_TEXT
         END
 #endif
 
@@ -1077,11 +1123,6 @@ BEGIN
     VK_F3,        IDM_FILEOPEN,    ALT, SHIFT, VIRTUALKEY
     "0",          IDM_ATTACHTAPE,  ALT
     "2",          IDM_DSIZE,       ALT
-
-#ifdef HAVE_PAL
-    "3",          IDM_TOGGLEPAL,   ALT
-#endif
-
     "4",          IDM_PRT4IEC,     ALT
     "5",          IDM_PRT5IEC,     ALT
     "8",          IDM_ATTACH8,     ALT

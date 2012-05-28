@@ -3,6 +3,7 @@
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -61,6 +62,11 @@ static const char *saturation_res = NULL;
 static const char *contrast_res = NULL;
 static const char *brightness_res = NULL;
 
+static const char *scanline_shade_res = NULL;
+static const char *blur_res = NULL;
+static const char *oddlines_phase_res = NULL;
+static const char *oddlines_offset_res = NULL;
+
 static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 {
     switch (msg) {
@@ -71,31 +77,31 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
                 SetSliderTxt(hwnd, ID_GAMMA, 0, "0");
                 SetSliderTxt(hwnd, ID_GAMMA, 100, "2.0");
                 SetSliderTxt(hwnd, ID_GAMMA, 200, "4.0");
-                resources_get_int("VICIIColorGamma", &val);
+                resources_get_int(gamma_res, &val);
                 SetSliderPos(hwnd, ID_GAMMA, val / 20);
 
                 SetSliderTxt(hwnd, ID_TINT, 0, "0");
                 SetSliderTxt(hwnd, ID_TINT, 100, "1.0");
-                SetSliderTxt(hwnd, ID_TINT, 200, "1.0");
-                resources_get_int("VICIIColorTint", &val);
+                SetSliderTxt(hwnd, ID_TINT, 200, "2.0");
+                resources_get_int(tint_res, &val);
                 SetSliderPos(hwnd, ID_TINT, val / 10);
 
                 SetSliderTxt(hwnd, ID_SATURATION, 0, "0");
                 SetSliderTxt(hwnd, ID_SATURATION, 100, "1.0");
-                SetSliderTxt(hwnd, ID_SATURATION, 200, "1.0");
-                resources_get_int("VICIIColorSaturation", &val);
+                SetSliderTxt(hwnd, ID_SATURATION, 200, "2.0");
+                resources_get_int(saturation_res, &val);
                 SetSliderPos(hwnd, ID_SATURATION, val / 10);
 
                 SetSliderTxt(hwnd, ID_CONTRAST, 0, "0");
                 SetSliderTxt(hwnd, ID_CONTRAST, 100, "1.0");
-                SetSliderTxt(hwnd, ID_CONTRAST, 200, "1.0");
-                resources_get_int("VICIIColorContrast", &val);
+                SetSliderTxt(hwnd, ID_CONTRAST, 200, "2.0");
+                resources_get_int(contrast_res, &val);
                 SetSliderPos(hwnd, ID_CONTRAST, val / 10);
 
                 SetSliderTxt(hwnd, ID_BRIGHTNESS, 0, "0");
                 SetSliderTxt(hwnd, ID_BRIGHTNESS, 100, "1.0");
-                SetSliderTxt(hwnd, ID_BRIGHTNESS, 200, "1.0");
-                resources_get_int("VICIIColorBrightness", &val);
+                SetSliderTxt(hwnd, ID_BRIGHTNESS, 200, "2.0");
+                resources_get_int(brightness_res, &val);
                 SetSliderPos(hwnd, ID_BRIGHTNESS, val / 10);
             }
             break;
@@ -103,13 +109,11 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             if (LONGFROMMP(mp1) != ID_DEFAULT) {
                 break;
             }
-            emulator_pause();
-            resources_set_int("VICIIColorGamma", 2200);
-            resources_set_int("VICIIColorTint", 1000);
-            resources_set_int("VICIIColorSaturation", 1000);
-            resources_set_int("VICIIColorContrast", 1000);
-            resources_set_int("VICIIColorBrightness", 1000);
-            emulator_resume();
+            resources_set_int(gamma_res, 2200);
+            resources_set_int(tint_res, 1000);
+            resources_set_int(saturation_res, 1000);
+            resources_set_int(contrast_res, 1000);
+            resources_set_int(brightness_res, 1000);
             SetSliderPos(hwnd, ID_GAMMA, 110);
             SetSliderPos(hwnd, ID_TINT, 100);
             SetSliderPos(hwnd, ID_SATURATION, 100);
@@ -123,19 +127,92 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
             switch (SHORT1FROMMP(mp1)) {
 #if 0
                 case ID_GAMMA:
-                    resources_set_int("VICIIColorGamma", (int)mp2 * 20);
+                    resources_set_int(gamma_res, (int)mp2 * 20);
                     break;
                 case ID_TINT:
-                    resources_set_int("VICIIColorTint", (int)mp2 * 10);
+                    resources_set_int(tint_res, (int)mp2 * 10);
                     break;
                 case ID_SATURATION:
-                    resources_set_int("VICIIColorSaturation", (int)mp2 * 10);
+                    resources_set_int(saturation_res, (int)mp2 * 10);
                     break;
                 case ID_CONTRAST:
-                    resources_set_int("VICIIColorContrast", (int)mp2 * 10);
+                    resources_set_int(contrast_res, (int)mp2 * 10);
                     break;
                 case ID_BRIGHTNESS:
-                    resources_set_int("VICIIColorBrightness", (int)mp2 * 10);
+                    resources_set_int(brightness_res, (int)mp2 * 10);
+                    break;
+#endif
+            }
+            break;
+    }
+    return WinDefDlgProc(hwnd, msg, mp1, mp2);
+}
+
+static MRESULT EXPENTRY pm_crt(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
+{
+
+static const char *oddlines_offset_res = NULL;
+
+    switch (msg) {
+        case WM_INITDLG:
+            {
+                int val;
+
+                SetSliderTxt(hwnd, ID_SCANLINE_SHADE, 0, "0");
+                SetSliderTxt(hwnd, ID_SCANLINE_SHADE, 100, "0.5");
+                SetSliderTxt(hwnd, ID_SCANLINE_SHADE, 200, "1.0");
+                resources_get_int(scanline_shade_res, &val);
+                SetSliderPos(hwnd, ID_SCANLINE_SHADE, val / 5);
+
+                SetSliderTxt(hwnd, ID_BLUR, 0, "0");
+                SetSliderTxt(hwnd, ID_BLUR, 100, "0.5");
+                SetSliderTxt(hwnd, ID_BLUR, 200, "1.0");
+                resources_get_int(blur_res, &val);
+                SetSliderPos(hwnd, ID_BLUR, val / 5);
+
+                SetSliderTxt(hwnd, ID_ODDLINES_PHASE, 0, "0");
+                SetSliderTxt(hwnd, ID_ODDLINES_PHASE, 100, "1.0");
+                SetSliderTxt(hwnd, ID_ODDLINES_PHASE, 200, "2.0");
+                resources_get_int(oddlines_phase_res, &val);
+                SetSliderPos(hwnd, ID_ODDLINES_PHASE, val / 10);
+
+                SetSliderTxt(hwnd, ID_ODDLINES_OFFSET, 0, "0");
+                SetSliderTxt(hwnd, ID_ODDLINES_OFFSET, 100, "1.0");
+                SetSliderTxt(hwnd, ID_ODDLINES_OFFSET, 200, "2.0");
+                resources_get_int(oddlines_offset_res, &val);
+                SetSliderPos(hwnd, ID_ODDLINES_OFFSET, val / 10);
+            }
+            break;
+        case WM_COMMAND:
+            if (LONGFROMMP(mp1) != ID_DEFAULT) {
+                break;
+            }
+            resources_set_int(scanline_shade_res, 667);
+            resources_set_int(blur_res, 500);
+            resources_set_int(oddlines_phase_res, 1250);
+            resources_set_int(oddlines_offset_res, 750);
+            SetSliderPos(hwnd, ID_SCANLINE_SHADE, (int)(667 / 5));
+            SetSliderPos(hwnd, ID_BLUR, 100);
+            SetSliderPos(hwnd, ID_ODDLINES_PHASE, 125);
+            SetSliderPos(hwnd, ID_ODDLINES_OFFSET, 75);
+            return FALSE;
+        case WM_CONTROL:
+            if (SHORT2FROMMP(mp1) != SLN_CHANGE && SHORT2FROMMP(mp1) != SLN_SLIDERTRACK) {
+                break;
+            }
+            switch (SHORT1FROMMP(mp1)) {
+#if 0
+                case ID_SCANLINE_SHADE:
+                    resources_set_int(scanline_shade_res, (int)mp2 * 5);
+                    break;
+                case ID_BLUR:
+                    resources_set_int(blur_res, (int)mp2 * 5);
+                    break;
+                case ID_ODDLINES_PHASE:
+                    resources_set_int(oddlines_phase_res, (int)mp2 * 10);
+                    break;
+                case ID_ODDLINES_OFFSET:
+                    resources_set_int(oddlines_offset_res, (int)mp2 * 10);
                     break;
 #endif
             }
@@ -147,45 +224,36 @@ static MRESULT EXPENTRY pm_color(HWND hwnd, ULONG msg, MPARAM mp1, MPARAM mp2)
 /* call to open dialog                                              */
 /*----------------------------------------------------------------- */
 
-void color_dialog(HWND hwnd, int vicii, int vdc, int crtc, int ted, int vic)
+void color_dialog(HWND hwnd, const char *gamma, const char *tint, const char *saturation, const char *contrast, const char *brightness)
 {
     static HWND hwnd2 = NULLHANDLE;
-
-    if (vicii) {
-        gamma_res = "VICIIColorGamma";
-        tint_res = "VICIIColorTint";
-        saturation_res = "VICIIColorSaturation";
-        contrast_res = "VICIIColorContrast";
-        brightness_res = "VICIIColorBrightness";
-    } else if (vdc) {
-        gamma_res = "VDCColorGamma";
-        tint_res = "VDCColorTint";
-        saturation_res = "VDCColorSaturation";
-        contrast_res = "VDCColorContrast";
-        brightness_res = "VDCColorBrightness";
-    } else if (crtc) {
-        gamma_res = "CrtcColorGamma";
-        tint_res = "CrtcColorTint";
-        saturation_res = "CrtcColorSaturation";
-        contrast_res = "CrtcColorContrast";
-        brightness_res = "CrtcColorBrightness";
-    } else if (ted) {
-        gamma_res = "TEDColorGamma";
-        tint_res = "TEDColorTint";
-        saturation_res = "TEDColorSaturation";
-        contrast_res = "TEDColorContrast";
-        brightness_res = "TEDColorBrightness";
-    } else {
-        gamma_res = "VICColorGamma";
-        tint_res = "VICColorTint";
-        saturation_res = "VICColorSaturation";
-        contrast_res = "VICColorContrast";
-        brightness_res = "VICColorBrightness";
-    }
 
     if (WinIsWindowVisible(hwnd2)) {
         return;
     }
 
+    gamma_res = gamma;
+    tint_res = tint;
+    saturation_res = saturation;
+    contrast_res = contrast;
+    brightness_res = brightness;
+
     hwnd2 = WinLoadStdDlg(hwnd, pm_color, DLG_COLOR, NULL);
 }
+
+void crt_dialog(HWND hwnd, const char *scanline_shade, const char *blur, const char *oddlines_phase, const char *oddlines_offset)
+{
+    static HWND hwnd3 = NULLHANDLE;
+
+    if (WinIsWindowVisible(hwnd3)) {
+        return;
+    }
+
+    scanline_shade_res = scanline_shade;
+    blur_res = blur;
+    oddlines_phase_res = oddlines_phase;
+    oddlines_offset_res = oddlines_offset;
+
+    hwnd3 = WinLoadStdDlg(hwnd, pm_crt, DLG_CRT, NULL);
+}
+

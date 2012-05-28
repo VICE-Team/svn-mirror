@@ -706,8 +706,8 @@ MRESULT WmCreate(HWND hwnd)
     canvas_new->hDiveInst = 0;
 
     canvas_new->divesetup.ulStructLen = sizeof(SETUP_BLITTER);
-    canvas_new->divesetup.ulDitherType = 0;			// 0=1x1, 1=2x2
-    canvas_new->divesetup.fInvert = 0;			      // Bit0=vertical, Bit1=horz
+    canvas_new->divesetup.ulDitherType = 0;                     // 0=1x1, 1=2x2
+    canvas_new->divesetup.fInvert = 0;                        // Bit0=vertical, Bit1=horz
     canvas_new->divesetup.fccSrcColorFormat = divecaps.fccColorEncoding;
     canvas_new->bDepth = GetDepth(divecaps.fccColorEncoding);
     canvas_new->divesetup.fccDstColorFormat = FOURCC_SCRN;
@@ -1882,20 +1882,20 @@ void video_canvas_refresh(video_canvas_t *c, unsigned int xs, unsigned int ys, u
     DEBUG("CANVAS REFRESH 0");
 
     //
-    // I tried to call DiveSetupBlitter onyl if the values
+    // I tried to call DiveSetupBlitter only if the values
     // changed, but it doesn't speed up anything
     //
     if (c->vrenabled) {
         if (c->videoconfig->doublesizex) {
-            xs *= 2;
-            xi *= 2;
-            w *= 2;
+            xs *= (c->videoconfig->doublesizex + 1);
+            xi *= (c->videoconfig->doublesizex + 1);
+            w *= (c->videoconfig->doublesizex + 1);
         }
 
         if (c->videoconfig->doublesizey) {
-            ys *= 2;
-            yi *= 2;
-            h *= 2;
+            ys *= (c->videoconfig->doublesizey + 1);
+            yi *= (c->videoconfig->doublesizey + 1);
+            h *= (c->videoconfig->doublesizey + 1);
         }
         VideoCanvasBlit(c, xs, ys, xi, yi, w, h);
     }

@@ -3,6 +3,7 @@
  *
  * Written by
  *  Thomas Bretz <tbretz@gsi.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -58,6 +59,31 @@ BEGIN
         CONTROL "", ID_CONTRAST, 56  35, 135, 10, STY_SLIDER
             CTLDATA 12, 0, 201, 0, 0, 0
         CONTROL "", ID_BRIGHTNESS, 56  25, 135, 10, STY_SLIDER
+            CTLDATA 12, 0, 201, 0, 0, 0
+    END
+END
+
+DLGTEMPLATE DLG_CRT 850 MOVEABLE DISCARDABLE
+BEGIN
+    DIALOG "CRT Settings", DLG_CRT, 162, 122, 200, 103, STY_DIALOG | FCF_CLOSEBUTTON
+    PRESPARAMS PP_FONTNAMESIZE, "9.Warp Sans Bold"
+    BEGIN
+        CONTROL "Close", DID_CLOSE, 7, 5, 38, 12, STY_CLOSEBUTTON | WS_GROUP
+        CONTROL "Defaults", ID_DEFAULT, 150, 5, 44, 12, STY_PUSHBUTTON
+        CONTROL "CRT settings", ID_NONE, 7, 22, 186, 77, STY_GROUPBOX
+
+        TEXT("Scanline shade", 12, 55)
+        TEXT("Blur", 12, 45)
+        TEXT("Odd lines phase", 12, 35)
+        TEXT("Odd lines offset", 12, 25)
+
+        CONTROL "", ID_SCANLINE_SHADE, 56, 55, 135, 10, STY_SLIDER
+            CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "", ID_BLUR, 56  45, 135, 10, STY_SLIDER
+            CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "", ID_ODDLINES_PHASE, 56  35, 135, 10, STY_SLIDER
+            CTLDATA 12, 0, 201, 0, 0, 0
+        CONTROL "", ID_ODDLINES_OFFSET, 56  25, 135, 10, STY_SLIDER
             CTLDATA 12, 0, 201, 0, 0, 0
     END
 END
