@@ -1005,6 +1005,22 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_int("MMCRSDType", idm - IDM_MMCR_SD_TYPE_AUTO);
             return;
 
+        case IDM_RR_FLASH_WRITE:
+            toggle("RRBiosWrite");
+            return;
+        case IDM_RR_FLASH_JUMPER:
+            toggle("RRFlashJumper");
+            return;
+        case IDM_RR_BANK_JUMPER:
+            toggle("RRBankJumper");
+            return;
+        case IDM_RR_REV_RR:
+            resources_set_int("RRrevision", 0);
+            return;
+        case IDM_RR_REV_NR:
+            resources_set_int("RRrevision", 1);
+            return;
+
 #ifdef __X64__
         case IDM_PLUS60KD040:
             resources_set_int("PLUS60Kbase", 0xd040);
@@ -1724,6 +1740,15 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_MMC, val == 1);
             WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_SD, val == 2);
             WinCheckMenuItem(hwnd, IDM_MMC64_SD_TYPE_SDHC, val == 3);
+            return;
+
+        case IDM_RR_SETTINGS:
+            WinCheckRes(hwnd, IDM_RR_FLASH_WRITE, "RRBiosWrite");
+            WinCheckRes(hwnd, IDM_RR_FLASH_JUMPER, "RRFlashJumper");
+            WinCheckRes(hwnd, IDM_RR_BANK_JUMPER, "RRBankJumper");
+            resources_get_int("RRrevision", &val);
+            WinCheckMenuItem(hwnd, IDM_RR_REV_RR, val == 0);
+            WinCheckMenuItem(hwnd, IDM_RR_REV_NR, val == 1);
             return;
 
         case IDM_MMCR_SETTINGS:

@@ -284,6 +284,14 @@
 #define IDM_MMCR_SD_TYPE_SD          0x25d
 #define IDM_MMCR_SD_TYPE_SDHC        0x25e
 
+#define IDM_RR_SETTINGS              0x2f3
+#define IDM_RR_FLASH_WRITE           0x2f4
+#define IDM_RR_FLASH_JUMPER          0x2f5
+#define IDM_RR_BANK_JUMPER           0x2f6
+#define IDM_RR_REVISION              0x2f7
+#define IDM_RR_REV_RR                0x2f8
+#define IDM_RR_REV_NR                0x2f9
+
 #define IDM_DIGIMAX_SETTINGS         0x1ee
 #define IDM_DIGIMAX                  0x1a1
 #define IDM_DIGIMAXBASE              0x1a2

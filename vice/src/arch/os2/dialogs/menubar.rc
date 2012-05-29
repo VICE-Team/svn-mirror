@@ -826,6 +826,18 @@ BEGIN
             END
         END
 
+        SUBMENU "Retro Replay Settings",                  IDM_RR_SETTINGS,              MIS_TEXT
+        BEGIN
+            MENUITEM "Write to flash when changed",       IDM_RR_FLASH_WRITE,           MIS_TEXT
+            MENUITEM "Flash jumper",                      IDM_RR_FLASH_JUMPER,          MIS_TEXT
+            MENUITEM "Bank jumper",                       IDM_RR_BANK_JUMPER,           MIS_TEXT
+            SUBMENU "Revision",                           IDM_RR_REVISION,              MIS_TEXT
+            BEGIN
+                MENUITEM "Retro Replay",                  IDM_RR_REV_RR,                MIS_TEXT
+                MENUITEM "Nordic Replay",                 IDM_RR_REV_NR,                MIS_TEXT
+            END
+        END
+
         SUBMENU "DigiMAX Settings",                       IDM_DIGIMAX_SETTINGS,         MIS_TEXT
         BEGIN
             MENUITEM "~DigiMAX - Cartridge",              IDM_DIGIMAX,                  MIS_TEXT
