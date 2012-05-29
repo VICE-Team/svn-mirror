@@ -248,6 +248,13 @@ BEGIN
                 MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
             END
             MENUITEM "VICII CRT Emulation Settings",      IDM_CRT,                      MIS_TEXT
+            SUBMENU "VICII Border Mode",                  IDM_BORDER_MODE,              MIS_TEXT
+            BEGIN
+                MENUITEM "Normal borders",                IDM_BORDER_NORMAL,            MIS_TEXT
+                MENUITEM "Full borders",                  IDM_BORDER_FULL,              MIS_TEXT
+                MENUITEM "Debug borders",                 IDM_BORDER_DEBUG,             MIS_TEXT
+                MENUITEM "No borders",                    IDM_BORDER_NONE,              MIS_TEXT
+            END
         END
 #endif
 
@@ -289,6 +296,13 @@ BEGIN
                 MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
             END
             MENUITEM "TED CRT emulation settings",        IDM_CRT,                      MIS_TEXT
+            SUBMENU "TED Border Mode",                    IDM_BORDER_MODE,              MIS_TEXT
+            BEGIN
+                MENUITEM "Normal borders",                IDM_BORDER_NORMAL,            MIS_TEXT
+                MENUITEM "Full borders",                  IDM_BORDER_FULL,              MIS_TEXT
+                MENUITEM "Debug borders",                 IDM_BORDER_DEBUG,             MIS_TEXT
+                MENUITEM "No borders",                    IDM_BORDER_NONE,              MIS_TEXT
+            END
         END
 #endif
 
@@ -309,6 +323,13 @@ BEGIN
                 MENUITEM "Scale2x",                       IDM_RENDER_SCALE2X,           MIS_TEXT
             END
             MENUITEM "VIC CRT emulation settings",        IDM_CRT,                      MIS_TEXT
+            SUBMENU "VIC Border Mode",                    IDM_BORDER_MODE,              MIS_TEXT
+            BEGIN
+                MENUITEM "Normal borders",                IDM_BORDER_NORMAL,            MIS_TEXT
+                MENUITEM "Full borders",                  IDM_BORDER_FULL,              MIS_TEXT
+                MENUITEM "Debug borders",                 IDM_BORDER_DEBUG,             MIS_TEXT
+                MENUITEM "No borders",                    IDM_BORDER_NONE,              MIS_TEXT
+            END
         END
 #endif
 
@@ -1026,6 +1047,13 @@ BEGIN
             MENUITEM "~20%",                              IDM_VOL20,                    MIS_TEXT
             MENUITEM "~10%",                              IDM_VOL10,                    MIS_TEXT
         END
+        SUBMENU "Output mode",                            IDM_SOUND_OUTPUT_MODE,        MIS_TEXT
+        BEGIN
+            MENUITEM "System",                            IDM_SOUND_OUTPUT_SYSTEM,      MIS_TEXT
+            MENUITEM "Always mono",                       IDM_SOUND_OUTPUT_MONO,        MIS_TEXT
+            MENUITEM "Always stereo",                     IDM_SOUND_OUTPUT_STEREO,      MIS_TEXT
+        END
+        MENUITEM "Drive Sound",                           IDM_DRIVE_SOUND,              MIS_TEXT
         MENUITEM SEPARATOR
 
 #if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
@@ -1057,7 +1085,12 @@ BEGIN
         MENUITEM "SID ~Filter",                           IDM_SIDFILTER,                MIS_TEXT
 
 #ifndef __X64DTV__
-        MENUITEM "2nd SID (stereo)",                      IDM_STEREO,                   MIS_TEXT
+        SUBMENU "Amount of SIDs",                         IDM_SID_AMOUNT,               MIS_TEXT
+        BEGIN
+            MENUITEM "1 SID (built-in)",                  IDM_NO_EXTRA_SID,             MIS_TEXT
+            MENUITEM "2 SIDs",                            IDM_STEREO,                   MIS_TEXT
+            MENUITEM "3 SIDs",                            IDM_TRIPLE,                   MIS_TEXT
+        END
 #endif
 
         MENUITEM SEPARATOR

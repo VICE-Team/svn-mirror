@@ -67,6 +67,10 @@
 #include "cartridge.h"
 #endif
 
+#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
+#include "vicii.h"
+#endif
+
 #ifdef HAVE_MOUSE
 #include "mouse.h"
 #endif
@@ -77,11 +81,15 @@
 
 #ifdef __X64__
 #include "c64model.h"        // c64model_set(), C64MODEL_*
-#include "vicii.h"
 #endif
 
 #ifdef __XPLUS4__
 #include "plus4model.h"
+#include "ted.h"
+#endif
+
+#ifdef __XVIC__
+#include "vic.h"
 #endif
 
 #ifdef __X64DTV__
@@ -138,6 +146,11 @@ static const char *PAL_ODDLINE_PHASE = "VICIIPALOddLinePhase";
 static const char *PAL_ODDLINE_OFFSET = "VICIIPALOddLineOffset";
 static const char *RENDER_FILTER = "VICIIFilter";
 static const char *AUDIO_LEAK = "VICIIAudioLeak";
+static const char *BORDER_MODE = "VICIIBordermode";
+#define NORMAL_BORDERS VICII_NORMAL_BORDERS
+#define FULL_BORDERS VICII_FULL_BORDERS
+#define DEBUG_BORDERS VICII_DEBUG_BORDERS
+#define NO_BORDERS VICII_NO_BORDERS
 #endif
 
 #if (defined(__XCBM2__) && !defined(__XCBM5X0__)) || defined(__XPET__)
@@ -177,6 +190,11 @@ static const char *PAL_ODDLINE_PHASE = "TEDPALOddLinePhase";
 static const char *PAL_ODDLINE_OFFSET = "TEDPALOddLineOffset";
 static const char *RENDER_FILTER = "TEDFilter";
 static const char *AUDIO_LEAK = "TEDAudioLeak";
+static const char *BORDER_MODE = "TEDBordermode";
+#define NORMAL_BORDERS TED_NORMAL_BORDERS
+#define FULL_BORDERS TED_FULL_BORDERS
+#define DEBUG_BORDERS TED_DEBUG_BORDERS
+#define NO_BORDERS TED_NO_BORDERS
 #endif
 
 #ifdef __XVIC__
@@ -196,6 +214,11 @@ static const char *PAL_ODDLINE_PHASE = "VICPALOddLinePhase";
 static const char *PAL_ODDLINE_OFFSET = "VICPALOddLineOffset";
 static const char *RENDER_FILTER = "VICFilter";
 static const char *AUDIO_LEAK = "VICAudioLeak";
+static const char *BORDER_MODE = "VICBordermode";
+#define NORMAL_BORDERS VIC_NORMAL_BORDERS
+#define FULL_BORDERS VIC_FULL_BORDERS
+#define DEBUG_BORDERS VIC_DEBUG_BORDERS
+#define NO_BORDERS VIC_NO_BORDERS
 #endif
 
 #ifdef __X128__
@@ -582,9 +605,28 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle(AUDIO_LEAK);
             return;
 
-#if defined(__X128__) || (defined(__XCBM2__) && !defined(__XCBM5X0__)) || defined(__XPET__) 
+#ifdef __X128__
         case IDM_VERTICAL_STRETCH:
             toggle(VERTICAL_STRETCH);
+            return;
+#endif
+
+#if defined(__XPET__) || (defined(__XCBM2__) && !defined(__XCBM5X0__))
+        case IDM_VERTICAL_STRETCH:
+            toggle(VERTICAL_STRETCH);
+            return;
+#else
+        case IDM_BORDER_NORMAL:
+            resources_set_int(BORDER_MODE, NORMAL_BORDERS);
+            return;
+        case IDM_BORDER_FULL:
+            resources_set_int(BORDER_MODE, FULL_BORDERS);
+            return;
+        case IDM_BORDER_DEBUG:
+            resources_set_int(BORDER_MODE, DEBUG_BORDERS);
+            return;
+        case IDM_BORDER_NONE:
+            resources_set_int(BORDER_MODE, NO_BORDERS);
             return;
 #endif
 
@@ -1214,6 +1256,19 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("Sound");
             return;
 
+        case IDM_SOUND_OUTPUT_SYSTEM:
+            resources_set_int("SoundOutput", SOUND_OUTPUT_SYSTEM);
+            return;
+        case IDM_SOUND_OUTPUT_MONO:
+            resources_set_int("SoundOutput", SOUND_OUTPUT_MONO);
+            return;
+        case IDM_SOUND_OUTPUT_STEREO:
+            resources_set_int("SoundOutput", SOUND_OUTPUT_STEREO);
+            return;
+        case IDM_DRIVE_SOUND:
+            toggle("DriveSoundEmulation");
+            return;
+
 #ifdef HAVE_RESID
         case IDM_RESID:
             toggle("SidEngine");
@@ -1244,8 +1299,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 
 #ifndef __X64DTV__
+        case IDM_NO_EXTRA_SID:
+            resources_set_int("SidStereo", 0);
+            return;
         case IDM_STEREO:
-            toggle("SidStereo");
+            resources_set_int("SidStereo", 1);
+            return;
+        case IDM_TRIPLE:
+            resources_set_int("SidStereo", 2);
             return;
 #endif
 
@@ -2207,6 +2268,11 @@ void menu_select(HWND hwnd, USHORT item)
             return;
         case IDM_SOUND:
             WinCheckRes(hwnd, IDM_SOUNDON, "Sound");
+            resources_get_int("SoundOutput", &val);
+            WinCheckMenuItem(hwnd, IDM_SOUND_OUTPUT_SYSTEM, val == SOUND_OUTPUT_SYSTEM);
+            WinCheckMenuItem(hwnd, IDM_SOUND_OUTPUT_MONO, val == SOUND_OUTPUT_MONO);
+            WinCheckMenuItem(hwnd, IDM_SOUND_OUTPUT_STEREO, val == SOUND_OUTPUT_STEREO);
+            WinCheckRes(hwnd, IDM_DRIVE_SOUND, "DriveSoundEmulation");
 
 #ifdef HAVE_RESID
             resources_get_int("SidEngine", &val);
@@ -2219,7 +2285,10 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
 
 #ifndef __X64DTV__
-            WinCheckRes(hwnd, IDM_STEREO, "SidStereo");
+            resources_get_int("SidStereo", &val);
+            WinCheckMenuItem(hwnd, IDM_NO_EXTRA_SID, val == 0);
+            WinCheckMenuItem(hwnd, IDM_STEREO, val == 1);
+            WinCheckMenuItem(hwnd, IDM_TRIPLE, val == 2);
 #endif
 #endif // __X64__ || __X128__ || __XCBM__
 
@@ -2331,6 +2400,12 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
 #if defined(__XPET__) || (defined(__XCBM2__) && !defined(__XCBM5X0__))
             WinCheckRes(hwnd, IDM_VERTICAL_STRETCH, VERTICAL_STRETCH);
+#else
+            resources_get_int(BORDER_MODE, &val);
+            WinCheckMenuItem(hwnd, IDM_BORDER_NORMAL, val == NORMAL_BORDERS);
+            WinCheckMenuItem(hwnd, IDM_BORDER_FULL, val == FULL_BORDERS);
+            WinCheckMenuItem(hwnd, IDM_BORDER_DEBUG, val == DEBUG_BORDERS);
+            WinCheckMenuItem(hwnd, IDM_BORDER_NONE, val == NO_BORDERS);
 #endif
 
 #ifdef __X128__

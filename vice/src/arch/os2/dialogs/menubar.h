@@ -76,6 +76,12 @@
 #define IDM_BURST_CIA1               0x2e4
 #define IDM_BURST_CIA2               0x2e5
 
+#define IDM_SOUND_OUTPUT_MODE        0x2e6
+#define IDM_SOUND_OUTPUT_SYSTEM      0x2e7
+#define IDM_SOUND_OUTPUT_MONO        0x2e8
+#define IDM_SOUND_OUTPUT_STEREO      0x2e9
+#define IDM_DRIVE_SOUND              0x2ea
+
 #define IDM_SETUP                    0x10f
 #define IDM_SOUND                    0x110
 #define IDM_SIDCHIP                  0x111
@@ -132,6 +138,12 @@
 #define IDM_RENDER_SCALE2X           0x2cf
 #define IDM_VIDEO_SETTINGS           0x133
 #define IDM_VDC_VIDEO_SETTINGS       0x134
+
+#define IDM_BORDER_MODE              0x2eb
+#define IDM_BORDER_NORMAL            0x2ec
+#define IDM_BORDER_FULL              0x2ed
+#define IDM_BORDER_DEBUG             0x2ee
+#define IDM_BORDER_NONE              0x2ef
 
 #define IDM_VDCDSIZE                 0x136
 #define IDM_VDCDSCAN                 0x137
@@ -427,6 +439,9 @@
 #define IDM_RESIDRESAMPLE            0x179
 #define IDM_RESIDFASTRES             0x17a
 #define IDM_STEREO                   0x17b
+#define IDM_SID_AMOUNT               0x2f0
+#define IDM_TRIPLE                   0x2f1
+#define IDM_NO_EXTRA_SID             0x2f2
 
 #define IDM_RESIDBAND                0x13d
 #define IDM_RESIDPASS0               0x180
