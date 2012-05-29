@@ -553,6 +553,17 @@ BEGIN
         END
 #endif
 
+#ifdef __X128__
+        SUBMENU "C128 model",                     IDM_C128_MODEL,               MIS_TEXT
+        BEGIN
+            MENUITEM "C128 PAL",                  IDM_C128PAL,                  MIS_TEXT
+            MENUITEM "C128 DCR PAL",              IDM_C128DCRPAL,               MIS_TEXT
+            MENUITEM "C128 NTSC",                 IDM_C128NTSC,                 MIS_TEXT
+            MENUITEM "C128 DCR NTSC",             IDM_C128DCRNTSC,              MIS_TEXT
+        END
+#endif
+
+
 #if defined __X128__ || defined __XCBM2__
         SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
         BEGIN

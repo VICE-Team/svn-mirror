@@ -598,6 +598,12 @@
 #define IDM_DISCRETE                 0x1e6
 #define IDM_CUSTOM_IC                0x1e7
 
+#define IDM_C128_MODEL               0x2fa
+#define IDM_C128PAL                  0x2fb
+#define IDM_C128DCRPAL               0x2fc
+#define IDM_C128NTSC                 0x2fd
+#define IDM_C128DCRNTSC              0x2fe
+
 #define IDM_PLUS4_MODEL              0x2d5
 #define IDM_C16PAL                   0x2d6
 #define IDM_C16NTSC                  0x2d7

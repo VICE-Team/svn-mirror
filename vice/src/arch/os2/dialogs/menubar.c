@@ -83,6 +83,10 @@
 #include "c64model.h"        // c64model_set(), C64MODEL_*
 #endif
 
+#ifdef __X128__
+#include "c128model.h"
+#endif
+
 #ifdef __XPLUS4__
 #include "plus4model.h"
 #include "ted.h"
@@ -503,6 +507,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DISCRETE:
         case IDM_CUSTOM_IC:
             resources_set_int("GlueLogic", idm - IDM_DISCRETE);
+            return;
+#endif
+
+#if defined(__X128__)
+        case IDM_C128PAL:
+        case IDM_C128DCRPAL:
+        case IDM_C128NTSC:
+        case IDM_C128DCRNTSC:
+            c128model_set(C128MODEL_C128_PAL + idm - IDM_C128PAL);
             return;
 #endif
 
@@ -2033,6 +2046,14 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_6567R56A_OLD_NTSC, val == VICII_MODEL_6567R56A);
             WinCheckMenuItem(hwnd, IDM_6572_PAL_N, val == VICII_MODEL_6572);
 #endif
+#endif
+
+#ifdef __X128__
+            val = c128model_get();
+            WinCheckMenuItem(hwnd, IDM_C128PAL, val == C128MODEL_C128_PAL);
+            WinCheckMenuItem(hwnd, IDM_C128DCRPAL, val == C128MODEL_C128DCR_PAL);
+            WinCheckMenuItem(hwnd, IDM_C128NTSC, val == C128MODEL_C128_NTSC);
+            WinCheckMenuItem(hwnd, IDM_C128DCRNTSC, val == C128MODEL_C128DCR_NTSC);
 #endif
 
 #ifdef __XPLUS4__
