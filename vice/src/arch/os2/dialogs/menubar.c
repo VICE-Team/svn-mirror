@@ -463,13 +463,13 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_CIA1_6526_OLD:
             resources_set_int("CIA1Model", 0);
             return;
-        case IDM_CIA1_6526_NEW:
+        case IDM_CIA1_6526A_NEW:
             resources_set_int("CIA1Model", 1);
             return;
         case IDM_CIA2_6526_OLD:
             resources_set_int("CIA2Model", 0);
             return;
-        case IDM_CIA2_6526_NEW:
+        case IDM_CIA2_6526A_NEW:
             resources_set_int("CIA2Model", 1);
             return;
 #endif
@@ -495,14 +495,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_VICII_NEW_LUMINANCES:
             toggle("VICIINewLuminances");
-            return;
-        case IDM_CIA1_6526_OLD:
-        case IDM_CIA1_6526A_NEW:
-            resources_set_int("CIA1Model", idm - IDM_CIA1_6526_OLD);
-            return;
-        case IDM_CIA2_6526_OLD:
-        case IDM_CIA2_6526A_NEW:
-            resources_set_int("CIA2Model", idm - IDM_CIA2_6526_OLD);
             return;
         case IDM_DISCRETE:
         case IDM_CUSTOM_IC:
