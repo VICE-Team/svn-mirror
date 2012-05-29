@@ -84,6 +84,10 @@
 #include "plus4model.h"
 #endif
 
+#ifdef __X64DTV__
+#include "c64dtvmodel.h"
+#endif
+
 #ifdef __XCBM__
 #include "cbm2mem.h"     // cbm2_set_model
 
@@ -472,6 +476,16 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_V364NTSC:
         case IDM_C232NTSC:
             plus4model_set(PLUS4MODEL_C16_PAL + idm - IDM_C16PAL);
+            return;
+#endif
+
+#if defined(__X64DTV__)
+        case IDM_DTV2PAL:
+        case IDM_DTV2NTSC:
+        case IDM_DTV3PAL:
+        case IDM_DTV3NTSC:
+        case IDM_HUMMERNTSC:
+            dtvmodel_set(DTVMODEL_V2_PAL + idm - IDM_DTV2PAL);
             return;
 #endif
 
@@ -1912,6 +1926,13 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #ifdef __X64DTV__
+            val = dtvmodel_get();
+            WinCheckMenuItem(hwnd, IDM_DTV2PAL, val == DTVMODEL_V2_PAL);
+            WinCheckMenuItem(hwnd, IDM_DTV2NTSC, val == DTVMODEL_V2_NTSC);
+            WinCheckMenuItem(hwnd, IDM_DTV3PAL, val == DTVMODEL_V3_PAL);
+            WinCheckMenuItem(hwnd, IDM_DTV3NTSC, val == DTVMODEL_V3_NTSC);
+            WinCheckMenuItem(hwnd, IDM_HUMMERNTSC, val == DTVMODEL_HUMMER_NTSC);
+
             resources_get_int("c64dtvromrw", &val);
             WinCheckMenuItem(hwnd, IDM_C64DTV_FLASHROM_RW, val);
 #endif

@@ -578,6 +578,13 @@
 #define IDM_V364NTSC                 0x2da
 #define IDM_C232NTSC                 0x2db
 
+#define IDM_C64DTV_MODEL             0x2dc
+#define IDM_DTV2PAL                  0x2dd
+#define IDM_DTV2NTSC                 0x2de
+#define IDM_DTV3PAL                  0x2df
+#define IDM_DTV3NTSC                 0x2e0
+#define IDM_HUMMERNTSC               0x2e1
+
 #define IDM_PETMODEL                 0x270
 
 #define IDM_PET2001                  0x271

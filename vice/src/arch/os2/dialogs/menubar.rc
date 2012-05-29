@@ -544,6 +544,17 @@ BEGIN
         END
 #endif
 
+#ifdef __X64DTV__
+        SUBMENU "C64DTV model",                           IDM_C64DTV_MODEL,             MIS_TEXT
+        BEGIN
+            MENUITEM "DTV2 PAL",                          IDM_DTV2PAL,                  MIS_TEXT
+            MENUITEM "DTV2 NTSC",                         IDM_DTV2NTSC,                 MIS_TEXT
+            MENUITEM "DTV3 PAL",                          IDM_DTV3PAL,                  MIS_TEXT
+            MENUITEM "DTV3 NTSC",                         IDM_DTV3NTSC,                 MIS_TEXT
+            MENUITEM "HUMMER NTSC",                       IDM_HUMMERNTSC,               MIS_TEXT
+        END
+#endif
+
 #ifdef __XCBM__
         SUBMENU "Model",                                  IDM_MODEL,                    MIS_TEXT
         BEGIN
