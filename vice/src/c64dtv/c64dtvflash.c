@@ -381,34 +381,31 @@ void c64dtvflash_reset(void)
 
 static int set_c64dtvflash_filename(const char *name, void *param)
 {
-    int retval=0;
+    int retval = 0;
 
 #ifndef AMIGA_SUPPORT
     char *complete_path = NULL;
 #endif
 
-    if (c64dtvflash_filename != NULL && name != NULL
-       && strcmp(name, c64dtvflash_filename) == 0)
+    if (c64dtvflash_filename != NULL && name != NULL && strcmp(name, c64dtvflash_filename) == 0) {
        return 0;
-
-    if (name != NULL && *name != '\0') {
-        if (util_check_filename_access(name) < 0)
-            return -1;
     }
 
     if (c64dtvflash_mem_rw && c64dtvflash_filename != NULL && *c64dtvflash_filename != '\0') {
-        if (util_file_save(c64dtvflash_filename, c64dtvflash_mem, 0x200000) < 0)
+        if (util_file_save(c64dtvflash_filename, c64dtvflash_mem, 0x200000) < 0) {
           log_message(c64dtvflash_log, "Writing C64DTV ROM image %s failed.", c64dtvflash_filename);
-        else
+        } else {
           log_message(c64dtvflash_log, "Wrote C64DTV ROM image %s.", c64dtvflash_filename);
+        }
     }
 
 #ifndef AMIGA_SUPPORT
     /* check if the given rom file can be found in a sys dir and set resource with absolute path */
     if (name != NULL && *name != '\0' && !util_file_exists(name)) {
-        sysfile_locate(name,&complete_path);
-        if (complete_path!=NULL)
-          name = complete_path;
+        sysfile_locate(name, &complete_path);
+        if (complete_path != NULL) {
+            name = complete_path;
+        }
     }
 #endif
     
@@ -418,12 +415,14 @@ static int set_c64dtvflash_filename(const char *name, void *param)
     lib_free(complete_path);
 #endif
 
-    if (c64dtvflash_filename != NULL && *c64dtvflash_filename != '\0')
+    if (c64dtvflash_filename != NULL && *c64dtvflash_filename != '\0') {
         retval = c64dtvflash_load_rom();
+    }
 
     /* for now always reset machine, later can become optional */
-    if (!retval)
+    if (!retval) {
         machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
 
     return 0;
 }
