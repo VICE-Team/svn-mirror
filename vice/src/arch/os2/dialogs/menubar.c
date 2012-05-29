@@ -92,6 +92,10 @@
 #include "ted.h"
 #endif
 
+#ifdef __XPET__
+#include "petmodel.h"
+#endif
+
 #ifdef __XVIC__
 #include "vic.h"
 #endif
@@ -108,28 +112,6 @@ const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+"
 static void set_cbm_model(WORD addr, void *model)
 {
     cbm2_set_model((char*)model, NULL);
-}
-#endif
-
-#ifdef __XPET__
-#include "pets.h"
-const char pet_models[][10] = {
-    "2001",
-    "3008",
-    "3016",
-    "3032",
-    "3032B",
-    "4016",
-    "4032",
-    "4032B",
-    "8032",
-    "8096",
-    "8296",
-    "SuperPET"
-};
-static void set_pet_model(WORD addr, void *model)
-{
-    pet_set_model((char*)model, NULL);
 }
 #endif
 
@@ -519,6 +501,23 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_V364NTSC:
         case IDM_C232NTSC:
             plus4model_set(PLUS4MODEL_C16_PAL + idm - IDM_C16PAL);
+            return;
+#endif
+
+#if defined(__XPET__)
+        case IDM_PET2001:
+        case IDM_PET3008:
+        case IDM_PET3016:
+        case IDM_PET3032:
+        case IDM_PET3032B:
+        case IDM_PET4016:
+        case IDM_PET4032:
+        case IDM_PET4032B:
+        case IDM_PET8032:
+        case IDM_PET8096:
+        case IDM_PET8296:
+        case IDM_PETSUPER:
+            petmodel_set(PETMODEL_2001 + idm - IDM_PET2001);
             return;
 #endif
 
@@ -1491,20 +1490,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif // __XCBM__
 
 #ifdef __XPET__
-        case IDM_PET2001:
-        case IDM_PET3008:
-        case IDM_PET3016:
-        case IDM_PET3032:
-        case IDM_PET3032B:
-        case IDM_PET4016:
-        case IDM_PET4032:
-        case IDM_PET4032B:
-        case IDM_PET8032:
-        case IDM_PET8096:
-        case IDM_PET8296:
-        case IDM_PETSUPER:
-            interrupt_maincpu_trigger_trap(set_pet_model, (void*)pet_models[(idm & 0xf) - 1]);
-            return;
         case IDM_CHARSET:
             toggle("Basic1Chars");
             return;
@@ -2056,6 +2041,22 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_PLUS4NTSC, val == PLUS4MODEL_PLUS4_NTSC);
             WinCheckMenuItem(hwnd, IDM_V364NTSC, val == PLUS4MODEL_V364_NTSC);
             WinCheckMenuItem(hwnd, IDM_C232NTSC, val == PLUS4MODEL_232_NTSC);
+#endif
+
+#if defined(__XPET__)
+            val = petmodel_get();
+            WinCheckMenuItem(hwnd, IDM_PET2001, val == PETMODEL_2001);
+            WinCheckMenuItem(hwnd, IDM_PET3008, val == PETMODEL_3008);
+            WinCheckMenuItem(hwnd, IDM_PET3016, val == PETMODEL_3016);
+            WinCheckMenuItem(hwnd, IDM_PET3032, val == PETMODEL_3032);
+            WinCheckMenuItem(hwnd, IDM_PET3032B, val == PETMODEL_3032B);
+            WinCheckMenuItem(hwnd, IDM_PET4016, val == PETMODEL_4016);
+            WinCheckMenuItem(hwnd, IDM_PET4032, val == PETMODEL_4032);
+            WinCheckMenuItem(hwnd, IDM_PET4032B, val == PETMODEL_4032B);
+            WinCheckMenuItem(hwnd, IDM_PET8032, val == PETMODEL_8032);
+            WinCheckMenuItem(hwnd, IDM_PET8096, val == PETMODEL_8096);
+            WinCheckMenuItem(hwnd, IDM_PET8296, val == PETMODEL_8296);
+            WinCheckMenuItem(hwnd, IDM_PETSUPER, val == PETMODEL_SUPERPET);
 #endif
 
 #ifdef __X64DTV__
