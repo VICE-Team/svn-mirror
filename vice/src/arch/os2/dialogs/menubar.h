@@ -71,6 +71,11 @@
 #define IDM_COLOR                    0x10e
 #define IDM_COLOR2                   0x2bf
 
+#define IDM_BURSTMOD                 0x2e2
+#define IDM_BURST_NONE               0x2e3
+#define IDM_BURST_CIA1               0x2e4
+#define IDM_BURST_CIA2               0x2e5
+
 #define IDM_SETUP                    0x10f
 #define IDM_SOUND                    0x110
 #define IDM_SIDCHIP                  0x111

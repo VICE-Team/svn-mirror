@@ -807,6 +807,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_C64_256K:
             toggle("C64_256K");
             return;
+        case IDM_BURST_NONE:
+            resources_set_int("BurstMod", 0);
+            return;
+        case IDM_BURST_CIA1:
+            resources_set_int("BurstMod", 1);
+            return;
+        case IDM_BURST_CIA2:
+            resources_set_int("BurstMod", 2);
+            return;
 #endif
 
         case IDM_REU128:
@@ -1839,6 +1848,13 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_TFE_IO_SWAP, "TFEIOSwap");
 #endif
 #endif
+#endif
+
+#ifdef __X64__
+            resources_get_int("BurstMod", &val);
+            WinCheckMenuItem(hwnd, IDM_BURST_NONE, val == 0);
+            WinCheckMenuItem(hwnd, IDM_BURST_CIA1, val == 1);
+            WinCheckMenuItem(hwnd, IDM_BURST_CIA2, val == 2);
 #endif
 
 #if defined(__X64__) || defined(__X128__)

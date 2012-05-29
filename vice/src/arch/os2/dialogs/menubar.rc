@@ -665,6 +665,15 @@ BEGIN
         MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DAC,         MIS_TEXT
 #endif
 
+#ifdef __X64__
+        SUBMENU "Drive burst modification",               IDM_BURSTMOD,                 MIS_TEXT
+        BEGIN
+            MENUITEM "None",                              IDM_BURST_NONE,               MIS_TEXT
+            MENUITEM "CIA-1",                             IDM_BURST_CIA1,               MIS_TEXT
+            MENUITEM "CIA-2",                             IDM_BURST_CIA2,               MIS_TEXT
+        END
+#endif
+
 #if defined(__X64__) || defined(__X128__)
 
 #ifdef HAVE_TFE
