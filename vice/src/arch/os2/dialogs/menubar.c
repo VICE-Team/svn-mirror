@@ -1966,8 +1966,6 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_RAMCARTFILE, val);
             resources_get_int("MagicVoiceCartridgeEnabled", &val);
             WinCheckMenuItem(hwnd, IDM_MAGICVOICE, val);
-            resources_get_int("SpeechEnabled", &val);
-            WinCheckMenuItem(hwnd, IDM_V364SPEECH, val);
             resources_get_int("EasyFlashJumper", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_JUMPER, val);
             resources_get_int("EasyFlashWriteCRT", &val);
@@ -2034,6 +2032,8 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #ifdef __XPLUS4__
+            resources_get_int("SpeechEnabled", &val);
+            WinCheckMenuItem(hwnd, IDM_V364SPEECH, val);
             val = plus4model_get();
             WinCheckMenuItem(hwnd, IDM_C16PAL, val == PLUS4MODEL_C16_PAL);
             WinCheckMenuItem(hwnd, IDM_C16NTSC, val == PLUS4MODEL_C16_NTSC);
