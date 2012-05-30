@@ -197,6 +197,7 @@ int ui_init_finish(void)
 
     log_message(LOG_DEFAULT, "VICE/2-Port done by");
     log_message(LOG_DEFAULT, "T. Bretz.\n");
+    log_message(LOG_DEFAULT, "M. van den Heuvel.\n");
 
     log_message(LOG_DEFAULT, "Starting Vice/2 at %d.%d.%d %d:%02d:%02d\n", DT.day, DT.month, DT.year, DT.hours, DT.minutes, DT.seconds);
 
