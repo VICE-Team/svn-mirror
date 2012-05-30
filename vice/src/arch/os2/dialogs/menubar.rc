@@ -258,7 +258,7 @@ BEGIN
         END
 #endif
 
-#if (defined __XCBM2__ && !defined __XCBM5X0__) || defined __XPET__
+#if defined __XCBM2__ || defined __XPET__
         SUBMENU "CRTC Settings",                          IDM_VIDEO_SETTINGS,           MIS_TEXT
         BEGIN
             MENUITEM "CRTC Video ~Cache",                 IDM_VCACHE,                   MIS_TEXT
@@ -563,7 +563,7 @@ BEGIN
 #endif
 
 
-#if defined __X128__ || defined __XCBM2__
+#if defined __X128__ || defined __XCBM__
         SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
         BEGIN
             MENUITEM "6526 (old)",                IDM_CIA1_6526_OLD,            MIS_TEXT

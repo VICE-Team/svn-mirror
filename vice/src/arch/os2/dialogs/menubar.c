@@ -139,7 +139,7 @@ static const char *BORDER_MODE = "VICIIBordermode";
 #define NO_BORDERS VICII_NO_BORDERS
 #endif
 
-#if (defined(__XCBM2__) && !defined(__XCBM5X0__)) || defined(__XPET__)
+#if defined(__XCBM2__) || defined(__XPET__)
 static const char *VIDEO_CACHE = "CrtcVideoCache";
 static const char *DOUBLE_SIZE = "CrtcDoubleSize";
 static const char *DOUBLE_SCAN = "CrtcDoubleScan";
@@ -630,7 +630,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__XPET__) || (defined(__XCBM2__) && !defined(__XCBM5X0__))
+#if defined(__XPET__) || defined(__XCBM2__)
         case IDM_VERTICAL_STRETCH:
             toggle(VERTICAL_STRETCH);
             return;
@@ -2455,7 +2455,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_DSCAN, val);
             WinCheckMenuItem(hwnd, IDM_DSIZE, val);
             WinCheckRes(hwnd, IDM_DSCAN, DOUBLE_SCAN);
-#if defined(__XPET__) || (defined(__XCBM2__) && !defined(__XCBM5X0__))
+#if defined(__XPET__) || defined(__XCBM2__)
             WinCheckRes(hwnd, IDM_VERTICAL_STRETCH, VERTICAL_STRETCH);
 #else
             resources_get_int(BORDER_MODE, &val);
