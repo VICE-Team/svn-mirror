@@ -508,7 +508,6 @@ BEGIN
             MENUITEM "~Internal",                         IDM_INTFUNCROM,               MIS_TEXT
             MENUITEM "~External",                         IDM_EXTFUNCROM,               MIS_TEXT
         END
-        MENUITEM "I~EEE488 Interface",                    IDM_IEEE,                     MIS_TEXT
 #endif // __X128__
 
 #ifdef __X64SC__
