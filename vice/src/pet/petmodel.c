@@ -183,12 +183,6 @@ int pet_set_model(const char *model_name, void *extra)
     return -1;
 }
 
-/* FIXME: remove, still used in os/2 and win32 ui */
-const char *get_pet_model(void)
-{
-    return pet_table[pet_model].model;
-}
-
 int petmodel_get(void)
 {
     return pet_model;

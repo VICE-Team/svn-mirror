@@ -2534,15 +2534,6 @@ void menu_select(HWND hwnd, USHORT item)
 #endif // __XCBM__
 
 #ifdef __XPET__
-        case IDM_PETMODEL:
-            {
-                int i;
-
-                for (i = 0; i < 12; i++) {
-                    WinCheckMenuItem(hwnd, IDM_PETMODEL|(i + 1), !strcmp(get_pet_model(), pet_models[i]));
-                }
-            }
-            return;
         case IDM_IOMEM:
             resources_get_int("IOSize", &val);
             WinCheckMenuItem(hwnd, IDM_IOMEM256, val == 0x100);
