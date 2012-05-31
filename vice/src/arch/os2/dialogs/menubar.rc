@@ -63,6 +63,22 @@ BEGIN
     MENUITEM "Detach cart",                               IDM_VIC20_DETACH_CART,        MIS_TEXT
 #endif
 
+#ifdef __XPLUS4__
+    MENUITEM SEPARATOR
+    SUBMENU "~Attach Cartridge",                          IDM_PLUS4_ATTACH_CARTRIDGE,   MIS_TEXT
+    BEGIN
+        MENUITEM "Smart Attach Image",                    IDM_PLUS4_CART_SMART_ATTACH,  MIS_TEXT
+        MENUITEM "C0 low image",                          IDM_PLUS4_C0_LOW,             MIS_TEXT
+        MENUITEM "C0 high image",                         IDM_PLUS4_C0_HIGH,            MIS_TEXT
+        MENUITEM "C1 low image",                          IDM_PLUS4_C1_LOW,             MIS_TEXT
+        MENUITEM "C1 high image",                         IDM_PLUS4_C1_HIGH,            MIS_TEXT
+        MENUITEM "C2 low image",                          IDM_PLUS4_C2_LOW,             MIS_TEXT
+        MENUITEM "C2 high image",                         IDM_PLUS4_C2_HIGH,            MIS_TEXT
+        MENUITEM "Reset on cart change",                  IDM_PLUS4_RESET_ON_CART_CHNG, MIS_TEXT
+    END
+    MENUITEM "Detach cart",                               IDM_PLUS4_DETACH_CART,        MIS_TEXT
+#endif
+
 #if defined(__X64__) || defined(__X128__)
         MENUITEM SEPARATOR
         SUBMENU "~Attach Cartridge",                      IDM_CARTRIDGE,                MIS_TEXT

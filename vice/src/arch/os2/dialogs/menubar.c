@@ -434,6 +434,50 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+#ifdef __XPLUS4__
+        case IDM_PLUS4_CART_SMART_ATTACH:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_DETECT, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_C0_LOW:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C0LO, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_C0_HIGH:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C0HI, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_C1_LOW:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C1LO, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_C1_HIGH:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C1HI, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_C2_LOW:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C2LO, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_C2_HIGH:
+            if (cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C2HI, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_PLUS4_RESET_ON_CART_CHNG:
+            toggle("CartridgeReset");
+            return;
+        case IDM_PLUS4_DETACH_CART:
+            cartridge_detach_image(-1);
+            return;
+#endif
+
 #if defined(__X64__) || defined(__X128__) || defined(__XCBM2__)
         case IDM_CIA1_6526_OLD:
             resources_set_int("CIA1Model", 0);
@@ -1674,6 +1718,13 @@ void menu_select(HWND hwnd, USHORT item)
         case IDM_VIC20_ATTACH_CARTRIDGE:
             resources_get_int("CartridgeReset", &val);
             WinCheckMenuItem(hwnd, IDM_VIC20_RESET_ON_CART_CHNG, val == 1);
+            return;
+#endif
+
+#ifdef __XPLUS4__
+        case IDM_PLUS4_ATTACH_CARTRIDGE:
+            resources_get_int("CartridgeReset", &val);
+            WinCheckMenuItem(hwnd, IDM_PLUS4_RESET_ON_CART_CHNG, val == 1);
             return;
 #endif
 

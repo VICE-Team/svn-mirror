@@ -697,6 +697,17 @@
 #define IDM_VIC20_RESET_ON_CART_CHNG 0x212
 #define IDM_VIC20_DETACH_CART        0x213
 
+#define IDM_PLUS4_ATTACH_CARTRIDGE   0x231
+#define IDM_PLUS4_CART_SMART_ATTACH  0x232
+#define IDM_PLUS4_C0_LOW             0x233
+#define IDM_PLUS4_C0_HIGH            0x234
+#define IDM_PLUS4_C1_LOW             0x235
+#define IDM_PLUS4_C1_HIGH            0x236
+#define IDM_PLUS4_C2_LOW             0x237
+#define IDM_PLUS4_C2_HIGH            0x2ff
+#define IDM_PLUS4_RESET_ON_CART_CHNG 0x300
+#define IDM_PLUS4_DETACH_CART        0x301
+
 #define IDM_PRINTER                  0x6ff
 
 #define IDM_PRINTER4                 0x700
