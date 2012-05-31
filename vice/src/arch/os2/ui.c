@@ -194,6 +194,10 @@ void cbm2ui_shutdown(void)
 {
 }
 
+void cbm5x0ui_shutdown(void)
+{
+}
+
 int ui_init_finish(void)
 {
     DATETIME DT = { 0 }; // Date and time information

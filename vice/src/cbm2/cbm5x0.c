@@ -424,7 +424,7 @@ void machine_specific_shutdown(void)
     /* close the video chip(s) */
     vicii_shutdown();
 
-#if defined(__BEOS__) || defined(USE_SDLUI) || defined(USE_GNOMEUI) || defined(USE_XAWUI)
+#if defined(__BEOS__) || defined(USE_SDLUI) || defined(USE_GNOMEUI) || defined(USE_XAWUI) || (__OS2__)
     /* FIXME make this available on other ports too */
     cbm5x0ui_shutdown();
 #else
