@@ -152,6 +152,11 @@ int cbm2ui_init(void)
     return 0;
 }
 
+int cbm5x0ui_init(void)
+{
+    return 0;
+}
+
 int ui_init(int *argc, char **argv)
 {
     return 0;
