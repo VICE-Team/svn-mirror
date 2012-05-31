@@ -103,14 +103,18 @@ EXTRA_DIST = \
 	fonts/vice2.rc \
 	watcom/archdep.tgt \
 	watcom/c128.tgt \
-	watcom/c128c64.tgt \
 	watcom/c64.tgt \
 	watcom/c64cart.tgt \
 	watcom/c64common.tgt \
 	watcom/c64commoncart.tgt \
+	watcom/c64commonc128dtvsc.tgt \
+	watcom/c64commonc128scvsid.tgt \
+	watcom/c64commondtvsc.tgt \
+	watcom/c64commondtvscvsid.tgt \
 	watcom/c64commonsc.tgt \
+	watcom/c64commonscvsid.tgt \
+	watcom/c64commonvsid.tgt \
 	watcom/c64dtv.tgt \
-	watcom/c64dtvc64.tgt \
 	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
 	watcom/cbm2.tgt \
@@ -186,6 +190,8 @@ EXTRA_DIST = \
 	watcom/video.tgt \
 	watcom/vsid.tgt \
 	watcom/vsidlib.tgt \
+	watcom/vsid-maincpu.c \
+	watcom/vsid-menubar.c \
 	watcom/x128-dlg-fileio.c \
 	watcom/x128-menubar.c \
 	watcom/x128-specific.tgt \

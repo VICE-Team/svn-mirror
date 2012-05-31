@@ -10,7 +10,7 @@ if not exist xcbm5x0.exe goto missingwatcom
 if not exist xpet.exe goto missingwatcom
 if not exist xplus4.exe goto missingwatcom
 if not exist xvic.exe goto missingwatcom
-rem if not exist vsid.exe goto missingwatcom
+if not exist vsid.exe goto missingwatcom
 if not exist x1541.exe goto missingwatcom
 if not exist cartconv.exe goto missingwatcom
 if not exist petcat.exe goto missingwatcom
@@ -33,6 +33,7 @@ copy vsid.exe     %VICEDIR%
 copy x1541.exe    %VICEDIR%
 copy petcat.exe   %VICEDIR%
 copy cartconv.exe %VICEDIR%
+copy vsid.exe     %VICEDIR%
 
 mkdir %VICEDIR%\Icons
 copy ..\icons\folder1.ico %VICEDIR%\Icons

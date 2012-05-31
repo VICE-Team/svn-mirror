@@ -708,6 +708,11 @@ const char *tape_get_file_name(void)
     imagecontents
 *******************************************************************************/
 
+image_contents_screencode_t *image_contents_to_screencode(image_contents_t *contents)
+{
+    return NULL;
+}
+
 char *image_contents_filename_by_number(image_contents_t *contents, unsigned int file_index)
 {
     return NULL;

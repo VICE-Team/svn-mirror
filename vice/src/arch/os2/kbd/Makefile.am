@@ -14,6 +14,7 @@ libkbd_a_SOURCES = \
 	kbd-pet.c \
 	kbd-plus4.c \
 	kbd-vic20.c \
+	kbd-vsid.c \
 	kmap-pet.c \
 	kmap.c \
 	parse.h \
