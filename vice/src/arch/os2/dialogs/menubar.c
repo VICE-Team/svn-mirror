@@ -478,6 +478,44 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
+#ifdef __XCBM__
+        case IDM_CBM2_LOAD_1XXX:
+            if (cartridge_attach_image(CARTRIDGE_CBM2_8KB_1000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_CBM2_UNLOAD_1XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_1000);
+            return;
+        case IDM_CBM2_LOAD_2_3XXX:
+            if (cartridge_attach_image(CARTRIDGE_CBM2_8KB_2000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_CBM2_UNLOAD_2_3XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_2000);
+            return;
+        case IDM_CBM2_LOAD_4_5XXX:
+            if (cartridge_attach_image(CARTRIDGE_CBM2_16KB_4000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_CBM2_UNLOAD_4_5XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_4000);
+            return;
+        case IDM_CBM2_LOAD_6_7XXX:
+            if (cartridge_attach_image(CARTRIDGE_CBM2_16KB_6000, ViceFileSelect(hwnd, 1)) < 0) {
+                ui_error("Cannot load cartridge image.");
+            }
+            return;
+        case IDM_CBM2_UNLOAD_6_7XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_6000);
+            return;
+        case IDM_CBM2_RESET_ON_CART_CHNG:
+            toggle("CartridgeReset");
+            return;
+#endif
+
 #if defined(__X64__) || defined(__X128__) || defined(__XCBM2__)
         case IDM_CIA1_6526_OLD:
             resources_set_int("CIA1Model", 0);
@@ -1725,6 +1763,13 @@ void menu_select(HWND hwnd, USHORT item)
         case IDM_PLUS4_ATTACH_CARTRIDGE:
             resources_get_int("CartridgeReset", &val);
             WinCheckMenuItem(hwnd, IDM_PLUS4_RESET_ON_CART_CHNG, val == 1);
+            return;
+#endif
+
+#ifdef __XCBM__
+        case IDM_CBM2_ATTACH_CARTRIDGE:
+            resources_get_int("CartridgeReset", &val);
+            WinCheckMenuItem(hwnd, IDM_CBM2_RESET_ON_CART_CHNG, val == 1);
             return;
 #endif
 

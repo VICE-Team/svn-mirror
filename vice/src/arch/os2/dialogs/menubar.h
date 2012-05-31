@@ -708,6 +708,17 @@
 #define IDM_PLUS4_RESET_ON_CART_CHNG 0x300
 #define IDM_PLUS4_DETACH_CART        0x301
 
+#define IDM_CBM2_ATTACH_CARTRIDGE    0x302
+#define IDM_CBM2_LOAD_1XXX           0x303
+#define IDM_CBM2_UNLOAD_1XXX         0x305
+#define IDM_CBM2_LOAD_2_3XXX         0x306
+#define IDM_CBM2_UNLOAD_2_3XXX       0x307
+#define IDM_CBM2_LOAD_4_5XXX         0x309
+#define IDM_CBM2_UNLOAD_4_5XXX       0x30a
+#define IDM_CBM2_LOAD_6_7XXX         0x30b
+#define IDM_CBM2_UNLOAD_6_7XXX       0x30c
+#define IDM_CBM2_RESET_ON_CART_CHNG  0x30d
+
 #define IDM_PRINTER                  0x6ff
 
 #define IDM_PRINTER4                 0x700

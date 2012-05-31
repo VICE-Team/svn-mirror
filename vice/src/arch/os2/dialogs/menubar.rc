@@ -79,6 +79,23 @@ BEGIN
     MENUITEM "Detach cart",                               IDM_PLUS4_DETACH_CART,        MIS_TEXT
 #endif
 
+#ifdef __XCBM__
+    MENUITEM SEPARATOR
+    SUBMENU "~Attach Cartridge",                          IDM_CBM2_ATTACH_CARTRIDGE,   MIS_TEXT
+    BEGIN
+        MENUITEM "Load new cart $1xxx",                   IDM_CBM2_LOAD_1XXX,          MIS_TEXT
+        MENUITEM "Unload cart $1xxx",                     IDM_CBM2_UNLOAD_1XXX,        MIS_TEXT
+        MENUITEM "Load new cart $2-3xxx",                 IDM_CBM2_LOAD_2_3XXX,        MIS_TEXT
+        MENUITEM "Unload cart $2-3xxx",                   IDM_CBM2_UNLOAD_2_3XXX,      MIS_TEXT
+        MENUITEM "Load new cart $4-5xxx",                 IDM_CBM2_LOAD_4_5XXX,        MIS_TEXT
+        MENUITEM "Unload cart $4-5xxx",                   IDM_CBM2_UNLOAD_4_5XXX,      MIS_TEXT
+        MENUITEM "Load new cart $6-7xxx",                 IDM_CBM2_LOAD_6_7XXX,        MIS_TEXT
+        MENUITEM "Unload cart $6-7xxx",                   IDM_CBM2_UNLOAD_6_7XXX,      MIS_TEXT
+        MENUITEM "Reset on cart change",                  IDM_CBM2_RESET_ON_CART_CHNG, MIS_TEXT
+    END
+    MENUITEM "Detach cart",                               IDM_PLUS4_DETACH_CART,        MIS_TEXT
+#endif
+
 #if defined(__X64__) || defined(__X128__)
         MENUITEM SEPARATOR
         SUBMENU "~Attach Cartridge",                      IDM_CARTRIDGE,                MIS_TEXT
