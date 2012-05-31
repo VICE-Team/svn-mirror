@@ -602,22 +602,30 @@ BEGIN
 #ifdef __XCBM__
         SUBMENU "Model",                                  IDM_MODEL,                    MIS_TEXT
         BEGIN
+#ifdef __XCBM5X0__
+            MENUITEM "CBM 510",                           IDM_CBM510,                   MIS_TEXT
+#else
             MENUITEM "CBM 610",                           IDM_CBM610,                   MIS_TEXT
             MENUITEM "CBM 620",                           IDM_CBM620,                   MIS_TEXT
             MENUITEM "CBM 620+",                          IDM_CBM620P,                  MIS_TEXT
             MENUITEM "CBM 710",                           IDM_CBM710,                   MIS_TEXT
             MENUITEM "CBM 720",                           IDM_CBM720,                   MIS_TEXT
             MENUITEM "CBM 720+",                          IDM_CBM720P,                  MIS_TEXT
+#endif
         END
+#ifdef __XCBM2__
         SUBMENU "Model ~Line",                            IDM_MODELLINE,                MIS_TEXT
         BEGIN
             MENUITEM "~7x0 (50Hz)",                       IDM_MODEL750,                 MIS_TEXT
             MENUITEM "6x0 (~50Hz)",                       IDM_MODEL650,                 MIS_TEXT
             MENUITEM "~6x0 (60Hz)",                       IDM_MODEL660,                 MIS_TEXT
         END
+#endif
         SUBMENU "RAM Si~ze",                              IDM_RAMSIZE,                  MIS_TEXT
         BEGIN
+#ifdef __XCBM5X0__
             MENUITEM "~64kB",                             IDM_RAM64,                    MIS_TEXT
+#endif
             MENUITEM "~128kB",                            IDM_RAM128,                   MIS_TEXT
             MENUITEM "~256kB",                            IDM_RAM256,                   MIS_TEXT
             MENUITEM "~512kB",                            IDM_RAM512,                   MIS_TEXT
