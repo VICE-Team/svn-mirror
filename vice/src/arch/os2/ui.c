@@ -54,7 +54,7 @@
 #include "util.h"
 #include "archdep.h"
 #include "cmdline.h"
-#include "machine.h"   // vsid_mode
+#include "machine.h"
 #include "resources.h"
 #include "translate.h"
 
@@ -81,7 +81,7 @@ static const resource_int_t resources_int[] = {
 
 int ui_resources_init(void)
 {
-    return vsid_mode ? 0 : resources_register_int(resources_int);
+    return (machine_class == VICE_MACHINE_VSID) ? 0 : resources_register_int(resources_int);
 }
 
 void ui_resources_shutdown(void)
@@ -104,7 +104,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ui_cmdline_options_init(void)
 {
-    return vsid_mode?0:cmdline_register_options(cmdline_options);
+    return (machine_class == VICE_MACHINE_VSID) ? 0 : cmdline_register_options(cmdline_options);
 }
 
 int machine_ui_init(void)

@@ -32,7 +32,7 @@
 #include <string.h>     // strlen, strcat
 
 #include "dialogs.h"
-#include "machine.h"    // vsid_mode
+#include "machine.h"
 #include "resources.h"
 #include "autostart.h"  // autostart_autodetect
 
@@ -95,7 +95,7 @@ MRESULT Drop(HWND hwnd, PDRAGINFO pDraginfo)
     strcat(dir, nam);
 
 #ifdef __X64__
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
 #endif
         if (autostart_autodetect(dir, NULL, 0, AUTOSTART_MODE_RUN) >= 0) {
             return NULL;

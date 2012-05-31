@@ -389,7 +389,7 @@ static const resource_int_t resources2_int[] = {
 
 int video_arch_resources_init(void)
 {
-    return (vsid_mode ? 0 : resources_register_int(resources1_int)) | resources_register_int(resources2_int);
+    return ((machine_class == VICE_MACHINE_VSID) ? 0 : resources_register_int(resources1_int)) | resources_register_int(resources2_int);
 }
 
 void video_arch_resources_shutdown(void)
@@ -438,7 +438,7 @@ static const cmdline_option_t cmdline_options2[] = {
 
 int video_init_cmdline_options(void)
 {
-    return (vsid_mode ? 0 : cmdline_register_options(cmdline_options1)) | cmdline_register_options(cmdline_options2);
+    return ((machine_class == VICE_MACHINE_VSID) ? 0 : cmdline_register_options(cmdline_options1)) | cmdline_register_options(cmdline_options2);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -534,7 +534,7 @@ int video_init(void) // initialize Dive
 
     vidlog = log_open("Video");
 
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         return 0;
     }
 
@@ -1539,7 +1539,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 */
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, UINT *width, UINT *height, int mapped)
 {
-    log_message(vidlog, "Creation of '%s' (%ix%i) requested%s.", canvas->viewport->title, *width, *height, vsid_mode ? " (vsid mode)" : "");
+    log_message(vidlog, "Creation of '%s' (%ix%i) requested%s.", canvas->viewport->title, *width, *height, (machine_class == VICE_MACHINE_VSID) ? " (vsid mode)" : "");
 
     *strrchr(canvas->viewport->title, ' ') = 0; // FIXME?
 

@@ -157,7 +157,7 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
     // FIXME !!!
     //
 #ifdef __X64__
-    if (!vsid_mode) {
+    if (machine_class != VICE_MACHINE_VSID) {
 #endif
         CanvasDisplaySpeed(speed+0.5, frame_rate+1, warp_enabled);
 #ifdef __X64__
