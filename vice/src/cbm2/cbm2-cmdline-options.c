@@ -90,12 +90,6 @@ int cbm2_set_model(const char *model, void *extra)
     return -1;
 }
 
-/* FIXME: remove this (only used in os/2 port */
-const char *cbm2_get_model()
-{
-    return modtab[cbm2_model].model;
-}
-
 /* ------------------------------------------------------------------------- */
 
 static const cmdline_option_t cmdline_options[] = {

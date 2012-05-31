@@ -520,16 +520,20 @@
 
 #define IDM_MODEL                    0x230
 
-#define IDM_CBM510                   0x231
-#define IDM_CBM610                   0x232
-#define IDM_CBM620                   0x233
-#define IDM_CBM620P                  0x234
-#define IDM_CBM710                   0x235
-#define IDM_CBM720                   0x236
-#define IDM_CBM720P                  0x237
-      
 #define IDM_MODELLINE                0x23f
-      
+
+#define IDM_CBM510PAL                0x311
+#define IDM_CBM510NTSC               0x312
+#define IDM_CBM610PAL                0x313
+#define IDM_CBM610NTSC               0x314
+#define IDM_CBM620PAL                0x315
+#define IDM_CBM620NTSC               0x316
+#define IDM_CBM620PLUSPAL            0x317
+#define IDM_CBM620PLUSNTSC           0x318
+#define IDM_CBM710NTSC               0x319
+#define IDM_CBM720NTSC               0x31a
+#define IDM_CBM720PLUSNTSC           0x31b
+
 #define IDM_MODEL750                 0x240
 #define IDM_MODEL660                 0x241
 #define IDM_MODEL650                 0x242

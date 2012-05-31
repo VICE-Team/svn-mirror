@@ -105,14 +105,7 @@
 #endif
 
 #ifdef __XCBM__
-#include "cbm2mem.h"     // cbm2_set_model
-
-const char cbm_models[][5] = { "510", "610", "620", "620+", "710", "720", "720+" };
-
-static void set_cbm_model(WORD addr, void *model)
-{
-    cbm2_set_model((char*)model, NULL);
-}
+#include "cbm2model.h"
 #endif
 
 #if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
@@ -518,6 +511,22 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_PET8296:
         case IDM_PETSUPER:
             petmodel_set(PETMODEL_2001 + idm - IDM_PET2001);
+            return;
+#endif
+
+#if defined(__XCBM__)
+        case IDM_CBM510PAL:
+        case IDM_CBM510NTSC:
+        case IDM_CBM610PAL:
+        case IDM_CBM610NTSC:
+        case IDM_CBM620PAL:
+        case IDM_CBM620NTSC:
+        case IDM_CBM620PLUSPAL:
+        case IDM_CBM620PLUSNTSC:
+        case IDM_CBM710NTSC:
+        case IDM_CBM720NTSC:
+        case IDM_CBM720PLUSNTSC:
+            cbm2model_set(CBM2MODEL_510_PAL + idm - IDM_CBM510PAL);
             return;
 #endif
 
@@ -1448,15 +1457,6 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 
 #ifdef __XCBM__
-        case IDM_CBM510:
-        case IDM_CBM610:
-        case IDM_CBM620:
-        case IDM_CBM620P:
-        case IDM_CBM710:
-        case IDM_CBM720:
-        case IDM_CBM720P:
-            interrupt_maincpu_trigger_trap(set_cbm_model, (void*)cbm_models[(idm & 0xf) - 1]);
-            return;
         case IDM_MODEL750:
         case IDM_MODEL660:
         case IDM_MODEL650:
@@ -2059,6 +2059,21 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_PETSUPER, val == PETMODEL_SUPERPET);
 #endif
 
+#if defined(__XCBM__)
+            val = cbm2model_get();
+            WinCheckMenuItem(hwnd, IDM_CBM510PAL, val == CBM2MODEL_510_PAL);
+            WinCheckMenuItem(hwnd, IDM_CBM510NTSC, val == CBM2MODEL_510_NTSC);
+            WinCheckMenuItem(hwnd, IDM_CBM610PAL, val == CBM2MODEL_610_PAL);
+            WinCheckMenuItem(hwnd, IDM_CBM610NTSC, val == CBM2MODEL_610_NTSC);
+            WinCheckMenuItem(hwnd, IDM_CBM620PAL, val == CBM2MODEL_620_PAL);
+            WinCheckMenuItem(hwnd, IDM_CBM620NTSC, val == CBM2MODEL_620_NTSC);
+            WinCheckMenuItem(hwnd, IDM_CBM620PLUSPAL, val == CBM2MODEL_620PLUS_PAL);
+            WinCheckMenuItem(hwnd, IDM_CBM620PLUSNTSC, val == CBM2MODEL_620PLUS_NTSC);
+            WinCheckMenuItem(hwnd, IDM_CBM710NTSC, val == CBM2MODEL_710_NTSC);
+            WinCheckMenuItem(hwnd, IDM_CBM720NTSC, val == CBM2MODEL_720_NTSC);
+            WinCheckMenuItem(hwnd, IDM_CBM720PLUSNTSC, val == CBM2MODEL_720PLUS_NTSC);
+#endif
+
 #ifdef __X64DTV__
             val = dtvmodel_get();
             WinCheckMenuItem(hwnd, IDM_DTV2PAL, val == DTVMODEL_V2_PAL);
@@ -2500,15 +2515,6 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 
 #ifdef __XCBM__
-        case IDM_MODEL:
-            {
-                int i;
-
-                for (i = 0; i < 7; i++) {
-                    WinCheckMenuItem(hwnd, IDM_MODEL|(i + 1), !strcmp(cbm2_get_model(), cbm_models[i]));
-                }
-            }
-            return;
         case IDM_MODELLINE:
             resources_get_int("ModelLine", &val);
             WinCheckMenuItem(hwnd, IDM_MODEL750, val == 0);

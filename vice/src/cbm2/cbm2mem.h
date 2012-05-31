@@ -48,7 +48,6 @@ extern BYTE mem_chargen_rom[CBM2_CHARGEN_ROM_SIZE];
 extern void cbm2mem_set_bank_exec(int val);
 extern void cbm2mem_set_bank_ind(int val);
 extern int cbm2_set_model(const char *model, void *extra);
-extern const char *cbm2_get_model(void);
 
 extern int cbm2_init_ok;
 

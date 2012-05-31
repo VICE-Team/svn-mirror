@@ -603,14 +603,18 @@ BEGIN
         SUBMENU "Model",                                  IDM_MODEL,                    MIS_TEXT
         BEGIN
 #ifdef __XCBM5X0__
-            MENUITEM "CBM 510",                           IDM_CBM510,                   MIS_TEXT
+            MENUITEM "CBM 510 PAL",                       IDM_CBM510PAL,                MIS_TEXT
+            MENUITEM "CBM 510 NTSC",                      IDM_CBM510NTSC,               MIS_TEXT
 #else
-            MENUITEM "CBM 610",                           IDM_CBM610,                   MIS_TEXT
-            MENUITEM "CBM 620",                           IDM_CBM620,                   MIS_TEXT
-            MENUITEM "CBM 620+",                          IDM_CBM620P,                  MIS_TEXT
-            MENUITEM "CBM 710",                           IDM_CBM710,                   MIS_TEXT
-            MENUITEM "CBM 720",                           IDM_CBM720,                   MIS_TEXT
-            MENUITEM "CBM 720+",                          IDM_CBM720P,                  MIS_TEXT
+            MENUITEM "CBM 610 PAL",                       IDM_CBM610PAL,                MIS_TEXT
+            MENUITEM "CBM 610 NTSC",                      IDM_CBM610NTSC,               MIS_TEXT
+            MENUITEM "CBM 620 PAL",                       IDM_CBM620PAL,                MIS_TEXT
+            MENUITEM "CBM 620 NTSC",                      IDM_CBM620NTSC,               MIS_TEXT
+            MENUITEM "CBM 620+ PAL",                      IDM_CBM620PLUSPAL,            MIS_TEXT
+            MENUITEM "CBM 620+ NTSC",                     IDM_CBM620PLUSNTSC,           MIS_TEXT
+            MENUITEM "CBM 710 NTSC",                      IDM_CBM710NTSC,               MIS_TEXT
+            MENUITEM "CBM 720 NTSC",                      IDM_CBM720NTSC,               MIS_TEXT
+            MENUITEM "CBM 720+ NTSC",                     IDM_CBM720PLUSNTSC,           MIS_TEXT
 #endif
         END
 #ifdef __XCBM2__
