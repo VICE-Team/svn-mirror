@@ -1,5 +1,520 @@
 ------------------------------------------------------------------------------
 
+2012-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
+	doc/vice.guide, doc/vice.chm, configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, src/arch/os2/Makefile.am, po/es.po,
+	po/ko.po, po/fr.po, po/da.po, po/tr.po, po/sv.po, po/de.po, po/hu.po,
+	po/ru.po, po/nl.po, po/pl.po, po/it.po: VICE 2.3.18
+
+2012-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/nl.po, po/sv.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/rescia.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resretroreplay.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/rested.rc,
+	src/arch/win32/resvic.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2012-06-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: Did a
+	'make update-po'.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added cbm2/cbm5x0 cartridge support
+	to the os/2 gui.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added plus4 cartridge support to the
+	os/2 gui.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/cbm2/cbm2-cmdline-options.c,
+	src/cbm2/cbm2mem.h: Updated the cbm2/cbm5x0 model selection in the
+	os/2 gui.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/ui.c, src/cbm2/cbm5x0.c: Made the os/2 port use the
+	cbm5x0 ui shutdown call.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/ui.c, src/cbm2/cbm5x0.c: Made the os/2 port use the
+	cbm5x0 ui init call.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.rc: Split the xcbm2/xcbm5x0 menu in
+	the os/2 gui.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dragndrop.c, src/arch/os2/ui.c,
+	src/arch/os2/video.c, src/arch/os2/vsyncarch.c: Replaced references to
+	vsid_mode with machine_class == VICE_MACHINE_VSID in the os/2 port.
+
+2012-05-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/kbd/Makefile.am,
+	src/arch/os2/kbd/kbd-vsid.c, src/arch/os2/watcom/c128c64.tgt,
+	src/arch/os2/watcom/c64common.tgt,
+	src/arch/os2/watcom/c64commonc128dtvsc.tgt,
+	src/arch/os2/watcom/c64commonc128sc.tgt,
+	src/arch/os2/watcom/c64commonc128scvsid.tgt,
+	src/arch/os2/watcom/c64commondtvsc.tgt,
+	src/arch/os2/watcom/c64commondtvscvsid.tgt,
+	src/arch/os2/watcom/c64commonsc.tgt,
+	src/arch/os2/watcom/c64commonscvsid.tgt,
+	src/arch/os2/watcom/c64commonvsid.tgt,
+	src/arch/os2/watcom/c64dtvc64.tgt, src/arch/os2/watcom/c64sc.tgt,
+	src/arch/os2/watcom/makebindist.bat, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/vsid-maincpu.c,
+	src/arch/os2/watcom/vsid-menubar.c, src/arch/os2/watcom/vsid.tgt,
+	src/arch/os2/watcom/vsidlib.tgt, src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x64.tgt, src/arch/os2/watcom/x64dtv.tgt,
+	src/arch/os2/watcom/x64sc.tgt, src/c64/vsidstubs.c: Split off vsid for
+	the os/2 port.
+
+2012-05-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.rc:
+	Fixed some ifdefs.
+
+2012-05-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/ui.c: Added myself to the log startup message of the
+	os/2 port.
+
+2012-05-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.rc: Removed duplicate ieee488 interface
+	item from the os/2 gui.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Fixed an os/2 menu issue.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/pet/petmodel.c, src/pet/pets.h:
+	Removed get_pet_model() since it is no longer used.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Updated the pet model selection in
+	the os/2 gui.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/x128.tgt: Some os/2 fixes.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added c128 model selection to the
+	os/2 gui.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.rc:
+	Extended the CIA model selection in the os/2 gui to include x128,
+	xcbm2 and xcbm5x0.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added retro replay settings to the
+	os/2 gui.
+
+2012-05-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/xvic.tgt: Added border mode, sound output mode,
+	3rd sid, and drive sound support to the os/2 gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added burst mod support to the os/2
+	gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.rc: Changed IDE64 HDx to
+	primary/secondary master/slave in the os/2 gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.c: Added fd2000/4000 support to the
+	os/2 gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added c64dtv model selection to the
+	os/2 gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/c64dtvflash.c: Fixed a resource issue that would make
+	x64dtv fail when starting from a read-only media.
+
+
+2012-05-28  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petmem.c: Change the tabular "emulation" of the 6702 dongle
+	into an algorithmic one. Also make sure that the
+	mem6809_{read,store}{16,32} functions index the
+	_mem6809_{read,write}_tab_ptr array according to the incremented
+	addresses.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/xplus4.tgt: Added plus4 model selection support to
+	the os/2 gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vertical stretch support to the
+	os/2 gui.
+
+2012-05-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.h, src/arch/os2/dialogs/dlg-color.c,
+	src/arch/os2/dialogs/dlg-color.h, src/arch/os2/dialogs/dlg-color.rc,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc, src/arch/os2/video.c: Updated the
+	os/2 video settings gui items.
+
+2012-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added autostart random delay to the
+	os/2 gui.
+
+2012-05-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/Makefile.am, src/arch/os2/dialogs/dialogs.h,
+	src/arch/os2/dialogs/dlg-ide64.c, src/arch/os2/dialogs/dlg-ide64.h,
+	src/arch/os2/dialogs/dlg-ide64.rc, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/vac++/incl/dialogs.icc, src/arch/os2/watcom/dialogs.tgt,
+	src/arch/os2/watcom/vice.wpj: Added IDE64 geometry settings dialog to
+	the os/2 gui.
+
+2012-05-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added MasC=uerade support to the
+	os/2 gui, and fixed the sfx sound expander ghosting.
+
+2012-05-22  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui_sid.cc, src/arch/beos/vicemenu.cc: 2 minor BeOS UI
+	fixes.
+
+2012-05-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/dialogs/dlg-color.c,
+	src/arch/os2/dialogs/dlg-color.h, src/arch/os2/dialogs/dlg-color.rc,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Attempt at a fix for the os/2 video
+	dialog.
+
+2012-05-18  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
+	src/arch/unix/macosx/joy-hid.c, src/arch/unix/macosx/joy-hid.h,
+	src/arch/unix/macosx/joy.c, src/arch/unix/macosx/joy.h: macjoy: allow
+	to store min/max range of each axis. detect now adjusts to real
+	min/max values.
+
+2012-05-18  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/joy.c: macjoy: auto adjust axis range if it was
+	reported wrong
+
+2012-05-08  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/debuggerwindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/disassemblywindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/iotreeitem.h,
+	src/arch/unix/macosx/cocoa/dialog/iotreeitem.m,
+	src/arch/unix/macosx/cocoa/dialog/iotreewindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/iotreewindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/memorywindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/registerwindowcontroller.m,
+	src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/vicewindowcontroller.m,
+	src/arch/unix/macosx/platform_macosx.c,
+	src/arch/unix/macosx/platform_macosx.h,
+	src/arch/unix/macosx/vsyncarch.c: Yet more svn properties fixes.
+
+2012-05-08  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicewindow.cc, src/arch/beos/vicewindow.h,
+	src/arch/beos/video.cc, src/arch/beos/videoarch.h,
+	src/arch/beos/vsidui.cc: Clean up BeVICE window creation/resizing
+	code, fixing multiple bugs/issues.
+
+2012-05-08  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/gui/uicbm2cart.c, src/arch/unix/gui/uicbm2cart.h,
+	src/arch/unix/gui/uiplus4cart.c, src/arch/unix/gui/uiplus4cart.h,
+	src/arch/unix/gui/uiram.c, src/arch/unix/gui/uiram.h,
+	src/arch/unix/x11/gnome/linenoise.c,
+	src/arch/unix/x11/gnome/linenoise.h, src/arch/unix/x11/gnome/uimon.c,
+	src/arch/unix/x11/xaw/uiedit.c, src/arch/unix/x11/xaw/uipalcontrol.c,
+	src/arch/unix/x11/xaw/uipalcontrol.h, src/c64/cart/diashowmaker.c,
+	src/c64/cart/diashowmaker.h, src/c64/cart/formel64.c,
+	src/c64/cart/formel64.h, src/c64/cart/kingsoft.c,
+	src/c64/cart/kingsoft.h, src/c64/cart/mach5.c, src/c64/cart/mach5.h,
+	src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	src/c64/cart/pagefox.c, src/c64/cart/pagefox.h,
+	src/c64/cart/silverrock128.c, src/c64/cart/silverrock128.h,
+	src/c64/vsidmem.c, src/c64/vsidstubs.c: More svn properties fixes.
+
+2012-05-06  Olaf Seibert <rhialto@falu.nl>
+
+	* po/nl.po: Some grammar fixes.
+
+2012-05-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h:
+	macosx: small layout fix
+
+2012-05-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/dialog/sidsettingswindowcontroller.m:
+	macosx: fixed stereo SID for x64sc
+
+2012-05-05  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/JoystickSettings.nib/keyedobjects.nib,
+	src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.h,
+	src/arch/unix/macosx/cocoa/dialog/joysticksettingswindowcontroller.m,
+	src/arch/unix/macosx/cocoa/mousedrv.m, src/arch/unix/macosx/joy-hid.c,
+	src/arch/unix/macosx/joy-hid.h, src/arch/unix/macosx/joy-hidlib.h,
+	src/arch/unix/macosx/joy-hidmgr.c, src/arch/unix/macosx/joy-hidutil.c,
+	src/arch/unix/macosx/joy.c, src/arch/unix/macosx/joy.h: macosx: added
+	support of logical axis values for HID joystick
+
+2012-05-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/mousedrv.cc: Unbroke BeVICE compile and debugged mouse
+	driver.
+
+2012-05-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated es.po file.
+
+2012-05-02  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-04-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ocean.c: Fixed ocean cart bank wrap, patch supplied by
+	Uffe Jakobsen.
+
+2012-04-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/joy.c: Applied patch from viceminus, untested, but
+	should fix bug #3522267.
+
+2012-04-27  Emir Akaydin <emir@akaydin.com>
+
+	* po/tr.po, po/translations-status.txt: Updated.
+
+2012-04-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for updated sv.po file.
+
+2012-04-25  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2425t0f0u).
+
+2012-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added support for sidcart and
+	digiblaster to the os/2 gui.
+
+2012-04-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dialogs.h, src/arch/os2/dialogs/dlg-joystick.c,
+	src/arch/os2/dialogs/dlg-joystick.h,
+	src/arch/os2/dialogs/dlg-joystick.rc, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/joy.c, src/arch/os2/watcom/dialogs.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x64.tgt, src/arch/os2/watcom/x64dtv.tgt,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	src/arch/os2/watcom/xcbm5x0.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4.tgt, src/arch/os2/watcom/xvic.tgt,
+	src/joystick.c, src/joystick.h: Added extra joystick support to the
+	os/2 gui.
+
+2012-04-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/x128-specific.tgt, src/arch/os2/watcom/x128.tgt,
+	src/arch/os2/watcom/x64-specific.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv-specific.tgt,
+	src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/x64sc-menubar.c,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/xcbm2-specific.tgt,
+	src/arch/os2/watcom/xcbm2.tgt, src/arch/os2/watcom/xcbm5x0-menubar.c,
+	src/arch/os2/watcom/xcbm5x0.tgt,
+	src/arch/os2/watcom/xpet-specific.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4-specific.tgt,
+	src/arch/os2/watcom/xplus4.tgt, src/arch/os2/watcom/xvic-specific.tgt,
+	src/arch/os2/watcom/xvic.tgt: Fixed watcom project files to correctly
+	use the menubar per emulator.
+
+2012-04-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/xcbm2.tgt, src/arch/os2/watcom/xcbm5x0.tgt: Fixed
+	the os/2 project files to correctly define __XCBM2__, __XCBM5X0__ and
+	__X64SC__.
+
+2012-04-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/video.c, src/raster/raster.c: second attempt to combat
+	bug #3515956
+
+2012-04-20  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_breakpoint.c: remove useless check
+
+2012-04-20  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_breakpoint.c: fix access of free'd memory
+
+2012-04-20  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64acia1.c: fix warning
+
+2012-04-20  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_disassemble.c: hotfix missing format argument
+
+
+2012-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated pl.po file.
+
+2012-04-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/joy.c: Fixed a typo.
+
+2012-04-20  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-04-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/petcpu.c: Allow SuperPET to get back from
+	6809 mode to 6502 mode via the switch.
+
+2012-04-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uidrivec128.c,
+	src/arch/unix/gui/uidrivec64vic20.c: Add dual IEEE drive types to c64
+	and c128 menus for device #10.
+
+2012-04-19  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/x11video.c: Apparently on some systems,
+	MIT-SHM works for our purposes even if it indicates that no
+	"shared pixmaps" are available. If so, don't let this stop our use of
+	SHM.
+
+2012-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uiretroreplay.c: Fixed a size issue in the windows
+	retro replay dialog.
+
+2012-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resdrivec128.rc, src/arch/win32/resdrivec64.rc,
+	src/arch/win32/resdriveplus4.rc: Fixed a size issue in the windows
+	drive dialog.
+
+2012-04-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Fixed some more os/2 menu issues.
+
+2012-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Fixed os/2 SFX gui elements toggle
+	problems.
+
+
+2012-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c: Fixed os/2 easyflash gui element
+	toggle problems.
+
+2012-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/watcom/ide-config.h: Fixed the os/2 mouse problems when
+	compiled with ow.
+
+2012-04-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-datasette.rc: Fixed size issues in the os/2
+	datasette settings dialog.
+
+
+2012-04-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/dlg-drive.rc: Fixed a text cut off issue in the
+	os/2 drive dialog.
+
+2012-04-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h,
+	src/arch/win32/watcom/ide-config.h: Make windows msvc and ow builds
+	compile with dynlib support.
+
+2012-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Added some FIXME's.
+
+2012-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
 2012-04-15  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, doc/vice.pdf, doc/vice.hlp, doc/vice.chm, configure.in,
@@ -14,7 +529,6 @@
 2012-04-15  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
-
 
 2012-04-14  groepaz <groepaz@gmx.net>
 
@@ -95,7 +609,6 @@
 	* src/pet/6809.c: Fix 6809 DAA instruction; upper nibble could be
 	"adjusted" twice.
 
-
 2012-04-11  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/c64/c64io.c, src/c64/cart/georam.c,
@@ -112,12 +625,9 @@
 2012-04-10  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/6809.c, src/pet/petmem.c: New work from Dave Roberts: let
-	the 6702 return a fixed sequence of values 
-that passes the dongle
-	check. He found the values by creating a C 
-version of the check
+	the 6702 return a fixed sequence of values that passes the dongle
+	check. He found the values by creating a C version of the check
 	routine and Monte-Carlo simulation.
-
 
 2012-04-09  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -127,7 +637,6 @@ version of the check
 
 	* src/pet/6809.c: More 6702 dongle avoidance. Should work with all
 	language processors.
-
 
 2012-04-09  Andreas Matthies <andreas.matthies@gmx.net>
 
@@ -155,19 +664,15 @@ version of the check
 
 	* src/pet/6809.c: Refine dongle check, esp.. for FORTRAN 1.1.
 
-
 2012-04-08  Olaf Seibert <rhialto@falu.nl>
 
 	* src/pet/6809.c, src/pet/petmem.c: Put in code to avoid the dongle
-	check. Idea and most details from Dave Roberts 
-in the cbm-hackers
+	check. Idea and most details from Dave Roberts in the cbm-hackers
 	mailing list.
-
 
 2012-04-07  Fabrizio Gennari <fabrizio.ge@tiscali.it>
 
 	* src/mouse.c: Fix build with --enable-debug-code
-
 
 2012-04-06  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -315,19 +820,13 @@ in the cbm-hackers
 	src/arch/unix/x11/xaw/x11ui.c, src/arch/win32/mousedrv.c,
 	src/arch/win32/mousedrv.h, src/arch/win32/ui.c, src/mouse.c,
 	src/ps2mouse.c, src/ps2mouse.h: Cleanup the mouse handling. Platform
-	drivers should only return an integer with 
-at least 16 bits of
-	position information, the rest is handled in mouse.c and 
-ps2mouse.c as
-	required by the type of mouse, like speed limiting. Now at least 
-on
+	drivers should only return an integer with at least 16 bits of
+	position information, the rest is handled in mouse.c and ps2mouse.c as
+	required by the type of mouse, like speed limiting. Now at least on
 	Linux I don't see pointer jumps anymore, except on very high speed.
-	Straight
- movement is straight now that the rate limiting was fixed.
-	Overall it's quite
- ok here now, let's hope the other platform are not
+	Straight movement is straight now that the rate limiting was fixed.
+	Overall it's quite ok here now, let's hope the other platform are not
 	broken by mistake.
-
 
 2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -352,19 +851,16 @@ on
 	* src/monitor/monitor_network.c: Fix the answer for the binary monitor
 	commands: The error code "ok" was forgotten if no error occurred.
 
-
 2012-04-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* src/monitor/monitor_network.c: First try to binary remote monitor
 	commands. Only memdump is implemented currently.
-
 
 2012-04-01  Spiro Trikaliotis  <spiro.trikaliotis@gmx.de>
 
 	* src/machine.c, src/monitor/monitor_network.c,
 	src/monitor/monitor_network.h: Do not show JAM dialog if remote
 	monitor is attached.
-
 
 2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -387,7 +883,6 @@ on
 
 	* src/ps2mouse.c: Also update ps2mouse...
 
-
 2012-04-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* data, src/arch/os2/dialogs/dialogs.h,
@@ -405,19 +900,14 @@ on
 	src/arch/os2/mousedrv.c, src/arch/sdl/mousedrv.c,
 	src/arch/unix/mousedrv.c, src/arch/win32/mousedrv.c,
 	src/arch/win32/ui.c, src/mouse.c, src/mouse.h: Add middle button and
-	wheel to mouse emulation.
-http://www.micromys.de/1351mode.htm
-
+	wheel to mouse emulation. http://www.micromys.de/1351mode.htm
 
 2012-04-01  Olaf Seibert <rhialto@falu.nl>
 
 	* src/userport/userport_dac.c: Fix distortion in the sound from the
-	PET Userport DAC: unsigned DAC samples 
-were mixed with signed samples.
-	Fix by reducing the range of the DAC samples. 
-Unfortunately this also
+	PET Userport DAC: unsigned DAC samples were mixed with signed samples.
+	Fix by reducing the range of the DAC samples. Unfortunately this also
 	cuts the volume in half.
-
 
 2012-03-31  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -496,7 +986,6 @@ Unfortunately this also
 
 	* src/pet/6809.c: Fix accidental breakage of r25457.
 
-
 2012-03-27  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/translations-status.txt: Updated for the updated es.po file.
@@ -539,7 +1028,6 @@ Unfortunately this also
 	src/drive/ieee/fdc.c: Simplify the checking for the dual-ness of
 	drives somewhat.
 
-
 2012-03-21  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* po/translations-status.txt: Updated for the updated sv.po file.
@@ -556,11 +1044,9 @@ Unfortunately this also
 
 	* configure.in: Fixed a few syntax issues.
 
-
 2012-03-21  pottendo <pottendo@aon.at>
 
 	* po/de.po: Updated.
-
 
 2012-03-21  Andrea Musuruane <musuruan@gmail.com>
 

@@ -914,6 +914,12 @@ Supported file formats
 
    * `D82' CBM8250/1001 disk image format
 
+   * `D1M' FD2000/FD4000 DD disk image format
+
+   * `D2M' FD2000/FD4000 HD disk image format
+
+   * `D4M' FD4000 ED disk image format
+
    * `T64' tape image files (read-only);
 
    * `P00' program files;

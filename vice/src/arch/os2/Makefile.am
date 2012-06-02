@@ -132,7 +132,6 @@ EXTRA_DIST = \
 	watcom/gentr.tgt \
 	watcom/gentranslate32.tgt \
 	watcom/genwt.bat \
-	watcom/genwt.cmd \
 	watcom/gfxoutputdrv.tgt \
 	watcom/ide-config.h \
 	watcom/iec.tgt \
