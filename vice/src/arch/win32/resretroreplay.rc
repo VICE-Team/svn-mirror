@@ -211,10 +211,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "RR flash jumperý aktif et"
+  IDS_RR_BANK_JUMPER    "RR bank jumperý aktif et"
   IDS_RR_REVISION_LABEL "Revizyon"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "RR flashini deðiþtiðinde kaydet"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

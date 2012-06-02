@@ -234,10 +234,10 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION       "VIC ayarlarý"
     IDS_VIC_BORDERSGROUP  "Çerçeve modu"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_NORMALBORDERS "Normal çerçeve"
+    IDS_VIC_FULLBORDERS   "Tam çerçeve"
+    IDS_VIC_DEBUGBORDERS  "Hata ayýklama çerçevesi"
+    IDS_VIC_NOBORDERS     "Çerçeve yok"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

@@ -234,10 +234,10 @@ LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_TED_CAPTION       "TED ayarlarý"
     IDS_TED_BORDERSGROUP  "Çerçeve modu"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_NORMALBORDERS "Normal çerçeve"
+    IDS_TED_FULLBORDERS   "Tam çerçeve"
+    IDS_TED_DEBUGBORDERS  "Hata ayýklama çerçevesi"
+    IDS_TED_NOBORDERS     "Çerçeve yok"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

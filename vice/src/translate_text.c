@@ -32,6 +32,7 @@ translate_t string_table[] = {
 
 
 
+
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -877,7 +878,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_ALL_DEVICES_DETACHED_HU, ".\nMinden megnevezett eszköz le lesz választva."},
 /* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ".\nTutti i device specificati sarranno rimossi."},
 /* ko */ {IDGS_ALL_DEVICES_DETACHED_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAlle genoemde apparaten zullen worden ontkoppelt."},
+/* nl */ {IDGS_ALL_DEVICES_DETACHED_NL, ".\nAlle genoemde apparaten zullen worden ontkoppeld."},
 /* pl */ {IDGS_ALL_DEVICES_DETACHED_PL, ".\nWszystkie wymienione urz±dzenia zostan± odmontowane."},
 /* ru */ {IDGS_ALL_DEVICES_DETACHED_RU, ".\nAll the named devices will be detached."},
 /* sv */ {IDGS_ALL_DEVICES_DETACHED_SV, ".\nAlla namngivna enheter kommer kopplas från."},
@@ -889,16 +890,16 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ALL_DEVICES_EXCEPT_DA, ""},  /* fuzzy */
 /* de */ {IDGS_ALL_DEVICES_EXCEPT_DE, ".\nAlle Geräte außer "},
-/* es */ {IDGS_ALL_DEVICES_EXCEPT_ES, ""},  /* fuzzy */
+/* es */ {IDGS_ALL_DEVICES_EXCEPT_ES, ".\nTodos los periféricos excepto"},
 /* fr */ {IDGS_ALL_DEVICES_EXCEPT_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ALL_DEVICES_EXCEPT_HU, ""},  /* fuzzy */
-/* it */ {IDGS_ALL_DEVICES_EXCEPT_IT, ""},  /* fuzzy */
+/* it */ {IDGS_ALL_DEVICES_EXCEPT_IT, ".\nTutti i device tranne "},
 /* ko */ {IDGS_ALL_DEVICES_EXCEPT_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_ALL_DEVICES_EXCEPT_NL, ".\nAlle apparaten behalve "},
-/* pl */ {IDGS_ALL_DEVICES_EXCEPT_PL, ""},  /* fuzzy */
+/* pl */ {IDGS_ALL_DEVICES_EXCEPT_PL, ".\nWszystkie urz±dzenia, prócz"},
 /* ru */ {IDGS_ALL_DEVICES_EXCEPT_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_ALL_DEVICES_EXCEPT_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ""},  /* fuzzy */
+/* sv */ {IDGS_ALL_DEVICES_EXCEPT_SV, ".\nAlla enheter förutom "},
+/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ".\n"},
 #endif
 
 /* c64/c64io.c, vic20/vic20io.c */
@@ -906,16 +907,16 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_WILL_BE_DETACHED_DA, ""},  /* fuzzy */
 /* de */ {IDGS_WILL_BE_DETACHED_DE, " werden entfernt."},
-/* es */ {IDGS_WILL_BE_DETACHED_ES, ""},  /* fuzzy */
+/* es */ {IDGS_WILL_BE_DETACHED_ES, "Se desconectaran"},
 /* fr */ {IDGS_WILL_BE_DETACHED_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_WILL_BE_DETACHED_HU, ""},  /* fuzzy */
-/* it */ {IDGS_WILL_BE_DETACHED_IT, ""},  /* fuzzy */
+/* it */ {IDGS_WILL_BE_DETACHED_IT, "sarranno rimossi."},
 /* ko */ {IDGS_WILL_BE_DETACHED_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_WILL_BE_DETACHED_NL, " zullen worden ontkoppelt."},
-/* pl */ {IDGS_WILL_BE_DETACHED_PL, ""},  /* fuzzy */
+/* nl */ {IDGS_WILL_BE_DETACHED_NL, " zullen worden ontkoppeld."},
+/* pl */ {IDGS_WILL_BE_DETACHED_PL, " zostanie roz³±czone."},
 /* ru */ {IDGS_WILL_BE_DETACHED_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_WILL_BE_DETACHED_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_WILL_BE_DETACHED_TR, ""},  /* fuzzy */
+/* sv */ {IDGS_WILL_BE_DETACHED_SV, " kommer kopplas från."},
+/* tr */ {IDGS_WILL_BE_DETACHED_TR, " haricindeki tüm cihazlar çýkartýlacaktýr."},
 #endif
 
 /* c64dtv/c64dtvflash.c */
@@ -1493,7 +1494,7 @@ translate_t string_table[] = {
 /* pl */ {IDGS_MON_STOPWATCH_DESCRIPTION_PL, "Poka¿ licznik cykli CPU obecnego urz±dzenia. 'reset' zeruje licznik."},
 /* ru */ {IDGS_MON_STOPWATCH_DESCRIPTION_RU, "Print the CPU cycle counter of the current device. 'reset' sets the counter to 0."},
 /* sv */ {IDGS_MON_STOPWATCH_DESCRIPTION_SV, "Visa processorcykelräknaren för aktuell enhet. \"reset\" sätter räknaren på 0."},
-/* tr */ {IDGS_MON_STOPWATCH_DESCRIPTION_TR, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_STOPWATCH_DESCRIPTION_TR, "Mevcut cihazýn CPU cycle sayacýný yazdýr. 'reset' sayacý 0'a getirir."},
 #endif
 
 /* monitor/mon_command.c */
@@ -4367,16 +4368,16 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_CONFLICT_HANDLING_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_SELECT_CONFLICT_HANDLING_DE, "Wähle, wie I/O Kollisionen behandelt werden sollen, (0: Fehler Meldung\nund Entfernen sämtlicher betroffener Module, 1: Fehler Meldung und\nEntfernen des letzten Moduls, 2: Warnung im Log und liefere logische\nUND-Verknüpfung gültiger Rückgabewerte"},
-/* es */ {IDCLS_SELECT_CONFLICT_HANDLING_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_CONFLICT_HANDLING_ES, "Seleccionar la forma en que las colisiones deben ser manejadas, (0: mensaje de error y desconectar todas los cartuchos involucrados, 1: mensaje de error y desconectar el último cartucho involucrado, 2: advertencia en  log y 'AND' los valores válidos de retorno"},
 /* fr */ {IDCLS_SELECT_CONFLICT_HANDLING_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_CONFLICT_HANDLING_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_CONFLICT_HANDLING_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_CONFLICT_HANDLING_IT, "Seleziona come gestire le collisioni di I/O, (0: messaggio di errore e rimozione di tutte le cartucce coinvolte, 1: messaggio di errore e rimozione delle ultima cartucce coinvolte, 2: warning nei log e 'AND' il valore di ritorno valido"},
 /* ko */ {IDCLS_SELECT_CONFLICT_HANDLING_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_CONFLICT_HANDLING_NL, "Selecteer de manier waarmee I/O conflicten worden afgehandeld, (0: fout melding en ontkoppel alle betroffene carridges, 1: fout melding en ontkoppel alle cartridges behalve de eerste cartrdige, 2: waarschuwing in het log bestand en doe een logische 'AND' met de terug gegeven waarden"},
 /* pl */ {IDCLS_SELECT_CONFLICT_HANDLING_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_CONFLICT_HANDLING_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_CONFLICT_HANDLING_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SELECT_CONFLICT_HANDLING_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_CONFLICT_HANDLING_SV, "Väljer hur I/O-kollisioner skall hanteras, (0: felmeddelande och koppla från alla inblandade moduler, 1: felmeddelande och koppla från sist anslutna inblandade modul, 2: varning i logg och logisk OCH på giltiga returvärden)"},
+/* tr */ {IDCLS_SELECT_CONFLICT_HANDLING_TR, "G/Ç çakýþmalarýnýn deðerlendirilme yöntemini seç, (0: hata mesajý ve tüm ilgili cihazlarýn çýkarýlmasý, 1: hata mesajý ve en son takýlmýþ tüm ilgili cihazlarýn çýkarýlmasý, 2: log'a uyarý yazýlmasý ve geçerli dönüþ deðerlerinin 'VE'lenmesi"},
 #endif
 
 /* c64/cart/c64tpi.c */
@@ -4519,34 +4520,34 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SWAP_CART_IO,    N_("Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SWAP_CART_IO_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SWAP_CART_IO_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SWAP_CART_IO_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SWAP_CART_IO_DE, "Vertausche IO Zuordnung (cart I/O-1 auf VIC20 I/O-3 und cart I/O-2 auf VIC20 I/O-2)"},
+/* es */ {IDCLS_SWAP_CART_IO_ES, "Intercambiar mapeado IO (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"},
 /* fr */ {IDCLS_SWAP_CART_IO_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SWAP_CART_IO_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SWAP_CART_IO_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SWAP_CART_IO_IT, "Scambia mapping di I/O (mappa I/O-1 cart su I/O-3 VIC20 e I/O-2 cart su I/O-2 VIC20)"},
 /* ko */ {IDCLS_SWAP_CART_IO_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SWAP_CART_IO_NL, "Verwissel de io toewijzing (verwijs cart I/O-1 naar VIC20 I/O-3 en cart I/O-2 naar VIC20 I/O-2)"},
-/* pl */ {IDCLS_SWAP_CART_IO_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SWAP_CART_IO_PL, "Zamieñ mapowanie we/wy (mapuj  we/wy-1  kartrid¿a do we/wy-3 VIC20 i we/wy-2 kartid¿a do we/wy-2 VIC20)"},
 /* ru */ {IDCLS_SWAP_CART_IO_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SWAP_CART_IO_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SWAP_CART_IO_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_SWAP_CART_IO_SV, "Växla io-mappning (mappa modul-I/O 1 till VIC20-I/O 3 och modul-I/O 2 till VIC20-I/O 2)"},
+/* tr */ {IDCLS_SWAP_CART_IO_TR, "G/Ç haritalamasýný yer deðiþtir (harita kartý G/Ç-1 ile VIC20 G/Ç-3 ve kart G/Ç-2 ile VIC20 G/Ç-2)"},
 #endif
 
 /* c64/cart/georam.c */
 /* en */ {IDCLS_DONT_SWAP_CART_IO,    N_("Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DONT_SWAP_CART_IO_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DONT_SWAP_CART_IO_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DONT_SWAP_CART_IO_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_DONT_SWAP_CART_IO_DE, "Keine Vertauschung der IO Zuordnung (cart I/O-1 auf VIC20 I/O-2 und cart I/O-2 auf VIC20 I/O-3)"},
+/* es */ {IDCLS_DONT_SWAP_CART_IO_ES, "No intercambiar mapeado IO (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 I/O-3)"},
 /* fr */ {IDCLS_DONT_SWAP_CART_IO_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DONT_SWAP_CART_IO_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DONT_SWAP_CART_IO_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DONT_SWAP_CART_IO_IT, "Non scambiare mapping di I/O (mappa I/O-1 cart su I/O-2 VIC20 e I/O-2 cart su I/O-3 VIC20)"},
 /* ko */ {IDCLS_DONT_SWAP_CART_IO_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DONT_SWAP_CART_IO_NL, "Verwissel de io toewijzing niet (verwijs cart I/O-1 naar VIC20 I/O-2 en cart I/O-2 naar VIC20 I/O-3)"},
-/* pl */ {IDCLS_DONT_SWAP_CART_IO_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DONT_SWAP_CART_IO_PL, "Nie zamieniaj mapowania we/wy (mapuj  we/wy-1  kartrid¿a do we/wy-2 VIC20 i we/wy-2 kartid¿a do we/wy-3 VIC20)"},
 /* ru */ {IDCLS_DONT_SWAP_CART_IO_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DONT_SWAP_CART_IO_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DONT_SWAP_CART_IO_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_DONT_SWAP_CART_IO_SV, "Växla inte io-mappning (mappa modul-I/O 1 till VIC20-I/O 2 och modul-I/O 2 till VIC20-I/O 3)"},
+/* tr */ {IDCLS_DONT_SWAP_CART_IO_TR, "G/Ç haritalamasýný yer deðiþtirme (harita kartý G/Ç-1 ile VIC20 G/Ç-2 ve kart G/Ç-2 ile VIC20 G/Ç-3)"},
 #endif
 
 /* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
@@ -4554,17 +4555,17 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MAP_CART_IO_2,    N_("Swap io mapping (map cart I/O to VIC20 I/O-2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MAP_CART_IO_2_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_MAP_CART_IO_2_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_MAP_CART_IO_2_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_MAP_CART_IO_2_DE, "Vertasuche IO Zuordnung (cart I/O auf VIC20 I/O-2)"},
+/* es */ {IDCLS_MAP_CART_IO_2_ES, "Intercambiar mapeado IO (map cart I/O to VIC20 I/O-2)"},
 /* fr */ {IDCLS_MAP_CART_IO_2_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MAP_CART_IO_2_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_MAP_CART_IO_2_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_MAP_CART_IO_2_IT, "Scambia mapping di I/O (mappa I/O cart su I/O-2 VIC20)"},
 /* ko */ {IDCLS_MAP_CART_IO_2_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_MAP_CART_IO_2_NL, "Verwissel de io toewijzing (verwijs cart I/O naar VIC20 I/O-2)"},
-/* pl */ {IDCLS_MAP_CART_IO_2_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MAP_CART_IO_2_PL, "Zamieñ mapowanie we/wy (mapuj  we/wy  kartrid¿a do we/wy-2 VIC20)"},
 /* ru */ {IDCLS_MAP_CART_IO_2_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_MAP_CART_IO_2_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_MAP_CART_IO_2_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_MAP_CART_IO_2_SV, "Växla io-mappning (mappa modul-I/O till VIC20-I/O 2)"},
+/* tr */ {IDCLS_MAP_CART_IO_2_TR, "G/Ç haritalamasýný yer deðiþtir (harita kartý G/Ç ile VIC20 G/Ç-2)"},
 #endif
 
 /* c64/cart/sfx_soundexpander.c, c64/cart/sfx_soundsampler.c,
@@ -4572,17 +4573,17 @@ translate_t string_table[] = {
 /* en */ {IDCLS_MAP_CART_IO_3,    N_("Don't swap io mapping (map cart I/O to VIC20 I/O-3)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_MAP_CART_IO_3_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_MAP_CART_IO_3_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_MAP_CART_IO_3_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_MAP_CART_IO_3_DE, "Keine Vertauschung der IO Zuordnung (cart I/O auf VIC20 I/O-3)"},
+/* es */ {IDCLS_MAP_CART_IO_3_ES, "No intercambia mapeado IO (map cart I/O to VIC20 I/O-3)"},
 /* fr */ {IDCLS_MAP_CART_IO_3_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_MAP_CART_IO_3_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_MAP_CART_IO_3_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_MAP_CART_IO_3_IT, "Non scambiare mapping di I/O (mappa I/O cart su I/O-3 VIC20)"},
 /* ko */ {IDCLS_MAP_CART_IO_3_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_MAP_CART_IO_3_NL, "Verwissel de io toewijzing niet (verwijs cart I/O naar VIC20 I/O-3)"},
-/* pl */ {IDCLS_MAP_CART_IO_3_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_MAP_CART_IO_3_PL, "Nie zamieniaj mapowania we/wy (mapuj  we/wy  kartrid¿a do we/wy-3 VIC20)"},
 /* ru */ {IDCLS_MAP_CART_IO_3_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_MAP_CART_IO_3_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_MAP_CART_IO_3_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_MAP_CART_IO_3_SV, "Växla io-mappning (mappa modul-I/O till VIC20-I/O 3)"},
+/* tr */ {IDCLS_MAP_CART_IO_3_TR, "G/Ç haritalamasýný yer deðiþtirme (harita kartý G/Ç ile VIC20 G/Ç-3)"},
 #endif
 
 /* c64/cart/georam.c, c64/cart/ramcart.c, c64/cart/reu.c, pet/petreu.c */
@@ -6162,10 +6163,10 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ATTACH_RAW_F64_CART_IT, "Seleziona immagine cartuccia Formel 64 di 32kb"},
 /* ko */ {IDCLS_ATTACH_RAW_F64_CART_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ATTACH_RAW_F64_CART_NL, "Koppel binair 32kB Formel 64 cartridge bestand"},
-/* pl */ {IDCLS_ATTACH_RAW_F64_CART_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ATTACH_RAW_F64_CART_PL, "Zamontuj surowy obraz 32kB Formel 64"},
 /* ru */ {IDCLS_ATTACH_RAW_F64_CART_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ATTACH_RAW_F64_CART_SV, "Anslut rå 32kB Formel 64-avbildning"},
-/* tr */ {IDCLS_ATTACH_RAW_F64_CART_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ATTACH_RAW_F64_CART_TR, "Düz 32kB Formel 64 imajý yerleþtir"},
 #endif
 
 /* c64/cart/c64cart.c */
@@ -8055,10 +8056,10 @@ translate_t string_table[] = {
 /* it */ {IDCLS_PAR_CABLE_C64EXP_TYPE_IT, "Imposta il tipo di cavo parallelo (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"},
 /* ko */ {IDCLS_PAR_CABLE_C64EXP_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_NL, "Zet parallele kabelsoort (0: geen, 1: standaard, 2: Dolphin DOS 3, 3: Formel 64)"},
-/* pl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PAR_CABLE_C64EXP_TYPE_PL, "Okre¶l typ ³±cza równoleg³ego (0: brak, 1: zwyk³e, 2: Dolphin DOS 3, 3: Formel 64)"},
 /* ru */ {IDCLS_PAR_CABLE_C64EXP_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_PAR_CABLE_C64EXP_TYPE_SV, "Välj typ av parallellkabel (0: ingen, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)"},
-/* tr */ {IDCLS_PAR_CABLE_C64EXP_TYPE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_PAR_CABLE_C64EXP_TYPE_TR, "Paralel kablo tipini belirle (0: yok, 1: standart, 2: Dolphin DOS 3, 3: Formel 64)"},
 #endif
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
@@ -9617,16 +9618,16 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_AMOUNT_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_AMOUNT_DE, "<Anzahl>"},
-/* es */ {IDCLS_P_AMOUNT_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_AMOUNT_ES, "<cantidad>"},
 /* fr */ {IDCLS_P_AMOUNT_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_AMOUNT_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_AMOUNT_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_P_AMOUNT_IT, "<numero>"},
 /* ko */ {IDCLS_P_AMOUNT_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_AMOUNT_NL, "<hoeveelheid>"},
-/* pl */ {IDCLS_P_AMOUNT_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_AMOUNT_PL, "<ilo¶æ>"},
 /* ru */ {IDCLS_P_AMOUNT_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_AMOUNT_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_P_AMOUNT_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_AMOUNT_SV, "<antal>"},
+/* tr */ {IDCLS_P_AMOUNT_TR, "<adet>"},
 #endif
 
 /* sid/sid-cmdline-options.c */
@@ -9634,16 +9635,16 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_AMOUNT_EXTRA_SIDS_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_AMOUNT_EXTRA_SIDS_DE, "Anzahl der extra SID Chips"},
-/* es */ {IDCLS_AMOUNT_EXTRA_SIDS_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_AMOUNT_EXTRA_SIDS_ES, "Cantidad de chips SID extra"},
 /* fr */ {IDCLS_AMOUNT_EXTRA_SIDS_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_AMOUNT_EXTRA_SIDS_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_AMOUNT_EXTRA_SIDS_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_AMOUNT_EXTRA_SIDS_IT, "numero di SID chip aggiuntivi"},
 /* ko */ {IDCLS_AMOUNT_EXTRA_SIDS_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_AMOUNT_EXTRA_SIDS_NL, "Aantal extra SID chips"},
-/* pl */ {IDCLS_AMOUNT_EXTRA_SIDS_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_AMOUNT_EXTRA_SIDS_PL, "Liczba dodatkowych czipów SID"},
 /* ru */ {IDCLS_AMOUNT_EXTRA_SIDS_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_AMOUNT_EXTRA_SIDS_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_AMOUNT_EXTRA_SIDS_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_AMOUNT_EXTRA_SIDS_SV, "antal extra SID-kretsar"},
+/* tr */ {IDCLS_AMOUNT_EXTRA_SIDS_TR, "ekstra SID çiplerinin adedi"},
 #endif
 
 /* sid/sid-cmdline-options.c */
@@ -12121,16 +12122,16 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_OUTPUT_MODE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_P_OUTPUT_MODE_DE, "<Ausgabe Modus>"},
-/* es */ {IDCLS_P_OUTPUT_MODE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_P_OUTPUT_MODE_ES, "<Modo de salida>"},
 /* fr */ {IDCLS_P_OUTPUT_MODE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_OUTPUT_MODE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_OUTPUT_MODE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_P_OUTPUT_MODE_IT, "<modalità di uscita>"},
 /* ko */ {IDCLS_P_OUTPUT_MODE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_OUTPUT_MODE_NL, "<uitvoer modus>"},
-/* pl */ {IDCLS_P_OUTPUT_MODE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_OUTPUT_MODE_PL, "<tryb wyj¶cia>"},
 /* ru */ {IDCLS_P_OUTPUT_MODE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_OUTPUT_MODE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_P_OUTPUT_MODE_TR, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_OUTPUT_MODE_SV, "<utdataläge>"},
+/* tr */ {IDCLS_P_OUTPUT_MODE_TR, "<çýkýþ modu>"},
 #endif
 
 /* sound.c */
@@ -12147,7 +12148,7 @@ translate_t string_table[] = {
 /* pl */ {IDCLS_SOUND_OUTPUT_MODE_PL, "Tryb wyj¶cia d¼wiêku: "},
 /* ru */ {IDCLS_SOUND_OUTPUT_MODE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SOUND_OUTPUT_MODE_SV, "Utdataläge för ljud: "},
-/* tr */ {IDCLS_SOUND_OUTPUT_MODE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SOUND_OUTPUT_MODE_TR, "Ses çýkýþý modu: "},
 #endif
 
 /* sysfile.c */

@@ -1084,7 +1084,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC20 settings"
+    IDS_VIC20_CAPTION                    "Ustawienia VIC20"
     IDS_VIC_NOEXPANSION                  "Bez rozszerzenia pamiêci"
     IDS_VIC_3KEXPANSION                  "3K (blok 0)"
     IDS_VIC_8KEXPANSION                  "8K (blok 1)"
@@ -1119,7 +1119,7 @@ BEGIN
     IDS_MI_CART_VIC20_8KB_6000           "4/8/16KB obraz w $6000..."
     IDS_MI_CART_VIC20_8KB_A000           "4/8KB obraz w $A000..."
     IDS_MI_CART_VIC20_4KB_B000           "4KB obraz w $B000..."
-    IDS_MI_VIC20_SETTINGS                "VIC20 settings..."
+    IDS_MI_VIC20_SETTINGS                "Ustawienia VIC20..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK     "W³±cz zapis do pliku ROM Final Expansion"
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK    "W³±cz zapis do pliku ROM Vic Flash Plugin"
     IDS_MI_MEGACART_WRITEBACK            "W³±cz zapis do NvRAM Mega-Cart"
@@ -1267,7 +1267,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_VIC20_CAPTION                    "VIC20 settings"
+    IDS_VIC20_CAPTION                    "VIC20 ayarlarý"
     IDS_VIC_NOEXPANSION                  "Geniþletiþmiþ bellek yok"
     IDS_VIC_3KEXPANSION                  "3K (blok 0)"
     IDS_VIC_8KEXPANSION                  "8K (blok 1)"
@@ -1302,7 +1302,7 @@ BEGIN
     IDS_MI_CART_VIC20_8KB_6000           "4/8/16KB imajý $6000 adresinde..."
     IDS_MI_CART_VIC20_8KB_A000           "4/8KB imajý $A000 adresinde..."
     IDS_MI_CART_VIC20_4KB_B000           "4KB imajý $B000 adresinde..."
-    IDS_MI_VIC20_SETTINGS                "VIC20 settings..."
+    IDS_MI_VIC20_SETTINGS                "VIC20 ayarlarý..."
     IDS_MI_FINAL_EXPANSION_WRITEBACK     "Final Expansion ROM dosyasýna geri yazmayý aktif et"
     IDS_MI_VIC_FLASH_PLUGIN_WRITEBACK    "Flash Plugin ROM dosyasýna geri yazmayý aktif et"
     IDS_MI_MEGACART_WRITEBACK            "Mega-Cart NvRAM geri yazmayý aktif et"

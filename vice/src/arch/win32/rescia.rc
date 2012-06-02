@@ -192,7 +192,7 @@ BEGIN
   IDS_CIA2_MODEL                "Model CIA 2"
   IDS_6526_OLD                  "6526 (stary)"
   IDS_6526A_NEW                 "6526A (nowy)"
-  IDS_MI_CIA_SETTINGS           "CIA settings..."
+  IDS_MI_CIA_SETTINGS           "Ustawienia CIA..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -243,7 +243,7 @@ BEGIN
   IDS_CIA2_MODEL                "CIA 2 modeli"
   IDS_6526_OLD                  "6526 (eski)"
   IDS_6526A_NEW                 "6526A (yeni)"
-  IDS_MI_CIA_SETTINGS           "CIA settings..."
+  IDS_MI_CIA_SETTINGS           "CIA ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

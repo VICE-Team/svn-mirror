@@ -32,6 +32,7 @@ intl_translate_t intl_string_table[] = {
 
 
 
+
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -4114,7 +4115,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DETACHED_DEVICE_D_HU, "%d eszköz leválasztva" },
 /* it */ { IDS_DETACHED_DEVICE_D_IT, "Rimosso dispositivo %d" },
 /* ko */ { IDS_DETACHED_DEVICE_D_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DETACHED_DEVICE_D_NL, "Apparaat %d ontkoppelt" },
+/* nl */ { IDS_DETACHED_DEVICE_D_NL, "Apparaat %d ontkoppeld" },
 /* pl */ { IDS_DETACHED_DEVICE_D_PL, "Od³±czono urz±dzenie %d" },
 /* ru */ { IDS_DETACHED_DEVICE_D_RU, "Detached device %d" },
 /* sv */ { IDS_DETACHED_DEVICE_D_SV, "Kopplade från enhet %d" },
@@ -4184,7 +4185,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DETACHED_TAPE_HU, "Szalag leválasztva" },
 /* it */ { IDS_DETACHED_TAPE_IT, "Cassetta rimossa" },
 /* ko */ { IDS_DETACHED_TAPE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DETACHED_TAPE_NL, "Tape ontkoppelt" },
+/* nl */ { IDS_DETACHED_TAPE_NL, "Tape ontkoppeld" },
 /* pl */ { IDS_DETACHED_TAPE_PL, "Od³±czono ta¶mê" },
 /* ru */ { IDS_DETACHED_TAPE_RU, "Detached tape" },
 /* sv */ { IDS_DETACHED_TAPE_SV, "Kopplade från band" },

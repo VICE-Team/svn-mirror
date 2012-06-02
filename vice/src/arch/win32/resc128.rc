@@ -1355,7 +1355,7 @@ BEGIN
   IDS_MI_TOGGLE_VDC64KB         "Pamiêæ wideo 64KB"
   IDS_MI_IEEE488                "Emulacja interfejsu IEEE488"
   IDS_MI_C128_SETTINGS          "Ustawienia C128..."
-  IDS_MI_C128MODEL_SETTINGS     "C128 model settings..."
+  IDS_MI_C128MODEL_SETTINGS     "Ustawienia modelu C128..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -1553,7 +1553,7 @@ BEGIN
   IDS_MI_TOGGLE_VDC64KB         "64KB görüntü belleði"
   IDS_MI_IEEE488                "IEEE488 Arabirimi emülasyonu"
   IDS_MI_C128_SETTINGS          "C128 ayarlarý..."
-  IDS_MI_C128MODEL_SETTINGS     "C128 model settings..."
+  IDS_MI_C128MODEL_SETTINGS     "C128 model ayarlarý..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
