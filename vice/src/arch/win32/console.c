@@ -1619,7 +1619,7 @@ static console_t *console_open_internal(const char *id, HWND hwndParent, HWND hw
     /* now show the window */
     ShowWindow(pcp->hwndConsole, SW_SHOW);
 
-    pcp->pConsole->console_can_stay_open = 1;
+    pcp->pConsole->console_can_stay_open = 0;
 
     return pcp->pConsole;
 }
