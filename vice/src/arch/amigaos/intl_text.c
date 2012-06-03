@@ -26,13 +26,6 @@
 
 intl_translate_t intl_string_table[] = {
 
-
-
-
-
-
-
-
 /* en */ { IDMS_FILE,    "File" },
 /* da */ { IDMS_FILE_DA, "Fil" },
 /* de */ { IDMS_FILE_DE, "Datei" },
@@ -1741,19 +1734,19 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_JOY_KEYS_SV, "Aktivera styrspak via tangenter" },
 /* tr */ { IDMS_ENABLE_JOY_KEYS_TR, "Joy Tuþlarýný Aktif Et" },
 
-/* en */ { IDMS_ENABLE_JOY_KEYS,    "Allow opposite directions" },
-/* da */ { IDMS_ENABLE_JOY_KEYS_DA, "Tillad modsatte retninger" },
-/* de */ { IDMS_ENABLE_JOY_KEYS_DE, "Gegenüberliegende Richtungen zulassen" },
-/* es */ { IDMS_ENABLE_JOY_KEYS_ES, "Permitir direcciones opuestas" },
-/* fr */ { IDMS_ENABLE_JOY_KEYS_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_ENABLE_JOY_KEYS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_JOY_KEYS_IT, "Consenti direzioni opposte" },
-/* ko */ { IDMS_ENABLE_JOY_KEYS_KO, "¹Ý´ë ¹æÇâ Çã°¡ÇÏ±â" },
-/* nl */ { IDMS_ENABLE_JOY_KEYS_NL, "Tegenovergestelde richtingen toestaan" },
-/* pl */ { IDMS_ENABLE_JOY_KEYS_PL, "Pozwól na przeciwstawne kierunki" },
-/* ru */ { IDMS_ENABLE_JOY_KEYS_RU, "Allow opposite directions" },
-/* sv */ { IDMS_ENABLE_JOY_KEYS_SV, "Tillåt motsatta riktningar" },
-/* tr */ { IDMS_ENABLE_JOY_KEYS_TR, "Zýt yönlere izin ver" },
+/* en */ { IDMS_OPPOSITE_JOY_DIR,    "Allow opposite directions" },
+/* da */ { IDMS_OPPOSITE_JOY_DIR_DA, "Tillad modsatte retninger" },
+/* de */ { IDMS_OPPOSITE_JOY_DIR_DE, "Gegenüberliegende Richtungen zulassen" },
+/* es */ { IDMS_OPPOSITE_JOY_DIR_ES, "Permitir direcciones opuestas" },
+/* fr */ { IDMS_OPPOSITE_JOY_DIR_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_OPPOSITE_JOY_DIR_HU, "" },  /* fuzzy */
+/* it */ { IDMS_OPPOSITE_JOY_DIR_IT, "Consenti direzioni opposte" },
+/* ko */ { IDMS_OPPOSITE_JOY_DIR_KO, "¹Ý´ë ¹æÇâ Çã°¡ÇÏ±â" },
+/* nl */ { IDMS_OPPOSITE_JOY_DIR_NL, "Tegenovergestelde richtingen toestaan" },
+/* pl */ { IDMS_OPPOSITE_JOY_DIR_PL, "Pozwól na przeciwstawne kierunki" },
+/* ru */ { IDMS_OPPOSITE_JOY_DIR_RU, "Allow opposite directions" },
+/* sv */ { IDMS_OPPOSITE_JOY_DIR_SV, "Tillåt motsatta riktningar" },
+/* tr */ { IDMS_OPPOSITE_JOY_DIR_TR, "Zýt yönlere izin ver" },
 
 /* en */ { IDMS_SOUND_PLAYBACK,    "Sound playback" },
 /* da */ { IDMS_SOUND_PLAYBACK_DA, "Slå lydemulering til" },
