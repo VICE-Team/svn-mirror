@@ -1857,7 +1857,7 @@ static const BYTE rewind_fetch_tab[] = {
 
 /*  SET_OPCODE for traps */
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
-#define SET_OPCODE(o) (opcode) = o;
+#define SET_OPCODE(o) (opcode) = o
 #else
 #if !defined WORDS_BIGENDIAN
 #define SET_OPCODE(o)                          \
