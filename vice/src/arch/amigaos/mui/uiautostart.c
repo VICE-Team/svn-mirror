@@ -68,6 +68,7 @@ static const int ui_autostart_mode_values[] = {
 
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "AutostartWarp", ui_autostart_enable, ui_autostart_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "AutostartDelayRandom", ui_autostart_enable, ui_autostart_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "AutostartRunWithColon", ui_autostart_enable, ui_autostart_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "AutostartPrgMode", ui_autostart_mode, ui_autostart_mode_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "AutostartBasicLoad", ui_autostart_enable, ui_autostart_enable_values, NULL },
@@ -82,7 +83,7 @@ static ULONG Browse(struct Hook *hook, Object *obj, APTR arg)
     fname = BrowseFile(translate_text(IDS_AUTOSTART_DISK_IMAGE_SELECT), "#?", autostart_canvas);
 
     if (fname != NULL) {
-        set(ui_to_from[4].object, MUIA_String_Contents, fname);
+        set(ui_to_from[5].object, MUIA_String_Contents, fname);
     }
 
     return 0;
@@ -102,11 +103,12 @@ static APTR build_gui(void)
 
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, translate_text(IDS_WARP_ON_AUTOSTART), ui_autostart_enable)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_RUN_WITH_COLON), ui_autostart_enable)
-           CYCLE(ui_to_from[2].object, translate_text(IDS_AUTOSTART_PRG_MODE), ui_autostart_mode)
-           CYCLE(ui_to_from[3].object, translate_text(IDS_AUTOSTART_LOAD_TO_BASIC_START), ui_autostart_enable)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_AUTOSTART_RANDOM_DELAY), ui_autostart_enable)
+           CYCLE(ui_to_from[2].object, translate_text(IDS_RUN_WITH_COLON), ui_autostart_enable)
+           CYCLE(ui_to_from[3].object, translate_text(IDS_AUTOSTART_PRG_MODE), ui_autostart_mode)
+           CYCLE(ui_to_from[4].object, translate_text(IDS_AUTOSTART_LOAD_TO_BASIC_START), ui_autostart_enable)
 
-           FILENAME(ui_to_from[4].object, translate_text(IDS_AUTOSTART_DISK_IMAGE_FILENAME), browse_button)
+           FILENAME(ui_to_from[5].object, translate_text(IDS_AUTOSTART_DISK_IMAGE_FILENAME), browse_button)
            OK_CANCEL_BUTTON
          End;
 

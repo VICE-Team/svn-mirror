@@ -9771,6 +9771,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_WARP_ON_AUTOSTART_SV, "Starta warp automatiskt" },
 /* tr */ { IDS_WARP_ON_AUTOSTART_TR, "Warp modunda otomatik baþlat" },
 
+/* en */ { IDS_AUTOSTART_RANDOM_DELAY,    "Autostart random delay" },
+/* da */ { IDS_AUTOSTART_RANDOM_DELAY_DA, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_RANDOM_DELAY_DE, "" },  /* fuzzy */
+/* es */ { IDS_AUTOSTART_RANDOM_DELAY_ES, "" },  /* fuzzy */
+/* fr */ { IDS_AUTOSTART_RANDOM_DELAY_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AUTOSTART_RANDOM_DELAY_HU, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_RANDOM_DELAY_IT, "" },  /* fuzzy */
+/* ko */ { IDS_AUTOSTART_RANDOM_DELAY_KO, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_RANDOM_DELAY_NL, "" },  /* fuzzy */
+/* pl */ { IDS_AUTOSTART_RANDOM_DELAY_PL, "" },  /* fuzzy */
+/* ru */ { IDS_AUTOSTART_RANDOM_DELAY_RU, "" },  /* fuzzy */
+/* sv */ { IDS_AUTOSTART_RANDOM_DELAY_SV, "" },  /* fuzzy */
+/* tr */ { IDS_AUTOSTART_RANDOM_DELAY_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_RUN_WITH_COLON,    "Use ':' with RUN" },
 /* da */ { IDS_RUN_WITH_COLON_DA, "Brug \":\" med RUN" },
 /* de */ { IDS_RUN_WITH_COLON_DE, "Verwende ':' mit RUN" },
