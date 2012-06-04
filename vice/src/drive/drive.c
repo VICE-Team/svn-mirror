@@ -355,7 +355,7 @@ void drive_enable_update_ui(drive_context_t *drv)
 /* Activate full drive emulation. */
 int drive_enable(drive_context_t *drv)
 {
-    int i, drive_true_emulation = 0;
+    int drive_true_emulation = 0;
     unsigned int dnr;
     drive_t *drive;
 
@@ -390,10 +390,9 @@ int drive_enable(drive_context_t *drv)
 /* Disable full drive emulation.  */
 void drive_disable(drive_context_t *drv)
 {
-    int i, drive_true_emulation = 0;
+    int drive_true_emulation = 0;
     unsigned int dnr;
     drive_t *drive;
-    unsigned int enabled_drives = 0;
 
     dnr = drv->mynumber;
     drive = drv->drive;
@@ -735,7 +734,7 @@ int drive_num_leds(unsigned int dnr)
     return 1;
 }
 
-/* This is called at every vsync.  */
+/* This is called at every vsync. */
 void drive_vsync_hook(void)
 {
     unsigned int dnr;
@@ -743,12 +742,20 @@ void drive_vsync_hook(void)
     drive_update_ui_status();
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drive_t *drive;
-
-        drive = drive_context[dnr]->drive;
-        if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES
-            && drive->enable)
-            drivecpu_execute(drive_context[dnr], maincpu_clk);
+        drive_t *drive = drive_context[dnr]->drive;
+        if (drive->enable) {
+            if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
+                drivecpu_execute(drive_context[dnr], maincpu_clk);
+            }
+            if (drive->idling_method == DRIVE_IDLE_NO_IDLE) {
+                /* if drive is never idle, also rotate the disk. this prevents
+                 * huge peaks in cpu usage when the drive must catch up with
+                 * a longer period of time.
+                 */
+                rotation_rotate_disk(drive);
+            }
+            /* printf("drive_vsync_hook drv %d @clk:%d\n", dnr, maincpu_clk); */
+        }
     }
 }
 
