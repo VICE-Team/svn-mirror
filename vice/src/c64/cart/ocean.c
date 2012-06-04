@@ -172,7 +172,7 @@ int ocean_bin_attach(const char *filename, BYTE *rawcart)
     rc = util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS);
     if ( rc == 0 ) {
       io1_mask = (size >> 13)-1;
-      printf("rc=%d i=%d sz=0x%x mask=0x%02x\n", rc, i, size, io1_mask);
+      /* printf("rc=%d i=%d sz=0x%x mask=0x%02x\n", rc, i, size, io1_mask); */
       break;
     }
   }
