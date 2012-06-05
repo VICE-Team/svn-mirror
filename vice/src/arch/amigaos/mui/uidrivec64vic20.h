@@ -30,4 +30,3 @@
 extern void uidrivec64vic20_settings_dialog(void);
 
 #endif
-

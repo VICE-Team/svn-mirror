@@ -113,8 +113,7 @@ enum {
 #define SUBTOGGLE(a, b, c) { NM_SUB, (int)a, (STRPTR)b, (CHECKIT | MENUTOGGLE), 0L, (APTR)c },
 #define END() { NM_END, (int)0, NULL, 0, 0L, NULL },
 
-struct TranslateNewMenu
-{
+struct TranslateNewMenu {
     UBYTE nm_Type;
     int nm_Label;
     STRPTR nm_CommKey;

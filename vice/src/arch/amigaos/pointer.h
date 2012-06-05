@@ -39,4 +39,3 @@ extern void pointer_to_default(void);
 extern void pointer_show(void);
 
 #endif /* _POINTER_H_ */
-

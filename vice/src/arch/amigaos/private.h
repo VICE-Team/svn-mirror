@@ -111,7 +111,7 @@ typedef struct ui_res_value_list_s {
     int default_idm;
 } ui_res_value_list_t;
 
-typedef int (*ui_machine_specific_t) (video_canvas_t *canvas, int idm);
+typedef int (*ui_machine_specific_t)(video_canvas_t *canvas, int idm);
 
 extern void ui_register_menu_layout(struct NewMenu *menu);
 extern void ui_register_machine_specific(ui_machine_specific_t func);

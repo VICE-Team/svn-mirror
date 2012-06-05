@@ -31,7 +31,7 @@
 #define UILIB_SELECTOR_TYPE_FILE_SAVE 1
 #define UILIB_SELECTOR_TYPE_DIR_EXIST 2
 #define UILIB_SELECTOR_TYPE_DIR_NEW   3
-  
+
 #define UILIB_SELECTOR_STYLE_DEFAULT       0
 #define UILIB_SELECTOR_STYLE_TAPE          1
 #define UILIB_SELECTOR_STYLE_DISK          2
@@ -70,4 +70,3 @@ extern void ui_show_text(const char *szCaption,
 extern int ui_messagebox(const char *lpText, const char *lpCaption, unsigned int uType);
 
 #endif
-

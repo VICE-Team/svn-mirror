@@ -61,20 +61,20 @@ static ui_to_from_t ui_to_from_drive[] = {
 
 static APTR hook_object_drive[countof(ui_to_from_drive)];
 
-    BROWSE(BrowseComputer0, ComputerHook0, ui_to_from_computer[0].object)
-    BROWSE(BrowseComputer1, ComputerHook1, ui_to_from_computer[1].object)
-    BROWSE(BrowseComputer2, ComputerHook2, ui_to_from_computer[2].object)
+    BROWSE(BrowseComputer0, ComputerHook0, ui_to_from_computer[0].object);
+    BROWSE(BrowseComputer1, ComputerHook1, ui_to_from_computer[1].object);
+    BROWSE(BrowseComputer2, ComputerHook2, ui_to_from_computer[2].object);
 
-    BROWSE(BrowseDrive0, DriveHook0, ui_to_from_drive[0].object)
-    BROWSE(BrowseDrive1, DriveHook1, ui_to_from_drive[1].object)
-    BROWSE(BrowseDrive2, DriveHook2, ui_to_from_drive[2].object)
-    BROWSE(BrowseDrive3, DriveHook3, ui_to_from_drive[3].object)
-    BROWSE(BrowseDrive4, DriveHook4, ui_to_from_drive[4].object)
-    BROWSE(BrowseDrive5, DriveHook5, ui_to_from_drive[5].object)
-    BROWSE(BrowseDrive6, DriveHook6, ui_to_from_drive[6].object)
-    BROWSE(BrowseDrive7, DriveHook7, ui_to_from_drive[7].object)
-    BROWSE(BrowseDrive8, DriveHook8, ui_to_from_drive[8].object)
-    BROWSE(BrowseDrive9, DriveHook9, ui_to_from_drive[9].object)
+    BROWSE(BrowseDrive0, DriveHook0, ui_to_from_drive[0].object);
+    BROWSE(BrowseDrive1, DriveHook1, ui_to_from_drive[1].object);
+    BROWSE(BrowseDrive2, DriveHook2, ui_to_from_drive[2].object);
+    BROWSE(BrowseDrive3, DriveHook3, ui_to_from_drive[3].object);
+    BROWSE(BrowseDrive4, DriveHook4, ui_to_from_drive[4].object);
+    BROWSE(BrowseDrive5, DriveHook5, ui_to_from_drive[5].object);
+    BROWSE(BrowseDrive6, DriveHook6, ui_to_from_drive[6].object);
+    BROWSE(BrowseDrive7, DriveHook7, ui_to_from_drive[7].object);
+    BROWSE(BrowseDrive8, DriveHook8, ui_to_from_drive[8].object);
+    BROWSE(BrowseDrive9, DriveHook9, ui_to_from_drive[9].object);
 
 static APTR build_computer_gui(void)
 {

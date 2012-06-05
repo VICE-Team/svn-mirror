@@ -34,7 +34,7 @@
 #define VICE_SOCKETIMPL_H
 
 #ifdef HAVE_NETWORK
- 
+
 #include <assert.h>
 #include <stdio.h>
 
@@ -58,7 +58,7 @@
 
 #if !defined(AMIGA_AROS) && !defined(AMIGA_MORPHOS)
 # define select(nfds, read_fds, write_fds, except_fds, timeout) \
-         WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
+    WaitSelect(nfds, read_fds, write_fds, except_fds, timeout, NULL)
 #endif
 
 #include <sys/types.h>

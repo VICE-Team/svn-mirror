@@ -67,101 +67,101 @@
 #include <libraries/asl.h>
 #undef get
 #undef set
-#define get(obj,attr,store) GetAttr(attr,obj,(ULONG *)store)
-#define set(obj,attr,value) SetAttrs(obj,attr,value,TAG_DONE)
+#define get(obj, attr, store) GetAttr(attr, obj, (ULONG *)store)
+#define set(obj, attr, value) SetAttrs(obj, attr, value, TAG_DONE)
 #endif
 
 #ifndef MAKE_ID
-#define MAKE_ID(a,b,c,d) ((ULONG) (a)<<24 | (ULONG) (b)<<16 | (ULONG) (c)<<8 | (ULONG) (d))
+#define MAKE_ID(a, b, c, d) ((ULONG) (a) << 24 | (ULONG) (b) << 16 | (ULONG) (c) << 8 | (ULONG) (d))
 #endif
 
 #define CHECK(store, name)             \
     Child, GroupObject,                \
-      MUIA_Group_Columns, 2,           \
-      Child, store = CheckMark(FALSE), \
-      Child, Label1(name),             \
+    MUIA_Group_Columns, 2,           \
+    Child, store = CheckMark(FALSE), \
+    Child, Label1(name),             \
     End,
 
 #define CYCLE(store, name, entries)    \
     Child, HGroup,                     \
-      Child, TextObject,               \
-        MUIA_Text_PreParse, "\033r",   \
-        MUIA_Text_Contents, name,      \
-        MUIA_Weight, 30,               \
-        MUIA_InnerLeft, 0,             \
-        MUIA_InnerRight, 0,            \
-      End,                             \
-      Child, store = CycleObject,      \
-          MUIA_Cycle_Entries, entries, \
-          MUIA_Cycle_Active, 0,        \
-      End,                             \
+    Child, TextObject,               \
+    MUIA_Text_PreParse, "\033r",   \
+    MUIA_Text_Contents, name,      \
+    MUIA_Weight, 30,               \
+    MUIA_InnerLeft, 0,             \
+    MUIA_InnerRight, 0,            \
+    End,                             \
+    Child, store = CycleObject,      \
+    MUIA_Cycle_Entries, entries, \
+    MUIA_Cycle_Active, 0,        \
+    End,                             \
     End,
 
 #define FILENAME(store, name, button)                   \
     Child, HGroup,                                      \
-      Child, TextObject,                                \
-        MUIA_Text_PreParse, "\033r",                    \
-        MUIA_Text_Contents, name,                       \
-        MUIA_Weight, 30,                                \
-        MUIA_InnerLeft, 0,                              \
-        MUIA_InnerRight, 0,                             \
-      End,                                              \
-      Child, store = StringObject,                      \
-        MUIA_Frame, MUIV_Frame_String,                  \
-        MUIA_FrameTitle, name,                          \
-        MUIA_String_MaxLen, 1024,                       \
-      End,                                              \
-      Child, button = TextObject,                       \
-        ButtonFrame,                                    \
-        MUIA_Background, MUII_ButtonBack,               \
-        MUIA_Text_Contents, translate_text(IDS_BROWSE), \
-        MUIA_Text_PreParse, "\033c",                    \
-        MUIA_InputMode, MUIV_InputMode_RelVerify,       \
-      End,                                              \
+    Child, TextObject,                                \
+    MUIA_Text_PreParse, "\033r",                    \
+    MUIA_Text_Contents, name,                       \
+    MUIA_Weight, 30,                                \
+    MUIA_InnerLeft, 0,                              \
+    MUIA_InnerRight, 0,                             \
+    End,                                              \
+    Child, store = StringObject,                      \
+    MUIA_Frame, MUIV_Frame_String,                  \
+    MUIA_FrameTitle, name,                          \
+    MUIA_String_MaxLen, 1024,                       \
+    End,                                              \
+    Child, button = TextObject,                       \
+    ButtonFrame,                                    \
+    MUIA_Background, MUII_ButtonBack,               \
+    MUIA_Text_Contents, translate_text(IDS_BROWSE), \
+    MUIA_Text_PreParse, "\033c",                    \
+    MUIA_InputMode, MUIV_InputMode_RelVerify,       \
+    End,                                              \
     End,
 
 #define STRING(store, name, accept, maxlen) \
     Child, HGroup,                          \
-      Child, TextObject,                    \
-        MUIA_Text_PreParse, "\033r",        \
-        MUIA_Text_Contents, name,           \
-        MUIA_Weight, 30,                    \
-        MUIA_InnerLeft, 0,                  \
-        MUIA_InnerRight, 0,                 \
-      End,                                  \
-      Child, store = StringObject,          \
-        MUIA_Frame, MUIV_Frame_String,      \
-        MUIA_FrameTitle, name,              \
-        MUIA_String_Accept, accept,         \
-        MUIA_String_MaxLen, maxlen,         \
-      End,                                  \
+    Child, TextObject,                    \
+    MUIA_Text_PreParse, "\033r",        \
+    MUIA_Text_Contents, name,           \
+    MUIA_Weight, 30,                    \
+    MUIA_InnerLeft, 0,                  \
+    MUIA_InnerRight, 0,                 \
+    End,                                  \
+    Child, store = StringObject,          \
+    MUIA_Frame, MUIV_Frame_String,      \
+    MUIA_FrameTitle, name,              \
+    MUIA_String_Accept, accept,         \
+    MUIA_String_MaxLen, maxlen,         \
+    End,                                  \
     End,
 
 #define BUTTON(button, name)                    \
     Child, button = TextObject,                 \
-      ButtonFrame,                              \
-      MUIA_Background, MUII_ButtonBack,         \
-      MUIA_Text_Contents, name,                 \
-      MUIA_Text_PreParse, "\033c",              \
-      MUIA_InputMode, MUIV_InputMode_RelVerify, \
+    ButtonFrame,                              \
+    MUIA_Background, MUII_ButtonBack,         \
+    MUIA_Text_Contents, name,                 \
+    MUIA_Text_PreParse, "\033c",              \
+    MUIA_InputMode, MUIV_InputMode_RelVerify, \
     End,
 
 #define OK_CANCEL_BUTTON                                \
     Child, HGroup,                                      \
-      Child, ok = TextObject,                           \
-        ButtonFrame,                                    \
-        MUIA_Background, MUII_ButtonBack,               \
-        MUIA_Text_Contents, translate_text(IDMES_OK),   \
-        MUIA_Text_PreParse, "\033c",                    \
-        MUIA_InputMode, MUIV_InputMode_RelVerify,       \
-      End,                                              \
-      Child, cancel = TextObject,                       \
-        ButtonFrame,                                    \
-        MUIA_Background, MUII_ButtonBack,               \
-        MUIA_Text_Contents, translate_text(IDS_CANCEL), \
-        MUIA_Text_PreParse, "\033c",                    \
-        MUIA_InputMode, MUIV_InputMode_RelVerify,       \
-      End,                                              \
+    Child, ok = TextObject,                           \
+    ButtonFrame,                                    \
+    MUIA_Background, MUII_ButtonBack,               \
+    MUIA_Text_Contents, translate_text(IDMES_OK),   \
+    MUIA_Text_PreParse, "\033c",                    \
+    MUIA_InputMode, MUIV_InputMode_RelVerify,       \
+    End,                                              \
+    Child, cancel = TextObject,                       \
+    ButtonFrame,                                    \
+    MUIA_Background, MUII_ButtonBack,               \
+    MUIA_Text_Contents, translate_text(IDS_CANCEL), \
+    MUIA_Text_PreParse, "\033c",                    \
+    MUIA_InputMode, MUIV_InputMode_RelVerify,       \
+    End,                                              \
     End,
 
 #ifdef AMIGA_MORPHOS
@@ -179,7 +179,7 @@
         return 0;                                                                  \
     }                                                                              \
                                                                                    \
-  static const struct Hook hook_function = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)function, NULL};
+    static const struct Hook hook_function = {{NULL, NULL}, (VOID *)HookEntry, (VOID *)function, NULL}
 #else
 #define BROWSE(function, hook_function, object)                                    \
     static ULONG function(struct Hook *hook, Object *obj, APTR arg)                \
@@ -192,10 +192,10 @@
             set(object, MUIA_String_Contents, fname);                              \
         }                                                                          \
                                                                                    \
-    return 0;                                                                      \
+        return 0;                                                                      \
     }                                                                              \
                                                                                    \
-  static const struct Hook hook_function = { { NULL,NULL },(VOID *)function,NULL,NULL };
+    static const struct Hook hook_function = { { NULL, NULL }, (VOID *)function, NULL, NULL }
 #endif
 
 #define MUI_TYPE_NONE      (0)
@@ -219,7 +219,7 @@ typedef struct {
 } ui_to_from_t;
 
 #define UI_END \
-  {NULL, MUI_TYPE_NONE, NULL, NULL, NULL, NULL}
+    {NULL, MUI_TYPE_NONE, NULL, NULL, NULL, NULL}
 
 extern ui_to_from_t *ui_find_resource(ui_to_from_t *data, char *resource);
 

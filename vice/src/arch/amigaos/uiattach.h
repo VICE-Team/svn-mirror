@@ -34,4 +34,3 @@ extern void uiattach_aros(video_canvas_t *canvas_t, int unit);
 #endif
 
 #endif
-

@@ -52,14 +52,14 @@ typedef double f64;
 #define AUDIO_MODE_STEREO (0x02) /* stereo */
 
 /* format helpers */
-#define AUDIO_M8S  (AUDIO_MODE_MONO   | AUDIO_MODE_8BIT ) /*  8 bit signed, mono */
-#define AUDIO_M16S (AUDIO_MODE_MONO   | AUDIO_MODE_16BIT) /* 16 bit signed, mono */
+#define AUDIO_M8S  (AUDIO_MODE_MONO | AUDIO_MODE_8BIT )   /*  8 bit signed, mono */
+#define AUDIO_M16S (AUDIO_MODE_MONO | AUDIO_MODE_16BIT)   /* 16 bit signed, mono */
 #define AUDIO_S8S  (AUDIO_MODE_STEREO | AUDIO_MODE_8BIT ) /*  8 bit signed, stereo */
 #define AUDIO_S16S (AUDIO_MODE_STEREO | AUDIO_MODE_16BIT) /* 16 bit signed, stereo */
 
 /* time */
 #define TIMEBASE (1000000) /* us */
-#define NOTIME   ((s64)-1) /* when no timestamp is available */
+#define NOTIME   ((s64) - 1) /* when no timestamp is available */
 #define NOWAIT   (0)
 #define DOWAIT   (1)
 

@@ -30,4 +30,3 @@
 extern void ui_sid_settings_dialog(void);
 
 #endif
-

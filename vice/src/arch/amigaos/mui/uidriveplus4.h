@@ -30,4 +30,3 @@
 extern void uidriveplus4_settings_dialog(void);
 
 #endif
-

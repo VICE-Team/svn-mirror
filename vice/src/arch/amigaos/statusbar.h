@@ -37,4 +37,3 @@ extern void statusbar_set_statustext(const char *text, int text_time);
 extern void statusbar_statustext_update(void);
 
 #endif /* _STATUSBAR_H_ */
-

@@ -30,4 +30,3 @@
 extern void uidrivec128_settings_dialog(void);
 
 #endif
-

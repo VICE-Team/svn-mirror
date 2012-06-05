@@ -43,4 +43,3 @@ extern unsigned long mousedrv_get_timestamp(void);
 extern void mousedrv_sync(void);
 
 #endif
-
