@@ -288,33 +288,34 @@ console_t *uimon_window_open(void)
 {
     GtkWidget *scrollbar, *horizontal_container;
 
-    fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
-    gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
-    gtk_widget_set_app_paintable(fixed.window, TRUE);
-    gtk_window_set_deletable(GTK_WINDOW(fixed.window), TRUE);
-    /* gtk_window_set_transient_for(GTK_WINDOW(fixed.window), GTK_WINDOW(get_active_toplevel())); */
-    fixed.term = vte_terminal_new();
-    vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
-    vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
-    scrollbar = gtk_vscrollbar_new(vte_terminal_get_adjustment (VTE_TERMINAL(fixed.term)));
-    horizontal_container = gtk_hbox_new(FALSE, 0);
-    gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
-    gtk_container_add(GTK_CONTAINER(horizontal_container), fixed.term);
-    gtk_container_add(GTK_CONTAINER(horizontal_container), scrollbar);
+    if (fixed.window == NULL) {
+        fixed.window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
+        gtk_window_set_title(GTK_WINDOW(fixed.window), "VICE monitor");
+        gtk_window_set_position(GTK_WINDOW(fixed.window), GTK_WIN_POS_CENTER);
+        gtk_widget_set_app_paintable(fixed.window, TRUE);
+        gtk_window_set_deletable(GTK_WINDOW(fixed.window), TRUE);
+        fixed.term = vte_terminal_new();
+        vte_terminal_set_scrollback_lines (VTE_TERMINAL(fixed.term), 1000);
+        vte_terminal_set_scroll_on_output (VTE_TERMINAL(fixed.term), TRUE);
+        scrollbar = gtk_vscrollbar_new(vte_terminal_get_adjustment (VTE_TERMINAL(fixed.term)));
+        horizontal_container = gtk_hbox_new(FALSE, 0);
+        gtk_container_add(GTK_CONTAINER(fixed.window), horizontal_container);
+        gtk_container_add(GTK_CONTAINER(horizontal_container), fixed.term);
+        gtk_container_add(GTK_CONTAINER(horizontal_container), scrollbar);
 
-    g_signal_connect(G_OBJECT(fixed.window), "delete-event",
-        G_CALLBACK(close_window), &fixed.input_buffer);
+        g_signal_connect(G_OBJECT(fixed.window), "delete-event",
+            G_CALLBACK(close_window), &fixed.input_buffer);
 
-    g_signal_connect(G_OBJECT(fixed.term), "key-press-event", 
-        G_CALLBACK(key_press_event), &fixed.input_buffer);
+        g_signal_connect(G_OBJECT(fixed.term), "key-press-event", 
+            G_CALLBACK(key_press_event), &fixed.input_buffer);
 
-    g_signal_connect(G_OBJECT(fixed.term), "button-press-event", 
-        G_CALLBACK(button_press_event), &fixed.input_buffer);
+        g_signal_connect(G_OBJECT(fixed.term), "button-press-event", 
+            G_CALLBACK(button_press_event), &fixed.input_buffer);
 
-    vte_console.console_xres = vte_terminal_get_column_count(VTE_TERMINAL(fixed.term));
-    vte_console.console_yres = vte_terminal_get_row_count(VTE_TERMINAL(fixed.term));
-    vte_console.console_can_stay_open = 1;
+        vte_console.console_xres = vte_terminal_get_column_count(VTE_TERMINAL(fixed.term));
+        vte_console.console_yres = vte_terminal_get_row_count(VTE_TERMINAL(fixed.term));
+        vte_console.console_can_stay_open = 1;
+    }
     return uimon_window_resume();
 }
 
@@ -347,8 +348,7 @@ int uimon_out(const char *buffer)
 
 void uimon_window_close(void)
 {
-    gtk_widget_destroy(fixed.window);
-    fixed.window = fixed.term = NULL;
+    gtk_widget_hide(fixed.window);
     /* transfer focus to the main emulator window */
     ui_restore_focus();
 }
