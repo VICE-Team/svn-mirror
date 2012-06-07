@@ -121,8 +121,9 @@ static void freeHistory(void) {
     if (history) {
         int j;
 
-        for (j = 0; j < history_len; j++)
+        for (j = 0; j < history_len; j++) {
             free(history[j]);
+        }
         free(history);
     }
 }
@@ -174,10 +175,12 @@ static void beep(struct console_private_s *term) {
 
 static void freeCompletions(linenoiseCompletions *lc) {
     size_t i;
-    for (i = 0; i < lc->len; i++)
+    for (i = 0; i < lc->len; i++) {
         free(lc->cvec[i]);
-    if (lc->cvec != NULL)
+    }
+    if (lc->cvec != NULL) {
         free(lc->cvec);
+    }
 }
 
 static int completeLine(struct console_private_s *term, const char *prompt, char *buf, size_t buflen, size_t *len, size_t *pos, size_t cols) {
@@ -210,7 +213,9 @@ static int completeLine(struct console_private_s *term, const char *prompt, char
             switch(c) {
                 case 9: /* tab */
                     i = (i+1) % (lc.len+1);
-                    if (i == lc.len) beep(term);
+                    if (i == lc.len) {
+                        beep(term);
+                    }
                     break;
                 case 27: /* escape */
                     /* Re-show original buffer */
@@ -261,7 +266,9 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
         char seq[2], seq2[2];
 
         nread = get_string(term,&c,1);
-        if (nread <= 0) return -1;
+        if (nread <= 0) {
+            return -1;
+        }
 
         /* Only autocomplete when the callback is set. It returns < 0 when
          * there was an error reading from fd. Otherwise it will return the
@@ -269,9 +276,13 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
         if (c == 9 && completionCallback != NULL) {
             c = completeLine(term,prompt,buf,buflen,&len,&pos,cols);
             /* Return on errors */
-            if (c < 0) return len;
+            if (c < 0) {
+                return len;
+            }
             /* Read next character when 0 */
-            if (c == 0) continue;
+            if (c == 0) {
+                continue;
+            }
         }
 
         switch(c) {
@@ -325,7 +336,9 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
             goto up_down_arrow;
             break;
         case 27:    /* escape sequence */
-            if (get_string(term,seq,2) == -1) break;
+            if (get_string(term,seq,2) == -1) {
+                break;
+            }
             if (seq[0] == 91 && seq[1] == 68) {
 left_arrow:
                 /* left arrow */
@@ -364,7 +377,9 @@ up_down_arrow:
                 }
             } else if (seq[0] == 91 && seq[1] > 48 && seq[1] < 55) {
                 /* extended escape */
-                if (get_string(term,seq2,2) == -1) break;
+                if (get_string(term,seq2,2) == -1) {
+                    break;
+                }
                 if (seq[1] == 51 && seq2[0] == 126) {
                     /* delete */
                     if (len > 0 && pos < len) {
@@ -425,7 +440,9 @@ char *linenoise(const char *prompt, struct console_private_s *term) {
 
     count = linenoisePrompt(term, buf, LINENOISE_MAX_LINE, prompt);
     write_to_terminal(term, "\r\n", 2);
-    if (count == -1) return NULL;
+    if (count == -1) {
+        return NULL;
+    }
     return strdup(buf);
 }
 
@@ -438,7 +455,7 @@ void linenoiseAddCompletion(linenoiseCompletions *lc, char *str) {
     size_t len = strlen(str);
     char *copy = malloc(len+1);
     memcpy(copy,str,len+1);
-    lc->cvec = realloc(lc->cvec,sizeof(char*)*(lc->len+1));
+    lc->cvec = realloc(lc->cvec, sizeof(char*)*(lc->len+1));
     lc->cvec[lc->len++] = copy;
 }
 
@@ -446,17 +463,23 @@ void linenoiseAddCompletion(linenoiseCompletions *lc, char *str) {
 int linenoiseHistoryAdd(const char *line) {
     char *linecopy;
 
-    if (history_max_len == 0) return 0;
+    if (history_max_len == 0) {
+        return 0;
+    }
     if (history == NULL) {
         history = malloc(sizeof(char*)*history_max_len);
-        if (history == NULL) return 0;
-        memset(history,0,(sizeof(char*)*history_max_len));
+        if (history == NULL) {
+            return 0;
+        }
+        memset(history, 0, (sizeof(char*)*history_max_len));
     }
     linecopy = strdup(line);
-    if (!linecopy) return 0;
+    if (!linecopy) {
+        return 0;
+    }
     if (history_len == history_max_len) {
         free(history[0]);
-        memmove(history,history+1,sizeof(char*)*(history_max_len-1));
+        memmove(history, history+1, sizeof(char*)*(history_max_len-1));
         history_len--;
     }
     history[history_len] = linecopy;
@@ -467,20 +490,24 @@ int linenoiseHistoryAdd(const char *line) {
 int linenoiseHistorySetMaxLen(int len) {
     char **new;
 
-    if (len < 1) return 0;
+    if (len < 1) {
+        return 0;
+    }
     if (history) {
         int tocopy = history_len;
 
         new = malloc(sizeof(char*)*len);
-        if (new == NULL) return 0;
+        if (new == NULL) {
+            return 0;
+        }
         if (len < tocopy) tocopy = len;
-        memcpy(new,history+(history_max_len-tocopy), sizeof(char*)*tocopy);
+        memcpy(new, history+(history_max_len-tocopy), sizeof(char*)*tocopy);
         free(history);
         history = new;
     }
     history_max_len = len;
-    if (history_len > history_max_len)
+    if (history_len > history_max_len) {
         history_len = history_max_len;
+    }
     return 1;
 }
-
