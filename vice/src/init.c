@@ -142,6 +142,10 @@ int init_resources(void)
         init_resource_fail("network");
         return -1;
     }
+    if (monitor_resources_init() < 0) {
+        init_resource_fail("monitor");
+        return -1;
+    }
 #ifdef HAVE_NETWORK
     if (monitor_network_resources_init() < 0) {
         init_resource_fail("monitor");

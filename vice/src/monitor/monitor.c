@@ -1268,6 +1268,25 @@ static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
     return 0;
 }
 
+static int keep_monitor_open = 1;
+
+static int set_keep_monitor_open(int val, void *param)
+{
+    keep_monitor_open = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "KeepMonitorOpen", 1, RES_EVENT_NO, NULL,
+      &keep_monitor_open, set_keep_monitor_open, NULL },
+    { NULL }
+};
+
+int monitor_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
 static const cmdline_option_t cmdline_options[] = {
     { "-moncommands", CALL_FUNCTION, 1,
       set_playback_name, NULL, NULL, NULL,
@@ -2199,7 +2218,11 @@ static void monitor_open(void)
         return;
     }
 
-    mon_console_close_on_leaving = console_log->console_can_stay_open ^ 1;
+    if ((console_log->console_can_stay_open == 1) && (keep_monitor_open == 1)) {
+        mon_console_close_on_leaving = 0;
+    } else {
+        mon_console_close_on_leaving = 1;
+    }
 
     if ( monitor_is_remote() ) {
         signals_pipe_set();
@@ -2292,7 +2315,10 @@ static void monitor_close(int check)
         if there is no log, or if the console can not stay open when the emulation
         runs, close the console.
     */
-    if ((console_log == NULL) || (console_log->console_can_stay_open == 0)) {
+    if ((console_log == NULL) ||
+        (console_log->console_can_stay_open == 0) ||
+        (keep_monitor_open == 0)
+    ) {
         mon_console_close_on_leaving = 1;
     }
 
