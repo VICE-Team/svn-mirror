@@ -107,16 +107,17 @@
 #define LINENOISE_MAX_LINE 4096
 static linenoiseCompletionCallback *completionCallback = NULL;
 
-static struct termios orig_termios; /* in order to restore at exit */
-static int rawmode = 0; /* for atexit() function to check if restore is needed*/
-static int atexit_registered = 0; /* register atexit just 1 time */
+/* static struct termios orig_termios; */ /* in order to restore at exit */
+/* static int rawmode = 0; */ /* for atexit() function to check if restore is needed*/
+/* static int atexit_registered = 0; */ /* register atexit just 1 time */
 static int history_max_len = LINENOISE_DEFAULT_HISTORY_MAX_LEN;
 static int history_len = 0;
 char **history = NULL;
 
-static void linenoiseAtExit(void);
+/* static void linenoiseAtExit(void); */
 int linenoiseHistoryAdd(const char *line);
 
+/* FIXME: unused -> memory leak
 static void freeHistory(void) {
     if (history) {
         int j;
@@ -127,12 +128,14 @@ static void freeHistory(void) {
         free(history);
     }
 }
-
+*/
 
 /* At exit we'll try to fix the terminal to the initial conditions. */
+/*
 static void linenoiseAtExit(void) {
     freeHistory();
 }
+*/
 
 int getColumns(struct console_private_s *term);
 void write_to_terminal(struct console_private_s *t,
