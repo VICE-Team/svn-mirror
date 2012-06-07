@@ -59,15 +59,18 @@ static linenoiseCompletions need_filename_lc = {0, NULL};
 
 void write_to_terminal(struct console_private_s *t,
                        const char *data,
-                       glong length){
-    if(t->term)
+                       glong length)
+{
+    if(t->term) {
         vte_terminal_feed(VTE_TERMINAL(t->term), data, length);
+    }
 }
 
 int getColumns(struct console_private_s *t)
 {
-    if(t->term)
+    if(t->term) {
         return vte_terminal_get_column_count(VTE_TERMINAL(t->term));
+    }
     return 80;
 }
 
@@ -105,107 +108,107 @@ static char* append_string_to_input_buffer(char *old_input_buffer, GtkWidget *te
 static gboolean plain_key_pressed(char **input_buffer, guint keyval)
 {
     switch (keyval) {
-    default:
-        if(keyval >= GDK_KEY(space) && keyval <= GDK_KEY(ydiaeresis)){
-            *input_buffer = append_char_to_input_buffer(*input_buffer, (char)keyval);
+        default:
+            if(keyval >= GDK_KEY(space) && keyval <= GDK_KEY(ydiaeresis)) {
+                *input_buffer = append_char_to_input_buffer(*input_buffer, (char)keyval);
+                return TRUE;
+            }
+            return FALSE;
+        case GDK_KEY(Return):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 13);
             return TRUE;
-        }
-        return FALSE;
-    case GDK_KEY(Return):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 13);
-        return TRUE;
-    case GDK_KEY(BackSpace):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 127);
-        return TRUE;
-    case GDK_KEY(Left):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 2);
-        return TRUE;
-    case GDK_KEY(Right):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 6);
-        return TRUE;
-    case GDK_KEY(Up):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 16);
-        return TRUE;
-    case GDK_KEY(Down):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 14);
-        return TRUE;
-    case GDK_KEY(Tab):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 9);
-        return TRUE;
-    case GDK_KEY(Delete):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
-        return TRUE;
-    case GDK_KEY(Home):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 1);
-        return TRUE;
-    case GDK_KEY(End):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
-        return TRUE;
+        case GDK_KEY(BackSpace):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 127);
+            return TRUE;
+        case GDK_KEY(Left):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 2);
+            return TRUE;
+        case GDK_KEY(Right):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 6);
+            return TRUE;
+        case GDK_KEY(Up):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 16);
+            return TRUE;
+        case GDK_KEY(Down):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 14);
+            return TRUE;
+        case GDK_KEY(Tab):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 9);
+            return TRUE;
+        case GDK_KEY(Delete):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
+            return TRUE;
+        case GDK_KEY(Home):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 1);
+            return TRUE;
+        case GDK_KEY(End):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
+            return TRUE;
     }
 }
 
 static gboolean ctrl_plus_key_pressed(char **input_buffer, guint keyval, GtkWidget *terminal)
 {
     switch (keyval) {
-    default:
-        return FALSE;
-    case GDK_KEY(h):
-    case GDK_KEY(H):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 127);
-        return TRUE;
-    case GDK_KEY(b):
-    case GDK_KEY(B):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 2);
-        return TRUE;
-    case GDK_KEY(f):
-    case GDK_KEY(F):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 6);
-        return TRUE;
-    case GDK_KEY(p):
-    case GDK_KEY(P):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 16);
-        return TRUE;
-    case GDK_KEY(n):
-    case GDK_KEY(N):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 14);
-        return TRUE;
-    case GDK_KEY(t):
-    case GDK_KEY(T):
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 20);
-        return TRUE;
-    case GDK_KEY(d):
-    case GDK_KEY(D):
-        /* ctrl-d, remove char at right of cursor */
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
-        return TRUE;
-    case GDK_KEY(u):
-    case GDK_KEY(U):
-        /* Ctrl+u, delete the whole line. */
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 21);
-        return TRUE;
-    case GDK_KEY(k):
-    case GDK_KEY(K):
-        /* Ctrl+k, delete from current to end of line. */
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 11);
-        return TRUE;
-    case GDK_KEY(a):
-    case GDK_KEY(A):
-        /* Ctrl+a, go to the start of the line */
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 1);
-        return TRUE;
-    case GDK_KEY(e):
-    case GDK_KEY(E):
-        /* ctrl+e, go to the end of the line */
-        *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
-        return TRUE;
-    case GDK_KEY(c):
-    case GDK_KEY(C):
-        vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
-        return TRUE;
-    case GDK_KEY(v):
-    case GDK_KEY(V):
-        *input_buffer = append_string_to_input_buffer(*input_buffer, terminal, GDK_SELECTION_CLIPBOARD);
-        return TRUE;
+        default:
+            return FALSE;
+        case GDK_KEY(h):
+        case GDK_KEY(H):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 127);
+            return TRUE;
+        case GDK_KEY(b):
+        case GDK_KEY(B):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 2);
+            return TRUE;
+        case GDK_KEY(f):
+        case GDK_KEY(F):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 6);
+            return TRUE;
+        case GDK_KEY(p):
+        case GDK_KEY(P):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 16);
+            return TRUE;
+        case GDK_KEY(n):
+        case GDK_KEY(N):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 14);
+            return TRUE;
+        case GDK_KEY(t):
+        case GDK_KEY(T):
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 20);
+            return TRUE;
+        case GDK_KEY(d):
+        case GDK_KEY(D):
+            /* ctrl-d, remove char at right of cursor */
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 4);
+            return TRUE;
+        case GDK_KEY(u):
+        case GDK_KEY(U):
+            /* Ctrl+u, delete the whole line. */
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 21);
+            return TRUE;
+        case GDK_KEY(k):
+        case GDK_KEY(K):
+            /* Ctrl+k, delete from current to end of line. */
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 11);
+            return TRUE;
+        case GDK_KEY(a):
+        case GDK_KEY(A):
+            /* Ctrl+a, go to the start of the line */
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 1);
+            return TRUE;
+        case GDK_KEY(e):
+        case GDK_KEY(E):
+            /* ctrl+e, go to the end of the line */
+            *input_buffer = append_char_to_input_buffer(*input_buffer, 5);
+            return TRUE;
+        case GDK_KEY(c):
+        case GDK_KEY(C):
+            vte_terminal_copy_clipboard(VTE_TERMINAL(terminal));
+            return TRUE;
+        case GDK_KEY(v):
+        case GDK_KEY(V):
+            *input_buffer = append_string_to_input_buffer(*input_buffer, terminal, GDK_SELECTION_CLIPBOARD);
+            return TRUE;
     }
 }
 
@@ -218,15 +221,15 @@ static gboolean key_press_event (GtkWidget   *widget,
 
     gdk_event_get_state((GdkEvent*)event, &state);
 
-    if (*input_buffer && event->type == GDK_KEY_PRESS){
-        switch(state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) {
-        case 0:
-        case GDK_SHIFT_MASK:
-            return plain_key_pressed(input_buffer, event->keyval);
-        case GDK_CONTROL_MASK:
-            return ctrl_plus_key_pressed(input_buffer, event->keyval, widget);
-        default:
-            return FALSE;
+    if (*input_buffer && event->type == GDK_KEY_PRESS) {
+        switch (state & (GDK_SHIFT_MASK | GDK_CONTROL_MASK)) {
+            case 0:
+            case GDK_SHIFT_MASK:
+                return plain_key_pressed(input_buffer, event->keyval);
+            case GDK_CONTROL_MASK:
+                return ctrl_plus_key_pressed(input_buffer, event->keyval, widget);
+            default:
+                return FALSE;
         }
     }
     return FALSE;
@@ -240,8 +243,9 @@ gboolean button_press_event(GtkWidget *widget,
     GdkEventButton *button_event = (GdkEventButton*)event;
 
     if (button_event->button != 2
-     || button_event->type   != GDK_BUTTON_PRESS)
+     || button_event->type   != GDK_BUTTON_PRESS) {
         return FALSE;
+    }
 
     *input_buffer = append_string_to_input_buffer(*input_buffer, widget, GDK_SELECTION_PRIMARY);
     return TRUE;
@@ -258,14 +262,16 @@ static gboolean close_window(GtkWidget *widget, GdkEvent *event, gpointer user_d
 int get_string(struct console_private_s *t, char* string, int string_len)
 {
     int retval=0;
-    while(retval<string_len){
+    while(retval<string_len) {
         int i;
 
         gtk_main_iteration();
-        if (!t->input_buffer)
+        if (!t->input_buffer) {
             return -1;
-        for (i = 0; i < strlen(t->input_buffer) && retval < string_len; i++, retval++)
+        }
+        for (i = 0; i < strlen(t->input_buffer) && retval < string_len; i++, retval++) {
             string[retval]=t->input_buffer[i];
+        }
         memmove(t->input_buffer, t->input_buffer + i, strlen(t->input_buffer) + 1 - i);
     }
     return retval;
@@ -319,9 +325,10 @@ void uimon_window_suspend(void)
 int uimon_out(const char *buffer)
 {
     const char *c;
-    for(c = buffer; *c; c++){
-        if(*c == '\n')
+    for(c = buffer; *c; c++) {
+        if(*c == '\n') {
             write_to_terminal(&fixed, "\r", 1);
+        }
         write_to_terminal(&fixed, c, 1);
     }
     return 0;
@@ -356,9 +363,11 @@ static void fill_completions(const char *string_so_far, int initial_chars, int t
     lc->len = 0;
     for(word_index = 0; word_index < possible_lc->len; word_index++) {
         int i;
-        for(i = 0; i < token_len; i++)
-            if (string_so_far[initial_chars + i] != possible_lc->cvec[word_index][i])
+        for(i = 0; i < token_len; i++) {
+            if (string_so_far[initial_chars + i] != possible_lc->cvec[word_index][i]) {
                 break;
+            }
+        }
         if (i == token_len && possible_lc->cvec[word_index][token_len] != 0) {
             char *string_to_append = concat_strings(string_so_far, initial_chars, possible_lc->cvec[word_index]);
             linenoiseAddCompletion(lc, string_to_append);
@@ -377,9 +386,9 @@ static gboolean is_token_in(const char *string_so_far, int token_len, const line
 {
     int i;
     for(i = 0; i < lc->len; i++) {
-        if(strlen(lc->cvec[i]) == token_len
-       && !strncmp(string_so_far, lc->cvec[i], token_len))
+        if(strlen(lc->cvec[i]) == token_len && !strncmp(string_so_far, lc->cvec[i], token_len)) {
             return TRUE;
+        }
     }
     return FALSE;
 }
@@ -394,7 +403,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
     };
 
     find_next_token(string_so_far, 0, &start_of_token, &token_len);
-    if (!string_so_far[start_of_token + token_len]){
+    if (!string_so_far[start_of_token + token_len]) {
          fill_completions(string_so_far, start_of_token, token_len, &command_lc, lc);
          return;
     }
@@ -412,8 +421,8 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         struct linenoiseCompletions files_lc = {0, NULL};
         int i;
 
-        for(start_of_token += token_len; string_so_far[start_of_token] && isspace(string_so_far[start_of_token]); start_of_token++);
-        if(string_so_far[start_of_token] != '"') {
+        for (start_of_token += token_len; string_so_far[start_of_token] && isspace(string_so_far[start_of_token]); start_of_token++);
+        if (string_so_far[start_of_token] != '"') {
             char *string_to_append = concat_strings(string_so_far, start_of_token, "\"");
             linenoiseAddCompletion(lc, string_to_append);
             free(string_to_append);
@@ -421,32 +430,33 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         }
         for (start_of_path = ++start_of_token, token_len = 0; string_so_far[start_of_token + token_len]; token_len++) {
             if(string_so_far[start_of_token + token_len] == '"'
-            && string_so_far[start_of_token + token_len - 1] != '\\')
+            && string_so_far[start_of_token + token_len - 1] != '\\') {
                 return;
+            }
             if(string_so_far[start_of_token + token_len] == '/') {
                 start_of_token += token_len + 1;
                 token_len = -1;
             }
         }
-        if (start_of_token == start_of_path)
+        if (start_of_token == start_of_path) {
             dir = opendir(".");
-        else {
+        } else {
             char *path = concat_strings(string_so_far + start_of_path, start_of_token - start_of_path, "");
             dir = opendir(path);
             free(path);
         }
         if (dir) {
             for (direntry = readdir(dir); direntry; direntry = readdir(dir)) {
-                if (strcmp(direntry->d_name, ".")
-                 && strcmp(direntry->d_name, "..")) {
+                if (strcmp(direntry->d_name, ".") && strcmp(direntry->d_name, "..")) {
                     char *entryname = lib_msprintf("%s%s", direntry->d_name, direntry->d_type == DT_DIR ? "/" : "\"");
                     linenoiseAddCompletion(&files_lc, entryname);
                     lib_free(entryname);
                 }
             }
             fill_completions(string_so_far, start_of_token, token_len, &files_lc, lc);
-            for(i = 0; i < files_lc.len; i++)
+            for(i = 0; i < files_lc.len; i++) {
                 free(files_lc.cvec[i]);
+            }
             return;
         }
     }
@@ -465,8 +475,7 @@ char *uimon_get_in(char **ppchCommandLine, const char *prompt)
         }
         ret_string = lib_stralloc(p);
         free(p);
-    }
-    else {
+    } else {
         ret_string = lib_stralloc("x");
     }
     lib_free(fixed.input_buffer);
@@ -481,15 +490,17 @@ int console_init(void)
     char *full_name;
     char *short_name;
     int takes_filename_as_arg;
-    while(mon_get_nth_command(i++, &full_name, &short_name, &takes_filename_as_arg)) {
+    while (mon_get_nth_command(i++, &full_name, &short_name, &takes_filename_as_arg)) {
         if (strlen(full_name)) {
             linenoiseAddCompletion(&command_lc, full_name);
-            if (strlen(short_name))
+            if (strlen(short_name)) {
                 linenoiseAddCompletion(&command_lc, short_name);
+            }
             if (takes_filename_as_arg) {
                 linenoiseAddCompletion(&need_filename_lc, full_name);
-                if (strlen(short_name))
+                if (strlen(short_name)) {
                     linenoiseAddCompletion(&need_filename_lc, short_name);
+                }
             }
         }
     }
@@ -499,11 +510,12 @@ int console_init(void)
 int console_close_all(void)
 {
     int i;
-    for(i = 0; i < command_lc.len; i++)
+    for(i = 0; i < command_lc.len; i++) {
         free(command_lc.cvec[i]);
-    for(i = 0; i < need_filename_lc.len; i++)
+    }
+    for(i = 0; i < need_filename_lc.len; i++) {
         free(need_filename_lc.cvec[i]);
-
+    }
     return 0;
 }
 
