@@ -31,12 +31,14 @@
 #include <string.h>
 #include <vte/vte.h>
 #include <dirent.h>
+#include <ctype.h>
 
 #include "console.h"
 #include "lib.h"
 #include "linenoise.h"
 #include "uiarch.h"
 #include "uimon.h"
+#include "mon_command.h"
 
 /* Work around an incompatible change in GDK header files
  * http://git.gnome.org/browse/gtk+/commit/gdk/gdkkeysyms.h?id=913cdf3be750a1e74c09b20edf55a57f9a919fcc */
@@ -490,7 +492,7 @@ int console_init(void)
     char *full_name;
     char *short_name;
     int takes_filename_as_arg;
-    while (mon_get_nth_command(i++, &full_name, &short_name, &takes_filename_as_arg)) {
+    while (mon_get_nth_command(i++, (const char **)&full_name, (const char **)&short_name, &takes_filename_as_arg)) {
         if (strlen(full_name)) {
             linenoiseAddCompletion(&command_lc, full_name);
             if (strlen(short_name)) {

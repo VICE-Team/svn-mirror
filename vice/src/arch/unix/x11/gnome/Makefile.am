@@ -3,6 +3,7 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/arch \
+	-I$(top_srcdir)/src/monitor \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/arch/unix/gui \
 	-I$(top_srcdir)/src/arch/unix/x11
