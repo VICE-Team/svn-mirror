@@ -768,17 +768,14 @@ void drive_vsync_hook(void)
             if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
                 drivecpu_execute(drive_context[dnr], maincpu_clk);
             }
-#if 0
-/* FIXME: damn, this appearently breaks the driveupdate fixes by bero. another
-          better way to catch up with rotation early must be found */
             if (drive->idling_method == DRIVE_IDLE_NO_IDLE) {
                 /* if drive is never idle, also rotate the disk. this prevents
                  * huge peaks in cpu usage when the drive must catch up with
                  * a longer period of time.
                  */
+                if (drive->byte_ready_active & 0x04)
                 rotation_rotate_disk(drive);
             }
-#endif
             /* printf("drive_vsync_hook drv %d @clk:%d\n", dnr, maincpu_clk); */
         }
     }
