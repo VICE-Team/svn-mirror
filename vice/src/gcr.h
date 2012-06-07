@@ -4,6 +4,9 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Daniel Sladic <sladic@eecg.toronto.edu>
+ * Additional changes by
+ *  Robert McIntyre <rjmcinty@hotmail.com>
+ *  Benjamin 'BeRo' Rosseaux <benjamin@rosseaux.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -30,21 +33,30 @@
 
 #include "types.h"
 
-/* Number of bytes in one raw track.  */
+/* Number of bytes in one raw track. For usage with D64/D71 */
 #define NUM_MAX_BYTES_TRACK 7928
 
+/* Number of bytes in one raw track in memory. 64k big to avoid buffer overrun, because
+ * the G64 track size field is a 16-bit word */
+#define NUM_MAX_MEM_BYTES_TRACK 65536
+
 /* Number of tracks we emulate.  */
-#define MAX_GCR_TRACKS 70
+#define MAX_GCR_TRACKS 84
 
 typedef struct gcr_s {
     /* Raw GCR image of the disk.  */
-    BYTE data[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
+    /* RJM: This is a hack.  Need to dynamically allocate it */
+    BYTE data[(MAX_GCR_TRACKS + 1) * NUM_MAX_MEM_BYTES_TRACK];
 
     /* Speed zone image of the disk.  */
-    BYTE speed_zone[MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK];
+    /* RJM: This is a hack.  Need to dynamically allocate it */
+    BYTE speed_zone[(MAX_GCR_TRACKS + 1) * NUM_MAX_MEM_BYTES_TRACK];
 
     /* Size of the GCR data of each track.  */
     unsigned int track_size[MAX_GCR_TRACKS];
+
+    /* Size of the largest track, set from the file header */
+    unsigned int max_track_size;
 
 } gcr_t;
 

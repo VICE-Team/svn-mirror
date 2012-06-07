@@ -58,10 +58,10 @@ static void response_cb(GtkWidget *w, gint id, gpointer data)
 void ui_about(gpointer data)
 {
     GtkWidget *button;
-    
+
     const gchar *authors[] = {
 #ifdef __GNUC__
-        _("The VICE Team"), 
+        _("The VICE Team"),
 #else
         "The VICE Team",
 #endif
@@ -82,6 +82,7 @@ void ui_about(gpointer data)
         "Copyright @ 2011-2012 Stefan Haubenthal",
         "Copyright @ 2011-2012 Thomas Giesel",
         "Copyright @ 2011-2012 Kajtar Zsolt",
+        "Copyright @ 2012-2012 Benjamin 'BeRo' Rosseaux",
         "",
 #ifdef __GNUC__
         _("Official VICE homepage:"),
@@ -93,7 +94,7 @@ void ui_about(gpointer data)
     };
 
     const gchar *docs[] = {
-        "Ettore Perazzoli et al.", 
+        "Ettore Perazzoli et al.",
         NULL
     };
 
@@ -119,9 +120,9 @@ void ui_about(gpointer data)
                              "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
                              "copyright", _("(c) 1998 - 2012 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",
-                             "authors", authors, 
-                             "documenters", docs, 
-                             "translator-credits", transl, 
+                             "authors", authors,
+                             "documenters", docs,
+                             "translator-credits", transl,
                              NULL);
         g_signal_connect(G_OBJECT(about), "destroy", G_CALLBACK(gtk_widget_destroyed), &about);
         button = gtk_dialog_add_button(GTK_DIALOG(about), _("License"), GTK_RESPONSE_OK);

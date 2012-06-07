@@ -97,6 +97,7 @@ int fsimage_check_sector(disk_image_t *image, unsigned int track,
         sectors += sector;
         break;
       case DISK_IMAGE_TYPE_G64:
+      case DISK_IMAGE_TYPE_P64:
         if (track > image->tracks || track > MAX_TRACKS_1541 || sector
             >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
             return -1;

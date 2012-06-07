@@ -2,7 +2,8 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/c64/cart
+	-I$(top_srcdir)/src/c64/cart \
+	-I$(top_srcdir)/src/lib/p64
 
 noinst_LIBRARIES = libuserport.a
 

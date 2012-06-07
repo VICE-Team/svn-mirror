@@ -145,9 +145,9 @@
 - (IBAction)createAndAttachDiskImage:(id)sender
 {
     NSArray *extensions = [NSArray arrayWithObjects:
-        @"d64", @"d67", @"d71", @"d80", @"d81", @"d82", @"g64", @"x64", nil];
+        @"d64", @"d67", @"d71", @"d80", @"d81", @"d82", @"g64", @"p64", @"x64", nil];
     NSArray *labels = [NSArray arrayWithObjects:
-        @"D64", @"D67", @"D71", @"D80", @"D81", @"D82", @"G64", @"X64", nil];
+        @"D64", @"D67", @"D71", @"D80", @"D81", @"D82", @"G64", @"P64", @"X64", nil];
 
     NSAutoreleasePool * pool = [[NSAutoreleasePool alloc] init];
     NSSavePanel * panel = [NSSavePanel savePanel];

@@ -104,10 +104,11 @@ struct _action {
 typedef struct _action action_t;
 
 static filter_t FilterDisk[] = {
-    { "*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.x64*", "All Disk Images" },
-    { "*.d64*; *.g64*; *.x64*", "All 1541 Images" },
+    { "*.d64*; *.d71*; *.d80*; *.d81.*; *.d82*; *.g64*; *.p64*; *.x64*", "All Disk Images" },
+    { "*.d64*; *.g64*; *.p64*; *.x64*", "All 1541 Images" },
     { "*.d64*", "1541" },
     { "*.g64*", "1541" },
+    { "*.p64*", "1541" },
     { "*.x64*", "1541" },
     { "*.d71*", "1571" },
     { "*.d80*", "8050" },

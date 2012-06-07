@@ -41,6 +41,7 @@
 #include "types.h"
 #include "util.h"
 #include "x64.h"
+#include "p64.h"
 
 
 static log_t createdisk_log = LOG_DEFAULT;
@@ -117,6 +118,66 @@ static int fsimage_create_gcr(disk_image_t *image)
     return 0;
 }
 
+static int fsimage_create_p64(disk_image_t *image)
+{
+    TP64MemoryStream P64MemoryStreamInstance;
+    TP64Image P64Image;
+    BYTE gcr_track[7928], *gcrptr;
+    unsigned int track, sector;
+    fsimage_t *fsimage;
+    int rc = -1;
+
+    fsimage = image->media.fsimage;
+
+    P64ImageCreate(&P64Image);
+
+    for (track = 0; track < MAX_TRACKS_1541; track++) {
+        const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+
+        memset(&gcr_track[0], 0x55, 7928);
+        gcrptr = &gcr_track[0];
+
+        for (sector = 0;
+        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);
+        sector++) {
+            BYTE chksum, id[2], rawdata[260];
+            int i;
+
+            id[0] = id[1] = 0xa0;
+            memset(rawdata, 0, 260);
+            rawdata[0] = 7;
+            chksum = rawdata[1];
+            for (i = 1; i < 256; i++) {
+                chksum ^= rawdata[i + 1];
+            }
+            rawdata[257] = chksum;
+
+            gcr_convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
+                                      id[0], id[1], 0);
+            gcrptr += 360;
+        }
+
+
+        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[(track + 1) << 1], (void*)&gcr_track[0], raw_track_size[disk_image_speed_map_1541(track)] << 3);
+
+    }
+
+    P64MemoryStreamCreate(&P64MemoryStreamInstance);
+    P64MemoryStreamClear(&P64MemoryStreamInstance);
+    if (P64ImageWriteToStream(&P64Image,&P64MemoryStreamInstance)) {
+        if (fwrite(P64MemoryStreamInstance.Data, P64MemoryStreamInstance.Size, 1, fsimage->fd) < 1) {
+          log_error(createdisk_log, "Cannot write image data.");
+          rc = -1;
+        } else {
+          rc = 0;
+        }
+    }
+    P64MemoryStreamDestroy(&P64MemoryStreamInstance);
+
+    P64ImageDestroy(&P64Image);
+
+    return rc;
+}
 
 /*-----------------------------------------------------------------------*/
 /* Create a disk image.  */
@@ -152,6 +213,8 @@ int fsimage_create(const char *name, unsigned int type)
         size = D82_FILE_SIZE;
         break;
       case DISK_IMAGE_TYPE_G64:
+        break;
+      case DISK_IMAGE_TYPE_P64:
         break;
       case DISK_IMAGE_TYPE_D1M:
         size = D1M_FILE_SIZE;
@@ -277,6 +340,9 @@ int fsimage_create(const char *name, unsigned int type)
         break;
       case DISK_IMAGE_TYPE_G64:
         rc = fsimage_create_gcr(image);
+        break;
+      case DISK_IMAGE_TYPE_P64:
+        rc = fsimage_create_p64(image);
         break;
     }
 

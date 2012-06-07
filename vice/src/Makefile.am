@@ -41,7 +41,8 @@ SUBDIRS = \
 	pet \
 	plus4 \
 	cbm2 \
-	arch
+	arch \
+	lib/p64
 
 DIST_SUBDIRS = \
 	sounddrv \
@@ -95,7 +96,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/imagecontents \
-	-I$(top_srcdir)/src/userport
+	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/lib/p64
 
 noinst_HEADERS = \
 	6510core.h \
@@ -742,6 +744,7 @@ video_lib = $(top_builddir)/src/video/libvideo.a
 vsid_lib = $(top_builddir)/src/c64/libvsid.a
 xcbm2_lib = $(top_builddir)/src/cbm2/libcbm2.a
 xcbm5x0_lib = $(top_builddir)/src/cbm2/libcbm5x0.a
+p64_lib = $(top_builddir)/src/lib/p64/libp64.a
 
 common_libs = @ARCH_LIBS@ @LIBOBJS@ @READLINE@
 resid_libs = @RESID_LIBS@ @RESID_FP_LIBS@
@@ -819,6 +822,7 @@ vsid_libs =  \
 	@VSID_WINRES@ \
 	$(vsid_lib) \
 	$(sid_lib) \
+	$(p64_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(vicii_lib) \
@@ -861,6 +865,7 @@ x64_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -931,6 +936,7 @@ x64sc_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -999,6 +1005,7 @@ x64dtv_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(userport_lib) \
@@ -1071,6 +1078,7 @@ x128_libs =  \
 	$(driveiecc64exp_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -1144,6 +1152,7 @@ xvic_libs =  \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(iecbus_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
@@ -1206,6 +1215,7 @@ xpet_libs =  \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
@@ -1266,6 +1276,7 @@ xplus4_libs =  \
 	$(driveiecplus4exp_lib) \
 	$(drivetcbm_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(iecbus_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
@@ -1324,6 +1335,7 @@ xcbm2_libs = \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
@@ -1382,6 +1394,7 @@ xcbm5x0_libs = \
 	$(driveiecieee_lib) \
 	$(driveieee_lib) \
 	$(drive_lib) \
+	$(p64_lib) \
 	$(parallel_lib) \
 	$(vdrive_lib) \
 	$(monitor_lib) \
@@ -1449,7 +1462,9 @@ c1541_SOURCES = \
 	resources.c \
 	util.c \
 	zfile.c \
-	zipcode.c
+	zipcode.c 
+
+#	lib/p64/p64.c
 
 if OWCC
 ARCH_EXTRA_OBJECTS = @ARCH_DIR@/libarch.a
@@ -1462,6 +1477,7 @@ endif
 # libs too then.
 c1541_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
+	$(p64_lib) \
 	$(blockdev_lib) \
 	$(realdevice_lib) \
 	$(vdrive_lib) \

@@ -32,6 +32,7 @@
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "fsimage-gcr.h"
+#include "fsimage-p64.h"
 #include "fsimage-probe.h"
 #include "fsimage.h"
 #include "lib.h"
@@ -427,7 +428,7 @@ static int disk_image_check_for_x64(disk_image_t *image)
 
 static int disk_image_check_for_gcr(disk_image_t *image)
 {
-    int trackfield;
+    /*int trackfield;*/
     BYTE header[32];
     fsimage_t *fsimage;
 
@@ -456,14 +457,6 @@ static int disk_image_check_for_gcr(disk_image_t *image)
         return 0;
     }
 
-    trackfield = header[10] + header[11] * 256;
-    if (trackfield != 7928) {
-        log_error(disk_image_probe_log,
-                  "Import GCR: Invalid track field number %i.",
-                  trackfield);
-        return 0;
-    }
-
     image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
     fsimage_error_info_destroy(fsimage);
@@ -472,6 +465,38 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     if (image->gcr != NULL) {
         if (fsimage_read_gcr_image(image) < 0)
             return 0;
+    }
+    return 1;
+}
+
+static int disk_image_check_for_p64(disk_image_t *image)
+{
+    BYTE header[32];
+    fsimage_t *fsimage;
+
+    fsimage = image->media.fsimage;
+
+    fseek(fsimage->fd, 0, SEEK_SET);
+    if (fread((BYTE *)header, sizeof (header), 1, fsimage->fd) < 1) {
+        log_error(disk_image_probe_log, "Cannot read image header.");
+        return 0;
+    }
+
+    if (strncmp("P64-1541", (char*)header, 8)) {
+        return 0;
+    }
+
+    /*log_error(disk_image_probe_log, "P64 detected"); */
+
+    image->type = DISK_IMAGE_TYPE_P64;
+    image->tracks = 84 / 2;
+    fsimage_error_info_destroy(fsimage);
+    disk_image_check_log(image, "P64");
+
+    if (image->p64 != NULL) {
+        if (fsimage_read_p64_image(image) < 0) {
+            return 0;
+        }
     }
     return 1;
 }
@@ -612,28 +637,42 @@ static int disk_image_check_for_d4m(disk_image_t *image)
 
 int fsimage_probe(disk_image_t *image)
 {
-    if (disk_image_check_for_d64(image))
+    if (disk_image_check_for_d64(image)) {
         return 0;
-    if (disk_image_check_for_d67(image))
+    }
+    if (disk_image_check_for_d67(image)) {
         return 0;
-    if (disk_image_check_for_d71(image))
+    }
+    if (disk_image_check_for_d71(image)) {
         return 0;
-    if (disk_image_check_for_d81(image))
+    }
+    if (disk_image_check_for_d81(image)) {
         return 0;
-    if (disk_image_check_for_d80(image))
+    }
+    if (disk_image_check_for_d80(image)) {
         return 0;
-    if (disk_image_check_for_d82(image))
+    }
+    if (disk_image_check_for_d82(image)) {
         return 0;
-    if (disk_image_check_for_gcr(image))
+    }
+    if (disk_image_check_for_p64(image)) {
         return 0;
-    if (disk_image_check_for_x64(image))
+    }
+    if (disk_image_check_for_gcr(image)) {
         return 0;
-    if (disk_image_check_for_d1m(image))
+    }
+    if (disk_image_check_for_x64(image)) {
         return 0;
-    if (disk_image_check_for_d2m(image))
+    }
+    if (disk_image_check_for_d1m(image)) {
         return 0;
-    if (disk_image_check_for_d4m(image))
+    }
+    if (disk_image_check_for_d2m(image)) {
         return 0;
+    }
+    if (disk_image_check_for_d4m(image)) {
+        return 0;
+    }
 
     return -1;
 }

@@ -160,6 +160,7 @@ UI_CALLBACK(ui_about)
                                         "Copyright C 2011-2012 Stefan Haubenthal",
                                         "Copyright C 2011-2012 Thomas Giesel",
                                         "Copyright C 2011-2012 Kajtar Zsolt",
+                                        "Copyright C 2012-2012 Benjamin 'BeRo' Rosseaux",
                                         "",
                                         _("Official VICE homepage:"),
                                         "http://vice-emu.sourceforge.net/",

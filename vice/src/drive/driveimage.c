@@ -74,6 +74,7 @@ void drive_image_init_track_size_d64(drive_t *drive)
             raw_track_size[disk_image_speed_map_1541(track)];
         memset(drive->gcr->speed_zone, disk_image_speed_map_1541(track),
                NUM_MAX_BYTES_TRACK);
+		drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
     }
 }
 
@@ -193,6 +194,7 @@ static int drive_check_image_format(unsigned int format, unsigned int dnr)
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_G64:
+      case DISK_IMAGE_TYPE_P64:
       case DISK_IMAGE_TYPE_X64:
         if (drive->type != DRIVE_TYPE_1541
             && drive->type != DRIVE_TYPE_1541II
@@ -278,6 +280,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
       case DISK_IMAGE_TYPE_D71:
       case DISK_IMAGE_TYPE_G64:
       case DISK_IMAGE_TYPE_X64:
+      case DISK_IMAGE_TYPE_P64:
         disk_image_attach_log(image, driveimage_log, unit);
         break;
       default:
@@ -286,12 +289,23 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
 
     drive->image = image;
     drive->image->gcr = drive->gcr;
+    drive->image->p64 = (void*)drive->p64;
 
-    if (drive->image->type == DISK_IMAGE_TYPE_G64) {
+    if (drive->image->type == DISK_IMAGE_TYPE_P64) {
+        if (disk_image_read_p64_image(drive->image) < 0) {
+            drive->image = NULL;
+            return -1;
+        }
+        drive->P64_image_loaded = 1;
+        drive->P64_dirty = 0;
+        return 0;
+    } else if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         if (disk_image_read_gcr_image(drive->image) < 0) {
             drive->image = NULL;
             return -1;
         }
+        drive->GCR_image_loaded = 1;
+        return 0;
     } else {
         if (setID(dnr) >= 0) {
             drive_image_read_d64_d71(drive);
@@ -301,9 +315,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
             return -1;
         }
     }
-    drive->GCR_image_loaded = 1;
 
-    return 0;
 }
 
 /* Detach a disk image from the true drive emulation. */
@@ -324,6 +336,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
           case DISK_IMAGE_TYPE_D67:
           case DISK_IMAGE_TYPE_D71:
           case DISK_IMAGE_TYPE_G64:
+          case DISK_IMAGE_TYPE_P64:
           case DISK_IMAGE_TYPE_X64:
             disk_image_detach_log(image, driveimage_log, unit);
             break;
@@ -332,10 +345,21 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
         }
     }
 
-    drive_gcr_data_writeback(drive);
-    memset(drive->gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
+   if (drive->P64_image_loaded && drive->P64_dirty) {
+        drive->P64_dirty = 0;
+        if (disk_image_write_p64_image(drive->image) < 0) {
+                log_error(drive->log,
+                          "Cannot write disk image back.");
+        }
+    } else {
+	drive_gcr_data_writeback(drive);
+    }
+    
+//  memset(drive->gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
+    memset(drive->gcr->data, 0, sizeof(drive->gcr->data));
     drive->detach_clk = drive_clk[dnr];
     drive->GCR_image_loaded = 0;
+    drive->P64_image_loaded = 0;
     drive->read_only = 0;
     drive->image = NULL;
 

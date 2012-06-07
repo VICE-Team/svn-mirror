@@ -1,0 +1,278 @@
+
+                         P64 file format specification 
+                         
+                 by Benjamin 'BeRo' Rosseaux <benjamin@rosseaux.com>
+
+                       ! All values are in little endian order ! 
+
++----------------------------------------------------------------------------+
+¦                              P64 Header Layout                             ¦
++----------------------------------------------------------------------------+
+
+        0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+      +---------------------------------------------------------------+
+0000: ¦'P'¦'6'¦'4'¦'-'¦'1'¦'5'¦'4'¦'1'¦    Version    ¦     Flags     ¦   
+      +---------------+---------------+-------------------------------+
+0010: ¦     Size      ¦ CRC32Checksum ¦
+      +-------------------------------+
+
+         Version:  File format version, current is 0x00000000
+      
+            Size   Size of the following whole chunk content stream
+      
+           Flags:  Bit    0 = Write protect
+                   Bit 1-31 = Reserved, all set to 0 when creating a file, 
+                              preserve existing value when updating
+       
+   CRC32CheckSum:  CRC32 checksum of the following whole chunk content stream                
+
++----------------------------------------------------------------------------+
+¦                           P64 Chunk Header Layout                          ¦
++----------------------------------------------------------------------------+
+
+        0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+      +-----------------------------------------------+
+0000: ¦Chunk Signature¦      Size     ¦ CRC32Checksum ¦   
+      +-----------------------------------------------+
+
+ Chunk signature:  Signature of chunk
+      
+            Size:  Size of the chunk data
+      
+   CRC32CheckSum:  CRC32 checksum of the chunk data                
+
++----------------------------------------------------------------------------+
+¦                           P64 Chunk 'HTPx' Layout                          ¦
++----------------------------------------------------------------------------+
+                          ¦ x = half track index byte ¦
+                          +---------------------------+
+                          
+       Track 18 = Half track 36 = Half track index byte decimal value 36
+                          
+              Half track NRZI transition flux pulse data chunk block                          
+                                                                                         
+        0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+      +---------------------------------------------------------------+
+0000: ¦  Count pulses ¦     Size      ¦ ..... Range-encoded data .... ¦    
+      +---------------------------------------------------------------+
+
+    Count pulses:  Count of the NRZI transition flux pulses in half track 
+      
+            Size:  Size of the range-encoded data
+            
++----------------------------------------------------------------------------+
+¦                        'HTPx' Range encoded data format                    ¦
++----------------------------------------------------------------------------+
+
+             Hint: For a working C implememtation see p64.c and p64.h
+
+The range coder is a FPAQ0-style range coder combined with 12-bit 0-order 
+models, one model per byte with one bit per byte processing.
+
+ +--------------------------------------------------------------------------+
+ ¦   Sub stream     ¦ Count of models ¦  Size per model  ¦ Total value bits ¦
+ +------------------+-----------------+------------------+------------------+
+ ¦     Position     ¦        4        ¦      65536       ¦        32        |
+ +------------------+-----------------+------------------+------------------+
+ ¦     Strength     ¦        4        ¦      65536       ¦        32        | 
+ +------------------+-----------------+------------------+------------------+
+ ¦   Position flag  ¦        1        ¦        2         ¦        1         ¦
+ +------------------+-----------------+------------------+------------------+
+ ¦   Strenth flag   ¦        1        ¦        2         ¦        1         ¦ 
+ +------------------+-----------------+------------------+------------------+
+ +===Total models===¦        10       ¦==================¦==================¦
+ +--------------------------------------------------------------------------+
+
+All initial model state values are initialized with zero.
+ 
+All initial model probability values are initialized with 2048. 
+
+These model probability values will be updating in a adaptive way on the
+fly and not precalculated before the encoding and even not loaded before 
+the decoding, see pseudo code below.
+
+16000000 Hz / 5 rotations per second at 300 RPM = maximal 3200000 flux pulses 
+        
+So NRZI transition flux pulse positions are in the 0 .. 3199999 value range, 
+which is also a exact single rotation, where each time unit is a cycle at 
+16 MHz with 300 RPM as a mapping for the ideal case.    
+  
+The NRZI transition flux pulse stength are in the 0x00000000 .. 0xffffffff
+value range, where 0xffffffff indices a strong flux pulse, that always 
+triggers, and 0x00000001 indices a weak flux pulse, that almost never 
+triggers, and 0x00000000 indices a flux pulse, that absolutly never 
+triggers.            
+        
+For 32-bit values, the model sub streams are subdivided byte wide in a 
+little-endian manner, and each byte is processed bitwise with model 
+probability shifting of 4 bits, just as:
+
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+= procedure WriteDWord(Model, Value : longword);                             =
+= var ByteValue, ByteIndex, Context, Bit : longword;                         =
+= begin                                                                      =
+=   for ByteIndex := 0 to 3 do begin                                         =
+=     ByteValue := (Value shr (ByteIndex shl 3)) and $ff;                    =
+=     Context := 1;                                                          =
+=     for Bit := 7 downto 0 do begin                                         =
+=       Context := (Context shl 1) or RangeCoderEncodeBit(                   =
+=                     RangeCoderProbabilities[                               =
+=                      RangeCoderProbabilityOffsets[Model + ByteIndex] +     =
+=                      (((RangeCoderProbabilityStates[Model + ByteIndex]     = 
+=                      shl 8) or Context) and $ffff)], 4, (ByteValue shr     =
+=                      Bit) and 1);                                          =
+=     end;                                                                   =
+=     RangeCoderProbabilityStates[Model+ByteIndex] := ByteValue;             =
+=   end;                                                                     =
+= end;                                                                       =
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+
+And for 1-bit flag values it is much simpler, but also with model probability 
+shifting of 4 bits, just as:
+
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+= procedure WriteBit(Model, Value : longword);                               =
+= begin                                                                      =
+=    RangeCoderProbabilityStates[Model] :=                                   =
+=      RangeCoderEncodeBit(RangeCoderProbabilities[                          =
+=        RangeCoderProbabilityOffsets[Model] +                               =
+=          RangeCoderProbabilityStates[Model]], 4, Value and 1);             =
+= end;                                                                       =
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+
+The position and strength values are delta-encoded. If a value is equal to 
+the last previous value, then the value will not encoded, instead, a flag for
+this will encoded. First the position value will encoded, then the stength 
+value. If the last position delta is 0, then it is a track stream end marker.
+
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+= LastPosition := 0;                                                         =
+= PreviousDeltaPosition := 0                                                 =
+=                                                                            =
+= LastStrength := 0;                                                         =
+=                                                                            =
+= for PulseIndex := 0 to PulseCount - 1 do begin                             =
+=                                                                            =
+=   DeltaPosition := Pulses[PulseIndex].Position - LastPosition;             =
+=   if PreviousDeltaPosition <> DeltaPosition then begin                     =
+=     PreviousDeltaPosition := DeltaPosition;                                =
+=     WriteBit(ModelPositionFlag, 1)                                         =
+=     WriteDWord(ModelPosition, DeltaPosition);                              =
+=   end else begin                                                           =
+=     WriteBit(ModelPositionFlag, 0);                                        =
+=   end;                                                                     =
+=   LastPosition := Pulses[PulseIndex].Position;                             = 
+=                                                                            =
+=   if LastStrength <> Pulses[PulseIndex].Strength then begin                =
+=     WriteBit(ModelStrengthFlag, 1)                                         =
+=     WriteDWord(ModelStrength, Pulses[PulseIndex].Strength - LastStrength); =  
+=   end else begin                                                           =
+=     WriteBit(ModelStrengthFlag, 0);                                        = 
+=   end;                                                                     =  
+=   LastStrength := Pulses^[PulseIndex].Strength;                            =
+=                                                                            =
+= end;                                                                       =
+=                                                                            =
+= // End code                                                                =
+= WriteBit(ModelPositionFlag, 1);                                            =
+= WriteDWord(ModelPosition, 0);                                              =
+=                                                                            =
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+ 
+The decoding is simply just in the another direction way.
+  
+Pseudo code for a FPAQ0-style carryless range coder:
+
+========================== PASCAL-STYLE PSEUDO CODE ==========================
+= procedure RangeCoderInit; // At encoding and decoding start                =
+= begin                                                                      =
+=   RangeCode := 0;                                                          =
+=   RangeLow := 0;                                                           =
+=   RangeHigh := $ffffffff;                                                  =
+= end;                                                                       =
+=                                                                            =
+= procedure RangeCoderStart; // At decoding start                            =
+= var Counter : longword;                                                    =   
+= begin                                                                      =
+=   for Counter := 1 to 4 do begin                                           =
+=    RangeCode := (RangeCode shl 8) or ReadByteFromInput;                    =
+=   end;                                                                     =
+= end;                                                                       =
+=                                                                            =
+= procedure RangeCoderFlush; // At encoding end                              =
+= var Counter : longword;                                                    =  
+= begin                                                                      =
+=   for Counter := 1 to 4 do begin                                           =
+=     WriteByteToOutput(RangeHigh shr 24);                                   =
+=     RangeHigh := RangeHigh shl 8;                                          =
+=   end;                                                                     =
+= end;                                                                       = 
+=                                                                            =
+= procedure RangeCoderEncodeNormalize;                                       =   
+= begin                                                                      =
+=   while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin              =
+=    WriteByteToOutput(RangeHigh shr 24);                                    =
+=    RangeLow := RangeLow shl 8;                                             =
+=    RangeHigh := (RangeHigh shl 8) or $ff;                                  =  
+=   end;                                                                     = 
+= end;                                                                       = 
+=                                                                            =
+= function RangeCoderEncodeBit(var Probability : longword; Shift,            =
+=                              BitValue : longword) : longword;              = 
+= begin                                                                      =
+=   RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *             =
+=                               Probability);                                =  
+=   if BitValue <> 0 then begin                                              = 
+=     inc(Probability, ($fff - Probability) shr Shift);                      =
+=     RangeHigh := RangeMiddle;                                              =  
+=   end else begin                                                           =
+=     dec(Probability, Probability shr Shift);                               =
+=     RangeLow := RangeMiddle + 1;                                           =
+=   end;                                                                     =
+=   RangeCoderEncodeNormalize;                                               =
+=   result := BitValue;                                                      =
+= end;                                                                       =
+=                                                                            = 
+= procedure RangeCoderDecodeNormalize;                                       = 
+= begin                                                                      =
+=   while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin              =
+=     RangeLow := RangeLow shl 8;                                            =
+=     RangeHigh := (RangeHigh shl 8) or $ff;                                 =
+=     RangeCode := (RangeCode shl 8) or ReadByteFromInput;                   =
+=   end;                                                                     =
+= end;                                                                       =
+=                                                                            = 
+= function RangeCoderDecodeBit(var Probability : longword;                   =
+=                              Shift : longword) : longword;                 =
+= begin                                                                      =
+=   RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *             =
+=                              Probability);                                 =
+=   if RangeCode <= RangeMiddle then begin                                   =
+=     inc(Probability, ($fff - Probability) shr Shift);                      =
+=     RangeHigh := RangeMiddle;                                              =
+=     result := 1;                                                           =
+=   end else begin                                                           =
+=     dec(Probability, Probability shr Shift);                               =
+=     RangeLow := RangeMiddle + 1;                                           =
+=     result := 0;                                                           =
+=   end;                                                                     =
+=   RangeCoderDecodeNormalize;                                               =
+= end;                                                                       =
+=                                                                            = 
+==============================================================================
+
+The probability may be never zero! But that can't happen here with this 
+adaptive model in this P64 file format, since the adaptive model uses a
+shift factor of 4 bits and initial probabilities value of 2048, so the 
+probability has a value range from 15 up to 4080 here. If you do want to use 
+the above range coder routines for other stuff with other probability models, 
+then you must to ensure that the probability output value is never zero, for 
+example with  "probability |= (probability < 1); " in C.     
+  
++----------------------------------------------------------------------------+
+¦                           P64 Chunk 'DONE' Layout                          ¦
++----------------------------------------------------------------------------+
+
+This is the last empty chunk for to signalize that the correct file end is
+reached.
+    

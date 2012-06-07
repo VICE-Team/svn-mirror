@@ -2298,7 +2298,7 @@ static const char* file_filters[] = {
 /* all */ "*",
 /* palette */ "*.vpl",
 /* snapshot */ "*.vsf",
-/* disk */ "*.[gdxGDX]*",
+/* disk */ "*.[gdpxGDPX]*",
 /* tape */ "*.[tT][aA6][pP4]",
 /* cartridge */ "*.[cCbB][rRiI][tTnN]",
 /* crt filter */ "*.[cC][rR][tT]",

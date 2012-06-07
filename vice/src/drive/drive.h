@@ -31,6 +31,7 @@
 
 #include "types.h"
 #include "rtc/ds1216e.h"
+#include "p64.h"
 
 #define DRIVE_NUM 4
 #define MAX_PWM 1000
@@ -185,6 +186,17 @@ typedef struct drive_s {
     int snap_bit_counter;
     int snap_zero_count;
     int snap_seed;
+    DWORD snap_speed_zone;
+    DWORD snap_ue7_dcba;
+    DWORD snap_ue7_counter;
+    DWORD snap_uf4_counter;
+    DWORD snap_fr_randcount;
+    DWORD snap_filter_counter;
+    DWORD snap_filter_state;
+    DWORD snap_filter_last_state;
+    DWORD snap_write_flux;
+    DWORD snap_PulseHeadPosition;
+    DWORD snap_xorShift32;
 
     /* UI stuff.  */
     int old_led_status;
@@ -192,6 +204,12 @@ typedef struct drive_s {
 
     /* Is a GCR image loaded?  */
     int GCR_image_loaded;
+
+    /* Is a P64 image loaded?  */
+    int P64_image_loaded;
+
+    /* Is P64 image dirty?  */
+    int P64_dirty;
 
     /* is this disk read only?  */
     int read_only;
@@ -214,6 +232,8 @@ typedef struct drive_s {
 
     /* Pointer to the gcr image.  */
     struct gcr_s *gcr;
+
+    PP64Image p64;
 
     /* Pointer to 8KB RAM expansion.  */
     BYTE *drive_ram_expand2, *drive_ram_expand4, *drive_ram_expand6,

@@ -56,15 +56,15 @@
 
 + (NSArray *)getDiskImageFileExtensions
 {
-    return [NSArray arrayWithObjects: @"d64" ,@"d71", @"d80", @"d81", @"d82", @"g64", @"g41", @"x64", nil];    
+    return [NSArray arrayWithObjects: @"d64" ,@"d71", @"d80", @"d81", @"d82", @"g64", @"g41", @"p64", @"x64", nil];    
 }
 
 + (NSArray *)getCBMImageFileExtensions
 {
-    return [NSArray arrayWithObjects: @"d64" ,@"d71", @"d80", @"d81", @"d82", @"g64", @"g41", @"x64", 
+    return [NSArray arrayWithObjects: @"d64" ,@"d71", @"d80", @"d81", @"d82", @"g64", @"g41", @"p64", @"x64", 
                                       @"t64", @"tap", 
                                       @"prg", @"p00", 
-                                      @"zip", @"bz2", @"gz", @"d6z", @"d7z", @"d8z", @"g6z", @"g4z", @"x6z",
+                                      @"zip", @"bz2", @"gz", @"d6z", @"d7z", @"d8z", @"g6z", @"g4z", @"p6z", @"x6z",
                                       nil];    
 }
 

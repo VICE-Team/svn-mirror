@@ -416,6 +416,7 @@ void ui_about(void)
         "Copyright \xa9 2011-2012 Stefan Haubenthal",
         "Copyright \xa9 2011-2012 Thomas Giesel",
         "Copyright \xa9 2011-2012 Kajtar Zsolt",
+        "Copyright \xa9 2012-2012 Benjamin 'BeRo' Rosseaux",
         "",
         "Official VICE homepage:",
         "http://vice-emu.sourceforge.net/",

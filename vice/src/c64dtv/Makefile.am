@@ -11,6 +11,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/c64
 
 noinst_LIBRARIES = libc64dtv.a libc64dtvstubs.a

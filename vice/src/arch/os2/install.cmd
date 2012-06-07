@@ -56,13 +56,13 @@ end
 
 say 'Creating Program objects...'
 
-CALL createProgram "C=64",        'x64.exe',     '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
-CALL createProgram "C=64SC",      'x64sc.exe',   '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
-CALL createProgram "C=64DTV",     'x64dtv.exe',  '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip'
+CALL createProgram "C=64",        'x64.exe',     '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.p64,*.p64.gz,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
+CALL createProgram "C=64SC",      'x64sc.exe',   '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.p64,*.p64.gz,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
+CALL createProgram "C=64DTV",     'x64dtv.exe',  '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.p64,*.p64.gz,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip'
 CALL createProgram "C=128",       'x128.exe',    '*.d71,*.d71.gz,*.d81,*.d81.gz'
-CALL createProgram "VIC 20",      'xvic.exe',    '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
+CALL createProgram "VIC 20",      'xvic.exe',    '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.p64,*.p64.gz,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
 CALL createProgram "PET",         'xpet.exe',    '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
-CALL createProgram "Plus4",       'xplus4.exe',  '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
+CALL createProgram "Plus4",       'xplus4.exe',  '*.d64,*.d64.gz,*.d64.zip,*.g64,*.g64.gz,*.g64.zip,*.p64,*.p64.gz,*.x64,*.x64.gz,*.x64.zip,*.t64,*.t64.gz,*.d64.zip,*.tap,*.tap.gz'
 CALL createProgram "CBM-6x0/7x0", 'xcbm2.exe',   '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
 CALL createProgram "CBM-5x0",     'xcbm5x0.exe', '*.d80,*.d80.gz,*.d80.zip,*.d82,*.d82.gz,*.d82.zip'
 CALL createProgramIcon "C=1541", 'x1541.exe', 'c1541.ico', '', ''

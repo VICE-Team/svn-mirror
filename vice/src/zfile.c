@@ -336,6 +336,7 @@ static const char *extensions[] = {
     FSDEV_EXT_SEP_STR "d82",
     FSDEV_EXT_SEP_STR "g64",
     FSDEV_EXT_SEP_STR "g41",
+    FSDEV_EXT_SEP_STR "p41",
     FSDEV_EXT_SEP_STR "x64",
     FSDEV_EXT_SEP_STR "dsk",
     FSDEV_EXT_SEP_STR "t64",

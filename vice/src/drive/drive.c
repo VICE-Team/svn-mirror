@@ -69,6 +69,7 @@
 #include "uiapi.h"
 #include "ds1216e.h"
 #include "drive-sound.h"
+#include "p64.h"
 
 drive_context_t *drive_context[DRIVE_NUM];
 
@@ -196,6 +197,8 @@ int drive_init(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
         drive->gcr = gcr_create_image();
+        drive->p64 = lib_calloc(1, sizeof(TP64Image));
+        P64ImageCreate(drive->p64);
         drive->byte_ready_level = 1;
         drive->byte_ready_edge = 1;
         drive->GCR_dirty_track = 0;
@@ -209,6 +212,8 @@ int drive_init(void)
         drive->old_half_track = 0;
         drive->side = 0;
         drive->GCR_image_loaded = 0;
+        drive->P64_image_loaded = 0;
+        drive->P64_dirty = 0;
         drive->read_only = 0;
         drive->clock_frequency = 1;
         drive->led_last_change_clk = *(drive->clk);
@@ -251,6 +256,8 @@ void drive_shutdown(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drivecpu_shutdown(drive_context[dnr]);
         gcr_destroy_image(drive_context[dnr]->drive->gcr);
+        P64ImageDestroy(drive_context[dnr]->drive->p64);
+        lib_free(drive_context[dnr]->drive->p64);
         ds1216e_destroy(drive_context[dnr]->drive->ds1216);
     }
 
@@ -390,11 +397,10 @@ int drive_enable(drive_context_t *drv)
 /* Disable full drive emulation.  */
 void drive_disable(drive_context_t *drv)
 {
+<<<<<<< .working
     int drive_true_emulation = 0;
-    unsigned int dnr;
     drive_t *drive;
 
-    dnr = drv->mynumber;
     drive = drv->drive;
 
     /* This must come first, because this might be called before the true
@@ -452,7 +458,7 @@ void drive_set_half_track(int num, drive_t *dptr)
     dptr->current_half_track = num;
     dptr->GCR_track_start_ptr = (dptr->gcr->data
                                 + ((dptr->current_half_track / 2 - 1)
-                                * NUM_MAX_BYTES_TRACK));
+                                * dptr->gcr->max_track_size));
 
     if (dptr->GCR_current_track_size != 0)
         dptr->GCR_head_offset = (dptr->GCR_head_offset
@@ -508,13 +514,19 @@ void drive_gcr_data_writeback(drive_t *drive)
     unsigned int track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
 
-    if (drive->image == NULL)
+    if (drive->image == NULL) {
         return;
+    }
 
     track = drive->current_half_track / 2;
 
-    if (!(drive->GCR_dirty_track))
+    if (drive->image->type == DISK_IMAGE_TYPE_P64) {
         return;
+    }
+
+    if (!(drive->GCR_dirty_track)) {
+        return;
+    }
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         BYTE *gcr_track_start_ptr;
@@ -523,7 +535,7 @@ void drive_gcr_data_writeback(drive_t *drive)
         gcr_current_track_size = drive->gcr->track_size[track - 1];
 
         gcr_track_start_ptr = drive->gcr->data
-                              + ((track - 1) * NUM_MAX_BYTES_TRACK);
+                              + ((track - 1) * drive->gcr->max_track_size);
 
         disk_image_write_track(drive->image, track,
                                gcr_current_track_size,
@@ -604,7 +616,17 @@ void drive_gcr_data_writeback_all(void)
     for (i = 0; i < DRIVE_NUM; i++) {
         drive = drive_context[i]->drive;
         drive_gcr_data_writeback(drive);
+        if (drive->P64_image_loaded && drive->image && drive->image->p64) {
+            if (drive->image->type == DISK_IMAGE_TYPE_P64) {
+                if (drive->P64_dirty) {
+                drive->P64_dirty = 0;
+                    disk_image_write_p64_image(drive->image);
+                }
+            }
+        }
     }
+
+
 }
 
 static void drive_extend_disk_image(drive_t *drive)

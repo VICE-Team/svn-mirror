@@ -51,6 +51,7 @@
 #include "vdrive-iec.h"
 #include "vdrive.h"
 #include "vice-event.h"
+#include "p64.h"
 
 /* #define DEBUG_ATTACH */
 
@@ -511,6 +512,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     }
 
     new_image.gcr = NULL;
+    new_image.p64 = lib_malloc(sizeof(TP64Image));
     new_image.read_only = (unsigned int)attach_device_readonly_enabled[unit - 8];
 
     switch (devicetype) {
@@ -538,6 +540,8 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     }
 
     if (disk_image_open(&new_image) < 0) {
+        P64ImageDestroy(new_image.p64);
+        lib_free(new_image.p64);
         disk_image_media_destroy(&new_image);
         return -1;
     }

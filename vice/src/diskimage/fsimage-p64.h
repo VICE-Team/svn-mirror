@@ -1,8 +1,8 @@
 /*
- * fsimage-gcr.h
+ * fsimage-p64.h
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  Benjamin 'BeRo' Rosseaux <benjamin@rosseaux.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,29 +24,29 @@
  *
  */
 
-#ifndef VICE_FSIMAGE_GCR_H
-#define VICE_FSIMAGE_GCR_H
+#ifndef VICE_FSIMAGE_P64_H
+#define VICE_FSIMAGE_P64_H
 
 #include "types.h"
 
 struct disk_image_s;
 
-extern void fsimage_gcr_init(void);
+extern void fsimage_p64_init(void);
 
-extern int fsimage_read_gcr_image(disk_image_t *image);
+extern int fsimage_read_p64_image(disk_image_t *image);
 
-extern int fsimage_gcr_read_sector(struct disk_image_s *image, BYTE *buf,
+extern int fsimage_write_p64_image(disk_image_t *image);
+
+extern int fsimage_p64_read_sector(struct disk_image_s *image, BYTE *buf,
                                    unsigned int track, unsigned int sector);
-extern int fsimage_gcr_write_sector(struct disk_image_s *image, BYTE *buf,
+extern int fsimage_p64_write_sector(struct disk_image_s *image, BYTE *buf,
                                     unsigned int track, unsigned int sector);
-extern int fsimage_gcr_read_track(struct disk_image_s *image,
+extern int fsimage_p64_read_track(struct disk_image_s *image,
                                   unsigned int track, BYTE *gcr_data,
                                   int *gcr_track_size);
-extern int fsimage_gcr_write_track(struct disk_image_s *image,
+extern int fsimage_p64_write_track(struct disk_image_s *image,
                                    unsigned int track, int gcr_track_size,
                                    BYTE *gcr_speed_zone,
                                    BYTE *gcr_track_start_ptr);
-extern int fsimage_gcr_set_max_track_length(disk_image_t *image);
-
 #endif
 

@@ -36,31 +36,38 @@ BYTE drive_writeprotect_sense(drive_t *dptr)
     /* Clear the write protection bit for the time the disk is pulled out on
        detach.  */
     if (dptr->detach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->detach_clk < DRIVE_DETACH_DELAY)
+        if (*(dptr->clk) - dptr->detach_clk < DRIVE_DETACH_DELAY) {
             return 0x0;
+        }
         dptr->detach_clk = (CLOCK)0;
     }
     /* Set the write protection bit for the minimum time until a new disk
        can be inserted.  */
     if (dptr->attach_detach_clk != (CLOCK)0) {
         if (*(dptr->clk) - dptr->attach_detach_clk
-            < DRIVE_ATTACH_DETACH_DELAY)
+            < DRIVE_ATTACH_DETACH_DELAY) {
             return 0x10;
+        }
         dptr->attach_detach_clk = (CLOCK)0;
     }
     /* Clear the write protection bit for the time the disk is put in on
        attach.  */
     if (dptr->attach_clk != (CLOCK)0) {
-        if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY)
+        if (*(dptr->clk) - dptr->attach_clk < DRIVE_ATTACH_DELAY) {
             return 0x0;
+        }
         dptr->attach_clk = (CLOCK)0;
     }
 
-    if (dptr->GCR_image_loaded == 0) {
+    if ((dptr->GCR_image_loaded == 0) && (dptr->P64_image_loaded == 0)) {
         /* No disk in drive, write protection is off. */
         return 0x10;
     } else {
+        if (dptr->P64_image_loaded && dptr->p64) {
+            if (dptr->p64->WriteProtected) {
+                return 0x0;
+            }
+        }
         return dptr->read_only ? 0x0 : 0x10;
     }
 }
-

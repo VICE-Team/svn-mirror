@@ -115,6 +115,7 @@ BEGIN
 #else
         TEXT("VICE (I386 OS/2 VAC++)", 15, 208, 180, 7)
 #endif
+        TEXT("Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux", 15, 202, 180, 7)
         TEXT("Copyright (c) 2011-2012 Kajtar Zsolt", 15, 195, 180, 7)
         TEXT("Copyright (c) 2011-2012 Thomas Giesel", 15, 188, 180, 7)
         TEXT("Copyright (c) 2011-2012 Stefan Haubenthal", 15, 181, 180, 7)

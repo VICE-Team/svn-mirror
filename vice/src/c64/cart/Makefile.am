@@ -7,6 +7,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/rtc \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/sid \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/vicii
 
 noinst_LIBRARIES = libc64cartsystem.a libc64cart.a libc64commoncart.a

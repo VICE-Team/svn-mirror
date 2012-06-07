@@ -55,6 +55,7 @@ static struct {
     { "d2m", NULL, DISK_IMAGE_TYPE_D2M },
     { "d4m", NULL, DISK_IMAGE_TYPE_D4M },
     { "g64", NULL, DISK_IMAGE_TYPE_G64 },
+    { "p64", NULL, DISK_IMAGE_TYPE_P64 },
     { "x64", NULL, DISK_IMAGE_TYPE_X64 },
     { NULL, NULL, 0 }
 };

@@ -1,7 +1,8 @@
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
-	-I$(top_srcdir)/src
+	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/lib/p64
 
 noinst_LIBRARIES = libdiskimage.a
 
@@ -19,6 +20,8 @@ libdiskimage_a_SOURCES = \
 	fsimage-create.h \
 	fsimage-gcr.c \
 	fsimage-gcr.h \
+	fsimage-p64.c \
+	fsimage-p64.h \
 	fsimage-probe.c \
 	fsimage-probe.h \
 	fsimage.c \

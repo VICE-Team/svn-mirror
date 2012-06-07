@@ -78,8 +78,8 @@ static uilib_filefilter_t uilib_filefilter[] = {
     { IDS_SNAPSHOT_FILES_FILTER, TEXT("*.vsf") },
     { IDS_PRGP00_FILES_FILTER, TEXT("*.prg;*.p00") },
     { IDS_TAPE_IMAGE_FILES_FILTER, TEXT("*.t64;*.tap") },
-    { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64") },
-    { IDS_CBM_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00") },
+    { IDS_DISK_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64") },
+    { IDS_CBM_IMAGE_FILES_FILTER, TEXT("*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00") },
     { IDS_IDE64_IMAGE_FILES_FILTER, TEXT("*.fdd;*.hdd;*.iso;*.cfa") },
     { IDS_CRT_FILES_FILTER, TEXT("*.crt") },
     { IDS_RAW_CART_FILES_FILTER, TEXT("*.bin") },
@@ -301,6 +301,7 @@ static TCHAR *image_type_name[] = {
     TEXT("d2m"),
     TEXT("d4m"),
     TEXT("g64"),
+    TEXT("p64"),
     TEXT("x64"),
     NULL
 };
@@ -315,6 +316,7 @@ static int image_type[] = {
     DISK_IMAGE_TYPE_D2M,
     DISK_IMAGE_TYPE_D4M,
     DISK_IMAGE_TYPE_G64,
+    DISK_IMAGE_TYPE_P64,
     DISK_IMAGE_TYPE_X64
 };
 

@@ -949,6 +949,16 @@ int disk_image_read_gcr_image(disk_image_t *image)
     return 0;
 }
 
+int disk_image_read_p64_image(disk_image_t *image)
+{
+    return 0;
+}
+
+int disk_image_write_p64_image(disk_image_t *image)
+{
+    return 0;
+}
+
 void disk_image_attach_log(disk_image_t *image, signed int lognum, unsigned int unit)
 {
 }

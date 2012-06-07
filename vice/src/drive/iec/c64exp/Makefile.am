@@ -4,7 +4,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/core \
 	-I$(top_srcdir)/src/drive \
-	-I$(top_srcdir)/src/drive/iec
+	-I$(top_srcdir)/src/drive/iec \
+	-I$(top_srcdir)/src/lib/p64
 
 noinst_LIBRARIES = libdriveiecc64exp.a
 

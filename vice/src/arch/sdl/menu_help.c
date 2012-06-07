@@ -338,6 +338,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_print_center("(C) 2011-2012 Stefan Haubenthal", 20);
         sdl_ui_print_center("(C) 2011-2012 Thomas Giesel", 21);
         sdl_ui_print_center("(C) 2011-2012 Kajtar Zsolt", 22);
+        sdl_ui_print_center("(C) 2012-2012 Benjamin 'BeRo' Rosseaux", 23);
         sdl_ui_refresh();
 
         while (active) {

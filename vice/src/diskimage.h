@@ -59,6 +59,7 @@
 
 #define DISK_IMAGE_TYPE_X64 0
 #define DISK_IMAGE_TYPE_G64 100
+#define DISK_IMAGE_TYPE_P64 200
 #define DISK_IMAGE_TYPE_D64 1541
 #define DISK_IMAGE_TYPE_D67 2040
 #define DISK_IMAGE_TYPE_D71 1571
@@ -73,6 +74,7 @@
 struct fsimage_s;
 struct rawimage_s;
 struct gcr_s;
+struct TP64Image;
 
 struct disk_image_s {
     union media_u {
@@ -84,6 +86,7 @@ struct disk_image_s {
     unsigned int type;
     unsigned int tracks;
     struct gcr_s *gcr;
+    struct TP64Image *p64;
 };
 typedef struct disk_image_s disk_image_t;
 
@@ -121,6 +124,8 @@ extern int disk_image_check_sector(disk_image_t *image, unsigned int track,
 extern unsigned int disk_image_sector_per_track(unsigned int format,
                                                 unsigned int track);
 extern int disk_image_read_gcr_image(disk_image_t *image);
+extern int disk_image_read_p64_image(disk_image_t *image);
+extern int disk_image_write_p64_image(disk_image_t *image);
 extern int disk_image_read_track(disk_image_t *image, unsigned int track,
                                  BYTE *gcr_data, int *gcr_track_size);
 extern int disk_image_write_track(disk_image_t *image, unsigned int track,

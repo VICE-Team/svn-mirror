@@ -4,6 +4,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/c64 \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/c64/cart
 
 noinst_LIBRARIES = libviciisc.a

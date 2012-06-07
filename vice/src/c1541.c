@@ -85,6 +85,7 @@
 #include "vdrive.h"
 #include "vice-event.h"
 #include "zipcode.h"
+#include "p64.h"
 
 
 #define GEOS    /* DiSc */
@@ -681,11 +682,15 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
     disk_image_media_create(image);
 
     image->gcr = gcr_create_image();
+    image->p64 = lib_calloc(1, sizeof(TP64Image));
+    P64ImageCreate((PP64Image)image->p64);
     image->read_only = 0;
 
     disk_image_name_set(image, lib_stralloc(name));
 
     if (disk_image_open(image) < 0) {
+        P64ImageDestroy((PP64Image)image->p64);
+        lib_free(image->p64);
         disk_image_media_destroy(image);
         disk_image_destroy(image);
         fprintf(stderr, "Cannot open file `%s'.\n", name);
@@ -707,6 +712,8 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
     if (image != NULL) {
         vdrive_detach_image(image, unit, vdrive);
         gcr_destroy_image(image->gcr);
+        P64ImageDestroy((PP64Image)image->p64);
+        lib_free(image->p64);
         if (image->device == DISK_IMAGE_DEVICE_REAL)
             serial_realdevice_disable();
         disk_image_close(image);

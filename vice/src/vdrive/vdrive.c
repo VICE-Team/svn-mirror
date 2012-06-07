@@ -302,6 +302,11 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         vdrive->num_tracks = 35;
         vdrive->bam_size = 0x100;
         break;
+      case DISK_IMAGE_TYPE_P64:
+        vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
+        vdrive->num_tracks = 35;
+        vdrive->bam_size = 0x100;
+        break;
       case DISK_IMAGE_TYPE_X64:
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_1541;
         vdrive->num_tracks = image->tracks;

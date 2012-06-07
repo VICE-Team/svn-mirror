@@ -11,6 +11,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/imagecontents \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarchwizsys.a

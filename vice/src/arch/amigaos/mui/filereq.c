@@ -77,6 +77,7 @@ static const char *image_type_name[] = {
     "d81",
     "d82",
     "g64",
+    "p64",
     "x64",
     NULL
 };
@@ -88,6 +89,7 @@ static const int image_type[] = {
     DISK_IMAGE_TYPE_D81,
     DISK_IMAGE_TYPE_D82,
     DISK_IMAGE_TYPE_G64,
+    DISK_IMAGE_TYPE_P64,
     DISK_IMAGE_TYPE_X64,
     -1
 };

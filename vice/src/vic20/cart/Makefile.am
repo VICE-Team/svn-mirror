@@ -5,7 +5,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64/cart \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/sid \
-	-I$(top_srcdir)/src/vic20
+	-I$(top_srcdir)/src/vic20 \
+	-I$(top_srcdir)/src/lib/p64
 
 noinst_LIBRARIES = libvic20cart.a libmascuerade.a
 

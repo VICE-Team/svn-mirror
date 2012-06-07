@@ -10,6 +10,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/arch/unix/gui
 
 noinst_LIBRARIES = libx11ui.a

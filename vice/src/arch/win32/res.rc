@@ -200,27 +200,28 @@ STYLE DS_MODALFRAME | WS_CAPTION | WS_SYSMENU
 CAPTION "About VICE"
 FONT 8, "MS Sans Serif"
 BEGIN
-    DEFPUSHBUTTON "OK",                                           IDOK,              132,  14,  50, 14
-    CTEXT         "VICE",                                         IDC_STATIC,          7,   5, 118,  8
-    CTEXT         "Versatile Commodore Emulator",                 IDC_STATIC,          7,  18, 118,  8
-    CTEXT         "Version 0.0",                                  IDC_ABOUT_VERSION,   7,  31, 180,  8
-    LTEXT         "Copyright (c) 1998-2012 Dag Lem",              IDC_STATIC,          5,  50, 158,  8
-    LTEXT         "Copyright (c) 1999-2012 Andreas Matthies",     IDC_STATIC,          5,  59, 180,  8
-    LTEXT         "Copyright (c) 1999-2012 Martin Pottendorfer",  IDC_STATIC,          5,  68, 180,  8
-    LTEXT         "Copyright (c) 2005-2012 Marco van den Heuvel", IDC_STATIC,          5,  77, 180,  8
-    LTEXT         "Copyright (c) 2006-2012 Christian Vogelgsang", IDC_STATIC,          5,  86, 180,  8
-    LTEXT         "Copyright (c) 2007-2012 Fabrizio Gennari",     IDC_STATIC,          5,  95, 180,  8
-    LTEXT         "Copyright (c) 2007-2012 Daniel Kahlin",        IDC_STATIC,          5, 104, 180,  8
-    LTEXT         "Copyright (c) 2008-2012 Antti S. Lankila",     IDC_STATIC,          5, 113, 180,  8
-    LTEXT         "Copyright (c) 2009-2012 Groepaz",              IDC_STATIC,          5, 122, 158,  8
-    LTEXT         "Copyright (c) 2009-2012 Ingo Korb",            IDC_STATIC,          5, 131, 158,  8
-    LTEXT         "Copyright (c) 2009-2012 Errol Smith",          IDC_STATIC,          5, 140, 180,  8
-    LTEXT         "Copyright (c) 2010-2012 Olaf Seibert",         IDC_STATIC,          5, 149, 158,  8
-    LTEXT         "Copyright (c) 2011-2012 Marcus Sutton",        IDC_STATIC,          5, 158, 180,  8
-    LTEXT         "Copyright (c) 2011-2012 Ulrich Schulz",        IDC_STATIC,          5, 167, 180,  8
-    LTEXT         "Copyright (c) 2011-2012 Stefan Haubenthal",    IDC_STATIC,          5, 176, 180,  8
-    LTEXT         "Copyright (c) 2011-2012 Thomas Giesel",        IDC_STATIC,          5, 185, 180,  8
-    LTEXT         "Copyright (c) 2011-2012 Kajtar Zsolt",         IDC_STATIC,          5, 194, 180,  8
+    DEFPUSHBUTTON "OK",                                               IDOK,              132,  14,  50, 14
+    CTEXT         "VICE",                                             IDC_STATIC,          7,   5, 118,  8
+    CTEXT         "Versatile Commodore Emulator",                     IDC_STATIC,          7,  18, 118,  8
+    CTEXT         "Version 0.0",                                      IDC_ABOUT_VERSION,   7,  31, 180,  8
+    LTEXT         "Copyright (c) 1998-2012 Dag Lem",                  IDC_STATIC,          5,  50, 158,  8
+    LTEXT         "Copyright (c) 1999-2012 Andreas Matthies",         IDC_STATIC,          5,  59, 180,  8
+    LTEXT         "Copyright (c) 1999-2012 Martin Pottendorfer",      IDC_STATIC,          5,  68, 180,  8
+    LTEXT         "Copyright (c) 2005-2012 Marco van den Heuvel",     IDC_STATIC,          5,  77, 180,  8
+    LTEXT         "Copyright (c) 2006-2012 Christian Vogelgsang",     IDC_STATIC,          5,  86, 180,  8
+    LTEXT         "Copyright (c) 2007-2012 Fabrizio Gennari",         IDC_STATIC,          5,  95, 180,  8
+    LTEXT         "Copyright (c) 2007-2012 Daniel Kahlin",            IDC_STATIC,          5, 104, 180,  8
+    LTEXT         "Copyright (c) 2008-2012 Antti S. Lankila",         IDC_STATIC,          5, 113, 180,  8
+    LTEXT         "Copyright (c) 2009-2012 Groepaz",                  IDC_STATIC,          5, 122, 158,  8
+    LTEXT         "Copyright (c) 2009-2012 Ingo Korb",                IDC_STATIC,          5, 131, 158,  8
+    LTEXT         "Copyright (c) 2009-2012 Errol Smith",              IDC_STATIC,          5, 140, 180,  8
+    LTEXT         "Copyright (c) 2010-2012 Olaf Seibert",             IDC_STATIC,          5, 149, 158,  8
+    LTEXT         "Copyright (c) 2011-2012 Marcus Sutton",            IDC_STATIC,          5, 158, 180,  8
+    LTEXT         "Copyright (c) 2011-2012 Ulrich Schulz",            IDC_STATIC,          5, 167, 180,  8
+    LTEXT         "Copyright (c) 2011-2012 Stefan Haubenthal",        IDC_STATIC,          5, 176, 180,  8
+    LTEXT         "Copyright (c) 2011-2012 Thomas Giesel",            IDC_STATIC,          5, 185, 180,  8
+    LTEXT         "Copyright (c) 2011-2012 Kajtar Zsolt",             IDC_STATIC,          5, 194, 180,  8
+    LTEXT         "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux", IDC_STATIC,          5, 203, 180,  8
 END
 
 // -----------------------------------------------------------------------------
@@ -1257,11 +1258,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "All files (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE palette files (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE snapshot files (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Tape image files (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT cartridge image files (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Raw cartridge image files (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE flip list files (*.vfl)"
@@ -1897,11 +1898,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Alle filer (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE-palettefiler (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE-snapshot filer (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Bånd-image filer (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Pakkede filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Pakkede filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT cartridge-image filer (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Rå cartridge-image filer (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE-bladrelistefiler (*.vfl)"
@@ -2537,11 +2538,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Alle Dateien (*.*)"
   IDS_PALETTE_FILES_FILTER        "Vice Paletten Dateien (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE Snapshot Dateien (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 Dateien (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Band Image Dateien (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Komprimierte Dateien (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Komprimierte Dateien (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT Erweiterungsmodul Dateien (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Raw Erweiterungsmodul Dateien (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE Fliplist Dateien (*.vfl)"
@@ -3177,11 +3178,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Todos los ficheros (*.*)"
   IDS_PALETTE_FILES_FILTER        "Ficheros de paletas VICE  (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "Ficheros de volcado de memoria (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "Ficheros CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "Ficheros CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "Ficheros IDE64 (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Ficheros imagen de disco (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Ficheros imagen de disco (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Ficheros imagen de cinta (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Ficheros comprimidos (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Ficheros comprimidos (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "Ficheros imagen de cartucho (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Ficheros imagen cartucho raw (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "Ficheros de intercambio VICE (*.vfl)"
@@ -3817,11 +3818,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "All files (*.*)"
   IDS_PALETTE_FILES_FILTER        "Fichiers de palette VICE (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "Fichiers de sauvegarde VICE (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Tape image files (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Fichiers compressés (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Fichiers compressés (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "Images de cartouches CRT (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Images brutes de cartouches (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "Fichiers de groupement de disques (*.vfl)"
@@ -4460,11 +4461,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Összes fájl (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE paletta fájlok (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE pillanatkép fájlok (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Szalag képmás fájlok (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Tömörített fájlok (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Tömörített fájlok (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT cartridge képmás fjlok (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Nyers cartridge képmás fájlok (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE lemezlista fájlok (*.vfl)"
@@ -5103,11 +5104,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Tutti i file (*.*)"
   IDS_PALETTE_FILES_FILTER        "Palette VICE (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "Snapshot (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "File CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "File CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "File IDE64(*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Immagini disco (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Immagini disco (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Immagini cassetta (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "File compressi (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "File compressi (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "Immagini cartucce CRT (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Immagini cartuccia (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "Flip list (*.vfl)"
@@ -5746,11 +5747,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "¸ðµç ÆÄÀÏ (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE ÆÈ·¹Æ® ÆÄÀÏ (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE ½º³À¼¦ ÆÄÀÏ (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "ÅÂÀÌÇÁ ÀÌ¹ÌÁö ÆÄÀÏ (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "¾ÐÃà ÆÄÀÏ (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "¾ÐÃà ÆÄÀÏ (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT Ä«Æ®¸®Áö ÀÌ¹ÌÁö ÆÄÀÏ (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Raw cartridge image files (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE ÇÃ¸³ ¸®½ºÆ® ÆÄÀÏ (*.vfl)"
@@ -6389,11 +6390,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "alle bestanden (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE paletbestanden (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE momentopnamebestanden (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 bestanden (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Tape bestanden (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT cartridge bestanden (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Binaire cartridge bestanden (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE fliplijstbestanden (*.vfl)"
@@ -7032,11 +7033,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Wszystkie pliki (*.*)"
   IDS_PALETTE_FILES_FILTER        "Pliki palety kolorów VICE (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "Pliki zrzutu VICE (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "Pliki CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "Pliki CBM (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "Pliki IDE64 (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Pliki obrazu dysków (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Pliki obrazu dysków (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Pliki obrazu ta¶my (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Pliki skompresowane (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Pliki skompresowane (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "Pliki obrazu kartrid¿a CRT (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Pliki obrazu surowego kartrid¿a (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "Pliki listy wymiany no¶ników VICE (*.vfl)"
@@ -7678,11 +7679,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "ÒáÕ äÐÙÛë (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE palette files (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE snapshot files (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "ÄÐÙÛë ÞÑàÐ×Ð ÚÐááÕâë (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT cartridge image files (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Raw cartridge image files (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE flip list files (*.vfl)"
@@ -8321,11 +8322,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Alla filer (*.)"
   IDS_PALETTE_FILES_FILTER        "VICE-palettfiler (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE-ögonblicksbildfiler (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64-filer (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Bandavbildningar (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Zippade filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Zippade filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT-insticksmodulfiler (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Råa insticksmodulfiler (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE-vallistefiler (*.vfl)"
@@ -8964,11 +8965,11 @@ BEGIN
   IDS_ALL_FILES_FILTER            "Tüm dosyalar (*.*)"
   IDS_PALETTE_FILES_FILTER        "VICE palet dosyalarý (*.vpl)"
   IDS_SNAPSHOT_FILES_FILTER       "VICE anlýk görüntü dosyalarý (*.vsf)"
-  IDS_CBM_IMAGE_FILES_FILTER      "CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;*.t64;*.tap;*.prg;*.p00)"
+  IDS_CBM_IMAGE_FILES_FILTER      "CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
   IDS_IDE64_IMAGE_FILES_FILTER    "IDE64 dosyalarý (*.fdd;*.hdd;*.iso;*.cfa)"
-  IDS_DISK_IMAGE_FILES_FILTER     "Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.x64)"
+  IDS_DISK_IMAGE_FILES_FILTER     "Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
   IDS_TAPE_IMAGE_FILES_FILTER     "Teyp imaj dosyalarý (*.t64;*.tap)"
-  IDS_ZIPPED_FILES_FILTER         "Ziplenmiþ dosyalar (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+  IDS_ZIPPED_FILES_FILTER         "Ziplenmiþ dosyalar (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
   IDS_CRT_FILES_FILTER            "CRT kartuþ imajý dosyalarý (*.crt)"
   IDS_RAW_CART_FILES_FILTER       "Düz kartuþ imajý dosyalarý (*.bin)"
   IDS_FLIP_LIST_FILES_FILTER      "VICE sýralama listesi dosyalarý (*.vfl)"

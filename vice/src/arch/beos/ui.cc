@@ -911,6 +911,7 @@ void ui_dispatch_events(void)
                                         "(c) 2011-2012 Stefan Haubenthal\n",
                                         "(c) 2011-2012 Thomas Giesel\n",
                                         "(c) 2011-2012 Kajtar Zsolt\n",
+                                        "(c) 2012-2012 Benjamin 'BeRo' Rosseaux\n",
                                         "\nOfficial VICE homepage:\n",
                                         "http://vice-emu.sourceforge.net/",
                                         NULL);

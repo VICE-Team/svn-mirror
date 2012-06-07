@@ -9,6 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/raster \
 	-I$(top_srcdir)/src/userport \
+	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/tape
 
 noinst_LIBRARIES = libcbm2.a libcbm5x0.a

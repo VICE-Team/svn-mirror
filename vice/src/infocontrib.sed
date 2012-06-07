@@ -146,6 +146,7 @@ s/@b{Jarek Sobolewski}/Jarek Sobolewski <r@sledinmay.com>/g
 s/@b{Magnus Lind}/Magnus Lind/g
 s/@b{Manuel Antonio Rodriguez Bas}/Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>/g
 s/@b{Helfried Peyrl}/Helfried Peyrl/g
+s/@b{Benjamin 'BeRo' Rosseaux}/Benjamin 'BeRo' Rosseaux/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g

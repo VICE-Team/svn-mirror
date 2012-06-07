@@ -10,7 +10,8 @@ INCLUDES = \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
 	-I$(top_srcdir)/src/vdrive \
-	-I$(top_srcdir)/src/rtc
+	-I$(top_srcdir)/src/rtc \
+	-I$(top_srcdir)/src/lib/p64
 
 noinst_LIBRARIES = libdrive.a
 

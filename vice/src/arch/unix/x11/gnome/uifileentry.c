@@ -57,6 +57,7 @@ static uilib_file_filter_t disk_image_filter[] = {
     { "*.d4m", 0 },
     { "*.g64", 0 },
     { "*.g41", 0 },
+    { "*.p64", 0 },
     { "*.x64", 0 },
     { NULL }
 };

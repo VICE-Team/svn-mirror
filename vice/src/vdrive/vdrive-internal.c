@@ -40,6 +40,7 @@
 #include "vdrive-command.h"
 #include "vdrive-internal.h"
 #include "vdrive.h"
+#include "p64.h"
 
 
 static log_t vdrive_internal_log = LOG_DEFAULT;
@@ -53,6 +54,8 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
     image = lib_malloc(sizeof(disk_image_t));
 
     image->gcr = NULL;
+    image->p64 = lib_calloc(1, sizeof(TP64Image));
+    P64ImageCreate((void*)image->p64);
     image->read_only = read_only;
 
     image->device = DISK_IMAGE_DEVICE_FS;
@@ -63,6 +66,8 @@ vdrive_t *vdrive_internal_open_fsimage(const char *name, unsigned int read_only)
 
     if (disk_image_open(image) < 0) {
         disk_image_media_destroy(image);
+        P64ImageDestroy((void*)image->p64);
+        lib_free(image->p64);
         lib_free(image);
         log_error(vdrive_internal_log, "Cannot open file `%s'", name);
         return NULL;
@@ -90,8 +95,11 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
         if (disk_image_close(image) < 0)
           return -1;
 
+        P64ImageDestroy((void*)image->p64);
+        
         disk_image_media_destroy(image);
         vdrive_device_shutdown(vdrive);
+        lib_free(image->p64);
         lib_free(image);
         lib_free(vdrive);
     }
