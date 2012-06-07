@@ -2112,6 +2112,104 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_CUSTOM_C64_MODEL_SV, "Speciell C64-modell" },
 /* tr */ { IDMS_CUSTOM_C64_MODEL_TR, "Özel C64 modeli" },
 
+/* en */ { IDMS_PLUS4_MODEL_SETTINGS,    "Plus4 model settings..." },
+/* da */ { IDMS_PLUS4_MODEL_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PLUS4_MODEL_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PLUS4_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PLUS4_MODEL_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PLUS4_MODEL_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PLUS4_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PLUS4_MODEL_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PLUS4_MODEL_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PLUS4_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PLUS4_MODEL_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PLUS4_MODEL_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PLUS4_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_C16_PAL,    "C16 PAL" },
+/* da */ { IDMS_C16_PAL_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C16_PAL_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C16_PAL_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C16_PAL_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C16_PAL_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C16_PAL_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C16_PAL_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C16_PAL_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C16_PAL_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C16_PAL_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C16_PAL_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C16_PAL_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_C16_NTSC,    "C16 NTSC" },
+/* da */ { IDMS_C16_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C16_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C16_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C16_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C16_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C16_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C16_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C16_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C16_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C16_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C16_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C16_NTSC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PLUS4_PAL,    "Plus4 PAL" },
+/* da */ { IDMS_PLUS4_PAL_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PLUS4_PAL_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PLUS4_PAL_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PLUS4_PAL_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PLUS4_PAL_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PLUS4_PAL_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PLUS4_PAL_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PLUS4_PAL_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PLUS4_PAL_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PLUS4_PAL_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PLUS4_PAL_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PLUS4_PAL_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PLUS4_NTSC,    "Plus4 NTSC" },
+/* da */ { IDMS_PLUS4_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PLUS4_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PLUS4_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PLUS4_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PLUS4_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PLUS4_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PLUS4_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PLUS4_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PLUS4_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PLUS4_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PLUS4_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PLUS4_NTSC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_V364_NTSC,    "V364 NTSC" },
+/* da */ { IDMS_V364_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_V364_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_V364_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_V364_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_V364_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_V364_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_V364_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_V364_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_V364_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_V364_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_V364_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_V364_NTSC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_C232_NTSC,    "C232 NTSC" },
+/* da */ { IDMS_C232_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C232_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C232_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C232_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C232_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C232_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C232_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C232_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C232_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C232_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C232_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C232_NTSC_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_AUTOSTART_SETTINGS,    "Autostart settings..." },
 /* da */ { IDMS_AUTOSTART_SETTINGS_DA, "Autostart-indstillinger..." },
 /* de */ { IDMS_AUTOSTART_SETTINGS_DE, "Autostart Einstellungen..." },
