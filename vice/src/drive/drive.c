@@ -397,7 +397,6 @@ int drive_enable(drive_context_t *drv)
 /* Disable full drive emulation.  */
 void drive_disable(drive_context_t *drv)
 {
-<<<<<<< .working
     int drive_true_emulation = 0;
     drive_t *drive;
 
