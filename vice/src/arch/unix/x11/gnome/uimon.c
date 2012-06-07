@@ -65,6 +65,11 @@ void write_to_terminal(struct console_private_s *t,
 {
     if(t->term) {
         vte_terminal_feed(VTE_TERMINAL(t->term), data, length);
+        /* this is a horrible hack to work around the fact VTE is not ment to be
+           used like it is used here (no child process at all). flushing stdout
+           here will make the initial prompt show up immediatly and not delay it
+           until a key is pressed */
+        fflush(stdout);
     }
 }
 

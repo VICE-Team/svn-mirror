@@ -147,7 +147,7 @@ int get_string(struct console_private_s *t, char* string, int string_len);
 static void refreshLine(struct console_private_s *term, const char *prompt, char *buf, size_t len, size_t pos, size_t cols) {
     char seq[64];
     size_t plen = strlen(prompt);
-    
+
     while((plen+pos) >= cols) {
         buf++;
         len--;
@@ -156,19 +156,18 @@ static void refreshLine(struct console_private_s *term, const char *prompt, char
     while (plen+len > cols) {
         len--;
     }
-
     /* Cursor to left edge */
-    snprintf(seq,64,"\x1b[0G");
-    write_to_terminal(term,seq,strlen(seq));
+    snprintf(seq, 64, "\x1b[0G");
+    write_to_terminal(term, seq, strlen(seq));
     /* Write the prompt and the current buffer content */
-    write_to_terminal(term,prompt,strlen(prompt));
-    write_to_terminal(term,buf,len);
+    write_to_terminal(term, prompt, strlen(prompt));
+    write_to_terminal(term, buf, len);
     /* Erase to right */
-    snprintf(seq,64,"\x1b[0K");
-    write_to_terminal(term,seq,strlen(seq));
+    snprintf(seq, 64, "\x1b[0K");
+    write_to_terminal(term, seq, strlen(seq));
     /* Move cursor to original position. */
-    snprintf(seq,64,"\x1b[0G\x1b[%dC", (int)(pos+plen));
-    write_to_terminal(term,seq,strlen(seq));
+    snprintf(seq, 64, "\x1b[0G\x1b[%dC", (int)(pos+plen));
+    write_to_terminal(term, seq, strlen(seq));
 }
 
 static void beep(struct console_private_s *term) {
@@ -261,14 +260,15 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
     /* The latest history entry is always our current buffer, that
      * initially is just an empty string. */
     linenoiseHistoryAdd("");
-    
-    write_to_terminal(term,prompt,plen);
+
+    write_to_terminal(term, prompt, plen);
+
     while(1) {
         char c;
         int nread;
         char seq[2], seq2[2];
 
-        nread = get_string(term,&c,1);
+        nread = get_string(term, &c, 1);
         if (nread <= 0) {
             return -1;
         }
@@ -277,7 +277,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
          * there was an error reading from fd. Otherwise it will return the
          * character that should be handled next. */
         if (c == 9 && completionCallback != NULL) {
-            c = completeLine(term,prompt,buf,buflen,&len,&pos,cols);
+            c = completeLine(term, prompt, buf, buflen, &len, &pos, cols);
             /* Return on errors */
             if (c < 0) {
                 return len;
@@ -299,19 +299,19 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
         case 127:   /* backspace */
         case 8:     /* ctrl-h */
             if (pos > 0 && len > 0) {
-                memmove(buf+pos-1,buf+pos,len-pos);
+                memmove(buf+pos-1, buf+pos, len-pos);
                 pos--;
                 len--;
                 buf[len] = '\0';
-                refreshLine(term,prompt,buf,len,pos,cols);
+                refreshLine(term, prompt, buf, len, pos, cols);
             }
             break;
         case 4:     /* ctrl-d, remove char at right of cursor */
             if (len > 1 && pos < (len-1)) {
-                memmove(buf+pos,buf+pos+1,len-pos);
+                memmove(buf+pos, buf+pos+1, len-pos);
                 len--;
                 buf[len] = '\0';
-                refreshLine(term,prompt,buf,len,pos,cols);
+                refreshLine(term, prompt, buf, len, pos, cols);
             } else if (len == 0) {
                 history_len--;
                 free(history[history_len]);
@@ -324,7 +324,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
                 buf[pos-1] = buf[pos];
                 buf[pos] = aux;
                 if (pos != len-1) pos++;
-                refreshLine(term,prompt,buf,len,pos,cols);
+                refreshLine(term, prompt, buf, len, pos, cols);
             }
             break;
         case 2:     /* ctrl-b */
@@ -347,14 +347,14 @@ left_arrow:
                 /* left arrow */
                 if (pos > 0) {
                     pos--;
-                    refreshLine(term,prompt,buf,len,pos,cols);
+                    refreshLine(term, prompt, buf, len, pos, cols);
                 }
             } else if (seq[0] == 91 && seq[1] == 67) {
 right_arrow:
                 /* right arrow */
                 if (pos != len) {
                     pos++;
-                    refreshLine(term,prompt,buf,len,pos,cols);
+                    refreshLine(term, prompt, buf, len, pos, cols);
                 }
             } else if (seq[0] == 91 && (seq[1] == 65 || seq[1] == 66)) {
 up_down_arrow:
@@ -373,10 +373,10 @@ up_down_arrow:
                         history_index = history_len-1;
                         break;
                     }
-                    strncpy(buf,history[history_len-1-history_index],buflen);
+                    strncpy(buf, history[history_len-1-history_index], buflen);
                     buf[buflen] = '\0';
                     len = pos = strlen(buf);
-                    refreshLine(term,prompt,buf,len,pos,cols);
+                    refreshLine(term, prompt, buf, len, pos, cols);
                 }
             } else if (seq[0] == 91 && seq[1] > 48 && seq[1] < 55) {
                 /* extended escape */
@@ -386,10 +386,10 @@ up_down_arrow:
                 if (seq[1] == 51 && seq2[0] == 126) {
                     /* delete */
                     if (len > 0 && pos < len) {
-                        memmove(buf+pos,buf+pos+1,len-pos-1);
+                        memmove(buf+pos, buf+pos+1, len-pos-1);
                         len--;
                         buf[len] = '\0';
-                        refreshLine(term,prompt,buf,len,pos,cols);
+                        refreshLine(term, prompt, buf, len, pos,cols);
                     }
                 }
             }
@@ -401,38 +401,38 @@ up_down_arrow:
                     pos++;
                     len++;
                     buf[len] = '\0';
-                    refreshLine(term,prompt,buf,len,pos,cols);
+                    refreshLine(term, prompt, buf, len, pos, cols);
                 } else {
-                    memmove(buf+pos+1,buf+pos,len-pos);
+                    memmove(buf+pos+1, buf+pos, len-pos);
                     buf[pos] = c;
                     len++;
                     pos++;
                     buf[len] = '\0';
-                    refreshLine(term,prompt,buf,len,pos,cols);
+                    refreshLine(term, prompt, buf, len, pos, cols);
                 }
             }
             break;
         case 21: /* Ctrl+u, delete the whole line. */
             buf[0] = '\0';
             pos = len = 0;
-            refreshLine(term,prompt,buf,len,pos,cols);
+            refreshLine(term, prompt, buf, len, pos, cols);
             break;
         case 11: /* Ctrl+k, delete from current to end of line. */
             buf[pos] = '\0';
             len = pos;
-            refreshLine(term,prompt,buf,len,pos,cols);
+            refreshLine(term, prompt, buf, len, pos, cols);
             break;
         case 1: /* Ctrl+a, go to the start of the line */
             pos = 0;
-            refreshLine(term,prompt,buf,len,pos,cols);
+            refreshLine(term, prompt, buf, len, pos, cols);
             break;
         case 5: /* ctrl+e, go to the end of the line */
             pos = len;
-            refreshLine(term,prompt,buf,len,pos,cols);
+            refreshLine(term, prompt, buf, len, pos, cols);
             break;
         case 12: /* ctrl+l, clear screen */
             linenoiseClearScreen(term);
-            refreshLine(term,prompt,buf,len,pos,cols);
+            refreshLine(term, prompt, buf, len, pos, cols);
         }
     }
 }
