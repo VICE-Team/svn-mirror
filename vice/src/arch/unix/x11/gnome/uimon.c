@@ -320,6 +320,8 @@ console_t *uimon_window_open(void)
 
 console_t *uimon_window_resume(void)
 {
+    ui_dispatch_events();
+    gdk_flush();
     gtk_widget_show_all(fixed.window);
     gtk_window_present (GTK_WINDOW(fixed.window));
     return &vte_console;
@@ -327,7 +329,8 @@ console_t *uimon_window_resume(void)
 
 void uimon_window_suspend(void)
 {
-    /* FIXME: transfer focus to the main emulator window */
+    /* transfer focus to the main emulator window */
+    ui_restore_focus();
 }
 
 int uimon_out(const char *buffer)
@@ -346,6 +349,8 @@ void uimon_window_close(void)
 {
     gtk_widget_destroy(fixed.window);
     fixed.window = fixed.term = NULL;
+    /* transfer focus to the main emulator window */
+    ui_restore_focus();
 }
 
 void uimon_notify_change(void)

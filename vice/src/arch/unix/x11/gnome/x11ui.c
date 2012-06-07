@@ -382,6 +382,7 @@ static pid_t get_ppid_from_pid(pid_t pid)
 }
 #endif
 
+#if 0
 #define PROCSTATLEN     0x200
 static pid_t get_ppid_from_pid(pid_t pid) 
 {
@@ -566,6 +567,7 @@ int ui_focus_monitor(void)
 
     return 0;
 }
+#endif
 
 /*
     restore the main emulator window and transfer focus to it. in detail this
