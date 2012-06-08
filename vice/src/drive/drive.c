@@ -773,9 +773,7 @@ void drive_vsync_hook(void)
                  * huge peaks in cpu usage when the drive must catch up with
                  * a longer period of time.
                  */
-                if (drive->byte_ready_active & 0x04) {
-                    rotation_rotate_disk(drive);
-                }
+                rotation_rotate_disk(drive);
             }
             /* printf("drive_vsync_hook drv %d @clk:%d\n", dnr, maincpu_clk); */
         }
