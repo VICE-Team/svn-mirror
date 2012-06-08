@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="iec128dcr"
-	ProjectGUID="{7244426E-2549-43BB-AE6F-79F70FC9F1B3}"
+	Name="p64"
+	ProjectGUID="{0ED2E124-5786-4A02-8BE5-2DF328A1616B}"
 	>
 	<Platforms>
 		<Platform
@@ -45,15 +45,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\lib\p64"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\vdrive,..\..\rtc,..\..\monitor,..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\iec128dcr\Release/iec128dcr.pch"
-				AssemblerListingLocation=".\libs\iec128dcr\Release/"
-				ObjectFile=".\libs\iec128dcr\Release/"
-				ProgramDataBaseFileName=".\libs\iec128dcr\Release/"
+				PrecompiledHeaderFile=".\libs\p64\Release/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Release/"
+				ObjectFile=".\libs\p64\Release/"
+				ProgramDataBaseFileName=".\libs\p64\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -69,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iec128dcr\Release\iec128dcr.lib"
+				OutputFile=".\libs\p64\Release\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -81,7 +81,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iec128dcr\Release/iec128dcr.bsc"
+				OutputFile=".\libs\p64\Release/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -118,13 +118,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\lib\p64"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\vdrive,..\..\rtc,..\..\monitor,..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\iec128dcr\Debug/iec128dcr.pch"
-				AssemblerListingLocation=".\libs\iec128dcr\Debug/"
-				ObjectFile=".\libs\iec128dcr\Debug/"
-				ProgramDataBaseFileName=".\libs\iec128dcr\Debug/"
+				PrecompiledHeaderFile=".\libs\p64\Debug/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Debug/"
+				ObjectFile=".\libs\p64\Debug/"
+				ProgramDataBaseFileName=".\libs\p64\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -141,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iec128dcr\Debug\iec128dcr.lib"
+				OutputFile=".\libs\p64\Debug\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iec128dcr\Debug/iec128dcr.bsc"
+				OutputFile=".\libs\p64\Debug/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -190,13 +190,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\lib\p64"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\vdrive,..\..\rtc,..\..\monitor,..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;_DEBUG;_WINDOWS"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\iec128dcr\Debug no DirectX/iec128dcr.pch"
-				AssemblerListingLocation=".\libs\iec128dcr\Debug no DirectX/"
-				ObjectFile=".\libs\iec128dcr\Debug no DirectX/"
-				ProgramDataBaseFileName=".\libs\iec128dcr\Debug no DirectX/"
+				PrecompiledHeaderFile=".\libs\p64\Debug no DirectX/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Debug no DirectX/"
+				ObjectFile=".\libs\p64\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\p64\Debug no DirectX/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +213,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iec128dcr\Debug no DirectX\iec128dcr.lib"
+				OutputFile=".\libs\p64\Debug no DirectX\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +225,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iec128dcr\Debug no DirectX/iec128dcr.bsc"
+				OutputFile=".\libs\p64\Debug no DirectX/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -263,15 +263,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\lib\p64"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\vdrive,..\..\rtc,..\..\monitor,..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\iec128dcr\Release no DirectX/iec128dcr.pch"
-				AssemblerListingLocation=".\libs\iec128dcr\Release no DirectX/"
-				ObjectFile=".\libs\iec128dcr\Release no DirectX/"
-				ProgramDataBaseFileName=".\libs\iec128dcr\Release no DirectX/"
+				PrecompiledHeaderFile=".\libs\p64\Release no DirectX/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Release no DirectX/"
+				ObjectFile=".\libs\p64\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\p64\Release no DirectX/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +287,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iec128dcr\Release no DirectX\iec128dcr.lib"
+				OutputFile=".\libs\p64\Release no DirectX\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +299,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iec128dcr\Release no DirectX/iec128dcr.bsc"
+				OutputFile=".\libs\p64\Release no DirectX/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -337,15 +337,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\lib\p64"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\vdrive,..\..\rtc,..\..\monitor,..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS;WINIA64"
 				StringPooling="true"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\iec128dcr\Release/iec128dcr.pch"
-				AssemblerListingLocation=".\libs\iec128dcr\Release/"
-				ObjectFile=".\libs\iec128dcr\Release/"
-				ProgramDataBaseFileName=".\libs\iec128dcr\Release/"
+				PrecompiledHeaderFile=".\libs\p64\Release/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Release/"
+				ObjectFile=".\libs\p64\Release/"
+				ProgramDataBaseFileName=".\libs\p64\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -361,7 +361,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iec128dcr\Release\iec128dcr.lib"
+				OutputFile=".\libs\p64\Release\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -373,7 +373,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iec128dcr\Release/iec128dcr.bsc"
+				OutputFile=".\libs\p64\Release/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -410,13 +410,13 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\drive,..\..\lib\p64"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\vdrive,..\..\rtc,..\..\monitor,..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS;WINIA64"
 				RuntimeLibrary="1"
-				PrecompiledHeaderFile=".\libs\iec128dcr\Debug/iec128dcr.pch"
-				AssemblerListingLocation=".\libs\iec128dcr\Debug/"
-				ObjectFile=".\libs\iec128dcr\Debug/"
-				ProgramDataBaseFileName=".\libs\iec128dcr\Debug/"
+				PrecompiledHeaderFile=".\libs\p64\Debug/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Debug/"
+				ObjectFile=".\libs\p64\Debug/"
+				ProgramDataBaseFileName=".\libs\p64\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -433,7 +433,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iec128dcr\Debug\iec128dcr.lib"
+				OutputFile=".\libs\p64\Debug\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -445,7 +445,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iec128dcr\Debug/iec128dcr.bsc"
+				OutputFile=".\libs\p64\Debug/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -459,181 +459,7 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\drive\iec128dcr\iec128dcr-cmdline-options.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug no DirectX|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release no DirectX|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\drive\iec128dcr\iec128dcr-resources.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug no DirectX|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release no DirectX|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\drive\iec128dcr\iec128dcr.c"
-			>
-			<FileConfiguration
-				Name="Release|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug no DirectX|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release no DirectX|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Release|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-			<FileConfiguration
-				Name="Debug|Itanium"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\drive\iec128dcr\iec128dcrrom.c"
+			RelativePath="..\..\lib\p64\p64.c"
 			>
 			<FileConfiguration
 				Name="Release|x64"
