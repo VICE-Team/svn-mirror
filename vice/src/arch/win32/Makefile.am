@@ -380,6 +380,7 @@ EXTRA_DIST = \
 	watcom/maincpu.tgt \
 	watcom/make-watcom-bindist.bat \
 	watcom/monitor.tgt \
+	watcom/p64.tgt \
 	watcom/parallel.tgt \
 	watcom/pet.tgt \
 	watcom/petcat.tgt \

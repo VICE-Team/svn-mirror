@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-113
-.;..;..\..\..;..\..\..\monitor;..\..\..\vdrive;..\..\..\drive;..\..\..\imagecontents;$(%watcom)\h;$(%watcom)\h\nt
+130
+.;..;..\..\..;..\..\..\monitor;..\..\..\vdrive;..\..\..\drive;..\..\..\imagecontents;..\..\..\lib\p64;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MVState

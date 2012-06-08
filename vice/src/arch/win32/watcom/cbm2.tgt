@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-162
-.;..;..\..\..;..\..\..\crtc;..\..\..\sid;..\..\..\vicii;..\..\..\drive;..\..\..\userport;..\..\..\video;..\..\..\tape;..\..\..\raster;$(%watcom)\h;$(%watcom)\h\nt
+179
+.;..;..\..\..;..\..\..\crtc;..\..\..\sid;..\..\..\vicii;..\..\..\drive;..\..\..\userport;..\..\..\video;..\..\..\tape;..\..\..\raster;..\..\..\lib\p64;$(%watcom)\h;$(%watcom)\h\nt
 0
 18
 MVState
