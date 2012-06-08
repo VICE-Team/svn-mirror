@@ -263,7 +263,15 @@ int vicii_snapshot_read_module(snapshot_t *s)
     if (vicii_draw_cycle_snapshot_read(m) < 0) {
         goto fail;
     }
+    {
+        unsigned int l = vicii.raster_line;
 
+        if (l >= (vicii.screen_height - 1)) {
+            l = 0;
+        }
+
+        vicii.raster.current_line = l;
+    }
     if (vicii.irq_status & 0x80) {
         interrupt_restore_irq(maincpu_int_status, vicii.int_num, 1);
     }
