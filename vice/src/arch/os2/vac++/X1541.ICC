@@ -18,7 +18,7 @@ option ProjectOptions = /*link(linkwithmultithreadlib, "yes"),*/
     incl(searchpath, "..\\..\\..\\fileio"),
     incl(searchpath, "..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\imagecontents"),
-    incl(searchpath, "..\\..\\..\\lib\\zlib"),
+    incl(searchpath, "..\\..\\..\\lib\\p64"),
     incl(searchpath, "..\\..\\..\\serial"),
     incl(searchpath, "..\\..\\..\\tape"),
     incl(searchpath, "..\\..\\..\\vdrive"),
@@ -48,6 +48,7 @@ target type(exe) "..\\..\\..\\..\\data\\x1541.exe"
                         "fsimage-check.c",
                         "fsimage-create.c",
                         "fsimage-gcr.c",
+                        "fsimage-p64.c",
                         "fsimage-probe.c",
                         "gcr.c",
                         "imagecontents.c",
@@ -56,6 +57,7 @@ target type(exe) "..\\..\\..\\..\\data\\x1541.exe"
                         "lib.c",
                         "log.c",
                         "p00.c",
+                        "p64.c",
                         "rawfile.c",
                         "serial-device.c",
                         "serial-iec-bus.c",
@@ -83,5 +85,3 @@ target type(exe) "..\\..\\..\\..\\data\\x1541.exe"
 
 }
 }
-
-

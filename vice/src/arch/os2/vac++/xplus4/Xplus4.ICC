@@ -25,9 +25,10 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
+    incl(searchpath, "..\\..\\..\\..\\lib\\p64"),
+    incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\plus4"),
     incl(searchpath, "..\\..\\..\\..\\printerdrv"),
-    incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\raster"),
     incl(searchpath, "..\\..\\..\\..\\rs232drv"),
     incl(searchpath, "..\\..\\..\\..\\rtc"),
@@ -70,6 +71,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/kbd.icc"
         include "../incl/mainsrc.icc"
         include "../incl/monitor.icc"
+        include "../incl/p64.icc"
         include "../incl/plus4.icc"
         include "../incl/printerdrv.icc"
         include "../incl/raster.icc"

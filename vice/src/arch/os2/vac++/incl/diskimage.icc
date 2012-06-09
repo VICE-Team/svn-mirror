@@ -3,6 +3,7 @@ source type(c)
     "fsimage-check.c",
     "fsimage-create.c",
     "fsimage-gcr.c",
+    "fsimage-p64.c",
     "fsimage-probe.c",
     "fsimage.c",
     "realimage.c"

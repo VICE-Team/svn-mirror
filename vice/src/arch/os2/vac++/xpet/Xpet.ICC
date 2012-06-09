@@ -26,6 +26,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
     incl(searchpath, "..\\..\\..\\..\\gfxoutputdrv"),
     incl(searchpath, "..\\..\\..\\..\\iecbus"),
     incl(searchpath, "..\\..\\..\\..\\imagecontents"),
+    incl(searchpath, "..\\..\\..\\..\\lib\\p64"),
     incl(searchpath, "..\\..\\..\\..\\monitor"),
     incl(searchpath, "..\\..\\..\\..\\parallel"),
     incl(searchpath, "..\\..\\..\\..\\pet"),
@@ -71,6 +72,7 @@ option ProjectOptions = link(linkwithmultithreadlib, "yes"),
         include "../incl/mainsrc.icc"
         include "../incl/mon6809.icc"
         include "../incl/monitor.icc"
+        include "../incl/p64.icc"
         include "../incl/parallel.icc"
         include "../incl/pet.icc"
         include "../incl/printerdrv.icc"

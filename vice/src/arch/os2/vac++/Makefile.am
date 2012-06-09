@@ -57,6 +57,7 @@ EXTRA_DIST = \
 	incl/mon6809.icc \
 	incl/monitor.icc \
 	incl/monz80.icc \
+	incl/p64.icc \
 	incl/parallel.icc \
 	incl/pet.icc \
 	incl/plus4.icc \
