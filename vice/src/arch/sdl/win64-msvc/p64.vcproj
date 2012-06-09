@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="8.00"
-	Name="iecbus"
-	ProjectGUID="{D3117DB5-D74D-4C69-87CB-7B8A0A033B7C}"
+	Name="p64"
+	ProjectGUID="{32DE0A55-A9E0-4B71-884A-D56DB10306C8}"
 	>
 	<Platforms>
 		<Platform
@@ -16,78 +16,6 @@
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
-		<Configuration
-			Name="Debug|x64"
-			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
-			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
-			ConfigurationType="4"
-			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
-			UseOfMFC="0"
-			ATLMinimizesCRunTimeLibraryUsage="false"
-			>
-			<Tool
-				Name="VCPreBuildEventTool"
-			/>
-			<Tool
-				Name="VCCustomBuildTool"
-			/>
-			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
-			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
-			<Tool
-				Name="VCMIDLTool"
-				TargetEnvironment="3"
-			/>
-			<Tool
-				Name="VCCLCompilerTool"
-				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\drive,..\..\..\lib\p64"
-				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
-				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\iecbus\Debug/iecbus.pch"
-				AssemblerListingLocation=".\libs\iecbus\Debug/"
-				ObjectFile=".\libs\iecbus\Debug/"
-				ProgramDataBaseFileName=".\libs\iecbus\Debug/"
-				WarningLevel="3"
-				SuppressStartupBanner="true"
-				DebugInformationFormat="1"
-			/>
-			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
-			<Tool
-				Name="VCResourceCompilerTool"
-				Culture="1033"
-			/>
-			<Tool
-				Name="VCPreLinkEventTool"
-			/>
-			<Tool
-				Name="VCLibrarianTool"
-				OutputFile=".\libs\iecbus\Debug\iecbus.lib"
-				SuppressStartupBanner="true"
-			/>
-			<Tool
-				Name="VCALinkTool"
-			/>
-			<Tool
-				Name="VCXDCMakeTool"
-			/>
-			<Tool
-				Name="VCBscMakeTool"
-				SuppressStartupBanner="true"
-				OutputFile=".\libs\iecbus\Debug/iecbus.bsc"
-			/>
-			<Tool
-				Name="VCFxCopTool"
-			/>
-			<Tool
-				Name="VCPostBuildEventTool"
-			/>
-		</Configuration>
 		<Configuration
 			Name="Release|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
@@ -117,15 +45,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\drive,..\..\..\lib\p64"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor,..\..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\iecbus\Release/iecbus.pch"
-				AssemblerListingLocation=".\libs\iecbus\Release/"
-				ObjectFile=".\libs\iecbus\Release/"
-				ProgramDataBaseFileName=".\libs\iecbus\Release/"
+				PrecompiledHeaderFile=".\libs\p64\Release/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Release/"
+				ObjectFile=".\libs\p64\Release/"
+				ProgramDataBaseFileName=".\libs\p64\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -141,7 +69,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iecbus\Release\iecbus.lib"
+				OutputFile=".\libs\p64\Release\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -153,7 +81,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iecbus\Release/iecbus.bsc"
+				OutputFile=".\libs\p64\Release/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -163,7 +91,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Debug|Itanium"
+			Name="Debug|x64"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
@@ -185,18 +113,18 @@
 			/>
 			<Tool
 				Name="VCMIDLTool"
-				TargetEnvironment="2"
+				TargetEnvironment="3"
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\drive,..\..\..\lib\p64"
-				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor,..\..\..\lib\p64"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
-				PrecompiledHeaderFile=".\libs\iecbus\Debug/iecbus.pch"
-				AssemblerListingLocation=".\libs\iecbus\Debug/"
-				ObjectFile=".\libs\iecbus\Debug/"
-				ProgramDataBaseFileName=".\libs\iecbus\Debug/"
+				PrecompiledHeaderFile=".\libs\p64\Debug/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Debug/"
+				ObjectFile=".\libs\p64\Debug/"
+				ProgramDataBaseFileName=".\libs\p64\Debug/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 				DebugInformationFormat="1"
@@ -213,7 +141,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iecbus\Debug\iecbus.lib"
+				OutputFile=".\libs\p64\Debug\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -225,7 +153,7 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iecbus\Debug/iecbus.bsc"
+				OutputFile=".\libs\p64\Debug/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -263,15 +191,15 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\drive,..\..\..\lib\p64"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor,..\..\..\lib\p64"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
-				PrecompiledHeaderFile=".\libs\iecbus\Release/iecbus.pch"
-				AssemblerListingLocation=".\libs\iecbus\Release/"
-				ObjectFile=".\libs\iecbus\Release/"
-				ProgramDataBaseFileName=".\libs\iecbus\Release/"
+				PrecompiledHeaderFile=".\libs\p64\Release/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Release/"
+				ObjectFile=".\libs\p64\Release/"
+				ProgramDataBaseFileName=".\libs\p64\Release/"
 				WarningLevel="3"
 				SuppressStartupBanner="true"
 			/>
@@ -287,7 +215,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile=".\libs\iecbus\Release\iecbus.lib"
+				OutputFile=".\libs\p64\Release\p64.lib"
 				SuppressStartupBanner="true"
 			/>
 			<Tool
@@ -299,7 +227,79 @@
 			<Tool
 				Name="VCBscMakeTool"
 				SuppressStartupBanner="true"
-				OutputFile=".\libs\iecbus\Release/iecbus.bsc"
+				OutputFile=".\libs\p64\Release/p64.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="2"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\vdrive,..\..\..\rtc,..\..\..\monitor,..\..\..\lib\p64"
+				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
+				RuntimeLibrary="3"
+				PrecompiledHeaderFile=".\libs\p64\Debug/p64.pch"
+				AssemblerListingLocation=".\libs\p64\Debug/"
+				ObjectFile=".\libs\p64\Debug/"
+				ProgramDataBaseFileName=".\libs\p64\Debug/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\p64\Debug\p64.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\p64\Debug/p64.bsc"
 			/>
 			<Tool
 				Name="VCFxCopTool"
@@ -313,17 +313,8 @@
 	</References>
 	<Files>
 		<File
-			RelativePath="..\..\..\iecbus\iecbus.c"
+			RelativePath="..\..\..\lib\p64\p64.c"
 			>
-			<FileConfiguration
-				Name="Debug|x64"
-				>
-				<Tool
-					Name="VCCLCompilerTool"
-					AdditionalIncludeDirectories=""
-					PreprocessorDefinitions=""
-				/>
-			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|x64"
 				>
@@ -334,7 +325,7 @@
 				/>
 			</FileConfiguration>
 			<FileConfiguration
-				Name="Debug|Itanium"
+				Name="Debug|x64"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -344,6 +335,15 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"

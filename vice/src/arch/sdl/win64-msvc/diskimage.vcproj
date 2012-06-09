@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage,..\..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\diskimage\Debug/diskimage.pch"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage,..\..\..\lib\p64"
 				PreprocessorDefinitions="WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -190,7 +190,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage,..\..\..\lib\p64"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;_DEBUG;_WINDOWS"
 				RuntimeLibrary="3"
 				PrecompiledHeaderFile=".\libs\diskimage\Debug/diskimage.pch"
@@ -263,7 +263,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				InlineFunctionExpansion="1"
-				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage"
+				AdditionalIncludeDirectories=".\,..\,..\..\..\,..\..\..\diskimage,..\..\..\lib\p64"
 				PreprocessorDefinitions="WINIA64;WIN32;IDE_COMPILE;NDEBUG;_WINDOWS"
 				StringPooling="true"
 				RuntimeLibrary="2"
@@ -434,6 +434,46 @@
 		</File>
 		<File
 			RelativePath="..\..\..\diskimage\fsimage-gcr.c"
+			>
+			<FileConfiguration
+				Name="Debug|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|x64"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\..\diskimage\fsimage-p64.c"
 			>
 			<FileConfiguration
 				Name="Debug|x64"

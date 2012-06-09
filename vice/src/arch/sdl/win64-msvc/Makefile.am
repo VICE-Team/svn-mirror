@@ -41,6 +41,7 @@ EXTRA_DIST = \
 	ieee.vcproj \
 	imagecontents.vcproj \
 	monitor.vcproj \
+	p64.vcproj \
 	parallel.vcproj \
 	pet.vcproj \
 	petcat.vcproj \
