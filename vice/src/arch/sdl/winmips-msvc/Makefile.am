@@ -37,6 +37,7 @@ EXTRA_DIST = \
 	ieee.mak \
 	imagecontents.mak \
 	monitor.mak \
+	p64.mak \
 	parallel.mak \
 	pet.mak \
 	petcat.mak \

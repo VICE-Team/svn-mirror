@@ -41,6 +41,7 @@ CLEAN :
 	-@erase "$(INTDIR)\fsimage-check.obj"
 	-@erase "$(INTDIR)\fsimage-create.obj"
 	-@erase "$(INTDIR)\fsimage-gcr.obj"
+	-@erase "$(INTDIR)\fsimage-p64.obj"
 	-@erase "$(INTDIR)\fsimage-probe.obj"
 	-@erase "$(INTDIR)\fsimage.obj"
 	-@erase "$(INTDIR)\rawimage.obj"
@@ -52,7 +53,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\diskimage" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\diskimage.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\diskimage" /I "..\..\..\lib\p64" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\diskimage.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -96,6 +97,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\fsimage-check.obj" \
 	"$(INTDIR)\fsimage-create.obj" \
 	"$(INTDIR)\fsimage-gcr.obj" \
+	"$(INTDIR)\fsimage-p64.obj" \
 	"$(INTDIR)\fsimage-probe.obj" \
 	"$(INTDIR)\fsimage.obj" \
 	"$(INTDIR)\rawimage.obj" \
@@ -122,6 +124,7 @@ CLEAN :
 	-@erase "$(INTDIR)\fsimage-check.obj"
 	-@erase "$(INTDIR)\fsimage-create.obj"
 	-@erase "$(INTDIR)\fsimage-gcr.obj"
+	-@erase "$(INTDIR)\fsimage-p64.obj"
 	-@erase "$(INTDIR)\fsimage-probe.obj"
 	-@erase "$(INTDIR)\fsimage.obj"
 	-@erase "$(INTDIR)\rawimage.obj"
@@ -133,7 +136,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\diskimage" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\diskimage.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\diskimage" /I "..\..\..\lib\p64" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\diskimage.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -177,6 +180,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\fsimage-check.obj" \
 	"$(INTDIR)\fsimage-create.obj" \
 	"$(INTDIR)\fsimage-gcr.obj" \
+	"$(INTDIR)\fsimage-p64.obj" \
 	"$(INTDIR)\fsimage-probe.obj" \
 	"$(INTDIR)\fsimage.obj" \
 	"$(INTDIR)\rawimage.obj" \
@@ -212,6 +216,12 @@ SOURCE="..\..\..\diskimage\fsimage-create.c"
 SOURCE="..\..\..\diskimage\fsimage-gcr.c"
 
 "$(INTDIR)\fsimage-gcr.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\diskimage\fsimage-p64.c"
+
+"$(INTDIR)\fsimage-p64.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
