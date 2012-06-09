@@ -120,6 +120,9 @@ Package=<4>
     Project_Dep_Name arch
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name p64
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name base
     End Project Dependency
     Begin Project Dependency
@@ -585,6 +588,18 @@ Package=<4>
 
 ###############################################################################
 
+Project: "p64"=".\p64.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+}}}
+
+###############################################################################
+
 Project: "parallel"=".\parallel.dsp" - Package Owner=<4>
 
 Package=<5>
@@ -990,6 +1005,9 @@ Package=<4>
     Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name p64
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name iec
     End Project Dependency
     Begin Project Dependency
@@ -1110,6 +1128,9 @@ Package=<4>
     Project_Dep_Name serial
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name p64
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency
@@ -1165,6 +1186,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name p64
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
@@ -1279,6 +1303,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name p64
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iec
@@ -1401,6 +1428,9 @@ Package=<4>
     Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name p64
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name rtc
     End Project Dependency
     Begin Project Dependency
@@ -1509,6 +1539,9 @@ Package=<4>
     Project_Dep_Name userport
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name p64
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name rtc
     End Project Dependency
     Begin Project Dependency
@@ -1606,6 +1639,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name p64
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rtc
@@ -1710,6 +1746,9 @@ Package=<4>
     Project_Dep_Name ieee
     End Project Dependency
     Begin Project Dependency
+    Project_Dep_Name p64
+    End Project Dependency
+    Begin Project Dependency
     Project_Dep_Name parallel
     End Project Dependency
     Begin Project Dependency
@@ -1795,6 +1834,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name p64
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rtc
@@ -1894,6 +1936,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name userport
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name p64
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name rtc

@@ -41,6 +41,7 @@ EXTRA_DIST = \
 	ieee.dsp \
 	imagecontents.dsp \
 	monitor.dsp \
+	p64.dsp \
 	parallel.dsp \
 	pet.dsp \
 	petcat.dsp \
