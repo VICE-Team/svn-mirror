@@ -105,7 +105,7 @@ Type                 DWORD  2      drive type
 */
 
 #define DRIVE_SNAP_MAJOR 1
-#define DRIVE_SNAP_MINOR 2
+#define DRIVE_SNAP_MINOR 3
 
 int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
 {
@@ -191,6 +191,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_DW(m, (DWORD)(drive->snap_write_flux)) < 0
             || SMW_DW(m, (DWORD)(drive->snap_PulseHeadPosition)) < 0
             || SMW_DW(m, (DWORD)(drive->snap_xorShift32)) < 0
+            || SMW_DW(m, (DWORD)(drive->snap_so_delay)) < 0
+            || SMW_DW(m, (DWORD)(drive->snap_bus_read_delay)) < 0
 
         ) {
             if (m != NULL)
@@ -383,6 +385,51 @@ int drive_snapshot_read_module(snapshot_t *s)
                 snapshot_module_close(m);
                 return -1;
             }
+
+        /* Partially read 1.2 snapshots */
+        } else if (major_version == 1 && minor_version == 2) {
+
+            if (0
+                || SMR_DW(m, &(attach_clk[i])) < 0
+                || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
+                || SMR_B_INT(m, &(drive->clock_frequency)) < 0
+                || SMR_W_INT(m, &(drive->current_half_track)) < 0
+                || SMR_DW(m, &(detach_clk[i])) < 0
+                || SMR_B(m, &(drive->diskID1)) < 0
+                || SMR_B(m, &(drive->diskID2)) < 0
+                || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
+                || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
+                || SMR_B(m, &(drive->GCR_read)) < 0
+                || SMR_B(m, &(drive->GCR_write_value)) < 0
+                || SMR_B_INT(m, &(drive->idling_method)) < 0
+                || SMR_B_INT(m, &(drive->parallel_cable)) < 0
+                || SMR_B_INT(m, &(drive->read_only)) < 0
+                || SMR_DW(m, &rotation_table_ptr[i]) < 0
+                || SMR_DW_UINT(m, &(drive->type)) < 0
+
+                || SMR_DW_UL(m, &(drive->snap_accum)) < 0
+                || SMR_DW(m, &(drive->snap_rotation_last_clk)) < 0
+                || SMR_DW_INT(m, &(drive->snap_bit_counter)) < 0
+                || SMR_DW_INT(m, &(drive->snap_zero_count)) < 0
+                || SMR_W_INT(m, &(drive->snap_last_read_data)) < 0
+                || SMR_B(m, &(drive->snap_last_write_data)) < 0
+                || SMR_DW_INT(m, &(drive->snap_seed)) < 0
+                || SMR_DW(m, &(drive->snap_speed_zone)) < 0
+                || SMR_DW(m, &(drive->snap_ue7_dcba)) < 0
+                || SMR_DW(m, &(drive->snap_ue7_counter)) < 0
+                || SMR_DW(m, &(drive->snap_uf4_counter)) < 0
+                || SMR_DW(m, &(drive->snap_fr_randcount)) < 0
+                || SMR_DW(m, &(drive->snap_filter_counter)) < 0
+                || SMR_DW(m, &(drive->snap_filter_state)) < 0
+                || SMR_DW(m, &(drive->snap_filter_last_state)) < 0
+                || SMR_DW(m, &(drive->snap_write_flux)) < 0
+                || SMR_DW(m, &(drive->snap_PulseHeadPosition)) < 0
+                || SMR_DW(m, &(drive->snap_xorShift32)) < 0
+            ) {
+                snapshot_module_close(m);
+                return -1;
+            }
+
         } else {
 
             if (0
@@ -421,6 +468,8 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, &(drive->snap_write_flux)) < 0
                 || SMR_DW(m, &(drive->snap_PulseHeadPosition)) < 0
                 || SMR_DW(m, &(drive->snap_xorShift32)) < 0
+                || SMR_DW(m, &(drive->snap_so_delay)) < 0
+                || SMR_DW(m, &(drive->snap_bus_read_delay)) < 0
             ) {
                 snapshot_module_close(m);
                 return -1;

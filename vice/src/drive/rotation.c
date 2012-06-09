@@ -66,6 +66,10 @@ struct rotation_s {
 
     int write_flux; /* write flux bit state */
 
+    int so_delay; /* so signal delay */
+
+    int bus_read_delay; /* bus read delay */
+
     DWORD PulseHeadPosition;
 
     DWORD seed;
@@ -95,6 +99,8 @@ void rotation_init(int freq, unsigned int dnr)
     rotation[dnr].filter_last_state = 0;
     rotation[dnr].write_flux = 0;
     rotation[dnr].PulseHeadPosition = 0;
+    rotation[dnr].so_delay = 0;
+    rotation[dnr].bus_read_delay = 0;
 
 }
 
@@ -119,6 +125,8 @@ void rotation_reset(drive_t *drive)
     rotation[dnr].filter_last_state = 0;
     rotation[dnr].write_flux = 0;
     rotation[dnr].PulseHeadPosition = 0;
+    rotation[dnr].so_delay = 0;
+    rotation[dnr].bus_read_delay = 0;
 }
 
 void rotation_speed_zone_set(unsigned int zone, unsigned int dnr)
@@ -155,6 +163,8 @@ void rotation_table_get(DWORD *rotation_table_ptr)
         drive->snap_write_flux = rotation[dnr].write_flux;
         drive->snap_PulseHeadPosition = rotation[dnr].PulseHeadPosition;
         drive->snap_xorShift32 = rotation[dnr].xorShift32;
+        drive->snap_so_delay = rotation[dnr].so_delay;
+        drive->snap_bus_read_delay = rotation[dnr].bus_read_delay;
 
     }
  }
@@ -187,6 +197,8 @@ void rotation_table_set(DWORD *rotation_table_ptr)
         rotation[dnr].write_flux = drive->snap_write_flux;
         rotation[dnr].PulseHeadPosition = drive->snap_PulseHeadPosition;
         rotation[dnr].xorShift32 = drive->snap_xorShift32;
+        rotation[dnr].so_delay = drive->snap_so_delay;
+        rotation[dnr].bus_read_delay = drive->snap_bus_read_delay;
     }
 }
 
@@ -263,7 +275,7 @@ void rotation_1541_gcr(drive_t *dptr)
 {
     rotation_t *rptr;
     CLOCK cpu_cycles;
-    int ref_cycles, clk_ref_per_rev, cyc_act_frv, todo;
+    int ref_cycles, clk_ref_per_rev, cyc_act_frv, todo, cycle_index;
     SDWORD delta;
     DWORD count_new_bitcell, cyc_sum_frv/*, sum_new_bitcell*/;
     unsigned int dnr = dptr->mynumber;
@@ -315,6 +327,21 @@ void rotation_1541_gcr(drive_t *dptr)
                 }
                 if ((rptr->fr_randcount > 0) && (rptr->fr_randcount < todo)) {
                    todo = rptr->fr_randcount;
+                }
+                if ((rptr->so_delay > 0) && (rptr->so_delay < todo)) {
+                   todo = rptr->so_delay;
+                }
+            }
+
+            /* so signal handling */
+            if (rptr->so_delay) {
+                rptr->so_delay -= todo;
+                if (!rptr->so_delay) {
+                    /* BYTE READY signal if enabled */
+                    if ((dptr->byte_ready_active & 2) != 0) {
+                        dptr->byte_ready_edge = 1;
+                        dptr->byte_ready_level = 1;
+                    }
                 }
             }
 
@@ -370,11 +397,11 @@ void rotation_1541_gcr(drive_t *dptr)
                             dptr->GCR_read = (BYTE) rptr->last_read_data;
                             rptr->last_write_data = dptr->GCR_read;
 
-                            /* BYTE READY signal if enabled */
-                            if ((dptr->byte_ready_active & 2) != 0) {
-                                dptr->byte_ready_edge = 1;
-                                dptr->byte_ready_level = 1;
+                            rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
+                            if (rptr->so_delay < 10) {
+                                rptr->so_delay += 16;
                             }
+
                         }
                     }
                 }
@@ -393,6 +420,7 @@ void rotation_1541_gcr(drive_t *dptr)
                 }
             }
 
+            cycle_index += todo;
             ref_cycles -= todo;
         }
 
@@ -411,6 +439,21 @@ void rotation_1541_gcr(drive_t *dptr)
                 }
                 if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < todo)) {
                    todo = 16 - rptr->ue7_counter;
+                }
+                if ((rptr->so_delay > 0) && (rptr->so_delay < todo)) {
+                   todo = rptr->so_delay;
+                }
+            }
+
+            /* so signal handling */
+            if (rptr->so_delay) {
+                rptr->so_delay -= todo;
+                if (!rptr->so_delay) {
+                    /* BYTE READY signal if enabled */
+                    if ((dptr->byte_ready_active & 2) != 0) {
+                        dptr->byte_ready_edge = 1;
+                        dptr->byte_ready_level = 1;
+                    }
                 }
             }
 
@@ -437,11 +480,11 @@ void rotation_1541_gcr(drive_t *dptr)
 
                         rptr->last_write_data = dptr->GCR_write_value;
 
-                        /* BYTE READY signal if enabled */
-                        if ((dptr->byte_ready_active & 2) != 0) {
-                            dptr->byte_ready_edge = 1;
-                            dptr->byte_ready_level = 1;
+                        rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
+                        if (rptr->so_delay < 10) {
+                            rptr->so_delay += 16;
                         }
+
                     }
                 }
             }
@@ -456,6 +499,7 @@ void rotation_1541_gcr(drive_t *dptr)
                 write_next_bit(dptr, rptr->write_flux);
             }
 
+            cycle_index += todo;
             ref_cycles -= todo;
         }
 
@@ -488,7 +532,7 @@ void rotation_1541_p64(drive_t *dptr)
 
     if (dptr->read_write_mode) {
 
-        while(delta-->0) {
+        while (delta-->0) {
 
             while ((P64PulseStream->CurrentIndex >= 0) &&
                    (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
@@ -521,6 +565,23 @@ void rotation_1541_p64(drive_t *dptr)
                         }
                         if ((rptr->fr_randcount > 0) && (rptr->fr_randcount < ToDo)) {
                             ToDo = rptr->fr_randcount;
+                        }
+                        if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
+                           ToDo = rptr->so_delay;
+                        }
+                    }
+                }
+                /****************************************************************************************************************************************/
+                {
+                    /* so signal handling */
+                    if (rptr->so_delay) {
+                        rptr->so_delay -= ToDo;
+                        if (!rptr->so_delay) {
+                           /* BYTE READY signal if enabled */
+                           if ((dptr->byte_ready_active & 2) != 0) {
+                              dptr->byte_ready_edge = 1;
+                              dptr->byte_ready_level = 1;
+                           }
                         }
                     }
                 }
@@ -568,17 +629,21 @@ void rotation_1541_p64(drive_t *dptr)
                                     rptr->bit_counter = 0;
                                 } else {
                                     if (++ rptr->bit_counter == 8) {
+
                                         rptr->bit_counter = 0;
+
                                         dptr->GCR_read = (BYTE) rptr->last_read_data;
+
                                         /* tlr claims that the write register is loaded at every
                                          * byte boundary, and since the bus is shared, it's reasonable
                                          * to guess that it would be loaded with whatever was last read. */
                                         rptr->last_write_data = dptr->GCR_read;
-                                        if ((dptr->byte_ready_active & 2) != 0) {
-                                            dptr->byte_ready_edge = 1;
-                                            dptr->byte_ready_level = 1;
+
+                                        rptr->so_delay = Remain16MHzClockCycles - (ToDo - 1);
+                                        if (rptr->so_delay < 10) {
+                                            rptr->so_delay += 16;
                                         }
-                                    }
+                                   }
                                 }
                             }
                             /****************************************************************************************************************************************/
@@ -636,95 +701,117 @@ void rotation_1541_p64(drive_t *dptr)
 
     } else {
 
-        DWORD LastPulseHeadPosition, NextPulseHeadPosition;
+        while (delta-->0) {
 
-        LastPulseHeadPosition = rptr->PulseHeadPosition;
-        NextPulseHeadPosition = rptr->PulseHeadPosition + 16;
+            DWORD LastPulseHeadPosition, NextPulseHeadPosition;
 
-        Remain16MHzClockCycles = 16;
-        while (Remain16MHzClockCycles > 0) {
+            LastPulseHeadPosition = rptr->PulseHeadPosition;
+            NextPulseHeadPosition = rptr->PulseHeadPosition + 16;
 
-            /****************************************************************************************************************************************/
-            {
+            Remain16MHzClockCycles = 16;
+            while (Remain16MHzClockCycles > 0) {
 
-                /* How-Much-16MHz-Clock-Cycles-ToDo-Count logic */
+                /****************************************************************************************************************************************/
+                {
 
-                ToDo = Remain16MHzClockCycles;
-                if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
-                    ToDo = 16 - rptr->ue7_counter;
+                    /* How-Much-16MHz-Clock-Cycles-ToDo-Count logic */
+
+                    ToDo = Remain16MHzClockCycles;
+                    if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
+                        ToDo = 16 - rptr->ue7_counter;
+                    }
+
                 }
-
-            }
-            /****************************************************************************************************************************************/
-            {
-
-                /* Clock logic */
-
-                /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
-                ** 16-(CurrentSpeedZone and 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
-                */
-                rptr->ue7_counter += ToDo;
-                if(rptr->ue7_counter == 16) {
-
-                    rptr->ue7_counter = rptr->ue7_dcba;
-
-                    rptr->uf4_counter = (rptr->uf4_counter + 1) & 0xf;
-                    if ((rptr->uf4_counter & 3) == 2) {
-
-                        /****************************************************************************************************************************************/
-
-                        /* Encoder logic */
-
-                        rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
-
-                        dptr->GCR_dirty_track = 1;
-                        if(rptr->last_write_data & 0x80) {
-                            /* Head logic */
-
-                            if (LastPulseHeadPosition < rptr->PulseHeadPosition) {
-                                P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, rptr->PulseHeadPosition - LastPulseHeadPosition);
-                            }
-                            P64PulseStreamAddPulse(P64PulseStream, rptr->PulseHeadPosition, 0xffffffffUL);
-                            LastPulseHeadPosition = rptr->PulseHeadPosition + 1;
-                            dptr->P64_dirty = 1;
-
+                /****************************************************************************************************************************************/
+                {
+                    /* so signal handling */
+                    if (rptr->so_delay) {
+                        rptr->so_delay -= ToDo;
+                        if (!rptr->so_delay) {
+                           /* BYTE READY signal if enabled */
+                           if ((dptr->byte_ready_active & 2) != 0) {
+                              dptr->byte_ready_edge = 1;
+                              dptr->byte_ready_level = 1;
+                           }
                         }
-                        rptr->last_write_data <<= 1;
-
-                        if (++ rptr->bit_counter == 8) {
-                            rptr->bit_counter = 0;
-                            rptr->last_write_data = dptr->GCR_write_value;
-                            if ((dptr->byte_ready_active & 2) != 0) {
-                                dptr->byte_ready_edge = 1;
-                                dptr->byte_ready_level = 1;
-                            }
-                        }
-
-                        /****************************************************************************************************************************************/
                     }
                 }
-            }
+                /****************************************************************************************************************************************/
+                {
 
-            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                    /* Clock logic */
 
-            rptr->PulseHeadPosition += ToDo;
-            if(rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
-                rptr->PulseHeadPosition -= P64PulseSamplesPerRotation;
+                    /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
+                    ** 16-(CurrentSpeedZone and 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
+                    */
+                    rptr->ue7_counter += ToDo;
+                    if(rptr->ue7_counter == 16) {
 
-                P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
-                while ((P64PulseStream->CurrentIndex >= 0) &&
-                       (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
-                    P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+                        rptr->ue7_counter = rptr->ue7_dcba;
+
+                        rptr->uf4_counter = (rptr->uf4_counter + 1) & 0xf;
+                        if ((rptr->uf4_counter & 3) == 2) {
+
+                            /****************************************************************************************************************************************/
+
+                            /* Encoder logic */
+
+                            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
+
+                            dptr->GCR_dirty_track = 1;
+                            if(rptr->last_write_data & 0x80) {
+                                /* Head logic */
+
+                                if (LastPulseHeadPosition < rptr->PulseHeadPosition) {
+                                    P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, rptr->PulseHeadPosition - LastPulseHeadPosition);
+                                }
+                                P64PulseStreamAddPulse(P64PulseStream, rptr->PulseHeadPosition, 0xffffffffUL);
+                                LastPulseHeadPosition = rptr->PulseHeadPosition + 1;
+                                dptr->P64_dirty = 1;
+
+                            }
+                            rptr->last_write_data <<= 1;
+
+                            if (++ rptr->bit_counter == 8) {
+
+                                rptr->bit_counter = 0;
+
+                                rptr->last_write_data = dptr->GCR_write_value;
+
+                                rptr->so_delay = Remain16MHzClockCycles - (ToDo - 1);
+                                if (rptr->so_delay < 10) {
+                                    rptr->so_delay += 16;
+                                }
+
+                            }
+
+                            /****************************************************************************************************************************************/
+                        }
+                    }
                 }
 
+                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                rptr->PulseHeadPosition += ToDo;
+                if(rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
+                    rptr->PulseHeadPosition -= P64PulseSamplesPerRotation;
+
+                    P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
+                    while ((P64PulseStream->CurrentIndex >= 0) &&
+                           (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
+                        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+                    }
+
+                }
+
+                Remain16MHzClockCycles -= ToDo;
             }
 
-            Remain16MHzClockCycles -= ToDo;
-        }
+            if (LastPulseHeadPosition < NextPulseHeadPosition) {
+                P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, NextPulseHeadPosition - LastPulseHeadPosition);
+            }
 
-        if (LastPulseHeadPosition < NextPulseHeadPosition) {
-            P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, NextPulseHeadPosition - LastPulseHeadPosition);
-        }
+       }
 
     }
 
@@ -914,7 +1001,74 @@ void rotation_byte_read(drive_t *dptr)
     }
 }
 
-/* IF: 1541 circuit description for reading
+
+/* IF:
+In order to provide maximum compatibility with all protection schemes VICE has to simulate the read circuitry
+as well as signal and bus delays affecting the real hardware regarding disk access.
+Without the read circuitry simulation many unaltered disk images would fail, for example all RapidLok protected
+titles - originally they were patched for emulation.
+BetaSkip protection is also known to contain fixed data for emulators, so are later Software Toolworks titles, e.g.
+The Fidelity Chessmaster 2100, Beyond the Black Hole.
+The HLS protection scheme relies on fully synchronized and cycle exact reads of SYNC and BYTE READY signals for
+ several thousand bytes continuously.
+The protection check eventually fails if any of the signals goes out of sync, due to accumulated timing errors
+ and missing delays.
+For this level of correctness, all the signal timing and bus delays have to be very close to the real hardware.
+
+Explanation of the cycle delays used.
+Bus timing was verified using original datasheets, SO signal timing verified using modified Visual 6502 simulator.
+The BYTE READY signal:
+ triggers the PA latch (disk data read/write) on UCD4 VIA
+ activates the SO signal on the 6502 cpu
+The V flag bit can be asserted (but not negated) when SO changes from 1 to 0.
+Setting the V flag is subject to the time of sampling and propagation delay.
+The drive is running from a 16MHz reference clock, the cpu gets the reference clock divided by 16.
+Since the clock is 16MHz divided by 16, 16 R reference clock cycles correspond to 1 cpu cycle.
+The cpu does different things in the two phases of the clock cycle.
+The first phase is phi 1 or P1, the second phase is phi2 or P2.
+One cpu cycle is comprised of P1 and P2 in this order, and is 1us.
+The full cpu cycle is referenced as C, a half cycle (or phase) is H.
+P1 and P2 are both 8 reference clock cycles each.
+
+The cpu is clocked as:
+H0: C0, P1, R0...7
+H1: C0, P2, R8..15
+H2: C1, P1, R0...7
+H3: C1, P2, R8..15
+H4: C2, P1, R0...7
+H5: C2, P2, R8..15
+H6: C3, P1, R0...7
+H7: C3, P2, R8..15
+...
+
+SO is sampled at the trailing edge of P1, the cpu V flag is updated at next P1.
+SO is actually sampled at 400ns in C (P1) cycle; see timing graphs in mos_6500_mpu_nov_1985.pdf.
+During the first C cycle of any instruction following an instruction setting the V flag SO is not taken.
+If the V flag is directly cleared using CLV, SO is not taken during the first two C cycles of the next instruction.
+The first case is correctly emulated, the 2 C cycle effect is currently not emulated.
+When the cpu code checks the V flag using BVC/BVS, the time the flag can be set and have an effect is during the
+first 4 H cycles of the instruction.
+In practice V gets updated at P1 cycles, therefore whatever the value of V is at the 3rd half-cycle of the
+execution of the BVC/BVS branch decides the code path taken.
+
+Bus read, as an example using LDX $1C00 to read the SYNC signal:
+The LDX instruction is 4 C cycles (8 H), and the address bus gets set to $1C00 in the last C cycle of LDX.
+For memory access description of the cpu; see Synertek hardware manual, 1.3.1 Bus Structure.
+In the Synertek manual P1 is called Phase One, P2 is Phase Two.
+- P1 is the time for address line change
+- P2 is the time for data transfer
+- the address bus is stable at most 300ns after after starting P1
+- the data must be stable (therefore readable and taken) from the data bus at 100ns before the end of P2
+- the memory device has 575ns to put and stabilize the data on the data bus. This is about 1000-300-100ns,
+25 ns additionally used for rise and fall times.
+In other words the value can change, until that point, and whatever the last state on the data bus is will be the
+data read.
+Summary:
+- executing the LDX is 4 cycles, 1 cycle is 1us; data must be stable at 100ns before the next cycle.
+- SYNC at most should be available on the data bus at 3.875us into the execution of LDX of its total execution
+time of 4us.
+
+1541 circuit description for reading
 C1541 read simulation information based on C1541 schematics.
 Component naming follows 1540008-01, the original 'Long Board' schematics.
 UE7: 74LS193, 4 bit counter

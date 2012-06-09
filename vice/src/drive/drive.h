@@ -197,6 +197,8 @@ typedef struct drive_s {
     DWORD snap_write_flux;
     DWORD snap_PulseHeadPosition;
     DWORD snap_xorShift32;
+    DWORD snap_so_delay;
+    DWORD snap_bus_read_delay;
 
     /* UI stuff.  */
     int old_led_status;
