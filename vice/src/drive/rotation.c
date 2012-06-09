@@ -306,6 +306,8 @@ void rotation_1541_gcr(drive_t *dptr)
     cyc_sum_frv = 8 * dptr->GCR_current_track_size;
     cyc_sum_frv = cyc_sum_frv ? cyc_sum_frv : 1;
 
+    cycle_index = 0;
+
     if (dptr->read_write_mode) {
 
         /* emulate the number of reference clocks requested */
