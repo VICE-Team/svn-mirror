@@ -47,6 +47,7 @@ EXTRA_DIST = \
 	maincpu.tgt \
 	make-watcom-bindist.bat \
 	monitor.tgt \
+	p64.tgt \
 	parallel.tgt \
 	pet.tgt \
 	petcat.tgt \

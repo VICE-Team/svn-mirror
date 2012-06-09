@@ -67,8 +67,8 @@ n????Include directories:
 1
 17
 WString
-74
-"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../drive;../../../core"
+91
+"./;../../..;$(%watcom)/h;$(%watcom)/h/nt;..;../../../drive;../../../core;../../../lib/p64"
 0
 18
 MVState
