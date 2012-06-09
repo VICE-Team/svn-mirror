@@ -171,7 +171,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="comctl32.lib winmm.lib ddraw.lib dsound.lib wsock32.lib version.lib"
+				AdditionalDependencies="comctl32.lib winmm.lib dsound.lib dxguid.lib wsock32.lib version.lib"
 				OutputFile=".\..\..\..\data/vsid.exe"
 				LinkIncremental="1"
 				SuppressStartupBanner="true"
