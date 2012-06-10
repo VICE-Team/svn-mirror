@@ -226,7 +226,7 @@ struct monitor_cpu_type_s;
 extern struct console_s *console_log;
 extern int sidefx;
 extern int exit_mon;
-extern int mon_console_close_on_leaving;
+
 extern RADIXTYPE default_radix;
 extern MEMSPACE default_memspace;
 extern bool asm_mode;
