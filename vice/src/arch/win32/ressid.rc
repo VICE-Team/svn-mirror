@@ -85,7 +85,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "This machine may not have a SID"
   IDS_GENERAL                 "General"
   IDS_SID_SETTINGS            "SID settings"
   IDS_FAST                    "Fast"
@@ -110,7 +109,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Denne maskine kan ikke have en SID"
   IDS_GENERAL                 "Generelt"
   IDS_SID_SETTINGS            "SID-indstillinger"
   IDS_FAST                    "Hurtig"
@@ -135,7 +133,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Diese Maschine hat möglicherweise keinen SID"
   IDS_GENERAL                 "Allgemein"
   IDS_SID_SETTINGS            "SID Einstellungen"
   IDS_FAST                    "Schnell"
@@ -160,7 +157,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Esta máquina dispone de SID"
   IDS_GENERAL                 "General"
   IDS_SID_SETTINGS            "Ajustes SID"
   IDS_FAST                    "Rápido"
@@ -185,7 +181,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Cette machine n'a peut-être pas de SID"
   IDS_GENERAL                 "Général"
   IDS_SID_SETTINGS            "Paramètres SID"
   IDS_FAST                    "Fast"
@@ -213,7 +208,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Ennek a gépnek nem lehet SIDje"
   IDS_GENERAL                 "Általános"
   IDS_SID_SETTINGS            "SID beállításai"
   IDS_FAST                    "Fast"
@@ -241,7 +235,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Questa macchina potrebbe non avere un SID"
   IDS_GENERAL                 "Generale"
   IDS_SID_SETTINGS            "Impostazioni SID"
   IDS_FAST                    "Veloce"
@@ -269,7 +262,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "This machine may not have a SID"
   IDS_GENERAL                 "Á¦³Ê·²"
   IDS_SID_SETTINGS            "SID ¼³Á¤"
   IDS_FAST                    "ºü¸¥"
@@ -297,7 +289,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Deze machine heeft mogelijk geen SID"
   IDS_GENERAL                 "Algemeen"
   IDS_SID_SETTINGS            "SID instellingen"
   IDS_FAST                    "Snel"
@@ -325,7 +316,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "W tej maszynie mo¿e nie byæ SID"
   IDS_GENERAL                 "Ogólne"
   IDS_SID_SETTINGS            "Ustawienia SID"
   IDS_FAST                    "Szybko"
@@ -356,7 +346,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "This machine may not have a SID"
   IDS_GENERAL                 "General"
   IDS_SID_SETTINGS            "½ÐáâàÞÙÚØ SID"
   IDS_FAST                    "Fast"
@@ -384,7 +373,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Denna maskin kan inte ha en SID"
   IDS_GENERAL                 "Allmänt"
   IDS_SID_SETTINGS            "SID-inställningar"
   IDS_FAST                    "Snabbt"
@@ -412,7 +400,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_THIS_MACHINE_NO_SID     "Bu makinede SID olmayabilir"
   IDS_GENERAL                 "Genel"
   IDS_SID_SETTINGS            "SID ayarlarý"
   IDS_FAST                    "Hýzlý"
