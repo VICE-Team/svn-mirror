@@ -297,52 +297,52 @@ static int checkopposite(int column, int *status)
 
         switch (column) {
             case KEYSET_N:
-                    val = (status[KEYSET_S] ? 1 : 0) ||
-                          (status[KEYSET_SW] ? 1 : 0) ||
-                          (status[KEYSET_SE] ? 1 : 0);
+                    val = (status[KEYSET_S]) ||
+                          (status[KEYSET_SW]) ||
+                          (status[KEYSET_SE]);
                 break;
             case KEYSET_S:
-                    val = (status[KEYSET_N] ? 1 : 0) ||
-                          (status[KEYSET_NW] ? 1 : 0) ||
-                          (status[KEYSET_NE] ? 1 : 0);
+                    val = (status[KEYSET_N]) ||
+                          (status[KEYSET_NW]) ||
+                          (status[KEYSET_NE]);
                 break;
             case KEYSET_W:
-                    val = (status[KEYSET_E] ? 1 : 0) ||
-                          (status[KEYSET_SE] ? 1 : 0) ||
-                          (status[KEYSET_NE] ? 1 : 0);
+                    val = (status[KEYSET_E]) ||
+                          (status[KEYSET_SE]) ||
+                          (status[KEYSET_NE]);
                 break;
             case KEYSET_E:
-                    val = (status[KEYSET_W] ? 1 : 0) ||
-                          (status[KEYSET_SW] ? 1 : 0) ||
-                          (status[KEYSET_NW] ? 1 : 0);
+                    val = (status[KEYSET_W]) ||
+                          (status[KEYSET_SW]) ||
+                          (status[KEYSET_NW]);
                 break;
             case KEYSET_SW:
-                    val = (status[KEYSET_N] ? 1 : 0) ||
-                          (status[KEYSET_NW] ? 1 : 0) ||
-                          (status[KEYSET_NE] ? 1 : 0) ||
-                          (status[KEYSET_E] ? 1 : 0) ||
-                          (status[KEYSET_SE] ? 1 : 0);
+                    val = (status[KEYSET_N]) ||
+                          (status[KEYSET_NW]) ||
+                          (status[KEYSET_NE]) ||
+                          (status[KEYSET_E]) ||
+                          (status[KEYSET_SE]);
                 break;
             case KEYSET_SE:
-                    val = (status[KEYSET_N] ? 1 : 0) ||
-                          (status[KEYSET_NW] ? 1 : 0) ||
-                          (status[KEYSET_NE] ? 1 : 0) ||
-                          (status[KEYSET_W] ? 1 : 0) ||
-                          (status[KEYSET_SW] ? 1 : 0);
+                    val = (status[KEYSET_N]) ||
+                          (status[KEYSET_NW]) ||
+                          (status[KEYSET_NE]) ||
+                          (status[KEYSET_W]) ||
+                          (status[KEYSET_SW]);
                 break;
             case KEYSET_NW:
-                    val = (status[KEYSET_S] ? 1 : 0) ||
-                          (status[KEYSET_SW] ? 1 : 0) ||
-                          (status[KEYSET_SE] ? 1 : 0) ||
-                          (status[KEYSET_E] ? 1 : 0) ||
-                          (status[KEYSET_NE] ? 1 : 0);
+                    val = (status[KEYSET_S]) ||
+                          (status[KEYSET_SW]) ||
+                          (status[KEYSET_SE]) ||
+                          (status[KEYSET_E]) ||
+                          (status[KEYSET_NE]);
                 break;
             case KEYSET_NE:
-                    val = (status[KEYSET_S] ? 1 : 0) ||
-                          (status[KEYSET_SW] ? 1 : 0) ||
-                          (status[KEYSET_SE] ? 1 : 0) ||
-                          (status[KEYSET_W] ? 1 : 0) ||
-                          (status[KEYSET_NW] ? 1 : 0);
+                    val = (status[KEYSET_S]) ||
+                          (status[KEYSET_SW]) ||
+                          (status[KEYSET_SE]) ||
+                          (status[KEYSET_W]) ||
+                          (status[KEYSET_NW]);
                 break;
         }
     }
@@ -431,10 +431,12 @@ static const resource_int_t resources_int[] = {
 };
 
 #ifdef DEBUGJOY
-static void DBGSTATUS(int keysetnum, int value, int joyport, int key)
+static void DBGSTATUS(int keysetnum, int value, int joyport, int key, int flg)
 {
     int column;
-    DBG(("key:%02x |", key));
+    char *flags[3] = {"set", "unset", "ignored"};
+
+    DBG((" key:%02x |", key));
     for (column = 0; column < KEYSET_NUM_KEYS; column++) {
         DBG((joypad_status[keysetnum][column] ? "*" : "."));
     }
@@ -446,10 +448,10 @@ static void DBGSTATUS(int keysetnum, int value, int joyport, int key)
     for (column = 5; column >= 0; column--) {
         DBG((((latch_joystick_value[joyport] >> column) & 1) ? "*" : "."));
     }
-    DBG(("\n"));
+    DBG((" (%s)\n", flags[flg]));
 }
 #else
-#define DBGSTATUS(a, b, c, d)
+#define DBGSTATUS(a, b, c, d, e)
 #endif
 
 /* called on key-down event */
@@ -467,18 +469,21 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 
             DBG(("joystick_check_set:"));
 
+            joypad_status[keysetnum][column] = 1;
+            value = getjoyvalue(joypad_status[keysetnum]);
+
             /* ignore key if opposite direction is pressed */
             if (checkopposite(column, joypad_status[keysetnum])) {
-                DBG(("(ignored) "));
-                DBGSTATUS(keysetnum, 0, joyport, key);
+                DBGSTATUS(keysetnum, value, joyport, key, 2);
                 return 0;
             }
 
-            joypad_status[keysetnum][column] = 1;
-            value = getjoyvalue(joypad_status[keysetnum]);
+            if (!joystick_opposite_enable) {
+                value &= ~joystick_opposite_direction[value & 0xf];
+            }
             joystick_set_value_absolute(joyport, (BYTE)value);
 
-            DBGSTATUS(keysetnum, value, joyport, key);
+            DBGSTATUS(keysetnum, value, joyport, key, 0);
             return 1;
         }
     }
@@ -500,10 +505,14 @@ int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
 
             joypad_status[keysetnum][column] = 0;
             value = getjoyvalue(joypad_status[keysetnum]);
+
+            if (!joystick_opposite_enable) {
+                value &= ~joystick_opposite_direction[value & 0xf];
+            }
             joystick_set_value_absolute(joyport, (BYTE)value);
 
             DBG(("joystick_check_clr:"));
-            DBGSTATUS(keysetnum, value, joyport, key);
+            DBGSTATUS(keysetnum, value, joyport, key, 1);
             return 1;
         }
     }
