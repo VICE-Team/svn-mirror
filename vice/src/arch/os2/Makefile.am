@@ -160,6 +160,7 @@ EXTRA_DIST = \
 	watcom/nonx64-dragndrop.c \
 	watcom/nonx64-specific.tgt \
 	watcom/nonx64-vsyncarch.c \
+	watcom/p64.tgt \
 	watcom/parallel.tgt \
 	watcom/pet.tgt \
 	watcom/petcat-archdep.c \
