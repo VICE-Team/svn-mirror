@@ -1,5 +1,5 @@
 /*
- * uisid.c - Implementation of the C64, C128 and CBM-II SID settings dialog box.
+ * uisid.c - Implementation of the C64 and C128 SID settings dialog box.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -59,12 +59,21 @@ static const int ui_sid_samplemethod[] = {
 
 static const int *ui_sid_baseaddress;
 
+/* Values currently selected in the UI
+   Needed to enable/disable UI elements */
+static int sel_engine, sel_extra_sids;
+
+static void enable_general_sid_controls(HWND hwnd)
+{
+    EnableWindow(GetDlgItem(hwnd, IDC_SID_STEREOADDRESS), sel_extra_sids >= 1);
+    EnableWindow(GetDlgItem(hwnd, IDC_SID_TRIPLEADDRESS), sel_extra_sids >= 2);
+}
+
 static void enable_resid_sid_controls(HWND hwnd)
 {
-    int engine, is_enabled;
+    int is_enabled;
 
-    resources_get_int("SidEngine", &engine);
-    is_enabled = ((engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP));
+    is_enabled = (sel_engine == SID_ENGINE_RESID) || (sel_engine == SID_ENGINE_RESID_FP);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE), is_enabled);
@@ -72,14 +81,12 @@ static void enable_resid_sid_controls(HWND hwnd)
 
 static void enable_hardsid_sid_controls(HWND hwnd)
 {
-    int engine, is_enabled, stereo;
+    int is_enabled;
 
-    resources_get_int("SidEngine", &engine);
-    is_enabled = (engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
-    resources_get_int("SidStereo", &stereo);
+    is_enabled = (sel_engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE), is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_RIGHT_ENGINE), is_enabled && stereo);
+    EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_RIGHT_ENGINE), is_enabled && (sel_extra_sids >= 1));
 }
 
 static void CreateAndGetSidAddress(HWND sid_hwnd, int mode, int cur_value, char *resource)
@@ -116,7 +123,6 @@ static void init_general_sid_dialog(HWND hwnd)
     HWND sid_hwnd;
     int res_value, i;
     int active_value;
-    int temp_value;
 
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_GENGROUP1);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_GENGROUP1));
@@ -131,17 +137,17 @@ static void init_general_sid_dialog(HWND hwnd)
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_FILTERS));
 
-//  Setup status
+    /* Setup status */
 
     resources_get_int("SidFilters", &res_value);
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
     
-    resources_get_int("SidStereo", &res_value);
+    resources_get_int("SidStereo", &sel_extra_sids);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_EXTRA_AMOUNT);
     SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)"0");
     SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)"1");
     SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)"2");
-    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)sel_extra_sids, 0);
 
     resources_get_int("SidStereoAddressStart", &res_value);
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_STEREOADDRESS);
@@ -153,10 +159,9 @@ static void init_general_sid_dialog(HWND hwnd)
 
     ui_sid_engine_model_list = sid_get_engine_model_list();
 
-    resources_get_int("SidModel", &temp_value);
-    resources_get_int("SidEngine", &res_value);
-    res_value <<= 8;
-    res_value |= temp_value;
+    resources_get_int("SidModel", &res_value);
+    resources_get_int("SidEngine", &sel_engine);
+    res_value |= sel_engine << 8;
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL);
 
     active_value = 0;
@@ -172,6 +177,8 @@ static void init_general_sid_dialog(HWND hwnd)
         }
     }
     SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+
+    enable_general_sid_controls(hwnd);
 }
 
 union rect_point_s {
@@ -435,7 +442,21 @@ static void end_general_dialog(HWND hwnd)
 
 static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
+    int temp;
+
     switch (msg) {
+        case WM_COMMAND:
+            switch (LOWORD(wparam)) {
+                case IDC_SID_ENGINE_MODEL:
+                    temp = SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0);
+                    sel_engine = (ui_sid_engine_model_list[temp]->value) >> 8;
+                    break;
+                case IDC_SID_EXTRA_AMOUNT:
+                    sel_extra_sids = SendDlgItemMessage(hwnd, IDC_SID_EXTRA_AMOUNT, CB_GETCURSEL, 0, 0);
+                    enable_general_sid_controls(hwnd);
+                    break;
+            }
+            return FALSE;
         case WM_NOTIFY:
             switch (((NMHDR FAR *)lparam)->code) {
                 case PSN_APPLY:
@@ -516,12 +537,7 @@ static void end_hardsid_dialog(HWND hwnd)
 
 static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
-
     switch (msg) {
-        case WM_COMMAND:
-            command = LOWORD(wparam);
-            return FALSE;
         case WM_NOTIFY:
             switch (((NMHDR FAR *)lparam)->code) {
                 case PSN_SETACTIVE:

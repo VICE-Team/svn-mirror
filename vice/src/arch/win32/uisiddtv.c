@@ -1,5 +1,5 @@
 /*
- * uisiddtv.c - Implementation of the C64DTV SID settings dialog box.
+ * uisiddtv.c - Implementation of the C64DTV and CBM-II SID settings dialog box.
  *
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
@@ -58,12 +58,15 @@ static const int ui_sid_samplemethod[] = {
     0
 };
 
+/* Value currently selected in the UI
+   Needed to enable/disable UI elements */
+static int sel_engine;
+
 static void enable_resid_sid_controls(HWND hwnd)
 {
-    int engine, is_enabled;
+    int is_enabled;
 
-    resources_get_int("SidEngine", &engine);
-    is_enabled = ((engine == SID_ENGINE_RESID) || (engine == SID_ENGINE_RESID_FP));
+    is_enabled = (sel_engine == SID_ENGINE_RESID) || (sel_engine == SID_ENGINE_RESID_FP);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_SAMPLING), is_enabled);
     EnableWindow(GetDlgItem(hwnd, IDC_SID_RESID_PASSBAND_VALUE), is_enabled);
@@ -71,10 +74,9 @@ static void enable_resid_sid_controls(HWND hwnd)
 
 static void enable_hardsid_sid_controls(HWND hwnd)
 {
-    int engine, is_enabled;
+    int is_enabled;
 
-    resources_get_int("SidEngine", &engine);
-    is_enabled = (engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
+    is_enabled = (sel_engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SID_HARDSID_LEFT_ENGINE), is_enabled);
 }
@@ -82,7 +84,6 @@ static void enable_hardsid_sid_controls(HWND hwnd)
 static void init_general_sid_dialog(HWND hwnd)
 {
     HWND sid_hwnd;
-    int temp_value;
     int res_value, i;
     int active_value;
 
@@ -91,17 +92,16 @@ static void init_general_sid_dialog(HWND hwnd)
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_FILTERS);
     SetWindowText(sid_hwnd, translate_text(IDS_SID_FILTERS));
 
-//  Setup status
+    /* Setup status */
 
     resources_get_int("SidFilters", &res_value);
     CheckDlgButton(hwnd, IDC_SID_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
 
     ui_sid_engine_model_list = sid_get_engine_model_list();
 
-    resources_get_int("SidModel", &temp_value);
-    resources_get_int("SidEngine", &res_value);
-    res_value <<= 8;
-    res_value |= temp_value;
+    resources_get_int("SidModel", &res_value);
+    resources_get_int("SidEngine", &sel_engine);
+    res_value |= sel_engine << 8;
     sid_hwnd = GetDlgItem(hwnd, IDC_SID_ENGINE_MODEL);
 
     active_value = 0;
@@ -275,29 +275,32 @@ static void resize_hardsid_sid_dialog(HWND hwnd)
 
 static void end_general_dialog(HWND hwnd)
 {
+    int engine, model, temp;
+
     resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd, IDC_SID_FILTERS) == BST_CHECKED ? 1 : 0));
+
+    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
+    engine = temp >> 8;
+    model = temp & 0xff;
+    sid_set_engine_model(engine, model);
 }
 
 static INT_PTR CALLBACK general_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
-    int engine, model, temp;
+    int temp;
 
     switch (msg) {
         case WM_COMMAND:
-            command = LOWORD(wparam);
-            switch (command) {
+            switch (LOWORD(wparam)) {
                 case IDC_SID_ENGINE_MODEL:
-                    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
-                    engine = temp >> 8;
-                    model = temp & 0xff;
-                    sid_set_engine_model(engine, model);
+                    temp = SendDlgItemMessage(hwnd, IDC_SID_ENGINE_MODEL, CB_GETCURSEL, 0, 0);
+                    sel_engine = (ui_sid_engine_model_list[temp]->value) >> 8;
                     break;
             }
             return FALSE;
         case WM_NOTIFY:
             switch (((NMHDR FAR *)lparam)->code) {
-                case PSN_KILLACTIVE:
+                case PSN_APPLY:
                     end_general_dialog(hwnd);
                     return TRUE;
             }
@@ -348,7 +351,7 @@ static INT_PTR CALLBACK resid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LP
                 case PSN_SETACTIVE:
                     enable_resid_sid_controls(hwnd);
                     return TRUE;
-                case PSN_KILLACTIVE:
+                case PSN_APPLY:
                     end_resid_dialog(hwnd);
                     return TRUE;
             }
@@ -374,18 +377,13 @@ static void end_hardsid_dialog(HWND hwnd)
 
 static INT_PTR CALLBACK hardsid_dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
-
     switch (msg) {
-        case WM_COMMAND:
-            command = LOWORD(wparam);
-            return FALSE;
         case WM_NOTIFY:
             switch (((NMHDR FAR *)lparam)->code) {
                 case PSN_SETACTIVE:
                     enable_hardsid_sid_controls(hwnd);
                     return TRUE;
-                case PSN_KILLACTIVE:
+                case PSN_APPLY:
                     end_hardsid_dialog(hwnd);
                     return TRUE;
             }
