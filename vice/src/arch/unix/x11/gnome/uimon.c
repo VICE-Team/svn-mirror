@@ -321,10 +321,10 @@ console_t *uimon_window_open(void)
 
 console_t *uimon_window_resume(void)
 {
-    ui_dispatch_events();
-    gdk_flush();
     gtk_widget_show_all(fixed.window);
     gtk_window_present (GTK_WINDOW(fixed.window));
+    ui_dispatch_events();
+    gdk_flush();
     return &vte_console;
 }
 
