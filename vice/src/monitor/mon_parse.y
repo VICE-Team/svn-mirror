@@ -88,7 +88,6 @@ static int temp;
 static int resolve_datatype(unsigned guess_type, const char *num);
 static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
                          const char *num);
-static void mon_quit(void);
 
 #ifdef __IBMC__
 static void __yy_memcpy (char *to, char *from, int count);
@@ -227,6 +226,8 @@ machine_state_rules: CMD_BANK end_cmd
                      { mon_bank($2, $4); }
                    | CMD_GOTO address end_cmd
                      { mon_jump($2); }
+                   | CMD_GOTO end_cmd
+                     { mon_go(); }
                    | CMD_IO end_cmd
                      { mon_display_io_regs(0); }
                    | CMD_IO address end_cmd
@@ -459,7 +460,7 @@ monitor_state_rules: CMD_SIDEFX TOGGLE end_cmd
                    | CMD_QUIT end_cmd
                      { mon_quit(); YYACCEPT; }
                    | CMD_EXIT end_cmd
-                     { exit_mon = 1; YYACCEPT; }
+                     { mon_exit(); YYACCEPT; }
                    ;
 
 monitor_misc_rules: CMD_DISK rest_of_line end_cmd
@@ -1113,15 +1114,4 @@ static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
     return 0;
 }
 
-/* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0)
-   So I decided to skip this (I think it's unnecessary for OS/2 */
-static void mon_quit(void)
-{
-#ifdef OS2
-    /* same as "quit" */
-    exit_mon = 1;
-#else
-    exit_mon = 2;
-#endif
-}
 

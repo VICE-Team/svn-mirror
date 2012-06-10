@@ -144,6 +144,10 @@ int exit_mon = 0;
  * different from what keep_monitor_open does :)
  */
 static int mon_console_suspend_on_leaving = 1;
+/* flag used by the eXit command. it will force the monitor to close regardless
+ * of keep_monitor_open.
+ */
+static int mon_console_close_on_leaving = 0;
 
 int sidefx;
 RADIXTYPE default_radix;
@@ -587,6 +591,29 @@ void mon_jump(MON_ADDR addr)
     (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC,
                                             (WORD)(addr_location(addr)));
     exit_mon = 1;
+}
+
+void mon_go(void)
+{
+    exit_mon = 1;
+}
+
+void mon_exit(void)
+{
+    exit_mon = 1;
+    mon_console_close_on_leaving = 1;
+}
+
+/* If we want 'quit' for OS/2 I couldn't leave the emulator by calling exit(0)
+   So I decided to skip this (I think it's unnecessary for OS/2 */
+void mon_quit(void)
+{
+#ifdef OS2
+    /* same as "quit" */
+    exit_mon = 1;
+#else
+    exit_mon = 2;
+#endif
 }
 
 void mon_keyboard_feed(const char *string)
@@ -2192,6 +2219,7 @@ static void monitor_open(void)
     unsigned int dnr;
 
     mon_console_suspend_on_leaving = 1;
+    mon_console_close_on_leaving = 0;
 
     if (monitor_is_remote()) {
         static console_t console_log_remote = { 80, 25, 0, 0 };
@@ -2290,6 +2318,9 @@ static void monitor_close(int check)
     exit_mon--;
 
     if (check && exit_mon) {
+        if ( ! monitor_is_remote() ) {
+            uimon_window_close();
+        }
         exit(0);
     }
 
@@ -2306,6 +2337,7 @@ static void monitor_close(int check)
                 runs, close the console. otherwise suspend the window.
             */
             if ((console_log == NULL) ||
+                (mon_console_close_on_leaving == 1) ||
                 (console_log->console_can_stay_open == 0) ||
                 (keep_monitor_open == 0)) {
                 uimon_window_close();
