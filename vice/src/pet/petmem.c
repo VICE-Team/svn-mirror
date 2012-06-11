@@ -69,11 +69,11 @@ unsigned int mem_old_reg_pc;
 /* we keep the current system config in here. */
 
 petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-		    /* ROM image resources */
+                    /* ROM image resources */
                     NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-		    /* SuperPET resources */
-		    { NULL }, SUPERPET_CPU_6502,
-		    /* runtime (derived) variables */
+                    /* SuperPET resources */
+                    { NULL }, SUPERPET_CPU_6502,
+                    /* runtime (derived) variables */
                     0, PET_MAP_LINEAR, 0, 0, 0, 0, 0, 0
 };
 
@@ -82,7 +82,7 @@ petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
 /* The PET memory. */
 
 #define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
-#define PET_6809_ROMSIZE	(NUM_6809_ROMS * 0x1000)
+#define PET_6809_ROMSIZE        (NUM_6809_ROMS * 0x1000)
 
 BYTE mem_ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE mem_rom[PET_ROM_SIZE];
@@ -188,7 +188,7 @@ void rom_store(WORD addr, BYTE value)
     mem_rom[addr & 0x7fff] = value;
 }
 
-#define ROM6809_BASE	0xA000
+#define ROM6809_BASE    0xA000
 
 BYTE rom6809_read(WORD addr)
 {
@@ -206,13 +206,13 @@ void rom6809_store(WORD addr, BYTE value)
 static BYTE read_unused(WORD addr)
 {
     if (petreu_enabled) {
-	if (addr >= 0x8800 && addr < 0x8900) {
-	    return read_petreu_reg(addr);
-	} else if (addr >= 0x8900 && addr < 0x8a00) {
-	    return read_petreu_ram(addr);
-	} else if (addr >= 0x8a00 && addr < 0x8b00) {
-	    return read_petreu2_reg(addr);
-	}
+        if (addr >= 0x8800 && addr < 0x8900) {
+            return read_petreu_reg(addr);
+        } else if (addr >= 0x8900 && addr < 0x8a00) {
+            return read_petreu_ram(addr);
+        } else if (addr >= 0x8a00 && addr < 0x8b00) {
+            return read_petreu2_reg(addr);
+        }
     }
 
     if (petdww_enabled) {
@@ -224,11 +224,11 @@ static BYTE read_unused(WORD addr)
     }
 
     if (sidcart_enabled()) {
-	if (sidcart_address == 1 && addr >= 0xe900 && addr <= 0xe91f) {
-	    return sid_read(addr);
-	} else if (sidcart_address == 0 && addr >= 0x8f00 && addr <= 0x8f1f) {
-	    return sid_read(addr);
-	}
+        if (sidcart_address == 1 && addr >= 0xe900 && addr <= 0xe91f) {
+            return sid_read(addr);
+        } else if (sidcart_address == 0 && addr >= 0x8f00 && addr <= 0x8f1f) {
+            return sid_read(addr);
+        }
     }
 
     return (addr >> 8) & 0xff;
@@ -287,7 +287,7 @@ int spet_ramwp  = 0;
 /* Internal state of the 6702 dongle */
 #define DONGLE_MAGIC    (128 + 64 + 16 + 4 + 2) /* = 214 = $D6 = %1101 0110 */
 static int shift[8];
-static int leftmost[8] = {
+static const int leftmost[8] = {
     1 << (6 - 1),       /*   1 The size of each shift register is 6, 3, 7... */
     1 << (3 - 1),       /*   2 and therefore those are also the periods of */
     1 << (7 - 1),       /*   4 the output bits. */
@@ -297,18 +297,20 @@ static int leftmost[8] = {
     1 << (5 - 1),       /*  64 */
     1 << (2 - 1),       /* 128 */
 };
-static int val6702 = DONGLE_MAGIC;
+static int val6702;
 static int prevodd;
 static int wantodd;
 
-static void reset6702( void ) {
+static void reset6702(void)
+{
     int i;
 
     for (i = 0; i < 8; i++) {
-    if ((1 << i) & (DONGLE_MAGIC | 1))
-        shift[i] = leftmost[i];
-    else
-        shift[i] = 0;
+        if ((1 << i) & (DONGLE_MAGIC | 1)) {
+            shift[i] = leftmost[i];
+        } else {
+            shift[i] = 0;
+        }
     }
     val6702 = DONGLE_MAGIC;
     prevodd = 1;
@@ -348,7 +350,7 @@ void write6702(BYTE input)
                 }
                 if (shift[i] & 1) {
                     v ^= mask;
-                    shift[i] ^= leftmost[i] << 1; /* wrap bit around */
+                    shift[i] |= leftmost[i] << 1; /* wrap bit around */
                 }
                 shift[i] >>= 1;
             }
@@ -373,7 +375,7 @@ void write6702(BYTE input)
  */
 
 /*
-static BYTE dongle_values [ 29 ] = { 	// Indexed as 0 to 28.
+static BYTE dongle_values [ 29 ] = {    // Indexed as 0 to 28.
     / * Used once at the start of the subroutine.        * /
     0x04, / * 9860: LDA  [<$06,S] ; [ 0]                 * /
 
@@ -716,13 +718,13 @@ static void store_void(WORD addr, BYTE value)
 static void store_dummy(WORD addr, BYTE value)
 {
     if (petreu_enabled) {
-	if (addr >= 0x8800 && addr < 0x8900) {
-	    store_petreu_reg(addr,value);
-	} else if (addr >= 0x8900 && addr < 0x8a00) {
-	    store_petreu_ram(addr,value);
-	} else if (addr >= 0x8a00 && addr < 0x8b00) {
-	    store_petreu2_reg(addr,value);
-	}
+        if (addr >= 0x8800 && addr < 0x8900) {
+            store_petreu_reg(addr,value);
+        } else if (addr >= 0x8900 && addr < 0x8a00) {
+            store_petreu_ram(addr,value);
+        } else if (addr >= 0x8a00 && addr < 0x8b00) {
+            store_petreu2_reg(addr,value);
+        }
     }
 
     if (petdww_enabled) {
@@ -734,11 +736,11 @@ static void store_dummy(WORD addr, BYTE value)
     }
 
     if (sidcart_enabled()) {
-	if (sidcart_address == 1 && addr >= 0xe900 && addr < 0xe91f) {
-	    sid_store(addr,value);
-	} else if (sidcart_address == 0 && addr >= 0x8f00 && addr < 0x8f1f) {
-	    sid_store(addr,value);
-	}
+        if (sidcart_address == 1 && addr >= 0xe900 && addr < 0xe91f) {
+            sid_store(addr,value);
+        } else if (sidcart_address == 0 && addr >= 0x8f00 && addr < 0x8f1f) {
+            sid_store(addr,value);
+        }
     }
 
     return;
@@ -859,9 +861,9 @@ void mem_set_bank_pointer(BYTE **base, int *limit)
 void invalidate_mem_limit(int lower, int upper)
 {
     if (cpu_mem_limit_ptr &&
-	    *cpu_mem_limit_ptr >= lower && *cpu_mem_limit_ptr < upper) {
-	*cpu_mem_limit_ptr = -1;
-	*cpu_mem_base_ptr = NULL;
+            *cpu_mem_limit_ptr >= lower && *cpu_mem_limit_ptr < upper) {
+        *cpu_mem_limit_ptr = -1;
+        *cpu_mem_base_ptr = NULL;
     }
 }
 
@@ -956,7 +958,7 @@ static void store_8x96(WORD addr, BYTE value)
                     _mem_read_base_tab[l] = mem_ram + bank8offset + (l << 8);
                     mem_read_limit_tab[l] = 0xbffd;
                 }
-		invalidate_mem_limit(0x8000, 0xc000);
+                invalidate_mem_limit(0x8000, 0xc000);
             }
             if (changed & 0xca) {       /* $c000-$ffff */
                 protected = value & 0x02;
@@ -984,7 +986,7 @@ static void store_8x96(WORD addr, BYTE value)
                 }
                 store_ff = _mem_write_tab[0xff];
                 _mem_write_tab[0xff] = store_8x96;
-		invalidate_mem_limit(0xc000, 0x10000);
+                invalidate_mem_limit(0xc000, 0x10000);
             }
         } else {                /* disable ext. RAM */
             for (l = 0x80; l < 0x90; l++) {
@@ -996,7 +998,7 @@ static void store_8x96(WORD addr, BYTE value)
             set_std_9tof();
             store_ff = _mem_write_tab[0xff];
             _mem_write_tab[0xff] = store_8x96;
-	    invalidate_mem_limit(0x8000, 0x10000);
+            invalidate_mem_limit(0x8000, 0x10000);
         }
         petmem_map_reg = value;
 
@@ -1008,26 +1010,26 @@ static int fff0_dump(void)
 {
     mon_out("fff0 = %02x: ", petmem_map_reg);
     if (petmem_map_reg & 0x80) {
-	mon_out("enabled, ");
-	if (petmem_map_reg & 0x40) {
-	    mon_out("I/O peek through, ");
-	}
-	if (petmem_map_reg & 0x20) {
-	    mon_out("screen peek through, ");
-	}
-	if (petmem_map_reg & 0x10) {
-	    mon_out("$10 unused bit set, ");
-	}
-	mon_out("\nC000-FFFF: bank %d %s, ",
-	    ((petmem_map_reg & 0x08) ? 3 : 1),
-	    ((petmem_map_reg & 0x02) ? "(write protected)" : "(r/w)")
-	       );
-	mon_out("8000-BFFF: bank %d %s.\n",
-	    ((petmem_map_reg & 0x04) ? 2 : 0),
-	    ((petmem_map_reg & 0x01) ? "(write protected)" : "(r/w)")
-	       );
+        mon_out("enabled, ");
+        if (petmem_map_reg & 0x40) {
+            mon_out("I/O peek through, ");
+        }
+        if (petmem_map_reg & 0x20) {
+            mon_out("screen peek through, ");
+        }
+        if (petmem_map_reg & 0x10) {
+            mon_out("$10 unused bit set, ");
+        }
+        mon_out("\nC000-FFFF: bank %d %s, ",
+            ((petmem_map_reg & 0x08) ? 3 : 1),
+            ((petmem_map_reg & 0x02) ? "(write protected)" : "(r/w)")
+               );
+        mon_out("8000-BFFF: bank %d %s.\n",
+            ((petmem_map_reg & 0x04) ? 2 : 0),
+            ((petmem_map_reg & 0x01) ? "(write protected)" : "(r/w)")
+               );
     } else {
-	mon_out("disabled.\n");
+        mon_out("disabled.\n");
     }
     return 0;
 }
@@ -1137,43 +1139,43 @@ void mem_initialize_memory(void)
 
 
     if (petres.superpet) {
-	/*
-	 * Initialize SuperPET 6809 memory view.
-	 * Basically, it is the same as the 6502 view, except for the
-	 * ROMs in addresses $A000 - $FFFF and but including the I/O range
-	 * of $E800 - $EFFF.
-	 */
+        /*
+         * Initialize SuperPET 6809 memory view.
+         * Basically, it is the same as the 6502 view, except for the
+         * ROMs in addresses $A000 - $FFFF and but including the I/O range
+         * of $E800 - $EFFF.
+         */
 
-	for (i = 0x00; i < 0xa0; i++) {
-	    _mem6809_read_tab[i]      = _mem_read_tab[i];
-	    _mem6809_write_tab[i]     = _mem_write_tab[i];
-	    _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
-	    mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
-	}
-	/*
-	 * Set up the ROMs.
-	 */
-	for (i = 0xa0; i < 0xe8; i++) {
-	    _mem6809_read_tab[i]      = rom6809_read;
-	    _mem6809_write_tab[i]     = store_void;
-	    _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
-	    mem6809_read_limit_tab[i] = 0xe7fc;
-	}
-	for (i = 0xf0; i < 0x100; i++) {
-	    _mem6809_read_tab[i]      = rom6809_read;
-	    _mem6809_write_tab[i]     = store_void;
-	    _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
-	    mem6809_read_limit_tab[i] = 0xfffc;
-	}
-	/*
-	 * Also copy the I/O setup from the 6502 view.
-	 */
-	for (i = 0xe8; i < 0xf0; i++) {
-	    _mem6809_read_tab[i]      = _mem_read_tab[i];
-	    _mem6809_write_tab[i]     = _mem_write_tab[i];
-	    _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
-	    mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
-	}
+        for (i = 0x00; i < 0xa0; i++) {
+            _mem6809_read_tab[i]      = _mem_read_tab[i];
+            _mem6809_write_tab[i]     = _mem_write_tab[i];
+            _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
+            mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+        }
+        /*
+         * Set up the ROMs.
+         */
+        for (i = 0xa0; i < 0xe8; i++) {
+            _mem6809_read_tab[i]      = rom6809_read;
+            _mem6809_write_tab[i]     = store_void;
+            _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
+            mem6809_read_limit_tab[i] = 0xe7fc;
+        }
+        for (i = 0xf0; i < 0x100; i++) {
+            _mem6809_read_tab[i]      = rom6809_read;
+            _mem6809_write_tab[i]     = store_void;
+            _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
+            mem6809_read_limit_tab[i] = 0xfffc;
+        }
+        /*
+         * Also copy the I/O setup from the 6502 view.
+         */
+        for (i = 0xe8; i < 0xf0; i++) {
+            _mem6809_read_tab[i]      = _mem_read_tab[i];
+            _mem6809_write_tab[i]     = _mem_write_tab[i];
+            _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
+            mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+        }
 
         _mem6809_read_tab[0x100] = _mem6809_read_tab[0];
         _mem6809_write_tab[0x100] = _mem6809_write_tab[0];
@@ -1407,9 +1409,9 @@ static int mem_dump_io(WORD addr) {
             /* return dwwpiacore_dump(machine_context.dwwpia); */ /* FIXME */
         }
     } else if (addr == 0xfff0) {
-	if (petres.map) {
-	    return fff0_dump();
-	}
+        if (petres.map) {
+            return fff0_dump();
+        }
     }
     return -1;
 }
