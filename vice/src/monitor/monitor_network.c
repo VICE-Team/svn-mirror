@@ -250,10 +250,10 @@ static void monitor_network_binary_answer(unsigned int length, unsigned char err
     binlength[4] = (length >> 24) & 0xFFu;
     binlength[5] = errorcode;
 
-    monitor_network_transmit(binlength, sizeof binlength);
+    monitor_network_transmit((char*)binlength, sizeof binlength);
 
     if (answer != NULL) {
-        monitor_network_transmit(answer, length);
+        monitor_network_transmit((char*)answer, length);
     }
 }
 
@@ -357,7 +357,7 @@ char * monitor_network_get_command_line(void)
                 unsigned int command_length = buffer[1];
 
                 if (3 + command_length <= bufferpos) {
-                    monitor_network_process_binary_command(buffer, sizeof buffer, &bufferpos, command_length);
+                    monitor_network_process_binary_command((unsigned char*)buffer, sizeof buffer, &bufferpos, command_length);
                     monitor_binary_input = 0;
                 }
             }

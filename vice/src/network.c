@@ -289,11 +289,18 @@ static int network_send_buffer(vice_network_socket_t * s, const BYTE *buf, int l
 
 #define NUM_OF_TESTPACKETS 50
 
+typedef struct {
+    unsigned long t;
+    unsigned char buf[0x60];
+} testpacket;
+
 static void network_test_delay(void)
 {
     int i, j;
     BYTE new_frame_delta;
-    BYTE buf[0x60];
+    unsigned char *buf;
+    testpacket pkt;
+
     long packet_delay[NUM_OF_TESTPACKETS];
     char st[256];
 
@@ -301,13 +308,15 @@ static void network_test_delay(void)
 
     ui_display_statustext(translate_text(IDGS_TESTING_BEST_FRAME_DELAY), 0);
 
+    buf = (unsigned char*)&pkt;
+
     if (network_mode == NETWORK_SERVER_CONNECTED) {
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
-            *((unsigned long*)buf) = vsyncarch_gettime();
-            if (network_send_buffer(network_socket, buf, sizeof(buf)) < 0
-                || network_recv_buffer(network_socket, buf, sizeof(buf)) < 0)
+            pkt.t = vsyncarch_gettime();
+            if (network_send_buffer(network_socket, buf, sizeof(testpacket)) < 0
+                || network_recv_buffer(network_socket, buf, sizeof(testpacket)) < 0)
                 return;
-            packet_delay[i] = vsyncarch_gettime() - *((unsigned long*)buf);
+            packet_delay[i] = vsyncarch_gettime() - pkt.t;
         }
         /* Sort the packets delays*/
         for (i = 0; i < NUM_OF_TESTPACKETS - 1; i++) {
@@ -335,8 +344,8 @@ static void network_test_delay(void)
     } else {
         /* network_mode == NETWORK_CLIENT */
         for (i = 0; i < NUM_OF_TESTPACKETS; i++) {
-            if (network_recv_buffer(network_socket, buf, sizeof(buf)) <  0
-                || network_send_buffer(network_socket, buf, sizeof(buf)) < 0)
+            if (network_recv_buffer(network_socket, buf, sizeof(testpacket)) <  0
+                || network_send_buffer(network_socket, buf, sizeof(testpacket)) < 0)
                 return;
         }
         network_recv_buffer(network_socket, &new_frame_delta,

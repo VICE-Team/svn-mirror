@@ -44,17 +44,15 @@
 
 static int make_offset_mode(int offset)
 {
-    int submode;
-
     if (offset >= -16 && offset < 16) {
-	return offset & 0x1F;
+        return offset & 0x1F;
     } else if (offset >= -128 && offset < 128) {
-	return 0x80 | ASM_ADDR_MODE_INDEXED_OFF8;
+        return 0x80 | ASM_ADDR_MODE_INDEXED_OFF8;
     } else if (offset >= -32768 && offset < 32768) {
-	return 0x80 | ASM_ADDR_MODE_INDEXED_OFF16;
+        return 0x80 | ASM_ADDR_MODE_INDEXED_OFF16;
     } else {
-	mon_out("offset too large even for 16 bits (signed)\n");
-	return 0x80 | ASM_ADDR_MODE_INDEXED_OFF16;
+        mon_out("offset too large even for 16 bits (signed)\n");
+        return 0x80 | ASM_ADDR_MODE_INDEXED_OFF16;
     }
 }
 

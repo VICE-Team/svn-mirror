@@ -366,7 +366,8 @@ static ui_menu_entry_t vic20_cartridge_commands_menu[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-
+#if 0
+/* unused ? */
 static UI_CALLBACK(set_joystick_device)
 {
     vsync_suspend_speed_eval();
@@ -380,7 +381,7 @@ static UI_CALLBACK(set_joystick_device)
         ui_menu_set_tick(w, tmp == vice_ptr_to_int(UI_MENU_CB_PARAM));
     }
 }
-
+#endif
 /*------------------------------------------------------------*/
 
 static ui_menu_entry_t rs232_settings_menu[] = {

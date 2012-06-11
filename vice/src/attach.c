@@ -540,7 +540,7 @@ static int attach_disk_image(disk_image_t **imgptr, vdrive_t *floppy,
     }
 
     if (disk_image_open(&new_image) < 0) {
-        P64ImageDestroy(new_image.p64);
+        P64ImageDestroy((PP64Image) new_image.p64);
         lib_free(new_image.p64);
         disk_image_media_destroy(&new_image);
         return -1;
