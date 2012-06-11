@@ -55,6 +55,7 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
 
