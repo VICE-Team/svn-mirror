@@ -435,6 +435,35 @@ static BYTE dongle_values [ 29 ] = {    // Indexed as 0 to 28.
 };
 */
 
+static int efe0_dump(void)
+{
+    int i;
+    int mask = 1;
+
+    mon_out("efe0 = $%02x; previous in = $%02x; odd/even = %d\n", val6702, prevodd, wantodd);
+    for (i = 0; i < 8; i++, mask <<= 1) {
+        int j;
+        int maskj;
+        int sh = shift[i];
+        int lm = leftmost[i];
+
+        mon_out("%d %3d: $%02x  %", i, mask, sh);
+
+        for (j = 7, maskj = 1<<j; j >= 0; j--, maskj >>= 1) {
+            if (maskj > lm) {
+                mon_out(" ");
+            } else if (sh & maskj) {
+                mon_out("1");
+            } else {
+                mon_out("0");
+            }
+        }
+        mon_out("\n");
+    }
+
+    return 0;
+}
+
 void petmem_reset(void)
 {
     spet_ramen = 1;
@@ -1318,12 +1347,15 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
       case bank_default:        /* current */
         return mem_read(addr);
         break;
-      case bank_extram:         /* extended RAM area (8x96) */
+      case bank_extram:         /* extended RAM area (8x96, SuperPET) */
         return mem_ram[addr + 0x10000];
         break;
       case bank_io:            /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
             return read_io(addr);
+        }
+        if (petres.superpet && (addr & 0xff00) == 0xef00) {
+            return read_super_io(addr);
         }
         if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
             return read_unused(addr);
@@ -1351,6 +1383,9 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
         if (addr >= 0xe800 && addr < 0xe900) {
             return peek_bank_io(addr);
         }
+        if (petres.superpet && (addr & 0xff00) == 0xef00) {
+            return read_super_io(addr);
+        }
         if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
             BYTE result;
             /* is_peek_access = 1; FIXME */
@@ -1374,6 +1409,10 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
       case bank_io:             /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
             store_io(addr, byte);
+            return;
+        }
+        if (petres.superpet && (addr & 0xff00) == 0xef00) {
+            store_super_io(addr, byte);
             return;
         }
         if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
@@ -1413,6 +1452,32 @@ static int mem_dump_io(WORD addr) {
             return fff0_dump();
         }
     }
+    if (petres.superpet) {
+        if (addr >= 0xefe0 && addr <= 0xefe3) {
+            return efe0_dump();
+        } else if (addr >= 0xeff0 && addr <= 0xeff3) {
+            // ACIA
+        } else if (addr == 0xeff8) {
+            // Control switch
+            /* return aciacore_dump(); */
+            mon_out("CPU: %s\n",
+                petres.superpet_cpu_switch == SUPERPET_CPU_6502 ? "6502" :
+                petres.superpet_cpu_switch == SUPERPET_CPU_6809 ? "6809" :
+                                                            "PROG (unimpl)");
+            mon_out("RAM write protect: $%x\n", spet_ramwp);
+            mon_out("diagnostic sense: $%x\n", spet_diag);
+            return 0;
+        } else if (addr == 0xeffc) {
+            // Bank select
+            mon_out("bank: $%x\n", spet_bank);
+            mon_out("control write protect: $%x\n", spet_ctrlwp);
+            return 0;
+        } else if (addr == 0xeffe) {
+            // RAM/ROM switch
+            mon_out("ram_enable: %d\n", spet_ramen);
+            return 0;
+        }
+    }
     return -1;
 }
 
@@ -1431,6 +1496,13 @@ mem_ioreg_list_t *mem_ioreg_list_get(void *context)
     }
     if (petres.map) {
         mon_ioreg_add_list(&mem_ioreg_list, "8096", 0xfff0, 0xfff0, mem_dump_io);
+    }
+    if (petres.superpet) {
+        mon_ioreg_add_list(&mem_ioreg_list, "6702", 0xefe0, 0xefe3, mem_dump_io);
+        mon_ioreg_add_list(&mem_ioreg_list, "ACIA", 0xeff0, 0xeff3, mem_dump_io);
+        mon_ioreg_add_list(&mem_ioreg_list, "Control", 0xeff8, 0xeff8, mem_dump_io);
+        mon_ioreg_add_list(&mem_ioreg_list, "Bank", 0xeffc, 0xeffc, mem_dump_io);
+        mon_ioreg_add_list(&mem_ioreg_list, "RAM/ROM", 0xeffe, 0xeffe, mem_dump_io);
     }
 
     return mem_ioreg_list;
