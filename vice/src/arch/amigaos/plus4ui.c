@@ -37,6 +37,7 @@
 #include "plus4uires.h"
 #include "uicart.h"
 #include "lib.h"
+#include "cartridge.h"
 #include "intl.h"
 #include "translate.h"
 
@@ -60,68 +61,31 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
 };
 
 static const uicart_params_t plus4_ui_cartridges[] = {
-    {
-        IDM_CART_ATTACH_FUNCLO,
-        0,
-        IDS_ATTACH_FUNCTION_LOW_CART,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_ATTACH_FUNCHI,
-        0,
-        IDS_ATTACH_FUNCTION_HIGH_CART,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_ATTACH_C1LO,
-        0,
-        IDS_ATTACH_CART1_LOW,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_ATTACH_C1HI,
-        0,
-        IDS_ATTACH_CART1_HIGH,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_ATTACH_C2LO,
-        0,
-        IDS_ATTACH_CART2_LOW,
-        UILIB_FILTER_ALL
-    },
-    {
-        IDM_CART_ATTACH_C2HI,
-        0,
-        IDS_ATTACH_CART2_HIGH,
-        UILIB_FILTER_ALL
-    },
-    {
-        0, 0, 0, 0
-    }
+    { IDM_CART_PLUS4_SMART_ATTACH, 0, IDS_SELECT_CARTRIDGE_IMAGE, UILIB_FILTER_ALL },
+    { IDM_CART_ATTACH_C1LO, 0, IDS_ATTACH_CART1_LOW, UILIB_FILTER_ALL },
+    { IDM_CART_ATTACH_C1HI, 0, IDS_ATTACH_CART1_HIGH, UILIB_FILTER_ALL },
+    { IDM_CART_ATTACH_C2LO, 0, IDS_ATTACH_CART2_LOW, UILIB_FILTER_ALL },
+    { IDM_CART_ATTACH_C2HI, 0, IDS_ATTACH_CART2_HIGH, UILIB_FILTER_ALL },
+    { 0, 0, 0, 0 }
 };
 
 static int uiplus4cart_attach_image(int type, char *s)
 {
     switch (type) {
-        case IDM_CART_ATTACH_FUNCLO:
-            resources_set_string("FunctionLowName", s);
-            return plus4cart_load_func_lo(s);
-        case IDM_CART_ATTACH_FUNCHI:
-            resources_set_string("FunctionHighName", s);
-            return plus4cart_load_func_hi(s);
+        case IDM_CART_PLUS4_SMART_ATTACH:
+            return cartridge_attach_image(CARTRIDGE_PLUS4_DETECT, s);
+        case IDM_CART_ATTACH_C0LO:
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C0LO, s);
+        case IDM_CART_ATTACH_C0HI:
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C0HI, s);
         case IDM_CART_ATTACH_C1LO:
-            resources_set_string("c1loName", s);
-            return plus4cart_load_c1lo(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C1LO, s);
         case IDM_CART_ATTACH_C1HI:
-            resources_set_string("c1hiName", s);
-            return plus4cart_load_c1hi(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C1HI, s);
         case IDM_CART_ATTACH_C2LO:
-            resources_set_string("c2loName", s);
-            return plus4cart_load_c2lo(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C2LO, s);
         case IDM_CART_ATTACH_C2HI:
-            resources_set_string("c2hiName", s);
-            return plus4cart_load_c2hi(s);
+            return cartridge_attach_image(CARTRIDGE_PLUS4_16KB_C2HI, s);
     }
     return -1;
 }
@@ -174,8 +138,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_PLUS_MODEL_C232_NTSC:
             plus4model_set(PLUS4MODEL_232_NTSC);
             break;
-        case IDM_CART_ATTACH_FUNCLO:
-        case IDM_CART_ATTACH_FUNCHI:
+        case IDM_CART_PLUS4_SMART_ATTACH:
         case IDM_CART_ATTACH_C1LO:
         case IDM_CART_ATTACH_C1HI:
         case IDM_CART_ATTACH_C2LO:
@@ -183,7 +146,7 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             uiplus4cart_attach(canvas, idm, plus4_ui_cartridges);
             break;
         case IDM_CART_DETACH:
-            plus4cart_detach_cartridges();
+            cartridge_detach_image(-1);
             break;
         case IDM_PLUS4_SETTINGS:
             ui_plus4_settings_dialog();
