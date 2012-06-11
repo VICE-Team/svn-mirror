@@ -39,8 +39,8 @@ static video_canvas_t *rom_canvas;
 static ui_to_from_t ui_to_from_computer[] = {
     { NULL, MUI_TYPE_FILENAME, "KernalName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_FILENAME, "BasicName", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "3plus1loName", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_FILENAME, "3plus1hiName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "FunctionLowName", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_FILENAME, "FunctionHighName", NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 
@@ -79,8 +79,8 @@ static APTR build_computer_gui(void)
     ui = GroupObject,
            FILENAME(ui_to_from_computer[0].object, "Kernal", hook_object_computer[0])
            FILENAME(ui_to_from_computer[1].object, "Basic", hook_object_computer[1])
-           FILENAME(ui_to_from_computer[2].object, "3+1 Lo", hook_object_computer[2])
-           FILENAME(ui_to_from_computer[3].object, "3+1 Hi", hook_object_computer[3])
+           FILENAME(ui_to_from_computer[2].object, "Function Lo", hook_object_computer[2])
+           FILENAME(ui_to_from_computer[3].object, "Function Hi", hook_object_computer[3])
            OK_CANCEL_BUTTON
          End;
 
