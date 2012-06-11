@@ -120,22 +120,22 @@ static void uiplus4cart_attach(video_canvas_t *canvas, int idm, const uicart_par
 static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
-        case IDM_PLUS_MODEL_C16_PAL:
+        case IDM_PLUS_MODEL4_C16_PAL:
             plus4model_set(PLUS4MODEL_C16_PAL);
             break;
-        case IDM_PLUS_MODEL_C16_NTSC:
+        case IDM_PLUS_MODEL4_C16_NTSC:
             plus4model_set(PLUS4MODEL_C16_NTSC);
             break;
-        case IDM_PLUS_MODEL_PLUS4_PAL:
+        case IDM_PLUS_MODEL4_PLUS4_PAL:
             plus4model_set(PLUS4MODEL_PLUS4_PAL);
             break;
-        case IDM_PLUS_MODEL_PLUS4_NTSC:
+        case IDM_PLUS_MODEL4_PLUS4_NTSC:
             plus4model_set(PLUS4MODEL_PLUS4_NTSC);
             break;
-        case IDM_PLUS_MODEL_V364_NTSC:
+        case IDM_PLUS_MODEL4_V364_NTSC:
             plus4model_set(PLUS4MODEL_V364_NTSC);
             break;
-        case IDM_PLUS_MODEL_C232_NTSC:
+        case IDM_PLUS_MODEL4_C232_NTSC:
             plus4model_set(PLUS4MODEL_232_NTSC);
             break;
         case IDM_CART_PLUS4_SMART_ATTACH:
