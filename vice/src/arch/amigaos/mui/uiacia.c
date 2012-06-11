@@ -161,6 +161,13 @@ static ui_to_from_t ui_to_from20[] = {
     UI_END /* mandatory */
 };
 
+static ui_to_from_t ui_to_from4[] = {
+    { NULL, MUI_TYPE_CYCLE, "Acia1Enable", ui_acia_enable, ui_acia_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "Acia1Irq", ui_acia_interrupt, ui_acia_interrupt_values, NULL },
+    UI_END /* mandatory */
+};
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "Acia1Dev", ui_acia_device, ui_acia_device_values, NULL },
     UI_END /* mandatory */
@@ -199,6 +206,15 @@ static APTR build_gui20(void)
            End;
 }
 
+static APTR build_gui4(void)
+{
+    return GroupObject,
+             CYCLE(ui_to_from20[0].object, "ACIA", ui_acia_enable)
+             CYCLE(ui_to_from20[1].object, translate_text(IDS_ACIA_DEVICE), ui_acia_device)
+             CYCLE(ui_to_from20[2].object, translate_text(IDS_ACIA_INTERRUPT), ui_acia_interrupt)
+           End;
+}
+
 static APTR build_gui(void)
 {
     return GroupObject,
@@ -234,4 +250,12 @@ void ui_acia20_settings_dialog(void)
     intl_convert_mui_table(ui_acia_device_translate, ui_acia_device);
     intl_convert_mui_table(ui_acia_interrupt_translate, ui_acia_interrupt);
     mui_show_dialog(build_gui20(), translate_text(IDS_ACIA_SETTINGS), ui_to_from20);
+}
+
+void ui_acia4_settings_dialog(void)
+{
+    intl_convert_mui_table(ui_acia_enable_translate, ui_acia_enable);
+    intl_convert_mui_table(ui_acia_device_translate, ui_acia_device);
+    intl_convert_mui_table(ui_acia_interrupt_translate, ui_acia_interrupt);
+    mui_show_dialog(build_gui4(), translate_text(IDS_ACIA_SETTINGS), ui_to_from4);
 }
