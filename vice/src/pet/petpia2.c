@@ -48,6 +48,7 @@
 #define mypia_snapshot_write_module pia2_snapshot_write_module
 #define mypia_snapshot_read_module pia2_snapshot_read_module
 #define mypia_signal pia2_signal
+#define mypia_dump pia2_dump
 
 static piareg mypia;
 

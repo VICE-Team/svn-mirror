@@ -1434,9 +1434,9 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 
 static int mem_dump_io(WORD addr) {
     if ((addr >= 0xe810) && (addr <= 0xe81f)) {
-        /* return piacore_dump(machine_context.pia1); */ /* FIXME */
+        return pia1_dump();
     } else if ((addr >= 0xe820) && (addr <= 0xe82f)) {
-        /* return piacore_dump(machine_context.pia2); */ /* FIXME */
+        return pia2_dump();
     } else if ((addr >= 0xe840) && (addr <= 0xe84f)) {
         return viacore_dump(machine_context.via);
     } else if ((addr >= 0xe880) && (addr <= 0xe881)) {
@@ -1445,7 +1445,7 @@ static int mem_dump_io(WORD addr) {
         }
     } else if ((addr >= 0xeb00) && (addr <= 0xeb0f)) {
         if (petdww_enabled) {
-            /* return dwwpiacore_dump(machine_context.dwwpia); */ /* FIXME */
+            return petdwwpia_dump();
         }
     } else if (addr == 0xfff0) {
         if (petres.map) {

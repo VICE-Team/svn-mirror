@@ -217,10 +217,11 @@ BYTE mypia_read(WORD addr)
                 mypia.ctrl_a &= 0x3f;           /* Clear CA1,CA2 IRQ */
                 mypia_update_irq();
             }
-            /* WARNING: this pin reads the voltage of the output pins, not
-               the ORA value as the other port. Value read might be different
-               from what is expected due to excessive electrical load on the
-               pin. */
+            /* WARNING: for output pins, this port reads the voltage of
+             * the output pins, not the ORA value as the other port.
+             * Value read might be different from what is expected due
+             * to excessive electrical load on the pin.
+             */
             byte = read_pa();
             pia_last_read = byte;
             return byte;
@@ -237,7 +238,7 @@ BYTE mypia_read(WORD addr)
                 mypia_update_irq();
             }
 
-            /* WARNING: this pin reads the ORA for output pins, not
+            /* WARNING: this port reads the ORB for output pins, not
                the voltage on the pins as the other port. */
             byte = read_pb();
             pia_last_read = (byte & ~mypia.ddr_b)
@@ -278,6 +279,109 @@ BYTE mypia_peek(WORD addr)
     return t;
 }
 
+int mypia_dump(void)
+{
+    mon_out("port_a: %02x  port_b: %02x   (written bits only)\n", mypia.port_a, mypia.port_b);
+    mon_out(" ddr_a: %02x   ddr_b: %02x   (1 bits are outputs)\n", mypia. ddr_a, mypia. ddr_b);
+    mon_out("ctrl_a: %02x  ctrl_b: %02x\n", mypia.ctrl_a, mypia.ctrl_b);
+    mon_out("   ca2: %2x     cb2: %2x\n", mypia.ca_state, mypia.cb_state);
+    mon_out("CA1 active transition: %d\n", (mypia.ctrl_a & 0x80) >> 7);
+    mon_out("CA2 active transition: %d\n", (mypia.ctrl_a & 0x40) >> 6);
+
+    if (mypia.ctrl_a & 0x20) {
+        mon_out("CA2: out, ");
+        if (mypia.ctrl_a & 0x10) {
+            mon_out("manual, ");
+            if (mypia.ctrl_a & 0x08) {
+                mon_out("high\n");
+            } else {
+                mon_out("low\n");
+            }
+        } else {
+            mon_out("handshake ");
+            if (mypia.ctrl_a & 0x08) {
+                mon_out("pulse\n");
+            } else {
+                mon_out("on read (to 0)/CA1 (to 1)\n");
+            }
+        }
+    } else {
+        mon_out("CA2: in, ");
+        if (mypia.ctrl_a & 0x10) {
+            mon_out("active high, ");
+        } else {
+            mon_out("active low, ");
+        }
+        if (mypia.ctrl_a & 0x08) {
+            mon_out("IRQ on\n");
+        } else {
+            mon_out("IRQ off\n");
+        }
+    }
+    if (mypia.ctrl_a & 0x04) {
+        mon_out("IORA visible\n");
+    } else {
+        mon_out("DDRA visible\n");
+    }
+    if (mypia.ctrl_a & 0x02) {
+        mon_out("CA1: active high, ");
+    } else {
+        mon_out("CA1: active low, ");
+    }
+    if (mypia.ctrl_a & 0x01) {
+        mon_out("IRQ on\n");
+    } else {
+        mon_out("IRQ off\n");
+    }
+
+    mon_out("CB1 active transition: %d\n", (mypia.ctrl_b & 0x80) >> 7);
+    mon_out("CB2 active transition: %d\n", (mypia.ctrl_b & 0x40) >> 6);
+    if (mypia.ctrl_b & 0x20) {
+        mon_out("CB2: out, ");
+        if (mypia.ctrl_b & 0x10) {
+            mon_out("manual, ");
+            if (mypia.ctrl_b & 0x08) {
+                mon_out("high\n");
+            } else {
+                mon_out("low\n");
+            }
+        } else {
+            mon_out("handshake ");
+            if (mypia.ctrl_b & 0x08) {
+                mon_out("pulse\n");
+            } else {
+                mon_out("on write (to 0)/CB1 (to 1)\n");
+            }
+        }
+    } else {
+        mon_out("CB2: in, ");
+        if (mypia.ctrl_b & 0x10) {
+            mon_out("active high, ");
+        } else {
+            mon_out("active low, ");
+        }
+        if (mypia.ctrl_b & 0x08) {
+            mon_out("IRQ on\n");
+        } else {
+            mon_out("IRQ off\n");
+        }
+    }
+    if (mypia.ctrl_b & 0x04) {
+        mon_out("IORB visible\n");
+    } else {
+        mon_out("DDRB visible\n");
+    }
+    if (mypia.ctrl_b & 0x02) {
+        mon_out("CB1: active high, ");
+    } else {
+        mon_out("CB1: active low, ");
+    }
+    if (mypia.ctrl_b & 0x01) {
+        mon_out("IRQ on\n");
+    } else {
+        mon_out("IRQ off\n");
+    }
+}
 
 /*------------------------------------------------------------------------*/
 

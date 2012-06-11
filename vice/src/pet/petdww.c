@@ -332,13 +332,13 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
     for (i = 0x90; i < 0xb0; i++) {
         save_mem_read_tab[i - 0x90] = mem_read_tab[i];
         save_mem_write_tab[i - 0x90] = mem_write_tab[i];
-	save_mem_base_tab[i - 0x90] = mem_base_tab[i];
-	save_mem_limit_tab[i - 0x90] = mem_limit_tab[i];
+        save_mem_base_tab[i - 0x90] = mem_base_tab[i];
+        save_mem_limit_tab[i - 0x90] = mem_limit_tab[i];
 
         mem_read_tab[i] = dww_ram9000_read;
         mem_write_tab[i] = dww_ram9000_store;
-	mem_base_tab[i] = &petdww_ram[(i - 0x90) << 8];
-	mem_limit_tab[i] = 0xaffd;
+        mem_base_tab[i] = &petdww_ram[(i - 0x90) << 8];
+        mem_limit_tab[i] = 0xaffd;
 
     }
     invalidate_mem_limit(0x9000, 0xb000);
@@ -357,10 +357,10 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
         for (i = 0x90; i < 0xb0; i++) {
             mem_read_tab[i] = save_mem_read_tab[i - 0x90];
             mem_write_tab[i] = save_mem_write_tab[i - 0x90];
-	    mem_base_tab[i] = save_mem_base_tab[i - 0x90];
-	    mem_limit_tab[i] = save_mem_limit_tab[i - 0x90];
+            mem_base_tab[i] = save_mem_base_tab[i - 0x90];
+            mem_limit_tab[i] = save_mem_limit_tab[i - 0x90];
         }
-	invalidate_mem_limit(0x9000, 0xb000);
+        invalidate_mem_limit(0x9000, 0xb000);
     }
 #if DWW_DEBUG_RAM
     else {
@@ -382,6 +382,7 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
 #define mypia_snapshot_write_module petdwwpia_snapshot_write_module
 #define mypia_snapshot_read_module petdwwpia_snapshot_read_module
 #define mypia_signal petdwwpia_signal
+#define mypia_dump petdwwpia_dump
 
 static piareg mypia;
 
@@ -568,8 +569,8 @@ static void store_pb(BYTE byte)
     {
         read_func_ptr_t *read;
         store_func_ptr_t *write;
-	BYTE **base;
-	int *limit;
+        BYTE **base;
+        int *limit;
 
         get_mem_access_tables(&read, &write, &base, &limit);
 

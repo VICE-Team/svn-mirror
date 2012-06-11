@@ -70,6 +70,7 @@ extern int petdww_snapshot_read_module(struct snapshot_s *);
 extern int petdww_snapshot_write_module(struct snapshot_s *);
 
 extern int petdww_mem_at_9000(void);
+extern int petdwwpia_dump(void);
 
 #endif
 
