@@ -340,11 +340,8 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
             if (rptr->so_delay) {
                 rptr->so_delay -= todo;
                 if (!rptr->so_delay) {
-                    /* BYTE READY signal if enabled */
-                    if ((dptr->byte_ready_active & 2) != 0) {
-                        dptr->byte_ready_edge = 1;
-                        dptr->byte_ready_level = 1;
-                    }
+                    dptr->byte_ready_edge = 1;
+                    dptr->byte_ready_level = 1;
                 }
             }
 
@@ -400,10 +397,13 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                             dptr->GCR_read = (BYTE) rptr->last_read_data;
                             rptr->last_write_data = dptr->GCR_read;
 
-                            rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
-                            if (rptr->so_delay < 10) {
-                                rptr->so_delay += 16;
-                            }
+                           /* BYTE READY signal if enabled */
+                           if ((dptr->byte_ready_active & 2) != 0) {
+                                rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
+                                if (rptr->so_delay < 10) {
+                                    rptr->so_delay += 16;
+                                }
+                           }
 
                         }
                     }
@@ -417,8 +417,10 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
             if (rptr->accum >= count_new_bitcell) {
                 rptr->accum -= count_new_bitcell;
                 if (read_next_bit(dptr)) {
-                    /* reset 2.5 microsecond flux filter */
-                    rotation[dnr].filter_counter = 0;
+                    /* reset 2.5 microsecond flux filter to a fake most ready state, because the
+                     * most GCR-based images are almost clean already
+                     */
+                    rotation[dnr].filter_counter = 39;
                     rotation[dnr].filter_state = rotation[dnr].filter_state ^ 1;
                 }
             }
@@ -452,11 +454,8 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
             if (rptr->so_delay) {
                 rptr->so_delay -= todo;
                 if (!rptr->so_delay) {
-                    /* BYTE READY signal if enabled */
-                    if ((dptr->byte_ready_active & 2) != 0) {
-                        dptr->byte_ready_edge = 1;
-                        dptr->byte_ready_level = 1;
-                    }
+                    dptr->byte_ready_edge = 1;
+                    dptr->byte_ready_level = 1;
                 }
             }
 
@@ -483,9 +482,12 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 
                         rptr->last_write_data = dptr->GCR_write_value;
 
-                        rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
-                        if (rptr->so_delay < 10) {
-                            rptr->so_delay += 16;
+                        /* BYTE READY signal if enabled */
+                        if ((dptr->byte_ready_active & 2) != 0) {
+                            rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
+                            if (rptr->so_delay < 10) {
+                                rptr->so_delay += 16;
+                            }
                         }
 
                     }
@@ -626,11 +628,8 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                     if (rptr->so_delay) {
                         rptr->so_delay -= ToDo;
                         if (!rptr->so_delay) {
-                           /* BYTE READY signal if enabled */
-                           if ((dptr->byte_ready_active & 2) != 0) {
-                              dptr->byte_ready_edge = 1;
-                              dptr->byte_ready_level = 1;
-                           }
+                            dptr->byte_ready_edge = 1;
+                            dptr->byte_ready_level = 1;
                         }
                     }
                 }
@@ -688,10 +687,14 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                                          * to guess that it would be loaded with whatever was last read. */
                                         rptr->last_write_data = dptr->GCR_read;
 
-                                        rptr->so_delay = 16 - ((cycle_index + (ToDo - 1)) & 15);
-                                        if (rptr->so_delay < 10) {
-                                            rptr->so_delay += 16;
+                                        /* BYTE READY signal if enabled */
+                                        if ((dptr->byte_ready_active & 2) != 0) {
+                                            rptr->so_delay = 16 - ((cycle_index + (ToDo - 1)) & 15);
+                                            if (rptr->so_delay < 10) {
+                                               rptr->so_delay += 16;
+                                            }
                                         }
+
                                    }
                                 }
                             }
@@ -780,6 +783,9 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                     if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
                         ToDo = 16 - rptr->ue7_counter;
                     }
+                    if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
+                        ToDo = rptr->so_delay;
+                    }
 
                 }
                 /****************************************************************************************************************************************/
@@ -788,11 +794,8 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                     if (rptr->so_delay) {
                         rptr->so_delay -= ToDo;
                         if (!rptr->so_delay) {
-                           /* BYTE READY signal if enabled */
-                           if ((dptr->byte_ready_active & 2) != 0) {
-                              dptr->byte_ready_edge = 1;
-                              dptr->byte_ready_level = 1;
-                           }
+                            dptr->byte_ready_edge = 1;
+                            dptr->byte_ready_level = 1;
                         }
                     }
                 }
@@ -845,9 +848,12 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
 
                                 rptr->last_write_data = dptr->GCR_write_value;
 
-                                rptr->so_delay = 16 - ((cycle_index + (ToDo - 1)) & 15);
-                                if (rptr->so_delay < 10) {
-                                    rptr->so_delay += 16;
+                                /* BYTE READY signal if enabled */
+                                if ((dptr->byte_ready_active & 2) != 0) {
+                                    rptr->so_delay = 16 - ((cycle_index + (ToDo - 1)) & 15);
+                                    if (rptr->so_delay < 10) {
+                                        rptr->so_delay += 16;
+                                    }
                                 }
 
                             }
@@ -866,6 +872,7 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                     /* Delete all gap flux pulses */
                     if (LastPulseHeadPosition < P64PulseSamplesPerRotation) {
                         P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, P64PulseSamplesPerRotation - LastPulseHeadPosition);
+                        dptr->P64_dirty = 1;
                     }
 
                     LastPulseHeadPosition = 0;
@@ -886,6 +893,7 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
             /* Delete all gap flux pulses */
             if (LastPulseHeadPosition < NextPulseHeadPosition) {
                 P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, NextPulseHeadPosition - LastPulseHeadPosition);
+                dptr->P64_dirty = 1;
             }
 
         }
