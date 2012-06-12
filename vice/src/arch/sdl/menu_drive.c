@@ -481,33 +481,76 @@ static UI_MENU_CALLBACK(set_extend_callback)
     return NULL;
 }
 
+#define DRIVE_SHOW_PARALLEL_CALLBACK(x)                         \
+    static UI_MENU_CALLBACK(drive_##x##_show_parallel_callback) \
+    {                                                           \
+        int type;                                               \
+                                                                \
+        type = get_drive_type(x);                               \
+                                                                \
+        if (drive_check_parallel_cable(type)) {                 \
+            return "->";                                        \
+        }                                                       \
+        return "(N/A)";                                         \
+    }
+
+DRIVE_SHOW_PARALLEL_CALLBACK(8)
+DRIVE_SHOW_PARALLEL_CALLBACK(9)
+DRIVE_SHOW_PARALLEL_CALLBACK(10)
+DRIVE_SHOW_PARALLEL_CALLBACK(11)
+
 static UI_MENU_CALLBACK(set_par_callback)
 {
-    int drive;
+    int drive, type;
     int current;
     int par;
 
-    drive = vice_ptr_to_int(param);
-
+    drive = vice_ptr_to_int(param) >> 16;
+    type = vice_ptr_to_int(param) & 0x0f;
     current = get_drive_type(drive);
 
     if (activated) {
         if (machine_class != VICE_MACHINE_VIC20 && drive_check_parallel_cable(current)) {
-            resources_get_int_sprintf("Drive%iParallelCable", &par, drive);
-            resources_set_int_sprintf("Drive%iParallelCable", !par, drive);
+            resources_set_int_sprintf("Drive%iParallelCable", type, drive);
         }
     } else {
         if (machine_class == VICE_MACHINE_VIC20 || !drive_check_parallel_cable(current)) {
             return "(N/A)";
         } else {
             resources_get_int_sprintf("Drive%iParallelCable", &par, drive);
-            if (par) {
+            if (par == type) {
                 return sdl_menu_text_tick;
             }
         }
     }
     return NULL;
 }
+
+#define DRIVE_PARALLEL_MENU(x)                                       \
+    static const ui_menu_entry_t drive_##x##_parallel_menu[] = {     \
+        { "None",                                                    \
+          MENU_ENTRY_OTHER,                                          \
+          set_par_callback,                                          \
+          (ui_callback_data_t)(DRIVE_PC_NONE + (x * 0x10000)) },     \
+        { "Standard",                                                \
+          MENU_ENTRY_OTHER,                                          \
+          set_par_callback,                                          \
+          (ui_callback_data_t)(DRIVE_PC_STANDARD + (x * 0x10000)) }, \
+        { "Dolphin DOS",                                             \
+          MENU_ENTRY_OTHER,                                          \
+          set_par_callback,                                          \
+          (ui_callback_data_t)(DRIVE_PC_DD3 + (x * 0x10000)) },      \
+        { "Formel 64",                                               \
+          MENU_ENTRY_OTHER,                                          \
+          set_par_callback,                                          \
+          (ui_callback_data_t)(DRIVE_PC_FORMEL64 + (x * 0x10000)) }, \
+        SDL_MENU_LIST_END                                            \
+    };
+
+DRIVE_PARALLEL_MENU(8)
+DRIVE_PARALLEL_MENU(9)
+DRIVE_PARALLEL_MENU(10)
+DRIVE_PARALLEL_MENU(11)
 
 static UI_MENU_CALLBACK(set_expand_callback)
 {
@@ -879,12 +922,13 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
           drive_##x##_show_idle_callback,                \
           (ui_callback_data_t)drive_##x##_idle_menu },   \
         { "Drive " #x " parallel cable",                 \
-          MENU_ENTRY_OTHER,                              \
-          set_par_callback,                              \
-          (ui_callback_data_t)x},                        \
+          MENU_ENTRY_SUBMENU,                            \
+          drive_##x##_show_parallel_callback,                \
+          (ui_callback_data_t)drive_##x##_parallel_menu },   \
         DRIVE_MENU_RAWDRIVE_ITEM                         \
         SDL_MENU_LIST_END                                \
     };
+
 
 DRIVE_MENU(8)
 DRIVE_MENU(9)
