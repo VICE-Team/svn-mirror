@@ -35,6 +35,7 @@
 #include "menu_joystick.h"
 #include "menu_ram.h"
 #include "menu_rom.h"
+#include "petmodel.h"
 
 #ifdef HAVE_RS232
 #include "menu_rs232.h"
@@ -168,121 +169,38 @@ static const ui_menu_entry_t petdww_menu[] = {
 
 /* PET MODEL SELECTION */
 
-enum {
-    PET_MODEL_2001_8N,
-    PET_MODEL_3008,
-    PET_MODEL_3016,
-    PET_MODEL_3032,
-    PET_MODEL_3032B,
-    PET_MODEL_4016,
-    PET_MODEL_4032,
-    PET_MODEL_4032B,
-    PET_MODEL_8032,
-    PET_MODEL_8096,
-    PET_MODEL_8296,
-    PET_MODEL_SUPERPET
-};
-
-static UI_MENU_CALLBACK(select_pet_model_callback)
+static UI_MENU_CALLBACK(custom_PETModel_callback)
 {
-    int model;
+    int model, selected;
 
-    model = vice_ptr_to_int(param);
+    selected = vice_ptr_to_int(param);
+
     if (activated) {
-        switch (model) {
-            case PET_MODEL_2001_8N:
-                pet_set_model("2001", NULL);
-                break;
-            case PET_MODEL_3008:
-                pet_set_model("3008", NULL);
-                break;
-            case PET_MODEL_3016:
-                pet_set_model("3016", NULL);
-                break;
-            case PET_MODEL_3032:
-                pet_set_model("3032", NULL);
-                break;
-            case PET_MODEL_3032B:
-                pet_set_model("3032B", NULL);
-                break;
-            case PET_MODEL_4016:
-                pet_set_model("4016", NULL);
-                break;
-            case PET_MODEL_4032:
-                pet_set_model("4032", NULL);
-                break;
-            case PET_MODEL_4032B:
-                pet_set_model("4032B", NULL);
-                break;
-            case PET_MODEL_8032:
-                pet_set_model("8032", NULL);
-                break;
-            case PET_MODEL_8096:
-                pet_set_model("8096", NULL);
-                break;
-            case PET_MODEL_8296:
-                pet_set_model("8296", NULL);
-                break;
-            default:
-            case PET_MODEL_SUPERPET:
-                pet_set_model("SuperPET", NULL);
-                break;
+        petmodel_set(selected);
+    } else {
+        model = petmodel_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
         }
-        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
-        return sdl_menu_text_exit_ui;
     }
+
     return NULL;
 }
 
 static const ui_menu_entry_t pet_model_menu[] = {
-    { "PET 2001-8N",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_2001_8N },
-    { "PET 3008",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_3008 },
-    { "PET 3016",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_3016 },
-    { "PET 3032",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_3032 },
-    { "PET 3032B",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_3032B },
-    { "PET 4016",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_4016 },
-    { "PET 4032",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_4032 },
-    { "PET 4032B",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_4032B },
-    { "PET 8032",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_8032 },
-    { "PET 8096",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_8096 },
-    { "PET 8296",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_8296 },
-    { "SUPERPET",
-      MENU_ENTRY_OTHER,
-      select_pet_model_callback,
-      (ui_callback_data_t)PET_MODEL_SUPERPET },
+    { "2001", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_2001 },
+    { "3008", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_3008 },
+    { "3016", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_3016 },
+    { "3032", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_3032 },
+    { "3032B", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_3032B },
+    { "4016", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_4016 },
+    { "4032", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_4032 },
+    { "4032B", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_4032B },
+    { "8032", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_8032 },
+    { "8096", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_8096 },
+    { "8296", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_8296 },
+    { "Super PET", MENU_ENTRY_RESOURCE_RADIO, custom_PETModel_callback, (ui_callback_data_t)PETMODEL_SUPERPET },
     SDL_MENU_LIST_END
 };
 
