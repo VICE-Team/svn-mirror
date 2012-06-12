@@ -168,7 +168,7 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
 {
     drivevia2_context_t *via2p;
     int bra;
- 
+
     via2p = (drivevia2_context_t *)(via_context->prv);
 
     rotation_rotate_disk(via2p->drive);
@@ -288,6 +288,9 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
 
     via2p = (drivevia2_context_t *)(via_context->prv);
 
+    /* IF: add bus read delay */
+    via2p->drive->req_ref_cycles = BUS_READ_DELAY;
+
     rotation_byte_read(via2p->drive);
 
     byte = ((via2p->drive->GCR_read & ~(via_context->via[VIA_DDRA]))
@@ -304,6 +307,9 @@ static BYTE read_prb(via_context_t *via_context)
     drivevia2_context_t *via2p;
 
     via2p = (drivevia2_context_t *)(via_context->prv);
+
+    /* IF: add bus read delay */
+    via2p->drive->req_ref_cycles = BUS_READ_DELAY;
 
     rotation_rotate_disk(via2p->drive);
     byte = ((rotation_sync_found(via2p->drive)

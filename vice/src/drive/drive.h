@@ -198,7 +198,12 @@ typedef struct drive_s {
     DWORD snap_PulseHeadPosition;
     DWORD snap_xorShift32;
     DWORD snap_so_delay;
-    DWORD snap_bus_read_delay;
+    DWORD snap_cycle_index;
+    DWORD snap_ref_advance;
+    DWORD snap_req_ref_cycles;
+
+	  /* IF: requested additional R cycles */
+	  int req_ref_cycles;
 
     /* UI stuff.  */
     int old_led_status;
