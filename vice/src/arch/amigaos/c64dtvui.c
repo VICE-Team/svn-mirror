@@ -32,6 +32,7 @@
 
 #include "private.h"
 #include "c64ui.h"
+#include "c64dtvmodel.h"
 #include "c64dtvuires.h"
 #include "translate.h"
 
@@ -57,6 +58,21 @@ static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
 static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_C64DTV_MODEL_V2_PAL:
+            dtvmodel_set(DTVMODEL_V2_PAL);
+            break;
+        case IDM_C64DTV_MODEL_V2_NTSC:
+            dtvmodel_set(DTVMODEL_V2_NTSC);
+            break;
+        case IDM_C64DTV_MODEL_V3_PAL:
+            dtvmodel_set(DTVMODEL_V3_PAL);
+            break;
+        case IDM_C64DTV_MODEL_V3_NTSC:
+            dtvmodel_set(DTVMODEL_V3_NTSC);
+            break;
+        case IDM_C64DTV_MODEL_HUMMER_NTSC:
+            dtvmodel_set(DTVMODEL_HUMMER_NTSC);
+            break;
         case IDM_C64DTV_SETTINGS:
             ui_c64dtv_settings_dialog(canvas);
             break;
