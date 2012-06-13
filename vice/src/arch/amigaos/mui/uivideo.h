@@ -27,9 +27,23 @@
 #ifndef VICE_UIVIDEO_H
 #define VICE_UIVIDEO_H
 
-extern void ui_video_settings_dialog(video_canvas_t *canvas,
-                                     char *palext1_res, char *pal1file_res, char *pal1ext_name, char *pal1fname,
-                                     char *palext2_res, char *pal2file_res, char *pal2ext_name, char *pal2fname,
-                                     char *scale2_res);
+extern void ui_video_palette_settings_dialog(video_canvas_t *canvas,
+                                             char *palette_enable_res,
+                                             char *palette_filename_res,
+                                             char *palette_filename_text);
 
+extern void ui_video_color_settings_dialog(video_canvas_t *canvas,
+                                           char *gamma_res,
+                                           char *tint_res,
+                                           char *saturation_res,
+                                           char *contrast_res,
+                                           char *brightness_res);
+
+extern void ui_video_crt_settings_dialog(video_canvas_t *canvas,
+                                         char *scanline_shade_res,
+                                         char *blur_res,
+                                         char *oddline_phase_res,
+                                         char *oddline_offset_res);
+
+extern void ui_video_render_filter_settings_dialog(video_canvas_t *canvas, char *render_filter_res);
 #endif

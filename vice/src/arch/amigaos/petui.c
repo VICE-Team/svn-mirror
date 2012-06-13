@@ -51,6 +51,8 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "CrtcAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
+    { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { NULL, 0 }
 };
@@ -58,6 +60,18 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
 static int pet_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_PALETTE_SETTINGS:
+            ui_video_palette_settings_dialog(canvas, "CrtcExternalPalette", "CrtcPaletteFile", translate_text(IDS_CRTC_PALETTE_FILENAME));
+            break;
+        case IDM_COLOR_SETTINGS:
+            ui_video_color_settings_dialog(canvas, "CrtcColorGamma", "CrtcColorTint", "CrtcColorSaturation", "CrtcColorContrast", "CrtcColorBrightness");
+            break;
+        case IDM_RENDER_FILTER:
+            ui_video_render_filter_settings_dialog(canvas, "CrtcFilter");
+            break;
+        case IDM_CRT_EMULATION_SETTINGS:
+            ui_video_crt_settings_dialog(canvas, "CrtcPALScanLineShade", "CrtcPALBlur", "CrtcPALOddLinePhase", "CrtcPALOddLineOffset");
+            break;
         case IDM_PETREU_SETTINGS:
             ui_petreu_settings_dialog(canvas);
             break;
@@ -72,14 +86,6 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_ROM_SETTINGS:
             ui_pet_drive_rom_settings_dialog(canvas);
-            break;
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(canvas,
-                                     "CRTCExternalPalette", "CRTCPaletteFile",
-                                     translate_text(IDS_CRTC_EXTERNAL_PALETTE), translate_text(IDS_CRTC_PALETTE_NAME),
-                                     NULL, NULL,
-                                     NULL, NULL,
-                                     NULL);
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivepetcbm2_settings_dialog();

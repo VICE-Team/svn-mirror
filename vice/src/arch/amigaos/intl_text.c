@@ -1636,6 +1636,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DOUBLE_SCAN_SV, "Dubbelskanning" },
 /* tr */ { IDMS_DOUBLE_SCAN_TR, "Çift tarama" },
 
+/* en */ { IDMS_VERTICAL_STRETCH,    "Vertical stretch" },
+/* da */ { IDMS_VERTICAL_STRETCH_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VERTICAL_STRETCH_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VERTICAL_STRETCH_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VERTICAL_STRETCH_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VERTICAL_STRETCH_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VERTICAL_STRETCH_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VERTICAL_STRETCH_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VERTICAL_STRETCH_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VERTICAL_STRETCH_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VERTICAL_STRETCH_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VERTICAL_STRETCH_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VERTICAL_STRETCH_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_VDC_SETTINGS,    "VDC settings" },
 /* da */ { IDMS_VDC_SETTINGS_DA, "VDC-indstillinger" },
 /* de */ { IDMS_VDC_SETTINGS_DE, "VDC Einstellungen" },
@@ -2336,19 +2350,145 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_AUTOSTART_SETTINGS_SV, "Autostartinställningar..." },
 /* tr */ { IDMS_AUTOSTART_SETTINGS_TR, "Otomatik baþlatma ayarlarý..." },
 
-/* en */ { IDMS_VIDEO_SETTINGS,    "Video settings..." },
-/* da */ { IDMS_VIDEO_SETTINGS_DA, "Grafikindstillinger..." },
-/* de */ { IDMS_VIDEO_SETTINGS_DE, "Video Einstellungen..." },
-/* es */ { IDMS_VIDEO_SETTINGS_ES, "Ajustes de video..." },
-/* fr */ { IDMS_VIDEO_SETTINGS_FR, "Paramètres vidéo..." },
-/* hu */ { IDMS_VIDEO_SETTINGS_HU, "Videó beállításai..." },
-/* it */ { IDMS_VIDEO_SETTINGS_IT, "Impostazioni video..." },
-/* ko */ { IDMS_VIDEO_SETTINGS_KO, "ºñµð·Î ¼ÂÆÃ..." },
-/* nl */ { IDMS_VIDEO_SETTINGS_NL, "Video instellingen..." },
-/* pl */ { IDMS_VIDEO_SETTINGS_PL, "Ustawienia wideo..." },
-/* ru */ { IDMS_VIDEO_SETTINGS_RU, "½ÐáâàÞÙÚØ ÒØÔÕÞ..." },
-/* sv */ { IDMS_VIDEO_SETTINGS_SV, "Grafikinställningar..." },
-/* tr */ { IDMS_VIDEO_SETTINGS_TR, "Görüntü ayarlarý..." },
+/* en */ { IDMS_VICII_VIDEO_SETTINGS,    "VICII video settings..." },
+/* da */ { IDMS_VICII_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VICII_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VICII_VIDEO_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VICII_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VICII_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VICII_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VICII_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VICII_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VICII_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VICII_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VICII_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VICII_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_VIC_VIDEO_SETTINGS,    "VIC video settings..." },
+/* da */ { IDMS_VIC_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VIC_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VIC_VIDEO_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VIC_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VIC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VIC_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VIC_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VIC_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VIC_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VIC_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VIC_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_VDC_VIDEO_SETTINGS,    "VDC video settings..." },
+/* da */ { IDMS_VDC_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VDC_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VDC_VIDEO_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VDC_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VDC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VDC_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VDC_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VDC_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VDC_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VDC_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VDC_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VDC_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_CRTC_VIDEO_SETTINGS,    "CRTC video settings..." },
+/* da */ { IDMS_CRTC_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_CRTC_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_CRTC_VIDEO_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_CRTC_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_CRTC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_CRTC_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_CRTC_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_CRTC_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_CRTC_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_CRTC_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_CRTC_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_CRTC_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_TED_VIDEO_SETTINGS,    "TED video settings..." },
+/* da */ { IDMS_TED_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_TED_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_TED_VIDEO_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_TED_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_TED_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_TED_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_TED_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_TED_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_TED_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_TED_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_TED_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_TED_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_AUDIO_LEAK,    "Audio leak" },
+/* da */ { IDMS_AUDIO_LEAK_DA, "" },  /* fuzzy */
+/* de */ { IDMS_AUDIO_LEAK_DE, "" },  /* fuzzy */
+/* es */ { IDMS_AUDIO_LEAK_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_AUDIO_LEAK_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_AUDIO_LEAK_HU, "" },  /* fuzzy */
+/* it */ { IDMS_AUDIO_LEAK_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_AUDIO_LEAK_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_AUDIO_LEAK_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_AUDIO_LEAK_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_AUDIO_LEAK_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_AUDIO_LEAK_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_AUDIO_LEAK_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PALETTE_SETTINGS,    "Palette settings..." },
+/* da */ { IDMS_PALETTE_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PALETTE_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PALETTE_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PALETTE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PALETTE_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PALETTE_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PALETTE_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PALETTE_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PALETTE_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PALETTE_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PALETTE_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PALETTE_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_COLOR_SETTINGS,    "Color settings..." },
+/* da */ { IDMS_COLOR_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_COLOR_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_COLOR_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_COLOR_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_COLOR_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_COLOR_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_COLOR_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_COLOR_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_COLOR_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_COLOR_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_COLOR_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_COLOR_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_RENDER_FILTER,    "Render filter settings..." },
+/* da */ { IDMS_RENDER_FILTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_RENDER_FILTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_RENDER_FILTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_RENDER_FILTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_RENDER_FILTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_RENDER_FILTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_RENDER_FILTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_RENDER_FILTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_RENDER_FILTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_RENDER_FILTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_RENDER_FILTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_RENDER_FILTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_CRT_EMULATION_SETTINGS,    "CRT emulation settings..." },
+/* da */ { IDMS_CRT_EMULATION_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_CRT_EMULATION_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_CRT_EMULATION_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_CRT_EMULATION_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_CRT_EMULATION_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_CRT_EMULATION_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_CRT_EMULATION_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_CRT_EMULATION_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_CRT_EMULATION_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_CRT_EMULATION_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_CRT_EMULATION_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_CRT_EMULATION_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_VIC_SETTINGS,    "VIC settings..." },
 /* da */ { IDMS_VIC_SETTINGS_DA, "VIC-indstillinger..." },
@@ -7068,6 +7208,132 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_REU_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_REU_SETTINGS_SV, "REU-Inställningar" },
 /* tr */ { IDS_REU_SETTINGS_TR, "REU Ayarlarý" },
+
+/* en */ { IDS_PALETTE_SETTINGS,    "Palette settings" },
+/* da */ { IDS_PALETTE_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_PALETTE_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_PALETTE_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PALETTE_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PALETTE_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_PALETTE_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PALETTE_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PALETTE_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PALETTE_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PALETTE_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PALETTE_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PALETTE_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_COLOR_SETTINGS,    "Color settings" },
+/* da */ { IDS_COLOR_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_COLOR_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_COLOR_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_COLOR_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_COLOR_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_COLOR_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_COLOR_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_COLOR_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_COLOR_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_COLOR_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_COLOR_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_COLOR_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_RENDER_FILTER_SETTINGS,    "Render filter settings" },
+/* da */ { IDS_RENDER_FILTER_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_RENDER_FILTER_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_RENDER_FILTER_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_RENDER_FILTER_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RENDER_FILTER_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_RENDER_FILTER_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_RENDER_FILTER_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_RENDER_FILTER_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RENDER_FILTER_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_RENDER_FILTER_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_RENDER_FILTER_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RENDER_FILTER_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CRT_SETTINGS,    "CRT emulation settings" },
+/* da */ { IDS_CRT_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_CRT_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_CRT_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CRT_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CRT_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_CRT_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CRT_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CRT_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CRT_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CRT_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CRT_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CRT_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VICII_PALETTE_FILENAME,    "VICII palette file" },
+/* da */ { IDS_VICII_PALETTE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_VICII_PALETTE_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_VICII_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VICII_PALETTE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VICII_PALETTE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_VICII_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VICII_PALETTE_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VICII_PALETTE_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VICII_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VICII_PALETTE_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VICII_PALETTE_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VICII_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VIC_PALETTE_FILENAME,    "VIC palette file" },
+/* da */ { IDS_VIC_PALETTE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_VIC_PALETTE_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_VIC_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VIC_PALETTE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VIC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_VIC_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VIC_PALETTE_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VIC_PALETTE_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VIC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VIC_PALETTE_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VIC_PALETTE_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VIC_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_VDC_PALETTE_FILENAME,    "VDC palette file" },
+/* da */ { IDS_VDC_PALETTE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_VDC_PALETTE_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_VDC_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VDC_PALETTE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VDC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_VDC_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VDC_PALETTE_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VDC_PALETTE_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VDC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VDC_PALETTE_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VDC_PALETTE_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VDC_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_CRTC_PALETTE_FILENAME,    "CRTC palette file" },
+/* da */ { IDS_CRTC_PALETTE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_CRTC_PALETTE_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_CRTC_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CRTC_PALETTE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CRTC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_CRTC_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CRTC_PALETTE_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CRTC_PALETTE_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CRTC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CRTC_PALETTE_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CRTC_PALETTE_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CRTC_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_TED_PALETTE_FILENAME,    "TED palette file" },
+/* da */ { IDS_TED_PALETTE_FILENAME_DA, "" },  /* fuzzy */
+/* de */ { IDS_TED_PALETTE_FILENAME_DE, "" },  /* fuzzy */
+/* es */ { IDS_TED_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TED_PALETTE_FILENAME_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TED_PALETTE_FILENAME_HU, "" },  /* fuzzy */
+/* it */ { IDS_TED_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TED_PALETTE_FILENAME_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TED_PALETTE_FILENAME_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TED_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TED_PALETTE_FILENAME_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TED_PALETTE_FILENAME_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TED_PALETTE_FILENAME_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT,    "Select printer dump file" },
 /* da */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_DA, "Vælg udskriftsdumpfil" },

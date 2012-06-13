@@ -30,21 +30,22 @@
 #endif
 #include "mui.h"
 
-#include "uivideo.h"
+#include "uireu.h"
 #include "intl.h"
 #include "translate.h"
 
-static video_canvas_t *video_canvas;
+static video_canvas_t *video_canvas = NULL;
+static char *video_palette_filename_text = NULL;
 
-static int ui_external_palette_enable_translate[] = {
+static int ui_video_enable_translate[] = {
     IDMS_DISABLED,
     IDS_ENABLED,
     0
 };
 
-static char *ui_external_palette_enable[countof(ui_external_palette_enable_translate)];
+static char *ui_video_enable[countof(ui_video_enable_translate)];
 
-static const int ui_external_palette_enable_values[] = {
+static const int ui_video_enable_values[] = {
     0,
     1,
     -1
@@ -59,13 +60,12 @@ static int ui_render_filter_translate[] = {
 
 static char *ui_render_filter[countof(ui_render_filter_translate)];
 
-static int ui_render_filter_without_scale2x_translate[] = {
-    IDS_NONE,
-    IDS_CRT_EMULATION,
-    0
+static const int ui_render_filter_values[] = {
+    0,
+    1,
+    2,
+    -1
 };
-
-static char *ui_render_filter_without_scale2x[countof(ui_render_filter_without_scale2x_translate)];
 
 static int ui_range_0_4[] = {
     0,
@@ -82,120 +82,64 @@ static int ui_range_0_1[] = {
     1000
 };
 
-static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_FLOAT, "ColorGamma", NULL, ui_range_0_4, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorTint", NULL, ui_range_0_2, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorSaturation", NULL, ui_range_0_2, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorContrast", NULL, ui_range_0_2, NULL },
-    { NULL, MUI_TYPE_FLOAT, "ColorBrightness", NULL, ui_range_0_2, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALScanLineShade", NULL, ui_range_0_1, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALBlur", NULL, ui_range_0_1, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALOddLinePhase", NULL, ui_range_0_2, NULL },
-    { NULL, MUI_TYPE_FLOAT, "PALOddLineOffset", NULL, ui_range_0_2, NULL },
-    { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values, NULL }, /* resource placeholder for palette 1 */
-    { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL, NULL }, /* resource placeholder for palette 1 file */
-    { NULL, MUI_TYPE_CYCLE, NULL, ui_external_palette_enable, ui_external_palette_enable_values, NULL }, /* resource placeholder for palette 2 */
-    { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL, NULL }, /* resource placeholder for palette 2 file */
+static ui_to_from_t ui_to_from_palette[] = {
+    { NULL, MUI_TYPE_CYCLE, NULL, ui_video_enable, ui_video_enable_values, NULL },
+    { NULL, MUI_TYPE_FILENAME, NULL, NULL, NULL, NULL },
     UI_END /* mandatory */
 };
 
-static ULONG Browse1(struct Hook *hook, Object *obj, APTR arg)
+static ui_to_from_t ui_to_from_colors[] = {
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_4, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_2, NULL },
+    UI_END /* mandatory */
+};
+
+static ui_to_from_t ui_to_from_render_filter[] = {
+    { NULL, MUI_TYPE_CYCLE, NULL, ui_render_filter, ui_render_filter_values, NULL },
+    UI_END /* mandatory */
+};
+
+static ui_to_from_t ui_to_from_crt[] = {
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_1, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_1, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_2, NULL },
+    { NULL, MUI_TYPE_FLOAT, NULL, NULL, ui_range_0_2, NULL },
+    UI_END /* mandatory */
+};
+
+static ULONG Browse_palette(struct Hook *hook, Object *obj, APTR arg)
 {
     char *fname = NULL;
 
     fname = BrowseFile(translate_text(IDS_EXTERNAL_PALETTE_SELECT), "#?.vpl", video_canvas);
 
     if (fname != NULL) {
-        set(ui_to_from[10].object, MUIA_String_Contents, fname);
+        set(ui_to_from_palette[1].object, MUIA_String_Contents, fname);
     }
 
     return 0;
 }
 
-static ULONG Browse2( struct Hook *hook, Object *obj, APTR arg )
+static APTR build_gui_palette(void)
 {
-    char *fname = NULL;
-
-    fname = BrowseFile(translate_text(IDS_EXTERNAL_PALETTE_SELECT), "#?.vpl", video_canvas);
-
-    if (fname != NULL) {
-        set(ui_to_from[12].object, MUIA_String_Contents, fname);
-    }
-
-    return 0;
-}
-
-static APTR render_filter;
-
-static APTR build_gui(char *pal1extname, char *pal1fname, char *pal2extname, char *pal2fname, int scale2x)
-{
-    APTR app, ui, ok, browse_button1, browse_button2, cancel;
+    APTR app, ui, ok, browse_button, cancel;
 
 #ifdef AMIGA_MORPHOS
-    static const struct Hook BrowseFileHook1 = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse1, NULL };
-    static const struct Hook BrowseFileHook2 = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse2, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)Browse_palette, NULL };
 #else
-    static const struct Hook BrowseFileHook1 = { { NULL, NULL }, (VOID *)Browse1, NULL, NULL };
-    static const struct Hook BrowseFileHook2 = { { NULL, NULL }, (VOID *)Browse2, NULL, NULL };
+    static const struct Hook BrowseFileHook = { { NULL, NULL }, (VOID *)Browse_palette, NULL, NULL };
 #endif
 
     app = mui_get_app();
 
-    if (scale2x == 1 && pal2extname != NULL) {
-        ui = GroupObject,
-               CYCLE(render_filter, translate_text(IDS_RENDER_FILTER), ui_render_filter)
-               STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
-               STRING(ui_to_from[1].object, translate_text(IDS_TINT_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[2].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[3].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[4].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[5].object, translate_text(IDS_SCANLINE_SHADE_0_1), ".0123456789", 5+1)
-               STRING(ui_to_from[6].object, translate_text(IDS_BLUR_0_1), ".0123456789", 5+1)
-               STRING(ui_to_from[7].object, translate_text(IDS_ODDLINE_PHASE_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[8].object, translate_text(IDS_ODDLINE_OFFSET_0_2), ".0123456789", 5+1)
-               CYCLE(ui_to_from[9].object, pal1extname, ui_external_palette_enable)
-               FILENAME(ui_to_from[10].object, pal1fname, browse_button1)
-               CYCLE(ui_to_from[11].object, pal2extname, ui_external_palette_enable)
-               FILENAME(ui_to_from[12].object, pal2fname, browse_button2)
-               OK_CANCEL_BUTTON
-             End;
-    }
-
-    if (scale2x == 1 && pal2extname == NULL) {
-        ui = GroupObject,
-               CYCLE(render_filter, translate_text(IDS_RENDER_FILTER), ui_render_filter)
-               STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
-               STRING(ui_to_from[1].object, translate_text(IDS_TINT_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[2].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[3].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[4].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[5].object, translate_text(IDS_SCANLINE_SHADE_0_1), ".0123456789", 5+1)
-               STRING(ui_to_from[6].object, translate_text(IDS_BLUR_0_1), ".0123456789", 5+1)
-               STRING(ui_to_from[7].object, translate_text(IDS_ODDLINE_PHASE_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[8].object, translate_text(IDS_ODDLINE_OFFSET_0_2), ".0123456789", 5+1)
-               CYCLE(ui_to_from[9].object, pal1extname, ui_external_palette_enable)
-               FILENAME(ui_to_from[10].object, pal1fname, browse_button1)
-               OK_CANCEL_BUTTON
-             End;
-    }
-
-    if (!scale2x) {
-        ui = GroupObject,
-               CYCLE(render_filter, translate_text(IDS_RENDER_FILTER), ui_render_filter_without_scale2x)
-               STRING(ui_to_from[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
-               STRING(ui_to_from[1].object, translate_text(IDS_TINT_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[2].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[3].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[4].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[5].object, translate_text(IDS_SCANLINE_SHADE_0_1), ".0123456789", 5+1)
-               STRING(ui_to_from[6].object, translate_text(IDS_BLUR_0_1), ".0123456789", 5+1)
-               STRING(ui_to_from[7].object, translate_text(IDS_ODDLINE_PHASE_0_2), ".0123456789", 5+1)
-               STRING(ui_to_from[8].object, translate_text(IDS_ODDLINE_OFFSET_0_2), ".0123456789", 5+1)
-               CYCLE(ui_to_from[9].object, pal1extname, ui_external_palette_enable)
-               FILENAME(ui_to_from[10].object, pal1fname, browse_button1)
-               OK_CANCEL_BUTTON
-             End;
-    }
+    ui = GroupObject,
+           CYCLE(ui_to_from_palette[0].object, ui_to_from_palette[0].resource, ui_video_enable)
+           FILENAME(ui_to_from_palette[1].object, video_palette_filename_text, browse_button)
+           OK_CANCEL_BUTTON
+         End;
 
     if (ui != NULL) {
         DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
@@ -204,81 +148,179 @@ static APTR build_gui(char *pal1extname, char *pal1fname, char *pal2extname, cha
         DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
                  app, 2, MUIM_Application_ReturnID, BTN_OK);
 
-        DoMethod(browse_button1, MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_CallHook, &BrowseFileHook1);
-
-        if (pal2extname != NULL) {
-            DoMethod(browse_button2, MUIM_Notify, MUIA_Pressed, FALSE,
-                     app, 2, MUIM_CallHook, &BrowseFileHook2);
-        }
+        DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseFileHook);
     }
 
     return ui;
 }
 
-void ui_video_settings_dialog(video_canvas_t *canvas,
-                              char *px1r, char *pf1r, char *px1n, char *pf1n,
-                              char *px2r, char *pf2r, char *px2n, char *pf2n,
-                              char *s2r)
+static APTR build_gui_colors(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           STRING(ui_to_from_colors[0].object, translate_text(IDS_GAMMA_0_4), ".0123456789", 5+1)
+           STRING(ui_to_from_colors[1].object, translate_text(IDS_TINT_0_2), ".0123456789", 5+1)
+           STRING(ui_to_from_colors[2].object, translate_text(IDS_SATURATION_0_2), ".0123456789", 5+1)
+           STRING(ui_to_from_colors[3].object, translate_text(IDS_CONTRAST_0_2), ".0123456789", 5+1)
+           STRING(ui_to_from_colors[4].object, translate_text(IDS_BRIGHTNESS_0_2), ".0123456789", 5+1)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+static APTR build_gui_render_filter(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from_render_filter[0].object, ui_to_from_render_filter[0].resource, ui_render_filter)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+static APTR build_gui_crt(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           STRING(ui_to_from_crt[0].object, translate_text(IDS_SCANLINE_SHADE_0_1), ".0123456789", 5+1)
+           STRING(ui_to_from_crt[1].object, translate_text(IDS_BLUR_0_1), ".0123456789", 5+1)
+           STRING(ui_to_from_crt[2].object, translate_text(IDS_ODDLINE_PHASE_0_2), ".0123456789", 5+1)
+           STRING(ui_to_from_crt[3].object, translate_text(IDS_ODDLINE_OFFSET_0_2), ".0123456789", 5+1)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+void ui_video_palette_settings_dialog(video_canvas_t *canvas, char *palette_enable_res, char *palette_filename_res, char *palette_filename_text)
 {
     APTR window;
-    int res_value;
-    int crtemul, s2x;
-    int scale2x = (s2r != NULL) ? 1 : 0;
 
     video_canvas = canvas;
-    intl_convert_mui_table(ui_external_palette_enable_translate, ui_external_palette_enable);
-    intl_convert_mui_table(ui_render_filter_translate, ui_render_filter);
-    intl_convert_mui_table(ui_render_filter_without_scale2x_translate, ui_render_filter_without_scale2x);
-    ui_to_from[9].resource = px1r;
-    ui_to_from[10].resource = pf1r;
-    ui_to_from[11].resource = px2r;
-    ui_to_from[12].resource = pf2r;
+    ui_to_from_palette[0].resource = palette_enable_res;
+    ui_to_from_palette[1].resource = palette_filename_res;
+    video_palette_filename_text = palette_filename_text;
+    intl_convert_mui_table(ui_video_enable_translate, ui_video_enable);
 
-    window = mui_make_simple_window(build_gui(px1n, pf1n, px2n, pf2n, scale2x), translate_text(IDS_VIDEO_SETTINGS));
+    window = mui_make_simple_window(build_gui_palette(), translate_text(IDS_PALETTE_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);
-
-        resources_get_int("PALEmulation", &res_value);
-        if (res_value == 1) {
-            set(render_filter, MUIA_Cycle_Active, 1);
-        } else {
-            if (scale2x) {
-                resources_get_int(s2r, &res_value);
-                if (res_value == 1) {
-                    set(render_filter, MUIA_Cycle_Active, 2);
-                } else {
-                    set(render_filter, MUIA_Cycle_Active, 0);
-                }
-            } else {
-                set(render_filter, MUIA_Cycle_Active, 0);
-            }
-        }
-        ui_get_to(ui_to_from);
+        ui_get_to(ui_to_from_palette);
         set(window, MUIA_Window_Open, TRUE);
         if (mui_run() == BTN_OK) {
-            get(render_filter, MUIA_Cycle_Active, (APTR)&res_value);
-            switch (res_value) {
-                default:
-                case 0:
-                    crtemul = 0;
-                    s2x = 0;
-                    break;
-                case 1:
-                    crtemul = 1;
-                    s2x = 0;
-                    break;
-                case 2:
-                    crtemul = 0;
-                    s2x = 1;
-                    break;
-            }
-            resources_set_int("PALEmulation", crtemul);
-            if (scale2x) {
-                resources_set_int(s2r, s2x);
-            }
-            ui_get_from(ui_to_from);
+            ui_get_from(ui_to_from_palette);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_video_color_settings_dialog(video_canvas_t *canvas, char *gamma_res, char *tint_res, char *saturation_res, char *contrast_res, char *brightness_res)
+{
+    APTR window;
+
+    video_canvas = canvas;
+    ui_to_from_colors[0].resource = gamma_res;
+    ui_to_from_colors[1].resource = tint_res;
+    ui_to_from_colors[2].resource = saturation_res;
+    ui_to_from_colors[3].resource = contrast_res;
+    ui_to_from_colors[4].resource = brightness_res;
+
+    window = mui_make_simple_window(build_gui_colors(), translate_text(IDS_COLOR_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from_colors);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from_colors);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_video_render_filter_settings_dialog(video_canvas_t *canvas, char *render_filter_res)
+{
+    APTR window;
+
+    video_canvas = canvas;
+    ui_to_from_render_filter[0].resource = render_filter_res;
+
+    intl_convert_mui_table(ui_render_filter_translate, ui_render_filter);
+
+    window = mui_make_simple_window(build_gui_render_filter(), translate_text(IDS_RENDER_FILTER_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from_render_filter);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from_render_filter);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_video_crt_settings_dialog(video_canvas_t *canvas, char *scanline_shade_res, char *blur_res, char *oddline_phase_res, char *oddline_offset_res)
+{
+    APTR window;
+
+    video_canvas = canvas;
+    ui_to_from_crt[0].resource = scanline_shade_res;
+    ui_to_from_crt[1].resource = blur_res;
+    ui_to_from_crt[2].resource = oddline_phase_res;
+    ui_to_from_crt[3].resource = oddline_offset_res;
+
+    window = mui_make_simple_window(build_gui_crt(), translate_text(IDS_CRT_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from_crt);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from_crt);
         }
         set(window, MUIA_Window_Open, FALSE);
         mui_rem_window(window);

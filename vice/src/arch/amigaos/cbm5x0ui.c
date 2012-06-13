@@ -1,5 +1,5 @@
 /*
- * cbm2ui.c
+ * cbm5x0ui.c
  *
  * Written by
  *  Mathias Roslund <vice.emu@amidog.se>
@@ -26,13 +26,13 @@
 
 #include "vice.h"
 
-#define UI_CBM2
-#define UI_MENU_NAME cbm2_ui_translation_menu
-#define UI_TRANSLATED_MENU_NAME cbm2_ui_menu
+#define UI_CBM5X0
+#define UI_MENU_NAME cbm5x0_ui_translation_menu
+#define UI_TRANSLATED_MENU_NAME cbm5x0_ui_menu
 
 #include "private.h"
 #include "cbm2ui.h"
-#include "cbm2uires.h"
+#include "cbm5x0uires.h"
 #include "machine.h"
 #include "translate.h"
 
@@ -46,29 +46,28 @@
 #include "mui/uisid.h"
 #include "mui/uivideo.h"
 
-static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
-    { "CrtcDoubleSize", IDM_TOGGLE_DOUBLESIZE },
-    { "CrtcDoubleScan", IDM_TOGGLE_DOUBLESCAN },
-    { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
-    { "CrtcAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
-    { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
+static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
+    { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
+    { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
+    { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { NULL, 0 }
 };
 
-static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
+static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
         case IDM_PALETTE_SETTINGS:
-            ui_video_palette_settings_dialog(canvas, "CrtcExternalPalette", "CrtcPaletteFile", translate_text(IDS_CRTC_PALETTE_FILENAME));
+            ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
             break;
         case IDM_COLOR_SETTINGS:
-            ui_video_color_settings_dialog(canvas, "CrtcColorGamma", "CrtcColorTint", "CrtcColorSaturation", "CrtcColorContrast", "CrtcColorBrightness");
+            ui_video_color_settings_dialog(canvas, "VICIIColorGamma", "VICIIColorTint", "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness");
             break;
         case IDM_RENDER_FILTER:
-            ui_video_render_filter_settings_dialog(canvas, "CrtcFilter");
+            ui_video_render_filter_settings_dialog(canvas, "VICIIFilter");
             break;
         case IDM_CRT_EMULATION_SETTINGS:
-            ui_video_crt_settings_dialog(canvas, "CrtcPALScanLineShade", "CrtcPALBlur", "CrtcPALOddLinePhase", "CrtcPALOddLineOffset");
+            ui_video_crt_settings_dialog(canvas, "VICIIPALScanLineShade", "VICIIPALBlur", "VICIIPALOddLinePhase", "VICIIPALOddLineOffset");
             break;
         case IDM_CBM2_SETTINGS:
             ui_cbm2_settings_dialog();
@@ -93,14 +92,14 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
             break;
 #ifdef AMIGA_OS4
         case IDM_JOY_SETTINGS:
-            ui_joystick_settings_pet_dialog();
+            ui_joystick_settings_cbm5x0_dialog();
             break;
 #else
         case IDM_JOY_DEVICE_SELECTION:
-            ui_joystick_device_pet_dialog();
+            ui_joystick_device_cbm5x0_dialog();
             break;
         case IDM_JOY_FIRE_SELECTION:
-            ui_joystick_fire_pet_dialog();
+            ui_joystick_fire_cbm5x0_dialog();
             break;
 #endif
         case IDM_KEYBOARD_SETTINGS:
@@ -111,16 +110,16 @@ static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
     return 0;
 }
 
-int cbm2ui_init(void)
+int cbm5x0ui_init(void)
 {
-    ui_register_menu_translation_layout(cbm2_ui_translation_menu);
-    ui_register_menu_layout(cbm2_ui_menu);
-    ui_register_machine_specific(cbm2_ui_specific);
-    ui_register_menu_toggles(cbm2_ui_menu_toggles);
+    ui_register_menu_translation_layout(cbm5x0_ui_translation_menu);
+    ui_register_menu_layout(cbm5x0_ui_menu);
+    ui_register_machine_specific(cbm5x0_ui_specific);
+    ui_register_menu_toggles(cbm5x0_ui_menu_toggles);
 
     return 0;
 }
 
-void cbm2ui_shutdown(void)
+void cbm5x0ui_shutdown(void)
 {
 }

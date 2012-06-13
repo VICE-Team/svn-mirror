@@ -57,6 +57,8 @@ libarch_a_SOURCES = \
 	catweaselmkiii.c \
 	cbm2ui.c \
 	cbm2uires.h \
+	cbm5x0ui.c \
+	cbm5x0uires.h \
 	console.c \
 	fullscreen.c \
 	fullscreenarch.h \

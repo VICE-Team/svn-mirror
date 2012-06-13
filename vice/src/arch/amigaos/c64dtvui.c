@@ -50,6 +50,7 @@ static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "Mouse", IDM_MOUSE },
     { "ps2mouse", IDM_PS2_MOUSE },
     { NULL, 0 }
@@ -58,6 +59,18 @@ static const ui_menu_toggle_t c64dtv_ui_menu_toggles[] = {
 static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_PALETTE_SETTINGS:
+            ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
+            break;
+        case IDM_COLOR_SETTINGS:
+            ui_video_color_settings_dialog(canvas, "VICIIColorGamma", "VICIIColorTint", "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness");
+            break;
+        case IDM_RENDER_FILTER:
+            ui_video_render_filter_settings_dialog(canvas, "VICIIFilter");
+            break;
+        case IDM_CRT_EMULATION_SETTINGS:
+            ui_video_crt_settings_dialog(canvas, "VICIIPALScanLineShade", "VICIIPALBlur", "VICIIPALOddLinePhase", "VICIIPALOddLineOffset");
+            break;
         case IDM_C64DTV_MODEL_V2_PAL:
             dtvmodel_set(DTVMODEL_V2_PAL);
             break;
@@ -87,14 +100,6 @@ static int c64dtv_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_ROM_SETTINGS:
             ui_c64vic20_drive_rom_settings_dialog(canvas);
-            break;
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(canvas,
-                                     "VICIIExternalPalette", "VICIIPaletteFile",
-                                     translate_text(IDS_VICII_EXTERNAL_PALETTE), translate_text(IDS_VICII_PALETTE_NAME),
-                                     NULL, NULL,
-                                     NULL, NULL,
-                                     "VICIIScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec64vic20_settings_dialog();

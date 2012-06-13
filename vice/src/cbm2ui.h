@@ -35,4 +35,3 @@ extern int cbm5x0ui_init(void);
 extern void cbm5x0ui_shutdown(void);
 
 #endif
-

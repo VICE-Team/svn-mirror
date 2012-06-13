@@ -75,11 +75,14 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "IEEE488", IDM_IEEE488 },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "VDCDoubleSize", IDM_TOGGLE_VDC_DOUBLESIZE },
     { "VDCDoubleScan", IDM_TOGGLE_VDC_DOUBLESCAN },
+    { "VDCAudioLeak", IDM_TOGGLE_AUDIO_LEAK_2 },
+    { "VDCStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
 //  { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
@@ -92,6 +95,30 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
+        case IDM_PALETTE_SETTINGS:
+            ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
+            break;
+        case IDM_PALETTE_SETTINGS_2:
+            ui_video_palette_settings_dialog(canvas, "VDCExternalPalette", "VDCPaletteFile", translate_text(IDS_VDC_PALETTE_FILENAME));
+            break;
+        case IDM_COLOR_SETTINGS:
+            ui_video_color_settings_dialog(canvas, "VICIIColorGamma", "VICIIColorTint", "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness");
+            break;
+        case IDM_COLOR_SETTINGS_2:
+            ui_video_color_settings_dialog(canvas, "VDCColorGamma", "VDCColorTint", "VDCColorSaturation", "VDCColorContrast", "VDCColorBrightness");
+            break;
+        case IDM_RENDER_FILTER:
+            ui_video_render_filter_settings_dialog(canvas, "VICIIFilter");
+            break;
+        case IDM_RENDER_FILTER_2:
+            ui_video_render_filter_settings_dialog(canvas, "VDCFilter");
+            break;
+        case IDM_CRT_EMULATION_SETTINGS:
+            ui_video_crt_settings_dialog(canvas, "VICIIPALScanLineShade", "VICIIPALBlur", "VICIIPALOddLinePhase", "VICIIPALOddLineOffset");
+            break;
+        case IDM_CRT_EMULATION_SETTINGS_2:
+            ui_video_crt_settings_dialog(canvas, "VDCPALScanLineShade", "VDCPALBlur", "VDCPALOddLinePhase", "VDCPALOddLineOffset");
+            break;
         case IDM_VICII_SETTINGS:
             ui_vicii_settings_dialog();
             break;
@@ -138,14 +165,6 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
 #endif
         case IDM_C128_SETTINGS:
             ui_c128_settings_dialog(canvas);
-            break;
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(canvas,
-                                     "VICIIExternalPalette", "VICIIPaletteFile",
-                                     translate_text(IDS_VICII_EXTERNAL_PALETTE), translate_text(IDS_VICII_PALETTE_NAME),
-                                     "VDCExternalPalette", "VDCPaletteFile",
-                                     translate_text(IDS_VDC_EXTERNAL_PALETTE), translate_text(IDS_VDC_PALETTE_NAME),
-                                     "VICIIScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidrivec128_settings_dialog();

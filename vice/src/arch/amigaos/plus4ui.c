@@ -56,6 +56,7 @@ static const ui_menu_toggle_t plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "TEDAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
@@ -120,6 +121,18 @@ static void uiplus4cart_attach(video_canvas_t *canvas, int idm, const uicart_par
 static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_PALETTE_SETTINGS:
+            ui_video_palette_settings_dialog(canvas, "TEDExternalPalette", "TEDPaletteFile", translate_text(IDS_TED_PALETTE_FILENAME));
+            break;
+        case IDM_COLOR_SETTINGS:
+            ui_video_color_settings_dialog(canvas, "TEDColorGamma", "TEDColorTint", "TEDColorSaturation", "TEDColorContrast", "TEDColorBrightness");
+            break;
+        case IDM_RENDER_FILTER:
+            ui_video_render_filter_settings_dialog(canvas, "TEDFilter");
+            break;
+        case IDM_CRT_EMULATION_SETTINGS:
+            ui_video_crt_settings_dialog(canvas, "TEDPALScanLineShade", "TEDPALBlur", "TEDPALOddLinePhase", "TEDPALOddLineOffset");
+            break;
         case IDM_PLUS4_MODEL_C16_PAL:
             plus4model_set(PLUS4MODEL_C16_PAL);
             break;
@@ -156,14 +169,6 @@ static int plus4_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DRIVE_ROM_SETTINGS:
             ui_plus4_drive_rom_settings_dialog(canvas);
-            break;
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(canvas,
-                                     "TEDExternalPalette", "TEDPaletteFile",
-                                     translate_text(IDS_TED_EXTERNAL_PALETTE), translate_text(IDS_TED_PALETTE_NAME),
-                                     NULL, NULL,
-                                     NULL, NULL,
-                                     "TEDScale2x");
             break;
         case IDM_DRIVE_SETTINGS:
             uidriveplus4_settings_dialog();

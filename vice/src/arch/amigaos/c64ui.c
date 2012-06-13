@@ -68,6 +68,7 @@ static const ui_menu_toggle_t c64_ui_menu_toggles[] = {
     { "VICIIDoubleSize", IDM_TOGGLE_DOUBLESIZE },
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
+    { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "Mouse", IDM_MOUSE },
     { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
@@ -79,6 +80,18 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
+        case IDM_PALETTE_SETTINGS:
+            ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
+            break;
+        case IDM_COLOR_SETTINGS:
+            ui_video_color_settings_dialog(canvas, "VICIIColorGamma", "VICIIColorTint", "VICIIColorSaturation", "VICIIColorContrast", "VICIIColorBrightness");
+            break;
+        case IDM_RENDER_FILTER:
+            ui_video_render_filter_settings_dialog(canvas, "VICIIFilter");
+            break;
+        case IDM_CRT_EMULATION_SETTINGS:
+            ui_video_crt_settings_dialog(canvas, "VICIIPALScanLineShade", "VICIIPALBlur", "VICIIPALOddLinePhase", "VICIIPALOddLineOffset");
+            break;
         case IDM_C64_MODEL_C64_PAL:
             c64model_set(C64MODEL_C64_PAL);
             break;
@@ -168,14 +181,6 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
 //          ui_tfe_settings_dialog(hwnd);
             break;
 #endif
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(canvas,
-                                     "VICIIExternalPalette", "VICIIPaletteFile",
-                                     translate_text(IDS_VICII_EXTERNAL_PALETTE), translate_text(IDS_VICII_PALETTE_NAME),
-                                     NULL, NULL,
-                                     NULL, NULL,
-                                     "VICIIScale2x");
-            break;
         case IDM_DRIVE_SETTINGS:
             uidrivec64vic20_settings_dialog();
             break;
