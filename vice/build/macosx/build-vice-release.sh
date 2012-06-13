@@ -181,25 +181,25 @@ else
     echo "ERROR: export faild!"
     exit 1
   fi
+fi
 
-  # patch BUILD version if doing snapshot
-  if [ $SNAPSHOT = 1 -o "$OWN_TAG" != "" ]; then
-    # tag
-    DATE=`date '+%Y%m%d'`
-    if [ "$OWN_TAG" != "" ]; then
-        TAG="-$OWN_TAG"
-    else
-        TAG="-r${REVISION}_${DATE}_$SVN_BRANCH"
-    fi
+# patch BUILD version if doing snapshot
+if [ $SNAPSHOT = 1 -o "$OWN_TAG" != "" ]; then
+  # tag
+  DATE=`date '+%Y%m%d'`
+  if [ "$OWN_TAG" != "" ]; then
+      TAG="-$OWN_TAG"
+  else
+      TAG="-r${REVISION}_${DATE}_$SVN_BRANCH"
+  fi
 
-    # patch VICE_VERSION_BUILD
-    echo "patching configure.in: $TAG"
-    PATCH_VVB="$SRC_DIR/configure.in"
-    perl -pi -e "s/(VICE_VERSION_BUILD=\d+).*\$/\$1$TAG/" $PATCH_VVB
-    if [ $? != 0 ]; then
-      echo "ERROR: patching..."
-      exit 1
-    fi
+  # patch VICE_VERSION_BUILD
+  echo "patching configure.in: $TAG"
+  PATCH_VVB="$SRC_DIR/configure.in"
+  perl -pi -e "s/(VICE_VERSION_BUILD=\d+).*\$/\$1$TAG/" $PATCH_VVB
+  if [ $? != 0 ]; then
+    echo "ERROR: patching..."
+    exit 1
   fi
 fi
 
