@@ -65,6 +65,9 @@ extern void pia2_store(WORD addr, BYTE value);
 extern BYTE pia2_read(WORD addr);
 extern BYTE pia2_peek(WORD addr);
 
+extern int pia1_dump(void);
+extern int pia2_dump(void);
+
 extern int pia2_snapshot_read_module(struct snapshot_s *);
 extern int pia2_snapshot_write_module(struct snapshot_s *);
 

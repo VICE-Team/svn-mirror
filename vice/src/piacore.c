@@ -25,6 +25,7 @@
  *
  */
 
+#include "monitor.h"
 #include "snapshot.h"
 
 
@@ -381,6 +382,8 @@ int mypia_dump(void)
     } else {
         mon_out("IRQ off\n");
     }
+
+    return 0;
 }
 
 /*------------------------------------------------------------------------*/

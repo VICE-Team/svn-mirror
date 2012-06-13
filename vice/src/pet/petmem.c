@@ -447,7 +447,7 @@ static int efe0_dump(void)
         int sh = shift[i];
         int lm = leftmost[i];
 
-        mon_out("%d %3d: $%02x  %", i, mask, sh);
+        mon_out("%d %3d: $%02x  %%", i, mask, sh);
 
         for (j = 7, maskj = 1<<j; j >= 0; j--, maskj >>= 1) {
             if (maskj > lm) {
