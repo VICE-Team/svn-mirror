@@ -205,51 +205,51 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
                    BYTE reg_x, BYTE reg_y, BYTE reg_sp)
 {
     switch (debug.trace_mode) {
-      case DEBUG_SMALL:
-      {
-        char small_dis[7];
+        case DEBUG_SMALL:
+        {
+            char small_dis[7];
 
-        small_dis[0] = dis[0];
-        small_dis[1] = dis[1];
+            small_dis[0] = dis[0];
+            small_dis[1] = dis[1];
 
-        if (dis[3] == ' ') {
-            small_dis[2] = '\0';
-        } else {
-            small_dis[2] = dis[3];
-            small_dis[3] = dis[4];
-            if (dis[6] == ' ') {
-                small_dis[4] = '\0';
+            if (dis[3] == ' ') {
+                small_dis[2] = '\0';
             } else {
-                small_dis[4] = dis[6];
-                small_dis[5] = dis[7];
-                small_dis[6] = '\0';
-            }  
-        }
-        
-        log_debug("%04X %ld %02X%02X%02X %s", (unsigned int)reg_pc,
-                  (long)mclk, reg_a, reg_x, reg_y, small_dis);
-        break;
+                small_dis[2] = dis[3];
+                small_dis[3] = dis[4];
+                if (dis[6] == ' ') {
+                    small_dis[4] = '\0';
+                } else {
+                    small_dis[4] = dis[6];
+                    small_dis[5] = dis[7];
+                    small_dis[6] = '\0';
+                }  
+            }
+
+            log_debug("%04X %ld %02X%02X%02X %s", (unsigned int)reg_pc,
+                    (long)mclk, reg_a, reg_x, reg_y, small_dis);
+            break;
       }
       case DEBUG_HISTORY:
       case DEBUG_AUTOPLAY:
       {
-        char st[DEBUG_MAXLINELEN];
+            char st[DEBUG_MAXLINELEN];
 
-        sprintf(st, ".%04X %02X %02X %8lX %-20s "
-                  "%02X%02X%02X%02X", (unsigned int)reg_pc,
-                  RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
-                  reg_a, reg_x, reg_y, reg_sp);
-        debug_history_step(st);
-        break;
+            sprintf(st, ".%04X %02X %02X %8lX %-20s "
+                    "%02X%02X%02X%02X", (unsigned int)reg_pc,
+                    RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                    reg_a, reg_x, reg_y, reg_sp);
+            debug_history_step(st);
+            break;
       }
       case DEBUG_NORMAL:
-        log_debug(".%04X %03i %03i %10ld  %-22s "
-                  "%02x%02x%02x%02x", (unsigned int)reg_pc,
-                  RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
-                  reg_a, reg_x, reg_y, reg_sp);
-        break;
+            log_debug(".%04X %03i %03i %10ld  %-22s "
+                    "%02x%02x%02x%02x", (unsigned int)reg_pc,
+                    RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                    reg_a, reg_x, reg_y, reg_sp);
+            break;
       default:
-        log_debug("Unknown debug format.");
+            log_debug("Unknown debug format.");
 
     }
 }
@@ -338,7 +338,9 @@ static int debug_autoplay_current_frame;
 static void debug_close_file(void)
 {
     if (debug_file != NULL) {
-        fwrite(debug_buffer, sizeof(char), debug_buffer_ptr, debug_file);
+        if(fwrite(debug_buffer, sizeof(char), debug_buffer_ptr, debug_file) < debug_buffer_ptr) {
+            fprintf(stderr, "error writing debug log.\n");
+        }
         fclose(debug_file);
         debug_file = NULL;
         debug_buffer_ptr = 0;
@@ -369,8 +371,9 @@ static void debug_open_new_file(void)
     char *filename, *st;
     const char *directory;
 
-    if (debug_file != NULL)
+    if (debug_file != NULL) {
         fclose(debug_file);
+    }
 
     resources_get_string("EventSnapshotDir", &directory);
 
@@ -397,12 +400,12 @@ static void debug_open_new_file(void)
 inline static void debug_history_step(const char *st)
 {
     if (event_record_active()) {
-        
+
         if (debug_buffer_ptr + DEBUG_MAXLINELEN >= DEBUG_HISTORY_MAXFILESIZE) {
 
             debug_create_new_file();
         }
-        
+
         debug_buffer_ptr += 
             sprintf(debug_buffer + debug_buffer_ptr, "%s\n", st);
     }
@@ -412,8 +415,9 @@ inline static void debug_history_step(const char *st)
         char tempstr[DEBUG_MAXLINELEN];
         int line_len = sprintf(tempstr, "%s\n", st);
 
-        if (debug_buffer_ptr >= debug_buffer_size)
+        if (debug_buffer_ptr >= debug_buffer_size) {
             debug_open_new_file();
+        }
 
         debug_file_line++;
 
@@ -430,8 +434,9 @@ inline static void debug_history_step(const char *st)
 
 void debug_start_recording(void)
 {
-    if (debug.trace_mode < DEBUG_HISTORY)
+    if (debug.trace_mode < DEBUG_HISTORY) {
         return;
+    }
 
     debug_autoplay_current_frame = 0;
     debug_file_current = 0;
@@ -443,8 +448,9 @@ void debug_start_recording(void)
 
 void debug_stop_recording(void)
 {
-    if (debug.trace_mode < DEBUG_HISTORY)
+    if (debug.trace_mode < DEBUG_HISTORY) {
         return;
+    }
 
     debug_close_file();
     lib_free(debug_buffer);
@@ -452,8 +458,9 @@ void debug_stop_recording(void)
 
 void debug_start_playback(void)
 {
-    if (debug.trace_mode < DEBUG_HISTORY)
+    if (debug.trace_mode < DEBUG_HISTORY) {
         return;
+    }
 
     debug_file_current = 0;
     debug_file_milestone = 0;
@@ -464,8 +471,9 @@ void debug_start_playback(void)
 
 void debug_stop_playback(void)
 {
-    if (debug.trace_mode < DEBUG_HISTORY)
+    if (debug.trace_mode < DEBUG_HISTORY) {
         return;
+    }
 
     if (debug_file != NULL) {
         fclose(debug_file);
@@ -473,15 +481,17 @@ void debug_stop_playback(void)
     }
     lib_free(debug_buffer);
 
-    if (debug.trace_mode == DEBUG_AUTOPLAY)
+    if (debug.trace_mode == DEBUG_AUTOPLAY) {
         debug_autoplay_nextmode = 1; /* start recording next */
+    }
 
 }
 
 void debug_set_milestone(void)
 {
-    if (debug.trace_mode < DEBUG_HISTORY)
+    if (debug.trace_mode < DEBUG_HISTORY) {
         return;
+    }
 
     debug_create_new_file();
     debug_file_milestone = debug_file_current;
@@ -489,8 +499,9 @@ void debug_set_milestone(void)
 
 void debug_reset_milestone(void)
 {
-    if (debug.trace_mode < DEBUG_HISTORY)
+    if (debug.trace_mode < DEBUG_HISTORY) {
         return;
+    }
 
     debug_file_current = debug_file_milestone - 1;
     debug_create_new_file();
@@ -498,8 +509,9 @@ void debug_reset_milestone(void)
 
 void debug_check_autoplay_mode(void)
 {
-    if (debug.trace_mode != DEBUG_AUTOPLAY)
+    if (debug.trace_mode != DEBUG_AUTOPLAY) {
         return;
+    }
 
     if (debug_autoplay_nextmode == 2)
     {
@@ -517,12 +529,10 @@ void debug_check_autoplay_mode(void)
 
     debug_autoplay_current_frame++;
 
-    if (debug_autoplay_current_frame >= debug_autoplay_frames)
-    {
+    if (debug_autoplay_current_frame >= debug_autoplay_frames) {
         debug_autoplay_current_frame = 0;
 
-        if (event_record_active())
-        {
+        if (event_record_active()) {
             event_record_stop();
             debug_autoplay_nextmode = 2; /* start playback next */
             return;
