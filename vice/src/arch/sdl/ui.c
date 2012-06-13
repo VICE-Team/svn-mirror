@@ -64,6 +64,8 @@ static int sdl_ui_ready = 0;
 /* ----------------------------------------------------------------- */
 /* ui.h */
 
+static int first = 1;
+
 /* Misc. SDL event handling */
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
@@ -73,10 +75,26 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             break;
         case SDL_VIDEORESIZE:
             sdl_video_resize((unsigned int)e.resize.w, (unsigned int)e.resize.h);
+            resources_set_int("SDLWindowWidth", e.resize.w);
+            resources_set_int("SDLWindowHeight", e.resize.h);
             break;
         case SDL_VIDEOEXPOSE:
+            {
+                int w, h;
+                /* restore window to its saved size first time it is shown */
+                if(first) {
+                    resources_get_int("SDLWindowWidth", &w);
+                    resources_get_int("SDLWindowHeight", &h);
+                    sdl_video_resize((unsigned int)w, (unsigned int)h);
+                    first = 0;
+                }
+            }
             video_canvas_refresh_all(sdl_active_canvas);
             break;
+/*
+        case SDL_ACTIVEEVENT:
+            break;
+*/
         default:
             break;
     }
