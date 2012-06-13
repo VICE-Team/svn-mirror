@@ -24,6 +24,8 @@ DEFAULT_COMPILER="gcc40"
 ALL_JOBS="sdl x11 gtk cocoa cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang_gcc cocoa-i386+x86_64-10.6-clang"
 JOBS="cocoa-10.5 cocoa-i386+x86_64-10.6-gcc42 cocoa-i386+x86_64-10.6-clang"
 
+OWN_TAG=""
+
 usage() {
   cat <<EOF
 
@@ -51,13 +53,14 @@ usage() {
     -J                       build all jobs
                              [$ALL_JOBS]
     
+    -t <tag>                 overwrite tag for this build 
     -D                       quick debug preset: -slbfdi -j cocoa-i386-10.4
 EOF
   exit 2
 }
 
 # parse arguments
-while getopts "slbfe:o:diu:a:k:c:j:DJ" i ; do
+while getopts "slbfe:o:diu:a:k:c:j:DJt:" i ; do
   case "$i" in
     s) SNAPSHOT=1;;
     l) LINK_SRC=1;;
@@ -74,6 +77,7 @@ while getopts "slbfe:o:diu:a:k:c:j:DJ" i ; do
     c) DEFAULT_COMPILER="$OPTARG";;
     j) JOBS="$OPTARG";;
     J) JOBS="$ALL_JOBS";;
+    t) OWN_TAG="$OPTARG";;
 
     D) DEBUG=1
        SNAPSHOT=1
@@ -179,10 +183,14 @@ else
   fi
 
   # patch BUILD version if doing snapshot
-  if [ $SNAPSHOT = 1 ]; then
+  if [ $SNAPSHOT = 1 -o "$OWN_TAG" != "" ]; then
     # tag
     DATE=`date '+%Y%m%d'`
-    TAG="-r${REVISION}_${DATE}_$SVN_BRANCH"
+    if [ "$OWN_TAG" != "" ]; then
+        TAG="-$OWN_TAG"
+    else
+        TAG="-r${REVISION}_${DATE}_$SVN_BRANCH"
+    fi
 
     # patch VICE_VERSION_BUILD
     echo "patching configure.in: $TAG"
