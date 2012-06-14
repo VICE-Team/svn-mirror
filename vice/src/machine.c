@@ -72,6 +72,8 @@
 #include "joy.h"
 #endif
 
+static int machine_init_was_called = 0;
+
 static int ignore_jam;
 int machine_keymap_index;
 
@@ -189,6 +191,8 @@ void machine_early_init(void)
 
 int machine_init(void)
 {
+    machine_init_was_called = 1;
+
     machine_video_init();
 
     fsdevice_init();
@@ -211,6 +215,11 @@ static void machine_maincpu_shutdown(void)
 
 void machine_shutdown(void)
 {
+    if (!machine_init_was_called) {
+        /* happens at the -help command line command*/
+        return;
+    }
+
     file_system_detach_disk_shutdown();
 
     machine_specific_shutdown();

@@ -71,6 +71,8 @@
 #include "drive-sound.h"
 #include "p64.h"
 
+static int drive_init_was_called = 0;
+
 drive_context_t *drive_context[DRIVE_NUM];
 
 /* Generic drive logging goes here.  */
@@ -142,6 +144,8 @@ int drive_init(void)
 
     if (rom_loaded)
         return 0;
+
+    drive_init_was_called = 1;
 
     driverom_init();
     drive_image_init();
@@ -252,6 +256,11 @@ int drive_init(void)
 void drive_shutdown(void)
 {
     unsigned int dnr;
+
+    if (!drive_init_was_called) {
+        /* happens at the -help command line command*/
+        return;
+    }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drivecpu_shutdown(drive_context[dnr]);
