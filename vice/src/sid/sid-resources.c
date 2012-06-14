@@ -204,13 +204,14 @@ static int set_sid_model(int val, void *param)
     sid_model = val;
 
     if (sid_model == SID_MODEL_DEFAULT) {
+        sid_model = SID_MODEL_6581;
 #ifdef HAVE_RESID
         if (machine_class == VICE_MACHINE_C64DTV) {
             sid_model = SID_MODEL_DTVSID;
         } else
 #endif
-        {
-            sid_model = SID_MODEL_6581;
+        if (machine_class == VICE_MACHINE_C128) {
+            sid_model = SID_MODEL_8580;
         }
     }
 
