@@ -1818,6 +1818,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_TRUE_DRIVE_EMU_SV, "Äkta diskettenhetsemulering" },
 /* tr */ { IDMS_TRUE_DRIVE_EMU_TR, "Gerçek sürücü emülasyonu" },
 
+/* en */ { IDMS_DRIVE_SOUND,    "Drive sound emulation" },
+/* da */ { IDMS_DRIVE_SOUND_DA, "" },  /* fuzzy */
+/* de */ { IDMS_DRIVE_SOUND_DE, "" },  /* fuzzy */
+/* es */ { IDMS_DRIVE_SOUND_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_DRIVE_SOUND_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_DRIVE_SOUND_HU, "" },  /* fuzzy */
+/* it */ { IDMS_DRIVE_SOUND_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_DRIVE_SOUND_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_DRIVE_SOUND_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_DRIVE_SOUND_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_DRIVE_SOUND_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_DRIVE_SOUND_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_DRIVE_SOUND_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle True Drive Emulation on autostart" },
 /* da */ { IDMS_AUTOSTART_HANDLE_TDE_DA, "Anvend ægte drev-emulering ved autostart" },
 /* de */ { IDMS_AUTOSTART_HANDLE_TDE_DE, "Präzise Floppy Emulation bei Autostart beachten" },
