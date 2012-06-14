@@ -74,11 +74,6 @@ static const cmdline_option_t cmdline_options[] = {
 };
 
 static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1,
-      NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_SET_IDLE_METHOD,
-      NULL, NULL },
     { NULL, SET_RESOURCE, 0,
       NULL, NULL, NULL, (void *)1,
       USE_PARAM_STRING, USE_DESCRIPTION_ID,
@@ -137,44 +132,42 @@ int iec_cmdline_options_init(void)
     unsigned int dnr, i;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        cmd_drive[0].name = lib_msprintf("-drive%iidle", dnr + 8);
+        cmd_drive[0].name = lib_msprintf("-drive%iram2000", dnr + 8);
         cmd_drive[0].resource_name
-            = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-        cmd_drive[1].name = lib_msprintf("-drive%iram2000", dnr + 8);
+            = lib_msprintf("Drive%iRAM2000", dnr + 8);
+        cmd_drive[1].name = lib_msprintf("+drive%iram2000", dnr + 8);
         cmd_drive[1].resource_name
             = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        cmd_drive[2].name = lib_msprintf("+drive%iram2000", dnr + 8);
+        cmd_drive[2].name = lib_msprintf("-drive%iram4000", dnr + 8);
         cmd_drive[2].resource_name
-            = lib_msprintf("Drive%iRAM2000", dnr + 8);
-        cmd_drive[3].name = lib_msprintf("-drive%iram4000", dnr + 8);
+            = lib_msprintf("Drive%iRAM4000", dnr + 8);
+        cmd_drive[3].name = lib_msprintf("+drive%iram4000", dnr + 8);
         cmd_drive[3].resource_name
             = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        cmd_drive[4].name = lib_msprintf("+drive%iram4000", dnr + 8);
+        cmd_drive[4].name = lib_msprintf("-drive%iram6000", dnr + 8);
         cmd_drive[4].resource_name
-            = lib_msprintf("Drive%iRAM4000", dnr + 8);
-        cmd_drive[5].name = lib_msprintf("-drive%iram6000", dnr + 8);
+            = lib_msprintf("Drive%iRAM6000", dnr + 8);
+        cmd_drive[5].name = lib_msprintf("+drive%iram6000", dnr + 8);
         cmd_drive[5].resource_name
             = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        cmd_drive[6].name = lib_msprintf("+drive%iram6000", dnr + 8);
+        cmd_drive[6].name = lib_msprintf("-drive%iram8000", dnr + 8);
         cmd_drive[6].resource_name
-            = lib_msprintf("Drive%iRAM6000", dnr + 8);
-        cmd_drive[7].name = lib_msprintf("-drive%iram8000", dnr + 8);
+            = lib_msprintf("Drive%iRAM8000", dnr + 8);
+        cmd_drive[7].name = lib_msprintf("+drive%iram8000", dnr + 8);
         cmd_drive[7].resource_name
             = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        cmd_drive[8].name = lib_msprintf("+drive%iram8000", dnr + 8);
+        cmd_drive[8].name = lib_msprintf("-drive%irama000", dnr + 8);
         cmd_drive[8].resource_name
-            = lib_msprintf("Drive%iRAM8000", dnr + 8);
-        cmd_drive[9].name = lib_msprintf("-drive%irama000", dnr + 8);
+            = lib_msprintf("Drive%iRAMA000", dnr + 8);
+        cmd_drive[9].name = lib_msprintf("+drive%irama000", dnr + 8);
         cmd_drive[9].resource_name
             = lib_msprintf("Drive%iRAMA000", dnr + 8);
-        cmd_drive[10].name = lib_msprintf("+drive%irama000", dnr + 8);
-        cmd_drive[10].resource_name
-            = lib_msprintf("Drive%iRAMA000", dnr + 8);
 
-        if (cmdline_register_options(cmd_drive) < 0)
+        if (cmdline_register_options(cmd_drive) < 0) {
             return -1;
+        }
 
-        for (i = 0; i < 11; i++) {
+        for (i = 0; i < 10; i++) {
             lib_free((char *)cmd_drive[i].name);
             lib_free((char *)cmd_drive[i].resource_name);
         }

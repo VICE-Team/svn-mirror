@@ -56,12 +56,31 @@ int cmdline_init(void)
     return 0;
 }
 
+static cmdline_option_ram_t *lookup_exact(const char *name)
+{
+    unsigned int i;
+
+    for (i = 0; i < num_options; i++) {
+        if (strcmp(options[i].name, name) == 0) {
+            return &options[i];
+        }
+    }
+    return NULL;
+}
+
 int cmdline_register_options(const cmdline_option_t *c)
 {
     cmdline_option_ram_t *p;
 
     p = options + num_options;
     for (; c->name != NULL; c++, p++) {
+
+        if (lookup_exact(c->name)) {
+            archdep_startup_log_error("CMDLINE: (%d) Duplicated option '%s'.\n", num_options, c->name);
+            return -1;
+        }
+        /* archdep_startup_log_error("CMDLINE: (%d) registering option '%s'.\n", num_options, c->name); */
+
         if (num_allocated_options <= num_options) {
             num_allocated_options *= 2;
             options = lib_realloc(options, (sizeof(cmdline_option_ram_t) * num_allocated_options));
@@ -73,10 +92,11 @@ int cmdline_register_options(const cmdline_option_t *c)
         p->need_arg = c->need_arg;
         p->set_func = c->set_func;
         p->extra_param = c->extra_param;
-        if (c->resource_name != NULL)
+        if (c->resource_name != NULL) {
             p->resource_name = lib_stralloc(c->resource_name);
-        else
+        } else {
             p->resource_name = NULL;
+        }
         p->resource_value = c->resource_value;
 
         p->use_param_name_id = c->use_param_name_id;

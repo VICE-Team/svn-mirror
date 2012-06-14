@@ -63,30 +63,7 @@ static const cmdline_option_t cmdline_options[] = {
     { NULL }
 };
 
-static cmdline_option_t cmd_drive[] = {
-    { NULL, SET_RESOURCE, 1,
-      NULL, NULL, NULL, (void *)DRIVE_IDLE_TRAP_IDLE,
-      USE_PARAM_ID, USE_DESCRIPTION_ID,
-      IDCLS_P_METHOD, IDCLS_SET_IDLE_METHOD,
-      NULL, NULL },
-    { NULL }
-};
-
 int ieee_cmdline_options_init(void)
 {
-    unsigned int dnr;
-
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        cmd_drive[0].name = lib_msprintf("-drive%iidle", dnr + 8);
-        cmd_drive[0].resource_name
-            = lib_msprintf("Drive%iIdleMethod", dnr + 8);
-
-        if (cmdline_register_options(cmd_drive) < 0)
-            return -1;
-
-        lib_free((char *)cmd_drive[0].name);
-        lib_free((char *)cmd_drive[0].resource_name);
-    }
-
     return cmdline_register_options(cmdline_options);
 }

@@ -255,7 +255,6 @@ int machine_cmdline_options_init(void)
         || vsync_cmdline_options_init() < 0
         || video_init_cmdline_options() < 0
         || c64dtv_cmdline_options_init() < 0
-        || monitor_cmdline_options_init() < 0
         || c64dtvmem_cmdline_options_init() < 0
         || vicii_cmdline_options_init() < 0
         || sound_cmdline_options_init() < 0
