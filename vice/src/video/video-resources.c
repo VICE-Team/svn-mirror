@@ -213,8 +213,11 @@ static const char *vname_chip_hwscale[] = { "HwScale", NULL };
 
 static resource_int_t resources_chip_hwscale[] =
 {
-    { NULL, 0, RES_EVENT_NO, NULL,
-      NULL, set_hwscale_enabled, NULL },
+#ifdef HAVE_HWSCALE
+    { NULL, 1, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
+#else
+    { NULL, 0, RES_EVENT_NO, NULL, NULL, set_hwscale_enabled, NULL },
+#endif
     RESOURCE_INT_LIST_END
 };
 
