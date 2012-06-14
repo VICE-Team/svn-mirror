@@ -37,7 +37,7 @@
 
 int machine_drive_resources_init(void)
 {
-    return drive_resources_type_init(DRIVE_TYPE_2031)
+    return drive_resources_type_init(DRIVE_TYPE_2031) /* FIXME: drive depends on machine (sub) type */
         | ieee_drive_resources_init();
 }
 

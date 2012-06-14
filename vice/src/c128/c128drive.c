@@ -39,7 +39,7 @@
 
 int machine_drive_resources_init(void)
 {
-    return drive_resources_type_init(DRIVE_TYPE_1541) | iec_drive_resources_init() | iec_c64exp_resources_init() | iec128dcr_drive_resources_init()
+    return drive_resources_type_init(DRIVE_TYPE_1571CR) | iec_drive_resources_init() | iec_c64exp_resources_init() | iec128dcr_drive_resources_init()
                                                       | ieee_drive_resources_init();
 }
 

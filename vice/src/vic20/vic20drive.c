@@ -38,7 +38,7 @@
 
 int machine_drive_resources_init(void)
 {
-    return drive_resources_type_init(DRIVE_TYPE_1541)
+    return drive_resources_type_init(DRIVE_TYPE_1541) /* FIXME: we should emulate 1540 */
         | iec_drive_resources_init() | ieee_drive_resources_init();
 }
 

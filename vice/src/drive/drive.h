@@ -51,6 +51,7 @@
 
 /* Drive type.  */
 #define DRIVE_TYPE_NONE      0
+/* #define DRIVE_TYPE_1540   1540 */ /* FIXME: we should emulate 1540 */
 #define DRIVE_TYPE_1541   1541
 #define DRIVE_TYPE_1541II 1542
 #define DRIVE_TYPE_1551   1551

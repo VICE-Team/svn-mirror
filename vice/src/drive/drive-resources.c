@@ -260,7 +260,7 @@ static const resource_int_t resources_int[] = {
 static resource_int_t res_drive[] = {
     { NULL, DRIVE_EXTEND_NEVER, RES_EVENT_SAME, NULL,
       NULL, set_drive_extend_image_policy, NULL },
-    { NULL, DRIVE_IDLE_TRAP_IDLE, RES_EVENT_SAME, NULL,
+    { NULL, DRIVE_IDLE_NO_IDLE, RES_EVENT_SAME, NULL,
       NULL, set_drive_idling_method, NULL },
     { NULL }
 };
