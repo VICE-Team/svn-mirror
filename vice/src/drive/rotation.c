@@ -287,7 +287,7 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     rotation_t *rptr;
     int clk_ref_per_rev, cyc_act_frv, todo;
     SDWORD delta;
-    DWORD count_new_bitcell, cyc_sum_frv, cycle_index/*, sum_new_bitcell*/;
+    DWORD count_new_bitcell, cyc_sum_frv/*, sum_new_bitcell*/;
     unsigned int dnr = dptr->mynumber;
 
     rptr = &rotation[dptr->mynumber];
@@ -306,8 +306,6 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
     /* the sum of all cell cycles per current revolution, this would be different for variable density */
     cyc_sum_frv = 8 * dptr->GCR_current_track_size;
     cyc_sum_frv = cyc_sum_frv ? cyc_sum_frv : 1;
-
-    cycle_index = rptr->cycle_index;
 
     if (dptr->read_write_mode) {
 
@@ -399,7 +397,7 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 
                            /* BYTE READY signal if enabled */
                            if ((dptr->byte_ready_active & 2) != 0) {
-                                rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
+                                rptr->so_delay = 16 - ((rptr->cycle_index + (todo - 1)) & 15);
                                 if (rptr->so_delay < 10) {
                                     rptr->so_delay += 16;
                                 }
@@ -425,7 +423,7 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                 }
             }
 
-            cycle_index += todo;
+            rptr->cycle_index += todo;
             ref_cycles -= todo;
         }
 
@@ -484,7 +482,7 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 
                         /* BYTE READY signal if enabled */
                         if ((dptr->byte_ready_active & 2) != 0) {
-                            rptr->so_delay = 16 - ((cycle_index + (todo - 1)) & 15);
+                            rptr->so_delay = 16 - ((rptr->cycle_index + (todo - 1)) & 15);
                             if (rptr->so_delay < 10) {
                                 rptr->so_delay += 16;
                             }
@@ -504,13 +502,11 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                 write_next_bit(dptr, rptr->write_flux);
             }
 
-            cycle_index += todo;
+            rptr->cycle_index += todo;
             ref_cycles -= todo;
         }
 
     }
-
-    rptr->cycle_index = cycle_index;
 
 }
 
@@ -555,352 +551,355 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
 {
     rotation_t *rptr;
     PP64PulseStream P64PulseStream;
-    DWORD DeltaPositionToNextPulse, ToDo, Strength, cycle_index;
+    DWORD DeltaPositionToNextPulse, ToDo;
 
     rptr = &rotation[dptr->mynumber];
 
     P64PulseStream = &dptr->p64->PulseStreams[dptr->current_half_track];
 
+    /* Reset if out of head position bounds */
     if ((P64PulseStream->CurrentIndex < 0) ||
         ((P64PulseStream->CurrentIndex != P64PulseStream->UsedFirst) &&
-        ((P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous >= 0) &&
-        (P64PulseStream->Pulses[P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous].Position >= rptr->PulseHeadPosition)))) {
-        P64PulseStreamSeek(P64PulseStream, rptr->PulseHeadPosition);
+         ((P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous >= 0) &&
+          (P64PulseStream->Pulses[P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous].Position >= rptr->PulseHeadPosition)))) {
+        P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
     }
 
-    cycle_index = rptr->cycle_index;
+    /* Correct current NRZI transition flux pulse index */
+    while ((P64PulseStream->CurrentIndex >= 0) &&
+           (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position <= rptr->PulseHeadPosition)) {
+        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+    }
+
+    /* Calculate delta to the next NRZI transition flux pulse */
+    if (P64PulseStream->CurrentIndex >= 0) {
+        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+    } else {
+        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+    }
 
     if (dptr->read_write_mode) {
 
         while (ref_cycles > 0) {
 
-            DWORD part_cycles;
+            /****************************************************************************************************************************************/
+            {
+                /* How-Much-16MHz-Clock-Cycles-ToDo-Count logic */
 
-            part_cycles = ref_cycles;
-
-            /* Avoid track wrap overflow for correct track wrapping */
-            if ((rptr->PulseHeadPosition + part_cycles) >= P64PulseSamplesPerRotation) {
-               part_cycles = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-            }
-
-            while ((P64PulseStream->CurrentIndex >= 0) &&
-                   (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
-                P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
-            }
-            if( P64PulseStream->CurrentIndex >= 0) {
-                DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-            } else {
-                DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-            }
-
-            ref_cycles -= part_cycles;
-
-            while (part_cycles > 0) {
-
-                /****************************************************************************************************************************************/
-                {
-                    /* How-Much-16MHz-Clock-Cycles-ToDo-Count logic */
-
-                    ToDo = DeltaPositionToNextPulse;
-                    if (ToDo <= 1) {
-                        ToDo = 1;
-                    } else {
-                        if (part_cycles < ToDo) {
-                            ToDo = part_cycles;
-                        }
-                        if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
-                            ToDo = 16 - rptr->ue7_counter;
-                        }
-                        if ((rptr->filter_counter < 40) && ((40 - rptr->filter_counter) < ToDo)) {
-                            ToDo = 40 - rptr->filter_counter;
-                        }
-                        if ((rptr->fr_randcount > 0) && (rptr->fr_randcount < ToDo)) {
-                            ToDo = rptr->fr_randcount;
-                        }
-                        if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
-                           ToDo = rptr->so_delay;
-                        }
+                ToDo = DeltaPositionToNextPulse;
+                if (ToDo <= 1) {
+                    ToDo = 1;
+                } else {
+                    if (ref_cycles < ToDo) {
+                        ToDo = ref_cycles;
+                    }
+                    if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
+                        ToDo = 16 - rptr->ue7_counter;
+                    }
+                    if ((rptr->filter_counter < 40) && ((40 - rptr->filter_counter) < ToDo)) {
+                        ToDo = 40 - rptr->filter_counter;
+                    }
+                    if ((rptr->fr_randcount > 0) && (rptr->fr_randcount < ToDo)) {
+                        ToDo = rptr->fr_randcount;
+                    }
+                    if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
+                       ToDo = rptr->so_delay;
                     }
                 }
-                /****************************************************************************************************************************************/
-                {
-                    /* so signal handling */
-                    if (rptr->so_delay) {
-                        rptr->so_delay -= ToDo;
-                        if (!rptr->so_delay) {
-                            dptr->byte_ready_edge = 1;
-                            dptr->byte_ready_level = 1;
-                        }
+            }
+            /****************************************************************************************************************************************/
+            {
+                /* so signal handling */
+                if (rptr->so_delay) {
+                    rptr->so_delay -= ToDo;
+                    if (!rptr->so_delay) {
+                        dptr->byte_ready_edge = 1;
+                        dptr->byte_ready_level = 1;
                     }
                 }
-                /****************************************************************************************************************************************/
-                {
-                    /* Clock logic */
+            }
+            /****************************************************************************************************************************************/
+            {
+                /* Clock logic */
 
-                    /* 2.5 microseconds filter */
-                    rptr->filter_counter += (rptr->filter_counter < 40) ? ToDo : 0;
-                    if (((rptr->filter_counter >= 40) && (rptr->filter_state != rptr->filter_last_state))) {
-                        rptr->filter_last_state = rptr->filter_state;
-                        rptr->uf4_counter = 0;
-                        rptr->ue7_counter = rptr->ue7_dcba;
-                        rptr->fr_randcount = ((RANDOM_nextUInt(rptr) >> 16) % 31) + 289;
-                    } else {
-                        rptr->fr_randcount -= ToDo;
-                        if(!rptr->fr_randcount) {
-                          rptr->uf4_counter = 0;
-                          rptr->ue7_counter = rptr->ue7_dcba;
-                          rptr->fr_randcount = ((RANDOM_nextUInt(rptr) >> 16) % 367) + 33;
-                        }
+                /* 2.5 microseconds filter */
+                rptr->filter_counter += (rptr->filter_counter < 40) ? ToDo : 0;
+                if (((rptr->filter_counter >= 40) && (rptr->filter_state != rptr->filter_last_state))) {
+                    rptr->filter_last_state = rptr->filter_state;
+                    rptr->uf4_counter = 0;
+                    rptr->ue7_counter = rptr->ue7_dcba;
+                    rptr->fr_randcount = ((RANDOM_nextUInt(rptr) >> 16) % 31) + 289;
+                } else {
+                    rptr->fr_randcount -= ToDo;
+                    if(!rptr->fr_randcount) {
+                      rptr->uf4_counter = 0;
+                      rptr->ue7_counter = rptr->ue7_dcba;
+                      rptr->fr_randcount = ((RANDOM_nextUInt(rptr) >> 16) % 367) + 33;
                     }
+                }
 
-                    /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
-                    ** 16-(CurrentSpeedZone & 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
-                    */
-                    rptr->ue7_counter += ToDo;
-                    if (rptr->ue7_counter == 16) {
+                /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
+                ** 16-(CurrentSpeedZone & 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
+                */
+                rptr->ue7_counter += ToDo;
+                if (rptr->ue7_counter == 16) {
 
-                        rptr->ue7_counter = rptr->ue7_dcba;
+                    rptr->ue7_counter = rptr->ue7_dcba;
 
-                        rptr->uf4_counter = (rptr->uf4_counter + 1) & 0xf;
-                        if ((rptr->uf4_counter & 3) == 2) {
+                    rptr->uf4_counter = (rptr->uf4_counter + 1) & 0xf;
+                    if ((rptr->uf4_counter & 3) == 2) {
 
-                            /****************************************************************************************************************************************/
-                            {
-                                // Decoder logic
+                        /****************************************************************************************************************************************/
+                        {
+                            // Decoder logic
 
-                                rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
+                            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
 
-                                rptr->last_write_data <<= 1;
+                            rptr->last_write_data <<= 1;
 
-                                /* is sync? reset bit counter, don't move data, etc. */
-                                if (rptr->last_read_data == 0x3ff) {
+                            /* is sync? reset bit counter, don't move data, etc. */
+                            if (rptr->last_read_data == 0x3ff) {
+                                rptr->bit_counter = 0;
+                            } else {
+                                if (++ rptr->bit_counter == 8) {
+
                                     rptr->bit_counter = 0;
-                                } else {
-                                    if (++ rptr->bit_counter == 8) {
 
-                                        rptr->bit_counter = 0;
+                                    dptr->GCR_read = (BYTE) rptr->last_read_data;
 
-                                        dptr->GCR_read = (BYTE) rptr->last_read_data;
+                                    /* tlr claims that the write register is loaded at every
+                                     * byte boundary, and since the bus is shared, it's reasonable
+                                     * to guess that it would be loaded with whatever was last read. */
+                                    rptr->last_write_data = dptr->GCR_read;
 
-                                        /* tlr claims that the write register is loaded at every
-                                         * byte boundary, and since the bus is shared, it's reasonable
-                                         * to guess that it would be loaded with whatever was last read. */
-                                        rptr->last_write_data = dptr->GCR_read;
-
-                                        /* BYTE READY signal if enabled */
-                                        if ((dptr->byte_ready_active & 2) != 0) {
-                                            rptr->so_delay = 16 - ((cycle_index + (ToDo - 1)) & 15);
-                                            if (rptr->so_delay < 10) {
-                                               rptr->so_delay += 16;
-                                            }
+                                    /* BYTE READY signal if enabled */
+                                    if ((dptr->byte_ready_active & 2) != 0) {
+                                        rptr->so_delay = 16 - ((rptr->cycle_index + (ToDo - 1)) & 15);
+                                        if (rptr->so_delay < 10) {
+                                           rptr->so_delay += 16;
                                         }
+                                    }
 
-                                   }
-                                }
+                               }
                             }
-                            /****************************************************************************************************************************************/
                         }
+                        /****************************************************************************************************************************************/
                     }
                 }
-                /****************************************************************************************************************************************/
-                {
-                    /* Head logic */
-
-                    if (!DeltaPositionToNextPulse) {
-
-                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-
-                        if (P64PulseStream->CurrentIndex >= 0) {
-
-                            Strength = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength;
-
-                            // Forward pulse high hit to the decoder logic
-                            if ((Strength == 0xffffffffUL) ||                                   /* Strong pulse */
-                                (((DWORD)(RANDOM_nextInt(rptr) ^ 0x80000000UL)) < Strength)) {  /* Weak pulse */
-                               rptr->filter_state ^= 1;
-                               rptr->filter_counter = 0;
-                            }
-
-                            P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
-                            if (P64PulseStream->CurrentIndex >= 0) {
-                                DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                            }
-                        }
-                    }
-
-                    DeltaPositionToNextPulse -= ToDo;
-
-                    rptr->PulseHeadPosition += ToDo;
-
-                    if(rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
-                        rptr->PulseHeadPosition -= P64PulseSamplesPerRotation;
-
-                        P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
-                        while ((P64PulseStream->CurrentIndex >= 0) &&
-                               (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
-                          P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
-                        }
-                        if(P64PulseStream->CurrentIndex >= 0) {
-                            DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                        }
-                    }
-                }
-                /****************************************************************************************************************************************/
-
-                cycle_index += ToDo;
-                part_cycles -= ToDo;
             }
+            /****************************************************************************************************************************************/
+            {
+                /* Head logic */
 
+                DeltaPositionToNextPulse -= ToDo;
+
+                /* Track wrap handling */
+                rptr->PulseHeadPosition += ToDo;
+                if (rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
+                    rptr->PulseHeadPosition -= P64PulseSamplesPerRotation;
+
+                    P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
+                    while ((P64PulseStream->CurrentIndex >= 0) &&
+                           (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
+                      P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+                    }
+                    if (P64PulseStream->CurrentIndex >= 0) {
+                        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+                    }else{
+                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+                    }
+                }
+
+                /* Next NRZI transition flux pulse handling */
+                if (!DeltaPositionToNextPulse) {
+                    if ((P64PulseStream->CurrentIndex >= 0) &&
+                        (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
+                        DWORD Strength = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength;
+
+                        // Forward pulse high hit to the decoder logic
+                        if ((Strength == 0xffffffffUL) ||                                   /* Strong pulse */
+                            (((DWORD)(RANDOM_nextInt(rptr) ^ 0x80000000UL)) < Strength)) {  /* Weak pulse */
+                           rptr->filter_state ^= 1;
+                           rptr->filter_counter = 0;
+                        }
+
+                        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+                    }
+                    if (P64PulseStream->CurrentIndex >= 0) {
+                        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+                    }else{
+                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+                    }
+                }
+
+            }
+            /****************************************************************************************************************************************/
+
+            rptr->cycle_index += ToDo;
+            ref_cycles -= ToDo;
         }
 
     } else {
 
+        int head_write;
+
+        head_write = 0;
+
         while (ref_cycles > 0) {
 
-            DWORD part_cycles, LastPulseHeadPosition, NextPulseHeadPosition;
+            /****************************************************************************************************************************************/
+            {
 
-            part_cycles = ref_cycles;
+                /* How-Much-16MHz-Clock-Cycles-ToDo-Count logic */
 
-            LastPulseHeadPosition = rptr->PulseHeadPosition;
-            NextPulseHeadPosition = rptr->PulseHeadPosition + part_cycles;
-
-            /* Avoid track wrap overflow for correct track wrapping */
-            if (NextPulseHeadPosition >= P64PulseSamplesPerRotation) {
-               NextPulseHeadPosition = P64PulseSamplesPerRotation;
-               part_cycles = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-            }
-
-            ref_cycles -= part_cycles;
-
-            while (part_cycles > 0) {
-
-                /****************************************************************************************************************************************/
-                {
-
-                    /* How-Much-16MHz-Clock-Cycles-ToDo-Count logic */
-
-                    ToDo = part_cycles;
+                ToDo = DeltaPositionToNextPulse;
+                if (ToDo <= 1) {
+                    ToDo = 1;
+                } else {
+                    if ((rptr->PulseHeadPosition + ToDo) >= P64PulseSamplesPerRotation) {
+                       ToDo = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+                    }
+                    if (ref_cycles < ToDo) {
+                        ToDo = ref_cycles;
+                    }
                     if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
                         ToDo = 16 - rptr->ue7_counter;
                     }
                     if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
                         ToDo = rptr->so_delay;
                     }
-
                 }
-                /****************************************************************************************************************************************/
-                {
-                    /* so signal handling */
-                    if (rptr->so_delay) {
-                        rptr->so_delay -= ToDo;
-                        if (!rptr->so_delay) {
-                            dptr->byte_ready_edge = 1;
-                            dptr->byte_ready_level = 1;
-                        }
+
+            }
+            /****************************************************************************************************************************************/
+            {
+                /* so signal handling */
+                if (rptr->so_delay) {
+                    rptr->so_delay -= ToDo;
+                    if (!rptr->so_delay) {
+                        dptr->byte_ready_edge = 1;
+                        dptr->byte_ready_level = 1;
                     }
                 }
-                /****************************************************************************************************************************************/
-                {
+            }
+            /****************************************************************************************************************************************/
+            {
 
-                    /* Clock logic */
+                /* Clock logic */
 
-                    /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
-                    ** 16-(CurrentSpeedZone & 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
-                    */
-                    rptr->ue7_counter += ToDo;
-                    if(rptr->ue7_counter == 16) {
+                /* Increment the pulse divider clock until the speed zone pulse divider clock threshold value is reached, which is:
+                ** 16-(CurrentSpeedZone & 3), and each overflow, increment the pulse counter clock until the 4th pulse is reached
+                */
+                rptr->ue7_counter += ToDo;
+                if(rptr->ue7_counter == 16) {
 
-                        rptr->ue7_counter = rptr->ue7_dcba;
+                    rptr->ue7_counter = rptr->ue7_dcba;
 
-                        rptr->uf4_counter = (rptr->uf4_counter + 1) & 0xf;
-                        if ((rptr->uf4_counter & 3) == 2) {
+                    rptr->uf4_counter = (rptr->uf4_counter + 1) & 0xf;
+                    if ((rptr->uf4_counter & 3) == 2) {
 
-                            /****************************************************************************************************************************************/
+                        /****************************************************************************************************************************************/
 
-                            /* Encoder logic */
+                        /* Encoder logic */
 
-                            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
+                        rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
 
-                            dptr->GCR_dirty_track = 1;
-                            if(rptr->last_write_data & 0x80) {
-                                /* Head logic */
+                        head_write = (rptr->last_write_data & 0x80) ? 1 : 0;
+                        rptr->last_write_data <<= 1;
 
-                                /* Delete all gap flux pulses */
-                                if (LastPulseHeadPosition < rptr->PulseHeadPosition) {
-                                    P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, rptr->PulseHeadPosition - LastPulseHeadPosition);
+                        if (++ rptr->bit_counter == 8) {
+
+                            rptr->bit_counter = 0;
+
+                            rptr->last_write_data = dptr->GCR_write_value;
+
+                            /* BYTE READY signal if enabled */
+                            if ((dptr->byte_ready_active & 2) != 0) {
+                                rptr->so_delay = 16 - ((rptr->cycle_index + (ToDo - 1)) & 15);
+                                if (rptr->so_delay < 10) {
+                                    rptr->so_delay += 16;
                                 }
-
-                                /* Add a strong flux pulse */
-                                P64PulseStreamAddPulse(P64PulseStream, rptr->PulseHeadPosition, 0xffffffffUL);
-
-                                /* Remember last head position */
-                                LastPulseHeadPosition = rptr->PulseHeadPosition + 1;
-
-                                /* Mark image as dirty */
-                                dptr->P64_dirty = 1;
-
-                            }
-                            rptr->last_write_data <<= 1;
-
-                            if (++ rptr->bit_counter == 8) {
-
-                                rptr->bit_counter = 0;
-
-                                rptr->last_write_data = dptr->GCR_write_value;
-
-                                /* BYTE READY signal if enabled */
-                                if ((dptr->byte_ready_active & 2) != 0) {
-                                    rptr->so_delay = 16 - ((cycle_index + (ToDo - 1)) & 15);
-                                    if (rptr->so_delay < 10) {
-                                        rptr->so_delay += 16;
-                                    }
-                                }
-
                             }
 
-                            /****************************************************************************************************************************************/
                         }
+
+                        /****************************************************************************************************************************************/
                     }
                 }
+            }
 
-                ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            /****************************************************************************************************************************************/
+            {
+                /* Head logic */
+
+                DeltaPositionToNextPulse -= ToDo;
 
                 rptr->PulseHeadPosition += ToDo;
-                if(rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
+                if (rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
                     rptr->PulseHeadPosition -= P64PulseSamplesPerRotation;
-
-                    /* Delete all gap flux pulses */
-                    if (LastPulseHeadPosition < P64PulseSamplesPerRotation) {
-                        P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, P64PulseSamplesPerRotation - LastPulseHeadPosition);
-                        dptr->P64_dirty = 1;
-                    }
-
-                    LastPulseHeadPosition = 0;
-                    NextPulseHeadPosition = 0;
 
                     P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
                     while ((P64PulseStream->CurrentIndex >= 0) &&
                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
-                        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+                      P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
                     }
+                    if (P64PulseStream->CurrentIndex >= 0) {
+                        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+                    }else{
+                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+                    }
+                }
+
+                if ((head_write == 0) &&
+                    (P64PulseStream->CurrentIndex >= 0) &&
+                    (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
+                    head_write = -1;
+                }
+
+                if (head_write != 0 ) {
+
+                    if (head_write > 0) {
+                        /* Add a strong flux pulse */
+                        if ((P64PulseStream->CurrentIndex >= 0) &&
+                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
+                            if (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength != 0xffffffffUL) {
+                                P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength = 0xffffffffUL;
+                                dptr->P64_dirty = 1;
+                            }
+                        } else {
+                            P64PulseStreamAddPulse(P64PulseStream, rptr->PulseHeadPosition, 0xffffffffUL);
+                            dptr->P64_dirty = 1;
+                        }
+                    } else {
+                        /* Remove pulse */
+                        if ((P64PulseStream->CurrentIndex >= 0) &&
+                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
+                            P64PulseStreamFreePulse(P64PulseStream, P64PulseStream->CurrentIndex);
+                            dptr->P64_dirty = 1;
+                        }
+                    }
+
+                    /* Calculate new delta */
+                    DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
+                    if (P64PulseStream->CurrentIndex >= 0) {
+                        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+                        if (P64PulseStream->CurrentIndex >= 0) {
+                            DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+                        }
+                    }
+
+                    head_write = 0;
 
                 }
 
-                cycle_index += ToDo;
-                part_cycles -= ToDo;
             }
+            /****************************************************************************************************************************************/
 
-            /* Delete all gap flux pulses */
-            if (LastPulseHeadPosition < NextPulseHeadPosition) {
-                P64PulseStreamRemovePulses(P64PulseStream, LastPulseHeadPosition, NextPulseHeadPosition - LastPulseHeadPosition);
-                dptr->P64_dirty = 1;
-            }
-
+            rptr->cycle_index += ToDo;
+            ref_cycles -= ToDo;
         }
 
     }
-
-    rptr->cycle_index = cycle_index;
 
 }
 

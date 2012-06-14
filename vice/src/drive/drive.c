@@ -454,7 +454,13 @@ void drive_set_half_track(int num, drive_t *dptr)
     if (num < 2)
         num = 2;
 
-    dptr->current_half_track = num;
+    if (dptr->current_half_track != num) {
+        dptr->current_half_track = num;
+        if (dptr->p64) {
+            dptr->p64->PulseStreams[dptr->current_half_track].CurrentIndex = -1;
+        }
+    }
+
     dptr->GCR_track_start_ptr = (dptr->gcr->data
                                 + ((dptr->current_half_track - 2)
                                 * dptr->gcr->max_track_size));
