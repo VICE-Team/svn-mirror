@@ -569,18 +569,30 @@ extern ui_callback_t about;
 static UI_CALLBACK(ui_about_cmdline)
 {
     unsigned int i, num_options;
+    char *name, *param, *desc;
     char *text;
     num_options = cmdline_get_num_options();
     text = lib_malloc(num_options * 0x100);
     text[0] = 0;
     for (i = 0; i < num_options; i++) {
-        strcat(text, cmdline_options_get_name(i));
-        if (cmdline_options_get_param(i) != NULL) {
-            strcat(text, " ");
-            strcat(text, cmdline_options_get_param(i));
+        name = cmdline_options_get_name(i);
+        if (name == NULL) {
+            log_error(LOG_ERR, "ui_about_cmdline: name is NULL.");
+            break;
         }
-        strcat(text, "\n\t");
-        strcat(text, cmdline_options_get_description(i));
+        strcat(text, name);
+        param = cmdline_options_get_param(i);
+        if (param != NULL) {
+            strcat(text, " ");
+            strcat(text, param);
+        }
+        desc = cmdline_options_get_description(i);
+        if (desc != NULL) {
+            strcat(text, "\n\t");
+            strcat(text, desc);
+        } else {
+            log_error(LOG_ERR, "ui_about_cmdline: description for '%s' is NULL.", name);
+        }
         strcat(text, "\n");
         if (strlen(text) > ((num_options - 1) * 0x100)) {
             log_error(LOG_ERR, "ui_about_cmdline: string buffer not big enough!");
