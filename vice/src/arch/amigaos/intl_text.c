@@ -3134,6 +3134,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
+/* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
+/* da */ { IDMS_BURST_MOD_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_BURST_MOD_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_BURST_MOD_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_BURST_MOD_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_BURST_MOD_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_BURST_MOD_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_BURST_MOD_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_BURST_MOD_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_BURST_MOD_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_BURST_MOD_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_BURST_MOD_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_BURST_MOD_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable Userport DAC for sound output" },
 /* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "Aktivér brugerport DAC for lydoutput" },
 /* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "Userport DAC Sound aktivieren" },
@@ -7208,6 +7222,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_REU_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_REU_SETTINGS_SV, "REU-Inställningar" },
 /* tr */ { IDS_REU_SETTINGS_TR, "REU Ayarlarý" },
+
+/* en */ { IDS_BURST_MOD_SETTINGS,    "Drive burst modification settings" },
+/* da */ { IDS_BURST_MOD_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_BURST_MOD_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_BURST_MOD_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_BURST_MOD_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_BURST_MOD_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_BURST_MOD_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_BURST_MOD_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_BURST_MOD_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_BURST_MOD_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_BURST_MOD_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_BURST_MOD_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_BURST_MOD_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_PALETTE_SETTINGS,    "Palette settings" },
 /* da */ { IDS_PALETTE_SETTINGS_DA, "" },  /* fuzzy */

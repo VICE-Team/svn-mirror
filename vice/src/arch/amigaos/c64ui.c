@@ -38,6 +38,7 @@
 #include "uic64cart.h"
 
 #include "mui/uiacia.h"
+#include "mui/uiburstmod.h"
 #include "mui/uic64_256k.h"
 #include "mui/uic64model.h"
 #include "mui/uidigimax.h"
@@ -166,6 +167,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_EASYFLASH_SETTINGS:
             ui_easyflash_settings_dialog();
+            break;
+        case IDM_BURST_MOD:
+            ui_burst_mod_settings_dialog();
             break;
         case IDM_IDE64_SETTINGS:
             ui_ide64_settings_dialog(canvas);
