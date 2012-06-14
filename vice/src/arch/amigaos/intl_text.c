@@ -8133,61 +8133,61 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_FILENAME_SELECT_SV, "Ange HD-avbildningsfil" },
 /* tr */ { IDS_IDE64_FILENAME_SELECT_TR, "HD imaj dosyasý seç" },
 
-/* en */ { IDS_IDE64_HD_1_SETTINGS,    "IDE64 HD 1 settings" },
+/* en */ { IDS_IDE64_HD_1_SETTINGS,    "IDE64 primary master settings" },
 /* da */ { IDS_IDE64_HD_1_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "IDE64 HD 1 Einstellungen" },
-/* es */ { IDS_IDE64_HD_1_SETTINGS_ES, "Ajustes IDE64 HD 1" },
+/* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_IDE64_HD_1_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IDE64_HD_1_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_1_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_1_SETTINGS_IT, "Impostazioni HD 1 IDE64" },
+/* it */ { IDS_IDE64_HD_1_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_IDE64_HD_1_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_1_SETTINGS_NL, "IDE64 HD 1 instellingen" },
-/* pl */ { IDS_IDE64_HD_1_SETTINGS_PL, "Ustawienia IDE64 HD 1" },
+/* nl */ { IDS_IDE64_HD_1_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_HD_1_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_IDE64_HD_1_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_1_SETTINGS_SV, "Inställningar för IDE64 HD 1" },
-/* tr */ { IDS_IDE64_HD_1_SETTINGS_TR, "IDE64 HD 1 ayarlarý" },
+/* sv */ { IDS_IDE64_HD_1_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_HD_1_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_IDE64_HD_2_SETTINGS,    "IDE64 HD 2 settings" },
+/* en */ { IDS_IDE64_HD_2_SETTINGS,    "IDE64 primary slave settings" },
 /* da */ { IDS_IDE64_HD_2_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "IDE64 HD 2 Einstellungen" },
-/* es */ { IDS_IDE64_HD_2_SETTINGS_ES, "Ajustes IDE64 HD 2" },
+/* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_IDE64_HD_2_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IDE64_HD_2_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_2_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_2_SETTINGS_IT, "Impostazioni HD 2 IDE64" },
+/* it */ { IDS_IDE64_HD_2_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_IDE64_HD_2_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_2_SETTINGS_NL, "IDE64 HD 2 instellingen" },
-/* pl */ { IDS_IDE64_HD_2_SETTINGS_PL, "Ustawienia IDE64 HD 2" },
+/* nl */ { IDS_IDE64_HD_2_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_HD_2_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_IDE64_HD_2_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_2_SETTINGS_SV, "Inställningar för IDE64 HD 2" },
-/* tr */ { IDS_IDE64_HD_2_SETTINGS_TR, "IDE64 HD 2 ayarlarý" },
+/* sv */ { IDS_IDE64_HD_2_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_HD_2_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_IDE64_HD_3_SETTINGS,    "IDE64 HD 3 settings" },
+/* en */ { IDS_IDE64_HD_3_SETTINGS,    "IDE64 secondary master settings" },
 /* da */ { IDS_IDE64_HD_3_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "IDE64 HD 3 Einstellungen" },
-/* es */ { IDS_IDE64_HD_3_SETTINGS_ES, "Ajustes IDE64 HD 3" },
+/* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_IDE64_HD_3_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IDE64_HD_3_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_3_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_3_SETTINGS_IT, "Impostazioni HD 3 IDE64" },
+/* it */ { IDS_IDE64_HD_3_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_IDE64_HD_3_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_3_SETTINGS_NL, "IDE64 HD 3 instellingen" },
-/* pl */ { IDS_IDE64_HD_3_SETTINGS_PL, "Ustawienia IDE64 HD 3" },
+/* nl */ { IDS_IDE64_HD_3_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_HD_3_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_IDE64_HD_3_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_3_SETTINGS_SV, "Inställningar för IDE64 HD 3" },
-/* tr */ { IDS_IDE64_HD_3_SETTINGS_TR, "IDE64 HD 3 ayarlarý" },
+/* sv */ { IDS_IDE64_HD_3_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_HD_3_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_IDE64_HD_4_SETTINGS,    "IDE64 HD 4 settings" },
+/* en */ { IDS_IDE64_HD_4_SETTINGS,    "IDE64 secondary slave settings" },
 /* da */ { IDS_IDE64_HD_4_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "IDE64 HD 4 Einstellungen" },
-/* es */ { IDS_IDE64_HD_4_SETTINGS_ES, "Ajustes IDE64 HD 4" },
+/* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_IDE64_HD_4_SETTINGS_ES, "" },  /* fuzzy */
 /* fr */ { IDS_IDE64_HD_4_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_4_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_4_SETTINGS_IT, "Impostazioni HD 4 IDE64" },
+/* it */ { IDS_IDE64_HD_4_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_IDE64_HD_4_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_4_SETTINGS_NL, "IDE64 HD 4 instellingen" },
-/* pl */ { IDS_IDE64_HD_4_SETTINGS_PL, "Ustawienia IDE64 HD 4" },
+/* nl */ { IDS_IDE64_HD_4_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_IDE64_HD_4_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_IDE64_HD_4_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_4_SETTINGS_SV, "Inställningar för IDE64 HD 4" },
-/* tr */ { IDS_IDE64_HD_4_SETTINGS_TR, "IDE64 HD 4 ayarlarý" },
+/* sv */ { IDS_IDE64_HD_4_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_IDE64_HD_4_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_IDE64_V4,    "IDE64 V4" },
 /* da */ { IDS_IDE64_V4_DA, "IDE64 V4" },
