@@ -558,17 +558,20 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
     P64PulseStream = &dptr->p64->PulseStreams[dptr->current_half_track];
 
     /* Reset if out of head position bounds */
-    if ((P64PulseStream->CurrentIndex < 0) ||
-        ((P64PulseStream->CurrentIndex != P64PulseStream->UsedFirst) &&
-         ((P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous >= 0) &&
-          (P64PulseStream->Pulses[P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous].Position >= rptr->PulseHeadPosition)))) {
-        P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
-    }
-
-    /* Correct current NRZI transition flux pulse index */
-    while ((P64PulseStream->CurrentIndex >= 0) &&
-           (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position <= rptr->PulseHeadPosition)) {
-        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+    if ((P64PulseStream->UsedLast >= 0) &&
+        (P64PulseStream->Pulses[P64PulseStream->UsedLast].Position <= rptr->PulseHeadPosition)) {
+        P64PulseStream->CurrentIndex = -1;
+    } else {
+        if ((P64PulseStream->CurrentIndex < 0) ||
+            ((P64PulseStream->CurrentIndex != P64PulseStream->UsedFirst) &&
+             ((P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous >= 0) &&
+              (P64PulseStream->Pulses[P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous].Position >= rptr->PulseHeadPosition)))) {
+            P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
+        }
+        while ((P64PulseStream->CurrentIndex >= 0) &&
+               (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position <= rptr->PulseHeadPosition)) {
+            P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
+        }
     }
 
     /* Calculate delta to the next NRZI transition flux pulse */
@@ -804,7 +807,7 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
 
                         rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 1);
 
-                        head_write = (rptr->last_write_data & 0x80) ? 1 : 0;
+                        head_write = (rptr->last_write_data & 0x80) >> 7;
                         rptr->last_write_data <<= 1;
 
                         if (++ rptr->bit_counter == 8) {
@@ -832,64 +835,45 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
             {
                 /* Head logic */
 
-                DeltaPositionToNextPulse -= ToDo;
-
+                /* Track wrap handling */
                 rptr->PulseHeadPosition += ToDo;
                 if (rptr->PulseHeadPosition >= P64PulseSamplesPerRotation) {
                     rptr->PulseHeadPosition -= P64PulseSamplesPerRotation;
-
                     P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
                     while ((P64PulseStream->CurrentIndex >= 0) &&
                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position < rptr->PulseHeadPosition)) {
                       P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
                     }
-                    if (P64PulseStream->CurrentIndex >= 0) {
-                        DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                    }else{
-                        DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-                    }
                 }
 
-                if ((head_write == 0) &&
+                /* Write head handling */
+                if ((!head_write) &&
                     (P64PulseStream->CurrentIndex >= 0) &&
                     (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
-                    head_write = -1;
-                }
-
-                if (head_write != 0 ) {
-
-                    if (head_write > 0) {
-                        /* Add a strong flux pulse */
-                        if ((P64PulseStream->CurrentIndex >= 0) &&
-                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
-                            if (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength != 0xffffffffUL) {
-                                P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength = 0xffffffffUL;
-                                dptr->P64_dirty = 1;
-                            }
-                        } else {
-                            P64PulseStreamAddPulse(P64PulseStream, rptr->PulseHeadPosition, 0xffffffffUL);
+                    /* Remove pulse */
+                    P64PulseStreamFreePulse(P64PulseStream, P64PulseStream->CurrentIndex);
+                    dptr->P64_dirty = 1;
+                } else if (head_write) {
+                    /* Add a strong flux pulse */
+                    if ((P64PulseStream->CurrentIndex >= 0) &&
+                        (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
+                        if (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength != 0xffffffffUL) {
+                            P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Strength = 0xffffffffUL;
                             dptr->P64_dirty = 1;
                         }
                     } else {
-                        /* Remove pulse */
-                        if ((P64PulseStream->CurrentIndex >= 0) &&
-                            (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position == rptr->PulseHeadPosition)) {
-                            P64PulseStreamFreePulse(P64PulseStream, P64PulseStream->CurrentIndex);
-                            dptr->P64_dirty = 1;
-                        }
+                        P64PulseStreamAddPulse(P64PulseStream, rptr->PulseHeadPosition, 0xffffffffUL);
+                        dptr->P64_dirty = 1;
                     }
-
-                    /* Calculate new delta */
-                    DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
-                    if (P64PulseStream->CurrentIndex >= 0) {
-                        P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
-                        if (P64PulseStream->CurrentIndex >= 0) {
-                            DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
-                        }
-                    }
-
+                    P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Next;
                     head_write = 0;
+                }
 
+                /* Calculate new delta */
+                if (P64PulseStream->CurrentIndex >= 0) {
+                    DeltaPositionToNextPulse = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position - rptr->PulseHeadPosition;
+                }else{
+                    DeltaPositionToNextPulse = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
                 }
 
             }
