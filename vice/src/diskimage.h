@@ -85,6 +85,7 @@ struct disk_image_s {
     unsigned int device;
     unsigned int type;
     unsigned int tracks;
+    unsigned int half_tracks;
     struct gcr_s *gcr;
     struct TP64Image *p64;
 };
@@ -126,6 +127,12 @@ extern unsigned int disk_image_sector_per_track(unsigned int format,
 extern int disk_image_read_gcr_image(disk_image_t *image);
 extern int disk_image_read_p64_image(disk_image_t *image);
 extern int disk_image_write_p64_image(disk_image_t *image);
+extern int disk_image_read_half_track(disk_image_t *image, unsigned int half_track,
+                                      BYTE *gcr_data, int *gcr_track_size);
+extern int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
+                                       int gcr_track_size,
+                                       BYTE *gcr_speed_zone,
+                                       BYTE *gcr_track_start_ptr);
 extern int disk_image_read_track(disk_image_t *image, unsigned int track,
                                  BYTE *gcr_data, int *gcr_track_size);
 extern int disk_image_write_track(disk_image_t *image, unsigned int track,

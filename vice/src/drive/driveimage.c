@@ -39,7 +39,7 @@
 #include "types.h"
 
 
-#define GCR_OFFSET(track) ((track - 1) * NUM_MAX_BYTES_TRACK)
+#define GCR_OFFSET(half_track) ((half_track - 2) * drive->gcr->max_track_size)
 #define SECTOR_GCR_SIZE_WITH_HEADER 354
 
 /* Logging goes here.  */
@@ -56,12 +56,12 @@ inline static unsigned int sector_offset(unsigned int track,
 {
     unsigned int speed;
     if (drive->image->type == DISK_IMAGE_TYPE_D71) {
-        speed = disk_image_speed_map_1571(track-1);
+        speed = disk_image_speed_map_1571(track - 1);
     } else {
-        speed = disk_image_speed_map_1541(track-1);
+        speed = disk_image_speed_map_1541(track - 1);
     }
 
-    return GCR_OFFSET(track)
+    return GCR_OFFSET(track * 2)
         + (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[speed]) * sector;
 }
 
@@ -70,12 +70,14 @@ void drive_image_init_track_size_d64(drive_t *drive)
     unsigned int track;
 
     for (track = 0; track < MAX_TRACKS_1541; track++) {
-        drive->gcr->track_size[track] =
+        drive->gcr->track_size[track * 2] =
+            raw_track_size[disk_image_speed_map_1541(track)];
+        drive->gcr->track_size[(track * 2) + 1] =
             raw_track_size[disk_image_speed_map_1541(track)];
         memset(drive->gcr->speed_zone, disk_image_speed_map_1541(track),
                NUM_MAX_BYTES_TRACK);
-		drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
     }
+		drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 }
 
 static void drive_image_init_track_size_d71(drive_t *drive)
@@ -83,11 +85,14 @@ static void drive_image_init_track_size_d71(drive_t *drive)
     unsigned int track;
 
     for (track = 0; track < MAX_TRACKS_1571; track++) {
-        drive->gcr->track_size[track] =
+        drive->gcr->track_size[track * 2] =
+            raw_track_size[disk_image_speed_map_1571(track)];
+        drive->gcr->track_size[(track * 2) + 1] =
             raw_track_size[disk_image_speed_map_1571(track)];
         memset(drive->gcr->speed_zone, disk_image_speed_map_1571(track),
                NUM_MAX_BYTES_TRACK);
     }
+		drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 }
 
 static void drive_image_read_d64_d71(drive_t *drive)
@@ -120,13 +125,19 @@ static void drive_image_read_d64_d71(drive_t *drive)
         drive_image_init_track_size_d71(drive);
     }
 
+    drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
+
     drive_set_half_track(drive->current_half_track, drive);
 
     for (track = 1; track <= drive->image->tracks; track++) {
         BYTE *ptr;
         unsigned int max_sector = 0;
 
-        ptr = drive->gcr->data + GCR_OFFSET(track);
+        /* Clear odd track */
+        ptr = drive->gcr->data + GCR_OFFSET((track * 2) + 1);
+        memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
+
+        ptr = drive->gcr->data + GCR_OFFSET(track * 2);
         max_sector = disk_image_sector_per_track(drive->image->type,
                                                  track);
         /* Clear track to avoid read errors.  */
@@ -147,7 +158,7 @@ static void drive_image_read_d64_d71(drive_t *drive)
             }
 
             if (rc == 21) {
-                ptr = drive->gcr->data + GCR_OFFSET(track);
+                ptr = drive->gcr->data + GCR_OFFSET(track * 2);
                 memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
                 break;
             }
@@ -354,9 +365,8 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
     } else {
 	drive_gcr_data_writeback(drive);
     }
-    
-//  memset(drive->gcr->data, 0, MAX_GCR_TRACKS * NUM_MAX_BYTES_TRACK);
-    memset(drive->gcr->data, 0, sizeof(drive->gcr->data));
+
+    memset(drive->gcr->data, 0x00, sizeof(drive->gcr->data));
     drive->detach_clk = drive_clk[dnr];
     drive->GCR_image_loaded = 0;
     drive->P64_image_loaded = 0;

@@ -345,7 +345,7 @@ void drive_enable_update_ui(drive_context_t *drv)
     for (i = 0; i < DRIVE_NUM; i++) {
         unsigned int the_drive;
         drive_t *drive = drive_context[i]->drive;
- 
+
         the_drive = 1 << i;
 
         if (drive->enable || (drive->drive0 && drive->drive0->enable)) {
@@ -438,7 +438,7 @@ void drive_reset(void)
 void drive_current_track_size_set(drive_t *dptr)
 {
     dptr->GCR_current_track_size =
-        dptr->gcr->track_size[dptr->current_half_track / 2 - 1];
+        dptr->gcr->track_size[dptr->current_half_track - 2];
 }
 
 /* Move the head to half track `num'.  */
@@ -456,12 +456,12 @@ void drive_set_half_track(int num, drive_t *dptr)
 
     dptr->current_half_track = num;
     dptr->GCR_track_start_ptr = (dptr->gcr->data
-                                + ((dptr->current_half_track / 2 - 1)
+                                + ((dptr->current_half_track - 2)
                                 * dptr->gcr->max_track_size));
 
     if (dptr->GCR_current_track_size != 0)
         dptr->GCR_head_offset = (dptr->GCR_head_offset
-            * dptr->gcr->track_size[dptr->current_half_track / 2 - 1])
+            * dptr->gcr->track_size[dptr->current_half_track - 2])
             / dptr->GCR_current_track_size;
     else
         dptr->GCR_head_offset = 0;
@@ -510,13 +510,14 @@ static void gcr_data_writeback2(BYTE *buffer, BYTE *offset, unsigned int track,
 void drive_gcr_data_writeback(drive_t *drive)
 {
     int extend;
-    unsigned int track, sector, max_sector = 0;
+    unsigned int half_track, track, sector, max_sector = 0;
     BYTE buffer[260], *offset;
 
     if (drive->image == NULL) {
         return;
     }
 
+    half_track = drive->current_half_track;
     track = drive->current_half_track / 2;
 
     if (drive->image->type == DISK_IMAGE_TYPE_P64) {
@@ -531,15 +532,15 @@ void drive_gcr_data_writeback(drive_t *drive)
         BYTE *gcr_track_start_ptr;
         unsigned int gcr_current_track_size;
 
-        gcr_current_track_size = drive->gcr->track_size[track - 1];
+        gcr_current_track_size = drive->gcr->track_size[half_track - 2];
 
         gcr_track_start_ptr = drive->gcr->data
-                              + ((track - 1) * drive->gcr->max_track_size);
+                              + ((half_track - 2) * drive->gcr->max_track_size);
 
-        disk_image_write_track(drive->image, track,
-                               gcr_current_track_size,
-                               drive->gcr->speed_zone,
-                               gcr_track_start_ptr);
+        disk_image_write_half_track(drive->image, half_track,
+                                   gcr_current_track_size,
+                                   drive->gcr->speed_zone,
+                                   gcr_track_start_ptr);
         drive->GCR_dirty_track = 0;
         return;
     }
@@ -678,7 +679,7 @@ static void drive_led_update(drive_t *drive, drive_t *drive0)
     }
 
     if (drive->led_active_ticks > led_period) {
-    /* during startup it has been observer that led_pwm > 1000, 
+    /* during startup it has been observer that led_pwm > 1000,
        which potentially breaks several UIs */
     /* this also happens when the drive is reset from UI
        and the LED was on */
@@ -690,7 +691,7 @@ static void drive_led_update(drive_t *drive, drive_t *drive0)
     if (led_pwm > MAX_PWM) {
         led_pwm = MAX_PWM;
     }
-    
+
     drive->led_active_ticks = 0;
 
     if (led_pwm != drive->led_last_pwm
