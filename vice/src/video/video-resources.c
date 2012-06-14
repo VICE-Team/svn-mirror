@@ -47,8 +47,37 @@
 #include "util.h"
 #include "log.h"
 
+/*-----------------------------------------------------------------------*/
+/* global resources.  */
+
+static int hwscale_possible;
+
+static int set_hwscale_possible(int val, void *param)
+{
+    hwscale_possible = val;
+
+    return 0;
+}
+
+static resource_int_t resources_hwscale_possible[] =
+{
+    { "HwScalePossible",
+#ifdef HAVE_HWSCALE
+      1,
+#else
+      0,
+#endif
+      RES_EVENT_NO, NULL,
+      &hwscale_possible, set_hwscale_possible, NULL },
+    RESOURCE_INT_LIST_END
+};
+
 int video_resources_init(void)
 {
+    if (resources_register_int(resources_hwscale_possible) < 0) {
+        return -1;
+    }
+
     return video_arch_resources_init();
 }
 
@@ -157,15 +186,6 @@ static resource_int_t resources_chip_scan[] =
     RESOURCE_INT_LIST_END
 };
 
-static int hwscale_possible;
-
-static int set_hwscale_possible(int val, void *param)
-{
-    hwscale_possible = val;
-
-    return 0;
-}
-
 static int set_hwscale_enabled(int val, void *param)
 {
     video_canvas_t *canvas = (video_canvas_t *)param;
@@ -195,19 +215,6 @@ static resource_int_t resources_chip_hwscale[] =
 {
     { NULL, 0, RES_EVENT_NO, NULL,
       NULL, set_hwscale_enabled, NULL },
-    RESOURCE_INT_LIST_END
-};
-
-static resource_int_t resources_chip_hwscale_possible[] =
-{
-    { "HwScalePossible",
-#ifdef HAVE_HWSCALE
-      1,
-#else
-      0,
-#endif
-      RES_EVENT_NO, NULL,
-      &hwscale_possible, set_hwscale_possible, NULL },
     RESOURCE_INT_LIST_END
 };
 
@@ -651,10 +658,6 @@ int video_resources_chip_init(const char *chipname,
         }
 
         lib_free((char *)(resources_chip_hwscale[0].name));
-    }
-
-    if (resources_register_int(resources_chip_hwscale_possible) < 0) {
-        return -1;
     }
 
     /* CHIPDoubleSize */
