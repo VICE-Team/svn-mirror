@@ -200,10 +200,30 @@ static void resources_check_hash_table(FILE *f)
 }
 #endif
 
+static resource_ram_t *lookup(const char *name)
+{
+    resource_ram_t *res;
+    unsigned int hashkey;
+
+    if (name == NULL) {
+        return NULL;
+    }
+    hashkey = resources_calc_hash_key(name);
+    res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
+    while (res != NULL) {
+        if (strcasecmp(res->name, name) == 0) {
+            return res;
+        }
+        res = (res->hash_next >= 0) ? resources + res->hash_next : NULL;
+    }
+    return NULL;
+}
+
 /* Configuration filename set via -config */
 char *vice_config_file = NULL;
 
 /* ------------------------------------------------------------------------- */
+/* register an array(!) of integer resources */
 int resources_register_int(const resource_int_t *r)
 {
     const resource_int_t *sp;
@@ -218,6 +238,12 @@ int resources_register_int(const resource_int_t *r)
         if (sp->value_ptr == NULL || sp->set_func == NULL) {
             archdep_startup_log_error(
                 "Inconsistent resource declaration '%s'.\n", sp->name);
+            return -1;
+        }
+
+        if (lookup(sp->name)) {
+            archdep_startup_log_error(
+                "Duplicated resource declaration '%s'.\n", sp->name);
             return -1;
         }
 
@@ -266,6 +292,12 @@ int resources_register_string(const resource_string_t *r)
             return -1;
         }
 
+        if (lookup(sp->name)) {
+            archdep_startup_log_error(
+                "Duplicated resource declaration '%s'.\n", sp->name);
+            return -1;
+        }
+
         if (num_allocated_resources <= num_resources) {
             num_allocated_resources *= 2;
             resources = lib_realloc(resources, num_allocated_resources
@@ -310,23 +342,6 @@ void resources_shutdown(void)
     lib_free(hashTable);
     lib_free(machine_id);
     lib_free(vice_config_file);
-}
-
-static resource_ram_t *lookup(const char *name)
-{
-    resource_ram_t *res;
-    unsigned int hashkey;
-
-    if (name == NULL)
-        return NULL;
-    hashkey = resources_calc_hash_key(name);
-    res = (hashTable[hashkey] >= 0) ? resources + hashTable[hashkey] : NULL;
-    while (res != NULL) {
-        if (strcasecmp(res->name, name) == 0)
-            return res;
-        res = (res->hash_next >= 0) ? resources + res->hash_next : NULL;
-    }
-    return NULL;
 }
 
 resource_type_t resources_query_type(const char *name)
