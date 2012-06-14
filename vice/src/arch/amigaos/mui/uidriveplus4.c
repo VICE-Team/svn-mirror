@@ -58,6 +58,8 @@ static char *drive_type_strings_8[] = {
     "1570",
     "1571",
     "1581",
+    "2000",
+    "4000",
     NULL
 };
 
@@ -69,6 +71,8 @@ static const int drive_type_values_8[] = {
     DRIVE_TYPE_1570,
     DRIVE_TYPE_1571,
     DRIVE_TYPE_1581,
+    DRIVE_TYPE_2000,
+    DRIVE_TYPE_4000,
     -1
 };
 
@@ -80,6 +84,8 @@ static char *drive_type_strings_9[] = {
     "1570",
     "1571",
     "1581",
+    "2000",
+    "4000",
     NULL
 };
 
@@ -91,6 +97,8 @@ static const int drive_type_values_9[] = {
     DRIVE_TYPE_1570,
     DRIVE_TYPE_1571,
     DRIVE_TYPE_1581,
+    DRIVE_TYPE_2000,
+    DRIVE_TYPE_4000,
     -1
 };
 
@@ -102,6 +110,8 @@ static char *drive_type_strings_10[] = {
     "1570",
     "1571",
     "1581",
+    "2000",
+    "4000",
     NULL
 };
 
@@ -113,6 +123,8 @@ static const int drive_type_values_10[] = {
     DRIVE_TYPE_1570,
     DRIVE_TYPE_1571,
     DRIVE_TYPE_1581,
+    DRIVE_TYPE_2000,
+    DRIVE_TYPE_4000,
     -1
 };
 
@@ -124,6 +136,8 @@ static char *drive_type_strings_11[] = {
     "1570",
     "1571",
     "1581",
+    "2000",
+    "4000",
     NULL
 };
 
@@ -135,6 +149,8 @@ static const int drive_type_values_11[] = {
     DRIVE_TYPE_1570,
     DRIVE_TYPE_1571,
     DRIVE_TYPE_1581,
+    DRIVE_TYPE_2000,
+    DRIVE_TYPE_4000,
     -1
 };
 

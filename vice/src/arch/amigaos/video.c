@@ -694,8 +694,8 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     }
 
     if (canvas->videoconfig->doublesizey) {
-        yi *= (canvas->videoconfig->doubleszey + 1);
-        h *= (canvas->videoconfig->doubleszey + 1);
+        yi *= (canvas->videoconfig->doublesizey + 1);
+        h *= (canvas->videoconfig->doublesizey + 1);
     }
 
 #ifdef HAVE_PROTO_CYBERGRAPHICS_H
