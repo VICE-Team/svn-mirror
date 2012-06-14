@@ -83,6 +83,7 @@ int cmdline_register_options(const cmdline_option_t *c)
         if (c->use_description_id != USE_DESCRIPTION_ID) {
             if(c->description == NULL) {
                 archdep_startup_log_error("CMDLINE: (%d) description id not used and description NULL for '%s'.\n", num_options, c->name);
+                return -1;
             }
         }
 
