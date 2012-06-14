@@ -67,7 +67,7 @@ static const resource_int_t resources_int[] =
 int vic_resources_init(void)
 {
     video_chip_cap.dsize_allowed = ARCHDEP_VIC_DSIZE;
-    video_chip_cap.dsize_default = 0;
+    video_chip_cap.dsize_default = ARCHDEP_VIC_DSIZE;
     video_chip_cap.dsize_limit_width = 0;
     video_chip_cap.dsize_limit_height = 0;
     video_chip_cap.dscan_allowed = ARCHDEP_VIC_DSCAN;
