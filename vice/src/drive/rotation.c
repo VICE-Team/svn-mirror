@@ -562,11 +562,15 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
         (P64PulseStream->Pulses[P64PulseStream->UsedLast].Position <= rptr->PulseHeadPosition)) {
         P64PulseStream->CurrentIndex = -1;
     } else {
-        if ((P64PulseStream->CurrentIndex < 0) ||
-            ((P64PulseStream->CurrentIndex != P64PulseStream->UsedFirst) &&
-             ((P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous >= 0) &&
-              (P64PulseStream->Pulses[P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous].Position >= rptr->PulseHeadPosition)))) {
+        if (P64PulseStream->CurrentIndex < 0) {
             P64PulseStream->CurrentIndex = P64PulseStream->UsedFirst;
+        } else {
+            while ((P64PulseStream->CurrentIndex >= 0) &&
+                   ((P64PulseStream->CurrentIndex != P64PulseStream->UsedFirst) &&
+                    ((P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous >= 0) &&
+                     (P64PulseStream->Pulses[P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous].Position > rptr->PulseHeadPosition)))) {
+                P64PulseStream->CurrentIndex = P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Previous;
+            }
         }
         while ((P64PulseStream->CurrentIndex >= 0) &&
                (P64PulseStream->Pulses[P64PulseStream->CurrentIndex].Position <= rptr->PulseHeadPosition)) {
