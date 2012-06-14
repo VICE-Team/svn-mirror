@@ -255,9 +255,13 @@ void drive_shutdown(void)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drivecpu_shutdown(drive_context[dnr]);
-        gcr_destroy_image(drive_context[dnr]->drive->gcr);
-        P64ImageDestroy(drive_context[dnr]->drive->p64);
-        lib_free(drive_context[dnr]->drive->p64);
+        if (drive_context[dnr]->drive->gcr) {
+            gcr_destroy_image(drive_context[dnr]->drive->gcr);
+        }
+        if (drive_context[dnr]->drive->p64) {
+            P64ImageDestroy(drive_context[dnr]->drive->p64);
+            lib_free(drive_context[dnr]->drive->p64);
+        }
         ds1216e_destroy(drive_context[dnr]->drive->ds1216);
     }
 
