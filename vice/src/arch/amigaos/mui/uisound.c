@@ -105,6 +105,22 @@ static const int ui_sound_fragment_size_values[] = {
     -1
 };
 
+static int ui_sound_output_mode_translate[] = {
+    IDS_SYSTEM,
+    IDS_MONO,
+    IDS_STEREO,
+    0
+};
+
+static char *ui_sound_output_mode[countof(ui_sound_output_mode_translate)];
+
+static const int ui_sound_output_mode_values[] = {
+    SOUND_OUTPUT_SYSTEM,
+    SOUND_OUTPUT_MONO,
+    SOUND_OUTPUT_STEREO,
+    -1
+};
+
 static char *ui_sound_formats[] = {
     "aiff",
     "iff",
@@ -127,6 +143,7 @@ static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "SoundFragmentSize", ui_sound_fragment_size, ui_sound_fragment_size_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SoundSpeedAdjustment", ui_sound_adjusting, ui_sound_adjusting_values, NULL },
     { NULL, MUI_TYPE_INTEGER, "SoundVolume", NULL, ui_volume_range, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SoundOutput", ui_sound_output_mode, ui_sound_output_mode_values, NULL },
     UI_END /* mandatory */
 };
 
@@ -156,6 +173,7 @@ static APTR build_gui(void)
              CYCLE(ui_to_from[2].object, translate_text(IDS_FRAGMENT_SIZE), ui_sound_fragment_size)
              CYCLE(ui_to_from[3].object, translate_text(IDS_SPEED_ADJUSTMENT), ui_sound_adjusting)
              STRING(ui_to_from[4].object, translate_text(IDS_VOLUME), "0123456789", 5+1)
+             CYCLE(ui_to_from[5].object, translate_text(IDS_SOUND_OUTPUT_MODE), ui_sound_output_mode)
            End;
 }
 
@@ -197,6 +215,7 @@ void ui_sound_settings_dialog(void)
 {
     intl_convert_mui_table(ui_sound_adjusting_translate, ui_sound_adjusting);
     intl_convert_mui_table(ui_sound_fragment_size_translate, ui_sound_fragment_size);
+    intl_convert_mui_table(ui_sound_output_mode_translate, ui_sound_output_mode);
     mui_show_dialog(build_gui(), translate_text(IDS_SOUND_SETTINGS), ui_to_from);
 }
 

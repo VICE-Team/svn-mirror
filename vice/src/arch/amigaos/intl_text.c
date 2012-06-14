@@ -10079,6 +10079,62 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_VOLUME_SV, "Volym (0-100 %)" },
 /* tr */ { IDS_VOLUME_TR, "Ses Düzeyi (0-100%)" },
 
+/* en */ { IDS_SOUND_OUTPUT_MODE,    "Sound output mode" },
+/* da */ { IDS_SOUND_OUTPUT_MODE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SOUND_OUTPUT_MODE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SOUND_OUTPUT_MODE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SOUND_OUTPUT_MODE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SOUND_OUTPUT_MODE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SOUND_OUTPUT_MODE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SOUND_OUTPUT_MODE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SOUND_OUTPUT_MODE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SOUND_OUTPUT_MODE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SOUND_OUTPUT_MODE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SOUND_OUTPUT_MODE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SOUND_OUTPUT_MODE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SYSTEM,    "System" },
+/* da */ { IDS_SYSTEM_DA, "" },  /* fuzzy */
+/* de */ { IDS_SYSTEM_DE, "" },  /* fuzzy */
+/* es */ { IDS_SYSTEM_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SYSTEM_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SYSTEM_HU, "" },  /* fuzzy */
+/* it */ { IDS_SYSTEM_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SYSTEM_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SYSTEM_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SYSTEM_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SYSTEM_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SYSTEM_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SYSTEM_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_MONO,    "Mono" },
+/* da */ { IDS_MONO_DA, "" },  /* fuzzy */
+/* de */ { IDS_MONO_DE, "" },  /* fuzzy */
+/* es */ { IDS_MONO_ES, "" },  /* fuzzy */
+/* fr */ { IDS_MONO_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MONO_HU, "" },  /* fuzzy */
+/* it */ { IDS_MONO_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MONO_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MONO_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MONO_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MONO_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MONO_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MONO_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_STEREO,    "Stereo" },
+/* da */ { IDS_STEREO_DA, "" },  /* fuzzy */
+/* de */ { IDS_STEREO_DE, "" },  /* fuzzy */
+/* es */ { IDS_STEREO_ES, "" },  /* fuzzy */
+/* fr */ { IDS_STEREO_FR, "" },  /* fuzzy */
+/* hu */ { IDS_STEREO_HU, "" },  /* fuzzy */
+/* it */ { IDS_STEREO_IT, "" },  /* fuzzy */
+/* ko */ { IDS_STEREO_KO, "" },  /* fuzzy */
+/* nl */ { IDS_STEREO_NL, "" },  /* fuzzy */
+/* pl */ { IDS_STEREO_PL, "" },  /* fuzzy */
+/* ru */ { IDS_STEREO_RU, "" },  /* fuzzy */
+/* sv */ { IDS_STEREO_SV, "" },  /* fuzzy */
+/* tr */ { IDS_STEREO_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_MOUSE_TYPE,    "Mouse type" },
 /* da */ { IDS_MOUSE_TYPE_DA, "Mussetype" },
 /* de */ { IDS_MOUSE_TYPE_DE, "Maustyp" },
