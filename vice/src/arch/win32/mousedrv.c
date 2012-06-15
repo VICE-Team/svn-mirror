@@ -88,8 +88,8 @@ void mouse_update_mouse(void)
         }
     }
 
-    _mouse_x += state.lX;
-    _mouse_y -= state.lY;
+    _mouse_x += state.lX * 4;
+    _mouse_y -= state.lY * 4;
 
     mouse_button_left((int)(state.rgbButtons[0] & 0x80));
     mouse_button_right((int)(state.rgbButtons[1] & 0x80));
