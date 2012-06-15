@@ -2005,6 +2005,7 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_NCLBUTTONDOWN:
             vsync_suspend_speed_eval();
             break;
+#ifndef HAVE_DINPUT
         case WM_MOUSEMOVE:
             _mouse_x = (int)((lparam & 0xFFFF) * 4);
             _mouse_y = (int)(((~lparam >> 16) & 0xFFFF) * 4);
@@ -2042,6 +2043,13 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
                 mouse_button_right(0);
             }
             break;
+#else
+        case WM_RBUTTONDOWN:
+            if (!_mouse_enabled) {
+                ui_paste_clipboard_text(window);
+            }
+            break;
+#endif
         case WM_NOTIFY:
             statusbar_notify(window, window_index, wparam, lparam);
             break;
