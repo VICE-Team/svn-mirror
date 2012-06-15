@@ -2742,6 +2742,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SID_SETTINGS_SV, "SID-inställningar..." },
 /* tr */ { IDMS_SID_SETTINGS_TR, "SID ayarlarý..." },
 
+/* en */ { IDMS_CIA_SETTINGS,    "CIA settings..." },
+/* da */ { IDMS_CIA_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_CIA_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_CIA_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_CIA_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_CIA_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_CIA_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_CIA_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_CIA_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_CIA_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_CIA_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_CIA_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_CIA_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_COMPUTER_ROM_SETTINGS,    "Computer ROM settings..." },
 /* da */ { IDMS_COMPUTER_ROM_SETTINGS_DA, "Computer ROM-indstillinger..." },
 /* de */ { IDMS_COMPUTER_ROM_SETTINGS_DE, "Computer ROM Einstellungen..." },
@@ -10764,5 +10778,19 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_C64_MODEL_SETTINGS_RU, "C64 model settings" },
 /* sv */ { IDS_C64_MODEL_SETTINGS_SV, "C64-modellinställningar" },
 /* tr */ { IDS_C64_MODEL_SETTINGS_TR, "C64 model ayarlarý" },
+
+/* en */ { IDS_CIA_MODEL_SETTINGS,    "CIA model settings" },
+/* da */ { IDS_CIA_MODEL_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_CIA_MODEL_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_CIA_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_CIA_MODEL_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_CIA_MODEL_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_CIA_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_CIA_MODEL_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_CIA_MODEL_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_CIA_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_CIA_MODEL_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_CIA_MODEL_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_CIA_MODEL_SETTINGS_TR, "" },  /* fuzzy */
 
 };

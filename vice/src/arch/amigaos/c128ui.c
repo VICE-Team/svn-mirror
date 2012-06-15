@@ -39,6 +39,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uic128settings.h"
+#include "mui/uiciamodel.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec128.h"
 #include "mui/uieasyflash.h"
@@ -124,6 +125,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_SID_SETTINGS:
             ui_sid_settings_dialog();
+            break;
+        case IDM_CIA_SETTINGS:
+            ui_cia_model_dialog();
             break;
         case IDM_REU_SETTINGS:
             ui_reu_settings_dialog(canvas);
