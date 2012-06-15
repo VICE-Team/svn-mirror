@@ -602,9 +602,6 @@ static int mouse_warped = 0;
 static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
-    app_shell_type *appshell;
-
-    appshell = &app_shells[canvas->app_shell];
 
     switch(report->type) {
         case MotionNotify:
@@ -622,7 +619,6 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                 } else {
                     int x=0, y=0, w=0, h=0, warp=0;
                     int ptrx, ptry;
-                    int menu_h = 0;
                     /* float taspect; */
 
                     /* get cursor position */
@@ -632,21 +628,17 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                     ptrx = (int)report->xmotion.x;
                     ptry = (int)report->xmotion.y;
 
-                    w = canvas->geometry->screen_size.width;
-                    h = canvas->geometry->screen_size.height;
-
-                    if (canvas->videoconfig->doublesizex) {
-                        w *= (canvas->videoconfig->doublesizex + 1);
-                    }
-                    if (canvas->videoconfig->doublesizey) {
-                        h *= (canvas->videoconfig->doublesizey + 1);
-                    }
-#if 0
-                    taspect = get_aspect(canvas);
-                    if (taspect > 0.0f) {
-                        w = ((float)w) * taspect;
-                    }
+#ifdef HAVE_XVIDEO
+                    if (canvas->videoconfig->hwscale && canvas->xv_image) {
+                        w = canvas->xv_geometry.w + canvas->xv_geometry.x * 2;
+                        h = canvas->xv_geometry.h + canvas->xv_geometry.y * 2;
+                    } else
 #endif
+                    {
+                        w = canvas->draw_buffer->canvas_physical_width;
+                        h = canvas->draw_buffer->canvas_physical_height;
+                    }
+
                     if (ptrx < MOUSE_WRAP_MARGIN) {
                         x = mouse_lasteventx = w - (MOUSE_WRAP_MARGIN + 10);
                         warp = 1;
@@ -655,10 +647,6 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                         x = mouse_lasteventx = (MOUSE_WRAP_MARGIN + 10);
                         warp = 1;
                     }
-
-                    /* menu_h = appshell->topmenu->allocation.height; */
-                    menu_h = 100; /* FIXME */
-                    h -= menu_h;
 
                     if (ptry < (MOUSE_WRAP_MARGIN)) {
 #ifdef HAVE_FULLSCREEN
