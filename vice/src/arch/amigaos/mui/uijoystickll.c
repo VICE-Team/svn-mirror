@@ -102,14 +102,18 @@ static const int ui_joystick_enable_values[] = {
     -1
 };
 
-static char *ui_userport_c64_joystick[] = {
-    "CGA userport joy adapter",
-    "PET userport joy adapter",
-    "HUMMER userport joy adapter",
-    "OEM userport joy adapter",
-    "HIT userport joy adapter",
-    NULL
+static int ui_userport_c64_joystick_translate[] = {
+    IDMS_CGA_USERPORT_JOY_ADAPTER,
+    IDMS_PET_USERPORT_JOY_ADAPTER,
+    IDMS_HUMMER_USERPORT_JOY_ADAPTER,
+    IDMS_OEM_USERPORT_JOY_ADAPTER,
+    IDMS_HIT_USERPORT_JOY_ADAPTER,
+    IDMS_KINGSOFT_USERPORT_JOY_ADAPTER,
+    IDMS_STARBYTE_USERPORT_JOY_ADAPTER,
+    0
 };
+
+static char *ui_userport_c64_joystick[countof(ui_userport_c64_joystick_translate)];
 
 static const int ui_userport_c64_joystick_values[] = {
     USERPORT_JOYSTICK_CGA,
@@ -117,16 +121,20 @@ static const int ui_userport_c64_joystick_values[] = {
     USERPORT_JOYSTICK_HUMMER,
     USERPORT_JOYSTICK_OEM,
     USERPORT_JOYSTICK_HIT,
+    USERPORT_JOYSTICK_KINGSOFT,
+    USERPORT_JOYSTICK_STARBYTE,
     -1
 };
 
-static char *ui_userport_joystick[] = {
-    "CGA userport joy adapter",
-    "PET userport joy adapter",
-    "HUMMER userport joy adapter",
-    "OEM userport joy adapter",
-    NULL
+static int ui_userport_joystick_translate[] = {
+    IDMS_CGA_USERPORT_JOY_ADAPTER,
+    IDMS_PET_USERPORT_JOY_ADAPTER,
+    IDMS_HUMMER_USERPORT_JOY_ADAPTER,
+    IDMS_OEM_USERPORT_JOY_ADAPTER,
+    0
 };
+
+static char *ui_userport_joystick[countof(ui_userport_joystick_translate)];
 
 static const int ui_userport_joystick_values[] = {
     USERPORT_JOYSTICK_CGA,
@@ -169,7 +177,7 @@ static APTR build_gui_device_c64(void)
              CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[1].object, translate_text(IDS_JOY_2_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
-             CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_c64_joystick)
+             CYCLE(ui_to_from_device[5].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_c64_joystick)
              CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
            End;
@@ -181,7 +189,7 @@ static APTR build_gui_device_c64dtv(void)
              CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[1].object, translate_text(IDS_JOY_2_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
-             CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
+             CYCLE(ui_to_from_device[6].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
              CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
            End;
@@ -199,7 +207,7 @@ static APTR build_gui_device_pet(void)
 {
     return GroupObject,
              CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
-             CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
+             CYCLE(ui_to_from_device[6].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
              CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
            End;
@@ -210,7 +218,7 @@ static APTR build_gui_device_vic20(void)
     return GroupObject,
              CYCLE(ui_to_from_device[0].object, translate_text(IDS_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[4].object, translate_text(IDS_USERPORT_ADAPTER), ui_joystick_enable)
-             CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
+             CYCLE(ui_to_from_device[6].object, translate_text(IDS_USERPORT_ADAPTER_TYPE), ui_userport_joystick)
              CYCLE(ui_to_from_device[2].object, translate_text(IDS_USERPORT_JOY_1_DEVICE), ui_joystick_device)
              CYCLE(ui_to_from_device[3].object, translate_text(IDS_USERPORT_JOY_2_DEVICE), ui_joystick_device)
            End;
@@ -274,6 +282,7 @@ void ui_joystick_device_c64_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_c64_joystick_translate, ui_userport_c64_joystick);
     mui_show_dialog(build_gui_device_c64(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
 }
 
@@ -281,6 +290,7 @@ void ui_joystick_device_c64dtv_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_device_c64dtv(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
 }
 
@@ -288,6 +298,7 @@ void ui_joystick_device_cbm5x0_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_device_cbm5x0(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
 }
 
@@ -295,6 +306,7 @@ void ui_joystick_device_pet_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_device_pet(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
 }
 
@@ -302,6 +314,7 @@ void ui_joystick_device_vic20_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_device_vic20(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device);
 }
 
@@ -309,6 +322,7 @@ void ui_joystick_device_plus4_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_device_translate, ui_joystick_device);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_device_plus4(), translate_text(IDMS_JOYSTICK_DEVICE_SELECT), ui_to_from_device_plus4);
 }
 

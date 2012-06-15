@@ -1762,6 +1762,104 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SWAP_USERPORT_JOYSTICKS_SV, "Växla användarportstyrspakar" },
 /* tr */ { IDMS_SWAP_USERPORT_JOYSTICKS_TR, "Userport joysticklerini yer deðiþtir" },
 
+/* en */ { IDMS_CGA_USERPORT_JOY_ADAPTER,    "CGA userport joystick adapter" },
+/* da */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_CGA_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_CGA_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_CGA_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_CGA_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_CGA_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_CGA_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_CGA_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_CGA_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_CGA_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_CGA_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PET_USERPORT_JOY_ADAPTER,    "PET userport joystick adapter" },
+/* da */ { IDMS_PET_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PET_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PET_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PET_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PET_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PET_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PET_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PET_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PET_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PET_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PET_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PET_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER,    "Hummer userport joystick adapter" },
+/* da */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_OEM_USERPORT_JOY_ADAPTER,    "OEM userport joystick adapter" },
+/* da */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_OEM_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_OEM_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_OEM_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_OEM_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_OEM_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_OEM_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_OEM_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_OEM_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_OEM_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_OEM_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_HIT_USERPORT_JOY_ADAPTER,    "HIT userport joystick adapter" },
+/* da */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_HIT_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_HIT_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_HIT_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_HIT_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_HIT_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_HIT_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_HIT_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_HIT_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER,    "Kingsoft userport joystick adapter" },
+/* da */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER,    "Starbyte userport joystick adapter" },
+/* da */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
+/* de */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
+/* es */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
+/* it */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys" },
 /* da */ { IDMS_ENABLE_JOY_KEYS_DA, "Aktivér joystick via keyboard" },
 /* de */ { IDMS_ENABLE_JOY_KEYS_DE, "Joystick Tasten aktivieren" },

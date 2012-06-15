@@ -74,14 +74,18 @@ static const int ui_joystick_enable_values[] = {
     -1
 };
 
-static char *ui_userport_c64_joystick[] = {
-    "CGA userport joy adapter",
-    "PET userport joy adapter",
-    "HUMMER userport joy adapter",
-    "OEM userport joy adapter",
-    "HIT userport joy adapter",
-    NULL
+static int ui_userport_c64_joystick_translate[] = {
+    IDMS_CGA_USERPORT_JOY_ADAPTER,
+    IDMS_PET_USERPORT_JOY_ADAPTER,
+    IDMS_HUMMER_USERPORT_JOY_ADAPTER,
+    IDMS_OEM_USERPORT_JOY_ADAPTER,
+    IDMS_HIT_USERPORT_JOY_ADAPTER,
+    IDMS_KINGSOFT_USERPORT_JOY_ADAPTER,
+    IDMS_STARBYTE_USERPORT_JOY_ADAPTER,
+    0
 };
+
+static char *ui_userport_c64_joystick[countof(ui_userport_joystick_translate)];
 
 static const int ui_userport_c64_joystick_values[] = {
     USERPORT_JOYSTICK_CGA,
@@ -89,16 +93,20 @@ static const int ui_userport_c64_joystick_values[] = {
     USERPORT_JOYSTICK_HUMMER,
     USERPORT_JOYSTICK_OEM,
     USERPORT_JOYSTICK_HIT,
+    USERPORT_JOYSTICK_KINGSOFT,
+    USERPORT_JOYSTICK_STARBYTE,
     -1
 };
 
-static char *ui_userport_joystick[] = {
-    "CGA userport joy adapter",
-    "PET userport joy adapter",
-    "HUMMER userport joy adapter",
-    "OEM userport joy adapter",
-    NULL
+static int ui_userport_joystick_translate[] = {
+    IDMS_CGA_USERPORT_JOY_ADAPTER,
+    IDMS_PET_USERPORT_JOY_ADAPTER,
+    IDMS_HUMMER_USERPORT_JOY_ADAPTER,
+    IDMS_OEM_USERPORT_JOY_ADAPTER,
+    0
 };
+
+static char *ui_userport_joystick[countof(ui_userport_joystick_translate)];
 
 static const int ui_userport_joystick_values[] = {
     USERPORT_JOYSTICK_CGA,
@@ -487,6 +495,7 @@ void ui_joystick_settings_c64_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_translate, ui_joystick);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_c64_joystick_translate, ui_userport_c64_joystick);
     mui_show_dialog(build_gui_c64(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from);
 }
 
@@ -494,6 +503,7 @@ void ui_joystick_settings_c64dtv_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_translate, ui_joystick);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_c64dtv(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from);
 }
 
@@ -501,6 +511,7 @@ void ui_joystick_settings_cbm5x0_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_translate, ui_joystick);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_cbm5x0(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from);
 }
 
@@ -508,6 +519,7 @@ void ui_joystick_settings_pet_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_translate, ui_joystick);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_pet(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from);
 }
 
@@ -515,6 +527,7 @@ void ui_joystick_settings_vic20_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_translate, ui_joystick);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_vic20(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from);
 }
 
@@ -522,6 +535,7 @@ void ui_joystick_settings_plus4_dialog(void)
 {
     intl_convert_mui_table(ui_joystick_translate, ui_joystick);
     intl_convert_mui_table(ui_joystick_enable_translate, ui_joystick_enable);
+    intl_convert_mui_table(ui_userport_joystick_translate, ui_userport_joystick);
     mui_show_dialog(build_gui_plus4(), translate_text(IDS_JOYSTICK_SETTINGS), ui_to_from_plus4);
 }
 
