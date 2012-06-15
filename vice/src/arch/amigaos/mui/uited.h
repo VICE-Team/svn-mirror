@@ -1,5 +1,5 @@
 /*
- * uivic20mem.h
+ * uited.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,9 +24,9 @@
  *
  */
 
-#ifndef VICE_UIVIC20MEM_H
-#define VICE_UIVIC20MEM_H
+#ifndef VICE_UITED_H
+#define VICE_UITED_H
 
-extern void ui_vic20_settings_dialog(void);
+extern void ui_ted_settings_dialog(void);
 
 #endif

@@ -30,6 +30,7 @@
 #endif
 #include "mui.h"
 
+#include "vicii.h"
 #include "uivicii.h"
 #include "intl.h"
 #include "translate.h"
@@ -52,15 +53,17 @@ static int ui_vicii_borders_translate[] = {
     IDMS_NORMAL,
     IDS_FULL,
     IDS_DEBUG,
+    IDS_NONE,
     0
 };
 
 static char *ui_vicii_borders[countof(ui_vicii_borders_translate)];
 
 static const int ui_vicii_borders_values[] = {
-    0,
-    1,
-    2,
+    VICII_NORMAL_BORDERS,
+    VICII_FULL_BORDERS,
+    VICII_DEBUG_BORDERS,
+    VICII_NO_BORDERS,
     -1
 };
 

@@ -31,6 +31,7 @@
 #define UI_TRANSLATED_MENU_NAME c128_ui_menu
 
 #include "private.h"
+#include "c128model.h"
 #include "c128ui.h"
 #include "c128uires.h"
 #include "translate.h"
@@ -96,6 +97,18 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
     uic64cart_proc(canvas, idm);
 
     switch (idm) {
+        case IDM_C128_MODEL_C128_PAL:
+            c128model_set(C128MODEL_C128_PAL);
+            break;
+        case IDM_C128_MODEL_C128DCR_PAL:
+            c128model_set(C128MODEL_C128DCR_PAL);
+            break;
+        case IDM_C128_MODEL_C128_NTSC:
+            c128model_set(C128MODEL_C128_NTSC);
+            break;
+        case IDM_C128_MODEL_C128DCR_NTSC:
+            c128model_set(C128MODEL_C128DCR_NTSC);
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
             break;

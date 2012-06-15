@@ -48,6 +48,7 @@
 #include "mui/uisidcart.h"
 #include "mui/uisoundexpander.h"
 #include "mui/uisoundsampler.h"
+#include "mui/uivic.h"
 #include "mui/uivic20mem.h"
 #include "mui/uivideo.h"
 
@@ -79,6 +80,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
     char *fname = NULL;
 
     switch (idm) {
+        case IDM_VIC_SETTINGS:
+            ui_vic_settings_dialog();
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "VICExternalPalette", "VICPaletteFile", translate_text(IDS_VIC_PALETTE_FILENAME));
             break;
@@ -119,8 +123,8 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_CART_DETACH:
             cartridge_detach_image(-1);
             break;
-        case IDM_VIC_SETTINGS:
-            ui_vic_settings_dialog();
+        case IDM_VIC20_SETTINGS:
+            ui_vic20_settings_dialog();
             break;
         case IDM_COMPUTER_ROM_SETTINGS:
             ui_c64vic20_computer_rom_settings_dialog(canvas);

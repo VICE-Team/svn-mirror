@@ -68,8 +68,8 @@ static APTR build_gui(void)
            End;
 }
 
-void ui_vic_settings_dialog(void)
+void ui_vic20_settings_dialog(void)
 {
     intl_convert_mui_table(ui_vic20mem_enable_translate, ui_vic20mem_enable);
-    mui_show_dialog(build_gui(), translate_text(IDS_VIC_SETTINGS), ui_to_from);
+    mui_show_dialog(build_gui(), translate_text(IDS_VIC20_SETTINGS), ui_to_from);
 }

@@ -49,6 +49,7 @@
 #include "mui/uiprinter.h"
 #include "mui/uiromplus4settings.h"
 #include "mui/uisidcart.h"
+#include "mui/uited.h"
 #include "mui/uiv364speech.h"
 #include "mui/uivideo.h"
 
@@ -121,6 +122,9 @@ static void uiplus4cart_attach(video_canvas_t *canvas, int idm, const uicart_par
 static int plus4_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_TED_SETTINGS:
+            ui_ted_settings_dialog();
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "TEDExternalPalette", "TEDPaletteFile", translate_text(IDS_TED_PALETTE_FILENAME));
             break;
