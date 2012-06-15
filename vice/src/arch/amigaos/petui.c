@@ -31,6 +31,7 @@
 #define UI_TRANSLATED_MENU_NAME pet_ui_menu
 
 #include "private.h"
+#include "petmodel.h"
 #include "petui.h"
 #include "petuires.h"
 #include "translate.h"
@@ -60,6 +61,42 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
 static int pet_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_PET_MODEL_2001:
+            petmodel_set(PETMODEL_2001);
+            break;
+        case IDM_PET_MODEL_3008:
+            petmodel_set(PETMODEL_3008);
+            break;
+        case IDM_PET_MODEL_3016:
+            petmodel_set(PETMODEL_3016);
+            break;
+        case IDM_PET_MODEL_3032:
+            petmodel_set(PETMODEL_3032);
+            break;
+        case IDM_PET_MODEL_3032B:
+            petmodel_set(PETMODEL_3032B);
+            break;
+        case IDM_PET_MODEL_4016:
+            petmodel_set(PETMODEL_4016);
+            break;
+        case IDM_PET_MODEL_4032:
+            petmodel_set(PETMODEL_4032);
+            break;
+        case IDM_PET_MODEL_4032B:
+            petmodel_set(PETMODEL_4032B);
+            break;
+        case IDM_PET_MODEL_8032:
+            petmodel_set(PETMODEL_8032);
+            break;
+        case IDM_PET_MODEL_8096:
+            petmodel_set(PETMODEL_8096);
+            break;
+        case IDM_PET_MODEL_8296:
+            petmodel_set(PETMODEL_8296);
+            break;
+        case IDM_PET_MODEL_SUPERPET:
+            petmodel_set(PETMODEL_SUPERPET);
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "CrtcExternalPalette", "CrtcPaletteFile", translate_text(IDS_CRTC_PALETTE_FILENAME));
             break;
@@ -77,9 +114,6 @@ static int pet_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_PET_SETTINGS:
             ui_pet_settings_dialog();
-            break;
-        case IDM_PET_MODEL:
-            ui_pet_model_dialog();
             break;
         case IDM_COMPUTER_ROM_SETTINGS:
             ui_pet_computer_rom_settings_dialog(canvas);

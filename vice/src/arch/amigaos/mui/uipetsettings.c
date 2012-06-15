@@ -71,43 +71,6 @@ static const int ui_pet_video_values[] = {
     -1
 };
 
-static char *pet_model[] = {
-    "2001",
-    "3008",
-    "3016",
-    "3032",
-    "3032B",
-    "4016",
-    "4032",
-    "4032B",
-    "8032",
-    "8096",
-    "8296",
-    "SuperPET"
-};
-
-static int ui_pet_model_translate[] = {
-    IDS_CURRENT_MODEL,
-    -1
-};
-
-static char *ui_pet_model[] = {
-    NULL,		/* "Current model" place-holder */
-    "PET 2001-8N",
-    "PET 3008",
-    "PET 3016",
-    "PET 3032",
-    "PET 3032B",
-    "PET 4016",
-    "PET 4032",
-    "PET 4032B",
-    "PET 8032",
-    "PET 8096",
-    "PET 8296",
-    "SuperPET",
-    NULL
-};
-
 static int ui_pet_io_size_translate[] = {
     IDS_256_BYTE,
     IDS_2_KBYTE,
@@ -189,55 +152,6 @@ static APTR build_gui(void)
     }
 
     return ui;
-}
-
-static APTR model;
-
-static APTR build_pet_model_gui(void)
-{
-    APTR app, ui, ok, cancel;
-
-    app = mui_get_app();
-
-    ui = GroupObject,
-           CYCLE(model, translate_text(IDS_PET_MODEL), ui_pet_model)
-           OK_CANCEL_BUTTON
-         End;
-
-    if (ui != NULL) {
-        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
-
-        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
-                 app, 2, MUIM_Application_ReturnID, BTN_OK);
-    }
-
-    return ui;
-}
-
-void ui_pet_model_dialog(void)
-{
-    APTR window;
-    int val;
-
-    intl_convert_mui_table(ui_pet_model_translate, ui_pet_model);
-
-    window = mui_make_simple_window(build_pet_model_gui(), translate_text(IDS_SET_PET_MODEL));
-
-    if (window != NULL) {
-        mui_add_window(window);
-        set(model, MUIA_Cycle_Active, 0);
-        set(window, MUIA_Window_Open, TRUE);
-        if (mui_run() == BTN_OK) {
-            get(model, MUIA_Cycle_Active, (APTR)&val);
-            if (val != 0) {
-                pet_set_model(pet_model[val-1], NULL);
-            }
-        }
-        set(window, MUIA_Window_Open, FALSE);
-        mui_rem_window(window);
-        MUI_DisposeObject(window);
-    }
 }
 
 void ui_pet_settings_dialog(void)

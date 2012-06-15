@@ -28,6 +28,5 @@
 #define VICE_UIPETSETTINGS_H
 
 extern void ui_pet_settings_dialog(void);
-extern void ui_pet_model_dialog(void);
 
 #endif
