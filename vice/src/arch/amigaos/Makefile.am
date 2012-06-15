@@ -197,6 +197,8 @@ libarch_a_SOURCES = \
 	mui/uiram.h \
 	mui/uiramcart.c \
 	mui/uiramcart.h \
+	mui/uiretroreplay.c \
+	mui/uiretroreplay.h \
 	mui/uireu.c \
 	mui/uireu.h \
 	mui/uiromc128settings.c \

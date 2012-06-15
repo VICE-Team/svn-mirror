@@ -57,6 +57,7 @@
 #include "mui/uiplus60k.h"
 #include "mui/uiprinter.h"
 #include "mui/uiramcart.h"
+#include "mui/uiretroreplay.h"
 #include "mui/uireu.h"
 #include "mui/uiromc64vic20settings.h"
 #include "mui/uirs232user.h"
@@ -158,6 +159,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_MMCREPLAY_SETTINGS:
             ui_mmcreplay_settings_dialog(canvas);
+            break;
+        case IDM_RETROREPLAY_SETTINGS:
+            ui_retroreplay_settings_dialog();
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_c64_settings_dialog(canvas);

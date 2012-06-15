@@ -3050,6 +3050,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_MMCREPLAY_SETTINGS_SV, "MMC Replay-inställningar..." },
 /* tr */ { IDMS_MMCREPLAY_SETTINGS_TR, "MMC Replay ayarlarý..." },
 
+/* en */ { IDMS_RETROREPLAY_SETTINGS,    "Retro Replay settings..." },
+/* da */ { IDMS_RETROREPLAY_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_RETROREPLAY_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_RETROREPLAY_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_RETROREPLAY_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_RETROREPLAY_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_RETROREPLAY_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_RETROREPLAY_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_RETROREPLAY_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_RETROREPLAY_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_RETROREPLAY_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_RETROREPLAY_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_RETROREPLAY_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_DIGIMAX_SETTINGS,    "DigiMAX settings..." },
 /* da */ { IDMS_DIGIMAX_SETTINGS_DA, "DigiMAX-indstillinger..." },
 /* de */ { IDMS_DIGIMAX_SETTINGS_DE, "DigiMAX Einstellungen..." },
@@ -8343,6 +8357,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_BIOS_FLASH_JUMPER_SV, "BIOS-flashbygel" },
 /* tr */ { IDS_BIOS_FLASH_JUMPER_TR, "BIOS Flash Jumper" },
 
+/* en */ { IDS_BIOS_FLASH_JUMPER,    "BIOS Flash Jumper" },
+/* da */ { IDS_BIOS_FLASH_JUMPER_DA, "BIOS-flashjumper" },
+/* de */ { IDS_BIOS_FLASH_JUMPER_DE, "BIOS Flashjumper" },
+/* es */ { IDS_BIOS_FLASH_JUMPER_ES, "BIOS Flash Jumper" },
+/* fr */ { IDS_BIOS_FLASH_JUMPER_FR, "Flash Jumper BIOS" },
+/* hu */ { IDS_BIOS_FLASH_JUMPER_HU, "BIOS Flash jumper" },
+/* it */ { IDS_BIOS_FLASH_JUMPER_IT, "Flash Jumper del BIOS" },
+/* ko */ { IDS_BIOS_FLASH_JUMPER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_BIOS_FLASH_JUMPER_NL, "BIOS Flash Jumper" },
+/* pl */ { IDS_BIOS_FLASH_JUMPER_PL, "Prze³±cznik BIOS Flash" },
+/* ru */ { IDS_BIOS_FLASH_JUMPER_RU, "BIOS Flash Jumper" },
+/* sv */ { IDS_BIOS_FLASH_JUMPER_SV, "BIOS-flashbygel" },
+/* tr */ { IDS_BIOS_FLASH_JUMPER_TR, "BIOS Flash Jumper" },
+
+/* en */ { IDS_BANK_JUMPER,    "Bank jumper" },
+/* da */ { IDS_BANK_JUMPER_DA, "" },  /* fuzzy */
+/* de */ { IDS_BANK_JUMPER_DE, "" },  /* fuzzy */
+/* es */ { IDS_BANK_JUMPER_ES, "" },  /* fuzzy */
+/* fr */ { IDS_BANK_JUMPER_FR, "" },  /* fuzzy */
+/* hu */ { IDS_BANK_JUMPER_HU, "" },  /* fuzzy */
+/* it */ { IDS_BANK_JUMPER_IT, "" },  /* fuzzy */
+/* ko */ { IDS_BANK_JUMPER_KO, "" },  /* fuzzy */
+/* nl */ { IDS_BANK_JUMPER_NL, "" },  /* fuzzy */
+/* pl */ { IDS_BANK_JUMPER_PL, "" },  /* fuzzy */
+/* ru */ { IDS_BANK_JUMPER_RU, "" },  /* fuzzy */
+/* sv */ { IDS_BANK_JUMPER_SV, "" },  /* fuzzy */
+/* tr */ { IDS_BANK_JUMPER_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SAVE_BIOS_WHEN_CHANGED,    "Save BIOS when changed" },
 /* da */ { IDS_SAVE_BIOS_WHEN_CHANGED_DA, "Gem BIOS ved ændringer" },
 /* de */ { IDS_SAVE_BIOS_WHEN_CHANGED_DE, "BIOS bei Änderung speichern" },
@@ -8580,6 +8622,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_MMCREPLAY_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_MMCREPLAY_SETTINGS_SV, "MMC Replay-inställningar" },
 /* tr */ { IDS_MMCREPLAY_SETTINGS_TR, "MMC Replay ayarlarý" },
+
+/* en */ { IDS_RETROREPLAY_SETTINGS,    "Retro Replay settings" },
+/* da */ { IDS_RETROREPLAY_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_RETROREPLAY_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_RETROREPLAY_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_RETROREPLAY_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_RETROREPLAY_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_RETROREPLAY_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_RETROREPLAY_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_RETROREPLAY_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_RETROREPLAY_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_RETROREPLAY_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_RETROREPLAY_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_RETROREPLAY_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SELECT_GENERIC,    "Select generic cartridge image" },
 /* da */ { IDS_SELECT_GENERIC_DA, "Vælg standardcartridgeimage" },
