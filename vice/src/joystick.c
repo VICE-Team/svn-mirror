@@ -275,6 +275,8 @@ static int joypad_bits[KEYSET_NUM_KEYS] = {
 };
 
 static int joypad_status[KEYSET_NUM][KEYSET_NUM_KEYS];
+static int joypad_vmask[KEYSET_NUM];
+static int joypad_hmask[KEYSET_NUM];
 
 typedef enum {
     KEYSET_FIRE,
@@ -287,67 +289,6 @@ typedef enum {
     KEYSET_N,
     KEYSET_NE
 } joystick_direction_t;
-
-/* check if opposite direction is pressed on the keyset, return 1 if so */
-static int checkopposite(int column, int *status)
-{
-    int val = 0;
-
-    if (!joystick_opposite_enable) {
-
-        switch (column) {
-            case KEYSET_N:
-                    val = (status[KEYSET_S]) ||
-                          (status[KEYSET_SW]) ||
-                          (status[KEYSET_SE]);
-                break;
-            case KEYSET_S:
-                    val = (status[KEYSET_N]) ||
-                          (status[KEYSET_NW]) ||
-                          (status[KEYSET_NE]);
-                break;
-            case KEYSET_W:
-                    val = (status[KEYSET_E]) ||
-                          (status[KEYSET_SE]) ||
-                          (status[KEYSET_NE]);
-                break;
-            case KEYSET_E:
-                    val = (status[KEYSET_W]) ||
-                          (status[KEYSET_SW]) ||
-                          (status[KEYSET_NW]);
-                break;
-            case KEYSET_SW:
-                    val = (status[KEYSET_N]) ||
-                          (status[KEYSET_NW]) ||
-                          (status[KEYSET_NE]) ||
-                          (status[KEYSET_E]) ||
-                          (status[KEYSET_SE]);
-                break;
-            case KEYSET_SE:
-                    val = (status[KEYSET_N]) ||
-                          (status[KEYSET_NW]) ||
-                          (status[KEYSET_NE]) ||
-                          (status[KEYSET_W]) ||
-                          (status[KEYSET_SW]);
-                break;
-            case KEYSET_NW:
-                    val = (status[KEYSET_S]) ||
-                          (status[KEYSET_SW]) ||
-                          (status[KEYSET_SE]) ||
-                          (status[KEYSET_E]) ||
-                          (status[KEYSET_NE]);
-                break;
-            case KEYSET_NE:
-                    val = (status[KEYSET_S]) ||
-                          (status[KEYSET_SW]) ||
-                          (status[KEYSET_SE]) ||
-                          (status[KEYSET_W]) ||
-                          (status[KEYSET_NW]);
-                break;
-        }
-    }
-    return val;
-}
 
 /* convert the given keyset status array into the corrosponding bits for the
  * joystick
@@ -446,6 +387,14 @@ static void DBGSTATUS(int keysetnum, int value, int joyport, int key, int flg)
     }
     DBG(("|"));
     for (column = 5; column >= 0; column--) {
+        DBG((((joypad_vmask[keysetnum] >> column) & 1) ? "*" : "."));
+    }
+    DBG(("|"));
+    for (column = 5; column >= 0; column--) {
+        DBG((((joypad_hmask[keysetnum] >> column) & 1) ? "*" : "."));
+    }
+    DBG(("|"));
+    for (column = 5; column >= 0; column--) {
         DBG((((latch_joystick_value[joyport] >> column) & 1) ? "*" : "."));
     }
     DBG((" (%s)\n", flags[flg]));
@@ -472,15 +421,27 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
             joypad_status[keysetnum][column] = 1;
             value = getjoyvalue(joypad_status[keysetnum]);
 
-            /* ignore key if opposite direction is pressed */
-            if (checkopposite(column, joypad_status[keysetnum])) {
-                DBGSTATUS(keysetnum, value, joyport, key, 2);
-                return 0;
+            if (!joystick_opposite_enable) {
+                if ((column == KEYSET_N) || (column == KEYSET_NW) || (column == KEYSET_NE)) {
+                    joypad_vmask[keysetnum] = ~joypad_bits[KEYSET_S];
+                }
+                if ((column == KEYSET_S) || (column == KEYSET_SW) || (column == KEYSET_SE)) {
+                    joypad_vmask[keysetnum] = ~joypad_bits[KEYSET_N];
+                }
+                if ((column == KEYSET_W) || (column == KEYSET_SW) || (column == KEYSET_NW)) {
+                    joypad_hmask[keysetnum] = ~joypad_bits[KEYSET_E];
+                }
+                if ((column == KEYSET_E) || (column == KEYSET_SE) || (column == KEYSET_NE)) {
+                    joypad_hmask[keysetnum] = ~joypad_bits[KEYSET_W];
+                }
+                if ((value & joypad_bits[KEYSET_N]) && (value & joypad_bits[KEYSET_S])) {
+                    value &= joypad_vmask[keysetnum];
+                }
+                if ((value & joypad_bits[KEYSET_E]) && (value & joypad_bits[KEYSET_W])) {
+                    value &= joypad_hmask[keysetnum];
+                }
             }
 
-            if (!joystick_opposite_enable) {
-                value &= ~joystick_opposite_direction[value & 0xf];
-            }
             joystick_set_value_absolute(joyport, (BYTE)value);
 
             DBGSTATUS(keysetnum, value, joyport, key, 0);
@@ -507,8 +468,14 @@ int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
             value = getjoyvalue(joypad_status[keysetnum]);
 
             if (!joystick_opposite_enable) {
-                value &= ~joystick_opposite_direction[value & 0xf];
+                if ((value & joypad_bits[KEYSET_N]) && (value & joypad_bits[KEYSET_S])) {
+                    value &= joypad_vmask[keysetnum];
+                }
+                if ((value & joypad_bits[KEYSET_E]) && (value & joypad_bits[KEYSET_W])) {
+                    value &= joypad_hmask[keysetnum];
+                }
             }
+
             joystick_set_value_absolute(joyport, (BYTE)value);
 
             DBG(("joystick_check_clr:"));
