@@ -758,7 +758,6 @@ static gfloat get_aspect(video_canvas_t *canvas);
 void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     video_canvas_t *canvas = (video_canvas_t *)data;
-    app_shell_type *appshell = &app_shells[canvas->app_shell];
 
     if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*)event;
@@ -787,7 +786,6 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
             gint ptrx, ptry;
             GdkDisplay *display = NULL;
             GdkScreen *screen = NULL;
-            gfloat taspect;
 
             /* get default display and screen */
             display = gdk_display_get_default ();
@@ -801,27 +799,8 @@ void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
             xoff = x - ptrx;
             yoff = y - ptry;
 
-            w = canvas->geometry->screen_size.width;
-            h = appshell->shell->allocation.height -
-                (appshell->topmenu->allocation.height + 
-                 appshell->status_bar->allocation.height);
-#if GTK_CHECK_VERSION(2,18,0)
-            if (gtk_widget_get_visible(appshell->pal_ctrl)) {
-                h -= appshell->pal_ctrl->allocation.height;
-            }
-#else
-            if (GTK_WIDGET_VISIBLE(appshell->pal_ctrl)) {
-                h -= appshell->pal_ctrl->allocation.height;
-            }
-#endif
-
-            if (canvas->videoconfig->doublesizex) {
-                w *= (canvas->videoconfig->doublesizex + 1);
-            }
-            taspect = get_aspect(canvas);
-            if (taspect > 0.0f) {
-                w = ((float)w) * taspect;
-            }
+            w = canvas->draw_buffer->canvas_physical_width;
+            h = canvas->draw_buffer->canvas_physical_height;
 
             /* DBG(("ptrx:%d ptry:%d x:%d y:%d w:%d h:%d", ptrx, ptry, x, y, w, h)); */
 
