@@ -32,10 +32,10 @@
 #include <proto/exec.h>
 #include <proto/dos.h>
 
-TEXT *buf = NULL;;
-uint32 buflen = 0;
+static TEXT *buf = NULL;;
+static uint32 buflen = 0;
 
-BOOL iseol(TEXT c)
+static BOOL iseol(TEXT c)
 {
     if ((c == 10) || (c == 13)) {
         return TRUE;
@@ -44,7 +44,7 @@ BOOL iseol(TEXT c)
     return FALSE;
 }
 
-BOOL isws(TEXT c)
+static BOOL isws(TEXT c)
 {
     if ((c == 32) || (c == 9)) {
         return TRUE;
@@ -53,7 +53,7 @@ BOOL isws(TEXT c)
     return FALSE;
 }
 
-BOOL isech(TEXT c)
+static BOOL isech(TEXT c)
 {
     if ((c == 10) || (c == 13)) {
         return TRUE;
@@ -66,19 +66,19 @@ BOOL isech(TEXT c)
     return FALSE;
 }
 
-BOOL init(void)
+static BOOL init(void)
 {
     return TRUE;
 }
 
-void shut(void)
+static void shut(void)
 {
     if (buf) {
         IExec->FreeVec(buf);
     }
 }
 
-void reallocbuf( uint32 size )
+static void reallocbuf(uint32 size)
 {
     if (!buf) {
         buf = IExec->AllocVec(size, MEMF_ANY);
@@ -101,7 +101,7 @@ void reallocbuf( uint32 size )
     buflen = size;
 }
 
-void scan( TEXT *dir, TEXT *dirsofar )
+static void scan(TEXT *dir, TEXT *dirsofar)
 {
     APTR dcontext = NULL;
     struct ExamineData *data = NULL;

@@ -31,6 +31,8 @@
 #define UI_TRANSLATED_MENU_NAME cbm2_ui_menu
 
 #include "private.h"
+#include "cartridge.h"
+#include "cbm2model.h"
 #include "cbm2ui.h"
 #include "cbm2uires.h"
 #include "machine.h"
@@ -52,12 +54,77 @@ static const ui_menu_toggle_t cbm2_ui_menu_toggles[] = {
     { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "CrtcAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
+
+static void cbm2_cart_attach(video_canvas_t *canvas, int cart_type)
+{
+    char *fname;
+
+    fname = BrowseFile(translate_text(IDS_ATTACH_CART), "#?", canvas);
+
+    if (fname != NULL) {
+        if (cartridge_attach_image(cart_type, fname) < 0) {
+            ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        }
+    }
+}
 
 static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_LOAD_CART_1XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_8KB_1000);
+            break;
+        case IDM_UNLOAD_CART_1XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_1000);
+            break;
+        case IDM_LOAD_CART_2_3XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_8KB_2000);
+            break;
+        case IDM_UNLOAD_CART_2_3XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_2000);
+            break;
+        case IDM_LOAD_CART_4_5XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_16KB_4000);
+            break;
+        case IDM_UNLOAD_CART_4_5XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_4000);
+            break;
+        case IDM_LOAD_CART_6_7XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_16KB_6000);
+            break;
+        case IDM_UNLOAD_CART_6_7XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_6000);
+            break;
+        case IDM_CBM2_MODEL_610_PAL:
+            cbm2model_set(CBM2MODEL_610_PAL);
+            break;
+        case IDM_CBM2_MODEL_610_NTSC:
+            cbm2model_set(CBM2MODEL_610_NTSC);
+            break;
+        case IDM_CBM2_MODEL_620_PAL:
+            cbm2model_set(CBM2MODEL_620_PAL);
+            break;
+        case IDM_CBM2_MODEL_620_NTSC:
+            cbm2model_set(CBM2MODEL_620_NTSC);
+            break;
+        case IDM_CBM2_MODEL_620PLUS_PAL:
+            cbm2model_set(CBM2MODEL_620PLUS_PAL);
+            break;
+        case IDM_CBM2_MODEL_620PLUS_NTSC:
+            cbm2model_set(CBM2MODEL_620PLUS_NTSC);
+            break;
+        case IDM_CBM2_MODEL_710_NTSC:
+            cbm2model_set(CBM2MODEL_710_NTSC);
+            break;
+        case IDM_CBM2_MODEL_720_NTSC:
+            cbm2model_set(CBM2MODEL_720_NTSC);
+            break;
+        case IDM_CBM2_MODEL_720PLUS_NTSC:
+            cbm2model_set(CBM2MODEL_720PLUS_NTSC);
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "CrtcExternalPalette", "CrtcPaletteFile", translate_text(IDS_CRTC_PALETTE_FILENAME));
             break;

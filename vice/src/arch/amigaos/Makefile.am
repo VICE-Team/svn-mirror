@@ -139,6 +139,8 @@ libarch_a_SOURCES = \
 	mui/uic128settings.h \
 	mui/uicbm2settings.c \
 	mui/uicbm2settings.h \
+	mui/uicbm5x0settings.c \
+	mui/uicbm5x0settings.h \
 	mui/uiciamodel.c \
 	mui/uiciamodel.h \
 	mui/uidatasette.c \

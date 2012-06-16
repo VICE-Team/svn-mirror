@@ -166,9 +166,9 @@ int hardsid_open(void)
     return 0;
 }
 
-static unsigned char read_sid( unsigned char reg )
+static unsigned char read_sid(unsigned char reg)
 {
-    unsigned char  ret;
+    unsigned char ret;
 
     pci_outb((reg & 0x1f) | 0x20, HSbase + 4);
     usleep(2);
@@ -376,9 +376,10 @@ int hardsid_close(void)
     return 0;
 }
 
-static unsigned char read_sid( unsigned char reg )
+static unsigned char read_sid(unsigned char reg)
 {
     unsigned char ret;
+
     HSDevPCI->OutByte(HSDevBAR->BaseAddress + 4, ((reg & 0x1f) | 0x20));
     usleep(2);
     HSDevPCI->OutByte(HSDevBAR->BaseAddress, 0x20);
@@ -388,7 +389,7 @@ static unsigned char read_sid( unsigned char reg )
     return ret;
 }
 
-static void write_sid( unsigned char reg, unsigned char data )
+static void write_sid(unsigned char reg, unsigned char data)
 {
     HSDevPCI->OutWord(HSDevBAR->BaseAddress + 3, ((reg & 0x1f) << 8) | data);
 }

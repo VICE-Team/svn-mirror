@@ -31,13 +31,15 @@
 #define UI_TRANSLATED_MENU_NAME cbm5x0_ui_menu
 
 #include "private.h"
+#include "cartridge.h"
+#include "cbm2model.h"
 #include "cbm2ui.h"
 #include "cbm5x0uires.h"
 #include "machine.h"
 #include "translate.h"
 
 #include "mui/uiacia.h"
-#include "mui/uicbm2settings.h"
+#include "mui/uicbm5x0settings.h"
 #include "mui/uidrivepetcbm2.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -51,12 +53,56 @@ static const ui_menu_toggle_t cbm5x0_ui_menu_toggles[] = {
     { "VICIIDoubleScan", IDM_TOGGLE_DOUBLESCAN },
     { "VICIIVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "VICIIAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
+    { "CartridgeReset", IDM_TOGGLE_CART_RESET },
     { NULL, 0 }
 };
+
+static void cbm2_cart_attach(video_canvas_t *canvas, int cart_type)
+{
+    char *fname;
+
+    fname = BrowseFile(translate_text(IDS_ATTACH_CART), "#?", canvas);
+
+    if (fname != NULL) {
+        if (cartridge_attach_image(cart_type, fname) < 0) {
+            ui_error(translate_text(IDMES_INVALID_CART_IMAGE));
+        }
+    }
+}
 
 static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_LOAD_CART_1XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_8KB_1000);
+            break;
+        case IDM_UNLOAD_CART_1XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_1000);
+            break;
+        case IDM_LOAD_CART_2_3XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_8KB_2000);
+            break;
+        case IDM_UNLOAD_CART_2_3XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_8KB_2000);
+            break;
+        case IDM_LOAD_CART_4_5XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_16KB_4000);
+            break;
+        case IDM_UNLOAD_CART_4_5XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_4000);
+            break;
+        case IDM_LOAD_CART_6_7XXX:
+            cbm2_cart_attach(canvas, CARTRIDGE_CBM2_16KB_6000);
+            break;
+        case IDM_UNLOAD_CART_6_7XXX:
+            cartridge_detach_image(CARTRIDGE_CBM2_16KB_6000);
+            break;
+        case IDM_CBM2_MODEL_510_PAL:
+            cbm2model_set(CBM2MODEL_510_PAL);
+            break;
+        case IDM_CBM2_MODEL_510_NTSC:
+            cbm2model_set(CBM2MODEL_510_NTSC);
+            break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "VICIIExternalPalette", "VICIIPaletteFile", translate_text(IDS_VICII_PALETTE_FILENAME));
             break;
@@ -69,8 +115,8 @@ static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
         case IDM_CRT_EMULATION_SETTINGS:
             ui_video_crt_settings_dialog(canvas, "VICIIPALScanLineShade", "VICIIPALBlur", "VICIIPALOddLinePhase", "VICIIPALOddLineOffset");
             break;
-        case IDM_CBM2_SETTINGS:
-            ui_cbm2_settings_dialog();
+        case IDM_CBM5X0_SETTINGS:
+            ui_cbm5x0_settings_dialog();
             break;
         case IDM_SID_SETTINGS:
             ui_sid_settings_dialog();

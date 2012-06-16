@@ -1,5 +1,5 @@
 /*
- * xcbm2ns.c - No Sound xcbm2 launcher.
+ * uicbm5x0settings.h
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,10 +24,9 @@
  *
  */
 
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef VICE_UICBM5X0SETTINGS_H
+#define VICE_UICBM5X0SETTINGS_H
 
-int main(void)
-{
-    return system("xcbm5x0.exe -sounddev dummy");
-}
+extern void ui_cbm5x0_settings_dialog(void);
+
+#endif
