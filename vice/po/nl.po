@@ -7679,7 +7679,7 @@ msgstr "10%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
-msgstr ""
+msgstr "Vertikale rek"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
@@ -8344,9 +8344,8 @@ msgid "BIOS Flash Jumper"
 msgstr "BIOS Flash Jumper"
 
 #: src/arch/amigaos/intl_text.c.po.c:9092
-#, fuzzy
 msgid "Bank jumper"
-msgstr "Zet RR bank jumper"
+msgstr "Bank jumper"
 
 #: src/arch/amigaos/intl_text.c.po.c:9134
 msgid "Select BIOS file"
@@ -8485,9 +8484,8 @@ msgid "Save to EasyFlash CRT now"
 msgstr "Sla nu op naar het EasyFlash CRT bestand"
 
 #: src/arch/amigaos/intl_text.c.po.c:11486
-#, fuzzy
 msgid "CIA model settings"
-msgstr "C64 model instellingen"
+msgstr "CIA model instellingen"
 
 #: src/translate_text.c.po.c:13
 msgid "Cannot load snapshot file."
@@ -11045,11 +11043,11 @@ msgstr "reSID versterking procent (90 - 100)"
 
 #: src/translate_text.c.po.c:9909
 msgid "Enable additional vertical stretching."
-msgstr "Aktiveer additionele vertikale rekking"
+msgstr "Aktiveer additionele vertikale rekking."
 
 #: src/translate_text.c.po.c:9926
 msgid "Disable additional vertical stretching."
-msgstr "Additionele vertikale rekking afsluiten"
+msgstr "Additionele vertikale rekking afsluiten."
 
 #: src/translate_text.c.po.c:9943
 msgid "Set the VDC memory size to 16KB"
@@ -11741,213 +11739,3 @@ msgstr "De DigiMAX cartridge uitschakelen"
 #: src/translate_text.c.po.c:13219
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
-
-#, fuzzy
-#~ msgid "IDE64 primary master settings"
-#~ msgstr "IDE64 primair hoofd apparaat instellingen"
-
-#, fuzzy
-#~ msgid "IDE64 primary slave settings"
-#~ msgstr "IDE64 HD primair slaaf apparaat instellingen"
-
-#, fuzzy
-#~ msgid "IDE64 secondary master settings"
-#~ msgstr "IDE64 secondair hoofd apparaat instellingen"
-
-#, fuzzy
-#~ msgid "IDE64 secondary slave settings"
-#~ msgstr "IDE64 secondair slaaf apparaat instellingen"
-
-#, fuzzy
-#~ msgid "Load new cart $1xxx"
-#~ msgstr "Laad nieuw Cart $1***"
-
-#, fuzzy
-#~ msgid "Unload cart $1xxx"
-#~ msgstr "Verwijder Cart $1***"
-
-#, fuzzy
-#~ msgid "Load new cart $2-3xxx"
-#~ msgstr "Laad nieuw Cart $2-3***"
-
-#, fuzzy
-#~ msgid "Unload cart $2-3xxx"
-#~ msgstr "Verwijder Cart $2-3***"
-
-#, fuzzy
-#~ msgid "Load new cart $4-5xxx"
-#~ msgstr "Laad nieuw Cart $4-5***"
-
-#, fuzzy
-#~ msgid "Unload cart $4-5xxx"
-#~ msgstr "Verwijder Cart $4-5***"
-
-#, fuzzy
-#~ msgid "Load new cart $6-7xxx"
-#~ msgstr "Laad nieuw Cart $6-7***"
-
-#, fuzzy
-#~ msgid "Unload cart $6-7xxx"
-#~ msgstr "Verwijder Cart $6-7***"
-
-#, fuzzy
-#~ msgid "CGA userport joystick adapter"
-#~ msgstr "CGA userport joy adapter"
-
-#, fuzzy
-#~ msgid "PET userport joystick adapter"
-#~ msgstr "PET userport joy adapter"
-
-#, fuzzy
-#~ msgid "Hummer userport joystick adapter"
-#~ msgstr "Hummer userport joystick adapter"
-
-#, fuzzy
-#~ msgid "OEM userport joystick adapter"
-#~ msgstr "OEM userport joy adapter"
-
-#, fuzzy
-#~ msgid "HIT userport joystick adapter"
-#~ msgstr "HIT userport joy adapter"
-
-#, fuzzy
-#~ msgid "Kingsoft userport joystick adapter"
-#~ msgstr "Kingsoft userport joy adapter"
-
-#, fuzzy
-#~ msgid "Starbyte userport joystick adapter"
-#~ msgstr "Starbyte userport joy adapter"
-
-#~ msgid "Change PET model"
-#~ msgstr "Verander PET model"
-
-#~ msgid "IDE64 HD 1 settings"
-#~ msgstr "IDE64 HD 1 instellingen"
-
-#~ msgid "IDE64 HD 2 settings"
-#~ msgstr "IDE64 HD 2 instellingen"
-
-#~ msgid "IDE64 HD 3 settings"
-#~ msgstr "IDE64 HD 3 instellingen"
-
-#~ msgid "IDE64 HD 4 settings"
-#~ msgstr "IDE64 HD 4 instellingen"
-
-#~ msgid "Attach cartridge image for Function Low"
-#~ msgstr "Koppel cartridge bestand voor 'Function Low'"
-
-#~ msgid "Attach cartridge image for Function High"
-#~ msgstr "Koppel cartridge bestand voor 'Function High'"
-
-#~ msgid "Set PET Model"
-#~ msgstr "Stel PET model in"
-
-#~ msgid "Copyright (c) 2000-2012 Spiro Trikaliotis"
-#~ msgstr "Copyright (c) 2000-2012 Spiro Trikaliotis"
-
-#~ msgid "Machine defaults"
-#~ msgstr "Machine standaards"
-
-#~ msgid "load|store|exec"
-#~ msgstr "load|store|exec"
-
-#~ msgid "Cart 1"
-#~ msgstr "Cart 1"
-
-#~ msgid "Cart 2"
-#~ msgstr "Cart 2"
-
-#~ msgid "Cart 4"
-#~ msgstr "Cart 4"
-
-#~ msgid "Cart 6"
-#~ msgstr "Cart 6"
-
-#~ msgid "IDE64 HD image #2 settings"
-#~ msgstr "IDE64 HD bestand #2 instellingen"
-
-#~ msgid "IDE64 HD image #3 settings"
-#~ msgstr "IDE64 HD bestand #3 instellingen"
-
-#~ msgid "3+1 Lo"
-#~ msgstr "3+1 Lo"
-
-#~ msgid "3+1 Hi"
-#~ msgstr "3+1 Hi"
-
-#~ msgid "SID Model"
-#~ msgstr "SID model"
-
-#~ msgid " "
-#~ msgstr " "
-
-#~ msgid "Enable second SID"
-#~ msgstr "Activeer stereo SID"
-
-#~ msgid "HD image 2 name"
-#~ msgstr "Naam van HD bestand 2"
-
-#~ msgid "HD image 3 name"
-#~ msgstr "Naam van HD bestand 3"
-
-#~ msgid "HD image 4 name"
-#~ msgstr "Naam van HD bestand 4"
-
-#~ msgid "Scanline Shade in percent"
-#~ msgstr "Scanlijnschaduw in procent"
-
-#~ msgid "Tint in percent"
-#~ msgstr "Tint in procent"
-
-#~ msgid "Phase in percent"
-#~ msgstr "Fase in procent"
-
-#~ msgid "Offset in percent"
-#~ msgstr "Compensatie in procent"
-
-#~ msgid "Blur in percent"
-#~ msgstr "Wazigheid in procent"
-
-#~ msgid "IEC printer #4 emulation"
-#~ msgstr "IEC printer #4 emulatie"
-
-#~ msgid "IEC printer #4 driver"
-#~ msgstr "IEC printer #4 stuurprogramma"
-
-#~ msgid "IEC printer #4 text output device"
-#~ msgstr "IEC printer #4 tekst uitvoer apparaat"
-
-#~ msgid "IEC printer #5 emulation"
-#~ msgstr "IEC printer #5 emulatie"
-
-#~ msgid "IEC printer #5 driver"
-#~ msgstr "IEC printer #5 stuurprogramma"
-
-#~ msgid "IEC printer #5 text output device"
-#~ msgstr "IEC printer #5 tekst uitvoer apparaat"
-
-#~ msgid "HD image #2 file"
-#~ msgstr "HD bestand #2"
-
-#~ msgid "HD image #3 file"
-#~ msgstr "HD bestand #3"
-
-#~ msgid "HD image #4 file"
-#~ msgstr "HD bestand #4"
-
-#~ msgid ""
-#~ "Set a tracepoint.  If a single address is specified, set a tracepoint\n"
-#~ "for that address.  If two addresses are specified, set a tracepoint\n"
-#~ "for the memory locations between the two addresses."
-#~ msgstr ""
-#~ "Zet een traceerpunt. Als er een enkel adres is opgegeven dan zal er een\n"
-#~ "traceerpunt worden gezet voor het adres. Als er twee adressen zijn\n"
-#~ "opgegeven dan zal er een traceerpunt worden gezet voor de adressen "
-#~ "tussen\n"
-#~ "de twee adressen."
-
-#~ msgid "Enable Scale2x"
-#~ msgstr "Activeer Schaal2x"
-
-#~ msgid "Disable Scale2x"
-#~ msgstr "Schaal2x uitschakelen"
