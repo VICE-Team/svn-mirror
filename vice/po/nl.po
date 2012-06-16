@@ -4800,9 +4800,8 @@ msgid "Copyright (c) 2011-2012 Kajtar Zsolt"
 msgstr "Copyright (c) 2011-2012 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
-msgstr "Copyright (c) 2011-2012 Thomas Giesel"
+msgstr "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
 
 #: src/arch/win32/res.rc.po.c:964 src/arch/amigaos/intl_text.c.po.c:5199
 msgid "VICE Question"
@@ -5294,37 +5293,32 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE momentopnamebestanden (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;"
 "*.x64;*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*."
-"x64;*.t64;*.tap;*.prg;*.p00)"
+"CBM bestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
 msgstr "IDE64 bestanden (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
 msgstr ""
-"Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;"
-"*.x64)"
+"Schijfbestanden (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1117
 msgid "Tape image files (*.t64;*.tap)"
 msgstr "Tape bestanden (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1118
-#, fuzzy
 msgid ""
 "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
 msgstr ""
-"Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+"Ingepakte bestanden (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:1119
 msgid "CRT cartridge image files (*.crt)"
@@ -7725,219 +7719,186 @@ msgid "Custom C64 model"
 msgstr "Aangepast C64 model"
 
 #: src/arch/amigaos/intl_text.c.po.c:2385
-#, fuzzy
 msgid "C16 PAL"
-msgstr "C64 PAL"
+msgstr "C16 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2399
-#, fuzzy
 msgid "C16 NTSC"
-msgstr "C64 NTSC"
+msgstr "C16 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2413
-#, fuzzy
 msgid "Plus4 PAL"
-msgstr "C64 PAL"
+msgstr "Plus4 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2427
-#, fuzzy
 msgid "Plus4 NTSC"
-msgstr "C64 NTSC"
+msgstr "Plus4 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2441
-#, fuzzy
 msgid "V364 NTSC"
-msgstr "C64 NTSC"
+msgstr "V364 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2455
-#, fuzzy
 msgid "C232 NTSC"
-msgstr "C64 NTSC"
+msgstr "C232 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2483
-#, fuzzy
 msgid "C64DTV V2 PAL"
-msgstr "C64 PAL"
+msgstr "C64DTV V2 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2497
-#, fuzzy
 msgid "C64DTV V2 NTSC"
-msgstr "C64 NTSC"
+msgstr "C64DTV V2 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2511
-#, fuzzy
 msgid "C64DTV V3 PAL"
-msgstr "C64 PAL"
+msgstr "C64DTV V3 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2525
-#, fuzzy
 msgid "C64DTV V3 NTSC"
-msgstr "C64 NTSC"
+msgstr "C64DTV V3 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2539
-#, fuzzy
 msgid "Hummer NTSC"
-msgstr "Hummer ADC"
+msgstr "Hummer NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2567
-#, fuzzy
 msgid "C128 PAL"
-msgstr "C64 PAL"
+msgstr "C128 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2581
-#, fuzzy
 msgid "C128DCR PAL"
-msgstr "C64C PAL"
+msgstr "C128DCR PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2595
-#, fuzzy
 msgid "C128 NTSC"
-msgstr "C64 NTSC"
+msgstr "C128 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2609
-#, fuzzy
 msgid "C128DCR NTSC"
-msgstr "C64C NTSC"
+msgstr "C128DCR NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2637
 msgid "2001"
-msgstr ""
+msgstr "2001"
 
 #: src/arch/amigaos/intl_text.c.po.c:2651
 msgid "3008"
-msgstr ""
+msgstr "3008"
 
 #: src/arch/amigaos/intl_text.c.po.c:2665
 msgid "3016"
-msgstr ""
+msgstr "3016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2679
 msgid "3032"
-msgstr ""
+msgstr "3032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2693
 msgid "3032B"
-msgstr ""
+msgstr "3032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2707
 msgid "4016"
-msgstr ""
+msgstr "4016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2721
 msgid "4032"
-msgstr ""
+msgstr "4032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2735
 msgid "4032B"
-msgstr ""
+msgstr "4032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2749
 msgid "8032"
-msgstr ""
+msgstr "8032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2763
 msgid "8096"
-msgstr ""
+msgstr "8096"
 
 #: src/arch/amigaos/intl_text.c.po.c:2777
 msgid "8296"
-msgstr ""
+msgstr "8296"
 
 #: src/arch/amigaos/intl_text.c.po.c:2791
-#, fuzzy
 msgid "SuperPET"
-msgstr "SuperPET ACIA"
+msgstr "SuperPET"
 
 #: src/arch/amigaos/intl_text.c.po.c:2819
-#, fuzzy
 msgid "CBM610 PAL"
-msgstr "C64 PAL"
+msgstr "CBM610 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2833
-#, fuzzy
 msgid "CBM610 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM610 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2847
-#, fuzzy
 msgid "CBM620 PAL"
-msgstr "C64 PAL"
+msgstr "CBM620 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2861
-#, fuzzy
 msgid "CBM620 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM620 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2875
-#, fuzzy
 msgid "CBM620+ PAL"
-msgstr "C64 PAL"
+msgstr "CBM620+ PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2889
-#, fuzzy
 msgid "CBM620+ NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM620+ NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2903
-#, fuzzy
 msgid "CBM710 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM710 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2917
-#, fuzzy
 msgid "CBM720 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM720 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2931
-#, fuzzy
 msgid "CBM720+ NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM720+ NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2959
 msgid "CBM510 PAL"
-msgstr ""
+msgstr "CBM510 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2973
-#, fuzzy
 msgid "CBM510 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM510 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3001
-#, fuzzy
 msgid "VICII video settings"
-msgstr "Video instellingen"
+msgstr "VICII video instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3015
-#, fuzzy
 msgid "VIC video settings"
-msgstr "Video instellingen"
+msgstr "VIC video instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3029
-#, fuzzy
 msgid "VDC video settings"
-msgstr "Video instellingen"
+msgstr "VDC video instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3043
-#, fuzzy
 msgid "CRTC video settings"
-msgstr "CRTC instellingen"
+msgstr "CRTC video instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3057
-#, fuzzy
 msgid "TED video settings"
-msgstr "Video instellingen"
+msgstr "TED video instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3085
 #: src/arch/amigaos/intl_text.c.po.c:7958
-#, fuzzy
 msgid "Palette settings"
-msgstr "Datasette instellingen"
+msgstr "Palette instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3113
 #: src/arch/amigaos/intl_text.c.po.c:7986
-#, fuzzy
 msgid "Render filter settings"
-msgstr "Render filter"
+msgstr "Render filter instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3323
 msgid "Joystick device selection"
@@ -7959,9 +7920,8 @@ msgstr "Drive ROM instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3841
 #: src/arch/amigaos/intl_text.c.po.c:7944
-#, fuzzy
 msgid "Drive burst modification settings"
-msgstr "C64 drive burst modificatie instellingen"
+msgstr "Drive burst modificatie instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:4471
 msgid "Fullscreen Statusbar"
