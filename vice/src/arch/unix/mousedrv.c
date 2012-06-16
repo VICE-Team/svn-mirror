@@ -49,12 +49,8 @@
 
 #ifndef MACOSX_COCOA
 
-int mouse_accelx = 2, mouse_accely = 2;
-
-/* last mouse position set by gui frontend */
-int mouse_x = 0, mouse_y = 0;
+static float mouse_x = 0.0, mouse_y = 0.0;
 static unsigned long mouse_timestamp = 0;
-
 
 void mousedrv_mouse_changed(void)
 {
@@ -108,25 +104,26 @@ void mouse_button(int bnumber, int state)
 
 int mousedrv_get_x(void)
 {
-    return mouse_x >> 1;
+    return (int)mouse_x;
 }
 
 int mousedrv_get_y(void)
 {
-    return mouse_y >> 1;
+    return (int)mouse_y;
 }
 
 /* ------------------------------------------------------------------------- */
 
-void mouse_move(int dx, int dy)
+void mouse_move(float dx, float dy)
 {
-    if (!_mouse_enabled) {
-        return;
-    }
-    mouse_timestamp = vsyncarch_gettime();
+    mouse_x += dx;
+    mouse_y -= dy;
+    while (mouse_x < 0.0) mouse_x += 65536.0;
+    while (mouse_x >= 65536.0) mouse_x -= 65536.0;
+    while (mouse_y < 0.0) mouse_y += 65536.0;
+    while (mouse_y >= 65536.0) mouse_y -= 65536.0;
 
-    mouse_x += dx * mouse_accelx;
-    mouse_y -= dy * mouse_accely;
+    mouse_timestamp = vsyncarch_gettime();
 }
 
 unsigned long mousedrv_get_timestamp(void)

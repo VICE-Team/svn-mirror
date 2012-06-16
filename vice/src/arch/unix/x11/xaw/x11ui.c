@@ -105,6 +105,8 @@
 #include "uipalcontrol.h"
 
 /* #define DEBUG_X11UI */
+/* #define DEBUGMOUSECURSOR */
+
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
 #else
@@ -602,6 +604,7 @@ static int mouse_warped = 0;
 static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report, Boolean *ctd)
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
+    float mouse_dx, mouse_dy;
 
     switch(report->type) {
         case MotionNotify:
@@ -671,7 +674,19 @@ static void mouse_handler_canvas(Widget w, XtPointer client_data, XEvent *report
                         mouse_warped = 1;
                         XWarpPointer(display, None, XtWindow(last_visited_canvas), 0, 0, 0, 0, x, y);
                     } else {
-                        mouse_move(ptrx - mouse_lasteventx, ptry - mouse_lasteventy);
+                        mouse_dx = (float)((ptrx - mouse_lasteventx) << 1);
+                        mouse_dy = (float)((ptry - mouse_lasteventy) << 1);
+#ifdef HAVE_XVIDEO
+                        if (canvas->videoconfig->hwscale && canvas->xv_image) {
+                            mouse_dx = mouse_dx * canvas->draw_buffer->canvas_width / canvas->xv_geometry.w;
+                            mouse_dy = mouse_dy * canvas->draw_buffer->canvas_height / canvas->xv_geometry.h;
+                        } else
+#endif
+                        {
+                            mouse_dx /= (float)(canvas->videoconfig->doublesizex + 1);
+                            mouse_dy /= (float)(canvas->videoconfig->doublesizey + 1);
+                        }
+                        mouse_move(mouse_dx, mouse_dy);
                         mouse_lasteventx = ptrx;
                         mouse_lasteventy = ptry;
                     }
@@ -731,7 +746,11 @@ static void mouse_cursor_grab(int grab, Cursor cursor)
     }
     if (grab) {
         XGrabKeyboard(display, XtWindow(last_visited_canvas), 1, GrabModeAsync, GrabModeAsync,  CurrentTime);
+#ifdef DEBUGMOUSECURSOR
+        XGrabPointer(display, XtWindow(last_visited_canvas), 0, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), None, CurrentTime);
+#else
         XGrabPointer(display, XtWindow(last_visited_canvas), 0, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), cursor, CurrentTime);
+#endif
         mouse_grabbed = 1;
     }
 }
@@ -741,8 +760,6 @@ void ui_check_mouse_cursor(void)
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_is_enabled) {
         if (_mouse_enabled) {
-            mouse_accelx = 2;
-            mouse_accely = 2;
             mouse_cursor_grab(1, blankCursor);
         } else {
             mouse_cursor_grab(1, None);
@@ -756,17 +773,6 @@ void ui_check_mouse_cursor(void)
     }
 
     if (_mouse_enabled) {
-        if (ui_cached_video_canvas->videoconfig->doublesizex) {
-            mouse_accelx = 4 / (ui_cached_video_canvas->videoconfig->doublesizex + 1);
-        } else {
-            mouse_accelx = 4;
-        }
-
-        if (ui_cached_video_canvas->videoconfig->doublesizey) {
-            mouse_accely = 4 / (ui_cached_video_canvas->videoconfig->doublesizey + 1);
-        } else {
-            mouse_accely = 4;
-        }
         mouse_cursor_grab(1, blankCursor);
     } else {
         mouse_cursor_grab(0, None);

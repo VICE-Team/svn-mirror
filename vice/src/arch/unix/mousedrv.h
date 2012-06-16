@@ -39,9 +39,6 @@ extern int mousedrv_get_y(void);
 extern unsigned long mousedrv_get_timestamp(void);
 
 extern void mouse_button(int bnumber, int state);
-extern void mouse_move(int dx, int dy);
-
-extern int mouse_x, mouse_y;
-extern int mouse_accelx, mouse_accely;
+extern void mouse_move(float dx, float dy);
 
 #endif
