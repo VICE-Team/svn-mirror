@@ -62,21 +62,48 @@
 
 #define JOYSTICK_RAND() (rand() % machine_get_cycles_per_frame())
 
+#define JOYPAD_FIRE 0x10
+#define JOYPAD_E    0x08
+#define JOYPAD_W    0x04
+#define JOYPAD_S    0x02
+#define JOYPAD_N    0x01
+#define JOYPAD_SW   (JOYPAD_S | JOYPAD_W)
+#define JOYPAD_SE   (JOYPAD_S | JOYPAD_E)
+#define JOYPAD_NW   (JOYPAD_N | JOYPAD_W)
+#define JOYPAD_NE   (JOYPAD_N | JOYPAD_E)
+
 /* Global joystick value.  */
 /*! \todo SRT: document: what are these values joystick_value[0, 1, 2, ..., 5] used for? */
 BYTE joystick_value[JOYSTICK_NUM + 1] = { 0 };
+static BYTE network_joystick_value[JOYSTICK_NUM + 1] = { 0 };
 
 /* Latched joystick status.  */
 static BYTE latch_joystick_value[JOYSTICK_NUM + 1] = { 0 };
-static BYTE network_joystick_value[JOYSTICK_NUM + 1] = { 0 };
 
 /* mapping of the joystick ports */
 int joystick_port_map[JOYSTICK_NUM] = { 0 };
 
 /* to prevent illegal direction combinations */
 static int joystick_opposite_enable = 0;
-static const BYTE joystick_opposite_direction[] = 
-    { 0, 2, 1, 3, 8, 10, 9, 11, 4, 6, 5, 7, 12, 14, 13, 15 };
+static const BYTE joystick_opposite_direction[] = {
+                                               /* E W S N */
+    0,                                         /*         */
+    JOYPAD_S,                                  /*       + */
+    JOYPAD_N,                                  /*     +   */
+    JOYPAD_S | JOYPAD_N,                       /*     + + */
+    JOYPAD_E,                                  /*   +     */
+    JOYPAD_E | JOYPAD_S,                       /*   +   + */
+    JOYPAD_E | JOYPAD_N,                       /*   + +   */
+    JOYPAD_E | JOYPAD_S | JOYPAD_N,            /*   + + + */
+    JOYPAD_W,                                  /* +       */
+    JOYPAD_W | JOYPAD_S,                       /* +     + */
+    JOYPAD_W | JOYPAD_N,                       /* +   +   */
+    JOYPAD_W | JOYPAD_S | JOYPAD_N,            /* +   + + */
+    JOYPAD_E | JOYPAD_W,                       /* + +     */
+    JOYPAD_E | JOYPAD_W | JOYPAD_S,            /* + +   + */
+    JOYPAD_E | JOYPAD_W | JOYPAD_N,            /* + + +   */
+    JOYPAD_E | JOYPAD_W | JOYPAD_S | JOYPAD_N  /* + + + + */
+};
 
 /* Callback to machine specific joystick routines, needed for lightpen triggering */
 static joystick_machine_func_t joystick_machine_func = NULL;
@@ -269,9 +296,18 @@ static int set_joystick_opposite_enable(int val, void *param)
 /*--------------------------------------------------------------------------*/
 
 #ifdef COMMON_KBD
+
 /* the order of values in joypad_bits is the same as in joystick_direction_t */
 static int joypad_bits[KEYSET_NUM_KEYS] = {
-    0x10, 0x06, 0x02, 0x0a, 0x04, 0x08, 0x05, 0x01, 0x09
+    JOYPAD_FIRE,
+    JOYPAD_SW,
+    JOYPAD_S,
+    JOYPAD_SE,
+    JOYPAD_W,
+    JOYPAD_E,
+    JOYPAD_NW,
+    JOYPAD_N,
+    JOYPAD_NE
 };
 
 static int joypad_status[KEYSET_NUM][KEYSET_NUM_KEYS];
@@ -422,18 +458,19 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
             value = getjoyvalue(joypad_status[keysetnum]);
 
             if (!joystick_opposite_enable) {
+                /* setup the mask for the opposite side of the pressed key */
                 if ((column == KEYSET_N) || (column == KEYSET_NW) || (column == KEYSET_NE)) {
-                    joypad_vmask[keysetnum] = ~joypad_bits[KEYSET_S];
-                }
-                if ((column == KEYSET_S) || (column == KEYSET_SW) || (column == KEYSET_SE)) {
-                    joypad_vmask[keysetnum] = ~joypad_bits[KEYSET_N];
+                    joypad_vmask[keysetnum] = ~JOYPAD_S;
+                } else if ((column == KEYSET_S) || (column == KEYSET_SW) || (column == KEYSET_SE)) {
+                    joypad_vmask[keysetnum] = ~JOYPAD_N;
                 }
                 if ((column == KEYSET_W) || (column == KEYSET_SW) || (column == KEYSET_NW)) {
-                    joypad_hmask[keysetnum] = ~joypad_bits[KEYSET_E];
+                    joypad_hmask[keysetnum] = ~JOYPAD_E;
+                } else if ((column == KEYSET_E) || (column == KEYSET_SE) || (column == KEYSET_NE)) {
+                    joypad_hmask[keysetnum] = ~JOYPAD_W;
                 }
-                if ((column == KEYSET_E) || (column == KEYSET_SE) || (column == KEYSET_NE)) {
-                    joypad_hmask[keysetnum] = ~joypad_bits[KEYSET_W];
-                }
+                /* if two opposite directions are set, mask out the opposite side of
+                 * the last pressed key */
                 if ((value & joypad_bits[KEYSET_N]) && (value & joypad_bits[KEYSET_S])) {
                     value &= joypad_vmask[keysetnum];
                 }
@@ -468,6 +505,8 @@ int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
             value = getjoyvalue(joypad_status[keysetnum]);
 
             if (!joystick_opposite_enable) {
+                /* if two opposite directions are set, mask out the opposite side of
+                 * the last pressed key */
                 if ((value & joypad_bits[KEYSET_N]) && (value & joypad_bits[KEYSET_S])) {
                     value &= joypad_vmask[keysetnum];
                 }
