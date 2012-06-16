@@ -684,7 +684,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_FUNCTION_HIGH_3PLUS1_SV, "Funktion hög-avbildning (3plus1)..." },
 /* tr */ { IDMS_FUNCTION_HIGH_3PLUS1_TR, "Function high imajý (3plus1)..." },
 
-/* en */ { IDMS_LOAD_CART_1XXX,    "Load new cart $1xxx" },
+/* en */ { IDMS_LOAD_CART_1XXX,    "Load new Cart $1***" },
 /* da */ { IDMS_LOAD_CART_1XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_LOAD_CART_1XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_LOAD_CART_1XXX_ES, "" },  /* fuzzy */
@@ -698,7 +698,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LOAD_CART_1XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_LOAD_CART_1XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_UNLOAD_CART_1XXX,    "Unload cart $1xxx" },
+/* en */ { IDMS_UNLOAD_CART_1XXX,    "Unload Cart $1***" },
 /* da */ { IDMS_UNLOAD_CART_1XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_UNLOAD_CART_1XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_UNLOAD_CART_1XXX_ES, "" },  /* fuzzy */
@@ -712,7 +712,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_UNLOAD_CART_1XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_UNLOAD_CART_1XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_LOAD_CART_2_3XXX,    "Load new cart $2-3xxx" },
+/* en */ { IDMS_LOAD_CART_2_3XXX,    "Load new Cart $2-3***" },
 /* da */ { IDMS_LOAD_CART_2_3XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_LOAD_CART_2_3XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_LOAD_CART_2_3XXX_ES, "" },  /* fuzzy */
@@ -726,7 +726,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LOAD_CART_2_3XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_LOAD_CART_2_3XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_UNLOAD_CART_2_3XXX,    "Unload cart $2-3xxx" },
+/* en */ { IDMS_UNLOAD_CART_2_3XXX,    "Unload Cart $2-3***" },
 /* da */ { IDMS_UNLOAD_CART_2_3XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_UNLOAD_CART_2_3XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_UNLOAD_CART_2_3XXX_ES, "" },  /* fuzzy */
@@ -740,7 +740,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_UNLOAD_CART_2_3XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_UNLOAD_CART_2_3XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_LOAD_CART_4_5XXX,    "Load new cart $4-5xxx" },
+/* en */ { IDMS_LOAD_CART_4_5XXX,    "Load new Cart $4-5***" },
 /* da */ { IDMS_LOAD_CART_4_5XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_LOAD_CART_4_5XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_LOAD_CART_4_5XXX_ES, "" },  /* fuzzy */
@@ -754,7 +754,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LOAD_CART_4_5XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_LOAD_CART_4_5XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_UNLOAD_CART_4_5XXX,    "Unload cart $4-5xxx" },
+/* en */ { IDMS_UNLOAD_CART_4_5XXX,    "Unload Cart $4-5***" },
 /* da */ { IDMS_UNLOAD_CART_4_5XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_UNLOAD_CART_4_5XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_UNLOAD_CART_4_5XXX_ES, "" },  /* fuzzy */
@@ -768,7 +768,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_UNLOAD_CART_4_5XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_UNLOAD_CART_4_5XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_LOAD_CART_6_7XXX,    "Load new cart $6-7xxx" },
+/* en */ { IDMS_LOAD_CART_6_7XXX,    "Load new Cart $6-7***" },
 /* da */ { IDMS_LOAD_CART_6_7XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_LOAD_CART_6_7XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_LOAD_CART_6_7XXX_ES, "" },  /* fuzzy */
@@ -782,7 +782,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LOAD_CART_6_7XXX_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_LOAD_CART_6_7XXX_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_UNLOAD_CART_6_7XXX,    "Unload cart $6-7xxx" },
+/* en */ { IDMS_UNLOAD_CART_6_7XXX,    "Unload Cart $6-7***" },
 /* da */ { IDMS_UNLOAD_CART_6_7XXX_DA, "" },  /* fuzzy */
 /* de */ { IDMS_UNLOAD_CART_6_7XXX_DE, "" },  /* fuzzy */
 /* es */ { IDMS_UNLOAD_CART_6_7XXX_ES, "" },  /* fuzzy */
@@ -1888,7 +1888,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_SWAP_USERPORT_JOYSTICKS_SV, "Växla användarportstyrspakar" },
 /* tr */ { IDMS_SWAP_USERPORT_JOYSTICKS_TR, "Userport joysticklerini yer deðiþtir" },
 
-/* en */ { IDMS_CGA_USERPORT_JOY_ADAPTER,    "CGA userport joystick adapter" },
+/* en */ { IDMS_CGA_USERPORT_JOY_ADAPTER,    "CGA userport joy adapter" },
 /* da */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_CGA_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
@@ -1902,7 +1902,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_CGA_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_CGA_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_PET_USERPORT_JOY_ADAPTER,    "PET userport joystick adapter" },
+/* en */ { IDMS_PET_USERPORT_JOY_ADAPTER,    "PET userport joy adapter" },
 /* da */ { IDMS_PET_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_PET_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_PET_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
@@ -1916,7 +1916,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_PET_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_PET_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER,    "Hummer userport joystick adapter" },
+/* en */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER,    "Hummer userport joy adapter" },
 /* da */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
@@ -1930,7 +1930,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_OEM_USERPORT_JOY_ADAPTER,    "OEM userport joystick adapter" },
+/* en */ { IDMS_OEM_USERPORT_JOY_ADAPTER,    "OEM userport joy adapter" },
 /* da */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_OEM_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
@@ -1944,7 +1944,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_OEM_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_OEM_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_HIT_USERPORT_JOY_ADAPTER,    "HIT userport joystick adapter" },
+/* en */ { IDMS_HIT_USERPORT_JOY_ADAPTER,    "HIT userport joy adapter" },
 /* da */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_HIT_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
@@ -1958,7 +1958,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_HIT_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER,    "Kingsoft userport joystick adapter" },
+/* en */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER,    "Kingsoft userport joy adapter" },
 /* da */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
@@ -1972,7 +1972,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER,    "Starbyte userport joystick adapter" },
+/* en */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER,    "Starbyte userport joy adapter" },
 /* da */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
 /* de */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
 /* es */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */

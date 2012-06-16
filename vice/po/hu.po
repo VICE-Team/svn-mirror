@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 11:37-0700\n"
+"POT-Creation-Date: 2012-06-16 15:34-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -2557,36 +2557,39 @@ msgid "ISEPIC image"
 msgstr "Szalag képmás csatolása..."
 
 #: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:146
-#: src/arch/win32/res.rc.po.c:1096
+#: src/arch/win32/res.rc.po.c:1096 src/arch/amigaos/intl_text.c.po.c:1867
 msgid "CGA userport joy adapter"
 msgstr "CGA userport botkormány adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:130 src/arch/unix/gui/uijoystick2.c:148
-#: src/arch/win32/res.rc.po.c:1097
+#: src/arch/win32/res.rc.po.c:1097 src/arch/amigaos/intl_text.c.po.c:1881
 msgid "PET userport joy adapter"
 msgstr "PET userport botkormány adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:132 src/arch/unix/gui/uijoystick2.c:150
-#: src/arch/win32/res.rc.po.c:1098
+#: src/arch/win32/res.rc.po.c:1098 src/arch/amigaos/intl_text.c.po.c:1895
 #, fuzzy
 msgid "Hummer userport joy adapter"
 msgstr "*Hummer userport botkormány adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:134 src/arch/unix/gui/uijoystick2.c:152
-#: src/arch/win32/res.rc.po.c:1099
+#: src/arch/win32/res.rc.po.c:1099 src/arch/amigaos/intl_text.c.po.c:1909
 msgid "OEM userport joy adapter"
 msgstr "OEM userport botkormány adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:136 src/arch/win32/res.rc.po.c:1100
+#: src/arch/amigaos/intl_text.c.po.c:1923
 msgid "HIT userport joy adapter"
 msgstr "HIT userport botkormány adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1101
+#: src/arch/amigaos/intl_text.c.po.c:1937
 #, fuzzy
 msgid "Kingsoft userport joy adapter"
 msgstr "Nincs userport botkormány adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1102
+#: src/arch/amigaos/intl_text.c.po.c:1951
 #, fuzzy
 msgid "Starbyte userport joy adapter"
 msgstr "Nincs userport botkormány adapter"
@@ -7324,34 +7327,42 @@ msgid "Attach cartridge image at $6000/$7000"
 msgstr "4KB képmás csatolása $B000 címre"
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
+#: src/arch/amigaos/intl_text.c.po.c:663
 msgid "Load new Cart $1***"
 msgstr "Új Cart. betöltése a $1*** címre"
 
 #: src/arch/win32/rescbm2common.rc.po.c:212
+#: src/arch/amigaos/intl_text.c.po.c:677
 msgid "Unload Cart $1***"
 msgstr "Cart. leválasztása a $1*** címrõl"
 
 #: src/arch/win32/rescbm2common.rc.po.c:213
+#: src/arch/amigaos/intl_text.c.po.c:691
 msgid "Load new Cart $2-3***"
 msgstr "Új Cart. betöltése a $2-$3*** címre"
 
 #: src/arch/win32/rescbm2common.rc.po.c:214
+#: src/arch/amigaos/intl_text.c.po.c:705
 msgid "Unload Cart $2-3***"
 msgstr "Cart. leválasztása a $2-3*** címrõl"
 
 #: src/arch/win32/rescbm2common.rc.po.c:215
+#: src/arch/amigaos/intl_text.c.po.c:719
 msgid "Load new Cart $4-5***"
 msgstr "Új Cart. betöltése a $4-$5*** címre"
 
 #: src/arch/win32/rescbm2common.rc.po.c:216
+#: src/arch/amigaos/intl_text.c.po.c:733
 msgid "Unload Cart $4-5***"
 msgstr "Cart. leválasztása a $4-5*** címrõl"
 
 #: src/arch/win32/rescbm2common.rc.po.c:217
+#: src/arch/amigaos/intl_text.c.po.c:747
 msgid "Load new Cart $6-7***"
 msgstr "Új Cart. betöltése a $6-$7*** címre"
 
 #: src/arch/win32/rescbm2common.rc.po.c:218
+#: src/arch/amigaos/intl_text.c.po.c:761
 msgid "Unload Cart $6-7***"
 msgstr "Cart. leválasztása a $6-7*** címrõl"
 
@@ -8198,46 +8209,6 @@ msgstr "Function alsó képmás (3plus1)..."
 msgid "Function high image (3plus1)"
 msgstr "Function felsõ képmás (3plus1)..."
 
-#: src/arch/amigaos/intl_text.c.po.c:663
-#, fuzzy
-msgid "Load new cart $1xxx"
-msgstr "Új Cart. betöltése a $1*** címre"
-
-#: src/arch/amigaos/intl_text.c.po.c:677
-#, fuzzy
-msgid "Unload cart $1xxx"
-msgstr "Cart. leválasztása a $1*** címrõl"
-
-#: src/arch/amigaos/intl_text.c.po.c:691
-#, fuzzy
-msgid "Load new cart $2-3xxx"
-msgstr "Új Cart. betöltése a $2-$3*** címre"
-
-#: src/arch/amigaos/intl_text.c.po.c:705
-#, fuzzy
-msgid "Unload cart $2-3xxx"
-msgstr "Cart. leválasztása a $2-3*** címrõl"
-
-#: src/arch/amigaos/intl_text.c.po.c:719
-#, fuzzy
-msgid "Load new cart $4-5xxx"
-msgstr "Új Cart. betöltése a $4-$5*** címre"
-
-#: src/arch/amigaos/intl_text.c.po.c:733
-#, fuzzy
-msgid "Unload cart $4-5xxx"
-msgstr "Cart. leválasztása a $4-5*** címrõl"
-
-#: src/arch/amigaos/intl_text.c.po.c:747
-#, fuzzy
-msgid "Load new cart $6-7xxx"
-msgstr "Új Cart. betöltése a $6-$7*** címre"
-
-#: src/arch/amigaos/intl_text.c.po.c:761
-#, fuzzy
-msgid "Unload cart $6-7xxx"
-msgstr "Cart. leválasztása a $6-7*** címrõl"
-
 #: src/arch/amigaos/intl_text.c.po.c:1419
 msgid "1/1"
 msgstr ""
@@ -8301,41 +8272,6 @@ msgstr ""
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
 msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1867
-#, fuzzy
-msgid "CGA userport joystick adapter"
-msgstr "CGA userport botkormány adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1881
-#, fuzzy
-msgid "PET userport joystick adapter"
-msgstr "PET userport botkormány adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1895
-#, fuzzy
-msgid "Hummer userport joystick adapter"
-msgstr "*Hummer userport botkormány adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1909
-#, fuzzy
-msgid "OEM userport joystick adapter"
-msgstr "OEM userport botkormány adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1923
-#, fuzzy
-msgid "HIT userport joystick adapter"
-msgstr "HIT userport botkormány adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1937
-#, fuzzy
-msgid "Kingsoft userport joystick adapter"
-msgstr "Nincs userport botkormány adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1951
-#, fuzzy
-msgid "Starbyte userport joystick adapter"
-msgstr "Nincs userport botkormány adapter"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
@@ -12603,6 +12539,66 @@ msgstr "Digimax cartridge tiltása"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
+
+#, fuzzy
+#~ msgid "Load new cart $1xxx"
+#~ msgstr "Új Cart. betöltése a $1*** címre"
+
+#, fuzzy
+#~ msgid "Unload cart $1xxx"
+#~ msgstr "Cart. leválasztása a $1*** címrõl"
+
+#, fuzzy
+#~ msgid "Load new cart $2-3xxx"
+#~ msgstr "Új Cart. betöltése a $2-$3*** címre"
+
+#, fuzzy
+#~ msgid "Unload cart $2-3xxx"
+#~ msgstr "Cart. leválasztása a $2-3*** címrõl"
+
+#, fuzzy
+#~ msgid "Load new cart $4-5xxx"
+#~ msgstr "Új Cart. betöltése a $4-$5*** címre"
+
+#, fuzzy
+#~ msgid "Unload cart $4-5xxx"
+#~ msgstr "Cart. leválasztása a $4-5*** címrõl"
+
+#, fuzzy
+#~ msgid "Load new cart $6-7xxx"
+#~ msgstr "Új Cart. betöltése a $6-$7*** címre"
+
+#, fuzzy
+#~ msgid "Unload cart $6-7xxx"
+#~ msgstr "Cart. leválasztása a $6-7*** címrõl"
+
+#, fuzzy
+#~ msgid "CGA userport joystick adapter"
+#~ msgstr "CGA userport botkormány adapter"
+
+#, fuzzy
+#~ msgid "PET userport joystick adapter"
+#~ msgstr "PET userport botkormány adapter"
+
+#, fuzzy
+#~ msgid "Hummer userport joystick adapter"
+#~ msgstr "*Hummer userport botkormány adapter"
+
+#, fuzzy
+#~ msgid "OEM userport joystick adapter"
+#~ msgstr "OEM userport botkormány adapter"
+
+#, fuzzy
+#~ msgid "HIT userport joystick adapter"
+#~ msgstr "HIT userport botkormány adapter"
+
+#, fuzzy
+#~ msgid "Kingsoft userport joystick adapter"
+#~ msgstr "Nincs userport botkormány adapter"
+
+#, fuzzy
+#~ msgid "Starbyte userport joystick adapter"
+#~ msgstr "Nincs userport botkormány adapter"
 
 #~ msgid "Change PET model"
 #~ msgstr "PET modell kiválasztása"

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 11:37-0700\n"
+"POT-Creation-Date: 2012-06-16 15:34-0700\n"
 "PO-Revision-Date: 2011-06-16 11:50-0800\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: ko <ko@li.org>\n"
@@ -2406,34 +2406,37 @@ msgid "ISEPIC image"
 msgstr "ISEPIC 이미지"
 
 #: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:146
-#: src/arch/win32/res.rc.po.c:1096
+#: src/arch/win32/res.rc.po.c:1096 src/arch/amigaos/intl_text.c.po.c:1867
 msgid "CGA userport joy adapter"
 msgstr "CGA 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:130 src/arch/unix/gui/uijoystick2.c:148
-#: src/arch/win32/res.rc.po.c:1097
+#: src/arch/win32/res.rc.po.c:1097 src/arch/amigaos/intl_text.c.po.c:1881
 msgid "PET userport joy adapter"
 msgstr "PET 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:132 src/arch/unix/gui/uijoystick2.c:150
-#: src/arch/win32/res.rc.po.c:1098
+#: src/arch/win32/res.rc.po.c:1098 src/arch/amigaos/intl_text.c.po.c:1895
 msgid "Hummer userport joy adapter"
 msgstr "Hummer 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:134 src/arch/unix/gui/uijoystick2.c:152
-#: src/arch/win32/res.rc.po.c:1099
+#: src/arch/win32/res.rc.po.c:1099 src/arch/amigaos/intl_text.c.po.c:1909
 msgid "OEM userport joy adapter"
 msgstr "OEM 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:136 src/arch/win32/res.rc.po.c:1100
+#: src/arch/amigaos/intl_text.c.po.c:1923
 msgid "HIT userport joy adapter"
 msgstr "HIT 유져포트 조이 아답터"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1101
+#: src/arch/amigaos/intl_text.c.po.c:1937
 msgid "Kingsoft userport joy adapter"
 msgstr ""
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1102
+#: src/arch/amigaos/intl_text.c.po.c:1951
 msgid "Starbyte userport joy adapter"
 msgstr ""
 
@@ -6793,34 +6796,42 @@ msgid "Attach cartridge image at $6000/$7000"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
+#: src/arch/amigaos/intl_text.c.po.c:663
 msgid "Load new Cart $1***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:212
+#: src/arch/amigaos/intl_text.c.po.c:677
 msgid "Unload Cart $1***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:213
+#: src/arch/amigaos/intl_text.c.po.c:691
 msgid "Load new Cart $2-3***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:214
+#: src/arch/amigaos/intl_text.c.po.c:705
 msgid "Unload Cart $2-3***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:215
+#: src/arch/amigaos/intl_text.c.po.c:719
 msgid "Load new Cart $4-5***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:216
+#: src/arch/amigaos/intl_text.c.po.c:733
 msgid "Unload Cart $4-5***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:217
+#: src/arch/amigaos/intl_text.c.po.c:747
 msgid "Load new Cart $6-7***"
 msgstr ""
 
 #: src/arch/win32/rescbm2common.rc.po.c:218
+#: src/arch/amigaos/intl_text.c.po.c:761
 msgid "Unload Cart $6-7***"
 msgstr ""
 
@@ -7552,38 +7563,6 @@ msgstr ""
 msgid "Function high image (3plus1)"
 msgstr ""
 
-#: src/arch/amigaos/intl_text.c.po.c:663
-msgid "Load new cart $1xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:677
-msgid "Unload cart $1xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:691
-msgid "Load new cart $2-3xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:705
-msgid "Unload cart $2-3xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:719
-msgid "Load new cart $4-5xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:733
-msgid "Unload cart $4-5xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:747
-msgid "Load new cart $6-7xxx"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:761
-msgid "Unload cart $6-7xxx"
-msgstr ""
-
 #: src/arch/amigaos/intl_text.c.po.c:1419
 msgid "1/1"
 msgstr "1/1"
@@ -7646,34 +7625,6 @@ msgstr "10%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1867
-msgid "CGA userport joystick adapter"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1881
-msgid "PET userport joystick adapter"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1895
-msgid "Hummer userport joystick adapter"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1909
-msgid "OEM userport joystick adapter"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1923
-msgid "HIT userport joystick adapter"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1937
-msgid "Kingsoft userport joystick adapter"
-msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1951
-msgid "Starbyte userport joystick adapter"
 msgstr ""
 
 #: src/arch/amigaos/intl_text.c.po.c:2077

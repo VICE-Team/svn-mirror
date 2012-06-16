@@ -1,12 +1,12 @@
 # Danish translation file for VICE
 # Mikkel Holm Olsen <vice-dk@symlink.dk>
 # Copyright 2009-2011
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 11:37-0700\n"
+"POT-Creation-Date: 2012-06-16 15:34-0700\n"
 "PO-Revision-Date: 2011-02-16 20:46+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice-dk@symlink.dk>\n"
 "Language-Team: Danish <vice-dk@symlink.dk>\n"
@@ -2446,35 +2446,38 @@ msgid "ISEPIC image"
 msgstr "ISEPIC-image"
 
 #: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:146
-#: src/arch/win32/res.rc.po.c:1096
+#: src/arch/win32/res.rc.po.c:1096 src/arch/amigaos/intl_text.c.po.c:1867
 msgid "CGA userport joy adapter"
 msgstr "CGA brugerportjoystickadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:130 src/arch/unix/gui/uijoystick2.c:148
-#: src/arch/win32/res.rc.po.c:1097
+#: src/arch/win32/res.rc.po.c:1097 src/arch/amigaos/intl_text.c.po.c:1881
 msgid "PET userport joy adapter"
 msgstr "PET brugerportjoystickadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:132 src/arch/unix/gui/uijoystick2.c:150
-#: src/arch/win32/res.rc.po.c:1098
+#: src/arch/win32/res.rc.po.c:1098 src/arch/amigaos/intl_text.c.po.c:1895
 msgid "Hummer userport joy adapter"
 msgstr "Hummer brugerport joystick adapter"
 
 #: src/arch/unix/gui/uijoystick2.c:134 src/arch/unix/gui/uijoystick2.c:152
-#: src/arch/win32/res.rc.po.c:1099
+#: src/arch/win32/res.rc.po.c:1099 src/arch/amigaos/intl_text.c.po.c:1909
 msgid "OEM userport joy adapter"
 msgstr "OEM brugerportjoystickadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:136 src/arch/win32/res.rc.po.c:1100
+#: src/arch/amigaos/intl_text.c.po.c:1923
 msgid "HIT userport joy adapter"
 msgstr "HIT brugerportjoystickadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1101
+#: src/arch/amigaos/intl_text.c.po.c:1937
 #, fuzzy
 msgid "Kingsoft userport joy adapter"
 msgstr "Ingen brugerportjoystickadapter"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1102
+#: src/arch/amigaos/intl_text.c.po.c:1951
 #, fuzzy
 msgid "Starbyte userport joy adapter"
 msgstr "Ingen brugerportjoystickadapter"
@@ -6961,34 +6964,42 @@ msgid "Attach cartridge image at $6000/$7000"
 msgstr "Tilslut 4KB-cartridge image på $B000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
+#: src/arch/amigaos/intl_text.c.po.c:663
 msgid "Load new Cart $1***"
 msgstr "Indlæs nyt cartridge $1***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:212
+#: src/arch/amigaos/intl_text.c.po.c:677
 msgid "Unload Cart $1***"
 msgstr "Afbryd cartridge $1***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:213
+#: src/arch/amigaos/intl_text.c.po.c:691
 msgid "Load new Cart $2-3***"
 msgstr "Indlæs nyt cartridge $2-3***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:214
+#: src/arch/amigaos/intl_text.c.po.c:705
 msgid "Unload Cart $2-3***"
 msgstr "Afbryd cartridge $2-3***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:215
+#: src/arch/amigaos/intl_text.c.po.c:719
 msgid "Load new Cart $4-5***"
 msgstr "Indlæs nyt cartridge $4-5***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:216
+#: src/arch/amigaos/intl_text.c.po.c:733
 msgid "Unload Cart $4-5***"
 msgstr "Afbryd cartridge $4-5***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:217
+#: src/arch/amigaos/intl_text.c.po.c:747
 msgid "Load new Cart $6-7***"
 msgstr "Indlæs nyt cartridge $6-7***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:218
+#: src/arch/amigaos/intl_text.c.po.c:761
 msgid "Unload Cart $6-7***"
 msgstr "Afbryd cartridge $6-7***"
 
@@ -7767,46 +7778,6 @@ msgstr "Funktion lav-image (3plus1)"
 msgid "Function high image (3plus1)"
 msgstr "Funktion høj-image (3plus1)"
 
-#: src/arch/amigaos/intl_text.c.po.c:663
-#, fuzzy
-msgid "Load new cart $1xxx"
-msgstr "Indlæs nyt cartridge $1***"
-
-#: src/arch/amigaos/intl_text.c.po.c:677
-#, fuzzy
-msgid "Unload cart $1xxx"
-msgstr "Afbryd cartridge $1***"
-
-#: src/arch/amigaos/intl_text.c.po.c:691
-#, fuzzy
-msgid "Load new cart $2-3xxx"
-msgstr "Indlæs nyt cartridge $2-3***"
-
-#: src/arch/amigaos/intl_text.c.po.c:705
-#, fuzzy
-msgid "Unload cart $2-3xxx"
-msgstr "Afbryd cartridge $2-3***"
-
-#: src/arch/amigaos/intl_text.c.po.c:719
-#, fuzzy
-msgid "Load new cart $4-5xxx"
-msgstr "Indlæs nyt cartridge $4-5***"
-
-#: src/arch/amigaos/intl_text.c.po.c:733
-#, fuzzy
-msgid "Unload cart $4-5xxx"
-msgstr "Afbryd cartridge $4-5***"
-
-#: src/arch/amigaos/intl_text.c.po.c:747
-#, fuzzy
-msgid "Load new cart $6-7xxx"
-msgstr "Indlæs nyt cartridge $6-7***"
-
-#: src/arch/amigaos/intl_text.c.po.c:761
-#, fuzzy
-msgid "Unload cart $6-7xxx"
-msgstr "Afbryd cartridge $6-7***"
-
 #: src/arch/amigaos/intl_text.c.po.c:1419
 msgid "1/1"
 msgstr "1/1"
@@ -7870,41 +7841,6 @@ msgstr "10%"
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
 msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1867
-#, fuzzy
-msgid "CGA userport joystick adapter"
-msgstr "CGA brugerportjoystickadapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1881
-#, fuzzy
-msgid "PET userport joystick adapter"
-msgstr "PET brugerportjoystickadapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1895
-#, fuzzy
-msgid "Hummer userport joystick adapter"
-msgstr "Hummer brugerport joystick adapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1909
-#, fuzzy
-msgid "OEM userport joystick adapter"
-msgstr "OEM brugerportjoystickadapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1923
-#, fuzzy
-msgid "HIT userport joystick adapter"
-msgstr "HIT brugerportjoystickadapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1937
-#, fuzzy
-msgid "Kingsoft userport joystick adapter"
-msgstr "Ingen brugerportjoystickadapter"
-
-#: src/arch/amigaos/intl_text.c.po.c:1951
-#, fuzzy
-msgid "Starbyte userport joystick adapter"
-msgstr "Ingen brugerportjoystickadapter"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
@@ -11993,6 +11929,66 @@ msgstr "Deaktivér DigiMAX cartridge"
 #: src/translate_text.c.po.c:13219
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Baseadresse for DigiMAX cartridge"
+
+#, fuzzy
+#~ msgid "Load new cart $1xxx"
+#~ msgstr "Indlæs nyt cartridge $1***"
+
+#, fuzzy
+#~ msgid "Unload cart $1xxx"
+#~ msgstr "Afbryd cartridge $1***"
+
+#, fuzzy
+#~ msgid "Load new cart $2-3xxx"
+#~ msgstr "Indlæs nyt cartridge $2-3***"
+
+#, fuzzy
+#~ msgid "Unload cart $2-3xxx"
+#~ msgstr "Afbryd cartridge $2-3***"
+
+#, fuzzy
+#~ msgid "Load new cart $4-5xxx"
+#~ msgstr "Indlæs nyt cartridge $4-5***"
+
+#, fuzzy
+#~ msgid "Unload cart $4-5xxx"
+#~ msgstr "Afbryd cartridge $4-5***"
+
+#, fuzzy
+#~ msgid "Load new cart $6-7xxx"
+#~ msgstr "Indlæs nyt cartridge $6-7***"
+
+#, fuzzy
+#~ msgid "Unload cart $6-7xxx"
+#~ msgstr "Afbryd cartridge $6-7***"
+
+#, fuzzy
+#~ msgid "CGA userport joystick adapter"
+#~ msgstr "CGA brugerportjoystickadapter"
+
+#, fuzzy
+#~ msgid "PET userport joystick adapter"
+#~ msgstr "PET brugerportjoystickadapter"
+
+#, fuzzy
+#~ msgid "Hummer userport joystick adapter"
+#~ msgstr "Hummer brugerport joystick adapter"
+
+#, fuzzy
+#~ msgid "OEM userport joystick adapter"
+#~ msgstr "OEM brugerportjoystickadapter"
+
+#, fuzzy
+#~ msgid "HIT userport joystick adapter"
+#~ msgstr "HIT brugerportjoystickadapter"
+
+#, fuzzy
+#~ msgid "Kingsoft userport joystick adapter"
+#~ msgstr "Ingen brugerportjoystickadapter"
+
+#, fuzzy
+#~ msgid "Starbyte userport joystick adapter"
+#~ msgstr "Ingen brugerportjoystickadapter"
 
 #~ msgid "Change PET model"
 #~ msgstr "Skift PET-model"

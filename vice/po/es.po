@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>, 2011
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 11:37-0700\n"
+"POT-Creation-Date: 2012-06-16 15:34-0700\n"
 "PO-Revision-Date: 2012-05-02 19:26+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -2410,34 +2410,37 @@ msgid "ISEPIC image"
 msgstr "Imagen ISEPIC"
 
 #: src/arch/unix/gui/uijoystick2.c:128 src/arch/unix/gui/uijoystick2.c:146
-#: src/arch/win32/res.rc.po.c:1096
+#: src/arch/win32/res.rc.po.c:1096 src/arch/amigaos/intl_text.c.po.c:1867
 msgid "CGA userport joy adapter"
 msgstr "Adaptador de puerto de juegos CGA"
 
 #: src/arch/unix/gui/uijoystick2.c:130 src/arch/unix/gui/uijoystick2.c:148
-#: src/arch/win32/res.rc.po.c:1097
+#: src/arch/win32/res.rc.po.c:1097 src/arch/amigaos/intl_text.c.po.c:1881
 msgid "PET userport joy adapter"
 msgstr "Adaptador de puerto de juegos PET"
 
 #: src/arch/unix/gui/uijoystick2.c:132 src/arch/unix/gui/uijoystick2.c:150
-#: src/arch/win32/res.rc.po.c:1098
+#: src/arch/win32/res.rc.po.c:1098 src/arch/amigaos/intl_text.c.po.c:1895
 msgid "Hummer userport joy adapter"
 msgstr "Adaptador de puerto de juegos Hummer"
 
 #: src/arch/unix/gui/uijoystick2.c:134 src/arch/unix/gui/uijoystick2.c:152
-#: src/arch/win32/res.rc.po.c:1099
+#: src/arch/win32/res.rc.po.c:1099 src/arch/amigaos/intl_text.c.po.c:1909
 msgid "OEM userport joy adapter"
 msgstr "Adaptador de puerto de juegos OEM"
 
 #: src/arch/unix/gui/uijoystick2.c:136 src/arch/win32/res.rc.po.c:1100
+#: src/arch/amigaos/intl_text.c.po.c:1923
 msgid "HIT userport joy adapter"
 msgstr "Adpatador de puerto de juegos HIT"
 
 #: src/arch/unix/gui/uijoystick2.c:138 src/arch/win32/res.rc.po.c:1101
+#: src/arch/amigaos/intl_text.c.po.c:1937
 msgid "Kingsoft userport joy adapter"
 msgstr "Adaptador puerto joy Kingsoft"
 
 #: src/arch/unix/gui/uijoystick2.c:140 src/arch/win32/res.rc.po.c:1102
+#: src/arch/amigaos/intl_text.c.po.c:1951
 msgid "Starbyte userport joy adapter"
 msgstr "Adaptador puerto joy Starbyte"
 
@@ -6847,34 +6850,42 @@ msgid "Attach cartridge image at $6000/$7000"
 msgstr "Insertar imagen cartucho en $6000/$7000"
 
 #: src/arch/win32/rescbm2common.rc.po.c:211
+#: src/arch/amigaos/intl_text.c.po.c:663
 msgid "Load new Cart $1***"
 msgstr "Cargar nuevo Cart $1***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:212
+#: src/arch/amigaos/intl_text.c.po.c:677
 msgid "Unload Cart $1***"
 msgstr "Extraer Cart $1***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:213
+#: src/arch/amigaos/intl_text.c.po.c:691
 msgid "Load new Cart $2-3***"
 msgstr "Cargar nuevo Cart $2-3***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:214
+#: src/arch/amigaos/intl_text.c.po.c:705
 msgid "Unload Cart $2-3***"
 msgstr "Extraer Cart $2-3***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:215
+#: src/arch/amigaos/intl_text.c.po.c:719
 msgid "Load new Cart $4-5***"
 msgstr "Cargar nuevo Cart $4-5***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:216
+#: src/arch/amigaos/intl_text.c.po.c:733
 msgid "Unload Cart $4-5***"
 msgstr "Extraer Cart $4-5***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:217
+#: src/arch/amigaos/intl_text.c.po.c:747
 msgid "Load new Cart $6-7***"
 msgstr "Cargar nuevo Cart $6-7***"
 
 #: src/arch/win32/rescbm2common.rc.po.c:218
+#: src/arch/amigaos/intl_text.c.po.c:761
 msgid "Unload Cart $6-7***"
 msgstr "Extraer Cart $6-7***"
 
@@ -7606,46 +7617,6 @@ msgstr "Función imagen bajo (3plus1)"
 msgid "Function high image (3plus1)"
 msgstr "Función imagen alto (3plus1)"
 
-#: src/arch/amigaos/intl_text.c.po.c:663
-#, fuzzy
-msgid "Load new cart $1xxx"
-msgstr "Cargar nuevo Cart $1***"
-
-#: src/arch/amigaos/intl_text.c.po.c:677
-#, fuzzy
-msgid "Unload cart $1xxx"
-msgstr "Extraer Cart $1***"
-
-#: src/arch/amigaos/intl_text.c.po.c:691
-#, fuzzy
-msgid "Load new cart $2-3xxx"
-msgstr "Cargar nuevo Cart $2-3***"
-
-#: src/arch/amigaos/intl_text.c.po.c:705
-#, fuzzy
-msgid "Unload cart $2-3xxx"
-msgstr "Extraer Cart $2-3***"
-
-#: src/arch/amigaos/intl_text.c.po.c:719
-#, fuzzy
-msgid "Load new cart $4-5xxx"
-msgstr "Cargar nuevo Cart $4-5***"
-
-#: src/arch/amigaos/intl_text.c.po.c:733
-#, fuzzy
-msgid "Unload cart $4-5xxx"
-msgstr "Extraer Cart $4-5***"
-
-#: src/arch/amigaos/intl_text.c.po.c:747
-#, fuzzy
-msgid "Load new cart $6-7xxx"
-msgstr "Cargar nuevo Cart $6-7***"
-
-#: src/arch/amigaos/intl_text.c.po.c:761
-#, fuzzy
-msgid "Unload cart $6-7xxx"
-msgstr "Extraer Cart $6-7***"
-
 #: src/arch/amigaos/intl_text.c.po.c:1419
 msgid "1/1"
 msgstr "1/1"
@@ -7709,41 +7680,6 @@ msgstr "10%"
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
 msgstr ""
-
-#: src/arch/amigaos/intl_text.c.po.c:1867
-#, fuzzy
-msgid "CGA userport joystick adapter"
-msgstr "Adaptador de puerto de juegos CGA"
-
-#: src/arch/amigaos/intl_text.c.po.c:1881
-#, fuzzy
-msgid "PET userport joystick adapter"
-msgstr "Adaptador de puerto de juegos PET"
-
-#: src/arch/amigaos/intl_text.c.po.c:1895
-#, fuzzy
-msgid "Hummer userport joystick adapter"
-msgstr "Adaptador de puerto de juegos Hummer"
-
-#: src/arch/amigaos/intl_text.c.po.c:1909
-#, fuzzy
-msgid "OEM userport joystick adapter"
-msgstr "Adaptador de puerto de juegos OEM"
-
-#: src/arch/amigaos/intl_text.c.po.c:1923
-#, fuzzy
-msgid "HIT userport joystick adapter"
-msgstr "Adpatador de puerto de juegos HIT"
-
-#: src/arch/amigaos/intl_text.c.po.c:1937
-#, fuzzy
-msgid "Kingsoft userport joystick adapter"
-msgstr "Adaptador puerto joy Kingsoft"
-
-#: src/arch/amigaos/intl_text.c.po.c:1951
-#, fuzzy
-msgid "Starbyte userport joystick adapter"
-msgstr "Adaptador puerto joy Starbyte"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
@@ -11863,6 +11799,66 @@ msgstr "Deshabilitar cartucho DigMAX"
 #: src/translate_text.c.po.c:13219
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Dirección base para cartucho DigMAX"
+
+#, fuzzy
+#~ msgid "Load new cart $1xxx"
+#~ msgstr "Cargar nuevo Cart $1***"
+
+#, fuzzy
+#~ msgid "Unload cart $1xxx"
+#~ msgstr "Extraer Cart $1***"
+
+#, fuzzy
+#~ msgid "Load new cart $2-3xxx"
+#~ msgstr "Cargar nuevo Cart $2-3***"
+
+#, fuzzy
+#~ msgid "Unload cart $2-3xxx"
+#~ msgstr "Extraer Cart $2-3***"
+
+#, fuzzy
+#~ msgid "Load new cart $4-5xxx"
+#~ msgstr "Cargar nuevo Cart $4-5***"
+
+#, fuzzy
+#~ msgid "Unload cart $4-5xxx"
+#~ msgstr "Extraer Cart $4-5***"
+
+#, fuzzy
+#~ msgid "Load new cart $6-7xxx"
+#~ msgstr "Cargar nuevo Cart $6-7***"
+
+#, fuzzy
+#~ msgid "Unload cart $6-7xxx"
+#~ msgstr "Extraer Cart $6-7***"
+
+#, fuzzy
+#~ msgid "CGA userport joystick adapter"
+#~ msgstr "Adaptador de puerto de juegos CGA"
+
+#, fuzzy
+#~ msgid "PET userport joystick adapter"
+#~ msgstr "Adaptador de puerto de juegos PET"
+
+#, fuzzy
+#~ msgid "Hummer userport joystick adapter"
+#~ msgstr "Adaptador de puerto de juegos Hummer"
+
+#, fuzzy
+#~ msgid "OEM userport joystick adapter"
+#~ msgstr "Adaptador de puerto de juegos OEM"
+
+#, fuzzy
+#~ msgid "HIT userport joystick adapter"
+#~ msgstr "Adpatador de puerto de juegos HIT"
+
+#, fuzzy
+#~ msgid "Kingsoft userport joystick adapter"
+#~ msgstr "Adaptador puerto joy Kingsoft"
+
+#, fuzzy
+#~ msgid "Starbyte userport joystick adapter"
+#~ msgstr "Adaptador puerto joy Starbyte"
 
 #~ msgid "Change PET model"
 #~ msgstr "Cambiar modelo PET"
