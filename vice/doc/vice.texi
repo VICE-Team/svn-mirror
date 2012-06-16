@@ -15176,7 +15176,7 @@ Contributed the @code{extract} command in @code{c1541}.
 Did some IDE64 and C1541 fixes.
 
 @item
-@{Peter Rittwage}
+@b{Peter Rittwage}
 Made 1541 GCR hardware tests.
 
 @item
