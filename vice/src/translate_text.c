@@ -27,12 +27,6 @@
 translate_t string_table[] = {
 
 
-
-
-
-
-
-
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -899,7 +893,7 @@ translate_t string_table[] = {
 /* pl */ {IDGS_ALL_DEVICES_EXCEPT_PL, ".\nWszystkie urz±dzenia, prócz"},
 /* ru */ {IDGS_ALL_DEVICES_EXCEPT_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ALL_DEVICES_EXCEPT_SV, ".\nAlla enheter förutom "},
-/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ".\n"},
+/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ""},  /* fuzzy */
 #endif
 
 /* c64/c64io.c, vic20/vic20io.c */
@@ -4374,7 +4368,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SELECT_CONFLICT_HANDLING_IT, "Seleziona come gestire le collisioni di I/O, (0: messaggio di errore e rimozione di tutte le cartucce coinvolte, 1: messaggio di errore e rimozione delle ultima cartucce coinvolte, 2: warning nei log e 'AND' il valore di ritorno valido"},
 /* ko */ {IDCLS_SELECT_CONFLICT_HANDLING_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_CONFLICT_HANDLING_NL, "Selecteer de manier waarmee I/O conflicten worden afgehandeld, (0: fout melding en ontkoppel alle betroffene carridges, 1: fout melding en ontkoppel alle cartridges behalve de eerste cartrdige, 2: waarschuwing in het log bestand en doe een logische 'AND' met de terug gegeven waarden"},
-/* pl */ {IDCLS_SELECT_CONFLICT_HANDLING_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_CONFLICT_HANDLING_PL, "Wybierz metodê obs³ugi konfliktów we/wy, (0: komunikat b³êdu i od³±czenie wszystkich konfliktuj±cych kartrid¿ów, 1: komunikat b³êdu i od³±czenie ostatnio pod³±czonych konfliktuj±cych kartrid¿ów, 2: ostrze¿enie w logu i 'AND' w³a¶ciwe warto¶ci)"},
 /* ru */ {IDCLS_SELECT_CONFLICT_HANDLING_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_CONFLICT_HANDLING_SV, "Väljer hur I/O-kollisioner skall hanteras, (0: felmeddelande och koppla från alla inblandade moduler, 1: felmeddelande och koppla från sist anslutna inblandade modul, 2: varning i logg och logisk OCH på giltiga returvärden)"},
 /* tr */ {IDCLS_SELECT_CONFLICT_HANDLING_TR, "G/Ç çakýþmalarýnýn deðerlendirilme yöntemini seç, (0: hata mesajý ve tüm ilgili cihazlarýn çýkarýlmasý, 1: hata mesajý ve en son takýlmýþ tüm ilgili cihazlarýn çýkarýlmasý, 2: log'a uyarý yazýlmasý ve geçerli dönüþ deðerlerinin 'VE'lenmesi"},
@@ -9992,7 +9986,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_STRETCH_VERTICAL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_STRETCH_VERTICAL_IT, "Attiva allungamento verticale aggiuntivo."},
 /* ko */ {IDCLS_ENABLE_STRETCH_VERTICAL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_STRETCH_VERTICAL_NL, "Aktiveer additionele vertikale rekking"},
+/* nl */ {IDCLS_ENABLE_STRETCH_VERTICAL_NL, "Aktiveer additionele vertikale rekking."},
 /* pl */ {IDCLS_ENABLE_STRETCH_VERTICAL_PL, "W³±cz dodatkowe rozci±ganie w pionie"},
 /* ru */ {IDCLS_ENABLE_STRETCH_VERTICAL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_STRETCH_VERTICAL_SV, "Aktivera ytterligare vertikal utdragning."},
@@ -10009,7 +10003,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_STRETCH_VERTICAL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_STRETCH_VERTICAL_IT, "Disattiva allungamento verticale aggiuntivo."},
 /* ko */ {IDCLS_DISABLE_STRETCH_VERTICAL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_STRETCH_VERTICAL_NL, "Additionele vertikale rekking afsluiten"},
+/* nl */ {IDCLS_DISABLE_STRETCH_VERTICAL_NL, "Additionele vertikale rekking afsluiten."},
 /* pl */ {IDCLS_DISABLE_STRETCH_VERTICAL_PL, "Wy³±cz dodatkowe rozci±ganie w pionie"},
 /* ru */ {IDCLS_DISABLE_STRETCH_VERTICAL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_STRETCH_VERTICAL_SV, "Inaktivera ytterligare vertikal utdragning."},

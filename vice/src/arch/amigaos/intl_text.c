@@ -573,23 +573,23 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDMS_DETACH_CART_IMAGE_TR, "Kartuþ imaj(lar)ýný çýkart" },
 
 /* en */ { IDMS_C0_LOW_IMAGE,    "C0 low  image..." },
-/* da */ { IDMS_C0_LOW_IMAGE_DA, "C0 lav-image..." },
+/* da */ { IDMS_C0_LOW_IMAGE_DA, "" },  /* fuzzy */
 /* de */ { IDMS_C0_LOW_IMAGE_DE, "C0 low Image Datei..." },
-/* es */ { IDMS_C0_LOW_IMAGE_ES, "C0 imagen bajo..." },
+/* es */ { IDMS_C0_LOW_IMAGE_ES, "Imagen C0 bajo..." },
 /* fr */ { IDMS_C0_LOW_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C0_LOW_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C0_LOW_IMAGE_IT, "Immagine C0 bassa..." },
 /* ko */ { IDMS_C0_LOW_IMAGE_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_C0_LOW_IMAGE_NL, "C0 low bestand..." },
 /* pl */ { IDMS_C0_LOW_IMAGE_PL, "Obraz C0 low..." },
-/* ru */ { IDMS_C0_LOW_IMAGE_RU, "C0 low  image..." },
+/* ru */ { IDMS_C0_LOW_IMAGE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C0_LOW_IMAGE_SV, "C0 låg-avbildning..." },
 /* tr */ { IDMS_C0_LOW_IMAGE_TR, "C0 low  imajý..." },
 
 /* en */ { IDMS_C0_HIGH_IMAGE,    "C0 high image..." },
-/* da */ { IDMS_C0_HIGH_IMAGE_DA, "C0 høj-image..." },
+/* da */ { IDMS_C0_HIGH_IMAGE_DA, "" },  /* fuzzy */
 /* de */ { IDMS_C0_HIGH_IMAGE_DE, "C0 high Image Datei..." },
-/* es */ { IDMS_C0_HIGH_IMAGE_ES, "C0 imagen alto..." },
+/* es */ { IDMS_C0_HIGH_IMAGE_ES, "Imagen C0 alto..." },
 /* fr */ { IDMS_C0_HIGH_IMAGE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C0_HIGH_IMAGE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C0_HIGH_IMAGE_IT, "Immagine C0 alta..." },
@@ -685,116 +685,116 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDMS_FUNCTION_HIGH_3PLUS1_TR, "Function high imajý (3plus1)..." },
 
 /* en */ { IDMS_LOAD_CART_1XXX,    "Load new Cart $1***" },
-/* da */ { IDMS_LOAD_CART_1XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_LOAD_CART_1XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_LOAD_CART_1XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_LOAD_CART_1XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_LOAD_CART_1XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_LOAD_CART_1XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_LOAD_CART_1XXX_DA, "Indlæs nyt cartridge $1***" },
+/* de */ { IDMS_LOAD_CART_1XXX_DE, "Modul bei $1*** laden" },
+/* es */ { IDMS_LOAD_CART_1XXX_ES, "Cargar nuevo Cart $1***" },
+/* fr */ { IDMS_LOAD_CART_1XXX_FR, "Charger la cassette $1***" },
+/* hu */ { IDMS_LOAD_CART_1XXX_HU, "Új Cart. betöltése a $1*** címre" },
+/* it */ { IDMS_LOAD_CART_1XXX_IT, "Carica nuova cartuccia $1***" },
 /* ko */ { IDMS_LOAD_CART_1XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LOAD_CART_1XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_LOAD_CART_1XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_LOAD_CART_1XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_LOAD_CART_1XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_LOAD_CART_1XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_LOAD_CART_1XXX_NL, "Laad nieuw Cart $1***" },
+/* pl */ { IDMS_LOAD_CART_1XXX_PL, "Wczytaj nowy kartrid¿ $1***" },
+/* ru */ { IDMS_LOAD_CART_1XXX_RU, "·ÐÓàã×Øâì ÝÞÒëÙ ÚÐàâàØÔÖ $1***" },
+/* sv */ { IDMS_LOAD_CART_1XXX_SV, "Läs ny insticksmodul $1***" },
+/* tr */ { IDMS_LOAD_CART_1XXX_TR, "Yeni Kartuþ $1*** yükle" },
 
 /* en */ { IDMS_UNLOAD_CART_1XXX,    "Unload Cart $1***" },
-/* da */ { IDMS_UNLOAD_CART_1XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_UNLOAD_CART_1XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_UNLOAD_CART_1XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_UNLOAD_CART_1XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_UNLOAD_CART_1XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_UNLOAD_CART_1XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_UNLOAD_CART_1XXX_DA, "Afbryd cartridge $1***" },
+/* de */ { IDMS_UNLOAD_CART_1XXX_DE, "Modul bei $1*** entfernen" },
+/* es */ { IDMS_UNLOAD_CART_1XXX_ES, "Extraer Cart $1***" },
+/* fr */ { IDMS_UNLOAD_CART_1XXX_FR, "Décharger la cassette $1***" },
+/* hu */ { IDMS_UNLOAD_CART_1XXX_HU, "Cart. leválasztása a $1*** címrõl" },
+/* it */ { IDMS_UNLOAD_CART_1XXX_IT, "Scarica cartuccia $1***" },
 /* ko */ { IDMS_UNLOAD_CART_1XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UNLOAD_CART_1XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_UNLOAD_CART_1XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_UNLOAD_CART_1XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_UNLOAD_CART_1XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_UNLOAD_CART_1XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_UNLOAD_CART_1XXX_NL, "Verwijder Cart $1***" },
+/* pl */ { IDMS_UNLOAD_CART_1XXX_PL, "Usuñ kartrid¿ $1***" },
+/* ru */ { IDMS_UNLOAD_CART_1XXX_RU, "¸×ÒÛÕçì ÚÐàâàØÔÖ $1***" },
+/* sv */ { IDMS_UNLOAD_CART_1XXX_SV, "Läs ur insticksmodul $1***" },
+/* tr */ { IDMS_UNLOAD_CART_1XXX_TR, "Kartuþ $1*** kaldýr" },
 
 /* en */ { IDMS_LOAD_CART_2_3XXX,    "Load new Cart $2-3***" },
-/* da */ { IDMS_LOAD_CART_2_3XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_LOAD_CART_2_3XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_LOAD_CART_2_3XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_LOAD_CART_2_3XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_LOAD_CART_2_3XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_LOAD_CART_2_3XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_LOAD_CART_2_3XXX_DA, "Indlæs nyt cartridge $2-3***" },
+/* de */ { IDMS_LOAD_CART_2_3XXX_DE, "Modul bei $2-3*** laden" },
+/* es */ { IDMS_LOAD_CART_2_3XXX_ES, "Cargar nuevo Cart $2-3***" },
+/* fr */ { IDMS_LOAD_CART_2_3XXX_FR, "Charger la cassette $2-3***" },
+/* hu */ { IDMS_LOAD_CART_2_3XXX_HU, "Új Cart. betöltése a $2-$3*** címre" },
+/* it */ { IDMS_LOAD_CART_2_3XXX_IT, "Carica nuova cartuccia $2-3***" },
 /* ko */ { IDMS_LOAD_CART_2_3XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LOAD_CART_2_3XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_LOAD_CART_2_3XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_LOAD_CART_2_3XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_LOAD_CART_2_3XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_LOAD_CART_2_3XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_LOAD_CART_2_3XXX_NL, "Laad nieuw Cart $2-3***" },
+/* pl */ { IDMS_LOAD_CART_2_3XXX_PL, "Wczytaj nowy kartrid¿ $2-3***" },
+/* ru */ { IDMS_LOAD_CART_2_3XXX_RU, "·ÐÓàã×Øâì ÝÞÒëÙ ÚÐàâàØÔÖ $2-3***" },
+/* sv */ { IDMS_LOAD_CART_2_3XXX_SV, "Läs ny insticksmodul $2-3***" },
+/* tr */ { IDMS_LOAD_CART_2_3XXX_TR, "Yeni Kartuþ $2-3*** yükle" },
 
 /* en */ { IDMS_UNLOAD_CART_2_3XXX,    "Unload Cart $2-3***" },
-/* da */ { IDMS_UNLOAD_CART_2_3XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_UNLOAD_CART_2_3XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_UNLOAD_CART_2_3XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_UNLOAD_CART_2_3XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_UNLOAD_CART_2_3XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_UNLOAD_CART_2_3XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_UNLOAD_CART_2_3XXX_DA, "Afbryd cartridge $2-3***" },
+/* de */ { IDMS_UNLOAD_CART_2_3XXX_DE, "Modul bei $2-3*** entfernen" },
+/* es */ { IDMS_UNLOAD_CART_2_3XXX_ES, "Extraer Cart $2-3***" },
+/* fr */ { IDMS_UNLOAD_CART_2_3XXX_FR, "Décharger la cassette $2-3***" },
+/* hu */ { IDMS_UNLOAD_CART_2_3XXX_HU, "Cart. leválasztása a $2-3*** címrõl" },
+/* it */ { IDMS_UNLOAD_CART_2_3XXX_IT, "Scarica cartuccia $2-3***" },
 /* ko */ { IDMS_UNLOAD_CART_2_3XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UNLOAD_CART_2_3XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_UNLOAD_CART_2_3XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_UNLOAD_CART_2_3XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_UNLOAD_CART_2_3XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_UNLOAD_CART_2_3XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_UNLOAD_CART_2_3XXX_NL, "Verwijder Cart $2-3***" },
+/* pl */ { IDMS_UNLOAD_CART_2_3XXX_PL, "Usuñ kartrid¿ $2-3***" },
+/* ru */ { IDMS_UNLOAD_CART_2_3XXX_RU, "¸×ÒÛÕçì ÚÐàâàØÔÖ $2-3***" },
+/* sv */ { IDMS_UNLOAD_CART_2_3XXX_SV, "Läs ur insticksmodul $2-3***" },
+/* tr */ { IDMS_UNLOAD_CART_2_3XXX_TR, "Kartuþ $2-3*** kaldýr" },
 
 /* en */ { IDMS_LOAD_CART_4_5XXX,    "Load new Cart $4-5***" },
-/* da */ { IDMS_LOAD_CART_4_5XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_LOAD_CART_4_5XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_LOAD_CART_4_5XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_LOAD_CART_4_5XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_LOAD_CART_4_5XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_LOAD_CART_4_5XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_LOAD_CART_4_5XXX_DA, "Indlæs nyt cartridge $4-5***" },
+/* de */ { IDMS_LOAD_CART_4_5XXX_DE, "Modul bei $4-5*** laden" },
+/* es */ { IDMS_LOAD_CART_4_5XXX_ES, "Cargar nuevo Cart $4-5***" },
+/* fr */ { IDMS_LOAD_CART_4_5XXX_FR, "Charger la cassette $4-5***" },
+/* hu */ { IDMS_LOAD_CART_4_5XXX_HU, "Új Cart. betöltése a $4-$5*** címre" },
+/* it */ { IDMS_LOAD_CART_4_5XXX_IT, "Carica nuova cartuccia $4-5***" },
 /* ko */ { IDMS_LOAD_CART_4_5XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LOAD_CART_4_5XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_LOAD_CART_4_5XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_LOAD_CART_4_5XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_LOAD_CART_4_5XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_LOAD_CART_4_5XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_LOAD_CART_4_5XXX_NL, "Laad nieuw Cart $4-5***" },
+/* pl */ { IDMS_LOAD_CART_4_5XXX_PL, "Wczytaj nowy kartrid¿ $4-5***" },
+/* ru */ { IDMS_LOAD_CART_4_5XXX_RU, "·ÐÓàã×Øâì ÝÞÒëÙ ÚÐàâàØÔÖ $4-5***" },
+/* sv */ { IDMS_LOAD_CART_4_5XXX_SV, "Läs ny insticksmodul $4-5***" },
+/* tr */ { IDMS_LOAD_CART_4_5XXX_TR, "Yeni Kartuþ $4-5*** yükle" },
 
 /* en */ { IDMS_UNLOAD_CART_4_5XXX,    "Unload Cart $4-5***" },
-/* da */ { IDMS_UNLOAD_CART_4_5XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_UNLOAD_CART_4_5XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_UNLOAD_CART_4_5XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_UNLOAD_CART_4_5XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_UNLOAD_CART_4_5XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_UNLOAD_CART_4_5XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_UNLOAD_CART_4_5XXX_DA, "Afbryd cartridge $4-5***" },
+/* de */ { IDMS_UNLOAD_CART_4_5XXX_DE, "Modul bei $4-5*** entfernen" },
+/* es */ { IDMS_UNLOAD_CART_4_5XXX_ES, "Extraer Cart $4-5***" },
+/* fr */ { IDMS_UNLOAD_CART_4_5XXX_FR, "Décharger la cassette $4-5***" },
+/* hu */ { IDMS_UNLOAD_CART_4_5XXX_HU, "Cart. leválasztása a $4-5*** címrõl" },
+/* it */ { IDMS_UNLOAD_CART_4_5XXX_IT, "Scarica cartuccia $4-5***" },
 /* ko */ { IDMS_UNLOAD_CART_4_5XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UNLOAD_CART_4_5XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_UNLOAD_CART_4_5XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_UNLOAD_CART_4_5XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_UNLOAD_CART_4_5XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_UNLOAD_CART_4_5XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_UNLOAD_CART_4_5XXX_NL, "Verwijder Cart $4-5***" },
+/* pl */ { IDMS_UNLOAD_CART_4_5XXX_PL, "Usuñ kartrid¿ $4-5***" },
+/* ru */ { IDMS_UNLOAD_CART_4_5XXX_RU, "¸×ÒÛÕçì ÚÐàâàØÔÖ $4-5***" },
+/* sv */ { IDMS_UNLOAD_CART_4_5XXX_SV, "Läs ur insticksmodul $4-5***" },
+/* tr */ { IDMS_UNLOAD_CART_4_5XXX_TR, "Kartuþ $4-5*** kaldýr" },
 
 /* en */ { IDMS_LOAD_CART_6_7XXX,    "Load new Cart $6-7***" },
-/* da */ { IDMS_LOAD_CART_6_7XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_LOAD_CART_6_7XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_LOAD_CART_6_7XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_LOAD_CART_6_7XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_LOAD_CART_6_7XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_LOAD_CART_6_7XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_LOAD_CART_6_7XXX_DA, "Indlæs nyt cartridge $6-7***" },
+/* de */ { IDMS_LOAD_CART_6_7XXX_DE, "Modul bei $6-7*** laden" },
+/* es */ { IDMS_LOAD_CART_6_7XXX_ES, "Cargar nuevo Cart $6-7***" },
+/* fr */ { IDMS_LOAD_CART_6_7XXX_FR, "Charger la cassette $6-7***" },
+/* hu */ { IDMS_LOAD_CART_6_7XXX_HU, "Új Cart. betöltése a $6-$7*** címre" },
+/* it */ { IDMS_LOAD_CART_6_7XXX_IT, "Carica nuova cartuccia $6-7***" },
 /* ko */ { IDMS_LOAD_CART_6_7XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_LOAD_CART_6_7XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_LOAD_CART_6_7XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_LOAD_CART_6_7XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_LOAD_CART_6_7XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_LOAD_CART_6_7XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_LOAD_CART_6_7XXX_NL, "Laad nieuw Cart $6-7***" },
+/* pl */ { IDMS_LOAD_CART_6_7XXX_PL, "Wczytaj nowy kartrid¿ $6-7***" },
+/* ru */ { IDMS_LOAD_CART_6_7XXX_RU, "·ÐÓàã×Øâì ÝÞÒëÙ ÚÐàâàØÔÖ $6-7***" },
+/* sv */ { IDMS_LOAD_CART_6_7XXX_SV, "Läs ny insticksmodul $6-7***" },
+/* tr */ { IDMS_LOAD_CART_6_7XXX_TR, "Yeni Kartuþ $6-7*** yükle" },
 
 /* en */ { IDMS_UNLOAD_CART_6_7XXX,    "Unload Cart $6-7***" },
-/* da */ { IDMS_UNLOAD_CART_6_7XXX_DA, "" },  /* fuzzy */
-/* de */ { IDMS_UNLOAD_CART_6_7XXX_DE, "" },  /* fuzzy */
-/* es */ { IDMS_UNLOAD_CART_6_7XXX_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_UNLOAD_CART_6_7XXX_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_UNLOAD_CART_6_7XXX_HU, "" },  /* fuzzy */
-/* it */ { IDMS_UNLOAD_CART_6_7XXX_IT, "" },  /* fuzzy */
+/* da */ { IDMS_UNLOAD_CART_6_7XXX_DA, "Afbryd cartridge $6-7***" },
+/* de */ { IDMS_UNLOAD_CART_6_7XXX_DE, "Modul bei $6-7*** entfernen" },
+/* es */ { IDMS_UNLOAD_CART_6_7XXX_ES, "Extraer Cart $6-7***" },
+/* fr */ { IDMS_UNLOAD_CART_6_7XXX_FR, "Décharger la cassette $6-7***" },
+/* hu */ { IDMS_UNLOAD_CART_6_7XXX_HU, "Cart. leválasztása a $6-7*** címrõl" },
+/* it */ { IDMS_UNLOAD_CART_6_7XXX_IT, "Scarica cartuccia $6-7***" },
 /* ko */ { IDMS_UNLOAD_CART_6_7XXX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_UNLOAD_CART_6_7XXX_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_UNLOAD_CART_6_7XXX_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_UNLOAD_CART_6_7XXX_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_UNLOAD_CART_6_7XXX_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_UNLOAD_CART_6_7XXX_TR, "" },  /* fuzzy */
+/* nl */ { IDMS_UNLOAD_CART_6_7XXX_NL, "Verwijder Cart $6-7***" },
+/* pl */ { IDMS_UNLOAD_CART_6_7XXX_PL, "Usuñ kartrid¿ $6-7***" },
+/* ru */ { IDMS_UNLOAD_CART_6_7XXX_RU, "¸×ÒÛÕçì ÚÐàâàØÔÖ $6-7***" },
+/* sv */ { IDMS_UNLOAD_CART_6_7XXX_SV, "Läs ur insticksmodul $6-7***" },
+/* tr */ { IDMS_UNLOAD_CART_6_7XXX_TR, "Kartuþ $6-7*** kaldýr" },
 
 /* en */ { IDMS_FUNCTION_HIGH_3PLUS1,    "Function high image (3plus1)..." },
 /* da */ { IDMS_FUNCTION_HIGH_3PLUS1_DA, "Funktion høj-image (3plus1)..." },
@@ -1770,8 +1770,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VERTICAL_STRETCH_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VERTICAL_STRETCH_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VERTICAL_STRETCH_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VERTICAL_STRETCH_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_VERTICAL_STRETCH_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_VERTICAL_STRETCH_NL, "Vertikale rek" },
+/* pl */ { IDMS_VERTICAL_STRETCH_PL, "Rozci±gniêcie w pionie" },
 /* ru */ { IDMS_VERTICAL_STRETCH_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VERTICAL_STRETCH_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_VERTICAL_STRETCH_TR, "" },  /* fuzzy */
@@ -1889,102 +1889,102 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDMS_SWAP_USERPORT_JOYSTICKS_TR, "Userport joysticklerini yer deðiþtir" },
 
 /* en */ { IDMS_CGA_USERPORT_JOY_ADAPTER,    "CGA userport joy adapter" },
-/* da */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_CGA_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* da */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DA, "CGA brugerportjoystickadapter" },
+/* de */ { IDMS_CGA_USERPORT_JOY_ADAPTER_DE, "CGA Userport Joystick Adapter" },
+/* es */ { IDMS_CGA_USERPORT_JOY_ADAPTER_ES, "Adaptador de puerto de juegos CGA" },
 /* fr */ { IDMS_CGA_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_CGA_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_CGA_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_CGA_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CGA_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CGA_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_CGA_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CGA_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_CGA_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* hu */ { IDMS_CGA_USERPORT_JOY_ADAPTER_HU, "CGA userport botkormány adapter" },
+/* it */ { IDMS_CGA_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick CGA su userport" },
+/* ko */ { IDMS_CGA_USERPORT_JOY_ADAPTER_KO, "CGA À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ" },
+/* nl */ { IDMS_CGA_USERPORT_JOY_ADAPTER_NL, "CGA userport joy adapter" },
+/* pl */ { IDMS_CGA_USERPORT_JOY_ADAPTER_PL, "Z³±cze CGA userportu joysticka" },
+/* ru */ { IDMS_CGA_USERPORT_JOY_ADAPTER_RU, "CGA userport joy adapter" },
+/* sv */ { IDMS_CGA_USERPORT_JOY_ADAPTER_SV, "CGA-användarportsspakadapter" },
+/* tr */ { IDMS_CGA_USERPORT_JOY_ADAPTER_TR, "CGA userport joy dönüþtürücü" },
 
 /* en */ { IDMS_PET_USERPORT_JOY_ADAPTER,    "PET userport joy adapter" },
-/* da */ { IDMS_PET_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PET_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_PET_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* da */ { IDMS_PET_USERPORT_JOY_ADAPTER_DA, "PET brugerportjoystickadapter" },
+/* de */ { IDMS_PET_USERPORT_JOY_ADAPTER_DE, "PET Userport Joystick Adapter" },
+/* es */ { IDMS_PET_USERPORT_JOY_ADAPTER_ES, "Adaptador de puerto de juegos PET" },
 /* fr */ { IDMS_PET_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_PET_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_PET_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_PET_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PET_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_PET_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_PET_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_PET_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_PET_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* hu */ { IDMS_PET_USERPORT_JOY_ADAPTER_HU, "PET userport botkormány adapter" },
+/* it */ { IDMS_PET_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick PET su userport" },
+/* ko */ { IDMS_PET_USERPORT_JOY_ADAPTER_KO, "PET À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ" },
+/* nl */ { IDMS_PET_USERPORT_JOY_ADAPTER_NL, "PET userport joy adapter" },
+/* pl */ { IDMS_PET_USERPORT_JOY_ADAPTER_PL, "Z³±cze PET userportu joysticka" },
+/* ru */ { IDMS_PET_USERPORT_JOY_ADAPTER_RU, "PET userport joy adapter" },
+/* sv */ { IDMS_PET_USERPORT_JOY_ADAPTER_SV, "PET-användarportsspakadapter" },
+/* tr */ { IDMS_PET_USERPORT_JOY_ADAPTER_TR, "PET userport joy dönüþtürücü" },
 
 /* en */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER,    "Hummer userport joy adapter" },
-/* da */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* da */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DA, "Hummer brugerport joystick adapter" },
+/* de */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_DE, "Hummer Userport Joystick Adapter" },
+/* es */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_ES, "Adaptador de puerto de juegos Hummer" },
 /* fr */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* it */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick HUMMER su userport" },
+/* ko */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_KO, "Hummer À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ" },
+/* nl */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_NL, "Hummer userport joystick adapter" },
+/* pl */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_PL, "Z³±cze Hummer userportu joysticka" },
+/* ru */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_RU, "Hummer userport joy adapter" },
+/* sv */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_SV, "Hummer-användarportsspakadapter" },
+/* tr */ { IDMS_HUMMER_USERPORT_JOY_ADAPTER_TR, "Hummer userport joy dönüþtürücü" },
 
 /* en */ { IDMS_OEM_USERPORT_JOY_ADAPTER,    "OEM userport joy adapter" },
-/* da */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_OEM_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* da */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DA, "OEM brugerportjoystickadapter" },
+/* de */ { IDMS_OEM_USERPORT_JOY_ADAPTER_DE, "OEM Userport Joystick Adapter" },
+/* es */ { IDMS_OEM_USERPORT_JOY_ADAPTER_ES, "Adaptador de puerto de juegos OEM" },
 /* fr */ { IDMS_OEM_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_OEM_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_OEM_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_OEM_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_OEM_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_OEM_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_OEM_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_OEM_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_OEM_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* hu */ { IDMS_OEM_USERPORT_JOY_ADAPTER_HU, "OEM userport botkormány adapter" },
+/* it */ { IDMS_OEM_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick OEM su userport" },
+/* ko */ { IDMS_OEM_USERPORT_JOY_ADAPTER_KO, "OEM À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ" },
+/* nl */ { IDMS_OEM_USERPORT_JOY_ADAPTER_NL, "OEM userport joy adapter" },
+/* pl */ { IDMS_OEM_USERPORT_JOY_ADAPTER_PL, "Z³±cze OEM userportu joysticka" },
+/* ru */ { IDMS_OEM_USERPORT_JOY_ADAPTER_RU, "OEM userport joy adapter" },
+/* sv */ { IDMS_OEM_USERPORT_JOY_ADAPTER_SV, "OEM-användarportsspakadapter" },
+/* tr */ { IDMS_OEM_USERPORT_JOY_ADAPTER_TR, "OEM userport joy dönüþtürücü" },
 
 /* en */ { IDMS_HIT_USERPORT_JOY_ADAPTER,    "HIT userport joy adapter" },
-/* da */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_HIT_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* da */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DA, "HIT brugerportjoystickadapter" },
+/* de */ { IDMS_HIT_USERPORT_JOY_ADAPTER_DE, "HIT Userport Joystick Adapter" },
+/* es */ { IDMS_HIT_USERPORT_JOY_ADAPTER_ES, "Adpatador de puerto de juegos HIT" },
 /* fr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_HIT_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_HIT_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_HIT_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_HIT_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_HIT_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_HIT_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_HIT_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* hu */ { IDMS_HIT_USERPORT_JOY_ADAPTER_HU, "HIT userport botkormány adapter" },
+/* it */ { IDMS_HIT_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick HIT su userport" },
+/* ko */ { IDMS_HIT_USERPORT_JOY_ADAPTER_KO, "HIT À¯Á®Æ÷Æ® Á¶ÀÌ ¾Æ´äÅÍ" },
+/* nl */ { IDMS_HIT_USERPORT_JOY_ADAPTER_NL, "HIT userport joy adapter" },
+/* pl */ { IDMS_HIT_USERPORT_JOY_ADAPTER_PL, "Z³±cze HIT userportu joysticka" },
+/* ru */ { IDMS_HIT_USERPORT_JOY_ADAPTER_RU, "HIT userport joy adapter" },
+/* sv */ { IDMS_HIT_USERPORT_JOY_ADAPTER_SV, "HIT-användarportsspakadapter" },
+/* tr */ { IDMS_HIT_USERPORT_JOY_ADAPTER_TR, "HIT userport joy dönüþtürücü" },
 
 /* en */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER,    "Kingsoft userport joy adapter" },
 /* da */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* de */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_DE, "Kingsoft Userport Joystick Adapter" },
+/* es */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_ES, "Adaptador puerto joy Kingsoft" },
 /* fr */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* it */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick Kingsoft su userport" },
 /* ko */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_NL, "Kingsoft userport joy adapter" },
+/* pl */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_PL, "Z³±cze userportu joysticka Kingsoft" },
 /* ru */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_SV, "Kingsoft användarportsspakadapter" },
+/* tr */ { IDMS_KINGSOFT_USERPORT_JOY_ADAPTER_TR, "Kingsoft userport joy dönüþtürücü" },
 
 /* en */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER,    "Starbyte userport joy adapter" },
 /* da */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DE, "" },  /* fuzzy */
-/* es */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_ES, "" },  /* fuzzy */
+/* de */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_DE, "Starbyte Userport Joystick Adapter" },
+/* es */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_ES, "Adaptador puerto joy Starbyte" },
 /* fr */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_HU, "" },  /* fuzzy */
-/* it */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_IT, "" },  /* fuzzy */
+/* it */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_IT, "Adattatore joystick Starbyte su userport " },
 /* ko */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_NL, "Starbyte userport joy adapter" },
+/* pl */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_PL, "Z³±cze userportu joysticka Starbyte" },
 /* ru */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_SV, "Starbyte användarportsspakadapter" },
+/* tr */ { IDMS_STARBYTE_USERPORT_JOY_ADAPTER_TR, "Starbyte userport joy dönüþtürücü" },
 
 /* en */ { IDMS_ENABLE_JOY_KEYS,    "Enable Joy Keys" },
 /* da */ { IDMS_ENABLE_JOY_KEYS_DA, "Aktivér joystick via keyboard" },
@@ -2044,17 +2044,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_DRIVE_SOUND,    "Drive sound emulation" },
 /* da */ { IDMS_DRIVE_SOUND_DA, "" },  /* fuzzy */
-/* de */ { IDMS_DRIVE_SOUND_DE, "" },  /* fuzzy */
-/* es */ { IDMS_DRIVE_SOUND_ES, "" },  /* fuzzy */
+/* de */ { IDMS_DRIVE_SOUND_DE, "Laufwerk Geräuschemulation" },
+/* es */ { IDMS_DRIVE_SOUND_ES, "Emulacion controlador de sonido" },
 /* fr */ { IDMS_DRIVE_SOUND_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_DRIVE_SOUND_HU, "" },  /* fuzzy */
-/* it */ { IDMS_DRIVE_SOUND_IT, "" },  /* fuzzy */
+/* it */ { IDMS_DRIVE_SOUND_IT, "Emulazione suoni del drive" },
 /* ko */ { IDMS_DRIVE_SOUND_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_DRIVE_SOUND_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_DRIVE_SOUND_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_DRIVE_SOUND_NL, "Drive geluiden emulatie" },
+/* pl */ { IDMS_DRIVE_SOUND_PL, "Emulacja odg³osów stacji dysków" },
 /* ru */ { IDMS_DRIVE_SOUND_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_DRIVE_SOUND_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_DRIVE_SOUND_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_DRIVE_SOUND_SV, "Emulera ljud från diskettstation" },
+/* tr */ { IDMS_DRIVE_SOUND_TR, "Sürücü ses emülasyonu" },
 
 /* en */ { IDMS_AUTOSTART_HANDLE_TDE,    "Handle True Drive Emulation on autostart" },
 /* da */ { IDMS_AUTOSTART_HANDLE_TDE_DA, "Anvend ægte drev-emulering ved autostart" },
@@ -2394,17 +2394,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_PLUS4_MODEL_SETTINGS,    "Plus4 model settings..." },
 /* da */ { IDMS_PLUS4_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PLUS4_MODEL_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_PLUS4_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_PLUS4_MODEL_SETTINGS_DE, "Plus4 Modell Einstellungen..." },
+/* es */ { IDMS_PLUS4_MODEL_SETTINGS_ES, "Ajustes modelo Plus4..." },
 /* fr */ { IDMS_PLUS4_MODEL_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_PLUS4_MODEL_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_PLUS4_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_PLUS4_MODEL_SETTINGS_IT, "Impostazioni modello Plus4..." },
 /* ko */ { IDMS_PLUS4_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PLUS4_MODEL_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_PLUS4_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_PLUS4_MODEL_SETTINGS_NL, "Plus4 model instellingen..." },
+/* pl */ { IDMS_PLUS4_MODEL_SETTINGS_PL, "Ustawienia modelu Plus4..." },
 /* ru */ { IDMS_PLUS4_MODEL_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_PLUS4_MODEL_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_PLUS4_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_PLUS4_MODEL_SETTINGS_SV, "Plus4-modellinställningar..." },
+/* tr */ { IDMS_PLUS4_MODEL_SETTINGS_TR, "Plus4 model ayarlarý..." },
 
 /* en */ { IDMS_C16_PAL,    "C16 PAL" },
 /* da */ { IDMS_C16_PAL_DA, "" },  /* fuzzy */
@@ -2414,8 +2414,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C16_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C16_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C16_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C16_PAL_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C16_PAL_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C16_PAL_NL, "C16 PAL" },
+/* pl */ { IDMS_C16_PAL_PL, "C16 PAL" },
 /* ru */ { IDMS_C16_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C16_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C16_PAL_TR, "" },  /* fuzzy */
@@ -2428,8 +2428,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C16_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C16_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C16_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C16_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C16_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C16_NTSC_NL, "C16 NTSC" },
+/* pl */ { IDMS_C16_NTSC_PL, "C16 NTSC" },
 /* ru */ { IDMS_C16_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C16_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C16_NTSC_TR, "" },  /* fuzzy */
@@ -2442,8 +2442,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_PLUS4_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_PLUS4_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_PLUS4_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PLUS4_PAL_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_PLUS4_PAL_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_PLUS4_PAL_NL, "Plus4 PAL" },
+/* pl */ { IDMS_PLUS4_PAL_PL, "Plus4 PAL" },
 /* ru */ { IDMS_PLUS4_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PLUS4_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_PLUS4_PAL_TR, "" },  /* fuzzy */
@@ -2456,8 +2456,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_PLUS4_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_PLUS4_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_PLUS4_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PLUS4_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_PLUS4_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_PLUS4_NTSC_NL, "Plus4 NTSC" },
+/* pl */ { IDMS_PLUS4_NTSC_PL, "Plus4 NTSC" },
 /* ru */ { IDMS_PLUS4_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PLUS4_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_PLUS4_NTSC_TR, "" },  /* fuzzy */
@@ -2470,8 +2470,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_V364_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_V364_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_V364_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_V364_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_V364_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_V364_NTSC_NL, "V364 NTSC" },
+/* pl */ { IDMS_V364_NTSC_PL, "V364 NTSC" },
 /* ru */ { IDMS_V364_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_V364_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_V364_NTSC_TR, "" },  /* fuzzy */
@@ -2484,25 +2484,25 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C232_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C232_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C232_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C232_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C232_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C232_NTSC_NL, "C232 NTSC" },
+/* pl */ { IDMS_C232_NTSC_PL, "C232 NTSC" },
 /* ru */ { IDMS_C232_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C232_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C232_NTSC_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_C64DTV_MODEL_SETTINGS,    "C64DTV model settings..." },
 /* da */ { IDMS_C64DTV_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C64DTV_MODEL_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_C64DTV_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_C64DTV_MODEL_SETTINGS_DE, "C64DTV Modell Einstellungen..." },
+/* es */ { IDMS_C64DTV_MODEL_SETTINGS_ES, "Ajustes modelo C64DTV..." },
 /* fr */ { IDMS_C64DTV_MODEL_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C64DTV_MODEL_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_C64DTV_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_C64DTV_MODEL_SETTINGS_IT, "Impostazioni modello C64DTV..." },
 /* ko */ { IDMS_C64DTV_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64DTV_MODEL_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C64DTV_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64DTV_MODEL_SETTINGS_NL, "C64DTV model instellingen..." },
+/* pl */ { IDMS_C64DTV_MODEL_SETTINGS_PL, "Ustawienia modelu C64DTV..." },
 /* ru */ { IDMS_C64DTV_MODEL_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_C64DTV_MODEL_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_C64DTV_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_C64DTV_MODEL_SETTINGS_SV, "C64DTV-modellinställningar..." },
+/* tr */ { IDMS_C64DTV_MODEL_SETTINGS_TR, "C64DTV model ayarlarý..." },
 
 /* en */ { IDMS_C64DTV2_PAL,    "C64DTV V2 PAL" },
 /* da */ { IDMS_C64DTV2_PAL_DA, "" },  /* fuzzy */
@@ -2512,8 +2512,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64DTV2_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64DTV2_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64DTV2_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64DTV2_PAL_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C64DTV2_PAL_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64DTV2_PAL_NL, "C64DTV V2 PAL" },
+/* pl */ { IDMS_C64DTV2_PAL_PL, "C64DTV V2 PAL" },
 /* ru */ { IDMS_C64DTV2_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64DTV2_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C64DTV2_PAL_TR, "" },  /* fuzzy */
@@ -2526,8 +2526,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64DTV2_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64DTV2_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64DTV2_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64DTV2_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C64DTV2_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64DTV2_NTSC_NL, "C64DTV V2 NTSC" },
+/* pl */ { IDMS_C64DTV2_NTSC_PL, "C64DTV V2 NTSC" },
 /* ru */ { IDMS_C64DTV2_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64DTV2_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C64DTV2_NTSC_TR, "" },  /* fuzzy */
@@ -2540,8 +2540,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64DTV3_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64DTV3_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64DTV3_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64DTV3_PAL_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C64DTV3_PAL_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64DTV3_PAL_NL, "C64DTV V3 PAL" },
+/* pl */ { IDMS_C64DTV3_PAL_PL, "C64DTV V3 PAL" },
 /* ru */ { IDMS_C64DTV3_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64DTV3_PAL_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C64DTV3_PAL_TR, "" },  /* fuzzy */
@@ -2554,8 +2554,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64DTV3_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64DTV3_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64DTV3_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64DTV3_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C64DTV3_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64DTV3_NTSC_NL, "C64DTV V3 NTSC" },
+/* pl */ { IDMS_C64DTV3_NTSC_PL, "C64DTV V3 NTSC" },
 /* ru */ { IDMS_C64DTV3_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64DTV3_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C64DTV3_NTSC_TR, "" },  /* fuzzy */
@@ -2568,25 +2568,25 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_HUMMER_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_HUMMER_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_HUMMER_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_HUMMER_NTSC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_HUMMER_NTSC_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_HUMMER_NTSC_NL, "Hummer NTSC" },
+/* pl */ { IDMS_HUMMER_NTSC_PL, "Hummer NTSC" },
 /* ru */ { IDMS_HUMMER_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_HUMMER_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_HUMMER_NTSC_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_C128_MODEL_SETTINGS,    "C128 model settings..." },
 /* da */ { IDMS_C128_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C128_MODEL_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_C128_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_C128_MODEL_SETTINGS_DE, "C128 Modell Einstellungen..." },
+/* es */ { IDMS_C128_MODEL_SETTINGS_ES, "Ajustes modelo C128..." },
 /* fr */ { IDMS_C128_MODEL_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C128_MODEL_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_C128_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_C128_MODEL_SETTINGS_IT, "Impostazioni modello C128..." },
 /* ko */ { IDMS_C128_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C128_MODEL_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_C128_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_C128_MODEL_SETTINGS_NL, "C128 model instellingen..." },
+/* pl */ { IDMS_C128_MODEL_SETTINGS_PL, "Ustawienia modelu C128..." },
 /* ru */ { IDMS_C128_MODEL_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_C128_MODEL_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_C128_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_C128_MODEL_SETTINGS_SV, "C128-modellinställningar..." },
+/* tr */ { IDMS_C128_MODEL_SETTINGS_TR, "C128 model ayarlarý..." },
 
 /* en */ { IDMS_C128_PAL,    "C128 PAL" },
 /* da */ { IDMS_C128_PAL_DA, "" },  /* fuzzy */
@@ -2596,7 +2596,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C128_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C128_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C128_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C128_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C128_PAL_NL, "C128 PAL" },
 /* pl */ { IDMS_C128_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C128_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C128_PAL_SV, "" },  /* fuzzy */
@@ -2610,7 +2610,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C128DCR_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C128DCR_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C128DCR_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C128DCR_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C128DCR_PAL_NL, "C128DCR PAL" },
 /* pl */ { IDMS_C128DCR_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C128DCR_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C128DCR_PAL_SV, "" },  /* fuzzy */
@@ -2624,7 +2624,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C128_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C128_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C128_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C128_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C128_NTSC_NL, "C128 NTSC" },
 /* pl */ { IDMS_C128_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C128_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C128_NTSC_SV, "" },  /* fuzzy */
@@ -2638,25 +2638,25 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C128DCR_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C128DCR_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C128DCR_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C128DCR_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C128DCR_NTSC_NL, "C128DCR NTSC" },
 /* pl */ { IDMS_C128DCR_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C128DCR_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C128DCR_NTSC_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_C128DCR_NTSC_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_PET_MODEL_SETTINGS,    "PET model settings..." },
-/* da */ { IDMS_PET_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PET_MODEL_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_PET_MODEL_SETTINGS_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_PET_MODEL_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_PET_MODEL_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_PET_MODEL_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_PET_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PET_MODEL_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_PET_MODEL_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_PET_MODEL_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_PET_MODEL_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_PET_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+/* da */ { IDMS_PET_MODEL_SETTINGS_DA, "PET-model indstillinger..." },
+/* de */ { IDMS_PET_MODEL_SETTINGS_DE, "PET Modell Einstellungen..." },
+/* es */ { IDMS_PET_MODEL_SETTINGS_ES, "Ajustes modelo PET..." },
+/* fr */ { IDMS_PET_MODEL_SETTINGS_FR, "Paramètres du modèle PET..." },
+/* hu */ { IDMS_PET_MODEL_SETTINGS_HU, "PET modell beállításai..." },
+/* it */ { IDMS_PET_MODEL_SETTINGS_IT, "Impostazioni modello PET..." },
+/* ko */ { IDMS_PET_MODEL_SETTINGS_KO, "PET ¸ðµ¨ ¼ÂÆÃ..." },
+/* nl */ { IDMS_PET_MODEL_SETTINGS_NL, "PET model instellingen..." },
+/* pl */ { IDMS_PET_MODEL_SETTINGS_PL, "Ustawienia modelu PET..." },
+/* ru */ { IDMS_PET_MODEL_SETTINGS_RU, "½ÐáâàÞÙÚØ ÜÞÔÕÛØ PET..." },
+/* sv */ { IDMS_PET_MODEL_SETTINGS_SV, "Inställningar för PET-modell..." },
+/* tr */ { IDMS_PET_MODEL_SETTINGS_TR, "PET model ayarlarý..." },
 
 /* en */ { IDMS_2001,    "2001" },
 /* da */ { IDMS_2001_DA, "" },  /* fuzzy */
@@ -2666,7 +2666,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_2001_HU, "" },  /* fuzzy */
 /* it */ { IDMS_2001_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_2001_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_2001_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_2001_NL, "2001" },
 /* pl */ { IDMS_2001_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_2001_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_2001_SV, "" },  /* fuzzy */
@@ -2680,7 +2680,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_3008_HU, "" },  /* fuzzy */
 /* it */ { IDMS_3008_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_3008_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_3008_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_3008_NL, "3008" },
 /* pl */ { IDMS_3008_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_3008_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_3008_SV, "" },  /* fuzzy */
@@ -2694,7 +2694,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_3016_HU, "" },  /* fuzzy */
 /* it */ { IDMS_3016_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_3016_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_3016_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_3016_NL, "3016" },
 /* pl */ { IDMS_3016_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_3016_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_3016_SV, "" },  /* fuzzy */
@@ -2708,7 +2708,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_3032_HU, "" },  /* fuzzy */
 /* it */ { IDMS_3032_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_3032_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_3032_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_3032_NL, "3032" },
 /* pl */ { IDMS_3032_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_3032_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_3032_SV, "" },  /* fuzzy */
@@ -2722,7 +2722,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_3032B_HU, "" },  /* fuzzy */
 /* it */ { IDMS_3032B_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_3032B_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_3032B_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_3032B_NL, "3032B" },
 /* pl */ { IDMS_3032B_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_3032B_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_3032B_SV, "" },  /* fuzzy */
@@ -2736,7 +2736,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_4016_HU, "" },  /* fuzzy */
 /* it */ { IDMS_4016_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_4016_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_4016_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_4016_NL, "4016" },
 /* pl */ { IDMS_4016_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_4016_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_4016_SV, "" },  /* fuzzy */
@@ -2750,7 +2750,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_4032_HU, "" },  /* fuzzy */
 /* it */ { IDMS_4032_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_4032_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_4032_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_4032_NL, "4032" },
 /* pl */ { IDMS_4032_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_4032_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_4032_SV, "" },  /* fuzzy */
@@ -2764,7 +2764,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_4032B_HU, "" },  /* fuzzy */
 /* it */ { IDMS_4032B_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_4032B_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_4032B_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_4032B_NL, "4032B" },
 /* pl */ { IDMS_4032B_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_4032B_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_4032B_SV, "" },  /* fuzzy */
@@ -2778,7 +2778,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_8032_HU, "" },  /* fuzzy */
 /* it */ { IDMS_8032_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_8032_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_8032_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_8032_NL, "8032" },
 /* pl */ { IDMS_8032_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_8032_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_8032_SV, "" },  /* fuzzy */
@@ -2792,7 +2792,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_8096_HU, "" },  /* fuzzy */
 /* it */ { IDMS_8096_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_8096_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_8096_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_8096_NL, "8096" },
 /* pl */ { IDMS_8096_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_8096_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_8096_SV, "" },  /* fuzzy */
@@ -2806,7 +2806,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_8296_HU, "" },  /* fuzzy */
 /* it */ { IDMS_8296_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_8296_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_8296_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_8296_NL, "8296" },
 /* pl */ { IDMS_8296_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_8296_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_8296_SV, "" },  /* fuzzy */
@@ -2820,7 +2820,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_SUPERPET_HU, "" },  /* fuzzy */
 /* it */ { IDMS_SUPERPET_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_SUPERPET_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_SUPERPET_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_SUPERPET_NL, "SuperPET" },
 /* pl */ { IDMS_SUPERPET_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_SUPERPET_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_SUPERPET_SV, "" },  /* fuzzy */
@@ -2828,17 +2828,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_CBM2_MODEL_SETTINGS,    "CBM2 model settings..." },
 /* da */ { IDMS_CBM2_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CBM2_MODEL_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_CBM2_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_CBM2_MODEL_SETTINGS_DE, "CBM2 Modell Einstellungen..." },
+/* es */ { IDMS_CBM2_MODEL_SETTINGS_ES, "Ajustes modelo CBM2..." },
 /* fr */ { IDMS_CBM2_MODEL_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CBM2_MODEL_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_CBM2_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_CBM2_MODEL_SETTINGS_IT, "Impostazioni modello CBM2..." },
 /* ko */ { IDMS_CBM2_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CBM2_MODEL_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CBM2_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_CBM2_MODEL_SETTINGS_NL, "CBM2 model instellingen..." },
+/* pl */ { IDMS_CBM2_MODEL_SETTINGS_PL, "Ustawienia modelu CBM2..." },
 /* ru */ { IDMS_CBM2_MODEL_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CBM2_MODEL_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_CBM2_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_CBM2_MODEL_SETTINGS_SV, "CBM2-modellinställningar..." },
+/* tr */ { IDMS_CBM2_MODEL_SETTINGS_TR, "CBM2 model ayarlarý..." },
 
 /* en */ { IDMS_610_PAL,    "CBM610 PAL" },
 /* da */ { IDMS_610_PAL_DA, "" },  /* fuzzy */
@@ -2848,7 +2848,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_610_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_610_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_610_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_610_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_610_PAL_NL, "CBM610 PAL" },
 /* pl */ { IDMS_610_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_610_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_610_PAL_SV, "" },  /* fuzzy */
@@ -2862,7 +2862,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_610_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_610_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_610_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_610_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_610_NTSC_NL, "CBM610 NTSC" },
 /* pl */ { IDMS_610_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_610_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_610_NTSC_SV, "" },  /* fuzzy */
@@ -2876,7 +2876,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_620_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_620_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_620_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_620_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_620_PAL_NL, "CBM620 PAL" },
 /* pl */ { IDMS_620_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_620_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_620_PAL_SV, "" },  /* fuzzy */
@@ -2890,7 +2890,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_620_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_620_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_620_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_620_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_620_NTSC_NL, "CBM620 NTSC" },
 /* pl */ { IDMS_620_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_620_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_620_NTSC_SV, "" },  /* fuzzy */
@@ -2904,7 +2904,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_620PLUS_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_620PLUS_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_620PLUS_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_620PLUS_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_620PLUS_PAL_NL, "CBM620+ PAL" },
 /* pl */ { IDMS_620PLUS_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_620PLUS_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_620PLUS_PAL_SV, "" },  /* fuzzy */
@@ -2918,7 +2918,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_620PLUS_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_620PLUS_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_620PLUS_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_620PLUS_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_620PLUS_NTSC_NL, "CBM620+ NTSC" },
 /* pl */ { IDMS_620PLUS_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_620PLUS_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_620PLUS_NTSC_SV, "" },  /* fuzzy */
@@ -2932,7 +2932,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_710_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_710_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_710_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_710_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_710_NTSC_NL, "CBM710 NTSC" },
 /* pl */ { IDMS_710_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_710_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_710_NTSC_SV, "" },  /* fuzzy */
@@ -2946,7 +2946,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_720_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_720_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_720_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_720_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_720_NTSC_NL, "CBM720 NTSC" },
 /* pl */ { IDMS_720_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_720_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_720_NTSC_SV, "" },  /* fuzzy */
@@ -2960,7 +2960,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_720PLUS_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_720PLUS_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_720PLUS_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_720PLUS_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_720PLUS_NTSC_NL, "CBM720+ NTSC" },
 /* pl */ { IDMS_720PLUS_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_720PLUS_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_720PLUS_NTSC_SV, "" },  /* fuzzy */
@@ -2968,17 +2968,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_CBM5X0_MODEL_SETTINGS,    "CBM5x0 model settings..." },
 /* da */ { IDMS_CBM5X0_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CBM5X0_MODEL_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_CBM5X0_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_CBM5X0_MODEL_SETTINGS_DE, "CBM5x0 Modell Einstellungen..." },
+/* es */ { IDMS_CBM5X0_MODEL_SETTINGS_ES, "Ajustes modelo CBM5x0..." },
 /* fr */ { IDMS_CBM5X0_MODEL_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CBM5X0_MODEL_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_CBM5X0_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_CBM5X0_MODEL_SETTINGS_IT, "Impostazioni modello CBM5x0..." },
 /* ko */ { IDMS_CBM5X0_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CBM5X0_MODEL_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CBM5X0_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_CBM5X0_MODEL_SETTINGS_NL, "CBM5x0 model instellingen..." },
+/* pl */ { IDMS_CBM5X0_MODEL_SETTINGS_PL, "Ustawienia modelu CBM5x0..." },
 /* ru */ { IDMS_CBM5X0_MODEL_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CBM5X0_MODEL_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_CBM5X0_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_CBM5X0_MODEL_SETTINGS_SV, "CBM5x0-modellinställningar..." },
+/* tr */ { IDMS_CBM5X0_MODEL_SETTINGS_TR, "CBM5x0 model ayarlarý..." },
 
 /* en */ { IDMS_510_PAL,    "CBM510 PAL" },
 /* da */ { IDMS_510_PAL_DA, "" },  /* fuzzy */
@@ -2988,7 +2988,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_510_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_510_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_510_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_510_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_510_PAL_NL, "CBM510 PAL" },
 /* pl */ { IDMS_510_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_510_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_510_PAL_SV, "" },  /* fuzzy */
@@ -3002,7 +3002,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_510_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_510_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_510_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_510_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_510_NTSC_NL, "CBM510 NTSC" },
 /* pl */ { IDMS_510_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_510_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_510_NTSC_SV, "" },  /* fuzzy */
@@ -3030,8 +3030,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VICII_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VICII_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VICII_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VICII_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_VICII_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_VICII_VIDEO_SETTINGS_NL, "VICII video instellingen..." },
+/* pl */ { IDMS_VICII_VIDEO_SETTINGS_PL, "Ustawienia wideo VICII..." },
 /* ru */ { IDMS_VICII_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VICII_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_VICII_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
@@ -3044,8 +3044,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VIC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VIC_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VIC_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_VIC_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC_VIDEO_SETTINGS_NL, "VIC video instellingen..." },
+/* pl */ { IDMS_VIC_VIDEO_SETTINGS_PL, "Ustawienia wideo VIC..." },
 /* ru */ { IDMS_VIC_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VIC_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_VIC_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
@@ -3058,8 +3058,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VDC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VDC_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VDC_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VDC_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_VDC_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_VDC_VIDEO_SETTINGS_NL, "VDC video instellingen..." },
+/* pl */ { IDMS_VDC_VIDEO_SETTINGS_PL, "Ustawienia wideo VDC..." },
 /* ru */ { IDMS_VDC_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VDC_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_VDC_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
@@ -3072,8 +3072,8 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_CRTC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_CRTC_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_CRTC_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CRTC_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CRTC_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_CRTC_VIDEO_SETTINGS_NL, "CRTC video instellingen..." },
+/* pl */ { IDMS_CRTC_VIDEO_SETTINGS_PL, "Ustawienia wideo CRTC..." },
 /* ru */ { IDMS_CRTC_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_CRTC_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_CRTC_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
@@ -3086,25 +3086,25 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_TED_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_TED_VIDEO_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_TED_VIDEO_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_TED_VIDEO_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_TED_VIDEO_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_TED_VIDEO_SETTINGS_NL, "TED video instellingen..." },
+/* pl */ { IDMS_TED_VIDEO_SETTINGS_PL, "Ustawienia wideo TED..." },
 /* ru */ { IDMS_TED_VIDEO_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_TED_VIDEO_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_TED_VIDEO_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_AUDIO_LEAK,    "Audio leak" },
 /* da */ { IDMS_AUDIO_LEAK_DA, "" },  /* fuzzy */
-/* de */ { IDMS_AUDIO_LEAK_DE, "" },  /* fuzzy */
-/* es */ { IDMS_AUDIO_LEAK_ES, "" },  /* fuzzy */
+/* de */ { IDMS_AUDIO_LEAK_DE, "Audio Leak" },
+/* es */ { IDMS_AUDIO_LEAK_ES, "Filtro audio" },
 /* fr */ { IDMS_AUDIO_LEAK_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_AUDIO_LEAK_HU, "" },  /* fuzzy */
-/* it */ { IDMS_AUDIO_LEAK_IT, "" },  /* fuzzy */
+/* it */ { IDMS_AUDIO_LEAK_IT, "Audio leak" },
 /* ko */ { IDMS_AUDIO_LEAK_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_AUDIO_LEAK_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_AUDIO_LEAK_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_AUDIO_LEAK_NL, "Audio lek" },
+/* pl */ { IDMS_AUDIO_LEAK_PL, "Audio leak" },
 /* ru */ { IDMS_AUDIO_LEAK_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_AUDIO_LEAK_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_AUDIO_LEAK_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_AUDIO_LEAK_SV, "Audioläckage" },
+/* tr */ { IDMS_AUDIO_LEAK_TR, "Ses kaçaðý" },
 
 /* en */ { IDMS_PALETTE_SETTINGS,    "Palette settings..." },
 /* da */ { IDMS_PALETTE_SETTINGS_DA, "" },  /* fuzzy */
@@ -3114,25 +3114,25 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_PALETTE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_PALETTE_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_PALETTE_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PALETTE_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_PALETTE_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_PALETTE_SETTINGS_NL, "Palette instellingen..." },
+/* pl */ { IDMS_PALETTE_SETTINGS_PL, "Ustawienia palety barw..." },
 /* ru */ { IDMS_PALETTE_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PALETTE_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_PALETTE_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_COLOR_SETTINGS,    "Color settings..." },
 /* da */ { IDMS_COLOR_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_COLOR_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_COLOR_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_COLOR_SETTINGS_DE, "Farb Einstellungen..." },
+/* es */ { IDMS_COLOR_SETTINGS_ES, "Ajustes color..." },
 /* fr */ { IDMS_COLOR_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_COLOR_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_COLOR_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_COLOR_SETTINGS_IT, "Impostazioni colori..." },
 /* ko */ { IDMS_COLOR_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_COLOR_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_COLOR_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_COLOR_SETTINGS_NL, "Kleur instellingen..." },
+/* pl */ { IDMS_COLOR_SETTINGS_PL, "Ustawienia koloru..." },
 /* ru */ { IDMS_COLOR_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_COLOR_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_COLOR_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_COLOR_SETTINGS_SV, "Färginställningar..." },
+/* tr */ { IDMS_COLOR_SETTINGS_TR, "Renk ayarlarý..." },
 
 /* en */ { IDMS_RENDER_FILTER,    "Render filter settings..." },
 /* da */ { IDMS_RENDER_FILTER_DA, "" },  /* fuzzy */
@@ -3142,39 +3142,39 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_RENDER_FILTER_HU, "" },  /* fuzzy */
 /* it */ { IDMS_RENDER_FILTER_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_RENDER_FILTER_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_RENDER_FILTER_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_RENDER_FILTER_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_RENDER_FILTER_NL, "Render filter instellingen..." },
+/* pl */ { IDMS_RENDER_FILTER_PL, "Ustawienia filtra renderera..." },
 /* ru */ { IDMS_RENDER_FILTER_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_RENDER_FILTER_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_RENDER_FILTER_TR, "" },  /* fuzzy */
 
 /* en */ { IDMS_CRT_EMULATION_SETTINGS,    "CRT emulation settings..." },
-/* da */ { IDMS_CRT_EMULATION_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CRT_EMULATION_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_CRT_EMULATION_SETTINGS_ES, "" },  /* fuzzy */
+/* da */ { IDMS_CRT_EMULATION_SETTINGS_DA, "Indstillinger for CRT-emulering..." },
+/* de */ { IDMS_CRT_EMULATION_SETTINGS_DE, "CRT Emulator Einstellungen..." },
+/* es */ { IDMS_CRT_EMULATION_SETTINGS_ES, "Ajustes de emulación CRT..." },
 /* fr */ { IDMS_CRT_EMULATION_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CRT_EMULATION_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_CRT_EMULATION_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_CRT_EMULATION_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CRT_EMULATION_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CRT_EMULATION_SETTINGS_PL, "" },  /* fuzzy */
+/* it */ { IDMS_CRT_EMULATION_SETTINGS_IT, "Impostazioni emulazione CRT..." },
+/* ko */ { IDMS_CRT_EMULATION_SETTINGS_KO, "ÄÉÅäµå ·¹ÀÌ ÅÍ¹Ì³Î ¼³Á¤..." },
+/* nl */ { IDMS_CRT_EMULATION_SETTINGS_NL, "CRT emulatie instellingen..." },
+/* pl */ { IDMS_CRT_EMULATION_SETTINGS_PL, "Ustawienia emulacji CRT..." },
 /* ru */ { IDMS_CRT_EMULATION_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CRT_EMULATION_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_CRT_EMULATION_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_CRT_EMULATION_SETTINGS_SV, "Inställningar för CRT-emulering..." },
+/* tr */ { IDMS_CRT_EMULATION_SETTINGS_TR, "CRT emülasyonu ayarlarý..." },
 
 /* en */ { IDMS_VIC20_SETTINGS,    "VIC20 settings..." },
 /* da */ { IDMS_VIC20_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VIC20_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_VIC20_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_VIC20_SETTINGS_DE, "VIC20 Einstellungen..." },
+/* es */ { IDMS_VIC20_SETTINGS_ES, "Ajustes VIC20..." },
 /* fr */ { IDMS_VIC20_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VIC20_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_VIC20_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_VIC20_SETTINGS_IT, "Impostazioni VIC20..." },
 /* ko */ { IDMS_VIC20_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC20_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_VIC20_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_SETTINGS_NL, "VIC20 instellingen..." },
+/* pl */ { IDMS_VIC20_SETTINGS_PL, "Ustawienia VIC20..." },
 /* ru */ { IDMS_VIC20_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_VIC20_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_VIC20_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_VIC20_SETTINGS_SV, "VIC20-inställningar..." },
+/* tr */ { IDMS_VIC20_SETTINGS_TR, "VIC20 ayarlarý..." },
 
 /* en */ { IDMS_CBM2_SETTINGS,    "CBM2 settings..." },
 /* da */ { IDMS_CBM2_SETTINGS_DA, "CBM2-indstillinger..." },
@@ -3192,17 +3192,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_CBM5X0_SETTINGS,    "CBM5x0 settings..." },
 /* da */ { IDMS_CBM5X0_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CBM5X0_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_CBM5X0_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_CBM5X0_SETTINGS_DE, "CBM5x0 Einstellungen..." },
+/* es */ { IDMS_CBM5X0_SETTINGS_ES, "Ajustes CBM5x0..." },
 /* fr */ { IDMS_CBM5X0_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CBM5X0_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_CBM5X0_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_CBM5X0_SETTINGS_IT, "Impostazioni CBM5x0..." },
 /* ko */ { IDMS_CBM5X0_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CBM5X0_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CBM5X0_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_CBM5X0_SETTINGS_NL, "CBM5x0 instellingen..." },
+/* pl */ { IDMS_CBM5X0_SETTINGS_PL, "Ustawienia CBM5x0..." },
 /* ru */ { IDMS_CBM5X0_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CBM5X0_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_CBM5X0_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_CBM5X0_SETTINGS_SV, "CBM5x0-inställningar..." },
+/* tr */ { IDMS_CBM5X0_SETTINGS_TR, "CBM5x0 ayarlarý..." },
 
 /* en */ { IDMS_PET_SETTINGS,    "PET settings..." },
 /* da */ { IDMS_PET_SETTINGS_DA, "PET-indstillinger..." },
@@ -3303,32 +3303,32 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDMS_VICII_SETTINGS_TR, "VIC-II ayarlarý..." },
 
 /* en */ { IDMS_VIC_SETTINGS,    "VIC settings..." },
-/* da */ { IDMS_VIC_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VIC_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_VIC_SETTINGS_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_VIC_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_VIC_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_VIC_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_VIC_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_VIC_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_VIC_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_VIC_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_VIC_SETTINGS_TR, "" },  /* fuzzy */
+/* da */ { IDMS_VIC_SETTINGS_DA, "VIC-indstillinger..." },
+/* de */ { IDMS_VIC_SETTINGS_DE, "VIC Einstellungen..." },
+/* es */ { IDMS_VIC_SETTINGS_ES, "Ajustes VIC..." },
+/* fr */ { IDMS_VIC_SETTINGS_FR, "Paramètres VIC..." },
+/* hu */ { IDMS_VIC_SETTINGS_HU, "VIC beállításai..." },
+/* it */ { IDMS_VIC_SETTINGS_IT, "Impostazioni VIC..." },
+/* ko */ { IDMS_VIC_SETTINGS_KO, "VIC ¼ÂÆÃ..." },
+/* nl */ { IDMS_VIC_SETTINGS_NL, "VIC instellingen..." },
+/* pl */ { IDMS_VIC_SETTINGS_PL, "Ustawienia VIC..." },
+/* ru */ { IDMS_VIC_SETTINGS_RU, "VIC settings..." },
+/* sv */ { IDMS_VIC_SETTINGS_SV, "VIC-inställningar..." },
+/* tr */ { IDMS_VIC_SETTINGS_TR, "VIC ayarlarý..." },
 
 /* en */ { IDMS_TED_SETTINGS,    "TED settings..." },
-/* da */ { IDMS_TED_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_TED_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_TED_SETTINGS_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_TED_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_TED_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_TED_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_TED_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_TED_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_TED_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_TED_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_TED_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_TED_SETTINGS_TR, "" },  /* fuzzy */
+/* da */ { IDMS_TED_SETTINGS_DA, "TED-indstillinger..." },
+/* de */ { IDMS_TED_SETTINGS_DE, "TED Einstellungen..." },
+/* es */ { IDMS_TED_SETTINGS_ES, "Ajustes TED..." },
+/* fr */ { IDMS_TED_SETTINGS_FR, "Paramètres TED..." },
+/* hu */ { IDMS_TED_SETTINGS_HU, "TED beállításai..." },
+/* it */ { IDMS_TED_SETTINGS_IT, "Impostazioni TED..." },
+/* ko */ { IDMS_TED_SETTINGS_KO, "TED ¼ÂÆÃ..." },
+/* nl */ { IDMS_TED_SETTINGS_NL, "TED instellingen..." },
+/* pl */ { IDMS_TED_SETTINGS_PL, "Ustawienia TED..." },
+/* ru */ { IDMS_TED_SETTINGS_RU, "½ÐáâàÞÙÚØ TED..." },
+/* sv */ { IDMS_TED_SETTINGS_SV, "TED-inställningar..." },
+/* tr */ { IDMS_TED_SETTINGS_TR, "TED ayarlarý..." },
 
 /* en */ { IDMS_JOYSTICK_SETTINGS,    "Joystick settings..." },
 /* da */ { IDMS_JOYSTICK_SETTINGS_DA, "Joystick indstillinger..." },
@@ -3430,17 +3430,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_CIA_SETTINGS,    "CIA settings..." },
 /* da */ { IDMS_CIA_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CIA_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_CIA_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_CIA_SETTINGS_DE, "CIA Einstellungen..." },
+/* es */ { IDMS_CIA_SETTINGS_ES, "Ajustes CIA..." },
 /* fr */ { IDMS_CIA_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CIA_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_CIA_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_CIA_SETTINGS_IT, "Impostazioni CIA..." },
 /* ko */ { IDMS_CIA_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_CIA_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_CIA_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_CIA_SETTINGS_NL, "CIA instellingen..." },
+/* pl */ { IDMS_CIA_SETTINGS_PL, "Ustawienia CIA..." },
 /* ru */ { IDMS_CIA_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_CIA_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_CIA_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_CIA_SETTINGS_SV, "CIA-inställningar..." },
+/* tr */ { IDMS_CIA_SETTINGS_TR, "CIA ayarlarý..." },
 
 /* en */ { IDMS_COMPUTER_ROM_SETTINGS,    "Computer ROM settings..." },
 /* da */ { IDMS_COMPUTER_ROM_SETTINGS_DA, "Computer ROM-indstillinger..." },
@@ -3752,17 +3752,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_RETROREPLAY_SETTINGS,    "Retro Replay settings..." },
 /* da */ { IDMS_RETROREPLAY_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_RETROREPLAY_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDMS_RETROREPLAY_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDMS_RETROREPLAY_SETTINGS_DE, "Retro Replay Einstellungen..." },
+/* es */ { IDMS_RETROREPLAY_SETTINGS_ES, "Ajustes Retro Replay..." },
 /* fr */ { IDMS_RETROREPLAY_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_RETROREPLAY_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_RETROREPLAY_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_RETROREPLAY_SETTINGS_IT, "Impostazioni Retro Replay..." },
 /* ko */ { IDMS_RETROREPLAY_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_RETROREPLAY_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_RETROREPLAY_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDMS_RETROREPLAY_SETTINGS_NL, "Retro Replay instellingen..." },
+/* pl */ { IDMS_RETROREPLAY_SETTINGS_PL, "Ustawienia Retro Replay..." },
 /* ru */ { IDMS_RETROREPLAY_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_RETROREPLAY_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_RETROREPLAY_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDMS_RETROREPLAY_SETTINGS_SV, "Retro Replay-inställningar..." },
+/* tr */ { IDMS_RETROREPLAY_SETTINGS_TR, "Retro Replay ayarlarý..." },
 
 /* en */ { IDMS_DIGIMAX_SETTINGS,    "DigiMAX settings..." },
 /* da */ { IDMS_DIGIMAX_SETTINGS_DA, "DigiMAX-indstillinger..." },
@@ -3870,7 +3870,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_BURST_MOD_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_BURST_MOD_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_BURST_MOD_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_BURST_MOD_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_BURST_MOD_SETTINGS_NL, "Drive burst modificatie instellingen..." },
 /* pl */ { IDMS_BURST_MOD_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_BURST_MOD_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_BURST_MOD_SETTINGS_SV, "" },  /* fuzzy */
@@ -6328,17 +6328,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CBM5X0_SETTINGS,    "CBM5x0 settings" },
 /* da */ { IDS_CBM5X0_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_CBM5X0_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_CBM5X0_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_CBM5X0_SETTINGS_DE, "CBM5x0 Einstellungen" },
+/* es */ { IDS_CBM5X0_SETTINGS_ES, "Ajustes CBM5x0" },
 /* fr */ { IDS_CBM5X0_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CBM5X0_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_CBM5X0_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_CBM5X0_SETTINGS_IT, "Impostazioni CBM5x0" },
 /* ko */ { IDS_CBM5X0_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CBM5X0_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_CBM5X0_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_CBM5X0_SETTINGS_NL, "CBM5x0 instellingen" },
+/* pl */ { IDS_CBM5X0_SETTINGS_PL, "Ustawienia CBM5x0" },
 /* ru */ { IDS_CBM5X0_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_CBM5X0_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_CBM5X0_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_CBM5X0_SETTINGS_SV, "CBM5x0-inställningar" },
+/* tr */ { IDS_CBM5X0_SETTINGS_TR, "CBM5x0 ayarlarý" },
 
 /* en */ { IDS_RESET_DATASETTE_WITH_CPU,    "Reset Datasette with CPU" },
 /* da */ { IDS_RESET_DATASETTE_WITH_CPU_DA, "Reset Datasette ved CPU-reset" },
@@ -7973,7 +7973,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_BURST_MOD_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_BURST_MOD_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_BURST_MOD_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_BURST_MOD_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_BURST_MOD_SETTINGS_NL, "Drive burst modificatie instellingen" },
 /* pl */ { IDS_BURST_MOD_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_BURST_MOD_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_BURST_MOD_SETTINGS_SV, "" },  /* fuzzy */
@@ -7987,25 +7987,25 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_PALETTE_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_PALETTE_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_PALETTE_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_PALETTE_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_PALETTE_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_PALETTE_SETTINGS_NL, "Palette instellingen" },
+/* pl */ { IDS_PALETTE_SETTINGS_PL, "Ustawienia palety barw" },
 /* ru */ { IDS_PALETTE_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PALETTE_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_PALETTE_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_COLOR_SETTINGS,    "Color settings" },
 /* da */ { IDS_COLOR_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_COLOR_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_COLOR_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_COLOR_SETTINGS_DE, "Farb Einstellungen" },
+/* es */ { IDS_COLOR_SETTINGS_ES, "Ajustes color" },
 /* fr */ { IDS_COLOR_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_COLOR_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_COLOR_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_COLOR_SETTINGS_IT, "Impostazioni colori" },
 /* ko */ { IDS_COLOR_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_COLOR_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_COLOR_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_COLOR_SETTINGS_NL, "Kleur instellingen" },
+/* pl */ { IDS_COLOR_SETTINGS_PL, "Ustawienia koloru" },
 /* ru */ { IDS_COLOR_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_COLOR_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_COLOR_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_COLOR_SETTINGS_SV, "Färginställningar" },
+/* tr */ { IDS_COLOR_SETTINGS_TR, "Renk ayarlarý" },
 
 /* en */ { IDS_RENDER_FILTER_SETTINGS,    "Render filter settings" },
 /* da */ { IDS_RENDER_FILTER_SETTINGS_DA, "" },  /* fuzzy */
@@ -8015,95 +8015,95 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_RENDER_FILTER_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_RENDER_FILTER_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_RENDER_FILTER_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_RENDER_FILTER_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_RENDER_FILTER_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_RENDER_FILTER_SETTINGS_NL, "Render filter instellingen" },
+/* pl */ { IDS_RENDER_FILTER_SETTINGS_PL, "Ustawienia filtra renderera" },
 /* ru */ { IDS_RENDER_FILTER_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_RENDER_FILTER_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_RENDER_FILTER_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_CRT_SETTINGS,    "CRT emulation settings" },
-/* da */ { IDS_CRT_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_CRT_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_CRT_SETTINGS_ES, "" },  /* fuzzy */
+/* da */ { IDS_CRT_SETTINGS_DA, "Indstillinger for CRT-emulering" },
+/* de */ { IDS_CRT_SETTINGS_DE, "CRT Emulator Einstellungen" },
+/* es */ { IDS_CRT_SETTINGS_ES, "Ajustes de emulación CRT" },
 /* fr */ { IDS_CRT_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CRT_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_CRT_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDS_CRT_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CRT_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_CRT_SETTINGS_PL, "" },  /* fuzzy */
+/* it */ { IDS_CRT_SETTINGS_IT, "Impostazioni emulazione CRT" },
+/* ko */ { IDS_CRT_SETTINGS_KO, "ÄÉÅäµå ·¹ÀÌ ÅÍ¹Ì³Î ¼³Á¤" },
+/* nl */ { IDS_CRT_SETTINGS_NL, "CRT emulatie instellingen" },
+/* pl */ { IDS_CRT_SETTINGS_PL, "Ustawienia emulacji CRT" },
 /* ru */ { IDS_CRT_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_CRT_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_CRT_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_CRT_SETTINGS_SV, "Inställningar för CRT-emulering" },
+/* tr */ { IDS_CRT_SETTINGS_TR, "CRT emülasyonu ayarlarý" },
 
 /* en */ { IDS_VICII_PALETTE_FILENAME,    "VICII palette file" },
-/* da */ { IDS_VICII_PALETTE_FILENAME_DA, "" },  /* fuzzy */
-/* de */ { IDS_VICII_PALETTE_FILENAME_DE, "" },  /* fuzzy */
-/* es */ { IDS_VICII_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* da */ { IDS_VICII_PALETTE_FILENAME_DA, "VICII-palettefil" },
+/* de */ { IDS_VICII_PALETTE_FILENAME_DE, "VICII Paletten Datei" },
+/* es */ { IDS_VICII_PALETTE_FILENAME_ES, "Fichero paleta VICII" },
 /* fr */ { IDS_VICII_PALETTE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VICII_PALETTE_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_VICII_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* it */ { IDS_VICII_PALETTE_FILENAME_IT, "File palette VICII" },
 /* ko */ { IDS_VICII_PALETTE_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_VICII_PALETTE_FILENAME_NL, "" },  /* fuzzy */
-/* pl */ { IDS_VICII_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* nl */ { IDS_VICII_PALETTE_FILENAME_NL, "VICII palet bestand" },
+/* pl */ { IDS_VICII_PALETTE_FILENAME_PL, "Plik palety VICII" },
 /* ru */ { IDS_VICII_PALETTE_FILENAME_RU, "" },  /* fuzzy */
-/* sv */ { IDS_VICII_PALETTE_FILENAME_SV, "" },  /* fuzzy */
-/* tr */ { IDS_VICII_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+/* sv */ { IDS_VICII_PALETTE_FILENAME_SV, "VICII-palettfil" },
+/* tr */ { IDS_VICII_PALETTE_FILENAME_TR, "VICII palet dosyasý" },
 
 /* en */ { IDS_VIC_PALETTE_FILENAME,    "VIC palette file" },
-/* da */ { IDS_VIC_PALETTE_FILENAME_DA, "" },  /* fuzzy */
-/* de */ { IDS_VIC_PALETTE_FILENAME_DE, "" },  /* fuzzy */
-/* es */ { IDS_VIC_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* da */ { IDS_VIC_PALETTE_FILENAME_DA, "VIC-palettefil" },
+/* de */ { IDS_VIC_PALETTE_FILENAME_DE, "VIC Paletten Datei" },
+/* es */ { IDS_VIC_PALETTE_FILENAME_ES, "Fichero paleta VIC" },
 /* fr */ { IDS_VIC_PALETTE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VIC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_VIC_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* it */ { IDS_VIC_PALETTE_FILENAME_IT, "File palette VIC" },
 /* ko */ { IDS_VIC_PALETTE_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_VIC_PALETTE_FILENAME_NL, "" },  /* fuzzy */
-/* pl */ { IDS_VIC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* nl */ { IDS_VIC_PALETTE_FILENAME_NL, "VIC palet bestand" },
+/* pl */ { IDS_VIC_PALETTE_FILENAME_PL, "Plik palety VIC" },
 /* ru */ { IDS_VIC_PALETTE_FILENAME_RU, "" },  /* fuzzy */
-/* sv */ { IDS_VIC_PALETTE_FILENAME_SV, "" },  /* fuzzy */
-/* tr */ { IDS_VIC_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+/* sv */ { IDS_VIC_PALETTE_FILENAME_SV, "VIC-palettfil" },
+/* tr */ { IDS_VIC_PALETTE_FILENAME_TR, "VIC palet dosyasý" },
 
 /* en */ { IDS_VDC_PALETTE_FILENAME,    "VDC palette file" },
-/* da */ { IDS_VDC_PALETTE_FILENAME_DA, "" },  /* fuzzy */
-/* de */ { IDS_VDC_PALETTE_FILENAME_DE, "" },  /* fuzzy */
-/* es */ { IDS_VDC_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* da */ { IDS_VDC_PALETTE_FILENAME_DA, "VDC-palettefil" },
+/* de */ { IDS_VDC_PALETTE_FILENAME_DE, "VDC Paletten Datei" },
+/* es */ { IDS_VDC_PALETTE_FILENAME_ES, "Fichero paleta VDC" },
 /* fr */ { IDS_VDC_PALETTE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VDC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_VDC_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* it */ { IDS_VDC_PALETTE_FILENAME_IT, "File palette VDC" },
 /* ko */ { IDS_VDC_PALETTE_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_VDC_PALETTE_FILENAME_NL, "" },  /* fuzzy */
-/* pl */ { IDS_VDC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* nl */ { IDS_VDC_PALETTE_FILENAME_NL, "VDC palet bestand" },
+/* pl */ { IDS_VDC_PALETTE_FILENAME_PL, "Plik palety VDC" },
 /* ru */ { IDS_VDC_PALETTE_FILENAME_RU, "" },  /* fuzzy */
-/* sv */ { IDS_VDC_PALETTE_FILENAME_SV, "" },  /* fuzzy */
-/* tr */ { IDS_VDC_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+/* sv */ { IDS_VDC_PALETTE_FILENAME_SV, "VDC-palettfil" },
+/* tr */ { IDS_VDC_PALETTE_FILENAME_TR, "VDC palet dosyasý" },
 
 /* en */ { IDS_CRTC_PALETTE_FILENAME,    "CRTC palette file" },
-/* da */ { IDS_CRTC_PALETTE_FILENAME_DA, "" },  /* fuzzy */
-/* de */ { IDS_CRTC_PALETTE_FILENAME_DE, "" },  /* fuzzy */
-/* es */ { IDS_CRTC_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* da */ { IDS_CRTC_PALETTE_FILENAME_DA, "CRTC-palettefil" },
+/* de */ { IDS_CRTC_PALETTE_FILENAME_DE, "CRTC Paletten Datei" },
+/* es */ { IDS_CRTC_PALETTE_FILENAME_ES, "Fichero paleta CRT" },
 /* fr */ { IDS_CRTC_PALETTE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CRTC_PALETTE_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_CRTC_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* it */ { IDS_CRTC_PALETTE_FILENAME_IT, "File palette CRTC" },
 /* ko */ { IDS_CRTC_PALETTE_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CRTC_PALETTE_FILENAME_NL, "" },  /* fuzzy */
-/* pl */ { IDS_CRTC_PALETTE_FILENAME_PL, "" },  /* fuzzy */
+/* nl */ { IDS_CRTC_PALETTE_FILENAME_NL, "CRTC palet bestand" },
+/* pl */ { IDS_CRTC_PALETTE_FILENAME_PL, "Plik palety CRTC" },
 /* ru */ { IDS_CRTC_PALETTE_FILENAME_RU, "" },  /* fuzzy */
-/* sv */ { IDS_CRTC_PALETTE_FILENAME_SV, "" },  /* fuzzy */
-/* tr */ { IDS_CRTC_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+/* sv */ { IDS_CRTC_PALETTE_FILENAME_SV, "CRTC-palettfil" },
+/* tr */ { IDS_CRTC_PALETTE_FILENAME_TR, "CRTC palet dosyasý" },
 
 /* en */ { IDS_TED_PALETTE_FILENAME,    "TED palette file" },
-/* da */ { IDS_TED_PALETTE_FILENAME_DA, "" },  /* fuzzy */
-/* de */ { IDS_TED_PALETTE_FILENAME_DE, "" },  /* fuzzy */
-/* es */ { IDS_TED_PALETTE_FILENAME_ES, "" },  /* fuzzy */
+/* da */ { IDS_TED_PALETTE_FILENAME_DA, "TED-palettefil" },
+/* de */ { IDS_TED_PALETTE_FILENAME_DE, "TED Paletten Datei" },
+/* es */ { IDS_TED_PALETTE_FILENAME_ES, "Fichero paleta TED" },
 /* fr */ { IDS_TED_PALETTE_FILENAME_FR, "" },  /* fuzzy */
 /* hu */ { IDS_TED_PALETTE_FILENAME_HU, "" },  /* fuzzy */
-/* it */ { IDS_TED_PALETTE_FILENAME_IT, "" },  /* fuzzy */
+/* it */ { IDS_TED_PALETTE_FILENAME_IT, "File palette TED" },
 /* ko */ { IDS_TED_PALETTE_FILENAME_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TED_PALETTE_FILENAME_NL, "" },  /* fuzzy */
-/* pl */ { IDS_TED_PALETTE_FILENAME_PL, "" },  /* fuzzy */
-/* ru */ { IDS_TED_PALETTE_FILENAME_RU, "" },  /* fuzzy */
-/* sv */ { IDS_TED_PALETTE_FILENAME_SV, "" },  /* fuzzy */
-/* tr */ { IDS_TED_PALETTE_FILENAME_TR, "" },  /* fuzzy */
+/* nl */ { IDS_TED_PALETTE_FILENAME_NL, "TED palet bestand" },
+/* pl */ { IDS_TED_PALETTE_FILENAME_PL, "Plik palety TED" },
+/* ru */ { IDS_TED_PALETTE_FILENAME_RU, "TED palette file" },
+/* sv */ { IDS_TED_PALETTE_FILENAME_SV, "TED-palettfil" },
+/* tr */ { IDS_TED_PALETTE_FILENAME_TR, "TED palet dosyasý" },
 
 /* en */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT,    "Select printer dump file" },
 /* da */ { IDS_PRINTER_OUTPUT_FILENAME_SELECT_DA, "Vælg udskriftsdumpfil" },
@@ -8779,17 +8779,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_VIC20_SETTINGS,    "VIC20 settings" },
 /* da */ { IDS_VIC20_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_VIC20_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_VIC20_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_VIC20_SETTINGS_DE, "VIC20 Einstellungen" },
+/* es */ { IDS_VIC20_SETTINGS_ES, "Ajustes VIC20" },
 /* fr */ { IDS_VIC20_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_VIC20_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_VIC20_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_VIC20_SETTINGS_IT, "Impostazioni VIC20" },
 /* ko */ { IDS_VIC20_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_VIC20_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_VIC20_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_VIC20_SETTINGS_NL, "VIC20 instellingen" },
+/* pl */ { IDS_VIC20_SETTINGS_PL, "Ustawienia VIC20" },
 /* ru */ { IDS_VIC20_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_VIC20_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_VIC20_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_VIC20_SETTINGS_SV, "VIC20-inställningar" },
+/* tr */ { IDS_VIC20_SETTINGS_TR, "VIC20 ayarlarý" },
 
 /* en */ { IDS_SPRITE_SPRITE_COL,    "Sprite-sprite collisions" },
 /* da */ { IDS_SPRITE_SPRITE_COL_DA, "Sprite-til-sprite-kollision" },
@@ -8848,32 +8848,32 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_VICII_SETTINGS_TR, "VIC-II ayarlarý" },
 
 /* en */ { IDS_VIC_SETTINGS,    "VIC settings" },
-/* da */ { IDS_VIC_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_VIC_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_VIC_SETTINGS_ES, "" },  /* fuzzy */
-/* fr */ { IDS_VIC_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_VIC_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_VIC_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDS_VIC_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_VIC_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_VIC_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDS_VIC_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_VIC_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_VIC_SETTINGS_TR, "" },  /* fuzzy */
+/* da */ { IDS_VIC_SETTINGS_DA, "VIC-indstillinger" },
+/* de */ { IDS_VIC_SETTINGS_DE, "VIC Einstellungen" },
+/* es */ { IDS_VIC_SETTINGS_ES, "Ajustes VIC" },
+/* fr */ { IDS_VIC_SETTINGS_FR, "Paramètres VIC" },
+/* hu */ { IDS_VIC_SETTINGS_HU, "VIC beállításai" },
+/* it */ { IDS_VIC_SETTINGS_IT, "Impostazioni VIC" },
+/* ko */ { IDS_VIC_SETTINGS_KO, "VIC ¼ÂÆÃ" },
+/* nl */ { IDS_VIC_SETTINGS_NL, "VIC instellingen" },
+/* pl */ { IDS_VIC_SETTINGS_PL, "Ustawienia VIC" },
+/* ru */ { IDS_VIC_SETTINGS_RU, "VIC settings" },
+/* sv */ { IDS_VIC_SETTINGS_SV, "VIC-inställningar" },
+/* tr */ { IDS_VIC_SETTINGS_TR, "VIC ayarlarý" },
 
 /* en */ { IDS_TED_SETTINGS,    "TED settings" },
-/* da */ { IDS_TED_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_TED_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_TED_SETTINGS_ES, "" },  /* fuzzy */
-/* fr */ { IDS_TED_SETTINGS_FR, "" },  /* fuzzy */
-/* hu */ { IDS_TED_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_TED_SETTINGS_IT, "" },  /* fuzzy */
-/* ko */ { IDS_TED_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_TED_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_TED_SETTINGS_PL, "" },  /* fuzzy */
-/* ru */ { IDS_TED_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_TED_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_TED_SETTINGS_TR, "" },  /* fuzzy */
+/* da */ { IDS_TED_SETTINGS_DA, "TED-indstillinger" },
+/* de */ { IDS_TED_SETTINGS_DE, "TED Einstellungen" },
+/* es */ { IDS_TED_SETTINGS_ES, "Ajustes TED" },
+/* fr */ { IDS_TED_SETTINGS_FR, "Paramètres TED" },
+/* hu */ { IDS_TED_SETTINGS_HU, "TED beállításai" },
+/* it */ { IDS_TED_SETTINGS_IT, "Impostazioni TED" },
+/* ko */ { IDS_TED_SETTINGS_KO, "TED ¼ÂÆÃ" },
+/* nl */ { IDS_TED_SETTINGS_NL, "TED instellingen" },
+/* pl */ { IDS_TED_SETTINGS_PL, "Ustawienia TED" },
+/* ru */ { IDS_TED_SETTINGS_RU, "½ÐáâàÞÙÚØ TED" },
+/* sv */ { IDS_TED_SETTINGS_SV, "TED-inställningar" },
+/* tr */ { IDS_TED_SETTINGS_TR, "TED ayarlarý" },
 
 /* en */ { IDS_ATTACH_TAPE_IMAGE,    "Attach tape image" },
 /* da */ { IDS_ATTACH_TAPE_IMAGE_DA, "Tilslut bånd-image" },
@@ -8933,59 +8933,59 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_IDE64_HD_1_SETTINGS,    "IDE64 primary master device settings" },
 /* da */ { IDS_IDE64_HD_1_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_IDE64_HD_1_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "IDE64 Primär Master Geräte Einstellungen" },
+/* es */ { IDS_IDE64_HD_1_SETTINGS_ES, "Ajustes periférico maestro primario IDE64" },
 /* fr */ { IDS_IDE64_HD_1_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_1_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_1_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_HD_1_SETTINGS_IT, "Impostazioni dispositivo IDE64 master sul canale primario" },
 /* ko */ { IDS_IDE64_HD_1_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_1_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_IDE64_HD_1_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_HD_1_SETTINGS_NL, "IDE64 primair hoofd apparaat instellingen" },
+/* pl */ { IDS_IDE64_HD_1_SETTINGS_PL, "Ustawienia pierwszego urz±dzenia master IDE64" },
 /* ru */ { IDS_IDE64_HD_1_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_1_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_IDE64_HD_1_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_HD_1_SETTINGS_SV, "Inställningar för primär IDE64-masterenhet" },
+/* tr */ { IDS_IDE64_HD_1_SETTINGS_TR, "IDE64 birincil ana sürücü ayarlarý" },
 
 /* en */ { IDS_IDE64_HD_2_SETTINGS,    "IDE64 primary slave device settings" },
 /* da */ { IDS_IDE64_HD_2_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_IDE64_HD_2_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "IDE64 Primär Slave Geräte Einstellungen" },
+/* es */ { IDS_IDE64_HD_2_SETTINGS_ES, "Ajustes periférico esclavo primario IDE64" },
 /* fr */ { IDS_IDE64_HD_2_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_2_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_2_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_HD_2_SETTINGS_IT, "Impostazioni dispositivo IDE64 slave sul canale primario" },
 /* ko */ { IDS_IDE64_HD_2_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_2_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_IDE64_HD_2_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_HD_2_SETTINGS_NL, "IDE64 HD primair slaaf apparaat instellingen" },
+/* pl */ { IDS_IDE64_HD_2_SETTINGS_PL, "Ustawienia pierwszego urz±dzenia slave IDE64" },
 /* ru */ { IDS_IDE64_HD_2_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_2_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_IDE64_HD_2_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_HD_2_SETTINGS_SV, "Inställningar för primär IDE64-slavenhet" },
+/* tr */ { IDS_IDE64_HD_2_SETTINGS_TR, "IDE64 birincil baðýmlý sürücü ayarlarý" },
 
 /* en */ { IDS_IDE64_HD_3_SETTINGS,    "IDE64 secondary master device settings" },
 /* da */ { IDS_IDE64_HD_3_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_IDE64_HD_3_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "IDE64 Sekundär Master Geräte Einstellungen" },
+/* es */ { IDS_IDE64_HD_3_SETTINGS_ES, "Ajustes periférico maestro secundario IDE64" },
 /* fr */ { IDS_IDE64_HD_3_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_3_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_3_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_HD_3_SETTINGS_IT, "Impostazioni dispositivo IDE64 slave sul canale secondario" },
 /* ko */ { IDS_IDE64_HD_3_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_3_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_IDE64_HD_3_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_HD_3_SETTINGS_NL, "IDE64 secondair hoofd apparaat instellingen" },
+/* pl */ { IDS_IDE64_HD_3_SETTINGS_PL, "Ustawienia drugiego urz±dzenia master IDE64" },
 /* ru */ { IDS_IDE64_HD_3_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_3_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_IDE64_HD_3_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_HD_3_SETTINGS_SV, "Inställningar för sekundär IDE64-masterenhet" },
+/* tr */ { IDS_IDE64_HD_3_SETTINGS_TR, "IDE64 ikincil ana sürücü ayarlarý" },
 
 /* en */ { IDS_IDE64_HD_4_SETTINGS,    "IDE64 secondary slave device settings" },
 /* da */ { IDS_IDE64_HD_4_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_IDE64_HD_4_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "IDE64 Sekundär Slave Geräte Einstellungen" },
+/* es */ { IDS_IDE64_HD_4_SETTINGS_ES, "Ajustes periférico esclavo secundario IDE64" },
 /* fr */ { IDS_IDE64_HD_4_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_IDE64_HD_4_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_IDE64_HD_4_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_IDE64_HD_4_SETTINGS_IT, "Impostazioni dispositivo IDE64 master sul canale secondario" },
 /* ko */ { IDS_IDE64_HD_4_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_IDE64_HD_4_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_IDE64_HD_4_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_IDE64_HD_4_SETTINGS_NL, "IDE64 secondair slaaf apparaat instellingen" },
+/* pl */ { IDS_IDE64_HD_4_SETTINGS_PL, "Ustawienia drugiego urz±dzenia slave IDE64" },
 /* ru */ { IDS_IDE64_HD_4_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_IDE64_HD_4_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_IDE64_HD_4_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_IDE64_HD_4_SETTINGS_SV, "Inställningar för sekundär IDE64-slavenhet" },
+/* tr */ { IDS_IDE64_HD_4_SETTINGS_TR, "IDE64 ikincil baðýmlý sürücü ayarlarý" },
 
 /* en */ { IDS_IDE64_V4,    "IDE64 V4" },
 /* da */ { IDS_IDE64_V4_DA, "IDE64 V4" },
@@ -9121,7 +9121,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_BANK_JUMPER_HU, "" },  /* fuzzy */
 /* it */ { IDS_BANK_JUMPER_IT, "" },  /* fuzzy */
 /* ko */ { IDS_BANK_JUMPER_KO, "" },  /* fuzzy */
-/* nl */ { IDS_BANK_JUMPER_NL, "" },  /* fuzzy */
+/* nl */ { IDS_BANK_JUMPER_NL, "Bank jumper" },
 /* pl */ { IDS_BANK_JUMPER_PL, "" },  /* fuzzy */
 /* ru */ { IDS_BANK_JUMPER_RU, "" },  /* fuzzy */
 /* sv */ { IDS_BANK_JUMPER_SV, "" },  /* fuzzy */
@@ -9367,17 +9367,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_RETROREPLAY_SETTINGS,    "Retro Replay settings" },
 /* da */ { IDS_RETROREPLAY_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_RETROREPLAY_SETTINGS_DE, "" },  /* fuzzy */
-/* es */ { IDS_RETROREPLAY_SETTINGS_ES, "" },  /* fuzzy */
+/* de */ { IDS_RETROREPLAY_SETTINGS_DE, "Retro Replay Einstellungen" },
+/* es */ { IDS_RETROREPLAY_SETTINGS_ES, "Ajustes Retro Replay" },
 /* fr */ { IDS_RETROREPLAY_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RETROREPLAY_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_RETROREPLAY_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_RETROREPLAY_SETTINGS_IT, "Impostazioni Retro Replay" },
 /* ko */ { IDS_RETROREPLAY_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_RETROREPLAY_SETTINGS_NL, "" },  /* fuzzy */
-/* pl */ { IDS_RETROREPLAY_SETTINGS_PL, "" },  /* fuzzy */
+/* nl */ { IDS_RETROREPLAY_SETTINGS_NL, "Retro Replay instellingen" },
+/* pl */ { IDS_RETROREPLAY_SETTINGS_PL, "Ustawienia Retro Replay" },
 /* ru */ { IDS_RETROREPLAY_SETTINGS_RU, "" },  /* fuzzy */
-/* sv */ { IDS_RETROREPLAY_SETTINGS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_RETROREPLAY_SETTINGS_TR, "" },  /* fuzzy */
+/* sv */ { IDS_RETROREPLAY_SETTINGS_SV, "Retro Replay-inställningar" },
+/* tr */ { IDS_RETROREPLAY_SETTINGS_TR, "Retro Replay ayarlarý" },
 
 /* en */ { IDS_SELECT_GENERIC,    "Select generic cartridge image" },
 /* da */ { IDS_SELECT_GENERIC_DA, "Vælg standardcartridgeimage" },
@@ -9590,30 +9590,30 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_CANNOT_WRITE_FLIP_LIST_TR, "Sýralama listesi dosyasý yazýlamadý" },
 
 /* en */ { IDS_ATTACH_CART0_LOW,    "Attach cartridge image for Cartridge0 Low" },
-/* da */ { IDS_ATTACH_CART0_LOW_DA, "Tilslut cartridge image for Cartridge0 Lav" },
+/* da */ { IDS_ATTACH_CART0_LOW_DA, "" },  /* fuzzy */
 /* de */ { IDS_ATTACH_CART0_LOW_DE, "Cartridge0 (low) Erweiterungsmodul einlegen" },
 /* es */ { IDS_ATTACH_CART0_LOW_ES, "Insertar imagen cartucho para cartucho0 bajo" },
-/* fr */ { IDS_ATTACH_CART0_LOW_FR, "Insérer une cartouche pour Cartouche0 basse" },
-/* hu */ { IDS_ATTACH_CART0_LOW_HU, "Cartridge képmás csatolása alsó Cartridge0-hez" },
+/* fr */ { IDS_ATTACH_CART0_LOW_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ATTACH_CART0_LOW_HU, "" },  /* fuzzy */
 /* it */ { IDS_ATTACH_CART0_LOW_IT, "Seleziona immagine cartuccia per la Cartridge0 Low" },
 /* ko */ { IDS_ATTACH_CART0_LOW_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ATTACH_CART0_LOW_NL, "Koppel cartridge bestand voor 'Cartridge0 Low'" },
 /* pl */ { IDS_ATTACH_CART0_LOW_PL, "Zamontuj obraz kartrid¿a do Cartridge0 Low" },
-/* ru */ { IDS_ATTACH_CART0_LOW_RU, "Attach cartridge image for Cartridge0 Low" },
+/* ru */ { IDS_ATTACH_CART0_LOW_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ATTACH_CART0_LOW_SV, "Anslut insticksmodulfil för modul0 låg" },
 /* tr */ { IDS_ATTACH_CART0_LOW_TR, "Kartuþ0 Low için kartuþ imajý yerleþtirin" },
 
 /* en */ { IDS_ATTACH_CART0_HIGH,    "Attach cartridge image for Cartridge0 High" },
-/* da */ { IDS_ATTACH_CART0_HIGH_DA, "Tilslut cartridge image for Cartridge0 Høj" },
+/* da */ { IDS_ATTACH_CART0_HIGH_DA, "" },  /* fuzzy */
 /* de */ { IDS_ATTACH_CART0_HIGH_DE, "Cartridge0 (high) Erweiterungsmodul einlegen" },
 /* es */ { IDS_ATTACH_CART0_HIGH_ES, "Insertar imagen cartucho para cartucho0 alto" },
-/* fr */ { IDS_ATTACH_CART0_HIGH_FR, "Insérer une cartouche pour Cartouche0 haute" },
-/* hu */ { IDS_ATTACH_CART0_HIGH_HU, "Cartridge képmás csatolása felsõ Cartridge0-hez" },
+/* fr */ { IDS_ATTACH_CART0_HIGH_FR, "" },  /* fuzzy */
+/* hu */ { IDS_ATTACH_CART0_HIGH_HU, "" },  /* fuzzy */
 /* it */ { IDS_ATTACH_CART0_HIGH_IT, "Seleziona immagine cartuccia per la Cartridge0 High" },
 /* ko */ { IDS_ATTACH_CART0_HIGH_KO, "" },  /* fuzzy */
 /* nl */ { IDS_ATTACH_CART0_HIGH_NL, "Koppel cartridge bestand voor 'Cartridge0 High'" },
 /* pl */ { IDS_ATTACH_CART0_HIGH_PL, "Zamontuj obraz kartrid¿a do Cartridge0 High" },
-/* ru */ { IDS_ATTACH_CART0_HIGH_RU, "Attach cartridge image for Cartridge0 High" },
+/* ru */ { IDS_ATTACH_CART0_HIGH_RU, "" },  /* fuzzy */
 /* sv */ { IDS_ATTACH_CART0_HIGH_SV, "Anslut insticksmodulfil för modul0 hög" },
 /* tr */ { IDS_ATTACH_CART0_HIGH_TR, "Kartuþ0 High için kartuþ imajý yerleþtirin" },
 
@@ -9674,18 +9674,18 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_ATTACH_CART2_HIGH_TR, "Kartuþ2 High için kartuþ imajý yerleþtirin" },
 
 /* en */ { IDS_ATTACH_CART,    "Attach cartridge image" },
-/* da */ { IDS_ATTACH_CART_DA, "" },  /* fuzzy */
-/* de */ { IDS_ATTACH_CART_DE, "" },  /* fuzzy */
-/* es */ { IDS_ATTACH_CART_ES, "" },  /* fuzzy */
-/* fr */ { IDS_ATTACH_CART_FR, "" },  /* fuzzy */
-/* hu */ { IDS_ATTACH_CART_HU, "" },  /* fuzzy */
-/* it */ { IDS_ATTACH_CART_IT, "" },  /* fuzzy */
-/* ko */ { IDS_ATTACH_CART_KO, "" },  /* fuzzy */
-/* nl */ { IDS_ATTACH_CART_NL, "" },  /* fuzzy */
-/* pl */ { IDS_ATTACH_CART_PL, "" },  /* fuzzy */
-/* ru */ { IDS_ATTACH_CART_RU, "" },  /* fuzzy */
-/* sv */ { IDS_ATTACH_CART_SV, "" },  /* fuzzy */
-/* tr */ { IDS_ATTACH_CART_TR, "" },  /* fuzzy */
+/* da */ { IDS_ATTACH_CART_DA, "Tilslut cartridge-image" },
+/* de */ { IDS_ATTACH_CART_DE, "Erweiterungsmodul einlegen" },
+/* es */ { IDS_ATTACH_CART_ES, "Insertar imagen de cartucho" },
+/* fr */ { IDS_ATTACH_CART_FR, "Insérer une cartouche" },
+/* hu */ { IDS_ATTACH_CART_HU, "Cartridge képmás csatolása" },
+/* it */ { IDS_ATTACH_CART_IT, "Seleziona immagine cartuccia" },
+/* ko */ { IDS_ATTACH_CART_KO, "Ä«Æ®¸®Áö ÀÌ¹ÌÁö ºÙÀÌ±â" },
+/* nl */ { IDS_ATTACH_CART_NL, "Koppel cartridge bestand" },
+/* pl */ { IDS_ATTACH_CART_PL, "Zamontuj obraz kartrid¿a" },
+/* ru */ { IDS_ATTACH_CART_RU, "´ÞÑÐÒØâì ÞÑàÐ× ÚÐàâàØÔÖÐ" },
+/* sv */ { IDS_ATTACH_CART_SV, "Anslut insticksmodulfil" },
+/* tr */ { IDS_ATTACH_CART_TR, "Kartuþ imajý yerleþtir" },
 
 /* en */ { IDS_SAVE_SNAPSHOT_IMAGE,    "Save snapshot image" },
 /* da */ { IDS_SAVE_SNAPSHOT_IMAGE_DA, "Gem snapshot" },
@@ -10893,59 +10893,59 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SOUND_OUTPUT_MODE,    "Sound output mode" },
 /* da */ { IDS_SOUND_OUTPUT_MODE_DA, "" },  /* fuzzy */
-/* de */ { IDS_SOUND_OUTPUT_MODE_DE, "" },  /* fuzzy */
-/* es */ { IDS_SOUND_OUTPUT_MODE_ES, "" },  /* fuzzy */
+/* de */ { IDS_SOUND_OUTPUT_MODE_DE, "Ton Ausgabe Modus" },
+/* es */ { IDS_SOUND_OUTPUT_MODE_ES, "Modo salida sonido" },
 /* fr */ { IDS_SOUND_OUTPUT_MODE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SOUND_OUTPUT_MODE_HU, "" },  /* fuzzy */
-/* it */ { IDS_SOUND_OUTPUT_MODE_IT, "" },  /* fuzzy */
+/* it */ { IDS_SOUND_OUTPUT_MODE_IT, "Modalità di uscita audio" },
 /* ko */ { IDS_SOUND_OUTPUT_MODE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SOUND_OUTPUT_MODE_NL, "" },  /* fuzzy */
-/* pl */ { IDS_SOUND_OUTPUT_MODE_PL, "" },  /* fuzzy */
+/* nl */ { IDS_SOUND_OUTPUT_MODE_NL, "Geluid uitvoer modus" },
+/* pl */ { IDS_SOUND_OUTPUT_MODE_PL, "Tryb wyj¶cia d¼wiêku" },
 /* ru */ { IDS_SOUND_OUTPUT_MODE_RU, "" },  /* fuzzy */
-/* sv */ { IDS_SOUND_OUTPUT_MODE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_SOUND_OUTPUT_MODE_TR, "" },  /* fuzzy */
+/* sv */ { IDS_SOUND_OUTPUT_MODE_SV, "Utdataläge för ljud" },
+/* tr */ { IDS_SOUND_OUTPUT_MODE_TR, "Ses çýkýþý modu" },
 
 /* en */ { IDS_SYSTEM,    "System" },
 /* da */ { IDS_SYSTEM_DA, "" },  /* fuzzy */
-/* de */ { IDS_SYSTEM_DE, "" },  /* fuzzy */
-/* es */ { IDS_SYSTEM_ES, "" },  /* fuzzy */
+/* de */ { IDS_SYSTEM_DE, "System" },
+/* es */ { IDS_SYSTEM_ES, "Sistema" },
 /* fr */ { IDS_SYSTEM_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SYSTEM_HU, "" },  /* fuzzy */
-/* it */ { IDS_SYSTEM_IT, "" },  /* fuzzy */
+/* it */ { IDS_SYSTEM_IT, "Sistema" },
 /* ko */ { IDS_SYSTEM_KO, "" },  /* fuzzy */
-/* nl */ { IDS_SYSTEM_NL, "" },  /* fuzzy */
-/* pl */ { IDS_SYSTEM_PL, "" },  /* fuzzy */
-/* ru */ { IDS_SYSTEM_RU, "" },  /* fuzzy */
-/* sv */ { IDS_SYSTEM_SV, "" },  /* fuzzy */
-/* tr */ { IDS_SYSTEM_TR, "" },  /* fuzzy */
+/* nl */ { IDS_SYSTEM_NL, "Systeem" },
+/* pl */ { IDS_SYSTEM_PL, "System" },
+/* ru */ { IDS_SYSTEM_RU, "System" },
+/* sv */ { IDS_SYSTEM_SV, "System" },
+/* tr */ { IDS_SYSTEM_TR, "Sistem" },
 
 /* en */ { IDS_MONO,    "Mono" },
 /* da */ { IDS_MONO_DA, "" },  /* fuzzy */
-/* de */ { IDS_MONO_DE, "" },  /* fuzzy */
-/* es */ { IDS_MONO_ES, "" },  /* fuzzy */
+/* de */ { IDS_MONO_DE, "Mono" },
+/* es */ { IDS_MONO_ES, "Mono" },
 /* fr */ { IDS_MONO_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MONO_HU, "" },  /* fuzzy */
-/* it */ { IDS_MONO_IT, "" },  /* fuzzy */
+/* it */ { IDS_MONO_IT, "Mono" },
 /* ko */ { IDS_MONO_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MONO_NL, "" },  /* fuzzy */
-/* pl */ { IDS_MONO_PL, "" },  /* fuzzy */
-/* ru */ { IDS_MONO_RU, "" },  /* fuzzy */
-/* sv */ { IDS_MONO_SV, "" },  /* fuzzy */
-/* tr */ { IDS_MONO_TR, "" },  /* fuzzy */
+/* nl */ { IDS_MONO_NL, "Mono" },
+/* pl */ { IDS_MONO_PL, "Mono" },
+/* ru */ { IDS_MONO_RU, "¼ÞÝÞ" },
+/* sv */ { IDS_MONO_SV, "Mono" },
+/* tr */ { IDS_MONO_TR, "Mono" },
 
 /* en */ { IDS_STEREO,    "Stereo" },
 /* da */ { IDS_STEREO_DA, "" },  /* fuzzy */
-/* de */ { IDS_STEREO_DE, "" },  /* fuzzy */
-/* es */ { IDS_STEREO_ES, "" },  /* fuzzy */
+/* de */ { IDS_STEREO_DE, "Stereo" },
+/* es */ { IDS_STEREO_ES, "Estereo" },
 /* fr */ { IDS_STEREO_FR, "" },  /* fuzzy */
 /* hu */ { IDS_STEREO_HU, "" },  /* fuzzy */
-/* it */ { IDS_STEREO_IT, "" },  /* fuzzy */
+/* it */ { IDS_STEREO_IT, "Stereo" },
 /* ko */ { IDS_STEREO_KO, "" },  /* fuzzy */
-/* nl */ { IDS_STEREO_NL, "" },  /* fuzzy */
-/* pl */ { IDS_STEREO_PL, "" },  /* fuzzy */
-/* ru */ { IDS_STEREO_RU, "" },  /* fuzzy */
-/* sv */ { IDS_STEREO_SV, "" },  /* fuzzy */
-/* tr */ { IDS_STEREO_TR, "" },  /* fuzzy */
+/* nl */ { IDS_STEREO_NL, "Stereo" },
+/* pl */ { IDS_STEREO_PL, "Stereo" },
+/* ru */ { IDS_STEREO_RU, "ÁâÕàÕÞ" },
+/* sv */ { IDS_STEREO_SV, "Stereo" },
+/* tr */ { IDS_STEREO_TR, "Stereo" },
 
 /* en */ { IDS_MOUSE_TYPE,    "Mouse type" },
 /* da */ { IDS_MOUSE_TYPE_DA, "Mussetype" },
@@ -11145,17 +11145,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_AUTOSTART_RANDOM_DELAY,    "Autostart random delay" },
 /* da */ { IDS_AUTOSTART_RANDOM_DELAY_DA, "" },  /* fuzzy */
-/* de */ { IDS_AUTOSTART_RANDOM_DELAY_DE, "" },  /* fuzzy */
-/* es */ { IDS_AUTOSTART_RANDOM_DELAY_ES, "" },  /* fuzzy */
+/* de */ { IDS_AUTOSTART_RANDOM_DELAY_DE, "Autostart Zufallsverzögerung" },
+/* es */ { IDS_AUTOSTART_RANDOM_DELAY_ES, "Autoarranque retardo aleatorio" },
 /* fr */ { IDS_AUTOSTART_RANDOM_DELAY_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AUTOSTART_RANDOM_DELAY_HU, "" },  /* fuzzy */
-/* it */ { IDS_AUTOSTART_RANDOM_DELAY_IT, "" },  /* fuzzy */
+/* it */ { IDS_AUTOSTART_RANDOM_DELAY_IT, "Ritardo casuale all'avvio automatico" },
 /* ko */ { IDS_AUTOSTART_RANDOM_DELAY_KO, "" },  /* fuzzy */
-/* nl */ { IDS_AUTOSTART_RANDOM_DELAY_NL, "" },  /* fuzzy */
-/* pl */ { IDS_AUTOSTART_RANDOM_DELAY_PL, "" },  /* fuzzy */
-/* ru */ { IDS_AUTOSTART_RANDOM_DELAY_RU, "" },  /* fuzzy */
-/* sv */ { IDS_AUTOSTART_RANDOM_DELAY_SV, "" },  /* fuzzy */
-/* tr */ { IDS_AUTOSTART_RANDOM_DELAY_TR, "" },  /* fuzzy */
+/* nl */ { IDS_AUTOSTART_RANDOM_DELAY_NL, "Willekeurige vertraging van de autostart" },
+/* pl */ { IDS_AUTOSTART_RANDOM_DELAY_PL, "Losowe opó¼nienie autostartu" },
+/* ru */ { IDS_AUTOSTART_RANDOM_DELAY_RU, "Autostart random delay" },
+/* sv */ { IDS_AUTOSTART_RANDOM_DELAY_SV, "Slumpmässig fördröjning för autostart" },
+/* tr */ { IDS_AUTOSTART_RANDOM_DELAY_TR, "Rastgele gecikmeyle otomatik baþlat" },
 
 /* en */ { IDS_RUN_WITH_COLON,    "Use ':' with RUN" },
 /* da */ { IDS_RUN_WITH_COLON_DA, "Brug \":\" med RUN" },
@@ -11515,7 +11515,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_CIA_MODEL_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_CIA_MODEL_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_CIA_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_CIA_MODEL_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_CIA_MODEL_SETTINGS_NL, "CIA model instellingen" },
 /* pl */ { IDS_CIA_MODEL_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_CIA_MODEL_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CIA_MODEL_SETTINGS_SV, "" },  /* fuzzy */
