@@ -15175,6 +15175,20 @@ Contributed the @code{extract} command in @code{c1541}.
 @b{Maciej Witkowiak}
 Did some IDE64 and C1541 fixes.
 
+@item
+@{Peter Rittwage}
+Made 1541 GCR hardware tests.
+
+@item
+@b{Robert McIntyre}
+Made additional small changes to the gcr.h.
+
+@item
+@b{István Fábián}
+Contributed a initial patch with the more correct 1541 bus
+timing code and which gave us hints for to improving the 1541
+emulation.
+
 @end itemize
 
 (We hope we have not forgotten anybody; if you think we have,
