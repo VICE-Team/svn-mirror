@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 15:34-0700\n"
+"POT-Creation-Date: 2012-06-16 15:54-0700\n"
 "PO-Revision-Date: 2012-05-02 19:26+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -6991,19 +6991,19 @@ msgstr "Grabar imagen GEO-RAM cuando cambie"
 msgid "IDE64 V4 settings"
 msgstr "Ajustes IDE64 V4"
 
-#: src/arch/win32/reside64.rc.po.c:55
+#: src/arch/win32/reside64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:8910
 msgid "IDE64 primary master device settings"
 msgstr "Ajustes periférico maestro primario IDE64"
 
-#: src/arch/win32/reside64.rc.po.c:56
+#: src/arch/win32/reside64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:8924
 msgid "IDE64 primary slave device settings"
 msgstr "Ajustes periférico esclavo primario IDE64"
 
-#: src/arch/win32/reside64.rc.po.c:57
+#: src/arch/win32/reside64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:8938
 msgid "IDE64 secondary master device settings"
 msgstr "Ajustes periférico maestro secundario IDE64"
 
-#: src/arch/win32/reside64.rc.po.c:58
+#: src/arch/win32/reside64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:8952
 msgid "IDE64 secondary slave device settings"
 msgstr "Ajustes periférico esclavo secundario IDE64"
 
@@ -8381,26 +8381,6 @@ msgstr "Fichero imagen HD"
 #: src/arch/amigaos/intl_text.c.po.c:8896
 msgid "Select HD image file"
 msgstr "Seleccionar fichero imagen HD"
-
-#: src/arch/amigaos/intl_text.c.po.c:8910
-#, fuzzy
-msgid "IDE64 primary master settings"
-msgstr "Ajustes periférico maestro primario IDE64"
-
-#: src/arch/amigaos/intl_text.c.po.c:8924
-#, fuzzy
-msgid "IDE64 primary slave settings"
-msgstr "Ajustes periférico esclavo primario IDE64"
-
-#: src/arch/amigaos/intl_text.c.po.c:8938
-#, fuzzy
-msgid "IDE64 secondary master settings"
-msgstr "Ajustes periférico maestro secundario IDE64"
-
-#: src/arch/amigaos/intl_text.c.po.c:8952
-#, fuzzy
-msgid "IDE64 secondary slave settings"
-msgstr "Ajustes periférico esclavo secundario IDE64"
 
 #: src/arch/amigaos/intl_text.c.po.c:8966
 msgid "IDE64 V4"
@@ -11799,6 +11779,22 @@ msgstr "Deshabilitar cartucho DigMAX"
 #: src/translate_text.c.po.c:13219
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Dirección base para cartucho DigMAX"
+
+#, fuzzy
+#~ msgid "IDE64 primary master settings"
+#~ msgstr "Ajustes periférico maestro primario IDE64"
+
+#, fuzzy
+#~ msgid "IDE64 primary slave settings"
+#~ msgstr "Ajustes periférico esclavo primario IDE64"
+
+#, fuzzy
+#~ msgid "IDE64 secondary master settings"
+#~ msgstr "Ajustes periférico maestro secundario IDE64"
+
+#, fuzzy
+#~ msgid "IDE64 secondary slave settings"
+#~ msgstr "Ajustes periférico esclavo secundario IDE64"
 
 #, fuzzy
 #~ msgid "Load new cart $1xxx"

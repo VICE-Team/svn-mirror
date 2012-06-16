@@ -8931,7 +8931,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_FILENAME_SELECT_SV, "Ange HD-avbildningsfil" },
 /* tr */ { IDS_IDE64_FILENAME_SELECT_TR, "HD imaj dosyasý seç" },
 
-/* en */ { IDS_IDE64_HD_1_SETTINGS,    "IDE64 primary master settings" },
+/* en */ { IDS_IDE64_HD_1_SETTINGS,    "IDE64 primary master device settings" },
 /* da */ { IDS_IDE64_HD_1_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_IDE64_HD_1_SETTINGS_DE, "" },  /* fuzzy */
 /* es */ { IDS_IDE64_HD_1_SETTINGS_ES, "" },  /* fuzzy */
@@ -8945,7 +8945,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_HD_1_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_IDE64_HD_1_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_IDE64_HD_2_SETTINGS,    "IDE64 primary slave settings" },
+/* en */ { IDS_IDE64_HD_2_SETTINGS,    "IDE64 primary slave device settings" },
 /* da */ { IDS_IDE64_HD_2_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_IDE64_HD_2_SETTINGS_DE, "" },  /* fuzzy */
 /* es */ { IDS_IDE64_HD_2_SETTINGS_ES, "" },  /* fuzzy */
@@ -8959,7 +8959,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_HD_2_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_IDE64_HD_2_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_IDE64_HD_3_SETTINGS,    "IDE64 secondary master settings" },
+/* en */ { IDS_IDE64_HD_3_SETTINGS,    "IDE64 secondary master device settings" },
 /* da */ { IDS_IDE64_HD_3_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_IDE64_HD_3_SETTINGS_DE, "" },  /* fuzzy */
 /* es */ { IDS_IDE64_HD_3_SETTINGS_ES, "" },  /* fuzzy */
@@ -8973,7 +8973,7 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_IDE64_HD_3_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_IDE64_HD_3_SETTINGS_TR, "" },  /* fuzzy */
 
-/* en */ { IDS_IDE64_HD_4_SETTINGS,    "IDE64 secondary slave settings" },
+/* en */ { IDS_IDE64_HD_4_SETTINGS,    "IDE64 secondary slave device settings" },
 /* da */ { IDS_IDE64_HD_4_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDS_IDE64_HD_4_SETTINGS_DE, "" },  /* fuzzy */
 /* es */ { IDS_IDE64_HD_4_SETTINGS_ES, "" },  /* fuzzy */

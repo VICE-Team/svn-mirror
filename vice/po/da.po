@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 15:34-0700\n"
+"POT-Creation-Date: 2012-06-16 15:54-0700\n"
 "PO-Revision-Date: 2011-02-16 20:46+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice-dk@symlink.dk>\n"
 "Language-Team: Danish <vice-dk@symlink.dk>\n"
@@ -7113,22 +7113,22 @@ msgstr "Gem GEO-RAM image ved ændringer"
 msgid "IDE64 V4 settings"
 msgstr "IDE64-indstillinger"
 
-#: src/arch/win32/reside64.rc.po.c:55
+#: src/arch/win32/reside64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:8910
 #, fuzzy
 msgid "IDE64 primary master device settings"
 msgstr "IDE64-indstillinger"
 
-#: src/arch/win32/reside64.rc.po.c:56
+#: src/arch/win32/reside64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:8924
 #, fuzzy
 msgid "IDE64 primary slave device settings"
 msgstr "IDE64-indstillinger"
 
-#: src/arch/win32/reside64.rc.po.c:57
+#: src/arch/win32/reside64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:8938
 #, fuzzy
 msgid "IDE64 secondary master device settings"
 msgstr "SID-cartridge indstillinger"
 
-#: src/arch/win32/reside64.rc.po.c:58
+#: src/arch/win32/reside64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:8952
 #, fuzzy
 msgid "IDE64 secondary slave device settings"
 msgstr "Indlæs gemte indstillinger"
@@ -8531,26 +8531,6 @@ msgstr "HD-imagefil #1"
 #: src/arch/amigaos/intl_text.c.po.c:8896
 msgid "Select HD image file"
 msgstr "Angiv HD-imagefil"
-
-#: src/arch/amigaos/intl_text.c.po.c:8910
-#, fuzzy
-msgid "IDE64 primary master settings"
-msgstr "IDE64-indstillinger"
-
-#: src/arch/amigaos/intl_text.c.po.c:8924
-#, fuzzy
-msgid "IDE64 primary slave settings"
-msgstr "IDE64-indstillinger"
-
-#: src/arch/amigaos/intl_text.c.po.c:8938
-#, fuzzy
-msgid "IDE64 secondary master settings"
-msgstr "SID-cartridge indstillinger"
-
-#: src/arch/amigaos/intl_text.c.po.c:8952
-#, fuzzy
-msgid "IDE64 secondary slave settings"
-msgstr "Indlæs gemte indstillinger"
 
 #: src/arch/amigaos/intl_text.c.po.c:8966
 msgid "IDE64 V4"
@@ -11929,6 +11909,22 @@ msgstr "Deaktivér DigiMAX cartridge"
 #: src/translate_text.c.po.c:13219
 msgid "Base address of the DigiMAX cartridge"
 msgstr "Baseadresse for DigiMAX cartridge"
+
+#, fuzzy
+#~ msgid "IDE64 primary master settings"
+#~ msgstr "IDE64-indstillinger"
+
+#, fuzzy
+#~ msgid "IDE64 primary slave settings"
+#~ msgstr "IDE64-indstillinger"
+
+#, fuzzy
+#~ msgid "IDE64 secondary master settings"
+#~ msgstr "SID-cartridge indstillinger"
+
+#, fuzzy
+#~ msgid "IDE64 secondary slave settings"
+#~ msgstr "Indlæs gemte indstillinger"
 
 #, fuzzy
 #~ msgid "Load new cart $1xxx"

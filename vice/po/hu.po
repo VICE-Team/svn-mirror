@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-06-16 15:34-0700\n"
+"POT-Creation-Date: 2012-06-16 15:54-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -7488,22 +7488,22 @@ msgstr "BIOS &mentése változás után"
 msgid "IDE64 V4 settings"
 msgstr "IDE64 beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:55
+#: src/arch/win32/reside64.rc.po.c:55 src/arch/amigaos/intl_text.c.po.c:8910
 #, fuzzy
 msgid "IDE64 primary master device settings"
 msgstr "IDE64 beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:56
+#: src/arch/win32/reside64.rc.po.c:56 src/arch/amigaos/intl_text.c.po.c:8924
 #, fuzzy
 msgid "IDE64 primary slave device settings"
 msgstr "IDE64 beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:57
+#: src/arch/win32/reside64.rc.po.c:57 src/arch/amigaos/intl_text.c.po.c:8938
 #, fuzzy
 msgid "IDE64 secondary master device settings"
 msgstr "SID cartridge beállításai"
 
-#: src/arch/win32/reside64.rc.po.c:58
+#: src/arch/win32/reside64.rc.po.c:58 src/arch/amigaos/intl_text.c.po.c:8952
 #, fuzzy
 msgid "IDE64 secondary slave device settings"
 msgstr "Beállítások betöltése"
@@ -8991,26 +8991,6 @@ msgstr "Merevlemez képmás fájl"
 #: src/arch/amigaos/intl_text.c.po.c:8896
 msgid "Select HD image file"
 msgstr "Válassza ki a merevlemez képmás fájlt"
-
-#: src/arch/amigaos/intl_text.c.po.c:8910
-#, fuzzy
-msgid "IDE64 primary master settings"
-msgstr "IDE64 beállításai"
-
-#: src/arch/amigaos/intl_text.c.po.c:8924
-#, fuzzy
-msgid "IDE64 primary slave settings"
-msgstr "IDE64 beállításai"
-
-#: src/arch/amigaos/intl_text.c.po.c:8938
-#, fuzzy
-msgid "IDE64 secondary master settings"
-msgstr "SID cartridge beállításai"
-
-#: src/arch/amigaos/intl_text.c.po.c:8952
-#, fuzzy
-msgid "IDE64 secondary slave settings"
-msgstr "Beállítások betöltése"
 
 #: src/arch/amigaos/intl_text.c.po.c:8966
 #, fuzzy
@@ -12539,6 +12519,22 @@ msgstr "Digimax cartridge tiltása"
 #, fuzzy
 msgid "Base address of the DigiMAX cartridge"
 msgstr "A digimax cartridge báziscíme"
+
+#, fuzzy
+#~ msgid "IDE64 primary master settings"
+#~ msgstr "IDE64 beállításai"
+
+#, fuzzy
+#~ msgid "IDE64 primary slave settings"
+#~ msgstr "IDE64 beállításai"
+
+#, fuzzy
+#~ msgid "IDE64 secondary master settings"
+#~ msgstr "SID cartridge beállításai"
+
+#, fuzzy
+#~ msgid "IDE64 secondary slave settings"
+#~ msgstr "Beállítások betöltése"
 
 #, fuzzy
 #~ msgid "Load new cart $1xxx"
