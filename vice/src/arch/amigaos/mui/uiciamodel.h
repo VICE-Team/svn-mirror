@@ -28,5 +28,6 @@
 #define VICE_UICIAMODEL_H
 
 extern void ui_cia_model_dialog(void);
+extern void ui_single_cia_model_dialog(void);
 
 #endif

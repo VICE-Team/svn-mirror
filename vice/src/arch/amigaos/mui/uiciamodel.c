@@ -54,6 +54,11 @@ static ui_to_from_t ui_to_from[] = {
     UI_END /* mandatory */
 };
 
+static ui_to_from_t ui_to_from_single[] = {
+    { NULL, MUI_TYPE_CYCLE, "CIA1Model", ui_cia_models, ui_cia_models_values, NULL },
+    UI_END /* mandatory */
+};
+
 static APTR build_gui(void)
 {
     APTR app, ui, ok, cancel;
@@ -63,6 +68,28 @@ static APTR build_gui(void)
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, translate_text(IDS_CIA1_MODEL), ui_cia_models)
            CYCLE(ui_to_from[1].object, translate_text(IDS_CIA2_MODEL), ui_cia_models)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+static APTR build_single_gui(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from[0].object, translate_text(IDS_CIA1_MODEL), ui_cia_models)
            OK_CANCEL_BUTTON
          End;
 
@@ -91,6 +118,27 @@ void ui_cia_model_dialog(void)
         set(window, MUIA_Window_Open, TRUE);
         if (mui_run() == BTN_OK) {
             ui_get_from(ui_to_from);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_single_cia_model_dialog(void)
+{
+    APTR window;
+
+    intl_convert_mui_table(ui_cia_models_translate, ui_cia_models);
+
+    window = mui_make_simple_window(build_single_gui(), translate_text(IDS_CIA_MODEL_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from_single);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from_single);
         }
         set(window, MUIA_Window_Open, FALSE);
         mui_rem_window(window);

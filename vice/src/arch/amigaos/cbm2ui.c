@@ -40,6 +40,7 @@
 
 #include "mui/uiacia.h"
 #include "mui/uicbm2settings.h"
+#include "mui/uiciamodel.h"
 #include "mui/uidrivepetcbm2.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -74,6 +75,9 @@ static void cbm2_cart_attach(video_canvas_t *canvas, int cart_type)
 static int cbm2_ui_specific(video_canvas_t *canvas, int idm)
 {
     switch (idm) {
+        case IDM_CIA_SETTINGS:
+            ui_single_cia_model_dialog();
+            break;
         case IDM_LOAD_CART_1XXX:
             cbm2_cart_attach(canvas, CARTRIDGE_CBM2_8KB_1000);
             break;
