@@ -11668,6 +11668,14 @@ involved in the development of X64 and VICE:
 
    * Maciej Witkowiak Did some IDE64 and C1541 fixes.
 
+   * Peter Rittwage Made 1541 GCR hardware tests.
+
+   * Robert McIntyre Made additional small changes to the gcr.h.
+
+   * István Fábián Contributed a initial patch with the more correct
+     1541 bus timing code and which gave us hints for to improving the
+     1541 emulation.
+
    (We hope we have not forgotten anybody; if you think we have,
 please tell us.)
 
@@ -11775,6 +11783,8 @@ Copyright
    * Copyright (C) 2011-2012 Thomas Giesel
 
    * Copyright (C) 2011-2012 Kajtar Zsolt
+
+   * Copyright (C) 2012-2012 Benjamin 'BeRo' Rosseaux
 
    * Copyright (C) 2000-2011 Spiro Trikaliotis
 

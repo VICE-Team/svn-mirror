@@ -1,5 +1,1031 @@
 ------------------------------------------------------------------------------
 
+2012-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
+	doc/vice.guide, doc/vice.chm, configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, po/es.po, po/ko.po, po/fr.po,
+	po/da.po, po/tr.po, po/de.po, po/sv.po, po/hu.po, po/ru.po, po/nl.po,
+	po/pl.po, po/it.po: VICE 2.3.19
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated pl.po file.
+
+2012-06-16  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt, src/arch/amigaos/intl_text.c: More
+	translations unifications.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt, src/arch/amigaos/intl_text.c: Some
+	translations unification.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-06-16  groepaz <groepaz@gmx.net>
+
+	* src/joystick.c: some cleanup
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* AUTHORS, src/infocontrib.sed: Updated.
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed a typo.
+
+2012-06-16  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* AUTHORS, doc/vice.texi: fixed AUTHORS and updated doc/vice.texi 
+
+2012-06-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/cbm2ui.c,
+	src/arch/amigaos/cbm2uires.h, src/arch/amigaos/cbm5x0ui.c,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/fixdeps.c,
+	src/arch/amigaos/hardsid.c, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uicbm5x0settings.c,
+	src/arch/amigaos/mui/uicbm5x0settings.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/xcbm5x0ns.c, src/cbm2/cbm5x0.c: Split xcbm2 and
+	xcbm5x0 for the amiga port.
+
+2012-06-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/mousedrv.c, src/arch/unix/mousedrv.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xaw/x11ui.c:
+	Scalable mouse resolution. Also on gnome and for xv.
+
+2012-06-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Simplify.
+
+2012-06-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11ui.c: Much simpler wrap area calculation,
+	and also works with clipped windows
+
+2012-06-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/mousedrv.c: Add some scaling to match speed to other
+	systems. Not the final version, but for now it's ok.
+
+2012-06-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/ui.c: This is redundant. If direct input is used,
+	it's not handled here anyway.
+
+2012-06-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Increase movement limit. Less backlog feeling on low
+	rate sampling mouse drivers. It's still low enough to not confuse them
+	on fast movement.
+
+2012-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uijoystick.c,
+	src/arch/amigaos/mui/uijoystickll.c: Added kingsoft and starbyte
+	userport joystick adapters support to the amiga gui.
+
+2012-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uipetsettings.c,
+	src/arch/amigaos/mui/uipetsettings.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/uires.h: Changed the pet
+	model selection for the amiga gui.
+
+2012-06-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128ui.c,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uited.c,
+	src/arch/amigaos/mui/uited.h, src/arch/amigaos/mui/uivic.c,
+	src/arch/amigaos/mui/uivic.h, src/arch/amigaos/mui/uivic20mem.c,
+	src/arch/amigaos/mui/uivic20mem.h, src/arch/amigaos/mui/uivicii.c,
+	src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h: Added c128 model selection, vic border
+	mode selection, ted border mode selection and extended the vicii
+	border mode selection for the amiga gui.
+
+2012-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128ui.c,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uiciamodel.c,
+	src/arch/amigaos/mui/uiciamodel.h, src/arch/amigaos/uires.h: Added cia
+	model selection for x128 to the amiga gui.
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/joystick.c: improved handling of opposite directions (again)
+
+2012-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uiretroreplay.c,
+	src/arch/amigaos/mui/uiretroreplay.h, src/arch/amigaos/uires.h: Added
+	retro replay support to the amiga gui.
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c: change warning into an error
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid-cmdline-options.c: fix description
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/video/video-resources.c: if compiled with HAVE_HWSCALE, then
+	also use it by default
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128drive.c, src/c64/c64drive.c, src/cbm2/cbm2drive.c,
+	src/drive/drive-resources.c, src/drive/drive.h, src/pet/petdrive.c,
+	src/vic20/vic20drive.c: change default drive settings for slightly
+	improved compatibility
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/sid/sid-resources.c: change default SID to 8580 for C128 to
+	match a defined model
+
+2012-06-14  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/drive.c, src/machine.c: Workaround for the
+	machine_shutdown calling issue, even if machine_init was not called
+	before.
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/plus4/ted-resources.c, src/vdc/vdc-resources.c,
+	src/vic20/vic-resources.c, src/vicii/vicii-resources.c,
+	src/viciisc/vicii-resources.c: sanitize doublesize defaults
+
+2012-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/ui.c,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20uires.h: Added drive
+	sound support to the amiga gui.
+
+2012-06-14  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/drive.c: Access violation workaround
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c: do not crash if an option has no
+	proper description :)
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c: emit a warning if an option has no proper description
+
+2012-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisound.c: Added sound output mode support to the
+	amiga gui.
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128-cmdline-options.c, src/video/video-resources.c: fix
+	duplicated resources/options
+
+2012-06-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uiburstmod.c,
+	src/arch/amigaos/mui/uiburstmod.h, src/arch/amigaos/uires.h: Added c64
+	drive burst modification support to the amiga gui.
+
+2012-06-14  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/c64dtv/c64dtv.c, src/cmdline.c,
+	src/drive/drive-cmdline-options.c,
+	src/drive/iec/iec-cmdline-options.c,
+	src/drive/ieee/ieee-cmdline-options.c: added runtime check for
+	duplicated commandline options, some related fixes
+
+2012-06-14  groepaz <groepaz@gmx.net>
+
+	* src/resources.c: added runtime check for duplicated resources
+
+2012-06-14  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* AUTHORS: Added missed peoples
+
+2012-06-14  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/rotation.c: Single more P64 rotation performance fix
+
+2012-06-14  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/rotation.c: P64 rotation performance fixes
+
+2012-06-13  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/drive.c, src/drive/rotation.c: P64 rotation code cleanup,
+	optimization and simplification
+
+2012-06-13  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-gcr.h, src/diskimage/fsimage-p64.c,
+	src/diskimage/fsimage-p64.h, src/diskimage/fsimage-probe.c,
+	src/diskimage.h, src/drive/drive-snapshot.c, src/drive/drive.c,
+	src/drive/driveimage.c, src/gcr.h: Implemented half track support at
+	diskette image code level and enhanced drive snapshot code for that
+
+2012-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c: Changed IDE64 HDx names to
+	primary/secondary master/slave in the amiga gui.
+
+2012-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/filereq.c, src/arch/amigaos/mui/uidrivec128.c,
+	src/arch/amigaos/mui/uidrivec64vic20.c,
+	src/arch/amigaos/mui/uidriveplus4.c,
+	src/arch/amigaos/mui/uiromc128settings.c,
+	src/arch/amigaos/mui/uiromc64vic20settings.c,
+	src/arch/amigaos/mui/uiromplus4settings.c, src/arch/amigaos/video.c:
+	Added fd2000/4000 and d1m/d2m/d4m support to the amiga gui.
+
+2012-06-13  groepaz <groepaz@gmx.net>
+
+	* src/pet/petmem.c, src/pet/petpia.h, src/piacore.c: fix warnings
+
+2012-06-13  groepaz <groepaz@gmx.net>
+
+	* src/debug.c: style fixes, fix warning
+
+2012-06-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128ui.c,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvui.c,
+	src/arch/amigaos/c64dtvuires.h, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2ui.c,
+	src/arch/amigaos/cbm2uires.h, src/arch/amigaos/cbm5x0ui.c,
+	src/arch/amigaos/cbm5x0uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uivideo.c,
+	src/arch/amigaos/mui/uivideo.h, src/arch/amigaos/petui.c,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4ui.c,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h,
+	src/arch/amigaos/video.c, src/cbm2ui.h: Rewrote the amiga video
+	settings.
+
+2012-06-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-release.sh: macosx: allow to tag releases,
+	too
+
+2012-06-13  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-release.sh: macosx: allow to set own tag in
+	build script
+
+2012-06-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/ui.c, src/arch/sdl/video.c: save/restore window size
+
+2012-06-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_pethw.c: updated model selection
+
+2012-06-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_drive.c: updated parallel cable selection
+
+2012-06-12  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_joystick.c: updated userport joystick adapter
+	settings
+
+2012-06-12  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/rotation.c: Disabled NRZI flux pulse filter at
+	GCR-emulation-based images because these imsges are almost clean
+	already (this filter is still active but in fake mode at these
+	GCR-based images) and fixed P64 writeback bug (dirty flag was not
+	always set)
+
+2012-06-11  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/drive-snapshot.c, src/drive/drive.h,
+	src/drive/iecieee/via2d.c, src/drive/rotation.c, src/drive/rotation.h:
+	Merged drive data bus timing stuff from SPS patch as a temporary
+	solution until the drive code will be single cycle exact
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64dtvui.c, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/plus4ui.c, src/arch/amigaos/uires.h: Added c64dtv
+	model selection to the amiga gui.
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/uires.h: Corrected some plus4 id's.
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiromplus4settings.c: Replaced "3plus1loName"
+	and "3plus1hiName" with "FunctionLowName" and "FunctionHighName" in
+	the amiga port.
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/uires.h: Updated the plus4 cartridge support for the
+	amiga port.
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h: Added plus4
+	cartridge reset support to the amiga gui.
+
+2012-06-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petdww.c, src/pet/petdww.h, src/pet/petmem.c,
+	src/pet/petpia1.c, src/pet/petpia2.c, src/piacore.c: Implement
+	mypia_dump().
+
+2012-06-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petmem.c: Add SuperPET I/O to the monitor "io" command.
+
+2012-06-11  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petmem.c: Style fixes including tab removal.
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf: Updated plus4 acia selection of the amiga gui.
+
+2012-06-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uiacia.c, src/arch/amigaos/mui/uiacia.h,
+	src/arch/amigaos/plus4ui.c: Added plus4 model selection to the amiga
+	gui
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/pet/6809.c: fix another warning :)
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vic20ui.c, src/attach.c,
+	src/monitor/mon_assemble6809.c, src/monitor/monitor_network.c,
+	src/network.c, src/pet/6809.c: fix a few warnings
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/joystick.c: fix to work properly without relying on keyboard
+	repeat
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_parse.c, src/monitor/mon_parse.h,
+	src/monitor/mon_parse.y, src/monitor/monitor.c,
+	src/monitor/montypes.h: implement X and G commands as described in the
+	wiki
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/monitor/monitor.c, src/monitor/montypes.h: do not leave the
+	monitor when singlestepping a single instruction
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: flush events after showing the
+	window
+
+2012-06-10  groepaz <groepaz@gmx.net>
+
+	* src/joystick.c: better handling of diagonals and opposite
+	directions, fixes bug #3532766
+
+2012-06-10  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/ressid.rc, src/arch/win32/resstrings.txt: Remove
+	obsolete (since r24309) string IDS_THIS_MACHINE_NO_SID.
+
+2012-06-09  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uisid.c, src/arch/win32/uisiddtv.c: Fix WinVICE SID
+	and SID-DTV dialogs to enable/disable controls and save or not save
+	settings correctly.
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/watcom/c128.tgt,
+	src/arch/os2/watcom/c64cart.tgt,
+	src/arch/os2/watcom/c64commonc128dtvsc.tgt,
+	src/arch/os2/watcom/c64commonc128sc.tgt,
+	src/arch/os2/watcom/c64commondtvsc.tgt,
+	src/arch/os2/watcom/c64commonsc.tgt, src/arch/os2/watcom/c64dtv.tgt,
+	src/arch/os2/watcom/cbm2.tgt, src/arch/os2/watcom/cbm2common.tgt,
+	src/arch/os2/watcom/cbm5x0.tgt, src/arch/os2/watcom/dialogs.tgt,
+	src/arch/os2/watcom/diskimage.tgt, src/arch/os2/watcom/drive.tgt,
+	src/arch/os2/watcom/iec.tgt, src/arch/os2/watcom/iecbus.tgt,
+	src/arch/os2/watcom/iecc64exp.tgt, src/arch/os2/watcom/iecieee.tgt,
+	src/arch/os2/watcom/iecplus4exp.tgt, src/arch/os2/watcom/ieee.tgt,
+	src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/monitor.tgt,
+	src/arch/os2/watcom/p64.tgt, src/arch/os2/watcom/parallel.tgt,
+	src/arch/os2/watcom/pet.tgt, src/arch/os2/watcom/plus4.tgt,
+	src/arch/os2/watcom/tcbm.tgt, src/arch/os2/watcom/vdrive.tgt,
+	src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/vsid.tgt, src/arch/os2/watcom/vsidlib.tgt,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x1541.tgt,
+	src/arch/os2/watcom/x64.tgt, src/arch/os2/watcom/x64dtv.tgt,
+	src/arch/os2/watcom/x64sc.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	src/arch/os2/watcom/xcbm5x0.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4.tgt, src/arch/os2/watcom/xvic.tgt: Updated
+	the os/2 ow project files to the drive-update merge.
+
+2012-06-09  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/rotation.c: Added missing cycle_index initialization 
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/X1541.ICC,
+	src/arch/os2/vac++/incl/diskimage.icc,
+	src/arch/os2/vac++/incl/p64.icc, src/arch/os2/vac++/x128/X128.ICC,
+	src/arch/os2/vac++/x64/X64.ICC, src/arch/os2/vac++/x64dtv/X64DTV.ICC,
+	src/arch/os2/vac++/x64sc/X64SC.ICC,
+	src/arch/os2/vac++/xcbm2/Xcbm2.ICC,
+	src/arch/os2/vac++/xcbm5x0/Xcbm5x0.ICC,
+	src/arch/os2/vac++/xpet/Xpet.ICC,
+	src/arch/os2/vac++/xplus4/Xplus4.ICC,
+	src/arch/os2/vac++/xvic/Xvic.ICC: Updated the os/2 vac++ project files
+	to the drive-update merge.
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/Makefile.am,
+	src/arch/sdl/winmips-msvc/arch.mak,
+	src/arch/sdl/winmips-msvc/base.mak,
+	src/arch/sdl/winmips-msvc/c128.mak,
+	src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/c64.mak,
+	src/arch/sdl/winmips-msvc/c64c128.mak,
+	src/arch/sdl/winmips-msvc/c64c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64cart.mak,
+	src/arch/sdl/winmips-msvc/c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64exp.mak,
+	src/arch/sdl/winmips-msvc/c64sc.mak,
+	src/arch/sdl/winmips-msvc/cbm2.mak,
+	src/arch/sdl/winmips-msvc/cbm2common.mak,
+	src/arch/sdl/winmips-msvc/cbm5x0.mak,
+	src/arch/sdl/winmips-msvc/diskimage.mak,
+	src/arch/sdl/winmips-msvc/drive.mak,
+	src/arch/sdl/winmips-msvc/iec.mak,
+	src/arch/sdl/winmips-msvc/iec128dcr.mak,
+	src/arch/sdl/winmips-msvc/iecbus.mak,
+	src/arch/sdl/winmips-msvc/iecieee.mak,
+	src/arch/sdl/winmips-msvc/ieee.mak,
+	src/arch/sdl/winmips-msvc/monitor.mak,
+	src/arch/sdl/winmips-msvc/p64.mak,
+	src/arch/sdl/winmips-msvc/parallel.mak,
+	src/arch/sdl/winmips-msvc/pet.mak,
+	src/arch/sdl/winmips-msvc/plus4.mak,
+	src/arch/sdl/winmips-msvc/plus4exp.mak,
+	src/arch/sdl/winmips-msvc/tcbm.mak,
+	src/arch/sdl/winmips-msvc/vdrive.mak,
+	src/arch/sdl/winmips-msvc/vic20.mak,
+	src/arch/sdl/winmips-msvc/vsid.mak,
+	src/arch/sdl/winmips-msvc/vsidlib.mak,
+	src/arch/sdl/winmips-msvc/x128.mak, src/arch/sdl/winmips-msvc/x64.mak,
+	src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak,
+	src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xcbm5x0.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak,
+	src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h: Updated the sdl winmips msvc project files to
+	the drive-update merge.
+
+2012-06-09  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/drive-snapshot.c, src/drive/drive.h, src/drive/rotation.c:
+	Added SO signal delay, fixed P64 rotation write logic, adjusted drive
+	snapshot format
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/vice.sln: Some sdl win64 msvc fixes.
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	src/arch/sdl/win64-msvc/arch.vcproj,
+	src/arch/sdl/win64-msvc/base.vcproj,
+	src/arch/sdl/win64-msvc/c128.vcproj,
+	src/arch/sdl/win64-msvc/c1541.vcproj,
+	src/arch/sdl/win64-msvc/c64.vcproj,
+	src/arch/sdl/win64-msvc/c64c128.vcproj,
+	src/arch/sdl/win64-msvc/c64c64dtv.vcproj,
+	src/arch/sdl/win64-msvc/c64cart.vcproj,
+	src/arch/sdl/win64-msvc/c64dtv.vcproj,
+	src/arch/sdl/win64-msvc/c64exp.vcproj,
+	src/arch/sdl/win64-msvc/c64sc.vcproj,
+	src/arch/sdl/win64-msvc/cbm2.vcproj,
+	src/arch/sdl/win64-msvc/cbm2common.vcproj,
+	src/arch/sdl/win64-msvc/cbm5x0.vcproj,
+	src/arch/sdl/win64-msvc/diskimage.vcproj,
+	src/arch/sdl/win64-msvc/drive.vcproj,
+	src/arch/sdl/win64-msvc/iec.vcproj,
+	src/arch/sdl/win64-msvc/iec128dcr.vcproj,
+	src/arch/sdl/win64-msvc/iecbus.vcproj,
+	src/arch/sdl/win64-msvc/iecieee.vcproj,
+	src/arch/sdl/win64-msvc/ieee.vcproj,
+	src/arch/sdl/win64-msvc/monitor.vcproj,
+	src/arch/sdl/win64-msvc/p64.vcproj,
+	src/arch/sdl/win64-msvc/parallel.vcproj,
+	src/arch/sdl/win64-msvc/pet.vcproj,
+	src/arch/sdl/win64-msvc/plus4.vcproj,
+	src/arch/sdl/win64-msvc/plus4exp.vcproj,
+	src/arch/sdl/win64-msvc/tcbm.vcproj,
+	src/arch/sdl/win64-msvc/vdrive.vcproj,
+	src/arch/sdl/win64-msvc/vic20.vcproj,
+	src/arch/sdl/win64-msvc/vice.sln,
+	src/arch/sdl/win64-msvc/vsid.vcproj,
+	src/arch/sdl/win64-msvc/vsidlib.vcproj,
+	src/arch/sdl/win64-msvc/x128.vcproj,
+	src/arch/sdl/win64-msvc/x64.vcproj,
+	src/arch/sdl/win64-msvc/x64dtv.vcproj,
+	src/arch/sdl/win64-msvc/x64sc.vcproj,
+	src/arch/sdl/win64-msvc/xcbm2.vcproj,
+	src/arch/sdl/win64-msvc/xcbm5x0.vcproj,
+	src/arch/sdl/win64-msvc/xpet.vcproj,
+	src/arch/sdl/win64-msvc/xplus4.vcproj,
+	src/arch/sdl/win64-msvc/xvic.vcproj: Updated the sdl win64 msvc
+	project files to the drive-update merge.
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/c128.tgt,
+	src/arch/sdl/win32-watcom/c1541.tgt,
+	src/arch/sdl/win32-watcom/c64cart.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc128.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtv.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtv128.tgt,
+	src/arch/sdl/win32-watcom/c64dtv.tgt,
+	src/arch/sdl/win32-watcom/c64exp.tgt,
+	src/arch/sdl/win32-watcom/cbm2.tgt,
+	src/arch/sdl/win32-watcom/cbm2common.tgt,
+	src/arch/sdl/win32-watcom/cbm5x0.tgt,
+	src/arch/sdl/win32-watcom/diskimage.tgt,
+	src/arch/sdl/win32-watcom/drive.tgt,
+	src/arch/sdl/win32-watcom/iec.tgt,
+	src/arch/sdl/win32-watcom/iec128dcr.tgt,
+	src/arch/sdl/win32-watcom/iecbus.tgt,
+	src/arch/sdl/win32-watcom/iecieee.tgt,
+	src/arch/sdl/win32-watcom/ieee.tgt,
+	src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/p64.tgt,
+	src/arch/sdl/win32-watcom/parallel.tgt,
+	src/arch/sdl/win32-watcom/pet.tgt,
+	src/arch/sdl/win32-watcom/plus4.tgt,
+	src/arch/sdl/win32-watcom/plus4exp.tgt,
+	src/arch/sdl/win32-watcom/tcbm.tgt,
+	src/arch/sdl/win32-watcom/vdrive.tgt,
+	src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt,
+	src/arch/sdl/win32-watcom/vsidlib.tgt,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xcbm5x0.tgt,
+	src/arch/sdl/win32-watcom/xpet.tgt,
+	src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Updated the sdl win32 ow project
+	files to the drive-update merge.
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	src/arch/sdl/win32-msvc/arch.dsp, src/arch/sdl/win32-msvc/base.dsp,
+	src/arch/sdl/win32-msvc/c128.dsp, src/arch/sdl/win32-msvc/c1541.dsp,
+	src/arch/sdl/win32-msvc/c64.dsp, src/arch/sdl/win32-msvc/c64c128.dsp,
+	src/arch/sdl/win32-msvc/c64c64dtv.dsp,
+	src/arch/sdl/win32-msvc/c64cart.dsp,
+	src/arch/sdl/win32-msvc/c64dtv.dsp,
+	src/arch/sdl/win32-msvc/c64exp.dsp, src/arch/sdl/win32-msvc/c64sc.dsp,
+	src/arch/sdl/win32-msvc/cbm2.dsp,
+	src/arch/sdl/win32-msvc/cbm2common.dsp,
+	src/arch/sdl/win32-msvc/cbm5x0.dsp,
+	src/arch/sdl/win32-msvc/diskimage.dsp,
+	src/arch/sdl/win32-msvc/drive.dsp, src/arch/sdl/win32-msvc/iec.dsp,
+	src/arch/sdl/win32-msvc/iec128dcr.dsp,
+	src/arch/sdl/win32-msvc/iecbus.dsp,
+	src/arch/sdl/win32-msvc/iecieee.dsp, src/arch/sdl/win32-msvc/ieee.dsp,
+	src/arch/sdl/win32-msvc/monitor.dsp, src/arch/sdl/win32-msvc/p64.dsp,
+	src/arch/sdl/win32-msvc/parallel.dsp, src/arch/sdl/win32-msvc/pet.dsp,
+	src/arch/sdl/win32-msvc/plus4.dsp,
+	src/arch/sdl/win32-msvc/plus4exp.dsp,
+	src/arch/sdl/win32-msvc/tcbm.dsp, src/arch/sdl/win32-msvc/vdrive.dsp,
+	src/arch/sdl/win32-msvc/vic20.dsp, src/arch/sdl/win32-msvc/vice.dsw,
+	src/arch/sdl/win32-msvc/vsid.dsp, src/arch/sdl/win32-msvc/vsidlib.dsp,
+	src/arch/sdl/win32-msvc/x128.dsp, src/arch/sdl/win32-msvc/x64.dsp,
+	src/arch/sdl/win32-msvc/x64dtv.dsp, src/arch/sdl/win32-msvc/x64sc.dsp,
+	src/arch/sdl/win32-msvc/xcbm2.dsp,
+	src/arch/sdl/win32-msvc/xcbm5x0.dsp, src/arch/sdl/win32-msvc/xpet.dsp,
+	src/arch/sdl/win32-msvc/xplus4.dsp, src/arch/sdl/win32-msvc/xvic.dsp:
+	Updated the sdl win32 msvc project files to the drive-update merge.
+
+2012-06-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/arch.vcproj, src/arch/win64/vice.sln,
+	src/arch/win64/vsid.vcproj: Some win64 msvc fixes.
+
+2012-06-08  groepaz <groepaz@gmx.net>
+
+	* src/viciisc/vicii-mem.c: Fix x64sc sprite crunch conditions. Fixes
+	Psykolog (bug #3477713). patch from viceminus
+
+2012-06-08  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: remove unnecessary check for motor on
+
+2012-06-08  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* doc/vice.pdf, src/arch/unix/macosx/cocoa/Makefile.am,
+	src/arch/unix/macosx/cocoa/dialog/Makefile.am,
+	src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	src/arch/unix/macosx/cocoa/view/Makefile.am: Fixed MacOSX Makefile.am
+	files
+
+2012-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/Makefile.am, src/arch/win64/arch.vcproj,
+	src/arch/win64/base.vcproj, src/arch/win64/c128.vcproj,
+	src/arch/win64/c1541.vcproj, src/arch/win64/c64.vcproj,
+	src/arch/win64/c64c128.vcproj, src/arch/win64/c64c64dtv.vcproj,
+	src/arch/win64/c64cart.vcproj, src/arch/win64/c64dtv.vcproj,
+	src/arch/win64/c64exp.vcproj, src/arch/win64/c64sc.vcproj,
+	src/arch/win64/cbm2.vcproj, src/arch/win64/cbm2common.vcproj,
+	src/arch/win64/cbm5x0.vcproj, src/arch/win64/diskimage.vcproj,
+	src/arch/win64/drive.vcproj, src/arch/win64/iec.vcproj,
+	src/arch/win64/iec128dcr.vcproj, src/arch/win64/iecbus.vcproj,
+	src/arch/win64/iecieee.vcproj, src/arch/win64/ieee.vcproj,
+	src/arch/win64/monitor.vcproj, src/arch/win64/p64.vcproj,
+	src/arch/win64/parallel.vcproj, src/arch/win64/pet.vcproj,
+	src/arch/win64/plus4.vcproj, src/arch/win64/plus4exp.vcproj,
+	src/arch/win64/tcbm.vcproj, src/arch/win64/vdrive.vcproj,
+	src/arch/win64/vic20.vcproj, src/arch/win64/vice.sln,
+	src/arch/win64/vsid.vcproj, src/arch/win64/vsidlib.vcproj,
+	src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj,
+	src/arch/win64/x64dtv.vcproj, src/arch/win64/x64sc.vcproj,
+	src/arch/win64/xcbm2.vcproj, src/arch/win64/xcbm5x0.vcproj,
+	src/arch/win64/xpet.vcproj, src/arch/win64/xplus4.vcproj,
+	src/arch/win64/xvic.vcproj: Updated the win64 msvc project files to
+	the drive-update merge.
+
+2012-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/base.tgt, src/arch/win32/watcom/c128.tgt,
+	src/arch/win32/watcom/c1541.tgt, src/arch/win32/watcom/c64cart.tgt,
+	src/arch/win32/watcom/c64commondscdtv.tgt,
+	src/arch/win32/watcom/c64commonsc.tgt,
+	src/arch/win32/watcom/c64commonsc128.tgt,
+	src/arch/win32/watcom/c64commonscdtv128.tgt,
+	src/arch/win32/watcom/c64dtv.tgt, src/arch/win32/watcom/c64exp.tgt,
+	src/arch/win32/watcom/cbm2.tgt, src/arch/win32/watcom/cbm2common.tgt,
+	src/arch/win32/watcom/cbm5x0.tgt, src/arch/win32/watcom/diskimage.tgt,
+	src/arch/win32/watcom/drive.tgt, src/arch/win32/watcom/iec.tgt,
+	src/arch/win32/watcom/iec128dcr.tgt, src/arch/win32/watcom/iecbus.tgt,
+	src/arch/win32/watcom/iecieee.tgt, src/arch/win32/watcom/ieee.tgt,
+	src/arch/win32/watcom/monitor.tgt, src/arch/win32/watcom/p64.tgt,
+	src/arch/win32/watcom/parallel.tgt, src/arch/win32/watcom/pet.tgt,
+	src/arch/win32/watcom/plus4.tgt, src/arch/win32/watcom/plus4exp.tgt,
+	src/arch/win32/watcom/tcbm.tgt, src/arch/win32/watcom/vdrive.tgt,
+	src/arch/win32/watcom/vic20.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/vsidlib.tgt,
+	src/arch/win32/watcom/x128.tgt, src/arch/win32/watcom/x64.tgt,
+	src/arch/win32/watcom/x64dtv.tgt, src/arch/win32/watcom/x64sc.tgt,
+	src/arch/win32/watcom/xcbm2.tgt, src/arch/win32/watcom/xcbm5x0.tgt,
+	src/arch/win32/watcom/xpet.tgt, src/arch/win32/watcom/xplus4.tgt,
+	src/arch/win32/watcom/xvic.tgt: Updated the win32 ow project files to
+	the drive-update merge.
+
+2012-06-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/base.dsp, src/arch/win32/c128.dsp,
+	src/arch/win32/c1541.dsp, src/arch/win32/c64.dsp,
+	src/arch/win32/c64c128.dsp, src/arch/win32/c64c64dtv.dsp,
+	src/arch/win32/c64cart.dsp, src/arch/win32/c64dtv.dsp,
+	src/arch/win32/c64exp.dsp, src/arch/win32/c64sc.dsp,
+	src/arch/win32/cbm2.dsp, src/arch/win32/cbm2common.dsp,
+	src/arch/win32/cbm5x0.dsp, src/arch/win32/diskimage.dsp,
+	src/arch/win32/drive.dsp, src/arch/win32/iec.dsp,
+	src/arch/win32/iec128dcr.dsp, src/arch/win32/iecbus.dsp,
+	src/arch/win32/iecieee.dsp, src/arch/win32/ieee.dsp,
+	src/arch/win32/monitor.dsp, src/arch/win32/p64.dsp,
+	src/arch/win32/parallel.dsp, src/arch/win32/pet.dsp,
+	src/arch/win32/plus4.dsp, src/arch/win32/plus4exp.dsp,
+	src/arch/win32/tcbm.dsp, src/arch/win32/vdrive.dsp,
+	src/arch/win32/vic20.dsp, src/arch/win32/vice.dsw,
+	src/arch/win32/vsid.dsp, src/arch/win32/vsidlib.dsp,
+	src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	src/arch/win32/x64dtv.dsp, src/arch/win32/x64sc.dsp,
+	src/arch/win32/xcbm2.dsp, src/arch/win32/xcbm5x0.dsp,
+	src/arch/win32/xpet.dsp, src/arch/win32/xplus4.dsp,
+	src/arch/win32/xvic.dsp: Updated the win32 msvc project files to the
+	drive-update merge.
+
+2012-06-08  groepaz <groepaz@gmx.net>
+
+	* src/viciisc/vicii-snapshot.c: fix screen displacement when loading
+	a snapshot on a non-zero line. patch from viceminus
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: codestyle fixed - don't commit when you are half
+	asleep =P
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: enabled the rotation catch-up again - using a
+	blank config does magic at times :)
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: disable rotation catchup in vblank since it
+	breaks loading certain images
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: fix merge conflict
+
+2012-06-07  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* AUTHORS, configure.in, doc/html/index.html, doc/vice.texi,
+	src/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/mui/filereq.c, src/arch/amigaos/mui/mui.c,
+	src/arch/beos/Makefile.am, src/arch/beos/ui.cc,
+	src/arch/msdos/Makefile.am, src/arch/msdos/menudefs.c,
+	src/arch/msdos/uiattach.c, src/arch/os2/Makefile.am,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/os2/dialogs/dlg-create.c,
+	src/arch/os2/dialogs/dlg-fileio.c, src/arch/os2/install.cmd,
+	src/arch/sdl/Makefile.am, src/arch/sdl/menu_drive.c,
+	src/arch/sdl/menu_help.c, src/arch/unix/Makefile.am,
+	src/arch/unix/gp2x/Makefile.am,
+	src/arch/unix/gp2x/minimal/Makefile.am,
+	src/arch/unix/gp2x/wiz/Makefile.am, src/arch/unix/gui/Makefile.am,
+	src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/cocoa/menu/viceappcontroller.m,
+	src/arch/unix/macosx/cocoa/menu/vicefilepanel.m,
+	src/arch/unix/macosx/cocoa/menu/vicemachinecontroller.m,
+	src/arch/unix/macosx/make-bindist.sh, src/arch/unix/x11/Makefile.am,
+	src/arch/unix/x11/gnome/Makefile.am, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/gnome/uiedisk.c,
+	src/arch/unix/x11/gnome/uifileentry.c,
+	src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/about.c,
+	src/arch/unix/x11/xaw/uiedisk.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/win32/Makefile.am, src/arch/win32/res.rc,
+	src/arch/win32/uilib.c, src/attach.c, src/c128/Makefile.am,
+	src/c1541.c, src/c64/Makefile.am, src/c64/cart/Makefile.am,
+	src/c64/vsidstubs.c, src/c64dtv/Makefile.am, src/cbm2/Makefile.am,
+	src/diskimage/Makefile.am, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-check.c, src/diskimage/fsimage-create.c,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-gcr.h,
+	src/diskimage/fsimage-p64.c, src/diskimage/fsimage-p64.h,
+	src/diskimage/fsimage-probe.c, src/diskimage/fsimage.c,
+	src/diskimage.h, src/drive/Makefile.am, src/drive/drive-snapshot.c,
+	src/drive/drive-writeprotect.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/driveimage.c, src/drive/iec/Makefile.am,
+	src/drive/iec/c64exp/Makefile.am, src/drive/iec/plus4exp/Makefile.am,
+	src/drive/iec128dcr/Makefile.am, src/drive/iecieee/Makefile.am,
+	src/drive/ieee/Makefile.am, src/drive/ieee/fdc.c,
+	src/drive/rotation.c, src/drive/tcbm/Makefile.am,
+	src/fsdevice/Makefile.am, src/gcr.h, src/iecbus/Makefile.am,
+	src/imagecontents/Makefile.am, src/infocontrib.sed, src/lib/p64,
+	src/lib/p64/doc, src/monitor/Makefile.am, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/parallel/Makefile.am,
+	src/pet/Makefile.am, src/plus4/Makefile.am, src/serial/Makefile.am,
+	src/userport/Makefile.am, src/vdrive/Makefile.am,
+	src/vdrive/vdrive-internal.c, src/vdrive/vdrive.c,
+	src/vic20/Makefile.am, src/vic20/cart/Makefile.am,
+	src/vicii/Makefile.am, src/viciisc/Makefile.am, src/zfile.c: Merged
+	the drive-update branch.
+
+2012-06-07  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Preserve history when monitor
+	window is closed and reopened
+
+2012-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/init.c, src/monitor/monitor.c, src/monitor.h: added resource
+	'KeepMonitorOpen' that allows switching between the 'old' and 'new'
+	monitor behaviour
+
+2012-06-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/plus4ui.c, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/uires.h: Added plus4 model selection to the amiga
+	gui.
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c, src/arch/unix/x11/gnome/x11ui.c:
+	transfer focus to main emulator window when exiting the monitor
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/linenoise.c,
+	src/arch/unix/x11/gnome/uimon.c: hack to make the initial prompt show
+	up without having to press a key, more style fixes
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: do not create the monitor window as
+	transient for the main emulator window, so it can be put in the
+	background of the main window
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: actually create the window with a
+	delete button
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/gnome/uimon.c: fixed warnings
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/linenoise.c: fixed warnings
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/linenoise.c: fixed codestyle
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimon.c: fixed codestyle
+
+2012-06-07  groepaz <groepaz@gmx.net>
+
+	* doc/.indent.pro, doc/indent-test.c: added config for indent pro and
+	a c file for testing
+
+2012-06-06  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uimon.c: Keep monitor window open at 'exit'
+	command, hide it when cross button is pressed
+
+2012-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/ahi.h, src/arch/amigaos/intl_funcs.h,
+	src/arch/amigaos/joyai.h, src/arch/amigaos/joyll.h,
+	src/arch/amigaos/kbd.h, src/arch/amigaos/loadlibs.h,
+	src/arch/amigaos/memory.h, src/arch/amigaos/mousedrv.h,
+	src/arch/amigaos/mui/mui.h, src/arch/amigaos/mui/uidrivec128.h,
+	src/arch/amigaos/mui/uidrivec64vic20.h,
+	src/arch/amigaos/mui/uidrivepetcbm2.h,
+	src/arch/amigaos/mui/uidriveplus4.h,
+	src/arch/amigaos/mui/uiromc128settings.c,
+	src/arch/amigaos/mui/uiromc64vic20settings.c,
+	src/arch/amigaos/mui/uiromcbm2settings.c,
+	src/arch/amigaos/mui/uirompetsettings.c,
+	src/arch/amigaos/mui/uiromplus4settings.c,
+	src/arch/amigaos/mui/uisid.h, src/arch/amigaos/mui/uisound.h,
+	src/arch/amigaos/pointer.h, src/arch/amigaos/private.h,
+	src/arch/amigaos/screen-shot.h, src/arch/amigaos/socketimpl.h,
+	src/arch/amigaos/statusbar.h, src/arch/amigaos/timer.h,
+	src/arch/amigaos/types.h, src/arch/amigaos/ui.h,
+	src/arch/amigaos/uiattach.h, src/arch/amigaos/uic64cart.h,
+	src/arch/amigaos/uicart.h, src/arch/amigaos/uilib.h,
+	src/arch/amigaos/uires.h, src/arch/amigaos/videoarch.h: Some coding
+	style cleanups.
+
+2012-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/uncrustify.cfg, src/6510core.c: Removed ';' in a define.
+
+2012-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/uncrustify.cfg: Adapted the uncrustify.cfg file a bit.
+
+2012-06-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uiautostart.c: Added autostart random delay to
+	the amiga gui.
+
+2012-06-03  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: always rotate the disk if no idle traps for a
+	drive is selected. this prevents huge peaks in cpu usage when the
+	drive must catch up after a longer period of time
+
+2012-06-03  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/ocean.c: comment out debug output
+
+2012-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/vic20uires.h: Fixed a menu toggle for the amiga gui.
+
+2012-06-03  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/uncrustify.cfg: Add uncrustify.cfg for source beautifying.
+
+2012-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c: Fixed an amiga translation issue.
+
+2012-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/cbm2uires.h, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/plus4uires.h, src/arch/amigaos/vic20uires.h: Removed
+	the rs232 settings menu item from the amiga gui, it needs to be
+	implemented at some future time.
+
+2012-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/vic20uires.h: Removed the keyboard settings menu item
+	from the amiga gui, it needs to be implemented at some future time.
+
+2012-06-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128uires.h, src/arch/amigaos/c64dtvuires.h,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/petuires.h, src/arch/amigaos/plus4uires.h,
+	src/arch/amigaos/vic20uires.h: Removed the peripheral settings menu
+	item from the amiga gui, it needs to be implemented at some future
+	time.
+
+2012-06-03  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/arch/win32/console.c: Fix as suggested by groepaz applied.
+	Win32/64 monitor no longer stays open. Resolves bug 3463496.
+
 2012-06-02  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
