@@ -647,6 +647,20 @@ static const mon_cmds_t mon_cmd_array[] = {
      IDGS_MON_RESOURCESET_DESCRIPTION,
      NULL, NULL },
 
+   { "load_resources",            "resload",
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     "\"<%s>\"", 1,
+     { IDGS_FILENAME, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
+     IDGS_MON_LOAD_RESOURCES_DESCRIPTION,
+
+     NULL, NULL },
+   { "save_resources",            "ressave",
+     USE_PARAM_ID, USE_DESCRIPTION_ID,
+     "\"<%s>\"", 1,
+     { IDGS_FILENAME, IDGS_UNUSED, IDGS_UNUSED, IDGS_UNUSED },
+     IDGS_MON_SAVE_RESOURCES_DESCRIPTION,
+     NULL, NULL },
+
    { "stop", "",
      USE_PARAM_STRING, USE_DESCRIPTION_ID,
      NULL, 0,

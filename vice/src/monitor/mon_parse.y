@@ -75,6 +75,7 @@ extern char *alloca();
 #include "mon_memory.h"
 #include "mon_util.h"
 #include "montypes.h"
+#include "resources.h"
 #include "types.h"
 #include "uimon.h"
 
@@ -152,7 +153,7 @@ extern int cur_len, last_len;
 %token CMD_TEXT_DISPLAY CMD_SCREENCODE_DISPLAY CMD_ENTER_DATA CMD_ENTER_BIN_DATA CMD_KEYBUF
 %token CMD_BLOAD CMD_BSAVE CMD_SCREEN CMD_UNTIL CMD_CPU CMD_YYDEBUG
 %token CMD_BACKTRACE CMD_SCREENSHOT CMD_PWD CMD_DIR
-%token CMD_RESOURCE_GET CMD_RESOURCE_SET
+%token CMD_RESOURCE_GET CMD_RESOURCE_SET CMD_LOAD_RESOURCES CMD_SAVE_RESOURCES
 %token CMD_ATTACH CMD_DETACH CMD_MON_RESET CMD_TAPECTRL CMD_CARTFREEZE
 %token CMD_CPUHISTORY CMD_MEMMAPZAP CMD_MEMMAPSHOW CMD_MEMMAPSAVE
 %token CMD_COMMENT CMD_LIST CMD_STOPWATCH RESET
@@ -493,6 +494,10 @@ monitor_misc_rules: CMD_DISK rest_of_line end_cmd
                     { mon_resource_get($2); }
                   | CMD_RESOURCE_SET STRING STRING end_cmd
                     { mon_resource_set($2,$3); }
+                  | CMD_LOAD_RESOURCES filename end_cmd
+                    { resources_load($2); }
+                  | CMD_SAVE_RESOURCES filename end_cmd
+                    { resources_save($2); }
                   | CMD_MON_RESET end_cmd
                     { mon_reset_machine(-1); }
                   | CMD_MON_RESET opt_sep expression end_cmd

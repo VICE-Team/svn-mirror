@@ -3014,6 +3014,40 @@ translate_t string_table[] = {
 #endif
 
 /* monitor/mon_command.c */
+/* en */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION,    N_("Loads resources from file.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
+/* en */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION,    N_("Saves resources to file.")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_DA, ""},  /* fuzzy */
+/* de */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_DE, ""},  /* fuzzy */
+/* es */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_ES, ""},  /* fuzzy */
+/* fr */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_FR, ""},  /* fuzzy */
+/* hu */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_HU, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_IT, ""},  /* fuzzy */
+/* ko */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_KO, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_NL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_PL, ""},  /* fuzzy */
+/* ru */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor/mon_command.c */
 /* en */ {IDGS_MON_STOP_DESCRIPTION,    N_("Stop recording commands.  See `record'.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_STOP_DESCRIPTION_DA, "Afslut optagelse. Se \"record\"."},

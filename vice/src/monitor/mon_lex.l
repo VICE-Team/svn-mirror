@@ -195,6 +195,8 @@ HDIGIT  [0-9a-f]
         reset           { BEGIN(INITIAL);       return CMD_MON_RESET; }
         resourceget|resget { BEGIN(INITIAL);    return CMD_RESOURCE_GET; }
         resourceset|resset { BEGIN(INITIAL);    return CMD_RESOURCE_SET; }
+        load_resources|resload  { BEGIN(FNAME); return CMD_LOAD_RESOURCES; }
+        save_resources|ressave  { BEGIN(FNAME); return CMD_SAVE_RESOURCES; }
         return|ret      { BEGIN(INITIAL);       return CMD_RETURN; }
         save|s          { BEGIN(FNAME);         return CMD_SAVE; }
         save_labels|sl  { BEGIN(FNAME);         return CMD_SAVE_LABELS; }

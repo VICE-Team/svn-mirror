@@ -2367,6 +2367,12 @@ IDGS_VALUE
 IDGS_MON_RESOURCESET_DESCRIPTION
 
 /* monitor/mon_command.c */
+IDGS_MON_LOAD_RESOURCES_DESCRIPTION
+
+/* monitor/mon_command.c */
+IDGS_MON_SAVE_RESOURCES_DESCRIPTION
+
+/* monitor/mon_command.c */
 IDGS_MON_STOP_DESCRIPTION
 
 /* monitor/mon_command.c */
