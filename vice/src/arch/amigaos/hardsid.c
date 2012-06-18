@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+static int hs_found = 1;
+
 #if defined(HAVE_PROTO_OPENPCI_H) && defined(HAVE_HARDSID)
 
 #include <stdlib.h>
@@ -108,7 +110,12 @@ int hardsid_open(void)
     unsigned int i;
     unsigned char bus=0;
 
+    if (hs_found != 1) {
+        return hs_found;
+    }
+
     if (!pci_lib_loaded) {
+        hs_found = -1;
         return -1;
     }
 
@@ -120,6 +127,7 @@ int hardsid_open(void)
 
     if (!bus) {
         log_message(LOG_DEFAULT, "No PCI bus found\n");
+        hs_found = -1;
         return -1;
     }
 
@@ -127,6 +135,7 @@ int hardsid_open(void)
 
     if (dev == NULL) {
         log_message( LOG_DEFAULT, "Unable to find a HardSID PCI card\n" );
+        hs_found = -1;
         return -1;
     }
 
@@ -135,6 +144,7 @@ int hardsid_open(void)
     HSLock = pci_obtain_card(dev);
     if (!HSLock) {
         log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n" );
+        hs_found = -1;
         return -1;
     }
 #endif
@@ -163,6 +173,7 @@ int hardsid_open(void)
 
     sidfh = 1; /* ok */
 
+    hs_found = 0;
     return 0;
 }
 
@@ -187,10 +198,12 @@ int hardsid_close(void)
 {
     unsigned int i;
 
-    /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
-        write_sid(i, 0);
+    if (hs_found == 0) {
+        /* mute all sids */
+        memset(sidbuf, 0, sizeof(sidbuf));
+        for (i = 0; i < sizeof(sidbuf); i++) {
+            write_sid(i, 0);
+        }
     }
 
 #if defined(pci_obtain_card) && defined(pci_release_card)
@@ -201,6 +214,7 @@ int hardsid_close(void)
 
     log_message(LOG_DEFAULT, "HardSID PCI: closed");
 
+    hs_found = 1;
     return 0;
 }
 
@@ -288,17 +302,23 @@ int hardsid_open(void)
     static int atexitinitialized = 0;
     unsigned int i;
 
+    if (hs_found != 1) {
+        return hs_found;
+    }
+
     if (!pci_lib_loaded) {
+        hs_found = -1;
         return -1;
     }
 
     if (atexitinitialized) {
-      hardsid_close();
+        hardsid_close();
     }
 
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
     if (!IPCI) {
         log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface\n");
+        hs_found = -1;
         return -1;
     }
 
@@ -309,6 +329,7 @@ int hardsid_open(void)
                                     TAG_DONE);
     if (!HSDevPCI) {
         log_message(LOG_DEFAULT, "Unable to find a HardSID PCI card\n");
+        hs_found = -1;
         return -1;
     }
 
@@ -316,6 +337,7 @@ int hardsid_open(void)
     HSLock = HSDevPCI->Lock(PCI_LOCK_SHARED);
     if (!HSLock) {
         log_message(LOG_DEFAULT, "Unable to lock the hardsid. Another driver may have an exclusive lock\n");
+        hs_found = -1;
         return -1;
     }
 
@@ -323,6 +345,7 @@ int hardsid_open(void)
     HSDevBAR = HSDevPCI->GetResourceRange(0);
     if (!HSDevBAR) {
         log_message(LOG_DEFAULT, "Unable to get resource range 0\n");
+        hs_found = -1;
         return -1;
     }
 
@@ -348,6 +371,7 @@ int hardsid_open(void)
 
     sidfh = 1; /* ok */
 
+    hs_found = 0;
     return 0;
 }
 
@@ -355,10 +379,12 @@ int hardsid_close(void)
 {
     unsigned int i;
 
-    /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
-        write_sid(i, 0);
+    if (hs_found == 0) {
+        /* mute all sids */
+        memset(sidbuf, 0, sizeof(sidbuf));
+        for (i = 0; i < sizeof(sidbuf); i++) {
+            write_sid(i, 0);
+        }
     }
 
     if (HSDevBAR) {
@@ -373,6 +399,7 @@ int hardsid_close(void)
 
     log_message(LOG_DEFAULT, "HardSID PCI: closed");
 
+    hs_found = 1;
     return 0;
 }
 
@@ -404,4 +431,12 @@ void hardsid_set_machine_parameter(long cycles_per_sec)
 
 void hardsid_set_device(unsigned int chipno, unsigned int device)
 {
+}
+
+int hardsid_available(void)
+{
+    if (hs_found == 1) {
+        hardsid_open();
+    }
+    return hs_found;
 }

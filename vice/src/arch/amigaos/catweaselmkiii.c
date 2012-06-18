@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+static int cwmkiii_found = 1;
+
 #if defined(HAVE_PROTO_OPENPCI_H) && defined(HAVE_CATWEASELMKIII)
 
 #include <stdlib.h>
@@ -111,7 +113,12 @@ int catweaselmkiii_open(void)
     unsigned int i;
     unsigned char bus = 0;
 
+    if (cwmkiii_found != 1) {
+        return cwmkiii_found;
+    }
+
     if (!pci_lib_loaded) {
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -123,6 +130,7 @@ int catweaselmkiii_open(void)
 
     if (!bus) {
         log_message(LOG_DEFAULT, "No PCI bus found\n");
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -130,6 +138,7 @@ int catweaselmkiii_open(void)
 
     if (dev == NULL) {
         log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -138,6 +147,7 @@ int catweaselmkiii_open(void)
     CWLock = pci_obtain_card(dev);
     if (!CWLock) {
         log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
+        cwmkiii_found = -1;
         return -1;
     }
 #endif
@@ -169,6 +179,7 @@ int catweaselmkiii_open(void)
 
     sidfh = 1; /* ok */
 
+    cwmkiii_found = 0;
     return 0;
 }
 
@@ -213,10 +224,12 @@ int catweaselmkiii_close(void)
 {
     unsigned int i;
 
-    /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
-        write_sid(i, 0);
+    if (cwmkiii_found == 0) {
+        /* mute all sids */
+        memset(sidbuf, 0, sizeof(sidbuf));
+        for (i = 0; i < sizeof(sidbuf); i++) {
+            write_sid(i, 0);
+        }
     }
 
 #if defined(pci_obtain_card) && defined(pci_release_card)
@@ -227,6 +240,7 @@ int catweaselmkiii_close(void)
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
 
+    cwmkiii_found = 1;
     return 0;
 }
 
@@ -326,7 +340,12 @@ int catweaselmkiii_open(void)
     static int atexitinitialized = 0;
     unsigned int i;
 
+    if (cwmkiii_found != 1) {
+        return cwmkiii_found;
+    }
+
     if (!pci_lib_loaded) {
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -337,6 +356,7 @@ int catweaselmkiii_open(void)
     IPCI = (struct PCIIFace *)IExec->GetInterface(ExpansionBase, "pci", 1, NULL);
     if (!IPCI) {
         log_message(LOG_DEFAULT, "Unable to obtain PCI expansion interface\n");
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -347,6 +367,7 @@ int catweaselmkiii_open(void)
                                     TAG_DONE);
     if (!CWDevPCI) {
         log_message(LOG_DEFAULT, "Unable to find a Catweasel Mk3 PCI card\n");
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -354,6 +375,7 @@ int catweaselmkiii_open(void)
     CWLock = CWDevPCI->Lock(PCI_LOCK_SHARED);
     if (!CWLock) {
         log_message(LOG_DEFAULT, "Unable to lock the catweasel. Another driver may have an exclusive lock\n" );
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -361,6 +383,7 @@ int catweaselmkiii_open(void)
     CWDevBAR = CWDevPCI->GetResourceRange(0);
     if (!CWDevBAR) {
         log_message(LOG_DEFAULT, "Unable to get resource range 0\n" );
+        cwmkiii_found = -1;
         return -1;
     }
 
@@ -389,6 +412,7 @@ int catweaselmkiii_open(void)
 
     sidfh = 1; /* ok */
 
+    cwmkiii_found = 0;
     return 0;
 }
 
@@ -396,10 +420,12 @@ int catweaselmkiii_close(void)
 {
     unsigned int i;
 
-    /* mute all sids */
-    memset(sidbuf, 0, sizeof(sidbuf));
-    for (i = 0; i < sizeof(sidbuf); i++) {
-        write_sid(i, 0);
+    if (cwmkiii_found == 0) {
+        /* mute all sids */
+        memset(sidbuf, 0, sizeof(sidbuf));
+        for (i = 0; i < sizeof(sidbuf); i++) {
+            write_sid(i, 0);
+        }
     }
 
     if (CWDevBAR) {
@@ -414,6 +440,7 @@ int catweaselmkiii_close(void)
 
     log_message(LOG_DEFAULT, "CatWeasel MK3 PCI SID: closed");
 
+    cwmkiii_found = 1;
     return 0;
 }
 
@@ -461,3 +488,11 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
     sid_NTSC = (cycles_per_sec <= 1000000) ? FALSE : TRUE;
 }
 #endif
+
+int catweaselmkiii_available(void)
+{
+    if (cwmkiii_found == 1) {
+        catweaselmkiii_open();
+    }
+    return cwmkiii_found;
+}
