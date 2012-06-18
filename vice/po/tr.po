@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-06-17 11:46-0700\n"
-"PO-Revision-Date: 2012-04-27 15:00+0200\n"
+"PO-Revision-Date: 2012-06-18 15:07+0200\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -4799,9 +4799,8 @@ msgid "Copyright (c) 2011-2012 Kajtar Zsolt"
 msgstr "Copyright (c) 2011-2012 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
-msgstr "Copyright (c) 2011-2012 Thomas Giesel"
+msgstr "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
 
 #: src/arch/win32/res.rc.po.c:964 src/arch/amigaos/intl_text.c.po.c:5199
 msgid "VICE Question"
@@ -5291,37 +5290,35 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE anlýk görüntü dosyalarý (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;"
 "*.x64;*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*."
-"x64;*.t64;*.tap;*.prg;*.p00)"
+"CBM dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;"
+"*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
 msgstr "IDE64 dosyalarý (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
 msgstr ""
-"Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
-"g41;*.x64)"
+"Disk imaj dosyalarý (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;"
+"*.g41;*.p64;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1117
 msgid "Tape image files (*.t64;*.tap)"
 msgstr "Teyp imaj dosyalarý (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1118
-#, fuzzy
 msgid ""
 "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
 msgstr ""
-"Ziplenmiþ dosyalar (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+"Ziplenmiþ dosyalar (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;"
+"*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:1119
 msgid "CRT cartridge image files (*.crt)"
@@ -6711,15 +6708,15 @@ msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:618 src/arch/win32/resc64.rc.po.c:625
 msgid "C64 drive burst modification settings"
-msgstr "C64 sürücüsü patlama modifikasyon ayarlarý"
+msgstr "C64 sürücüsü atlama modifikasyon ayarlarý"
 
 #: src/arch/win32/resc64.rc.po.c:619
 msgid "Enable the C64 drive burst modification"
-msgstr "C64 sürücüsü patlama modifikasyonunu aktif et"
+msgstr "C64 sürücüsü atlama modifikasyonunu aktif et"
 
 #: src/arch/win32/resc64.rc.po.c:620
 msgid "C64 drive burst modification CIA"
-msgstr "C64 sürücüsü patlama modifikasyon CIA'sý"
+msgstr "C64 sürücüsü atlama modifikasyon CIA'sý"
 
 #: src/arch/win32/resc64.rc.po.c:622 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3617
@@ -7679,7 +7676,7 @@ msgstr "10%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
-msgstr ""
+msgstr "Dikey uzatma"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
@@ -7722,219 +7719,186 @@ msgid "Custom C64 model"
 msgstr "Özel C64 modeli"
 
 #: src/arch/amigaos/intl_text.c.po.c:2385
-#, fuzzy
 msgid "C16 PAL"
-msgstr "C64 PAL"
+msgstr "C16 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2399
-#, fuzzy
 msgid "C16 NTSC"
-msgstr "C64 NTSC"
+msgstr "C16 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2413
-#, fuzzy
 msgid "Plus4 PAL"
-msgstr "C64 PAL"
+msgstr "Plus4 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2427
-#, fuzzy
 msgid "Plus4 NTSC"
-msgstr "C64 NTSC"
+msgstr "Plus4 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2441
-#, fuzzy
 msgid "V364 NTSC"
-msgstr "C64 NTSC"
+msgstr "V364 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2455
-#, fuzzy
 msgid "C232 NTSC"
-msgstr "C64 NTSC"
+msgstr "C232 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2483
-#, fuzzy
 msgid "C64DTV V2 PAL"
-msgstr "C64 PAL"
+msgstr "C64DTV V2 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2497
-#, fuzzy
 msgid "C64DTV V2 NTSC"
-msgstr "C64 NTSC"
+msgstr "C64DTV V2 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2511
-#, fuzzy
 msgid "C64DTV V3 PAL"
-msgstr "C64 PAL"
+msgstr "C64DTV V3 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2525
-#, fuzzy
 msgid "C64DTV V3 NTSC"
-msgstr "C64 NTSC"
+msgstr "C64DTV V3 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2539
-#, fuzzy
 msgid "Hummer NTSC"
-msgstr "Hummer ADC"
+msgstr "Hummer NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2567
-#, fuzzy
 msgid "C128 PAL"
-msgstr "C64 PAL"
+msgstr "C128 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2581
-#, fuzzy
 msgid "C128DCR PAL"
-msgstr "C64C PAL"
+msgstr "C128DCR PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2595
-#, fuzzy
 msgid "C128 NTSC"
-msgstr "C64 NTSC"
+msgstr "C128 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2609
-#, fuzzy
 msgid "C128DCR NTSC"
-msgstr "C64C NTSC"
+msgstr "C128DCR NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2637
 msgid "2001"
-msgstr ""
+msgstr "2001"
 
 #: src/arch/amigaos/intl_text.c.po.c:2651
 msgid "3008"
-msgstr ""
+msgstr "3008"
 
 #: src/arch/amigaos/intl_text.c.po.c:2665
 msgid "3016"
-msgstr ""
+msgstr "3016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2679
 msgid "3032"
-msgstr ""
+msgstr "3032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2693
 msgid "3032B"
-msgstr ""
+msgstr "3032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2707
 msgid "4016"
-msgstr ""
+msgstr "4016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2721
 msgid "4032"
-msgstr ""
+msgstr "4032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2735
 msgid "4032B"
-msgstr ""
+msgstr "4032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2749
 msgid "8032"
-msgstr ""
+msgstr "8032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2763
 msgid "8096"
-msgstr ""
+msgstr "8096"
 
 #: src/arch/amigaos/intl_text.c.po.c:2777
 msgid "8296"
-msgstr ""
+msgstr "8296"
 
 #: src/arch/amigaos/intl_text.c.po.c:2791
-#, fuzzy
 msgid "SuperPET"
-msgstr "SuperPET ACIA"
+msgstr "SuperPET"
 
 #: src/arch/amigaos/intl_text.c.po.c:2819
-#, fuzzy
 msgid "CBM610 PAL"
-msgstr "C64 PAL"
+msgstr "CBM610 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2833
-#, fuzzy
 msgid "CBM610 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM610 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2847
-#, fuzzy
 msgid "CBM620 PAL"
-msgstr "C64 PAL"
+msgstr "CBM620 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2861
-#, fuzzy
 msgid "CBM620 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM620 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2875
-#, fuzzy
 msgid "CBM620+ PAL"
-msgstr "C64 PAL"
+msgstr "CBM620+ PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2889
-#, fuzzy
 msgid "CBM620+ NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM620+ NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2903
-#, fuzzy
 msgid "CBM710 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM710 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2917
-#, fuzzy
 msgid "CBM720 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM720 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2931
-#, fuzzy
 msgid "CBM720+ NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM720+ NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2959
 msgid "CBM510 PAL"
-msgstr ""
+msgstr "CBM510 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2973
-#, fuzzy
 msgid "CBM510 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM510 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3001
-#, fuzzy
 msgid "VICII video settings"
-msgstr "Görüntü ayarlarý"
+msgstr "VICII görüntü ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3015
-#, fuzzy
 msgid "VIC video settings"
-msgstr "Görüntü ayarlarý"
+msgstr "VIC görüntü ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3029
-#, fuzzy
 msgid "VDC video settings"
-msgstr "Görüntü ayarlarý"
+msgstr "VDC görüntü ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3043
-#, fuzzy
 msgid "CRTC video settings"
-msgstr "CRTC ayarlarý"
+msgstr "CRTC görüntü ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3057
-#, fuzzy
 msgid "TED video settings"
-msgstr "Görüntü ayarlarý"
+msgstr "TED görüntü ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3085
 #: src/arch/amigaos/intl_text.c.po.c:7958
-#, fuzzy
 msgid "Palette settings"
-msgstr "Teyp Ayarlarý"
+msgstr "Palet ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3113
 #: src/arch/amigaos/intl_text.c.po.c:7986
-#, fuzzy
 msgid "Render filter settings"
-msgstr "Ýmge oluþturma filtresi"
+msgstr "Ýmge oluþturma filtresi ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3323
 msgid "Joystick device selection"
@@ -7956,9 +7920,8 @@ msgstr "Sürücü ROM ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:3841
 #: src/arch/amigaos/intl_text.c.po.c:7944
-#, fuzzy
 msgid "Drive burst modification settings"
-msgstr "C64 sürücüsü patlama modifikasyon ayarlarý"
+msgstr "Sürücü atlama modifikasyon ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:4471
 msgid "Fullscreen Statusbar"
@@ -8381,9 +8344,8 @@ msgid "BIOS Flash Jumper"
 msgstr "BIOS Flash Jumper"
 
 #: src/arch/amigaos/intl_text.c.po.c:9092
-#, fuzzy
 msgid "Bank jumper"
-msgstr "RR Bank Jumper'ý tak"
+msgstr "Bank jumperý"
 
 #: src/arch/amigaos/intl_text.c.po.c:9134
 msgid "Select BIOS file"
@@ -8522,9 +8484,8 @@ msgid "Save to EasyFlash CRT now"
 msgstr "Hemen EasyFlash CRT'ye kaydet"
 
 #: src/arch/amigaos/intl_text.c.po.c:11486
-#, fuzzy
 msgid "CIA model settings"
-msgstr "C64 model ayarlarý"
+msgstr "CIA model ayarlarý"
 
 #: src/translate_text.c.po.c:7
 msgid "Cannot load snapshot file."
@@ -8752,6 +8713,8 @@ msgid ""
 ".\n"
 "All devices except "
 msgstr ""
+".\n"
+"Bunlar hariç tüm cihazlar "
 
 #: src/translate_text.c.po.c:876
 msgid " will be detached."
@@ -11736,81 +11699,62 @@ msgstr "DigiMAX kartuþunu pasifleþtir"
 msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
 
-#, fuzzy
 #~ msgid "IDE64 primary master settings"
-#~ msgstr "IDE64 birincil ana sürücü ayarlarý"
+#~ msgstr "IDE64 birincil ana ayarlarý"
 
-#, fuzzy
 #~ msgid "IDE64 primary slave settings"
-#~ msgstr "IDE64 birincil baðýmlý sürücü ayarlarý"
+#~ msgstr "IDE64 birincil baðýmlý ayarlarý"
 
-#, fuzzy
 #~ msgid "IDE64 secondary master settings"
-#~ msgstr "IDE64 ikincil ana sürücü ayarlarý"
+#~ msgstr "IDE64 ikincil ana ayarlarý"
 
-#, fuzzy
 #~ msgid "IDE64 secondary slave settings"
-#~ msgstr "IDE64 ikincil baðýmlý sürücü ayarlarý"
+#~ msgstr "IDE64 ikincil baðýmlý ayarlarý"
 
-#, fuzzy
 #~ msgid "Load new cart $1xxx"
-#~ msgstr "Yeni Kartuþ $1*** yükle"
+#~ msgstr "Yeni kartuþ $1xxx yükle"
 
-#, fuzzy
 #~ msgid "Unload cart $1xxx"
-#~ msgstr "Kartuþ $1*** kaldýr"
+#~ msgstr "Kartuþ $1xxx kaldýr"
 
-#, fuzzy
 #~ msgid "Load new cart $2-3xxx"
-#~ msgstr "Yeni Kartuþ $2-3*** yükle"
+#~ msgstr "Yeni kartuþ $2-3xxx yükle"
 
-#, fuzzy
 #~ msgid "Unload cart $2-3xxx"
-#~ msgstr "Kartuþ $2-3*** kaldýr"
+#~ msgstr "Kartuþ $2-3xxx kaldýr"
 
-#, fuzzy
 #~ msgid "Load new cart $4-5xxx"
-#~ msgstr "Yeni Kartuþ $4-5*** yükle"
+#~ msgstr "Yeni kartuþ $4-5xxx yükle"
 
-#, fuzzy
 #~ msgid "Unload cart $4-5xxx"
-#~ msgstr "Kartuþ $4-5*** kaldýr"
+#~ msgstr "Kartuþ $4-5xxx kaldýr"
 
-#, fuzzy
 #~ msgid "Load new cart $6-7xxx"
-#~ msgstr "Yeni Kartuþ $6-7*** yükle"
+#~ msgstr "Yeni Kartuþ $6-7xxx yükle"
 
-#, fuzzy
 #~ msgid "Unload cart $6-7xxx"
-#~ msgstr "Kartuþ $6-7*** kaldýr"
+#~ msgstr "Kartuþ $6-7xxx kaldýr"
 
-#, fuzzy
 #~ msgid "CGA userport joystick adapter"
-#~ msgstr "*CGA userport joystick dönüþtürücü"
+#~ msgstr "CGA userport joystick dönüþtürücü"
 
-#, fuzzy
 #~ msgid "PET userport joystick adapter"
-#~ msgstr "*PET userport joystick dönüþtürücü"
+#~ msgstr "PET userport joystick dönüþtürücü"
 
-#, fuzzy
 #~ msgid "Hummer userport joystick adapter"
-#~ msgstr "Hummer userport joy dönüþtürücü"
+#~ msgstr "Hummer userport joystick dönüþtürücü"
 
-#, fuzzy
 #~ msgid "OEM userport joystick adapter"
-#~ msgstr "*OEM userport joystick dönüþtürücü"
+#~ msgstr "OEM userport joystick dönüþtürücü"
 
-#, fuzzy
 #~ msgid "HIT userport joystick adapter"
-#~ msgstr "*HIT userport joystick dönüþtürücü"
+#~ msgstr "HIT userport joystick dönüþtürücü"
 
-#, fuzzy
 #~ msgid "Kingsoft userport joystick adapter"
-#~ msgstr "Kingsoft userport joy dönüþtürücü"
+#~ msgstr "Kingsoft userport joystick dönüþtürücü"
 
-#, fuzzy
 #~ msgid "Starbyte userport joystick adapter"
-#~ msgstr "Starbyte userport joy dönüþtürücü"
+#~ msgstr "Starbyte userport joystick dönüþtürücü"
 
 #~ msgid "Change PET model"
 #~ msgstr "PET modelini deðiþtir"
