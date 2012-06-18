@@ -35,7 +35,7 @@ extern void hardsid_reset(void);
 extern int hardsid_read(WORD addr, int chipno);
 extern void hardsid_store(WORD addr, BYTE val, int chipno);
 extern void hardsid_set_machine_parameter(long cycles_per_sec);
-extern unsigned int hardsid_available(void);
+extern int hardsid_available(void);
 extern void hardsid_set_device(unsigned int chipno, unsigned int device);
 
 #endif

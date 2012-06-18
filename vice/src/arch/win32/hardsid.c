@@ -242,13 +242,13 @@ void hardsid_set_machine_parameter(long cycles_per_sec)
 {
 }
 
-unsigned int hardsid_available(void)
+int hardsid_available(void)
 {
     if (init_interface() < 0) {
         return 0;
     }
 
-    return (unsigned int)GetHardSIDCount();
+    return GetHardSIDCount();
 }
 
 void hardsid_set_device(unsigned int chipno, unsigned int device)
