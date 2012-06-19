@@ -1,9 +1,8 @@
 /*
- * ui_siddtv.h - DTV SID settings
+ * ui_sidcart.h - SID cart settings
  *
  * Written by
- *  Andreas Matthies <andreas.matthies@gmx.net>
- *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *  Marcus Sutton <loggedoubt@gmail.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -25,15 +24,18 @@
  *
  */
 
-#ifndef VICE__UI_SIDDTV_H__
-#define VICE__UI_SIDDTV_H__
+#ifndef VICE__UI_SIDCART_H__
+#define VICE__UI_SIDCART_H__
 
-const uint32 MESSAGE_SIDDTV_MODEL         = 'MDS1';
-const uint32 MESSAGE_SIDDTV_RESID         = 'MDS2';
-const uint32 MESSAGE_SIDDTV_FILTERS       = 'MDS3';
-const uint32 MESSAGE_SIDDTV_RESIDSAMPLING = 'MDS4';
-const uint32 MESSAGE_SIDDTV_RESIDPASSBAND = 'MDS5';
+const uint32 MESSAGE_SIDCART_ENABLE        = 'MSC1';
+const uint32 MESSAGE_SIDCART_MODEL         = 'MSC2';
+const uint32 MESSAGE_SIDCART_ADDRESS       = 'MSC3';
+const uint32 MESSAGE_SIDCART_CLOCK         = 'MSC4';
+const uint32 MESSAGE_SIDCART_FILTERS       = 'MSC5';
+const uint32 MESSAGE_SIDCART_RESIDSAMPLING = 'MSC6';
+const uint32 MESSAGE_SIDCART_RESIDPASSBAND = 'MSC7';
+const uint32 MESSAGE_SIDCART_DIGIBLASTER   = 'MSC8';
 
-extern void ui_siddtv(void);
+extern void ui_sidcart(char **cartaddresspair, char **cartclockpair);
 
 #endif

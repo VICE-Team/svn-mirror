@@ -73,8 +73,8 @@ libarch_a_SOURCES = \
 	ui_ram.h \
 	ui_sid.cc \
 	ui_sid.h \
-	ui_siddtv.cc \
-	ui_siddtv.h \
+	ui_sidcart.cc \
+	ui_sidcart.h \
 	ui_sound.cc \
 	ui_sound.h \
 	ui_ted.cc \

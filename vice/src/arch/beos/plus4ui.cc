@@ -47,6 +47,7 @@ extern "C" {
 #include "resources.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_sidcart.h"
 #include "ui_ted.h"
 #include "video.h"
 }
@@ -69,37 +70,23 @@ ui_res_possible_values plus4_RenderFilters[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values plus4_SIDCARTModel[] = {
-    { 0, MENU_SIDCART_MODEL_6581 },
-    { 1, MENU_SIDCART_MODEL_8580 },
-    { -1, 0 }
-};
-
-ui_res_possible_values plus4_SIDCARTAddress[] = {
-    { 0, MENU_SIDCART_ADDRESS_1 },
-    { 1, MENU_SIDCART_ADDRESS_2 },
-    { -1, 0 }
-};
-
-ui_res_possible_values plus4_SIDCARTClock[] = {
-    { 0, MENU_SIDCART_CLOCK_C64 },
-    { 1, MENU_SIDCART_CLOCK_NATIVE },
-    { -1, 0 }
-};
-
 ui_res_value_list plus4_ui_res_values[] = {
     { "TEDFilter", plus4_RenderFilters },
-    { "SidModel", plus4_SIDCARTModel },
-    { "SidAddress", plus4_SIDCARTAddress },
-    { "SidClock", plus4_SIDCARTClock },
     { NULL, NULL }
 };
+
+static char *plus4sidcartaddresspair[] = { "$FD40", "$FE80" };
+static char *plus4sidcartclockpair[] = { "C64", "PLUS4" };
 
 static void plus4_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_TED_SETTINGS:
             ui_ted();
+            break;
+        case MENU_SIDCART_SETTINGS:
+            ui_sidcart(plus4sidcartaddresspair, plus4sidcartclockpair);
+            ui_update_menus();
             break;
         case MENU_V364SPEECH_FILE:
             ui_select_file(B_SAVE_PANEL, V364SPEECH_FILE, (void*)0);

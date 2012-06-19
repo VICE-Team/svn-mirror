@@ -47,6 +47,7 @@ extern "C" {
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
+#include "ui_sidcart.h"
 #include "ui_vic20.h"
 #include "ui_vic.h"
 #include "util.h"
@@ -75,6 +76,11 @@ ui_res_possible_values vic20_RenderFilters[] = {
     { -1, 0 }
 };
 
+ui_res_value_list vic20_ui_res_values[] = {
+    { "VICFilter", vic20_RenderFilters },
+    { NULL, NULL }
+};
+
 static ui_cartridge_t vic20_ui_cartridges[] = {
     { MENU_CART_VIC20_16KB_2000, CARTRIDGE_VIC20_16KB_2000, "4/8/16KB at $2000" },
     { MENU_CART_VIC20_16KB_4000, CARTRIDGE_VIC20_16KB_4000, "4/8/16KB at $4000" },
@@ -100,6 +106,9 @@ static void vic20_ui_attach_cartridge(int menu)
 
     ui_select_file(B_OPEN_PANEL, VIC20_CARTRIDGE_FILE, &vic20_ui_cartridges[i]);
 }       
+
+static char *vic20sidcartaddresspair[] = { "$9800", "$9C00" };
+static char *vic20sidcartclockpair[] = { "C64", "VIC20" };
 
 void vic20_ui_specific(void *msg, void *window)
 {
@@ -153,36 +162,13 @@ void vic20_ui_specific(void *msg, void *window)
         case MENU_VIC_SETTINGS:
             ui_vic();
             break;
+        case MENU_SIDCART_SETTINGS:
+            ui_sidcart(vic20sidcartaddresspair, vic20sidcartclockpair);
+            break;
         default:
             break;
     }
 }
-
-ui_res_possible_values vic20_SIDCARTModel[] = {
-    { 0, MENU_SIDCART_MODEL_6581 },
-    { 1, MENU_SIDCART_MODEL_8580 },
-    { -1, 0 }
-};
-
-ui_res_possible_values vic20_SIDCARTAddress[] = {
-    { 0, MENU_SIDCART_ADDRESS_1 },
-    { 1, MENU_SIDCART_ADDRESS_2 },
-    { -1, 0 }
-};
-
-ui_res_possible_values vic20_SIDCARTClock[] = {
-    { 0, MENU_SIDCART_CLOCK_C64 },
-    { 1, MENU_SIDCART_CLOCK_NATIVE },
-    { -1, 0 }
-};
-
-ui_res_value_list vic20_ui_res_values[] = {
-    { "VICFilter", vic20_RenderFilters },
-    { "SidModel", vic20_SIDCARTModel },
-    { "SidAddress", vic20_SIDCARTAddress },
-    { "SidClock", vic20_SIDCARTClock },
-    { NULL, NULL }
-};
 
 int vic20ui_init(void)
 {

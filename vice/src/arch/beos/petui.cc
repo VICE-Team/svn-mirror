@@ -42,11 +42,13 @@
 extern "C" {
 #include "archdep.h"
 #include "constants.h"
+#include "petui.h"
 #include "resources.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "ui_pet.h"
+#include "ui_sidcart.h"
 #include "util.h"
 #include "video.h"
 }
@@ -78,29 +80,23 @@ ui_res_possible_values pet_RenderFilters[] = {
     { -1, 0 }
 };
 
-ui_res_possible_values pet_SIDCARTModel[] = {
-    { 0, MENU_SIDCART_MODEL_6581 },
-    { 1, MENU_SIDCART_MODEL_8580 },
-    { -1, 0 }
+ui_res_value_list pet_ui_res_values[] = {
+    {"PETREUsize", PETREUSize},
+    {"CRTCFilter", pet_RenderFilters },
+    {NULL, NULL}
 };
 
-ui_res_possible_values pet_SIDCARTAddress[] = {
-    { 0, MENU_SIDCART_ADDRESS_1 },
-    { 1, MENU_SIDCART_ADDRESS_2 },
-    { -1, 0 }
-};
-
-ui_res_possible_values pet_SIDCARTClock[] = {
-    { 0, MENU_SIDCART_CLOCK_C64 },
-    { 1, MENU_SIDCART_CLOCK_NATIVE },
-    { -1, 0 }
-};
+static char *petsidcartaddresspair[] = { "$8F00", "$E900" };
+static char *petsidcartclockpair[] = { "C64", "PET" };
 
 void pet_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_PET_SETTINGS:
             ui_pet();
+            break;
+        case MENU_SIDCART_SETTINGS:
+            ui_sidcart(petsidcartaddresspair, petsidcartclockpair);
             break;
         case MENU_PETREU_FILE:
             ui_select_file(B_SAVE_PANEL, PETREU_FILE, (void*)0);
@@ -112,15 +108,6 @@ void pet_ui_specific(void *msg, void *window)
             break;
     }
 }
-
- ui_res_value_list pet_ui_res_values[] = {
-    {"PETREUsize", PETREUSize},
-    {"CRTCFilter", pet_RenderFilters },
-    {"SidModel", pet_SIDCARTModel},
-    {"SidAddress", pet_SIDCARTAddress},
-    {"SidClock", pet_SIDCARTClock},
-    {NULL, NULL}
-};
 
 extern "C" {
 int petui_init(void)

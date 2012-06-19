@@ -615,54 +615,6 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Write back to cart image", new BMessage(MENU_TOGGLE_VFP_WRITE_BACK)));
     }
 
-    /* SIDCART options */
-    if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_PLUS4 ||
-        machine_class == VICE_MACHINE_PET) {
-        uppermenu->AddItem(menu = new BMenu("SIDCART Options"));
-            menu->AddItem(new BMenuItem("SIDCART emulation", new BMessage(MENU_TOGGLE_SIDCART)));
-            menu->AddItem(submenu = new BMenu("SIDCART model"));
-                submenu->SetRadioMode(true);
-                submenu->AddItem(new BMenuItem("6581", new BMessage(MENU_SIDCART_MODEL_6581)));
-                submenu->AddItem(new BMenuItem("8580", new BMessage(MENU_SIDCART_MODEL_8580)));
-            menu->AddItem(new BMenuItem("SIDCART filters", new BMessage(MENU_TOGGLE_SIDCART_FILTERS)));
-
-        /* SIDCART address */
-        menu->AddItem(submenu = new BMenu("SIDCART address"));
-            submenu->SetRadioMode(true);
-
-        if (machine_class == VICE_MACHINE_PET) {
-            submenu->AddItem(new BMenuItem("$8F00", new BMessage(MENU_SIDCART_ADDRESS_1)));
-            submenu->AddItem(new BMenuItem("$E900", new BMessage(MENU_SIDCART_ADDRESS_2)));
-        }
-
-        if (machine_class == VICE_MACHINE_PLUS4) {
-            submenu->AddItem(new BMenuItem("$FD40", new BMessage(MENU_SIDCART_ADDRESS_1)));
-            submenu->AddItem(new BMenuItem("$FE80", new BMessage(MENU_SIDCART_ADDRESS_2)));
-        }
-
-        if (machine_class == VICE_MACHINE_VIC20) {
-            submenu->AddItem(new BMenuItem("$9800", new BMessage(MENU_SIDCART_ADDRESS_1)));
-            submenu->AddItem(new BMenuItem("$9C00", new BMessage(MENU_SIDCART_ADDRESS_2)));
-        }
-
-        /* SIDCART clock */
-        menu->AddItem(submenu = new BMenu("SIDCART clock"));
-            submenu->SetRadioMode(true);
-            submenu->AddItem(new BMenuItem("C64", new BMessage(MENU_SIDCART_CLOCK_C64)));
-
-        if (machine_class == VICE_MACHINE_PET) {
-            submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
-        }
-
-        if (machine_class == VICE_MACHINE_PLUS4) {
-            submenu->AddItem(new BMenuItem("PLUS4", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
-        }
-
-        if (machine_class == VICE_MACHINE_VIC20) {
-            submenu->AddItem(new BMenuItem("VIC20", new BMessage(MENU_SIDCART_CLOCK_NATIVE)));
-        }
-    }
-
     if (machine_class == VICE_MACHINE_C128) {
         uppermenu->AddItem(new BMenuItem("Video (VIC-II) ...", new BMessage(MENU_VIDEO_SETTINGS)));
         uppermenu->AddItem(new BMenuItem("Video (VDC) ...", new BMessage(MENU_VIDEO_VDC_SETTINGS)));
@@ -789,8 +741,8 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Joystick/Keyset settings...", new BMessage(MENU_JOYSTICK_SETTINGS)));
         }
         if (machine_class == VICE_MACHINE_PLUS4) {
-            menu->AddItem(new BMenuItem("SIDcart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
-            menu->AddItem(new BMenuItem("SIDcart joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
+            menu->AddItem(new BMenuItem("SID cart joystick emulation", new BMessage(MENU_TOGGLE_SIDCART_JOY)));
+            menu->AddItem(new BMenuItem("SID cart joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
         }
         if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4) {
             menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
@@ -816,6 +768,11 @@ BMenuBar *menu_create(int machine_class)
         machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0 ||
         machine_class == VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("SID ...", new BMessage(MENU_SID_SETTINGS)));
+    }
+
+    if (machine_class == VICE_MACHINE_VIC20 || machine_class == VICE_MACHINE_PLUS4 ||
+        machine_class == VICE_MACHINE_PET) {
+        uppermenu->AddItem(new BMenuItem("SID cartridge ...", new BMessage(MENU_SIDCART_SETTINGS)));
     }
 
     uppermenu->AddItem(new BMenuItem("RAM ...", new BMessage(MENU_RAM_SETTINGS)));

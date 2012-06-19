@@ -300,7 +300,8 @@ const uint32 MENU_TED_SETTINGS                    = 'M209';
 const uint32 MENU_VIDEO_SETTINGS                  = 'M210';
 const uint32 MENU_VIDEO_VDC_SETTINGS              = 'M211';
 const uint32 MENU_SID_SETTINGS                    = 'M212';
-const uint32 MENU_RAM_SETTINGS                    = 'M213';
+const uint32 MENU_SIDCART_SETTINGS                = 'M213';
+const uint32 MENU_RAM_SETTINGS                    = 'M214';
 
 const uint32 MENU_C64_MODEL_C64_PAL               = 'M216';
 const uint32 MENU_C64_MODEL_C64C_PAL              = 'M217';
@@ -467,10 +468,7 @@ const uint32 MENU_SOUND_RECORD_VOC                = 'M082';
 const uint32 MENU_SOUND_RECORD_WAV                = 'M083';
 const uint32 MENU_SOUND_RECORD_STOP               = 'M084';
 
-const uint32 MENU_SIDCART_MODEL                   = 'M087';
-const uint32 MENU_SIDCART_ADDRESS                 = 'M088';
-const uint32 MENU_SIDCART_CLOCK                   = 'M089';
-
+/*
 const uint32 MENU_SIDCART_MODEL_6581              = 'M090';
 const uint32 MENU_SIDCART_MODEL_8580              = 'M091';
 
@@ -479,15 +477,16 @@ const uint32 MENU_SIDCART_ADDRESS_2               = 'M093';
 
 const uint32 MENU_SIDCART_CLOCK_C64               = 'M094';
 const uint32 MENU_SIDCART_CLOCK_NATIVE            = 'M095';
+*/
 
 const uint32 MENU_TOGGLE_PS2MOUSE                 = 'M152';
 
 const uint32 MENU_MOUSE_TYPE_1351                 = 'M153';
 const uint32 MENU_MOUSE_TYPE_NEOS                 = 'M154';
 const uint32 MENU_MOUSE_TYPE_AMIGA                = 'M155';
-const uint32 MENU_MOUSE_TYPE_PADDLE               = 'M170';
-const uint32 MENU_MOUSE_TYPE_CX22                 = 'M214';
-const uint32 MENU_MOUSE_TYPE_ST                   = 'M215';
+const uint32 MENU_MOUSE_TYPE_PADDLE               = 'M087';
+const uint32 MENU_MOUSE_TYPE_CX22                 = 'M088';
+const uint32 MENU_MOUSE_TYPE_ST                   = 'M089';
 
 const uint32 MENU_MOUSE_PORT_JOY1                 = 'M156';
 const uint32 MENU_MOUSE_PORT_JOY2                 = 'M157';
