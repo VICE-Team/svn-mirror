@@ -204,6 +204,24 @@ static const int drive_idle_values[] = {
     -1
 };
 
+static int drive_par_cable_translate[] = {
+    IDS_NONE,
+    IDS_STANDARD,
+    IDS_DD3,
+    IDS_FORMEL64,
+    0
+};
+
+static char *drive_par_cable[countof(drive_par_cable_translate)];
+
+static const int drive_par_cable_values[] = {
+    DRIVE_PC_NONE,
+    DRIVE_PC_STANDARD,
+    DRIVE_PC_DD3,
+    DRIVE_PC_FORMEL64,
+    -1
+};
+
 #define DECL(device) \
     { NULL, MUI_TYPE_RADIO, "Drive" #device "Type", drive_type_strings_ ## device, drive_type_values_ ## device, NULL }, \
     { NULL, MUI_TYPE_RADIO, "Drive" #device "ExtendImagePolicy", drive_extend_strings, drive_extend_values, NULL },      \
@@ -213,7 +231,7 @@ static const int drive_idle_values[] = {
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM6000", NULL, NULL, NULL },                                               \
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAM8000", NULL, NULL, NULL },                                               \
     { NULL, MUI_TYPE_CHECK, "Drive" #device "RAMA000", NULL, NULL, NULL },                                               \
-    { NULL, MUI_TYPE_CHECK, "Drive" #device "ParallelCable", NULL, NULL, NULL },
+    { NULL, MUI_TYPE_RADIO, "Drive" #device "ParallelCable", drive_par_cable, drive_par_cable_values, NULL },
 
 #define DECL_NUM (9)
 
@@ -264,7 +282,7 @@ static APTR build_gui(void)
                      MUIA_FrameTitle, translate_text(IDS_IDLE_METHOD),
                      MUIA_Radio_Entries, drive_idle_strings,
                    End,
-                   CHECK(data[8].object, translate_text(IDS_PARALLEL_CABLE))
+                   CYCLE(data[8].object, translate_text(IDS_PARALLEL_CABLE), drive_par_cable)
                  End,
                End;
 
@@ -283,5 +301,6 @@ void uidrivec64vic20_settings_dialog(void)
     intl_convert_mui_table(drive_type_strings_translate, drive_type_strings_11);
     intl_convert_mui_table(drive_extend_strings_translate, drive_extend_strings);
     intl_convert_mui_table(drive_idle_strings_translate, drive_idle_strings);
+    intl_convert_mui_table(drive_par_cable_translate, drive_par_cable);
     mui_show_dialog(build_gui(), translate_text(IDS_DRIVE_SETTINGS), ui_to_from);
 }
