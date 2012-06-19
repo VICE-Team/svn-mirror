@@ -12,6 +12,10 @@ Overview:
 
 * vice/doc/vice.texi is the main documentation source.
 
+* vice/doc/building/*.txt should contain info on building specific ports
+
+* vice/doc/readmes/*.txt should contain port specific readme files
+
 * vice/doc/*.txt should only contain developer- or port-specific info
 
 * vice/doc/plain/*.txt should contain only technical information (related to
@@ -70,9 +74,7 @@ some common errors and missing things, for example:
  - missing and/or outdated resources
  - incorrect usage of the index
 
-- a valid vicerc containing settings for all emus must be located in ~/.vice/
-- the tool must be run from within vice/doc and the emulator binaries must be
-  present in vice/src.
+- the tool must be run from within vice/doc and the emulator must be installed
 
 run the tool by either typing
 
@@ -100,95 +102,98 @@ TODO:
 like mentioned above, the todo list is contained in vice.texi in the form of
 comments. to show it using the checkdoc tool use "./checkdoc.mak fixme nodes"
 
-at the time of last updating this file (23/07/2011), the list looked like this:
+at the time of last updating this file (18/06/2012), the list looked like this:
 
-list of FIXMEs (24)
-663:@c FIXME: add link to doc/html/plain/PETdoc.txt
-684:@c FIXME: add link to doc/html/plain/PETdoc.txt
-712:@c FIXME: add link to section
-782:@c FIXME: add a detailed list of all keys
-2472:@c FIXME: remove -symdekeymap option!
-3908:@c FIXME: clean up "c64/128" vs "c64"
-4233:@c FIXME: incomplete descriptions for resources
-8398:@c FIXME: add some info on making screenshots, wav- and avi recordings
-8431:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-9250:@c FIXME: add more c1541 examples
-9625:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-9626:@c FIXME: add CRT c64 cartridge images file structure
-10045:@c FIXME: the D64 section needs to be style-checked.
-10046:@c FIXME: some of the D64 section needs to have sub-sections.
-10938:@c FIXME: the X64 section needs to be style-checked.
-11054:@c FIXME: the D71 section needs to be style-checked.
-11055:@c FIXME: some of the D71 section needs to have sub-sections.
-11715:@c FIXME: the D81 section needs to be style-checked.
-11716:@c FIXME: some of the D81 section needs to have sub-sections.
-12610:@c FIXME: the D80 section needs to be style-checked.
-12611:@c FIXME: some of the D80 section needs to have sub-sections.
-13299:@c FIXME: the D82 section needs to be style-checked.
-13300:@c FIXME: some of the D82 section needs to have sub-sections.
-14390:@c FIXME: the P00 section needs to be style-checked.
+list of FIXMEs (27):
+669:@c FIXME: add link to doc/html/plain/PETdoc.txt
+690:@c FIXME: add link to doc/html/plain/PETdoc.txt
+718:@c FIXME: add link to section
+788:@c FIXME: add a detailed list of all keys
+2502:@c FIXME: remove -symdekeymap option!
+3957:@c FIXME: clean up "c64/128" vs "c64"
+4282:@c FIXME: incomplete descriptions for resources
+8540:@c FIXME: add some info on making screenshots, wav- and avi recordings
+8573:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+9395:@c FIXME: add more c1541 examples
+9770:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+9771:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+9772:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+9773:@c FIXME: add D4M FD4000 ED disk image file structure
+9774:@c FIXME: add CRT c64 cartridge images file structure
+10193:@c FIXME: the D64 section needs to be style-checked.
+10194:@c FIXME: some of the D64 section needs to have sub-sections.
+11086:@c FIXME: the X64 section needs to be style-checked.
+11202:@c FIXME: the D71 section needs to be style-checked.
+11203:@c FIXME: some of the D71 section needs to have sub-sections.
+11863:@c FIXME: the D81 section needs to be style-checked.
+11864:@c FIXME: some of the D81 section needs to have sub-sections.
+12758:@c FIXME: the D80 section needs to be style-checked.
+12759:@c FIXME: some of the D80 section needs to have sub-sections.
+13447:@c FIXME: the D82 section needs to be style-checked.
+13448:@c FIXME: some of the D82 section needs to have sub-sections.
+14538:@c FIXME: the P00 section needs to be style-checked.
 
 nodes that need fixing (60):
-2500:@c @node FIXME
-2503:@c @node FIXME
-2740:@c @node FIXME
-3724:@c @node FIXME
-3727:@c @node FIXME
-3749:@c @node FIXME
-3752:@c @node FIXME
-3963:@c @node FIXME
-3985:@c @node FIXME
-4008:@c @node FIXME
-4118:@c @node FIXME
-4148:@c @node FIXME
+2530:@c @node FIXME
+2533:@c @node FIXME
+2774:@c @node FIXME
+3773:@c @node FIXME
+3776:@c @node FIXME
+3798:@c @node FIXME
+3801:@c @node FIXME
+4012:@c @node FIXME
+4034:@c @node FIXME
+4057:@c @node FIXME
 4167:@c @node FIXME
-4205:@c @node FIXME
-4220:@c @node FIXME
-4227:@c @node FIXME
-4230:@c @node FIXME
-4349:@c @node FIXME
-4688:@c @node FIXME
-4691:@c @node FIXME
-5368:@c @node FIXME
-5371:@c @node FIXME
-5412:@c @node FIXME
-5415:@c @node FIXME
-5418:@c @node FIXME
+4197:@c @node FIXME
+4216:@c @node FIXME
+4254:@c @node FIXME
+4269:@c @node FIXME
+4276:@c @node FIXME
+4279:@c @node FIXME
+4434:@c @node FIXME
+4803:@c @node FIXME
+4806:@c @node FIXME
+5493:@c @node FIXME
 5496:@c @node FIXME
-5499:@c @node FIXME
-5571:@c @node FIXME
-5574:@c @node FIXME
-5822:@c @node FIXME
-5825:@c @node FIXME
-5888:@c @node FIXME
-5891:@c @node FIXME
-5915:@c @node FIXME
-6200:@c @node FIXME
-6203:@c @node FIXME
-6215:@c @node FIXME
-6218:@c @node FIXME
-6221:@c @node FIXME
-6294:@c @node FIXME
-6297:@c @node FIXME
-6328:@c @node FIXME
-6331:@c @node FIXME
-6358:@c @node FIXME
-6361:@c @node FIXME
-6527:@c @node FIXME
-6530:@c @node FIXME
-6558:@c @node FIXME
-6958:@c @node FIXME
-6961:@c @node FIXME
-6964:@c @node FIXME
-8395:@c @node FIXME
-8400:@c @node FIXME
-8428:@c @node FIXME
-8433:@c @node FIXME
-9247:@c @node FIXME
-9257:@c @node FIXME
-9421:@c @node FIXME
-9449:@c @node FIXME
-9582:@c @node FIXME
+5537:@c @node FIXME
+5540:@c @node FIXME
+5543:@c @node FIXME
+5630:@c @node FIXME
+5633:@c @node FIXME
+5705:@c @node FIXME
+5708:@c @node FIXME
+5956:@c @node FIXME
+5959:@c @node FIXME
+6022:@c @node FIXME
+6025:@c @node FIXME
+6049:@c @node FIXME
+6342:@c @node FIXME
+6345:@c @node FIXME
+6357:@c @node FIXME
+6360:@c @node FIXME
+6363:@c @node FIXME
+6443:@c @node FIXME
+6446:@c @node FIXME
+6477:@c @node FIXME
+6480:@c @node FIXME
+6507:@c @node FIXME
+6510:@c @node FIXME
+6676:@c @node FIXME
+6679:@c @node FIXME
+6707:@c @node FIXME
+7103:@c @node FIXME
+7106:@c @node FIXME
+7109:@c @node FIXME
+8537:@c @node FIXME
+8542:@c @node FIXME
+8570:@c @node FIXME
+8575:@c @node FIXME
+9392:@c @node FIXME
+9402:@c @node FIXME
+9566:@c @node FIXME
+9594:@c @node FIXME
+9727:@c @node FIXME
 
 to get a much more detailed list use "./checkdoc.mak full"
 
@@ -202,4 +207,4 @@ petcat - 22/01/2011
 cartconv - 22/01/2011
 monitor - 22/01/2011
 
-all command line options complete - 31/01/2011
+all command line options complete - 19/06/2012
