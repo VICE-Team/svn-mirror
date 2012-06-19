@@ -103,7 +103,7 @@ static const int ui_sidcart_clock_values[] =
 
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "SidCart", ui_sidcart_enable, ui_sidcart_enable_values, NULL },
-    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_sidcart_engine_model, ui_sidcart_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sidcart_engine_model, ui_sidcart_engine_model_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sidcart_enable, ui_sidcart_enable_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidAddress", ui_sidcart_address, ui_sidcart_address_values, NULL },
     { NULL, MUI_TYPE_CYCLE, "SidClock", ui_sidcart_clock, ui_sidcart_clock_values, NULL },
