@@ -37,18 +37,18 @@
 #include "intl.h"
 #include "translate.h"
 
-static char *ui_sid_pages[] = {
-    "General",
-#ifdef HAVE_RESID
-    "ReSID/ReSID-fp",
-#endif
-#ifdef HAVE_CATWEASELMKIII
-    "Catweasel MK3",
-#endif
-#ifdef HAVE_HARDSID
-    "HardSID",
-#endif
-    NULL
+static int ui_sid_enable_translate[] = {
+    IDMS_DISABLED,
+    IDS_ENABLED,
+    0
+};
+
+static char *ui_sid_enable[countof(ui_sid_enable_translate)];
+
+static const int ui_sid_enable_values[] = {
+    0,
+    1,
+    -1
 };
 
 static int ui_sid_samplemethod_translate[] = {
@@ -95,7 +95,7 @@ static char *ui_sid_engine_model[] = {
     "8580R5 1489 (ReSID-fp)",
     "8580R5 1489 + digiboost (ReSID-fp)",
 #endif
-    0
+    NULL
 };
 
 static const int ui_sid_engine_model_values[] = {
@@ -127,28 +127,200 @@ static const int ui_sid_engine_model_values[] = {
     -1
 };
 
-#define MAX_BASEADDRESS ((6 * 8) + 1) /* (6 hi * 8 low/hi) + end */
+static char *ui_sid_address64[] = {
+    "$D420",
+    "$D440",
+    "$D460",
+    "$D480",
+    "$D4A0",
+    "$D4C0",
+    "$D4E0",
+    "$D500",
+    "$D520",
+    "$D540",
+    "$D560",
+    "$D580",
+    "$D5A0",
+    "$D5C0",
+    "$D5E0",
+    "$D600",
+    "$D620",
+    "$D640",
+    "$D660",
+    "$D680",
+    "$D6A0",
+    "$D6C0",
+    "$D6E0",
+    "$D700",
+    "$D720",
+    "$D740",
+    "$D760",
+    "$D780",
+    "$D7A0",
+    "$D7C0",
+    "$D7E0",
+    "$DE00",
+    "$DE20",
+    "$DE40",
+    "$DE60",
+    "$DE80",
+    "$DEA0",
+    "$DEC0",
+    "$DEE0",
+    "$DF00",
+    "$DF20",
+    "$DF40",
+    "$DF60",
+    "$DF80",
+    "$DFA0",
+    "$DFC0",
+    "$DFE0",
+    NULL
+};
 
-static char ui_sid_baseaddress_buffer[(MAX_BASEADDRESS * 6)]; /* $XXXX + '\0' */
-static char *ui_sid_baseaddress_name[MAX_BASEADDRESS];
-static int ui_sid_baseaddress[MAX_BASEADDRESS];
+static const int ui_sid_address64_values[] = {
+    0xd420,
+    0xd440,
+    0xd460,
+    0xd480,
+    0xd4a0,
+    0xd4c0,
+    0xd4e0,
+    0xd500,
+    0xd520,
+    0xd540,
+    0xd560,
+    0xd580,
+    0xd5a0,
+    0xd5c0,
+    0xd5e0,
+    0xd600,
+    0xd620,
+    0xd640,
+    0xd660,
+    0xd680,
+    0xd6a0,
+    0xd6c0,
+    0xd6e0,
+    0xd700,
+    0xd720,
+    0xd740,
+    0xd760,
+    0xd780,
+    0xd7a0,
+    0xd7c0,
+    0xd7e0,
+    0xde00,
+    0xde20,
+    0xde40,
+    0xde60,
+    0xde80,
+    0xdea0,
+    0xdec0,
+    0xdee0,
+    0xdf00,
+    0xdf20,
+    0xdf40,
+    0xdf60,
+    0xdf80,
+    0xdfa0,
+    0xdfc0,
+    0xdfe0,
+    -1
+};
 
-static const int ui_sid_c64baseaddress[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
+static char *ui_sid_address128[] = {
+    "$D420",
+    "$D440",
+    "$D460",
+    "$D480",
+    "$D4A0",
+    "$D4C0",
+    "$D4E0",
+    "$D700",
+    "$D720",
+    "$D740",
+    "$D760",
+    "$D780",
+    "$D7A0",
+    "$D7C0",
+    "$D7E0",
+    "$DE00",
+    "$DE20",
+    "$DE40",
+    "$DE60",
+    "$DE80",
+    "$DEA0",
+    "$DEC0",
+    "$DEE0",
+    "$DF00",
+    "$DF20",
+    "$DF40",
+    "$DF60",
+    "$DF80",
+    "$DFA0",
+    "$DFC0",
+    "$DFE0",
+    NULL
+};
 
-static const int ui_sid_c128baseaddress[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
+static const int ui_sid_address128_values[] = {
+    0xd420,
+    0xd440,
+    0xd460,
+    0xd480,
+    0xd4a0,
+    0xd4c0,
+    0xd4e0,
+    0xd700,
+    0xd720,
+    0xd740,
+    0xd760,
+    0xd780,
+    0xd7a0,
+    0xd7c0,
+    0xd7e0,
+    0xde00,
+    0xde20,
+    0xde40,
+    0xde60,
+    0xde80,
+    0xdea0,
+    0xdec0,
+    0xdee0,
+    0xdf00,
+    0xdf20,
+    0xdf40,
+    0xdf60,
+    0xdf80,
+    0xdfa0,
+    0xdfc0,
+    0xdfe0,
+    -1
+};
 
-static const int ui_sid_cbm2baseaddress[] = { 0xda, -1 };
+static char *ui_extra_sid_amount[] = {
+    "0",
+    "1",
+    "2",
+    NULL
+};
+
+static const int ui_extra_sid_amount_values[] = {
+    0,
+    1,
+    2,
+    -1
+};
 
 static const int ui_band_range[] = {
     0,
     90
 };
 
-static ui_to_from_t ui_to_from[] = {
-    { NULL, MUI_TYPE_CYCLE_SID, NULL, ui_sid_engine_model, ui_sid_engine_model_values, NULL },
-    { NULL, MUI_TYPE_CHECK, "SidStereo", NULL, NULL, NULL },
-    { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", (char **)ui_sid_baseaddress_name, (const int *)ui_sid_baseaddress, NULL },
-    { NULL, MUI_TYPE_CHECK, "SidFilters", NULL, NULL, NULL },
+static ui_to_from_t ui_to_from2[] = {
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sid_enable, ui_sid_enable_values, NULL },
 #ifdef HAVE_RESID
     { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
     { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, ui_band_range, NULL },
@@ -156,89 +328,181 @@ static ui_to_from_t ui_to_from[] = {
     UI_END /* mandatory */
 };
 
-static void build_stereo_cycle(void)
+static ui_to_from_t ui_to_from64[] = {
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidStereo", ui_extra_sid_amount, ui_extra_sid_amount_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidTripleAddressStart", ui_sid_address64, ui_sid_address64_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sid_enable, ui_sid_enable_values, NULL },
+#ifdef HAVE_RESID
+    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, ui_band_range, NULL },
+#endif
+    UI_END /* mandatory */
+};
+
+static ui_to_from_t ui_to_from128[] = {
+    { NULL, MUI_TYPE_CYCLE_SID, "dummy", ui_sid_engine_model, ui_sid_engine_model_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidStereo", ui_extra_sid_amount, ui_extra_sid_amount_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidStereoAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidTripleAddressStart", ui_sid_address128, ui_sid_address128_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "SidFilters", ui_sid_enable, ui_sid_enable_values, NULL },
+#ifdef HAVE_RESID
+    { NULL, MUI_TYPE_CYCLE, "SidResidSampling", ui_sid_samplemethod, ui_sid_samplemethod_values, NULL },
+    { NULL, MUI_TYPE_INTEGER, "SidResidPassband", NULL, ui_band_range, NULL },
+#endif
+    UI_END /* mandatory */
+};
+
+static APTR build_gui2(void)
 {
-    int adr, ladr, hi, index = -1;
-    const int *hadr;
+    APTR app, ui, ok, cancel;
 
-    ui_sid_baseaddress_name[0] = NULL;
-    ui_sid_baseaddress[0] = -1;
+    app = mui_get_app();
 
-    switch (machine_class) {
-        case VICE_MACHINE_C64:
-            hadr = ui_sid_c64baseaddress;
-            break;
-        case VICE_MACHINE_C128:
-            hadr = ui_sid_c128baseaddress;
-            break;
-        case VICE_MACHINE_CBM5x0:
-        case VICE_MACHINE_CBM6x0:
-            hadr = ui_sid_cbm2baseaddress;
-            break;
-        default:
-            ui_error(translate_text(IDMES_THIS_MACHINE_NO_SID));
-            return;
+    ui = GroupObject,
+           CYCLE(ui_to_from2[0].object, translate_text(IDS_SID_ENGINE_MODEL), ui_sid_engine_model)
+           CYCLE(ui_to_from2[1].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
+#ifdef HAVE_RESID
+           CYCLE(ui_to_from2[2].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+           STRING(ui_to_from2[3].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+#endif
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
     }
 
-    memset(ui_sid_baseaddress_buffer, 0, sizeof(ui_sid_baseaddress_buffer));
-    for (hi = 0; hadr[hi] >= 0; hi++) {
-        for (ladr = (hi > 0 ? 0x0 : 0x20); ladr < 0x100; ladr += 0x20) {
-            index++;
-            adr = hadr[hi] * 0x100 + ladr;
-            sprintf(ui_sid_baseaddress_buffer + (index * 6), "$%04X", adr);
-            ui_sid_baseaddress_name[index] = ui_sid_baseaddress_buffer + (index * 6);
-            ui_sid_baseaddress[index] = adr;
-        }
+    return ui;
+}
+
+static APTR build_gui64(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from64[0].object, translate_text(IDS_SID_ENGINE_MODEL), ui_sid_engine_model)
+           CYCLE(ui_to_from64[1].object, translate_text(IDS_AMOUNT_OF_EXTRA_SIDS), ui_extra_sid_amount)
+           CYCLE(ui_to_from64[2].object, translate_text(IDS_STEREO_SID_AT), ui_sid_address64)
+           CYCLE(ui_to_from64[3].object, translate_text(IDS_TRIPLE_SID_AT), ui_sid_address64)
+           CYCLE(ui_to_from64[4].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
+#ifdef HAVE_RESID
+           CYCLE(ui_to_from64[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+           STRING(ui_to_from64[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
+#endif
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
     }
 
-    index++;
-    ui_sid_baseaddress_name[index] = NULL;
-    ui_sid_baseaddress[index] = -1;
+    return ui;
 }
 
-static APTR build_gui(void)
+static APTR build_gui128(void)
 {
-    build_stereo_cycle();
+    APTR app, ui, ok, cancel;
 
-    return RegisterObject,
-             MUIA_Register_Titles, ui_sid_pages,
-             Child, GroupObject,
-               CYCLE(ui_to_from[0].object, translate_text(IDS_SID_ENGINE_MODEL), ui_sid_engine_model)
-               Child, GroupObject,
-                 MUIA_Frame, MUIV_Frame_Group,
-                 MUIA_Group_Horiz, TRUE,
-                 MUIA_FrameTitle, translate_text(IDS_SID_STEREO),
-                 CHECK(ui_to_from[1].object, translate_text(IDS_STEREO_SID_AT))
-                 CYCLE(ui_to_from[2].object, "", ui_sid_baseaddress_name)
-               End,
-               CHECK(ui_to_from[3].object, translate_text(IDS_SID_FILTERS))
-             End,
-#if defined(HAVE_RESID) || defined(HAVE_RESID_FP)
-             Child, GroupObject,
-               CYCLE(ui_to_from[4].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
-               Child, ui_to_from[5].object = StringObject,
-                 MUIA_Frame, MUIV_Frame_String,
-                 MUIA_FrameTitle, translate_text(IDS_PASSBAND_0_90),
-                 MUIA_String_Accept, "0123456789",
-                 MUIA_String_MaxLen, 3,
-               End,
-             End,
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from128[0].object, translate_text(IDS_SID_ENGINE_MODEL), ui_sid_engine_model)
+           CYCLE(ui_to_from128[1].object, translate_text(IDS_AMOUNT_OF_EXTRA_SIDS), ui_extra_sid_amount)
+           CYCLE(ui_to_from128[2].object, translate_text(IDS_STEREO_SID_AT), ui_sid_address128)
+           CYCLE(ui_to_from128[3].object, translate_text(IDS_TRIPLE_SID_AT), ui_sid_address128)
+           CYCLE(ui_to_from128[4].object, translate_text(IDS_SID_FILTERS), ui_sid_enable)
+#ifdef HAVE_RESID
+           CYCLE(ui_to_from128[5].object, translate_text(IDS_SAMPLE_METHOD), ui_sid_samplemethod)
+           STRING(ui_to_from128[6].object, translate_text(IDS_PASSBAND_0_90), "0123456789", 5+1)
 #endif
-#ifdef HAVE_CATWEASELMKIII
-             Child, GroupObject,
-               Child, CLabel(translate_text(IDS_NOT_IMPLEMENTED_YET)),
-             End,
-#endif
-#ifdef HAVE_HARDSID
-             Child, GroupObject,
-               Child, CLabel(translate_text(IDS_NOT_IMPLEMENTED_YET)),
-             End,
-#endif
-           End;
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
 }
 
-void ui_sid_settings_dialog(void)
+void ui_sid_settings2_dialog(void)
 {
+    APTR window;
+
     intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
-    mui_show_dialog(build_gui(), translate_text(IDS_SID_SETTINGS), ui_to_from);
+    intl_convert_mui_table(ui_sid_enable_translate, ui_sid_enable);
+
+    window = mui_make_simple_window(build_gui2(), translate_text(IDS_SID_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from2);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from2);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_sid_settings64_dialog(void)
+{
+    APTR window;
+
+    intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
+    intl_convert_mui_table(ui_sid_enable_translate, ui_sid_enable);
+
+    window = mui_make_simple_window(build_gui64(), translate_text(IDS_SID_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from64);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from64);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_sid_settings128_dialog(void)
+{
+    APTR window;
+
+    intl_convert_mui_table(ui_sid_samplemethod_translate, ui_sid_samplemethod);
+    intl_convert_mui_table(ui_sid_enable_translate, ui_sid_enable);
+
+    window = mui_make_simple_window(build_gui128(), translate_text(IDS_SID_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from128);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from128);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
 }

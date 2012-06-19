@@ -8581,6 +8581,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SID_STEREO_SV, "SID-stereo" },
 /* tr */ { IDS_SID_STEREO_TR, "Stereo SID" },
 
+/* en */ { IDS_AMOUNT_OF_EXTRA_SIDS,    "Amount of extra sids" },
+/* da */ { IDS_AMOUNT_OF_EXTRA_SIDS_DA, "" },  /* fuzzy */
+/* de */ { IDS_AMOUNT_OF_EXTRA_SIDS_DE, "" },  /* fuzzy */
+/* es */ { IDS_AMOUNT_OF_EXTRA_SIDS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_AMOUNT_OF_EXTRA_SIDS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_AMOUNT_OF_EXTRA_SIDS_HU, "" },  /* fuzzy */
+/* it */ { IDS_AMOUNT_OF_EXTRA_SIDS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_AMOUNT_OF_EXTRA_SIDS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_AMOUNT_OF_EXTRA_SIDS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_AMOUNT_OF_EXTRA_SIDS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_AMOUNT_OF_EXTRA_SIDS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_AMOUNT_OF_EXTRA_SIDS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_AMOUNT_OF_EXTRA_SIDS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_STEREO_SID_AT,    "Stereo SID at" },
 /* da */ { IDS_STEREO_SID_AT_DA, "Stereo-SID på" },
 /* de */ { IDS_STEREO_SID_AT_DE, "Stereo SID bei" },
@@ -8594,6 +8608,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_STEREO_SID_AT_RU, "Stereo SID at" },
 /* sv */ { IDS_STEREO_SID_AT_SV, "Stereo-SID på" },
 /* tr */ { IDS_STEREO_SID_AT_TR, "Stereo SID konumu" },
+
+/* en */ { IDS_TRIPLE_SID_AT,    "Triple SID at" },
+/* da */ { IDS_TRIPLE_SID_AT_DA, "" },  /* fuzzy */
+/* de */ { IDS_TRIPLE_SID_AT_DE, "" },  /* fuzzy */
+/* es */ { IDS_TRIPLE_SID_AT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_TRIPLE_SID_AT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_TRIPLE_SID_AT_HU, "" },  /* fuzzy */
+/* it */ { IDS_TRIPLE_SID_AT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_TRIPLE_SID_AT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_TRIPLE_SID_AT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_TRIPLE_SID_AT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_TRIPLE_SID_AT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_TRIPLE_SID_AT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_TRIPLE_SID_AT_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SID_FILTERS,    "SID filters" },
 /* da */ { IDS_SID_FILTERS_DA, "SID-filtre" },

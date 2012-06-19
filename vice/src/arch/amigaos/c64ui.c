@@ -122,7 +122,7 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             ui_vicii_settings_dialog();
             break;
         case IDM_SID_SETTINGS:
-            ui_sid_settings_dialog();
+            ui_sid_settings64_dialog();
             break;
         case IDM_REU_SETTINGS:
             ui_reu_settings_dialog(canvas);

@@ -123,7 +123,7 @@ static int cbm5x0_ui_specific(video_canvas_t *canvas, int idm)
             ui_cbm5x0_settings_dialog();
             break;
         case IDM_SID_SETTINGS:
-            ui_sid_settings_dialog();
+            ui_sid_settings2_dialog();
             break;
         case IDM_COMPUTER_ROM_SETTINGS:
             ui_cbm2_computer_rom_settings_dialog(canvas);

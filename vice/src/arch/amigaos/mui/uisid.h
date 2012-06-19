@@ -27,6 +27,8 @@
 #ifndef VICE_UISID_H
 #define VICE_UISID_H
 
-extern void ui_sid_settings_dialog(void);
+extern void ui_sid_settings2_dialog(void);
+extern void ui_sid_settings64_dialog(void);
+extern void ui_sid_settings128_dialog(void);
 
 #endif

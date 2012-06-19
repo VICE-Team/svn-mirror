@@ -137,7 +137,7 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             ui_vicii_settings_dialog();
             break;
         case IDM_SID_SETTINGS:
-            ui_sid_settings_dialog();
+            ui_sid_settings128_dialog();
             break;
         case IDM_CIA_SETTINGS:
             ui_cia_model_dialog();
