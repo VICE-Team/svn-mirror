@@ -2923,49 +2923,139 @@ needs it, without prompting the user.
 @item DriveTrueEmulation
 Boolean controlling whether the ``true'' drive emulation is turned on.
 
+@vindex DriveSoundEmulation
+@item DriveSoundEmulation
+Boolean controlling whether the drive noise emulation is turned on.
+
 @vindex Drive8Type
 @vindex Drive9Type
+@vindex Drive10Type
+@vindex Drive11Type
 @item Drive8Type
 @itemx Drive9Type
-Integers specifying the model number for drives 8 and 9.  Possible
+@itemx Drive10Type
+@itemx Drive11Type
+@c FIXME: update drive types
+Integers specifying the model number for drives 8 to 11.  Possible
 values  are @code{1541}, @code{1571}, @code{1581}, @code{2000},
 @code{4000} and @code{2031}.
 
 @vindex Drive8ParallelCable
-@item Drive8ParallelCable
 @vindex Drive9ParallelCable
+@vindex Drive10ParallelCable
+@vindex Drive11ParallelCable
+@item Drive8ParallelCable
 @itemx Drive9ParallelCable
-Booleans controlling whether the SpeedDOS-compatible cable is emulated or
-not for drives 8 and 9.
+@itemx Drive10ParallelCable
+@itemx Drive11ParallelCable
+integer controlling what type of parallel cable is emulated for drives 8 to 11.
+(0: none, 1: speed-DOS, 2: Professional DOS, 3: Formel64)
+
+@vindex Drive8ProfDOS
+@vindex Drive9ProfDOS
+@vindex Drive10ProfDOS
+@vindex Drive11ProfDOS
+@item Drive8ProfDOS
+@itemx Drive9ProfDOS
+@itemx Drive10ProfDOS
+@itemx Drive11ProfDOS
+Booleans controlling wether Professional DOS is emulated or not for drives 8 to 11.
+
+@vindex Drive8RAM2000
+@vindex Drive8RAM4000
+@vindex Drive8RAM6000
+@vindex Drive8RAM8000
+@vindex Drive8RAMA000
+@vindex Drive9RAM2000
+@vindex Drive9RAM4000
+@vindex Drive9RAM6000
+@vindex Drive9RAM8000
+@vindex Drive9RAMA000
+@vindex Drive10RAM2000
+@vindex Drive10RAM4000
+@vindex Drive10RAM6000
+@vindex Drive10RAM8000
+@vindex Drive10RAMA000
+@vindex Drive11RAM2000
+@vindex Drive11RAM4000
+@vindex Drive11RAM6000
+@vindex Drive11RAM8000
+@vindex Drive11RAMA000
+@item Drive8RAM2000
+@itemx Drive8RAM4000
+@itemx Drive8RAM6000
+@itemx Drive8RAM8000
+@itemx Drive8RAMA000
+@itemx Drive9RAM2000
+@itemx Drive9RAM4000
+@itemx Drive9RAM6000
+@itemx Drive9RAM8000
+@itemx Drive9RAMA000
+@itemx Drive10RAM2000
+@itemx Drive10RAM4000
+@itemx Drive10RAM6000
+@itemx Drive10RAM8000
+@itemx Drive10RAMA000
+@itemx Drive11RAM2000
+@itemx Drive11RAM4000
+@itemx Drive11RAM6000
+@itemx Drive11RAM8000
+@itemx Drive11RAMA000
+Booleans controlling whether a RAM block is emulated at the respective block or
+not for drives 8 to 11.
 
 @vindex Drive8ExtendImagePolicy
-@item Drive8ExtendImagePolicy
 @vindex Drive9ExtendImagePolicy
+@vindex Drive10ExtendImagePolicy
+@vindex Drive11ExtendImagePolicy
+@item Drive8ExtendImagePolicy
 @itemx Drive9ExtendImagePolicy
-Integer specifying the policy for 40-track support for drives 8 and 9.
+@itemx Drive10ExtendImagePolicy
+@itemx Drive11ExtendImagePolicy
+Integer specifying the policy for 40-track support for drives 8 to 11.
 Possible values are @code{0} (never extend), @code{1} (ask on extend),
 @code{2} (extend on access).
 
 @vindex Drive8IdleMethod
-@item Drive8IdleMethod
 @vindex Drive9IdleMethod
+@vindex Drive10IdleMethod
+@vindex Drive11IdleMethod
+@item Drive8IdleMethod
 @itemx Drive9IdleMethod
+@itemx Drive10IdleMethod
+@itemx Drive11IdleMethod
 Integers specifying the idling method for the drive CPU.  Possible values
 are @code{0} (none), @code{1} (skip cycles), @code{2} (trap idle).
 @xref{Drive settings}.
 
 @vindex DosName1541
-@item DosName1541
+@vindex DosName1541ii
+@vindex DosName1570
 @vindex DosName1571
-@itemx DosName1571
+@vindex DosName1571cr
 @vindex DosName1581
-@itemx DosName1581
 @vindex DosName2000
-@itemx DosName2000
 @vindex DosName4000
-@itemx DosName4000
 @vindex DosName2031
+@vindex DosName2040
+@vindex DosName3040
+@vindex DosName4040
+@vindex DosName1001
+@vindex DosName1551
+@item DosName1541
+@itemx DosName1541ii
+@itemx DosName1570
+@itemx DosName1571
+@itemx DosName1571cr
+@itemx DosName1581
+@itemx DosName2000
+@itemx DosName4000
 @itemx DosName2031
+@itemx DosName2040
+@itemx DosName3040
+@itemx DosName4040
+@itemx DosName1001
+@itemx DosName1551
 Strings specifying the names of the ROM images for the drive emulation.
 
 @end table
@@ -3890,10 +3980,14 @@ signal.
 
 @vindex JoyDevice1
 @vindex JoyDevice2
+@vindex JoyDevice3
+@vindex JoyDevice4
 @item JoyDevice1
 @itemx JoyDevice2
+@itemx JoyDevice3
+@itemx JoyDevice4
 Integer specifying which joystick device the emulator should use for
-joystick emulation for ports 1 and 2, respectively
+joystick emulation for ports 1 - 4, respectively
 (0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
 5=Digital joystick 1, 6=Digital joystick 2 on Unix)
 The available joysticks might differ depending on operating system and
@@ -4882,6 +4976,11 @@ C64 graphics package GoDot
 
 @table @code
 
+@vindex VICIIModel
+@item VICIIModel
+Integer that specifies VIC-II model (6569/6569r1/8565/6567/8562/6567r56a).
+only available in @code{x64sc}.
+
 @vindex VICIICheckSsColl
 @item VICIICheckSsColl
 Boolean specifying whether the sprite-sprite hardware collision
@@ -4904,10 +5003,90 @@ Boolean specifying whether double-size mode is turned on.
 @item VICIIDoubleScan
 Boolean specifying whether double-scan mode is turned on.
 
+@vindex VICIINewLuminances
+@item VICIINewLuminances
+Boolean specifying whether to use new (9 steps) luminances
+
 @vindex VICIIPaletteFile
 @item VICIIPaletteFile
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
+
+@vindex VICIIHwScale
+@item VICIIHwScale
+Boolean specifying whether to enable or disable hardware scaling
+
+@vindex VICIIFullscreenDevice
+@item VICIIFullscreenDevice
+fullscreen device
+
+@vindex VICIIFullscreen
+@item VICIIFullscreen
+Boolean specifying whether to use fullscreen mode or not.
+
+@vindex VICIIFullscreenStatusbar
+@item VICIIFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not.
+
+@vindex VICIIXRANDRFullscreenMode
+@item VICIIXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+
+@vindex VICIIVidmodeFullscreenMode
+@item VICIIVidmodeFullscreenMode
+integer specifying Vidmode fullscreen mode
+
+@vindex VICIIExternalPalette
+@item VICIIExternalPalette
+Boolean specifying whether to use external palette file or not.
+
+@vindex VICIIColorSaturation
+@item VICIIColorSaturation
+integer specifying saturation of internal calculated palette [1000] <0-2000>
+
+@vindex VICIIColorContrast
+@item VICIIColorContrast
+integer specifying contrast of internal calculated palette [1000] <0-2000>
+
+@vindex VICIIColorBrightness
+@item VICIIColorBrightness
+integer specifying brightness of internal calculated palette [1000] <0-2000>
+
+@vindex VICIIColorGamma
+@item VICIIColorGamma
+integer specifying gamma of internal calculated palette [2200] <0-4000>
+
+@vindex VICIIColorTint
+@item VICIIColorTint
+integer specifying tint of internal calculated palette [1000] <0-2000>
+
+@vindex VICIIPALScanLineShade
+@item VICIIPALScanLineShade
+integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+
+@vindex VICIIPALBlur
+@item VICIIPALBlur
+integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+
+@vindex VICIIPALOddLinePhase
+@item VICIIPALOddLinePhase
+integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+
+@vindex VICIIPALOddLineOffset
+@item VICIIPALOddLineOffset
+integer specifying phase for color carrier in odd lines [1250] <0-2000>
+
+@vindex VICIIAudioLeak
+@item VICIIAudioLeak
+Boolean specifying whether to enable/disable video to audio leak emulation.
+
+@vindex VICIIFilter
+@item VICIIFilter
+integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+
+@vindex VICIIBorderMode
+@item VICIIBorderMode
+integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
 
 @end table
 
@@ -5556,6 +5735,104 @@ Base address of the 256K expansion
 @subsection VDC settings
 
 @c @node FIXME
+@subsubsection VDC resources
+
+@table @code
+@vindex VDCVideoCache
+@item VDCVideoCache
+Boolean specifying whether the video cache is turned on.
+
+@vindex VDCDoubleSize
+@item VDCDoubleSize
+Boolean specifying whether double-size mode is turned on.
+
+@vindex VDCDoubleScan
+@item VDCDoubleScan
+Boolean specifying whether double-scan mode is turned on.
+
+@vindex VDCStretchVertical
+@item VDCStretchVertical
+Boolean specifying whether vertical stretching is turned on.
+
+@vindex VDCPaletteFile
+@item VDCPaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
+
+@vindex VDCHwScale
+@item VDCHwScale
+Boolean specifying whether to enable or disable hardware scaling
+
+@vindex VDCFullscreenDevice
+@item VDCFullscreenDevice
+fullscreen device
+
+@vindex VDCFullscreen
+@item VDCFullscreen
+Boolean specifying whether to use fullscreen mode or not.
+
+@vindex VDCFullscreenStatusbar
+@item VDCFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not.
+
+@vindex VDCXRANDRFullscreenMode
+@item VDCXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+
+@vindex VDCVidmodeFullscreenMode
+@item VDCVidmodeFullscreenMode
+integer specifying Vidmode fullscreen mode
+
+@vindex VDCExternalPalette
+@item VDCExternalPalette
+Boolean specifying whether to use external palette file or not.
+
+@vindex VDCColorSaturation
+@item VDCColorSaturation
+integer specifying saturation of internal calculated palette [1000] <0-2000>
+
+@vindex VDCColorContrast
+@item VDCColorContrast
+integer specifying contrast of internal calculated palette [1000] <0-2000>
+
+@vindex VDCColorBrightness
+@item VDCColorBrightness
+integer specifying brightness of internal calculated palette [1000] <0-2000>
+
+@vindex VDCColorGamma
+@item VDCColorGamma
+integer specifying gamma of internal calculated palette [2200] <0-4000>
+
+@vindex VDCColorTint
+@item VDCColorTint
+integer specifying tint of internal calculated palette [1000] <0-2000>
+
+@vindex VDCPALScanLineShade
+@item VDCPALScanLineShade
+integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+
+@vindex VDCPALBlur
+@item VDCPALBlur
+integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+
+@vindex VDCPALOddLinePhase
+@item VDCPALOddLinePhase
+integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+
+@vindex VDCPALOddLineOffset
+@item VDCPALOddLineOffset
+integer specifying phase for color carrier in odd lines [1250] <0-2000>
+
+@vindex VDCAudioLeak
+@item VDCAudioLeak
+Boolean specifying whether to enable/disable video to audio leak emulation.
+
+@vindex VDCFilter
+@item VDCFilter
+integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+@end table
+
+@c @node FIXME
 @subsubsection VDC command-line options
 
 @table @code
@@ -6129,6 +6406,82 @@ Boolean specifying whether double-scan mode is turned on.
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
 
+@vindex VICHwScale
+@item VICHwScale
+Boolean specifying whether to enable or disable hardware scaling
+
+@vindex VICFullscreenDevice
+@item VICFullscreenDevice
+fullscreen device
+
+@vindex VICFullscreen
+@item VICFullscreen
+Boolean specifying whether to use fullscreen mode or not.
+
+@vindex VICFullscreenStatusbar
+@item VICFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not.
+
+@vindex VICXRANDRFullscreenMode
+@item VICXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+
+@vindex VICVidmodeFullscreenMode
+@item VICVidmodeFullscreenMode
+integer specifying Vidmode fullscreen mode
+
+@vindex VICExternalPalette
+@item VICExternalPalette
+Boolean specifying whether to use external palette file or not.
+
+@vindex VICColorSaturation
+@item VICColorSaturation
+integer specifying saturation of internal calculated palette [1000] <0-2000>
+
+@vindex VICColorContrast
+@item VICColorContrast
+integer specifying contrast of internal calculated palette [1000] <0-2000>
+
+@vindex VICColorBrightness
+@item VICColorBrightness
+integer specifying brightness of internal calculated palette [1000] <0-2000>
+
+@vindex VICColorGamma
+@item VICColorGamma
+integer specifying gamma of internal calculated palette [2200] <0-4000>
+
+@vindex VICColorTint
+@item VICColorTint
+integer specifying tint of internal calculated palette [1000] <0-2000>
+
+@vindex VICPALScanLineShade
+@item VICPALScanLineShade
+integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+
+@vindex VICPALBlur
+@item VICPALBlur
+integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+
+@vindex VICPALOddLinePhase
+@item VICPALOddLinePhase
+integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+
+@vindex VICPALOddLineOffset
+@item VICPALOddLineOffset
+integer specifying phase for color carrier in odd lines [1250] <0-2000>
+
+@vindex VICAudioLeak
+@item VICAudioLeak
+Boolean specifying whether to enable/disable video to audio leak emulation.
+
+@vindex VICFilter
+@item VICFilter
+integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+
+@vindex VICBorderMode
+@item VICBorderMode
+integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
+
 @end table
 
 @c @node FIXME
@@ -6444,6 +6797,105 @@ Enable/Disable the OEM userport joystick adapter
 
 @c @node FIXME
 @subsection TED settings
+
+@c @node FIXME
+@subsubsection TED resources
+
+@table @code
+@vindex TEDVideoCache
+@item TEDVideoCache
+Boolean specifying whether the video cache is turned on.
+
+@vindex TEDDoubleSize
+@item TEDDoubleSize
+Boolean specifying whether double-size mode is turned on.
+
+@vindex TEDDoubleScan
+@item TEDDoubleScan
+Boolean specifying whether double-scan mode is turned on.
+
+@vindex TEDPaletteFile
+@item TEDPaletteFile
+String specifying the name of the palette file being used.  The
+@file{.vpl} extension is optional.
+
+@vindex TEDHwScale
+@item TEDHwScale
+Boolean specifying whether to enable or disable hardware scaling
+
+@vindex TEDFullscreenDevice
+@item TEDFullscreenDevice
+fullscreen device
+
+@vindex TEDFullscreen
+@item TEDFullscreen
+Boolean specifying whether to use fullscreen mode or not.
+
+@vindex TEDFullscreenStatusbar
+@item TEDFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not.
+
+@vindex TEDXRANDRFullscreenMode
+@item TEDXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+
+@vindex TEDVidmodeFullscreenMode
+@item TEDVidmodeFullscreenMode
+integer specifying Vidmode fullscreen mode
+
+@vindex TEDExternalPalette
+@item TEDExternalPalette
+Boolean specifying whether to use external palette file or not.
+
+@vindex TEDColorSaturation
+@item TEDColorSaturation
+integer specifying saturation of internal calculated palette [1000] <0-2000>
+
+@vindex TEDColorContrast
+@item TEDColorContrast
+integer specifying contrast of internal calculated palette [1000] <0-2000>
+
+@vindex TEDColorBrightness
+@item TEDColorBrightness
+integer specifying brightness of internal calculated palette [1000] <0-2000>
+
+@vindex TEDColorGamma
+@item TEDColorGamma
+integer specifying gamma of internal calculated palette [2200] <0-4000>
+
+@vindex TEDColorTint
+@item TEDColorTint
+integer specifying tint of internal calculated palette [1000] <0-2000>
+
+@vindex TEDPALScanLineShade
+@item TEDPALScanLineShade
+integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+
+@vindex TEDPALBlur
+@item TEDPALBlur
+integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+
+@vindex TEDPALOddLinePhase
+@item TEDPALOddLinePhase
+integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+
+@vindex TEDPALOddLineOffset
+@item TEDPALOddLineOffset
+integer specifying phase for color carrier in odd lines [1250] <0-2000>
+
+@vindex TEDAudioLeak
+@item TEDAudioLeak
+Boolean specifying whether to enable/disable video to audio leak emulation.
+
+@vindex TEDFilter
+@item TEDFilter
+integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
+
+@vindex TEDBorderMode
+@item TEDBorderMode
+integer specifying border display mode (0: normal, 1: full, 2: debug, 3:none)
+
+@end table
 
 @c @node FIXME
 @subsubsection TED command-line options
@@ -6798,10 +7250,86 @@ Boolean specifying whether double-size mode is turned on.
 @item CrtcDoubleScan
 Boolean specifying whether double-scan mode is turned on.
 
+@vindex CrtcStretchVertical
+@item CrtcStretchVertical
+Boolean specifying whether vertical stretching is turned on.
+
 @vindex CrtcPaletteFile
 @item CrtcPaletteFile
 String specifying the name of the palette file being used.  The
 @file{.vpl} extension is optional.
+
+@vindex CrtcHwScale
+@item CrtcHwScale
+Boolean specifying whether to enable or disable hardware scaling
+
+@vindex CrtcFullscreenDevice
+@item CrtcFullscreenDevice
+fullscreen device
+
+@vindex CrtcFullscreen
+@item CrtcFullscreen
+Boolean specifying whether to use fullscreen mode or not.
+
+@vindex CrtcFullscreenStatusbar
+@item CrtcFullscreenStatusbar
+Boolean specifying whether to show the status bar in fullscreen mode or not.
+
+@vindex CrtcXRANDRFullscreenMode
+@item CrtcXRANDRFullscreenMode
+integer specifying XRANDR fullscreen mode
+
+@vindex CrtcVidmodeFullscreenMode
+@item CrtcVidmodeFullscreenMode
+integer specifying Vidmode fullscreen mode
+
+@vindex CrtcExternalPalette
+@item CrtcExternalPalette
+Boolean specifying whether to use external palette file or not.
+
+@vindex CrtcColorSaturation
+@item CrtcColorSaturation
+integer specifying saturation of internal calculated palette [1000] <0-2000>
+
+@vindex CrtcColorContrast
+@item CrtcColorContrast
+integer specifying contrast of internal calculated palette [1000] <0-2000>
+
+@vindex CrtcColorBrightness
+@item CrtcColorBrightness
+integer specifying brightness of internal calculated palette [1000] <0-2000>
+
+@vindex CrtcColorGamma
+@item CrtcColorGamma
+integer specifying gamma of internal calculated palette [2200] <0-4000>
+
+@vindex CrtcColorTint
+@item CrtcColorTint
+integer specifying tint of internal calculated palette [1000] <0-2000>
+
+@vindex CrtcPALScanLineShade
+@item CrtcPALScanLineShade
+integer specifying amount of scan line shading for the CRT emulation [667] <0-1000>
+
+@vindex CrtcPALBlur
+@item CrtcPALBlur
+integer specifying amount of horizontal blur for the CRT emulation. [500] <0-1000>
+
+@vindex CrtcPALOddLinePhase
+@item CrtcPALOddLinePhase
+integer specifying phase offset for color carrier in odd lines [750] <0-2000>
+
+@vindex CrtcPALOddLineOffset
+@item CrtcPALOddLineOffset
+integer specifying phase for color carrier in odd lines [1250] <0-2000>
+
+@vindex CrtcAudioLeak
+@item CrtcAudioLeak
+Boolean specifying whether to enable/disable video to audio leak emulation.
+
+@vindex CrtcFilter
+@item CrtcFilter
+integer specifying rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 
 @end table
 
@@ -7235,6 +7763,22 @@ feeling;
 
 @c @node FIXME
 @subsection VSID settings
+
+@c @node FIXME
+@subsubsection VSID resources
+
+@table @code
+
+@vindex PSIDKeepEnv
+@item PSIDKeepEnv
+Boolean that specifies wether to override PSID settings for Video standard and 
+SID model.
+
+@vindex PSIDTune
+@item PSIDTune
+Integer that specifies the currently played sub tune.
+
+@end table
 
 @c @node FIXME
 @subsubsection VSID command-line options
