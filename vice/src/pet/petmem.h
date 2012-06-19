@@ -78,6 +78,15 @@ extern int spet_ctrlwp;
 extern int spet_diag;
 extern int spet_ramwp;
 
+struct dongle6702_s {
+    int val;
+    int prevodd;
+    int wantodd;
+    int shift[8];
+};
+
+extern struct dongle6702_s dongle6702;
+
 extern BYTE petmem_map_reg;
 extern BYTE petmem_2001_buf_ef[];
 

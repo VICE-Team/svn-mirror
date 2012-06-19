@@ -522,7 +522,7 @@ void store_petdww_ec00_ram(WORD addr, BYTE byte)
 #endif
     addr &= RAM_1K_SIZE_MASK;
     addr |= mem_bank;
-    
+
     petdww_ram[addr] = byte;
 }
 
@@ -807,3 +807,92 @@ static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ym
         *pw++  = 0;
     }
 }
+
+/* ------------------------------------------------------------------------- */
+/* Snapshot support */
+
+static const char module_ram_name[] = "DWWMEM";
+#define DWWMEM_DUMP_VER_MAJOR   1
+#define DWWMEM_DUMP_VER_MINOR   0
+
+/* Format of the DWW ram snapshot
+ *
+ * WORD         size, 0 if not allocated
+ * BYTE[size]   memory
+ *
+ */
+
+int petdww_ram_write_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+
+    m = snapshot_module_create(s, module_ram_name,
+                               DWWMEM_DUMP_VER_MAJOR, DWWMEM_DUMP_VER_MINOR);
+    if (m == NULL)
+        return -1;
+
+    if (petdww_ram) {
+        SMW_W(m, PET_DWW_RAM_SIZE);
+        SMW_BA(m, petdww_ram, PET_DWW_RAM_SIZE);
+    } else {
+        SMW_W(m, 0);
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int petdww_ram_read_snapshot_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    BYTE vmajor, vminor;
+    WORD ramsize;
+
+    m = snapshot_module_open(s, module_ram_name,
+                               &vmajor, &vminor);
+    if (m == NULL)
+        return -1;
+
+    if (vmajor != DWWMEM_DUMP_VER_MAJOR) {
+        log_error(petdww_log,
+                  "Cannot load DWW RAM module with major version %d",
+                  vmajor);
+        snapshot_module_close(m);
+        return -1;
+    }
+
+    SMR_W(m, &ramsize);
+
+    if (ramsize) {
+        if (ramsize > PET_DWW_RAM_SIZE) {
+            ramsize = PET_DWW_RAM_SIZE;
+        }
+        petdww_ram = lib_realloc((void *)petdww_ram, (size_t)PET_DWW_RAM_SIZE);
+        SMR_BA(m, petdww_ram, ramsize);
+    } else {
+        lib_free((void *)petdww_ram);
+        petdww_ram = NULL;
+    }
+
+    snapshot_module_close(m);
+
+    return 0;
+}
+
+int petdww_snapshot_write_module(snapshot_t *m)
+{
+    if (petdwwpia_snapshot_write_module(m) < 0
+        || petdww_ram_write_snapshot_module(m) < 0 )
+        return -1;
+    return 0;
+}
+
+int petdww_snapshot_read_module(snapshot_t *m)
+{
+    if (petdwwpia_snapshot_read_module(m) < 0
+        || petdww_ram_read_snapshot_module(m) < 0 )
+        return 0;       /* for now, to be able to read old snapshots */
+    return 0;
+}
+

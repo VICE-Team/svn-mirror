@@ -48,7 +48,7 @@
 #include "snapshot.h"
 #include "tape.h"
 #include "types.h"
-
+#include "machine.h"
 
 static log_t pet_snapshot_log = LOG_ERR;
 
@@ -61,7 +61,7 @@ static log_t pet_snapshot_log = LOG_ERR;
 
 static const char module_ram_name[] = "PETMEM";
 #define PETMEM_DUMP_VER_MAJOR   1
-#define PETMEM_DUMP_VER_MINOR   2
+#define PETMEM_DUMP_VER_MINOR   3
 
 /*
  * UBYTE        CONFIG          Bits 0-3: 0 = 40 col PET without CRTC
@@ -100,13 +100,21 @@ static const char module_ram_name[] = "PETMEM";
  *                              Added in format V1.2
  * BYTE         EOIBLANK        bit 0=0: EOI does not blank screen
  *                                   =1: EOI does blank screen
+ *
+ *                              Added in format V1.3
+ * WORD         CPU_SWITCH      6502 / 6809 / PROG
+ * BYTE         VAL             6702 state information
+ * BYTE         PREVODD
+ * BYTE         WANTODD
+ * WORD[8]      SHIFT
  */
 
-static int mem_write_ram_snapshot_module(snapshot_t *p)
+static int mem_write_ram_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
     BYTE config, rconf, memsize, conf8x96, superpet;
     int kbdindex;
+    int i;
 
     memsize = petres.ramSize;
     if (memsize > 32) {
@@ -137,7 +145,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
                 | (spet_diag ? 8 : 0)
                 | ((spet_bank << 4) & 0xf0) ;
 
-    m = snapshot_module_create(p, module_ram_name,
+    m = snapshot_module_create(s, module_ram_name,
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -162,23 +170,34 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
         SMW_BA(m, mem_ram, 0x20000);
     }
 
+    /* V1.1 */
     SMW_B(m, (BYTE)(kbdindex & 1));
+    /* V1.2 */
     SMW_B(m, (BYTE)(petres.eoiblank ? 1 : 0));
+    /* V1.3 */
+    SMW_W(m, (WORD)petres.superpet_cpu_switch);
+    SMW_B(m, (BYTE)dongle6702.val);
+    SMW_B(m, (BYTE)dongle6702.prevodd);
+    SMW_B(m, (BYTE)dongle6702.wantodd);
+    for (i = 0; i < 8; i++) {
+        SMW_W(m, (WORD)dongle6702.shift[i]);
+    }
 
     snapshot_module_close(m);
 
     return 0;
 }
 
-static int mem_read_ram_snapshot_module(snapshot_t *p)
+static int mem_read_ram_snapshot_module(snapshot_t *s)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
     petinfo_t peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
                        NULL, NULL, NULL, NULL, NULL, NULL };
+    int old6809mode;
 
-    m = snapshot_module_open(p, module_ram_name, &vmajor, &vminor);
+    m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
     if (m == NULL)
         return -1;
 
@@ -189,6 +208,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         snapshot_module_close(m);
         return -1;
     }
+
+    old6809mode = petres.superpet &&
+                  petres.superpet_cpu_switch == SUPERPET_CPU_6809;
 
     SMR_B(m, &config);
 
@@ -266,6 +288,36 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
         SMR_B(m, &byte);
         resources_set_int("EoiBlank", byte & 1);
     }
+    if (vminor > 2) {
+        int new6809mode, i;
+        BYTE b;
+        WORD w;
+
+        SMR_W(m, &w); petres.superpet_cpu_switch = w;
+        SMR_B(m, &b); dongle6702.val = b;
+        SMR_B(m, &b); dongle6702.prevodd = b;
+        SMR_B(m, &b); dongle6702.wantodd = b;
+
+        for (i = 0; i < 8; i++) {
+            SMR_W(m, &w);
+            dongle6702.shift[i] = w;
+        }
+        /*
+         * TODO: make the CPU switch if needed, WITHOUT a reset!
+         * (A real-world CPU switch toggle always implies a reset)
+         * If the user loads a dump file running in the other mode,
+         * she may need to reset (to get to the correct CPU),
+         * then reload the dump again.
+         */
+        new6809mode = petres.superpet &&
+                      petres.superpet_cpu_switch == SUPERPET_CPU_6809;
+        if (new6809mode != old6809mode) {
+            log_error(pet_snapshot_log,
+                    "Snapshot for different CPU. Re-load the snapshot.");
+            machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+            return -1;
+        }
+    }
 
     snapshot_module_close(m);
 
@@ -274,13 +326,15 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
 
 static const char module_rom_name[] = "PETROM";
 #define PETROM_DUMP_VER_MAJOR   1
-#define PETROM_DUMP_VER_MINOR   0
+#define PETROM_DUMP_VER_MINOR   1
 
 /*
  * UBYTE        CONFIG          Bit 0: 1= $9*** ROM included
  *                                  1: 1= $a*** ROM included
  *                                  2: 1= $b*** ROM included
  *                                  3: 1= $e900-$efff ROM included
+ *                                  4: 1= $9000-$ffff 6809 ROM
+ *                                        and upper half CHARGEN ROM included
  *
  * ARRAY        KERNAL          4k KERNAL ROM image $f000-$ffff
  * ARRAY        EDITOR          2k EDITOR ROM image $e000-$e800
@@ -291,10 +345,13 @@ static const char module_rom_name[] = "PETROM";
  * ARRAY        ROMC            4k $C*** ROM
  * ARRAY        ROMD            4k $D*** ROM
  * ARRAY        ROME9           7 blocks $e900-$efff ROM (if CONFIG & 8)
+ *                              Added in format V1.1:
+ * ARRAY        ROM6809         24k $A000-$FFFF ROM   (if CONFIG & 16)
+ * ARRAY        CHARGEN(2)      upper half of CHARGEN (if CONFIG & 16)
  *
  */
 
-static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
+static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
 {
     snapshot_module_t *m;
     BYTE config;
@@ -303,7 +360,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     if (!save_roms)
         return 0;
 
-    m = snapshot_module_create(p, module_rom_name,
+    m = snapshot_module_create(s, module_rom_name,
                                PETROM_DUMP_VER_MAJOR, PETROM_DUMP_VER_MINOR);
     if (m == NULL)
         return -1;
@@ -316,7 +373,8 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     config = (petrom_9_loaded ? 1 : 0)
              | (petrom_A_loaded ? 2 : 0)
              | (petrom_B_loaded ? 4 : 0)
-             | ((petres.ramSize == 128) ? 8 : 0);
+             | ((petres.ramSize == 128) ? 8 : 0)
+             | (petres.superpet ? 16 : 0);
 
     SMW_B(m, config);
 
@@ -347,6 +405,18 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         if (config & 8) {
            SMW_BA(m, mem_rom + 0x6900, 0x0700);
         }
+
+        if (config & 16) {
+           SMW_BA(m, mem_6809rom, PET_6809_ROMSIZE);
+
+            /* pick relevant data from upper half of chargen ROM */
+            for (i = 0; i < 128; i++) {
+                SMW_BA(m, mem_chargen_rom + 0x2000 + i * 16, 8);
+            }
+            for (i = 0; i < 128; i++) {
+                SMW_BA(m, mem_chargen_rom + 0x3000 + i * 16, 8);
+            }
+        }
     }
 
     /* enable traps again when necessary */
@@ -358,14 +428,14 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     return 0;
 }
 
-static int mem_read_rom_snapshot_module(snapshot_t *p)
+static int mem_read_rom_snapshot_module(snapshot_t *s)
 {
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config;
     int trapfl, new_iosize;
 
-    m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
+    m = snapshot_module_open(s, module_rom_name, &vmajor, &vminor);
     if (m == NULL)
         return 0;       /* optional */
 
@@ -419,7 +489,6 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
         /* chargen ROM */
         resources_set_int("Basic1Chars", 0);
         SMR_BA(m, mem_chargen_rom, 0x0800);
-        petrom_convert_chargen(mem_chargen_rom);
 
         /* $9000-$9fff */
         if (config & 1) {
@@ -441,6 +510,14 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
         if (config & 8) {
             SMR_BA(m, mem_rom + 0x6900, 0x0700);
         }
+
+        /* 6809 ROMs */
+        if (config & 16) {
+            SMR_BA(m, mem_6809rom, PET_6809_ROMSIZE);
+            SMR_BA(m, mem_chargen_rom + 0x0800, 0x0800);
+        }
+
+        petrom_convert_chargen(mem_chargen_rom);
     }
 
     log_warning(pet_snapshot_log,"Dumped Romset files and saved settings will "
@@ -462,16 +539,16 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     return 0;
 }
 
-int pet_snapshot_write_module(snapshot_t *m, int save_roms) {
-    if (mem_write_ram_snapshot_module(m) < 0
-        || mem_write_rom_snapshot_module(m, save_roms) < 0 )
+int pet_snapshot_write_module(snapshot_t *s, int save_roms) {
+    if (mem_write_ram_snapshot_module(s) < 0
+        || mem_write_rom_snapshot_module(s, save_roms) < 0 )
         return -1;
     return 0;
 }
 
-int pet_snapshot_read_module(snapshot_t *m) {
-    if (mem_read_ram_snapshot_module(m) < 0
-        || mem_read_rom_snapshot_module(m) < 0 )
+int pet_snapshot_read_module(snapshot_t *s) {
+    if (mem_read_ram_snapshot_module(s) < 0
+        || mem_read_rom_snapshot_module(s) < 0 )
         return -1;
     return 0;
 }

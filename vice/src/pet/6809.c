@@ -30,6 +30,7 @@
 #include "interrupt.h"
 #include "monitor.h"
 #include "petmem.h"
+#include "snapshot.h"
 
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
@@ -6029,3 +6030,144 @@ void cpu6809_reset (void)
 
     PC = read16(0xfffe);
 }
+
+/* ------------------------------------------------------------------------- */
+
+static char snap_module_name[] = "CPU6809";
+#define SNAP_MAJOR 1
+#define SNAP_MINOR 0
+
+int cpu6809_snapshot_write_module(snapshot_t *s)
+{
+    snapshot_module_t *m;
+    BYTE md, e, f;
+    WORD v;
+
+    m = snapshot_module_create(s, snap_module_name, ((BYTE)SNAP_MAJOR),
+                               ((BYTE)SNAP_MINOR));
+    if (m == NULL)
+        return -1;
+
+    EXPORT_REGISTERS();
+
+    if (0
+        || SMW_DW(m, maincpu_clk) < 0
+        || SMW_W(m, GLOBAL_REGS.reg_x) < 0
+        || SMW_W(m, GLOBAL_REGS.reg_y) < 0
+        || SMW_W(m, GLOBAL_REGS.reg_u) < 0
+        || SMW_W(m, GLOBAL_REGS.reg_s) < 0
+        || SMW_W(m, GLOBAL_REGS.reg_pc) < 0
+        || SMW_B(m, GLOBAL_REGS.reg_dp) < 0
+        || SMW_B(m, GLOBAL_REGS.reg_cc) < 0
+        || SMW_B(m, GLOBAL_REGS.reg_a) < 0
+        || SMW_B(m, GLOBAL_REGS.reg_b) < 0)
+        goto fail;
+
+#ifdef H6309
+    v = get_v();
+    e = get_e();
+    f = get_f();
+    md = MD;
+#else
+    v = e = f = md = 0;
+#endif
+
+    /* Extra 6309 registers, already filled in for the future */
+    if (0
+        || SMW_W(m, v) < 0
+        || SMW_B(m, e) < 0
+        || SMW_B(m, f) < 0
+        || SMW_B(m, md) < 0)
+        goto fail;
+
+#if 0
+    /*
+     * Don't need to do this, since it was loaded by the 6502.
+     */
+    if (interrupt_write_snapshot(maincpu_int_status, m) < 0)
+        goto fail;
+
+    if (interrupt_write_new_snapshot(maincpu_int_status, m) < 0)
+        goto fail;
+#endif
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+
+int cpu6809_snapshot_read_module(snapshot_t *s)
+{
+    BYTE major, minor;
+    snapshot_module_t *m;
+    DWORD my_maincpu_clk;
+    WORD v;
+    BYTE e, f, md;
+
+    m = snapshot_module_open(s, snap_module_name, &major, &minor);
+    if (m == NULL) {
+        /* This module is optional */
+        cpu6809_reset();
+        return 0;
+    }
+
+    if (major != SNAP_MAJOR) {
+        goto fail;
+    }
+
+    if (0
+        || SMR_DW(m, &my_maincpu_clk) < 0
+        || SMR_W(m, &GLOBAL_REGS.reg_x) < 0
+        || SMR_W(m, &GLOBAL_REGS.reg_y) < 0
+        || SMR_W(m, &GLOBAL_REGS.reg_u) < 0
+        || SMR_W(m, &GLOBAL_REGS.reg_s) < 0
+        || SMR_W(m, &GLOBAL_REGS.reg_pc) < 0
+        || SMR_B(m, &GLOBAL_REGS.reg_dp) < 0
+        || SMR_B(m, &GLOBAL_REGS.reg_cc) < 0
+        || SMR_B(m, &GLOBAL_REGS.reg_a) < 0
+        || SMR_B(m, &GLOBAL_REGS.reg_b) < 0)
+        goto fail;
+
+    IMPORT_REGISTERS();
+
+    /* Extra 6309 registers, already filled in for the future */
+    if (0
+        || SMR_W(m, &v) < 0
+        || SMR_B(m, &e) < 0
+        || SMR_B(m, &f) < 0
+        || SMR_B(m, &md) < 0)
+        goto fail;
+
+#ifdef H6309
+    set_v(v);
+    set_e(e);
+    set_f(f);
+    MD = md;
+#endif
+
+    maincpu_clk = my_maincpu_clk;
+
+#if 0
+    /*
+     * Don't need to do this, since it was loaded by the 6502.
+     */
+    if (interrupt_read_snapshot(maincpu_int_status, m) < 0) {
+        goto fail;
+    }
+
+    if (interrupt_read_new_snapshot(maincpu_int_status, m) < 0) {
+        goto fail;
+    }
+#endif
+
+    return snapshot_module_close(m);
+
+fail:
+    if (m != NULL)
+        snapshot_module_close(m);
+    return -1;
+}
+

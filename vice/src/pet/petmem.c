@@ -82,7 +82,6 @@ petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
 /* The PET memory. */
 
 #define RAM_ARRAY 0x20000 /* this includes 8x96 expansion RAM */
-#define PET_6809_ROMSIZE        (NUM_6809_ROMS * 0x1000)
 
 BYTE mem_ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE mem_rom[PET_ROM_SIZE];
@@ -286,7 +285,6 @@ int spet_ramwp  = 0;
 
 /* Internal state of the 6702 dongle */
 #define DONGLE_MAGIC    (128 + 64 + 16 + 4 + 2) /* = 214 = $D6 = %1101 0110 */
-static int shift[8];
 static const int leftmost[8] = {
     1 << (6 - 1),       /*   1 The size of each shift register is 6, 3, 7... */
     1 << (3 - 1),       /*   2 and therefore those are also the periods of */
@@ -297,9 +295,11 @@ static const int leftmost[8] = {
     1 << (5 - 1),       /*  64 */
     1 << (2 - 1),       /* 128 */
 };
-static int val6702;
-static int prevodd;
-static int wantodd;
+//static int val6702;
+//static int prevodd;
+//static int wantodd;
+//static int shift[8];
+struct dongle6702_s dongle6702;
 
 static void reset6702(void)
 {
@@ -307,20 +307,20 @@ static void reset6702(void)
 
     for (i = 0; i < 8; i++) {
         if ((1 << i) & (DONGLE_MAGIC | 1)) {
-            shift[i] = leftmost[i];
+            dongle6702.shift[i] = leftmost[i];
         } else {
-            shift[i] = 0;
+            dongle6702.shift[i] = 0;
         }
     }
-    val6702 = DONGLE_MAGIC;
-    prevodd = 1;
-    wantodd = 0;
+    dongle6702.val = DONGLE_MAGIC;
+    dongle6702.prevodd = 1;
+    dongle6702.wantodd = 0;
 }
 
 static inline
 BYTE read6702(void)
 {
-    return val6702;
+    return dongle6702.val;
 }
 
 /*
@@ -335,30 +335,30 @@ BYTE read6702(void)
 static inline
 void write6702(BYTE input)
 {
-    if ((input & 1) == wantodd) {
-        if (wantodd) {
+    if ((input & 1) == dongle6702.wantodd) {
+        if (dongle6702.wantodd) {
             int i;
-            int v = val6702;
-            int changed = prevodd ^ input;
+            int v = dongle6702.val;
+            int changed = dongle6702.prevodd ^ input;
             int mask = 0x80;
 
             /* loop over all 8 output bits / shift registers */
             for (i = 7; i >= 0; i--, mask >>= 1) {
                 /* If the input bit changed toggle leftmost bit */
                 if (changed & mask) {
-                    shift[i] ^= leftmost[i];
+                    dongle6702.shift[i] ^= leftmost[i];
                 }
-                if (shift[i] & 1) {
+                if (dongle6702.shift[i] & 1) {
                     v ^= mask;
-                    shift[i] |= leftmost[i] << 1; /* wrap bit around */
+                    dongle6702.shift[i] |= leftmost[i] << 1; /* wrap bit around */
                 }
-                shift[i] >>= 1;
+                dongle6702.shift[i] >>= 1;
             }
 
-            prevodd = input;
-            val6702 = v;
+            dongle6702.prevodd = input;
+            dongle6702.val = v;
         }
-        wantodd ^= 1;
+        dongle6702.wantodd ^= 1;
     }
 }
 
@@ -440,11 +440,11 @@ static int efe0_dump(void)
     int i;
     int mask = 1;
 
-    mon_out("efe0 = $%02x; previous in = $%02x; odd/even = %d\n", val6702, prevodd, wantodd);
+    mon_out("efe0 = $%02x; previous in = $%02x; odd/even = %d\n", dongle6702.val, dongle6702.prevodd, dongle6702.wantodd);
     for (i = 0; i < 8; i++, mask <<= 1) {
         int j;
         int maskj;
-        int sh = shift[i];
+        int sh = dongle6702.shift[i];
         int lm = leftmost[i];
 
         mon_out("%d %3d: $%02x  %%", i, mask, sh);
