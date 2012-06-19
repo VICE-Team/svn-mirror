@@ -1229,6 +1229,14 @@ Set autostart mode for PRG files
 @item -autostartprgdiskimage
 Set disk image for autostart of PRG files
 
+@cindex -autostart-delay-random, +autostart-delay-random
+@item -autostart-delay-random
+@itemx +autostart-delay-random
+Enable/Disable random delay on autostart
+@cindex -autostart-delay
+@item -autostart-delay <value>
+Set initial autostart delay (0: use default)
+
 @cindex -1
 @item -1 NAME
 Attach @file{NAME} as a tape image file.
@@ -2731,6 +2739,10 @@ Specify @code{N} as the sound speed adjustment method
 @cindex -soundrate
 @item -soundrate RATE
 Specifies the sound playback sample rate (@code{SoundSampleRate}).
+
+@cindex -soundoutput 
+@item -soundoutput <output mode>
+Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always stereo)
 
 @cindex -soundbufsize
 @item -soundbufsize SIZE
@@ -4424,6 +4436,12 @@ Boolean specifying whether the RAMCart should be emulated or not.
 
 @table @code
 
+@cindex -iocollision
+@item -iocollision <method>
+Select the way the I/O collisions should be handled, (0: error message and 
+detach all involved carts, 1: error message and detach last attached involved 
+carts, 2: warning in log and 'AND' the valid return values
+
 @cindex +cart
 @item +cart
 Disable all cartridges (which would eventually be enabled in the config file).
@@ -4524,6 +4542,9 @@ Set Expert Cartridge image name
 @item -expertimagerw
 @itemx +expertimagerw
 Allow/Disallow writing to Expert Cartridge image
+@cindex -cartf64
+@item -cartf64 <Name>
+Attach raw 32kB Formel 64 image
 @cindex -cartfc1
 @item -cartfc1 <name>
 Attach raw 16kB Final Cartridge image
@@ -4587,7 +4608,10 @@ Set number of heads for the IDE64 harddisk emulation (1-16)
 @cindex -IDE64sec4
 @item -IDE64sec4 <value>
 Set number of sectors for the IDE64 harddisk emulation (1-63)
-@cindex -IDE64autosize1, +IDE64autosize1, -IDE64autosize2, +IDE64autosize2, -IDE64autosize3, +IDE64autosize3, -IDE64autosize4, +IDE64autosize4
+@cindex -IDE64autosize1, +IDE64autosize1
+@cindex -IDE64autosize2, +IDE64autosize2
+@cindex -IDE64autosize3, +IDE64autosize3
+@cindex -IDE64autosize4, +IDE64autosize4
 @item -IDE64autosize1
 @itemx +IDE64autosize1
 @item -IDE64autosize2
@@ -4756,6 +4780,9 @@ Attach raw 16kB Super Explode V5 cartridge image
 @cindex -cartsg
 @item -cartsg <name>
 Attach raw 64kB Super Games cartridge image
+@cindex -cartsilver
+@item -cartsilver <Name>
+Attach raw Silverrock 128 cartridge image
 @cindex -cartsimon
 @item -cartsimon <name>
 Attach raw 16kB Simons Basic cartridge image
@@ -4924,10 +4951,9 @@ Enable/disable the double scan mode (@code{VICIIDoubleScan=1},
 @item -VICIIhwscale
 @itemx +VICIIhwscale
 Enable/Disable hardware scaling
-@cindex -VICIIscale2x, +VICIIscale2x
-@item -VICIIscale2x
-@itemx +VICIIscale2x
-Enable/Disable Scale2x
+@cindex -VICIIfilter
+@item -VICIIfilter <Mode>
+Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 @cindex -VICIIintpal
 @item -VICIIintpal
 Use an internal calculated palette
@@ -4950,44 +4976,49 @@ Select fullscreen mode
 Select fullscreen mode
 @cindex -VICIIborders
 @item -VICIIborders <mode>
-Set VIC-II border display mode (0: normal, 1: full, 2: debug)
+Set VIC-II border display mode (0: normal, 1: full, 2: debug, 3:none)
 @cindex -VICIImodel
 @item -VICIImodel <model>
 Set VIC-II model (6569/6569r1/8565/6567/8562/6567r56a). This setting is
 only available in @code{x64sc}.
 
-@cindex -newluminance, +newluminance
-@item -newluminance
-@item +newluminance
+@cindex -VICIInewluminance, +VICIInewluminance
+@item -VICIInewluminance
+@item +VICIInewluminance
 Enable/Disable new luminances.
 
-@cindex -saturation
-@item -saturation <0-2000>
+@cindex -VICIIsaturation
+@item -VICIIsaturation <0-2000>
 Set saturation of internal calculated palette [1000]
-@cindex -contrast
-@item -contrast <0-2000>
+@cindex -VICIIcontrast
+@item -VICIIcontrast <0-2000>
 Set contrast of internal calculated palette [1000]
-@cindex -brightness
-@item -brightness <0-2000>
+@cindex -VICIIbrightness
+@item -VICIIbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
-@cindex -gamma
-@item -gamma <0-4000>
+@cindex -VICIIgamma
+@item -VICIIgamma <0-4000>
 Set gamma of internal calculated palette [2200]
-@cindex -tint
-@item -tint <0-2000>
+@cindex -VICIItint
+@item -VICIItint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -oddlinesphase
-@item -oddlinesphase <0-2000>
+@cindex -VICIIoddlinesphase
+@item -VICIIoddlinesphase <0-2000>
 Set phase for color carrier in odd lines [1250]
-@cindex -oddlinesoffset
-@item -oddlinesoffset <0-2000>
+@cindex -VICIIoddlinesoffset
+@item -VICIIoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines [750]
-@cindex -crtblur
-@item -crtblur <0-1000>
+@cindex -VICIIcrtblur
+@item -VICIIcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
-@cindex -crtscanlineshade
-@item -crtscanlineshade <0-1000>
+@cindex -VICIIcrtscanlineshade
+@item -VICIIcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation [667]
+
+@cindex -VICIIaudioleak, +VICIIaudioleak
+@item -VICIIaudioleak
+@item +VICIIaudioleak
+Enable/Disable video to audio leak emulation.
 
 @end table
 
@@ -5087,6 +5118,10 @@ Boolean selecting emulation of a second SID.
 @item SidStereoAddressStart
 Integer specifying the start address for the second SID.
 
+@vindex SidTripleAddressStart
+@item SidTripleAddressStart
+Integer specifying the start address for the third SID.
+
 @vindex SidFilters
 @item SidFilters
 Boolean specifying whether the built-in SID filters must be emulated.
@@ -5125,6 +5160,11 @@ Emulates a second SID chip for stereo sound (@code{SidStereo}).
 @item -sidstereoaddress @code{ADDRESS}
 Specifies the start address for the second SID chip
 (@code{SidStereoAddressStart}).
+
+@cindex -sidtripleaddress
+@item -sidtripleaddress @code{ADDRESS}
+Specifies the start address for the third SID chip
+(@code{SidTripleAddressStart}).
 
 @cindex -sidenginemodel
 @item -sidenginemodel <engine and model>
@@ -5527,6 +5567,10 @@ Enable/Disable the video cache
 @item -VDCdsize
 @itemx +VDCdsize
 Enable/Disable double size
+@cindex -VDCstretchvertical, +VDCstretchvertical
+@item -VDCstretchvertical
+@itemx +VDCstretchvertical
+Enable/Disable vertical stretching
 @cindex -VDCdscan, +VDCdscan
 @item -VDCdscan
 @itemx +VDCdscan
@@ -5563,33 +5607,38 @@ Set the VDC memory size to 64KB
 @item -VDCRevision <number>
 Set VDC revision (0..2)
 
-@cindex -saturation
-@item -saturation <0-2000>
+@cindex -VDCsaturation
+@item -VDCsaturation <0-2000>
 Set saturation of internal calculated palette [1000]
-@cindex -contrast
-@item -contrast <0-2000>
+@cindex -VDCcontrast
+@item -VDCcontrast <0-2000>
 Set contrast of internal calculated palette [1000]
-@cindex -brightness
-@item -brightness <0-2000>
+@cindex -VDCbrightness
+@item -VDCbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
-@cindex -gamma
-@item -gamma <0-4000>
+@cindex -VDCgamma
+@item -VDCgamma <0-4000>
 Set gamma of internal calculated palette [2200]
-@cindex -tint
-@item -tint <0-2000>
+@cindex -VDCtint
+@item -VDCtint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -oddlinesphase
-@item -oddlinesphase <0-2000>
+@cindex -VDCoddlinesphase
+@item -VDCoddlinesphase <0-2000>
 Set phase for color carrier in odd lines [1250]
-@cindex -oddlinesoffset
-@item -oddlinesoffset <0-2000>
+@cindex -VDCoddlinesoffset
+@item -VDCoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines [750]
-@cindex -crtblur
-@item -crtblur <0-1000>
+@cindex -VDCcrtblur
+@item -VDCcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
-@cindex -crtscanlineshade
-@item -crtscanlineshade <0-1000>
+@cindex -VDCcrtscanlineshade
+@item -VDCcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation [667]
+
+@cindex -VDCaudioleak, +VDCaudioleak
+@item -VDCaudioleak
+@item +VDCaudioleak
+Enable/Disable video to audio leak emulation.
 
 @end table
 
@@ -5927,6 +5976,12 @@ but you also have to enable the IEEE488 hardware by menu.
 
 @table @code
 
+@cindex -iocollision
+@item -iocollision <method>
+Select the way the I/O collisions should be handled, (0: error message and 
+detach all involved carts, 1: error message and detach last attached involved 
+carts, 2: warning in log and 'AND' the valid return values
+
 @cindex -cart2
 @item -cart2 <name>
 Specify 4/8/16K extension ROM name at $2000
@@ -5983,6 +6038,70 @@ Enable/Disable VIC-1112 IEEE488 interface
 @item +sidcart
 Enable/Disable SID Cartridge
 
+@cindex -tfeioswap, +tfeioswap
+@item -tfeioswap
+@itemx +tfeioswap
+Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+@cindex -tfe, +tfe
+@item -tfe
+@itemx +tfe
+Enable/Disable the TFE ("The Final Ethernet") unit
+@cindex -tfeif
+@item -tfeif <name>
+Set the system ethernet interface for TFE emulation
+@cindex -tferrnet, +tferrnet
+@item -tferrnet
+@itemx +tferrnet
+Enable/Disable RRNet mode of TFE emulation
+
+@cindex -digimax, +digimax
+@item -digimax
+@itemx +digimax
+Enable/Disable the DigiMAX cartridge
+@cindex -digimaxbase
+@item -digimaxbase <base address>
+Base address of the DigiMAX cartridge
+
+@cindex -sfxseioswap, +sfxseioswap
+@item -sfxseioswap
+@itemx +sfxseioswap
+Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+@cindex -sfxse, +sfxse
+@item -sfxse
+@itemx +sfxse
+Enable/Disable the SFX soundexpander cartridge
+@cindex -sfxsetype
+@item -sfxsetype <type>
+Set YM chip type (3526 / 3812)
+
+@cindex -sfxssioswap, +sfxssioswap
+@item -sfxssioswap
+@itemx +sfxssioswap
+Swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+@cindex -sfxss, +sfxss
+@item -sfxss
+@itemx +sfxss
+Enable/Disable the SFX Sound Sampler cartridge
+
+@cindex -georamioswap, +georamioswap
+@item -georamioswap
+@itemx +georamioswap
+Swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
+@cindex -georam, +georam
+@item -georam
+@itemx +georam
+Enable/Disable the GEORAM expansion unit
+@cindex -georamimage
+@item -georamimage <name>
+Specify name of GEORAM image
+@cindex -georamimagerw, +georamimagerw
+@item -georamimagerw
+@itemx +georamimagerw
+Allow/Disallow writing to GEORAM image
+@cindex -georamsize
+@item -georamsize <size in KB>
+Size of the GEORAM expansion unit
+
 @end table
 
 @c @node FIXME
@@ -6038,10 +6157,10 @@ Enable/disable the double scan mode (@code{VICDoubleScan=1},
 @item -VIChwscale
 @item +VIChwscale
 Enable/Disable hardware scaling
-@cindex -VICscale2x, +VICscale2x
-@item -VICscale2x
-@item +VICscale2x
-Enable/Disable Scale2x
+
+@cindex -VICfilter
+@item -VICfilter <Mode>
+Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 
 @cindex -VICpalette
 @item -VICpalette NAME
@@ -6062,34 +6181,42 @@ Select fullscreen mode
 @cindex -VICVidmodefullmode
 @item -VICVidmodefullmode <mode>
 Select fullscreen mode
+@cindex -VICborders
+@item -VICborders <mode>
+Set VIC border display mode (0: normal, 1: full, 2: debug, 3:none)
 
-@cindex -saturation
-@item -saturation <0-2000>
+@cindex -VICsaturation
+@item -VICsaturation <0-2000>
 Set saturation of internal calculated palette [1000]
-@cindex -contrast
-@item -contrast <0-2000>
+@cindex -VICcontrast
+@item -VICcontrast <0-2000>
 Set contrast of internal calculated palette [1000]
-@cindex -brightness
-@item -brightness <0-2000>
+@cindex -VICbrightness
+@item -VICbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
-@cindex -gamma
-@item -gamma <0-4000>
+@cindex -VICgamma
+@item -VICgamma <0-4000>
 Set gamma of internal calculated palette [2200]
-@cindex -tint
-@item -tint <0-2000>
+@cindex -VICtint
+@item -VICtint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -oddlinesphase
-@item -oddlinesphase <0-2000>
+@cindex -VICoddlinesphase
+@item -VICoddlinesphase <0-2000>
 Set phase for color carrier in odd lines [1250]
-@cindex -oddlinesoffset
-@item -oddlinesoffset <0-2000>
+@cindex -VICoddlinesoffset
+@item -VICoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines [750]
-@cindex -crtblur
-@item -crtblur <0-1000>
+@cindex -VICcrtblur
+@item -VICcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
-@cindex -crtscanlineshade
-@item -crtscanlineshade <0-1000>
+@cindex -VICcrtscanlineshade
+@item -VICcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation [667]
+
+@cindex -VICaudioleak, +VICaudioleak
+@item -VICaudioleak
+@item +VICaudioleak
+Enable/Disable video to audio leak emulation.
 
 @end table
 
@@ -6334,10 +6461,9 @@ Enable/Disable double size
 @item -TEDdscan
 @itemx +TEDdscan
 Enable/Disable double scan
-@cindex -TEDscale2x, +TEDscale2x
-@item -TEDscale2x
-@item +TEDscale2x
-Enable/Disable Scale2x filter
+@cindex -TEDfilter
+@item -TEDfilter <Mode>
+Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 @cindex -TEDhwscale, +TEDhwscale
 @item -TEDhwscale
 @itemx +TEDhwscale
@@ -6360,34 +6486,42 @@ Select fullscreen mode
 @cindex -TEDVidmodefullmode
 @item -TEDVidmodefullmode <mode>
 Select fullscreen mode
+@cindex -TEDborders
+@item -TEDborders <mode>
+Set TED border display mode (0: normal, 1: full, 2: debug, 3:none)
 
-@cindex -saturation
-@item -saturation <0-2000>
+@cindex -TEDsaturation
+@item -TEDsaturation <0-2000>
 Set saturation of internal calculated palette [1000]
-@cindex -contrast
-@item -contrast <0-2000>
+@cindex -TEDcontrast
+@item -TEDcontrast <0-2000>
 Set contrast of internal calculated palette [1000]
-@cindex -brightness
-@item -brightness <0-2000>
+@cindex -TEDbrightness
+@item -TEDbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
-@cindex -gamma
-@item -gamma <0-4000>
+@cindex -TEDgamma
+@item -TEDgamma <0-4000>
 Set gamma of internal calculated palette [2200]
-@cindex -tint
-@item -tint <0-2000>
+@cindex -TEDtint
+@item -TEDtint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -oddlinesphase
-@item -oddlinesphase <0-2000>
+@cindex -TEDoddlinesphase
+@item -TEDoddlinesphase <0-2000>
 Set phase for color carrier in odd lines [1250]
-@cindex -oddlinesoffset
-@item -oddlinesoffset <0-2000>
+@cindex -TEDoddlinesoffset
+@item -TEDoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines [750]
-@cindex -crtblur
-@item -crtblur <0-1000>
+@cindex -TEDcrtblur
+@item -TEDcrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
-@cindex -crtscanlineshade
-@item -crtscanlineshade <0-1000>
+@cindex -TEDcrtscanlineshade
+@item -TEDcrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation [667]
+
+@cindex -TEDaudioleak, +TEDaudioleak
+@item -TEDaudioleak
+@item +TEDaudioleak
+Enable/Disable video to audio leak emulation.
 
 @end table
 
@@ -6398,6 +6532,17 @@ Amount of scan line shading for the CRT emulation [667]
 @subsubsection PLUS4 I/O extension command-line options
 
 @table @code
+
+@cindex -cartreset, +cartreset
+@item -cartreset
+@itemx +cartreset
+Do/don't reset machine if a cartridge is attached or detached
+@cindex -cart
+@item -cart <Name>
+Smart-attach cartridge image
+@cindex +cart
+@item +cart
+Disable default cartridge
 
 @cindex -digiblaster, +digiblaster
 @item -digiblaster
@@ -6479,6 +6624,11 @@ Enable the HANNES 4096K RAM expansion
 @cindex -cs256k
 @item -cs256k
 Enable the CSORY 256K RAM expansion
+
+@cindex -acia, +acia
+@item -acia
+@itemx +acia
+Enable/Disable the ACIA emulation
 
 @end table
 
@@ -6667,14 +6817,17 @@ Enable/Disable the video cache
 @item -Crtcdsize
 @itemx +Crtcdsize
 Enable/Disable double size
+@cindex -CRTCstretchvertical, +CRTCstretchvertical
+@item -CRTCstretchvertical
+@itemx +CRTCstretchvertical
+Enable/Disable vertical stretching
 @cindex -Crtcdscan, +Crtcdscan
 @item -Crtcdscan
 @itemx +Crtcdscan
 Enable/Disable double scan
-@cindex -Crtcscale2x, +Crtcscale2x
-@item -Crtcscale2x
-@item +Crtcscale2x
-Enable/Disable Scale2x filter
+@cindex -Crtcfilter
+@item -Crtcfilter <Mode>
+Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x
 @cindex -Crtchwscale, +Crtchwscale
 @item -Crtchwscale
 @itemx +Crtchwscale
@@ -6698,33 +6851,38 @@ Select fullscreen mode
 @item -CrtcVidmodefullmode <mode>
 Select fullscreen mode
 
-@cindex -saturation
-@item -saturation <0-2000>
+@cindex -Crtcsaturation
+@item -Crtcsaturation <0-2000>
 Set saturation of internal calculated palette [1000]
-@cindex -contrast
-@item -contrast <0-2000>
+@cindex -Crtccontrast
+@item -Crtccontrast <0-2000>
 Set contrast of internal calculated palette [1000]
-@cindex -brightness
-@item -brightness <0-2000>
+@cindex -Crtcbrightness
+@item -Crtcbrightness <0-2000>
 Set brightness of internal calculated palette [1000]
-@cindex -gamma
-@item -gamma <0-4000>
+@cindex -Crtcgamma
+@item -Crtcgamma <0-4000>
 Set gamma of internal calculated palette [2200]
-@cindex -tint
-@item -tint <0-2000>
+@cindex -Crtctint
+@item -Crtctint <0-2000>
 Set tint of internal calculated palette [1000]
-@cindex -oddlinesphase
-@item -oddlinesphase <0-2000>
+@cindex -Crtcoddlinesphase
+@item -Crtcoddlinesphase <0-2000>
 Set phase for color carrier in odd lines [1250]
-@cindex -oddlinesoffset
-@item -oddlinesoffset <0-2000>
+@cindex -Crtcoddlinesoffset
+@item -Crtcoddlinesoffset <0-2000>
 Set phase offset for color carrier in odd lines [750]
-@cindex -crtblur
-@item -crtblur <0-1000>
+@cindex -Crtccrtblur
+@item -Crtccrtblur <0-1000>
 Amount of horizontal blur for the CRT emulation. [500]
-@cindex -crtscanlineshade
-@item -crtscanlineshade <0-1000>
+@cindex -Crtccrtscanlineshade
+@item -Crtccrtscanlineshade <0-1000>
 Amount of scan line shading for the CRT emulation [667]
+
+@cindex -Crtcaudioleak, +Crtcaudioleak
+@item -Crtcaudioleak
+@item +Crtcaudioleak
+Enable/Disable video to audio leak emulation.
 
 @end table
 
@@ -6783,6 +6941,35 @@ $a000-$afff (@code{RamA}).
 @cindex -superpet, +superpet
 @item -superpet, +superpet
 Enable/Disable SuperPET I/O emulation (@code{SuperPET}).
+
+@cindex -cpu6502
+@item -cpu6502
+Set SuperPET CPU switch to '6502'
+@cindex -cpu6809
+@item -cpu6809
+Set SuperPET CPU switch to '6809'
+@cindex -cpuprog
+@item -cpuprog
+Set SuperPET CPU switch to 'Prog'
+
+@cindex -6809romA
+@item -6809romA <Name>
+Specify 4K to 24K ROM file name at $A000 for 6809
+@cindex -6809romB
+@item -6809romB <Name>
+Specify 4K to 20K ROM file name at $B000 for 6809
+@cindex -6809romC
+@item -6809romC <Name>
+Specify 4K to 16K ROM file name at $C000 for 6809
+@cindex -6809romD
+@item -6809romD <Name>
+Specify 4K to 12K ROM file name at $D000 for 6809
+@cindex -6809romE
+@item -6809romE <Name>
+Specify 2K or 8K ROM file name at $E000 for 6809
+@cindex -6809romF
+@item -6809romF <Name>
+Specify 4K ROM file name at $F000 for 6809
 
 @cindex -basic1, +basic1
 @item -basic1, +basic1
@@ -6881,11 +7068,6 @@ file, command line options or right-menu items):
 
 @table @code
 
-@vindex UseVicII
-@item UseVicII
-Whether to use VIC-II for video output (value 1) or the CRTC for the
-other machines (value 0)
-
 @vindex RamSize
 @item RamSize
 Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
@@ -6961,12 +7143,6 @@ These are the commandline options specific for the CBM-II models.
 @item -ramsize <ramsize>
 Specify size of RAM (64/128/256/512/1024 kByte)
 
-@cindex -usevicii, +usevicii
-@item -usevicii
-@itemx +usevicii
-Specify whether to use (-usevicii) or not to use (+usevicii) the VIC-II
-emulation.
-
 @cindex -kernal
 @item -kernal NAME
 Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
@@ -7028,10 +7204,9 @@ resp (@code{Ram6}).
 Enable/Disable RAM mapping in bank 15 on addresses  $C000-$CFFF
 resp (@code{RamC}).
 
-
-@cindex -modelline
-@item -modelline
-Define the hardcoded model switch in the CBM-II models.
+@cindex -model
+@item -model <modelnumber>
+Specify CBM-II model to emulate
 
 @end table
 
