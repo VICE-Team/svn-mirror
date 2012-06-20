@@ -2197,6 +2197,32 @@ feature, while the one beginning with a plus sign is used to
 example, @code{-mitshm} enables support of MITSHM, while @code{+mitshm}
 disables it.
 
+@c @node FIXME
+@section Autostart settings
+
+@c @node FIXME
+@subsection Autostart resources
+
+@table @code
+
+@vindex AutostartPrgDiskImage
+@item AutostartPrgDiskImage
+@vindex AutostartBasicLoad
+@item AutostartBasicLoad
+@vindex AutostartRunWithColon
+@item AutostartRunWithColon
+@vindex AutostartHandleTrueDriveEmulation
+@item AutostartHandleTrueDriveEmulation
+@vindex AutostartWarp
+@item AutostartWarp
+@vindex AutostartPrgMode
+@item AutostartPrgMode
+@vindex AutostartDelay
+@item AutostartDelay
+@vindex AutostartDelayRandom
+@item AutostartDelayRandom
+
+@end table
 
 @node Performance settings, Video settings, Resources and command-line, Settings and resources
 @section Performance settings
@@ -2369,6 +2395,38 @@ colors if other color-hungry applications are running at the same time.
 Integer specifying the depth of the host display.  The value @samp{0}
 (the default) causes the emulator to autodetect it.
 
+@vindex UseFullscreen
+@item UseFullscreen
+@vindex HwScalePossible
+@item HwScalePossible
+@vindex openGL_sync
+@item openGL_sync
+@vindex openGL_no_sync
+@item openGL_no_sync
+@vindex KeepAspectRatio
+@item KeepAspectRatio
+@vindex TrueAspectRatio
+@item TrueAspectRatio
+
+@vindex Window0Width
+@item Window0Width
+@vindex Window0Height
+@item Window0Height
+@vindex Window0Xpos
+@item Window0Xpos
+@vindex Window0Ypos
+@item Window0Ypos
+Integers specifying the position and size of the (first) emulator window.
+@vindex Window1Width
+@item Window1Width
+@vindex Window1Height
+@item Window1Height
+@vindex Window1Xpos
+@item Window1Xpos
+@vindex Window1Ypos
+@item Window1Ypos
+Integers specifying the position and size of the (second) emulator window.
+
 @end table
 
 
@@ -2447,6 +2505,9 @@ for UK business keyboard or @code{2} for graphics keyboard.
 @item KeymapSymFile
 String specifying the name of the keymap file for the symbolic mapping
 (@pxref{Keyboard emulation}, all but PET and CBM-II).
+@c FIXME: KeymapSymDeFile is really weird
+@vindex KeymapSymDeFile
+@item KeymapSymDeFile
 
 @vindex KeymapPosFile
 @item KeymapPosFile
@@ -2529,6 +2590,85 @@ German business keyboard
 
 @c @node FIXME
 @section Joystick settings
+
+@c @node FIXME
+@subsection Joystick resources
+
+@table @code
+
+@vindex JoyDevice1
+@vindex JoyDevice2
+@vindex JoyDevice3
+@vindex JoyDevice4
+@item JoyDevice1
+@itemx JoyDevice2
+@itemx JoyDevice3
+@itemx JoyDevice4
+Integer specifying which joystick device the emulator should use for
+joystick emulation for ports 1 - 4, respectively
+(0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
+5=Digital joystick 1, 6=Digital joystick 2 on Unix)
+The available joysticks might differ depending on operating system and
+joystick support in the OS (Linux joystick module must be
+available for example).
+
+@vindex JoyOpposite
+@item JoyOpposite
+@vindex ExtraJoy
+@item ExtraJoy
+@vindex ExtraJoyType
+@item ExtraJoyType
+@vindex Mouse
+@item Mouse
+@vindex Mousetype
+@item Mousetype
+@vindex Mouseport
+@item Mouseport
+@vindex Lightpen
+@item Lightpen
+@vindex LightpenType
+@item LightpenType
+
+@vindex KeySet1NorthWest
+@item KeySet1NorthWest
+@vindex KeySet1North
+@item KeySet1North
+@vindex KeySet1NorthEast
+@item KeySet1NorthEast
+@vindex KeySet1East
+@item KeySet1East
+@vindex KeySet1SouthEast
+@item KeySet1SouthEast
+@vindex KeySet1South
+@item KeySet1South
+@vindex KeySet1SouthWest
+@item KeySet1SouthWest
+@vindex KeySet1West
+@item KeySet1West
+@vindex KeySet1Fire
+@item KeySet1Fire
+@vindex KeySet2NorthWest
+@item KeySet2NorthWest
+@vindex KeySet2North
+@item KeySet2North
+@vindex KeySet2NorthEast
+@item KeySet2NorthEast
+@vindex KeySet2East
+@item KeySet2East
+@vindex KeySet2SouthEast
+@item KeySet2SouthEast
+@vindex KeySet2South
+@item KeySet2South
+@vindex KeySet2SouthWest
+@item KeySet2SouthWest
+@vindex KeySet2West
+@item KeySet2West
+@vindex KeySet2Fire
+@item KeySet2Fire
+@vindex KeySetEnable
+@item KeySetEnable
+
+@end table
 
 @c @node FIXME
 @subsection Joystick command-line options
@@ -2719,6 +2859,17 @@ script detected the corresponding devices at the time of compilation.
 String specifying an additional parameter for the audio driver (see
 @code{SoundDeviceName}).
 
+@vindex SoundRecordDeviceName
+@item SoundRecordDeviceName
+@vindex SoundRecordDeviceArg
+@item SoundRecordDeviceArg
+@vindex SoundFragmentSize
+@item SoundFragmentSize
+@vindex SoundVolume
+@item SoundVolume
+@vindex SoundOutput
+@item SoundOutput
+
 @end table
 
 @node Sound options,  , Sound resources, Sound settings
@@ -2776,6 +2927,20 @@ Specify initialization parameters for recording sound driver
 
 These settings are used to control the hardware-level emulation of the Tape
 drive.
+
+@c @node FIXME
+@subsection Tape resources
+
+@table @code
+
+@vindex DatasetteResetWithCPU
+@item DatasetteResetWithCPU
+@vindex DatasetteZeroGapDelay
+@item DatasetteZeroGapDelay
+@vindex DatasetteSpeedTuning
+@item DatasetteSpeedTuning
+
+@end table
 
 @subsection Tape command-line options
 
@@ -2919,6 +3084,9 @@ needs it, without prompting the user.
 
 @table @code
 
+@vindex RawDriveDriver
+@item RawDriveDriver
+
 @vindex DriveTrueEmulation
 @item DriveTrueEmulation
 Boolean controlling whether the ``true'' drive emulation is turned on.
@@ -3057,6 +3225,39 @@ are @code{0} (none), @code{1} (skip cycles), @code{2} (trap idle).
 @itemx DosName1001
 @itemx DosName1551
 Strings specifying the names of the ROM images for the drive emulation.
+
+@vindex DriveProfDOS1571Name
+@item DriveProfDOS1571Name
+
+@vindex RomsetDosName1541
+@vindex RomsetDosName1541ii
+@vindex RomsetDosName1570
+@vindex RomsetDosName1571
+@vindex RomsetDosName1581
+@vindex RomsetDosName2000
+@vindex RomsetDosName4000
+@vindex RomsetDosName2031
+@vindex RomsetDosName2040
+@vindex RomsetDosName3040
+@vindex RomsetDosName4040
+@vindex RomsetDosName1001
+@vindex RomsetDosName1571cr
+@vindex RomsetDosName1551
+
+@item RomsetDosName1541
+@itemx RomsetDosName1541ii
+@itemx RomsetDosName1570
+@itemx RomsetDosName1571
+@itemx RomsetDosName1581
+@itemx RomsetDosName2000
+@itemx RomsetDosName4000
+@itemx RomsetDosName2031
+@itemx RomsetDosName2040
+@itemx RomsetDosName3040
+@itemx RomsetDosName4040
+@itemx RomsetDosName1001
+@itemx RomsetDosName1571cr
+@itemx RomsetDosName1551
 
 @end table
 
@@ -3298,6 +3499,24 @@ VICE runs on.
 
 @table @code
 
+@vindex IECDevice8
+@item IECDevice8
+@vindex IECDevice9
+@item IECDevice9
+@vindex IECDevice10
+@item IECDevice10
+@vindex IECDevice11
+@item IECDevice11
+
+@vindex FileSystemDevice8
+@item FileSystemDevice8
+@vindex FileSystemDevice9
+@item FileSystemDevice9
+@vindex FileSystemDevice10
+@item FileSystemDevice10
+@vindex FileSystemDevice11
+@item FileSystemDevice11
+
 @vindex FSDevice8ConvertP00
 @item FSDevice8ConvertP00
 @vindex FSDevice9ConvertP00
@@ -3442,25 +3661,30 @@ output from the Commodore printer code) and then to the printer via
 
 @table @code
 
+@vindex IECDevice4
+@item IECDevice4
+@vindex IECDevice5
+@item IECDevice5
+
 @vindex PrinterTextDevice1
-@item PrinterTextDevice1
 @vindex PrinterTextDevice2
-@itemx PrinterTextDevice2
 @vindex PrinterTextDevice3
+@item PrinterTextDevice1
+@itemx PrinterTextDevice2
 @itemx PrinterTextDevice3
 Strings specifying the printer devices (@pxref{Printer settings}).
 
 @vindex Printer4TextDevice
-@item Printer4TextDevice
 @vindex Printer5TextDevice
-@item Printer5TextDevice
+@item Printer4TextDevice
+@itemx Printer5TextDevice
 Integer (ranging from 0 to 2, for device 1-3) specifying what printer device
 (@pxref{Printer settings}) the IEC printer is using.
 
 @vindex Printer4
 @vindex Printer5
 @item Printer4
-@item Printer5
+@itemx Printer5
 Integer specifying how the IEC printer (device 4-5) is being emulated.
 (0: NONE, 1: FS, 2: REAL)
 
@@ -3473,7 +3697,7 @@ String (ascii, mps803, nl10) specifying the IEC printer output driver.
 @vindex Printer4Output
 @vindex Printer5Output
 @item Printer4Output
-@item Printer5Output
+@itemx Printer5Output
 String specifying the IEC printer output device.
 
 
@@ -3833,6 +4057,21 @@ This section lists command-line options specific to the built-in monitor.
 @end menu
 
 @node Monitor options,  ,  , Monitor settings
+
+@c @node FIXME
+@subsection Monitor resources
+
+@table @code
+
+@vindex KeepMonitorOpen
+@item KeepMonitorOpen
+@vindex MonitorServerAddress
+@item MonitorServerAddress
+@vindex MonitorServer
+@item MonitorServer
+
+@end table
+
 @subsection Monitor command-line options
 
 @table @code
@@ -3864,6 +4103,16 @@ The local address the remote monitor should bind to
 @section Machine settings
 
 @c @node FIXME
+@subsection Machine resources
+
+@table @code
+
+@vindex MachineVideoStandard
+@item MachineVideoStandard
+
+@end table
+
+@c @node FIXME
 @subsection Machine command-line options
 
 @table @code
@@ -3887,6 +4136,20 @@ Use PAL-N sync factor
 
 @c @node FIXME
 @section Memory settings
+
+@c @node FIXME
+@subsection Memory resources
+
+@table @code
+
+@vindex RAMInitStartValue
+@item RAMInitStartValue
+@vindex RAMInitValueInvert
+@item RAMInitValueInvert
+@vindex RAMInitPatternInvert
+@item RAMInitPatternInvert
+
+@end table
 
 @c @node FIXME
 @subsection Memory command-line options
@@ -3978,21 +4241,40 @@ first, in case the settings have changed.
 Boolean specifying whether the emulator should dump core when it gets a
 signal.
 
-@vindex JoyDevice1
-@vindex JoyDevice2
-@vindex JoyDevice3
-@vindex JoyDevice4
-@item JoyDevice1
-@itemx JoyDevice2
-@itemx JoyDevice3
-@itemx JoyDevice4
-Integer specifying which joystick device the emulator should use for
-joystick emulation for ports 1 - 4, respectively
-(0=None, 1=Numpad, 2=Custom keys, 3=Analog joystick 1, 4=Analog joystick 2,
-5=Digital joystick 1, 6=Digital joystick 2 on Unix)
-The available joysticks might differ depending on operating system and
-joystick support in the OS (Linux joystick module must be
-available for example).
+@vindex NetworkServerName
+@item NetworkServerName
+@vindex NetworkServerBindAddress
+@item NetworkServerBindAddress
+@vindex NetworkServerPort
+@item NetworkServerPort
+@vindex NetworkControl
+@item NetworkControl
+
+@vindex LogFileName
+@item LogFileName
+@vindex FliplistName
+@item FliplistName
+
+@vindex ConfirmOnExit
+@item ConfirmOnExit
+
+@vindex AttachDevice8Readonly
+@item AttachDevice8Readonly
+@vindex AttachDevice9Readonly
+@item AttachDevice9Readonly
+@vindex AttachDevice10Readonly
+@item AttachDevice10Readonly
+@vindex AttachDevice11Readonly
+@item AttachDevice11Readonly
+
+@vindex RomsetArchiveName
+@item RomsetArchiveName
+@vindex RomsetArchiveActive
+@item RomsetArchiveActive
+@vindex RomsetFileName
+@item RomsetFileName
+@vindex RomsetSourceFile
+@item RomsetSourceFile
 
 @end table
 
@@ -4376,6 +4658,10 @@ after enabling it from the user interface.
 @c FIXME: incomplete descriptions for resources
 
 @table @code
+
+@vindex IOCollisionHandling
+@item IOCollisionHandling
+
 @vindex CartridgeReset
 @item CartridgeReset
 @vindex CartridgeType
@@ -4389,6 +4675,12 @@ Boolean specifying whether the Double Quick Brown Box should be emulated or not.
 @item DQBBfilename
 @vindex DQBBImageWrite
 @item DQBBImageWrite
+
+@vindex EasyFlashJumper
+@item EasyFlashJumper
+@vindex EasyFlashWriteCRT
+@item EasyFlashWriteCRT
+
 @vindex ExpertCartridgeEnabled
 @item ExpertCartridgeEnabled
 Boolean specifying whether the Expert Cartridge should be emulated or not.
@@ -4506,6 +4798,7 @@ Boolean specifying whether the MMC64 should be emulated or not.
 @item MMCRSDType
 @vindex MMCREEPROMRW
 @item MMCREEPROMRW
+
 @vindex RAMCART
 @item RAMCART
 Boolean specifying whether the RAMCart should be emulated or not.
@@ -4517,10 +4810,15 @@ Boolean specifying whether the RAMCart should be emulated or not.
 @item RAMCART_RO
 @vindex RAMCARTsize
 @item RAMCARTsize
+
+@vindex RRrevision
+@item RRrevision
 @vindex RRFlashJumper
 @item RRFlashJumper
+Boolean specifying whether the RR flash jumper is set or not.
 @vindex RRBankJumper
 @item RRBankJumper
+Boolean specifying whether the RR bank jumper is set or not.
 @vindex RRBiosWrite
 @item RRBiosWrite
 @end table
@@ -4902,6 +5200,19 @@ Attach raw 16kB Zaxxon cartridge image
 
 @c @node FIXME
 @subsection CIA settings
+
+@c @node FIXME
+@subsubsection CIA resources
+
+@table @code
+
+@vindex CIA1Model
+@item CIA1Model
+@vindex CIA2Model
+@item CIA2Model
+Enum specifying CIA model (0 = old 6526, 1 = new 6526A)
+
+@end table
 
 @c @node FIXME
 @subsubsection CIA command-line options
@@ -5323,6 +5634,13 @@ Interpolation, @code{2}: Resampling)
 Integer specifying the resampling filter passband in percentage of the
 total bandwidth (@code{0 - 90}).
 
+@vindex SidResidGain
+@item SidResidGain
+@vindex SidResidFilterBias
+@item SidResidFilterBias
+@vindex SidParSIDport
+@item SidParSIDport
+
 @end table
 
 
@@ -5454,6 +5772,10 @@ TODO
 @vindex Acia1Enable
 @item Acia1Enable
 Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not.
+@vindex Acia1Mode
+@item Acia1Mode
+@vindex Acia1Base
+@item Acia1Base
 
 @vindex DIGIMAX
 @item DIGIMAX
@@ -5485,6 +5807,12 @@ Boolean specifying whether the GEO-RAM cartridge should be emulated or not.
 Boolean specifying whether the MIDI cartridge should be emulated or not.
 @vindex MIDIMode
 @item MIDIMode
+@vindex MIDIDriver
+@item MIDIDriver
+@vindex MIDIInDev
+@item MIDIInDev
+@vindex MIDIOutDev
+@item MIDIOutDev
 
 @vindex REU
 @item REU
@@ -5495,12 +5823,15 @@ Boolean specifying whether the RAM Expansion Module should be emulated or not.
 @item REUImageWrite
 @vindex REUsize
 @item REUsize
+@vindex REUfirstUnusedRegister
+@item REUfirstUnusedRegister
 
 @vindex SFXSoundExpander
 @item SFXSoundExpander
 Boolean specifying whether the SFX Sound Expander should be emulated or not.
 @vindex SFXSoundExpanderChip
 @item SFXSoundExpanderChip
+Enum specifying which YM chip is emulated (0: 3526, 1: 3812)
 
 @vindex SFXSoundSampler
 @item SFXSoundSampler
@@ -5658,6 +5989,13 @@ Commodore SX-64 ROM;
 Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @end table
 
+@vindex RomsetKernalName
+@item RomsetKernalName
+@vindex RomsetBasicName
+@item RomsetBasicName
+@vindex RomsetChargenName
+@item RomsetChargenName
+
 @end table
 
 @node C64/128 system ROM options,  , C64/128 system ROM resources, C64/128 system ROM settings
@@ -5686,6 +6024,34 @@ Specify Kernal revision (@code{KernalRev}).
 
 @c @node FIXME
 @subsection C64 settings
+
+@c @node FIXME
+@subsubsection C64 resources
+
+@table @code
+
+@vindex GlueLogic
+@item GlueLogic
+@vindex BurstMod
+@item BurstMod
+@vindex PLUS60Kfilename
+@item PLUS60Kfilename
+@vindex PLUS60K
+@item PLUS60K
+@vindex PLUS60Kbase
+@item PLUS60Kbase
+@vindex PLUS256Kfilename
+@item PLUS256Kfilename
+@vindex PLUS256K
+@item PLUS256K
+@vindex C64_256Kfilename
+@item C64_256Kfilename
+@vindex C64_256K
+@item C64_256K
+@vindex C64_256Kbase
+@item C64_256Kbase
+
+@end table
 
 @c @node FIXME
 @subsubsection C64 command-line options
@@ -5738,6 +6104,12 @@ Base address of the 256K expansion
 @subsubsection VDC resources
 
 @table @code
+
+@vindex VDC64KB
+@item VDC64KB
+@vindex VDCRevision
+@item VDCRevision
+
 @vindex VDCVideoCache
 @item VDCVideoCache
 Boolean specifying whether the video cache is turned on.
@@ -5923,6 +6295,84 @@ Enable/Disable video to audio leak emulation.
 @subsection C128 system ROM settings
 
 @c @node FIXME
+@subsubsection C128 system ROM resources
+
+@table @code
+
+@vindex ChargenIntName
+@item ChargenIntName
+@vindex ChargenDEName
+@item ChargenDEName
+@vindex ChargenFRName
+@item ChargenFRName
+@vindex ChargenSEName
+@item ChargenSEName
+@vindex KernalIntName
+@item KernalIntName
+@vindex KernalDEName
+@item KernalDEName
+@vindex KernalFIName
+@item KernalFIName
+@vindex KernalFRName
+@item KernalFRName
+@vindex KernalITName
+@item KernalITName
+@vindex KernalNOName
+@item KernalNOName
+@vindex KernalSEName
+@item KernalSEName
+@vindex BasicLoName
+@item BasicLoName
+@vindex BasicHiName
+@item BasicHiName
+@vindex Kernal64Name
+@item Kernal64Name
+@vindex Basic64Name
+@item Basic64Name
+
+@vindex InternalFunctionName
+@item InternalFunctionName
+@vindex ExternalFunctionName
+@item ExternalFunctionName
+@vindex InternalFunctionROM
+@item InternalFunctionROM
+@vindex ExternalFunctionROM
+@item ExternalFunctionROM
+
+@vindex RomsetChargenIntName
+@item RomsetChargenIntName
+@vindex RomsetChargenDEName
+@item RomsetChargenDEName
+@vindex RomsetChargenFRName
+@item RomsetChargenFRName
+@vindex RomsetChargenSEName
+@item RomsetChargenSEName
+@vindex RomsetKernalIntName
+@item RomsetKernalIntName
+@vindex RomsetKernalDEName
+@item RomsetKernalDEName
+@vindex RomsetKernalFIName
+@item RomsetKernalFIName
+@vindex RomsetKernalFRName
+@item RomsetKernalFRName
+@vindex RomsetKernalITName
+@item RomsetKernalITName
+@vindex RomsetKernalNOName
+@item RomsetKernalNOName
+@vindex RomsetKernalSEName
+@item RomsetKernalSEName
+@vindex RomsetBasicLoName
+@item RomsetBasicLoName
+@vindex RomsetBasicHiName
+@item RomsetBasicHiName
+@vindex RomsetKernal64Name
+@item RomsetKernal64Name
+@vindex RomsetBasic64Name
+@item RomsetBasic64Name
+
+@end table
+
+@c @node FIXME
 @subsubsection C128 system ROM command-line options
 
 @table @code
@@ -5996,6 +6446,22 @@ Specify name of external Function ROM image
 
 @c @node FIXME
 @subsection C128 settings
+
+@c @node FIXME
+@subsubsection C128 resources
+
+@table @code
+
+@vindex 40/80ColumnKey
+@item 40/80ColumnKey
+@vindex Go64Mode
+@item Go64Mode
+@vindex C128FullBanks
+@item C128FullBanks
+@vindex MachineType
+@item MachineType
+
+@end table
 
 @c @node FIXME
 @subsubsection C128 command-line options
@@ -6188,6 +6654,33 @@ The 64kB bank can be selected with "bank ram00".."ram1f" for RAM and
 The "load" command can load large files (>64kB) correctly if the bank is set
 to "ramXX", where XX is the starting bank (usually "bank00").
 
+@c @node FIXME
+@subsection DTV resources
+
+@table @code
+
+@vindex HummerADC
+@item HummerADC
+@vindex DtvRevision
+@item DtvRevision
+@vindex DtvBlitterLog
+@item DtvBlitterLog
+@vindex DtvDMALog
+@item DtvDMALog
+@vindex c64dtvromfilename
+@item c64dtvromfilename
+@vindex c64dtvromrw
+@item c64dtvromrw
+@vindex DtvFlashLog
+@item DtvFlashLog
+@vindex FSFlashDir
+@item FSFlashDir
+@vindex FlashTrueFS
+@item FlashTrueFS
+@vindex ps2mouse
+@item ps2mouse
+
+@end table
 
 @node VIC20-specific, PET-specific, C64DTV-specific, Machine-specific features
 @section VIC20-specific commands and settings
@@ -6247,6 +6740,40 @@ but you also have to enable the IEEE488 hardware by menu.
 
 @c @node FIXME
 @subsection VIC20 cartridge settings
+
+@c @node FIXME
+@subsubsection VIC20 cartridge resources
+
+@table @code
+
+@vindex IOCollisionHandling
+@item IOCollisionHandling
+
+@vindex FinalExpansionWriteBack
+@item FinalExpansionWriteBack
+@vindex VicFlashPluginWriteBack
+@item VicFlashPluginWriteBack
+@vindex MegaCartNvRAMfilename
+@item MegaCartNvRAMfilename
+@vindex MegaCartNvRAMWriteBack
+@item MegaCartNvRAMWriteBack
+@vindex TFEIOSwap
+@item TFEIOSwap
+@vindex SFXSoundExpanderIOSwap
+@item SFXSoundExpanderIOSwap
+@vindex SFXSoundSamplerIOSwap
+@item SFXSoundSamplerIOSwap
+@vindex GEORAMIOSwap
+@item GEORAMIOSwap
+
+@vindex SidCart
+@item SidCart
+@vindex SidAddress
+@item SidAddress
+@vindex SidClock
+@item SidClock
+
+@end table
 
 @c @node FIXME
 @subsubsection VIC20 cartridge command-line options
@@ -6981,6 +7508,29 @@ Enable/Disable video to audio leak emulation.
 @subsection PLUS4 I/O extension settings
 
 @c @node FIXME
+@subsubsection PLUS4 I/O extension resources
+
+@table @code
+
+@vindex DIGIBLASTER
+@item DIGIBLASTER
+@vindex SpeechImage
+@item SpeechImage
+@vindex SpeechEnabled
+@item SpeechEnabled
+@vindex SIDCartJoy
+@item SIDCartJoy
+
+@vindex SidCart
+@item SidCart
+@vindex SidAddress
+@item SidAddress
+@vindex SidClock
+@item SidClock
+
+@end table
+
+@c @node FIXME
 @subsubsection PLUS4 I/O extension command-line options
 
 @table @code
@@ -7026,6 +7576,31 @@ Attach Speech ROM image
 @subsection PLUS4 system ROM settings
 
 @c @node FIXME
+@subsubsection PLUS4 system ROM resources
+
+@table @code
+
+@vindex FunctionLowName
+@item FunctionLowName
+@vindex FunctionHighName
+@item FunctionHighName
+@vindex c1loName
+@item c1loName
+@vindex c1hiName
+@item c1hiName
+@vindex c2loName
+@item c2loName
+@vindex c2hiName
+@item c2hiName
+
+@vindex RomsetFunctionLowName
+@item RomsetFunctionLowName
+@vindex RomsetFunctionHighName
+@item RomsetFunctionHighName
+
+@end table
+
+@c @node FIXME
 @subsubsection PLUS4 system ROM command-line options
 
 @table @code
@@ -7054,6 +7629,18 @@ Specify name of Cartridge 2 high ROM image
 
 @c @node FIXME
 @subsection PLUS4 settings
+
+@c @node FIXME
+@subsubsection PLUS4 resources
+
+@table @code
+
+@vindex H256K
+@item H256K
+@vindex CS256K
+@item CS256K
+
+@end table
 
 @c @node FIXME
 @subsubsection PLUS4 command-line options
@@ -7414,111 +8001,42 @@ Enable/Disable video to audio leak emulation.
 
 @end table
 
-@node PET diagnostic pin, PET commandline options, PET model, PET-specific
-@subsection The PET diagnostic pin
+@c @node FIXME
+@subsection PET I/O extension settings
 
-It is possible to enable or disable emulation of the PET diagnostic pin
-via the @code{DiagPin} resource, or the ``PET userport diagnostic pin''
-item in the right-button menu.
-
-When the diagnostic pin is set, the Kernal does not try to initialize
-the BASIC, but directly jumps into the builtin machine monitor.
-
-@node PET commandline options, PET colors, PET diagnostic pin, PET-specific
-@subsection PET command line options
-
-These are the commandline options specific for the CBM-II models.
+@c @node FIXME
+@subsubsection PET I/O extension resources
 
 @table @code
 
-@cindex -model
-@item -model MODEL
-Specify the PET model you want to emulate.
+@vindex PETREUfilename
+@item PETREUfilename
+@vindex PETREU
+@item PETREU
+@vindex PETREUsize
+@item PETREUsize
 
-@cindex -kernal
-@item -kernal NAME
-Specify @file{NAME} as the Kernal/BASIC ROM file (@code{KernalName}).
+@vindex PETDWWfilename
+@item PETDWWfilename
+@vindex PETDWW
+@item PETDWW
 
-@cindex -editor
-@item -editor NAME
-Specify @file{NAME} as the editor ROM file (@code{EditorName}).
+@vindex UserportDAC
+@item UserportDAC
 
-@cindex -chargen
-@item -chargen NAME
-Specify @file{NAME} as the character generator ROM file
-(@code{ChargenName}).
+@vindex SidCart
+@item SidCart
+@vindex SidAddress
+@item SidAddress
+@vindex SidClock
+@item SidClock
 
-@cindex -rom9
-@cindex -romA
-@cindex -romB
-@item -rom9 NAME, -romA NAME, -romB NAME
-Specify @file{NAME} as the ROM image file for the respective
-cartridge areas (@code{RomModule9Name}, @code{RomModuleAName},
-@code{RomModuleBName}).
+@end table
 
-@cindex -petram9, +petram9
-@item -petram9, +petram9
-Switch on RAM mapping on addresses
-$9000-$9fff (@code{Ram9}).
+@c @node FIXME
+@subsubsection PET I/O extension command-line options
 
-@cindex -petramA, +petramA
-@item -petramA, +petramA
-Switch on RAM mapping on addresses
-$a000-$afff (@code{RamA}).
-
-@cindex -superpet, +superpet
-@item -superpet, +superpet
-Enable/Disable SuperPET I/O emulation (@code{SuperPET}).
-
-@cindex -cpu6502
-@item -cpu6502
-Set SuperPET CPU switch to '6502'
-@cindex -cpu6809
-@item -cpu6809
-Set SuperPET CPU switch to '6809'
-@cindex -cpuprog
-@item -cpuprog
-Set SuperPET CPU switch to 'Prog'
-
-@cindex -6809romA
-@item -6809romA <Name>
-Specify 4K to 24K ROM file name at $A000 for 6809
-@cindex -6809romB
-@item -6809romB <Name>
-Specify 4K to 20K ROM file name at $B000 for 6809
-@cindex -6809romC
-@item -6809romC <Name>
-Specify 4K to 16K ROM file name at $C000 for 6809
-@cindex -6809romD
-@item -6809romD <Name>
-Specify 4K to 12K ROM file name at $D000 for 6809
-@cindex -6809romE
-@item -6809romE <Name>
-Specify 2K or 8K ROM file name at $E000 for 6809
-@cindex -6809romF
-@item -6809romF <Name>
-Specify 4K ROM file name at $F000 for 6809
-
-@cindex -basic1, +basic1
-@item -basic1, +basic1
-Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
-(@code{Basic1}).
-
-@cindex -basic1char, +basic1char
-@item -basic1char, +basic1char
-Enable/Disable PET 2001 character generator
-(@code{Basic1Chars}).
-
-@cindex -eoiblank, +eoiblank
-@item -eoiblank, +eoiblank
-Enable/Disable EOI blanking the screen
-(@code{EoiBlank}).
-
-@cindex -diagpin, +diagpin
-@item -diagpin
-@itemx +diagpin
-Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the
-diagnostic pin at the PET userport.
+@table @code
 
 @cindex -petreu, +petreu
 @item -petreu
@@ -7548,6 +8066,179 @@ Specify name of PET DWW image
 @item -sidcart
 @item +sidcart
 Enable/Disable SID Cartridge
+
+@end table
+
+@c @node FIXME
+@subsection PET system ROM settings
+
+@c @node FIXME
+@subsubsection PET system ROM resources
+
+@table @code
+
+@vindex H6809RomAName
+@item H6809RomAName
+@vindex H6809RomBName
+@item H6809RomBName
+@vindex H6809RomCName
+@item H6809RomCName
+@vindex H6809RomDName
+@item H6809RomDName
+@vindex H6809RomEName
+@item H6809RomEName
+@vindex H6809RomFName
+@item H6809RomFName
+
+@vindex RomsetEditorName
+@item RomsetEditorName
+@vindex RomsetRomModule9Name
+@item RomsetRomModule9Name
+@vindex RomsetRomModuleAName
+@item RomsetRomModuleAName
+@vindex RomsetRomModuleBName
+@item RomsetRomModuleBName
+@vindex RomsetH6809RomAName
+@item RomsetH6809RomAName
+@vindex RomsetH6809RomBName
+@item RomsetH6809RomBName
+@vindex RomsetH6809RomCName
+@item RomsetH6809RomCName
+@vindex RomsetH6809RomDName
+@item RomsetH6809RomDName
+@vindex RomsetH6809RomEName
+@item RomsetH6809RomEName
+@vindex RomsetH6809RomFName
+@item RomsetH6809RomFName
+
+@end table
+
+@c @node FIXME
+@subsubsection PET system ROM command-line options
+
+@table @code
+
+@cindex -kernal
+@item -kernal NAME
+Specify @file{NAME} as the Kernal/BASIC ROM file (@code{KernalName}).
+
+@cindex -editor
+@item -editor NAME
+Specify @file{NAME} as the editor ROM file (@code{EditorName}).
+
+@cindex -chargen
+@item -chargen NAME
+Specify @file{NAME} as the character generator ROM file
+(@code{ChargenName}).
+
+@cindex -rom9
+@cindex -romA
+@cindex -romB
+@item -rom9 NAME, -romA NAME, -romB NAME
+Specify @file{NAME} as the ROM image file for the respective
+cartridge areas (@code{RomModule9Name}, @code{RomModuleAName},
+@code{RomModuleBName}).
+
+@cindex -6809romA
+@item -6809romA <Name>
+Specify 4K to 24K ROM file name at $A000 for 6809
+@cindex -6809romB
+@item -6809romB <Name>
+Specify 4K to 20K ROM file name at $B000 for 6809
+@cindex -6809romC
+@item -6809romC <Name>
+Specify 4K to 16K ROM file name at $C000 for 6809
+@cindex -6809romD
+@item -6809romD <Name>
+Specify 4K to 12K ROM file name at $D000 for 6809
+@cindex -6809romE
+@item -6809romE <Name>
+Specify 2K or 8K ROM file name at $E000 for 6809
+@cindex -6809romF
+@item -6809romF <Name>
+Specify 4K ROM file name at $F000 for 6809
+
+@end table
+
+@node PET diagnostic pin, PET commandline options, PET model, PET-specific
+@subsection The PET diagnostic pin
+
+It is possible to enable or disable emulation of the PET diagnostic pin
+via the @code{DiagPin} resource, or the ``PET userport diagnostic pin''
+item in the right-button menu.
+
+When the diagnostic pin is set, the Kernal does not try to initialize
+the BASIC, but directly jumps into the builtin machine monitor.
+
+@c @node FIXME
+@subsection PET settings
+
+@c @node FIXME
+@subsubsection PET resources
+
+@table @code
+
+@vindex CPUswitch
+@item CPUswitch
+
+@end table
+
+@c FIXME
+@node PET commandline options, PET colors, PET diagnostic pin, PET-specific
+@subsubsection PET command line options
+
+These are the commandline options specific for the CBM-II models.
+
+@table @code
+
+@cindex -model
+@item -model MODEL
+Specify the PET model you want to emulate.
+
+@cindex -petram9, +petram9
+@item -petram9, +petram9
+Switch on RAM mapping on addresses
+$9000-$9fff (@code{Ram9}).
+
+@cindex -petramA, +petramA
+@item -petramA, +petramA
+Switch on RAM mapping on addresses
+$a000-$afff (@code{RamA}).
+
+@cindex -superpet, +superpet
+@item -superpet, +superpet
+Enable/Disable SuperPET I/O emulation (@code{SuperPET}).
+
+@cindex -cpu6502
+@item -cpu6502
+Set SuperPET CPU switch to '6502'
+@cindex -cpu6809
+@item -cpu6809
+Set SuperPET CPU switch to '6809'
+@cindex -cpuprog
+@item -cpuprog
+Set SuperPET CPU switch to 'Prog'
+
+@cindex -basic1, +basic1
+@item -basic1, +basic1
+Enable/Disable patching the IEEE488 section of the PET2001 ROM when detected
+(@code{Basic1}).
+
+@cindex -basic1char, +basic1char
+@item -basic1char, +basic1char
+Enable/Disable PET 2001 character generator
+(@code{Basic1Chars}).
+
+@cindex -eoiblank, +eoiblank
+@item -eoiblank, +eoiblank
+Enable/Disable EOI blanking the screen
+(@code{EoiBlank}).
+
+@cindex -diagpin, +diagpin
+@item -diagpin
+@itemx +diagpin
+Enable (@code{DiagPin=1}) or disable (@code{DiagPin=0}) the
+diagnostic pin at the PET userport.
 
 @end table
 
@@ -7606,15 +8297,25 @@ Size of memory in kByte.  Possible values are 128, 256, 512 and 1024
 @vindex Ram4
 @vindex Ram6
 @vindex RamC
-@item Ram08, Ram1, Ram2, Ram4, Ram6, RamC
+@item Ram08
+@itemx Ram1
+@itemx Ram2
+@itemx Ram4
+@itemx Ram6
+@itemx RamC
 Expanded CBM-II models could map RAM to the expansion ROM areas
 at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
 and $c000-$cfff respectively.
 
+@vindex Cart1Name
 @vindex Cart2Name
 @vindex Cart4Name
 @vindex Cart6Name
-@item Cart2Name, Cart4Name, Cart6Name
+@item Cart1Name
+@itemx Cart2Name
+@itemx Cart4Name
+@itemx Cart6Name
+@c FIXME: description is wrong
 Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file.  This file contains an 8k ROM dump.
 
@@ -7660,17 +8361,27 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 620. Notably this is the only way to start a C510 emulation, with
 @code{-model 510}.
 
-@node CBM-II commandline options, CBM-II colors, CBM-II model, CBM-II-specific
-@subsection CBM-II command line options
+@c @node FIXME
+@subsection CBM-II system ROM settings
 
-These are the commandline options specific for the CBM-II models.
+@c @node FIXME
+@subsubsection CBM-II system ROM resources
 
 @table @code
+@vindex RomsetCart1Name
+@item RomsetCart1Name
+@vindex RomsetCart2Name
+@item RomsetCart2Name
+@vindex RomsetCart4Name
+@item RomsetCart4Name
+@vindex RomsetCart6Name
+@item RomsetCart6Name
+@end table
 
-@cindex -ramsize
-@item -ramsize <ramsize>
-Specify size of RAM (64/128/256/512/1024 kByte)
+@c @node FIXME
+@subsubsection CBM-II system ROM command line options
 
+@table @code
 @cindex -kernal
 @item -kernal NAME
 Specify @file{NAME} as the Kernal ROM file (@code{KernalName}).
@@ -7700,6 +8411,18 @@ cartridge area $4000-$5fff (@code{Cart4Name}).
 @item -cart6 <name>
 Specify @file{NAME} as the ROM image file for the
 cartridge area $6000-$7fff (@code{Cart6Name}).
+@end table
+
+@node CBM-II commandline options, CBM-II colors, CBM-II model, CBM-II-specific
+@subsection CBM-II command line options
+
+These are the commandline options specific for the CBM-II models.
+
+@table @code
+
+@cindex -ramsize
+@item -ramsize <ramsize>
+Specify size of RAM (64/128/256/512/1024 kByte)
 
 @cindex -ram08, +ram08
 @item -ram08
@@ -9214,6 +9937,35 @@ Version numbers: Major 0, Minor 0
 @c FIXME: add some info on making screenshots, wav- and avi recordings
 
 @c @node FIXME
+@section Media images resources
+
+@table @code
+
+@vindex DoodleOversizeHandling
+@item DoodleOversizeHandling
+@vindex DoodleMultiColorHandling
+@item DoodleMultiColorHandling
+@vindex DoodleTEDLumHandling
+@item DoodleTEDLumHandling
+@vindex DoodleCRTCTextColor
+@item DoodleCRTCTextColor
+
+@vindex FFMPEGFormat
+@item FFMPEGFormat
+@vindex FFMPEGAudioBitrate
+@item FFMPEGAudioBitrate
+@vindex FFMPEGVideoBitrate
+@item FFMPEGVideoBitrate
+@vindex FFMPEGAudioCodec
+@item FFMPEGAudioCodec
+@vindex FFMPEGVideoCodec
+@item FFMPEGVideoCodec
+@vindex FFMPEGVideoHalveFramerate
+@item FFMPEGVideoHalveFramerate
+
+@end table
+
+@c @node FIXME
 @section Media images command-line options
 
 @table @code
@@ -9245,6 +9997,24 @@ Set bitrate for video stream in media file
 @chapter Event history
 
 @c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+
+@c @node FIXME
+@section Event history resources
+
+@table @code
+
+@vindex EventSnapshotDir
+@item EventSnapshotDir
+@vindex EventStartSnapshot
+@item EventStartSnapshot
+@vindex EventEndSnapshot
+@item EventEndSnapshot
+@vindex EventStartMode
+@item EventStartMode
+@vindex EventImageInclude
+@item EventImageInclude
+
+@end table
 
 @c @node FIXME
 @section Event history command-line options
