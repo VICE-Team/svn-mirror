@@ -2221,6 +2221,7 @@ disables it.
 @item AutostartDelay
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
+Boolean, enables a short random delay on autostart.
 
 @end table
 
@@ -2397,6 +2398,7 @@ Integer specifying the depth of the host display.  The value @samp{0}
 
 @vindex UseFullscreen
 @item UseFullscreen
+Boolean specifying wether fullscreen mode is currently in use.
 @vindex HwScalePossible
 @item HwScalePossible
 @vindex openGL_sync
@@ -2405,8 +2407,11 @@ Integer specifying the depth of the host display.  The value @samp{0}
 @item openGL_no_sync
 @vindex KeepAspectRatio
 @item KeepAspectRatio
+Boolean specifying wether the aspect ratio of the output window should be
+preserved. (0=free scaling, 1=scale with fixed aspect ratio)
 @vindex TrueAspectRatio
 @item TrueAspectRatio
+Boolean specifying wether to use the true (non square pixels) aspect ratio.
 
 @vindex Window0Width
 @item Window0Width
@@ -2614,20 +2619,30 @@ available for example).
 
 @vindex JoyOpposite
 @item JoyOpposite
+Boolean, if true allow (usually impossible) bitcombinations for opposite directions.
 @vindex ExtraJoy
 @item ExtraJoy
+Boolean, enables extra joysticks if true.
 @vindex ExtraJoyType
 @item ExtraJoyType
+Integer specifying the type of adapter used for the extra joysticks. (0=Classical Games/
+Protovision, 1=PET, 2=Hummer, 3=OEM, 4=Digital Excess/Hitmen, 5=Kingsoft, 6=Starbyte)
+
 @vindex Mouse
 @item Mouse
+Boolean, enables mouse emulation
 @vindex Mousetype
 @item Mousetype
 @vindex Mouseport
 @item Mouseport
+
 @vindex Lightpen
 @item Lightpen
+Boolean, enables lightpen emulation
 @vindex LightpenType
 @item LightpenType
+Integer specifying the type of lightpen. (0=Pen with button Up, 1=Pen with button Left,
+ 2=Datel Pen, 3=Magnum Light Phaser, 4=Stack Light Rifle)
 
 @vindex KeySet1NorthWest
 @item KeySet1NorthWest
@@ -2759,11 +2774,6 @@ pick the smallest value your machine can handle without problems.
 specified number of seconds whenever some clicking happens.  If ``Keep
 going'' is selected, no pausing is done.
 
-@cindex Oversampling
-@item
-``Oversample'' specifies an oversampling factor, from 1 to 8 times
-(warning: this eats CPU cycles!).
-
 @end itemize
 
 @menu
@@ -2869,6 +2879,11 @@ String specifying an additional parameter for the audio driver (see
 @item SoundVolume
 @vindex SoundOutput
 @item SoundOutput
+Enum specifying how the type of sound output. Output is selectable between 'system' 
+(system decides to use mono or stereo output based on the presence of a stereo sid), 
+'always mono' (output is always mono, stereo streams are mixed into a mono stream) 
+or 'always stereo' (output is always stereo, mono streams are multiplexed to a stereo 
+stream). (0=system, 1=mono, 2=stereo)
 
 @end table
 
@@ -4664,10 +4679,15 @@ after enabling it from the user interface.
 
 @vindex CartridgeReset
 @item CartridgeReset
+Boolean specifying wether the machine should be resetted when a cartridge is
+changed.
 @vindex CartridgeType
 @item CartridgeType
+Integer specifying the type of cartridge emulated in the "main" slot
 @vindex CartridgeFile
 @item CartridgeFile
+String specifying the filename of the image for the cartridge emulated in the "main" slot
+
 @vindex DQBB
 @item DQBB
 Boolean specifying whether the Double Quick Brown Box should be emulated or not.
@@ -4690,6 +4710,7 @@ Boolean specifying whether the Expert Cartridge should be emulated or not.
 @item ExpertImageWrite
 @vindex ExpertCartridgeMode
 @item ExpertCartridgeMode
+Enum specifying the state of the expert cartridge switch (0=off 1=prg 2=on)
 @vindex IDE64Config
 @item IDE64Config
 String encoded content of IDE64 DS1302 RAM, used to store IDEDOS setup parameters. Not meant to
@@ -4813,6 +4834,7 @@ Boolean specifying whether the RAMCart should be emulated or not.
 
 @vindex RRrevision
 @item RRrevision
+Integer specifying the RR hardware revision (0=retro replay, 1=nordic replay)
 @vindex RRFlashJumper
 @item RRFlashJumper
 Boolean specifying whether the RR flash jumper is set or not.
@@ -5602,7 +5624,8 @@ almost 20kHz).
 
 @vindex SidStereo
 @item SidStereo
-Boolean selecting emulation of a second SID.
+Integer specifying the amount of emulated extra SIDs. (0=off, 1=1 extra sid, 
+2=2 extra sids.
 
 @vindex SidStereoAddressStart
 @item SidStereoAddressStart
@@ -6746,8 +6769,31 @@ but you also have to enable the IEEE488 hardware by menu.
 
 @table @code
 
+@vindex CartridgeReset
+@item CartridgeReset
+Boolean specifying wether the machine should be resetted when a cartridge is
+changed.
+@vindex CartridgeType
+@item CartridgeType
+Integer specifying the type of cartridge emulated.
+@vindex CartridgeFile
+@item CartridgeFile
+String specifying the filename of the image for the current cartridge.
+
 @vindex IOCollisionHandling
 @item IOCollisionHandling
+
+@vindex GenericCartridgeFile2000
+@vindex GenericCartridgeFile4000
+@vindex GenericCartridgeFile6000
+@vindex GenericCartridgeFileA000
+@vindex GenericCartridgeFileB000
+@item GenericCartridgeFile2000
+@itemx GenericCartridgeFile4000
+@itemx GenericCartridgeFile6000
+@itemx GenericCartridgeFileA000
+@itemx GenericCartridgeFileB000
+String specifying the name of the respective cartridge ROM images.
 
 @vindex FinalExpansionWriteBack
 @item FinalExpansionWriteBack
@@ -7257,18 +7303,6 @@ String specifying the name of the Basic ROM (default @file{basic}).
 String specifying the name of the character generator ROM (default
 @file{chargen}).
 
-@vindex GenericCartridgeFile2000
-@vindex GenericCartridgeFile4000
-@vindex GenericCartridgeFile6000
-@vindex GenericCartridgeFileA000
-@vindex GenericCartridgeFileB000
-@item GenericCartridgeFile2000
-@itemx GenericCartridgeFile4000
-@itemx GenericCartridgeFile6000
-@itemx GenericCartridgeFileA000
-@itemx GenericCartridgeFileB000
-String specifying the name of the respective cartridge ROM images.
-
 @end table
 
 @node VIC20 system ROM options,  , VIC20 system ROM resources, VIC20 system ROM settings
@@ -7512,6 +7546,11 @@ Enable/Disable video to audio leak emulation.
 
 @table @code
 
+@vindex CartridgeReset
+@item CartridgeReset
+Boolean specifying wether the machine should be resetted when a cartridge is
+changed.
+
 @vindex DIGIBLASTER
 @item DIGIBLASTER
 @vindex SpeechImage
@@ -7639,6 +7678,10 @@ Specify name of Cartridge 2 high ROM image
 @item H256K
 @vindex CS256K
 @item CS256K
+
+@vindex Acia1Enable
+@item Acia1Enable
+Boolean specifying whether the ACIA should be emulated or not.
 
 @end table
 
@@ -8791,11 +8834,6 @@ The modules in the xcbm2 emulator are:
 @tab Drive modules
 @tab The emulated drive(s) have their own modules @pxref{Drive modules}
 @end multitable
-
-The snapshot either contains CRTC or VIC-II snapshot modules, but
-not both. Currently switching between the two video emulations is not
-possible at runtime, so only snapshots that fit the current UseVicII
-resource are accepted.
 
 @node Drive modules,  , xcbm2 modules, Emulator modules
 @subsubsection Drive modules
@@ -16125,7 +16163,9 @@ x64sc.
 @b{Groepaz}
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
-cartconv. Implemented many bug fixes. Wrote test programs.
+cartconv, c1541 and petcat. Implemented many bug fixes. 
+Wrote test programs. Updated this document after a long period
+of outdated mess.
 
 @item
 @b{Ingo Korb}
