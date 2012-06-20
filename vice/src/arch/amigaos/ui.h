@@ -51,4 +51,6 @@ extern int ui_requester(char *title, char *msg, char *buttons, int defval);
 extern void ui_message(const char *format, ...);
 extern void ui_event_handle(void);
 
+extern void (*ui_event_handling)(void);
+
 #endif

@@ -82,6 +82,9 @@
 
 static int do_quit_vice = 0;
 
+/* vsid event handling */
+void (*ui_event_handling)(void) = NULL;
+
 struct MenuItem *step_item(struct MenuItem *first_item, int idm)
 {
     struct MenuItem *cur_item, *sub_item;
@@ -989,6 +992,10 @@ int ui_menu_handle(video_canvas_t *canvas, int idm)
 void ui_event_handle(void)
 {
     int done = 1;
+
+    if (ui_event_handling) {
+        return ui_event_handling();
+    }
 
     do {
         video_canvas_t *canvas;

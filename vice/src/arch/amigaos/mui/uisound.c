@@ -165,6 +165,19 @@ static ULONG Browse_Record_File(struct Hook *hook, Object *obj, APTR arg)
     return 0;
 }
 
+static ULONG VSID_Browse_Record_File(struct Hook *hook, Object *obj, APTR arg)
+{
+    char *fname = NULL;
+
+    fname = VSID_BrowseFile(translate_text(IDS_SELECT_RECORD_FILE), "#?");
+
+    if (fname != NULL) {
+        set(ui_to_from_record[0].object, MUIA_String_Contents, fname);
+    }
+
+    return 0;
+}
+
 static APTR build_gui(void)
 {
     return GroupObject,
@@ -211,12 +224,69 @@ static APTR build_gui_record(void)
     return ui;
 }
 
+static APTR build_gui_vsid_record(void)
+{
+    APTR app, ui, ok, browse_button, cancel;
+
+#ifdef AMIGA_MORPHOS
+    static const struct Hook BrowseRecordHook = { { NULL, NULL }, (VOID *)HookEntry, (VOID *)VSID_Browse_Record_File, NULL };
+#else
+    static const struct Hook BrowseRecordHook = { { NULL, NULL }, (VOID *)VSID_Browse_Record_File, NULL, NULL };
+#endif
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(format, translate_text(IDS_SOUND_RECORD_FORMAT), ui_sound_formats)
+           FILENAME(ui_to_from_record[0].object, translate_text(IDS_SOUND_RECORD_FILE), browse_button)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+
+        DoMethod(browse_button, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_CallHook, &BrowseRecordHook);
+    }
+
+    return ui;
+}
+
 void ui_sound_settings_dialog(void)
 {
     intl_convert_mui_table(ui_sound_adjusting_translate, ui_sound_adjusting);
     intl_convert_mui_table(ui_sound_fragment_size_translate, ui_sound_fragment_size);
     intl_convert_mui_table(ui_sound_output_mode_translate, ui_sound_output_mode);
     mui_show_dialog(build_gui(), translate_text(IDS_SOUND_SETTINGS), ui_to_from);
+}
+
+void ui_sound_record_settings_vsid_dialog(void)
+{
+    APTR window;
+    int val;
+
+    window = mui_make_simple_window(build_gui_record(), translate_text(IDS_SOUND_RECORD_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from_record);
+        set(format, MUIA_Cycle_Active, 1);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from_record);
+            get(format, MUIA_Cycle_Active, (APTR)&val);
+            resources_set_string("SoundRecordDeviceName", "");
+            resources_set_string("SoundRecordDeviceName", ui_sound_formats[val]);
+            ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STARTED), 1);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
 }
 
 void ui_sound_record_settings_dialog(video_canvas_t *canvas)

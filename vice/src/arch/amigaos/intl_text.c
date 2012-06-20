@@ -4548,6 +4548,90 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_STOP_SOUND_RECORD_SV, "Stoppa ljudinspelning" },
 /* tr */ { IDMS_STOP_SOUND_RECORD_TR, "Ses kaydýný durdur" },
 
+/* en */ { IDMS_LOAD_PSID_FILE,    "Load PSID file" },
+/* da */ { IDMS_LOAD_PSID_FILE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_LOAD_PSID_FILE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_LOAD_PSID_FILE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_LOAD_PSID_FILE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_LOAD_PSID_FILE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_LOAD_PSID_FILE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_LOAD_PSID_FILE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_LOAD_PSID_FILE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_LOAD_PSID_FILE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_LOAD_PSID_FILE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_LOAD_PSID_FILE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_LOAD_PSID_FILE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_SELECT_TUNE,    "Select tune" },
+/* da */ { IDMS_SELECT_TUNE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SELECT_TUNE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_SELECT_TUNE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_SELECT_TUNE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_SELECT_TUNE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_SELECT_TUNE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SELECT_TUNE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SELECT_TUNE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_SELECT_TUNE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_SELECT_TUNE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_SELECT_TUNE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SELECT_TUNE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_NEXT_TUNE,    "Next tune" },
+/* da */ { IDMS_NEXT_TUNE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_NEXT_TUNE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_NEXT_TUNE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_NEXT_TUNE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_NEXT_TUNE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_NEXT_TUNE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_NEXT_TUNE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_NEXT_TUNE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_NEXT_TUNE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_NEXT_TUNE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_NEXT_TUNE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_NEXT_TUNE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PREVIOUS_TUNE,    "Previous tune" },
+/* da */ { IDMS_PREVIOUS_TUNE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PREVIOUS_TUNE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PREVIOUS_TUNE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PREVIOUS_TUNE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PREVIOUS_TUNE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PREVIOUS_TUNE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PREVIOUS_TUNE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PREVIOUS_TUNE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PREVIOUS_TUNE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PREVIOUS_TUNE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PREVIOUS_TUNE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PREVIOUS_TUNE_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_MEDIA,    "Media" },
+/* da */ { IDMS_MEDIA_DA, "" },  /* fuzzy */
+/* de */ { IDMS_MEDIA_DE, "" },  /* fuzzy */
+/* es */ { IDMS_MEDIA_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_MEDIA_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_MEDIA_HU, "" },  /* fuzzy */
+/* it */ { IDMS_MEDIA_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_MEDIA_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_MEDIA_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_MEDIA_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_MEDIA_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_MEDIA_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_MEDIA_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_OVERRIDE_PSID_SETTINGS,    "Override PSID settings" },
+/* da */ { IDMS_OVERRIDE_PSID_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_OVERRIDE_PSID_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_OVERRIDE_PSID_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_OVERRIDE_PSID_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_OVERRIDE_PSID_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_OVERRIDE_PSID_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_OVERRIDE_PSID_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_OVERRIDE_PSID_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_OVERRIDE_PSID_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_OVERRIDE_PSID_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_OVERRIDE_PSID_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_OVERRIDE_PSID_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD,    "Value %d out of range, range is from %d to %d, using %d instead" },
 /* da */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_DA, "Værdi %d ugyldig. Tilladt værdi fra %d til %d. Bruger %d istedet" },
 /* de */ { IDMES_VALUE_D_OUT_OF_RANGE_USING_D_INSTEAD_DE, "Wert %d ist unzulässig, Bereich muss zwischen %d und %d liegen, benutze %d" },
@@ -5877,6 +5961,48 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_NONE_RU, "None" },
 /* sv */ { IDS_NONE_SV, "Ingen" },
 /* tr */ { IDS_NONE_TR, "Yok" },
+
+/* en */ { IDS_STANDARD,    "Standard" },
+/* da */ { IDS_STANDARD_DA, "" },  /* fuzzy */
+/* de */ { IDS_STANDARD_DE, "" },  /* fuzzy */
+/* es */ { IDS_STANDARD_ES, "" },  /* fuzzy */
+/* fr */ { IDS_STANDARD_FR, "" },  /* fuzzy */
+/* hu */ { IDS_STANDARD_HU, "" },  /* fuzzy */
+/* it */ { IDS_STANDARD_IT, "" },  /* fuzzy */
+/* ko */ { IDS_STANDARD_KO, "" },  /* fuzzy */
+/* nl */ { IDS_STANDARD_NL, "" },  /* fuzzy */
+/* pl */ { IDS_STANDARD_PL, "" },  /* fuzzy */
+/* ru */ { IDS_STANDARD_RU, "" },  /* fuzzy */
+/* sv */ { IDS_STANDARD_SV, "" },  /* fuzzy */
+/* tr */ { IDS_STANDARD_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DD3,    "Dolphin Dos 3" },
+/* da */ { IDS_DD3_DA, "" },  /* fuzzy */
+/* de */ { IDS_DD3_DE, "" },  /* fuzzy */
+/* es */ { IDS_DD3_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DD3_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DD3_HU, "" },  /* fuzzy */
+/* it */ { IDS_DD3_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DD3_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DD3_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DD3_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DD3_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DD3_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DD3_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_FORMEL64,    "Formel64" },
+/* da */ { IDS_FORMEL64_DA, "" },  /* fuzzy */
+/* de */ { IDS_FORMEL64_DE, "" },  /* fuzzy */
+/* es */ { IDS_FORMEL64_ES, "" },  /* fuzzy */
+/* fr */ { IDS_FORMEL64_FR, "" },  /* fuzzy */
+/* hu */ { IDS_FORMEL64_HU, "" },  /* fuzzy */
+/* it */ { IDS_FORMEL64_IT, "" },  /* fuzzy */
+/* ko */ { IDS_FORMEL64_KO, "" },  /* fuzzy */
+/* nl */ { IDS_FORMEL64_NL, "" },  /* fuzzy */
+/* pl */ { IDS_FORMEL64_PL, "" },  /* fuzzy */
+/* ru */ { IDS_FORMEL64_RU, "" },  /* fuzzy */
+/* sv */ { IDS_FORMEL64_SV, "" },  /* fuzzy */
+/* tr */ { IDS_FORMEL64_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_FILESYSTEM,    "Filesystem" },
 /* da */ { IDS_FILESYSTEM_DA, "Filsystem" },
