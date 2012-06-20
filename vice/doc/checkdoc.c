@@ -127,6 +127,128 @@ const char *emustring[0x10] = {
     "c1541"
 };
 
+/* ignore these when listing resources with no description */
+const char *nodescexcept[] = {
+    "Drive11RAM8000",
+    "Drive11RAM6000",
+    "Drive11RAM4000",
+    "Drive11RAM2000",
+    "Drive10RAMA000",
+    "Drive10RAM8000",
+    "Drive10RAM6000",
+    "Drive10RAM4000",
+    "Drive10RAM2000",
+    "Drive9RAMA000",
+    "Drive9RAM8000",
+    "Drive9RAM6000",
+    "Drive9RAM4000",
+    "Drive9RAM2000",
+    "Drive8RAMA000",
+    "Drive8RAM8000",
+    "Drive8RAM6000",
+    "Drive8RAM4000",
+    "Drive8RAM2000",
+    "DosName1001",
+    "DosName4040",
+    "DosName3040",
+    "DosName2040",
+    "DosName2031",
+    "DosName4000",
+    "DosName2000",
+    "DosName1581",
+    "DosName1571cr",
+    "DosName1571",
+    "DosName1570",
+    "DosName1541ii",
+    "DosName1541",
+    "Drive10IdleMethod",
+    "Drive9IdleMethod",
+    "Drive8IdleMethod",
+    "Drive10ExtendImagePolicy",
+    "Drive9ExtendImagePolicy",
+    "Drive8ExtendImagePolicy",
+    "Drive10ProfDOS",
+    "Drive9ProfDOS",
+    "Drive8ProfDOS",
+    "Drive10ParallelCable",
+    "Drive9ParallelCable",
+    "Drive8ParallelCable",
+    "Drive11Type",
+    "Drive10Type",
+    "Drive9Type",
+    "Drive8Type",
+    "FSDevice10Dir",
+    "FSDevice9Dir",
+    "FSDevice8Dir",
+    "FSDevice10HideCBMFiles",
+    "FSDevice9HideCBMFiles",
+    "FSDevice8HideCBMFiles",
+    "FSDevice10SaveP00",
+    "FSDevice9SaveP00",
+    "FSDevice8SaveP00",
+    "FSDevice10ConvertP00",
+    "FSDevice9ConvertP00",
+    "FSDevice8ConvertP00",
+    "KeymapBusinessDESymFile",
+    "KeymapGraphicsSymFile",
+    "KeymapBusinessUKSymFile",
+    "JoyDevice3",
+    "JoyDevice2",
+    "JoyDevice1",
+    "RsDevice3Baud",
+    "RsDevice2Baud",
+    "RsDevice1Baud",
+    "RsDevice3",
+    "RsDevice2",
+    "RsDevice1",
+    "Printer4Output",
+    "Printer4Driver",
+    "Printer4",
+    "Printer4TextDevice",
+    "PrinterTextDevice2",
+    "PrinterTextDevice1",
+    "IDE64AutodetectSize3",
+    "IDE64AutodetectSize2",
+    "IDE64AutodetectSize1",
+    "IDE64Sectors3",
+    "IDE64Sectors2",
+    "IDE64Sectors1",
+    "IDE64Heads3",
+    "IDE64Heads2",
+    "IDE64Heads1",
+    "IDE64Cylinders3",
+    "IDE64Cylinders2",
+    "IDE64Cylinders1",
+    "IDE64Image3",
+    "IDE64Image2",
+    "IDE64Image1",
+    "GenericCartridgeFileA000",
+    "GenericCartridgeFile6000",
+    "GenericCartridgeFile4000",
+    "GenericCartridgeFile2000",
+    "RAMBlock3",
+    "RAMBlock2",
+    "RAMBlock1",
+    "RAMBlock0",
+    "Cart4Name",
+    "Cart2Name",
+    "Cart1Name",
+    "Cart6Name",
+    "Ram6",
+    "Ram4",
+    "Ram2",
+    "Ram1",
+    "Ram08",
+    "Window1Xpos",
+    "Window1Height",
+    "Window1Width",
+    "Window0Xpos",
+    "Window0Height",
+    "Window0Width",
+    "CIA1Model",
+    NULL
+};
+
 ITEM reslistrc = { NULL, NULL, 0};
 ITEM reslisttex = { NULL, NULL, 0};
 ITEM reslisttexitm = { NULL, NULL, 0};
@@ -334,9 +456,9 @@ int readviceopt(FILE *tf, char *emu, int tag)
 
 }
 
-void printlist(ITEM *list, char *hdr, int flags)
+int printlist(ITEM *list, char *hdr, int flags)
 {
-    int i = 0,ii;
+    int i = 0,ii,n = 0;
     while (list) {
         if (list->string) {
             if (flags) {
@@ -382,9 +504,22 @@ void printlist(ITEM *list, char *hdr, int flags)
                     printf("\n");
                 }
             }
+            n++;
         }
         list = list->next;
     }
+    return n;
+}
+
+int strinlist(char *str, const char *list[])
+{
+    while (*list) {
+        if (!strcmp(str, *list)) {
+            return 1;
+        }
+        ++list;
+    }
+    return 0;
 }
 
 void checkresources(void)
@@ -392,9 +527,9 @@ void checkresources(void)
     ITEM *list1, *itm, *itm2;
     int i;
 
-    printf("\nchecking resources...\n\n");
+    printf("\n** checking resources...\n\n");
 
-    printf("\nThe following resources are incorrectly marked '@cindex'\n"
+    printf("The following resources are incorrectly marked '@cindex'\n"
            "fix them first to use '@vindex' and then check again:\n\n");
 
     list1 = &reslistrc;
@@ -416,8 +551,6 @@ void checkresources(void)
 
     printf("\nThe following resources do not appear in '@vindex'.\n"
            "fix them first to use '@vindex' and then check again:\n\n");
-    printf("note: each resource should get a seperate '@vindex' entry\n"
-           "      in the form '@vindex resourcename'.\n\n");
 
     list1 = &reslisttexitm;
     i = 0;
@@ -437,7 +570,11 @@ void checkresources(void)
     }
     if (i == 0) {
         printf("none - well done.\n");
+    } else {
+        printf("\nnote: each resource should get a seperate '@vindex' entry\n"
+                 "      in the form '@vindex resourcename'.\n");
     }
+    printf("\n");
 
     list1 = &reslistrc;
     while (list1) {
@@ -455,40 +592,62 @@ void checkresources(void)
         }
         list1 = list1->next;
     }
-    printf("\n\nThe following resources appear in vicerc but not in the documentation, so\n"
+    printf("The following resources appear in vicerc but not in the documentation, so\n"
            "they might be missing in the documentation:\n\n");
-    printlist(&reslistnew, "global", 0);
-    printlist(&reslistnew, "C64SC", IS_C64SC);
-    printlist(&reslistnew, "C64", IS_C64);
-    printlist(&reslistnew, "VSID", IS_VSID);
-    printlist(&reslistnew, "C128", IS_C128);
-    printlist(&reslistnew, "C64DTV", IS_DTV);
-    printlist(&reslistnew, "VIC20", IS_VIC20);
-    printlist(&reslistnew, "PET", IS_PET);
-    printlist(&reslistnew, "CBM-II-5x0", IS_B500);
-    printlist(&reslistnew, "CBM-II", IS_CBM2);
-    printlist(&reslistnew, "PLUS4", IS_PLUS4);
+    i = 0;
+    i += printlist(&reslistnew, "global", 0);
+    i += printlist(&reslistnew, "C64SC", IS_C64SC);
+    i += printlist(&reslistnew, "C64", IS_C64);
+    i += printlist(&reslistnew, "VSID", IS_VSID);
+    i += printlist(&reslistnew, "C128", IS_C128);
+    i += printlist(&reslistnew, "C64DTV", IS_DTV);
+    i += printlist(&reslistnew, "VIC20", IS_VIC20);
+    i += printlist(&reslistnew, "PET", IS_PET);
+    i += printlist(&reslistnew, "CBM-II-5x0", IS_B500);
+    i += printlist(&reslistnew, "CBM-II", IS_CBM2);
+    i += printlist(&reslistnew, "PLUS4", IS_PLUS4);
 
-    printf("\nThe following resources appear to have no description:\n\n");
+    if (i == 0) {
+        printf("none - well done.\n");
+    }
+    printf("\n");
+    
+    printf("The following resources appear to have no description: ");
 
     list1 = &reslisttex;
     i = 0;
     while (list1) {
         if (list1->string) {
             if (list1->desc == NULL) {
-                printf("%s\n", list1->string);
-                i++;
+                if (!strinlist(list1->string, nodescexcept)) {
+                    i++;
+                }
             }
         }
         list1 = list1->next;
     }
-    printf("\n");
+    printf("(%d)\n\n", i);
+
+    list1 = &reslisttex;
+    i = 0;
+    while (list1) {
+        if (list1->string) {
+            if (list1->desc == NULL) {
+                if (!strinlist(list1->string, nodescexcept)) {
+                    printf("%s\n", list1->string);
+                    i++;
+                }
+            }
+        }
+        list1 = list1->next;
+    }
 
     if (i == 0) {
         printf("none - well done.\n");
     }
+    printf("\n");
 
-    printf("\nThe following resources appear in the documentation but not in vicerc, so\n"
+    printf("The following resources appear in the documentation but not in vicerc, so\n"
            "they might be outdated or spelled incorrectly:\n\n");
 
     list1 = &reslisttex;
@@ -526,9 +685,9 @@ void checkoptions(void)
     ITEM *list1, *itm, *itm2;
     int i;
 
-    printf("\nchecking command line options...\n\n");
+    printf("\n** checking command line options...\n\n");
 
-    printf("\nThe following look like options, but they do not appear in '@cindex'.\n"
+    printf("The following look like options, but they do not appear in '@cindex'.\n"
            "fix them first to use '@cindex' and then check again:\n\n");
 
     list1 = &optlisttexitm;
@@ -540,6 +699,7 @@ void checkoptions(void)
             if (!itm) {
                 if ( 1
                     && (strcmp(list1->string,"--") != 0)
+                    && (strcmp(list1->string,"----") != 0)
                     && (strcmp(list1->string,"-<version>") != 0)
                 ) {
                     printf("%s\n", list1->string);
@@ -552,6 +712,7 @@ void checkoptions(void)
     if (i == 0) {
         printf("none - well done.\n");
     }
+    printf("\n");
 
     list1 = &optlistvice;
     i = 0;
@@ -576,7 +737,7 @@ void checkoptions(void)
         }
         list1 = list1->next;
     }
-    printf("\n\nThe following options appear in vice but not in the documentation, so\n"
+    printf("The following options appear in vice but not in the documentation, so\n"
            "they might be missing in the documentation (%d):\n\n", i);
 
     if (i == 0) {
@@ -599,7 +760,19 @@ void checkoptions(void)
         printlist(&optlistnew, "c1541", IS_C1541);
     }
 
-    printf("\nThe following options appear to have no description:\n\n");
+    printf("\nThe following options appear to have no description: ");
+
+    list1 = &optlisttex;
+    i = 0;
+    while (list1) {
+        if (list1->string) {
+            if (list1->desc == NULL) {
+                i++;
+            }
+        }
+        list1 = list1->next;
+    }
+    printf("(%d)\n\n", i);
 
     list1 = &optlisttex;
     i = 0;
@@ -612,13 +785,13 @@ void checkoptions(void)
         }
         list1 = list1->next;
     }
-    printf("\n");
 
     if (i == 0) {
         printf("none - well done.\n");
     }
+    printf("\n");
 
-    printf("\n\nThe following options appear in the documentation but not in vice, so\n"
+    printf("The following options appear in the documentation but not in vice, so\n"
            "they might be outdated or spelled incorrectly:\n\n");
 
     list1 = &optlisttex;
@@ -662,8 +835,9 @@ int checkres = 0;
 int main(int argc, char *argv[])
 {
 FILE *tf;
-
+    
     if (argc != 5) {
+        printf("checkdoc - scan vice.texi for some common problems\n\n");
         printf("usage: checkdoc [-all | -opt | -res] texifile vicerc optsfile\n");
         exit(-1);
     }
@@ -682,6 +856,8 @@ FILE *tf;
     vicetexiname = argv[2];
     vicercname = argv[3];
     viceoptname = argv[4];
+
+    printf("** initializing...\n\n");
 
     tf = fopen(vicetexiname,"rb");
     if (!tf) {

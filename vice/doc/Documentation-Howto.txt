@@ -102,98 +102,399 @@ TODO:
 like mentioned above, the todo list is contained in vice.texi in the form of
 comments. to show it using the checkdoc tool use "./checkdoc.mak fixme nodes"
 
-at the time of last updating this file (18/06/2012), the list looked like this:
+at the time of last updating this file (20/06/2012), the list looked like this:
 
-list of FIXMEs (27):
+list of FIXMEs (31):
 669:@c FIXME: add link to doc/html/plain/PETdoc.txt
 690:@c FIXME: add link to doc/html/plain/PETdoc.txt
 718:@c FIXME: add link to section
 788:@c FIXME: add a detailed list of all keys
-2502:@c FIXME: remove -symdekeymap option!
-3957:@c FIXME: clean up "c64/128" vs "c64"
-4282:@c FIXME: incomplete descriptions for resources
-8540:@c FIXME: add some info on making screenshots, wav- and avi recordings
-8573:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-9395:@c FIXME: add more c1541 examples
-9770:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-9771:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-9772:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-9773:@c FIXME: add D4M FD4000 ED disk image file structure
-9774:@c FIXME: add CRT c64 cartridge images file structure
-10193:@c FIXME: the D64 section needs to be style-checked.
-10194:@c FIXME: some of the D64 section needs to have sub-sections.
-11086:@c FIXME: the X64 section needs to be style-checked.
-11202:@c FIXME: the D71 section needs to be style-checked.
-11203:@c FIXME: some of the D71 section needs to have sub-sections.
-11863:@c FIXME: the D81 section needs to be style-checked.
-11864:@c FIXME: some of the D81 section needs to have sub-sections.
-12758:@c FIXME: the D80 section needs to be style-checked.
-12759:@c FIXME: some of the D80 section needs to have sub-sections.
-13447:@c FIXME: the D82 section needs to be style-checked.
-13448:@c FIXME: some of the D82 section needs to have sub-sections.
-14538:@c FIXME: the P00 section needs to be style-checked.
+2508:@c FIXME: KeymapSymDeFile is really weird
+2563:@c FIXME: remove -symdekeymap option!
+3106:@c FIXME: update drive types
+4333:@c FIXME: clean up "c64/128" vs "c64"
+4658:@c FIXME: incomplete descriptions for resources
+8186:@c FIXME
+8318:@c FIXME: description is wrong
+9937:@c FIXME: add some info on making screenshots, wav- and avi recordings
+9999:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+10839:@c FIXME: add more c1541 examples
+11214:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+11215:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+11216:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+11217:@c FIXME: add D4M FD4000 ED disk image file structure
+11218:@c FIXME: add CRT c64 cartridge images file structure
+11637:@c FIXME: the D64 section needs to be style-checked.
+11638:@c FIXME: some of the D64 section needs to have sub-sections.
+12530:@c FIXME: the X64 section needs to be style-checked.
+12646:@c FIXME: the D71 section needs to be style-checked.
+12647:@c FIXME: some of the D71 section needs to have sub-sections.
+13307:@c FIXME: the D81 section needs to be style-checked.
+13308:@c FIXME: some of the D81 section needs to have sub-sections.
+14202:@c FIXME: the D80 section needs to be style-checked.
+14203:@c FIXME: some of the D80 section needs to have sub-sections.
+14891:@c FIXME: the D82 section needs to be style-checked.
+14892:@c FIXME: some of the D82 section needs to have sub-sections.
+15982:@c FIXME: the P00 section needs to be style-checked.
 
-nodes that need fixing (60):
-2530:@c @node FIXME
-2533:@c @node FIXME
-2774:@c @node FIXME
-3773:@c @node FIXME
-3776:@c @node FIXME
-3798:@c @node FIXME
-3801:@c @node FIXME
-4012:@c @node FIXME
-4034:@c @node FIXME
-4057:@c @node FIXME
-4167:@c @node FIXME
-4197:@c @node FIXME
-4216:@c @node FIXME
-4254:@c @node FIXME
-4269:@c @node FIXME
-4276:@c @node FIXME
-4279:@c @node FIXME
-4434:@c @node FIXME
-4803:@c @node FIXME
-4806:@c @node FIXME
-5493:@c @node FIXME
-5496:@c @node FIXME
-5537:@c @node FIXME
-5540:@c @node FIXME
-5543:@c @node FIXME
-5630:@c @node FIXME
-5633:@c @node FIXME
-5705:@c @node FIXME
-5708:@c @node FIXME
-5956:@c @node FIXME
-5959:@c @node FIXME
-6022:@c @node FIXME
+nodes that need fixing (92):
+2200:@c @node FIXME
+2203:@c @node FIXME
+2591:@c @node FIXME
+2594:@c @node FIXME
+2673:@c @node FIXME
+2925:@c @node FIXME
+2931:@c @node FIXME
+4061:@c @node FIXME
+4102:@c @node FIXME
+4105:@c @node FIXME
+4115:@c @node FIXME
+4137:@c @node FIXME
+4140:@c @node FIXME
+4154:@c @node FIXME
+4388:@c @node FIXME
+4410:@c @node FIXME
+4433:@c @node FIXME
+4543:@c @node FIXME
+4573:@c @node FIXME
+4592:@c @node FIXME
+4630:@c @node FIXME
+4645:@c @node FIXME
+4652:@c @node FIXME
+4655:@c @node FIXME
+4826:@c @node FIXME
+5201:@c @node FIXME
+5204:@c @node FIXME
+5217:@c @node FIXME
 6025:@c @node FIXME
-6049:@c @node FIXME
-6342:@c @node FIXME
-6345:@c @node FIXME
-6357:@c @node FIXME
-6360:@c @node FIXME
-6363:@c @node FIXME
-6443:@c @node FIXME
-6446:@c @node FIXME
-6477:@c @node FIXME
-6480:@c @node FIXME
-6507:@c @node FIXME
-6510:@c @node FIXME
-6676:@c @node FIXME
-6679:@c @node FIXME
-6707:@c @node FIXME
-7103:@c @node FIXME
-7106:@c @node FIXME
-7109:@c @node FIXME
-8537:@c @node FIXME
-8542:@c @node FIXME
-8570:@c @node FIXME
-8575:@c @node FIXME
-9392:@c @node FIXME
-9402:@c @node FIXME
-9566:@c @node FIXME
-9594:@c @node FIXME
-9727:@c @node FIXME
+6028:@c @node FIXME
+6056:@c @node FIXME
+6097:@c @node FIXME
+6100:@c @node FIXME
+6103:@c @node FIXME
+6207:@c @node FIXME
+6294:@c @node FIXME
+6297:@c @node FIXME
+6375:@c @node FIXME
+6447:@c @node FIXME
+6450:@c @node FIXME
+6466:@c @node FIXME
+6657:@c @node FIXME
+6741:@c @node FIXME
+6744:@c @node FIXME
+6778:@c @node FIXME
+6911:@c @node FIXME
+6914:@c @node FIXME
+7014:@c @node FIXME
+7307:@c @node FIXME
+7310:@c @node FIXME
+7322:@c @node FIXME
+7325:@c @node FIXME
+7328:@c @node FIXME
+7427:@c @node FIXME
+7507:@c @node FIXME
+7510:@c @node FIXME
+7533:@c @node FIXME
+7575:@c @node FIXME
+7578:@c @node FIXME
+7603:@c @node FIXME
+7630:@c @node FIXME
+7633:@c @node FIXME
+7645:@c @node FIXME
+7816:@c @node FIXME
+7819:@c @node FIXME
+7923:@c @node FIXME
+8004:@c @node FIXME
+8007:@c @node FIXME
+8036:@c @node FIXME
+8072:@c @node FIXME
+8075:@c @node FIXME
+8116:@c @node FIXME
+8173:@c @node FIXME
+8176:@c @node FIXME
+8364:@c @node FIXME
+8367:@c @node FIXME
+8381:@c @node FIXME
+8484:@c @node FIXME
+8487:@c @node FIXME
+8490:@c @node FIXME
+8506:@c @node FIXME
+9934:@c @node FIXME
+9939:@c @node FIXME
+9968:@c @node FIXME
+9996:@c @node FIXME
+10001:@c @node FIXME
+10019:@c @node FIXME
+10836:@c @node FIXME
+10846:@c @node FIXME
+11010:@c @node FIXME
+11038:@c @node FIXME
+11171:@c @node FIXME
+
+The following resources appear to have no description: (262)
+
+EventStartMode
+EventEndSnapshot
+EventStartSnapshot
+EventSnapshotDir
+FFMPEGVideoCodec
+FFMPEGAudioCodec
+FFMPEGVideoBitrate
+FFMPEGAudioBitrate
+FFMPEGFormat
+DoodleCRTCTextColor
+DoodleTEDLumHandling
+DoodleMultiColorHandling
+DoodleOversizeHandling
+RomsetCart4Name
+RomsetCart2Name
+RomsetCart1Name
+RomsetH6809RomEName
+RomsetH6809RomDName
+RomsetH6809RomCName
+RomsetH6809RomBName
+RomsetH6809RomAName
+RomsetRomModuleBName
+RomsetRomModuleAName
+RomsetRomModule9Name
+RomsetEditorName
+H6809RomFName
+H6809RomEName
+H6809RomDName
+H6809RomCName
+H6809RomBName
+H6809RomAName
+UserportDAC
+PETDWW
+PETDWWfilename
+PETREUsize
+PETREU
+PETREUfilename
+H256K
+RomsetFunctionLowName
+c2hiName
+c2loName
+c1hiName
+c1loName
+FunctionHighName
+FunctionLowName
+SIDCartJoy
+SpeechEnabled
+SpeechImage
+DIGIBLASTER
+SidAddress
+SidCart
+GEORAMIOSwap
+SFXSoundSamplerIOSwap
+SFXSoundExpanderIOSwap
+TFEIOSwap
+MegaCartNvRAMWriteBack
+MegaCartNvRAMfilename
+VicFlashPluginWriteBack
+FinalExpansionWriteBack
+FlashTrueFS
+FSFlashDir
+DtvFlashLog
+c64dtvromrw
+c64dtvromfilename
+DtvDMALog
+DtvBlitterLog
+DtvRevision
+HummerADC
+C128FullBanks
+Go64Mode
+40/80ColumnKey
+RomsetKernal64Name
+RomsetBasicHiName
+RomsetBasicLoName
+RomsetKernalSEName
+RomsetKernalNOName
+RomsetKernalITName
+RomsetKernalFRName
+RomsetKernalFIName
+RomsetKernalDEName
+RomsetKernalIntName
+RomsetChargenSEName
+RomsetChargenFRName
+RomsetChargenDEName
+RomsetChargenIntName
+ExternalFunctionROM
+InternalFunctionROM
+ExternalFunctionName
+InternalFunctionName
+Basic64Name
+Kernal64Name
+BasicHiName
+BasicLoName
+KernalSEName
+KernalNOName
+KernalITName
+KernalFRName
+KernalFIName
+KernalDEName
+KernalIntName
+ChargenSEName
+ChargenFRName
+ChargenDEName
+ChargenIntName
+VDCRevision
+VDC64KB
+C64_256K
+C64_256Kfilename
+PLUS256K
+PLUS256Kfilename
+PLUS60Kbase
+PLUS60K
+PLUS60Kfilename
+BurstMod
+GlueLogic
+RomsetBasicName
+RomsetKernalName
+REUfirstUnusedRegister
+REUsize
+REUImageWrite
+REUfilename
+MIDIOutDev
+MIDIInDev
+MIDIDriver
+MIDIMode
+GEORAMsize
+GEORAMImageWrite
+GEORAMfilename
+ETHERNET_AS_RR
+ETHERNET_ACTIVE
+ETHERNET_DISABLED
+ETHERNET_INTERFACE
+DIGIMAXbase
+Acia1Base
+Acia1Mode
+SidResidFilterBias
+SidResidGain
+SidEngine
+RRrevision
+RAMCARTsize
+RAMCART_RO
+RAMCARTImageWrite
+RAMCARTfilename
+MMCREEPROMRW
+MMCRSDType
+MMCRCardRW
+MMCRImageWrite
+MMCRRescueMode
+MMCREEPROMImage
+MMCRCardImage
+MMC64_sd_type
+MMC64_RO
+MMC64imagefilename
+MMC64_revision
+MMC64_flashjumper
+MMC64_bios_write
+MMC64BIOSfilename
+MagicVoiceImage
+IsepicImageWrite
+IsepicSwitch
+Isepicfilename
+IEEE488Image
+ExpertCartridgeMode
+ExpertImageWrite
+Expertfilename
+EasyFlashWriteCRT
+EasyFlashJumper
+DQBBImageWrite
+DQBBfilename
+CartridgeFile
+CartridgeType
+CartridgeReset
+IOCollisionHandling
+RomsetFileName
+RomsetArchiveActive
+RomsetArchiveName
+AttachDevice11Readonly
+AttachDevice10Readonly
+AttachDevice9Readonly
+AttachDevice8Readonly
+ConfirmOnExit
+FliplistName
+LogFileName
+NetworkControl
+NetworkServerPort
+NetworkServerBindAddress
+NetworkServerName
+RAMInitValueInvert
+RAMInitStartValue
+MonitorServerAddress
+KeepMonitorOpen
+IECDevice5
+IECDevice4
+FileSystemDevice11
+FileSystemDevice10
+FileSystemDevice9
+FileSystemDevice8
+IECDevice11
+IECDevice10
+IECDevice9
+IECDevice8
+RomsetDosName1571cr
+RomsetDosName1001
+RomsetDosName4040
+RomsetDosName3040
+RomsetDosName2040
+RomsetDosName2031
+RomsetDosName4000
+RomsetDosName2000
+RomsetDosName1581
+RomsetDosName1571
+RomsetDosName1570
+RomsetDosName1541ii
+RomsetDosName1541
+DriveProfDOS1571Name
+RawDriveDriver
+DatasetteZeroGapDelay
+DatasetteResetWithCPU
+SoundVolume
+SoundFragmentSize
+SoundRecordDeviceArg
+SoundRecordDeviceName
+KeySet2Fire
+KeySet2West
+KeySet2SouthWest
+KeySet2South
+KeySet2SouthEast
+KeySet2East
+KeySet2NorthEast
+KeySet2North
+KeySet2NorthWest
+KeySet1Fire
+KeySet1West
+KeySet1SouthWest
+KeySet1South
+KeySet1SouthEast
+KeySet1East
+KeySet1NorthEast
+KeySet1North
+KeySet1NorthWest
+LightpenType
+Lightpen
+Mouseport
+Mousetype
+Mouse
+ExtraJoyType
+ExtraJoy
+JoyOpposite
+KeymapSymDeFile
+TrueAspectRatio
+KeepAspectRatio
+openGL_no_sync
+openGL_sync
+HwScalePossible
+UseFullscreen
+AutostartDelay
+AutostartPrgMode
+AutostartWarp
+AutostartHandleTrueDriveEmulation
+AutostartRunWithColon
+AutostartBasicLoad
+AutostartPrgDiskImage
 
 to get a much more detailed list use "./checkdoc.mak full"
 
@@ -208,3 +509,4 @@ cartconv - 22/01/2011
 monitor - 22/01/2011
 
 all command line options complete - 19/06/2012
+all resources included - 20/06/2012
