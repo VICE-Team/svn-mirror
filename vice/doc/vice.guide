@@ -613,24 +613,24 @@ improved BASIC 4 version with up to 32k for BASIC text and 32k for
 variables.  See `PETdoc' for more information.  The SuperPET also
 is a PET 8032 with an expansion board.  It can map 4k at a time out
 of 64k into the `$9***' area.  Also it has an ACIA 6551 for RS232
-communication.  The 6809 that is built into the SuperPET is not
-emulated, though.  The PET computers came with three major ROM
-revisions, so-called BASIC 1, 2 and 4, all of which are provided.
-The PET 2001 uses the version 1, the PET 3032 uses version 2, and the
-others use version 4.  The 2001 ROM is horribly broken with respect
-to IEEE488 (they shipped it before they tested it with the floppy
-drive, so only tape worked.  Therefore the emulator patches the ROM
-to fix the IEEE488 routines.  As well as other low-level fixes the
-2001 patch obtains the load address for a program file from the first
-two bytes of the file.  This allows the loading of both PET2001-saved
-files (that have $0400 as their load address) and other PET files
-(that have $0401).  The PET2001 saves from $0400 and not from $0401
-as other PETs do.  Moreover, the secondary addresses used are now
-`0' and `1' for load and save, respectively, and not arbitrary unused
-secondary addresses.  To select which model to run, specify it on
-the command line with the `-model MODEL' option, where `MODEL' can
-be one of a list of PET model numbers, all described in see
-@{"PET model" Link "PET model"}  
+communication.  The 6809 CPU that is built into the SuperPET is now
+emulated, since release 2.4, including the 6702 dongle chip.  The
+PET computers came with three major ROM revisions, so-called BASIC 1,
+2 and 4, all of which are provided.  The PET 2001 uses the version 1,
+the PET 3032 uses version 2, and the others use version 4.  The 2001
+ROM is horribly broken with respect to IEEE488 (they shipped it
+before they tested it with the floppy drive, so only tape worked.
+Therefore the emulator patches the ROM to fix the IEEE488 routines.
+ As well as other low-level fixes the 2001 patch obtains the load
+address for a program file from the first two bytes of the file.
+This allows the loading of both PET2001-saved files (that have $0400
+as their load address) and other PET files (that have $0401).  The
+PET2001 saves from $0400 and not from $0401 as other PETs do. 
+Moreover, the secondary addresses used are now `0' and `1' for load
+and save, respectively, and not arbitrary unused secondary
+addresses.  To select which model to run, specify it on the
+command line with the `-model MODEL' option, where `MODEL' can be one
+of a list of PET model numbers, all described in see @{"PET model" Link "PET model"}  
 
 
 @EndNode
@@ -1368,9 +1368,7 @@ names:
      (Commodore ROM image 901474-02)
 
      `edit4b80', the PET8032 editor for business keyboards (2 KBytes)
-     (Commodore ROM image 901474-04-?)
-
-     
+     (Commodore ROM image 901474-04-?) 
 
      `chargen', the character generator ROM (2k).  It has two sets
      with 128 chars each.  The second (inverted) half of each set is
@@ -1380,29 +1378,38 @@ names:
      `chargen.de', the character generator ROM (2k). This version is a
      patched German charset, with the characters [, \ and ] replaced by
      umlauts. It has been provided by U. Guettich and he reports that
-     it is supported by some programs.  The PETs also have
-sockets for extension ROMs for the addresses $9000-$9FFF, $A000-$AFFF
-and $B000-$BFFF (the last one for PET2001 and PET3032 only).  You can
-specify ROM image files for those extensions command line options
-`-petrom9', `-petromA' and `-petromB' resp.  An alternative would
-be to specify a long kernal ROM with the `-kernal' option that
-includes the extension ROM areas.  Also, you can specify
-replacements for the basic ROM at $B000-$DFFF with the `-petromBasic'
-option and for the editor ROM at $E000-$E7FF with the `-petromEditor'
-option.  The CBM-II emulator again uses another setup.  For those
-models the kernal used is the same for all.  However, for different
-amounts of memory exist different versions of the BASIC ROMs.  The
-128k RAM version (C610, C710, B128) uses one bank of 64k for the
-BASIC text and another one for all the variables.  The 256k RAM
-version uses one bank for text, one for variables, one for arrays and
-one for strings.  Also the character generator ROMs have a format
-different from the above.  The other character ROMs have 8 bytes of
-pixel data per character.  Those ROMs have 16 bytes per character
-instead.  The C6x0 only uses the first 8 of it, but the C7x0 uses 14
-lines per character and needs those increased ROMs.  Both ROMs hold,
-like the PET, two character sets with 128 characters each.  Again the
-second half of the full (256 char) character set is computed by
-inverting. 
+     it is supported by some programs. 
+
+     `characters.901640-01.bin', the SuperPET character generator ROM
+     (4k). The first half is the same as `chargen', the second half
+     contains, instead of an upper and lower case set, an ASCII
+     character set and an APL character set. For these sets, the
+     screen code is equal to the ASCII/APL code.
+
+     `waterloo-[abcdf]000.901898-0[1-5].bin',
+     `waterloo-e000.901897-01.bin'. The Waterloo system ROMs. 
+The PETs also have sockets for extension ROMs for the addresses
+$9000-$9FFF, $A000-$AFFF and $B000-$BFFF (the last one for PET2001 and
+PET3032 only).  You can specify ROM image files for those extensions
+command line options `-petrom9', `-petromA' and `-petromB' resp. 
+An alternative would be to specify a long kernal ROM with the
+`-kernal' option that includes the extension ROM areas.  Also, you
+can specify replacements for the basic ROM at $B000-$DFFF with the
+`-petromBasic' option and for the editor ROM at $E000-$E7FF with the
+`-petromEditor' option.  The CBM-II emulator again uses another
+setup.  For those models the kernal used is the same for all.
+However, for different amounts of memory exist different versions of
+the BASIC ROMs.  The 128k RAM version (C610, C710, B128) uses one
+bank of 64k for the BASIC text and another one for all the variables.
+The 256k RAM version uses one bank for text, one for variables, one
+for arrays and one for strings.  Also the character generator ROMs
+have a format different from the above.  The other character ROMs
+have 8 bytes of pixel data per character.  Those ROMs have 16 bytes
+per character instead.  The C6x0 only uses the first 8 of it, but the
+C7x0 uses 14 lines per character and needs those increased ROMs.
+Both ROMs hold, like the PET, two character sets with 128 characters
+each.  Again the second half of the full (256 char) character set is
+computed by inverting. 
      
 
      `kernal', the KERNAL (8k) for the business machines (6xx/7xx) 
@@ -2016,7 +2023,7 @@ AutostartWarp
 AutostartPrgMode
 AutostartDelay
 AutostartDelayRandom
-      
+     Boolean, enables a short random delay on autostart.  
 
 
 @EndNode
@@ -2193,12 +2200,19 @@ DisplayDepth
      (the default) causes the emulator to autodetect it. 
 
 UseFullscreen
+     Boolean specifying wether fullscreen mode is currently in use.
+
 HwScalePossible
 openGL_sync
 openGL_no_sync
 KeepAspectRatio
+     Boolean specifying wether the aspect ratio of the output window
+     should be preserved. (0=free scaling, 1=scale with fixed aspect
+     ratio)
+
 TrueAspectRatio
-     
+     Boolean specifying wether to use the true (non square pixels)
+     aspect ratio. 
 
 Window0Width
 Window0Height
@@ -2393,14 +2407,31 @@ JoyDevice4
      available for example). 
 
 JoyOpposite
+     Boolean, if true allow (usually impossible) bitcombinations for
+     opposite directions.
+
 ExtraJoy
+     Boolean, enables extra joysticks if true.
+
 ExtraJoyType
+     Integer specifying the type of adapter used for the extra
+     joysticks. (0=Classical Games/ Protovision, 1=PET, 2=Hummer,
+     3=OEM, 4=Digital Excess/Hitmen, 5=Kingsoft, 6=Starbyte) 
+
 Mouse
+     Boolean, enables mouse emulation
+
 Mousetype
 Mouseport
-Lightpen
-LightpenType
      
+
+Lightpen
+     Boolean, enables lightpen emulation
+
+LightpenType
+     Integer specifying the type of lightpen. (0=Pen with button Up,
+     1=Pen with button Left,  2=Datel Pen, 3=Magnum Light Phaser,
+     4=Stack Light Rifle) 
 
 KeySet1NorthWest
 KeySet1North
@@ -2500,10 +2531,7 @@ Sound settings
 
      "Sound suspend time", will cause the audio playback to pause for
      the specified number of seconds whenever some clicking happens.
-     If "Keep going" is selected, no pausing is done. 
-
-     "Oversample" specifies an oversampling factor, from 1 to 8 times
-     (warning: this eats CPU cycles!).  
+     If "Keep going" is selected, no pausing is done.  
 
    * Sound resources:: * Sound options::  menu 
 
@@ -2599,6 +2627,12 @@ SoundRecordDeviceArg
 SoundFragmentSize
 SoundVolume
 SoundOutput
+     Enum specifying how the type of sound output. Output is selectable
+     between 'system'  (system decides to use mono or stereo output
+     based on the presence of a stereo sid),  'always mono' (output
+     is always mono, stereo streams are mixed into a mono stream)  or
+     'always stereo' (output is always stereo, mono streams are
+     multiplexed to a stereo  stream). (0=system, 1=mono, 2=stereo)
       
 
 
@@ -4190,8 +4224,17 @@ IOCollisionHandling
      
 
 CartridgeReset
+     Boolean specifying wether the machine should be resetted when a
+     cartridge is changed.
+
 CartridgeType
+     Integer specifying the type of cartridge emulated in the "main"
+     slot
+
 CartridgeFile
+     String specifying the filename of the image for the cartridge
+     emulated in the "main" slot 
+
 DQBB
      Boolean specifying whether the Double Quick Brown Box should be
      emulated or not.
@@ -4211,6 +4254,9 @@ ExpertCartridgeEnabled
 Expertfilename
 ExpertImageWrite
 ExpertCartridgeMode
+     Enum specifying the state of the expert cartridge switch (0=off
+     1=prg 2=on)
+
 IDE64Config
      String encoded content of IDE64 DS1302 RAM, used to store IDEDOS
      setup parameters. Not meant to be directly manipulated as
@@ -4307,6 +4353,9 @@ RAMCARTsize
      
 
 RRrevision
+     Integer specifying the RR hardware revision (0=retro replay,
+     1=nordic replay)
+
 RRFlashJumper
      Boolean specifying whether the RR flash jumper is set or not.
 
@@ -5065,7 +5114,8 @@ SID resources
      
 
 SidStereo
-     Boolean selecting emulation of a second SID. 
+     Integer specifying the amount of emulated extra SIDs. (0=off, 1=1
+     extra sid,  2=2 extra sids. 
 
 SidStereoAddressStart
      Integer specifying the start address for the second SID. 
@@ -6132,8 +6182,27 @@ VIC20 cartridge resources
    
      
 
+CartridgeReset
+     Boolean specifying wether the machine should be resetted when a
+     cartridge is changed.
+
+CartridgeType
+     Integer specifying the type of cartridge emulated.
+
+CartridgeFile
+     String specifying the filename of the image for the current
+     cartridge. 
+
 IOCollisionHandling
      
+
+GenericCartridgeFile2000
+GenericCartridgeFile4000
+GenericCartridgeFile6000
+GenericCartridgeFileA000
+GenericCartridgeFileB000
+     String specifying the name of the respective cartridge ROM
+     images. 
 
 FinalExpansionWriteBack
 VicFlashPluginWriteBack
@@ -6598,15 +6667,7 @@ BasicName
 
 ChargenName
      String specifying the name of the character generator ROM
-     (default `chargen'). 
-
-GenericCartridgeFile2000
-GenericCartridgeFile4000
-GenericCartridgeFile6000
-GenericCartridgeFileA000
-GenericCartridgeFileB000
-     String specifying the name of the respective cartridge ROM
-     images.  
+     (default `chargen').  
 
 
 @EndNode
@@ -6840,6 +6901,10 @@ PLUS4 I/O extension resources
    
      
 
+CartridgeReset
+     Boolean specifying wether the machine should be resetted when a
+     cartridge is changed. 
+
 DIGIBLASTER
 SpeechImage
 SpeechEnabled
@@ -6946,7 +7011,11 @@ PLUS4 resources
 
 H256K
 CS256K
-      
+     
+
+Acia1Enable
+     Boolean specifying whether the ACIA should be emulated or not. 
+
 
 PLUS4 command-line options
 ...........................
@@ -7027,8 +7096,8 @@ RamA
      The 8296 can map RAM into the address range $A*** 
 
 SuperPET
-     This resource enables the SuperPET (MicroMainFrame 9000) I/O and
-     disables the 8x96 mappings. 
+     This resource enables the SuperPET (MicroMainFrame 9000) I/O and
+     6809 CPU, and disables the 8x96 mappings. 
 
 Basic1
      If (by checksum) a version 1 kernal is detected, then the kernal
@@ -7457,7 +7526,7 @@ models.
      Switch on RAM mapping on addresses $a000-$afff (`RamA'). 
 
 -superpet, +superpet
-     Enable/Disable SuperPET I/O emulation (`SuperPET'). 
+     Enable/Disable SuperPET I/O and CPU emulation (`SuperPET'). 
 
 -cpu6502
      Set SuperPET CPU switch to '6502'
@@ -7917,9 +7986,11 @@ included if it is a dump of a PET without CRTC, because the video state
 is saved here anyway.  PIA1  6520  The PIA for the interrupts,
 tape and the keyboard  PIA2  6520  The PIA for the IEEE488-bus
 VIA  6522  The VIA for IEEE488, userport, sound  ACIA1  6551
-The ACIA for the SuperPET.  This module is optional.  *  Drive
-modules  The emulated drive(s) have their own modules see
-@{"Drive modules" Link "Drive modules"}  multitable 
+The ACIA for the SuperPET.  This module is optional.  DWWPIA  6520
+The PIA for the DWW hires board.   CPU6809  6809  The extra CPU
+in the SuperPET.  This module is optional.  *  Drive modules  The
+emulated drive(s) have their own modules see @{"Drive modules" Link "Drive modules"}
+multitable 
 
 
 @EndNode
@@ -7947,10 +8018,7 @@ C5*0 models (only the C5*0 models).  CIA1  6526  The CIA for IEEE
 TPI 2 for interrupts and keyboard.  ACIA1  6551  The RS232
 interface  SID  6581  The CBM2s SID sound chip  *  Drive
 modules  The emulated drive(s) have their own modules see
-@{"Drive modules" Link "Drive modules"}  multitable  The snapshot either contains CRTC or
-VIC-II snapshot modules, but not both. Currently switching between
-the two video emulations is not possible at runtime, so only
-snapshots that fit the current UseVicII resource are accepted. 
+@{"Drive modules" Link "Drive modules"}  multitable 
 
 
 @EndNode
@@ -7985,12 +8053,12 @@ snapshots in later versions of this emulator, or even in other
 emulators. 
 
    * Module Terminology:: * Module framework:: * CPU 6502 module::
-* CIA 6526 module:: * VIA 6522 module:: * PIA 6520 module:: * TPI
-6525 module:: * RIOT 6532 module:: * SID 6581 module:: * ACIA
-6551 module:: * VIC-I module:: * VIC-II module:: * CRTC module::
-* C64 memory module:: * C128 memory module:: * VIC20 memory
-module:: * PET memory module:: * CBM-II memory module:: * C500
-data module::  menu 
+* CPU 6809 module:: * CIA 6526 module:: * VIA 6522 module:: * PIA
+6520 module:: * TPI 6525 module:: * RIOT 6532 module:: * SID 6581
+module:: * ACIA 6551 module:: * VIC-I module:: * VIC-II module::
+* CRTC module:: * C64 memory module:: * C128 memory module:: *
+VIC20 memory module:: * PET memory module:: * CBM-II memory
+module:: * C500 data module::  menu 
 
 
 @EndNode
@@ -8057,12 +8125,12 @@ SIZE  size of the module, including this header  multitable
 @EndNode
 
 @Node "CPU 6502 module" "vice.guide/CPU 6502 module"
-@Next "CIA 6526 module"
+@Next "CPU 6809 module"
 @Prev "Module framework"
 @Toc "Module formats"
 
-CPU module
-...........
+CPU 6502 module
+................
 
     This module saves the core 6502 state.  You will find a clock
 value there.  All other modules save their own clock values relative
@@ -8082,9 +8150,36 @@ DOWRD  NMICLK  absolute CLK when the NMI line came active  DWORD
 
 @EndNode
 
+@Node "CPU 6809 module" "vice.guide/CPU 6809 module"
+@Next "CIA 6526 module"
+@Prev "CPU 6502 module"
+@Toc "Module formats"
+
+CPU 6809 module
+................
+
+    This module saves the core 6809 state.  You will find a clock
+value there.  All other modules save their own clock values relative
+to this value.  However, the drive modules save their clocks relative
+to their appropriate CPUs of course.  Warning: This module is
+still under construction and saves some information that is not sure
+to be VICE-independent.  If in doubt, read the source.    .1 .4
+.5  Type  Name  Description  DWORD  CLK  the current CPU
+clock value.  All other clock values are relative to this.  WORD
+X  The X register  WORD  Y  The Y register  WORD  U  The
+U register  WORD  PC  The Program Counter register  BYTE  DP
+The Direct Page register  BYTE  CC  The Condition Code register
+BYTE  A  The A register  BYTE  B  The B register    
+The following are for 6309 compatibility:  WORD  V  The V
+register  BYTE  E  The E register  BYTE  F  The F register
+multitable 
+
+
+@EndNode
+
 @Node "CIA 6526 module" "vice.guide/CIA 6526 module"
 @Next "VIA 6522 module"
-@Prev "CPU 6502 module"
+@Prev "CPU 6809 module"
 @Toc "Module formats"
 
 CIA module
@@ -8478,47 +8573,61 @@ $5*** (if CONFIG & 8; added in V1.1)  multitable
 PET memory module
 ..................
 
-    The PET memory module actually consists of two modules.  The
+    The PET memory module actually consists of three modules.  The
 "PETMEM" module is mandatory and contains the RAM dump.  The "PETROM"
-module is optional and contains a dump of the ROM images.  The
-size of the PET memory modules differs with each different memory
-configuration.  The RAM configuration is saved in the snapshot, and
-restored when the snapshot is loaded.  The PETMEM module 
-Version numbers: Major 1, Minor 2    .1 .4 .5  Type  Name
-Description  BYTE  CONFIG  Configuration value. Bits 0-3: 0= 40
-col PET without CRTC; 1= 40 col PET with CRTC; 2 = 80 col PET (with
-CRTC); 3= SuperPET; 4= 8096; 5= 8296. Bit 6: 1= RAM at $9***. Bit 7: 1=
-RAM at $A***.  BYTE  KEYBOARD  Keyboard type. 0= UK business; 1=
-Graphics; 2= German business  BYTE  MEMSIZE  memory size of low
-32k in k (possible values 4, 8, 16, 32)  BYTE  CONF8X96  Value of
-the 8x96 configuration register  BYTE  SUPERPET  SuperPET config.
-Bit 0: 1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1=
-CTRL register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM
+module is optional and contains a dump of the ROM images. The
+"PETDWW" module is also optional and contains the image of the hires
+expansion board (if enabled).  The size of the PET memory modules
+differs with each different memory configuration.  The RAM
+configuration is saved in the snapshot, and restored when the
+snapshot is loaded.  The PETMEM module  Version numbers: Major
+1, Minor 3    .1 .4 .5  Type  Name  Description  BYTE
+CONFIG  Configuration value. Bits 0-3: 0= 40 col PET without CRTC; 1=
+40 col PET with CRTC; 2 = 80 col PET (with CRTC); 3= SuperPET; 4= 8096;
+5= 8296. Bit 6: 1= RAM at $9***. Bit 7: 1= RAM at $A***.  BYTE
+KEYBOARD  Keyboard type. 0= UK business; 1= Graphics; 2= German
+business  BYTE  MEMSIZE  memory size of low 32k in k (possible
+values 4, 8, 16, 32)  BYTE  CONF8X96  Value of the 8x96
+configuration register  BYTE  SUPERPET  SuperPET config. Bit 0:
+1= $9*** RAM enabled. Bit 1: 1= RAM write protected. Bit 2: 1= CTRL
+register write protected. Bit 3: 0= DIAG pin active. Bits 4-7: RAM
 block in use.  ARRAY  RAM  4-32k RAM (not 8296, size depends on
 MEMSIZE)  ARRAY  VRAM  2/4k RAM (not 8296, size depends on
 CONFIG)  ARRAY  EXTRAM  64k expansion RAM (SuperPET and 8096
 only)  ARRAY  RAM  128k RAM (8296 only)  -  -  The
 following item has been added in V1.1  BYTE  POSITIONAL  bit 0=0
 = symbolic keyboard mapping, bit 0=1 = positional mapping.  -  -
-The following item has been added in V1.1  BYTE  EOIBLANK  bit
-0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.
-multitable  The last item has been added in PETMEM snapshot version
-1.1. It is ignored by earlier restore routines (V1.0) and the V1.1
-restore routines do not change the current setting when reading a
-V1.0 snapshot.  In V1.2 the new EOIBLANK variable has been added.
-This implements the "blank screen on EOI" feature that was previously
-linked to a wrong resource.  The PETROM module  Version
-numbers: Major 1, Minor 0    .1 .4 .5  Type  Name
-Description  BYTE  CONFIG  Bit 0: 1= $9*** ROM included. Bit 1:
-1= $A*** ROM included. Bit 2: 1= $B*** ROM included. Bit 3: 1=
-$e900-$efff ROM included  ARRAY  KERNAL  4k KERNAL ROM image
+The following item has been added in V1.2  BYTE  EOIBLANK  bit
+0=0 = EOI does not blank screen, bit 0=1 = EOI blanks screen.  -
+-  The following items have been added in V1.3  WORD  CPU_SWITCH
+6502 / 6809 / PROG  BYTE  VAL, PREVODD, WANTODD  6702 dongle
+state information  WORD[8]  SHIFT   multitable  The
+POSITIONAL item has been added in PETMEM snapshot version 1.1. It is
+ignored by earlier restore routines (V1.0) and the V1.1 restore
+routines do not change the current setting when reading a V1.0
+snapshot.  In V1.2 the new EOIBLANK variable has been added. This
+implements the "blank screen on EOI" feature that was previously
+linked to a wrong resource.  In V1.3 the state for SuperPET has
+been added.  The PETROM module  Version numbers: Major 1, Minor
+1    .1 .4 .5  Type  Name  Description  BYTE  CONFIG
+Bit 0: 1= $9*** ROM included. Bit 1: 1= $A*** ROM included. Bit 2: 1=
+$B*** ROM included. Bit 3: 1= $e900-$efff ROM included. Bit 4: 1=
+SuperPET ROMs included.  ARRAY  KERNAL  4k KERNAL ROM image
 $f000-$ffff  ARRAY  EDITOR  2k EDITOR ROM image $e000-$e7ff
 ARRAY  CHARGEN  2k CHARGEN ROM image  ARRAY  ROM9  4k $9***
 ROM image (if CONFIG & 1)  ARRAY  ROMA  4k $A*** ROM image (if
 CONFIG & 2)  ARRAY  ROMB  4k $B*** ROM image (if CONFIG & 4)
 ARRAY  ROMC  4k $C*** ROM image  ARRAY  ROMD  4k $D*** ROM
 image  ARRAY  ROME9  7 blocks $e900-$efff ROM image (if CONFIG &
-8)  multitable 
+8)  -  -  The following items have been added in V1.1  ROM6809
+ROM6809  24k $A000-$FFFF ROM   (if CONFIG & 16)  ARRAY
+CHARGEN(2)  upper half of CHARGEN (if CONFIG & 16)  multitable 
+The PETDWW module  For storing the state of the DWW hires expansion
+board, there is a PETDWWPIA module, and a DWWMEM module.  The
+former has the same format as the PIA1.    .1 .4 .5  Type
+Name  Description  WORD  SIZE  The size of the memory dump that
+follows, or 0 if DWW disabled.  ARRAY  MEM  The memory in the DWW
+card, SIZE bytes.  multitable 
 
 
 @EndNode
@@ -11957,8 +12066,9 @@ team:
 
      Groepaz Added new more precise CRT emulation. Added support for
      the new cartridge system and many new cartridges. Fixed up parts
-     of cartconv. Implemented many bug fixes. Wrote test programs.
-     
+     of cartconv, c1541 and petcat. Implemented many bug fixes. 
+     Wrote test programs. Updated this document after a long period
+     of outdated mess. 
 
      Ingo Korb Corrected block allocation and interleave for
      c1541/vdrive, added rudimentary xplus4 tape recording support,
@@ -12199,262 +12309,4 @@ Internationalization Team:
      the background. 
 
      Roberto Muscedere Improved support for REL files. 
-
-     Tomi Ollila Donated `findpath.c'. 
-
-     Per Olofsson Digitalized the C64 colors used in the (old)
-     default palette. 
-
-     Lasse Öörni Contributed the Windows Multimedia sound driver
-     
-
-     Helfried Peyrl Supplied a patch that fixes REL file records
-     larger 256 bytes when using vdrive. 
-
-     Frank Prindle Contributed some patches. 
-
-     Giuliano Procida Used to maintain the VICE `deb' package for the
-     Debian distribution, and also helped proofreading the
-     documentation. 
-
-     Vesa-Matti Puro Wrote the very first 6502 CPU emulator in x64
-     0.1.0. That was the beginning of the story... 
-
-     Rami Rasanen Rewrote the VIC20 sound code. 
-
-     David Roden Fixed various issues related to ffmpeg settings. 
-
-     Pablo Roldán Contributed initial patch for VIC-II PAL-N model
-     selection. 
-
-     Mathias Roslund Provided the AmigaOS4 port. 
-
-     Gunnar Ruthenberg Provided some VIC-II enhancements and improved
-     the Win32 port. 
-
-     Johan Samuelsson Provided the Swedish Amiga translations. 
-
-     Oliver Schaertel Wrote the X11 full screen, parts of custom ROM
-     set support and 1351 mouse emulation for unix. 
-
-     Peter Schepers Contributed a document describing the G64 image
-     format. 
-
-     Michael Schwendt Helped with the SID (audio) chip emulation,
-     bringing important suggestions and bug reports, as well as the
-     wave tables and filter emulation from his SIDplay emulator. 
-
-     Heiko Selber Contributed some VIC20 I/O patches. 
-
-     John Selck Improved the video rendering and added the fast PAL
-     emulation. Implemented new color generation based on P.
-     Timmermanns knowledge. 
-
-     Chris Sharp Wrote the AIX sound driver. 
-
-     Andr351 "JoBBo" Siegel Provided the native MorphOS icons. 
-
-     Harry "Piru" Sintonen Provided lots of fixes and improvements
-     for the Amiga ports. 
-
-     Manfred Spraul Wrote the Win32 text lister. 
-
-     Markus Stehr Provided the MMC64 emulation. 
-
-     Dominique Strigl Contributed miscellaneous patches in the old
-     X64 times. 
-
-     Samuli Suominen Fixed XShm includes for newer xextproto versions
-     and updated libpng check for newer versions. 
-
-     Steven Tieu Added initial support for 16/24 bpp X11 displays.
-     
-
-     Philip Timmermann Did a lot of research about the VIC-II
-     colors. 
-
-     Brian Totty Provided parts of the widget set for implementing
-     the Xaw GUI. 
-
-     Mustafa "GnoStiC" Tufan Made improvements to the GP2x port. 
-
-     Lionel Ulmer Implemented joystick support for Linux and a first
-     try of a SID emulation for SGI machines. 
-
-     Krister Walfridsson Implemented joystick and sound support for
-     NetBSD. 
-
-     webulator Provided Win32 drag & drop support 
-
-     Robert Willie Added some additional commands to the fsdevice
-     emulation. 
-
-     Peter Weighill Gave many ideas and contributed the ROM patcher.
-     
-
-     Gerhard Wesp Contributed the `extract' command in `c1541'. 
-
-     Maciej Witkowiak Did some IDE64 and C1541 fixes. 
-
-     Peter Rittwage Made 1541 GCR hardware tests. 
-
-     Robert McIntyre Made additional small changes to the gcr.h. 
-
-     István Fábián Contributed a initial patch with the more
-     correct 1541 bus timing code and which gave us hints for to
-     improving the 1541 emulation.   (We hope we have not
-forgotten anybody; if you think we have,  please tell us.)  The
-people around the world providing results from running our test
-programs on various machines deserve a special mention: 
-     
-
-     hedning (Drean C64 PAL-N, various C64 PAL boxes)
-
-     Jason Compton (Various C64 and C128 NTSC boxes)
-
-     The Woz (Drean C64 PAL-N)
-
-     Thierry (Drean C64 PAL-N)
-
-     MOS6569 (C64C PAL)
-
-     Mike (VIC-20 PAL)
-
-     Wilson (VIC-20 NTSC)
-
-     Vicassembly (VIC-20 NTSC)
-
-     David "jbevren" Wood (C64 NTSC-OLD)  Thanks also to everyone
-else for sending suggestions, ideas, bug reports, questions and
-requests. In particular, a warm thanks goes to the following people:
-
-     Lutz Sammer
-
-     Ralph Mason
-
-     George Caswell
-
-     Jasper Phillips
-
-     Luca Forcucci
-
-     Asger Alstrup
-
-     Bernhard Schwall
-
-     Salvatore Valente
-
-     Arthur Hagen
-
-     Douglas Carmichael
-
-     Ferenc Veres
-
-     Frank Reichel
-
-     Ullrich von Bassewitz
-
-     Holger Busse
-
-     David "jbevren" Wood
-
-     Gary Glenn  Last but not least, a very special thank to
-Andreas Arens, Lutz Sammer, Edgar Tornig, Christian Bauer, Wolfgang
-Lorenz, Miha Peternel, Per Håkan Sundell and David Horrocks for
-writing cool emulators to compete with.  :-) 
-
-
-@EndNode
-
-@Node "Copyright" "vice.guide/Copyright"
-@Next "Contacts"
-@Prev "Acknowledgments"
-@Toc "Top"
-
-Copyright
-**********
-
-   
-     Copyright (C) 1998-2012 Dag Lem
-
-     Copyright (C) 1999-2012 Andreas Matthies
-
-     Copyright (C) 1999-2012 Martin Pottendorfer
-
-     Copyright (C) 2005-2012 Marco van den Heuvel
-
-     Copyright (C) 2006-2012 Christian Vogelgsang
-
-     Copyright (C) 2007-2012 Fabrizio Gennari
-
-     Copyright (C) 2007-2012 Daniel Kahlin
-
-     Copyright (C) 2009-2012 Groepaz
-
-     Copyright (C) 2009-2012 Ingo Korb
-
-     Copyright (C) 2009-2012 Errol Smith
-
-     Copyright (C) 2010-2012 Olaf Seibert
-
-     Copyright (C) 2011-2012 Marcus Sutton
-
-     Copyright (C) 2011-2012 Ulrich Schulz
-
-     Copyright (C) 2011-2012 Stefan Haubenthal
-
-     Copyright (C) 2011-2012 Thomas Giesel
-
-     Copyright (C) 2011-2012 Kajtar Zsolt
-
-     Copyright (C) 2012-2012 Benjamin 'BeRo' Rosseaux 
-
-     Copyright (C) 2000-2011 Spiro Trikaliotis
-
-     Copyright (C) 1998-2010 Tibor Biczo
-
-     Copyright (C) 1998-2010 Andreas Boose
-
-     Copyright (C) 2007-2010 M. Kiesel
-
-     Copyright (C) 2007-2011 Hannu Nuotio
-
-     Copyright (C) 1999-2007 Andreas Dehmel
-
-     Copyright (C) 2003-2005 David Hansel
-
-     Copyright (C) 2000-2004 Markus Brenner 
-
-     Copyright (C) 1999-2004 Thomas Bretz
-
-     Copyright (C) 1997-2001 Daniel Sladic
-
-     Copyright (C) 1996-1999 Ettore Perazzoli
-
-     Copyright (C) 1996-1999 André Fachat
-
-     Copyright (C) 1993-1994, 1997-1999 Teemu Rantanen
-
-     Copyright (C) 1993-1996 Jouko Valta   This program is free
-software; you can redistribute it and/or modify it under the terms of
-the GNU General Public License as published by the Free Software
-Foundation; either version 2 of the License, or (at your option) any
-later version.  This program is distributed in the hope that it
-will be useful, but WITHOUT ANY WARRANTY; without even the implied
-warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See
-the GNU General Public License for more details.  You should have
-received a copy of the GNU General Public License along with this
-program; if not, write to the Free Software Foundation, Inc., 59
-Temple Place, Suite 330, Boston, MA 02111-1307  USA  
-
-
-@EndNode
-
-@Node "Contacts" "vice.guide/Contacts"
-@Next "Concept Index"
-@Prev "Copyright"
-@Toc "Top"
-
-Contact information
-********************
 
