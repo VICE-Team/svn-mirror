@@ -104,184 +104,162 @@ comments. to show it using the checkdoc tool use "./checkdoc.mak fixme nodes"
 
 at the time of last updating this file (21/06/2012), the list looked like this:
 
-list of FIXMEs (33):
+list of FIXMEs (37):
 669:@c FIXME: add link to doc/html/plain/PETdoc.txt
 690:@c FIXME: add link to doc/html/plain/PETdoc.txt
 719:@c FIXME: add link to section
 789:@c FIXME: add a detailed list of all keys
-2525:@c FIXME: KeymapSymDeFile is really weird
-2580:@c FIXME: remove -symdekeymap option!
-3138:@c FIXME: update drive types
-4295:@c FIXME: shouldnt there be one fliplist per drive ?
-4377:@c FIXME: clean up "c64/128" vs "c64"
-4702:@c FIXME: incomplete descriptions for resources
-7788:@c FIXME: is this correct?
-8348:@c FIXME
-8480:@c FIXME: description is wrong
-10203:@c FIXME: add some info on making screenshots, wav- and avi recordings
-10265:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-11105:@c FIXME: add more c1541 examples
-11480:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-11481:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-11482:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-11483:@c FIXME: add D4M FD4000 ED disk image file structure
-11484:@c FIXME: add CRT c64 cartridge images file structure
-11903:@c FIXME: the D64 section needs to be style-checked.
-11904:@c FIXME: some of the D64 section needs to have sub-sections.
-12796:@c FIXME: the X64 section needs to be style-checked.
-12912:@c FIXME: the D71 section needs to be style-checked.
-12913:@c FIXME: some of the D71 section needs to have sub-sections.
-13573:@c FIXME: the D81 section needs to be style-checked.
-13574:@c FIXME: some of the D81 section needs to have sub-sections.
-14468:@c FIXME: the D80 section needs to be style-checked.
-14469:@c FIXME: some of the D80 section needs to have sub-sections.
-15157:@c FIXME: the D82 section needs to be style-checked.
-15158:@c FIXME: some of the D82 section needs to have sub-sections.
-16248:@c FIXME: the P00 section needs to be style-checked.
+2239:@c FIXME: not used in UI?
+2535:@c FIXME: KeymapSymDeFile is really weird
+2590:@c FIXME: remove -symdekeymap option!
+3152:@c FIXME: update drive types
+4310:@c FIXME: shouldnt there be one fliplist per drive ?
+4392:@c FIXME: clean up "c64/128" vs "c64"
+4717:@c FIXME: incomplete descriptions for resources
+5942:@c FIXME: this looks like a hacking option that we can perhaps remove
+6607:@c FIXME: this looks like a hacking option that we can perhaps remove
+7847:@c FIXME: is this correct?
+8411:@c FIXME
+8543:@c FIXME: description is wrong
+10266:@c FIXME: add some info on making screenshots, wav- and avi recordings
+10297:@c FIXME: not used in UI?
+10334:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+11174:@c FIXME: add more c1541 examples
+11549:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+11550:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+11551:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+11552:@c FIXME: add D4M FD4000 ED disk image file structure
+11553:@c FIXME: add CRT c64 cartridge images file structure
+11972:@c FIXME: the D64 section needs to be style-checked.
+11973:@c FIXME: some of the D64 section needs to have sub-sections.
+12865:@c FIXME: the X64 section needs to be style-checked.
+12981:@c FIXME: the D71 section needs to be style-checked.
+12982:@c FIXME: some of the D71 section needs to have sub-sections.
+13642:@c FIXME: the D81 section needs to be style-checked.
+13643:@c FIXME: some of the D81 section needs to have sub-sections.
+14537:@c FIXME: the D80 section needs to be style-checked.
+14538:@c FIXME: some of the D80 section needs to have sub-sections.
+15226:@c FIXME: the D82 section needs to be style-checked.
+15227:@c FIXME: some of the D82 section needs to have sub-sections.
+16317:@c FIXME: the P00 section needs to be style-checked.
 
 nodes that need fixing (92):
 2211:@c @node FIXME
 2214:@c @node FIXME
-2608:@c @node FIXME
-2611:@c @node FIXME
-2705:@c @node FIXME
-2957:@c @node FIXME
-2963:@c @node FIXME
-4097:@c @node FIXME
-4141:@c @node FIXME
-4144:@c @node FIXME
-4154:@c @node FIXME
-4176:@c @node FIXME
-4179:@c @node FIXME
-4193:@c @node FIXME
-4432:@c @node FIXME
-4454:@c @node FIXME
-4477:@c @node FIXME
-4587:@c @node FIXME
-4617:@c @node FIXME
-4636:@c @node FIXME
-4674:@c @node FIXME
+2618:@c @node FIXME
+2621:@c @node FIXME
+2719:@c @node FIXME
+2971:@c @node FIXME
+2977:@c @node FIXME
+4112:@c @node FIXME
+4156:@c @node FIXME
+4159:@c @node FIXME
+4169:@c @node FIXME
+4191:@c @node FIXME
+4194:@c @node FIXME
+4208:@c @node FIXME
+4447:@c @node FIXME
+4469:@c @node FIXME
+4492:@c @node FIXME
+4602:@c @node FIXME
+4632:@c @node FIXME
+4651:@c @node FIXME
 4689:@c @node FIXME
-4696:@c @node FIXME
-4699:@c @node FIXME
-4901:@c @node FIXME
-5276:@c @node FIXME
-5279:@c @node FIXME
-5292:@c @node FIXME
-6106:@c @node FIXME
-6109:@c @node FIXME
-6147:@c @node FIXME
-6188:@c @node FIXME
-6191:@c @node FIXME
-6194:@c @node FIXME
-6299:@c @node FIXME
-6386:@c @node FIXME
-6389:@c @node FIXME
-6481:@c @node FIXME
-6553:@c @node FIXME
-6556:@c @node FIXME
-6574:@c @node FIXME
-6765:@c @node FIXME
-6850:@c @node FIXME
-6853:@c @node FIXME
-6928:@c @node FIXME
-7061:@c @node FIXME
-7064:@c @node FIXME
-7164:@c @node FIXME
-7445:@c @node FIXME
-7448:@c @node FIXME
-7460:@c @node FIXME
-7463:@c @node FIXME
-7466:@c @node FIXME
-7565:@c @node FIXME
-7645:@c @node FIXME
-7648:@c @node FIXME
-7682:@c @node FIXME
-7724:@c @node FIXME
-7727:@c @node FIXME
-7753:@c @node FIXME
-7780:@c @node FIXME
-7783:@c @node FIXME
-7803:@c @node FIXME
-7974:@c @node FIXME
-7977:@c @node FIXME
-8081:@c @node FIXME
-8162:@c @node FIXME
-8165:@c @node FIXME
-8196:@c @node FIXME
-8232:@c @node FIXME
-8235:@c @node FIXME
-8278:@c @node FIXME
-8335:@c @node FIXME
-8338:@c @node FIXME
-8526:@c @node FIXME
-8529:@c @node FIXME
-8544:@c @node FIXME
-8647:@c @node FIXME
-8650:@c @node FIXME
-8653:@c @node FIXME
-8669:@c @node FIXME
-10200:@c @node FIXME
-10205:@c @node FIXME
-10234:@c @node FIXME
-10262:@c @node FIXME
-10267:@c @node FIXME
-10285:@c @node FIXME
-11102:@c @node FIXME
-11112:@c @node FIXME
-11276:@c @node FIXME
-11304:@c @node FIXME
-11437:@c @node FIXME
+4704:@c @node FIXME
+4711:@c @node FIXME
+4714:@c @node FIXME
+4935:@c @node FIXME
+5310:@c @node FIXME
+5313:@c @node FIXME
+5326:@c @node FIXME
+6143:@c @node FIXME
+6146:@c @node FIXME
+6186:@c @node FIXME
+6227:@c @node FIXME
+6230:@c @node FIXME
+6233:@c @node FIXME
+6339:@c @node FIXME
+6426:@c @node FIXME
+6429:@c @node FIXME
+6521:@c @node FIXME
+6593:@c @node FIXME
+6596:@c @node FIXME
+6615:@c @node FIXME
+6806:@c @node FIXME
+6902:@c @node FIXME
+6905:@c @node FIXME
+6980:@c @node FIXME
+7113:@c @node FIXME
+7116:@c @node FIXME
+7216:@c @node FIXME
+7497:@c @node FIXME
+7500:@c @node FIXME
+7512:@c @node FIXME
+7515:@c @node FIXME
+7518:@c @node FIXME
+7617:@c @node FIXME
+7697:@c @node FIXME
+7700:@c @node FIXME
+7734:@c @node FIXME
+7776:@c @node FIXME
+7779:@c @node FIXME
+7812:@c @node FIXME
+7839:@c @node FIXME
+7842:@c @node FIXME
+7862:@c @node FIXME
+8033:@c @node FIXME
+8036:@c @node FIXME
+8140:@c @node FIXME
+8221:@c @node FIXME
+8224:@c @node FIXME
+8259:@c @node FIXME
+8295:@c @node FIXME
+8298:@c @node FIXME
+8341:@c @node FIXME
+8398:@c @node FIXME
+8401:@c @node FIXME
+8589:@c @node FIXME
+8592:@c @node FIXME
+8607:@c @node FIXME
+8710:@c @node FIXME
+8713:@c @node FIXME
+8716:@c @node FIXME
+8732:@c @node FIXME
+10263:@c @node FIXME
+10268:@c @node FIXME
+10303:@c @node FIXME
+10331:@c @node FIXME
+10336:@c @node FIXME
+10354:@c @node FIXME
+11171:@c @node FIXME
+11181:@c @node FIXME
+11345:@c @node FIXME
+11373:@c @node FIXME
+11506:@c @node FIXME
 
-The following resources appear to have no description: (100)
+The following resources appear to have no description: (50)
 
 EventStartMode
 EventEndSnapshot
 EventStartSnapshot
 EventSnapshotDir
-FFMPEGVideoCodec
-FFMPEGAudioCodec
-FFMPEGVideoBitrate
-FFMPEGAudioBitrate
-FFMPEGFormat
 DoodleCRTCTextColor
 DoodleTEDLumHandling
 DoodleMultiColorHandling
 DoodleOversizeHandling
-UserportDAC
-PETDWW
 PETREUsize
-PETREU
-c2hiName
-c2loName
-c1hiName
-c1loName
-FunctionHighName
-FunctionLowName
 SidAddress
 FlashTrueFS
 FSFlashDir
-DtvFlashLog
-c64dtvromrw
-DtvDMALog
-DtvBlitterLog
-DtvRevision
-HummerADC
 C128FullBanks
-VDCRevision
 PLUS60Kbase
-GlueLogic
 REUfirstUnusedRegister
 REUsize
-REUfilename
 MIDIOutDev
 MIDIInDev
 MIDIDriver
 MIDIMode
 GEORAMsize
-GEORAMfilename
-ETHERNET_AS_RR
-ETHERNET_ACTIVE
 ETHERNET_DISABLED
 ETHERNET_INTERFACE
 DIGIMAXbase
@@ -291,20 +269,6 @@ SidResidFilterBias
 SidResidGain
 SidEngine
 RAMCARTsize
-RAMCART_RO
-MMCREEPROMRW
-MMCRSDType
-MMCRCardRW
-MMCRRescueMode
-MMCREEPROMImage
-MMCRCardImage
-MMC64_sd_type
-MMC64_RO
-MMC64_revision
-MMC64_flashjumper
-MMC64_bios_write
-EasyFlashWriteCRT
-EasyFlashJumper
 RomsetFileName
 RomsetArchiveActive
 RomsetArchiveName
@@ -315,7 +279,6 @@ NetworkServerName
 RAMInitValueInvert
 RAMInitStartValue
 MonitorServerAddress
-DriveProfDOS1571Name
 RawDriveDriver
 DatasetteZeroGapDelay
 DatasetteResetWithCPU
@@ -323,18 +286,9 @@ SoundVolume
 SoundFragmentSize
 SoundRecordDeviceArg
 SoundRecordDeviceName
-Mouseport
-Mousetype
 KeymapSymDeFile
 openGL_no_sync
-openGL_sync
 AutostartDelay
-AutostartPrgMode
-AutostartWarp
-AutostartHandleTrueDriveEmulation
-AutostartRunWithColon
-AutostartBasicLoad
-AutostartPrgDiskImage
 
 to get a much more detailed list use "./checkdoc.mak full"
 
