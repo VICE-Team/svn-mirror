@@ -118,6 +118,7 @@ void ui_error(const char *format, ...)
 #define B_SXC           34
 #define B_WARSAW        35
 #define B_EXPBAS20      36
+#define B_SUPERGRA      37
 
 /* Limits */
 
@@ -164,6 +165,7 @@ void ui_error(const char *format, ...)
 #define NUM_SUPERBASDB  36      /* Superbasic (c64) */
 #define NUM_WARSAWDB    36      /* Warsaw Basic (c64) */
 
+#define NUM_SUPERGRACC  50      /* Supergrafik 64 (c64) */
 
 #define MAX_COMM        0xCB    /* common for all versions */
 #define MAX_SECC        0xDD    /* VIC-20 extension */
@@ -205,6 +207,8 @@ void ui_error(const char *format, ...)
 #define MAX_V71FE       0x39
 #define MAX_V10FE       0x3D
 #define MAX_SXCFE       0x1F
+
+#define MAX_SUPERGRACC  0xFE    /* Supergrafik 64 (c64) */
 
 #define KW_NONE         0xFE    /* flag unused token */
 
@@ -364,7 +368,8 @@ const char *VersNames[] = {
     "Basic 2.0 with expanded basic 20"
     "Basic 2.0 with expanded basic 64",
     "Basic 2.0 with super expander chip",
-    "Basic 2.0 with Warsaw Basic"
+    "Basic 2.0 with Warsaw Basic",
+    "Basic 2.0 with Supergrafik 64"
     ""
 };
 
@@ -781,6 +786,20 @@ const char *sxckwfe[] = {
     "rdot",  "rgr",    "rjoy",    "rpen",   "rpot",   "rspcol", "rsppos", "rspr"
 };
 
+
+/* Data Becker Supergrafik 64 (C64) Keywords (Tokens CC - FD) -- Sven Droll */
+
+const char *supergrakw[] = {
+    " ",      " ",      "   ",   " ",         " ",      " ",     " ",       " ",
+    " ",      " ",      " ",     "directory", "spower", "gcomb", "dtaset",  "merge",
+    "renum",  "key",    "trans", " ",         "tune",   "sound", "volume=", "filter",
+    "sread",  "define", "set",   "swait",     "smode",  "gmode", "gclear",  "gmove",
+    "plot",   "draw",   "fill",  "frame",     "invers", "text",  "circle",  "paddle",
+    "scale=", "color=", "scol=", "pcol=",     "gsave",  "gload", "hcopy",   "ireturn",
+    "if#",    "paint"
+};
+
+
 /* ------------------------------------------------------------------------- */
 
 static int parse_version(char *str);
@@ -988,7 +1007,8 @@ int main(int argc, char **argv)
                 "\t3\tBasic v3.5 program (C16)\n"
                 "\t70\tBasic v7.0 program (C128)\n"
                 "\t71\tBasic v7.1 program (C128)\n"
-                "\t10\tBasic v10.0 program (C64DX)\n\n");
+                "\t10\tBasic v10.0 program (C64DX)\n"
+                "\tsupergra\tBasic v2.0 with Supergrafik 64 (C64)\n\n");
 
         fprintf(stdout, "\tUsage examples:\n"
                 "\tpetcat -2 -o outputfile.txt -- inputfile.prg\n"
@@ -1331,7 +1351,7 @@ static int parse_version(char *str)
           switch (util_toupper(str[1])) {
               case 'U':
                   if (util_toupper(str[2]) != 'P' || util_toupper(str[3]) != 'E' || util_toupper(str[4]) != 'R') {
-                      fprintf(stderr, "Please, select one of the following: superbas, superexp\n");
+                      fprintf(stderr, "Please, select one of the following: superbas, superexp, supergra\n");
                   } else {
                       switch(util_toupper(str[5])) {
                           case 'B':
@@ -1340,8 +1360,11 @@ static int parse_version(char *str)
                           case 'E':
                               version = B_SUPEREXP;
                               break;
+                          case 'G':
+                              version = B_SUPERGRA;
+                              break;
                           default:
-                              fprintf(stderr, "Please, select one of the following: superbas, superexp\n");
+                              fprintf(stderr, "Please, select one of the following: superbas, superexp, supergra\n");
                       }
                   }
                   break;
@@ -1636,6 +1659,12 @@ static void list_keywords(int version)
             case B_BASL:
                 for (n = 0; n < NUM_BASLCC; n++) {
                     printf("%s\t", baslkwcc[n] /*, n + 0xcc*/);
+                }
+                break;
+
+            case B_SUPERGRA:
+                for (n = 0; n < NUM_SUPERGRACC; n++) {
+                    printf("%s\t", supergrakw[n] /*, n + 0xcc*/);
                 }
                 break;
 
@@ -2012,6 +2041,12 @@ static int p_expand(int version, int addr, int ctrls)
                     case B_VIC5:
                         if (c >= 0xcc && c <= MAX_VIC5) {
                             fprintf(dest, "%s", vic5kwcc[c - 0xcc]);
+                        }
+                        break;
+
+                    case B_SUPERGRA:
+                        if (c >= 0xcc && c <= MAX_SUPERGRACC) {
+                            fprintf(dest, "%s", supergrakw[c - 0xcc]);
                         }
                         break;
 
@@ -2573,6 +2608,15 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
                         match++;
                     }
                     break;
+
+                  case B_SUPERGRA:
+                    if ((c = sstrcmp(p2, supergrakw, 0, NUM_SUPERGRACC)) !=KW_NONE) {
+                        *p1++ = c + 0xcc;
+                        p2 += kwlen;
+                        match++;
+                    }
+                    break;
+
 
                 }  /* switch */
             } /* !quote */
