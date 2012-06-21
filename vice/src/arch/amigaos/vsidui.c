@@ -38,6 +38,7 @@
 #include "intl.h"
 #include "log.h"
 #include "psid.h"
+#include "sound.h"
 #include "ui.h"
 #include "vsidui.h"
 
@@ -125,6 +126,82 @@ static const ui_res_value_list_t value_list[] = {
     { "Speed", SpeedValues, IDM_MAXIMUM_SPEED_CUSTOM },
     { NULL, NULL, 0 }
 };
+
+static char *vsid_sound_formats[] = {
+    "iff",
+    "aiff",
+    "voc",
+    "wav",
+#ifdef USE_LAMEMP3
+    "mp3",
+#endif
+    NULL
+};
+
+static int vsid_sample_rates[] = {
+    8000,
+    11025,
+    22050,
+    44100
+};
+
+static int vsid_buffer_sizes[] = {
+    100,
+    150,
+    200,
+    250,
+    300,
+    350
+};
+
+static int vsid_fragment_sizes[] = {
+    SOUND_FRAGMENT_SMALL,
+    SOUND_FRAGMENT_MEDIUM,
+    SOUND_FRAGMENT_LARGE
+};
+
+static int vsid_speed_adjustments[] = {
+    SOUND_ADJUST_FLEXIBLE,
+    SOUND_ADJUST_ADJUSTING,
+    SOUND_ADJUST_EXACT
+};
+
+static int vsid_volumes[] = {
+    100,
+    50,
+    25,
+    10,
+    5,
+    0
+};
+
+static int vsid_output_modes[] = {
+    SOUND_OUTPUT_SYSTEM,
+    SOUND_OUTPUT_MONO,
+    SOUND_OUTPUT_STEREO
+};
+
+static int vsid_requester(char *title, char *msg, char *buttons, int defval)
+{
+    struct EasyStruct *uiRequester = NULL;
+    int retval;
+
+    uiRequester = lib_AllocMem(sizeof(struct EasyStruct), MEMF_ANY);
+    if (uiRequester) {
+        uiRequester->es_StructSize = sizeof(struct EasyStruct);
+        uiRequester->es_Flags = 0;
+        uiRequester->es_Title = title;
+        uiRequester->es_TextFormat = msg;
+        uiRequester->es_GadgetFormat = buttons;
+
+        retval = EasyRequest(vsid_window, uiRequester, NULL, NULL);
+    } else {
+        fprintf(stderr,"%s : %s\n",title, msg);
+        return defval;
+    }
+    lib_FreeMem(uiRequester, sizeof(struct EasyStruct));
+    return retval;
+}
 
 static void vsid_clear_window(void)
 {
@@ -399,15 +476,48 @@ static int vsid_menu_handle(int idm)
                 lib_free(options);
             }
             break;
-        case IDM_SOUND_SETTINGS:
-            ui_sound_settings_dialog();
+        case IDM_SAMPLE_RATE:
+            i = vsid_requester(translate_text(IDS_SAMPLE_RATE), translate_text(IDS_SAMPLE_RATE), "11025 Hz | 22050 Hz | 44100 Hz | 8000 Hz", 0);
+            resources_set_int("SoundSampleRate", vsid_sample_rates[i]);
+            break;
+
+        case IDM_BUFFER_SIZE:
+            i = vsid_requester(translate_text(IDS_BUFFER_SIZE), translate_text(IDS_BUFFER_SIZE), "150 msec | 200 msec | 250 msec | 300 msec | 350 msec | 100 msec", 0);
+            resources_set_int("SoundBufferSize", vsid_buffer_sizes[i]);
+            break;
+        case IDM_FRAGMENT_SIZE:
+            fname = util_concat(translate_text(IDS_MEDIUM), " | ", translate_text(IDS_LARGE), " | ", translate_text(IDS_SMALL), NULL);
+            i = vsid_requester(translate_text(IDS_FRAGMENT_SIZE), translate_text(IDS_FRAGMENT_SIZE), fname, 0);
+            resources_set_int("SoundFragmentSize", vsid_fragment_sizes[i]);
+            lib_free(fname);
+            break;
+        case IDM_SPEED_ADJUSTMENT:
+            fname = util_concat(translate_text(IDS_ADJUSTING), " | ", translate_text(IDS_EXACT), " | ", translate_text(IDS_FLEXIBLE), NULL);
+            i = vsid_requester(translate_text(IDS_SPEED_ADJUSTMENT), translate_text(IDS_SPEED_ADJUSTMENT), fname, 0);
+            resources_set_int("SoundSpeedAdjustment", vsid_speed_adjustments[i]);
+            lib_free(fname);
+            break;
+        case IDM_VOLUME:
+            i = vsid_requester(translate_text(IDS_VOLUME), translate_text(IDS_VOLUME), "50% | 25% | 10% | 5% | 0% | 100%", 0);
+            resources_set_int("SoundVolume", vsid_volumes[i]);
+            break;
+        case IDM_SOUND_OUTPUT_MODE:
+            fname = util_concat(translate_text(IDS_MONO), " | ", translate_text(IDS_STEREO), " | ", translate_text(IDS_SYSTEM), NULL);
+            i = vsid_requester(translate_text(IDS_SOUND_OUTPUT_MODE), translate_text(IDS_SOUND_OUTPUT_MODE), fname, 0);
+            resources_set_int("SoundOutput", vsid_output_modes[i]);
+            lib_free(fname);
             break;
         case IDM_SOUND_RECORD_START:
-            ui_sound_record_settings_dialog();
+#ifndef USE_LAMEMP3
+            i = vsid_requester(translate_text(IDS_SOUND_RECORD_FORMAT), translate_text(IDS_SOUND_RECORD_FORMAT), "AIFF | VOC | WAV | IFF", 0);
+#else
+            i = vsid_requester(translate_text(IDS_SOUND_RECORD_FORMAT), translate_text(IDS_SOUND_RECORD_FORMAT), "AIFF | VOC | WAV | MP3 | IFF", 0);
+#endif
+            resources_set_string("SoundRecordDeviceName", "");
+            resources_set_string("SoundRecordDeviceName", vsid_sound_formats[i]);
             break;
         case IDM_SOUND_RECORD_STOP:
             resources_set_string("SoundRecordDeviceName", "");
-            ui_display_statustext(translate_text(IDS_SOUND_RECORDING_STOPPED), 1);
             break;
         case IDM_LANGUAGE_ENGLISH:
             resources_get_value("Language", (void *)&curlang);
