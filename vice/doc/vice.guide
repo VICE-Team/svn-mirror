@@ -2016,11 +2016,27 @@ Autostart resources
      
 
 AutostartPrgDiskImage
+     String specifying the filename of the disk image used when
+     autostarting a prg file and "copy to D64" is enabled.
+
 AutostartBasicLoad
+     Boolean, if true load to basic start using ,8 when autostarting.
+
 AutostartRunWithColon
+     Boolean, if true put a colon after the load command when
+     autostarting.
+
 AutostartHandleTrueDriveEmulation
+     Boolean, if true handle (enable/disable) True Drive Emulation on
+     autostart.
+
 AutostartWarp
+     Boolean, if true temporarily enable warp mode when autostarting
+
 AutostartPrgMode
+     Integer specifying the autostart mode for prg files. (0: virtual
+     filesystem, 1: inject to RAM, 2: copy to D64)
+
 AutostartDelay
 AutostartDelayRandom
      Boolean, enables a short random delay on autostart.  
@@ -2207,6 +2223,8 @@ HwScalePossible
      not.
 
 openGL_sync
+     Boolean, if true enable Open-GL frame sync.
+
 openGL_no_sync
 KeepAspectRatio
      Boolean specifying whether the aspect ratio of the output window
@@ -2425,8 +2443,12 @@ Mouse
      Boolean, enables mouse emulation
 
 Mousetype
+     Integer that specifies the type of emulated mouse. (0=1351,
+     1=NEOS, 2=Amiga, 3=paddles, 4=Atari CX-22, 5=Atari ST)
+
 Mouseport
-     
+     Integer that specifies the joystick port the emulated mouse is
+     connected to. (1=port 1, 2=port 2) 
 
 Lightpen
      Boolean, enables lightpen emulation
@@ -2928,7 +2950,8 @@ DosName1551
      emulation. 
 
 DriveProfDOS1571Name
-      
+     String specifying the filename of the 1571 professional DOS ROM
+     image.  
 
 RomsetDosName1541
 RomsetDosName1541ii
@@ -4268,11 +4291,16 @@ DQBBfilename
 
 DQBBImageWrite
      Boolean, if true write back the DQBB image file automatically,
-     incase the RAM contents changed, when quitting the emulator. 
+     incase the RAM contents changed, when detaching or quitting the
+     emulator. 
 
 EasyFlashJumper
+     Boolean specifying whether the Easy Flash jumper is set.
+
 EasyFlashWriteCRT
-     
+     Boolean, if true write back the Easy FLash image file
+     automatically, incase the contents changed, when detaching or
+     quitting the emulator. 
 
 ExpertCartridgeEnabled
      Boolean specifying whether the Expert Cartridge should be emulated
@@ -4283,8 +4311,8 @@ Expertfilename
 
 ExpertImageWrite
      Boolean, if true write back the Expert Cartridge image file
-     automatically, incase the RAM contents changed, when quitting
-     the emulator.
+     automatically, incase the RAM contents changed, when detaching
+     or quitting the emulator.
 
 ExpertCartridgeMode
      Enum specifying the state of the expert cartridge switch (0=off
@@ -4360,7 +4388,8 @@ IsepicSwitch
 
 IsepicImageWrite
      Boolean, if true write back the ISEPIC image file automatically,
-     incase the RAM contents changed, when quitting the emulator.
+     incase the RAM contents changed, when detaching or quitting the
+     emulator.
 
 MagicVoiceCartridgeEnabled
      Boolean specifying whether the Magic Voice should be emulated or
@@ -4376,28 +4405,54 @@ MMC64BIOSfilename
      String specifying the filename of the MMC64 Flash ROM image.
 
 MMC64_bios_write
+     Boolean, if true write back the MMC64 Flash ROM image file
+     automatically, incase the contents changed, when detaching or
+     quitting the emulator.
+
 MMC64_flashjumper
+     Boolean that specifies whether the MMC64 flash jumper is set.
+
 MMC64_revision
+     Integer that specifies the MMC64 hardware revision (0=Rev. A,
+     1=Rev. B)
+
 MMC64imagefilename
      String specifying the filename of the SD-Card image used by the
      MMC64 emulation.
 
 MMC64_RO
+     Boolean, if true the SD-Card image is mounted read-only.
+
 MMC64_sd_type
-     
+     Integer that specifies the reported type for the emulated SD-Card.
+     (0=Auto, 1=MMC, 2=SD, 3=SDHC) 
 
 MMCRCardImage
+     String that specifies the filename of the SD-Card image used by
+     the MMCR emulation.
+
 MMCREEPROMImage
+     String that specifies the filename of the MMCR EEPROM image.
+
 MMCRRescueMode
+     Boolean that specifies if the rescue mode (both buttons pressed
+     during powerup) of the MMCR is active.
+
 MMCRImageWrite
      Boolean, if true write back the MMCR Flash ROM image file
-     automatically, incase the contents changed, when quitting the
-     emulator.
+     automatically, incase the contents changed, when detaching or
+     quitting the emulator.
 
 MMCRCardRW
+     Boolean that specifies if the SD-Card image used by the MMCR
+     emulation is writeable.
+
 MMCRSDType
+     Integer that specifies the reported type for the emulated SD-Card.
+     (0=Auto, 1=MMC, 2=SD, 3=SDHC)
+
 MMCREEPROMRW
-     
+     Boolean that specifies if the MMCR EEPROM image is writeable. 
 
 RAMCART
      Boolean specifying whether the RAMCart should be emulated or not.
@@ -4407,9 +4462,12 @@ RAMCARTfilename
 
 RAMCARTImageWrite
      Boolean, if true write back the RAMCart image file automatically,
-     incase the RAM contents changed, when quitting the emulator.
+     incase the RAM contents changed, when detaching or quitting the
+     emulator.
 
 RAMCART_RO
+     Boolean, if true the RAMCart contents are read only
+
 RAMCARTsize
      
 
@@ -5316,7 +5374,7 @@ menu
 C64 I/O extension resources
 ............................
 
-    TODO 
+   
      
 
 Acia1Enable
@@ -5334,20 +5392,27 @@ DIGIMAX
 DIGIMAXbase
      
 
+ETHERNET_ACTIVE
+     Boolean that specifies whether the CS8900 ethernet interface
+     emulation is active.
+
 ETHERNET_INTERFACE
 ETHERNET_DISABLED
-ETHERNET_ACTIVE
 ETHERNET_AS_RR
-     
+     Boolean that specifies whether RR-Net compatible mapping is
+     enabled. 
 
 GEORAM
      Boolean specifying whether the GEO-RAM cartridge should be
      emulated or not.
 
 GEORAMfilename
+     String specifying the filename of the GEORAM image.
+
 GEORAMImageWrite
      Boolean, if true write back the GEO-RAM image file automatically,
-     incase the RAM contents changed, when quitting the emulator.
+     incase the RAM contents changed, when detaching or quitting the
+     emulator.
 
 GEORAMsize
      
@@ -5367,9 +5432,12 @@ REU
      emulated or not.
 
 REUfilename
+     String specifying the filename of the REU image.
+
 REUImageWrite
      Boolean, if true write back the REU image file automatically,
-     incase the RAM contents changed, when quitting the emulator.
+     incase the RAM contents changed, when detaching or quitting the
+     emulator.
 
 REUsize
 REUfirstUnusedRegister
@@ -5601,6 +5669,9 @@ C64 resources
      
 
 GlueLogic
+     Integer specifying the type of emulated glue-log. (0: discrete, 1:
+     custom IC) 
+
 BurstMod
      Boolean, enable/disable the Burst-Mode modification. 
 
@@ -5684,7 +5755,8 @@ VDC64KB
      Boolean, enabled full 64k video ram.
 
 VDCRevision
-     
+     Integer specifying the VDC hardware revision. (0: Rev 0, 1: Rev 1,
+     2: Rev 2) 
 
 VDCVideoCache
      Boolean specifying whether the video cache is turned on. 
@@ -6207,19 +6279,35 @@ DTV resources
    
      
 
-HummerADC
 DtvRevision
-DtvBlitterLog
-DtvDMALog
+     Integer specifying the emulated DTV revision (2: DTV2, 3: DTV3)
+     
+
 c64dtvromfilename
      String specifying the filename of the DTV Flash ROM image.
 
 c64dtvromrw
-DtvFlashLog
+     Boolean that specifies whether the emulated Flash ROM is
+     writeable.
+
 FSFlashDir
 FlashTrueFS
+     
+
+HummerADC
+     Boolean, enables Hummer ADC emulation. 
+
 ps2mouse
-      
+     Boolean, enables PS/2 Mouse emulation. 
+
+DtvBlitterLog
+     Boolean, enables Blitter logging.
+
+DtvDMALog
+     Boolean, enables DMA logging.
+
+DtvFlashLog
+     Boolean, enables Flash ROM logging.  
 
 
 @EndNode
@@ -6318,20 +6406,21 @@ GenericCartridgeFileB000
 
 FinalExpansionWriteBack
      Boolean, if true write back the Flash ROM image file
-     automatically, incase the contents changed, when quitting the
-     emulator. 
+     automatically, incase the contents changed, when detaching or
+     quitting the emulator. 
 
 VicFlashPluginWriteBack
      Boolean, if true write back the Flash ROM image file
-     automatically, incase the contents changed, when quitting the
-     emulator. 
+     automatically, incase the contents changed, when detaching or
+     quitting the emulator. 
 
 MegaCartNvRAMfilename
      String specifying the filename of the MegaCart NvRAM image.
 
 MegaCartNvRAMWriteBack
      Boolean, if true write back the NvRAM image file automatically,
-     incase the RAM contents changed, when quitting the emulator. 
+     incase the RAM contents changed, when detaching or quitting the
+     emulator. 
 
 TFEIOSwap
      Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
@@ -7103,12 +7192,22 @@ PLUS4 system ROM resources
      
 
 FunctionLowName
+     String specifying the filenames of the Lo Function ROM.
+
 FunctionHighName
+     String specifying the filenames of the High Function ROM. 
+
 c1loName
+     String specifying the filenames of cartridge 1 Lo ROM.
+
 c1hiName
+     String specifying the filenames of cartridge 1 High ROM.
+
 c2loName
+     String specifying the filenames of cartridge 2 Lo ROM.
+
 c2hiName
-     
+     String specifying the filenames of cartridge 2 High ROM. 
 
 RomsetFunctionLowName
 RomsetFunctionHighName
@@ -7496,23 +7595,27 @@ PET I/O extension resources
    
      
 
+PETREU
+     Boolean specifying whether PET REU emulation is enabled.
+
 PETREUfilename
      String specifying the filename of the PET REU image.
 
-PETREU
 PETREUsize
      
 
-PETDWWfilename
-     String specifying the filename of the DWW ROM image.
-
 PETDWW
-     
+     Boolean specifying whether DWW emulation is enabled.
+
+PETDWWfilename
+     String specifying the filename of the DWW ROM image. 
 
 UserportDAC
-     
+     Boolean specifying whether userport DAC emulation is enabled. 
 
 SidCart
+     Boolean specifying whether SID Cart emulation is enabled.
+
 SidAddress
 SidClock
       
@@ -8865,10 +8968,20 @@ DoodleCRTCTextColor
      
 
 FFMPEGFormat
+     String specifying the current FFMPEG output driver.
+
 FFMPEGAudioBitrate
+     Integer specifying the current FFMPEG audio bitrate.
+
 FFMPEGVideoBitrate
+     Integer specifying the current FFMPEG video bitrate.
+
 FFMPEGAudioCodec
+     Integer specifying the current FFMPEG audio codec.
+
 FFMPEGVideoCodec
+     Integer specifying the current FFMPEG video codec.
+
 FFMPEGVideoHalveFramerate
       
 
