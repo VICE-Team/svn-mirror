@@ -2236,7 +2236,7 @@ Boolean, if true temporarily enable warp mode when autostarting
 @item AutostartPrgMode
 Integer specifying the autostart mode for prg files. (0: virtual filesystem,
 1: inject to RAM, 2: copy to D64)
-@c FIXME: not used in UI?
+@c FIXME: AutostartDelay not used in UI?
 @vindex AutostartDelay
 @item AutostartDelay
 @vindex AutostartDelayRandom
@@ -2902,12 +2902,17 @@ String specifying an additional parameter for the audio driver (see
 
 @vindex SoundRecordDeviceName
 @item SoundRecordDeviceName
+String specifying the filename used for sound recording.
 @vindex SoundRecordDeviceArg
 @item SoundRecordDeviceArg
+String specifying additional arguments for sound recording.
 @vindex SoundFragmentSize
 @item SoundFragmentSize
+Enum specifying the fragment size (0: small, 1: medium, 2: large)
+@c FIXME: SoundVolume not used in UI?
 @vindex SoundVolume
 @item SoundVolume
+Integer specifying the master volume in percent. [100] (0..100)s
 @vindex SoundOutput
 @item SoundOutput
 Enum specifying how the type of sound output. Output is selectable between 'system' 
@@ -2981,10 +2986,13 @@ drive.
 
 @vindex DatasetteResetWithCPU
 @item DatasetteResetWithCPU
+Boolean specifying whether to reset (rewind) the tape when resetting the CPU.
 @vindex DatasetteZeroGapDelay
 @item DatasetteZeroGapDelay
+Integer specifying the delay in cycles for a zero in the tap.
 @vindex DatasetteSpeedTuning
 @item DatasetteSpeedTuning
+Integer specifying the number of cycles added to each gap in the tap.
 
 @end table
 
@@ -4297,12 +4305,18 @@ signal.
 
 @vindex NetworkServerName
 @item NetworkServerName
+String specifying the name of the remote server.
 @vindex NetworkServerBindAddress
 @item NetworkServerBindAddress
+String specifying the IP of the remote server.
 @vindex NetworkServerPort
 @item NetworkServerPort
+Integer specifying the port used for network play.
+@c FIXME: is this correct?
 @vindex NetworkControl
 @item NetworkControl
+Integer specifying whether the emulator is running as server or client (0: client,
+1: server)
 
 @vindex LogFileName
 @item LogFileName
@@ -4918,6 +4932,7 @@ contents changed, when detaching or quitting the emulator.
 Boolean, if true the RAMCart contents are read only
 @vindex RAMCARTsize
 @item RAMCARTsize
+Integer specifying the size of the RAMCart in KB (64, 128)
 
 @vindex RRrevision
 @item RRrevision
@@ -5716,11 +5731,11 @@ Integer specifying the amount of emulated extra SIDs. (0=off, 1=1 extra sid,
 
 @vindex SidStereoAddressStart
 @item SidStereoAddressStart
-Integer specifying the start address for the second SID.
+Integer specifying the base address of the second SID.
 
 @vindex SidTripleAddressStart
 @item SidTripleAddressStart
-Integer specifying the start address for the third SID.
+Integer specifying the base address of the third SID.
 
 @vindex SidFilters
 @item SidFilters
@@ -5728,11 +5743,17 @@ Boolean specifying whether the built-in SID filters must be emulated.
 
 @vindex SidModel
 @item SidModel
-Integer specifying what model of the SID must be emulated (@code{0}:
-MOS6581, @code{1}: MOS8580).
+Integer specifying what model of the SID must be emulated (@code{0}: 6581
+, @code{1}: 8580, @code{2}: 8580D, @code{3}: 6581R4, @code{4}: DTVSID, @code{8}: 6581R3_4885   
+, @code{9}: 6581R3_0486S, @code{10}: 6581R3_3984, @code{11}: 6581R4AR_3789, @code{12}: 6581R3_4485   
+, @code{13}: 6581R4_1986S, @code{16}: 8580R5_3691, @code{17}: 8580R5_3691D, @code{18}: 8580R5_1489   
+, @code{19}: 8580R5_1489D).
 
 @vindex SidEngine
 @item SidEngine
+Integer specifying what SID engine will be used (@code{0}: FASTSID, @code{1}: RESID
+, @code{2}: CATWEASELMKIII, @code{3}: HARDSID, @code{4}: PARSID_PORT1, @code{5}: PARSID_PORT2
+, @code{6}: PARSID_PORT3, @code{7}: RESID_FP).
 
 @vindex SidResidSampling
 @item SidResidSampling
@@ -5746,10 +5767,15 @@ total bandwidth (@code{0 - 90}).
 
 @vindex SidResidGain
 @item SidResidGain
+Integer that specifies reSID gain in percent [97] (90..100)
 @vindex SidResidFilterBias
 @item SidResidFilterBias
+Integer that specifies reSID filter bias, which can be used to adjust DAC bias 
+in millivolts. [0] (-5000..5000)
+@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
 @vindex SidParSIDport
 @item SidParSIDport
+Integer specifying the lpt port used for ParSID.
 
 @end table
 
@@ -5882,14 +5908,17 @@ works only in the C64 emulator.
 Boolean specifying whether the ACIA (Swiftlink, Turbo232) cartridge should be emulated or not.
 @vindex Acia1Mode
 @item Acia1Mode
+Enum specifying the type of emulated RS232 interface (0: normal, 1: Swithlink, 2: Turbo232)
 @vindex Acia1Base
 @item Acia1Base
+Integer specifying the base address for the emulated ACIA chip.
 
 @vindex DIGIMAX
 @item DIGIMAX
 Boolean specifying whether the DigiMAX cartridge should be emulated or not.
 @vindex DIGIMAXbase
 @item DIGIMAXbase
+Integer specifying the DigiMAX base address.
 
 @vindex ETHERNET_ACTIVE
 @item ETHERNET_ACTIVE
@@ -5914,18 +5943,25 @@ Boolean, if true write back the GEO-RAM image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
 @vindex GEORAMsize
 @item GEORAMsize
+Integer specifying the size of the emulated GEO-RAM in KB (64, 128, 256, 512, 1024, 
+2048, 4096)
 
 @vindex MIDIEnable
 @item MIDIEnable
 Boolean specifying whether the MIDI cartridge should be emulated or not.
 @vindex MIDIMode
 @item MIDIMode
+Enum specifying the type of emulated MIDI interface (0: Sequential, 1: Passport/Syntech,
+2: DATEL/Siel/JMS, 3: Namesoft, 4: Maplin)
 @vindex MIDIDriver
 @item MIDIDriver
+Enum specifying the MIDI driver (0: OSS; 1:ALSA)
 @vindex MIDIInDev
 @item MIDIInDev
+String specifying the MIDI input device.
 @vindex MIDIOutDev
 @item MIDIOutDev
+String specifying the MIDI output device.
 
 @vindex REU
 @item REU
@@ -5939,7 +5975,9 @@ Boolean, if true write back the REU image file automatically, incase the RAM
 contents changed, when detaching or quitting the emulator.
 @vindex REUsize
 @item REUsize
-@c FIXME: this looks like a hacking option that we can perhaps remove
+Integer specifying the size of the emulated REU in KB (128, 256, 512, 1024, 2048,
+4096, 8192, 16384)
+@c FIXME: REUfirstUnusedRegister looks like a hacking option that we can perhaps remove
 @vindex REUfirstUnusedRegister
 @item REUfirstUnusedRegister
 
@@ -6604,7 +6642,7 @@ Boolean, status of the 40/80 columns key
 @vindex Go64Mode
 @item Go64Mode
 Boolean, if true enter C64 mode on reset
-@c FIXME: this looks like a hacking option that we can perhaps remove
+@c FIXME: C128FullBanks looks like a hacking option that we can perhaps remove
 @vindex C128FullBanks
 @item C128FullBanks
 @vindex MachineType
@@ -6972,8 +7010,10 @@ Boolean, swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O
 Boolean, enables SID cart emulation.
 @vindex SidAddress
 @item SidAddress
+Integer that specifies the base address of the emulated SID chip.
 @vindex SidClock
 @item SidClock
+Integer specifying the clock rate used for the emulated SID chip (0: C64, 1: VIC-20)
 
 @end table
 
@@ -7723,8 +7763,10 @@ String specifying the filename of the speech ROM image.
 Boolean, enables emulation of the SID-Cart
 @vindex SidAddress
 @item SidAddress
+Integer that specifies the base address of the emulated SID chip.
 @vindex SidClock
 @item SidClock
+Integer specifying the clock rate used for the emulated SID chip (0: C64, 1: Plus4)
 @vindex SIDCartJoy
 @item SIDCartJoy
 Boolean, enables emulation of the SID-Cart joystick
@@ -8234,6 +8276,7 @@ Boolean specifying whether PET REU emulation is enabled.
 String specifying the filename of the PET REU image.
 @vindex PETREUsize
 @item PETREUsize
+Integer specifying the size of the emulated PET REU in KB (128, 512, 1024, 2048)
 
 @vindex PETDWW
 @item PETDWW
@@ -8251,8 +8294,10 @@ Boolean specifying whether userport DAC emulation is enabled.
 Boolean specifying whether SID Cart emulation is enabled.
 @vindex SidAddress
 @item SidAddress
+Integer that specifies the base address of the emulated SID chip.
 @vindex SidClock
 @item SidClock
+Integer specifying the clock rate used for the emulated SID chip (0: C64, 1: PET)
 
 @end table
 
@@ -10294,7 +10339,7 @@ Integer specifying the current FFMPEG audio codec.
 @vindex FFMPEGVideoCodec
 @item FFMPEGVideoCodec
 Integer specifying the current FFMPEG video codec.
-@c FIXME: not used in UI?
+@c FIXME: FFMPEGVideoHalveFramerate not used in UI?
 @vindex FFMPEGVideoHalveFramerate
 @item FFMPEGVideoHalveFramerate
 
