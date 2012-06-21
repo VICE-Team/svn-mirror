@@ -127,8 +127,8 @@ static struct RastPort *renderRPort = NULL; /* Clone of the windows rastport use
 static struct RastPort *backRPort = NULL;   /* RastPort for our backbuffer (canvas->os->window_bitmap) */
 #endif
 
-struct Process *self;
-struct Window *orig_windowptr;
+static struct Process *self;
+static struct Window *orig_windowptr;
 
 int video_init(void)
 {

@@ -4562,20 +4562,6 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_LOAD_PSID_FILE_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_LOAD_PSID_FILE_TR, "" },  /* fuzzy */
 
-/* en */ { IDMS_SELECT_TUNE,    "Select tune" },
-/* da */ { IDMS_SELECT_TUNE_DA, "" },  /* fuzzy */
-/* de */ { IDMS_SELECT_TUNE_DE, "" },  /* fuzzy */
-/* es */ { IDMS_SELECT_TUNE_ES, "" },  /* fuzzy */
-/* fr */ { IDMS_SELECT_TUNE_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_SELECT_TUNE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_SELECT_TUNE_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_SELECT_TUNE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_SELECT_TUNE_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_SELECT_TUNE_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_SELECT_TUNE_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_SELECT_TUNE_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_SELECT_TUNE_TR, "" },  /* fuzzy */
-
 /* en */ { IDMS_NEXT_TUNE,    "Next tune" },
 /* da */ { IDMS_NEXT_TUNE_DA, "" },  /* fuzzy */
 /* de */ { IDMS_NEXT_TUNE_DE, "" },  /* fuzzy */
@@ -11674,5 +11660,19 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_CIA_MODEL_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_CIA_MODEL_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_CIA_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
+/* da */ { IDS_PSID_SELECT_DA, "" },  /* fuzzy */
+/* de */ { IDS_PSID_SELECT_DE, "" },  /* fuzzy */
+/* es */ { IDS_PSID_SELECT_ES, "" },  /* fuzzy */
+/* fr */ { IDS_PSID_SELECT_FR, "" },  /* fuzzy */
+/* hu */ { IDS_PSID_SELECT_HU, "" },  /* fuzzy */
+/* it */ { IDS_PSID_SELECT_IT, "" },  /* fuzzy */
+/* ko */ { IDS_PSID_SELECT_KO, "" },  /* fuzzy */
+/* nl */ { IDS_PSID_SELECT_NL, "" },  /* fuzzy */
+/* pl */ { IDS_PSID_SELECT_PL, "" },  /* fuzzy */
+/* ru */ { IDS_PSID_SELECT_RU, "" },  /* fuzzy */
+/* sv */ { IDS_PSID_SELECT_SV, "" },  /* fuzzy */
+/* tr */ { IDS_PSID_SELECT_TR, "" },  /* fuzzy */
 
 };

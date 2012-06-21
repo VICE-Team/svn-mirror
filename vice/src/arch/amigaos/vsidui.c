@@ -1,5 +1,5 @@
 /*
- * vsidui.h - Implementation of the VSID-specific part of the UI.
+ * vsidui.c - Implementation of the VSID-specific part of the UI.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -36,6 +36,8 @@
 #include "private.h"
 #include "info.h"
 #include "intl.h"
+#include "log.h"
+#include "psid.h"
 #include "ui.h"
 #include "vsidui.h"
 
@@ -47,11 +49,42 @@
 
 static struct Window *vsid_window = NULL;
 static struct Menu *vsid_menu = NULL;
+static struct Process *self;
+static struct Window *orig_windowptr;
+static char fname[1024] = "";
+
+static int current_song;
+static int songs;
+static int default_song;
 
 static int do_quit_vice = 0;
 
 static struct NewMenu *machine_specific_menu = vsid_ui_menu;
 static APTR VisualInfo;
+
+const struct TextAttr vsid_font_attr = {
+#ifdef AMIGA_MORPHOS
+    "XHelvetica.font", 11, FS_NORMAL, 0
+#else
+    "Helvetica.font", 11, FS_NORMAL, 0
+#endif
+};
+
+enum {
+    VSID_S_TITLE = 0,
+    VSID_S_AUTHOR,
+    VSID_S_RELEASED,
+    VSID_S_SYNC,
+    VSID_S_MODEL,
+    VSID_S_IRQ,
+    VSID_S_PLAYING,
+    VSID_S_TIMER,
+    VSID_S_LASTLINE
+};
+
+static char vsidstrings[VSID_S_LASTLINE + 1][80] = { { 0 } };
+
+static struct IntuiText vsid_text[VSID_S_LASTLINE + 1];
 
 static const ui_menu_toggle_t toggle_list[] = {
     { "Sound", IDM_TOGGLE_SOUND },
@@ -93,9 +126,27 @@ static const ui_res_value_list_t value_list[] = {
     { NULL, NULL, 0 }
 };
 
-static char fname[1024] = "";
+static void vsid_clear_window(void)
+{
+    ULONG vsid_pen;
 
-char *VSID_BrowseFile(char *select_text, char *pattern)
+    vsid_pen = GetAPen(vsid_window->RPort);
+    SetAPen(vsid_window->RPort, GetBPen(vsid_window->RPort));
+    RectFill(vsid_window->RPort, 25, 30, 350, 150);
+    SetAPen(vsid_window->RPort, vsid_pen);
+}
+
+static void vsid_update_text(void)
+{
+    int i;
+
+    vsid_clear_window();
+    for (i = 0; i < VSID_S_LASTLINE; i++) {
+        PrintIText(vsid_window->RPort, &vsid_text[i], 0, 0);
+    }
+}
+
+static char *VSID_BrowseFile(char *select_text, char *pattern)
 {
     struct FileRequester *request;
 
@@ -106,7 +157,7 @@ char *VSID_BrowseFile(char *select_text, char *pattern)
                                 ASLFR_InitialPattern, pattern,
                                 ASLFR_PositiveText, select_text,
                                 (struct TagItem *)TAG_DONE)) {
-        fname[0]=0;
+        fname[0] = 0;
         strcat(fname,request->rf_Dir);
         if (fname[strlen(fname) - 1] != (UBYTE)58) {
             strcat(fname, "/");
@@ -240,8 +291,46 @@ static int vsid_menu_handle(int idm)
 {
     char *fname = NULL;
     char *curlang;
+    int i;
 
     switch (idm) {
+        case IDM_NEXT_TUNE:
+            if (current_song < songs) {
+                current_song++;
+                psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                vsid_ui_display_tune_nr(current_song);
+                vsid_ui_set_default_tune(default_song);
+                vsid_ui_display_nr_of_tunes(songs);
+            }
+            break;
+        case IDM_PREVIOUS_TUNE:
+            if (current_song > 1) {
+                current_song--;
+                psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                vsid_ui_display_tune_nr(current_song);
+                vsid_ui_set_default_tune(default_song);
+                vsid_ui_display_nr_of_tunes(songs);
+            }
+            break;
+        case IDM_LOAD_PSID_FILE:
+            fname = VSID_BrowseFile(translate_text(IDS_PSID_SELECT), "#?");
+            if (fname != NULL) {
+                if (machine_autodetect_psid(fname) >= 0) {
+                    psid_init_driver();
+                    machine_play_psid(0);
+                    for (i = 0; i < VSID_S_LASTLINE; i++) {
+                        *vsidstrings[i] = 0;
+                    }
+                    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+                    songs = psid_tunes(&default_song);
+                    current_song = default_song;
+                    psid_ui_set_tune(uint_to_void_ptr(current_song), NULL);
+                    vsid_ui_display_tune_nr(current_song);
+                    vsid_ui_set_default_tune(default_song);
+                    vsid_ui_display_nr_of_tunes(songs);
+                }
+            }
+            break;
         case IDM_RESET_HARD:
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             break;
@@ -314,7 +403,7 @@ static int vsid_menu_handle(int idm)
             ui_sound_settings_dialog();
             break;
         case IDM_SOUND_RECORD_START:
-            ui_sound_record_settings_vsid_dialog();
+            ui_sound_record_settings_dialog();
             break;
         case IDM_SOUND_RECORD_STOP:
             resources_set_string("SoundRecordDeviceName", "");
@@ -481,13 +570,13 @@ static void vsid_event_handling(void)
 
 int vsid_ui_init(void)
 {
-    struct IntuiText vsid_text;
+    int i;
 
     vsid_window = (struct Window *)OpenWindowTags(NULL,
                                                   WA_Left, 20,
                                                   WA_Top, 20,
-                                                  WA_Width, 300,
-                                                  WA_Height, 100,
+                                                  WA_Width, 400,
+                                                  WA_Height, 200,
                                                   WA_Title, (ULONG)"VSID: The VICE SID player",
                                                   WA_DepthGadget, TRUE,
                                                   WA_CloseGadget, TRUE,
@@ -505,17 +594,24 @@ int vsid_ui_init(void)
         return -1;
     }
 
-    vsid_text.LeftEdge = 10;
-    vsid_text.TopEdge = 20;
-    vsid_text.IText = "Test";
-    vsid_text.ITextFont = NULL;
-    vsid_text.DrawMode = JAM1;
-    vsid_text.FrontPen = 1;
-    vsid_text.NextText = NULL;
+    for (i = 0; i < VSID_S_LASTLINE; i++) {
+        vsidstrings[i][0] = 0;
+        vsid_text[i].LeftEdge = 10;
+        vsid_text[i].TopEdge = 25 + i * 10;
+        vsid_text[i].IText = vsidstrings[i];
+        vsid_text[i].ITextFont = &vsid_font_attr;
+        vsid_text[i].DrawMode = JAM1;
+        vsid_text[i].FrontPen = 1;
+        vsid_text[i].NextText = NULL;
+    }
 
-    PrintIText(vsid_window->RPort, &vsid_text, 0, 0);
+    vsid_update_text();
 
-    return 0;
+    self = (APTR)FindTask(NULL);
+    orig_windowptr = self->pr_WindowPtr;
+    self->pr_WindowPtr = vsid_window;
+
+    return mui_init();
 }
 
 void vsid_ui_close(void)
@@ -529,34 +625,66 @@ void vsid_ui_close(void)
 
 void vsid_ui_display_name(const char *name)
 {
+    sprintf(vsidstrings[VSID_S_TITLE], "Title: %s", name);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_TITLE]);
+    vsid_update_text();
 }
 
 void vsid_ui_display_author(const char *author)
 {
+    sprintf(vsidstrings[VSID_S_AUTHOR], "Author: %s", author);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_AUTHOR]);
+    vsid_update_text();
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
+    sprintf(vsidstrings[VSID_S_RELEASED], "Released: %s", copyright);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_RELEASED]);
+    vsid_update_text();
 }
 
 void vsid_ui_display_sync(int sync)
 {
+    sprintf(vsidstrings[VSID_S_SYNC], "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
+    log_message(LOG_DEFAULT, "%s",vsidstrings[VSID_S_SYNC]);
+    vsid_update_text();
 }
 
 void vsid_ui_display_sid_model(int model)
 {
+    sprintf(vsidstrings[VSID_S_MODEL], "Using %s emulation", csidmodel[model > 19 ? 7 : model]);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_MODEL]);
+    vsid_update_text();
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
+    sprintf(vsidstrings[VSID_S_PLAYING], "Playing Tune: %2d /  0  -  Default Tune: 00", nr);
+    log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
+    vsid_update_text();
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
+    char dummy[4];
+    sprintf(dummy,"%2d", count);
+
+    log_message(LOG_DEFAULT, "Number of Tunes: %i", count);
+    vsidstrings[VSID_S_PLAYING][19] = dummy[0];
+    vsidstrings[VSID_S_PLAYING][20] = dummy[1];
+    vsid_update_text();
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
+    char dummy[4];
+    sprintf(dummy,"%2d", nr);
+
+    log_message(LOG_DEFAULT, "Default Tune: %i", nr);
+    vsidstrings[VSID_S_PLAYING][40] = dummy[0];
+    vsidstrings[VSID_S_PLAYING][41] = dummy[1];
+    vsid_update_text();
 }
 
 void vsid_ui_display_time(unsigned int sec)
@@ -565,6 +693,9 @@ void vsid_ui_display_time(unsigned int sec)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
+    sprintf(vsidstrings[VSID_S_IRQ], "Using %s interrupt", irq);
+    log_message(LOG_DEFAULT, "Using %s interrupt", irq);
+    vsid_update_text();
 }
 
 void vsid_ui_setdrv(char* driver_info_text)
