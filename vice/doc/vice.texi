@@ -2409,20 +2409,21 @@ Integer specifying the depth of the host display.  The value @samp{0}
 
 @vindex UseFullscreen
 @item UseFullscreen
-Boolean specifying wether fullscreen mode is currently in use.
+Boolean specifying whether fullscreen mode is currently in use.
 @vindex HwScalePossible
 @item HwScalePossible
+Boolean that indicates whether hardware scaling is possible or not.
 @vindex openGL_sync
 @item openGL_sync
 @vindex openGL_no_sync
 @item openGL_no_sync
 @vindex KeepAspectRatio
 @item KeepAspectRatio
-Boolean specifying wether the aspect ratio of the output window should be
+Boolean specifying whether the aspect ratio of the output window should be
 preserved. (0=free scaling, 1=scale with fixed aspect ratio)
 @vindex TrueAspectRatio
 @item TrueAspectRatio
-Boolean specifying wether to use the true (non square pixels) aspect ratio.
+Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
 @vindex Window0Width
 @item Window0Width
@@ -2673,6 +2674,8 @@ Integer specifying the type of lightpen. (0=Pen with button Up, 1=Pen with butto
 @item KeySet1West
 @vindex KeySet1Fire
 @item KeySet1Fire
+Integers specifying the keycodes for keyset 1.
+
 @vindex KeySet2NorthWest
 @item KeySet2NorthWest
 @vindex KeySet2North
@@ -2691,8 +2694,11 @@ Integer specifying the type of lightpen. (0=Pen with button Up, 1=Pen with butto
 @item KeySet2West
 @vindex KeySet2Fire
 @item KeySet2Fire
+Integers specifying the keycodes for keyset 2.
+
 @vindex KeySetEnable
 @item KeySetEnable
+Boolean that specifies whether user defined keysets are enabled.
 
 @end table
 
@@ -3153,7 +3159,7 @@ integer controlling what type of parallel cable is emulated for drives 8 to 11.
 @itemx Drive9ProfDOS
 @itemx Drive10ProfDOS
 @itemx Drive11ProfDOS
-Booleans controlling wether Professional DOS is emulated or not for drives 8 to 11.
+Booleans controlling whether Professional DOS is emulated or not for drives 8 to 11.
 
 @vindex Drive8RAM2000
 @vindex Drive8RAM4000
@@ -3284,6 +3290,7 @@ Strings specifying the names of the ROM images for the drive emulation.
 @itemx RomsetDosName1001
 @itemx RomsetDosName1571cr
 @itemx RomsetDosName1551
+Strings specifying the names of the drive ROM images in the current ROM set.
 
 @end table
 
@@ -3533,6 +3540,7 @@ VICE runs on.
 @item IECDevice10
 @vindex IECDevice11
 @item IECDevice11
+Booleans that specify whether IEC device emulation for device #8 to #11 is enabled.
 
 @vindex FileSystemDevice8
 @item FileSystemDevice8
@@ -3542,6 +3550,7 @@ VICE runs on.
 @item FileSystemDevice10
 @vindex FileSystemDevice11
 @item FileSystemDevice11
+Enum specifying the device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM (Real), 3: BLOCK DEVICE (Raw))
 
 @vindex FSDevice8ConvertP00
 @item FSDevice8ConvertP00
@@ -3620,7 +3629,7 @@ Enable/Disable IEC device emulation for device #11
 @itemx -device9 <type>
 @itemx -device10 <type>
 @itemx -device11 <type>
-Set device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK DEVICE)
+Set device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM (Real), 3: BLOCK DEVICE (Raw))
 
 @cindex -fs8
 @cindex -fs9
@@ -3691,6 +3700,7 @@ output from the Commodore printer code) and then to the printer via
 @item IECDevice4
 @vindex IECDevice5
 @item IECDevice5
+Booleans that specify whether IEC device emulation for device #4 and #5 is enabled.
 
 @vindex PrinterTextDevice1
 @vindex PrinterTextDevice2
@@ -4091,6 +4101,9 @@ This section lists command-line options specific to the built-in monitor.
 
 @vindex KeepMonitorOpen
 @item KeepMonitorOpen
+Boolean, if true the monitor window may stay open when the emulation is running,
+eg to look at trace-point output. (Not all ports/UIs support this, in that case
+this setting has no effect.)
 @vindex MonitorServerAddress
 @item MonitorServerAddress
 @vindex MonitorServer
@@ -4278,11 +4291,15 @@ signal.
 
 @vindex LogFileName
 @item LogFileName
+String specifying the filename of the current log file.
+@c FIXME: shouldnt there be one fliplist per drive ?
 @vindex FliplistName
 @item FliplistName
+String specifying the filename of the current flip list.
 
 @vindex ConfirmOnExit
 @item ConfirmOnExit
+Boolean specifying whether to show a confirmation dialog on exit.
 
 @vindex AttachDevice8Readonly
 @item AttachDevice8Readonly
@@ -4292,6 +4309,7 @@ signal.
 @item AttachDevice10Readonly
 @vindex AttachDevice11Readonly
 @item AttachDevice11Readonly
+Booleans that specify whether to attach images on drives 8 to 11 read-only.
 
 @vindex RomsetArchiveName
 @item RomsetArchiveName
@@ -4670,7 +4688,7 @@ After this, all drives can be selected in x64 and x128.
 
 @c @node FIXME
 @subsubsection The Final Cartridge 3
-The Final Cartridge 3 detects wether a mouse is connected when it starts and
+The Final Cartridge 3 detects whether a mouse is connected when it starts and
 disables mouse support if it doesnt detect one. So to make mouse emulation
 work you must either enable it on the command line, or reset the cartridge
 after enabling it from the user interface.
@@ -4687,10 +4705,13 @@ after enabling it from the user interface.
 
 @vindex IOCollisionHandling
 @item IOCollisionHandling
+Integer specifying the way the I/O collisions should be handled, (0: error message and 
+detach all involved carts, 1: error message and detach last attached involved 
+carts, 2: warning in log and 'AND' the valid return values)
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying wether the machine should be resetted when a cartridge is
+Boolean specifying whether the machine should be resetted when a cartridge is
 changed.
 @vindex CartridgeType
 @item CartridgeType
@@ -4704,8 +4725,11 @@ String specifying the filename of the image for the cartridge emulated in the "m
 Boolean specifying whether the Double Quick Brown Box should be emulated or not.
 @vindex DQBBfilename
 @item DQBBfilename
+String specifying the filename of the DQBB RAM image.
 @vindex DQBBImageWrite
 @item DQBBImageWrite
+Boolean, if true write back the DQBB image file automatically, incase the RAM
+contents changed, when quitting the emulator.
 
 @vindex EasyFlashJumper
 @item EasyFlashJumper
@@ -4717,8 +4741,11 @@ Boolean specifying whether the Double Quick Brown Box should be emulated or not.
 Boolean specifying whether the Expert Cartridge should be emulated or not.
 @vindex Expertfilename
 @item Expertfilename
+String specifying the filename of the Expert Cartridge RAM image.
 @vindex ExpertImageWrite
 @item ExpertImageWrite
+Boolean, if true write back the Expert Cartridge image file automatically, incase the RAM
+contents changed, when quitting the emulator.
 @vindex ExpertCartridgeMode
 @item ExpertCartridgeMode
 Enum specifying the state of the expert cartridge switch (0=off 1=prg 2=on)
@@ -4785,25 +4812,33 @@ on the disk image for the respective harddisk, or the cylinder/head/sector resou
 Boolean specifying whether the IEEE488 interface should be emulated or not.
 @vindex IEEE488Image
 @item IEEE488Image
+String specifying the filename of the IEEE488 ROM image
 @vindex IsepicCartridgeEnabled
 @item IsepicCartridgeEnabled
 Boolean specifying whether ISEPIC should be emulated or not.
 @vindex Isepicfilename
 @item Isepicfilename
+String specifying the filename of the ISEPIC RAM image.
 @vindex IsepicSwitch
 @item IsepicSwitch
+Boolean specifying the status of the ISEPIC switch (0: off, 1: on)
 @vindex IsepicImageWrite
 @item IsepicImageWrite
+Boolean, if true write back the ISEPIC image file automatically, incase the RAM
+contents changed, when quitting the emulator.
 @vindex MagicVoiceCartridgeEnabled
 @item MagicVoiceCartridgeEnabled
 Boolean specifying whether the Magic Voice should be emulated or not.
 @vindex MagicVoiceImage
 @item MagicVoiceImage
+String specifying the filename of the Magic Voice ROM image
+
 @vindex MMC64
 @item MMC64
 Boolean specifying whether the MMC64 should be emulated or not.
 @vindex MMC64BIOSfilename
 @item MMC64BIOSfilename
+String specifying the filename of the MMC64 Flash ROM image.
 @vindex MMC64_bios_write
 @item MMC64_bios_write
 @vindex MMC64_flashjumper
@@ -4812,10 +4847,12 @@ Boolean specifying whether the MMC64 should be emulated or not.
 @item MMC64_revision
 @vindex MMC64imagefilename
 @item MMC64imagefilename
+String specifying the filename of the SD-Card image used by the MMC64 emulation.
 @vindex MMC64_RO
 @item MMC64_RO
 @vindex MMC64_sd_type
 @item MMC64_sd_type
+
 @vindex MMCRCardImage
 @item MMCRCardImage
 @vindex MMCREEPROMImage
@@ -4824,6 +4861,8 @@ Boolean specifying whether the MMC64 should be emulated or not.
 @item MMCRRescueMode
 @vindex MMCRImageWrite
 @item MMCRImageWrite
+Boolean, if true write back the MMCR Flash ROM image file automatically, incase the
+contents changed, when quitting the emulator.
 @vindex MMCRCardRW
 @item MMCRCardRW
 @vindex MMCRSDType
@@ -4836,8 +4875,11 @@ Boolean specifying whether the MMC64 should be emulated or not.
 Boolean specifying whether the RAMCart should be emulated or not.
 @vindex RAMCARTfilename
 @item RAMCARTfilename
+String specifying the filename of the RAMCart RAM image.
 @vindex RAMCARTImageWrite
 @item RAMCARTImageWrite
+Boolean, if true write back the RAMCart image file automatically, incase the RAM
+contents changed, when quitting the emulator.
 @vindex RAMCART_RO
 @item RAMCART_RO
 @vindex RAMCARTsize
@@ -5833,6 +5875,8 @@ Boolean specifying whether the GEO-RAM cartridge should be emulated or not.
 @item GEORAMfilename
 @vindex GEORAMImageWrite
 @item GEORAMImageWrite
+Boolean, if true write back the GEO-RAM image file automatically, incase the RAM
+contents changed, when quitting the emulator.
 @vindex GEORAMsize
 @item GEORAMsize
 
@@ -5855,6 +5899,8 @@ Boolean specifying whether the RAM Expansion Module should be emulated or not.
 @item REUfilename
 @vindex REUImageWrite
 @item REUImageWrite
+Boolean, if true write back the REU image file automatically, incase the RAM
+contents changed, when quitting the emulator.
 @vindex REUsize
 @item REUsize
 @vindex REUfirstUnusedRegister
@@ -6029,6 +6075,7 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @item RomsetBasicName
 @vindex RomsetChargenName
 @item RomsetChargenName
+Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
 
@@ -6068,20 +6115,30 @@ Specify Kernal revision (@code{KernalRev}).
 @item GlueLogic
 @vindex BurstMod
 @item BurstMod
-@vindex PLUS60Kfilename
-@item PLUS60Kfilename
+Boolean, enable/disable the Burst-Mode modification.
+
 @vindex PLUS60K
 @item PLUS60K
+Boolean, enable/disable the PLUS60K RAM expansion
+@vindex PLUS60Kfilename
+@item PLUS60Kfilename
+String specifying the filename of the PLUS60K RAM image.
 @vindex PLUS60Kbase
 @item PLUS60Kbase
-@vindex PLUS256Kfilename
-@item PLUS256Kfilename
+
 @vindex PLUS256K
 @item PLUS256K
-@vindex C64_256Kfilename
-@item C64_256Kfilename
+Boolean, enable/disable the PLUS256K RAM expansion
+@vindex PLUS256Kfilename
+@item PLUS256Kfilename
+String specifying the filename of the PLUS256K RAM image.
+
 @vindex C64_256K
 @item C64_256K
+Boolean, enable/disable the 256K RAM expansion
+@vindex C64_256Kfilename
+@item C64_256Kfilename
+String specifying the filename of the 256K RAM image.
 @vindex C64_256Kbase
 @item C64_256Kbase
 
@@ -6141,6 +6198,7 @@ Base address of the 256K expansion
 
 @vindex VDC64KB
 @item VDC64KB
+Boolean, enabled full 64k video ram.
 @vindex VDCRevision
 @item VDCRevision
 
@@ -6341,6 +6399,8 @@ Enable/Disable video to audio leak emulation.
 @item ChargenFRName
 @vindex ChargenSEName
 @item ChargenSEName
+Strings specifying the filename of the Chargen ROM images.
+
 @vindex KernalIntName
 @item KernalIntName
 @vindex KernalDEName
@@ -6355,23 +6415,34 @@ Enable/Disable video to audio leak emulation.
 @item KernalNOName
 @vindex KernalSEName
 @item KernalSEName
+Strings specifying the filename of the Kernal ROM images.
+
 @vindex BasicLoName
 @item BasicLoName
 @vindex BasicHiName
 @item BasicHiName
+Strings specifying the filename of the Basic ROM images.
+
 @vindex Kernal64Name
 @item Kernal64Name
+String specifying the filename of the C64 kernal ROM image.
 @vindex Basic64Name
 @item Basic64Name
+String specifying the filename of the C64 basic ROM image.
 
-@vindex InternalFunctionName
-@item InternalFunctionName
-@vindex ExternalFunctionName
-@item ExternalFunctionName
 @vindex InternalFunctionROM
 @item InternalFunctionROM
+Boolean, enables the internal function ROM.
+@vindex InternalFunctionName
+@item InternalFunctionName
+Strings specifying the filename of the ROM image for the internal function ROM.
+
 @vindex ExternalFunctionROM
 @item ExternalFunctionROM
+Boolean, enables the external function ROM.
+@vindex ExternalFunctionName
+@item ExternalFunctionName
+Strings specifying the filename of the ROM image for the external function ROM.
 
 @vindex RomsetChargenIntName
 @item RomsetChargenIntName
@@ -6403,6 +6474,7 @@ Enable/Disable video to audio leak emulation.
 @item RomsetKernal64Name
 @vindex RomsetBasic64Name
 @item RomsetBasic64Name
+Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
 
@@ -6488,8 +6560,10 @@ Specify name of external Function ROM image
 
 @vindex 40/80ColumnKey
 @item 40/80ColumnKey
+Boolean, status of the 40/80 columns key
 @vindex Go64Mode
 @item Go64Mode
+Boolean, if true enter C64 mode on reset
 @vindex C128FullBanks
 @item C128FullBanks
 @vindex MachineType
@@ -6703,6 +6777,7 @@ to "ramXX", where XX is the starting bank (usually "bank00").
 @item DtvDMALog
 @vindex c64dtvromfilename
 @item c64dtvromfilename
+String specifying the filename of the DTV Flash ROM image.
 @vindex c64dtvromrw
 @item c64dtvromrw
 @vindex DtvFlashLog
@@ -6782,7 +6857,7 @@ but you also have to enable the IEEE488 hardware by menu.
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying wether the machine should be resetted when a cartridge is
+Boolean specifying whether the machine should be resetted when a cartridge is
 changed.
 @vindex CartridgeType
 @item CartridgeType
@@ -6793,6 +6868,9 @@ String specifying the filename of the image for the current cartridge.
 
 @vindex IOCollisionHandling
 @item IOCollisionHandling
+Integer specifying the way the I/O collisions should be handled, (0: error message and 
+detach all involved carts, 1: error message and detach last attached involved 
+carts, 2: warning in log and 'AND' the valid return values)
 
 @vindex GenericCartridgeFile2000
 @vindex GenericCartridgeFile4000
@@ -6808,23 +6886,38 @@ String specifying the name of the respective cartridge ROM images.
 
 @vindex FinalExpansionWriteBack
 @item FinalExpansionWriteBack
+Boolean, if true write back the Flash ROM image file automatically, incase the
+contents changed, when quitting the emulator.
+
 @vindex VicFlashPluginWriteBack
 @item VicFlashPluginWriteBack
+Boolean, if true write back the Flash ROM image file automatically, incase the
+contents changed, when quitting the emulator.
+
 @vindex MegaCartNvRAMfilename
 @item MegaCartNvRAMfilename
+String specifying the filename of the MegaCart NvRAM image.
 @vindex MegaCartNvRAMWriteBack
 @item MegaCartNvRAMWriteBack
+Boolean, if true write back the NvRAM image file automatically, incase the RAM
+contents changed, when quitting the emulator.
+
 @vindex TFEIOSwap
 @item TFEIOSwap
+Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 @vindex SFXSoundExpanderIOSwap
 @item SFXSoundExpanderIOSwap
+Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 @vindex SFXSoundSamplerIOSwap
 @item SFXSoundSamplerIOSwap
+Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
 @vindex GEORAMIOSwap
 @item GEORAMIOSwap
+Boolean, swap/don't swap  io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)
 
 @vindex SidCart
 @item SidCart
+Boolean, enables SID cart emulation.
 @vindex SidAddress
 @item SidAddress
 @vindex SidClock
@@ -7559,24 +7652,30 @@ Enable/Disable video to audio leak emulation.
 
 @vindex CartridgeReset
 @item CartridgeReset
-Boolean specifying wether the machine should be resetted when a cartridge is
+Boolean specifying whether the machine should be resetted when a cartridge is
 changed.
 
 @vindex DIGIBLASTER
 @item DIGIBLASTER
-@vindex SpeechImage
-@item SpeechImage
+Boolean, enables Digiblaster emulation.
+
 @vindex SpeechEnabled
 @item SpeechEnabled
-@vindex SIDCartJoy
-@item SIDCartJoy
+Boolean, enables emulation of the V364 speech chip.
+@vindex SpeechImage
+@item SpeechImage
+String specifying the filename of the speech ROM image.
 
 @vindex SidCart
 @item SidCart
+Boolean, enables emulation of the SID-Cart
 @vindex SidAddress
 @item SidAddress
 @vindex SidClock
 @item SidClock
+@vindex SIDCartJoy
+@item SIDCartJoy
+Boolean, enables emulation of the SID-Cart joystick
 
 @end table
 
@@ -7647,6 +7746,7 @@ Attach Speech ROM image
 @item RomsetFunctionLowName
 @vindex RomsetFunctionHighName
 @item RomsetFunctionHighName
+Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
 
@@ -7685,10 +7785,14 @@ Specify name of Cartridge 2 high ROM image
 
 @table @code
 
+@c FIXME: is this correct?
 @vindex H256K
 @item H256K
+Boolean, enables the HANNES 256K RAM expansion
+
 @vindex CS256K
 @item CS256K
+Boolean, enables the CSORY 256K RAM expansion
 
 @vindex Acia1Enable
 @item Acia1Enable
@@ -8065,6 +8169,7 @@ Enable/Disable video to audio leak emulation.
 
 @vindex PETREUfilename
 @item PETREUfilename
+String specifying the filename of the PET REU image.
 @vindex PETREU
 @item PETREU
 @vindex PETREUsize
@@ -8072,6 +8177,7 @@ Enable/Disable video to audio leak emulation.
 
 @vindex PETDWWfilename
 @item PETDWWfilename
+String specifying the filename of the DWW ROM image.
 @vindex PETDWW
 @item PETDWW
 
@@ -8143,6 +8249,7 @@ Enable/Disable SID Cartridge
 @item H6809RomEName
 @vindex H6809RomFName
 @item H6809RomFName
+Strings specifying the filenames of the respective H6809 ROM images.
 
 @vindex RomsetEditorName
 @item RomsetEditorName
@@ -8164,6 +8271,7 @@ Enable/Disable SID Cartridge
 @item RomsetH6809RomEName
 @vindex RomsetH6809RomFName
 @item RomsetH6809RomFName
+Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
 
@@ -8430,6 +8538,7 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 @item RomsetCart4Name
 @vindex RomsetCart6Name
 @item RomsetCart6Name
+Strings specifying the filenames of the respective ROM images used by the current ROM set.
 @end table
 
 @c @node FIXME
@@ -8548,7 +8657,7 @@ feeling;
 
 @vindex PSIDKeepEnv
 @item PSIDKeepEnv
-Boolean that specifies wether to override PSID settings for Video standard and 
+Boolean that specifies whether to override PSID settings for Video standard and 
 SID model.
 
 @vindex PSIDTune
