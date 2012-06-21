@@ -265,6 +265,9 @@ static int tfe_deactivate(void) {
     if (should_activate) {
         should_activate = 0;
     } else {
+        tfe_enabled = 0;
+        should_activate = 0;
+        /* FIXME: WTH check for tfe_log here? */
         if (tfe_log != LOG_ERR) {
             return cs8900_deactivate();
         }
@@ -300,6 +303,8 @@ void tfe_detach(void)
 
     if (tfe_enabled) {
         cs8900_shutdown();
+        tfe_enabled = 0;
+        should_activate = 0;
 #ifdef TFE_DEBUG
         log_message(tfe_log, "...2");
 #endif
