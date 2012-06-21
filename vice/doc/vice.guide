@@ -2653,9 +2653,17 @@ SoundDeviceArg
      (see `SoundDeviceName'). 
 
 SoundRecordDeviceName
+     String specifying the filename used for sound recording.
+
 SoundRecordDeviceArg
+     String specifying additional arguments for sound recording.
+
 SoundFragmentSize
+     Enum specifying the fragment size (0: small, 1: medium, 2: large)
+
 SoundVolume
+     Integer specifying the master volume in percent. [100] (0..100)s
+
 SoundOutput
      Enum specifying how the type of sound output. Output is selectable
      between 'system'  (system decides to use mono or stereo output
@@ -2727,9 +2735,15 @@ Tape resources
      
 
 DatasetteResetWithCPU
+     Boolean specifying whether to reset (rewind) the tape when
+     resetting the CPU.
+
 DatasetteZeroGapDelay
+     Integer specifying the delay in cycles for a zero in the tap.
+
 DatasetteSpeedTuning
-      
+     Integer specifying the number of cycles added to each gap in the
+     tap.  
 
 Tape command-line options
 --------------------------
@@ -3884,16 +3898,20 @@ whether the emulator should save changed settings before exiting.  If
 this is enabled, the user will be always prompted first, in case the
 settings have changed.   DoCoreDump Boolean specifying whether
 the emulator should dump core when it gets a signal. 
-NetworkServerName  NetworkServerBindAddress  NetworkServerPort
-NetworkControl   LogFileName String specifying the filename of
-the current log file.  FliplistName String specifying the filename
-of the current flip list.   ConfirmOnExit Boolean specifying
-whether to show a confirmation dialog on exit. 
-AttachDevice8Readonly  AttachDevice9Readonly
-AttachDevice10Readonly  AttachDevice11Readonly Booleans that
-specify whether to attach images on drives 8 to 11 read-only. 
-RomsetArchiveName  RomsetArchiveActive  RomsetFileName
-RomsetSourceFile   table 
+NetworkServerName String specifying the name of the remote server.
+NetworkServerBindAddress String specifying the IP of the remote
+server.  NetworkServerPort Integer specifying the port used for
+network play.  NetworkControl Integer specifying whether the
+emulator is running as server or client (0: client, 1: server) 
+LogFileName String specifying the filename of the current log file.
+FliplistName String specifying the filename of the current flip
+list.   ConfirmOnExit Boolean specifying whether to show a
+confirmation dialog on exit.   AttachDevice8Readonly
+AttachDevice9Readonly  AttachDevice10Readonly
+AttachDevice11Readonly Booleans that specify whether to attach images
+on drives 8 to 11 read-only.   RomsetArchiveName
+RomsetArchiveActive  RomsetFileName  RomsetSourceFile   table
+
 
 
 @EndNode
@@ -4469,7 +4487,7 @@ RAMCART_RO
      Boolean, if true the RAMCart contents are read only
 
 RAMCARTsize
-     
+     Integer specifying the size of the RAMCart in KB (64, 128) 
 
 RRrevision
      Integer specifying the RR hardware revision (0=retro replay,
@@ -5237,10 +5255,10 @@ SidStereo
      extra sid,  2=2 extra sids. 
 
 SidStereoAddressStart
-     Integer specifying the start address for the second SID. 
+     Integer specifying the base address of the second SID. 
 
 SidTripleAddressStart
-     Integer specifying the start address for the third SID. 
+     Integer specifying the base address of the third SID. 
 
 SidFilters
      Boolean specifying whether the built-in SID filters must be
@@ -5248,10 +5266,17 @@ SidFilters
 
 SidModel
      Integer specifying what model of the SID must be emulated (`0':
-     MOS6581, `1': MOS8580). 
+     6581 , `1': 8580, `2': 8580D, `3': 6581R4, `4': DTVSID, `8':
+     6581R3_4885    , `9': 6581R3_0486S, `10': 6581R3_3984, `11':
+     6581R4AR_3789, `12': 6581R3_4485    , `13': 6581R4_1986S, `16':
+     8580R5_3691, `17': 8580R5_3691D, `18': 8580R5_1489    , `19':
+     8580R5_1489D). 
 
 SidEngine
-     
+     Integer specifying what SID engine will be used (`0': FASTSID,
+     `1': RESID , `2': CATWEASELMKIII, `3': HARDSID, `4':
+     PARSID_PORT1, `5': PARSID_PORT2 , `6': PARSID_PORT3, `7':
+     RESID_FP). 
 
 SidResidSampling
      Integer specifying the sampling method (`0': Fast, `1':
@@ -5262,9 +5287,14 @@ SidResidPassband
      the total bandwidth (`0 - 90'). 
 
 SidResidGain
+     Integer that specifies reSID gain in percent [97] (90..100)
+
 SidResidFilterBias
+     Integer that specifies reSID filter bias, which can be used to
+     adjust DAC bias  in millivolts. [0] (-5000..5000)
+
 SidParSIDport
-       
+     Integer specifying the lpt port used for ParSID.   
 
 
 @EndNode
@@ -5382,7 +5412,11 @@ Acia1Enable
      cartridge should be emulated or not.
 
 Acia1Mode
+     Enum specifying the type of emulated RS232 interface (0: normal,
+     1: Swithlink, 2: Turbo232)
+
 Acia1Base
+     Integer specifying the base address for the emulated ACIA chip.
      
 
 DIGIMAX
@@ -5390,7 +5424,7 @@ DIGIMAX
      emulated or not.
 
 DIGIMAXbase
-     
+     Integer specifying the DigiMAX base address. 
 
 ETHERNET_ACTIVE
      Boolean that specifies whether the CS8900 ethernet interface
@@ -5415,17 +5449,26 @@ GEORAMImageWrite
      emulator.
 
 GEORAMsize
-     
+     Integer specifying the size of the emulated GEO-RAM in KB (64,
+     128, 256, 512, 1024,  2048, 4096) 
 
 MIDIEnable
      Boolean specifying whether the MIDI cartridge should be emulated
      or not.
 
 MIDIMode
+     Enum specifying the type of emulated MIDI interface (0:
+     Sequential, 1: Passport/Syntech, 2: DATEL/Siel/JMS, 3: Namesoft,
+     4: Maplin)
+
 MIDIDriver
+     Enum specifying the MIDI driver (0: OSS; 1:ALSA)
+
 MIDIInDev
+     String specifying the MIDI input device.
+
 MIDIOutDev
-     
+     String specifying the MIDI output device. 
 
 REU
      Boolean specifying whether the RAM Expansion Module should be
@@ -5440,6 +5483,9 @@ REUImageWrite
      emulator.
 
 REUsize
+     Integer specifying the size of the emulated REU in KB (128, 256,
+     512, 1024, 2048, 4096, 8192, 16384)
+
 REUfirstUnusedRegister
      
 
@@ -6439,8 +6485,11 @@ SidCart
      Boolean, enables SID cart emulation.
 
 SidAddress
+     Integer that specifies the base address of the emulated SID chip.
+
 SidClock
-      
+     Integer specifying the clock rate used for the emulated SID chip
+     (0: C64, 1: VIC-20)  
 
 VIC20 cartridge command-line options
 .....................................
@@ -7141,7 +7190,12 @@ SidCart
      Boolean, enables emulation of the SID-Cart
 
 SidAddress
+     Integer that specifies the base address of the emulated SID chip.
+
 SidClock
+     Integer specifying the clock rate used for the emulated SID chip
+     (0: C64, 1: Plus4)
+
 SIDCartJoy
      Boolean, enables emulation of the SID-Cart joystick  
 
@@ -7602,7 +7656,8 @@ PETREUfilename
      String specifying the filename of the PET REU image.
 
 PETREUsize
-     
+     Integer specifying the size of the emulated PET REU in KB (128,
+     512, 1024, 2048) 
 
 PETDWW
      Boolean specifying whether DWW emulation is enabled.
@@ -7617,8 +7672,11 @@ SidCart
      Boolean specifying whether SID Cart emulation is enabled.
 
 SidAddress
+     Integer that specifies the base address of the emulated SID chip.
+
 SidClock
-      
+     Integer specifying the clock rate used for the emulated SID chip
+     (0: C64, 1: PET)  
 
 PET I/O extension command-line options
 .......................................
