@@ -2200,18 +2200,21 @@ DisplayDepth
      (the default) causes the emulator to autodetect it. 
 
 UseFullscreen
-     Boolean specifying wether fullscreen mode is currently in use.
+     Boolean specifying whether fullscreen mode is currently in use.
 
 HwScalePossible
+     Boolean that indicates whether hardware scaling is possible or
+     not.
+
 openGL_sync
 openGL_no_sync
 KeepAspectRatio
-     Boolean specifying wether the aspect ratio of the output window
+     Boolean specifying whether the aspect ratio of the output window
      should be preserved. (0=free scaling, 1=scale with fixed aspect
      ratio)
 
 TrueAspectRatio
-     Boolean specifying wether to use the true (non square pixels)
+     Boolean specifying whether to use the true (non square pixels)
      aspect ratio. 
 
 Window0Width
@@ -2442,6 +2445,8 @@ KeySet1South
 KeySet1SouthWest
 KeySet1West
 KeySet1Fire
+     Integers specifying the keycodes for keyset 1. 
+
 KeySet2NorthWest
 KeySet2North
 KeySet2NorthEast
@@ -2451,7 +2456,10 @@ KeySet2South
 KeySet2SouthWest
 KeySet2West
 KeySet2Fire
+     Integers specifying the keycodes for keyset 2. 
+
 KeySetEnable
+     Boolean that specifies whether user defined keysets are enabled.
       
 
 Joystick command-line options
@@ -2860,7 +2868,7 @@ Drive8ProfDOS
 Drive9ProfDOS
 Drive10ProfDOS
 Drive11ProfDOS
-     Booleans controlling wether Professional DOS is emulated or not
+     Booleans controlling whether Professional DOS is emulated or not
      for drives 8 to 11. 
 
 Drive8RAM2000
@@ -2936,7 +2944,8 @@ RomsetDosName4040
 RomsetDosName1001
 RomsetDosName1571cr
 RomsetDosName1551
-      
+     Strings specifying the names of the drive ROM images in the
+     current ROM set.  
 
 
 @EndNode
@@ -3138,13 +3147,15 @@ IECDevice8
 IECDevice9
 IECDevice10
 IECDevice11
-     
+     Booleans that specify whether IEC device emulation for device #8
+     to #11 is enabled. 
 
 FileSystemDevice8
 FileSystemDevice9
 FileSystemDevice10
 FileSystemDevice11
-     
+     Enum specifying the device type for device 8-11 (0: NONE, 1:
+     FILESYSTEM, 2: OPENCBM (Real), 3: BLOCK DEVICE (Raw)) 
 
 FSDevice8ConvertP00
 FSDevice9ConvertP00
@@ -3210,7 +3221,7 @@ Command-line options for file system devices
 -device10 <type>
 -device11 <type>
      Set device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2:
-     OPENCBM, 3: BLOCK DEVICE) 
+     OPENCBM (Real), 3: BLOCK DEVICE (Raw)) 
 
 -fs8 PATH
 -fs9 PATH
@@ -3275,7 +3286,8 @@ Printer resources
 
 IECDevice4
 IECDevice5
-     
+     Booleans that specify whether IEC device emulation for device #4
+     and #5 is enabled. 
 
 PrinterTextDevice1
 PrinterTextDevice2
@@ -3666,6 +3678,11 @@ Monitor resources
      
 
 KeepMonitorOpen
+     Boolean, if true the monitor window may stay open when the
+     emulation is running, eg to look at trace-point output. (Not all
+     ports/UIs support this, in that case this setting has no
+     effect.)
+
 MonitorServerAddress
 MonitorServer
       
@@ -3845,9 +3862,13 @@ this is enabled, the user will be always prompted first, in case the
 settings have changed.   DoCoreDump Boolean specifying whether
 the emulator should dump core when it gets a signal. 
 NetworkServerName  NetworkServerBindAddress  NetworkServerPort
-NetworkControl   LogFileName  FliplistName   ConfirmOnExit
-  AttachDevice8Readonly  AttachDevice9Readonly
-AttachDevice10Readonly  AttachDevice11Readonly 
+NetworkControl   LogFileName String specifying the filename of
+the current log file.  FliplistName String specifying the filename
+of the current flip list.   ConfirmOnExit Boolean specifying
+whether to show a confirmation dialog on exit. 
+AttachDevice8Readonly  AttachDevice9Readonly
+AttachDevice10Readonly  AttachDevice11Readonly Booleans that
+specify whether to attach images on drives 8 to 11 read-only. 
 RomsetArchiveName  RomsetArchiveActive  RomsetFileName
 RomsetSourceFile   table 
 
@@ -4204,7 +4225,7 @@ this, all drives can be selected in x64 and x128.
 The Final Cartridge 3
 ......................
 
-   The Final Cartridge 3 detects wether a mouse is connected when it
+   The Final Cartridge 3 detects whether a mouse is connected when it
 starts and disables mouse support if it doesnt detect one. So to make
 mouse emulation work you must either enable it on the command line,
 or reset the cartridge after enabling it from the user interface. 
@@ -4221,10 +4242,13 @@ C64 cartridge resources
      
 
 IOCollisionHandling
-     
+     Integer specifying the way the I/O collisions should be handled,
+     (0: error message and  detach all involved carts, 1: error
+     message and detach last attached involved  carts, 2: warning in
+     log and 'AND' the valid return values) 
 
 CartridgeReset
-     Boolean specifying wether the machine should be resetted when a
+     Boolean specifying whether the machine should be resetted when a
      cartridge is changed.
 
 CartridgeType
@@ -4240,8 +4264,11 @@ DQBB
      emulated or not.
 
 DQBBfilename
+     String specifying the filename of the DQBB RAM image.
+
 DQBBImageWrite
-     
+     Boolean, if true write back the DQBB image file automatically,
+     incase the RAM contents changed, when quitting the emulator. 
 
 EasyFlashJumper
 EasyFlashWriteCRT
@@ -4252,7 +4279,13 @@ ExpertCartridgeEnabled
      or not.
 
 Expertfilename
+     String specifying the filename of the Expert Cartridge RAM image.
+
 ExpertImageWrite
+     Boolean, if true write back the Expert Cartridge image file
+     automatically, incase the RAM contents changed, when quitting
+     the emulator.
+
 ExpertCartridgeMode
      Enum specifying the state of the expert cartridge switch (0=off
      1=prg 2=on)
@@ -4313,31 +4346,54 @@ IEEE488
      emulated or not.
 
 IEEE488Image
+     String specifying the filename of the IEEE488 ROM image
+
 IsepicCartridgeEnabled
      Boolean specifying whether ISEPIC should be emulated or not.
 
 Isepicfilename
+     String specifying the filename of the ISEPIC RAM image.
+
 IsepicSwitch
+     Boolean specifying the status of the ISEPIC switch (0: off, 1:
+     on)
+
 IsepicImageWrite
+     Boolean, if true write back the ISEPIC image file automatically,
+     incase the RAM contents changed, when quitting the emulator.
+
 MagicVoiceCartridgeEnabled
      Boolean specifying whether the Magic Voice should be emulated or
      not.
 
 MagicVoiceImage
+     String specifying the filename of the Magic Voice ROM image 
+
 MMC64
      Boolean specifying whether the MMC64 should be emulated or not.
 
 MMC64BIOSfilename
+     String specifying the filename of the MMC64 Flash ROM image.
+
 MMC64_bios_write
 MMC64_flashjumper
 MMC64_revision
 MMC64imagefilename
+     String specifying the filename of the SD-Card image used by the
+     MMC64 emulation.
+
 MMC64_RO
 MMC64_sd_type
+     
+
 MMCRCardImage
 MMCREEPROMImage
 MMCRRescueMode
 MMCRImageWrite
+     Boolean, if true write back the MMCR Flash ROM image file
+     automatically, incase the contents changed, when quitting the
+     emulator.
+
 MMCRCardRW
 MMCRSDType
 MMCREEPROMRW
@@ -4347,7 +4403,12 @@ RAMCART
      Boolean specifying whether the RAMCart should be emulated or not.
 
 RAMCARTfilename
+     String specifying the filename of the RAMCart RAM image.
+
 RAMCARTImageWrite
+     Boolean, if true write back the RAMCart image file automatically,
+     incase the RAM contents changed, when quitting the emulator.
+
 RAMCART_RO
 RAMCARTsize
      
@@ -5285,6 +5346,9 @@ GEORAM
 
 GEORAMfilename
 GEORAMImageWrite
+     Boolean, if true write back the GEO-RAM image file automatically,
+     incase the RAM contents changed, when quitting the emulator.
+
 GEORAMsize
      
 
@@ -5304,6 +5368,9 @@ REU
 
 REUfilename
 REUImageWrite
+     Boolean, if true write back the REU image file automatically,
+     incase the RAM contents changed, when quitting the emulator.
+
 REUsize
 REUfirstUnusedRegister
      
@@ -5493,7 +5560,8 @@ KernalRev
 RomsetKernalName
 RomsetBasicName
 RomsetChargenName
-      
+     Strings specifying the filenames of the respective ROM images used
+     by the current ROM set.  
 
 
 @EndNode
@@ -5534,13 +5602,29 @@ C64 resources
 
 GlueLogic
 BurstMod
-PLUS60Kfilename
+     Boolean, enable/disable the Burst-Mode modification. 
+
 PLUS60K
+     Boolean, enable/disable the PLUS60K RAM expansion
+
+PLUS60Kfilename
+     String specifying the filename of the PLUS60K RAM image.
+
 PLUS60Kbase
-PLUS256Kfilename
+     
+
 PLUS256K
-C64_256Kfilename
+     Boolean, enable/disable the PLUS256K RAM expansion
+
+PLUS256Kfilename
+     String specifying the filename of the PLUS256K RAM image. 
+
 C64_256K
+     Boolean, enable/disable the 256K RAM expansion
+
+C64_256Kfilename
+     String specifying the filename of the 256K RAM image.
+
 C64_256Kbase
       
 
@@ -5597,6 +5681,8 @@ VDC resources
      
 
 VDC64KB
+     Boolean, enabled full 64k video ram.
+
 VDCRevision
      
 
@@ -5781,6 +5867,8 @@ ChargenIntName
 ChargenDEName
 ChargenFRName
 ChargenSEName
+     Strings specifying the filename of the Chargen ROM images. 
+
 KernalIntName
 KernalDEName
 KernalFIName
@@ -5788,17 +5876,31 @@ KernalFRName
 KernalITName
 KernalNOName
 KernalSEName
+     Strings specifying the filename of the Kernal ROM images. 
+
 BasicLoName
 BasicHiName
+     Strings specifying the filename of the Basic ROM images. 
+
 Kernal64Name
+     String specifying the filename of the C64 kernal ROM image.
+
 Basic64Name
-     
+     String specifying the filename of the C64 basic ROM image. 
+
+InternalFunctionROM
+     Boolean, enables the internal function ROM.
 
 InternalFunctionName
-ExternalFunctionName
-InternalFunctionROM
+     Strings specifying the filename of the ROM image for the internal
+     function ROM. 
+
 ExternalFunctionROM
-     
+     Boolean, enables the external function ROM.
+
+ExternalFunctionName
+     Strings specifying the filename of the ROM image for the external
+     function ROM. 
 
 RomsetChargenIntName
 RomsetChargenDEName
@@ -5815,7 +5917,8 @@ RomsetBasicLoName
 RomsetBasicHiName
 RomsetKernal64Name
 RomsetBasic64Name
-      
+     Strings specifying the filenames of the respective ROM images used
+     by the current ROM set.  
 
 C128 system ROM command-line options
 .....................................
@@ -5894,7 +5997,11 @@ C128 resources
      
 
 40/80ColumnKey
+     Boolean, status of the 40/80 columns key
+
 Go64Mode
+     Boolean, if true enter C64 mode on reset
+
 C128FullBanks
 MachineType
       
@@ -6105,6 +6212,8 @@ DtvRevision
 DtvBlitterLog
 DtvDMALog
 c64dtvromfilename
+     String specifying the filename of the DTV Flash ROM image.
+
 c64dtvromrw
 DtvFlashLog
 FSFlashDir
@@ -6183,7 +6292,7 @@ VIC20 cartridge resources
      
 
 CartridgeReset
-     Boolean specifying wether the machine should be resetted when a
+     Boolean specifying whether the machine should be resetted when a
      cartridge is changed.
 
 CartridgeType
@@ -6194,7 +6303,10 @@ CartridgeFile
      cartridge. 
 
 IOCollisionHandling
-     
+     Integer specifying the way the I/O collisions should be handled,
+     (0: error message and  detach all involved carts, 1: error
+     message and detach last attached involved  carts, 2: warning in
+     log and 'AND' the valid return values) 
 
 GenericCartridgeFile2000
 GenericCartridgeFile4000
@@ -6205,16 +6317,38 @@ GenericCartridgeFileB000
      images. 
 
 FinalExpansionWriteBack
+     Boolean, if true write back the Flash ROM image file
+     automatically, incase the contents changed, when quitting the
+     emulator. 
+
 VicFlashPluginWriteBack
+     Boolean, if true write back the Flash ROM image file
+     automatically, incase the contents changed, when quitting the
+     emulator. 
+
 MegaCartNvRAMfilename
+     String specifying the filename of the MegaCart NvRAM image.
+
 MegaCartNvRAMWriteBack
+     Boolean, if true write back the NvRAM image file automatically,
+     incase the RAM contents changed, when quitting the emulator. 
+
 TFEIOSwap
+     Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+
 SFXSoundExpanderIOSwap
+     Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+
 SFXSoundSamplerIOSwap
+     Boolean, swap/don't swap io mapping (map cart I/O to VIC20 I/O-2)
+
 GEORAMIOSwap
-     
+     Boolean, swap/don't swap  io mapping (map cart I/O-1 to VIC20
+     I/O-3 and cart I/O-2 to VIC20 I/O-2) 
 
 SidCart
+     Boolean, enables SID cart emulation.
+
 SidAddress
 SidClock
       
@@ -6902,19 +7036,25 @@ PLUS4 I/O extension resources
      
 
 CartridgeReset
-     Boolean specifying wether the machine should be resetted when a
+     Boolean specifying whether the machine should be resetted when a
      cartridge is changed. 
 
 DIGIBLASTER
-SpeechImage
+     Boolean, enables Digiblaster emulation. 
+
 SpeechEnabled
-SIDCartJoy
-     
+     Boolean, enables emulation of the V364 speech chip.
+
+SpeechImage
+     String specifying the filename of the speech ROM image. 
 
 SidCart
+     Boolean, enables emulation of the SID-Cart
+
 SidAddress
 SidClock
-      
+SIDCartJoy
+     Boolean, enables emulation of the SID-Cart joystick  
 
 PLUS4 I/O extension command-line options
 .........................................
@@ -6972,7 +7112,8 @@ c2hiName
 
 RomsetFunctionLowName
 RomsetFunctionHighName
-      
+     Strings specifying the filenames of the respective ROM images used
+     by the current ROM set.  
 
 PLUS4 system ROM command-line options
 ......................................
@@ -7010,8 +7151,10 @@ PLUS4 resources
      
 
 H256K
+     Boolean, enables the HANNES 256K RAM expansion 
+
 CS256K
-     
+     Boolean, enables the CSORY 256K RAM expansion 
 
 Acia1Enable
      Boolean specifying whether the ACIA should be emulated or not. 
@@ -7354,11 +7497,15 @@ PET I/O extension resources
      
 
 PETREUfilename
+     String specifying the filename of the PET REU image.
+
 PETREU
 PETREUsize
      
 
 PETDWWfilename
+     String specifying the filename of the DWW ROM image.
+
 PETDWW
      
 
@@ -7417,7 +7564,8 @@ H6809RomCName
 H6809RomDName
 H6809RomEName
 H6809RomFName
-     
+     Strings specifying the filenames of the respective H6809 ROM
+     images. 
 
 RomsetEditorName
 RomsetRomModule9Name
@@ -7429,7 +7577,8 @@ RomsetH6809RomCName
 RomsetH6809RomDName
 RomsetH6809RomEName
 RomsetH6809RomFName
-      
+     Strings specifying the filenames of the respective ROM images used
+     by the current ROM set.  
 
 PET system ROM command-line options
 ....................................
@@ -7673,7 +7822,8 @@ RomsetCart1Name
 RomsetCart2Name
 RomsetCart4Name
 RomsetCart6Name
-   
+     Strings specifying the filenames of the respective ROM images used
+     by the current ROM set. 
 
 CBM-II system ROM command line options
 .......................................
@@ -7794,7 +7944,7 @@ VSID resources
      
 
 PSIDKeepEnv
-     Boolean that specifies wether to override PSID settings for Video
+     Boolean that specifies whether to override PSID settings for Video
      standard and  SID model. 
 
 PSIDTune
