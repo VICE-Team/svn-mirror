@@ -575,7 +575,7 @@ ui_menu_entry_t ui_monitor_commands_menu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable remote monitor server"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_MonitorServer, NULL, NULL },
-    { N_("Set remote monitor server address..."), UI_MENU_TYPE_NORMAL,
+    { N_("Set remote monitor server address"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)monitor_select_addr, NULL, NULL },
     { NULL }
 };

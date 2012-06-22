@@ -30,10 +30,12 @@
 
 #include "attach.h"
 #include "lib.h"
+#include "resources.h"
 #include "uilib.h"
 #include "uimenu.h"
 #include "uiprinter.h"
 #include "util.h"
+#include "vsync.h"
 
 UI_MENU_DEFINE_RADIO(FileSystemDevice8)
 UI_MENU_DEFINE_RADIO(FileSystemDevice9)
@@ -55,6 +57,19 @@ UI_CALLBACK(uiperipheral_set_fsdevice_directory)
     lib_free(resname);
     lib_free(title);
     lib_free(path);
+}
+
+UI_CALLBACK(uiperipheral_set_rawdevice_name)
+{
+    const char *wd = NULL;
+    int len = 40;
+
+    resources_get_string("RawDriveDriver", &wd);
+    vsync_suspend_speed_eval();
+    if (ui_input_string(_("VICE setting"), _("Select block device for raw access"), (char*)wd, len) == UI_BUTTON_OK) {
+        resources_set_string("RawDriveDriver", wd);
+    }
+    lib_free(wd);
 }
 
 ui_menu_entry_t uiperipheral_set_device8_type_submenu[] = {

@@ -28,6 +28,7 @@
 #define VICE_UI_PERIPHERIAL_H
 
 extern UI_CALLBACK(uiperipheral_set_fsdevice_directory);
+extern UI_CALLBACK(uiperipheral_set_rawdevice_name);
 
 extern ui_menu_entry_t uiperipheral_set_device8_type_submenu[];
 extern ui_menu_entry_t uiperipheral_set_device9_type_submenu[];
