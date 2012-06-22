@@ -432,6 +432,18 @@ static ui_menu_entry_t vic20_model_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(IOCollisionHandling)
+
+static ui_menu_entry_t iocollision_submenu[] = {
+    { N_("detach all"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)0, NULL },
+    { N_("detach last"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)1, NULL },
+    { N_("AND values"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
 static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_VIC20_NAME_MEGACART, UI_MENU_TYPE_NORMAL,
       NULL, NULL, megacart_submenu },
@@ -466,6 +478,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, midi_vic20_submenu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("I/O collision handling"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, iocollision_submenu },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }

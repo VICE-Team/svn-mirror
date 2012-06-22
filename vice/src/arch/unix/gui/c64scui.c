@@ -395,6 +395,18 @@ static ui_menu_entry_t burstmod_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_RADIO(IOCollisionHandling)
+
+static ui_menu_entry_t iocollision_submenu[] = {
+    { N_("detach all"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)0, NULL },
+    { N_("detach last"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)1, NULL },
+    { N_("AND values"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)radio_IOCollisionHandling, (ui_callback_data_t)2, NULL },
+    { NULL }
+};
+
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
@@ -460,6 +472,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER, UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("I/O collision handling"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, iocollision_submenu },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
     { NULL }
