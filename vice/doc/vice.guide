@@ -2037,9 +2037,11 @@ AutostartPrgMode
      Integer specifying the autostart mode for prg files. (0: virtual
      filesystem, 1: inject to RAM, 2: copy to D64)
 
-AutostartDelay
 AutostartDelayRandom
-     Boolean, enables a short random delay on autostart.  
+     Boolean, enables a short random delay on autostart.
+
+AutostartDelay
+     Integer specifying the maximum delay in frames.  
 
 
 @EndNode
@@ -2226,6 +2228,8 @@ openGL_sync
      Boolean, if true enable Open-GL frame sync.
 
 openGL_no_sync
+     Boolean, if true Open-GL sync is not available.
+
 KeepAspectRatio
      Boolean specifying whether the aspect ratio of the output window
      should be preserved. (0=free scaling, 1=scale with fixed aspect
@@ -2333,7 +2337,8 @@ KeymapSymFile
      mapping (see @{"Keyboard emulation" Link "Keyboard emulation"}, all but PET and CBM-II).
 
 KeymapSymDeFile
-     
+     String specifying the name of the keymap file for the symbolic
+     mapping (de) 
 
 KeymapPosFile
      String specifying the name of the keymap file for the positional
@@ -2874,7 +2879,7 @@ Drive resources
      
 
 RawDriveDriver
-     
+     String specifying the raw device driver. 
 
 DriveTrueEmulation
      Boolean controlling whether the "true" drive emulation is turned
@@ -3095,8 +3100,7 @@ Drive command-line options
      Enable/Disable Professional DOS 
 
 -profdos1571 <name>
-Specify name of Professional DOS 1571 ROM image
-       
+     Specify name of Professional DOS 1571 ROM image   
 
 
 @EndNode
@@ -3718,11 +3722,14 @@ KeepMonitorOpen
      Boolean, if true the monitor window may stay open when the
      emulation is running, eg to look at trace-point output. (Not all
      ports/UIs support this, in that case this setting has no
-     effect.)
+     effect.) 
+
+MonitorServer
+     Boolean specifying whether the remote monitor server is enabled.
 
 MonitorServerAddress
-MonitorServer
-      
+     String specifying the address the remote monitor server listens to
+     (ip4://127.0.0.1:6510)  
 
 Monitor command-line options
 -----------------------------
@@ -3758,7 +3765,8 @@ Machine resources
      
 
 MachineVideoStandard
-      
+     Integer that specifies that video standard of the emulated
+     machine. (-1: PAL,  -2: NTSC, -3: NTSC (old), -4: PAL-N)  
 
 Machine command-line options
 -----------------------------
@@ -3790,9 +3798,16 @@ Memory resources
      
 
 RAMInitStartValue
+     Integer specifying the value for the very first RAM address after
+     powerup
+
 RAMInitValueInvert
+     Integer specifying the length of the memory block initialized with
+     the same value
+
 RAMInitPatternInvert
-      
+     Integer specifying the length of the memory block initialized with
+     the same pattern  
 
 Memory command-line options
 ----------------------------
@@ -3909,9 +3924,9 @@ list.   ConfirmOnExit Boolean specifying whether to show a
 confirmation dialog on exit.   AttachDevice8Readonly
 AttachDevice9Readonly  AttachDevice10Readonly
 AttachDevice11Readonly Booleans that specify whether to attach images
-on drives 8 to 11 read-only.   RomsetArchiveName
-RomsetArchiveActive  RomsetFileName  RomsetSourceFile   table
-
+on drives 8 to 11 read-only.   RomsetArchiveName String
+["default"]  RomsetArchiveActive String [""]  RomsetFileName
+String ["default"]  RomsetSourceFile Boolean [1]   table 
 
 
 @EndNode
@@ -3943,9 +3958,10 @@ Miscellaneous command-line options
      Never confirm quiting VICE 
 
 -core
+     Enable generation of core dumps (`DoCoreDump=1')
+
 +core
-     Enable/disable generation of core dumps (`DoCoreDump=1',
-     `DoCoreDump=0').   
+     Disable generation of core dumps (`DoCoreDump=0')   
 
 
 @EndNode
@@ -4279,7 +4295,7 @@ C64 cartridge settings
 C64 cartridge resources
 ........................
 
-    
+   
      
 
 IOCollisionHandling
@@ -4500,7 +4516,9 @@ RRBankJumper
      Boolean specifying whether the RR bank jumper is set or not.
 
 RRBiosWrite
-   
+     Boolean, if true write back the RR Flash ROM image file
+     automatically, incase the contents changed, when detaching or
+     quitting the emulator. 
 
 C64 cartridge command-line options
 ...................................
@@ -5431,7 +5449,14 @@ ETHERNET_ACTIVE
      emulation is active.
 
 ETHERNET_INTERFACE
+     String specifying the device name of the ethernet device to use
+     for the emulation.
+
 ETHERNET_DISABLED
+     Boolean that specified whether ethernet emulation has been
+     disabled because it is not available in the current
+     configuration.
+
 ETHERNET_AS_RR
      Boolean that specifies whether RR-Net compatible mapping is
      enabled. 
@@ -5487,7 +5512,8 @@ REUsize
      512, 1024, 2048, 4096, 8192, 16384)
 
 REUfirstUnusedRegister
-     
+     Integer specifying the first unused REU register (obsolete, will
+     get removed) 
 
 SFXSoundExpander
      Boolean specifying whether the SFX Sound Expander should be
@@ -5728,7 +5754,8 @@ PLUS60Kfilename
      String specifying the filename of the PLUS60K RAM image.
 
 PLUS60Kbase
-     
+     Integer that specifies the base address of the PLUS60K RAM
+     expansion. 
 
 PLUS256K
      Boolean, enable/disable the PLUS256K RAM expansion
@@ -5743,7 +5770,8 @@ C64_256Kfilename
      String specifying the filename of the 256K RAM image.
 
 C64_256Kbase
-      
+     Integer that specifies the base address of the 256K RAM
+     expansion.  
 
 C64 command-line options
 .........................
@@ -6121,8 +6149,12 @@ Go64Mode
      Boolean, if true enter C64 mode on reset
 
 C128FullBanks
+     Boolean, enables Banks 2 and 3.
+
 MachineType
-      
+     Integer specifying the C128 machine type. (0: Internatinal, 1:
+     Finnish, 2: French, 3: German, 4: Italian, 5: Norwegian, 6:
+     Swedish) 
 
 C128 command-line options
 ..........................
@@ -6337,8 +6369,11 @@ c64dtvromrw
      writeable.
 
 FSFlashDir
+     String specifying the working directory for the flash file
+     system.
+
 FlashTrueFS
-     
+     Boolean, enables true hardware flash file system. 
 
 HummerADC
      Boolean, enables Hummer ADC emulation. 
@@ -7809,7 +7844,8 @@ PET resources
      
 
 CPUswitch
-      
+     Integer specifying the status of the SuperPET CPU switch (0: 6502,
+     1: 6809, 2: PROG)  
 
 
 @EndNode
@@ -9020,10 +9056,25 @@ Media images resources
      
 
 DoodleOversizeHandling
+     Integer specifying  the way the oversized input should be handled,
+     (0: scale down,  1: crop left top, 2: crop center top,  3: crop
+     right top, 4: crop left center,  5: crop center, 6: crop right
+     center, 7: crop left bottom, 8: crop center bottom,  9:  crop
+     right bottom)
+
 DoodleMultiColorHandling
+     Integer specifying  the way the multicolor to hires should be
+     handled, (0: b&w,  1: 2 colors, 2: 4 colors, 3: gray scale,  4:
+     best cell colors)
+
 DoodleTEDLumHandling
+     Integer specifying the way the TED luminosity should be handled,
+     (0: ignore, 1: dither)
+
 DoodleCRTCTextColor
-     
+     Integer specifying the text color used when making screenshots
+     from a CRTC window in doodle format. (0: white, 1: amber, 2:
+     green) 
 
 FFMPEGFormat
      String specifying the current FFMPEG output driver.
@@ -9041,7 +9092,7 @@ FFMPEGVideoCodec
      Integer specifying the current FFMPEG video codec.
 
 FFMPEGVideoHalveFramerate
-      
+     Boolean, if true record only every other frame.  
 
 Media images command-line options
 ==================================
@@ -9084,11 +9135,23 @@ Event history resources
      
 
 EventSnapshotDir
+     String specifying the directory used for loading and saving
+     snapshots.
+
 EventStartSnapshot
+     String specifying the filename for the start snapshot.
+     ["start.vsf"]
+
 EventEndSnapshot
+     String specifying the filename for the end snapshot. ["end.vsf"]
+
 EventStartMode
+     Integer specifying how to start event recording. (0: save new
+     snapshot, 1: load existing snapshot, 2: reset, 3: playback)
+
 EventImageInclude
-      
+     Boolean specifying whether to include ROM and Disk images in the
+     snapshots. [1]  
 
 Event history command-line options
 ===================================
@@ -12630,4 +12693,12 @@ Internationalization Team:
      the background. 
 
      Roberto Muscedere Improved support for REL files. 
+
+     Tomi Ollila Donated `findpath.c'. 
+
+     Per Olofsson Digitalized the C64 colors used in the (old)
+     default palette. 
+
+     Lasse Öörni Contributed the Windows Multimedia sound driver
+     
 
