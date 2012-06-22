@@ -78,23 +78,28 @@ static UI_CALLBACK(change_working_directory)
 
 static UI_CALLBACK(activate_monitor)
 {
+    int v;
+    resources_get_int("MonitorServer", &v);
+
+    if (v == 0) {
 #ifdef HAVE_FULLSCREEN
-    fullscreen_suspend(0);
+        fullscreen_suspend(0);
 #endif
-    vsync_suspend_speed_eval();
-    ui_dispatch_events();               /* popdown the menu */
-    ui_autorepeat_on();
+        vsync_suspend_speed_eval();
+        ui_dispatch_events();               /* popdown the menu */
+        ui_autorepeat_on();
 
 #ifdef HAVE_MOUSE
-    ui_restore_mouse();
+        ui_restore_mouse();
 #endif
-    if (!ui_emulation_is_paused()) {
-        monitor_startup_trap();
-    } else {
-        monitor_startup(e_default_space);
+        if (!ui_emulation_is_paused()) {
+            monitor_startup_trap();
+        } else {
+            monitor_startup(e_default_space);
 #ifdef HAVE_FULLSCREEN
-	fullscreen_resume();
+            fullscreen_resume();
 #endif
+        }
     }
 }
 
@@ -548,10 +553,39 @@ ui_menu_entry_t ui_sound_record_commands_menu[] = {
     { NULL }
 };
 
+static UI_CALLBACK(monitor_select_addr)
+{
+    const char *wd = NULL;
+    int len = 40;
+
+    resources_get_string("MonitorServerAddress", &wd);
+    vsync_suspend_speed_eval();
+    if (ui_input_string(_("VICE setting"), _("Select server address"), (char*)wd, len) == UI_BUTTON_OK) {
+        resources_set_string("MonitorServerAddress", wd);
+    }
+    lib_free(wd);
+}
+
+UI_MENU_DEFINE_TOGGLE(KeepMonitorOpen)
+UI_MENU_DEFINE_TOGGLE(MonitorServer)
+
+ui_menu_entry_t ui_monitor_commands_menu[] = {
+    { N_("Keep monitor open"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_KeepMonitorOpen, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("Enable remote monitor server"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_MonitorServer, NULL, NULL },
+    { N_("Set remote monitor server address..."), UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)monitor_select_addr, NULL, NULL },
+    { NULL }
+};
+
 ui_menu_entry_t ui_tool_commands_menu[] = {
     { N_("Activate monitor"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)activate_monitor, NULL, NULL,
       KEYSYM_h, UI_HOTMOD_META },
+    { N_("Monitor settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ui_monitor_commands_menu },
     { N_("Run C1541"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)run_c1541, NULL, NULL },
     { NULL }
