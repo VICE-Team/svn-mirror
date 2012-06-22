@@ -335,25 +335,9 @@ static UI_CALLBACK(save_quicksnap)
 
 static UI_CALLBACK(events_select_dir)
 {
-    char *wd;
-    unsigned int i, is_dir;
-    int len;
-
-    len = ioutil_maxpathlen();
-    wd = lib_malloc(len);
-
-    ioutil_getcwd(wd, len);
-    vsync_suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"), _("Select history directory"), wd, len) == UI_BUTTON_OK) {
-        ioutil_stat(wd, &i, &is_dir);
-        if (!is_dir) {
-            ui_error(_("Directory not found"));
-        } else {
-            resources_set_string("EventSnapshotDir", wd);
-        }
-    }
-    lib_free(wd);
+    uilib_select_dir("EventSnapshotDir", _("Select history directory"), _("Path:"));
 }
+
 
 static UI_CALLBACK(record_events_start)
 {

@@ -61,15 +61,7 @@ UI_CALLBACK(uiperipheral_set_fsdevice_directory)
 
 UI_CALLBACK(uiperipheral_set_rawdevice_name)
 {
-    const char *wd = NULL;
-    int len = 40;
-
-    resources_get_string("RawDriveDriver", &wd);
-    vsync_suspend_speed_eval();
-    if (ui_input_string(_("VICE setting"), _("Select block device for raw access"), (char*)wd, len) == UI_BUTTON_OK) {
-        resources_set_string("RawDriveDriver", wd);
-    }
-    lib_free(wd);
+    uilib_select_dev((char *)UI_MENU_CB_PARAM, _("Select block device for raw access"), UILIB_FILTER_ALL);
 }
 
 ui_menu_entry_t uiperipheral_set_device8_type_submenu[] = {

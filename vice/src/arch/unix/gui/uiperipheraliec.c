@@ -150,7 +150,7 @@ ui_menu_entry_t peripheraliec_settings_submenu[] = {
 #ifdef HAVE_RAWDRIVE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("RAW Block Device Name"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_rawdevice_name,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)"RawDriveDriver", NULL },
 #endif
     { NULL }
 };
@@ -168,7 +168,7 @@ ui_menu_entry_t peripheraliec_plus4_settings_submenu[] = {
 #ifdef HAVE_RAWDRIVE
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("RAW Block Device Name"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_rawdevice_name,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)"RawDriveDriver", NULL },
 #endif
     { NULL }
 };

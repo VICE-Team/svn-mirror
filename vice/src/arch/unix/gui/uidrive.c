@@ -187,8 +187,15 @@ ui_menu_entry_t ui_drive_options_submenu[] = {
     { NULL }
 };
 
+static UI_CALLBACK(flash_select_dir)
+{
+    uilib_select_dir("FSFlashDir", _("Select Flash filesystem directory"), _("Path:"));
+}
+
 ui_menu_entry_t ui_flash_options_submenu[] = {
     { N_("Enable true hardware flash file system"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_FlashTrueFS, NULL, NULL },
+    { N_("Set Flash filesystem directory"), UI_MENU_TYPE_DOTS,
+      (ui_callback_t)flash_select_dir, NULL, NULL },
     { NULL }
 };
