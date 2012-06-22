@@ -48,13 +48,13 @@ typedef struct pal_res_s {
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
+    { N_("Brightness"), "ColorBrightness", 2, NULL, NULL  },
+    { N_("Contrast"), "ColorContrast", 2, NULL, NULL  },
+    { N_("Saturation"), "ColorSaturation", 2, NULL, NULL  },
+    { N_("Tint"), "ColorTint", 2, NULL, NULL  },
+    { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
     { N_("Blur"), "PALBlur", 4, NULL, NULL },
     { N_("Scanline shade"), "PALScanLineShade", 4, NULL, NULL  },
-    { N_("Saturation"), "ColorSaturation", 2, NULL, NULL  },
-    { N_("Contrast"), "ColorContrast", 2, NULL, NULL  },
-    { N_("Brightness"), "ColorBrightness", 2, NULL, NULL  },
-    { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
-    { N_("Tint"), "ColorTint", 2, NULL, NULL  },
     { N_("Odd lines phase"), "PALOddLinePhase", 2, NULL, NULL  },
     { N_("Odd lines offset"), "PALOddLineOffset", 2, NULL, NULL  },
 };
@@ -71,6 +71,14 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
     /* video_canvas_refresh_all(cached_canvas); */
 }
 
+GtkObject *voladj;
+
+static void upd_vol (GtkAdjustment *adj, gpointer data)
+{
+    int v = (int) adj->value / 40;
+    resources_set_int("SoundVolume", v);
+}
+
 static void pal_ctrl_reset (GtkWidget *w, gpointer data)
 {
     pal_res_t *p = (pal_res_t *)data;
@@ -85,6 +93,9 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
             gtk_adjustment_set_value(GTK_ADJUSTMENT(p[i].adj), (gfloat)tmp);
         }
     }
+    resources_get_default_value("SoundVolume", (void *)&tmp);
+    resources_set_int("SoundVolume", tmp);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(voladj), (gfloat)(tmp * 40));
 
     video_canvas_refresh_all(cached_canvas);
 }
@@ -146,6 +157,31 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
         ctrldata[i].w = hb;
     }
 
+    /* volume slider */
+    hb = gtk_hbox_new(FALSE, 0);
+    c = gtk_hbox_new(FALSE, 0);
+    gtk_widget_set_size_request(GTK_WIDGET(c), 100, 10);
+
+    l = gtk_label_new(_("Volume"));
+    gtk_container_add(GTK_CONTAINER(c), l);
+    gtk_widget_show(l);
+
+    gtk_box_pack_start(GTK_BOX(hb), c, FALSE, FALSE, 5);
+    gtk_widget_show(c);
+    voladj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
+
+    resources_get_int("SoundVolume", &v);
+    gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * 40));
+    sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
+    gtk_range_set_update_policy(GTK_RANGE(sb), GTK_UPDATE_CONTINUOUS);
+    gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
+
+    g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (upd_vol), "SoundVolume");
+
+    gtk_widget_show(sb);
+    gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
+    gtk_widget_show(hb);
+    
     box = gtk_hbox_new(FALSE, 0);
 
     rb = gtk_button_new_with_label(_("Reset"));
