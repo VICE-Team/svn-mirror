@@ -42,6 +42,14 @@
 #include "uiscreenshot.h"
 #include "util.h"
 
+/* #define DEBUG_UI */
+
+#ifdef DEBUG_UI
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
 #ifdef HAVE_FFMPEG
 #include "gfxoutputdrv/ffmpegdrv.h"
 #endif
@@ -52,7 +60,7 @@ static GtkWidget *drv_menu;
 
 #ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
-static GtkWidget *ffmpeg_omenu, *acmenu, *vcmenu;
+static GtkWidget *ffmpeg_omenu, *acmenu, *vcmenu, *fpsmenu, *ffmpg_audio, *ffmpg_video;
 static const char *selected_driver;
 static int selected_driver_allocated;
 static int selected_ac, selected_vc;
@@ -72,6 +80,7 @@ static int combo_box_current_active = 0;
 
 enum { DRV_NAME, DRV_INDEX, DRV_ACMENU, DRV_VCMENU, DRV_N };
 
+/* "output driver" combo box */
 static void ffmpeg_widget(GtkWidget *w, gpointer data)
 {
     int i;
@@ -182,6 +191,7 @@ static void ffmpeg_video_codec_changed(GtkWidget *widget, gpointer data)
 
 }
 
+/* ffmpeg format combo box */
 static void ffmpeg_details(GtkWidget *w, gpointer data)
 {
     int current_ac_id, current_vc_id;
@@ -250,15 +260,28 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
             } else {
                 gtk_combo_box_set_active(GTK_COMBO_BOX(vcmenu), 0);
             }
+            gtk_widget_set_sensitive(GTK_WIDGET(fpsmenu), TRUE);
         } else {
             gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
+            gtk_widget_set_sensitive(GTK_WIDGET(fpsmenu), FALSE);
         }
     } else {
         gtk_widget_set_sensitive(GTK_WIDGET(vcmenu), FALSE);
+        gtk_widget_set_sensitive(GTK_WIDGET(fpsmenu), FALSE);
     }
 }
 
 #endif
+
+/* "Half Framerate" checkbox */
+static void update_halffps_checkbox (GtkWidget *w, gpointer data)
+{
+    if (!w || !GTK_IS_TOGGLE_BUTTON(w)) {
+        return;
+    }
+    resources_set_int("FFMPEGVideoHalveFramerate", GTK_TOGGLE_BUTTON(w)->active);
+    DBG(("update_halffps_checkbox (%d)\n", GTK_TOGGLE_BUTTON(w)->active));
+}
 
 static GtkWidget *build_screenshot_dialog(void)
 {
@@ -300,6 +323,7 @@ static GtkWidget *build_screenshot_dialog(void)
         buttons = lib_malloc(sizeof(img_type_buttons) * num_buttons);
     }
 
+    /* "output driver" combo box */
     drv_menu = omenu = gtk_combo_box_new_text ();
 
     driver = gfxoutput_drivers_iter_init();
@@ -317,10 +341,10 @@ static GtkWidget *build_screenshot_dialog(void)
     if (!ffmpegdrv_formatlist[0].name) {
         goto no_ffmpeg;
     }
-    
+
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(ffmpeg_widget), (gpointer)omenu);
 
-    /* ffmpg options */
+    /* ffmpeg options */
     ffmpg_opts = gtk_vbox_new(FALSE, 5);
 
     drv_store = gtk_list_store_new(DRV_N, G_TYPE_STRING, G_TYPE_INT, G_TYPE_OBJECT, G_TYPE_OBJECT);
@@ -351,7 +375,7 @@ static GtkWidget *build_screenshot_dialog(void)
 
         gtk_list_store_set(drv_store, &iter, DRV_ACMENU, ac_store, DRV_VCMENU, vc_store, -1);
     }
-    
+    /* ffmpeg format combo box */
     ffmpeg_omenu = omenu = gtk_combo_box_new_with_model(GTK_TREE_MODEL(drv_store));    
     g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(ffmpeg_details), (gpointer) omenu);
     renderer = gtk_cell_renderer_text_new();
@@ -418,6 +442,21 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(vbox), ffmpg_opts, FALSE, FALSE, 0);
     gtk_widget_show_all(ffmpg_opts);
     gtk_widget_set_sensitive(ffmpg_opts, FALSE);
+
+    {
+        GtkWidget *fcb;
+        /* "Half Framerate" checkbox */
+        fpsmenu = gtk_frame_new(NULL);
+        gtk_frame_set_shadow_type(GTK_FRAME(fpsmenu), GTK_SHADOW_IN);
+        fcb = gtk_check_button_new_with_label(_("Half Framerate (25/30 fps)"));
+        GTK_WIDGET_UNSET_FLAGS(fcb, GTK_CAN_FOCUS);
+        g_signal_connect(G_OBJECT(fcb), "toggled", G_CALLBACK(update_halffps_checkbox), 0);
+        gtk_container_add(GTK_CONTAINER(fpsmenu), fcb);
+        gtk_widget_show(fcb);
+        gtk_box_pack_start(GTK_BOX(ffmpg_opts), fpsmenu, FALSE, FALSE, 0);
+        gtk_widget_show(fpsmenu);
+    }
+    
   no_ffmpeg:
 #endif    
 
