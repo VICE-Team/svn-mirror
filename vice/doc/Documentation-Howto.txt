@@ -104,47 +104,56 @@ comments. to show it using the checkdoc tool use "./checkdoc.mak fixme nodes"
 
 at the time of last updating this file (22/06/2012), the list looked like this:
 
-list of FIXMEs (40):
+list of FIXMEs (49):
 669:@c FIXME: add link to doc/html/plain/PETdoc.txt
 690:@c FIXME: add link to doc/html/plain/PETdoc.txt
 719:@c FIXME: add link to section
 789:@c FIXME: add a detailed list of all keys
-2239:@c FIXME: AutostartDelay not used in UI?
-2535:@c FIXME: KeymapSymDeFile is really weird
-2590:@c FIXME: remove -symdekeymap option!
-2912:@c FIXME: SoundVolume not used in UI?
-3160:@c FIXME: update drive types
-4315:@c FIXME: is this correct?
-4324:@c FIXME: shouldnt there be one fliplist per drive ?
-4406:@c FIXME: clean up "c64/128" vs "c64"
-4731:@c FIXME: incomplete descriptions for resources
-5775:@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
-5980:@c FIXME: REUfirstUnusedRegister looks like a hacking option that we can perhaps remove
-6645:@c FIXME: C128FullBanks looks like a hacking option that we can perhaps remove
-7889:@c FIXME: is this correct?
-8456:@c FIXME
-8588:@c FIXME: description is wrong
-10311:@c FIXME: add some info on making screenshots, wav- and avi recordings
-10342:@c FIXME: FFMPEGVideoHalveFramerate not used in UI?
-10379:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-11219:@c FIXME: add more c1541 examples
-11594:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-11595:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-11596:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-11597:@c FIXME: add D4M FD4000 ED disk image file structure
-11598:@c FIXME: add CRT c64 cartridge images file structure
-12017:@c FIXME: the D64 section needs to be style-checked.
-12018:@c FIXME: some of the D64 section needs to have sub-sections.
-12910:@c FIXME: the X64 section needs to be style-checked.
-13026:@c FIXME: the D71 section needs to be style-checked.
-13027:@c FIXME: some of the D71 section needs to have sub-sections.
-13687:@c FIXME: the D81 section needs to be style-checked.
-13688:@c FIXME: some of the D81 section needs to have sub-sections.
-14582:@c FIXME: the D80 section needs to be style-checked.
-14583:@c FIXME: some of the D80 section needs to have sub-sections.
-15271:@c FIXME: the D82 section needs to be style-checked.
-15272:@c FIXME: some of the D82 section needs to have sub-sections.
-16362:@c FIXME: the P00 section needs to be style-checked.
+2242:@c FIXME: AutostartDelay not used in GTK UI?
+2536:@c FIXME: KeymapSymDeFile is really weird
+2591:@c FIXME: remove -symdekeymap option!
+2913:@c FIXME: SoundVolume not used in GTK UI?
+3161:@c FIXME: update drive types
+4126:@c FIXME: KeepMonitorOpen not used in GTK UI?
+4133:@c FIXME: MonitorServer not used in GTK UI?
+4137:@c FIXME: MonitorServerAddress not used in GTK UI?
+4325:@c FIXME: is this correct?
+4334:@c FIXME: shouldnt there be one fliplist per drive ?
+4353:@c FIXME: incomplete description for RomsetArchiveName
+4357:@c FIXME: incomplete description for RomsetArchiveActive
+4361:@c FIXME: incomplete description for RomsetFileName
+4365:@c FIXME: incomplete description for RomsetSourceFile
+4424:@c FIXME: clean up "c64/128" vs "c64"
+4749:@c FIXME: incomplete descriptions for resources
+4753:@c FIXME: IOCollisionHandling not used in GTK UI?
+5794:@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
+6002:@c FIXME: REUfirstUnusedRegister looks like a hacking option that we can perhaps remove
+6668:@c FIXME: C128FullBanks looks like a hacking option that we can perhaps remove
+6882:@c FIXME: FSFlashDir not used in GTK UI?
+7915:@c FIXME: is this correct?
+8482:@c FIXME
+8614:@c FIXME: description is wrong
+10337:@c FIXME: add some info on making screenshots, wav- and avi recordings
+10377:@c FIXME: FFMPEGVideoHalveFramerate not used in GTK UI?
+10414:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+11260:@c FIXME: add more c1541 examples
+11635:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+11636:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+11637:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+11638:@c FIXME: add D4M FD4000 ED disk image file structure
+11639:@c FIXME: add CRT c64 cartridge images file structure
+12058:@c FIXME: the D64 section needs to be style-checked.
+12059:@c FIXME: some of the D64 section needs to have sub-sections.
+12951:@c FIXME: the X64 section needs to be style-checked.
+13067:@c FIXME: the D71 section needs to be style-checked.
+13068:@c FIXME: some of the D71 section needs to have sub-sections.
+13728:@c FIXME: the D81 section needs to be style-checked.
+13729:@c FIXME: some of the D81 section needs to have sub-sections.
+14623:@c FIXME: the D80 section needs to be style-checked.
+14624:@c FIXME: some of the D80 section needs to have sub-sections.
+15312:@c FIXME: the D82 section needs to be style-checked.
+15313:@c FIXME: some of the D82 section needs to have sub-sections.
+16403:@c FIXME: the P00 section needs to be style-checked.
 
 nodes that need fixing (92):
 2211:@c @node FIXME
@@ -240,33 +249,13 @@ nodes that need fixing (92):
 11418:@c @node FIXME
 11551:@c @node FIXME
 
-The following resources appear to have no description: (25)
+The following resources appear to have no description: (5)
 
-EventStartMode
-EventEndSnapshot
-EventStartSnapshot
-EventSnapshotDir
-DoodleCRTCTextColor
-DoodleTEDLumHandling
-DoodleMultiColorHandling
-DoodleOversizeHandling
-FlashTrueFS
-FSFlashDir
 C128FullBanks
-PLUS60Kbase
 REUfirstUnusedRegister
-ETHERNET_DISABLED
-ETHERNET_INTERFACE
-RomsetFileName
-RomsetArchiveActive
-RomsetArchiveName
-RAMInitValueInvert
-RAMInitStartValue
-MonitorServerAddress
 RawDriveDriver
 KeymapSymDeFile
 openGL_no_sync
-AutostartDelay
 
 to get a much more detailed list use "./checkdoc.mak full"
 
@@ -284,3 +273,15 @@ c1541 -
 
 all command line options complete - 19/06/2012
 all resources included - 20/06/2012
+
+--------
+TODO: fix GTK UI:
+
+RawDriveDriver
+
+missing in "save media image" dialog:
+DoodleCRTCTextColor
+DoodleTEDLumHandling
+DoodleMultiColorHandling
+DoodleOversizeHandling
+

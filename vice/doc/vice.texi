@@ -2236,12 +2236,13 @@ Boolean, if true temporarily enable warp mode when autostarting
 @item AutostartPrgMode
 Integer specifying the autostart mode for prg files. (0: virtual filesystem,
 1: inject to RAM, 2: copy to D64)
-@c FIXME: AutostartDelay not used in UI?
-@vindex AutostartDelay
-@item AutostartDelay
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
 Boolean, enables a short random delay on autostart.
+@c FIXME: AutostartDelay not used in GTK UI?
+@vindex AutostartDelay
+@item AutostartDelay
+Integer specifying the maximum delay in frames.
 
 @end table
 
@@ -2909,7 +2910,7 @@ String specifying additional arguments for sound recording.
 @vindex SoundFragmentSize
 @item SoundFragmentSize
 Enum specifying the fragment size (0: small, 1: medium, 2: large)
-@c FIXME: SoundVolume not used in UI?
+@c FIXME: SoundVolume not used in GTK UI?
 @vindex SoundVolume
 @item SoundVolume
 Integer specifying the master volume in percent. [100] (0..100)s
@@ -4122,15 +4123,21 @@ This section lists command-line options specific to the built-in monitor.
 
 @table @code
 
+@c FIXME: KeepMonitorOpen not used in GTK UI?
 @vindex KeepMonitorOpen
 @item KeepMonitorOpen
 Boolean, if true the monitor window may stay open when the emulation is running,
 eg to look at trace-point output. (Not all ports/UIs support this, in that case
 this setting has no effect.)
-@vindex MonitorServerAddress
-@item MonitorServerAddress
+
+@c FIXME: MonitorServer not used in GTK UI?
 @vindex MonitorServer
 @item MonitorServer
+Boolean specifying whether the remote monitor server is enabled.
+@c FIXME: MonitorServerAddress not used in GTK UI?
+@vindex MonitorServerAddress
+@item MonitorServerAddress
+String specifying the address the remote monitor server listens to (ip4://127.0.0.1:6510)
 
 @end table
 
@@ -4206,10 +4213,13 @@ Use PAL-N sync factor
 
 @vindex RAMInitStartValue
 @item RAMInitStartValue
+Integer specifying the value for the very first RAM address after powerup
 @vindex RAMInitValueInvert
 @item RAMInitValueInvert
+Integer specifying the length of the memory block initialized with the same value
 @vindex RAMInitPatternInvert
 @item RAMInitPatternInvert
+Integer specifying the length of the memory block initialized with the same pattern
 
 @end table
 
@@ -4340,14 +4350,22 @@ Boolean specifying whether to show a confirmation dialog on exit.
 @item AttachDevice11Readonly
 Booleans that specify whether to attach images on drives 8 to 11 read-only.
 
+@c FIXME: incomplete description for RomsetArchiveName
 @vindex RomsetArchiveName
 @item RomsetArchiveName
+String ["default"]
+@c FIXME: incomplete description for RomsetArchiveActive
 @vindex RomsetArchiveActive
 @item RomsetArchiveActive
+String [""]
+@c FIXME: incomplete description for RomsetFileName
 @vindex RomsetFileName
 @item RomsetFileName
+String ["default"]
+@c FIXME: incomplete description for RomsetSourceFile
 @vindex RomsetSourceFile
 @item RomsetSourceFile
+Boolean [1]
 
 @end table
 
@@ -4732,6 +4750,7 @@ after enabling it from the user interface.
 
 @table @code
 
+@c FIXME: IOCollisionHandling not used in GTK UI?
 @vindex IOCollisionHandling
 @item IOCollisionHandling
 Integer specifying the way the I/O collisions should be handled, (0: error message and 
@@ -5925,8 +5944,11 @@ Integer specifying the DigiMAX base address.
 Boolean that specifies whether the CS8900 ethernet interface emulation is active.
 @vindex ETHERNET_INTERFACE
 @item ETHERNET_INTERFACE
+String specifying the device name of the ethernet device to use for the emulation.
 @vindex ETHERNET_DISABLED
 @item ETHERNET_DISABLED
+Boolean that specified whether ethernet emulation has been disabled because it is
+not available in the current configuration.
 @vindex ETHERNET_AS_RR
 @item ETHERNET_AS_RR
 Boolean that specifies whether RR-Net compatible mapping is enabled.
@@ -6202,6 +6224,7 @@ Boolean, enable/disable the PLUS60K RAM expansion
 String specifying the filename of the PLUS60K RAM image.
 @vindex PLUS60Kbase
 @item PLUS60Kbase
+Integer that specifies the base address of the PLUS60K RAM expansion.
 
 @vindex PLUS256K
 @item PLUS256K
@@ -6856,10 +6879,13 @@ String specifying the filename of the DTV Flash ROM image.
 @vindex c64dtvromrw
 @item c64dtvromrw
 Boolean that specifies whether the emulated Flash ROM is writeable.
+@c FIXME: FSFlashDir not used in GTK UI?
 @vindex FSFlashDir
 @item FSFlashDir
+String specifying the working directory for the flash file system.
 @vindex FlashTrueFS
 @item FlashTrueFS
+Boolean, enables true hardware flash file system.
 
 @vindex HummerADC
 @item HummerADC
@@ -10317,12 +10343,21 @@ Version numbers: Major 0, Minor 0
 
 @vindex DoodleOversizeHandling
 @item DoodleOversizeHandling
+Integer specifying  the way the oversized input should be handled, (0: scale down, 
+1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 
+5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 
+9:  crop right bottom)
 @vindex DoodleMultiColorHandling
 @item DoodleMultiColorHandling
+Integer specifying  the way the multicolor to hires should be handled, (0: b&w, 
+1: 2 colors, 2: 4 colors, 3: gray scale,  4: best cell colors)
 @vindex DoodleTEDLumHandling
 @item DoodleTEDLumHandling
+Integer specifying the way the TED luminosity should be handled, (0: ignore, 1: dither)
 @vindex DoodleCRTCTextColor
 @item DoodleCRTCTextColor
+Integer specifying the text color used when making screenshots from a CRTC window
+in doodle format. (0: white, 1: amber, 2: green)
 
 @vindex FFMPEGFormat
 @item FFMPEGFormat
@@ -10339,7 +10374,7 @@ Integer specifying the current FFMPEG audio codec.
 @vindex FFMPEGVideoCodec
 @item FFMPEGVideoCodec
 Integer specifying the current FFMPEG video codec.
-@c FIXME: FFMPEGVideoHalveFramerate not used in UI?
+@c FIXME: FFMPEGVideoHalveFramerate not used in GTK UI?
 @vindex FFMPEGVideoHalveFramerate
 @item FFMPEGVideoHalveFramerate
 
@@ -10385,14 +10420,20 @@ Set bitrate for video stream in media file
 
 @vindex EventSnapshotDir
 @item EventSnapshotDir
+String specifying the directory used for loading and saving snapshots.
 @vindex EventStartSnapshot
 @item EventStartSnapshot
+String specifying the filename for the start snapshot. ["start.vsf"]
 @vindex EventEndSnapshot
 @item EventEndSnapshot
+String specifying the filename for the end snapshot. ["end.vsf"]
 @vindex EventStartMode
 @item EventStartMode
+Integer specifying how to start event recording. (0: save new snapshot, 1: load
+existing snapshot, 2: reset, 3: playback)
 @vindex EventImageInclude
 @item EventImageInclude
+Boolean specifying whether to include ROM and Disk images in the snapshots. [1]
 
 @end table
 
