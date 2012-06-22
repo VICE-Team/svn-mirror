@@ -595,7 +595,7 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
                                "                Copyright (c) 2011-2012 Stefan Haubenthal\n"
                                "                 Copyright (c) 2011-2012 Thomas Giesel\n"
                                "                  Copyright (c) 2011-2012 Kajtar Zsolt\n"
-                               "            Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux\n",
+                               "            Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux\n"
                                "\n"
                                "                       Official VICE homepage:\n"
                                "                   http://vice-emu.sourceforge.net/\n"
