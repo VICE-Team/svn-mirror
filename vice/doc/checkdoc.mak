@@ -25,6 +25,8 @@ help:
 	echo -ne "full\tdo all checks\n"
 	echo -ne "opt\tcheck command-line options\n"
 	echo -ne "res\tcheck resources\n"
+	echo -ne "listopt\tlist all command-line options\n"
+	echo -ne "listres\tlist all resources\n"
 	echo -ne "fixme\tshow FIXMEs\n"
 	echo -ne "nodes\tshow nodes marked FIXME\n"
 	echo -ne "clean\tremove temp files\n"
@@ -81,9 +83,15 @@ full: checkdoc vice.opts.tmp vice.rc.tmp fixme nodes
 res: checkdoc vice.opts.tmp vice.rc.tmp
 	./checkdoc -res vice.texi vice.rc.tmp vice.opts.tmp
 
+listres: checkdoc vice.opts.tmp vice.rc.tmp
+	./checkdoc -listres vice.texi vice.rc.tmp vice.opts.tmp
+
 opt: checkdoc vice.opts.tmp vice.rc.tmp
 	./checkdoc -opt vice.texi vice.rc.tmp vice.opts.tmp
 
+listopt: checkdoc vice.opts.tmp vice.rc.tmp
+	./checkdoc -listopt vice.texi vice.rc.tmp vice.opts.tmp
+	
 update: vice.texi
 	make --silent
 

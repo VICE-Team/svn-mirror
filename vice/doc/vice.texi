@@ -2239,7 +2239,6 @@ Integer specifying the autostart mode for prg files. (0: virtual filesystem,
 @vindex AutostartDelayRandom
 @item AutostartDelayRandom
 Boolean, enables a short random delay on autostart.
-@c FIXME: AutostartDelay not used in GTK UI?
 @vindex AutostartDelay
 @item AutostartDelay
 Integer specifying the maximum delay in frames.
@@ -2428,6 +2427,7 @@ Boolean that indicates whether hardware scaling is possible or not.
 Boolean, if true enable Open-GL frame sync.
 @vindex openGL_no_sync
 @item openGL_no_sync
+Boolean, if true Open-GL sync is not available.
 @vindex KeepAspectRatio
 @item KeepAspectRatio
 Boolean specifying whether the aspect ratio of the output window should be
@@ -2437,22 +2437,22 @@ preserved. (0=free scaling, 1=scale with fixed aspect ratio)
 Boolean specifying whether to use the true (non square pixels) aspect ratio.
 
 @vindex Window0Width
-@item Window0Width
 @vindex Window0Height
-@item Window0Height
 @vindex Window0Xpos
-@item Window0Xpos
 @vindex Window0Ypos
-@item Window0Ypos
+@item Window0Width
+@itemx Window0Height
+@itemx Window0Xpos
+@itemx Window0Ypos
 Integers specifying the position and size of the (first) emulator window.
 @vindex Window1Width
-@item Window1Width
 @vindex Window1Height
-@item Window1Height
 @vindex Window1Xpos
-@item Window1Xpos
 @vindex Window1Ypos
-@item Window1Ypos
+@item Window1Width
+@itemx Window1Height
+@itemx Window1Xpos
+@itemx Window1Ypos
 Integers specifying the position and size of the (second) emulator window.
 
 @end table
@@ -2536,6 +2536,7 @@ String specifying the name of the keymap file for the symbolic mapping
 @c FIXME: KeymapSymDeFile is really weird
 @vindex KeymapSymDeFile
 @item KeymapSymDeFile
+String specifying the name of the keymap file for the symbolic mapping (de)
 
 @vindex KeymapPosFile
 @item KeymapPosFile
@@ -2672,43 +2673,43 @@ Integer specifying the type of lightpen. (0=Pen with button Up, 1=Pen with butto
  2=Datel Pen, 3=Magnum Light Phaser, 4=Stack Light Rifle)
 
 @vindex KeySet1NorthWest
-@item KeySet1NorthWest
 @vindex KeySet1North
-@item KeySet1North
 @vindex KeySet1NorthEast
-@item KeySet1NorthEast
 @vindex KeySet1East
-@item KeySet1East
 @vindex KeySet1SouthEast
-@item KeySet1SouthEast
 @vindex KeySet1South
-@item KeySet1South
 @vindex KeySet1SouthWest
-@item KeySet1SouthWest
 @vindex KeySet1West
-@item KeySet1West
 @vindex KeySet1Fire
-@item KeySet1Fire
+@item KeySet1NorthWest
+@itemx KeySet1North
+@itemx KeySet1NorthEast
+@itemx KeySet1East
+@itemx KeySet1SouthEast
+@itemx KeySet1South
+@itemx KeySet1SouthWest
+@itemx KeySet1West
+@itemx KeySet1Fire
 Integers specifying the keycodes for keyset 1.
 
 @vindex KeySet2NorthWest
-@item KeySet2NorthWest
 @vindex KeySet2North
-@item KeySet2North
 @vindex KeySet2NorthEast
-@item KeySet2NorthEast
 @vindex KeySet2East
-@item KeySet2East
 @vindex KeySet2SouthEast
-@item KeySet2SouthEast
 @vindex KeySet2South
-@item KeySet2South
 @vindex KeySet2SouthWest
-@item KeySet2SouthWest
 @vindex KeySet2West
-@item KeySet2West
 @vindex KeySet2Fire
-@item KeySet2Fire
+@item KeySet2NorthWest
+@itemx KeySet2North
+@itemx KeySet2NorthEast
+@itemx KeySet2East
+@itemx KeySet2SouthEast
+@itemx KeySet2South
+@itemx KeySet2SouthWest
+@itemx KeySet2West
+@itemx KeySet2Fire
 Integers specifying the keycodes for keyset 2.
 
 @vindex KeySetEnable
@@ -2910,7 +2911,6 @@ String specifying additional arguments for sound recording.
 @vindex SoundFragmentSize
 @item SoundFragmentSize
 Enum specifying the fragment size (0: small, 1: medium, 2: large)
-@c FIXME: SoundVolume not used in GTK UI?
 @vindex SoundVolume
 @item SoundVolume
 Integer specifying the master volume in percent. [100] (0..100)s
@@ -3141,6 +3141,7 @@ needs it, without prompting the user.
 
 @vindex RawDriveDriver
 @item RawDriveDriver
+String specifying the raw device driver.
 
 @vindex DriveTrueEmulation
 @item DriveTrueEmulation
@@ -3150,6 +3151,7 @@ Boolean controlling whether the ``true'' drive emulation is turned on.
 @item DriveSoundEmulation
 Boolean controlling whether the drive noise emulation is turned on.
 
+@c FIXME: update drive types
 @vindex Drive8Type
 @vindex Drive9Type
 @vindex Drive10Type
@@ -3158,7 +3160,6 @@ Boolean controlling whether the drive noise emulation is turned on.
 @itemx Drive9Type
 @itemx Drive10Type
 @itemx Drive11Type
-@c FIXME: update drive types
 Integers specifying the model number for drives 8 to 11.  Possible
 values  are @code{1541}, @code{1571}, @code{1581}, @code{2000},
 @code{4000} and @code{2031}.
@@ -3473,7 +3474,7 @@ Enable/Disable Professional DOS
 
 @cindex -profdos1571
 @item -profdos1571 <name>
-@itemx Specify name of Professional DOS 1571 ROM image
+Specify name of Professional DOS 1571 ROM image
 
 @end table
 
@@ -3557,65 +3558,65 @@ VICE runs on.
 @table @code
 
 @vindex IECDevice8
-@item IECDevice8
 @vindex IECDevice9
-@item IECDevice9
 @vindex IECDevice10
-@item IECDevice10
 @vindex IECDevice11
-@item IECDevice11
+@item IECDevice8
+@itemx IECDevice9
+@itemx IECDevice10
+@itemx IECDevice11
 Booleans that specify whether IEC device emulation for device #8 to #11 is enabled.
 
 @vindex FileSystemDevice8
-@item FileSystemDevice8
 @vindex FileSystemDevice9
-@item FileSystemDevice9
 @vindex FileSystemDevice10
-@item FileSystemDevice10
 @vindex FileSystemDevice11
-@item FileSystemDevice11
+@item FileSystemDevice8
+@itemx FileSystemDevice9
+@itemx FileSystemDevice10
+@itemx FileSystemDevice11
 Enum specifying the device type for device 8-11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM (Real), 3: BLOCK DEVICE (Raw))
 
 @vindex FSDevice8ConvertP00
-@item FSDevice8ConvertP00
 @vindex FSDevice9ConvertP00
-@itemx FSDevice9ConvertP00
 @vindex FSDevice10ConvertP00
-@itemx FSDevice10ConvertP00
 @vindex FSDevice11ConvertP00
+@item FSDevice8ConvertP00
+@itemx FSDevice9ConvertP00
+@itemx FSDevice10ConvertP00
 @itemx FSDevice11ConvertP00
 Booleans specifying whether on-read support for P00 files is enabled on
 drives 8, 9, 10 and 11 respectively (on by default).
 
 @vindex FSDevice8SaveP00
-@item FSDevice8SaveP00
 @vindex FSDevice9SaveP00
-@itemx FSDevice9SaveP00
 @vindex FSDevice10SaveP00
-@itemx FSDevice10SaveP00
 @vindex FSDevice11SaveP00
+@item FSDevice8SaveP00
+@itemx FSDevice9SaveP00
+@itemx FSDevice10SaveP00
 @itemx FSDevice11SaveP00
 Booleans specifying whether the drives should create P00 files instead
 of plain CBM ones (on by default for drives 8-10, off for 11).
 
 @vindex FSDevice8HideCBMFiles
-@item FSDevice8HideCBMFiles
 @vindex FSDevice9HideCBMFiles
-@itemx FSDevice9HideCBMFiles
 @vindex FSDevice10HideCBMFiles
-@itemx FSDevice10HideCBMFiles
 @vindex FSDevice11HideCBMFiles
+@item FSDevice8HideCBMFiles
+@itemx FSDevice9HideCBMFiles
+@itemx FSDevice10HideCBMFiles
 @itemx FSDevice11HideCBMFiles
 Booleans specifying whether non-P00 files should be invisible to
 programs running in the emulator (do not hide by default).
 
 @vindex FSDevice8Dir
-@item FSDevice8Dir
 @vindex FSDevice9Dir
-@itemx FSDevice9Dir
 @vindex FSDevice10Dir
-@itemx FSDevice10Dir
 @vindex FSDevice11Dir
+@item FSDevice8Dir
+@itemx FSDevice9Dir
+@itemx FSDevice10Dir
 @itemx FSDevice11Dir
 Strings specifying the directories to which drives 8, 9, 10 and 11
 have access.
@@ -3721,9 +3722,9 @@ output from the Commodore printer code) and then to the printer via
 @table @code
 
 @vindex IECDevice4
-@item IECDevice4
 @vindex IECDevice5
-@item IECDevice5
+@item IECDevice4
+@itemx IECDevice5
 Booleans that specify whether IEC device emulation for device #4 and #5 is enabled.
 
 @vindex PrinterTextDevice1
@@ -3751,7 +3752,7 @@ Integer specifying how the IEC printer (device 4-5) is being emulated.
 @vindex Printer4Driver
 @vindex Printer5Driver
 @item Printer4Driver
-@item Printer5Driver
+@itemx Printer5Driver
 String (ascii, mps803, nl10) specifying the IEC printer output driver.
 
 @vindex Printer4Output
@@ -3970,22 +3971,22 @@ actually expects).
 @table @code
 
 @vindex RsDevice1
-@item RsDevice1
 @vindex RsDevice2
-@itemx RsDevice2
 @vindex RsDevice3
-@itemx RsDevice3
 @vindex RsDevice4
+@item RsDevice1
+@itemx RsDevice2
+@itemx RsDevice3
 @itemx RsDevice4
 Strings specifying the RS232 devices (@pxref{RS232 settings}).
 
 @vindex RsDevice1Baud
-@item RsDevice1Baud
 @vindex RsDevice2Baud
-@itemx RsDevice2Baud
 @vindex RsDevice3Baud
-@itemx RsDevice3Baud
 @vindex RsDevice4Baud
+@item RsDevice1Baud
+@itemx RsDevice2Baud
+@itemx RsDevice3Baud
 @itemx RsDevice4Baud
 Integer specifying the RS232 baudrate devices if the device file points
 to a special device (like @file{/dev/ttyS0}; @pxref{RS232 settings}).
@@ -4123,18 +4124,15 @@ This section lists command-line options specific to the built-in monitor.
 
 @table @code
 
-@c FIXME: KeepMonitorOpen not used in GTK UI?
 @vindex KeepMonitorOpen
 @item KeepMonitorOpen
 Boolean, if true the monitor window may stay open when the emulation is running,
 eg to look at trace-point output. (Not all ports/UIs support this, in that case
 this setting has no effect.)
 
-@c FIXME: MonitorServer not used in GTK UI?
 @vindex MonitorServer
 @item MonitorServer
 Boolean specifying whether the remote monitor server is enabled.
-@c FIXME: MonitorServerAddress not used in GTK UI?
 @vindex MonitorServerAddress
 @item MonitorServerAddress
 String specifying the address the remote monitor server listens to (ip4://127.0.0.1:6510)
@@ -4178,6 +4176,8 @@ The local address the remote monitor should bind to
 
 @vindex MachineVideoStandard
 @item MachineVideoStandard
+Integer that specifies that video standard of the emulated machine. (-1: PAL, 
+-2: NTSC, -3: NTSC (old), -4: PAL-N)
 
 @end table
 
@@ -4341,13 +4341,13 @@ String specifying the filename of the current flip list.
 Boolean specifying whether to show a confirmation dialog on exit.
 
 @vindex AttachDevice8Readonly
-@item AttachDevice8Readonly
 @vindex AttachDevice9Readonly
-@item AttachDevice9Readonly
 @vindex AttachDevice10Readonly
-@item AttachDevice10Readonly
 @vindex AttachDevice11Readonly
-@item AttachDevice11Readonly
+@item AttachDevice8Readonly
+@itemx AttachDevice9Readonly
+@itemx AttachDevice10Readonly
+@itemx AttachDevice11Readonly
 Booleans that specify whether to attach images on drives 8 to 11 read-only.
 
 @c FIXME: incomplete description for RomsetArchiveName
@@ -4395,9 +4395,9 @@ Never confirm quiting VICE
 
 @cindex -core, +core
 @item -core
-@itemx +core
-Enable/disable generation of core dumps (@code{DoCoreDump=1},
-@code{DoCoreDump=0}).
+Enable generation of core dumps (@code{DoCoreDump=1})
+@item +core
+Disable generation of core dumps (@code{DoCoreDump=0})
 
 @end table
 
@@ -4746,11 +4746,8 @@ after enabling it from the user interface.
 @c @node FIXME
 @subsubsection C64 cartridge resources
 
-@c FIXME: incomplete descriptions for resources
-
 @table @code
 
-@c FIXME: IOCollisionHandling not used in GTK UI?
 @vindex IOCollisionHandling
 @item IOCollisionHandling
 Integer specifying the way the I/O collisions should be handled, (0: error message and 
@@ -4812,50 +4809,50 @@ detected most of the time for .crt cartridge images.
 @item IDE64RTCOffset
 Integer in seconds which gives the difference between the local time and the time of the emulated DS1302 RTC.
 @vindex IDE64Image1
-@item IDE64Image1
 @vindex IDE64Image2
-@item IDE64Image2
 @vindex IDE64Image3
-@item IDE64Image3
 @vindex IDE64Image4
-@item IDE64Image4
+@item IDE64Image1
+@itemx IDE64Image2
+@itemx IDE64Image3
+@itemx IDE64Image4
 String specifying the full path to the four harddisk images. If a file is non-existing the drive is not emulated.
 Some older IDEDOS versions only support the first two harddisks.
 @vindex IDE64Cylinders1
-@item IDE64Cylinders1
 @vindex IDE64Cylinders2
-@item IDE64Cylinders2
 @vindex IDE64Cylinders3
-@item IDE64Cylinders3
 @vindex IDE64Cylinders4
-@item IDE64Cylinders4
+@item IDE64Cylinders1
+@itemx IDE64Cylinders2
+@itemx IDE64Cylinders3
+@itemx IDE64Cylinders4
 Number of cylinders for the four harddisk images. Valid range is 1--65535.
 @vindex IDE64Heads1
-@item IDE64Heads1
 @vindex IDE64Heads2
-@item IDE64Heads2
 @vindex IDE64Heads3
-@item IDE64Heads3
 @vindex IDE64Heads4
-@item IDE64Heads4
+@item IDE64Heads1
+@itemx IDE64Heads2
+@itemx IDE64Heads3
+@itemx IDE64Heads4
 Number of heads for the four harddisk images. Valid range is 1--16.
 @vindex IDE64Sectors1
-@item IDE64Sectors1
 @vindex IDE64Sectors2
-@item IDE64Sectors2
 @vindex IDE64Sectors3
-@item IDE64Sectors3
 @vindex IDE64Sectors4
-@item IDE64Sectors4
+@item IDE64Sectors1
+@itemx IDE64Sectors2
+@itemx IDE64Sectors3
+@itemx IDE64Sectors4
 Number of sectors for the four harddisk images. Valid range is 1--63.
 @vindex IDE64AutodetectSize1
-@item IDE64AutodetectSize1
 @vindex IDE64AutodetectSize2
-@item IDE64AutodetectSize2
 @vindex IDE64AutodetectSize3
-@item IDE64AutodetectSize3
 @vindex IDE64AutodetectSize4
-@item IDE64AutodetectSize4
+@item IDE64AutodetectSize1
+@itemx IDE64AutodetectSize2
+@itemx IDE64AutodetectSize3
+@itemx IDE64AutodetectSize4
 Boolean specifying whether the disk geometry should be auto detected based
 on the disk image for the respective harddisk, or the cylinder/head/sector resources above should be used.
 @vindex IEEE488
@@ -4964,6 +4961,8 @@ Boolean specifying whether the RR flash jumper is set or not.
 Boolean specifying whether the RR bank jumper is set or not.
 @vindex RRBiosWrite
 @item RRBiosWrite
+Boolean, if true write back the RR Flash ROM image file automatically, incase the
+contents changed, when detaching or quitting the emulator.
 @end table
 
 @c @node FIXME
@@ -5350,9 +5349,9 @@ Attach raw 16kB Zaxxon cartridge image
 @table @code
 
 @vindex CIA1Model
-@item CIA1Model
 @vindex CIA2Model
-@item CIA2Model
+@item CIA1Model
+@itemx CIA2Model
 Enum specifying CIA model (0 = old 6526, 1 = new 6526A)
 
 @end table
@@ -5999,9 +5998,10 @@ contents changed, when detaching or quitting the emulator.
 @item REUsize
 Integer specifying the size of the emulated REU in KB (128, 256, 512, 1024, 2048,
 4096, 8192, 16384)
-@c FIXME: REUfirstUnusedRegister looks like a hacking option that we can perhaps remove
+@c FIXME: REUfirstUnusedRegister is a hacking option that we can remove
 @vindex REUfirstUnusedRegister
 @item REUfirstUnusedRegister
+Integer specifying the first unused REU register (obsolete, will get removed)
 
 @vindex SFXSoundExpander
 @item SFXSoundExpander
@@ -6167,11 +6167,11 @@ Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @end table
 
 @vindex RomsetKernalName
-@item RomsetKernalName
 @vindex RomsetBasicName
-@item RomsetBasicName
 @vindex RomsetChargenName
-@item RomsetChargenName
+@item RomsetKernalName
+@itemx RomsetBasicName
+@itemx RomsetChargenName
 Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
@@ -6241,6 +6241,7 @@ Boolean, enable/disable the 256K RAM expansion
 String specifying the filename of the 256K RAM image.
 @vindex C64_256Kbase
 @item C64_256Kbase
+Integer that specifies the base address of the 256K RAM expansion.
 
 @end table
 
@@ -6493,35 +6494,35 @@ Enable/Disable video to audio leak emulation.
 @table @code
 
 @vindex ChargenIntName
-@item ChargenIntName
 @vindex ChargenDEName
-@item ChargenDEName
 @vindex ChargenFRName
-@item ChargenFRName
 @vindex ChargenSEName
-@item ChargenSEName
+@item ChargenIntName
+@itemx ChargenDEName
+@itemx ChargenFRName
+@itemx ChargenSEName
 Strings specifying the filename of the Chargen ROM images.
 
 @vindex KernalIntName
-@item KernalIntName
 @vindex KernalDEName
-@item KernalDEName
 @vindex KernalFIName
-@item KernalFIName
 @vindex KernalFRName
-@item KernalFRName
 @vindex KernalITName
-@item KernalITName
 @vindex KernalNOName
-@item KernalNOName
 @vindex KernalSEName
-@item KernalSEName
+@item KernalIntName
+@itemx KernalDEName
+@itemx KernalFIName
+@itemx KernalFRName
+@itemx KernalITName
+@itemx KernalNOName
+@itemx KernalSEName
 Strings specifying the filename of the Kernal ROM images.
 
 @vindex BasicLoName
-@item BasicLoName
 @vindex BasicHiName
-@item BasicHiName
+@item BasicLoName
+@itemx BasicHiName
 Strings specifying the filename of the Basic ROM images.
 
 @vindex Kernal64Name
@@ -6546,35 +6547,35 @@ Boolean, enables the external function ROM.
 Strings specifying the filename of the ROM image for the external function ROM.
 
 @vindex RomsetChargenIntName
-@item RomsetChargenIntName
 @vindex RomsetChargenDEName
-@item RomsetChargenDEName
 @vindex RomsetChargenFRName
-@item RomsetChargenFRName
 @vindex RomsetChargenSEName
-@item RomsetChargenSEName
 @vindex RomsetKernalIntName
-@item RomsetKernalIntName
 @vindex RomsetKernalDEName
-@item RomsetKernalDEName
 @vindex RomsetKernalFIName
-@item RomsetKernalFIName
 @vindex RomsetKernalFRName
-@item RomsetKernalFRName
 @vindex RomsetKernalITName
-@item RomsetKernalITName
 @vindex RomsetKernalNOName
-@item RomsetKernalNOName
 @vindex RomsetKernalSEName
-@item RomsetKernalSEName
 @vindex RomsetBasicLoName
-@item RomsetBasicLoName
 @vindex RomsetBasicHiName
-@item RomsetBasicHiName
 @vindex RomsetKernal64Name
-@item RomsetKernal64Name
 @vindex RomsetBasic64Name
-@item RomsetBasic64Name
+@item RomsetChargenIntName
+@itemx RomsetChargenDEName
+@itemx RomsetChargenFRName
+@itemx RomsetChargenSEName
+@itemx RomsetKernalIntName
+@itemx RomsetKernalDEName
+@itemx RomsetKernalFIName
+@itemx RomsetKernalFRName
+@itemx RomsetKernalITName
+@itemx RomsetKernalNOName
+@itemx RomsetKernalSEName
+@itemx RomsetBasicLoName
+@itemx RomsetBasicHiName
+@itemx RomsetKernal64Name
+@itemx RomsetBasic64Name
 Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
@@ -6665,12 +6666,13 @@ Boolean, status of the 40/80 columns key
 @vindex Go64Mode
 @item Go64Mode
 Boolean, if true enter C64 mode on reset
-@c FIXME: C128FullBanks looks like a hacking option that we can perhaps remove
 @vindex C128FullBanks
 @item C128FullBanks
+Boolean, enables Banks 2 and 3.
 @vindex MachineType
 @item MachineType
-
+Integer specifying the C128 machine type. (0: Internatinal, 1: Finnish, 2: French,
+3: German, 4: Italian, 5: Norwegian, 6: Swedish)
 @end table
 
 @c @node FIXME
@@ -6879,7 +6881,6 @@ String specifying the filename of the DTV Flash ROM image.
 @vindex c64dtvromrw
 @item c64dtvromrw
 Boolean that specifies whether the emulated Flash ROM is writeable.
-@c FIXME: FSFlashDir not used in GTK UI?
 @vindex FSFlashDir
 @item FSFlashDir
 String specifying the working directory for the flash file system.
@@ -7428,14 +7429,14 @@ all RAM expansion blocks enabled;
 @table @code
 
 @vindex RAMBlock0
-@item RAMBlock0
 @vindex RAMBlock1
-@itemx RAMBlock1
 @vindex RAMBlock2
-@itemx RAMBlock2
 @vindex RAMBlock3
-@itemx RAMBlock3
 @vindex RAMBlock5
+@item RAMBlock0
+@itemx RAMBlock1
+@itemx RAMBlock2
+@itemx RAMBlock3
 @itemx RAMBlock5
 Booleans specifying whether RAM blocks 0, 1, 2, 3 and 5 must be enabled.
 
@@ -7870,9 +7871,9 @@ String specifying the filenames of cartridge 2 Lo ROM.
 String specifying the filenames of cartridge 2 High ROM.
 
 @vindex RomsetFunctionLowName
-@item RomsetFunctionLowName
 @vindex RomsetFunctionHighName
-@item RomsetFunctionHighName
+@item RomsetFunctionLowName
+@itemx RomsetFunctionHighName
 Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
@@ -8372,39 +8373,39 @@ Enable/Disable SID Cartridge
 @table @code
 
 @vindex H6809RomAName
-@item H6809RomAName
 @vindex H6809RomBName
-@item H6809RomBName
 @vindex H6809RomCName
-@item H6809RomCName
 @vindex H6809RomDName
-@item H6809RomDName
 @vindex H6809RomEName
-@item H6809RomEName
 @vindex H6809RomFName
-@item H6809RomFName
+@item H6809RomAName
+@itemx H6809RomBName
+@itemx H6809RomCName
+@itemx H6809RomDName
+@itemx H6809RomEName
+@itemx H6809RomFName
 Strings specifying the filenames of the respective H6809 ROM images.
 
 @vindex RomsetEditorName
-@item RomsetEditorName
 @vindex RomsetRomModule9Name
-@item RomsetRomModule9Name
 @vindex RomsetRomModuleAName
-@item RomsetRomModuleAName
 @vindex RomsetRomModuleBName
-@item RomsetRomModuleBName
 @vindex RomsetH6809RomAName
-@item RomsetH6809RomAName
 @vindex RomsetH6809RomBName
-@item RomsetH6809RomBName
 @vindex RomsetH6809RomCName
-@item RomsetH6809RomCName
 @vindex RomsetH6809RomDName
-@item RomsetH6809RomDName
 @vindex RomsetH6809RomEName
-@item RomsetH6809RomEName
 @vindex RomsetH6809RomFName
-@item RomsetH6809RomFName
+@item RomsetEditorName
+@itemx RomsetRomModule9Name
+@itemx RomsetRomModuleAName
+@itemx RomsetRomModuleBName
+@itemx RomsetH6809RomAName
+@itemx RomsetH6809RomBName
+@itemx RomsetH6809RomCName
+@itemx RomsetH6809RomDName
+@itemx RomsetH6809RomEName
+@itemx RomsetH6809RomFName
 Strings specifying the filenames of the respective ROM images used by the current ROM set.
 
 @end table
@@ -8476,10 +8477,11 @@ the BASIC, but directly jumps into the builtin machine monitor.
 
 @vindex CPUswitch
 @item CPUswitch
+Integer specifying the status of the SuperPET CPU switch (0: 6502, 1: 6809, 2: PROG)
 
 @end table
 
-@c FIXME
+@c FIXME: relink this node
 @node PET commandline options, PET colors, PET diagnostic pin, PET-specific
 @subsubsection PET command line options
 
@@ -8603,6 +8605,7 @@ Expanded CBM-II models could map RAM to the expansion ROM areas
 at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
 and $c000-$cfff respectively.
 
+@c FIXME: description is wrong
 @vindex Cart1Name
 @vindex Cart2Name
 @vindex Cart4Name
@@ -8611,7 +8614,6 @@ and $c000-$cfff respectively.
 @itemx Cart2Name
 @itemx Cart4Name
 @itemx Cart6Name
-@c FIXME: description is wrong
 Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file.  This file contains an 8k ROM dump.
 
@@ -8665,13 +8667,13 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 
 @table @code
 @vindex RomsetCart1Name
-@item RomsetCart1Name
 @vindex RomsetCart2Name
-@item RomsetCart2Name
 @vindex RomsetCart4Name
-@item RomsetCart4Name
 @vindex RomsetCart6Name
-@item RomsetCart6Name
+@item RomsetCart1Name
+@itemx RomsetCart2Name
+@itemx RomsetCart4Name
+@itemx RomsetCart6Name
 Strings specifying the filenames of the respective ROM images used by the current ROM set.
 @end table
 
@@ -10374,9 +10376,9 @@ Integer specifying the current FFMPEG audio codec.
 @vindex FFMPEGVideoCodec
 @item FFMPEGVideoCodec
 Integer specifying the current FFMPEG video codec.
-@c FIXME: FFMPEGVideoHalveFramerate not used in GTK UI?
 @vindex FFMPEGVideoHalveFramerate
 @item FFMPEGVideoHalveFramerate
+Boolean, if true record only every other frame.
 
 @end table
 

@@ -14,6 +14,7 @@
 typedef struct _ITEM
 {
     struct _ITEM *next;
+    struct _ITEM *alias;
     char *string;
     char *desc;
     int flags;
@@ -49,9 +50,20 @@ ITEM *list_addstr(ITEM *list, char *str)
     itm = malloc(sizeof(ITEM));
     itm->flags=0;
     itm->desc=NULL;
+    itm->alias=NULL;
     itm->string = strdup(str);
+#if 0
     itm->next = list->next;
     list->next = itm;
+#else
+    /* add to the bottom of the list, that will result in printed list being in
+     * the same order as resources/options appear in the docs */
+    while (list->next) {
+        list = list->next;
+    }
+    itm->next = NULL;
+    list->next = itm;
+#endif
     return itm;
 }
 
@@ -63,7 +75,7 @@ int skipblank(FILE *f)
         if (c == EOF) {
             return 0;
         }
-        if ((c != ' ') && (c != '\n') && (c != '\t')) {
+        if ((c != ' ') && (c != '\n') && (c != '\r') && (c != '\t')) {
             break;
         }
     }
@@ -127,214 +139,8 @@ const char *emustring[0x10] = {
     "c1541"
 };
 
-/* ignore these when listing resources with no description */
-const char *nodescexcept[] = {
-    "Drive11RAM8000",
-    "Drive11RAM6000",
-    "Drive11RAM4000",
-    "Drive11RAM2000",
-    "Drive10RAMA000",
-    "Drive10RAM8000",
-    "Drive10RAM6000",
-    "Drive10RAM4000",
-    "Drive10RAM2000",
-    "Drive9RAMA000",
-    "Drive9RAM8000",
-    "Drive9RAM6000",
-    "Drive9RAM4000",
-    "Drive9RAM2000",
-    "Drive8RAMA000",
-    "Drive8RAM8000",
-    "Drive8RAM6000",
-    "Drive8RAM4000",
-    "Drive8RAM2000",
-    "DosName1001",
-    "DosName4040",
-    "DosName3040",
-    "DosName2040",
-    "DosName2031",
-    "DosName4000",
-    "DosName2000",
-    "DosName1581",
-    "DosName1571cr",
-    "DosName1571",
-    "DosName1570",
-    "DosName1541ii",
-    "DosName1541",
-    "Drive10IdleMethod",
-    "Drive9IdleMethod",
-    "Drive8IdleMethod",
-    "Drive10ExtendImagePolicy",
-    "Drive9ExtendImagePolicy",
-    "Drive8ExtendImagePolicy",
-    "Drive10ProfDOS",
-    "Drive9ProfDOS",
-    "Drive8ProfDOS",
-    "Drive10ParallelCable",
-    "Drive9ParallelCable",
-    "Drive8ParallelCable",
-    "Drive11Type",
-    "Drive10Type",
-    "Drive9Type",
-    "Drive8Type",
-    "FSDevice10Dir",
-    "FSDevice9Dir",
-    "FSDevice8Dir",
-    "FSDevice10HideCBMFiles",
-    "FSDevice9HideCBMFiles",
-    "FSDevice8HideCBMFiles",
-    "FSDevice10SaveP00",
-    "FSDevice9SaveP00",
-    "FSDevice8SaveP00",
-    "FSDevice10ConvertP00",
-    "FSDevice9ConvertP00",
-    "FSDevice8ConvertP00",
-    "KeymapBusinessDESymFile",
-    "KeymapGraphicsSymFile",
-    "KeymapBusinessUKSymFile",
-    "JoyDevice3",
-    "JoyDevice2",
-    "JoyDevice1",
-    "RsDevice3Baud",
-    "RsDevice2Baud",
-    "RsDevice1Baud",
-    "RsDevice3",
-    "RsDevice2",
-    "RsDevice1",
-    "Printer4Output",
-    "Printer4Driver",
-    "Printer4",
-    "Printer4TextDevice",
-    "PrinterTextDevice2",
-    "PrinterTextDevice1",
-    "IDE64AutodetectSize3",
-    "IDE64AutodetectSize2",
-    "IDE64AutodetectSize1",
-    "IDE64Sectors3",
-    "IDE64Sectors2",
-    "IDE64Sectors1",
-    "IDE64Heads3",
-    "IDE64Heads2",
-    "IDE64Heads1",
-    "IDE64Cylinders3",
-    "IDE64Cylinders2",
-    "IDE64Cylinders1",
-    "IDE64Image3",
-    "IDE64Image2",
-    "IDE64Image1",
-    "GenericCartridgeFileA000",
-    "GenericCartridgeFile6000",
-    "GenericCartridgeFile4000",
-    "GenericCartridgeFile2000",
-    "RAMBlock3",
-    "RAMBlock2",
-    "RAMBlock1",
-    "RAMBlock0",
-    "Cart4Name",
-    "Cart2Name",
-    "Cart1Name",
-    "Cart6Name",
-    "Ram6",
-    "Ram4",
-    "Ram2",
-    "Ram1",
-    "Ram08",
-    "Window1Xpos",
-    "Window1Height",
-    "Window1Width",
-    "Window0Xpos",
-    "Window0Height",
-    "Window0Width",
-    "CIA1Model",
-    "KeySet2West",
-    "KeySet2SouthWest",
-    "KeySet2South",
-    "KeySet2SouthEast",
-    "KeySet2East",
-    "KeySet2NorthEast",
-    "KeySet2North",
-    "KeySet2NorthWest",
-    "KeySet1West",
-    "KeySet1SouthWest",
-    "KeySet1South",
-    "KeySet1SouthEast",
-    "KeySet1East",
-    "KeySet1NorthEast",
-    "KeySet1North",
-    "KeySet1NorthWest",
-    "RomsetDosName1571cr",
-    "RomsetDosName1001",
-    "RomsetDosName4040",
-    "RomsetDosName3040",
-    "RomsetDosName2040",
-    "RomsetDosName2031",
-    "RomsetDosName4000",
-    "RomsetDosName2000",
-    "RomsetDosName1581",
-    "RomsetDosName1571",
-    "RomsetDosName1570",
-    "RomsetDosName1541ii",
-    "RomsetDosName1541",
-    "RomsetKernal64Name",
-    "RomsetBasicHiName",
-    "RomsetBasicLoName",
-    "RomsetKernalSEName",
-    "RomsetKernalNOName",
-    "RomsetKernalITName",
-    "RomsetKernalFRName",
-    "RomsetKernalFIName",
-    "RomsetKernalDEName",
-    "RomsetKernalIntName",
-    "RomsetChargenSEName",
-    "RomsetChargenFRName",
-    "RomsetChargenDEName",
-    "RomsetChargenIntName",
-    "RomsetCart4Name",
-    "RomsetCart2Name",
-    "RomsetCart1Name",
-    "RomsetH6809RomEName",
-    "RomsetH6809RomDName",
-    "RomsetH6809RomCName",
-    "RomsetH6809RomBName",
-    "RomsetH6809RomAName",
-    "RomsetRomModuleBName",
-    "RomsetRomModuleAName",
-    "RomsetRomModule9Name",
-    "RomsetEditorName",
-    "RomsetFunctionLowName",
-    "RomsetBasicName",
-    "RomsetKernalName",
-    "AttachDevice8Readonly",
-    "AttachDevice9Readonly",
-    "AttachDevice10Readonly",
-    "IECDevice10",
-    "IECDevice9",
-    "IECDevice8",
-    "IECDevice4",
-    "FileSystemDevice8",
-    "FileSystemDevice9",
-    "FileSystemDevice10",
-    "H6809RomAName",
-    "H6809RomBName",
-    "H6809RomCName",
-    "H6809RomDName",
-    "H6809RomEName",
-    "BasicLoName",
-    "KernalNOName",
-    "KernalITName",
-    "KernalFRName",
-    "KernalFIName",
-    "KernalDEName",
-    "KernalIntName",
-    "ChargenFRName",
-    "ChargenDEName",
-    "ChargenIntName",
-
-    NULL
-};
-
-ITEM reslistrc = { NULL, NULL, 0};
-ITEM reslisttex = { NULL, NULL, 0};
+ITEM reslistrc = { NULL, NULL, 0}; /* resources from vicerc */
+ITEM reslisttex = { NULL, NULL, 0}; /* resources in vindex */
 ITEM reslisttexitm = { NULL, NULL, 0};
 ITEM reslistnew = { NULL, NULL, 0};
 
@@ -348,35 +154,45 @@ int readtexi(FILE *tf)
 {
     int c,cl = 0;
     char tmp[0x100];
-    char tmp1[0x10][0x100];
+    char tmp1[0x20][0x100];
     char tmp2[0x100];
     char tmpc[0x100];
     char tmpmsg[0x100];
     char *msg,*str;
     char *t;
     int status = 0;
-    ITEM *itm;
+    ITEM *itm, *itm1, *itm2;
     int itmcnt;
     int n;
+    ITEM *aliasitm = NULL;
+    int newline = 1;
 
     msg = &tmpmsg[0];
     itmcnt = 0;
+    c = skipblank(tf);
     while(!feof(tf)) {
-        c = fgetc(tf);
-        /* printf("[%c:%02x]",c,c); */
-        if (c == '@')
-        {
-            fscanf(tf, "%s ", tmp);
+        if (newline && (c == '@')) {
+            newline = 0;
+            fscanf(tf, "%s", tmp);
             cl = 0;
             if (!strcmp(tmp, "vindex")) {
+                fscanf(tf, " ");
                 itmcnt = 0;
                 c = getstr(tf, tmp1[itmcnt]);
                 DBG(("resource '%s'\n",tmp1[itmcnt]));
                 list_addstr(&reslisttex, tmp1[itmcnt]);
-                if (c != '\n') c = skipuntil(tf, '\n');
+                if (c != '\n') {
+                    c = skipuntil(tf, '\n');
+                }
+                if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
+                    c = skipblank(tf);
+                }
                 status = 0x01;
                 itmcnt++;
+                aliasitm = NULL;
+                newline = 1;
             } else if (!strcmp(tmp, "cindex")) {
+                fscanf(tf, " ");
                 c = getstr(tf, tmp1[itmcnt]);
                 if ((tmp1[itmcnt][0] == '-') || (tmp1[itmcnt][0] == '+')) {
                     list_addstr(&optlisttex, tmp1[itmcnt]);
@@ -393,32 +209,89 @@ int readtexi(FILE *tf)
                 } else {
                     list_addstr(&optlisttex2, tmpc);
                 }
-                if (c != '\n') c = skipuntil(tf, '\n');
+                if (c != '\n') {
+                    c = skipuntil(tf, '\n');
+                }
+                if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
+                    c = skipblank(tf);
+                }
                 status = 0x02;
+                aliasitm = NULL;
+                newline = 1;
             } else if (!strcmp(tmp, "item")) {
+                fscanf(tf, " ");
                 c = getstr(tf, tmp2);
                 DBG(("item '%s'\n",tmp2));
                 if ((tmp2[0] == '-') || (tmp2[0] == '+')) {
-                    list_addstr(&optlisttexitm, tmp2);
+                    aliasitm = list_addstr(&optlisttexitm, tmp2);
                 } else {
-                    list_addstr(&reslisttexitm, tmp2);
+                    aliasitm = list_addstr(&reslisttexitm, tmp2);
                 }
-                if (c != '\n') c = skipuntil(tf, '\n');
+                if (c != '\n') {
+                    c = skipuntil(tf, '\n');
+                }
+                if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
+                    c = skipblank(tf);
+                }
                 status |= 0x10;
+                aliasitm->alias = NULL;
+                newline = 1;
             } else if (!strcmp(tmp, "itemx")) {
+                fscanf(tf, " ");
                 c = getstr(tf, tmp2);
                 DBG(("itemx '%s'\n",tmp2));
                 if ((tmp2[0] == '-') || (tmp2[0] == '+')) {
-                    list_addstr(&optlisttexitm, tmp2);
+                    itm = list_addstr(&optlisttexitm, tmp2);
                 } else {
-                    list_addstr(&reslisttexitm, tmp2);
+                    itm = list_addstr(&reslisttexitm, tmp2);
                 }
-                if (c != '\n') c = skipuntil(tf, '\n');
+                if (c != '\n') {
+                    c = skipuntil(tf, '\n');
+                }
+                if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
+                    c = skipblank(tf);
+                }
                 status |= 0x20;
-            } else if (!strcmp(tmp, "c")) {
-                skipuntil(tf, '\n');
+                if (aliasitm) {
+                    aliasitm->alias = itm;
+
+                    itm2 = NULL;
+                    if ((status & 0x0f) == 1) {
+                        itm1 = list_findstr(&reslisttex, itm->string);
+                        itm2 = list_findstr(&reslisttex, aliasitm->string);
+                    } else if ((status & 0x0f) == 2) {
+                        itm1 = list_findstr(&optlisttex, itm->string);
+                        itm2 = list_findstr(&optlisttex, aliasitm->string);
+                    }
+                    if (itm2) {
+                        itm2->alias = itm1;
+                    }
+                    /* printf("ok %35s %p %p\n",tmp2,itm,aliasitm); */
+                } 
+                aliasitm = itm;
+                newline = 1;
+            } else if (!strcmp(tmp, "end")) {
+                c = skipuntil(tf, '\n');
+                if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
+                    c = skipblank(tf);
+                }
                 status = 0;
-            } else {
+                newline = 1;
+            } 
+#if 0
+            else if (!strcmp(tmp, "c")) {
+                c = skipuntil(tf, '\n');
+                if ((c == ' ') || (c == '\n') || (c == '\r') || (c == '\t')) {
+                    c = skipblank(tf);
+                }
+                status = 0;
+                newline = 1;
+            } 
+#endif
+            else {
+                sprintf(tmpmsg, "@%s",tmp);
+                msg = &tmpmsg[strlen(tmpmsg)];
+                status |= 0x100;
                 goto checkmsg;
             }
         } else {
@@ -444,6 +317,7 @@ checkmsg:
                     }
                     itmcnt = 0;
                     status = 0;
+                    newline = 1;
                 } else {
                     *msg++ = c;
                 }
@@ -456,8 +330,14 @@ checkmsg:
                         /* DBG(("<MSG START %02x '%c'>\n",status,c)); */
                         msg = &tmpmsg[0];
                         *msg++ = c;
+                        newline = 0;
+                    } else {
+                        if (c == '\n') {
+                            newline = 1;
+                        }
                     }
             }
+            c = fgetc(tf);
         }
 
     }
@@ -702,10 +582,8 @@ void checkresources(void)
     i = 0;
     while (list1) {
         if (list1->string) {
-            if (list1->desc == NULL) {
-                if (!strinlist(list1->string, nodescexcept)) {
-                    i++;
-                }
+            if ((list1->desc == NULL) && (list1->alias == NULL)) {
+                i++;
             }
         }
         list1 = list1->next;
@@ -716,11 +594,9 @@ void checkresources(void)
     i = 0;
     while (list1) {
         if (list1->string) {
-            if (list1->desc == NULL) {
-                if (!strinlist(list1->string, nodescexcept)) {
-                    printf("%s\n", list1->string);
-                    i++;
-                }
+            if ((list1->desc == NULL) && (list1->alias == NULL)) {
+                printf("%s\n", list1->string);
+                i++;
             }
         }
         list1 = list1->next;
@@ -763,6 +639,71 @@ void checkresources(void)
         printf("none - well done.\n");
     }
 }
+
+void printresources(void)
+{
+    ITEM *list1, *itm, *itm2;
+    int num, miss;
+
+    printf("\n** listing resources...\n\n");
+
+    list1 = &reslisttex;
+    num = 0; miss = 0;
+    while (list1) {
+        if (list1->string) {
+            printf ("%-35s  ", list1->string);
+            if (list1->desc == NULL) {
+                if (list1->alias) {
+                    printf ("<see:%s>\n", list1->alias->string);
+                } else {
+                    printf ("<description missing>\n");
+                    miss++;
+                }
+            } else {
+                printf ("%s\n", list1->desc);
+            }
+            num++;
+        }
+        list1 = list1->next;
+    }
+    printf("\n");
+
+    printf("%d total, %d missing descriptions\n", num, miss);
+}
+
+void printoptions(void)
+{
+    ITEM *list1, *itm, *itm2;
+    int num, miss;
+
+    printf("\n** listing options...\n\n");
+
+    list1 = &optlisttex;
+    num = 0; miss = 0;
+    while (list1) {
+        if (list1->string) {
+            printf ("%-35s  ", list1->string);
+            if (list1->desc == NULL) {
+                if (list1->alias) {
+                    printf ("<see:%s>", list1->alias->string);
+                } else {
+                    printf ("<description missing>");
+                    miss++;
+                }
+            } else {
+                printf ("%s", list1->desc);
+            }
+            printf("\n");
+            num++;
+        }
+        list1 = list1->next;
+    }
+    printf("\n");
+
+    printf("%d total, %d missing descriptions\n", num, miss);
+}
+
+
 
 void checkoptions(void)
 {
@@ -915,6 +856,8 @@ char *viceoptname;
 char *vicetexiname;
 int checkopt = 0;
 int checkres = 0;
+int printopt = 0;
+int printres = 0;
 
 int main(int argc, char *argv[])
 {
@@ -929,12 +872,20 @@ FILE *tf;
     if (!strcmp(argv[1],"-all")) {
         checkopt++;
         checkres++;
+        printopt++;
+        printres++;
     }
     if (!strcmp(argv[1],"-opt")) {
         checkopt++;
     }
     if (!strcmp(argv[1],"-res")) {
         checkres++;
+    }
+    if (!strcmp(argv[1],"-listres")) {
+        printres++;
+    }
+    if (!strcmp(argv[1],"-listopt")) {
+        printopt++;
     }
 
     vicetexiname = argv[2];
@@ -996,6 +947,12 @@ FILE *tf;
     }
     if (checkopt) {
         checkoptions();
+    }
+    if (printres) {
+        printresources();
+    }
+    if (printopt) {
+        printoptions();
     }
     return 0;
 }

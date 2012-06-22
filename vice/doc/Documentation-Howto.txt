@@ -61,6 +61,17 @@ resources:
 @item SomeResource
 Boolean to enable some option.
 
+@c NOTE: put commands above this block, not in between
+@vindex SomeResource1
+@vindex SomeResource2
+@vindex SomeResource3
+@vindex SomeResource4
+@item SomeResource1
+@itemx SomeResource2
+@itemx SomeResource3
+@itemx SomeResource4
+Boolean to enable some option.
+
 @end table
 
 ------------------------------------------------------------------------------
@@ -89,6 +100,8 @@ with option being one of either
 full    do all checks
 opt     check command-line options
 res     check resources
+listopt list all command-line options
+listres list all resources
 fixme   show FIXMEs
 nodes   show nodes marked FIXME
 clean   remove temp files
@@ -104,19 +117,14 @@ comments. to show it using the checkdoc tool use "./checkdoc.mak fixme nodes"
 
 at the time of last updating this file (22/06/2012), the list looked like this:
 
-list of FIXMEs (49):
+list of FIXMEs (39):
 669:@c FIXME: add link to doc/html/plain/PETdoc.txt
 690:@c FIXME: add link to doc/html/plain/PETdoc.txt
 719:@c FIXME: add link to section
 789:@c FIXME: add a detailed list of all keys
-2242:@c FIXME: AutostartDelay not used in GTK UI?
 2536:@c FIXME: KeymapSymDeFile is really weird
-2591:@c FIXME: remove -symdekeymap option!
-2913:@c FIXME: SoundVolume not used in GTK UI?
-3161:@c FIXME: update drive types
-4126:@c FIXME: KeepMonitorOpen not used in GTK UI?
-4133:@c FIXME: MonitorServer not used in GTK UI?
-4137:@c FIXME: MonitorServerAddress not used in GTK UI?
+2592:@c FIXME: remove -symdekeymap option!
+3154:@c FIXME: update drive types
 4325:@c FIXME: is this correct?
 4334:@c FIXME: shouldnt there be one fliplist per drive ?
 4353:@c FIXME: incomplete description for RomsetArchiveName
@@ -124,138 +132,33 @@ list of FIXMEs (49):
 4361:@c FIXME: incomplete description for RomsetFileName
 4365:@c FIXME: incomplete description for RomsetSourceFile
 4424:@c FIXME: clean up "c64/128" vs "c64"
-4749:@c FIXME: incomplete descriptions for resources
-4753:@c FIXME: IOCollisionHandling not used in GTK UI?
-5794:@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
-6002:@c FIXME: REUfirstUnusedRegister looks like a hacking option that we can perhaps remove
-6668:@c FIXME: C128FullBanks looks like a hacking option that we can perhaps remove
-6882:@c FIXME: FSFlashDir not used in GTK UI?
-7915:@c FIXME: is this correct?
-8482:@c FIXME
-8614:@c FIXME: description is wrong
-10337:@c FIXME: add some info on making screenshots, wav- and avi recordings
-10377:@c FIXME: FFMPEGVideoHalveFramerate not used in GTK UI?
-10414:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-11260:@c FIXME: add more c1541 examples
-11635:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-11636:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-11637:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-11638:@c FIXME: add D4M FD4000 ED disk image file structure
-11639:@c FIXME: add CRT c64 cartridge images file structure
-12058:@c FIXME: the D64 section needs to be style-checked.
-12059:@c FIXME: some of the D64 section needs to have sub-sections.
-12951:@c FIXME: the X64 section needs to be style-checked.
-13067:@c FIXME: the D71 section needs to be style-checked.
-13068:@c FIXME: some of the D71 section needs to have sub-sections.
-13728:@c FIXME: the D81 section needs to be style-checked.
-13729:@c FIXME: some of the D81 section needs to have sub-sections.
-14623:@c FIXME: the D80 section needs to be style-checked.
-14624:@c FIXME: some of the D80 section needs to have sub-sections.
-15312:@c FIXME: the D82 section needs to be style-checked.
-15313:@c FIXME: some of the D82 section needs to have sub-sections.
-16403:@c FIXME: the P00 section needs to be style-checked.
+5793:@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
+6001:@c FIXME: REUfirstUnusedRegister is a hacking option that we can remove
+7916:@c FIXME: is this correct?
+8484:@c FIXME: relink this node
+8608:@c FIXME: description is wrong
+10339:@c FIXME: add some info on making screenshots, wav- and avi recordings
+10416:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+11262:@c FIXME: add more c1541 examples
+11637:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+11638:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+11639:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+11640:@c FIXME: add D4M FD4000 ED disk image file structure
+11641:@c FIXME: add CRT c64 cartridge images file structure
+12060:@c FIXME: the D64 section needs to be style-checked.
+12061:@c FIXME: some of the D64 section needs to have sub-sections.
+12953:@c FIXME: the X64 section needs to be style-checked.
+13069:@c FIXME: the D71 section needs to be style-checked.
+13070:@c FIXME: some of the D71 section needs to have sub-sections.
+13730:@c FIXME: the D81 section needs to be style-checked.
+13731:@c FIXME: some of the D81 section needs to have sub-sections.
+14625:@c FIXME: the D80 section needs to be style-checked.
+14626:@c FIXME: some of the D80 section needs to have sub-sections.
+15314:@c FIXME: the D82 section needs to be style-checked.
+15315:@c FIXME: some of the D82 section needs to have sub-sections.
+16405:@c FIXME: the P00 section needs to be style-checked.
 
-nodes that need fixing (92):
-2211:@c @node FIXME
-2214:@c @node FIXME
-2618:@c @node FIXME
-2621:@c @node FIXME
-2719:@c @node FIXME
-2976:@c @node FIXME
-2982:@c @node FIXME
-4120:@c @node FIXME
-4164:@c @node FIXME
-4167:@c @node FIXME
-4177:@c @node FIXME
-4199:@c @node FIXME
-4202:@c @node FIXME
-4216:@c @node FIXME
-4461:@c @node FIXME
-4483:@c @node FIXME
-4506:@c @node FIXME
-4616:@c @node FIXME
-4646:@c @node FIXME
-4665:@c @node FIXME
-4703:@c @node FIXME
-4718:@c @node FIXME
-4725:@c @node FIXME
-4728:@c @node FIXME
-4950:@c @node FIXME
-5325:@c @node FIXME
-5328:@c @node FIXME
-5341:@c @node FIXME
-6181:@c @node FIXME
-6184:@c @node FIXME
-6224:@c @node FIXME
-6265:@c @node FIXME
-6268:@c @node FIXME
-6271:@c @node FIXME
-6377:@c @node FIXME
-6464:@c @node FIXME
-6467:@c @node FIXME
-6559:@c @node FIXME
-6631:@c @node FIXME
-6634:@c @node FIXME
-6653:@c @node FIXME
-6844:@c @node FIXME
-6940:@c @node FIXME
-6943:@c @node FIXME
-7020:@c @node FIXME
-7153:@c @node FIXME
-7156:@c @node FIXME
-7256:@c @node FIXME
-7537:@c @node FIXME
-7540:@c @node FIXME
-7552:@c @node FIXME
-7555:@c @node FIXME
-7558:@c @node FIXME
-7657:@c @node FIXME
-7737:@c @node FIXME
-7740:@c @node FIXME
-7776:@c @node FIXME
-7818:@c @node FIXME
-7821:@c @node FIXME
-7854:@c @node FIXME
-7881:@c @node FIXME
-7884:@c @node FIXME
-7904:@c @node FIXME
-8075:@c @node FIXME
-8078:@c @node FIXME
-8182:@c @node FIXME
-8263:@c @node FIXME
-8266:@c @node FIXME
-8304:@c @node FIXME
-8340:@c @node FIXME
-8343:@c @node FIXME
-8386:@c @node FIXME
-8443:@c @node FIXME
-8446:@c @node FIXME
-8634:@c @node FIXME
-8637:@c @node FIXME
-8652:@c @node FIXME
-8755:@c @node FIXME
-8758:@c @node FIXME
-8761:@c @node FIXME
-8777:@c @node FIXME
-10308:@c @node FIXME
-10313:@c @node FIXME
-10348:@c @node FIXME
-10376:@c @node FIXME
-10381:@c @node FIXME
-10399:@c @node FIXME
-11216:@c @node FIXME
-11226:@c @node FIXME
-11390:@c @node FIXME
-11418:@c @node FIXME
-11551:@c @node FIXME
-
-The following resources appear to have no description: (5)
-
-C128FullBanks
-REUfirstUnusedRegister
-RawDriveDriver
-KeymapSymDeFile
-openGL_no_sync
+nodes that need fixing (92)
 
 to get a much more detailed list use "./checkdoc.mak full"
 
@@ -272,16 +175,4 @@ cartconv - 22/01/2011
 c1541 -
 
 all command line options complete - 19/06/2012
-all resources included - 20/06/2012
-
---------
-TODO: fix GTK UI:
-
-RawDriveDriver
-
-missing in "save media image" dialog:
-DoodleCRTCTextColor
-DoodleTEDLumHandling
-DoodleMultiColorHandling
-DoodleOversizeHandling
-
+all resources complete - 22/06/2012
