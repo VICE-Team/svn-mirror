@@ -38,6 +38,7 @@
 #include "intl.h"
 #include "log.h"
 #include "psid.h"
+#include "sid.h"
 #include "sound.h"
 #include "ui.h"
 #include "vsidui.h"
@@ -93,6 +94,7 @@ static const ui_menu_toggle_t toggle_list[] = {
     { "SaveResourcesOnExit", IDM_TOGGLE_SAVE_SETTINGS_ON_EXIT },
     { "ConfirmOnExit", IDM_TOGGLE_CONFIRM_ON_EXIT },
     { "PSIDKeepEnv", IDM_PSID_OVERRIDE },
+    { "SidFilters", IDM_SID_FILTERS },
     { NULL, 0 }
 };
 
@@ -180,6 +182,50 @@ static int vsid_output_modes[] = {
     SOUND_OUTPUT_MONO,
     SOUND_OUTPUT_STEREO
 };
+
+static int vsid_sid_engines[] = {
+    SID_ENGINE_FASTSID
+#ifdef HAVE_RESID
+   ,SID_ENGINE_RESID
+#endif
+#ifdef HAVE_CATWEASELMKIII
+   ,SID_ENGINE_CATWEASELMKIII
+#endif
+#ifdef HAVE_HARDSID
+   ,SID_ENGINE_HARDSID
+#endif
+#ifdef HAVE_RESID_FP
+   ,SID_ENGINE_RESID_FP
+#endif
+};
+
+static int vsid_fastsid_models[] = {
+    SID_MODEL_6581,
+    SID_MODEL_8580
+};
+
+#ifdef HAVE_RESID
+static int vsid_resid_models[] = {
+    SID_MODEL_6581,
+    SID_MODEL_8580,
+    SID_MODEL_8580D
+};
+#endif
+
+#ifdef HAVE_RESID_FP
+static int vsid_residfp_models[] = {
+    SID_MODEL_6581R3_4885,
+    SID_MODEL_6581R3_0486S,
+    SID_MODEL_6581R3_3984,
+    SID_MODEL_6581R4AR_3789,
+    SID_MODEL_6581R3_4485,
+    SID_MODEL_6581R4_1986S,
+    SID_MODEL_8580R5_3691,
+    SID_MODEL_8580R5_3691D,
+    SID_MODEL_8580R5_1489,
+    SID_MODEL_8580R5_1489D
+};
+#endif
 
 static int vsid_requester(char *title, char *msg, char *buttons, int defval)
 {
@@ -455,32 +501,10 @@ static int vsid_menu_handle(int idm)
             resources_set_defaults();
             ui_message(translate_text(IDMES_DFLT_SETTINGS_RESTORED));
             break;
-        case IDM_ABOUT:
-            ui_about();
-            break;
-        case IDM_CONTRIBUTORS:
-            ui_show_text(translate_text(IDMES_VICE_CONTRIBUTORS), translate_text(IDMES_WHO_MADE_WHAT), info_contrib_text);
-            break;
-        case IDM_LICENSE:
-            ui_show_text(translate_text(IDMS_LICENSE), "VICE license (GNU General Public License)", info_license_text);
-            break;
-        case IDM_WARRANTY:
-            ui_show_text(translate_text(IDMS_NO_WARRANTY), translate_text(IDMES_VICE_DIST_NO_WARRANTY), info_warranty_text);
-            break;
-        case IDM_CMDLINE:
-            {
-                char *options;
-
-                options = cmdline_options_string();
-                ui_show_text(translate_text(IDMS_COMMAND_LINE_OPTIONS), translate_text(IDMES_WHICH_COMMANDS_AVAILABLE), options);
-                lib_free(options);
-            }
-            break;
         case IDM_SAMPLE_RATE:
             i = vsid_requester(translate_text(IDS_SAMPLE_RATE), translate_text(IDS_SAMPLE_RATE), "11025 Hz | 22050 Hz | 44100 Hz | 8000 Hz", 0);
             resources_set_int("SoundSampleRate", vsid_sample_rates[i]);
             break;
-
         case IDM_BUFFER_SIZE:
             i = vsid_requester(translate_text(IDS_BUFFER_SIZE), translate_text(IDS_BUFFER_SIZE), "150 msec | 200 msec | 250 msec | 300 msec | 350 msec | 100 msec", 0);
             resources_set_int("SoundBufferSize", vsid_buffer_sizes[i]);
@@ -507,6 +531,55 @@ static int vsid_menu_handle(int idm)
             resources_set_int("SoundOutput", vsid_output_modes[i]);
             lib_free(fname);
             break;
+        case IDM_SID_ENGINE_MODEL:
+            fname = util_concat(
+#ifdef HAVE_RESID
+                                "ReSID | ",
+#endif
+#ifdef HAVE_CATWEASELMKIII
+                                "Catweasel MK3 | ",
+#endif
+#ifdef HAVE_HARDSID
+                                "HardSID | ",
+#endif
+#ifdef HAVE_RESID_FP
+                                "ReSID-fp | ",
+#endif
+                                "Fast SID", NULL);
+            i = vsid_requester(translate_text(IDS_SID_ENGINE), translate_text(IDS_SID_ENGINE), fname, 0);
+            resources_set_int("SidEngine", vsid_sid_engines[i]);
+            lib_free(fname);
+            switch (vsid_sid_engines[i]) {
+                case SID_ENGINE_FASTSID:
+                    i = vsid_requester(translate_text(IDS_SID_MODEL), translate_text(IDS_SID_MODEL), "8580 | 6581", 0);
+                    resources_set_int("SidModel", vsid_fastsid_models[i]);
+                    break;
+#ifdef HAVE_RESID
+                case SID_ENGINE_RESID:
+                    i = vsid_requester(translate_text(IDS_SID_MODEL), translate_text(IDS_SID_MODEL), "8580 | 8580D | 6581", 0);
+                    resources_set_int("SidModel", vsid_resid_models[i]);
+                    break;
+#endif
+#ifdef HAVE_RESID_FP
+                case SID_ENGINE_RESID_FP:
+                    i = vsid_requester(translate_text(IDS_SID_MODEL), translate_text(IDS_SID_MODEL), "6581R3 0486S | 6581R3 3984 | 6581R4AR 3789 | 6581R3 4485 | 6581R4 1986S | 8580R5 3691 | 8580R5 3691D | 8580R5 1489 | 8580R5 1489D | 6581R3 4885", 0);
+                    resources_set_int("SidModel", vsid_residfp_models[i]);
+                    break;
+#endif
+            }
+            break;
+        case IDM_AMOUNT_OF_EXTRA_SIDS:
+            i = vsid_requester(translate_text(IDS_AMOUNT_OF_EXTRA_SIDS), translate_text(IDS_AMOUNT_OF_EXTRA_SIDS), "1 | 2 | 0", 0);
+            resources_get_int("SidStereo", i);
+            break;
+#ifdef HAVE_RESID
+        case IDM_SAMPLE_METHOD:
+            fname = util_concat(translate_text(IDS_INTERPOLATING), " | ", translate_text(IDS_RESAMPLING), " | ", translate_text(IDS_FAST_RESAMPLING), " | ", translate_text(IDS_FAST), NULL);
+            i = vsid_requester(translate_text(IDS_SAMPLE_METHOD), translate_text(IDS_SAMPLE_METHOD), fname, 0);
+            resources_set_int("SidResidSampling", i);
+            lib_free(fname);
+            break;
+#endif
         case IDM_SOUND_RECORD_START:
 #ifndef USE_LAMEMP3
             i = vsid_requester(translate_text(IDS_SOUND_RECORD_FORMAT), translate_text(IDS_SOUND_RECORD_FORMAT), "AIFF | VOC | WAV | IFF", 0);

@@ -9603,19 +9603,47 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SID_CART_SV, "SID-insticksmodul" },
 /* tr */ { IDS_SID_CART_TR, "SID kartuўu" },
 
-/* en */ { IDS_SID_ENGINE_MODEL,    "SID model" },
-/* da */ { IDS_SID_ENGINE_MODEL_DA, "SID-model" },
-/* de */ { IDS_SID_ENGINE_MODEL_DE, "SID Modell" },
-/* es */ { IDS_SID_ENGINE_MODEL_ES, "Modelo SID" },
+/* en */ { IDS_SID_ENGINE_MODEL,    "SID engine and model" },
+/* da */ { IDS_SID_ENGINE_MODEL_DA, "" },  /* fuzzy */
+/* de */ { IDS_SID_ENGINE_MODEL_DE, "" },  /* fuzzy */
+/* es */ { IDS_SID_ENGINE_MODEL_ES, "" },  /* fuzzy */
 /* fr */ { IDS_SID_ENGINE_MODEL_FR, "" },  /* fuzzy */
-/* hu */ { IDS_SID_ENGINE_MODEL_HU, "SID modell" },
-/* it */ { IDS_SID_ENGINE_MODEL_IT, "Modello SID" },
-/* ko */ { IDS_SID_ENGINE_MODEL_KO, "SID И№ЕЈ" },
-/* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID model" },
-/* pl */ { IDS_SID_ENGINE_MODEL_PL, "Model SID-a" },
-/* ru */ { IDS_SID_ENGINE_MODEL_RU, "модель звукогенератора SID" },
-/* sv */ { IDS_SID_ENGINE_MODEL_SV, "SID-modell" },
-/* tr */ { IDS_SID_ENGINE_MODEL_TR, "SID modeli" },
+/* hu */ { IDS_SID_ENGINE_MODEL_HU, "" },  /* fuzzy */
+/* it */ { IDS_SID_ENGINE_MODEL_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SID_ENGINE_MODEL_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SID_ENGINE_MODEL_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SID_ENGINE_MODEL_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SID_ENGINE_MODEL_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SID_ENGINE_MODEL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SID_ENGINE_MODEL_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SID_ENGINE,    "SID engine" },
+/* da */ { IDS_SID_ENGINE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SID_ENGINE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SID_ENGINE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SID_ENGINE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SID_ENGINE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SID_ENGINE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SID_ENGINE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SID_ENGINE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SID_ENGINE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SID_ENGINE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SID_ENGINE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SID_ENGINE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SID_MODEL,    "SID model" },
+/* da */ { IDS_SID_MODEL_DA, "" },  /* fuzzy */
+/* de */ { IDS_SID_MODEL_DE, "" },  /* fuzzy */
+/* es */ { IDS_SID_MODEL_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SID_MODEL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SID_MODEL_HU, "" },  /* fuzzy */
+/* it */ { IDS_SID_MODEL_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SID_MODEL_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SID_MODEL_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SID_MODEL_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SID_MODEL_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SID_MODEL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SID_MODEL_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SID_ADDRESS,    "SID address" },
 /* da */ { IDS_SID_ADDRESS_DA, "SID-adresse" },
