@@ -51,7 +51,7 @@
 /* FIXME: We need sanity checks!  And do we really need all of these
    `close_sound()' calls?  */
 
-#define SID_ENGINE_MODEL_DEBUG
+/* #define SID_ENGINE_MODEL_DEBUG */
 
 static int sid_filters_enabled;       /* app_resources.sidFilters */
 static int sid_model;                 /* app_resources.sidModel */
