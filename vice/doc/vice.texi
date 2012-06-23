@@ -3141,7 +3141,7 @@ needs it, without prompting the user.
 
 @vindex RawDriveDriver
 @item RawDriveDriver
-String specifying the raw device driver.
+String specifying the name of the device to be used for raw block access.
 
 @vindex DriveTrueEmulation
 @item DriveTrueEmulation
@@ -11020,6 +11020,14 @@ Displays the value of the @code{resource}.
 @item resourceset "<resource>" "<value>"
 @itemx resset "<resource>" "<value>"
 Sets the value of the @code{resource}.
+
+@item load_resources "<file>"
+@itemx resload "<file>"
+Load resources from @code{file}.
+
+@item save_resources "<file>"
+@itemx ressave "<file>"
+Save resources to @code{file}.
 
 @item screenshot "<filename>" [<format>]
 @itemx scrsh "<filename>" [<format>]
