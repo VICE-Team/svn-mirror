@@ -103,8 +103,8 @@ Delete 4 7 0
 BackSpace 4 7 8
 Shift_L 6 0 2
 Shift_R 6 6 4
-Return 3 4 0
-Escape 2 0 0
+Return 3 4 8
+Escape 2 0 8
 # RVS
 Page_Down 8 0 8
 # RPT
@@ -126,9 +126,9 @@ KP_Multiply 9 5 1
 KP_Divide 8 6 0
 KP_Add 2 6 1
 KP_Subtract 0 3 0
-KP_Enter 3 4 0
+KP_Enter 3 4 8
 KP_Decimal 6 4 0
-period 6 4 0
+period 6 3 0
 minus 0 3 0
 space 8 2 8
 colon 9 5 0
@@ -136,6 +136,7 @@ underscore 9 0 0
 comma 7 3 0
 slash 8 6 0
 backslash 4 4 0
+bar 4 4 1		# shift \ for SuperPET
 semicolon 2 6 0
 at 3 6 0
 a 3 0 0
@@ -165,9 +166,12 @@ x 8 1 0
 y 4 3 0
 z 7 0 0
 asciicircum 1 5 0
-asciitilde 1 5 0
-bracketright 2 4 0
-bracketleft 5 6 0
+grave 1 5 0		# ^
+asciitilde 1 5 1	# shift ^
+bracketleft 5 6 0	# [
+braceleft 5 6 1		# shift [, { for SuperPET
+bracketright 2 4 0	# ]
+braceright 2 4 1	# shift ], } for SuperPET
 Insert 4 7 1
 Left 0 5 1
 Up 5 4 1
