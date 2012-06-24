@@ -25,3 +25,4 @@ EXTRA_DIST = \
 	libffmpeg/libavutil/sha1.h \
 	libffmpeg/libswscale/swscale.h
 
+SUBDIRS = p64
