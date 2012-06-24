@@ -12,14 +12,13 @@ Overview:
 
 * vice/doc/vice.texi is the main documentation source.
 
-* vice/doc/building/*.txt should contain info on building specific ports
+* vice/doc/plain/*.txt should contain only technical information (related to
+  actual commodore computers, not vice). Files placed here should get linked
+  from index.html and als mentioned in vice.texi
 
 * vice/doc/readmes/*.txt should contain port specific readme files
-
+* vice/doc/building/*.txt should contain info on building specific ports
 * vice/doc/*.txt should only contain developer- or port-specific info
-
-* vice/doc/plain/*.txt should contain only technical information (related to
-  actual commodore computers, not vice)
 
 ------------------------------------------------------------------------------
 
@@ -49,6 +48,11 @@ command-line options:
 @cindex -something
 @item -something <value>
 Set something to <value>.
+
+@cindex -something, +something
+@item -something
+@itemx +something
+Enable/disable something
 
 @end table
 
@@ -86,12 +90,14 @@ some common errors and missing things, for example:
  - incorrect usage of the index
 
 - the tool must be run from within vice/doc and the emulator must be installed
+  prior to running the tool (because that is required for the translation stuff
+  to work correctly)
 
 run the tool by either typing
 
 make -f checkdoc.mak <option>
 
-or
+or (if your shell can figure out and call the interpreter) simply:
 
 ./checkdoc.mak <option>
 
@@ -113,52 +119,36 @@ TODO:
 =====
 
 like mentioned above, the todo list is contained in vice.texi in the form of
-comments. to show it using the checkdoc tool use "./checkdoc.mak fixme nodes"
+comments. to show it using the checkdoc tool use "./checkdoc.mak fixme"
 
-at the time of last updating this file (22/06/2012), the list looked like this:
+at the time of last updating this file (25/06/2012), the list looked like this:
 
-list of FIXMEs (39):
+list of FIXMEs (23):
 669:@c FIXME: add link to doc/html/plain/PETdoc.txt
 690:@c FIXME: add link to doc/html/plain/PETdoc.txt
 719:@c FIXME: add link to section
 789:@c FIXME: add a detailed list of all keys
-2536:@c FIXME: KeymapSymDeFile is really weird
-2592:@c FIXME: remove -symdekeymap option!
-3154:@c FIXME: update drive types
-4325:@c FIXME: is this correct?
-4334:@c FIXME: shouldnt there be one fliplist per drive ?
-4353:@c FIXME: incomplete description for RomsetArchiveName
-4357:@c FIXME: incomplete description for RomsetArchiveActive
-4361:@c FIXME: incomplete description for RomsetFileName
-4365:@c FIXME: incomplete description for RomsetSourceFile
-4424:@c FIXME: clean up "c64/128" vs "c64"
-5793:@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
-6001:@c FIXME: REUfirstUnusedRegister is a hacking option that we can remove
-7916:@c FIXME: is this correct?
-8484:@c FIXME: relink this node
-8608:@c FIXME: description is wrong
-10339:@c FIXME: add some info on making screenshots, wav- and avi recordings
-10416:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-11262:@c FIXME: add more c1541 examples
-11637:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-11638:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-11639:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-11640:@c FIXME: add D4M FD4000 ED disk image file structure
-11641:@c FIXME: add CRT c64 cartridge images file structure
-12060:@c FIXME: the D64 section needs to be style-checked.
-12061:@c FIXME: some of the D64 section needs to have sub-sections.
-12953:@c FIXME: the X64 section needs to be style-checked.
-13069:@c FIXME: the D71 section needs to be style-checked.
-13070:@c FIXME: some of the D71 section needs to have sub-sections.
-13730:@c FIXME: the D81 section needs to be style-checked.
-13731:@c FIXME: some of the D81 section needs to have sub-sections.
-14625:@c FIXME: the D80 section needs to be style-checked.
-14626:@c FIXME: some of the D80 section needs to have sub-sections.
-15314:@c FIXME: the D82 section needs to be style-checked.
-15315:@c FIXME: some of the D82 section needs to have sub-sections.
-16405:@c FIXME: the P00 section needs to be style-checked.
+4323:@c FIXME: is this correct?
+4417:@c FIXME: clean up "c64/128" vs "c64"
+8475:@c FIXME: relink this node
+10329:@c FIXME: add some info on making screenshots, wav- and avi recordings
+10406:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+11260:@c FIXME: add more c1541 examples
+11635:@c FIXME: add P64 disk image file structure
+11636:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+11637:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+11638:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+11639:@c FIXME: add D4M FD4000 ED disk image file structure
+11640:@c FIXME: add CRT c64 cartridge images file structure
+12059:@c FIXME: the D64 section needs to be style-checked.
+12955:@c FIXME: the X64 section needs to be style-checked.
+13071:@c FIXME: the D71 section needs to be style-checked.
+13733:@c FIXME: the D81 section needs to be style-checked.
+14632:@c FIXME: the D80 section needs to be style-checked.
+15322:@c FIXME: the D82 section needs to be style-checked.
+16414:@c FIXME: the P00 section needs to be style-checked.
 
-nodes that need fixing (92)
+nodes that need fixing (107)
 
 to get a much more detailed list use "./checkdoc.mak full"
 
@@ -166,13 +156,14 @@ to get a much more detailed list use "./checkdoc.mak full"
 
 Last fully checked:
 
-"c64 using cartridges" - 22/01/2011
-"c64 io extensions" - 22/01/2011
-monitor - 22/01/2011
+c64 using cartridges                        - 22/01/2011
+c64 io extensions                           - 22/01/2011
 
-petcat - 22/01/2011
-cartconv - 22/01/2011
-c1541 -
+monitor                                     - 22/01/2011
 
-all command line options complete - 19/06/2012
-all resources complete - 22/06/2012
+petcat                                      - 22/01/2011
+cartconv                                    - 22/01/2011
+c1541                                       -
+
+all command line options complete           - 19/06/2012
+all resources complete                      - 22/06/2012

@@ -2533,7 +2533,6 @@ for UK business keyboard or @code{2} for graphics keyboard.
 @item KeymapSymFile
 String specifying the name of the keymap file for the symbolic mapping
 (@pxref{Keyboard emulation}, all but PET and CBM-II).
-@c FIXME: KeymapSymDeFile is really weird
 @vindex KeymapSymDeFile
 @item KeymapSymDeFile
 String specifying the name of the keymap file for the symbolic mapping (de)
@@ -2589,7 +2588,6 @@ Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymFile}).
 @item -poskeymap NAME
 Specify @file{NAME} as the positional keymap file (@code{KeymapPosFile}).
 
-@c FIXME: remove -symdekeymap option!
 @cindex -symdekeymap
 @item -symdekeymap NAME
 Specify @file{NAME} as the symbolic keymap file (@code{KeymapSymDeFile}).
@@ -3151,7 +3149,6 @@ Boolean controlling whether the ``true'' drive emulation is turned on.
 @item DriveSoundEmulation
 Boolean controlling whether the drive noise emulation is turned on.
 
-@c FIXME: update drive types
 @vindex Drive8Type
 @vindex Drive9Type
 @vindex Drive10Type
@@ -3161,8 +3158,9 @@ Boolean controlling whether the drive noise emulation is turned on.
 @itemx Drive10Type
 @itemx Drive11Type
 Integers specifying the model number for drives 8 to 11.  Possible
-values  are @code{1541}, @code{1571}, @code{1581}, @code{2000},
-@code{4000} and @code{2031}.
+values are @code{1541}, @code{1542} (1541-II), @code{1570}, @code{1571}, 
+@code{1573} (1571CR), @code{1551}, @code{1581}, @code{1001}, @code{2000}, 
+@code{2031}, @code{2040}, @code{3040}, @code{4000}, @code{4040}, @code{8050}, @code{8250}.
 
 @vindex Drive8ParallelCable
 @vindex Drive9ParallelCable
@@ -3286,7 +3284,6 @@ Strings specifying the names of the ROM images for the drive emulation.
 @item DriveProfDOS1571Name
 String specifying the filename of the 1571 professional DOS ROM image.
 
-@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetDosName1541
 @vindex RomsetDosName1541ii
 @vindex RomsetDosName1570
@@ -4332,10 +4329,9 @@ Integer specifying whether the emulator is running as server or client (0: clien
 @vindex LogFileName
 @item LogFileName
 String specifying the filename of the current log file.
-@c FIXME: shouldnt there be one fliplist per drive ?
 @vindex FliplistName
 @item FliplistName
-String specifying the filename of the current flip list.
+String specifying the filename of the current flip list. (Drive 8 only)
 
 @vindex ConfirmOnExit
 @item ConfirmOnExit
@@ -5787,7 +5783,6 @@ Integer that specifies reSID gain in percent [97] (90..100)
 @item SidResidFilterBias
 Integer that specifies reSID filter bias, which can be used to adjust DAC bias 
 in millivolts. [0] (-5000..5000)
-@c FIXME: SidParSIDport seems obsolete (only appears once in sid-resources.c)
 @vindex SidParSIDport
 @item SidParSIDport
 Integer specifying the lpt port used for ParSID.
@@ -5995,7 +5990,6 @@ contents changed, when detaching or quitting the emulator.
 @item REUsize
 Integer specifying the size of the emulated REU in KB (128, 256, 512, 1024, 2048,
 4096, 8192, 16384)
-@c FIXME: REUfirstUnusedRegister is a hacking option that we can remove
 @vindex REUfirstUnusedRegister
 @item REUfirstUnusedRegister
 Integer specifying the first unused REU register (obsolete, will get removed)
@@ -6163,7 +6157,6 @@ Commodore SX-64 ROM;
 Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @end table
 
-@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetKernalName
 @vindex RomsetBasicName
 @vindex RomsetChargenName
@@ -6544,7 +6537,6 @@ Boolean, enables the external function ROM.
 @item ExternalFunctionName
 Strings specifying the filename of the ROM image for the external function ROM.
 
-@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetChargenIntName
 @vindex RomsetChargenDEName
 @vindex RomsetChargenFRName
@@ -7869,7 +7861,6 @@ String specifying the filenames of cartridge 2 Lo ROM.
 @item c2hiName
 String specifying the filenames of cartridge 2 High ROM.
 
-@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetFunctionLowName
 @vindex RomsetFunctionHighName
 @item RomsetFunctionLowName
@@ -7913,10 +7904,10 @@ Specify name of Cartridge 2 high ROM image
 
 @table @code
 
-@c FIXME: is this correct?
 @vindex H256K
 @item H256K
-Boolean, enables the HANNES 256K RAM expansion
+Integer, enables the HANNES 256K RAM expansion (0: disabled, 1: 256kB, 2: 1024kB,
+3: 4096kB)
 
 @vindex CS256K
 @item CS256K
@@ -8386,7 +8377,6 @@ Enable/Disable SID Cartridge
 @itemx H6809RomFName
 Strings specifying the filenames of the respective H6809 ROM images.
 
-@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetEditorName
 @vindex RomsetRomModule9Name
 @vindex RomsetRomModuleAName
@@ -8606,7 +8596,6 @@ Expanded CBM-II models could map RAM to the expansion ROM areas
 at $0800-$0fff, $1000-$1fff, $2000-$3FFF, $4000-$5FFF, $6000-$7FFF
 and $c000-$cfff respectively.
 
-@c FIXME: description is wrong
 @vindex Cart1Name
 @vindex Cart2Name
 @vindex Cart4Name
@@ -8615,7 +8604,7 @@ and $c000-$cfff respectively.
 @itemx Cart2Name
 @itemx Cart4Name
 @itemx Cart6Name
-Specify @file{NAME} as the $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
+Specify @file{NAME} as the $1000-$1FFF, $2000-$3FFF, $4000-$5FFF or $6000-$6FFF
 Expansion ROM file.  This file contains an 8k ROM dump.
 
 @vindex ModelLine
@@ -8667,7 +8656,6 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 @subsubsection CBM-II system ROM resources
 
 @table @code
-@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetCart1Name
 @vindex RomsetCart2Name
 @vindex RomsetCart4Name
@@ -11644,6 +11632,7 @@ the C64S emulator.  It is easy to use and allows future extensions.
 * T64 file record::
 @end menu
 
+@c FIXME: add P64 disk image file structure
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
 @c FIXME: add D1M FD2000/FD4000 DD disk image file structure
 @c FIXME: add D2M FD2000/FD4000 HD disk image file structure
@@ -12068,7 +12057,6 @@ beginning of the image.
 @section The D64 disk image format
 
 @c FIXME: the D64 section needs to be style-checked.
-@c FIXME: some of the D64 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -12409,7 +12397,8 @@ Files, on a standard 1541, are stored using an interleave of 10.
 Assuming a starting track/sector of 17/0, the chain would run
 17/0, 17/10, 17/20, 17/8, 17/18, etc.
 
-*** Non-Standard & Long Directories
+@c @node FIXME
+@subsection Non-Standard & Long Directories
 
 Most Commdore floppy disk drives use a single dedicated
 directory track where all filenames are stored. This limits the
@@ -12446,7 +12435,8 @@ directory goes to 19/6, then the validate code will read 18/6
 instead. If 18/6 is part of the normal directory chain then the
 validate routine will loop endlessly.
 
-*** BAM layout
+@c @node FIXME
+@subsection BAM layout
 
 The layout of the BAM area (sector 18/0) is a bit more complicated...
 
@@ -12609,7 +12599,8 @@ point the last sector occupies from bytes $02-$34.
 @tab (0/34)
 @end multitable
 
-*** Variations on the D64 layout
+@c @node FIXME
+@subsection Variations on the D64 layout
 
 These are some variations of the D64 layout:
 
@@ -12785,7 +12776,8 @@ of starting at $90.
  00D0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @end example
 
-*** Error codes
+@c @node FIXME
+@subsection Error codes
 
 Here is the meaning of the error bytes added onto the end of
 any extended D64. The CODE is the same as that generated by
@@ -13077,7 +13069,6 @@ emulator don't use bytes $08-$3F.
 @section The D71 disk image format
 
 @c FIXME: the D71 section needs to be style-checked.
-@c FIXME: some of the D71 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -13541,7 +13532,8 @@ with a sector interleave of 6, rather than 10 which the 1541
 (and the 1571 in "1541" mode) uses. The directory still uses an
 interleave of 3.
 
-*** Non-Standard & Long Directories
+@c @node FIXME
+@subsection Non-Standard & Long Directories
 
 Most Commodore floppy disk drives use a single dedicated
 directory track where all filenames are stored. This limits the
@@ -13579,7 +13571,8 @@ validating so if the directory goes to 19/6, then the validate
 code will read 18/6 instead. If 18/6 is part of the normal
 directory chain then the validate routine will loop endlessly.
 
-*** Bam layout The BAM is somewhat different as it now has to
+@c @node FIXME
+@subsection Bam layout The BAM is somewhat different as it now has to
 take 35 new tracks into account. In order to do this, most of
 the extra BAM information is stored on track 53/0, and the
 remaining sectors on track 53 are marked in the BAM as
@@ -13738,7 +13731,6 @@ the file size is 351062 bytes.
 @section The D81 disk image format
 
 @c FIXME: the D81 section needs to be style-checked.
-@c FIXME: some of the D81 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -14296,7 +14288,8 @@ The actual file type can be one of the following:
 
 Values 6-15 are illegal, but if used will produce very strange results.
 
-*** Non-Standard & Long Directories
+@c @node FIXME
+@subsection Non-Standard & Long Directories
 
 Most Commdore floppy disk drives use a single dedicated directory
 track where all filenames are stored. This limits the number of
@@ -14315,7 +14308,8 @@ drives core ROM routines ignore the track value that the
 directory is on and assume the default directory track for
 operations.
 
-*** BAM layout
+@c @node FIXME
+@subsection BAM layout
 
 The BAM is located on 40/1 (for side 0, tracks 1-40) and 40/2
 (for side 1, tracks 41-80). Each entry takes up six bytes, one
@@ -14429,7 +14423,8 @@ It is laid out exactly as the side 0 BAM except for one
 difference. The track/sector reference for the next sector
 should be set to $00/$FF, indicating there is no next sector.
 
-*** REL files The REL filetype requires some extra explaining.
+@c @node FIXME
+@subsection REL files The REL filetype requires some extra explaining.
 It was designed to make access to data *anywhere* on the disk
 very fast. Take a look at this directory entry...
 
@@ -14510,7 +14505,8 @@ $10-$FF: T/S chains of *each* sector of the data portion. When we
          get a $00/$00, we are at the end of the file.
 @end example
 
-*** 1581 Partitions and Sub-directories
+@c @node FIXME
+@subsection 1581 Partitions and Sub-directories
 
 At the beginning of this section it was stated that the 1581 can
 hold 296 entries "at the root level". The 1581 also has the
@@ -14610,7 +14606,8 @@ a file would, but rather is dependant on the directory entry to
 keep it from being overwritten. You can store whatever you want
 to in the allocated area.
 
-*** AUTO-BOOT LOADER
+@c @node FIXME
+@subsection AUTO-BOOT LOADER
 
 If byte $07 in the BAM is set, then when the drive is reset
 (and other circumstances) it will look for a USR file called
@@ -14633,7 +14630,6 @@ $03-($03+SZ-1): Program data
 @section The D80 disk image format
 
 @c FIXME: the D80 section needs to be style-checked.
-@c FIXME: some of the D80 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -15168,7 +15164,8 @@ The actual file type can be one of the following:
 
 Values 5-15 are illegal, but if used will produce very strange results.
 
-*** Non-Standard & Long Directories
+@c @node FIXME
+@subsection Non-Standard & Long Directories
 
 Most Commdore floppy disk drives use a single dedicated
 directory track where all filenames are stored. This limits the
@@ -15187,7 +15184,8 @@ non-extended part. Many of the floppy drives core ROM routines
 ignore the track value that the directory is on and assume the
 default directory track for operations.
 
-*** BAM layout
+@c @node FIXME
+@subsection BAM layout
 
 The BAM only occupies up to four sectors on track 38, so the
 rest of the track is empty and is available for file storage.
@@ -15322,7 +15320,6 @@ F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @section The D82 disk image format
 
 @c FIXME: the D82 section needs to be style-checked.
-@c FIXME: some of the D82 section needs to have sub-sections.
 
 (This section was contributed by Peter Schepers and slightly edited by
 Marco van den Heuvel.)
@@ -16178,7 +16175,8 @@ The actual file type can be one of the following:
 
 Values 5-15 are illegal, but if used will produce very strange results.
 
-*** Non-Standard & Long Directories
+@c @node FIXME
+@subsection Non-Standard & Long Directories
 
 Most Commdore floppy disk drives use a single dedicated
 directory track where all filenames are stored. This limits the
@@ -16197,7 +16195,8 @@ non-extended part. Many of the floppy drives core ROM routines
 ignore the track value that the directory is on and assume the
 default directory track for operations.
 
-*** BAM layout
+@c @node FIXME
+@subsection BAM layout
 
 The BAM only occupies up to four sectors on track 38, so the
 rest of the track is empty and is available for file storage.
