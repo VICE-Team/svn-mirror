@@ -3286,6 +3286,7 @@ Strings specifying the names of the ROM images for the drive emulation.
 @item DriveProfDOS1571Name
 String specifying the filename of the 1571 professional DOS ROM image.
 
+@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetDosName1541
 @vindex RomsetDosName1541ii
 @vindex RomsetDosName1570
@@ -3315,7 +3316,7 @@ String specifying the filename of the 1571 professional DOS ROM image.
 @itemx RomsetDosName1001
 @itemx RomsetDosName1571cr
 @itemx RomsetDosName1551
-Strings specifying the names of the drive ROM images in the current ROM set.
+Integers [0]
 
 @end table
 
@@ -4350,22 +4351,18 @@ Boolean specifying whether to show a confirmation dialog on exit.
 @itemx AttachDevice11Readonly
 Booleans that specify whether to attach images on drives 8 to 11 read-only.
 
-@c FIXME: incomplete description for RomsetArchiveName
 @vindex RomsetArchiveName
 @item RomsetArchiveName
-String ["default"]
-@c FIXME: incomplete description for RomsetArchiveActive
+String specifying the filename of the ROM set archive (.vra) file ["default"]
 @vindex RomsetArchiveActive
 @item RomsetArchiveActive
-String [""]
-@c FIXME: incomplete description for RomsetFileName
+String specifying the active configuration of the current ROM set archive [""]
 @vindex RomsetFileName
 @item RomsetFileName
-String ["default"]
-@c FIXME: incomplete description for RomsetSourceFile
+String specifying the filename of the ROM set resource file ["default"]
 @vindex RomsetSourceFile
 @item RomsetSourceFile
-Boolean [1]
+Boolean specifying the type of currently used ROM set (0: .vra Archive, 1: resource file) [1]
 
 @end table
 
@@ -6166,13 +6163,14 @@ Commodore SX-64 ROM;
 Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @end table
 
+@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetKernalName
 @vindex RomsetBasicName
 @vindex RomsetChargenName
 @item RomsetKernalName
 @itemx RomsetBasicName
 @itemx RomsetChargenName
-Strings specifying the filenames of the respective ROM images used by the current ROM set.
+Integers [0]
 
 @end table
 
@@ -6546,6 +6544,7 @@ Boolean, enables the external function ROM.
 @item ExternalFunctionName
 Strings specifying the filename of the ROM image for the external function ROM.
 
+@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetChargenIntName
 @vindex RomsetChargenDEName
 @vindex RomsetChargenFRName
@@ -6576,7 +6575,7 @@ Strings specifying the filename of the ROM image for the external function ROM.
 @itemx RomsetBasicHiName
 @itemx RomsetKernal64Name
 @itemx RomsetBasic64Name
-Strings specifying the filenames of the respective ROM images used by the current ROM set.
+Integers [0]
 
 @end table
 
@@ -7870,11 +7869,12 @@ String specifying the filenames of cartridge 2 Lo ROM.
 @item c2hiName
 String specifying the filenames of cartridge 2 High ROM.
 
+@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetFunctionLowName
 @vindex RomsetFunctionHighName
 @item RomsetFunctionLowName
 @itemx RomsetFunctionHighName
-Strings specifying the filenames of the respective ROM images used by the current ROM set.
+Integers [0]
 
 @end table
 
@@ -8386,6 +8386,7 @@ Enable/Disable SID Cartridge
 @itemx H6809RomFName
 Strings specifying the filenames of the respective H6809 ROM images.
 
+@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetEditorName
 @vindex RomsetRomModule9Name
 @vindex RomsetRomModuleAName
@@ -8406,7 +8407,7 @@ Strings specifying the filenames of the respective H6809 ROM images.
 @itemx RomsetH6809RomDName
 @itemx RomsetH6809RomEName
 @itemx RomsetH6809RomFName
-Strings specifying the filenames of the respective ROM images used by the current ROM set.
+Integers [0]
 
 @end table
 
@@ -8666,6 +8667,7 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 @subsubsection CBM-II system ROM resources
 
 @table @code
+@c FIXME: RomsetXXXName resources seem to be unused (only appear in c64-resources.c etc)
 @vindex RomsetCart1Name
 @vindex RomsetCart2Name
 @vindex RomsetCart4Name
@@ -8674,7 +8676,7 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 @itemx RomsetCart2Name
 @itemx RomsetCart4Name
 @itemx RomsetCart6Name
-Strings specifying the filenames of the respective ROM images used by the current ROM set.
+Integers [0]
 @end table
 
 @c @node FIXME
