@@ -350,10 +350,49 @@ static void usage(void)
     exit(1);
 }
 
+static void printbanks(char *name)
+{
+    FILE *f;
+    unsigned char b[0x10];
+    unsigned long len;
+    unsigned long pos;
+    unsigned int type, bank, start, size;
+    char *typestr[3] = {"ROM", "RAM", "FLASH"};
+    unsigned int numbanks;
+    unsigned long tsize;
+
+    f = fopen(name, "rb");
+    tsize = 0; numbanks = 0;
+    if (f) {
+        fseek(f, 0x40, SEEK_SET); /* skip crt header */
+        pos = 0x40;
+        printf("\noffset  sig  type  bank start size  chunklen\n");
+        while (!feof(f)) {
+            fseek(f, pos, SEEK_SET);
+            /* get chip header */
+            if (fread(b, 1, 0x10, f) < 0x10) {
+                break;
+            }
+            len = (b[7] + (b[6] * 0x100) + (b[5] * 0x10000) + (b[4] * 0x1000000));
+            type = (b[8] * 0x100) + b[9];
+            bank = (b[10] * 0x100) + b[11];
+            start = (b[12] * 0x100) + b[13];
+            size = (b[14] * 0x100) + b[15];
+            printf("$%06lx %c%c%c%c %-5s #%03d $%04x $%04x $%04lx\n", pos, b[0], b[1], b[2], b[3], typestr[type], bank, start, size, len);
+            pos += len;
+            numbanks++;
+            tsize += size;
+        }
+        fclose(f);
+        printf("\ntotal banks: %d size: $%06lx\n", numbanks, tsize);
+    }
+}
+
 static void printinfo(char *name)
 {
     int crtid;
-    char *idname;
+    char *idname, *modename;
+    char cartname[0x20+1];
     load_input_file(name);
     crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
     if (headerbuffer[0x17] & 0x80) {
@@ -365,7 +404,21 @@ static void printinfo(char *name)
     } else {
         idname = "unknown";
     }
-    printf("Hardware ID:%5d %20s %s\n", crtid, idname, name);
+    if ((headerbuffer[0x18] == 1) && (headerbuffer[0x19] == 0)) {
+        modename = "ultimax";
+    } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 0)) {
+        modename = "16k Game";
+    } else if ((headerbuffer[0x18] == 0) && (headerbuffer[0x19] == 1)) {
+        modename = "8k Game";
+    } else {
+        modename = "?";
+    }
+    memcpy(cartname, &headerbuffer[0x20], 0x20); cartname[0x20] = 0;
+    printf("CRT Version: %d.%d\n", headerbuffer[0x14], headerbuffer[0x15]);
+    printf("Name: %s\n", cartname);
+    printf("Hardware ID: %d (%s)\n", crtid, idname);
+    printf("Mode: exrom: %d game: %d (%s)\n", headerbuffer[0x18], headerbuffer[0x19], modename);
+    printbanks(name);
     exit (0);
 }
 
