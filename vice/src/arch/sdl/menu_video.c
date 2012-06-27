@@ -539,7 +539,7 @@ UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 static UI_MENU_CALLBACK(restore_size_callback)
 {
     if (activated) {
-        sdl_video_resize(0, 0);
+        sdl_video_restore_size();
     }
     return NULL;
 }

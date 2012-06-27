@@ -27,6 +27,8 @@
  *
  */
 
+#define SDL_DEBUG
+
 #include "vice.h"
 
 #include "vice_sdl.h"
@@ -59,6 +61,12 @@
 #define SDL_DISABLE SDL_IGNORE
 #endif
 
+#ifdef SDL_DEBUG
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
+
 static int sdl_ui_ready = 0;
 
 /* ----------------------------------------------------------------- */
@@ -66,40 +74,64 @@ static int sdl_ui_ready = 0;
 
 static int first = 1;
 
+static void ui_setupfirst(void)
+{
+    int w, h;
+    /* restore window to its saved size first time it is shown */
+    if(first) {
+        first = 0;
+        resources_get_int("SDLWindowWidth", &w);
+        resources_get_int("SDLWindowHeight", &h);
+        DBG(("ui_setupfirst (%d,%d)\n", w, h));
+        if ((w == 0) || (h == 0)) {
+            sdl_video_restore_size();
+        } else {
+            sdl_video_resize((unsigned int)w, (unsigned int)h);
+        }
+    }
+}
+
 /* Misc. SDL event handling */
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
     switch (e.type) {
         case SDL_QUIT:
+            DBG(("ui_handle_misc_sdl_event: SDL_QUIT\n"));
             ui_sdl_quit();
             break;
         case SDL_VIDEORESIZE:
-            sdl_video_resize((unsigned int)e.resize.w, (unsigned int)e.resize.h);
-            resources_set_int("SDLWindowWidth", e.resize.w);
-            resources_set_int("SDLWindowHeight", e.resize.h);
-            break;
-        case SDL_VIDEOEXPOSE:
-            {
-                int w, h;
-                /* restore window to its saved size first time it is shown */
-                if(first) {
-                    resources_get_int("SDLWindowWidth", &w);
-                    resources_get_int("SDLWindowHeight", &h);
-                    sdl_video_resize((unsigned int)w, (unsigned int)h);
-                    first = 0;
-                }
+            DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)\n", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
+            if(!first) {
+                sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
             }
             video_canvas_refresh_all(sdl_active_canvas);
             break;
-/*
         case SDL_ACTIVEEVENT:
+            DBG(("ui_handle_misc_sdl_event: SDL_ACTIVEEVENT\n"));
+            ui_setupfirst();
+            video_canvas_refresh_all(sdl_active_canvas);
             break;
-*/
+        case SDL_VIDEOEXPOSE:
+            DBG(("ui_handle_misc_sdl_event: SDL_VIDEOEXPOSE\n"));
+            ui_setupfirst();
+            video_canvas_refresh_all(sdl_active_canvas);
+            break;
+#ifdef SDL_DEBUG
+        case SDL_USEREVENT:
+            DBG(("ui_handle_misc_sdl_event: SDL_USEREVENT\n"));
+            break;
+        case SDL_SYSWMEVENT:
+            DBG(("ui_handle_misc_sdl_event: SDL_SYSWMEVENT\n"));
+            break;
+#endif
         default:
+            DBG(("ui_handle_misc_sdl_event: unhandled\n"));
             break;
     }
 }
 
+#if 0
+/* unused ? */
 void ui_dispatch_next_event(void)
 {
     SDL_Event e;
@@ -111,6 +143,7 @@ void ui_dispatch_next_event(void)
         SDL_Delay(10);
     }
 }
+#endif
 
 /* Main event handler */
 ui_menu_action_t ui_dispatch_events(void)
@@ -152,7 +185,9 @@ ui_menu_action_t ui_dispatch_events(void)
                 }
                 break;
             default:
+                SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
                 ui_handle_misc_sdl_event(e);
+                SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
                 break;
         }
         /* When using the menu or vkbd, pass every meaningful event to the caller */

@@ -82,8 +82,12 @@ typedef struct video_canvas_s video_canvas_t;
 
 extern video_canvas_t *sdl_active_canvas;
 
-/* Resize window to w/h. 0/0 resizes to stored real size */
+/* Resize window to w/h. */
 extern void sdl_video_resize(unsigned int w, unsigned int h);
+/* Resize window to stored real size */
+extern void sdl_video_restore_size(void);
+/* special case handling for the SDL window resize event */
+extern void sdl_video_resize_event(unsigned int w, unsigned int h);
 
 /* Switch to canvas with given index; used by x128 and xcbm2 */
 extern void sdl_video_canvas_switch(int index);

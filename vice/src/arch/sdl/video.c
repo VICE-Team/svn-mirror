@@ -30,7 +30,7 @@
  *
  */
 
-/* #define SDL_DEBUG */
+#define SDL_DEBUG
 
 #include "vice.h"
 
@@ -272,9 +272,9 @@ static const resource_int_t resources_int[] = {
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", 600, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
-    { "SDLWindowWidth", 320, RES_EVENT_NO, NULL,
+    { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
       &sdl_window_width, set_sdl_window_width, NULL },
-    { "SDLWindowHeight", 200, RES_EVENT_NO, NULL,
+    { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
 #ifdef HAVE_HWSCALE
     { "SDLGLAspectMode", SDL_ASPECT_MODE_OFF, RES_EVENT_NO, NULL,
@@ -410,7 +410,7 @@ static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsign
         canvas->draw_buffer->canvas_physical_width = new_w;
         canvas->draw_buffer->canvas_physical_height = new_h;
         video_viewport_resize(canvas, 0);
-        sdl_forced_resize = 0;
+        /* sdl_forced_resize = 0; */
     }
 
     return limiting;
@@ -485,21 +485,26 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     fprintf(stderr, "%s: %i,%i (%i)\n", __func__, *width, *height, canvas->index);
 #endif
 
+    if ((*width == 0) || (*height == 0)) {
+        *width = 320;
+        *height = 200;
+    }
+
     flags = SDL_SWSURFACE | SDL_RESIZABLE;
 
     /* initialize real size and dsize state on first call */
-    if (canvas->real_width == 0) {
+    if ((canvas->real_width == 0) || (canvas->real_height == 0)) {
         canvas->real_width = *width;
         canvas->real_height = *height;
         canvas->dsizex = canvas->videoconfig->doublesizex;
         canvas->dsizey = canvas->videoconfig->doublesizey;
 #ifdef SDL_DEBUG
-        fprintf(stderr, "%s: init real size to %i,%i (%i)\n", __func__, *width, *height, canvas->index);
+        fprintf(stderr, "%s: init real size to %i(x%i),%i(x%i) (%i)\n", __func__, *width, canvas->dsizex, *height, canvas->dsizey, canvas->index);
 #endif
     }
 
-    new_width = *width ? *width : sdl_window_width;
-    new_height = *height ? *height : sdl_window_height;
+    new_width = *width;
+    new_height = *height;
 
     if (canvas->videoconfig->doublesizex) {
         new_width *= (canvas->videoconfig->doublesizex + 1);
@@ -530,7 +535,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     }
 
     if (fullscreen) {
-        flags = SDL_FULLSCREEN | SDL_HWSURFACE;
+        flags = SDL_FULLSCREEN | SDL_SWSURFACE;
 
         if (canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
             if (hwscale) {
@@ -564,7 +569,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 #ifdef HAVE_HWSCALE
     if (hwscale) {
-        flags = SDL_OPENGL | SDL_RESIZABLE;
+        flags = SDL_OPENGL | SDL_SWSURFACE | SDL_RESIZABLE;
 
         if (fullscreen) {
             flags |= SDL_FULLSCREEN;
@@ -856,6 +861,7 @@ static inline int check_resize(struct video_canvas_s *canvas)
     return 0;
 }
 
+/* called from video_viewport_resize */
 void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
     unsigned int width = canvas->draw_buffer->canvas_width;
@@ -872,44 +878,39 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
         canvas->real_height = height;
         canvas->dsizex = canvas->videoconfig->doublesizex;
         canvas->dsizey = canvas->videoconfig->doublesizey;
-        sdl_video_resize(0, 0);
+        sdl_video_restore_size();
     }
+    sdl_forced_resize = 0; /* set the real canvas size */
     video_canvas_create(canvas, &width, &height, 0);
 }
 
+/* Resize window to w/h. */
 void sdl_video_resize(unsigned int w, unsigned int h)
 {
 #ifdef SDL_DEBUG
     fprintf(stderr,"%s: %ix%i\n", __func__, w, h);
 #endif
-    vsync_suspend_speed_eval();
 
-    if ((w == 0) && (h == 0)) {
-        w = sdl_active_canvas->real_width;
-        h = sdl_active_canvas->real_height;
-
-        if (sdl_active_canvas->videoconfig->doublesizex) {
-            w *= (sdl_active_canvas->videoconfig->doublesizex + 1);
-        }
-
-        if (sdl_active_canvas->videoconfig->doublesizey) {
-            h *= (sdl_active_canvas->videoconfig->doublesizey + 1);
-        }
+    if ((w == 0) || (h == 0)) {
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %ix%i->%ix%i\n", __func__, sdl_active_canvas->real_width, sdl_active_canvas->real_height, w, h);
+        fprintf(stderr,"%s: ERROR, ignored!\n", __func__);
 #endif
+        return;
     }
 
-    sdl_forced_resize = 1;
+    vsync_suspend_speed_eval();
+
+    sdl_forced_resize = 1; /* change the size of the SDL window */
 #ifdef HAVE_HWSCALE
     if (sdl_active_canvas->videoconfig->hwscale && sdl_active_canvas->hwscale_screen) {
-        int flags = SDL_OPENGL | SDL_RESIZABLE;
+        int flags = SDL_OPENGL | SDL_SWSURFACE| SDL_RESIZABLE;
 
         if (sdl_active_canvas->fullscreenconfig->enable) {
             flags |= SDL_FULLSCREEN;
         }
 
         sdl_active_canvas->hwscale_screen = SDL_SetVideoMode((int)w, (int)h, sdl_bitdepth, flags);
+
 #ifdef SDL_DEBUG
         if (!sdl_active_canvas->hwscale_screen) {
             fprintf(stderr,"%s: setting video mode failed\n", __func__);
@@ -923,7 +924,49 @@ void sdl_video_resize(unsigned int w, unsigned int h)
         sdl_active_canvas->draw_buffer->canvas_physical_height = h;
         video_viewport_resize(sdl_active_canvas, 0);
     }
-    sdl_forced_resize = 0;
+    /* sdl_forced_resize = 0; */
+}
+
+/* Resize window to stored real size */
+void sdl_video_restore_size(void)
+{
+    unsigned int w, h;
+
+    w = sdl_active_canvas->real_width;
+    h = sdl_active_canvas->real_height;
+
+    if (sdl_active_canvas->videoconfig->doublesizex) {
+        w *= (sdl_active_canvas->videoconfig->doublesizex + 1);
+    }
+
+    if (sdl_active_canvas->videoconfig->doublesizey) {
+        h *= (sdl_active_canvas->videoconfig->doublesizey + 1);
+    }
+#ifdef SDL_DEBUG
+    fprintf(stderr,"%s: %ix%i->%ix%i\n", __func__, sdl_active_canvas->real_width, sdl_active_canvas->real_height, w, h);
+#endif
+    sdl_video_resize(w, h);
+}
+
+/* special case handling for the SDL window resize event */
+void sdl_video_resize_event(unsigned int w, unsigned int h)
+{
+#ifdef HAVE_HWSCALE
+
+#ifdef SDL_DEBUG
+    fprintf(stderr,"%s: %ix%i\n", __func__, w, h);
+#endif
+    if ((w == 0) || (h == 0)) {
+#ifdef SDL_DEBUG
+        fprintf(stderr,"%s: ERROR, ignored!\n", __func__);
+#endif
+        return;
+    }
+    resources_set_int("SDLWindowWidth", w);
+    resources_set_int("SDLWindowHeight", h);
+    sdl_video_resize(w, h);
+
+#endif /*  HAVE_HWSCALE */
 }
 
 void sdl_video_canvas_switch(int index)
