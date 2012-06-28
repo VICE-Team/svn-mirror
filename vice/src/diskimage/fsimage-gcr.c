@@ -460,8 +460,8 @@ int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
         gcr_current_track_size = gcr_track_size;
     } else {
         gcr_track_start_ptr = image->gcr->data
-                              + ((track - 1) * max_track_length);
-        gcr_current_track_size = image->gcr->track_size[track - 1];
+                              + (((track << 1) - 2) * max_track_length);
+        gcr_current_track_size = image->gcr->track_size[(track << 1) - 2];
     }
     if (gcr_read_sector(gcr_track_start_ptr, gcr_current_track_size,
         buf, track, sector) < 0) {
@@ -517,8 +517,8 @@ int fsimage_gcr_write_sector(disk_image_t *image, BYTE *buf,
         speed_zone = NULL;
     } else {
         gcr_track_start_ptr = image->gcr->data
-                              + ((track - 1) * max_track_length);
-        gcr_current_track_size = image->gcr->track_size[track - 1];
+                              + (((track << 1) - 2) * max_track_length);
+        gcr_current_track_size = image->gcr->track_size[(track << 1) - 2];
         speed_zone = image->gcr->speed_zone;
     }
     if (gcr_write_sector(gcr_track_start_ptr,

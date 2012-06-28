@@ -17104,7 +17104,9 @@ Made 1541 GCR hardware tests.
 
 @item
 @b{Robert McIntyre}
-Made additional small changes to the gcr.h.
+Bugged people enough to get the improved g64 support rolling, 
+updated g64 support to allow variable-length tracks, and 
+performed initial development of half-track support.
 
 @item
 @b{István Fábián}
