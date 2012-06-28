@@ -102,6 +102,13 @@ int fsimage_read_gcr_image(disk_image_t *image)
     }
     image->gcr->max_track_size = max_track_length;
 
+#ifdef GCR_LOW_MEM
+    if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
+        log_error(fsimage_gcr_log, "Too large max track length.");
+        return -1;
+    }
+#endif
+
     fseek(fsimage->fd, 12, SEEK_SET);
     if (util_dword_read(fsimage->fd, gcr_track_p, num_half_tracks) < 0) {
         log_error(fsimage_gcr_log, "Could not read GCR disk image.");
@@ -142,6 +149,11 @@ int fsimage_read_gcr_image(disk_image_t *image)
             }
 
             track_len = len[0] + len[1] * 256;
+
+            if (track_len > max_track_length) {
+                log_error(fsimage_gcr_log, "Could not read GCR disk image.");
+                return -1;
+            }
 
             image->gcr->track_size[half_track] = (unsigned int)track_len;
 
@@ -201,6 +213,12 @@ int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
         log_error(fsimage_gcr_log, "Could not get max track length.");
         return -1;
     }
+#ifdef GCR_LOW_MEM
+    if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
+        log_error(fsimage_gcr_log, "Too large max track length.");
+        return -1;
+    }
+#endif
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_gcr_log, "Attempt to read without disk image.");
@@ -228,7 +246,7 @@ int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
 
         track_len = len[0] + len[1] * 256;
 
-        if (track_len < 1 || track_len > 65535) {
+        if ((track_len < 1) || (track_len > max_track_length)) {
             log_error(fsimage_gcr_log,
                       "Track field length %i is not supported.",
                       track_len);
@@ -286,6 +304,13 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
         return -1;
     }
     image->gcr->max_track_size = max_track_length;
+
+#ifdef GCR_LOW_MEM
+    if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
+        log_error(fsimage_gcr_log, "Too large max track length.");
+        return -1;
+    }
+#endif
 
     num_half_tracks = image->half_tracks;
 
