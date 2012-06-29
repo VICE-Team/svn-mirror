@@ -44,7 +44,7 @@
 #ifdef WD1770_DEBUG
 #define debug1(x) log_message(wd1770_log, x)
 #define debug2(x, y) log_message(wd1770_log, x, y)
-#degine debug3(x, y, z) log_message(wd1770_log, x, y, z)
+#define debug3(x, y, z) log_message(wd1770_log, x, y, z)
 #else
 #define debug1(x)
 #define debug2(x, y)
@@ -191,6 +191,12 @@ void wd1770d_init(drive_context_t *drv)
 
     clk_guard_add_callback(drv->cpu->clk_guard, clk_overflow_callback,
                            drv->wd1770);
+}
+
+void wd1770_shutdown(wd1770_t *drv)
+{
+    fdd_shutdown(drv->fdd);
+    lib_free(drv);
 }
 
 /* Execute microcode */

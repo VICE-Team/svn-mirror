@@ -135,6 +135,8 @@ void iec_drive_shutdown(struct drive_context_s *drv)
     ciacore_shutdown(drv->cia1571);
     ciacore_shutdown(drv->cia1581);
     viacore_shutdown(drv->via4000);
+    wd1770_shutdown(drv->wd1770);
+    pc8477_shutdown(drv->pc8477);
 }
 
 void iec_drive_idling_method(unsigned int dnr)

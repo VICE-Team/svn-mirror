@@ -272,6 +272,13 @@ void pc8477_setup_context(drive_context_t *drv)
     drv->pc8477->mycontext = drv;
 }
 
+void pc8477_shutdown(pc8477_t *drv)
+{
+    fdd_shutdown(drv->fdds[1].fdd);
+    lib_free(drv->myname);
+    lib_free(drv);
+}
+
 /*-----------------------------------------------------------------------*/
 /* WD1770 register read/write access.  */
 

@@ -33,7 +33,9 @@ struct disk_image_s;
 struct drive_context_s;
 typedef struct wd1770_s wd1770_t;
 
+/* FIXME: whats the deal with the different prefixes? */
 extern void wd1770d_init(struct drive_context_s *drv);
+extern void wd1770_shutdown(wd1770_t *drv);
 
 extern int wd1770_attach_image(struct disk_image_s *image, unsigned int unit);
 extern int wd1770_detach_image(struct disk_image_s *image, unsigned int unit);
