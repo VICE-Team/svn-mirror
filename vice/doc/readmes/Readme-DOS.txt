@@ -80,6 +80,25 @@ compatible sound cards, although they are not mandatory.
   are chances MIDAS support will be included again.
 
 
+VICE has been tested and verified to run properly on the following
+DOS systems:
+
+- PCDOS 3.0
+- DRDOS 3.40
+- DRDOS 3.41
+- DRDOS 5.0
+- DRDOS 6.0 (with memory manager disabled)
+- DRDOS 7.02 (with memory manager disabled)
+- DRDOS 7.03 (with memory manager disabled)
+- DRDOS 8.0 (with memory manager disabled)
+- MSDOS 4.01
+- MSDOS 5.0 (with himem.sys disabled)
+- MSDOS 6.0
+- MSDOS 6.20
+- MSDOS 6.21
+- MSDOS 6.22
+
+
 INSTALLATION
 ============
 
