@@ -9,19 +9,18 @@ doc_DATA = \
 	images/CommodoreInnovationPriceSoftware2008.jpg \
 	images/new.gif \
 	images/vice-logo.jpg \
+	images/vice-logo-small.png \
 	index.html \
 	macosx.html \
 	plain/64doc.txt \
 	plain/BUGS \
 	plain/COPYING \
-	plain/CRT.txt \
 	plain/NEWS \
 	plain/PETdoc.txt \
 	plain/TODO \
 	plain/VIC-Addendum.txt \
 	plain/VIC-Article.txt \
 	plain/VIC-Artikel.txt \
-	plain/Walkthrough-Howto.txt \
 	plain/cbm_basic_tokens.txt \
 	plain/drive_info.txt \
 	plain/serial.txt \
@@ -29,6 +28,7 @@ doc_DATA = \
 	qnx.html \
 	sco.html \
 	solaris.html \
+	vice.css \
 	vice_1.html \
 	vice_2.html \
 	vice_3.html \
@@ -45,6 +45,10 @@ doc_DATA = \
 	vice_14.html \
 	vice_15.html \
 	vice_16.html \
+	vice_17.html \
+	vice_18.html \
+	vice_19.html \
+	vice_20.html \
 	vice_toc.html
 
 EXTRA_DIST = $(doc_DATA) \

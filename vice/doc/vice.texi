@@ -10403,7 +10403,113 @@ Set bitrate for video stream in media file
 @c @node FIXME
 @chapter Event history
 
-@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
+@c FIXME: the "Event history" section needs to be style-checked.
+
+VICE supports recording an arbitrary session on the emulated machine and
+playing back this session later. This is done by saving a snapshot at the beginning
+of the recording session and then remembering all the user interaction such as
+keyboard and joystick input. We call this an 'event history'.
+The main purpose for having an event history is to create game sessions, e.g. recording 
+how to solve a game. An example walkthrough for the well known game "Fort Apocalypse" is
+available.
+
+This brief chapter will advise you how to record and playback such a session.
+Although it is based on the WinVICE x64 release and its user interface, histories may be
+transferred to other machines and other ports that support event history, e.g. the
+Unix port.
+
+@c @node FIXME
+@section Recommended Settings
+
+When using the event history feature it is possible that the playback session
+differs from what was done at recording time. This might arise due to a problem 
+in the initial snapshot or settings.
+Here are some suggestions to minimize the chance of failures in the session:
+a. Reset to default settings.
+b. Choose refresh rate 1/1.
+c. Choose joystick and Video/Doublesize settings as desired or needed.
+d. SID engine must be reSID (which is the default).
+e. Choose Drive settings/Idle method: None
+Do not change any settings during recording or playback!
+
+@c @node FIXME
+@section Recorded Events
+
+The following is a list of the user interaction that will be recorded:
+- Joystick movement and button
+- Keyboard
+- Resetting the machine (hard and soft)
+- Attaching or detaching disk/tape images (see 8. Limitations)
+- Datasette controls
+
+@c @node FIXME
+@section Recording an Event History
+
+Recording an event history will create one or two files for a snapshot and
+the list of the user events. First, create an empty directory in which these
+files are to be saved and then select this directory and the name of the 
+snapshot files via 'Snapshot//Select History files/directory'. 
+Next, attach the disk or tape image with the game you want to record and load and
+run the game.
+
+Start recording via 'Snapshot//Start/Stop Recording History'.
+Play the game. All actions will be recorded.
+After the game is finished, stop recording via 'Snapshot//Start/Stop
+Recording History'. The selected directory should now contain the two
+snapshot files (default ist start.vsf and end.vsf). 
+
+@c @node FIXME
+@section Setting and Returning to Milestones
+
+It is difficult to finish a game in one sitting and noone wants to
+record all their mistakes and lost lives. Use the milestone feature in a
+recording session in the following way:
+
+Set a milestone when you have finished a level or completed a task
+('Snapshot//Set recording milestone' or ALT-E). This will save the event
+history and a snapshot of the machine to the file end.vsf but recording will
+continue.
+
+Return to the last milestone when you have made a mistake or lost a life
+('Snapshot//Return to milestone' or ALT-U). This will reset the game and the
+event history to the last milestone snapshot so that you can try again.
+
+@c @node FIXME
+@section Continuing an Event History
+
+If you have stopped a recording session and want to continue it later, you
+should create a backup of your start.vsf and end.vsf files first to avoid
+overwriting them by accident.
+
+Then change the event history start mode: 'Snapshot//Recording start mode//Load
+existing snapshot'. When you start recording now, you will continue where the
+session was stopped last time.
+
+Another way of continuing an existing history is to start somewhere inside the
+history (e.g. you have recorded 10 minutes of a game and later recognize that you
+made a mistake after 6 minutes that makes it impossible to finish the game).
+For this you have to select the start mode 'Overwrite playback'. Now you can
+start the playback with 'Snapshot//Start/Stop Playback History' and when you
+reach the point where you want to change the history you can directly switch to
+recording via 'Snapshot//Start/Stop Recording History'.
+
+@c @node FIXME
+@section Playing Back an Event History
+
+To play back an event history, select the directory with the history files
+start.vsf and end.vsf via 'Snapshot//Select History directory' and start the
+playback with 'Snapshot//Start/Stop Playback History'. Enjoy!
+During playback any user interaction is disabled.
+The playback stops when the end of the session is reached or if 
+'Snapshot//Select History directory' is selected again.
+
+@c @node FIXME
+@section Limitations and Suggestions
+
+a. Snapshot files will be quite big (>1MB) if a disk image has been attached. 
+If possible, use PRG or T64 images to reduce the size of snapshot files.
+b. Snapshots may not be 100% accurate even with all the recommended settings.
+
 
 @c @node FIXME
 @section Event history resources
@@ -11632,12 +11738,10 @@ the C64S emulator.  It is easy to use and allows future extensions.
 * T64 file record::
 @end menu
 
-@c FIXME: add P64 disk image file structure
 @c FIXME: add D67 CBM2040 (DOS1) disk image file structure
 @c FIXME: add D1M FD2000/FD4000 DD disk image file structure
 @c FIXME: add D2M FD2000/FD4000 HD disk image file structure
 @c FIXME: add D4M FD4000 ED disk image file structure
-@c FIXME: add CRT c64 cartridge images file structure
 
 @node T64 file structure, T64 tape record, T64, T64
 @subsection T64 File structure
@@ -12052,6 +12156,294 @@ added, the same procedure applies.  The location of the actual track or
 speed zone data is not important, meaning they do not have to be in any
 particular order since they are all referenced by the offsets at the
 beginning of the image.
+
+@c @node FIXME
+@section The P64 NRZI flux pulse disk image format
+
+@c FIXME: the P64 section needs to be style-checked.
+
+This section is taken from "P64 file format specification" by Benjamin 'BeRo' 
+Rosseaux.
+
+All values are in little endian order ! 
+
+@c @node FIXME
+@subsection P64 Header Layout
+
+@example
+        0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+      +---------------------------------------------------------------+
+0000: |'P'|'6'|'4'|'-'|'1'|'5'|'4'|'1'|    Version    |     Flags     |   
+      +---------------+---------------+-------------------------------+
+0010: |     Size      | CRC32Checksum |
+      +-------------------------------+
+@end example
+
+         Version:  File format version, current is 0x00000000
+      
+            Size   Size of the following whole chunk content stream
+      
+           Flags:  Bit    0 = Write protect
+                   Bit 1-31 = Reserved, all set to 0 when creating a file, 
+                              preserve existing value when updating
+       
+   CRC32CheckSum:  CRC32 checksum of the following whole chunk content stream                
+
+@c @node FIXME
+@subsection P64 Chunk Header Layout
+
+@example
+        0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+      +-----------------------------------------------+
+0000: |Chunk Signature|      Size     | CRC32Checksum |   
+      +-----------------------------------------------+
+@end example
+
+ Chunk signature:  Signature of chunk
+      
+            Size:  Size of the chunk data
+      
+   CRC32CheckSum:  CRC32 checksum of the chunk data                
+
+@c @node FIXME
+@subsection P64 Chunk 'HTPx' Layout
+
+                          | x = half track index byte |
+                          +---------------------------+
+                          
+       Track 18 = Half track 36 = Half track index byte decimal value 36
+                          
+              Half track NRZI transition flux pulse data chunk block                          
+                                                                                         
+@example
+        0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+      +---------------------------------------------------------------+
+0000: |  Count pulses |     Size      | ..... Range-encoded data .... |    
+      +---------------------------------------------------------------+
+@end example
+
+    Count pulses:  Count of the NRZI transition flux pulses in half track 
+      
+            Size:  Size of the range-encoded data
+            
+@c @node FIXME
+@subsection 'HTPx' Range encoded data format
+
+             Hint: For a working C implememtation see p64.c and p64.h
+
+The range coder is a FPAQ0-style range coder combined with 12-bit 0-order 
+models, one model per byte with one bit per byte processing.
+
+@example
+ +--------------------------------------------------------------------------+
+ |   Sub stream     | Count of models |  Size per model  | Total value bits |
+ +------------------+-----------------+------------------+------------------+
+ |     Position     |        4        |      65536       |        32        |
+ +------------------+-----------------+------------------+------------------+
+ |     Strength     |        4        |      65536       |        32        | 
+ +------------------+-----------------+------------------+------------------+
+ |   Position flag  |        1        |        2         |        1         |
+ +------------------+-----------------+------------------+------------------+
+ |   Strenth flag   |        1        |        2         |        1         | 
+ +------------------+-----------------+------------------+------------------+
+ +===Total models===|        10       |==================|==================|
+ +--------------------------------------------------------------------------+
+@end example
+
+All initial model state values are initialized with zero.
+ 
+All initial model probability values are initialized with 2048. 
+
+These model probability values will be updating in a adaptive way on the
+fly and not precalculated before the encoding and even not loaded before 
+the decoding, see pseudo code below.
+
+16000000 Hz / 5 rotations per second at 300 RPM = maximal 3200000 flux pulses 
+        
+So NRZI transition flux pulse positions are in the 0 .. 3199999 value range, 
+which is also a exact single rotation, where each time unit is a cycle at 
+16 MHz with 300 RPM as a mapping for the ideal case.    
+  
+The NRZI transition flux pulse stength are in the 0x00000000 .. 0xffffffff
+value range, where 0xffffffff indices a strong flux pulse, that always 
+triggers, and 0x00000001 indices a weak flux pulse, that almost never 
+triggers, and 0x00000000 indices a flux pulse, that absolutly never 
+triggers.            
+        
+For 32-bit values, the model sub streams are subdivided byte wide in a 
+little-endian manner, and each byte is processed bitwise with model 
+probability shifting of 4 bits, just as:
+
+Pascal-Style pseudo code:
+@example
+procedure WriteDWord(Model, Value : longword);                             
+var ByteValue, ByteIndex, Context, Bit : longword;                         
+begin                                                                      
+  for ByteIndex := 0 to 3 do begin                                         
+    ByteValue := (Value shr (ByteIndex shl 3)) and $ff;                    
+    Context := 1;                                                          
+    for Bit := 7 downto 0 do begin                                         
+      Context := (Context shl 1) or RangeCoderEncodeBit(                   
+                    RangeCoderProbabilities[                               
+                     RangeCoderProbabilityOffsets[Model + ByteIndex] +     
+                     (((RangeCoderProbabilityStates[Model + ByteIndex]      
+                     shl 8) or Context) and $ffff)], 4, (ByteValue shr     
+                     Bit) and 1);                                          
+    end;                                                                   
+    RangeCoderProbabilityStates[Model+ByteIndex] := ByteValue;             
+  end;                                                                     
+end;                                                                       
+@end example
+
+And for 1-bit flag values it is much simpler, but also with model probability 
+shifting of 4 bits, just as:
+
+Pascal-Style pseudo code:
+@example
+procedure WriteBit(Model, Value : longword);                               
+begin                                                                      
+   RangeCoderProbabilityStates[Model] :=                                   
+     RangeCoderEncodeBit(RangeCoderProbabilities[                          
+       RangeCoderProbabilityOffsets[Model] +                               
+         RangeCoderProbabilityStates[Model]], 4, Value and 1);             
+end;                                                                       
+@end example
+
+The position and strength values are delta-encoded. If a value is equal to 
+the last previous value, then the value will not encoded, instead, a flag for
+this will encoded. First the position value will encoded, then the stength 
+value. If the last position delta is 0, then it is a track stream end marker.
+
+Pascal-Style pseudo code:
+@example
+LastPosition := 0;                                                         
+PreviousDeltaPosition := 0                                                 
+                                                                           
+LastStrength := 0;                                                         
+                                                                           
+for PulseIndex := 0 to PulseCount - 1 do begin                             
+                                                                           
+  DeltaPosition := Pulses[PulseIndex].Position - LastPosition;             
+  if PreviousDeltaPosition <> DeltaPosition then begin                     
+    PreviousDeltaPosition := DeltaPosition;                                
+    WriteBit(ModelPositionFlag, 1)                                         
+    WriteDWord(ModelPosition, DeltaPosition);                              
+  end else begin                                                           
+    WriteBit(ModelPositionFlag, 0);                                        
+  end;                                                                     
+  LastPosition := Pulses[PulseIndex].Position;                              
+                                                                           
+  if LastStrength <> Pulses[PulseIndex].Strength then begin                
+    WriteBit(ModelStrengthFlag, 1)                                         
+    WriteDWord(ModelStrength, Pulses[PulseIndex].Strength - LastStrength);   
+  end else begin                                                           
+    WriteBit(ModelStrengthFlag, 0);                                         
+  end;                                                                       
+  LastStrength := Pulses^[PulseIndex].Strength;                            
+                                                                           
+end;                                                                       
+                                                                           
+// End code                                                                
+WriteBit(ModelPositionFlag, 1);                                            
+WriteDWord(ModelPosition, 0);                                              
+@end example
+ 
+The decoding is simply just in the another direction way.
+  
+Pseudo code for a FPAQ0-style carryless range coder:
+
+Pascal-Style pseudo code:
+@example
+procedure RangeCoderInit; // At encoding and decoding start                
+begin                                                                      
+  RangeCode := 0;                                                          
+  RangeLow := 0;                                                           
+  RangeHigh := $ffffffff;                                                  
+end;                                                                       
+                                                                           
+procedure RangeCoderStart; // At decoding start                            
+var Counter : longword;                                                       
+begin                                                                      
+  for Counter := 1 to 4 do begin                                           
+   RangeCode := (RangeCode shl 8) or ReadByteFromInput;                    
+  end;                                                                     
+end;                                                                       
+                                                                           
+procedure RangeCoderFlush; // At encoding end                              
+var Counter : longword;                                                      
+begin                                                                      
+  for Counter := 1 to 4 do begin                                           
+    WriteByteToOutput(RangeHigh shr 24);                                   
+    RangeHigh := RangeHigh shl 8;                                          
+  end;                                                                     
+end;                                                                        
+                                                                           
+procedure RangeCoderEncodeNormalize;                                          
+begin                                                                      
+  while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin              
+   WriteByteToOutput(RangeHigh shr 24);                                    
+   RangeLow := RangeLow shl 8;                                             
+   RangeHigh := (RangeHigh shl 8) or $ff;                                    
+  end;                                                                      
+end;                                                                        
+                                                                           
+function RangeCoderEncodeBit(var Probability : longword; Shift,            
+                             BitValue : longword) : longword;               
+begin                                                                      
+  RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *             
+                              Probability);                                  
+  if BitValue <> 0 then begin                                               
+    inc(Probability, ($fff - Probability) shr Shift);                      
+    RangeHigh := RangeMiddle;                                                
+  end else begin                                                           
+    dec(Probability, Probability shr Shift);                               
+    RangeLow := RangeMiddle + 1;                                           
+  end;                                                                     
+  RangeCoderEncodeNormalize;                                               
+  result := BitValue;                                                      
+end;                                                                       
+                                                                            
+procedure RangeCoderDecodeNormalize;                                        
+begin                                                                      
+  while ((RangeLow xor RangeHigh) and $ff000000) = 0 do begin              
+    RangeLow := RangeLow shl 8;                                            
+    RangeHigh := (RangeHigh shl 8) or $ff;                                 
+    RangeCode := (RangeCode shl 8) or ReadByteFromInput;                   
+  end;                                                                     
+end;                                                                       
+                                                                            
+function RangeCoderDecodeBit(var Probability : longword;                   
+                             Shift : longword) : longword;                 
+begin                                                                      
+  RangeMiddle := RangeLow + (((RangeHigh - RangeLow) shr 12) *             
+                             Probability);                                 
+  if RangeCode <= RangeMiddle then begin                                   
+    inc(Probability, ($fff - Probability) shr Shift);                      
+    RangeHigh := RangeMiddle;                                              
+    result := 1;                                                           
+  end else begin                                                           
+    dec(Probability, Probability shr Shift);                               
+    RangeLow := RangeMiddle + 1;                                           
+    result := 0;                                                           
+  end;                                                                     
+  RangeCoderDecodeNormalize;                                               
+end;                                                                       
+@end example
+
+The probability may be never zero! But that can't happen here with this 
+adaptive model in this P64 file format, since the adaptive model uses a
+shift factor of 4 bits and initial probabilities value of 2048, so the 
+probability has a value range from 15 up to 4080 here. If you do want to use 
+the above range coder routines for other stuff with other probability models, 
+then you must to ensure that the probability output value is never zero, for 
+example with  "probability |= (probability < 1); " in C.     
+  
+@c @node FIXME
+@subsection P64 Chunk 'DONE' Layout
+
+This is the last empty chunk for to signalize that the correct file end is
+reached.
+
 
 @node D64, X64 , G64, File formats
 @section The D64 disk image format
@@ -16464,6 +16856,2895 @@ these files in a directory, even for only a few programs, as
 each C64 file will result in a PC64 file entry. The best use
 for a PC64 file is a single-file program, one which does not
 load anything else.
+
+@c FIXME: the CRT section needs to be style-checked.
+
+@c @node FIXME
+@section The CRT cartridge image format
+
+This chapter is based on CRT.txt (rev1.14) compiled by Peter Schepers, with
+additional contributions from Per Hakan Sundell, Markus Brenner,
+Marco Van Den Heuvel, Groepaz.
+
+  Cartridge files were introduced in the CCS64  emulator,  written  by  Per
+Hakan Sundell, and use the ".CRT" file extension. This format  was  created
+to handle the various ROM cartridges that exist, such as Action Replay, the
+Power cartridge, and the Final Cartridge.
+
+  Normal game cartridges can load  into  several  different  memory  ranges
+($8000-9FFF,  $A000-BFFF  or  $E000-FFFF).  Newer   utility   and   freezer
+cartridges were less intrusive, hiding themselves until  called  upon,  and
+still others used bank-switching techniques to allow much larger ROM's than
+normal. Because of these "stealthing" and bank-switching methods, a special
+cartridge format  was  necessary,  to  let  the  emulator  know  where  the
+cartridge should reside, the control line  states  to  enable  it  and  any
+special hardware features it uses.
+
+@subsection Header contents
+
+  Here is a dump of a sample 8K normal cartridge,  "Attack  Of  The  Mutant
+Camels"...
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 00 00 01 00 00 00 00 00 00   ???@????????????
+0020: 41 54 54 41 43 4B 20 4F 46 20 54 48 45 20 4D 55   ATTACK?OF?THE?MU
+0030: 54 41 4E 54 20 43 41 4D 45 4C 53 00 00 00 00 00   TANT?CAMELS?????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: D3 9B BC FE C3 C2 CD 38 30 EA EA EA A9 01 85 13   .õ?....80....?Ö?
+0060: 4C B3 9B A9 08 85 5A 88 D0 FD C6 5A D0 F9 60 D0   L≥õ.?ÖZà...Z.?`.
+@end example
+
+@example
+  Bytes:$0000-000F - 16-byte cartridge signature  "C64  CARTRIDGE"  (padded
+                     with space characters)
+         0010-0013 - File header length  ($00000040,  in  high/low  format,
+                     calculated from offset $0000). The default  (also  the
+                     minimum) value is $40.  Some  cartridges  exist  which
+                     show a value of $00000020 which is wrong.
+         0014-0015 - Cartridge version (high/low, presently 01.00)
+         0016-0017 - Cartridge hardware type ($0000, high/low)
+                       0 - Normal cartridge
+                       1 - Action Replay
+                       2 - KCS Power Cartridge
+                       3 - Final Cartridge III
+                       4 - Simons' BASIC
+                       5 - Ocean type 1*
+                       6 - Expert Cartridge
+                       7 - Fun Play, Power Play
+                       8 - Super Games
+                       9 - Atomic Power
+                      10 - Epyx Fastload
+                      11 - Westermann Learning
+                      12 - Rex Utility
+                      13 - Final Cartridge I
+                      14 - Magic Formel
+                      15 - C64 Game System, System 3
+                      16 - Warp Speed
+                      17 - Dinamic**
+                      18 - Zaxxon, Super Zaxxon (SEGA)
+                      19 - Magic Desk, Domark, HES Australia
+                      20 - Super Snapshot V5
+                      21 - Comal-80
+                      22 - Structured BASIC
+                      23 - Ross
+                      24 - Dela EP64
+                      25 - Dela EP7x8
+                      26 - Dela EP256
+                      27 - Rex EP256
+                      28 - Mikro Assembler
+                      29 - Final Cartridge Plus
+                      30 - Action Replay 4
+                      31 - Stardos
+                      32 - EasyFlash
+                      33 - EasyFlash Xbank
+                      34 - Capture
+                      35 - Action Replay 3
+                      36 - Retro Replay
+                      37 - MMC64
+                      38 - MMC Replay
+                      39 - IDE64
+                      40 - Super Snapshot V4
+                      41 - IEEE-488
+                      42 - Game Killer
+                      43 - Prophet64
+                      44 - EXOS
+                      45 - Freeze Frame
+                      46 - Freeze Machine
+                      47 - Snapshot64
+                      48 - Super Explode V5.0
+                      49 - Magic Voice
+                      50 - Action Replay 2
+                      51 - MACH 5
+                      52 - Diashow-Maker
+                      53 - Pagefox
+              0018 - Cartridge port EXROM line status
+                      0 - inactive
+                      1 - active
+              0019 - Cartridge port GAME line status
+                      0 - inactive
+                      1 - active
+         001A-001F - Reserved for future use
+         0020-003F - 32-byte cartridge  name  "CCSMON"  (uppercase,  padded
+                     with null characters)
+         0040-xxxx - Cartridge contents (called CHIP PACKETS, as there  can
+                     be more than one  per  CRT  file).  See  below  for  a
+                     breakdown of the CHIP format.
+@end example
+
+  (*Note: Ocean type 1 includes Navy Seals, Robocop 2 & 3,  Shadow  of  the
+    Beast, Toki, Terminator 2 and more)
+
+  (**Note: Dinamic includes Narco Police and more)
+
+@c @node FIXME
+@subsection CHIP Contents
+
+
+  The following is the contents of the CHIP packet, from position $0040  on
+in the CRT file. Note I have re-adjusted the starting address to be  $0000,
+since we are now looking at a file contained in the .CRT file, and all size
+references are from where it starts.
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0010: D3 9B BC FE C3 C2 CD 38 30 EA EA EA A9 01 85 13   .õ?....80....?Ö?
+0020: 4C B3 9B A9 08 85 5A 88 D0 FD C6 5A D0 F9 60 D0   L≥õ.?ÖZà...Z.?`.
+0030: F2 60 A9 04 85 49 A9 00 85 48 A2 00 A5 48 9D 40   ?`.?ÖI.?ÖH.?•Hù@
+0040: 03 A5 49 9D 60 03 A5 48 18 69 28 85 48 A5 49 69   ?•Iù`?•H?i(ÖH•Ii
+0050: 00 85 49 E8 E0 18 D0 E4 60 A6 03 A4 02 BD 40 03   ?ÖI???.?`?????@?
+@end example
+
+@example
+  Bytes:$0000-0003 - Contained ROM signature "CHIP" (note there can be more
+                     than one image in a .CRT file)
+         0004-0007 - Total packet length ($00002010,  ROM  image  size  and
+                     header combined) (high/low format)
+         0008-0009 - Chip type
+                      0 - ROM
+                      1 - RAM, no ROM data
+                      2 - Flash ROM
+         000A-000B - Bank number ($0000 - normal cartridge)
+         000C-000D - Starting load address (high/low format)
+         000E-000F - ROM image size in bytes  (high/low  format,  typically
+                     $2000 or $4000)
+         0010-xxxx - ROM data
+@end example
+
+  The following is a chart taken from the "Commodore Programmers  Reference
+Guide". It details the state of various areas of memory  depending  on  the
+state of the control lines.
+
+
+Legend:
+L - ROML (low)
+H - ROMH (high)
+G - GAME
+E - EXROM
+
+@example
+Addr       LHGE   LHGE   LHGE   LHGE   LHGE   LHGE   LHGE   LHGE   LHGE
+Range
+           1111   101X   1000   011X   001X   1110   0100   1100   XX01
+         default                00X0                             Ultimax
+-------------------------------------------------------------------------
+E000-FFFF Kernal  RAM    RAM   Kernal  RAM   Kernal Kernal Kernal ROMH(*)
+D000-DFFF IO/CHR IO/CHR IO/RAM IO/CHR  RAM   IO/CHR IO/CHR IO/CHR   I/O
+C000-CFFF  RAM    RAM    RAM    RAM    RAM    RAM    RAM    RAM     -
+A000-BFFF BASIC   RAM    RAM    RAM    RAM   BASIC   ROMH   ROMH    -
+8000-9FFF  RAM    RAM    RAM    RAM    RAM    ROML   RAM    ROML  ROML(*)
+4000-7FFF  RAM    RAM    RAM    RAM    RAM    RAM    RAM    RAM     -
+1000-3FFF  RAM    RAM    RAM    RAM    RAM    RAM    RAM    RAM     -
+0000-0FFF  RAM    RAM    RAM    RAM    RAM    RAM    RAM    RAM    RAM
+@end example
+
+(*) Internal memory does not respond to write accesses in these areas
+
+
+  From the above chart, the following table can be built. It shows standard
+cartridges, either 8K or 16K in size, and the memory ranges they load into.
+
+@example
+Type     Size   Game   EXRom  Low Bank  High Bank
+         in K   Line   Line    (ROML)    (ROMH)
+-------------------------------------------------
+Normal    8k     hi     lo     $8000      ----
+Normal    16k    lo     lo     $8000     $A000
+Ultimax   8k     lo     hi     $E000      ----
+@end example
+
+  The ROMH and ROML lines are CPU-controlled status  lines,  used  to  bank
+in/out RAM, ROM or I/O, depending on what is needed at the time.
+
+  Ultimax cartridges typically are situated  in  the  $E000-FFFF  (8K)  ROM
+address range. There are some cartridges  which  only  use  4K  of  the  8K
+allocation. If the cartridge is 16K in size, then it will  reside  in  both
+$8000-9FFF and $E000-FFFF.
+
+@c @node FIXME
+@subsection Cartridge Specifics
+
+@c @node FIXME
+@subsubsection 0 - Normal cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 00 00 01 00 00 00 00 00 00   ???@????????????
+0020: 41 54 54 41 43 4B 20 4F 46 20 54 48 45 20 4D 55   ATTACK?OF?THE?MU
+0030: 54 41 4E 54 20 43 41 4D 45 4C 53 00 00 00 00 00   TANT?CAMELS?????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: D3 9B BC FE C3 C2 CD 38 30 EA EA EA A9 01 85 13   .õ?....80....?Ö?
+@end example
+
+      The second sample below is a dump of "Music Machine", a  4Kb  ULTIMAX
+    mode cartridge. It  is  still  identified  as  a  "standard  cartridge"
+    according to the ID.
+
+    Normal cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4Kb (ULTIMAX mode)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $F000-F7FF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 00 01 00 00 00 00 00 00 00   ???@????????????
+0020: 4D 55 53 49 43 20 4D 41 43 48 49 4E 45 00 00 00   MUSIC?MACHINE???
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 10 10 00 00 00 00 F0 00 10 00   CHIP????????????
+0050: 3C 66 C3 C3 66 3C FF FF 18 3C 66 7E 66 66 66 00   <f..f<???<f~fff?
+@end example
+
+
+      The third sample is a dump of "Adventure Creator",  a  16Kb  standard
+    cartridge.
+
+    Normal cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 00 00 00 00 00 00 00 00 00   ???@????????????
+0020: 41 64 76 65 6E 74 75 72 65 20 43 72 65 61 74 6F   Adventure?Creato
+0030: 72 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   r???????????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0050: 09 80 81 EA C3 C2 CD 38 30 A2 00 78 D8 8E 11 D0   ?.Å....80.?x.é?.
+@end example
+
+
+@c @node FIXME
+@subsubsection 1 - Action Replay
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb (4 banks of 8Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-9FFF (all modules)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 01 00 00 00 00 00 00 00 00   ???@????????????
+0020: 41 63 74 69 6F 6E 20 52 65 70 6C 61 79 20 56 00   Action?Replay?V?
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: 09 80 0C 80 C3 C2 CD 38 30 4C 60 80 4C 63 80 4C   ?.?....80L`.Lc.L
+@end example
+
+    This cart has 32Kb of ROM, and 8Kb of RAM. The bank switching  is  done
+    by writing to the I/O-1 range as follows:
+
+@example
+    bit  meaning
+    ---  -------
+    7    extra ROM bank selector (A15) (unused)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+             I/O-2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+@end example
+
+    Additionally the RAM or ROM can be available through a  window  in  the
+    I/O-2 range.
+
+
+@c @node FIXME
+@subsubsection 2 - KCS Power Cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8K each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab module #1 - $8000-9FFF
+                   module #2 - $A000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 20 01 00 00 02 00 00 00 00 00 00 00 00   ????????????????
+0020: 4B 43 53 20 50 6F 77 65 72 20 43 61 72 74 72 69   KCS?Power?Cartri
+0030: 64 67 65 00 00 00 00 00 00 00 00 00 00 00 00 00   dge?????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: 09 80 5E FE C3 C2 CD 38 30 78 D8 A2 FF 9A A9 27   ?.^....80x..?..'
+....
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00   CHIP????????†???
+2060: 97 E3 16 A1 FF FF FF 20 13 A0 A5 01 09 01 85 01   ó.?.?????†•???Ö?
+@end example
+
+
+@c @node FIXME
+@subsubsection 3 - Final Cartridge III
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb (4 banks of 16Kb each)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-BFFF (all modules)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 03 01 01 00 00 00 00 00 00   ???@????????????
+0020: 46 69 6E 61 6C 20 43 61 72 74 72 69 64 67 65 20   Final?Cartridge?
+0030: 49 49 49 20 31 39 38 37 00 00 00 00 00 00 00 00   III?1987????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0050: 09 80 5E FE C3 C2 CD 38 30 4C 4C 80 4C 55 95 4C   ?.^....80LL.LUïL
+....
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00   CHIP??@?????.?@?
+4060: 01 02 00 81 5D 81 61 81 99 81 D8 81 0B 82 33 82   ???Å]ÅaÅôÅ.Å?Ç3Ç
+....
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00   CHIP??@?????.?@?
+8070: 20 43 80 20 52 80 A9 4E 20 05 DE 20 FD BF AD 39   ?C.?R..N??.?..≠9
+....
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP??@?????.?@?
+C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
+@end example
+
+    A total of 64 kB of ROM memory  is  organized  into  four  $4000  banks
+    located at $8000-$BFFF.
+
+    The banks are arranged in the following way:
+
+@example
+    Bank 0:  BASIC, Monitor, Disk-Turbo
+    Bank 1:  Notepad, BASIC (Menu Bar)
+    Bank 2:  Desktop, Freezer/Print
+    Bank 3:  Freezer, Compression
+@end example
+
+    The cartridges uses the entire I/O-1 and I/O-2 range. Bank switching is
+    done by writing the bank number plus $40 into  memory  location  $DFFF.
+    For instance, to select bank 2, $DFFF is set to $42.
+
+    The CRT file contains four CHIP blocks, each block with a start address
+    of $8000, length $4000 and the bank number in the bank  field.  In  the
+    cartridge header, both EXROM ($18) and GAME  ($19)  are  set  to  1  to
+    enable the 16 kB ROM configuration.
+
+    The registers are arranged in the following way:
+
+    One register at $DFFF:
+
+@example
+    bit  meaning
+    ---  -------
+    7      Hide this register (1 = hidden)
+    6      NMI line  (0 = low = active) *1)
+    5      GAME line  (0 = low = active) *2)
+    4      EXROM line (0 = low = active)
+    2-3    unassigned (usually set to 0)
+    0-1    number of bank to show at $8000
+@end example
+
+    1) if either the freezer button is pressed, or bit 6 is 0, then an  NMI
+       is generated
+
+    2) if the freezer button is pressed, GAME is also forced low
+
+    The rest of I/O-1/I/O-2 contain a mirror of the last  2  pages  of  the
+    currently selected ROM bank (also at $dfff, contrary to what some other
+    documents say)
+
+
+@c @node FIXME
+@subsubsection 4 - Simons' Basic
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8kb each)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab module #1 - $8000-9FFF
+                   module #2 - $A000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 04 00 01 00 00 00 00 00 00   ???@????????????
+0020: 53 69 6D 6F 6E 27 73 20 42 61 73 69 63 00 00 00   Simon's?Basic???
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: 52 81 52 81 C3 C2 CD 38 30 41 4C 52 81 20 2C 81   RÅRÅ...80ALRÅ?,Å
+....
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00   CHIP????????†???
+2060: 20 A4 A6 99 9E CB A0 05 A5 A8 91 20 A4 A6 99 A2   ???ôû.†?•?.???ô.
+@end example
+
+    Simons' BASIC permanently uses 16 kB ($4000) bytes of cartridge  memory
+    from $8000-$BFFF. However, through some custom bank-switching logic the
+    upper area ($A000-$BFFF) may be disabled so Simons' BASIC may use it as
+    additional RAM. Writing a value of $01 to address location $DE00  banks
+    in ROM, $00 disables ROM and enables RAM.
+
+    The CRT file contains two CHIP blocks of length $2000 each,  the  first
+    block having a start address of $8000, the second block $A000.  In  the
+    cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to  1  to
+    indicate the RESET/power-up configuration of 8 kB ROM.
+
+
+@c @node FIXME
+@subsubsection 5 - Ocean type 1
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb, 128Kb, 256Kb or 512Kb sizes (4, 16, 32 or 64 banks of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab Banks 00-15 - $8000-9FFF
+                   Banks 16-31 - $A000-BFFF  (except Terminator 2)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+       -----------------------------------------------   ----------------
+00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+00010: 00 00 00 40 01 00 00 05 00 00 00 00 00 00 00 00   ???@????????????
+00020: 53 48 41 44 4F 57 20 4F 46 20 54 48 45 20 42 45   SHADOW?OF?THE?BE
+00030: 41 53 54 00 00 00 00 00 00 00 00 00 00 00 00 00   AST?????????????
+00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+00050: 09 80 83 81 C3 C2 CD 38 30 4C 83 81 4C 76 82 80   ?.ÉÅ...80LÉÅLvÇ.
+ ....
+02050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00   CHIP????????.???
+02060: 59 6D 00 56 AD 00 55 AE F0 00 01 A0 FE 00 01 F8   Ym?V≠?UÆ???†.???
+ ....
+20140: 43 48 49 50 00 00 20 10 00 00 00 10 A0 00 20 00   CHIP????????†???
+20150: 0A 9A 55 FF 9B 69 57 FE AA 65 96 FE 65 0F D6 D9   ?.U?õiW.◊eñ.e?..
+@end example
+
+    Here is a list of the known OCEAN cartridges:
+
+@example
+    Batman The Movie    (128 kB)
+    Battle Command      (128 kB)
+    Double Dragon       (128 kB)
+    Navy Seals          (128 kB)
+    Pang                (128 kB)
+    Robocop 3           (128 kB)
+    Space Gun           (128 kB)
+    Toki                (128 kB)
+    Chase H.Q. II       (256 kB)
+    Robocop 2           (256 kB)
+    Shadow of the Beast (256 kB)
+    Terminator 2        (512 kB)
+@end example
+
+    The 32Kb type of cart  has  4  banks  of  8Kb  ($2000),  banked  in  at
+    $8000-$9FFF.
+
+    The 128Kb type of cart has  16  banks of  8Kb  ($2000),  banked  in  at
+    $8000-$9FFF.
+
+    The 256Kb type of cart has 32 banks of 8Kb ($2000),  16  banked  in  at
+    $8000-$9FFF, and 16 banked in at $A000-$BFFF.
+
+    The 512Kb type of cart has 64  banks  of  8Kb  ($2000),  banked  in  at
+    $8000-$9FFF.
+
+    Bank switching is done by writing to $DE00. The lower six bits give the
+    bank number (ranging from 0-63). Bit 8 in this selection word is always
+    set.
+
+
+@c @node FIXME
+@subsubsection 6 - Expert Cartridge
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 06 01 01 00 00 00 00 00 00   ???@????????????
+0020: 45 78 70 65 72 74 20 43 61 72 74 72 69 64 67 65   Expert?Cartridge
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 40 10 00 02 00 00 80 00 20 00   CHIP??@?????.???
+0050: 00 00 00 0A F3 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+@end example
+
+
+@c @node FIXME
+@subsubsection 7 - Fun Play, Power Play
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 128Kb (16 banks of 8Kb modules)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-9FFF (all modules)
+@end multitable
+
+@example
+       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+       -----------------------------------------------   ----------------
+00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+00010: 00 00 00 40 01 00 00 07 00 00 00 00 00 00 00 00   ???@????????????
+00020: 46 55 4E 20 50 4C 41 59 00 00 00 00 00 00 00 00   FUN?PLAY????????
+00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+00050: 1E 80 86 EA C3 C2 CD 38 30 1B 00 81 0D 08 80 00   ?.Ü....80??Å??.?
+ ....
+02050: 43 48 49 50 00 00 20 10 00 00 00 08 80 00 20 00   CHIP????????.???
+02060: 78 A2 F0 86 01 BD 1D 08 9D F8 00 CA D0 F7 4C 00   x.?Ü????ù??..?L?
+ ....
+04060: 43 48 49 50 00 00 20 10 00 00 00 10 80 00 20 00   CHIP????????.???
+04070: 38 E5 68 85 03 B0 11 27 03 12 C0 18 69 27 42 90   8?hÖ?∞?'??.?i'Bê
+ ....
+06070: 43 48 49 50 00 00 20 10 00 00 00 18 80 00 20 00   CHIP????????.???
+06080: 44 D0 5E 06 02 C0 44 11 40 04 11 44 01 5F 1C 73   D.^??.D?@??D?_?s
+ ....
+1E130: 43 48 49 50 00 00 20 10 00 00 00 39 80 00 20 00   CHIP???????9.???
+1E140: 85 EB 41 EA 9E 08 03 00 C0 06 18 01 00 C0 08 03   Ö?A.û???.????.??
+@end example
+
+    The FUN PLAY Cartridge uses $DE00 for  bank  selection,  and  uses  8Kb
+    banks ($2000) at $8000-$9FFF. There are 16 banks of ROM memory and  are
+    referenced by the following values:
+
+@example
+    $00 -> Bank 0
+    $08 -> Bank 1
+    $10 -> Bank 2
+    $18 -> Bank 3
+    $20 -> Bank 4
+    $28 -> Bank 5
+    $30 -> Bank 6
+    $38 -> Bank 7
+    $01 -> Bank 8
+    $09 -> Bank 9
+    $11 -> Bank 10
+    $19 -> Bank 11
+    $21 -> Bank 12
+    $29 -> Bank 13
+    $31 -> Bank 14
+    $39 -> Bank 15
+@end example
+
+    The bank field in the chip  headers  is  set  according  to  the  value
+    written to $DE00. The following bits are  used  for  bank  decoding  in
+    $DE00 (0 being the LSB, 3 being the MSB).
+
+@example
+        Bit# 76543210
+             xx210xx3
+@end example
+
+    After copying memory from the ROM banks, the selection  program  writes
+    a value of $86 to $DE00. This seems either  to  reset  or  disable  the
+    cartridge ROM.
+
+
+@c @node FIXME
+@subsubsection 8 - Super Games
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb (4 banks of 16Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-BFFF (all modules)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 08 00 00 00 00 00 00 00 00   ???@????????????
+0020: 53 55 50 45 52 20 47 41 4D 45 53 00 00 00 00 00   SUPER?GAMES?????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0050: 0A 80 0A 80 C3 C2 CD 38 30 00 A9 80 A0 00 85 FB   ?.?....80?..†?Ö.
+....
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00   CHIP??@?????.?@?
+4060: 27 80 A8 80 C3 C2 CD 38 30 00 40 C0 40 C0 40 C0   '.?....80?@.@.@.
+....
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00   CHIP??@?????.?@?
+8070: 00 00 00 49 4D C7 64 47 46 45 F3 48 DC 08 7E 0B   ???IM.dGFE?H.?~?
+....
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP??@?????.?@?
+C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
+@end example
+
+    The Super Games cartridge  uses  4  16Kb  banks  ($8000-$BFFF)  of  ROM
+    memory. Bank selecting is done by writing to $DF00.
+
+    $DF00 register is as follows:
+
+@example
+    bit  meaning
+    ---  -------
+    0    bank bit 0
+    1    bank bit 1
+    2    inverted GAME line
+    3    inverted EXROM line
+    4-7  unused
+@end example
+
+@c @node FIXME
+@subsubsection 9 - Atomic Power
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb (4 banks of 8Kb modules)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-9FFF (all modules)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 09 00 00 00 00 00 00 00 00   ???@????????????
+0020: 41 74 6F 6D 69 63 20 50 6F 77 65 72 00 00 00 00   Atomic?Power????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: 09 80 0C 80 C3 C2 CD 38 30 4C 41 80 4C 1E 80 4C   ?.?....80LA.L?.L
+....
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00   CHIP????????.???
+2060: 09 80 0C 80 C3 C2 CD 38 30 4C 3F 80 4C 91 80 4C   ?.?....80L?.L..L
+....
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00   CHIP????????.???
+4070: EF FC 09 80 C3 C2 CD 38 30 4C 27 80 4C DB 81 4C   ?.?....80L'.L.ÅL
+....
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00   CHIP????????.???
+6080: 09 80 0C 80 C3 C2 CD 38 30 4C 73 86 4C 30 80 4C   ?.?....80LsÜL0.L
+@end example
+
+    This cart has 32Kb of ROM and 8Kb of RAM
+
+    Writing to I/O-1 will do the following:
+
+@example
+    bit  meaning
+    ---  -------
+    7    extra ROM bank selector (A15) (unused)
+    6    1 = resets FREEZE-mode (turns back to normal mode)
+    5    1 = enable RAM at ROML ($8000-$9FFF) &
+             I/O-2 ($DF00-$DFFF = $9F00-$9FFF)
+    4    ROM bank selector high (A14)
+    3    ROM bank selector low  (A13)
+    2    1 = disable cartridge (turn off $DE00)
+    1    1 = /EXROM high
+    0    1 = /GAME low
+@end example
+
+    If bit 5 (RAM enable) is 1, bit 0,1 (exrom/game) is ==  2  (cart  off),
+    bit 2,6,7 (cart disable, freeze clear) are 0, then cart ROM (Bank 0..3)
+    is mapped at 8000-9FFF, and cart RAM (Bank 0) is  mapped  at  A000-BFFF
+    and cart RAM (Bank 0) is is enabled in the I/O-2 area using  16Kb  game
+    config.
+
+    The cart RAM or ROM is available through a window in the I/O-2 range.
+
+
+@c @node FIXME
+@subsubsection 10 - Epyx Fastload
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 0A 01 01 00 00 00 00 00 00   ???@????????????
+0020: 45 50 59 58 20 46 41 53 54 4C 4F 41 44 00 00 00   EPYX?FASTLOAD???
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: 30 80 5E FE C3 C2 CD 38 30 20 04 90 4C 38 DF AB   0.^....80??êL8?´
+@end example
+
+    The Epyx FastLoad cart uses a simple capacitor to toggle the ROM on
+    and off:
+
+    the capacitor is discharged, and 8k game config enabled, by either
+    reading ROML or reading I/O-1. If none of those accesses happen the
+    capacitor will charge, and if it is charged (after 512 cycles) then
+    the ROM will get disabled.
+
+@c @node FIXME
+@subsubsection 11 - Westermann Learning
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 0B 00 00 00 00 00 00 00 00   ???@????????????
+0020: 57 45 53 54 45 52 4D 41 4E 4E 00 00 00 00 00 00   WESTERMANN??????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 40 00   CHIP????????.?@?
+0050: 09 80 9C 80 C3 C2 CD 38 30 A2 00 8E 16 D0 20 84   ?.ú....80.?é?.?Ñ
+@end example
+
+    Any read from the I/O-2 range will switch the cart off.
+
+
+@c @node FIXME
+@subsubsection 12 - Rex Utility
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8K
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 0C 00 01 00 00 00 00 00 00   ???@????????????
+0020: 52 45 58 00 00 00 00 00 00 00 00 00 00 00 00 00   REX?????????????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
+0050: 08 80 C1 FE C3 C2 CD 38 30 6C 95 E3 20 A3 FD 20   ?......80lï.?£.?
+@end example
+
+    Reading from $DF00-DFBF disables ROM, reading from $DFC0-DFFF enables
+    ROM (8k game config).
+
+
+@c @node FIXME
+@subsubsection 13 - Final Cartridge I
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
+      -----------------------------------------------   ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 0D 01 01 00 00 00 00 00 00   ???@????????????
+0020: 54 68 65 20 46 69 6E 61 6C 20 43 61 72 74 72 69   The?Final?Cartri
+0030: 64 67 65 20 49 00 00 00 00 00 00 00 00 00 00 00   dge?I???????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0050: 80 BA 5E FE C3 C2 CD 38 30 00 A0 A0 20 2D FE 58   .˜^....80?††?-.X
+@end example
+
+    Any access to I/O-1 turns cartridge ROM off. Any access to I/O-2  turns
+    cartridge ROM on.
+
+    The cart ROM is visible in I/O-1 and I/O-2.
+
+@c @node FIXME
+@subsubsection 14 - Magic Formel
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb (8 banks of 8Kb)
+@item GAME
+@tab Inactive (0)
+@item EXROM
+@tab Inactive (0)
+@item Load Address
+@tab $E000-FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 0E 01 01 00 00 00 00 00 00  ???@????????????
+0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  Magic?Formel????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
+0050: 4D 46 30 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF0ç??`ç??`ç??`ç
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
+2060: 4C 5F E4 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  L_?ç??`ç??`ç??`ç
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 E0 00 20 00  CHIP????????????
+4070: 4D 46 32 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF2ç??`ç??`ç??`ç
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 E0 00 20 00  CHIP????????????
+6080: 4D 46 33 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF3ç??`ç??`ç??`ç
+...
+8080: 43 48 49 50 00 00 20 10 00 00 00 04 E0 00 20 00  CHIP????????????
+8090: 4D 46 34 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF4ç??`ç??`ç??`ç
+...
+A090: 43 48 49 50 00 00 20 10 00 00 00 05 E0 00 20 00  CHIP????????????
+A0A0: 4D 46 35 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF5ç??`ç??`ç??`ç
+...
+C0A0: 43 48 49 50 00 00 20 10 00 00 00 06 E0 00 20 00  CHIP????????????
+C0B0: 4D 46 36 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF6ç??`ç??`ç??`ç
+..
+E0B0: 43 48 49 50 00 00 20 10 00 00 00 07 E0 00 20 00  CHIP????????????
+E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
+@end example
+
+
+@c @node FIXME
+@subsubsection 15 - C64 Game System, System 3
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 512Kb (64 banks of 8Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF (all modules)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+000010: 00 00 00 40 01 00 00 0F 00 01 00 00 00 00 00 00  ???@????????????
+000020: 43 36 34 47 53 20 43 61 72 74 72 69 64 67 65 00  C64GS?Cartridge?
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+000040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+000050: 6D 80 C5 80 C3 C2 CD 38 30 4C CB 80 4C 36 84 4C  m......80L..L6ÑL
+....
+002050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+002060: 18 D0 A9 FF 8D 15 D0 8D 1D D0 8D 17 D0 A2 07 A9  ?..?ç?.ç?.ç?..?.
+....
+004060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+004070: E0 08 19 21 77 84 52 98 9F 80 A5 21 31 01 31 89  ???!wÑRòü.•!1?1â
+....
+006070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+006080: C0 08 1C 1D A0 92 03 03 D8 AA 04 C0 B8 01 40 EA  .???†.??.◊?.??@.
+....
+07E430: 43 48 49 50 00 00 20 10 00 00 00 3F 80 00 20 00  CHIP????????.???
+07E440: 45 20 41 20 42 49 47 20 58 FE 4F 4E 20 54 48 49  E?A?BIG?X.ON?THI
+@end example
+
+    Here is a list of the known cartridges:
+
+@example
+    C64GS 4-in-1      (Commodore)  (512 kB)
+    Last Ninja Remix  (System 3)   (512 kB)
+    Myth              (System 3)   (512 kB)
+@end example
+
+    ROM memory is organized in 8Kb ($2000) banks  located  at  $8000-$9FFF.
+    Bank switching is done by writing to address $DE00+X, where  X  is  the
+    bank number (STA $DE00,X). For instance, to read from bank  3,  address
+    $DE03 is written to. Reading from anywhere  in  the  I/O-1  range  will
+    disable the cart.
+
+    The CRT file contains a string of CHIP blocks, each block with a  start
+    address of $8000, length $2000 and the bank number in the  bank  field.
+    In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
+    1 to enable the 8 kB ROM configuration.
+
+
+@c @node FIXME
+@subsubsection 16 - Warp Speed
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 10 01 01 00 00 00 00 00 00  ???@????????????
+0020: 57 61 72 70 73 70 65 65 64 00 00 00 00 00 00 00  Warpspeed???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0050: 4C 22 80 4C 22 80 FF 43 42 4D 20 53 E4 20 18 E5  L".L".?CBM?S????
+@end example
+
+    After  RESET  or  POWER  ON,  16kB  of  cartridge  ROM  is  visible  at
+    $8000-$BFFF. Additionally,  ROM  normally  located  at  $9E00-$9FFF  is
+    mirrored into I/O-1 and I/O-2 at $DE00-$DFFF.  ROM  at  $8000-$BFFF  is
+    disabled by writing into the I/O-2 area (typically $DF00)  and  may  be
+    re-enabled by writing into  I/O-1  ($DE00).  However,  the  $DE00-$DFFF
+    (I/O-1/I/O-2) area itself always remains mapped to cartridge ROM.
+
+
+@c @node FIXME
+@subsubsection 17 - Dinamic
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 128Kb (16 banks of 8Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF (all modules)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+000010: 00 00 00 40 01 00 00 11 00 01 00 00 00 00 00 00  ???@????????????
+000020: 4E 61 72 63 6F 20 50 6F 6C 69 63 65 00 00 00 00  Narco?Police????
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+000040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+000050: 0B 80 0B 80 C3 C2 CD 38 30 00 00 78 A2 FF 9A D8  ?.?....80??x.?..
+..
+002050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+002060: 1C 8C 1B 8C 16 16 8F 16 16 88 1C 1C 86 1C 1C 89  ?å?å??è??à??Ü??â
+..
+004060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+004070: B6 02 07 08 07 07 00 0A 0A B6 00 05 0A 00 07 07  ∂????????∂??????
+..
+01E130: 43 48 49 50 00 00 20 10 00 00 00 0F 80 00 20 00  CHIP????????.???
+01E140: 00 D5 70 03 F5 70 0F 5F 70 0F F7 70 35 FD F0 37  ?.p??p?_p??p5.?7
+@end example
+
+    Here is a list of the known DINAMIC cartridges:
+
+@example
+    Narco Police  (128 kB)
+    Satan         (128 kB)
+@end example
+
+    ROM memory is organized in 8Kb ($2000) banks  located  at  $8000-$9FFF.
+    Bank switching is done by reading from address $DE00+X, where X is  the
+    bank number (LDA $DE00,X). For instance, to read from bank  3,  address
+    $DE03 is accessed.
+
+    The CRT file contains a string of CHIP blocks, each block with a  start
+    address of $8000, length $2000 and the bank number in the  bank  field.
+    In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
+    1 to enable the 8 kB ROM configuration.
+
+
+@c @node FIXME
+@subsubsection 18 - Zaxxon, Super Zaxxon (SEGA)
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 20Kb (3 banks of different sizes)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-8FFF (mirrored in $9000-9FFF, module 0, chip U1)
+                    $A000-BFFF (banked modules 1 and 2, chip U2)
+@end multitable
+
+@example
+        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+        -----------------------------------------------  ----------------
+000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+000010: 00 00 00 40 01 00 00 12 00 00 00 00 00 00 00 00  ???@????????????
+000020: 5A 61 78 78 6F 6E 00 00 00 00 00 00 00 00 00 00  Zaxxon??????????
+000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+000040: 43 48 49 50 00 00 10 10 00 00 00 00 80 00 10 00  CHIP????????.???
+000050: 0D 80 29 80 C3 C2 CD 38 30 78 4C 09 80 78 A9 00  ?.)....80xL?.x.?
+..
+001050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP????????†???
+001060: A2 0F BD 00 20 D0 04 CA 10 F8 60 BD 70 20 F0 0D  .????.?.??`?p???
+..
+003060: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP????????†???
+003070: 65 A2 36 A3 E7 A3 CB A4 94 A5 86 A6 5E A7 35 A8  e.6£?£.?î•Ü?^ß5?
+@end example
+
+    The (Super) Zaxxon carts use a 4Kb ($1000) ROM at $8000-$8FFF (mirrored
+    in $9000-$9FFF) along with two 8Kb ($2000) cartridge banks  located  at
+    $A000-$BFFF. One of the two banks is selected by doing a read access to
+    either the $8000-$8FFF area (bank 0 is selected) or to $9000-$9FFF area
+    (bank 1 is selected). EXROM ($18 = $00) and GAME ($19 = $00) lines  are
+    always pulled to GND to select the 16 kB ROM configuration.
+
+    The CRT file includes three CHIP blocks:
+@example
+    a) bank = 0, load address = $8000, size = $1000
+    b) bank = 0, load address = $A000, size = $2000
+    c) bank = 1, load address = $A000, size = $2000
+@end example
+
+@c @node FIXME
+@subsubsection 19. Magic Desk, Domark, HES Australia
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb, 64Kb or 128Kb sizes (4 to 16 banks of 8Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address 
+@tab (banks 00-15) - $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 13 00 01 00 00 00 00 00 00  ???@????????????
+0020: 4D 61 67 69 63 20 44 65 73 6B 00 00 00 00 00 00  Magic?Desk??????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 C6 CA C3 C2 CD 38 30 8E 16 D0 20 A3 FD 20  ?......80é?.?£.?
+..
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 00 3F 0A 01 00 86 4E 24 28 31 30 29 3A 4A 4F 59  ?????ÜN$(10):JOY
+..
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+4070: 00 8B C9 28 4E 24 2C 31 29 B3 B1 22 FF 22 A7 32  ?ã.(N$,1)≥±"?"ß2
+..
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+6080: AE 01 83 33 2C 37 2C 22 32 29 20 44 45 4C 20 4B  Æ?É3,7,"2)?DEL?K
+@end example
+
+    This cartridge type is very similar to the OCEAN cart type: ROM  memory
+    is  organized  in  8Kb  ($2000)  banks  located  at  $8000-$9FFF.  Bank
+    switching is done by writing the bank number to $DE00. Deviant from the
+    Ocean type, bit 8 is cleared for selecting one of the ROM banks. If bit
+    8 is set ($DE00 = $80), the GAME/EXROM lines are disabled,  turning  on
+    RAM at $8000-$9FFF instead of ROM.
+
+    In the cartridge header, EXROM ($18) is set to 0, GAME ($19) is set  to
+    1 to indicate the RESET/power-up configuration of 8 kB ROM.
+
+    Here is a list of the known cartridges:
+
+@example
+    Ghosbusters        (HES Australia)   (32 kB)
+    Magic Desk         (Commodore)       (32 kB)
+    Badlands           (Domark)          (64 kB)
+    Vindicators        (Domark)          (64 kB)
+    Wonderboy          (HES Australia)   (64 kB)
+    Cyberball          (Domark)         (128 kB)
+@end example
+
+
+@c @node FIXME
+@subsubsection 20. Super Snapshot V5
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb (4 banks of 16Kb each)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 14 01 01 00 00 00 00 00 00  ???@????????????
+0020: 53 75 70 65 72 20 53 6E 61 70 73 68 6F 74 20 35  Super?Snapshot?5
+0030: 20 4E 54 53 43 00 00 00 00 00 00 00 00 00 00 00  ?NTSC???????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0050: 09 80 59 80 C3 C2 CD 38 30 20 03 9F 00 FA F4 20  ?.Y....80??ü????
+...
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+4060: 79 DE BC FE C3 C2 CD 38 30 A9 05 8D 20 D0 8D 21  y.?....80.?ç?.ç!
+...
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+8070: 50 DE BC FE C3 C2 CD 38 30 A9 0A 85 6A A9 0D 85  P.?....80.?Öj.?Ö
+...
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
+C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P.?....80Ö???≠•v
+@end example
+
+    The first page of the currently selected ROM bank is  mirrored  in  the
+    I/O-1 range when reading.
+
+    The control Register is the I/O-1 range when writing:
+
+@example
+    bit  meaning
+    ---  -------
+    7-5  unused
+    4    ROM/RAM bank bit 1
+    3    ROM enable
+    2    ROM/RAM bank bit 0
+    1    RAM enable, EXROM
+    0    release freeze, !GAME
+@end example
+
+
+@c @node FIXME
+@subsubsection 21. Comal-80
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb (4 banks of 16Kb each)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 15 01 01 00 00 00 00 00 00  ???@????????????
+0020: 43 6F 6D 61 6C 20 38 30 00 00 00 00 00 00 00 00  Comal?80????????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0050: 87 87 70 CF C3 C2 CD 38 30 4C AA CF 4C 70 CF 4C  ..p....80L◊.Lp.L
+...
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+4060: AA CF 70 CF C3 C2 CD 38 30 01 29 01 28 01 2C 04  ◊.p....80?)?(?,?
+...
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+8070: AA CF 70 CF C3 C2 CD 38 30 91 92 92 92 92 92 92  ◊.p....80.......
+...
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
+C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
+@end example
+
+
+    The Comal-80 Cartridge uses $DE00 for bank  selection,  and  uses  16Kb
+    banks ($4000) at $8000-$BFFF. There are 4 banks of ROM memory  and  are
+    referenced by the following values:
+
+@example
+       $80 -> Bank 0
+       $81 -> Bank 1
+       $82 -> Bank 2
+       $83 -> Bank 3
+@end example
+
+
+@c @node FIXME
+@subsubsection 22. Structured Basic
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8Kb each)
+@item GAME
+@tab active (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+    No sample data/file available.
+
+    Any read/write access to $DE00 or $DE01 will  switch  in  bank  0.  Any
+    read/write access to $DE02 will switch in bank 1. Any read/write access
+    to $DE03 will switch off EXROM.
+
+
+@c @node FIXME
+@subsubsection 23. Ross
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb or 32Kb sizes (1 or 2 banks of 16Kb each)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 17 00 00 00 00 00 00 00 00  ???@????????????
+0020: 52 6F 73 73 20 31 34 00 00 00 00 00 00 00 00 00  Ross?14?????????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0050: 09 80 09 80 C3 C2 CD 38 30 A2 00 BD 20 80 4D 0E  ?.?....80.???.M?
+...
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+4060: 3F 5A 4D 4D 50 4D 8D 25 3F 1A 1F 77 3F CD E0 3F  ?ZMMPMç%???w?.??
+@end example
+
+    Any read access to $DE00 will switch in bank 1 (if cart is  32Kb).  Any
+    read access to $DF00 will switch off EXROM and GAME.
+
+
+@c @node FIXME
+@subsubsection 24. Dela EP64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb to 72kb sizes (1 to 9 banks of 8Kb each,
+                              or 1 bank of 8Kb and 1 or 2 banks
+                              of 32Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 18 00 01 00 00 00 00 00 00  ???@????????????
+0020: 44 45 4C 41 20 45 50 36 34 00 00 00 00 00 00 00  DELA?EP64???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 00 85 5E FE C3 C2 CD 38 30 FF FF FF FF FF FF FF  ?Ö^....80???????
+...
+2050: 43 48 49 50 00 00 80 10 00 00 00 01 80 00 80 00  CHIP??.?????.?.?
+2060: 54 45 53 54 0D 2A 0D 54 45 20 36 34 0D 00 00 00  TEST?*?TE?64????
+@end example
+
+    This is an eprom cartridge. It has 1 2764 (8Kb) which  holds  the  base
+    eprom with the base menu, and 2 27256 eproms of  which  8Kb  parts  are
+    banked into the $8000-9FFF area.
+
+    The bank selecting is done by writing to $DE00. The following bits  are
+    used for bank decoding in $DE00 (0 being the LSB, 3 being the MSB).
+
+@example
+         Bit# 76543210
+              xx10xx32
+@end example
+
+    Any bank value below 4 or above 11 switches in the base bank (bank 0).
+
+    The bit values for each eprom bank are :
+
+@example
+    eprom bank 1 : xx00xx01
+    eprom bank 2 : xx01xx01
+    eprom bank 3 : xx10xx01
+    eprom bank 4 : xx11xx01
+    eprom bank 5 : xx00xx10
+    eprom bank 6 : xx01xx10
+    eprom bank 7 : xx10xx10
+    eprom bank 8 : xx11xx10
+@end example
+
+    Setting bit 7 high will switch off EXROM.
+
+
+@c @node FIXME
+@subsubsection 25. Dela EP7x8
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb to 64kb sizes (1 to 8 banks of 8Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 19 00 01 00 00 00 00 00 00  ???@????????????
+0020: 44 45 4C 41 20 45 50 37 78 38 00 00 00 00 00 00  DELA?EP7x8??????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 5E FE C3 C2 CD 38 30 78 A2 FF 9A D8 8E 16  ?.^....80x.?..é?
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 94 83 A0 83 C3 C2 CD 38 30 02 BB 5A 30 5F EE 3D  îÉ†É...80?ªZ0_?=
+@end example
+
+    This is an eprom cartridge. It has 8 8Kb banks of which the first holds
+    the base menu, the other eproms can be banked into the $8000-9FFF area.
+
+    The bank selecting is done by writing to $DE00. Each low bit is used to
+    bank in the respective eprom. If all bits are high then  the  EXROM  is
+    switched off.
+
+    The bit values for each eprom bank is:
+
+@example
+    eprom bank 1 : 11111110 ($FE) (base eprom)
+    eprom bank 2 : 11111101 ($FD)
+    eprom bank 3 : 11111011 ($FB)
+    eprom bank 4 : 11110111 ($F7)
+    eprom bank 5 : 11101111 ($EF)
+    eprom bank 6 : 11011111 ($DF)
+    eprom bank 7 : 10111111 ($BF)
+    eprom bank 8 : 01111111 ($7F)
+
+    EXROM off    : 11111111 ($FF)
+@end example
+
+@c @node FIXME
+@subsubsection 26. Dela EP256
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb to 262kb sizes (1 to 33 banks of 8Kb each)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 1A 00 01 00 00 00 00 00 00  ???@????????????
+0020: 44 45 4C 41 20 45 50 32 35 36 00 00 00 00 00 00  DELA?EP256??????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 00 85 5E FE C3 C2 CD 38 30 93 0D 2B 2B 2B 20 45  ?Ö^....80.?+++?E
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 09 80 28 80 C3 C2 CD 38 30 78 A2 05 8E 16 D0 20  ?.(....80x.?é?.?
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+4070: 0B 80 BC FE C3 C2 CD 38 30 DC 10 8E 16 D0 20 87  ?.?....80.?é?.?.
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+6080: 09 80 F6 8E C3 C2 CD 38 30 A2 C8 8E 16 D0 20 ..  ?.?é...80..é?.?.
+...
+8080: 43 48 49 50 00 00 20 10 00 00 00 04 80 00 20 00  CHIP????????.???
+8090: 94 83 A0 83 C3 C2 CD 38 30 02 BB 5A 30 5F EE 3D  îÉ†É...80?ªZ0_?=
+@end example
+
+    This is an eprom cartridge. It has 33 8Kb  banks  of  which  the  first
+    holds the base menu, the other eproms can be banked into the $8000-9FFF
+    area.
+
+    The bank selecting is done by writing to $DE00.
+
+    The values for the (extra) eprom banks are:
+
+@example
+    eprom banks  1- 8 : $38-3F
+    eprom banks  9-16 : $28-2F
+    eprom banks 17-24 : $18-1F
+    eprom banks 25-32 : $08-0F
+@end example
+
+    Setting bit 7 high will switch off EXROM.
+
+
+@c @node FIXME
+@subsubsection 27. Rex EP256
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb to 262kb sizes (1 bank of 8Kb and 1 to 8 banks of either
+                               8Kb, 16Kb or 32Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 1B 00 01 00 00 00 00 00 00  ???@????????????
+0020: 52 45 58 20 45 50 32 35 36 00 00 00 00 00 00 00  REX?EP256???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 C1 FE C3 C2 CD 38 30 20 A3 FD 20 50 FD 20  ?......80?£.?P.?
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 09 80 F2 8F C3 C2 CD 38 30 A2 C8 8E 16 D0 20 A3  ?.?è...80..é?.?£
+...
+4060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+4070: 09 80 09 80 C3 C2 CD 38 30 58 D8 20 84 FF 20 8A  ?.?....80X.?Ñ??ä
+@end example
+
+    This is an eprom cartridge. It has 9 eprom sockets, of which the  first
+    holds the base eprom with the base menu which  is  an  8Kb  eprom,  the
+    other eprom sockets can handle 8Kb, 16Kb or 32Kb eproms, of  which  8kb
+    can be banked into the $8000-9FFF area.
+
+    The bank selecting is done by  writing  to  $DFA0.  Bits  2,  1  and  0
+    determine which socket is used and bits 5 and 4 are used to  select  an
+    8Kb piece of the eprom.
+
+    The possible values for bits 5 and 4 for the (extra) eprom banks are:
+
+@example
+     8Kb        : 3, 2, 1, 0
+
+    16Kb bank 0 : 2, 0
+    16Kb bank 1 : 3, 1
+
+    32Kb bank 0 : 0
+    32Kb bank 1 : 1
+    32Kb bank 2 : 2
+    32Kb bank 3 : 3
+@end example
+
+    Reading from $DFC0 switches off the EXROM.
+    Reading from $DFE0 switches on the EXROM.
+
+@c @node FIXME
+@subsubsection 28. Mikro Assembler
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 1C 00 01 00 00 00 00 00 00  ???@????????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 60 80 FE 80 C3 C2 CD 38 30 4C 07 87 4C CA 82 41  `......80L?.L.ÇA
+@end example
+
+
+    The $9E00-$9EFF range is mirrored at $DE00-$DEFF. The $9F00-$9FFF range
+    is mirrored at $DF00-$DFFF.
+
+@c @node FIXME
+@subsubsection 29. Final Cartridge Plus
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb (1 bank of 32Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $0000-$7FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 1D 00 01 00 00 00 00 00 00  ???@????????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 80 10 00 00 00 00 00 00 80 00  CHIP??.???????.?
+0050: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF  ????????????????
+@end example
+
+
+    This cart has 32Kb of ROM, bank 0 is in the cart image but is  unused.
+    The first 8Kb of the cart image is unused, the second 8Kb of the  cart
+    image is mapped to $E000-$FFFF, the third 8Kb of  the  cart  image  is
+    mapped to $8000-$9FFF and the fourth 8Kb of the cart image  is  mapped
+    to $A000-$BFFF. An NMI can be triggered by the cart, if address  $0001
+    is written to and the cartridge is enabled. The cart can  be  disabled
+    by software, by clearing bit 4 when writing to $DF00-$DFFF.  Cart  ROM
+    at $E000-$FFFF can be disabled by setting bit 5 to 0 when  writing  to
+    $DF00-$DFFF. Cart ROM at $8000-$BFFF can be disabled by setting bit  6
+    to 1 when  writing  to  $DF00-$DFFF.  Bit  7  of  a  byte  written  to
+    $DF00-$DFFF can be read back from the cartridge  if  enabled  (like  a
+    memory cell).
+
+@c @node FIXME
+@subsubsection 30. Action Replay 4
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb (4 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 1E 00 01 00 00 00 00 00 00  ???@????????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: EA 78 48 A9 7F 8D 0D DD D0 0E 48 AD 0D DD 10 04  .xP.?ç?..?P?.??
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 09 80 0C 80 C3 C2 CD 38 30 4C E9 80 4C 81 81 4C  ?.?....80L?.LÅÅL
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
+4070: 09 80 0E 80 C3 C2 CD 38 30 A2 00 4C EF FC 20 BC  ?.?....80.?L?.??
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
+6080: 09 80 0C 80 C3 C2 CD 38 30 4C 70 88 4C 3F 80 4C  ?.?....80LpàL?.L
+@end example
+
+    The control register is the I/O-1 range:
+
+@example
+    bit  meaning
+    ---  -------
+    0    Eprom banking bit 0 (bank address 13)
+    1    Controls the GAME line (0 sets GAME low, 1 sets GAME high)
+    2    Freeze-end bit (disables the register and hides any rom bank)
+    3    Controls the Exrom line (1 sets EXROM low, 0 sets EXROM high)
+    4    Eprom banking bit 1 (bank address 14)
+    5-7  Unused
+@end example
+
+    The first page of the currently banked ROM block can be  read  in  the
+    I/O-2 range.
+
+@c @node FIXME
+@subsubsection 31. Stardos
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF (bank 0),
+                   $E000-$FFFF (bank 1)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 1F 00 01 00 00 00 00 00 00  ???@????????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: F9 80 B6 80 C3 C2 CD 38 30 FD 80 89 80 4C 0C 88  ?.∂....80..â.L?à
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
+2060: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  ÖV???•a.àê??.˜?.
+@end example
+
+    This cart has 16Kb of ROM, of which the first  8Kb  is  mapped  in  at
+    $8000-$9FFF and the second 8Kb is used as a  kernel  replacement.  The
+    kernel replacement is achieved by a clip that needs  to  be  installed
+    inside the C64.
+
+    Reading from I/O-1 causes a capacitor to get charged with every  read,
+    once the capacitor is charged enough it switches the cart on.
+
+    Reading from I/O-2 causes a different capacitor to  get  charged  with
+    every read, once the capacitor is charged enough it switched the  cart
+    off.
+
+@c @node FIXME
+@subsubsection 32. EasyFlash
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 1024Kb (128 banks of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-$9FFF (banks 0-63),
+                   $A000-$BFFF (banks 64-127)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 20 00 01 00 00 00 00 00 00  ???@????????????
+0020: 45 61 73 79 46 6C 61 73 68 20 43 61 72 74 72 69  EasyFlash?Cartri
+0030: 64 67 65 00 00 00 00 00 00 00 00 00 00 00 00 00  dge?????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+0050: 00 85 5E FE C3 C2 CD 38 30 93 0D 2B 2B 2B 20 45  ?Ö^....80.?+++?E
+@end example
+
+
+    EasyFlash is a 1 MByte Flash EPROM card with  multiple  configurations
+    and banks possible, it also has 256 bytes of RAM which is mapped  into
+    the I/O-2 range.
+
+    There are two control registers, one at $DE00 and one at $DE02.
+
+    The register at $DE00 does the following:
+
+@example
+    bit  meaning
+    ---  -------
+    7    LED control
+    6-3  Unused
+    2    Mode (0/1)
+    1    Exrom line control
+    0    Game line control
+@end example
+
+    The register at $DE02 controls which bank  is  mapped  into  ROMH  and
+    ROML.
+
+@c @node FIXME
+@subsubsection 33. EasyFlash Xbank
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab TODO
+@item GAME
+@tab inactive (TODO)
+@item EXROM
+@tab active (TODO)
+@item Load address
+@tab TODO
+@end multitable
+
+DUMP: TODO
+
+
+@c @node FIXME
+@subsubsection 34. Capture
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 22 00 01 00 00 00 00 00 00  ???@???"????????
+0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  Magic?Formel????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
+0050: 00 0A 0D 8A B4 A1 20 80 00 0A 82 8A 8D 20 9E 20  ???ä?.?.??Çäç?û?
+@end example
+
+
+    This cart has 8Kb of ROM which is mapped to  $E000,  and  8Kb  of  RAM
+    which is mapped to $6000. The cartridge is disabled after a reset.
+
+    When the freeze button is pressed the following happens:
+
+    - an NMI is generated
+    - as soon as the current adress is in bank 0xfe the cart  switches  to
+      ultimax  mode.  The  cart  ROM  then  contains  one  page  full   of
+      "jmp $eaea", which ultimately calls the freezer code.
+    - the $FFF7/$FFF8 "register" logic is enabled and any access (read  or
+      write) to $FFF7 will turn the cart_enabled off (leave ultimax mode),
+      and an access to $FFF8 will turn the cart  back  on  (enter  ultimax
+      mode). the "register logic" that causes this can  only  be  disabled
+      again by a hardware reset.
+
+
+@c @node FIXME
+@subsubsection 35. Action Replay 3
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 23 00 01 00 00 00 00 00 00  ???@???#????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: EA A9 E3 48 A9 7B 48 08 4C 1A 80 EA EA EA 48 AD  ...H..H?L?....H
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 09 80 5E FE C3 C2 CD 38 30 78 A2 FB D8 9A A9 27  ?.^....80x.....'
+@end example
+
+
+    This cart has 16Kb of ROM of which 8Kb is mapped in at both  ROML  and
+    ROMH. Bank switching and control register is done  through  the  I/O-1
+    range:
+
+@example
+    bit  meaning
+    ---  -------
+    7-4  unused
+    3    Exrom line control
+    2    Disable cart
+    1    Unused
+    0    Bank
+@end example
+
+@c @node FIXME
+@subsubsection 36. Retro Replay
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb, 64Kb or 128Kb (4, 8 or 16 banks of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 24 00 00 00 00 00 00 00 00  ???@???$????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 0C 80 C3 C2 CD 38 30 4C 7F 81 4C 87 81 4C  ?.?....80L?ÅL.ÅL
+@end example
+
+
+    The Retro Replay has three registers: Two write-only ($DE00  &  $DE01)
+    and one read-only register ($DE00 & $DE01 giving the same results).
+
+    The register at $DE00 is reset to $00 on a hard reset if not in  flash
+    mode. If in flash mode, it is set to  $02  in  order  to  prevent  the
+    computer from starting the normal cartridge. Flash  mode  is  selected
+    with a jumper.
+
+    Register at $DE00:
+
+@example
+    bit  meaning
+    ---  -------
+    0    Controls the GAME line: A 1 asserts the line, a 0  will  deassert
+         it.
+    1    Controls the EXROM line: A 0 will assert it, a  1  will  deassert
+         it.
+    2    Writing a 1 will disable further write accesses to all  registers
+         of the Retro Replay, and  set  the  memory  map  of  the  C64  to
+         standard, as if there is no cartridge installed at all.
+    3    Controls bank-address 13 for ROM and RAM banking.
+    4    Controls bank-address 14 for ROM and RAM banking.
+    5    Switches between ROM and RAM: 0=ROM, 1=RAM
+    6    Must be written once to "1" after a successful freeze in order to
+         set the correct memory map and  enable  bits  0  and  1  of  this
+         register. Otherwise no effect.
+    7    Controls bank-address 15 for ROM banking.
+@end example
+
+    The register at $DE01 is the extended  control  register.  If  not  in
+    Flash mode, bits 1, 2 and 6 can only be  written  once.  If  in  Flash
+    mode, the REUcomp bit cannot be set, but  the  register  will  not  be
+    disabled by the first write. Bit 5 is always set to 0 if not in  Flash
+    mode.
+
+    Register at $DE01:
+
+@example
+    bit  meaning
+    ---  -------
+    0    Enable clockport connector.
+    1    AllowBank (1 allows banking of RAM in $DF00/$DE02 area)
+    2    NoFreeze (1 disables Freeze function)
+    3    Bank-address 13 for RAM and ROM (mirror of $DE00)
+    4    Bank-address 14 for RAM and ROM (mirror of $DE00)
+    5    Bank-address 16 for ROM (only in flash mode)
+    6    REU compatibility bit. 0=standard memory map, 1 = REU  compatible
+         memory map
+    7    Bank-address 15 for ROM (mirror of $DE00)
+@end example
+
+    Reading from the registers at either $DE00 or $DE01  will  return  the
+    content of the status register.
+
+    Status register:
+
+@example
+    bit  meaning
+    ---  -------
+    0    1=Flashmode active (jumper set)
+    1    feedback of AllowBank bit
+    2    1=Freeze button pressed
+    3    feedback of banking bit 13
+    4    feedback of banking bit 14
+    5    feedback of banking bit 16
+    6    1=REU compatible memory map active
+    7    feedback of banking bit 15
+@end example
+
+    The following memory maps are available:
+
+    standard
+    --------
+    $DE00 and $DE01 registers are active,  $DF00-$DFFF  contain  the  last
+    page of the selected 8Kb bank  of  either  ROM  or  RAM,  whatever  is
+    selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
+    to $8000, $A000 or $E000 with the corresponding  status  on  GAME  and
+    EXROM.
+
+    Note: If the AllowBank bit is  not  set,  the  $DF00-$DFFF  area  will
+    always access bank 0 of the RAM, so the older  cartridge  images  will
+    work. The AllowBank bit does not have any effect on the ROM mirror  in
+    that area.
+
+    Freeze
+    ------
+    ROM is mapped to $E000-$FFFF, bank 0 is active directly after  Freeze.
+    Writing to bits 0 and 1 of the $DE00 register will have no  effect  on
+    GAME and EXROM. RAM can be  selected  and  used  in  $DF00  or  $DE02,
+    respectively, but not in $8000. Banking bits work, so  you  have  full
+    read access to the ROM, and access to up to four RAM  pages  with  the
+    AllowBank bit set (minus 2 bytes if REU compatible bit  is  set).  You
+    should leave this memory map ASAP by setting bit 6 of  $DE00,  because
+    C64 RAM in the $E000 area is not available, and you don't have control
+    of the GAME and EXROM lines.
+
+    REU compatible
+    --------------
+    $DE00 and $DE01 registers are active, $DE02-$DEFF contain a mirror  of
+    $9E02-$9EFF of the selected 8K-bank of either ROM or RAM, whatever  is
+    selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
+    to $8000, $A000 or $E000 with the corresponding  status  on  GAME  and
+    EXROM. The $DF00 stays free for use with the 1764 Ram  Expansion  Unit
+    (REU).
+
+    Note: If the AllowBank bit is  not  set,  the  $DE02-$DEFF  area  will
+    always access bank 0 of the RAM, so the older  cartridge  images  will
+    work. The AllowBank bit does not have any effect on the ROM mirror  in
+    that area.
+
+@c @node FIXME
+@subsubsection 37. MMC64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 25 00 01 00 00 00 00 00 00  ???@???%????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 64 97 C3 C2 CD 38 30 78 D8 A2 FF 9A 20 D4  ?.dó...80x..?.?.
+@end example
+
+
+    The clockport registers  of  this  cart  can  be  switched  to  either
+    $DE01-$DE0F or $DF21-$DF2F. The control  registers  are  available  at
+    $DF10-$DF13.
+
+    The register at $DE01 / $DF21 is write only:
+
+@example
+    bit  meaning
+    ---  -------
+    7-1  Unused
+    0    0 = disable clock port, 1 = enable clockport
+@end example
+
+    The registers at $DE02-$DE0F / $DF22-$DF2F are for the clock port  and
+    are read/write.
+
+    The register at $DF10 is the  MMC64  SPI  transfer  register,  a  byte
+    written to this registers is sent to the card & response from the card
+    is read here.
+
+    The register at $DF11 is the MMC64 control register:
+
+@example
+    bit  meaning
+    ---  -------
+    0    0 = MMC64 BIOS active, 1 = external ROM active
+    1    0 = card selected, 1 = card not selected
+    2    0 = 250khz transfer, 1 = 8mhz transfer
+    3    0 = clock port @ $DE00, 1 = clock port @ $DF20
+    4    0 = normal Operation, 1 = flash mode (*)
+    5    0 = allow external rom when BIOS is disabled,
+         1 = disable external ROM
+    6    0 = SPI write trigger mode, 1 = SPI read trigger mode
+    7    0 = MMC64 is active, 1 = MMC64 is completely disabled (**)
+@end example
+
+    (*) bit can only be programmed when flash jumper is set
+    (**) bit can only be modified after unlocking
+
+    The  register  at  $DF12  is  the  MMC64  status  register,  which  is
+    read-only:
+
+@example
+    bit  meaning
+    ---  -------
+    0    0 = SPI ready, 1 = SPI busy
+    1    external GAME line
+    2    external EXROM line
+    3    0 = card inserted, 1 = no card inserted
+    4    0 = card write enabled, 1 = card write disabled
+    5    0 = flash jumper not set, 1 = flash jumper set
+    6-7  unused
+@end example
+
+    The register at $DF13 is the MMC64 identification register, which when
+    reading from it can have the following values:
+
+    $64 when bit 1 of $DF11 is 0.
+    $01 when bit 1 of $DF11 is 1 and REV A hardware is used.
+    $02 when bit 1 of $DF11 is 1 and REV B hardware is used.
+
+    when writing to it it can be used to unlock  bit  7  of  $DF11  or  to
+    re-enable the cart:
+
+    Write $55 & $AA into this register to unlock bit 7 of $DF11.
+    Write $0A & $1C into this register to re-enable MMC64 hardware.
+
+@c @node FIXME
+@subsubsection 38. MMC Replay
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb or 512Kb (8 or 64 banks of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@???&????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 1A 80 6E 9E C3 C2 CD 38 30 4D 4D 43 52 45 50 4C  ?.nû...80MMCREPL
+@end example
+
+
+    The cart uses the following registers:
+
+    $DE00 - RR control register write
+
+@example
+    bit  meaning
+    ---  -------
+    0    GAME line
+    1    EXROM line
+    2    1 = disable RR, bit can be reset by setting bit 6 of $DF12
+    3    bank address 13
+    4    bank address 14
+    5    0 = rom enable, 1 = ram enable
+    6    1 = exit freeze mode
+    7    bank address 15
+@end example
+
+    $DE01 - extended RR control register write
+
+@example
+    bit  meaning
+    ---  -------
+    0    0 = disable clockport, 1 = enable clockport
+    1    0 = disable I/O RAM banking, 1 = enable I/O RAM banking
+    2    0 = enable freeze, 1 = disable freeze
+    3    bank address 13 (mirror of $DE00)
+    4    bank address 14 (mirror of $DE00)
+    5    0 = enable MMC registers, 1 = disable MMC registers. Can only  be
+         written when bit 6 of $DF12 is 1. Register becomes effective when
+         bit 0 of $DF11 is 1.
+    6    0 = RAM/ROM at $DFxx, 1 = RAM/ROM at $DExx
+    7    bank address 15 (mirror of $DE00)
+@end example
+
+    $DE02-$DE0F - Clockport memory area (when enabled)
+
+    $DF10 - MMC SPI transfer register, a byte written is sent to the  card
+            & response from the card is read here.
+
+    $DF11 - MMC control register
+
+@example
+    bit  meaning
+    ---  -------
+    0    0 = MMC BIOS enabled, 1 = MMC BIOS disabled.  Enabling  MMC  BIOS
+         sets ROM banking to the last 64Kb bank.
+    1    0 = card selected, 1 = card not selected. This bit also  controls
+         the green activity LED.
+    2    0 = 250khz transfer, 1 = 8mhz transfer
+    3    ALWAYS 0
+    4    ALWAYS 0
+    5    (in RR-Mode:)
+          0 = allow RR rom when MMC BIOS disabled , 1 = disable RR ROM
+          (in mmcreplay bios mode:)
+          RAM banking (0 = $E000 - $FFFF, 1 = $8000 - $9FFF)
+          (in 16K mode:)
+          enable RAM at $A000 - $BFFF
+    6    0 = SPI write trigger mode, 1 = SPI read trigger mode
+    7    ALWAYS 0
+@end example
+
+    $DF12 - MMC status register
+
+@example
+    bit  meaning
+    ---  -------
+    0    0 = SPI ready, 1 = SPI busy (read)
+                        1 = forbid ROM  write  accesses  (write).  Setting
+                        this bit will disable writes  to  ROM  until  next
+                        reset
+    1  feedback of $DE00 bit 0 (GAME)
+    2  feedback of $DE00 bit 1 (EXROM)
+    3  0 = card inserted, 1 = no card inserted
+    4  0 = card write enabled, 1 = card write disabled
+    5  EEPROM DATA line /  DDR  register.  Setting  DATA  to  "1"  enables
+       reading data bit from EEPROM at this position.
+    6  0 = RR compatibility mode, 1 = Extended mode
+       Selecting RR compatibility mode limits RAM  to  32Kb  and  disables
+       writes  to  extended  banking  register.  Selecting  Extended  mode
+       enables full RAM banking and enables Nordic Power mode in RR mode.
+    7  EEPROM CLK line
+@end example
+
+
+    $DF13 - Extended banking register
+            Can only be read/written to when bit 6 of $DF12 is 1
+
+@example
+    bit  meaning
+    ---  -------
+    0    bank address 16
+    1    bank address 17
+    2    bank address 18
+    3    ALWAYS 0
+    4    ALWAYS 0
+    5    16K rom mapping
+    6    1 = enable  RR  register.  Disabling  RR  register  disables  ALL
+         ROM/RAM banking too.
+    7    ALWAYS 0
+@end example
+
+@c @node FIXME
+@subsubsection 39. IDE64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb or 128Kb (8 or 16 banks of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@???'????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 63 80 5E FE C3 C2 CD 38 30 20 49 44 45 36 34 20  c.^....80?IDE64?
+@end example
+
+    The IDE64 cart uses the following registers:
+
+@example
+    $DE20 - $DE27  Primary HDD Registers
+    $DE28 - $DE2F  Secondary HDD Registers
+    $DE30 - Low Data HDD register
+    $DE31 - High Data HDD register
+@end example
+
+    $DE32 register:
+
+@example
+    bit  meaning
+    ---  -------
+    7    unused (0)
+    6    unused (0)
+    5    unused (0)
+    4    version number (1)
+    3    romaddr15
+    2    romaddr14
+    1    game
+    0    exrom
+@end example
+
+@example
+    $DE33 - $DE35 = IDE64 ROM bank select registers
+    $DE5F         = RTC access (bit 0 only to serial accessed RTC)
+    $DE60 - $DEFA = RAM used by software
+    $DEFB         = IDE64 clock reset, kill the cartridge
+    $DEFC - $DEFF = IDE64 ROM configuration registers
+@end example
+
+@c @node FIXME
+@subsubsection 40. Super Snapshot V4
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 32Kb (4 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ???@???(????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 80 AD B5 80 C3 C2 CD 38 30 08 48 A9 06 8D 00 DF  .µ....80?P.?ç??
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP????????†???
+2060: 4C FA A0 A9 07 8D 00 DD 2C 00 DD 50 FB 2C 00 DD  L?†.?ç?.,?.P.,?.
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+4070: 13 80 BC FE C3 C2 CD 38 30 08 48 A9 02 8D 00 DF  ?.?....80?H.?ç??
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP????????†???
+6080: F0 8A 48 A9 00 85 22 85 23 8D 53 0F 20 0C A1 B0  ?äH.?Ö"Ö#çS???.∞
+@end example
+
+
+    This cart has 32Kb of ROM and 8Kb of RAM, it uses I/O-1 as a mirror of
+    the last page of cart RAM. It has the following registers in the I/O-2
+    range:
+
+    ROM config register at $DF00 (can only be written to):
+
+@example
+    bit  meaning
+    ---  -------
+    0    ?
+    1    ? (write 1 to release freeze mode)
+    2    ROM bank select
+    3    write 1 to disable cartridge
+    4-6  unused
+    7    ?
+@end example
+
+    Note: if bit0, bit1, bit7 are all 0, then ultimax mapping is  selected
+    and RAM is enabled at ROML, otherwise if bit 0 is 0, then 16Kb mapping
+    is enabled, or if bit 0 is 1, then 8Kb mapping is enabled.
+
+    RAM config register at $DF01 (read/write):
+
+    If written value == last value - 1, then ultimax mapping  is  selected
+    and RAM is enabled at ROML, if written value == last value +  1,  then
+    ROM is enabled at ROML and exrom is deasserted (switch to either 8k or
+    16k mapping)
+
+    $DF02-$DFFF holds the last page of the first 8kb of the current bank.
+
+@c @node FIXME
+@subsubsection 41. IEEE-488
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4Kb (1 bank of 4Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$8FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 29 00 01 00 00 00 00 00 00  ???@???)????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 10 10 00 00 00 00 80 00 10 00  CHIP????????.???
+0050: 09 80 7A 80 C3 C2 CD 38 30 8E 16 D0 20 84 FF 20  ?.z....80é?.?Ñ??
+@end example
+
+
+    The cart uses a TPI for the  IEEE488  interface/communication  in  the
+    I/O-2 range:
+
+@example
+    $DF00 - Port A Data
+    $DF01 - Port B Data
+    $DF02 - Port C Data
+    $DF03 - Port A Direction
+    $DF04 - Port B Direction
+    $DF05 - Port C Direction
+    $DF06 - Control register
+    $DF07 - Active Interrupt register
+@end example
+
+@c @node FIXME
+@subsubsection 42. Game Killer
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2A 00 00 00 00 00 00 00 00  ???@???*????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
+0050: 00 25 08 CF 07 9E 32 30 38 38 20 4D 43 2E 43 52  ?%?.?û2088?MC.CR
+@end example
+
+
+    When the cartridge is active, ultimax  is  enabled  when  the  address
+    being accessed is is the $E000-$FFFF range, so the ROM is  visible  at
+    $E000, below is normal C64 RAM. The cart can be disabled by writing to
+    either I/O-1 or I/O-2 range. When the freezer button is  pressed,  the
+    cartridge will be enabled and an NMI will be triggered.
+
+@c @node FIXME
+@subsubsection 43. Prophet64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 256Kb (32 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2B 00 01 00 00 00 00 00 00  ???@???+????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 09 80 C3 C2 CD 38 30 78 A0 00 84 F8 84 FA  ?.?....80x†?Ñ?Ñ?
+@end example
+
+
+    The control register is the I/O-2 range:
+
+@example
+    bit  meaning
+    ---  -------
+    7-6  unused
+    5    disable cart
+    4-0  bank select
+@end example
+
+@c @node FIXME
+@subsubsection 44. EXOS
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $E000-$FFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2C 01 00 00 00 00 00 00 00  ???@???,????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
+0050: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  ÖV???•a.àê??.˜?.
+@end example
+
+
+    This cart has 8Kb of ROM, mapped in at $E000-$FFFF only when hirom  is
+    selected. The cart uses a clip that needs to be installed  inside  the
+    C64.
+
+@c @node FIXME
+@subsubsection 45. Freeze Frame
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2D 00 01 00 00 00 00 00 00  ???@???-????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 10 80 10 80 C3 C2 CD 38 30 20 00 00 00 00 00 00  ?.?....80???????
+@end example
+
+
+    When reading from the I/O-1 range the cart is  enabled,  when  reading
+    from the I/O-2 range the cart is disabled. When the freeze  button  is
+    pressed the ROM is mapped to both $8000-$9FFF and $E000-$FFFF.
+
+@c @node FIXME
+@subsubsection 46. Freeze Machine
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb or 32Kb (2 or 4 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2E 00 01 00 00 00 00 00 00  ???@???.????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@???
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
+2060: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
+...
+4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@???
+...
+6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP???????? ???
+6080: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
+@end example
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    When reading from  the  I/O-1  range  ROM  bank  0(/2)  is  mapped  to
+    $8000-$9FFF and ROM bank 1(/3) is mapped to $A000-$BFFF. When  reading
+    from the I/O-2 range the cart is disabled. When a  reset  happens  the
+    ROM banks get switched and ROM bank 0(/2) is  mapped  to  $8000-$9FFF.
+    When a freeze happens ROM bank 0(/2) is mapped to both $8000-$9FFF and
+    $E000-$FFFF.
+
+
+@c @node FIXME
+@subsubsection 47. Snapshot 64
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4Kb (1 bank of 4Kb)
+@item GAME
+@tab inactive (0)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $E000-$EFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 2F 00 00 00 00 00 00 00 00  ???@???/????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 10 10 00 00 00 00 E0 00 10 00  CHIP????????????
+0050: 78 D8 48 8A 48 98 48 AC 0D DD 10 03 4C EE F2 AD  x.HäHòH??.??L??
+@end example
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    The cart has a control bit (bit 0) in the I/O-2 range which is used to
+    disable or enable the cart.
+
+
+@c @node FIXME
+@subsubsection 48. Super Explode V5.0
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 30 00 01 00 00 00 00 00 00  ???@???0????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: D7 86 5E FE C3 C2 CD 38 30 A9 00 2C A9 FF 85 FE  .Ü^....80.?,.?Ö.
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: E8 96 5E FE C3 C2 CD 38 30 20 6C 81 A9 09 8D 99  ?ñ^....80?lÅ.?çô
+@end example
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    The cart has 16Kb of ROM which are used as two banks of 8Kb, they  are
+    mapped into $8000-$9FFF and the last page of the current ROM  bank  is
+    mirrored in $DF00-$DFFF. The cart has a control bit (bit 7) at  $DF00,
+    which is used to select what ROM bank is used.
+
+
+@c @node FIXME
+@subsubsection 49. Magic Voice
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF (bank 1),
+                   $A000-$BFFF (bank 2)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ???@???1????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: EA 2C 80 DF 50 FB A0 00 8C 80 DF B9 E3 A3 29 0F  .,.?P. ?å.?π.£)?
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
+2060: 4A EB C0 49 6A EA BB FB 4E CA 43 1E 75 63 15 97  J?.Ij.ª.N.C?uc?ó
+@end example
+
+
+    This cart has 16Kb of ROM, mapped in at reset at $8000-$BFFF. The cart
+    is controled through a TPI at $DF80-$DF87:
+
+@example
+    $DF80 - Port A Data
+    $DF81 - Port B Data
+    $DF82 - Port C Data
+    $DF83 - Port A Direction
+    $DF84 - Port B Direction
+    $DF85 - Port C Direction
+    $DF86 - Control register
+    $DF87 - Active Interrupt register
+@end example
+
+    The cart has a pass-through port and does the following at start-up:
+
+    - Program  starts  after  reset  at  $FFD3,  and  copies   code   from
+      $FF36-$FFD2 to $0200-$029C (157 bytes)
+
+    - Program continues at $021A, copies $A000-$BFFF from EPROM to RAM  at
+      $A000-$BFFF  (8Kb),  copies  $E000-$FFFF  from  EPROM  to   RAM   at
+      $E000-$FFFF (8Kb), copies $AE62-$B461 from RAM to RAM at $C000-$C5FF
+      (Magic Voice Code)
+
+    - Jump to beginning of Magic Voice code at $C000
+
+@c @node FIXME
+@subsubsection 50. Action Replay 2
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 16Kb (2 banks of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 32 00 01 00 00 00 00 00 00  ???@???2????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: EA EA 68 AA 68 85 94 68 85 95 68 85 96 68 85 97  ..h◊hÖîhÖïhÖñhÖó
+...
+2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
+2060: 30 80 5E FE C3 C2 CD 38 30 20 04 90 4C 38 DF 1A  0.^....80??êL8??
+@end example
+
+
+    Warning, the following information is based on guess-work and might be
+    incorrect, any further information and/or corrections are appreciated.
+
+    I/O-1 is somehow used to enable the cart, the exact way in which  this
+    is done is unknown. Reading from the I/O-2 range  will  give  you  the
+    last page of the current ROM bank, and writing to it will disable  the
+    cart.
+
+@c @node FIXME
+@subsubsection 51. MACH 5
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 4Kb or 8Kb (1 bank of 4Kb or 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$8FFF (4Kb),
+                   $8000-$9FFF (8Kb)
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 33 00 01 00 00 00 00 00 00  ???@???3????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: AF 83 5E FE C3 C2 CD 38 30 4D 41 43 48 35 A5 93  ªÉ^....80MACH5•.
+@end example
+
+
+    This cart has 8Kb ROM mapped at $8000-$9FFF, the $9E00-$9EFF range  is
+    mirrored at $DE00-$DEFF and  the  $9F00-$9FFF  range  is  mirrored  at
+    $DF00-$DFFF.
+
+
+@c @node FIXME
+@subsubsection 52. Diashow maker
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 8Kb (1 bank of 8Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab inactive (0)
+@item Load address
+@tab $8000-$9FFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 34 00 01 00 00 00 00 00 00  ???@???4????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
+0050: 09 80 09 80 C3 C2 CD 38 30 AD 11 D0 29 10 D0 62  ?.?....80?.)?.b
+@end example
+
+
+    Accessing I/O-1 (the software  uses  $DE00  only  it  seems)  disables
+    cartridge ROM. A reset enables 8K game mode and the ROM bank is mapped
+    to $8000. A freeze causes ROM to be mapped to $8000.
+
+
+@c @node FIXME
+@subsubsection 53 - Pagefox
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab 64Kb (4 banks of 16Kb)
+@item GAME
+@tab active (1)
+@item EXROM
+@tab active (1)
+@item Load address
+@tab $8000-$BFFF
+@end multitable
+
+@example
+      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
+      -----------------------------------------------  ----------------
+0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
+0010: 00 00 00 40 01 00 00 35 01 01 00 00 00 00 00 00  ???@???5????????
+0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
+0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0050: 31 80 BB 0E C3 C2 CD 38 30 50 46 20 56 31 2E 30  1.ª?...80PF?V1.0
+...
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+4060: A2 FE 9A 20 EC AE 20 82 80 20 74 86 20 A5 8B 4C  ...??Æ?Ç.?tÜ?•ãL
+...
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+8070: 5A 01 02 03 04 06 0A 0B 10 14 1E 28 3C 00 00 00  Z??????????(<???
+...
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
+C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???Ç????????????
+@end example
+
+
+    This cart has 64Kb ROM (2 32Kb Eproms, mapped to $8000  and  $A000  in
+    16Kb Game Mode), and 32Kb RAM (mapped to $8000 and $A000 in  16K  Game
+    Mode). The cart has 1 (write-only)  bank  control  register  which  is
+    located at $DE80 and mirrored throughout the $DE80-$DEFF range:
+
+@example
+    Bit 0: unused/don't care
+    Bit 1: Bank select: 0=upper, 1=lower (not correct ?!)
+    Bit 2: chip select 0
+    Bit 3: chip select 1
+    Bit 4: cartridge enable/disable: 0=enable, 1=disable
+    Bits 5-7: unused/don't care
+@end example
+
+    Chip select combinations of 0/1 are:
+@example
+    00: Eprom "79"
+    01: Eprom "ZS3"
+    10: Ram
+    11: empty space (reading returns VIC-II data)
+@end example
+
+    note: on the original hardware "disabling" the  cartridge  by  setting
+          bit 4 of the control register does NOT prevent write accesses to
+          the cartridge RAM!. So  to  actually  disable  the  RAM,  it  is
+          suggested to write $FF to the register.
+
+@c @node FIXME
+@subsubsection 54 - Kingsoft
+
+@c FIXME: todo
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab -
+@item GAME
+@tab -
+@item EXROM
+@tab -
+@item Load address
+@tab -
+@end multitable
+
+@c @node FIXME
+@subsubsection 55 - Silverrock 128
+
+@c FIXME: todo
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab -
+@item GAME
+@tab -
+@item EXROM
+@tab -
+@item Load address
+@tab -
+@end multitable
+
+@c @node FIXME
+@subsubsection 56 - Formel 64
+
+@c FIXME: todo
+
+@multitable @columnfractions .3 .7
+@item Size
+@tab -
+@item GAME
+@tab -
+@item EXROM
+@tab -
+@item Load address
+@tab -
+@end multitable
 
 @node Acknowledgments, Copyright, File formats, Top
 @chapter Acknowledgments

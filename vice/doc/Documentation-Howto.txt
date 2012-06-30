@@ -121,9 +121,9 @@ TODO:
 like mentioned above, the todo list is contained in vice.texi in the form of
 comments. to show it using the checkdoc tool use "./checkdoc.mak fixme"
 
-at the time of last updating this file (25/06/2012), the list looked like this:
+at the time of last updating this file (30/06/2012), the list looked like this:
 
-list of FIXMEs (23):
+list of FIXMEs (26):
 669:@c FIXME: add link to doc/html/plain/PETdoc.txt
 690:@c FIXME: add link to doc/html/plain/PETdoc.txt
 719:@c FIXME: add link to section
@@ -132,23 +132,26 @@ list of FIXMEs (23):
 4417:@c FIXME: clean up "c64/128" vs "c64"
 8475:@c FIXME: relink this node
 10329:@c FIXME: add some info on making screenshots, wav- and avi recordings
-10406:@c FIXME: merge doc/html/plain/Walkthrough-Howto.txt
-11260:@c FIXME: add more c1541 examples
-11635:@c FIXME: add P64 disk image file structure
-11636:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
-11637:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
-11638:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
-11639:@c FIXME: add D4M FD4000 ED disk image file structure
-11640:@c FIXME: add CRT c64 cartridge images file structure
-12059:@c FIXME: the D64 section needs to be style-checked.
-12955:@c FIXME: the X64 section needs to be style-checked.
-13071:@c FIXME: the D71 section needs to be style-checked.
-13733:@c FIXME: the D81 section needs to be style-checked.
-14632:@c FIXME: the D80 section needs to be style-checked.
-15322:@c FIXME: the D82 section needs to be style-checked.
-16414:@c FIXME: the P00 section needs to be style-checked.
+10406:@c FIXME: the "Event history" section needs to be style-checked.
+11366:@c FIXME: add more c1541 examples
+11741:@c FIXME: add D67 CBM2040 (DOS1) disk image file structure
+11742:@c FIXME: add D1M FD2000/FD4000 DD disk image file structure
+11743:@c FIXME: add D2M FD2000/FD4000 HD disk image file structure
+11744:@c FIXME: add D4M FD4000 ED disk image file structure
+12163:@c FIXME: the P64 section needs to be style-checked.
+12451:@c FIXME: the D64 section needs to be style-checked.
+13347:@c FIXME: the X64 section needs to be style-checked.
+13463:@c FIXME: the D71 section needs to be style-checked.
+14125:@c FIXME: the D81 section needs to be style-checked.
+15024:@c FIXME: the D80 section needs to be style-checked.
+15714:@c FIXME: the D82 section needs to be style-checked.
+16806:@c FIXME: the P00 section needs to be style-checked.
+16860:@c FIXME: the CRT section needs to be style-checked.
+19704:@c FIXME: todo
+19720:@c FIXME: todo
+19736:@c FIXME: todo
 
-nodes that need fixing (107)
+nodes that need fixing (180)
 
 to get a much more detailed list use "./checkdoc.mak full"
 
