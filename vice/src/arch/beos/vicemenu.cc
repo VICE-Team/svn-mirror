@@ -305,6 +305,7 @@ BMenuBar *menu_create(int machine_class)
 
     if (machine_class != VICE_MACHINE_VSID) {
         uppermenu->AddItem(new BMenuItem("True Drive Emulation", new BMessage(MENU_TOGGLE_DRIVE_TRUE_EMULATION)));
+        uppermenu->AddItem(new BMenuItem("Drive Sound Emulation", new BMessage(MENU_TOGGLE_DRIVE_SOUND_EMULATION)));
         uppermenu->AddItem(new BMenuItem("Handle TDE for autostart", new BMessage(MENU_TOGGLE_HANDLE_TDE_AUTOSTART)));
         uppermenu->AddItem(new BMenuItem("Virtual Devices", new BMessage(MENU_TOGGLE_VIRTUAL_DEVICES)));
         uppermenu->AddSeparatorItem();
@@ -756,6 +757,8 @@ BMenuBar *menu_create(int machine_class)
                 machine_class == VICE_MACHINE_C64SC ||
                 machine_class == VICE_MACHINE_C128) {
                 submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
+                submenu->AddItem(new BMenuItem("Kingsoft", new BMessage(MENU_USERPORT_JOY_KINGSOFT)));
+                submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
             }
         }
             menu->AddItem(new BMenuItem("Allow opposite joystick directions", new BMessage(MENU_ALLOW_OPPOSITE_JOY)));

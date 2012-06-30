@@ -178,6 +178,7 @@ const uint32 MENU_PASTE                           = 'M162';
 const uint32 MENU_TOGGLE_SOUND                    = 'M100';
 const uint32 MENU_TOGGLE_WARP_MODE                = 'M101';
 const uint32 MENU_TOGGLE_DRIVE_TRUE_EMULATION     = 'M102';
+const uint32 MENU_TOGGLE_DRIVE_SOUND_EMULATION    = 'M095';
 const uint32 MENU_TOGGLE_HANDLE_TDE_AUTOSTART     = 'M103';
 const uint32 MENU_TOGGLE_VIRTUAL_DEVICES          = 'M104';
 const uint32 MENU_TOGGLE_DOUBLESIZE               = 'M105';
@@ -215,8 +216,6 @@ const uint32 MENU_TOGGLE_MMCR_RESCUE_MODE         = 'M248';
 const uint32 MENU_TOGGLE_MMCR_READ_WRITE          = 'M249';
 
 const uint32 MENU_TOGGLE_C64DTV_WRITE_ENABLE      = 'M099';
-const uint32 MENU_TOGGLE_SIDCART                  = 'M085';
-const uint32 MENU_TOGGLE_SIDCART_FILTERS          = 'M086';
 const uint32 MENU_TOGGLE_MOUSE                    = 'M110';
 const uint32 MENU_TOGGLE_DIRECTWINDOW             = 'M111';
 const uint32 MENU_TOGGLE_IEEE488                  = 'M112';
@@ -289,6 +288,8 @@ const uint32 MENU_USERPORT_JOY_PET                = 'M181';
 const uint32 MENU_USERPORT_JOY_HUMMER             = 'M182';
 const uint32 MENU_USERPORT_JOY_OEM                = 'M183';
 const uint32 MENU_USERPORT_JOY_HIT                = 'M184';
+const uint32 MENU_USERPORT_JOY_KINGSOFT           = 'M185';
+const uint32 MENU_USERPORT_JOY_STARBYTE           = 'M186';
 
 const uint32 MENU_DATASETTE_SETTINGS              = 'M203';
 const uint32 MENU_VIC20_SETTINGS                  = 'M204';
@@ -432,8 +433,8 @@ const uint32 MENU_DIGIMAX_BASE_DFA0               = 'M481';
 const uint32 MENU_DIGIMAX_BASE_DFC0               = 'M482';
 const uint32 MENU_DIGIMAX_BASE_DFE0               = 'M483';
 
-const uint32 MENU_SFX_SE_3526                     = 'M185';
-const uint32 MENU_SFX_SE_3812                     = 'M186';
+const uint32 MENU_SFX_SE_3526                     = 'M085';
+const uint32 MENU_SFX_SE_3812                     = 'M086';
 
 const uint32 MENU_MMC64_REVISION_A                = 'M066';
 const uint32 MENU_MMC64_REVISION_B                = 'M067';
@@ -467,17 +468,6 @@ const uint32 MENU_SOUND_RECORD_MP3                = 'M081';
 const uint32 MENU_SOUND_RECORD_VOC                = 'M082';
 const uint32 MENU_SOUND_RECORD_WAV                = 'M083';
 const uint32 MENU_SOUND_RECORD_STOP               = 'M084';
-
-/*
-const uint32 MENU_SIDCART_MODEL_6581              = 'M090';
-const uint32 MENU_SIDCART_MODEL_8580              = 'M091';
-
-const uint32 MENU_SIDCART_ADDRESS_1               = 'M092';
-const uint32 MENU_SIDCART_ADDRESS_2               = 'M093';
-
-const uint32 MENU_SIDCART_CLOCK_C64               = 'M094';
-const uint32 MENU_SIDCART_CLOCK_NATIVE            = 'M095';
-*/
 
 const uint32 MENU_TOGGLE_PS2MOUSE                 = 'M152';
 

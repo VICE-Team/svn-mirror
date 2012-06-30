@@ -109,6 +109,7 @@ int window_count = 0;
 ui_menu_toggle  toggle_list[] = {
     { "Sound", MENU_TOGGLE_SOUND },
     { "DriveTrueEmulation", MENU_TOGGLE_DRIVE_TRUE_EMULATION },
+    { "DriveSoundEmulation", MENU_TOGGLE_DRIVE_SOUND_EMULATION },
     { "AutostartHandleTrueDriveEmulation", MENU_TOGGLE_HANDLE_TDE_AUTOSTART },
     { "DirectWindow", MENU_TOGGLE_DIRECTWINDOW },
     { "WarpMode", MENU_TOGGLE_WARP_MODE },
@@ -174,6 +175,8 @@ ui_res_possible_values UserportJoyType[] = {
     { USERPORT_JOYSTICK_HUMMER, MENU_USERPORT_JOY_HUMMER },
     { USERPORT_JOYSTICK_OEM, MENU_USERPORT_JOY_OEM },
     { USERPORT_JOYSTICK_HIT, MENU_USERPORT_JOY_HIT },
+    { USERPORT_JOYSTICK_KINGSOFT, MENU_USERPORT_JOY_KINGSOFT },
+    { USERPORT_JOYSTICK_STARBYTE, MENU_USERPORT_JOY_STARBYTE },
     { -1, 0 }
 };
 
