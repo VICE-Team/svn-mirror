@@ -51,10 +51,10 @@ should be:
  - a register-compatible VGA graphics card (better if it is also SVGA
    and VESA-compliant);
 
- - MS-DOS 5.0 or later (or Windows 95/98).
+ - DOS 3 or later (or Windows 95/98).
 
 If you want to run VICE under plain MS-DOS (and you should), also the
-CWSDPMI DPMI server is needed.  It's available on several places on
+CWSDPMI DPMI server is needed.  It's available in several places on
 the Internet, and is also used by many other 32-bit MS-DOS program.
 For example, you can download it from the following site:
 
@@ -80,10 +80,8 @@ compatible sound cards, although they are not mandatory.
   are chances MIDAS support will be included again.
 
 
-VICE has been tested and verified to run properly on the following
-DOS systems:
+VICE has been tested and verified to run properly on the following systems:
 
-- PCDOS 3.0
 - DRDOS 3.40
 - DRDOS 3.41
 - DRDOS 5.0
@@ -91,13 +89,22 @@ DOS systems:
 - DRDOS 7.02 (with memory manager disabled)
 - DRDOS 7.03 (with memory manager disabled)
 - DRDOS 8.0 (with memory manager disabled)
+- FREEDOS 1.1 (with xmgr memory manager)
 - MSDOS 4.01
 - MSDOS 5.0 (with himem.sys disabled)
 - MSDOS 6.0
 - MSDOS 6.20
 - MSDOS 6.21
 - MSDOS 6.22
-
+- Novell DOS 7 (with memory manager disabled)
+- PCDOS 3.0
+- PCDOS 3.10
+- PCDOS 3.30
+- PCDOS 4.00
+- PCDOS 5.0 (with himem.sys disabled)
+- PCDOS 5.02
+- PCDOS 6.3
+- PCDOS 7.0
 
 INSTALLATION
 ============
@@ -122,7 +129,8 @@ There are several executables for the emulators:
       xvic.exe, the VIC20 emulator
       xpet.exe, the PET emulator
       xplus4.exe, the PLUS4 emulator
-      xcbm2.exe, the CBM-II emulator
+      xcbm2.exe, the CBM-II emulator (cbm6x0/cbm7x0)
+      xcbm5x0.exe, the CBM5x0 emulator
 
 To run them, just type the corresponding name at the DOS prompt.
 
