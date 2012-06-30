@@ -56,8 +56,6 @@ ui_menu_toggle  plus4_ui_menu_toggles[] = {
     { "TEDDoubleSize", MENU_TOGGLE_DOUBLESIZE },
     { "TEDDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "TEDVideoCache", MENU_TOGGLE_VIDEOCACHE },
-    { "SidCart", MENU_TOGGLE_SIDCART },
-    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "SIDCartJoy", MENU_TOGGLE_SIDCART_JOY },
     { "SpeechEnabled", MENU_TOGGLE_V364SPEECH },
     { NULL, 0 }

@@ -60,8 +60,6 @@ ui_menu_toggle  vic20_ui_menu_toggles[] = {
     { "VICDoubleScan", MENU_TOGGLE_DOUBLESCAN },
     { "VICVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "IEEE488", MENU_TOGGLE_IEEE488 },
-    { "SidCart", MENU_TOGGLE_SIDCART },
-    { "SidFilters", MENU_TOGGLE_SIDCART_FILTERS },
     { "Mouse", MENU_TOGGLE_MOUSE },
     { "FinalExpansionWriteBack", MENU_TOGGLE_FE_WRITE_BACK },
     { "MegaCartNvRAMWriteBack", MENU_TOGGLE_MC_NVRAM_WRITE_BACK },
