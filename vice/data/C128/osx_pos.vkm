@@ -89,7 +89,7 @@
 47 5 4 8            /*            . -> .            */
 48 7 2 8            /*          TAB -> Ctrl         */
 49 7 4 8            /*        Space -> Space        */
-#50 -1 -1 0          /*           <> -> (no key)     */
+50 7 1 8            /*     Backtick -> Left Arrow   */
 51 0 0 8            /*    Backspace -> Del          */
 52 6 4 4            /*        Enter -> Right Shift  */
 53 7 7 8            /*          ESC -> Run/Stop     */
