@@ -69,6 +69,7 @@ typedef struct texture_s texture_t;
     unsigned int lastKeyModifierFlags;
     unsigned int modifierKeyCode[NUM_KEY_MODIFIERS];
     unsigned int tempKeyMask;
+    int          showKeyCodes;
     
     // Mouse
     BOOL        trackMouse;

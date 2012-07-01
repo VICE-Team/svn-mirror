@@ -120,6 +120,19 @@ static int set_true_pixel_aspect(int val, void *param)
     return 0;
 }
 
+static int set_show_key_codes(int val, void *param)
+{
+    if(val)
+        val = 1;
+    else
+        val = 0;
+    
+    if(val != video_param.show_key_codes) {
+        video_param.show_key_codes = val;
+        video_reconfigure(0);
+    }
+}
+
 static resource_int_t resources_int[] =
 {
     { "SyncDrawMode", 0, RES_EVENT_NO, NULL,
@@ -130,6 +143,8 @@ static resource_int_t resources_int[] =
        &video_param.sync_draw_flicker_fix, set_sync_draw_flicker_fix, NULL },
     { "TrueAspectRatio", 1, RES_EVENT_NO, NULL,
        &video_param.true_pixel_aspect, set_true_pixel_aspect, NULL },
+    { "ShowKeyCodes", 0, RES_EVENT_NO, NULL,
+       &video_param.show_key_codes, set_show_key_codes, NULL },
     { NULL }
  };
 

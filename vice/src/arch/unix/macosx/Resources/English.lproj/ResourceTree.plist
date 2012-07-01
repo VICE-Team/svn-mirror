@@ -930,6 +930,8 @@
 			<string>SyncDrawBuffers,i</string>
 			<key>True Pixel Aspect Ratio</key>
 			<string>TrueAspectRatio,b</string>
+			<key>Show Key Codes</key>
+			<string>ShowKeyCodes,b</string>
 		</dict>
 		<key>Remote Monitor</key>
 		<dict>

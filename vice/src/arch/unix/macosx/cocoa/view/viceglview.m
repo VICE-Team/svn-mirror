@@ -257,6 +257,12 @@ extern log_t video_log;
     if(!usePixelBuffer) {
         [self deletePixelBuffer];
     }
+
+    // show key codes?
+    showKeyCodes = video_param.show_key_codes;
+    if(showKeyCodes) {
+        log_message(video_log, "displaying key codes");
+    }
 }
 
 // called if the canvas size was changed by the machine (not the user!)
@@ -1247,6 +1253,11 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
         printf("key: DOWN normal: %04x\n",code);
 #endif
+        
+        if(showKeyCodes) {
+            log_message(video_log, "key: DOWN code=%u", code);
+        }
+        
         [[VICEApplication theMachineController] keyPressed:code];
     }
 }
@@ -1257,6 +1268,11 @@ static const unsigned int modifierMasks[] = {
 #ifdef DEBUG_KEY
         printf("key: UP normal: %04x\n",code);
 #endif
+    
+    if(showKeyCodes) {
+        log_message(video_log, "key:  UP  code=%u", code);
+    }
+    
     [[VICEApplication theMachineController] keyReleased:code];
 }
 
