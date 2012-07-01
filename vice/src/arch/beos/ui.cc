@@ -120,6 +120,7 @@ ui_menu_toggle  toggle_list[] = {
     { "AutostartWarp", MENU_AUTOSTART_WARP },
     { "AutostartRunWithColon", MENU_USE_COLON_WITH_RUN },
     { "AutostartBasicLoad", MENU_LOAD_TO_BASIC_START },
+    { "AutostartDelayRandom", MENU_AUTOSTART_DELAY_RANDOM },
     { "JoyOpposite", MENU_ALLOW_OPPOSITE_JOY },
     { "IECDevice4", MENU_PRINTER_4_IEC },
     { "IECDevice5", MENU_PRINTER_5_IEC },

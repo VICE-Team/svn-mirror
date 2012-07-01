@@ -43,6 +43,7 @@ const uint32 MENU_AUTOSTART                       = 'M001';
 const uint32 MENU_AUTOSTART_WARP                  = 'M194';
 const uint32 MENU_USE_COLON_WITH_RUN              = 'M195';
 const uint32 MENU_LOAD_TO_BASIC_START             = 'M260';
+const uint32 MENU_AUTOSTART_DELAY_RANDOM          = 'M263';
 const uint32 MENU_AUTOSTART_PRG_VIRTUAL_FS        = 'M196';
 const uint32 MENU_AUTOSTART_PRG_INJECT            = 'M197';
 const uint32 MENU_AUTOSTART_PRG_DISK_IMAGE        = 'M198';

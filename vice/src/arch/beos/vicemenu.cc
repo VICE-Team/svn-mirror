@@ -91,6 +91,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Autostart warp", new BMessage(MENU_AUTOSTART_WARP)));
             menu->AddItem(new BMenuItem("Use ':' with run", new BMessage(MENU_USE_COLON_WITH_RUN)));
             menu->AddItem(new BMenuItem("Load to BASIC start (,8)", new BMessage(MENU_LOAD_TO_BASIC_START)));
+            menu->AddItem(new BMenuItem("Random Delay", new BMessage(MENU_AUTOSTART_DELAY_RANDOM)));
             menu->AddItem(submenu = new BMenu("PRG autostart mode"));
                 submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("Virtual FS", new BMessage(MENU_AUTOSTART_PRG_VIRTUAL_FS)));
