@@ -16,6 +16,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c128 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
+	-I$(top_srcdir)/src/plus4 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
@@ -124,6 +125,8 @@ libarch_a_SOURCES = \
 	uipetdww.h \
 	uipetreu.c \
 	uipetreu.h \
+	uiplus4model.c \
+	uiplus4model.h \
  	uiplus256k.c \
  	uiplus256k.h \
 	uiplus60k.c \

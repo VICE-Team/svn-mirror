@@ -44,6 +44,7 @@
 #include "ui.h"
 #include "uic64_256k.h"
 #include "uic64cart.h"
+#include "uic64model.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uieasyflash.h"

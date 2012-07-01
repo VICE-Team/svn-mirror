@@ -37,6 +37,7 @@
 #include "tui.h"
 #include "tuifs.h"
 #include "ui.h"
+#include "uiplus4model.h"
 #include "uisid.h"
 #include "uisidcart.h"
 #include "uiv364speech.h"
@@ -105,6 +106,10 @@ static tui_menu_item_def_t rom_menu_items[] = {
 int plus4ui_init(void)
 {
     ui_create_main_menu(0, 1, 0, 0, 1);
+
+    tui_menu_add_separator(ui_special_submenu);
+
+    uiplus4model_init(ui_special_submenu);
 
     tui_menu_add_separator(ui_video_submenu);
 
