@@ -10,8 +10,7 @@ MISC_DOX = \
 	Doxygen-Howto.txt \
 	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
-	NLS-Howto.txt \
-	openGLsync-howto.txt
+	NLS-Howto.txt
 
 BUILDING_DOX = \
 	building/GP2X-Howto.txt \
@@ -22,7 +21,8 @@ BUILDING_DOX = \
 	building/OpenVMS-Howto.txt \
 	building/SDL-Howto.txt \
 	building/Win32-Cygwin-Howto.txt \
-	building/Win32-Mingw32-Howto.txt
+	building/Win32-Mingw32-Howto.txt \
+	building/Linux-Mingw32-Howto.txt
 
 READMES = \
 	readmes/Readme-Amiga.txt \
@@ -41,12 +41,18 @@ TEXI_TOOLS = \
 DOC_TOOLS = \
 	checkdoc.c \
 	checkdoc.mak \
+	checkdoc.mon \
 	Doxyfile \
 	mainpage.dox \
 	mkdoxy.sh \
 	src2doxy.sh \
 	txt2doxy.sh
 
+STYLE_TOOLS = \
+	.indent.pro \
+	indent-test.c \
+	uncrustify.cfg
+	
 VICE_DOX = \
 	vice.txt \
 	vice.pdf \
@@ -55,12 +61,12 @@ VICE_DOX = \
 	vice.guide \
 	vice.inf \
 	vice.info
-
+	
 info_TEXINFOS = vice.texi
 
 dist_doc_DATA = $(MISC_DOX) $(VICE_DOX) $(BUILDING_DOX) $(READMES)
 
-EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS)
+EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
 
 SUBDIRS = html
 

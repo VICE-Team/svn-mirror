@@ -12,8 +12,11 @@ END-INFO-DIR-ENTRY
 @end format
 @end ifinfo
 
-@c @setchapternewpage odd
-@setchapternewpage off
+@c global options
+@setchapternewpage on
+@firstparagraphindent none
+@paragraphindent 0
+@exampleindent 0
 
 @c @iftex
 @c @set CHAPTER chapter
@@ -52,11 +55,13 @@ notice identical to this one.
 
 @end ifinfo
 
+@c -----------------------------------------------------------------------------
+
 @titlepage
 
 @title VICE, the Versatile Commodore Emulator
 
-@page
+@c page
 @vskip 0pt plus 1filll
 Copyright @copyright{} 1998-2012 Dag Lem
 Copyright @copyright{} 1999-2012 Andreas Matthies
@@ -104,6 +109,8 @@ notice identical to this one.
 
 @end titlepage
 
+@c -----------------------------------------------------------------------------
+
 @c @ifinfo
 @node Top, License, (dir), (dir)
 @c @top Version
@@ -113,7 +120,7 @@ notice identical to this one.
 
 @ifinfo
 
-This is the documentation for version 2.2 of VICE, the Versatile
+This is the documentation for version 2.4 of VICE, the Versatile
 Commodore Emulator.
 
 @end ifinfo
@@ -960,7 +967,10 @@ VICE supports the most popular Commodore file formats:
 @code{X64} (preferred) or @code{D64} disk image files; Used by the 1541, 2031, 3040, 4040 drives.
 
 @item
-@code{G64} GCR-encoded 1541 disk image files;
+@code{G64} GCR-encoded 1541 disk image files
+
+@item
+@code{P64} NRZI flux pulse disk image files
 
 @item
 @code{D67} CBM2040 (DOS1) disk image format
@@ -987,10 +997,13 @@ VICE supports the most popular Commodore file formats:
 @code{D4M} FD4000 ED disk image format
 
 @item
-@code{T64} tape image files (read-only);
+@code{T64} tape image files (read-only)
 
 @item
-@code{P00} program files;
+@code{P00} program files
+
+@item
+@code{CRT} C64 cartridge image files
 
 @end itemize
 
@@ -1120,6 +1133,9 @@ The names of the available emulators are:
 @itemize @bullet
 
 @item
+@code{vsid}, the SID player
+
+@item
 @code{x64}, the fast C64 emulator
 
 @item
@@ -1141,16 +1157,20 @@ The names of the available emulators are:
 @code{xplus4}, the PLUS4 emulator
 
 @item
-@code{xcbm2}, the CBM-II emulator
+@code{xcbm2}, the CBM-II emulator (CRTC models)
+
+@item
+@code{xcbm5x0}, the CBM-II emulator (VIC-II models)
 
 @end itemize
 
-You can run each of them by simply typing the name from a shell.  If you
-want to run them from another application (e.g., a window manager or
-some other sort of program launcher) you should always run them from a
-terminal window such as @code{xterm} or @code{rxvt} since VICE provides
-a lot of debugging information that is sent to the terminal and has
-built-in monitor that also appears there.  For example, you could do
+You can run each of them by simply typing the name from a shell or by configuring
+your window manager for example to use them to open disk images.  
+
+If you want to look at the log output, or use the monitor in a port which does
+not have a dedicated monitor UI yet (such as the XAW port), you should always 
+run them from a terminal window such as @code{xterm} or @code{rxvt}.  For example, 
+you could do
 
 @example
 xterm -e x64
@@ -1349,8 +1369,8 @@ PREFIX/lib/vice/EMU:$HOME/.vice/EMU:BOOTPATH/EMU
 
 Where @code{PREFIX} is the installation prefix (usually
 @file{/usr/local}), @code{EMU} is the name of the emulated machine
-(@code{C64}, @code{C128}, @code{PET}, @code{CBM-II} or @code{VIC20}) and
-@code{BOOTPATH} is the directory where the executable resides.
+(@code{C64}, @code{C64DTV}, @code{C128}, @code{PET},  @code{PLUS4}, @code{CBM-II} 
+or @code{VIC20}) and @code{BOOTPATH} is the directory where the executable resides.
 The disk drive ROMs are looked for in a directory with @code{EMU} set to
 @code{DRIVES}. @code{$HOME} is the user's home directory.
 
@@ -2379,12 +2399,84 @@ resources that it becomes impossible for the user to interact with it.
 * Video options::
 @end menu
 
+@c @node FIXME
+@subsection using openGL Rastersynchronization under X11 
+
+Warning: To get full retro experience with synchronization to the vertrical
+raster retrace messing with X11 modelines (resolution and refresh frequencies) 
+is necessary. This description is a suggestion - Follow this instructions at 
+your own risk!
+
+The following was tested under Ubuntu Linux (8.04) featuring Xorg Xserver 1:7.3+10ubuntu 
+and mesa openGL including HW support (NVIDIA driver) supporting glx version 1.4
+supplying GLX_SGI_video_sync.
+
+It is assumed that this works also on other systems supporting the
+required extensions.
+
+Preconditions:
+@itemize @bullet
+@item openGL extension GLX_SGI_video_sync in your X11 setup.
+  The availability of the extension is checked at startup.
+  
+@item XRandR extension to switch proper modes (50Hz for PAL, 60Hz for
+NTSC) is mandatory, proper modelines in your /etc/X11/xorg.conf must be present.
+@end itemize
+
+If your systems lacks 50 or 60Hz modes you might try using
+`gtf' (typcally shipped with Xorg, xserver) - see related man page.
+
+You might need to add the output such as:
+@example
+# 800x600 @ 50.00 Hz (GTF) hsync: 30.90 kHz; pclk: 31.15 MHz
+Modeline "800x600_50.00" 31.15 800 824 904 1008 600 601 604 618 -HSync +Vsync
+@end example
+to you Monitor Section of /etc/X11/xorg.conf and add the resolution to the `Screen' section.
+
+Sometimes some consistency checks within the display driver drop
+this resolutions again.
+To drop e.g. the autodetection features in the NVIDIA driver you
+might add @code{Option "UseEDID" "FALSE"} in section @code{Device}. 
+
+XRandR cannot cope properly with the DynamicTwinView feature of the
+proprietary nvidia driver. You might need 
+
+@code{Option         "DynamicTwinView" "False"}
+
+to get proper results (in Screen or Device section of you xorg.conf).
+
+ATTENTION: Disabling such features might allow X11 to access your HW
+in a way that it gets damaged! You are at your own risk!
+
+Enable fullscreen (not necessary, but makes sense):
+@itemize @bullet
+@item choose your preferred resolution/refresh XRandR Resolutions and 
+enable XRandR as fullscreen device (50Hz/PAL or 60Hz/NTSC mode).
+@item Activate fullscreen with `Alt-D'.
+@item choose `OpenGL Rastersynchronization' in the
+video chip menu (VIC-II Settings, VIC Setting, etc.)
+@end itemize
+
+Note that:
+@itemize @bullet
+@item the current implementation is dropping synchronization
+silently in case the display frequency isn't aligned (50Hz
+for PAL, 60Hz for NTSC). 
+
+@item On some systems the XRandR system isn't informed about desktop
+display frequency changes if you switch resolutions via hotkeys like 
+CTRL-Alt-+ (Numpad), which is possible e.g. with the X11
+implementation of Xorg.
+
+In that case you can override/tell the current frequency via menu:
+Settings->VICII Settings->Desktop Refreshrate (e.g. in x64)
+(this shouldn't be necessary if you use fullscreen via XRandR.
+@end itemize
+
 @node Video resources, Video options, Video settings, Video settings
 @subsection Video resources
 
-The following resources affect the screen emulation. The prefix of
-some of the resources and commandline options denote the video chip
-the values apply to.
+The following resources affect the screen emulation.
 
 @table @code
 
@@ -7548,7 +7640,7 @@ Specify @file{NAME} as the character generator ROM file
 @itemx -cartA NAME
 @itemx -cartB NAME
 Specify @file{NAME} as the cartridge image to attach.
-(@code{CartridgeFile2000},...,@code{CartridgeFileB000}).
+(@code{CartridgeFile2000}, ..., @code{CartridgeFileB000}).
 
 @end table
 
@@ -17979,7 +18071,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7Н??`Н??`Н??`Н
 @end example
 
 @c @node FIXME
-@subsubsection 19. Magic Desk, Domark, HES Australia
+@subsubsection 19 - Magic Desk, Domark, HES Australia
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18035,7 +18127,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7Н??`Н??`Н??`Н
 
 
 @c @node FIXME
-@subsubsection 20. Super Snapshot V5
+@subsubsection 20 - Super Snapshot V5
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18086,7 +18178,7 @@ C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P.?....80Е???неv
 
 
 @c @node FIXME
-@subsubsection 21. Comal-80
+@subsubsection 21 - Comal-80
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18133,7 +18225,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 
 
 @c @node FIXME
-@subsubsection 22. Structured Basic
+@subsubsection 22 - Structured Basic
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18154,7 +18246,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 
 
 @c @node FIXME
-@subsubsection 23. Ross
+@subsubsection 23 - Ross
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18186,7 +18278,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 
 
 @c @node FIXME
-@subsubsection 24. Dela EP64
+@subsubsection 24 - Dela EP64
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18246,7 +18338,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 
 
 @c @node FIXME
-@subsubsection 25. Dela EP7x8
+@subsubsection 25 - Dela EP7x8
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18296,7 +18388,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @end example
 
 @c @node FIXME
-@subsubsection 26. Dela EP256
+@subsubsection 26 - Dela EP256
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18351,7 +18443,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 
 
 @c @node FIXME
-@subsubsection 27. Rex EP256
+@subsubsection 27 - Rex EP256
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18409,7 +18501,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
     Reading from $DFE0 switches on the EXROM.
 
 @c @node FIXME
-@subsubsection 28. Mikro Assembler
+@subsubsection 28 - Mikro Assembler
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18438,7 +18530,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
     is mirrored at $DF00-$DFFF.
 
 @c @node FIXME
-@subsubsection 29. Final Cartridge Plus
+@subsubsection 29 - Final Cartridge Plus
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18477,7 +18569,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
     memory cell).
 
 @c @node FIXME
-@subsubsection 30. Action Replay 4
+@subsubsection 30 - Action Replay 4
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18527,7 +18619,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
     I/O-2 range.
 
 @c @node FIXME
-@subsubsection 31. Stardos
+@subsubsection 31 - Stardos
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18568,18 +18660,17 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
     off.
 
 @c @node FIXME
-@subsubsection 32. EasyFlash
+@subsubsection 32 - EasyFlash
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab 1024Kb (128 banks of 8Kb)
+@tab 1024Kb (64 banks of 2 * 8Kb)
 @item GAME
 @tab inactive (0)
 @item EXROM
 @tab active (1)
 @item Load address
-@tab $8000-$9FFF (banks 0-63),
-                   $A000-$BFFF (banks 64-127)
+@tab $8000-$9FFF (ROML), $A000-$BFFF or $E000-$FFFF (ROMH)
 @end multitable
 
 @example
@@ -18616,24 +18707,25 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
     ROML.
 
 @c @node FIXME
-@subsubsection 33. EasyFlash Xbank
+@subsubsection 33 - EasyFlash Xbank
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab TODO
+@tab -
 @item GAME
-@tab inactive (TODO)
+@tab -
 @item EXROM
-@tab active (TODO)
+@tab -
 @item Load address
-@tab TODO
+@tab -
 @end multitable
 
-DUMP: TODO
-
+This CRT type is not actually related to a seperate hardware, it is used by some
+EasyFlash related tools as a container format. Consequently VICE does (can) not
+load files of this type.
 
 @c @node FIXME
-@subsubsection 34. Capture
+@subsubsection 34 - Capture
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18663,19 +18755,20 @@ DUMP: TODO
 
     When the freeze button is pressed the following happens:
 
-    - an NMI is generated
-    - as soon as the current adress is in bank 0xfe the cart  switches  to
+@itemize @bullet
+@item an NMI is generated
+@item as soon as the current adress is in bank 0xfe the cart  switches  to
       ultimax  mode.  The  cart  ROM  then  contains  one  page  full   of
       "jmp $eaea", which ultimately calls the freezer code.
-    - the $FFF7/$FFF8 "register" logic is enabled and any access (read  or
+@item the $FFF7/$FFF8 "register" logic is enabled and any access (read  or
       write) to $FFF7 will turn the cart_enabled off (leave ultimax mode),
       and an access to $FFF8 will turn the cart  back  on  (enter  ultimax
       mode). the "register logic" that causes this can  only  be  disabled
       again by a hardware reset.
-
+@end itemize
 
 @c @node FIXME
-@subsubsection 35. Action Replay 3
+@subsubsection 35 - Action Replay 3
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18718,7 +18811,7 @@ DUMP: TODO
 @end example
 
 @c @node FIXME
-@subsubsection 36. Retro Replay
+@subsubsection 36 - Retro Replay
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18814,8 +18907,8 @@ DUMP: TODO
 
     The following memory maps are available:
 
-    standard
-    --------
+@itemize @bullet
+@item standard - 
     $DE00 and $DE01 registers are active,  $DF00-$DFFF  contain  the  last
     page of the selected 8Kb bank  of  either  ROM  or  RAM,  whatever  is
     selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
@@ -18827,8 +18920,7 @@ DUMP: TODO
     work. The AllowBank bit does not have any effect on the ROM mirror  in
     that area.
 
-    Freeze
-    ------
+@item Freeze -
     ROM is mapped to $E000-$FFFF, bank 0 is active directly after  Freeze.
     Writing to bits 0 and 1 of the $DE00 register will have no  effect  on
     GAME and EXROM. RAM can be  selected  and  used  in  $DF00  or  $DE02,
@@ -18839,8 +18931,7 @@ DUMP: TODO
     C64 RAM in the $E000 area is not available, and you don't have control
     of the GAME and EXROM lines.
 
-    REU compatible
-    --------------
+@item REU compatible -
     $DE00 and $DE01 registers are active, $DE02-$DEFF contain a mirror  of
     $9E02-$9EFF of the selected 8K-bank of either ROM or RAM, whatever  is
     selected. RAM can only be accessed in $8000-$9FFF. ROM can  be  mapped
@@ -18852,9 +18943,10 @@ DUMP: TODO
     always access bank 0 of the RAM, so the older  cartridge  images  will
     work. The AllowBank bit does not have any effect on the ROM mirror  in
     that area.
+@end itemize
 
 @c @node FIXME
-@subsubsection 37. MMC64
+@subsubsection 37 - MMC64
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -18947,7 +19039,7 @@ DUMP: TODO
     Write $0A & $1C into this register to re-enable MMC64 hardware.
 
 @c @node FIXME
-@subsubsection 38. MMC Replay
+@subsubsection 38 - MMC Replay
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19074,7 +19166,7 @@ DUMP: TODO
 @end example
 
 @c @node FIXME
-@subsubsection 39. IDE64
+@subsubsection 39 - IDE64
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19131,7 +19223,7 @@ DUMP: TODO
 @end example
 
 @c @node FIXME
-@subsubsection 40. Super Snapshot V4
+@subsubsection 40 - Super Snapshot V4
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19196,7 +19288,7 @@ DUMP: TODO
     $DF02-$DFFF holds the last page of the first 8kb of the current bank.
 
 @c @node FIXME
-@subsubsection 41. IEEE-488
+@subsubsection 41 - IEEE-488
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19236,7 +19328,7 @@ DUMP: TODO
 @end example
 
 @c @node FIXME
-@subsubsection 42. Game Killer
+@subsubsection 42 - Game Killer
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19268,7 +19360,7 @@ DUMP: TODO
     cartridge will be enabled and an NMI will be triggered.
 
 @c @node FIXME
-@subsubsection 43. Prophet64
+@subsubsection 43 - Prophet64
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19304,7 +19396,7 @@ DUMP: TODO
 @end example
 
 @c @node FIXME
-@subsubsection 44. EXOS
+@subsubsection 44 - EXOS
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19334,7 +19426,7 @@ DUMP: TODO
     C64.
 
 @c @node FIXME
-@subsubsection 45. Freeze Frame
+@subsubsection 45 - Freeze Frame
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19364,7 +19456,7 @@ DUMP: TODO
     pressed the ROM is mapped to both $8000-$9FFF and $E000-$FFFF.
 
 @c @node FIXME
-@subsubsection 46. Freeze Machine
+@subsubsection 46 - Freeze Machine
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19410,7 +19502,7 @@ DUMP: TODO
 
 
 @c @node FIXME
-@subsubsection 47. Snapshot 64
+@subsubsection 47 - Snapshot 64
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19443,7 +19535,7 @@ DUMP: TODO
 
 
 @c @node FIXME
-@subsubsection 48. Super Explode V5.0
+@subsubsection 48 - Super Explode V5.0
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19481,7 +19573,7 @@ DUMP: TODO
 
 
 @c @node FIXME
-@subsubsection 49. Magic Voice
+@subsubsection 49 - Magic Voice
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19526,18 +19618,20 @@ DUMP: TODO
 
     The cart has a pass-through port and does the following at start-up:
 
-    - Program  starts  after  reset  at  $FFD3,  and  copies   code   from
+@itemize @bullet
+@item Program  starts  after  reset  at  $FFD3,  and  copies   code   from
       $FF36-$FFD2 to $0200-$029C (157 bytes)
 
-    - Program continues at $021A, copies $A000-$BFFF from EPROM to RAM  at
+@item Program continues at $021A, copies $A000-$BFFF from EPROM to RAM  at
       $A000-$BFFF  (8Kb),  copies  $E000-$FFFF  from  EPROM  to   RAM   at
       $E000-$FFFF (8Kb), copies $AE62-$B461 from RAM to RAM at $C000-$C5FF
       (Magic Voice Code)
 
-    - Jump to beginning of Magic Voice code at $C000
+@item Jump to beginning of Magic Voice code at $C000
+@end itemize
 
 @c @node FIXME
-@subsubsection 50. Action Replay 2
+@subsubsection 50 - Action Replay 2
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19574,7 +19668,7 @@ DUMP: TODO
     cart.
 
 @c @node FIXME
-@subsubsection 51. MACH 5
+@subsubsection 51 - MACH 5
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19606,7 +19700,7 @@ DUMP: TODO
 
 
 @c @node FIXME
-@subsubsection 52. Diashow maker
+@subsubsection 52 - Diashow maker
 
 @multitable @columnfractions .3 .7
 @item Size
@@ -19721,13 +19815,13 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???В????????????
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab -
+@tab 128k (16 banks of 8k)
 @item GAME
-@tab -
+@tab active (1)
 @item EXROM
-@tab -
+@tab inactive (0)
 @item Load address
-@tab -
+@tab $8000-$9FFF
 @end multitable
 
 @c @node FIXME
@@ -19737,13 +19831,13 @@ C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???В????????????
 
 @multitable @columnfractions .3 .7
 @item Size
-@tab -
+@tab 32kb (4 banks of 8k)
 @item GAME
-@tab -
+@tab inactive (0)
 @item EXROM
-@tab -
+@tab inactive (0)
 @item Load address
-@tab -
+@tab $E000-$FFFF
 @end multitable
 
 @node Acknowledgments, Copyright, File formats, Top

@@ -40,6 +40,15 @@ like this directly above the new section:
 @c @node FIXME
 @subsection New Section
 
+the general format of a node looks like this:
+
+@node <this node>, <next node>, <previous node>, <parent node>
+
+for example:
+
+@node New Section, Next Section, Last Section, Chapter
+@section New Section
+
 command-line options:
 ---------------------
 
@@ -77,6 +86,28 @@ Boolean to enable some option.
 Boolean to enable some option.
 
 @end table
+
+simple unnumbered list:
+-----------------------
+
+@itemize @bullet
+
+@item foo
+@item bar
+
+@end itemize
+
+preformatted text:
+------------------
+
+@example
+    +---------
+    + whatever
+    +---------
+@end example
+
+Warning: using more than 77 characters per line will produce bugs in the pdf
+         output (and possibly others) - use @smallexample instead in such cases.
 
 ------------------------------------------------------------------------------
 
