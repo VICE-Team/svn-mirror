@@ -55,6 +55,12 @@
 #include "vsidui_sdl.h"
 #include "vsync.h"
 
+#ifdef SDL_DEBUG
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
+
 static log_t sdlvideo_log = LOG_ERR;
 
 static int sdl_bitdepth;
@@ -277,7 +283,7 @@ static const resource_int_t resources_int[] = {
     { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
       &sdl_window_height, set_sdl_window_height, NULL },
 #ifdef HAVE_HWSCALE
-    { "SDLGLAspectMode", SDL_ASPECT_MODE_OFF, RES_EVENT_NO, NULL,
+    { "SDLGLAspectMode", SDL_ASPECT_MODE_TRUE, RES_EVENT_NO, NULL,
       &sdl_gl_aspect_mode, set_sdl_gl_aspect_mode, NULL },
     { "SDLGLFlipX", 0, RES_EVENT_NO, NULL,
       &sdl_gl_flipx, set_sdl_gl_flipx, NULL },
@@ -289,9 +295,7 @@ static const resource_int_t resources_int[] = {
 
 int video_arch_resources_init(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
+    DBG(("%s", __func__));
     if (resources_register_string(resources_string) < 0)
         return -1;
 
@@ -300,9 +304,7 @@ int video_arch_resources_init(void)
 
 void video_arch_resources_shutdown(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
+    DBG(("%s", __func__));
 #ifdef HAVE_HWSCALE
     lib_free(aspect_ratio_s);
 #endif
@@ -349,9 +351,7 @@ static const cmdline_option_t cmdline_options[] = {
 
 int video_init_cmdline_options(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
+    DBG(("%s", __func__));
     return cmdline_register_options(cmdline_options);
 }
 
@@ -365,9 +365,7 @@ int video_init(void)
 
 void video_shutdown(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
+    DBG(("%s", __func__));
     sdl_active_canvas = NULL;
 }
 
@@ -381,9 +379,7 @@ static int sdl_video_canvas_limit(video_canvas_t *canvas, unsigned int w, unsign
     unsigned int limit_w = (unsigned int)sdl_custom_width;
     unsigned int limit_h = (unsigned int)sdl_custom_height;
 
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
     switch (mode & 3) {
         case SDL_LIMIT_MODE_MAX:
             if ((w > limit_w) || (h > limit_h)) {
@@ -481,9 +477,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 #endif
 #endif
 
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i,%i (%i)\n", __func__, *width, *height, canvas->index);
-#endif
+    DBG(("%s: %i,%i (%i)", __func__, *width, *height, canvas->index));
 
     if ((*width == 0) || (*height == 0)) {
         *width = 320;
@@ -498,9 +492,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         canvas->real_height = *height;
         canvas->dsizex = canvas->videoconfig->doublesizex;
         canvas->dsizey = canvas->videoconfig->doublesizey;
-#ifdef SDL_DEBUG
-        fprintf(stderr, "%s: init real size to %i(x%i),%i(x%i) (%i)\n", __func__, *width, canvas->dsizex, *height, canvas->dsizey, canvas->index);
-#endif
+        DBG(( "%s: init real size to %i(x%i),%i(x%i) (%i)", __func__, *width, canvas->dsizex, *height, canvas->dsizey, canvas->index));
     }
 
     new_width = *width;
@@ -529,9 +521,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     if (!sdl_forced_resize) {
         canvas->real_width = *width;
         canvas->real_height = *height;
-#ifdef SDL_DEBUG
-        fprintf(stderr,"%s: setting real size to %i,%i (%i)\n", __func__, *width, *height, canvas->index);
-#endif
+        DBG(("%s: setting real size to %i,%i (%i)", __func__, *width, *height, canvas->index));
     }
 
     if (fullscreen) {
@@ -747,13 +737,12 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
         const float *v = &(sdl_gl_vertex_coord[sdl_gl_vertex_base]);
 
         if (canvas != sdl_active_canvas) {
+            DBG(("%s: not active SDL canvas, ignoring", __func__));
             return;
         }
 
         if (!(canvas->hwscale_screen)) {
-#ifdef SDL_DEBUG
-            fprintf(stderr, "%s: hwscale refresh without hwscale screen, ignoring\n", __func__);
-#endif
+            DBG(("%s: hwscale refresh without hwscale screen, ignoring", __func__));
             return;
         }
 
@@ -845,17 +834,13 @@ static inline int check_resize(struct video_canvas_s *canvas)
 #ifdef HAVE_HWSCALE
     /* Resize when enabling hwscale */
     if ((canvas->videoconfig->hwscale) && !(canvas->hwscale_screen)) {
-#ifdef SDL_DEBUG
-        fprintf(stderr, "%s: hwscale resize\n", __func__);
-#endif
+        DBG(( "%s: hwscale resize", __func__));
         return 1;
     }
 #endif
     /* Resize when toggling double size */
     if ((canvas->videoconfig->doublesizex != (int)canvas->dsizex) || (canvas->videoconfig->doublesizey != (int)canvas->dsizey)) {
-#ifdef SDL_DEBUG
-        fprintf(stderr, "%s: dsize resize (x:%i->%i, y:%i->%i)\n", __func__, canvas->videoconfig->doublesizex, canvas->dsizex, canvas->videoconfig->doublesizey, canvas->dsizey);
-#endif
+        DBG(( "%s: dsize resize (x:%i->%i, y:%i->%i)", __func__, canvas->videoconfig->doublesizex, canvas->dsizex, canvas->videoconfig->doublesizey, canvas->dsizey));
         return 1;
     }
     return 0;
@@ -866,14 +851,10 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 {
     unsigned int width = canvas->draw_buffer->canvas_width;
     unsigned int height = canvas->draw_buffer->canvas_height;
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %ix%i (%i)\n", __func__, width, height, canvas->index);
-#endif
+    DBG(("%s: %ix%i (%i)", __func__, width, height, canvas->index));
     /* Check if canvas needs to be resized to real size first */
     if (check_resize(canvas) && resize_canvas) {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: set and resize to real size (%ix%i)\n", __func__, width, height);
-#endif
+        DBG(("%s: set and resize to real size (%ix%i)", __func__, width, height));
         canvas->real_width = width;
         canvas->real_height = height;
         canvas->dsizex = canvas->videoconfig->doublesizex;
@@ -887,14 +868,10 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 /* Resize window to w/h. */
 void sdl_video_resize(unsigned int w, unsigned int h)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %ix%i\n", __func__, w, h);
-#endif
+    DBG(("%s: %ix%i", __func__, w, h));
 
     if ((w == 0) || (h == 0)) {
-#ifdef SDL_DEBUG
-        fprintf(stderr,"%s: ERROR, ignored!\n", __func__);
-#endif
+        DBG(("%s: ERROR, ignored!", __func__));
         return;
     }
 
@@ -913,7 +890,7 @@ void sdl_video_resize(unsigned int w, unsigned int h)
 
 #ifdef SDL_DEBUG
         if (!sdl_active_canvas->hwscale_screen) {
-            fprintf(stderr,"%s: setting video mode failed\n", __func__);
+            DBG(("%s: setting video mode failed", __func__));
         }
 #endif
         sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
@@ -942,9 +919,7 @@ void sdl_video_restore_size(void)
     if (sdl_active_canvas->videoconfig->doublesizey) {
         h *= (sdl_active_canvas->videoconfig->doublesizey + 1);
     }
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %ix%i->%ix%i\n", __func__, sdl_active_canvas->real_width, sdl_active_canvas->real_height, w, h);
-#endif
+    DBG(("%s: %ix%i->%ix%i", __func__, sdl_active_canvas->real_width, sdl_active_canvas->real_height, w, h));
     sdl_video_resize(w, h);
 }
 
@@ -953,13 +928,9 @@ void sdl_video_resize_event(unsigned int w, unsigned int h)
 {
 #ifdef HAVE_HWSCALE
 
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %ix%i\n", __func__, w, h);
-#endif
+    DBG(("%s: %ix%i", __func__, w, h));
     if ((w == 0) || (h == 0)) {
-#ifdef SDL_DEBUG
-        fprintf(stderr,"%s: ERROR, ignored!\n", __func__);
-#endif
+        DBG(("%s: ERROR, ignored!", __func__));
         return;
     }
     resources_set_int("SDLWindowWidth", w);
@@ -975,9 +946,7 @@ void sdl_video_canvas_switch(int index)
     unsigned int w, h;
     struct video_canvas_s *canvas;
 
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i->%i\n", __func__, sdl_active_canvas_num, index);
-#endif
+    DBG(("%s: %i->%i", __func__, sdl_active_canvas_num, index));
 
     if (sdl_active_canvas_num == index) {
         return;
@@ -1036,9 +1005,7 @@ void sdl_video_canvas_switch(int index)
 
 void video_arch_canvas_init(struct video_canvas_s *canvas)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: (%p, %i)\n", __func__, canvas, sdl_num_screens);
-#endif
+    DBG(("%s: (%p, %i)", __func__, canvas, sdl_num_screens));
 
     if (sdl_num_screens == MAX_CANVAS_NUM) {
         log_error(sdlvideo_log,"Too many canvases!");
@@ -1069,9 +1036,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 {
     int i;
 
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: (%p, %i)\n", __func__, canvas, canvas->index);
-#endif
+    DBG(("%s: (%p, %i)", __func__, canvas, canvas->index));
 
     for (i = 0; i < sdl_num_screens; ++i) {
         if ((sdl_canvaslist[i] == canvas) && (i != sdl_active_canvas_num)) {
@@ -1085,9 +1050,7 @@ void video_canvas_destroy(struct video_canvas_s *canvas)
 
 void video_add_handlers(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
+    DBG(("%s", __func__));
 }
 
 char video_canvas_can_resize(video_canvas_t *canvas)

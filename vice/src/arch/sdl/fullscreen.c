@@ -28,6 +28,8 @@
  *
  */
 
+#define SDL_DEBUG
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -35,22 +37,25 @@
 
 #include "fullscreen.h"
 #include "fullscreenarch.h"
+#include "log.h"
 #include "ui.h"
 #include "video.h"
 #include "videoarch.h"
 
+#ifdef SDL_DEBUG
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
+
 void fullscreen_resume(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s\n", __func__);
-#endif
+    DBG(("%s", __func__));
 }
 
 static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i\n", __func__, enable);
-#endif
+    DBG(("%s: %i", __func__, enable));
 
     if (!canvas->fullscreenconfig->device_set) {
         return 0;
@@ -73,33 +78,25 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 
 static int fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i\n", __func__, enable);
-#endif
+    DBG(("%s: %i", __func__, enable));
     return 0;
 }
 
 static int fullscreen_double_size(struct video_canvas_s *canvas, int double_size)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i\n", __func__, double_size);
-#endif
+    DBG(("%s: %i", __func__, double_size));
     return 0;
 }
 
 static int fullscreen_double_scan(struct video_canvas_s *canvas, int double_scan)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %i\n",__func__,double_scan);
-#endif
+    DBG(("%s: %i", __func__, double_scan));
     return 0;
 }
 
 static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %s\n", __func__, device);
-#endif
+    DBG(("%s: %s", __func__, device));
 
     if (strcmp("SDL", device) != 0) {
         canvas->fullscreenconfig->device_set = 0;
@@ -112,9 +109,7 @@ static int fullscreen_device(struct video_canvas_s *canvas, const char *device)
 
 static int fullscreen_mode_sdl(struct video_canvas_s *canvas, int mode)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %i\n",__func__,mode);
-#endif
+    DBG(("%s: %i", __func__, mode));
 
     canvas->fullscreenconfig->mode = mode;
     return 0;
@@ -122,9 +117,7 @@ static int fullscreen_mode_sdl(struct video_canvas_s *canvas, int mode)
 
 void fullscreen_capability(cap_fullscreen_t *cap_fullscreen)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s", __func__));
 
     cap_fullscreen->device_num = 0;
     cap_fullscreen->device_name[cap_fullscreen->device_num] = "SDL";

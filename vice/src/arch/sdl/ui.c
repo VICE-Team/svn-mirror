@@ -41,6 +41,7 @@
 #include "kbd.h"
 #include "lib.h"
 #include "lightpen.h"
+#include "log.h"
 #include "mouse.h"
 #include "mousedrv.h"
 #include "resources.h"
@@ -62,7 +63,7 @@
 #endif
 
 #ifdef SDL_DEBUG
-#define DBG(x)  printf x
+#define DBG(x)  log_debug x
 #else
 #define DBG(x)
 #endif
@@ -82,7 +83,7 @@ static void ui_setupfirst(void)
         first = 0;
         resources_get_int("SDLWindowWidth", &w);
         resources_get_int("SDLWindowHeight", &h);
-        DBG(("ui_setupfirst (%d,%d)\n", w, h));
+        DBG(("ui_setupfirst (%d,%d)", w, h));
         if ((w == 0) || (h == 0)) {
             sdl_video_restore_size();
         } else {
@@ -96,36 +97,36 @@ void ui_handle_misc_sdl_event(SDL_Event e)
 {
     switch (e.type) {
         case SDL_QUIT:
-            DBG(("ui_handle_misc_sdl_event: SDL_QUIT\n"));
+            DBG(("ui_handle_misc_sdl_event: SDL_QUIT"));
             ui_sdl_quit();
             break;
         case SDL_VIDEORESIZE:
-            DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)\n", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
+            DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
             if(!first) {
                 sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
             }
             video_canvas_refresh_all(sdl_active_canvas);
             break;
         case SDL_ACTIVEEVENT:
-            DBG(("ui_handle_misc_sdl_event: SDL_ACTIVEEVENT\n"));
+            DBG(("ui_handle_misc_sdl_event: SDL_ACTIVEEVENT"));
             ui_setupfirst();
             video_canvas_refresh_all(sdl_active_canvas);
             break;
         case SDL_VIDEOEXPOSE:
-            DBG(("ui_handle_misc_sdl_event: SDL_VIDEOEXPOSE\n"));
+            DBG(("ui_handle_misc_sdl_event: SDL_VIDEOEXPOSE"));
             ui_setupfirst();
             video_canvas_refresh_all(sdl_active_canvas);
             break;
 #ifdef SDL_DEBUG
         case SDL_USEREVENT:
-            DBG(("ui_handle_misc_sdl_event: SDL_USEREVENT\n"));
+            DBG(("ui_handle_misc_sdl_event: SDL_USEREVENT"));
             break;
         case SDL_SYSWMEVENT:
-            DBG(("ui_handle_misc_sdl_event: SDL_SYSWMEVENT\n"));
+            DBG(("ui_handle_misc_sdl_event: SDL_SYSWMEVENT"));
             break;
 #endif
         default:
-            DBG(("ui_handle_misc_sdl_event: unhandled\n"));
+            DBG(("ui_handle_misc_sdl_event: unhandled"));
             break;
     }
 }
@@ -290,7 +291,7 @@ void ui_sdl_quit(void)
         }
     }
 #ifdef DINGOO_NATIVE
-    dingoo_reboot();
+    dingoo_reboot(); /* FIXME: why isn't this in archdep code? */
 #endif
     exit(0);
 }
@@ -298,9 +299,7 @@ void ui_sdl_quit(void)
 /* Initialization  */
 int ui_resources_init(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -310,9 +309,7 @@ int ui_resources_init(void)
 
 void ui_resources_shutdown(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
     joystick_arch_resources_shutdown();
     sdlkbd_resources_shutdown();
 }
@@ -368,34 +365,26 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ui_cmdline_options_init(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
 
     return cmdline_register_options(cmdline_options);
 }
 
 int ui_init(int *argc, char **argv)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
     return 0;
 }
 
 int ui_init_finish(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
     return 0;
 }
 
 int ui_init_finalize(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
 
     SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
     sdl_ui_ready = 1;
@@ -404,9 +393,7 @@ int ui_init_finalize(void)
 
 void ui_shutdown(void)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
     sdl_ui_file_selection_dialog_shutdown();
 }
 
@@ -466,32 +453,22 @@ void ui_update_menus(void){}
 
 int uicolor_alloc_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long *color_pixel, BYTE *pixel_return)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
-
+    DBG(("%s",__func__));
     return 0;
 }
 
 void uicolor_free_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long color_pixel)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
 }
 
 void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixel, void *c)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
+    DBG(("%s",__func__));
 }
 
 int uicolor_set_palette(struct video_canvas_s *c, const struct palette_s *palette)
 {
-#ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
-#endif
-
+    DBG(("%s",__func__));
     return 0;
 }
