@@ -371,7 +371,7 @@ static const resource_int_t resources_int[] = {
       (void *)&fragment_size, set_fragment_size, NULL },
     { "SoundSuspendTime", 0, RES_EVENT_NO, NULL,
       (void *)&suspend_time, set_suspend_time, NULL },
-    { "SoundSpeedAdjustment", SOUND_ADJUST_DEFAULT, RES_EVENT_NO, NULL,
+    { "SoundSpeedAdjustment", SOUND_ADJUST_EXACT, RES_EVENT_NO, NULL,
       (void *)&speed_adjustment_setting, set_speed_adjustment_setting, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },

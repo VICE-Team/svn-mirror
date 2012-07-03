@@ -80,7 +80,7 @@ static int joyport4select(int val, void *param)
     return 0;
 }
 
-static const resource_int_t resources_int[] = {
+static resource_int_t resources_int[] = {
     { "JoyDevice1", 0, RES_EVENT_NO, NULL,
       &joystick_port_map[0], joyport1select, NULL },
     { "JoyDevice2", 0, RES_EVENT_NO, NULL,
@@ -133,6 +133,24 @@ static const cmdline_option_t joydev4cmdline_options[] = {
 
 int joystick_arch_init_resources(void)
 {
+    switch (machine_class) {
+        case VICE_MACHINE_C64:
+        case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_C128:
+        case VICE_MACHINE_C64DTV:
+            resources_int[1].factory_value = 1;
+            break;
+        case VICE_MACHINE_PLUS4:
+        case VICE_MACHINE_VIC20:
+        case VICE_MACHINE_CBM5x0:
+            resources_int[0].factory_value = 1;
+            break;
+        case VICE_MACHINE_PET:
+        case VICE_MACHINE_CBM6x0:
+        case VICE_MACHINE_VSID:
+        case VICE_MACHINE_NONE:
+            break;
+    }
     return resources_register_int(resources_int);
 }
 

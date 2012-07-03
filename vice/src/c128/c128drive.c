@@ -39,8 +39,24 @@
 
 int machine_drive_resources_init(void)
 {
-    return drive_resources_type_init(DRIVE_TYPE_1571CR) | iec_drive_resources_init() | iec_c64exp_resources_init() | iec128dcr_drive_resources_init()
-                                                      | ieee_drive_resources_init();
+    if (drive_resources_type_init(DRIVE_TYPE_1571) < 0) {
+    /* FIXME: 1571CR emulation doesnt seem to work properly */
+    /* if (drive_resources_type_init(DRIVE_TYPE_1571CR) < 0) { */
+        return -1;
+    }
+    if (iec_drive_resources_init() < 0) {
+        return -1;
+    }
+    if (iec_c64exp_resources_init() < 0) {
+        return -1;
+    }
+    if (iec128dcr_drive_resources_init() < 0) {
+        return -1;
+    }
+    if (ieee_drive_resources_init() < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 void machine_drive_resources_shutdown(void)
@@ -53,7 +69,19 @@ void machine_drive_resources_shutdown(void)
 
 int machine_drive_cmdline_options_init(void)
 {
-    return iec_drive_cmdline_options_init() | iec128dcr_drive_cmdline_options_init() | iec_c64exp_cmdline_options_init() | ieee_drive_cmdline_options_init();
+    if (iec_drive_cmdline_options_init() < 0) {
+        return -1;
+    }
+    if (iec128dcr_drive_cmdline_options_init() < 0) {
+        return -1;
+    }
+    if (iec_c64exp_cmdline_options_init() < 0) {
+        return -1;
+    }
+    if (ieee_drive_cmdline_options_init() < 0) {
+        return -1;
+    }
+    return 0;
 }
 
 void machine_drive_init(struct drive_context_s *drv)
