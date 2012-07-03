@@ -40,6 +40,7 @@
 #include "uic64cart.h"
 #include "util.h"
 
+TUI_MENU_DEFINE_TOGGLE(CartridgeReset)
 
 static TUI_MENU_CALLBACK(attach_cartridge_callback)
 {
@@ -148,6 +149,10 @@ static tui_menu_item_def_t attach_cartridge_submenu_items[] = {
       "Save the current cartridge to the settings",
       cartridge_set_default_callback, NULL, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Reset on cart change",
+      "Reset the machine when a cart is inserted or detached",
+      toggle_CartridgeReset_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
