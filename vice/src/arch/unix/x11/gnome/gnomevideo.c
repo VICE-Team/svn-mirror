@@ -264,6 +264,9 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
 char video_canvas_can_resize(video_canvas_t *canvas)
 {
-    return !(gdk_window_get_state(gtk_widget_get_window(get_active_toplevel())) & GDK_WINDOW_STATE_MAXIMIZED);
+    GtkWidget *t = get_active_toplevel();
+    if (t) {
+        return !(gdk_window_get_state(gtk_widget_get_window(t)) & GDK_WINDOW_STATE_MAXIMIZED);
+    }
+    return 0;
 }
-
