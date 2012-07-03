@@ -1573,14 +1573,19 @@ void drive_sound_head(int track, int dir, int unit)
     }
 }
 
-void drive_sound_init(void)
+void drive_sound_stop(void)
 {
     int i;
-
     for (i = 0; i < DRIVE_NUM; i++) {
         motor[i] = nosound;
         step[i] = nosound;
         stepvol[i] = 0;
     }
+    drive_sound.chip_enabled = 0;
+}
+
+void drive_sound_init(void)
+{
+    drive_sound_stop();
     drive_sound_offset = sound_chip_register(&drive_sound);
 }

@@ -34,6 +34,7 @@
 #include "diskconstants.h"
 #include "diskimage.h"
 #include "drive-snapshot.h"
+#include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
 #include "drivemem.h"
@@ -673,6 +674,12 @@ int drive_snapshot_read_module(snapshot_t *s)
             }
         }
     }
+
+    /* stop currently active drive sounds (bug #3539422)
+     * FIXME: when the drive sound emulation becomes more precise, we might
+     *        want/need to save a snapshot of its current state too
+     */
+    drive_sound_stop();
 
     iec_update_ports_embedded();
     drive_update_ui_status();

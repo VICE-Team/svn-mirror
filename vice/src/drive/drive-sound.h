@@ -33,6 +33,7 @@
 void drive_sound_update(int i, int unit);
 void drive_sound_head(int track, int step, int unit);
 
+void drive_sound_stop(void);
 void drive_sound_init(void);
 
 #endif
