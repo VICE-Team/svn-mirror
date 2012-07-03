@@ -102,9 +102,11 @@ endif
 
 $(builddir)/vice.hlp:	$(srcdir)/vice.texi
 if BUILD_HLP
-	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf $(srcdir)/vice.texi
+	cp $(srcdir)/vice.texi tmp.texi
+	$(srcdir)/fixdox.sh hlp
+	$(MAKERTF) --hpj=vice.hpj --output=vice.rtf vicetmp.texi
 	$(HCRTF) -o VICE.HLP -xn vice.hpj
-	rm -f vice.hpj vice.rtf
+	rm -f vice.hpj vice.rtf vicetmp.texi
 	mv VICE.HLP $(builddir)/vice.hlp
 
 HLP_DEPS=$(builddir)/vice.hlp

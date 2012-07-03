@@ -84,7 +84,8 @@ fixchm()
 
 fixhlp()
 {
-  echo not implemented yet
+  sed <tmp.texi >vicetmp.texi -e 's/@firstparagraphindent none//g' -e 's/@exampleindent 0//g'
+  rm -f -r tmp.texi
 }
 
 fixguide()
