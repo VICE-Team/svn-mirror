@@ -87,6 +87,8 @@ libarch_a_SOURCES = \
 	uic64cart.h \
 	uic64dtv.c \
 	uic64dtv.h \
+	uic64dtvmodel.c \
+	uic64dtvmodel.h \
 	uic64model.c \
 	uic64model.h \
 	uicmdline.c \

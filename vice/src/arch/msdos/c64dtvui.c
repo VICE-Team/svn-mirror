@@ -41,6 +41,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uic64dtv.h"
+#include "uic64dtvmodel.h"
 #include "uisiddtv.h"
 #include "uivideo.h"
 
@@ -128,6 +129,8 @@ int c64dtvui_init(void)
     ui_create_main_menu(1, 1, 1, 2, 1);
 
     tui_menu_add_separator(ui_special_submenu);
+
+    uic64dtvmodel_init(ui_special_submenu);
 
     uic64dtv_init(ui_special_submenu);
     tui_menu_add_separator(ui_special_submenu);
