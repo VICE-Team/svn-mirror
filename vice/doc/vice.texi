@@ -5844,9 +5844,6 @@ Integer that specifies reSID gain in percent [97] (90..100)
 @item SidResidFilterBias
 Integer that specifies reSID filter bias, which can be used to adjust DAC bias 
 in millivolts. [0] (-5000..5000)
-@vindex SidParSIDport
-@item SidParSIDport
-Integer specifying the lpt port used for ParSID.
 
 @end table
 
@@ -6051,9 +6048,6 @@ contents changed, when detaching or quitting the emulator.
 @item REUsize
 Integer specifying the size of the emulated REU in KB (128, 256, 512, 1024, 2048,
 4096, 8192, 16384)
-@vindex REUfirstUnusedRegister
-@item REUfirstUnusedRegister
-Integer specifying the first unused REU register (obsolete, will get removed)
 
 @vindex SFXSoundExpander
 @item SFXSoundExpander
