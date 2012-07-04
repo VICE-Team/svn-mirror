@@ -213,8 +213,9 @@ struct rec_options_s {
     unsigned int wrap_around_mask_when_storing; /*!< mask for the wrap around of REU address when putting result back in base_reu and bank_reu */
     BYTE         reg_bank_unused;               /*!< the unused bits (stuck at 1) of REU_REG_RW_BANK; for original REU, it is REU_REG_RW_BANK_UNUSED */
     BYTE         status_preset;                 /*!< preset value for the status (can be 0 or REU_REG_R_STATUS_256K_CHIPS) */
-    unsigned int first_unused_register_address; /*!< the highest address the used REU register occupy */
 };
+
+#define REU_REG_FIRST_UNUSED REU_REG_RW_UNUSED  /*!< the highest address the used REU register occupy */
 
 /*! \brief a complete REC options description */
 static struct rec_options_s rec_options;
@@ -329,32 +330,6 @@ static int set_reu_enabled(int val, void *param)
         reu_enabled = 1;
     }
     return 0;
-}
-
-/*! \internal \brief set the first unused REU register address
-
- \param val
-   the end of the used REU register area; should be equal
-   to or bigger than REU_REG_RW_UNUSED.
-
- \param param
-   unused
-
- \return
-   0 on success, else -1.
-*/
-static int set_reu_first_unused(int val, void *param)
-{
-    int retval = -1;
-
-    if (val >= REU_REG_RW_UNUSED) {
-        rec_options.first_unused_register_address = val;
-        retval = 0;
-    } else {
-        log_message(reu_log, "Invalid first unused REU address %02x.", val);
-    };
-
-    return retval;
 }
 
 /*! \internal \brief set the size of the reu
@@ -513,9 +488,6 @@ static const resource_int_t resources_int[] = {
       &reu_write_image, set_reu_image_write, NULL },
     { "REUsize", 512, RES_EVENT_NO, NULL,
       &reu_size_kb, set_reu_size, NULL },
-    /* FIXME: kill this one with fire */
-    { "REUfirstUnusedRegister", REU_REG_RW_UNUSED, RES_EVENT_NO, NULL,
-      (int *) &rec_options.first_unused_register_address, set_reu_first_unused, NULL },
     /* keeping "enable" resource last prevents unnecessary (re)init when loading config file */
     { "REU", 0, RES_EVENT_STRICT, (resource_value_t)0,
       &reu_enabled, set_reu_enabled, NULL },
@@ -928,7 +900,7 @@ static BYTE reu_io2_read(WORD addr)
         reu_io2_device.io_source_valid = 1;
     }
 
-    if (addr < rec_options.first_unused_register_address) {
+    if (addr < REU_REG_FIRST_UNUSED) {
         retval = reu_read_without_sideeffects(addr);
 
         switch (addr) {
@@ -952,7 +924,7 @@ static BYTE reu_io2_read(WORD addr)
 static BYTE reu_io2_peek(WORD addr)
 {
     BYTE retval = 0xff;
-    if (addr < rec_options.first_unused_register_address) {
+    if (addr < REU_REG_FIRST_UNUSED) {
         retval = reu_read_without_sideeffects(addr);
     }
     return retval;
@@ -969,7 +941,7 @@ static BYTE reu_io2_peek(WORD addr)
 */
 static void reu_io2_store(WORD addr, BYTE byte)
 {
-    if (!reu_dma_active && (addr < rec_options.first_unused_register_address)) {
+    if (!reu_dma_active && (addr < REU_REG_FIRST_UNUSED)) {
         reu_store_without_sideeffects(addr, byte);
 
         DEBUG_LOG( DEBUG_LEVEL_REGISTER, (reu_log, "store [$%02X] <= $%02X.", addr, (int)byte) );
