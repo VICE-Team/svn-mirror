@@ -20052,6 +20052,10 @@ Provided the GP2X port.
 Wrote @code{zip2disk}, on which the Zipcode support in @code{c1541} is based.
 
 @item
+@b{Sven A. Droll}
+Added Supergrafik support to petcat.
+
+@item
 @b{Peter Edwards}
 Implemented the SDL UI slider control and fixed some
 GP2X/Dingoo SDL UI issues.
