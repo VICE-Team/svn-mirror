@@ -38,9 +38,6 @@
 #include "traps.h"
 #include "util.h"
 
-
-static int romset_firmware[5];
-
 static char *dos_rom_name_2031 = NULL;
 static char *dos_rom_name_1001 = NULL;
 static char *dos_rom_name_2040 = NULL;
@@ -87,15 +84,6 @@ static int set_dos_rom_name_2031(const char *val, void *param)
     return ieeerom_load_2031();
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static const resource_string_t resources_string[] = {
     { "DosName2031", "dos2031", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
@@ -112,16 +100,6 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "RomsetDosName2031", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetDosName2040", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "RomsetDosName3040", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "RomsetDosName4040", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[3], set_romset_firmware, (void *)3 },
-    { "RomsetDosName1001", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[4], set_romset_firmware, (void *)4 },
     { NULL }
 };
 

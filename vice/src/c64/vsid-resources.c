@@ -54,8 +54,6 @@
 #define KBD_INDEX_C64_POS   1
 #define KBD_INDEX_C64_SYMDE 2
 
-static int romset_firmware[3];
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -193,15 +191,6 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
        /* FIXME: should be same but names may differ */
@@ -231,15 +220,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-    { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetKernalName", 1, RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,

@@ -57,9 +57,6 @@
 #define KBD_INDEX_CBM2_BDES 4
 #define KBD_INDEX_CBM2_BDEP 5
 
-
-static int romset_firmware[7];
-
 static int sync_factor;
 
 static char *kernal_rom_name = NULL;
@@ -178,15 +175,6 @@ static int cbm5x0_set_sync_factor(int val, void *param)
     return 0;
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static const resource_string_t cbm5x0_resources_string[] = {
     { "ChargenName", CBM2_CHARGEN500, RES_EVENT_NO, NULL,
       &chargen_name, set_chargen_rom_name, NULL },
@@ -226,20 +214,6 @@ static const resource_int_t cbm5x0_resources_int[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "RomsetCart1Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[3], set_romset_firmware, (void *)3 },
-    { "RomsetCart2Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[4], set_romset_firmware, (void *)4 },
-    { "RomsetCart4Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[5], set_romset_firmware, (void *)5 },
-    { "RomsetCart6Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[6], set_romset_firmware, (void *)6 },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
 #ifdef COMMON_KBD

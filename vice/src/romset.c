@@ -190,12 +190,7 @@ int romset_file_save(const char *filename, const char **resource_list)
     s = *resource_list++;
 
     while (s != NULL) {
-        int enable;
-
-        resources_get_int_sprintf("Romset%s", &enable, s);
-
         resources_write_item_to_file(fp, s);
-
         s = *resource_list++;
     }
 
@@ -214,11 +209,7 @@ char *romset_file_list(const char **resource_list)
     s = *resource_list++;
 
     while (s != NULL) {
-        int enable;
         char *line;
-
-        resources_get_int_sprintf("Romset%s", &enable, s);
-
         line = resources_write_item_to_string(s, ARCHDEP_LINE_DELIMITER);
         if (line != NULL) {
             util_addline_free(&list, line);

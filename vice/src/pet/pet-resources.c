@@ -70,8 +70,6 @@
 #define KBD_INDEX_PET_BDES  4
 #define KBD_INDEX_PET_BDEP  5
 
-static int romset_firmware[7 + NUM_6809_ROMS];
-
 static int sync_factor;
 
 static int set_iosize(int val, void *param)
@@ -293,15 +291,6 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static int set_h6809_rom_name(const char *val, void *param)
 {
     unsigned int num = vice_ptr_to_uint(param);
@@ -404,32 +393,6 @@ static const resource_int_t resources_int[] = {
       &petres.pet2kchar, set_pet2kchar_enabled, NULL },
     { "EoiBlank", 0, RES_EVENT_SAME, NULL,
       &petres.eoiblank, set_eoiblank_enabled, NULL },
-    { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 0], set_romset_firmware, (void *) 0 },
-    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 1], set_romset_firmware, (void *) 1 },
-    { "RomsetEditorName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 2], set_romset_firmware, (void *) 2 },
-    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 3], set_romset_firmware, (void *) 3 },
-    { "RomsetRomModule9Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 4], set_romset_firmware, (void *) 4 },
-    { "RomsetRomModuleAName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 5], set_romset_firmware, (void *) 5 },
-    { "RomsetRomModuleBName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 6], set_romset_firmware, (void *) 6 },
-    { "RomsetH6809RomAName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 7], set_romset_firmware, (void *) 7 },
-    { "RomsetH6809RomBName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 8], set_romset_firmware, (void *) 8 },
-    { "RomsetH6809RomCName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[ 9], set_romset_firmware, (void *) 9 },
-    { "RomsetH6809RomDName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[10], set_romset_firmware, (void *)10 },
-    { "RomsetH6809RomEName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[11], set_romset_firmware, (void *)11 },
-    { "RomsetH6809RomFName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[12], set_romset_firmware, (void *)12 },
 #ifdef COMMON_KBD
     { "KeymapIndex", KBD_INDEX_PET_BUKS, RES_EVENT_NO, NULL,
       &machine_keymap_index, keyboard_set_keymap_index, NULL },

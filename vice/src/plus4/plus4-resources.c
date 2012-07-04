@@ -47,9 +47,6 @@
 #define KBD_INDEX_PLUS4_SYM 0
 #define KBD_INDEX_PLUS4_POS 1
 
-
-static int romset_firmware[4];
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -184,15 +181,6 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static const resource_string_t resources_string[] = {
     { "KernalName", "kernal", RES_EVENT_NO, NULL,
       &kernal_rom_name, set_kernal_rom_name, NULL },
@@ -224,14 +212,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "RomsetFunctionLowName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "RomsetFunctionHighName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[3], set_romset_firmware, (void *)3 },
     { "RamSize", 64, RES_EVENT_SAME, NULL,
       &ram_size_plus4, set_ram_size_plus4, NULL },
 #ifdef COMMON_KBD

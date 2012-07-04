@@ -235,17 +235,6 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
-#if 0
-    { "RomsetChargenName", 0, RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetKernalName", 0, RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "RomsetBasicName", 0, RES_EVENT_NO, NULL,
-      /* FIXME: should be same but names may differ */
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
-#endif
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,

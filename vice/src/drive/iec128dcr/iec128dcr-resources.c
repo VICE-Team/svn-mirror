@@ -34,11 +34,7 @@
 #include "resources.h"
 #include "util.h"
 
-
-static int romset_firmware[1];
-
 static char *dos_rom_name_1571cr = NULL;
-
 
 static int set_dos_rom_name_1571cr(const char *val, void *param)
 {
@@ -48,15 +44,6 @@ static int set_dos_rom_name_1571cr(const char *val, void *param)
     return iec128dcrrom_load_1571cr();
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static const resource_string_t resources_string[] = {
     { "DosName1571cr", "d1571cr", RES_EVENT_NO, NULL,
       &dos_rom_name_1571cr, set_dos_rom_name_1571cr, NULL },
@@ -64,8 +51,6 @@ static const resource_string_t resources_string[] = {
 };
 
 static const resource_int_t resources_int[] = {
-    { "RomsetDosName1571cr", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
     { NULL }
 };
 
@@ -81,4 +66,3 @@ void iec128dcr_resources_shutdown(void)
 {
     lib_free(dos_rom_name_1571cr);
 }
-

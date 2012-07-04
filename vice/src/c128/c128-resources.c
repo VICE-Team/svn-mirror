@@ -49,8 +49,6 @@
 #define KBD_INDEX_C128_SYM 0
 #define KBD_INDEX_C128_POS 1
 
-static int romset_firmware[15];
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -437,15 +435,6 @@ static int set_sync_factor(int val, void *param)
     return 0;
 }
 
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    return 0;
-}
-
 static const resource_string_t resources_string[] = {
     { "ChargenIntName", "chargen", RES_EVENT_NO, NULL,
       &chargen_int_rom_name, set_chargen_int_rom_name, NULL },
@@ -491,36 +480,6 @@ static const resource_int_t resources_int[] = {
       &sync_factor, set_sync_factor, NULL },
     { "MachineType", C128_MACHINE_INT, RES_EVENT_SAME, NULL,
       &machine_type, set_machine_type, NULL },
-    { "RomsetChargenIntName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[0], set_romset_firmware, (void *)0 },
-    { "RomsetChargenDEName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[1], set_romset_firmware, (void *)1 },
-    { "RomsetChargenFRName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[2], set_romset_firmware, (void *)2 },
-    { "RomsetChargenSEName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[3], set_romset_firmware, (void *)3 },
-    { "RomsetKernalIntName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[4], set_romset_firmware, (void *)4 },
-    { "RomsetKernalDEName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[5], set_romset_firmware, (void *)5 },
-    { "RomsetKernalFIName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[6], set_romset_firmware, (void *)6 },
-    { "RomsetKernalFRName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[7], set_romset_firmware, (void *)7 },
-    { "RomsetKernalITName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[8], set_romset_firmware, (void *)8 },
-    { "RomsetKernalNOName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[9], set_romset_firmware, (void *)9 },
-    { "RomsetKernalSEName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[10], set_romset_firmware, (void *)10 },
-    { "RomsetBasicLoName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[11], set_romset_firmware, (void *)11 },
-    { "RomsetBasicHiName", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[12], set_romset_firmware, (void *)12 },
-    { "RomsetKernal64Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[13], set_romset_firmware, (void *)13 },
-    { "RomsetBasic64Name", 0, RES_EVENT_NO, NULL,
-      &romset_firmware[14], set_romset_firmware, (void *)14 },
     { "CIA1Model", CIA_MODEL_6526A, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526A, RES_EVENT_SAME, NULL,
