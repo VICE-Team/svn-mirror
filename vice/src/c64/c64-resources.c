@@ -54,8 +54,6 @@
 #define KBD_INDEX_C64_POS   1
 #define KBD_INDEX_C64_SYMDE 2
 
-/* static int romset_firmware[3]; */
-
 /* What sync factor between the CPU and the drive?  If equal to
    `MACHINE_SYNC_PAL', the same as PAL machines.  If equal to
    `MACHINE_SYNC_NTSC', the same as NTSC machines.  The sync factor is
@@ -192,19 +190,6 @@ static int set_sync_factor(int val, void *param)
 
     return 0;
 }
-
-#if 0
-static int set_romset_firmware(int val, void *param)
-{
-    unsigned int num = vice_ptr_to_uint(param);
-
-    romset_firmware[num] = val;
-
-    printf("set_romset_firmware num=%d val=%d\n", num, val);
-
-    return 0;
-}
-#endif
 
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,

@@ -289,36 +289,6 @@ static int set_sid_hardsid_right(int val, void *param)
 }
 #endif
 
-#ifdef HAVE_PARSID
-static int set_sid_parsid_port(int val, void *param)
-{
-    if (val == parsid_port) {
-        return 0;
-    }
-
-    if (sid_engine == SID_ENGINE_PARSID_PORT1
-        || sid_engine == SID_ENGINE_PARSID_PORT2
-        || sid_engine == SID_ENGINE_PARSID_PORT3) {
-        if (parsid_check_port(val) < 0) {
-            return -1;
-        } else {
-            if (val == 1) {
-                sid_engine = SID_ENGINE_PARSID_PORT1;
-            }
-            if (val == 2) {
-                sid_engine = SID_ENGINE_PARSID_PORT2;
-            }
-            if (val == 3) {
-                sid_engine = SID_ENGINE_PARSID_PORT3;
-            }
-        }
-    }
-    parsid_port = val;
-
-    return 0;
-}
-#endif
-
 #if defined(HAVE_RESID) || defined(HAVE_RESID_FP) || defined(HAVE_RESID_DTV)
 static const resource_int_t resid_resources_int[] = {
     { "SidResidSampling", 0, RES_EVENT_NO, NULL,
@@ -346,10 +316,6 @@ static const resource_int_t common_resources_int[] = {
       &sid_hardsid_main, set_sid_hardsid_main, NULL },
     { "SidHardSIDRight", 1, RES_EVENT_NO, NULL,
       &sid_hardsid_right, set_sid_hardsid_right, NULL },
-#endif
-#ifdef HAVE_PARSID
-    { "SidParSIDport", 1, RES_EVENT_STRICT, (resource_value_t)1,
-      &parsid_port, set_sid_parsid_port, NULL },
 #endif
     { NULL }
 };
