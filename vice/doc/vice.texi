@@ -3376,37 +3376,6 @@ Strings specifying the names of the ROM images for the drive emulation.
 @item DriveProfDOS1571Name
 String specifying the filename of the 1571 professional DOS ROM image.
 
-@vindex RomsetDosName1541
-@vindex RomsetDosName1541ii
-@vindex RomsetDosName1570
-@vindex RomsetDosName1571
-@vindex RomsetDosName1581
-@vindex RomsetDosName2000
-@vindex RomsetDosName4000
-@vindex RomsetDosName2031
-@vindex RomsetDosName2040
-@vindex RomsetDosName3040
-@vindex RomsetDosName4040
-@vindex RomsetDosName1001
-@vindex RomsetDosName1571cr
-@vindex RomsetDosName1551
-
-@item RomsetDosName1541
-@itemx RomsetDosName1541ii
-@itemx RomsetDosName1570
-@itemx RomsetDosName1571
-@itemx RomsetDosName1581
-@itemx RomsetDosName2000
-@itemx RomsetDosName4000
-@itemx RomsetDosName2031
-@itemx RomsetDosName2040
-@itemx RomsetDosName3040
-@itemx RomsetDosName4040
-@itemx RomsetDosName1001
-@itemx RomsetDosName1571cr
-@itemx RomsetDosName1551
-Integers [0]
-
 @end table
 
 @node Drive options,  , Drive resources, Drive settings
@@ -6249,14 +6218,6 @@ Commodore SX-64 ROM;
 Commodore 4064 (also known as ``PET64'' or ``Educator 64'') ROM.
 @end table
 
-@vindex RomsetKernalName
-@vindex RomsetBasicName
-@vindex RomsetChargenName
-@item RomsetKernalName
-@itemx RomsetBasicName
-@itemx RomsetChargenName
-Integers [0]
-
 @end table
 
 @node C64/128 system ROM options,  , C64/128 system ROM resources, C64/128 system ROM settings
@@ -6628,38 +6589,6 @@ Boolean, enables the external function ROM.
 @vindex ExternalFunctionName
 @item ExternalFunctionName
 Strings specifying the filename of the ROM image for the external function ROM.
-
-@vindex RomsetChargenIntName
-@vindex RomsetChargenDEName
-@vindex RomsetChargenFRName
-@vindex RomsetChargenSEName
-@vindex RomsetKernalIntName
-@vindex RomsetKernalDEName
-@vindex RomsetKernalFIName
-@vindex RomsetKernalFRName
-@vindex RomsetKernalITName
-@vindex RomsetKernalNOName
-@vindex RomsetKernalSEName
-@vindex RomsetBasicLoName
-@vindex RomsetBasicHiName
-@vindex RomsetKernal64Name
-@vindex RomsetBasic64Name
-@item RomsetChargenIntName
-@itemx RomsetChargenDEName
-@itemx RomsetChargenFRName
-@itemx RomsetChargenSEName
-@itemx RomsetKernalIntName
-@itemx RomsetKernalDEName
-@itemx RomsetKernalFIName
-@itemx RomsetKernalFRName
-@itemx RomsetKernalITName
-@itemx RomsetKernalNOName
-@itemx RomsetKernalSEName
-@itemx RomsetBasicLoName
-@itemx RomsetBasicHiName
-@itemx RomsetKernal64Name
-@itemx RomsetBasic64Name
-Integers [0]
 
 @end table
 
@@ -7953,12 +7882,6 @@ String specifying the filenames of cartridge 2 Lo ROM.
 @item c2hiName
 String specifying the filenames of cartridge 2 High ROM.
 
-@vindex RomsetFunctionLowName
-@vindex RomsetFunctionHighName
-@item RomsetFunctionLowName
-@itemx RomsetFunctionHighName
-Integers [0]
-
 @end table
 
 @c @node FIXME
@@ -8469,28 +8392,6 @@ Enable/Disable SID Cartridge
 @itemx H6809RomFName
 Strings specifying the filenames of the respective H6809 ROM images.
 
-@vindex RomsetEditorName
-@vindex RomsetRomModule9Name
-@vindex RomsetRomModuleAName
-@vindex RomsetRomModuleBName
-@vindex RomsetH6809RomAName
-@vindex RomsetH6809RomBName
-@vindex RomsetH6809RomCName
-@vindex RomsetH6809RomDName
-@vindex RomsetH6809RomEName
-@vindex RomsetH6809RomFName
-@item RomsetEditorName
-@itemx RomsetRomModule9Name
-@itemx RomsetRomModuleAName
-@itemx RomsetRomModuleBName
-@itemx RomsetH6809RomAName
-@itemx RomsetH6809RomBName
-@itemx RomsetH6809RomCName
-@itemx RomsetH6809RomDName
-@itemx RomsetH6809RomEName
-@itemx RomsetH6809RomFName
-Integers [0]
-
 @end table
 
 @c @node FIXME
@@ -8746,18 +8647,6 @@ will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
 
 @c @node FIXME
 @subsubsection CBM-II system ROM resources
-
-@table @code
-@vindex RomsetCart1Name
-@vindex RomsetCart2Name
-@vindex RomsetCart4Name
-@vindex RomsetCart6Name
-@item RomsetCart1Name
-@itemx RomsetCart2Name
-@itemx RomsetCart4Name
-@itemx RomsetCart6Name
-Integers [0]
-@end table
 
 @c @node FIXME
 @subsubsection CBM-II system ROM command line options
