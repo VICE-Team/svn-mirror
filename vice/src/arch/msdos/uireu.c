@@ -48,7 +48,7 @@ static TUI_MENU_CALLBACK(reu_size_submenu_callback)
     return s;
 }
 
- static tui_menu_item_def_t reu_size_submenu[] = {
+static tui_menu_item_def_t reu_size_submenu[] = {
     { "_128KB", NULL, radio_REUsize_callback,
       (void *)128, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_256KB", NULL, radio_REUsize_callback,
