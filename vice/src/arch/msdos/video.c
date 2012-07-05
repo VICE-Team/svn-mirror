@@ -505,15 +505,15 @@ inline void video_canvas_refresh(video_canvas_t *c,
         return;
 
     if (c->videoconfig->doublesizex) {
-        xs *= 2;
-        xi /= 2;
-        w *= 2;
+        xs *= (c->videoconfig->doublesizex + 1);
+        xi /= (c->videoconfig->doublesizex + 1);
+        w *= (c->videoconfig->doublesizex + 1);
     }
 
     if (c->videoconfig->doublesizey) {
-        ys *= 2;
-        yi /= 2;
-        h *= 2;
+        ys *= (c->videoconfig->doublesizey + 1);
+        yi /= (c->videoconfig->doublesizey + 1);
+        h *= (c->videoconfig->doublesizey + 1);
     }
 
     /* this is a hack for F7 change between VICII and VDC */
