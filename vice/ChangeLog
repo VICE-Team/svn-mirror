@@ -1,5 +1,529 @@
 ------------------------------------------------------------------------------
 
+2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.hlp, doc/vice.guide, doc/vice.chm,
+	configure.in, ChangeLog, src/version.h,
+	src/arch/win32/vice-version.bat, po/es.po, po/ko.po, po/fr.po,
+	po/da.po, po/tr.po, po/sv.po, po/de.po, po/hu.po, po/ru.po, po/nl.po,
+	po/pl.po, po/it.po: VICE version 2.3.20
+
+2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/sv.po, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/arch/win32/resc64.rc, src/translate_text.c:
+	Did a 'make trans-update'.
+
+2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/video.c: Fixed.
+
+2012-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uivideo.c: Rewrote the dos video settings menu.
+
+2012-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated for the latest vice.texi changes.
+
+2012-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uireu.c: Removed a space.
+
+2012-07-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Added Sven Droll to the external
+	contributors list.
+
+2012-07-03  groepaz <groepaz@gmx.net>
+
+	* src/findhacks.sh: added little script to help with finding some ugly
+	things :)
+
+2012-07-03  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: removed resources
+
+2012-07-03  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/reu.c: kill REUfirstUnusedRegister resource with fire
+	as requested :)
+
+2012-07-03  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64-resources.c, src/sid/sid-resources.c: removed bogus and
+	unused SidParSIDport resource
+
+2012-07-03  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: removed RomsetXY resources
+
+2012-07-03  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128-resources.c, src/c64/c64-resources.c,
+	src/c64/vsid-resources.c, src/c64dtv/c64dtv-resources.c,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm5x0-resources.c,
+	src/drive/iec/iec-resources.c,
+	src/drive/iec128dcr/iec128dcr-resources.c,
+	src/drive/ieee/ieee-resources.c, src/drive/tcbm/tcbm-resources.c,
+	src/pet/pet-resources.c, src/plus4/plus4-resources.c, src/romset.c,
+	src/vic20/vic20-resources.c: removed unused RomsetXY resources
+	(see devlog)
+
+2012-07-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/uic64dtvmodel.c, src/arch/msdos/uic64dtvmodel.h: Added
+	c64dtv model selection to the msdos tui.
+
+2012-07-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.hlp: regenerated vice.hlp
+
+2012-07-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/fixdox.sh, doc/vice.chm, doc/vice.guide,
+	doc/vice.hlp, doc/vice.inf, doc/vice.pdf, doc/vice.txt: Updated and
+	fixed hlp generation.
+
+2012-07-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/joy.c, src/c128/c128drive.c,
+	src/fsdevice/fsdevice-resources.c, src/sound.c,
+	src/video/video-resources.c: some more defaults tweaking
+
+2012-07-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c: fix gtk warning at vsid
+	startup
+
+2012-07-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/msdos/uic64cart.c: Added x64/x128 'reset on cart change' to
+	the msdos tui.
+
+2012-07-02  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive-snapshot.c, src/drive/drive-sound.c,
+	src/drive/drive-sound.h: stop drive sounds when loading a snapshot,
+	fixes bug 3539422
+
+2012-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt, doc/Makefile.am,
+	doc/openGLsync-howto.txt, doc/vice.texi: merged openGLsync-howto.txt,
+	some more fixes
+
+2012-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/fullscreen.c, src/arch/sdl/ui.c, src/arch/sdl/video.c:
+	write debug output to log instead of stdout/stderr
+
+2012-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c64ui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/uiplus4model.c,
+	src/arch/msdos/uiplus4model.h: Added plus4 model selection to the
+	msdos tui.
+
+2012-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Added autostart random delay to the beos
+	gui.
+
+2012-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiattach.c: Added autostart random delay to the dos
+	tui.
+
+2012-07-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated for the latest vice.texi changes.
+
+2012-07-01  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist,
+	src/arch/unix/macosx/cocoa/video.m,
+	src/arch/unix/macosx/cocoa/videoparam.h,
+	src/arch/unix/macosx/cocoa/view/viceglview.h,
+	src/arch/unix/macosx/cocoa/view/viceglview.m: macosx: allow to display
+	key codes. helps creating keymaps.
+
+2012-07-01  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* data/C128/osx_pos.vkm, data/C128/osx_sym.vkm, data/C64/osx_pos.vkm,
+	data/C64/osx_sym_us.vkm, data/C64DTV/osx_pos.vkm,
+	data/C64DTV/osx_sym_us.vkm: macosx: fixed left arrow key on us keymap
+	for C64/C128
+
+2012-06-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-DOS.txt: Updated a bit.
+
+2012-06-30  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Mention TWO dual drives now, rather than one.
+
+2012-06-29  groepaz <groepaz@gmx.net>
+
+	* doc/html/plain/CRT.txt, doc/html/plain/Walkthrough-Howto.txt,
+	src/lib/p64/doc: remove redundant textfiles
+
+2012-06-29  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/html/Makefile.am,
+	doc/html/index.html, doc/vice.texi, src/lib/p64/Makefile.am: merged
+	crt.txt, walkthrough-howto.txt and p64tech.txt into vice.texi
+
+2012-06-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/ui.cc,
+	src/arch/beos/vicemenu.cc: Add BeVICE menu items for Kingsoft &
+	Starbyte joysticks and Drive Sound Emulation.
+
+2012-06-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/vic20ui.cc: Remove obsolete SID cart menu toggle
+	entries.
+
+2012-06-29  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/video.cc: Fix old regression in BeVICE-specific
+	cmdline option "+directwindow", which now prevents startup
+
+2012-06-28  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64-resources.c, src/drive/iec/iec.c,
+	src/drive/iec/pc8477.c, src/drive/iec/pc8477.h,
+	src/drive/iec/wd1770.c, src/drive/iec/wd1770.h,
+	src/video/video-resources.c: fixed some memory leaks
+
+2012-06-28  groepaz <groepaz@gmx.net>
+
+	* src/lib.c, src/lib.h: fixed/extended memory leak pinpoint stuff and
+	enabled it by default in the debug build
+
+2012-06-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf: Updated for the latest vice.texi changes.
+
+2012-06-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-DOS.txt: Updated a bit.
+
+2012-06-28  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* doc/vice.texi, src/diskimage/fsimage-gcr.c: Updated contributor info
+	and fixed TDE autostart bug
+
+2012-06-28  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/diskimage/fsimage-gcr.c, src/gcr.h: Added GCR_LOW_MEM define as
+	low memory option for some targets
+
+2012-06-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/fullscreen.c, src/arch/sdl/menu_video.c,
+	src/arch/sdl/ui.c, src/arch/sdl/video.c, src/arch/sdl/videoarch.h:
+	some reworking in order to get the resize/initial window size issues
+	under control
+
+2012-06-25  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: made -f output some more details
+
+2012-06-24  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/vice.texi: fixed some FIXMEs, moved
+	some notes into the wiki
+
+2012-06-24  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: fixed description for Romset resources.
+	RomsetXXXName resources must be investigated (and possibly removed).
+
+2012-06-24  Olaf Seibert <rhialto@falu.nl>
+
+	* data/PET/x11_bgrs.vkm, data/PET/x11_bukp.vkm, data/PET/x11_buks.vkm:
+	Some improvements to PET X11 keyboard maps mostly for SuperPET and
+	microAPL use.
+
+2012-06-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/lib/Makefile.am: Added the p64 directory to the parent
+	Makefile.am, so it actually gets included in the source tarball.
+
+2012-06-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sid/sid-resources.c: Too much noise
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: added new monitor commands
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uidrive.c,
+	src/arch/unix/gui/uidrivec64dtv.c, src/arch/unix/gui/uiperipheral.c,
+	src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c: added dtv flash filesystem
+	directory setting
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uiperipheral.c,
+	src/arch/unix/gui/uiperipheral.h, src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheralieee.c: added raw block device name
+	setting
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c: added monitor settings
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c: added volume slider
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: added half-fps setting
+
+2012-06-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/vic20ui.c: added i/o collision setting
+
+2012-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/menudefs.c: Fixed.
+
+2012-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf: Updated
+	for the latest vice.texi changes.
+
+2012-06-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vsidui.c,
+	src/arch/amigaos/vsiduires.h: Finished the amiga vsid gui.
+
+2012-06-21  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/checkdoc.c, doc/checkdoc.mak,
+	doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated checkdoc, fixed
+	remaining missing descriptions. [x] achivement unlocked :)
+
+2012-06-21  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/vice.texi: more descriptions,
+	almost done
+
+2012-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf: Updated
+	for the latest vice.texi changes.
+
+2012-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Documentation-Howto.txt, doc/vice.pdf, doc/vice.texi,
+	doc/vice.txt: added more descriptions, 25 left...
+
+2012-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/uires.h, src/arch/amigaos/vsidui.c,
+	src/arch/amigaos/vsiduires.h: More updates on the amiga vsid gui.
+
+2012-06-21  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/tfe.c: clear enabled flags on detach, fixes bug
+	#3536712
+
+2012-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated for the latest vice.texi changes.
+
+2012-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/petcat.c: Applied patch by Sven A. Droll (adds Supergrafik
+	support).
+
+2012-06-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisound.c, src/arch/amigaos/uires.h,
+	src/arch/amigaos/video.c, src/arch/amigaos/vsidui.c,
+	src/arch/amigaos/vsiduires.h: More updates on the amiga vsid gui.
+
+2012-06-20  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/vice.pdf, doc/vice.texi,
+	doc/vice.txt: more missing descriptions (50 to go)
+
+2012-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated for the latest vice.texi changes.
+
+2012-06-20  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/checkdoc.c, doc/vice.pdf,
+	doc/vice.texi, doc/vice.txt: updated checkdoc, added more missing
+	descriptions (100 to go!)
+
+2012-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated for the latest vice.texi changes.
+
+2012-06-20  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Add some SuperPET and DWW info.
+
+2012-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated resources
+	according to devlog
+
+2012-06-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uisound.c,
+	src/arch/amigaos/ui.c, src/arch/amigaos/ui.h,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vsidui.c,
+	src/arch/amigaos/vsiduires.h: Started on the vsid split for the amiga
+	port.
+
+2012-06-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf: Updated
+	for the latest vice.texi changes.
+
+2012-06-19  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: added all missing
+	resources
+
+2012-06-19  groepaz <groepaz@gmx.net>
+
+	* doc/Documentation-Howto.txt, doc/checkdoc.c: updated checkdoc tool
+
+2012-06-19  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/6809.h, src/pet/pet-snapshot.c,
+	src/pet/petdww.c, src/pet/petmem.c, src/pet/petmem.h,
+	src/pet/petmemsnapshot.c, src/pet/pets.h: Snapshot support for
+	SuperPET state, 6702, 6809, DWW.
+
+2012-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uidrivec128.c,
+	src/arch/amigaos/mui/uidrivec64vic20.c: Added drive par cable type
+	selection to the amiga gui.
+
+2012-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm5x0ui.c,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uisid.c, src/arch/amigaos/mui/uisid.h,
+	src/monitor/mon_lex.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h: Fixed and updated the sid settings dialog for
+	the amiga gui.
+
+2012-06-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uisidcart.c, src/arch/amigaos/mui/uisiddtv.c:
+	Fixed the amiga sidcart/siddtv settings dialog.
+
+2012-06-19  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: updated.
+
+2012-06-18  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: add a bunch of missing
+	resources
+
+2012-06-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/constants.h,
+	src/arch/beos/petui.cc, src/arch/beos/plus4ui.cc,
+	src/arch/beos/ui_sidcart.cc, src/arch/beos/ui_sidcart.h,
+	src/arch/beos/ui_siddtv.cc, src/arch/beos/ui_siddtv.h,
+	src/arch/beos/vic20ui.cc, src/arch/beos/vicemenu.cc: Added a SID cart
+	settings dialog with ReSID and Digiblaster settings to BeVICE.
+
+2012-06-18  groepaz <groepaz@gmx.net>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt: updated all commandline
+	options
+
+2012-06-18  groepaz <groepaz@gmx.net>
+
+	* doc, doc/Documentation-Howto.txt, doc/checkdoc.mak,
+	doc/checkdoc.mon: improved/fixed checkdoc script
+
+2012-06-18  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_command.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y, src/translate.txt,
+	src/translate_text.c: added monitor command to load/save resources
+	from/to file
+
+2012-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated es.po file.
+
+2012-06-18  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/catweaselmkiii.c, src/arch/amigaos/hardsid.c: Added
+	cw and hardsid availability checking routines to the amiga port.
+
+2012-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/hardsid.c, src/hardsid.h: Changed the hardsid
+	availability checking routine to return an int instead of an unsigned
+	int.
+
+2012-06-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_sid.c: Removed obsolete cbm2 stereo sid menu
+	items.
+
+2012-06-18  Emir Akaydin <emir@akaydin.com>
+
+	* po/tr.po, po/translations-status.txt: Updated.
+
+2012-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/cbm2ui.c, src/arch/amigaos/cbm2uires.h,
+	src/arch/amigaos/cbm5x0ui.c, src/arch/amigaos/cbm5x0uires.h,
+	src/arch/amigaos/mui/uiciamodel.c, src/arch/amigaos/mui/uiciamodel.h:
+	Added cbm2/cbm5x0 cia model selection to the amiga gui.
+
 2012-06-17  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.pdf, doc/vice.inf, doc/vice.hlp, doc/vice.txt,
@@ -1537,7 +2061,7 @@
 
 	* doc/vice.texi: Added some FIXME's.
 
-2012-04-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+2012-04-16  Andrea Musuruane <musuruan@gmail.com>
 
 	* po/it.po, po/translations-status.txt: Updated.
 
