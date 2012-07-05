@@ -30,9 +30,11 @@
 
 #include "machine.h"
 #include "resources.h"
+#include "ted.h"
 #include "tui.h"
 #include "tuimenu.h"
 #include "uivideo.h"
+#include "vic.h"
 #include "vicii.h"
 
 typedef struct ui_video_item_s {
@@ -40,14 +42,117 @@ typedef struct ui_video_item_s {
     char *cache_res;
     char *double_size_res;
     char *double_scan_res;
-    char *scale2x_res;
+    char *render_res;
+    char *audioleak_res;
     char *ext_pal_res;
     char *ext_pal_file_res;
     char *settings_name;
     char *settings_title;
     tui_menu_item_def_t *chip_menu;
     int has_video_standard;
+    char *scanlineshade_res;
+    char *blur_res;
+    char *oddlinephase_res;
+    char *oddlineoffset_res;
+    char *gamma_res;
+    char *tint_res;
+    char *saturation_res;
+    char *contrast_res;
+    char *brightness_res;
+    char *verticalstretch_res;
 } ui_video_item_t;
+
+TUI_MENU_DEFINE_RADIO(TEDBorderMode)
+
+static TUI_MENU_CALLBACK(ted_border_submenu_callback)
+{
+    int value;
+    char *s;
+
+    resources_get_int("TEDBorderMode", &value);
+    switch (value) {
+        default:
+        case TED_NORMAL_BORDERS:
+            s = "Normal";
+            break;
+        case TED_FULL_BORDERS:
+            s = "Full";
+            break;
+        case TED_DEBUG_BORDERS:
+            s = "Debug";
+            break;
+        case TED_NO_BORDERS:
+            s = "None";
+            break;
+    }
+    return s;
+}
+
+static tui_menu_item_def_t ted_border_submenu[] = {
+    { "_Normal", NULL, radio_TEDBorderMode_callback,
+      (void *)TED_NORMAL_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Full", NULL, radio_TEDBorderMode_callback,
+      (void *)TED_FULL_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Debug", NULL, radio_TEDBorderMode_callback,
+      (void *)TED_DEBUG_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_None", NULL, radio_TEDBorderMode_callback,
+      (void *)TED_NO_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t ted_menu_items[] = {
+    { "Border mode:", "Select the border mode",
+      ted_border_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, ted_border_submenu,
+      "Border mode" },
+    { NULL }
+};
+
+TUI_MENU_DEFINE_RADIO(VICBorderMode)
+
+static TUI_MENU_CALLBACK(vic_border_submenu_callback)
+{
+    int value;
+    char *s;
+
+    resources_get_int("VICBorderMode", &value);
+    switch (value) {
+        default:
+        case VIC_NORMAL_BORDERS:
+            s = "Normal";
+            break;
+        case VIC_FULL_BORDERS:
+            s = "Full";
+            break;
+        case VIC_DEBUG_BORDERS:
+            s = "Debug";
+            break;
+        case VIC_NO_BORDERS:
+            s = "None";
+            break;
+    }
+    return s;
+}
+
+static tui_menu_item_def_t vic_border_submenu[] = {
+    { "_Normal", NULL, radio_VICBorderMode_callback,
+      (void *)VIC_NORMAL_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Full", NULL, radio_VICBorderMode_callback,
+      (void *)VIC_FULL_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_Debug", NULL, radio_VICBorderMode_callback,
+      (void *)VIC_DEBUG_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_None", NULL, radio_VICBorderMode_callback,
+      (void *)VIC_NO_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t vic_menu_items[] = {
+    { "Border mode:", "Select the border mode",
+      vic_border_submenu_callback, NULL, 7,
+      TUI_MENU_BEH_CONTINUE, vic_border_submenu,
+      "Border mode" },
+    { NULL }
+};
 
 TUI_MENU_DEFINE_TOGGLE(VICIICheckSsColl)
 TUI_MENU_DEFINE_TOGGLE(VICIICheckSbColl)
@@ -70,6 +175,9 @@ static TUI_MENU_CALLBACK(vicii_border_submenu_callback)
         case VICII_DEBUG_BORDERS:
             s = "Debug";
             break;
+        case VICII_NO_BORDERS:
+            s = "None";
+            break;
     }
     return s;
 }
@@ -81,6 +189,8 @@ static tui_menu_item_def_t vicii_border_submenu[] = {
       (void *)VICII_FULL_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Debug", NULL, radio_VICIIBorderMode_callback,
       (void *)VICII_DEBUG_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "_None", NULL, radio_VICIIBorderMode_callback,
+      (void *)VICII_NO_BORDERS, 7, TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
@@ -138,40 +248,70 @@ static tui_menu_item_def_t vdc_menu_items[] = {
 static ui_video_item_t video_item[] = {
     { VID_NONE, NULL,
       NULL, NULL,
-      NULL,
       NULL, NULL,
       NULL, NULL,
-      NULL, 0 },
+      NULL, NULL,
+      NULL, 0,
+      NULL, NULL,
+      NULL, NULL,
+      NULL, NULL,
+      NULL, NULL,
+      NULL, NULL },
     { VID_VIC, "VICVideoCache",
       "VICDoubleSize", "VICDoubleScan",
-      "VICScale2x",
+      "VICFilter", "VICAudioLeak",
       "VICExternalPalette", "VICPaletteFile",
       "VIC settings...", "VIC settings",
-      NULL, 1 },
+      vic_menu_items, 1,
+      "VICPALScanLineShade", "VICPALBlur",
+      "VICPALOddLinePhase", "VICPALOddLineOffset",
+      "VICColorGamma", "VICColorTint",
+      "VICColorSaturation", "VICColorContrast",
+      "VICColorBrightness", NULL },
     { VID_VICII, "VICIIVideoCache",
       "VICIIDoubleSize", "VICIIDoubleScan",
-      "VICIIScale2x",
+      "VICIIFilter", "VICIIAudioLeak",
       "VICIIExternalPalette", "VICIIPaletteFile",
       "VICII settings...", "VICII settings",
-      vicii_menu_items, 1 },
+      vicii_menu_items, 1,
+      "VICIIPALScanLineShade", "VICIIPALBlur",
+      "VICIIPALOddLinePhase", "VICIIPALOddLineOffset",
+      "VICIIColorGamma", "VICIIColorTint",
+      "VICIIColorSaturation", "VICIIColorContrast",
+      "VICIIColorBrightness", NULL },
     { VID_TED, "TEDVideoCache",
       "TEDDoubleSize", "TEDDoubleScan",
-      "TEDScale2x",
+      "TEDFilter", "TEDAudioLeak",
       "TEDExternalPalette", "TEDPaletteFile",
       "TED settings...", "TED settings",
-      NULL, 1 },
+      ted_menu_items, 1,
+      "TEDPALScanLineShade", "TEDPALBlur",
+      "TEDPALOddLinePhase", "TEDPALOddLineOffset",
+      "TEDColorGamma", "TEDColorTint",
+      "TEDColorSaturation", "TEDColorContrast",
+      "TEDColorBrightness", NULL },
     { VID_VDC, NULL,
       "VDCDoubleSize", "VDCDoubleScan",
-      NULL,
+      "VDCFilter", "VDCAudioLeak",
       "VDCExternalPalette", "VDCPaletteFile",
       "VDC settings...", "VDC settings",
-      vdc_menu_items, 0 },
+      vdc_menu_items, 0,
+      "VDCPALScanLineShade", "VDCPALBlur",
+      "VDCPALOddLinePhase", "VDCPALOddLineOffset",
+      "VDCColorGamma", "VDCColorTint",
+      "VDCColorSaturation", "VDCColorContrast",
+      "VDCColorBrightness", "VDCStretchVertical" },
     { VID_CRTC, "CrtcVideoCache",
       "CrtcDoubleSize", "CrtcDoubleScan",
-      NULL,
+      "CrtcFilter", "CrtcAudioLeak",
       "CrtcExternalPalette", "CrtcPaletteFile",
       "CRTC settings...", "CRTC settings",
-      NULL, 0 }
+      NULL, 0,
+      "CrtcPALScanLineShade", "CrtcPALBlur",
+      "CrtcPALOddLinePhase", "CrtcPALOddLineOffset",
+      "CrtcColorGamma", "CrtcColorTint",
+      "CrtcColorSaturation", "CrtcColorContrast",
+      "CrtcColorBrightness", "CrtcStretchVertical" }
 };
 
 TUI_MENU_DEFINE_RADIO(MachineVideoStandard)
@@ -181,7 +321,7 @@ static TUI_MENU_CALLBACK(video_standard_submenu_callback)
     int value;
     char *s;
 
-    resources_get_int("VICIIBorderMode", &value);
+    resources_get_int("MachineVideoStandard", &value);
     switch (value) {
         default:
         case MACHINE_SYNC_PAL:
@@ -231,47 +371,37 @@ static TUI_MENU_CALLBACK(toggle_doublescan_callback)
     return _tui_menu_toggle_helper(been_activated, video_item[i].double_scan_res);
 }
 
+static TUI_MENU_CALLBACK(toggle_audioleak_callback)
+{
+    int i = (int)param;
+
+    return _tui_menu_toggle_helper(been_activated, video_item[i].audioleak_res);
+}
+
+static TUI_MENU_CALLBACK(toggle_verticalstretch_callback)
+{
+    int i = (int)param;
+
+    return _tui_menu_toggle_helper(been_activated, video_item[i].verticalstretch_res);
+}
+
 static TUI_MENU_CALLBACK(radio_renderfilter_callback)
 {
     int i;
     int video_index;
     int render_index;
-    int crtemu;
-    int scale2x;
+    int render_filter;
 
     i = (int)param;
     video_index = i >> 4;
     render_index = i & 0xf;
 
     if (been_activated) {
-        switch (render_index) {
-             default:
-             case 0:
-                 crtemu = 0;
-                 scale2x = 0;
-                 break;
-             case 1:
-                 crtemu = 1;
-                 scale2x = 0;
-                 break;
-             case 2:
-                 crtemu = 0;
-                 scale2x = 1;
-                 break;
-        }
-        resources_set_int("PALEmulation", crtemu);
-        if (video_item[video_index].scale2x_res != NULL) {
-            resources_set_int(video_item[video_index].scale2x_res, scale2x);
-        }
+        resources_set_int(video_item[video_index].render_res, render_index);
         *become_default = 1;
     } else {
-        resources_get_int("PALEmulation", &crtemu);
-        if (video_item[video_index].scale2x_res != NULL) {
-            resources_get_int(video_item[video_index].scale2x_res, &scale2x);
-        } else {
-            scale2x = 0;
-        }
-        if (render_index == (crtemu * 2) + scale2x) {
+        resources_get_int(video_item[video_index].render_res, &render_filter);
+        if (render_index == render_filter) {
             *become_default = 1;
         }
     }
@@ -313,12 +443,14 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
 }
 
 /* being lazy ;) */
-#define float_inputs(callback, name, range, resource, start, end)                               \
+#define float_inputs(callback, name, range, start, end)                                         \
     static TUI_MENU_CALLBACK(callback)                                                          \
     {                                                                                           \
         int value;                                                                              \
+        int val;                                                                                \
         float f;                                                                                \
         char buf[44];                                                                           \
+        char *resource = (char *)param;                                                         \
                                                                                                 \
         if (been_activated) {                                                                   \
             resources_get_int(resource, &value);                                                \
@@ -335,7 +467,8 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
                     value = end;                                                                \
                 }                                                                               \
                 resources_set_int(resource, value);                                             \
-                tui_message(name" set to : %f", (float)(value / 1000.0));                       \
+                val = value / 1000;                                                             \
+                tui_message(name" set to : %d.%03d", val, value - (val * 1000));                \
             } else {                                                                            \
                 return NULL;                                                                    \
             }                                                                                   \
@@ -343,68 +476,27 @@ static TUI_MENU_CALLBACK(custom_palette_callback)
         return NULL;                                                                            \
     }
 
-float_inputs(scanlineshade_callback, "Scan line shade", "(0..1)", "PALScanLineShade", 0, 1000)
-float_inputs(blur_callback, "Blur", "(0..1)", "PALBlur", 0, 1000)
-float_inputs(oddlinephase_callback, "Oddline phase", "(0..2)", "PALOddLinePhase", 0, 2000)
-float_inputs(oddlineoffset_callback, "Oddline offset", "(0..2)", "PALOddLineOffset", 0, 2000)
+float_inputs(scanlineshade_callback, "Scan line shade", "(0..1)", 0, 1000)
+float_inputs(blur_callback, "Blur", "(0..1)", 0, 1000)
+float_inputs(oddlinephase_callback, "Oddline phase", "(0..2)", 0, 2000)
+float_inputs(oddlineoffset_callback, "Oddline offset", "(0..2)", 0, 2000)
 
-tui_menu_item_def_t ui_crt_emulation_items[] = {
-    { "Scan line shade",
-      "Adjust the scan line shade",
-      scanlineshade_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Blur",
-      "Adjust the blur",
-      blur_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Oddline phase",
-      "Adjust the oddline phase",
-      oddlinephase_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Oddline offset",
-      "Adjust the oddline offset",
-      oddlineoffset_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
-
-float_inputs(gamma_callback, "Gamma", "(0..4)", "ColorGamma", 0, 4000)
-float_inputs(tint_callback, "Tint", "(0..2)", "ColorTint", 0, 2000)
-float_inputs(saturation_callback, "Saturation", "(0..2)", "ColorSaturation", 0, 2000)
-float_inputs(contrast_callback, "Contrast", "(0..2)", "ColorContrast", 0, 2000)
-float_inputs(brightness_callback, "Brightness", "(0..2)", "ColorBrightness", 0, 2000)
-
-tui_menu_item_def_t ui_color_items[] = {
-    { "Gamma",
-      "Adjust the gamma",
-      gamma_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Tint",
-      "Adjust the tint",
-      tint_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Saturation",
-      "Adjust the saturation",
-      saturation_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Contrast",
-      "Adjust the contrast",
-      contrast_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Brightness",
-      "Adjust the brightness",
-      brightness_callback, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { NULL }
-};
+float_inputs(gamma_callback, "Gamma", "(0..4)", 0, 4000)
+float_inputs(tint_callback, "Tint", "(0..2)", 0, 2000)
+float_inputs(saturation_callback, "Saturation", "(0..2)", 0, 2000)
+float_inputs(contrast_callback, "Contrast", "(0..2)", 0, 2000)
+float_inputs(brightness_callback, "Brightness", "(0..2)", 0, 2000)
 
 void uivideo_init(struct tui_menu *parent_submenu, int vid1, int vid2)
 {
     tui_menu_t video_submenu1;
     tui_menu_t video_submenu2;
-    tui_menu_t render_submenu;
-    tui_menu_t crt_emulation_submenu;
-    tui_menu_t colors_submenu;
+    tui_menu_t render_submenu1;
+    tui_menu_t render_submenu2;
+    tui_menu_t crt_emulation_submenu1;
+    tui_menu_t crt_emulation_submenu2;
+    tui_menu_t colors_submenu1;
+    tui_menu_t colors_submenu2;
 
     if (vid2 != VID_NONE) {
         video_submenu1 = tui_menu_create(video_item[vid1].settings_name, 1);
@@ -443,6 +535,36 @@ void uivideo_init(struct tui_menu *parent_submenu, int vid1, int vid2)
         tui_menu_add_item(video_submenu2, "Double scan",
                           "Enable double scan",
                           toggle_doublesize_callback,
+                          (void *)vid2, 3,
+                          TUI_MENU_BEH_CONTINUE);
+    }
+
+    if (video_item[vid1].verticalstretch_res) {
+        tui_menu_add_item(video_submenu1, "Vertical stretch",
+                          "Enable vertical stretch",
+                          toggle_verticalstretch_callback,
+                          (void *)vid1, 3,
+                          TUI_MENU_BEH_CONTINUE);
+    }
+
+    if (video_item[vid2].verticalstretch_res) {
+        tui_menu_add_item(video_submenu2, "Vertical stretch",
+                          "Enable vertical stretch",
+                          toggle_verticalstretch_callback,
+                          (void *)vid2, 3,
+                          TUI_MENU_BEH_CONTINUE);
+    }
+
+    tui_menu_add_item(video_submenu1, "Audio leak",
+                      "Enable audio leak",
+                      toggle_audioleak_callback,
+                      (void *)vid1, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    if (vid2 != VID_NONE) {
+        tui_menu_add_item(video_submenu2, "Audio leak",
+                          "Enable audio leak",
+                          toggle_audioleak_callback,
                           (void *)vid2, 3,
                           TUI_MENU_BEH_CONTINUE);
     }
@@ -508,47 +630,199 @@ void uivideo_init(struct tui_menu *parent_submenu, int vid1, int vid2)
                          TUI_MENU_BEH_CONTINUE);
     }
 
-    render_submenu = tui_menu_create("Render filter", 1);
+    render_submenu1 = tui_menu_create("Render filter", 1);
 
-    tui_menu_add_item(render_submenu, "None",
+    tui_menu_add_item(render_submenu1, "None",
                       "No render filter",
                       radio_renderfilter_callback,
                       (void *)((vid1 << 4) | 0), 3,
                       TUI_MENU_BEH_CONTINUE);
 
-    tui_menu_add_item(render_submenu, "CRT emulation",
+    tui_menu_add_item(render_submenu1, "CRT emulation",
                       "CRT emulation",
                       radio_renderfilter_callback,
                       (void *)((vid1 << 4) | 1), 3,
                       TUI_MENU_BEH_CONTINUE);
 
-    if (video_item[vid1].scale2x_res != NULL) {
-        tui_menu_add_item(render_submenu, "Scale2x",
+    tui_menu_add_item(render_submenu1, "Scale2x",
+                      "CRT emulation",
+                      radio_renderfilter_callback,
+                      (void *)((vid1 << 4) | 2), 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_submenu(video_submenu1, "Render filter",
+                         "Render filter",
+                         render_submenu1,
+                         NULL, 0,
+                         TUI_MENU_BEH_CONTINUE);
+
+    if (vid2 != VID_NONE) {
+        render_submenu2 = tui_menu_create("Render filter", 1);
+
+        tui_menu_add_item(render_submenu2, "None",
+                          "No render filter",
+                          radio_renderfilter_callback,
+                          (void *)((vid2 << 4) | 0), 3,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(render_submenu2, "CRT emulation",
                           "CRT emulation",
                           radio_renderfilter_callback,
-                          (void *)((vid1 << 4) | 2), 3,
+                          (void *)((vid2 << 4) | 1), 3,
                           TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(render_submenu2, "Scale2x",
+                          "CRT emulation",
+                          radio_renderfilter_callback,
+                          (void *)((vid2 << 4) | 2), 3,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_submenu(video_submenu2, "Render filter",
+                             "Render filter",
+                             render_submenu2,
+                             NULL, 0,
+                             TUI_MENU_BEH_CONTINUE);
     }
 
-    tui_menu_add_submenu(parent_submenu, "Render filter",
-                         "Render filter",
-                         render_submenu,
-                         NULL, 0,
-                         TUI_MENU_BEH_CONTINUE);
+    crt_emulation_submenu1 = tui_menu_create("CRT emulation", 1);
 
-    crt_emulation_submenu = tui_menu_create("CRT emulation", 1);
-    tui_menu_add(crt_emulation_submenu, ui_crt_emulation_items);
-    tui_menu_add_submenu(parent_submenu, "CRT emulation",
+    tui_menu_add_item(crt_emulation_submenu1, "Scan line shade",
+                      "Adjust the scan line shade",
+                      scanlineshade_callback,
+                      (void *)video_item[vid1].scanlineshade_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(crt_emulation_submenu1, "Blur",
+                      "Adjust the blur",
+                      blur_callback,
+                      (void *)video_item[vid1].blur_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(crt_emulation_submenu1, "Oddline phase",
+                      "Adjust the oddline phase",
+                      oddlinephase_callback,
+                      (void *)video_item[vid1].oddlinephase_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(crt_emulation_submenu1, "Oddline offset",
+                      "Adjust the oddline offset",
+                      oddlineoffset_callback,
+                      (void *)video_item[vid1].oddlineoffset_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_submenu(video_submenu1, "CRT emulation",
                          "CRT emulation",
-                         crt_emulation_submenu,
+                         crt_emulation_submenu1,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
 
-    colors_submenu = tui_menu_create("Colors", 1);
-    tui_menu_add(colors_submenu, ui_color_items);
-    tui_menu_add_submenu(parent_submenu, "Colors",
+    colors_submenu1 = tui_menu_create("Colors", 1);
+
+    tui_menu_add_item(colors_submenu1, "Gamma",
+                      "Adjust the gamma",
+                      gamma_callback,
+                      (void *)video_item[vid1].gamma_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(colors_submenu1, "Tint",
+                      "Adjust the tint",
+                      tint_callback,
+                      (void *)video_item[vid1].tint_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(colors_submenu1, "Saturation",
+                      "Adjust the saturation",
+                      saturation_callback,
+                      (void *)video_item[vid1].saturation_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(colors_submenu1, "Contrast",
+                      "Adjust the contrast",
+                      contrast_callback,
+                      (void *)video_item[vid1].contrast_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(colors_submenu1, "Brightness",
+                      "Adjust the brightness",
+                      brightness_callback,
+                      (void *)video_item[vid1].brightness_res, 0,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_submenu(video_submenu1, "Colors",
                          "Colors",
-                         colors_submenu,
+                         colors_submenu1,
                          NULL, 0,
                          TUI_MENU_BEH_CONTINUE);
+
+    if (vid2 != VID_NONE) {
+        crt_emulation_submenu2 = tui_menu_create("CRT emulation", 1);
+
+        tui_menu_add_item(crt_emulation_submenu2, "Scan line shade",
+                          "Adjust the scan line shade",
+                          scanlineshade_callback,
+                          (void *)video_item[vid2].scanlineshade_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(crt_emulation_submenu2, "Blur",
+                          "Adjust the blur",
+                          blur_callback,
+                          (void *)video_item[vid2].blur_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(crt_emulation_submenu2, "Oddline phase",
+                          "Adjust the oddline phase",
+                          oddlinephase_callback,
+                          (void *)video_item[vid2].oddlinephase_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(crt_emulation_submenu2, "Oddline offset",
+                          "Adjust the oddline offset",
+                          oddlineoffset_callback,
+                          (void *)video_item[vid2].oddlineoffset_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_submenu(video_submenu2, "CRT emulation",
+                             "CRT emulation",
+                             crt_emulation_submenu2,
+                             NULL, 0,
+                             TUI_MENU_BEH_CONTINUE);
+
+        colors_submenu2 = tui_menu_create("Colors", 1);
+
+        tui_menu_add_item(colors_submenu2, "Gamma",
+                          "Adjust the gamma",
+                          gamma_callback,
+                          (void *)video_item[vid2].gamma_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(colors_submenu2, "Tint",
+                          "Adjust the tint",
+                          tint_callback,
+                          (void *)video_item[vid2].tint_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(colors_submenu2, "Saturation",
+                          "Adjust the saturation",
+                          saturation_callback,
+                          (void *)video_item[vid2].saturation_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(colors_submenu2, "Contrast",
+                          "Adjust the contrast",
+                          contrast_callback,
+                          (void *)video_item[vid2].contrast_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_item(colors_submenu2, "Brightness",
+                          "Adjust the brightness",
+                          brightness_callback,
+                          (void *)video_item[vid2].brightness_res, 0,
+                          TUI_MENU_BEH_CONTINUE);
+
+        tui_menu_add_submenu(video_submenu2, "Colors",
+                             "Colors",
+                             colors_submenu2,
+                             NULL, 0,
+                             TUI_MENU_BEH_CONTINUE);
+    }
 }
