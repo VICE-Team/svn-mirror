@@ -664,20 +664,18 @@ msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:401 src/arch/unix/gui/c64ui.c:461
 #: src/arch/unix/gui/vic20ui.c:438
-#, fuzzy
 msgid "detach all"
-msgstr "Tape ontkoppeld"
+msgstr "Ontkoppel alles"
 
 #: src/arch/unix/gui/c64scui.c:403 src/arch/unix/gui/c64ui.c:463
 #: src/arch/unix/gui/vic20ui.c:440
 msgid "detach last"
-msgstr ""
+msgstr "ontkoppel laatste"
 
 #: src/arch/unix/gui/c64scui.c:405 src/arch/unix/gui/c64ui.c:465
 #: src/arch/unix/gui/vic20ui.c:442
-#, fuzzy
 msgid "AND values"
-msgstr "waarde"
+msgstr "doe een AND met de waarden"
 
 #: src/arch/unix/gui/c64scui.c:452 src/arch/unix/gui/c64ui.c:512
 msgid "Burst Mode Modification"
@@ -686,7 +684,7 @@ msgstr "Burst Modus Modificatie"
 #: src/arch/unix/gui/c64scui.c:475 src/arch/unix/gui/c64ui.c:535
 #: src/arch/unix/gui/vic20ui.c:481
 msgid "I/O collision handling"
-msgstr ""
+msgstr "I/O conflict handeling"
 
 #: src/arch/unix/gui/c64ui.c:209
 msgid "Old PAL-G"
@@ -1440,9 +1438,8 @@ msgid "Select history directory"
 msgstr "Selecteer geschiedenis directory"
 
 #: src/arch/unix/gui/uicommands.c:338 src/arch/unix/gui/uidrive.c:192
-#, fuzzy
 msgid "Path:"
-msgstr "Pad"
+msgstr "Pad:"
 
 #: src/arch/unix/gui/uicommands.c:377 src/arch/win32/res.rc.po.c:1173
 #: src/arch/amigaos/intl_text.c.po.c:10842
@@ -1573,31 +1570,28 @@ msgid "Stop Sound record"
 msgstr "Stop geluidsopname"
 
 #: src/arch/unix/gui/uicommands.c:547
-#, fuzzy
 msgid "Select server address"
-msgstr "Selecteer Stuurprogramma"
+msgstr "Selecteer server adres"
 
-#: src/arch/unix/gui/uicommands.c:557
+#: src/arch/unix/gui/uicommands.c:557er
 msgid "Keep monitor open"
-msgstr ""
+msgstr "Hou de monitor open"
 
 #: src/arch/unix/gui/uicommands.c:560
-#, fuzzy
 msgid "Enable remote monitor server"
-msgstr "Activeer monitor afstandsbediening"
+msgstr "Activeer monitor afstandsbediening server"
 
 #: src/arch/unix/gui/uicommands.c:562
 msgid "Set remote monitor server address"
-msgstr ""
+msgstr "Zet afstandsbediening server adres"
 
 #: src/arch/unix/gui/uicommands.c:568 src/arch/unix/gui/uicommands.c:579
 msgid "Activate monitor"
 msgstr "Activeer monitor"
 
 #: src/arch/unix/gui/uicommands.c:571
-#, fuzzy
 msgid "Monitor settings"
-msgstr "Kleur instellingen"
+msgstr "Monitor instellingen"
 
 #: src/arch/unix/gui/uicommands.c:573
 msgid "Run C1541"
@@ -1940,18 +1934,16 @@ msgid "Drive sound emulation"
 msgstr "Drive geluiden emulatie"
 
 #: src/arch/unix/gui/uidrive.c:192
-#, fuzzy
 msgid "Select Flash filesystem directory"
-msgstr "Selecteer bestandssysteemdirectory"
+msgstr "Selecteer flash bestandssysteem directory"
 
 #: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:12803
 msgid "Enable true hardware flash file system"
 msgstr "Activeer hardwarmatige flash bestandssysteem"
 
 #: src/arch/unix/gui/uidrive.c:198
-#, fuzzy
 msgid "Set Flash filesystem directory"
-msgstr "Selecteer bestandssysteemdirectory"
+msgstr "Selecteer flash bestandssysteem directory"
 
 #: src/arch/unix/gui/uidrivec128.c:175 src/arch/unix/gui/uidrivec64.c:48
 #: src/arch/unix/gui/uidrivec64dtv.c:48 src/arch/unix/gui/uidriveplus4.c:232
@@ -2971,9 +2963,8 @@ msgid "Path"
 msgstr "Pad"
 
 #: src/arch/unix/gui/uiperipheral.c:64
-#, fuzzy
 msgid "Select block device for raw access"
-msgstr "Werkelijk apparaat toegang"
+msgstr "Selecteer blok apparaat voor werkelijke toegang"
 
 #: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
@@ -3107,7 +3098,7 @@ msgstr "Activeer virtuele apparaten"
 #: src/arch/unix/gui/uiperipheraliec.c:170
 #: src/arch/unix/gui/uiperipheralieee.c:139
 msgid "RAW Block Device Name"
-msgstr ""
+msgstr "Werkelijk blok apparaat naam"
 
 #: src/arch/unix/gui/uiperipheraliec.c:177
 #: src/arch/unix/gui/uiperipheraliec.c:183
@@ -4325,7 +4316,7 @@ msgstr "Client"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:165
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
 #: src/arch/unix/x11/xaw/uiscreenshot.c:162
@@ -4355,7 +4346,7 @@ msgstr "Video bitrate"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:451
 msgid "Half Framerate (25/30 fps)"
-msgstr ""
+msgstr "Halve framesnelheid (25/30 fps)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:497
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
@@ -8094,14 +8085,12 @@ msgid "Enabled"
 msgstr "Aan"
 
 #: src/arch/amigaos/intl_text.c.po.c:5941
-#, fuzzy
 msgid "Dolphin Dos 3"
 msgstr "Dolphin DOS 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:5955
-#, fuzzy
 msgid "Formel64"
-msgstr "Formel 64"
+msgstr "Formel64"
 
 #: src/arch/amigaos/intl_text.c.po.c:5969
 msgid "Filesystem"
@@ -8405,7 +8394,6 @@ msgid "SID Stereo"
 msgstr "Stereo SID"
 
 #: src/arch/amigaos/intl_text.c.po.c:8672
-#, fuzzy
 msgid "Amount of extra sids"
 msgstr "Aantal extra SID chips"
 
@@ -8414,7 +8402,6 @@ msgid "Stereo SID at"
 msgstr "Stereo SID op"
 
 #: src/arch/amigaos/intl_text.c.po.c:8700
-#, fuzzy
 msgid "Triple SID at"
 msgstr "Derde SID op"
 
@@ -8476,14 +8463,12 @@ msgid "EEPROM read/write"
 msgstr "EEPROM lees/schrijf"
 
 #: src/arch/amigaos/intl_text.c.po.c:9582
-#, fuzzy
 msgid "SID engine and model"
-msgstr "kern en model"
+msgstr "SID kern en model"
 
 #: src/arch/amigaos/intl_text.c.po.c:9596
-#, fuzzy
 msgid "SID engine"
-msgstr "SID instellingen"
+msgstr "SID kern"
 
 #: src/arch/amigaos/intl_text.c.po.c:9918
 msgid "snapshot file"
@@ -8598,9 +8583,8 @@ msgid "CIA model settings"
 msgstr "CIA model instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:11668
-#, fuzzy
 msgid "Select SID file to load"
-msgstr "Selecteer PSID bestand"
+msgstr "Selecteer SID bestand voor laden"
 
 #: src/translate_text.c.po.c:7
 msgid "Cannot load snapshot file."
@@ -9642,12 +9626,10 @@ msgid "Sets the value of the resource."
 msgstr "Plaats de waarde in de resource."
 
 #: src/translate_text.c.po.c:2973
-#, fuzzy
 msgid "Loads resources from file."
-msgstr "Instellingen laden van bestand"
+msgstr "Laad instellingen van bestand"
 
 #: src/translate_text.c.po.c:2990
-#, fuzzy
 msgid "Saves resources to file."
 msgstr "Sla instellingen op naar bestand"
 
