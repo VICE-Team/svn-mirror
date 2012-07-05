@@ -26,7 +26,6 @@
 
 translate_t string_table[] = {
 
-
 /* autostart.c */
 /* en */ {IDGS_CANNOT_LOAD_SNAPSHOT_FILE,    N_("Cannot load snapshot file.")},
 #ifdef HAS_TRANSLATION
@@ -893,7 +892,7 @@ translate_t string_table[] = {
 /* pl */ {IDGS_ALL_DEVICES_EXCEPT_PL, ".\nWszystkie urz±dzenia, prócz"},
 /* ru */ {IDGS_ALL_DEVICES_EXCEPT_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_ALL_DEVICES_EXCEPT_SV, ".\nAlla enheter förutom "},
-/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ""},  /* fuzzy */
+/* tr */ {IDGS_ALL_DEVICES_EXCEPT_TR, ".\nBunlar hariç tüm cihazlar "},
 #endif
 
 /* c64/c64io.c, vic20/vic20io.c */
@@ -3023,7 +3022,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_NL, "Laad instellingen van bestand"},
 /* pl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
@@ -3040,7 +3039,7 @@ translate_t string_table[] = {
 /* hu */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_IT, ""},  /* fuzzy */
 /* ko */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_KO, ""},  /* fuzzy */
-/* nl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_NL, ""},  /* fuzzy */
+/* nl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_NL, "Sla instellingen op naar bestand"},
 /* pl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_PL, ""},  /* fuzzy */
 /* ru */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */

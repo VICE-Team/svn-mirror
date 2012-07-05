@@ -2,7 +2,7 @@
 # Copyright (C) 2011
 # This file is distributed under the same license as the PACKAGE package.
 # Jesse Lee <interpreters.jesse@gmail.com>, 2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"

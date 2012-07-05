@@ -2,7 +2,7 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
@@ -1573,7 +1573,7 @@ msgstr "Stop geluidsopname"
 msgid "Select server address"
 msgstr "Selecteer server adres"
 
-#: src/arch/unix/gui/uicommands.c:557er
+#: src/arch/unix/gui/uicommands.c:557
 msgid "Keep monitor open"
 msgstr "Hou de monitor open"
 
