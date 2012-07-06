@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-07-05 09:13-0700\n"
-"PO-Revision-Date: 2012-06-18 15:07+0200\n"
+"PO-Revision-Date: 2012-07-06 10:29+0300\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -42,11 +42,11 @@ msgstr "Ýsim"
 
 #: src/arch/unix/mididrv.c:669 src/arch/win32/res.rc.po.c:1178
 msgid "Specify MIDI-In device"
-msgstr "Midi-In aygýtýný belirleyin"
+msgstr "MIDI-In aygýtýný belirleyin"
 
 #: src/arch/unix/mididrv.c:674 src/arch/win32/res.rc.po.c:1179
 msgid "Specify MIDI-Out device"
-msgstr "Midi-Out aygýtýný belirleyin"
+msgstr "MIDI-Out aygýtýný belirleyin"
 
 #: src/arch/unix/mididrv.c:680 src/arch/unix/gui/uimidi.c:87
 #: src/arch/unix/gui/uimidi.c:103 src/arch/win32/res.rc.po.c:1234
@@ -663,20 +663,18 @@ msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:401 src/arch/unix/gui/c64ui.c:461
 #: src/arch/unix/gui/vic20ui.c:438
-#, fuzzy
 msgid "detach all"
-msgstr "Teyp çýkartýldý"
+msgstr "tümünü çýkart"
 
 #: src/arch/unix/gui/c64scui.c:403 src/arch/unix/gui/c64ui.c:463
 #: src/arch/unix/gui/vic20ui.c:440
 msgid "detach last"
-msgstr ""
+msgstr "sonuncuyu çýkart"
 
 #: src/arch/unix/gui/c64scui.c:405 src/arch/unix/gui/c64ui.c:465
 #: src/arch/unix/gui/vic20ui.c:442
-#, fuzzy
 msgid "AND values"
-msgstr "deðer"
+msgstr "VE deðerleri"
 
 #: src/arch/unix/gui/c64scui.c:452 src/arch/unix/gui/c64ui.c:512
 msgid "Burst Mode Modification"
@@ -685,7 +683,7 @@ msgstr "Burst Mod Deðiþikliði"
 #: src/arch/unix/gui/c64scui.c:475 src/arch/unix/gui/c64ui.c:535
 #: src/arch/unix/gui/vic20ui.c:481
 msgid "I/O collision handling"
-msgstr ""
+msgstr "G/Ç çakýþma iþleme"
 
 #: src/arch/unix/gui/c64ui.c:209
 msgid "Old PAL-G"
@@ -1439,9 +1437,8 @@ msgid "Select history directory"
 msgstr "Tarihçe dizinini seçin"
 
 #: src/arch/unix/gui/uicommands.c:338 src/arch/unix/gui/uidrive.c:192
-#, fuzzy
 msgid "Path:"
-msgstr "Yol"
+msgstr "Yol:"
 
 #: src/arch/unix/gui/uicommands.c:377 src/arch/win32/res.rc.po.c:1173
 #: src/arch/amigaos/intl_text.c.po.c:10842
@@ -1572,31 +1569,28 @@ msgid "Stop Sound record"
 msgstr "Ses kaydýný durdur"
 
 #: src/arch/unix/gui/uicommands.c:547
-#, fuzzy
 msgid "Select server address"
-msgstr "Sürücü Seç"
+msgstr "Sunucu adresi seç"
 
 #: src/arch/unix/gui/uicommands.c:557
 msgid "Keep monitor open"
-msgstr ""
+msgstr "Monitör açýk kalsýn"
 
 #: src/arch/unix/gui/uicommands.c:560
-#, fuzzy
 msgid "Enable remote monitor server"
-msgstr "Uzak monitörü aktif et"
+msgstr "Uzak monitör sunucusunu aktif et"
 
 #: src/arch/unix/gui/uicommands.c:562
 msgid "Set remote monitor server address"
-msgstr ""
+msgstr "Uzak monitör sunucu adresini ayarla"
 
 #: src/arch/unix/gui/uicommands.c:568 src/arch/unix/gui/uicommands.c:579
 msgid "Activate monitor"
 msgstr "Monitör'ü aktif et"
 
 #: src/arch/unix/gui/uicommands.c:571
-#, fuzzy
 msgid "Monitor settings"
-msgstr "Renk ayarlarý"
+msgstr "Monitör ayarlarý"
 
 #: src/arch/unix/gui/uicommands.c:573
 msgid "Run C1541"
@@ -1939,18 +1933,16 @@ msgid "Drive sound emulation"
 msgstr "Sürücü ses emülasyonu"
 
 #: src/arch/unix/gui/uidrive.c:192
-#, fuzzy
 msgid "Select Flash filesystem directory"
-msgstr "Dosya sistem dizinini seç"
+msgstr "Flash dosya sistem dizinini seç"
 
 #: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:12802
 msgid "Enable true hardware flash file system"
 msgstr "Gerçek donaným flash dosya sistemini aktif et"
 
 #: src/arch/unix/gui/uidrive.c:198
-#, fuzzy
 msgid "Set Flash filesystem directory"
-msgstr "Dosya sistem dizinini seç"
+msgstr "Flash dosya sistem dizinini ayarla"
 
 #: src/arch/unix/gui/uidrivec128.c:175 src/arch/unix/gui/uidrivec64.c:48
 #: src/arch/unix/gui/uidrivec64dtv.c:48 src/arch/unix/gui/uidriveplus4.c:232
@@ -2970,9 +2962,8 @@ msgid "Path"
 msgstr "Yol"
 
 #: src/arch/unix/gui/uiperipheral.c:64
-#, fuzzy
 msgid "Select block device for raw access"
-msgstr "Gerçek aygýt eriþimi"
+msgstr "Düz eriþim için blok cihazý seç"
 
 #: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
@@ -3106,7 +3097,7 @@ msgstr "Sanal Aygýtlarý aktif et"
 #: src/arch/unix/gui/uiperipheraliec.c:170
 #: src/arch/unix/gui/uiperipheralieee.c:139
 msgid "RAW Block Device Name"
-msgstr ""
+msgstr "Düz Blok Cihaz Ýsmi"
 
 #: src/arch/unix/gui/uiperipheraliec.c:177
 #: src/arch/unix/gui/uiperipheraliec.c:183
@@ -4324,7 +4315,7 @@ msgstr "Ýstemci"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:165
 msgid "Volume"
-msgstr ""
+msgstr "Ses Düzeyi"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
 #: src/arch/unix/x11/xaw/uiscreenshot.c:162
@@ -4354,7 +4345,7 @@ msgstr "Görüntü bithýzý"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:451
 msgid "Half Framerate (25/30 fps)"
-msgstr ""
+msgstr "Yarý Karehýzý (25/30 fps)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:497
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
@@ -8092,14 +8083,12 @@ msgid "Enabled"
 msgstr "Aktif"
 
 #: src/arch/amigaos/intl_text.c.po.c:5941
-#, fuzzy
 msgid "Dolphin Dos 3"
-msgstr "Dolphin DOS 3"
+msgstr "Dolphin Dos 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:5955
-#, fuzzy
 msgid "Formel64"
-msgstr "Formel 64"
+msgstr "Formel64"
 
 #: src/arch/amigaos/intl_text.c.po.c:5969
 msgid "Filesystem"
@@ -8405,18 +8394,16 @@ msgid "SID Stereo"
 msgstr "Stereo SID"
 
 #: src/arch/amigaos/intl_text.c.po.c:8672
-#, fuzzy
 msgid "Amount of extra sids"
-msgstr "Ekstra SID çip adedi"
+msgstr "Ekstra sid adedi"
 
 #: src/arch/amigaos/intl_text.c.po.c:8686
 msgid "Stereo SID at"
 msgstr "Stereo SID konumu"
 
 #: src/arch/amigaos/intl_text.c.po.c:8700
-#, fuzzy
 msgid "Triple SID at"
-msgstr "Üçüncü SID konumu"
+msgstr "Üçlü SID konumu"
 
 #: src/arch/amigaos/intl_text.c.po.c:8756
 msgid "Not implemented yet!"
@@ -8476,14 +8463,12 @@ msgid "EEPROM read/write"
 msgstr "EEPROM oku/yaz"
 
 #: src/arch/amigaos/intl_text.c.po.c:9582
-#, fuzzy
 msgid "SID engine and model"
-msgstr "motor ve model"
+msgstr "SID motoru ve modeli"
 
 #: src/arch/amigaos/intl_text.c.po.c:9596
-#, fuzzy
 msgid "SID engine"
-msgstr "SID motoru/modeli"
+msgstr "SID motoru"
 
 #: src/arch/amigaos/intl_text.c.po.c:9918
 msgid "snapshot file"
@@ -8598,9 +8583,8 @@ msgid "CIA model settings"
 msgstr "CIA model ayarlarý"
 
 #: src/arch/amigaos/intl_text.c.po.c:11668
-#, fuzzy
 msgid "Select SID file to load"
-msgstr "PSID dosyasý seçin"
+msgstr "Yüklenecek SID dosyasýný seçin"
 
 #: src/translate_text.c.po.c:6
 msgid "Cannot load snapshot file."
@@ -9615,14 +9599,12 @@ msgid "Sets the value of the resource."
 msgstr "Kaynaðýn deðerini belirler."
 
 #: src/translate_text.c.po.c:2972
-#, fuzzy
 msgid "Loads resources from file."
-msgstr "Ayarlarý dosyadan yükle"
+msgstr "Kaynaklarý dosyadan yükler."
 
 #: src/translate_text.c.po.c:2989
-#, fuzzy
 msgid "Saves resources to file."
-msgstr "Ayarlarý dosyaya kaydet"
+msgstr "Kaynaklarý dosyaya kaydeder."
 
 #: src/translate_text.c.po.c:3006
 msgid "Stop recording commands.  See `record'."
