@@ -129,7 +129,6 @@ int fsimage_read_gcr_image(disk_image_t *image)
 
         track_data = image->gcr->data + half_track * max_track_length;
         zone_data = image->gcr->speed_zone + half_track * max_track_length;
-        memset(zone_data, 0x00, max_track_length / 4);
         image->gcr->track_size[half_track] = 6250;
 
         if (half_track <= num_half_tracks && gcr_track_p[half_track] != 0) {
@@ -137,8 +136,6 @@ int fsimage_read_gcr_image(disk_image_t *image)
             long offset;
             size_t track_len;
             unsigned int zone_len;
-
-            memset(track_data, 0x00, max_track_length);
 
             offset = gcr_track_p[half_track];
 
