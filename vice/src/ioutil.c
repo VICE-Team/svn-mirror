@@ -220,9 +220,11 @@ static int ioutil_count_dir_items(const char *path)
 {
     DIR *dirp;
     struct dirent *dp;
+#ifndef _DIRENT_HAVE_D_TYPE
     unsigned int len, isdir;
     char *filename;
     int retval;
+#endif
 
     dirs_amount = 0;
     files_amount = 0;
@@ -238,6 +240,14 @@ static int ioutil_count_dir_items(const char *path)
 
     while (dp != NULL)
     {
+#ifdef _DIRENT_HAVE_D_TYPE
+        if (dp->d_type == DT_DIR) {
+            dirs_amount++;
+        } else {
+            files_amount++;
+        }
+        dp = readdir(dirp);
+#else
         filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
         retval = ioutil_stat(filename, &len, &isdir);
         if (retval == 0) {
@@ -249,6 +259,7 @@ static int ioutil_count_dir_items(const char *path)
         }
         dp = readdir(dirp);
         lib_free(filename);
+#endif
     }
     closedir(dirp);
 
@@ -263,15 +274,27 @@ static void ioutil_filldir(const char *path,
     struct dirent *dp = NULL;
     int dir_count=0;
     int file_count=0;
+#ifndef _DIRENT_HAVE_D_TYPE
     unsigned int len, isdir;
     char *filename;
     int retval;
+#endif
 
     dirp = opendir(path);
 
     dp = readdir(dirp);
 
     while (dp != NULL) {
+#ifdef _DIRENT_HAVE_D_TYPE
+        if (dp->d_type == DT_DIR) {
+            dirs[dir_count].name = lib_stralloc(dp->d_name);
+            dir_count++;
+        } else {
+            files[file_count].name = lib_stralloc(dp->d_name);
+            file_count++;
+        }
+        dp = readdir(dirp);
+#else
         filename = util_concat(path, FSDEV_DIR_SEP_STR, dp->d_name, NULL);
         retval = ioutil_stat(filename, &len, &isdir);
         if (retval == 0) {
@@ -285,6 +308,7 @@ static void ioutil_filldir(const char *path,
         }
         dp = readdir(dirp);
         lib_free(filename);
+#endif
     }
     closedir(dirp);
 }
