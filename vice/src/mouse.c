@@ -696,7 +696,6 @@ void mouse_button_right(int pressed)
 	break;
     case MOUSE_TYPE_NEOS:
     case MOUSE_TYPE_AMIGA:
-    case MOUSE_TYPE_CX22:
     case MOUSE_TYPE_ST:
 	if (pressed) {
 	    neos_and_amiga_buttons |= 1;
@@ -764,7 +763,14 @@ BYTE mouse_get_x(void)
 	return mouse_get_paddle_x();
     case MOUSE_TYPE_NEOS:
     case MOUSE_TYPE_AMIGA:
+    case MOUSE_TYPE_ST:
+        /* Real Amiga and Atari ST mice probably needs this mod
+         * http://www.mssiah-forum.com/viewtopic.php?pid=15208
+         * for their right buttons to be read using pot_x. */
 	return (neos_and_amiga_buttons & 1) ? 0xff : 0;
+    case MOUSE_TYPE_CX22:
+        /* CX22 has no right button */
+	break;
     default:
 	DBG(("mouse_get_x: invalid mouse_type"));
 	break;
