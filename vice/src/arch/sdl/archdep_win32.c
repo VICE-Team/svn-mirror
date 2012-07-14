@@ -566,8 +566,7 @@ char **archdep_list_drives(void)
 
     bits = GetLogicalDrives();
     mask = 1;
-    while (mask != 0)
-    {
+    while (mask != 0) {
         if (bits & mask) {
             ++drive_count;
         }
@@ -576,8 +575,7 @@ char **archdep_list_drives(void)
     result = lib_malloc(sizeof(char*) * drive_count);
     p = result;
     mask = 1;
-    while (mask != 0)
-    {
+    while (mask != 0) {
         if (bits & mask) {
             char buf[16];
             sprintf(buf, "%c:/", 'a' + i);
