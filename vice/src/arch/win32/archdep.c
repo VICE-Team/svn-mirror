@@ -473,6 +473,20 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     int retval;
     char *stdout_redir = NULL;
 
+    /* DINK! remove dependancy on unzip.exe being in the system path */
+    /* now it will work just as good with unzip.exe in the same dir as x64.exe */
+    char *spawn_name = NULL;
+    char *unzipfn = NULL;
+
+    spawn_name = (char *)name;
+    if (!strcmp(name, "unzip")) {
+        unzipfn = util_concat(boot_path, "\\", "unzip.exe", NULL);
+        if (util_file_exists(unzipfn)) {
+            spawn_name = unzipfn;
+        }
+    }
+    /* !DINK */
+
     if (pstdout_redir != NULL) {
         if (*pstdout_redir == NULL) {
             *pstdout_redir = archdep_tmpnam();
@@ -510,7 +524,7 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
     }
 
     /* Spawn the child process.  */
-    retval = (int)_spawnvp(_P_WAIT, name, (const char * const *)argv);
+    retval = (int)_spawnvp(_P_WAIT, spawn_name, (const char * const *)argv);
 
 cleanup:
     if (old_stdout >= 0) {
@@ -560,10 +574,14 @@ void archdep_startup_log_error(const char *format, ...)
 
 char *archdep_quote_parameter(const char *name)
 {
-    char *a;
+    char *a,*b,*c;
 
-    a = util_concat("\"", name, "\"", NULL);
-    return a;
+    a = util_subst(name, "[", "\\[");
+    b = util_subst(a, "]", "\\]");
+    c = util_concat("\"", b, "\"", NULL);
+    lib_free(a);
+    lib_free(b);
+    return c;
 }
 
 char *archdep_filename_parameter(const char *name)
@@ -572,7 +590,7 @@ char *archdep_filename_parameter(const char *name)
     char *a;
 
     archdep_expand_path(&exp, name);
-    a = archdep_quote_parameter(exp);
+    a = util_concat("\"", exp, "\"", NULL);
     lib_free(exp);
     return a;
 }
