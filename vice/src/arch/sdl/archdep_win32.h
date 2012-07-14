@@ -29,6 +29,9 @@
 
 #include "archapi.h"
 
+/* This platform supports choosing drives. */
+#define SDL_CHOOSE_DRIVES
+
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."
 #define FSDEV_DIR_SEP_STR    "\\"

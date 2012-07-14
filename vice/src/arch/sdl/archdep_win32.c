@@ -558,6 +558,53 @@ int archdep_file_is_chardev(const char *name)
     return 0;
 }
 
+char **archdep_list_drives(void)
+{
+    DWORD bits, mask;
+    int drive_count = 1, i = 0;
+    char **result, **p;
+
+    bits = GetLogicalDrives();
+    mask = 1;
+    while (mask != 0)
+    {
+        if (bits & mask) {
+            ++drive_count;
+        }
+        mask <<= 1;
+    }
+    result = lib_malloc(sizeof(char*) * drive_count);
+    p = result;
+    mask = 1;
+    while (mask != 0)
+    {
+        if (bits & mask) {
+            char buf[16];
+            sprintf(buf, "%c:/", 'a' + i);
+            *p++ = lib_stralloc(buf);
+        }
+        mask <<= 1;
+        ++i;
+    }
+    result[i] = NULL;
+
+    return result;
+}
+
+char *archdep_get_current_drive(void)
+{
+    char *p = ioutil_current_dir();
+    char *p2 = strchr(p, '\\');
+    p2[0] = '/';
+    p2[1] = '\0';
+    return p;
+}
+
+void archdep_set_current_drive(const char *drive)
+{
+    _chdir(drive);
+}
+
 int archdep_require_vkbd(void)
 {
     return 0;

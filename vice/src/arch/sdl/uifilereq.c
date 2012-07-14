@@ -38,6 +38,7 @@
 #include "uimenu.h"
 #include "uifilereq.h"
 #include "util.h"
+#include "menu_common.h"
 
 static menu_draw_t *menu_draw;
 static char *last_selected_file = NULL;
@@ -45,7 +46,21 @@ static int last_selected_pos = 0;
 
 #define SDL_FILEREQ_META_FILE 0
 #define SDL_FILEREQ_META_PATH 1
+
+/* any platform that supports drive letters/names should
+   define SDL_CHOOSE_DRIVES and provide the drive functions:
+   char **archdep_list_drives(void);
+   char *archdep_get_current_drive(void);
+   void archdep_set_current_drive(const char *drive);
+*/
+
+#ifdef SDL_CHOOSE_DRIVES
+#define SDL_FILEREQ_META_DRIVE 2
+#define SDL_FILEREQ_META_NUM 3
+#else
 #define SDL_FILEREQ_META_NUM 2
+#endif
+
 
 /* ------------------------------------------------------------------ */
 /* static functions */
@@ -104,6 +119,12 @@ static char* sdl_ui_get_file_selector_entry(ioutil_dir_t *directory, int offset,
     if (offset == SDL_FILEREQ_META_PATH) {
         return "<enter path>";
     }
+
+#ifdef SDL_FILEREQ_META_DRIVE
+    if (offset == SDL_FILEREQ_META_DRIVE) {
+        return "<choose drive>";
+    }
+#endif
 
     if (offset >= (directory->dir_amount + SDL_FILEREQ_META_NUM)) {
         return directory->files[offset - (directory->dir_amount + SDL_FILEREQ_META_NUM)].name;
@@ -207,12 +228,101 @@ static void sdl_ui_file_selector_redraw(ioutil_dir_t *directory, const char *tit
         j = MENU_FIRST_X;
         name = sdl_ui_get_file_selector_entry(directory, offset + i, &isdir, mode);
         if (isdir) {
-            j += 1 + sdl_ui_print("(D)", MENU_FIRST_X, i + MENU_FIRST_Y + 2);
+            j += 1 + sdl_ui_print("(D)", MENU_FIRST_X, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
         }
-        sdl_ui_print(name, j, i + MENU_FIRST_Y + 2);
+        sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
     }
 }
 
+#ifdef SDL_FILEREQ_META_DRIVE
+static char *current_drive = NULL;
+static int drive_set = 0;
+
+static UI_MENU_CALLBACK(drive_callback)
+{
+    char *drive;
+
+    drive = (char *)param;
+
+    if (strcmp(drive, current_drive) == 0) {
+        return sdl_menu_text_tick;
+    } else if (activated) {
+        current_drive = drive;
+        drive_set = 1;
+        return sdl_menu_text_tick;
+    }
+
+    return NULL;
+}
+
+static char * display_drive_menu(void)
+{
+    char **drives, **p;
+    char *result, *previous_drive;
+    int drive_count = 1;
+    ui_menu_entry_t *sub_menu, *pm;
+    ui_menu_entry_t menu;
+
+    drives = archdep_list_drives();
+
+    p = drives;
+
+    while (*p != NULL) {
+        ++drive_count;
+        ++p;
+    }
+
+    sub_menu = lib_malloc(sizeof(ui_menu_entry_t) * drive_count);
+    pm = sub_menu;
+
+    p = drives;
+
+    while (*p != NULL) {
+        pm->string = *p;
+        pm->type = MENU_ENTRY_OTHER;
+        pm->callback = drive_callback;
+        pm->data = (ui_callback_data_t)*p;
+        ++pm;
+        ++p;
+    }
+
+    pm->string = NULL;
+    pm->type = MENU_ENTRY_TEXT;
+    pm->callback = NULL;
+    pm->data = (ui_callback_data_t)NULL;
+
+    menu.string = "Choose drive";
+    menu.type = MENU_ENTRY_DYNAMIC_SUBMENU;
+    menu.callback = NULL;
+    menu.data = (ui_callback_data_t)sub_menu;
+
+    previous_drive = archdep_get_current_drive();
+
+    current_drive = previous_drive;
+    drive_set = 0;
+    sdl_ui_external_menu_activate(&menu);
+
+    if (drive_set) {
+        result = current_drive;
+    }
+
+    lib_free(previous_drive);
+
+    lib_free(sub_menu);
+
+    p = drives;
+
+    while (*p != NULL) {
+        if (*p != result) {
+            lib_free(*p);
+        }
+        ++p;
+    }
+    lib_free(drives);
+
+    return current_drive;
+}
+#endif
 
 /* ------------------------------------------------------------------ */
 /* External UI interface */
@@ -238,7 +348,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     ioutil_getcwd(current_dir, maxpathlen);
     backup_dir = lib_stralloc(current_dir);
 
-    directory = ioutil_opendir(".");
+    directory = ioutil_opendir(current_dir);
     if (directory == NULL) {
         return NULL;
     }
@@ -246,7 +356,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
     dirs = directory->dir_amount;
     files = directory->file_amount;
     total = dirs + files + SDL_FILEREQ_META_NUM;
-    menu_max = menu_draw->max_text_y - (MENU_FIRST_Y + 2);
+    menu_max = menu_draw->max_text_y - (MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
 
     if (mode == FILEREQ_MODE_CHOOSE_FILE) {
         offset = sdl_ui_file_selector_recall_location(directory);
@@ -257,7 +367,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
             sdl_ui_file_selector_redraw(directory, title, current_dir, offset, (total - offset > menu_max) ? menu_max : total - offset, (total - offset > menu_max) ? 1 : 0, mode);
             redraw = 0;
         }
-        sdl_ui_display_cursor((cur + 2) , (cur_old == -1) ? -1 : (cur_old + 2));
+        sdl_ui_display_cursor((cur + SDL_FILEREQ_META_NUM) , (cur_old == -1) ? -1 : (cur_old + SDL_FILEREQ_META_NUM));
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
@@ -338,7 +448,7 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                             lib_free(inputstring);
                             ioutil_closedir(directory);
                             ioutil_getcwd(current_dir, maxpathlen);
-                            directory = ioutil_opendir(".");
+                            directory = ioutil_opendir(current_dir);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
@@ -349,18 +459,37 @@ char* sdl_ui_file_selection_dialog(const char* title, ui_menu_filereq_mode_t mod
                         redraw = 1;
                         break;
 
-                    default:
-                        if (offset + cur < (dirs + SDL_FILEREQ_META_NUM)) {
-                            ioutil_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
+#ifdef SDL_FILEREQ_META_DRIVE
+                    case SDL_FILEREQ_META_DRIVE:
+                        inputstring = display_drive_menu();
+                        if (inputstring != NULL) {
+                            archdep_set_current_drive(inputstring);
+                            lib_free(inputstring);
                             ioutil_closedir(directory);
                             ioutil_getcwd(current_dir, maxpathlen);
-                            directory = ioutil_opendir(".");
+                            directory = ioutil_opendir(current_dir);
                             offset = 0;
                             cur_old = -1;
                             cur = 0;
                             dirs = directory->dir_amount;
                             files = directory->file_amount;
-                            total = dirs + files + 2;
+                            total = dirs + files + SDL_FILEREQ_META_NUM;
+                        }
+                        redraw = 1;
+                        break;
+#endif
+                    default:
+                        if (offset + cur < (dirs + SDL_FILEREQ_META_NUM)) {
+                            ioutil_chdir(directory->dirs[offset + cur - SDL_FILEREQ_META_NUM].name);
+                            ioutil_closedir(directory);
+                            ioutil_getcwd(current_dir, maxpathlen);
+                            directory = ioutil_opendir(current_dir);
+                            offset = 0;
+                            cur_old = -1;
+                            cur = 0;
+                            dirs = directory->dir_amount;
+                            files = directory->file_amount;
+                            total = dirs + files + SDL_FILEREQ_META_NUM;
                             redraw = 1;
                         } else {
                             char *selected_file = directory->files[offset + cur - dirs - SDL_FILEREQ_META_NUM].name;
@@ -433,7 +562,7 @@ static void sdl_ui_slot_selector_redraw(ui_menu_slots *slots, const char *title,
     for (i = 0; i < num_items; ++i) {
         j = MENU_FIRST_X;
         name = sdl_ui_get_slot_selector_entry(slots, offset + i, mode);
-        sdl_ui_print(name, j, i + MENU_FIRST_Y + 2);
+        sdl_ui_print(name, j, i + MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
     }
 }
 
@@ -475,7 +604,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
          ioutil_getcwd(current_dir, maxpathlen);
     }
 
-    total = menu_draw->max_text_y - (MENU_FIRST_Y + 2);
+    total = menu_draw->max_text_y - (MENU_FIRST_Y + SDL_FILEREQ_META_NUM);
     
     slots = lib_malloc(sizeof(ui_menu_slots));
     slots->entries = lib_malloc(sizeof(ui_menu_slot_entry) * total);
@@ -510,7 +639,7 @@ char* sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode)
             sdl_ui_slot_selector_redraw(slots, title, current_dir, offset, total, 0, mode);
             redraw = 0;
         }
-        sdl_ui_display_cursor((cur + 2) , (cur_old == -1) ? -1 : (cur_old + 2));
+        sdl_ui_display_cursor((cur + SDL_FILEREQ_META_NUM) , (cur_old == -1) ? -1 : (cur_old + SDL_FILEREQ_META_NUM));
         sdl_ui_refresh();
 
         switch (sdl_ui_menu_poll_input()) {
