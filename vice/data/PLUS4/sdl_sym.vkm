@@ -49,7 +49,7 @@
 56 3 3 8        /*            8 -> 8            */
 57 4 0 8        /*            9 -> 9            */
 48 4 3 8        /*            0 -> 0            */
-43 6 6 8        /*        Minus -> Plus         */
+45 6 6 8        /*        Minus -> Plus         */
 61 5 6 8        /*        Equal -> Minus        */
 8 0 0 8         /*    Backspace -> Del          */
 9 7 2 8         /*          TAB -> Ctrl         */
