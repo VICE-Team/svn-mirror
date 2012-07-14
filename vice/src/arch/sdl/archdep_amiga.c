@@ -418,3 +418,63 @@ void archdep_shutdown_extra(void)
 {
     lib_free(boot_path);
 }
+
+#define LF (LDF_DEVICES | LDF_VOLUMES | LDF_ASSIGNS | LDF_READ)
+
+static int CountEntries(void)
+{
+    int entries = 0;
+    struct DosList *dl = LockDosList(LF);
+
+    while (dl = NextDosEntry(dl, LF) {
+        entries++;
+    }
+    UnlockDosList(LF);
+
+    return entries;
+}
+
+char **archdep_list_drives(void)
+{
+    int drive_count = CountEntries();
+    int i = 0;
+    char **result, **p;
+    struct DosList *dl = LockDosList(LF);
+
+    result = lib_malloc(sizeof(char*) * drive_count);
+    p = result;
+
+    while (dl = NextDosEntry(dl, LF)) {
+        *p++ = lib_stralloc(BADDR(dl->dol_Name));
+        ++i;
+    }
+    result[i] = NULL;
+
+    UnlockDosList(LF);
+
+    return result;
+}
+
+char *archdep_get_current_drive(void)
+{
+    char *p = ioutil_current_dir();
+    char *p2 = strchr(p, ':');
+
+    if (p2 == NULL) {
+        return lib_stralloc("PROGDIR:");
+    }
+
+    p2[1] = '\0';
+
+    return p;
+}
+
+void archdep_set_current_drive(const char *drive)
+{
+    BPTR lck = Lock(drive, ACCESS_READ);
+
+    if (lck) {
+        CurrentDir(lck);
+        Unlock(lck);
+    }
+}

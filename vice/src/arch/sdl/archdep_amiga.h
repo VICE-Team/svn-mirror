@@ -33,7 +33,8 @@
 #include <sys/unistd.h>
 #endif
 
-/* FIXME: implement SDL_CHOOSE_DRIVES functionality */
+/* This platform supports choosing drives. */
+#define SDL_CHOOSE_DRIVES
 
 /* Filesystem dependant operators.  */
 #define FSDEVICE_DEFAULT_DIR "."
