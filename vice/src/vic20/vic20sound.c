@@ -225,8 +225,8 @@ struct sound_vic20_s
     int accum;
     int accum_cycles;
 
-    int cycles_per_sample;
-    int leftover_cycles;
+    float cycles_per_sample;
+    float leftover_cycles;
     int speed;
 
     float highpassbuf;
@@ -249,12 +249,8 @@ static int vic_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int 
     int samples_to_do;
 
     while (s < nr && *delta_t >= snd.cycles_per_sample - snd.leftover_cycles) {
-        samples_to_do = snd.cycles_per_sample;
-
-        if (snd.leftover_cycles) {
-            samples_to_do -= snd.leftover_cycles;
-            snd.leftover_cycles = 0;
-        }
+        samples_to_do = snd.cycles_per_sample - snd.leftover_cycles;
+        snd.leftover_cycles += samples_to_do - snd.cycles_per_sample;
         vic_sound_clock(samples_to_do);
 
         o = voltagefunction[(((snd.accum * 7) / snd.accum_cycles) + 1) * snd.volume];
@@ -393,7 +389,8 @@ static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
     memset((unsigned char*)&snd, 0, sizeof(snd));
 
-    snd.cycles_per_sample = cycles_per_sec / speed;
+    snd.cycles_per_sample = (float)cycles_per_sec / speed;
+    snd.leftover_cycles = 0.0f;
 
     snd.speed = speed;
 
