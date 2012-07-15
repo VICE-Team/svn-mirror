@@ -1636,7 +1636,7 @@ if test x"$is_dos" = "xyes" ; then
 else
   if test x"$is_win32" = "xno"; then
     if test x"$enable_ethernet" = "xyes"; then
-    dnl /usr/lib/libpcap.a
+    dnl libpcap.a
       AC_CHECK_LIB(pcap, pcap_inject,[
         AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
         AC_DEFINE(HAVE_PCAP_INJECT,,[A libpcap version with pcap_inject is available])
@@ -1647,8 +1647,8 @@ else
         AC_DEFINE(HAVE_PCAP_SENDPACKET,,[A libpcap version with pcap_sendpacket is available])
         TFE_LIBS="-lpcap"
       ],,$LIBS)
-    dnl /usr/lib/libpcap.a
-    dnl /usr/lib/libnet.a
+    dnl libpcap.a
+    dnl libnet.a
       AC_CHECK_LIB(pcap, pcap_open_live,[
         AC_CHECK_LIB(net, libnet_init,[
           AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
@@ -1656,8 +1656,8 @@ else
           TFE_LIBS="-lpcap `libnet-config --libs`"
           CFLAGS="$CFLAGS `libnet-config --defines`"
       ],,$LIBS)],,$LIBS)
-    dnl /usr/lib/libpcap.a
-    dnl /usr/lib/libnet.a
+    dnl libpcap.a
+    dnl libnet.a
       AC_CHECK_LIB(pcap, pcap_open_live,[
         AC_CHECK_LIB(net, libnet_write_link_layer,[
           AC_DEFINE(HAVE_TFE,,[Support for The Final Ethernet])
@@ -3371,15 +3371,24 @@ esac
 dnl Path for keymaps, ROMs etc.
 case "$host_os" in
   netbsd*)
-    VICEDIR="$PREFIX/share/vice";
+    VICEDIR="$PREFIX/share/vice"
     AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
     ;;
   freebsd*)
-    VICEDIR="$PREFIX/lib/vice";
+    VICEDIR="$PREFIX/lib/vice"
     AM_CONDITIONAL(ALTERNATE_DOCDIR, true)
     ;;
+  linux*)
+    if test x"$host_cpu" = "xx86_64"; then
+      VICEDIR="$PREFIX/lib64/vice"
+      AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
+    else
+      VICEDIR="$PREFIX/lib/vice"
+      AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
+    fi
+    ;;
   *)
-    VICEDIR="$PREFIX/lib/vice";
+    VICEDIR="$PREFIX/lib/vice"
     AM_CONDITIONAL(ALTERNATE_DOCDIR, false)
     ;;  
 esac
