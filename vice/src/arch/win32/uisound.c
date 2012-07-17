@@ -71,7 +71,7 @@ static int ui_sound_adjusting[] = {
 
 static uilib_localize_dialog_param sound_dialog[] = {
     { 0, IDS_SOUND_CAPTION, -1 },
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
     { IDC_SOUND_DIRECTX, IDS_SOUND_DIRECTX, 0 },
     { IDC_SOUND_WMM, IDS_SOUND_WMM, 0 },
 #endif
@@ -85,7 +85,7 @@ static uilib_localize_dialog_param sound_dialog[] = {
     { 0, 0, 0 }
 };
 
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
 static uilib_dialog_group sound_driver_group[] = {
     { IDC_SOUND_DIRECTX, 1 },
     { IDC_SOUND_WMM, 1 },
@@ -112,7 +112,7 @@ static uilib_dialog_group sound_right_group[] = {
 };
 
 static uilib_dialog_group sound_filling_group[] = {
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
     { IDC_SOUND_WMM, 0 },
 #endif
     { IDC_SOUND_OUTPUT, 0 },
@@ -131,7 +131,7 @@ static int move_buttons_group[] = {
 
 static void init_sound_dialog(HWND hwnd)
 {
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
     const char *devicename;
 #endif
     HWND snd_hwnd;
@@ -143,7 +143,7 @@ static void init_sound_dialog(HWND hwnd)
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, sound_dialog);
 
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
     /* adjust the size of the elements in the driver group */
     uilib_adjust_group_width(hwnd, sound_driver_group);
 
@@ -219,7 +219,7 @@ static void init_sound_dialog(HWND hwnd)
     }
     SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
     resources_get_string("SoundDeviceName", (void *)&devicename);
     if (devicename && !strcasecmp("wmm", devicename)) {
         res_value = IDC_SOUND_WMM;
@@ -246,7 +246,7 @@ static void end_sound_dialog(HWND hwnd)
     resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
 static void select_dx(void)
 {
     resources_set_string("SoundDeviceName", "dx");
@@ -272,7 +272,7 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
         case WM_COMMAND:
             command = LOWORD(wparam);
                 switch (command) {
-#ifndef HAVE_DSOUND_LIB
+#ifndef USE_DXSOUND
                 case IDC_SOUND_DIRECTX:
                     select_dx();
                     break;
