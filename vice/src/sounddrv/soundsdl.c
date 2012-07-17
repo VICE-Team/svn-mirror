@@ -82,6 +82,7 @@ static int sdl_init(const char *param, int *speed,
                     int *fragsize, int *fragnr, int *channels)
 {
     SDL_AudioSpec spec;
+    int nr;
 
     memset(&spec, 0, sizeof(spec));
     spec.freq = *speed;
@@ -94,12 +95,17 @@ static int sdl_init(const char *param, int *speed,
         return 1;
     }
 
-    if (sdl_spec.format != AUDIO_S16 || sdl_spec.channels != *channels) {
+    if ((sdl_spec.format != AUDIO_S16 && sdl_spec.format != AUDIO_S16MSB) || sdl_spec.channels != *channels) {
         SDL_CloseAudio();
         return 1;
     }
 
-    sdl_len = (*fragsize)*(*fragnr);
+    /* recalculate the number of fragments since the frag size might
+     * have changed and we want to keep approximately the same
+     * buffersize */
+    nr = (*fragnr) * (*fragsize) / spec.samples;
+
+    sdl_len = sdl_spec.samples * nr;
     sdl_inptr = sdl_outptr = sdl_full = 0;
     sdl_buf = lib_malloc(sizeof(SWORD)*sdl_len);
 
@@ -109,6 +115,8 @@ static int sdl_init(const char *param, int *speed,
     }
 
     *speed = sdl_spec.freq;
+    *fragsize = spec.samples;
+    *fragnr = nr;
     SDL_PauseAudio(0);
     return 0;
 }
@@ -159,8 +167,11 @@ static int sdl_write(SWORD *pbuf, size_t nr)
     total = 0;
 
 #ifdef WORDS_BIGENDIAN
-     /* Swap bytes if we're on a big-endian machine, like the Macintosh */
-     swab(pbuf, pbuf, sizeof(SWORD)*nr);
+    if (sdl_spec.format != AUDIO_S16MSB)
+    {
+        /* Swap bytes if we're on a big-endian machine, like the Macintosh */
+        swab(pbuf, pbuf, sizeof(SWORD)*nr);
+    }
 #endif
 
     while (total < nr) {
