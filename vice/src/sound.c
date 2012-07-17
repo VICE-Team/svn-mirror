@@ -777,6 +777,19 @@ int sound_open(void)
     speed = (sample_rate < 8000 || sample_rate > 96000)
             ? SOUND_SAMPLE_RATE : sample_rate;
 
+    switch (output_option) {
+    case SOUND_OUTPUT_SYSTEM:
+    default:
+        channels = (snddata.sound_chip_channels >= 2) ? 2 : 1;
+        break;
+    case SOUND_OUTPUT_MONO:
+        channels = 1;
+        break;
+    case SOUND_OUTPUT_STEREO:
+        channels = 2;
+        break;
+    }
+
     /* Calculate reasonable fragments. Target is 2 fragments per frame,
      * which gives a reasonable number of fillable audio chunks to avoid
      * ugly situation where a full frame refresh needs to occur before more
@@ -785,6 +798,7 @@ int sound_open(void)
      * information to calculate it. */
     fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec))
                / fragment_divisor[fragment_size];
+    fragsize *= channels;
 
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;
@@ -801,18 +815,6 @@ int sound_open(void)
 
     if (pdev) {
         if (pdev->init) {
-            switch (output_option) {
-                case SOUND_OUTPUT_SYSTEM:
-                default:
-                    channels = (snddata.sound_chip_channels >= 2) ? 2 : 1;
-                    break;
-                case SOUND_OUTPUT_MONO:
-                    channels = 1;
-                    break;
-                case SOUND_OUTPUT_STEREO:
-                    channels = 2;
-                    break;
-            }
             channels_cap = channels;
             if (pdev->init(playparam, &speed, &fragsize, &fragnr, &channels_cap)) {
                 err = lib_msprintf(translate_text(IDGS_INIT_FAILED_FOR_DEVICE_S), pdev->name);
