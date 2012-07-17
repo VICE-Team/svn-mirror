@@ -50,12 +50,11 @@
 #define ANGLE_GRN       -135.0f
 #define ANGLE_BLU          0.0f
 #define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
-#define ANGLE_BRN        157.5f
 
 static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
 {
     {   0.0f, ANGLE_ORN, -0, "Black"       },
-    { 256.0f, ANGLE_BRN,  0, "White"       },
+    { 256.0f, ANGLE_ORN, -0, "White"       },
     {  51.0f, ANGLE_RED,  1, "Red"         },
     { 157.0f, ANGLE_RED, -1, "Cyan"        },
     {  75.0f, ANGLE_GRN, -1, "Purple"      },
@@ -63,7 +62,7 @@ static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
     {  47.0f, ANGLE_BLU,  1, "Blue"        },
     { 183.0f, ANGLE_BLU, -1, "Yellow"      },
     {  85.0f, ANGLE_ORN, -1, "Orange"      },
-    { 161.0f, ANGLE_BRN,  1, "Light Orange"},
+    { 161.0f, ANGLE_ORN, -1, "Light Orange"},
     { 144.0f, ANGLE_RED,  1, "Pink"        },
     { 208.0f, ANGLE_RED, -1, "Light Cyan"  },
     { 158.0f, ANGLE_GRN, -1, "Light Purple"},
