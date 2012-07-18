@@ -946,8 +946,10 @@ void rotation_rotate_disk(drive_t *dptr)
         rotation_1541_p64_cycle(dptr);
         return;
     } else if (dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II) {
-        rotation_1541_gcr_cycle(dptr);
-        return;
+        if (dptr->read_write_mode) {
+            rotation_1541_gcr_cycle(dptr);
+            return;
+        }
     }
 
     dptr->req_ref_cycles = 0;
