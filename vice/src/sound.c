@@ -790,6 +790,13 @@ int sound_open(void)
         break;
     }
 
+    /* find pdev */
+    for (i = 0; (pdev = sound_devices[i]); i++) {
+        if (!playname || (pdev->name && !strcasecmp(playname, pdev->name))) {
+            break;
+        }
+    }
+
     /* Calculate reasonable fragments. Target is 2 fragments per frame,
      * which gives a reasonable number of fillable audio chunks to avoid
      * ugly situation where a full frame refresh needs to occur before more
@@ -798,8 +805,10 @@ int sound_open(void)
      * information to calculate it. */
     fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec))
                / fragment_divisor[fragment_size];
-    if (channels <= pdev->max_channels) {
-        fragsize *= channels;
+    if (pdev) {
+        if (channels <= pdev->max_channels) {
+            fragsize *= channels;
+        }
     }
 
     for (i = 1; 1 << i < fragsize; i++);
@@ -807,12 +816,6 @@ int sound_open(void)
     fragnr = (int)((speed * bufsize + fragsize - 1) / fragsize);
     if (fragnr < 3) {
         fragnr = 3;
-    }
-
-    for (i = 0; (pdev = sound_devices[i]); i++) {
-        if (!playname || (pdev->name && !strcasecmp(playname, pdev->name))) {
-            break;
-        }
     }
 
     if (pdev) {
