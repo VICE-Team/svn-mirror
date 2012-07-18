@@ -175,6 +175,7 @@ static sound_device_t artsdrv_device =
     artsdrv_close,
     NULL,  /* artsdrv_suspend */
     NULL, /* artsdrv_resume */
+    1,
     1
 };
 

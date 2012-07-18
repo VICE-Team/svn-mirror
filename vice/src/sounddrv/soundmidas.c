@@ -152,6 +152,7 @@ static sound_device_t midas_device =
     midas_close,
     NULL,
     NULL,
+    1,
     1
 };
 

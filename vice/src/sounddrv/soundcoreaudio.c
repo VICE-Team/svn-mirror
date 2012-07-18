@@ -611,7 +611,8 @@ static sound_device_t coreaudio_device =
     coreaudio_close,
     coreaudio_suspend,
     coreaudio_resume,
-    1
+    1,
+    2
 };
 
 int sound_init_coreaudio_device(void)

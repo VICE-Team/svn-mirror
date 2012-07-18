@@ -532,7 +532,8 @@ static sound_device_t wmm_device =
     wmm_close,
     wmm_suspend,
     wmm_resume,
-    0
+    0,
+    2
 };
 
 int sound_init_wmm_device(void)

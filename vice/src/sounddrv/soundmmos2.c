@@ -201,7 +201,8 @@ static sound_device_t mmos2_device =
     mmos2_close,        // close
     NULL, //mmos2_suspend, // suspend
     NULL, //mmos2_resume   // resume
-    1
+    1,
+    2
 };
 
 int sound_init_mmos2_device(void)

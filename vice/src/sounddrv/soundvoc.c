@@ -164,16 +164,17 @@ static void voc_close(void)
 
 static sound_device_t voc_device =
 {
-  "voc",
-  voc_init,
-  voc_write,
-  NULL,
-  NULL,
-  NULL,
-  voc_close,
-  NULL,
-  NULL,
-  0
+    "voc",
+    voc_init,
+    voc_write,
+    NULL,
+    NULL,
+    NULL,
+    voc_close,
+    NULL,
+    NULL,
+    0,
+    2
 };
 
 int sound_init_voc_device(void)

@@ -549,7 +549,8 @@ static sound_device_t dx_device =
     dx_close,
     dx_suspend,
     dx_resume,
-    0
+    0,
+    2		/* FIXME: should account for mono and stereo devices */
 };
 
 int sound_init_dx_device(void)

@@ -122,6 +122,7 @@ static sound_device_t sgi_device =
     sgi_close,
     NULL,
     NULL,
+    1,
     1
 };
 

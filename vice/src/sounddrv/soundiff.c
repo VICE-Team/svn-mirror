@@ -168,7 +168,8 @@ static sound_device_t iff_device =
     iff_close,
     NULL,
     NULL,
-    0
+    0,
+    2
 };
 
 int sound_init_iff_device(void)

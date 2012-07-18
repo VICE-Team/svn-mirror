@@ -63,12 +63,8 @@ typedef struct sound_device_s
     /* init -routine to be called at device initialization. Should use
        suggested values if possible or return new values if they cannot be
        used */
-    int (*init)(const char *param,
-        int *speed,
-        int *fragsize, int *fragnr,
-        int *channels);
-    /* send number of bytes to the soundcard. it is assumed to block if kernel
-       buffer is full */
+    int (*init)(const char *param, int *speed, int *fragsize, int *fragnr, int *channels);
+    /* send number of bytes to the soundcard. it is assumed to block if kernel buffer is full */
     int (*write)(SWORD *pbuf, size_t nr);
     /* dump-routine to be called for every write to SID */
     int (*dump)(WORD addr, BYTE byte, CLOCK clks);
@@ -84,6 +80,8 @@ typedef struct sound_device_s
     int (*resume)(void);
     /* is attenuation needed on suspend or not */
     int need_attenuation;
+    /* maximum amount of channels */
+    int max_channels;
 } sound_device_t;
 
 static inline SWORD sound_audio_mix(int ch1, int ch2)

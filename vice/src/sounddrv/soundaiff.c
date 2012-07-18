@@ -151,16 +151,17 @@ fail:
 
 static sound_device_t aiff_device =
 {
-  "aiff",
-  aiff_init,
-  aiff_write,
-  NULL,
-  NULL,
-  NULL,
-  aiff_close,
-  NULL,
-  NULL,
-  0
+    "aiff",
+    aiff_init,
+    aiff_write,
+    NULL,
+    NULL,
+    NULL,
+    aiff_close,
+    NULL,
+    NULL,
+    0,
+    2
 };
 
 int sound_init_aiff_device(void)

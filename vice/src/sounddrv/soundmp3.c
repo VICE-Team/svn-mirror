@@ -112,16 +112,17 @@ static void mp3_close(void)
 
 static sound_device_t mp3_device =
 {
-  "mp3",
-  mp3_init,
-  mp3_write,
-  NULL,
-  NULL,
-  NULL,
-  mp3_close,
-  NULL,
-  NULL,
-  0
+    "mp3",
+    mp3_init,
+    mp3_write,
+    NULL,
+    NULL,
+    NULL,
+    mp3_close,
+    NULL,
+    NULL,
+    0,
+    2
 };
 
 int sound_init_mp3_device(void)

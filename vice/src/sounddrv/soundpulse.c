@@ -116,7 +116,8 @@ static sound_device_t pulsedrv_device =
     pulsedrv_close,
     pulsedrv_suspend,
     NULL,
-    1
+    1,
+    2
 };
 
 int sound_init_pulse_device(void)

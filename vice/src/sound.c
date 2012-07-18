@@ -798,7 +798,9 @@ int sound_open(void)
      * information to calculate it. */
     fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec))
                / fragment_divisor[fragment_size];
-    fragsize *= channels;
+    if (channels <= pdev->max_channels) {
+        fragsize *= channels;
+    }
 
     for (i = 1; 1 << i < fragsize; i++);
     fragsize = 1 << i;

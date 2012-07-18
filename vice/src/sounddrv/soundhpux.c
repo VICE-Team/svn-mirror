@@ -136,6 +136,7 @@ static sound_device_t hpux_device =
     hpux_close,
     NULL,
     NULL,
+    1,
     1
 };
 

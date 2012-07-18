@@ -115,7 +115,8 @@ static sound_device_t soundmovie_device =
     soundmovie_close,
     NULL,
     NULL,
-    0
+    0,
+    2
 };
 
 int sound_init_movie_device(void)

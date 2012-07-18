@@ -169,6 +169,7 @@ static sound_device_t aix_device =
     aix_close,
     NULL,
     NULL,
+    1,
     1
 };
 

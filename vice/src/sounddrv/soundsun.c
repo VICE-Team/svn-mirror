@@ -232,12 +232,16 @@ static sound_device_t sun_device =
     sun_close,
     NULL,
     NULL,
+    1,
+#if !defined(__NetBSD__)
     1
+#else
+    2
+#endif
 };
 
 int sound_init_sun_device(void)
 {
     return sound_register_device(&sun_device);
 }
-
 #endif

@@ -248,6 +248,7 @@ static sound_device_t allegro_device =
     allegro_close,
     allegro_suspend,
     allegro_resume,
+    1,
     1
 };
 
