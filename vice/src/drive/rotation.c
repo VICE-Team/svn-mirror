@@ -457,6 +457,12 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                 }
             }
 
+            /* advance the count until the next bitcell */
+            rptr->accum += cyc_sum_frv * todo;
+            if (rptr->accum >= count_new_bitcell) {
+                rptr->accum -= count_new_bitcell;
+            }
+
             /* divide the reference clock with UE7 */
             rptr->ue7_counter += todo;
             if (rptr->ue7_counter == 16) {
@@ -472,8 +478,13 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
                     /* UE5 NOR gate shifts in a 1 only at C2 when DC is 0 */
                     rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe) | (((rptr->uf4_counter + 0x1c) >> 4) & 0x01);
 
-                    rptr->write_flux = rptr->last_write_data & 0x80;
+                    dptr->GCR_dirty_track = 1;
+
+                    write_next_bit(dptr, rptr->last_write_data & 0x80);
+
                     rptr->last_write_data <<= 1;
+
+                    rptr->accum = cyc_sum_frv * 2;
 
                     if (++rptr->bit_counter == 8) {
                         rptr->bit_counter = 0;
@@ -490,16 +501,6 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 
                     }
                 }
-            }
-
-            /* advance the count until the next bitcell */
-            rptr->accum += cyc_sum_frv * todo;
-
-            /* write the new bitcell */
-            if (rptr->accum >= count_new_bitcell) {
-                rptr->accum -= count_new_bitcell;
-                dptr->GCR_dirty_track = 1;
-                write_next_bit(dptr, rptr->write_flux);
             }
 
             rptr->cycle_index += todo;
@@ -946,10 +947,8 @@ void rotation_rotate_disk(drive_t *dptr)
         rotation_1541_p64_cycle(dptr);
         return;
     } else if (dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II) {
-        if (dptr->read_write_mode) {
-            rotation_1541_gcr_cycle(dptr);
-            return;
-        }
+        rotation_1541_gcr_cycle(dptr);
+        return;
     }
 
     dptr->req_ref_cycles = 0;
