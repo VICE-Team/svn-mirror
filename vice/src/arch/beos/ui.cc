@@ -1166,7 +1166,11 @@ void ui_update_menus(void)
     int i;
 
     for (i = 0; i < window_count; i++) {
-        windowlist[i]->Update_Menus(toggle_list, value_list, string_list);
+        windowlist[i]->Update_Menu_Toggles(toggle_list);
+        windowlist[i]->Update_Menu_Toggles(machine_specific_toggles);
+        windowlist[i]->Update_Menu_Value_Lists(value_list);
+        windowlist[i]->Update_Menu_Value_Lists(machine_specific_values);
+        windowlist[i]->Update_Menu_String_Lists(string_list);
     }
 }
 

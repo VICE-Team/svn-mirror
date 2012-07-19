@@ -46,7 +46,9 @@ class ViceWindow : public BDirectWindow {
         void Resize(unsigned int width, unsigned int height);
         void CreateBitmap(unsigned int width, unsigned int height, unsigned int depth);
         void DrawBitmap(BBitmap *framebitmap, int xs, int ys, int xi, int yi, int w, int h);
-        void Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *value_list, ui_res_string_list *string_list);
+        void Update_Menu_Toggles(ui_menu_toggle *toggle_list);
+        void Update_Menu_Value_Lists(ui_res_value_list *value_list);
+        void Update_Menu_String_Lists(ui_res_string_list *string_list);
         virtual bool QuitRequested();
         virtual void MessageReceived(BMessage *message);
         virtual void DirectConnected(direct_buffer_info *info);

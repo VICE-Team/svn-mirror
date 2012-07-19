@@ -81,39 +81,37 @@ void print_rect(const char *view, BRect r)
 /* FIXME: some stuff we need from the ui module */
 extern ViceWindow *windowlist[];
 extern int window_count;
-extern ui_res_value_list *machine_specific_values;
-extern ui_menu_toggle *machine_specific_toggles;
 
-void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *value_list, ui_res_string_list *string_list)
+void ViceWindow::Update_Menu_Toggles(ui_menu_toggle *toggle_list)
 {
-    int i,j;
-    int value;
-    int result;
-    const char *str;
+    int i, value;
     BMenuItem *item;
 
-    /* the general toggle items */
+    if (!toggle_list) {
+        return;
+    }
+
     for (i = 0; toggle_list[i].name != NULL; i++) {
         resources_get_int(toggle_list[i].name, &value);
         if (item = menubar->FindItem(toggle_list[i].item_id)) {
                 item->SetMarked(value ? true : false);
         }
     }
+}
 
-    /* the machine specific toggle items */
-    if (machine_specific_toggles) {
-        for (i = 0; machine_specific_toggles[i].name != NULL; i++) {
-            resources_get_int(machine_specific_toggles[i].name, &value);
-            if (item = menubar->FindItem(machine_specific_toggles[i].item_id)) {
-                item->SetMarked(value ? true : false);
-            }
-        }
+void ViceWindow::Update_Menu_Value_Lists(ui_res_value_list *value_list)
+{
+    int i, j;
+    int value, result;
+    BMenuItem *item;
+
+    if (!value_list) {
+        return;
     }
 
-    /* the general multiple-value-items */
     for (i = 0; value_list[i].name != NULL; i++) {
-        result=resources_get_int(value_list[i].name, &value);
-        if (result==0) {
+        result = resources_get_int(value_list[i].name, &value);
+        if (result == 0) {
             for (j = 0; value_list[i].vals[j].item_id != 0; j++) {
                 if (value == value_list[i].vals[j].value) {
                     /* the corresponding menu is supposed to be in RadioMode */
@@ -125,26 +123,22 @@ void ViceWindow::Update_Menus(ui_menu_toggle *toggle_list, ui_res_value_list *va
         }
     }
 
-    /* the machine specific multiple-value-items */
-    if (machine_specific_values){
-        for (i = 0; machine_specific_values[i].name != NULL; i++) {
-            result=resources_get_int(machine_specific_values[i].name, &value);
-            if (result == 0) {
-                for (j = 0; machine_specific_values[i].vals[j].item_id != 0; j++) {
-                    if (value == machine_specific_values[i].vals[j].value) {
-                        if (item = menubar->FindItem(machine_specific_values[i].vals[j].item_id)) {
-                            item->SetMarked(true);
-                        }
-                    }
-                }
-            }
-        }
+}
+
+void ViceWindow::Update_Menu_String_Lists(ui_res_string_list *string_list)
+{
+    int i, j;
+    int result;
+    const char *str;
+    BMenuItem *item;
+
+    if (!string_list) {
+        return;
     }
 
-    /* the general multiple-stringvalue-items */
     for (i = 0; string_list[i].name != NULL; i++) {
-        result=resources_get_string(string_list[i].name, &str);
-        if (result==0) {
+        result = resources_get_string(string_list[i].name, &str);
+        if (result == 0) {
             for (j = 0; string_list[i].strings[j].item_id != 0; j++) {
                 if (!strcasecmp(str, string_list[i].strings[j].string)) {
                     /* the corresponding menu is supposed to be in RadioMode */
