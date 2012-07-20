@@ -56,7 +56,28 @@
 
 
 /* Unused bits in VIC-II registers: these are always 1 when read.  */
-static int unused_bits_in_registers[0x50] =
+static int unused_bits_in_registers[0x40] =
+{
+    0x00 /* $D000 */ , 0x00 /* $D001 */ , 0x00 /* $D002 */ , 0x00 /* $D003 */ ,
+    0x00 /* $D004 */ , 0x00 /* $D005 */ , 0x00 /* $D006 */ , 0x00 /* $D007 */ ,
+    0x00 /* $D008 */ , 0x00 /* $D009 */ , 0x00 /* $D00A */ , 0x00 /* $D00B */ ,
+    0x00 /* $D00C */ , 0x00 /* $D00D */ , 0x00 /* $D00E */ , 0x00 /* $D00F */ ,
+    0x00 /* $D010 */ , 0x00 /* $D011 */ , 0x00 /* $D012 */ , 0x00 /* $D013 */ ,
+    0x00 /* $D014 */ , 0x00 /* $D015 */ , 0xc0 /* $D016 */ , 0x00 /* $D017 */ ,
+    0x01 /* $D018 */ , 0x70 /* $D019 */ , 0xf0 /* $D01A */ , 0x00 /* $D01B */ ,
+    0x00 /* $D01C */ , 0x00 /* $D01D */ , 0x00 /* $D01E */ , 0x00 /* $D01F */ ,
+    0xf0 /* $D020 */ , 0xf0 /* $D021 */ , 0xf0 /* $D022 */ , 0xf0 /* $D023 */ ,
+    0xf0 /* $D024 */ , 0xf0 /* $D025 */ , 0xf0 /* $D026 */ , 0xf0 /* $D027 */ ,
+    0xf0 /* $D028 */ , 0xf0 /* $D029 */ , 0xf0 /* $D02A */ , 0xf0 /* $D02B */ ,
+    0xf0 /* $D02C */ , 0xf0 /* $D02D */ , 0xf0 /* $D02E */ , 0xff /* $D02F */ ,
+    0xff /* $D030 */ , 0xff /* $D031 */ , 0xff /* $D032 */ , 0xff /* $D033 */ ,
+    0xff /* $D034 */ , 0xff /* $D035 */ , 0xff /* $D036 */ , 0xff /* $D037 */ ,
+    0xff /* $D038 */ , 0xff /* $D039 */ , 0xff /* $D03A */ , 0xff /* $D03B */ ,
+    0xff /* $D03C */ , 0xff /* $D03D */ , 0xff /* $D03E */ , 0xff /* $D03F */
+};
+
+/* Unused bits in VIC-II DTV registers: these are always 1 when read.  */
+static int unused_bits_in_registers_dtv[0x50] =
 {
     0x00 /* $D000 */ , 0x00 /* $D001 */ , 0x00 /* $D002 */ , 0x00 /* $D003 */ ,
     0x00 /* $D004 */ , 0x00 /* $D005 */ , 0x00 /* $D006 */ , 0x00 /* $D007 */ ,
@@ -1984,13 +2005,20 @@ BYTE vicii_peek(WORD addr)
       case 0x1f:              /* $D01F: Sprite-background collision */
         return vicii.sprite_background_collisions;
       case 0x2f:              /* Extended keyboard row select */
-        if (vicii.viciie)
+        if (vicii.viciie) {
             return vicii.regs[addr] | 0xf8;
-        else
+        } else {
             return /* vicii.regs[addr] | */ 0xff;
+        }
       default:
-        if (addr>0x4f) return 0xff;
-        return vicii.regs[addr] | unused_bits_in_registers[addr];
+        if (!vicii.viciidtv) {
+            return vicii.regs[addr] | unused_bits_in_registers[addr];
+        } else {
+            if (addr>0x4f) {
+                return 0xff;
+            }
+            return vicii.regs[addr] | unused_bits_in_registers_dtv[addr];
+        }
     }
 }
 
