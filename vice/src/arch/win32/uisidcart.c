@@ -47,63 +47,29 @@ static char *native_primary_sid_address;
 static char *native_secondary_sid_address;
 static char *native_sid_clock;
 
-static const TCHAR *ui_sid_engine_model[] = {
-    TEXT("6581 (FastSID)"),
-    TEXT("8580 (FastSID)"),
-#ifdef HAVE_CATWEASELMKIII
-    TEXT("Catweasel MK3"),
-#endif
-#ifdef HAVE_HARDSID
-    TEXT("HardSID"),
-#endif
-#ifdef HAVE_PARSID
-    TEXT("ParSID on Port 1"),
-    TEXT("ParSID on Port 2"),
-    TEXT("ParSID on Port 3"),
-#endif
-    NULL
-};
+static sid_engine_model_t **ui_sid_engine_model_list;
 
-static const int ui_sid_engine_model_values[] = {
-    SID_FASTSID_6581,
-    SID_FASTSID_8580,
-#ifdef HAVE_CATWEASELMKIII
-    SID_CATWEASELMKIII,
-#endif
-#ifdef HAVE_HARDSID
-    SID_HARDSID,
-#endif
-#ifdef HAVE_PARSID
-    SID_PARSID_PORT1,
-    SID_PARSID_PORT2,
-    SID_PARSID_PORT3,
-#endif
-    -1
-};
+/* Values currently selected in the UI
+   Needed to enable/disable UI elements */
+static int sel_engine, sel_cart_enabled;
 
 static void enable_sidcart_hardsid_controls(HWND hwnd)
 {
-    int engine;
     int is_enabled;
 
-    resources_get_int("SidEngine", &engine);
-    is_enabled = (engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
+    is_enabled = sel_cart_enabled && (sel_engine == SID_ENGINE_HARDSID) && (hardsid_available() > 0);
 
     EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE), is_enabled);
 }
 
 static void enable_sidcart_controls(HWND hwnd)
 {
-    int is_enabled;
-
-    is_enabled = (IsDlgButtonChecked(hwnd, IDC_SIDCART_ENABLE) == BST_CHECKED) ? 1 : 0;
-
-    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL), is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_FILTERS), is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_ADDRESS), is_enabled);
-    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_CLOCK), is_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL), sel_cart_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_FILTERS), sel_cart_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_ADDRESS), sel_cart_enabled);
+    EnableWindow(GetDlgItem(hwnd, IDC_SIDCART_CLOCK), sel_cart_enabled);
     if (machine_class == VICE_MACHINE_PLUS4) {
-        EnableWindow(GetDlgItem(hwnd, IDC_DIGIBLASTER), is_enabled);
+        EnableWindow(GetDlgItem(hwnd, IDC_DIGIBLASTER), sel_cart_enabled);
     }
     enable_sidcart_hardsid_controls(hwnd);
 }
@@ -238,33 +204,10 @@ static int move_buttons_group[] = {
     0
 };
 
-static int model_valid(int ui_id)
-{
-#ifdef HAVE_CATWEASELMKIII
-    if (ui_sid_engine_model_values[ui_id] == SID_CATWEASELMKIII) {
-        if (!catweaselmkiii_available()) {
-            return 0;
-        }
-    }
-#endif
-
-#ifdef HAVE_HARDSID
-    if (ui_sid_engine_model_values[ui_id] == SID_HARDSID) {
-        if (!hardsid_available()) {
-            return 0;
-        }
-    }
-#endif
-
-    return 1;
-}
-
 static void init_sidcart_dialog(HWND hwnd)
 {
-    HWND temp_hwnd;
-    int res_value;
-    int temp_value;
-    int res_value_loop;
+    HWND sid_hwnd;
+    int res_value, i;
     int active_value;
     unsigned int available, device;
     int xpos;
@@ -332,43 +275,45 @@ static void init_sidcart_dialog(HWND hwnd)
             break;
     }
 
-    resources_get_int("SidCart", &res_value);
-    CheckDlgButton(hwnd, IDC_SIDCART_ENABLE, res_value ? BST_CHECKED : BST_UNCHECKED);
+    resources_get_int("SidCart", &sel_cart_enabled);
+    CheckDlgButton(hwnd, IDC_SIDCART_ENABLE, sel_cart_enabled ? BST_CHECKED : BST_UNCHECKED);
 
-    resources_get_int("SidModel", &temp_value);
-    resources_get_int("SidEngine", &res_value);
-    res_value <<= 8;
-    res_value |= temp_value;
-    temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL);
-    for (res_value_loop = 0; ui_sid_engine_model[res_value_loop]; res_value_loop++) {
-        if (model_valid(res_value_loop)) {
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)ui_sid_engine_model[res_value_loop]);
-        }
-    }
+    ui_sid_engine_model_list = sid_get_engine_model_list();
+
+    resources_get_int("SidModel", &res_value);
+    resources_get_int("SidEngine", &sel_engine);
+    res_value |= sel_engine << 8;
+    sid_hwnd = GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL);
 
     active_value = 0;
-    for (res_value_loop = 0; ui_sid_engine_model_values[res_value_loop] != -1; res_value_loop++) {
-        if (ui_sid_engine_model_values[res_value_loop] == res_value) {
-            active_value = res_value_loop;
+    for (i = 0; ui_sid_engine_model_list[i]; i++) {
+        TCHAR st[40];
+
+        /* Use "%hs" because the strings are in common code,
+           and hence are char rather than TCHAR */
+        _stprintf(st, TEXT("%hs"), ui_sid_engine_model_list[i]->name);
+        SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+        if (ui_sid_engine_model_list[i]->value == res_value) {
+            active_value = i;
         }
     }
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)active_value, 0);
 
     resources_get_int("SidFilters", &res_value);
     CheckDlgButton(hwnd, IDC_SIDCART_FILTERS, res_value ? BST_CHECKED : BST_UNCHECKED);
 
-    temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_ADDRESS);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SIDCART_ADDRESS);
 
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)native_primary_sid_address);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)native_secondary_sid_address);
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)native_primary_sid_address);
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)native_secondary_sid_address);
     resources_get_int("SidAddress", &res_value);
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
-    temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_CLOCK);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("C64"));
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)native_sid_clock);
+    sid_hwnd = GetDlgItem(hwnd, IDC_SIDCART_CLOCK);
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)TEXT("C64"));
+    SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)native_sid_clock);
     resources_get_int("SidClock", &res_value);
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 
     if (machine_class == VICE_MACHINE_PLUS4) {
         resources_get_int("DIGIBLASTER", &res_value);
@@ -380,17 +325,17 @@ static void init_sidcart_dialog(HWND hwnd)
 
     if (available) {
         resources_get_int("SidHardSIDMain", &res_value);
-        temp_hwnd = GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE);
+        sid_hwnd = GetDlgItem(hwnd, IDC_SIDCART_HARDSID_MAIN_DEVICE);
 
         while (available > 0) {
             TCHAR item[10];
 
             _stprintf(item, TEXT("%d"), device++);
-            SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)item);
+            SendMessage(sid_hwnd, CB_ADDSTRING, 0, (LPARAM)item);
             available--;
         }
 
-        SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+        SendMessage(sid_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
     }
 
     enable_sidcart_controls(hwnd);
@@ -398,11 +343,11 @@ static void init_sidcart_dialog(HWND hwnd)
 
 static void end_sidcart_dialog(HWND hwnd)
 {
-    int engine;
-    int model;
+    int engine, model, temp;
 
-    engine = (int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL), CB_GETCURSEL, 0, 0) >> 8;
-    model = (int)SendMessage(GetDlgItem(hwnd, IDC_SIDCART_ENGINE_MODEL), CB_GETCURSEL, 0, 0) & 0xff;
+    temp = ui_sid_engine_model_list[SendDlgItemMessage(hwnd, IDC_SIDCART_ENGINE_MODEL, CB_GETCURSEL, 0, 0)]->value;
+    engine = temp >> 8;
+    model = temp & 0xff;
     sid_set_engine_model(engine, model);
     resources_set_int("SidCart", (IsDlgButtonChecked(hwnd, IDC_SIDCART_ENABLE) == BST_CHECKED ? 1 : 0 ));
     resources_set_int("SidFilters", (IsDlgButtonChecked(hwnd, IDC_SIDCART_FILTERS) == BST_CHECKED ? 1 : 0 ));
@@ -419,16 +364,18 @@ static void end_sidcart_dialog(HWND hwnd)
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
-    int command;
+    int temp;
 
     switch (msg) {
         case WM_COMMAND:
-            command = LOWORD(wparam);
-            switch (command) {
+            switch (LOWORD(wparam)) {
                 case IDC_SIDCART_ENGINE_MODEL:
+                    temp = SendDlgItemMessage(hwnd, IDC_SIDCART_ENGINE_MODEL, CB_GETCURSEL, 0, 0);
+                    sel_engine = (ui_sid_engine_model_list[temp]->value) >> 8;
                     enable_sidcart_hardsid_controls(hwnd);
                     break;
                 case IDC_SIDCART_ENABLE:
+                    sel_cart_enabled = (IsDlgButtonChecked(hwnd, IDC_SIDCART_ENABLE) == BST_CHECKED) ? 1 : 0;
                     enable_sidcart_controls(hwnd);
                     break;
                 case IDOK:
