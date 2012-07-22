@@ -521,7 +521,7 @@ static void handle_visible_line_with_changes(raster_t *raster)
     for (i = 0; i < changes->sprites->count; i++) {
         int xe = changes->sprites->actions[i].where;
 
-        if (xe >= geometry->screen_size.width) {
+        if (xe >= (int)geometry->screen_size.width) {
             xe = geometry->screen_size.width - 1;
         }
         if (xs < xe) {
@@ -530,7 +530,7 @@ static void handle_visible_line_with_changes(raster_t *raster)
         }
         raster_changes_apply(changes->sprites, i);
     }
-    if (xs <= geometry->screen_size.width - 1) {
+    if (xs <= (int)(geometry->screen_size.width - 1)) {
         draw_sprites_partial(raster, xs, geometry->screen_size.width - 1);
     }
 #endif

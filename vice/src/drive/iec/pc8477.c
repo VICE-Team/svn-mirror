@@ -604,7 +604,7 @@ static pc8477_state_t pc8477_execute(pc8477_t *drv)
                 break;
             case 4:
                 drv->clk += BYTE_RATE;
-                drv->fifo[drv->fifop2] = fdd_read(drv->fdd);
+                drv->fifo[drv->fifop2] = (BYTE)fdd_read(drv->fdd);
                 drv->fifop2++;
                 if (drv->fifop2 >= drv->fifo_size) {
                     drv->fifop2 = 0;

@@ -249,7 +249,7 @@ static int vic_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int 
     int samples_to_do;
 
     while (s < nr && *delta_t >= snd.cycles_per_sample - snd.leftover_cycles) {
-        samples_to_do = snd.cycles_per_sample - snd.leftover_cycles;
+        samples_to_do = (int)(snd.cycles_per_sample - snd.leftover_cycles);
         snd.leftover_cycles += samples_to_do - snd.cycles_per_sample;
         vic_sound_clock(samples_to_do);
 

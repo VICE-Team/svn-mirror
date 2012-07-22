@@ -94,14 +94,14 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0; i < 0x2000; i++) {
             sum32 += drive->rom[i ^ 0x5f00];
         }
-        drive->rom[0x4001] = ~(sum32 % 255);
+        drive->rom[0x4001] = (BYTE)(~(sum32 % 255));
 
         sum32 = (DWORD)-0xe0;
         drive->rom[0x7ee6] = 0xff;
         for (i = 0; i < 0x2000; i++) {
             sum32 += drive->rom[i ^ 0x7f00];
         }
-        drive->rom[0x7ee6] = ~(sum32 % 255);
+        drive->rom[0x7ee6] = (BYTE)(~(sum32 % 255));
         break;
     case DRIVE_TYPE_1551:
         sum32 = 0xfe;
@@ -109,7 +109,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0x0; i < 0x4000; i++) {
             sum32 += drive->rom[i ^ 0x7f00];
         }
-        drive->rom[0x4000] = ~(sum32 % 255);
+        drive->rom[0x4000] = (BYTE)(~(sum32 % 255));
         break;
     case DRIVE_TYPE_1570:
         sum32 = 0xff;
@@ -117,7 +117,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0x102; i < 0x8000; i++) {
             sum32 += drive->rom[i];
         }
-        drive->rom[0x4000] = ~(sum32 % 255);
+        drive->rom[0x4000] = (BYTE)(~(sum32 % 255));
         break;
     case DRIVE_TYPE_1571:
     case DRIVE_TYPE_1571CR:
@@ -126,7 +126,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 2; i < 0x8000; i++) {
             sum32 += drive->rom[i];
         }
-        drive->rom[0x4000] = ~(sum32 % 255);
+        drive->rom[0x4000] = (BYTE)(~(sum32 % 255));
         break;
     case DRIVE_TYPE_1581:
         sum32 = 0xff;
@@ -134,7 +134,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 2; i < 0x8000; i++) {
             sum32 += drive->rom[i];
         }
-        drive->rom[2] = ~(sum32 % 255);
+        drive->rom[2] = (BYTE)(~(sum32 % 255));
         break;
     case DRIVE_TYPE_2000:
     case DRIVE_TYPE_4000:
@@ -142,7 +142,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 4; i < 0x8000; i++) {
             sum16 += drive->rom[i];
         }
-        drive->rom[2] = sum16;
+        drive->rom[2] = (BYTE)(sum16 & 0xff);
         drive->rom[3] = sum16 >> 8;
         break;
     case DRIVE_TYPE_2031:
@@ -151,14 +151,14 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0; i < 0x2000; i++) {
             sum32 += drive->rom[i ^ 0x5f00];
         }
-        drive->rom[0x4000] = ~(sum32 % 255);
+        drive->rom[0x4000] = (BYTE)(~(sum32 % 255));
 
         sum32 = (DWORD)-0xe0;
         drive->rom[0x7f35] = 0xff;
         for (i = 0; i < 0x2000; i++) {
             sum32 += drive->rom[i ^ 0x7f00];
         }
-        drive->rom[0x7f35] = ~(sum32 % 255);
+        drive->rom[0x7f35] = (BYTE)(~(sum32 % 255));
         break;
     case DRIVE_TYPE_2040:
         sum32 = 0;
@@ -166,6 +166,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0; i < 0x1000; i++) {
             sum32 += drive->rom[i ^ 0x6f00];
         }
+        /* FIXME: is the - a typo and should it be a ~ ?? */
         drive->rom[0x603f] = -(sum32 % 255);
         break;
     case DRIVE_TYPE_3040:
@@ -175,7 +176,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0; i < 0x1000; i++) {
             sum32 += drive->rom[i ^ 0x5f00];
         }
-        drive->rom[0x52a0] = ~(sum32 % 255);
+        drive->rom[0x52a0] = (BYTE)(~(sum32 % 255));
 
         if (drive->rom[0x67a6] == 0x60
             && drive->rom[0x67a8] == 0xad) {
@@ -184,7 +185,7 @@ static void driverom_fix_checksum(drive_t *drive)
             for (i = 0; i < 0x1000; i++) {
                 sum32 += drive->rom[i ^ 0x6f00];
             }
-            drive->rom[0x67a7] = ~(sum32 % 255);
+            drive->rom[0x67a7] = (BYTE)(~(sum32 % 255));
         } else if (drive->rom[0x67ad] == 0x60
             && drive->rom[0x67af] == 0xad) {
             sum32 = (DWORD)-0xe0;
@@ -192,7 +193,7 @@ static void driverom_fix_checksum(drive_t *drive)
             for (i = 0; i < 0x1000; i++) {
                 sum32 += drive->rom[i ^ 0x6f00];
             }
-            drive->rom[0x67ae] = ~(sum32 % 255);
+            drive->rom[0x67ae] = (BYTE)(~(sum32 % 255));
         }
 
         sum32 = (DWORD)-0xf0;
@@ -200,7 +201,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0; i < 0x1000; i++) {
             sum32 += drive->rom[i ^ 0x7f00];
         }
-        drive->rom[0x7fe9] = ~(sum32 % 255);
+        drive->rom[0x7fe9] = (BYTE)(~(sum32 % 255));
         break;
     }
 
@@ -212,7 +213,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 6; i < 0x8003; i++) {
             switch (i) {
             case 0x8000:
-                m = sum16;
+                m = (BYTE)(sum16 & 0xff);
                 break;
             case 0x8001:
                 m = sum16 >> 8;
@@ -228,7 +229,7 @@ static void driverom_fix_checksum(drive_t *drive)
                 sum16 = (sum16 << 1) | (m2 & 1);
             }
         }
-        drive->rom[0] = sum16;
+        drive->rom[0] = (BYTE)(sum16 & 0xff);
         drive->rom[1] = sum16 >> 8;
         break;
     case DRIVE_TYPE_1581:
@@ -244,7 +245,7 @@ static void driverom_fix_checksum(drive_t *drive)
                 }
             }
         }
-        drive->rom[0] = sum16;
+        drive->rom[0] = (BYTE)(sum16 & 0xff);
         drive->rom[1] = sum16 >> 8;
         break;
     }

@@ -235,7 +235,7 @@ void video_sound_update(video_render_config_t *config, const BYTE *src,
         ys++;
     }
     lum = 0;
-    for (y = chip[chipnum].firstline; y < chip[chipnum].lastline; y++) {
+    for (y = chip[chipnum].firstline; y < (unsigned int)chip[chipnum].lastline; y++) {
         lum += chip[chipnum].lumas[y];
     }
     chip[chipnum].avglum = lum / (float)height;

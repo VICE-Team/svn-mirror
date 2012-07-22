@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+#include "6809.h"
 #include "crtc.h"
 #include "drive-snapshot.h"
 #include "ioutil.h"
@@ -41,6 +42,7 @@
 #include "pet-snapshot.h"
 #include "pet.h"
 #include "petacia.h"
+#include "petdww.h"
 #include "petmemsnapshot.h"
 #include "petpia.h"
 #include "pets.h"

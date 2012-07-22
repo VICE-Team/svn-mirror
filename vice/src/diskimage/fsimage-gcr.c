@@ -198,7 +198,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
 int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
                                 BYTE *gcr_data, int *gcr_track_size)
 {
-    int track_len;
+    unsigned int track_len;
     BYTE len[2];
     DWORD gcr_track_p;
     long offset;
@@ -276,8 +276,8 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
                                  int gcr_track_size, BYTE *gcr_speed_zone,
                                  BYTE *gcr_track_start_ptr)
 {
-    int gap, i;
-    unsigned int num_half_tracks, max_track_length;
+    int gap;
+	unsigned int i, num_half_tracks, max_track_length;
     BYTE len[2];
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
@@ -363,7 +363,7 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
             == gcr_speed_zone[(half_track - 2) * max_track_length + i])
             && i < max_track_length; i++);
 
-        if (i < gcr_track_size) {
+        if (i < (unsigned int)gcr_track_size) {
             /* This will change soon.  */
             log_error(fsimage_gcr_log,
                       "Saving different speed zones is not supported yet.");

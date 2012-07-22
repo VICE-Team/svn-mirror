@@ -323,7 +323,7 @@ static void fdd_flush_raw(fd_drive_t *drv) {
                     }
                     break;
                 case 12:
-                    data[d++] = w;
+                    data[d++] = (BYTE)w;
                     if (d >= (128 << drv->sector_size)) {
                         step++;
                     }
@@ -401,15 +401,15 @@ static void fdd_update_raw(fd_drive_t *drv) {
             }
             fdd_raw_write(0xfe); /* ID mark */
             fdd_raw_write(drv->track);
-            crc = fdd_crc(0xb230, drv->track);
+            crc = fdd_crc(0xb230, (BYTE)drv->track);
             fdd_raw_write(drv->head ^ drv->head_invert);
-            crc = fdd_crc(crc, drv->head ^ drv->head_invert);
+            crc = fdd_crc(crc, (BYTE)(drv->head ^ drv->head_invert));
             fdd_raw_write(s + 1);
-            crc = fdd_crc(crc, s + 1);
+            crc = fdd_crc(crc, (BYTE)(s + 1));
             fdd_raw_write(drv->sector_size);
-            crc = fdd_crc(crc, drv->sector_size);
+            crc = fdd_crc(crc, (BYTE)drv->sector_size);
             fdd_raw_write(crc >> 8);
-            fdd_raw_write(crc);
+            fdd_raw_write((BYTE)crc);
             for (i = 0; i < drv->gap2; i++) {
                 fdd_raw_write(0x4e);
             }

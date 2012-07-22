@@ -783,7 +783,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
 
             if ((ss == 0) && ((len % 40) == 0) && (len >= 120) && (ts != 40)) {
                 te = ts + (len / 40);
-                if (((ts < 40) && (te >= 40)) || (te >= vdrive->num_tracks)) {
+                if (((ts < 40) && (te >= 40)) || (te >= (int)vdrive->num_tracks)) {
                     return CBMDOS_IPE_BAD_PARTN; /* FIXME: is this correct ? */
                 }
 

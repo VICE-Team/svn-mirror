@@ -74,7 +74,7 @@ static BYTE parallel_cable_value(int type)
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         if (drive_context[dnr]->drive->enable && drive_context[dnr]->drive->parallel_cable) {
-            if (portmap[drive_context[dnr]->drive->parallel_cable] == port) {
+            if (portmap[drive_context[dnr]->drive->parallel_cable] == (int)port) {
                 val &= parallel_cable_drive_value[dnr];
             }
         }

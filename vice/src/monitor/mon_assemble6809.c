@@ -219,11 +219,11 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
 
     opc_offset = 0;
     if (prefix[j] != -1) {
-	opc[opc_offset++] = prefix[j];
+        opc[opc_offset++] = prefix[j];
     }
     opc[opc_offset++] = opcode;
     if (operand_mode == ASM_ADDR_MODE_INDEXED) {
-	opc[opc_offset++] = operand_submode;
+        opc[opc_offset++] = (BYTE)operand_submode;
     }
 
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
@@ -231,14 +231,14 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
 
     DBG(printf("len = %d\n", len));
     if (len == opc_offset + 1) {
-	opc[opc_offset++] = operand_value & 0xFF;
+        opc[opc_offset++] = operand_value & 0xFF;
     } else if (len == opc_offset + 2) {
-	opc[opc_offset++] = operand_value >> 8;
-	opc[opc_offset++] = operand_value & 0xFF;
+        opc[opc_offset++] = operand_value >> 8;
+        opc[opc_offset++] = operand_value & 0xFF;
     }
 
     for (i = 0; i < len; i++) {
-	mon_set_mem_val(mem, loc + i, opc[i]);
+        mon_set_mem_val(mem, (BYTE)(loc + i), opc[i]);
     }
 
     if (len >= 0) {

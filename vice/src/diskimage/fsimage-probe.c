@@ -246,7 +246,8 @@ static int disk_image_check_for_d81(disk_image_t *image)
     size_t len;
     BYTE block[256];
     fsimage_t *fsimage;
-    int checkimage_errorinfo, checkimage_blocks;
+    int checkimage_errorinfo;
+	unsigned int checkimage_blocks;
 
     fsimage = image->media.fsimage;
 

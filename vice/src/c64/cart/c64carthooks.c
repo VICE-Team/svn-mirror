@@ -2219,7 +2219,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                 DBG(("CART snapshot save: active carts > max (%i)\n", number_of_carts));
                 return -1;
             }
-            if (last_cart != e->device->cartid) {
+            if (last_cart != (int)e->device->cartid) {
                 last_cart = e->device->cartid;
                 cart_ids[number_of_carts++] = last_cart;
             }

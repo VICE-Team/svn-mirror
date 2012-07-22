@@ -898,7 +898,7 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     char snap_module_name[10];
     snapshot_module_t *m;
     BYTE *data, *speed_map;
-    int i;
+    unsigned int i;
     drive_t *drive;
     DWORD num_half_tracks, track_size;
 
@@ -950,7 +950,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     snapshot_module_t *m;
     char snap_module_name[10];
     BYTE *tmpbuf, *data, *speed_map;
-    int i;
+    unsigned int i;
     drive_t *drive;
 
     drive = drive_context[dnr]->drive;

@@ -134,7 +134,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     }
 
     if (!video_disabled_mode) {
-        video_canvas_resize(canvas, resize_canvas && video_canvas_can_resize(canvas));
+        video_canvas_resize(canvas, (char)(resize_canvas && video_canvas_can_resize(canvas)));
     }
 
     video_canvas_refresh_all(canvas);

@@ -120,14 +120,14 @@ void P64RangeCoderStart(PP64RangeCoder Instance) {
 void P64RangeCoderFlush(PP64RangeCoder Instance) {
 	p64_uint32_t Counter;
 	for(Counter = 0; Counter < 4; Counter++) {
-		P64RangeCoderWrite(Instance, Instance->RangeHigh >> 24);
+		P64RangeCoderWrite(Instance, (p64_uint8_t)(Instance->RangeHigh >> 24));
 		Instance->RangeHigh <<= 8;
 	}
 }
 
 void P64RangeCoderEncodeNormalize(PP64RangeCoder Instance) {
 	while(!((Instance->RangeLow ^ Instance->RangeHigh) & 0xff000000UL)) {
-		P64RangeCoderWrite(Instance, Instance->RangeHigh >> 24);
+		P64RangeCoderWrite(Instance, (p64_uint8_t)(Instance->RangeHigh >> 24));
 		Instance->RangeLow <<= 8;
 		Instance->RangeHigh = (Instance->RangeHigh << 8) | 0xffUL;
 	}
@@ -1117,7 +1117,7 @@ p64_uint32_t P64ImageWriteToStream(PP64Image Instance, PP64MemoryStream Stream) 
 			ChunkSignature[0] = 'H';
 			ChunkSignature[1] = 'T';
 			ChunkSignature[2] = 'P';
-			ChunkSignature[3] = HalfTrack;
+			ChunkSignature[3] = (p64_uint8_t)HalfTrack;
 			WriteChunk();
 			result = WriteChunkResult;
 		}

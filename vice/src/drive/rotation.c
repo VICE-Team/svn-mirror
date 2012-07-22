@@ -229,7 +229,7 @@ inline static void write_next_bit(drive_t *dptr, int value)
     }
 
     off++;
-    if (off >= (dptr->GCR_current_track_size << 3)) {
+    if (off >= (int)(dptr->GCR_current_track_size << 3)) {
         off = 0;
     }
     dptr->GCR_head_offset = off;
@@ -253,7 +253,7 @@ inline static int read_next_bit(drive_t *dptr)
     }
 
     off++;
-    if (off >= (dptr->GCR_current_track_size << 3)) {
+    if (off >= (int)(dptr->GCR_current_track_size << 3)) {
         off = 0;
     }
     dptr->GCR_head_offset = off;
@@ -285,7 +285,8 @@ void rotation_begins(drive_t *dptr) {
 void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 {
     rotation_t *rptr;
-    int clk_ref_per_rev, cyc_act_frv, todo;
+    int clk_ref_per_rev, cyc_act_frv;
+    unsigned int todo;
     SDWORD delta;
     DWORD count_new_bitcell, cyc_sum_frv/*, sum_new_bitcell*/;
     unsigned int dnr = dptr->mynumber;

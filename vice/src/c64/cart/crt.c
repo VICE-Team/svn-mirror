@@ -275,7 +275,7 @@ FILE *crt_create(const char *filename, int type, int exrom, int game, const char
     memcpy(crt_header, CRT_HEADER, 16);
     util_dword_to_be_buf(&crt_header[0x10], sizeof(crt_header));
     util_word_to_be_buf(&crt_header[0x14], 0x100); /* version */
-    util_word_to_be_buf(&crt_header[0x16], type);
+    util_word_to_be_buf(&crt_header[0x16], (WORD)type);
     crt_header[0x18] = exrom ? 1 : 0;
     crt_header[0x19] = game ? 1 : 0;
     strncpy((char*)&crt_header[0x20], name, sizeof(crt_header) - 0x20);

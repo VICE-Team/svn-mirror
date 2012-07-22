@@ -356,7 +356,7 @@ char * monitor_network_get_command_line(void)
                 /* we already got the length, get it */
                 unsigned int command_length = buffer[1];
 
-                if (3 + command_length <= bufferpos) {
+                if (3 + command_length <= (unsigned int)bufferpos) {
                     monitor_network_process_binary_command((unsigned char*)buffer, sizeof buffer, &bufferpos, command_length);
                     monitor_binary_input = 0;
                 }

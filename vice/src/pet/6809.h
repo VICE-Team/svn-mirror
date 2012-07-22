@@ -100,7 +100,7 @@ typedef unsigned int absolute_address_t;
 extern void h6809_mainloop (struct interrupt_cpu_status_s *, struct alarm_context_s *);
 extern void cpu6809_reset (void);
 struct snapshot_s;
-int cpu6809_snapshot_write_module(struct snapshot_s *s);
-int cpu6809_snapshot_read_module(struct snapshot_s *s);
+extern int cpu6809_snapshot_write_module(struct snapshot_s *s);
+extern int cpu6809_snapshot_read_module(struct snapshot_s *s);
 
 #endif /* M6809_H */

@@ -336,7 +336,7 @@ void drivecpu_prevent_clk_overflow_all(CLOCK sub)
 /* Handle a ROM trap. */
 inline static DWORD drive_trap_handler(drive_context_t *drv)
 {
-    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == drv->drive->trap) {
+    if (MOS6510_REGS_GET_PC(&(drv->cpu->cpu_regs)) == (WORD)drv->drive->trap) {
         MOS6510_REGS_SET_PC(&(drv->cpu->cpu_regs), drv->drive->trapcont);
         if (drv->drive->idling_method == DRIVE_IDLE_TRAP_IDLE) {
             CLOCK next_clk;
