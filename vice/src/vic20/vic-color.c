@@ -36,7 +36,7 @@
 #include "video.h"
 
 
-/* base saturation of all colors except the grey tones */
+/* base saturation of all colors */
 
 #define VIC_SATURATION  80.0f
 
@@ -51,6 +51,15 @@
 #define ANGLE_BLU          0.0f
 #define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
 
+/*
+    In theory it would make sense that there are only 5 brightness
+    levels like on VICII, however for some reason in practice it
+    looks differently. Measuring the actual luma signal level
+    would clear things up.
+
+    http://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3542105&group_id=223021
+*/
+
 static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
 {
     {   0.0f, ANGLE_ORN, -0, "Black"       },
@@ -58,7 +67,7 @@ static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
     {  51.0f, ANGLE_RED,  1, "Red"         },
     { 157.0f, ANGLE_RED, -1, "Cyan"        },
     {  75.0f, ANGLE_GRN, -1, "Purple"      },
-    { 129.0f, ANGLE_GRN,  1, "Green"       },
+    { 132.0f, ANGLE_GRN,  1, "Green"       },
     {  47.0f, ANGLE_BLU,  1, "Blue"        },
     { 183.0f, ANGLE_BLU, -1, "Yellow"      },
     {  85.0f, ANGLE_ORN, -1, "Orange"      },
