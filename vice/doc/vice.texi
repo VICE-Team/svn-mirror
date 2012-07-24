@@ -150,7 +150,7 @@ Commodore Emulator.
 
 * Acknowledgments::             People involved in VICE.
 * Copyright::                   Legal stuff.
-* Contacts::                    Official home page, email addresses...
+* Contacts::                    Official home page, email addresses@dots{}
 
 * Concept Index::
 * Resource Index::
@@ -2428,7 +2428,7 @@ If your systems lacks 50 or 60Hz modes you might try using
 
 You might need to add the output such as:
 @example
-# 800x600 @ 50.00 Hz (GTF) hsync: 30.90 kHz; pclk: 31.15 MHz
+# 800x600 #@ 50.00 Hz (GTF) hsync: 30.90 kHz; pclk: 31.15 MHz
 Modeline "800x600_50.00" 31.15 800 824 904 1008 600 601 604 618 -HSync +Vsync
 @end example
 to you Monitor Section of /etc/X11/xorg.conf and add the resolution to the `Screen' section.
@@ -7563,7 +7563,7 @@ Specify @file{NAME} as the character generator ROM file
 @itemx -cartA NAME
 @itemx -cartB NAME
 Specify @file{NAME} as the cartridge image to attach.
-(@code{CartridgeFile2000}, ..., @code{CartridgeFileB000}).
+(@code{CartridgeFile2000}, @dots{}, @code{CartridgeFileB000}).
 
 @end table
 
@@ -9776,13 +9776,13 @@ Version numbers: Major 1, Minor 1.
 @tab height of the current display window
 @item WORD
 @tab SCREEN_XOFFSET
-@tab x position where the first character in a line starts in the window...
+@tab x position where the first character in a line starts in the window@dots{}
 @item WORD
 @tab HJITTER
-@tab ...but only after adding this jitter
+@tab @dots{}but only after adding this jitter
 @item WORD
 @tab SCREEN_YOFFSET
-@tab x position where the first character in a line starts in the window...
+@tab x position where the first character in a line starts in the window@dots{}
 @item WORD
 @tab FRAMELINES
 @tab expected number of rasterlines for the current frame
@@ -10613,13 +10613,13 @@ accesses. The feature must be enabled with "--enable-memmap"
 configure option, as it might decrease performance notably on
 slower hardware. The option also enables CPU history.
 
-@item <...>
+@item <@dots{}>
 A data type.
 
 @item *
 Zero or more occurrences.
 
-@item [...]
+@item [@dots{}]
 An optional argument.
 
 @end table
@@ -11133,7 +11133,7 @@ command which will open a new @code{xterm} window with a running
 The syntax is:
 
 @example
-c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 ... COMMANDN]
+c1541 [IMAGE1 [IMAGE2]] [COMMAND1 COMMAND2 @dots{} COMMANDN]
 @end example
 
 @code{IMAGE1} and @code{IMAGE2} are disk image names that can be
@@ -11235,7 +11235,7 @@ to a disk command according to CBM DOS, like "i0" for example.
 
 @table @code
 
-@item @ [<command>]
+@item @@ [<command>]
 Execute specified CBM DOS command and print the current status of the
 drive.  If no @code{command} is specified, just print the status.
 
@@ -11249,11 +11249,11 @@ Attach @code{diskimage} to @code{unit} (default unit is 8).
 @item block <track> <sector> <disp> [<drive>]
 Show specified disk block in hex form.
 
-@item copy <source1> [<source2> ... <sourceN>] <destination>
-Copy @code{source1} ... @code{sourceN} into destination.  If N > 1,
+@item copy <source1> [<source2> @dots{} <sourceN>] <destination>
+Copy @code{source1} @dots{} @code{sourceN} into destination.  If N > 1,
 @code{destination} must be a simple drive specifier (@code{@@n:}).
 
-@item delete <file1> [<file2> ... <fileN>]
+@item delete <file1> [<file2> @dots{} <fileN>]
 Delete the specified files.
 
 @item exit
@@ -11297,7 +11297,7 @@ file with the same name as @code{source}.",
 Rename @code{oldname} into @code{newname}.  The files must be on the
 same drive.
 
-@item tape <t64name> [<file1> ... <fileN>]
+@item tape <t64name> [<file1> @dots{} <fileN>]
 Extract files from a T64 image.
 
 @item unit <number>
@@ -11956,7 +11956,7 @@ Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 @tab Offset to stored track 1.5 ($00000000)
 @item $0014-0017
 @tab Offset to stored track 2.0 ($000021A6)
-@item ...
+@item @dots{}
 @item $0154-0157
 @tab Offset to stored track 42.0 ($0004F8B6)
 @item $0158-015B
@@ -11997,7 +11997,7 @@ Addr  00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
 @tab Speed zone entry for track 1 ($03, in LO/HI  format, see below for more)
 @item $0160-0163
 @tab Speed zone entry for track 1.5 ($03)
-@item ...
+@item @dots{}
 @item $02A4-02A7
 @tab Speed zone entry for track 42 ($00)
 @item $02A8-02AB
@@ -12011,7 +12011,7 @@ The track offsets (from above) require some explanation.  When one is
 set to all 0's, no track data exists for this entry.  If there is a
 value, it is an absolute reference into the file (starting from the
 beginning of the file).  From the track 1.0 entry we see it is set for
-$000002AC.  Going to that file offset, here is what we see...
+$000002AC.  Going to that file offset, here is what we see@dots{}
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -12725,7 +12725,7 @@ The file type field is used as follows:
 @item 4
 @tab Unused
 @item 5
-@tab Used only during SAVE-@ replacement
+@tab Used only during SAVE-@@ replacement
 @item 6
 @tab Locked flag (Set produces ">" locked files)
 @item 7
@@ -12805,7 +12805,7 @@ validate routine will loop endlessly.
 @c @node FIXME
 @subsection BAM layout
 
-The layout of the BAM area (sector 18/0) is a bit more complicated...
+The layout of the BAM area (sector 18/0) is a bit more complicated@dots{}
 
 @example
      00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -13148,7 +13148,7 @@ of starting at $90.
 
 Here is the meaning of the error bytes added onto the end of
 any extended D64. The CODE is the same as that generated by
-the 1541 drive controller... it reports these numbers, not
+the 1541 drive controller@dots{} it reports these numbers, not
 the error code we usually see when an error occurs.
 
 Some of what comes below is taken from Immers/Neufeld book
@@ -13349,7 +13349,7 @@ header layout (as used in 64COPY) is as follows:
 0010: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-0040: XX XX XX <- standard C64 image starts here....
+0040: XX XX XX <- standard C64 image starts here@dots{}.
 @end example
 
 @multitable @columnfractions .2 .8
@@ -13385,7 +13385,7 @@ The device types are:
 @item @b{Value}
 @tab @b{Drive type}
 @item $00
-@tab 1540 See note below...
+@tab 1540 See note below@dots{}
 @item $01
 @tab 1541 (Default)
 @item $02
@@ -13859,7 +13859,7 @@ The file type field is used as follows:
 @item 4
 @tab Unused
 @item 5
-@tab Used only during SAVE-@ replacement
+@tab Used only during SAVE-@@ replacement
 @item 6
 @tab Locked flag (Set produces ">" locked files)
 @item 7
@@ -13947,7 +13947,7 @@ allocated. This does mean that except for one allocated
 sector on track 53, the rest of the track is unused and
 wasted. (Track 53 is the equivalent to track 18, but on the
 flip side of the disk). Here is a dump of the first BAM
-sector...
+sector@dots{}
 
 @example
     00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -14078,9 +14078,9 @@ address $00.
 @example
 Byte: $00-$02: $FF $FF $1F - BAM map for track 36
       $03-$05: $FF $FF $1F - BAM map for track 37
-      ...
+      @dots{}
       $33-$35: $00 $00 $00 - BAM map for track 53
-      ...
+      @dots{}
       $66-$68: $FF $FF $01 - BAM map for track 70
       $69-$FF:             - Not used
 @end example
@@ -14620,7 +14620,7 @@ The file type field is used as follows:
 @item 4
 @tab Unused
 @item 5
-@tab Used only during SAVE-@ replacement
+@tab Used only during SAVE-@@ replacement
 @item 6
 @tab Locked flag (Set produces ">" locked files)
 @item 7
@@ -14718,13 +14718,13 @@ $04-$05: Disk ID bytes (same as 40/0 Disk ID)
 $08-$0F: Reserved for future (set to $00)
 $10-$15: BAM entry for track 1 (track 41, side 1)
 $16-$1B: BAM entry for track 2 (track 42, side 1)
-         ...
+         @dots{}
 $46-$4B: BAM entry for track 10 (track 50, side 1)
-         ...
+         @dots{}
 $82-$87: BAM entry for track 20 (track 60, side 1)
-         ...
+         @dots{}
 $BE-$C3: BAM entry for track 30 (track 70, side 1)
-         ...
+         @dots{}
 $FA-$FF: BAM entry for track 40 (track 80, side 1)
 @end example
 
@@ -14793,7 +14793,7 @@ should be set to $00/$FF, indicating there is no next sector.
 @c @node FIXME
 @subsection REL files The REL filetype requires some extra explaining.
 It was designed to make access to data *anywhere* on the disk
-very fast. Take a look at this directory entry...
+very fast. Take a look at this directory entry@dots{}
 
 @example
  00: 00 FF 84 27 00 41 44 44 49 54 49 4F 4E 41 4C 20
@@ -14813,7 +14813,7 @@ data sectors. With the new SUPER SIDE SECTOR, you can now have
 sizes up to (theoretically) 90720 sectors, or about 22.15
 Megabytes.
 
-Here is a dump of the beginning of the SUPER SIDE SECTOR...
+Here is a dump of the beginning of the SUPER SIDE SECTOR@dots{}
 
 @example
  00: 27 01 FE 27 01 15 09 03 0F 38 16 4A 1C 00 00 00
@@ -14826,7 +14826,7 @@ Bytes:
 $00-$01: Track/sector of first side sector in group 0
     $02: Always $FE
 $03-$04: Track/sector of first side sector in group 0 (again)
-         ...
+         @dots{}
 $FD-$FE: Track/sector of first side sector in group 125
     $FF: Unused (likely $00)
 @end example
@@ -14934,14 +14934,14 @@ sub-directory, it will simply exist as a "protected" area of the
 disk, and can't be used as a sub-directory. Either way, it still
 shows up as a "CBM" type in a directory listing. Below is a dump
 of a 10-sector partition starting on track 5/1, which does not
-qualify as a sub-directory...
+qualify as a sub-directory@dots{}
 
 @example
  00: 00 00 85 05 01 53 4D 41 4C 4C 50 41 52 54 20 32
  10: A0 A0 A0 A0 A0 00 00 00 00 00 00 00 00 00 0A 00
 @end example
 
-The master BAM shows the entry for this partition on track 5...
+The master BAM shows the entry for this partition on track 5@dots{}
 
 @example
  00: 28 02 44 BB 43 44 C0 00 00 00 00 00 00 00 00 00
@@ -15380,7 +15380,7 @@ Below is a dump of the header sector 39/0:
 00: 26 00 43 00 00 00 73 61 6D 70 6C 65 20 64 38 30
 10: A0 A0 A0 A0 A0 A0 A0 A0 65 72 A0 32 43 A0 A0 A0
 20: A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-...
+@dots{}
 F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @end example
 
@@ -15487,7 +15487,7 @@ This is a breakdown of a standard directory entry:
 @tab Unused
 @item $1E-$1F
 @tab File size in sectors, low/high byte order ($1E+$1F*256). The approx. filesize in bytes is <= #sectors * 254
-0@end multitable
+@end multitable
 
 The file type field is used as follows:
 
@@ -15499,7 +15499,7 @@ The file type field is used as follows:
 @item 4
 @tab Unused
 @item 5
-@tab Used only during SAVE-@ replacement
+@tab Used only during SAVE-@@ replacement
 @item 6
 @tab Locked flag (Set produces ">" locked files)
 @item 7
@@ -15622,7 +15622,7 @@ bits around.
 
 @example
             111111 11112222 222222
- 01234567 89012345 67890123 456789...
+ 01234567 89012345 67890123 456789@dots{}
  -------------------------- ---------
  11111111 11111111 11111111 11111000
  ^                              ^
@@ -16391,7 +16391,7 @@ Below is a dump of the header sector 39/0:
 00: 26 00 43 00 00 00 73 61 6D 70 6C 65 20 64 38 30
 10: A0 A0 A0 A0 A0 A0 A0 A0 65 72 A0 32 43 A0 A0 A0
 20: A0 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-...
+@dots{}
 F0: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
 @end example
 
@@ -16498,7 +16498,7 @@ This is a breakdown of a standard directory entry:
 @tab Unused
 @item $1E-$1F
 @tab File size in sectors, low/high byte order ($1E+$1F*256). The approx. filesize in bytes is <= #sectors * 254
-0@end multitable
+@end multitable
 
 The file type field is used as follows:
 
@@ -16510,7 +16510,7 @@ The file type field is used as follows:
 @item 4
 @tab Unused
 @item 5
-@tab Used only during SAVE-@ replacement
+@tab Used only during SAVE-@@ replacement
 @item 6
 @tab Locked flag (Set produces ">" locked files)
 @item 7
@@ -16633,7 +16633,7 @@ bits around.
 
 @example
             111111 11112222 222222
- 01234567 89012345 67890123 456789...
+ 01234567 89012345 67890123 456789@dots{}
  -------------------------- ---------
  11111111 11111111 11111111 11111000
  ^                              ^
@@ -16789,7 +16789,7 @@ filetype being stored in the DOS extension (i.e. Pxx is a PRG,
 Sxx is a SEQ, Uxx is a USR and Rxx is a RELative file), and the
 header is only 26 bytes long.
 
-This is a dump of a Pxx file (PRG)...
+This is a dump of a Pxx file (PRG)@dots{}
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F
@@ -16858,13 +16858,13 @@ special hardware features it uses.
 @subsection Header contents
 
   Here is a dump of a sample 8K normal cartridge,  "Attack  Of  The  Mutant
-Camels"...
+Camels"@dots{}
 
 @example
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 00 00 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 00 00 01 00 00 00 00 00 00   ???@@????????????
 0020: 41 54 54 41 43 4B 20 4F 46 20 54 48 45 20 4D 55   ATTACK?OF?THE?MU
 0030: 54 41 4E 54 20 43 41 4D 45 4C 53 00 00 00 00 00   TANT?CAMELS?????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -16969,9 +16969,9 @@ references are from where it starts.
 0000: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
 0010: D3 9B BC FE C3 C2 CD 38 30 EA EA EA A9 01 85 13   .õ?....80....?Ö?
 0020: 4C B3 9B A9 08 85 5A 88 D0 FD C6 5A D0 F9 60 D0   L≥õ.?ÖZà...Z.?`.
-0030: F2 60 A9 04 85 49 A9 00 85 48 A2 00 A5 48 9D 40   ?`.?ÖI.?ÖH.?•Hù@
+0030: F2 60 A9 04 85 49 A9 00 85 48 A2 00 A5 48 9D 40   ?`.?ÖI.?ÖH.?•Hù@@
 0040: 03 A5 49 9D 60 03 A5 48 18 69 28 85 48 A5 49 69   ?•Iù`?•H?i(ÖH•Ii
-0050: 00 85 49 E8 E0 18 D0 E4 60 A6 03 A4 02 BD 40 03   ?ÖI???.?`?????@?
+0050: 00 85 49 E8 E0 18 D0 E4 60 A6 03 A4 02 BD 40 03   ?ÖI???.?`?????@@?
 @end example
 
 @example
@@ -17061,7 +17061,7 @@ $8000-9FFF and $E000-FFFF.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 00 00 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 00 00 01 00 00 00 00 00 00   ???@@????????????
 0020: 41 54 54 41 43 4B 20 4F 46 20 54 48 45 20 4D 55   ATTACK?OF?THE?MU
 0030: 54 41 4E 54 20 43 41 4D 45 4C 53 00 00 00 00 00   TANT?CAMELS?????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -17089,7 +17089,7 @@ $8000-9FFF and $E000-FFFF.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 00 01 00 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 00 01 00 00 00 00 00 00 00   ???@@????????????
 0020: 4D 55 53 49 43 20 4D 41 43 48 49 4E 45 00 00 00   MUSIC?MACHINE???
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 0040: 43 48 49 50 00 00 10 10 00 00 00 00 F0 00 10 00   CHIP????????????
@@ -17117,10 +17117,10 @@ $8000-9FFF and $E000-FFFF.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 00 00 00 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 00 00 00 00 00 00 00 00 00   ???@@????????????
 0020: 41 64 76 65 6E 74 75 72 65 20 43 72 65 61 74 6F   Adventure?Creato
 0030: 72 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   r???????????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@@?
 0050: 09 80 81 EA C3 C2 CD 38 30 A2 00 78 D8 8E 11 D0   ?.Å....80.?x.é?.
 @end example
 
@@ -17143,7 +17143,7 @@ $8000-9FFF and $E000-FFFF.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 01 00 00 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 01 00 00 00 00 00 00 00 00   ???@@????????????
 0020: 41 63 74 69 6F 6E 20 52 65 70 6C 61 79 20 56 00   Action?Replay?V?
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -17195,7 +17195,7 @@ $8000-9FFF and $E000-FFFF.
 0030: 64 67 65 00 00 00 00 00 00 00 00 00 00 00 00 00   dge?????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
 0050: 09 80 5E FE C3 C2 CD 38 30 78 D8 A2 FF 9A A9 27   ?.^....80x..?..'
-....
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00   CHIP????????†???
 2060: 97 E3 16 A1 FF FF FF 20 13 A0 A5 01 09 01 85 01   ó.?.?????†•???Ö?
 @end example
@@ -17219,19 +17219,19 @@ $8000-9FFF and $E000-FFFF.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 03 01 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 03 01 01 00 00 00 00 00 00   ???@@????????????
 0020: 46 69 6E 61 6C 20 43 61 72 74 72 69 64 67 65 20   Final?Cartridge?
 0030: 49 49 49 20 31 39 38 37 00 00 00 00 00 00 00 00   III?1987????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@@?????.?@@?
 0050: 09 80 5E FE C3 C2 CD 38 30 4C 4C 80 4C 55 95 4C   ?.^....80LL.LUïL
-....
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00   CHIP??@?????.?@?
+@dots{}
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00   CHIP??@@?????.?@@?
 4060: 01 02 00 81 5D 81 61 81 99 81 D8 81 0B 82 33 82   ???Å]ÅaÅôÅ.Å?Ç3Ç
-....
-8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00   CHIP??@?????.?@?
+@dots{}
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00   CHIP??@@?????.?@@?
 8070: 20 43 80 20 52 80 A9 4E 20 05 DE 20 FD BF AD 39   ?C.?R..N??.?..≠9
-....
-C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP??@?????.?@?
+@dots{}
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP??@@?????.?@@?
 C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
 @end example
 
@@ -17300,12 +17300,12 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 04 00 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 04 00 01 00 00 00 00 00 00   ???@@????????????
 0020: 53 69 6D 6F 6E 27 73 20 42 61 73 69 63 00 00 00   Simon's?Basic???
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
 0050: 52 81 52 81 C3 C2 CD 38 30 41 4C 52 81 20 2C 81   RÅRÅ...80ALRÅ?,Å
-....
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00   CHIP????????†???
 2060: 20 A4 A6 99 9E CB A0 05 A5 A8 91 20 A4 A6 99 A2   ???ôû.†?•?.???ô.
 @end example
@@ -17341,15 +17341,15 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
        -----------------------------------------------   ----------------
 00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-00010: 00 00 00 40 01 00 00 05 00 00 00 00 00 00 00 00   ???@????????????
+00010: 00 00 00 40 01 00 00 05 00 00 00 00 00 00 00 00   ???@@????????????
 00020: 53 48 41 44 4F 57 20 4F 46 20 54 48 45 20 42 45   SHADOW?OF?THE?BE
 00030: 41 53 54 00 00 00 00 00 00 00 00 00 00 00 00 00   AST?????????????
 00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
 00050: 09 80 83 81 C3 C2 CD 38 30 4C 83 81 4C 76 82 80   ?.ÉÅ...80LÉÅLvÇ.
- ....
+ @dots{}
 02050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00   CHIP????????.???
 02060: 59 6D 00 56 AD 00 55 AE F0 00 01 A0 FE 00 01 F8   Ym?V≠?UÆ???†.???
- ....
+ @dots{}
 20140: 43 48 49 50 00 00 20 10 00 00 00 10 A0 00 20 00   CHIP????????†???
 20150: 0A 9A 55 FF 9B 69 57 FE AA 65 96 FE 65 0F D6 D9   ?.U?õiW.◊eñ.e?..
 @end example
@@ -17406,10 +17406,10 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 06 01 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 06 01 01 00 00 00 00 00 00   ???@@????????????
 0020: 45 78 70 65 72 74 20 43 61 72 74 72 69 64 67 65   Expert?Cartridge
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
-0040: 43 48 49 50 00 00 40 10 00 02 00 00 80 00 20 00   CHIP??@?????.???
+0040: 43 48 49 50 00 00 40 10 00 02 00 00 80 00 20 00   CHIP??@@?????.???
 0050: 00 00 00 0A F3 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 @end example
 
@@ -17432,21 +17432,21 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
        00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
        -----------------------------------------------   ----------------
 00000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-00010: 00 00 00 40 01 00 00 07 00 00 00 00 00 00 00 00   ???@????????????
+00010: 00 00 00 40 01 00 00 07 00 00 00 00 00 00 00 00   ???@@????????????
 00020: 46 55 4E 20 50 4C 41 59 00 00 00 00 00 00 00 00   FUN?PLAY????????
 00030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 00040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
 00050: 1E 80 86 EA C3 C2 CD 38 30 1B 00 81 0D 08 80 00   ?.Ü....80??Å??.?
- ....
+ @dots{}
 02050: 43 48 49 50 00 00 20 10 00 00 00 08 80 00 20 00   CHIP????????.???
 02060: 78 A2 F0 86 01 BD 1D 08 9D F8 00 CA D0 F7 4C 00   x.?Ü????ù??..?L?
- ....
+ @dots{}
 04060: 43 48 49 50 00 00 20 10 00 00 00 10 80 00 20 00   CHIP????????.???
 04070: 38 E5 68 85 03 B0 11 27 03 12 C0 18 69 27 42 90   8?hÖ?∞?'??.?i'Bê
- ....
+ @dots{}
 06070: 43 48 49 50 00 00 20 10 00 00 00 18 80 00 20 00   CHIP????????.???
-06080: 44 D0 5E 06 02 C0 44 11 40 04 11 44 01 5F 1C 73   D.^??.D?@??D?_?s
- ....
+06080: 44 D0 5E 06 02 C0 44 11 40 04 11 44 01 5F 1C 73   D.^??.D?@@??D?_?s
+ @dots{}
 1E130: 43 48 49 50 00 00 20 10 00 00 00 39 80 00 20 00   CHIP???????9.???
 1E140: 85 EB 41 EA 9E 08 03 00 C0 06 18 01 00 C0 08 03   Ö?A.û???.????.??
 @end example
@@ -17506,19 +17506,19 @@ C080: A2 06 BD DD 85 95 05 CA 10 F8 AE A0 02 E8 EC A2   .??.Öï?.??Æ†???.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 08 00 00 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 08 00 00 00 00 00 00 00 00   ???@@????????????
 0020: 53 55 50 45 52 20 47 41 4D 45 53 00 00 00 00 00   SUPER?GAMES?????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@@?????.?@@?
 0050: 0A 80 0A 80 C3 C2 CD 38 30 00 A9 80 A0 00 85 FB   ?.?....80?..†?Ö.
-....
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00   CHIP??@?????.?@?
-4060: 27 80 A8 80 C3 C2 CD 38 30 00 40 C0 40 C0 40 C0   '.?....80?@.@.@.
-....
-8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00   CHIP??@?????.?@?
+@dots{}
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00   CHIP??@@?????.?@@?
+4060: 27 80 A8 80 C3 C2 CD 38 30 00 40 C0 40 C0 40 C0   '.?....80?@@.@@.@@.
+@dots{}
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00   CHIP??@@?????.?@@?
 8070: 00 00 00 49 4D C7 64 47 46 45 F3 48 DC 08 7E 0B   ???IM.dGFE?H.?~?
-....
-C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP??@?????.?@?
+@dots{}
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00   CHIP??@@?????.?@@?
 C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
 @end example
 
@@ -17555,18 +17555,18 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 09 00 00 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 09 00 00 00 00 00 00 00 00   ???@@????????????
 0020: 41 74 6F 6D 69 63 20 50 6F 77 65 72 00 00 00 00   Atomic?Power????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
 0050: 09 80 0C 80 C3 C2 CD 38 30 4C 41 80 4C 1E 80 4C   ?.?....80LA.L?.L
-....
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00   CHIP????????.???
 2060: 09 80 0C 80 C3 C2 CD 38 30 4C 3F 80 4C 91 80 4C   ?.?....80L?.L..L
-....
+@dots{}
 4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00   CHIP????????.???
 4070: EF FC 09 80 C3 C2 CD 38 30 4C 27 80 4C DB 81 4C   ?.?....80L'.L.ÅL
-....
+@dots{}
 6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00   CHIP????????.???
 6080: 09 80 0C 80 C3 C2 CD 38 30 4C 73 86 4C 30 80 4C   ?.?....80LsÜL0.L
 @end example
@@ -17616,7 +17616,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 0A 01 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 0A 01 01 00 00 00 00 00 00   ???@@????????????
 0020: 45 50 59 58 20 46 41 53 54 4C 4F 41 44 00 00 00   EPYX?FASTLOAD???
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -17649,10 +17649,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 0B 00 00 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 0B 00 00 00 00 00 00 00 00   ???@@????????????
 0020: 57 45 53 54 45 52 4D 41 4E 4E 00 00 00 00 00 00   WESTERMANN??????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
-0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 40 00   CHIP????????.?@?
+0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 40 00   CHIP????????.?@@?
 0050: 09 80 9C 80 C3 C2 CD 38 30 A2 00 8E 16 D0 20 84   ?.ú....80.?é?.?Ñ
 @end example
 
@@ -17677,7 +17677,7 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 0C 00 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 0C 00 01 00 00 00 00 00 00   ???@@????????????
 0020: 52 45 58 00 00 00 00 00 00 00 00 00 00 00 00 00   REX?????????????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00   ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00   CHIP????????.???
@@ -17706,10 +17706,10 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F        ASCII
       -----------------------------------------------   ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20   C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 0D 01 01 00 00 00 00 00 00   ???@????????????
+0010: 00 00 00 40 01 00 00 0D 01 01 00 00 00 00 00 00   ???@@????????????
 0020: 54 68 65 20 46 69 6E 61 6C 20 43 61 72 74 72 69   The?Final?Cartri
 0030: 64 67 65 20 49 00 00 00 00 00 00 00 00 00 00 00   dge?I???????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00   CHIP??@@?????.?@@?
 0050: 80 BA 5E FE C3 C2 CD 38 30 00 A0 A0 20 2D FE 58   .˜^....80?††?-.X
 @end example
 
@@ -17736,27 +17736,27 @@ C080: D5 F9 F0 C1 D5 F7 F0 BD E8 B5 02 F0 FB C9 05 30   .??..????µ??..?0
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 0E 01 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 0E 01 01 00 00 00 00 00 00  ???@@????????????
 0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  Magic?Formel????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
 0050: 4D 46 30 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF0ç??`ç??`ç??`ç
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
 2060: 4C 5F E4 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  L_?ç??`ç??`ç??`ç
-...
+@dots{}
 4060: 43 48 49 50 00 00 20 10 00 00 00 02 E0 00 20 00  CHIP????????????
 4070: 4D 46 32 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF2ç??`ç??`ç??`ç
-...
+@dots{}
 6070: 43 48 49 50 00 00 20 10 00 00 00 03 E0 00 20 00  CHIP????????????
 6080: 4D 46 33 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF3ç??`ç??`ç??`ç
-...
+@dots{}
 8080: 43 48 49 50 00 00 20 10 00 00 00 04 E0 00 20 00  CHIP????????????
 8090: 4D 46 34 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF4ç??`ç??`ç??`ç
-...
+@dots{}
 A090: 43 48 49 50 00 00 20 10 00 00 00 05 E0 00 20 00  CHIP????????????
 A0A0: 4D 46 35 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF5ç??`ç??`ç??`ç
-...
+@dots{}
 C0A0: 43 48 49 50 00 00 20 10 00 00 00 06 E0 00 20 00  CHIP????????????
 C0B0: 4D 46 36 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF6ç??`ç??`ç??`ç
 ..
@@ -17783,21 +17783,21 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
         00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
         -----------------------------------------------  ----------------
 000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-000010: 00 00 00 40 01 00 00 0F 00 01 00 00 00 00 00 00  ???@????????????
+000010: 00 00 00 40 01 00 00 0F 00 01 00 00 00 00 00 00  ???@@????????????
 000020: 43 36 34 47 53 20 43 61 72 74 72 69 64 67 65 00  C64GS?Cartridge?
 000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 000040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 000050: 6D 80 C5 80 C3 C2 CD 38 30 4C CB 80 4C 36 84 4C  m......80L..L6ÑL
-....
+@dots{}
 002050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 002060: 18 D0 A9 FF 8D 15 D0 8D 1D D0 8D 17 D0 A2 07 A9  ?..?ç?.ç?.ç?..?.
-....
+@dots{}
 004060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
 004070: E0 08 19 21 77 84 52 98 9F 80 A5 21 31 01 31 89  ???!wÑRòü.•!1?1â
-....
+@dots{}
 006070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
-006080: C0 08 1C 1D A0 92 03 03 D8 AA 04 C0 B8 01 40 EA  .???†.??.◊?.??@.
-....
+006080: C0 08 1C 1D A0 92 03 03 D8 AA 04 C0 B8 01 40 EA  .???†.??.◊?.??@@.
+@dots{}
 07E430: 43 48 49 50 00 00 20 10 00 00 00 3F 80 00 20 00  CHIP????????.???
 07E440: 45 20 41 20 42 49 47 20 58 FE 4F 4E 20 54 48 49  E?A?BIG?X.ON?THI
 @end example
@@ -17840,10 +17840,10 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 10 01 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 10 01 01 00 00 00 00 00 00  ???@@????????????
 0020: 57 61 72 70 73 70 65 65 64 00 00 00 00 00 00 00  Warpspeed???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@@?????.?@@?
 0050: 4C 22 80 4C 22 80 FF 43 42 4D 20 53 E4 20 18 E5  L".L".?CBM?S????
 @end example
 
@@ -17873,7 +17873,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
         00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
         -----------------------------------------------  ----------------
 000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-000010: 00 00 00 40 01 00 00 11 00 01 00 00 00 00 00 00  ???@????????????
+000010: 00 00 00 40 01 00 00 11 00 01 00 00 00 00 00 00  ???@@????????????
 000020: 4E 61 72 63 6F 20 50 6F 6C 69 63 65 00 00 00 00  Narco?Police????
 000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 000040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -17926,7 +17926,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
         00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
         -----------------------------------------------  ----------------
 000000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-000010: 00 00 00 40 01 00 00 12 00 00 00 00 00 00 00 00  ???@????????????
+000010: 00 00 00 40 01 00 00 12 00 00 00 00 00 00 00 00  ???@@????????????
 000020: 5A 61 78 78 6F 6E 00 00 00 00 00 00 00 00 00 00  Zaxxon??????????
 000030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 000040: 43 48 49 50 00 00 10 10 00 00 00 00 80 00 10 00  CHIP????????.???
@@ -17971,7 +17971,7 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 13 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 13 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 4D 61 67 69 63 20 44 65 73 6B 00 00 00 00 00 00  Magic?Desk??????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -18027,19 +18027,19 @@ E0C0: 4D 46 37 8D 00 DF 60 8D 01 DF 60 8D 02 DF 60 8D  MF7ç??`ç??`ç??`ç
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 14 01 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 14 01 01 00 00 00 00 00 00  ???@@????????????
 0020: 53 75 70 65 72 20 53 6E 61 70 73 68 6F 74 20 35  Super?Snapshot?5
 0030: 20 4E 54 53 43 00 00 00 00 00 00 00 00 00 00 00  ?NTSC???????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@@?????.?@@?
 0050: 09 80 59 80 C3 C2 CD 38 30 20 03 9F 00 FA F4 20  ?.Y....80??ü????
-...
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@@?????.?@@?
 4060: 79 DE BC FE C3 C2 CD 38 30 A9 05 8D 20 D0 8D 21  y.?....80.?ç?.ç!
-...
-8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@@?????.?@@?
 8070: 50 DE BC FE C3 C2 CD 38 30 A9 0A 85 6A A9 0D 85  P.?....80.?Öj.?Ö
-...
-C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@@?????.?@@?
 C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P.?....80Ö???≠•v
 @end example
 
@@ -18078,19 +18078,19 @@ C080: 50 DE BC FE C3 C2 CD 38 30 85 07 20 1A AD A5 76  P.?....80Ö???≠•v
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 15 01 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 15 01 01 00 00 00 00 00 00  ???@@????????????
 0020: 43 6F 6D 61 6C 20 38 30 00 00 00 00 00 00 00 00  Comal?80????????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@@?????.?@@?
 0050: 87 87 70 CF C3 C2 CD 38 30 4C AA CF 4C 70 CF 4C  ..p....80L◊.Lp.L
-...
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@@?????.?@@?
 4060: AA CF 70 CF C3 C2 CD 38 30 01 29 01 28 01 2C 04  ◊.p....80?)?(?,?
-...
-8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@@?????.?@@?
 8070: AA CF 70 CF C3 C2 CD 38 30 91 92 92 92 92 92 92  ◊.p....80.......
-...
-C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@@?????.?@@?
 C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
 @end example
 
@@ -18146,13 +18146,13 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 17 00 00 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 17 00 00 00 00 00 00 00 00  ???@@????????????
 0020: 52 6F 73 73 20 31 34 00 00 00 00 00 00 00 00 00  Ross?14?????????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@@?????.?@@?
 0050: 09 80 09 80 C3 C2 CD 38 30 A2 00 BD 20 80 4D 0E  ?.?....80.???.M?
-...
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@@?????.?@@?
 4060: 3F 5A 4D 4D 50 4D 8D 25 3F 1A 1F 77 3F CD E0 3F  ?ZMMPMç%???w?.??
 @end example
 
@@ -18180,12 +18180,12 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 18 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 18 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 44 45 4C 41 20 45 50 36 34 00 00 00 00 00 00 00  DELA?EP64???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: 00 85 5E FE C3 C2 CD 38 30 FF FF FF FF FF FF FF  ?Ö^....80???????
-...
+@dots{}
 2050: 43 48 49 50 00 00 80 10 00 00 00 01 80 00 80 00  CHIP??.?????.?.?
 2060: 54 45 53 54 0D 2A 0D 54 45 20 36 34 0D 00 00 00  TEST?*?TE?64????
 @end example
@@ -18238,12 +18238,12 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 19 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 19 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 44 45 4C 41 20 45 50 37 78 38 00 00 00 00 00 00  DELA?EP7x8??????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: 09 80 5E FE C3 C2 CD 38 30 78 A2 FF 9A D8 8E 16  ?.^....80x.?..é?
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: 94 83 A0 83 C3 C2 CD 38 30 02 BB 5A 30 5F EE 3D  îÉ†É...80?ªZ0_?=
 @end example
@@ -18288,21 +18288,21 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 1A 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 1A 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 44 45 4C 41 20 45 50 32 35 36 00 00 00 00 00 00  DELA?EP256??????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: 00 85 5E FE C3 C2 CD 38 30 93 0D 2B 2B 2B 20 45  ?Ö^....80.?+++?E
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: 09 80 28 80 C3 C2 CD 38 30 78 A2 05 8E 16 D0 20  ?.(....80x.?é?.?
-...
+@dots{}
 4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
 4070: 0B 80 BC FE C3 C2 CD 38 30 DC 10 8E 16 D0 20 87  ?.?....80.?é?.?.
-...
+@dots{}
 6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
 6080: 09 80 F6 8E C3 C2 CD 38 30 A2 C8 8E 16 D0 20 ..  ?.?é...80..é?.?.
-...
+@dots{}
 8080: 43 48 49 50 00 00 20 10 00 00 00 04 80 00 20 00  CHIP????????.???
 8090: 94 83 A0 83 C3 C2 CD 38 30 02 BB 5A 30 5F EE 3D  îÉ†É...80?ªZ0_?=
 @end example
@@ -18344,16 +18344,16 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 1B 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 1B 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 52 45 58 20 45 50 32 35 36 00 00 00 00 00 00 00  REX?EP256???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: 09 80 C1 FE C3 C2 CD 38 30 20 A3 FD 20 50 FD 20  ?......80?£.?P.?
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: 09 80 F2 8F C3 C2 CD 38 30 A2 C8 8E 16 D0 20 A3  ?.?è...80..é?.?£
-...
-4060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+4060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@@?????.?@@?
 4070: 09 80 09 80 C3 C2 CD 38 30 58 D8 20 84 FF 20 8A  ?.?....80X.?Ñ??ä
 @end example
 
@@ -18401,7 +18401,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 1C 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 1C 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -18430,7 +18430,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 1D 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 1D 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 80 10 00 00 00 00 00 00 80 00  CHIP??.???????.?
@@ -18469,18 +18469,18 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 1E 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 1E 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: EA 78 48 A9 7F 8D 0D DD D0 0E 48 AD 0D DD 10 04  .xP.?ç?..?P?.??
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: 09 80 0C 80 C3 C2 CD 38 30 4C E9 80 4C 81 81 4C  ?.?....80L?.LÅÅL
-...
+@dots{}
 4060: 43 48 49 50 00 00 20 10 00 00 00 02 80 00 20 00  CHIP????????.???
 4070: 09 80 0E 80 C3 C2 CD 38 30 A2 00 4C EF FC 20 BC  ?.?....80.?L?.??
-...
+@dots{}
 6070: 43 48 49 50 00 00 20 10 00 00 00 03 80 00 20 00  CHIP????????.???
 6080: 09 80 0C 80 C3 C2 CD 38 30 4C 70 88 4C 3F 80 4C  ?.?....80LpàL?.L
 @end example
@@ -18520,12 +18520,12 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 1F 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 1F 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: F9 80 B6 80 C3 C2 CD 38 30 FD 80 89 80 4C 0C 88  ?.∂....80..â.L?à
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
 2060: 85 56 20 0F BC A5 61 C9 88 90 03 20 D4 BA 20 CC  ÖV???•a.àê??.˜?.
 @end example
@@ -18560,7 +18560,7 @@ C080: 7B C8 7E C8 C3 C2 CD 38 30 43 4F 4D 41 4C 80 93  ..~....80COMAL..
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 20 00 01 00 00 00 00 00 00  ???@????????????
+0010: 00 00 00 40 01 00 00 20 00 01 00 00 00 00 00 00  ???@@????????????
 0020: 45 61 73 79 46 6C 61 73 68 20 43 61 72 74 72 69  EasyFlash?Cartri
 0030: 64 67 65 00 00 00 00 00 00 00 00 00 00 00 00 00  dge?????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
@@ -18625,7 +18625,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 22 00 01 00 00 00 00 00 00  ???@???"????????
+0010: 00 00 00 40 01 00 00 22 00 01 00 00 00 00 00 00  ???@@???"????????
 0020: 4D 61 67 69 63 20 46 6F 72 6D 65 6C 00 00 00 00  Magic?Formel????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 01 E0 00 20 00  CHIP????????????
@@ -18668,12 +18668,12 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 23 00 01 00 00 00 00 00 00  ???@???#????????
+0010: 00 00 00 40 01 00 00 23 00 01 00 00 00 00 00 00  ???@@???#????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: EA A9 E3 48 A9 7B 48 08 4C 1A 80 EA EA EA 48 AD  ...H..H?L?....H
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: 09 80 5E FE C3 C2 CD 38 30 78 A2 FB D8 9A A9 27  ?.^....80x.....'
 @end example
@@ -18711,7 +18711,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 24 00 00 00 00 00 00 00 00  ???@???$????????
+0010: 00 00 00 40 01 00 00 24 00 00 00 00 00 00 00 00  ???@@???$????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -18846,7 +18846,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 25 00 01 00 00 00 00 00 00  ???@???%????????
+0010: 00 00 00 40 01 00 00 25 00 01 00 00 00 00 00 00  ???@@???%????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -18882,7 +18882,7 @@ load files of this type.
     0    0 = MMC64 BIOS active, 1 = external ROM active
     1    0 = card selected, 1 = card not selected
     2    0 = 250khz transfer, 1 = 8mhz transfer
-    3    0 = clock port @ $DE00, 1 = clock port @ $DF20
+    3    0 = clock port @@ $DE00, 1 = clock port @@ $DF20
     4    0 = normal Operation, 1 = flash mode (*)
     5    0 = allow external rom when BIOS is disabled,
          1 = disable external ROM
@@ -18939,7 +18939,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@???&????????
+0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@@???&????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19066,7 +19066,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@???'????????
+0010: 00 00 00 40 01 00 00 26 00 00 00 00 00 00 00 00  ???@@???'????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19123,18 +19123,18 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ???@???(????????
+0010: 00 00 00 40 01 00 00 28 00 01 00 00 00 00 00 00  ???@@???(????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: 80 AD B5 80 C3 C2 CD 38 30 08 48 A9 06 8D 00 DF  .µ....80?P.?ç??
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP????????†???
 2060: 4C FA A0 A9 07 8D 00 DD 2C 00 DD 50 FB 2C 00 DD  L?†.?ç?.,?.P.,?.
-...
+@dots{}
 4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 4070: 13 80 BC FE C3 C2 CD 38 30 08 48 A9 02 8D 00 DF  ?.?....80?H.?ç??
-...
+@dots{}
 6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP????????†???
 6080: F0 8A 48 A9 00 85 22 85 23 8D 53 0F 20 0C A1 B0  ?äH.?Ö"Ö#çS???.∞
 @end example
@@ -19188,7 +19188,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 29 00 01 00 00 00 00 00 00  ???@???)????????
+0010: 00 00 00 40 01 00 00 29 00 01 00 00 00 00 00 00  ???@@???)????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 10 10 00 00 00 00 80 00 10 00  CHIP????????.???
@@ -19228,7 +19228,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2A 00 00 00 00 00 00 00 00  ???@???*????????
+0010: 00 00 00 40 01 00 00 2A 00 00 00 00 00 00 00 00  ???@@???*????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
@@ -19260,7 +19260,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2B 00 01 00 00 00 00 00 00  ???@???+????????
+0010: 00 00 00 40 01 00 00 2B 00 01 00 00 00 00 00 00  ???@@???+????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19296,7 +19296,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2C 01 00 00 00 00 00 00 00  ???@???,????????
+0010: 00 00 00 40 01 00 00 2C 01 00 00 00 00 00 00 00  ???@@???,????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 E0 00 20 00  CHIP????????????
@@ -19326,7 +19326,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2D 00 01 00 00 00 00 00 00  ???@???-????????
+0010: 00 00 00 40 01 00 00 2D 00 01 00 00 00 00 00 00  ???@@???-????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19356,18 +19356,18 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2E 00 01 00 00 00 00 00 00  ???@???.????????
+0010: 00 00 00 40 01 00 00 2E 00 01 00 00 00 00 00 00  ???@@???.????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
-0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@???
-...
+0050: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@@???
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
 2060: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
-...
+@dots{}
 4060: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
-4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@???
-...
+4070: 3A 83 60 80 C3 C2 CD 38 30 20 00 00 40 00 00 00  :É`....80???@@???
+@dots{}
 6070: 43 48 49 50 00 00 20 10 00 00 00 01 A0 00 20 00  CHIP???????? ???
 6080: 78 A9 34 85 01 A0 00 B1 F8 91 F6 E6 F8 D0 02 E6  x.4Ö?†?±?.?µ?.?µ
 @end example
@@ -19402,7 +19402,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 2F 00 00 00 00 00 00 00 00  ???@???/????????
+0010: 00 00 00 40 01 00 00 2F 00 00 00 00 00 00 00 00  ???@@???/????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 10 10 00 00 00 00 E0 00 10 00  CHIP????????????
@@ -19435,12 +19435,12 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 30 00 01 00 00 00 00 00 00  ???@???0????????
+0010: 00 00 00 40 01 00 00 30 00 01 00 00 00 00 00 00  ???@@???0????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: D7 86 5E FE C3 C2 CD 38 30 A9 00 2C A9 FF 85 FE  .Ü^....80.?,.?Ö.
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: E8 96 5E FE C3 C2 CD 38 30 20 6C 81 A9 09 8D 99  ?ñ^....80?lÅ.?çô
 @end example
@@ -19474,12 +19474,12 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ???@???1????????
+0010: 00 00 00 40 01 00 00 31 00 01 00 00 00 00 00 00  ???@@???1????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: EA 2C 80 DF 50 FB A0 00 8C 80 DF B9 E3 A3 29 0F  .,.?P. ?å.?π.£)?
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 00 A0 00 20 00  CHIP???????? ???
 2060: 4A EB C0 49 6A EA BB FB 4E CA 43 1E 75 63 15 97  J?.Ij.ª.N.C?uc?ó
 @end example
@@ -19531,12 +19531,12 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 32 00 01 00 00 00 00 00 00  ???@???2????????
+0010: 00 00 00 40 01 00 00 32 00 01 00 00 00 00 00 00  ???@@???2????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
 0050: EA EA 68 AA 68 85 94 68 85 95 68 85 96 68 85 97  ..h◊hÖîhÖïhÖñhÖó
-...
+@dots{}
 2050: 43 48 49 50 00 00 20 10 00 00 00 01 80 00 20 00  CHIP????????.???
 2060: 30 80 5E FE C3 C2 CD 38 30 20 04 90 4C 38 DF 1A  0.^....80??êL8??
 @end example
@@ -19569,7 +19569,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 33 00 01 00 00 00 00 00 00  ???@???3????????
+0010: 00 00 00 40 01 00 00 33 00 01 00 00 00 00 00 00  ???@@???3????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19600,7 +19600,7 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 34 00 01 00 00 00 00 00 00  ???@???4????????
+0010: 00 00 00 40 01 00 00 34 00 01 00 00 00 00 00 00  ???@@???4????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
 0040: 43 48 49 50 00 00 20 10 00 00 00 00 80 00 20 00  CHIP????????.???
@@ -19631,19 +19631,19 @@ load files of this type.
       00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F       ASCII
       -----------------------------------------------  ----------------
 0000: 43 36 34 20 43 41 52 54 52 49 44 47 45 20 20 20  C64?CARTRIDGE???
-0010: 00 00 00 40 01 00 00 35 01 01 00 00 00 00 00 00  ???@???5????????
+0010: 00 00 00 40 01 00 00 35 01 01 00 00 00 00 00 00  ???@@???5????????
 0020: 56 49 43 45 20 43 41 52 54 00 00 00 00 00 00 00  VICE?CART???????
 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ????????????????
-0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@?????.?@?
+0040: 43 48 49 50 00 00 40 10 00 00 00 00 80 00 40 00  CHIP??@@?????.?@@?
 0050: 31 80 BB 0E C3 C2 CD 38 30 50 46 20 56 31 2E 30  1.ª?...80PF?V1.0
-...
-4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+4050: 43 48 49 50 00 00 40 10 00 00 00 01 80 00 40 00  CHIP??@@?????.?@@?
 4060: A2 FE 9A 20 EC AE 20 82 80 20 74 86 20 A5 8B 4C  ...??Æ?Ç.?tÜ?•ãL
-...
-8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+8060: 43 48 49 50 00 00 40 10 00 00 00 02 80 00 40 00  CHIP??@@?????.?@@?
 8070: 5A 01 02 03 04 06 0A 0B 10 14 1E 28 3C 00 00 00  Z??????????(<???
-...
-C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@?????.?@?
+@dots{}
+C070: 43 48 49 50 00 00 40 10 00 00 00 03 80 00 40 00  CHIP??@@?????.?@@?
 C080: 1E 03 14 82 09 05 09 0F 0C 0D 0F 05 09 09 0B 0A  ???Ç????????????
 @end example
 
