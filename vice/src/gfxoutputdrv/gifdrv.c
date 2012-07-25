@@ -41,9 +41,13 @@
 #include "util.h"
 
 #if GIFLIB_MAJOR >= 5
-#define VICE_EgifOpenFileName(x, y, z) EGifOpenFileName(x, y, z)
+#define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y, z)
+#define VICE_MakeMapObject GifMakeMapObject
+#define VICE_FreeMapObject GifFreeMapObject
 #else
-#define VICE_EgifOpenFileName(x, y, z) EGifOpenFileName(x, y)
+#define VICE_EGifOpenFileName(x, y, z) EGifOpenFileName(x, y)
+#define VICE_MakeMapObject MakeMapObject
+#define VICE_FreeMapObject FreeMapObject
 #endif
 
 typedef struct gfxoutputdrv_data_s
@@ -94,7 +98,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
 
   sdata->data = lib_malloc(screenshot->width);
 
-  gif_colors=MakeMapObject(screenshot->palette->num_entries, ColorMap256);
+  gif_colors=VICE_MakeMapObject(screenshot->palette->num_entries, ColorMap256);
 
   for (i = 0; i < screenshot->palette->num_entries; i++)
   {
@@ -103,13 +107,15 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
     gif_colors->Colors[i].Red=screenshot->palette->entries[i].red;
   }
 
+#if GIFLIB_MAJOR < 5
   EGifSetGifVersion("87a");
+#endif
 
   if (EGifPutScreenDesc(sdata->fd, screenshot->width, screenshot->height, 8, 0, gif_colors) == GIF_ERROR ||
       EGifPutImageDesc(sdata->fd, 0, 0, screenshot->width, screenshot->height, 0, NULL) == GIF_ERROR)
   {
     EGifCloseFile(sdata->fd);
-    FreeMapObject(gif_colors);
+    VICE_FreeMapObject(gif_colors);
     lib_free(sdata->data);
     lib_free(sdata->ext_filename);
     lib_free(sdata);
@@ -140,7 +146,7 @@ static int gifdrv_close(screenshot_t *screenshot)
     sdata = screenshot->gfxoutputdrv_data;
 
     EGifCloseFile(sdata->fd);
-    FreeMapObject(gif_colors);
+    VICE_FreeMapObject(gif_colors);
 
     /* for some reason giflib will create a file with unexpected
        permissions. for this reason we alter them according to
@@ -179,7 +185,7 @@ static char *gifdrv_memmap_ext_filename;
 static int gifdrv_close_memmap(void)
 {
   EGifCloseFile(gifdrv_memmap_fd);
-  FreeMapObject(gif_colors);
+  VICE_FreeMapObject(gif_colors);
   lib_free(gifdrv_memmap_ext_filename);
 
   return 0;
@@ -209,7 +215,7 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
     return -1;
   }
 
-  gif_colors=MakeMapObject(256, ColorMap256);
+  gif_colors=VICE_MakeMapObject(256, ColorMap256);
 
   for (i = 0; i < 256; i++)
   {
@@ -218,13 +224,15 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
     gif_colors->Colors[i].Red=palette[i*3];
   }
 
+#if GIFLIB_MAJOR < 5
   EGifSetGifVersion("87a");
+#endif
 
   if (EGifPutScreenDesc(gifdrv_memmap_fd, x_size, y_size, 8, 0, gif_colors) == GIF_ERROR ||
       EGifPutImageDesc(gifdrv_memmap_fd, 0, 0, x_size, y_size, 0, NULL) == GIF_ERROR)
   {
     EGifCloseFile(gifdrv_memmap_fd);
-    FreeMapObject(gif_colors);
+    VICE_FreeMapObject(gif_colors);
     lib_free(gifdrv_memmap_ext_filename);
     return -1;
   }
