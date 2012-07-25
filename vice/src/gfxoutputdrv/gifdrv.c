@@ -40,6 +40,12 @@
 #include "types.h"
 #include "util.h"
 
+#if GIFLIB_MAJOR >= 5
+#define VICE_EgifOpenFileName(x, y, z) EGifOpenFileName(x, y, z)
+#else
+#define VICE_EgifOpenFileName(x, y, z) EGifOpenFileName(x, y)
+#endif
+
 typedef struct gfxoutputdrv_data_s
 {
   GifFileType *fd;
@@ -61,6 +67,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
   unsigned int i;
   gfxoutputdrv_data_t *sdata;
   GifColorType ColorMap256[256];
+  int ec;
 
   if (screenshot->palette->num_entries > 256)
   {
@@ -76,7 +83,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
 
   sdata->ext_filename=util_add_extension_const(filename, gif_drv.default_extension);
 
-  sdata->fd=EGifOpenFileName(sdata->ext_filename, FALSE);
+  sdata->fd=VICE_EGifOpenFileName(sdata->ext_filename, 0, &ec);
 
   if (sdata->fd==NULL)
   {
@@ -99,7 +106,7 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
   EGifSetGifVersion("87a");
 
   if (EGifPutScreenDesc(sdata->fd, screenshot->width, screenshot->height, 8, 0, gif_colors) == GIF_ERROR ||
-      EGifPutImageDesc(sdata->fd, 0, 0, screenshot->width, screenshot->height, FALSE, NULL) == GIF_ERROR)
+      EGifPutImageDesc(sdata->fd, 0, 0, screenshot->width, screenshot->height, 0, NULL) == GIF_ERROR)
   {
     EGifCloseFile(sdata->fd);
     FreeMapObject(gif_colors);
@@ -190,10 +197,11 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
 {
   unsigned int i;
   GifColorType ColorMap256[256];
+  int ec;
 
   gifdrv_memmap_ext_filename=util_add_extension_const(filename, gif_drv.default_extension);
 
-  gifdrv_memmap_fd=EGifOpenFileName(gifdrv_memmap_ext_filename, FALSE);
+  gifdrv_memmap_fd=VICE_EGifOpenFileName(gifdrv_memmap_ext_filename, 0, &ec);
 
   if (gifdrv_memmap_fd==NULL)
   {
@@ -213,7 +221,7 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
   EGifSetGifVersion("87a");
 
   if (EGifPutScreenDesc(gifdrv_memmap_fd, x_size, y_size, 8, 0, gif_colors) == GIF_ERROR ||
-      EGifPutImageDesc(gifdrv_memmap_fd, 0, 0, x_size, y_size, FALSE, NULL) == GIF_ERROR)
+      EGifPutImageDesc(gifdrv_memmap_fd, 0, 0, x_size, y_size, 0, NULL) == GIF_ERROR)
   {
     EGifCloseFile(gifdrv_memmap_fd);
     FreeMapObject(gif_colors);
