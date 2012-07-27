@@ -155,6 +155,7 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
             if (p[SLOT_TYPE_OFFSET] != 0) {
                 image_contents_file_list_t *new_list;
                 int i;
+                char *filetype;
 
                 new_list = lib_malloc(sizeof(image_contents_file_list_t));
                 new_list->size = ((int)p[SLOT_NR_BLOCKS]
@@ -167,9 +168,11 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
 
                 new_list->name[i] = 0;
 
+                filetype = cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07);
+
                 sprintf((char *)new_list->type, "%c%s%c",
                         (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_CLOSED ? ' ' : '*'),
-                        cbmdos_filetype_get(p[SLOT_TYPE_OFFSET] & 0x07),
+                        (filetype ? filetype : "(invalid)"),
                         (p[SLOT_TYPE_OFFSET] & CBMDOS_FT_LOCKED ? '<' : ' '));
 
                 new_list->next = NULL;
