@@ -29,9 +29,19 @@
 #define LBS_NOTIFY           0x0001L
 #define LBS_NOSEL            0x4000L
 #define LBS_NOINTEGRALHEIGHT 0x0100L
+
+#ifndef TBS_AUTOTICKS
 #define TBS_AUTOTICKS        0x0001
+#endif
+
+#ifndef TBS_BOTH
 #define TBS_BOTH             0x0008
+#endif
+
+#ifndef TBS_NOTICKS
 #define TBS_NOTICKS          0x0010
+#endif
+
 #define ES_READONLY          0x0800L
 #define ES_AUTOHSCROLL       0x0080L
 
