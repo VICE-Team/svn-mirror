@@ -264,15 +264,17 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
 }
 
 /* This is needed to catch the `Close' command from the Window Manager. */
-/*static Atom wm_delete_window;*/
+static Atom wm_delete_window;
 
 void ToggleProc(Widget w, XtPointer client_data, XtPointer toggle)
 {
     Widget showhide = (Widget)client_data;
 
     if (toggle) {
+        Display *display = XtDisplay(showhide);
+
         XtPopup(showhide, XtGrabNone);
-	/*XSetWMProtocols(display, XtWindow(showhide), &wm_delete_window, 1);*/
+        XSetWMProtocols(display, XtWindow(showhide), &wm_delete_window, 1);
     } else {
         XtPopdown(showhide);
     }
@@ -282,10 +284,6 @@ void ToggleProc(Widget w, XtPointer client_data, XtPointer toggle)
  * Create a toggle button, to be placed on the UI window.
  * If clicked, it toggles a transient shell, which contains
  * the controls to change the CRT settings.
- *
- * FIXME: clicking the close box of the popup window confuses
- * X and terminates VICE:
- * XIO:  fatal IO error 11 (Resource temporarily unavailable) on X server ":0.0"
  */
 Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args, Cardinal num_args)
 {
@@ -293,6 +291,7 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args
     Widget toggle;
     Widget shell;
     cleanup_data_t *cleanupdata;
+    Display *display;
 
     toggle = XtCreateManagedWidget("toggle",
                                      toggleWidgetClass, parent,
@@ -308,7 +307,8 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args
     XtAddCallback(toggle, XtNcallback, ToggleProc, (XtPointer)shell);
     XtAddCallback(toggle, XtNdestroyCallback, destroy_pal_ctrl_widget, cleanupdata);
 
-    /*wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);*/
+    display = XtDisplay(toggle);
+    wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
 
     return toggle;
 }
