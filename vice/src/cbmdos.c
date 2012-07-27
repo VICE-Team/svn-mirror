@@ -83,8 +83,11 @@ static const cbmdos_errortext_t cbmdos_error_messages[] =
     { 255, NULL }
 };
 
+/* types 0 - 6 are regular CBM file types. real drives return random garbage
+ * from the ROM when type 7 appears in the directoy
+ */
 static const char *cbmdos_ft[] = {
-    "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DIR"
+    "DEL", "SEQ", "PRG", "USR", "REL", "CBM", "DIR", "???"
 };
 
 const char *cbmdos_errortext(unsigned int code)
@@ -105,10 +108,6 @@ const char *cbmdos_errortext(unsigned int code)
 
 const char *cbmdos_filetype_get(unsigned int filetype)
 {
-   if (filetype > 6) {
-       return NULL;
-   }
-
    return cbmdos_ft[filetype];
 }
 
