@@ -54,15 +54,16 @@ typedef struct pal_res_s {
 } pal_res_t;
 
 static pal_res_t ctrls[] = {
-    { N_("Blur"), "PALBlur", 1000, },
-    { N_("Scanline shade"), "PALScanLineShade", 1000, },
-    { N_("Saturation"), "ColorSaturation", 2000, },
-    { N_("Contrast"), "ColorContrast", 2000, },
-    { N_("Brightness"), "ColorBrightness", 2000, },
-    { N_("Gamma"), "ColorGamma", 4000, },
-    { N_("Tint"), "ColorTint", 2000, },
-    { N_("Odd lines phase"), "PALOddLinePhase", 2000, },
-    { N_("Odd lines offset"), "PALOddLineOffset", 2000, },
+    { N_("Blur"),             "+PALBlur",          1000, },
+    { N_("Scanline shade"),   "+PALScanLineShade", 1000, },
+    { N_("Saturation"),       "+ColorSaturation",  2000, },
+    { N_("Contrast"),         "+ColorContrast",    2000, },
+    { N_("Brightness"),       "+ColorBrightness",  2000, },
+    { N_("Gamma"),            "+ColorGamma",       4000, },
+    { N_("Tint"),             "+ColorTint",        2000, },
+    { N_("Odd lines phase"),  "+PALOddLinePhase",  2000, },
+    { N_("Odd lines offset"), "+PALOddLineOffset", 2000, },
+    { N_("Volume"),           "SoundVolume",        100, },
 };
 
 typedef struct {
@@ -73,12 +74,16 @@ typedef struct {
 
 #define THUMB_SIZE      ((float) 0.05)
 
-static void ScrollbarSetThumb(Widget scrollbar, float position)
+static float ScrollbarSetThumb(Widget scrollbar, float position)
 {
     if (position > 1.0 - THUMB_SIZE) {
         position = 1.0 - THUMB_SIZE;
+    } else if (position < 0.0) {
+        position = 0.0;
     }
     XawScrollbarSetThumb(scrollbar, position, THUMB_SIZE);
+
+    return position;
 }
 
 static void JumpProc(Widget scrollbar, XtPointer client_data, XtPointer percent_ptr)
@@ -91,7 +96,7 @@ static void JumpProc(Widget scrollbar, XtPointer client_data, XtPointer percent_
     if (fraction > 1.0 - THUMB_SIZE) {
         fraction = 1.0 - THUMB_SIZE;
     }
-    value = fraction * p->scale;
+    value = fraction * p->scale + 0.5;
 
     resources_set_int(p->res, value);
 }
@@ -116,8 +121,8 @@ static void ScrollProc(Widget scrollbar, XtPointer client_data, XtPointer positi
     }
 
     oldposition += delta;
-    ScrollbarSetThumb(scrollbar, oldposition);
-    resources_set_int(p->res, oldposition * p->scale);
+    oldposition = ScrollbarSetThumb(scrollbar, oldposition);
+    resources_set_int(p->res, (int)(oldposition * p->scale + 0.5));
 }
 
 static void GetWH(Widget widget, int *w, int *h)
@@ -144,7 +149,7 @@ static void ResetProc(Widget w, XtPointer client_data, XtPointer dummy)
         }
     }
 
-    video_canvas_refresh_all(p->cached_canvas);
+    /* unneeded: video_canvas_refresh_all(p->cached_canvas); */
 }
 
 Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, cleanup_data_t **cleanup_p)
@@ -203,7 +208,13 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
         Widget label;
         int width;
 
-        resname = util_concat(chip, ctrls[i].res, NULL);
+        /* A + before the resource name indicates the video chip name */
+        if (ctrls[i].res[0] == '+') {
+            resname = util_concat(chip, ctrls[i].res + 1, NULL);
+        } else {
+            resname = lib_stralloc(ctrls[i].res);
+        }
+
         ctrldata[i].res = resname;
 
         labelname = ctrldata[i].label;
@@ -265,18 +276,49 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
 
 /* This is needed to catch the `Close' command from the Window Manager. */
 static Atom wm_delete_window;
+static Atom wm_protocols;
 
-void ToggleProc(Widget w, XtPointer client_data, XtPointer toggle)
+void ToggleProc(Widget w, XtPointer client_data, XtPointer togglevalue)
 {
-    Widget showhide = (Widget)client_data;
+    Widget shell = (Widget)client_data;
 
-    if (toggle) {
-        Display *display = XtDisplay(showhide);
+    if (togglevalue) {
+        Display *display = XtDisplay(shell);
 
-        XtPopup(showhide, XtGrabNone);
-        XSetWMProtocols(display, XtWindow(showhide), &wm_delete_window, 1);
+        XtPopup(shell, XtGrabNone);
+        XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     } else {
-        XtPopdown(showhide);
+        XtPopdown(shell);
+    }
+}
+
+/*
+ * Receive message from window manager about the close box being clicked.
+ * All example programs use a translation table and an Action for this,
+ * ( "<Message>WM_PROTOCOLS: close()"; { "close", CloseAction } )
+ * but you can do it directly!
+ */
+static
+void nonmaskable_callback_shell(Widget w_shell, XtPointer client_data, XtPointer call_data)
+{
+    XEvent *e = (XEvent *)call_data;
+    Widget toggle = (Widget)client_data;
+
+    if (e->type == ClientMessage &&
+            e->xclient.message_type == wm_protocols &&
+            e->xclient.data.l[0] == (long) wm_delete_window) {
+        XtVaSetValues(toggle,
+                      XtNstate, False,
+                      NULL);
+        /*
+         * The XtVaSetValues() call does not do the Translations/Actions
+         * that go with clicking on the toggle widget. We have to do
+         * that ourselves here.
+         * We could call XtCallActionProc(toggle, "notify", ...) or
+         * XtCallCallbacks(toggle, XtNcallback, False) but this has the
+         * same eventual effect:
+         */
+        ToggleProc(toggle, w_shell, (XtPointer)False);
     }
 }
 
@@ -308,7 +350,12 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args
     XtAddCallback(toggle, XtNdestroyCallback, destroy_pal_ctrl_widget, cleanupdata);
 
     display = XtDisplay(toggle);
-    wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    if (wm_delete_window == 0) {
+        wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
+        wm_protocols = XInternAtom(display, "WM_PROTOCOLS", False);
+    }
+
+    XtAddEventHandler(shell, 0, True, (XtEventHandler)nonmaskable_callback_shell, (XtPointer)toggle);
 
     return toggle;
 }
