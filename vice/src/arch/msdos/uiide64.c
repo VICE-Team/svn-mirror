@@ -38,10 +38,10 @@ TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize1)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize2)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize3)
 TUI_MENU_DEFINE_TOGGLE(IDE64AutodetectSize4)
-TUI_MENU_DEFINE_FILENAME(IDE64Image1, "IDE64 HD #1")
-TUI_MENU_DEFINE_FILENAME(IDE64Image2, "IDE64 HD #2")
-TUI_MENU_DEFINE_FILENAME(IDE64Image3, "IDE64 HD #3")
-TUI_MENU_DEFINE_FILENAME(IDE64Image4, "IDE64 HD #4")
+TUI_MENU_DEFINE_FILENAME(IDE64Image1, "IDE64 primary master")
+TUI_MENU_DEFINE_FILENAME(IDE64Image2, "IDE64 primary slave")
+TUI_MENU_DEFINE_FILENAME(IDE64Image3, "IDE64 secondary master")
+TUI_MENU_DEFINE_FILENAME(IDE64Image4, "IDE64 secondary slave")
 
 static TUI_MENU_CALLBACK(ui_set_cylinders_callback)
 {
@@ -122,7 +122,7 @@ static TUI_MENU_CALLBACK(ui_set_sectors_callback)
 }
 
 static tui_menu_item_def_t ide64_hd1_menu_items[] = {
-    { "IDE64 HD #_1 image file:", "Select the IDE64 HD #1 image file",
+    { "IDE64 primary master image file:", "Select the IDE64 primary master image file",
       filename_IDE64Image1_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Autodetect geometry:", "Autodetect the geometry",
@@ -144,7 +144,7 @@ static tui_menu_item_def_t ide64_hd1_menu_items[] = {
 };
 
 static tui_menu_item_def_t ide64_hd2_menu_items[] = {
-    { "IDE64 HD #_2 image file:", "Select the IDE64 HD #2 image file",
+    { "IDE64 primary slave image file:", "Select the IDE64 primary slave image file",
       filename_IDE64Image2_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Autodetect geometry:", "Autodetect the geometry",
@@ -166,7 +166,7 @@ static tui_menu_item_def_t ide64_hd2_menu_items[] = {
 };
 
 static tui_menu_item_def_t ide64_hd3_menu_items[] = {
-    { "IDE64 HD #_3 image file:", "Select the IDE64 HD #3 image file",
+    { "IDE64 secondary master image file:", "Select the IDE64 secondary master image file",
       filename_IDE64Image3_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Autodetect geometry:", "Autodetect the geometry",
@@ -188,7 +188,7 @@ static tui_menu_item_def_t ide64_hd3_menu_items[] = {
 };
 
 static tui_menu_item_def_t ide64_hd4_menu_items[] = {
-    { "IDE64 HD #_4 image file:", "Select the IDE64 HD #4 image file",
+    { "IDE64 secondary slave image file:", "Select the IDE64 secondary slave image file",
       filename_IDE64Image4_callback, NULL, 20,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Autodetect geometry:", "Autodetect the geometry",
@@ -213,22 +213,22 @@ static tui_menu_item_def_t ide64_menu_items[] = {
     { "_Enable IDE64 V4 support:", "Emulate IDE64 V4 model",
       toggle_IDE64version4_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "IDE64 HD 1 settings:", "HD 1 settings",
+    { "IDE64 primary master settings:", "Primary master settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd1_menu_items,
-      "HD 1 settings" },
-    { "IDE64 HD 2 settings:", "HD 2 settings",
+      "Primary master settings" },
+    { "IDE64 primary slave settings:", "Primary slave settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd2_menu_items,
-      "HD 2 settings" },
-    { "IDE64 HD 3 settings:", "HD 3 settings",
+      "Primary slave settings" },
+    { "IDE64 secondary master settings:", "Secondary master settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd3_menu_items,
-      "HD 3 settings" },
-    { "IDE64 HD 4 settings:", "HD 4 settings",
+      "Secondary master settings" },
+    { "IDE64 secondary slave settings:", "Secondary slave settings",
       NULL, NULL, 11,
       TUI_MENU_BEH_CONTINUE, ide64_hd4_menu_items,
-      "HD 4 settings" },
+      "Secondary slave settings" },
     { NULL }
 };
 
