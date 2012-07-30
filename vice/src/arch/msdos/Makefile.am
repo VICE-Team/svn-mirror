@@ -127,6 +127,8 @@ libarch_a_SOURCES = \
 	uipetdww.h \
 	uipetreu.c \
 	uipetreu.h \
+	uiplus4cart.c \
+	uiplus4cart.h \
 	uiplus4model.c \
 	uiplus4model.h \
  	uiplus256k.c \

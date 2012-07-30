@@ -37,6 +37,7 @@
 #include "tui.h"
 #include "tuifs.h"
 #include "ui.h"
+#include "uiplus4cart.h"
 #include "uiplus4model.h"
 #include "uisid.h"
 #include "uisidcart.h"
@@ -121,6 +122,8 @@ int plus4ui_init(void)
     uiv364speech_init(ui_sound_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uiplus4cart_init(NULL);
 
     return 0;
 }
