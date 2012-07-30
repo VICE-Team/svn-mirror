@@ -375,8 +375,14 @@ static const resource_int_t resources_int[] = {
       (void *)&speed_adjustment_setting, set_speed_adjustment_setting, NULL },
     { "SoundVolume", 100, RES_EVENT_NO, NULL,
       (void *)&volume, set_volume, NULL },
+#ifdef __MSDOS__
+    /* Force default to SOUND_OUTPUT_MONO, that way stereo/triple sid will work */
+    { "SoundOutput", SOUND_OUTPUT_MONO, RES_EVENT_NO, NULL,
+      (void *)&output_option, set_output_option, NULL },
+#else
     { "SoundOutput", SOUND_OUTPUT_SYSTEM, RES_EVENT_NO, NULL,
       (void *)&output_option, set_output_option, NULL },
+#endif
     { NULL }
 };
 
