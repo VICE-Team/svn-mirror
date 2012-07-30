@@ -111,7 +111,11 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
         case DRIVE_TYPE_1571:
             return "1571, 5\"1/4 DS";
         case DRIVE_TYPE_1581:
-            return "1581, 3\"1/2 DS";
+            return "1581, 3\"1/2 SD DS";
+        case DRIVE_TYPE_2000:
+            return "2000, 3\"1/2 HD DS";
+        case DRIVE_TYPE_4000:
+            return "4000, 3\"1/2 ED DS";
         case DRIVE_TYPE_2031:
             return "2031, 5\"1/4 SS, IEEE488";
         case DRIVE_TYPE_3040:
@@ -129,57 +133,65 @@ static TUI_MENU_CALLBACK(drive_type_submenu_callback)
     }
 }
 
-#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                    \
-static tui_menu_item_def_t drive##num##_type_submenu[] = {                 \
-    { "_None",                                                             \
-      "Disable hardware-level emulation of drive #" #num,                  \
-      radio_Drive##num##Type_callback, (void *)0, 0,                       \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_1541, 5\"1/4 SS",                                                  \
-      "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "1541-_II, 5\"1/4 SS",                                               \
-      "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,   \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,       \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "15_51, 5\"1/4 SS",                                                  \
-      "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "15_71, 5\"1/4 DS",                                                  \
-      "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "15_81, 3\"1/2 DS",                                                  \
-      "Emulate a 1581 3\"1/2 double-sided disk drive as unit #" #num,      \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1581, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_2031, 5\"1/4 SS IEEE488",                                          \
-      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num, \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2031, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_3040, 5\"1/4 SD IEEE488",                                          \
-      "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_3040, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "_4040, 5\"1/4 SD IEEE488",                                          \
-      "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4040, 0 ,        \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "1_001, 5\"1/4 DS IEEE488",                                          \
-      "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "8050, 5\"1/4 _SD IEEE488",                                          \
-      "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { "8520, 5\"1/4 _DD IEEE488",                                          \
-      "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,           \
-      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,         \
-      TUI_MENU_BEH_CLOSE, NULL, NULL },                                    \
-    { NULL }                                                               \
+#define DEFINE_DRIVE_MODEL_SUBMENU(num)                                                 \
+static tui_menu_item_def_t drive##num##_type_submenu[] = {                              \
+    { "_None",                                                                          \
+      "Disable hardware-level emulation of drive #" #num,                               \
+      radio_Drive##num##Type_callback, (void *)0, 0,                                    \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "_1541, 5\"1/4 SS",                                                               \
+      "Emulate a 1541 5\"1/4 single-sided disk drive as unit #" #num,                   \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "1541-_II, 5\"1/4 SS",                                                            \
+      "Emulate a 1541-II 5\"1/4 single-sided disk drive as unit #" #num,                \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1541II, 0,                    \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "15_51, 5\"1/4 SS",                                                               \
+      "Emulate a 1551 5\"1/4 single-sided disk drive as unit #" #num,                   \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1551, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "15_71, 5\"1/4 DS",                                                               \
+      "Emulate a 1571 5\"1/4 double-sided disk drive as unit #" #num,                   \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1571, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "15_81, 3\"1/2 DD DS",                                                            \
+      "Emulate a 1581 3\"1/2 double density, double-sided disk drive as unit #" #num,   \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1581, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "2000, 3\"1/2 HD DS",                                                             \
+      "Emulate a 2000 3\"1/2 high density, double-sided disk drive as unit #" #num,     \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2000, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "4000, 3\"1/2 ED DS",                                                             \
+      "Emulate a 4000 3\"1/2 extended density, double-sided disk drive as unit #" #num, \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4000, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "_2031, 5\"1/4 SS IEEE488",                                                       \
+      "Emulate a 2031 5\"1/4 single-sided IEEE disk drive as unit #" #num,              \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_2031, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "_3040, 5\"1/4 SD IEEE488",                                                       \
+      "Emulate a 3040 5\"1/4 SD IEEE disk drive as unit #" #num,                        \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_3040, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "_4040, 5\"1/4 SD IEEE488",                                                       \
+      "Emulate a 4040 5\"1/4 SD IEEE disk drive as unit #" #num,                        \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_4040, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "1_001, 5\"1/4 DS IEEE488",                                                       \
+      "Emulate a 1001 5\"1/4 DS IEEE disk drive as unit #" #num,                        \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_1001, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "8050, 5\"1/4 _SD IEEE488",                                                       \
+      "Emulate a 8050 5\"1/4 SD IEEE disk drive as unit #" #num,                        \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8050, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { "8520, 5\"1/4 _DD IEEE488",                                                       \
+      "Emulate a 8250 5\"1/4 DD IEEE disk drive as unit #" #num,                        \
+      radio_Drive##num##Type_callback, (void *)DRIVE_TYPE_8250, 0,                      \
+      TUI_MENU_BEH_CLOSE, NULL, NULL },                                                 \
+    { NULL }                                                                            \
 };
 
 DEFINE_DRIVE_MODEL_SUBMENU(8)
