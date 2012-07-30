@@ -39,6 +39,7 @@ tui_menu_t ui_sound_sample_rate_submenu;
 tui_menu_t ui_sound_submenu;
 
 TUI_MENU_DEFINE_TOGGLE(Sound)
+TUI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
 
 static TUI_MENU_CALLBACK(sound_sample_rate_submenu_callback)
 {
@@ -209,6 +210,11 @@ static tui_menu_item_def_t sound_submenu[] = {
       "Specify method used to synchronize the sound playback with the emulator",
       sound_synchronization_submenu_callback, NULL, 9,
       TUI_MENU_BEH_CONTINUE, sound_synchronization_submenu, "Synchronization" },
+    { "--" },
+    { "Drive sound emulation:",
+      "Enable drive sound emulation",
+      toggle_DriveSoundEmulation_callback, NULL, 3,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
 
