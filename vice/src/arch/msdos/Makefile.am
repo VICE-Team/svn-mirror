@@ -145,10 +145,14 @@ libarch_a_SOURCES = \
 	uireu.h \
 	uiscreenshot.c \
 	uiscreenshot.h \
-	uisid.c \
-	uisid.h \
+	uisidc64.c \
+	uisidc64.h \
+	uisidc128.c \
+	uisidc128.h \
 	uisidcart.c \
 	uisidcart.h \
+	uisidcbm2.c \
+	uisidcbm2.h \
 	uisiddtv.c \
 	uisiddtv.h \
 	uisnapshot.c \

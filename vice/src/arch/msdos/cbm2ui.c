@@ -39,7 +39,7 @@
 #include "tui.h"
 #include "tuifs.h"
 #include "ui.h"
-#include "uisid.h"
+#include "uisidcbm2.h"
 #include "uivideo.h"
 
 static TUI_MENU_CALLBACK(load_rom_file_callback)
@@ -91,7 +91,7 @@ int cbm2ui_init(void)
     ui_create_main_menu(0, 1, 0, 0, 1);
 
     tui_menu_add_separator(ui_video_submenu);
-    tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
+    tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);
 
     if (machine_class == VICE_MACHINE_CBM5x0) {
         uivideo_init(ui_video_submenu, VID_VICII, VID_NONE);

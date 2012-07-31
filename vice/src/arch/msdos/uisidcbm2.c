@@ -1,9 +1,10 @@
 /*
- * uisid.c - SID UI interface for MS-DOS.
+ * uisidcbm2.c - CBM2 SID UI interface for MS-DOS.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Andreas Boose <viceteam@t-online.de>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,7 +34,7 @@
 #include "sid.h"
 #include "tui.h"
 #include "tuimenu.h"
-#include "uisid.h"
+#include "uisidcbm2.h"
 
 static TUI_MENU_CALLBACK(sid_engine_model_submenu_callback)
 {
@@ -246,7 +247,7 @@ static TUI_MENU_CALLBACK(toggle_ResidSampling_callback)
 
 TUI_MENU_DEFINE_TOGGLE(SidFilters)
 
-tui_menu_item_def_t sid_ui_menu_items[] = {
+tui_menu_item_def_t sid_cbm2_ui_menu_items[] = {
     { "--" },
     { "SID _Engine/Model:",
       "Select the SID engine and model to emulate",

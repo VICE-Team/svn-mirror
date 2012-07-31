@@ -54,7 +54,7 @@
 #include "uimmcreplay.h"
 #include "uiramcart.h"
 #include "uireu.h"
-#include "uisid.h"
+#include "uisidc128.h"
 #include "uisoundexpander.h"
 #ifdef HAVE_TFE
 #include "uitfe.h"
@@ -229,7 +229,7 @@ int c128ui_init(void)
 
     uivideo_init(ui_video_submenu, VID_VICII, VID_VDC);
 
-    tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
+    tui_menu_add(ui_sound_submenu, sid_c128_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 
     uilightpen_init(ui_ioextensions_submenu);

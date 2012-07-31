@@ -1,8 +1,9 @@
 /*
- * uisid.h - SID UI interface for MS-DOS.
+ * uisidc64.h - C64 SID UI interface for MS-DOS.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,11 +25,11 @@
  *
  */
 
-#ifndef UISID_H
-#define UISID_H
+#ifndef UISIDC64_H
+#define UISIDC64_H
 
 struct tui_menu_item_def_s;
 
-extern struct tui_menu_item_def_s sid_ui_menu_items[];
+extern struct tui_menu_item_def_s sid_c64_ui_menu_items[];
 
 #endif

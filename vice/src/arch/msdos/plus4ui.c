@@ -39,7 +39,7 @@
 #include "ui.h"
 #include "uiplus4cart.h"
 #include "uiplus4model.h"
-#include "uisid.h"
+#include "uisidcbm2.h"
 #include "uisidcart.h"
 #include "uiv364speech.h"
 #include "uivideo.h"
@@ -124,7 +124,7 @@ int plus4ui_init(void)
 
     uivideo_init(ui_video_submenu, VID_TED, VID_NONE);
 
-    tui_menu_add(ui_sound_submenu, sid_ui_menu_items);
+    tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);
 
     uisidcart_plus4_init(ui_sound_submenu, "$FD40", "$FE80", "PLUS4");
     uiv364speech_init(ui_sound_submenu);
