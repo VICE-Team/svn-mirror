@@ -141,6 +141,8 @@ libarch_a_SOURCES = \
 	uiprinter.h \
 	uiramcart.c \
 	uiramcart.h \
+	uiretroreplay.c \
+	uiretroreplay.h \
 	uireu.c \
 	uireu.h \
 	uiscreenshot.c \
