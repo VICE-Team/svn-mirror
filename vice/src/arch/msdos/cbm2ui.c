@@ -39,6 +39,7 @@
 #include "tui.h"
 #include "tuifs.h"
 #include "ui.h"
+#include "uiciamodel.h"
 #include "uisidcbm2.h"
 #include "uivideo.h"
 
@@ -98,6 +99,8 @@ int cbm2ui_init(void)
     } else {
         uivideo_init(ui_video_submenu, VID_CRTC, VID_NONE);
     }
+
+    uiciamodel_single_init(ui_special_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
 

@@ -43,6 +43,7 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uic64cart.h"
+#include "uiciamodel.h"
 #include "uidigimax.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
@@ -231,6 +232,8 @@ int c128ui_init(void)
 
     tui_menu_add(ui_sound_submenu, sid_c128_ui_menu_items);
     tui_menu_add(ui_rom_submenu, rom_menu_items);
+
+    uiciamodel_double_init(ui_ioextensions_submenu);
 
     uilightpen_init(ui_ioextensions_submenu);
 

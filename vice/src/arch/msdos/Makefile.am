@@ -93,6 +93,8 @@ libarch_a_SOURCES = \
 	uic64dtvmodel.h \
 	uic64model.c \
 	uic64model.h \
+	uiciamodel.c \
+	uiciamodel.h \
 	uicmdline.c \
 	uidigimax.c \
 	uidigimax.h \
