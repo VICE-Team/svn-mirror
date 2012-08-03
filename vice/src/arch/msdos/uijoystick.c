@@ -771,6 +771,14 @@ static tui_menu_item_def_t userport_joy_type_c64_submenu[] = {
       "HIT userport joystick adapter",
       userport_type_callback, (void *)USERPORT_JOYSTICK_HIT, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Kingsoft",
+      "Kingsoft userport joystick adapter",
+      userport_type_callback, (void *)USERPORT_JOYSTICK_KINGSOFT, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "Starbyte",
+      "Starbyte userport joystick adapter",
+      userport_type_callback, (void *)USERPORT_JOYSTICK_STARBYTE, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };
 
