@@ -41,77 +41,10 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uipetdww.h"
+#include "uipetmodel.h"
 #include "uipetreu.h"
 #include "uisidcart.h"
 #include "uivideo.h"
-
-static TUI_MENU_CALLBACK(set_model_callback)
-{
-    if (been_activated) {
-        pet_set_model(param, NULL);
-        ui_update_menus();
-    }
-
-    /* This way, the "Not Really!" item is always the default one.  */
-    *become_default = 0;
-    return NULL;
-}
-
-static tui_menu_item_def_t pet_model_items[] = {
-    { "_Not Really!",
-      "Keep the current settings",
-      NULL, NULL, 0, TUI_MENU_BEH_CLOSE, NULL, NULL },
-    { "--" },
-    { "_A: PET 2001-8N",
-      "Configure the emulator to emulate a PET 2001-8N and do a soft RESET",
-      set_model_callback, (void *) "2001", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_B: PET 3008",
-      "Configure the emulator to emulate a PET 3008 and do a soft RESET",
-      set_model_callback, (void *) "3008", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_C: PET 3016",
-      "Configure the emulator to emulate a PET 3016 and do a soft RESET",
-      set_model_callback, (void *) "3016", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_D: PET 3032",
-      "Configure the emulator to emulate a PET 3032 and do a soft RESET",
-      set_model_callback, (void *) "3032", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_E: PET 3032B",
-      "Configure the emulator to emulate a PET 3032B and do a soft RESET",
-      set_model_callback, (void *) "3032B", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_F: PET 4016",
-      "Configure the emulator to emulate a PET 4016 and do a soft RESET",
-      set_model_callback, (void *) "4016", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_G: PET 4032",
-      "Configure the emulator to emulate a PET 4032 and do a soft RESET",
-      set_model_callback, (void *) "4032", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_H: PET 4032B",
-      "Configure the emulator to emulate a PET 4032B and do a soft RESET",
-      set_model_callback, (void *) "4032B", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_I: PET 8032",
-      "Configure the emulator to emulate a PET 8032 and do a soft RESET",
-      set_model_callback, (void *) "8032", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_J: PET 8096",
-      "Configure the emulator to emulate a PET 8096 and do a soft RESET",
-      set_model_callback, (void *) "8096", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_K: PET 8296",
-      "Configure the emulator to emulate a PET 8296 and do a soft RESET",
-      set_model_callback, (void *) "8296", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { "_L: SuperPET",
-      "Configure the emulator to emulate a SuperPET and do a soft RESET",
-      set_model_callback, (void *) "SuperPET", 0,
-      TUI_MENU_BEH_RESUME, NULL, NULL },
-    { NULL }
-};
 
 static TUI_MENU_CALLBACK(video_size_callback)
 {
@@ -247,10 +180,6 @@ static TUI_MENU_CALLBACK(set_keyboard_callback)
 }
 
 static tui_menu_item_def_t special_menu_items[] = {
-    { "Change _PET Model...",
-      "Set options according to a specific PET model; THIS WILL RESET THE MACHINE",
-      NULL, NULL, 0,
-      TUI_MENU_BEH_CONTINUE, pet_model_items, "Change PET Model" },
     { "  _Video Width:",
       "Specify CRTC video size",
       video_size_callback, NULL, 11,
@@ -351,6 +280,8 @@ int petui_init(void)
 
     tui_menu_add_separator(ui_special_submenu);
     tui_menu_add(ui_special_submenu, special_menu_items);
+
+    uipetmodel_init(ui_special_submenu);
 
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
     tui_menu_add_submenu(ui_special_submenu, "_I/O extensions",

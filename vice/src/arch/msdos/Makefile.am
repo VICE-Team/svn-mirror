@@ -129,6 +129,8 @@ libarch_a_SOURCES = \
 	uinetplay.h \
 	uiperipherial.c \
 	uiperipherial.h \
+	uipetmodel.c \
+	uipetmodel.h \
 	uipetdww.c \
 	uipetdww.h \
 	uipetreu.c \
