@@ -43,6 +43,7 @@
 #include "tuimenu.h"
 #include "ui.h"
 #include "uic64cart.h"
+#include "uic128model.h"
 #include "uiciamodel.h"
 #include "uidigimax.h"
 #include "uieasyflash.h"
@@ -216,6 +217,8 @@ int c128ui_init(void)
     ui_create_main_menu(1, 1, 1, 2, 1);
 
     tui_menu_add_separator(ui_special_submenu);
+
+    uic128model_init(ui_special_submenu);
 
     ui_ioextensions_submenu = tui_menu_create("I/O extensions", 1);
     tui_menu_add(ui_ioextensions_submenu, ioextenstions_menu_items);

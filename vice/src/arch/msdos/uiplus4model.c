@@ -33,7 +33,6 @@
 #include "tui.h"
 #include "tuimenu.h"
 #include "uiplus4model.h"
-#include "vicii.h"
 
 static TUI_MENU_CALLBACK(set_model_callback)
 {
