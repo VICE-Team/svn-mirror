@@ -1,5 +1,5 @@
 /*
- * cbm2ui.c - Definition of the CBM2-specific part of the UI.
+ * cbm5x0ui.c - Definition of the CBM5x0-specific part of the UI.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
@@ -39,7 +39,7 @@
 #include "tui.h"
 #include "tuifs.h"
 #include "ui.h"
-#include "uicbm2model.h"
+#include "uicbm5x0model.h"
 #include "uiciamodel.h"
 #include "uisidcbm2.h"
 #include "uivideo.h"
@@ -88,16 +88,16 @@ static tui_menu_item_def_t rom_menu_items[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int cbm2ui_init(void)
+int cbm5x0ui_init(void)
 {
     ui_create_main_menu(0, 1, 0, 0, 1);
 
     tui_menu_add_separator(ui_video_submenu);
     tui_menu_add(ui_sound_submenu, sid_cbm2_ui_menu_items);
 
-    uivideo_init(ui_video_submenu, VID_CRTC, VID_NONE);
+    uivideo_init(ui_video_submenu, VID_VICII, VID_NONE);
 
-    uicbm2model_init(ui_special_submenu);
+    uicbm5x0model_init(ui_special_submenu);
     uiciamodel_single_init(ui_special_submenu);
 
     tui_menu_add(ui_rom_submenu, rom_menu_items);
@@ -105,6 +105,6 @@ int cbm2ui_init(void)
     return 0;
 }
 
-void cbm2ui_shutdown(void)
+void cbm5x0ui_shutdown(void)
 {
 }

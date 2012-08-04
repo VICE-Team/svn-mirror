@@ -14,6 +14,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
 	-I$(top_srcdir)/src/c128 \
+	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/plus4 \
@@ -37,6 +38,7 @@ libarch_a_SOURCES = \
 	c64dtvui.c \
 	catweaselmkiii.c \
 	cbm2ui.c \
+	cbm5x0ui.c \
 	cbmcharsets.c \
 	cbmcharsets.h \
 	console.c \
@@ -95,6 +97,10 @@ libarch_a_SOURCES = \
 	uic64model.h \
 	uic128model.c \
 	uic128model.h \
+	uicbm2model.c \
+	uicbm2model.h \
+	uicbm5x0model.c \
+	uicbm5x0model.h \
 	uiciamodel.c \
 	uiciamodel.h \
 	uicmdline.c \
