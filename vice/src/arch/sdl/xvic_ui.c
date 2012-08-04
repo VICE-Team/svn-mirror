@@ -55,6 +55,7 @@
 #include "ui.h"
 #include "uimenu.h"
 #include "vic.h"
+#include "victypes.h"
 #include "vic20memrom.h"
 #include "videoarch.h"
 #include "vkbd.h"
