@@ -30,6 +30,7 @@ extra_keymaps = \
 	osx_pos.vkm \
 	osx_sym.vkm \
 	win_sym.vkm \
+	win_sym_US.vkm \
 	win_pos.vkm
 
 win32_files = \
