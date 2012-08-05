@@ -80,7 +80,9 @@ $(builddir)/vice.txt:		$(srcdir)/vice.texi
 
 $(builddir)/vice.pdf:	$(srcdir)/vice.texi
 if BUILD_PDF
-	$(TEXI2DVI) -q --clean --pdf -o $(builddir)/vice.pdf $(srcdir)/vice.texi
+	sed 's/@heading NO WARRANTY/@center NO WARRANTY/g' <$(srcdir)/vice.texi >vicepdf.texi
+	$(TEXI2DVI) -q --clean --pdf -o $(builddir)/vice.pdf vicepdf.texi
+	rm -f vicepdf.texi
 
 PDF_DEPS=$(builddir)/vice.pdf
 else
