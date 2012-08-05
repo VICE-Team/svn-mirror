@@ -1764,7 +1764,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_VERTICAL_STRETCH,    "Vertical stretch" },
 /* da */ { IDMS_VERTICAL_STRETCH_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VERTICAL_STRETCH_DE, "" },  /* fuzzy */
+/* de */ { IDMS_VERTICAL_STRETCH_DE, "Vertikale Dehnung" },
 /* es */ { IDMS_VERTICAL_STRETCH_ES, "Extensión vertical" },
 /* fr */ { IDMS_VERTICAL_STRETCH_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VERTICAL_STRETCH_HU, "" },  /* fuzzy */
@@ -2408,7 +2408,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C16_PAL,    "C16 PAL" },
 /* da */ { IDMS_C16_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C16_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C16_PAL_DE, "C16 PAL" },
 /* es */ { IDMS_C16_PAL_ES, "C16 PAL" },
 /* fr */ { IDMS_C16_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C16_PAL_HU, "" },  /* fuzzy */
@@ -2422,7 +2422,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C16_NTSC,    "C16 NTSC" },
 /* da */ { IDMS_C16_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C16_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C16_NTSC_DE, "C16 NTSC" },
 /* es */ { IDMS_C16_NTSC_ES, "C16 NTSC" },
 /* fr */ { IDMS_C16_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C16_NTSC_HU, "" },  /* fuzzy */
@@ -2436,7 +2436,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_PLUS4_PAL,    "Plus4 PAL" },
 /* da */ { IDMS_PLUS4_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PLUS4_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_PLUS4_PAL_DE, "Plus4 PAL" },
 /* es */ { IDMS_PLUS4_PAL_ES, "Plus4 PAL" },
 /* fr */ { IDMS_PLUS4_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_PLUS4_PAL_HU, "" },  /* fuzzy */
@@ -2450,7 +2450,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_PLUS4_NTSC,    "Plus4 NTSC" },
 /* da */ { IDMS_PLUS4_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PLUS4_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_PLUS4_NTSC_DE, "Plus4 NTSC" },
 /* es */ { IDMS_PLUS4_NTSC_ES, "Plus4 NTSC" },
 /* fr */ { IDMS_PLUS4_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_PLUS4_NTSC_HU, "" },  /* fuzzy */
@@ -2464,7 +2464,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_V364_NTSC,    "V364 NTSC" },
 /* da */ { IDMS_V364_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_V364_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_V364_NTSC_DE, "V364 NTSC" },
 /* es */ { IDMS_V364_NTSC_ES, "V364 NTSC" },
 /* fr */ { IDMS_V364_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_V364_NTSC_HU, "" },  /* fuzzy */
@@ -2478,7 +2478,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C232_NTSC,    "C232 NTSC" },
 /* da */ { IDMS_C232_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C232_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C232_NTSC_DE, "C232 NTSC" },
 /* es */ { IDMS_C232_NTSC_ES, "C232 NTSC" },
 /* fr */ { IDMS_C232_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C232_NTSC_HU, "" },  /* fuzzy */
@@ -2506,7 +2506,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C64DTV2_PAL,    "C64DTV V2 PAL" },
 /* da */ { IDMS_C64DTV2_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C64DTV2_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C64DTV2_PAL_DE, "C64DTV V2 PAL" },
 /* es */ { IDMS_C64DTV2_PAL_ES, "C64DTV V2 PAL" },
 /* fr */ { IDMS_C64DTV2_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C64DTV2_PAL_HU, "" },  /* fuzzy */
@@ -2520,7 +2520,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C64DTV2_NTSC,    "C64DTV V2 NTSC" },
 /* da */ { IDMS_C64DTV2_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C64DTV2_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C64DTV2_NTSC_DE, "C64DTV V2 NTSC" },
 /* es */ { IDMS_C64DTV2_NTSC_ES, "C64DTV V2 PAL" },
 /* fr */ { IDMS_C64DTV2_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C64DTV2_NTSC_HU, "" },  /* fuzzy */
@@ -2534,7 +2534,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C64DTV3_PAL,    "C64DTV V3 PAL" },
 /* da */ { IDMS_C64DTV3_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C64DTV3_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C64DTV3_PAL_DE, "C64DTV V3 PAL" },
 /* es */ { IDMS_C64DTV3_PAL_ES, "C64DTV V2 PAL" },
 /* fr */ { IDMS_C64DTV3_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C64DTV3_PAL_HU, "" },  /* fuzzy */
@@ -2548,7 +2548,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C64DTV3_NTSC,    "C64DTV V3 NTSC" },
 /* da */ { IDMS_C64DTV3_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C64DTV3_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C64DTV3_NTSC_DE, "C64DTV V3 NTSC" },
 /* es */ { IDMS_C64DTV3_NTSC_ES, "C64DTV V3 NTSC" },
 /* fr */ { IDMS_C64DTV3_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C64DTV3_NTSC_HU, "" },  /* fuzzy */
@@ -2562,7 +2562,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_HUMMER_NTSC,    "Hummer NTSC" },
 /* da */ { IDMS_HUMMER_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_HUMMER_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_HUMMER_NTSC_DE, "Hummer NTSC" },
 /* es */ { IDMS_HUMMER_NTSC_ES, "Hummer NTSC" },
 /* fr */ { IDMS_HUMMER_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_HUMMER_NTSC_HU, "" },  /* fuzzy */
@@ -2590,7 +2590,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C128_PAL,    "C128 PAL" },
 /* da */ { IDMS_C128_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C128_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C128_PAL_DE, "C128 PAL" },
 /* es */ { IDMS_C128_PAL_ES, "C128 PAL" },
 /* fr */ { IDMS_C128_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C128_PAL_HU, "" },  /* fuzzy */
@@ -2604,7 +2604,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C128DCR_PAL,    "C128DCR PAL" },
 /* da */ { IDMS_C128DCR_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C128DCR_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C128DCR_PAL_DE, "C128DCR PAL" },
 /* es */ { IDMS_C128DCR_PAL_ES, "C128DCR PAL" },
 /* fr */ { IDMS_C128DCR_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C128DCR_PAL_HU, "" },  /* fuzzy */
@@ -2618,7 +2618,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C128_NTSC,    "C128 NTSC" },
 /* da */ { IDMS_C128_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C128_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C128_NTSC_DE, "C128 NTSC" },
 /* es */ { IDMS_C128_NTSC_ES, "C128 NTSC" },
 /* fr */ { IDMS_C128_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C128_NTSC_HU, "" },  /* fuzzy */
@@ -2632,7 +2632,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_C128DCR_NTSC,    "C128DCR NTSC" },
 /* da */ { IDMS_C128DCR_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_C128DCR_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_C128DCR_NTSC_DE, "C128DCR NTSC" },
 /* es */ { IDMS_C128DCR_NTSC_ES, "C128DCR NTSC" },
 /* fr */ { IDMS_C128DCR_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_C128DCR_NTSC_HU, "" },  /* fuzzy */
@@ -2660,7 +2660,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_2001,    "2001" },
 /* da */ { IDMS_2001_DA, "" },  /* fuzzy */
-/* de */ { IDMS_2001_DE, "" },  /* fuzzy */
+/* de */ { IDMS_2001_DE, "2001" },
 /* es */ { IDMS_2001_ES, "2001" },
 /* fr */ { IDMS_2001_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_2001_HU, "" },  /* fuzzy */
@@ -2674,7 +2674,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_3008,    "3008" },
 /* da */ { IDMS_3008_DA, "" },  /* fuzzy */
-/* de */ { IDMS_3008_DE, "" },  /* fuzzy */
+/* de */ { IDMS_3008_DE, "3008" },
 /* es */ { IDMS_3008_ES, "3008" },
 /* fr */ { IDMS_3008_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_3008_HU, "" },  /* fuzzy */
@@ -2688,7 +2688,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_3016,    "3016" },
 /* da */ { IDMS_3016_DA, "" },  /* fuzzy */
-/* de */ { IDMS_3016_DE, "" },  /* fuzzy */
+/* de */ { IDMS_3016_DE, "3016" },
 /* es */ { IDMS_3016_ES, "3016" },
 /* fr */ { IDMS_3016_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_3016_HU, "" },  /* fuzzy */
@@ -2702,7 +2702,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_3032,    "3032" },
 /* da */ { IDMS_3032_DA, "" },  /* fuzzy */
-/* de */ { IDMS_3032_DE, "" },  /* fuzzy */
+/* de */ { IDMS_3032_DE, "3032" },
 /* es */ { IDMS_3032_ES, "3032" },
 /* fr */ { IDMS_3032_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_3032_HU, "" },  /* fuzzy */
@@ -2716,7 +2716,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_3032B,    "3032B" },
 /* da */ { IDMS_3032B_DA, "" },  /* fuzzy */
-/* de */ { IDMS_3032B_DE, "" },  /* fuzzy */
+/* de */ { IDMS_3032B_DE, "3032B" },
 /* es */ { IDMS_3032B_ES, "3032B" },
 /* fr */ { IDMS_3032B_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_3032B_HU, "" },  /* fuzzy */
@@ -2730,7 +2730,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_4016,    "4016" },
 /* da */ { IDMS_4016_DA, "" },  /* fuzzy */
-/* de */ { IDMS_4016_DE, "" },  /* fuzzy */
+/* de */ { IDMS_4016_DE, "4016" },
 /* es */ { IDMS_4016_ES, "4016" },
 /* fr */ { IDMS_4016_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_4016_HU, "" },  /* fuzzy */
@@ -2744,7 +2744,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_4032,    "4032" },
 /* da */ { IDMS_4032_DA, "" },  /* fuzzy */
-/* de */ { IDMS_4032_DE, "" },  /* fuzzy */
+/* de */ { IDMS_4032_DE, "4032" },
 /* es */ { IDMS_4032_ES, "4032" },
 /* fr */ { IDMS_4032_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_4032_HU, "" },  /* fuzzy */
@@ -2758,7 +2758,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_4032B,    "4032B" },
 /* da */ { IDMS_4032B_DA, "" },  /* fuzzy */
-/* de */ { IDMS_4032B_DE, "" },  /* fuzzy */
+/* de */ { IDMS_4032B_DE, "4032B" },
 /* es */ { IDMS_4032B_ES, "4032B" },
 /* fr */ { IDMS_4032B_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_4032B_HU, "" },  /* fuzzy */
@@ -2772,7 +2772,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_8032,    "8032" },
 /* da */ { IDMS_8032_DA, "" },  /* fuzzy */
-/* de */ { IDMS_8032_DE, "" },  /* fuzzy */
+/* de */ { IDMS_8032_DE, "8032" },
 /* es */ { IDMS_8032_ES, "8032" },
 /* fr */ { IDMS_8032_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_8032_HU, "" },  /* fuzzy */
@@ -2786,7 +2786,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_8096,    "8096" },
 /* da */ { IDMS_8096_DA, "" },  /* fuzzy */
-/* de */ { IDMS_8096_DE, "" },  /* fuzzy */
+/* de */ { IDMS_8096_DE, "8096" },
 /* es */ { IDMS_8096_ES, "8096" },
 /* fr */ { IDMS_8096_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_8096_HU, "" },  /* fuzzy */
@@ -2800,7 +2800,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_8296,    "8296" },
 /* da */ { IDMS_8296_DA, "" },  /* fuzzy */
-/* de */ { IDMS_8296_DE, "" },  /* fuzzy */
+/* de */ { IDMS_8296_DE, "8296" },
 /* es */ { IDMS_8296_ES, "8293" },
 /* fr */ { IDMS_8296_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_8296_HU, "" },  /* fuzzy */
@@ -2814,7 +2814,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_SUPERPET,    "SuperPET" },
 /* da */ { IDMS_SUPERPET_DA, "" },  /* fuzzy */
-/* de */ { IDMS_SUPERPET_DE, "" },  /* fuzzy */
+/* de */ { IDMS_SUPERPET_DE, "SuperPET" },
 /* es */ { IDMS_SUPERPET_ES, "SuperPET" },
 /* fr */ { IDMS_SUPERPET_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_SUPERPET_HU, "" },  /* fuzzy */
@@ -2842,7 +2842,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_610_PAL,    "CBM610 PAL" },
 /* da */ { IDMS_610_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_610_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_610_PAL_DE, "CBM610 PAL" },
 /* es */ { IDMS_610_PAL_ES, "CBM610 PAL" },
 /* fr */ { IDMS_610_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_610_PAL_HU, "" },  /* fuzzy */
@@ -2856,7 +2856,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_610_NTSC,    "CBM610 NTSC" },
 /* da */ { IDMS_610_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_610_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_610_NTSC_DE, "CBM610 NTSC" },
 /* es */ { IDMS_610_NTSC_ES, "CBM610 NTSC" },
 /* fr */ { IDMS_610_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_610_NTSC_HU, "" },  /* fuzzy */
@@ -2870,7 +2870,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_620_PAL,    "CBM620 PAL" },
 /* da */ { IDMS_620_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_620_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_620_PAL_DE, "CBM620 PAL" },
 /* es */ { IDMS_620_PAL_ES, "CBM620 PAL" },
 /* fr */ { IDMS_620_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_620_PAL_HU, "" },  /* fuzzy */
@@ -2884,7 +2884,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_620_NTSC,    "CBM620 NTSC" },
 /* da */ { IDMS_620_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_620_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_620_NTSC_DE, "CBM620 NTSC" },
 /* es */ { IDMS_620_NTSC_ES, "CBM620 NTSC" },
 /* fr */ { IDMS_620_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_620_NTSC_HU, "" },  /* fuzzy */
@@ -2898,7 +2898,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_620PLUS_PAL,    "CBM620+ PAL" },
 /* da */ { IDMS_620PLUS_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_620PLUS_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_620PLUS_PAL_DE, "CBM620+ PAL" },
 /* es */ { IDMS_620PLUS_PAL_ES, "CBM620+ PAL" },
 /* fr */ { IDMS_620PLUS_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_620PLUS_PAL_HU, "" },  /* fuzzy */
@@ -2912,7 +2912,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_620PLUS_NTSC,    "CBM620+ NTSC" },
 /* da */ { IDMS_620PLUS_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_620PLUS_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_620PLUS_NTSC_DE, "CBM620+ NTSC" },
 /* es */ { IDMS_620PLUS_NTSC_ES, "CBM620+ NTSC" },
 /* fr */ { IDMS_620PLUS_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_620PLUS_NTSC_HU, "" },  /* fuzzy */
@@ -2926,7 +2926,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_710_NTSC,    "CBM710 NTSC" },
 /* da */ { IDMS_710_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_710_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_710_NTSC_DE, "CBM710 NTSC" },
 /* es */ { IDMS_710_NTSC_ES, "CBM710 NTSC" },
 /* fr */ { IDMS_710_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_710_NTSC_HU, "" },  /* fuzzy */
@@ -2940,7 +2940,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_720_NTSC,    "CBM720 NTSC" },
 /* da */ { IDMS_720_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_720_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_720_NTSC_DE, "CBM720 NTSC" },
 /* es */ { IDMS_720_NTSC_ES, "CBM720 NTSC" },
 /* fr */ { IDMS_720_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_720_NTSC_HU, "" },  /* fuzzy */
@@ -2954,7 +2954,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_720PLUS_NTSC,    "CBM720+ NTSC" },
 /* da */ { IDMS_720PLUS_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_720PLUS_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_720PLUS_NTSC_DE, "CBM720+ NTSC" },
 /* es */ { IDMS_720PLUS_NTSC_ES, "CBM720+ NTSC" },
 /* fr */ { IDMS_720PLUS_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_720PLUS_NTSC_HU, "" },  /* fuzzy */
@@ -2982,7 +2982,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_510_PAL,    "CBM510 PAL" },
 /* da */ { IDMS_510_PAL_DA, "" },  /* fuzzy */
-/* de */ { IDMS_510_PAL_DE, "" },  /* fuzzy */
+/* de */ { IDMS_510_PAL_DE, "CBM510 PAL" },
 /* es */ { IDMS_510_PAL_ES, "CBM510 PAL" },
 /* fr */ { IDMS_510_PAL_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_510_PAL_HU, "" },  /* fuzzy */
@@ -2996,7 +2996,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_510_NTSC,    "CBM510 NTSC" },
 /* da */ { IDMS_510_NTSC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_510_NTSC_DE, "" },  /* fuzzy */
+/* de */ { IDMS_510_NTSC_DE, "CBM510 NTSC" },
 /* es */ { IDMS_510_NTSC_ES, "CBM510 NTSC" },
 /* fr */ { IDMS_510_NTSC_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_510_NTSC_HU, "" },  /* fuzzy */
@@ -3024,7 +3024,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_VICII_VIDEO_SETTINGS,    "VICII video settings..." },
 /* da */ { IDMS_VICII_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VICII_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_VICII_VIDEO_SETTINGS_DE, "VICII Video Einstellungen..." },
 /* es */ { IDMS_VICII_VIDEO_SETTINGS_ES, "Ajustes de video VIC II..." },
 /* fr */ { IDMS_VICII_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VICII_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
@@ -3038,7 +3038,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_VIC_VIDEO_SETTINGS,    "VIC video settings..." },
 /* da */ { IDMS_VIC_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VIC_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_VIC_VIDEO_SETTINGS_DE, "VIC Video Einstellungen..." },
 /* es */ { IDMS_VIC_VIDEO_SETTINGS_ES, "Ajustes de video VIC..." },
 /* fr */ { IDMS_VIC_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VIC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
@@ -3052,7 +3052,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_VDC_VIDEO_SETTINGS,    "VDC video settings..." },
 /* da */ { IDMS_VDC_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_VDC_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_VDC_VIDEO_SETTINGS_DE, "VDC Video Einstellungen..." },
 /* es */ { IDMS_VDC_VIDEO_SETTINGS_ES, "Ajustes de video VDC..." },
 /* fr */ { IDMS_VDC_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_VDC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
@@ -3066,7 +3066,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_CRTC_VIDEO_SETTINGS,    "CRTC video settings..." },
 /* da */ { IDMS_CRTC_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_CRTC_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_CRTC_VIDEO_SETTINGS_DE, "CRTC Video Einstellungen..." },
 /* es */ { IDMS_CRTC_VIDEO_SETTINGS_ES, "Ajustes video CRTC..." },
 /* fr */ { IDMS_CRTC_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_CRTC_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
@@ -3080,7 +3080,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_TED_VIDEO_SETTINGS,    "TED video settings..." },
 /* da */ { IDMS_TED_VIDEO_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_TED_VIDEO_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_TED_VIDEO_SETTINGS_DE, "TED Video Einstellungen..." },
 /* es */ { IDMS_TED_VIDEO_SETTINGS_ES, "Ajustes de video TED..." },
 /* fr */ { IDMS_TED_VIDEO_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_TED_VIDEO_SETTINGS_HU, "" },  /* fuzzy */
@@ -3108,7 +3108,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_PALETTE_SETTINGS,    "Palette settings..." },
 /* da */ { IDMS_PALETTE_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_PALETTE_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_PALETTE_SETTINGS_DE, "Paletteneinstellungen..." },
 /* es */ { IDMS_PALETTE_SETTINGS_ES, "Ajustes Paleta..." },
 /* fr */ { IDMS_PALETTE_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_PALETTE_SETTINGS_HU, "" },  /* fuzzy */
@@ -3136,7 +3136,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_RENDER_FILTER,    "Render filter settings..." },
 /* da */ { IDMS_RENDER_FILTER_DA, "" },  /* fuzzy */
-/* de */ { IDMS_RENDER_FILTER_DE, "" },  /* fuzzy */
+/* de */ { IDMS_RENDER_FILTER_DE, "Render Filter Einstellungen..." },
 /* es */ { IDMS_RENDER_FILTER_ES, "Ajuste filtro de renderizado..." },
 /* fr */ { IDMS_RENDER_FILTER_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_RENDER_FILTER_HU, "" },  /* fuzzy */
@@ -3864,7 +3864,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
 /* da */ { IDMS_BURST_MOD_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDMS_BURST_MOD_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDMS_BURST_MOD_SETTINGS_DE, "Laufwerk Burstmodifkation Einstellungen..." },
 /* es */ { IDMS_BURST_MOD_SETTINGS_ES, "Ajuste modificación Burst en controlador..." },
 /* fr */ { IDMS_BURST_MOD_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_BURST_MOD_SETTINGS_HU, "" },  /* fuzzy */
@@ -5964,31 +5964,31 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_DD3,    "Dolphin Dos 3" },
 /* da */ { IDS_DD3_DA, "" },  /* fuzzy */
-/* de */ { IDS_DD3_DE, "" },  /* fuzzy */
-/* es */ { IDS_DD3_ES, "" },  /* fuzzy */
+/* de */ { IDS_DD3_DE, "Dolphin Dos 3" },
+/* es */ { IDS_DD3_ES, "Dolphin DOS 3" },
 /* fr */ { IDS_DD3_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DD3_HU, "" },  /* fuzzy */
-/* it */ { IDS_DD3_IT, "" },  /* fuzzy */
+/* it */ { IDS_DD3_IT, "Dolphin Dos 3" },
 /* ko */ { IDS_DD3_KO, "" },  /* fuzzy */
 /* nl */ { IDS_DD3_NL, "Dolphin DOS 3" },
-/* pl */ { IDS_DD3_PL, "" },  /* fuzzy */
+/* pl */ { IDS_DD3_PL, "Dolphin Dos 3" },
 /* ru */ { IDS_DD3_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DD3_SV, "" },  /* fuzzy */
-/* tr */ { IDS_DD3_TR, "" },  /* fuzzy */
+/* tr */ { IDS_DD3_TR, "Dolphin Dos 3" },
 
 /* en */ { IDS_FORMEL64,    "Formel64" },
 /* da */ { IDS_FORMEL64_DA, "" },  /* fuzzy */
-/* de */ { IDS_FORMEL64_DE, "" },  /* fuzzy */
-/* es */ { IDS_FORMEL64_ES, "" },  /* fuzzy */
+/* de */ { IDS_FORMEL64_DE, "Formel64" },
+/* es */ { IDS_FORMEL64_ES, "Formel 64" },
 /* fr */ { IDS_FORMEL64_FR, "" },  /* fuzzy */
 /* hu */ { IDS_FORMEL64_HU, "" },  /* fuzzy */
-/* it */ { IDS_FORMEL64_IT, "" },  /* fuzzy */
+/* it */ { IDS_FORMEL64_IT, "Formel64" },
 /* ko */ { IDS_FORMEL64_KO, "" },  /* fuzzy */
 /* nl */ { IDS_FORMEL64_NL, "Formel64" },
-/* pl */ { IDS_FORMEL64_PL, "" },  /* fuzzy */
+/* pl */ { IDS_FORMEL64_PL, "Formel64" },
 /* ru */ { IDS_FORMEL64_RU, "" },  /* fuzzy */
 /* sv */ { IDS_FORMEL64_SV, "" },  /* fuzzy */
-/* tr */ { IDS_FORMEL64_TR, "" },  /* fuzzy */
+/* tr */ { IDS_FORMEL64_TR, "Formel64" },
 
 /* en */ { IDS_FILESYSTEM,    "Filesystem" },
 /* da */ { IDS_FILESYSTEM_DA, "Filsystem" },
@@ -8079,7 +8079,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_BURST_MOD_SETTINGS,    "Drive burst modification settings" },
 /* da */ { IDS_BURST_MOD_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_BURST_MOD_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_BURST_MOD_SETTINGS_DE, "Laufwerk Burstmodifkation Einstellungen" },
 /* es */ { IDS_BURST_MOD_SETTINGS_ES, "Ajuste modificación Burst en controlador" },
 /* fr */ { IDS_BURST_MOD_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_BURST_MOD_SETTINGS_HU, "" },  /* fuzzy */
@@ -8093,7 +8093,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PALETTE_SETTINGS,    "Palette settings" },
 /* da */ { IDS_PALETTE_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_PALETTE_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_PALETTE_SETTINGS_DE, "Paletteneinstellungen" },
 /* es */ { IDS_PALETTE_SETTINGS_ES, "Ajustes Paleta" },
 /* fr */ { IDS_PALETTE_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PALETTE_SETTINGS_HU, "" },  /* fuzzy */
@@ -8121,7 +8121,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_RENDER_FILTER_SETTINGS,    "Render filter settings" },
 /* da */ { IDS_RENDER_FILTER_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_RENDER_FILTER_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_RENDER_FILTER_SETTINGS_DE, "Render Filter Einstellungen" },
 /* es */ { IDS_RENDER_FILTER_SETTINGS_ES, "Ajuste filtro de renderizado" },
 /* fr */ { IDS_RENDER_FILTER_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_RENDER_FILTER_SETTINGS_HU, "" },  /* fuzzy */
@@ -8695,17 +8695,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_AMOUNT_OF_EXTRA_SIDS,    "Amount of extra sids" },
 /* da */ { IDS_AMOUNT_OF_EXTRA_SIDS_DA, "" },  /* fuzzy */
-/* de */ { IDS_AMOUNT_OF_EXTRA_SIDS_DE, "" },  /* fuzzy */
-/* es */ { IDS_AMOUNT_OF_EXTRA_SIDS_ES, "" },  /* fuzzy */
+/* de */ { IDS_AMOUNT_OF_EXTRA_SIDS_DE, "Anzahl der extra SID Chips" },
+/* es */ { IDS_AMOUNT_OF_EXTRA_SIDS_ES, "Cantidad de chips SID extra" },
 /* fr */ { IDS_AMOUNT_OF_EXTRA_SIDS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_AMOUNT_OF_EXTRA_SIDS_HU, "" },  /* fuzzy */
-/* it */ { IDS_AMOUNT_OF_EXTRA_SIDS_IT, "" },  /* fuzzy */
+/* it */ { IDS_AMOUNT_OF_EXTRA_SIDS_IT, "Numero di sid aggiuntivi" },
 /* ko */ { IDS_AMOUNT_OF_EXTRA_SIDS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_AMOUNT_OF_EXTRA_SIDS_NL, "Aantal extra SID chips" },
-/* pl */ { IDS_AMOUNT_OF_EXTRA_SIDS_PL, "" },  /* fuzzy */
+/* pl */ { IDS_AMOUNT_OF_EXTRA_SIDS_PL, "Liczba dodatkowych SID-ów" },
 /* ru */ { IDS_AMOUNT_OF_EXTRA_SIDS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_AMOUNT_OF_EXTRA_SIDS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_AMOUNT_OF_EXTRA_SIDS_TR, "" },  /* fuzzy */
+/* tr */ { IDS_AMOUNT_OF_EXTRA_SIDS_TR, "Ekstra sid adedi" },
 
 /* en */ { IDS_STEREO_SID_AT,    "Stereo SID at" },
 /* da */ { IDS_STEREO_SID_AT_DA, "Stereo-SID på" },
@@ -8723,17 +8723,17 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_TRIPLE_SID_AT,    "Triple SID at" },
 /* da */ { IDS_TRIPLE_SID_AT_DA, "" },  /* fuzzy */
-/* de */ { IDS_TRIPLE_SID_AT_DE, "" },  /* fuzzy */
-/* es */ { IDS_TRIPLE_SID_AT_ES, "" },  /* fuzzy */
+/* de */ { IDS_TRIPLE_SID_AT_DE, "Dritter SID auf" },
+/* es */ { IDS_TRIPLE_SID_AT_ES, "Triple SID en" },
 /* fr */ { IDS_TRIPLE_SID_AT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_TRIPLE_SID_AT_HU, "" },  /* fuzzy */
-/* it */ { IDS_TRIPLE_SID_AT_IT, "" },  /* fuzzy */
+/* it */ { IDS_TRIPLE_SID_AT_IT, "Triplo SID a" },
 /* ko */ { IDS_TRIPLE_SID_AT_KO, "" },  /* fuzzy */
 /* nl */ { IDS_TRIPLE_SID_AT_NL, "Derde SID op" },
-/* pl */ { IDS_TRIPLE_SID_AT_PL, "" },  /* fuzzy */
+/* pl */ { IDS_TRIPLE_SID_AT_PL, "Potrójny SID w" },
 /* ru */ { IDS_TRIPLE_SID_AT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_TRIPLE_SID_AT_SV, "" },  /* fuzzy */
-/* tr */ { IDS_TRIPLE_SID_AT_TR, "" },  /* fuzzy */
+/* tr */ { IDS_TRIPLE_SID_AT_TR, "Üçlü SID konumu" },
 
 /* en */ { IDS_SID_FILTERS,    "SID filters" },
 /* da */ { IDS_SID_FILTERS_DA, "SID-filtre" },
@@ -9255,7 +9255,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_BANK_JUMPER,    "Bank jumper" },
 /* da */ { IDS_BANK_JUMPER_DA, "" },  /* fuzzy */
-/* de */ { IDS_BANK_JUMPER_DE, "" },  /* fuzzy */
+/* de */ { IDS_BANK_JUMPER_DE, "Bank Jumper" },
 /* es */ { IDS_BANK_JUMPER_ES, "Seleccionar conmutador banco" },
 /* fr */ { IDS_BANK_JUMPER_FR, "" },  /* fuzzy */
 /* hu */ { IDS_BANK_JUMPER_HU, "" },  /* fuzzy */
@@ -9605,31 +9605,31 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_SID_ENGINE_MODEL,    "SID engine and model" },
 /* da */ { IDS_SID_ENGINE_MODEL_DA, "" },  /* fuzzy */
-/* de */ { IDS_SID_ENGINE_MODEL_DE, "" },  /* fuzzy */
-/* es */ { IDS_SID_ENGINE_MODEL_ES, "" },  /* fuzzy */
+/* de */ { IDS_SID_ENGINE_MODEL_DE, "SID Engine und Modell" },
+/* es */ { IDS_SID_ENGINE_MODEL_ES, "Modelo y motor SID" },
 /* fr */ { IDS_SID_ENGINE_MODEL_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SID_ENGINE_MODEL_HU, "" },  /* fuzzy */
-/* it */ { IDS_SID_ENGINE_MODEL_IT, "" },  /* fuzzy */
+/* it */ { IDS_SID_ENGINE_MODEL_IT, "Motore e modello  SID" },
 /* ko */ { IDS_SID_ENGINE_MODEL_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_ENGINE_MODEL_NL, "SID kern en model" },
-/* pl */ { IDS_SID_ENGINE_MODEL_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SID_ENGINE_MODEL_PL, "silnik i model SID" },
 /* ru */ { IDS_SID_ENGINE_MODEL_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SID_ENGINE_MODEL_SV, "" },  /* fuzzy */
-/* tr */ { IDS_SID_ENGINE_MODEL_TR, "" },  /* fuzzy */
+/* tr */ { IDS_SID_ENGINE_MODEL_TR, "SID motoru ve modeli" },
 
 /* en */ { IDS_SID_ENGINE,    "SID engine" },
 /* da */ { IDS_SID_ENGINE_DA, "" },  /* fuzzy */
-/* de */ { IDS_SID_ENGINE_DE, "" },  /* fuzzy */
-/* es */ { IDS_SID_ENGINE_ES, "" },  /* fuzzy */
+/* de */ { IDS_SID_ENGINE_DE, "SID Engine" },
+/* es */ { IDS_SID_ENGINE_ES, "Motor SID" },
 /* fr */ { IDS_SID_ENGINE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SID_ENGINE_HU, "" },  /* fuzzy */
-/* it */ { IDS_SID_ENGINE_IT, "" },  /* fuzzy */
+/* it */ { IDS_SID_ENGINE_IT, "Motore SID" },
 /* ko */ { IDS_SID_ENGINE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SID_ENGINE_NL, "SID kern" },
-/* pl */ { IDS_SID_ENGINE_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SID_ENGINE_PL, "Silnik SID" },
 /* ru */ { IDS_SID_ENGINE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SID_ENGINE_SV, "" },  /* fuzzy */
-/* tr */ { IDS_SID_ENGINE_TR, "" },  /* fuzzy */
+/* tr */ { IDS_SID_ENGINE_TR, "SID motoru" },
 
 /* en */ { IDS_SID_MODEL,    "SID model" },
 /* da */ { IDS_SID_MODEL_DA, "SID-model" },
@@ -11677,7 +11677,7 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_CIA_MODEL_SETTINGS,    "CIA model settings" },
 /* da */ { IDS_CIA_MODEL_SETTINGS_DA, "" },  /* fuzzy */
-/* de */ { IDS_CIA_MODEL_SETTINGS_DE, "" },  /* fuzzy */
+/* de */ { IDS_CIA_MODEL_SETTINGS_DE, "CIA Modell Einstellungen" },
 /* es */ { IDS_CIA_MODEL_SETTINGS_ES, "Ajustes modelo CIA" },
 /* fr */ { IDS_CIA_MODEL_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_CIA_MODEL_SETTINGS_HU, "" },  /* fuzzy */
@@ -11691,16 +11691,16 @@ intl_translate_t intl_string_table[] = {
 
 /* en */ { IDS_PSID_SELECT,    "Select SID file to load" },
 /* da */ { IDS_PSID_SELECT_DA, "" },  /* fuzzy */
-/* de */ { IDS_PSID_SELECT_DE, "" },  /* fuzzy */
-/* es */ { IDS_PSID_SELECT_ES, "" },  /* fuzzy */
+/* de */ { IDS_PSID_SELECT_DE, "SID Datei wählen" },
+/* es */ { IDS_PSID_SELECT_ES, "Seleccionar fichero SID para cargar" },
 /* fr */ { IDS_PSID_SELECT_FR, "" },  /* fuzzy */
 /* hu */ { IDS_PSID_SELECT_HU, "" },  /* fuzzy */
-/* it */ { IDS_PSID_SELECT_IT, "" },  /* fuzzy */
+/* it */ { IDS_PSID_SELECT_IT, "Seleziona un file SID da caricare" },
 /* ko */ { IDS_PSID_SELECT_KO, "" },  /* fuzzy */
 /* nl */ { IDS_PSID_SELECT_NL, "Selecteer SID bestand voor laden" },
-/* pl */ { IDS_PSID_SELECT_PL, "" },  /* fuzzy */
+/* pl */ { IDS_PSID_SELECT_PL, "Wybierz plik SID do wczytania" },
 /* ru */ { IDS_PSID_SELECT_RU, "" },  /* fuzzy */
 /* sv */ { IDS_PSID_SELECT_SV, "" },  /* fuzzy */
-/* tr */ { IDS_PSID_SELECT_TR, "" },  /* fuzzy */
+/* tr */ { IDS_PSID_SELECT_TR, "Yüklenecek SID dosyasýný seçin" },
 
 };

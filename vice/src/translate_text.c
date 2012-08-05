@@ -3016,34 +3016,34 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION,    N_("Loads resources from file.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_DE, ""},  /* fuzzy */
-/* es */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_ES, ""},  /* fuzzy */
+/* de */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_DE, "Einstellungen aus Datei laden"},
+/* es */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_ES, "Cargar recursos desde fichero."},
 /* fr */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_HU, ""},  /* fuzzy */
-/* it */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_IT, ""},  /* fuzzy */
+/* it */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_IT, "Carica le risorse da file."},
 /* ko */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_NL, "Laad instellingen van bestand"},
-/* pl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_PL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_PL, "Wczytaj zasoby z pliku."},
 /* ru */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_TR, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_TR, "Kaynaklarý dosyadan yükler."},
 #endif
 
 /* monitor/mon_command.c */
 /* en */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION,    N_("Saves resources to file.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_DA, ""},  /* fuzzy */
-/* de */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_DE, ""},  /* fuzzy */
-/* es */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_ES, ""},  /* fuzzy */
+/* de */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_DE, "Einstellungen speichern unter"},
+/* es */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_ES, "Grabar recursos a fichero."},
 /* fr */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_HU, ""},  /* fuzzy */
-/* it */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_IT, ""},  /* fuzzy */
+/* it */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_IT, "Salva le risorse su file."},
 /* ko */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_NL, "Sla instellingen op naar bestand"},
-/* pl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_PL, ""},  /* fuzzy */
+/* pl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_PL, "Zapisz zasoby do pliku."},
 /* ru */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
 /* sv */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
-/* tr */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_TR, ""},  /* fuzzy */
+/* tr */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_TR, "Kaynaklarý dosyaya kaydeder."},
 #endif
 
 /* monitor/mon_command.c */
@@ -5450,7 +5450,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_RR_BANK_JUMPER,    N_("Set RR Bank Jumper")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_RR_BANK_JUMPER_DA, "Tilslut RR Bank Jumper"},
-/* de */ {IDCLS_SET_RR_BANK_JUMPER_DE, "Aktiviere RR Bank Jumpler"},
+/* de */ {IDCLS_SET_RR_BANK_JUMPER_DE, "Aktiviere RR Bank Jumper"},
 /* es */ {IDCLS_SET_RR_BANK_JUMPER_ES, "Seleccionar conmutador banco RR"},
 /* fr */ {IDCLS_SET_RR_BANK_JUMPER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_RR_BANK_JUMPER_HU, ""},  /* fuzzy */
