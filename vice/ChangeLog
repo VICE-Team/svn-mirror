@@ -1,5 +1,379 @@
 ------------------------------------------------------------------------------
 
+2012-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.txt, doc/vice.chm, doc/vice.pdf, doc/vice.hlp, po/es.po,
+	po/ko.po, po/fr.po, po/da.po, po/tr.po, po/sv.po, po/de.po, po/hu.po,
+	po/ru.po, po/nl.po, po/pl.po, po/it.po, ChangeLog,
+	src/arch/win32/vice-version.bat, src/version.h, configure.in:
+	VICE 2.3.21
+
+2012-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf: Fixed pdf generation.
+
+2012-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt, src/arch/amigaos/intl_text.c,
+	src/arch/win32/res.rc, src/translate_text.c: Did a 'make trans-update'
+
+2012-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c: Fixed email addy.
+
+2012-08-04  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/res.rc, src/arch/win32/uisound.c: I think this is how
+	Marco meant to fix the win32 sound driver selection GUI.
+
+2012-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/VIC20/Makefile.am, data/VIC20/win_sym_US.vkm: Added vic20 US
+	symbolic keymap as provided by derrick inksley.
+
+2012-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/xvic_ui.c: Applied patch by Magnus Lind: xvic_ui.c
+	tests if VIC_DUPLICATES_PIXELS is defined or not to decide how many
+	characters it can write per row. If VIC_DUPLICATES_PIXELS is defined
+	it will be defined in victypes.h which must be included in xvic_ui.c
+	for the test to succeed.
+
+2012-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/cbm5x0ui.c, src/arch/msdos/uicbm2model.c,
+	src/arch/msdos/uicbm2model.h, src/arch/msdos/uicbm5x0model.c,
+	src/arch/msdos/uicbm5x0model.h, src/cbm2/cbm5x0.c: Split cbm2/cbm5x0
+	ui code and added cbm2/cbm5x0 model selection support for the dos tui.
+
+2012-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uijoystick.c: Added support for the kingsoft and
+	starbyte userport joysticks to the dos tui.
+
+2012-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/petui.c,
+	src/arch/msdos/uipetmodel.c, src/arch/msdos/uipetmodel.h: Added proper
+	pet model selection to the dos tui.
+
+2012-08-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/uic128model.c, src/arch/msdos/uic128model.h,
+	src/arch/msdos/uiplus4model.c: Added c128 model selection support to
+	the dos tui.
+
+2012-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/cbm2ui.c, src/arch/msdos/uiciamodel.c,
+	src/arch/msdos/uiciamodel.h: Added CIA1/2 model selection support for
+	x128/xcbm* to the dos tui.
+
+2012-08-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/uiretroreplay.c,
+	src/arch/msdos/uiretroreplay.h: Added retro replay support to the dos
+	tui.
+
+2012-07-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/plus4ui.c, src/arch/msdos/uisid.c,
+	src/arch/msdos/uisid.h, src/arch/msdos/uisidc128.c,
+	src/arch/msdos/uisidc128.h, src/arch/msdos/uisidc64.c,
+	src/arch/msdos/uisidc64.h, src/arch/msdos/uisidcbm2.c,
+	src/arch/msdos/uisidcbm2.h: Added stereo/triple sid support to the dos
+	tui.
+
+2012-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uisound.c: Added drive sound emulation support to the
+	dos tui.
+
+2012-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c: Forced sound output mode to mono.
+
+2012-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c64ui.c,
+	src/arch/msdos/uiburstmod.c, src/arch/msdos/uiburstmod.h: Added c64
+	burst modification support to the dos tui.
+
+2012-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uiide64.c: Fixed the msdos ide64 tui.
+
+2012-07-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64dtvui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/cbm2ui.c,
+	src/arch/msdos/petui.c, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/uidrive.c, src/arch/msdos/vic20ui.c: Added fd2000/4000
+	support to the dos tui.
+
+2012-07-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/plus4ui.c,
+	src/arch/msdos/uiplus4cart.c, src/arch/msdos/uiplus4cart.h: Added
+	plus4 cartridge support to the msdos tui.
+
+2012-07-29  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uipalcontrol.c: Make close button actually
+	close the window. Add Volume slider. Fiddle with rounding and clamping
+	of resource values.
+
+2012-07-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/rescommon.h: Some win64 fixes.
+
+2012-07-27  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uipalcontrol.c: Hopefully fix Xlib crash when
+	trying to close the PAL Control window.
+
+2012-07-26  groepaz <groepaz@gmx.net>
+
+	* src/cbmdos.c, src/imagecontents/diskcontents-block.c: fix the root
+	of the problem instead :) also fixes vdrive/c1541
+
+2012-07-26  Olaf Seibert <rhialto@falu.nl>
+
+	* src/imagecontents/diskcontents-block.c: Avoid a NULL pointer to
+	sprintf.
+
+2012-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/gifdrv.c: More giflib 5.x fixes.
+
+2012-07-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/gifdrv.c: Fixed for giflib 5.x
+
+2012-07-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Fixed vice.texi
+
+2012-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64parallel.c, src/c64/cart/c64carthooks.c,
+	src/c64/cart/crt.c, src/core/ata.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-probe.c, src/drive/drive-snapshot.c,
+	src/drive/drivecpu.c, src/drive/driverom.c, src/drive/iec/fdd.c,
+	src/drive/iec/pc8477.c, src/drive/iec/wd1770.c, src/drive/rotation.c,
+	src/lib/p64/p64.c, src/monitor/mon_assemble6809.c,
+	src/monitor/monitor_network.c, src/pet/6809.h, src/pet/pet-snapshot.c,
+	src/raster/raster-line.c, src/vdrive/vdrive-command.c,
+	src/vic20/vic20sound.c, src/video/video-sound.c,
+	src/video/video-viewport.c: Some warning fixes.
+
+2012-07-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/sdl/fullscreen.c,
+	src/arch/sdl/ui.c, src/arch/sdl/video.c: Disable SDL debug.
+
+2012-07-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vic20/vic-color.c: Green slightly lighter. Add comments why the
+	brightness levels look strange.
+
+2012-07-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/win32/uisidcart.c: Improve win32 SID cart dialog, adding
+	reSID(-fp) selection and likely fixing hardware SID selection. (It
+	still lacks a reSID settings tab.)
+
+2012-06-03  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/vicii/vicii-mem.c: Updated vicii_peek() to use the correct
+	register bit masks depending on regular VIC-II vs. DTV VIC-II.
+
+2012-07-20  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2012-07-19  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/ui.cc, src/arch/beos/vicewindow.cc,
+	src/arch/beos/vicewindow.h: Refactored BeVICE menu update code.
+
+2012-07-19  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/rotation.c: Better temporary GCR write bug workaround
+
+2012-07-18  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/drive/rotation.c: Temporary GCR write bug workaround 
+
+2012-07-18  groepaz <groepaz@gmx.net>
+
+	* src/sound.c: do not use pdev before it was initialized. someone who
+	knows this code better should fix it properly
+
+2012-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.c, src/sound.h, src/sounddrv/soundahi.c,
+	src/sounddrv/soundaiff.c, src/sounddrv/soundaix.c,
+	src/sounddrv/soundallegro.c, src/sounddrv/soundalsa.c,
+	src/sounddrv/soundarts.c, src/sounddrv/soundbeos.cc,
+	src/sounddrv/soundcoreaudio.c, src/sounddrv/sounddart.c,
+	src/sounddrv/sounddummy.c, src/sounddrv/sounddump.c,
+	src/sounddrv/sounddx.c, src/sounddrv/soundfs.c,
+	src/sounddrv/soundhpux.c, src/sounddrv/soundiff.c,
+	src/sounddrv/soundmidas.c, src/sounddrv/soundmmos2.c,
+	src/sounddrv/soundmovie.c, src/sounddrv/soundmp3.c,
+	src/sounddrv/soundpulse.c, src/sounddrv/soundsdl.c,
+	src/sounddrv/soundsgi.c, src/sounddrv/soundsun.c,
+	src/sounddrv/sounduss.c, src/sounddrv/soundvoc.c,
+	src/sounddrv/soundwav.c, src/sounddrv/soundwmm.c: Only adjust fragment
+	size for stereo capable devices.
+
+2012-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisound.c: Fixed in a better way.
+
+2012-07-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vic20/vic-color.c: Magnus Lind ( magli143 ) - 2012-07-10
+	11:53:36 PDT: This patch changes the light orange color of xvic to be
+	light orange and not light brown. This matches the light orange tint
+	on my real vic-20 much better.
+	https://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3542105&group_id=223021
+
+2012-07-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sound.c: Magnus Lind ( magli143 ) - 2012-07-14 10:48:49 PDT:
+	This patch doubles the fragment size if the sound mode is stereo
+	compared to when it is mono since the double amount of data is written
+	per sample in stereo mode. Without this patch, when using stereo mode,
+	the size of the sound buffer (in milliseconds) is only half the
+	configured size.
+	http://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3544080&group_id=223021
+
+2012-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sounddrv/soundsdl.c: Applied the sdl sound patch by Magnus Lind:
+	Improves sdl sound driver fragment size handling and endianess.
+
+2012-07-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisound.c: Changed #ifndef NODIRECTX to #ifndef
+	HAVE_DSOUND_LIB, that way mingw builds without dsound will not have
+	the wmm/dx sound driver selection gui either.
+
+2012-07-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Put linux 64bit data files in <prefix>/lib64 instead
+	of <prefix>/lib.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_amiga.h: Added
+	sdl drive selection to the amiga sdl port.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c: Coding style fixes.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep.h, src/arch/sdl/archdep_amiga.h,
+	src/arch/sdl/archdep_win32.c, src/arch/sdl/archdep_win32.h,
+	src/arch/sdl/uifilereq.c: Applied slightly altered version of the sdl
+	drive selector patch by Magnus Lind: Adds drive selection
+	functionality to the window sdl port.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/archdep.c: Applied patch by derrick inksley, fixes
+	loading of zip files with brackets ([]) in the filename for the
+	windows port.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32: Added wrc generated temporary resource files
+	(*.res.*) to the svn ignore.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom: Added the 'WinVICE*' directory generated by a
+	make bindist as an svn ignore.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/C64/sdl_sym.vkm, data/C64DTV/sdl_sym.vkm,
+	data/CBM-II/sdl_buks.vkm, data/PET/sdl_bgrs.vkm,
+	data/PET/sdl_buks.vkm, data/PLUS4/sdl_sym.vkm, data/VIC20/sdl_sym.vkm:
+	Fixed the sdl keymap 'minus' key assignments.
+
+2012-07-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vic20/vic20sound.c: Applied vic20 sound patch by Magnus Lind.
+
+2012-07-11  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/c64cartmem.c: fix pagefox ROML write access
+
+2012-07-11  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-07-11  groepaz <groepaz@gmx.net>
+
+	* src/diskimage/fsimage-gcr.c: removed redundant memory clear
+
+2012-07-11  groepaz <groepaz@gmx.net>
+
+	* src/diskimage/fsimage-gcr.c: clear trackdata with 0, do not attempt
+	to load data when offset is 0. patch from VICE 2.3.19 SPS
+
+2012-07-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/ioutil.c: Magnus Lind: This patch avoids stat'ing every file if
+	the d_type field of dirent is available. It makes a real difference on
+	lesser os'es when browsing sdcards using the sdl-ui.
+	https://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3542106&group_id=223021
+
+2012-07-10  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Magnus Lind: Add right button support for Atari
+	ST-mouse emulation, remove it for CX-22 trackball.
+	http://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3542102&group_id=223021
+
+2012-07-10  Antti S. Lankila <alankila@bel.fi>
+
+	* src/c64/psid.c: Zero SidStereo flag unconditionally. Otherwise
+	playing a 2SID file followed by regular file may leave the stereo
+	mode on.
+
+2012-07-06  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2012-07-06  Emir Akaydin <emir@akaydin.com>
+
+	* po/tr.po, po/translations-status.txt: Updated.
+
+2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.hlp, doc/vice.pdf: Updated.
+
+2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated for the updated es.po file.
+
+2012-07-05  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
 2012-07-05  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.pdf, doc/vice.hlp, doc/vice.guide, doc/vice.chm,
