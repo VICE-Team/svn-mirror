@@ -39,6 +39,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "monitor.h"
 #include "psid.h"
 #include "res.h"
 #include "resources.h"
@@ -180,6 +181,7 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
     { IDM_NEXT_TUNE, IDS_MI_NEXT_TUNE },
     { IDM_PREVIOUS_TUNE, IDS_MI_PREVIOUS_TUNE },
     { IDM_PSID_OVERRIDE, IDS_MI_PSID_OVERRIDE },
+    { IDM_MONITOR, IDS_MI_MONITOR },
     { 0, 0 }
 };
 
@@ -405,7 +407,7 @@ int vsid_ui_init(void)
 
     RegisterClass(&wndclass);
     if (!hwnd) {   /* do not recreate on drag&drop */
-        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 480, 200, NULL, NULL, winmain_instance, NULL) ;
+        hwnd = CreateWindow(szAppName, szAppName, WS_SYSMENU, 0, 0, 480, 220, NULL, NULL, winmain_instance, NULL) ;
         SetPriorityClass(GetCurrentProcess(), HIGH_PRIORITY_CLASS);
         window_handles[0] = hwnd;
         number_of_windows++;
@@ -721,6 +723,9 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             break;
         case IDM_RESET_SOFT:
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
+            break;
+        case IDM_MONITOR:
+            monitor_startup_trap();
             break;
         case IDM_EXIT:
             PostMessage(hwnd, WM_CLOSE, wparam, lparam);

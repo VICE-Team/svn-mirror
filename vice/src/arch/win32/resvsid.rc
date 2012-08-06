@@ -33,6 +33,7 @@ BEGIN
             MENUITEM "", IDM_RESET_HARD
             MENUITEM "", IDM_RESET_SOFT
         END
+        MENUITEM "", IDM_MONITOR
         MENUITEM "", IDM_EXIT
     END
     POPUP "Media"

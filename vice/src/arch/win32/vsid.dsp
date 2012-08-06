@@ -184,7 +184,7 @@ USERDEP__RESC6="..\..\debug.h"	"resvsid.rc"	"res.rc"	"ressid.rc"	"resvicii.rc"
 InputPath=.\resvsid.rc
 
 "resvsidcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resvsid.rc + ressid.rc + resvicii.rc resvsidcat.rc /b
+	copy /b resvsid.rc + res.rc + ressid.rc + resvicii.rc resvsidcat.rc /b
 
 # End Custom Build
 
@@ -208,7 +208,7 @@ USERDEP__RESC6="..\..\debug.h"	"resc64.rc"	"res.rc"	"resacia.rc"	"resdrivec64.rc
 InputPath=.\resc64.rc
 
 "resvsidcat.rc" : $(SOURCE) "$(INTDIR)" "$(OUTDIR)"
-	copy /b resc64.rc + res.rc + resacia.rc + resdrivec64.rc + reside64.rc + resreu.rc + resgeoram.rc + resramcart.rc + resplus256k.rc + resplus60k.rc + resc64_256k.rc + resmmc64.rc + resmmcreplay.rc + resrs232user.rc + ressid.rc + resvicii.rc + resdigimax.rc + resmouse.rc + resmidi.rc + resdqbb.rc + resisepic.rc + reslightpen.rc + ressoundexpander.rc + reseasyflash.rc + resautostart.rc + resmagicvoice.rc + resexpert.rc + restfe.rc resvsidcat.rc /b
+	copy /b resvsid.rc + res.rc + ressid.rc + resvicii.rc resvsidcat.rc /b
 
 # End Custom Build
 
