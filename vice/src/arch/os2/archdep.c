@@ -591,11 +591,21 @@ int archdep_rtc_get_centisecond(void)
 }
 #endif
 
+static char archdep_os_version[128];
+
 char *archdep_get_runtime_os(void)
 {
-    /* TODO: add runtime os detection code */
-    /* OS/2, ECS and version */
-    return "OS/2";
+    ULONG buffer[3];
+    APIRET rc;
+
+    rc = DosQuerySysInfo(QSV_VERSION_MAJOR, 	 QSV_VERSION_REVISION, (void *)buffer, 3 * sizeof(ULONG));
+    if (rc) {
+        return "Unknown OS/2 version";
+    } else {
+        sprintf(archdep_os_version, "OS/2 %d.%d revision %c", buffer[0], buffer[1], (char)buffer[2]);
+    }
+    /* TODO: Find out what version OS/2 goes to ECS */
+    return archdep_os_version;
 }
 
 char *archdep_get_runtime_cpu(void)
