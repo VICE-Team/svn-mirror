@@ -62,6 +62,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "ui.h"
 #include "util.h"
 
 static char *orig_workdir;
@@ -392,10 +393,15 @@ void archdep_shutdown(void)
     lib_free(argv0);
 }
 
+/* TODO: Add Check for BeOS version */
 char *archdep_get_runtime_os(void)
 {
-    /* TODO: add runtime os detection code */
-    /* BeOS/Zeta/Haiku */
+    if (CheckForHaiku()) {
+        return "Haiku";
+    }
+    if (CheckForZeta()) {
+        return "Zeta";
+    }
     return "BeOS";
 }
 
@@ -403,5 +409,9 @@ char *archdep_get_runtime_cpu(void)
 {
     /* TODO: add runtime cpu detection code */
     /* x86/ppc type */
-    return "Unknown CPU";
+#ifdef WORDS_BIGENDIAN
+    return "Unknown PPC CPU";
+#else
+    return "Unknown x86 CPU";
+#endif
 }
