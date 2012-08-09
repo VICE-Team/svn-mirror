@@ -397,6 +397,13 @@ int CheckForHaiku(void)
     return 0;
 }
 
+/* Ugly check for Zeta */
+int CheckForZeta(void)
+{
+    return util_file_exists("/boot/beos/system/lib/libzeta.so");
+}
+
+
 /* ------------------------------------------------------------------------ */
 
 typedef struct {

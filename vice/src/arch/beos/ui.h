@@ -85,5 +85,6 @@ extern void ui_enable_joyport(void);
 extern void ui_statusbar_update(void);
 extern int ui_set_window_mode(int use_direct_window);
 extern int CheckForHaiku(void);
+extern int CheckForZeta(void);
 
 #endif
