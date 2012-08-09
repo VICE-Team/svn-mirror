@@ -3135,9 +3135,8 @@ elif test x"$is_win32" = "xyes"; then
         fi
       fi
     fi
-  else
-    AC_DEFINE(WIN32_COMPILE,,[Are we compiling for win32?])
   fi
+  AC_DEFINE(WIN32_COMPILE,,[Are we compiling for win32?])
 
   if test x"$enable_sdlui" = "xyes"; then
     if test x"$host_cpu" = "xx86_64" -o x"$host_cpu" = "xamd64"; then

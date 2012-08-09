@@ -702,3 +702,17 @@ int archdep_rtc_get_centisecond(void)
     GetSystemTime(&t);
     return (int)(t.wMilliseconds / 10);
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    /* Windows version, reactos (+version), hxdos (+version), odin32 (+version), wine */
+    return "Windows";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    /* x86/amd64/arm/mips/alpha/ppc/ia64/sh */
+    return "Unknown CPU";
+}

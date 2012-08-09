@@ -646,3 +646,15 @@ void archdep_shutdown(void)
     lib_free(argv0);
     lib_free(boot_path);
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    return "*nix";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    return "Unknown CPU";
+}

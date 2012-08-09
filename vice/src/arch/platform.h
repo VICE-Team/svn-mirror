@@ -89,11 +89,15 @@
 #      define PLATFORM_OS "WIN32"
 #      define PLATFORM_COMPILER "MSVC"
 #    else
-#      ifdef MSVC_RC
-#        ifdef WATCOM_COMPILE
-#          define PLATFORM_COMPILER "WATCOM"
-#        else
-#          define PLATFORM_COMPILER "MSVC"
+#      ifdef __GNUC__
+#        define PLATFORM_COMPILER "GCC"
+#      else
+#        ifdef MSVC_RC
+#          ifdef WATCOM_COMPILE
+#            define PLATFORM_COMPILER "WATCOM"
+#          else
+#            define PLATFORM_COMPILER "MSVC"
+#          endif
 #        endif
 #      endif
 #      define PLATFORM_OS "WIN32"
@@ -456,19 +460,13 @@ inline static char *platform_get_ui(void)
 #endif
 }
 
-#ifndef PLATFORM_GET_RUNTIME_OS_DECLARED
 inline static char *platform_get_runtime_os(void)
 {
-    /* dummy till implemented */
-    return "not yet implemented";
+    return archdep_get_runtime_os();
 }
-#endif
 
-#ifndef PLATFORM_GET_RUNTIME_CPU_DECLARED
 inline static char *platform_get_runtime_cpu(void)
 {
-    return "Unknown CPU";
+    return archdep_get_runtime_cpu();
 }
-#endif
-
 #endif

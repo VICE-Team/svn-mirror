@@ -425,3 +425,17 @@ int archdep_file_is_chardev(const char *name)
 void archdep_shutdown(void)
 {
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    /* type of dos and version */
+    return "DOS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    /* x86 type */
+    return "Unknown x86 CPU";
+}

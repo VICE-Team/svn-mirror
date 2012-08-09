@@ -590,3 +590,17 @@ int archdep_rtc_get_centisecond(void)
     return (int)tb.millitm / 10;
 }
 #endif
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    /* OS/2, ECS and version */
+    return "OS/2";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    /* x86 type, don't think vice compiles for PPC-OS/2 */
+    return "Unknown x86 CPU";
+}

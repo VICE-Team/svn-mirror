@@ -50,7 +50,8 @@ noinst_HEADERS = \
 	platform_linux_libc_version.h \
 	platform_netbsd_version.h \
 	platform_openbsd_version.h \
-	platform_qnx6_version.h
+	platform_qnx6_version.h \
+	platform_x86_runtime_cpu.h
 
 EXTRA_DIST = \
 	watcom-source-wrappers/geninfocontrib32.c \

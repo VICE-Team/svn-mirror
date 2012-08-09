@@ -103,5 +103,8 @@ extern void archdep_shutdown(void);
 /* RTC. */
 extern int archdep_rtc_get_centisecond(void);
 
-#endif
+/* runtime info */
+extern char *archdep_get_runtime_os(void);
+extern char *archdep_get_runtime_cpu(void);
 
+#endif

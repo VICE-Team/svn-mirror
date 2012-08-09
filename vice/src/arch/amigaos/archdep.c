@@ -391,3 +391,23 @@ int archdep_rtc_get_centisecond(void)
     return now.tv_usec / 10;
 }
 #endif
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    /* Amiga OS 3.x (3.0, 3.1, 3.5, 3.9) */
+    /* Amiga OS 4.x (4.0, 4.1) */
+    /* Morphos ?.? */
+    /* AROS version ??? (maybe hosted/native difference) */
+    return "AmigaOS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    /* Amiga OS 3.x -> 68020/68030/68040/68060 */
+    /* Amiga OS 4.x -> PPC type */
+    /* MorphOS -> PPC type */
+    /* AROS -> x86/amd64/arm/ppc/m68k type */
+    return "Unknown CPU";
+}

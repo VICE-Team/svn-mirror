@@ -391,3 +391,17 @@ void archdep_shutdown(void)
 {
     lib_free(argv0);
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    /* BeOS/Zeta/Haiku */
+    return "BeOS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    /* x86/ppc type */
+    return "Unknown CPU";
+}
