@@ -72,15 +72,3 @@ void archdep_shutdown(void)
     SDL_Quit();
     archdep_shutdown_extra();
 }
-
-char *archdep_get_runtime_os(void)
-{
-    /* TODO: add runtime os detection code and make it platform specific */
-    return "Unknown OS";
-}
-
-char *archdep_get_runtime_cpu(void)
-{
-    /* TODO: add runtime cpu detection code */
-    return "Unknown CPU";
-}

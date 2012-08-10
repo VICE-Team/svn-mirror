@@ -8,8 +8,6 @@
 #include "types.h"
 #include <string.h>
 
-static char *unknown = "Unknown x86-compatible";
-
 /* cpuid function */
 #ifdef _MSC_VER
 #define cpuid(func, a, b, c, d) \
@@ -32,12 +30,28 @@ static char *unknown = "Unknown x86-compatible";
 
 inline static int has_cpuid(void)
 {
+#if defined(_MSC_VER) || defined(__OS2__)
+	int result;
+
+	__asm {
+		pushfd
+		pop	eax
+		mov	ecx,	eax
+		xor	eax,	0x200000
+		push	eax
+		popfd
+		pushfd
+		pop	eax
+		xor	eax,	ecx
+		mov	result,	eax
+		push	ecx
+		popfd
+	};
+	return (result != 0);
+#else
     int a = 0;
     int c = 0;
 
-#if defined(_MSC_VER) || defined(__OS2__)
-/* TODO */
-#else
     __asm__ __volatile__ ("pushf;"
                           "popl %0;"
                           "movl %0, %1;"
@@ -49,8 +63,8 @@ inline static int has_cpuid(void)
                           : "=a" (a), "=c" (c)
                           :
                           : "cc" );
-#endif
     return (a!=c);
+#endif
 }
 
 #define CPU_VENDOR_UNKNOWN     0
@@ -67,11 +81,11 @@ inline static int has_cpuid(void)
 #define CPU_VENDOR_VIA         11
 #define CPU_VENDOR_IDT         12
 
-typedef struct cpu_vendor_s {
+typedef struct x86_cpu_vendor_s {
     char *string;
     int id;
     int (*identify)(void);
-} cpu_vendor_t;
+} x86_cpu_vendor_t;
 
 inline static int is_idt_cpu(void)
 {
@@ -84,7 +98,7 @@ inline static int is_idt_cpu(void)
     return 0;
 }
 
-static cpu_vendor_t cpu_vendors[] = {
+static x86_cpu_vendor_t x86_cpu_vendors[] = {
     { "GenuineIntel", CPU_VENDOR_INTEL, NULL },
     { "AuthenticAMD", CPU_VENDOR_AMD, NULL },
     { "AMDisbetter!", CPU_VENDOR_AMD, NULL },
@@ -103,14 +117,14 @@ static cpu_vendor_t cpu_vendors[] = {
     { NULL, CPU_VENDOR_UNKNOWN, NULL }
 };
 
-typedef struct cpu_name_s {
+typedef struct x86_cpu_name_s {
     int id;
     DWORD fms;
     DWORD mask;
     char *name;
-} cpu_name_t;
+} x86_cpu_name_t;
 
-static cpu_name_t cpu_names[] = {
+static x86_cpu_name_t x86_cpu_names[] = {
     { CPU_VENDOR_INTEL, 0x00300, 0x00f00, "Intel 80386" },
     { CPU_VENDOR_INTEL, 0x00400, 0x00f00, "Intel 80486" },
     { CPU_VENDOR_INTEL, 0x00500, 0x00f00, "Intel Pentium" },
@@ -189,23 +203,23 @@ inline static char* platform_get_x86_runtime_cpu(void)
         memcpy(type_buf + 4, &regdx, 4);
         memcpy(type_buf + 8, &regcx, 4);
         type_buf[12] = 0;
-        for (i = 0; (cpu_vendors[i].id != CPU_VENDOR_UNKNOWN) && (found == 0); i++) {
-            if (cpu_vendors[i].identify != NULL) {
-                if (cpu_vendors[i].identify() == 1) {
-                    id = cpu_vendors[i].id;
+        for (i = 0; (x86_cpu_vendors[i].id != CPU_VENDOR_UNKNOWN) && (found == 0); i++) {
+            if (x86_cpu_vendors[i].identify != NULL) {
+                if (x86_cpu_vendors[i].identify() == 1) {
+                    id = x86_cpu_vendors[i].id;
                     found = 1;
                 }
             } else {
-                if (!strcmp(type_buf, cpu_vendors[i].string)) {
-                    id = cpu_vendors[i].id;
+                if (!strcmp(type_buf, x86_cpu_vendors[i].string)) {
+                    id = x86_cpu_vendors[i].id;
                     found = 1;
                 }
             }
         }
         cpuid(1, regax, regbx, regcx, regdx);
-        for (i = 0; cpu_names[i].name != NULL; i++) {
-            if ((regax & cpu_names[i].mask) == cpu_names[i].fms && cpu_names[i].id == id) {
-                return cpu_names[i].name;
+        for (i = 0; x86_cpu_names[i].name != NULL; i++) {
+            if ((regax & x86_cpu_names[i].mask) == x86_cpu_names[i].fms && x86_cpu_names[i].id == id) {
+                return x86_cpu_names[i].name;
             }
         }
         return "Unknown CPU";

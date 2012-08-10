@@ -48,8 +48,11 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "util.h"
 #include "video.h"
+
+#include "platform_x86_runtime_cpu.h"
 
 static char *orig_workdir;
 static char *argv0;
@@ -439,7 +442,5 @@ char *archdep_get_runtime_os(void)
 
 char *archdep_get_runtime_cpu(void)
 {
-    /* TODO: add runtime cpu detection code */
-    /* x86 type */
-    return "Unknown x86 CPU";
+    return platform_get_x86_runtime_cpu();
 }

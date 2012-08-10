@@ -75,6 +75,10 @@
 #include "resources.h"  // Logwin
 #endif
 
+#include "platform.h"
+
+#include "platform_x86_runtime_cpu.h"
+
 static log_t archlog = LOG_DEFAULT;
 
 /* ---------------------- OS/2 specific ------------------ */
@@ -610,7 +614,6 @@ char *archdep_get_runtime_os(void)
 
 char *archdep_get_runtime_cpu(void)
 {
-    /* TODO: add runtime cpu detection code */
-    /* x86 type, don't think vice compiles for PPC-OS/2 */
-    return "Unknown x86 CPU";
+    /* I don't think vice compiles for PPC-OS/2 */
+    return platform_get_x86_runtime_cpu();
 }

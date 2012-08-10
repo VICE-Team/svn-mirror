@@ -79,8 +79,13 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "system.h"
 #include "util.h"
+
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 #define STDIN_FILENO  0
 #define STDOUT_FILENO 1
@@ -712,7 +717,11 @@ char *archdep_get_runtime_os(void)
 
 char *archdep_get_runtime_cpu(void)
 {
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+    return platform_get_x86_runtime_cpu();
+#else
     /* TODO: add runtime cpu detection code */
-    /* x86/amd64/arm/mips/alpha/ppc/ia64/sh */
+    /* amd64/arm/mips/alpha/ppc/ia64/sh */
     return "Unknown CPU";
+#endif
 }

@@ -401,3 +401,15 @@ int chdir(const char *path)
 {
     return 0;
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    return "Unknown OS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    return "Unknown CPU";
+}

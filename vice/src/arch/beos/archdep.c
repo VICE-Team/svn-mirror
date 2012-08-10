@@ -62,8 +62,13 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "ui.h"
 #include "util.h"
+
+#ifndef WORDS_BIGENDIAN
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 static char *orig_workdir;
 static char *argv0 = NULL;
@@ -408,10 +413,10 @@ char *archdep_get_runtime_os(void)
 char *archdep_get_runtime_cpu(void)
 {
     /* TODO: add runtime cpu detection code */
-    /* x86/ppc type */
+    /* ppc type */
 #ifdef WORDS_BIGENDIAN
     return "Unknown PPC CPU";
 #else
-    return "Unknown x86 CPU";
+    return platform_get_x86_runtime_cpu();
 #endif
 }

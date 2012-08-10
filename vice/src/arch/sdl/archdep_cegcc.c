@@ -424,3 +424,15 @@ static void archdep_shutdown_extra(void)
     lib_free(argv0);
     lib_free(orig_workdir);
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    return "Unknown OS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    return "Unknown CPU";
+}

@@ -54,8 +54,13 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "ui.h"
 #include "util.h"
+
+#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 static char *boot_path = NULL;
 static int run_from_wb = 0;
@@ -477,4 +482,16 @@ void archdep_set_current_drive(const char *drive)
         CurrentDir(lck);
         Unlock(lck);
     }
+}
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    return "Unknown OS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    return "Unknown CPU";
 }

@@ -51,8 +51,13 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "ui.h"
 #include "util.h"
+
+#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 #if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
 struct Library *TimerBase = NULL;
@@ -453,8 +458,12 @@ static archdep_get_aros_runtime_os(void)
 
 static archdep_get_aros_runtime_cpu(void)
 {
-    /* TODO: Add AROS cpu detection (x86/amd64/arm/ppc) */
+#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+    return platform_get_x86_runtime_cpu();
+#else
+    /* TODO: Add AROS cpu detection (amd64/arm/ppc) */
     return "Unknown CPU";
+#endif
 }
 #endif
 

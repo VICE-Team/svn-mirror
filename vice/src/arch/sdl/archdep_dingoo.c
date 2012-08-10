@@ -495,3 +495,15 @@ void dingoo_reboot(void)
     REG_WDT_TCER = WDT_TCER_TCEN;    /* wdt start */
     while (1);
 }
+
+char *archdep_get_runtime_os(void)
+{
+    /* TODO: add runtime os detection code */
+    return "Unknown OS";
+}
+
+char *archdep_get_runtime_cpu(void)
+{
+    /* TODO: add runtime cpu detection code */
+    return "Unknown CPU";
+}
