@@ -404,12 +404,10 @@ int chdir(const char *path)
 
 char *archdep_get_runtime_os(void)
 {
-    /* TODO: add runtime os detection code */
-    return "Unknown OS";
+    return "XBOX";
 }
 
 char *archdep_get_runtime_cpu(void)
 {
-    /* TODO: add runtime cpu detection code */
-    return "Unknown CPU";
+    return "XBOX CPU";
 }

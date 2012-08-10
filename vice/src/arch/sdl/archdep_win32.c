@@ -80,7 +80,12 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "util.h"
+
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 #define STDIN_FILENO  0
 #define STDOUT_FILENO 1
@@ -684,11 +689,17 @@ void closedir(DIR *dir)
 char *archdep_get_runtime_os(void)
 {
     /* TODO: add runtime os detection code */
-    return "Unknown OS";
+    /* Windows version, reactos (+version), hxdos (+version), odin32 (+version), wine */
+    return "Windows";
 }
 
 char *archdep_get_runtime_cpu(void)
 {
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+    return platform_get_x86_runtime_cpu();
+#else
     /* TODO: add runtime cpu detection code */
+    /* amd64/arm/mips/alpha/ppc/ia64/sh */
     return "Unknown CPU";
+#endif
 }

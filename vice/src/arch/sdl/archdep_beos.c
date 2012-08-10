@@ -63,7 +63,12 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "platform.h"
 #include "util.h"
+
+#ifndef WORDS_BIGENDIAN
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 static char *orig_workdir;
 static char *argv0 = NULL;
@@ -77,6 +82,12 @@ int CheckForHaiku(void)
         return -1;
     }
     return 0;
+}
+
+/* Ugly check for Zeta */
+int CheckForZeta(void)
+{
+    return util_file_exists("/boot/beos/system/lib/libzeta.so");
 }
 
 int archdep_network_init(void)
@@ -419,14 +430,25 @@ void archdep_shutdown_extra(void)
     lib_free(argv0);
 }
 
+/* TODO: Add Check for BeOS version */
 char *archdep_get_runtime_os(void)
 {
-    /* TODO: add runtime os detection code */
-    return "Unknown OS";
+    if (CheckForHaiku()) {
+        return "Haiku";
+    }
+    if (CheckForZeta()) {
+        return "Zeta";
+    }
+    return "BeOS";
 }
 
 char *archdep_get_runtime_cpu(void)
 {
     /* TODO: add runtime cpu detection code */
-    return "Unknown CPU";
+    /* ppc type */
+#ifdef WORDS_BIGENDIAN
+    return "Unknown PPC CPU";
+#else
+    return platform_get_x86_runtime_cpu();
+#endif
 }

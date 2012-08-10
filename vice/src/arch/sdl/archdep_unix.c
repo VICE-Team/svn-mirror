@@ -57,8 +57,13 @@
 #include "log.h"
 #include "machine.h"
 #include "monitor.h"
+#include "platform.h"
 #include "ui.h"
 #include "util.h"
+
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#include "platform_x86_runtime_cpu.h"
+#endif
 
 #ifdef __NeXT__
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
@@ -699,11 +704,15 @@ void archdep_signals_pipe_unset(void)
 char *archdep_get_runtime_os(void)
 {
     /* TODO: add runtime os detection code */
-    return "Unknown OS";
+    return "*nix";
 }
 
 char *archdep_get_runtime_cpu(void)
 {
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+    return platform_get_x86_runtime_cpu();
+#else
     /* TODO: add runtime cpu detection code */
     return "Unknown CPU";
+#endif
 }

@@ -58,6 +58,11 @@
 #include "ui.h"
 #include "util.h"
 
+#if defined(AMIGA_M68K) || defined(AMIGA_OS4)
+#include <exec/execbase.h>
+extern struct ExecBase *SysBase;
+#endif
+
 #if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
 #include "platform_x86_runtime_cpu.h"
 #endif
@@ -484,14 +489,158 @@ void archdep_set_current_drive(const char *drive)
     }
 }
 
+#ifdef AMIGA_M68K
+struct Library *WorkbenchBase;
+
+static archdep_get_os3_runtime_os(void)
+{
+    char *retval = NULL;
+
+    if (WorkbenchBase = OpenLibrary("workbench.library", 45)) {
+        retval = "AmigaOS-3.9";
+    }
+    if (!retval && WorkbenchBase = OpenLibrary("workbench.library", 44)) {
+        retval = "AmigaOS-3.5";
+    }
+    if (!retval && WorkbenchBase = OpenLibrary("workbench.library", 40)) {
+        retval = "AmigaOS-3.1";
+    }
+    if (!retval && WorkbenchBase = OpenLibrary("workbench.library", 39)) {
+        retval = "AmigaOS-3.0";
+    }
+    if (retval) {
+        CloseLibrary(WorkbenchBase);
+    } else {
+        retval = "Unknown AmigaOS";
+    }
+    return retval;
+}
+
+static archdep_get_os3_runtime_cpu(void)
+{
+    UWORD attnflags = SysBase->AttnFlags;
+
+    if (attnflags & 0x80) {
+        return "68060";
+    }
+    if (attnflags & AFF_68040) {
+        return "68040";
+    }
+    if (attnflags & AFF_68030) {
+        return "68030";
+    }
+    if (attnflags & AFF_68020) {
+        return "68020";
+    }
+    if (attnflags & AFF_68010) {
+        return "68010";
+    }
+    return "68000";
+}
+#endif
+
+#ifdef AMIGA_AROS
+static archdep_get_aros_runtime_os(void)
+{
+    /* TODO: Add AROS native/hosted detection */
+    return "AROS";
+}
+
+static archdep_get_aros_runtime_cpu(void)
+{
+#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+    return platform_get_x86_runtime_cpu();
+#else
+    /* TODO: Add AROS cpu detection (amd64/arm/ppc) */
+    return "Unknown CPU";
+#endif
+}
+#endif
+
+#ifdef AMIGA_MORPHOS
+static archdep_get_mos_runtime_os(void)
+{
+    /* TODO: Add MorphOS version detection */
+    return "MorphOS";
+}
+
+
+static archdep_get_mos_runtime_cpu(void)
+{
+    /* TODO: Add PPC type detection */
+    return "Unknown PPC CPU";
+}
+#endif
+
+#ifdef AMIGA_OS4
+static archdep_get_os4_runtime_os(void)
+{
+    /* TODO: Add AmigaOS4 version detection */
+    return "AmigaOS4.x";
+}
+
++static archdep_get_os4_runtime_cpu(void)
+{
+    UWORD attnflags = SysBase->AttnFlags;
+
+    AFF_750     = (1<<10),
+    AFF_7400    = (1<<11),
+    AFF_ALTIVEC = (1<<12),
+    AFF_4XX     = (1<<13),
+
+    if (attnflags & AFF_603) {
+        return "PPC603";
+    }
+    if (attnflags & AFF_604) {
+        return "PPC604";
+    }
+    if (attnflags & AFF_750) {
+        return "PPC750";
+    }
+    if (attnflags & AFF_ALTIVEC) {
+        return "PPC-Altivec";
+    }
+    if (attnflags & AFF_4XX) {
+        return "PPC4xx";
+    }
+    return "Unknown PPC CPU";
+}
+#endif
+
 char *archdep_get_runtime_os(void)
 {
-    /* TODO: add runtime os detection code */
-    return "Unknown OS";
+#ifdef AMIGA_M68K
+    return archdep_get_os3_runtime_os();
+#endif
+
+#ifdef AMIGA_OS4
+    return archdep_get_os4_runtime_os();
+#endif
+
+#ifdef AMIGA_MORPHOS
+    return archdep_get_mos_runtime_os();
+#endif
+
+#ifdef AMIGA_AROS
+    return archdep_get_aros_runtime_os();
+#endif
 }
 
 char *archdep_get_runtime_cpu(void)
 {
-    /* TODO: add runtime cpu detection code */
-    return "Unknown CPU";
+#ifdef AMIGA_M68K
+    return archdep_get_os3_runtime_cpu();
+#endif
+
+#ifdef AMIGA_OS4
+    return archdep_get_os4_runtime_cpu();
+#endif
+
+#ifdef AMIGA_MORPHOS
+    return archdep_get_mos_runtime_cpu();
+#endif
+
+#ifdef AMIGA_AROS
+    return archdep_get_aros_runtime_cpu();
+#endif
 }

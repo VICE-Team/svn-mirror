@@ -41,8 +41,12 @@
 #include <unistd.h>
 
 #ifdef AMIGA_M68K
-#include <exec/execbase.h>
 #define CLIB_SOCKET_PROTOS_H
+#endif
+
+#if defined(AMIGA_M68K) || defined(AMIGA_OS4)
+#include <exec/execbase.h>
+extern struct ExecBase *SysBase;
 #endif
 
 #include "archdep.h"
@@ -399,7 +403,6 @@ int archdep_rtc_get_centisecond(void)
 #endif
 
 #ifdef AMIGA_M68K
-extern struct ExecBase *SysBase;
 struct Library *WorkbenchBase;
 
 static archdep_get_os3_runtime_os(void)

@@ -403,7 +403,6 @@ int CheckForZeta(void)
     return util_file_exists("/boot/beos/system/lib/libzeta.so");
 }
 
-
 /* ------------------------------------------------------------------------ */
 
 typedef struct {
