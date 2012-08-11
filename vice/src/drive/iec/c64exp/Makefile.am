@@ -18,4 +18,6 @@ libdriveiecc64exp_a_SOURCES = \
 	dolphindos3.c \
 	dolphindos3.h \
 	profdos.c \
-	profdos.h
+	profdos.h \
+	supercard.c \
+	supercard.h

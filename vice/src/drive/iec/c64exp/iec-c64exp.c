@@ -31,6 +31,7 @@
 #include "drivetypes.h"
 #include "dolphindos3.h"
 #include "profdos.h"
+#include "supercard.h"
 
 
 int iec_c64exp_resources_init(void)
@@ -52,17 +53,20 @@ void iec_c64exp_init(struct drive_context_s *drv)
 {
     dd3_init(drv);
     profdos_init(drv);
+    supercard_init(drv);
 }
 
 void iec_c64exp_reset(struct drive_context_s *drv)
 {
     dd3_reset(drv);
     profdos_reset(drv);
+    supercard_reset(drv);
 }
 
 void iec_c64exp_mem_init(struct drive_context_s *drv, unsigned int type)
 {
     dd3_mem_init(drv, type);
     profdos_mem_init(drv, type);
+    supercard_mem_init(drv, type);
 }
 

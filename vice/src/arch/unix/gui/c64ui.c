@@ -50,6 +50,7 @@
 #include "uidqbb.h"
 #include "uidrive.h"
 #include "uidrivec64.h"
+#include "uidrivec64c128.h"
 #include "uidrivec64vic20.h"
 #include "uieasyflash.h"
 #include "uiedit.h"
@@ -563,6 +564,8 @@ static ui_menu_entry_t c64_romset_submenu[] = {
       NULL, NULL, c64ui_main_romset_submenu },
     { N_("Load new drive ROM"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_drivec64vic20_romset_submenu },
+    { N_("Load new drive expansion ROM"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, uidrivec64c128_expansion_romset_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("ROM set type"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uiromset_type_submenu },

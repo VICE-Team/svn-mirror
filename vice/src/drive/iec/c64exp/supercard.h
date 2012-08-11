@@ -1,8 +1,8 @@
 /*
- * uidrivec64c128.h
+ * supercard.h - Supercard+ emulation.
  *
  * Written by
- *  Andreas Boose <viceteam@t-online.de>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -24,16 +24,21 @@
  *
  */
 
-#ifndef VICE_UIDRIVEC64C128_H
-#define VICE_UIDRIVEC64C128_H
+#ifndef VICE_SUPERCARD_H
+#define VICE_SUPERCARD_H
 
-#include "uimenu.h"
+#include "types.h"
 
-extern struct ui_menu_entry_s uidrivec64c128_drive0_expansion_submenu[];
-extern struct ui_menu_entry_s uidrivec64c128_drive1_expansion_submenu[];
-extern struct ui_menu_entry_s uidrivec64c128_drive2_expansion_submenu[];
-extern struct ui_menu_entry_s uidrivec64c128_drive3_expansion_submenu[];
+struct drive_context_s;
 
-extern struct ui_menu_entry_s uidrivec64c128_expansion_romset_submenu[];
+extern int supercard_cmdline_options_init(void);
 
-#endif
+extern void supercard_init(struct drive_context_s *drv);
+extern void supercard_reset(struct drive_context_s *drv);
+
+extern int supercard_load(const char *name);
+
+extern void supercard_mem_init(struct drive_context_s *drv, unsigned int type);
+
+#endif 
+

@@ -251,8 +251,10 @@ typedef struct drive_s {
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
         drive_ram8_enabled, drive_rama_enabled;
 
-    /* Are the Professional DOS extentions enabled?  */
+    /* Is the Professional DOS extension enabled?  */
     int profdos;
+    /* Is the Supercard+ extension enabled? */
+    int supercard;
 
     /* RTC context */
     rtc_ds1216e_t *ds1216;
@@ -311,6 +313,7 @@ extern int drive_check_expansionA000(int drive_type);
 extern int drive_check_parallel_cable(int drive_type);
 extern int drive_check_extend_policy(int drive_type);
 extern int drive_check_profdos(int drive_type);
+extern int drive_check_supercard(int drive_type);
 
 extern int drive_num_leds(unsigned int dnr);
 

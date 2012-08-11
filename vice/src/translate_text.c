@@ -8140,6 +8140,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_PROFDOS_1571_ROM_NAME_TR, "Professional DOS 1571 ROM imaj ismini belirt"},
 #endif
 
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SUPERCARD,    N_("Enable SuperCard+")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SUPERCARD_DA, "Aktivér SuperCard+"},
+/* de */ {IDCLS_ENABLE_SUPERCARD_DE, "SuperCard+ aktivieren"},
+/* es */ {IDCLS_ENABLE_SUPERCARD_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SUPERCARD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SUPERCARD_HU, "SuperCard+ engedélyezése"},
+/* it */ {IDCLS_ENABLE_SUPERCARD_IT, "Attiva SuperCard+"},
+/* ko */ {IDCLS_ENABLE_SUPERCARD_KO, "SuperCard+ »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"},
+/* nl */ {IDCLS_ENABLE_SUPERCARD_NL, "Activeer SuperCard+"},
+/* pl */ {IDCLS_ENABLE_SUPERCARD_PL, "W³±cz SuperCard+"},
+/* ru */ {IDCLS_ENABLE_SUPERCARD_RU, "Enable SuperCard+"},
+/* sv */ {IDCLS_ENABLE_SUPERCARD_SV, "Aktivera SuperCard+"},
+/* tr */ {IDCLS_ENABLE_SUPERCARD_TR, "SuperCard+'u aktif et"},
+#endif
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SUPERCARD,    N_("Disable SuperCard+")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SUPERCARD_DA, "Deaktivér SuperCard+"},
+/* de */ {IDCLS_DISABLE_SUPERCARD_DE, "SuperCard+ deaktivieren"},
+/* es */ {IDCLS_DISABLE_SUPERCARD_ES, "Deshabilitar SuperCard+"},
+/* fr */ {IDCLS_DISABLE_SUPERCARD_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SUPERCARD_HU, "SuperCard+ tiltása"},
+/* it */ {IDCLS_DISABLE_SUPERCARD_IT, "Disattiva SuperCard+"},
+/* ko */ {IDCLS_DISABLE_SUPERCARD_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SUPERCARD_NL, "SuperCard+ uitschakelen"},
+/* pl */ {IDCLS_DISABLE_SUPERCARD_PL, "Wy³±cz SuperCard+"},
+/* ru */ {IDCLS_DISABLE_SUPERCARD_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SUPERCARD_SV, "Inaktivera SuperCard+"},
+/* tr */ {IDCLS_DISABLE_SUPERCARD_TR, "SuperCard+'u pasifleþtir"},
+#endif
+
+/* drive/iec/c64exp/c64exp-cmdline-options.c */
+/* en */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME,    N_("Specify name of SuperCard+ ROM image")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DA, "Angiv navn på SuperCard+ -ROM-image"},
+/* de */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DE, "Name von SuperCard+ Datei definieren"},
+/* es */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_ES, "Especificar nombre imagen ROM SuperCard+"},
+/* fr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_HU, "Adja meg a SuperCard+ ROM képmást"},
+/* it */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_IT, "Specifica il nome immagine della ROM del SuperCard+"},
+/* ko */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_NL, "Geef de naam van het SuperCard+ ROM bestand"},
+/* pl */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM SuperCard+"},
+/* ru */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_SV, "Ange namn på SuperCard+ -ROM-avbildning"},
+/* tr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_TR, "SuperCard+ ROM imaj ismini belirt"},
+#endif
+
 /* drive/iec/plus4exp/plus4exp-cmdline-options.c */
 /* en */ {IDCLS_PAR_CABLE_PLUS4EXP_TYPE,    N_("Set parallel cable type (0: none, 1: standard)")},
 #ifdef HAS_TRANSLATION
