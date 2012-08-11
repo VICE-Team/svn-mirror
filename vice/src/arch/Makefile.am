@@ -51,6 +51,7 @@ noinst_HEADERS = \
 	platform_netbsd_version.h \
 	platform_openbsd_version.h \
 	platform_qnx6_version.h \
+	platform_windows_runtime_os.h \
 	platform_x86_runtime_cpu.h
 
 EXTRA_DIST = \

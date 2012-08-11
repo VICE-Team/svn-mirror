@@ -83,6 +83,8 @@
 #include "system.h"
 #include "util.h"
 
+#include "platform_windows_runtime_os.h"
+
 #if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
 #include "platform_x86_runtime_cpu.h"
 #endif
@@ -711,8 +713,8 @@ int archdep_rtc_get_centisecond(void)
 char *archdep_get_runtime_os(void)
 {
     /* TODO: add runtime os detection code */
-    /* Windows version, reactos (+version), hxdos (+version), odin32 (+version), wine */
-    return "Windows";
+    /* reactos (+version), hxdos (+version), odin32 (+version), wine */
+    return archdep_get_runtime_windows_os();
 }
 
 char *archdep_get_runtime_cpu(void)

@@ -12,6 +12,7 @@ INCLUDES = \
 	@ARCH_INCLUDES@/mingw32 \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
+	-I$(top_srcdir)/src/arch \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/monitor \
