@@ -135,6 +135,69 @@ static int IsWow64(void)
     return bIsWow64;
 }
 
+static int IsReactOS(void)
+{
+    char *s = os_version_info.szCSDVersion;
+    int i = 0;
+
+    if (s[0] == 0) {
+        return 0;
+    }
+
+    while (s[i++] != 0);
+
+    if (!strncmp(s, "ReactOS", 7)) {
+        return 1;
+    }
+    return 0;
+}
+
+static int IsWine(void)
+{
+    if (GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "wine_get_unix_file_name") != NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+static int IsOdin32(void)
+{
+    if (GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "RegisterLXExe") != NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+static int IsHxDos(void)
+{
+    if (GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetDKrnl32Version") != NULL) {
+        return 1;
+    }
+    return 0;
+}
+
+static char *get_win95_version(void)
+{
+    if (!strncmp(os_version_info.szCSDVersion, " A ", 3)) {
+        return "A";
+    }
+    if (!strncmp(os_version_info.szCSDVersion, " B ", 3)) {
+        return "B";
+    }
+    if (!strncmp(os_version_info.szCSDVersion, " C ", 3)) {
+        return "C";
+    }
+    return "";
+}
+
+static char *get_win98_version(void)
+{
+    if (!strncmp(os_version_info.szCSDVersion, " A ", 3)) {
+        return "SE";
+    }
+    return "";
+}
+
 static char windows_version[256];
 
 static inline char *archdep_get_runtime_windows_os(void)
@@ -164,11 +227,31 @@ static inline char *archdep_get_runtime_windows_os(void)
 
     if (found) {
         sprintf(windows_version, "%s", windows_versions[i - 1].name);
+        if (windows_versions[0].platformid == VER_PLATFORM_WIN32_WINDOWS) {
+            if (windows_versions[0].minorver == 0) {
+                sprintf(windows_version, "%s%s", windows_version, get_win95_version());
+            }
+            if (windows_versions[0].minorver == 10) {
+                sprintf(windows_version, "%s%s", windows_version, get_win98_version());
+            }
+        }
         if (windows_versions[0].realos > windows_versions[i - 1].realos) {
             sprintf(windows_version, "%s (compatibility mode)", windows_version);
         }
         if (IsWow64()) {
             sprintf(windows_version, "%s (WOW64)", windows_version);
+        }
+        if (IsReactOS()) {
+            sprintf(windows_version, "%s (ReactOS)", windows_version);
+        }
+        if (IsWine()) {
+            sprintf(windows_version, "%s (Wine)", windows_version);
+        }
+        if (IsOdin32()) {
+            sprintf(windows_version, "%s (Odin32)", windows_version);
+        }
+        if (IsHxDos()) {
+            sprintf(windows_version, "%s (HXDOS)", windows_version);
         }
     } else {
         sprintf(windows_version, "%s", "Unknown Windows version");
