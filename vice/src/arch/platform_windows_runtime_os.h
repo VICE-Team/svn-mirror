@@ -30,12 +30,39 @@
 typedef struct winver_s {
     char *name;
     int platformid;
+    int majorver;
+    int minorver;
 } winver_t;
 
 static winver_t windows_versions[] = {
-    { NULL, 0 },	 /* place holder for what has been detected */
-    { "Windows 9x", VER_PLATFORM_WIN32_WINDOWS },
-    { "Windows NT+", VER_PLATFORM_WIN32_NT },
+    { NULL, 0,
+      0, 0 },	 /* place holder for what has been detected */
+    { "Windows 95", VER_PLATFORM_WIN32_WINDOWS,
+      4, 0 },
+    { "Windows 98", VER_PLATFORM_WIN32_WINDOWS,
+      4, 1 },
+    { "Windows ME", VER_PLATFORM_WIN32_WINDOWS,
+      4, 90 },
+    { "Windows NT 3.10", VER_PLATFORM_WIN32_NT,
+      3, 10 },
+    { "Windows NT 3.50", VER_PLATFORM_WIN32_NT,
+      3, 5 },
+    { "Windows NT 3.51", VER_PLATFORM_WIN32_NT,
+      3, 51 },
+    { "Windows NT 4.0", VER_PLATFORM_WIN32_NT,
+      4, 0 },
+    { "Windows 2000", VER_PLATFORM_WIN32_NT,
+      5, 0 },
+    { "Windows XP", VER_PLATFORM_WIN32_NT,
+      5, 1 },
+    { "Windows XP64 / Windows 2003 Server / Windows Home Server", VER_PLATFORM_WIN32_NT,
+      5, 2 },
+    { "Windows Vista / Windows 2008 Server", VER_PLATFORM_WIN32_NT,
+      6, 0 },
+    { "Windows 7 / Windows 2008 R2 Server", VER_PLATFORM_WIN32_NT,
+      6, 1 },
+    { "Windows 8 / Windows 2012 Server", VER_PLATFORM_WIN32_NT,
+      6, 2 },
     { NULL, 0 }
 };
 
@@ -60,16 +87,22 @@ static inline char *archdep_get_runtime_windows_os(void)
     GetVersionEx(&os_version_info);
 
     windows_versions[0].platformid = os_version_info.dwPlatformId;
+    windows_versions[0].majorver = os_version_info.dwMajorVersion;
+    windows_versions[0].minorver = os_version_info.dwMinorVersion;
 
     for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
         if (windows_versions[0].platformid == windows_versions[i].platformid) {
-            found = 1;
+            if (windows_versions[0].majorver == windows_versions[i].majorver) {
+                if (windows_versions[0].minorver == windows_versions[i].minorver) {
+                    found = 1;
+                }
+            }
         }
     }
 
     if (found) {
         return windows_versions[i - 1].name;
     }
-    return "Unknown Windows";
+    return "Unknown Windows version";
 }
 #endif
