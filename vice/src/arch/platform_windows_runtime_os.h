@@ -118,6 +118,23 @@ static int GetRealOS(void)
     return 2;
 }
 
+static int IsWow64(void)
+{
+    int bIsWow64 = 0;
+    typedef BOOL (APIENTRY *LPFN_ISWOW64PROCESS)(HANDLE, PBOOL);
+    LPFN_ISWOW64PROCESS fnIsWow64Process;
+    HMODULE module = GetModuleHandle(TEXT("kernel32"));
+    const char funcName[] = "IsWow64Process";
+
+    fnIsWow64Process = (LPFN_ISWOW64PROCESS)GetProcAddress(module, funcName);
+
+    if (NULL != fnIsWow64Process) {
+        fnIsWow64Process(GetCurrentProcess(), &bIsWow64);
+    }
+
+    return bIsWow64;
+}
+
 static char windows_version[256];
 
 static inline char *archdep_get_runtime_windows_os(void)
@@ -149,6 +166,9 @@ static inline char *archdep_get_runtime_windows_os(void)
         sprintf(windows_version, "%s", windows_versions[i - 1].name);
         if (windows_versions[0].realos > windows_versions[i - 1].realos) {
             sprintf(windows_version, "%s (compatibility mode)", windows_version);
+        }
+        if (IsWow64()) {
+            sprintf(windows_version, "%s (WOW64)", windows_version);
         }
     } else {
         sprintf(windows_version, "%s", "Unknown Windows version");
