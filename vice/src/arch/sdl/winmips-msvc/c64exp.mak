@@ -53,6 +53,7 @@ CLEAN :
 	-@erase "$(INTDIR)\dolphindos3.obj"
 	-@erase "$(INTDIR)\iec-c64exp.obj"
 	-@erase "$(INTDIR)\profdos.obj"
+	-@erase "$(INTDIR)\supercard.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\c64exp.lib"
 
@@ -105,6 +106,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\dolphindos3.obj" \
 	"$(INTDIR)\iec-c64exp.obj" \
 	"$(INTDIR)\profdos.obj" \
+	"$(INTDIR)\supercard.obj" \
 	".\libs\base\Release\base.lib"
 
 "$(OUTDIR)\c64exp.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -140,6 +142,7 @@ CLEAN :
 	-@erase "$(INTDIR)\dolphindos3.obj"
 	-@erase "$(INTDIR)\iec-c64exp.obj"
 	-@erase "$(INTDIR)\profdos.obj"
+	-@erase "$(INTDIR)\supercard.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\c64exp.lib"
 
@@ -192,6 +195,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\dolphindos3.obj" \
 	"$(INTDIR)\iec-c64exp.obj" \
 	"$(INTDIR)\profdos.obj" \
+	"$(INTDIR)\supercard.obj" \
 	".\libs\base\Debug\base.lib"
 
 "$(OUTDIR)\c64exp.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -257,6 +261,12 @@ SOURCE="..\..\..\drive\iec\c64exp\iec-c64exp.c"
 SOURCE=..\..\..\drive\iec\c64exp\profdos.c
 
 "$(INTDIR)\profdos.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\drive\iec\c64exp\supercard.c
+
+"$(INTDIR)\supercard.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

@@ -150,5 +150,9 @@ SOURCE="..\..\drive\iec\c64exp\iec-c64exp.c"
 
 SOURCE=..\..\drive\iec\c64exp\profdos.c
 # End Source File
+# Begin Source File
+
+SOURCE=..\..\drive\iec\c64exp\supercard.c
+# End Source File
 # End Target
 # End Project
