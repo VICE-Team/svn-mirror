@@ -106,18 +106,24 @@ int ram_cmdline_options_init(void)
 void ram_init(BYTE *memram, unsigned int ramsize)
 {
 
-    unsigned int i;
+    unsigned int i, j, k;
     BYTE v = start_value;
 
+    j = value_invert - 1;
+    k = pattern_invert - 1;
     for (i = 0; i < ramsize; i++)
     {
         memram[i] = v;
 
-        if (value_invert > 0 && (i + 1) % value_invert == 0)
+        if (i == j) {
+            j += value_invert;
             v ^= 0xff;
+        }
 
-        if (pattern_invert > 0 && (i + 1) % pattern_invert == 0)
+        if (i == k) {
+            k += pattern_invert;
             v ^= 0xff;
+        }
     }
 }
 
