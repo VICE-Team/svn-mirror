@@ -372,17 +372,17 @@ static BYTE mcsprtable[256];
 
 static void init_drawing_tables(void)
 {
-    unsigned int i, lmsk, wmsk;
+    unsigned int i;
+    DWORD dw;
 
-    for (i = 0; i <= 0xff; i++)
-        mcsprtable[i] = ((i & 0xc0 ? 0xc0 : 0) | (i & 0x30 ? 0x30 : 0)
-                        | (i & 0x0c ? 0x0c : 0) | (i & 0x03 ? 0x03 : 0));
+    for (i = 0; i <= 0xff; i++) {
+        mcsprtable[i] = i | ((i & 0x55) << 1) | ((i & 0xaa) >> 1);
+    }
 
-    for (i = 0; i <= 0xffff; i++) {
-        sprite_doubling_table[i] = 0;
-        for (lmsk = 0xc0000000, wmsk = 0x8000; wmsk; lmsk >>= 2, wmsk >>= 1)
-            if (i & wmsk)
-                sprite_doubling_table[i] |= lmsk;
+    for (dw = i = 0; i <= 0xffff; i++) {
+        sprite_doubling_table[i] = dw;
+        dw++;
+        dw |= (dw & 0x55555555) << 1;
     }
 }
 
