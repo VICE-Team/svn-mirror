@@ -366,23 +366,19 @@ const int vicii_sprites_crunch_table[64] =
 static BYTE *sprline = NULL;
 
 /* Sprite tables.  */
-static DWORD sprite_doubling_table[65536];
+static WORD sprite_doubling_table[256];
 static BYTE mcsprtable[256];
-
 
 static void init_drawing_tables(void)
 {
     unsigned int i;
-    DWORD dw;
+    WORD w;
 
-    for (i = 0; i <= 0xff; i++) {
+    for (w = i = 0; i <= 0xff; i++) {
         mcsprtable[i] = i | ((i & 0x55) << 1) | ((i & 0xaa) >> 1);
-    }
-
-    for (dw = i = 0; i <= 0xffff; i++) {
-        sprite_doubling_table[i] = dw;
-        dw++;
-        dw |= (dw & 0x55555555) << 1;
+        sprite_doubling_table[i] = w;
+        w++;
+        w |= (w & 0x5555) << 1;
     }
 }
 
@@ -537,7 +533,7 @@ inline static void draw_hires_sprite_expanded(BYTE *data_ptr, int n,
     int spritex_unwrapped = (sprite_status->sprites[n].x + vicii.sprite_wrap_x)
                             % vicii.sprite_wrap_x;
 
-    sprmsk = sprite_doubling_table[(data_ptr[0] << 8) | data_ptr[1]];
+    sprmsk = (sprite_doubling_table[data_ptr[0]] << 16) | sprite_doubling_table[data_ptr[1]];
 
     
     if (spritex_unwrapped > SPRITE_EXPANDED_REPEAT_PIXELS_START(n)
@@ -730,8 +726,8 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
               | (msk_ptr[3] << 8) | msk_ptr[4]) << lshift)
               | (msk_ptr[5] >> (8 - lshift)));
 
-    sprmsk = sprite_doubling_table[((mcsprtable[data_ptr[0]] << 8)
-             | mcsprtable[data_ptr[1]])];
+    sprmsk = (sprite_doubling_table[mcsprtable[data_ptr[0]]] << 16)
+             | sprite_doubling_table[mcsprtable[data_ptr[1]]];
 
     trim_size = 32;
 
@@ -749,8 +745,8 @@ inline static void draw_mc_sprite_expanded(BYTE *data_ptr, int n, DWORD *c,
                 | (((msk_ptr[5] << 8) | msk_ptr[6]) >> (14 - lshift));
         data0 = (data_ptr[0] << 1) | (data_ptr[1] >> 7);
         data1 = (data_ptr[1] << 1);
-        sprmsk = sprite_doubling_table[((mcsprtable[data0] << 8)
-             | mcsprtable[data1])];
+        sprmsk = (sprite_doubling_table[mcsprtable[data0]] << 16)
+             | sprite_doubling_table[mcsprtable[data1]];
     }
 
     if (delayed_load)
