@@ -176,9 +176,6 @@ void WaveformGenerator::writeCONTROL_REG(reg8 control)
     // Reset accumulator.
     accumulator = 0;
 
-    // The test bit sets pulse high.
-    pulse_output = 0xfff;
-
     // Flush shift pipeline.
     shift_pipeline = 0;
 
