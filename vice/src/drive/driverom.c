@@ -166,7 +166,7 @@ static void driverom_fix_checksum(drive_t *drive)
         for (i = 0; i < 0x1000; i++) {
             sum32 += drive->rom[i ^ 0x6f00];
         }
-        drive->rom[0x603f] = -(sum32 % 255); /* The - here is not a typo */
+        drive->rom[0x603f] = 256-(sum32 % 255); /* The - here is not a typo */
         break;
     case DRIVE_TYPE_3040:
     case DRIVE_TYPE_4040:
