@@ -135,6 +135,27 @@
 #define PRODUCT_SERVER_FOUNDATION 0x00000021
 #endif
 
+#ifndef SM_TABLETPC
+#define SM_TABLETPC 86
+#endif
+
+#ifndef SM_MEDIACENTER
+#define SM_MEDIACENTER 87
+#endif
+
+#ifndef SM_STARTER
+#define SM_STARTER 88
+#endif
+
+#ifndef SM_SERVERR2
+#define SM_SERVERR2 89
+#endif
+
+#define VICE_SM_SERVERR2		8
+#define VICE_SM_MEDIACENTER	4
+#define VICE_SM_STARTER		2
+#define VICE_SM_TABLETPC		1
+
 typedef BOOL (WINAPI *VGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 
 typedef struct winver_s {
@@ -146,133 +167,156 @@ typedef struct winver_s {
     int producttype;
     int suite;
     int pt6;
+    int metrics;
 } winver_t;
 
 static winver_t windows_versions[] = {
     { NULL, 0,
-      0, 0, 0, 0, 0, 0 },	 /* place holder for what has been detected */
+      0, 0, 0, 0, 0, 0, 0 },	 /* place holder for what has been detected */
     { "Windows 95", VER_PLATFORM_WIN32_WINDOWS,
-      4, 0, 3, -1, -1, -1 },
+      4, 0, 3, -1, -1, -1, -1 },
     { "Windows 98", VER_PLATFORM_WIN32_WINDOWS,
-      4, 10, 4, -1, -1, -1 },
+      4, 10, 4, -1, -1, -1, -1 },
     { "Windows ME", VER_PLATFORM_WIN32_WINDOWS,
-      4, 90, 5, -1, -1, -1 },
+      4, 90, 5, -1, -1, -1, -1 },
     { "Windows NT 3.10 Workstation", VER_PLATFORM_WIN32_NT,
-      3, 10, 0, VER_NT_WORKSTATION, -1, -1 },
+      3, 10, 0, VER_NT_WORKSTATION, -1, -1, -1 },
     { "Windows NT 3.10 Advanced Server", VER_PLATFORM_WIN32_NT,
-      3, 10, 0, VER_NT_SERVER, -1, -1 },
+      3, 10, 0, VER_NT_SERVER, -1, -1, -1 },
     { "Windows NT 3.50 Workstation", VER_PLATFORM_WIN32_NT,
-      3, 5, 0, VER_NT_WORKSTATION, -1, -1 },
+      3, 5, 0, VER_NT_WORKSTATION, -1, -1, -1 },
     { "Windows NT 3.50 Server", VER_PLATFORM_WIN32_NT,
-      3, 5, 0, VER_NT_SERVER, -1, -1 },
+      3, 5, 0, VER_NT_SERVER, -1, -1, -1 },
     { "Windows NT 3.51 Workstation", VER_PLATFORM_WIN32_NT,
-      3, 51, 0, VER_NT_WORKSTATION, -1, -1 },
+      3, 51, 0, VER_NT_WORKSTATION, -1, -1, -1 },
     { "Windows NT 3.51 Server", VER_PLATFORM_WIN32_NT,
-      3, 51, 0, VER_NT_SERVER, -1, -1 },
+      3, 51, 0, VER_NT_SERVER, -1, -1, -1 },
     { "Windows NT 4.0 Workstation", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_WORKSTATION, 0, -1 },
+      4, 0, 1, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows NT 4.0 Terminal Server", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_SERVER, VER_SUITE_TERMINAL, -1 },
+      4, 0, 1, VER_NT_SERVER, VER_SUITE_TERMINAL, -1, -1 },
     { "Windows NT 4.0 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1 },
+      4, 0, 1, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows NT 4.0 Small Bsiness Server", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1 },
+      4, 0, 1, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
     { "Windows NT 4.0 Embedded", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, -1, VER_SUITE_EMBEDDEDNT, -1 },
+      4, 0, 1, -1, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows NT 4.0 Server", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, VER_NT_SERVER, 0, -1 },
+      4, 0, 1, VER_NT_SERVER, 0, -1, -1 },
     { "Windows 2000 Professional", VER_PLATFORM_WIN32_NT,
-      5, 0, 6, VER_NT_WORKSTATION, 0, -1 },
+      5, 0, 6, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2000 Advanced Server / Windows 2000 Advanced Server Limited Edition", VER_PLATFORM_WIN32_NT,
-      5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1 },
+      5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2000 Datacenter Server / Windows 2000 Datacenter Server Limited Edition", VER_PLATFORM_WIN32_NT,
-      5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1 },
+      5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
     { "Windows 2000 Server", VER_PLATFORM_WIN32_NT,
-      5, 0, 6, VER_NT_SERVER, 0, -1 },
+      5, 0, 6, VER_NT_SERVER, 0, -1, -1 },
     { "Windows XP Home", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, -1 },
-    { "Windows XP Starter / Windows XP Professional / Windows XP Tablet PC / Windows XP Media Center", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, 0, -1 },
+      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, -1, -1 },
+    { "Windows XP Starter", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_STARTER },
+    { "Windows XP Tablet PC", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_TABLETPC },
+    { "Windows XP Media Center", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_MEDIACENTER },
+    { "Windows XP Professional", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows XP Embedded", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1 },
-    { "Windows 2003 Web Server / Windows 2003 R2 Web Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_BLADE, -1 },
-    { "Windows 2003 Enterprise Server / Windows 2003 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1 },
-    { "Windows 2003 Datacenter Server / Windows 2003 R2 Datacenter Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_DATACENTER, -1 },
-    { "Windows 2003 Compute Cluster Server / Windows 2003 R2 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1 },
-    { "Windows 2003 Small Business Server / Windows 2003 R2 Small Business Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1 },
-    { "Windows 2003 Storage Server / Windows 2003 R2 Storage Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1 },
+      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
+    { "Windows 2003 R2 Web Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_BLADE, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Web Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
+    { "Windows 2003 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Enterprise Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
+    { "Windows 2003 R2 Datacenter Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Datacenter Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
+    { "Windows 2003 R2 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, -1 },
+    { "Windows 2003 R2 Small Business Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Small Business Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
+    { "Windows 2003 R2 Storage Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Storage Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, -1 },
     { "Windows Home Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1 },
-    { "Windows XP64 / Windows 2003 Standard Server / Windows 2003 R2 Standard Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, 0, -1 },
+      5, 2, 8, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1, -1 },
+    { "Windows XP64", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_WORKSTATION, 0, -1, -1 },
+    { "Windows 2003 R2 Standard Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, 0, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Standard Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 8, VER_NT_SERVER, 0, -1, -1 },
     { "Windows Vista Starter", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_STARTER },
+      6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_STARTER, -1 },
     { "Windows Vista Home Basic", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_HOME_BASIC },
+      6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_HOME_BASIC, -1 },
     { "Windows Vista Home Premium", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_HOME_PREMIUM },
+      6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_HOME_PREMIUM, -1 },
     { "Windows Vista Business", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_BUSINESS },
+      6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_BUSINESS, -1 },
     { "Windows Vista Enterprise", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE },
+      6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows Vista Ultimate", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE },
+      6, 0, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
     { "Windows 2008 Web Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, VER_SUITE_BLADE, PRODUCT_WEB_SERVER },
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_BLADE, PRODUCT_WEB_SERVER, -1 },
     { "Windows 2008 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, VER_SUITE_ENTERPRISE, PRODUCT_ENTERPRISE_SERVER },
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_ENTERPRISE, PRODUCT_ENTERPRISE_SERVER, -1 },
     { "Windows 2008 Datacenter Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, VER_SUITE_DATACENTER, PRODUCT_DATACENTER_SERVER },
+      6, 0, 10, VER_NT_SERVER, VER_SUITE_DATACENTER, PRODUCT_DATACENTER_SERVER, -1 },
     { "Windows 2008 Standard Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER },
+      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, -1 },
     { "Windows 2008 Small Business Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SMALLBUSINESS_SERVER },
+      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SMALLBUSINESS_SERVER, -1 },
     { "Windows 2008 Enterprise Server for IA64 Systems", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER_IA64 },
+      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER_IA64, -1 },
     { "Windows 2008 HPC Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER },
+      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER, -1 },
     { "Windows 2008 Essential Business Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOR_SMALLBUSINESS },
+      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOR_SMALLBUSINESS, -1 },
     { "Windows 2008 Foundation Server", VER_PLATFORM_WIN32_NT,
-      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION },
+      6, 0, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
     { "Windows 7 Starter", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_STARTER },
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_STARTER, -1 },
     { "Windows 7 Home Basic", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_BASIC },
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_BASIC, -1 },
     { "Windows 7 Home Premium", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_PREMIUM },
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_PREMIUM, -1 },
     { "Windows 7 Enterprise", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE },
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows 7 Business", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_BUSINESS },
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_BUSINESS, -1 },
     { "Windows 7 Ultimate", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE },
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ULTIMATE, -1 },
     { "Windows 2008 R2 Web Server", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_WEB_SERVER },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_WEB_SERVER, -1 },
     { "Windows 2008 R2 Standard Server", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_STANDARD_SERVER, -1 },
     { "Windows 2008 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER, -1 },
     { "Windows 2008 R2 Datacenter Server", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_DATACENTER_SERVER },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_DATACENTER_SERVER, -1 },
     { "Windows 2008 R2 Enterprise Server for IA64 Systems", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER_IA64 },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_ENTERPRISE_SERVER_IA64, -1 },
     { "Windows 2008 R2 Foundation Server", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_SERVER_FOUNDATION, -1 },
     { "Windows 2008 R2 HPC Server", VER_PLATFORM_WIN32_NT,
-      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER },
+      6, 1, 10, VER_NT_SERVER, 0, PRODUCT_CLUSTER_SERVER, -1 },
     { "Windows 8 (Home/Pro/Enterprise)", VER_PLATFORM_WIN32_NT,
-      6, 2, 10, VER_NT_WORKSTATION, 0, 0 },
+      6, 2, 10, VER_NT_WORKSTATION, 0, 0, -1 },
     { "Windows 2012 Server (Foundation/Essentials/Standard/Datacenter)", VER_PLATFORM_WIN32_NT,
-      6, 2, 10, VER_NT_SERVER, 0, 0 },
+      6, 2, 10, VER_NT_SERVER, 0, 0, -1 },
     { NULL, 0,
-      0, 0, 0, 0, 0, 0 }
+      0, 0, 0, 0, 0, 0, 0 }
 };
 
 /* 
@@ -480,14 +524,36 @@ static inline char *archdep_get_runtime_windows_os(void)
 		windows_versions[0].suite = -1;
     }
 
-   	for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
+/* Metrics: 0000RMST
+   R: Windows Server 2003 R2			SM_SERVERR2
+   M: Windows XP Media Center Edition		SM_MEDIACENTER
+   S: Windows XP Starter Edition		SM_STARTER
+   T: Windows XP Tablet PC Edition		SM_TABLETPC
+*/
+    windows_versions[0].metrics = 0;
+    if (GetSystemMetrics(SM_TABLETPC)) {
+        windows_versions[0].metrics |= 1;
+    }
+    if (GetSystemMetrics(SM_STARTER)) {
+        windows_versions[0].metrics |= 2;
+    }
+    if (GetSystemMetrics(SM_MEDIACENTER)) {
+        windows_versions[0].metrics |= 4;
+    }
+    if (GetSystemMetrics(SM_SERVERR2)) {
+        windows_versions[0].metrics |= 8;
+    }
+
+    for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
         if (windows_versions[0].platformid == windows_versions[i].platformid) {
             if (windows_versions[0].majorver == windows_versions[i].majorver) {
                 if (windows_versions[0].minorver == windows_versions[i].minorver) {
                     if (windows_versions[0].producttype == windows_versions[i].producttype) {
                         if (optional_mask_compare(windows_versions[0].suite, windows_versions[i].suite)) {
                             if (optional_compare(windows_versions[0].pt6, windows_versions[i].pt6)) {
-                                found = 1;
+                                if (optional_mask_compare(windows_versions[0].metrics, windows_versions[i].metrics)) {
+                                    found = 1;
+                                }
                             }
                         }
                     }
