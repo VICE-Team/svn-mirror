@@ -151,12 +151,21 @@
 #define SM_SERVERR2 89
 #endif
 
+#ifndef PROCESSOR_ARCHITECTURE_AMD64
+#define PROCESSOR_ARCHITECTURE_AMD64 9
+#endif
+
+#ifndef PROCESSOR_ARCHITECTURE_IA64
+#define PROCESSOR_ARCHITECTURE_IA64 6
+#endif
+
 #define VICE_SM_SERVERR2		8
 #define VICE_SM_MEDIACENTER	4
 #define VICE_SM_STARTER		2
 #define VICE_SM_TABLETPC		1
 
 typedef BOOL (WINAPI *VGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
+typedef void (WINAPI *VGNSI)(LPSYSTEM_INFO);
 
 typedef struct winver_s {
     char *name;
@@ -493,6 +502,8 @@ static inline char *archdep_get_runtime_windows_os(void)
     int found = 0;
     int i;
     VGPI ViceGetProductInfo;
+    VGNSI ViceGetNativeSystemInfo;
+    SYSTEM_INFO systeminfo;
     DWORD PT;
 
     ZeroMemory(&os_version_info, sizeof(os_version_info));
@@ -571,12 +582,33 @@ static inline char *archdep_get_runtime_windows_os(void)
             if (windows_versions[0].minorver == 10) {
                 sprintf(windows_version, "%s%s", windows_version, get_win98_version());
             }
+        } else {
+            if (os_version_ex_info.wServicePackMajor) {
+                sprintf(windows_version, "%s SP%d", windows_version, os_version_ex_info.wServicePackMajor);
+            }
         }
         if (windows_versions[0].realos > windows_versions[i - 1].realos) {
             sprintf(windows_version, "%s (compatibility mode)", windows_version);
         }
         if (IsWow64()) {
-            sprintf(windows_version, "%s (WOW64)", windows_version);
+            ViceGetNativeSystemInfo = (VGNSI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetNativeSystemInfo");
+            ViceGetNativeSystemInfo(&systeminfo);
+            if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
+                sprintf(windows_version, "%s (WOW64 X64)", windows_version);
+            } else {
+                sprintf(windows_version, "%s (WOW64 IA64)", windows_version);
+            }
+        } else {
+            if (windows_versions[0].majorver >= 5) {
+                GetSystemInfo(&systeminfo);
+                if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_IA64) {
+                    sprintf(windows_version, "%s (64bit IA64)", windows_version);
+                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
+                    sprintf(windows_version, "%s (64bit X64)", windows_version);
+                } else {
+                    sprintf(windows_version, "%s (32bit)", windows_version);
+                }
+            }
         }
         if (IsReactOS()) {
             sprintf(windows_version, "%s (ReactOS)", windows_version);
