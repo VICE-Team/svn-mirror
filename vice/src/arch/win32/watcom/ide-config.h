@@ -53,7 +53,6 @@
 #define HAVE_GETCWD                1
 #define HAVE_DSOUND_LIB            1
 #define USE_DXSOUND                1
-#define HAVE_D3D9_H                1
 
 #define __i386__                   1
 
