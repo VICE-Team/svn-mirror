@@ -77,6 +77,8 @@ extern int spet_bank;
 extern int spet_ctrlwp;
 extern int spet_diag;
 extern int spet_ramwp;
+extern int spet_flat_mode;
+extern int spet_firq_disabled;
 
 struct dongle6702_s {
     int val;

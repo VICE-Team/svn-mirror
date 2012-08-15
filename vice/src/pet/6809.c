@@ -31,6 +31,7 @@
 #include "monitor.h"
 #include "petmem.h"
 #include "snapshot.h"
+#include "machine.h"
 
 #define CLK maincpu_clk
 #define CPU_INT_STATUS maincpu_int_status
@@ -154,6 +155,29 @@ h6809_regs_t h6809_regs;
         }                                                             \
     } while (0)
 
+#define JAM(INSTR)                                                    \
+    do {                                                              \
+        unsigned int tmp;                                             \
+                                                                      \
+        EXPORT_REGISTERS();                                           \
+        tmp = machine_jam("   6809: " INSTR " at $%04X   ", PC);      \
+        switch (tmp) {                                                \
+          case JAM_RESET:                                             \
+            DO_INTERRUPT(IK_RESET);                                   \
+            break;                                                    \
+          case JAM_HARD_RESET:                                        \
+            mem_powerup();                                            \
+            DO_INTERRUPT(IK_RESET);                                   \
+            break;                                                    \
+          case JAM_MONITOR:                                           \
+            monitor_startup(e_comp_space);                            \
+            IMPORT_REGISTERS();                                       \
+            break;                                                    \
+          default:                                                    \
+            CLK++;                                                    \
+        }                                                             \
+    } while (0)
+
 #ifdef LAST_OPCODE_ADDR
 #define SET_LAST_ADDR(x) LAST_OPCODE_ADDR = (x)
 #else
@@ -199,6 +223,7 @@ static WORD V;
 #define H6309_NATIVE_MODE() (MD & 1)
 #endif /* H6309 */
 
+/* #define FULL6809 */
 
 static WORD ea = 0;
 static unsigned int irqs_pending = 0;
@@ -865,15 +890,21 @@ static void set_cc(BYTE arg)
     cc_changed = 1;
 }
 
-static void cc_modified(void)
+static int cc_modified(void)
 {
+    int interrupt_taken = 0;
+
     /* Check for pending interrupts */
     if (firqs_pending && !(EFI & F_FLAG)) {
         firq();
+        interrupt_taken = 1;
     } else if (irqs_pending && !(EFI & I_FLAG)) {
         irq();
+        interrupt_taken = 1;
     }
     cc_changed = 0;
+
+    return interrupt_taken;
 }
 
 /* Undocumented: When the 6809 transfers an 8bit register
@@ -1909,16 +1940,51 @@ void div0_trap(void)
 }
 #endif
 
-void cwai(void)
+void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *maincpu_alarm_context)
 {
-    sim_error("CWAI - not supported yet!");
+    BYTE tmp = imm_byte();
+    int taken;
+
+    /* JAM("CWAI"); */
+    set_cc((BYTE)(get_cc() & tmp));
+    CLK++;
+    taken = cc_modified();  /* may trigger interrupt immediately if pending */
+#define TIME    14          /* saving registers takes at least this time */
+
+    /*
+     * Simulate waiting. This isn't cycle exact, since the real
+     * instruction would start with saving all CPU registers before
+     * waiting for the interrupt. To sort-of end up at the same total
+     * time, deduct TIME from the target time to wait for.
+     * Only advance the time, do not set it backward of course.
+     * The code probably isn't the best way to wait for an IRQ.
+     * Nevertheless, for Super-OS/9 this seems to do.
+     */
+    while (!taken) {
+        int pending = maincpu_int_status->global_pending_int & (IK_IRQ|IK_IRQPEND);
+        if (pending) {
+            break;
+        } else {
+            CLOCK newclock = alarm_context_next_pending_clk(maincpu_alarm_context)
+                           - TIME;
+            if (newclock > CLK) {
+                CLK = newclock;
+            }
+            alarm_context_dispatch(maincpu_alarm_context, CLK);
+            taken = irqs_pending /*| firqs_pending*/;
+        }
+    }
 }
+#undef TIME
 
 /* FIXME: cycle count */
 void sync(void)
 {
     CLK += 4;
-    sim_error("SYNC - not supported yet!");
+    int superpet_sync(void);
+    if (superpet_sync()) {
+        JAM("SYNC");
+    }
 }
 
 static void orcc(void)
@@ -2019,7 +2085,8 @@ static void bsr(void)
 /* FIXME: cycle count */
 void hcf(void)
 {
-    sim_error("HCF - not supported yet!");
+    sim_error("HCF - not supported yet!\n");
+    JAM("HCF");
 }
 
 void ccrs(void)
@@ -2176,7 +2243,7 @@ static WORD asr16(WORD arg, int CLK6809, int CLK6309)
     return (WORD)res;
 }
 
-static WORD asl16(WORD arg, int CLK6809, int CLK6309)		/* same as lsl16 */
+static WORD asl16(WORD arg, int CLK6809, int CLK6309)           /* same as lsl16 */
 {
     DWORD res = arg << 1;
 
@@ -4063,7 +4130,7 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
             case 0x103c:	/* CWAI (UNDOC) */
             case 0x113c:	/* CWAI (UNDOC) */
 #endif
-                cwai();
+                cwai(maincpu_int_status, maincpu_alarm_context);
                 break;
 
             case 0x0019:	/* DAA */
@@ -5998,11 +6065,9 @@ void h6809_mainloop (struct interrupt_cpu_status_s *maincpu_int_status, alarm_co
                 opcode_trap();
                 break;
 #else
-#ifndef FULL6809
             default:
-                sim_error("invalid opcode at %X\n", iPC);
+                sim_error("invalid opcode %04X\n", opcode);
                 break;
-#endif
 #endif
 
         }

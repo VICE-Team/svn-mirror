@@ -304,21 +304,21 @@ static int set_h6809_rom_name(const char *val, void *param)
 static int set_superpet_cpu_switch(int val, void *param)
 {
     int i;
-    
+ 
     switch (val) {
-	case 6502:
-	case SUPERPET_CPU_6502:
-	    i = SUPERPET_CPU_6502;
-	    break;
-	case 6809:
-	case SUPERPET_CPU_6809:
-	    i = SUPERPET_CPU_6809;
-	    break;
-	case SUPERPET_CPU_PROG:
-	    i = SUPERPET_CPU_PROG;
-	    break;
-	default:
-	    return -1;
+        case 6502:
+        case SUPERPET_CPU_6502:
+            i = SUPERPET_CPU_6502;
+            break;
+        case 6809:
+        case SUPERPET_CPU_6809:
+            i = SUPERPET_CPU_6809;
+            break;
+        case SUPERPET_CPU_PROG:
+            i = SUPERPET_CPU_PROG;
+            break;
+        default:
+            return -1;
     }
 
     petres.superpet_cpu_switch = i;
@@ -417,7 +417,7 @@ int pet_resources_init(void)
     petres.mem9name = NULL;
 
     for (i = 0; i < NUM_6809_ROMS; i++) {
-	petres.h6809romName[i] = NULL;
+        petres.h6809romName[i] = NULL;
     }
     petres.superpet_cpu_switch = SUPERPET_CPU_6502;
 
@@ -446,7 +446,7 @@ void pet_resources_shutdown(void)
     lib_free(petres.mem9name);
 
     for (i = 0; i < NUM_6809_ROMS; i++) {
-	lib_free(petres.h6809romName[i]);
+        lib_free(petres.h6809romName[i]);
     }
 }
 

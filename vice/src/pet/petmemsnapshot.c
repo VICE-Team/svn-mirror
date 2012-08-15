@@ -112,7 +112,7 @@ static const char module_ram_name[] = "PETMEM";
 static int mem_write_ram_snapshot_module(snapshot_t *s)
 {
     snapshot_module_t *m;
-    BYTE config, rconf, memsize, conf8x96, superpet;
+    BYTE config, rconf, memsize, conf8x96, superpet, superpet2;
     int kbdindex;
     int i;
 
@@ -182,6 +182,11 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     for (i = 0; i < 8; i++) {
         SMW_W(m, (WORD)dongle6702.shift[i]);
     }
+    /* Extra SuperPET byte; more state of $EFFC */
+    superpet2 = spet_bank & 0x10;
+    if (spet_firq_disabled) superpet2 |= 0x20;
+    if (spet_flat_mode) superpet2 |= 0x40;
+    SMW_B(m, superpet2);
 
     snapshot_module_close(m);
 
@@ -302,6 +307,13 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
             SMR_W(m, &w);
             dongle6702.shift[i] = w;
         }
+
+        /* Extra superpet bits */
+        SMR_B(m, &b);
+        spet_bank |= (b & 0x10);
+        spet_firq_disabled = (b & 0x20);
+        spet_flat_mode = (b & 0x40);
+
         /*
          * TODO: make the CPU switch if needed, WITHOUT a reset!
          * (A real-world CPU switch toggle always implies a reset)

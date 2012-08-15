@@ -58,6 +58,7 @@
 
 
 static BYTE mem_read_patchbuf(WORD addr);
+void mem_initialize_memory_6809_flat();
 
 BYTE petmem_2001_buf_ef[256];
 
@@ -87,6 +88,8 @@ BYTE mem_ram[RAM_ARRAY]; /* 128K to make things easier. Real size is 4-128K. */
 BYTE mem_rom[PET_ROM_SIZE];
 BYTE mem_chargen_rom[PET_CHARGEN_ROM_SIZE];
 BYTE mem_6809rom[PET_6809_ROMSIZE];
+
+#define EXT_RAM         (64 * 1024)
 
 static int ram_size = RAM_ARRAY;       /* FIXME? */
 
@@ -281,6 +284,8 @@ int spet_bank   = 0;
 int spet_ctrlwp = 1;
 int spet_diag   = 0;
 int spet_ramwp  = 0;
+int spet_flat_mode = 0;         /* This is for the extra TPUG-designed */
+int spet_firq_disabled = 0;     /* ...Super OS/9 MMU. */
 #define DEBUG_DONGLE    0
 
 /* Internal state of the 6702 dongle */
@@ -469,6 +474,8 @@ void petmem_reset(void)
     spet_ramen = 1;
     spet_bank = 0;
     spet_ctrlwp = 1;
+    spet_flat_mode = 0;
+    spet_firq_disabled = 0;
 
     petmem_map_reg = 0;
 #if DEBUG_DONGLE
@@ -523,9 +530,29 @@ static void store_super_io(WORD addr, BYTE value)
     } else
     if (addr >= 0xeffc) {       /* Bank select */
         spet_bank = value & 0x0f;
+        spet_firq_disabled = (value & 0x20);
+        spet_flat_mode = (value & 0x40);
         spet_ctrlwp = !(value & 0x80);
-        //printf("spet_bank := %d\n", spet_bank);
-        //printf("spet_ctrlwp := %d\n", spet_ctrlwp);
+        //printf("spet_bank := %x  ", spet_bank);
+        //printf("spet_flat_mode := %d  ", !!spet_flat_mode);
+        //printf("spet_firq_disabled := %d  ", !!spet_firq_disabled);
+        //printf("spet_ctrlwp := %d\n", !!spet_ctrlwp);
+        if (spet_flat_mode) {
+            /* This is for the extra TPUG-designed Super OS/9 MMU.
+             * There is no need to check if this is a change in value,
+             * since in the new state there is no access to I/O;
+             * it it switched off by the SYNC instruction.
+             * See http://mikenaberezny.com/hardware/superpet/super-os9-mmu/
+             */
+            mem_initialize_memory_6809_flat();
+            //mon_bank(e_default_space, "extram");
+            /*extern WORD PC;
+            printf("next opcode: %04X: banked %02X, flat %02X\n",
+                    PC,
+                    mem_ram[EXT_RAM + 0x1000 * spet_bank + (PC & 0x0FFF)],
+                    mem_ram[EXT_RAM + PC]
+                  );*/
+        }
     } else {
         if (addr >= 0xeff8) {
             if (!spet_ctrlwp) {
@@ -554,7 +581,7 @@ static void store_super_io(WORD addr, BYTE value)
 static BYTE read_super_9(WORD addr)
 {
     if (spet_ramen) {
-        return (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)];
+        return (mem_ram + EXT_RAM)[(spet_bank << 12) | (addr & 0x0fff)];
     }
     return rom_read(addr);
 }
@@ -565,8 +592,19 @@ static void store_super_9(WORD addr, BYTE value)
         /* printf("store_super_9: %04x <- %04x <- %02x\n",
                 (spet_bank << 12) | (addr & 0x0fff),
                 addr, value); */
-        (mem_ram + 0x10000)[(spet_bank << 12) | (addr & 0x0fff)] = value;
+        (mem_ram + EXT_RAM)[(spet_bank << 12) | (addr & 0x0fff)] = value;
     }
+}
+
+static BYTE read_super_flat(WORD addr)
+{
+    //printf("read_super_flat %04X -> %02X\n", addr, (mem_ram + EXT_RAM)[addr]);
+    return (mem_ram + EXT_RAM)[addr];
+}
+
+static void store_super_flat(WORD addr, BYTE value)
+{
+    (mem_ram + EXT_RAM)[addr] = value;
 }
 
 
@@ -896,7 +934,6 @@ void invalidate_mem_limit(int lower, int upper)
     }
 }
 
-/* FIXME: TODO! */
 void mem_toggle_watchpoints(int flag, void *context)
 {
     if (flag) {
@@ -1103,6 +1140,94 @@ static void set_vidmem(void) {
 
 /* ------------------------------------------------------------------------- */
 
+void mem_initialize_memory_6809_banked()
+{
+    int i;
+
+    //extern WORD iPC; printf("mem_initialize_memory_6809_banked %04x bank %x\n", iPC, spet_bank);
+    for (i = 0x00; i < 0xa0; i++) {
+        _mem6809_read_tab[i]      = _mem_read_tab[i];
+        _mem6809_write_tab[i]     = _mem_write_tab[i];
+        _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
+        mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+    }
+    /*
+     * Set up the ROMs.
+     */
+    for (i = 0xa0; i < 0xe8; i++) {
+        _mem6809_read_tab[i]      = rom6809_read;
+        _mem6809_write_tab[i]     = store_void;
+        _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
+        mem6809_read_limit_tab[i] = 0xe7fc;
+    }
+    for (i = 0xf0; i < 0x100; i++) {
+        _mem6809_read_tab[i]      = rom6809_read;
+        _mem6809_write_tab[i]     = store_void;
+        _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
+        mem6809_read_limit_tab[i] = 0xfffc;
+    }
+    /*
+     * Also copy the I/O setup from the 6502 view.
+     */
+    for (i = 0xe8; i < 0xf0; i++) {
+        _mem6809_read_tab[i]      = _mem_read_tab[i];
+        _mem6809_write_tab[i]     = _mem_write_tab[i];
+        _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
+        mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
+    }
+
+    _mem6809_read_tab[0x100] = _mem6809_read_tab[0];
+    _mem6809_write_tab[0x100] = _mem6809_write_tab[0];
+    _mem6809_read_base_tab[0x100] = _mem6809_read_base_tab[0];
+    mem6809_read_limit_tab[0x100] = -1;
+}
+
+void mem_initialize_memory_6809_flat()
+{
+    int i;
+
+    //extern WORD iPC; printf("mem_initialize_memory_6809_flat   %04X bank %x\n", iPC, spet_bank);
+
+    for (i = 0x00; i < 0x101; i++) {
+        _mem6809_read_tab[i]      = read_super_flat;
+        _mem6809_write_tab[i]     = store_super_flat;
+        _mem6809_read_base_tab[i] = mem_ram + EXT_RAM + (i << 8);
+        mem6809_read_limit_tab[i] = 0xfffc;
+    }
+
+    _mem6809_read_base_tab[0x100] = _mem6809_read_base_tab[0];
+    mem6809_read_limit_tab[0x100] = -1;
+}
+
+void mem_initialize_memory_6809()
+{
+    if (spet_flat_mode) {
+        mem_initialize_memory_6809_flat();
+    } else {
+        mem_initialize_memory_6809_banked();
+    }
+}
+
+int superpet_sync()
+{
+    if (spet_firq_disabled) {
+        log_error(pet_mem_log, "SuperPET: SYNC encountered, but no FIRQ possible!");
+        return 1;
+    } else {
+        spet_flat_mode = 0;
+        mem_initialize_memory_6809_banked();
+        //mon_bank(e_default_space, "6809");
+        /*extern WORD PC;
+        printf("next opcode: %04X: banked %02X, flat %02X\n",
+                PC,
+                mem_ram[EXT_RAM + 0x1000 * spet_bank + (PC & 0x0FFF)],
+                mem_ram[EXT_RAM + PC]
+              );*/
+
+        return 0;
+    }
+}
+
 /* This does the plain 8032 configuration, as 8096 stuff only comes up when
    writing to $fff0.  */
 void mem_initialize_memory(void)
@@ -1174,50 +1299,15 @@ void mem_initialize_memory(void)
          * ROMs in addresses $A000 - $FFFF and but including the I/O range
          * of $E800 - $EFFF.
          */
-
-        for (i = 0x00; i < 0xa0; i++) {
-            _mem6809_read_tab[i]      = _mem_read_tab[i];
-            _mem6809_write_tab[i]     = _mem_write_tab[i];
-            _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
-            mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
-        }
-        /*
-         * Set up the ROMs.
-         */
-        for (i = 0xa0; i < 0xe8; i++) {
-            _mem6809_read_tab[i]      = rom6809_read;
-            _mem6809_write_tab[i]     = store_void;
-            _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
-            mem6809_read_limit_tab[i] = 0xe7fc;
-        }
-        for (i = 0xf0; i < 0x100; i++) {
-            _mem6809_read_tab[i]      = rom6809_read;
-            _mem6809_write_tab[i]     = store_void;
-            _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
-            mem6809_read_limit_tab[i] = 0xfffc;
-        }
-        /*
-         * Also copy the I/O setup from the 6502 view.
-         */
-        for (i = 0xe8; i < 0xf0; i++) {
-            _mem6809_read_tab[i]      = _mem_read_tab[i];
-            _mem6809_write_tab[i]     = _mem_write_tab[i];
-            _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
-            mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
-        }
-
-        _mem6809_read_tab[0x100] = _mem6809_read_tab[0];
-        _mem6809_write_tab[0x100] = _mem6809_write_tab[0];
-        _mem6809_read_base_tab[0x100] = _mem6809_read_base_tab[0];
-        mem6809_read_limit_tab[0x100] = -1;
-
-        _mem6809_read_tab_ptr = _mem6809_read_tab;
-        _mem6809_write_tab_ptr = _mem6809_write_tab;
+        mem_initialize_memory_6809();
 
         for (i = 0; i < 0x101; i++) {
             _mem6809_read_tab_watch[i] = read6809_watch;
             _mem6809_write_tab_watch[i] = store6809_watch;
         }
+
+        _mem6809_read_tab_ptr = _mem6809_read_tab;
+        _mem6809_write_tab_ptr = _mem6809_write_tab;
     }
 }
 
@@ -1348,7 +1438,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
         return mem_read(addr);
         break;
       case bank_extram:         /* extended RAM area (8x96, SuperPET) */
-        return mem_ram[addr + 0x10000];
+        return mem_ram[addr + EXT_RAM];
         break;
       case bank_io:            /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
@@ -1403,8 +1493,8 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
       case bank_default:        /* current */
         mem_store(addr, byte);
         return;
-      case bank_extram:         /* extended RAM area (8x96) */
-        mem_ram[addr + 0x10000] = byte;
+      case bank_extram:         /* extended RAM area (8x96, SuperPET) */
+        mem_ram[addr + EXT_RAM] = byte;
         return;
       case bank_io:             /* io */
         if (addr >= 0xe800 && addr < 0xe900) {
@@ -1470,7 +1560,9 @@ static int mem_dump_io(WORD addr) {
         } else if (addr == 0xeffc) {
             // Bank select
             mon_out("bank: $%x\n", spet_bank);
-            mon_out("control write protect: $%x\n", spet_ctrlwp);
+            mon_out("control write protect: %d\n", spet_ctrlwp);
+            mon_out("flat (super-os9) mode: %d\n", spet_flat_mode);
+            mon_out("firq disabled: %d\n", spet_firq_disabled);
             return 0;
         } else if (addr == 0xeffe) {
             // RAM/ROM switch
