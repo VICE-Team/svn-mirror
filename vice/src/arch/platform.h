@@ -73,6 +73,8 @@
 
 #include "vice.h"
 
+#include "uiapi.h"
+
 /* win32/64 discovery */
 #ifdef WIN32_COMPILE
 #  ifdef _WIN64

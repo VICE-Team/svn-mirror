@@ -152,11 +152,27 @@
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_AMD64
-#define PROCESSOR_ARCHITECTURE_AMD64 9
+#define PROCESSOR_ARCHITECTURE_AMD64		9
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_IA64
-#define PROCESSOR_ARCHITECTURE_IA64 6
+#define PROCESSOR_ARCHITECTURE_IA64		6
+#endif
+
+#ifndef PROCESSOR_ARCHITECTURE_MIPS
+#define PROCESSOR_ARCHITECTURE_MIPS		1
+#endif
+
+#ifndef PROCESSOR_ARCHITECTURE_ALPHA
+#define PROCESSOR_ARCHITECTURE_ALPHA		2
+#endif
+
+#ifndef PROCESSOR_ARCHITECTURE_PPC
+#define PROCESSOR_ARCHITECTURE_PPC		3
+#endif
+
+#ifndef PROCESSOR_ARCHITECTURE_ALPHA64
+#define PROCESSOR_ARCHITECTURE_ALPHA64	7
 #endif
 
 #define VICE_SM_SERVERR2		8
@@ -605,8 +621,16 @@ static inline char *archdep_get_runtime_windows_os(void)
                     sprintf(windows_version, "%s (64bit IA64)", windows_version);
                 } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_AMD64) {
                     sprintf(windows_version, "%s (64bit X64)", windows_version);
+                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_MIPS) {
+                    sprintf(windows_version, "%s (32bit MIPS)", windows_version);
+                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ALPHA) {
+                    sprintf(windows_version, "%s (32bit AXP)", windows_version);
+                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_ALPHA64) {
+                    sprintf(windows_version, "%s (32bit AXP64)", windows_version);
+                } else if (systeminfo.wProcessorArchitecture == PROCESSOR_ARCHITECTURE_PPC) {
+                    sprintf(windows_version, "%s (32bit PPC)", windows_version);
                 } else {
-                    sprintf(windows_version, "%s (32bit)", windows_version);
+                    sprintf(windows_version, "%s (32bit X86)", windows_version);
                 }
             }
         }

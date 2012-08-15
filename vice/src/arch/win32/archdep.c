@@ -712,8 +712,6 @@ int archdep_rtc_get_centisecond(void)
 
 char *archdep_get_runtime_os(void)
 {
-    /* TODO: add runtime os detection code */
-    /* reactos (+version), hxdos (+version), odin32 (+version), wine */
     return archdep_get_runtime_windows_os();
 }
 
