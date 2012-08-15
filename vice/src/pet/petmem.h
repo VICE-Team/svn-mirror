@@ -100,5 +100,6 @@ extern WORD mem6809_read16(WORD addr);
 extern void mem6809_store32(WORD addr, DWORD value);
 extern DWORD mem6809_read32(WORD addr);
 #endif
+extern void mem_initialize_memory_6809(void);
 
 #endif

@@ -182,7 +182,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     for (i = 0; i < 8; i++) {
         SMW_W(m, (WORD)dongle6702.shift[i]);
     }
-    /* Extra SuperPET byte; more state of $EFFC */
+    /* Extra SuperPET2 byte; more state of $EFFC */
     superpet2 = spet_bank & 0x10;
     if (spet_firq_disabled) superpet2 |= 0x20;
     if (spet_flat_mode) superpet2 |= 0x40;
@@ -308,7 +308,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
             dongle6702.shift[i] = w;
         }
 
-        /* Extra superpet bits */
+        /* Extra superpet2 bits */
+        b = 0;  /* when not present in file */
         SMR_B(m, &b);
         spet_bank |= (b & 0x10);
         spet_firq_disabled = (b & 0x20);
@@ -329,6 +330,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             return -1;
         }
+        /* set banked or flat memory mapping */
+        mem_initialize_memory_6809();
     }
 
     snapshot_module_close(m);
