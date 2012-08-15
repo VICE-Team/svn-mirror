@@ -104,15 +104,12 @@ static void JumpProc(Widget scrollbar, XtPointer client_data, XtPointer percent_
 static void ScrollProc(Widget scrollbar, XtPointer client_data, XtPointer positionptr /* int */)
 {
     float delta;
-    int length;
-    float oldposition, sizeOfThumb;
+    float oldposition;
     long position = (long)positionptr;
     pal_res_t *p = (pal_res_t *)client_data;
 
     XtVaGetValues(scrollbar,
-                  XtNlength, &length,
                   XtNtopOfThumb, &oldposition,
-                  XtNshown, &sizeOfThumb,
                   NULL);
     if (position < 0) { /* right button, strangely enough */
         delta = +THUMB_SIZE;

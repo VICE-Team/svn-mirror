@@ -2250,10 +2250,10 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     XtAddCallback(tmp, XtNcallback, UI_BUTTON_NONE_callback, (XtPointer)&button);
 
     ui_popup(XtParent(jam_dialog), "VICE", False);
-    button = UI_BUTTON_NONE;
+    button = UI_BUTTON_CANCEL;
     do {
         ui_dispatch_next_event();
-    } while (button == UI_BUTTON_NONE);
+    } while (button == UI_BUTTON_CANCEL);
     ui_popdown(XtParent(jam_dialog));
     XtDestroyWidget(XtParent(jam_dialog));
 

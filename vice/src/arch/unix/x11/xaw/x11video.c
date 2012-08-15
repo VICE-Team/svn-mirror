@@ -718,7 +718,6 @@ static void ui_finish_canvas(video_canvas_t *c)
 video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width, unsigned int *height, int mapped)
 {
     int res;
-    unsigned int new_width, new_height;
     XGCValues gc_values;
 
     canvas->depth = x11ui_get_display_depth();
