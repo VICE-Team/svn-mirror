@@ -332,7 +332,7 @@ void mididrv_out(BYTE b)
 
     out_buf[out_index] = b;
     out_index++;
-    if (out_index >= OUT_BUF_LEN) {
+    if (out_index > OUT_BUF_LEN) {
         out_index = 0;
         log_error(mididrv_log, "MIDI-Out overrun.");
     }
