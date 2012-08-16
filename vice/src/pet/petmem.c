@@ -1208,7 +1208,7 @@ void mem_initialize_memory_6809()
     }
 }
 
-int superpet_sync()
+int superpet_sync(void)
 {
     if (spet_firq_disabled) {
         log_error(pet_mem_log, "SuperPET: SYNC encountered, but no FIRQ possible!");

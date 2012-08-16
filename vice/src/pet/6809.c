@@ -1981,7 +1981,6 @@ void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *ma
 void sync(void)
 {
     CLK += 4;
-    int superpet_sync(void);
     if (superpet_sync()) {
         JAM("SYNC");
     }

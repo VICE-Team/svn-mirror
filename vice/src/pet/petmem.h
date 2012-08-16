@@ -102,4 +102,6 @@ extern DWORD mem6809_read32(WORD addr);
 #endif
 extern void mem_initialize_memory_6809(void);
 
+extern int superpet_sync(void);
+
 #endif
