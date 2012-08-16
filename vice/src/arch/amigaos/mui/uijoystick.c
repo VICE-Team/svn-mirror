@@ -85,7 +85,7 @@ static int ui_userport_c64_joystick_translate[] = {
     0
 };
 
-static char *ui_userport_c64_joystick[countof(ui_userport_joystick_translate)];
+static char *ui_userport_c64_joystick[countof(ui_userport_c64_joystick_translate)];
 
 static const int ui_userport_c64_joystick_values[] = {
     USERPORT_JOYSTICK_CGA,

@@ -130,8 +130,9 @@ struct GfxBase *GfxBase = NULL;
 struct Library *LocaleBase = NULL;
 #endif
 
-#ifndef AMIGA_OS4
 struct Library *MUIMasterBase = NULL;
+
+#ifndef AMIGA_OS4
 struct Library *LowLevelBase = NULL;
 int lowlevel_lib_loaded = 1;
 #endif

@@ -260,6 +260,7 @@ void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 #include <string.h>
 
 #include "catweaselmkiii.h"
+#include "loadlibs.h"
 #include "log.h"
 #include "types.h"
 

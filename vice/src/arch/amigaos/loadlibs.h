@@ -44,4 +44,8 @@ extern int xvideo_lib_loaded;
 #endif
 #endif
 
+#if defined(HAVE_PROTO_OPENPCI_H) || defined(AMIGA_OS4)
+extern int pci_lib_loaded;
+#endif
+
 #endif

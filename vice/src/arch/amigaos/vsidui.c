@@ -24,6 +24,14 @@
  *
  */
 
+#include "vice.h"
+
+#define __USE_INLINE__
+
+#ifdef AMIGA_OS4
+#define ASL_PRE_V38_NAMES
+#endif
+
 #include <stdio.h>
 #include <exec/types.h>
 #include <intuition/intuition.h>

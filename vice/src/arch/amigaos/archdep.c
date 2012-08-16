@@ -405,7 +405,7 @@ int archdep_rtc_get_centisecond(void)
 #ifdef AMIGA_M68K
 struct Library *WorkbenchBase;
 
-static archdep_get_os3_runtime_os(void)
+static char *archdep_get_os3_runtime_os(void)
 {
     char *retval = NULL;
 
@@ -429,7 +429,7 @@ static archdep_get_os3_runtime_os(void)
     return retval;
 }
 
-static archdep_get_os3_runtime_cpu(void)
+static char *archdep_get_os3_runtime_cpu(void)
 {
     UWORD attnflags = SysBase->AttnFlags;
 
@@ -453,13 +453,13 @@ static archdep_get_os3_runtime_cpu(void)
 #endif
 
 #ifdef AMIGA_AROS
-static archdep_get_aros_runtime_os(void)
+static char *archdep_get_aros_runtime_os(void)
 {
     /* TODO: Add AROS native/hosted detection */
     return "AROS";
 }
 
-static archdep_get_aros_runtime_cpu(void)
+static char *archdep_get_aros_runtime_cpu(void)
 {
 #if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
     return platform_get_x86_runtime_cpu();
@@ -471,14 +471,14 @@ static archdep_get_aros_runtime_cpu(void)
 #endif
 
 #ifdef AMIGA_MORPHOS
-static archdep_get_mos_runtime_os(void)
+static char *archdep_get_mos_runtime_os(void)
 {
     /* TODO: Add MorphOS version detection */
     return "MorphOS";
 }
 
 
-static archdep_get_mos_runtime_cpu(void)
+static char *archdep_get_mos_runtime_cpu(void)
 {
     /* TODO: Add PPC type detection */
     return "Unknown PPC CPU";
@@ -486,20 +486,15 @@ static archdep_get_mos_runtime_cpu(void)
 #endif
 
 #ifdef AMIGA_OS4
-static archdep_get_os4_runtime_os(void)
+static char *archdep_get_os4_runtime_os(void)
 {
     /* TODO: Add AmigaOS4 version detection */
     return "AmigaOS4.x";
 }
 
-+static archdep_get_os4_runtime_cpu(void)
+static char *archdep_get_os4_runtime_cpu(void)
 {
     UWORD attnflags = SysBase->AttnFlags;
-
-    AFF_750     = (1<<10),
-    AFF_7400    = (1<<11),
-    AFF_ALTIVEC = (1<<12),
-    AFF_4XX     = (1<<13),
 
     if (attnflags & AFF_603) {
         return "PPC603";
