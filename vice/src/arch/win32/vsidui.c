@@ -883,14 +883,17 @@ static LRESULT CALLBACK window_proc(HWND window, UINT msg, WPARAM wparam, LPARAM
         case WM_SIZE:
             return 0;
         case WM_COMMAND:
+            vsync_suspend_speed_eval();
             handle_wm_command(wparam, lparam, window);
             return 0;
         case WM_ENTERMENULOOP:
+            vsync_suspend_speed_eval();
             update_menus(window);
             break;
         case WM_MOVE:
             break;
         case WM_CLOSE:
+            vsync_suspend_speed_eval();
             vsid_ui_close();
             return 0;
         case WM_DESTROY:
