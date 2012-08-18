@@ -36,32 +36,29 @@ extern struct ExecBase *SysBase;
 
 struct Library *WorkbenchBase;
 
-static char runtime_os[256];
-
 char *platform_get_amigaos3_runtime_os(void)
 {
     char *retval = NULL;
 
     if (WorkbenchBase = OpenLibrary("workbench.library", 45)) {
-        retval = "WB:3.9";
+        retval = "AmigaOS-3.9";
     }
     if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 44))) {
-        retval = "WB:3.5";
+        retval = "AmigaOS-3.5";
     }
     if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 40))) {
-        retval = "WB:3.1";
+        retval = "AmigaOS-3.1";
     }
     if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 39))) {
-        retval = "WB:3.0";
+        retval = "AmigaOS-3.0";
     }
     if (retval) {
         CloseLibrary(WorkbenchBase);
     } else {
-        retval = "Unknown WB";
+        retval = "Unknown AmigaOS";
     }
-    sprintf(runtime_os, "%s KS:%d", retval, SysBase->SoftVer);
-    
-    return runtime_os;
+   
+    return retval;
 }
 
 char *platform_get_amigaos3_runtime_cpu(void)
