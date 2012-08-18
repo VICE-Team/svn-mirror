@@ -1,5 +1,5 @@
 /*
- * platform_windows_runtime_os.h - Windows runtime version discovery.
+ * platform_windows_runtime_os.c - Windows runtime version discovery.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,8 +24,12 @@
  *
  */
 
-#ifndef VICE_PLATFORM_WINDOWS_RUNTIME_OS_H
-#define VICE_PLATFORM_WINDOWS_RUNTIME_OS_H
+#include "vice.h"
+
+#if defined(__CYGWIN32__) || defined(WIN32_COMPILE)
+
+#include <windows.h>
+#include <stdio.h>
 
 #ifndef VER_NT_WORKSTATION
 #define VER_NT_WORKSTATION 0x00000001
@@ -513,7 +517,7 @@ static int optional_compare(int a, int b)
 
 static char windows_version[256];
 
-static inline char *archdep_get_runtime_windows_os(void)
+char *platform_get_windows_runtime_os(void)
 {
     int found = 0;
     int i;

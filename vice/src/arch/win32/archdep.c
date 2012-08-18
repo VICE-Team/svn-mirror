@@ -83,12 +83,6 @@
 #include "system.h"
 #include "util.h"
 
-#include "platform_windows_runtime_os.h"
-
-#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
-#include "platform_x86_runtime_cpu.h"
-#endif
-
 #define STDIN_FILENO  0
 #define STDOUT_FILENO 1
 #define STDERR_FILENO 2
@@ -712,7 +706,7 @@ int archdep_rtc_get_centisecond(void)
 
 char *archdep_get_runtime_os(void)
 {
-    return archdep_get_runtime_windows_os();
+    return platform_get_windows_runtime_os();
 }
 
 char *archdep_get_runtime_cpu(void)

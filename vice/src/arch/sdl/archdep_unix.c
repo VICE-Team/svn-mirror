@@ -61,10 +61,6 @@
 #include "ui.h"
 #include "util.h"
 
-#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
-#include "platform_x86_runtime_cpu.h"
-#endif
-
 #ifdef __NeXT__
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif

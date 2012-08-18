@@ -21,6 +21,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/lib/p64 \
+	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/imagecontents
 
 libarch_a_DEPENDENCIES = @DOS_TFE_PCAP_LIB@

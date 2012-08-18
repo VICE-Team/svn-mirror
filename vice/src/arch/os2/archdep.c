@@ -77,8 +77,6 @@
 
 #include "platform.h"
 
-#include "platform_x86_runtime_cpu.h"
-
 static log_t archlog = LOG_DEFAULT;
 
 /* ---------------------- OS/2 specific ------------------ */

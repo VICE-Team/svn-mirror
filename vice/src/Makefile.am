@@ -42,7 +42,8 @@ SUBDIRS = \
 	plus4 \
 	cbm2 \
 	arch \
-	lib/p64
+	lib/p64 \
+	platform
 
 DIST_SUBDIRS = \
 	sounddrv \
@@ -81,13 +82,13 @@ DIST_SUBDIRS = \
 	resid \
 	resid-fp \
 	resid-dtv \
-	lib
+	lib \
+	platform
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/arch \
 	-I$(top_srcdir)/src/arch/unix/readline \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/drive \
@@ -97,7 +98,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/imagecontents \
 	-I$(top_srcdir)/src/userport \
-	-I$(top_srcdir)/src/lib/p64
+	-I$(top_srcdir)/src/lib/p64 \
+	-I$(top_srcdir)/src/platform
 
 noinst_HEADERS = \
 	6510core.h \
@@ -723,6 +725,7 @@ mascuerade_lib = $(top_builddir)/src/vic20/cart/libmascuerade.a
 monitor_lib = $(top_builddir)/src/monitor/libmonitor.a
 parallel_lib = $(top_builddir)/src/parallel/libparallel.a
 pet_lib = $(top_builddir)/src/pet/libpet.a
+platform_lib = $(top_builddir)/src/platform/libplatform.a
 plus4_lib = $(top_builddir)/src/plus4/libplus4.a
 printerdrv_lib = $(top_builddir)/src/printerdrv/libprinterdrv.a
 rs232drv_lib = $(top_builddir)/src/rs232drv/librs232drv.a
@@ -829,7 +832,8 @@ vsid_libs =  \
 	$(raster_lib) \
 	$(video_lib) \
 	$(common_libs) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 vsid_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -851,6 +855,7 @@ vsid-all: \
 	libmonitor \
 	libserial \
 	libcore \
+	libplatform \
 	vsid$(EXEEXT)
 
 # x64
@@ -879,7 +884,8 @@ x64_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 x64_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -922,6 +928,7 @@ x64-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	x64$(EXEEXT)
 
 # x64sc
@@ -950,7 +957,8 @@ x64sc_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 x64sc_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 x64sc_LDADD = $(x64sc_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -993,6 +1001,7 @@ x64sc-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	x64sc$(EXEEXT)
 
 # x64dtv
@@ -1020,7 +1029,8 @@ x64dtv_libs =  \
 	$(common_libs) \
 	$(imagecontents_lib) \
 	$(resid_dtv_libs) \
-	$(c64dtvstubs_lib)
+	$(c64dtvstubs_lib) \
+	$(platform_lib)
 
 x64dtv_SOURCES = $(base_sources) $(ps2mouse_sources)
 x64dtv_LDADD = $(x64dtv_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1062,6 +1072,7 @@ x64dtv-all: \
 	libfileio \
 	libcore \
 	librtc \
+	libplatform \
 	x64dtv$(EXEEXT)
 
 # x128
@@ -1093,7 +1104,8 @@ x128_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 x128_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 x128_LDADD = $(x128_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1137,6 +1149,7 @@ x128-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	x128$(EXEEXT)
@@ -1165,7 +1178,8 @@ xvic_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 xvic_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 xvic_LDADD = $(xvic_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1204,6 +1218,7 @@ xvic-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	xvic$(EXEEXT)
@@ -1228,7 +1243,8 @@ xpet_libs =  \
 	$(sid_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 xpet_SOURCES = $(base_sources) $(mouse_sources)
 xpet_LDADD = $(xpet_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1263,6 +1279,7 @@ xpet-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	xpet$(EXEEXT)
@@ -1288,7 +1305,8 @@ xplus4_libs =  \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 xplus4_SOURCES = $(base_sources) $(mouse_sources)
 xplus4_LDADD = $(xplus4_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1324,6 +1342,7 @@ xplus4-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	@RESID_DEP@ \
 	@RESID_FP_DEP@ \
 	xplus4$(EXEEXT)
@@ -1348,7 +1367,8 @@ xcbm2_libs = \
 	$(userport_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 xcbm2_SOURCES = $(base_sources) $(mouse_sources)
 xcbm2_LDADD = $(xcbm2_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1385,6 +1405,7 @@ xcbm2-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	xcbm2$(EXEEXT)
 
 # xcbm5x0
@@ -1407,7 +1428,8 @@ xcbm5x0_libs = \
 	$(userport_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
-	$(resid_libs)
+	$(resid_libs) \
+	$(platform_lib)
 
 xcbm5x0_SOURCES = $(base_sources) $(mouse_sources)
 xcbm5x0_LDADD = $(xcbm5x0_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
@@ -1444,6 +1466,7 @@ xcbm5x0-all: \
 	libcore \
 	librtc \
 	libuserport \
+	libplatform \
 	xcbm5x0$(EXEEXT)
 
 # c1541
@@ -1463,8 +1486,6 @@ c1541_SOURCES = \
 	util.c \
 	zfile.c \
 	zipcode.c 
-
-#	lib/p64/p64.c
 
 if OWCC
 ARCH_EXTRA_OBJECTS = @ARCH_DIR@/libarch.a
@@ -1486,6 +1507,7 @@ c1541_LDADD = \
 	$(diskimage_lib) \
 	$(tape_lib) \
 	$(serial_lib) \
+	$(platform_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
@@ -1507,6 +1529,7 @@ petcat_SOURCES = \
 petcat_LDADD = \
 	$(ARCH_EXTRA_OBJECTS) \
 	$(fileio_lib) \
+	$(platform_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
 
@@ -1519,11 +1542,12 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 
 # Special targets to build libraries in subdirectories.
 
-.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20 libpet libplus4 libcbm2 libcbm5x0
-	libdrive libvdrive libprinterdrv librs232drv libgfxoutputdrv libsounddrv libdiskimage
-	libfsdevice libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
-	libvideo libserial libparallel libcore libiecbus libfileio librtc libuserport
-	@RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
+.PHONY: libvsid libc64 libc64sc libc128 libc64dtv libc64dtvstubs libvic20
+	libpet libplus4 libcbm2 libcbm5x0 libdrive libvdrive libprinterdrv
+	librs232drv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
+	libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
+	libvideo libserial libparallel libcore libiecbus libfileio librtc
+	libuserport @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1591,6 +1615,8 @@ libparallel:
 	(cd parallel && $(MAKE))
 libpet:
 	(cd pet && $(MAKE))
+libplatform:
+	(cd platform && $(MAKE))
 libplus4:
 	(cd plus4 && $(MAKE))
 libprinterdrv:

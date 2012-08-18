@@ -58,10 +58,6 @@
 #include "ui.h"
 #include "util.h"
 
-#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
-#include "platform_x86_runtime_cpu.h"
-#endif
-
 #ifdef __NeXT__
 #define waitpid(p, s, o) wait3((union wait *)(s), (o), (struct rusage *) 0)
 #endif
@@ -654,16 +650,25 @@ void archdep_shutdown(void)
 
 char *archdep_get_runtime_os(void)
 {
+#ifdef __CYGWIN32__
+    return platform_get_windows_runtime_os();
+#endif
+#if defined(MACOSX_COCOA)
+    return platform_get_macosx_runtime_os();
+#endif
     /* TODO: add runtime os detection code */
     return "*nix";
 }
 
 char *archdep_get_runtime_cpu(void)
 {
+#if defined(MACOSX_COCOA)
+    return platform_get_macosx_runtime_cpu
+#else
 #if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
     return platform_get_x86_runtime_cpu();
-#else
+#endif
+#endif
     /* TODO: add runtime cpu detection code */
     return "Unknown CPU";
-#endif
 }

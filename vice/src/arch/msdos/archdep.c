@@ -52,8 +52,6 @@
 #include "util.h"
 #include "video.h"
 
-#include "platform_x86_runtime_cpu.h"
-
 static char *orig_workdir;
 static char *argv0;
 

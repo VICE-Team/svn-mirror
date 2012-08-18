@@ -41,19 +41,6 @@ SUBDIRS = amigaos
 endif
 endif
 
-noinst_HEADERS = \
-	platform.h \
-	platform_aix_version.h \
-	platform_compiler.h \
-	platform_cpu_type.h \
-	platform_freebsd_version.h \
-	platform_linux_libc_version.h \
-	platform_netbsd_version.h \
-	platform_openbsd_version.h \
-	platform_qnx6_version.h \
-	platform_windows_runtime_os.h \
-	platform_x86_runtime_cpu.h
-
 EXTRA_DIST = \
 	watcom-source-wrappers/geninfocontrib32.c \
 	watcom-source-wrappers/gentranslate32.c \

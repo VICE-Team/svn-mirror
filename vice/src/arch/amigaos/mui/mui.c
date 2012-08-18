@@ -36,7 +36,7 @@
 
 #include "mui.h"
 #include "private.h"
-#include "platform.h"
+#include "platform_discovery.h"
 #include "intl.h"
 #include "translate.h"
 

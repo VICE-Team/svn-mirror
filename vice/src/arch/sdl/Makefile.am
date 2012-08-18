@@ -12,7 +12,6 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	$(extra_includes) \
 	-I$(top_builddir)/src \
-	-I$(top_builddir)/src/arch \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/c64dtv \
@@ -28,6 +27,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/lib/p64 \
+	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src
 
 noinst_LIBRARIES = libarch.a

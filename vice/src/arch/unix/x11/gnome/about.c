@@ -27,7 +27,7 @@
 #include "vice.h"
 
 #include "info.h"
-#include "platform.h"
+#include "platform_discovery.h"
 #include "uiarch.h"
 #include "version.h"
 

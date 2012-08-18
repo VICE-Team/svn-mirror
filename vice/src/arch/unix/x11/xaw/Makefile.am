@@ -4,7 +4,6 @@ INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
 	-I$(top_srcdir)/src \
-	-I$(top_srcdir)/src/arch \
 	-I$(top_srcdir)/src/drive \
 	-I$(top_srcdir)/src/vdrive \
 	-I$(top_srcdir)/src/c64 \
@@ -14,6 +13,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/lib/p64 \
+	-I$(top_srcdir)/src/platform \
 	-I$(top_srcdir)/src/arch/unix/gui \
 	-I$(top_srcdir)/src/arch/unix/x11
 

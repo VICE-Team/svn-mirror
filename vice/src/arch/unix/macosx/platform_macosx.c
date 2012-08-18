@@ -72,7 +72,7 @@ fail:
     if (bugFix) *bugFix = 0;    
 }
 
-char *platform_get_runtime_os(void)
+char *platform_get_macosx_runtime_os(void)
 {
     if(os_version_str[0] == 0) {
         unsigned major,minor,bugFix;
@@ -136,7 +136,7 @@ static int64_t get_sysctl_hw_int64(int sect)
     }
 }
 
-char *platform_get_runtime_cpu(void)
+char *platform_get_macosx_runtime_cpu(void)
 {
     if(os_cpu_str[0] == 0) {
         char *machine = get_sysctl_hw_string(HW_MACHINE);

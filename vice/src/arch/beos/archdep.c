@@ -66,10 +66,6 @@
 #include "ui.h"
 #include "util.h"
 
-#ifndef WORDS_BIGENDIAN
-#include "platform_x86_runtime_cpu.h"
-#endif
-
 static char *orig_workdir;
 static char *argv0 = NULL;
 

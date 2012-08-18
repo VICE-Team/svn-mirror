@@ -36,7 +36,7 @@
 #include "lib.h"
 #include "menu_common.h"
 #include "menu_help.h"
-#include "platform.h"
+#include "platform_discovery.h"
 #include "ui.h"
 #include "uimenu.h"
 #include "util.h"

@@ -45,7 +45,7 @@
 #include <X11/Xaw/Command.h>
 
 #include "info.h"
-#include "platform.h"
+#include "platform_discovery.h"
 #include "uiapi.h"
 #include "version.h"
 #include "videoarch.h"

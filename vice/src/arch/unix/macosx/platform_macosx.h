@@ -78,10 +78,4 @@
 #   endif
 #endif
 
-#define PLATFORM_GET_RUNTIME_OS_DECLARED
-#define PLATFORM_GET_RUNTIME_CPU_DECLARED
-
-extern char *platform_get_runtime_os(void);
-extern char *platform_get_runtime_cpu(void);
-
 #endif /* VICE_PLATFORM_MACOSX_H */

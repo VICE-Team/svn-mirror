@@ -44,7 +44,7 @@
 #define CLIB_SOCKET_PROTOS_H
 #endif
 
-#if defined(AMIGA_M68K) || defined(AMIGA_OS4)
+#if defined(AMIGA_OS4)
 #include <exec/execbase.h>
 extern struct ExecBase *SysBase;
 #endif
@@ -58,10 +58,6 @@ extern struct ExecBase *SysBase;
 #include "platform.h"
 #include "ui.h"
 #include "util.h"
-
-#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
-#include "platform_x86_runtime_cpu.h"
-#endif
 
 #if defined(AMIGA_M68K) && !defined(HAVE_GETTIMEOFDAY)
 struct Library *TimerBase = NULL;
@@ -402,56 +398,6 @@ int archdep_rtc_get_centisecond(void)
 }
 #endif
 
-#ifdef AMIGA_M68K
-struct Library *WorkbenchBase;
-
-static char *archdep_get_os3_runtime_os(void)
-{
-    char *retval = NULL;
-
-    if (WorkbenchBase = OpenLibrary("workbench.library", 45)) {
-        retval = "AmigaOS-3.9";
-    }
-    if (!retval && WorkbenchBase = OpenLibrary("workbench.library", 44)) {
-        retval = "AmigaOS-3.5";
-    }
-    if (!retval && WorkbenchBase = OpenLibrary("workbench.library", 40)) {
-        retval = "AmigaOS-3.1";
-    }
-    if (!retval && WorkbenchBase = OpenLibrary("workbench.library", 39)) {
-        retval = "AmigaOS-3.0";
-    }
-    if (retval) {
-        CloseLibrary(WorkbenchBase);
-    } else {
-        retval = "Unknown AmigaOS";
-    }
-    return retval;
-}
-
-static char *archdep_get_os3_runtime_cpu(void)
-{
-    UWORD attnflags = SysBase->AttnFlags;
-
-    if (attnflags & 0x80) {
-        return "68060";
-    }
-    if (attnflags & AFF_68040) {
-        return "68040";
-    }
-    if (attnflags & AFF_68030) {
-        return "68030";
-    }
-    if (attnflags & AFF_68020) {
-        return "68020";
-    }
-    if (attnflags & AFF_68010) {
-        return "68010";
-    }
-    return "68000";
-}
-#endif
-
 #ifdef AMIGA_AROS
 static char *archdep_get_aros_runtime_os(void)
 {
@@ -518,7 +464,7 @@ static char *archdep_get_os4_runtime_cpu(void)
 char *archdep_get_runtime_os(void)
 {
 #ifdef AMIGA_M68K
-    return archdep_get_os3_runtime_os();
+    return platform_get_amigaos3_runtime_os();
 #endif
 
 #ifdef AMIGA_OS4
@@ -537,7 +483,7 @@ char *archdep_get_runtime_os(void)
 char *archdep_get_runtime_cpu(void)
 {
 #ifdef AMIGA_M68K
-    return archdep_get_os3_runtime_cpu();
+    return platform_get_amigaos3_runtime_cpu();
 #endif
 
 #ifdef AMIGA_OS4

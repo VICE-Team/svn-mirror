@@ -1,9 +1,30 @@
 /*
- * x86 runtime cpu detection
+ * platform_x86_runtime_cpu.c - x86 specific runtime discovery.
+ *
+ * Written by
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
  */
 
-#ifndef VICE_X86_PLATFORM_CPU_H
-#define VICE_X86_PLATFORM_CPU_H
+#include "vice.h"
 
 #include "types.h"
 #include <string.h>
@@ -87,7 +108,7 @@ typedef struct x86_cpu_vendor_s {
     int (*identify)(void);
 } x86_cpu_vendor_t;
 
-inline static int is_idt_cpu(void)
+static int is_idt_cpu(void)
 {
     DWORD regax, regbx, regcx, regdx;
 
@@ -187,7 +208,7 @@ static x86_cpu_name_t x86_cpu_names[] = {
 };
 
 /* runtime cpu detection */
-inline static char* platform_get_x86_runtime_cpu(void)
+char* platform_get_x86_runtime_cpu(void)
 {
     DWORD regax, regbx, regcx, regdx;
     char type_buf[13];
@@ -227,4 +248,3 @@ inline static char* platform_get_x86_runtime_cpu(void)
         return "No cpuid instruction present, output not implemented yet.";
     }
 }
-#endif // VICE_PLATFORM_CPU_TYPE_H

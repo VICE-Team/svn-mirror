@@ -3455,6 +3455,7 @@ if false ; then
     mkdir -p lib/p64
     mkdir -p parallel
     mkdir -p pet
+    mkdir -p platform
     mkdir -p plus4
     mkdir -p printerdrv
     mkdir -p raster
@@ -3578,6 +3579,7 @@ AC_OUTPUT([Makefile
            src/monitor/Makefile
            src/parallel/Makefile
            src/pet/Makefile
+           src/platform/Makefile
            src/plus4/Makefile
            src/printerdrv/Makefile
            src/raster/Makefile
