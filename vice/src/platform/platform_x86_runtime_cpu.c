@@ -32,6 +32,30 @@
 #include <string.h>
 
 /* cpuid function */
+#ifdef WATCOM_COMPILE
+#include <stdint.h>
+
+#define EFL_CPUID           (1L << 21)      /* The CPUID bit in EFLAGS. */
+
+static uint32_t cpu_info_stuff[4];
+
+static void cpu_id( uint32_t cpuinfo[4], uint32_t infotype );
+#pragma aux cpu_id =      \
+    ".586"                \
+    "cpuid"               \
+    "mov  [esi+0],eax"    \
+    "mov  [esi+4],ebx"    \
+    "mov  [esi+8],ecx"    \
+    "mov  [esi+12],edx"   \
+    parm [esi] [eax] modify [ebx ecx edx];
+
+#define cpuid(func, a, b, c, d)   \
+    cpu_id(cpu_info_stuff, func); \
+    a = cpu_info_stuff[0];        \
+    b = cpu_info_stuff[1];        \
+    c = cpu_info_stuff[2];        \
+    d = cpu_info_stuff[3];
+#else
 #ifdef _MSC_VER
 #define cpuid(func, a, b, c, d) \
     __asm mov eax, func \
@@ -50,27 +74,54 @@
     "=a" (ax), "=b" (bx), "=c" (cx), "=d" (dx) : "a" (func))
 #endif
 #endif
+#endif
+
+#ifdef WATCOM_COMPILE
+/* Read the EFLAGS register. */
+static uint32_t eflags_read(void);
+#pragma aux eflags_read = \
+    "pushfd"              \
+    "pop  eax"            \
+    value [eax] modify [eax];
+
+/* Write the EFLAGS register. */
+static uint32_t eflags_write(uint32_t eflg);
+#pragma aux eflags_write = \
+    "push eax"             \
+    "popfd"                \
+    parm [eax] modify [];
+#endif
 
 inline static int has_cpuid(void)
 {
-#if defined(_MSC_VER) || defined(__OS2__)
-	int result;
+#ifdef WATCOM_COMPILE
+    uint32_t    old_eflg;
+    uint32_t    new_eflg;
 
-	__asm {
-		pushfd
-		pop	eax
-		mov	ecx,	eax
-		xor	eax,	0x200000
-		push	eax
-		popfd
-		pushfd
-		pop	eax
-		xor	eax,	ecx
-		mov	result,	eax
-		push	ecx
-		popfd
-	};
-	return (result != 0);
+    old_eflg = eflags_read();
+    new_eflg = old_eflg ^ EFL_CPUID;
+    eflags_write( new_eflg );
+    new_eflg = eflags_read();
+    return (new_eflg != old_eflg);
+#else
+#if defined(_MSC_VER) || defined(__OS2__)
+        int result;
+
+        __asm {
+                pushfd
+                pop     eax
+                mov     ecx,    eax
+                xor     eax,    0x200000
+                push    eax
+                popfd
+                pushfd
+                pop     eax
+                xor     eax,    ecx
+                mov     result, eax
+                push    ecx
+                popfd
+        };
+        return (result != 0);
 #else
     int a = 0;
     int c = 0;
@@ -87,6 +138,7 @@ inline static int has_cpuid(void)
                           :
                           : "cc" );
     return (a!=c);
+#endif
 #endif
 }
 

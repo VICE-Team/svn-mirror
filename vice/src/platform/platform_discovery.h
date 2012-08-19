@@ -29,6 +29,7 @@
  * platform     | support
  * ----------------------
  * aix          | yes
+ * amigaos3     | yes
  * amigaos4     | yes
  * android      | yes
  * aros         | yes
@@ -96,13 +97,17 @@
 #      else
 #        ifdef MSVC_RC
 #          ifdef WATCOM_COMPILE
-#            define PLATFORM_COMPILER "WATCOM"
+#            ifndef PLATFORM_COMPILER
+#              define PLATFORM_COMPILER "WATCOM"
+#            endif
 #          else
 #            define PLATFORM_COMPILER "MSVC"
 #          endif
 #        endif
 #      endif
-#      define PLATFORM_OS "WIN32"
+#      ifndef PLATFORM_OS
+#        define PLATFORM_OS "WIN32"
+#      endif
 #      define FIND_X86_CPU
 #    endif
 #  endif
@@ -126,6 +131,11 @@
 #include "platform_aix_version.h"
 
 #endif /* AIX */
+
+/* AmigaOS 3.x discovery */
+#ifdef AMIGA_M68K
+#define PLATFORM_OS "AmigaOS 3.x"
+#endif
 
 
 /* AmigaOS 4.x discovery */

@@ -385,6 +385,7 @@ EXTRA_DIST = \
 	watcom/parallel.tgt \
 	watcom/pet.tgt \
 	watcom/petcat.tgt \
+	watcom/platform.tgt \
 	watcom/plus4.tgt \
 	watcom/plus4exp.tgt \
 	watcom/printerdrv.tgt \
