@@ -10,6 +10,7 @@ libplatform_a_SOURCES = \
 	platform.h \
 	platform_aix_version.h \
 	platform_amigaos3_runtime_os.c \
+	platform_amigaos4_runtime_os.c \
 	platform_compiler.h \
 	platform_cpu_type.h \
 	platform_discovery.h \

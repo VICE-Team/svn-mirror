@@ -26,6 +26,8 @@
 
 #include "vice.h"
 
+#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+
 #include "types.h"
 #include <string.h>
 
@@ -248,3 +250,4 @@ char* platform_get_x86_runtime_cpu(void)
         return "No cpuid instruction present, output not implemented yet.";
     }
 }
+#endif
