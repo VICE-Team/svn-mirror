@@ -396,18 +396,12 @@ int archdep_rtc_get_centisecond(void)
 #ifdef AMIGA_AROS
 static char *archdep_get_aros_runtime_os(void)
 {
-    /* TODO: Add AROS native/hosted detection */
-    return "AROS";
+    return platform_get_aros_runtime_os();
 }
 
 static char *archdep_get_aros_runtime_cpu(void)
 {
-#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
-    return platform_get_x86_runtime_cpu();
-#else
-    /* TODO: Add AROS cpu detection (amd64/arm/ppc) */
-    return "Unknown CPU";
-#endif
+    return platform_get_aros_runtime_cpu();
 }
 #endif
 
