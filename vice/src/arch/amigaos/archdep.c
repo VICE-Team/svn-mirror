@@ -44,11 +44,6 @@
 #define CLIB_SOCKET_PROTOS_H
 #endif
 
-#if defined(AMIGA_OS4)
-#include <exec/execbase.h>
-extern struct ExecBase *SysBase;
-#endif
-
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
@@ -431,36 +426,6 @@ static char *archdep_get_mos_runtime_cpu(void)
 }
 #endif
 
-#ifdef AMIGA_OS4
-static char *archdep_get_os4_runtime_os(void)
-{
-    /* TODO: Add AmigaOS4 version detection */
-    return "AmigaOS4.x";
-}
-
-static char *archdep_get_os4_runtime_cpu(void)
-{
-    UWORD attnflags = SysBase->AttnFlags;
-
-    if (attnflags & AFF_603) {
-        return "PPC603";
-    }
-    if (attnflags & AFF_604) {
-        return "PPC604";
-    }
-    if (attnflags & AFF_750) {
-        return "PPC750";
-    }
-    if (attnflags & AFF_ALTIVEC) {
-        return "PPC-Altivec";
-    }
-    if (attnflags & AFF_4XX) {
-        return "PPC4xx";
-    }
-    return "Unknown PPC CPU";
-}
-#endif
-
 char *archdep_get_runtime_os(void)
 {
 #ifdef AMIGA_M68K
@@ -468,7 +433,7 @@ char *archdep_get_runtime_os(void)
 #endif
 
 #ifdef AMIGA_OS4
-    return archdep_get_os4_runtime_os();
+    return platform_get_amigaos4_runtime_os();
 #endif
 
 #ifdef AMIGA_MORPHOS
@@ -487,7 +452,7 @@ char *archdep_get_runtime_cpu(void)
 #endif
 
 #ifdef AMIGA_OS4
-    return archdep_get_os4_runtime_cpu();
+    return platform_get_amigaos4_runtime_cpu();
 #endif
 
 #ifdef AMIGA_MORPHOS
