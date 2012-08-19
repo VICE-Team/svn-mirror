@@ -468,6 +468,7 @@ EXTRA_DIST = \
 	parallel.dsp \
 	pet.dsp \
 	petcat.dsp \
+	platform.dsp \
 	plus4.dsp \
 	plus4exp.dsp \
 	printerdrv.dsp \
