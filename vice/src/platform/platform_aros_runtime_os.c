@@ -28,6 +28,7 @@
 
 /* Tested and confirmed working on:
    - i386-aros (mingw hosted)
+   - i386-aros (native)
 */
 
 #ifdef AMIGA_AROS
