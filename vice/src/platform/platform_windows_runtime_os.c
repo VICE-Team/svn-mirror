@@ -24,6 +24,10 @@
  *
  */
 
+/* Tested and confirmed working on:
+   - Windows 7 Ultimate (x86)
+*/
+
 #include "vice.h"
 
 #if defined(__CYGWIN32__) || defined(WIN32_COMPILE)

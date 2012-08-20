@@ -26,6 +26,10 @@
 
 #include "vice.h"
 
+/* Tested and confirmed working on:
+   - i386-aros (mingw hosted)
+*/
+
 #ifdef AMIGA_AROS
 
 #include <aros/inquire.h>

@@ -24,6 +24,13 @@
  *
  */
 
+/* Tested and confirmed working on:
+   - AmigaOS 3.0
+   - AmigaOS 3.1
+   - AmigaOS 3.5
+   - AmigaOS 3.9
+*/
+
 #include "vice.h"
 
 #ifdef AMIGA_M68K
