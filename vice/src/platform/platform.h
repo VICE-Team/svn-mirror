@@ -48,4 +48,7 @@ extern char *platform_get_amigaos3_runtime_cpu(void);
 extern char *platform_get_amigaos4_runtime_os(void);
 extern char *platform_get_amigaos4_runtime_cpu(void);
 
+extern char *platform_get_aros_runtime_os(void);
+extern char *platform_get_aros_runtime_cpu(void);
+
 #endif

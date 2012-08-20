@@ -66,7 +66,7 @@ char *platform_get_aros_runtime_os(void)
 
 static CONST_STRPTR modelstring;
 
-char *platform_get_amigaos3_runtime_cpu(void)
+char *platform_get_aros_runtime_cpu(void)
 {
     ProcessorBase = OpenResource(PROCESSORNAME);
     GetCPUInfoTags(GCIT_ModelString, (IPTR)&modelstring, TAG_DONE);
