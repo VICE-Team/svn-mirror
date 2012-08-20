@@ -2,8 +2,8 @@
 # make-bindist.sh for Mac OSX
 # written by Christian Vogelgsang <chris@vogelgsang.org>
 #
-# make-bindist.sh <top_srcdir> <strip> <vice-version> <zip|nozip> <x64sc-included> <ui_type> [bin_format]
-#                 $1           $2      $3             $4          $5               $6        $7
+# make-bindist.sh <top_srcdir> <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <ui_type> [bin_format]
+#                 $1           $2      $3             $4              $5          $6               $7        $8
 RUN_PATH=`dirname $0`
 
 echo "Generating Mac OSX binary distribution."
@@ -11,10 +11,11 @@ echo "Generating Mac OSX binary distribution."
 TOP_DIR=$1
 STRIP=$2
 VICE_VERSION=$3
-ZIP=$4
-X64SC=$5
-UI_TYPE=$6
-BIN_FORMAT=$7
+ENABLEARCH=$4
+ZIP=$5
+X64SC=$6
+UI_TYPE=$7
+BIN_FORMAT=$8
 
 # ui type
 if [ "x$UI_TYPE" = "x" ]; then
@@ -500,4 +501,7 @@ else
   echo "ready. created dist file: $BUILD_IMG"
   du -sh $BUILD_IMG
   md5 -q $BUILD_IMG
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

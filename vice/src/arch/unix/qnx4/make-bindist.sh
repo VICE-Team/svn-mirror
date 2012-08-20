@@ -3,14 +3,15 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <vice-version> <prefix> <zip|nozip> <x64sc-include> <topsrcdir>
-#                 $1             $2       $3          $4              $5
+# make-bindist.sh <vice-version> <prefix> <--enable-arch> <zip|nozip> <x64sc-include> <topsrcdir>
+#                 $1             $2       $3              $4          $5              $6
 
 VICEVERSION=$1
 PREFIX=$2
-ZIPKIND=$3
-X64SC=$4
-TOPSRCDIR=$5
+ENABLEARCH=$3
+ZIPKIND=$4
+X64SC=$5
+TOPSRCDIR=$6
 
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
@@ -56,3 +57,6 @@ tar cf vice-$VICEVERSION-qnx4.tar install_msg /usr/local/bin/vsid $TARFILES /usr
 freeze vice-$VICEVERSION-qnx4.tar
 rm -f install_msg
 echo QNX 4 port binary distribution directory generated as vice-$VICEVERSION-qnx4.tar.F
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
+fi

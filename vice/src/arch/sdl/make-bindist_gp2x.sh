@@ -3,13 +3,14 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir>
-#                 $1      $2             $3          $4
+# make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <top-srcdir>
+#                 $1      $2             $3              $4          $5
 
 STRIP=$1
 VICEVERSION=$2
-ZIPKIND=$3
-TOPSRCDIR=$4
+ENABLEARCH=$3
+ZIPKIND=$4
+TOPSRCDIR=$5
 
 EMULATORS="x64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
@@ -62,4 +63,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo GP2X SDL port binary distribution archive generated as SDLVICE-gp2x-$VICEVERSION.zip
 else
   echo GP2X SDL port binary distribution directory generated as SDLVICE-gp2x-$VICEVERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

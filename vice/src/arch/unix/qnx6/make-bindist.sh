@@ -3,17 +3,18 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <x64sc-included> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4      $5          $6               $7          $8
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <--enable-arch> <zip|nozip> <x64sc-included> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4      $5              $6          $7               $8          $9
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 CROSS=$4
-ZIPKIND=$5
-X64SC=$6
-TOPSRCDIR=$7
-MAKECOMMAND=$8
+ENABLEARCH=$5
+ZIPKIND=$6
+X64SC=$7
+TOPSRCDIR=$8
+MAKECOMMAND=$9
 
 if test x"$PREFIX" != "x/opt"; then
   echo Error: installation path is not /opt
@@ -805,4 +806,7 @@ _END
   echo QNX 6 port binary package part generated as VICE-$VICEVERSION-x86-public.qpr
 else
   echo QNX 6 port binary distribution directory generated as VICE-$VICEVERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

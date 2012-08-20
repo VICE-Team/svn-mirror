@@ -3,13 +3,14 @@
 #
 # written by peiselulli
 #
-# make-bindist.sh <strip> <vice-version> <zip|nozip> <top-srcdir>
-#                 $1      $2             $3          $4
+# make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <top-srcdir>
+#                 $1      $2             $3              $4          $5
 
 STRIP=$1
 VICEVERSION=$2
-ZIPKIND=$3
-TOPSRCDIR=$4
+ENABLEARCH=$3
+ZIPKIND=$4
+TOPSRCDIR=$5
 
 EMULATORS="x64 x64dtv x128 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS=""
@@ -48,4 +49,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo DINGOO native port binary distribution archive generated as Dingoo-$VICEVERSION.zip
 else
   echo DINGOO native port binary distribution directory generated as Dingoo-$VICEVERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

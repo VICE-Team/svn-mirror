@@ -3,17 +3,18 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <zip|nozip> <x64sc-included> <top-srcdir> <exe-ext>
-#                 $1      $2             $3         $4            $5          $6               $7           $8
+# make-bindist.sh <strip> <vice-version> <host-cpu> <host-system> <enable_arch> <zip|nozip> <x64sc-included> <top-srcdir> <exe-ext>
+#                 $1      $2             $3         $4            $5            $6          $7               $8           $9
 
 STRIP=$1
 VICEVERSION=$2
 HOSTCPU=$3
 HOSTSYSTEM=$4
-ZIPKIND=$5
-X64SC=$6
-TOPSCRDIR=$7
-EXEEXT=$8
+ENABLEARCH=$5
+ZIPKIND=$6
+X64SC=$7
+TOPSCRDIR=$8
+EXEEXT=$9
 
 if test x"$X64SC" = "xyes"; then
   SCFILE="x64sc"
@@ -162,4 +163,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo AMIGA port binary distribution archive generated as VICE-$AMIGAFLAVOR.tar.gz
 else
   echo AMIGA port binary distribution directory generated as VICE-$AMIGAFLAVOR
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

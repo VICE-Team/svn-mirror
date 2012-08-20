@@ -3,16 +3,17 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <owcc>
-#                 $1      $2             $3          $4               $5           $6    $7
+# make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu> <owcc>
+#                 $1      $2             $3              $4          $5               $6           $7    $8
 
 STRIP=$1
 VICEVERSION=$2
-ZIPKIND=$3
-X64SC=$4
-TOPSRCDIR=$5
-CPU=$6
-OWCC=$7
+ENABLEARCH=$3
+ZIPKIND=$4
+X64SC=$5
+TOPSRCDIR=$6
+CPU=$7
+OWCC=$8
 
 if test x"$OWCC" = "xyes"; then
   EXTOW="ow"
@@ -100,4 +101,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo $WINXX port binary distribution archive generated as $WINVICE.zip
 else
   echo $WINXX port binary distribution directory generated as $WINVICE
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

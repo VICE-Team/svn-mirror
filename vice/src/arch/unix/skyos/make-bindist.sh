@@ -3,15 +3,16 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <x64sc-included> <topsrcdir>
-#                 $1      $2             $3       $4          $5               $6
+# make-bindist.sh <strip> <vice-version> <prefix> <--enable-arch> <zip|nozip> <x64sc-included> <topsrcdir>
+#                 $1      $2             $3       $4              $5          $6               $7
 
 STRIP=$1
 VERSION=$2
 PREFIX=$3
-ZIPKIND=$4
-X64SC=$5
-TOPSRCDIR=$6
+ENABLEARCH=$4
+ZIPKIND=$5
+X64SC=$6
+TOPSRCDIR=$7
 
 if test x"$PREFIX" != "x/boot/programs/VICE"; then
   echo Error: installation path is not /boot/programs/VICE
@@ -134,4 +135,7 @@ _END
   echo SkyOS port binary package generated as VICE-$VERSION.pkg
 else
   echo SkyOS port binary distribution directory generated as VICE-$VERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

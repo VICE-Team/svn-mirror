@@ -3,14 +3,15 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <system> <strip> <vice-version> <zip|nozip> <top-srcdir>
-#                 $1       $2      $3             $4          $5
+# make-bindist.sh <system> <strip> <vice-version> <--enable-arch> <zip|nozip> <top-srcdir>
+#                 $1       $2      $3             $4              $5          $6
 
 SYSTEM=$1
 STRIP=$2
 VICEVERSION=$3
-ZIPKIND=$4
-TOPSRCDIR=$5
+ENABLEARCH=$4
+ZIPKIND=$5
+TOPSRCDIR=$6
 
 if test x"$SYSTEM" = "xGP2X"; then
   smallsystem="gp2x"
@@ -60,4 +61,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo $SYSTEM port binary distribution archive generated as vice-$smallsystem-$VICEVERSION.zip
 else
   echo $SYSTEM port binary distribution directory generated as vice-$smallsystem-$VICEVERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

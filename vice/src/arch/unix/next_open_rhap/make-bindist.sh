@@ -3,17 +3,18 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <zip|nozip> <x64sc-included> <platform> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4          $5               $6         $7          $8
+# make-bindist.sh <strip> <vice-version> <prefix> <--enable-arch> <zip|nozip> <x64sc-included> <platform> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4              $5          $6               $7         $8          $9
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
-ZIPKIND=$4
-X64SC=$5
-OPERATINGSYSTEM=$6
-TOPSRCDIR=$7
-MAKECOMMAND=$8
+ENABLEARCH=$4
+ZIPKIND=$5
+X64SC=$6
+OPERATINGSYSTEM=$7
+TOPSRCDIR=$8
+MAKECOMMAND=$9
 
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
@@ -110,4 +111,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo $OSNAME port binary package generated as VICE-$VICEVERSION-$OSID-$PLATFORMS.tar.gz
 else
   echo $OSNAME port binary distribution directory generated as VICE-$VICEVERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

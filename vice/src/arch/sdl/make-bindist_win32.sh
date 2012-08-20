@@ -3,15 +3,16 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <zip|nozip> <x64sc-included> <top-srcdir> <cpu>
-#                 $1      $2             $3          $4               $5           $6
+# make-bindist.sh <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir> <cpu>
+#                 $1      $2             $3              $4          $5               $6           $7
 
 STRIP=$1
 VICEVERSION=$2
-ZIPKIND=$3
-X64SC=$4
-TOPSRCDIR=$5
-CPU=$6
+ENABLEARCH=$3
+ZIPKIND=$4
+X64SC=$5
+TOPSRCDIR=$6
+CPU=$7
 
 if test x"$X64SC" = "xyes"; then
   SCFILE="x64sc"
@@ -75,4 +76,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo $WINXX SDL port binary distribution archive generated as SDLVICE-$VICEVERSION-$WINXX.zip
 else
   echo $WINXX SDL port binary distribution directory generated as SDLVICE-$VICEVERSION-$WINXX
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

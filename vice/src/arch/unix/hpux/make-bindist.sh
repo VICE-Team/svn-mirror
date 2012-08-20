@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <perl> <vice-version> <prefix> <hostcpu> <system> <zip|nozip> <x64sc-included> <topsrcdir>
-#                 $1      $2     $3             $4       $5        $6       $7          $8               $9
+# make-bindist.sh <strip> <perl> <vice-version> <prefix> <hostcpu> <system> <--enable-arch> <zip|nozip> <x64sc-included> <topsrcdir>
+#                 $1      $2     $3             $4       $5        $6       $7              $8          $9               $10
 
 STRIP=$1
 PERL=$2
@@ -12,8 +12,11 @@ VICEVERSION=$3
 PREFIX=$4
 CPU=$5
 SYSTEM=$6
-ZIPKIND=$7
-X64SC=$8
+ENABLEARCH=$7
+ZIPKIND=$8
+X64SC=$9
+
+shift
 TOPSRCDIR=$9
 
 UUID=`uuidgen`
@@ -650,4 +653,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo HPUX port binary depot generated as vice-$VICEVERSION-$cputouse-$ostouse.depot.gz
 else
   echo HPUX port binary destribution directory generated as catalog and and vice
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

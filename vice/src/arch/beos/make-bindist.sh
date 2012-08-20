@@ -3,15 +3,16 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <cpu> <zip|nozip> <x64sc-included> <top-srcdir>
-#                 $1      $2             $3    $4          $5               $6
+# make-bindist.sh <strip> <vice-version> <cpu> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir>
+#                 $1      $2             $3    $4              $5          $6               $7
 
 STRIP=$1
 VICEVERSION=$2
 CPU=$3
-ZIPKIND=$4
-X64SC=$5
-TOPSRCDIR=$6
+ENABLEARCH=$4
+ZIPKIND=$5
+X64SC=$6
+TOPSRCDIR=$7
 
 if test x"$X64SC" = "xyes"; then
   SCFILE="x64sc"
@@ -75,4 +76,7 @@ if test x"$ZIPKIND" = "xzip"; then
   echo BEOS port binary distribution archive generated as BeVICE-$VICEVERSION.$BEOSCPU.zip
 else
   echo BEOS port binary distribution directory generated as BeVICE-$VICEVERSION.$BEOSCPU
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi

@@ -58,7 +58,7 @@ VICE_ARG_ENABLE_LIST(debug-code,  [  --enable-debug-code     enable debugging co
 
 dnl register ReSID(-fp) options here to pass arg checks
 VICE_ARG_ENABLE_LIST(inline,      [  --enable-inline         enable inlining of functions [default=yes]])
-VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=no]]], [], [enable_arch=no])
+VICE_ARG_ENABLE_LIST(arch,        [  --enable-arch[[=arch]]    enable architecture specific compilation [[default=yes]]], [], [enable_arch=yes])
 VICE_ARG_ENABLE_LIST(sse,         [  --enable-sse            enable the use of SSE [[default=yes]]])
 VICE_ARG_ENABLE_LIST(no-pic,      [  --enable-no-pic         enable the use of the no-pic switch [[default=yes]]])
 
@@ -249,6 +249,7 @@ fi
 
 if test x"$enable_arch" = "xno"; then
   march=""
+  ENABLE_ARCH=no
 else
   if test x"$enable_arch" = "xyes"; then
     AC_MSG_CHECKING([if the compiler supports -march=native])
@@ -257,8 +258,10 @@ else
     AC_TRY_COMPILE([],
                    [int test;],
                    [ AC_MSG_RESULT(yes)
+                     ENABLE_ARCH=yes
                      march="-march=native" ],
                    [ AC_MSG_RESULT(no)
+                     ENABLE_ARCH=no
                      march="" ])
     CFLAGS=$ORIG_CFLAGS
   else
@@ -268,12 +271,16 @@ else
     AC_TRY_COMPILE([],
                    [int test;],
                    [ AC_MSG_RESULT(yes)
+                     ENABLE_ARCH=yes
                      march="-march=$enable_arch" ],
                    [ AC_MSG_RESULT(no)
+                     ENABLE_ARCH=no
                      march="" ])
     CFLAGS=$ORIG_CFLAGS
   fi
 fi
+
+AC_SUBST(ENABLE_ARCH)
 
 dnl Check for needed external programs.
 AC_PROG_CPP

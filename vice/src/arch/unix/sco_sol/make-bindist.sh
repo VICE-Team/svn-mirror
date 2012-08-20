@@ -3,17 +3,20 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <zip|nozip> <x64sc-included> <system> <gui> <infodir> <mandir> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4      $5          $6               $7       $8    $9        $10      $11
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <--enable-arch> <zip|nozip> <x64sc-included> <system> <gui> <infodir> <mandir> <topsrcdir> <make-command>
+#                 $1      $2             $3       $4      $5              $6          $7               $8       $9    $10       $11      $12
 
 STRIP=$1
 VICEVERSION=$2
 PREFIX=$3
 CROSS=$4
-ZIPKIND=$5
-X64SC=$6
-SYSTEM=$7
-GUI=$8
+ENABLEARCH=$5
+ZIPKIND=$6
+X64SC=$7
+SYSTEM=$8
+GUI=$9
+
+shift
 INFODIR=$9
 
 shift
@@ -238,4 +241,7 @@ _END
   echo $PLATFORM port binary package generated as $packagename.gz
 else
   echo $PLATFORM port binary distribution directory generated as VICE-$VICEVERSION
+fi
+if test x"$ENABLEARCH" = "xyes"; then
+  echo Warning: binaries are optimized for your system and might not run on a different system, use --enable-arch=no to avoid this
 fi
