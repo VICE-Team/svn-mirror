@@ -143,6 +143,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name serial
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -644,6 +647,24 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name fileio
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
+}}}
+
+###############################################################################
+
+Project: "platform"=".\platform.dsp" - Package Owner=<4>
+
+Package=<5>
+{{{
+}}}
+
+Package=<4>
+{{{
+    Begin Project Dependency
+    Project_Dep_Name base
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1097,6 +1118,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1150,6 +1174,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name core
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
     End Project Dependency
 }}}
 
@@ -1268,6 +1295,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1385,6 +1415,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1499,6 +1532,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name iecbus
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1600,6 +1636,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name core
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
     End Project Dependency
 }}}
 
@@ -1703,6 +1742,9 @@ Package=<4>
     Begin Project Dependency
     Project_Dep_Name core
     End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
+    End Project Dependency
 }}}
 
 ###############################################################################
@@ -1801,6 +1843,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name core
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
     End Project Dependency
 }}}
 
@@ -1903,6 +1948,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iecbus
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
     End Project Dependency
 }}}
 
@@ -2011,6 +2059,9 @@ Package=<4>
     End Project Dependency
     Begin Project Dependency
     Project_Dep_Name iecbus
+    End Project Dependency
+    Begin Project Dependency
+    Project_Dep_Name platform
     End Project Dependency
 }}}
 
