@@ -29,6 +29,7 @@
    - AmigaOS 3.1
    - AmigaOS 3.5
    - AmigaOS 3.9
+   - AROS
 */
 
 #include "vice.h"
@@ -47,7 +48,13 @@ char *platform_get_amigaos3_runtime_os(void)
 {
     char *retval = NULL;
 
-    if (WorkbenchBase = OpenLibrary("workbench.library", 45)) {
+    /* arosc.library only opens if the aros kernel is used */
+    if (WorkbenchBase = OpenLibrary("arosc.library", 0)) {
+        retval = "AROS";
+    }
+
+    /* Check for regular workbench */
+    if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 45))) {
         retval = "AmigaOS-3.9";
     }
     if (!retval && (WorkbenchBase = OpenLibrary("workbench.library", 44))) {
