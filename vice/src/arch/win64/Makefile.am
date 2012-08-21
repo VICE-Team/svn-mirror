@@ -42,6 +42,7 @@ EXTRA_DIST = \
 	parallel.vcproj \
 	pet.vcproj \
 	petcat.vcproj \
+	platform.vcproj \
 	plus4.vcproj \
 	plus4exp.vcproj \
 	printerdrv.vcproj \
