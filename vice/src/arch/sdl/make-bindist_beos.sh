@@ -21,7 +21,7 @@ else
 fi
 
 EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
-CONSOLE_TOOLS="c141 cartconv petcat"
+CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
 for i in $EXECUTABLES
@@ -68,7 +68,7 @@ rm `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name "win_*.v*"`
 rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html
 
 # just in case ...
-rm -f -r `find BeVICE-$VICEVERSION.$BEOSCPU -name ".svn"`
+rm -f -r `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name ".svn"`
 
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
