@@ -51,7 +51,9 @@
 #define HAVE_HTONS            1
 #define HAVE_GETCWD           1
 
-#define __i386__              1
+#ifdef _M_AMD64
+#define __amd64__             1
+#endif
 
 #define inline                _inline
 

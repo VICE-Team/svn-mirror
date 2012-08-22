@@ -80,6 +80,8 @@
 
 #ifndef _M_AMD64
 #define __i386__                1
+#else
+#define __amd64__               1
 #endif
 
 #define inline                  _inline
