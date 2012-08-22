@@ -51,6 +51,7 @@ EXTRA_DIST = \
 	parallel.tgt \
 	pet.tgt \
 	petcat.tgt \
+	platform.tgt \
 	plus4.tgt \
 	plus4exp.tgt \
 	printerdrv.tgt \
