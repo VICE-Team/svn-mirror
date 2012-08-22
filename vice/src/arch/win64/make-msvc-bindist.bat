@@ -17,6 +17,7 @@ if not exist ..\..\..\data\cartconv.exe goto missingmsvc
 if not exist ..\..\..\data\petcat.exe goto missingmsvc
 echo generating MSVC WIN64 binary port distribution
 if exist %VICEDIR% goto removedir
+:makevicedir
 mkdir %VICEDIR%
 copy ..\..\..\data\x64.exe %VICEDIR%
 copy ..\..\..\data\x64dtv.exe %VICEDIR%
