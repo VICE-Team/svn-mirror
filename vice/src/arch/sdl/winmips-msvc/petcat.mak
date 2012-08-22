@@ -39,12 +39,12 @@ ALL : "$(OUTDIR)\petcat.exe"
 
 !ELSE 
 
-ALL : "fileio - Win32 Release" "base - Win32 Release" "arch - Win32 Release" "$(OUTDIR)\petcat.exe"
+ALL : "platform - Win32 Release" "fileio - Win32 Release" "base - Win32 Release" "arch - Win32 Release" "$(OUTDIR)\petcat.exe"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "fileio - Win32 ReleaseCLEAN" 
+CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "fileio - Win32 ReleaseCLEAN" "platform - Win32 ReleaseCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -68,7 +68,7 @@ CLEAN :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\vdrive" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"$(INTDIR)\petcat.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\platform" /I "..\..\..\drive" /I "..\..\..\vdrive" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"$(INTDIR)\petcat.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -120,7 +120,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\zipcode.obj" \
 	".\libs\arch\Release\arch.lib" \
 	".\libs\base\Release\base.lib" \
-	".\libs\fileio\Release\fileio.lib"
+	".\libs\fileio\Release\fileio.lib" \
+	".\libs\fileio\Release\platform.lib"
 
 "$(OUTDIR)\petcat.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -141,12 +142,12 @@ ALL : "$(OUTDIR)\petcat.exe"
 
 !ELSE 
 
-ALL : "fileio - Win32 Debug" "base - Win32 Debug" "arch - Win32 Debug" "$(OUTDIR)\petcat.exe"
+ALL : "platform - Win32 Debug" "fileio - Win32 Debug" "base - Win32 Debug" "arch - Win32 Debug" "$(OUTDIR)\petcat.exe"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "fileio - Win32 DebugCLEAN" 
+CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "fileio - Win32 DebugCLEAN" "platform - Win32 DebugCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -172,7 +173,7 @@ CLEAN :
     if not exist "$(INTDIR)/$(NULL)" mkdir "$(INTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\vdrive" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"$(INTDIR)\petcat.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\platform" /I "..\..\..\drive" /I "..\..\..\vdrive" /D "DONT_USE_UNISTD_H" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_CONSOLE" /D "_MBCS" /Fp"$(INTDIR)\petcat.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -224,7 +225,8 @@ LINK32_OBJS= \
 	"$(INTDIR)\zipcode.obj" \
 	".\libs\arch\Debug\arch.lib" \
 	".\libs\base\Debug\base.lib" \
-	".\libs\fileio\Debug\fileio.lib"
+	".\libs\fileio\Debug\fileio.lib" \
+	".\libs\fileio\Debug\platform.lib"
 
 "$(OUTDIR)\petcat.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -310,6 +312,32 @@ LINK32_OBJS= \
 "fileio - Win32 DebugCLEAN" : 
    cd "."
    $(MAKE) /$(MAKEFLAGS) /F ".\fileio.mak" CFG="fileio - Win32 Debug" RECURSE=1 CLEAN 
+   cd "."
+
+!ENDIF 
+
+!IF  "$(CFG)" == "petcat - Win32 Release"
+
+"platform - Win32 Release" : 
+   cd "."
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Release" 
+   cd "."
+
+"platform - Win32 ReleaseCLEAN" : 
+   cd "."
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Release" RECURSE=1 CLEAN 
+   cd "."
+
+!ELSEIF  "$(CFG)" == "petcat - Win32 Debug"
+
+"platform - Win32 Debug" : 
+   cd "."
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Debug" 
+   cd "."
+
+"platform - Win32 DebugCLEAN" : 
+   cd "."
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 

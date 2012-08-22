@@ -41,6 +41,7 @@ EXTRA_DIST = \
 	parallel.mak \
 	pet.mak \
 	petcat.mak \
+	platform.mak \
 	plus4.mak \
 	plus4exp.mak \
 	printerdrv.mak \
