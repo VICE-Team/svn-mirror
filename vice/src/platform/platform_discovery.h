@@ -80,12 +80,20 @@
 #ifdef WIN32_COMPILE
 #  ifdef _WIN64
 #    ifdef WINIA64
-#      define PLATFORM_CPU "IA64"
+#      ifndef PLATFORM_CPU
+#        define PLATFORM_CPU "IA64"
+#      endif
 #    else
-#      define PLATFORM_CPU "X64"
+#      ifndef PLATFORM_CPU
+#        define PLATFORM_CPU "X64"
+#      endif
 #    endif
-#    define PLATFORM_OS "WIN64"
-#    define PLATFORM_COMPILER "MSVC"
+#    ifndef PLATFORM_OS
+#      define PLATFORM_OS "WIN64"
+#    endif
+#    ifndef PLATFORM_COMPILER
+#      define PLATFORM_COMPILER "MSVC"
+#    endif
 #  else
 #    ifdef WINMIPS
 #      define PLATFORM_CPU "MIPS"

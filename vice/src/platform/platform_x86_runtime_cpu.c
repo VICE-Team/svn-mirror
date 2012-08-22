@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#if defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__)
 
 #include "types.h"
 #include <string.h>
@@ -57,6 +57,22 @@ static void cpu_id( uint32_t cpuinfo[4], uint32_t infotype );
     d = cpu_info_stuff[3];
 #else
 #ifdef _MSC_VER
+#ifdef _WIN64
+#include <intrin.h>
+
+static int cpu_info_stuff[4];
+
+void __cpuid(
+   int CPUInfo[4],
+   int InfoType
+);
+#define cpuid(func, a, b, c, d)    \
+    __cpuid(cpu_info_stuff, func); \
+    a = cpu_info_stuff[0];         \
+    b = cpu_info_stuff[1];         \
+    c = cpu_info_stuff[2];         \
+    d = cpu_info_stuff[3];
+#else
 #define cpuid(func, a, b, c, d) \
     __asm mov eax, func \
     __asm cpuid \
@@ -64,8 +80,9 @@ static void cpu_id( uint32_t cpuinfo[4], uint32_t infotype );
     __asm mov b, ebx \
     __asm mov c, ecx \
     __asm mov d, edx
+#endif
 #else
-#if defined(__BEOS__) || defined(__OS2__)
+#ifdef __BEOS__
 #define cpuid(func, ax, bx, cx, dx) \
     ax = bx = cx = dx = 0;
 #else
@@ -104,7 +121,10 @@ inline static int has_cpuid(void)
     new_eflg = eflags_read();
     return (new_eflg != old_eflg);
 #else
-#if defined(_MSC_VER) || defined(__OS2__)
+#ifdef _MSC_VER
+#ifdef _WIN64
+        return 1;
+#else
         int result;
 
         __asm {
@@ -122,6 +142,10 @@ inline static int has_cpuid(void)
                 popfd
         };
         return (result != 0);
+#endif
+#else
+#if defined(__amd64__) || defined(__x86_64__)
+    return 1;
 #else
     int a = 0;
     int c = 0;
@@ -138,6 +162,7 @@ inline static int has_cpuid(void)
                           :
                           : "cc" );
     return (a!=c);
+#endif
 #endif
 #endif
 }
