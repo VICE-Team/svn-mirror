@@ -108,6 +108,11 @@ goto end
 echo executables are missing, please build the project first.
 goto end
 :removedir
-echo %VICEDIR% already exists, please remove %VICEDIR% and run this batch file again.
+echo y | del %VICEDIR%\*.* /S
+rd %VICEDIR% /s /q
+if exist %VICEDIR% goto cannotremovedir
+goto makevicedir
+:cannotremovedir
+echo can't delete the %VICEDIR% directory, please remove %VICEDIR% manually and run this batch file again.
 :end
 pause
