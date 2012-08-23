@@ -454,6 +454,152 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Debug no DirectX|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="2"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\lib\p64,..\..\monitor,..\..\core"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;_DEBUG;_WINDOWS;WINIA64"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\c64cart\Debug no DirectX/c64cart.pch"
+				AssemblerListingLocation=".\libs\c64cart\Debug no DirectX/"
+				ObjectFile=".\libs\c64cart\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\c64cart\Debug no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\c64cart\Debug no DirectX\c64cart.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\c64cart\Debug no DirectX/c64cart.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release no DirectX|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="2"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\win32\msvc,..\win32,..\..\,..\..\c64,..\..\vicii,..\..\rtc,..\..\sid,..\..\drive,..\..\lib\p64,..\..\monitor,..\..\core"
+				PreprocessorDefinitions="WIN32;IDE_COMPILE;NODIRECTX;NDEBUG;_WINDOWS;WINIA64"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\c64cart\Release no DirectX/c64cart.pch"
+				AssemblerListingLocation=".\libs\c64cart\Release no DirectX/"
+				ObjectFile=".\libs\c64cart\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\c64cart\Release no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\c64cart\Release no DirectX\c64cart.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\c64cart\Release no DirectX/c64cart.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -508,6 +654,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -573,6 +737,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\actionreplay3.c"
@@ -624,6 +806,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -689,6 +889,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\atomicpower.c"
@@ -740,6 +958,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -805,6 +1041,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\c64-midi.c"
@@ -856,6 +1110,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Release|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -921,6 +1193,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\capture.c"
@@ -972,6 +1262,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1037,6 +1345,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\delaep256.c"
@@ -1088,6 +1414,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1153,6 +1497,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\delaep7x8.c"
@@ -1204,6 +1566,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1269,6 +1649,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\dinamic.c"
@@ -1320,6 +1718,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1385,6 +1801,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\easyflash.c"
@@ -1436,6 +1870,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1501,6 +1953,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\exos.c"
@@ -1552,6 +2022,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1617,6 +2105,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\final.c"
@@ -1668,6 +2174,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1733,6 +2257,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\finalplus.c"
@@ -1784,6 +2326,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1849,6 +2409,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\freezeframe.c"
@@ -1900,6 +2478,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -1965,6 +2561,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\funplay.c"
@@ -2016,6 +2630,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2081,6 +2713,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\gs.c"
@@ -2132,6 +2782,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2197,6 +2865,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\isepic.c"
@@ -2248,6 +2934,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2313,6 +3017,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\kingsoft.c"
@@ -2364,6 +3086,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2429,6 +3169,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\magicdesk.c"
@@ -2480,6 +3238,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2545,6 +3321,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\magicvoice.c"
@@ -2596,6 +3390,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2661,6 +3473,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\mmc64.c"
@@ -2712,6 +3542,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2777,6 +3625,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\ocean.c"
@@ -2828,6 +3694,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -2893,6 +3777,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\prophet64.c"
@@ -2944,6 +3846,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3009,6 +3929,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\retroreplay.c"
@@ -3060,6 +3998,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3125,6 +4081,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\rexep256.c"
@@ -3176,6 +4150,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3241,6 +4233,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\ross.c"
@@ -3292,6 +4302,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3357,6 +4385,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\simonsbasic.c"
@@ -3408,6 +4454,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3473,6 +4537,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\stardos.c"
@@ -3524,6 +4606,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3589,6 +4689,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\superexplode5.c"
@@ -3640,6 +4758,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3705,6 +4841,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\supersnapshot.c"
@@ -3756,6 +4910,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3821,6 +4993,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\warpspeed.c"
@@ -3872,6 +5062,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
@@ -3937,6 +5145,24 @@
 					PreprocessorDefinitions=""
 				/>
 			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\c64\cart\zaxxon.c"
@@ -3988,6 +5214,24 @@
 			</FileConfiguration>
 			<FileConfiguration
 				Name="Debug|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCLCompilerTool"
+					AdditionalIncludeDirectories=""
+					PreprocessorDefinitions=""
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
 				>
 				<Tool
 					Name="VCCLCompilerTool"
