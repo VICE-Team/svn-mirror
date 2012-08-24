@@ -451,6 +451,151 @@
 				Name="VCPostBuildEventTool"
 			/>
 		</Configuration>
+		<Configuration
+			Name="Release no DirectX|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="2"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\win32\msvc"
+				PreprocessorDefinitions="NDEBUG;WIN32;IDE_COMPILE;NODIRECTX;_WINDOWS;WINIA64;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4"
+				StringPooling="true"
+				RuntimeLibrary="0"
+				EnableFunctionLevelLinking="true"
+				PrecompiledHeaderFile=".\libs\residfp\Release no DirectX/residfp.pch"
+				AssemblerListingLocation=".\libs\residfp\Release no DirectX/"
+				ObjectFile=".\libs\residfp\Release no DirectX/"
+				ProgramDataBaseFileName=".\libs\residfp\Release no DirectX/"
+				WarningLevel="3"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\residfp\Release no DirectX\residfp.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\residfp\Release no DirectX/residfp.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Debug no DirectX|Itanium"
+			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
+			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
+			ConfigurationType="4"
+			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC60.vsprops"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				TargetEnvironment="2"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				Optimization="0"
+				AdditionalIncludeDirectories="..\win32\msvc"
+				PreprocessorDefinitions="NDEBUG;WIN32;IDE_COMPILE;NODIRECTX;_WINDOWS;WINIA64;PACKAGE=\&quot;residfp\&quot;;VERSION=\&quot;0.7\&quot;;SIZEOF_INT=4;_DEBUG"
+				RuntimeLibrary="1"
+				PrecompiledHeaderFile=".\libs\residfp\Debug no DirectX/residfp.pch"
+				AssemblerListingLocation=".\libs\residfp\Debug no DirectX/"
+				ObjectFile=".\libs\residfp\Debug no DirectX/"
+				ProgramDataBaseFileName=".\libs\residfp\Debug no DirectX/"
+				WarningLevel="3"
+				DebugInformationFormat="1"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				Culture="1033"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLibrarianTool"
+				OutputFile=".\libs\residfp\Debug no DirectX\residfp.lib"
+				SuppressStartupBanner="true"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+				SuppressStartupBanner="true"
+				OutputFile=".\libs\residfp\Debug no DirectX/residfp.bsc"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
 	</Configurations>
 	<References>
 	</References>
@@ -490,8 +635,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -510,6 +655,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -548,8 +711,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -568,6 +731,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -606,8 +787,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -628,10 +809,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\envelope.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\resid-fp\extfilt.cc"
@@ -668,8 +863,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -690,10 +885,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\extfilt.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\resid-fp\filter.cc"
@@ -730,8 +939,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -752,10 +961,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\filter.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\resid-fp\pot.cc"
@@ -792,8 +1015,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -814,10 +1037,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\pot.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\resid-fp\sid.cc"
@@ -854,8 +1091,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -876,14 +1113,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\sid.h"
-			>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\siddefs.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\resid-fp\version.cc"
@@ -920,8 +1167,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -940,6 +1187,24 @@
 					Name="VCCustomBuildTool"
 					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug/&quot; /Fd&quot;libs\residfp\Debug/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
 					Outputs="libs\residfp\Debug/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 		</File>
@@ -978,8 +1243,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -1000,10 +1265,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\voice.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\resid-fp\wave.cc"
@@ -1040,8 +1319,8 @@
 				>
 				<Tool
 					Name="VCCustomBuildTool"
-					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release/&quot; /Fd&quot;libs\resid-fp\Release/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
-					Outputs="libs\resid-fp\Release/$(InputName).obj"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
 				/>
 			</FileConfiguration>
 			<FileConfiguration
@@ -1062,10 +1341,24 @@
 					Outputs="libs\residfp\Debug/$(InputName).obj"
 				/>
 			</FileConfiguration>
-		</File>
-		<File
-			RelativePath="..\..\resid-fp\wave.h"
-			>
+			<FileConfiguration
+				Name="Release no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MT /W3 /EHsc /I &quot;..\win32\msvc&quot; /D &quot;NODIRECTX&quot; /D &quot;NDEBUG&quot; /D &quot;WIN32&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;resid\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /Fp&quot;libs\resid-fp\Release no DirectX/resid-fp.pch&quot;  /Fo&quot;libs\resid-fp\Release no DirectX/&quot; /Fd&quot;libs\resid-fp\Release no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\resid-fp\Release no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Debug no DirectX|Itanium"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					CommandLine="cl /nologo /MTd /W3 /EHsc /Z7 /Od /I &quot;..\win32\msvc&quot; /D &quot;WIN32&quot; /D &quot;NODIRECTX&quot; /D &quot;IDE_COMPILE&quot; /D &quot;WINIA64&quot; /D &quot;_WINDOWS&quot; /D PACKAGE=\&quot;residfp\&quot; /D VERSION=\&quot;0.7\&quot; /D SIZEOF_INT=4 /D &quot;_DEBUG&quot; /Fp&quot;libs\residfp\Debug no DirectX/residfp.pch&quot;  /Fo&quot;libs\residfp\Debug no DirectX/&quot; /Fd&quot;libs\residfp\Debug no DirectX/&quot; /FD /TP /c &quot;$(InputPath)&quot;&#x0D;&#x0A;"
+					Outputs="libs\residfp\Debug no DirectX/$(InputName).obj"
+				/>
+			</FileConfiguration>
 		</File>
 	</Files>
 	<Globals>
