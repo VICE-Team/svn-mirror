@@ -982,6 +982,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 				/>
+                        </FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\sid\sid-snapshot.c"
@@ -1057,6 +1058,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 				/>
+                        </FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\sid\sid.c"
@@ -1132,6 +1134,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 				/>
+                        </FileConfiguration>
 		</File>
 	</Files>
 	<Globals>
