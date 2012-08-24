@@ -78,9 +78,11 @@
 #endif
 #endif
 
-#ifndef _M_AMD64
+#if !defined(_M_AMD64) && !defined(WINIA64)
 #define __i386__                1
-#else
+#endif
+
+#ifdef _M_AMD64
 #define __amd64__               1
 #endif
 
