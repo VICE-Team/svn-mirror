@@ -43,6 +43,8 @@
 
 #include <allegro.h>
 
+#include <dos.h>
+
 #include "archdep.h"
 #include "fcntl.h"
 #include "lib.h"
