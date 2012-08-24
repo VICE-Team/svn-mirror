@@ -906,6 +906,7 @@
 					AdditionalIncludeDirectories=""
 					PreprocessorDefinitions=""
 				/>
+                        </FileConfiguration>
 		</File>
 		<File
 			RelativePath="..\..\sid\sid-resources.c"
