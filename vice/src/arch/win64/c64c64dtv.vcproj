@@ -527,7 +527,7 @@
 			/>
 		</Configuration>
 		<Configuration
-			Name="Release|Itanium"
+			Name="Release no DirectX|Itanium"
 			OutputDirectory="$(PlatformName)\$(ConfigurationName)"
 			IntermediateDirectory="$(PlatformName)\$(ConfigurationName)"
 			ConfigurationType="4"
