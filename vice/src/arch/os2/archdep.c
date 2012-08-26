@@ -600,7 +600,7 @@ char *archdep_get_runtime_os(void)
     ULONG buffer[3];
     APIRET rc;
 
-    rc = DosQuerySysInfo(QSV_VERSION_MAJOR, 	 QSV_VERSION_REVISION, (void *)buffer, 3 * sizeof(ULONG));
+    rc = DosQuerySysInfo(QSV_VERSION_MAJOR, QSV_VERSION_REVISION, (void *)buffer, 3 * sizeof(ULONG));
     if (rc) {
         return "Unknown OS/2 version";
     } else {
