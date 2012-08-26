@@ -25,6 +25,8 @@
  */
 
 /* Tested and confirmed working on:
+   - Windows 95
+   - Windows 95B
    - Windows 7 Ultimate (x86)
 */
 
@@ -482,13 +484,13 @@ static int IsHxDos(void)
 
 static char *get_win95_version(void)
 {
-    if (!strncmp(os_version_info.szCSDVersion, " A ", 3)) {
+    if (!strncmp(os_version_info.szCSDVersion, " A", 2)) {
         return "A";
     }
-    if (!strncmp(os_version_info.szCSDVersion, " B ", 3)) {
+    if (!strncmp(os_version_info.szCSDVersion, " B", 2)) {
         return "B";
     }
-    if (!strncmp(os_version_info.szCSDVersion, " C ", 3)) {
+    if (!strncmp(os_version_info.szCSDVersion, " C", 2)) {
         return "C";
     }
     return "";
@@ -496,7 +498,7 @@ static char *get_win95_version(void)
 
 static char *get_win98_version(void)
 {
-    if (!strncmp(os_version_info.szCSDVersion, " A ", 3)) {
+    if (!strncmp(os_version_info.szCSDVersion, " A", 2)) {
         return "SE";
     }
     return "";
