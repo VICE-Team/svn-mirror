@@ -60,6 +60,10 @@ libarch_a_SOURCES = \
 	cbm5x0ui.c \
 	cbm5x0uires.h \
 	console.c \
+	cw.h \
+	cw_device.c \
+	cw_openpci.c \
+	cw_os4.c \
 	fullscreen.c \
 	fullscreenarch.h \
 	hardsid.c \
