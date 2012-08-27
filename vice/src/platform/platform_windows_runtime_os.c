@@ -26,7 +26,12 @@
 
 /* Tested and confirmed working on:
    - Windows 95
+   - Windows 95A
    - Windows 95B
+   - Windows 95C
+   - Windows 98
+   - Windows 98 Second Edition
+   - Windows Millenium Edition
    - Windows 7 Ultimate (x86)
 */
 

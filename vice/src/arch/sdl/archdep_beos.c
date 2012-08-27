@@ -31,7 +31,6 @@
 #include <stdlib.h>
 #include <ctype.h>
 #include <string.h>
-#include <sys/utsname.h>
 
 #include "ui.h"
 
@@ -68,23 +67,6 @@
 
 static char *orig_workdir;
 static char *argv0 = NULL;
-
-int CheckForHaiku(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    if (!strncasecmp(name.sysname, "Haiku", 5)) {
-        return -1;
-    }
-    return 0;
-}
-
-/* Ugly check for Zeta */
-int CheckForZeta(void)
-{
-    return util_file_exists("/boot/beos/system/lib/libzeta.so");
-}
 
 int archdep_network_init(void)
 {

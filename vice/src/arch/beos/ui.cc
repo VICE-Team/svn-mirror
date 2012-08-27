@@ -40,7 +40,6 @@
 #include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <sys/utsname.h>
 #include <string.h>
 
 extern "C" {
@@ -381,26 +380,6 @@ static void ui_exit_early(void)
     log_message(LOG_DEFAULT, "\nExiting...");
     machine_shutdown();
     putchar ('\n');
-}
-
-
-/* this check is needed for haiku, since it always returns 1 on
-   SupportsWindowMode() */
-int CheckForHaiku(void)
-{
-    struct utsname name;
-
-    uname(&name);
-    if (!strncasecmp(name.sysname, "Haiku", 5)) {
-        return -1;
-    }
-    return 0;
-}
-
-/* Ugly check for Zeta */
-int CheckForZeta(void)
-{
-    return util_file_exists("/boot/beos/system/lib/libzeta.so");
 }
 
 /* ------------------------------------------------------------------------ */
