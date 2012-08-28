@@ -32,6 +32,7 @@
    - Windows 98
    - Windows 98 Second Edition
    - Windows Millenium Edition
+   - Windows NT 4 Workstation
    - Windows 7 Ultimate (x86)
 */
 
@@ -224,9 +225,9 @@ static winver_t windows_versions[] = {
     { "Windows NT 3.10 Advanced Server", VER_PLATFORM_WIN32_NT,
       3, 10, 0, VER_NT_SERVER, -1, -1, -1 },
     { "Windows NT 3.50 Workstation", VER_PLATFORM_WIN32_NT,
-      3, 5, 0, VER_NT_WORKSTATION, -1, -1, -1 },
+      3, 50, 0, VER_NT_WORKSTATION, -1, -1, -1 },
     { "Windows NT 3.50 Server", VER_PLATFORM_WIN32_NT,
-      3, 5, 0, VER_NT_SERVER, -1, -1, -1 },
+      3, 50, 0, VER_NT_SERVER, -1, -1, -1 },
     { "Windows NT 3.51 Workstation", VER_PLATFORM_WIN32_NT,
       3, 51, 0, VER_NT_WORKSTATION, -1, -1, -1 },
     { "Windows NT 3.51 Server", VER_PLATFORM_WIN32_NT,
@@ -528,6 +529,78 @@ static int optional_compare(int a, int b)
 
 static char windows_version[256];
 
+/* 0 = error
+   1 = Workstation
+   2 = Server
+   3 = Enterprise
+ */
+static int get_product_type_from_reg(void)
+{
+    HKEY hKey;
+    char PT[128];
+    DWORD PTlen = 128;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\ProductOptions", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret != ERROR_SUCCESS) {
+        return 0;
+    }
+
+    ret = RegQueryValueEx(hKey, "ProductType", NULL, NULL, (LPBYTE)PT, &PTlen);
+    if ((ret != ERROR_SUCCESS) || (PTlen > 128)) {
+        return 0;
+    }
+
+    RegCloseKey(hKey);
+
+    if (lstrcmpi("WINNT", PT) == 0) {
+        return 1;
+    }
+
+    if (lstrcmpi("LANMANNT", PT) == 0) {
+        return 2;
+    }
+
+    if (lstrcmpi("SERVERNT", PT) == 0 ) {
+        return 3;
+    }
+}
+
+static int get_sp_from_reg(void)
+{
+    if (!strncmp(os_version_info.szCSDVersion, "Service Pack 1", 14)) {
+        return 1;
+    }
+    if (!strncmp(os_version_info.szCSDVersion, "Service Pack 2", 14)) {
+        return 2;
+    }
+    if (!strncmp(os_version_info.szCSDVersion, "Service Pack 3", 14)) {
+        return 3;
+    }
+    if (!strncmp(os_version_info.szCSDVersion, "Service Pack 4", 14)) {
+        return 4;
+    }
+    if (!strncmp(os_version_info.szCSDVersion, "Service Pack 5", 14)) {
+        return 5;
+    }
+    if (!strncmp(os_version_info.szCSDVersion, "Service Pack 6", 14)) {
+        return 6;
+    }
+    return 0;
+}
+
+static int sp_is_nt4_6a(void)
+{
+    HKEY hKey;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret == ERROR_SUCCESS) {
+        return 1;
+    }
+    return 0;
+}
+
 char *platform_get_windows_runtime_os(void)
 {
     int found = 0;
@@ -536,6 +609,8 @@ char *platform_get_windows_runtime_os(void)
     VGNSI ViceGetNativeSystemInfo;
     SYSTEM_INFO systeminfo;
     DWORD PT;
+    int sp;
+    int exinfo_valid = 0;
 
     ZeroMemory(&os_version_info, sizeof(os_version_info));
     os_version_info.dwOSVersionInfoSize = sizeof(os_version_info);
@@ -551,9 +626,31 @@ char *platform_get_windows_runtime_os(void)
     windows_versions[0].realos = GetRealOS();
 
     if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
-        GetVersionEx(&os_version_ex_info);
-        windows_versions[0].producttype = (BYTE)os_version_ex_info.wProductType;
-        windows_versions[0].suite = (WORD)os_version_ex_info.wSuiteMask;
+        if (GetVersionEx(&os_version_ex_info)) {
+            windows_versions[0].producttype = (BYTE)os_version_ex_info.wProductType;
+            windows_versions[0].suite = (WORD)os_version_ex_info.wSuiteMask;
+            exinfo_valid = 1;
+        } else {
+            switch (get_product_type_from_reg()) {
+                case 0:
+                default:
+                    windows_versions[0].producttype = 0;
+                    windows_versions[0].suite = 0;
+                    break;
+                case 1:
+                    windows_versions[0].producttype = VER_NT_WORKSTATION;
+                    windows_versions[0].suite = 0;
+                    break;
+                case 2:
+                    windows_versions[0].producttype = VER_NT_SERVER;
+                    windows_versions[0].suite = 0;
+                    break;
+                case 3:
+                    windows_versions[0].producttype = VER_NT_SERVER;
+                    windows_versions[0].suite = VER_SUITE_ENTERPRISE;
+                    break;
+            }
+        }
         if (windows_versions[0].majorver >= 6) {
             ViceGetProductInfo = (VGPI)GetProcAddress(GetModuleHandle(TEXT("kernel32.dll")), "GetProductInfo");
             ViceGetProductInfo(os_version_ex_info.dwMajorVersion, os_version_ex_info.dwMinorVersion, 0, 0, &PT);
@@ -614,8 +711,21 @@ char *platform_get_windows_runtime_os(void)
                 sprintf(windows_version, "%s%s", windows_version, get_win98_version());
             }
         } else {
-            if (os_version_ex_info.wServicePackMajor) {
-                sprintf(windows_version, "%s SP%d", windows_version, os_version_ex_info.wServicePackMajor);
+            if (exinfo_valid) {
+                sp = os_version_ex_info.wServicePackMajor;
+            } else {
+                sp = get_sp_from_reg();
+            }
+            if (sp) {
+                if (sp == 6) {
+                    if (sp_is_nt4_6a()) {
+                        sprintf(windows_version, "%s SP6A", windows_version);
+                    } else {
+                        sprintf(windows_version, "%s SP6", windows_version);
+                    }
+                } else {
+                    sprintf(windows_version, "%s SP%d", windows_version, sp);
+                }
             }
         }
         if (windows_versions[0].realos > windows_versions[i - 1].realos) {
