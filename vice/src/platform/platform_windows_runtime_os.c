@@ -32,7 +32,17 @@
    - Windows 98
    - Windows 98 Second Edition
    - Windows Millenium Edition
+   - Windows NT 3.50 Workstation
+   - Windows NT 3.50 Server
+   - Windows NT 3.51 Workstation
+   - Windows NT 3.51 Server
    - Windows NT 4 Workstation
+   - Windows NT 4 Workstation Embedded
+   - Windows NT 4 Server Embedded
+   - Windows NT 4 Server
+   - Windows NT 4 Terminal Server
+   - Windows NT 4 Enterprise Server
+   - Windows NT 4 Small Business Server
    - Windows 7 Ultimate (x86)
 */
 
@@ -45,6 +55,10 @@
 
 #ifndef VER_NT_WORKSTATION
 #define VER_NT_WORKSTATION 0x00000001
+#endif
+
+#ifndef VER_NT_DOMAIN_CONTROLLER
+#define VER_NT_DOMAIN_CONTROLLER 0x00000002
 #endif
 
 #ifndef VER_NT_SERVER
@@ -61,6 +75,10 @@
 
 #ifndef VER_SUITE_SMALLBUSINESS
 #define VER_SUITE_SMALLBUSINESS 0x00000001
+#endif
+
+#ifndef VER_SUITE_SMALLBUSINESS_RESTRICTED
+#define VER_SUITE_SMALLBUSINESS_RESTRICTED 0x00000020
 #endif
 
 #ifndef VER_SUITE_EMBEDDEDNT
@@ -232,16 +250,20 @@ static winver_t windows_versions[] = {
       3, 51, 0, VER_NT_WORKSTATION, -1, -1, -1 },
     { "Windows NT 3.51 Server", VER_PLATFORM_WIN32_NT,
       3, 51, 0, VER_NT_SERVER, -1, -1, -1 },
+    { "Windows NT 4.0 Workstation Embedded", VER_PLATFORM_WIN32_NT,
+      4, 0, 1, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows NT 4.0 Workstation", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_WORKSTATION, 0, -1, -1 },
+    { "Windows NT 4.0 Server Embedded", VER_PLATFORM_WIN32_NT,
+      4, 0, 1, VER_NT_SERVER, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows NT 4.0 Terminal Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, VER_SUITE_TERMINAL, -1, -1 },
     { "Windows NT 4.0 Enterprise Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
-    { "Windows NT 4.0 Small Bsiness Server", VER_PLATFORM_WIN32_NT,
+    { "Windows NT 4.0 Small Business Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
-    { "Windows NT 4.0 Embedded", VER_PLATFORM_WIN32_NT,
-      4, 0, 1, -1, VER_SUITE_EMBEDDEDNT, -1, -1 },
+    { "Windows NT 4.0 Small Business Server", VER_PLATFORM_WIN32_NT,
+      4, 0, 1, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS | VER_SUITE_SMALLBUSINESS_RESTRICTED, -1, -1 },
     { "Windows NT 4.0 Server", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, 0, -1, -1 },
     { "Windows 2000 Professional", VER_PLATFORM_WIN32_NT,
@@ -514,7 +536,7 @@ static char *get_win98_version(void)
 static int optional_mask_compare(int a, int b)
 {
     if (b == -1 || (a & b) == b) {
-		return 1;
+        return 1;
     }
     return 0;
 }
@@ -522,7 +544,7 @@ static int optional_mask_compare(int a, int b)
 static int optional_compare(int a, int b)
 {
     if (b == -1 || a == b) {
-		return 1;
+        return 1;
     }
     return 0;
 }
@@ -533,6 +555,8 @@ static char windows_version[256];
    1 = Workstation
    2 = Server
    3 = Enterprise
+   4 = Terminal Server
+   5 = Small Business Server
  */
 static int get_product_type_from_reg(void)
 {
@@ -557,12 +581,24 @@ static int get_product_type_from_reg(void)
         return 1;
     }
 
-    if (lstrcmpi("LANMANNT", PT) == 0) {
+    if (lstrcmpi("SERVERNT", PT) == 0 || lstrcmpi("LANMANNT", PT) == 0) {
+        ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\ProductOptions", 0, KEY_QUERY_VALUE, &hKey);
+        ret = RegQueryValueEx(hKey, "ProductSuite", NULL, NULL, NULL, NULL);
+        if (ret == ERROR_SUCCESS) {
+            RegCloseKey(hKey);
+            ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\Terminal Server", 0, KEY_QUERY_VALUE, &hKey);
+            if (ret == ERROR_SUCCESS) {
+                RegCloseKey(hKey);
+                return 4;
+            }
+            ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\LicenseInfoSuites\\SmallBusiness", 0, KEY_QUERY_VALUE, &hKey);
+            if (ret == ERROR_SUCCESS) {
+                RegCloseKey(hKey);
+                return 5;
+            }
+            return 3;
+        }
         return 2;
-    }
-
-    if (lstrcmpi("SERVERNT", PT) == 0 ) {
-        return 3;
     }
 }
 
@@ -627,7 +663,11 @@ char *platform_get_windows_runtime_os(void)
 
     if (windows_versions[0].platformid == VER_PLATFORM_WIN32_NT) {
         if (GetVersionEx(&os_version_ex_info)) {
-            windows_versions[0].producttype = (BYTE)os_version_ex_info.wProductType;
+            if (os_version_ex_info.wProductType == VER_NT_DOMAIN_CONTROLLER) {
+                windows_versions[0].producttype = (BYTE)VER_NT_SERVER;
+            } else {
+                windows_versions[0].producttype = (BYTE)os_version_ex_info.wProductType;
+            }
             windows_versions[0].suite = (WORD)os_version_ex_info.wSuiteMask;
             exinfo_valid = 1;
         } else {
@@ -648,6 +688,14 @@ char *platform_get_windows_runtime_os(void)
                 case 3:
                     windows_versions[0].producttype = VER_NT_SERVER;
                     windows_versions[0].suite = VER_SUITE_ENTERPRISE;
+                    break;
+                case 4:
+                    windows_versions[0].producttype = VER_NT_SERVER;
+                    windows_versions[0].suite = VER_SUITE_TERMINAL;
+                    break;
+                case 5:
+                    windows_versions[0].producttype = VER_NT_SERVER;
+                    windows_versions[0].suite = VER_SUITE_SMALLBUSINESS;
                     break;
             }
         }
