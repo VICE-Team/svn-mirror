@@ -43,6 +43,14 @@
    - Windows NT 4 Terminal Server
    - Windows NT 4 Enterprise Server
    - Windows NT 4 Small Business Server
+   - Windows 2000 Professional
+   - Windows 2000 Server
+   - Windows 2000 Advanced Server
+   - Windows 2000 Datacenter Server
+   - Windows XP FLP
+   - Windows XP Starter
+   - Windows XP Home
+   - Windows XP PE
    - Windows 7 Ultimate (x86)
 */
 
@@ -53,8 +61,9 @@
 #include <windows.h>
 #include <stdio.h>
 
+/* platform ids */
 #ifndef VER_NT_WORKSTATION
-#define VER_NT_WORKSTATION 0x00000001
+#define VER_NT_WORKSTATION       0x00000001
 #endif
 
 #ifndef VER_NT_DOMAIN_CONTROLLER
@@ -62,19 +71,21 @@
 #endif
 
 #ifndef VER_NT_SERVER
-#define VER_NT_SERVER 0x00000003
+#define VER_NT_SERVER            0x00000003
 #endif
 
-#ifndef VER_SUITE_TERMINAL
-#define VER_SUITE_TERMINAL 0x00000010
+
+/* platform suites */
+#ifndef VER_SUITE_SMALLBUSINESS
+#define VER_SUITE_SMALLBUSINESS            0x00000001
 #endif
 
 #ifndef VER_SUITE_ENTERPRISE
-#define VER_SUITE_ENTERPRISE 0x00000002
+#define VER_SUITE_ENTERPRISE               0x00000002
 #endif
 
-#ifndef VER_SUITE_SMALLBUSINESS
-#define VER_SUITE_SMALLBUSINESS 0x00000001
+#ifndef VER_SUITE_TERMINAL
+#define VER_SUITE_TERMINAL                 0x00000010
 #endif
 
 #ifndef VER_SUITE_SMALLBUSINESS_RESTRICTED
@@ -82,83 +93,89 @@
 #endif
 
 #ifndef VER_SUITE_EMBEDDEDNT
-#define VER_SUITE_EMBEDDEDNT 0x00000040
+#define VER_SUITE_EMBEDDEDNT               0x00000040
 #endif
 
 #ifndef VER_SUITE_DATACENTER
-#define VER_SUITE_DATACENTER 0x00000080
+#define VER_SUITE_DATACENTER               0x00000080
+#endif
+
+#ifndef VER_SUITE_SINGLEUSERTS
+#define VER_SUITE_SINGLEUSERTS             0x00000100
 #endif
 
 #ifndef VER_SUITE_PERSONAL
-#define VER_SUITE_PERSONAL 0x00000200
+#define VER_SUITE_PERSONAL                 0x00000200
 #endif
 
 #ifndef VER_SUITE_BLADE
-#define VER_SUITE_BLADE 0x00000400
-#endif
-
-#ifndef VER_SUITE_COMPUTE_SERVER
-#define VER_SUITE_COMPUTE_SERVER 0x00004000
+#define VER_SUITE_BLADE                    0x00000400
 #endif
 
 #ifndef VER_SUITE_STORAGE_SERVER
-#define VER_SUITE_STORAGE_SERVER 0x00002000
+#define VER_SUITE_STORAGE_SERVER           0x00002000
+#endif
+
+#ifndef VER_SUITE_COMPUTE_SERVER
+#define VER_SUITE_COMPUTE_SERVER           0x00004000
 #endif
 
 #ifndef VER_SUITE_WH_SERVER
-#define VER_SUITE_WH_SERVER 0x00008000
+#define VER_SUITE_WH_SERVER                0x00008000
 #endif
 
-#ifndef PRODUCT_STARTER
-#define PRODUCT_STARTER 0x0000000B
+
+/* platform product ids */
+#ifndef PRODUCT_ULTIMATE
+#define PRODUCT_ULTIMATE                 0x00000001
 #endif
 
 #ifndef PRODUCT_HOME_BASIC
-#define PRODUCT_HOME_BASIC 0x00000002
+#define PRODUCT_HOME_BASIC               0x00000002
 #endif
 
 #ifndef PRODUCT_HOME_PREMIUM
-#define PRODUCT_HOME_PREMIUM 0x00000003
-#endif
-
-#ifndef PRODUCT_BUSINESS
-#define PRODUCT_BUSINESS 0x00000006
+#define PRODUCT_HOME_PREMIUM             0x00000003
 #endif
 
 #ifndef PRODUCT_ENTERPRISE
-#define PRODUCT_ENTERPRISE 0x00000004
+#define PRODUCT_ENTERPRISE               0x00000004
 #endif
 
-#ifndef PRODUCT_ULTIMATE
-#define PRODUCT_ULTIMATE 0x00000001
-#endif
-
-#ifndef PRODUCT_WEB_SERVER
-#define PRODUCT_WEB_SERVER 0x00000011
-#endif
-
-#ifndef PRODUCT_ENTERPRISE_SERVER
-#define PRODUCT_ENTERPRISE_SERVER 0x0000000A
-#endif
-
-#ifndef PRODUCT_DATACENTER_SERVER
-#define PRODUCT_DATACENTER_SERVER 0x00000008
+#ifndef PRODUCT_BUSINESS
+#define PRODUCT_BUSINESS                 0x00000006
 #endif
 
 #ifndef PRODUCT_STANDARD_SERVER
-#define PRODUCT_STANDARD_SERVER 0x00000007
+#define PRODUCT_STANDARD_SERVER          0x00000007
+#endif
+
+#ifndef PRODUCT_DATACENTER_SERVER
+#define PRODUCT_DATACENTER_SERVER        0x00000008
 #endif
 
 #ifndef PRODUCT_SMALLBUSINESS_SERVER
-#define PRODUCT_SMALLBUSINESS_SERVER 0x00000009
+#define PRODUCT_SMALLBUSINESS_SERVER     0x00000009
+#endif
+
+#ifndef PRODUCT_ENTERPRISE_SERVER
+#define PRODUCT_ENTERPRISE_SERVER        0x0000000A
+#endif
+
+#ifndef PRODUCT_STARTER
+#define PRODUCT_STARTER                  0x0000000B
 #endif
 
 #ifndef PRODUCT_ENTERPRISE_SERVER_IA64
-#define PRODUCT_ENTERPRISE_SERVER_IA64 0x0000000F
+#define PRODUCT_ENTERPRISE_SERVER_IA64   0x0000000F
+#endif
+
+#ifndef PRODUCT_WEB_SERVER
+#define PRODUCT_WEB_SERVER               0x00000011
 #endif
 
 #ifndef PRODUCT_CLUSTER_SERVER
-#define PRODUCT_CLUSTER_SERVER 0x00000012
+#define PRODUCT_CLUSTER_SERVER           0x00000012
 #endif
 
 #ifndef PRODUCT_SERVER_FOR_SMALLBUSINESS
@@ -166,11 +183,11 @@
 #endif
 
 #ifndef PRODUCT_SERVER_FOUNDATION
-#define PRODUCT_SERVER_FOUNDATION 0x00000021
+#define PRODUCT_SERVER_FOUNDATION        0x00000021
 #endif
 
 #ifndef SM_TABLETPC
-#define SM_TABLETPC 86
+#define SM_TABLETPC    86
 #endif
 
 #ifndef SM_MEDIACENTER
@@ -178,11 +195,11 @@
 #endif
 
 #ifndef SM_STARTER
-#define SM_STARTER 88
+#define SM_STARTER     88
 #endif
 
 #ifndef SM_SERVERR2
-#define SM_SERVERR2 89
+#define SM_SERVERR2    89
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_AMD64
@@ -268,24 +285,26 @@ static winver_t windows_versions[] = {
       4, 0, 1, VER_NT_SERVER, 0, -1, -1 },
     { "Windows 2000 Professional", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_WORKSTATION, 0, -1, -1 },
-    { "Windows 2000 Advanced Server / Windows 2000 Advanced Server Limited Edition", VER_PLATFORM_WIN32_NT,
-      5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2000 Datacenter Server / Windows 2000 Datacenter Server Limited Edition", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
+    { "Windows 2000 Advanced Server / Windows 2000 Advanced Server Limited Edition", VER_PLATFORM_WIN32_NT,
+      5, 0, 6, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2000 Server", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, 0, -1, -1 },
+    { "Windows XP Starter", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_PERSONAL | VER_SUITE_SINGLEUSERTS, -1, VICE_SM_STARTER },
     { "Windows XP Home", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, -1, -1 },
-    { "Windows XP Starter", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_STARTER },
     { "Windows XP Tablet PC", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_TABLETPC },
     { "Windows XP Media Center", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, VICE_SM_MEDIACENTER },
-    { "Windows XP Professional", VER_PLATFORM_WIN32_NT,
-      5, 1, 8, VER_NT_WORKSTATION, 0, -1, -1 },
+    { "Windows XP Fundamentals for Legacy PCs", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS, -1, -1 },
     { "Windows XP Embedded", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
+    { "Windows XP Professional", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2003 R2 Web Server", VER_PLATFORM_WIN32_NT,
       5, 2, 8, VER_NT_SERVER, VER_SUITE_BLADE, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Web Server", VER_PLATFORM_WIN32_NT,
@@ -632,6 +651,20 @@ static int sp_is_nt4_6a(void)
 
     ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion\\Hotfix\\Q246009", 0, KEY_QUERY_VALUE, &hKey);
     if (ret == ERROR_SUCCESS) {
+        RegCloseKey(hKey);
+        return 1;
+    }
+    return 0;
+}
+
+static int is_pe_builder(void)
+{
+    HKEY hKey;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Control\\PE Builder", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret == ERROR_SUCCESS) {
+        RegCloseKey(hKey);
         return 1;
     }
     return 0;
@@ -775,6 +808,9 @@ char *platform_get_windows_runtime_os(void)
                     sprintf(windows_version, "%s SP%d", windows_version, sp);
                 }
             }
+        }
+        if (is_pe_builder()) {
+            sprintf(windows_version, "%s (PE)", windows_version);
         }
         if (windows_versions[0].realos > windows_versions[i - 1].realos) {
             sprintf(windows_version, "%s (compatibility mode)", windows_version);
