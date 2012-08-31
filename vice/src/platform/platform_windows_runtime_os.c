@@ -47,10 +47,14 @@
    - Windows 2000 Server
    - Windows 2000 Advanced Server
    - Windows 2000 Datacenter Server
+   - Windows XP PE
+   - Windows XP Embedded
    - Windows XP FLP
    - Windows XP Starter
    - Windows XP Home
-   - Windows XP PE
+   - Windows XP Professional (x86/x64)
+   - Windows XP Tablet PC Edition
+   - Windows XP Media Center Edition
    - Windows 7 Ultimate (x86)
 */
 
@@ -332,7 +336,7 @@ static winver_t windows_versions[] = {
     { "Windows Home Server", VER_PLATFORM_WIN32_NT,
       5, 2, 8, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1, -1 },
     { "Windows XP64", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_WORKSTATION, 0, -1, -1 },
+      5, 2, 9, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2003 R2 Standard Server", VER_PLATFORM_WIN32_NT,
       5, 2, 8, VER_NT_SERVER, 0, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Standard Server", VER_PLATFORM_WIN32_NT,
@@ -670,6 +674,19 @@ static int is_pe_builder(void)
     return 0;
 }
 
+static int is_flp(void)
+{
+    HKEY hKey;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\WPA\\Fundamentals", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret == ERROR_SUCCESS) {
+        RegCloseKey(hKey);
+        return 1;
+    }
+    return 0;
+}
+
 char *platform_get_windows_runtime_os(void)
 {
     int found = 0;
@@ -762,6 +779,12 @@ char *platform_get_windows_runtime_os(void)
     }
     if (GetSystemMetrics(SM_SERVERR2)) {
         windows_versions[0].metrics |= 8;
+    }
+
+    if (windows_versions[0].suite == (VER_SUITE_EMBEDDEDNT | VER_SUITE_SINGLEUSERTS)) {
+        if (is_flp() == 0) {
+            windows_versions[0].suite = VER_SUITE_EMBEDDEDNT;
+        }
     }
 
     for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
