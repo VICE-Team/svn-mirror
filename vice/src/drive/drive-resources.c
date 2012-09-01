@@ -32,6 +32,7 @@
 #include "drive-resources.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivecpu65c02.h"
 #include "driverom.h"
 #include "drivetypes.h"
 #include "iecbus.h"
@@ -64,7 +65,11 @@ static int set_drive_true_emulation(int val, void *param)
             drive = drive_context[dnr]->drive;
             if (drive->type != DRIVE_TYPE_NONE) {
                 drive->enable = 1;
-                drivecpu_reset_clk(drive_context[dnr]);
+                if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+                    drivecpu65c02_reset_clk(drive_context[dnr]);
+                } else {
+                    drivecpu_reset_clk(drive_context[dnr]);
+                }
             }
         }
         for (dnr = 0; dnr < DRIVE_NUM; dnr++) {

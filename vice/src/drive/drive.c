@@ -51,6 +51,7 @@
 #include "drive-overflow.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivecpu65c02.h"
 #include "driveimage.h"
 #include "drivesync.h"
 #include "driverom.h"
@@ -240,7 +241,11 @@ int drive_init(void)
 
         rotation_init((drive->clock_frequency == 2) ? 1 : 0, dnr);
 
-        drivecpu_init(drive_context[dnr], drive->type);
+        if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+            drivecpu65c02_init(drive_context[dnr], drive->type);
+        } else {
+            drivecpu_init(drive_context[dnr], drive->type);
+        }
 
         /* Make sure the sync factor is acknowledged correctly.  */
         drivesync_factor(drive_context[dnr]);
@@ -263,7 +268,11 @@ void drive_shutdown(void)
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        drivecpu_shutdown(drive_context[dnr]);
+        if (drive_context[dnr]->drive->type == DRIVE_TYPE_2000 || drive_context[dnr]->drive->type == DRIVE_TYPE_4000) {
+            drivecpu65c02_shutdown(drive_context[dnr]);
+        } else {
+            drivecpu_shutdown(drive_context[dnr]);
+        }
         if (drive_context[dnr]->drive->gcr) {
             gcr_destroy_image(drive_context[dnr]->drive->gcr);
         }
@@ -328,6 +337,11 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
 
     rotation_init(0, dnr);
     drive->type = type;
+    if (type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
+        drivecpu65c02_setup_context(drv, 0);
+    } else {
+        drivecpu_setup_context(drv, 0);
+    }
     drive->side = 0;
     machine_drive_rom_setup_image(dnr);
     drivesync_factor(drv);
@@ -345,7 +359,11 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
         drive1->drive0 = NULL;
     }
 
-    drivecpu_init(drv, type);
+    if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+        drivecpu65c02_init(drv, type);
+    } else {
+        drivecpu_init(drv, type);
+    }
 
     return 0;
 }
@@ -400,7 +418,11 @@ int drive_enable(drive_context_t *drv)
     if (drive->image != NULL)
         drive_image_attach(drive->image, dnr + 8);
 
-    drivecpu_wake_up(drv);
+    if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+        drivecpu65c02_wake_up(drv);
+    } else {
+        drivecpu_wake_up(drv);
+    }
 
     /* Make sure the UI is updated.  */
     drive_enable_update_ui(drv);
@@ -422,7 +444,11 @@ void drive_disable(drive_context_t *drv)
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     if (rom_loaded) {
-        drivecpu_sleep(drv);
+        if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+            drivecpu65c02_sleep(drv);
+        } else {
+            drivecpu_sleep(drv);
+        }
         machine_drive_port_default(drv);
 
         drive_gcr_data_writeback(drive);
@@ -440,7 +466,11 @@ void drive_reset(void)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        drivecpu_reset(drive_context[dnr]);
+        if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+            drivecpu65c02_reset(drive_context[dnr]);
+        } else {
+            drivecpu_reset(drive_context[dnr]);
+        }
 
         drive->led_last_change_clk = *(drive->clk);
         drive->led_last_uiupdate_clk = *(drive->clk);
@@ -786,7 +816,11 @@ void drive_vsync_hook(void)
         drive_t *drive = drive_context[dnr]->drive;
         if (drive->enable) {
             if (drive->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
-                drivecpu_execute(drive_context[dnr], maincpu_clk);
+                if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+                    drivecpu65c02_execute(drive_context[dnr], maincpu_clk);
+                } else {
+                    drivecpu_execute(drive_context[dnr], maincpu_clk);
+                }
             }
             if (drive->idling_method == DRIVE_IDLE_NO_IDLE) {
                 /* if drive is never idle, also rotate the disk. this prevents
@@ -809,7 +843,11 @@ static void drive_setup_context_for_drive(drive_context_t *drv,
     drv->drive = lib_calloc(1, sizeof(drive_t));
     drv->clk_ptr = &drive_clk[dnr];
 
-    drivecpu_setup_context(drv);
+    if (drv->drive->type == DRIVE_TYPE_2000 || drv->drive->type == DRIVE_TYPE_4000) {
+        drivecpu65c02_setup_context(drv, 1);
+    } else {
+        drivecpu_setup_context(drv, 1);
+    }
     machine_drive_setup_context(drv);
 }
 

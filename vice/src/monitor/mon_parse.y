@@ -791,10 +791,33 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
                             $$.param = $1;
                           }
                         }
-  | L_PAREN number R_PAREN
-    { $$.addr_mode = ASM_ADDR_MODE_ABS_INDIRECT; $$.param = $2; }
-  | L_PAREN number COMMA REG_X R_PAREN
-    { $$.addr_mode = ASM_ADDR_MODE_INDIRECT_X; $$.param = $2; }
+  | ARG_IMMEDIATE number COMMA number COMMA number { if ($2 < 8) {
+                                                         $$.addr_mode = ASM_ADDR_MODE_ZERO_PAGE_BIT0_RELATIVE + $2;
+                                                         $$.param = $6;
+                                                         $$.addr_submode = $4;
+                                                     }
+                                                   }
+  | ARG_IMMEDIATE number COMMA number { if ($2 < 8) {
+                                                         $$.addr_mode = ASM_ADDR_MODE_ZERO_PAGE_BIT0 + $2;
+                                                         $$.param = $4;
+                                        }
+                                      }
+  | L_PAREN number R_PAREN { if ($2 < 0x100) {
+                               $$.addr_mode = ASM_ADDR_MODE_INDIRECT;
+                               $$.param = $2;
+                             } else {
+                               $$.addr_mode = ASM_ADDR_MODE_ABS_INDIRECT;
+                               $$.param = $2;
+                             }
+                           }
+  | L_PAREN number COMMA REG_X R_PAREN { if ($2 < 0x100) {
+                                           $$.addr_mode = ASM_ADDR_MODE_INDIRECT_X;
+                                           $$.param = $2;
+                                         } else {
+                                           $$.addr_mode = ASM_ADDR_MODE_ABS_INDIRECT_X;
+                                           $$.param = $2;
+                                         }
+                                       }
   | L_PAREN number R_PAREN COMMA REG_Y
     { $$.addr_mode = ASM_ADDR_MODE_INDIRECT_Y; $$.param = $2; }
   | L_PAREN REG_BC R_PAREN { $$.addr_mode = ASM_ADDR_MODE_REG_IND_BC; }

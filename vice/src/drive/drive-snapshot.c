@@ -37,6 +37,7 @@
 #include "drive-sound.h"
 #include "drive.h"
 #include "drivecpu.h"
+#include "drivecpu65c02.h"
 #include "drivemem.h"
 #include "driverom.h"
 #include "drivetypes.h"
@@ -234,8 +235,13 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (drive->enable) {
-            if (drivecpu_snapshot_write_module(drive_context[i], s) < 0)
-                return -1;
+            if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+                if (drivecpu65c02_snapshot_write_module(drive_context[i], s) < 0)
+                    return -1;
+            } else {
+                if (drivecpu_snapshot_write_module(drive_context[i], s) < 0)
+                    return -1;
+            }
             if (machine_drive_snapshot_write(drive_context[i], s) < 0)
                 return -1;
         }
@@ -618,8 +624,13 @@ int drive_snapshot_read_module(snapshot_t *s)
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (drive->enable) {
-            if (drivecpu_snapshot_read_module(drive_context[i], s) < 0)
-                return -1;
+            if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
+                if (drivecpu65c02_snapshot_read_module(drive_context[i], s) < 0)
+                    return -1;
+            } else {
+                if (drivecpu_snapshot_read_module(drive_context[i], s) < 0)
+                    return -1;
+            }
             if (machine_drive_snapshot_read(drive_context[i], s) < 0)
                 return -1;
         }

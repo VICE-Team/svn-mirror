@@ -241,6 +241,8 @@ int find_cpu_type_from_string(const char *cpu_string)
 {
     if ((strcasecmp(cpu_string, "6502")==0)||(strcasecmp(cpu_string, "6510")==0)) {
         return CPU_6502;
+    } else if (strcasecmp(cpu_string, "r65c02")==0) {
+        return CPU_R65C02;
     } else if (strcasecmp(cpu_string, "h6809")==0||strcmp(cpu_string, "6809")==0) {
         return CPU_6809;
     } else if (strcasecmp(cpu_string, "z80")==0) {
@@ -287,6 +289,9 @@ void monitor_print_cpu_types_supported(MEMSPACE mem)
                 break;
             case CPU_Z80:
                 mon_out(" Z80");
+                break;
+            case CPU_R65C02:
+                mon_out(" R65C02");
                 break;
             default:
                 mon_out(" unknown(%d)",ptr->monitor_cpu_type_p->cpu_type);
@@ -1149,6 +1154,9 @@ static void find_supported_monitor_cpu_types(supported_cpu_type_list_t **list_pt
     }
     if (mon_interface->cpu_regs) {
         add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_6502));
+    }
+    if (mon_interface->cpu_R65C02_regs) {
+        add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_R65C02));
     }
 }
 
@@ -2216,7 +2224,9 @@ void monitor_abort(void)
 
 static void monitor_open(void)
 {
+    supported_cpu_type_list_t *slist, *slist_next;
     unsigned int dnr;
+    int i;
 
     mon_console_suspend_on_leaving = 1;
     mon_console_close_on_leaving = 0;
@@ -2249,6 +2259,34 @@ static void monitor_open(void)
     vsync_suspend_speed_eval();
 
     uimon_notify_change();
+
+    for (i=0;i<NUM_MEMSPACES;i++) {
+        slist = monitor_cpu_type_supported[i];
+        while (slist != NULL) {
+            slist_next = slist->next;
+            lib_free(slist);
+            slist = slist_next;
+        }
+        monitor_cpu_type_supported[i]=NULL;
+    }
+    /* We should really be told what CPUs are supported by each memspace, but that will
+     * require a bunch of changes, so for now we detect it based on the available registers. */
+    find_supported_monitor_cpu_types(&monitor_cpu_type_supported[e_comp_space], mon_interfaces[e_comp_space]);
+
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        find_supported_monitor_cpu_types(&monitor_cpu_type_supported[monitor_diskspace_mem(dnr)],
+                                         mon_interfaces[monitor_diskspace_mem(dnr)]);
+    }
+
+    /* Build array of pointers to monitor_cpu_type structs */
+    monitor_cpu_for_memspace[e_comp_space]=
+        monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
+        monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)]=
+            monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
+    }
+    /* Safety precaution */
+    monitor_cpu_for_memspace[default_memspace]=monitor_cpu_for_memspace[default_memspace];
 
     dot_addr[e_comp_space] = new_addr(e_comp_space,
         ((WORD)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));

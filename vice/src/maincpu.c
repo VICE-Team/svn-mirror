@@ -281,6 +281,7 @@ monitor_interface_t *maincpu_monitor_interface_get(void)
     maincpu_monitor_interface->dtv_cpu_regs = &maincpu_regs;
 #else
     maincpu_monitor_interface->cpu_regs = &maincpu_regs;
+    maincpu_monitor_interface->cpu_R65C02_regs = NULL;
     maincpu_monitor_interface->dtv_cpu_regs = NULL;
 #endif
 

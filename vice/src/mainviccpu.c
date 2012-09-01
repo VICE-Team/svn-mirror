@@ -227,8 +227,10 @@ mos6510_regs_t maincpu_regs;
 monitor_interface_t *maincpu_monitor_interface_get(void)
 {
     maincpu_monitor_interface->cpu_regs = &maincpu_regs;
+    maincpu_monitor_interface->cpu_R65C02_regs = NULL;
     maincpu_monitor_interface->dtv_cpu_regs = NULL;
     maincpu_monitor_interface->z80_cpu_regs = NULL;
+    maincpu_monitor_interface->h6809_cpu_regs = NULL;
 
     maincpu_monitor_interface->int_status = maincpu_int_status;
 

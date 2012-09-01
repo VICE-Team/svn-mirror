@@ -32,6 +32,8 @@ libdrive_a_SOURCES = \
 	drive.h \
 	drivecpu.c \
 	drivecpu.h \
+	drivecpu65c02.c \
+	drivecpu65c02.h \
 	drivemem.c \
 	driveimage.c \
 	driveimage.h \

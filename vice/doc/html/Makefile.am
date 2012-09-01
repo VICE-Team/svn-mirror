@@ -13,6 +13,7 @@ doc_DATA = \
 	index.html \
 	macosx.html \
 	plain/64doc.txt \
+	plain/65C02.txt \
 	plain/BUGS \
 	plain/COPYING \
 	plain/NEWS \

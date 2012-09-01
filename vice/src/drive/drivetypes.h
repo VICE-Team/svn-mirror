@@ -30,6 +30,7 @@
 
 #include "drive.h"
 #include "mos6510.h"
+#include "r65c02.h"
 #include "types.h"
 
 /*
@@ -89,6 +90,7 @@ typedef struct drivecpu_context_s {
 
     /* Public copy of the registers.  */
     mos6510_regs_t cpu_regs;
+    R65C02_regs_t cpu_R65C02_regs;
 
     BYTE *pageone;        /* init to NULL */
 

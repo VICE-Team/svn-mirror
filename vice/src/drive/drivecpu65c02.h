@@ -25,8 +25,8 @@
  *
  */
 
-#ifndef VICE_DRIVECPU_H
-#define VICE_DRIVECPU_H
+#ifndef VICE_DRIVECPU65C02_H
+#define VICE_DRIVECPU65C02_H
 
 #include "types.h"
 
@@ -35,27 +35,26 @@ struct interrupt_cpu_status_s;
 struct monitor_interface_s;
 struct snapshot_s;
 
-extern void drivecpu_setup_context(struct drive_context_s *drv, int i);
+extern void drivecpu65c02_setup_context(struct drive_context_s *drv, int i);
 
-extern void drivecpu_init(struct drive_context_s *drv, int type);
-extern void drivecpu_reset(struct drive_context_s *drv);
-extern void drivecpu_sleep(struct drive_context_s *drv);
-extern void drivecpu_wake_up(struct drive_context_s *drv);
-extern void drivecpu_prevent_clk_overflow_all(CLOCK sub);
-extern void drivecpu_early_init_all(void);
-extern void drivecpu_shutdown(struct drive_context_s *drv);
-extern void drivecpu_reset_clk(struct drive_context_s *drv);
-extern void drivecpu_trigger_reset(unsigned int dnr);
+extern void drivecpu65c02_init(struct drive_context_s *drv, int type);
+extern void drivecpu65c02_reset(struct drive_context_s *drv);
+extern void drivecpu65c02_sleep(struct drive_context_s *drv);
+extern void drivecpu65c02_wake_up(struct drive_context_s *drv);
+extern void drivecpu65c02_prevent_clk_overflow_all(CLOCK sub);
+extern void drivecpu65c02_shutdown(struct drive_context_s *drv);
+extern void drivecpu65c02_reset_clk(struct drive_context_s *drv);
+extern void drivecpu65c02_trigger_reset(unsigned int dnr);
 
-extern void drivecpu_execute(struct drive_context_s *drv, CLOCK clk_value);
-extern void drivecpu_execute_all(CLOCK clk_value);
-extern int drivecpu_snapshot_write_module(struct drive_context_s *drv,
+extern void drivecpu65c02_execute(struct drive_context_s *drv, CLOCK clk_value);
+extern void drivecpu65c02_execute_all(CLOCK clk_value);
+extern int drivecpu65c02_snapshot_write_module(struct drive_context_s *drv,
                                           struct snapshot_s *s);
-extern int drivecpu_snapshot_read_module(struct drive_context_s *drv,
+extern int drivecpu65c02_snapshot_read_module(struct drive_context_s *drv,
                                          struct snapshot_s *s);
 
 /* Don't use these pointers before the context is set up!  */
-extern struct monitor_interface_s *drivecpu_monitor_interface_get(
+extern struct monitor_interface_s *drivecpu65c02_monitor_interface_get(
     unsigned int dnr);
 
 #endif

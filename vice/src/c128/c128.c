@@ -514,16 +514,18 @@ int machine_cmdline_options_init(void)
 static void c128_monitor_init(void)
 {
     unsigned int dnr;
-    monitor_cpu_type_t asm6502, asmz80;
+    monitor_cpu_type_t asm6502, asmz80, asmR65C02;
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
-    monitor_cpu_type_t *asmarray[3];
+    monitor_cpu_type_t *asmarray[4];
 
     asmarray[0] = &asm6502;
     asmarray[1] = &asmz80;
-    asmarray[2] = NULL;
+    asmarray[2]=&asmR65C02;
+    asmarray[3] = NULL;
 
     asm6502_init(&asm6502);
     asmz80_init(&asmz80);
+    asmR65C02_init(&asmR65C02);
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);

@@ -55,6 +55,7 @@ typedef enum t_memspace MEMSPACE;
 
 enum CPU_TYPE_s {
     CPU_6502,
+    CPU_R65C02,
     CPU_Z80,
     CPU_6502DTV,
     CPU_6809
@@ -84,6 +85,9 @@ typedef struct monitor_cpu_type_s monitor_cpu_type_t;
 struct monitor_interface_s {
     /* Pointer to the registers of the 6502 CPU.  */
     struct mos6510_regs_s *cpu_regs;
+
+    /* Pointer to the registers of the R65C02 CPU. */
+    struct R65C02_regs_s *cpu_R65C02_regs;
 
     /* Pointer to the registers of the Z80 CPU.  */
     struct z80_regs_s *z80_cpu_regs;
@@ -182,10 +186,10 @@ extern void mon_ioreg_add_list(struct mem_ioreg_list_s **list, const char *name,
 
 /* Assembler initialization.  */
 extern void asm6502_init(struct monitor_cpu_type_s *monitor_cpu_type);
+extern void asmR65C02_init(struct monitor_cpu_type_s *monitor_cpu_type);
 extern void asm6502dtv_init(struct monitor_cpu_type_s *monitor_cpu_type);
 extern void asm6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
 extern void asmz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
-extern void asm6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 struct monitor_cartridge_commands_s {
     int (*cartridge_attach_image)(int type, const char *filename);

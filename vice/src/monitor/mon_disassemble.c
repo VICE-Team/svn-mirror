@@ -84,6 +84,7 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
     int addr_mode;
     unsigned opc_size;
     WORD ival;
+    WORD ival2;
     const asm_opcode_info_t *opinfo;
     int prefix = 0;
 
@@ -149,6 +150,38 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             sprintf(buffp, (hex_mode ? " $%02X" : " %3d"), ival);
             break;
 
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT0:
+            sprintf(buffp, (hex_mode ? " #0,$%02X" : " #0,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT1:
+            sprintf(buffp, (hex_mode ? " #1,$%02X" : " #1,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT2:
+            sprintf(buffp, (hex_mode ? " #2,$%02X" : " #2,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT3:
+            sprintf(buffp, (hex_mode ? " #3,$%02X" : " #3,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT4:
+            sprintf(buffp, (hex_mode ? " #4,$%02X" : " #4,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT5:
+            sprintf(buffp, (hex_mode ? " #5,$%02X" : " #5,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT6:
+            sprintf(buffp, (hex_mode ? " #6,$%02X" : " #6,%3d"), ival);
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT7:
+            sprintf(buffp, (hex_mode ? " #7,$%02X" : " #7,%3d"), ival);
+            break;
+
         case ASM_ADDR_MODE_ZERO_PAGE_X:
             if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
                 sprintf(buffp, (hex_mode ? " $%02X,X" : " %3d,X"), ival);
@@ -205,6 +238,15 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             }
             break;
 
+        case ASM_ADDR_MODE_ABS_INDIRECT_X:
+            ival |= (WORD)((p2 & 0xff) << 8);
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
+                sprintf(buffp, (hex_mode ? " ($%04X,X)" : " (%5d,X)"), ival);
+            } else {
+                sprintf(buffp, " (%s,X)", addr_name);
+            }
+            break;
+
         case ASM_ADDR_MODE_INDIRECT_X:
             if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
                 sprintf(buffp, (hex_mode ? " ($%02X,X)" : " (%3d,X)"), ival);
@@ -221,6 +263,14 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
             }
             break;
 
+          case ASM_ADDR_MODE_INDIRECT:
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival))) {
+                sprintf(buffp, (hex_mode ? " ($%02X)" : " (%3d)"), ival);
+            } else {
+                sprintf(buffp, " (%s)", addr_name);
+            }
+            break;
+
         case ASM_ADDR_MODE_RELATIVE:
             if (0x80 & ival) {
                 ival -= 256;
@@ -231,6 +281,118 @@ static const char *mon_disassemble_to_string_internal(MEMSPACE memspace,
                 sprintf(buffp, (hex_mode ? " $%04X" : " %5d"), ival);
             } else {
                 sprintf(buffp, " %s", addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT0_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #0,$%02X,$%04X" : " #0,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #0,$%02X,%s" : " #0,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT1_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #1,$%02X,$%04X" : " #1,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #1,$%02X,%s" : " #1,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT2_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #2,$%02X,$%04X" : " #2,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #2,$%02X,%s" : " #2,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT3_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #3,$%02X,$%04X" : " #3,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #3,$%02X,%s" : " #3,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT4_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #4,$%02X,$%04X" : " #4,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #4,$%02X,%s" : " #4,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT5_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #5,$%02X,$%04X" : " #5,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #5,$%02X,%s" : " #5,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT6_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #6,$%02X,$%04X" : " #6,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #6,$%02X,%s" : " #6,%3d,%s"), ival, addr_name);
+            }
+            break;
+
+        case ASM_ADDR_MODE_ZERO_PAGE_BIT7_RELATIVE:
+            ival2 = (p2 & 0xff);
+            if (0x80 & ival2) {
+                ival2 -= 256;
+            }
+            ival2 += addr;
+            ival2 += 3;
+            if (!(addr_name = mon_symbol_table_lookup_name(e_comp_space, ival2))) {
+                sprintf(buffp, (hex_mode ? " #7,$%02X,$%04X" : " #7,%3d,%5d"), ival, ival2);
+            } else {
+                sprintf(buffp, (hex_mode ? " #7,$%02X,%s" : " #7,%3d,%s"), ival, addr_name);
             }
             break;
 

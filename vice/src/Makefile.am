@@ -188,6 +188,7 @@ noinst_HEADERS = \
 	plus4ui.h \
 	printer.h \
 	ps2mouse.h \
+	r65c02.h \
 	ram.h \
 	rawfile.h \
 	rawnet.h \
@@ -302,7 +303,8 @@ midi_sources = \
 	midi.c
 
 cpucore_sources = \
-	6510core.c
+	6510core.c \
+	65c02core.c
 
 cpudtvcore_sources = \
 	6510dtvcore.c
@@ -312,6 +314,7 @@ maincpu_sources = \
 
 EXTRA_DIST = \
 	6510core.c \
+	65C02core.c \
 	6510dtvcore.c \
 	ChangeLog \
 	ChangeLog.1 \
