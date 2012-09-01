@@ -168,6 +168,10 @@ SOURCE=..\..\drive\drivecpu.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\drive\drivecpu65c02.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\drive\driveimage.c
 # End Source File
 # Begin Source File
