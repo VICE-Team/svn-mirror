@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-171
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__X64DTV__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-all.res
+189
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__X64DTV__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\..;..\..\..\platform -q -ad -r -fo=dlg-all.res
 wrc -q -ad dlg-all.res x64dtv.exe
 
 6
@@ -61,7 +61,7 @@ WVList
 0
 14
 WPickList
-50
+51
 15
 MItem
 3
@@ -86,8 +86,8 @@ o?2??Include directories:
 1
 21
 WString
-141
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\dialogs;..\..\..\c64dtv;..\..\..\lib\p64;..\..\..\video;..\..\..\userport
+159
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\dialogs;..\..\..\c64dtv;..\..\..\lib\p64;..\..\..\video;..\..\..\userport;..\..\..\platform
 0
 22
 MVState
@@ -726,8 +726,8 @@ WVList
 0
 164
 MItem
-14
-printerdrv.lib
+12
+platform.lib
 165
 WString
 3
@@ -744,8 +744,8 @@ WVList
 0
 168
 MItem
-10
-raster.lib
+14
+printerdrv.lib
 169
 WString
 3
@@ -762,8 +762,8 @@ WVList
 0
 172
 MItem
-18
-resid-specific.lib
+10
+raster.lib
 173
 WString
 3
@@ -780,8 +780,8 @@ WVList
 0
 176
 MItem
-9
-resid.lib
+18
+resid-specific.lib
 177
 WString
 3
@@ -798,8 +798,8 @@ WVList
 0
 180
 MItem
-12
-rs232drv.lib
+9
+resid.lib
 181
 WString
 3
@@ -816,8 +816,8 @@ WVList
 0
 184
 MItem
-10
-serial.lib
+12
+rs232drv.lib
 185
 WString
 3
@@ -834,8 +834,8 @@ WVList
 0
 188
 MItem
-12
-sounddrv.lib
+10
+serial.lib
 189
 WString
 3
@@ -870,8 +870,8 @@ WVList
 0
 196
 MItem
-8
-tape.lib
+12
+sounddrv.lib
 197
 WString
 3
@@ -888,8 +888,8 @@ WVList
 0
 200
 MItem
-12
-userport.lib
+8
+tape.lib
 201
 WString
 3
@@ -906,8 +906,8 @@ WVList
 0
 204
 MItem
-10
-vdrive.lib
+12
+userport.lib
 205
 WString
 3
@@ -924,8 +924,8 @@ WVList
 0
 208
 MItem
-15
-viciicommon.lib
+10
+vdrive.lib
 209
 WString
 3
@@ -942,8 +942,8 @@ WVList
 0
 212
 MItem
-12
-viciidtv.lib
+15
+viciicommon.lib
 213
 WString
 3
@@ -960,8 +960,8 @@ WVList
 0
 216
 MItem
-9
-video.lib
+12
+viciidtv.lib
 217
 WString
 3
@@ -978,8 +978,8 @@ WVList
 0
 220
 MItem
-19
-x64dtv-specific.lib
+9
+video.lib
 221
 WString
 3
@@ -996,8 +996,8 @@ WVList
 0
 224
 MItem
-20
-x64x128-specific.lib
+19
+x64dtv-specific.lib
 225
 WString
 3
@@ -1014,8 +1014,8 @@ WVList
 0
 228
 MItem
-17
-xall-specific.lib
+20
+x64x128-specific.lib
 229
 WString
 3
@@ -1024,6 +1024,24 @@ NIL
 WVList
 0
 231
+WVList
+0
+52
+1
+1
+0
+232
+MItem
+17
+xall-specific.lib
+233
+WString
+3
+NIL
+234
+WVList
+0
+235
 WVList
 0
 52

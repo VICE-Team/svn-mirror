@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-171
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__VSID__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-vsid.res
+189
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__VSID__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\..;..\..\..\platform -q -ad -r -fo=dlg-vsid.res
 wrc -q -ad dlg-vsid.res x64dtv.exe
 
 6
@@ -61,7 +61,7 @@ WVList
 0
 14
 WPickList
-32
+33
 15
 MItem
 3
@@ -86,8 +86,8 @@ o?2??Include directories:
 1
 21
 WString
-154
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\dialogs;..\..\..\c64dtv;..\..\..\lib\p64;..\..\..\video;..\..\..\userport;..\..\..\c64
+172
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..;..\dialogs;..\..\..\c64dtv;..\..\..\lib\p64;..\..\..\video;..\..\..\userport;..\..\..\c64;..\..\..\platform
 0
 22
 MVState
@@ -504,8 +504,8 @@ WVList
 0
 115
 MItem
-10
-raster.lib
+12
+platform.lib
 116
 WString
 3
@@ -522,8 +522,8 @@ WVList
 0
 119
 MItem
-18
-resid-specific.lib
+10
+raster.lib
 120
 WString
 3
@@ -540,8 +540,8 @@ WVList
 0
 123
 MItem
-9
-resid.lib
+18
+resid-specific.lib
 124
 WString
 3
@@ -558,8 +558,8 @@ WVList
 0
 127
 MItem
-10
-serial.lib
+9
+resid.lib
 128
 WString
 3
@@ -576,8 +576,8 @@ WVList
 0
 131
 MItem
-12
-sounddrv.lib
+10
+serial.lib
 132
 WString
 3
@@ -594,8 +594,8 @@ WVList
 0
 135
 MItem
-9
-vicii.lib
+12
+sounddrv.lib
 136
 WString
 3
@@ -612,8 +612,8 @@ WVList
 0
 139
 MItem
-15
-viciicommon.lib
+9
+vicii.lib
 140
 WString
 3
@@ -630,8 +630,8 @@ WVList
 0
 143
 MItem
-9
-video.lib
+15
+viciicommon.lib
 144
 WString
 3
@@ -648,8 +648,8 @@ WVList
 0
 147
 MItem
-11
-vsidlib.lib
+9
+video.lib
 148
 WString
 3
@@ -666,8 +666,8 @@ WVList
 0
 151
 MItem
-16
-x64-specific.lib
+11
+vsidlib.lib
 152
 WString
 3
@@ -684,8 +684,8 @@ WVList
 0
 155
 MItem
-20
-x64x128-specific.lib
+16
+x64-specific.lib
 156
 WString
 3
@@ -702,8 +702,8 @@ WVList
 0
 159
 MItem
-17
-xall-specific.lib
+20
+x64x128-specific.lib
 160
 WString
 3
@@ -712,6 +712,24 @@ NIL
 WVList
 0
 162
+WVList
+0
+55
+1
+1
+0
+163
+MItem
+17
+xall-specific.lib
+164
+WString
+3
+NIL
+165
+WVList
+0
+166
 WVList
 0
 55

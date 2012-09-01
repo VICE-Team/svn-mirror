@@ -21,8 +21,8 @@ MCommand
 0
 5
 MCommand
-169
-wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XPET__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\.. -q -ad -r -fo=dlg-xpet.res
+187
+wrc ..\dialogs\dlg-all.rc -bt=os2 -d__XPET__ -dIDE_COMPILE -i=$(%watcom)\h;$(%watcom)\h\os2;..\..;..\..\..;..\..\..\platform -q -ad -r -fo=dlg-xpet.res
 wrc -q -ad dlg-xpet.res xpet.exe
 
 6
@@ -61,7 +61,7 @@ WVList
 0
 14
 WPickList
-40
+41
 15
 MItem
 3
@@ -86,8 +86,8 @@ o?2??Include directories:
 1
 21
 WString
-138
-.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..\..\lib\p64;..\..;..\dialogs;..\..\..\pet;..\..\..\video;..\..\..\userport
+156
+.;..;..\..\..;$(%watcom)\h;$(%watcom)\h\os2;..\..\..\drive;..\..\..\lib\p64;..\..;..\dialogs;..\..\..\pet;..\..\..\video;..\..\..\userport;..\..\..\platform
 0
 22
 MVState
@@ -654,8 +654,8 @@ WVList
 0
 148
 MItem
-14
-printerdrv.lib
+12
+platform.lib
 149
 WString
 3
@@ -672,8 +672,8 @@ WVList
 0
 152
 MItem
-10
-raster.lib
+14
+printerdrv.lib
 153
 WString
 3
@@ -690,8 +690,8 @@ WVList
 0
 156
 MItem
-12
-rs232drv.lib
+10
+raster.lib
 157
 WString
 3
@@ -708,8 +708,8 @@ WVList
 0
 160
 MItem
-10
-serial.lib
+12
+rs232drv.lib
 161
 WString
 3
@@ -726,8 +726,8 @@ WVList
 0
 164
 MItem
-12
-sounddrv.lib
+10
+serial.lib
 165
 WString
 3
@@ -744,8 +744,8 @@ WVList
 0
 168
 MItem
-8
-tape.lib
+12
+sounddrv.lib
 169
 WString
 3
@@ -762,8 +762,8 @@ WVList
 0
 172
 MItem
-12
-userport.lib
+8
+tape.lib
 173
 WString
 3
@@ -780,8 +780,8 @@ WVList
 0
 176
 MItem
-10
-vdrive.lib
+12
+userport.lib
 177
 WString
 3
@@ -798,8 +798,8 @@ WVList
 0
 180
 MItem
-9
-video.lib
+10
+vdrive.lib
 181
 WString
 3
@@ -816,8 +816,8 @@ WVList
 0
 184
 MItem
-17
-xall-specific.lib
+9
+video.lib
 185
 WString
 3
@@ -835,7 +835,7 @@ WVList
 188
 MItem
 17
-xpet-specific.lib
+xall-specific.lib
 189
 WString
 3
@@ -844,6 +844,24 @@ NIL
 WVList
 0
 191
+WVList
+0
+52
+1
+1
+0
+192
+MItem
+17
+xpet-specific.lib
+193
+WString
+3
+NIL
+194
+WVList
+0
+195
 WVList
 0
 52
