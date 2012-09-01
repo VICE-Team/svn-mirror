@@ -24,7 +24,8 @@
  *
  */
 
-/* This file is currently not included by any CPU definition files */
+/* This file is included by CPU definition files */
+/* (drivecpu65c02.c) */
 
 /* any CPU definition file that includes this file needs to do the following:
  *
