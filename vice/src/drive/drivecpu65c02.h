@@ -1,9 +1,8 @@
 /*
- * drivecpu.h - 6502 processor emulation of CBM disk drives.
+ * drivecpu65c02.h - R65C02 processor emulation of the CMD fd2000/4000 disk drives.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
+ *  Kajtar Zsolt <soci@c64.rulez.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -58,4 +57,3 @@ extern struct monitor_interface_s *drivecpu65c02_monitor_interface_get(
     unsigned int dnr);
 
 #endif
-

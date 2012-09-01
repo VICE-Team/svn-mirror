@@ -1,12 +1,8 @@
 /*
- * drivecpu.c - 6502 processor emulation of CBM disk drives.
+ * drivecpu65c02.c - R65C02 processor emulation of CMD fd2000/4000 disk drives.
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
- *
- * Patches by
- *  Andre Fachat <a.fachat@physik.tu-chemnitz.de>
+ *  Kajtar Zsolt <soci@c64.rulez.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -639,4 +635,3 @@ fail:
         snapshot_module_close(m);
     return -1;
 }
-
