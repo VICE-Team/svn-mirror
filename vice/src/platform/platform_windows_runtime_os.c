@@ -55,7 +55,13 @@
    - Windows XP Professional (x86/x64)
    - Windows XP Tablet PC Edition
    - Windows XP Media Center Edition
+   - Windows 2003 Server PE
+   - Windows 2003 Web Server (x86)
+   - Windows 2003 Standard Server (x86)
    - Windows 7 Ultimate (x86)
+   - HXDOS
+   - ReactOS
+   - Wine
 */
 
 #include "vice.h"
@@ -275,6 +281,8 @@ static winver_t windows_versions[] = {
       4, 0, 1, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows NT 4.0 Workstation", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_WORKSTATION, 0, -1, -1 },
+    { "Windows NT 4.0", VER_PLATFORM_WIN32_NT,
+      4, 0, 1, -1, 0, -1, -1 },
     { "Windows NT 4.0 Server Embedded", VER_PLATFORM_WIN32_NT,
       4, 0, 1, VER_NT_SERVER, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows NT 4.0 Terminal Server", VER_PLATFORM_WIN32_NT,
@@ -289,6 +297,8 @@ static winver_t windows_versions[] = {
       4, 0, 1, VER_NT_SERVER, 0, -1, -1 },
     { "Windows 2000 Professional", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_WORKSTATION, 0, -1, -1 },
+    { "Windows 2000", VER_PLATFORM_WIN32_NT,
+      5, 0, 6, -1, 0, -1, -1 },
     { "Windows 2000 Datacenter Server / Windows 2000 Datacenter Server Limited Edition", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
     { "Windows 2000 Advanced Server / Windows 2000 Advanced Server Limited Edition", VER_PLATFORM_WIN32_NT,
@@ -309,38 +319,42 @@ static winver_t windows_versions[] = {
       5, 1, 8, VER_NT_WORKSTATION, VER_SUITE_EMBEDDEDNT, -1, -1 },
     { "Windows XP Professional", VER_PLATFORM_WIN32_NT,
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, -1 },
+    { "Windows XP", VER_PLATFORM_WIN32_NT,
+      5, 1, 8, -1, 0, -1, -1 },
     { "Windows 2003 R2 Web Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_BLADE, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_BLADE, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Web Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
     { "Windows 2003 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2003 R2 Datacenter Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Datacenter Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
     { "Windows 2003 R2 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, -1 },
     { "Windows 2003 R2 Small Business Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Small Business Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_SMALLBUSINESS, -1, -1 },
     { "Windows 2003 R2 Storage Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Storage Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, -1 },
     { "Windows Home Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1, -1 },
     { "Windows XP64", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2003 R2 Standard Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, 0, -1, VICE_SM_SERVERR2 },
+      5, 2, 9, VER_NT_SERVER, 0, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Standard Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 8, VER_NT_SERVER, 0, -1, -1 },
+      5, 2, 9, VER_NT_SERVER, 0, -1, -1 },
+    { "Windows 2003 Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 9, -1, 0, -1, -1 },
     { "Windows Vista Starter", VER_PLATFORM_WIN32_NT,
       6, 0, 10, VER_NT_WORKSTATION, VER_SUITE_PERSONAL, PRODUCT_STARTER, -1 },
     { "Windows Vista Home Basic", VER_PLATFORM_WIN32_NT,
@@ -494,16 +508,12 @@ static int IsWow64(void)
 
 static int IsReactOS(void)
 {
-    char *s = os_version_info.szCSDVersion;
-    int i = 0;
+    HKEY hKey;
+    LONG ret;
 
-    if (s[0] == 0) {
-        return 0;
-    }
-
-    while (s[i++] != 0);
-
-    if (!strncmp(s, "ReactOS", 7)) {
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SOFTWARE\\ReactOS", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret == ERROR_SUCCESS) {
+        RegCloseKey(hKey);
         return 1;
     }
     return 0;
@@ -787,10 +797,20 @@ char *platform_get_windows_runtime_os(void)
         }
     }
 
+    if (is_pe_builder() && windows_versions[0].majorver == 5 && windows_versions[0].minorver == 2) {
+        windows_versions[0].producttype = VER_NT_SERVER;
+    }
+
     for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
         if (windows_versions[0].platformid == windows_versions[i].platformid) {
             if (windows_versions[0].majorver == windows_versions[i].majorver) {
                 if (windows_versions[0].minorver == windows_versions[i].minorver) {
+                    if (windows_versions[0].realos > windows_versions[i].realos) {
+                        windows_versions[0].producttype = -1;
+                        windows_versions[0].suite = 0;
+                        windows_versions[0].pt6 = 0;
+                        windows_versions[0].metrics = 0;
+                    }
                     if (windows_versions[0].producttype == windows_versions[i].producttype) {
                         if (optional_mask_compare(windows_versions[0].suite, windows_versions[i].suite)) {
                             if (optional_compare(windows_versions[0].pt6, windows_versions[i].pt6)) {
