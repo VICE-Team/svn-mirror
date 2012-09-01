@@ -46,9 +46,11 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
 {
     mos6510_regs_t *reg_ptr;
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
+        }
+    }
 
     reg_ptr = mon_interfaces[mem]->cpu_regs;
 
@@ -78,9 +80,11 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
     mos6510_regs_t *reg_ptr;
 
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
+    }
 
     reg_ptr = mon_interfaces[mem]->cpu_regs;
 
@@ -96,8 +100,9 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
         break;
       case e_PC:
         MOS6510_REGS_SET_PC(reg_ptr, val);
-        if (monitor_diskspace_dnr(mem) >= 0)
+        if (monitor_diskspace_dnr(mem) >= 0) {
             mon_interfaces[mem]->set_bank_base(mon_interfaces[mem]->context);
+        }
         break;
       case e_SP:
         MOS6510_REGS_SET_SP(reg_ptr, (BYTE)val);
@@ -117,8 +122,9 @@ static void mon_register_print(int mem)
     mos6510_regs_t *regs;
 
     if (monitor_diskspace_dnr(mem) >= 0) {
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
     } else if (mem != e_comp_space) {
         log_error(LOG_ERR, "Unknown memory space!");
         return;
@@ -128,10 +134,11 @@ static void mon_register_print(int mem)
 
     mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC ");
 
-    if (mon_interfaces[mem]->get_line_cycle != NULL)
+    if (mon_interfaces[mem]->get_line_cycle != NULL) {
         mon_out("LIN CYC  STOPWATCH\n");
-    else
+    } else {
         mon_out(" STOPWATCH\n");
+    }
 
     mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
               addr_location(mon_register_get_val(mem, e_PC)),
@@ -156,10 +163,11 @@ static void mon_register_print(int mem)
 
         mon_interfaces[mem]->get_line_cycle(&line, &cycle, &half_cycle);
 
-        if (half_cycle==-1)
-          mon_out(" %03i %03i", line, cycle);
-        else
-          mon_out(" %03i %03i %i", line, cycle, half_cycle);
+        if (half_cycle == -1) {
+            mon_out(" %03i %03i", line, cycle);
+        } else {
+            mon_out(" %03i %03i %i", line, cycle, half_cycle);
+        }
     }
     mon_stopwatch_show(" ", "\n");
 }
@@ -274,22 +282,30 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
 static void mon_register_list_set6502(mon_reg_list_t *reg_list, int mem)
 {
     do {
-        if (!strcmp(reg_list->name, "PC"))
+        if (!strcmp(reg_list->name, "PC")) {
             mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "AC"))
+        }
+        if (!strcmp(reg_list->name, "AC")) {
             mon_register_set_val(mem, e_A, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "XR"))
+        }
+        if (!strcmp(reg_list->name, "XR")) {
             mon_register_set_val(mem, e_X, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "YR"))
+        }
+        if (!strcmp(reg_list->name, "YR")) {
             mon_register_set_val(mem, e_Y, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "SP"))
+        }
+        if (!strcmp(reg_list->name, "SP")) {
             mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "00"))
+        }
+        if (!strcmp(reg_list->name, "00")) {
             mon_set_mem_val(mem, 0, (BYTE)(reg_list->val));
-        if (!strcmp(reg_list->name, "01"))
+        }
+        if (!strcmp(reg_list->name, "01")) {
             mon_set_mem_val(mem, 1, (BYTE)(reg_list->val));
-        if (!strcmp(reg_list->name, "NV-BDIZC"))
+        }
+        if (!strcmp(reg_list->name, "NV-BDIZC")) {
             mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
+        }
 
         reg_list = reg_list->next;
     } while (reg_list != NULL);
