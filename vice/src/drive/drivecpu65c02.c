@@ -285,7 +285,7 @@ void drivecpu65c02_wake_up(drive_context_t *drv)
     }
 }
 
-inline void drivecpu65c02_sleep(drive_context_t *drv)
+void drivecpu65c02_sleep(drive_context_t *drv)
 {
     /* Currently does nothing.  But we might need this hook some day.  */
 }
