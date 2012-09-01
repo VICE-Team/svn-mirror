@@ -76,7 +76,12 @@ static const int addr_mode_size[] = {
     -1,/* ASM_ADDR_MODE_REG_IND_HL, */
     -1,/* ASM_ADDR_MODE_REG_IND_IX, */
     -1,/* ASM_ADDR_MODE_REG_IND_IY, */
-    -1,/* ASM_ADDR_MODE_REG_IND_SP */
+    -1,/* ASM_ADDR_MODE_REG_IND_SP, */
+       /* R65C02 */
+    -1,/* ASM_ADDR_MODE_INDIRECT, */
+    -1,/* ASM_ADDR_MODE_ABS_INDIRECT_X, */
+    -1,/* ASM_ADDR_MODE_DOUBLE, */
+    -1,/* ASM_ADDR_MODE_ZERO_PAGE_RELATIVE, */
        /* more modes needed for 6809 */
     1, /* ASM_ADDR_MODE_ILLEGAL, */
     2, /* ASM_ADDR_MODE_IMM_BYTE, */

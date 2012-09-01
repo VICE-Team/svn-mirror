@@ -791,17 +791,12 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
                             $$.param = $1;
                           }
                         }
-  | ARG_IMMEDIATE number COMMA number COMMA number { if ($2 < 8) {
-                                                         $$.addr_mode = ASM_ADDR_MODE_ZERO_PAGE_BIT0_RELATIVE + $2;
-                                                         $$.param = $6;
-                                                         $$.addr_submode = $4;
-                                                     }
-                                                   }
-  | ARG_IMMEDIATE number COMMA number { if ($2 < 8) {
-                                                         $$.addr_mode = ASM_ADDR_MODE_ZERO_PAGE_BIT0 + $2;
-                                                         $$.param = $4;
-                                        }
-                                      }
+  | number COMMA number { if ($1 < 0x100) {
+                            $$.addr_mode = ASM_ADDR_MODE_DOUBLE;
+                            $$.param = $3;
+                            $$.addr_submode = $1;
+                          }
+                        }
   | L_PAREN number R_PAREN { if ($2 < 0x100) {
                                $$.addr_mode = ASM_ADDR_MODE_INDIRECT;
                                $$.param = $2;

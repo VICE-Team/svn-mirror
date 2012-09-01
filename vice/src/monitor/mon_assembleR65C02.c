@@ -60,10 +60,9 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
         opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
         if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
 
-            /* Special case: ZERO PAGE BITx RELATIVE mode needs special handling. */
-            if (opinfo->addr_mode == operand_mode
-                && operand_mode >= ASM_ADDR_MODE_ZERO_PAGE_BIT0_RELATIVE
-                && operand_mode <= ASM_ADDR_MODE_ZERO_PAGE_BIT7_RELATIVE) {
+            /* Special case: ZERO PAGE RELATIVE mode needs special handling. */
+            if (opinfo->addr_mode == ASM_ADDR_MODE_ZERO_PAGE_RELATIVE
+                && operand_mode == ASM_ADDR_MODE_DOUBLE) {
                 branch_offset = operand_value - loc - 3;
                 if (branch_offset > 127 || branch_offset < -128) {
                     mon_out("Branch offset too large.\n");
@@ -71,6 +70,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
                 }
                 operand_value = (operand_extra_value & 0xff) | ((branch_offset & 0xff) << 8);
                 opcode = i;
+                operand_mode = ASM_ADDR_MODE_ZERO_PAGE_RELATIVE;
                 found = TRUE;
                 break;
             }
