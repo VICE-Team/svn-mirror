@@ -274,7 +274,7 @@ void drivecpu65c02_init(drive_context_t *drv, int type)
     drivecpu65c02_reset(drv);
 }
 
-inline void drivecpu65c02_wake_up(drive_context_t *drv)
+void drivecpu65c02_wake_up(drive_context_t *drv)
 {
     /* FIXME: this value could break some programs, or be way too high for
        others.  Maybe we should put it into a user-definable resource.  */
