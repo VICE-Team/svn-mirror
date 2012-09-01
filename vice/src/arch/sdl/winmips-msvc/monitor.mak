@@ -51,9 +51,11 @@ CLEAN :
 	-@erase "$(INTDIR)\asm6502.obj"
 	-@erase "$(INTDIR)\asm6502dtv.obj"
 	-@erase "$(INTDIR)\asm6809.obj"
+	-@erase "$(INTDIR)\asmR65C02.obj"
 	-@erase "$(INTDIR)\asmz80.obj"
 	-@erase "$(INTDIR)\mon_assemble6502.obj"
 	-@erase "$(INTDIR)\mon_assemble6809.obj"
+	-@erase "$(INTDIR)\mon_assembleR65C02.obj"
 	-@erase "$(INTDIR)\mon_assemblez80.obj"
 	-@erase "$(INTDIR)\mon_breakpoint.obj"
 	-@erase "$(INTDIR)\mon_command.obj"
@@ -66,6 +68,7 @@ CLEAN :
 	-@erase "$(INTDIR)\mon_register6502.obj"
 	-@erase "$(INTDIR)\mon_register6502dtv.obj"
 	-@erase "$(INTDIR)\mon_register6809.obj"
+	-@erase "$(INTDIR)\mon_registerR65C02.obj"
 	-@erase "$(INTDIR)\mon_registerz80.obj"
 	-@erase "$(INTDIR)\mon_ui.obj"
 	-@erase "$(INTDIR)\mon_util.obj"
@@ -121,9 +124,11 @@ LIB32_OBJS= \
 	"$(INTDIR)\asm6502.obj" \
 	"$(INTDIR)\asm6502dtv.obj" \
 	"$(INTDIR)\asm6809.obj" \
+	"$(INTDIR)\asmR65C02.obj" \
 	"$(INTDIR)\asmz80.obj" \
 	"$(INTDIR)\mon_assemble6502.obj" \
 	"$(INTDIR)\mon_assemble6809.obj" \
+	"$(INTDIR)\mon_assembleR65C02.obj" \
 	"$(INTDIR)\mon_assemblez80.obj" \
 	"$(INTDIR)\mon_breakpoint.obj" \
 	"$(INTDIR)\mon_command.obj" \
@@ -136,6 +141,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\mon_register6502.obj" \
 	"$(INTDIR)\mon_register6502dtv.obj" \
 	"$(INTDIR)\mon_register6809.obj" \
+	"$(INTDIR)\mon_registerR65C02.obj" \
 	"$(INTDIR)\mon_registerz80.obj" \
 	"$(INTDIR)\mon_ui.obj" \
 	"$(INTDIR)\mon_util.obj" \
@@ -174,9 +180,11 @@ CLEAN :
 	-@erase "$(INTDIR)\asm6502.obj"
 	-@erase "$(INTDIR)\asm6502dtv.obj"
 	-@erase "$(INTDIR)\asm6809.obj"
+	-@erase "$(INTDIR)\asmR65C02.obj"
 	-@erase "$(INTDIR)\asmz80.obj"
 	-@erase "$(INTDIR)\mon_assemble6502.obj"
 	-@erase "$(INTDIR)\mon_assemble6809.obj"
+	-@erase "$(INTDIR)\mon_assembleR65C02.obj"
 	-@erase "$(INTDIR)\mon_assemblez80.obj"
 	-@erase "$(INTDIR)\mon_breakpoint.obj"
 	-@erase "$(INTDIR)\mon_command.obj"
@@ -189,6 +197,7 @@ CLEAN :
 	-@erase "$(INTDIR)\mon_register6502.obj"
 	-@erase "$(INTDIR)\mon_register6502dtv.obj"
 	-@erase "$(INTDIR)\mon_register6809.obj"
+	-@erase "$(INTDIR)\mon_registerR65C02.obj"
 	-@erase "$(INTDIR)\mon_registerz80.obj"
 	-@erase "$(INTDIR)\mon_ui.obj"
 	-@erase "$(INTDIR)\mon_util.obj"
@@ -244,9 +253,11 @@ LIB32_OBJS= \
 	"$(INTDIR)\asm6502.obj" \
 	"$(INTDIR)\asm6502dtv.obj" \
 	"$(INTDIR)\asm6809.obj" \
+	"$(INTDIR)\asmR65C02.obj" \
 	"$(INTDIR)\asmz80.obj" \
 	"$(INTDIR)\mon_assemble6502.obj" \
 	"$(INTDIR)\mon_assemble6809.obj" \
+	"$(INTDIR)\mon_assembleR65C02.obj" \
 	"$(INTDIR)\mon_assemblez80.obj" \
 	"$(INTDIR)\mon_breakpoint.obj" \
 	"$(INTDIR)\mon_command.obj" \
@@ -259,6 +270,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\mon_register6502.obj" \
 	"$(INTDIR)\mon_register6502dtv.obj" \
 	"$(INTDIR)\mon_register6809.obj" \
+	"$(INTDIR)\mon_registerR65C02.obj" \
 	"$(INTDIR)\mon_registerz80.obj" \
 	"$(INTDIR)\mon_ui.obj" \
 	"$(INTDIR)\mon_util.obj" \
@@ -320,6 +332,12 @@ SOURCE=..\..\..\monitor\asm6809.c
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
+SOURCE=..\..\..\monitor\asmR65C02.c
+
+"$(INTDIR)\asmR65C02.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
 SOURCE=..\..\..\monitor\asmz80.c
 
 "$(INTDIR)\asmz80.obj" : $(SOURCE) "$(INTDIR)"
@@ -335,6 +353,12 @@ SOURCE=..\..\..\monitor\mon_assemble6502.c
 SOURCE=..\..\..\monitor\mon_assemble6809.c
 
 "$(INTDIR)\mon_assemble6809.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\monitor\mon_assembleR65C02.c
+
+"$(INTDIR)\mon_assembleR65C02.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
@@ -425,6 +449,12 @@ SOURCE=..\..\..\monitor\mon_register6502dtv.c
 SOURCE=..\..\..\monitor\mon_register6809.c
 
 "$(INTDIR)\mon_register6809.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\monitor\mon_registerR65C02.c
+
+"$(INTDIR)\mon_registerR65C02.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

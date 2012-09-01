@@ -57,6 +57,7 @@ CLEAN :
 	-@erase "$(INTDIR)\drive-writeprotect.obj"
 	-@erase "$(INTDIR)\drive.obj"
 	-@erase "$(INTDIR)\drivecpu.obj"
+	-@erase "$(INTDIR)\drivecpu65c02.obj"
 	-@erase "$(INTDIR)\driveimage.obj"
 	-@erase "$(INTDIR)\drivemem.obj"
 	-@erase "$(INTDIR)\driverom.obj"
@@ -118,6 +119,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\drive-writeprotect.obj" \
 	"$(INTDIR)\drive.obj" \
 	"$(INTDIR)\drivecpu.obj" \
+	"$(INTDIR)\drivecpu65c02.obj" \
 	"$(INTDIR)\driveimage.obj" \
 	"$(INTDIR)\drivemem.obj" \
 	"$(INTDIR)\driverom.obj" \
@@ -162,6 +164,7 @@ CLEAN :
 	-@erase "$(INTDIR)\drive-writeprotect.obj"
 	-@erase "$(INTDIR)\drive.obj"
 	-@erase "$(INTDIR)\drivecpu.obj"
+	-@erase "$(INTDIR)\drivecpu65c02.obj"
 	-@erase "$(INTDIR)\driveimage.obj"
 	-@erase "$(INTDIR)\drivemem.obj"
 	-@erase "$(INTDIR)\driverom.obj"
@@ -223,6 +226,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\drive-writeprotect.obj" \
 	"$(INTDIR)\drive.obj" \
 	"$(INTDIR)\drivecpu.obj" \
+	"$(INTDIR)\drivecpu65c02.obj" \
 	"$(INTDIR)\driveimage.obj" \
 	"$(INTDIR)\drivemem.obj" \
 	"$(INTDIR)\driverom.obj" \
@@ -317,6 +321,12 @@ SOURCE=..\..\..\drive\drive.c
 SOURCE=..\..\..\drive\drivecpu.c
 
 "$(INTDIR)\drivecpu.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\drive\drivecpu65c02.c
+
+"$(INTDIR)\drivecpu65c02.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
