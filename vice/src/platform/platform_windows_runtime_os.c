@@ -60,6 +60,8 @@
    - Windows 2003 Standard Server (x86/x64)
    - Windows 2003 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86/x64)
+   - Windows 2003 Small Business Server (x86)
+   - Windows 2003 Compute Cluster Server (x64)
    - Windows 7 Ultimate (x86)
    - HXDOS
    - ReactOS
@@ -699,6 +701,19 @@ static int is_flp(void)
     return 0;
 }
 
+static int is_cluster(void)
+{
+    HKEY hKey;
+    LONG ret;
+
+    ret = RegOpenKeyEx(HKEY_LOCAL_MACHINE, "SYSTEM\\CurrentControlSet\\Services\\Compute Cluster", 0, KEY_QUERY_VALUE, &hKey);
+    if (ret == ERROR_SUCCESS) {
+        RegCloseKey(hKey);
+        return 1;
+    }
+    return 0;
+}
+
 char *platform_get_windows_runtime_os(void)
 {
     int found = 0;
@@ -801,6 +816,10 @@ char *platform_get_windows_runtime_os(void)
 
     if (is_pe_builder() && windows_versions[0].majorver == 5 && windows_versions[0].minorver == 2) {
         windows_versions[0].producttype = VER_NT_SERVER;
+    }
+
+    if (is_cluster()) {
+        windows_versions[0].suite |= VER_SUITE_COMPUTE_SERVER;
     }
 
     for (i = 1; found == 0 && windows_versions[i].name != NULL; i++) {
