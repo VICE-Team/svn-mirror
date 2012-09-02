@@ -167,6 +167,7 @@ EXTRA_DIST = \
 	watcom/petcat-signals.c \
 	watcom/petcat-specific.tgt \
 	watcom/petcat.tgt \
+	watcom/platform.tgt \
 	watcom/plus4.tgt \
 	watcom/printerdrv.tgt \
 	watcom/raster.tgt \

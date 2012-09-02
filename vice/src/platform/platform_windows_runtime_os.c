@@ -57,7 +57,9 @@
    - Windows XP Media Center Edition
    - Windows 2003 Server PE
    - Windows 2003 Web Server (x86)
-   - Windows 2003 Standard Server (x86)
+   - Windows 2003 Standard Server (x86/x64)
+   - Windows 2003 Enterprise Server (x86/x64)
+   - Windows 2003 Datacenter Server (x86/x64)
    - Windows 7 Ultimate (x86)
    - HXDOS
    - ReactOS
@@ -325,14 +327,14 @@ static winver_t windows_versions[] = {
       5, 2, 9, VER_NT_SERVER, VER_SUITE_BLADE, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Web Server", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
-    { "Windows 2003 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 9, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, VICE_SM_SERVERR2 },
-    { "Windows 2003 Enterprise Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 9, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2003 R2 Datacenter Server", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Datacenter Server", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
+    { "Windows 2003 R2 Enterprise Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, VICE_SM_SERVERR2 },
+    { "Windows 2003 Enterprise Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_ENTERPRISE, -1, -1 },
     { "Windows 2003 R2 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_SERVER, VER_SUITE_COMPUTE_SERVER, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Compute Cluster Server", VER_PLATFORM_WIN32_NT,
