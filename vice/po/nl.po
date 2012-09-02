@@ -251,9 +251,8 @@ msgstr "Laad nieuw drive ROM"
 
 #: src/arch/unix/gui/c128ui.c:425 src/arch/unix/gui/c64scui.c:507
 #: src/arch/unix/gui/c64ui.c:567
-#, fuzzy
 msgid "Load new drive expansion ROM"
-msgstr "Laad nieuw drive ROM"
+msgstr "Laad nieuw drive uitbreidings ROM"
 
 #: src/arch/unix/gui/c128ui.c:428 src/arch/unix/gui/c64dtvui.c:113
 #: src/arch/unix/gui/c64scui.c:510 src/arch/unix/gui/c64ui.c:570
@@ -2161,19 +2160,16 @@ msgstr "Activeer Professional DOS"
 #: src/arch/unix/gui/uidrivec64c128.c:142
 #: src/arch/unix/gui/uidrivec64c128.c:157
 #: src/arch/unix/gui/uidrivec64c128.c:172 src/translate_text.c.po.c:8067
-#, fuzzy
 msgid "Enable SuperCard+"
-msgstr "Activeer jumper"
+msgstr "Activeer SuperCard+"
 
 #: src/arch/unix/gui/uidrivec64c128.c:178
-#, fuzzy
 msgid "Load new Professional DOS 1571 ROM"
-msgstr "Geef de naam van het Professional DOS 1571 ROM bestand"
+msgstr "Laad nieuw Professional DOS 1571 ROM"
 
 #: src/arch/unix/gui/uidrivec64c128.c:181
-#, fuzzy
 msgid "Load new SuperCard+ ROM"
-msgstr "Laad nieuw kernal ROM"
+msgstr "Laad nieuw SuperCard+ ROM"
 
 #: src/arch/unix/gui/uidriveiec.c:153 src/arch/unix/gui/uidriveiec.c:163
 #: src/arch/unix/gui/uidriveiec.c:173 src/arch/unix/gui/uidriveiec.c:183
@@ -10726,14 +10722,12 @@ msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Geef de naam van het Professional DOS 1571 ROM bestand"
 
 #: src/translate_text.c.po.c:8084
-#, fuzzy
 msgid "Disable SuperCard+"
-msgstr "SuperPET I/O uitschakelen"
+msgstr "SuperCard+ uitschakelen"
 
 #: src/translate_text.c.po.c:8101
-#, fuzzy
 msgid "Specify name of SuperCard+ ROM image"
-msgstr "Geef de naam van het Kernal ROM bestand"
+msgstr "Geef de naam van het SuperCard+ ROM bestand"
 
 #: src/translate_text.c.po.c:8118
 msgid "Set parallel cable type (0: none, 1: standard)"
