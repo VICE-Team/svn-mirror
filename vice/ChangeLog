@@ -1,5 +1,773 @@
 ------------------------------------------------------------------------------
 
+2012-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/vice.chm, doc/vice.hlp, doc/vice.pdf,
+	po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po,
+	po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/win32/vice-version.bat, src/monitor/mon_assemble6502.c,
+	src/monitor/mon_assembleR65C02.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/platform/platform_windows_runtime_os.c,
+	src/version.h: VICE 2.3.22
+
+2012-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Did a 'make trans-update'.
+
+2012-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-09-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am,
+	src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/drive.tgt, src/arch/os2/watcom/monitor.tgt,
+	src/arch/os2/watcom/petcat-specific.tgt,
+	src/arch/os2/watcom/petcat.tgt, src/arch/os2/watcom/platform.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/vsid.tgt,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x1541-specific.tgt,
+	src/arch/os2/watcom/x1541.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/x64sc.tgt,
+	src/arch/os2/watcom/xall-specific.tgt, src/arch/os2/watcom/xcbm2.tgt,
+	src/arch/os2/watcom/xcbm5x0.tgt, src/arch/os2/watcom/xpet.tgt,
+	src/arch/os2/watcom/xplus4.tgt, src/arch/os2/watcom/xvic.tgt: Fixed
+	the os/2 ow project files for the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/drive.vcproj,
+	src/arch/sdl/win64-msvc/monitor.vcproj: Fixed the win64 msvc project
+	files for the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/drive.vcproj, src/arch/win64/monitor.vcproj: Fixed
+	the sdl win64 msvc project files for the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/drive.mak,
+	src/arch/sdl/winmips-msvc/monitor.mak: Fixed the sdl winmips msvc
+	project files for the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/drive.tgt,
+	src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Fixed the sdl win32 ow project
+	files for the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/c1541.dsp,
+	src/arch/sdl/win32-msvc/drive.dsp,
+	src/arch/sdl/win32-msvc/monitor.dsp: Fixed the sdl win32 msvc project
+	files for the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drivecpu65c02.c: Don't inline when called from a different
+	file.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/drive.tgt, src/arch/win32/watcom/monitor.tgt,
+	src/arch/win32/watcom/vice.wpj: Fixed the win32 ow project files for
+	the 65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c1541.dsp, src/arch/win32/drive.dsp,
+	src/arch/win32/monitor.dsp: Fixed the win32 msvc project files for the
+	65c02 changes.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drivecpu65c02.c: Don't inline when called from a different
+	file.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65c02core.c, src/drive/drivecpu65c02.c,
+	src/drive/drivecpu65c02.h: Comment cleanup.
+
+2012-09-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-09-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65c02core.c: Fix comment
+
+2012-09-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/asm.h, src/monitor/asm6809.c, src/monitor/asmR65C02.c,
+	src/monitor/mon_assembleR65C02.c, src/monitor/mon_disassemble.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.y: Simplify R65C02 bit
+	instruction syntax (remove #), inspired by Z80: RMB <bit>,<address>
+	SMB <bit>,<address>  BBR <bit>,<zp>,<address>
+	BBS <bit>,<zp>,<address>   Parsing is still compatible with future MVN
+	and MVP move addressing mode by using a double argument address mode
+	and converting it to zero page relative later as necessary.
+
+2012-09-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/html/Makefile.am, doc/html/plain/65C02.txt, src/65c02core.c,
+	src/Makefile.am, src/c128/c128.c, src/c64/c64.c, src/c64dtv/c64dtv.c,
+	src/drive/Makefile.am, src/drive/drive-resources.c,
+	src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/drivecpu.c,
+	src/drive/drivecpu.h, src/drive/drivecpu65c02.c,
+	src/drive/drivecpu65c02.h, src/drive/drivetypes.h, src/mainc64cpu.c,
+	src/maincpu.c, src/mainviccpu.c, src/monitor/Makefile.am,
+	src/monitor/asm.h, src/monitor/asmR65C02.c,
+	src/monitor/mon_assemble.h, src/monitor/mon_assembleR65C02.c,
+	src/monitor/mon_disassemble.c, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y,
+	src/monitor/mon_register.h, src/monitor/mon_registerR65C02.c,
+	src/monitor/monitor.c, src/monitor.h, src/plus4/plus4.c, src/r65c02.h,
+	src/vic20/vic20.c: Take over Marco's R65C02 CPU core, and use it for
+	the 2000/4000 drives, as this is the CPU used in them.
+
+2012-09-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_register6502.c: Tidy up
+
+2012-08-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/core/ata.c, src/core/mc6821core.c, src/drive/iec/pc8477.c:
+	Remove CR
+
+2012-08-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32, src/platform/platform_windows_runtime_os.c: Platform
+	detection improvements.
+
+2012-08-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/ui.cc, src/arch/sdl/archdep_beos.c,
+	src/platform/Makefile.am, src/platform/platform_beos_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Moved common beos runtime
+	os code to the platform lib.
+
+2012-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/catweaselmkiii.c,
+	src/arch/amigaos/cw.h, src/arch/amigaos/cw_device.c,
+	src/arch/amigaos/cw_openpci.c, src/arch/amigaos/cw_os4.c,
+	src/catweaselmkiii.h: Added support for catweasel device for the amiga
+	platforms.
+
+2012-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/archdep.c: Style fix.
+
+2012-08-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj,
+	src/arch/win64/x64dtv.vcproj, src/arch/win64/x64sc.vcproj,
+	src/arch/win64/xcbm2.vcproj, src/arch/win64/xcbm5x0.vcproj,
+	src/arch/win64/xpet.vcproj, src/arch/win64/xplus4.vcproj,
+	* src/arch/win64/xvic.vcproj: Fixed for ia64.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/archdep.c: Include dos.h for _dos_flavor.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/msvc/ide-config.h: Fixed.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/c64c64dtv.vcproj: Fixed.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/sid.vcproj: Really fixed.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/sid.vcproj: Fixed.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/x128.vcproj, src/arch/win64/x64.vcproj,
+	src/arch/win64/x64dtv.vcproj, src/arch/win64/x64sc.vcproj,
+	src/arch/win64/xcbm2.vcproj, src/arch/win64/xcbm5x0.vcproj,
+	src/arch/win64/xpet.vcproj, src/arch/win64/xplus4.vcproj,
+	src/arch/win64/xvic.vcproj: Finished the ia64 fixes for the win64
+	project files.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/vicii.vcproj, src/arch/win64/viciidtv.vcproj,
+	src/arch/win64/viciinew.vcproj, src/arch/win64/video.vcproj,
+	src/arch/win64/vsid.vcproj, src/arch/win64/vsidlib.vcproj: More ia64
+	fixes for the win64 project files.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/tape.vcproj, src/arch/win64/tcbm.vcproj,
+	src/arch/win64/userport.vcproj, src/arch/win64/vdc.vcproj,
+	src/arch/win64/vdrive.vcproj, src/arch/win64/vic20.vcproj,
+	src/arch/win64/vic20cart.vcproj: More ia64 fixes for the win64 project
+	files.
+
+2012-08-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/printerdrv.vcproj, src/arch/win64/raster.vcproj,
+	src/arch/win64/resid.vcproj, src/arch/win64/residdtv.vcproj,
+	src/arch/win64/residfp.vcproj, src/arch/win64/rs232drv.vcproj,
+	src/arch/win64/rtc.vcproj, src/arch/win64/serial.vcproj,
+	src/arch/win64/sid.vcproj, src/arch/win64/sounddrv.vcproj: More ia64
+	fixes for the win64 project files.
+
+2012-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/parallel.vcproj, src/arch/win64/pet.vcproj,
+	src/arch/win64/petcat.vcproj, src/arch/win64/platform.vcproj,
+	src/arch/win64/plus4.vcproj, src/arch/win64/plus4exp.vcproj: More ia64
+	fixes for the win64 project files.
+
+2012-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/fileio.vcproj, src/arch/win64/fsdevice.vcproj,
+	src/arch/win64/gfxoutputdrv.vcproj, src/arch/win64/iec.vcproj,
+	src/arch/win64/iec128dcr.vcproj, src/arch/win64/iecbus.vcproj,
+	src/arch/win64/iecieee.vcproj, src/arch/win64/ieee.vcproj,
+	src/arch/win64/imagecontents.vcproj, src/arch/win64/monitor.vcproj,
+	src/arch/win64/p64.vcproj: More ia64 fixes for the win64 project
+	files.
+
+2012-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/cbm2.vcproj, src/arch/win64/cbm2common.vcproj,
+	src/arch/win64/cbm5x0.vcproj, src/arch/win64/core.vcproj,
+	src/arch/win64/crtc.vcproj, src/arch/win64/diskimage.vcproj,
+	src/arch/win64/drive.vcproj: More ia64 fixes for the win64 project
+	files.
+
+2012-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/arch.vcproj, src/arch/win64/base.vcproj,
+	src/arch/win64/c128.vcproj, src/arch/win64/c1541.vcproj,
+	src/arch/win64/c64.vcproj, src/arch/win64/c64c128.vcproj,
+	src/arch/win64/c64c64dtv.vcproj, src/arch/win64/c64cart.vcproj,
+	src/arch/win64/c64cartsystem.vcproj,
+	src/arch/win64/c64commoncart.vcproj, src/arch/win64/c64dtv.vcproj,
+	src/arch/win64/c64dtvstubs.vcproj, src/arch/win64/c64exp.vcproj,
+	src/arch/win64/c64sc.vcproj, src/arch/win64/cartconv.vcproj: Started
+	on adding a 'no directx' config for ia64 in the win64 msvc project
+	files.
+
+2012-08-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/win32/archdep.c: Get cpu
+	detection working for amd64/x86_64.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64: Added an svn ignore.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/arch.vcproj: Fixed.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/ide-config.h,
+	src/arch/win32/msvc/ide-config.h: Fixed for 64bit msvc compile.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/make-msvc-bindist.bat: Fixed better.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/make-msvc-bindist.bat: Fixed.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/c1541.tgt,
+	src/arch/sdl/win32-watcom/petcat.tgt,
+	src/arch/sdl/win32-watcom/platform.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xcbm2.tgt,
+	src/arch/sdl/win32-watcom/xcbm5x0.tgt,
+	src/arch/sdl/win32-watcom/xpet.tgt,
+	src/arch/sdl/win32-watcom/xplus4.tgt,
+	src/arch/sdl/win32-watcom/xvic.tgt: Fixed sdl win32 ow project files.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/platform.vcproj: Fixed sdl win64 msvc
+	project files.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	src/arch/sdl/win64-msvc/arch.vcproj,
+	src/arch/sdl/win64-msvc/platform.vcproj,
+	src/arch/sdl/win64-msvc/vice.sln, src/arch/sdl/win64-msvc/vsid.vcproj,
+	src/arch/sdl/win64-msvc/x128.vcproj,
+	src/arch/sdl/win64-msvc/x64.vcproj,
+	src/arch/sdl/win64-msvc/x64dtv.vcproj,
+	src/arch/sdl/win64-msvc/x64sc.vcproj,
+	src/arch/sdl/win64-msvc/xcbm2.vcproj,
+	src/arch/sdl/win64-msvc/xcbm5x0.vcproj,
+	src/arch/sdl/win64-msvc/xpet.vcproj,
+	src/arch/sdl/win64-msvc/xplus4.vcproj,
+	src/arch/sdl/win64-msvc/xvic.vcproj: Fixed sdl win64 msvc project
+	files.
+
+2012-08-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/Makefile.am,
+	src/arch/sdl/winmips-msvc/arch.mak,
+	src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/petcat.mak,
+	src/arch/sdl/winmips-msvc/platform.mak,
+	src/arch/sdl/winmips-msvc/vsid.mak,
+	src/arch/sdl/winmips-msvc/x128.mak, src/arch/sdl/winmips-msvc/x64.mak,
+	src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak,
+	src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xcbm5x0.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak,
+	src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak: Fixed winmips msvc project files.
+
+2012-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_discovery.h,
+	src/platform/platform_x86_runtime_cpu.c: Platform detection
+	improvements.
+
+2012-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/platform.vcproj: More win64 msvc project files fixes.
+
+2012-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/vsid.vcproj, src/arch/win64/x128.vcproj,
+	src/arch/win64/x64.vcproj, src/arch/win64/x64dtv.vcproj,
+	src/arch/win64/x64sc.vcproj, src/arch/win64/xcbm2.vcproj,
+	src/arch/win64/xcbm5x0.vcproj, src/arch/win64/xpet.vcproj,
+	src/arch/win64/xplus4.vcproj, src/arch/win64/xvic.vcproj: More win64
+	msvc project files fixes.
+
+2012-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	src/arch/sdl/win32-msvc/arch.dsp,
+	src/arch/sdl/win32-msvc/platform.dsp,
+	src/arch/sdl/win32-msvc/vice.dsw, src/arch/sdl/win32-msvc/vsid.dsp,
+	src/arch/sdl/win32-msvc/x128.dsp, src/arch/sdl/win32-msvc/x64.dsp,
+	src/arch/sdl/win32-msvc/x64dtv.dsp, src/arch/sdl/win32-msvc/x64sc.dsp,
+	src/arch/sdl/win32-msvc/xcbm2.dsp,
+	src/arch/sdl/win32-msvc/xcbm5x0.dsp, src/arch/sdl/win32-msvc/xpet.dsp,
+	src/arch/sdl/win32-msvc/xplus4.dsp, src/arch/sdl/win32-msvc/xvic.dsp:
+	Fixed the sdl win32 msvc project files.
+
+2012-08-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/sdl/make-bindist_beos.sh: Fix the BeOS SDL bindist script
+	so that it actually works (for the first time in 26 months!)
+
+2012-08-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/Makefile.am, src/arch/win64/platform.vcproj,
+	src/arch/win64/vice.sln: Some win64 msvc project files fixes.
+
+2012-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_amigaos3_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_aros_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_amigaos3_runtime_os.c,
+	src/platform/platform_aros_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in, src/arch/amigaos/make-bindist.sh,
+	src/arch/beos/make-bindist.sh, src/arch/msdos/make-bindist.sh,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh,
+	src/arch/sdl/make-bindist_gp2x.sh, src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/sdl/make-bindist_skyos.sh,
+	src/arch/sdl/make-bindist_syllable.sh,
+	src/arch/sdl/make-bindist_win32.sh,
+	src/arch/unix/gp2x/make-bindist.sh,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/macosx/make-bindist.sh,
+	src/arch/unix/next_open_rhap/make-bindist.sh,
+	src/arch/unix/qnx4/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/sco_sol/make-bindist.sh,
+	src/arch/unix/skyos/make-bindist.sh, src/arch/win32/make-bindist.sh:
+	Optimize code by default, but warn about it when generating a binary
+	distribution.
+
+2012-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform.h, src/platform/platform_aros_runtime_os.c:
+	Platform detection improvements.
+
+2012-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/platform/Makefile.am,
+	src/platform/platform_aros_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/c1541.tgt, src/arch/win32/watcom/petcat.tgt,
+	src/arch/win32/watcom/platform.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64dtv.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xcbm2.tgt,
+	src/arch/win32/watcom/xcbm5x0.tgt, src/arch/win32/watcom/xpet.tgt,
+	src/arch/win32/watcom/xplus4.tgt, src/arch/win32/watcom/xvic.tgt,
+	src/platform/platform_cpu_type.h, src/platform/platform_discovery.h,
+	src/platform/platform_x86_runtime_cpu.c: Fixed win32 ow project files.
+
+2012-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c: Platform detection improvements.
+
+2012-08-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_amigaos4_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.c: Platform detection
+	improvements.
+
+2012-08-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/platform.dsp, src/arch/win32/vice.dsw,
+	src/arch/win32/vsid.dsp, src/arch/win32/x128.dsp,
+	src/arch/win32/x64.dsp, src/arch/win32/x64dtv.dsp,
+	src/arch/win32/x64sc.dsp, src/arch/win32/xcbm2.dsp,
+	src/arch/win32/xcbm5x0.dsp, src/arch/win32/xpet.dsp,
+	src/arch/win32/xplus4.dsp, src/arch/win32/xvic.dsp: Fixed the win32
+	msvc project files.
+
+2012-08-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_amigaos3_runtime_os.c: Platform detection
+	improvements.
+
+2012-08-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/Makefile.am, src/arch/Makefile.am,
+	src/arch/amigaos/Makefile.am, src/arch/amigaos/archdep.c,
+	src/arch/amigaos/mui/mui.c, src/arch/beos/Makefile.am,
+	src/arch/beos/archdep.c, src/arch/beos/ui.cc,
+	src/arch/msdos/Makefile.am, src/arch/msdos/archdep.c,
+	src/arch/os2/archdep.c, src/arch/platform.h,
+	src/arch/platform_aix_version.h, src/arch/platform_compiler.h,
+	src/arch/platform_cpu_type.h, src/arch/platform_freebsd_version.h,
+	src/arch/platform_linux_libc_version.h,
+	src/arch/platform_netbsd_version.h,
+	src/arch/platform_openbsd_version.h, src/arch/platform_qnx6_version.h,
+	src/arch/platform_windows_runtime_os.h,
+	src/arch/platform_x86_runtime_cpu.h, src/arch/sdl/Makefile.am,
+	src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_unix.c, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/menu_help.c, src/arch/unix/Makefile.am,
+	src/arch/unix/archdep.c, src/arch/unix/macosx/platform_macosx.c,
+	src/arch/unix/macosx/platform_macosx.h,
+	src/arch/unix/x11/gnome/Makefile.am, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/about.c,
+	src/arch/win32/Makefile.am, src/arch/win32/archdep.c, src/platform,
+	src/platform/Makefile.am, src/platform/platform.c,
+	src/platform/platform.h, src/platform/platform_aix_version.h,
+	src/platform/platform_amigaos3_runtime_os.c,
+	src/platform/platform_compiler.h, src/platform/platform_cpu_type.h,
+	src/platform/platform_discovery.h,
+	src/platform/platform_freebsd_version.h,
+	src/platform/platform_linux_libc_version.h,
+	src/platform/platform_netbsd_version.h,
+	src/platform/platform_openbsd_version.h,
+	src/platform/platform_qnx6_version.h,
+	src/platform/platform_windows_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.c: Platform detection
+	improvements.
+
+2012-08-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsidui.c: Silence the sound when going into the menu.
+
+2012-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/resid/configure.in: Changed the behavior of the
+	--enable-arch configure option to be 'no' by default, this way at
+	least the generated binary can be used on any cpu, the user can use
+	--enable-arch=native to create (better optimized) binaries to be used
+	on the users cpu type.
+
+2012-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/pet/6809.c, src/pet/petmem.c, src/pet/petmem.h: Proper
+	'superpet_sync' function fix.
+
+2012-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/mididrv.c: Applied suggested fix for windows midi out
+	problem (bug 3511131).
+
+2012-08-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos, src/arch/amigaos/archdep.c,
+	src/arch/amigaos/catweaselmkiii.c, src/arch/amigaos/loadlibs.c,
+	src/arch/amigaos/loadlibs.h, src/arch/amigaos/mui/uijoystick.c,
+	src/arch/amigaos/vsidui.c: Fixed for amigaos4.
+
+2012-08-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petmem.h, src/pet/petmemsnapshot.c: Small snapshot fix for
+	OS/9 memory mapping.
+
+2012-08-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/iecc64exp.tgt,
+	src/arch/os2/watcom/petcat-specific.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/x1541-specific.tgt,
+	src/arch/os2/watcom/xall-specific.tgt,
+	src/arch/sdl/win32-watcom/c64exp.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/c64exp.tgt, src/arch/win32/watcom/ide-config.h,
+	src/arch/win32/watcom/vice.wpj: Fixed the ow project files.
+
+2012-08-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/pet-resources.c, src/pet/petmem.c,
+	src/pet/petmem.h, src/pet/petmemsnapshot.c: First pass at emulating
+	the Super-OS/9 MMU developed by the Toronto PET User's Group (TPUG).
+	This runs Super-OS/9.
+
+2012-08-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uipalcontrol.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c: Fix Continue button of JAM dialog,
+	and some other small cleanup.
+
+2012-08-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform.h, src/arch/platform_windows_runtime_os.h,
+	src/arch/sdl/archdep_win32.c, src/arch/win32/archdep.c: Extended the
+	windows runtime detection to the sdl port.
+
+2012-08-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c: Try to silence warning
+
+2012-08-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-sprites.c: Trim down lookup table, it's a waste of
+	cache memory.
+
+2012-08-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/driverom.c: Remove fixme, it's not a typo.
+
+2012-08-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/ram.c: Now without explicit modulo. Twice as fast.
+
+2012-08-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-sprites.c: Very slow and complicated table
+	generation. Around 14x faster now.
+
+2012-08-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/resid/wave.cc: Leandro Nini ( drfiemost ) - 2012-08-11 06:13:11
+	PDT - Trivial patch to remove a duplicate instruction in reSID.
+	http://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3556360&group_id=223021
+
+2012-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/platform_windows_runtime_os.h: Windows version detection
+	improvements.
+
+2012-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am, src/arch/platform_windows_runtime_os.h,
+	src/arch/win32/Makefile.am, src/arch/win32/archdep.c: Started on
+	runtime windows version detection.
+
+2012-08-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/c64exp.dsp,
+	src/arch/sdl/win64-msvc/c64exp.vcproj,
+	src/arch/sdl/winmips-msvc/c64exp.mak, src/arch/win32/c64exp.dsp,
+	src/arch/win64/c64exp.vcproj: Added supercard.c to the various msvc
+	project files.
+
+2012-08-10  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-08-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/uidrivec64c128.c,
+	src/arch/unix/gui/uidrivec64c128.h, src/drive/drive-check.c,
+	src/drive/drive.h, src/drive/iec/c64exp/Makefile.am,
+	src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/c64exp/iec-c64exp.c, src/drive/iec/c64exp/supercard.c,
+	src/drive/iec/c64exp/supercard.h, src/translate.txt,
+	src/translate_text.c: added supercard+ emulation
+
+2012-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/arch.dsp: Fixed.
+
+2012-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/ui.cc,
+	src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_unix.c, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/archdep_xbox.c: More platform updates.
+
+2012-08-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	src/arch/msdos/archdep.c, src/arch/os2/archdep.c,
+	src/arch/platform_x86_runtime_cpu.h, src/arch/sdl/archdep.c,
+	src/arch/sdl/archdep_amiga.c, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_cegcc.c, src/arch/sdl/archdep_dingoo.c,
+	src/arch/sdl/archdep_unix.c, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/archdep_xbox.c, src/arch/unix/Makefile.am,
+	src/arch/unix/archdep.c, src/arch/win32/archdep.c: More platform
+	updates.
+
+2012-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/archdep.c: Added os2 runtime version detection.
+
+2012-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/archdep.c: Added dos flavor and version detection.
+
+2012-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/beos/ui.cc, src/arch/beos/ui.h:
+	More platform detection updates.
+
+2012-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/archdep.c: Added beos/zeta/haiku runtime detection.
+
+2012-08-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, doc/vice.pdf, src/arch/Makefile.am,
+	src/arch/amigaos/archdep.c, src/arch/beos/archdep.c,
+	src/arch/msdos/archdep.c, src/arch/os2/archdep.c, src/arch/platform.h,
+	src/arch/platform_cpu_type.h, src/arch/platform_x86_runtime_cpu.h,
+	src/arch/sdl/archdep.c, src/arch/unix/archdep.c,
+	src/arch/win32/archdep.c, src/archapi.h: Made the platform detection
+	support a bit more modular.
+
+2012-08-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resvsid.rc, src/arch/win32/vsid.dsp,
+	src/arch/win32/vsidui.c: Made the windows vsid window size bigger and
+	added a monitor menu item.
+
 2012-08-05  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* doc/vice.txt, doc/vice.chm, doc/vice.pdf, doc/vice.hlp, po/es.po,

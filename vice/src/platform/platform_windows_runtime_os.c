@@ -58,10 +58,12 @@
    - Windows 2003 Server PE
    - Windows 2003 Web Server (x86)
    - Windows 2003 Standard Server (x86/x64)
+   - Windows 2003 R2 Standard Server (x86)
    - Windows 2003 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86/x64)
    - Windows 2003 Small Business Server (x86)
    - Windows 2003 Compute Cluster Server (x64)
+   - Windows Home Server
    - Windows 7 Ultimate (x86)
    - HXDOS
    - ReactOS
@@ -325,6 +327,8 @@ static winver_t windows_versions[] = {
       5, 1, 8, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows XP", VER_PLATFORM_WIN32_NT,
       5, 1, 8, -1, 0, -1, -1 },
+    { "Windows Home Server", VER_PLATFORM_WIN32_NT,
+      5, 2, 9, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1, -1 },
     { "Windows 2003 R2 Web Server", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_SERVER, VER_SUITE_BLADE, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Web Server", VER_PLATFORM_WIN32_NT,
@@ -349,8 +353,6 @@ static winver_t windows_versions[] = {
       5, 2, 9, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, VICE_SM_SERVERR2 },
     { "Windows 2003 Storage Server", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_SERVER, VER_SUITE_STORAGE_SERVER, -1, -1 },
-    { "Windows Home Server", VER_PLATFORM_WIN32_NT,
-      5, 2, 9, VER_NT_SERVER, VER_SUITE_WH_SERVER, -1, -1 },
     { "Windows XP64", VER_PLATFORM_WIN32_NT,
       5, 2, 9, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2003 R2 Standard Server", VER_PLATFORM_WIN32_NT,

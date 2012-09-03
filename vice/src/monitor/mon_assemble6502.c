@@ -102,7 +102,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
                 found = TRUE;
                 break;
             }
-            /* It's safe to assume ABSOULTE if ZERO_PAGE not yet found since
+            /* It's safe to assume ABSOLUTE if ZERO_PAGE not yet found since
              * ZERO_PAGE versions always precede ABSOLUTE versions if they
              * exist.
              */
