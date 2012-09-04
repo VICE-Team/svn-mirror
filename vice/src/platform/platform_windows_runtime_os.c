@@ -58,7 +58,7 @@
    - Windows 2003 Server PE
    - Windows 2003 Web Server (x86)
    - Windows 2003 Standard Server (x86/x64)
-   - Windows 2003 R2 Standard Server (x86)
+   - Windows 2003 R2 Standard Server (x86/x64)
    - Windows 2003 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86/x64)
    - Windows 2003 Small Business Server (x86)
