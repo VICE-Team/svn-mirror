@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-02 17:22-0700\n"
-"PO-Revision-Date: 2012-07-20 17:41+0200\n"
+"PO-Revision-Date: 2012-09-07 20:54+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -248,9 +248,8 @@ msgstr "Floppy ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:425 src/arch/unix/gui/c64scui.c:507
 #: src/arch/unix/gui/c64ui.c:567
-#, fuzzy
 msgid "Load new drive expansion ROM"
-msgstr "Floppy ROM laden"
+msgstr "Neues Floppy Laufwerk ROM laden"
 
 #: src/arch/unix/gui/c128ui.c:428 src/arch/unix/gui/c64dtvui.c:113
 #: src/arch/unix/gui/c64scui.c:510 src/arch/unix/gui/c64ui.c:570
@@ -2154,19 +2153,16 @@ msgstr "Professional DOS aktivieren"
 #: src/arch/unix/gui/uidrivec64c128.c:142
 #: src/arch/unix/gui/uidrivec64c128.c:157
 #: src/arch/unix/gui/uidrivec64c128.c:172 src/translate_text.c.po.c:8067
-#, fuzzy
 msgid "Enable SuperCard+"
-msgstr "Jumper aktivieren"
+msgstr "SuperCard+ aktivieren"
 
 #: src/arch/unix/gui/uidrivec64c128.c:178
-#, fuzzy
 msgid "Load new Professional DOS 1571 ROM"
-msgstr "Name von Professional DOS 1571 Datei definieren"
+msgstr "Professional DOS 1571 ROM laden"
 
 #: src/arch/unix/gui/uidrivec64c128.c:181
-#, fuzzy
 msgid "Load new SuperCard+ ROM"
-msgstr "Kernal ROM laden"
+msgstr "SuperCard+ ROM laden"
 
 #: src/arch/unix/gui/uidriveiec.c:153 src/arch/unix/gui/uidriveiec.c:163
 #: src/arch/unix/gui/uidriveiec.c:173 src/arch/unix/gui/uidriveiec.c:183
@@ -10682,14 +10678,12 @@ msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Name von Professional DOS 1571 Datei definieren"
 
 #: src/translate_text.c.po.c:8084
-#, fuzzy
 msgid "Disable SuperCard+"
-msgstr "SuperPET I/O deaktivieren"
+msgstr "SuperCard+ deaktivieren"
 
 #: src/translate_text.c.po.c:8101
-#, fuzzy
 msgid "Specify name of SuperCard+ ROM image"
-msgstr "Name von Kernal ROM Datei definieren"
+msgstr "Name von SuperCard+ ROM Datei definieren"
 
 #: src/translate_text.c.po.c:8118
 msgid "Set parallel cable type (0: none, 1: standard)"
