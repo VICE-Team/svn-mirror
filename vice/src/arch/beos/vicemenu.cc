@@ -517,6 +517,11 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("On", new BMessage(MENU_EXPERT_MODE_ON)));
                 submenu->AddItem(new BMenuItem("Save to Expert Cartridge image when changed", new BMessage(MENU_TOGGLE_EXPERT_SWC)));
                 submenu->AddItem(new BMenuItem("Expert Cartridge File", new BMessage(MENU_EXPERT_FILE)));
+            menu->AddItem(submenu = new BMenu("Burst Mode Modification Options"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("None", new BMessage(MENU_BURSTMOD_NONE)));
+                submenu->AddItem(new BMenuItem("CIA-1", new BMessage(MENU_BURSTMOD_CIA1)));
+                submenu->AddItem(new BMenuItem("CIA-2", new BMessage(MENU_BURSTMOD_CIA2)));
             menu->AddItem(submenu = new BMenu("PLUS60K Options"));
                 submenu->AddItem(new BMenuItem("PLUS60K emulation", new BMessage(MENU_TOGGLE_PLUS60K)));
                 submenu->AddItem(extsubmenu = new BMenu("PLUS60K base"));

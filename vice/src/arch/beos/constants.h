@@ -274,6 +274,10 @@ const uint32 MENU_EXPERT_MODE_ON                  = 'M320';
 const uint32 MENU_TOGGLE_EXPERT_SWC               = 'M321';
 const uint32 MENU_EXPERT_FILE                     = 'M322';
 
+const uint32 MENU_BURSTMOD_NONE                   = 'M090';
+const uint32 MENU_BURSTMOD_CIA1                   = 'M091';
+const uint32 MENU_BURSTMOD_CIA2                   = 'M092';
+
 const uint32 MENU_DRIVE_SETTINGS                  = 'M200';
 const uint32 MENU_DEVICE_SETTINGS                 = 'M201';
 const uint32 MENU_SOUND_SETTINGS                  = 'M202';
