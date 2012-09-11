@@ -49,6 +49,8 @@ static ui_menu_entry_t mousetype_submenu[] = {
       (ui_callback_data_t)4, NULL },
     { "Atari ST", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)5, NULL },
+    { "Smart", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)6, NULL },
     { NULL }
 };
 

@@ -108,6 +108,7 @@ static void init_mouse_dialog(HWND hwnd)
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Paddle");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Atari CX-22");
     SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Atari ST");
+    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Smart");
     resources_get_int("Mousetype", &res_value);
     SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
 

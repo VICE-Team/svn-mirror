@@ -90,6 +90,8 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
             return "Atari CX-22";
         case MOUSE_TYPE_ST:
             return "Atari ST";
+        case MOUSE_TYPE_SMART:
+            return "Smart";
         default:
             return "unknown";
     }

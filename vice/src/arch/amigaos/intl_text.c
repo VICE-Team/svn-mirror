@@ -11241,6 +11241,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MOUSE_ST_SV, "Atari ST-mus" },
 /* tr */ { IDS_MOUSE_ST_TR, "Atari ST mouse" },
 
+/* en */ { IDS_MOUSE_SMART,    "Smart mouse" },
+/* da */ { IDS_MOUSE_SMART_DA, "Smartmus" },
+/* de */ { IDS_MOUSE_SMART_DE, "Smart Maus" },
+/* es */ { IDS_MOUSE_SMART_ES, "Ratón Smart" },
+/* fr */ { IDS_MOUSE_SMART_FR, "Souris Smart" },
+/* hu */ { IDS_MOUSE_SMART_HU, "Smart egér" },
+/* it */ { IDS_MOUSE_SMART_IT, "Mouse Smart" },
+/* ko */ { IDS_MOUSE_SMART_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_SMART_NL, "Smart muis" },
+/* pl */ { IDS_MOUSE_SMART_PL, "Mysz z Smart" },
+/* ru */ { IDS_MOUSE_SMART_RU, "Smart mouse" },
+/* sv */ { IDS_MOUSE_SMART_SV, "Smartmus" },
+/* tr */ { IDS_MOUSE_SMART_TR, "Smart mouse" },
+
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },
 /* de */ { IDS_AUTOSTART_VIRTUAL_FS_DE, "Virtual FS" },
