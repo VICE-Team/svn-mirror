@@ -94,6 +94,10 @@
 
 /* RAM location 31 is used for RAM burst mode */
 
+/* This module is currently used in the following emulated hardware:
+   - C64/C128 IDE64 cartridge
+ */
+
 /* ---------------------------------------------------------------------------------------------------- */
 
 void ds1202_1302_reset(rtc_ds1202_1302_t *context)

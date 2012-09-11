@@ -81,6 +81,8 @@
  *                  bits 3-0 years
  */
 
+/* This module is currently unused. */
+
 /* ---------------------------------------------------------------------------------------------------- */
 
 rtc_bq4830y_t *bq4830y_init(BYTE *ram, time_t *offset)

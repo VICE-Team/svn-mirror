@@ -83,6 +83,9 @@
  *             bits 3-0 years
  */
 
+/* This module is currently used in the following emulated hardware:
+   - IEC FD2000/4000 disk drives
+ */
 
 /* ---------------------------------------------------------------------------------------------------- */
 
