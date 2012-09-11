@@ -153,9 +153,11 @@ static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 #ifdef HAVE_MOUSE
     mouse_set_input((b >> 6) & 0x03);
 
-    if (_mouse_enabled) {
-        if ((mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 2)) {
+    if (_mouse_enabled && (mouse_port == 2)) {
+        if (mouse_type == MOUSE_TYPE_NEOS) {
             neos_mouse_store(b);
+        } else if (mouse_type == MOUSE_TYPE_SMART) {
+            smart_mouse_store(b);
         }
     }
 #endif
@@ -170,8 +172,12 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
     cia1_internal_lightpen_check(machine_context.cia1->old_pa, byte);
 
 #ifdef HAVE_MOUSE
-    if (_mouse_enabled && (mouse_type == MOUSE_TYPE_NEOS) && (mouse_port == 1)) {
-        neos_mouse_store(byte);
+    if (_mouse_enabled && (mouse_port == 1)) {
+        if (mouse_type == MOUSE_TYPE_NEOS) {
+            neos_mouse_store(byte);
+        } else if (mouse_type == MOUSE_TYPE_SMART) {
+            smart_mouse_store(byte);
+        }
     }
 #endif
 }
@@ -200,8 +206,9 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     if (_mouse_enabled && (mouse_port == 2)) {
         if (mouse_type == MOUSE_TYPE_NEOS) {
             byte &= neos_mouse_read();
-        }
-        if (mouse_kind == MOUSE_KIND_POLLED) {
+        } else if (mouse_type == MOUSE_TYPE_SMART) {
+            byte &= smart_mouse_read();
+        } else if (mouse_kind == MOUSE_KIND_POLLED) {
             byte &= mouse_poll();
         }
     }
@@ -276,8 +283,9 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     if (_mouse_enabled && (mouse_port == 1)) {
         if (mouse_type == MOUSE_TYPE_NEOS) {
             byte &= neos_mouse_read();
-        }
-        if (mouse_kind == MOUSE_KIND_POLLED) {
+        } else if (mouse_type == MOUSE_TYPE_SMART) {
+            byte &= smart_mouse_read();
+        } else if (mouse_kind == MOUSE_KIND_POLLED) {
             byte &= mouse_poll();
         }
     }
