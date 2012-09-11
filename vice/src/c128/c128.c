@@ -725,6 +725,10 @@ void machine_specific_shutdown(void)
 
     cartridge_shutdown();
 
+#ifdef HAVE_MOUSE
+    mouse_shutdown();
+#endif
+
     /* close the video chip(s) */
     vicii_shutdown();
     vdc_shutdown();

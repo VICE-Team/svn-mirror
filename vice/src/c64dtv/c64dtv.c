@@ -453,6 +453,10 @@ void machine_specific_shutdown(void)
     ciacore_shutdown(machine_context.cia1);
     ciacore_shutdown(machine_context.cia2);
 
+#ifdef HAVE_MOUSE
+    mouse_shutdown();
+#endif
+
     /* close the video chip(s) */
     vicii_shutdown();
 

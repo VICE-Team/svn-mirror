@@ -499,6 +499,9 @@ void mouse_init(void)
     mousedrv_init();
 }
 
+void mouse_shutdown(void) {
+}
+
 void mouse_button_left(int pressed)
 {
     if (pressed) {

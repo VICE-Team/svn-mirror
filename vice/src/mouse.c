@@ -671,6 +671,10 @@ void mouse_init(void)
     ds1202 = ds1202_1302_init((BYTE *)smart_ram, &rtc_offset, 1202);
 }
 
+void mouse_shutdown(void) {
+    ds1202_1302_destroy(ds1202);
+}
+
 /* --------------------------------------------------------- */
 /* Main API */
 

@@ -518,6 +518,10 @@ void machine_specific_shutdown(void)
     viacore_shutdown(machine_context.ieeevia1);
     viacore_shutdown(machine_context.ieeevia2);
 
+#ifdef HAVE_MOUSE
+    mouse_shutdown();
+#endif
+
     /* close the video chip(s) */
     vic_shutdown();
 
