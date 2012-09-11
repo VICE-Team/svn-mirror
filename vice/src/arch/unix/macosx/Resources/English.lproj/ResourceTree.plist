@@ -235,7 +235,7 @@
 				<key>Mouse Port</key>
 				<string>Mouseport,m,Joy1=1,Joy2=2</string>
 				<key>Mouse Type</key>
-				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles</string>
+				<string>Mousetype,e,1351,NEOS,AMIGA,Paddles,CX-22,ST,Smart</string>
 			</dict>
 		</dict>
 		<key>_C128_C64_PLUS4_</key>
