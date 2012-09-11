@@ -95,7 +95,8 @@
 /* RAM location 31 is used for RAM burst mode */
 
 /* This module is currently used in the following emulated hardware:
-   - C64/C128 IDE64 cartridge
+   - C64/C128 IDE64 cartridge (1302)
+   - CMD Smartmouse (1202)
  */
 
 /* ---------------------------------------------------------------------------------------------------- */
@@ -563,7 +564,15 @@ void ds1202_1302_set_lines(rtc_ds1202_1302_t *context, unsigned int ce_line, uns
 
 BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
 {
-    return context->output_bit;
+    switch (context->state) {
+        case DS1202_1302_INPUT_COMMAND_BITS:
+        case DS1202_1302_INPUT_SINGLE_DATA_BITS:
+        case DS1202_1302_INPUT_BURST_DATA_BITS:
+            return 1;
+        case DS1202_1302_OUTPUT_SINGLE_DATA_BITS:
+        case DS1202_1302_OUTPUT_BURST_DATA_BITS:
+            return context->output_bit;
+    }
 }
 
 /* ---------------------------------------------------------------------*/
