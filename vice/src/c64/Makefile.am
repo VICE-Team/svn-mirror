@@ -13,7 +13,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/userport \
 	-I$(top_srcdir)/src/viciisc \
 	-I$(top_srcdir)/src/lib/p64 \
-	-I$(top_srcdir)/src/video
+	-I$(top_srcdir)/src/video \
+	-I$(top_srcdir)/src/rtc
 
 noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a
 

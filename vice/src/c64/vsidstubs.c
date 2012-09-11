@@ -49,6 +49,7 @@
 #include "tap.h"
 #include "tape.h"
 #include "vicii-phi1.h"
+#include "ds1202_1302.h"
 
 /*******************************************************************************
     Memory related
@@ -591,6 +592,19 @@ BYTE ds1216e_read(rtc_ds1216e_t *context, WORD address, BYTE origbyte)
     return 0;
 }
 
+rtc_ds1202_1302_t *ds1202_1302_init(BYTE *data, time_t *offset, int rtc_type)
+{
+    return NULL;
+}
+
+void ds1202_1302_set_lines(rtc_ds1202_1302_t *context, unsigned int ce_line, unsigned int sclk_line, unsigned int input_bit)
+{
+}
+
+BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
+{
+    return 1;
+}
 
 /*******************************************************************************
     userport
