@@ -516,6 +516,7 @@ void cart_romlbank_set_slotmain(unsigned int bank)
 
         georam
         digimax
+        ds12c887rtc
         reu
         midi
         acia

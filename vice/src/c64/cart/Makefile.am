@@ -8,7 +8,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/c64 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/lib/p64 \
-	-I$(top_srcdir)/src/vicii
+	-I$(top_srcdir)/src/vicii \
+	-I$(top_srcdir)/src/rtc
 
 noinst_LIBRARIES = libc64cartsystem.a libc64cart.a libc64commoncart.a
 
@@ -150,6 +151,8 @@ libc64commoncart_a_SOURCES = \
 	c64acia1.c \
 	digimax.c \
 	digimax.h \
+	ds12c887rtc.c \
+	ds12c887rtc.h \
 	georam.c \
 	georam.h \
 	sfx_soundexpander.c \

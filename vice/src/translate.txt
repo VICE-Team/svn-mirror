@@ -1971,6 +1971,15 @@ IDCLS_DISABLE_DIGIMAX
 /* c64/cart/digimax.c */
 IDCLS_DIGIMAX_BASE
 
+/* c64/cart/ds12c887rtc.c */
+IDCLS_ENABLE_DS12C887RTC
+
+/* c64/cart/ds12c887rtc.c */
+IDCLS_DISABLE_DS12C887RTC
+
+/* c64/cart/ds12c887rtc.c */
+IDCLS_DS12C887RTC_BASE
+
 /* c64/cart/sfx_soundexpander.c */
 IDCLS_ENABLE_SFX_SE
 

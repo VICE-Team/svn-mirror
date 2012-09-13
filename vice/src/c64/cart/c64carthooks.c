@@ -76,6 +76,7 @@
 #include "digimax.h"
 #include "dinamic.h"
 #include "dqbb.h"
+#include "ds12c887rtc.h"
 #include "easyflash.h"
 #include "epyxfastload.h"
 #include "exos.h"
@@ -159,6 +160,7 @@ extern export_t export_passthrough; /* slot1 and main combined, goes into slot0 
     for obvious reasons:
 
         CARTRIDGE_DIGIMAX
+        CARTRIDGE_DS12C887RTC
         CARTRIDGE_SFX_SOUND_EXPANDER
         CARTRIDGE_SFX_SOUND_SAMPLER
         CARTRIDGE_MIDI_PASSPORT
@@ -519,6 +521,7 @@ int cart_cmdline_options_init(void)
         || aciacart_cmdline_options_init() < 0
 #endif
         || digimax_cmdline_options_init() < 0
+        || ds12c887rtc_cmdline_options_init() < 0
         || georam_cmdline_options_init() < 0
         || reu_cmdline_options_init() < 0
         || sfx_soundexpander_cmdline_options_init() < 0
@@ -555,6 +558,7 @@ int cart_resources_init(void)
         || ramcart_resources_init() < 0
         /* "IO Slot" */
         || digimax_resources_init() < 0
+        || ds12c887rtc_resources_init() < 0
         || georam_resources_init() < 0
 #ifdef HAVE_MIDI
         || c64_midi_resources_init() < 0
@@ -583,6 +587,7 @@ void cart_resources_shutdown(void)
 {
     /* "IO Slot" */
     digimax_resources_shutdown();
+    ds12c887rtc_resources_shutdown();
     georam_resources_shutdown();
 #ifdef HAVE_MIDI
     midi_resources_shutdown();
@@ -634,6 +639,7 @@ int cart_is_slotmain(int type)
         case CARTRIDGE_RAMCART:
         /* io slot */
         case CARTRIDGE_DIGIMAX:
+        case CARTRIDGE_DS12C887RTC:
         case CARTRIDGE_GEORAM:
         case CARTRIDGE_MIDI_PASSPORT:
         case CARTRIDGE_MIDI_DATEL:
@@ -711,6 +717,8 @@ int cart_type_enabled(int type)
         /* "I/O Slot" */
         case CARTRIDGE_DIGIMAX:
             return digimax_cart_enabled();
+        case CARTRIDGE_DS12C887RTC:
+            return ds12c887rtc_cart_enabled();
         case CARTRIDGE_GEORAM:
             return georam_cart_enabled();
 #ifdef HAVE_MIDI
@@ -773,6 +781,7 @@ const char *cart_get_file_name(int type)
             return reu_get_file_name();
         /* the following have no associated file */
         case CARTRIDGE_DIGIMAX:
+        case CARTRIDGE_DS12C887RTC:
 #ifdef HAVE_MIDI
         case CARTRIDGE_MIDI_PASSPORT:
         case CARTRIDGE_MIDI_DATEL:
@@ -1243,6 +1252,9 @@ int cartridge_enable(int type)
         case CARTRIDGE_DIGIMAX:
             digimax_enable();
             break;
+        case CARTRIDGE_DS12C887RTC:
+            ds12c887rtc_enable();
+            break;
         case CARTRIDGE_GEORAM:
             georam_enable();
             break;
@@ -1307,6 +1319,7 @@ void cart_detach_all(void)
     ramcart_detach();
     /* "io Slot" */
     digimax_detach();
+    ds12c887rtc_detach();
     georam_detach();
 #ifdef HAVE_MIDI
     c64_midi_detach();
@@ -1363,6 +1376,9 @@ void cart_detach(int type)
         /* "IO Slot" */
         case CARTRIDGE_DIGIMAX:
             digimax_detach();
+            break;
+        case CARTRIDGE_DS12C887RTC:
+            ds12c887rtc_detach();
             break;
         case CARTRIDGE_GEORAM:
             georam_detach();
@@ -1578,6 +1594,7 @@ void cart_init(void)
 
     /* "IO Slot" */
     /* digimax */
+    /* ds12c887rtc */
     georam_init();
 #ifdef HAVE_MIDI
     midi_init();
@@ -1833,6 +1850,9 @@ void cartridge_reset(void)
     /* "IO Slot" */
     if (digimax_cart_enabled()) {
         digimax_reset();
+    }
+    if (ds12c887rtc_cart_enabled()) {
+        ds12c887rtc_reset();
     }
     if (georam_cart_enabled()) {
         georam_reset();
@@ -2597,6 +2617,11 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
                     return -1;
                 }
                 break;
+            case CARTRIDGE_DS12C887RTC:
+                if (ds12c887rtc_snapshot_write_module(s) < 0) {
+                    return -1;
+                }
+                break;
             case CARTRIDGE_GEORAM:
                 if (georam_write_snapshot_module(s) < 0) {
                     return -1;
@@ -3053,6 +3078,11 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
             /* "IO Slot" */
             case CARTRIDGE_DIGIMAX:
                 if (digimax_snapshot_read_module(s) < 0) {
+                    goto fail2;
+                }
+                break;
+            case CARTRIDGE_DS12C887RTC:
+                if (ds12c887rtc_snapshot_read_module(s) < 0) {
                     goto fail2;
                 }
                 break;

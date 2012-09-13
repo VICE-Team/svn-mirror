@@ -113,6 +113,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_MIDI_SEQUENTIAL    -110 /* c64-midi.c */
 #define CARTRIDGE_MIDI_NAMESOFT      -111 /* c64-midi.c */
 #define CARTRIDGE_MIDI_MAPLIN        -112 /* c64-midi.c */
+#define CARTRIDGE_DS12C887RTC        -113 /* ds12c887rtc.c */
 #define CARTRIDGE_TFE                -116 /* tfe.c */
 #define CARTRIDGE_TURBO232           -117 /* c64acia1.c */
 #define CARTRIDGE_SWIFTLINK          -118 /* c64acia1.c */
@@ -230,6 +231,7 @@ extern void cartridge_sound_chip_init(void);
 #define CARTRIDGE_NAME_DIGIMAX            "DigiMAX" /* http://starbase.globalpc.net/~ezekowitz/vanessa/hobbies/projects.html */
 #define CARTRIDGE_NAME_DINAMIC            "Dinamic"
 #define CARTRIDGE_NAME_DQBB               "Double Quick Brown Box" /* on the cart itself its all uppercase ? */
+#define CARTRIDGE_NAME_DS12C877RTC        "DS12C887 Real Time Clock" /* Title of the page at http://ytm.bossstation.dnsalias.org/html/rtcds12c887.html */
 #define CARTRIDGE_NAME_EASYFLASH          "EasyFlash" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EASYFLASH_XBANK    "EasyFlash Xbank" /* see http://skoe.de/easyflash/ */
 #define CARTRIDGE_NAME_EPYX_FASTLOAD      "Epyx FastLoad" /* http://rr.pokefinder.org/wiki/Epyx_FastLoad */

@@ -13387,4 +13387,55 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DIGIMAX_BASE_TR, "DigiMAX kartuþunun taban adresi"},
 #endif
 
+/* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_ENABLE_DS12C887RTC,    N_("Enable the DS12C887 RTC cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_DS12C887RTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DS12C887RTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_DS12C887RTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_DS12C887RTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_DS12C887RTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DS12C887RTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_DS12C887RTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DS12C887RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DS12C887RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_DS12C887RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DS12C887RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DS12C887RTC_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_DISABLE_DS12C887RTC,    N_("Disable the DS12C887 RTC cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_DS12C887RTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DS12C887RTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_DS12C887RTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_DS12C887RTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_DS12C887RTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DS12C887RTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_DS12C887RTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DS12C887RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DS12C887RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_DS12C887RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DS12C887RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DS12C887RTC_TR, ""},  /* fuzzy */
+#endif
+
+/* c64/cart/ds12c887rtc.c */
+/* en */ {IDCLS_DS12C887RTC_BASE,    N_("Base address of the DS12C887 RTC cartridge")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DS12C887RTC_BASE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DS12C887RTC_BASE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DS12C887RTC_BASE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DS12C887RTC_BASE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DS12C887RTC_BASE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DS12C887RTC_BASE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DS12C887RTC_BASE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DS12C887RTC_BASE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DS12C887RTC_BASE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DS12C887RTC_BASE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DS12C887RTC_BASE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DS12C887RTC_BASE_TR, ""},  /* fuzzy */
+#endif
+
 };
