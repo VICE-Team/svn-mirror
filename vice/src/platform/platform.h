@@ -53,4 +53,7 @@ extern char *platform_get_aros_runtime_cpu(void);
 
 extern char *platform_get_os2_runtime_os(void);
 
+extern char *platform_get_zeta_runtime_os(void);
+extern char *platform_get_beos_runtime_os(void);
+extern char *platform_get_beosppc_runtime_cpu(void);
 #endif

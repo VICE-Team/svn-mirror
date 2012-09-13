@@ -27,12 +27,15 @@
 /* Tested and confirmed working on:
 */
 
+/* UTS release on zeta comes back as 6.x, subtract 5 and you have the zeta version */
+
 #include "vice.h"
 
 #ifdef __BEOS__
 
 #include <sys/utsname.h>
 #include <string.h>
+#include <OS.h>
 
 #include "util.h"
 
@@ -53,5 +56,56 @@ int CheckForHaiku(void)
 int CheckForZeta(void)
 {
     return util_file_exists("/boot/beos/system/lib/libzeta.so");
+}
+
+char *platform_name[128];
+
+char *platform_get_zeta_runtime_os(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    if (name.release[0] == '6') {
+        name.release[0] = '1';
+    }
+    sprintf(platform_name, "Zeta %s", name.release);
+
+    return platform_name;
+}
+
+char *platform_get_beos_runtime_os(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    sprintf(platform_name, "BeOS %s", name.release);
+
+    return platform_name;
+}
+
+char *platform_get_beosppc_runtime_cpu(void)
+{
+    system_info si;
+
+    get_system_info(&si);
+
+    switch (si.cpu_type) {
+        case B_CPU_PPC_601:
+            return "PPC601";
+        case B_CPU_PPC_603:
+            return "PPC603";
+        case B_CPU_PPC_603e:
+            return "PPC603e";
+        case B_CPU_PPC_604:
+            return "PPC604";
+        case B_CPU_PPC_604e:
+            return "PPC604e";
+        case B_CPU_PPC_750:
+            return "PPC750";
+        case B_CPU_PPC_686:
+            return "PPC686";
+        default:
+            return "Unknown PPC";
+    }
 }
 #endif

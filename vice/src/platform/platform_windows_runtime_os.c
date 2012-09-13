@@ -60,10 +60,18 @@
    - Windows 2003 Standard Server (x86/x64)
    - Windows 2003 R2 Standard Server (x86/x64)
    - Windows 2003 Enterprise Server (x86/x64)
+   - Windows 2003 R2 Enterprise Server (x86/x64)
    - Windows 2003 Datacenter Server (x86/x64)
+   - Windows 2003 R2 Datacenter Server (x86/x64)
    - Windows 2003 Small Business Server (x86)
    - Windows 2003 Compute Cluster Server (x64)
-   - Windows Home Server
+   - Windows Home Server (x86)
+   - Windows Vista Starter (x86)
+   - Windows Vista Home Basic (x86/x64)
+   - Windows Vista Home Premium (x86/x64)
+   - Windows Vista Business (x86/x64)
+   - Windows Vista Ultimate (x86/x64)
+   - Windows 2008 Web Server (x86/x64)
    - Windows 7 Ultimate (x86)
    - HXDOS
    - ReactOS

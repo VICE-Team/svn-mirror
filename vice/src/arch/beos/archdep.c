@@ -401,9 +401,9 @@ char *archdep_get_runtime_os(void)
         return "Haiku";
     }
     if (CheckForZeta()) {
-        return "Zeta";
+        return platform_get_zeta_runtime_os();
     }
-    return "BeOS";
+    return platform_get_beos_runtime_os();
 }
 
 char *archdep_get_runtime_cpu(void)
@@ -411,7 +411,7 @@ char *archdep_get_runtime_cpu(void)
     /* TODO: add runtime cpu detection code */
     /* ppc type */
 #ifdef WORDS_BIGENDIAN
-    return "Unknown PPC CPU";
+    return platform_get_beosppc_runtime_cpu();
 #else
     return platform_get_x86_runtime_cpu();
 #endif
