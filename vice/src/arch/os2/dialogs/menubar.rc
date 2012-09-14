@@ -931,6 +931,21 @@ BEGIN
             END
         END
 
+        SUBMENU "DS12C887 RTC Settings",                  IDM_DS12C887RTC_SETTINGS,     MIS_TEXT
+        BEGIN
+            MENUITEM "~DS12C887 RTC - Cartridge",         IDM_DS12C887RTC,              MIS_TEXT
+            SUBMENU  "DS12C887 RTC ~Base",                IDM_DS12C887RTCBASE,          MIS_TEXT
+            BEGIN
+#ifndef __X128__
+                MENUITEM "$D500",                         IDM_DS12C887RTCD500,          MIS_TEXT
+                MENUITEM "$D600",                         IDM_DS12C887RTCD600,          MIS_TEXT
+#endif
+                MENUITEM "$D700",                         IDM_DS12C887RTCD700,          MIS_TEXT
+                MENUITEM "$DE00",                         IDM_DS12C887RTCDE00,          MIS_TEXT
+                MENUITEM "$DF00",                         IDM_DS12C887RTCDF00,          MIS_TEXT
+            END
+        END
+
         SUBMENU "EasyFlash Settings",                         IDM_EASYFLASH_SETTINGS,   MIS_TEXT
         BEGIN
             MENUITEM "EasyFlash Jumper",                      IDM_EASYFLASH_JUMPER,     MIS_TEXT
@@ -1045,6 +1060,15 @@ BEGIN
                 MENUITEM "$9CA0",                         IDM_DIGIMAXDFA0,              MIS_TEXT
                 MENUITEM "$9CC0",                         IDM_DIGIMAXDFC0,              MIS_TEXT
                 MENUITEM "$9CE0",                         IDM_DIGIMAXDFE0,              MIS_TEXT
+            END
+        END
+        SUBMENU "DS12C887 RTC Settings (MasC=uerade)",    IDM_DS12C887RTC_SETTINGS,     MIS_TEXT
+        BEGIN
+            MENUITEM "~DS12C887 RTC - Cartridge",         IDM_DS12C887RTC,              MIS_TEXT
+            SUBMENU  "DS12C887 RTC ~Base",                IDM_DS12C887RTCBASE,          MIS_TEXT
+            BEGIN
+                MENUITEM "$9800",                         IDM_DS12C887RTC9800,          MIS_TEXT
+                MENUITEM "$9C00",                         IDM_DS12C887RTC9C00,          MIS_TEXT
             END
         END
         SUBMENU "GEO-RAM Settings (MasC=uerade)",         IDM_GEORAM_SETTINGS,          MIS_TEXT

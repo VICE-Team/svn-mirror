@@ -837,6 +837,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DIGIMAX:
             toggle("DIGIMAX");
             return;
+        case IDM_DS12C887RTC:
+            toggle("DS12C887RTC");
+            return;
 #ifdef HAVE_TFE
         case IDM_TFE:
             toggle("ETHERNET_ACTIVE");
@@ -883,6 +886,33 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DIGIMAXDFC0:
         case IDM_DIGIMAXDFE0:
             resources_set_int("DIGIMAXbase", 0x9b00 + ((idm & 0xf) * 0x20));
+            return;
+#endif
+
+#ifndef __XVIC__
+#ifndef __X128__
+        case IDM_DS12C887RTCD500:
+            resources_set_int("DS12C887RTCbase", 0xd500);
+            return;
+        case IDM_DS12C887RTCD600:
+            resources_set_int("DS12C887RTCbase", 0xd600);
+            return;
+#endif
+        case IDM_DS12C887RTCD700:
+            resources_set_int("DS12C887RTCbase", 0xd700);
+            return;
+        case IDM_DS12C887RTCDE00:
+            resources_set_int("DS12C887RTCbase", 0xde00);
+            return;
+        case IDM_DS12C887RTCDF00:
+            resources_set_int("DS12C887RTCbase", 0xdf00);
+            return;
+#else
+        case IDM_DS12C887RTC9800:
+            resources_set_int("DS12C887RTCbase", 0x9800);
+            return;
+        case IDM_DS12C887RTC9C00:
+            resources_set_int("DS12C887RTCbase", 0x9c00);
             return;
 #endif
 
@@ -2033,6 +2063,9 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("DIGIMAX", &val);
             WinCheckMenuItem(hwnd, IDM_DIGIMAX, val);
             WinEnableMenuItem(hwnd, IDM_DIGIMAXBASE, val);
+            resources_get_int("DS12C887RTC", &val);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC, val);
+            WinEnableMenuItem(hwnd, IDM_DS12C887RTCBASE, val);
 #ifdef HAVE_TFE
             resources_get_int("ETHERNET_ACTIVE", &val);
             WinCheckMenuItem(hwnd, IDM_TFE, val);
@@ -2352,6 +2385,24 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDFA0, val == 0x9ca0);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDFC0, val == 0x9cc0);
             WinCheckMenuItem(hwnd, IDM_DIGIMAXDFE0, val == 0x9ce0);
+            return;
+#endif
+#ifndef __XVIC__
+        case IDM_DS12C887RTCBASE:
+            resources_get_int("DS12C887RTCbase", &val);
+#ifndef __X128__
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTCD500, val == 0xd500);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTCD600, val == 0xd600);
+#endif
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTCD700, val == 0xd700);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTCDE00, val == 0xde00);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTCDF00, val == 0xdf00);
+            return;
+#else
+        case IDM_DS12C887RTCBASE:
+            resources_get_int("DS12C887RTCbase", &val);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC9800, val == 0x9800);
+            WinCheckMenuItem(hwnd, IDM_DS12C887RTC9C00, val == 0x9c00);
             return;
 #endif
 #endif

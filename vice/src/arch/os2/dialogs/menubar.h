@@ -313,6 +313,17 @@
 #define IDM_DIGIMAXDFC0              0x95e
 #define IDM_DIGIMAXDFE0              0x95f
 
+#define IDM_DS12C887RTC_SETTINGS     0x30f
+#define IDM_DS12C887RTC              0x31c
+#define IDM_DS12C887RTCBASE          0x31d
+#define IDM_DS12C887RTCD500          0x31e
+#define IDM_DS12C887RTCD600          0x31f
+#define IDM_DS12C887RTCD700          0x321
+#define IDM_DS12C887RTCDE00          0x322
+#define IDM_DS12C887RTCDF00          0x323
+#define IDM_DS12C887RTC9800          0x324
+#define IDM_DS12C887RTC9C00          0x325
+
 #define IDM_SFX_SE_SETTINGS          0x1f0
 #define IDM_SFX_SE                   0x192
 #define IDM_SFX_SE_TYPE              0x1c1
