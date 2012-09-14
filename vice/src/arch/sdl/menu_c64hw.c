@@ -122,6 +122,10 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)digimax_menu },
+    { CARTRIDGE_NAME_DS12C887RTC " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ds12c887rtc_c64_menu },
 #ifdef HAVE_MIDI
     { "MIDI settings",
       MENU_ENTRY_SUBMENU,
@@ -192,6 +196,10 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)digimax_menu },
+    { CARTRIDGE_NAME_DS12C887RTC " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ds12c887rtc_c64_menu },
 #ifdef HAVE_MIDI
     { "MIDI settings",
       MENU_ENTRY_SUBMENU,

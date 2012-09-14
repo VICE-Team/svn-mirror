@@ -1,5 +1,5 @@
 /*
- * ds12c887rtc.c - DS12C877 RTC based cartridge emulation.
+ * ds12c887rtc.c - DS12C887 RTC based cartridge emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -46,7 +46,7 @@
 #include "translate.h"
 
 /*
-    DS12C877 RTC Cartridge
+    DS12C887 RTC Cartridge
 
     This cartridge is an RTC interface.
 
@@ -69,7 +69,7 @@ static BYTE ds12c887rtc_read(WORD addr);
 static void ds12c887rtc_store(WORD addr, BYTE byte);
 
 static io_source_t ds12c887rtc_device = {
-    CARTRIDGE_NAME_DS12C877RTC,
+    CARTRIDGE_NAME_DS12C887RTC,
     IO_DETACH_RESOURCE,
     "DS12C887RTC",
     0xde00, 0xde01, 0xff,
@@ -86,7 +86,7 @@ static io_source_t ds12c887rtc_device = {
 static io_source_list_t *ds12c887rtc_list_item = NULL;
 
 static c64export_resource_t export_res = {
-    CARTRIDGE_NAME_DS12C877RTC, 0, 0, &ds12c887rtc_device, NULL, CARTRIDGE_DS12C887RTC
+    CARTRIDGE_NAME_DS12C887RTC, 0, 0, &ds12c887rtc_device, NULL, CARTRIDGE_DS12C887RTC
 };
 
 /* ds12c887 context */

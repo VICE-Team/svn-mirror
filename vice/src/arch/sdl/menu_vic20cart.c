@@ -317,6 +317,31 @@ static const ui_menu_entry_t digimax_vic20_menu[] = {
     SDL_MENU_LIST_END
 };
 
+
+/* DS12C887 RTC MENU */
+
+UI_MENU_DEFINE_TOGGLE(DS12C887RTC)
+UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
+
+static const ui_menu_entry_t ds12c887rtc_vic20_menu[] = {
+    { "Enable " CARTRIDGE_NAME_DS12C887RTC,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTC_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Base address"),
+    { "$9800",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0x9800 },
+    { "$9C00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0x9c00 },
+    SDL_MENU_LIST_END
+};
+
+
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
 UI_MENU_DEFINE_TOGGLE(FinalExpansionWriteBack)
 UI_MENU_DEFINE_TOGGLE(VicFlashPluginWriteBack)
@@ -393,5 +418,9 @@ const ui_menu_entry_t vic20cart_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)digimax_vic20_menu },
+    { CARTRIDGE_NAME_DS12C887RTC " settings",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)ds12c887rtc_vic20_menu },
     SDL_MENU_LIST_END
 };

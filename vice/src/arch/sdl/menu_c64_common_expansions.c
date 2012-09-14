@@ -120,6 +120,65 @@ const ui_menu_entry_t digimax_menu[] = {
 };
 
 
+/* DS12C887 RTC MENU */
+
+UI_MENU_DEFINE_TOGGLE(DS12C887RTC)
+UI_MENU_DEFINE_RADIO(DS12C887RTCbase)
+
+const ui_menu_entry_t ds12c887rtc_c64_menu[] = {
+    { "Enable " CARTRIDGE_NAME_DS12C887RTC,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTC_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Base address"),
+    { "$D500",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xd500 },
+    { "$D600",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xd600 },
+    { "$D700",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xd700 },
+    { "$DE00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xde00 },
+    { "$DF00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xdf00 },
+    SDL_MENU_LIST_END
+};
+
+
+const ui_menu_entry_t ds12c887rtc_c128_menu[] = {
+    { "Enable " CARTRIDGE_NAME_DS12C887RTC,
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_DS12C887RTC_callback,
+      NULL },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Base address"),
+    { "$D700",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xd700 },
+    { "$DE00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xde00 },
+    { "$DF00",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_DS12C887RTCbase_callback,
+      (ui_callback_data_t)0xdf00 },
+    SDL_MENU_LIST_END
+};
+
+
 /* IDE64 CART MENU */
 
 UI_MENU_DEFINE_TOGGLE(IDE64version4)
