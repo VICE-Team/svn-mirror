@@ -206,7 +206,9 @@
  *               this register can only be accessed in BCD mode
  */
 
-/* This module is currently unused. */
+/* This module is currently used in the following emulated hardware:
+   - C64/C128/VIC20 DS12C887 RTC cartridge
+ */
 
 /* ---------------------------------------------------------------------------------------------------- */
 
