@@ -44,6 +44,7 @@
 #include "uicia.h"
 #include "uidigimax.h"
 #include "uidrivec128.h"
+#include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uiide64.h"
@@ -392,6 +393,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_RR_SETTINGS, IDS_MI_RR_SETTINGS },
     { IDM_MAGICVOICE_SETTINGS, IDS_MI_MAGICVOICE_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
+    { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
 #ifdef HAVE_TFE
     { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS },
@@ -708,6 +710,9 @@ static void c128_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_settings_dialog(hwnd);
+            break;
+        case IDM_DS12C887RTC_SETTINGS:
+            ui_ds12c887rtc_settings_dialog(hwnd);
             break;
         case IDM_LIGHTPEN_SETTINGS:
             ui_lightpen_settings_dialog(hwnd);

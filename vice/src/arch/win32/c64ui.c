@@ -45,6 +45,7 @@
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uidrivec64.h"
+#include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
@@ -338,6 +339,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_RR_SETTINGS, IDS_MI_RR_SETTINGS },
     { IDM_MAGICVOICE_SETTINGS, IDS_MI_MAGICVOICE_SETTINGS },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS },
+    { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS },
     { IDM_C64BURSTMOD_SETTINGS, IDS_MI_C64BURSTMOD_SETTINGS },
     { IDM_IDE64_SETTINGS, IDS_MI_IDE64_SETTINGS },
 #ifdef HAVE_TFE
@@ -606,6 +608,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_settings_dialog(hwnd);
+            break;
+        case IDM_DS12C887RTC_SETTINGS:
+            ui_ds12c887rtc_settings_dialog(hwnd);
             break;
         case IDM_LIGHTPEN_SETTINGS:
             ui_lightpen_settings_dialog(hwnd);
