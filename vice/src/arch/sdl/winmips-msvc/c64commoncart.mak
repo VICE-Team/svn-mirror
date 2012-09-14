@@ -50,6 +50,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\digimax.obj"
+	-@erase "$(INTDIR)\ds12c887rtc.obj"
 	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\sfx_soundexpander.obj"
 	-@erase "$(INTDIR)\sfx_soundsampler.obj"
@@ -102,6 +103,7 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\c64commoncart.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\digimax.obj" \
+	"$(INTDIR)\ds12c887rtc.obj" \
 	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\sfx_soundexpander.obj" \
 	"$(INTDIR)\sfx_soundsampler.obj" \
@@ -138,6 +140,7 @@ CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64acia1.obj"
 	-@erase "$(INTDIR)\digimax.obj"
+	-@erase "$(INTDIR)\ds12c887rtc.obj"
 	-@erase "$(INTDIR)\georam.obj"
 	-@erase "$(INTDIR)\sfx_soundexpander.obj"
 	-@erase "$(INTDIR)\sfx_soundsampler.obj"
@@ -190,6 +193,7 @@ LIB32_FLAGS=/nologo /out:"$(OUTDIR)\c64commoncart.lib"
 LIB32_OBJS= \
 	"$(INTDIR)\c64acia1.obj" \
 	"$(INTDIR)\digimax.obj" \
+	"$(INTDIR)\ds12c887rtc.obj" \
 	"$(INTDIR)\georam.obj" \
 	"$(INTDIR)\sfx_soundexpander.obj" \
 	"$(INTDIR)\sfx_soundsampler.obj" \
@@ -241,6 +245,12 @@ SOURCE=..\..\..\c64\cart\c64acia1.c
 SOURCE=..\..\..\c64\cart\digimax.c
 
 "$(INTDIR)\digimax.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\cart\ds12c887rtc.c
+
+"$(INTDIR)\ds12c887rtc.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
