@@ -31,6 +31,7 @@
 #include "c64acia.h"
 #include "cartridge.h"
 #include "digimax.h"
+#include "ds12c887rtc.h"
 #include "finalexpansion.h"
 #include "georam.h"
 #include "megacart.h"
@@ -372,6 +373,9 @@ void cartridge_reset(void)
     }
     if (digimax_cart_enabled()) {
         digimax_reset();
+    }
+    if (ds12c887rtc_cart_enabled()) {
+        ds12c887rtc_reset();
     }
     if (sfx_soundexpander_cart_enabled()) {
         sfx_soundexpander_reset();

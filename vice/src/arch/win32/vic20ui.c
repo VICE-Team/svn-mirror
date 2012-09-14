@@ -43,6 +43,7 @@
 #include "uicart.h"
 #include "uidigimax.h"
 #include "uidrivevic20.h"
+#include "uids12c887rtc.h"
 #include "uigeoram.h"
 #include "uijoystick.h"
 #include "uikeyboard.h"
@@ -346,6 +347,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_ACIA_SETTINGS, IDS_MI_ACIA_SETTINGS_MASCUERADE },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS_MASCUERADE },
     { IDM_DIGIMAX_SETTINGS, IDS_MI_DIGIMAX_SETTINGS_MASCUERADE },
+    { IDM_DS12C887RTC_SETTINGS, IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE },
 #ifdef HAVE_TFE
     { IDM_TFE_SETTINGS, IDS_MI_TFE_SETTINGS_MASCUERADE },
 #endif
@@ -570,6 +572,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_settings_dialog(hwnd);
+            break;
+        case IDM_DS12C887RTC_SETTINGS:
+            ui_ds12c887rtc_settings_dialog(hwnd);
             break;
 #ifdef HAVE_TFE
         case IDM_TFE_SETTINGS:
