@@ -140,6 +140,10 @@ SOURCE="..\..\c64\cart\digimax.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\c64\cart\ds12c887rtc.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\c64\cart\georam.c"
 # End Source File
 # Begin Source File

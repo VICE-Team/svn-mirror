@@ -433,6 +433,10 @@ SOURCE=.\uidrivevic20.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uids12c887rtc.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uieasyflash.c
 # End Source File
 # Begin Source File
