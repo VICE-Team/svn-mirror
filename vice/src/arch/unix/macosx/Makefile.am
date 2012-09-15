@@ -28,8 +28,6 @@ libarchmacosx_a_SOURCES = \
 	joy.c \
 	joy.h \
 	mididrv.c \
-	platform_macosx.c \
-	platform_macosx.h \
 	vsyncarch.c
 
 EXTRA_DIST = \

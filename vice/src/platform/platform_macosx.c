@@ -27,6 +27,8 @@
  *
  */
 
+#ifdef __APPLE__
+
 #include <string.h>
 #include <sys/types.h>
 #include <sys/sysctl.h>
@@ -152,3 +154,6 @@ char *platform_get_macosx_runtime_cpu(void)
     }
     return os_cpu_str;
 }
+
+#endif
+

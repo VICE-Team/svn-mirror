@@ -23,4 +23,7 @@ libplatform_a_SOURCES = \
 	platform_os2_runtime_os.c \
 	platform_qnx6_version.h \
 	platform_windows_runtime_os.c \
-	platform_x86_runtime_cpu.c
+	platform_x86_runtime_cpu.c \
+	platform_macosx.c \
+	platform_macosx.h
+

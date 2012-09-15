@@ -663,7 +663,7 @@ char *archdep_get_runtime_os(void)
 char *archdep_get_runtime_cpu(void)
 {
 #if defined(MACOSX_COCOA)
-    return platform_get_macosx_runtime_cpu
+    return platform_get_macosx_runtime_cpu();
 #else
 #if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
     return platform_get_x86_runtime_cpu();

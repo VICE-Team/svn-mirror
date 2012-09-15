@@ -128,7 +128,7 @@
 
 /* MacOS X discovery */
 #ifdef __APPLE__
-#include "unix/macosx/platform_macosx.h"
+#include "platform_macosx.h"
 #endif
 
 /* AIX discovery */

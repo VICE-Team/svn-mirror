@@ -28,6 +28,8 @@ noinst_HEADERS = \
 	c128machinecontroller.h \
 	cbm2controller.h \
 	cbm2machinecontroller.h \
+	cbm5x0controller.h \
+	cbm5x0machinecontroller.h \
 	petcontroller.h \
 	petmachinecontroller.h \
 	plus4controller.h \
@@ -44,6 +46,7 @@ libarchmacosxcocoamenu_a_SOURCES = \
 	c64scui.m \
 	c64dtvui.m \
 	cbm2ui.m \
+	cbm5x0ui.m \
 	petui.m \
 	plus4ui.m \
 	vic20ui.m \
@@ -57,6 +60,8 @@ libarchmacosxcocoamenu_a_SOURCES = \
 	c128machinecontroller.m \
 	cbm2controller.m \
 	cbm2machinecontroller.m \
+	cbm5x0controller.m \
+	cbm5x0machinecontroller.m \
 	petcontroller.m \
 	petmachinecontroller.m \
 	plus4controller.m \
