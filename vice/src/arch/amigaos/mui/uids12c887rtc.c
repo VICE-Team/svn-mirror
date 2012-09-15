@@ -119,8 +119,31 @@ static APTR build_gui64(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from64[0].object, translate_text(IDS_DIGIMAX_ENABLED), ui_digimax_enable)
-           CYCLE(ui_to_from64[1].object, translate_text(IDS_DIGIMAX_BASE), ui_digimax_c64_base)
+           CYCLE(ui_to_from64[0].object, translate_text(IDS_DS12C887RTC_ENABLED), ui_ds12c887rtc_enable)
+           CYCLE(ui_to_from64[1].object, translate_text(IDS_DS12C887RTC_BASE), ui_ds12c887rtc_c64_base)
+           OK_CANCEL_BUTTON
+         End;
+
+    if (ui != NULL) {
+        DoMethod(cancel, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, MUIV_Application_ReturnID_Quit);
+
+        DoMethod(ok, MUIM_Notify, MUIA_Pressed, FALSE,
+                 app, 2, MUIM_Application_ReturnID, BTN_OK);
+    }
+
+    return ui;
+}
+
+static APTR build_gui128(void)
+{
+    APTR app, ui, ok, cancel;
+
+    app = mui_get_app();
+
+    ui = GroupObject,
+           CYCLE(ui_to_from128[0].object, translate_text(IDS_DS12C887RTC_ENABLED), ui_ds12c887rtc_enable)
+           CYCLE(ui_to_from128[1].object, translate_text(IDS_DS12C887RTC_BASE), ui_ds12c887rtc_c128_base)
            OK_CANCEL_BUTTON
          End;
 
@@ -142,8 +165,8 @@ static APTR build_gui20(void)
     app = mui_get_app();
 
     ui = GroupObject,
-           CYCLE(ui_to_from20[0].object, translate_text(IDS_DIGIMAX_ENABLED), ui_digimax_enable)
-           CYCLE(ui_to_from20[1].object, translate_text(IDS_DIGIMAX_BASE), ui_digimax_vic20_base)
+           CYCLE(ui_to_from20[0].object, translate_text(IDS_DS12C887RTC_ENABLED), ui_ds12c887rtc_enable)
+           CYCLE(ui_to_from20[1].object, translate_text(IDS_DS12C887RTC_BASE), ui_ds12c887rtc_vic20_base)
            OK_CANCEL_BUTTON
          End;
 
@@ -158,14 +181,14 @@ static APTR build_gui20(void)
     return ui;
 }
 
-void ui_digimax_c64_settings_dialog(video_canvas_t *canvas)
+void ui_ds12c887rtc_c64_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
-    digimax_canvas = canvas;
-    intl_convert_mui_table(ui_digimax_enable_translate, ui_digimax_enable);
+    ds12c887rtc_canvas = canvas;
+    intl_convert_mui_table(ui_ds12c887rtc_enable_translate, ui_ds12c887rtc_enable);
 
-    window = mui_make_simple_window(build_gui64(), translate_text(IDS_DIGIMAX_SETTINGS));
+    window = mui_make_simple_window(build_gui64(), translate_text(IDS_DS12C887RTC_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);
@@ -180,14 +203,36 @@ void ui_digimax_c64_settings_dialog(video_canvas_t *canvas)
     }
 }
 
-void ui_digimax_vic20_settings_dialog(video_canvas_t *canvas)
+void ui_ds12c887rtc_c128_settings_dialog(video_canvas_t *canvas)
 {
     APTR window;
 
-    digimax_canvas = canvas;
-    intl_convert_mui_table(ui_digimax_enable_translate, ui_digimax_enable);
+    ds12c887rtc_canvas = canvas;
+    intl_convert_mui_table(ui_ds12c887rtc_enable_translate, ui_ds12c887rtc_enable);
 
-    window = mui_make_simple_window(build_gui20(), translate_text(IDS_DIGIMAX_SETTINGS));
+    window = mui_make_simple_window(build_gui128(), translate_text(IDS_DS12C887RTC_SETTINGS));
+
+    if (window != NULL) {
+        mui_add_window(window);
+        ui_get_to(ui_to_from128);
+        set(window, MUIA_Window_Open, TRUE);
+        if (mui_run() == BTN_OK) {
+            ui_get_from(ui_to_from128);
+        }
+        set(window, MUIA_Window_Open, FALSE);
+        mui_rem_window(window);
+        MUI_DisposeObject(window);
+    }
+}
+
+void ui_ds12c887rtc_vic20_settings_dialog(video_canvas_t *canvas)
+{
+    APTR window;
+
+    ds12c887rtc_canvas = canvas;
+    intl_convert_mui_table(ui_ds12c887rtc_enable_translate, ui_ds12c887rtc_enable);
+
+    window = mui_make_simple_window(build_gui20(), translate_text(IDS_DS12C887RTC_SETTINGS));
 
     if (window != NULL) {
         mui_add_window(window);
