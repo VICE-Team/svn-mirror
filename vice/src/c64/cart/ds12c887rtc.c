@@ -94,7 +94,7 @@ static rtc_ds12c887_t *ds12c887rtc_context = NULL;
 
 /* ds12c887 offset */
 /* FIXME: Implement saving/setting/loading of the offset */
-static time_t ds12c887rtc_offset;
+static time_t ds12c887rtc_offset = 0;
 
 /* rtc ram */
 /* FIXME: Implement saving/loading of the ram */
