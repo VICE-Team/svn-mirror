@@ -1,5 +1,5 @@
 /*
- * userport_dac.c - Generic userport 8bit DAC emulation.
+ * userport_dac.c - Generic userport joystick emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

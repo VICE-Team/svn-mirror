@@ -53,6 +53,7 @@
 #include "types.h"
 #include "userport_digimax.h"
 #include "userport_joystick.h"
+#include "userport_rtc.h"
 #include "vicii.h"
 
 #ifdef HAVE_RS232
@@ -180,8 +181,9 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    /* FIXME: in the upcoming userport system these calls needs to be conditional */
     userport_joystick_store_pbx(byte);
+    userport_rtc_store(byte);
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
@@ -198,8 +200,9 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byt
 #ifdef HAVE_RS232
     rsuser_write_ctrl((BYTE)byte);
 #endif
-    /* FIXME: in the upcoming userport system this call needs to be conditional */
+    /* FIXME: in the upcoming userport system these calls needs to be conditional */
     userport_joystick_store_pbx(byte);
+    userport_rtc_store(byte);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -227,6 +230,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     /* FIXME: in the upcoming userport system this call needs to be conditional */
     byte = userport_joystick_read_pbx(byte);
+    byte = userport_rtc_read(byte);
 
     byte = (byte & ~(cia_context->c_cia[CIA_DDRB])) | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
     return byte;

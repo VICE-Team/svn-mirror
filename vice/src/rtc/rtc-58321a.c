@@ -92,6 +92,7 @@ rtc_58321a_t *rtc58321a_init(time_t *offset)
     rtc_58321a_t *retval = lib_malloc(sizeof(rtc_58321a_t));
     memset(retval, 0, sizeof(rtc_58321a_t));
     retval->offset = offset;
+    retval->hour24 = 1;
 
     return retval;
 }
@@ -138,7 +139,7 @@ BYTE rtc58321a_read(rtc_58321a_t *context)
             if (context->hour24) {
                 retval = rtc_get_hour(latch, 0);
                 retval /= 10;
-                retval |= 0x80;
+                retval |= 8;
             } else {
                 retval = rtc_get_hour_am_pm(latch, 0);
                 if (retval > 23) {
@@ -150,7 +151,7 @@ BYTE rtc58321a_read(rtc_58321a_t *context)
             }
             break;
         case RTC58321A_REGISTER_WEEKDAYS:
-            retval = rtc_get_weekday(latch);
+            retval = rtc_get_weekday(latch) - 1;
             break;
         case RTC58321A_REGISTER_MONTHDAYS:
             retval = rtc_get_day_of_month(latch, 0);
@@ -300,9 +301,9 @@ void rtc58321a_write_data(rtc_58321a_t *context, BYTE data)
             break;
         case RTC58321A_REGISTER_WEEKDAYS:
             if (context->stop) {
-                context->latch = rtc_set_latched_weekday((real_data & 7), latch);
+                context->latch = rtc_set_latched_weekday(((real_data + 1) & 7), latch);
             } else {
-                context->offset[0] = rtc_set_weekday((real_data & 7), context->offset[0]);
+                context->offset[0] = rtc_set_weekday(((real_data + 1) & 7), context->offset[0]);
             }
             break;
         case RTC58321A_REGISTER_MONTHDAYS:

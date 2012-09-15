@@ -883,8 +883,8 @@ x64_libs =  \
 	$(driver_libs) \
 	$(vicii_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(userport_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
@@ -956,8 +956,8 @@ x64sc_libs =  \
 	$(driver_libs) \
 	$(viciisc_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(userport_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \
@@ -1103,8 +1103,8 @@ x128_libs =  \
 	$(vicii_lib) \
 	$(vdc_lib) \
 	$(raster_lib) \
-	$(rtc_lib) \
 	$(userport_lib) \
+	$(rtc_lib) \
 	$(video_lib) \
 	$(common_libs) \
 	$(imagecontents_lib) \

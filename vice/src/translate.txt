@@ -1914,11 +1914,17 @@ IDCLS_DISABLE_PETDWW
 /* pet/petdww.c */
 IDCLS_SPECIFY_PETDWW_NAME
 
-/* pet/pet_userport_dac.c */
+/* userport/userport_dac.c */
 IDCLS_ENABLE_USERPORT_DAC
 
-/* pet/pet_userport_dac.c */
+/* userport/userport_dac.c */
 IDCLS_DISABLE_USERPORT_DAC
+
+/* userport/userport_rtc.c */
+IDCLS_ENABLE_USERPORT_RTC
+
+/* userport/userport_rtc.c */
+IDCLS_DISABLE_USERPORT_RTC
 
 /* c64/plus256k.c */
 IDCLS_ENABLE_PLUS256K_EXPANSION

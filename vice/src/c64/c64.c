@@ -93,6 +93,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_rtc.h"
 #include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
@@ -384,6 +385,7 @@ int machine_resources_init(void)
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
         || c64_glue_resources_init() < 0
+        || userport_rtc_resources_init() < 0
         || cartio_resources_init() < 0
         || cartridge_resources_init() < 0) {
         return -1;
@@ -405,6 +407,7 @@ void machine_resources_shutdown(void)
     drive_resources_shutdown();
     cartridge_resources_shutdown();
     rombanks_resources_shutdown();
+    userport_rtc_resources_shutdown();
     cartio_shutdown();
 }
 
@@ -435,6 +438,7 @@ int machine_cmdline_options_init(void)
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
         || c64_glue_cmdline_options_init() < 0
+        || userport_rtc_cmdline_options_init() < 0
         || cartio_cmdline_options_init() < 0
         || cartridge_cmdline_options_init() < 0) {
         return -1;

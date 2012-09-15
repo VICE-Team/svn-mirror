@@ -1,5 +1,5 @@
 /*
- * rtc-58321.h - RTC-58321A RTC emulation.
+ * rtc-58321a.h - RTC-58321A RTC emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>

@@ -4766,7 +4766,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_PETDWW_TR, "PET DWW hi-res boardu pasifleþtir"},
 #endif
 
-/* pet/pet_userport_dac.c */
+/* userport/userport_dac.c */
 /* en */ {IDCLS_ENABLE_USERPORT_DAC,    N_("Enable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_USERPORT_DAC_DA, "Aktivér brugerport DAC for lydoutput"},
@@ -4783,7 +4783,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý aktif et"},
 #endif
 
-/* pet/pet_userport_dac.c */
+/* userport/userport_dac.c */
 /* en */ {IDCLS_DISABLE_USERPORT_DAC,    N_("Disable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_USERPORT_DAC_DA, "Deaktivér brugerport DAC for lydoutput"},
@@ -4798,6 +4798,40 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_DISABLE_USERPORT_DAC_RU, "Disable Userport DAC for sound output"},
 /* sv */ {IDCLS_DISABLE_USERPORT_DAC_SV, "Inaktivera D/A-omvandlare på användarporten för ljudutdata"},
 /* tr */ {IDCLS_DISABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý pasifleþtir"},
+#endif
+
+/* userport/userport_rtc.c */
+/* en */ {IDCLS_ENABLE_USERPORT_RTC,    N_("Enable Userport DAC for sound output")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_RTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_rtc.c */
+/* en */ {IDCLS_DISABLE_USERPORT_RTC,    N_("Disable Userport DAC for sound output")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_RTC_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
 #endif
 
 /* initcmdline.c */

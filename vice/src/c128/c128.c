@@ -91,6 +91,7 @@
 #include "tpi.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_rtc.h"
 #include "vicii.h"
 #include "vicii-mem.h"
 #include "video.h"
@@ -453,6 +454,7 @@ int machine_resources_init(void)
         || cartridge_resources_init() < 0
         || mmu_resources_init() < 0
         || z80mem_resources_init() < 0
+        || userport_rtc_resources_init() < 0
         || cartio_resources_init() < 0
         || functionrom_resources_init() < 0) {
         return -1;
@@ -473,6 +475,7 @@ void machine_resources_shutdown(void)
     cartridge_resources_shutdown();
     functionrom_resources_shutdown();
     rombanks_resources_shutdown();
+    userport_rtc_resources_shutdown();
     cartio_shutdown();
 }
 
@@ -503,6 +506,7 @@ int machine_cmdline_options_init(void)
         || cartridge_cmdline_options_init() < 0
         || mmu_cmdline_options_init() < 0
         || functionrom_cmdline_options_init() < 0
+        || userport_rtc_cmdline_options_init() < 0
         || cartio_cmdline_options_init() < 0
         || z80mem_cmdline_options_init() < 0) {
         return -1;
