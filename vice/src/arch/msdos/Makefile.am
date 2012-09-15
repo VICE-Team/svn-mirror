@@ -111,6 +111,8 @@ libarch_a_SOURCES = \
 	uidqbb.h \
 	uidrive.c \
 	uidrive.h \
+	uids12c887rtc.c \
+	uids12c887rtc.h \
 	uieasyflash.c \
 	uieasyflash.h \
 	uiexpert.c \

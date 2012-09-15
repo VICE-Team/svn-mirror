@@ -46,6 +46,7 @@
 #include "uic128model.h"
 #include "uiciamodel.h"
 #include "uidigimax.h"
+#include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
@@ -253,6 +254,8 @@ int c128ui_init(void)
     uiide64_init(ui_ioextensions_submenu);
 
     uidigimax_c64_init(ui_ioextensions_submenu);
+
+    uids12c887rtc_c128_init(ui_ioextensions_submenu);
 
     uimmc64_init(ui_ioextensions_submenu);
 

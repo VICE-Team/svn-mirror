@@ -43,6 +43,7 @@
 #include "types.h"
 #include "ui.h"
 #include "uidigimax.h"
+#include "uids12c887rtc.h"
 #include "uigeoram.h"
 #include "uilightpen.h"
 #include "uisidcart.h"
@@ -495,6 +496,7 @@ int vic20ui_init(void)
                          TUI_MENU_BEH_CONTINUE);
 
     uidigimax_vic20_init(ui_ioextensions_submenu);
+    uids12c887rtc_vic20_init(ui_ioextensions_submenu);
     uigeoram_vic20_init(ui_ioextensions_submenu);
     uisoundexpander_vic20_init(ui_ioextensions_submenu);
     uisoundsampler_init(ui_ioextensions_submenu);

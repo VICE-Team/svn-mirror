@@ -48,6 +48,7 @@
 #include "uic64model.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
+#include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiexpert.h"
 #include "uigeoram.h"
@@ -269,6 +270,8 @@ int c64ui_init(void)
     uimmcreplay_init(ui_ioextensions_submenu);
 
     uidigimax_c64_init(ui_ioextensions_submenu);
+
+    uids12c887rtc_c64_init(ui_ioextensions_submenu);
 
     uimagicvoice_init(ui_ioextensions_submenu);
 
