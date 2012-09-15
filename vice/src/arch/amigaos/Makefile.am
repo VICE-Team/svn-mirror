@@ -162,6 +162,8 @@ libarch_a_SOURCES = \
 	mui/uidrivepetcbm2.h \
 	mui/uidriveplus4.c \
 	mui/uidriveplus4.h \
+	mui/uids12c887rtc.c \
+	mui/uids12c887rtc.h \
 	mui/uieasyflash.c \
 	mui/uieasyflash.h \
 	mui/uiexpert.c \

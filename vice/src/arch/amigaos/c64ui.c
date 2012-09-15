@@ -43,6 +43,7 @@
 #include "mui/uic64model.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64vic20.h"
+#include "mui/uids12c887rtc.h"
 #include "mui/uieasyflash.h"
 #include "mui/uiexpert.h"
 #include "mui/uigeoram.h"
@@ -165,6 +166,9 @@ static int c64_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_c64_settings_dialog(canvas);
+            break;
+        case IDM_DS12C887RTC_SETTINGS:
+            ui_ds12c887rtc_c64_settings_dialog(canvas);
             break;
         case IDM_SFX_SE_SETTINGS:
             ui_soundexpander_c64_settings_dialog(canvas);

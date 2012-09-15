@@ -3792,6 +3792,34 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_SV, "DigiMAX-inställningar (MasC=uerade)..." },
 /* tr */ { IDMS_DIGIMAX_SETTINGS_MASCUERADE_TR, "DigiMAX ayarlarý (MasC=uerade)..." },
 
+/* en */ { IDMS_DS12C887RTC_SETTINGS,    "DS12C887 RTC settings..." },
+/* da */ { IDMS_DS12C887RTC_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_DS12C887RTC_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_DS12C887RTC_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_DS12C887RTC_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_DS12C887RTC_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_DS12C887RTC_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_DS12C887RTC_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_DS12C887RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_DS12C887RTC_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_DS12C887RTC_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_DS12C887RTC_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_DS12C887RTC_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE,    "DS12C887 RTC settings (MasC=uerade)..." },
+/* da */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_SFX_SE_SETTINGS,    "SFX Sound Expander settings..." },
 /* da */ { IDMS_SFX_SE_SETTINGS_DA, "SFX Sound Expander-indstillinger..." },
 /* de */ { IDMS_SFX_SE_SETTINGS_DE, "SFX Sound Expander Einstellungen..." },
@@ -10792,6 +10820,48 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_DIGIMAX_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DIGIMAX_SETTINGS_SV, "DigiMAX-inställningar" },
 /* tr */ { IDS_DIGIMAX_SETTINGS_TR, "DigiMAX ayarlarý" },
+
+/* en */ { IDS_DS12C887RTC_ENABLED,    "DS12C887 RTC Enabled" },
+/* da */ { IDS_DS12C887RTC_ENABLED_DA, "" },  /* fuzzy */
+/* de */ { IDS_DS12C887RTC_ENABLED_DE, "" },  /* fuzzy */
+/* es */ { IDS_DS12C887RTC_ENABLED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DS12C887RTC_ENABLED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DS12C887RTC_ENABLED_HU, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_ENABLED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DS12C887RTC_ENABLED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_ENABLED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DS12C887RTC_ENABLED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DS12C887RTC_ENABLED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DS12C887RTC_ENABLED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_ENABLED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DS12C887RTC_BASE,    "DS12C887 RTC base" },
+/* da */ { IDS_DS12C887RTC_BASE_DA, "" },  /* fuzzy */
+/* de */ { IDS_DS12C887RTC_BASE_DE, "" },  /* fuzzy */
+/* es */ { IDS_DS12C887RTC_BASE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DS12C887RTC_BASE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DS12C887RTC_BASE_HU, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_BASE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DS12C887RTC_BASE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_BASE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DS12C887RTC_BASE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DS12C887RTC_BASE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DS12C887RTC_BASE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_BASE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_DS12C887RTC_SETTINGS,    "DS12C887 RTC settings" },
+/* da */ { IDS_DS12C887RTC_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_DS12C887RTC_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_DS12C887RTC_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_DS12C887RTC_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_DS12C887RTC_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_DS12C887RTC_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_DS12C887RTC_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_DS12C887RTC_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_DS12C887RTC_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SFX_SE_ENABLED,    "SFX Sound Expander Enabled" },
 /* da */ { IDS_SFX_SE_ENABLED_DA, "SFX Sound Expander Aktiveret" },

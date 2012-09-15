@@ -43,6 +43,7 @@
 #include "mui/uiciamodel.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec128.h"
+#include "mui/uids12c887rtc.h"
 #include "mui/uieasyflash.h"
 #include "mui/uiexpert.h"
 #include "mui/uigeoram.h"
@@ -156,6 +157,9 @@ static int c128_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_c64_settings_dialog(canvas);
+            break;
+        case IDM_DS12C887RTC_SETTINGS:
+            ui_ds12c887rtc_c128_settings_dialog(canvas);
             break;
         case IDM_EXPERT_SETTINGS:
             ui_expert_settings_dialog(canvas);

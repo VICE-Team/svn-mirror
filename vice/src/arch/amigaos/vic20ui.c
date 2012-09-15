@@ -39,6 +39,7 @@
 #include "mui/uiacia.h"
 #include "mui/uidigimax.h"
 #include "mui/uidrivec64vic20.h"
+#include "mui/uids12c887rtc.h"
 #include "mui/uigeoram.h"
 #include "mui/uijoystick.h"
 #include "mui/uijoystickll.h"
@@ -167,6 +168,9 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
             break;
         case IDM_DIGIMAX_SETTINGS:
             ui_digimax_vic20_settings_dialog(canvas);
+            break;
+        case IDM_DS12C887RTC_SETTINGS:
+            ui_ds12c887rtc_vic20_settings_dialog(canvas);
             break;
         case IDM_GEORAM_SETTINGS:
             ui_georam_vic20_settings_dialog(canvas);
