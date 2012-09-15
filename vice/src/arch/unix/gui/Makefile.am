@@ -74,6 +74,8 @@ libarchgui_a_SOURCES = \
 	uidrivevic20.h \
 	uidqbb.c \
 	uidqbb.h \
+	uids12c887rtc.c \
+	uids12c887rtc.h \
 	uieasyflash.c \
 	uieasyflash.h \
 	uiedisk.h \

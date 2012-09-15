@@ -52,6 +52,7 @@
 #include "uidrivec64.h"
 #include "uidrivec64c128.h"
 #include "uidrivec64vic20.h"
+#include "uids12c887rtc.h"
 #include "uieasyflash.h"
 #include "uiedit.h"
 #include "uiexpert.h"
@@ -522,6 +523,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX, UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_c64_submenu },
+    { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ds12c887rtc_c64_submenu },
     { CARTRIDGE_NAME_MAGIC_VOICE, UI_MENU_TYPE_NORMAL,
       NULL, NULL, magicvoice_submenu },
 #ifdef HAVE_MIDI

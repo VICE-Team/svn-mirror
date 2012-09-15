@@ -48,6 +48,7 @@
 #include "uidrive.h"
 #include "uidrivec64vic20.h"
 #include "uidrivevic20.h"
+#include "uids12c887rtc.h"
 #include "uiedit.h"
 #include "uigeoram.h"
 #include "uijoystick2.h"
@@ -456,6 +457,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_vic20_submenu },
+    { CARTRIDGE_NAME_DS12C887RTC " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ds12c887rtc_vic20_submenu },
     { CARTRIDGE_NAME_GEORAM " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
       NULL, NULL, georam_vic20_submenu },
     { CARTRIDGE_NAME_SFX_SOUND_EXPANDER " (MasC=uerade)", UI_MENU_TYPE_NORMAL,
