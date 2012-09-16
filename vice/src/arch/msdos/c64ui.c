@@ -211,6 +211,7 @@ static tui_menu_item_def_t rom_menu_items[] = {
 /* ------------------------------------------------------------------------- */
 
 TUI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+TUI_MENU_DEFINE_TOGGLE(UserportRTC)
 
 int c64ui_init(void)
 {
@@ -286,6 +287,12 @@ int c64ui_init(void)
     tui_menu_add_item(ui_ioextensions_submenu, "Enable SFX Sound Sampler",
                       "Enable SFX Sound Sampler",
                       toggle_SFXSoundSampler_callback,
+                      NULL, 3,
+                      TUI_MENU_BEH_CONTINUE);
+
+    tui_menu_add_item(ui_ioextensions_submenu, "Enable Userport RTC",
+                      "Enable Userport RTC",
+                      toggle_UserportRTC_callback,
                       NULL, 3,
                       TUI_MENU_BEH_CONTINUE);
 
