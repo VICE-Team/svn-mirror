@@ -79,6 +79,8 @@ const ui_menu_entry_t burstmod_menu[] = {
     SDL_MENU_LIST_END
 };
 
+UI_MENU_DEFINE_TOGGLE(UserportRTC)
+
 const ui_menu_entry_t c64_hardware_menu[] = {
     { "Model settings",
       MENU_ENTRY_SUBMENU,
@@ -150,6 +152,10 @@ const ui_menu_entry_t c64_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)burstmod_menu },
+    { "Userport RTC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
 
@@ -224,5 +230,9 @@ const ui_menu_entry_t c64sc_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)burstmod_menu },
+    { "Userport RTC enable",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_UserportRTC_callback,
+      NULL },
     SDL_MENU_LIST_END
 };
