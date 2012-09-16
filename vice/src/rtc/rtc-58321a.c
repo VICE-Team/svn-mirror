@@ -83,7 +83,9 @@
  * register F : bits 3-0 0 (SS1 register)
  */
 
-/* This module is currently unused. */
+/* This module is currently used in the following emulated hardware:
+   - C64/C128 userport RTC expansion
+ */
 
 /* ---------------------------------------------------------------------------------------------------- */
 
