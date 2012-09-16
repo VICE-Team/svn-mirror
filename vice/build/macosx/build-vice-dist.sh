@@ -483,8 +483,10 @@ if [ $DEBUG = 1 ]; then
 else
   STRIP="strip"
 fi
+# make-bindist.sh <top_srcdir> <strip> <vice-version> <--enable-arch> <zip|nozip> <x64sc-included> <ui_type> [bin_format]
+#                 $1           $2      $3             $4              $5          $6               $7        $8
 (cd "$BUILD_DIR/$ARCH" && \
-$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION $ZIP yes $UI_TYPE "$ARCH-$SDK_VERSION-$COMPILER")
+$SHELL $VICE_SRC/src/arch/unix/macosx/make-bindist.sh $VICE_SRC $STRIP $VICE_VERSION no $ZIP yes $UI_TYPE "$ARCH-$SDK_VERSION-$COMPILER")
 
 echo "----- Ready: architecture: [$ARCH-$SDK_VERSION-$COMPILER,$UI_TYPE,$DIST_TYPE] -----"
 echo "VICE was configured with: $CONFIGURE_OPTS"
