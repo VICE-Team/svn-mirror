@@ -88,6 +88,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "VDCStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
     { "VDC64KB", IDM_TOGGLE_VDC64KB },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
 //  { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
 //  { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { NULL, 0 }

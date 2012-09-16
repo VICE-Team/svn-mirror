@@ -3890,6 +3890,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_ENABLE_SFX_SS_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
+/* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the SFX Sound Sampler cartridge" },
+/* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_USERPORT_RTC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_USERPORT_RTC_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
 /* da */ { IDMS_BURST_MOD_SETTINGS_DA, "" },  /* fuzzy */
 /* de */ { IDMS_BURST_MOD_SETTINGS_DE, "Laufwerk Burstmodifkation Einstellungen..." },
