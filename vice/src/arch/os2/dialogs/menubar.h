@@ -400,6 +400,8 @@
 
 #define IDM_PET_USERPORT_DAC         0x1cc
 
+#define IDM_USERPORT_RTC             0x326
+
 #define IDM_TFE_SETTINGS             0x2ca
 #define IDM_TFE                      0x158
 #define IDM_TFE_IO_SWAP              0x2cb

@@ -957,6 +957,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
                 ui_error("Can not save to EasyFlash .crt file");
             }
             return;
+        case IDM_USERPORT_RTC:
+            toggle("UserportRTC");
+            return;
         case IDM_DQBB:
             toggle("DQBB");
             return;
@@ -2102,6 +2105,8 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_JUMPER, val);
             resources_get_int("EasyFlashWriteCRT", &val);
             WinCheckMenuItem(hwnd, IDM_EASYFLASH_AUTOSAVE, val);
+            resources_get_int("UserportRTC", &val);
+            WinCheckMenuItem(hwnd, IDM_USERPORT_RTC, val);
 #endif
 
 #ifdef __X64__
