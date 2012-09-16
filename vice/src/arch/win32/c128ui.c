@@ -103,6 +103,7 @@ static const ui_menu_toggle_t c128_ui_menu_toggles[] = {
     { "InternalFunctionROM", IDM_TOGGLE_IFUNCTIONROM },
     { "ExternalFunctionROM", IDM_TOGGLE_EFUNCTIONROM },
     { "SFXSoundSampler", IDM_TOGGLE_SFX_SS },
+    { "UserportRTC", IDM_TOGGLE_USERPORT_RTC },
     { NULL, 0 }
 };
 
@@ -403,6 +404,7 @@ ui_menu_translation_table_t c128ui_menu_translation_table[] = {
     { IDM_EASYFLASH_SETTINGS, IDS_MI_EASYFLASH_SETTINGS },
     { IDM_SFX_SE_SETTINGS, IDS_MI_SFX_SE_SETTINGS },
     { IDM_TOGGLE_SFX_SS, IDS_MI_TOGGLE_SFX_SS },
+    { IDM_TOGGLE_USERPORT_RTC, IDS_MI_TOGGLE_USERPORT_RTC },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
     { IDM_SETTINGS_LOAD_FILE, IDS_MI_SETTINGS_LOAD_FILE },
     { IDM_SETTINGS_SAVE, IDS_MI_SETTINGS_SAVE },

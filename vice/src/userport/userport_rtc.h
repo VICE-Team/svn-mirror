@@ -31,8 +31,8 @@
 
 extern int userport_rtc_enable;
 
-extern void userport_rtc_store_pbx(BYTE value);
-extern BYTE userport_rtc_read_pbx(BYTE orig);
+extern void userport_rtc_store(BYTE value);
+extern BYTE userport_rtc_read(BYTE orig);
 
 extern int userport_rtc_resources_init(void);
 extern int userport_rtc_cmdline_options_init(void);

@@ -114,7 +114,7 @@ void userport_rtc_store(BYTE value)
 {
     if (userport_rtc_enabled) {
         if (value & 0x10) {
-            rtc58321a_write_address(rtc58321a_context, value & 0xf);
+            rtc58321a_write_address(rtc58321a_context, (BYTE)(value & 0xf));
         }
         if (value & 0x20) {
             read_line_active = 1;
@@ -122,17 +122,17 @@ void userport_rtc_store(BYTE value)
             read_line_active = 0;
         }
         if (value & 0x40) {
-            rtc58321a_write_data(rtc58321a_context, value & 0xf);
+            rtc58321a_write_data(rtc58321a_context, (BYTE)(value & 0xf));
         }
     }
 }
 
-BYTE userport_rtc_read(void)
+BYTE userport_rtc_read(BYTE orig)
 {
     if (userport_rtc_enabled) {
         if (read_line_active) {
-            return 0xf0 | rtc58321a_read(rtc58321a_context);
+            return (orig & 0xf0) | rtc58321a_read(rtc58321a_context);
         }
     }
-    return 0xff;
+    return orig;
 }
