@@ -150,5 +150,9 @@ SOURCE="..\..\rtc\ds12c887.c"
 
 SOURCE="..\..\rtc\rtc.c"
 # End Source File
+# Begin Source File
+
+SOURCE="..\..\rtc\rtc-58321a.c"
+# End Source File
 # End Target
 # End Project
