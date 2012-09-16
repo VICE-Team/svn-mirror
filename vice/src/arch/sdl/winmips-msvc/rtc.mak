@@ -53,6 +53,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ds1202_1302.obj"
 	-@erase "$(INTDIR)\ds1216e.obj"
 	-@erase "$(INTDIR)\rtc.obj"
+	-@erase "$(INTDIR)\rtc-58321a.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\rtc.lib"
 
@@ -105,6 +106,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\ds1202_1302.obj" \
 	"$(INTDIR)\ds1216e.obj" \
 	"$(INTDIR)\rtc.obj" \
+	"$(INTDIR)\rtc-58321a.obj" \
 	".\libs\base\Release\base.lib"
 
 "$(OUTDIR)\rtc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -140,6 +142,7 @@ CLEAN :
 	-@erase "$(INTDIR)\ds1202_1302.obj"
 	-@erase "$(INTDIR)\ds1216e.obj"
 	-@erase "$(INTDIR)\rtc.obj"
+	-@erase "$(INTDIR)\rtc-58321a.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\rtc.lib"
 
@@ -192,6 +195,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\ds1202_1302.obj" \
 	"$(INTDIR)\ds1216e.obj" \
 	"$(INTDIR)\rtc.obj" \
+	"$(INTDIR)\rtc-58321a.obj" \
 	".\libs\base\Debug\base.lib"
 
 "$(OUTDIR)\rtc.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -257,6 +261,12 @@ SOURCE="..\..\..\rtc\ds1216e.c"
 SOURCE="..\..\..\rtc\rtc.c"
 
 "$(INTDIR)\rtc.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\rtc\rtc-58321a.c"
+
+"$(INTDIR)\rtc-58321a.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

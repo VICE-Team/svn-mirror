@@ -52,13 +52,14 @@ CLEAN :
 	-@erase "$(INTDIR)\userport_dac.obj"
 	-@erase "$(INTDIR)\userport_digimax.obj"
 	-@erase "$(INTDIR)\userport_joystick.obj"
+	-@erase "$(INTDIR)\userport_rtc.obj"
 	-@erase "$(OUTDIR)\userport.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\userport.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\rtc" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\userport.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -101,6 +102,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\userport_dac.obj" \
 	"$(INTDIR)\userport_digimax.obj" \
 	"$(INTDIR)\userport_joystick.obj" \
+	"$(INTDIR)\userport_rtc.obj" \
 	".\libs\base\Release\base.lib"
 
 "$(OUTDIR)\userport.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -135,13 +137,14 @@ CLEAN :
 	-@erase "$(INTDIR)\userport_dac.obj"
 	-@erase "$(INTDIR)\userport_digimax.obj"
 	-@erase "$(INTDIR)\userport_joystick.obj"
+	-@erase "$(INTDIR)\userport_rtc.obj"
 	-@erase "$(OUTDIR)\userport.lib"
 
 "$(OUTDIR)" :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\userport.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\rtc" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\userport.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -184,6 +187,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\userport_dac.obj" \
 	"$(INTDIR)\userport_digimax.obj" \
 	"$(INTDIR)\userport_joystick.obj" \
+	"$(INTDIR)\userport_rtc.obj" \
 	".\libs\base\Debug\base.lib"
 
 "$(OUTDIR)\userport.lib" : "$(OUTDIR)" $(DEF_FILE) $(LIB32_OBJS)
@@ -237,6 +241,12 @@ SOURCE="..\..\..\userport\userport_digimax.c"
 SOURCE="..\..\..\userport\userport_joystick.c"
 
 "$(INTDIR)\userport_joystick.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE="..\..\..\userport\userport_rtc.c"
+
+"$(INTDIR)\userport_rtc.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
