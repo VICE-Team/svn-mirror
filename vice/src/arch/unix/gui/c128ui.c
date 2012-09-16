@@ -283,6 +283,7 @@ static ui_menu_entry_t sid_submenu[] = {
 
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
+UI_MENU_DEFINE_TOGGLE(UserportRTC)
 UI_MENU_DEFINE_TOGGLE(InternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
@@ -389,6 +390,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, soundexpander_c64_submenu },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER, UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
+    { "Userport RTC", UI_MENU_TYPE_NORMAL,
+      (ui_callback_t)toggle_UserportRTC, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Reset on cart change"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CartridgeReset, NULL, NULL },
