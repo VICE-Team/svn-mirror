@@ -619,6 +619,11 @@ darwin*)
     fi
   fi
 
+  if test "$GCC" = yes -a "$enable_no_pic" != "no" ; then
+    CFLAGS="$CFLAGS -mdynamic-no-pic"
+    CXXFLAGS="$CXXFLAGS -mdynamic-no-pic"
+  fi
+
   AM_CONDITIONAL(HAVE_RAWDRIVE, true)
   if test x"$enable_rs232" != "xno"; then
     AC_DEFINE(HAVE_RS232,,[Enable RS232 emulation.])
