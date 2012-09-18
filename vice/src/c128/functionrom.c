@@ -30,6 +30,7 @@
 #include <string.h>
 
 #include "archdep.h"
+#include "bq4830y.h"
 #include "cmdline.h"
 #include "functionrom.h"
 #include "lib.h"
@@ -52,6 +53,7 @@ static char *internal_function_rom_name = NULL;
 BYTE int_function_rom[INTERNAL_FUNCTION_ROM_SIZE];
 
 /* Flag: Do we enable the external function ROM?  */
+/* New meaning: 0=no, 1=yes (rom), 2=yes (ram), 3=yes (rtc) */
 static int external_function_rom_enabled;
 
 /* Name of the external function ROM.  */
@@ -60,20 +62,52 @@ static char *external_function_rom_name = NULL;
 /* Image of the external function ROM.  */
 BYTE ext_function_rom[EXTERNAL_FUNCTION_ROM_SIZE];
 
+/* Some prototypes are needed */
 static int functionrom_load_internal(void);
 static int functionrom_load_external(void);
 
+extern rtc_bq4830y_t *bq4830y_init(BYTE *ram, time_t *offset);
+
+/* bq4830y context */
+static rtc_bq4830y_t *rtc_context = NULL;
+
+/* rtc offset */
+/* FIXME: Implement saving/setting/loading of the offset */
+static time_t rtc_offset = 0;
+
 static int set_internal_function_rom_enabled(int val, void *param)
 {
+    if (internal_function_rom_enabled == val) {
+        return 0;
+    }
+
+    if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
+        bq4830y_destroy(rtc_context);
+        rtc_context = NULL;
+    }
+
     internal_function_rom_enabled = val;
-    return functionrom_load_internal();
+
+    if (val == INT_FUNCTION_RTC) {
+        rtc_context = bq4830y_init((BYTE *)int_function_rom, &rtc_offset);
+        memset(int_function_rom, 0, sizeof(int_function_rom));
+    }
+
+    if (val == INT_FUNCTION_RAM) {
+        memset(int_function_rom, 0, sizeof(int_function_rom));
+    }
+
+    if (val == INT_FUNCTION_ROM) {
+        return functionrom_load_internal();
+    }
+    return 0;
 }
 
 static int set_internal_function_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&internal_function_rom_name, val))
+    if (util_string_set(&internal_function_rom_name, val)) {
         return 0;
-
+    }
     return functionrom_load_internal();
 }
 
@@ -85,9 +119,9 @@ static int set_external_function_rom_enabled(int val, void *param)
 
 static int set_external_function_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&external_function_rom_name, val))
+    if (util_string_set(&external_function_rom_name, val)) {
         return 0;
-
+    }
     return functionrom_load_external();
 }
 
@@ -115,9 +149,9 @@ static const resource_int_t resources_int[] =
 
 int functionrom_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
-
+    }
     return resources_register_int(resources_int);
 }
 
@@ -140,13 +174,8 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL },
     { "-intfunc", SET_RESOURCE, 0,
       NULL, NULL, "InternalFunctionROM", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_ENABLE_INT_FUNC_ROM,
-      NULL, NULL },
-    { "+intfunc", SET_RESOURCE, 0,
-      NULL, NULL, "InternalFunctionROM", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
-      IDCLS_UNUSED, IDCLS_DISABLE_INT_FUNC_ROM,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_ENABLE_INT_FUNC_ROM,
       NULL, NULL },
     { "-extfunc", SET_RESOURCE, 0,
       NULL, NULL, "ExternalFunctionROM", (resource_value_t)1,
@@ -168,15 +197,17 @@ int functionrom_cmdline_options_init(void)
 
 static int functionrom_load_internal(void)
 {
-    if (internal_function_rom_enabled) {
-        if (util_check_null_string(internal_function_rom_name))
+    if (internal_function_rom_enabled == INT_FUNCTION_ROM) {
+        if (util_check_null_string(internal_function_rom_name)) {
             return 0;
+        }
 
         if (util_file_load(internal_function_rom_name, int_function_rom,
             INTERNAL_FUNCTION_ROM_SIZE,
-            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
+            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
             return -1;
-    } else {
+        }
+    } else if (internal_function_rom_enabled == INT_FUNCTION_NONE) {
         memset(int_function_rom, 0, sizeof(int_function_rom));
     }
 
@@ -186,13 +217,15 @@ static int functionrom_load_internal(void)
 static int functionrom_load_external(void)
 {
     if (external_function_rom_enabled) {
-        if (util_check_null_string(external_function_rom_name))
+        if (util_check_null_string(external_function_rom_name)) {
             return 0;
+        }
 
         if (util_file_load(external_function_rom_name, ext_function_rom,
             EXTERNAL_FUNCTION_ROM_SIZE,
-            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0)
+            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
             return -1;
+        }
     } else {
         memset(ext_function_rom, 0, sizeof(ext_function_rom));
     }
@@ -202,12 +235,36 @@ static int functionrom_load_external(void)
 
 BYTE internal_function_rom_read(WORD addr)
 {
+    if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
+        return bq4830y_read(rtc_context, addr & 0x7fff);
+    }
     return int_function_rom[addr & 0x7fff];
 }
 
 void internal_function_rom_store(WORD addr, BYTE value)
 {
-    int_function_rom[addr & 0x7fff] = value;
+    if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
+        bq4830y_store(rtc_context, addr & 0x7fff, value);
+        ram_store(addr, value);
+    } else if (internal_function_rom_enabled == INT_FUNCTION_RAM) {
+        int_function_rom[addr & 0x7fff] = value;
+        ram_store(addr, value);
+    } else {
+        ram_store(addr, value);
+    }
+}
+
+void internal_function_top_shared_store(WORD addr, BYTE value)
+{
+    if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
+        bq4830y_store(rtc_context, addr & 0x7fff, value);
+        top_shared_store(addr, value);
+    } else if (internal_function_rom_enabled == INT_FUNCTION_RAM) {
+        int_function_rom[addr & 0x7fff] = value;
+        top_shared_store(addr, value);
+    } else {
+        top_shared_store(addr, value);
+    }
 }
 
 BYTE external_function_rom_read(WORD addr)
@@ -219,4 +276,3 @@ void external_function_rom_store(WORD addr, BYTE value)
 {
     ext_function_rom[addr & 0x3fff] = value;
 }
-

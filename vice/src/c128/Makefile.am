@@ -12,7 +12,8 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vicii \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/lib/p64 \
-	-I$(top_srcdir)/src/vdc
+	-I$(top_srcdir)/src/vdc \
+	-I$(top_srcdir)/src/rtc
 
 noinst_LIBRARIES = libc128.a
 

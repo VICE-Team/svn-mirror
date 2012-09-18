@@ -70,11 +70,14 @@
    - Windows Vista Home Basic (x86/x64)
    - Windows Vista Home Premium (x86/x64)
    - Windows Vista Business (x86/x64)
+   - Windows Vista Enterprise (x86)
    - Windows Vista Ultimate (x86/x64)
    - Windows 2008 Web Server (x86/x64)
    - Windows 2008 Standard Server (x86/x64)
-   - Windows 2008 Enterprise Server (x86)
-   - Windows 7 Ultimate (x86)
+   - Windows 2008 Enterprise Server (x86/x64)
+   - Windows 2008 Datacenter Server (x86/x64)
+   - Windows 7 Starter (x86)
+   - Windows 7 Ultimate (x86/x64)
    - HXDOS
    - ReactOS
    - Wine

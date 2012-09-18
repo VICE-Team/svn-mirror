@@ -4027,20 +4027,20 @@ translate_t string_table[] = {
 #endif
 
 /* c128/functionrom.c */
-/* en */ {IDCLS_ENABLE_INT_FUNC_ROM,    N_("Enable the internal Function ROM")},
+/* en */ {IDCLS_ENABLE_INT_FUNC_ROM,    N_("Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_INT_FUNC_ROM_DA, "Aktivér intern funktions-ROM"},
-/* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, "Internes Funktions ROM aktivieren"},
-/* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, "Permitir ROM función interna"},
-/* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, "Activer l'image ROM des fonctions internes"},
-/* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, "Belsõ Function ROM engedélyezése"},
-/* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, "Attiva la Function ROM interna"},
-/* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, "ÀÎÅÍ³Î Function ROM À» »ç¿ë°¡´ÉÇÏ°Ô ÇÏ±â"},
-/* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Activeer de interne functie ROM"},
-/* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, "W³±cz wewnêtrzny Function ROM"},
-/* ru */ {IDCLS_ENABLE_INT_FUNC_ROM_RU, "Enable the internal Function ROM"},
-/* sv */ {IDCLS_ENABLE_INT_FUNC_ROM_SV, "Aktivera internt funktions-ROM"},
-/* tr */ {IDCLS_ENABLE_INT_FUNC_ROM_TR, "Dahili Function ROM'u aktif et"},
+/* da */ {IDCLS_ENABLE_INT_FUNC_ROM_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_INT_FUNC_ROM_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_INT_FUNC_ROM_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_INT_FUNC_ROM_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/functionrom.c */
