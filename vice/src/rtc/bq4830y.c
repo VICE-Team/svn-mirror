@@ -81,7 +81,9 @@
  *                  bits 3-0 years
  */
 
-/* This module is currently unused. */
+/* This module is currently used in the following emulated hardware:
+   - C128 internal function RAM+RTC expansion
+ */
 
 /* ---------------------------------------------------------------------------------------------------- */
 
