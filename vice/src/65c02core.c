@@ -1540,10 +1540,12 @@
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY
+#ifndef DRIVE_CPU
         /* HACK to cope with FETCH_OPCODE optimization in x64 */
         if (((int)reg_pc) < bank_limit) {
             memmap_mem_read(reg_pc);
         }
+#endif
         if (p0 == 0x20) {
             monitor_cpuhistory_store(reg_pc, p0, p1, LOAD(reg_pc+2), reg_a, reg_x, reg_y, reg_sp, LOCAL_STATUS());
         } else {
