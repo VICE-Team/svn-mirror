@@ -477,6 +477,8 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define GLOBAL_REGS cpu->cpu_R65C02_regs
 
+#define DRIVE_CPU
+
 #include "65c02core.c"
 
     }
