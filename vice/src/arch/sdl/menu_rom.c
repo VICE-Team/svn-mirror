@@ -35,16 +35,37 @@
 #include "menu_rom.h"
 #include "uimenu.h"
 
-UI_MENU_DEFINE_TOGGLE(InternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
 UI_MENU_DEFINE_FILE_STRING(InternalFunctionName)
 UI_MENU_DEFINE_FILE_STRING(ExternalFunctionName)
 
+UI_MENU_DEFINE_RADIO(InternalFunctionROM)
+
+const ui_menu_entry_t int_func_rom_menu[] = {
+    { "None",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_InternalFunctionROM_callback,
+      (ui_callback_data_t)0 },
+    { "ROM",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_InternalFunctionROM_callback,
+      (ui_callback_data_t)1 },
+    { "RAM",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_InternalFunctionROM_callback,
+      (ui_callback_data_t)2 },
+    { "RTC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_InternalFunctionROM_callback,
+      (ui_callback_data_t)3 },
+    SDL_MENU_LIST_END
+};
+
 static const ui_menu_entry_t c128_function_rom_menu[] = {
-    { "Enable internal function ROM",
-      MENU_ENTRY_RESOURCE_TOGGLE,
-      toggle_InternalFunctionROM_callback,
-      NULL },
+    { "Internal function ROM type",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)int_func_rom_menu },
     { "Internal function ROM file",
       MENU_ENTRY_DIALOG,
       file_string_InternalFunctionName_callback,
