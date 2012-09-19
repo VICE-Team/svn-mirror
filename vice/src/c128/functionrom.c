@@ -31,6 +31,7 @@
 
 #include "archdep.h"
 #include "bq4830y.h"
+#include "c128mem.h"
 #include "cmdline.h"
 #include "functionrom.h"
 #include "lib.h"
@@ -236,7 +237,7 @@ static int functionrom_load_external(void)
 BYTE internal_function_rom_read(WORD addr)
 {
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
-        return bq4830y_read(rtc_context, addr & 0x7fff);
+        return bq4830y_read(rtc_context, (WORD)(addr & 0x7fff));
     }
     return int_function_rom[addr & 0x7fff];
 }
@@ -244,7 +245,7 @@ BYTE internal_function_rom_read(WORD addr)
 void internal_function_rom_store(WORD addr, BYTE value)
 {
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
-        bq4830y_store(rtc_context, addr & 0x7fff, value);
+        bq4830y_store(rtc_context, (WORD)(addr & 0x7fff), value);
         ram_store(addr, value);
     } else if (internal_function_rom_enabled == INT_FUNCTION_RAM) {
         int_function_rom[addr & 0x7fff] = value;
@@ -257,7 +258,7 @@ void internal_function_rom_store(WORD addr, BYTE value)
 void internal_function_top_shared_store(WORD addr, BYTE value)
 {
     if (internal_function_rom_enabled == INT_FUNCTION_RTC) {
-        bq4830y_store(rtc_context, addr & 0x7fff, value);
+        bq4830y_store(rtc_context, (WORD)(addr & 0x7fff), value);
         top_shared_store(addr, value);
     } else if (internal_function_rom_enabled == INT_FUNCTION_RAM) {
         int_function_rom[addr & 0x7fff] = value;
