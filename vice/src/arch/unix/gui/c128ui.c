@@ -284,9 +284,21 @@ static ui_menu_entry_t sid_submenu[] = {
 UI_MENU_DEFINE_TOGGLE(C128FullBanks)
 UI_MENU_DEFINE_TOGGLE(SFXSoundSampler)
 UI_MENU_DEFINE_TOGGLE(UserportRTC)
-UI_MENU_DEFINE_TOGGLE(InternalFunctionROM)
+UI_MENU_DEFINE_RADIO(InternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(ExternalFunctionROM)
 UI_MENU_DEFINE_TOGGLE(CartridgeReset)
+
+static ui_menu_entry_t int_function_type_submenu[] = {
+    { N_("None"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
+      (ui_callback_data_t)0, NULL },
+    { "ROM", UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
+      (ui_callback_data_t)1, NULL },
+    { "RAM", UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
+      (ui_callback_data_t)2, NULL },
+    { "RTC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_InternalFunctionROM,
+      (ui_callback_data_t)3, NULL },
+    { NULL }
+};
 
 UI_CALLBACK(set_function_rom_name)
 {
@@ -308,8 +320,8 @@ UI_CALLBACK(set_function_rom_name)
 }
 
 static ui_menu_entry_t functionrom_submenu[] = {
-    { N_("Enable the internal Function ROM"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_InternalFunctionROM, NULL, NULL },
+    { N_("Internal Function ROM type"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, int_function_type_submenu },
     { N_("Internal Function ROM file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_function_rom_name,
       (ui_callback_data_t)"InternalFunctionName", NULL },
