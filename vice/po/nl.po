@@ -164,9 +164,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:732
-#, fuzzy
 msgid "Internal Function ROM type"
-msgstr "Interne functie ROM"
+msgstr "Interne functie ROM soort"
 
 #: src/arch/unix/gui/c128ui.c:325 src/arch/amigaos/intl_text.c.po.c:10660
 msgid "Internal Function ROM file"
@@ -6400,9 +6399,8 @@ msgstr "DigiMAX instellingen"
 #: src/arch/amigaos/intl_text.c.po.c:3771
 #: src/arch/amigaos/intl_text.c.po.c:3785
 #: src/arch/amigaos/intl_text.c.po.c:10842
-#, fuzzy
 msgid "DS12C887 RTC settings"
-msgstr "CRTC instellingen"
+msgstr "DS12C887 RTC instellingen"
 
 #: src/arch/win32/res.rc.po.c:1535 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
@@ -6452,9 +6450,8 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Activeer de SFX Sound Sampler cartridge"
 
 #: src/arch/win32/res.rc.po.c:1545
-#, fuzzy
 msgid "Enable the Userport RTC expansion"
-msgstr "Activeer de RamCart uitbreiding"
+msgstr "Activeer de Userport RTC uitbreiding"
 
 #: src/arch/win32/res.rc.po.c:1546 src/arch/amigaos/intl_text.c.po.c:4093
 msgid "Save current settings to specified file"
@@ -8566,11 +8563,11 @@ msgstr "DigiMAX Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:10814
 msgid "DS12C887 RTC Enabled"
-msgstr ""
+msgstr "DS12C887 Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:10828
 msgid "DS12C887 RTC base"
-msgstr ""
+msgstr "DS12C887 RTC basis adres"
 
 #: src/arch/amigaos/intl_text.c.po.c:10856
 msgid "SFX Sound Expander Enabled"
@@ -8613,9 +8610,8 @@ msgid "Atari ST mouse"
 msgstr "Atari ST muis"
 
 #: src/arch/amigaos/intl_text.c.po.c:11304
-#, fuzzy
 msgid "Smart mouse"
-msgstr "Amiga muis"
+msgstr "Smart muis"
 
 #: src/arch/amigaos/intl_text.c.po.c:11500
 msgid "Save to EasyFlash CRT file on detach"
@@ -9898,7 +9894,7 @@ msgstr "Geef de naam van het extern functie ROM bestand"
 
 #: src/translate_text.c.po.c:3964
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr ""
+msgstr "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
 msgid "Disable the internal Function ROM"
@@ -11610,13 +11606,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Selecteer de joystickpoort waar de muis aan gekoppelt is"
 
 #: src/translate_text.c.po.c:11833
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
 msgstr ""
 "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
-"CX-22, 5 = ST)"
+"CX-22, 5 = ST, 6 = Smart)"
 
 #: src/translate_text.c.po.c:11850
 msgid "Enable PS/2 mouse on userport"
@@ -11908,19 +11903,13 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "Basisadres van de DigiMAX cartridge"
 
 #: src/translate_text.c.po.c:13348
-#, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
-msgstr "*Activeer de SID cartridge"
+msgstr "Activeer de DS12C887 RTC cartridge"
 
 #: src/translate_text.c.po.c:13365
-#, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
-msgstr "De SID cartridge uitschakelen"
+msgstr "De DS12C887 RTC cartridge uitschakelen"
 
 #: src/translate_text.c.po.c:13382
-#, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
-msgstr "Basisadres van de DigiMAX cartridge"
-
-#~ msgid "Enable the internal Function ROM"
-#~ msgstr "Activeer de interne functie ROM"
+msgstr "Basisadres van de DS12C887 RTC cartridge"
