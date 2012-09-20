@@ -4036,7 +4036,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
 /* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_INT_FUNC_ROM_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_INT_FUNC_ROM_SV, ""},  /* fuzzy */
@@ -4803,35 +4803,35 @@ translate_t string_table[] = {
 /* userport/userport_rtc.c */
 /* en */ {IDCLS_ENABLE_USERPORT_RTC,    N_("Enable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_USERPORT_RTC_ES, ""},  /* fuzzy */
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_DA, "Aktivér brugerport DAC for lydoutput"},
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DE, "Userport DAC Sound aktivieren"},
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_ES, "Permitir puerto DAC para salida de sonido"},
 /* fr */ {IDCLS_ENABLE_USERPORT_RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, "Attiva DAC su userport per la riproduzione audio"},
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, "Activeer userport DAC voor geluidsuitvoer"},
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, "W³±cz userport DAC jako wyj¶cie d¼wiêku"},
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, "Enable Userport DAC for sound output"},
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, "Aktivera D/A-omvandlare på användarporten för ljudutdata"},
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, "Ses çýkýþý için Userport DAC'ý aktif et"},
 #endif
 
 /* userport/userport_rtc.c */
 /* en */ {IDCLS_DISABLE_USERPORT_RTC,    N_("Disable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DISABLE_USERPORT_RTC_ES, ""},  /* fuzzy */
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_DA, "Deaktivér brugerport DAC for lydoutput"},
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DE, "Userport DAC Sound deaktivieren"},
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_ES, "Deshabilitar puerto DAC para salida de sonido"},
 /* fr */ {IDCLS_DISABLE_USERPORT_RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, "Disattiva DAC su userport per la riproduzione audio"},
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, "Userport DAC voor geluidsuitvoer uitschakelen"},
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, "Wy³±cz userport DAC jako wy¶cie d¼wiêku"},
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, "Disable Userport DAC for sound output"},
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, "Inaktivera D/A-omvandlare på användarporten för ljudutdata"},
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, "Ses çýkýþý için Userport DAC'ý pasifleþtir"},
 #endif
 
 /* initcmdline.c */
@@ -8178,51 +8178,51 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SUPERCARD,    N_("Enable SuperCard+")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SUPERCARD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SUPERCARD_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_SUPERCARD_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SUPERCARD_DE, "SuperCard+ aktivieren"},
+/* es */ {IDCLS_ENABLE_SUPERCARD_ES, "Permitir SuperCard+"},
 /* fr */ {IDCLS_ENABLE_SUPERCARD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_SUPERCARD_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_SUPERCARD_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_SUPERCARD_IT, "Attiva SuperCard+"},
 /* ko */ {IDCLS_ENABLE_SUPERCARD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SUPERCARD_NL, "Activeer SuperCard+"},
 /* pl */ {IDCLS_ENABLE_SUPERCARD_PL, "W³±cz SuperCard+"},
 /* ru */ {IDCLS_ENABLE_SUPERCARD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SUPERCARD_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_ENABLE_SUPERCARD_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SUPERCARD_TR, "SuperCard+'ý aktif et"},
 #endif
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_SUPERCARD,    N_("Disable SuperCard+")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SUPERCARD_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SUPERCARD_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DISABLE_SUPERCARD_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SUPERCARD_DE, "SuperCard+ deaktivieren"},
+/* es */ {IDCLS_DISABLE_SUPERCARD_ES, "Deshabilitar SuperCard+"},
 /* fr */ {IDCLS_DISABLE_SUPERCARD_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_SUPERCARD_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_SUPERCARD_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_SUPERCARD_IT, "Disattiva SuperCard+"},
 /* ko */ {IDCLS_DISABLE_SUPERCARD_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SUPERCARD_NL, "SuperCard+ uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SUPERCARD_PL, "Wy³±cz SuperCard+"},
 /* ru */ {IDCLS_DISABLE_SUPERCARD_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SUPERCARD_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_DISABLE_SUPERCARD_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SUPERCARD_TR, "SuperCard+'ý pasifleþtir"},
 #endif
 
 /* drive/iec/c64exp/c64exp-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME,    N_("Specify name of SuperCard+ ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_DE, "Name von SuperCard+ ROM Datei definieren"},
+/* es */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_ES, "Especificar nombre de Imagen ROM SuperCard+"},
 /* fr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_IT, "Specifica il nome immagine della ROM del SuperCard+"},
 /* ko */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_NL, "Geef de naam van het SuperCard+ ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM SuperCard+"},
 /* ru */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_TR, "SuperCard+ ROM imajýnýn ismini belirt"},
 #endif
 
 /* drive/iec/plus4exp/plus4exp-cmdline-options.c */
@@ -11910,17 +11910,17 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón  (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* ps2mouse.c */
@@ -13431,7 +13431,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_DS12C887RTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DS12C887RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DS12C887RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_DS12C887RTC_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_DS12C887RTC_NL, "Activeer de DS12C887 RTC cartridge"},
 /* pl */ {IDCLS_ENABLE_DS12C887RTC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_DS12C887RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DS12C887RTC_SV, ""},  /* fuzzy */
@@ -13448,7 +13448,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_DS12C887RTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DS12C887RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DS12C887RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_DS12C887RTC_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_DS12C887RTC_NL, "De DS12C887 RTC cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DS12C887RTC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_DS12C887RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DS12C887RTC_SV, ""},  /* fuzzy */
@@ -13465,7 +13465,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DS12C887RTC_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DS12C887RTC_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DS12C887RTC_BASE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DS12C887RTC_BASE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DS12C887RTC_BASE_NL, "Basisadres van de DS12C887 RTC cartridge"},
 /* pl */ {IDCLS_DS12C887RTC_BASE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DS12C887RTC_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DS12C887RTC_BASE_SV, ""},  /* fuzzy */

@@ -1772,7 +1772,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_VERTICAL_STRETCH_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_VERTICAL_STRETCH_NL, "Vertikale rek" },
 /* pl */ { IDMS_VERTICAL_STRETCH_PL, "Rozci±gniêcie w pionie" },
-/* ru */ { IDMS_VERTICAL_STRETCH_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_VERTICAL_STRETCH_RU, "ÀÐáâïÝãâì ßÞ ÒÕàâØÚÐÛØ" },
 /* sv */ { IDMS_VERTICAL_STRETCH_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_VERTICAL_STRETCH_TR, "Dikey uzatma" },
 
@@ -2668,7 +2668,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_2001_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_2001_NL, "2001" },
 /* pl */ { IDMS_2001_PL, "2001" },
-/* ru */ { IDMS_2001_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_2001_RU, "2001" },
 /* sv */ { IDMS_2001_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_2001_TR, "2001" },
 
@@ -2682,7 +2682,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_3008_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_3008_NL, "3008" },
 /* pl */ { IDMS_3008_PL, "3008" },
-/* ru */ { IDMS_3008_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_3008_RU, "3008" },
 /* sv */ { IDMS_3008_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_3008_TR, "3008" },
 
@@ -2696,7 +2696,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_3016_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_3016_NL, "3016" },
 /* pl */ { IDMS_3016_PL, "3016" },
-/* ru */ { IDMS_3016_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_3016_RU, "3016" },
 /* sv */ { IDMS_3016_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_3016_TR, "3016" },
 
@@ -2710,7 +2710,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_3032_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_3032_NL, "3032" },
 /* pl */ { IDMS_3032_PL, "3032" },
-/* ru */ { IDMS_3032_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_3032_RU, "3032" },
 /* sv */ { IDMS_3032_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_3032_TR, "3032" },
 
@@ -2738,7 +2738,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_4016_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_4016_NL, "4016" },
 /* pl */ { IDMS_4016_PL, "4016" },
-/* ru */ { IDMS_4016_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_4016_RU, "4016" },
 /* sv */ { IDMS_4016_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_4016_TR, "4016" },
 
@@ -2752,7 +2752,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_4032_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_4032_NL, "4032" },
 /* pl */ { IDMS_4032_PL, "4032" },
-/* ru */ { IDMS_4032_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_4032_RU, "4032" },
 /* sv */ { IDMS_4032_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_4032_TR, "4032" },
 
@@ -2780,7 +2780,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_8032_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_8032_NL, "8032" },
 /* pl */ { IDMS_8032_PL, "8032" },
-/* ru */ { IDMS_8032_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_8032_RU, "8032" },
 /* sv */ { IDMS_8032_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_8032_TR, "8032" },
 
@@ -2794,7 +2794,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_8096_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_8096_NL, "8096" },
 /* pl */ { IDMS_8096_PL, "8096" },
-/* ru */ { IDMS_8096_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_8096_RU, "8096" },
 /* sv */ { IDMS_8096_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_8096_TR, "8096" },
 
@@ -2808,7 +2808,7 @@ intl_translate_t intl_string_table[] = {
 /* ko */ { IDMS_8296_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_8296_NL, "8296" },
 /* pl */ { IDMS_8296_PL, "8296" },
-/* ru */ { IDMS_8296_RU, "" },  /* fuzzy */
+/* ru */ { IDMS_8296_RU, "8296" },
 /* sv */ { IDMS_8296_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_8296_TR, "8296" },
 
@@ -3800,7 +3800,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_DS12C887RTC_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_DS12C887RTC_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_DS12C887RTC_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_DS12C887RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_DS12C887RTC_SETTINGS_NL, "DS12C887 RTC instellingen..." },
 /* pl */ { IDMS_DS12C887RTC_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_DS12C887RTC_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DS12C887RTC_SETTINGS_SV, "" },  /* fuzzy */
@@ -3814,7 +3814,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
 /* it */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_NL, "DS12C887 RTC instellingen (MasC=uerade)..." },
 /* pl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_SV, "" },  /* fuzzy */
@@ -3891,18 +3891,18 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDMS_ENABLE_SFX_SS_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
 /* en */ { IDMS_ENABLE_USERPORT_RTC,    "Enable the SFX Sound Sampler cartridge" },
-/* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "" },  /* fuzzy */
-/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "" },  /* fuzzy */
-/* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "" },  /* fuzzy */
+/* da */ { IDMS_ENABLE_USERPORT_RTC_DA, "Aktivér SFX Sound Sampler cartridge" },
+/* de */ { IDMS_ENABLE_USERPORT_RTC_DE, "SFX Sound Sampler Modul aktivieren" },
+/* es */ { IDMS_ENABLE_USERPORT_RTC_ES, "Permitir cartucho SFX Sound Sampler" },
 /* fr */ { IDMS_ENABLE_USERPORT_RTC_FR, "" },  /* fuzzy */
-/* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "" },  /* fuzzy */
-/* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "" },  /* fuzzy */
-/* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "" },  /* fuzzy */
-/* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "" },  /* fuzzy */
-/* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "" },  /* fuzzy */
-/* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "" },  /* fuzzy */
-/* tr */ { IDMS_ENABLE_USERPORT_RTC_TR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_USERPORT_RTC_HU, "SFX Sound Sampler engedélyezése" },
+/* it */ { IDMS_ENABLE_USERPORT_RTC_IT, "Attiva cartuccia SFX Sound Sampler" },
+/* ko */ { IDMS_ENABLE_USERPORT_RTC_KO, "SFX Sound Sampler Ä«Æ®¸®Áö ¸¦ ÀÛµ¿½ÃÅ²´Ù" },
+/* nl */ { IDMS_ENABLE_USERPORT_RTC_NL, "Activeer de SFX Sound Sampler cartridge" },
+/* pl */ { IDMS_ENABLE_USERPORT_RTC_PL, "W³±cz kartrid¿ SFX Sound Sampler" },
+/* ru */ { IDMS_ENABLE_USERPORT_RTC_RU, "Enable the SFX Sound Sampler cartridge" },
+/* sv */ { IDMS_ENABLE_USERPORT_RTC_SV, "Aktivera SFX Sound Sampler-insticksmodul" },
+/* tr */ { IDMS_ENABLE_USERPORT_RTC_TR, "SFX Sound Sampler kartuþunu aktif et" },
 
 /* en */ { IDMS_BURST_MOD_SETTINGS,    "Drive burst modification settings..." },
 /* da */ { IDMS_BURST_MOD_SETTINGS_DA, "" },  /* fuzzy */
@@ -10843,7 +10843,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DS12C887RTC_ENABLED_HU, "" },  /* fuzzy */
 /* it */ { IDS_DS12C887RTC_ENABLED_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DS12C887RTC_ENABLED_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DS12C887RTC_ENABLED_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_ENABLED_NL, "DS12C887 Aan/Uit" },
 /* pl */ { IDS_DS12C887RTC_ENABLED_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DS12C887RTC_ENABLED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_ENABLED_SV, "" },  /* fuzzy */
@@ -10857,7 +10857,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DS12C887RTC_BASE_HU, "" },  /* fuzzy */
 /* it */ { IDS_DS12C887RTC_BASE_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DS12C887RTC_BASE_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DS12C887RTC_BASE_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_BASE_NL, "DS12C887 RTC basis adres" },
 /* pl */ { IDS_DS12C887RTC_BASE_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DS12C887RTC_BASE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_BASE_SV, "" },  /* fuzzy */
@@ -10871,7 +10871,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_DS12C887RTC_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDS_DS12C887RTC_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_DS12C887RTC_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDS_DS12C887RTC_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDS_DS12C887RTC_SETTINGS_NL, "DS12C887 RTC instellingen" },
 /* pl */ { IDS_DS12C887RTC_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDS_DS12C887RTC_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_SETTINGS_SV, "" },  /* fuzzy */
@@ -11326,18 +11326,18 @@ intl_translate_t intl_string_table[] = {
 /* tr */ { IDS_MOUSE_ST_TR, "Atari ST mouse" },
 
 /* en */ { IDS_MOUSE_SMART,    "Smart mouse" },
-/* da */ { IDS_MOUSE_SMART_DA, "Smartmus" },
-/* de */ { IDS_MOUSE_SMART_DE, "Smart Maus" },
-/* es */ { IDS_MOUSE_SMART_ES, "Ratón Smart" },
-/* fr */ { IDS_MOUSE_SMART_FR, "Souris Smart" },
-/* hu */ { IDS_MOUSE_SMART_HU, "Smart egér" },
-/* it */ { IDS_MOUSE_SMART_IT, "Mouse Smart" },
+/* da */ { IDS_MOUSE_SMART_DA, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_SMART_DE, "" },  /* fuzzy */
+/* es */ { IDS_MOUSE_SMART_ES, "" },  /* fuzzy */
+/* fr */ { IDS_MOUSE_SMART_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MOUSE_SMART_HU, "" },  /* fuzzy */
+/* it */ { IDS_MOUSE_SMART_IT, "" },  /* fuzzy */
 /* ko */ { IDS_MOUSE_SMART_KO, "" },  /* fuzzy */
 /* nl */ { IDS_MOUSE_SMART_NL, "Smart muis" },
-/* pl */ { IDS_MOUSE_SMART_PL, "Mysz z Smart" },
-/* ru */ { IDS_MOUSE_SMART_RU, "Smart mouse" },
-/* sv */ { IDS_MOUSE_SMART_SV, "Smartmus" },
-/* tr */ { IDS_MOUSE_SMART_TR, "Smart mouse" },
+/* pl */ { IDS_MOUSE_SMART_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MOUSE_SMART_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MOUSE_SMART_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_SMART_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },

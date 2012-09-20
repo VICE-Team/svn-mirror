@@ -1283,7 +1283,7 @@ BEGIN
   IDS_NORWEGIAN                 "Noors"
   IDS_SWEDISH                   "Zweeds"
   IDS_INT_FUNCTION_ROM          "Interne functie ROM"
-  IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
+  IDS_INT_FUNCTION_ROM_TYPE     "Interne functie ROM soort"
   IDS_FILE_NAME                 "Bestandsnaam"
   IDS_EXT_FUNCTION_ROM          "Externe functie ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Activeer de externe functie ROM"
