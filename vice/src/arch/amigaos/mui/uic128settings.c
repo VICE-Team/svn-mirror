@@ -74,9 +74,25 @@ static const int ui_c128_enable_values[] = {
     -1
 };
 
+static char *ui_internal_function_rom[] = {
+    NULL,	/* place holder for 'none' */
+    "ROM",
+    "RAM",
+    "RTC",
+    NULL
+};
+
+static const int ui_internal_function_rom_values[] = {
+    0,
+    1,
+    2,
+    3,
+    -1
+};
+
 static ui_to_from_t ui_to_from[] = {
     { NULL, MUI_TYPE_CYCLE, "MachineType", ui_c128_machine_type, ui_c128_machine_type_values, NULL },
-    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_c128_enable, ui_c128_enable_values, NULL },
+    { NULL, MUI_TYPE_CYCLE, "InternalFunctionROM", ui_internal_function_rom, ui_internal_function_rom_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "InternalFunctionName", NULL, NULL, NULL },
     { NULL, MUI_TYPE_CYCLE, "ExternalFunctionROM", ui_c128_enable, ui_c128_enable_values, NULL },
     { NULL, MUI_TYPE_FILENAME, "ExternalFunctionName", NULL, NULL, NULL },
@@ -126,7 +142,7 @@ static APTR build_gui(void)
 
     ui = GroupObject,
            CYCLE(ui_to_from[0].object, translate_text(IDS_MACHINE_TYPE), ui_c128_machine_type)
-           CYCLE(ui_to_from[1].object, translate_text(IDS_INTERNAL_FUNCTION_ROM), ui_c128_enable)
+           CYCLE(ui_to_from[1].object, translate_text(IDS_INTERNAL_FUNCTION_ROM), ui_internal_function_rom)
            FILENAME(ui_to_from[2].object, translate_text(IDS_INTERNAL_FUNCTION_ROM_FILENAME), browse_button1)
            CYCLE(ui_to_from[3].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM), ui_c128_enable)
            FILENAME(ui_to_from[4].object, translate_text(IDS_EXTERNAL_FUNCTION_ROM_FILENAME), browse_button2)
@@ -159,6 +175,7 @@ void ui_c128_settings_dialog(video_canvas_t *canvas)
 
     intl_convert_mui_table(ui_c128_machine_type_translate, ui_c128_machine_type);
     intl_convert_mui_table(ui_c128_enable_translate, ui_c128_enable);
+    ui_internal_function_rom[0] = translate_test(IDS_NONE);
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_C128_SETTINGS));
 
