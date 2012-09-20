@@ -163,6 +163,10 @@
 
 #define IDM_FUNCROM                  0x143
 #define IDM_INTFUNCROM               0x144
+#define IDM_INTFUNCROM_NONE          0x327
+#define IDM_INTFUNCROM_ROM           0x328
+#define IDM_INTFUNCROM_RAM           0x329
+#define IDM_INTFUNCROM_RTC           0x32a
 #define IDM_EXTFUNCROM               0x145
 
 #define IDM_PAL                      0x146

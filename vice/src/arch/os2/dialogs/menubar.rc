@@ -538,7 +538,13 @@ BEGIN
 #ifdef __X128__
         SUBMENU "Enable F~unction ROM",                   IDM_FUNCROM,                  MIS_TEXT
         BEGIN
-            MENUITEM "~Internal",                         IDM_INTFUNCROM,               MIS_TEXT
+            SUBMENU "Internal Function ROM type",         IDM_INTFUNCROM,               MIS_TEXT
+            BEGIN
+                MENUITEM "None",                          IDM_INTFUNCROM_NONE,          MIS_TEXT
+                MENUITEM "ROM",                           IDM_INTFUNCROM_ROM,           MIS_TEXT
+                MENUITEM "RAM",                           IDM_INTFUNCROM_RAM,           MIS_TEXT
+                MENUITEM "RTC",                           IDM_INTFUNCROM_RTC,           MIS_TEXT
+            END
             MENUITEM "~External",                         IDM_EXTFUNCROM,               MIS_TEXT
         END
 #endif // __X128__
