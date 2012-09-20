@@ -514,6 +514,7 @@ BEGIN
             MENUITEM "~PADDLE",                           IDM_MOUSE_TYPE_PADDLE,        MIS_TEXT
             MENUITEM "Atari ~CX-22",                      IDM_MOUSE_TYPE_CX22,          MIS_TEXT
             MENUITEM "Atari ~ST",                         IDM_MOUSE_TYPE_ST,            MIS_TEXT
+            MENUITEM "Smart",                             IDM_MOUSE_TYPE_SMART,         MIS_TEXT
         END
         SUBMENU "Mouse port",                             IDM_MOUSE_PORT,               MIS_TEXT
         BEGIN
