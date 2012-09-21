@@ -25,37 +25,37 @@
  */
 
 /* Tested and confirmed working on:
-   - Windows 95
-   - Windows 95A
-   - Windows 95B
-   - Windows 95C
-   - Windows 98
-   - Windows 98 Second Edition
-   - Windows Millenium Edition
-   - Windows NT 3.50 Workstation
-   - Windows NT 3.50 Server
-   - Windows NT 3.51 Workstation
-   - Windows NT 3.51 Server
-   - Windows NT 4 Workstation
-   - Windows NT 4 Workstation Embedded
-   - Windows NT 4 Server Embedded
-   - Windows NT 4 Server
-   - Windows NT 4 Terminal Server
-   - Windows NT 4 Enterprise Server
-   - Windows NT 4 Small Business Server
-   - Windows 2000 Professional
-   - Windows 2000 Server
-   - Windows 2000 Advanced Server
-   - Windows 2000 Datacenter Server
-   - Windows XP PE
-   - Windows XP Embedded
-   - Windows XP FLP
-   - Windows XP Starter
-   - Windows XP Home
+   - Windows 95 (x86)
+   - Windows 95A (x86)
+   - Windows 95B (x86)
+   - Windows 95C (x86)
+   - Windows 98 (x86)
+   - Windows 98 Second Edition (x86)
+   - Windows Millenium Edition (x86)
+   - Windows NT 3.50 Workstation (x86)
+   - Windows NT 3.50 Server (x86)
+   - Windows NT 3.51 Workstation (x86)
+   - Windows NT 3.51 Server (x86)
+   - Windows NT 4 Workstation (x86)
+   - Windows NT 4 Workstation Embedded (x86)
+   - Windows NT 4 Server Embedded (x86)
+   - Windows NT 4 Server (x86)
+   - Windows NT 4 Terminal Server (x86)
+   - Windows NT 4 Enterprise Server (x86)
+   - Windows NT 4 Small Business Server (x86)
+   - Windows 2000 Professional (x86)
+   - Windows 2000 Server (x86)
+   - Windows 2000 Advanced Server (x86)
+   - Windows 2000 Datacenter Server (x86)
+   - Windows XP PE (x86)
+   - Windows XP Embedded (x86)
+   - Windows XP FLP (x86)
+   - Windows XP Starter (x86)
+   - Windows XP Home (x86)
    - Windows XP Professional (x86/x64)
-   - Windows XP Tablet PC Edition
-   - Windows XP Media Center Edition
-   - Windows 2003 Server PE
+   - Windows XP Tablet PC Edition (x86)
+   - Windows XP Media Center Edition (x86)
+   - Windows 2003 Server PE (x86)
    - Windows 2003 Web Server (x86)
    - Windows 2003 Standard Server (x86/x64)
    - Windows 2003 R2 Standard Server (x86/x64)
@@ -70,13 +70,15 @@
    - Windows Vista Home Basic (x86/x64)
    - Windows Vista Home Premium (x86/x64)
    - Windows Vista Business (x86/x64)
-   - Windows Vista Enterprise (x86)
+   - Windows Vista Enterprise (x86/x64)
    - Windows Vista Ultimate (x86/x64)
    - Windows 2008 Web Server (x86/x64)
    - Windows 2008 Standard Server (x86/x64)
    - Windows 2008 Enterprise Server (x86/x64)
    - Windows 2008 Datacenter Server (x86/x64)
+   - Windows 2008 HPC Server (x64)
    - Windows 7 Starter (x86)
+   - Windows 7 Home Basic (x86)
    - Windows 7 Ultimate (x86/x64)
    - HXDOS
    - ReactOS
