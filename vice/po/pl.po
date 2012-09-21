@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-08-11 07:19+0200\n"
+"POT-Creation-Date: 2012-09-22 01:55+0200\n"
+"PO-Revision-Date: 2012-09-22 02:33+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
 "Language: pl\n"
@@ -158,17 +158,16 @@ msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr ""
-"Nie można wczytać obrazu Function ROM\n"
+"Nie można wczytać obrazu function ROM\n"
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:732
-#, fuzzy
 msgid "Internal Function ROM type"
-msgstr "Wewnętrzna funkcja ROM"
+msgstr "Typ wewnętrznego Function ROM-u"
 
 #: src/arch/unix/gui/c128ui.c:325 src/arch/amigaos/intl_text.c.po.c:10660
 msgid "Internal Function ROM file"
-msgstr "Plik wewnętrznego Function ROM"
+msgstr "Plik wewnętrznego Function ROM-u"
 
 #: src/arch/unix/gui/c128ui.c:329 src/arch/win32/resc128.rc.po.c:735
 #: src/translate_text.c.po.c:3998
@@ -177,7 +176,7 @@ msgstr "Włącz zewnętrzny Function ROM"
 
 #: src/arch/unix/gui/c128ui.c:331 src/arch/amigaos/intl_text.c.po.c:10688
 msgid "External Function ROM file"
-msgstr "Plik zewnętrznego Function ROM"
+msgstr "Plik zewnętrznego Function ROM-u"
 
 #: src/arch/unix/gui/c128ui.c:338 src/arch/win32/resc128.rc.po.c:693
 msgid "Function ROM"
@@ -847,7 +846,7 @@ msgstr "Model PET"
 
 #: src/arch/unix/gui/petui.c:236
 msgid "Load new editor ROM"
-msgstr "Wczytaj nowy edytor ROM"
+msgstr "Wczytaj nowy ROM edytora"
 
 #: src/arch/unix/gui/petui.c:248
 msgid "PET RAM and Expansion Unit"
@@ -3329,7 +3328,7 @@ msgid ""
 "Could not load ROM set archive\n"
 "'%s'"
 msgstr ""
-"Nie można wczytać pliku zestawu ROM-ó \n"
+"Nie można wczytać pliku zestawu ROM-ów\n"
 "'%s'"
 
 #: src/arch/unix/gui/uiromset.c:133
@@ -3399,7 +3398,7 @@ msgstr ""
 
 #: src/arch/unix/gui/uiromset.c:274
 msgid "File to save ROM set definition to"
-msgstr "Zapisz ustawioną definicję ROM do pliku"
+msgstr "Zapisz definicję zestawu ROM-ów do pliku"
 
 #: src/arch/unix/gui/uiromset.c:290
 msgid "Current ROM set"
@@ -3415,7 +3414,7 @@ msgstr "Zrzuć ustawienia ROM-u do pliku"
 
 #: src/arch/unix/gui/uiromset.c:300
 msgid "List current ROM set"
-msgstr "Wyszczególnij obecną listę ROM-ów"
+msgstr "Pokaż obecną listę ROM-ów"
 
 #: src/arch/unix/gui/uirs232.c:54 src/arch/unix/gui/uirs232.c:90
 msgid "38400 (Swiftlink/Turbo232 only)"
@@ -4393,7 +4392,7 @@ msgstr "Zapisz zaontowane obrazy dyskietek"
 #: src/arch/unix/x11/xaw/uisnapshot.c:127 src/arch/win32/res.rc.po.c:1233
 #: src/arch/amigaos/intl_text.c.po.c:9918
 msgid "Save currently loaded ROM images"
-msgstr "Zapisz wczytane obrazy ROM"
+msgstr "Zapisz wczytane obrazy ROM-ów"
 
 #: src/arch/unix/x11/gnome/uisnapshot.c:107
 #, c-format
@@ -5161,7 +5160,7 @@ msgstr "Wybierz archiwum zestawu ROM-ów"
 
 #: src/arch/win32/res.rc.po.c:1031
 msgid "Cannot load romset archive!"
-msgstr "Nie można wczytać archwium zestawu ROM-ów"
+msgstr "Nie można wczytać archiwum zestawu ROM-ów"
 
 #: src/arch/win32/res.rc.po.c:1032
 msgid "Cannot save romset archive!"
@@ -5173,7 +5172,7 @@ msgstr "Nie można wczytać pliku zestawu ROM-ów"
 
 #: src/arch/win32/res.rc.po.c:1034
 msgid "Cannot save romset file!"
-msgstr "Nie można zapisać pliku ustawień ROM-ów"
+msgstr "Nie można zapisać pliku zestawu ROM-ów"
 
 #: src/arch/win32/res.rc.po.c:1035
 msgid "Select romset file"
@@ -6394,9 +6393,8 @@ msgstr "Ustawienia DigiMAX"
 #: src/arch/amigaos/intl_text.c.po.c:3771
 #: src/arch/amigaos/intl_text.c.po.c:3785
 #: src/arch/amigaos/intl_text.c.po.c:10842
-#, fuzzy
 msgid "DS12C887 RTC settings"
-msgstr "Ustawienia CRTC"
+msgstr "Ustawienia DS12C887 RTC"
 
 #: src/arch/win32/res.rc.po.c:1535 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
@@ -6446,9 +6444,8 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Włącz kartridż SFX Sound Sampler"
 
 #: src/arch/win32/res.rc.po.c:1545
-#, fuzzy
 msgid "Enable the Userport RTC expansion"
-msgstr "Włącz rozszerzenie RamCart"
+msgstr "Włącz rozszerzenie Userport RTC"
 
 #: src/arch/win32/res.rc.po.c:1546 src/arch/amigaos/intl_text.c.po.c:4093
 msgid "Save current settings to specified file"
@@ -6456,7 +6453,7 @@ msgstr "Zapisz obecne ustawienia do danego pliku"
 
 #: src/arch/win32/res.rc.po.c:1547 src/arch/amigaos/intl_text.c.po.c:4107
 msgid "Load settings from specified file"
-msgstr "Wczytaj ustawienia z danego plku"
+msgstr "Wczytaj ustawienia z danego pliku"
 
 #: src/arch/win32/res.rc.po.c:1548 src/arch/amigaos/intl_text.c.po.c:4121
 msgid "Save current settings"
@@ -6639,11 +6636,11 @@ msgstr "Wersja VDC"
 
 #: src/arch/win32/resc128.rc.po.c:690 src/arch/amigaos/intl_text.c.po.c:10604
 msgid "Select Internal Function ROM file"
-msgstr "Wybierz plik ROM Internal Function"
+msgstr "Wybierz plik wewnętrznego Function ROM-u"
 
 #: src/arch/win32/resc128.rc.po.c:691 src/arch/amigaos/intl_text.c.po.c:10618
 msgid "Select External Function ROM file"
-msgstr "Wybierz plik ROM External Function"
+msgstr "Wybierz plik zewnętrznego Function ROM-u"
 
 #: src/arch/win32/resc128.rc.po.c:694 src/arch/win32/rescbm2common.rc.po.c:200
 msgid "RAM banks"
@@ -6769,11 +6766,11 @@ msgstr "Tryb C64 Basic"
 
 #: src/arch/win32/resc128.rc.po.c:731 src/arch/amigaos/intl_text.c.po.c:10646
 msgid "Internal Function ROM"
-msgstr "Wewnętrzna funkcja ROM"
+msgstr "Wewnętrzny Function ROM"
 
 #: src/arch/win32/resc128.rc.po.c:734 src/arch/amigaos/intl_text.c.po.c:10674
 msgid "External Function ROM"
-msgstr "Zewnętrzna funkcja ROM"
+msgstr "Zewnętrzny Function ROM"
 
 #: src/arch/win32/resc128.rc.po.c:736
 msgid "Enable RAM banks 2 and 3"
@@ -6854,7 +6851,7 @@ msgstr "Wybierz plik 256K"
 #: src/arch/win32/resc64dtv.rc.po.c:39 src/arch/win32/resc64dtv.rc.po.c:473
 #: src/arch/win32/resc64dtv.rc.po.c:484
 msgid "DTV ROM image File"
-msgstr "Plik obrazu DTV ROM"
+msgstr "Plik obrazu ROM DTV"
 
 #: src/arch/win32/resc64dtv.rc.po.c:471
 msgid "Attach DTV Flash Image"
@@ -7714,7 +7711,7 @@ msgstr "Obraz Function low (3plus1)"
 
 #: src/arch/amigaos/intl_text.c.po.c:649 src/arch/amigaos/intl_text.c.po.c:775
 msgid "Function high image (3plus1)"
-msgstr "Obraz Function High (3plus1)"
+msgstr "Obraz Function high (3plus1)"
 
 #: src/arch/amigaos/intl_text.c.po.c:1419
 msgid "1/1"
@@ -8013,12 +8010,12 @@ msgstr "Wybór przycisku fire joysticka"
 #: src/arch/amigaos/intl_text.c.po.c:3421
 #: src/arch/amigaos/intl_text.c.po.c:10744
 msgid "Computer ROM settings"
-msgstr "Ustawienia ROM komputera"
+msgstr "Ustawienia ROM-u komputera"
 
 #: src/arch/amigaos/intl_text.c.po.c:3435
 #: src/arch/amigaos/intl_text.c.po.c:10758
 msgid "Drive ROM settings"
-msgstr "Ustawienia ROM napędu"
+msgstr "Ustawienia ROM-u napędu"
 
 #: src/arch/amigaos/intl_text.c.po.c:3883
 #: src/arch/amigaos/intl_text.c.po.c:8098
@@ -8566,11 +8563,11 @@ msgstr "DigiMAX włączony"
 
 #: src/arch/amigaos/intl_text.c.po.c:10814
 msgid "DS12C887 RTC Enabled"
-msgstr ""
+msgstr "Włączenie DS12C887 RTC"
 
 #: src/arch/amigaos/intl_text.c.po.c:10828
 msgid "DS12C887 RTC base"
-msgstr ""
+msgstr "Baza DS12C887 RTC"
 
 #: src/arch/amigaos/intl_text.c.po.c:10856
 msgid "SFX Sound Expander Enabled"
@@ -8613,9 +8610,8 @@ msgid "Atari ST mouse"
 msgstr "Mysz z Atari ST"
 
 #: src/arch/amigaos/intl_text.c.po.c:11304
-#, fuzzy
 msgid "Smart mouse"
-msgstr "Mysz z Amigi"
+msgstr "Mysz Smart"
 
 #: src/arch/amigaos/intl_text.c.po.c:11500
 msgid "Save to EasyFlash CRT file on detach"
@@ -9735,7 +9731,7 @@ msgstr "Modyfikacja trybu synchronicznego (0 = Brak, 1 = CIA1, 2 = CIA2)"
 
 #: src/translate_text.c.po.c:3365
 msgid "Specify name of international Kernal ROM image"
-msgstr "Określ nazwę obrazu międzynarodowego ROM Kernala"
+msgstr "Określ nazwę obrazu międzynarodowego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3382
 msgid "Specify name of German Kernal ROM image"
@@ -9743,23 +9739,23 @@ msgstr "Podaj nazwę obrazu niemieckiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3399
 msgid "Specify name of Finnish Kernal ROM image"
-msgstr "Określ nazwę obrazu fińskiego ROM Kernala"
+msgstr "Określ nazwę obrazu fińskiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3416
 msgid "Specify name of French Kernal ROM image"
-msgstr "Określ nazwę obrazu francuskiego ROM Kernala"
+msgstr "Określ nazwę obrazu francuskiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3433
 msgid "Specify name of Italian Kernal ROM image"
-msgstr "Określ nazwę obrazu włoskiego ROM Kernala"
+msgstr "Określ nazwę obrazu włoskiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3450
 msgid "Specify name of Norwegian Kernal ROM image"
-msgstr "Określ nazwę obrazu norweskiego ROM Kernala"
+msgstr "Określ nazwę obrazu norweskiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3467
 msgid "Specify name of Swedish Kernal ROM image"
-msgstr "Określ nazwę obrazu szwedzkiego ROM Kernala"
+msgstr "Określ nazwę obrazu szwedzkiego ROM-u Kernala"
 
 #: src/translate_text.c.po.c:3484
 msgid "Specify name of BASIC ROM image (lower part)"
@@ -9851,23 +9847,23 @@ msgstr "Przy restarcie zawsze przełączaj w tryb C128"
 
 #: src/translate_text.c.po.c:3930
 msgid "Specify name of internal Function ROM image"
-msgstr "Określ nazwę obrazu ROM Internal Function"
+msgstr "Określ nazwę obrazu wewnętrznego Function ROM-u"
 
 #: src/translate_text.c.po.c:3947
 msgid "Specify name of external Function ROM image"
-msgstr "Określ nazwę obrazu ROM External Function"
+msgstr "Określ nazwę obrazu zewnętrznego Function ROM-u"
 
 #: src/translate_text.c.po.c:3964
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr ""
+msgstr "Typ wewnętrznego Function ROM-u: (0: Żaden, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
 msgid "Disable the internal Function ROM"
-msgstr "Wyłącz ROM Internal Function"
+msgstr "Wyłącz wewnętrzny Function ROM"
 
 #: src/translate_text.c.po.c:4015
 msgid "Disable the external Function ROM"
-msgstr "Wyłącz ROM External Function"
+msgstr "Wyłącz zewnętrzny Function ROM"
 
 #: src/translate_text.c.po.c:4032
 msgid "Use old NTSC sync factor"
@@ -10146,11 +10142,11 @@ msgstr "Nie zapisuj do obrazu MMC Replay"
 
 #: src/translate_text.c.po.c:5377
 msgid "Enable saving of the RR ROM at exit"
-msgstr "Włąćz zapis ROM RR przy wyjściu"
+msgstr "Włącz zapis ROM RR przy wyjściu"
 
 #: src/translate_text.c.po.c:5394
 msgid "Disable saving of the RR ROM at exit"
-msgstr "Wyłąćz zapis ROM RR przy wyjściu"
+msgstr "Wyłącz zapis ROM RR przy wyjściu"
 
 #: src/translate_text.c.po.c:5411
 msgid "Set RR Bank Jumper"
@@ -11569,13 +11565,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Wybierz port joysticka, do którego podłączona jest mysz"
 
 #: src/translate_text.c.po.c:11833
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
 msgstr ""
 "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrętła, 4 = CX-22, 5 = "
-"ST)"
+"ST, 6 = Smart)"
 
 #: src/translate_text.c.po.c:11850
 msgid "Enable PS/2 mouse on userport"
@@ -11868,19 +11863,16 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "Adres bazowy kartridża DigiMAX"
 
 #: src/translate_text.c.po.c:13348
-#, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
-msgstr "Włącz kartridż SID"
+msgstr "Włącz kartridż DS12C887 RTC"
 
 #: src/translate_text.c.po.c:13365
-#, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
-msgstr "Wyłącz kartridż SID"
+msgstr "Wyłącz kartridż DS12C887 RTC"
 
 #: src/translate_text.c.po.c:13382
-#, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
-msgstr "Adres bazowy kartridża DigiMAX"
+msgstr "Adres bazowy kartridża DS12C887 RTC"
 
 #~ msgid "Enable the internal Function ROM"
 #~ msgstr "Włącz wewnętrzny Function ROM"
