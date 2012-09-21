@@ -2655,7 +2655,7 @@ Joystick resources
 
 `Mousetype'
      Integer that specifies the type of emulated mouse. (0=1351,
-     1=NEOS, 2=Amiga, 3=paddles, 4=Atari CX-22, 5=Atari ST)
+     1=NEOS, 2=Amiga, 3=Paddles, 4=Atari CX-22, 5=Atari ST, 6=Smart)
 
 `Mouseport'
      Integer that specifies the joystick port the emulated mouse is
@@ -2711,7 +2711,8 @@ Joystick command-line options
      Enable/Disable mouse grab
 
 `-mousetype <value>'
-     Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles)
+     Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles,
+     4 = CX-22, 5 = ST, 6 = Smart))
 
 `-mouseport <value>'
      Select the joystick port the mouse is attached to

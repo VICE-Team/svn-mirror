@@ -85,7 +85,7 @@ libarch_a_SOURCES = \
 	resdrivepetcbm2.rc \
 	resdriveplus4.rc \
 	resdrivevic20.rc \
-	resds12c887.rc \
+	resds12c887rtc.rc \
 	reseasyflash.rc \
 	resexpert.rc \
 	resgeoram.rc \

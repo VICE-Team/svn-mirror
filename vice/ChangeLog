@@ -1,5 +1,459 @@
 ------------------------------------------------------------------------------
 
+2012-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po, src/arch/win32/Makefile.am,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.3.23
+
+
+2012-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2012-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-09-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.rc: Added smartmouse menu item.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uic128settings.c: Added c128 internal function
+	ram/rtc support to the amiga gui.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added c128 internal function ram/rtc
+	support to the os/2 gui.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_rom.c: Added c128 internal function ram/rtc
+	support to the sdl gui.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c: Added c128 internal function ram/rtc
+	support to the *nix gui.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c128.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/c128.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj, src/arch/win32/watcom/c128.tgt,
+	src/arch/win32/watcom/vice.wpj: Updated the ow project files.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/c128.dsp,
+	src/arch/sdl/win64-msvc/c128.vcproj,
+	src/arch/sdl/winmips-msvc/c128.mak, src/arch/win32/c128.dsp,
+	src/arch/win64/c128.vcproj, src/c128/functionrom.c: Updated the msvc
+	project files.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc128.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/uic128.c: Added c128
+	internal function ram/rtc support to the win32 gui.
+
+2012-09-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drivecpu65c02.c: Added missing 'DRIVE_CPU' define.
+
+2012-09-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65c02core.c: Fixed.
+
+2012-09-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/bq4830y.c: Updated comment.
+
+2012-09-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/Makefile.am, src/c128/c128meminit.c,
+	src/c128/functionrom.c, src/c128/functionrom.h,
+	src/platform/platform_windows_runtime_os.c, src/translate_text.c Added
+	c128 internal function RAM and internal function RAM+RTC (bq4830y)
+	support.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc-58321a.c: Comment fix.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c128ui.c, src/arch/amigaos/c128uires.h,
+	src/arch/amigaos/c64ui.c, src/arch/amigaos/c64uires.h,
+	src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/uires.h: Added userport rtc support to the amiga gui.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64ui.c: Added userport rtc
+	support to the dos tui.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c: Added userport rtc support to the *nix gui.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/userport.tgt, src/arch/os2/watcom/vice.wpj:
+	Updated the os/2 ow project files.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added userport rtc support to the
+	os/2 gui.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/rtc.mak,
+	src/arch/sdl/winmips-msvc/userport.mak: Updated the sdl winmips msvc
+	project files.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/rtc.vcproj,
+	src/arch/sdl/win64-msvc/userport.vcproj: Updated the sdl win64 msvc
+	project files.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/userport.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Updated the sdl win32 ow project
+	files.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/rtc.dsp,
+	src/arch/sdl/win32-msvc/userport.dsp: Updated the sdl win32 msvc
+	project files.
+
+2012-09-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64hw.c: Added
+	userport rtc support to the sdl gui.
+
+2012-09-16  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* build/macosx/build-vice-dist.sh: osx: build fix
+
+2012-09-15  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* configure.in: osx: fix no-pic compile for platform stuff
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/rtc.vcproj, src/arch/win64/userport.vcproj: Updated
+	the win64 msvc project files.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/userport.tgt, src/arch/win32/watcom/vice.wpj:
+	Updated the win32 ow project files.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/rtc.dsp, src/arch/win32/userport.dsp: Updated the
+	win32 msvc project files.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c128ui.c, src/arch/win32/c64ui.c,
+	src/arch/win32/res.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resmenu.txt,
+	src/arch/win32/resstrings.txt, src/userport/userport_rtc.c,
+	src/userport/userport_rtc.h: Added userport rtc support to the windows
+	gui.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/c128/c128.c, src/c64/c64.c, src/c64/c64cia2.c,
+	src/platform/platform_windows_runtime_os.c, src/rtc/rtc-58321a.c,
+	src/rtc/rtc-58321a.h, src/translate.txt, src/translate_text.c,
+	src/userport/Makefile.am, src/userport/userport_joystick.c,
+	src/userport/userport_rtc.c, src/userport/userport_rtc.h: Added
+	userport rtc (58321a) support to x64(sc)/x128.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/ds12c887rtc.c: Fixed offset to be 0 as default.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/mui/uids12c887rtc.c: Fixed.
+
+2012-09-15  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/archdep.c, src/arch/unix/macosx/Makefile.am,
+	src/arch/unix/macosx/cocoa/menu/Makefile.am,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0controller.h,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0controller.m,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0machinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0machinecontroller.m,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0ui.m,
+	src/arch/unix/macosx/platform_macosx.c,
+	src/arch/unix/macosx/platform_macosx.h, src/arch/unix/videoarch.h,
+	src/platform/Makefile.am, src/platform/platform_discovery.h,
+	src/platform/platform_macosx.c, src/platform/platform_macosx.h: osx:
+	platform detection fixed, videoarch fixed, cbm5x0 controller added
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/c128ui.c,
+	src/arch/amigaos/c128uires.h, src/arch/amigaos/c64ui.c,
+	src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uids12c887rtc.c,
+	src/arch/amigaos/mui/uids12c887rtc.h, src/arch/amigaos/uires.h,
+	src/arch/amigaos/vic20ui.c, src/arch/amigaos/vic20uires.h: Added
+	DS12C887 RTC support to the amiga gui.
+
+2012-09-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/msdos/uids12c887rtc.c,
+	src/arch/msdos/uids12c887rtc.h, src/arch/msdos/vic20ui.c: Added
+	DS12C887 RTC support to the dos gui.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/c128ui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/uids12c887rtc.c, src/arch/unix/gui/uids12c887rtc.h,
+	src/arch/unix/gui/vic20ui.c: Added  DS12C887 RTC support to the *nix
+	gui.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/watcom/c64commoncart.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/os2/watcom/vsidlib.tgt: Added  DS12C887 RTC support to the
+	os/2 gui and updated the os/2 ow project files.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/base.mak,
+	src/arch/sdl/winmips-msvc/c64commoncart.mak,
+	src/arch/sdl/winmips-msvc/vsidlib.mak: Fixed the sdl winmips msvc
+	project files for the recent rtc changes.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/base.vcproj,
+	src/arch/sdl/win64-msvc/c64commoncart.vcproj,
+	src/arch/sdl/win64-msvc/vsidlib.vcproj: Fixed the sdl win64 msvc
+	project files for the recent rtc changes.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/c64commoncart.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsidlib.tgt: Fixed the sdl win32 ow project
+	files for the recent rtc changes.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/base.dsp,
+	src/arch/sdl/win32-msvc/c64commoncart.dsp,
+	src/arch/sdl/win32-msvc/vsidlib.dsp: Fixed the sdl win32 msvc project
+	files for the recent rtc changes.
+
+2012-09-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c128hw.c,
+	src/arch/sdl/menu_c64_common_expansions.c,
+	src/arch/sdl/menu_c64_common_expansions.h, src/arch/sdl/menu_c64hw.c,
+	src/arch/sdl/menu_vic20cart.c, src/c64/cart/ds12c887rtc.c,
+	src/cartridge.h: Added  DS12C887 RTC support to the sdl gui.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/base.vcproj: Added rtc include dir.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/arch.vcproj, src/arch/win64/c64commoncart.vcproj,
+	src/arch/win64/vsidlib.vcproj, src/arch/win64/x128.vcproj,
+	src/arch/win64/x64.vcproj, src/arch/win64/x64sc.vcproj,
+	src/arch/win64/xvic.vcproj: Fixed the win64 msvc project files for the
+	recent rtc changes.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/c64commoncart.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsidlib.tgt: Fixed the win32 ow project files
+	for the recent rtc changes.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds12c887.c: Updated comments.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/arch.dsp, src/arch/win32/base.dsp,
+	src/arch/win32/c64commoncart.dsp, src/arch/win32/vsidlib.dsp,
+	src/arch/win32/x128.dsp, src/arch/win32/x64.dsp,
+	src/arch/win32/x64sc.dsp, src/arch/win32/xvic.dsp: Fixed the win32
+	msvc project files for the recent rtc changes.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vic20ui.c, src/vic20/cart/vic20cart.c,
+	src/vic20/cart/vic20cartmem.c: Fixed ds12c887 rtc support for vic20.
+
+2012-09-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c128ui.c,
+	src/arch/win32/c64ui.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/resmenu.txt, src/arch/win32/resstrings.txt,
+	src/arch/win32/resvic20.rc, src/arch/win32/uids12c887rtc.c,
+	src/arch/win32/uids12c887rtc.h: Added  DS12C887 RTC support to the
+	windows gui.
+
+2012-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/archdep.c, src/platform/platform.h,
+	src/platform/platform_beos_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Improved the
+	beos/zeta/haiku recognition.
+
+2012-09-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/cart/Makefile.am, src/c64/cart/c64carthooks.c,
+	src/c64/cart/c64cartmem.c, src/c64/cart/ds12c887rtc.c,
+	src/c64/cart/ds12c887rtc.h, src/cartridge.h, src/translate.txt,
+	src/translate_text.c: Added emulation of the c64/c128 ds12c887 rtc
+	expansion.
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/ResourceTree.plist:
+	Update mouse list
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128.c, src/c64/c64.c, src/c64/vsidstubs.c,
+	src/c64dtv/c64dtv.c, src/mouse.c, src/mouse.h, src/ps2mouse.c,
+	src/ps2mouse.h, src/vic20/vic20.c: Add mouse shutdown
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uimouse.c,
+	src/arch/beos/constants.h, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/sdl/menu_mouse.c,
+	src/arch/unix/gui/uimouse.c, src/arch/win32/uimouse.c: Update GUIs for
+	Smartmouse
+
+2012-09-11  Daniel Kahlin <tlr@users.sourceforge.net>
+
+	* src/platform/platform_os2_runtime.c,
+	src/platform/platform_os2_runtime_os.c: Corrected typo in naming of
+	platform_os2_runtime_os.c.  Didn't build at all in mingw on win32.
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.pdf, doc/vice.texi, doc/vice.txt, src/translate_text.c:
+	Update command line translation and docs
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128cia1.c, src/c64/c64cia1.c: Add Smartmouse hooks to
+	CIAs.
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/Makefile.am, src/c64/vsidstubs.c: Add stubs for smartmouse
+	rtc
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am, src/mouse.c, src/mouse.h: Add CMD Smartmouse
+	emulation (core)
+
+2012-09-11  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/rtc/ds1202_1302.c: Output bits only if in output state
+
+2012-09-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* rtc/bq4830y.c, src/rtc/ds1202_1302.c, src/rtc/ds1216e.c,
+	src/rtc/ds12c887.c, src/rtc/rtc-58321a.c: Added some comments.
+
+2012-09-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_os2_runtime.c,
+	src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
+2012-09-07  pottendo <pottendo@aon.at>
+
+	* po/de.po, po/translations-status.txt: Updated.
+
+2012-09-07  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po, po/translations-status.txt: Updated
+
+2012-09-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Add Burst Mode Mod menu items to BeVICE.
+
+2012-09-07  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/core/ata.c, src/core/ata.h, src/core/mc6821core.c,
+	src/core/mc6821core.h, src/core/t6721.c, src/core/t6721.h,
+	src/drive/drive-sound.c, src/drive/drive-sound.h, src/drive/iec/fdd.c,
+	src/drive/iec/fdd.h, src/drive/iec/pc8477.c, src/drive/iec/pc8477.h,
+	* src/drive/iec/via4000.c, src/drive/iec/via4000.h: Fix svn
+	properties.
+
+2012-09-04  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po, po/translations-status.txt: Updated.
+
+2012-09-04  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2012-09-04  Emir Akaydin <emir@akaydin.com>
+
+	* po/tr.po, po/translations-status.txt: Updated.
+
+2012-09-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Platform detection
+	improvements.
+
 2012-09-03  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, doc/vice.chm, doc/vice.hlp, doc/vice.pdf,
