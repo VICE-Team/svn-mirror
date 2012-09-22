@@ -63,7 +63,7 @@ static console_t vte_console;
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
 
-static int is_dir(DIR *de)
+static int is_dir(struct dirent *de)
 {
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
     struct stat t;
