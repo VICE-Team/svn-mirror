@@ -33,6 +33,10 @@
 #include <dirent.h>
 #include <ctype.h>
 
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+#include <sys/stat.h>
+#endif
+
 #include "console.h"
 #include "lib.h"
 #include "linenoise.h"
@@ -58,6 +62,23 @@ struct console_private_s {
 static console_t vte_console;
 static linenoiseCompletions command_lc = {0, NULL};
 static linenoiseCompletions need_filename_lc = {0, NULL};
+
+static int is_dir(DIR *de)
+{
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+    struct stat t;
+
+    stat(de->d_name, &t);
+    if ((t.st_mode & S_IFMT) == S_IFDIR) {
+        return 1;
+    }
+#else
+    if (de->d_type == DT_DIR) {
+        return 1;
+    }
+#endif
+    return 0;
+}
 
 void write_to_terminal(struct console_private_s *t,
                        const char *data,
@@ -461,7 +482,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
         if (dir) {
             for (direntry = readdir(dir); direntry; direntry = readdir(dir)) {
                 if (strcmp(direntry->d_name, ".") && strcmp(direntry->d_name, "..")) {
-                    char *entryname = lib_msprintf("%s%s", direntry->d_name, direntry->d_type == DT_DIR ? "/" : "\"");
+                    char *entryname = lib_msprintf("%s%s", direntry->d_name, is_dir(direntry) ? "/" : "\"");
                     linenoiseAddCompletion(&files_lc, entryname);
                     lib_free(entryname);
                 }
