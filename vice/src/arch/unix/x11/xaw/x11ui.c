@@ -42,6 +42,13 @@
 #include <unistd.h>
 #include <locale.h>
 
+/* Needed for solaris */
+#if defined(sun) || defined(__sun)
+#  if defined(__SVR4) || defined(__svr4__)
+#    include <limits.h>
+#  endif
+#endif
+
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
@@ -290,9 +297,14 @@ static int wait_for_deiconify(Window w, int dispatch, int *width, int *height)
     though.
 */
 
+#if defined(sun) || defined(__sun)
+#  if defined(__SVR4) || defined(__svr4__)
+#    define IS_SOL
+#  endif
+#endif
 
 /* TODO: put this properly in configure */
-#if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFlyBSD__)
+#if defined(__NetBSD__) || defined(__FreeBSD__) || defined(__DragonFlyBSD__) || defined(IS_SOL)
 # define PROCFS_STATUS          "status"
 # define PROCFS_STATUS_PPID     3               /* 3rd field */
 #else
@@ -312,7 +324,7 @@ static pid_t get_ppid_from_pid(pid_t pid)
     char *saveptr;
     int i;
 
-    sprintf(pscmd, "/proc/%d/"PROCFS_STATUS, pid);
+    sprintf(pscmd, "/proc/%d/"PROCFS_STATUS, (int)pid);
 
     f = fopen(pscmd, "r");
     if (f == NULL) {

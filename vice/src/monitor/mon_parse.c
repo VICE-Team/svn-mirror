@@ -1,22 +1,24 @@
-/* A Bison parser, made by GNU Bison 2.4.2.  */
+/* A Bison parser, made by GNU Bison 2.3.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
-   
-      Copyright (C) 1984, 1989-1990, 2000-2006, 2009-2010 Free Software
-   Foundation, Inc.
-   
-   This program is free software: you can redistribute it and/or modify
+
+   Copyright (C) 1984, 1989, 1990, 2000, 2001, 2002, 2003, 2004, 2005, 2006
+   Free Software Foundation, Inc.
+
+   This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
-   the Free Software Foundation, either version 3 of the License, or
-   (at your option) any later version.
-   
+   the Free Software Foundation; either version 2, or (at your option)
+   any later version.
+
    This program is distributed in the hope that it will be useful,
    but WITHOUT ANY WARRANTY; without even the implied warranty of
    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
    GNU General Public License for more details.
-   
+
    You should have received a copy of the GNU General Public License
-   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+   along with this program; if not, write to the Free Software
+   Foundation, Inc., 51 Franklin Street, Fifth Floor,
+   Boston, MA 02110-1301, USA.  */
 
 /* As a special exception, you may create a larger work that contains
    part or all of the Bison parser skeleton and distribute that work
@@ -27,7 +29,7 @@
    special exception, which will cause the skeleton and the resulting
    Bison output files to be licensed under the GNU General Public
    License without this special exception.
-   
+
    This special exception was added by the Free Software Foundation in
    version 2.2 of Bison.  */
 
@@ -45,7 +47,7 @@
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.4.2"
+#define YYBISON_VERSION "2.3"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "yacc.c"
@@ -53,167 +55,9 @@
 /* Pure parsers.  */
 #define YYPURE 0
 
-/* Push parsers.  */
-#define YYPUSH 0
-
-/* Pull parsers.  */
-#define YYPULL 1
-
 /* Using locations.  */
 #define YYLSP_NEEDED 0
 
-
-
-/* Copy the first part of user declarations.  */
-
-/* Line 189 of yacc.c  */
-#line 1 "mon_parse.y"
-
-/* -*- C -*-
- *
- * mon_parse.y - Parser for the VICE built-in monitor.
- *
- * Written by
- *  Daniel Sladic <sladic@eecg.toronto.edu>
- *  Andreas Boose <viceteam@t-online.de>
- *  Thomas Giesel <skoe@directbox.com>
- *
- * This file is part of VICE, the Versatile Commodore Emulator.
- * See README for copyright notice.
- *
- *  This program is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
- *  (at your option) any later version.
- *
- *  This program is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
- *  02111-1307  USA.
- *
- */
-
-#include "vice.h"
-
-#ifndef MINIXVMD
-#ifdef __GNUC__
-#undef alloca
-#define        alloca(n)       __builtin_alloca (n)
-#else
-#ifdef HAVE_ALLOCA_H
-#include <alloca.h>
-#else  /* Not HAVE_ALLOCA_H.  */
-#if !defined(_AIX) && !defined(WINCE)
-#ifndef _MSC_VER
-extern char *alloca();
-#else
-#define alloca(n)   _alloca(n)
-#endif  /* MSVC */
-#endif /* Not AIX and not WINCE.  */
-#endif /* HAVE_ALLOCA_H.  */
-#endif /* GCC.  */
-#endif /* MINIXVMD */
-
-/* SunOS 4.x specific stuff */
-#if defined(sun) || defined(__sun)
-#  if !defined(__SVR4) && !defined(__svr4__)
-#    ifdef __sparc__
-#      define YYFREE
-#    endif
-#  endif
-#endif
-
-#include <assert.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-
-#include "asm.h"
-#include "console.h"
-#include "lib.h"
-#include "machine.h"
-#include "mon_breakpoint.h"
-#include "mon_command.h"
-#include "mon_disassemble.h"
-#include "mon_drive.h"
-#include "mon_file.h"
-#include "mon_memory.h"
-#include "mon_util.h"
-#include "montypes.h"
-#include "resources.h"
-#include "types.h"
-#include "uimon.h"
-
-
-#define join_ints(x,y) (LO16_TO_HI16(x)|y)
-#define separate_int1(x) (HI16_TO_LO16(x))
-#define separate_int2(x) (LO16(x))
-
-static int yyerror(char *s);
-static int temp;
-static int resolve_datatype(unsigned guess_type, const char *num);
-static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
-                         const char *num);
-
-#ifdef __IBMC__
-static void __yy_memcpy (char *to, char *from, int count);
-#endif
-
-/* Defined in the lexer */
-extern int new_cmd, opt_asm;
-extern void free_buffer(void);
-extern void make_buffer(char *str);
-extern int yylex(void);
-extern int cur_len, last_len;
-
-#define ERR_ILLEGAL_INPUT 1     /* Generic error as returned by yacc.  */
-#define ERR_RANGE_BAD_START 2
-#define ERR_RANGE_BAD_END 3
-#define ERR_BAD_CMD 4
-#define ERR_EXPECT_CHECKNUM 5
-#define ERR_EXPECT_END_CMD 6
-#define ERR_MISSING_CLOSE_PAREN 7
-#define ERR_INCOMPLETE_COMPARE_OP 8
-#define ERR_EXPECT_FILENAME 9
-#define ERR_ADDR_TOO_BIG 10
-#define ERR_IMM_TOO_BIG 11
-#define ERR_EXPECT_STRING 12
-#define ERR_UNDEFINED_LABEL 13
-#define ERR_EXPECT_DEVICE_NUM 14
-#define ERR_EXPECT_ADDRESS 15
-
-#define BAD_ADDR (new_addr(e_invalid_space, 0))
-#define CHECK_ADDR(x) ((x) == addr_mask(x))
-
-#define YYDEBUG 1
-
-
-
-/* Line 189 of yacc.c  */
-#line 199 "mon_parse.c"
-
-/* Enabling traces.  */
-#ifndef YYDEBUG
-# define YYDEBUG 1
-#endif
-
-/* Enabling verbose error messages.  */
-#ifdef YYERROR_VERBOSE
-# undef YYERROR_VERBOSE
-# define YYERROR_VERBOSE 1
-#else
-# define YYERROR_VERBOSE 0
-#endif
-
-/* Enabling the token table.  */
-#ifndef YYTOKEN_TABLE
-# define YYTOKEN_TABLE 0
-#endif
 
 
 /* Tokens.  */
@@ -549,13 +393,156 @@ extern int cur_len, last_len;
 
 
 
+/* Copy the first part of user declarations.  */
+#line 1 "mon_parse.y"
+
+/* -*- C -*-
+ *
+ * mon_parse.y - Parser for the VICE built-in monitor.
+ *
+ * Written by
+ *  Daniel Sladic <sladic@eecg.toronto.edu>
+ *  Andreas Boose <viceteam@t-online.de>
+ *  Thomas Giesel <skoe@directbox.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
+ *
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
+ */
+
+#include "vice.h"
+
+#ifndef MINIXVMD
+#ifdef __GNUC__
+#undef alloca
+#define        alloca(n)       __builtin_alloca (n)
+#else
+#ifdef HAVE_ALLOCA_H
+#include <alloca.h>
+#else  /* Not HAVE_ALLOCA_H.  */
+#if !defined(_AIX) && !defined(WINCE)
+#ifndef _MSC_VER
+extern char *alloca();
+#else
+#define alloca(n)   _alloca(n)
+#endif  /* MSVC */
+#endif /* Not AIX and not WINCE.  */
+#endif /* HAVE_ALLOCA_H.  */
+#endif /* GCC.  */
+#endif /* MINIXVMD */
+
+/* SunOS 4.x specific stuff */
+#if defined(sun) || defined(__sun)
+#  if !defined(__SVR4) && !defined(__svr4__)
+#    ifdef __sparc__
+#      define YYFREE
+#    endif
+#  endif
+#endif
+
+#include <assert.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "asm.h"
+#include "console.h"
+#include "lib.h"
+#include "machine.h"
+#include "mon_breakpoint.h"
+#include "mon_command.h"
+#include "mon_disassemble.h"
+#include "mon_drive.h"
+#include "mon_file.h"
+#include "mon_memory.h"
+#include "mon_util.h"
+#include "montypes.h"
+#include "resources.h"
+#include "types.h"
+#include "uimon.h"
+
+
+#define join_ints(x,y) (LO16_TO_HI16(x)|y)
+#define separate_int1(x) (HI16_TO_LO16(x))
+#define separate_int2(x) (LO16(x))
+
+static int yyerror(char *s);
+static int temp;
+static int resolve_datatype(unsigned guess_type, const char *num);
+static int resolve_range(enum t_memspace memspace, MON_ADDR range[2],
+                         const char *num);
+
+#ifdef __IBMC__
+static void __yy_memcpy (char *to, char *from, int count);
+#endif
+
+/* Defined in the lexer */
+extern int new_cmd, opt_asm;
+extern void free_buffer(void);
+extern void make_buffer(char *str);
+extern int yylex(void);
+extern int cur_len, last_len;
+
+#define ERR_ILLEGAL_INPUT 1     /* Generic error as returned by yacc.  */
+#define ERR_RANGE_BAD_START 2
+#define ERR_RANGE_BAD_END 3
+#define ERR_BAD_CMD 4
+#define ERR_EXPECT_CHECKNUM 5
+#define ERR_EXPECT_END_CMD 6
+#define ERR_MISSING_CLOSE_PAREN 7
+#define ERR_INCOMPLETE_COMPARE_OP 8
+#define ERR_EXPECT_FILENAME 9
+#define ERR_ADDR_TOO_BIG 10
+#define ERR_IMM_TOO_BIG 11
+#define ERR_EXPECT_STRING 12
+#define ERR_UNDEFINED_LABEL 13
+#define ERR_EXPECT_DEVICE_NUM 14
+#define ERR_EXPECT_ADDRESS 15
+
+#define BAD_ADDR (new_addr(e_invalid_space, 0))
+#define CHECK_ADDR(x) ((x) == addr_mask(x))
+
+#define YYDEBUG 1
+
+
+
+/* Enabling traces.  */
+#ifndef YYDEBUG
+# define YYDEBUG 1
+#endif
+
+/* Enabling verbose error messages.  */
+#ifdef YYERROR_VERBOSE
+# undef YYERROR_VERBOSE
+# define YYERROR_VERBOSE 1
+#else
+# define YYERROR_VERBOSE 0
+#endif
+
+/* Enabling the token table.  */
+#ifndef YYTOKEN_TABLE
+# define YYTOKEN_TABLE 0
+#endif
+
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-{
-
-/* Line 214 of yacc.c  */
 #line 127 "mon_parse.y"
-
+{
     MON_ADDR a;
     MON_ADDR range[2];
     int i;
@@ -566,23 +553,22 @@ typedef union YYSTYPE
     ACTION action;
     char *str;
     asm_mode_addr_info_t mode;
-
-
-
-/* Line 214 of yacc.c  */
-#line 574 "mon_parse.c"
-} YYSTYPE;
-# define YYSTYPE_IS_TRIVIAL 1
+}
+/* Line 187 of yacc.c.  */
+#line 559 "mon_parse.c"
+	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
+# define YYSTYPE_IS_TRIVIAL 1
 #endif
+
 
 
 /* Copy the second part of user declarations.  */
 
 
-/* Line 264 of yacc.c  */
-#line 586 "mon_parse.c"
+/* Line 216 of yacc.c.  */
+#line 572 "mon_parse.c"
 
 #ifdef short
 # undef short
@@ -632,7 +618,7 @@ typedef short int yytype_int16;
 #define YYSIZE_MAXIMUM ((YYSIZE_T) -1)
 
 #ifndef YY_
-# if defined YYENABLE_NLS && YYENABLE_NLS
+# if YYENABLE_NLS
 #  if ENABLE_NLS
 #   include <libintl.h> /* INFRINGES ON USER NAME SPACE */
 #   define YY_(msgid) dgettext ("bison-runtime", msgid)
@@ -657,14 +643,14 @@ typedef short int yytype_int16;
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static int
-YYID (int yyi)
+YYID (int i)
 #else
 static int
-YYID (yyi)
-    int yyi;
+YYID (i)
+    int i;
 #endif
 {
-  return yyi;
+  return i;
 }
 #endif
 
@@ -745,9 +731,9 @@ void free (void *); /* INFRINGES ON USER NAME SPACE */
 /* A type that is properly aligned for any stack member.  */
 union yyalloc
 {
-  yytype_int16 yyss_alloc;
-  YYSTYPE yyvs_alloc;
-};
+  yytype_int16 yyss;
+  YYSTYPE yyvs;
+  };
 
 /* The size of the maximum gap between one aligned stack and the next.  */
 # define YYSTACK_GAP_MAXIMUM (sizeof (union yyalloc) - 1)
@@ -781,12 +767,12 @@ union yyalloc
    elements in the stack, and YYPTR gives the new location of the
    stack.  Advance YYPTR to a properly aligned location for the next
    stack.  */
-# define YYSTACK_RELOCATE(Stack_alloc, Stack)				\
+# define YYSTACK_RELOCATE(Stack)					\
     do									\
       {									\
 	YYSIZE_T yynewbytes;						\
-	YYCOPY (&yyptr->Stack_alloc, Stack, yysize);			\
-	Stack = &yyptr->Stack_alloc;					\
+	YYCOPY (&yyptr->Stack, Stack, yysize);				\
+	Stack = &yyptr->Stack;						\
 	yynewbytes = yystacksize * sizeof (*Stack) + YYSTACK_GAP_MAXIMUM; \
 	yyptr += yynewbytes / sizeof (*yyptr);				\
       }									\
@@ -1089,7 +1075,7 @@ static const char *const yytname[] =
   "RADIX_TYPE", "INPUT_SPEC", "CMD_CHECKPT_ON", "CMD_CHECKPT_OFF",
   "TOGGLE", "MASK", "'+'", "'-'", "'*'", "'/'", "'('", "')'", "$accept",
   "top_level", "command_list", "end_cmd", "command", "machine_state_rules",
-  "register_mod", "symbol_table_rules", "asm_rules", "$@1", "memory_rules",
+  "register_mod", "symbol_table_rules", "asm_rules", "@1", "memory_rules",
   "checkpoint_rules", "checkpoint_control_rules", "monitor_state_rules",
   "monitor_misc_rules", "disk_rules", "cmd_file_rules", "data_entry_rules",
   "monitor_debug_rules", "rest_of_line", "opt_rest_of_line", "filename",
@@ -1803,18 +1789,9 @@ static const yytype_uint8 yystos[] =
 
 /* Like YYERROR except do call yyerror.  This remains here temporarily
    to ease the transition to the new meaning of YYERROR, for GCC.
-   Once GCC version 2 has supplanted version 1, this can go.  However,
-   YYFAIL appears to be in use.  Nevertheless, it is formally deprecated
-   in Bison 2.4.2's NEWS entry, where a plan to phase it out is
-   discussed.  */
+   Once GCC version 2 has supplanted version 1, this can go.  */
 
 #define YYFAIL		goto yyerrlab
-#if defined YYFAIL
-  /* This is here to suppress warnings from the GCC cpp's
-     -Wunused-macros.  Normally we don't worry about that warning, but
-     some users do, and we want to make it easy for users to remove
-     YYFAIL uses, which will produce warnings from Bison 2.5.  */
-#endif
 
 #define YYRECOVERING()  (!!yyerrstatus)
 
@@ -1871,7 +1848,7 @@ while (YYID (0))
    we won't break user code: when these are the locations we know.  */
 
 #ifndef YY_LOCATION_PRINT
-# if defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL
+# if YYLTYPE_IS_TRIVIAL
 #  define YY_LOCATION_PRINT(File, Loc)			\
      fprintf (File, "%d.%d-%d.%d",			\
 	      (Loc).first_line, (Loc).first_column,	\
@@ -1982,20 +1959,17 @@ yy_symbol_print (yyoutput, yytype, yyvaluep)
 #if (defined __STDC__ || defined __C99__FUNC__ \
      || defined __cplusplus || defined _MSC_VER)
 static void
-yy_stack_print (yytype_int16 *yybottom, yytype_int16 *yytop)
+yy_stack_print (yytype_int16 *bottom, yytype_int16 *top)
 #else
 static void
-yy_stack_print (yybottom, yytop)
-    yytype_int16 *yybottom;
-    yytype_int16 *yytop;
+yy_stack_print (bottom, top)
+    yytype_int16 *bottom;
+    yytype_int16 *top;
 #endif
 {
   YYFPRINTF (stderr, "Stack now");
-  for (; yybottom <= yytop; yybottom++)
-    {
-      int yybot = *yybottom;
-      YYFPRINTF (stderr, " %d", yybot);
-    }
+  for (; bottom <= top; ++bottom)
+    YYFPRINTF (stderr, " %d", *bottom);
   YYFPRINTF (stderr, "\n");
 }
 
@@ -2029,11 +2003,11 @@ yy_reduce_print (yyvsp, yyrule)
   /* The symbols being reduced.  */
   for (yyi = 0; yyi < yynrhs; yyi++)
     {
-      YYFPRINTF (stderr, "   $%d = ", yyi + 1);
+      fprintf (stderr, "   $%d = ", yyi + 1);
       yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
 		       &(yyvsp[(yyi + 1) - (yynrhs)])
 		       		       );
-      YYFPRINTF (stderr, "\n");
+      fprintf (stderr, "\n");
     }
 }
 
@@ -2313,8 +2287,10 @@ yydestruct (yymsg, yytype, yyvaluep)
 	break;
     }
 }
+
 
 /* Prevent warnings from -Wmissing-prototypes.  */
+
 #ifdef YYPARSE_PARAM
 #if defined __STDC__ || defined __cplusplus
 int yyparse (void *YYPARSE_PARAM);
@@ -2330,10 +2306,11 @@ int yyparse ();
 #endif /* ! YYPARSE_PARAM */
 
 
-/* The lookahead symbol.  */
+
+/* The look-ahead symbol.  */
 int yychar;
 
-/* The semantic value of the lookahead symbol.  */
+/* The semantic value of the look-ahead symbol.  */
 YYSTYPE yylval;
 
 /* Number of syntax errors so far.  */
@@ -2341,9 +2318,9 @@ int yynerrs;
 
 
 
-/*-------------------------.
-| yyparse or yypush_parse.  |
-`-------------------------*/
+/*----------.
+| yyparse.  |
+`----------*/
 
 #ifdef YYPARSE_PARAM
 #if (defined __STDC__ || defined __C99__FUNC__ \
@@ -2367,39 +2344,14 @@ yyparse ()
 #endif
 #endif
 {
-
-
-    int yystate;
-    /* Number of tokens to shift before error messages enabled.  */
-    int yyerrstatus;
-
-    /* The stacks and their tools:
-       `yyss': related to states.
-       `yyvs': related to semantic values.
-
-       Refer to the stacks thru separate pointers, to allow yyoverflow
-       to reallocate them elsewhere.  */
-
-    /* The state stack.  */
-    yytype_int16 yyssa[YYINITDEPTH];
-    yytype_int16 *yyss;
-    yytype_int16 *yyssp;
-
-    /* The semantic value stack.  */
-    YYSTYPE yyvsa[YYINITDEPTH];
-    YYSTYPE *yyvs;
-    YYSTYPE *yyvsp;
-
-    YYSIZE_T yystacksize;
-
+  
+  int yystate;
   int yyn;
   int yyresult;
-  /* Lookahead token as an internal (translated) token number.  */
-  int yytoken;
-  /* The variables used to return semantic value and location from the
-     action routines.  */
-  YYSTYPE yyval;
-
+  /* Number of tokens to shift before error messages enabled.  */
+  int yyerrstatus;
+  /* Look-ahead token as an internal (translated) token number.  */
+  int yytoken = 0;
 #if YYERROR_VERBOSE
   /* Buffer for error messages, and its allocated size.  */
   char yymsgbuf[128];
@@ -2407,28 +2359,51 @@ yyparse ()
   YYSIZE_T yymsg_alloc = sizeof yymsgbuf;
 #endif
 
+  /* Three stacks and their tools:
+     `yyss': related to states,
+     `yyvs': related to semantic values,
+     `yyls': related to locations.
+
+     Refer to the stacks thru separate pointers, to allow yyoverflow
+     to reallocate them elsewhere.  */
+
+  /* The state stack.  */
+  yytype_int16 yyssa[YYINITDEPTH];
+  yytype_int16 *yyss = yyssa;
+  yytype_int16 *yyssp;
+
+  /* The semantic value stack.  */
+  YYSTYPE yyvsa[YYINITDEPTH];
+  YYSTYPE *yyvs = yyvsa;
+  YYSTYPE *yyvsp;
+
+
+
 #define YYPOPSTACK(N)   (yyvsp -= (N), yyssp -= (N))
+
+  YYSIZE_T yystacksize = YYINITDEPTH;
+
+  /* The variables used to return semantic value and location from the
+     action routines.  */
+  YYSTYPE yyval;
+
 
   /* The number of symbols on the RHS of the reduced rule.
      Keep to zero when no symbol should be popped.  */
   int yylen = 0;
-
-  yytoken = 0;
-  yyss = yyssa;
-  yyvs = yyvsa;
-  yystacksize = YYINITDEPTH;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
 
   yystate = 0;
   yyerrstatus = 0;
   yynerrs = 0;
-  yychar = YYEMPTY; /* Cause a token to be read.  */
+  yychar = YYEMPTY;		/* Cause a token to be read.  */
 
   /* Initialize stack pointers.
      Waste one element of value and location stack
      so that they stay on the same level as the state stack.
      The wasted elements are never initialized.  */
+
   yyssp = yyss;
   yyvsp = yyvs;
 
@@ -2458,6 +2433,7 @@ yyparse ()
 	YYSTYPE *yyvs1 = yyvs;
 	yytype_int16 *yyss1 = yyss;
 
+
 	/* Each stack pointer address is followed by the size of the
 	   data in use in that stack, in bytes.  This used to be a
 	   conditional around just the two extra args, but that might
@@ -2465,6 +2441,7 @@ yyparse ()
 	yyoverflow (YY_("memory exhausted"),
 		    &yyss1, yysize * sizeof (*yyssp),
 		    &yyvs1, yysize * sizeof (*yyvsp),
+
 		    &yystacksize);
 
 	yyss = yyss1;
@@ -2487,8 +2464,9 @@ yyparse ()
 	  (union yyalloc *) YYSTACK_ALLOC (YYSTACK_BYTES (yystacksize));
 	if (! yyptr)
 	  goto yyexhaustedlab;
-	YYSTACK_RELOCATE (yyss_alloc, yyss);
-	YYSTACK_RELOCATE (yyvs_alloc, yyvs);
+	YYSTACK_RELOCATE (yyss);
+	YYSTACK_RELOCATE (yyvs);
+
 #  undef YYSTACK_RELOCATE
 	if (yyss1 != yyssa)
 	  YYSTACK_FREE (yyss1);
@@ -2499,6 +2477,7 @@ yyparse ()
       yyssp = yyss + yysize - 1;
       yyvsp = yyvs + yysize - 1;
 
+
       YYDPRINTF ((stderr, "Stack size increased to %lu\n",
 		  (unsigned long int) yystacksize));
 
@@ -2508,9 +2487,6 @@ yyparse ()
 
   YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 
-  if (yystate == YYFINAL)
-    YYACCEPT;
-
   goto yybackup;
 
 /*-----------.
@@ -2519,16 +2495,16 @@ yyparse ()
 yybackup:
 
   /* Do appropriate processing given the current state.  Read a
-     lookahead token if we need one and don't already have one.  */
+     look-ahead token if we need one and don't already have one.  */
 
-  /* First try to decide what to do without reference to lookahead token.  */
+  /* First try to decide what to do without reference to look-ahead token.  */
   yyn = yypact[yystate];
   if (yyn == YYPACT_NINF)
     goto yydefault;
 
-  /* Not known => get a lookahead token if don't already have one.  */
+  /* Not known => get a look-ahead token if don't already have one.  */
 
-  /* YYCHAR is either YYEMPTY or YYEOF or a valid lookahead symbol.  */
+  /* YYCHAR is either YYEMPTY or YYEOF or a valid look-ahead symbol.  */
   if (yychar == YYEMPTY)
     {
       YYDPRINTF ((stderr, "Reading a token: "));
@@ -2560,16 +2536,20 @@ yybackup:
       goto yyreduce;
     }
 
+  if (yyn == YYFINAL)
+    YYACCEPT;
+
   /* Count tokens shifted since error; after three, turn off error
      status.  */
   if (yyerrstatus)
     yyerrstatus--;
 
-  /* Shift the lookahead token.  */
+  /* Shift the look-ahead token.  */
   YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
 
-  /* Discard the shifted token.  */
-  yychar = YYEMPTY;
+  /* Discard the shifted token unless it is eof.  */
+  if (yychar != YYEOF)
+    yychar = YYEMPTY;
 
   yystate = yyn;
   *++yyvsp = yylval;
@@ -2609,225 +2589,161 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-
-/* Line 1464 of yacc.c  */
 #line 191 "mon_parse.y"
     { (yyval.i) = 0; }
     break;
 
   case 3:
-
-/* Line 1464 of yacc.c  */
 #line 192 "mon_parse.y"
     { (yyval.i) = 0; }
     break;
 
   case 4:
-
-/* Line 1464 of yacc.c  */
 #line 193 "mon_parse.y"
     { new_cmd = 1; asm_mode = 0;  (yyval.i) = 0; }
     break;
 
   case 9:
-
-/* Line 1464 of yacc.c  */
 #line 202 "mon_parse.y"
     { return ERR_EXPECT_END_CMD; }
     break;
 
   case 22:
-
-/* Line 1464 of yacc.c  */
 #line 217 "mon_parse.y"
     { return ERR_BAD_CMD; }
     break;
 
   case 23:
-
-/* Line 1464 of yacc.c  */
 #line 221 "mon_parse.y"
     { mon_bank(e_default_space, NULL); }
     break;
 
   case 24:
-
-/* Line 1464 of yacc.c  */
 #line 223 "mon_parse.y"
     { mon_bank((yyvsp[(2) - (3)].i), NULL); }
     break;
 
   case 25:
-
-/* Line 1464 of yacc.c  */
 #line 225 "mon_parse.y"
     { mon_bank(e_default_space, (yyvsp[(2) - (3)].str)); }
     break;
 
   case 26:
-
-/* Line 1464 of yacc.c  */
 #line 227 "mon_parse.y"
     { mon_bank((yyvsp[(2) - (5)].i), (yyvsp[(4) - (5)].str)); }
     break;
 
   case 27:
-
-/* Line 1464 of yacc.c  */
 #line 229 "mon_parse.y"
     { mon_jump((yyvsp[(2) - (3)].a)); }
     break;
 
   case 28:
-
-/* Line 1464 of yacc.c  */
 #line 231 "mon_parse.y"
     { mon_go(); }
     break;
 
   case 29:
-
-/* Line 1464 of yacc.c  */
 #line 233 "mon_parse.y"
     { mon_display_io_regs(0); }
     break;
 
   case 30:
-
-/* Line 1464 of yacc.c  */
 #line 235 "mon_parse.y"
     { mon_display_io_regs((yyvsp[(2) - (3)].a)); }
     break;
 
   case 31:
-
-/* Line 1464 of yacc.c  */
 #line 237 "mon_parse.y"
     { monitor_cpu_type_set(""); }
     break;
 
   case 32:
-
-/* Line 1464 of yacc.c  */
 #line 239 "mon_parse.y"
     { monitor_cpu_type_set((yyvsp[(2) - (3)].str)); }
     break;
 
   case 33:
-
-/* Line 1464 of yacc.c  */
 #line 241 "mon_parse.y"
     { mon_cpuhistory(-1); }
     break;
 
   case 34:
-
-/* Line 1464 of yacc.c  */
 #line 243 "mon_parse.y"
     { mon_cpuhistory((yyvsp[(3) - (4)].i)); }
     break;
 
   case 35:
-
-/* Line 1464 of yacc.c  */
 #line 245 "mon_parse.y"
     { mon_instruction_return(); }
     break;
 
   case 36:
-
-/* Line 1464 of yacc.c  */
 #line 247 "mon_parse.y"
     { machine_write_snapshot((yyvsp[(2) - (3)].str),0,0,0); /* FIXME */ }
     break;
 
   case 37:
-
-/* Line 1464 of yacc.c  */
 #line 249 "mon_parse.y"
     { machine_read_snapshot((yyvsp[(2) - (3)].str), 0); }
     break;
 
   case 38:
-
-/* Line 1464 of yacc.c  */
 #line 251 "mon_parse.y"
     { mon_instructions_step(-1); }
     break;
 
   case 39:
-
-/* Line 1464 of yacc.c  */
 #line 253 "mon_parse.y"
     { mon_instructions_step((yyvsp[(3) - (4)].i)); }
     break;
 
   case 40:
-
-/* Line 1464 of yacc.c  */
 #line 255 "mon_parse.y"
     { mon_instructions_next(-1); }
     break;
 
   case 41:
-
-/* Line 1464 of yacc.c  */
 #line 257 "mon_parse.y"
     { mon_instructions_next((yyvsp[(3) - (4)].i)); }
     break;
 
   case 42:
-
-/* Line 1464 of yacc.c  */
 #line 259 "mon_parse.y"
     { mon_stack_up(-1); }
     break;
 
   case 43:
-
-/* Line 1464 of yacc.c  */
 #line 261 "mon_parse.y"
     { mon_stack_up((yyvsp[(3) - (4)].i)); }
     break;
 
   case 44:
-
-/* Line 1464 of yacc.c  */
 #line 263 "mon_parse.y"
     { mon_stack_down(-1); }
     break;
 
   case 45:
-
-/* Line 1464 of yacc.c  */
 #line 265 "mon_parse.y"
     { mon_stack_down((yyvsp[(3) - (4)].i)); }
     break;
 
   case 46:
-
-/* Line 1464 of yacc.c  */
 #line 267 "mon_parse.y"
     { mon_display_screen(); }
     break;
 
   case 48:
-
-/* Line 1464 of yacc.c  */
 #line 272 "mon_parse.y"
     { (monitor_cpu_for_memspace[default_memspace]->mon_register_print)(default_memspace); }
     break;
 
   case 49:
-
-/* Line 1464 of yacc.c  */
 #line 274 "mon_parse.y"
     { (monitor_cpu_for_memspace[(yyvsp[(2) - (3)].i)]->mon_register_print)((yyvsp[(2) - (3)].i)); }
     break;
 
   case 51:
-
-/* Line 1464 of yacc.c  */
 #line 279 "mon_parse.y"
     {
                         /* What about the memspace? */
@@ -2836,8 +2752,6 @@ yyreduce:
     break;
 
   case 52:
-
-/* Line 1464 of yacc.c  */
 #line 284 "mon_parse.y"
     {
                         /* What about the memspace? */
@@ -2846,57 +2760,41 @@ yyreduce:
     break;
 
   case 53:
-
-/* Line 1464 of yacc.c  */
 #line 289 "mon_parse.y"
     { mon_save_symbols((yyvsp[(2) - (5)].i), (yyvsp[(4) - (5)].str)); }
     break;
 
   case 54:
-
-/* Line 1464 of yacc.c  */
 #line 291 "mon_parse.y"
     { mon_save_symbols(e_default_space, (yyvsp[(2) - (3)].str)); }
     break;
 
   case 55:
-
-/* Line 1464 of yacc.c  */
 #line 293 "mon_parse.y"
     { mon_add_name_to_symbol_table((yyvsp[(2) - (5)].a), (yyvsp[(4) - (5)].str)); }
     break;
 
   case 56:
-
-/* Line 1464 of yacc.c  */
 #line 295 "mon_parse.y"
     { mon_remove_name_from_symbol_table(e_default_space, (yyvsp[(2) - (3)].str)); }
     break;
 
   case 57:
-
-/* Line 1464 of yacc.c  */
 #line 297 "mon_parse.y"
     { mon_remove_name_from_symbol_table((yyvsp[(2) - (5)].i), (yyvsp[(4) - (5)].str)); }
     break;
 
   case 58:
-
-/* Line 1464 of yacc.c  */
 #line 299 "mon_parse.y"
     { mon_print_symbol_table((yyvsp[(2) - (3)].i)); }
     break;
 
   case 59:
-
-/* Line 1464 of yacc.c  */
 #line 301 "mon_parse.y"
     { mon_print_symbol_table(e_default_space); }
     break;
 
   case 60:
-
-/* Line 1464 of yacc.c  */
 #line 303 "mon_parse.y"
     {
                         mon_add_name_to_symbol_table((yyvsp[(3) - (4)].a), mon_prepend_dot_to_name((yyvsp[(1) - (4)].str)));
@@ -2904,8 +2802,6 @@ yyreduce:
     break;
 
   case 61:
-
-/* Line 1464 of yacc.c  */
 #line 307 "mon_parse.y"
     {
                         mon_add_name_to_symbol_table((yyvsp[(3) - (5)].a), mon_prepend_dot_to_name((yyvsp[(1) - (5)].str)));
@@ -2913,183 +2809,131 @@ yyreduce:
     break;
 
   case 62:
-
-/* Line 1464 of yacc.c  */
 #line 313 "mon_parse.y"
     { mon_start_assemble_mode((yyvsp[(2) - (2)].a), NULL); }
     break;
 
   case 63:
-
-/* Line 1464 of yacc.c  */
 #line 314 "mon_parse.y"
     { }
     break;
 
   case 64:
-
-/* Line 1464 of yacc.c  */
 #line 316 "mon_parse.y"
     { mon_start_assemble_mode((yyvsp[(2) - (3)].a), NULL); }
     break;
 
   case 65:
-
-/* Line 1464 of yacc.c  */
 #line 318 "mon_parse.y"
     { mon_disassemble_lines((yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1]); }
     break;
 
   case 66:
-
-/* Line 1464 of yacc.c  */
 #line 320 "mon_parse.y"
     { mon_disassemble_lines(BAD_ADDR, BAD_ADDR); }
     break;
 
   case 67:
-
-/* Line 1464 of yacc.c  */
 #line 324 "mon_parse.y"
     { mon_memory_move((yyvsp[(2) - (5)].range)[0], (yyvsp[(2) - (5)].range)[1], (yyvsp[(4) - (5)].a)); }
     break;
 
   case 68:
-
-/* Line 1464 of yacc.c  */
 #line 326 "mon_parse.y"
     { mon_memory_compare((yyvsp[(2) - (5)].range)[0], (yyvsp[(2) - (5)].range)[1], (yyvsp[(4) - (5)].a)); }
     break;
 
   case 69:
-
-/* Line 1464 of yacc.c  */
 #line 328 "mon_parse.y"
     { mon_memory_fill((yyvsp[(2) - (5)].range)[0], (yyvsp[(2) - (5)].range)[1],(unsigned char *)(yyvsp[(4) - (5)].str)); }
     break;
 
   case 70:
-
-/* Line 1464 of yacc.c  */
 #line 330 "mon_parse.y"
     { mon_memory_hunt((yyvsp[(2) - (5)].range)[0], (yyvsp[(2) - (5)].range)[1],(unsigned char *)(yyvsp[(4) - (5)].str)); }
     break;
 
   case 71:
-
-/* Line 1464 of yacc.c  */
 #line 332 "mon_parse.y"
     { mon_memory_display((yyvsp[(2) - (5)].rt), (yyvsp[(4) - (5)].range)[0], (yyvsp[(4) - (5)].range)[1], DF_PETSCII); }
     break;
 
   case 72:
-
-/* Line 1464 of yacc.c  */
 #line 334 "mon_parse.y"
     { mon_memory_display(default_radix, (yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1], DF_PETSCII); }
     break;
 
   case 73:
-
-/* Line 1464 of yacc.c  */
 #line 336 "mon_parse.y"
     { mon_memory_display(default_radix, BAD_ADDR, BAD_ADDR, DF_PETSCII); }
     break;
 
   case 74:
-
-/* Line 1464 of yacc.c  */
 #line 338 "mon_parse.y"
     { mon_memory_display_data((yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1], 8, 8); }
     break;
 
   case 75:
-
-/* Line 1464 of yacc.c  */
 #line 340 "mon_parse.y"
     { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 8, 8); }
     break;
 
   case 76:
-
-/* Line 1464 of yacc.c  */
 #line 342 "mon_parse.y"
     { mon_memory_display_data((yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1], 24, 21); }
     break;
 
   case 77:
-
-/* Line 1464 of yacc.c  */
 #line 344 "mon_parse.y"
     { mon_memory_display_data(BAD_ADDR, BAD_ADDR, 24, 21); }
     break;
 
   case 78:
-
-/* Line 1464 of yacc.c  */
 #line 346 "mon_parse.y"
     { mon_memory_display(0, (yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1], DF_PETSCII); }
     break;
 
   case 79:
-
-/* Line 1464 of yacc.c  */
 #line 348 "mon_parse.y"
     { mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_PETSCII); }
     break;
 
   case 80:
-
-/* Line 1464 of yacc.c  */
 #line 350 "mon_parse.y"
     { mon_memory_display(0, (yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1], DF_SCREEN_CODE); }
     break;
 
   case 81:
-
-/* Line 1464 of yacc.c  */
 #line 352 "mon_parse.y"
     { mon_memory_display(0, BAD_ADDR, BAD_ADDR, DF_SCREEN_CODE); }
     break;
 
   case 82:
-
-/* Line 1464 of yacc.c  */
 #line 354 "mon_parse.y"
     { mon_memmap_zap(); }
     break;
 
   case 83:
-
-/* Line 1464 of yacc.c  */
 #line 356 "mon_parse.y"
     { mon_memmap_show(-1,BAD_ADDR,BAD_ADDR); }
     break;
 
   case 84:
-
-/* Line 1464 of yacc.c  */
 #line 358 "mon_parse.y"
     { mon_memmap_show((yyvsp[(3) - (4)].i),BAD_ADDR,BAD_ADDR); }
     break;
 
   case 85:
-
-/* Line 1464 of yacc.c  */
 #line 360 "mon_parse.y"
     { mon_memmap_show((yyvsp[(3) - (5)].i),(yyvsp[(4) - (5)].range)[0],(yyvsp[(4) - (5)].range)[1]); }
     break;
 
   case 86:
-
-/* Line 1464 of yacc.c  */
 #line 362 "mon_parse.y"
     { mon_memmap_save((yyvsp[(2) - (5)].str),(yyvsp[(4) - (5)].i)); }
     break;
 
   case 87:
-
-/* Line 1464 of yacc.c  */
 #line 366 "mon_parse.y"
     {
                       if ((yyvsp[(2) - (5)].i)) {
@@ -3102,15 +2946,11 @@ yyreduce:
     break;
 
   case 88:
-
-/* Line 1464 of yacc.c  */
 #line 375 "mon_parse.y"
     { mon_breakpoint_print_checkpoints(); }
     break;
 
   case 89:
-
-/* Line 1464 of yacc.c  */
 #line 378 "mon_parse.y"
     {
                       mon_breakpoint_add_checkpoint((yyvsp[(2) - (3)].range)[0], (yyvsp[(2) - (3)].range)[1], TRUE, e_exec, TRUE);
@@ -3118,15 +2958,11 @@ yyreduce:
     break;
 
   case 90:
-
-/* Line 1464 of yacc.c  */
 #line 382 "mon_parse.y"
     { mon_breakpoint_print_checkpoints(); }
     break;
 
   case 91:
-
-/* Line 1464 of yacc.c  */
 #line 385 "mon_parse.y"
     {
                       if ((yyvsp[(2) - (5)].i)) {
@@ -3139,15 +2975,11 @@ yyreduce:
     break;
 
   case 92:
-
-/* Line 1464 of yacc.c  */
 #line 394 "mon_parse.y"
     { mon_breakpoint_print_checkpoints(); }
     break;
 
   case 93:
-
-/* Line 1464 of yacc.c  */
 #line 397 "mon_parse.y"
     {
                       if ((yyvsp[(2) - (5)].i)) {
@@ -3160,85 +2992,61 @@ yyreduce:
     break;
 
   case 94:
-
-/* Line 1464 of yacc.c  */
 #line 406 "mon_parse.y"
     { mon_breakpoint_print_checkpoints(); }
     break;
 
   case 95:
-
-/* Line 1464 of yacc.c  */
 #line 411 "mon_parse.y"
     { mon_breakpoint_switch_checkpoint(e_ON, (yyvsp[(2) - (3)].i)); }
     break;
 
   case 96:
-
-/* Line 1464 of yacc.c  */
 #line 413 "mon_parse.y"
     { mon_breakpoint_switch_checkpoint(e_OFF, (yyvsp[(2) - (3)].i)); }
     break;
 
   case 97:
-
-/* Line 1464 of yacc.c  */
 #line 415 "mon_parse.y"
     { mon_breakpoint_set_ignore_count((yyvsp[(2) - (3)].i), -1); }
     break;
 
   case 98:
-
-/* Line 1464 of yacc.c  */
 #line 417 "mon_parse.y"
     { mon_breakpoint_set_ignore_count((yyvsp[(2) - (5)].i), (yyvsp[(4) - (5)].i)); }
     break;
 
   case 99:
-
-/* Line 1464 of yacc.c  */
 #line 419 "mon_parse.y"
     { mon_breakpoint_delete_checkpoint((yyvsp[(2) - (3)].i)); }
     break;
 
   case 100:
-
-/* Line 1464 of yacc.c  */
 #line 421 "mon_parse.y"
     { mon_breakpoint_delete_checkpoint(-1); }
     break;
 
   case 101:
-
-/* Line 1464 of yacc.c  */
 #line 423 "mon_parse.y"
     { mon_breakpoint_set_checkpoint_condition((yyvsp[(2) - (5)].i), (yyvsp[(4) - (5)].cond_node)); }
     break;
 
   case 102:
-
-/* Line 1464 of yacc.c  */
 #line 425 "mon_parse.y"
     { mon_breakpoint_set_checkpoint_command((yyvsp[(2) - (5)].i), (yyvsp[(4) - (5)].str)); }
     break;
 
   case 103:
-
-/* Line 1464 of yacc.c  */
 #line 427 "mon_parse.y"
     { return ERR_EXPECT_STRING; }
     break;
 
   case 104:
-
-/* Line 1464 of yacc.c  */
 #line 431 "mon_parse.y"
     { sidefx = (((yyvsp[(2) - (3)].action) == e_TOGGLE) ? (sidefx ^ 1) : (yyvsp[(2) - (3)].action)); }
     break;
 
   case 105:
-
-/* Line 1464 of yacc.c  */
 #line 433 "mon_parse.y"
     {
                          mon_out("I/O side effects are %s\n",
@@ -3247,15 +3055,11 @@ yyreduce:
     break;
 
   case 106:
-
-/* Line 1464 of yacc.c  */
 #line 438 "mon_parse.y"
     { default_radix = (yyvsp[(2) - (3)].rt); }
     break;
 
   case 107:
-
-/* Line 1464 of yacc.c  */
 #line 440 "mon_parse.y"
     {
                          const char *p;
@@ -3276,519 +3080,371 @@ yyreduce:
     break;
 
   case 108:
-
-/* Line 1464 of yacc.c  */
 #line 458 "mon_parse.y"
     { monitor_change_device((yyvsp[(2) - (3)].i)); }
     break;
 
   case 109:
-
-/* Line 1464 of yacc.c  */
 #line 460 "mon_parse.y"
     { mon_export(); }
     break;
 
   case 110:
-
-/* Line 1464 of yacc.c  */
 #line 462 "mon_parse.y"
     { mon_quit(); YYACCEPT; }
     break;
 
   case 111:
-
-/* Line 1464 of yacc.c  */
 #line 464 "mon_parse.y"
     { mon_exit(); YYACCEPT; }
     break;
 
   case 112:
-
-/* Line 1464 of yacc.c  */
 #line 468 "mon_parse.y"
     { mon_drive_execute_disk_cmd((yyvsp[(2) - (3)].str)); }
     break;
 
   case 113:
-
-/* Line 1464 of yacc.c  */
 #line 470 "mon_parse.y"
     { mon_out("\t%d\n",(yyvsp[(2) - (3)].i)); }
     break;
 
   case 114:
-
-/* Line 1464 of yacc.c  */
 #line 472 "mon_parse.y"
     { mon_command_print_help(NULL); }
     break;
 
   case 115:
-
-/* Line 1464 of yacc.c  */
 #line 474 "mon_parse.y"
     { mon_command_print_help((yyvsp[(2) - (3)].str)); }
     break;
 
   case 116:
-
-/* Line 1464 of yacc.c  */
 #line 476 "mon_parse.y"
     { printf("SYSTEM COMMAND: %s\n",(yyvsp[(2) - (3)].str)); }
     break;
 
   case 117:
-
-/* Line 1464 of yacc.c  */
 #line 478 "mon_parse.y"
     { mon_print_convert((yyvsp[(2) - (3)].i)); }
     break;
 
   case 118:
-
-/* Line 1464 of yacc.c  */
 #line 480 "mon_parse.y"
     { mon_change_dir((yyvsp[(2) - (3)].str)); }
     break;
 
   case 119:
-
-/* Line 1464 of yacc.c  */
 #line 482 "mon_parse.y"
     { mon_keyboard_feed((yyvsp[(2) - (3)].str)); }
     break;
 
   case 120:
-
-/* Line 1464 of yacc.c  */
 #line 484 "mon_parse.y"
     { mon_backtrace(); }
     break;
 
   case 121:
-
-/* Line 1464 of yacc.c  */
 #line 486 "mon_parse.y"
     { mon_show_dir((yyvsp[(2) - (3)].str)); }
     break;
 
   case 122:
-
-/* Line 1464 of yacc.c  */
 #line 488 "mon_parse.y"
     { mon_show_pwd(); }
     break;
 
   case 123:
-
-/* Line 1464 of yacc.c  */
 #line 490 "mon_parse.y"
     { mon_screenshot_save((yyvsp[(2) - (3)].str),-1); }
     break;
 
   case 124:
-
-/* Line 1464 of yacc.c  */
 #line 492 "mon_parse.y"
     { mon_screenshot_save((yyvsp[(2) - (5)].str),(yyvsp[(4) - (5)].i)); }
     break;
 
   case 125:
-
-/* Line 1464 of yacc.c  */
 #line 494 "mon_parse.y"
     { mon_resource_get((yyvsp[(2) - (3)].str)); }
     break;
 
   case 126:
-
-/* Line 1464 of yacc.c  */
 #line 496 "mon_parse.y"
     { mon_resource_set((yyvsp[(2) - (4)].str),(yyvsp[(3) - (4)].str)); }
     break;
 
   case 127:
-
-/* Line 1464 of yacc.c  */
 #line 498 "mon_parse.y"
     { resources_load((yyvsp[(2) - (3)].str)); }
     break;
 
   case 128:
-
-/* Line 1464 of yacc.c  */
 #line 500 "mon_parse.y"
     { resources_save((yyvsp[(2) - (3)].str)); }
     break;
 
   case 129:
-
-/* Line 1464 of yacc.c  */
 #line 502 "mon_parse.y"
     { mon_reset_machine(-1); }
     break;
 
   case 130:
-
-/* Line 1464 of yacc.c  */
 #line 504 "mon_parse.y"
     { mon_reset_machine((yyvsp[(3) - (4)].i)); }
     break;
 
   case 131:
-
-/* Line 1464 of yacc.c  */
 #line 506 "mon_parse.y"
     { mon_tape_ctrl((yyvsp[(3) - (4)].i)); }
     break;
 
   case 132:
-
-/* Line 1464 of yacc.c  */
 #line 508 "mon_parse.y"
     { mon_cart_freeze(); }
     break;
 
   case 133:
-
-/* Line 1464 of yacc.c  */
 #line 510 "mon_parse.y"
     { }
     break;
 
   case 134:
-
-/* Line 1464 of yacc.c  */
 #line 512 "mon_parse.y"
     { mon_stopwatch_reset(); }
     break;
 
   case 135:
-
-/* Line 1464 of yacc.c  */
 #line 514 "mon_parse.y"
     { mon_stopwatch_show("Stopwatch: ", "\n"); }
     break;
 
   case 136:
-
-/* Line 1464 of yacc.c  */
 #line 518 "mon_parse.y"
     { mon_file_load((yyvsp[(2) - (5)].str), (yyvsp[(3) - (5)].i), (yyvsp[(4) - (5)].a), FALSE); }
     break;
 
   case 137:
-
-/* Line 1464 of yacc.c  */
 #line 520 "mon_parse.y"
     { mon_file_load((yyvsp[(2) - (5)].str), (yyvsp[(3) - (5)].i), (yyvsp[(4) - (5)].a), TRUE); }
     break;
 
   case 138:
-
-/* Line 1464 of yacc.c  */
 #line 522 "mon_parse.y"
     { mon_file_save((yyvsp[(2) - (5)].str), (yyvsp[(3) - (5)].i), (yyvsp[(4) - (5)].range)[0], (yyvsp[(4) - (5)].range)[1], FALSE); }
     break;
 
   case 139:
-
-/* Line 1464 of yacc.c  */
 #line 524 "mon_parse.y"
     { return ERR_EXPECT_DEVICE_NUM; }
     break;
 
   case 140:
-
-/* Line 1464 of yacc.c  */
 #line 526 "mon_parse.y"
     { return ERR_EXPECT_ADDRESS; }
     break;
 
   case 141:
-
-/* Line 1464 of yacc.c  */
 #line 528 "mon_parse.y"
     { mon_file_save((yyvsp[(2) - (5)].str), (yyvsp[(3) - (5)].i), (yyvsp[(4) - (5)].range)[0], (yyvsp[(4) - (5)].range)[1], TRUE); }
     break;
 
   case 142:
-
-/* Line 1464 of yacc.c  */
 #line 530 "mon_parse.y"
     { return ERR_EXPECT_ADDRESS; }
     break;
 
   case 143:
-
-/* Line 1464 of yacc.c  */
 #line 532 "mon_parse.y"
     { mon_file_verify((yyvsp[(2) - (5)].str),(yyvsp[(3) - (5)].i),(yyvsp[(4) - (5)].a)); }
     break;
 
   case 144:
-
-/* Line 1464 of yacc.c  */
 #line 534 "mon_parse.y"
     { return ERR_EXPECT_ADDRESS; }
     break;
 
   case 145:
-
-/* Line 1464 of yacc.c  */
 #line 536 "mon_parse.y"
     { mon_drive_block_cmd(0,(yyvsp[(2) - (5)].i),(yyvsp[(3) - (5)].i),(yyvsp[(4) - (5)].a)); }
     break;
 
   case 146:
-
-/* Line 1464 of yacc.c  */
 #line 538 "mon_parse.y"
     { mon_drive_block_cmd(1,(yyvsp[(2) - (5)].i),(yyvsp[(3) - (5)].i),(yyvsp[(4) - (5)].a)); }
     break;
 
   case 147:
-
-/* Line 1464 of yacc.c  */
 #line 540 "mon_parse.y"
     { mon_drive_list(-1); }
     break;
 
   case 148:
-
-/* Line 1464 of yacc.c  */
 #line 542 "mon_parse.y"
     { mon_drive_list((yyvsp[(2) - (3)].i)); }
     break;
 
   case 149:
-
-/* Line 1464 of yacc.c  */
 #line 544 "mon_parse.y"
     { mon_attach((yyvsp[(2) - (4)].str),(yyvsp[(3) - (4)].i)); }
     break;
 
   case 150:
-
-/* Line 1464 of yacc.c  */
 #line 546 "mon_parse.y"
     { mon_detach((yyvsp[(2) - (3)].i)); }
     break;
 
   case 151:
-
-/* Line 1464 of yacc.c  */
 #line 548 "mon_parse.y"
     { mon_autostart((yyvsp[(2) - (3)].str),0,1); }
     break;
 
   case 152:
-
-/* Line 1464 of yacc.c  */
 #line 550 "mon_parse.y"
     { mon_autostart((yyvsp[(2) - (5)].str),(yyvsp[(4) - (5)].i),1); }
     break;
 
   case 153:
-
-/* Line 1464 of yacc.c  */
 #line 552 "mon_parse.y"
     { mon_autostart((yyvsp[(2) - (3)].str),0,0); }
     break;
 
   case 154:
-
-/* Line 1464 of yacc.c  */
 #line 554 "mon_parse.y"
     { mon_autostart((yyvsp[(2) - (5)].str),(yyvsp[(4) - (5)].i),0); }
     break;
 
   case 155:
-
-/* Line 1464 of yacc.c  */
 #line 558 "mon_parse.y"
     { mon_record_commands((yyvsp[(2) - (3)].str)); }
     break;
 
   case 156:
-
-/* Line 1464 of yacc.c  */
 #line 560 "mon_parse.y"
     { mon_end_recording(); }
     break;
 
   case 157:
-
-/* Line 1464 of yacc.c  */
 #line 562 "mon_parse.y"
     { mon_playback_init((yyvsp[(2) - (3)].str)); }
     break;
 
   case 158:
-
-/* Line 1464 of yacc.c  */
 #line 566 "mon_parse.y"
     { mon_memory_fill((yyvsp[(2) - (4)].a), BAD_ADDR, (unsigned char *)(yyvsp[(3) - (4)].str)); }
     break;
 
   case 159:
-
-/* Line 1464 of yacc.c  */
 #line 568 "mon_parse.y"
     { printf("Not yet.\n"); }
     break;
 
   case 160:
-
-/* Line 1464 of yacc.c  */
 #line 572 "mon_parse.y"
     { yydebug = 1; }
     break;
 
   case 161:
-
-/* Line 1464 of yacc.c  */
 #line 575 "mon_parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); }
     break;
 
   case 162:
-
-/* Line 1464 of yacc.c  */
 #line 578 "mon_parse.y"
     { (yyval.str) = (yyvsp[(1) - (1)].str); }
     break;
 
   case 163:
-
-/* Line 1464 of yacc.c  */
 #line 579 "mon_parse.y"
     { (yyval.str) = NULL; }
     break;
 
   case 165:
-
-/* Line 1464 of yacc.c  */
 #line 583 "mon_parse.y"
     { return ERR_EXPECT_FILENAME; }
     break;
 
   case 167:
-
-/* Line 1464 of yacc.c  */
 #line 587 "mon_parse.y"
     { return ERR_EXPECT_DEVICE_NUM; }
     break;
 
   case 168:
-
-/* Line 1464 of yacc.c  */
 #line 590 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (2)].i) | (yyvsp[(2) - (2)].i); }
     break;
 
   case 169:
-
-/* Line 1464 of yacc.c  */
 #line 591 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 170:
-
-/* Line 1464 of yacc.c  */
 #line 594 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 171:
-
-/* Line 1464 of yacc.c  */
 #line 595 "mon_parse.y"
     { (yyval.i) = 0; }
     break;
 
   case 172:
-
-/* Line 1464 of yacc.c  */
 #line 598 "mon_parse.y"
     { (yyval.i) = new_reg(default_memspace, (yyvsp[(1) - (1)].reg)); }
     break;
 
   case 173:
-
-/* Line 1464 of yacc.c  */
 #line 599 "mon_parse.y"
     { (yyval.i) = new_reg((yyvsp[(1) - (2)].i), (yyvsp[(2) - (2)].reg)); }
     break;
 
   case 176:
-
-/* Line 1464 of yacc.c  */
 #line 607 "mon_parse.y"
     { (monitor_cpu_for_memspace[reg_memspace((yyvsp[(1) - (3)].i))]->mon_register_set_val)(reg_memspace((yyvsp[(1) - (3)].i)), reg_regid((yyvsp[(1) - (3)].i)), (WORD) (yyvsp[(3) - (3)].i)); }
     break;
 
   case 177:
-
-/* Line 1464 of yacc.c  */
 #line 610 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 178:
-
-/* Line 1464 of yacc.c  */
 #line 611 "mon_parse.y"
     { return ERR_EXPECT_CHECKNUM; }
     break;
 
   case 180:
-
-/* Line 1464 of yacc.c  */
 #line 615 "mon_parse.y"
     { (yyval.range)[0] = (yyvsp[(1) - (1)].a); (yyval.range)[1] = BAD_ADDR; }
     break;
 
   case 181:
-
-/* Line 1464 of yacc.c  */
 #line 618 "mon_parse.y"
     { (yyval.range)[0] = (yyvsp[(1) - (3)].a); (yyval.range)[1] = (yyvsp[(3) - (3)].a); }
     break;
 
   case 182:
-
-/* Line 1464 of yacc.c  */
 #line 620 "mon_parse.y"
     { if (resolve_range(e_default_space, (yyval.range), (yyvsp[(1) - (1)].str))) return ERR_ADDR_TOO_BIG; }
     break;
 
   case 183:
-
-/* Line 1464 of yacc.c  */
 #line 622 "mon_parse.y"
     { if (resolve_range((yyvsp[(1) - (3)].i), (yyval.range), (yyvsp[(3) - (3)].str))) return ERR_ADDR_TOO_BIG; }
     break;
 
   case 184:
-
-/* Line 1464 of yacc.c  */
 #line 625 "mon_parse.y"
     { (yyval.a) = (yyvsp[(2) - (2)].a); }
     break;
 
   case 185:
-
-/* Line 1464 of yacc.c  */
 #line 626 "mon_parse.y"
     { (yyval.a) = BAD_ADDR; }
     break;
 
   case 186:
-
-/* Line 1464 of yacc.c  */
 #line 630 "mon_parse.y"
     {
              (yyval.a) = new_addr(e_default_space,(yyvsp[(1) - (1)].i));
@@ -3797,8 +3453,6 @@ yyreduce:
     break;
 
   case 187:
-
-/* Line 1464 of yacc.c  */
 #line 635 "mon_parse.y"
     {
              (yyval.a) = new_addr((yyvsp[(1) - (3)].i), (yyvsp[(3) - (3)].i));
@@ -3807,8 +3461,6 @@ yyreduce:
     break;
 
   case 188:
-
-/* Line 1464 of yacc.c  */
 #line 640 "mon_parse.y"
     {
              temp = mon_symbol_table_lookup_addr(e_default_space, (yyvsp[(1) - (1)].str));
@@ -3820,120 +3472,86 @@ yyreduce:
     break;
 
   case 191:
-
-/* Line 1464 of yacc.c  */
 #line 653 "mon_parse.y"
     { (yyval.i) = e_comp_space; }
     break;
 
   case 192:
-
-/* Line 1464 of yacc.c  */
 #line 654 "mon_parse.y"
     { (yyval.i) = e_disk8_space; }
     break;
 
   case 193:
-
-/* Line 1464 of yacc.c  */
 #line 655 "mon_parse.y"
     { (yyval.i) = e_disk9_space; }
     break;
 
   case 194:
-
-/* Line 1464 of yacc.c  */
 #line 656 "mon_parse.y"
     { (yyval.i) = e_disk10_space; }
     break;
 
   case 195:
-
-/* Line 1464 of yacc.c  */
 #line 657 "mon_parse.y"
     { (yyval.i) = e_disk11_space; }
     break;
 
   case 196:
-
-/* Line 1464 of yacc.c  */
 #line 660 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); if (!CHECK_ADDR((yyvsp[(1) - (1)].i))) return ERR_ADDR_TOO_BIG; }
     break;
 
   case 197:
-
-/* Line 1464 of yacc.c  */
 #line 662 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 198:
-
-/* Line 1464 of yacc.c  */
 #line 664 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (3)].i) + (yyvsp[(3) - (3)].i); }
     break;
 
   case 199:
-
-/* Line 1464 of yacc.c  */
 #line 665 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (3)].i) - (yyvsp[(3) - (3)].i); }
     break;
 
   case 200:
-
-/* Line 1464 of yacc.c  */
 #line 666 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (3)].i) * (yyvsp[(3) - (3)].i); }
     break;
 
   case 201:
-
-/* Line 1464 of yacc.c  */
 #line 667 "mon_parse.y"
     { (yyval.i) = ((yyvsp[(3) - (3)].i)) ? ((yyvsp[(1) - (3)].i) / (yyvsp[(3) - (3)].i)) : 1; }
     break;
 
   case 202:
-
-/* Line 1464 of yacc.c  */
 #line 668 "mon_parse.y"
     { (yyval.i) = (yyvsp[(2) - (3)].i); }
     break;
 
   case 203:
-
-/* Line 1464 of yacc.c  */
 #line 669 "mon_parse.y"
     { return ERR_MISSING_CLOSE_PAREN; }
     break;
 
   case 204:
-
-/* Line 1464 of yacc.c  */
 #line 670 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 205:
-
-/* Line 1464 of yacc.c  */
 #line 673 "mon_parse.y"
     { (yyval.cond_node) = (yyvsp[(2) - (2)].cond_node); }
     break;
 
   case 206:
-
-/* Line 1464 of yacc.c  */
 #line 674 "mon_parse.y"
     { (yyval.cond_node) = 0; }
     break;
 
   case 207:
-
-/* Line 1464 of yacc.c  */
 #line 677 "mon_parse.y"
     {
                (yyval.cond_node) = new_cond; (yyval.cond_node)->is_parenthized = FALSE;
@@ -3942,36 +3560,26 @@ yyreduce:
     break;
 
   case 208:
-
-/* Line 1464 of yacc.c  */
 #line 682 "mon_parse.y"
     { return ERR_INCOMPLETE_COMPARE_OP; }
     break;
 
   case 209:
-
-/* Line 1464 of yacc.c  */
 #line 684 "mon_parse.y"
     { (yyval.cond_node) = (yyvsp[(2) - (3)].cond_node); (yyval.cond_node)->is_parenthized = TRUE; }
     break;
 
   case 210:
-
-/* Line 1464 of yacc.c  */
 #line 686 "mon_parse.y"
     { return ERR_MISSING_CLOSE_PAREN; }
     break;
 
   case 211:
-
-/* Line 1464 of yacc.c  */
 #line 688 "mon_parse.y"
     { (yyval.cond_node) = (yyvsp[(1) - (1)].cond_node); }
     break;
 
   case 212:
-
-/* Line 1464 of yacc.c  */
 #line 691 "mon_parse.y"
     { (yyval.cond_node) = new_cond;
                             (yyval.cond_node)->operation = e_INV;
@@ -3982,8 +3590,6 @@ yyreduce:
     break;
 
   case 213:
-
-/* Line 1464 of yacc.c  */
 #line 697 "mon_parse.y"
     { (yyval.cond_node) = new_cond;
                             (yyval.cond_node)->operation = e_INV;
@@ -3994,141 +3600,101 @@ yyreduce:
     break;
 
   case 216:
-
-/* Line 1464 of yacc.c  */
 #line 709 "mon_parse.y"
     { mon_add_number_to_buffer((yyvsp[(1) - (1)].i)); }
     break;
 
   case 217:
-
-/* Line 1464 of yacc.c  */
 #line 710 "mon_parse.y"
     { mon_add_string_to_buffer((yyvsp[(1) - (1)].str)); }
     break;
 
   case 220:
-
-/* Line 1464 of yacc.c  */
 #line 717 "mon_parse.y"
     { mon_add_number_to_buffer((yyvsp[(1) - (1)].i)); }
     break;
 
   case 221:
-
-/* Line 1464 of yacc.c  */
 #line 718 "mon_parse.y"
     { mon_add_number_masked_to_buffer((yyvsp[(1) - (1)].i), 0x00); }
     break;
 
   case 222:
-
-/* Line 1464 of yacc.c  */
 #line 719 "mon_parse.y"
     { mon_add_string_to_buffer((yyvsp[(1) - (1)].str)); }
     break;
 
   case 223:
-
-/* Line 1464 of yacc.c  */
 #line 722 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 224:
-
-/* Line 1464 of yacc.c  */
 #line 723 "mon_parse.y"
     { (yyval.i) = (monitor_cpu_for_memspace[reg_memspace((yyvsp[(1) - (1)].i))]->mon_register_get_val)(reg_memspace((yyvsp[(1) - (1)].i)), reg_regid((yyvsp[(1) - (1)].i))); }
     break;
 
   case 225:
-
-/* Line 1464 of yacc.c  */
 #line 726 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 226:
-
-/* Line 1464 of yacc.c  */
 #line 727 "mon_parse.y"
     { (yyval.i) = strtol((yyvsp[(1) - (1)].str), NULL, 10); }
     break;
 
   case 227:
-
-/* Line 1464 of yacc.c  */
 #line 728 "mon_parse.y"
     { (yyval.i) = strtol((yyvsp[(1) - (1)].str), NULL, 10); }
     break;
 
   case 228:
-
-/* Line 1464 of yacc.c  */
 #line 729 "mon_parse.y"
     { (yyval.i) = strtol((yyvsp[(1) - (1)].str), NULL, 10); }
     break;
 
   case 229:
-
-/* Line 1464 of yacc.c  */
 #line 732 "mon_parse.y"
     { (yyval.i) = resolve_datatype(B_NUMBER,(yyvsp[(1) - (1)].str)); }
     break;
 
   case 230:
-
-/* Line 1464 of yacc.c  */
 #line 733 "mon_parse.y"
     { (yyval.i) = resolve_datatype(O_NUMBER,(yyvsp[(1) - (1)].str)); }
     break;
 
   case 231:
-
-/* Line 1464 of yacc.c  */
 #line 734 "mon_parse.y"
     { (yyval.i) = resolve_datatype(D_NUMBER,(yyvsp[(1) - (1)].str)); }
     break;
 
   case 232:
-
-/* Line 1464 of yacc.c  */
 #line 737 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 233:
-
-/* Line 1464 of yacc.c  */
 #line 738 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 234:
-
-/* Line 1464 of yacc.c  */
 #line 739 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 235:
-
-/* Line 1464 of yacc.c  */
 #line 740 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 236:
-
-/* Line 1464 of yacc.c  */
 #line 741 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 240:
-
-/* Line 1464 of yacc.c  */
 #line 749 "mon_parse.y"
     { (yyval.i) = 0;
                                                 if ((yyvsp[(1) - (2)].str)) {
@@ -4142,15 +3708,11 @@ yyreduce:
     break;
 
   case 242:
-
-/* Line 1464 of yacc.c  */
 #line 760 "mon_parse.y"
     { asm_mode = 0; }
     break;
 
   case 243:
-
-/* Line 1464 of yacc.c  */
 #line 763 "mon_parse.y"
     { if ((yyvsp[(2) - (2)].i) > 0xff) {
                           (yyval.mode).addr_mode = ASM_ADDR_MODE_IMMEDIATE_16;
@@ -4162,8 +3724,6 @@ yyreduce:
     break;
 
   case 244:
-
-/* Line 1464 of yacc.c  */
 #line 770 "mon_parse.y"
     { if ((yyvsp[(1) - (1)].i) < 0x100) {
                (yyval.mode).addr_mode = ASM_ADDR_MODE_ZERO_PAGE;
@@ -4176,8 +3736,6 @@ yyreduce:
     break;
 
   case 245:
-
-/* Line 1464 of yacc.c  */
 #line 778 "mon_parse.y"
     { if ((yyvsp[(1) - (3)].i) < 0x100) {
                             (yyval.mode).addr_mode = ASM_ADDR_MODE_ZERO_PAGE_X;
@@ -4190,8 +3748,6 @@ yyreduce:
     break;
 
   case 246:
-
-/* Line 1464 of yacc.c  */
 #line 786 "mon_parse.y"
     { if ((yyvsp[(1) - (3)].i) < 0x100) {
                             (yyval.mode).addr_mode = ASM_ADDR_MODE_ZERO_PAGE_Y;
@@ -4204,8 +3760,6 @@ yyreduce:
     break;
 
   case 247:
-
-/* Line 1464 of yacc.c  */
 #line 794 "mon_parse.y"
     { if ((yyvsp[(1) - (3)].i) < 0x100) {
                             (yyval.mode).addr_mode = ASM_ADDR_MODE_DOUBLE;
@@ -4216,8 +3770,6 @@ yyreduce:
     break;
 
   case 248:
-
-/* Line 1464 of yacc.c  */
 #line 800 "mon_parse.y"
     { if ((yyvsp[(2) - (3)].i) < 0x100) {
                                (yyval.mode).addr_mode = ASM_ADDR_MODE_INDIRECT;
@@ -4230,8 +3782,6 @@ yyreduce:
     break;
 
   case 249:
-
-/* Line 1464 of yacc.c  */
 #line 808 "mon_parse.y"
     { if ((yyvsp[(2) - (5)].i) < 0x100) {
                                            (yyval.mode).addr_mode = ASM_ADDR_MODE_INDIRECT_X;
@@ -4244,225 +3794,161 @@ yyreduce:
     break;
 
   case 250:
-
-/* Line 1464 of yacc.c  */
 #line 817 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_INDIRECT_Y; (yyval.mode).param = (yyvsp[(2) - (5)].i); }
     break;
 
   case 251:
-
-/* Line 1464 of yacc.c  */
 #line 818 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IND_BC; }
     break;
 
   case 252:
-
-/* Line 1464 of yacc.c  */
 #line 819 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IND_DE; }
     break;
 
   case 253:
-
-/* Line 1464 of yacc.c  */
 #line 820 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IND_HL; }
     break;
 
   case 254:
-
-/* Line 1464 of yacc.c  */
 #line 821 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IND_IX; }
     break;
 
   case 255:
-
-/* Line 1464 of yacc.c  */
 #line 822 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IND_IY; }
     break;
 
   case 256:
-
-/* Line 1464 of yacc.c  */
 #line 823 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IND_SP; }
     break;
 
   case 257:
-
-/* Line 1464 of yacc.c  */
 #line 825 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_ABSOLUTE_A; (yyval.mode).param = (yyvsp[(2) - (5)].i); }
     break;
 
   case 258:
-
-/* Line 1464 of yacc.c  */
 #line 827 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_ABSOLUTE_HL; (yyval.mode).param = (yyvsp[(2) - (5)].i); }
     break;
 
   case 259:
-
-/* Line 1464 of yacc.c  */
 #line 829 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_ABSOLUTE_IX; (yyval.mode).param = (yyvsp[(2) - (5)].i); }
     break;
 
   case 260:
-
-/* Line 1464 of yacc.c  */
 #line 831 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_ABSOLUTE_IY; (yyval.mode).param = (yyvsp[(2) - (5)].i); }
     break;
 
   case 261:
-
-/* Line 1464 of yacc.c  */
 #line 832 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_IMPLIED; }
     break;
 
   case 262:
-
-/* Line 1464 of yacc.c  */
 #line 833 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_ACCUMULATOR; }
     break;
 
   case 263:
-
-/* Line 1464 of yacc.c  */
 #line 834 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_B; }
     break;
 
   case 264:
-
-/* Line 1464 of yacc.c  */
 #line 835 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_C; }
     break;
 
   case 265:
-
-/* Line 1464 of yacc.c  */
 #line 836 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_D; }
     break;
 
   case 266:
-
-/* Line 1464 of yacc.c  */
 #line 837 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_E; }
     break;
 
   case 267:
-
-/* Line 1464 of yacc.c  */
 #line 838 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_H; }
     break;
 
   case 268:
-
-/* Line 1464 of yacc.c  */
 #line 839 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IXH; }
     break;
 
   case 269:
-
-/* Line 1464 of yacc.c  */
 #line 840 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IYH; }
     break;
 
   case 270:
-
-/* Line 1464 of yacc.c  */
 #line 841 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_L; }
     break;
 
   case 271:
-
-/* Line 1464 of yacc.c  */
 #line 842 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IXL; }
     break;
 
   case 272:
-
-/* Line 1464 of yacc.c  */
 #line 843 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IYL; }
     break;
 
   case 273:
-
-/* Line 1464 of yacc.c  */
 #line 844 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_AF; }
     break;
 
   case 274:
-
-/* Line 1464 of yacc.c  */
 #line 845 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_BC; }
     break;
 
   case 275:
-
-/* Line 1464 of yacc.c  */
 #line 846 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_DE; }
     break;
 
   case 276:
-
-/* Line 1464 of yacc.c  */
 #line 847 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_HL; }
     break;
 
   case 277:
-
-/* Line 1464 of yacc.c  */
 #line 848 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IX; }
     break;
 
   case 278:
-
-/* Line 1464 of yacc.c  */
 #line 849 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_IY; }
     break;
 
   case 279:
-
-/* Line 1464 of yacc.c  */
 #line 850 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_REG_SP; }
     break;
 
   case 280:
-
-/* Line 1464 of yacc.c  */
 #line 852 "mon_parse.y"
     { (yyval.mode).addr_mode = ASM_ADDR_MODE_DIRECT; (yyval.mode).param = (yyvsp[(2) - (2)].i); }
     break;
 
   case 281:
-
-/* Line 1464 of yacc.c  */
 #line 853 "mon_parse.y"
     {    /* Clash with addr,x addr,y modes! */
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4482,8 +3968,6 @@ yyreduce:
     break;
 
   case 282:
-
-/* Line 1464 of yacc.c  */
 #line 868 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4492,8 +3976,6 @@ yyreduce:
     break;
 
   case 283:
-
-/* Line 1464 of yacc.c  */
 #line 872 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4502,8 +3984,6 @@ yyreduce:
     break;
 
   case 284:
-
-/* Line 1464 of yacc.c  */
 #line 876 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4512,8 +3992,6 @@ yyreduce:
     break;
 
   case 285:
-
-/* Line 1464 of yacc.c  */
 #line 880 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4522,8 +4000,6 @@ yyreduce:
     break;
 
   case 286:
-
-/* Line 1464 of yacc.c  */
 #line 884 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4532,8 +4008,6 @@ yyreduce:
     break;
 
   case 287:
-
-/* Line 1464 of yacc.c  */
 #line 888 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4542,8 +4016,6 @@ yyreduce:
     break;
 
   case 288:
-
-/* Line 1464 of yacc.c  */
 #line 892 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4552,8 +4024,6 @@ yyreduce:
     break;
 
   case 289:
-
-/* Line 1464 of yacc.c  */
 #line 896 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4562,8 +4032,6 @@ yyreduce:
     break;
 
   case 290:
-
-/* Line 1464 of yacc.c  */
 #line 900 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4580,8 +4048,6 @@ yyreduce:
     break;
 
   case 291:
-
-/* Line 1464 of yacc.c  */
 #line 912 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4601,8 +4067,6 @@ yyreduce:
     break;
 
   case 292:
-
-/* Line 1464 of yacc.c  */
 #line 927 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4611,8 +4075,6 @@ yyreduce:
     break;
 
   case 293:
-
-/* Line 1464 of yacc.c  */
 #line 931 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4621,8 +4083,6 @@ yyreduce:
     break;
 
   case 294:
-
-/* Line 1464 of yacc.c  */
 #line 935 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4631,8 +4091,6 @@ yyreduce:
     break;
 
   case 295:
-
-/* Line 1464 of yacc.c  */
 #line 939 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4641,8 +4099,6 @@ yyreduce:
     break;
 
   case 296:
-
-/* Line 1464 of yacc.c  */
 #line 943 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4651,8 +4107,6 @@ yyreduce:
     break;
 
   case 297:
-
-/* Line 1464 of yacc.c  */
 #line 947 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4661,8 +4115,6 @@ yyreduce:
     break;
 
   case 298:
-
-/* Line 1464 of yacc.c  */
 #line 951 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4671,8 +4123,6 @@ yyreduce:
     break;
 
   case 299:
-
-/* Line 1464 of yacc.c  */
 #line 955 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4681,8 +4131,6 @@ yyreduce:
     break;
 
   case 300:
-
-/* Line 1464 of yacc.c  */
 #line 959 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4699,8 +4147,6 @@ yyreduce:
     break;
 
   case 301:
-
-/* Line 1464 of yacc.c  */
 #line 971 "mon_parse.y"
     {
         (yyval.mode).addr_mode = ASM_ADDR_MODE_INDEXED;
@@ -4710,44 +4156,33 @@ yyreduce:
     break;
 
   case 302:
-
-/* Line 1464 of yacc.c  */
 #line 980 "mon_parse.y"
     { (yyval.i) = (0 << 5); printf("reg_x\n"); }
     break;
 
   case 303:
-
-/* Line 1464 of yacc.c  */
 #line 981 "mon_parse.y"
     { (yyval.i) = (1 << 5); printf("reg_y\n"); }
     break;
 
   case 304:
-
-/* Line 1464 of yacc.c  */
 #line 982 "mon_parse.y"
     { (yyval.i) = (yyvsp[(1) - (1)].i); }
     break;
 
   case 305:
-
-/* Line 1464 of yacc.c  */
 #line 986 "mon_parse.y"
     { (yyval.i) = (2 << 5); printf("reg_u\n"); }
     break;
 
   case 306:
-
-/* Line 1464 of yacc.c  */
 #line 987 "mon_parse.y"
     { (yyval.i) = (3 << 5); printf("reg_s\n"); }
     break;
 
 
-
-/* Line 1464 of yacc.c  */
-#line 4751 "mon_parse.c"
+/* Line 1267 of yacc.c.  */
+#line 4186 "mon_parse.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -4757,6 +4192,7 @@ yyreduce:
   YY_STACK_PRINT (yyss, yyssp);
 
   *++yyvsp = yyval;
+
 
   /* Now `shift' the result of the reduction.  Determine what state
      that goes to, based on the state we popped back to and the rule
@@ -4822,7 +4258,7 @@ yyerrlab:
 
   if (yyerrstatus == 3)
     {
-      /* If just tried and failed to reuse lookahead token after an
+      /* If just tried and failed to reuse look-ahead token after an
 	 error, discard it.  */
 
       if (yychar <= YYEOF)
@@ -4839,7 +4275,7 @@ yyerrlab:
 	}
     }
 
-  /* Else will try to reuse lookahead token after shifting the error
+  /* Else will try to reuse look-ahead token after shifting the error
      token.  */
   goto yyerrlab1;
 
@@ -4896,6 +4332,9 @@ yyerrlab1:
       YY_STACK_PRINT (yyss, yyssp);
     }
 
+  if (yyn == YYFINAL)
+    YYACCEPT;
+
   *++yyvsp = yylval;
 
 
@@ -4920,7 +4359,7 @@ yyabortlab:
   yyresult = 1;
   goto yyreturn;
 
-#if !defined(yyoverflow) || YYERROR_VERBOSE
+#ifndef yyoverflow
 /*-------------------------------------------------.
 | yyexhaustedlab -- memory exhaustion comes here.  |
 `-------------------------------------------------*/
@@ -4931,7 +4370,7 @@ yyexhaustedlab:
 #endif
 
 yyreturn:
-  if (yychar != YYEMPTY)
+  if (yychar != YYEOF && yychar != YYEMPTY)
      yydestruct ("Cleanup: discarding lookahead",
 		 yytoken, &yylval);
   /* Do not reclaim the symbols of the rule which action triggered
@@ -4957,8 +4396,6 @@ yyreturn:
 }
 
 
-
-/* Line 1684 of yacc.c  */
 #line 991 "mon_parse.y"
 
 
