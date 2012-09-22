@@ -18,8 +18,32 @@ left from previous installs.
 ** General
 ----------
 
+- New SDL based MIPS Windows NT port.
+
+- New SDL based native Dingoo port.
+
+- New monitor commands: autostart and autoload.
+
+- Rewrite of the sound system, output is now mono/stereo selectable.
+
+- Split off the 5x0 model from the 6x0/7x0 models in xcbm2, new emulator is called xcbm5x0.
+
+- Split off sid player from c64, new program is called vsid.
+
 ** C64/C128 changes
 -------------------
+
+- ACIA address now selectable.
+
+- I/O conflict behaviour now selectable.
+
+- New Pagefox cartridge support.
+
+- IDE64 support extended to be able to handle 4 devices.
+
+- New "Kingsoft"  ("Business Basic" aka "S'more") cartridge support.
+
+- SFX sound sampler, SFX sound expander and digimax extended to output in stereo.
 
 ** C64 changes
 --------------
@@ -30,6 +54,10 @@ left from previous installs.
 ** VIC20 changes
 ----------------
 
+- Added I/O conflict checking with selectable behaviour.
+
+- Added masC=uerade adapter support, I/O-only C64 carts can now also be used with the VIC20 emulation.
+
 ** PLUS4 changes
 ----------------
 
@@ -39,17 +67,38 @@ left from previous installs.
 ** CBM2 changes
 ---------------
 
+** Cartconv changes
+-------------------
+
+- Display usage when -f/-t/-i/-o/-n/-l is given without an extra parameter.
+
 ** Unix changes
 ---------------
+
+- New Russian and Korean translations of the UI elements and command-line options.
 
 ** MS-Windows changes
 ---------------------
 
+- Alot of GUI fixes and improvements.
+
+- New Russian and Korean translations of the UI elements and command-line options.
+
+- Hotkeys are now configurable by editing the win_hotkeys.vhk files.
+
+- Source can now be compiled without DX.
+
 ** AmigaOS changes
 ------------------
 
+- New Russian and Korean translations of the UI elements and command-line options.
+
 ** DOS changes
 --------------
+
+- Added PCI Catweasel support.
+
+- Added PCI HardSID support.
 
 ** Mac OS X changes
 -------------------
@@ -59,6 +108,8 @@ left from previous installs.
 
 ** BeOS changes
 ---------------
+
+- Alot of GUI fixes and improvements.
 
 ** OS/2 changes
 ---------------

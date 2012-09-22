@@ -20179,6 +20179,10 @@ Wrote lots of CPU documentation. Wrote the VIC Flash Plugin
 cartridge emulation in xvic.
 
 @item
+@b{mar77i}
+Fixed some resource handling issues.
+
+@item
 @b{Robert W. McMullen}
 Provided parts of the widget set for implementing the Xaw GUI.
 

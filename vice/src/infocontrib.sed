@@ -151,6 +151,7 @@ s/@b{Peter Rittwage}/Peter Rittwage/g
 s/@b{Robert McIntyre}/Robert McIntyre/g
 s/@b{István Fábián}/István Fábián/g
 s/@b{Sven A. Droll}/Sven A. Droll/g
+s/@b{mar77i}/mar77i/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g
