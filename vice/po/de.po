@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-09-07 20:54+0200\n"
+"PO-Revision-Date: 2012-09-23 17:30+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -161,9 +161,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:732
-#, fuzzy
 msgid "Internal Function ROM type"
-msgstr "Internes Funktions ROM"
+msgstr "Internes Funktions ROM Typ"
 
 #: src/arch/unix/gui/c128ui.c:325 src/arch/amigaos/intl_text.c.po.c:10660
 msgid "Internal Function ROM file"
@@ -6378,9 +6377,8 @@ msgstr "DigiMAX Einstellungen"
 #: src/arch/amigaos/intl_text.c.po.c:3771
 #: src/arch/amigaos/intl_text.c.po.c:3785
 #: src/arch/amigaos/intl_text.c.po.c:10842
-#, fuzzy
 msgid "DS12C887 RTC settings"
-msgstr "CRTC Einstellungen"
+msgstr "DS12C887 RTC Einstellungen"
 
 #: src/arch/win32/res.rc.po.c:1535 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
@@ -6430,9 +6428,8 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler Modul aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1545
-#, fuzzy
 msgid "Enable the Userport RTC expansion"
-msgstr "RamCart Erweiterung aktivieren"
+msgstr "Userport RTC Erweiterung aktivieren"
 
 #: src/arch/win32/res.rc.po.c:1546 src/arch/amigaos/intl_text.c.po.c:4093
 msgid "Save current settings to specified file"
@@ -8548,11 +8545,11 @@ msgstr "DigiMAX aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:10814
 msgid "DS12C887 RTC Enabled"
-msgstr ""
+msgstr "DS12C887 RTC aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:10828
 msgid "DS12C887 RTC base"
-msgstr ""
+msgstr "DS12C887 RTC Base"
 
 #: src/arch/amigaos/intl_text.c.po.c:10856
 msgid "SFX Sound Expander Enabled"
@@ -8595,9 +8592,8 @@ msgid "Atari ST mouse"
 msgstr "Amiga ST Maus"
 
 #: src/arch/amigaos/intl_text.c.po.c:11304
-#, fuzzy
 msgid "Smart mouse"
-msgstr "Amiga Maus"
+msgstr "Smart Maus"
 
 #: src/arch/amigaos/intl_text.c.po.c:11500
 msgid "Save to EasyFlash CRT file on detach"
@@ -9867,7 +9863,7 @@ msgstr "Name der externen Funktions ROM Datei definieren"
 
 #: src/translate_text.c.po.c:3964
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr ""
+msgstr "Typ des internen Funktions ROM: (0: Kein, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
 msgid "Disable the internal Function ROM"
@@ -11563,13 +11559,10 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Joystickport für Maus auswählen"
 
 #: src/translate_text.c.po.c:11833
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
-msgstr ""
-"Maus typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = "
-"ST)"
+msgstr "Mouse typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"
 
 #: src/translate_text.c.po.c:11850
 msgid "Enable PS/2 mouse on userport"
@@ -11861,19 +11854,16 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "Basis Adresse für DigiMAX Erweiterung"
 
 #: src/translate_text.c.po.c:13348
-#, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
-msgstr "SID Modul aktivieren"
+msgstr "DS12C887 RTC Modul aktivieren"
 
 #: src/translate_text.c.po.c:13365
-#, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
-msgstr "SID Modul deaktivieren"
+msgstr "DS12C887 RTC Modul deaktivieren"
 
 #: src/translate_text.c.po.c:13382
-#, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
-msgstr "Basis Adresse für DigiMAX Erweiterung"
+msgstr "Basis Adresse für DS12C887 RTC Modul"
 
 #~ msgid "Enable the internal Function ROM"
 #~ msgstr "Internes Funktions ROM aktivieren"
