@@ -100,7 +100,7 @@ libarch_a_SOURCES = \
 	respet.rc \
 	respetdww.rc \
 	respetreu.rc \
- 	resplus256k.rc \
+	resplus256k.rc \
 	resplus4.rc \
 	resplus60k.rc \
 	resramcart.rc \
@@ -522,13 +522,23 @@ EXTRA_DIST = \
 
 BUILT_SOURCES = res.h menuid.h stringid.h
 
-res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
-	echo "generating res.h, menuid.h and stringid.h ..."
-@CROSS_TRUE@	cat >resall.txt $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+resall.txt:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
+@CROSS_TRUE@	cat >$@ $^
+@CROSS_FALSE@	;
+
+@CROSS_TRUE@res.h:	resall.txt
+@CROSS_TRUE@	echo "generating "$@
 @CROSS_TRUE@	. $(srcdir)/genwinres.sh <resall.txt >res.h
+
+@CROSS_TRUE@menuid.h:	resall.txt
+@CROSS_TRUE@	echo "generating "$@
 @CROSS_TRUE@	. $(srcdir)/genmenuid.sh <resall.txt >menuid.h
+
+@CROSS_TRUE@stringid.h:	resall.txt
+@CROSS_TRUE@	echo "generating "$@
 @CROSS_TRUE@	. $(srcdir)/genstringid.sh <resall.txt >stringid.h
-@CROSS_TRUE@	rm -f resall.txt
+
+@CROSS_FALSE@res.h menuid.h stringid.h:	resall.txt
 @CROSS_FALSE@	(cd utils; $(MAKE))
 @CROSS_FALSE@	utils/genwinres$(EXEEXT) res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 
@@ -554,7 +564,7 @@ resc128cat.rc: $(srcdir)/resc128.rc $(srcdir)/res.rc res.h \
 	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
 	$(srcdir)/resautostart.rc $(srcdir)/resmidi.rc \
 	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
-	$(srcdir)/rescia.rc resds12c887rtc.rc
+	$(srcdir)/rescia.rc $(srcdir)/resds12c887rtc.rc
 
 resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
