@@ -60,16 +60,17 @@ extern BYTE mouse_poll(void);
 extern void smart_mouse_store(BYTE val);
 extern BYTE smart_mouse_read(void);
 
-#define MOUSE_TYPE_1351   0
-#define MOUSE_TYPE_NEOS   1
-#define MOUSE_TYPE_AMIGA  2
-#define MOUSE_TYPE_PADDLE 3
-#define MOUSE_TYPE_CX22   4
-#define MOUSE_TYPE_ST     5
-#define MOUSE_TYPE_SMART  6
-#define MOUSE_TYPE_NUM    7
+#define MOUSE_TYPE_1351     0
+#define MOUSE_TYPE_NEOS     1
+#define MOUSE_TYPE_AMIGA    2
+#define MOUSE_TYPE_PADDLE   3
+#define MOUSE_TYPE_CX22     4
+#define MOUSE_TYPE_ST       5
+#define MOUSE_TYPE_SMART    6
+#define MOUSE_TYPE_MICROMYS 7
+#define MOUSE_TYPE_NUM      8
 
 #define MOUSE_KIND_POLLED 0
-#define MOUSE_KIND_OTHER 1
+#define MOUSE_KIND_OTHER  1
 
 #endif

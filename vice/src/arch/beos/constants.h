@@ -483,6 +483,7 @@ const uint32 MENU_MOUSE_TYPE_PADDLE               = 'M087';
 const uint32 MENU_MOUSE_TYPE_CX22                 = 'M088';
 const uint32 MENU_MOUSE_TYPE_ST                   = 'M089';
 const uint32 MENU_MOUSE_TYPE_SMART                = 'M093';
+const uint32 MENU_MOUSE_TYPE_MICROMYS             = 'M094';
 
 const uint32 MENU_MOUSE_PORT_JOY1                 = 'M156';
 const uint32 MENU_MOUSE_PORT_JOY2                 = 'M157';

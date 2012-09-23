@@ -408,6 +408,8 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("PADDLE", new BMessage(MENU_MOUSE_TYPE_PADDLE)));
                 submenu->AddItem(new BMenuItem("Atari CX-22", new BMessage(MENU_MOUSE_TYPE_CX22)));
                 submenu->AddItem(new BMenuItem("Atari ST", new BMessage(MENU_MOUSE_TYPE_ST)));
+                submenu->AddItem(new BMenuItem("Smart", new BMessage(MENU_MOUSE_TYPE_SMART)));
+                submenu->AddItem(new BMenuItem("MicroMys", new BMessage(MENU_MOUSE_TYPE_MICROMYS)));
             menu->AddItem(submenu = new BMenu("Mouse Port"));
                 submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("Joy1", new BMessage(MENU_MOUSE_PORT_JOY1)));

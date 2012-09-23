@@ -112,13 +112,15 @@ static void domove(void)
     SWORD dx, dy;
     int ax, ay;
     float f;
-    if (maincpu_clk >> 9 == last_update)
+    if (maincpu_clk >> 9 == last_update) {
         return; /* update every 512 cycles */
+    }
     last_update = maincpu_clk >> 9;
 
     dx = (SWORD)(mousedrv_get_x() - last_mouse_x);
     dy = (SWORD)(mousedrv_get_y() - last_mouse_y);
-    ax = abs((int)dx); ay = abs((int)dy);
+    ax = abs((int)dx);
+    ay = abs((int)dy);
 
     if ((ax > MOUSE_MAX_DIFF) || (ay > MOUSE_MAX_DIFF)) {
         if (ay > ax) {
@@ -261,23 +263,23 @@ void neos_mouse_store(BYTE val)
 BYTE neos_mouse_read(void)
 {
     switch (neos_state) {
-    case NEOS_XH:
-        return ((neos_x >> 4) & 0xf) | 0xf0;
-        break;
-    case NEOS_XL:
-        return (neos_x & 0xf) | 0xf0;
-        break;
-    case NEOS_YH:
-        return ((neos_y >> 4) & 0xf) | 0xf0;
-        break;
-    case NEOS_YL:
-        return (neos_y & 0xf) | 0xf0;
-        break;
-    case NEOS_IDLE:
-    case NEOS_DONE:
-    default:
-        return 0xff;
-        break;
+        case NEOS_XH:
+            return ((neos_x >> 4) & 0xf) | 0xf0;
+            break;
+        case NEOS_XL:
+            return (neos_x & 0xf) | 0xf0;
+            break;
+        case NEOS_YH:
+            return ((neos_y >> 4) & 0xf) | 0xf0;
+            break;
+        case NEOS_YL:
+            return (neos_y & 0xf) | 0xf0;
+            break;
+        case NEOS_IDLE:
+        case NEOS_DONE:
+        default:
+            return 0xff;
+            break;
     }
 }
 
@@ -378,20 +380,17 @@ BYTE mouse_poll(void)
         quadrature_y &= 0x3;
 
         switch (mouse_type) {
-        case MOUSE_TYPE_AMIGA:
-            polled_joyval = ((amiga_mouse_table[quadrature_x] << 1) |
-                             amiga_mouse_table[quadrature_y] | 0xf0);
-            break;
-        case MOUSE_TYPE_CX22:
-            polled_joyval = (((quadrature_y & 2) << 2) | ((sy + 1) << 1) |
-                             (quadrature_x & 2) | ((sx + 1) >> 1) | 0xf0);
-            break;
-        case MOUSE_TYPE_ST:
-            polled_joyval = (st_mouse_table[quadrature_x] |
-                             (st_mouse_table[quadrature_y] << 2) | 0xf0);
-            break;
-        default:
-            polled_joyval = 0xff;
+            case MOUSE_TYPE_AMIGA:
+                polled_joyval = ((amiga_mouse_table[quadrature_x] << 1) | amiga_mouse_table[quadrature_y] | 0xf0);
+                break;
+            case MOUSE_TYPE_CX22:
+                polled_joyval = (((quadrature_y & 2) << 2) | ((sy + 1) << 1) | (quadrature_x & 2) | ((sx + 1) >> 1) | 0xf0);
+                break;
+            case MOUSE_TYPE_ST:
+                polled_joyval = (st_mouse_table[quadrature_x] | (st_mouse_table[quadrature_y] << 2) | 0xf0);
+                break;
+            default:
+                polled_joyval = 0xff;
         }
     }
 
@@ -401,9 +400,7 @@ BYTE mouse_poll(void)
         latest_x = new_x;
         latest_y = new_y;
         latest_os_ts = os_now;
-    }
-    else if (os_now != latest_os_ts &&
-        (new_x != latest_x || new_y != latest_y)) {
+    } else if (os_now != latest_os_ts && (new_x != latest_x || new_y != latest_y)) {
         // yes, we have a new unique mouse coordinate reading
 
         /* calculate the interval between the latest two mousedrv
@@ -483,8 +480,12 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, SWORD *old_v, SWORD new_v)
     SWORD new_paddle = (SWORD)paddle_v + new_v - *old_v;
     *old_v = new_v;
 
-    if (new_paddle > 255) return 255;
-    if (new_paddle < 0) return 0;
+    if (new_paddle > 255) {
+        return 255;
+    }
+    if (new_paddle < 0) {
+        return 0;
+    }
 
     return (BYTE)new_paddle;
 }
@@ -504,6 +505,7 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, SWORD *old_v, SWORD new_v)
 static BYTE mouse_get_paddle_x(void)
 {
     int i = input_port & mouse_port;
+
     /* DBG(("mouse_get_paddle_x: %x", i)); */
     if (i != 0) {
         i = i << 1;
@@ -517,6 +519,7 @@ static BYTE mouse_get_paddle_x(void)
 static BYTE mouse_get_paddle_y(void)
 {
     int i = input_port & mouse_port;
+
     if (i != 0) {
         i = (i << 1) + 1;
         /* one of the ports is selected */
@@ -653,8 +656,7 @@ void mouse_init(void)
         set_mouse_type(MOUSE_TYPE_PADDLE, NULL);
     }
 
-    emu_units_per_os_units =
-        (float)machine_get_cycles_per_second() / vsyncarch_frequency();
+    emu_units_per_os_units = (float)machine_get_cycles_per_second() / vsyncarch_frequency();
 #ifdef DEBUG_MOUSE
     mouse_log = log_open("Mouse");
     log_message(mouse_log, "cpu cycles / time unit %.5f",
@@ -671,7 +673,8 @@ void mouse_init(void)
     ds1202 = ds1202_1302_init((BYTE *)smart_ram, &rtc_offset, 1202);
 }
 
-void mouse_shutdown(void) {
+void mouse_shutdown(void)
+{
     ds1202_1302_destroy(ds1202);
 }
 
@@ -692,78 +695,78 @@ void mouse_button_left(int pressed)
 void mouse_button_right(int pressed)
 {
     switch (mouse_type) {
-    case MOUSE_TYPE_1351:
-    case MOUSE_TYPE_SMART:
-	if (pressed) {
-	    joystick_set_value_or(mouse_port, 1);
-	} else {
-	    joystick_set_value_and(mouse_port, ~1);
-	}
-	break;
-    case MOUSE_TYPE_PADDLE:
-	if (pressed) {
-	    joystick_set_value_or(mouse_port, 8);
-	} else {
-	    joystick_set_value_and(mouse_port, ~8);
-	}
-	break;
-    case MOUSE_TYPE_NEOS:
-    case MOUSE_TYPE_AMIGA:
-    case MOUSE_TYPE_ST:
-	if (pressed) {
-	    neos_and_amiga_buttons |= 1;
-	} else {
-	    neos_and_amiga_buttons &= ~1;
-	}
-	break;
-    default:
-	break;
+        case MOUSE_TYPE_1351:
+        case MOUSE_TYPE_SMART:
+        case MOUSE_TYPE_MICROMYS:
+            if (pressed) {
+                joystick_set_value_or(mouse_port, 1);
+            } else {
+                joystick_set_value_and(mouse_port, ~1);
+            }
+            break;
+        case MOUSE_TYPE_PADDLE:
+            if (pressed) {
+                joystick_set_value_or(mouse_port, 8);
+            } else {
+                joystick_set_value_and(mouse_port, ~8);
+            }
+            break;
+        case MOUSE_TYPE_NEOS:
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_ST:
+            if (pressed) {
+                neos_and_amiga_buttons |= 1;
+            } else {
+                neos_and_amiga_buttons &= ~1;
+            }
+            break;
+        default:
+            break;
     }
 }
 
 void mouse_button_middle(int pressed)
 {
     switch (mouse_type) {
-    case MOUSE_TYPE_1351: /* Micromys extension */
-    case MOUSE_TYPE_SMART:
-	if (pressed) {
-	    joystick_set_value_or(mouse_port, 2);
-	} else {
-	    joystick_set_value_and(mouse_port, ~2);
-	}
-	break;
-    default:
-	break;
+        case MOUSE_TYPE_MICROMYS:
+            if (pressed) {
+                joystick_set_value_or(mouse_port, 2);
+            } else {
+                joystick_set_value_and(mouse_port, ~2);
+            }
+            break;
+        default:
+            break;
     }
 }
 
 void mouse_button_up(int pressed)
 {
     switch (mouse_type) {
-    case MOUSE_TYPE_1351: /* Micromys extension */
-	if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
-	    joystick_set_value_or(mouse_port, 4);
-	} else {
-	    joystick_set_value_and(mouse_port, ~4);
-	}
-	break;
-    default:
-	break;
+        case MOUSE_TYPE_MICROMYS:
+            if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
+                joystick_set_value_or(mouse_port, 4);
+            } else {
+                joystick_set_value_and(mouse_port, ~4);
+            }
+            break;
+        default:
+            break;
     }
 }
 
 void mouse_button_down(int pressed)
 {
     switch (mouse_type) {
-    case MOUSE_TYPE_1351: /* Micromys extension */
-	if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
-	    joystick_set_value_or(mouse_port, 8);
-	} else {
-	    joystick_set_value_and(mouse_port, ~8);
-	}
-	break;
-    default:
-	break;
+        case MOUSE_TYPE_MICROMYS:
+            if (pressed) {    /* TODO: 50 ms low pulse, 50ms high for each */
+                joystick_set_value_or(mouse_port, 8);
+            } else {
+                joystick_set_value_and(mouse_port, ~8);
+            }
+            break;
+        default:
+            break;
     }
 }
 
@@ -771,24 +774,25 @@ BYTE mouse_get_x(void)
 {
     /* DBG(("mouse_get_x: %d", mouse_type)); */
     switch (mouse_type) {
-    case MOUSE_TYPE_1351:
-    case MOUSE_TYPE_SMART:
-	return mouse_get_1351_x();
-    case MOUSE_TYPE_PADDLE:
-	return mouse_get_paddle_x();
-    case MOUSE_TYPE_NEOS:
-    case MOUSE_TYPE_AMIGA:
-    case MOUSE_TYPE_ST:
-        /* Real Amiga and Atari ST mice probably needs this mod
-         * http://www.mssiah-forum.com/viewtopic.php?pid=15208
-         * for their right buttons to be read using pot_x. */
-	return (neos_and_amiga_buttons & 1) ? 0xff : 0;
-    case MOUSE_TYPE_CX22:
-        /* CX22 has no right button */
-	break;
-    default:
-	DBG(("mouse_get_x: invalid mouse_type"));
-	break;
+        case MOUSE_TYPE_1351:
+        case MOUSE_TYPE_SMART:
+        case MOUSE_TYPE_MICROMYS:
+            return mouse_get_1351_x();
+        case MOUSE_TYPE_PADDLE:
+            return mouse_get_paddle_x();
+        case MOUSE_TYPE_NEOS:
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_ST:
+            /* Real Amiga and Atari ST mice probably needs this mod
+             * http://www.mssiah-forum.com/viewtopic.php?pid=15208
+             * for their right buttons to be read using pot_x. */
+            return (neos_and_amiga_buttons & 1) ? 0xff : 0;
+        case MOUSE_TYPE_CX22:
+            /* CX22 has no right button */
+            break;
+        default:
+            DBG(("mouse_get_x: invalid mouse_type"));
+            break;
     }
     return 0xff;
 }
@@ -796,20 +800,21 @@ BYTE mouse_get_x(void)
 BYTE mouse_get_y(void)
 {
     switch (mouse_type) {
-    case MOUSE_TYPE_1351:
-    case MOUSE_TYPE_SMART:
-	return mouse_get_1351_y();
-    case MOUSE_TYPE_PADDLE:
-	return mouse_get_paddle_y();
-    case MOUSE_TYPE_NEOS:
-    case MOUSE_TYPE_AMIGA:
-    case MOUSE_TYPE_CX22:
-    case MOUSE_TYPE_ST:
-	/* FIXME: is this correct ?! */
-	break;
-    default:
-	DBG(("mouse_get_y: invalid mouse_type"));
-	break;
+        case MOUSE_TYPE_1351:
+        case MOUSE_TYPE_SMART:
+        case MOUSE_TYPE_MICROMYS:
+            return mouse_get_1351_y();
+        case MOUSE_TYPE_PADDLE:
+            return mouse_get_paddle_y();
+        case MOUSE_TYPE_NEOS:
+        case MOUSE_TYPE_AMIGA:
+        case MOUSE_TYPE_CX22:
+        case MOUSE_TYPE_ST:
+            /* FIXME: is this correct ?! */
+            break;
+        default:
+            DBG(("mouse_get_y: invalid mouse_type"));
+            break;
     }
     return 0xff;
 }

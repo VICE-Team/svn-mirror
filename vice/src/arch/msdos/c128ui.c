@@ -93,6 +93,8 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
             return "Atari ST";
         case MOUSE_TYPE_SMART:
             return "Smart";
+        case MOUSE_TYPE_MICROMYS:
+            return "MicroMys";
         default:
             return "unknown";
     }

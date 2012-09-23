@@ -30,6 +30,7 @@
 
 #include <stdio.h>
 
+#include "mouse.h"
 #include "uimenu.h"
 #include "uimouse.h"
 
@@ -38,19 +39,21 @@ UI_MENU_DEFINE_RADIO(Mousetype)
 
 static ui_menu_entry_t mousetype_submenu[] = {
     { "1351", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)0, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_1351, NULL },
     { "NEOS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)1, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_NEOS, NULL },
     { "Amiga", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)2, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_AMIGA, NULL },
     { N_("Paddles"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)3, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_PADDLE, NULL },
     { "Atari CX-22", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)4, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_CX22, NULL },
     { "Atari ST", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)5, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_ST, NULL },
     { "Smart", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
-      (ui_callback_data_t)6, NULL },
+      (ui_callback_data_t)MOUSE_TYPE_SMART, NULL },
+    { "MicroMys", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)MOUSE_TYPE_MICROMYS, NULL },
     { NULL }
 };
 

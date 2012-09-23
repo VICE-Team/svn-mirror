@@ -11339,6 +11339,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MOUSE_SMART_SV, "" },  /* fuzzy */
 /* tr */ { IDS_MOUSE_SMART_TR, "" },  /* fuzzy */
 
+/* en */ { IDS_MOUSE_MICROMYS,    "MicroMys mouse" },
+/* da */ { IDS_MOUSE_MICROMYS_DA, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_MICROMYS_DE, "" },  /* fuzzy */
+/* es */ { IDS_MOUSE_MICROMYS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_MOUSE_MICROMYS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MOUSE_MICROMYS_HU, "" },  /* fuzzy */
+/* it */ { IDS_MOUSE_MICROMYS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MOUSE_MICROMYS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_MICROMYS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MOUSE_MICROMYS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MOUSE_MICROMYS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MOUSE_MICROMYS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_MICROMYS_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },
 /* de */ { IDS_AUTOSTART_VIRTUAL_FS_DE, "Virtual FS" },

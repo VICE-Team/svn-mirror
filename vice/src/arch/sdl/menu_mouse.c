@@ -75,6 +75,10 @@ const ui_menu_entry_t mouse_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_Mousetype_callback,
       (ui_callback_data_t)MOUSE_TYPE_SMART },
+    { "MicroMys",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_Mousetype_callback,
+      (ui_callback_data_t)MOUSE_TYPE_MICROMYS },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Mouse port"),
     { "Port 1",
@@ -87,5 +91,4 @@ const ui_menu_entry_t mouse_menu[] = {
       (ui_callback_data_t)2 },
     SDL_MENU_LIST_END
 };
-
 #endif
