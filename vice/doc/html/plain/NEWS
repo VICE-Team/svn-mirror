@@ -73,9 +73,8 @@ left from previous installs.
 
 - Added support for the kingsoft and starbyte userport joystick adapters.
 
-- Added MicroMys mouse support.
-
-- Added smartmouse support.
+- Added MicroMys, SmartMouse, Atari CX-22 trackball, and Atari mouse
+  support.
 
 - Added supercard+ support.
 
