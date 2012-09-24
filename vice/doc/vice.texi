@@ -19777,7 +19777,8 @@ ISEPIC cartridge support. Added SFX Sound Sampler and SFX Sound
 Expander support. Added PCI support to the Amiga and DOS ports.
 Rewrote the sound system into a modular one, added always mono
 and always stereo support for the sound output. Added the RTC
-system. Added digiblaster support. Added 3rd SID support. And lots of other fixes and improvements.
+system. Added digiblaster support. Added 3rd SID support. And
+lots of other fixes and improvements.
 
 @item
 @b{Christian Vogelgsang}
@@ -20126,8 +20127,9 @@ Added support for Expert and Super Snapshot carts.
 
 @item
 @b{Derrick Inksley}
-Fixed loading of zip files with brackets ([]) in the filename for the windows port.
-Added drive selection functionality to the window sdl port.
+Fixed loading of zip files with brackets ([]) in
+the filename for the windows port. Added drive selection
+functionality to the window sdl port.
 
 @item
 @b{Craig Jackson}
@@ -20139,7 +20141,8 @@ Wrote the Catweasel sound driver.
 
 @item
 @b{Uffe Jakobsen}
-Wrote the Silverrock cartridge emulation and fixed the ocean cartridge bank wrap.
+Wrote the Silverrock cartridge emulation and fixed the
+ocean cartridge bank wrap.
 
 @item
 @b{Lasse Jyrkinen}
@@ -20151,7 +20154,8 @@ Provided the swedish UI translations in the past.
 
 @item
 @b{Greg King}
-Added a working RTC to the emulation of the IDE64 cartridge. Provided some vdrive fixes.
+Added a working RTC to the emulation of the IDE64
+cartridge. Provided some vdrive fixes.
 
 @item
 @b{Michael Klein}
@@ -20183,8 +20187,8 @@ Amiga ports.
 @item
 @b{Magnus Lind}
 Atari ST mouse and Atari CX-22 trackball emulation and pixel
-aspect fixes. Improved the Amiga mouse emulation. Improved the vic20 sound output.
-Improved sound fragment size handling.
+aspect fixes. Improved the Amiga mouse emulation. Improved
+the vic20 sound output. Improved sound fragment size handling.
 
 @item
 @b{Wolfgang Lorenz}

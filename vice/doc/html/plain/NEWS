@@ -26,7 +26,8 @@ left from previous installs.
 
 - Rewrite of the sound system, output is now mono/stereo selectable.
 
-- Split off the 5x0 model from the 6x0/7x0 models in xcbm2, new emulator is called xcbm5x0.
+- Split off the 5x0 model from the 6x0/7x0 models in xcbm2, new emulator is
+  called xcbm5x0.
 
 - Split off sid player from c64, new program is called vsid.
 
@@ -57,7 +58,8 @@ left from previous installs.
 
 - Added "Kingsoft" ("Business Basic" aka "S'more") cartridge support.
 
-- SFX sound sampler, SFX sound expander and digimax extended to output in stereo.
+- SFX sound sampler, SFX sound expander and digimax extended to output in
+  stereo.
 
 - Added Triple SID support.
 
@@ -100,7 +102,8 @@ left from previous installs.
 
 - Added I/O conflict checking with selectable behaviour.
 
-- Added masC=uerade adapter support, I/O-only C64 carts can now also be used with the VIC20 emulation.
+- Added masC=uerade adapter support, I/O-only C64 carts can now also be used
+  with the VIC20 emulation.
 
 - The VIC border mode can be selected now (none, normal, full, debug).
 
@@ -116,7 +119,8 @@ left from previous installs.
 ** PET changes
 --------------
 
-- Added proper SuperPET support, including 6809(/6309) CPU emulation and 6702 (dongle) emulation.
+- Added proper SuperPET support, including 6809(/6309) CPU emulation and
+  6702 (dongle) emulation.
 
 ** CBM2 changes
 ---------------
@@ -136,7 +140,8 @@ left from previous installs.
 ** Unix changes
 ---------------
 
-- New Russian, Spanish and Korean translations of the UI elements and command-line options.
+- New Russian, Spanish and Korean translations of the UI elements and
+  command-line options.
 
 - Added copy/paste support to the XAW GUI.
 
@@ -149,7 +154,8 @@ left from previous installs.
 
 - Alot of GUI fixes and improvements.
 
-- New Russian, Spanish and Korean translations of the UI elements and command-line options.
+- New Russian, Spanish and Korean translations of the UI elements and
+  command-line options.
 
 - Hotkeys are now configurable by editing the win_hotkeys.vhk files.
 
@@ -158,11 +164,13 @@ left from previous installs.
 ** AmigaOS changes
 ------------------
 
-- New Russian, Spanish and Korean translations of the UI elements and command-line options.
+- New Russian, Spanish and Korean translations of the UI elements and
+  command-line options.
 
 - Alot of GUI fixes and improvements.
 
-- Improved the library loading system, when 'optional' libraries fail to load, the features needing the library will be disabled.
+- Improved the library loading system, when 'optional' libraries fail to load,
+  the features needing the library will be disabled.
 
 - Added support for the catweasel.device driver.
 
