@@ -27,8 +27,6 @@
 /* Tested and confirmed working on:
 */
 
-/* UTS release on zeta comes back as 6.x, subtract 5 and you have the zeta version */
-
 #include "vice.h"
 
 #ifdef __BEOS__

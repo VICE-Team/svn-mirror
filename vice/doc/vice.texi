@@ -19777,8 +19777,7 @@ ISEPIC cartridge support. Added SFX Sound Sampler and SFX Sound
 Expander support. Added PCI support to the Amiga and DOS ports.
 Rewrote the sound system into a modular one, added always mono
 and always stereo support for the sound output. Added the RTC
-system. Added digiblaster support. And lots of other fixes and
-improvements.
+system. Added digiblaster support. Added 3rd SID support. And lots of other fixes and improvements.
 
 @item
 @b{Christian Vogelgsang}
@@ -19791,7 +19790,8 @@ the TFE chip emulation. Added some GTK+ fixes.
 @b{Fabrizio Gennari}
 Added some improvements to the DOS and GTK+ ports. Changed the
 Windows video to use GDI as fallback, making it compile without
-DX if needed.
+DX if needed. Fixed the t64 support. Added monitor window support
+using VTE to the GTK+ GUI.
 
 @item
 @b{Daniel Kahlin}
@@ -19815,7 +19815,8 @@ x64sc.
 @b{Groepaz}
 Added new more precise CRT emulation. Added support for the new
 cartridge system and many new cartridges. Fixed up parts of
-cartconv, c1541 and petcat. Implemented many bug fixes. 
+cartconv, c1541 and petcat. Added video to audio leak sound support.
+Implemented many bug fixes. 
 Wrote test programs. Updated this document after a long period
 of outdated mess.
 
@@ -19834,7 +19835,8 @@ Improved VDC emulation.
 @item
 @b{Olaf Seibert}
 Contributed some PET, including PET DWW hires, Xaw, lightpen,
-hardware scaling, and disk drive patches. Maintains the Xaw UI.
+hardware scaling, and disk drive patches. Added proper SuperPET
+support, including 6809/6309 CPU emulation. Maintains the Xaw UI.
 
 @item
 @b{Stefan Haubenthal}
@@ -19842,7 +19844,7 @@ Added some Amiga fixes.
 
 @item
 @b{Thomas Giesel}
-Added new monitor commands and features.
+Added new monitor commands, features and improvements.
 
 @item
 @b{Marcus Sutton}
@@ -19854,8 +19856,10 @@ Maintains the Dingoo port(s).
 
 @item
 @b{Kajtar Zsolt}
-Wrote the IDE64 interface emulation, 2000/4000 drive emulation
-and did some fixes.
+Wrote the IDE64 interface emulation, FD2000/4000 drive emulation
+and alot of fixes. Improved the mouse support. Added drive burst
+modification support. Added 1541 drive sounds emulation. Improved
+c64 cart emulation.
 
 @end itemize
 
@@ -20091,6 +20095,10 @@ Provided parts of the Polish user interface translations.
 Provided parts of the widget set for implementing the Xaw GUI.
 
 @item
+@b{Ian Gledhill}
+Added support for the catweasel.device driver.
+
+@item
 @b{Peter Gordon}
 Provided support for native AmigaOS4 compiling.
 
@@ -20117,12 +20125,21 @@ labels for the C64.
 Added support for Expert and Super Snapshot carts.
 
 @item
+@b{Derrick Inksley}
+Fixed loading of zip files with brackets ([]) in the filename for the windows port.
+Added drive selection functionality to the window sdl port.
+
+@item
 @b{Craig Jackson}
 Contributed miscellaneous patches in the old X64 times.
 
 @item
 @b{Dirk Jagdmann}
 Wrote the Catweasel sound driver.
+
+@item
+@b{Uffe Jakobsen}
+Wrote the Silverrock cartridge emulation and fixed the ocean cartridge bank wrap.
 
 @item
 @b{Lasse Jyrkinen}
@@ -20134,7 +20151,7 @@ Provided the swedish UI translations in the past.
 
 @item
 @b{Greg King}
-Added a working RTC to the emulation of the IDE64 cartridge.
+Added a working RTC to the emulation of the IDE64 cartridge. Provided some vdrive fixes.
 
 @item
 @b{Michael Klein}
@@ -20166,7 +20183,8 @@ Amiga ports.
 @item
 @b{Magnus Lind}
 Atari ST mouse and Atari CX-22 trackball emulation and pixel
-aspect fixes.
+aspect fixes. Improved the Amiga mouse emulation. Improved the vic20 sound output.
+Improved sound fragment size handling.
 
 @item
 @b{Wolfgang Lorenz}
@@ -20189,8 +20207,7 @@ Provided parts of the widget set for implementing the Xaw GUI.
 @item
 @b{Jennifer Medkief}
 Is in charge of checking up on the GUIs for elements that are
-wrong, unaccessable, and missing. Future user documentation
-writer.
+wrong, unaccessable, and missing.
 
 @item
 @b{Dan Miner}

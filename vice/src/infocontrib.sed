@@ -152,6 +152,9 @@ s/@b{Robert McIntyre}/Robert McIntyre/g
 s/@b{István Fábián}/István Fábián/g
 s/@b{Sven A. Droll}/Sven A. Droll/g
 s/@b{mar77i}/mar77i/g
+s/@b{Uffe Jakobsen}/Uffe Jakobsen <microtop@starion.dk>/g
+s/@b{Derrick Inksley}/Derrick Inksley <dink@lemon64>/g
+s/@b{Ian Gledhill}/Ian Gledhill <ian.gledhill@btinternet.com>/g
 s/@code{\([^}]*\)}/`\1'/g
 s/@t{\([^}]*\)}/\1/g
 s/@dots{}/..../g

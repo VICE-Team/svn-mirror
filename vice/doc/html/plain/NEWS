@@ -30,6 +30,14 @@ left from previous installs.
 
 - Split off sid player from c64, new program is called vsid.
 
+- New maintainer for the polish translations, they are now 100% up2date.
+
+- New IEC FD2000/4000 drive support.
+
+- New 1541 drive sounds emulation.
+
+- 1541 drive emulation has been greatly improved.
+
 ** C64/C128 changes
 -------------------
 
@@ -37,19 +45,55 @@ left from previous installs.
 
 - I/O conflict behaviour now selectable.
 
-- New Pagefox cartridge support.
+- Added Pagefox cartridge support.
+
+- Added Silverrock cartridge support.
+
+- Added Formel64 cartridge support.
 
 - IDE64 support extended to be able to handle 4 devices.
 
-- New "Kingsoft"  ("Business Basic" aka "S'more") cartridge support.
+- IDE64 FD/CD/CF support added.
+
+- Added "Kingsoft" ("Business Basic" aka "S'more") cartridge support.
 
 - SFX sound sampler, SFX sound expander and digimax extended to output in stereo.
+
+- Added Triple SID support.
+
+- Added Nordic Replay support to the Retro Replay cartridge emulation.
+
+- Added video to audio leak sound support.
+
+- Added VICII 'no border' mode support.
+
+- Magic Voice cartridge emulation improvements.
+
+- Added support for the kingsoft and starbyte userport joystick adapters.
+
+- Added MicroMys mouse support.
+
+- Added smartmouse support.
+
+- Added supercard+ support.
+
+- Added DS12C887 RTC expansion support.
+
+- Added userport RTC (58321a) expansion support.
 
 ** C64 changes
 --------------
 
+- Support for drive burst modification.
+
 ** C128 changes
 ---------------
+
+- Improved the z80 cycle emulation.
+
+- C128 model can be selected.
+
+- Added internal function RAM and RAM+RTC support.
 
 ** VIC20 changes
 ----------------
@@ -58,31 +102,54 @@ left from previous installs.
 
 - Added masC=uerade adapter support, I/O-only C64 carts can now also be used with the VIC20 emulation.
 
+- The VIC border mode can be selected now (none, normal, full, debug).
+
+- Added DS12C887 RTC expansion support.
+
 ** PLUS4 changes
 ----------------
+
+- The TED border mode can be selected now (none, normal, full, debug).
+
+- PLUS4 model can be selected.
 
 ** PET changes
 --------------
 
+- Added proper SuperPET support, including 6809(/6309) CPU emulation and 6702 (dongle) emulation.
+
 ** CBM2 changes
 ---------------
+
+- CBM2 model can be selected.
 
 ** Cartconv changes
 -------------------
 
 - Display usage when -f/-t/-i/-o/-n/-l is given without an extra parameter.
 
+** Petcat changes
+-----------------
+
+- Added Supergrafik support.
+
 ** Unix changes
 ---------------
 
-- New Russian and Korean translations of the UI elements and command-line options.
+- New Russian, Spanish and Korean translations of the UI elements and command-line options.
+
+- Added copy/paste support to the XAW GUI.
+
+- Added 'drag and drop' support to the GTK+ GUI.
+
+- Added monitor window support using VTE to the GTK+ GUI.
 
 ** MS-Windows changes
 ---------------------
 
 - Alot of GUI fixes and improvements.
 
-- New Russian and Korean translations of the UI elements and command-line options.
+- New Russian, Spanish and Korean translations of the UI elements and command-line options.
 
 - Hotkeys are now configurable by editing the win_hotkeys.vhk files.
 
@@ -91,7 +158,13 @@ left from previous installs.
 ** AmigaOS changes
 ------------------
 
-- New Russian and Korean translations of the UI elements and command-line options.
+- New Russian, Spanish and Korean translations of the UI elements and command-line options.
+
+- Alot of GUI fixes and improvements.
+
+- Improved the library loading system, when 'optional' libraries fail to load, the features needing the library will be disabled.
+
+- Added support for the catweasel.device driver.
 
 ** DOS changes
 --------------
@@ -106,6 +179,8 @@ left from previous installs.
 ** SDL UI changes
 -----------------
 
+- Added OpenCBM support.
+
 ** BeOS changes
 ---------------
 
@@ -113,6 +188,8 @@ left from previous installs.
 
 ** OS/2 changes
 ---------------
+
+- Alot of GUI fixes and improvements.
 
 * Changes in VICE 2.3
 ======================
