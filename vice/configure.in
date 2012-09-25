@@ -1420,6 +1420,15 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
                      [AC_DEFINE(HAVE_SOCKLEN_T,,[Define if the socklen_t type is present.])
                       AC_MSG_RESULT(yes)],
                      [AC_MSG_RESULT(no)])
+
+      AC_MSG_CHECKING([for in_addr_t])
+      AC_TRY_COMPILE([#include <sys/types.h>
+                      #include <stdlib.h>
+                      #include <stddef.h>
+                      #include <netinet/in.h>], [in_addr_t foo;],
+                      [AC_DEFINE([HAVE_IN_ADDR_T])
+                       AC_MSG_RESULT(yes)],
+                      [AC_MSG_RESULT(no)])
     fi
   fi
 elif test x"$is_beos" = "xyes"; then
