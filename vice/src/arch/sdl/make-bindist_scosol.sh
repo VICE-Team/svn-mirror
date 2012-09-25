@@ -170,6 +170,10 @@ if test x"$ZIPKIND" = "xzip"; then
 
     arch_version=`uname -r`
 
+    if test x"$arch_version" = "x5.5.1"; then
+      arch_version=sol25
+    fi
+
     if test x"$arch_version" = "x5.6"; then
       arch_version=sol26
     fi
