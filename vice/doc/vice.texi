@@ -4740,7 +4740,7 @@ also enable the cart permanently.
 If attaching a cartridge does not work as expected, this may be because of various
 reasons:
 
-@itemize
+@itemize @bullet
 
 @item Not seldomly the CRT type is incorrectly set in @code{.crt} files found "in the wild".
 Make sure this is not the case (if in doubt use @code{cartconv} to verify and/or fix).
@@ -4762,7 +4762,7 @@ be used as is).
 suspect this is the case, and you can still reproduce the bug after checking the
 things above, please file a bug report including the following information:
 
-@itemize
+@itemize @bullet
 @item attach your vicerc and a reference to the cartridge binaries
 @item if you can, comment in the respective DEBUGXYZ macros prominently defined at the
 top of these files: src/c64/cart/c64cart.c src/c64/cart/c64cartmem.c src/c64/c64io.c
@@ -11503,7 +11503,7 @@ Warp Speed .crt file
 Zaxxon .crt file
 @end table
 
-@itemize
+@itemize @bullet
 @item (1) insertion of 32kB EPROM files supported.
 @item (2) insertion of 8kB .crt/binary files supported.
 @item (3) insertion of 16kB .crt/binary files supported.
@@ -11523,7 +11523,7 @@ Convert a .crt file to a .prg file with 49152 as the load-address.
 Convert a binary file to an ocean type cartridge.
 @item cartconv -t dep64 -i dep64.bin -i eprom.prg -o foo.crt
 Inserting a 32kB EPROM file into an dep64 type cartridge.
-@itemize
+@itemize @bullet
 @item step 1 : use the dep64 binary file in VICE as a generic 8kB cartridge.
 @item step 2 : generate an EPROM file.
 @item step 3 : get the EPROM file to the host computer.
