@@ -172,6 +172,8 @@ void uifliplist_update_menus(int from_unit, int to_unit)
     void *fl_iterator;
     int i, drive, true_emu, fliplist_start = 0;
 
+    ui_callback_t callback = NULL;
+
     resources_get_int("DriveTrueEmulation", &true_emu);
 
     for (drive = from_unit - 8; (drive <= to_unit - 8) && (drive < NUM_DRIVES); drive++) {
@@ -201,7 +203,6 @@ void uifliplist_update_menus(int from_unit, int to_unit)
         memset(&(flipmenu[drive][i]), 0, sizeof(ui_menu_entry_t));
         flipmenu[drive][i].string = _("Read-only");
         flipmenu[drive][i].type = UI_MENU_TYPE_TICK;
-        ui_callback_t callback = NULL;
         switch (drive) {
         case 0:
             callback = (ui_callback_t)toggle_AttachDevice8Readonly;
