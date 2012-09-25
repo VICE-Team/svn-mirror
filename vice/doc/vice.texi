@@ -19777,7 +19777,8 @@ ISEPIC cartridge support. Added SFX Sound Sampler and SFX Sound
 Expander support. Added PCI support to the Amiga and DOS ports.
 Rewrote the sound system into a modular one, added always mono
 and always stereo support for the sound output. Added the RTC
-system. Added digiblaster support. Added 3rd SID support. And
+system. Added digiblaster support. Added 3rd SID support. Added
+the 6309 CPU emulation. Added the 65(S)C02 emulation. And
 lots of other fixes and improvements.
 
 @item
