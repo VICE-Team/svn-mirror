@@ -154,7 +154,11 @@ typedef struct _XfwfMultiListRec {
 #define MultiListAncesSensitive(w) (InstanceCore(w)->ancestor_sensitive)
 #define MultiListDepth(w)          (InstanceCore(w)->depth)
 
+#ifdef XtNinternational
 #define MultiListInternational(w)  (InstanceSimple(w)->international)
+#else
+#define MultiListInternational(w)  (0)
+#endif
 
 #define MultiListFG(w)             (InstanceMultiList(w)->foreground)
 #define MultiListHighlightFG(w)    (InstanceMultiList(w)->highlight_fg)

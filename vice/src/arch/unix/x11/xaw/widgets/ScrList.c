@@ -97,7 +97,9 @@ static XtResource resources[] =
     { XtNnumberStrings, XtCNumberStrings, XtRInt, sizeof(int), offset(item_count), XtRInt, 0 },
     { XtNsensitiveArray, XtCList, XtRPointer, sizeof(Boolean *), offset(sensitive_array), XtRPointer, NULL },
     { XtNcallback, XtCCallback, XtRCallback, sizeof(XtCallbackList), offset(callback), XtRCallback, NULL },
+#ifdef XtNinternational
     { XtNinternational, XtCBoolean, XtRBoolean, sizeof(Boolean), offset(international), XtRString, "False" },
+#endif
 };
 #endif
 
@@ -333,12 +335,14 @@ static Boolean SetValues(Widget wcurrent, Widget wrequest, Widget wnew,
         redraw = recalc = True;
     }
 
+#ifdef XtNinternational
     if (MyData(csl).international != MyData(nsl).international) {
         XtVaSetValues(MyData(nsl).list,
                 XtNinternational, MyData(nsl).international,
                 NULL);
         redraw = recalc = True;
     }
+#endif
 
     return redraw;
 } /* End SetValues */

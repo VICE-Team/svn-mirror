@@ -170,7 +170,9 @@ static XtResource resources[] = {
     { XtNheight, XtCHeight, XtRDimension, sizeof(Dimension), CoreFieldOffset(height), XtRString, "0" },
     { XtNbackground, XtCBackground, XtRPixel, sizeof(Pixel), CoreFieldOffset(background_pixel), XtRString, "XtDefaultBackground" },
     { XtNcursor, XtCCursor, XtRCursor, sizeof(Cursor), SimpleFieldOffset(cursor), XtRString, "left_ptr" },
+#ifdef XtNinternational
     { XtNinternational, XtCBoolean, XtRBoolean, sizeof(Boolean), SimpleFieldOffset(international), XtRString, "False" },
+#endif
     { XtNforeground, XtCForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(foreground), XtRString, "XtDefaultForeground" },
     { XtNhighlightForeground, XtCHForeground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_fg), XtRString, "XtDefaultBackground" },
     { XtNhighlightBackground, XtCHBackground, XtRPixel, sizeof(Pixel), MultiListFieldOffset(highlight_bg), XtRString, "XtDefaultForeground" },
@@ -435,9 +437,11 @@ static Boolean SetValues(XfwfMultiListWidget cpl, XfwfMultiListWidget rpl, XfwfM
      * Our base class Simple refuses to change the international
      * resource. Override this.
      */
+#ifdef XtNinternational
     if (MultiListInternational(cpl) != MultiListInternational(rpl)) {
         MultiListInternational(npl) = MultiListInternational(rpl);
     }
+#endif
 
     /* Graphic Context Changes */
 
