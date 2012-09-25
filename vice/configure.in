@@ -1426,7 +1426,7 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
                       #include <stdlib.h>
                       #include <stddef.h>
                       #include <netinet/in.h>], [in_addr_t foo;],
-                      [AC_DEFINE([HAVE_IN_ADDR_T])
+                      [AC_DEFINE(HAVE_IN_ADDR_T,,[Define if the in_addr_t type is present.])
                        AC_MSG_RESULT(yes)],
                       [AC_MSG_RESULT(no)])
     fi
