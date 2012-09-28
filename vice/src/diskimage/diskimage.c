@@ -491,36 +491,13 @@ int disk_image_read_half_track(disk_image_t *image, unsigned int half_track,
 }
 
 int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
-                               int gcr_track_size, BYTE *gcr_speed_zone,
+                               int gcr_track_size, BYTE *gcr_speed_zone_ptr,
                                BYTE *gcr_track_start_ptr)
 {
     if (image->type == DISK_IMAGE_TYPE_P64) {
-      return fsimage_p64_write_half_track(image, half_track, gcr_track_size, gcr_speed_zone, gcr_track_start_ptr);
+      return fsimage_p64_write_half_track(image, half_track, gcr_track_size, gcr_speed_zone_ptr, gcr_track_start_ptr);
     } else {
-      return fsimage_gcr_write_half_track(image, half_track, gcr_track_size, gcr_speed_zone, gcr_track_start_ptr);
-    }
-}
-
-int disk_image_read_track(disk_image_t *image, unsigned int track,
-                          BYTE *gcr_data, int *gcr_track_size)
-{
-    if (image->type == DISK_IMAGE_TYPE_P64) {
-	return fsimage_p64_read_track(image, track, gcr_data, gcr_track_size);
-    } else {
-	return fsimage_gcr_read_track(image, track, gcr_data, gcr_track_size);
-    }
-}
-
-int disk_image_write_track(disk_image_t *image, unsigned int track,
-                           int gcr_track_size, BYTE *gcr_speed_zone,
-                           BYTE *gcr_track_start_ptr)
-{
-    if (image->type == DISK_IMAGE_TYPE_P64) {
-	return fsimage_p64_write_track(image, track, gcr_track_size, gcr_speed_zone,
-    	                               gcr_track_start_ptr);
-    } else {
-	return fsimage_gcr_write_track(image, track, gcr_track_size, gcr_speed_zone,
-    	                               gcr_track_start_ptr);
+      return fsimage_gcr_write_half_track(image, half_track, gcr_track_size, gcr_speed_zone_ptr, gcr_track_start_ptr);
     }
 }
 

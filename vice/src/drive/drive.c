@@ -208,7 +208,7 @@ int drive_init(void)
         drive->byte_ready_edge = 1;
         drive->GCR_dirty_track = 0;
         drive->GCR_write_value = 0x55;
-        drive->GCR_track_start_ptr = drive->gcr->data;
+        drive->GCR_track_start_ptr = NULL;
         drive->GCR_current_track_size = 0;
         drive->attach_clk = (CLOCK)0;
         drive->detach_clk = (CLOCK)0;
@@ -504,9 +504,7 @@ void drive_set_half_track(int num, drive_t *dptr)
         }
     }
 
-    dptr->GCR_track_start_ptr = (dptr->gcr->data
-                                + ((dptr->current_half_track - 2)
-                                * dptr->gcr->max_track_size));
+    dptr->GCR_track_start_ptr = dptr->gcr->track_data[dptr->current_half_track - 2];
 
     if (dptr->GCR_current_track_size != 0)
         dptr->GCR_head_offset = (dptr->GCR_head_offset
@@ -579,16 +577,17 @@ void drive_gcr_data_writeback(drive_t *drive)
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         BYTE *gcr_track_start_ptr;
+        BYTE *gcr_speed_zone_ptr;
         unsigned int gcr_current_track_size;
 
         gcr_current_track_size = drive->gcr->track_size[half_track - 2];
 
-        gcr_track_start_ptr = drive->gcr->data
-                              + ((half_track - 2) * drive->gcr->max_track_size);
+        gcr_track_start_ptr = drive->gcr->track_data[half_track - 2];
+        gcr_speed_zone_ptr = drive->gcr->speed_zones[half_track - 2];
 
         disk_image_write_half_track(drive->image, half_track,
                                    gcr_current_track_size,
-                                   drive->gcr->speed_zone,
+                                   gcr_speed_zone_ptr,
                                    gcr_track_start_ptr);
         drive->GCR_dirty_track = 0;
         return;

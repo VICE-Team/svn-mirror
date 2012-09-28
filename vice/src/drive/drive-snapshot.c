@@ -669,9 +669,7 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
-                drive->GCR_track_start_ptr = (drive->gcr->data
-                                + ((drive->current_half_track / 2 - 1)
-                                * drive->gcr->max_track_size));
+        drive->GCR_track_start_ptr = drive->gcr->track_data[drive->current_half_track-2];
         if (drive->type != DRIVE_TYPE_1570
             && drive->type != DRIVE_TYPE_1571
             && drive->type != DRIVE_TYPE_1571CR) {
@@ -934,9 +932,18 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
     /* Write half track data */
     for (i = 0; i < num_half_tracks; i++) {
+        BYTE fake_data[NUM_MAX_MEM_BYTES_TRACK];
         track_size = drive->gcr->track_size[i];
-        data = &drive->gcr->data[i * drive->gcr->max_track_size];
-        speed_map = &drive->gcr->speed_zone[i * drive->gcr->max_track_size];
+        data = drive->gcr->track_data[i];
+        if (data == NULL) {
+            memset(fake_data, 0, sizeof(fake_data));
+            data = fake_data;
+        }
+        speed_map = drive->gcr->speed_zones[i];
+        if (speed_map == NULL) {
+            memset(fake_data, 0, sizeof(fake_data));
+            speed_map = fake_data;
+        }
         if (0
             || SMW_DW(m, (DWORD)track_size) < 0
             || SMW_BA(m, data, track_size) < 0
@@ -988,26 +995,40 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
         drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 
-        ptr = &drive->gcr->data[0];
-        memset(ptr, 0x00, sizeof(drive->gcr->data));
         for (i = 0; i <= 84; i++) {
+            if (drive->gcr->track_data[i] == NULL) {
+                drive->gcr->track_data[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
+            }
+            ptr = drive->gcr->track_data[i];
             if (SMR_BA(m, ptr, NUM_MAX_BYTES_TRACK) < 0){
                 if (m != NULL)
                      snapshot_module_close(m);
                 return -1;
             }
-            ptr += NUM_MAX_BYTES_TRACK;
+        }
+        for (; i < MAX_GCR_TRACKS; i++) {
+            if (drive->gcr->track_data[i]) {
+                lib_free(drive->gcr->track_data[i]);
+                drive->gcr->track_data[i] = NULL;
+            }
         }
 
-        ptr = &drive->gcr->speed_zone[0];
-        memset(ptr, 0x00, sizeof(drive->gcr->speed_zone));
         for (i = 0; i <= 84; i++) {
+            if (drive->gcr->speed_zones[i] == NULL) {
+                drive->gcr->speed_zones[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
+            }
+            ptr = drive->gcr->speed_zones[i];
             if (SMR_BA(m, ptr, NUM_MAX_BYTES_TRACK) < 0){
                 if (m != NULL)
                      snapshot_module_close(m);
                 return -1;
             }
-            ptr += NUM_MAX_BYTES_TRACK;
+        }
+        for (; i < MAX_GCR_TRACKS; i++) {
+            if (drive->gcr->speed_zones[i]) {
+                lib_free(drive->gcr->speed_zones[i]);
+                drive->gcr->speed_zones[i] = NULL;
+            }
         }
 
         tmpbuf = lib_malloc(MAX_TRACKS_1571 * 4);
@@ -1056,8 +1077,14 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
             drive->gcr->track_size[i] = track_size;
 
-            data = &drive->gcr->data[i * drive->gcr->max_track_size];
-            speed_map = &drive->gcr->speed_zone[i * drive->gcr->max_track_size];
+            if (drive->gcr->track_data[i] == NULL) {
+                drive->gcr->track_data[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
+            }
+            data = drive->gcr->track_data[i];
+            if (drive->gcr->speed_zones[i] == NULL) {
+                drive->gcr->speed_zones[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
+            }
+            speed_map = drive->gcr->speed_zones[i];
 
             if (0
                 || SMR_BA(m, data, track_size) < 0
@@ -1068,6 +1095,16 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
                 return -1;
             }
 
+        }
+        for (; i < MAX_GCR_TRACKS; i++) {
+            if (drive->gcr->track_data[i]) {
+                lib_free(drive->gcr->track_data[i]);
+                drive->gcr->track_data[i] = NULL;
+            }
+            if (drive->gcr->speed_zones[i]) {
+                lib_free(drive->gcr->speed_zones[i]);
+                drive->gcr->speed_zones[i] = NULL;
+            }
         }
 
     }

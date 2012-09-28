@@ -234,6 +234,10 @@ inline static void write_next_bit(drive_t *dptr, int value)
     }
     dptr->GCR_head_offset = off;
 
+    /* track does not exists */
+    if (dptr->GCR_track_start_ptr == NULL) {
+        return;
+    }
     if (value) {
         dptr->GCR_track_start_ptr[byte_offset] |= 1 << bit;
     } else {
@@ -258,6 +262,10 @@ inline static int read_next_bit(drive_t *dptr)
     }
     dptr->GCR_head_offset = off;
 
+    /* track does not exists */
+    if (dptr->GCR_track_start_ptr == NULL) {
+        return 0;
+    }
     return (dptr->GCR_track_start_ptr[byte_offset] >> bit) & 1;
 }
 

@@ -150,7 +150,7 @@ int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
     return 0;
 }
 
-int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
+static int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
                            BYTE *gcr_data, int *gcr_track_size)
 {
     PP64Image P64Image = (void*)image->p64;
@@ -180,7 +180,7 @@ int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
 /* Write an entire P64 track to the disk image.  */
 
 int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
-                                 int gcr_track_size, BYTE *gcr_speed_zone,
+                                 int gcr_track_size, BYTE *gcr_speed_zone_ptr,
                                  BYTE *gcr_track_start_ptr)
 {
     PP64Image P64Image = (void*)image->p64;
@@ -194,14 +194,17 @@ int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
         log_error(fsimage_p64_log, "Half track %i out of bounds.  Cannot write P64 track.", half_track);
         return -1;
     }
+    if (gcr_track_start_ptr == NULL) {
+        return 0;
+    }
 
     P64PulseStreamConvertFromGCR(&P64Image->PulseStreams[half_track], (void*)gcr_track_start_ptr, gcr_track_size << 3);
 
     return fsimage_write_p64_image(image);
 }
 
-int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
-                            int gcr_track_size, BYTE *gcr_speed_zone,
+static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
+                            int gcr_track_size, BYTE *gcr_speed_zone_ptr,
                             BYTE *gcr_track_start_ptr)
 {
     PP64Image P64Image = (void*)image->p64;
