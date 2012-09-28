@@ -577,17 +577,14 @@ void drive_gcr_data_writeback(drive_t *drive)
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         BYTE *gcr_track_start_ptr;
-        BYTE *gcr_speed_zone_ptr;
         unsigned int gcr_current_track_size;
 
         gcr_current_track_size = drive->gcr->track_size[half_track - 2];
 
         gcr_track_start_ptr = drive->gcr->track_data[half_track - 2];
-        gcr_speed_zone_ptr = drive->gcr->speed_zones[half_track - 2];
 
         disk_image_write_half_track(drive->image, half_track,
                                    gcr_current_track_size,
-                                   gcr_speed_zone_ptr,
                                    gcr_track_start_ptr);
         drive->GCR_dirty_track = 0;
         return;

@@ -952,11 +952,6 @@ unsigned int disk_image_sector_per_track(unsigned int format, unsigned int track
     return 0;
 }
 
-int disk_image_write_track(disk_image_t *image, unsigned int track, int gcr_track_size, BYTE *gcr_speed_zone, BYTE *gcr_track_start_ptr)
-{
-    return 0;
-}
-
 unsigned int disk_image_speed_map_1541(unsigned int track)
 {
     return 0;

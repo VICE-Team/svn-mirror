@@ -491,13 +491,12 @@ int disk_image_read_half_track(disk_image_t *image, unsigned int half_track,
 }
 
 int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
-                               int gcr_track_size, BYTE *gcr_speed_zone_ptr,
-                               BYTE *gcr_track_start_ptr)
+                               int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     if (image->type == DISK_IMAGE_TYPE_P64) {
-      return fsimage_p64_write_half_track(image, half_track, gcr_track_size, gcr_speed_zone_ptr, gcr_track_start_ptr);
+      return fsimage_p64_write_half_track(image, half_track, gcr_track_size, gcr_track_start_ptr);
     } else {
-      return fsimage_gcr_write_half_track(image, half_track, gcr_track_size, gcr_speed_zone_ptr, gcr_track_start_ptr);
+      return fsimage_gcr_write_half_track(image, half_track, gcr_track_size, gcr_track_start_ptr);
     }
 }
 

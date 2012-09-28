@@ -906,10 +906,11 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
 {
     char snap_module_name[10];
     snapshot_module_t *m;
-    BYTE *data, *speed_map;
+    BYTE *data;
     unsigned int i;
     drive_t *drive;
     DWORD num_half_tracks, track_size;
+    BYTE fake_data[NUM_MAX_MEM_BYTES_TRACK];
 
     drive = drive_context[dnr]->drive;
     sprintf(snap_module_name, "GCRIMAGE%i", dnr);
@@ -930,24 +931,19 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
         return -1;
     }
 
+    memset(fake_data, 0, sizeof(fake_data));
+
     /* Write half track data */
     for (i = 0; i < num_half_tracks; i++) {
-        BYTE fake_data[NUM_MAX_MEM_BYTES_TRACK];
         track_size = drive->gcr->track_size[i];
         data = drive->gcr->track_data[i];
         if (data == NULL) {
-            memset(fake_data, 0, sizeof(fake_data));
             data = fake_data;
-        }
-        speed_map = drive->gcr->speed_zones[i];
-        if (speed_map == NULL) {
-            memset(fake_data, 0, sizeof(fake_data));
-            speed_map = fake_data;
         }
         if (0
             || SMW_DW(m, (DWORD)track_size) < 0
             || SMW_BA(m, data, track_size) < 0
-            || SMW_BA(m, speed_map, track_size) < 0
+            || SMW_BA(m, fake_data, track_size) < 0 /* write fake speed zone for compatibility */
             ){
             if (m != NULL)
                 snapshot_module_close(m);
@@ -967,9 +963,10 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     BYTE major_version, minor_version;
     snapshot_module_t *m;
     char snap_module_name[10];
-    BYTE *tmpbuf, *data, *speed_map;
+    BYTE *tmpbuf, *data;
     unsigned int i;
     drive_t *drive;
+    BYTE fake_data[NUM_MAX_MEM_BYTES_TRACK];
 
     drive = drive_context[dnr]->drive;
     sprintf(snap_module_name, "GCRIMAGE%i", dnr);
@@ -1013,21 +1010,11 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
             }
         }
 
-        for (i = 0; i <= 84; i++) {
-            if (drive->gcr->speed_zones[i] == NULL) {
-                drive->gcr->speed_zones[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
-            }
-            ptr = drive->gcr->speed_zones[i];
-            if (SMR_BA(m, ptr, NUM_MAX_BYTES_TRACK) < 0){
+        for (i = 0; i <= 84; i++) { /* read and ignore speed zone */
+            if (SMR_BA(m, fake_data, NUM_MAX_BYTES_TRACK) < 0){
                 if (m != NULL)
                      snapshot_module_close(m);
                 return -1;
-            }
-        }
-        for (; i < MAX_GCR_TRACKS; i++) {
-            if (drive->gcr->speed_zones[i]) {
-                lib_free(drive->gcr->speed_zones[i]);
-                drive->gcr->speed_zones[i] = NULL;
             }
         }
 
@@ -1081,14 +1068,10 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
                 drive->gcr->track_data[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
             }
             data = drive->gcr->track_data[i];
-            if (drive->gcr->speed_zones[i] == NULL) {
-                drive->gcr->speed_zones[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
-            }
-            speed_map = drive->gcr->speed_zones[i];
 
             if (0
                 || SMR_BA(m, data, track_size) < 0
-                || SMR_BA(m, speed_map, track_size) < 0
+                || SMR_BA(m, fake_data, track_size) < 0 /* read and ignore speed zone */
                 ){
                 if (m != NULL)
                     snapshot_module_close(m);
@@ -1100,10 +1083,6 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
             if (drive->gcr->track_data[i]) {
                 lib_free(drive->gcr->track_data[i]);
                 drive->gcr->track_data[i] = NULL;
-            }
-            if (drive->gcr->speed_zones[i]) {
-                lib_free(drive->gcr->speed_zones[i]);
-                drive->gcr->speed_zones[i] = NULL;
             }
         }
 

@@ -131,7 +131,6 @@ extern int disk_image_read_half_track(disk_image_t *image, unsigned int half_tra
                                       BYTE *gcr_data, int *gcr_track_size);
 extern int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
                                        int gcr_track_size,
-                                       BYTE *gcr_speed_zone_ptr,
                                        BYTE *gcr_track_start_ptr);
 
 extern unsigned int disk_image_speed_map_1541(unsigned int track);

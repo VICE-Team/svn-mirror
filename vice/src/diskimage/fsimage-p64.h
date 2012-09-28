@@ -42,7 +42,6 @@ extern int fsimage_p64_read_half_track(struct disk_image_s *image,
                                        int *gcr_track_size);
 extern int fsimage_p64_write_half_track(struct disk_image_s *image,
                                         unsigned int half_track, int gcr_track_size,
-                                        BYTE *gcr_speed_zone_ptr,
                                         BYTE *gcr_track_start_ptr);
 extern int fsimage_p64_read_sector(struct disk_image_s *image, BYTE *buf,
                                    unsigned int track, unsigned int sector);

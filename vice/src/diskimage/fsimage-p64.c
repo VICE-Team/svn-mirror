@@ -180,8 +180,7 @@ static int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
 /* Write an entire P64 track to the disk image.  */
 
 int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
-                                 int gcr_track_size, BYTE *gcr_speed_zone_ptr,
-                                 BYTE *gcr_track_start_ptr)
+                                 int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     PP64Image P64Image = (void*)image->p64;
 
@@ -204,8 +203,7 @@ int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
 }
 
 static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
-                            int gcr_track_size, BYTE *gcr_speed_zone_ptr,
-                            BYTE *gcr_track_start_ptr)
+                            int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     PP64Image P64Image = (void*)image->p64;
 
@@ -270,7 +268,7 @@ int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
 {
     unsigned int max_track_length = NUM_MAX_MEM_BYTES_TRACK;
     BYTE *gcr_data;
-    BYTE *gcr_track_start_ptr, *speed_zone;
+    BYTE *gcr_track_start_ptr;
     int gcr_track_size, gcr_current_track_size;
 
     if (track > 42) {
@@ -287,7 +285,6 @@ int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
     }
     gcr_track_start_ptr = gcr_data;
     gcr_current_track_size = gcr_track_size;
-    speed_zone = NULL;
 
     if (gcr_write_sector(gcr_track_start_ptr,
         gcr_current_track_size, buf, track, sector) < 0) {
@@ -297,7 +294,7 @@ int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
     }
 
     if (fsimage_p64_write_track(image, track, gcr_current_track_size,
-        speed_zone, gcr_track_start_ptr) < 0) {
+        gcr_track_start_ptr) < 0) {
         log_error(fsimage_p64_log, "Failed writing track %i to disk image.", track);
         lib_free(gcr_data);
         return -1;

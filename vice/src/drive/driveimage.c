@@ -85,15 +85,6 @@ static void drive_image_init_track_size_d71(drive_t *drive)
             raw_track_size[disk_image_speed_map_1571(track)];
         drive->gcr->track_size[(track * 2) + 1] =
             raw_track_size[disk_image_speed_map_1571(track)];
-        if (drive->gcr->speed_zones[track * 2] == NULL) {
-            drive->gcr->speed_zones[track * 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
-        }
-        memset(drive->gcr->speed_zones[track * 2], disk_image_speed_map_1571(track),
-               NUM_MAX_BYTES_TRACK);
-        if (drive->gcr->speed_zones[(track * 2) + 1]) {
-            lib_free(drive->gcr->speed_zones[(track * 2) + 1]);
-            drive->gcr->speed_zones[(track * 2) + 1] = NULL;
-        }
     }
     drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 }
@@ -120,17 +111,6 @@ static void drive_image_read_d64_d71(drive_t *drive)
         || drive->type == DRIVE_TYPE_1570
         || drive->type == DRIVE_TYPE_2031)) {
         drive_image_init_track_size_d64(drive);
-        for (track = 0; track < MAX_TRACKS_1541; track++) {
-            if (drive->gcr->speed_zones[track * 2] == NULL) {
-                drive->gcr->speed_zones[track * 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
-            }
-            memset(drive->gcr->speed_zones[track * 2], disk_image_speed_map_1541(track),
-                    NUM_MAX_BYTES_TRACK);
-            if (drive->gcr->speed_zones[(track * 2) + 1]) {
-                lib_free(drive->gcr->speed_zones[(track * 2) + 1]);
-                drive->gcr->speed_zones[(track * 2) + 1] = NULL;
-            }
-        }
     }
     if (drive->image->type == DISK_IMAGE_TYPE_D71
         || drive->type == DRIVE_TYPE_1571

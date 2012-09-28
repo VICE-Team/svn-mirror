@@ -122,23 +122,18 @@ int fsimage_read_gcr_image(disk_image_t *image)
     }
 
     for (half_track = 0; half_track < MAX_TRACKS_1541 * 2; half_track++) {
-        BYTE *track_data, *zone_data;
+        BYTE *track_data;
 
         if (image->gcr->track_data[half_track] == NULL) {
             image->gcr->track_data[half_track] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
         }
-        if (image->gcr->speed_zones[half_track] == NULL) {
-            image->gcr->speed_zones[half_track] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
-        }
         track_data = image->gcr->track_data[half_track];
-        zone_data = image->gcr->speed_zones[half_track];
         image->gcr->track_size[half_track] = 6250;
 
         if (half_track <= num_half_tracks && gcr_track_p[half_track] != 0) {
             BYTE len[2];
             long offset;
             size_t track_len;
-            unsigned int zone_len;
 
             offset = gcr_track_p[half_track];
 
@@ -163,32 +158,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
                     log_error(fsimage_gcr_log, "Could not read GCR disk image.");
                     return -1;
                 }
-
-                zone_len = (unsigned int)((track_len + 3) / 4);
-
-                if (gcr_speed_p[half_track] > 3) {
-                    unsigned int i;
-                    BYTE *comp_speed = (BYTE*) lib_malloc(max_track_length / 4);
-
-                    offset = gcr_speed_p[half_track];
-
-                    fseek(fsimage->fd, offset, SEEK_SET);
-                    if (fread(comp_speed, zone_len, 1, fsimage->fd) < 1) {
-                        log_error(fsimage_gcr_log,
-                                "Could not read GCR disk image.");
-                        return -1;
-                    }
-                    for (i = 0; i < zone_len; i++) {
-                        zone_data[i * 4 + 3] = comp_speed[i] & 3;
-                        zone_data[i * 4 + 2] = (comp_speed[i] >> 2) & 3;
-                        zone_data[i * 4 + 1] = (comp_speed[i] >> 4) & 3;
-                        zone_data[i * 4 ] = (comp_speed[i] >> 6) & 3;
-                    }
-
-                    lib_free(comp_speed);
-                } else {
-                    memset(zone_data, gcr_speed_p[half_track], max_track_length);
-                }
+                /* The speed zone info is ignored */
             }
         }
     }
@@ -196,10 +166,6 @@ int fsimage_read_gcr_image(disk_image_t *image)
         if (image->gcr->track_data[half_track]) {
             lib_free(image->gcr->track_data[half_track]);
             image->gcr->track_data[half_track] = NULL;
-        }
-        if (image->gcr->speed_zones[half_track]) {
-            lib_free(image->gcr->speed_zones[half_track]);
-            image->gcr->speed_zones[half_track] = NULL;
         }
     }
     return 0;
@@ -286,11 +252,10 @@ static int fsimage_gcr_read_track(disk_image_t *image, unsigned int track,
 /* Write an entire GCR track to the disk image.  */
 
 int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
-                                 int gcr_track_size, BYTE *gcr_speed_zone_ptr,
-                                 BYTE *gcr_track_start_ptr)
+                                 int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     int gap;
-	unsigned int i, num_half_tracks, max_track_length;
+    unsigned int num_half_tracks, max_track_length;
     BYTE len[2];
     DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
     DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
@@ -315,7 +280,9 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
         log_error(fsimage_gcr_log, "Could not get max track length.");
         return -1;
     }
-    image->gcr->max_track_size = max_track_length;
+    if (image->gcr) { /* internal image? */
+        image->gcr->max_track_size = max_track_length;
+    }
 
 #ifdef GCR_LOW_MEM
     if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
@@ -361,66 +328,17 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
 
         /* Clear gap between the end of the actual track and the start of
            the next track.  */
-        gap = image->gcr->max_track_size - gcr_track_size;
+        gap = max_track_length - gcr_track_size;
         if (gap > 0)
             memset(gcr_track_start_ptr + gcr_track_size, 0, gap);
 
         if (fseek(fsimage->fd, offset + 2, SEEK_SET) < 0
-                || fwrite(gcr_track_start_ptr, image->gcr->max_track_size, 1,
+                || fwrite(gcr_track_start_ptr, max_track_length, 1,
                     fsimage->fd) < 1) {
             log_error(fsimage_gcr_log, "Could not write GCR disk image.");
             return -1;
         }
     }
-
-    if (gcr_speed_zone_ptr != NULL) {
-        for (i = 0; (gcr_speed_zone_ptr[0] == gcr_speed_zone_ptr[i])
-            && i < max_track_length; i++);
-
-        if (i < (unsigned int)gcr_track_size) {
-            /* This will change soon.  */
-            log_error(fsimage_gcr_log,
-                      "Saving different speed zones is not supported yet.");
-            return -1;
-        }
-
-        if (gcr_speed_p[half_track - 2] >= 4) {
-            /* This will change soon.  */
-            log_error(fsimage_gcr_log,
-                      "Adding new speed zones is not supported yet.");
-            return -1;
-        }
-
-        offset = 12 + (num_half_tracks * 4) + ((half_track - 2) * 4);
-        if (fseek(fsimage->fd, offset, SEEK_SET) < 0
-            || util_dword_write(fsimage->fd, &gcr_speed_p[half_track - 2], 1)
-            < 0) {
-            log_error(fsimage_gcr_log, "Could not write GCR disk image.");
-            return -1;
-        }
-    }
-
-#if 0  /* We do not support writing different speeds yet.  */
-    for (i = 0; i < (max_track_length / 4); i++)
-        zone_len = (gcr_track_size + 3) / 4;
-    zone_data = gcr_speed_zone_ptr;
-
-    if (gap > 0)
-        memset(zone_data + gcr_track_size, 0, gap);
-
-    for (i = 0; i < (max_track_length / 4); i++)
-        comp_speed[i] = (zone_data[i * 4]
-                         | (zone_data[i * 4 + 1] << 2)
-                         | (zone_data[i * 4 + 2] << 4)
-                         | (zone_data[i * 4 + 3] << 6));
-
-    if (fseek(fsimage->fd, offset, SEEK_SET) < 0
-        || fwrite((char *)comp_speed, max_track_length / 4, 1
-        fsimage->fd) < 1) {
-        log_error(fsimage_gcr_log, "Could not write GCR disk image");
-        return;
-    }
-#endif
 
     /* Make sure the stream is visible to other readers.  */
     fflush(fsimage->fd);
@@ -429,10 +347,9 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
 }
 
 static int fsimage_gcr_write_track(disk_image_t *image, unsigned int track,
-                            int gcr_track_size, BYTE *gcr_speed_zone_ptr,
-                            BYTE *gcr_track_start_ptr)
+                            int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
-  return fsimage_gcr_write_half_track(image, track << 1, gcr_track_size, gcr_speed_zone_ptr, gcr_track_start_ptr);
+  return fsimage_gcr_write_half_track(image, track << 1, gcr_track_size, gcr_track_start_ptr);
 }
 
 /*-----------------------------------------------------------------------*/
@@ -498,7 +415,7 @@ int fsimage_gcr_write_sector(disk_image_t *image, BYTE *buf,
 {
     unsigned int max_track_length;
     BYTE *gcr_data;
-    BYTE *gcr_track_start_ptr, *speed_zone;
+    BYTE *gcr_track_start_ptr;
     int gcr_track_size, gcr_current_track_size;
 
     max_track_length=fsimage_gcr_set_max_track_length(image);
@@ -526,14 +443,12 @@ int fsimage_gcr_write_sector(disk_image_t *image, BYTE *buf,
         }
         gcr_track_start_ptr = gcr_data;
         gcr_current_track_size = gcr_track_size;
-        speed_zone = NULL;
     } else {
         if (image->gcr->track_data[(track * 2) - 2] == NULL) {
             image->gcr->track_data[(track * 2) - 2] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
         }
         gcr_track_start_ptr = image->gcr->track_data[(track * 2) - 2];
         gcr_current_track_size = image->gcr->track_size[(track * 2) - 2];
-        speed_zone = image->gcr->speed_zones[(track * 2) - 2];
     }
     if (gcr_write_sector(gcr_track_start_ptr,
         gcr_current_track_size, buf, track, sector) < 0) {
@@ -544,7 +459,7 @@ int fsimage_gcr_write_sector(disk_image_t *image, BYTE *buf,
         return -1;
     }
     if (fsimage_gcr_write_track(image, track, gcr_current_track_size,
-        speed_zone, gcr_track_start_ptr) < 0) {
+        gcr_track_start_ptr) < 0) {
         log_error(fsimage_gcr_log,
                   "Failed writing track %i to disk image.", track);
         lib_free(gcr_data);
