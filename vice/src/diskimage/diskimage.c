@@ -56,30 +56,19 @@ static log_t disk_image_log = LOG_DEFAULT;
 
 
 /*-----------------------------------------------------------------------*/
-/* Disk constants.  */
-
-static const unsigned int speed_map_1541[42] =
-    { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-      3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-      1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-      0, 0, 0 };
-
-static const unsigned int speed_map_1571[70] =
-    { 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-      3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-      1, 1, 1, 1, 0, 0, 0, 0, 0,
-      3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3,
-      3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 1, 1,
-      1, 1, 1, 1, 0, 0, 0, 0, 0 };
+/* Disk constants. Zero based! */
 
 unsigned int disk_image_speed_map_1541(unsigned int track)
 {
-    return speed_map_1541[track];
+    return (track < 30) + (track < 24) + (track < 17);
 }
 
 unsigned int disk_image_speed_map_1571(unsigned int track)
 {
-    return speed_map_1571[track];
+    if (track >= 35) {
+        track -= 35;
+    }
+    return disk_image_speed_map_1541(track);
 }
 
 /*-----------------------------------------------------------------------*/
