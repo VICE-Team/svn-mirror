@@ -969,8 +969,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
         || minor_version != GCRIMAGE_SNAP_MINOR) {
         log_error(drive_snapshot_log,
                   "Snapshot module version (%d.%d) not supported.",
-                  major_version, minor_version,
-                  GCRIMAGE_SNAP_MAJOR, GCRIMAGE_SNAP_MINOR);
+                  major_version, minor_version);
         snapshot_module_close(m);
         return -1;
     }
