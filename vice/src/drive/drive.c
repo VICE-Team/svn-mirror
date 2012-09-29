@@ -116,11 +116,21 @@ void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
                          struct drive_context_s *drv)
 {
     drive_t *drive;
+    int side = 0;
 
     drive = drv->drive;
 
     drive_gcr_data_writeback(drive);
-    drive_set_half_track(track * 2, drive);
+
+    if (drive->type == DRIVE_TYPE_1570
+            || drive->type == DRIVE_TYPE_1571
+            || drive->type == DRIVE_TYPE_1571CR) {
+        if (track > 35) {
+            track -= 35;
+            side = 1;
+        }
+    }
+    drive_set_half_track(track * 2, side, drive);
 
     if (drive->type == DRIVE_TYPE_1541
         || drive->type == DRIVE_TYPE_1541II
@@ -228,7 +238,7 @@ int drive_init(void)
         rotation_reset(drive);
 
         /* Position the R/W head on the directory track.  */
-        drive_set_half_track(36, drive);
+        drive_set_half_track(36, 0, drive);
         drive_led_color[dnr] = DRIVE_ACTIVE_RED;
     }
 
@@ -478,15 +488,15 @@ void drive_reset(void)
 }
 
 /* Move the head to half track `num'.  */
-void drive_set_half_track(int num, drive_t *dptr)
+void drive_set_half_track(int num, int side, drive_t *dptr)
 {
     if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
         || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_1570
         || dptr->type == DRIVE_TYPE_2031) && num > 84)
         num = 84;
     if ((dptr->type == DRIVE_TYPE_1571 || dptr->type == DRIVE_TYPE_1571CR)
-        && num > 140)
-        num = 140;
+        && num > 70)
+        num = 70;
     if (num < 2)
         num = 2;
 
@@ -496,8 +506,9 @@ void drive_set_half_track(int num, drive_t *dptr)
             dptr->p64->PulseStreams[dptr->current_half_track].CurrentIndex = -1;
         }
     }
+    dptr->side = side;
 
-    dptr->GCR_track_start_ptr = dptr->gcr->track_data[dptr->current_half_track - 2];
+    dptr->GCR_track_start_ptr = dptr->gcr->track_data[dptr->current_half_track - 2 + dptr->side * 70];
 
     if (dptr->GCR_current_track_size != 0)
         dptr->GCR_head_offset = (dptr->GCR_head_offset
@@ -517,13 +528,8 @@ void drive_set_half_track(int num, drive_t *dptr)
 void drive_move_head(int step, drive_t *drive)
 {
     drive_gcr_data_writeback(drive);
-    if (drive->type == DRIVE_TYPE_1571
-        || drive->type == DRIVE_TYPE_1571CR) {
-        if (drive->current_half_track + step >= 71)
-            return;
-    }
     drive_sound_head(drive->current_half_track, step, drive->mynumber);
-    drive_set_half_track(drive->current_half_track + step, drive);
+    drive_set_half_track(drive->current_half_track + step, drive->side, drive);
 }
 
 void drive_gcr_data_writeback(drive_t *drive)
@@ -716,12 +722,14 @@ void drive_update_ui_status(void)
 
             drive_led_update(drive, drive0);
 
-            if (drive->current_half_track != drive->old_half_track) {
+            if (drive->current_half_track != drive->old_half_track
+                    || drive->side != drive->old_side) {
                 drive->old_half_track = drive->current_half_track;
+                drive->old_side = drive->side;
                 dual = dual || drive->drive1;   /* also include drive 0 */
                 ui_display_drive_track(i,
                         dual ? 0 : 8,
-                        drive->current_half_track);
+                        drive->current_half_track + drive->side * 70);
             }
         }
     }

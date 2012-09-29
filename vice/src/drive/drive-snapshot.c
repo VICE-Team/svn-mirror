@@ -160,7 +160,7 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_DW(m, (DWORD)(drive->attach_clk)) < 0
             || SMW_B(m, (BYTE)(drive->byte_ready_level)) < 0
             || SMW_B(m, (BYTE)(drive->clock_frequency)) < 0
-            || SMW_W(m, (WORD)(drive->current_half_track)) < 0
+            || SMW_W(m, (WORD)(drive->current_half_track + drive->side * 70)) < 0
             || SMW_DW(m, (DWORD)(drive->detach_clk)) < 0
             || SMW_B(m, (BYTE)0) < 0
             || SMW_B(m, (BYTE)0) < 0
@@ -302,6 +302,7 @@ int drive_snapshot_read_module(snapshot_t *s)
     int sync_factor;
     drive_t *drive;
     int dummy;
+    int half_track[DRIVE_NUM];
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
@@ -341,7 +342,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW_INT(m, &dummy) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
-                || SMR_W_INT(m, &(drive->current_half_track)) < 0
+                || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
@@ -369,7 +370,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
-                || SMR_W_INT(m, &(drive->current_half_track)) < 0
+                || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
@@ -402,7 +403,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
-                || SMR_W_INT(m, &(drive->current_half_track)) < 0
+                || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
@@ -445,7 +446,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
-                || SMR_W_INT(m, &(drive->current_half_track)) < 0
+                || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
@@ -489,7 +490,7 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, &(attach_clk[i])) < 0
                 || SMR_B_INT(m, (int *)&(drive->byte_ready_level)) < 0
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
-                || SMR_W_INT(m, &(drive->current_half_track)) < 0
+                || SMR_W_INT(m, &half_track[i]) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B(m, (BYTE *)&dummy) < 0
@@ -664,20 +665,18 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 2; i++) {
+        int side = 0;
         drive = drive_context[i]->drive;
-        drive_set_half_track(drive->current_half_track, drive);
-        if (drive->type != DRIVE_TYPE_1570
-            && drive->type != DRIVE_TYPE_1571
-            && drive->type != DRIVE_TYPE_1571CR) {
-            if (drive->type == DRIVE_TYPE_1581
-                || drive->type == DRIVE_TYPE_2000
-                || drive->type == DRIVE_TYPE_4000) {
-                resources_set_int("MachineVideoStandard", sync_factor);
-            } else {
-                drive->side = 0;
-                resources_set_int("MachineVideoStandard", sync_factor);
+        if (drive->type == DRIVE_TYPE_1570
+            || drive->type == DRIVE_TYPE_1571
+            || drive->type == DRIVE_TYPE_1571CR) {
+            if (half_track[i] > 71) {
+                side = 1;
+                half_track[i] -= 70;
             }
         }
+        drive_set_half_track(half_track[i], side, drive);
+        resources_set_int("MachineVideoStandard", sync_factor);
     }
 
     /* stop currently active drive sounds (bug #3539422)

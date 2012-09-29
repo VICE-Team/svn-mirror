@@ -33,19 +33,10 @@
 
 void glue1571_side_set(unsigned int side, struct drive_s *drive)
 {
-    unsigned int num;
-
-    num = drive->current_half_track;
-
     rotation_rotate_disk(drive);
 
     drive_gcr_data_writeback(drive);
 
-    drive->side = side;
-    if (num > 70)
-        num -= 70;
-    num += side * 70;
-
-    drive_set_half_track(num, drive);
+    drive_set_half_track(drive->current_half_track, side, drive);
 }
 

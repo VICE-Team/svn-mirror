@@ -206,6 +206,7 @@ typedef struct drive_s {
     /* UI stuff.  */
     int old_led_status;
     int old_half_track;
+    int old_side;
 
     /* Is a GCR image loaded?  */
     int GCR_image_loaded;
@@ -289,7 +290,7 @@ extern void drive_set_active_led_color(unsigned int type, unsigned int dnr);
 extern int drive_set_disk_drive_type(unsigned int drive_type,
                                      struct drive_context_s *drv);
 
-extern void drive_set_half_track(int num, drive_t *dptr);
+extern void drive_set_half_track(int num, int side, drive_t *dptr);
 extern void drive_set_machine_parameter(long cycles_per_sec);
 extern void drive_set_disk_memory(BYTE *id, unsigned int track,
                                   unsigned int sector,
