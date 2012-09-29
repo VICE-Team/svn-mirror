@@ -43,7 +43,6 @@
 #include "x64.h"
 #include "p64.h"
 
-
 static log_t createdisk_log = LOG_DEFAULT;
 
 
@@ -54,6 +53,8 @@ static int fsimage_create_gcr(disk_image_t *image)
     BYTE gcr_speed_p[MAX_TRACKS_1541 * 2 * 4];
     unsigned int track, sector;
     fsimage_t *fsimage;
+    gcr_header_t header;
+    BYTE rawdata[256];
 
     fsimage = image->media.fsimage;
 
@@ -83,29 +84,25 @@ static int fsimage_create_gcr(disk_image_t *image)
         log_error(createdisk_log, "Cannot write speed header.");
         return -1;
     }
-    for (track = 0; track < NUM_TRACKS_1541; track++) {
+    memset(rawdata, 0, sizeof(rawdata));
+
+    header.id1 = 0xa0;
+    header.id2 = 0xa0;
+    for (track = 1; track <= NUM_TRACKS_1541; track++) {
         const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+        gcrptr = gcr_track;
+        util_word_to_le_buf(gcrptr, raw_track_size[disk_image_speed_map_1541(track - 1)]);
+        gcrptr += 2;
+        memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
 
-        util_word_to_le_buf(gcr_track, raw_track_size[disk_image_speed_map_1541(track)]);
-        gcrptr = &gcr_track[2];
-        memset(gcrptr, 0x55, 7928);
-
+        header.track = track;
         for (sector = 0;
-        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);
+        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
         sector++) {
-            BYTE chksum, id[2], rawdata[260];
-            int i;
 
-            id[0] = id[1] = 0xa0;
-            memset(rawdata, 0, 260);
-            rawdata[0] = 7;
-            chksum = rawdata[1];
-            for (i = 1; i < 256; i++)
-                chksum ^= rawdata[i + 1];
-            rawdata[257] = chksum;
+            header.sector = sector;
+            gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, 0);
 
-            gcr_convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
-                                      id[0], id[1], 0);
             gcrptr += 360;
         }
         if (fwrite((char *)gcr_track, sizeof(gcr_track), 1, fsimage->fd) < 1 ) {
@@ -124,40 +121,33 @@ static int fsimage_create_p64(disk_image_t *image)
     unsigned int track, sector;
     fsimage_t *fsimage;
     int rc = -1;
+    gcr_header_t header;
+    BYTE rawdata[256];
 
     fsimage = image->media.fsimage;
 
     P64ImageCreate(&P64Image);
 
-    for (track = 0; track < MAX_TRACKS_1541; track++) {
+    header.id1 = 0xa0;
+    header.id2 = 0xa0;
+    for (track = 1; track <= NUM_TRACKS_1541; track++) {
         const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+        gcrptr = gcr_track;
+        util_word_to_le_buf(gcrptr, raw_track_size[disk_image_speed_map_1541(track - 1)]);
+        gcrptr += 2;
+        memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
 
-        memset(&gcr_track[0], 0x55, 7928);
-        gcrptr = &gcr_track[0];
-
+        header.track = track;
         for (sector = 0;
-        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);
+        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
         sector++) {
-            BYTE chksum, id[2], rawdata[260];
-            int i;
 
-            id[0] = id[1] = 0xa0;
-            memset(rawdata, 0, 260);
-            rawdata[0] = 7;
-            chksum = rawdata[1];
-            for (i = 1; i < 256; i++) {
-                chksum ^= rawdata[i + 1];
-            }
-            rawdata[257] = chksum;
+            header.sector = sector;
+            gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, 0);
 
-            gcr_convert_sector_to_GCR(rawdata, gcrptr, track + 1, sector,
-                                      id[0], id[1], 0);
             gcrptr += 360;
         }
-
-
-        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[(track + 1) << 1], (void*)&gcr_track[0], raw_track_size[disk_image_speed_map_1541(track)] << 3);
-
+        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[(track + 1) << 1], (void*)&gcr_track[0], raw_track_size[disk_image_speed_map_1541(track-1)] << 3);
     }
 
     P64MemoryStreamCreate(&P64MemoryStreamInstance);

@@ -95,6 +95,21 @@
 /* CBM DOS directory definitions.  */
 #define CBMDOS_SLOT_NAME_LENGTH 16
 
+/* fdc error codes to return to drive CPU */
+#define CBMDOS_FDC_ERR_OK      1
+#define CBMDOS_FDC_ERR_HEADER  2
+#define CBMDOS_FDC_ERR_SYNC    3
+#define CBMDOS_FDC_ERR_NOBLOCK 4
+#define CBMDOS_FDC_ERR_DCHECK  5
+#define CBMDOS_FDC_ERR_VERIFY  7
+#define CBMDOS_FDC_ERR_WPROT   8
+#define CBMDOS_FDC_ERR_HCHECK  9
+#define CBMDOS_FDC_ERR_BLENGTH 10
+#define CBMDOS_FDC_ERR_ID      11
+#define CBMDOS_FDC_ERR_FSPEED  12
+#define CBMDOS_FDC_ERR_DRIVE   15
+#define CBMDOS_FDC_ERR_DECODE  16
+
 struct cbmdos_cmd_parse_s {
     const BYTE *cmd; /* input: full dos-command string */
     unsigned int cmdlength; /* input */

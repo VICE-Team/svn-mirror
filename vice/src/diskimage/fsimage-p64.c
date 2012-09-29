@@ -33,6 +33,7 @@
 #include "diskimage.h"
 #include "fsimage-p64.h"
 #include "fsimage.h"
+#include "cbmdos.h"
 #include "gcr.h"
 #include "log.h"
 #include "lib.h"
@@ -226,8 +227,8 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
 {
     unsigned int max_track_length = NUM_MAX_MEM_BYTES_TRACK;
     BYTE *gcr_data;
-    BYTE *gcr_track_start_ptr;
-    int gcr_track_size, gcr_current_track_size;
+    int gcr_track_size;
+    disk_track_t raw;
 
     if (track > 42) {
         log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot read P64 track.", track);
@@ -241,10 +242,10 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
         lib_free(gcr_data);
         return -1;
     }
-    gcr_track_start_ptr = gcr_data;
-    gcr_current_track_size = gcr_track_size;
+    raw.data = gcr_data;
+    raw.size = gcr_track_size;
 
-    if (gcr_read_sector(gcr_track_start_ptr, gcr_current_track_size, buf, track, sector) < 0) {
+    if (gcr_read_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", track, sector);
         lib_free(gcr_data);
         return -1;
@@ -264,8 +265,8 @@ int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
 {
     unsigned int max_track_length = NUM_MAX_MEM_BYTES_TRACK;
     BYTE *gcr_data;
-    BYTE *gcr_track_start_ptr;
-    int gcr_track_size, gcr_current_track_size;
+    int gcr_track_size;
+    disk_track_t raw;
 
     if (track > 42) {
         log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot write P64 sector", track);
@@ -279,18 +280,16 @@ int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
         lib_free(gcr_data);
         return -1;
     }
-    gcr_track_start_ptr = gcr_data;
-    gcr_current_track_size = gcr_track_size;
+    raw.data = gcr_data;
+    raw.size = gcr_track_size;
 
-    if (gcr_write_sector(gcr_track_start_ptr,
-        gcr_current_track_size, buf, track, sector) < 0) {
+    if (gcr_write_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Could not find track %i sector %i in disk image", track, sector);
         lib_free(gcr_data);
         return -1;
     }
 
-    if (fsimage_p64_write_track(image, track, gcr_current_track_size,
-        gcr_track_start_ptr) < 0) {
+    if (fsimage_p64_write_track(image, track, raw.size, raw.data) < 0) {
         log_error(fsimage_p64_log, "Failed writing track %i to disk image.", track);
         lib_free(gcr_data);
         return -1;

@@ -47,6 +47,8 @@
 /* Number of tracks we emulate. 84 for 1541, 140 for 1571 */
 #define MAX_GCR_TRACKS 140
 
+#define SECTOR_GCR_SIZE_WITH_HEADER 340
+
 typedef struct gcr_s {
     /* Raw GCR image of the disk.  */
     BYTE *track_data[MAX_GCR_TRACKS];
@@ -56,27 +58,19 @@ typedef struct gcr_s {
 
 } gcr_t;
 
-extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,
-                                      unsigned int track, unsigned int sector,
-                                      BYTE diskID1, BYTE diskID2,
-                                      BYTE error_code);
-extern void gcr_convert_GCR_to_sector(BYTE *buffer, BYTE *ptr,
-                                      BYTE *GCR_track_start_ptr,
-                                      unsigned int GCR_current_track_size);
+typedef struct disk_track_s {
+    BYTE *data;
+    int size;
+} disk_track_t;
 
-extern BYTE *gcr_find_sector_header(unsigned int track, unsigned int sector,
-                                    BYTE *gcr_track_start_ptr,
-                                    unsigned int gcr_current_track_size);
-extern BYTE *gcr_find_sector_data(BYTE *offset,
-                                  BYTE *gcr_track_start_ptr,
-                                  unsigned int gcr_current_track_size);
-extern int gcr_read_sector(BYTE *gcr_track_start_ptr,
-                           unsigned int gcr_current_track_size, BYTE *readdata,
-                           unsigned int track, unsigned int sector);
-extern int gcr_write_sector(BYTE *gcr_track_start_ptr,
-                            unsigned int gcr_current_track_size,
-                            BYTE *writedata,
-                            unsigned int track, unsigned int sector);
+typedef struct gcr_header_s {
+    BYTE sector, track, id2, id1;
+} gcr_header_t;
+
+extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, gcr_header_t *header,
+                                      int gap, int sync, BYTE error_code);
+extern int gcr_read_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
+extern int gcr_write_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
 
 extern gcr_t *gcr_create_image(void);
 extern void gcr_destroy_image(gcr_t *gcr);

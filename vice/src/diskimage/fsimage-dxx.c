@@ -41,59 +41,30 @@
 #include "util.h"
 #include "x64.h"
 
-#define SECTOR_GCR_SIZE_WITH_HEADER 354
-
 static log_t fsimage_dxx_log = LOG_ERR;
 static const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 static const unsigned int gaps_between_sectors[4] = { 9, 12, 17, 8 };
 
-inline static unsigned int sector_offset(unsigned int track,
-                                         unsigned int sector,
-                                         unsigned int max_sector,
-                                         disk_image_t *image)
-{
-    unsigned int speed;
-    if (image->type == DISK_IMAGE_TYPE_D71) {
-        speed = disk_image_speed_map_1571(track - 1);
-    } else {
-        speed = disk_image_speed_map_1541(track - 1);
-    }
-
-    return (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[speed]) * sector;
-}
-
 int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                  int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
+    int rc;
     unsigned int track, sector, max_sector = 0;
-    BYTE buffer[260], *offset;
+    BYTE buffer[256];
 
     track = half_track / 2;
 
     max_sector = disk_image_sector_per_track(image->type, track);
 
     for (sector = 0; sector < max_sector; sector++) {
-        offset = gcr_find_sector_header(track, sector, gcr_track_start_ptr, gcr_track_size);
-        if (offset == NULL) {
+        disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
+        rc = gcr_read_sector(&raw, buffer, sector);
+        if (rc) {
             log_error(fsimage_dxx_log,
-                      "Could not find header of T:%d S:%d.",
-                      track, sector);
+                    "Could not find data sector of T:%d S:%d.",
+                    track, sector);
         } else {
-            offset = gcr_find_sector_data(offset, gcr_track_start_ptr, gcr_track_size);
-            if (offset == NULL) {
-                log_error(fsimage_dxx_log,
-                          "Could not find data sync of T:%d S:%d.",
-                          track, sector);
-            } else {
-                gcr_convert_GCR_to_sector(buffer, offset, gcr_track_start_ptr, gcr_track_size);
-                if (buffer[0] != 0x7) {
-                    log_error(fsimage_dxx_log,
-                            "Could not find data block id of T:%d S:%d.",
-                            track, sector);
-                } else {
-                    fsimage_dxx_write_sector(image, buffer + 1, track, sector);
-                }
-            }
+            fsimage_dxx_write_sector(image, buffer, track, sector);
         }
     }
     return 0;
@@ -101,19 +72,18 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 
 int fsimage_read_dxx_image(disk_image_t *image)
 {
-    BYTE buffer[260], chksum;
-    int i;
+    BYTE buffer[256];
+    int gap;
     unsigned int track, sector;
-    BYTE diskID1, diskID2;
+    gcr_header_t header;
     int rc;
 
     rc = fsimage_dxx_read_sector(image, buffer, 18, 0);
     if (rc < 0) {
         return -1;
     }
-    diskID1 = buffer[0xa2];
-    diskID2 = buffer[0xa3];
-    buffer[258] = buffer[259] = 0;
+    header.id1 = buffer[0xa2];
+    header.id2 = buffer[0xa3];
 
     for (track = 1; track <= image->tracks; track++) {
         BYTE *ptr;
@@ -125,40 +95,28 @@ int fsimage_read_dxx_image(disk_image_t *image)
         ptr = image->gcr->track_data[(track * 2) - 2];
         if (image->type == DISK_IMAGE_TYPE_D71) {
             image->gcr->track_size[(track * 2) - 2] =
-                raw_track_size[disk_image_speed_map_1571(track)];
+                raw_track_size[disk_image_speed_map_1571(track - 1)];
+            gap = gaps_between_sectors[disk_image_speed_map_1571(track - 1)];
         } else {
             image->gcr->track_size[(track * 2) - 2] =
-                raw_track_size[disk_image_speed_map_1541(track)];
+                raw_track_size[disk_image_speed_map_1541(track - 1)];
+            gap = gaps_between_sectors[disk_image_speed_map_1541(track - 1)];
         }
 
         max_sector = disk_image_sector_per_track(image->type, track);
+
         /* Clear track to avoid read errors.  */
         memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
 
+        header.track = track;
         for (sector = 0; sector < max_sector; sector++) {
-            ptr = image->gcr->track_data[(track * 2) - 2] + sector_offset(track, sector,
-                                                   max_sector, image);
 
-            rc = fsimage_dxx_read_sector(image, buffer + 1, track, sector);
-            if (rc < 0) {
-                continue;
-            }
+            rc = fsimage_dxx_read_sector(image, buffer, track, sector);
 
-            if (rc == CBMDOS_IPE_READ_ERROR_SYNC) {
-                ptr = image->gcr->track_data[(track * 2) - 2];
-                memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
-                break;
-            }
+            header.sector = sector;
+            gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, (BYTE)(rc));
 
-            buffer[0] = (rc == CBMDOS_IPE_READ_ERROR_DATA) ? 0xff : 0x07;
-
-            chksum = buffer[1];
-            for (i = 2; i < 257; i++)
-                chksum ^= buffer[i];
-            buffer[257] = (rc == CBMDOS_IPE_READ_ERROR_CHK) ? chksum ^ 0xff : chksum;
-            gcr_convert_sector_to_GCR(buffer, ptr, track, sector,
-                                      diskID1, diskID2,
-                                      (BYTE)(rc));
+            ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
         }
 
         /* Clear odd track */
@@ -166,13 +124,7 @@ int fsimage_read_dxx_image(disk_image_t *image)
             lib_free(image->gcr->track_data[(track * 2) - 1]);
             image->gcr->track_data[(track * 2) - 1] = NULL;
         }
-        if (image->type == DISK_IMAGE_TYPE_D71) {
-            image->gcr->track_size[(track * 2) - 1] =
-                raw_track_size[disk_image_speed_map_1571(track)];
-        } else {
-            image->gcr->track_size[(track * 2) - 1] =
-                raw_track_size[disk_image_speed_map_1541(track)];
-        }
+        image->gcr->track_size[(track * 2) - 1] = image->gcr->track_size[(track * 2) - 2];
     }
     return 0;
 }
