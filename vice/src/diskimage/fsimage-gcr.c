@@ -270,21 +270,19 @@ int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
     BYTE gcr_data[NUM_MAX_MEM_BYTES_TRACK];
-    int gcr_track_size;
+    int gcr_track_size, rc;
     disk_track_t raw;
 
     if (track > image->tracks) {
         log_error(fsimage_gcr_log,
                   "Track %i out of bounds.  Cannot read GCR track.",
                   track);
-        return -1;
+        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
     }
 
     if (image->gcr == NULL) {
         if (fsimage_gcr_read_track(image, track, gcr_data, &gcr_track_size) < 0) {
-            log_error(fsimage_gcr_log,
-                      "Cannot read track %i from GCR image.", track);
-            return -1;
+            return CBMDOS_IPE_NOT_READY;
         }
         raw.data = gcr_data;
         raw.size = gcr_track_size;
@@ -292,14 +290,42 @@ int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
         raw.data = image->gcr->track_data[(track * 2) - 2];
         raw.size = image->gcr->track_size[(track * 2) - 2];
     }
-    if ((raw.data == NULL) || gcr_read_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
+    rc = CBMDOS_FDC_ERR_DRIVE;
+    if (raw.data != NULL) {
+        rc = gcr_read_sector(&raw, buf, sector);
+    }
+    if (rc != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_gcr_log,
                   "Cannot find track: %i sector: %i within GCR image.",
                   track, sector);
-        return -1;
+        switch (rc) {
+        case CBMDOS_FDC_ERR_HEADER:
+            return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
+        case CBMDOS_FDC_ERR_SYNC:
+            return CBMDOS_IPE_READ_ERROR_SYNC;  /* 21 */
+        case CBMDOS_FDC_ERR_NOBLOCK:
+            return CBMDOS_IPE_READ_ERROR_DATA;  /* 22 */
+        case CBMDOS_FDC_ERR_DCHECK:
+            return CBMDOS_IPE_READ_ERROR_CHK;   /* 23 */ 
+        case CBMDOS_FDC_ERR_VERIFY:
+            return CBMDOS_IPE_WRITE_ERROR_VER;  /* 25 */
+        case CBMDOS_FDC_ERR_WPROT:
+            return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
+        case CBMDOS_FDC_ERR_HCHECK:
+            return CBMDOS_IPE_READ_ERROR_BCHK;  /* 27 */
+        case CBMDOS_FDC_ERR_BLENGTH:
+            return CBMDOS_IPE_WRITE_ERROR_BIG;  /* 28 */
+        case CBMDOS_FDC_ERR_ID:
+            return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
+        case CBMDOS_FDC_ERR_DRIVE:
+            return CBMDOS_IPE_NOT_READY;        /* 74 */
+        case CBMDOS_FDC_ERR_DECODE:
+            return CBMDOS_IPE_READ_ERROR_GCR;   /* 24 */
+        default:
+            return CBMDOS_IPE_NOT_READY;
+        }
     }
-
-    return 0;
+    return CBMDOS_IPE_OK;
 }
 
 

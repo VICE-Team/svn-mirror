@@ -49,18 +49,29 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                  int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     unsigned int track, sector, max_sector = 0;
-    BYTE buffer[256];
+    int sectors;
+    BYTE buffer[256], rc;
     disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
+    fsimage_t *fsimage = image->media.fsimage;
 
     track = half_track / 2;
 
     max_sector = disk_image_sector_per_track(image->type, track);
 
     for (sector = 0; sector < max_sector; sector++) {
-        if (gcr_read_sector(&raw, buffer, sector) != CBMDOS_FDC_ERR_OK) {
+        rc = gcr_read_sector(&raw, buffer, sector);
+        if (rc != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
                     "Could not find data sector of T:%d S:%d.",
                     track, sector);
+            if (fsimage->error_info.map != NULL) {
+                sectors = disk_image_check_sector(image, track, sector);
+
+                if (sectors >= 0 && (fsimage->error_info.map[sectors] != rc)) {
+                    fsimage->error_info.map[sectors] = rc;
+                    fsimage->error_info.dirty = 1;
+                }
+            }
         } else {
             fsimage_dxx_write_sector(image, buffer, track, sector);
         }
@@ -76,11 +87,10 @@ int fsimage_read_dxx_image(disk_image_t *image)
     gcr_header_t header;
     int rc;
     int double_sided = 0;
+    fsimage_t *fsimage = image->media.fsimage;
 
-    rc = fsimage_dxx_read_sector(image, buffer, 18, 0);
-    if (rc < 0) {
-        return -1;
-    }
+    buffer[0xa2] = buffer[0xa3] = 0xa0;
+    fsimage_dxx_read_sector(image, buffer, 18, 0);
     header.id1 = buffer[0xa2];
     header.id2 = buffer[0xa3];
 
@@ -92,10 +102,8 @@ int fsimage_read_dxx_image(disk_image_t *image)
         unsigned int max_sector = 0;
 
         if (double_sided && track == 36) {
-            rc = fsimage_dxx_read_sector(image, buffer, 53, 0);
-            if (rc < 0) { 
-                return -1;
-            }
+            buffer[0xa2] = buffer[0xa3] = 0xa0;
+            fsimage_dxx_read_sector(image, buffer, 53, 0);
             header.id1 = buffer[0xa2]; /* second side, update id and track */
             header.id2 = buffer[0xa3];
             header.track = 1;
@@ -123,6 +131,15 @@ int fsimage_read_dxx_image(disk_image_t *image)
         for (sector = 0; sector < max_sector; sector++) {
 
             rc = fsimage_dxx_read_sector(image, buffer, track, sector);
+            if (rc != CBMDOS_IPE_OK) {
+                if (fsimage->error_info.map != NULL) {
+                    int sectors = disk_image_check_sector(image, track, sector);
+
+                    if (sectors >= 0) {
+                        rc = fsimage->error_info.map[sectors];
+                    }
+                }
+            } else rc = CBMDOS_FDC_ERR_OK;
 
             header.sector = sector;
             gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, (BYTE)(rc));
@@ -145,9 +162,7 @@ int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
 {
     int sectors;
     long offset;
-    fsimage_t *fsimage;
-
-    fsimage = image->media.fsimage;
+    fsimage_t *fsimage = image->media.fsimage;
 
     sectors = disk_image_check_sector(image, track, sector);
 
@@ -166,41 +181,41 @@ int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
         log_error(fsimage_dxx_log,
                 "Error reading T:%i S:%i from disk image.",
                 track, sector);
-        return -1;
+        return CBMDOS_IPE_NOT_READY;
     }
 
-    if (fsimage->error_info != NULL) {
-        switch (fsimage->error_info[sectors]) {
-        case 0x0:
-        case 0x1:
+    if (fsimage->error_info.map != NULL) {
+        switch (fsimage->error_info.map[sectors]) {
+        case 0:
+        case CBMDOS_FDC_ERR_OK:
             return CBMDOS_IPE_OK;               /* 0 */
-        case 0x2:
+        case CBMDOS_FDC_ERR_HEADER:
             return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
-        case 0x3:
+        case CBMDOS_FDC_ERR_SYNC:
             return CBMDOS_IPE_READ_ERROR_SYNC;  /* 21 */
-        case 0x4:
+        case CBMDOS_FDC_ERR_NOBLOCK:
             return CBMDOS_IPE_READ_ERROR_DATA;  /* 22 */
-        case 0x5:
+        case CBMDOS_FDC_ERR_DCHECK:
             return CBMDOS_IPE_READ_ERROR_CHK;   /* 23 */ 
-        case 0x7:
+        case CBMDOS_FDC_ERR_VERIFY:
             return CBMDOS_IPE_WRITE_ERROR_VER;  /* 25 */
-        case 0x8:
+        case CBMDOS_FDC_ERR_WPROT:
             return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
-        case 0x9:
+        case CBMDOS_FDC_ERR_HCHECK:
             return CBMDOS_IPE_READ_ERROR_BCHK;  /* 27 */
-        case 0xA:
+        case CBMDOS_FDC_ERR_BLENGTH:
             return CBMDOS_IPE_WRITE_ERROR_BIG;  /* 28 */
-        case 0xB:
+        case CBMDOS_FDC_ERR_ID:
             return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
-        case 0xF:
+        case CBMDOS_FDC_ERR_DRIVE:
             return CBMDOS_IPE_NOT_READY;        /* 74 */
-        case 0x10:
+        case CBMDOS_FDC_ERR_DECODE:
             return CBMDOS_IPE_READ_ERROR_GCR;   /* 24 */
         default:
-            return 0;
+            return CBMDOS_IPE_OK;
         }
     }
-    return 0;
+    return CBMDOS_IPE_OK;
 }
 
 int fsimage_dxx_write_sector(disk_image_t *image, BYTE *buf,
@@ -228,6 +243,11 @@ int fsimage_dxx_write_sector(disk_image_t *image, BYTE *buf,
         log_error(fsimage_dxx_log, "Error writing T:%i S:%i to disk image.",
                 track, sector);
         return -1;
+    }
+    if ((fsimage->error_info.map != NULL)
+            && (fsimage->error_info.map[sectors] != CBMDOS_FDC_ERR_OK)) {
+        fsimage->error_info.map[sectors] = CBMDOS_FDC_ERR_OK;
+        fsimage->error_info.dirty = 1;
     }
 
     /* Make sure the stream is visible to other readers.  */

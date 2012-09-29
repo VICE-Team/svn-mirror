@@ -41,6 +41,8 @@
 #include "log.h"
 #include "types.h"
 #include "zfile.h"
+#include "util.h"
+#include "cbmdos.h"
 
 
 static log_t fsimage_log = LOG_DEFAULT;
@@ -75,19 +77,6 @@ void *fsimage_fd_get(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-void fsimage_error_info_create(fsimage_t *fsimage)
-{
-    fsimage->error_info = lib_calloc(1, MAX_BLOCKS_ANY);
-}
-
-void fsimage_error_info_destroy(fsimage_t *fsimage)
-{
-    lib_free(fsimage->error_info);
-    fsimage->error_info = NULL;
-}
-
-/*-----------------------------------------------------------------------*/
-
 void fsimage_media_create(disk_image_t *image)
 {
     fsimage_t *fsimage;
@@ -103,9 +92,10 @@ void fsimage_media_destroy(disk_image_t *image)
 
     fsimage = image->media.fsimage;
 
+    if (fsimage->fd) {
+        fsimage_close(image);
+    }
     lib_free(fsimage->name);
-    fsimage_error_info_destroy(fsimage);
-
     lib_free(fsimage);
 }
 
@@ -116,6 +106,7 @@ int fsimage_open(disk_image_t *image)
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
+    fsimage->error_info.map = NULL;
 
     if (image->read_only) {
         fsimage->fd = zfile_fopen(fsimage->name, MODE_READ);
@@ -138,8 +129,8 @@ int fsimage_open(disk_image_t *image)
         return 0;
     }
 
-    zfile_fclose(fsimage->fd);
     log_message(fsimage_log, "Unknown disk image `%s'.", fsimage->name);
+    fsimage_close(image);
     return -1;
 }
 
@@ -157,10 +148,17 @@ int fsimage_close(disk_image_t *image)
 /*   if (image->type == DISK_IMAGE_TYPE_P64) {
 	fsimage_write_p64_image(image);
     }*/
+    if (fsimage->error_info.map) {
+        if (fsimage->error_info.dirty) {
+            util_fpwrite(fsimage->fd, fsimage->error_info.map, fsimage->error_info.len, fsimage->error_info.len * 256);
+            fsimage->error_info.dirty = 0;
+        }
+        lib_free(fsimage->error_info.map);
+        fsimage->error_info.map = NULL;
+    }
     
     zfile_fclose(fsimage->fd);
-
-    fsimage_error_info_destroy(fsimage);
+    fsimage->fd = NULL;
 
     return 0;
 }
@@ -176,7 +174,7 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_log, "Attempt to read without disk image.");
-        return 74;
+        return CBMDOS_IPE_NOT_READY;
     }
 
     switch (image->type) {
@@ -190,27 +188,17 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-        if (fsimage_dxx_read_sector(image, buf, track, sector) < 0) {
-            return -1;
-        }
-        break;
+          return fsimage_dxx_read_sector(image, buf, track, sector);
       case DISK_IMAGE_TYPE_G64:
-        if (fsimage_gcr_read_sector(image, buf, track, sector) < 0) {
-            return -1;
-        }
-        break;
+          return fsimage_gcr_read_sector(image, buf, track, sector);
       case DISK_IMAGE_TYPE_P64:
-        if (fsimage_p64_read_sector(image, buf, track, sector) < 0) {
-            return -1;
-        }
-        break;
+          return fsimage_p64_read_sector(image, buf, track, sector);
       default:
         log_error(fsimage_log,
                   "Unknown disk image type %i.  Cannot read sector.",
                   image->type);
-        return -1;
+        return CBMDOS_IPE_NOT_READY;
     }
-    return 0;
 }
 
 int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,

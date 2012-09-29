@@ -133,11 +133,11 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D64;
     image->tracks = checkimage_tracks;
     image->half_tracks = checkimage_half_tracks;
-    fsimage_error_info_destroy(fsimage);
 
     if (checkimage_errorinfo) {
-        fsimage_error_info_create(fsimage);
-        if (util_fpread(fsimage->fd, fsimage->error_info, checkimage_blocks, 256 * checkimage_blocks) < 0) {
+        fsimage->error_info.map = lib_calloc(1, checkimage_blocks);
+        fsimage->error_info.len = checkimage_blocks;
+        if (util_fpread(fsimage->fd, fsimage->error_info.map, checkimage_blocks, 256 * checkimage_blocks) < 0) {
             return 0;
         }
     }
@@ -184,7 +184,6 @@ static int disk_image_check_for_d67(disk_image_t *image)
       default:
         return 0;
     }
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D67");
     return 1;
 }
@@ -222,10 +221,10 @@ static int disk_image_check_for_d71(disk_image_t *image)
         return 0;
     }
 
-    fsimage_error_info_destroy(fsimage);
     if (checkimage_errorinfo) {
-        fsimage_error_info_create(fsimage);
-        if (util_fpread(fsimage->fd, fsimage->error_info, blk, 256 * blk) < 0) {
+        fsimage->error_info.map = lib_calloc(1, blk);
+        fsimage->error_info.len = blk;
+        if (util_fpread(fsimage->fd, fsimage->error_info.map, blk, 256 * blk) < 0) {
             return 0;
         }
     }
@@ -242,7 +241,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
     BYTE block[256];
     fsimage_t *fsimage;
     int checkimage_errorinfo;
-	unsigned int checkimage_blocks;
+    unsigned int checkimage_blocks;
 
     fsimage = image->media.fsimage;
 
@@ -309,11 +308,11 @@ static int disk_image_check_for_d81(disk_image_t *image)
         break;
     }
 
-    fsimage_error_info_destroy(fsimage);
     if (checkimage_errorinfo) {
         checkimage_blocks = image->tracks * 40;
-        fsimage_error_info_create(fsimage);
-        if (util_fpread(fsimage->fd, fsimage->error_info, checkimage_blocks, 256 * checkimage_blocks) < 0) {
+        fsimage->error_info.map = lib_calloc(1, checkimage_blocks);
+        fsimage->error_info.len = checkimage_blocks;
+        if (util_fpread(fsimage->fd, fsimage->error_info.map, checkimage_blocks, 256 * checkimage_blocks) < 0) {
             return 0;
         }
     }
@@ -357,7 +356,6 @@ static int disk_image_check_for_d80(disk_image_t *image)
       default:
         return 0;
     }
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D80");
     return 1;
 }
@@ -398,7 +396,6 @@ static int disk_image_check_for_d82(disk_image_t *image)
       default:
         return 0;
     }
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D82");
     return 1;
 }
@@ -428,7 +425,6 @@ static int disk_image_check_for_x64(disk_image_t *image)
     image->tracks = header[X64_HEADER_FLAGS_OFFSET + 1];
     image->half_tracks = header[X64_HEADER_FLAGS_OFFSET + 1] * 2;
 
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "X64");
     return 1;
 }
@@ -472,7 +468,6 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
     image->half_tracks = header[9];
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "GCR");
     return 1;
 }
@@ -498,7 +493,6 @@ static int disk_image_check_for_p64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_P64;
     image->tracks = 84 / 2;
     image->half_tracks = 84;
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "P64");
 
     if (image->p64 != NULL) {
@@ -557,7 +551,6 @@ static int disk_image_check_for_d1m(disk_image_t *image)
       default:
         return 0;
     }
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D1M");
     return 1;
 }
@@ -600,7 +593,6 @@ static int disk_image_check_for_d2m(disk_image_t *image)
       default:
         return 0;
     }
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D2M");
     return 1;
 }
@@ -644,7 +636,6 @@ static int disk_image_check_for_d4m(disk_image_t *image)
       default:
         return 0;
     }
-    fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "D4M");
     return 1;
 }

@@ -225,35 +225,56 @@ static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
 int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
-    unsigned int max_track_length = NUM_MAX_MEM_BYTES_TRACK;
-    BYTE *gcr_data;
+    BYTE gcr_data[NUM_MAX_MEM_BYTES_TRACK];
     int gcr_track_size;
+    int rc;
     disk_track_t raw;
 
     if (track > 42) {
         log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot read P64 track.", track);
-        return -1;
+        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
     }
 
-    gcr_data = (BYTE*) lib_malloc(max_track_length);
-
     if (fsimage_p64_read_track(image, track, gcr_data, &gcr_track_size) < 0) {
-        log_error(fsimage_p64_log, "Cannot read track %i from P64 image.", track);
-        lib_free(gcr_data);
-        return -1;
+        return CBMDOS_IPE_NOT_READY;
     }
     raw.data = gcr_data;
     raw.size = gcr_track_size;
 
-    if (gcr_read_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
+    rc = gcr_read_sector(&raw, buf, sector);
+    if (rc != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", track, sector);
-        lib_free(gcr_data);
-        return -1;
+        switch (rc) {
+        case CBMDOS_FDC_ERR_HEADER:
+            return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
+        case CBMDOS_FDC_ERR_SYNC:
+            return CBMDOS_IPE_READ_ERROR_SYNC;  /* 21 */
+        case CBMDOS_FDC_ERR_NOBLOCK:
+            return CBMDOS_IPE_READ_ERROR_DATA;  /* 22 */
+        case CBMDOS_FDC_ERR_DCHECK:
+            return CBMDOS_IPE_READ_ERROR_CHK;   /* 23 */ 
+        case CBMDOS_FDC_ERR_VERIFY:
+            return CBMDOS_IPE_WRITE_ERROR_VER;  /* 25 */
+        case CBMDOS_FDC_ERR_WPROT:
+            return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
+        case CBMDOS_FDC_ERR_HCHECK:
+            return CBMDOS_IPE_READ_ERROR_BCHK;  /* 27 */
+        case CBMDOS_FDC_ERR_BLENGTH:
+            return CBMDOS_IPE_WRITE_ERROR_BIG;  /* 28 */
+        case CBMDOS_FDC_ERR_ID:
+            return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
+        case CBMDOS_FDC_ERR_DRIVE:
+            return CBMDOS_IPE_NOT_READY;        /* 74 */
+        case CBMDOS_FDC_ERR_DECODE:
+            return CBMDOS_IPE_READ_ERROR_GCR;   /* 24 */
+        default:
+            return CBMDOS_IPE_NOT_READY;
+        }
     }
 
     lib_free(gcr_data);
 
-    return 0;
+    return CBMDOS_IPE_OK;
 }
 
 

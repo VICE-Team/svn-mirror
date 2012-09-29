@@ -36,14 +36,15 @@ struct disk_image_s;
 typedef struct fsimage_s {
     FILE *fd;
     char *name;
-    BYTE *error_info;
+    struct {
+        BYTE *map;
+        int dirty;
+        int len;
+    } error_info;
 } fsimage_t;
 
 
 extern void fsimage_init(void);
-
-extern void fsimage_error_info_create(fsimage_t *fsimage);
-extern void fsimage_error_info_destroy(fsimage_t *fsimage);
 
 extern void fsimage_name_set(struct disk_image_s *image, char *name);
 extern char *fsimage_name_get(struct disk_image_s *image);
