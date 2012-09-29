@@ -75,6 +75,7 @@ int fsimage_read_dxx_image(disk_image_t *image)
     unsigned int track, sector;
     gcr_header_t header;
     int rc;
+    int double_sided = 0;
 
     rc = fsimage_dxx_read_sector(image, buffer, 18, 0);
     if (rc < 0) {
@@ -83,9 +84,22 @@ int fsimage_read_dxx_image(disk_image_t *image)
     header.id1 = buffer[0xa2];
     header.id2 = buffer[0xa3];
 
-    for (track = 1; track <= image->tracks; track++) {
+    /* check double sided images */
+    double_sided = (image->type == DISK_IMAGE_TYPE_D71) && !(buffer[0x03] & 0x80);
+
+    for (header.track = track = 1; track <= image->tracks; track++, header.track++) {
         BYTE *ptr;
         unsigned int max_sector = 0;
+
+        if (double_sided && track == 36) {
+            rc = fsimage_dxx_read_sector(image, buffer, 53, 0);
+            if (rc < 0) { 
+                return -1;
+            }
+            header.id1 = buffer[0xa2]; /* second side, update id and track */
+            header.id2 = buffer[0xa3];
+            header.track = 1;
+        }
 
         if (image->gcr->track_data[(track * 2) - 2] == NULL) {
             image->gcr->track_data[(track * 2) - 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
@@ -106,7 +120,6 @@ int fsimage_read_dxx_image(disk_image_t *image)
         /* Clear track to avoid read errors.  */
         memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
 
-        header.track = track;
         for (sector = 0; sector < max_sector; sector++) {
 
             rc = fsimage_dxx_read_sector(image, buffer, track, sector);
