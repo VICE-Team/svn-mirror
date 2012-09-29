@@ -226,7 +226,6 @@ int drive_init(void)
         drive->led_active_ticks = 0;
 
         rotation_reset(drive);
-        drive_image_init_track_size_d64(drive);
 
         /* Position the R/W head on the directory track.  */
         drive_set_half_track(36, drive);

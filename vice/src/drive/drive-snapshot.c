@@ -162,8 +162,8 @@ int drive_snapshot_write_module(snapshot_t *s, int save_disks, int save_roms)
             || SMW_B(m, (BYTE)(drive->clock_frequency)) < 0
             || SMW_W(m, (WORD)(drive->current_half_track)) < 0
             || SMW_DW(m, (DWORD)(drive->detach_clk)) < 0
-            || SMW_B(m, (BYTE)(drive->diskID1)) < 0
-            || SMW_B(m, (BYTE)(drive->diskID2)) < 0
+            || SMW_B(m, (BYTE)0) < 0
+            || SMW_B(m, (BYTE)0) < 0
             || SMW_B(m, (BYTE)(drive->extend_image_policy)) < 0
             || SMW_DW(m, (DWORD)(drive->GCR_head_offset)) < 0
             || SMW_B(m, (BYTE)(drive->GCR_read)) < 0
@@ -343,8 +343,8 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
                 || SMR_W_INT(m, &(drive->current_half_track)) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
-                || SMR_B(m, &(drive->diskID1)) < 0
-                || SMR_B(m, &(drive->diskID2)) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
                 || SMR_B_INT(m, &dummy) < 0
                 || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
@@ -371,8 +371,8 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
                 || SMR_W_INT(m, &(drive->current_half_track)) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
-                || SMR_B(m, &(drive->diskID1)) < 0
-                || SMR_B(m, &(drive->diskID2)) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
                 || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
                 || SMR_B(m, &(drive->GCR_read)) < 0
@@ -404,8 +404,8 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
                 || SMR_W_INT(m, &(drive->current_half_track)) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
-                || SMR_B(m, &(drive->diskID1)) < 0
-                || SMR_B(m, &(drive->diskID2)) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
                 || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
                 || SMR_B(m, &(drive->GCR_read)) < 0
@@ -447,8 +447,8 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
                 || SMR_W_INT(m, &(drive->current_half_track)) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
-                || SMR_B(m, &(drive->diskID1)) < 0
-                || SMR_B(m, &(drive->diskID2)) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
                 || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
                 || SMR_B(m, &(drive->GCR_read)) < 0
@@ -491,8 +491,8 @@ int drive_snapshot_read_module(snapshot_t *s)
                 || SMR_B_INT(m, &(drive->clock_frequency)) < 0
                 || SMR_W_INT(m, &(drive->current_half_track)) < 0
                 || SMR_DW(m, &(detach_clk[i])) < 0
-                || SMR_B(m, &(drive->diskID1)) < 0
-                || SMR_B(m, &(drive->diskID2)) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
+                || SMR_B(m, (BYTE *)&dummy) < 0
                 || SMR_B_INT(m, &(drive->extend_image_policy)) < 0
                 || SMR_DW_UINT(m, &(drive->GCR_head_offset)) < 0
                 || SMR_B(m, &(drive->GCR_read)) < 0

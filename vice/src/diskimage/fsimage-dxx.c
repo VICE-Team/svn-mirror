@@ -41,7 +41,104 @@
 #include "util.h"
 #include "x64.h"
 
+#define SECTOR_GCR_SIZE_WITH_HEADER 354
+
 static log_t fsimage_dxx_log = LOG_ERR;
+static const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
+static const unsigned int gaps_between_sectors[4] = { 9, 12, 17, 8 };
+
+inline static unsigned int sector_offset(unsigned int track,
+                                         unsigned int sector,
+                                         unsigned int max_sector,
+                                         disk_image_t *image)
+{
+    unsigned int speed;
+    if (image->type == DISK_IMAGE_TYPE_D71) {
+        speed = disk_image_speed_map_1571(track - 1);
+    } else {
+        speed = disk_image_speed_map_1541(track - 1);
+    }
+
+    return (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[speed]) * sector;
+}
+
+int fsimage_read_dxx_image(disk_image_t *image)
+{
+    BYTE buffer[260], chksum;
+    int i;
+    unsigned int track, sector;
+    BYTE diskID1, diskID2;
+    int rc;
+
+    rc = fsimage_dxx_read_sector(image, buffer, 18, 0);
+    if (rc < 0) {
+        return -1;
+    }
+    diskID1 = buffer[0xa2];
+    diskID2 = buffer[0xa3];
+    buffer[258] = buffer[259] = 0;
+
+    for (track = 1; track <= image->tracks; track++) {
+        BYTE *ptr;
+        unsigned int max_sector = 0;
+
+        if (image->gcr->track_data[(track * 2) - 2] == NULL) {
+            image->gcr->track_data[(track * 2) - 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
+        }
+        ptr = image->gcr->track_data[(track * 2) - 2];
+        if (image->type == DISK_IMAGE_TYPE_D71) {
+            image->gcr->track_size[(track * 2) - 2] =
+                raw_track_size[disk_image_speed_map_1571(track)];
+        } else {
+            image->gcr->track_size[(track * 2) - 2] =
+                raw_track_size[disk_image_speed_map_1541(track)];
+        }
+
+        max_sector = disk_image_sector_per_track(image->type, track);
+        /* Clear track to avoid read errors.  */
+        memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
+
+        for (sector = 0; sector < max_sector; sector++) {
+            ptr = image->gcr->track_data[(track * 2) - 2] + sector_offset(track, sector,
+                                                   max_sector, image);
+
+            rc = fsimage_dxx_read_sector(image, buffer + 1, track, sector);
+            if (rc < 0) {
+                continue;
+            }
+
+            if (rc == CBMDOS_IPE_READ_ERROR_SYNC) {
+                ptr = image->gcr->track_data[(track * 2) - 2];
+                memset(ptr, 0x00, NUM_MAX_BYTES_TRACK);
+                break;
+            }
+
+            buffer[0] = (rc == CBMDOS_IPE_READ_ERROR_DATA) ? 0xff : 0x07;
+
+            chksum = buffer[1];
+            for (i = 2; i < 257; i++)
+                chksum ^= buffer[i];
+            buffer[257] = (rc == CBMDOS_IPE_READ_ERROR_CHK) ? chksum ^ 0xff : chksum;
+            gcr_convert_sector_to_GCR(buffer, ptr, track, sector,
+                                      diskID1, diskID2,
+                                      (BYTE)(rc));
+        }
+
+        /* Clear odd track */
+        if (image->gcr->track_data[(track * 2) - 1]) {
+            lib_free(image->gcr->track_data[(track * 2) - 1]);
+            image->gcr->track_data[(track * 2) - 1] = NULL;
+        }
+        if (image->type == DISK_IMAGE_TYPE_D71) {
+            image->gcr->track_size[(track * 2) - 1] =
+                raw_track_size[disk_image_speed_map_1571(track)];
+        } else {
+            image->gcr->track_size[(track * 2) - 1] =
+                raw_track_size[disk_image_speed_map_1541(track)];
+        }
+    }
+    return 0;
+}
 
 int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
@@ -57,7 +154,7 @@ int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
     if (sectors < 0) {
         log_error(fsimage_dxx_log, "Track %i, Sector %i out of bounds.",
                 track, sector);
-        return 66;
+        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
     }
 
     offset = sectors << 8;
@@ -65,9 +162,7 @@ int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
     if (image->type == DISK_IMAGE_TYPE_X64)
         offset += X64_HEADER_LENGTH;
 
-    fseek(fsimage->fd, offset, SEEK_SET);
-
-    if (fread((char *)buf, 256, 1, fsimage->fd) < 1) {
+    if (util_fpread(fsimage->fd, buf, 256, offset) < 0) {
         log_error(fsimage_dxx_log,
                 "Error reading T:%i S:%i from disk image.",
                 track, sector);
@@ -129,9 +224,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, BYTE *buf,
     if (image->type == DISK_IMAGE_TYPE_X64)
         offset += X64_HEADER_LENGTH;
 
-    fseek(fsimage->fd, offset, SEEK_SET);
-
-    if (fwrite((char *)buf, 256, 1, fsimage->fd) < 1) {
+    if (util_fpwrite(fsimage->fd, buf, 256, offset) < 0) {
         log_error(fsimage_dxx_log, "Error writing T:%i S:%i to disk image.",
                 track, sector);
         return -1;

@@ -42,6 +42,7 @@
 #include "diskimage.h"
 #include "fsimage-check.h"
 #include "fsimage-create.h"
+#include "fsimage-dxx.h"
 #include "fsimage-gcr.h"
 #include "fsimage-p64.h"
 #include "fsimage.h"
@@ -487,6 +488,12 @@ int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
     } else {
       return fsimage_gcr_write_half_track(image, half_track, gcr_track_size, gcr_track_start_ptr);
     }
+}
+
+/* soon this will be generic, but until that it's separate */
+int disk_image_read_dxx_image(disk_image_t *image)
+{
+    return fsimage_read_dxx_image(image);
 }
 
 int disk_image_read_gcr_image(disk_image_t *image)

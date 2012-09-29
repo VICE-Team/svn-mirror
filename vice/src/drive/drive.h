@@ -139,9 +139,6 @@ typedef struct drive_s {
     unsigned int byte_ready_level;
     unsigned int byte_ready_edge;
 
-    /* Disk ID.  */
-    BYTE diskID1, diskID2;
-
     /* Flag: does the current track need to be written out to disk?  */
     int GCR_dirty_track;
 
