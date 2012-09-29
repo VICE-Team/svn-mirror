@@ -227,7 +227,7 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
 {
     BYTE gcr_data[NUM_MAX_MEM_BYTES_TRACK];
     int gcr_track_size;
-    int rc;
+    fdc_err_t rf;
     disk_track_t raw;
 
     if (track > 42) {
@@ -241,10 +241,10 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
     raw.data = gcr_data;
     raw.size = gcr_track_size;
 
-    rc = gcr_read_sector(&raw, buf, sector);
-    if (rc != CBMDOS_FDC_ERR_OK) {
+    rf = gcr_read_sector(&raw, buf, sector);
+    if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", track, sector);
-        switch (rc) {
+        switch (rf) {
         case CBMDOS_FDC_ERR_HEADER:
             return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
         case CBMDOS_FDC_ERR_SYNC:
@@ -271,9 +271,6 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
             return CBMDOS_IPE_NOT_READY;
         }
     }
-
-    lib_free(gcr_data);
-
     return CBMDOS_IPE_OK;
 }
 

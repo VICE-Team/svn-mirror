@@ -106,7 +106,7 @@ static void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest)
 }
 
 void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *data, gcr_header_t *header,
-                               int gap, int sync, BYTE error_code)
+                               int gap, int sync, fdc_err_t error_code)
 {
     int i;
     BYTE buf[4], chksum, idm;
@@ -244,7 +244,7 @@ static int gcr_find_sector_header(disk_track_t *raw, BYTE sector)
     return -CBMDOS_FDC_ERR_HEADER;
 }
 
-int gcr_read_sector(disk_track_t *raw, BYTE *data, BYTE sector)
+fdc_err_t gcr_read_sector(disk_track_t *raw, BYTE *data, BYTE sector)
 {
     BYTE buffer[260];
     BYTE b;
@@ -273,7 +273,7 @@ int gcr_read_sector(disk_track_t *raw, BYTE *data, BYTE sector)
     return b ? CBMDOS_FDC_ERR_DCHECK : CBMDOS_FDC_ERR_OK;
 }
 
-int gcr_write_sector(disk_track_t *raw, BYTE *data, BYTE sector)
+fdc_err_t gcr_write_sector(disk_track_t *raw, BYTE *data, BYTE sector)
 {
     BYTE buffer[260], *offset, *buf;
     BYTE *end = raw->data + raw->size;

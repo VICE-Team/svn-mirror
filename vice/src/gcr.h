@@ -67,10 +67,12 @@ typedef struct gcr_header_s {
     BYTE sector, track, id2, id1;
 } gcr_header_t;
 
+enum fdc_err_e;
+
 extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, gcr_header_t *header,
-                                      int gap, int sync, BYTE error_code);
-extern int gcr_read_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
-extern int gcr_write_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
+                                      int gap, int sync, enum fdc_err_e error_code);
+extern enum fdc_err_e gcr_read_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
+extern enum fdc_err_e gcr_write_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
 
 extern gcr_t *gcr_create_image(void);
 extern void gcr_destroy_image(gcr_t *gcr);

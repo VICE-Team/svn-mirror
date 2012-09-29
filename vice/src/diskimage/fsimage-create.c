@@ -42,6 +42,7 @@
 #include "util.h"
 #include "x64.h"
 #include "p64.h"
+#include "cbmdos.h"
 
 static log_t createdisk_log = LOG_DEFAULT;
 
@@ -101,7 +102,7 @@ static int fsimage_create_gcr(disk_image_t *image)
         sector++) {
 
             header.sector = sector;
-            gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, 0);
+            gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, CBMDOS_FDC_ERR_OK);
 
             gcrptr += 360;
         }
@@ -143,7 +144,7 @@ static int fsimage_create_p64(disk_image_t *image)
         sector++) {
 
             header.sector = sector;
-            gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, 0);
+            gcr_convert_sector_to_GCR(rawdata, gcrptr, &header, 9, 5, CBMDOS_FDC_ERR_OK);
 
             gcrptr += 360;
         }

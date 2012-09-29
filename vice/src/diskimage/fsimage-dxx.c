@@ -50,25 +50,26 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 {
     unsigned int track, sector, max_sector = 0;
     int sectors;
-    BYTE buffer[256], rc;
+    BYTE buffer[256];
     disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
     fsimage_t *fsimage = image->media.fsimage;
+    fdc_err_t rf; 
 
     track = half_track / 2;
 
     max_sector = disk_image_sector_per_track(image->type, track);
 
     for (sector = 0; sector < max_sector; sector++) {
-        rc = gcr_read_sector(&raw, buffer, sector);
-        if (rc != CBMDOS_FDC_ERR_OK) {
+        rf = gcr_read_sector(&raw, buffer, sector);
+        if (rf != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
                     "Could not find data sector of T:%d S:%d.",
                     track, sector);
             if (fsimage->error_info.map != NULL) {
                 sectors = disk_image_check_sector(image, track, sector);
 
-                if (sectors >= 0 && (fsimage->error_info.map[sectors] != rc)) {
-                    fsimage->error_info.map[sectors] = rc;
+                if (sectors >= 0 && (fsimage->error_info.map[sectors] != (BYTE)rf)) {
+                    fsimage->error_info.map[sectors] = (BYTE)rf;
                     fsimage->error_info.dirty = 1;
                 }
             }
@@ -86,6 +87,7 @@ int fsimage_read_dxx_image(disk_image_t *image)
     unsigned int track, sector;
     gcr_header_t header;
     int rc;
+    fdc_err_t rf;
     int double_sided = 0;
     fsimage_t *fsimage = image->media.fsimage;
 
@@ -132,17 +134,18 @@ int fsimage_read_dxx_image(disk_image_t *image)
 
             rc = fsimage_dxx_read_sector(image, buffer, track, sector);
             if (rc != CBMDOS_IPE_OK) {
+                rf = CBMDOS_FDC_ERR_DRIVE;
                 if (fsimage->error_info.map != NULL) {
                     int sectors = disk_image_check_sector(image, track, sector);
 
                     if (sectors >= 0) {
-                        rc = fsimage->error_info.map[sectors];
+                        rf = fsimage->error_info.map[sectors];
                     }
                 }
-            } else rc = CBMDOS_FDC_ERR_OK;
+            } else rf = CBMDOS_FDC_ERR_OK;
 
             header.sector = sector;
-            gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, (BYTE)(rc));
+            gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, rf);
 
             ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
         }

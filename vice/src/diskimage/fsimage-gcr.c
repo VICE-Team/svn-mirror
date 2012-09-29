@@ -270,8 +270,9 @@ int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
     BYTE gcr_data[NUM_MAX_MEM_BYTES_TRACK];
-    int gcr_track_size, rc;
+    int gcr_track_size;
     disk_track_t raw;
+    fdc_err_t rf;
 
     if (track > image->tracks) {
         log_error(fsimage_gcr_log,
@@ -290,15 +291,15 @@ int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
         raw.data = image->gcr->track_data[(track * 2) - 2];
         raw.size = image->gcr->track_size[(track * 2) - 2];
     }
-    rc = CBMDOS_FDC_ERR_DRIVE;
+    rf = CBMDOS_FDC_ERR_DRIVE;
     if (raw.data != NULL) {
-        rc = gcr_read_sector(&raw, buf, sector);
+        rf = gcr_read_sector(&raw, buf, sector);
     }
-    if (rc != CBMDOS_FDC_ERR_OK) {
+    if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_gcr_log,
                   "Cannot find track: %i sector: %i within GCR image.",
                   track, sector);
-        switch (rc) {
+        switch (rf) {
         case CBMDOS_FDC_ERR_HEADER:
             return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
         case CBMDOS_FDC_ERR_SYNC:

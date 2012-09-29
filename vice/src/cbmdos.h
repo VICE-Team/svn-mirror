@@ -96,19 +96,22 @@
 #define CBMDOS_SLOT_NAME_LENGTH 16
 
 /* fdc error codes to return to drive CPU */
-#define CBMDOS_FDC_ERR_OK      1
-#define CBMDOS_FDC_ERR_HEADER  2
-#define CBMDOS_FDC_ERR_SYNC    3
-#define CBMDOS_FDC_ERR_NOBLOCK 4
-#define CBMDOS_FDC_ERR_DCHECK  5
-#define CBMDOS_FDC_ERR_VERIFY  7
-#define CBMDOS_FDC_ERR_WPROT   8
-#define CBMDOS_FDC_ERR_HCHECK  9
-#define CBMDOS_FDC_ERR_BLENGTH 10
-#define CBMDOS_FDC_ERR_ID      11
-#define CBMDOS_FDC_ERR_FSPEED  12
-#define CBMDOS_FDC_ERR_DRIVE   15
-#define CBMDOS_FDC_ERR_DECODE  16
+enum fdc_err_e {
+    CBMDOS_FDC_ERR_OK      = 1,
+    CBMDOS_FDC_ERR_HEADER  = 2,
+    CBMDOS_FDC_ERR_SYNC    = 3,
+    CBMDOS_FDC_ERR_NOBLOCK = 4,
+    CBMDOS_FDC_ERR_DCHECK  = 5,
+    CBMDOS_FDC_ERR_VERIFY  = 7,
+    CBMDOS_FDC_ERR_WPROT   = 8,
+    CBMDOS_FDC_ERR_HCHECK  = 9,
+    CBMDOS_FDC_ERR_BLENGTH = 10,
+    CBMDOS_FDC_ERR_ID      = 11,
+    CBMDOS_FDC_ERR_FSPEED  = 12,
+    CBMDOS_FDC_ERR_DRIVE   = 15,
+    CBMDOS_FDC_ERR_DECODE  = 16
+};
+typedef enum fdc_err_e fdc_err_t;
 
 struct cbmdos_cmd_parse_s {
     const BYTE *cmd; /* input: full dos-command string */
