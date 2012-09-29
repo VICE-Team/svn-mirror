@@ -94,6 +94,10 @@ SOURCE="..\..\..\diskimage\fsimage-create.c"
 # End Source File
 # Begin Source File
 
+SOURCE="..\..\..\diskimage\fsimage-dxx.c"
+# End Source File
+# Begin Source File
+
 SOURCE="..\..\..\diskimage\fsimage-gcr.c"
 # End Source File
 # Begin Source File

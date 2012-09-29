@@ -47,6 +47,7 @@ target type(exe) "..\\..\\..\\..\\data\\x1541.exe"
                         "fsimage.c",
                         "fsimage-check.c",
                         "fsimage-create.c",
+                        "fsimage-dxx.c",
                         "fsimage-gcr.c",
                         "fsimage-p64.c",
                         "fsimage-probe.c",

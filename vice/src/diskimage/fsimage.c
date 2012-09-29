@@ -30,9 +30,9 @@
 #include <stdlib.h>
 
 #include "archdep.h"
-#include "cbmdos.h"
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "fsimage-dxx.h"
 #include "fsimage-gcr.h"
 #include "fsimage-p64.h"
 #include "fsimage-probe.h"
@@ -40,7 +40,6 @@
 #include "lib.h"
 #include "log.h"
 #include "types.h"
-#include "x64.h"
 #include "zfile.h"
 
 
@@ -171,8 +170,6 @@ int fsimage_close(disk_image_t *image)
 int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                         unsigned int sector)
 {
-    int sectors;
-    long offset;
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
@@ -193,58 +190,8 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-        sectors = disk_image_check_sector(image, track, sector);
-
-        if (sectors < 0) {
-            log_error(fsimage_log, "Track %i, Sector %i out of bounds.",
-                      track, sector);
-            return 66;
-        }
-
-        offset = sectors << 8;
-
-        if (image->type == DISK_IMAGE_TYPE_X64)
-            offset += X64_HEADER_LENGTH;
-
-        fseek(fsimage->fd, offset, SEEK_SET);
-
-        if (fread((char *)buf, 256, 1, fsimage->fd) < 1) {
-            log_error(fsimage_log,
-                      "Error reading T:%i S:%i from disk image.",
-                      track, sector);
+        if (fsimage_dxx_read_sector(image, buf, track, sector) < 0) {
             return -1;
-        }
-
-        if (fsimage->error_info != NULL) {
-            switch (fsimage->error_info[sectors]) {
-              case 0x0:
-              case 0x1:
-                return CBMDOS_IPE_OK;               /* 0 */
-              case 0x2:
-                return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
-              case 0x3:
-                return CBMDOS_IPE_READ_ERROR_SYNC;  /* 21 */
-              case 0x4:
-                return CBMDOS_IPE_READ_ERROR_DATA;  /* 22 */
-              case 0x5:
-                return CBMDOS_IPE_READ_ERROR_CHK;   /* 23 */ 
-              case 0x7:
-                return CBMDOS_IPE_WRITE_ERROR_VER;  /* 25 */
-              case 0x8:
-                return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
-              case 0x9:
-                return CBMDOS_IPE_READ_ERROR_BCHK;  /* 27 */
-              case 0xA:
-                return CBMDOS_IPE_WRITE_ERROR_BIG;  /* 28 */
-              case 0xB:
-                return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
-              case 0xF:
-                return CBMDOS_IPE_NOT_READY;        /* 74 */
-              case 0x10:
-                return CBMDOS_IPE_READ_ERROR_GCR;   /* 24 */
-              default:
-                return 0;
-            }
         }
         break;
       case DISK_IMAGE_TYPE_G64:
@@ -269,8 +216,6 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
                          unsigned int sector)
 {
-    int sectors;
-    long offset;
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
@@ -285,8 +230,6 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         return -1;
     }
 
-    sectors = disk_image_check_sector(image, track, sector);
-
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_D67:
@@ -298,26 +241,9 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-        if (sectors < 0) {
-            log_error(fsimage_log, "Track: %i, Sector: %i out of bounds.",
-                      track, sector);
+        if (fsimage_dxx_write_sector(image, buf, track, sector) < 0) {
             return -1;
         }
-        offset = sectors << 8;
-
-        if (image->type == DISK_IMAGE_TYPE_X64)
-            offset += X64_HEADER_LENGTH;
-
-        fseek(fsimage->fd, offset, SEEK_SET);
-
-        if (fwrite((char *)buf, 256, 1, fsimage->fd) < 1) {
-            log_error(fsimage_log, "Error writing T:%i S:%i to disk image.",
-                      track, sector);
-            return -1;
-        }
-
-        /* Make sure the stream is visible to other readers.  */
-        fflush(fsimage->fd);
         break;
       case DISK_IMAGE_TYPE_G64:
         if (fsimage_gcr_write_sector(image, buf, track, sector) < 0) {
@@ -341,6 +267,7 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 void fsimage_init(void)
 {
     fsimage_log = log_open("Filesystem Image");
+    fsimage_dxx_init();
     fsimage_gcr_init();
     fsimage_p64_init();
     fsimage_probe_init();
