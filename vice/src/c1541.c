@@ -681,7 +681,7 @@ static int open_disk_image(vdrive_t *vdrive, const char *name,
 
     disk_image_media_create(image);
 
-    image->gcr = gcr_create_image();
+    image->gcr = NULL;
     image->p64 = lib_calloc(1, sizeof(TP64Image));
     P64ImageCreate((PP64Image)image->p64);
     image->read_only = 0;
@@ -711,7 +711,6 @@ static void close_disk_image(vdrive_t *vdrive, int unit)
 
     if (image != NULL) {
         vdrive_detach_image(image, unit, vdrive);
-        gcr_destroy_image(image->gcr);
         P64ImageDestroy((PP64Image)image->p64);
         lib_free(image->p64);
         if (image->device == DISK_IMAGE_DEVICE_REAL)
@@ -1942,7 +1941,6 @@ static int internal_write_geos_file(int unit, FILE* f)
     unsigned int aktTrk, aktSec;
     unsigned int lastTrk, lastSec;
     BYTE geosFileStruc;
-    BYTE geosFileType;
     int c = 0;
     int n;
     int bContinue;
@@ -1962,7 +1960,6 @@ static int internal_write_geos_file(int unit, FILE* f)
     }
 
     geosFileStruc = drives[unit]->buffers[1].slot[SLOT_GEOS_FILE_STRUC];
-    geosFileType  = drives[unit]->buffers[1].slot[SLOT_GEOS_FILE_TYPE];
 
     /* next is the geos info block */
 
