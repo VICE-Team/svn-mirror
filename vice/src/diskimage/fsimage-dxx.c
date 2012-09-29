@@ -62,6 +62,43 @@ inline static unsigned int sector_offset(unsigned int track,
     return (SECTOR_GCR_SIZE_WITH_HEADER + gaps_between_sectors[speed]) * sector;
 }
 
+int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
+                                 int gcr_track_size, BYTE *gcr_track_start_ptr)
+{
+    unsigned int track, sector, max_sector = 0;
+    BYTE buffer[260], *offset;
+
+    track = half_track / 2;
+
+    max_sector = disk_image_sector_per_track(image->type, track);
+
+    for (sector = 0; sector < max_sector; sector++) {
+        offset = gcr_find_sector_header(track, sector, gcr_track_start_ptr, gcr_track_size);
+        if (offset == NULL) {
+            log_error(fsimage_dxx_log,
+                      "Could not find header of T:%d S:%d.",
+                      track, sector);
+        } else {
+            offset = gcr_find_sector_data(offset, gcr_track_start_ptr, gcr_track_size);
+            if (offset == NULL) {
+                log_error(fsimage_dxx_log,
+                          "Could not find data sync of T:%d S:%d.",
+                          track, sector);
+            } else {
+                gcr_convert_GCR_to_sector(buffer, offset, gcr_track_start_ptr, gcr_track_size);
+                if (buffer[0] != 0x7) {
+                    log_error(fsimage_dxx_log,
+                            "Could not find data block id of T:%d S:%d.",
+                            track, sector);
+                } else {
+                    fsimage_dxx_write_sector(image, buffer + 1, track, sector);
+                }
+            }
+        }
+    }
+    return 0;
+}
+
 int fsimage_read_dxx_image(disk_image_t *image)
 {
     BYTE buffer[260], chksum;

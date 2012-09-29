@@ -35,6 +35,8 @@ extern void fsimage_dxx_init(void);
 
 extern int fsimage_read_dxx_image(disk_image_t *image);
 
+extern int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
+                                 int gcr_track_size, BYTE *gcr_track_start_ptr);
 extern int fsimage_dxx_read_sector(struct disk_image_s *image, BYTE *buf,
                                unsigned int track, unsigned int sector);
 extern int fsimage_dxx_write_sector(struct disk_image_s *image, BYTE *buf,

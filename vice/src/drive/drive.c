@@ -531,33 +531,12 @@ void drive_move_head(int step, drive_t *drive)
     drive_set_half_track(drive->current_half_track + step, drive);
 }
 
-/* Hack... otherwise you get internal compiler errors when optimizing on
-    gcc2.7.2 on RISC OS */
-static void gcr_data_writeback2(BYTE *buffer, BYTE *offset, unsigned int track,
-                                unsigned int sector, drive_t *drive)
-{
-    int rc;
-
-    gcr_convert_GCR_to_sector(buffer, offset,
-                              drive->GCR_track_start_ptr,
-                              drive->GCR_current_track_size);
-    if (buffer[0] != 0x7) {
-        log_error(drive->log,
-                  "Could not find data block id of T:%d S:%d.",
-                  track, sector);
-    } else {
-        rc = disk_image_write_sector(drive->image, buffer + 1, track, sector);
-        if (rc < 0)
-            log_error(drive->log,
-                      "Could not update T:%d S:%d.", track, sector);
-    }
-}
-
 void drive_gcr_data_writeback(drive_t *drive)
 {
     int extend;
-    unsigned int half_track, track, sector, max_sector = 0;
-    BYTE buffer[260], *offset;
+    unsigned int half_track, track;
+    BYTE *gcr_track_start_ptr;
+    unsigned int gcr_current_track_size;
 
     if (drive->image == NULL) {
         return;
@@ -575,11 +554,7 @@ void drive_gcr_data_writeback(drive_t *drive)
     }
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
-        BYTE *gcr_track_start_ptr;
-        unsigned int gcr_current_track_size;
-
         gcr_current_track_size = drive->gcr->track_size[half_track - 2];
-
         gcr_track_start_ptr = drive->gcr->track_data[half_track - 2];
 
         disk_image_write_half_track(drive->image, half_track,
@@ -593,7 +568,6 @@ void drive_gcr_data_writeback(drive_t *drive)
         || drive->image->type == DISK_IMAGE_TYPE_X64) {
         if (track > EXT_TRACKS_1541)
             return;
-        max_sector = disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
         if (track > drive->image->tracks) {
             switch (drive->extend_image_policy) {
               case DRIVE_EXTEND_NEVER:
@@ -620,36 +594,14 @@ void drive_gcr_data_writeback(drive_t *drive)
         }
     }
 
-    if (drive->image->type == DISK_IMAGE_TYPE_D71) {
-        if (track > MAX_TRACKS_1571)
-            return;
-        max_sector = disk_image_sector_per_track(DISK_IMAGE_TYPE_D71, track);
-    }
+    gcr_current_track_size = drive->gcr->track_size[half_track - 2];
+    gcr_track_start_ptr = drive->gcr->track_data[half_track - 2];
+
+    disk_image_write_half_track(drive->image, half_track,
+            gcr_current_track_size,
+            gcr_track_start_ptr);
 
     drive->GCR_dirty_track = 0;
-
-    for (sector = 0; sector < max_sector; sector++) {
-
-        offset = gcr_find_sector_header(track, sector,
-                                        drive->GCR_track_start_ptr,
-                                        drive->GCR_current_track_size);
-        if (offset == NULL) {
-            log_error(drive->log,
-                      "Could not find header of T:%d S:%d.",
-                      track, sector);
-        } else {
-            offset = gcr_find_sector_data(offset,
-                                          drive->GCR_track_start_ptr,
-                                          drive->GCR_current_track_size);
-            if (offset == NULL) {
-                log_error(drive->log,
-                          "Could not find data sync of T:%d S:%d.",
-                          track, sector);
-            } else {
-                gcr_data_writeback2(buffer, offset, track, sector, drive);
-            }
-        }
-    }
 }
 
 void drive_gcr_data_writeback_all(void)
