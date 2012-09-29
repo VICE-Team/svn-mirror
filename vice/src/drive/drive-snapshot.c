@@ -654,10 +654,6 @@ int drive_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 2; i++) {
-        drive_current_track_size_set(drive_context[i]->drive);
-    }
-
-    for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
         if (drive->type != DRIVE_TYPE_NONE) {
             drive_enable(drive_context[i]);
@@ -669,7 +665,7 @@ int drive_snapshot_read_module(snapshot_t *s)
 
     for (i = 0; i < 2; i++) {
         drive = drive_context[i]->drive;
-        drive->GCR_track_start_ptr = drive->gcr->track_data[drive->current_half_track-2];
+        drive_set_half_track(drive->current_half_track, drive);
         if (drive->type != DRIVE_TYPE_1570
             && drive->type != DRIVE_TYPE_1571
             && drive->type != DRIVE_TYPE_1571CR) {

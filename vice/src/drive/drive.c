@@ -477,12 +477,6 @@ void drive_reset(void)
     }
 }
 
-void drive_current_track_size_set(drive_t *dptr)
-{
-    dptr->GCR_current_track_size =
-        dptr->gcr->track_size[dptr->current_half_track - 2];
-}
-
 /* Move the head to half track `num'.  */
 void drive_set_half_track(int num, drive_t *dptr)
 {
@@ -512,7 +506,8 @@ void drive_set_half_track(int num, drive_t *dptr)
     else
         dptr->GCR_head_offset = 0;
 
-    drive_current_track_size_set(dptr);
+    dptr->GCR_current_track_size =
+        dptr->gcr->track_size[dptr->current_half_track - 2];
 }
 
 /*-------------------------------------------------------------------------- */
