@@ -51,80 +51,21 @@ static const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 int fsimage_read_gcr_image(disk_image_t *image)
 {
     unsigned int half_track;
-    WORD max_track_length;
-    BYTE buf[MAX_GCR_TRACKS * 4], num_half_tracks;
-    fsimage_t *fsimage;
 
-    fsimage = image->media.fsimage;
-
-    num_half_tracks = image->half_tracks;
-
-    /* Do G64 image file sanity checks, current VICE implementation
-     * does only support image file version 0
-     */
-    if (util_fpread(fsimage->fd, buf, 12, 0) < 0) {
-        log_error(fsimage_gcr_log, "Could not read GCR disk image.");
-        return -1;
-    }
-    if (memcmp(gcr_image_header_expected, buf, sizeof(gcr_image_header_expected)) != 0) {
-        log_error(fsimage_gcr_log, "Unexpected GCR header found." );
-        return -1;
-    }
-
-    num_half_tracks = buf[9];
-
-    if (num_half_tracks > MAX_GCR_TRACKS) {
-        log_error(fsimage_gcr_log, "Too many half tracks." );
-        return -1;
-    }
-
-    max_track_length = util_le_buf_to_word(&buf[10]);
-
-    if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
-        log_error(fsimage_gcr_log, "Too large max track length.");
-        return -1;
-    }
-
-    if (fread(buf, num_half_tracks * 4, 1, fsimage->fd) < 1) {
-        log_error(fsimage_gcr_log, "Could not read GCR disk image.");
-        return -1;
-    }
-
-    for (half_track = 0; half_track < num_half_tracks; half_track++) {
-        DWORD offset;
+    for (half_track = 2; half_track < (image->half_tracks + 2); half_track++) {
         BYTE *track_data;
-        offset = util_le_buf_to_dword(&buf[half_track * 4]);
+        int gcr_track_size;
 
         if (image->gcr->track_data[half_track] == NULL) {
             image->gcr->track_data[half_track] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
         }
         track_data = image->gcr->track_data[half_track];
-        image->gcr->track_size[half_track] = raw_track_size[disk_image_speed_map_1541(half_track / 2 - 1)];
 
-        if (offset != 0) {
-            BYTE len[2];
-            WORD track_len;
-
-            if (util_fpread(fsimage->fd, len, 2, offset) < 0) {
-                log_error(fsimage_gcr_log, "Could not read GCR disk image.");
-                return -1;
-            }
-
-            track_len = util_le_buf_to_word(len);
-
-            if (track_len > max_track_length) {
-                log_error(fsimage_gcr_log, "Could not read GCR disk image.");
-                return -1;
-            }
-
-            image->gcr->track_size[half_track] = track_len;
-
-            if (fread(track_data, track_len, 1, fsimage->fd) < 1) {
-                log_error(fsimage_gcr_log, "Could not read GCR disk image.");
-                return -1;
-            }
-            /* The speed zone info is ignored */
+        if (fsimage_gcr_read_half_track(image, half_track, track_data, &gcr_track_size) < 0) {
+            image->gcr->track_size[half_track] = raw_track_size[disk_image_speed_map_1541(half_track / 2 - 1)];
+            continue;
         }
+        image->gcr->track_size[half_track] = gcr_track_size;
     }
     for (; half_track < MAX_GCR_TRACKS; half_track++) {
         if (image->gcr->track_data[half_track]) {
@@ -140,26 +81,30 @@ int fsimage_read_gcr_image(disk_image_t *image)
 static long fsimage_gcr_seek_half_track(fsimage_t *fsimage, unsigned int half_track,
         WORD *max_track_length, BYTE *num_half_tracks)
 {
-    BYTE buf[4];
+    BYTE buf[12];
 
     if (fsimage->fd == NULL) {
         log_error(fsimage_gcr_log, "Attempt to read without disk image.");
         return -1;
     }
-    if (util_fpread(fsimage->fd, buf, 3, 9) < 0) {
+    if (util_fpread(fsimage->fd, buf, 12, 0) < 0) {
         log_error(fsimage_gcr_log, "Could not read GCR disk image.");
         return -1;
     }
-
-    *max_track_length = util_le_buf_to_word(&buf[1]);
-    if (*max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
-        log_error(fsimage_gcr_log, "Too large max track length.");
+    if (memcmp(gcr_image_header_expected, buf, sizeof(gcr_image_header_expected)) != 0) {
+        log_error(fsimage_gcr_log, "Unexpected GCR header found." );
         return -1;
     }
 
-    *num_half_tracks = buf[0];
+    *num_half_tracks = buf[9];
     if (*num_half_tracks > MAX_GCR_TRACKS) {
         log_error(fsimage_gcr_log, "Too many half tracks." );
+        return -1;
+    }
+
+    *max_track_length = util_le_buf_to_word(&buf[10]);
+    if (*max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
+        log_error(fsimage_gcr_log, "Too large max track length.");
         return -1;
     }
 

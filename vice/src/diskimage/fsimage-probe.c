@@ -31,6 +31,7 @@
 
 #include "diskconstants.h"
 #include "diskimage.h"
+#include "gcr.h"
 #include "fsimage-gcr.h"
 #include "fsimage-p64.h"
 #include "fsimage-probe.h"
@@ -136,10 +137,7 @@ static int disk_image_check_for_d64(disk_image_t *image)
 
     if (checkimage_errorinfo) {
         fsimage_error_info_create(fsimage);
-        if (fseek(fsimage->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0) {
-            return 0;
-        }
-        if (fread(fsimage->error_info, 1, checkimage_blocks, fsimage->fd) < checkimage_blocks) {
+        if (util_fpread(fsimage->fd, fsimage->error_info, checkimage_blocks, 256 * checkimage_blocks) < 0) {
             return 0;
         }
     }
@@ -227,10 +225,7 @@ static int disk_image_check_for_d71(disk_image_t *image)
     fsimage_error_info_destroy(fsimage);
     if (checkimage_errorinfo) {
         fsimage_error_info_create(fsimage);
-        if (fseek(fsimage->fd, (long)(256 * blk), SEEK_SET) < 0) {
-            return 0;
-        }
-        if (fread(fsimage->error_info, 1, blk, fsimage->fd) < blk) {
+        if (util_fpread(fsimage->fd, fsimage->error_info, blk, 256 * blk) < 0) {
             return 0;
         }
     }
@@ -318,10 +313,7 @@ static int disk_image_check_for_d81(disk_image_t *image)
     if (checkimage_errorinfo) {
         checkimage_blocks = image->tracks * 40;
         fsimage_error_info_create(fsimage);
-        if (fseek(fsimage->fd, (long)(256 * checkimage_blocks), SEEK_SET) < 0) {
-            return 0;
-        }
-        if (fread(fsimage->error_info, 1, checkimage_blocks, fsimage->fd) < checkimage_blocks) {
+        if (util_fpread(fsimage->fd, fsimage->error_info, checkimage_blocks, 256 * checkimage_blocks) < 0) {
             return 0;
         }
     }
@@ -443,14 +435,13 @@ static int disk_image_check_for_x64(disk_image_t *image)
 
 static int disk_image_check_for_gcr(disk_image_t *image)
 {
-    /*int trackfield;*/
+    WORD max_track_length;
     BYTE header[32];
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
 
-    fseek(fsimage->fd, 0, SEEK_SET);
-    if (fread((BYTE *)header, sizeof (header), 1, fsimage->fd) < 1) {
+    if (util_fpread(fsimage->fd, header, sizeof (header), 0) < 0) {
         log_error(disk_image_probe_log, "Cannot read image header.");
         return 0;
     }
@@ -465,10 +456,16 @@ static int disk_image_check_for_gcr(disk_image_t *image)
         return 0;
     }
 
-    if (header[9] < NUM_TRACKS_1541 * 2 || header[9] > MAX_TRACKS_1541 * 2) {
+    if (header[9] < 1 || header[9] > MAX_GCR_TRACKS * 2) {
         log_error(disk_image_probe_log,
                   "Import GCR: Invalid number of tracks (%i).",
                   (int)header[9]);
+        return 0;
+    }
+
+    max_track_length = util_le_buf_to_word(&header[10]);
+    if (max_track_length > NUM_MAX_MEM_BYTES_TRACK) {
+        log_error(disk_image_probe_log, "Too large max track length.");
         return 0;
     }
 
@@ -477,23 +474,17 @@ static int disk_image_check_for_gcr(disk_image_t *image)
     image->half_tracks = header[9];
     fsimage_error_info_destroy(fsimage);
     disk_image_check_log(image, "GCR");
-
-    if (image->gcr != NULL) {
-        if (fsimage_read_gcr_image(image) < 0)
-            return 0;
-    }
     return 1;
 }
 
 static int disk_image_check_for_p64(disk_image_t *image)
 {
-    BYTE header[32];
+    BYTE header[8];
     fsimage_t *fsimage;
 
     fsimage = image->media.fsimage;
 
-    fseek(fsimage->fd, 0, SEEK_SET);
-    if (fread((BYTE *)header, sizeof (header), 1, fsimage->fd) < 1) {
+    if (util_fpread(fsimage->fd, header, sizeof(header), 0) < 0) {
         log_error(disk_image_probe_log, "Cannot read image header.");
         return 0;
     }
