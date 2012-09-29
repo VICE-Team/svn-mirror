@@ -86,8 +86,6 @@ int rom_loaded = 0;
 
 static int drive_led_color[DRIVE_NUM];
 
-static void drive_extend_disk_image(drive_t *drive);
-
 /* ------------------------------------------------------------------------- */
 
 void drive_set_disk_memory(BYTE *id, unsigned int track, unsigned int sector,
@@ -561,33 +559,32 @@ void drive_gcr_data_writeback(drive_t *drive)
         return;
     }
 
-    if (drive->image->type == DISK_IMAGE_TYPE_D64
-        || drive->image->type == DISK_IMAGE_TYPE_X64) {
-        if (track > EXT_TRACKS_1541)
+    if (half_track > drive->image->max_half_tracks) {
+        drive->GCR_dirty_track = 0;
+        return;
+    }
+    if (track > drive->image->tracks) {
+        switch (drive->extend_image_policy) {
+        case DRIVE_EXTEND_NEVER:
+            drive->ask_extend_disk_image = 1;
+            drive->GCR_dirty_track = 0;
             return;
-        if (track > drive->image->tracks) {
-            switch (drive->extend_image_policy) {
-              case DRIVE_EXTEND_NEVER:
-                drive->ask_extend_disk_image = 1;
-                return;
-              case DRIVE_EXTEND_ASK:
-                if (drive->ask_extend_disk_image == 1) {
-                    extend = ui_extend_image_dialog();
-                    if (extend == 0) {
-                        drive->ask_extend_disk_image = 0;
-                        return;
-                    } else {
-                        drive_extend_disk_image(drive);
-                    }
-                } else {
+        case DRIVE_EXTEND_ASK:
+            if (drive->ask_extend_disk_image == 1) {
+                extend = ui_extend_image_dialog();
+                if (extend == 0) {
+                    drive->GCR_dirty_track = 0;
                     return;
                 }
-                break;
-              case DRIVE_EXTEND_ACCESS:
-                drive->ask_extend_disk_image = 1;
-                drive_extend_disk_image(drive);
-                break;
+                drive->ask_extend_disk_image = 0;
+            } else {
+                drive->GCR_dirty_track = 0;
+                return;
             }
+            break;
+        case DRIVE_EXTEND_ACCESS:
+            drive->ask_extend_disk_image = 1;
+            break;
         }
     }
 
@@ -617,27 +614,6 @@ void drive_gcr_data_writeback_all(void)
     }
 
 
-}
-
-static void drive_extend_disk_image(drive_t *drive)
-{
-    int rc;
-    unsigned int track, sector;
-    BYTE buffer[256];
-
-    drive->image->tracks = EXT_TRACKS_1541;
-    memset(buffer, 0, 256);
-    for (track = NUM_TRACKS_1541 + 1; track <= EXT_TRACKS_1541; track++) {
-        for (sector = 0;
-             sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
-             sector++) {
-             rc = disk_image_write_sector(drive->image, buffer, track,
-                                          sector);
-             if (rc < 0)
-                 log_error(drive->log,
-                           "Could not update T:%d S:%d.", track, sector);
-        }
-    }
 }
 
 /* ------------------------------------------------------------------------- */

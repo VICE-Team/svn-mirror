@@ -86,6 +86,7 @@ struct disk_image_s {
     unsigned int type;
     unsigned int tracks;
     unsigned int half_tracks;
+    unsigned int max_half_tracks;
     struct gcr_s *gcr;
     struct TP64Image *p64;
 };

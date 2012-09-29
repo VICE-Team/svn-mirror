@@ -57,6 +57,13 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 
     track = half_track / 2;
 
+    if (track > image->tracks) {
+        if (fsimage->error_info.map) {
+            return -1;
+        }
+        image->tracks = track;
+    }
+
     max_sector = disk_image_sector_per_track(image->type, track);
 
     for (sector = 0; sector < max_sector; sector++) {
@@ -73,9 +80,11 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                     fsimage->error_info.dirty = 1;
                 }
             }
-        } else {
-            fsimage_dxx_write_sector(image, buffer, track, sector);
+            if (rf != CBMDOS_FDC_ERR_NOBLOCK && rf != CBMDOS_FDC_ERR_DCHECK) {
+                memset(buffer, 0, sizeof(buffer));
+            }
         }
+        fsimage_dxx_write_sector(image, buffer, track, sector);
     }
     return 0;
 }
@@ -99,7 +108,7 @@ int fsimage_read_dxx_image(disk_image_t *image)
     /* check double sided images */
     double_sided = (image->type == DISK_IMAGE_TYPE_D71) && !(buffer[0x03] & 0x80);
 
-    for (header.track = track = 1; track <= image->tracks; track++, header.track++) {
+    for (header.track = track = 1; track <= image->max_half_tracks / 2; track++, header.track++) {
         BYTE *ptr;
         unsigned int max_sector = 0;
 
@@ -124,30 +133,33 @@ int fsimage_read_dxx_image(disk_image_t *image)
                 raw_track_size[disk_image_speed_map_1541(track - 1)];
             gap = gaps_between_sectors[disk_image_speed_map_1541(track - 1)];
         }
+        if (track <= image->tracks) {
+            max_sector = disk_image_sector_per_track(image->type, track);
 
-        max_sector = disk_image_sector_per_track(image->type, track);
+            /* Clear track to avoid read errors.  */
+            memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
 
-        /* Clear track to avoid read errors.  */
-        memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
+            for (sector = 0; sector < max_sector; sector++) {
 
-        for (sector = 0; sector < max_sector; sector++) {
+                rc = fsimage_dxx_read_sector(image, buffer, track, sector);
+                if (rc != CBMDOS_IPE_OK) {
+                    rf = CBMDOS_FDC_ERR_DRIVE;
+                    if (fsimage->error_info.map != NULL) {
+                        int sectors = disk_image_check_sector(image, track, sector);
 
-            rc = fsimage_dxx_read_sector(image, buffer, track, sector);
-            if (rc != CBMDOS_IPE_OK) {
-                rf = CBMDOS_FDC_ERR_DRIVE;
-                if (fsimage->error_info.map != NULL) {
-                    int sectors = disk_image_check_sector(image, track, sector);
-
-                    if (sectors >= 0) {
-                        rf = fsimage->error_info.map[sectors];
+                        if (sectors >= 0) {
+                            rf = fsimage->error_info.map[sectors];
+                        }
                     }
-                }
-            } else rf = CBMDOS_FDC_ERR_OK;
+                } else rf = CBMDOS_FDC_ERR_OK;
 
-            header.sector = sector;
-            gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, rf);
+                header.sector = sector;
+                gcr_convert_sector_to_GCR(buffer, ptr, &header, 9, 5, rf);
 
-            ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
+                ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
+            }
+        } else {
+            memset(ptr, 0, NUM_MAX_BYTES_TRACK);
         }
 
         /* Clear odd track */
