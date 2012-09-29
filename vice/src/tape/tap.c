@@ -165,9 +165,11 @@ int tap_close(tap_t *tap)
     int retval;
 
     if (tap->fd != NULL) {
-        if (tap->has_changed)
-            if (!fseek(tap->fd,TAP_HDR_LEN,SEEK_SET))
-                util_dword_write(tap->fd, (DWORD *)&tap->size, 1);
+        if (tap->has_changed) {
+            BYTE buf[4];
+            util_dword_to_le_buf(buf, tap->size);
+            util_fpwrite(tap->fd, buf, 4, TAP_HDR_LEN);
+        }
         retval = zfile_fclose(tap->fd);
         tap->fd = NULL;
     } else {

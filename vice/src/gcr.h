@@ -54,9 +54,6 @@ typedef struct gcr_s {
     /* Size of the GCR data of each track.  */
     unsigned int track_size[MAX_GCR_TRACKS];
 
-    /* Size of the largest track, set from the file header */
-    unsigned int max_track_size;
-
 } gcr_t;
 
 extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr,

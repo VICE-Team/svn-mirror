@@ -73,8 +73,8 @@ extern int util_check_null_string(const char *string);
 
 extern int util_check_filename_access(const char *filename);
 
-extern int util_dword_read(FILE *fd, DWORD *buf, size_t num);
-extern int util_dword_write(FILE *fd, DWORD *buf, size_t num);
+extern int util_fpread(FILE *fd, void *buf, size_t num, long offset);
+extern int util_fpwrite(FILE *fd, void *buf, size_t num, long offset);
 
 extern void util_dword_to_be_buf(BYTE *buf, DWORD data);
 extern void util_dword_to_le_buf(BYTE *buf, DWORD data);

@@ -50,8 +50,8 @@ static log_t createdisk_log = LOG_DEFAULT;
 static int fsimage_create_gcr(disk_image_t *image)
 {
     BYTE gcr_header[12], gcr_track[7930], *gcrptr;
-    DWORD gcr_track_p[MAX_TRACKS_1541 * 2];
-    DWORD gcr_speed_p[MAX_TRACKS_1541 * 2];
+    BYTE gcr_track_p[MAX_TRACKS_1541 * 2 * 4];
+    BYTE gcr_speed_p[MAX_TRACKS_1541 * 2 * 4];
     unsigned int track, sector;
     fsimage_t *fsimage;
 
@@ -61,36 +61,34 @@ static int fsimage_create_gcr(disk_image_t *image)
 
     gcr_header[8] = 0;
     gcr_header[9] = MAX_TRACKS_1541 * 2;
-    gcr_header[10] = 7928 % 256;
-    gcr_header[11] = 7928 / 256;
+    util_word_to_le_buf(&gcr_header[10], 7928);
 
-    if (fwrite((char *)gcr_header, sizeof(gcr_header), 1, fsimage->fd) < 1) {
+    if (fwrite(gcr_header, sizeof(gcr_header), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write GCR header.");
         return -1;
     }
 
-    for (track = 0; track < MAX_TRACKS_1541; track++) {
-        gcr_track_p[track * 2] = 12 + MAX_TRACKS_1541 * 16 + track * 7930;
-        gcr_track_p[track * 2 + 1] = 0;
-        gcr_speed_p[track * 2] = disk_image_speed_map_1541(track);
-        gcr_speed_p[track * 2 + 1] = 0;
+    memset(gcr_track_p, 0, sizeof(gcr_track_p));
+    memset(gcr_speed_p, 0, sizeof(gcr_speed_p));
+    for (track = 0; track < NUM_TRACKS_1541; track++) {
+        util_dword_to_le_buf(&gcr_track_p[track * 4 * 2], 12 + MAX_TRACKS_1541 * 16 + track * 7930);
+        util_dword_to_le_buf(&gcr_speed_p[track * 4 * 2], disk_image_speed_map_1541(track));
     }
 
-    if (util_dword_write(fsimage->fd, gcr_track_p, util_arraysize(gcr_track_p)) < 0) {
+    if (fwrite(gcr_track_p, sizeof(gcr_track_p), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write track header.");
         return -1;
     }
-    if (util_dword_write(fsimage->fd, gcr_speed_p, util_arraysize(gcr_speed_p)) < 0) {
+    if (fwrite(gcr_speed_p, sizeof(gcr_speed_p), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write speed header.");
         return -1;
     }
-    for (track = 0; track < MAX_TRACKS_1541; track++) {
+    for (track = 0; track < NUM_TRACKS_1541; track++) {
         const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
-        memset(&gcr_track[2], 0x55, 7928);
-        gcr_track[0] = raw_track_size[disk_image_speed_map_1541(track)] % 256;
-        gcr_track[1] = raw_track_size[disk_image_speed_map_1541(track)] / 256;
+        util_word_to_le_buf(gcr_track, raw_track_size[disk_image_speed_map_1541(track)]);
         gcrptr = &gcr_track[2];
+        memset(gcrptr, 0x55, 7928);
 
         for (sector = 0;
         sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track + 1);

@@ -73,7 +73,6 @@ void drive_image_init_track_size_d64(drive_t *drive)
         drive->gcr->track_size[(track * 2) + 1] =
             raw_track_size[disk_image_speed_map_1541(track)];
     }
-    drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 }
 
 static void drive_image_init_track_size_d71(drive_t *drive)
@@ -86,7 +85,6 @@ static void drive_image_init_track_size_d71(drive_t *drive)
         drive->gcr->track_size[(track * 2) + 1] =
             raw_track_size[disk_image_speed_map_1571(track)];
     }
-    drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 }
 
 static void drive_image_read_d64_d71(drive_t *drive)
@@ -118,8 +116,6 @@ static void drive_image_read_d64_d71(drive_t *drive)
         || drive->type == DRIVE_TYPE_2031) {
         drive_image_init_track_size_d71(drive);
     }
-
-    drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
 
     drive_set_half_track(drive->current_half_track, drive);
 

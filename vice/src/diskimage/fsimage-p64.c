@@ -56,10 +56,6 @@ int fsimage_read_p64_image(disk_image_t *image)
 
     fsimage = image->media.fsimage;
 
-    if (image->gcr) {
-        image->gcr->max_track_size = NUM_MAX_MEM_BYTES_TRACK;
-    }
-
     fseek(fsimage->fd, 0, SEEK_END);
     lSize = ftell(fsimage->fd);
     fseek(fsimage->fd, 0, SEEK_SET);

@@ -498,89 +498,59 @@ void util_fname_split(const char *path, char **directory_return,
 
 /* ------------------------------------------------------------------------- */
 
-/*! \brief read an array of DWORDs (4 bytes) in low endian from a file
+/*! \brief Read bytes from a position in a file
 
  \param fd
    file descriptor as obtained by fopen().
 
  \param buf
-   Pointer to a buffer where the DWORDs will be stored.
+   pointer where to from the file
 
  \param num
-   number of DWORD to read. buf is considered as an array defined
-   as DWORD buf[num].
+   number of bytes to read.
+
+ \param offset
+   the offset from start of file
 
  \return
    0 on success, else -1.
 
- \remark
-   num is the number of DWORDs to read; it is *not* the
-   size of the buffer in bytes!
 */
-int util_dword_read(FILE *fd, DWORD *buf, size_t num)
+
+int util_fpread(FILE *fd, void *buf, size_t num, long offset)
 {
-    unsigned int i;
-    BYTE *tmpbuf;
-
-    assert( sizeof(DWORD) == 4);
-
-    tmpbuf = lib_malloc(4 * num);
-
-    if (fread(tmpbuf, num, 4, fd) < 4) {
-        lib_free(tmpbuf);
+    if (fseek(fd, offset, SEEK_SET) < 0
+            || fread(buf, num, 1, fd) < 1) {
         return -1;
     }
 
-    for (i = 0; i < num; i++) {
-        buf[i] = (tmpbuf[i * 4] + (tmpbuf[i * 4 + 1] << 8)
-            + (tmpbuf[i * 4 + 2] << 16) + (tmpbuf[i * 4 + 3] << 24));
-    }
-
-    lib_free(tmpbuf);
     return 0;
 }
 
-/*! \brief write an array of DWORDs (4 bytes) in low endian to a file
+/*! \brief Write bytes to a position in a file
 
  \param fd
    file descriptor as obtained by fopen().
 
  \param buf
-   Pointer to the array of DWORDs to be written to the file
+   pointer to the data to be written to the file
 
  \param num
-   number of DWORD to read. buf is considered as an array defined
-   as DWORD buf[num].
+   number of bytes to write.
+
+ \param offset
+   the offset from start of file
 
  \return
    0 on success, else -1.
 
- \remark
-   num is the number of DWORDs to write; it is *not* the
-   size of the buffer in bytes!
 */
-int util_dword_write(FILE *fd, DWORD *buf, size_t num)
+int util_fpwrite(FILE *fd, void *buf, size_t num, long offset)
 {
-    unsigned int i;
-    BYTE *tmpbuf;
-
-    assert( sizeof(DWORD) == 4 );
-
-    tmpbuf = lib_malloc(4 * num);
-
-    for (i = 0; i < num; i++) {
-        tmpbuf[i * 4] = (BYTE)(buf[i] & 0xff);
-        tmpbuf[i * 4 + 1] = (BYTE)((buf[i] >> 8) & 0xff);
-        tmpbuf[i * 4 + 2] = (BYTE)((buf[i] >> 16) & 0xff);
-        tmpbuf[i * 4 + 3] = (BYTE)((buf[i] >> 24) & 0xff);
-    }
-
-    if (fwrite(tmpbuf, num, 4, fd) < 1) {
-        lib_free(tmpbuf);
+    if (fseek(fd, offset, SEEK_SET) < 0
+            || fwrite(buf, num, 1, fd) < 1) {
         return -1;
     }
-
-    lib_free(tmpbuf);
     return 0;
 }
 

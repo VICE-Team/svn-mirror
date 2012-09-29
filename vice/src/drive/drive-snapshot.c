@@ -900,7 +900,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
 /* read/write GCR disk image snapshot module */
 
 #define GCRIMAGE_SNAP_MAJOR 3
-#define GCRIMAGE_SNAP_MINOR 0
+#define GCRIMAGE_SNAP_MINOR 1
 
 static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
 {
@@ -922,9 +922,7 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
     num_half_tracks = MAX_TRACKS_1571 * 2;
 
     /* Write general data */
-    if (0
-        || SMW_DW(m, num_half_tracks) < 0
-        || SMW_DW(m, (DWORD)drive->gcr->max_track_size) < 0){
+    if (SMW_DW(m, num_half_tracks) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -981,8 +979,6 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
         BYTE *ptr;
 
-        drive->gcr->max_track_size = NUM_MAX_BYTES_TRACK;
-
         for (i = 0; i <= 84; i++) {
             if (drive->gcr->track_data[i] == NULL) {
                 drive->gcr->track_data[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
@@ -1020,9 +1016,6 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
                                         + (tmpbuf[(i * 4) + 2] << 16)
                                         + (tmpbuf[(i * 4) + 3] << 24);
             drive->gcr->track_size[(i * 2) + 1] = drive->gcr->track_size[i * 2];
-            if (drive->gcr->track_size[i * 2] > drive->gcr->max_track_size) {
-                    drive->gcr->max_track_size = drive->gcr->track_size[i * 2];
-            }
         }
         lib_free(tmpbuf);
 
@@ -1040,8 +1033,6 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
             snapshot_module_close(m);
             return -1;
         }
-
-        drive->gcr->max_track_size = max_track_size;
 
         for (i = 0; i < num_half_tracks; i++) {
 
@@ -1077,18 +1068,14 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     } else if (major_version == GCRIMAGE_SNAP_MAJOR
             && minor_version == GCRIMAGE_SNAP_MINOR) {
 
-        DWORD num_half_tracks, max_track_size, track_size;
+        DWORD num_half_tracks, track_size;
 
         if (0
             || SMR_DW(m, &num_half_tracks) < 0
-            || SMR_DW(m, &max_track_size) < 0
-            || num_half_tracks > MAX_GCR_TRACKS
-            || max_track_size > NUM_MAX_MEM_BYTES_TRACK) {
+            || num_half_tracks > MAX_GCR_TRACKS) {
             snapshot_module_close(m);
             return -1;
         }
-
-        drive->gcr->max_track_size = max_track_size;
 
         for (i = 0; i < num_half_tracks; i++) {
 
