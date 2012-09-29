@@ -80,19 +80,28 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
             log_error(fsimage_dxx_log,
                     "Could not find data sector of T:%d S:%d.",
                     track, sector);
-            if (fsimage->error_info.map != NULL) {
-                sectors = disk_image_check_sector(image, track, sector);
-
-                if (sectors >= 0 && (fsimage->error_info.map[sectors] != (BYTE)rf)) {
-                    fsimage->error_info.map[sectors] = (BYTE)rf;
-                    fsimage->error_info.dirty = 1;
-                }
-            }
             if (rf != CBMDOS_FDC_ERR_NOBLOCK && rf != CBMDOS_FDC_ERR_DCHECK) {
                 memset(buffer, 0, sizeof(buffer));
             }
+            fsimage_dxx_write_sector(image, buffer, track, sector);
+            if (fsimage->error_info.map == NULL) { /* create map if does not exists */
+                sectors = disk_image_check_sector(image, image->tracks, 0);
+                if (sectors >= 0) {
+                    sectors += disk_image_sector_per_track(image->type, image->tracks);
+                    fsimage->error_info.map = lib_malloc(sectors);
+                    fsimage->error_info.len = sectors;
+                    memset(fsimage->error_info.map, (BYTE)CBMDOS_FDC_ERR_OK, sectors - fsimage->error_info.len);
+                    fsimage->error_info.dirty = 1;
+                }
+            } 
+            if (fsimage->error_info.map != NULL) {
+                sectors = disk_image_check_sector(image, track, sector);
+                fsimage->error_info.map[sectors] = (BYTE)rf;
+                fsimage->error_info.dirty = 1;
+            }
+        } else {
+            fsimage_dxx_write_sector(image, buffer, track, sector);
         }
-        fsimage_dxx_write_sector(image, buffer, track, sector);
     }
 
     return 0;

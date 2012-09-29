@@ -213,11 +213,6 @@ int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
         return -1;
     }
 
-    if (image->read_only != 0) {
-        log_error(fsimage_log, "Attempt to write to read-only disk image.");
-        return -1;
-    }
-
     switch (image->type) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_D67:

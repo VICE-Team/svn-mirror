@@ -446,6 +446,11 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 {
     int rc = 0;
 
+    if (image->read_only != 0) {
+        log_error(disk_image_log, "Attempt to write to read-only disk image.");
+        return -1;
+    }
+
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
         rc = fsimage_write_sector(image, buf, track, sector);
@@ -484,6 +489,10 @@ int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
                                int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     if (half_track > image->max_half_tracks) {
+        return -1;
+    }
+    if (image->read_only != 0) {
+        log_error(disk_image_log, "Attempt to write to read-only disk image.");
         return -1;
     }
 
