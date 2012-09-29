@@ -48,18 +48,16 @@ static const unsigned int gaps_between_sectors[4] = { 9, 12, 17, 8 };
 int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                  int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
-    int rc;
     unsigned int track, sector, max_sector = 0;
     BYTE buffer[256];
+    disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
 
     track = half_track / 2;
 
     max_sector = disk_image_sector_per_track(image->type, track);
 
     for (sector = 0; sector < max_sector; sector++) {
-        disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
-        rc = gcr_read_sector(&raw, buffer, sector);
-        if (rc) {
+        if (gcr_read_sector(&raw, buffer, sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
                     "Could not find data sector of T:%d S:%d.",
                     track, sector);
