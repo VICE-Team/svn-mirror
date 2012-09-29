@@ -57,14 +57,22 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 
     track = half_track / 2;
 
+    max_sector = disk_image_sector_per_track(image->type, track);
+
     if (track > image->tracks) {
         if (fsimage->error_info.map) {
-            return -1;
+            int sectors = disk_image_check_sector(image, track, max_sector - 1);
+            if (sectors < 0) {
+                return -1;
+            } /* make error info bigger */
+            sectors++;
+            fsimage->error_info.map = lib_realloc(fsimage->error_info.map, sectors);
+            memset(fsimage->error_info.map + fsimage->error_info.len, 0, sectors - fsimage->error_info.len);
+            fsimage->error_info.len = sectors;
+            fsimage->error_info.dirty = 1;
         }
         image->tracks = track;
     }
-
-    max_sector = disk_image_sector_per_track(image->type, track);
 
     for (sector = 0; sector < max_sector; sector++) {
         rf = gcr_read_sector(&raw, buffer, sector);
@@ -86,6 +94,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
         }
         fsimage_dxx_write_sector(image, buffer, track, sector);
     }
+
     return 0;
 }
 

@@ -574,10 +574,11 @@ void drive_gcr_data_writeback(drive_t *drive)
                 extend = ui_extend_image_dialog();
                 if (extend == 0) {
                     drive->GCR_dirty_track = 0;
+                    drive->ask_extend_disk_image = 0;
                     return;
                 }
-                drive->ask_extend_disk_image = 0;
-            } else {
+                drive->ask_extend_disk_image = 2;
+            } else if (drive->ask_extend_disk_image == 0) {
                 drive->GCR_dirty_track = 0;
                 return;
             }
