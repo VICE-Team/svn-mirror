@@ -383,7 +383,7 @@ static int set_fullscreen_mode(int val, void *param)
     video_chip_cap_t *video_chip_cap = canvas->videoconfig->cap;
 
     unsigned device = video_resource_chip_mode->device;
-
+    lib_free(video_resource_chip_mode);
 
     canvas->videoconfig->fullscreen_mode[device] = val;
 
@@ -715,7 +715,6 @@ int video_resources_chip_init(const char *chipname,
         lib_free((char *)(resources_chip_fullscreen_string[0].name));
 
         for (i = 0; i < video_chip_cap->fullscreen.device_num; i++) {
-            /* FIXME: memory leak! */
             resource_chip_mode = lib_malloc(sizeof(video_resource_chip_mode_t));
             resource_chip_mode->resource_chip = *canvas;
             resource_chip_mode->device = i;
