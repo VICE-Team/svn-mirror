@@ -865,7 +865,6 @@ int vdrive_iec_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
 void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 {
     bufferinfo_t *p = &(vdrive->buffers[secondary]);
-    int status;
 
 #ifdef DEBUG_DRIVE
        log_debug("FLUSH:, secondary = %d, buffer=%s\n "
@@ -889,7 +888,7 @@ void vdrive_iec_flush(vdrive_t *vdrive, unsigned int secondary)
 
     if (p->length) {
         /* If no command, do nothing - keep error code.  */
-        status = vdrive_command_execute(vdrive, p->buffer, p->bufptr);
+        vdrive_command_execute(vdrive, p->buffer, p->bufptr);
         p->bufptr = 0;
     }
 }
