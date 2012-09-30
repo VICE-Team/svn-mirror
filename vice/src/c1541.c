@@ -846,18 +846,6 @@ static int block_cmd(int nargs, char **args)
         }
         printf("  ;%s\n", str);
     }
-
-    /* Find next sector for the file being traced.  */
-    if (buf[0] && buf[1]) {
-        track = buf[0];
-        sector = buf[1];
-    } else {
-        if (disk_image_check_sector(vdrive->image, track, ++sector) < 0) {
-            sector = 0;
-            if ((unsigned int)(++track) > vdrive->image->tracks)
-                track = vdrive->Dir_Track;
-        }
-    }
     return FD_OK;
 }
 
