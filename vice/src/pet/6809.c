@@ -1959,6 +1959,10 @@ void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *ma
      * Only advance the time, do not set it backward of course.
      * The code probably isn't the best way to wait for an IRQ.
      * Nevertheless, for Super-OS/9 this seems to do.
+     *
+     * NOTE: it seems that CWAI always takes the interrupt even if it
+     * would otherwise be masked. That is not accounted for, since
+     * the normal interrupt processing (incl. masking) is used.
      */
     while (!taken) {
         int pending = maincpu_int_status->global_pending_int & (IK_IRQ|IK_IRQPEND);
@@ -1981,6 +1985,11 @@ void cwai(struct interrupt_cpu_status_s *maincpu_int_status, alarm_context_t *ma
 void sync(void)
 {
     CLK += 4;
+    /*
+     * NOTE: SYNC may or may not take the interrupt, depending on
+     * whether it is masked. This version never takes the interrupt,
+     * even if unmasked.
+     */
     if (superpet_sync()) {
         JAM("SYNC");
     }

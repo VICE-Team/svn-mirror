@@ -334,6 +334,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         mem_initialize_memory_6809();
     }
 
+    spet_bank_4k = spet_bank << 12;
+
     snapshot_module_close(m);
 
     return 0;

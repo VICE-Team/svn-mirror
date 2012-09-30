@@ -281,6 +281,7 @@ static void store6809_watch(WORD addr, BYTE value)
 
 int spet_ramen  = 1;
 int spet_bank   = 0;
+int spet_bank_4k = 0;
 int spet_ctrlwp = 1;
 int spet_diag   = 0;
 int spet_ramwp  = 0;
@@ -473,6 +474,7 @@ void petmem_reset(void)
 {
     spet_ramen = 1;
     spet_bank = 0;
+    spet_bank_4k = spet_bank << 12;
     spet_ctrlwp = 1;
     spet_flat_mode = 0;
     spet_firq_disabled = 0;
@@ -530,6 +532,7 @@ static void store_super_io(WORD addr, BYTE value)
     } else
     if (addr >= 0xeffc) {       /* Bank select */
         spet_bank = value & 0x0f;
+        spet_bank_4k = spet_bank << 12;
         spet_firq_disabled = (value & 0x20);
         spet_flat_mode = (value & 0x40);
         spet_ctrlwp = !(value & 0x80);
@@ -549,7 +552,7 @@ static void store_super_io(WORD addr, BYTE value)
             /*extern WORD PC;
             printf("next opcode: %04X: banked %02X, flat %02X\n",
                     PC,
-                    mem_ram[EXT_RAM + 0x1000 * spet_bank + (PC & 0x0FFF)],
+                    mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
                     mem_ram[EXT_RAM + PC]
                   );*/
         }
@@ -581,7 +584,7 @@ static void store_super_io(WORD addr, BYTE value)
 static BYTE read_super_9(WORD addr)
 {
     if (spet_ramen) {
-        return (mem_ram + EXT_RAM)[(spet_bank << 12) | (addr & 0x0fff)];
+        return (mem_ram + EXT_RAM)[spet_bank_4k | (addr & 0x0fff)];
     }
     return rom_read(addr);
 }
@@ -590,9 +593,9 @@ static void store_super_9(WORD addr, BYTE value)
 {
     if (spet_ramen && !spet_ramwp) {
         /* printf("store_super_9: %04x <- %04x <- %02x\n",
-                (spet_bank << 12) | (addr & 0x0fff),
+                spet_bank_4k | (addr & 0x0fff),
                 addr, value); */
-        (mem_ram + EXT_RAM)[(spet_bank << 12) | (addr & 0x0fff)] = value;
+        (mem_ram + EXT_RAM)[spet_bank_4k | (addr & 0x0fff)] = value;
     }
 }
 
@@ -1220,7 +1223,7 @@ int superpet_sync(void)
         /*extern WORD PC;
         printf("next opcode: %04X: banked %02X, flat %02X\n",
                 PC,
-                mem_ram[EXT_RAM + 0x1000 * spet_bank + (PC & 0x0FFF)],
+                mem_ram[EXT_RAM + spet_bank_4k + (PC & 0x0FFF)],
                 mem_ram[EXT_RAM + PC]
               );*/
 
@@ -1561,8 +1564,8 @@ static int mem_dump_io(WORD addr) {
             // Bank select
             mon_out("bank: $%x\n", spet_bank);
             mon_out("control write protect: %d\n", spet_ctrlwp);
-            mon_out("flat (super-os9) mode: %d\n", spet_flat_mode);
-            mon_out("firq disabled: %d\n", spet_firq_disabled);
+            mon_out("flat (super-os9) mode: %d\n", !!spet_flat_mode);
+            mon_out("firq disabled: %d\n", !!spet_firq_disabled);
             return 0;
         } else if (addr == 0xeffe) {
             // RAM/ROM switch

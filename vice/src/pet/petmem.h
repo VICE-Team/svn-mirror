@@ -74,6 +74,7 @@ extern int petmem_set_conf_info(struct petinfo_s *pi);
 
 extern int spet_ramen;
 extern int spet_bank;
+extern int spet_bank_4k;
 extern int spet_ctrlwp;
 extern int spet_diag;
 extern int spet_ramwp;
