@@ -42,8 +42,6 @@
 #include "x64.h"
 
 static log_t fsimage_dxx_log = LOG_ERR;
-static const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
-static const unsigned int gaps_between_sectors[4] = { 9, 12, 17, 8 };
 
 int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                  int gcr_track_size, BYTE *gcr_track_start_ptr)
@@ -171,9 +169,8 @@ int fsimage_read_dxx_image(disk_image_t *image)
             image->gcr->track_data[(track * 2) - 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
         }
         ptr = image->gcr->track_data[(track * 2) - 2];
-        image->gcr->track_size[(track * 2) - 2] =
-            raw_track_size[disk_image_speed_map(image->type, track)];
-        gap = gaps_between_sectors[disk_image_speed_map(image->type, track)];
+        image->gcr->track_size[(track * 2) - 2] = disk_image_raw_track_size(image->type, track);
+        gap = disk_image_gap_size(image->type, track);
         if (track <= image->tracks) {
             max_sector = disk_image_sector_per_track(image->type, track);
 

@@ -44,7 +44,6 @@
 static log_t fsimage_gcr_log = LOG_ERR;
 static const BYTE gcr_image_header_expected[] =
     { 0x47, 0x43, 0x52, 0x2D, 0x31, 0x35, 0x34, 0x31, 0x00 };
-static const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
 
 /*-----------------------------------------------------------------------*/
 /* Intial GCR buffer setup.  */
@@ -63,7 +62,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
         track_data = image->gcr->track_data[half_track];
 
         if (fsimage_gcr_read_half_track(image, half_track + 2, track_data, &gcr_track_size) < 0) {
-            image->gcr->track_size[half_track] = raw_track_size[disk_image_speed_map(image->type, (half_track / 2) + 1)];
+            image->gcr->track_size[half_track] = disk_image_raw_track_size(image->type, (half_track / 2) + 1);
             continue;
         }
         image->gcr->track_size[half_track] = gcr_track_size;
@@ -160,7 +159,7 @@ int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
             return -1;
         }
     } else {
-        *gcr_track_size = raw_track_size[disk_image_speed_map(image->type, half_track / 2)];
+        *gcr_track_size = disk_image_raw_track_size(image->type, half_track / 2);
 
         memset(gcr_data, 0x55, *gcr_track_size);
     }

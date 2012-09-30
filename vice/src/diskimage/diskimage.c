@@ -57,7 +57,7 @@ static log_t disk_image_log = LOG_DEFAULT;
 
 
 /*-----------------------------------------------------------------------*/
-/* Disk constants. */
+/* Speed zones */
 
 unsigned int disk_image_speed_map(unsigned int format, unsigned int track)
 {
@@ -89,11 +89,11 @@ unsigned int disk_image_speed_map(unsigned int format, unsigned int track)
 }
 
 /*-----------------------------------------------------------------------*/
-/* Check for track out of bounds.  */
+/* Number of sectors per track */
 
-static const char sector_map_d64[4] = { 17, 18, 19, 21};
-static const char sector_map_d67[4] = { 17, 18, 20, 21};
-static const char sector_map_d80[4] = { 23, 25, 27, 29};
+static const unsigned int sector_map_d64[4] = { 17, 18, 19, 21 };
+static const unsigned int sector_map_d67[4] = { 17, 18, 20, 21 };
+static const unsigned int sector_map_d80[4] = { 23, 25, 27, 29 };
 
 unsigned int disk_image_sector_per_track(unsigned int format,
                                          unsigned int track)
@@ -119,7 +119,61 @@ unsigned int disk_image_sector_per_track(unsigned int format,
 }
 
 /*-----------------------------------------------------------------------*/
+/* Bytes per track */
 
+static const unsigned int raw_track_size_d64[4] = { 6250, 6666, 7142, 7692 };
+static const unsigned int raw_track_size_d80[4] = { 9375, 10000, 10714, 11538 };
+
+unsigned int disk_image_raw_track_size(unsigned int format,
+                                        unsigned int track)
+{
+    switch (format) {
+      case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_X64:
+      case DISK_IMAGE_TYPE_G64:
+      case DISK_IMAGE_TYPE_P64:
+      case DISK_IMAGE_TYPE_D71:
+      case DISK_IMAGE_TYPE_D67:
+          return raw_track_size_d64[disk_image_speed_map(format, track)];
+      case DISK_IMAGE_TYPE_D80:
+      case DISK_IMAGE_TYPE_D82:
+          return raw_track_size_d80[disk_image_speed_map(format, track)];
+      default:
+        log_message(disk_image_log,
+                    "Unknown disk type %i.  Cannot calculate raw size of track",
+                    format);
+    }
+    return 1;
+}
+
+/*-----------------------------------------------------------------------*/
+/* Gap between sectors */
+
+static const unsigned int gap_size_d64[4] = { 9, 12, 17, 8 };
+
+unsigned int disk_image_gap_size(unsigned int format, unsigned int track)
+{
+    switch (format) {
+      case DISK_IMAGE_TYPE_D64:
+      case DISK_IMAGE_TYPE_X64:
+      case DISK_IMAGE_TYPE_G64:
+      case DISK_IMAGE_TYPE_P64:
+      case DISK_IMAGE_TYPE_D71:
+      case DISK_IMAGE_TYPE_D67:
+          return gap_size_d64[disk_image_speed_map(format, track)];
+      case DISK_IMAGE_TYPE_D80:
+      case DISK_IMAGE_TYPE_D82:
+          return 25;
+      default:
+        log_message(disk_image_log,
+                    "Unknown disk type %i.  Cannot calculate gap size",
+                    format);
+    }
+    return 1;
+}
+
+/*-----------------------------------------------------------------------*/
+/* Check out of bound */
 int disk_image_check_sector(disk_image_t *image, unsigned int track,
                             unsigned int sector)
 {

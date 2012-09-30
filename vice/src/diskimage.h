@@ -125,6 +125,9 @@ extern int disk_image_check_sector(disk_image_t *image, unsigned int track,
                                    unsigned int sector);
 extern unsigned int disk_image_sector_per_track(unsigned int format,
                                                 unsigned int track);
+extern unsigned int disk_image_raw_track_size(unsigned int format,
+                                              unsigned int track);
+extern unsigned int disk_image_gap_size(unsigned int format, unsigned int track);
 extern int disk_image_read_dxx_image(disk_image_t *image);
 extern int disk_image_read_gcr_image(disk_image_t *image);
 extern int disk_image_read_p64_image(disk_image_t *image);

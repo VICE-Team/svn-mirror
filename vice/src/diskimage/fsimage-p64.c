@@ -134,14 +134,14 @@ int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
         return -1;
     }
 
-    memset(gcr_data, 0xff, 6250);
-
     track = half_track / 2;
 
-    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[half_track], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, (track > 0) ? track : 1)) + 7) >> 3;
+    memset(gcr_data, 0x55, disk_image_raw_track_size(image->type, track));
+
+    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[half_track], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, track)) + 7) >> 3;
 
     if (*gcr_track_size < 1) {
-        *gcr_track_size = 6520;
+        *gcr_track_size = disk_image_raw_track_size(image->type, track);
     }
 
     return 0;
@@ -150,27 +150,7 @@ int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
 static int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
                            BYTE *gcr_data, int *gcr_track_size)
 {
-    PP64Image P64Image = (void*)image->p64;
-
-    if (P64Image == NULL) {
-        log_error(fsimage_p64_log, "P64 image not loaded.");
-        return -1;
-    }
-
-    if (track > 42) {
-        log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot read P64 track.", track);
-        return -1;
-    }
-
-    memset(gcr_data, 0xff, 6250);
-
-    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[track << 1], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, (track > 0) ? track : 1)) + 7) >> 3;
-
-    if (*gcr_track_size < 1) {
-        *gcr_track_size = 6520;
-    }
-
-    return 0;
+    return fsimage_p64_read_half_track(image, track << 1, gcr_data, gcr_track_size);
 }
 
 /*-----------------------------------------------------------------------*/
