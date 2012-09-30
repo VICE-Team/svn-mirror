@@ -50,7 +50,8 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 {
     unsigned int track, sector, max_sector = 0;
     int sectors;
-    BYTE buffer[256];
+    long offset;
+    BYTE *buffer;
     disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
     fsimage_t *fsimage = image->media.fsimage;
     fdc_err_t rf; 
@@ -58,52 +59,80 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
     track = half_track / 2;
 
     max_sector = disk_image_sector_per_track(image->type, track);
+    sectors = disk_image_check_sector(image, track, 0);
+    if (sectors < 0) {
+        log_error(fsimage_dxx_log, "Track: %i out of bounds.", track);
+        return -1;
+    }
 
     if (track > image->tracks) {
         if (fsimage->error_info.map) {
-            int sectors = disk_image_check_sector(image, track, max_sector - 1);
-            if (sectors < 0) {
-                return -1;
-            } /* make error info bigger */
-            sectors++;
-            fsimage->error_info.map = lib_realloc(fsimage->error_info.map, sectors);
-            memset(fsimage->error_info.map + fsimage->error_info.len, 0, sectors - fsimage->error_info.len);
-            fsimage->error_info.len = sectors;
+            int newlen = sectors + max_sector;
+            fsimage->error_info.map = lib_realloc(fsimage->error_info.map, newlen);
+            memset(fsimage->error_info.map + fsimage->error_info.len, 0, 
+                    newlen - fsimage->error_info.len);
+            fsimage->error_info.len = newlen;
             fsimage->error_info.dirty = 1;
         }
         image->tracks = track;
     }
 
+    buffer = lib_calloc(max_sector, 256);
     for (sector = 0; sector < max_sector; sector++) {
-        rf = gcr_read_sector(&raw, buffer, sector);
+        rf = gcr_read_sector(&raw, &buffer[sector * 256], sector);
         if (rf != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
                     "Could not find data sector of T:%d S:%d.",
                     track, sector);
-            if (rf != CBMDOS_FDC_ERR_NOBLOCK && rf != CBMDOS_FDC_ERR_DCHECK) {
-                memset(buffer, 0, sizeof(buffer));
-            }
-            fsimage_dxx_write_sector(image, buffer, track, sector);
             if (fsimage->error_info.map == NULL) { /* create map if does not exists */
-                sectors = disk_image_check_sector(image, image->tracks, 0);
-                if (sectors >= 0) {
-                    sectors += disk_image_sector_per_track(image->type, image->tracks);
-                    fsimage->error_info.map = lib_malloc(sectors);
-                    fsimage->error_info.len = sectors;
-                    memset(fsimage->error_info.map, (BYTE)CBMDOS_FDC_ERR_OK, sectors - fsimage->error_info.len);
+                int newlen = disk_image_check_sector(image, image->tracks, 0);
+                if (newlen >= 0) {
+                    newlen += disk_image_sector_per_track(image->type, image->tracks);
+                    fsimage->error_info.map = lib_malloc(newlen);
+                    memset(fsimage->error_info.map, (BYTE)CBMDOS_FDC_ERR_OK, newlen);
+                    fsimage->error_info.len = newlen;
                     fsimage->error_info.dirty = 1;
                 }
             } 
-            if (fsimage->error_info.map != NULL) {
-                sectors = disk_image_check_sector(image, track, sector);
-                fsimage->error_info.map[sectors] = (BYTE)rf;
+        }
+        if (fsimage->error_info.map != NULL) {
+            if (fsimage->error_info.map[sectors + sector] != (BYTE)rf) {
+                fsimage->error_info.map[sectors + sector] = (BYTE)rf;
                 fsimage->error_info.dirty = 1;
             }
-        } else {
-            fsimage_dxx_write_sector(image, buffer, track, sector);
+        }
+    }
+    offset = sectors << 8;
+
+    if (image->type == DISK_IMAGE_TYPE_X64)
+        offset += X64_HEADER_LENGTH;
+
+    if (util_fpwrite(fsimage->fd, buffer, max_sector * 256, offset) < 0) {
+        log_error(fsimage_dxx_log, "Error writing T:%i to disk image.",
+                track);
+        lib_free(buffer);
+        return -1;
+    }
+    lib_free(buffer);
+    if (fsimage->error_info.map) {
+        if (fsimage->error_info.dirty) {
+            offset = fsimage->error_info.len * 256 + sectors;
+
+            if (image->type == DISK_IMAGE_TYPE_X64)
+                offset += X64_HEADER_LENGTH;
+
+            fsimage->error_info.dirty = 0;
+
+            if (util_fpwrite(fsimage->fd, fsimage->error_info.map, max_sector, offset) < 0) {
+                log_error(fsimage_dxx_log, "Error writing T:%i error info to disk image.",
+                        track);
+                return -1;
+            }
         }
     }
 
+    /* Make sure the stream is visible to other readers.  */
+    fflush(fsimage->fd);
     return 0;
 }
 
@@ -279,8 +308,16 @@ int fsimage_dxx_write_sector(disk_image_t *image, BYTE *buf,
     }
     if ((fsimage->error_info.map != NULL)
             && (fsimage->error_info.map[sectors] != CBMDOS_FDC_ERR_OK)) {
+        offset = fsimage->error_info.len * 256 + sectors;
+
+        if (image->type == DISK_IMAGE_TYPE_X64)
+            offset += X64_HEADER_LENGTH;
+
         fsimage->error_info.map[sectors] = CBMDOS_FDC_ERR_OK;
-        fsimage->error_info.dirty = 1;
+        if (util_fpwrite(fsimage->fd, &fsimage->error_info.map[sectors], 1, offset) < 0) {
+            log_error(fsimage_dxx_log, "Error writing T:%i S:%i error info to disk image.",
+                    track, sector);
+        }
     }
 
     /* Make sure the stream is visible to other readers.  */

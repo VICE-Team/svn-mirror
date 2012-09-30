@@ -148,15 +148,11 @@ int fsimage_close(disk_image_t *image)
 /*   if (image->type == DISK_IMAGE_TYPE_P64) {
 	fsimage_write_p64_image(image);
     }*/
+    
     if (fsimage->error_info.map) {
-        if (fsimage->error_info.dirty) {
-            util_fpwrite(fsimage->fd, fsimage->error_info.map, fsimage->error_info.len, fsimage->error_info.len * 256);
-            fsimage->error_info.dirty = 0;
-        }
         lib_free(fsimage->error_info.map);
         fsimage->error_info.map = NULL;
     }
-    
     zfile_fclose(fsimage->fd);
     fsimage->fd = NULL;
 
