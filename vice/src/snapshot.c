@@ -130,7 +130,7 @@ static int snapshot_write_padded_string(FILE *f, const char *s, BYTE pad_char,
     return 0;
 }
 
-static int snapshot_write_byte_array(FILE *f, BYTE *data, unsigned int num)
+static int snapshot_write_byte_array(FILE *f, const BYTE *data, unsigned int num)
 {
     if (num > 0 && fwrite(data, (size_t)num, 1, f) < 1)
         return -1;
@@ -139,7 +139,7 @@ static int snapshot_write_byte_array(FILE *f, BYTE *data, unsigned int num)
 }
 
 
-static int snapshot_write_word_array(FILE *f, WORD *data, unsigned int num)
+static int snapshot_write_word_array(FILE *f, const WORD *data, unsigned int num)
 {
     unsigned int i;
 
@@ -150,7 +150,7 @@ static int snapshot_write_word_array(FILE *f, WORD *data, unsigned int num)
     return 0;
 }
 
-static int snapshot_write_dword_array(FILE *f, DWORD *data, unsigned int num)
+static int snapshot_write_dword_array(FILE *f, const DWORD *data, unsigned int num)
 {
     unsigned int i;
 
@@ -341,7 +341,7 @@ int snapshot_module_write_padded_string(snapshot_module_t *m, const char *s,
     return 0;
 }
 
-int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b,
+int snapshot_module_write_byte_array(snapshot_module_t *m, const BYTE *b,
                                      unsigned int num)
 {
     if (snapshot_write_byte_array(m->file, b, num) < 0)
@@ -351,7 +351,7 @@ int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *b,
     return 0;
 }
 
-int snapshot_module_write_word_array(snapshot_module_t *m, WORD *w,
+int snapshot_module_write_word_array(snapshot_module_t *m, const WORD *w,
                                      unsigned int num)
 {
     if (snapshot_write_word_array(m->file, w, num) < 0)
@@ -361,7 +361,7 @@ int snapshot_module_write_word_array(snapshot_module_t *m, WORD *w,
     return 0;
 }
 
-int snapshot_module_write_dword_array(snapshot_module_t *m, DWORD *dw,
+int snapshot_module_write_dword_array(snapshot_module_t *m, const DWORD *dw,
                                       unsigned int num)
 {
     if (snapshot_write_dword_array(m->file, dw, num) < 0)

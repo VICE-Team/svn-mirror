@@ -42,11 +42,11 @@ extern int snapshot_module_write_double(snapshot_module_t *m, double db);
 extern int snapshot_module_write_padded_string(snapshot_module_t *m,
                                                const char *s, BYTE pad_char,
                                                int len);
-extern int snapshot_module_write_byte_array(snapshot_module_t *m, BYTE *data,
+extern int snapshot_module_write_byte_array(snapshot_module_t *m, const BYTE *data,
                                             unsigned int num);
-extern int snapshot_module_write_word_array(snapshot_module_t *m, WORD *data,
+extern int snapshot_module_write_word_array(snapshot_module_t *m, const WORD *data,
                                             unsigned int num);
-extern int snapshot_module_write_dword_array(snapshot_module_t *m, DWORD *data,
+extern int snapshot_module_write_dword_array(snapshot_module_t *m, const DWORD *data,
                                              unsigned int num);
 extern int snapshot_module_write_string(snapshot_module_t *m, const char *s);
 
