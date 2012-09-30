@@ -131,7 +131,6 @@ static int disk_image_check_for_d64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D64;
     image->tracks = checkimage_tracks;
     image->max_half_tracks = MAX_TRACKS_1541 * 2;
-    image->half_tracks = checkimage_tracks * 2;
 
     if (checkimage_errorinfo) {
         fsimage->error_info.map = lib_calloc(1, checkimage_blocks);
@@ -162,7 +161,6 @@ static int disk_image_check_for_d67(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D67;
     image->tracks = NUM_TRACKS_2040;
     image->max_half_tracks = MAX_TRACKS_2040 * 2;
-    image->half_tracks = NUM_TRACKS_2040 * 2;
 
     rewind(fsimage->fd);
 
@@ -181,7 +179,6 @@ static int disk_image_check_for_d67(disk_image_t *image)
       case NUM_BLOCKS_2040:
         image->tracks = NUM_TRACKS_2040;
         image->max_half_tracks = MAX_TRACKS_2040 * 2;
-        image->half_tracks = NUM_TRACKS_2040 * 2;
         break;
       default:
         return 0;
@@ -211,7 +208,6 @@ static int disk_image_check_for_d71(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D71;
     image->tracks = NUM_TRACKS_1571;
     image->max_half_tracks = MAX_TRACKS_1571 * 2;
-    image->half_tracks = NUM_TRACKS_1571 * 2;
 
     rewind(fsimage->fd);
 
@@ -276,22 +272,18 @@ static int disk_image_check_for_d81(disk_image_t *image)
       case NUM_BLOCKS_1581:            /* 80 tracks */
       case NUM_BLOCKS_1581 + 12:       /* 80 tracks, with errors */
         image->tracks = NUM_TRACKS_1581;
-        image->half_tracks = NUM_TRACKS_1581 * 2;
         break;
       case NUM_BLOCKS_1581 + 40:       /* 81 tracks */
       case NUM_BLOCKS_1581 + 40 + 12:  /* 81 tracks, with errors */
         image->tracks = NUM_TRACKS_1581 + 1;
-        image->half_tracks = (NUM_TRACKS_1581 + 1) * 2;
         break;
       case NUM_BLOCKS_1581 + 80:       /* 82 tracks */
       case NUM_BLOCKS_1581 + 80 + 12:  /* 82 tracks, with errors */
         image->tracks = NUM_TRACKS_1581 + 2;
-        image->half_tracks = (NUM_TRACKS_1581 + 2) * 2;
         break;
       case NUM_BLOCKS_1581 + 120:      /* 83 tracks */
       case NUM_BLOCKS_1581 + 120 + 12: /* 83 tracks, with errors */
         image->tracks = NUM_TRACKS_1581 + 3;
-        image->half_tracks = (NUM_TRACKS_1581 + 3) * 2;
         break;
       default:
         return 0;
@@ -339,7 +331,6 @@ static int disk_image_check_for_d80(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D80;
     image->tracks = NUM_TRACKS_8050;
     image->max_half_tracks = MAX_TRACKS_8050 * 2;
-    image->half_tracks = NUM_TRACKS_8050 * 2;
 
     rewind(fsimage->fd);
 
@@ -357,7 +348,6 @@ static int disk_image_check_for_d80(disk_image_t *image)
       case NUM_BLOCKS_8050:
         image->tracks = NUM_TRACKS_8050;
         image->max_half_tracks = MAX_TRACKS_8050 * 2;
-        image->half_tracks = NUM_TRACKS_8050 * 2;
         break;
       default:
         return 0;
@@ -381,7 +371,6 @@ static int disk_image_check_for_d82(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D82;
     image->tracks = NUM_TRACKS_8250;
     image->max_half_tracks = MAX_TRACKS_8250 * 2;
-    image->half_tracks = NUM_TRACKS_8250 * 2;
 
     rewind(fsimage->fd);
 
@@ -399,7 +388,6 @@ static int disk_image_check_for_d82(disk_image_t *image)
       case NUM_BLOCKS_8250:
         image->tracks = NUM_TRACKS_8250;
         image->max_half_tracks = MAX_TRACKS_8250 * 2;
-        image->half_tracks = NUM_TRACKS_8250 * 2;
         break;
       default:
         return 0;
@@ -432,7 +420,6 @@ static int disk_image_check_for_x64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_X64;
     image->tracks = header[X64_HEADER_FLAGS_OFFSET + 1];
     image->max_half_tracks = MAX_TRACKS_1541 * 2;
-    image->half_tracks = header[X64_HEADER_FLAGS_OFFSET + 1] * 2;
 
     disk_image_check_log(image, "X64");
     return 1;
@@ -476,8 +463,7 @@ static int disk_image_check_for_gcr(disk_image_t *image)
 
     image->type = DISK_IMAGE_TYPE_G64;
     image->tracks = header[9] / 2;
-    image->max_half_tracks = (header[9] < MAX_TRACKS_1541) ? header[9] : MAX_TRACKS_1541;
-    image->half_tracks = header[9];
+    image->max_half_tracks = header[9];
     disk_image_check_log(image, "GCR");
     return 1;
 }
@@ -503,7 +489,6 @@ static int disk_image_check_for_p64(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_P64;
     image->tracks = MAX_TRACKS_1541;
     image->max_half_tracks = MAX_TRACKS_1541 * 2;
-    image->half_tracks = MAX_TRACKS_1541 * 2;
     disk_image_check_log(image, "P64");
 
     if (image->p64 != NULL) {
@@ -539,7 +524,6 @@ static int disk_image_check_for_d1m(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D1M;
     image->tracks = NUM_TRACKS_1000;
     image->max_half_tracks = MAX_TRACKS_1000 * 2;
-    image->half_tracks = NUM_TRACKS_1000 * 2;
 
     rewind(fsimage->fd);
 
@@ -559,7 +543,6 @@ static int disk_image_check_for_d1m(disk_image_t *image)
       case NUM_BLOCKS_1000 + 12: /* with errors */
         image->tracks = NUM_TRACKS_1000;
         image->max_half_tracks = MAX_TRACKS_1000 * 2;
-        image->half_tracks = NUM_TRACKS_1000 * 2;
         break;
       default:
         return 0;
@@ -583,7 +566,6 @@ static int disk_image_check_for_d2m(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D2M;
     image->tracks = NUM_TRACKS_2000;
     image->max_half_tracks = MAX_TRACKS_2000 * 2;
-    image->half_tracks = NUM_TRACKS_2000 * 2;
 
     rewind(fsimage->fd);
 
@@ -603,7 +585,6 @@ static int disk_image_check_for_d2m(disk_image_t *image)
       case NUM_BLOCKS_2000 + 25: /* with errors */
         image->tracks = NUM_TRACKS_2000;
         image->max_half_tracks = MAX_TRACKS_2000 * 2;
-        image->half_tracks = NUM_TRACKS_2000 * 2;
         break;
       default:
         return 0;
@@ -628,7 +609,6 @@ static int disk_image_check_for_d4m(disk_image_t *image)
     image->type = DISK_IMAGE_TYPE_D4M;
     image->tracks = NUM_TRACKS_4000;
     image->max_half_tracks = MAX_TRACKS_4000 * 2;
-    image->half_tracks = NUM_TRACKS_4000 * 2;
 
     rewind(fsimage->fd);
 
@@ -648,7 +628,6 @@ static int disk_image_check_for_d4m(disk_image_t *image)
       case NUM_BLOCKS_4000 + 50: /* with errors */
         image->tracks = NUM_TRACKS_4000;
         image->max_half_tracks = MAX_TRACKS_4000 * 2;
-        image->half_tracks = NUM_TRACKS_4000 * 2;
         break;
       default:
         return 0;

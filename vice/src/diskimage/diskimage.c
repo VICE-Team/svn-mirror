@@ -500,6 +500,7 @@ int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
                                const struct disk_track_s *raw)
 {
     if (half_track > image->max_half_tracks) {
+        log_error(disk_image_log, "Attempt to write beyond extension limit of disk image.");
         return -1;
     }
     if (image->read_only != 0) {

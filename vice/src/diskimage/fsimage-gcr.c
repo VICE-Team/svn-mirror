@@ -58,7 +58,7 @@ int fsimage_read_gcr_image(const disk_image_t *image)
             image->gcr->tracks[half_track].data = NULL;
             image->gcr->tracks[half_track].size = 0;
         }
-        if (half_track < image->half_tracks) {
+        if (half_track < image->max_half_tracks) {
             fsimage_gcr_read_half_track(image, half_track + 2, &image->gcr->tracks[half_track]);
         }
     }
