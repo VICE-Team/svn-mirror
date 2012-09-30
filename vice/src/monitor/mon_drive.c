@@ -120,7 +120,6 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 void mon_drive_execute_disk_cmd(char *cmd)
 {
     unsigned int len;
-    int rc;
     vdrive_t *floppy;
 
     /* FIXME */
@@ -128,7 +127,7 @@ void mon_drive_execute_disk_cmd(char *cmd)
 
     len = (unsigned int)strlen(cmd);
 
-    rc = vdrive_command_execute(floppy, (BYTE *)cmd, len);
+    vdrive_command_execute(floppy, (BYTE *)cmd, len);
 }
 
 void mon_drive_list(int drive_number)

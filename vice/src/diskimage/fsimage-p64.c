@@ -115,49 +115,48 @@ int fsimage_write_p64_image(disk_image_t *image)
 /*-----------------------------------------------------------------------*/
 /* Read an entire P64 track from the disk image.  */
 
-BYTE *fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
-                                int *gcr_track_size)
+int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
+                                disk_track_t *raw)
 {
     PP64Image P64Image = (void*)image->p64;
     unsigned int track;
-    BYTE *gcr_data;
 
+    raw->data = NULL;
+    raw->size = 0;
     if (P64Image == NULL) {
         log_error(fsimage_p64_log, "P64 image not loaded.");
-        return NULL;
+        return -1;
     }
 
     if (half_track > 84) {
         log_error(fsimage_p64_log, "Half track %i out of bounds.  Cannot read P64 track.", half_track);
-        return NULL;
+        return -1;
     }
 
     track = half_track / 2;
 
-    gcr_data = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
+    raw->data = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
+    raw->size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[half_track], (void*)raw->data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, track)) + 7) >> 3;
 
-    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[half_track], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, track)) + 7) >> 3;
-
-    if (*gcr_track_size < 1) {
-        *gcr_track_size = disk_image_raw_track_size(image->type, track);
-        memset(gcr_data, 0x55, *gcr_track_size);
+    if (raw->size < 1) {
+        raw->size = disk_image_raw_track_size(image->type, track);
+        memset(raw->data, 0x55, raw->size);
     }
-    gcr_data = lib_realloc(gcr_data, *gcr_track_size);
 
-    return gcr_data;
+    return 0;
 }
 
-static BYTE *fsimage_p64_read_track(disk_image_t *image, unsigned int track,
-                           int *gcr_track_size)
+static int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
+                           disk_track_t *raw)
 {
-    return fsimage_p64_read_half_track(image, track << 1, gcr_track_size);
+    return fsimage_p64_read_half_track(image, track << 1, raw);
 }
 
 /*-----------------------------------------------------------------------*/
 /* Write an entire P64 track to the disk image.  */
 
 int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
-                                 int gcr_track_size, BYTE *gcr_track_start_ptr)
+                                 const disk_track_t *raw)
 {
     PP64Image P64Image = (void*)image->p64;
 
@@ -170,11 +169,11 @@ int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
         log_error(fsimage_p64_log, "Half track %i out of bounds.  Cannot write P64 track.", half_track);
         return -1;
     }
-    if (gcr_track_start_ptr == NULL) {
+    if (raw->data == NULL) {
         return 0;
     }
 
-    P64PulseStreamConvertFromGCR(&P64Image->PulseStreams[half_track], (void*)gcr_track_start_ptr, gcr_track_size << 3);
+    P64PulseStreamConvertFromGCR(&P64Image->PulseStreams[half_track], (void*)raw->data, raw->size << 3);
 
     return fsimage_write_p64_image(image);
 }
@@ -205,8 +204,6 @@ static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
 int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
-    BYTE *gcr_data;
-    int gcr_track_size;
     fdc_err_t rf;
     disk_track_t raw;
 
@@ -215,15 +212,13 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
         return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
     }
 
-    gcr_data = fsimage_p64_read_track(image, track, &gcr_track_size);
-    if (gcr_data == NULL) {
+    if (fsimage_p64_read_track(image, track, &raw) < 0
+            || raw.data == NULL) {
         return CBMDOS_IPE_NOT_READY;
     }
-    raw.data = gcr_data;
-    raw.size = gcr_track_size;
 
     rf = gcr_read_sector(&raw, buf, sector);
-    lib_free(gcr_data);
+    lib_free(raw.data);
     if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", track, sector);
         switch (rf) {
@@ -263,8 +258,6 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
 int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
                                 unsigned int track, unsigned int sector)
 {
-    BYTE *gcr_data;
-    int gcr_track_size;
     disk_track_t raw;
 
     if (track > 42) {
@@ -272,29 +265,25 @@ int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
         return -1;
     }
 
-    gcr_data = fsimage_p64_read_track(image, track, &gcr_track_size);
-
-    if (gcr_data == NULL) {
+    if (fsimage_p64_read_track(image, track, &raw) < 0
+            || raw.data == NULL) {
         log_error(fsimage_p64_log, "Cannot read track %i from P64 image.", track);
         return -1;
     }
-    raw.data = gcr_data;
-    raw.size = gcr_track_size;
 
     if (gcr_write_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Could not find track %i sector %i in disk image", track, sector);
-        lib_free(gcr_data);
+        lib_free(raw.data);
         return -1;
     }
 
     if (fsimage_p64_write_track(image, track, raw.size, raw.data) < 0) {
         log_error(fsimage_p64_log, "Failed writing track %i to disk image.", track);
-        lib_free(gcr_data);
+        lib_free(raw.data);
         return -1;
     }
 
-    lib_free(gcr_data);
-
+    lib_free(raw.data);
     return 0;
 
 }

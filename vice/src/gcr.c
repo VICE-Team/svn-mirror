@@ -61,7 +61,7 @@ static const BYTE From_GCR_conv_data[32] =
       0,  9, 10, 11,  0, 13, 14,  0 };
 
 
-static void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest)
+static void gcr_convert_4bytes_to_GCR(const BYTE *source, BYTE *dest)
 {
     int i;
     register unsigned int tdest = 0;    /* at least 16 bits for overflow shifting */
@@ -80,7 +80,7 @@ static void gcr_convert_4bytes_to_GCR(BYTE *source, BYTE *dest)
     *dest   = (BYTE)tdest;
 }
 
-static void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest)
+static void gcr_convert_GCR_to_4bytes(const BYTE *source, BYTE *dest)
 {
     int i;
         /* at least 24 bits for shifting into bits 16...20 */
@@ -105,7 +105,7 @@ static void gcr_convert_GCR_to_4bytes(BYTE *source, BYTE *dest)
     }
 }
 
-void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *data, gcr_header_t *header,
+void gcr_convert_sector_to_GCR(const BYTE *buffer, BYTE *data, const gcr_header_t *header,
                                int gap, int sync, fdc_err_t error_code)
 {
     int i;
@@ -157,7 +157,7 @@ void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *data, gcr_header_t *header,
     gcr_convert_4bytes_to_GCR(buf, data);
 }
 
-static int gcr_find_sync(disk_track_t *raw, int p, int s) {
+static int gcr_find_sync(const disk_track_t *raw, int p, int s) {
     int w, b;
 
     if (!raw->data || !raw->size) return -CBMDOS_FDC_ERR_SYNC;
@@ -188,7 +188,7 @@ static int gcr_find_sync(disk_track_t *raw, int p, int s) {
     return -CBMDOS_FDC_ERR_SYNC;
 }
 
-static void gcr_decode_block(disk_track_t *raw, int p, BYTE *buf, int num)
+static void gcr_decode_block(const disk_track_t *raw, int p, BYTE *buf, int num)
 {
     int shift, i, j;
     BYTE gcr[5], b;
@@ -217,7 +217,7 @@ static void gcr_decode_block(disk_track_t *raw, int p, BYTE *buf, int num)
     }
 }
 
-static int gcr_find_sector_header(disk_track_t *raw, BYTE sector)
+static int gcr_find_sector_header(const disk_track_t *raw, BYTE sector)
 {
     BYTE header[4];
     int p, p2;
@@ -246,7 +246,7 @@ static int gcr_find_sector_header(disk_track_t *raw, BYTE sector)
     return -CBMDOS_FDC_ERR_HEADER;
 }
 
-fdc_err_t gcr_read_sector(disk_track_t *raw, BYTE *data, BYTE sector)
+fdc_err_t gcr_read_sector(const disk_track_t *raw, BYTE *data, BYTE sector)
 {
     BYTE buffer[260];
     BYTE b;
@@ -275,7 +275,7 @@ fdc_err_t gcr_read_sector(disk_track_t *raw, BYTE *data, BYTE sector)
     return b ? CBMDOS_FDC_ERR_DCHECK : CBMDOS_FDC_ERR_OK;
 }
 
-fdc_err_t gcr_write_sector(disk_track_t *raw, BYTE *data, BYTE sector)
+fdc_err_t gcr_write_sector(disk_track_t *raw, const BYTE *data, BYTE sector)
 {
     BYTE buffer[260], *offset, *buf;
     BYTE *end = raw->data + raw->size;

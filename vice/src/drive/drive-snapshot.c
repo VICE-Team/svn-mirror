@@ -924,8 +924,8 @@ static int drive_snapshot_write_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
     /* Write half track data */
     for (i = 0; i < num_half_tracks; i++) {
-        data = drive->gcr->track_data[i];
-        track_size = data ? drive->gcr->track_size[i] : 0;
+        data = drive->gcr->tracks[i].data;
+        track_size = data ? drive->gcr->tracks[i].size : 0;
         if (0
             || SMW_DW(m, (DWORD)track_size) < 0
             || (track_size && SMW_BA(m, data, track_size) < 0)
@@ -985,19 +985,21 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
             return -1;
         }
 
-        drive->gcr->track_size[i] = track_size;
-
         if (track_size) {
-            if (drive->gcr->track_data[i] == NULL) {
-                drive->gcr->track_data[i] = lib_calloc(1, track_size);
+            if (drive->gcr->tracks[i].data == NULL) {
+                drive->gcr->tracks[i].data = lib_calloc(1, track_size);
+            } else if (drive->gcr->tracks[i].size != track_size) {
+                drive->gcr->tracks[i].data = lib_realloc(drive->gcr->tracks[i].data, track_size);
             }
+            memset(drive->gcr->tracks[i].data, 0, track_size);
         } else {
-            if (drive->gcr->track_data[i]) {
-                lib_free(drive->gcr->track_data[i]);
-                drive->gcr->track_data[i] = NULL;
+            if (drive->gcr->tracks[i].data) {
+                lib_free(drive->gcr->tracks[i].data);
+                drive->gcr->tracks[i].data = NULL;
             }
         }
-        data = drive->gcr->track_data[i];
+        data = drive->gcr->tracks[i].data;
+        drive->gcr->tracks[i].size = track_size;
 
         if (track_size && SMR_BA(m, data, track_size) < 0) {
             snapshot_module_close(m);
@@ -1005,9 +1007,10 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
         }
     }
     for (; i < MAX_GCR_TRACKS; i++) {
-        if (drive->gcr->track_data[i]) {
-            lib_free(drive->gcr->track_data[i]);
-            drive->gcr->track_data[i] = NULL;
+        if (drive->gcr->tracks[i].data) {
+            lib_free(drive->gcr->tracks[i].data);
+            drive->gcr->tracks[i].data = NULL;
+            drive->gcr->tracks[i].size = 0;
         }
     }
     snapshot_module_close(m);

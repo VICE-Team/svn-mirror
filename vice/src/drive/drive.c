@@ -507,17 +507,17 @@ void drive_set_half_track(int num, int side, drive_t *dptr)
     }
     dptr->side = side;
 
-    dptr->GCR_track_start_ptr = dptr->gcr->track_data[dptr->current_half_track - 2 + dptr->side * 70];
+    dptr->GCR_track_start_ptr = dptr->gcr->tracks[dptr->current_half_track - 2 + dptr->side * 70].data;
 
     if (dptr->GCR_current_track_size != 0)
         dptr->GCR_head_offset = (dptr->GCR_head_offset
-            * dptr->gcr->track_size[dptr->current_half_track - 2])
+            * dptr->gcr->tracks[dptr->current_half_track - 2].size)
             / dptr->GCR_current_track_size;
     else
         dptr->GCR_head_offset = 0;
 
     dptr->GCR_current_track_size =
-        dptr->gcr->track_size[dptr->current_half_track - 2];
+        dptr->gcr->tracks[dptr->current_half_track - 2].size;
 }
 
 /*-------------------------------------------------------------------------- */
@@ -553,8 +553,7 @@ void drive_gcr_data_writeback(drive_t *drive)
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         disk_image_write_half_track(drive->image, half_track,
-                                   drive->gcr->track_size[half_track - 2],
-                                   drive->gcr->track_data[half_track - 2]);
+                                   &drive->gcr->tracks[half_track - 2]);
         drive->GCR_dirty_track = 0;
         return;
     }
@@ -590,8 +589,7 @@ void drive_gcr_data_writeback(drive_t *drive)
     }
 
     disk_image_write_half_track(drive->image, half_track,
-            drive->gcr->track_size[half_track - 2],
-            drive->gcr->track_data[half_track - 2]);
+            &drive->gcr->tracks[half_track - 2]);
 
     drive->GCR_dirty_track = 0;
 }

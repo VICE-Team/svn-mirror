@@ -497,7 +497,7 @@ int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
 /*-----------------------------------------------------------------------*/
 
 int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
-                               int gcr_track_size, BYTE *gcr_track_start_ptr)
+                               const struct disk_track_s *raw)
 {
     if (half_track > image->max_half_tracks) {
         return -1;
@@ -508,9 +508,9 @@ int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
     }
 
     switch (image->type) {
-    case DISK_IMAGE_TYPE_P64: return fsimage_p64_write_half_track(image, half_track, gcr_track_size, gcr_track_start_ptr);
-    case DISK_IMAGE_TYPE_G64: return fsimage_gcr_write_half_track(image, half_track, gcr_track_size, gcr_track_start_ptr);
-    default: return fsimage_dxx_write_half_track(image, half_track, gcr_track_size, gcr_track_start_ptr);
+    case DISK_IMAGE_TYPE_P64: return fsimage_p64_write_half_track(image, half_track, raw);
+    case DISK_IMAGE_TYPE_G64: return fsimage_gcr_write_half_track(image, half_track, raw);
+    default: return fsimage_dxx_write_half_track(image, half_track, raw);
     }
 }
 

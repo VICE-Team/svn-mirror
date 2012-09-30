@@ -44,13 +44,12 @@
 static log_t fsimage_dxx_log = LOG_ERR;
 
 int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
-                                 int gcr_track_size, BYTE *gcr_track_start_ptr)
+                                 const disk_track_t *raw)
 {
     unsigned int track, sector, max_sector = 0;
     int sectors;
     long offset;
     BYTE *buffer;
-    disk_track_t raw = {gcr_track_start_ptr, gcr_track_size};
     fsimage_t *fsimage = image->media.fsimage;
     fdc_err_t rf; 
 
@@ -77,7 +76,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 
     buffer = lib_calloc(max_sector, 256);
     for (sector = 0; sector < max_sector; sector++) {
-        rf = gcr_read_sector(&raw, &buffer[sector * 256], sector);
+        rf = gcr_read_sector(raw, &buffer[sector * 256], sector);
         if (rf != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
                     "Could not find data sector of T:%d S:%d.",
@@ -171,13 +170,13 @@ int fsimage_read_dxx_image(disk_image_t *image)
         half_track = track * 2 - 2;
 
         track_size = disk_image_raw_track_size(image->type, track);
-        if (image->gcr->track_data[half_track] == NULL) {
-            image->gcr->track_data[half_track] = lib_malloc(track_size);
-        } else if (image->gcr->track_size[half_track] != track_size) {
-            image->gcr->track_data[half_track] = lib_realloc(image->gcr->track_data[half_track], track_size);
+        if (image->gcr->tracks[half_track].data == NULL) {
+            image->gcr->tracks[half_track].data = lib_malloc(track_size);
+        } else if (image->gcr->tracks[half_track].size != track_size) {
+            image->gcr->tracks[half_track].data = lib_realloc(image->gcr->tracks[half_track].data, track_size);
         }
-        ptr = image->gcr->track_data[half_track];
-        image->gcr->track_size[half_track] = track_size;
+        ptr = image->gcr->tracks[half_track].data;
+        image->gcr->tracks[half_track].size = track_size;
 
         if (track <= image->tracks) {
             if (double_sided && track == 36) {
@@ -221,11 +220,11 @@ int fsimage_read_dxx_image(disk_image_t *image)
 
         /* Clear odd track */
         half_track++;
-        if (image->gcr->track_data[half_track]) {
-            lib_free(image->gcr->track_data[half_track]);
-            image->gcr->track_data[half_track] = NULL;
+        if (image->gcr->tracks[half_track].data) {
+            lib_free(image->gcr->tracks[half_track].data);
+            image->gcr->tracks[half_track].data = NULL;
+            image->gcr->tracks[half_track].size = 0;
         }
-        image->gcr->track_size[half_track] = 0;
     }
     return 0;
 }
@@ -261,10 +260,7 @@ int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
             rf = fsimage->error_info.map ? fsimage->error_info.map[sectors] : CBMDOS_FDC_ERR_OK;
         }
     } else {
-        disk_track_t raw;
-        raw.data = image->gcr->track_data[(track * 2) - 2];
-        raw.size = image->gcr->track_size[(track * 2) - 2];
-        rf = gcr_read_sector(&raw, buf, sector);
+        rf = gcr_read_sector(&image->gcr->tracks[(track * 2) - 2], buf, sector);
     }
 
     switch (rf) {
@@ -324,10 +320,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, BYTE *buf,
         return -1;
     }
     if (image->gcr != NULL) {
-        disk_track_t raw;
-        raw.data = image->gcr->track_data[(track * 2) - 2];
-        raw.size = image->gcr->track_size[(track * 2) - 2];
-        gcr_write_sector(&raw, buf, sector);
+        gcr_write_sector(&image->gcr->tracks[(track * 2) - 2], buf, sector);
     }
 
     if ((fsimage->error_info.map != NULL)

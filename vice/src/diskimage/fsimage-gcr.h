@@ -30,6 +30,7 @@
 #include "types.h"
 
 struct disk_image_s;
+struct disk_track_s;
 
 extern void fsimage_gcr_init(void);
 
@@ -39,12 +40,11 @@ extern int fsimage_gcr_read_sector(struct disk_image_s *image, BYTE *buf,
                                    unsigned int track, unsigned int sector);
 extern int fsimage_gcr_write_sector(struct disk_image_s *image, BYTE *buf,
                                     unsigned int track, unsigned int sector);
-extern BYTE *fsimage_gcr_read_half_track(struct disk_image_s *image,
+extern int fsimage_gcr_read_half_track(struct disk_image_s *image,
                                          unsigned int half_track,
-                                         int *gcr_track_size);
+                                         struct disk_track_s *raw);
 extern int fsimage_gcr_write_half_track(struct disk_image_s *image,
-                                        unsigned int half_track, int gcr_track_size,
-                                        BYTE *gcr_track_start_ptr);
+                                        unsigned int half_track, const struct disk_track_s *raw);
 
 #endif
 

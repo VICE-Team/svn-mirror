@@ -45,19 +45,15 @@
 
 #define SECTOR_GCR_SIZE_WITH_HEADER 340
 
-typedef struct gcr_s {
-    /* Raw GCR image of the disk.  */
-    BYTE *track_data[MAX_GCR_TRACKS];
-
-    /* Size of the GCR data of each track.  */
-    unsigned int track_size[MAX_GCR_TRACKS];
-
-} gcr_t;
-
 typedef struct disk_track_s {
     BYTE *data;
     int size;
 } disk_track_t;
+
+typedef struct gcr_s {
+    /* Raw GCR image of the disk.  */
+    disk_track_t tracks[MAX_GCR_TRACKS];
+} gcr_t;
 
 typedef struct gcr_header_s {
     BYTE sector, track, id2, id1;
@@ -65,10 +61,10 @@ typedef struct gcr_header_s {
 
 enum fdc_err_e;
 
-extern void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *ptr, gcr_header_t *header,
+extern void gcr_convert_sector_to_GCR(const BYTE *buffer, BYTE *ptr, const gcr_header_t *header,
                                       int gap, int sync, enum fdc_err_e error_code);
-extern enum fdc_err_e gcr_read_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
-extern enum fdc_err_e gcr_write_sector(struct disk_track_s *raw, BYTE *data, BYTE sector);
+extern enum fdc_err_e gcr_read_sector(const disk_track_t *raw, BYTE *data, BYTE sector);
+extern enum fdc_err_e gcr_write_sector(disk_track_t *raw, const BYTE *data, BYTE sector);
 
 extern gcr_t *gcr_create_image(void);
 extern void gcr_destroy_image(gcr_t *gcr);

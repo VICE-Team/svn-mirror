@@ -200,9 +200,10 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
     }
 
     for (i = 0; i < MAX_GCR_TRACKS; i++) {
-        if (drive->gcr->track_data[i]) {
-            lib_free(drive->gcr->track_data[i]);
-            drive->gcr->track_data[i] = NULL;
+        if (drive->gcr->tracks[i].data) {
+            lib_free(drive->gcr->tracks[i].data);
+            drive->gcr->tracks[i].data = NULL;
+            drive->gcr->tracks[i].size = 0;
         }
     }
     drive->detach_clk = drive_clk[dnr];

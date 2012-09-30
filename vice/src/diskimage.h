@@ -75,6 +75,7 @@ struct fsimage_s;
 struct rawimage_s;
 struct gcr_s;
 struct TP64Image;
+struct disk_track_s;
 
 struct disk_image_s {
     union media_u {
@@ -131,8 +132,7 @@ extern unsigned int disk_image_gap_size(unsigned int format, unsigned int track)
 extern int disk_image_read_image(disk_image_t *image);
 extern int disk_image_write_p64_image(disk_image_t *image);
 extern int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
-                                       int gcr_track_size,
-                                       BYTE *gcr_track_start_ptr);
+                                       const struct disk_track_s *raw);
 
 extern unsigned int disk_image_speed_map(unsigned int format, unsigned int track);
 
