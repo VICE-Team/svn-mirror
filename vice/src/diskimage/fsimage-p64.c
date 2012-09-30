@@ -57,11 +57,9 @@ int fsimage_read_p64_image(disk_image_t *image)
 
     fsimage = image->media.fsimage;
 
-    fseek(fsimage->fd, 0, SEEK_END);
-    lSize = ftell(fsimage->fd);
-    fseek(fsimage->fd, 0, SEEK_SET);
-    buffer = (char*)lib_malloc(sizeof(char) * lSize);
-    if (fread(buffer, 1, lSize, fsimage->fd) < 1) {
+    lSize = util_file_length(fsimage->fd);
+    buffer = lib_malloc(lSize);
+    if (util_fpread(fsimage->fd, buffer, lSize, 0) < 0) {
         lib_free(buffer);
         log_error(fsimage_p64_log, "Could not read P64 disk image.");
         return -1;
@@ -98,13 +96,12 @@ int fsimage_write_p64_image(disk_image_t *image)
     P64MemoryStreamCreate(&P64MemoryStreamInstance);
     P64MemoryStreamClear(&P64MemoryStreamInstance);
     if (P64ImageWriteToStream(P64Image,&P64MemoryStreamInstance)) {
-        fseek(fsimage->fd, 0, SEEK_SET);
-        if (fwrite(P64MemoryStreamInstance.Data, P64MemoryStreamInstance.Size, 1, fsimage->fd) < 1) {
-                rc = -1;
-                log_error(fsimage_p64_log, "Could not write P64 disk image.");
+        if (util_fpwrite(fsimage->fd, P64MemoryStreamInstance.Data, P64MemoryStreamInstance.Size, 0) < 0) {
+            rc = -1;
+            log_error(fsimage_p64_log, "Could not write P64 disk image.");
         } else {
-                fflush(fsimage->fd);
-                rc = 0;
+            fflush(fsimage->fd);
+            rc = 0;
         }
     } else {
         rc = -1;
@@ -147,7 +144,7 @@ BYTE *fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
     }
     gcr_data = lib_realloc(gcr_data, *gcr_track_size);
 
-    return 0;
+    return gcr_data;
 }
 
 static BYTE *fsimage_p64_read_track(disk_image_t *image, unsigned int track,
