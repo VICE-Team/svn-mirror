@@ -209,11 +209,13 @@ int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
 
     if (track > 42) {
         log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot read P64 track.", track);
-        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
+        return -1;
     }
 
-    if (fsimage_p64_read_track(image, track, &raw) < 0
-            || raw.data == NULL) {
+    if (fsimage_p64_read_track(image, track, &raw) < 0) {
+        return -1;
+    }
+    if (raw.data == NULL) {
         return CBMDOS_IPE_NOT_READY;
     }
 

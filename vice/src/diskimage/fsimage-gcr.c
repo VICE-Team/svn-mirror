@@ -268,13 +268,15 @@ int fsimage_gcr_read_sector(const disk_image_t *image, BYTE *buf,
         log_error(fsimage_gcr_log,
                   "Track %i out of bounds.  Cannot read GCR track.",
                   track);
-        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
+        return -1;
     }
 
     if (image->gcr == NULL) {
         disk_track_t raw;
-        if (fsimage_gcr_read_track(image, track, &raw) < 0
-                || raw.data == NULL) {
+        if (fsimage_gcr_read_track(image, track, &raw) < 0) {
+            return -1;
+        } 
+        if (raw.data == NULL) {
             return CBMDOS_IPE_NOT_READY;
         }
         rf = gcr_read_sector(&raw, buf, sector);

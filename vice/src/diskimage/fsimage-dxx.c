@@ -99,7 +99,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
             }
         }
     }
-    offset = sectors << 8;
+    offset = sectors * 256;
 
     if (image->type == DISK_IMAGE_TYPE_X64)
         offset += X64_HEADER_LENGTH;
@@ -146,6 +146,7 @@ int fsimage_read_dxx_image(const disk_image_t *image)
     BYTE *ptr;
     int half_track;
     int sectors;
+    long offset;
 
     if (image->type == DISK_IMAGE_TYPE_D80
             || image->type == DISK_IMAGE_TYPE_D82) {
@@ -200,10 +201,14 @@ int fsimage_read_dxx_image(const disk_image_t *image)
 
             for (sector = 0; sector < max_sector; sector++) {
                 sectors = disk_image_check_sector(image, track, sector);
+                offset = sectors * 256;
+
+                if (image->type == DISK_IMAGE_TYPE_X64)
+                    offset += X64_HEADER_LENGTH;
 
                 if (sectors >= 0) {
                     rf = CBMDOS_FDC_ERR_DRIVE;
-                    if (util_fpread(fsimage->fd, buffer, 256, sectors << 8) >= 0) {
+                    if (util_fpread(fsimage->fd, buffer, 256, offset) >= 0) {
                         if (fsimage->error_info.map != NULL) {
                             rf = fsimage->error_info.map[sectors];
                         }
@@ -242,10 +247,10 @@ int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf,
     if (sectors < 0) {
         log_error(fsimage_dxx_log, "Track %i, Sector %i out of bounds.",
                 track, sector);
-        return CBMDOS_IPE_ILLEGAL_TRACK_OR_SECTOR;
+        return -1;
     }
 
-    offset = sectors << 8;
+    offset = sectors * 256;
 
     if (image->type == DISK_IMAGE_TYPE_X64)
         offset += X64_HEADER_LENGTH;
@@ -255,7 +260,7 @@ int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf,
             log_error(fsimage_dxx_log,
                     "Error reading T:%i S:%i from disk image.",
                     track, sector);
-            rf = CBMDOS_FDC_ERR_DRIVE;
+            return -1;
         } else {
             rf = fsimage->error_info.map ? fsimage->error_info.map[sectors] : CBMDOS_FDC_ERR_OK;
         }
@@ -309,7 +314,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf,
                 track, sector);
         return -1;
     }
-    offset = sectors << 8;
+    offset = sectors * 256;
 
     if (image->type == DISK_IMAGE_TYPE_X64)
         offset += X64_HEADER_LENGTH;
