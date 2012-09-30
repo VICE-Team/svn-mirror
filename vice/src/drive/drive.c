@@ -426,6 +426,9 @@ int drive_enable(drive_context_t *drv)
     if (drive->image != NULL)
         drive_image_attach(drive->image, dnr + 8);
 
+    /* resync */
+    drv->cpu->stop_clk = *(drv->clk_ptr);
+
     if (drive->type == DRIVE_TYPE_2000 || drive->type == DRIVE_TYPE_4000) {
         drivecpu65c02_wake_up(drv);
     } else {
