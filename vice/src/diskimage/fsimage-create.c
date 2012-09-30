@@ -98,7 +98,7 @@ static int fsimage_create_gcr(disk_image_t *image)
 
         header.track = track;
         for (sector = 0;
-        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
+        sector < disk_image_sector_per_track(image->type, track);
         sector++) {
 
             header.sector = sector;
@@ -140,7 +140,7 @@ static int fsimage_create_p64(disk_image_t *image)
 
         header.track = track;
         for (sector = 0;
-        sector < disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track);
+        sector < disk_image_sector_per_track(image->type, track);
         sector++) {
 
             header.sector = sector;

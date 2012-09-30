@@ -91,9 +91,9 @@ unsigned int disk_image_speed_map(unsigned int format, unsigned int track)
 /*-----------------------------------------------------------------------*/
 /* Check for track out of bounds.  */
 
-static const char sector_map_d64[4] = { 21, 19, 18, 17 };
-static const char sector_map_d67[4] = { 21, 20, 18, 17 };
-static const char sector_map_d80[4] = { 29, 27, 25, 23 };
+static const char sector_map_d64[4] = { 17, 18, 19, 21};
+static const char sector_map_d67[4] = { 17, 18, 20, 21};
+static const char sector_map_d80[4] = { 23, 25, 27, 29};
 
 unsigned int disk_image_sector_per_track(unsigned int format,
                                          unsigned int track)
