@@ -173,7 +173,7 @@ static int fsimage_create_dxx(disk_image_t *image)
 
 static int fsimage_create_gcr(disk_image_t *image)
 {
-    BYTE gcr_header[12], gcr_track[7930], *gcrptr;
+    BYTE gcr_header[12], gcr_track[NUM_MAX_BYTES_TRACK + 2], *gcrptr;
     BYTE gcr_track_p[MAX_TRACKS_1541 * 2 * 4];
     BYTE gcr_speed_p[MAX_TRACKS_1541 * 2 * 4];
     unsigned int track, sector;
@@ -188,7 +188,7 @@ static int fsimage_create_gcr(disk_image_t *image)
 
     gcr_header[8] = 0;
     gcr_header[9] = MAX_TRACKS_1541 * 2;
-    util_word_to_le_buf(&gcr_header[10], 7928);
+    util_word_to_le_buf(&gcr_header[10], NUM_MAX_BYTES_TRACK);
 
     if (fwrite(gcr_header, sizeof(gcr_header), 1, fsimage->fd) < 1) {
         log_error(createdisk_log, "Cannot write GCR header.");
@@ -198,7 +198,7 @@ static int fsimage_create_gcr(disk_image_t *image)
     memset(gcr_track_p, 0, sizeof(gcr_track_p));
     memset(gcr_speed_p, 0, sizeof(gcr_speed_p));
     for (track = 0; track < NUM_TRACKS_1541; track++) {
-        util_dword_to_le_buf(&gcr_track_p[track * 4 * 2], 12 + MAX_TRACKS_1541 * 16 + track * 7930);
+        util_dword_to_le_buf(&gcr_track_p[track * 4 * 2], 12 + MAX_TRACKS_1541 * 16 + track * (NUM_MAX_BYTES_TRACK + 2));
         util_dword_to_le_buf(&gcr_speed_p[track * 4 * 2], disk_image_speed_map(image->type, track + 1));
     }
 
@@ -243,7 +243,7 @@ static int fsimage_create_p64(disk_image_t *image)
 {
     TP64MemoryStream P64MemoryStreamInstance;
     TP64Image P64Image;
-    BYTE gcr_track[7928], *gcrptr;
+    BYTE gcr_track[NUM_MAX_BYTES_TRACK], *gcrptr;
     unsigned int track, sector;
     fsimage_t *fsimage;
     int rc = -1;
