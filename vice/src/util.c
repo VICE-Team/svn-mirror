@@ -545,7 +545,7 @@ int util_fpread(FILE *fd, void *buf, size_t num, long offset)
    0 on success, else -1.
 
 */
-int util_fpwrite(FILE *fd, void *buf, size_t num, long offset)
+int util_fpwrite(FILE *fd, const void *buf, size_t num, long offset)
 {
     if (fseek(fd, offset, SEEK_SET) < 0
             || fwrite(buf, num, 1, fd) < 1) {

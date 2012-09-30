@@ -47,16 +47,16 @@ typedef struct fsimage_s {
 extern void fsimage_init(void);
 
 extern void fsimage_name_set(struct disk_image_s *image, char *name);
-extern char *fsimage_name_get(struct disk_image_s *image);
-extern void *fsimage_fd_get(disk_image_t *image);
+extern char *fsimage_name_get(const struct disk_image_s *image);
+extern void *fsimage_fd_get(const disk_image_t *image);
 extern void fsimage_media_create(struct disk_image_s *image);
 extern void fsimage_media_destroy(struct disk_image_s *image);
 
 extern int fsimage_open(struct disk_image_s *image);
 extern int fsimage_close(struct disk_image_s *image);
-extern int fsimage_read_sector(struct disk_image_s *image, BYTE *buf,
+extern int fsimage_read_sector(const struct disk_image_s *image, BYTE *buf,
                                unsigned int track, unsigned int sector);
-extern int fsimage_write_sector(struct disk_image_s *image, BYTE *buf,
+extern int fsimage_write_sector(struct disk_image_s *image, const BYTE *buf,
                                 unsigned int track, unsigned int sector);
 
 #endif

@@ -133,7 +133,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
     return 0;
 }
 
-int fsimage_read_dxx_image(disk_image_t *image)
+int fsimage_read_dxx_image(const disk_image_t *image)
 {
     BYTE buffer[256], *bam_id;
     int gap;
@@ -229,7 +229,7 @@ int fsimage_read_dxx_image(disk_image_t *image)
     return 0;
 }
 
-int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
+int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
     int sectors;
@@ -293,7 +293,7 @@ int fsimage_dxx_read_sector(disk_image_t *image, BYTE *buf,
     }
 }
 
-int fsimage_dxx_write_sector(disk_image_t *image, BYTE *buf,
+int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf,
                                 unsigned int track, unsigned int sector)
 {
     int sectors;

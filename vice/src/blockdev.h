@@ -39,7 +39,7 @@ extern int blockdev_open(const char *name, unsigned int *read_only);
 extern int blockdev_close(void);
 extern int blockdev_read_sector(BYTE *buf, unsigned int track,
                                 unsigned int sector);
-extern int blockdev_write_sector(BYTE *buf, unsigned int track,
+extern int blockdev_write_sector(const BYTE *buf, unsigned int track,
                                  unsigned int sector);
 
 #endif

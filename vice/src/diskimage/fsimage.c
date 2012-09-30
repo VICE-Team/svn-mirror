@@ -57,7 +57,7 @@ void fsimage_name_set(disk_image_t *image, char *name)
     fsimage->name = name;
 }
 
-char *fsimage_name_get(disk_image_t *image)
+char *fsimage_name_get(const disk_image_t *image)
 {
     fsimage_t *fsimage;
 
@@ -66,7 +66,7 @@ char *fsimage_name_get(disk_image_t *image)
     return fsimage->name;
 }
 
-void *fsimage_fd_get(disk_image_t *image)
+void *fsimage_fd_get(const disk_image_t *image)
 {
     fsimage_t *fsimage;
 
@@ -161,7 +161,7 @@ int fsimage_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+int fsimage_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track,
                         unsigned int sector)
 {
     fsimage_t *fsimage;
@@ -197,7 +197,7 @@ int fsimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
     }
 }
 
-int fsimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+int fsimage_write_sector(disk_image_t *image, const BYTE *buf, unsigned int track,
                          unsigned int sector)
 {
     fsimage_t *fsimage;

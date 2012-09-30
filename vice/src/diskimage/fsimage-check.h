@@ -29,7 +29,7 @@
 
 struct disk_image_s;
 
-extern int fsimage_check_sector(struct disk_image_s *image, unsigned int track,
+extern int fsimage_check_sector(const struct disk_image_s *image, unsigned int track,
                                 unsigned int sector);
 
 #endif

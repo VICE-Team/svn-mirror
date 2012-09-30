@@ -46,7 +46,7 @@ static log_t fsimage_p64_log = LOG_ERR;
 /*-----------------------------------------------------------------------*/
 /* Intial P64 buffer setup.  */
 
-int fsimage_read_p64_image(disk_image_t *image)
+int fsimage_read_p64_image(const disk_image_t *image)
 {
     TP64MemoryStream P64MemoryStreamInstance;
     PP64Image P64Image = (void*)image->p64;
@@ -83,7 +83,7 @@ int fsimage_read_p64_image(disk_image_t *image)
     return rc;
 }
 
-int fsimage_write_p64_image(disk_image_t *image)
+int fsimage_write_p64_image(const disk_image_t *image)
 {
     TP64MemoryStream P64MemoryStreamInstance;
     PP64Image P64Image = (void*)image->p64;
@@ -115,7 +115,7 @@ int fsimage_write_p64_image(disk_image_t *image)
 /*-----------------------------------------------------------------------*/
 /* Read an entire P64 track from the disk image.  */
 
-int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
+int fsimage_p64_read_half_track(const disk_image_t *image, unsigned int half_track,
                                 disk_track_t *raw)
 {
     PP64Image P64Image = (void*)image->p64;
@@ -146,7 +146,7 @@ int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
     return 0;
 }
 
-static int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
+static int fsimage_p64_read_track(const disk_image_t *image, unsigned int track,
                            disk_track_t *raw)
 {
     return fsimage_p64_read_half_track(image, track << 1, raw);
@@ -201,7 +201,7 @@ static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
 /*-----------------------------------------------------------------------*/
 /* Read a sector from the P64 disk image.  */
 
-int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
+int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
     fdc_err_t rf;
@@ -255,7 +255,7 @@ int fsimage_p64_read_sector(disk_image_t *image, BYTE *buf,
 /*-----------------------------------------------------------------------*/
 /* Write a sector to the P64 disk image.  */
 
-int fsimage_p64_write_sector(disk_image_t *image, BYTE *buf,
+int fsimage_p64_write_sector(disk_image_t *image, const BYTE *buf,
                                 unsigned int track, unsigned int sector)
 {
     disk_track_t raw;

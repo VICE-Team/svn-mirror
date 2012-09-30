@@ -98,7 +98,7 @@ int blockdev_read_sector(BYTE *buf, unsigned int track, unsigned int sector)
     return 0;
 }
 
-int blockdev_write_sector(BYTE *buf, unsigned int track, unsigned int sector)
+int blockdev_write_sector(const BYTE *buf, unsigned int track, unsigned int sector)
 {
     int offset;
 

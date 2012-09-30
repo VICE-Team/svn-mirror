@@ -31,7 +31,7 @@
 #include "fsimage-check.h"
 
 
-int fsimage_check_sector(disk_image_t *image, unsigned int track,
+int fsimage_check_sector(const disk_image_t *image, unsigned int track,
                          unsigned int sector)
 {
     unsigned int sectors = 0, i;

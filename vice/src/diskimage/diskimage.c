@@ -174,7 +174,7 @@ unsigned int disk_image_gap_size(unsigned int format, unsigned int track)
 
 /*-----------------------------------------------------------------------*/
 /* Check out of bound */
-int disk_image_check_sector(disk_image_t *image, unsigned int track,
+int disk_image_check_sector(const disk_image_t *image, unsigned int track,
                             unsigned int sector)
 {
     if (image->device == DISK_IMAGE_DEVICE_FS)
@@ -185,7 +185,7 @@ int disk_image_check_sector(disk_image_t *image, unsigned int track,
 
 /*-----------------------------------------------------------------------*/
 
-static const char *disk_image_type(disk_image_t *image)
+static const char *disk_image_type(const disk_image_t *image)
 {
     switch(image->type) {
         case DISK_IMAGE_TYPE_D80: return "D80";
@@ -204,7 +204,7 @@ static const char *disk_image_type(disk_image_t *image)
     }
 }
 
-void disk_image_attach_log(disk_image_t *image, signed int lognum,
+void disk_image_attach_log(const disk_image_t *image, signed int lognum,
                            unsigned int unit)
 {
     const char *type = disk_image_type(image);
@@ -227,7 +227,7 @@ void disk_image_attach_log(disk_image_t *image, signed int lognum,
     }
 }
 
-void disk_image_detach_log(disk_image_t *image, signed int lognum,
+void disk_image_detach_log(const disk_image_t *image, signed int lognum,
                            unsigned int unit)
 {
     const char *type = disk_image_type(image);
@@ -256,12 +256,12 @@ void disk_image_fsimage_name_set(disk_image_t *image, char *name)
     fsimage_name_set(image, name);
 }
 
-char *disk_image_fsimage_name_get(disk_image_t *image)
+char *disk_image_fsimage_name_get(const disk_image_t *image)
 {
     return fsimage_name_get(image);
 }
 
-void *disk_image_fsimage_fd_get(disk_image_t *image)
+void *disk_image_fsimage_fd_get(const disk_image_t *image)
 {
     return fsimage_fd_get(image);
 }
@@ -303,7 +303,7 @@ void disk_image_name_set(disk_image_t *image, char *name)
     }
 }
 
-char *disk_image_name_get(disk_image_t *image)
+char *disk_image_name_get(const disk_image_t *image)
 {
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
@@ -435,7 +435,7 @@ int disk_image_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+int disk_image_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track,
                            unsigned int sector)
 {
     int rc = 0;
@@ -462,7 +462,7 @@ int disk_image_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
     return rc;
 }
 
-int disk_image_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+int disk_image_write_sector(disk_image_t *image, const BYTE *buf, unsigned int track,
                             unsigned int sector)
 {
     int rc = 0;
@@ -514,7 +514,7 @@ int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
     }
 }
 
-int disk_image_read_image(disk_image_t *image)
+int disk_image_read_image(const disk_image_t *image)
 {
     switch (image->type) {
     case DISK_IMAGE_TYPE_P64: return fsimage_read_p64_image(image);
@@ -523,7 +523,7 @@ int disk_image_read_image(disk_image_t *image)
     }
 }
 
-int disk_image_write_p64_image(disk_image_t *image)
+int disk_image_write_p64_image(const disk_image_t *image)
 {
     return fsimage_write_p64_image(image);
 }

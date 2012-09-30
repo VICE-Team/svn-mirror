@@ -43,14 +43,14 @@ extern int rawimage_cmdline_options_init(void);
 extern void rawimage_resources_shutdown(void);
 
 extern void rawimage_name_set(struct disk_image_s *image, char *name);
-extern char *rawimage_name_get(struct disk_image_s *image);
+extern char *rawimage_name_get(const struct disk_image_s *image);
 extern void rawimage_driver_name_set(struct disk_image_s *image);
 
 extern int rawimage_open(struct disk_image_s *image);
 extern int rawimage_close(struct disk_image_s *image);
-extern int rawimage_read_sector(struct disk_image_s *image, BYTE *buf,
+extern int rawimage_read_sector(const struct disk_image_s *image, BYTE *buf,
                                 unsigned int track, unsigned int sector);
-extern int rawimage_write_sector(struct disk_image_s *image, BYTE *buf,
+extern int rawimage_write_sector(struct disk_image_s *image, const BYTE *buf,
                                  unsigned int track, unsigned int sector);
 extern void rawimage_media_create(struct disk_image_s *image);
 extern void rawimage_media_destroy(struct disk_image_s *image);

@@ -48,7 +48,7 @@ static const BYTE gcr_image_header_expected[] =
 /*-----------------------------------------------------------------------*/
 /* Intial GCR buffer setup.  */
 
-int fsimage_read_gcr_image(disk_image_t *image)
+int fsimage_read_gcr_image(const disk_image_t *image)
 {
     unsigned int half_track;
 
@@ -107,7 +107,7 @@ static long fsimage_gcr_seek_half_track(fsimage_t *fsimage, unsigned int half_tr
 /*-----------------------------------------------------------------------*/
 /* Read an entire GCR track from the disk image.  */
 
-int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
+int fsimage_gcr_read_half_track(const disk_image_t *image, unsigned int half_track,
                                   disk_track_t *raw)
 {
     WORD track_len;
@@ -158,7 +158,7 @@ int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
     return 0;
 }
 
-static int fsimage_gcr_read_track(disk_image_t *image, unsigned int track,
+static int fsimage_gcr_read_track(const disk_image_t *image, unsigned int track,
                            disk_track_t *raw)
 {
     return fsimage_gcr_read_half_track(image, track << 1, raw);
@@ -259,7 +259,7 @@ static int fsimage_gcr_write_track(disk_image_t *image, unsigned int track,
 /*-----------------------------------------------------------------------*/
 /* Read a sector from the GCR disk image.  */
 
-int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
+int fsimage_gcr_read_sector(const disk_image_t *image, BYTE *buf,
                                unsigned int track, unsigned int sector)
 {
     fdc_err_t rf;
@@ -320,7 +320,7 @@ int fsimage_gcr_read_sector(disk_image_t *image, BYTE *buf,
 /*-----------------------------------------------------------------------*/
 /* Write a sector to the GCR disk image.  */
 
-int fsimage_gcr_write_sector(disk_image_t *image, BYTE *buf,
+int fsimage_gcr_write_sector(disk_image_t *image, const BYTE *buf,
                                 unsigned int track, unsigned int sector)
 {
     if (track > image->tracks) {

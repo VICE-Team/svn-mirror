@@ -60,13 +60,13 @@ int realimage_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int realimage_read_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+int realimage_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track,
                           unsigned int sector)
 {
     return machine_bus_lib_read_sector(8, track, sector, buf);
 }
 
-int realimage_write_sector(disk_image_t *image, BYTE *buf, unsigned int track,
+int realimage_write_sector(disk_image_t *image, const BYTE *buf, unsigned int track,
                            unsigned int sector)
 {
     return 0;
