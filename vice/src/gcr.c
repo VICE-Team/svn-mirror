@@ -160,6 +160,8 @@ void gcr_convert_sector_to_GCR(BYTE *buffer, BYTE *data, gcr_header_t *header,
 static int gcr_find_sync(disk_track_t *raw, int p, int s) {
     int w, b;
 
+    if (!raw->data || !raw->size) return -CBMDOS_FDC_ERR_SYNC;
+
     w = 0;
     b = raw->data[p >> 3] << (p & 7);
     while (s--) {

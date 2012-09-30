@@ -155,6 +155,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
         }
         drive->P64_image_loaded = 1;
         drive->P64_dirty = 0;
+        drive_set_half_track(drive->current_half_track, drive->side, drive);
         return 0;
     } else if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         if (disk_image_read_gcr_image(drive->image) < 0) {
@@ -162,6 +163,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
             return -1;
         }
         drive->GCR_image_loaded = 1;
+        drive_set_half_track(drive->current_half_track, drive->side, drive);
         return 0;
     } else {
         if (disk_image_read_dxx_image(drive->image) < 0) {
@@ -169,6 +171,7 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
             return -1;
         }
         drive->GCR_image_loaded = 1;
+        drive_set_half_track(drive->current_half_track, drive->side, drive);
         return 0;
     }
 
@@ -222,6 +225,7 @@ int drive_image_detach(disk_image_t *image, unsigned int unit)
     drive->P64_image_loaded = 0;
     drive->read_only = 0;
     drive->image = NULL;
+    drive_set_half_track(drive->current_half_track, drive->side, drive);
 
     return 0;
 }

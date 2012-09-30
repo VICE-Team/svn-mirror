@@ -989,7 +989,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
 
         if (track_size) {
             if (drive->gcr->track_data[i] == NULL) {
-                drive->gcr->track_data[i] = lib_calloc(1, NUM_MAX_MEM_BYTES_TRACK);
+                drive->gcr->track_data[i] = lib_calloc(1, track_size);
             }
         } else {
             if (drive->gcr->track_data[i]) {

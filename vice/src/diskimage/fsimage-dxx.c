@@ -138,12 +138,15 @@ int fsimage_read_dxx_image(disk_image_t *image)
 {
     BYTE buffer[256];
     int gap;
-    unsigned int track, sector;
+    unsigned int track, sector, track_size;
     gcr_header_t header;
     int rc;
     fdc_err_t rf;
     int double_sided = 0;
     fsimage_t *fsimage = image->media.fsimage;
+    unsigned int max_sector;
+    BYTE *ptr;
+    int half_track;
 
     buffer[0xa2] = buffer[0xa3] = 0xa0;
     fsimage_dxx_read_sector(image, buffer, 18, 0);
@@ -154,28 +157,32 @@ int fsimage_read_dxx_image(disk_image_t *image)
     double_sided = (image->type == DISK_IMAGE_TYPE_D71) && !(buffer[0x03] & 0x80);
 
     for (header.track = track = 1; track <= image->max_half_tracks / 2; track++, header.track++) {
-        BYTE *ptr;
-        unsigned int max_sector = 0;
+        half_track = track * 2 - 2;
 
-        if (double_sided && track == 36) {
-            buffer[0xa2] = buffer[0xa3] = 0xa0;
-            fsimage_dxx_read_sector(image, buffer, 53, 0);
-            header.id1 = buffer[0xa2]; /* second side, update id and track */
-            header.id2 = buffer[0xa3];
-            header.track = 1;
+        track_size = disk_image_raw_track_size(image->type, track);
+        if (image->gcr->track_data[half_track] == NULL) {
+            image->gcr->track_data[half_track] = lib_malloc(track_size);
+        } else if (image->gcr->track_size[half_track] != track_size) {
+            image->gcr->track_data[half_track] = lib_realloc(image->gcr->track_data[half_track], track_size);
         }
+        ptr = image->gcr->track_data[half_track];
+        image->gcr->track_size[half_track] = track_size;
 
-        if (image->gcr->track_data[(track * 2) - 2] == NULL) {
-            image->gcr->track_data[(track * 2) - 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
-        }
-        ptr = image->gcr->track_data[(track * 2) - 2];
-        image->gcr->track_size[(track * 2) - 2] = disk_image_raw_track_size(image->type, track);
-        gap = disk_image_gap_size(image->type, track);
         if (track <= image->tracks) {
+            if (double_sided && track == 36) {
+                buffer[0xa2] = buffer[0xa3] = 0xa0;
+                fsimage_dxx_read_sector(image, buffer, 53, 0);
+                header.id1 = buffer[0xa2]; /* second side, update id and track */
+                header.id2 = buffer[0xa3];
+                header.track = 1;
+            }
+
+            gap = disk_image_gap_size(image->type, track);
+
             max_sector = disk_image_sector_per_track(image->type, track);
 
             /* Clear track to avoid read errors.  */
-            memset(ptr, 0x55, NUM_MAX_BYTES_TRACK);
+            memset(ptr, 0x55, track_size);
 
             for (sector = 0; sector < max_sector; sector++) {
 
@@ -197,15 +204,16 @@ int fsimage_read_dxx_image(disk_image_t *image)
                 ptr += SECTOR_GCR_SIZE_WITH_HEADER + 9 + gap + 5;
             }
         } else {
-            memset(ptr, 0, NUM_MAX_BYTES_TRACK);
+            memset(ptr, 0x55, track_size);
         }
 
         /* Clear odd track */
-        if (image->gcr->track_data[(track * 2) - 1]) {
-            lib_free(image->gcr->track_data[(track * 2) - 1]);
-            image->gcr->track_data[(track * 2) - 1] = NULL;
+        half_track++;
+        if (image->gcr->track_data[half_track]) {
+            lib_free(image->gcr->track_data[half_track]);
+            image->gcr->track_data[half_track] = NULL;
         }
-        image->gcr->track_size[(track * 2) - 1] = image->gcr->track_size[(track * 2) - 2];
+        image->gcr->track_size[half_track] = 0;
     }
     return 0;
 }

@@ -38,11 +38,7 @@
 
 /* Number of bytes in one raw track in memory. 64k big to avoid buffer overrun, because
  * the G64 track size field is a 16-bit word */
-#ifdef GCR_LOW_MEM
-#define NUM_MAX_MEM_BYTES_TRACK 10240
-#else
 #define NUM_MAX_MEM_BYTES_TRACK 65536
-#endif
 
 /* Number of tracks we emulate. 84 for 1541, 140 for 1571 */
 #define MAX_GCR_TRACKS 140

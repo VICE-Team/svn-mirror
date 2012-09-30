@@ -132,8 +132,6 @@ extern int disk_image_read_dxx_image(disk_image_t *image);
 extern int disk_image_read_gcr_image(disk_image_t *image);
 extern int disk_image_read_p64_image(disk_image_t *image);
 extern int disk_image_write_p64_image(disk_image_t *image);
-extern int disk_image_read_half_track(disk_image_t *image, unsigned int half_track,
-                                      BYTE *gcr_data, int *gcr_track_size);
 extern int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
                                        int gcr_track_size,
                                        BYTE *gcr_track_start_ptr);
