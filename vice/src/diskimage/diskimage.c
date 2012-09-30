@@ -514,20 +514,13 @@ int disk_image_write_half_track(disk_image_t *image, unsigned int half_track,
     }
 }
 
-/* soon this will be generic, but until that it's separate */
-int disk_image_read_dxx_image(disk_image_t *image)
+int disk_image_read_image(disk_image_t *image)
 {
-    return fsimage_read_dxx_image(image);
-}
-
-int disk_image_read_gcr_image(disk_image_t *image)
-{
-    return fsimage_read_gcr_image(image);
-}
-
-int disk_image_read_p64_image(disk_image_t *image)
-{
-    return fsimage_read_p64_image(image);
+    switch (image->type) {
+    case DISK_IMAGE_TYPE_P64: return fsimage_read_p64_image(image);
+    case DISK_IMAGE_TYPE_G64: return fsimage_read_gcr_image(image);
+    default: return fsimage_read_dxx_image(image);
+    }
 }
 
 int disk_image_write_p64_image(disk_image_t *image)
