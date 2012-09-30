@@ -135,8 +135,7 @@ extern int disk_image_write_half_track(disk_image_t *image, unsigned int half_tr
                                        int gcr_track_size,
                                        BYTE *gcr_track_start_ptr);
 
-extern unsigned int disk_image_speed_map_1541(unsigned int track);
-extern unsigned int disk_image_speed_map_1571(unsigned int track);
+extern unsigned int disk_image_speed_map(unsigned int format, unsigned int track);
 
 extern void disk_image_attach_log(disk_image_t *image, signed int lognum,
                                   unsigned int unit);

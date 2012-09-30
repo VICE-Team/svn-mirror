@@ -74,7 +74,7 @@ static int fsimage_create_gcr(disk_image_t *image)
     memset(gcr_speed_p, 0, sizeof(gcr_speed_p));
     for (track = 0; track < NUM_TRACKS_1541; track++) {
         util_dword_to_le_buf(&gcr_track_p[track * 4 * 2], 12 + MAX_TRACKS_1541 * 16 + track * 7930);
-        util_dword_to_le_buf(&gcr_speed_p[track * 4 * 2], disk_image_speed_map_1541(track));
+        util_dword_to_le_buf(&gcr_speed_p[track * 4 * 2], disk_image_speed_map(image->type, track + 1));
     }
 
     if (fwrite(gcr_track_p, sizeof(gcr_track_p), 1, fsimage->fd) < 1) {
@@ -92,7 +92,7 @@ static int fsimage_create_gcr(disk_image_t *image)
     for (track = 1; track <= NUM_TRACKS_1541; track++) {
         const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
         gcrptr = gcr_track;
-        util_word_to_le_buf(gcrptr, raw_track_size[disk_image_speed_map_1541(track - 1)]);
+        util_word_to_le_buf(gcrptr, raw_track_size[disk_image_speed_map(image->type, track)]);
         gcrptr += 2;
         memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
 
@@ -134,7 +134,7 @@ static int fsimage_create_p64(disk_image_t *image)
     for (track = 1; track <= NUM_TRACKS_1541; track++) {
         const int raw_track_size[4] = { 6250, 6666, 7142, 7692 };
         gcrptr = gcr_track;
-        util_word_to_le_buf(gcrptr, raw_track_size[disk_image_speed_map_1541(track - 1)]);
+        util_word_to_le_buf(gcrptr, raw_track_size[disk_image_speed_map(image->type, track)]);
         gcrptr += 2;
         memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
 
@@ -148,7 +148,7 @@ static int fsimage_create_p64(disk_image_t *image)
 
             gcrptr += 360;
         }
-        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[(track + 1) << 1], (void*)&gcr_track[0], raw_track_size[disk_image_speed_map_1541(track-1)] << 3);
+        P64PulseStreamConvertFromGCR(&P64Image.PulseStreams[track << 1], (void*)&gcr_track[0], raw_track_size[disk_image_speed_map(image->type, track)] << 3);
     }
 
     P64MemoryStreamCreate(&P64MemoryStreamInstance);

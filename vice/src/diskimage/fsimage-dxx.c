@@ -171,15 +171,9 @@ int fsimage_read_dxx_image(disk_image_t *image)
             image->gcr->track_data[(track * 2) - 2] = lib_malloc(NUM_MAX_MEM_BYTES_TRACK);
         }
         ptr = image->gcr->track_data[(track * 2) - 2];
-        if (image->type == DISK_IMAGE_TYPE_D71) {
-            image->gcr->track_size[(track * 2) - 2] =
-                raw_track_size[disk_image_speed_map_1571(track - 1)];
-            gap = gaps_between_sectors[disk_image_speed_map_1571(track - 1)];
-        } else {
-            image->gcr->track_size[(track * 2) - 2] =
-                raw_track_size[disk_image_speed_map_1541(track - 1)];
-            gap = gaps_between_sectors[disk_image_speed_map_1541(track - 1)];
-        }
+        image->gcr->track_size[(track * 2) - 2] =
+            raw_track_size[disk_image_speed_map(image->type, track)];
+        gap = gaps_between_sectors[disk_image_speed_map(image->type, track)];
         if (track <= image->tracks) {
             max_sector = disk_image_sector_per_track(image->type, track);
 

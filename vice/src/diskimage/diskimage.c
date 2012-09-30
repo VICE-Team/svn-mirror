@@ -57,61 +57,43 @@ static log_t disk_image_log = LOG_DEFAULT;
 
 
 /*-----------------------------------------------------------------------*/
-/* Disk constants. Zero based! */
+/* Disk constants. */
 
-unsigned int disk_image_speed_map_1541(unsigned int track)
+unsigned int disk_image_speed_map(unsigned int format, unsigned int track)
 {
-    return (track < 30) + (track < 24) + (track < 17);
-}
-
-unsigned int disk_image_speed_map_1571(unsigned int track)
-{
-    if (track >= 35) {
-        track -= 35;
+    switch (format) {
+    case DISK_IMAGE_TYPE_D71:
+          if (track > 35) {
+              track -= 35;
+          }
+          /* fall through */
+    case DISK_IMAGE_TYPE_D67:
+    case DISK_IMAGE_TYPE_D64:
+    case DISK_IMAGE_TYPE_X64:
+    case DISK_IMAGE_TYPE_G64:
+    case DISK_IMAGE_TYPE_P64:
+        return (track < 31) + (track < 25) + (track < 18);
+    case DISK_IMAGE_TYPE_D82:
+          if (track > 77) {
+              track -= 77;
+          }
+          /* fall through */
+    case DISK_IMAGE_TYPE_D80:
+        return (track < 65) + (track < 54) + (track < 40);
+    default:
+        log_message(disk_image_log,
+                    "Unknown disk type %i. Cannot calculate zone speed",
+                    format);
     }
-    return disk_image_speed_map_1541(track);
+    return 0;
 }
 
 /*-----------------------------------------------------------------------*/
 /* Check for track out of bounds.  */
 
-static const char sector_map_d64[43] =
-    { 0,
-      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, /*  1 - 10 */
-      21, 21, 21, 21, 21, 21, 21, 19, 19, 19, /* 11 - 20 */
-      19, 19, 19, 19, 18, 18, 18, 18, 18, 18, /* 21 - 30 */
-      17, 17, 17, 17, 17,                     /* 31 - 35 */
-      17, 17, 17, 17, 17, 17, 17 };           /* 36 - 42 */
-
-static const char sector_map_d67[36] =
-    { 0,
-      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, /*  1 - 10 */
-      21, 21, 21, 21, 21, 21, 21, 20, 20, 20, /* 11 - 20 */
-      20, 20, 20, 20, 18, 18, 18, 18, 18, 18, /* 21 - 30 */
-      17, 17, 17, 17, 17 };                   /* 31 - 35 */
-
-static const char sector_map_d71[71] =
-    { 0,
-      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, /*  1 - 10 */
-      21, 21, 21, 21, 21, 21, 21, 19, 19, 19, /* 11 - 20 */
-      19, 19, 19, 19, 18, 18, 18, 18, 18, 18, /* 21 - 30 */
-      17, 17, 17, 17, 17,                     /* 31 - 35 */
-      21, 21, 21, 21, 21, 21, 21, 21, 21, 21, /* 36 - 45 */
-      21, 21, 21, 21, 21, 21, 21, 19, 19, 19, /* 46 - 55 */
-      19, 19, 19, 19, 18, 18, 18, 18, 18, 18, /* 56 - 65 */
-      17, 17, 17, 17, 17 };                   /* 66 - 70 */
-
-static const char sector_map_d80[78] =
-    { 0,
-      29, 29, 29, 29, 29, 29, 29, 29, 29, 29, /*  1 - 10 */
-      29, 29, 29, 29, 29, 29, 29, 29, 29, 29, /* 11 - 20 */
-      29, 29, 29, 29, 29, 29, 29, 29, 29, 29, /* 21 - 30 */
-      29, 29, 29, 29, 29, 29, 29, 29, 29, 27, /* 31 - 40 */
-      27, 27, 27, 27, 27, 27, 27, 27, 27, 27, /* 41 - 50 */
-      27, 27, 27, 25, 25, 25, 25, 25, 25, 25, /* 51 - 60 */
-      25, 25, 25, 25, 23, 23, 23, 23, 23, 23, /* 61 - 70 */
-      23, 23, 23, 23, 23, 23, 23 };           /* 71 - 77 */
-
+static const char sector_map_d64[4] = { 21, 19, 18, 17 };
+static const char sector_map_d67[4] = { 21, 20, 18, 17 };
+static const char sector_map_d80[4] = { 29, 27, 25, 23 };
 
 unsigned int disk_image_sector_per_track(unsigned int format,
                                          unsigned int track)
@@ -119,30 +101,15 @@ unsigned int disk_image_sector_per_track(unsigned int format,
     switch (format) {
       case DISK_IMAGE_TYPE_D64:
       case DISK_IMAGE_TYPE_X64:
-        if (track >= sizeof(sector_map_d64)) {
-            log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return 0;
-        }
-        return sector_map_d64[track];
-      case DISK_IMAGE_TYPE_D67:
-        if (track >= sizeof(sector_map_d67)) {
-            log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return 0;
-        }
-        return sector_map_d67[track];
+      case DISK_IMAGE_TYPE_G64:
+      case DISK_IMAGE_TYPE_P64:
       case DISK_IMAGE_TYPE_D71:
-        if (track >= sizeof(sector_map_d71)) {
-            log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return 0;
-        }
-        return sector_map_d71[track];
+          return sector_map_d64[disk_image_speed_map(format, track)];
+      case DISK_IMAGE_TYPE_D67:
+          return sector_map_d67[disk_image_speed_map(format, track)];
       case DISK_IMAGE_TYPE_D80:
       case DISK_IMAGE_TYPE_D82:
-        if (track >= sizeof(sector_map_d80)) {
-            log_message(disk_image_log, "Track %i exceeds sector map.", track);
-            return 0;
-        }
-        return sector_map_d80[track];
+          return sector_map_d80[disk_image_speed_map(format, track)];
       default:
         log_message(disk_image_log,
                     "Unknown disk type %i.  Cannot calculate sectors per track",

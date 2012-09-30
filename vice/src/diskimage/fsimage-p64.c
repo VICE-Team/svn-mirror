@@ -138,7 +138,7 @@ int fsimage_p64_read_half_track(disk_image_t *image, unsigned int half_track,
 
     track = half_track / 2;
 
-    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[half_track], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map_1541((track > 0) ? (track - 1) : 0)) + 7) >> 3;
+    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[half_track], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, (track > 0) ? track : 1)) + 7) >> 3;
 
     if (*gcr_track_size < 1) {
         *gcr_track_size = 6520;
@@ -164,7 +164,7 @@ static int fsimage_p64_read_track(disk_image_t *image, unsigned int track,
 
     memset(gcr_data, 0xff, 6250);
 
-    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[track << 1], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map_1541((track > 0) ? (track - 1) : 0)) + 7) >> 3;
+    *gcr_track_size = (P64PulseStreamConvertToGCRWithLogic(&P64Image->PulseStreams[track << 1], (void*)gcr_data, NUM_MAX_MEM_BYTES_TRACK, disk_image_speed_map(image->type, (track > 0) ? track : 1)) + 7) >> 3;
 
     if (*gcr_track_size < 1) {
         *gcr_track_size = 6520;

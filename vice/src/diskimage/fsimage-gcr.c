@@ -63,7 +63,7 @@ int fsimage_read_gcr_image(disk_image_t *image)
         track_data = image->gcr->track_data[half_track];
 
         if (fsimage_gcr_read_half_track(image, half_track + 2, track_data, &gcr_track_size) < 0) {
-            image->gcr->track_size[half_track] = raw_track_size[disk_image_speed_map_1541(half_track / 2)];
+            image->gcr->track_size[half_track] = raw_track_size[disk_image_speed_map(image->type, (half_track / 2) + 1)];
             continue;
         }
         image->gcr->track_size[half_track] = gcr_track_size;
@@ -160,7 +160,7 @@ int fsimage_gcr_read_half_track(disk_image_t *image, unsigned int half_track,
             return -1;
         }
     } else {
-        *gcr_track_size = raw_track_size[disk_image_speed_map_1541(half_track / 2 - 1)];
+        *gcr_track_size = raw_track_size[disk_image_speed_map(image->type, half_track / 2)];
 
         memset(gcr_data, 0x55, *gcr_track_size);
     }
@@ -243,7 +243,7 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
                 return -1;
             }
 
-            util_dword_to_le_buf(buf, disk_image_speed_map_1541(half_track / 2 - 1));
+            util_dword_to_le_buf(buf, disk_image_speed_map(image->type, half_track / 2));
             if (util_fpwrite(fsimage->fd, buf, 4, 12 + (half_track - 2 + num_half_tracks) * 4) < 0) {
                 log_error(fsimage_gcr_log, "Could not write GCR disk image.");
                 return -1;
