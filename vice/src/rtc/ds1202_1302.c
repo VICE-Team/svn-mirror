@@ -573,6 +573,7 @@ BYTE ds1202_1302_read_data_line(rtc_ds1202_1302_t *context)
         case DS1202_1302_OUTPUT_BURST_DATA_BITS:
             return context->output_bit;
     }
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
