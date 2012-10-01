@@ -3,8 +3,8 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <prefix> <cross> <--enable-arch> <zip|nozip> <x64sc-included> <system> <gui> <infodir> <mandir> <topsrcdir> <make-command>
-#                 $1      $2             $3       $4      $5              $6          $7               $8       $9    $10       $11      $12
+# make-bindist.sh <strip> <vice-version> <prefix> <cross> <--enable-arch> <zip|nozip> <x64sc-included> <system> <gui> <infodir> <mandir> <topsrcdir> <make-command> <host-cpu> <host-os>
+#                 $1      $2             $3       $4      $5              $6          $7               $8       $9    $10       $11      $12         $13            $14        $15
 
 STRIP=$1
 VICEVERSION=$2
@@ -27,6 +27,12 @@ TOPSRCDIR=$9
 
 shift
 MAKECOMMAND=$9
+
+shift
+HOSTCPU=$9
+
+shift
+HOSTOS=$9
 
 setnormalmake()
 {
@@ -64,10 +70,39 @@ checkmake()
 {
   GNUMAKE=`$MAKECOMMAND --version`
   case "$GNUMAKE" in
-  GNU*)
-     setnormalmake
-     ;;
+    GNU*)
+      ;;
+    *)
+      setnormalmake
+      ;;
   esac
+}
+
+trimpath()
+{
+  pmlen=`expr length $1`
+  pmlen=`expr $pmlen - 1`
+  pmpath=`expr substr $1 2 $pmlen`
+}
+
+splitpmfile()
+{
+  pmmask=$1
+  pmsize=$2
+  pmdate=$3
+  pmrealblocks=$4
+  pmblocksize=$5
+
+  if test x"$pmblocksize" != "x512"; then
+    pmblocks=`expr $pmrealblocks \* $pmblocksize \/ 512`
+  else
+    pmblocks=$pmrealblocks
+  fi
+}
+
+splitsum()
+{
+  pmrealsum=$1
 }
 
 if test x"$PREFIX" != "x/usr/local"; then
@@ -95,11 +130,6 @@ if test x"$SYSTEM" = "xsol"; then
   checkmake
 fi
 
-if test x"$CROSS" = "xtrue"; then
-  echo Error: make bindist for $PLATFORM can only be done on $PLATFORM
-  exit 1
-fi
-
 if test x"$X64SC" = "xyes"; then
   SCFILE="x64sc"
 else
@@ -120,85 +150,149 @@ do
 done
 
 echo Generating $PLATFORM port binary distribution.
-rm -f -r VICE-$VICEVERSION
 curdir=`pwd`
-$MAKECOMMAND -e prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install
+if [ ! -e make-e-failed.tmp ]
+then
+  rm -f -r VICE-$VICEVERSION
+  $MAKECOMMAND -e prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install
+  if [ ! -e VICE-$VICEVERSION/usr/local/bin/x64 ]
+  then
+    echo "For some unknown reason the make did not create the correct directories, please enter the following command:"
+    echo "$MAKECOMMAND -e prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install"
+    echo ""
+    echo "After the command finishes do a make bindist(zip) again"
+    touch make-e-failed.tmp
+    exit 1
+  fi
+else
+  if [ ! -e VICE-$VICEVERSION/usr/local/bin/x64 ]
+  then
+    echo "For some unknown reason the make did not create the correct directories, please enter the following command:"
+    echo "$MAKECOMMAND -e prefix=$curdir/VICE-$VICEVERSION/usr/local VICEDIR=$curdir/VICE-$VICEVERSION/usr/local/lib/vice install"
+    echo ""
+    echo "After the command finishes do a make bindist(zip) again"
+    touch make-e-failed.tmp
+    exit 1
+  else
+    rm -f make-e-failed.tmp
+  fi
+fi
+
 for i in $EXECUTABLES
 do
   $STRIP VICE-$VICEVERSION/usr/local/bin/$i
 done
 mkdir -p VICE-$VICEVERSION/$MANDIR/man1
 if test x"$ZIPKIND" = "xzip"; then
-  rm -f -r /var/spool/pkg/UMCVICE
-  gcc $TOPSRCDIR/src/arch/unix/sco_sol/convertprototype.c -o ./convertprototype
 
-  currentdir=`pwd`
-
-  cd VICE-$VICEVERSION/usr/local
-  find . -print | pkgproto >prototype.tmp
-  echo >prototype "i pkginfo=./pkginfo"
-  $currentdir/convertprototype prototype.tmp >>prototype
+  if test x"$GUI" = "xgtk"; then
+    GUIVICE=GTKVICE
+  else
+    GUIVICE=XAWVICE
+  fi
 
   if test x"$SYSTEM" = "xsol"; then
-    arch_cpu_name=`uname -m`
     arch_cpu=unknown
 
-    file bin/x64 >file.tmp
+    file VICE-$VICEVERSION/usr/local/bin/x64 >file.tmp
     cpu_is_64bit=`sed -n -e "s/.*\(64-bit\).*/\1/p" file.tmp`
     rm -f file.tmp
 
-    if test x"$arch_cpu_name" = "xi86pc"; then
+    if test x"$HOSTCPU" = "xs390"; then
+      arch_cpu=s390
+      arch_expected_cpu=s390
+    fi
+
+    if test x"$HOSTCPU" = "xarm"; then
+      arch_cpu=arm
+      arch_expected_cpu=arm
+    fi
+
+    if test x"$HOSTCPU" = "xi386"; then
+      arch_cpu=x86
+      arch_expected_cpu=i86pc
+    fi
+
+    if test x"$HOSTCPU" = "xi486"; then
+      arch_cpu=x86
+      arch_expected_cpu=i86pc
+    fi
+
+    if test x"$HOSTCPU" = "xi586"; then
+      arch_cpu=x86
+      arch_expected_cpu=i86pc
+    fi
+
+    if test x"$HOSTCPU" = "xi686"; then
+      arch_cpu=x86
+      arch_expected_cpu=i86pc
+    fi
+
+    if test x"$HOSTCPU" = "xamd64"; then
+      arch_cpu=amd64
+      arch_expected_cpu=i86pc
+    fi
+
+    if test x"$HOSTCPU" = "xx86_64"; then
+      arch_cpu=amd64
+      arch_expected_cpu=i86pc
+    fi
+
+    if test x"$HOSTCPU" = "xsparc"; then
+      arch_cpu=sparc
+      arch_expected_cpu=sparc
+    fi
+
+    if test x"$HOSTCPU" = "xsparc64"; then
+      arch_cpu=sparc64
+      arch_expected_cpu=sparc
+    fi
+
+    if test x"$arch_cpu" = "xx86"; then
       if test x"$cpu_is_64bit" = "x64-bit"; then
         arch_cpu=amd64
-      else
-        arch_cpu=x86
       fi
     fi
 
-    if test x"$arch_cpu_name" = "xs390"; then
-      arch_cpu=s390
-    fi
-
-    if test x"$arch_cpu_name" = "xarm"; then
-      arch_cpu=arm
-    fi
-
-    if test x"$arch_cpu" = "xunknown"; then
+    if test x"$arch_cpu" = "xsparc"; then
       if test x"$cpu_is_64bit" = "x64-bit"; then
         arch_cpu=sparc64
-      else
-        arch_cpu=sparc
       fi
     fi
 
-    arch_version=`uname -r`
-
-    if test x"$arch_version" = "x5.5.1"; then
+    if test x"$HOSTOS" = "xsolaris2.5.1"; then
       arch_version=sol25
+      arch_expected_version=5.5.1
     fi
 
-    if test x"$arch_version" = "x5.6"; then
+    if test x"$HOSTOS" = "xsolaris2.6"; then
       arch_version=sol26
+      arch_expected_version=5.6
     fi
 
-    if test x"$arch_version" = "x5.7"; then
+    if test x"$HOSTOS" = "xsolaris2.7"; then
       arch_version=sol7
+      arch_expected_version=5.7
     fi
 
-    if test x"$arch_version" = "x5.8"; then
+    if test x"$HOSTOS" = "xsolaris2.8"; then
       arch_version=sol8
+      arch_expected_version=5.8
     fi
 
-    if test x"$arch_version" = "x5.9"; then
+    if test x"$HOSTOS" = "xsolaris2.9"; then
       arch_version=sol9
+      arch_expected_version=5.9
     fi
 
-    if test x"$arch_version" = "x5.10"; then
+    if test x"$HOSTOS" = "xsolaris2.10"; then
       arch_version=sol10
+      arch_expected_version=5.10
     fi
 
-    if test x"$arch_version" = "x5.11"; then
+    if test x"$HOSTOS" = "xsolaris2.11"; then
       arch_version=sol11
+      arch_expected_version=5.11
     fi
   else
     arch_cpu=x86
@@ -216,8 +310,13 @@ if test x"$ZIPKIND" = "xzip"; then
     fi
   fi
 
-  cat >pkginfo <<_END
-PKG="UMCVICE"
+  mv VICE-$VICEVERSION $GUIVICE
+  mkdir $GUIVICE/root
+  mkdir $GUIVICE/install
+  mv $GUIVICE/usr $GUIVICE/root/
+
+  cat >$GUIVICE/pkginfo <<_END
+PKG="$GUIVICE"
 NAME="VICE-$GUI"
 ARCH="$arch_cpu"
 VERSION="$VICEVERSION"
@@ -225,24 +324,73 @@ CATEGORY="emulator"
 VENDOR="The VICE Team"
 EMAIL="vice-emu-mail@lists.sourceforge.net"
 PSTAMP="Marco van den Heuvel"
-BASEDIR="/usr/local"
+BASEDIR=/
 CLASSES="none"
 _END
 
-  packagename=vice-$GUI-$VICEVERSION-$arch_version-$arch_cpu-local
+  if test x"$SYSTEM" = "xsol"; then
+    cat >$GUIVICE/install/checkinstall.tmp <<_END
+#!/bin/sh
+#
+expected_release="$arch_expected_version"
+expected_platform="$arch_expected_cpu"
+#
+_END
+    cat >$GUIVICE/install/checkinstall $GUIVICE/install/checkinstall.tmp $TOPSRCDIR/src/arch/unix/sco_sol/checkinstall
+    rm -f $GUIVICE/install/checkinstall.tmp
+  else
+    cat >$GUIVICE/install/checkinstall <<_END
+#!/bin/sh
+#
+exit 0
+_END
+  fi
 
-  echo >$currentdir/input.txt all
+  cd $GUIVICE/root
+  totalblocks=0
+  for i in `find .`
+  do
+    if test x"$i" != "x." -a x"$i" != "x./usr" -a x"$i" != "x./usr/local"; then
+      filetype=`stat -c %F $i`
+      if test x"$filetype" = "xdirectory"; then
+        trimpath $i
+        pmmask=`stat -c %a $i`
+        echo >>../pkgmap.tmp "1 d none $pmpath 0$pmmask root root"
+      else
+        trimpath $i
+        pmfile=`stat -c "%a %s %Y %b %B" $i`
+        splitpmfile $pmfile
+        pmsum=`sum -s $i`
+        splitsum $pmsum
+        echo >>../pkgmap.tmp "1 f none $pmpath 0$pmmask root root $pmsize $pmrealsum $pmdate"
+        totalblocks=`expr $totalblocks + $pmblocks`
+      fi
+    fi
+  done
+  cd ..
+  pmfile=`stat -c "%a %s %Y %b %B" install/checkinstall`
+  splitpmfile $pmfile
+  pmsum=`sum -s install/checkinstall`
+  splitsum $pmsum
+  echo >>pkgmap.tmp "1 i checkinstall $pmsize $pmrealsum $pmdate"
+  pmfile=`stat -c "%a %s %Y %b %B" pkginfo`
+  splitpmfile $pmfile
+  pmsum=`sum -s pkginfo`
+  splitsum $pmsum
+  echo >>pkgmap.tmp "1 i pkginfo $pmsize $pmrealsum $pmdate"
+  echo >>pkgmap.hdr ": 1 $totalblocks"
+  cat >pkgmap pkgmap.hdr pkgmap.tmp
+  rm -f pkgmap.hdr pkgmap.tmp
 
-  pkgmk -r `pwd`
-  rm -f -r prototype.tmp
-  cd /var/spool/pkg
-  pkgtrans -s `pwd` /tmp/$packagename <$currentdir/input.txt
-  gzip /tmp/$packagename
-  cd $currentdir
-  mv /tmp/$packagename.gz ./
-  rm -f -r VICE-$VICEVERSION convertprototype $currentdir/input.txt
+  cd ..
+  packagename=vice-$GUI-$VICEVERSION-$arch_version-$arch_cpu-local.pkg
 
-  echo $PLATFORM port binary package generated as $packagename.gz
+  tar cf $packagename.tar $GUIVICE
+  gzip $packagename.tar
+  mv $packagename.tar.gz $packagename.tgz
+  rm -f -r $GUIVICE
+
+  echo $PLATFORM port binary package generated as $packagename.tgz
 else
   echo $PLATFORM port binary distribution directory generated as VICE-$VICEVERSION
 fi

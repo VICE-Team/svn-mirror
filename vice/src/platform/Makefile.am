@@ -18,12 +18,12 @@ libplatform_a_SOURCES = \
 	platform_discovery.h \
 	platform_freebsd_version.h \
 	platform_linux_libc_version.h \
+	platform_macosx.c \
+	platform_macosx.h \
 	platform_netbsd_version.h \
 	platform_openbsd_version.h \
 	platform_os2_runtime_os.c \
 	platform_qnx6_version.h \
+	platform_solaris_runtime_os.c \
 	platform_windows_runtime_os.c \
-	platform_x86_runtime_cpu.c \
-	platform_macosx.c \
-	platform_macosx.h
-
+	platform_x86_runtime_cpu.c

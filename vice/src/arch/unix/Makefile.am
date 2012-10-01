@@ -90,7 +90,7 @@ EXTRA_DIST = \
 	qnx6/getlibs.c \
 	qnx6/getsize.c \
 	qnx6/make-bindist.sh \
-	sco_sol/convertprototype.c \
+	sco_sol/checkinstall \
 	sco_sol/make-bindist.sh \
         skyos/icons/vsid.ico \
 	skyos/icons/x64.ico \

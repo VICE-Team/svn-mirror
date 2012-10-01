@@ -47,6 +47,7 @@
    - Windows 2000 Server (x86)
    - Windows 2000 Advanced Server (x86)
    - Windows 2000 Datacenter Server (x86)
+   - Windows 2000 Powered (x86)
    - Windows XP PE (x86)
    - Windows XP Embedded (x86)
    - Windows XP FLP (x86)
@@ -323,6 +324,8 @@ static winver_t windows_versions[] = {
       5, 0, 6, VER_NT_WORKSTATION, 0, -1, -1 },
     { "Windows 2000", VER_PLATFORM_WIN32_NT,
       5, 0, 6, -1, 0, -1, -1 },
+    { "Windows 2000 Powered", VER_PLATFORM_WIN32_NT,
+      5, 0, 6, VER_NT_SERVER, VER_SUITE_BLADE, -1, -1 },
     { "Windows 2000 Datacenter Server / Windows 2000 Datacenter Server Limited Edition", VER_PLATFORM_WIN32_NT,
       5, 0, 6, VER_NT_SERVER, VER_SUITE_DATACENTER, -1, -1 },
     { "Windows 2000 Advanced Server / Windows 2000 Advanced Server Limited Edition", VER_PLATFORM_WIN32_NT,
