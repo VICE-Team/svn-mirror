@@ -1227,6 +1227,7 @@ if test x"$is_unix" = "xyes"; then
                    AC_DEFINE(HAVE_DYNLIB_SUPPORT,,
                              [Support for dynamic library loading.])
                    dynlib_support=yes
+                   LIBS="-ldl $LIBS"
                  ],,)
     fi
   fi
@@ -1390,6 +1391,8 @@ if test x"$is_unix_x11" = "xyes" -o x"$is_dos" = "xyes" -o x"$is_unix_macosx" = 
   if test x"$UNIX_NETWORK_HEADERS_PRESENT" = "xyes"; then
 
     dnl Check for possible extra needed network libraries
+    AC_CHECK_LIB(intl, dgettext,[ NETPLAY_LIBS="-lintl $NETPLAY_LIBS";
+                                  LIBS="-lintl $LIBS"],,)
     AC_CHECK_LIB(nsl, gethostbyname,[ NETPLAY_LIBS="-lnsl $NETPLAY_LIBS";
                                       LIBS="-lnsl $LIBS"],,)
     AC_CHECK_LIB(socket, gethostbyname,[ NETPLAY_LIBS="-lsocket $NETPLAY_LIBS";
@@ -2527,9 +2530,15 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     fi
     LINK_X_LIBS=${READLINE_LIBS} ${LINK_X_LIBS}
     AC_DEFINE(USE_COLOR_MANAGEMENT,,[Enable new color management code.])
+
+    AC_CHECK_LIB(w, wslen,[ X_LIBS="-lw $X_LIBS";
+                 LINK_X_LIBS="-lw $LINK_X_LIBS"],,$X_LIBS)
+
+    AC_CHECK_LIB(intl, dgettext,[ X_LIBS="-lintl $X_LIBS";
+                 LINK_X_LIBS="-lintl $LINK_X_LIBS"],,$X_LIBS)
+
     dnl instead of assuming that libsocket needs libnsl, we
     dnl will check the existance of libnsl first.
-
     AC_CHECK_LIB(nsl, gethostbyname,[ X_LIBS="-lnsl $X_LIBS";
                  LINK_X_LIBS="-lnsl $LINK_X_LIBS"],,$X_LIBS)
     AC_CHECK_LIB(socket, gethostbyname,[ X_LIBS="-lsocket $X_LIBS";
