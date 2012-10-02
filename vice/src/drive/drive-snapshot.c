@@ -715,7 +715,7 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
     snapshot_module_t *m;
     BYTE sector_data[0x100];
     WORD word;
-    int track, sector;
+    disk_addr_t dadr;
     int rc;
     drive_t *drive;
 
@@ -743,18 +743,17 @@ static int drive_snapshot_write_image_module(snapshot_t *s, unsigned int dnr)
 
     /* we use the return code to step through the tracks. So we do not
        need any geometry info. */
-    for (track = 1; ; track++) {
+    for (dadr.track = 1; ; dadr.track++) {
         rc = 0;
-        for (sector = 0; ; sector++) {
-            rc = disk_image_read_sector(drive->image, sector_data, track,
-                                        sector);
+        for (dadr.sector = 0; ; dadr.sector++) {
+            rc = disk_image_read_sector(drive->image, sector_data, &dadr);
             if (rc == 0) {
                 SMW_BA(m, sector_data, 0x100);
             } else {
                 break;
             }
         }
-        if (sector == 0) {
+        if (dadr.sector == 0) {
             break;
         }
     }
@@ -775,7 +774,7 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     int len = 0;
     FILE *fp;
     BYTE sector_data[0x100];
-    int track, sector;
+    disk_addr_t dadr;
     int rc;
     drive_t *drive;
 
@@ -865,18 +864,17 @@ static int drive_snapshot_read_image_module(snapshot_t *s, unsigned int dnr)
     /* we use the return code to step through the tracks. So we do not
        need any geometry info. */
     SMR_BA(m, sector_data, 0x100);
-    for (track = 1; ; track++) {
+    for (dadr.track = 1; ; dadr.track++) {
         rc = 0;
-        for (sector = 0; ; sector++) {
-            rc = disk_image_write_sector(drive->image, sector_data, track,
-                                         sector);
+        for (dadr.sector = 0; ; dadr.sector++) {
+            rc = disk_image_write_sector(drive->image, sector_data, &dadr);
             if (rc == 0) {
                 SMR_BA(m, sector_data, 0x100);
             } else {
                 break;
             }
         }
-        if (sector == 0) {
+        if (dadr.sector == 0) {
             break;
         }
     }

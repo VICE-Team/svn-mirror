@@ -235,18 +235,18 @@ int fsimage_read_dxx_image(const disk_image_t *image)
 }
 
 int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf,
-                               unsigned int track, unsigned int sector)
+                               const disk_addr_t *dadr)
 {
     int sectors;
     long offset;
     fsimage_t *fsimage = image->media.fsimage;
     fdc_err_t rf;
 
-    sectors = disk_image_check_sector(image, track, sector);
+    sectors = disk_image_check_sector(image, dadr->track, dadr->sector);
 
     if (sectors < 0) {
         log_error(fsimage_dxx_log, "Track %i, Sector %i out of bounds.",
-                track, sector);
+                dadr->track, dadr->sector);
         return -1;
     }
 
@@ -259,13 +259,13 @@ int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf,
         if (util_fpread(fsimage->fd, buf, 256, offset) < 0) {
             log_error(fsimage_dxx_log,
                     "Error reading T:%i S:%i from disk image.",
-                    track, sector);
+                    dadr->track, dadr->sector);
             return -1;
         } else {
             rf = fsimage->error_info.map ? fsimage->error_info.map[sectors] : CBMDOS_FDC_ERR_OK;
         }
     } else {
-        rf = gcr_read_sector(&image->gcr->tracks[(track * 2) - 2], buf, sector);
+        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector);
     }
 
     switch (rf) {
@@ -299,7 +299,7 @@ int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf,
 }
 
 int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf,
-                                unsigned int track, unsigned int sector)
+                                const disk_addr_t *dadr)
 {
     int sectors;
     long offset;
@@ -307,11 +307,11 @@ int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf,
 
     fsimage = image->media.fsimage;
 
-    sectors = disk_image_check_sector(image, track, sector);
+    sectors = disk_image_check_sector(image, dadr->track, dadr->sector);
 
     if (sectors < 0) {
         log_error(fsimage_dxx_log, "Track: %i, Sector: %i out of bounds.",
-                track, sector);
+                dadr->track, dadr->sector);
         return -1;
     }
     offset = sectors * 256;
@@ -321,11 +321,11 @@ int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf,
 
     if (util_fpwrite(fsimage->fd, buf, 256, offset) < 0) {
         log_error(fsimage_dxx_log, "Error writing T:%i S:%i to disk image.",
-                track, sector);
+                dadr->track, dadr->sector);
         return -1;
     }
     if (image->gcr != NULL) {
-        gcr_write_sector(&image->gcr->tracks[(track * 2) - 2], buf, sector);
+        gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector);
     }
 
     if ((fsimage->error_info.map != NULL)
@@ -338,7 +338,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf,
         fsimage->error_info.map[sectors] = CBMDOS_FDC_ERR_OK;
         if (util_fpwrite(fsimage->fd, &fsimage->error_info.map[sectors], 1, offset) < 0) {
             log_error(fsimage_dxx_log, "Error writing T:%i S:%i error info to disk image.",
-                    track, sector);
+                    dadr->track, dadr->sector);
         }
     }
 

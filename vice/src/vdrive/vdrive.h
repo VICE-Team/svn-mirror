@@ -212,6 +212,10 @@ extern void vdrive_set_last_read(unsigned int track, unsigned int sector,
 extern void vdrive_alloc_buffer(struct bufferinfo_s *p, int mode);
 extern void vdrive_free_buffer(struct bufferinfo_s *p);
 extern void vdrive_set_disk_geometry(vdrive_t *vdrive);
+extern int vdrive_read_sector(vdrive_t *vdrive, BYTE *buf,
+                              unsigned int track, unsigned int sector);
+extern int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf,
+                               unsigned int track, unsigned int sector);
 
 #endif
 

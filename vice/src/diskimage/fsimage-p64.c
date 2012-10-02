@@ -202,27 +202,27 @@ static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
 /* Read a sector from the P64 disk image.  */
 
 int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
-                               unsigned int track, unsigned int sector)
+                               const disk_addr_t *dadr)
 {
     fdc_err_t rf;
     disk_track_t raw;
 
-    if (track > 42) {
-        log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot read P64 track.", track);
+    if (dadr->track > 42) {
+        log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot read P64 track.", dadr->track);
         return -1;
     }
 
-    if (fsimage_p64_read_track(image, track, &raw) < 0) {
+    if (fsimage_p64_read_track(image, dadr->track, &raw) < 0) {
         return -1;
     }
     if (raw.data == NULL) {
         return CBMDOS_IPE_NOT_READY;
     }
 
-    rf = gcr_read_sector(&raw, buf, sector);
+    rf = gcr_read_sector(&raw, buf, dadr->sector);
     lib_free(raw.data);
     if (rf != CBMDOS_FDC_ERR_OK) {
-        log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", track, sector);
+        log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", dadr->track, dadr->sector);
         switch (rf) {
         case CBMDOS_FDC_ERR_HEADER:
             return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
@@ -258,29 +258,29 @@ int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
 /* Write a sector to the P64 disk image.  */
 
 int fsimage_p64_write_sector(disk_image_t *image, const BYTE *buf,
-                                unsigned int track, unsigned int sector)
+                                const disk_addr_t *dadr)
 {
     disk_track_t raw;
 
-    if (track > 42) {
-        log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot write P64 sector", track);
+    if (dadr->track > 42) {
+        log_error(fsimage_p64_log, "Track %i out of bounds.  Cannot write P64 sector", dadr->track);
         return -1;
     }
 
-    if (fsimage_p64_read_track(image, track, &raw) < 0
+    if (fsimage_p64_read_track(image, dadr->track, &raw) < 0
             || raw.data == NULL) {
-        log_error(fsimage_p64_log, "Cannot read track %i from P64 image.", track);
+        log_error(fsimage_p64_log, "Cannot read track %i from P64 image.", dadr->track);
         return -1;
     }
 
-    if (gcr_write_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
-        log_error(fsimage_p64_log, "Could not find track %i sector %i in disk image", track, sector);
+    if (gcr_write_sector(&raw, buf, dadr->sector) != CBMDOS_FDC_ERR_OK) {
+        log_error(fsimage_p64_log, "Could not find track %i sector %i in disk image", dadr->track, dadr->sector);
         lib_free(raw.data);
         return -1;
     }
 
-    if (fsimage_p64_write_track(image, track, raw.size, raw.data) < 0) {
-        log_error(fsimage_p64_log, "Failed writing track %i to disk image.", track);
+    if (fsimage_p64_write_track(image, dadr->track, raw.size, raw.data) < 0) {
+        log_error(fsimage_p64_log, "Failed writing track %i to disk image.", dadr->track);
         lib_free(raw.data);
         return -1;
     }

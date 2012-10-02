@@ -213,9 +213,10 @@ inline WORD fdd_crc(WORD crc, BYTE b)
 }
 
 static void fdd_flush_raw(fd_drive_t *drv) {
-    int i, j, s, p, it, is, step, d;
+    int i, j, s, p, step, d;
     BYTE *data;
     WORD w;
+    disk_addr_t dadr;
 
     if (!drv->raw.dirty) {
         return;
@@ -333,16 +334,16 @@ static void fdd_flush_raw(fd_drive_t *drv) {
                     continue;
                 case 14:
 
-                    is = (drv->raw.track_head ^ drv->head_invert) * drv->sectors + s;
-                    is <<= drv->sector_size - 1;
-                    it = is / drv->image_sectors + 1;
-                    is = is % drv->image_sectors;
+                    dadr.sector = (drv->raw.track_head ^ drv->head_invert) * drv->sectors + s;
+                    dadr.sector <<= drv->sector_size - 1;
+                    dadr.track = dadr.sector / drv->image_sectors + 1;
+                    dadr.sector = dadr.sector % drv->image_sectors;
 
                     for (j = 0; j < (1 << drv->sector_size); j += 2) {
-                        disk_image_write_sector(drv->image, data + j * 128, it, is);
-                        is = (is + 1) % drv->image_sectors;
-                        if (!is) {
-                            it++;
+                        disk_image_write_sector(drv->image, data + j * 128, &dadr);
+                        dadr.sector = (dadr.sector + 1) % drv->image_sectors;
+                        if (!dadr.sector) {
+                            dadr.track++;
                         }
                     }
                     i = drv->raw.size * 2;
@@ -355,9 +356,10 @@ static void fdd_flush_raw(fd_drive_t *drv) {
 }
 
 static void fdd_update_raw(fd_drive_t *drv) {
-    int i, j, s, p, it, is, res;
+    int i, j, s, p, res;
     BYTE buffer[256];
     WORD crc;
+    disk_addr_t dadr;
 
     if (drv->track * 2 + drv->head == drv->raw.track_head) {
         return;
@@ -374,8 +376,8 @@ static void fdd_update_raw(fd_drive_t *drv) {
 
         i = (drv->track * 2 + (drv->head ^ drv->head_invert)) * drv->sectors;
         i <<= drv->sector_size - 1;
-        it = i / drv->image_sectors + 1;
-        is = i % drv->image_sectors;
+        dadr.track = i / drv->image_sectors + 1;
+        dadr.sector = i % drv->image_sectors;
 
         if (drv->iso) {
             p = 32; /* GAP 4a */
@@ -415,7 +417,7 @@ static void fdd_update_raw(fd_drive_t *drv) {
             }
             crc = 0xe295;
             for (j = 0; j < (1 << drv->sector_size); j += 2) {
-                res = disk_image_read_sector(drv->image, buffer, it, is);
+                res = disk_image_read_sector(drv->image, buffer, &dadr);
                 if (res < 0) {
                     return;
                 }
@@ -432,9 +434,9 @@ static void fdd_update_raw(fd_drive_t *drv) {
                     fdd_raw_write(buffer[i]);
                     crc = fdd_crc(crc, buffer[i]);
                 }
-                is = (is + 1) % drv->image_sectors;
-                if (!is) {
-                    it++;
+                dadr.sector = (dadr.sector + 1) % drv->image_sectors;
+                if (!dadr.sector) {
+                    dadr.track++;
                 }
             }
             fdd_raw_write(crc >> 8);

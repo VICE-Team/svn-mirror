@@ -143,7 +143,7 @@ static void vdrive_rel_commit(vdrive_t *vdrive, bufferinfo_t *p)
     /* Check for writes here to commit the buffers. */
     if (p->needsupdate & DIRTY_SECTOR) {
         /* Write the sector */
-        disk_image_write_sector(vdrive->image, p->buffer, p->track, p->sector);
+        vdrive_write_sector(vdrive, p->buffer, p->track, p->sector);
         /* Clear flag for next sector */
         p->needsupdate &= ~(DIRTY_SECTOR);
     }
@@ -387,7 +387,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
 
     /* update the "next" buffer to disk, we don't have a dirty flag for
         it. */
-    disk_image_write_sector(vdrive->image, p->buffer_next,
+    vdrive_write_sector(vdrive, p->buffer_next,
                             p->track_next, p->sector_next);
 
     /* If this is the first side sector being made */
@@ -548,7 +548,7 @@ static void vdrive_rel_flush_sidesectors(vdrive_t *vdrive, bufferinfo_t *p)
     /* Write super side sector if it is dirty and if it is not imaginary */
     if (p->super_side_sector_needsupdate && p->super_side_sector_track) {
         /* Write the super side sector */
-        disk_image_write_sector(vdrive->image, p->super_side_sector,
+        vdrive_write_sector(vdrive, p->super_side_sector,
                                 p->super_side_sector_track,
                                 p->super_side_sector_sector);
         /* Clear flag for super side sector */
@@ -566,7 +566,7 @@ static void vdrive_rel_flush_sidesectors(vdrive_t *vdrive, bufferinfo_t *p)
             if ( p->side_sector_needsupdate[o] && p->side_sector_track[o]) {
 
                 /* Write the super side sector */
-                disk_image_write_sector(vdrive->image, &(p->side_sector[o*256]),
+                vdrive_write_sector(vdrive, &(p->side_sector[o*256]),
                                         p->side_sector_track[o],
                                         p->side_sector_sector[o]);
 
@@ -651,7 +651,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
     /* Allocate memory for super side sector */
     p->super_side_sector = lib_malloc(256);
 
-    if (disk_image_read_sector(vdrive->image,
+    if (vdrive_read_sector(vdrive,
         p->super_side_sector, track, sector) != 0) {
         log_error(vdrive_rel_log, "Cannot read side sector.");
         lib_free((char *)p->super_side_sector);
@@ -710,7 +710,7 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
 
             o*=256;
 
-            if (disk_image_read_sector(vdrive->image,
+            if (vdrive_read_sector(vdrive,
                 &(p->side_sector[o]), track, sector) != 0) {
                 log_error(vdrive_rel_log, "Cannot read side sector.");
                 return -1;
@@ -780,7 +780,7 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
               vdrive->Curr_track, vdrive->Curr_sector);
 #endif
     /* Write the sector */
-    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+    vdrive_write_sector(vdrive, vdrive->Dir_buffer,
                             vdrive->Curr_track, vdrive->Curr_sector);
 
     /* Allocate memory for super side sector */
@@ -990,7 +990,7 @@ static unsigned int vdrive_rel_record_max(vdrive_t *vdrive, unsigned int seconda
     sector = p->side_sector[o + 1];
 
     /* read it in */
-    if (disk_image_read_sector(vdrive->image,
+    if (vdrive_read_sector(vdrive,
         p->buffer, track, sector) != 0) {
         log_error(vdrive_rel_log,
             "Cannot read relative file data sector.");
@@ -1077,7 +1077,7 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
         vdrive_rel_commit(vdrive, p);
 
         /* load in the sector to memory */
-        if (disk_image_read_sector(vdrive->image, p->buffer, track, sector) != 0) {
+        if (vdrive_read_sector(vdrive, p->buffer, track, sector) != 0) {
             log_error(vdrive_rel_log,
                 "Cannot read track %i sector %i.", track, sector);
             return 66;
@@ -1137,7 +1137,7 @@ int vdrive_rel_position(vdrive_t *vdrive, unsigned int secondary,
             /* Read in the sector if it has not been buffered */
             if (p->buffer[0] != p->track_next || p->buffer[1] != p->sector_next)
             {
-                status = disk_image_read_sector(vdrive->image, p->buffer_next, p->buffer[0],
+                status = vdrive_read_sector(vdrive, p->buffer_next, p->buffer[0],
                     p->buffer[1]);
             }
             else {
@@ -1210,7 +1210,7 @@ int vdrive_rel_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
                 status = 0;
             } else if (p->track!=track || p->sector != sector ) {
                 /* load in the sector to memory */
-                status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
+                status = vdrive_read_sector(vdrive, p->buffer, track, sector);
             }
 
             if (status == 0) {
@@ -1287,7 +1287,7 @@ int vdrive_rel_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
             if (p->buffer[0] != 0) {
                 /* Read in the sector if it has not been buffered */
                 if (p->buffer[0] != p->track_next || p->buffer[1] != p->sector_next) {
-                    status = disk_image_read_sector(vdrive->image, p->buffer_next, p->buffer[0],
+                    status = vdrive_read_sector(vdrive, p->buffer_next, p->buffer[0],
                     p->buffer[1]);
                 }
                 else {
@@ -1363,7 +1363,7 @@ int vdrive_rel_write(vdrive_t *vdrive, BYTE data, unsigned int secondary)
                 status = 0;
             } else if (p->track!=track || p->sector != sector ) {
                 /* load in the sector to memory */
-                status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
+                status = vdrive_read_sector(vdrive, p->buffer, track, sector);
             }
 
             if (status == 0) {
@@ -1505,7 +1505,7 @@ void vdrive_rel_listen(vdrive_t *vdrive, unsigned int secondary)
             if (p->buffer[0] != 0) {
                 /* Read in the sector if it has not been buffered */
                 if (p->buffer[0] != p->track_next || p->buffer[1] != p->sector_next) {
-                    status = disk_image_read_sector(vdrive->image, p->buffer_next, p->buffer[0],
+                    status = vdrive_read_sector(vdrive, p->buffer_next, p->buffer[0],
                     p->buffer[1]);
                 }
                 else {

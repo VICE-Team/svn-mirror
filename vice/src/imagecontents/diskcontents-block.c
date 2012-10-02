@@ -139,7 +139,7 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
         BYTE *p;
         int j;
 
-        retval = disk_image_read_sector(vdrive->image, buffer,
+        retval = vdrive_read_sector(vdrive, buffer,
                                         vdrive->Curr_track,
                                         vdrive->Curr_sector);
 

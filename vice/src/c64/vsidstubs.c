@@ -932,12 +932,12 @@ int disk_image_fsimage_create(const char *name, unsigned int type)
     return 0;
 }
 
-int disk_image_write_sector(disk_image_t *image, const BYTE *buf, unsigned int track, unsigned int sector)
+int disk_image_write_sector(disk_image_t *image, const BYTE *buf, const disk_addr_t *dadr)
 {
     return 0;
 }
 
-int disk_image_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track, unsigned int sector)
+int disk_image_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t *dadr)
 {
     return 0;
 }
@@ -1195,6 +1195,16 @@ int vdrive_iec_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 }
 
 int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf, unsigned int length)
+{
+    return 0;
+}
+
+int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf, unsigned int track, unsigned int sector)
+{
+    return 0;
+}
+
+int vdrive_read_sector(const vdrive_t *vdrive, BYTE *buf, unsigned int track, unsigned int sector)
 {
     return 0;
 }

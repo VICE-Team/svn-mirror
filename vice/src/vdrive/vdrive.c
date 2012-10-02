@@ -449,3 +449,23 @@ void vdrive_set_last_read(unsigned int track, unsigned int sector,
     memcpy(last_read_buffer, buffer, 256);
 }
 
+/* ------------------------------------------------------------------------- */
+/* This is where logical sectors are turned to physical. Not yet, but soon. */
+int vdrive_read_sector(vdrive_t *vdrive, BYTE *buf,
+                       unsigned int track, unsigned int sector)
+{
+    disk_addr_t dadr;
+    dadr.track = track;
+    dadr.sector = sector;
+    return disk_image_read_sector(vdrive->image, buf, &dadr);
+}
+
+int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf,
+                        unsigned int track, unsigned int sector)
+{
+    disk_addr_t dadr;
+    dadr.track = track;
+    dadr.sector = sector;
+    return disk_image_write_sector(vdrive->image, buf, &dadr);
+}
+

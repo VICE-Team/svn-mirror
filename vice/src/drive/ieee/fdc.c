@@ -142,7 +142,7 @@ static BYTE fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
     int i;
     int ret;
     BYTE rc = 0;
-
+    disk_addr_t dadr;
     BYTE sector_data[256];
 
     if (!memcmp(fdc[fnum].iprom + 0x2040, &fdc[fnum].buffer[0x100], 0x200)) {
@@ -168,24 +168,24 @@ static BYTE fdc_do_format_D20(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
 
         memset(sector_data, 0, 256);
 
-        for (ret = 0, track = 1; ret == 0 && track <= ntracks; track ++) {
+        for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track++) {
             for (i = 3; i >= 0; i--) {
-                if (track > sectorchangeat[i]) {
+                if (dadr.track > sectorchangeat[i]) {
                     nsectors = nsecs[i];
                     break;
                 }
             }
 #ifdef FDC_DEBUG
             log_message(fdc_log, "   track %d, -> %d sectors",
-                        track, nsectors);
+                        dadr.track, nsectors);
 #endif
-            for (sector = 0; sector < nsectors; sector ++) {
+            for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector ++) {
                 ret = disk_image_write_sector(fdc[dnr].image,
-                                             sector_data, track, sector);
+                                             sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
-                              track, sector);
+                              dadr.track, dadr.sector);
                     rc = FDC_ERR_DCHECK;
                     break;
                 }
@@ -211,6 +211,7 @@ static BYTE fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
     int i;
     int ret;
     BYTE rc = 0;
+    disk_addr_t dadr;
     BYTE sector_data[256];
 
     if (!memcmp(fdc[fnum].iprom + 0x1000, &fdc[fnum].buffer[0x100], 0x200)) {
@@ -235,24 +236,24 @@ static BYTE fdc_do_format_D40(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
 
         memset(sector_data, 0, 256);
 
-        for (ret = 0, track = 1; ret == 0 && track <= ntracks; track ++) {
+        for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track ++) {
             for (i = 3; i >= 0; i--) {
-                if (track > sectorchangeat[i]) {
+                if (dadr.track > sectorchangeat[i]) {
                     nsectors = fdc[fnum].buffer[0x99 + 3 - i];
                     break;
                 }
             }
 #ifdef FDC_DEBUG
             log_message(fdc_log, "   track %d, -> %d sectors",
-                        track, nsectors);
+                        dadr.track, nsectors);
 #endif
-            for (sector = 0; sector < nsectors; sector ++) {
+            for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector ++) {
                 ret = disk_image_write_sector(fdc[dnr].image,
-                                             sector_data, track, sector);
+                                             sector_data, &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
-                              track, sector);
+                              dadr.track, dadr.sector);
                     rc = FDC_ERR_DCHECK;
                     break;
                 }
@@ -277,6 +278,7 @@ static BYTE fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
     int i;
     int ret;
     BYTE rc = 0;
+    disk_addr_t dadr;
     BYTE sector_data[256];
 
     if (!memcmp(fdc[fnum].iprom, &fdc[fnum].buffer[0x100], 0x300)) {
@@ -311,29 +313,29 @@ static BYTE fdc_do_format_D80(fdc_t *fdc, unsigned int fnum, unsigned int dnr,
 
         memset(sector_data, 0, 256);
 
-        for (ret = 0, track = 1; ret == 0 && track <= ntracks; track ++) {
-            if (track < 78) {
+        for (ret = 0, dadr.track = 1; ret == 0 && dadr.track <= ntracks; dadr.track ++) {
+            if (dadr.track < 78) {
                 for (i=3; i >= 0; i--) {
-                    if (track < fdc[fnum].buffer[0xb0 + i]) {
+                    if (dadr.track < fdc[fnum].buffer[0xb0 + i]) {
                         nsectors = fdc[fnum].buffer[0x99 + i];
                         break;
                     }
                 }
             } else {
                 for (i=3; i >= 0; i--) {
-                    if (track < fdc[fnum].buffer[0xb4 + i]) {
+                    if (dadr.track < fdc[fnum].buffer[0xb4 + i]) {
                         nsectors = fdc[fnum].buffer[0x99 + i];
                         break;
                     }
                 }
             }
-            for (sector = 0; sector < nsectors; sector ++) {
+            for (dadr.sector = 0; dadr.sector < nsectors; dadr.sector ++) {
                 ret = disk_image_write_sector(fdc[dnr].image, sector_data,
-                                             track, sector);
+                                             &dadr);
                 if (ret < 0) {
                     log_error(LOG_DEFAULT,
                               "Could not update T:%d S:%d on disk image.",
-                              track, sector);
+                              dadr.track, dadr.sector);
                     rc = FDC_ERR_DCHECK;
                     break;
                 }
@@ -384,14 +386,14 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
     BYTE rc;
     int ret;
     int i;
-    unsigned int track, sector;
+    disk_addr_t dadr;
     BYTE *base;
     BYTE sector_data[256];
     BYTE disk_id[2];
     drive_t *drive;
 
-    track = header[2];
-    sector = header[3];
+    dadr.track = header[2];
+    dadr.sector = header[3];
 
     /* determine drive/disk image to use */
     if (drv < fdc[fnum].num_drives) {
@@ -407,7 +409,7 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
 #ifdef FDC_DEBUG
     log_message(fdc_log, "do job %02x, buffer %d ($%04x): d%d t%d s%d, "
                 "image=%p, type=%04d",
-                job, buf, (buf + 1) << 8, dnr, track, sector,
+                job, buf, (buf + 1) << 8, dnr, dadr.track, dadr.sector,
                 fdc[dnr].image,
                 fdc[dnr].image ? fdc[dnr].image->type : 0);
 #endif
@@ -427,12 +429,11 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
             rc = FDC_ERR_ID;
             break;
         }
-        ret = disk_image_read_sector(fdc[dnr].image, sector_data, track,
-                                     sector);
+        ret = disk_image_read_sector(fdc[dnr].image, sector_data, &dadr);
         if (ret < 0) {
             log_error(LOG_DEFAULT,
                       "Cannot read T:%d S:%d from disk image.",
-                      track, sector);
+                      dadr.track, dadr.sector);
             rc = FDC_ERR_DRIVE;
         } else {
             memcpy(base, sector_data, 256);
@@ -449,12 +450,11 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
             break;
         }
         memcpy(sector_data, base, 256);
-        ret = disk_image_write_sector(fdc[dnr].image, sector_data, track,
-                                     sector);
+        ret = disk_image_write_sector(fdc[dnr].image, sector_data, &dadr);
         if (ret < 0) {
             log_error(LOG_DEFAULT,
                       "Could not update T:%d S:%d on disk image.",
-                      track, sector);
+                      dadr.track, dadr.sector);
             rc = FDC_ERR_DRIVE;
         } else {
             rc = FDC_ERR_OK;
@@ -465,12 +465,11 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
             rc = FDC_ERR_ID;
             break;
         }
-        ret = disk_image_read_sector(fdc[dnr].image, sector_data, track,
-                                    sector);
+        ret = disk_image_read_sector(fdc[dnr].image, sector_data, &dadr);
         if (ret < 0) {
             log_error(LOG_DEFAULT,
                       "Cannot read T:%d S:%d from disk image.",
-                      track, sector);
+                      dadr.track, dadr.sector);
             rc = FDC_ERR_DRIVE;
         } else {
             rc = FDC_ERR_OK;
@@ -491,12 +490,12 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
         header[0] = disk_id[0];
         header[1] = disk_id[1];
         /* header[2] = fdc[dnr].last_track; */
-        track = header[2];
+        dadr.track = header[2];
         header[3] = 1;
         rc = FDC_ERR_OK;
         break;
       case 0xC0:          /* bump (to track 0 and back to 18?) */
-        track = 1;
+        dadr.track = 1;
         if (DOS_IS_20(fdc[fnum].drive_type)) {
             header[2] = 18;
         }
@@ -532,14 +531,14 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
         /* we have to check for standard format code that is copied
            to buffers 0-3 */
         if (DOS_IS_80(fdc[fnum].drive_type)) {
-            rc = fdc_do_format_D80(fdc, fnum, dnr, track, sector, buf, header);
+            rc = fdc_do_format_D80(fdc, fnum, dnr, dadr.track, dadr.sector, buf, header);
         } else
         if (DOS_IS_40(fdc[fnum].drive_type)
             || DOS_IS_30(fdc[fnum].drive_type)) {
-            rc = fdc_do_format_D40(fdc, fnum, dnr, track, sector, buf, header);
+            rc = fdc_do_format_D40(fdc, fnum, dnr, dadr.track, dadr.sector, buf, header);
         } else
         if (DOS_IS_20(fdc[fnum].drive_type)) {
-            rc = fdc_do_format_D20(fdc, fnum, dnr, track, sector, buf, header);
+            rc = fdc_do_format_D20(fdc, fnum, dnr, dadr.track, dadr.sector, buf, header);
         } else {
             rc = FDC_ERR_DRIVE;
         }
@@ -555,9 +554,9 @@ static BYTE fdc_do_job_(unsigned int fnum, int buf,
     }
 
     drive = drive_context[dnr]->drive;
-    drive->current_half_track = 2 * track;
-    fdc[dnr].last_track = track;
-    fdc[dnr].last_sector = sector;
+    drive->current_half_track = 2 * dadr.track;
+    fdc[dnr].last_track = dadr.track;
+    fdc[dnr].last_sector = dadr.sector;
 
     return rc;
 }

@@ -83,7 +83,7 @@ static int iec_open_read_sequential(vdrive_t *vdrive, unsigned int secondary,
     vdrive_alloc_buffer(p, BUFFER_SEQUENTIAL);
     p->bufptr = 2;
 
-    status = disk_image_read_sector(vdrive->image, p->buffer, track, sector);
+    status = vdrive_read_sector(vdrive, p->buffer, track, sector);
     p->length = p->buffer[0] ? 0 : p->buffer[1];
 
     vdrive_set_last_read(track, sector, p->buffer);
@@ -209,7 +209,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                 while (track) {
                     p->track = track;
                     p->sector = sector;
-                    if (disk_image_read_sector(vdrive->image, p->buffer,
+                    if (vdrive_read_sector(vdrive, p->buffer,
                         p->track, p->sector)) {
                         /* couldn't read sector, report error and leave */
                         vdrive_free_buffer(p);
@@ -271,7 +271,7 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
                p->slot + 2, 30);
 
         /* Write the sector. */
-        disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+        vdrive_write_sector(vdrive, vdrive->Dir_buffer,
                                 vdrive->Curr_track, vdrive->Curr_sector);
     }
 
@@ -560,7 +560,7 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
         buf[0] = t_new;
         buf[1] = s_new;
 
-        disk_image_write_sector(vdrive->image, buf, bi->track, bi->sector);
+        vdrive_write_sector(vdrive, buf, bi->track, bi->sector);
 
         bi->track = t_new;
         bi->sector = s_new;
@@ -571,7 +571,7 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
         buf[0] = 0;
         buf[1] = length - 1;
 
-        disk_image_write_sector(vdrive->image, buf, bi->track, bi->sector);
+        vdrive_write_sector(vdrive, buf, bi->track, bi->sector);
     }
 
     /* Increment block count. */
@@ -711,7 +711,7 @@ static int iec_read_sequential(vdrive_t *vdrive, BYTE *data,
         track = (unsigned int)p->buffer[0];
         sector = (unsigned int)p->buffer[1];
 
-        status = disk_image_read_sector(vdrive->image, p->buffer,
+        status = vdrive_read_sector(vdrive, p->buffer,
                                                 track, sector);
         p->length = p->buffer[0] ? 0 : p->buffer[1];
         vdrive_set_last_read(track, sector, p->buffer);
@@ -929,14 +929,14 @@ int vdrive_iec_update_dirent(vdrive_t *vdrive, unsigned int channel)
     vdrive->SlotNumber = p->dir_slot;
 
     /* Read in the track/sector where the directory entry lies. */
-    disk_image_read_sector(vdrive->image, vdrive->Dir_buffer,
+    vdrive_read_sector(vdrive, vdrive->Dir_buffer,
                            vdrive->Curr_track, vdrive->Curr_sector);
  
     /* Copy over our new slot. */
     memcpy(&(vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2]), p->slot + 2, 30);
 
     /* Write it back. */
-    disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+    vdrive_write_sector(vdrive, vdrive->Dir_buffer,
                             vdrive->Curr_track, vdrive->Curr_sector);
 
     return 0;

@@ -50,13 +50,13 @@
 
 void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 {
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     mon_evaluate_default_addr(&addr);
 
-    floppy = file_system_get_vdrive(8);
+    vdrive = file_system_get_vdrive(8);
 
-    if (!floppy || floppy->image == NULL) {
+    if (!vdrive || vdrive->image == NULL) {
         mon_out("No disk attached\n");
         return;
     }
@@ -67,7 +67,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         MEMSPACE dest_mem;
 
         /* We ignore disk error codes here.  */
-        if (disk_image_read_sector(floppy->image, readdata, track, sector)
+        if (vdrive_read_sector(vdrive, readdata, track, sector)
             < 0) {
             mon_out("Error reading track %d sector %d\n",
                       track, sector);
@@ -105,7 +105,7 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         for (i = 0; i < 256; i++)
             writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src + i));
 
-        if (disk_image_write_sector(floppy->image, writedata, track, sector)) {
+        if (vdrive_write_sector(vdrive, writedata, track, sector)) {
             mon_out("Error writing track %d sector %d\n",
                       track, sector);
             return;
@@ -120,14 +120,14 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 void mon_drive_execute_disk_cmd(char *cmd)
 {
     unsigned int len;
-    vdrive_t *floppy;
+    vdrive_t *vdrive;
 
     /* FIXME */
-    floppy = file_system_get_vdrive(8);
+    vdrive = file_system_get_vdrive(8);
 
     len = (unsigned int)strlen(cmd);
 
-    vdrive_command_execute(floppy, (BYTE *)cmd, len);
+    vdrive_command_execute(vdrive, (BYTE *)cmd, len);
 }
 
 void mon_drive_list(int drive_number)

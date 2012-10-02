@@ -313,14 +313,12 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
                 /* For write */
                 if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
                     return CBMDOS_IPE_WRITE_PROTECT_ON;
-                if (disk_image_write_sector(vdrive->image,
-                                            vdrive->buffers[channel].buffer,
+                if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer,
                                             track, sector) < 0)
                     return CBMDOS_IPE_NOT_READY;
             } else {
                 /* For read */
-                rc = disk_image_read_sector(vdrive->image,
-                                            vdrive->buffers[channel].buffer,
+                rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer,
                                             track, sector);
                 if (rc > 0)
                     return rc;
@@ -357,16 +355,14 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
                 /* Update length of block based on the buffer pointer. */
                 l = vdrive->buffers[channel].bufptr - 1;
                 vdrive->buffers[channel].buffer[0] = ( l < 1 ? 1 : l );
-                if (disk_image_write_sector(vdrive->image,
-                                            vdrive->buffers[channel].buffer,
+                if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer,
                                             track, sector) < 0)
                     return CBMDOS_IPE_NOT_READY;
                 /* after write, buffer pointer is 1. */
                 vdrive->buffers[channel].bufptr = 1;
             } else {
                 /* For read */
-                rc = disk_image_read_sector(vdrive->image,
-                                            vdrive->buffers[channel].buffer,
+                rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer,
                                             track, sector);
                 /* set buffer length base on first value */
                 vdrive->buffers[channel].length =
@@ -601,7 +597,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
         slot[SLOT_TYPE_OFFSET] = cmd_parse_dst.filetype;
 
     /* Update the directory.  */
-    if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+    if (vdrive_write_sector(vdrive, vdrive->Dir_buffer,
         vdrive->Curr_track, vdrive->Curr_sector) < 0)
         status = CBMDOS_IPE_WRITE_ERROR_VER;
 
@@ -703,7 +699,7 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
 
         if (slot) {
             slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
-            rc = disk_image_read_sector(vdrive->image, buffer,
+            rc = vdrive_read_sector(vdrive, buffer,
                                         slot[SLOT_FIRST_TRACK],
                                         slot[SLOT_FIRST_SECTOR]);
             if (rc > 0) {
@@ -792,7 +788,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
                    track  of  the partition, and has the same layout as the disk 
                    BAM on track 40.
                  */
-                rc = disk_image_read_sector(vdrive->image, buffer, ts, 0);
+                rc = vdrive_read_sector(vdrive, buffer, ts, 0);
 
                 if (rc > 0) {
                     return rc;
@@ -935,7 +931,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
         } else {
             /* Delete an unclosed file. */
             *filetype = CBMDOS_FT_DEL;
-            if (disk_image_write_sector(vdrive->image, vdrive->Dir_buffer,
+            if (vdrive_write_sector(vdrive, vdrive->Dir_buffer,
                 vdrive->Curr_track, vdrive->Curr_sector) < 0)
                 return CBMDOS_IPE_WRITE_ERROR_VER;
         }
@@ -995,7 +991,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     memset(tmp, 0, 256);
     tmp[1] = 255;
 
-    if (disk_image_write_sector(vdrive->image, tmp, vdrive->Dir_Track,
+    if (vdrive_write_sector(vdrive, tmp, vdrive->Dir_Track,
         vdrive->Dir_Sector) < 0) {
         lib_free(name);
         return CBMDOS_IPE_WRITE_ERROR_VER;

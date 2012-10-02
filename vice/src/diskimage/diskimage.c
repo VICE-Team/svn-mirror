@@ -435,23 +435,22 @@ int disk_image_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int disk_image_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track,
-                           unsigned int sector)
+int disk_image_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t *dadr)
 {
     int rc = 0;
 
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
-        rc = fsimage_read_sector(image, buf, track, sector);
+        rc = fsimage_read_sector(image, buf, dadr);
         break;
 #ifdef HAVE_OPENCBM
       case DISK_IMAGE_DEVICE_REAL:
-        rc = realimage_read_sector(image, buf, track, sector);
+        rc = realimage_read_sector(image, buf, dadr);
         break;
 #endif
 #ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
-        rc = rawimage_read_sector(image, buf, track, sector);
+        rc = rawimage_read_sector(image, buf, dadr);
         break;
 #endif
       default:
@@ -462,8 +461,7 @@ int disk_image_read_sector(const disk_image_t *image, BYTE *buf, unsigned int tr
     return rc;
 }
 
-int disk_image_write_sector(disk_image_t *image, const BYTE *buf, unsigned int track,
-                            unsigned int sector)
+int disk_image_write_sector(disk_image_t *image, const BYTE *buf, const disk_addr_t *dadr)
 {
     int rc = 0;
 
@@ -474,16 +472,16 @@ int disk_image_write_sector(disk_image_t *image, const BYTE *buf, unsigned int t
 
     switch (image->device) {
       case DISK_IMAGE_DEVICE_FS:
-        rc = fsimage_write_sector(image, buf, track, sector);
+        rc = fsimage_write_sector(image, buf, dadr);
         break;
 #ifdef HAVE_OPENCBM
       case DISK_IMAGE_DEVICE_REAL:
-        rc = realimage_write_sector(image, buf, track, sector);
+        rc = realimage_write_sector(image, buf, dadr);
         break;
 #endif
 #ifdef HAVE_RAWDRIVE
       case DISK_IMAGE_DEVICE_RAW:
-        rc = rawimage_write_sector(image, buf, track, sector);
+        rc = rawimage_write_sector(image, buf, dadr);
         break;
 #endif
       default:

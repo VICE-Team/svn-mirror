@@ -31,6 +31,7 @@
 
 struct disk_image_s;
 struct disk_track_s;
+struct disk_addr_s;
 
 extern void fsimage_p64_init(void);
 
@@ -45,8 +46,8 @@ extern int fsimage_p64_write_half_track(struct disk_image_s *image,
                                         unsigned int half_track, 
                                         const struct disk_track_s *raw);
 extern int fsimage_p64_read_sector(const struct disk_image_s *image, BYTE *buf,
-                                   unsigned int track, unsigned int sector);
+                                   const struct disk_addr_s *dadr);
 extern int fsimage_p64_write_sector(struct disk_image_s *image, const BYTE *buf,
-                                    unsigned int track, unsigned int sector);
+                                    const struct disk_addr_s *dadr);
 #endif
 

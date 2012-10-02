@@ -161,8 +161,7 @@ int fsimage_close(disk_image_t *image)
 
 /*-----------------------------------------------------------------------*/
 
-int fsimage_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track,
-                        unsigned int sector)
+int fsimage_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t *dadr)
 {
     fsimage_t *fsimage;
 
@@ -184,11 +183,11 @@ int fsimage_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-          return fsimage_dxx_read_sector(image, buf, track, sector);
+          return fsimage_dxx_read_sector(image, buf, dadr);
       case DISK_IMAGE_TYPE_G64:
-          return fsimage_gcr_read_sector(image, buf, track, sector);
+          return fsimage_gcr_read_sector(image, buf, dadr);
       case DISK_IMAGE_TYPE_P64:
-          return fsimage_p64_read_sector(image, buf, track, sector);
+          return fsimage_p64_read_sector(image, buf, dadr);
       default:
         log_error(fsimage_log,
                   "Unknown disk image type %i.  Cannot read sector.",
@@ -197,8 +196,8 @@ int fsimage_read_sector(const disk_image_t *image, BYTE *buf, unsigned int track
     }
 }
 
-int fsimage_write_sector(disk_image_t *image, const BYTE *buf, unsigned int track,
-                         unsigned int sector)
+int fsimage_write_sector(disk_image_t *image, const BYTE *buf,
+                         const disk_addr_t *dadr)
 {
     fsimage_t *fsimage;
 
@@ -220,17 +219,17 @@ int fsimage_write_sector(disk_image_t *image, const BYTE *buf, unsigned int trac
       case DISK_IMAGE_TYPE_D1M:
       case DISK_IMAGE_TYPE_D2M:
       case DISK_IMAGE_TYPE_D4M:
-        if (fsimage_dxx_write_sector(image, buf, track, sector) < 0) {
+        if (fsimage_dxx_write_sector(image, buf, dadr) < 0) {
             return -1;
         }
         break;
       case DISK_IMAGE_TYPE_G64:
-        if (fsimage_gcr_write_sector(image, buf, track, sector) < 0) {
+        if (fsimage_gcr_write_sector(image, buf, dadr) < 0) {
             return -1;
         }
         break;
       case DISK_IMAGE_TYPE_P64:
-        if (fsimage_p64_write_sector(image, buf, track, sector) < 0) {
+        if (fsimage_p64_write_sector(image, buf, dadr) < 0) {
             return -1;
         }
         break;

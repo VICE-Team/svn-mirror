@@ -259,35 +259,34 @@ static int fsimage_gcr_write_track(disk_image_t *image, unsigned int track,
 /*-----------------------------------------------------------------------*/
 /* Read a sector from the GCR disk image.  */
 
-int fsimage_gcr_read_sector(const disk_image_t *image, BYTE *buf,
-                               unsigned int track, unsigned int sector)
+int fsimage_gcr_read_sector(const disk_image_t *image, BYTE *buf, const disk_addr_t *dadr)
 {
     fdc_err_t rf;
 
-    if (track > image->tracks) {
+    if (dadr->track > image->tracks) {
         log_error(fsimage_gcr_log,
                   "Track %i out of bounds.  Cannot read GCR track.",
-                  track);
+                  dadr->track);
         return -1;
     }
 
     if (image->gcr == NULL) {
         disk_track_t raw;
-        if (fsimage_gcr_read_track(image, track, &raw) < 0) {
+        if (fsimage_gcr_read_track(image, dadr->track, &raw) < 0) {
             return -1;
         } 
         if (raw.data == NULL) {
             return CBMDOS_IPE_NOT_READY;
         }
-        rf = gcr_read_sector(&raw, buf, sector);
+        rf = gcr_read_sector(&raw, buf, dadr->sector);
         lib_free(raw.data);
     } else {
-        rf = gcr_read_sector(&image->gcr->tracks[(track * 2) - 2], buf, sector);
+        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector);
     }
     if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_gcr_log,
                   "Cannot find track: %i sector: %i within GCR image.",
-                  track, sector);
+                  dadr->track, dadr->sector);
         switch (rf) {
         case CBMDOS_FDC_ERR_HEADER:
             return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
@@ -323,43 +322,43 @@ int fsimage_gcr_read_sector(const disk_image_t *image, BYTE *buf,
 /* Write a sector to the GCR disk image.  */
 
 int fsimage_gcr_write_sector(disk_image_t *image, const BYTE *buf,
-                                unsigned int track, unsigned int sector)
+                                const disk_addr_t *dadr)
 {
-    if (track > image->tracks) {
+    if (dadr->track > image->tracks) {
         log_error(fsimage_gcr_log,
                   "Track %i out of bounds.  Cannot write GCR sector",
-                  track);
+                  dadr->track);
         return -1;
     }
 
     if (image->gcr == NULL) {
         disk_track_t raw;
-        if (fsimage_gcr_read_track(image, track, &raw) < 0
+        if (fsimage_gcr_read_track(image, dadr->track, &raw) < 0
                 || raw.data == NULL) {
             return -1;
         }
-        if (gcr_write_sector(&raw, buf, sector) != CBMDOS_FDC_ERR_OK) {
+        if (gcr_write_sector(&raw, buf, dadr->sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_gcr_log,
                     "Could not find track %i sector %i in disk image",
-                    track, sector);
+                    dadr->track, dadr->sector);
             lib_free(raw.data);
             return -1;
         }
-        if (fsimage_gcr_write_track(image, track, &raw) < 0) {
+        if (fsimage_gcr_write_track(image, dadr->track, &raw) < 0) {
             lib_free(raw.data);
             return -1;
         }
         lib_free(raw.data);
     } else {
-        if (gcr_write_sector(&image->gcr->tracks[(track * 2) - 2], buf, sector) != CBMDOS_FDC_ERR_OK) {
+        if (gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_gcr_log,
                     "Could not find track %i sector %i in disk image",
-                    track, sector);
+                    dadr->track, dadr->sector);
             return -1;
         }
-        if (fsimage_gcr_write_track(image, track, &image->gcr->tracks[(track * 2) - 2]) < 0) {
+        if (fsimage_gcr_write_track(image, dadr->track, &image->gcr->tracks[(dadr->track * 2) - 2]) < 0) {
             log_error(fsimage_gcr_log,
-                    "Failed writing track %i to disk image.", track);
+                    "Failed writing track %i to disk image.", dadr->track);
             return -1;
         }
     }

@@ -92,6 +92,12 @@ struct disk_image_s {
 };
 typedef struct disk_image_s disk_image_t;
 
+struct disk_addr_s {
+    unsigned int track;
+    unsigned int sector;
+};
+typedef struct disk_addr_s disk_addr_t;
+
 extern void disk_image_init(void);
 extern int disk_image_resources_init(void);
 extern int disk_image_cmdline_options_init(void);
@@ -118,9 +124,9 @@ extern int disk_image_open(disk_image_t *image);
 extern int disk_image_close(disk_image_t *image);
 
 extern int disk_image_read_sector(const disk_image_t *image, BYTE *buf,
-                                  unsigned int track, unsigned int sector);
+                                  const disk_addr_t *dadr);
 extern int disk_image_write_sector(disk_image_t *image, const BYTE *buf,
-                                   unsigned int track, unsigned int sector);
+                                   const disk_addr_t *dadr);
 extern int disk_image_check_sector(const disk_image_t *image, unsigned int track,
                                    unsigned int sector);
 extern unsigned int disk_image_sector_per_track(unsigned int format,

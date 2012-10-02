@@ -32,6 +32,7 @@
 #include "types.h"
 
 struct disk_image_s;
+struct disk_addr_s;
 
 typedef struct fsimage_s {
     FILE *fd;
@@ -55,9 +56,9 @@ extern void fsimage_media_destroy(struct disk_image_s *image);
 extern int fsimage_open(struct disk_image_s *image);
 extern int fsimage_close(struct disk_image_s *image);
 extern int fsimage_read_sector(const struct disk_image_s *image, BYTE *buf,
-                               unsigned int track, unsigned int sector);
+                               const struct disk_addr_s *dadr);
 extern int fsimage_write_sector(struct disk_image_s *image, const BYTE *buf,
-                                unsigned int track, unsigned int sector);
+                                const struct disk_addr_s *dadr);
 
 #endif
 
