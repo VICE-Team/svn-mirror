@@ -153,6 +153,9 @@ extern char *make_absolute_system_path(const char *s);
    - "full" shows all lines minus the vertical retrace
    - "debug" mode shows all lines, including vertical retrace
 */
+#define VICII_NO_BORDER_FIRST_DISPLAYED_LINE         51
+#define VICII_NO_BORDER_LAST_DISPLAYED_LINE          250
+
 #define VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE        0x10   /* 16 */
 #define VICII_PAL_NORMAL_LAST_DISPLAYED_LINE         0x11f  /* 287 */
 #define VICII_PAL_FULL_FIRST_DISPLAYED_LINE          0x08   /* 8 */
@@ -228,5 +231,7 @@ extern void vicii_timing_set(struct machine_timing_s *machine_timing,
 #define archdep_signals_init(x)
 #define archdep_signals_pipe_set()
 #define archdep_signals_pipe_unset()
+
+#define BUFSIZ 512 /* for ATA */
 
 #endif
