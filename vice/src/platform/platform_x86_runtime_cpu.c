@@ -83,8 +83,16 @@ void __cpuid(
 #endif
 #else
 #ifdef __BEOS__
-#define cpuid(func, ax, bx, cx, dx) \
-    ax = bx = cx = dx = 0;
+#include <OS.h>
+
+static cpuid_info cpuid_info_ret;
+
+#define cpuid(func, ax, bx, cx, dx)      \
+    get_cpuid(&cpuid_info_ret, func, 0); \
+    ax = cpuid_info_ret.regs.eax;        \
+    bx = cpuid_info_ret.regs.ebx;        \
+    cx = cpuid_info_ret.regs.ecx;        \
+    dx = cpuid_info_ret.regs.edx;
 #else
 #define cpuid(func, ax, bx, cx, dx) \
     __asm__ __volatile__ ("cpuid":  \

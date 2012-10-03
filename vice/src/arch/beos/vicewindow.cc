@@ -37,31 +37,20 @@
 #include "vicemenu.h"
 
 extern "C" {
-#include "attach.h"
 #include "constants.h"
-#include "datasette.h"
-#include "drive.h"
-#include "info.h"
-#include "interrupt.h"
-#include "joystick.h"
-#include "kbd.h"
 #include "log.h"
 #include "mouse.h"
-#include "keyboard.h"
 #include "lib.h"
 #include "machine.h"
-#include "maincpu.h"
+#include "platform.h"
 #include "resources.h"
-#include "sound.h"
 #include "statusbar.h"
-#include "tape.h"
 #include "ui.h"
 #include "ui_file.h"
 #include "util.h"
 #include "vicewindow.h"
 #include "video.h"
 #include "videoarch.h"
-#include "vsync.h"
 }
 
 /* #define DEBUG_UI */

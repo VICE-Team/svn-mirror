@@ -100,9 +100,7 @@
 #      define PLATFORM_OS "WIN32"
 #      define PLATFORM_COMPILER "MSVC"
 #    else
-#      ifdef __GNUC__
-#        define PLATFORM_COMPILER "GCC"
-#      else
+#      ifndef __GNUC__
 #        ifdef MSVC_RC
 #          ifdef WATCOM_COMPILE
 #            ifndef PLATFORM_COMPILER

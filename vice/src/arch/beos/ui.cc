@@ -71,6 +71,7 @@ extern "C" {
 #include "mos6510.h"
 #include "mouse.h"
 #include "network.h"
+#include "platform.h"
 #include "platform_discovery.h"
 #include "printer.h"
 #include "resources.h"

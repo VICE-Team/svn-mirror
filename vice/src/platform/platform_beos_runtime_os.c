@@ -25,6 +25,8 @@
  */
 
 /* Tested and confirmed working on:
+   - BeOS R5 PE x86
+   - Haiku R1 Alpha3 x86
 */
 
 #include "vice.h"
@@ -35,6 +37,7 @@
 #include <string.h>
 #include <OS.h>
 
+#include "platform.h"
 #include "util.h"
 
 /* this check is needed for haiku, since it always returns 1 on
@@ -56,7 +59,17 @@ int CheckForZeta(void)
     return util_file_exists("/boot/beos/system/lib/libzeta.so");
 }
 
-char *platform_name[128];
+char platform_name[128];
+
+char *platform_get_haiku_runtime_os(void)
+{
+    struct utsname name;
+
+    uname(&name);
+    sprintf(platform_name, "Haiku (rev %s)", name.version);
+
+    return platform_name;
+}
 
 char *platform_get_zeta_runtime_os(void)
 {
@@ -81,6 +94,8 @@ char *platform_get_beos_runtime_os(void)
     return platform_name;
 }
 
+/* TODO: cpu_types enum in the Haiku version of OS.h
+   lists many more PPC CPU types. */
 char *platform_get_beosppc_runtime_cpu(void)
 {
     system_info si;

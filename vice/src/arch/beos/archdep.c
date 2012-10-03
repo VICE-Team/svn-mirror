@@ -63,7 +63,6 @@
 #include "log.h"
 #include "machine.h"
 #include "platform.h"
-#include "ui.h"
 #include "util.h"
 
 static char *orig_workdir;
@@ -221,9 +220,7 @@ int archdep_path_is_relative(const char *path)
         return 0;
     }
 
-    /* `c:\foo', `c:/foo', `c:foo', `\foo' and `/foo' are absolute.  */
-
-    return !((isalpha(path[0]) && path[1] == ':') || path[0] == '/' || path[0] == '\\');
+    return *path != '/';
 }
 
 int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const char *stderr_redir)
@@ -295,7 +292,7 @@ void archdep_startup_log_error(const char *format, ...)
     tmp = lib_mvsprintf(format, args);
     va_end(args);
     printf(tmp);
-	
+
     lib_free(tmp);
 }
 
@@ -394,11 +391,10 @@ void archdep_shutdown(void)
     lib_free(argv0);
 }
 
-/* TODO: Add Check for BeOS version */
 char *archdep_get_runtime_os(void)
 {
     if (CheckForHaiku()) {
-        return "Haiku";
+        return platform_get_haiku_runtime_os();
     }
     if (CheckForZeta()) {
         return platform_get_zeta_runtime_os();
@@ -408,8 +404,6 @@ char *archdep_get_runtime_os(void)
 
 char *archdep_get_runtime_cpu(void)
 {
-    /* TODO: add runtime cpu detection code */
-    /* ppc type */
 #ifdef WORDS_BIGENDIAN
     return platform_get_beosppc_runtime_cpu();
 #else
