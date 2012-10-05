@@ -105,6 +105,24 @@ splitsum()
   pmrealsum=$1
 }
 
+#check if sum -s is needed
+echo >sum.tmp "hello"
+pmsum=`sum sum.tmp`
+splitsum $pmsum
+if test x"$pmrealsum" != "x542"; then
+  pmsum=`sum -s sum.tmp`
+  splitsum $pmsum
+  if test x"$pmrealsum" != "x542"; then
+    echo "No sum command found that gives the right result"
+    exit 1
+  else
+    SUMCOMMAND="sum -s"
+  fi
+else
+  SUMCOMMAND=sum
+fi
+rm -f sum.tmp
+
 if test x"$PREFIX" != "x/usr/local"; then
   echo Error: installation path is not /usr/local
   exit 1
@@ -360,7 +378,7 @@ _END
         trimpath $i
         pmfile=`stat -c "%a %s %Y %b %B" $i`
         splitpmfile $pmfile
-        pmsum=`sum -s $i`
+        pmsum=`$SUMCOMMAND $i`
         splitsum $pmsum
         echo >>../pkgmap.tmp "1 f none $pmpath 0$pmmask root root $pmsize $pmrealsum $pmdate"
         totalblocks=`expr $totalblocks + $pmblocks`
@@ -370,12 +388,12 @@ _END
   cd ..
   pmfile=`stat -c "%a %s %Y %b %B" install/checkinstall`
   splitpmfile $pmfile
-  pmsum=`sum -s install/checkinstall`
+  pmsum=`$SUMCOMMAND install/checkinstall`
   splitsum $pmsum
   echo >>pkgmap.tmp "1 i checkinstall $pmsize $pmrealsum $pmdate"
   pmfile=`stat -c "%a %s %Y %b %B" pkginfo`
   splitpmfile $pmfile
-  pmsum=`sum -s pkginfo`
+  pmsum=`$SUMCOMMAND pkginfo`
   splitsum $pmsum
   echo >>pkgmap.tmp "1 i pkginfo $pmsize $pmrealsum $pmdate"
   echo >>pkgmap.hdr ": 1 $totalblocks"

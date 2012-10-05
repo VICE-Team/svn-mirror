@@ -31,8 +31,8 @@
    -----------------------------------------------------------------------------
    x86 |     5   |     5.5.1     |   Generic     |    i86pc      | i386-pc-solaris2.5.1
  sparc |     5   |     5.5.1     |   Generic     |    sun4m      | sparc-solaris2.5.1
-   x86 |     6   |
- sparc |     6   |
+   x86 |     6   |     5.6       |   Generic     |    i86pc      | i386-pc-solaris2.6
+ sparc |     6   |     5.6       |   Generic*    |    sun4u      | sparc-solaris2.6
    x86 |     7   |
  sparc |     7   |
    x86 |     8   |

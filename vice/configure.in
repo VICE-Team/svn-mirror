@@ -2562,8 +2562,15 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
     AC_CHECK_LIB(X11, XCreateWindow,
                  [ X_LIBS="-lX11 $X_LIBS";
-                   LINK_X_LIBS="-lX11 $LINK_X_LIBS"],
-                 [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS)
+                   LINK_X_LIBS="-lX11 $LINK_X_LIBS"],,$X_LIBS)
+
+    if test x"$ac_cv_lib_X11_XCreateWindow" != "xyes"; then
+      unset ac_cv_lib_X11_XCreateWindow
+      AC_CHECK_LIB(X11, XCreateWindow,
+                   [ X_LIBS="-lX11 -lXext $X_LIBS";
+                     LINK_X_LIBS="-lX11 -lXext $LINK_X_LIBS"],
+                   [ MISSING_X_LIBS="$MISSING_X_LIBS X11" ],$X_LIBS -lXext)
+    fi
 
     AC_CHECK_LIB(Xext, XQueryExtension,
                  [ X_LIBS="-lXext $X_LIBS";
