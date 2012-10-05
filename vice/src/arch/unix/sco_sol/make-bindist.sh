@@ -228,32 +228,32 @@ if test x"$ZIPKIND" = "xzip"; then
 
     if test x"$HOSTCPU" = "xi386"; then
       arch_cpu=x86
-      arch_expected_cpu=i86pc
+      arch_expected_cpu=i386
     fi
 
     if test x"$HOSTCPU" = "xi486"; then
       arch_cpu=x86
-      arch_expected_cpu=i86pc
+      arch_expected_cpu=i386
     fi
 
     if test x"$HOSTCPU" = "xi586"; then
       arch_cpu=x86
-      arch_expected_cpu=i86pc
+      arch_expected_cpu=i386
     fi
 
     if test x"$HOSTCPU" = "xi686"; then
       arch_cpu=x86
-      arch_expected_cpu=i86pc
+      arch_expected_cpu=i386
     fi
 
     if test x"$HOSTCPU" = "xamd64"; then
       arch_cpu=amd64
-      arch_expected_cpu=i86pc
+      arch_expected_cpu=i386
     fi
 
     if test x"$HOSTCPU" = "xx86_64"; then
       arch_cpu=amd64
-      arch_expected_cpu=i86pc
+      arch_expected_cpu=i386
     fi
 
     if test x"$HOSTCPU" = "xsparc"; then
