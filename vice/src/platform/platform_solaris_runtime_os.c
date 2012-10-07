@@ -34,10 +34,10 @@
    x86 |     6   |     5.6       |   Generic     |    i86pc      | i386-pc-solaris2.6
  sparc |     6   |     5.6       |   Generic*    |    sun4u      | sparc-solaris2.6
    x86 |     7   |     5.7       |   Generic     |    i86pc      | i386-pc-solaris-2.7
- sparc |     7   |
-   x86 |     8   |
+ sparc |     7   |     5.7       |   Generic*    |    sun4u      | sparc-solaris2.7
+   x86 |     8   |     5.8       |   Generic*    |    i86pc      | i386-pc-solaris2.8
  sparc |     8   |
-   x86 |     9   |
+   x86 |     9   |     5.9       |   Generic*    |    i86pc      | i386-pc-solaris2.9
  sparc |     9   |
    x86 |    10   |
  sparc |    10   |
@@ -45,7 +45,7 @@
  sparc |   open  |
    arm |   open  |
  s390x |   open  |
-   x86 |    11   |     5.11      |    11.0       |    i86pc      | i385-pc-solaris2.11
+   x86 |    11   |     5.11      |    11.0       |    i86pc      | i386-pc-solaris2.11
  sparc |    11   |
  */
 

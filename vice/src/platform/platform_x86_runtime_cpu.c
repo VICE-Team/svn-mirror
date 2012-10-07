@@ -66,6 +66,7 @@ void __cpuid(
    int CPUInfo[4],
    int InfoType
 );
+
 #define cpuid(func, a, b, c, d)    \
     __cpuid(cpu_info_stuff, func); \
     a = cpu_info_stuff[0];         \

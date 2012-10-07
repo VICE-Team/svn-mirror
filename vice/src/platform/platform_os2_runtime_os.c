@@ -68,7 +68,7 @@ char *platform_get_os2_runtime_os(void)
         return "Unknown OS/2 version";
     }
 
-    while (i < 8191 && found == 0) {
+    while (i < (8191 - 15) && found == 0) {
         if (buffer[i] == 'X' && buffer[i + 1] == 'R') {
             found = 1;
         } else {
@@ -115,7 +115,7 @@ char *platform_get_os2_runtime_os(void)
             return "OS/2 4.0";
         }
 
-        while (i < 8191 && found == 0) {
+        while (i < (8191 - 15) && found == 0) {
             if (buffer[i] == 'X' && buffer[i + 1] == 'R') {
                 found = 1;
             } else {

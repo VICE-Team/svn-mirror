@@ -81,14 +81,18 @@ int ioutil_access(const char *pathname, int mode)
 {
     int access_mode = 0;
 
-    if ((mode & IOUTIL_ACCESS_R_OK) == IOUTIL_ACCESS_R_OK)
+    if ((mode & IOUTIL_ACCESS_R_OK) == IOUTIL_ACCESS_R_OK) {
         access_mode |= ARCHDEP_R_OK;
-    if ((mode & IOUTIL_ACCESS_W_OK) == IOUTIL_ACCESS_W_OK)
+    }
+    if ((mode & IOUTIL_ACCESS_W_OK) == IOUTIL_ACCESS_W_OK) {
         access_mode |= ARCHDEP_W_OK;
-    if ((mode & IOUTIL_ACCESS_X_OK) == IOUTIL_ACCESS_X_OK)
+    }
+    if ((mode & IOUTIL_ACCESS_X_OK) == IOUTIL_ACCESS_X_OK) {
         access_mode |= ARCHDEP_X_OK;
-    if ((mode & IOUTIL_ACCESS_F_OK) == IOUTIL_ACCESS_F_OK)
+    }
+    if ((mode & IOUTIL_ACCESS_F_OK) == IOUTIL_ACCESS_F_OK) {
         access_mode |= ARCHDEP_F_OK;
+    }
 
     return access(pathname, access_mode);
 }
@@ -102,31 +106,36 @@ int ioutil_errno(unsigned int check)
 {
     switch (check) {
 #ifndef __OS2__
-      case IOUTIL_ERRNO_EPERM:
-        if (errno == EPERM)
-            return 1;
-        break;
+        case IOUTIL_ERRNO_EPERM:
+            if (errno == EPERM) {
+                return 1;
+            }
+            break;
 #endif
-      case IOUTIL_ERRNO_EEXIST:
-        if (errno == EEXIST)
-            return 1;
-        break;
-      case IOUTIL_ERRNO_EACCES:
-        if (errno == EACCES)
-            return 1;
-        break;
-      case IOUTIL_ERRNO_ENOENT:
-        if (errno == ENOENT)
-            return 1;
-        break;
+        case IOUTIL_ERRNO_EEXIST:
+            if (errno == EEXIST) {
+                return 1;
+            }
+            break;
+        case IOUTIL_ERRNO_EACCES:
+            if (errno == EACCES) {
+                return 1;
+            }
+            break;
+        case IOUTIL_ERRNO_ENOENT:
+            if (errno == ENOENT) {
+                return 1;
+            }
+            break;
 #ifndef __OS2__
-      case IOUTIL_ERRNO_ERANGE:
-        if (errno == ERANGE)
-            return 1;
-        break;
+        case IOUTIL_ERRNO_ERANGE:
+            if (errno == ERANGE) {
+                return 1;
+            }
+            break;
 #endif
-      default:
-        return 0;
+        default:
+            return 0;
     }
 
     return 0;
@@ -231,15 +240,13 @@ static int ioutil_count_dir_items(const char *path)
 
     dirp = opendir(path);
 
-    if (dirp == NULL)
-    {
+    if (dirp == NULL) {
         return -1;
     }
 
     dp = readdir(dirp);
 
-    while (dp != NULL)
-    {
+    while (dp != NULL) {
 #ifdef _DIRENT_HAVE_D_TYPE
         if (dp->d_type == DT_DIR) {
             dirs_amount++;
@@ -266,14 +273,12 @@ static int ioutil_count_dir_items(const char *path)
     return 0;
 }
 
-static void ioutil_filldir(const char *path,
-                           ioutil_name_table_t *dirs,
-                           ioutil_name_table_t *files)
+static void ioutil_filldir(const char *path, ioutil_name_table_t *dirs, ioutil_name_table_t *files)
 {
     DIR *dirp = NULL;
     struct dirent *dp = NULL;
-    int dir_count=0;
-    int file_count=0;
+    int dir_count = 0;
+    int file_count = 0;
 #ifndef _DIRENT_HAVE_D_TYPE
     unsigned int len, isdir;
     char *filename;
@@ -318,7 +323,7 @@ ioutil_dir_t *ioutil_opendir(const char *path)
     int retval;
     ioutil_dir_t *ioutil_dir;
 
-    retval=ioutil_count_dir_items(path);
+    retval = ioutil_count_dir_items(path);
     if (retval < 0) {
         return NULL;
     }
@@ -362,10 +367,10 @@ void ioutil_closedir(ioutil_dir_t *ioutil_dir)
 {
     int i;
 
-    for (i=0; i<ioutil_dir->dir_amount; i++) {
+    for (i = 0; i < ioutil_dir->dir_amount; i++) {
         lib_free(ioutil_dir->dirs[i].name);
     }
-    for (i=0; i<ioutil_dir->file_amount; i++) {
+    for (i = 0; i < ioutil_dir->file_amount; i++) {
         lib_free(ioutil_dir->files[i].name);
     }
     lib_free(ioutil_dir->dirs);
