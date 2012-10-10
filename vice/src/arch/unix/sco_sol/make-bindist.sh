@@ -309,8 +309,14 @@ if test x"$ZIPKIND" = "xzip"; then
     fi
 
     if test x"$HOSTOS" = "xsolaris2.11"; then
-      arch_version=sol11
-      arch_expected_version=5.11
+      opensolaris=`uname -v`
+      if test x"$opensolaris" != "x11.0"; then
+        arch_version=osol
+        arch_expected_version=osol
+      else
+        arch_version=sol11
+        arch_expected_version=5.11
+      fi
     fi
   else
     arch_cpu=x86
