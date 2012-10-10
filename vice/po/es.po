@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-10-10 18:15+0100\n"
+"PO-Revision-Date: 2012-10-10 18:49+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
 "Language: \n"
@@ -6682,7 +6682,7 @@ msgstr "Grabar ficheros P00"
 
 #: src/arch/win32/res.rc.po.c:1202
 msgid "Select fire button"
-msgstr "Seleccionar boton de disparo"
+msgstr "Seleccionar botón de disparo"
 
 #: src/arch/win32/res.rc.po.c:1203
 msgid "Auto fire button settings"
@@ -6690,7 +6690,7 @@ msgstr "Ajustes de autodisparo"
 
 #: src/arch/win32/res.rc.po.c:1204
 msgid "Autofire speed"
-msgstr "Velocidad  autodisparo (1..32)"
+msgstr "Velocidad  autodisparo"
 
 #: src/arch/win32/res.rc.po.c:1208
 msgid "Calibrate Joystick(s)"
@@ -6945,15 +6945,15 @@ msgstr "Salida a fichero #"
 
 #: src/arch/win32/res.rc.po.c:1291
 msgid "Output file #1 name"
-msgstr "Salida a fichero #1 nombre"
+msgstr "Nombre fichero de salida #1"
 
 #: src/arch/win32/res.rc.po.c:1292
 msgid "Output file #2 name"
-msgstr "Salida a fichero #2 nombre"
+msgstr "Nombre fichero de salida #2"
 
 #: src/arch/win32/res.rc.po.c:1293
 msgid "Output file #3 name"
-msgstr "Salida a fichero #3 nombre"
+msgstr "Nombre fichero de salida #3"
 
 #: src/arch/win32/res.rc.po.c:1294
 msgid "Romset archive"
@@ -7183,7 +7183,7 @@ msgstr "Tipo unidad disco"
 #: src/arch/win32/res.rc.po.c:1367
 #: src/arch/amigaos/intl_text.c.po.c:6627
 msgid "40 track handling"
-msgstr "Manipulador 40 pistas"
+msgstr "Manejador 40 pistas"
 
 #: src/arch/win32/res.rc.po.c:1371
 #: src/arch/amigaos/intl_text.c.po.c:6655
@@ -7454,7 +7454,7 @@ msgstr "Permitir Teclas en joy"
 #: src/arch/win32/res.rc.po.c:1504
 #: src/arch/amigaos/intl_text.c.po.c:2049
 msgid "Virtual device traps"
-msgstr "interceptar periféricos virtuales"
+msgstr "Interceptar periféricos virtuales"
 
 #: src/arch/win32/res.rc.po.c:1506
 #: src/arch/win32/resc64.rc.po.c:619
@@ -7982,7 +7982,7 @@ msgstr "ROM de función interna"
 #: src/arch/win32/resc128.rc.po.c:734
 #: src/arch/amigaos/intl_text.c.po.c:10674
 msgid "External Function ROM"
-msgstr "ROM externa de función"
+msgstr "ROM de función externa"
 
 #: src/arch/win32/resc128.rc.po.c:736
 msgid "Enable RAM banks 2 and 3"
@@ -8833,7 +8833,7 @@ msgstr "Periférico Izquierda/Principal"
 
 #: src/arch/win32/ressid.rc.po.c:87
 msgid "Right device"
-msgstr "Periférico derecha"
+msgstr "Periférico derecho"
 
 #: src/arch/win32/ressidcart.rc.po.c:138
 #: src/translate_text.c.po.c:9815
@@ -9032,7 +9032,7 @@ msgstr "Seleccionar fichero PSID"
 
 #: src/arch/win32/resvsid.rc.po.c:133
 msgid "Tune number"
-msgstr "número melodia"
+msgstr "Número melodia"
 
 #: src/arch/win32/resvsid.rc.po.c:135
 msgid "Select tune"
@@ -9046,7 +9046,7 @@ msgstr "Siguiente melodia"
 #: src/arch/win32/resvsid.rc.po.c:137
 #: src/arch/amigaos/intl_text.c.po.c:4597
 msgid "Previous tune"
-msgstr "melodia previa"
+msgstr "Melodia previa"
 
 #: src/arch/amigaos/intl_text.c.po.c:635
 msgid "Function low  image (3plus1)"
@@ -9159,7 +9159,7 @@ msgstr "Drean"
 
 #: src/arch/amigaos/intl_text.c.po.c:2357
 msgid "Custom C64 model"
-msgstr "Custom C64 model"
+msgstr "Modelo C64 a medida"
 
 #: src/arch/amigaos/intl_text.c.po.c:2385
 msgid "C16 PAL"
@@ -10170,7 +10170,7 @@ msgid ""
 "All the named devices will be detached."
 msgstr ""
 ".\n"
-"Todos los periféricos nombrados serán desconectados."
+"Todos los periféricos nombrados se desconectarán."
 
 #: src/translate_text.c.po.c:858
 msgid ""
@@ -10182,7 +10182,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:875
 msgid " will be detached."
-msgstr "Se desconectaran"
+msgstr "se desconectarán"
 
 #: src/translate_text.c.po.c:892
 msgid "No filename!"
@@ -10195,7 +10195,7 @@ msgstr "¡Nombre fichero ilegal!"
 #: src/translate_text.c.po.c:926
 #, c-format
 msgid "Error creating file %s!"
-msgstr "Error creadno fichero %s!"
+msgstr "Error creando fichero %s!"
 
 #: src/translate_text.c.po.c:943
 #, c-format
@@ -10443,7 +10443,7 @@ msgstr "Grabar el dato especificado en `dirección'."
 
 #: src/translate_text.c.po.c:1657
 msgid "instruction"
-msgstr "Insturcción"
+msgstr "Instrucción"
 
 #: src/translate_text.c.po.c:1674
 msgid ""
@@ -10990,7 +10990,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:3059
 msgid "On autostart, load to BASIC start (without ',1')"
-msgstr "Em autoarranque, carga en inicio del BASIC (sin ',1')"
+msgstr "En autoarranque, carga en inicio del BASIC (sin ',1')"
 
 #: src/translate_text.c.po.c:3076
 msgid "On autostart, load with ',1'"
@@ -11034,7 +11034,7 @@ msgstr "Permitir retardo arranque inicial aleatorio."
 
 #: src/translate_text.c.po.c:3263
 msgid "Disable random initial autostart delay."
-msgstr "deshabilitar retardo arranque inicial aleatorio."
+msgstr "Deshabilitar retardo arranque inicial aleatorio."
 
 #: src/translate_text.c.po.c:3280
 msgid "Use PAL sync factor"
