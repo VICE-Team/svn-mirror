@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-10-10 18:49+0100\n"
+"PO-Revision-Date: 2012-10-10 19:04+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
 "Language: \n"
@@ -1549,14 +1549,14 @@ msgstr "FS virtual"
 #: src/arch/win32/resautostart.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:11332
 msgid "Inject to RAM"
-msgstr "Introducir en RAM"
+msgstr "Introd. en RAM"
 
 #: src/arch/unix/gui/uiautostart.c:58
 #: src/arch/win32/res.rc.po.c:1188
 #: src/arch/win32/resautostart.rc.po.c:53
 #: src/arch/amigaos/intl_text.c.po.c:11346
 msgid "Disk image"
-msgstr "Imagen de disco"
+msgstr "Imag. disco"
 
 #: src/arch/unix/gui/uiautostart.c:64
 #: src/arch/win32/res.rc.po.c:1431
@@ -1879,7 +1879,7 @@ msgstr "Grabación de sonido detenida"
 #: src/arch/unix/gui/uicommands.c:393
 #: src/arch/win32/res.rc.po.c:1492
 msgid "Record sound to file"
-msgstr "Grabando sonido en un fichero"
+msgstr "Grabar sonido en un fichero"
 
 #: src/arch/unix/gui/uicommands.c:402
 #: src/arch/win32/res.rc.po.c:1172
@@ -5637,7 +5637,7 @@ msgstr "nombre de fichero"
 #: src/arch/win32/res.rc.po.c:1195
 #: src/arch/amigaos/intl_text.c.po.c:5059
 msgid "Browse"
-msgstr "Navega"
+msgstr "Explora"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177
 #: src/arch/unix/x11/xaw/uiedisk.c:479
