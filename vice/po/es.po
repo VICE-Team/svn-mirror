@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-10-10 19:04+0100\n"
+"PO-Revision-Date: 2012-10-10 19:19+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
 "Language: \n"
@@ -66,7 +66,7 @@ msgstr "Especificar periférico salida MIDI"
 #: src/arch/unix/gui/uimidi.c:103
 #: src/arch/win32/res.rc.po.c:1234
 msgid "Driver"
-msgstr "controlador"
+msgstr "Controlador"
 
 #: src/arch/unix/mididrv.c:680
 msgid "Specify MIDI driver (0 = OSS, 1 = ALSA)"
@@ -200,7 +200,7 @@ msgstr "reSID remuestreo pasabanda"
 #: src/arch/win32/res.rc.po.c:1193
 #: src/arch/amigaos/intl_text.c.po.c:5955
 msgid "None"
-msgstr "no"
+msgstr "No"
 
 #: src/arch/unix/gui/c128ui.c:313
 msgid "Function ROM image"
@@ -1911,7 +1911,7 @@ msgstr "Grabando nuevo snapshot"
 #: src/arch/win32/res.rc.po.c:1487
 #: src/arch/amigaos/intl_text.c.po.c:1293
 msgid "Load existing snapshot"
-msgstr "Cargando snapshot"
+msgstr "Cargar snapshot"
 
 #: src/arch/unix/gui/uicommands.c:469
 #: src/arch/win32/res.rc.po.c:1488
@@ -1932,15 +1932,15 @@ msgstr "Regrabando playback"
 #: src/arch/amigaos/intl_text.c.po.c:1195
 #: src/arch/amigaos/intl_text.c.po.c:9876
 msgid "Save snapshot image"
-msgstr "Grabar imagen de volcado de memoria"
+msgstr "Grabar imagen snapshot"
 
 #: src/arch/unix/gui/uicommands.c:484
 msgid "Quickload snapshot"
-msgstr "Carga rápida de snapshot"
+msgstr "Carga rápida snapshot"
 
 #: src/arch/unix/gui/uicommands.c:487
 msgid "Quicksave snapshot"
-msgstr "Grabado rápido de snapshot"
+msgstr "Grabado rápido snapshot"
 
 #: src/arch/unix/gui/uicommands.c:493
 msgid "Start recording events"
@@ -6210,12 +6210,12 @@ msgstr "Unidad disco 11"
 
 #: src/arch/win32/res.rc.po.c:1027
 msgid "Can't write snapshot file."
-msgstr "No puedo escribir fichero de volcado de memoria"
+msgstr "No puedo escribir fichero snapshot"
 
 #: src/arch/win32/res.rc.po.c:1028
 #: src/arch/amigaos/intl_text.c.po.c:9946
 msgid "Cannot read snapshot image"
-msgstr "No puedo leer fichero de volcado de memoria"
+msgstr "No puedo leer fichero snapshot"
 
 #: src/arch/win32/res.rc.po.c:1029
 #, c-format
@@ -6263,7 +6263,7 @@ msgstr "Drive"
 #: src/arch/amigaos/intl_text.c.po.c:9932
 #, c-format
 msgid "Cannot write snapshot file `%s'."
-msgstr "No puedo grabar imagen de volcado de memoria `%s'."
+msgstr "No puedo grabar imagen de snapshot `%s'."
 
 #: src/arch/win32/res.rc.po.c:1043
 msgid "Could not load palette file."
@@ -6461,7 +6461,7 @@ msgstr "Ficheros de paletas VICE  (*.vpl)"
 
 #: src/arch/win32/res.rc.po.c:1113
 msgid "VICE snapshot files (*.vsf)"
-msgstr "Ficheros de volcado de memoria (*.vsf)"
+msgstr "Ficheros VICE snapshot (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1114
 msgid "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
@@ -7406,11 +7406,11 @@ msgstr "Rastrear CPU Unidad disco1"
 
 #: src/arch/win32/res.rc.po.c:1480
 msgid "Load quicksnapshot image"
-msgstr "Cargar imagen volcado de memoria rápido..."
+msgstr "Carga rápida imagen snapshot..."
 
 #: src/arch/win32/res.rc.po.c:1481
 msgid "Save quicksnapshot image"
-msgstr "Grabar imagen volcado de memoria rápido..."
+msgstr "Grabación rápida imagen snapshot..."
 
 #: src/arch/win32/res.rc.po.c:1482
 #: src/arch/amigaos/intl_text.c.po.c:1209
