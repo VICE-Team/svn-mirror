@@ -90,7 +90,7 @@ BYTE rtc_get_hour(time_t time_val, int bcd)
     return (BYTE)((bcd) ? int_to_bcd(local->tm_hour) : local->tm_hour);
 }
 
-/* get hours from time_value
+/* get hours from time value
    1 - 12 + AM/PM flag in bit 5 (0 = PM, 1 = AM) */
 BYTE rtc_get_hour_am_pm(time_t time_val, int bcd)
 {
@@ -295,26 +295,26 @@ time_t rtc_set_day_of_month(int day, time_t offset, int bcd)
         is_leap_year = 1;
     }
     switch (local->tm_mon) {
-        case 0:
-        case 2:
-        case 4:
-        case 6:
-        case 7:
-        case 9:
-        case 11:
+        case RTC_MONTH_JAN:
+        case RTC_MONTH_MAR:
+        case RTC_MONTH_MAY:
+        case RTC_MONTH_JUL:
+        case RTC_MONTH_AUG:
+        case RTC_MONTH_OCT:
+        case RTC_MONTH_DEC:
             if (real_day < 1 || real_day > 31) {
                 return offset;
             }
             break;
-        case 3:
-        case 5:
-        case 8:
-        case 10:
+        case RTC_MONTH_APR:
+        case RTC_MONTH_JUN:
+        case RTC_MONTH_SEP:
+        case RTC_MONTH_NOV:
             if (real_day < 1 || real_day > 30) {
                 return offset;
             }
             break;
-        case 1:
+        case RTC_MONTH_FEB:
             if (real_day < 1 || real_day > (28 + is_leap_year)) {
                 return offset;
             }
@@ -528,26 +528,26 @@ time_t rtc_set_latched_day_of_month(int day, time_t latch, int bcd)
         is_leap_year = 1;
     }
     switch (local->tm_mon) {
-        case 0:
-        case 2:
-        case 4:
-        case 6:
-        case 7:
-        case 9:
-        case 11:
+        case RTC_MONTH_JAN:
+        case RTC_MONTH_MAR:
+        case RTC_MONTH_MAY:
+        case RTC_MONTH_JUL:
+        case RTC_MONTH_AUG:
+        case RTC_MONTH_OCT:
+        case RTC_MONTH_DEC:
             if (real_day < 1 || real_day > 31) {
                 return latch;
             }
             break;
-        case 3:
-        case 5:
-        case 8:
-        case 10:
+        case RTC_MONTH_APR:
+        case RTC_MONTH_JUN:
+        case RTC_MONTH_SEP:
+        case RTC_MONTH_NOV:
             if (real_day < 1 || real_day > 30) {
                 return latch;
             }
             break;
-        case 1:
+        case RTC_MONTH_FEB:
             if (real_day < 1 || real_day > (28 + is_leap_year)) {
                 return latch;
             }

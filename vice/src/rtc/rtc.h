@@ -29,6 +29,19 @@
 
 #include "types.h"
 
+#define RTC_MONTH_JAN   0
+#define RTC_MONTH_FEB   1
+#define RTC_MONTH_MAR   2
+#define RTC_MONTH_APR   3
+#define RTC_MONTH_MAY   4
+#define RTC_MONTH_JUN   5
+#define RTC_MONTH_JUL   6
+#define RTC_MONTH_AUG   7
+#define RTC_MONTH_SEP   8
+#define RTC_MONTH_OCT   9
+#define RTC_MONTH_NOV   10
+#define RTC_MONTH_DEC   11
+
 extern BYTE rtc_get_centisecond(int bcd);
 
 extern BYTE rtc_get_second(time_t time_val, int bcd);         /* 0 - 61 (leap seconds would be 60 and 61) */
