@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-09-30 10:18+0100\n"
+"PO-Revision-Date: 2012-10-10 18:15+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
 "Language: \n"
@@ -670,7 +670,7 @@ msgstr "Ajustes RS232"
 #: src/arch/win32/resvsid.rc.po.c:18
 #: src/arch/amigaos/intl_text.c.po.c:5
 msgid "File"
-msgstr "fichero"
+msgstr "Fichero"
 
 #: src/arch/unix/gui/c128ui.c:758
 #: src/arch/unix/gui/c64dtvui.c:320
@@ -1388,7 +1388,7 @@ msgstr "Ejecutar proceso"
 #: src/arch/unix/gui/uiattach.c:84
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr "Insertar imagen de disco como unidad  #%d"
+msgstr "Inserta imagen de disco como unidad  #%d"
 
 #: src/arch/unix/gui/uiattach.c:98
 #: src/arch/unix/gui/uiattach.c:153
@@ -2910,7 +2910,7 @@ msgstr "Grabación"
 
 #: src/arch/unix/gui/uifliplist.c:88
 msgid "Flip list file"
-msgstr "Lista de ficheros a commutar"
+msgstr "Lista de ficheros a conmutar"
 
 #: src/arch/unix/gui/uifliplist.c:95
 #, c-format
@@ -2950,7 +2950,7 @@ msgstr "Quitar imagen actual (Unidad 8)"
 #: src/arch/win32/res.rc.po.c:1453
 #: src/arch/amigaos/intl_text.c.po.c:173
 msgid "Attach next image (Unit 8)"
-msgstr "Insestar nueva imagen (Unidad 8)"
+msgstr "Insertar nueva imagen (Unidad 8)"
 
 #: src/arch/unix/gui/uifliplist.c:124
 #: src/arch/win32/res.rc.po.c:1454
@@ -2964,7 +2964,7 @@ msgstr "Insertar imagen previa (Unidad 8)"
 #: src/arch/amigaos/intl_text.c.po.c:201
 #: src/arch/amigaos/intl_text.c.po.c:9722
 msgid "Load flip list file"
-msgstr "Cargar lista de ficheros a commutar"
+msgstr "Cargar lista de ficheros a conmutar"
 
 #: src/arch/unix/gui/uifliplist.c:129
 #: src/arch/win32/res.rc.po.c:1000
@@ -2972,7 +2972,7 @@ msgstr "Cargar lista de ficheros a commutar"
 #: src/arch/amigaos/intl_text.c.po.c:215
 #: src/arch/amigaos/intl_text.c.po.c:9750
 msgid "Save flip list file"
-msgstr "Grabar lista de ficheros a commutar"
+msgstr "Grabar lista de ficheros a conmutar"
 
 #: src/arch/unix/gui/uifliplist.c:182
 #, c-format
@@ -6616,7 +6616,7 @@ msgstr "Iniciar VICE en modo de pantalla completa"
 #: src/arch/win32/res.rc.po.c:1157
 #: src/arch/win32/res.rc.po.c:1499
 msgid "Disable DirectX9 video driver"
-msgstr "Deshabilitar DirectX9 controlador de video"
+msgstr "Deshabilitar controlador de video DirectX9"
 
 #: src/arch/win32/res.rc.po.c:1159
 #, c-format
@@ -6656,7 +6656,7 @@ msgstr "Ajustes Datasette"
 
 #: src/arch/win32/res.rc.po.c:1184
 msgid "Speed of motor while reading"
-msgstr "Velocidad del motro durante la lectura"
+msgstr "Velocidad del motor durante la lectura"
 
 #: src/arch/win32/res.rc.po.c:1185
 msgid "cycle(s) additional delay each trigger"
