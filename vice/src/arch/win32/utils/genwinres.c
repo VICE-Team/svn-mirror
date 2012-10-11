@@ -168,6 +168,7 @@ void process_file(char *filename, FILE *houtput, FILE *moutput, FILE *soutput)
             }
             read_buffer(infile);
         }
+        fclose(infile);
     }
 }
 
@@ -277,9 +278,14 @@ int main(int argc, char **argv)
         fprintf(soutput, " { NULL, 0 }\n};\n\n");
         fprintf(soutput, "#define LAST_IDS %d\n\n", ids_counter);
         fprintf(soutput, "#endif\n");
-
+    }
+    if (houtput) {
         fclose(houtput);
+    }
+    if (moutput) {
         fclose(moutput);
+    }
+    if (soutput) {
         fclose(soutput);
     }
 }

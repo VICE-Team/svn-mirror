@@ -853,6 +853,8 @@ int retroreplay_bin_save(const char *filename)
         }
     }
 
+    fclose(fd);
+
     return 0;
 }
 

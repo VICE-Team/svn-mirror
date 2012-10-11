@@ -491,6 +491,7 @@ static void monitor_completions(const char *string_so_far, linenoiseCompletions 
             for(i = 0; i < files_lc.len; i++) {
                 free(files_lc.cvec[i]);
             }
+            closedir(dir);
             return;
         }
     }

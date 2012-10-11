@@ -2584,6 +2584,7 @@ int mmcreplay_bin_save(const char *filename)
             return -1;
         }
     }
+    fclose(fd);
     return 0;
 }
 
