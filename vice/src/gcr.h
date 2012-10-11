@@ -32,6 +32,7 @@
 #define VICE_GCR_H
 
 #include "types.h"
+#include "cbmdos.h"
 
 /* Number of bytes in one raw track. For usage with D64/D71 */
 #define NUM_MAX_BYTES_TRACK 7928
@@ -58,8 +59,6 @@ typedef struct gcr_s {
 typedef struct gcr_header_s {
     BYTE sector, track, id2, id1;
 } gcr_header_t;
-
-enum fdc_err_e;
 
 extern void gcr_convert_sector_to_GCR(const BYTE *buffer, BYTE *ptr, const gcr_header_t *header,
                                       int gap, int sync, enum fdc_err_e error_code);
