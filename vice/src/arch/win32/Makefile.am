@@ -524,7 +524,6 @@ BUILT_SOURCES = res.h menuid.h stringid.h
 
 resall.txt:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 @CROSS_TRUE@	cat >$@ $^
-@CROSS_FALSE@	;
 
 @CROSS_TRUE@res.h:	resall.txt
 @CROSS_TRUE@	echo "generating "$@
