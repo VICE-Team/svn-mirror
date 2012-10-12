@@ -315,7 +315,7 @@ maincpu_sources = \
 
 EXTRA_DIST = \
 	6510core.c \
-	65C02core.c \
+	65c02core.c \
 	6510dtvcore.c \
 	ChangeLog \
 	ChangeLog.1 \
