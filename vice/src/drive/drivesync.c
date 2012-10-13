@@ -77,10 +77,6 @@ void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
 
 void drivesync_set_4000(struct drive_context_s *drv, int new_sync)
 {
-    unsigned int dnr;
-
-    dnr = drv->mynumber;
-
     if (rom_loaded && drv->drive->type == DRIVE_TYPE_4000) {
         drv->drive->clock_frequency = (new_sync) ? 4 : 2;
         drivesync_factor(drv);

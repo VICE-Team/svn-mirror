@@ -197,8 +197,6 @@ int tape_snapshot_write_module(snapshot_t *s, int save_image)
     char snap_module_name[] = "TAPE";
     snapshot_module_t *m;
     tap_t *tap;
-    t64_t *t64;
-
 
     if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL)
         return 0;
@@ -233,7 +231,6 @@ int tape_snapshot_write_module(snapshot_t *s, int save_image)
 
     switch (tape_image_dev1->type) {
         case TAPE_TYPE_T64:
-            t64 = (t64_t*)tape_image_dev1->data;
             break;
         case TAPE_TYPE_TAP:
             tap = (tap_t*)tape_image_dev1->data;
@@ -278,8 +275,6 @@ int tape_snapshot_read_module(snapshot_t *s)
     unsigned int snap_type;
     char snap_module_name[] = "TAPE";
     tap_t *tap;
-    t64_t *t64;
-
 
     if (tape_snapshot_read_tapimage_module(s) < 0
         || tape_snapshot_read_t64image_module(s) < 0)
@@ -313,7 +308,6 @@ int tape_snapshot_read_module(snapshot_t *s)
 
     switch (tape_image_dev1->type) {
         case TAPE_TYPE_T64:
-            t64 = (t64_t*)tape_image_dev1->data;
             break;
         case TAPE_TYPE_TAP:
             tap = (tap_t*)tape_image_dev1->data;

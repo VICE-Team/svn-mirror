@@ -118,11 +118,10 @@ static struct pet_sound_s snd;
 static WORD pet_makesample(double s, double e, BYTE sample)
 {
     double v;
-    int sc, ec, sf, ef, i, nr;
+    int sc, sf, ef, i, nr;
 
     sc = (int)ceil(s);
     sf = (int)floor(s);
-    ec = (int)ceil(e);
     ef = (int)floor(e);
     nr = 0;
 

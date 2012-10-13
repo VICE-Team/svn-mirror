@@ -152,10 +152,7 @@ static int raster_realize_frame_buffer(raster_t *raster)
 /* called from raster_realize() */
 static int realize_canvas(raster_t *raster)
 {
-    viewport_t *viewport;
     video_canvas_t *new_canvas;
-
-    viewport = raster->canvas->viewport;
 
     raster->intialized = 1;
 

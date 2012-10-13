@@ -1594,13 +1594,11 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename)
     doodle_color_sort_t *color_order = NULL;
     BYTE xsize;
     BYTE ysize;
-    BYTE charsize;
 
     regs = screenshot->video_regs;
 
     xsize = regs[0x02] & 0x7f;
     ysize = (regs[0x03] & 0x7e) >> 1;
-    charsize = regs[0x03] & 1;
 
     if (xsize == 0 || ysize == 0) {
         ui_error("Screen is blank, no save will be done");

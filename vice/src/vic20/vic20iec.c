@@ -106,15 +106,12 @@ static void iec_calculate_data_modifier(unsigned int dnr)
 
 void iec_drive_write(BYTE data, unsigned int dnr)
 {
-    static int last_write = 0;
-
     data = ~data;
     drive_data[dnr] = ((data & 2) >> 1);
     drive_clock[dnr] = ((data & 8) >> 3);
     drive_atna[dnr] = ((data & 16) >> 4);
     iec_calculate_data_modifier(dnr);
     resolve_bus_signals();
-    last_write = data & 26;
 }
 
 BYTE iec_drive_read(unsigned int dnr)
@@ -151,7 +148,6 @@ BYTE iec_pa_read(void)
 
 void iec_pa_write(BYTE data)
 {
-    static int last_write = 0;
     drive_t *drive;
     unsigned int i;
 
@@ -206,7 +202,6 @@ void iec_pa_write(BYTE data)
         iec_calculate_data_modifier(i);
 
     resolve_bus_signals();
-    last_write = data & 128;
 }
 
 
@@ -217,7 +212,6 @@ void iec_pa_write(BYTE data)
 
 void iec_pcr_write(BYTE data)
 {
-    static int last_write = 0;
     unsigned int i;
 
     drivecpu_execute_all(maincpu_clk);
@@ -229,7 +223,6 @@ void iec_pcr_write(BYTE data)
         iec_calculate_data_modifier(i);
 
     resolve_bus_signals();
-    last_write = data & 34;
 }
 
 void iec_fast_drive_write(BYTE data, unsigned int dnr)

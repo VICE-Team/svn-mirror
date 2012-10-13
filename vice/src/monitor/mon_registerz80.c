@@ -145,9 +145,6 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 
 static void mon_register_print(int mem)
 {
-    z80_regs_t *regs;
-
-
     if (monitor_diskspace_dnr(mem) >= 0) {
         if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
             return;
@@ -155,8 +152,6 @@ static void mon_register_print(int mem)
         log_error(LOG_ERR, "Unknown memory space!");
         return;
     }
-    regs = mon_interfaces[mem]->z80_cpu_regs;
-
     mon_out("  ADDR AF   BC   DE   HL   IX   IY   SP   I  R  AF'  BC'  DE'  HL'\n");
     mon_out(".;%04x %04x %04x %04x %04x %04x %04x %04x %02x %02x %04x %04x %04x %04x\n",
               addr_location(mon_register_get_val(mem, e_PC)),

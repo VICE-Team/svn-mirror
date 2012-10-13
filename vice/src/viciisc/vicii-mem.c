@@ -142,15 +142,9 @@ inline static void update_raster_line(void)
 
 inline static void d011_store(BYTE value)
 {
-    int cycle;
-    unsigned int line;
-
-    cycle = vicii.raster_cycle;
-    line = vicii.raster_line;
-
     VICII_DEBUG_REGISTER(("Control register: $%02X", value));
     VICII_DEBUG_REGISTER(("$D011 tricks at cycle %d, line $%04X, "
-                          "value $%02X", cycle, line, value));
+                          "value $%02X", vicii.raster_cycle, vicii.raster_line, value));
 
     vicii.ysmooth = value & 0x7;
 

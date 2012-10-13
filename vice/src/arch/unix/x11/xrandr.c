@@ -263,9 +263,8 @@ static int init_XRandR(Display *dpy)
     screen_info.n_all_modes = 1; /* index 0 is Desktop default resolution */
     for (i = 0; i < screen_info.n_sizes; i++) {
         int n_rates;
-        short *rates;
 
-        rates = XRRRates(dpy, XRRRootToScreen(dpy, DefaultRootWindow(dpy)), i, &n_rates);
+        XRRRates(dpy, XRRRootToScreen(dpy, DefaultRootWindow(dpy)), i, &n_rates);
         screen_info.n_all_modes += n_rates;
     }
 
