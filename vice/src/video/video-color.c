@@ -170,9 +170,8 @@ static void video_convert_cbm_to_ycbcr(const video_cbm_color_t *src,
 
 /* gamma correction */
 
-static float video_gamma(float value, float gamma, float bri, float con)
+static float video_gamma(float value, double factor, float gamma, float bri, float con)
 {
-    double factor;
     float ret;
 
     value += bri;
@@ -182,7 +181,6 @@ static float video_gamma(float value, float gamma, float bri, float con)
         return 0.0f;
     }
 
-    factor = pow(255.0f, 1.0f - gamma);
     ret = (float)(factor * pow(value, gamma));
 
     if (ret < 0.0f) {
@@ -200,6 +198,7 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
 {
     float rf, bf, gf;
     float cb,cr,y;
+    double factor;
     int r, g, b;
 
     cb=src->cb;
@@ -217,9 +216,10 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
     rf = cr + y;
     gf = y - (0.1145f / 0.5866f) * cb - (0.2989f / 0.5866f) * cr;
 
-    rf = video_gamma(rf, gam, bri, con);
-    gf = video_gamma(gf, gam, bri, con);
-    bf = video_gamma(bf, gam, bri, con);
+    factor = pow(255.0f, 1.0f - gam);
+    rf = video_gamma(rf, factor, gam, bri, con);
+    gf = video_gamma(gf, factor, gam, bri, con);
+    bf = video_gamma(bf, factor, gam, bri, con);
 
     /* convert to int and clip to 8 bit boundaries */
 
@@ -227,19 +227,13 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
     g = (int)gf;
     b = (int)bf;
 
-    if (r < 0) {
-        r = 0;
-    } else if (r > 255) {
+    if (r > 255) {
         r = 255;
     }
-    if (g < 0) {
-        g = 0;
-    } else if (g > 255) {
+    if (g > 255) {
         g = 255;
     }
-    if (b < 0) {
-        b = 0;
-    } else if (b > 255) {
+    if (b > 255) {
         b = 255;
     }
     dst->dither = 0;
@@ -329,6 +323,7 @@ static void video_calc_gammatable(video_resources_t *video_resources)
 {
     int i;
     float bri, con, gam, scn, v;
+    double factor;
     DWORD vi;
 
     bri = ((float)(video_resources->color_brightness - 1000))
@@ -337,8 +332,9 @@ static void video_calc_gammatable(video_resources_t *video_resources)
     gam = video_get_gamma(video_resources);
     scn = ((float)(video_resources->pal_scanlineshade)) / 1000.0f;
 
+    factor = pow(255.0f, 1.0f - gam);
     for (i = 0; i < (256 * 3); i++) {
-        v = video_gamma((float)(i - 256), gam, bri, con);
+        v = video_gamma((float)(i - 256), factor, gam, bri, con);
 
         vi = (DWORD)v;
         if (vi > 255) {
@@ -355,7 +351,7 @@ static void video_calc_gammatable(video_resources_t *video_resources)
         gamma_red_fac[i * 2] = color_red[vi];
         gamma_grn_fac[i * 2] = color_grn[vi];
         gamma_blu_fac[i * 2] = color_blu[vi];
-        v = video_gamma((float)(i - 256) + 0.5f, gam, bri, con);
+        v = video_gamma((float)(i - 256) + 0.5f, factor, gam, bri, con);
         vi = (DWORD)(v * scn);
         if (vi > 255) {
             vi = 255;
