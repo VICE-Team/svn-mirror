@@ -139,16 +139,16 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
             cpu->d_bank_limit = 0xfffd;                  \
         } else if (reg_pc < 0x2000) {                    \
             cpu->d_bank_base = drv->cpud->drive_ram;     \
-            cpu->d_bank_limit = 0x3ffd;                  \
+            cpu->d_bank_limit = 0x1ffd;                  \
         } else if (reg_pc < 0x4000) {                    \
             cpu->d_bank_base = drv->drive->drive_ram_expand2 - 0x2000; \
             cpu->d_bank_limit = 0x3ffd;                  \
         } else if (reg_pc >= 0x6000) {                    \
             cpu->d_bank_base = drv->drive->drive_ram_expand6 - 0x6000; \
-            cpu->d_bank_limit = 0x3ffd;                  \
+            cpu->d_bank_limit = 0x7ffd;                  \
         } else if (reg_pc >= 0x5000) {                   \
             cpu->d_bank_base = drv->drive->drive_ram_expand4 - 0x4000; \
-            cpu->d_bank_limit = 0x7ffd;                  \
+            cpu->d_bank_limit = 0x5ffd;                  \
         } else {                                         \
             cpu->d_bank_base = NULL;                     \
             cpu->d_bank_limit = -1;                      \
