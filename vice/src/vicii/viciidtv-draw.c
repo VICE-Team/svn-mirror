@@ -224,7 +224,6 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
 inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
                                   BYTE *gfx_msk_ptr)
 {
-    DWORD *table_ptr;
     BYTE *char_ptr, *msk_ptr;
     unsigned int i;
     BYTE cmask;
@@ -232,7 +231,6 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
     BYTE bcolor;
     cmask = (vicii.high_color) ? 0xff : 0x0f;
 
-    table_ptr = hr_table + (vicii.raster.background_color << 4);
     char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
     
@@ -255,7 +253,6 @@ inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
                                          unsigned int xe,
                                          raster_cache_t *cache)
 {
-    DWORD *table_ptr;
     BYTE *msk_ptr, *foreground_data, *color_data;
     unsigned int i;
     BYTE cmask;
@@ -263,7 +260,6 @@ inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
     BYTE bcolor;
     cmask = (vicii.high_color) ? 0xff : 0x0f;
 
-    table_ptr = hr_table + (cache->background_data[0] << 4);
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
     foreground_data = cache->foreground_data;
     color_data = cache->color_data_1;
@@ -974,14 +970,12 @@ inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     for (i = xs; i <= xe; i++) {
-        DWORD *ptr;
         int bg_idx;
         int d;
 
         BYTE fcolor;
         BYTE bcolor;
 
-        ptr = hr_table + (vicii.cbuf[i] << 8);
         bg_idx = vicii.vbuf[i] >> 6;
         d = *(char_ptr + (vicii.vbuf[i] & 0x3f) * 8);
 
