@@ -101,10 +101,6 @@ static WORD top_shared_limit, bottom_shared_limit;
 /* Pointers to pages 0 and 1 (which can be physically placed anywhere).  */
 BYTE *mem_page_zero, *mem_page_one;
 
-/* Adjust this pointer when the MMU changes banks.  */
-static BYTE **bank_base;
-static int *bank_limit = NULL;
-
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
@@ -203,13 +199,7 @@ void mem_update_config(int config)
     _mem_read_base_tab_ptr = mem_read_base_tab[config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[config];
 
-    if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
-        if (*bank_base != 0) {
-            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8] - (reg_pc & 0xff00);
-        }
-        *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
-    }
+    maincpu_resync_limits();
 
     if (config >= 0x80) {
         if (mem_machine_type == C128_MACHINE_INT) {
@@ -243,12 +233,6 @@ void mem_update_config(int config)
 void mem_set_machine_type(unsigned type)
 {
     mem_machine_type = type;
-}
-
-void mem_set_bank_pointer(BYTE **base, int *limit)
-{
-    bank_base = base;
-    bank_limit = limit;
 }
 
 /* Change the current video bank.  Call this routine only when the vbank

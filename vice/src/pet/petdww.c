@@ -341,7 +341,7 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
         mem_limit_tab[i] = 0xaffd;
 
     }
-    invalidate_mem_limit(0x9000, 0xb000);
+    maincpu_resync_limits();
 }
 
 void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, BYTE **mem_base_tab, int *mem_limit_tab)
@@ -360,7 +360,7 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
             mem_base_tab[i] = save_mem_base_tab[i - 0x90];
             mem_limit_tab[i] = save_mem_limit_tab[i - 0x90];
         }
-        invalidate_mem_limit(0x9000, 0xb000);
+        maincpu_resync_limits();
     }
 #if DWW_DEBUG_RAM
     else {

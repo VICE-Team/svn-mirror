@@ -414,6 +414,16 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 unsigned int reg_pc;
 #endif
 
+static BYTE **o_bank_base;
+static int *o_bank_limit;
+
+void maincpu_resync_limits(void) {
+    if (o_bank_base) {
+        *o_bank_base = mem_read_base(reg_pc);
+        *o_bank_limit = mem_read_limit(reg_pc);
+    }
+}
+
 void maincpu_mainloop(void)
 {
 #ifndef C64DTV
@@ -439,11 +449,11 @@ void maincpu_mainloop(void)
 #ifndef NEED_REG_PC
     unsigned int reg_pc;
 #endif
-
     BYTE *bank_base;
     int bank_limit;
 
-    mem_set_bank_pointer(&bank_base, &bank_limit);
+    o_bank_base = &bank_base;
+    o_bank_limit = &bank_limit;
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 

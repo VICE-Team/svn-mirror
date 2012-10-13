@@ -99,10 +99,6 @@ BYTE **_mem_read_base_tab_ptr;
 BYTE **_mem_read_ind_base_tab_ptr;
 int *mem_read_limit_tab_ptr;
 
-/* Adjust this pointer when the MMU changes banks.  */
-static BYTE **bank_base;
-static int *bank_limit = NULL;
-
 int cbm2_init_ok = 0;
 
 /* ------------------------------------------------------------------------- */
@@ -136,21 +132,15 @@ void cbm2mem_set_bank_exec(int val)
         _mem_read_base_tab_ptr = _mem_read_base_tab[cbm2mem_bank_exec];
         mem_read_limit_tab_ptr = mem_read_limit_tab[(cbm2mem_bank_exec < 15)
                                  ? 0 : 1];
-
-        if (bank_limit != NULL) {
-            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
-            if (*bank_base != 0) {
-                *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8]
-                         - (reg_pc & 0xff00);
-            } else {
+        if (!_mem_read_base_tab_ptr[0]) {
                 /* disable fast opcode fetch when bank_base is null, i.e.
                    set all limits to 0 when no RAM available.
                    This might also happen when jumping to open mem in
                    bank 15, though. */
-                mem_read_limit_tab_ptr = mem_read_limit_tab[2];
-            }
-            *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
+            mem_read_limit_tab_ptr = mem_read_limit_tab[2];
         }
+
+        maincpu_resync_limits();
 
         /* set all register mirror locations */
         for (i = 0; i < 16; i++) {
@@ -748,12 +738,6 @@ void mem_powerup(void)
     cbm2mem_bank_ind = 0;
     cbm2mem_set_bank_exec(15);
     cbm2mem_set_bank_ind(15);
-}
-
-void mem_set_bank_pointer(BYTE **base, int *limit)
-{
-    bank_base = base;
-    bank_limit = limit;
 }
 
 /* ------------------------------------------------------------------------- */

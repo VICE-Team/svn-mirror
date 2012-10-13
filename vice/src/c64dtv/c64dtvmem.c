@@ -84,10 +84,6 @@
 
 /* C64 memory-related resources.  */
 
-/* Adjust this pointer when the MMU changes banks.  */
-static BYTE **bank_base;
-static int *bank_limit = NULL;
-
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible memory configurations.  */
@@ -180,13 +176,7 @@ void mem_pla_config_changed(void)
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 
-    if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
-        if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8]
-                         - (reg_pc & 0xff00);
-        *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
-    }
+    maincpu_resync_limits();
 }
 
 BYTE zero_read(WORD addr)
@@ -391,12 +381,6 @@ void mem_set_vbank(int new_vbank)
     vbank = new_vbank;
     _mem_write_tab_ptr = mem_write_tab[new_vbank][mem_config];
     vicii_set_vbank(new_vbank);
-}
-
-void mem_set_bank_pointer(BYTE **base, int *limit)
-{
-    bank_base = base;
-    bank_limit = limit;
 }
 
 /* ------------------------------------------------------------------------- */

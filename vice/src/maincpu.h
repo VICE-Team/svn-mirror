@@ -84,6 +84,7 @@ inline static CLOCK maincpu_num_write_cycles(void)
     return maincpu_opcode_write_cycles[OPINFO_NUMBER(last_opcode_info)];
 }
 
+extern void maincpu_resync_limits(void);
 extern void maincpu_init(void);
 extern void maincpu_early_init(void);
 extern void maincpu_shutdown(void);

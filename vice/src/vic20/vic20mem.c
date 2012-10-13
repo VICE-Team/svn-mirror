@@ -360,11 +360,6 @@ static void set_mem(int start_page, int end_page,
     }
 }
 
-void mem_set_bank_pointer(BYTE **base, int *limit)
-{
-    /* We do not need MMU support.  */
-}
-
 int vic20_mem_enable_ram_block(int num)
 {
     if (num == 0) {

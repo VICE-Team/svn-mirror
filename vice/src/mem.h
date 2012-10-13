@@ -57,7 +57,6 @@ extern void mem_get_basic_text(WORD *start, WORD *end);
 extern void mem_set_basic_text(WORD start, WORD end);
 extern void mem_toggle_watchpoints(int flag, void *context);
 extern int mem_rom_trap_allowed(WORD addr);
-extern void mem_set_bank_pointer(BYTE **base, int *limit);
 extern void mem_color_ram_to_snapshot(BYTE *color_ram);
 extern void mem_color_ram_from_snapshot(BYTE *color_ram);
 

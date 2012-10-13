@@ -58,10 +58,6 @@
 
 static int hard_reset_flag = 0;
 
-/* Adjust this pointer when the MMU changes banks.  */
-static BYTE **bank_base;
-static int *bank_limit = NULL;
-
 /* ------------------------------------------------------------------------- */
 
 /* Number of possible memory configurations.  */
@@ -291,13 +287,7 @@ static void mem_config_set(unsigned int config)
     _mem_read_base_tab_ptr = mem_read_base_tab[mem_config];
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 
-    if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
-        if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8]
-                         - (reg_pc & 0xff00);
-        *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
-    }
+    maincpu_resync_limits();
 }
 
 void mem_config_ram_set(unsigned int config)
@@ -955,14 +945,6 @@ void mem_powerup(void)
     ram_init(mem_ram, 0x10000);
 
     hard_reset_flag = 1;
-}
-
-/* ------------------------------------------------------------------------- */
-
-void mem_set_bank_pointer(BYTE **base, int *limit)
-{
-    bank_base = base;
-    bank_limit = limit;
 }
 
 /* ------------------------------------------------------------------------- */
