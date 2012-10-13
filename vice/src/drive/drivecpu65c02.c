@@ -130,21 +130,25 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 #define STORE_ZERO(a, b)  (drv->cpud->store_func[0](drv, (WORD)(a), \
                           (BYTE)(b)))
 
-/* FIXME: pc can not jump to VIA adress space in 1541 and 1571 emulation.  */
-/* FIXME: SFD1001 does not use bank_base at all due to messy memory mapping.
-   We should use tables like in maincpu instead (AF) */
+/* We should use tables like in maincpu instead (AF) */
 #define JUMP(addr)                                       \
     do {                                                 \
         reg_pc = (addr);                                 \
-        if (drv->drive->type == 1001) {                  \
-            cpu->d_bank_base = NULL;                     \
-            cpu->d_bank_limit = -1;                      \
+        if (reg_pc >= drv->drive->rom_start) {           \
+            cpu->d_bank_base = drv->drive->rom - drv->drive->rom_start; \
+            cpu->d_bank_limit = 0xfffd;                  \
         } else if (reg_pc < 0x2000) {                    \
             cpu->d_bank_base = drv->cpud->drive_ram;     \
-            cpu->d_bank_limit = 0x07fd;                  \
-        } else if (reg_pc >= drv->drive->rom_start) {    \
-            cpu->d_bank_base = drv->drive->rom - 0x8000; \
-            cpu->d_bank_limit = 0xfffd;                  \
+            cpu->d_bank_limit = 0x3ffd;                  \
+        } else if (reg_pc < 0x4000) {                    \
+            cpu->d_bank_base = drv->drive->drive_ram_expand2 - 0x2000; \
+            cpu->d_bank_limit = 0x3ffd;                  \
+        } else if (reg_pc >= 0x6000) {                    \
+            cpu->d_bank_base = drv->drive->drive_ram_expand6 - 0x6000; \
+            cpu->d_bank_limit = 0x3ffd;                  \
+        } else if (reg_pc >= 0x5000) {                   \
+            cpu->d_bank_base = drv->drive->drive_ram_expand4 - 0x4000; \
+            cpu->d_bank_limit = 0x7ffd;                  \
         } else {                                         \
             cpu->d_bank_base = NULL;                     \
             cpu->d_bank_limit = -1;                      \
