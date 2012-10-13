@@ -45,17 +45,13 @@
 #include "vicii-mem.h"
 #include "vicii.h"
 #include "z80mem.h"
+#include "z80.h"
 
 /* Z80 boot BIOS.  */
 BYTE z80bios_rom[0x1000];
 
 /* Logging.  */
 static log_t z80mem_log = LOG_ERR;
-
-/* Adjust this pointer when the MMU changes banks.  */
-static BYTE **bank_base;
-static int *bank_limit = NULL;
-unsigned int z80_old_reg_pc;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_z80mem_read_tab_ptr;
@@ -201,6 +197,7 @@ static BYTE z80_c64io_d400_read(WORD adr)
 }
 
 static void z80_c64io_d400_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     c64io_d400_store(adr, val);
 }
@@ -212,6 +209,7 @@ static BYTE z80_mmu_read(WORD adr)
 }
 
 static void z80_mmu_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     mmu_store(adr, val);
 }
@@ -223,6 +221,7 @@ static BYTE z80_vdc_read(WORD adr)
 }
 
 static void z80_vdc_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     vdc_store(adr, val);
 }
@@ -234,6 +233,7 @@ static BYTE z80_c64io_d700_read(WORD adr)
 }
 
 static void z80_c64io_d700_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     c64io_d700_store(adr, val);
 }
@@ -245,6 +245,7 @@ static BYTE z80_colorram_read(WORD adr)
 }
 
 static void z80_colorram_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     colorram_store(adr, val);
 }
@@ -256,6 +257,7 @@ static BYTE z80_cia1_read(WORD adr)
 }
 
 static void z80_cia1_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     cia1_store(adr, val);
 }
@@ -267,6 +269,7 @@ static BYTE z80_cia2_read(WORD adr)
 }
 
 static void z80_cia2_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     cia2_store(adr, val);
 }
@@ -278,6 +281,7 @@ static BYTE z80_c64io_de00_read(WORD adr)
 }
 
 static void z80_c64io_de00_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     c64io_de00_store(adr, val);
 }
@@ -289,6 +293,7 @@ static BYTE z80_c64io_df00_read(WORD adr)
 }
 
 static void z80_c64io_df00_store(WORD adr, BYTE val)
+{
     z80_clock_stretch();
     c64io_df00_store(adr, val);
 }
@@ -501,10 +506,7 @@ void z80mem_initialize(void)
         mem_write_tab[j][0x100] = mem_write_tab[j][0x0];
     }
 
-    _z80mem_read_tab_ptr = mem_read_tab[0];
-    _z80mem_write_tab_ptr = mem_write_tab[0];
-    _z80mem_read_base_tab_ptr = mem_read_base_tab[0];
-    z80mem_read_limit_tab_ptr = mem_read_limit_tab[0];
+    z80mem_update_config(0);
 
     /* IO address space.  */
 
@@ -558,18 +560,14 @@ void z80mem_initialize(void)
 #pragma optimize("",on)
 #endif
 
-void z80mem_set_bank_pointer(BYTE **base, int *limit)
-{
-    bank_base = base;
-    bank_limit = limit;
-}
-
 void z80mem_update_config(int config)
 {
     _z80mem_read_tab_ptr = mem_read_tab[config];
     _z80mem_write_tab_ptr = mem_write_tab[config];
     _z80mem_read_base_tab_ptr = mem_read_base_tab[config];
     z80mem_read_limit_tab_ptr = mem_read_limit_tab[config];
+
+    z80_resync_limits();
 }
 
 int z80mem_load(void)

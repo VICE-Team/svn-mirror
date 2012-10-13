@@ -119,7 +119,6 @@ inline static int z80mem_read_limit(int addr)
         z80_reg_pc = (addr);                            \
         z80_bank_base = z80mem_read_base(z80_reg_pc);   \
         z80_bank_limit = z80mem_read_limit(z80_reg_pc); \
-        z80_old_reg_pc = z80_reg_pc;                    \
     } while (0)
 
 #define LOAD(addr) (*_z80mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
@@ -173,7 +172,7 @@ inline static CLOCK z80cpu_clock_add(CLOCK clock, int amount)
     return tmp_clock;
 }
 
-void z80_stretch_clock(void)
+void z80_clock_stretch(void)
 {
     CLK++;
     z80_half_cycle = 0;
@@ -5501,6 +5500,13 @@ static void opcode_fd(BYTE ip1, BYTE ip2, BYTE ip3, WORD ip12, WORD ip23)
 
 /* ------------------------------------------------------------------------- */
 
+void z80_resync_limits(void) {
+    z80_bank_base = z80mem_read_base(z80_reg_pc);
+    z80_bank_limit = z80mem_read_limit(z80_reg_pc);
+}
+
+/* ------------------------------------------------------------------------- */
+
 /* Z80 mainloop.  */
 
 void z80_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_alarm_context)
@@ -5508,8 +5514,6 @@ void z80_mainloop(interrupt_cpu_status_t *cpu_int_status, alarm_context_t *cpu_a
     opcode_t opcode;
 
     import_registers();
-
-    z80mem_set_bank_pointer(&z80_bank_base, &z80_bank_limit);
 
     dma_request = 0;
 
