@@ -61,7 +61,6 @@ static int hard_reset_flag = 0;
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
-unsigned int mem_old_reg_pc;
 
 /* ------------------------------------------------------------------------- */
 
@@ -293,11 +292,11 @@ static void mem_config_set(unsigned int config)
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 
     if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
+        *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
         if (*bank_base != 0)
-            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8]
-                         - (mem_old_reg_pc & 0xff00);
-        *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
+            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8]
+                         - (reg_pc & 0xff00);
+        *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
     }
 }
 

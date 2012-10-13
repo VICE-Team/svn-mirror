@@ -62,9 +62,6 @@ void mem_initialize_memory_6809_flat();
 
 BYTE petmem_2001_buf_ef[256];
 
-/* Old program counter.  Not used without MMU support.  */
-unsigned int mem_old_reg_pc;
-
 /* ------------------------------------------------------------------------- */
 
 /* we keep the current system config in here. */

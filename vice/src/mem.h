@@ -48,7 +48,6 @@ extern BYTE *mem_page_one;
 extern BYTE *mem_color_ram_cpu;
 extern BYTE *mem_color_ram_vicii;
 
-extern unsigned int mem_old_reg_pc;
 extern BYTE *mem_chargen_rom_ptr;
 
 extern void mem_initialize_memory(void);

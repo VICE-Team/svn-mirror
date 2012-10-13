@@ -46,6 +46,7 @@
 #include "kbdbuf.h"
 #include "machine.h"
 #include "mem.h"
+#include "maincpu.h"
 #include "monitor.h"
 #include "ram.h"
 #include "resources.h"
@@ -101,7 +102,6 @@ int *mem_read_limit_tab_ptr;
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
-unsigned int mem_old_reg_pc;
 
 int cbm2_init_ok = 0;
 
@@ -138,10 +138,10 @@ void cbm2mem_set_bank_exec(int val)
                                  ? 0 : 1];
 
         if (bank_limit != NULL) {
-            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
+            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
             if (*bank_base != 0) {
-                *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8]
-                         - (mem_old_reg_pc & 0xff00);
+                *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8]
+                         - (reg_pc & 0xff00);
             } else {
                 /* disable fast opcode fetch when bank_base is null, i.e.
                    set all limits to 0 when no RAM available.
@@ -149,7 +149,7 @@ void cbm2mem_set_bank_exec(int val)
                    bank 15, though. */
                 mem_read_limit_tab_ptr = mem_read_limit_tab[2];
             }
-            *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
+            *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
         }
 
         /* set all register mirror locations */

@@ -104,7 +104,6 @@ BYTE *mem_page_zero, *mem_page_one;
 /* Adjust this pointer when the MMU changes banks.  */
 static BYTE **bank_base;
 static int *bank_limit = NULL;
-unsigned int mem_old_reg_pc;
 
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
@@ -205,11 +204,11 @@ void mem_update_config(int config)
     mem_read_limit_tab_ptr = mem_read_limit_tab[config];
 
     if (bank_limit != NULL) {
-        *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8];
+        *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8];
         if (*bank_base != 0) {
-            *bank_base = _mem_read_base_tab_ptr[mem_old_reg_pc >> 8] - (mem_old_reg_pc & 0xff00);
+            *bank_base = _mem_read_base_tab_ptr[reg_pc >> 8] - (reg_pc & 0xff00);
         }
-        *bank_limit = mem_read_limit_tab_ptr[mem_old_reg_pc >> 8];
+        *bank_limit = mem_read_limit_tab_ptr[reg_pc >> 8];
     }
 
     if (config >= 0x80) {

@@ -59,11 +59,6 @@
 #include "vic20memrom.h"
 #include "vic20via.h"
 
-/*----------------------------------------------------------------------*/
-
-/* Old program counter.  Not used without MMU support.  */
-unsigned int mem_old_reg_pc;
-
 /* ------------------------------------------------------------------------- */
 
 /* The VIC20 memory. */

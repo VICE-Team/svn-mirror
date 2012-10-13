@@ -72,7 +72,6 @@ CLOCK debug_clk;
         reg_pc = (unsigned int)(addr);        \
         bank_base = mem_read_base(reg_pc);    \
         bank_limit = mem_read_limit(reg_pc);  \
-        mem_old_reg_pc = reg_pc;              \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
