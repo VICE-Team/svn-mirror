@@ -42,11 +42,8 @@
 #include <unistd.h>
 #include <locale.h>
 
-/* Needed for solaris */
-#if defined(sun) || defined(__sun)
-#  if defined(__SVR4) || defined(__svr4__)
-#    include <limits.h>
-#  endif
+#ifdef HAVE_LIMIT_H
+#include <limits.h>
 #endif
 
 #include <X11/Xlib.h>
