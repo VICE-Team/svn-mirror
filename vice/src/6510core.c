@@ -107,6 +107,18 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef CYCLE_EXACT_ALARM
+#define PROCESS_ALARMS                                             \
+    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) { \
+        alarm_context_dispatch(ALARM_CONTEXT, CLK);                \
+        CPU_DELAY_CLK                                              \
+    }
+#else
+#define PROCESS_ALARMS
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
 #if defined DRIVE_CPU
@@ -353,10 +365,13 @@
                 PUSH(reg_pc >> 8);                                    \
                 PUSH(reg_pc & 0xff);                                  \
                 PUSH(LOCAL_STATUS());                                 \
+                CLK_ADD(CLK, 5);                                      \
                 LOCAL_SET_INTERRUPT(1);                               \
+                CPU_DELAY_CLK /* process alarms for cartridge freeze */ \
+                PROCESS_ALARMS                                        \
                 JUMP(LOAD_ADDR(0xfffa));                              \
                 SET_LAST_OPCODE(0);                                   \
-                CLK_ADD(CLK,NMI_CYCLES);                              \
+                CLK_ADD(CLK,NMI_CYCLES - 5);                          \
             } else if ((ik & (IK_IRQ | IK_IRQPEND))                   \
                        && (!LOCAL_INTERRUPT()                         \
                        || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))      \
@@ -371,10 +386,13 @@
                 PUSH(reg_pc >> 8);                                    \
                 PUSH(reg_pc & 0xff);                                  \
                 PUSH(LOCAL_STATUS());                                 \
+                CLK_ADD(CLK, 5);                                      \
                 LOCAL_SET_INTERRUPT(1);                               \
+                CPU_DELAY_CLK /* process alarms for cartridge freeze */ \
+                PROCESS_ALARMS                                        \
                 JUMP(LOAD_ADDR(0xfffe));                              \
                 SET_LAST_OPCODE(0);                                   \
-                CLK_ADD(CLK,IRQ_CYCLES);                              \
+                CLK_ADD(CLK,IRQ_CYCLES - 5);                          \
             }                                                         \
         }                                                             \
         if (ik & (IK_TRAP | IK_RESET)) {                              \
@@ -735,15 +753,18 @@ be found that works for both.
 #define BRK()                                                    \
   do {                                                           \
       EXPORT_REGISTERS();                                        \
-      CLK_ADD(CLK,CLK_BRK);                                      \
       TRACE_BRK();                                               \
       INC_PC(2);                                                 \
       LOCAL_SET_BREAK(1);                                        \
       PUSH(reg_pc >> 8);                                         \
       PUSH(reg_pc & 0xff);                                       \
       PUSH(LOCAL_STATUS());                                      \
+      CLK_ADD(CLK, 5);                                           \
       LOCAL_SET_INTERRUPT(1);                                    \
+      CPU_DELAY_CLK    /* process alarms for cartridge freeze */ \
+      PROCESS_ALARMS                                             \
       JUMP(LOAD_ADDR(0xfffe));                                   \
+      CLK_ADD(CLK, CLK_BRK - 5);                                 \
   } while (0)
 
 #define CLC()              \
@@ -1889,12 +1910,7 @@ static const BYTE rewind_fetch_tab[] = {
 
     CPU_DELAY_CLK
 
-#ifndef CYCLE_EXACT_ALARM
-    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
-        alarm_context_dispatch(ALARM_CONTEXT, CLK);
-        CPU_DELAY_CLK
-    }
-#endif
+    PROCESS_ALARMS
 
     {
         enum cpu_int pending_interrupt;
@@ -1912,12 +1928,8 @@ static const BYTE rewind_fetch_tab[] = {
                 && CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
                     CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
             CPU_DELAY_CLK
-#ifndef CYCLE_EXACT_ALARM
-            while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
-                alarm_context_dispatch(ALARM_CONTEXT, CLK);
-                CPU_DELAY_CLK
-            }
-#endif
+
+            PROCESS_ALARMS
         }
     }
 
