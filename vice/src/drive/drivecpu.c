@@ -145,7 +145,7 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
 #define JUMP(addr)                                       \
     do {                                                 \
         reg_pc = (addr);                                 \
-        if (drv->drive->type == 1001) {                  \
+        if (drv->drive->type == DRIVE_TYPE_1001) {       \
             cpu->d_bank_base = NULL;                     \
             cpu->d_bank_limit = -1;                      \
         } else if (reg_pc < 0x2000) {                    \
