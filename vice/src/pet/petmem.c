@@ -58,7 +58,7 @@
 
 
 static BYTE mem_read_patchbuf(WORD addr);
-void mem_initialize_memory_6809_flat();
+static void mem_initialize_memory_6809_flat(void);
 
 BYTE petmem_2001_buf_ef[256];
 
@@ -1140,7 +1140,7 @@ static void set_vidmem(void) {
 
 /* ------------------------------------------------------------------------- */
 
-void mem_initialize_memory_6809_banked()
+static void mem_initialize_memory_6809_banked(void)
 {
     int i;
 
@@ -1182,7 +1182,7 @@ void mem_initialize_memory_6809_banked()
     mem6809_read_limit_tab[0x100] = -1;
 }
 
-void mem_initialize_memory_6809_flat()
+static void mem_initialize_memory_6809_flat(void)
 {
     int i;
 
