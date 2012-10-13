@@ -174,7 +174,8 @@ void zfile_shutdown(void)
 static char *try_uncompress_with_gzip(const char *name)
 {
 #ifdef HAVE_ZLIB
-    FILE *fdsrc, *fddest;
+    FILE *fddest;
+    gzFile fdsrc;
     char *tmp_name = NULL;
     int len;
 
@@ -761,7 +762,7 @@ static int compress_with_gzip(const char *src, const char *dest)
 {
 #ifdef HAVE_ZLIB
     FILE *fdsrc;
-    FILE *fddest;
+    gzFile fddest;
     size_t len;
 
     fdsrc = fopen(dest, MODE_READ);
