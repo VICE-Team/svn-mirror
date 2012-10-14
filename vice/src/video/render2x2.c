@@ -272,7 +272,7 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = trg;
-        if ((y & 1) || doublescan) {
+        if ((y & 1) || doublescan) { /* TODO: copy previous line */
             if (wfirst) {
                 color = colortab[*tmpsrc++];
                 *tmptrg++ = (BYTE)color;
@@ -570,6 +570,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
 
 /* 256 color 2x2 renderers */
 
+#if 0
 void render_08_2x2_08(const video_render_color_tables_t *color_tab,
                       const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
@@ -1083,3 +1084,4 @@ void render_32_2x2_08(const video_render_color_tables_t *color_tab,
         trg += pitcht;
     }
 }
+#endif

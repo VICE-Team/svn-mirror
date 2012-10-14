@@ -63,7 +63,7 @@ extern void render_32_2x2_04(const video_render_color_tables_t *color_tab,
                              const unsigned int pitchs,
                              const unsigned int pitcht,
                              const unsigned int doublescan);
- 
+#if 0 
 extern void render_08_2x2_08(const video_render_color_tables_t *color_tab,
                              const BYTE *src, BYTE *trg,
                              unsigned int width, const unsigned int height,
@@ -96,4 +96,5 @@ extern void render_32_2x2_08(const video_render_color_tables_t *color_tab,
                              const unsigned int pitchs,
                              const unsigned int pitcht,
                              const unsigned int doublescan);
+#endif
 #endif
