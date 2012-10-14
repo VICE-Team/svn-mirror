@@ -51,6 +51,7 @@ extern void dqbb_roml_store(WORD addr, BYTE byte);
 extern BYTE dqbb_romh_read(WORD addr);
 extern void dqbb_romh_store(WORD addr, BYTE byte);
 extern int dqbb_peek_mem(WORD addr, BYTE *value);
+extern void dqbb_mmu_translate(unsigned int addr, BYTE **base, int *limit);
 
 extern const char *dqbb_get_file_name(void);
 extern int dqbb_bin_attach(const char *filename, BYTE *rawcart);

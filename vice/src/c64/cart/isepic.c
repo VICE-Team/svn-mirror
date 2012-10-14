@@ -569,6 +569,31 @@ const char *isepic_get_file_name(void)
     return isepic_filename;
 }
 
+void isepic_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+{
+    switch (addr & 0xf000) {
+    case 0xc000:
+    case 0xb000:
+    case 0xa000:
+    case 0x9000:
+    case 0x8000:
+    case 0x7000:
+    case 0x6000:
+    case 0x5000:
+    case 0x4000:
+    case 0x3000:
+    case 0x2000:
+    case 0x1000:
+        *base = &isepic_ram[isepic_page * 256] - (addr & 0xff00);
+        *limit = (addr & 0xff00) | 0xfd;
+        break;
+    default:
+        break;
+    }
+    *base = NULL;
+    *limit = -1;
+}
+
 void isepic_config_init(void)
 {
     /* TODO: do nothing ? */

@@ -2238,6 +2238,22 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
     }
 
     /* continue with "Slot 1" */
+    if (isepic_cart_active()) {
+        isepic_mmu_translate(addr, base, limit);
+        return;
+    }
+    if (expert_cart_enabled()) {
+        expert_mmu_translate(addr, base, limit);
+        return;
+    }
+    if (ramcart_cart_enabled()) {
+        ramcart_mmu_translate(addr, base, limit);
+        return;
+    }
+    if (dqbb_cart_enabled()) {
+        dqbb_mmu_translate(addr, base, limit);
+        return;
+    }
 
     /* continue with "Main Slot" */
     switch (mem_cartridge_type) {

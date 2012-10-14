@@ -492,6 +492,17 @@ const char *ramcart_get_file_name(void)
     return ramcart_filename;
 }
 
+void ramcart_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+{
+    if (ramcart_readonly == 1 && ramcart_size_kb == 128 && addr >= 0x8000 && addr <= 0x80ff) {
+        *base = &ramcart_ram[((ramcart[1] & 1) * 65536) + (ramcart[0] * 256)] - 0x8000;
+        *limit = 0x80fd;
+        return;
+    }
+    *base = NULL;
+    *limit = -1;
+}
+
 void ramcart_init_config(void)
 {
     if (ramcart_enabled) {

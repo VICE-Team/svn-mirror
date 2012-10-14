@@ -569,6 +569,33 @@ void expert_reset(void)
 
 /* ---------------------------------------------------------------------*/
 
+void expert_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+{
+    switch (addr & 0xf000) {
+    case 0xf000:
+    case 0xe000:
+        if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
+            *base = expert_ram - 0xe000;
+            *limit = 0xfffd;
+            return;
+        }
+        break;
+    case 0x9000:
+    case 0x8000:
+        if ((cartmode == EXPERT_MODE_PRG)
+            || ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled)) {
+            *base = expert_ram - 0x8000;
+            *limit = 0x9ffd;
+            return;
+        }
+        break;
+    default:
+        break;
+    }
+    *base = NULL;
+    *limit = -1;
+}
+
 void expert_config_init(void)
 {
     if (expert_enabled) {

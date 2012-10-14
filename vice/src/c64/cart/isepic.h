@@ -54,6 +54,7 @@ extern void isepic_page_store(WORD addr, BYTE byte);
 extern int isepic_romh_phi1_read(WORD addr, BYTE *value);
 extern int isepic_romh_phi2_read(WORD addr, BYTE *value);
 extern int isepic_peek_mem(WORD addr, BYTE *value);
+extern void isepic_mmu_translate(unsigned int addr, BYTE **base, int *limit);
 
 extern int isepic_bin_attach(const char *filename, BYTE *rawcart);
 extern int isepic_bin_save(const char *filename);

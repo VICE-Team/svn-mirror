@@ -49,6 +49,7 @@ extern int ramcart_enable(void);
 extern BYTE ramcart_roml_read(WORD addr);
 extern void ramcart_roml_store(WORD addr, BYTE byte);
 extern int ramcart_peek_mem(WORD addr, BYTE *value);
+extern void ramcart_mmu_translate(unsigned int addr, BYTE **base, int *limit);
 
 extern int ramcart_cart_enabled(void);
 extern const char *ramcart_get_file_name(void);
