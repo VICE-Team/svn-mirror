@@ -2208,6 +2208,20 @@ void cartridge_sound_chip_init(void)
 }
 
 /* ------------------------------------------------------------------------- */
+/* Perform MMU translation for simple cartridge RAM/ROM mappings */
+void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+    switch (mem_cartridge_type) {
+        case CARTRIDGE_IDE64:
+            ide64_mmu_translate(addr, base, limit);
+            return;
+        default:
+            *base = NULL;
+            *limit = -1;
+            return;
+    }
+}
+
+/* ------------------------------------------------------------------------- */
 
 /*
     Snapshot reading and writing

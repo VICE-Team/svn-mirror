@@ -663,8 +663,12 @@ void mem_initialize_memory(void)
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
-    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
-    *limit = mem_read_limit_tab_ptr[addr >> 8];
+    if (p != NULL) {
+        *base = p - (addr & 0xff00);
+        *limit = mem_read_limit_tab_ptr[addr >> 8];
+    } else {
+        cartridge_mmu_translate(addr, base, limit);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
