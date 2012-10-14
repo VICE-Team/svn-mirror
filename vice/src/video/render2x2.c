@@ -28,6 +28,7 @@
 
 #include "render2x2.h"
 #include "types.h"
+#include <string.h>
 
 
 /* 16 color 2x2 renderers */
@@ -66,60 +67,69 @@ void render_08_2x2_04(const video_render_color_tables_t *color_tab,
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = (WORD *)trg;
-        if ((y & 1) || doublescan) {
-            if (wfirst) {
-                *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc++];
-                tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
+        if (!(y & 1) || doublescan) {
+            if ((y & 1) && y > yys) { /* copy previous line */
+                memcpy(trg, trg - pitcht, (width << 1) + wfirst);
+            } else {
+                if (wfirst) {
+                    *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc++];
+                    tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
+                }
+                for (x = 0; x < wstart; x++) {
+                    *tmptrg++ = (WORD)colortab[*tmpsrc++];
+                }
+                for (x = 0; x < wfast; x++) {
+                    tmptrg[0] = (WORD)colortab[tmpsrc[0]];
+                    tmptrg[1] = (WORD)colortab[tmpsrc[1]];
+                    tmptrg[2] = (WORD)colortab[tmpsrc[2]];
+                    tmptrg[3] = (WORD)colortab[tmpsrc[3]];
+                    tmptrg[4] = (WORD)colortab[tmpsrc[4]];
+                    tmptrg[5] = (WORD)colortab[tmpsrc[5]];
+                    tmptrg[6] = (WORD)colortab[tmpsrc[6]];
+                    tmptrg[7] = (WORD)colortab[tmpsrc[7]];
+                    tmpsrc += 8;
+                    tmptrg += 8;
+                }
+                for (x = 0; x < wend; x++) {
+                    *tmptrg++ = (WORD)colortab[*tmpsrc++];
+                }
+                if (wlast) {
+                    *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc];
+                    tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
+                }
             }
-            for (x = 0; x < wstart; x++) {
-                *tmptrg++ = (WORD)colortab[*tmpsrc++];
-            }
-            for (x = 0; x < wfast; x++) {
-                tmptrg[0] = (WORD)colortab[tmpsrc[0]];
-                tmptrg[1] = (WORD)colortab[tmpsrc[1]];
-                tmptrg[2] = (WORD)colortab[tmpsrc[2]];
-                tmptrg[3] = (WORD)colortab[tmpsrc[3]];
-                tmptrg[4] = (WORD)colortab[tmpsrc[4]];
-                tmptrg[5] = (WORD)colortab[tmpsrc[5]];
-                tmptrg[6] = (WORD)colortab[tmpsrc[6]];
-                tmptrg[7] = (WORD)colortab[tmpsrc[7]];
-                tmpsrc += 8;
-                tmptrg += 8;
-            }
-            for (x = 0; x < wend; x++) {
-                *tmptrg++ = (WORD)colortab[*tmpsrc++];
-            }
-            if (wlast) {
-                *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc];
-                tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
-            }
-            if (y & 1)
-                src += pitchs;
         } else {
-            color = (WORD)colortab[0];
-            if (wfirst) {
-                *((BYTE *)tmptrg) = (BYTE)color;
+            if (y > yys + 1) { /* copy 2 lines before */
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) << 1);
+            } else {
+                color = (WORD)colortab[0];
+                if (wfirst) {
+                    *((BYTE *)tmptrg) = (BYTE)color;
+                }
+                for (x = 0; x < wstart; x++) {
+                    *tmptrg++ = color;
+                }
+                for (x = 0; x < wfast; x++) {
+                    tmptrg[0] = color;
+                    tmptrg[1] = color;
+                    tmptrg[2] = color;
+                    tmptrg[3] = color;
+                    tmptrg[4] = color;
+                    tmptrg[5] = color;
+                    tmptrg[6] = color;
+                    tmptrg[7] = color;
+                    tmptrg += 8;
+                }
+                for (x = 0; x < wend; x++) {
+                    *tmptrg++ = color;
+                }
+                if (wlast) {
+                    *((BYTE *)tmptrg) = (BYTE)color;
+                }
             }
-            for (x = 0; x < wstart; x++) {
-                *tmptrg++ = color;
-            }
-            for (x = 0; x < wfast; x++) {
-                tmptrg[0] = color;
-                tmptrg[1] = color;
-                tmptrg[2] = color;
-                tmptrg[3] = color;
-                tmptrg[4] = color;
-                tmptrg[5] = color;
-                tmptrg[6] = color;
-                tmptrg[7] = color;
-                tmptrg += 8;
-            }
-            for (x = 0; x < wend; x++) {
-                *tmptrg++ = color;
-            }
-            if (wlast) {
-                *((BYTE *)tmptrg) = (BYTE)color;
-            }
+        }
+        if (y & 1) {
+            src += pitchs;
         }
         trg += pitcht;
     }
@@ -159,61 +169,69 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = (DWORD *)trg;
-        if ((y & 1) || doublescan) {
-            if (wfirst) {
-                *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc++];
-                tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
-            }
-            for (x = 0; x < wstart; x++) {
-                *tmptrg++ = colortab[*tmpsrc++];
-            }
-            for (x = 0; x < wfast; x++) {
-                tmptrg[0] = colortab[tmpsrc[0]];
-                tmptrg[1] = colortab[tmpsrc[1]];
-                tmptrg[2] = colortab[tmpsrc[2]];
-                tmptrg[3] = colortab[tmpsrc[3]];
-                tmptrg[4] = colortab[tmpsrc[4]];
-                tmptrg[5] = colortab[tmpsrc[5]];
-                tmptrg[6] = colortab[tmpsrc[6]];
-                tmptrg[7] = colortab[tmpsrc[7]];
-                tmpsrc += 8;
-                tmptrg += 8;
-            }
-            for (x = 0; x < wend; x++) {
-                *tmptrg++ = colortab[*tmpsrc++];
-            }
-            if (wlast) {
-                *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc];
-            }
-            if (y & 1) {
-                src += pitchs;
+        if (!(y & 1) || doublescan) {
+            if ((y & 1) && y > yys) { /* copy previous line */
+                memcpy(trg, trg - pitcht, ((width << 1) + wfirst) << 1);
+            } else {
+                if (wfirst) {
+                    *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc++];
+                    tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
+                }
+                for (x = 0; x < wstart; x++) {
+                    *tmptrg++ = colortab[*tmpsrc++];
+                }
+                for (x = 0; x < wfast; x++) {
+                    tmptrg[0] = colortab[tmpsrc[0]];
+                    tmptrg[1] = colortab[tmpsrc[1]];
+                    tmptrg[2] = colortab[tmpsrc[2]];
+                    tmptrg[3] = colortab[tmpsrc[3]];
+                    tmptrg[4] = colortab[tmpsrc[4]];
+                    tmptrg[5] = colortab[tmpsrc[5]];
+                    tmptrg[6] = colortab[tmpsrc[6]];
+                    tmptrg[7] = colortab[tmpsrc[7]];
+                    tmpsrc += 8;
+                    tmptrg += 8;
+                }
+                for (x = 0; x < wend; x++) {
+                    *tmptrg++ = colortab[*tmpsrc++];
+                }
+                if (wlast) {
+                    *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc];
+                }
             }
         } else {
-            color = colortab[0];
-            if (wfirst) {
-                *((WORD *)tmptrg) = (WORD)color;
-                tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
+            if (y > yys + 1) { /* copy 2 lines before */
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) << 1);
+            } else {
+                color = colortab[0];
+                if (wfirst) {
+                    *((WORD *)tmptrg) = (WORD)color;
+                    tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
+                }
+                for (x = 0; x < wstart; x++) {
+                    *tmptrg++ = color;
+                }
+                for (x = 0; x < wfast; x++) {
+                    tmptrg[0] = color;
+                    tmptrg[1] = color;
+                    tmptrg[2] = color;
+                    tmptrg[3] = color;
+                    tmptrg[4] = color;
+                    tmptrg[5] = color;
+                    tmptrg[6] = color;
+                    tmptrg[7] = color;
+                    tmptrg += 8;
+                }
+                for (x = 0;x < wend; x++) {
+                    *tmptrg++ = color;
+                }
+                if (wlast) {
+                    *((WORD *)tmptrg) = (WORD)color;
+                }
             }
-            for (x = 0; x < wstart; x++) {
-                *tmptrg++ = color;
-            }
-            for (x = 0; x < wfast; x++) {
-                tmptrg[0] = color;
-                tmptrg[1] = color;
-                tmptrg[2] = color;
-                tmptrg[3] = color;
-                tmptrg[4] = color;
-                tmptrg[5] = color;
-                tmptrg[6] = color;
-                tmptrg[7] = color;
-                tmptrg += 8;
-            }
-            for (x = 0;x < wend; x++) {
-                *tmptrg++ = color;
-            }
-            if (wlast) {
-                *((WORD *)tmptrg) = (WORD)color;
-            }
+        }
+        if (y & 1) {
+            src += pitchs;
         }
         trg += pitcht;
     }
@@ -357,7 +375,7 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
                 src += pitchs;
             }
         } else {
-            if (wfirst) {
+            if (wfirst) { /* TODO: should be color 0 not zero */
                 *tmptrg++ = 0;
                 *tmptrg++ = 0;
                 *tmptrg++ = 0;
@@ -451,89 +469,97 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = (DWORD *)trg;
-        if ((y & 1) || doublescan) {
-            if (wfirst) {
-                *tmptrg++ = colortab[*tmpsrc++];
-            }
-            for (x = 0; x < wstart; x++) {
-                color = colortab[*tmpsrc++];
-                *tmptrg++ = color;
-                *tmptrg++ = color;
-            }
-            for (x = 0; x < wfast; x++) {
-                color = colortab[tmpsrc[0]];
-                tmptrg[0] = color;
-                tmptrg[1] = color;
-                color = colortab[tmpsrc[1]];
-                tmptrg[2] = color;
-                tmptrg[3] = color;
-                color = colortab[tmpsrc[2]];
-                tmptrg[4] = color;
-                tmptrg[5] = color;
-                color = colortab[tmpsrc[3]];
-                tmptrg[6] = color;
-                tmptrg[7] = color;
-                color = colortab[tmpsrc[4]];
-                tmptrg[8] = color;
-                tmptrg[9] = color;
-                color = colortab[tmpsrc[5]];
-                tmptrg[10] = color;
-                tmptrg[11] = color;
-                color = colortab[tmpsrc[6]];
-                tmptrg[12] = color;
-                tmptrg[13] = color;
-                color = colortab[tmpsrc[7]];
-                tmptrg[14] = color;
-                tmptrg[15] = color;
-                tmpsrc += 8;
-                tmptrg += 16;
-            }
-            for (x = 0; x < wend; x++) {
-                color = colortab[*tmpsrc++];
-                *tmptrg++ = color;
-                *tmptrg++ = color;
-            }
-            if (wlast) {
-                *tmptrg = colortab[*tmpsrc];
-            }
-            if (y & 1) {
-                src += pitchs;
+        if (!(y & 1) || doublescan) {
+            if ((y & 1) && y > yys) { /* copy previous line */
+                memcpy(trg, trg - pitcht, ((width << 1) + wfirst) << 2);
+            } else {
+                if (wfirst) {
+                    *tmptrg++ = colortab[*tmpsrc++];
+                }
+                for (x = 0; x < wstart; x++) {
+                    color = colortab[*tmpsrc++];
+                    *tmptrg++ = color;
+                    *tmptrg++ = color;
+                }
+                for (x = 0; x < wfast; x++) {
+                    color = colortab[tmpsrc[0]];
+                    tmptrg[0] = color;
+                    tmptrg[1] = color;
+                    color = colortab[tmpsrc[1]];
+                    tmptrg[2] = color;
+                    tmptrg[3] = color;
+                    color = colortab[tmpsrc[2]];
+                    tmptrg[4] = color;
+                    tmptrg[5] = color;
+                    color = colortab[tmpsrc[3]];
+                    tmptrg[6] = color;
+                    tmptrg[7] = color;
+                    color = colortab[tmpsrc[4]];
+                    tmptrg[8] = color;
+                    tmptrg[9] = color;
+                    color = colortab[tmpsrc[5]];
+                    tmptrg[10] = color;
+                    tmptrg[11] = color;
+                    color = colortab[tmpsrc[6]];
+                    tmptrg[12] = color;
+                    tmptrg[13] = color;
+                    color = colortab[tmpsrc[7]];
+                    tmptrg[14] = color;
+                    tmptrg[15] = color;
+                    tmpsrc += 8;
+                    tmptrg += 16;
+                }
+                for (x = 0; x < wend; x++) {
+                    color = colortab[*tmpsrc++];
+                    *tmptrg++ = color;
+                    *tmptrg++ = color;
+                }
+                if (wlast) {
+                    *tmptrg = colortab[*tmpsrc];
+                }
             }
         } else {
-            color = colortab[0];
-            if (wfirst) {
-                *tmptrg++ = color;
+            if (y > yys + 1) { /* copy 2 lines before */
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) << 2);
+            } else {
+                color = colortab[0];
+                if (wfirst) {
+                    *tmptrg++ = color;
+                }
+                for (x = 0; x < wstart; x++) {
+                    *tmptrg++ = color;
+                    *tmptrg++ = color;
+                }
+                for (x = 0; x < wfast; x++) {
+                    tmptrg[0] = color;
+                    tmptrg[1] = color;
+                    tmptrg[2] = color;
+                    tmptrg[3] = color;
+                    tmptrg[4] = color;
+                    tmptrg[5] = color;
+                    tmptrg[6] = color;
+                    tmptrg[7] = color;
+                    tmptrg[8] = color;
+                    tmptrg[9] = color;
+                    tmptrg[10] = color;
+                    tmptrg[11] = color;
+                    tmptrg[12] = color;
+                    tmptrg[13] = color;
+                    tmptrg[14] = color;
+                    tmptrg[15] = color;
+                    tmptrg += 16;
+                }
+                for (x = 0; x < wend; x++) {
+                    *tmptrg++ = color;
+                    *tmptrg++ = color;
+                }
+                if (wlast) {
+                    *tmptrg = color;
+                }
             }
-            for (x = 0; x < wstart; x++) {
-                *tmptrg++ = color;
-                *tmptrg++ = color;
-            }
-            for (x = 0; x < wfast; x++) {
-                tmptrg[0] = color;
-                tmptrg[1] = color;
-                tmptrg[2] = color;
-                tmptrg[3] = color;
-                tmptrg[4] = color;
-                tmptrg[5] = color;
-                tmptrg[6] = color;
-                tmptrg[7] = color;
-                tmptrg[8] = color;
-                tmptrg[9] = color;
-                tmptrg[10] = color;
-                tmptrg[11] = color;
-                tmptrg[12] = color;
-                tmptrg[13] = color;
-                tmptrg[14] = color;
-                tmptrg[15] = color;
-                tmptrg += 16;
-            }
-            for (x = 0; x < wend; x++) {
-                *tmptrg++ = color;
-                *tmptrg++ = color;
-            }
-            if (wlast) {
-                *tmptrg = color;
-            }
+        }
+        if (y & 1) {
+            src += pitchs;
         }
         trg += pitcht;
     }
