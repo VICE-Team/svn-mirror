@@ -2211,6 +2211,27 @@ void cartridge_sound_chip_init(void)
 /* Perform MMU translation for simple cartridge RAM/ROM mappings */
 /* TODO: add more */
 void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+    int res = CART_READ_THROUGH;
+    /* "Slot 0" */
+
+    if (mmc64_cart_enabled()) {
+        if ((res = mmc64_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
+            return;
+        }
+    }
+
+    switch (res) {
+        case CART_READ_C64MEM:
+            *base = NULL;
+            *limit = -1;
+            return;
+        case CART_READ_THROUGH_NO_ULTIMAX:
+            break;
+    }
+
+    /* continue with "Slot 1" */
+
+    /* continue with "Main Slot" */
     switch (mem_cartridge_type) {
         case CARTRIDGE_GENERIC_16KB:
         case CARTRIDGE_GENERIC_8KB:
