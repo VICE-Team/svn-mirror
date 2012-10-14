@@ -1,5 +1,5 @@
 /*
- * platform_beos_runtime_os.c - BeOS/Zeta/Haiku runtime version discovery.
+ * platform_solaris_runtime_os.c - Solaris runtime version discovery.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -85,9 +85,13 @@ char *platform_get_solaris_runtime_os(void)
     if (!strcasecmp(name.release, "5.10")) {
         return "Solaris 10";
     }
-    /* FIXME: find out how to tell the difference between opensolaris and solaris 11 */
     if (!strcasecmp(name.release, "5.11")) {
-        return "Solaris 11 / OpenSolaris";
+        if (!strcasecmp(name.version, "11.0")) {
+            return "Solaris 11";
+        } else {
+            return "OpenSolaris";
+        }
     }
+    return "Unknown Solaris version";
 }
 #endif

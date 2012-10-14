@@ -656,6 +656,9 @@ char *archdep_get_runtime_os(void)
 #if defined(MACOSX_COCOA)
     return platform_get_macosx_runtime_os();
 #endif
+#if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+    return platform_get_solaris_runtime_os();
+#endif
     /* TODO: add runtime os detection code */
     return "*nix";
 }
