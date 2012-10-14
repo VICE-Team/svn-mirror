@@ -1220,6 +1220,67 @@ static void mv_ack_nmi(void)
 }
 #endif
 
+int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+{
+    switch (addr & 0xf000) {
+    case 0xf000:
+    case 0xe000:
+        if (mv_gameE000_enabled) {
+            return CART_READ_THROUGH; /* "passthrough" */
+        } else {
+            if (mv_romE000_enabled) {
+                *base = mv_rom - 0xc000;
+                *limit = 0xfffd;
+                return CART_READ_VALID;
+            }
+        }
+        return CART_READ_C64MEM; /* disabled, read c64 memory */
+    case 0xb000:
+    case 0xa000:
+        if (mv_game8000_atB000_enabled) {
+            /* FIXME: proper mapping */
+            *base = NULL;
+            *limit = -1;
+            return CART_READ_VALID;
+        }
+        if (mv_gameA000_enabled) {
+            return CART_READ_THROUGH_NO_ULTIMAX;/* "passthrough" */
+        } else {
+            if (mv_romA000_enabled) {
+                *base = mv_rom - 0xa000;
+                *limit = 0xbffd;
+                return CART_READ_VALID;
+            }
+        }
+        /* disabled, read c64 memory */
+        return CART_READ_C64MEM;
+    case 0x9000:
+    case 0x8000:
+        if (mv_game8000_enabled) { /* "passthrough" */
+            return CART_READ_THROUGH;
+        }
+        return CART_READ_C64MEM; /* disabled, read c64 memory */
+    case 0x3000:
+        if (mv_gameA000_at3000_enabled) {
+            /* FIXME: proper mapping */
+            *base = NULL;
+            *limit = -1;
+            return CART_READ_VALID;
+        } /* fall through */
+    case 0x7000:
+    case 0x6000:
+    case 0x5000:
+    case 0x4000:
+    case 0x2000:
+    case 0x1000:
+        /* disabled, read c64 memory */
+        return CART_READ_C64MEM;
+    default:
+        break;
+    }
+    return CART_READ_THROUGH;
+}
+
 /* called at reset */
 void magicvoice_config_init(struct export_s *export)
 {

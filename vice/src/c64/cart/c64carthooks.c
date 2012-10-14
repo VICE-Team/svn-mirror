@@ -2218,6 +2218,10 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
         if ((res = mmc64_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
             return;
         }
+    } else if (magicvoice_cart_enabled()) {
+        if ((res = magicvoice_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
+            return;
+        }
     }
 
     switch (res) {
