@@ -16,6 +16,7 @@ libgnomeui_a_SOURCES = \
 	gnomekbd.c \
 	gnomevideo.c \
 	linenoise.c \
+	linenoise.h \
 	uiarch.h \
 	uicartridge.c \
 	uicolor.c \

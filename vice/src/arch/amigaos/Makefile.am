@@ -6,7 +6,7 @@ x64ns_SOURCES = x64ns.c
 
 x64dtvns_SOURCES = x64dtvns.c
 
-x64scns_SOURCES = x64dtvns.c
+x64scns_SOURCES = x64scns.c
 
 x128ns_SOURCES = x128ns.c
 

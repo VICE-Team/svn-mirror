@@ -12,6 +12,8 @@ EXTRA_DIST = \
 	xvic.nib/keyedobjects.nib \
 	xcbm2.nib/designable.nib \
 	xcbm2.nib/keyedobjects.nib \
+	xcbm5x0.nib/designable.nib \
+	xcbm5x0.nib/keyedobjects.nib \
 	xpet.nib/designable.nib \
 	xpet.nib/keyedobjects.nib \
 	xplus4.nib/designable.nib \

@@ -109,6 +109,7 @@ EXTRA_DIST = \
 	watcom/c64common.tgt \
 	watcom/c64commoncart.tgt \
 	watcom/c64commonc128dtvsc.tgt \
+	watcom/c64commonc128sc.tgt \
 	watcom/c64commonc128scvsid.tgt \
 	watcom/c64commondtvsc.tgt \
 	watcom/c64commondtvscvsid.tgt \
