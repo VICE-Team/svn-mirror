@@ -119,6 +119,34 @@ static c64export_resource_t export_res_ultimax = {
 
 /* ---------------------------------------------------------------------*/
 
+void generic_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+{
+    switch (addr & 0xf000) {
+    case 0xf000:
+    case 0xe000:
+        *base = &romh_banks[(romh_bank << 13)] - 0xe000;
+        *limit = 0xfffd;
+        break;
+    case 0xb000:
+    case 0xa000:
+        *base = &romh_banks[(romh_bank << 13)] - 0xa000;
+        *limit = 0xbffd;
+        break;
+    case 0x9000:
+    case 0x8000:
+        if (export_ram) {
+            *base = export_ram0 - 0x8000;
+        } else {
+            *base = &roml_banks[(roml_bank << 13)] - 0x8000;
+        }
+        *limit = 0x9ffd;
+        break;
+    default:
+        *base = NULL;
+        *limit = -1;
+    }
+}
+
 void generic_8kb_config_init(void)
 {
     roml_bank = romh_bank = 0;

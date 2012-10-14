@@ -54,6 +54,7 @@ extern BYTE generic_romh_read(WORD addr);
 extern int generic_romh_phi1_read(WORD addr, BYTE *value);
 extern int generic_romh_phi2_read(WORD addr, BYTE *value);
 extern int generic_peek_mem(struct export_s *export, WORD addr, BYTE *value);
+extern void generic_mmu_translate(unsigned int addr, BYTE **base, int *limit);
 
 extern int generic_snapshot_write_module(struct snapshot_s *s, int type);
 extern int generic_snapshot_read_module(struct snapshot_s *s, int type);
