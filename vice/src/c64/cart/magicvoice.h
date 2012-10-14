@@ -67,6 +67,7 @@ extern int magicvoice_crt_attach(FILE *fd, BYTE *rawcart);
 extern int magicvoice_enable(void);
 extern void magicvoice_detach(void);
 extern const char *magicvoice_get_file_name(void);
+extern int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit);
 
 extern void magicvoice_sound_chip_init(void);
 
