@@ -348,7 +348,6 @@
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
-/* FIXME: Dummy LOAD() cycles are missing!  */
 /* FIXME: Improper BRK handling!  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                        \
@@ -363,17 +362,24 @@
                     monitor_check_icount_interrupt();                 \
                 }                                                     \
                 interrupt_ack_nmi(CPU_INT_STATUS);                    \
+                if (NMI_CYCLES == 7) {                                \
+                    FETCH_PARAM(reg_pc);   /* dummy reads */          \
+                    CLK_ADD(CLK, 1);                                  \
+                    FETCH_PARAM(reg_pc);                              \
+                    CLK_ADD(CLK, 1);                                  \
+                }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
                 PUSH(reg_pc >> 8);                                    \
                 PUSH(reg_pc & 0xff);                                  \
+                CLK_ADD(CLK, 2);                                      \
                 PUSH(LOCAL_STATUS());                                 \
-                CLK_ADD(CLK, 5);                                      \
+                CLK_ADD(CLK, 1);                                      \
                 LOCAL_SET_INTERRUPT(1);                               \
                 CPU_DELAY_CLK /* process alarms for cartridge freeze */ \
                 PROCESS_ALARMS                                        \
                 JUMP(LOAD_ADDR(0xfffa));                              \
                 SET_LAST_OPCODE(0);                                   \
-                CLK_ADD(CLK,NMI_CYCLES - 5);                          \
+                CLK_ADD(CLK, 2);                                      \
             } else if ((ik & (IK_IRQ | IK_IRQPEND))                   \
                        && (!LOCAL_INTERRUPT()                         \
                        || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))      \
@@ -384,17 +390,24 @@
                     monitor_check_icount_interrupt();                 \
                 }                                                     \
                 interrupt_ack_irq(CPU_INT_STATUS);                    \
+                if (IRQ_CYCLES == 7) {                                \
+                    FETCH_PARAM(reg_pc);   /* dummy reads */          \
+                    CLK_ADD(CLK, 1);                                  \
+                    FETCH_PARAM(reg_pc);                              \
+                    CLK_ADD(CLK, 1);                                  \
+                }                                                     \
                 LOCAL_SET_BREAK(0);                                   \
                 PUSH(reg_pc >> 8);                                    \
                 PUSH(reg_pc & 0xff);                                  \
+                CLK_ADD(CLK, 2);                                      \
                 PUSH(LOCAL_STATUS());                                 \
-                CLK_ADD(CLK, 5);                                      \
+                CLK_ADD(CLK, 1);                                      \
                 LOCAL_SET_INTERRUPT(1);                               \
                 CPU_DELAY_CLK /* process alarms for cartridge freeze */ \
                 PROCESS_ALARMS                                        \
                 JUMP(LOAD_ADDR(0xfffe));                              \
                 SET_LAST_OPCODE(0);                                   \
-                CLK_ADD(CLK,IRQ_CYCLES - 5);                          \
+                CLK_ADD(CLK, 2);                                      \
             }                                                         \
         }                                                             \
         if (ik & (IK_TRAP | IK_RESET)) {                              \
@@ -448,6 +461,9 @@
 
 /* Addressing modes.  For convenience, page boundary crossing cycles and
    ``idle'' memory reads are handled here as well. */
+
+#define FETCH_PARAM(addr)                                              \
+    ((((int)(addr)) < bank_limit) ? bank_base[(addr)] : LOAD(addr))    \
 
 #define LOAD_ABS(addr)  \
    LOAD(addr)
@@ -739,7 +755,7 @@ be found that works for both.
       if (cond) {                                                  \
           unsigned int dest_addr = reg_pc + (signed char)(value);  \
                                                                    \
-          LOAD(reg_pc);                                            \
+          FETCH_PARAM(reg_pc);                                     \
           CLK_ADD(CLK,CLK_BRANCH2);                                \
           if ((reg_pc ^ dest_addr) & 0xff00) {                     \
               LOAD((reg_pc & 0xff00) | (dest_addr & 0xff));        \
@@ -1006,7 +1022,7 @@ be found that works for both.
       CLK_ADD(CLK,2);                         \
       PUSH(((reg_pc) >> 8) & 0xff);           \
       PUSH((reg_pc) & 0xff);                  \
-      tmp_addr = (p1 | (LOAD(reg_pc) << 8));  \
+      tmp_addr = (p1 | (FETCH_PARAM(reg_pc) << 8));  \
       CLK_ADD(CLK,CLK_JSR_INT_CYCLE);         \
       JUMP(tmp_addr);                         \
   } while (0)
@@ -1301,10 +1317,10 @@ be found that works for both.
       CLK_ADD(CLK,CLK_RTS);       \
       tmp = PULL();               \
       tmp = tmp | (PULL() << 8);  \
-      LOAD(tmp);                  \
-      CLK_ADD(CLK,CLK_INT_CYCLE); \
-      tmp++;                      \
       JUMP(tmp);                  \
+      FETCH_PARAM(reg_pc);        \
+      CLK_ADD(CLK, CLK_INT_CYCLE);\
+      INC_PC(1);                  \
   } while (0)
 
 #define SAX(addr, clk_inc1, clk_inc2, pc_inc)  \
