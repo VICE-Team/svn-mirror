@@ -71,9 +71,10 @@
 /* Implement the hack to make opcode fetches faster.  */
 #define JUMP(addr)                            \
     do {                                      \
+        if (reg_pc >= bank_limit || ((reg_pc ^ (unsigned int)(addr)) & ~0xff)) { \
+            mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_limit);    \
+        }                                     \
         reg_pc = (unsigned int)(addr);        \
-        bank_base = mem_read_base(reg_pc);    \
-        bank_limit = mem_read_limit(reg_pc);  \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -157,21 +158,6 @@ BYTE memmap_mem_read(unsigned int addr)
 
 #define LOAD_ZERO_ADDR(addr) \
     ((LOAD_ZERO((addr) + 1) << 8) | LOAD_ZERO(addr))
-
-inline static BYTE *mem_read_base(int addr)
-{
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
-
-    if (p == NULL)
-        return p;
-
-    return p - (addr & 0xff00);
-}
-
-inline static int mem_read_limit(int addr)
-{
-    return mem_read_limit_tab_ptr[addr >> 8];
-}
 
 /* Those may be overridden by the machine stuff.  Probably we want them in
    the .def files, but if most of the machines do not use, we might keep it
@@ -419,8 +405,7 @@ static int *o_bank_limit;
 
 void maincpu_resync_limits(void) {
     if (o_bank_base) {
-        *o_bank_base = mem_read_base(reg_pc);
-        *o_bank_limit = mem_read_limit(reg_pc);
+        mem_mmu_translate(reg_pc, o_bank_base, o_bank_limit);
     }
 }
 

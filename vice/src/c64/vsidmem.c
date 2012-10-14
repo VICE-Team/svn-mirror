@@ -90,8 +90,8 @@ BYTE *mem_chargen_rom_ptr;
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
-BYTE **_mem_read_base_tab_ptr;
-int *mem_read_limit_tab_ptr;
+static BYTE **_mem_read_base_tab_ptr;
+static int *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
@@ -483,6 +483,13 @@ void mem_initialize_memory(void)
 
     /* Setup initial memory configuration.  */
     mem_pla_config_changed();
+}
+
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+
+    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
+    *limit = mem_read_limit_tab_ptr[addr >> 8];
 }
 
 /* ------------------------------------------------------------------------- */

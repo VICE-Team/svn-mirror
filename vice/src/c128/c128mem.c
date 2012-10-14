@@ -104,8 +104,8 @@ BYTE *mem_page_zero, *mem_page_one;
 /* Pointers to the currently used memory read and write tables.  */
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
-BYTE **_mem_read_base_tab_ptr;
-int *mem_read_limit_tab_ptr;
+static BYTE **_mem_read_base_tab_ptr;
+static int *mem_read_limit_tab_ptr;
 
 #define NUM_CONFIGS 256
 
@@ -754,6 +754,13 @@ void mem_initialize_memory(void)
 #ifdef _MSC_VER
 #pragma optimize("",on)
 #endif
+
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+
+    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
+    *limit = mem_read_limit_tab_ptr[addr >> 8];
+}
 
 /* ------------------------------------------------------------------------- */
 

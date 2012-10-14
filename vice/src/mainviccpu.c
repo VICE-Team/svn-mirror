@@ -62,9 +62,10 @@ CLOCK debug_clk;
 /* Implement the hack to make opcode fetches faster.  */
 #define JUMP(addr)                            \
     do {                                      \
+        if (reg_pc >= bank_limit || ((reg_pc ^ (unsigned int)(addr)) & ~0xff)) { \
+            mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_limit);    \
+        }                                     \
         reg_pc = (unsigned int)(addr);        \
-        bank_base = mem_read_base(reg_pc);    \
-        bank_limit = mem_read_limit(reg_pc);  \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -137,21 +138,6 @@ BYTE memmap_mem_read(unsigned int addr)
 #define LOAD_ZERO(addr) \
     (*_mem_read_tab_ptr[0])((WORD)(addr))
 #endif
-
-inline static BYTE *mem_read_base(int addr)
-{
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
-
-    if (p == NULL)
-        return p;
-
-    return p - (addr & 0xff00);
-}
-
-inline static int mem_read_limit(int addr)
-{
-    return mem_read_limit_tab_ptr[addr >> 8];
-}
 
 #ifndef DMA_FUNC
 static void maincpu_generic_dma(void)
@@ -355,8 +341,7 @@ static int *o_bank_limit;
 
 void maincpu_resync_limits(void) {
     if (o_bank_base) {
-        *o_bank_base = mem_read_base(reg_pc);
-        *o_bank_limit = mem_read_limit(reg_pc);
+        mem_mmu_translate(reg_pc, o_bank_base, o_bank_limit);
     }
 }
 
