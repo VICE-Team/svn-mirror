@@ -1760,7 +1760,7 @@ static const BYTE rewind_fetch_tab[] = {
                 opcode_cycle[1] = 0;                                   \
                 CLK_ADD(CLK,2);                                        \
             }                                                          \
-            if (fetch_table[(o).ins)) {                                \
+            if (fetch_tab[(o).ins]) {                                  \
                 CLK_ADD(CLK,1);                                        \
             }                                                          \
         } else {                                                       \
