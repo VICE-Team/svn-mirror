@@ -35,6 +35,7 @@
 #include "c64dtvcpu.h"
 #include "c64dtvdma.h"
 #include "monitor.h"
+#include <string.h>
 
 /* ------------------------------------------------------------------------- */
 
@@ -124,7 +125,7 @@ inline static void c64dtvcpu_clock_add(CLOCK *clock, int amount)
 #define CLK_ADD(clock, amount) c64dtvcpu_clock_add(&clock, amount)
 
 /* This is an optimization making x64dtv consume less host cycles in burst mode. */
-DWORD mem_burst_read(WORD addr)
+inline static void mem_burst_read(const WORD addr, BYTE *burst_cache)
 {
     read_func_ptr_t mrtf;
     int paddr = ((((int) dtv_registers[12 + (addr >> 14)]) << 14) + (addr & 0x3fff)) & (C64_RAM_SIZE - 1);
@@ -132,20 +133,15 @@ DWORD mem_burst_read(WORD addr)
     if (paddr <= 0xffff) {
         mrtf = _mem_read_tab_ptr[paddr >> 8];
         if (mrtf != ram_read) {
-#ifdef WORDS_BIGENDIAN
-            return (((DWORD) mrtf(paddr + 0)) << 24) +
-                   (((DWORD) mrtf(paddr + 1)) << 16) +
-                   (((DWORD) mrtf(paddr + 2)) << 8) +
-                   (((DWORD) mrtf(paddr + 3)) << 0);
-#else
-            return (((DWORD) mrtf((WORD)(paddr + 3))) << 24) +
-                   (((DWORD) mrtf((WORD)(paddr + 2))) << 16) +
-                   (((DWORD) mrtf((WORD)(paddr + 1))) << 8) +
-                   (((DWORD) mrtf((WORD)(paddr + 0))) << 0);
-#endif
+            burst_cache[0] = mrtf(paddr + 0);
+            burst_cache[1] = mrtf(paddr + 1);
+            burst_cache[2] = mrtf(paddr + 2);
+            burst_cache[3] = mrtf(paddr + 3);
+            return;
         }
     }
-    return *((DWORD *) (&mem_ram[paddr]));
+    /* this memcpy is optimized to a simple dword copy */
+    memcpy(burst_cache, &mem_ram[paddr], 4);
 }
 
 /* Burst mode & skip cycle helper table */
@@ -337,7 +333,11 @@ static const BYTE burst_status_tab[] = {
             burst_last_addr = burst_addr; \
             burst_addr = reg_pc & 0xfffc; \
             if ((burst_addr != burst_last_addr)||burst_broken) { \
-                *((DWORD *)burst_cache) = mem_burst_read(burst_addr); \
+                if (burst_addr < bank_limit) { \
+                    memcpy(burst_cache, bank_base + burst_addr, 4); \
+                } else { \
+                    mem_burst_read(burst_addr, burst_cache); \
+                } \
             } \
             burst_idx = reg_pc & 3; \
             o = burst_cache[burst_idx++]; \
@@ -351,7 +351,11 @@ static const BYTE burst_status_tab[] = {
                     burst_last_addr = burst_addr; \
                     burst_diff--; \
                     burst_idx = 0; \
-                    *((DWORD *)burst_cache) = mem_burst_read(burst_addr); \
+                    if (burst_addr < bank_limit && burst_addr) { \
+                        memcpy(burst_cache, bank_base + burst_addr, 4); \
+                    } else { \
+                        mem_burst_read(burst_addr, burst_cache); \
+                    } \
                 } \
                 o |= (burst_cache[burst_idx++] << 8); \
                 if (burst_fetch--) { \
@@ -361,7 +365,11 @@ static const BYTE burst_status_tab[] = {
                         burst_last_addr = burst_addr; \
                         burst_diff--; \
                         burst_idx = 0; \
-                        *((DWORD *)burst_cache) = mem_burst_read(burst_addr); \
+                        if (burst_addr < bank_limit && burst_addr) { \
+                            memcpy(burst_cache, bank_base + burst_addr, 4); \
+                        } else { \
+                            mem_burst_read(burst_addr, burst_cache); \
+                        } \
                     } \
                     o |= (burst_cache[burst_idx] << 16); \
                 } \
@@ -414,10 +422,14 @@ static const BYTE burst_status_tab[] = {
             burst_last_addr = burst_addr; \
             burst_addr = reg_pc & 0xfffc; \
             if ((burst_addr != burst_last_addr)||burst_broken) { \
-                burst_cache[0] = LOAD(burst_addr+0); \
-                burst_cache[1] = LOAD(burst_addr+1); \
-                burst_cache[2] = LOAD(burst_addr+2); \
-                burst_cache[3] = LOAD(burst_addr+3); \
+                if (burst_addr < bank_limit) { \
+                    memcpy(burst_cache, bank_base + burst_addr, 4); \
+                } else { \
+                    burst_cache[0] = LOAD(burst_addr+0); \
+                    burst_cache[1] = LOAD(burst_addr+1); \
+                    burst_cache[2] = LOAD(burst_addr+2); \
+                    burst_cache[3] = LOAD(burst_addr+3); \
+                } \
             } \
             burst_idx = reg_pc & 3; \
             (o).ins = burst_cache[burst_idx++]; \
@@ -431,10 +443,14 @@ static const BYTE burst_status_tab[] = {
                     burst_last_addr = burst_addr; \
                     burst_diff--; \
                     burst_idx = 0; \
-                    burst_cache[0] = LOAD(burst_addr+0); \
-                    burst_cache[1] = LOAD(burst_addr+1); \
-                    burst_cache[2] = LOAD(burst_addr+2); \
-                    burst_cache[3] = LOAD(burst_addr+3); \
+                    if (burst_addr < bank_limit && burst_addr) { \
+                        memcpy(burst_cache, bank_base + burst_addr, 4); \
+                    } else { \
+                        burst_cache[0] = LOAD(burst_addr+0); \
+                        burst_cache[1] = LOAD(burst_addr+1); \
+                        burst_cache[2] = LOAD(burst_addr+2); \
+                        burst_cache[3] = LOAD(burst_addr+3); \
+                    } \
                 } \
                 (o).op.op16 = burst_cache[burst_idx++]; \
                 if (burst_fetch--) { \
@@ -444,10 +460,14 @@ static const BYTE burst_status_tab[] = {
                         burst_last_addr = burst_addr; \
                         burst_diff--; \
                         burst_idx = 0; \
-                        burst_cache[0] = LOAD(burst_addr+0); \
-                        burst_cache[1] = LOAD(burst_addr+1); \
-                        burst_cache[2] = LOAD(burst_addr+2); \
-                        burst_cache[3] = LOAD(burst_addr+3); \
+                        if (burst_addr < bank_limit && burst_addr) { \
+                            memcpy(burst_cache, bank_base + burst_addr, 4); \
+                        } else { \
+                            burst_cache[0] = LOAD(burst_addr+0); \
+                            burst_cache[1] = LOAD(burst_addr+1); \
+                            burst_cache[2] = LOAD(burst_addr+2); \
+                            burst_cache[3] = LOAD(burst_addr+3); \
+                        } \
                     } \
                     (o).op.op16 |= (burst_cache[burst_idx] << 8); \
                 } \
