@@ -38,6 +38,40 @@
 #include "sid.h"
 #include "vicii-mem.h"
 
+#define NUM_SEGMENTS 8
+#define NUM_CONFIGS 8
+
+static const int mstart[NUM_SEGMENTS] = { 0x00, 0x01, 0x40, 0x80,
+                                          0xa0, 0xc0, 0xd0, 0xe0 };
+
+static const int mend[NUM_SEGMENTS] = { 0x00, 0x3f, 0x7f, 0x9f,
+                                        0xbf, 0xcf, 0xdf, 0xff };
+
+static const int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
+    /* 0000-00ff */
+    {     -1,     -1,     -1,     -1,     -1,     -1,     -1,     -1 },
+
+    /* 0100-3fff */
+    { 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd, 0x3ffd },
+
+    /* 4000-7fff */
+    { 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd, 0x7ffd },
+
+    /* 8000-9fff */
+    { 0xbffd, 0xbffd, 0xbffd, 0x9ffd, 0xbffd, 0xbffd, 0xbffd, 0x9ffd },
+
+    /* a000-bfff */
+    { 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd, 0xbffd },
+
+    /* c000-cfff */
+    { 0xfffd, 0xcffd, 0xcffd, 0xcffd, 0xfffd, 0xcffd, 0xcffd, 0xcffd },
+
+    /* d000-dfff */
+    { 0xfffd, 0xdffd, 0xdffd, 0xdffd, 0xfffd,     -1,     -1,     -1 },
+
+    /* e000-ffff */
+    { 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd, 0xfffd }
+};
 
 /* IO is enabled at memory configs 5, 6, 7 */
 const unsigned int c64meminit_io_config[8] = 
@@ -51,10 +85,8 @@ void c64dtvmeminit(unsigned int base)
     for (i = 0xa0; i <= 0xbf; i++) {
         mem_read_tab_set(base + 3, i, c64memrom_basic64_read);
         mem_read_tab_set(base + 7, i, c64memrom_basic64_read);
-        mem_read_base_set(base + 3, i, c64memrom_basic64_rom
-                          + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 7, i, c64memrom_basic64_rom
-                          + ((i & 0x1f) << 8));
+        mem_read_base_set(base + 3, i, NULL);
+        mem_read_base_set(base + 7, i, NULL);
     }
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
@@ -94,16 +126,24 @@ void c64dtvmeminit(unsigned int base)
         mem_read_tab_set(base + 3, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 6, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 7, i, c64memrom_kernal64_read);
-        mem_read_base_set(base + 2, i,
-                          c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 3, i,
-                          c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 6, i,
-                          c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 7, i,
-                          c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
+        mem_read_base_set(base + 2, i, NULL);
+        mem_read_base_set(base + 3, i, NULL);
+        mem_read_base_set(base + 6, i, NULL);
+        mem_read_base_set(base + 7, i, NULL);
     }
 
 }
 
+void c64dtvmem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
+{
+    int i, j, k;
 
+    for (i = 0; i < NUM_CONFIGS; i++) {
+        for (j = 0; j < NUM_SEGMENTS; j++) {
+            for (k = mstart[j]; k <= mend[j]; k++) {
+                mem_read_limit_tab[i][k] = limit_tab[j][i];
+            }
+        }
+        mem_read_limit_tab[i][0x100] = -1;
+    }
+}

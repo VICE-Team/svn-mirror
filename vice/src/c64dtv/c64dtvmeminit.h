@@ -30,6 +30,7 @@
 #define VICE_C64DTVMEMINIT_H
 
 extern void c64dtvmeminit(unsigned int base);
+extern void c64dtvmem_limit_init(int mem_read_limit_tab[8][0x101]);
 
 #endif
 

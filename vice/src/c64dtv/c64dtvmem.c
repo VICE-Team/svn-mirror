@@ -341,6 +341,7 @@ void mem_initialize_memory(void)
     }
 
     c64dtvmeminit(0);
+    c64dtvmem_limit_init(mem_read_limit_tab);
 
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_read_tab[i][0x100] = mem_read_tab[i][0];
@@ -365,10 +366,34 @@ void mem_initialize_memory(void)
 }
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
-    BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+#ifdef FEATURE_CPUMEMHISTORY
+    *base = NULL;
+    *limit = -1;
+#else
+    int bank = addr >> 14;
+    int paddr;
+    BYTE *p;
 
-    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
-    *limit = mem_read_limit_tab_ptr[addr >> 8];
+    if ((((dtv_registers[8] >> (bank * 2)) & 0x03) == 0x00)) {
+        *base = NULL;
+        *limit = -1;
+    }
+    paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
+    if (paddr < 0x10000) {
+        paddr |= addr & 0x3fff;
+        p = _mem_read_base_tab_ptr[paddr >> 8];
+        if (p) {
+            *base = p - (addr & 0xff00);
+            *limit = mem_read_limit_tab_ptr[paddr >> 8];
+        } else {
+            *base = NULL;
+            *limit = -1;
+        }
+    } else {
+        *base = &mem_ram[paddr] - (addr & 0xc000);
+        *limit = (addr & 0xc000) | 0x3ffd;
+    }
+#endif
 }
 
 /* ------------------------------------------------------------------------- */
@@ -748,17 +773,6 @@ log_message(c64dtvmem_log, "install mem_read/mem_write handlers");  /* DEBUG */
         mem_read_tab[i][j]=c64dtv_palette_read;
     }
   }
-
-  /* create limit tab with all limits disabled */
-  for (i = 0; i < NUM_CONFIGS; i++)
-  {
-      for (k = 0x00; k <= 0xff; k++)
-      {
-        mem_read_limit_tab[i][k] = -1;
-      }
-      mem_read_limit_tab[i][0x100] = -1;
-  }
-
 log_message(c64dtvmem_log, "END init_config");  /* DEBUG */
 }
 
@@ -845,12 +859,14 @@ void c64dtv_mapper_store(WORD addr, BYTE value)
     resources_get_int("VirtualDevices", &trapfl);
     resources_set_int("VirtualDevices", 0);
     c64dtvmem_memmapper[0]=value;
+    maincpu_resync_limits();
     resources_set_int("VirtualDevices", trapfl);
     if (trapfl)
       log_message(c64dtvmem_log, "Changed KERNAL segment - disable VirtualDevices if you encounter problems");
     break;
   case 0x01:
     c64dtvmem_memmapper[1]=value;
+    maincpu_resync_limits();
     break;
   default:
     break;

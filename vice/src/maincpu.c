@@ -422,10 +422,24 @@ void maincpu_mainloop(void)
     int reg_a_write_idx = 0;
     int reg_x_idx = 2;
     int reg_y_idx = 1;
-#define reg_a_write dtv_registers[reg_a_write_idx]
+#define reg_a_write(c) \
+    do {               \
+        dtv_registers[reg_a_write_idx] = c; \
+        if (reg_a_write_idx >= 3) maincpu_resync_limits(); \
+    } while (0);
 #define reg_a_read dtv_registers[reg_a_read_idx]
-#define reg_x dtv_registers[reg_x_idx]
-#define reg_y dtv_registers[reg_y_idx]
+#define reg_x_write(c) \
+    do {               \
+        dtv_registers[reg_x_idx] = c; \
+        if (reg_x_idx >= 3) maincpu_resync_limits(); \
+    } while (0);
+#define reg_x_read dtv_registers[reg_x_idx]
+#define reg_y_write(c) \
+    do {               \
+        dtv_registers[reg_y_idx] = c; \
+        if (reg_y_idx >= 3) maincpu_resync_limits(); \
+    } while (0);
+#define reg_y_read dtv_registers[reg_y_idx]
 #endif
     BYTE reg_p = 0;
     BYTE reg_sp = 0;

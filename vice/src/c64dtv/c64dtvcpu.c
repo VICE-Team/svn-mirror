@@ -376,19 +376,31 @@ static const BYTE burst_status_tab[] = {
             if (fetch_tab[o & 0xff]) {                          \
                 CLK_ADD(CLK,1);                                 \
             }                                                   \
-        } else { \
-            burst_broken=1; \
-            burst_diff=0; \
-            o = LOAD(reg_pc);                                   \
-            CLK_ADD(CLK,1); dtvrewind++;                        \
-            o |= LOAD(reg_pc + 1) << 8;                         \
-            if (!(((burst_status_tab[o & 0xff]&0x80))           \
-               && (dtv_registers[9]&1))) {                      \
+        } else {                                                \
+            burst_broken=1;                                     \
+            burst_diff=0;                                       \
+            if (((int)reg_pc) < bank_limit) {                   \
+                o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);\
                 CLK_ADD(CLK,1); dtvrewind++;                    \
-            }                                                   \
-            if (fetch_tab[o & 0xff]) {                          \
-                 o |= (LOAD(reg_pc + 2) << 16);                 \
-                 CLK_ADD(CLK,1);                                \
+                if (!(((burst_status_tab[o & 0xff]&0x80))       \
+                   && (dtv_registers[9]&1))) {                  \
+                    CLK_ADD(CLK,1); dtvrewind++;                \
+                }                                               \
+                if (fetch_tab[o & 0xff]) {                      \
+                     CLK_ADD(CLK,1);                            \
+                }                                               \
+            } else {                                            \
+                o = LOAD(reg_pc);                               \
+                CLK_ADD(CLK,1); dtvrewind++;                    \
+                o |= LOAD(reg_pc + 1) << 8;                     \
+                if (!(((burst_status_tab[o & 0xff]&0x80))       \
+                   && (dtv_registers[9]&1))) {                  \
+                    CLK_ADD(CLK,1); dtvrewind++;                \
+                }                                               \
+                if (fetch_tab[o & 0xff]) {                      \
+                     o |= (LOAD(reg_pc + 2) << 16);             \
+                     CLK_ADD(CLK,1);                            \
+                }                                               \
             }                                                   \
         } \
     } while (0)
@@ -450,19 +462,33 @@ static const BYTE burst_status_tab[] = {
             if (fetch_tab[(o).ins]) {                           \
                 CLK_ADD(CLK,1);                                 \
             }                                                   \
-        } else { \
-            burst_broken=1; \
-            burst_diff=0; \
-            (o).ins = LOAD(reg_pc);                             \
-            CLK_ADD(CLK,1); dtvrewind++;                        \
-            (o).op.op16 = LOAD(reg_pc + 1);                     \
-            if (!(((burst_status_tab[(o).ins]&0x80))            \
-               && (dtv_registers[9]&1))) {                      \
+        } else {                                                \
+            burst_broken=1;                                     \
+            burst_diff=0;                                       \
+            if (((int)reg_pc) < bank_limit) {                   \
+                (o).ins = *(bank_base + reg_pc);                \
+                (o).op.op16 = (*(bank_base + reg_pc + 1)        \
+                              | (*(bank_base + reg_pc + 2) << 8));\
                 CLK_ADD(CLK,1); dtvrewind++;                    \
-            }                                                   \
-            if (fetch_tab[(o).ins]) {                           \
-                 (o).op.op16 |= (LOAD(reg_pc + 2) << 8);        \
-                 CLK_ADD(CLK,1);                                \
+                if (!(((burst_status_tab[(o).ins]&0x80))        \
+                   && (dtv_registers[9]&1))) {                  \
+                    CLK_ADD(CLK,1); dtvrewind++;                \
+                }                                               \
+                if (fetch_tab[(o).ins]) {                       \
+                     CLK_ADD(CLK,1);                            \
+                }                                               \
+            } else {                                            \
+                (o).ins = LOAD(reg_pc);                         \
+                CLK_ADD(CLK,1); dtvrewind++;                    \
+                (o).op.op16 = LOAD(reg_pc + 1);                 \
+                if (!(((burst_status_tab[(o).ins]&0x80))        \
+                   && (dtv_registers[9]&1))) {                  \
+                    CLK_ADD(CLK,1); dtvrewind++;                \
+                }                                               \
+                if (fetch_tab[(o).ins]) {                       \
+                     (o).op.op16 |= (LOAD(reg_pc + 2) << 8);    \
+                     CLK_ADD(CLK,1);                            \
+                }                                               \
             }                                                   \
         } \
     } while (0)
