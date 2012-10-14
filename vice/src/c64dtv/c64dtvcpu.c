@@ -232,13 +232,15 @@ static const BYTE burst_status_tab[] = {
           burst_broken=1;                                    \
           dest_addr = reg_pc + (signed char)(value);         \
                                                              \
-          LOAD(reg_pc);                                      \
-          CLK_ADD(CLK,CLK_BRANCH2);                          \
-          if ((reg_pc ^ dest_addr) & 0xff00) {               \
-              LOAD((reg_pc & 0xff00) | (dest_addr & 0xff));  \
-              CLK_ADD(CLK,CLK_BRANCH2);                      \
-          } else {                                           \
-              OPCODE_DELAYS_INTERRUPT();                     \
+          if (CLK_BRANCH2) {                                 \
+              FETCH_PARAM(reg_pc);                           \
+              CLK_ADD(CLK, 1);                               \
+              if ((reg_pc ^ dest_addr) & 0xff00) {           \
+                  LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
+                  CLK_ADD(CLK, 1);                           \
+              } else {                                       \
+                  OPCODE_DELAYS_INTERRUPT();                 \
+              }                                              \
           }                                                  \
           JUMP(dest_addr & 0xffff);                          \
       }                                                      \
