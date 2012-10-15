@@ -42,7 +42,7 @@
 #include <unistd.h>
 #include <locale.h>
 
-#ifdef HAVE_LIMIT_H
+#ifdef HAVE_LIMITS_H
 #include <limits.h>
 #endif
 
