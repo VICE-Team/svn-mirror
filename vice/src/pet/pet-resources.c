@@ -71,12 +71,15 @@
 #define KBD_INDEX_PET_BDEP  5
 
 static int sync_factor;
+static int set_ramsize(int size, void *param);
 
 static int set_iosize(int val, void *param)
 {
-    petres.IOSize = val;
+    if (petres.IOSize != val) {
+        petres.IOSize = val;
 
-    mem_initialize_memory();
+        mem_initialize_memory();
+    }
 
     return 0;
 }
@@ -90,30 +93,40 @@ static int set_crtc_enabled(int val, void *param)
 
 static int set_superpet_enabled(int val, void *param)
 {
-    if (val < 2)
-        petres.superpet = (unsigned int)val;
+    if (petres.superpet != val) {
+        if (val < 2)
+            petres.superpet = (unsigned int)val;
 
-    mem_initialize_memory();
+        if (petres.superpet && petres.ramSize > 32) {
+            set_ramsize(32, NULL);      /* disable 8x96 */
+        }
+
+        mem_initialize_memory();
+    }
 
     return 0;
 }
 
 static int set_ram_9_enabled(int val, void *param)
 {
-    if (val < 2)
-        petres.mem9 = (unsigned int)val;
+    if (petres.mem9 != val) {
+        if (val < 2)
+            petres.mem9 = (unsigned int)val;
 
-    mem_initialize_memory();
+        mem_initialize_memory();
+    }
 
     return 0;
 }
 
 static int set_ram_a_enabled(int val, void *param)
 {
-    if (val < 2)
-        petres.memA = (unsigned int)val;
+    if (petres.memA != val) {
+        if (val < 2)
+            petres.memA = (unsigned int)val;
 
-    mem_initialize_memory();
+        mem_initialize_memory();
+    }
 
     return 0;
 }
@@ -133,17 +146,20 @@ static int set_ramsize(int size, void *param)
 
     size = sizes[i];
 
-    petres.ramSize = size;
-    petres.map = 0;
+    if (petres.ramSize != size) {
+        petres.ramSize = size;
+        petres.map = PET_MAP_LINEAR;
 
-    if (size == 96) {
-        petres.map = PET_MAP_8096;         /* 8096 mapping */
-    } else if (size == 128) {
-        petres.map = PET_MAP_8296;         /* 8296 mapping */
+        if (size == 96) {
+            petres.map = PET_MAP_8096;         /* 8096 mapping */
+            set_superpet_enabled(0, NULL);
+        } else if (size == 128) {
+            petres.map = PET_MAP_8296;         /* 8296 mapping */
+            set_superpet_enabled(0, NULL);
+        }
+        petmem_check_info(&petres);
+        mem_initialize_memory();
     }
-
-    petmem_check_info(&petres);
-    mem_initialize_memory();
 
     return 0;
 }
@@ -152,11 +168,9 @@ static int set_video(int col, void *param)
 {
     if (col != petres.video) {
         if (col == 0 || col == 40 || col == 80) {
-
             petres.video = col;
 
             petmem_check_info(&petres);
-
             pet_crtc_set_screen();
         }
     }

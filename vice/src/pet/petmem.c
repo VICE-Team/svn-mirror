@@ -64,16 +64,12 @@ BYTE petmem_2001_buf_ef[256];
 
 /* ------------------------------------------------------------------------- */
 
-/* we keep the current system config in here. */
+/*
+ * We keep the current system config in here.
+ * It is initialized to defaults from the default resource values.
+ */
 
-petres_t petres = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-                    /* ROM image resources */
-                    NULL, NULL, NULL, NULL, NULL, NULL, NULL,
-                    /* SuperPET resources */
-                    { NULL }, SUPERPET_CPU_6502,
-                    /* runtime (derived) variables */
-                    0, PET_MAP_LINEAR, 0, 0, 0, 0, 0, 0
-};
+petres_t petres = { 0 };
 
 /* ------------------------------------------------------------------------- */
 
@@ -1607,11 +1603,6 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
 
 void petmem_check_info(petres_t *pi)
 {
-    if (pi->superpet) {
-        pi->ramSize = 32;       /* 128 */
-        pi->map = 0;
-    }
-
     if (pi->video == 40 || (pi->video == 0 && pi->rom_video == 40)) {
         pi->vmask = 0x3ff;
         pi->videoSize = 0x400;

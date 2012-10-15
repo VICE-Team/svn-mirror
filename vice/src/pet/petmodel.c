@@ -175,6 +175,7 @@ int pet_set_model(const char *model_name, void *extra)
     while (pet_table[i].model) {
         if (!strcmp(pet_table[i].model, model_name)) {
             petmodel_set(i);
+            ui_update_menus();
             return 0;
         }
         i++;
@@ -192,12 +193,12 @@ void petmodel_set(int model)
 {
     petres.video = -1; /* force reinitialization in pet-resources.c:set_video, see bug #3496413 */
     pet_set_model_info(&pet_table[model].info);
+    pet_model = model;
 
     /* we have to wait until we have done enough initialization */
     if (pet_init_ok) {
         /* mem_load(); - not needed as resources now load */
         vsync_suspend_speed_eval();
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-        pet_model = model;
     }
  }
