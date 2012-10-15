@@ -58,5 +58,5 @@ static video_cbm_palette_t crtc_palette =
 int crtc_color_update_palette(struct video_canvas_s *canvas)
 {
     video_color_palette_internal(canvas, &crtc_palette);
-    return video_color_update_palette(canvas);
+    return 0;
 }

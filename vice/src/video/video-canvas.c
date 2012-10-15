@@ -98,6 +98,9 @@ void video_canvas_render(video_canvas_t *canvas, BYTE *trg, int width,
         ys /= (canvas->videoconfig->doublesizey + 1);
     }
 #endif
+    if (!canvas->videoconfig->color_tables.updated) { /* update colors as necessary */
+        video_color_update_palette(canvas);
+    }
     video_render_main(canvas->videoconfig, canvas->draw_buffer->draw_buffer,
                       trg, width, height, xs, ys, xt, yt,
                       canvas->draw_buffer->draw_buffer_width, pitcht, depth,

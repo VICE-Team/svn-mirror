@@ -865,6 +865,9 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 
         display = x11ui_get_display_ptr();
 
+        if (!canvas->videoconfig->color_tables.updated) { /* update colors as necessary */
+            video_render_update_palette(canvas);
+        }
         render_yuv_image(0 /*doublesize*/,
                          canvas->viewport,
                          (canvas->videoconfig->filter == VIDEO_FILTER_CRT),

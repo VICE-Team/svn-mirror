@@ -108,6 +108,6 @@ static video_cbm_palette_t vdc_palette =
 int vdc_color_update_palette(struct video_canvas_s *canvas)
 {
     video_color_palette_internal(canvas, &vdc_palette);
-    return video_color_update_palette(canvas);
+    return 0;
 }
 

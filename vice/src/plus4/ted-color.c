@@ -128,6 +128,6 @@ int ted_color_update_palette(struct video_canvas_s *canvas)
     }
 
     video_color_palette_internal(canvas, &ted_palette);
-    return video_color_update_palette(canvas);
+    return 0;
 }
 

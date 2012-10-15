@@ -32,12 +32,14 @@
 #include "viewport.h"
 
 struct video_render_config_s;
+struct video_canvas_s;
 
 extern void video_render_main(struct video_render_config_s *config, BYTE *src,
                               BYTE *trg, int width, int height,
                               int xs, int ys, int xt, int yt,
                               int pitchs, int pitcht, int depth,
                               viewport_t *viewport);
+extern void video_render_update_palette(struct video_canvas_s *canvas);
 
 extern void video_render_1x2func_set(void(*func)(struct video_render_config_s *,
                                      const BYTE *, BYTE *,

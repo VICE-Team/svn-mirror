@@ -535,6 +535,7 @@ int video_color_update_palette(struct video_canvas_s *canvas)
     if (canvas == NULL) {
         return 0;
     }
+    canvas->videoconfig->color_tables.updated = 1;
 
     DBG(("video_color_update_palette cbm palette:%d extern: %d",
          canvas->videoconfig->cbm_palette ? 1 : 0, canvas->videoconfig->external_palette ? 1 : 0));
@@ -585,6 +586,7 @@ void video_color_palette_internal(struct video_canvas_s *canvas,
                                   struct video_cbm_palette_s *cbm_palette)
 {
     canvas->videoconfig->cbm_palette = cbm_palette;
+    canvas->videoconfig->color_tables.updated = 0;
 }
 
 void video_color_palette_free(struct palette_s *palette)

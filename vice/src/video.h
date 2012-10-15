@@ -139,6 +139,7 @@ typedef struct video_chip_cap_s video_chip_cap_t;
 #define VIDEO_MAX_OUTPUT_WIDTH  2048
 
 struct video_render_color_tables_s {
+    int updated;                /* tables here are up to date */
     DWORD physical_colors[256];
     SDWORD ytableh[256];        /* y for current pixel */
     SDWORD ytablel[256];        /* y for neighbouring pixels */

@@ -420,6 +420,10 @@ int color_alloc_colors(void *c, const palette_t *palette,
     color_list_t *color_new, *color_to_alloc, *color_no_alloc,
                  *color_alloced_owner, *color_without_owner;
 
+    if (palette == NULL) {
+        return 0; /* no palette yet, nothing to alloc. */
+    }
+
     /* Convert the palette to a color list.  */
     color_create_empty_entry(&color_new);
     color_palette_to_list(color_new, c, palette);

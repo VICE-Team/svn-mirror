@@ -756,4 +756,9 @@ void render_yuv_image(int double_size,
     }
     rendermode_error = config->rendermode;
 }
+
+void video_render_update_palette(struct video_canvas_s *canvas)
+{
+    video_color_update_palette(canvas);
+}
 #endif

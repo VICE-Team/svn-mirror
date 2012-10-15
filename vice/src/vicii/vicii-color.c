@@ -155,7 +155,6 @@ int vicii_color_update_palette(struct video_canvas_s *canvas)
         cp = &vicii_palette_old;
 
     video_color_palette_internal(canvas, cp);
-
-    return video_color_update_palette(canvas);
+    return 0;
 }
 
