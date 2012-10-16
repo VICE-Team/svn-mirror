@@ -395,6 +395,10 @@ static void canvas_change_palette(video_canvas_t *c)
 
 int video_canvas_set_palette(struct video_canvas_s *canvas, palette_t *palette)
 {
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
+
     DEBUG(("Allocating %d colors", palette->num_entries));
 
     canvas->palette = palette;
