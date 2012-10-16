@@ -68,7 +68,7 @@ void render_08_2x2_04(const video_render_color_tables_t *color_tab,
         tmptrg = (WORD *)trg;
         if (!(y & 1) || doublescan) {
             if ((y & 1) && y > yys) { /* copy previous line */
-                memcpy(trg, trg - pitcht, (width << 1) + wfirst);
+                memcpy(trg, trg - pitcht, (width << 1) + wfirst + wlast);
             } else {
                 if (wfirst) {
                     *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc++];
@@ -98,7 +98,7 @@ void render_08_2x2_04(const video_render_color_tables_t *color_tab,
                 }
             }
         } else {
-            memset(trg, (BYTE)colortab[0], ((width << 1) + wfirst) << 1);
+            memset(trg, (BYTE)colortab[0], ((width << 1) + wfirst + wlast) << 1);
         }
         if (y & 1) {
             src += pitchs;
@@ -143,7 +143,7 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
         tmptrg = (DWORD *)trg;
         if (!(y & 1) || doublescan) {
             if ((y & 1) && y > yys) { /* copy previous line */
-                memcpy(trg, trg - pitcht, ((width << 1) + wfirst) << 1);
+                memcpy(trg, trg - pitcht, ((width << 1) + wfirst + wlast) << 1);
             } else {
                 if (wfirst) {
                     *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc++];
@@ -173,7 +173,7 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) << 1);
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst + wlast) << 1);
             } else {
                 color = colortab[0];
                 if (wfirst) {
@@ -220,122 +220,29 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
     const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     BYTE *tmptrg;
-    unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
+    unsigned int x, y, wlast, yys;
     register DWORD color;
     register DWORD tcolor;
 
     src = src + pitchs * ys + xs;
     trg = trg + pitcht * yt + (xt * 3);
     yys = (ys << 1) | (yt & 1);
-    wfirst = xt & 1;
-    width -= wfirst;
     wlast = width & 1;
     width >>= 1;
-    if (width < 4) {
-        wstart = width;
-        wfast = 0;
-        wend = 0;
-    } else {
-        /* alignment: 4 pixels*/
-        wstart = (unsigned int)(4 - (vice_ptr_to_uint(trg) & 3));
-        wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
-        wend = (width - wstart) & 0x03; /* do not forget the rest*/
-    }
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = trg;
         if (!(y & 1) || doublescan) {
             if ((y & 1) && y > yys) { /* copy previous line */
-                memcpy(trg, trg - pitcht, ((width << 1) + wfirst) * 3);
+                memcpy(trg, trg - pitcht, ((width << 1) + wlast) * 3);
             } else {
-                if (wfirst) {
+                for (x = 0; x < width; x++) {
                     color = colortab[*tmpsrc++];
-                    *tmptrg++ = (BYTE)color;
+                    tmptrg[3] = tmptrg[0] = (BYTE)color;
                     color >>= 8;
-                    *tmptrg++ = (BYTE)color;
+                    tmptrg[4] = tmptrg[1] = (BYTE)color;
                     color >>= 8;
-                    *tmptrg++ = (BYTE)color;
-                }
-                for (x = 0; x < wstart; x++) {
-                    color = colortab[*tmpsrc++];
-                    tcolor = color;
-                    tmptrg[0] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[1] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[2] = (BYTE)color;
-                    tmptrg[3] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[4] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[5] = (BYTE)tcolor;
-                    tmptrg += 6;
-                }
-                for (x = 0; x < wfast; x++) {
-                    color = colortab[tmpsrc[0]];
-                    tcolor = color;
-                    tmptrg[0] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[1] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[2] = (BYTE)color;
-                    tmptrg[3] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[4] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[5] = (BYTE)tcolor;
-                    color = colortab[tmpsrc[1]];
-                    tcolor = color;
-                    tmptrg[6] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[7] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[8] = (BYTE)color;
-                    tmptrg[9] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[10] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[11] = (BYTE)tcolor;
-                    color = colortab[tmpsrc[2]];
-                    tcolor = color;
-                    tmptrg[12] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[13] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[14] = (BYTE)color;
-                    tmptrg[15] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[16] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[17] = (BYTE)tcolor;
-                    color = colortab[tmpsrc[3]];
-                    tcolor = color;
-                    tmptrg[18] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[19] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[20] = (BYTE)color;
-                    tmptrg[21] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[22] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[23] = (BYTE)tcolor;
-                    tmpsrc += 4;
-                    tmptrg += 24;
-                }
-                for (x = 0; x < wend; x++) {
-                    color = colortab[*tmpsrc++];
-                    tcolor = color;
-                    tmptrg[0] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[1] = (BYTE)color;
-                    color >>= 8;
-                    tmptrg[2] = (BYTE)color;
-                    tmptrg[3] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[4] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[5] = (BYTE)tcolor;
+                    tmptrg[5] = tmptrg[2] = (BYTE)color;
                     tmptrg += 6;
                 }
                 if (wlast) {
@@ -349,97 +256,16 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) * 3);
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wlast) * 3);
             } else {
                 color = colortab[0];
-                if (wfirst) {
+                for (x = 0; x < width; x++) {
                     tcolor = color;
-                    tmptrg[0] = (BYTE)tcolor;
+                    tmptrg[3] = tmptrg[0] = (BYTE)tcolor;
                     tcolor >>= 8;
-                    tmptrg[1] = (BYTE)tcolor;
+                    tmptrg[4] = tmptrg[1] = (BYTE)tcolor;
                     tcolor >>= 8;
-                    tmptrg[2] = (BYTE)tcolor;
-                    tmptrg += 3;
-                }
-                for (x = 0; x < wstart; x++) {
-                    tcolor = color;
-                    tmptrg[0] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[1] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[2] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[3] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[4] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[5] = (BYTE)tcolor;
-                    tmptrg += 6;
-                }
-                for (x = 0; x < wfast; x++) {
-                    tcolor = color;
-                    tmptrg[0] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[1] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[2] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[3] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[4] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[5] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[6] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[7] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[8] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[9] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[10] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[11] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[12] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[13] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[14] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[15] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[16] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[17] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[18] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[19] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[20] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[21] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[22] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[23] = (BYTE)tcolor;
-                    tmptrg += 24;
-                }
-                for (x = 0; x < wend; x++) {
-                    tcolor = color;
-                    tmptrg[0] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[1] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[2] = (BYTE)tcolor;
-                    tcolor = color;
-                    tmptrg[3] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[4] = (BYTE)tcolor;
-                    tcolor >>= 8;
-                    tmptrg[5] = (BYTE)tcolor;
+                    tmptrg[5] = tmptrg[2] = (BYTE)tcolor;
                     tmptrg += 6;
                 }
                 if (wlast) {
@@ -494,7 +320,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
         tmptrg = (DWORD *)trg;
         if (!(y & 1) || doublescan) {
             if ((y & 1) && y > yys) { /* copy previous line */
-                memcpy(trg, trg - pitcht, ((width << 1) + wfirst) << 2);
+                memcpy(trg, trg - pitcht, ((width << 1) + wfirst + wlast) << 2);
             } else {
                 if (wfirst) {
                     *tmptrg++ = colortab[*tmpsrc++];
@@ -543,7 +369,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) << 2);
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst + wlast) << 2);
             } else {
                 color = colortab[0];
                 if (wfirst) {
