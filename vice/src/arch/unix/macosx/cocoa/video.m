@@ -355,6 +355,10 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
     DWORD gmask = 0;
     DWORD bmask = 0;
 
+    if (p == NULL) {
+        return 0;	/* no palette, nothing to do */
+    }
+
     c->palette = p;
     
     // set 32bit palette
