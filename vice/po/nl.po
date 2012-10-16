@@ -7047,7 +7047,6 @@ msgid "Save DQBB image when changed"
 msgstr "DQBB bestand opslaan indien gewijzigd"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:23
-#, fuzzy
 msgid "Enable the DS12C887 RTC expansion"
 msgstr "Activeer de DS12C887 RTC cartridge"
 
@@ -8620,7 +8619,7 @@ msgstr "Smart muis"
 
 #: src/arch/amigaos/intl_text.c.po.c:11318
 msgid "MicroMys mouse"
-msgstr ""
+msgstr "MicroMys muis"
 
 #: src/arch/amigaos/intl_text.c.po.c:11514
 msgid "Save to EasyFlash CRT file on detach"
