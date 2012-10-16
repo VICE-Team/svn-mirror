@@ -45,7 +45,6 @@ void render_08_2x2_04(const video_render_color_tables_t *color_tab,
     const BYTE *tmpsrc;
     WORD *tmptrg;
     unsigned int x, y, wfirst, wstart, wfast, wend, wlast, yys;
-    WORD color;
 
     src = src + pitchs * ys + xs;
     trg = trg + pitcht * yt + xt;
@@ -99,34 +98,7 @@ void render_08_2x2_04(const video_render_color_tables_t *color_tab,
                 }
             }
         } else {
-            if (y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) << 1);
-            } else {
-                color = (WORD)colortab[0];
-                if (wfirst) {
-                    *((BYTE *)tmptrg) = (BYTE)color;
-                }
-                for (x = 0; x < wstart; x++) {
-                    *tmptrg++ = color;
-                }
-                for (x = 0; x < wfast; x++) {
-                    tmptrg[0] = color;
-                    tmptrg[1] = color;
-                    tmptrg[2] = color;
-                    tmptrg[3] = color;
-                    tmptrg[4] = color;
-                    tmptrg[5] = color;
-                    tmptrg[6] = color;
-                    tmptrg[7] = color;
-                    tmptrg += 8;
-                }
-                for (x = 0; x < wend; x++) {
-                    *tmptrg++ = color;
-                }
-                if (wlast) {
-                    *((BYTE *)tmptrg) = (BYTE)color;
-                }
-            }
+            memset(trg, (BYTE)colortab[0], ((width << 1) + wfirst) << 1);
         }
         if (y & 1) {
             src += pitchs;
