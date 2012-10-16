@@ -801,6 +801,10 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     SDL_PixelFormat *fmt;
     SDL_Color colors[256];
 
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
+
     canvas->palette = palette;
 
     fmt = canvas->screen->format;
