@@ -220,7 +220,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Memory"
   IDS_MODEL_LINE                   "Model line"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -253,7 +252,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Hukommelse"
   IDS_MODEL_LINE                   "Modelltyp"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 byte"
@@ -286,7 +284,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Speicher"
   IDS_MODEL_LINE                   "Modell Linie"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -319,7 +316,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Memoria"
   IDS_MODEL_LINE                   "Linea modelo"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -352,7 +348,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Mémoire"
   IDS_MODEL_LINE                   "Ligne du modèle"
   IDS_SELECT_CBMII_MEM_128         "128 kOctets"
   IDS_SELECT_CBMII_MEM_256         "256 Octets"
@@ -388,7 +383,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Memória"
   IDS_MODEL_LINE                   "Model line"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -424,7 +418,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Memoria"
   IDS_MODEL_LINE                   "Linea"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -460,7 +453,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "¸Þ¸ð¸®"
   IDS_MODEL_LINE                   "Model line"
   IDS_SELECT_CBMII_MEM_128         "128 kbyte"
   IDS_SELECT_CBMII_MEM_256         "256 kbyte"
@@ -496,7 +488,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Geheugen"
   IDS_MODEL_LINE                   "Model lijn"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -532,7 +523,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Pamiêæ"
   IDS_MODEL_LINE                   "Linia modelu"
   IDS_SELECT_CBMII_MEM_128         "128 kBajtów"
   IDS_SELECT_CBMII_MEM_256         "256 kBajtów"
@@ -571,7 +561,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "¿ÐÜïâì"
   IDS_MODEL_LINE                   "Model line"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"
@@ -607,7 +596,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Minne"
   IDS_MODEL_LINE                   "Modelltyp"
   IDS_SELECT_CBMII_MEM_128         "128 kbyte"
   IDS_SELECT_CBMII_MEM_256         "256 byte"
@@ -643,7 +631,6 @@ END
 STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MEMORY                       "Bellek"
   IDS_MODEL_LINE                   "Model hattý"
   IDS_SELECT_CBMII_MEM_128         "128 kByte"
   IDS_SELECT_CBMII_MEM_256         "256 kByte"

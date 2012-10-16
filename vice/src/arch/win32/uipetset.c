@@ -42,7 +42,7 @@
 #include "winmain.h"
 
 static uilib_localize_dialog_param model_dialog_trans[] = {
-    { IDC_PET_MEMORY, IDS_PET_MEMORY, 0 },
+    { IDC_PET_MEMORY, IDS_MEMORY, 0 },
     { 0, 0, 0 }
 };
 

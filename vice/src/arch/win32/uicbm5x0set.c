@@ -123,7 +123,7 @@ static void init_dialog(HWND hwnd)
 }
 
 static uilib_localize_dialog_param cbm5x0_memory_dialog_trans[] = {
-    { IDC_CBM2_MEMORY, IDS_A_MEMORY, 0 },
+    { IDC_CBM2_MEMORY, IDS_MEMORY, 0 },
     { IDC_SELECT_CBMII_MEM_64, IDS_SELECT_CBMII_MEM_64, 0 },
     { IDC_SELECT_CBMII_MEM_128, IDS_SELECT_CBMII_MEM_128, 0 },
     { IDC_SELECT_CBMII_MEM_256, IDS_SELECT_CBMII_MEM_256, 0 },
