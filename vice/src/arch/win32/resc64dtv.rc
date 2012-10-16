@@ -801,7 +801,7 @@ LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_ATTACH_FLASH_CAPTION        "Zamontuj obraz DTV Flash"
   IDS_DTV_ROM                     "ROM DTV"
-  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "Plik obrazu DTV ROM"
+  IDS_C64DTV_ROM_IMAGE_FILE_LABEL "Plik obrazu ROM DTV"
   IDS_C64DTV_ROM_WRITE_ENABLE     "W³±cz zapis do obrazu ROM C64DTV"
   IDS_C64DTV_SETTINGS_CAPTION     "Ustawienia C64DTV"
   IDS_DTV_REVISION_LABEL          "Model C64DTV"
@@ -812,7 +812,7 @@ BEGIN
   IDS_CREATE                      "Utwórz"
   IDS_JOYSTICK                    "Joystick"
   IDS_C64DTVMODEL                 "Model C64DTV"
-  IDS_MP_DTV_FLASH_ROM_IMAGE      "Plik obrazu DTV ROM"
+  IDS_MP_DTV_FLASH_ROM_IMAGE      "Plik obrazu ROM DTV"
   IDS_MI_C64DTVMODEL_SETTINGS     "Ustawienia modelu C64DTV..."
   IDS_MI_AUTOSTART_DISK           "Automatycznie startuj z obrazu dyskietki..."
   IDS_MI_ATTACH_DTV_FLASH         "Zamontuj obraz flash rom"

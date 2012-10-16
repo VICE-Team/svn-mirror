@@ -172,7 +172,7 @@ BEGIN
   IDS_SID_RESID_PASSBAND      "Pasabanda (0..90%)"
   IDS_HARDSID_GROUP           "Selección de periférico"
   IDS_HARDSID_LEFT_LABEL      "Periférico Izquierda/Principal"
-  IDS_HARDSID_RIGHT_LABEL     "Periférico derecha"
+  IDS_HARDSID_RIGHT_LABEL     "Periférico derecho"
 END
 
 

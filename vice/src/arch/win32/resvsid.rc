@@ -192,11 +192,11 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_PSID_FILE           "Seleccionar fichero PSID"
-  IDS_TUNE_NR             "número melodia"
+  IDS_TUNE_NR             "Número melodia"
   IDS_MI_LOAD_PSID_FILE   "Cargar fichero PSID"
   IDS_MI_SELECT_TUNE      "Seleccionar melodia"
   IDS_MI_NEXT_TUNE        "Siguiente melodia"
-  IDS_MI_PREVIOUS_TUNE    "melodia previa"
+  IDS_MI_PREVIOUS_TUNE    "Melodia previa"
   IDS_MI_PSID_OVERRIDE    "No utilizar ajustes PSID"
   IDS_MP_MEDIA            "Medio"
 END

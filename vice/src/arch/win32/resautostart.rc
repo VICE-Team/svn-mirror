@@ -114,8 +114,8 @@ BEGIN
     IDS_AUTOSTART_PRG_DISK_IMAGE             "Autoarranque imagen disco PRG"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Seleccionar fichero par autorranque disco para PRG"
     IDS_AUTOSTART_VIRTUAL_FS                 "FS virtual"
-    IDS_AUTOSTART_INJECT                     "Introducir en RAM"
-    IDS_AUTOSTART_DISK                       "Imagen de disco"
+    IDS_AUTOSTART_INJECT                     "Introd. en RAM"
+    IDS_AUTOSTART_DISK                       "Imag. disco"
 END
 
 

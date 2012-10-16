@@ -716,7 +716,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "ACIA Einstellungen (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM Einstellungen (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX Einstellungen (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC Einstellungen (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Ethernet Einstellungen (MasC=uerade)..."
 #endif
@@ -774,7 +774,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "Ajustes ACIA (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Ajustes GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Ajustes DigiMAX (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Ajustes DS12C887 RTC (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Ajustes Ethernet (MasC=uerade)..."
 #endif
@@ -1137,7 +1137,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "Ustawienia ACIA (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Ustawienia GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Ustawienia DigiMAX (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Ustawienia DS12C887 RTC (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Ustawienia Ethernet (MasC=uerade)..."
 #endif
@@ -1262,7 +1262,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "ACIA-inställningar (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM-inställningar (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX-inställningar (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC-inställningar (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Ethernetinställningar (MasC=uerade)..."
 #endif

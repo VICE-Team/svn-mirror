@@ -866,7 +866,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ALL_DEVICES_DETACHED_DA, ".\nAlle de navngivne enheder vil blive frakoblet."},
 /* de */ {IDGS_ALL_DEVICES_DETACHED_DE, ".\nAlle genannten Geräte werden entfernt."},
-/* es */ {IDGS_ALL_DEVICES_DETACHED_ES, ".\nTodos los periféricos nombrados serán desconectados."},
+/* es */ {IDGS_ALL_DEVICES_DETACHED_ES, ".\nTodos los periféricos nombrados se desconectarán."},
 /* fr */ {IDGS_ALL_DEVICES_DETACHED_FR, ".\nTous les périphériques nommés vont être détachés."},
 /* hu */ {IDGS_ALL_DEVICES_DETACHED_HU, ".\nMinden megnevezett eszköz le lesz választva."},
 /* it */ {IDGS_ALL_DEVICES_DETACHED_IT, ".\nTutti i device specificati sarranno rimossi."},
@@ -900,7 +900,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_WILL_BE_DETACHED_DA, ""},  /* fuzzy */
 /* de */ {IDGS_WILL_BE_DETACHED_DE, " werden entfernt."},
-/* es */ {IDGS_WILL_BE_DETACHED_ES, "Se desconectaran"},
+/* es */ {IDGS_WILL_BE_DETACHED_ES, "se desconectarán"},
 /* fr */ {IDGS_WILL_BE_DETACHED_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_WILL_BE_DETACHED_HU, ""},  /* fuzzy */
 /* it */ {IDGS_WILL_BE_DETACHED_IT, "sarranno rimossi."},
@@ -951,7 +951,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_ERROR_CREATING_FILE_S_DA, "Fejl under oprettelse af filen %s!"},
 /* de */ {IDGS_ERROR_CREATING_FILE_S_DE, "Fehler beim Schreiben: %s."},
-/* es */ {IDGS_ERROR_CREATING_FILE_S_ES, "Error creadno fichero %s!"},
+/* es */ {IDGS_ERROR_CREATING_FILE_S_ES, "Error creando fichero %s!"},
 /* fr */ {IDGS_ERROR_CREATING_FILE_S_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_ERROR_CREATING_FILE_S_HU, "Hiba %s fájl létrehozása közben!"},
 /* it */ {IDGS_ERROR_CREATING_FILE_S_IT, "Errore durante la creazione del file %s!"},
@@ -1682,7 +1682,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_INSTRUCTION_DA, "instruktion"},
 /* de */ {IDGS_INSTRUCTION_DE, "Instruktion"},
-/* es */ {IDGS_INSTRUCTION_ES, "Insturcción"},
+/* es */ {IDGS_INSTRUCTION_ES, "Instrucción"},
 /* fr */ {IDGS_INSTRUCTION_FR, ""},  /* fuzzy */
 /* hu */ {IDGS_INSTRUCTION_HU, ""},  /* fuzzy */
 /* it */ {IDGS_INSTRUCTION_IT, "istruzione"},
@@ -3025,7 +3025,7 @@ translate_t string_table[] = {
 /* nl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_NL, "Laad instellingen van bestand"},
 /* pl */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_PL, "Wczytaj zasoby z pliku."},
 /* ru */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_SV, "Läser in resurser från fil."},
 /* tr */ {IDGS_MON_LOAD_RESOURCES_DESCRIPTION_TR, "Kaynaklarý dosyadan yükler."},
 #endif
 
@@ -3042,7 +3042,7 @@ translate_t string_table[] = {
 /* nl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_NL, "Sla instellingen op naar bestand"},
 /* pl */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_PL, "Zapisz zasoby do pliku."},
 /* ru */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_RU, ""},  /* fuzzy */
-/* sv */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_SV, ""},  /* fuzzy */
+/* sv */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_SV, "Sparar resurser till fil."},
 /* tr */ {IDGS_MON_SAVE_RESOURCES_DESCRIPTION_TR, "Kaynaklarý dosyaya kaydeder."},
 #endif
 
@@ -3104,7 +3104,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_DA, "Indlæs til BASIC start ved autostart (uden ',1')"},
 /* de */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_DE, "Bei Autostart, lade an BASIC Start (ohne ',1')"},
-/* es */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_ES, "Em autoarranque, carga en inicio del BASIC (sin ',1')"},
+/* es */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_ES, "En autoarranque, carga en inicio del BASIC (sin ',1')"},
 /* fr */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_AUTOSTART_LOAD_TO_BASIC_START_IT, "All'avvio automatico, carica all'inizio del BASIC (senza ',1')"},
@@ -3308,7 +3308,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_DE, "Zufälle Verzögerung während Autostart deaktivieren."},
-/* es */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_ES, "deshabilitar retardo arranque inicial aleatorio."},
+/* es */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_ES, "Deshabilitar retardo arranque inicial aleatorio."},
 /* fr */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY_IT, "Disattiva ritardo casuale all'avvio automatico"},
@@ -3432,7 +3432,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_INT_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal internazionale"},
 /* ko */ {IDCLS_SPECIFY_INT_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_INT_KERNEL_NAME_NL, "Geef de naam van het internationaal Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_INT_KERNEL_NAME_PL, "Okre¶l nazwê obrazu miêdzynarodowego ROM Kernala"},
+/* pl */ {IDCLS_SPECIFY_INT_KERNEL_NAME_PL, "Okre¶l nazwê obrazu miêdzynarodowego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_INT_KERNEL_NAME_RU, "Specify name of international Kernal ROM image"},
 /* sv */ {IDCLS_SPECIFY_INT_KERNEL_NAME_SV, "Ange namn på internationell kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_INT_KERNEL_NAME_TR, "Uluslararasý Kernal ROM imajýnýn ismini belirt"},
@@ -3466,7 +3466,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_FI_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal finlandese"},
 /* ko */ {IDCLS_SPECIFY_FI_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_NL, "Geef de naam van het Finse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_PL, "Okre¶l nazwê obrazu fiñskiego ROM Kernala"},
+/* pl */ {IDCLS_SPECIFY_FI_KERNEL_NAME_PL, "Okre¶l nazwê obrazu fiñskiego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_FI_KERNEL_NAME_RU, "Specify name of Finnish Kernal ROM image"},
 /* sv */ {IDCLS_SPECIFY_FI_KERNEL_NAME_SV, "Ange namn på finsk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_FI_KERNEL_NAME_TR, "Finlandiya Kernal ROM imajýnýn ismini belirt"},
@@ -3483,7 +3483,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_FR_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal francese"},
 /* ko */ {IDCLS_SPECIFY_FR_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_NL, "Geef de naam van het Franse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_PL, "Okre¶l nazwê obrazu francuskiego ROM Kernala"},
+/* pl */ {IDCLS_SPECIFY_FR_KERNEL_NAME_PL, "Okre¶l nazwê obrazu francuskiego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_FR_KERNEL_NAME_RU, "Specify name of French Kernal ROM image"},
 /* sv */ {IDCLS_SPECIFY_FR_KERNEL_NAME_SV, "Ange namn på fransk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_FR_KERNEL_NAME_TR, "Fransýz Kernal ROM imajýnýn ismini belirt"},
@@ -3500,7 +3500,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_IT_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal italiana"},
 /* ko */ {IDCLS_SPECIFY_IT_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_NL, "Geef de naam van het Italiaanse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_PL, "Okre¶l nazwê obrazu w³oskiego ROM Kernala"},
+/* pl */ {IDCLS_SPECIFY_IT_KERNEL_NAME_PL, "Okre¶l nazwê obrazu w³oskiego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_IT_KERNEL_NAME_RU, "Specify name of Italian Kernal ROM image"},
 /* sv */ {IDCLS_SPECIFY_IT_KERNEL_NAME_SV, "Ange namn på italiensk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_IT_KERNEL_NAME_TR, "Ýtalyan Kernal ROM imajýnýn ismini belirt"},
@@ -3517,7 +3517,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_NO_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal norvegese"},
 /* ko */ {IDCLS_SPECIFY_NO_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_NL, "Geef de naam van het Noorse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_PL, "Okre¶l nazwê obrazu norweskiego ROM Kernala"},
+/* pl */ {IDCLS_SPECIFY_NO_KERNEL_NAME_PL, "Okre¶l nazwê obrazu norweskiego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_NO_KERNEL_NAME_RU, "Specify name of Norwegian Kernal ROM image"},
 /* sv */ {IDCLS_SPECIFY_NO_KERNEL_NAME_SV, "Ange namn på norsk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_NO_KERNEL_NAME_TR, "Norveç Kernal ROM imajýnýn ismini belirt"},
@@ -3534,7 +3534,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_SV_KERNEL_NAME_IT, "Specifica il nome immagine della ROM del Kernal svedese"},
 /* ko */ {IDCLS_SPECIFY_SV_KERNEL_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_NL, "Geef de naam van het Zweedse Kernal ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_PL, "Okre¶l nazwê obrazu szwedzkiego ROM Kernala"},
+/* pl */ {IDCLS_SPECIFY_SV_KERNEL_NAME_PL, "Okre¶l nazwê obrazu szwedzkiego ROM-u Kernala"},
 /* ru */ {IDCLS_SPECIFY_SV_KERNEL_NAME_RU, "Specify name of Swedish Kernal ROM image"},
 /* sv */ {IDCLS_SPECIFY_SV_KERNEL_NAME_SV, "Ange namn på svensk kernal-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_SV_KERNEL_NAME_TR, "Ýsveç Kernal ROM imajýnýn ismini belirt"},
@@ -4003,7 +4003,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_IT, "Specifica il nome immagine della Function ROM interna"},
 /* ko */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_NL, "Geef de naam van het intern functie ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM Internal Function"},
+/* pl */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_PL, "Okre¶l nazwê obrazu wewnêtrznego Function ROM-u"},
 /* ru */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_RU, "Specify name of internal Function ROM image"},
 /* sv */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_SV, "Ange namn på intern funktions-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_INT_FUNC_ROM_NAME_TR, "Dahili Function ROM imajýnýn ismini belirt"},
@@ -4020,7 +4020,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_IT, "Specifica il nome immagine della Function ROM esterna"},
 /* ko */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_NL, "Geef de naam van het extern functie ROM bestand"},
-/* pl */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM External Function"},
+/* pl */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_PL, "Okre¶l nazwê obrazu zewnêtrznego Function ROM-u"},
 /* ru */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_RU, "Specify name of external Function ROM image"},
 /* sv */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_SV, "Ange namn på extern funktions-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_EXT_FUNC_ROM_NAME_TR, "Harici Function ROM imajýnýn ismini belirt"},
@@ -4030,16 +4030,16 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_INT_FUNC_ROM,    N_("Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_INT_FUNC_ROM_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_INT_FUNC_ROM_DE, "Typ des internen Funktions ROM: (0: Kein, 1: ROM, 2: RAM, 3: RTC)"},
+/* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, "Tipo de Function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
-/* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, "Typ wewnêtrznego Function ROM-u: (0: ¯aden, 1: ROM, 2: RAM, 3: RTC)"},
 /* ru */ {IDCLS_ENABLE_INT_FUNC_ROM_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_INT_FUNC_ROM_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_INT_FUNC_ROM_SV, "Typ för intern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"},
 /* tr */ {IDCLS_ENABLE_INT_FUNC_ROM_TR, ""},  /* fuzzy */
 #endif
 
@@ -4054,7 +4054,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_INT_FUNC_ROM_IT, "Disattiva la Function ROM interna"},
 /* ko */ {IDCLS_DISABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_INT_FUNC_ROM_NL, "De interne functie ROM uitschakelen"},
-/* pl */ {IDCLS_DISABLE_INT_FUNC_ROM_PL, "Wy³±cz ROM Internal Function"},
+/* pl */ {IDCLS_DISABLE_INT_FUNC_ROM_PL, "Wy³±cz wewnêtrzny Function ROM"},
 /* ru */ {IDCLS_DISABLE_INT_FUNC_ROM_RU, "Disable the internal Function ROM"},
 /* sv */ {IDCLS_DISABLE_INT_FUNC_ROM_SV, "Inaktivera internt funktions-ROM"},
 /* tr */ {IDCLS_DISABLE_INT_FUNC_ROM_TR, "Dahili Function ROM'u pasifleþtir"},
@@ -4088,7 +4088,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_EXT_FUNC_ROM_IT, "Disattiva la Function ROM esterna"},
 /* ko */ {IDCLS_DISABLE_EXT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_EXT_FUNC_ROM_NL, "De externe functie ROM uitschakelen"},
-/* pl */ {IDCLS_DISABLE_EXT_FUNC_ROM_PL, "Wy³±cz ROM External Function"},
+/* pl */ {IDCLS_DISABLE_EXT_FUNC_ROM_PL, "Wy³±cz zewnêtrzny Function ROM"},
 /* ru */ {IDCLS_DISABLE_EXT_FUNC_ROM_RU, "Disable the external Function ROM"},
 /* sv */ {IDCLS_DISABLE_EXT_FUNC_ROM_SV, "Inaktivera externt funktions-ROM"},
 /* tr */ {IDCLS_DISABLE_EXT_FUNC_ROM_TR, "Harici Function ROM'u pasifleþtir"},
@@ -5457,7 +5457,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_IT, "Attiva salvataggio ROM della RR all'uscita"},
 /* ko */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_NL, "Activeer opslaan van het RR ROM bestand bij afsluiten"},
-/* pl */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_PL, "W³±æz zapis ROM RR przy wyj¶ciu"},
+/* pl */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_PL, "W³±cz zapis ROM RR przy wyj¶ciu"},
 /* ru */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_SV, "Aktivera sparande av RR-ROM vid avslutning"},
 /* tr */ {IDCLS_ENABLE_SAVE_RR_ROM_AT_EXIT_TR, "Çýkýþta RR ROM'un kaydedilmesini aktif et"},
@@ -5474,7 +5474,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_IT, "Disattiva salvataggio ROM della RR all'uscita"},
 /* ko */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_NL, "Uitschakelen van het opslaan van het RR ROM bestand bij afsluiten"},
-/* pl */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_PL, "Wy³±æz zapis ROM RR przy wyj¶ciu"},
+/* pl */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_PL, "Wy³±cz zapis ROM RR przy wyj¶ciu"},
 /* ru */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_SV, "Inaktivera sparande av RR-ROM vid avslutning"},
 /* tr */ {IDCLS_DISABLE_SAVE_RR_ROM_AT_EXIT_TR, "Çýkýþta RR ROM'un kaydedilmesini pasifleþtir"},
@@ -8187,7 +8187,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_ENABLE_SUPERCARD_NL, "Activeer SuperCard+"},
 /* pl */ {IDCLS_ENABLE_SUPERCARD_PL, "W³±cz SuperCard+"},
 /* ru */ {IDCLS_ENABLE_SUPERCARD_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_SUPERCARD_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SUPERCARD_SV, "Aktivera SuperCard+"},
 /* tr */ {IDCLS_ENABLE_SUPERCARD_TR, "SuperCard+'ý aktif et"},
 #endif
 
@@ -8204,7 +8204,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_DISABLE_SUPERCARD_NL, "SuperCard+ uitschakelen"},
 /* pl */ {IDCLS_DISABLE_SUPERCARD_PL, "Wy³±cz SuperCard+"},
 /* ru */ {IDCLS_DISABLE_SUPERCARD_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_SUPERCARD_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SUPERCARD_SV, "Inaktivera SuperCard+"},
 /* tr */ {IDCLS_DISABLE_SUPERCARD_TR, "SuperCard+'ý pasifleþtir"},
 #endif
 
@@ -8221,7 +8221,7 @@ translate_t string_table[] = {
 /* nl */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_NL, "Geef de naam van het SuperCard+ ROM bestand"},
 /* pl */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_PL, "Okre¶l nazwê obrazu ROM SuperCard+"},
 /* ru */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_SV, "Ange namn på SuperCard+-ROM-avbildning"},
 /* tr */ {IDCLS_SPECIFY_SUPERCARD_ROM_NAME_TR, "SuperCard+ ROM imajýnýn ismini belirt"},
 #endif
 
@@ -11910,16 +11910,16 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Mouse typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón  (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Inteligente)"},
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a, 4 = CX-22, 5 = ST, 6 = Smart)"},
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, 6 = Smart)"},
 /* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
@@ -13425,16 +13425,16 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_DS12C887RTC,    N_("Enable the DS12C887 RTC cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DS12C887RTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_DS12C887RTC_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_ENABLE_DS12C887RTC_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_DS12C887RTC_DE, "DS12C887 RTC Modul aktivieren"},
+/* es */ {IDCLS_ENABLE_DS12C887RTC_ES, "Permitir cartucho DS12C887 RTC"},
 /* fr */ {IDCLS_ENABLE_DS12C887RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DS12C887RTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_DS12C887RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_DS12C887RTC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DS12C887RTC_NL, "Activeer de DS12C887 RTC cartridge"},
-/* pl */ {IDCLS_ENABLE_DS12C887RTC_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_DS12C887RTC_PL, "W³±cz kartrid¿ DS12C887 RTC"},
 /* ru */ {IDCLS_ENABLE_DS12C887RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_ENABLE_DS12C887RTC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_DS12C887RTC_SV, "Aktivera DS12C887 RTC-insticksmodul"},
 /* tr */ {IDCLS_ENABLE_DS12C887RTC_TR, ""},  /* fuzzy */
 #endif
 
@@ -13442,16 +13442,16 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_DS12C887RTC,    N_("Disable the DS12C887 RTC cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DS12C887RTC_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_DS12C887RTC_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DISABLE_DS12C887RTC_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_DS12C887RTC_DE, "DS12C887 RTC Modul deaktivieren"},
+/* es */ {IDCLS_DISABLE_DS12C887RTC_ES, "Deshabilitar cartucho DS12C887 RTC"},
 /* fr */ {IDCLS_DISABLE_DS12C887RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DS12C887RTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_DS12C887RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_DS12C887RTC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DS12C887RTC_NL, "De DS12C887 RTC cartridge uitschakelen"},
-/* pl */ {IDCLS_DISABLE_DS12C887RTC_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_DS12C887RTC_PL, "Wy³±cz kartrid¿ DS12C887 RTC"},
 /* ru */ {IDCLS_DISABLE_DS12C887RTC_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DISABLE_DS12C887RTC_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_DS12C887RTC_SV, "Inaktivera DS12C887 RTC-insticksmodul"},
 /* tr */ {IDCLS_DISABLE_DS12C887RTC_TR, ""},  /* fuzzy */
 #endif
 
@@ -13459,16 +13459,16 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DS12C887RTC_BASE,    N_("Base address of the DS12C887 RTC cartridge")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DS12C887RTC_BASE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DS12C887RTC_BASE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_DS12C887RTC_BASE_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_DS12C887RTC_BASE_DE, "Basis Adresse für DS12C887 RTC Modul"},
+/* es */ {IDCLS_DS12C887RTC_BASE_ES, "Dirección base para cartucho DS12C887 RTC"},
 /* fr */ {IDCLS_DS12C887RTC_BASE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DS12C887RTC_BASE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DS12C887RTC_BASE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DS12C887RTC_BASE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DS12C887RTC_BASE_NL, "Basisadres van de DS12C887 RTC cartridge"},
-/* pl */ {IDCLS_DS12C887RTC_BASE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DS12C887RTC_BASE_PL, "Adres bazowy kartrid¿a DS12C887 RTC"},
 /* ru */ {IDCLS_DS12C887RTC_BASE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_DS12C887RTC_BASE_SV, ""},  /* fuzzy */
+/* sv */ {IDCLS_DS12C887RTC_BASE_SV, "Basadress för DS12C887 RTC-insticksmodulen"},
 /* tr */ {IDCLS_DS12C887RTC_BASE_TR, ""},  /* fuzzy */
 #endif
 
