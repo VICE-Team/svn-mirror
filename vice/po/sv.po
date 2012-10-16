@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-09-21 12:46-0700\n"
-"PO-Revision-Date: 2012-04-25 12:37+0100\n"
+"PO-Revision-Date: 2012-10-16 12:07+0100\n"
 "Last-Translator: Peter Krefting <peter@softwolves.pp.se>\n"
 "Language-Team: Swedish <tp-sv@listor.tp-sv.se>\n"
 "Language: sv\n"
@@ -163,13 +163,12 @@ msgstr ""
 "\"%s\""
 
 #: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:732
-#, fuzzy
 msgid "Internal Function ROM type"
-msgstr "Internt funktions-ROM"
+msgstr "Internt funktions-ROM-typ"
 
 #: src/arch/unix/gui/c128ui.c:325 src/arch/amigaos/intl_text.c.po.c:10660
 msgid "Internal Function ROM file"
-msgstr "Internt funktions-ROM"
+msgstr "Internt funktions-ROM-fil"
 
 #: src/arch/unix/gui/c128ui.c:329 src/arch/win32/resc128.rc.po.c:735
 #: src/translate_text.c.po.c:3998
@@ -278,9 +277,8 @@ msgstr "Läs ny diskettstation-ROM"
 
 #: src/arch/unix/gui/c128ui.c:443 src/arch/unix/gui/c64scui.c:513
 #: src/arch/unix/gui/c64ui.c:573
-#, fuzzy
 msgid "Load new drive expansion ROM"
-msgstr "Läs ny diskettstation-ROM"
+msgstr "Läs ny diskettstationsutöknings-ROM"
 
 #: src/arch/unix/gui/c128ui.c:446 src/arch/unix/gui/c64dtvui.c:113
 #: src/arch/unix/gui/c64scui.c:516 src/arch/unix/gui/c64ui.c:576
@@ -669,20 +667,18 @@ msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:403 src/arch/unix/gui/c64ui.c:463
 #: src/arch/unix/gui/vic20ui.c:439
-#, fuzzy
 msgid "detach all"
-msgstr "Kopplade från band"
+msgstr "Koppla från alla"
 
 #: src/arch/unix/gui/c64scui.c:405 src/arch/unix/gui/c64ui.c:465
 #: src/arch/unix/gui/vic20ui.c:441
 msgid "detach last"
-msgstr ""
+msgstr "koppla från senaste"
 
 #: src/arch/unix/gui/c64scui.c:407 src/arch/unix/gui/c64ui.c:467
 #: src/arch/unix/gui/vic20ui.c:443
-#, fuzzy
 msgid "AND values"
-msgstr "värde"
+msgstr "OCH:a värden"
 
 #: src/arch/unix/gui/c64scui.c:455 src/arch/unix/gui/c64ui.c:515
 msgid "Burst Mode Modification"
@@ -691,7 +687,7 @@ msgstr "Burst Mode-modifiering"
 #: src/arch/unix/gui/c64scui.c:482 src/arch/unix/gui/c64ui.c:542
 #: src/arch/unix/gui/vic20ui.c:484
 msgid "I/O collision handling"
-msgstr ""
+msgstr "hantering av I/O-kollisioner"
 
 #: src/arch/unix/gui/c64ui.c:211
 msgid "Old PAL-G"
@@ -1445,9 +1441,8 @@ msgid "Select history directory"
 msgstr "Ange historikkatalog"
 
 #: src/arch/unix/gui/uicommands.c:338 src/arch/unix/gui/uidrive.c:192
-#, fuzzy
 msgid "Path:"
-msgstr "Sökväg"
+msgstr "Sökväg:"
 
 #: src/arch/unix/gui/uicommands.c:377 src/arch/win32/res.rc.po.c:1173
 #: src/arch/amigaos/intl_text.c.po.c:10926
@@ -1578,31 +1573,28 @@ msgid "Stop Sound record"
 msgstr "Stoppa ljudinspelning"
 
 #: src/arch/unix/gui/uicommands.c:547
-#, fuzzy
 msgid "Select server address"
-msgstr "Välj drivrutin"
+msgstr "Välj serveradress"
 
 #: src/arch/unix/gui/uicommands.c:557
 msgid "Keep monitor open"
-msgstr ""
+msgstr "Håll monitor öppen"
 
 #: src/arch/unix/gui/uicommands.c:560
-#, fuzzy
 msgid "Enable remote monitor server"
-msgstr "Aktivera fjärrmonitor"
+msgstr "Aktivera fjärrmonitorserver"
 
 #: src/arch/unix/gui/uicommands.c:562
 msgid "Set remote monitor server address"
-msgstr ""
+msgstr "Sätt adress till fjärrmonitorserver"
 
 #: src/arch/unix/gui/uicommands.c:568 src/arch/unix/gui/uicommands.c:579
 msgid "Activate monitor"
 msgstr "Aktivera monitor"
 
 #: src/arch/unix/gui/uicommands.c:571
-#, fuzzy
 msgid "Monitor settings"
-msgstr "Färginställningar"
+msgstr "Monitorinställningar"
 
 #: src/arch/unix/gui/uicommands.c:573
 msgid "Run C1541"
@@ -1945,18 +1937,16 @@ msgid "Drive sound emulation"
 msgstr "Emulera ljud från diskettstation"
 
 #: src/arch/unix/gui/uidrive.c:192
-#, fuzzy
 msgid "Select Flash filesystem directory"
-msgstr "Ange filsystemskatalog"
+msgstr "Välj filsystemskatalog för flash"
 
 #: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:12887
 msgid "Enable true hardware flash file system"
 msgstr "Aktivera äkta maskinvaru-flashfilsystem"
 
 #: src/arch/unix/gui/uidrive.c:198
-#, fuzzy
 msgid "Set Flash filesystem directory"
-msgstr "Ange filsystemskatalog"
+msgstr "Ange filsystemskatalog för flash"
 
 #: src/arch/unix/gui/uidrivec128.c:175 src/arch/unix/gui/uidrivec64.c:48
 #: src/arch/unix/gui/uidrivec64dtv.c:48 src/arch/unix/gui/uidriveplus4.c:232
@@ -2168,19 +2158,16 @@ msgstr "Aktivera Professional DOS"
 #: src/arch/unix/gui/uidrivec64c128.c:142
 #: src/arch/unix/gui/uidrivec64c128.c:157
 #: src/arch/unix/gui/uidrivec64c128.c:172 src/translate_text.c.po.c:8101
-#, fuzzy
 msgid "Enable SuperCard+"
-msgstr "Aktivera bygel"
+msgstr "Aktivera SuperCard+"
 
 #: src/arch/unix/gui/uidrivec64c128.c:178
-#, fuzzy
 msgid "Load new Professional DOS 1571 ROM"
-msgstr "Ange namn på Professional DOS 1571-ROM-avbildning"
+msgstr "Läs ny Professional DOS 1571-ROM"
 
 #: src/arch/unix/gui/uidrivec64c128.c:181
-#, fuzzy
 msgid "Load new SuperCard+ ROM"
-msgstr "Läs ny kernal-ROM"
+msgstr "Läs ny SuperCard+-ROM"
 
 #: src/arch/unix/gui/uidriveiec.c:153 src/arch/unix/gui/uidriveiec.c:163
 #: src/arch/unix/gui/uidriveiec.c:173 src/arch/unix/gui/uidriveiec.c:183
@@ -2994,9 +2981,8 @@ msgid "Path"
 msgstr "Sökväg"
 
 #: src/arch/unix/gui/uiperipheral.c:64
-#, fuzzy
 msgid "Select block device for raw access"
-msgstr "Åtkomst till äkta enhet"
+msgstr "Välj blockenhet för rå åtkomst"
 
 #: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
@@ -3130,7 +3116,7 @@ msgstr "Aktivera virtuella enheter"
 #: src/arch/unix/gui/uiperipheraliec.c:170
 #: src/arch/unix/gui/uiperipheralieee.c:139
 msgid "RAW Block Device Name"
-msgstr ""
+msgstr "Rå-blockenhetsnamn"
 
 #: src/arch/unix/gui/uiperipheraliec.c:177
 #: src/arch/unix/gui/uiperipheraliec.c:183
@@ -4348,7 +4334,7 @@ msgstr "Klient"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:165
 msgid "Volume"
-msgstr ""
+msgstr "Volym"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
 #: src/arch/unix/x11/xaw/uiscreenshot.c:162
@@ -4378,7 +4364,7 @@ msgstr "Videobithastighet"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:451
 msgid "Half Framerate (25/30 fps)"
-msgstr ""
+msgstr "Halv uppdateringsfrekvens (25/30 bilder/s)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:497
 #: src/arch/unix/x11/xaw/uiscreenshot.c:90
@@ -4900,9 +4886,8 @@ msgid "Copyright (c) 2011-2012 Kajtar Zsolt"
 msgstr "Upphovsrättsskyddad © 2011-2012 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
-msgstr "Upphovsrättsskyddad © 2011-2012 Thomas Giesel"
+msgstr "Upphovsrättsskyddad © 2011-2012 Benjamin \"BeRo\" Rosseaux"
 
 #: src/arch/win32/res.rc.po.c:964 src/arch/amigaos/intl_text.c.po.c:5311
 msgid "VICE Question"
@@ -5392,36 +5377,34 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE-ögonblicksbildfiler (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;"
 "*.x64;*.t64;*.tap;*.prg;*.p00)"
 msgstr ""
-"CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.x64;"
-"*.t64;*.tap;*.prg;*.p00)"
+"CBM-filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;"
+"*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
 msgstr "IDE64-filer (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
 msgstr ""
 "Diskettavbildningar (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
-"g41;*.x64)"
+"g41;*.p64;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1117
 msgid "Tape image files (*.t64;*.tap)"
 msgstr "Bandavbildningar (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1118
-#, fuzzy
 msgid ""
 "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
-msgstr "Zippade filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+msgstr ""
+"Zippade filer (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:1119
 msgid "CRT cartridge image files (*.crt)"
@@ -6410,9 +6393,8 @@ msgstr "DigiMAX-inställningar"
 #: src/arch/amigaos/intl_text.c.po.c:3771
 #: src/arch/amigaos/intl_text.c.po.c:3785
 #: src/arch/amigaos/intl_text.c.po.c:10842
-#, fuzzy
 msgid "DS12C887 RTC settings"
-msgstr "CRTC-inställningar"
+msgstr "DS12C887 RTC-inställningar"
 
 #: src/arch/win32/res.rc.po.c:1535 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
@@ -6462,9 +6444,8 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "Aktivera SFX Sound Sampler-insticksmodul"
 
 #: src/arch/win32/res.rc.po.c:1545
-#, fuzzy
 msgid "Enable the Userport RTC expansion"
-msgstr "Aktivera RamCart-expansion"
+msgstr "Aktivera användarport-RTC-expansion"
 
 #: src/arch/win32/res.rc.po.c:1546 src/arch/amigaos/intl_text.c.po.c:4093
 msgid "Save current settings to specified file"
@@ -7794,11 +7775,11 @@ msgstr "10%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
-msgstr ""
+msgstr "Vertikal sträckning"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
-msgstr "PAL-G"
+msgstr "PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2091
 msgid "NTSC"
@@ -7837,219 +7818,186 @@ msgid "Custom C64 model"
 msgstr "Speciell C64-modell"
 
 #: src/arch/amigaos/intl_text.c.po.c:2385
-#, fuzzy
 msgid "C16 PAL"
-msgstr "C64 PAL"
+msgstr "C16 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2399
-#, fuzzy
 msgid "C16 NTSC"
-msgstr "C64 NTSC"
+msgstr "C16 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2413
-#, fuzzy
 msgid "Plus4 PAL"
-msgstr "C64 PAL"
+msgstr "Plus4 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2427
-#, fuzzy
 msgid "Plus4 NTSC"
-msgstr "C64 NTSC"
+msgstr "Plus4 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2441
-#, fuzzy
 msgid "V364 NTSC"
-msgstr "C64 NTSC"
+msgstr "V364 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2455
-#, fuzzy
 msgid "C232 NTSC"
-msgstr "C64 NTSC"
+msgstr "C232 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2483
-#, fuzzy
 msgid "C64DTV V2 PAL"
-msgstr "C64 PAL"
+msgstr "C64DTV V2 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2497
-#, fuzzy
 msgid "C64DTV V2 NTSC"
-msgstr "C64 NTSC"
+msgstr "C64DTV V2 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2511
-#, fuzzy
 msgid "C64DTV V3 PAL"
-msgstr "C64 PAL"
+msgstr "C64DTV V3 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2525
-#, fuzzy
 msgid "C64DTV V3 NTSC"
-msgstr "C64 NTSC"
+msgstr "C64DTV V3 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2539
-#, fuzzy
 msgid "Hummer NTSC"
-msgstr "Hummer A/D-omvandlare"
+msgstr "Hummer NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2567
-#, fuzzy
 msgid "C128 PAL"
-msgstr "C64 PAL"
+msgstr "C128 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2581
-#, fuzzy
 msgid "C128DCR PAL"
-msgstr "C64C PAL"
+msgstr "C128DCR PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2595
-#, fuzzy
 msgid "C128 NTSC"
-msgstr "C64 NTSC"
+msgstr "C128 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2609
-#, fuzzy
 msgid "C128DCR NTSC"
-msgstr "C64C NTSC"
+msgstr "C128DCR NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2637
 msgid "2001"
-msgstr ""
+msgstr "2001"
 
 #: src/arch/amigaos/intl_text.c.po.c:2651
 msgid "3008"
-msgstr ""
+msgstr "3008"
 
 #: src/arch/amigaos/intl_text.c.po.c:2665
 msgid "3016"
-msgstr ""
+msgstr "3016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2679
 msgid "3032"
-msgstr ""
+msgstr "3032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2693
 msgid "3032B"
-msgstr ""
+msgstr "3032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2707
 msgid "4016"
-msgstr ""
+msgstr "4016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2721
 msgid "4032"
-msgstr ""
+msgstr "4032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2735
 msgid "4032B"
-msgstr ""
+msgstr "4032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2749
 msgid "8032"
-msgstr ""
+msgstr "8032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2763
 msgid "8096"
-msgstr ""
+msgstr "8096"
 
 #: src/arch/amigaos/intl_text.c.po.c:2777
 msgid "8296"
-msgstr ""
+msgstr "8296"
 
 #: src/arch/amigaos/intl_text.c.po.c:2791
-#, fuzzy
 msgid "SuperPET"
-msgstr "SuperPET-ACIA"
+msgstr "SuperPET"
 
 #: src/arch/amigaos/intl_text.c.po.c:2819
-#, fuzzy
 msgid "CBM610 PAL"
-msgstr "C64 PAL"
+msgstr "CBM610 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2833
-#, fuzzy
 msgid "CBM610 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM610 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2847
-#, fuzzy
 msgid "CBM620 PAL"
-msgstr "C64 PAL"
+msgstr "CBM620 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2861
-#, fuzzy
 msgid "CBM620 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM620 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2875
-#, fuzzy
 msgid "CBM620+ PAL"
-msgstr "C64 PAL"
+msgstr "CBM620+ PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2889
-#, fuzzy
 msgid "CBM620+ NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM620+ NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2903
-#, fuzzy
 msgid "CBM710 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM710 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2917
-#, fuzzy
 msgid "CBM720 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM720 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2931
-#, fuzzy
 msgid "CBM720+ NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM720+ NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2959
 msgid "CBM510 PAL"
-msgstr ""
+msgstr "CBM510 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2973
-#, fuzzy
 msgid "CBM510 NTSC"
-msgstr "C64 NTSC"
+msgstr "CBM510 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3001
-#, fuzzy
 msgid "VICII video settings"
-msgstr "Grafikinställningar"
+msgstr "Grafikinställningar för VICII"
 
 #: src/arch/amigaos/intl_text.c.po.c:3015
-#, fuzzy
 msgid "VIC video settings"
-msgstr "Grafikinställningar"
+msgstr "Grafikinställningar för VIC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3029
-#, fuzzy
 msgid "VDC video settings"
-msgstr "Grafikinställningar"
+msgstr "Grafikinställningar för VDC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3043
-#, fuzzy
 msgid "CRTC video settings"
-msgstr "CRTC-inställningar"
+msgstr "Grafikinställningar för CRTC"
 
 #: src/arch/amigaos/intl_text.c.po.c:3057
-#, fuzzy
 msgid "TED video settings"
-msgstr "Grafikinställningar"
+msgstr "Grafikinställningar för TED"
 
 #: src/arch/amigaos/intl_text.c.po.c:3085
 #: src/arch/amigaos/intl_text.c.po.c:8112
-#, fuzzy
 msgid "Palette settings"
-msgstr "Datasetteinställningar"
+msgstr "Palettinställningar"
 
 #: src/arch/amigaos/intl_text.c.po.c:3113
 #: src/arch/amigaos/intl_text.c.po.c:8140
-#, fuzzy
 msgid "Render filter settings"
-msgstr "Rendrerarfilter"
+msgstr "Inställningar för rendrerarfilter"
 
 #: src/arch/amigaos/intl_text.c.po.c:3323
 msgid "Joystick device selection"
@@ -8071,9 +8019,8 @@ msgstr "ROM-inställningar för diskettenhet"
 
 #: src/arch/amigaos/intl_text.c.po.c:3883
 #: src/arch/amigaos/intl_text.c.po.c:8098
-#, fuzzy
 msgid "Drive burst modification settings"
-msgstr "Inställningar för C64 diskettburstmodifiering"
+msgstr "Inställningar för diskettburstmodifiering"
 
 #: src/arch/amigaos/intl_text.c.po.c:4513
 msgid "Fullscreen Statusbar"
@@ -8165,14 +8112,12 @@ msgid "Enabled"
 msgstr "Aktiverad"
 
 #: src/arch/amigaos/intl_text.c.po.c:5983
-#, fuzzy
 msgid "Dolphin Dos 3"
-msgstr "Dolphin DOS 3"
+msgstr "Dolphin Dos 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:5997
-#, fuzzy
 msgid "Formel64"
-msgstr "Formel 64"
+msgstr "Formel64"
 
 #: src/arch/amigaos/intl_text.c.po.c:6011
 msgid "Filesystem"
@@ -8484,7 +8429,6 @@ msgid "SID Stereo"
 msgstr "SID-stereo"
 
 #: src/arch/amigaos/intl_text.c.po.c:8714
-#, fuzzy
 msgid "Amount of extra sids"
 msgstr "Antal extra SID-kretsar"
 
@@ -8493,9 +8437,8 @@ msgid "Stereo SID at"
 msgstr "Stereo-SID på"
 
 #: src/arch/amigaos/intl_text.c.po.c:8742
-#, fuzzy
 msgid "Triple SID at"
-msgstr "Tredje SID på"
+msgstr "Trippel-SID på"
 
 #: src/arch/amigaos/intl_text.c.po.c:8798
 msgid "Not implemented yet!"
@@ -8523,9 +8466,8 @@ msgid "BIOS Flash Jumper"
 msgstr "BIOS-flashbygel"
 
 #: src/arch/amigaos/intl_text.c.po.c:9274
-#, fuzzy
 msgid "Bank jumper"
-msgstr "Aktivera RR-bankbygel"
+msgstr "Bankbygel"
 
 #: src/arch/amigaos/intl_text.c.po.c:9316
 msgid "Select BIOS file"
@@ -8556,14 +8498,12 @@ msgid "EEPROM read/write"
 msgstr "Skrivbar EEPROM"
 
 #: src/arch/amigaos/intl_text.c.po.c:9624
-#, fuzzy
 msgid "SID engine and model"
-msgstr "motor och modell"
+msgstr "SID-motor och -modell"
 
 #: src/arch/amigaos/intl_text.c.po.c:9638
-#, fuzzy
 msgid "SID engine"
-msgstr "SID-inställningar"
+msgstr "SID-motor"
 
 #: src/arch/amigaos/intl_text.c.po.c:9960
 msgid "snapshot file"
@@ -8627,11 +8567,11 @@ msgstr "DigiMAX aktiverad"
 
 #: src/arch/amigaos/intl_text.c.po.c:10814
 msgid "DS12C887 RTC Enabled"
-msgstr ""
+msgstr "DS12C887 RTC aktiverad"
 
 #: src/arch/amigaos/intl_text.c.po.c:10828
 msgid "DS12C887 RTC base"
-msgstr ""
+msgstr "DS12C887 RTC-bas"
 
 #: src/arch/amigaos/intl_text.c.po.c:10856
 msgid "SFX Sound Expander Enabled"
@@ -8674,9 +8614,8 @@ msgid "Atari ST mouse"
 msgstr "Atari ST-mus"
 
 #: src/arch/amigaos/intl_text.c.po.c:11304
-#, fuzzy
 msgid "Smart mouse"
-msgstr "Amigamus"
+msgstr "Smartmus"
 
 #: src/arch/amigaos/intl_text.c.po.c:11500
 msgid "Save to EasyFlash CRT file on detach"
@@ -8687,14 +8626,12 @@ msgid "Save to EasyFlash CRT now"
 msgstr "Spara till EasyFlash-CRT nu"
 
 #: src/arch/amigaos/intl_text.c.po.c:11752
-#, fuzzy
 msgid "CIA model settings"
-msgstr "C64-modellinställningar"
+msgstr "CIA-modellinställningar"
 
 #: src/arch/amigaos/intl_text.c.po.c:11766
-#, fuzzy
 msgid "Select SID file to load"
-msgstr "Välj PSID-fil"
+msgstr "Välj SID-fil att läsa in"
 
 #: src/translate_text.c.po.c:6
 msgid "Cannot load snapshot file."
@@ -9709,14 +9646,12 @@ msgid "Sets the value of the resource."
 msgstr "Ställer in ett värde för resursen."
 
 #: src/translate_text.c.po.c:2972
-#, fuzzy
 msgid "Loads resources from file."
-msgstr "Läs inställningar från fil"
+msgstr "Läser in resurser från fil."
 
 #: src/translate_text.c.po.c:2989
-#, fuzzy
 msgid "Saves resources to file."
-msgstr "Spara inställningar till fil"
+msgstr "Sparar resurser till fil."
 
 #: src/translate_text.c.po.c:3006
 msgid "Stop recording commands.  See `record'."
@@ -9932,7 +9867,7 @@ msgstr "Ange namn på extern funktions-ROM-avbildning"
 
 #: src/translate_text.c.po.c:3964
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr ""
+msgstr "Typ för intern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
 msgid "Disable the internal Function ROM"
@@ -10784,14 +10719,12 @@ msgid "Specify name of Professional DOS 1571 ROM image"
 msgstr "Ange namn på Professional DOS 1571-ROM-avbildning"
 
 #: src/translate_text.c.po.c:8118
-#, fuzzy
 msgid "Disable SuperCard+"
-msgstr "Inaktivera SuperPET-I/O"
+msgstr "Inaktivera SuperCard+"
 
 #: src/translate_text.c.po.c:8135
-#, fuzzy
 msgid "Specify name of SuperCard+ ROM image"
-msgstr "Ange namn på kernal-ROM-avbildning"
+msgstr "Ange namn på SuperCard+-ROM-avbildning"
 
 #: src/translate_text.c.po.c:8152
 msgid "Set parallel cable type (0: none, 1: standard)"
@@ -11639,12 +11572,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Ange vilken spelport musen är ansluten till"
 
 #: src/translate_text.c.po.c:11833
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
 msgstr ""
-"Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST)"
+"Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, "
+"6 = Smart)"
 
 #: src/translate_text.c.po.c:11850
 msgid "Enable PS/2 mouse on userport"
@@ -11936,19 +11869,16 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "Basadress för DigiMAC-insticksmodulen"
 
 #: src/translate_text.c.po.c:13348
-#, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
-msgstr "Aktivera SID-insticksmodul"
+msgstr "Aktivera DS12C887 RTC-insticksmodul"
 
 #: src/translate_text.c.po.c:13365
-#, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
-msgstr "Inaktivera SID-insticksmodul"
+msgstr "Inaktivera DS12C887 RTC-insticksmodul"
 
 #: src/translate_text.c.po.c:13382
-#, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
-msgstr "Basadress för DigiMAC-insticksmodulen"
+msgstr "Basadress för DS12C887 RTC-insticksmodulen"
 
 #~ msgid "Enable the internal Function ROM"
 #~ msgstr "Aktivera internt funktions-ROM"
