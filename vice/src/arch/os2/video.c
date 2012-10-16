@@ -1829,7 +1829,7 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 {
     int i;
 
-    if (palette == NULL) {
+    if (p == NULL) {
         return 0; /* no palette, nothing to do */
     }
     if (c->bDepth != 8) {
