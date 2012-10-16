@@ -174,6 +174,9 @@ void video_canvas_destroy(video_canvas_t *canvas)
 /* set it, update if we know the endianness required by the image */
 int video_canvas_set_palette(video_canvas_t *canvas, struct palette_s *palette)
 {
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
     canvas->palette = palette;
     return uicolor_set_palette(canvas, canvas->palette);
 }

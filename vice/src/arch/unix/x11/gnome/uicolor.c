@@ -120,10 +120,6 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 {
     unsigned int i, rs, gs, bs, rb, gb, bb, bpp, swap;
 
-    if (palette == NULL) {
-        return 0; /* no palette, nothing to do */
-    }
-
     /* Hwscaled colours are expected in GL_RGB order. 24 bpp renderers are
      * special, they always seem to expect color order to be logically ABGR,
      * which they write out in RGB memory order. (Glorious, eh?) */
