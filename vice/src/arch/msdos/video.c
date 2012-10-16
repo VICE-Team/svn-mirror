@@ -292,7 +292,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     int next_canvas = 0;
 
     DEBUG(("Creating canvas width=%d height=%d", *width, *height));
-    if (canvas->palette->num_entries > NUM_AVAILABLE_COLORS) {
+    if (canvas->palette && canvas->palette->num_entries > NUM_AVAILABLE_COLORS) {
         log_error(video_log, "Too many colors requested.");
         return NULL;
     }
@@ -350,31 +350,33 @@ static void canvas_change_palette(video_canvas_t *c)
     unsigned int i;
     int col;
     int next_avail = 0;
-        
-    for (i = 0; i < c->palette->num_entries; i++) {
-        if (c->depth == 8) {
-            /* For 8-bit-mode we need to use the global palette */
-            c->colors[i].r = c->palette->entries[i].red >> 2;
-            c->colors[i].g = c->palette->entries[i].green >> 2;
-            c->colors[i].b = c->palette->entries[i].blue >> 2;
 
-            col = i;
-            next_avail++;
+    if (c->palette) {
+        for (i = 0; i < c->palette->num_entries; i++) {
+            if (c->depth == 8) {
+                /* For 8-bit-mode we need to use the global palette */
+                c->colors[i].r = c->palette->entries[i].red >> 2;
+                c->colors[i].g = c->palette->entries[i].green >> 2;
+                c->colors[i].b = c->palette->entries[i].blue >> 2;
 
-            DEBUG(("canvas_change_palette: palette entry %d: %d-%d-%d", i,
-                c->colors[i].r,
-                c->colors[i].g,
-                c->colors[i].b));
-        } else {
-            col = makecol_depth(c->depth,
-                c->palette->entries[i].red,
-                c->palette->entries[i].green,
-                c->palette->entries[i].blue);
+                col = i;
+                next_avail++;
+
+                DEBUG(("canvas_change_palette: palette entry %d: %d-%d-%d", i,
+                            c->colors[i].r,
+                            c->colors[i].g,
+                            c->colors[i].b));
+            } else {
+                col = makecol_depth(c->depth,
+                        c->palette->entries[i].red,
+                        c->palette->entries[i].green,
+                        c->palette->entries[i].blue);
+            }
+
+            DEBUG(("canvas_change_palette: videoconfig col %d: %d", i, col));
+
+            video_render_setphysicalcolor(c->videoconfig, i, col, c->depth);
         }
-
-        DEBUG(("canvas_change_palette: videoconfig col %d: %d", i, col));
-
-        video_render_setphysicalcolor(c->videoconfig, i, col, c->depth);
     }
 
     if (c->depth > 8) {
