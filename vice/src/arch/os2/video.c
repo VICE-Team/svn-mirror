@@ -1829,6 +1829,9 @@ int video_canvas_set_palette(video_canvas_t *c, palette_t *p)
 {
     int i;
 
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
     if (c->bDepth != 8) {
         VideoConvertPalette(c, p->num_entries, p->entries);
         WmPaint(c->hwndClient);

@@ -775,6 +775,9 @@ void video_canvas_destroy(video_canvas_t *canvas)
 
 int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
 {
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
 #ifdef HAVE_XVIDEO
     /* Apply color settings to XVideo. */
     if (c->videoconfig->hwscale && c->xv_image) {

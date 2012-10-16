@@ -389,6 +389,9 @@ void video_canvas_resize(video_canvas_t c, UINT width, UINT height)
 int video_canvas_set_palette(video_canvas_t c, const palette_t *p)
 {
     int i;
+    if (p == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
     //    if (!(c->pbmi_initialized)) return;
     for (i=0; i<p->num_entries; i++) {
         c->palette[i].bRed  =p->entries[i].red;

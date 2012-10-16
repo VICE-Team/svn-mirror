@@ -163,6 +163,9 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
 int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *palette)
 {
     unsigned int i;
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
     for (i = 0; i < palette->num_entries; i++) {
         gp2xsys_video_color8(i, palette->entries[i].red, palette->entries[i].green, palette->entries[i].blue);
     }
