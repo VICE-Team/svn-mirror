@@ -971,6 +971,10 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     unsigned int i;
     int col;
 
+    if (palette == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
+
     canvas->palette = palette;
 
     i = 0;

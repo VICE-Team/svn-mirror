@@ -266,6 +266,9 @@ void video_canvas_destroy(video_canvas_t *canvas)
 
 int video_canvas_set_palette(video_canvas_t *canvas, palette_t *p)
 {
+    if (p == NULL) {
+        return 0; /* no palette, nothing to do */
+    }
     canvas->palette = p;
 
     video_set_physical_colors(canvas);
