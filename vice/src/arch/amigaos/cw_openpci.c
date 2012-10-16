@@ -31,7 +31,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "catweaselmkiii.h"
+#include "cw.h"
 #include "loadlibs.h"
 #include "log.h"
 #include "types.h"

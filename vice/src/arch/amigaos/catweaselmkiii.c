@@ -42,6 +42,9 @@ static int cw_use_os4 = 0;
 #include "loadlibs.h"
 #include "types.h"
 
+// Set as appropriate
+static int sid_NTSC = 0; // TRUE for 60Hz oscillator, FALSE for 50
+
 /* read value from SIDs */
 int catweaselmkiii_read(WORD addr, int chipno)
 {
@@ -162,7 +165,7 @@ int catweaselmkiii_close(void)
    choose between pal and ntsc frequencies */
 void catweaselmkiii_set_machine_parameter(long cycles_per_sec)
 {
-    sid_NTSC = (cycles_per_sec <= 1000000) ? FALSE : TRUE;
+    sid_NTSC = (cycles_per_sec <= 1000000) ? 0 : 1;
 }
 
 int catweaselmkiii_available(void)

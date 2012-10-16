@@ -51,7 +51,7 @@ static int cwmkiii_found = 1;
 #include <proto/exec.h>
 
 
-#include "catweaselmkiii.h"
+#include "cw.h"
 #include "log.h"
 #include "types.h"
 
@@ -234,7 +234,7 @@ static void write_sid(unsigned char reg, unsigned char data, int chipno)
     }
 
     if (gCatweaselReq[chipno] == NULL) {
-        return 0;
+        return;
     }
 
     tData[0] = reg;

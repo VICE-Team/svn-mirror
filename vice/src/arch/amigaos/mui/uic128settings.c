@@ -175,7 +175,7 @@ void ui_c128_settings_dialog(video_canvas_t *canvas)
 
     intl_convert_mui_table(ui_c128_machine_type_translate, ui_c128_machine_type);
     intl_convert_mui_table(ui_c128_enable_translate, ui_c128_enable);
-    ui_internal_function_rom[0] = translate_test(IDS_NONE);
+    ui_internal_function_rom[0] = translate_text(IDS_NONE);
 
     window = mui_make_simple_window(build_gui(), translate_text(IDS_C128_SETTINGS));
 

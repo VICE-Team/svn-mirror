@@ -28,6 +28,7 @@
 #define VICE_CW_H
 
 #include "types.h"
+#include "catweaselmkiii.h"
 
 extern int cw_device_open(void);
 extern int cw_openpci_open(void);
