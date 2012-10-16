@@ -272,164 +272,215 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
         tmptrg = trg;
-        if ((y & 1) || doublescan) { /* TODO: copy previous line */
-            if (wfirst) {
-                color = colortab[*tmpsrc++];
-                *tmptrg++ = (BYTE)color;
-                color >>= 8;
-                *tmptrg++ = (BYTE)color;
-                color >>= 8;
-                *tmptrg++ = (BYTE)color;
-            }
-            for (x = 0; x < wstart; x++) {
-                color = colortab[*tmpsrc++];
-                tcolor = color;
-                tmptrg[0] = (BYTE)color;
-                color >>= 8;
-                tmptrg[1] = (BYTE)color;
-                color >>= 8;
-                tmptrg[2] = (BYTE)color;
-                tmptrg[3] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[4] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[5] = (BYTE)tcolor;
-                tmptrg += 6;
-            }
-            for (x = 0; x < wfast; x++) {
-                color = colortab[tmpsrc[0]];
-                tcolor = color;
-                tmptrg[0] = (BYTE)color;
-                color >>= 8;
-                tmptrg[1] = (BYTE)color;
-                color >>= 8;
-                tmptrg[2] = (BYTE)color;
-                tmptrg[3] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[4] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[5] = (BYTE)tcolor;
-                color = colortab[tmpsrc[1]];
-                tcolor = color;
-                tmptrg[6] = (BYTE)color;
-                color >>= 8;
-                tmptrg[7] = (BYTE)color;
-                color >>= 8;
-                tmptrg[8] = (BYTE)color;
-                tmptrg[9] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[10] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[11] = (BYTE)tcolor;
-                color = colortab[tmpsrc[2]];
-                tcolor = color;
-                tmptrg[12] = (BYTE)color;
-                color >>= 8;
-                tmptrg[13] = (BYTE)color;
-                color >>= 8;
-                tmptrg[14] = (BYTE)color;
-                tmptrg[15] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[16] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[17] = (BYTE)tcolor;
-                color = colortab[tmpsrc[3]];
-                tcolor = color;
-                tmptrg[18] = (BYTE)color;
-                color >>= 8;
-                tmptrg[19] = (BYTE)color;
-                color >>= 8;
-                tmptrg[20] = (BYTE)color;
-                tmptrg[21] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[22] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[23] = (BYTE)tcolor;
-                tmpsrc += 4;
-                tmptrg += 24;
-            }
-            for (x = 0; x < wend; x++) {
-                color = colortab[*tmpsrc++];
-                tcolor = color;
-                tmptrg[0] = (BYTE)color;
-                color >>= 8;
-                tmptrg[1] = (BYTE)color;
-                color >>= 8;
-                tmptrg[2] = (BYTE)color;
-                tmptrg[3] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[4] = (BYTE)tcolor;
-                tcolor >>= 8;
-                tmptrg[5] = (BYTE)tcolor;
-                tmptrg += 6;
-            }
-            if (wlast) {
-                color = colortab[*tmpsrc];
-                tmptrg[0] = (BYTE)color;
-                color >>= 8;
-                tmptrg[1] = (BYTE)color;
-                color >>= 8;
-                tmptrg[2] = (BYTE)color;
-            }
-            if (y & 1) {
-                src += pitchs;
+        if (!(y & 1) || doublescan) {
+            if ((y & 1) && y > yys) { /* copy previous line */
+                memcpy(trg, trg - pitcht, ((width << 1) + wfirst) * 3);
+            } else {
+                if (wfirst) {
+                    color = colortab[*tmpsrc++];
+                    *tmptrg++ = (BYTE)color;
+                    color >>= 8;
+                    *tmptrg++ = (BYTE)color;
+                    color >>= 8;
+                    *tmptrg++ = (BYTE)color;
+                }
+                for (x = 0; x < wstart; x++) {
+                    color = colortab[*tmpsrc++];
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[1] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[2] = (BYTE)color;
+                    tmptrg[3] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[4] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[5] = (BYTE)tcolor;
+                    tmptrg += 6;
+                }
+                for (x = 0; x < wfast; x++) {
+                    color = colortab[tmpsrc[0]];
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[1] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[2] = (BYTE)color;
+                    tmptrg[3] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[4] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[5] = (BYTE)tcolor;
+                    color = colortab[tmpsrc[1]];
+                    tcolor = color;
+                    tmptrg[6] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[7] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[8] = (BYTE)color;
+                    tmptrg[9] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[10] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[11] = (BYTE)tcolor;
+                    color = colortab[tmpsrc[2]];
+                    tcolor = color;
+                    tmptrg[12] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[13] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[14] = (BYTE)color;
+                    tmptrg[15] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[16] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[17] = (BYTE)tcolor;
+                    color = colortab[tmpsrc[3]];
+                    tcolor = color;
+                    tmptrg[18] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[19] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[20] = (BYTE)color;
+                    tmptrg[21] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[22] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[23] = (BYTE)tcolor;
+                    tmpsrc += 4;
+                    tmptrg += 24;
+                }
+                for (x = 0; x < wend; x++) {
+                    color = colortab[*tmpsrc++];
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[1] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[2] = (BYTE)color;
+                    tmptrg[3] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[4] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[5] = (BYTE)tcolor;
+                    tmptrg += 6;
+                }
+                if (wlast) {
+                    color = colortab[*tmpsrc];
+                    tmptrg[0] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[1] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[2] = (BYTE)color;
+                }
             }
         } else {
-            if (wfirst) { /* TODO: should be color 0 not zero */
-                *tmptrg++ = 0;
-                *tmptrg++ = 0;
-                *tmptrg++ = 0;
+            if (y > yys + 1) { /* copy 2 lines before */
+                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst) * 3);
+            } else {
+                color = colortab[0];
+                if (wfirst) {
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[1] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[2] = (BYTE)tcolor;
+                    tmptrg += 3;
+                }
+                for (x = 0; x < wstart; x++) {
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[1] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[2] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[3] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[4] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[5] = (BYTE)tcolor;
+                    tmptrg += 6;
+                }
+                for (x = 0; x < wfast; x++) {
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[1] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[2] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[3] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[4] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[5] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[6] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[7] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[8] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[9] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[10] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[11] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[12] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[13] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[14] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[15] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[16] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[17] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[18] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[19] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[20] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[21] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[22] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[23] = (BYTE)tcolor;
+                    tmptrg += 24;
+                }
+                for (x = 0; x < wend; x++) {
+                    tcolor = color;
+                    tmptrg[0] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[1] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[2] = (BYTE)tcolor;
+                    tcolor = color;
+                    tmptrg[3] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[4] = (BYTE)tcolor;
+                    tcolor >>= 8;
+                    tmptrg[5] = (BYTE)tcolor;
+                    tmptrg += 6;
+                }
+                if (wlast) {
+                    tmptrg[0] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[1] = (BYTE)color;
+                    color >>= 8;
+                    tmptrg[2] = (BYTE)color;
+                }
             }
-            for (x = 0; x < wstart; x++) {
-                tmptrg[0] = 0;
-                tmptrg[1] = 0;
-                tmptrg[2] = 0;
-                tmptrg[3] = 0;
-                tmptrg[4] = 0;
-                tmptrg[5] = 0;
-                tmptrg += 6;
-            }
-            for (x = 0; x < wfast; x++) {
-                tmptrg[0] = 0;
-                tmptrg[1] = 0;
-                tmptrg[2] = 0;
-                tmptrg[3] = 0;
-                tmptrg[4] = 0;
-                tmptrg[5] = 0;
-                tmptrg[6] = 0;
-                tmptrg[7] = 0;
-                tmptrg[8] = 0;
-                tmptrg[9] = 0;
-                tmptrg[10] = 0;
-                tmptrg[11] = 0;
-                tmptrg[12] = 0;
-                tmptrg[13] = 0;
-                tmptrg[14] = 0;
-                tmptrg[15] = 0;
-                tmptrg[16] = 0;
-                tmptrg[17] = 0;
-                tmptrg[18] = 0;
-                tmptrg[19] = 0;
-                tmptrg[20] = 0;
-                tmptrg[21] = 0;
-                tmptrg[22] = 0;
-                tmptrg[23] = 0;
-                tmptrg += 24;
-            }
-            for (x = 0; x < wend; x++) {
-                tmptrg[0] = 0;
-                tmptrg[1] = 0;
-                tmptrg[2] = 0;
-                tmptrg[3] = 0;
-                tmptrg[4] = 0;
-                tmptrg[5] = 0;
-                tmptrg += 6;
-            }
-            if (wlast) {
-                tmptrg[0] = 0;
-                tmptrg[1] = 0;
-                tmptrg[2] = 0;
-            }
+        }
+        if (y & 1) {
+            src += pitchs;
         }
         trg += pitcht;
     }
