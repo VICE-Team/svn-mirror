@@ -308,11 +308,13 @@ int video_set_physical_colors(video_canvas_t *c)
         video_render_initraw(c->videoconfig);
     }
 
-    for (i = 0; i < c->palette->num_entries; i++) {
-        DWORD p = (((c->palette->entries[i].red&(rmask << rbits)) >> rbits) << rshift) +
-                (((c->palette->entries[i].green&(gmask << gbits)) >> gbits) << gshift) +
-                (((c->palette->entries[i].blue&(bmask << bbits)) >> bbits) << bshift);
-        video_render_setphysicalcolor(c->videoconfig, i, p, c->depth);
+    if (c->palette) {
+        for (i = 0; i < c->palette->num_entries; i++) {
+            DWORD p = (((c->palette->entries[i].red&(rmask << rbits)) >> rbits) << rshift) +
+                    (((c->palette->entries[i].green&(gmask << gbits)) >> gbits) << gshift) +
+                    (((c->palette->entries[i].blue&(bmask << bbits)) >> bbits) << bshift);
+            video_render_setphysicalcolor(c->videoconfig, i, p, c->depth);
+        }
     }
     return 0;
 }
