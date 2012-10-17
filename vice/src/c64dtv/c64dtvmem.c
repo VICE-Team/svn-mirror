@@ -377,6 +377,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
     if ((((dtv_registers[8] >> (bank * 2)) & 0x03) == 0x00)) {
         *base = NULL;
         *limit = -1;
+        return;
     }
     paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
     if (paddr < 0x10000) {
