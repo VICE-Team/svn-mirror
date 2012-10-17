@@ -168,8 +168,6 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    mem_powerup();
-
     if (c64rom_log == LOG_ERR) {
         c64rom_log = log_open("C64MEM");
     }

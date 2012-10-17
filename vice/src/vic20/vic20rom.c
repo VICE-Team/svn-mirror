@@ -151,8 +151,6 @@ int mem_load(void)
     if (vic20rom_log == LOG_ERR)
         vic20rom_log = log_open("VIC20MEM");
 
-    mem_powerup();
-
     vicrom_loaded = 1;
 
     if (resources_get_string("KernalName", &rom_name) < 0)

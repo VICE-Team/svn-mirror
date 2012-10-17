@@ -56,7 +56,7 @@
 #include "ted-mem.h"
 #include "types.h"
 
-static int hard_reset_flag = 0;
+static int hard_reset_flag = 1;
 
 /* ------------------------------------------------------------------------- */
 

@@ -98,8 +98,6 @@ int mem_load(void)
 
     const char *rom_name = NULL;
 
-    mem_powerup();
-
     if (plus4rom_log == LOG_ERR)
         plus4rom_log = log_open("PLUS4MEM");
 

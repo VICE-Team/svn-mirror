@@ -73,7 +73,7 @@
 #endif
 
 static int machine_init_was_called = 0;
-
+static int mem_initialized = 0;
 static int ignore_jam;
 int machine_keymap_index;
 
@@ -123,7 +123,7 @@ static void machine_trigger_reset_internal(const unsigned int mode)
     switch (mode) {
       case MACHINE_RESET_MODE_HARD:
         vsync_frame_counter = 0;
-        mem_powerup();
+        mem_initialized = 0; /* force memory initialization */
         machine_specific_powerup();
         /* Fall through.  */
       case MACHINE_RESET_MODE_SOFT:
@@ -160,6 +160,11 @@ void machine_reset(void)
     autostart_reset();
 
     mem_initialize_memory();
+
+    if (!mem_initialized) {
+        mem_powerup();
+        mem_initialized = 1;
+    }
 
     event_reset_ack();
 

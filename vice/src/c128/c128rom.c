@@ -475,8 +475,6 @@ int mem_load(void)
         c128rom_log = log_open("C128MEM");
     }
 
-    mem_powerup();
-
     mem_initialize_memory();
 
     rom_loaded = 1;
