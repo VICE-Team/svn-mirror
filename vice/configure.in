@@ -223,6 +223,11 @@ if test x"$host_os" = "xbeos"; then
   fi
 fi
 
+dnl disable toolchain checking for ppc-beos
+if test x"$host_os" = "xbeos" -a x"$host_cpu" = "xpowerpc"; then
+  toolchain_check=no
+fi
+
 dnl Enable the SDL UI by default for syllable.
 if test x"$host_os" = "xsyllable"; then
   enable_sdlui=yes
@@ -596,6 +601,9 @@ darwin*)
 
   is_unix=yes
   is_unix_macosx=yes
+
+  dnl disable toolchain checking for macosx
+  toolchain_check=no
 
   if test x"$with_cocoa" = "xyes" ; then
     is_unix_x11=no
@@ -1055,7 +1063,7 @@ else
   AC_PROG_CXX
 
   dnl when using --host=, check if the C++ compiler is the intended cross compiler
-  if [[ x"$ac_cv_prog_cc_cross" != "xno" -a x"$is_unix_macosx" != "xyes" ]]; then
+  if [[ x"$ac_cv_prog_cc_cross" != "xno" -a x"$toolchain_check" != "xno" ]]; then
     if test x"$CXX" != "x" ; then
       if test -n "$ac_tool_prefix"; then
         valid_cxx=no
