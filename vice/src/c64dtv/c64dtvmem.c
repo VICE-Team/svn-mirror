@@ -375,18 +375,47 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
     BYTE *p;
 
     if ((((dtv_registers[8] >> (bank * 2)) & 0x03) == 0x00)) {
-        *base = NULL;
-        *limit = -1;
+        if (c64dtvflash_state) {
+            *base = NULL; /* not idle */
+            *limit = -1;
+            return;
+        }
+        paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
+        *base = &c64dtvflash_mem[paddr] - (addr & 0xc000);
+        *limit = (addr & 0xc000) | 0x3ffd;
         return;
     }
     paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
     if (paddr < 0x10000) {
         paddr |= addr & 0x3fff;
         p = _mem_read_base_tab_ptr[paddr >> 8];
-        if (p) {
+        if (p) { /* easy */
             *base = p - (addr & 0xff00);
             *limit = mem_read_limit_tab_ptr[paddr >> 8];
+            return;
         } else {
+            if (!c64dtvflash_state) {
+                read_func_ptr_t p= _mem_read_tab_ptr[paddr >> 8];
+                if (p == c64memrom_kernal64_read) {
+                    int mapping = c64dtvmem_memmapper[0];
+                    paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
+                    *base = ((mapping & 0xc0) ? mem_ram : c64dtvflash_mem) + paddr;
+                    *limit = (addr & 0xc000) | 0x3ffd;
+                    return;
+                }
+                if (p == c64memrom_basic64_read) {
+                    int mapping = c64dtvmem_memmapper[1];
+                    paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
+                    *base = ((mapping & 0xc0) ? mem_ram : c64dtvflash_mem) + paddr;
+                    *limit = (addr & 0xc000) | 0x3ffd;
+                    return;
+                }
+                if (p == chargen_read) { /* not likely but anyway */
+                    *base = c64dtvflash_mem + (paddr & ~0x3fff) - (addr & 0xc000);
+                    *limit = (addr & 0xc000) | 0x1ffd;
+                    return;
+                }
+            }
             *base = NULL;
             *limit = -1;
         }
@@ -1023,29 +1052,29 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
     dtv_registers[14]=MOS6510DTV_REGS_GET_R14(&maincpu_regs);
     dtv_registers[15]=MOS6510DTV_REGS_GET_R15(&maincpu_regs);
 
+    paddr = addr_to_paddr(addr);
     switch (bank) {
       case 0:                   /* current */
         return mem_read(addr);
       case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            return read_bank_io(addr);
+        if (paddr >= 0xd000 && paddr < 0xe000) {
+            return read_bank_io(paddr);
         }
       case 4:                   /* cart */
 	break;
       case 2:                   /* rom */
-        if (addr >= 0xa000 && addr <= 0xbfff) {
-            return c64memrom_basic64_read(addr);
+        if (paddr >= 0xa000 && paddr <= 0xbfff) {
+            return c64memrom_basic64_read(paddr);
         }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return chargen_read(addr);
+        if (paddr >= 0xd000 && paddr <= 0xdfff) {
+            return chargen_read(paddr);
         }
-        if (addr >= 0xe000) {
-            return c64memrom_kernal64_read(addr);
+        if (paddr >= 0xe000) {
+            return c64memrom_kernal64_read(paddr);
         }
       case 1:                   /* ram */
         break;     /* yes, this could be flash as well */
     }
-    paddr = addr_to_paddr(addr);
     return access_rom(addr) ? c64dtvflash_read(paddr) : mem_ram[paddr];
 }
 
@@ -1066,58 +1095,57 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
     dtv_registers[14]=MOS6510DTV_REGS_GET_R14(&maincpu_regs);
     dtv_registers[15]=MOS6510DTV_REGS_GET_R15(&maincpu_regs);
 
+    paddr = addr_to_paddr(addr);
     switch (bank) {
       case 0:                   /* current */
-        paddr = addr_to_paddr(addr);
         if (access_rom(addr)) {
             return c64dtvflash_mem[paddr];
         }
         if (paddr <= 0xffff) {
             if (c64dtvmeminit_io_config[mem_config]) {
-                if ((addr >= 0xd000) && (addr < 0xe000)) {
-                    return peek_bank_io(addr);
+                if ((paddr >= 0xd000) && (paddr < 0xe000)) {
+                    return peek_bank_io(paddr);
                 }
             }
-            if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_kernal64_read) {
+            if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_basic64_read) {
                 int mapping = c64dtvmem_memmapper[1];
-                int paddr = ((mapping & 0x1f) << 16) + addr;
-                return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
+                paddr |= (mapping & 0x1f) << 16;
+                return (mapping & 0xc0) ? mem_ram[paddr] : c64dtvflash_mem[paddr];
             }
             if (_mem_read_tab_ptr[paddr >> 8] == chargen_read) {
-                return c64dtvflash_mem[addr];
+                return c64dtvflash_mem[paddr];
             }
             if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_kernal64_read) {
                 int mapping = c64dtvmem_memmapper[0];
-                int paddr = ((mapping & 0x1f) << 16) + addr;
-                return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
+                paddr |= (mapping & 0x1f) << 16;
+                return (mapping & 0xc0) ? mem_ram[paddr] : c64dtvflash_mem[paddr];
             } /* no side effects on the rest */
             return _mem_read_tab_ptr[paddr >> 8]((WORD)paddr);
         }
         return mem_ram[paddr];
       case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            return peek_bank_io(addr);
+        if (paddr >= 0xd000 && paddr < 0xe000) {
+            return peek_bank_io(paddr);
         }
       case 4:                   /* cart */
 	break;
       case 2:                   /* rom */
-        if (addr >= 0xa000 && addr <= 0xbfff) {
+        if (paddr >= 0xa000 && paddr <= 0xbfff) {
             int mapping = c64dtvmem_memmapper[1];
-            int paddr = ((mapping & 0x1f) << 16) + addr;
+            paddr += ((mapping & 0x1f) << 16);
             return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
         }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
-            return c64dtvflash_mem[addr];
+        if (paddr >= 0xd000 && paddr <= 0xdfff) {
+            return c64dtvflash_mem[paddr];
         }
-        if (addr >= 0xe000) {
+        if (paddr >= 0xe000) {
             int mapping = c64dtvmem_memmapper[0];
-            int paddr = ((mapping & 0x1f) << 16) + addr;
+            paddr += ((mapping & 0x1f) << 16);
             return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
         }
       case 1:                   /* ram */
         break;     /* yes, this could be flash as well */
     }
-    paddr = addr_to_paddr(addr);
     return access_rom(addr) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
 }
 
@@ -1143,29 +1171,31 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     dtv_registers[14]=MOS6510DTV_REGS_GET_R14(&maincpu_regs);
     dtv_registers[15]=MOS6510DTV_REGS_GET_R15(&maincpu_regs);
 
+    paddr = addr_to_paddr(addr);
     switch (bank) {
       case 0:                   /* current */
         mem_store(addr, byte);
         return;
       case 3:                   /* io */
-        if (addr >= 0xd000 && addr < 0xe000) {
-            store_bank_io(addr, byte);
+        if (paddr >= 0xd000 && paddr < 0xe000) {
+            store_bank_io(paddr, byte);
             return;
         }
+      case 4:                   /* cart */
+	break;
       case 2:                   /* rom */
-        if (addr >= 0xa000 && addr <= 0xbfff) {
+        if (paddr >= 0xa000 && paddr <= 0xbfff) {
             return;
         }
-        if (addr >= 0xd000 && addr <= 0xdfff) {
+        if (paddr >= 0xd000 && paddr <= 0xdfff) {
             return;
         }
-        if (addr >= 0xe000) {
+        if (paddr >= 0xe000) {
             return;
         }
       case 1:                   /* ram */
         break;     /* yes, this could be flash as well */
     }
-    paddr = addr_to_paddr(addr);
     if (access_rom(addr)) {
         c64dtvflash_mem[paddr] = byte;
     } else {
