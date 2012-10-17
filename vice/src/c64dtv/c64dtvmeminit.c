@@ -74,7 +74,7 @@ static const int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
 };
 
 /* IO is enabled at memory configs 5, 6, 7 */
-const unsigned int c64meminit_io_config[8] = 
+const unsigned int c64dtvmeminit_io_config[8] = 
     { 0, 0, 0, 0, 0, 1, 1, 1 };
 
 void c64dtvmeminit(unsigned int base)
@@ -91,7 +91,7 @@ void c64dtvmeminit(unsigned int base)
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
     for (j = 0; j < 8; j++) {
-        if (c64meminit_io_config[j] == 1) {
+        if (c64dtvmeminit_io_config[j] == 1) {
             for (i = 0xd0; i <= 0xd3; i++) {
                 mem_read_tab_set(base + j, i, vicii_read);
                 mem_set_write_hook(base + j, i, vicii_store);

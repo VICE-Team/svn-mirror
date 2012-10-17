@@ -109,9 +109,7 @@ BYTE c64memrom_rom64_read(WORD addr)
     switch (addr & 0xf000) {
       case 0xa000:
       case 0xb000:
-        return c64dtvflash_read(addr);
       case 0xd000:
-        return chargen_read(addr);
       case 0xe000:
       case 0xf000:
         return c64dtvflash_read(addr);
@@ -122,16 +120,6 @@ BYTE c64memrom_rom64_read(WORD addr)
 
 void c64memrom_rom64_store(WORD addr, BYTE value)
 {
-    switch (addr & 0xf000) {
-      case 0xa000:
-      case 0xb000:
-        break;
-      case 0xd000:
-        chargen_store(addr, value);
-        break;
-      case 0xe000:
-      case 0xf000:
-        break;
-    }
+    return;
 }
 
