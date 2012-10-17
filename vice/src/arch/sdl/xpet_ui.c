@@ -156,7 +156,7 @@ void petui_set_menu_params(int index, menu_draw_t *menu_draw)
 
     resources_get_int("VideoSize", &cols);
 
-    menu_draw->max_text_x = cols;
+    menu_draw->max_text_x = cols ? cols : 40;
     menu_draw->extra_x = 32;
     menu_draw->extra_y = (cols == 40) ? 40 : 28;
 
