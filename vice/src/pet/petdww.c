@@ -680,7 +680,7 @@ static void init_drawing_tables(void)
             p++;
             *((BYTE *)(dwg_table_w0 + byte) + p) = bit;
         }
-        for (p = 0; p < 8; msk <<= 1, p++) {
+        for (p = 0; p < 4; msk <<= 1, p++) {
             int bit = (byte & msk) ? 1 : 0;
             *((BYTE *)(dwg_table_w1 + byte) + p) = bit;
             p++;
@@ -696,7 +696,7 @@ static void init_drawing_tables(void)
 
 static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 {
-    if (ymod8 < 8) {
+    if (ymod8 < 8 && xstart < xend) {
         int k = ymod8 * 1024;
         BYTE *screen_rel = petdww_ram + k + scr_rel;
         DWORD *pw = (DWORD *)p;
@@ -739,7 +739,7 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
 
 static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
 {
-    if (ymod8 < 8) {
+    if (ymod8 < 8 && xstart < xend) {
         int k = ymod8 * 1024;
         BYTE *screen_rel = petdww_ram + k + scr_rel / 2;
         DWORD *pw = (DWORD *)p;
