@@ -391,7 +391,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
         p = _mem_read_base_tab_ptr[paddr >> 8];
         if (p) { /* easy */
             *base = p - (addr & 0xff00);
-            *limit = mem_read_limit_tab_ptr[paddr >> 8];
+            *limit = mem_read_limit_tab_ptr[paddr >> 8] - paddr + addr;
             return;
         } else {
             if (!c64dtvflash_state) {
