@@ -261,6 +261,7 @@ int joystick_init_cmdline_options(void)
             return cmdline_register_options(joydev4cmdline_options);
             break;
     }
+    return -1;
 }
 
 
@@ -317,6 +318,7 @@ int joystick_close(void)
             free(axes[device_used_by[i]>>1]);
         }
     }
+    return 0;
 }
 
 

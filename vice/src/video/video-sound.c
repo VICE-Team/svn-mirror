@@ -55,7 +55,12 @@ const static signed char noise_sample[] = {
     7,0,0,8,0,7,0,0,7,0,6,0,0,8,0,0
 };
 
+#if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
+extern sound_chip_t video_sound;
+#else
 static sound_chip_t video_sound;
+#endif
+
 static WORD video_sound_offset;
 static int cycles_per_sec = 1000000;
 static int sample_rate = 22050;

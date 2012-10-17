@@ -54,6 +54,7 @@ int32 vice_start_main(void* data)
     BMessenger messenger(APP_SIGNATURE);
     BMessage message(WINDOW_CLOSED);
     messenger.SendMessage(&message, be_app);
+    return 0;
 }
 
 void ViceApp::ReadyToRun()
