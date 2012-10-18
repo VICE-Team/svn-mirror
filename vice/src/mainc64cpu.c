@@ -488,6 +488,7 @@ unsigned int reg_pc;
 #endif
 
 static BYTE **o_bank_base;
+static int *o_bank_start;
 static int *o_bank_limit;
 
 void maincpu_resync_limits(void) {
@@ -511,9 +512,11 @@ void maincpu_mainloop(void)
     unsigned int reg_pc;
 #endif
     BYTE *bank_base;
+    int bank_start;
     int bank_limit;
 
     o_bank_base = &bank_base;
+    o_bank_limit = &bank_start;
     o_bank_limit = &bank_limit;
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
