@@ -979,6 +979,10 @@ void *disk_image_fsimage_fd_get(const disk_image_t *image)
     return NULL;
 }
 
+void P64ImageDestroy(PP64Image Instance)
+{
+}
+
 /*******************************************************************************
     c64bus
 *******************************************************************************/

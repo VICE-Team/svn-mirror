@@ -829,7 +829,6 @@ vsid_libs =  \
 	@VSID_WINRES@ \
 	$(vsid_lib) \
 	$(sid_lib) \
-	$(p64_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
 	$(vicii_lib) \
