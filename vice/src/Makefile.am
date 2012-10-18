@@ -910,6 +910,7 @@ x64-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -983,6 +984,7 @@ x64sc-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -1054,6 +1056,7 @@ x64dtv-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -1134,6 +1137,7 @@ x128-all: \
 	libdriveiecc64exp \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libarch \
@@ -1197,6 +1201,7 @@ xvic-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -1261,6 +1266,7 @@ xpet-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -1325,6 +1331,7 @@ xplus4-all: \
 	libdriveiecplus4exp \
 	libdrivetcbm \
 	libdrive \
+	libp64 \
 	libvdrive \
 	libraster \
 	libsounddrv \
@@ -1394,6 +1401,7 @@ xcbm2-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -1455,6 +1463,7 @@ xcbm5x0-all: \
 	libdriveiecieee \
 	libdriveieee \
 	libdrive \
+	libp64 \
 	libparallel \
 	libvdrive \
 	libraster \
@@ -1551,7 +1560,7 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 	librs232drv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
 	libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
 	libvideo libserial libparallel libcore libiecbus libfileio librtc
-	libuserport @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
+	libuserport libp64 @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1587,6 +1596,8 @@ libdiskimage:
 	(cd diskimage && $(MAKE))
 libdrive:
 	(cd drive && $(MAKE))
+libp64:
+	(cd lib && $(MAKE) libp64)
 libdriveiec:
 	(cd drive && $(MAKE) libdriveiec)
 libdriveiec128dcr:
