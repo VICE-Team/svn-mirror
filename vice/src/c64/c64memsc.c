@@ -96,13 +96,13 @@ BYTE *mem_chargen_rom_ptr;
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 static BYTE **_mem_read_base_tab_ptr;
-static int *mem_read_limit_tab_ptr;
+static DWORD *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
-static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+static DWORD mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -606,10 +606,12 @@ void mem_initialize_memory(void)
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+    DWORD limits;
 
-    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
-    *start = addr; /* TODO */
-    *limit = mem_read_limit_tab_ptr[addr >> 8];
+    *base = (p == NULL || addr < 2) ? NULL : p;
+    limits = mem_read_limit_tab_ptr[addr >> 8];
+    *limit = limits & 0xffff;
+    *start = limits >> 16;
 }
 
 /* ------------------------------------------------------------------------- */

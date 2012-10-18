@@ -136,10 +136,10 @@ void c64meminit(unsigned int base)
         mem_read_tab_set(base + 7, i, c64memrom_basic64_read);
         mem_read_tab_set(base + 11, i, c64memrom_basic64_read);
         mem_read_tab_set(base + 15, i, c64memrom_basic64_read);
-        mem_read_base_set(base + 3, i, c64memrom_basic64_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 7, i, c64memrom_basic64_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 11, i, c64memrom_basic64_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 15, i, c64memrom_basic64_rom + ((i & 0x1f) << 8));
+        mem_read_base_set(base + 3, i, c64memrom_basic64_rom - 0xa000);
+        mem_read_base_set(base + 7, i, c64memrom_basic64_rom - 0xa000);
+        mem_read_base_set(base + 11, i, c64memrom_basic64_rom - 0xa000);
+        mem_read_base_set(base + 15, i, c64memrom_basic64_rom - 0xa000);
     }
 
     /* Setup I/O at $D000-$DFFF (memory configs 5, 6, 7).  */
@@ -204,18 +204,18 @@ void c64meminit(unsigned int base)
         mem_read_tab_set(base + 27, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 30, i, c64memrom_kernal64_read);
         mem_read_tab_set(base + 31, i, c64memrom_kernal64_read);
-        mem_read_base_set(base + 2, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 3, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 6, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 7, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 10, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 11, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 14, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 15, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 26, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 27, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 30, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
-        mem_read_base_set(base + 31, i, c64memrom_kernal64_trap_rom + ((i & 0x1f) << 8));
+        mem_read_base_set(base + 2, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 3, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 6, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 7, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 10, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 11, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 14, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 15, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 26, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 27, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 30, i, c64memrom_kernal64_trap_rom - 0xe000);
+        mem_read_base_set(base + 31, i, c64memrom_kernal64_trap_rom - 0xe000);
     }
 
     /* Setup ROML at $8000-$9FFF.  */

@@ -94,13 +94,13 @@ BYTE *mem_chargen_rom_ptr;
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 static BYTE **_mem_read_base_tab_ptr;
-static int *mem_read_limit_tab_ptr;
+static DWORD *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
-static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+static DWORD mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -581,7 +581,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
-            mem_read_base_tab[i][j] = mem_ram + (j << 8);
+            mem_read_base_tab[i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -600,7 +600,7 @@ void mem_initialize_memory(void)
             }
         }
         mem_read_tab[i][0xff] = ram_read;
-        mem_read_base_tab[i][0xff] = mem_ram + 0xff00;
+        mem_read_base_tab[i][0xff] = mem_ram;
 
         /* vbank access is handled within `ram_hi_store()'.  */
         mem_set_write_hook(i, 0xff, ram_hi_store);
@@ -617,15 +617,15 @@ void mem_initialize_memory(void)
         mem_read_tab[25][i] = chargen_read;
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
-        mem_read_base_tab[1][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[2][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[3][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[9][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[10][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[11][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[25][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[26][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[27][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[1][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[2][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[3][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[9][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[10][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[11][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[25][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[26][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[27][i] = mem_chargen_rom - 0xd000;
     }
 
     c64meminit(0);
@@ -662,11 +662,13 @@ void mem_initialize_memory(void)
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
+    DWORD limits;
 
-    if (p != NULL) {
-        *base = p - (addr & 0xff00);
-        *start = addr; /* TODO */
-        *limit = mem_read_limit_tab_ptr[addr >> 8];
+    if (p != NULL && addr > 1) {
+        *base = p;
+        limits = mem_read_limit_tab_ptr[addr >> 8];
+        *limit = limits & 0xffff;
+        *start = limits >> 16;
     } else {
         cartridge_mmu_translate(addr, base, start, limit);
     }

@@ -516,7 +516,7 @@ void maincpu_mainloop(void)
     int bank_limit;
 
     o_bank_base = &bank_base;
-    o_bank_limit = &bank_start;
+    o_bank_start = &bank_start;
     o_bank_limit = &bank_limit;
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
