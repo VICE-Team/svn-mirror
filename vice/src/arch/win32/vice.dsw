@@ -1038,9 +1038,6 @@ Package=<4>
     Project_Dep_Name serial
     End Project Dependency
     Begin Project Dependency
-    Project_Dep_Name p64
-    End Project Dependency
-    Begin Project Dependency
     Project_Dep_Name sid
     End Project Dependency
     Begin Project Dependency

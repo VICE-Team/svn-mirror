@@ -39,12 +39,12 @@ ALL : "$(OUTDIR)\vsid.exe"
 
 !ELSE 
 
-ALL : "platform - Win32 Release" "p64 - Win32 Release" "core - Win32 Release" "monitor - Win32 Release" "video - Win32 Release" "raster - Win32 Release" "vicii - Win32 Release" "sounddrv - Win32 Release" "sid - Win32 Release" "serial - Win32 Release" "vsidlib - Win32 Release" "base - Win32 Release" "arch - Win32 Release" "$(OUTDIR)\vsid.exe"
+ALL : "platform - Win32 Release" "core - Win32 Release" "monitor - Win32 Release" "video - Win32 Release" "raster - Win32 Release" "vicii - Win32 Release" "sounddrv - Win32 Release" "sid - Win32 Release" "serial - Win32 Release" "vsidlib - Win32 Release" "base - Win32 Release" "arch - Win32 Release" "$(OUTDIR)\vsid.exe"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "vsidlib - Win32 ReleaseCLEAN" "serial - Win32 ReleaseCLEAN" "sid - Win32 ReleaseCLEAN" "sounddrv - Win32 ReleaseCLEAN" "vicii - Win32 ReleaseCLEAN" "raster - Win32 ReleaseCLEAN" "video - Win32 ReleaseCLEAN" "monitor - Win32 ReleaseCLEAN" "core - Win32 ReleaseCLEAN" "p64 - Win32 ReleaseCLEAN" "platform - Win32 ReleaseCLEAN" 
+CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "vsidlib - Win32 ReleaseCLEAN" "serial - Win32 ReleaseCLEAN" "sid - Win32 ReleaseCLEAN" "sounddrv - Win32 ReleaseCLEAN" "vicii - Win32 ReleaseCLEAN" "raster - Win32 ReleaseCLEAN" "video - Win32 ReleaseCLEAN" "monitor - Win32 ReleaseCLEAN" "core - Win32 ReleaseCLEAN" "platform - Win32 ReleaseCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -115,8 +115,7 @@ LINK32_OBJS= \
 	".\libs\video\Release\video.lib" \
 	".\libs\monitor\Release\monitor.lib" \
 	".\libs\core\Release\core.lib" \
-	".\libs\p64\Release\p64.lib \
-	".\libs\p64\Release\platform.lib
+	".\libs\platform\Release\platform.lib
 
 "$(OUTDIR)\vsid.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -137,12 +136,12 @@ ALL : "$(OUTDIR)\vsid.exe"
 
 !ELSE 
 
-ALL : "platform - Win32 Debug" "p64 - Win32 Debug" "core - Win32 Debug" "monitor - Win32 Debug" "video - Win32 Debug" "raster - Win32 Debug" "vicii - Win32 Debug" "sounddrv - Win32 Debug" "sid - Win32 Debug" "serial - Win32 Debug" "vsidlib - Win32 Debug" "base - Win32 Debug" "arch - Win32 Debug" "$(OUTDIR)\vsid.exe"
+ALL : "platform - Win32 Debug" "core - Win32 Debug" "monitor - Win32 Debug" "video - Win32 Debug" "raster - Win32 Debug" "vicii - Win32 Debug" "sounddrv - Win32 Debug" "sid - Win32 Debug" "serial - Win32 Debug" "vsidlib - Win32 Debug" "base - Win32 Debug" "arch - Win32 Debug" "$(OUTDIR)\vsid.exe"
 
 !ENDIF 
 
 !IF "$(RECURSE)" == "1" 
-CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "vsidlib - Win32 DebugCLEAN" "serial - Win32 DebugCLEAN" "sid - Win32 DebugCLEAN" "sounddrv - Win32 DebugCLEAN" "vicii - Win32 DebugCLEAN" "raster - Win32 DebugCLEAN" "video - Win32 DebugCLEAN" "monitor - Win32 DebugCLEAN" "core - Win32 DebugCLEAN" "p64 - Win32 DebugCLEAN" "platform - Win32 DebugCLEAN" 
+CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "vsidlib - Win32 DebugCLEAN" "serial - Win32 DebugCLEAN" "sid - Win32 DebugCLEAN" "sounddrv - Win32 DebugCLEAN" "vicii - Win32 DebugCLEAN" "raster - Win32 DebugCLEAN" "video - Win32 DebugCLEAN" "monitor - Win32 DebugCLEAN" "core - Win32 DebugCLEAN" "platform - Win32 DebugCLEAN" 
 !ELSE 
 CLEAN :
 !ENDIF 
@@ -215,8 +214,7 @@ LINK32_OBJS= \
 	".\libs\video\Debug\video.lib" \
 	".\libs\monitor\Debug\monitor.lib" \
 	".\libs\core\Debug\core.lib" \
-	".\libs\p64\Debug\p64.lib" \
-	".\libs\p64\Debug\platform.lib"
+	".\libs\platform\Debug\platform.lib"
 
 "$(OUTDIR)\vsid.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -510,32 +508,6 @@ LINK32_OBJS= \
 "core - Win32 DebugCLEAN" : 
    cd "."
    $(MAKE) /$(MAKEFLAGS) /F ".\core.mak" CFG="core - Win32 Debug" RECURSE=1 CLEAN 
-   cd "."
-
-!ENDIF 
-
-!IF  "$(CFG)" == "vsid - Win32 Release"
-
-"p64 - Win32 Release" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\p64.mak" CFG="p64 - Win32 Release" 
-   cd "."
-
-"p64 - Win32 ReleaseCLEAN" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\p64.mak" CFG="p64 - Win32 Release" RECURSE=1 CLEAN 
-   cd "."
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 Debug"
-
-"p64 - Win32 Debug" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\p64.mak" CFG="p64 - Win32 Debug" 
-   cd "."
-
-"p64 - Win32 DebugCLEAN" : 
-   cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\p64.mak" CFG="p64 - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 
