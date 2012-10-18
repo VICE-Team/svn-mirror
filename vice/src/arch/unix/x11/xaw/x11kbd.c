@@ -205,9 +205,8 @@ void kbd_event_handler(Widget w, XtPointer client_data, XEvent *report, Boolean 
     static char buffer[20];
     KeySym key;
     XComposeStatus compose;
-    int count;
 
-    count = XLookupString(&report->xkey, buffer, 20, &key, &compose);
+    XLookupString(&report->xkey, buffer, 20, &key, &compose);
 
     switch (report->type) {
         case KeyPress:

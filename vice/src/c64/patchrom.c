@@ -237,7 +237,7 @@ static const unsigned short patch_bytes[] = {
 
 int patch_rom(const char *str)
 {
-    int rev, curr, num, lcount, isnum;
+    int rev, curr, num, isnum;
     short bytes, n, i = 0;
     WORD a;
 
@@ -297,7 +297,6 @@ int patch_rom(const char *str)
 
     log_message(LOG_DEFAULT, "Installing ROM patch for revision #%d:", num);
 
-    lcount = 0;
     i = 0;
     while ((bytes = patch_bytes[i++]) > 0) {
         a = (WORD)patch_bytes[i++];

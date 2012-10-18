@@ -63,9 +63,7 @@ static void video_render_crt_main(video_render_config_t *config,
     render_16_1x1_04_dingoo(&config->color_tables, src, trg, width, height, xs, ys, xt, yt, pitchs, pitcht);
 #else
     video_render_color_tables_t *colortab;
-    int doublescan, delayloop, rendermode, scale2x, video;
-
-    video = viewport->crt_type;
+    int doublescan, delayloop, rendermode, scale2x;
 
     rendermode = config->rendermode;
     doublescan = config->doublescan;

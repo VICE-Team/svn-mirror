@@ -328,7 +328,6 @@ static void handle_visible_line_with_cache(raster_t *raster)
             != raster->idle_background_color) {
 
             unsigned int changed_start_char, changed_end_char;
-            int r;
 
             cache->n = line;
             cache->xsmooth = raster->xsmooth;
@@ -353,7 +352,7 @@ static void handle_visible_line_with_cache(raster_t *raster)
                                             &changed_start_char,
                                             &changed_end_char);
 
-            r = raster_modes_fill_cache(raster->modes,
+            raster_modes_fill_cache(raster->modes,
                                         video_mode,
                                         cache,
                                         &changed_start_char,

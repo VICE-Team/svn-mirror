@@ -321,10 +321,9 @@ static Boolean SetValues(Widget wcurrent, Widget wrequest, Widget wnew,
         ArgList args, Cardinal *num_args)
 {
     Boolean redraw,recalc;
-    XfwfScrolledListWidget csl, rsl, nsl;
+    XfwfScrolledListWidget csl, nsl;
 
     csl = (XfwfScrolledListWidget)wcurrent;
-    rsl = (XfwfScrolledListWidget)wrequest;
     nsl = (XfwfScrolledListWidget)wnew;
 
     redraw = False;

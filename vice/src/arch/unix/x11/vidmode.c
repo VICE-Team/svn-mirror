@@ -157,15 +157,12 @@ static void vidmode_center_canvas(struct video_canvas_s *canvas)
 
 static void vidmode_resize_canvas(struct video_canvas_s *canvas, int uienable)
 {
-        int status_h = 0;
-        int fs_h, fs_w;
-        Display *vm_display;
+    int status_h = 0;
+    int fs_h, fs_w;
 
     if (vm_available == 0) {
         return;
     }
-
-    vm_display = x11ui_get_display_ptr();
 
 #ifdef HAVE_FULLSCREEN
     if (uienable) {

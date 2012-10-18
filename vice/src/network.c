@@ -228,7 +228,6 @@ static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
 {
     event_list_state_t *list;
     unsigned int type, size;
-    CLOCK clk;
     BYTE *data;
     BYTE *bufptr = remote_event_buffer;
 
@@ -237,7 +236,7 @@ static event_list_state_t *network_create_event_list(BYTE *remote_event_buffer)
 
     do {
         type = util_le_buf_to_dword(&bufptr[0]);
-        clk = util_le_buf_to_dword(&bufptr[4]);
+    /*  clk = util_le_buf_to_dword(&bufptr[4]); */
         size = util_le_buf_to_dword(&bufptr[8]);
         data = &bufptr[12];
         bufptr += 12 + size;

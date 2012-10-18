@@ -55,6 +55,7 @@
 #include "uimenu.h"
 #include "uiscreenshot.h"
 #include "util.h"
+#include "uiapi.h"
 
 static Widget screenshot_dialog;
 static Widget screenshot_dialog_pane;
@@ -137,7 +138,7 @@ static UI_CALLBACK(save_callback)
     if (screenshot_save(driver->name, tmp, canvas) < 0) {
         ui_error(_("Couldn't write screenshot to `%s' with driver `%s'."), tmp, driver->name);
         lib_free(tmp);
-        return -1;
+        return;
     } else {
         if (screenshot_is_recording()) {
             XtMapWidget(rec_button);
