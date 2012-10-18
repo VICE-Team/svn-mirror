@@ -48,6 +48,7 @@
 #include "log.h"
 #include "machine.h"
 #include "maincpu.h"
+#include "platform.h"
 #include "resources.h"
 #include "sound.h"
 #include "translate.h"
@@ -1423,9 +1424,7 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 
 #ifdef __BEOS__
-        /* For now we disable sound for Haiku */
-        if (!CheckForHaiku())
-            sound_init_beos_device();
+    sound_init_beos_device();
 #endif
 
 #if defined(AMIGA_SUPPORT) && defined(HAVE_DEVICES_AHI_H)
@@ -1451,8 +1450,19 @@ void sound_init(unsigned int clock_rate, unsigned int ticks_per_frame)
 #endif
 
     log_message(sound_log, "Available sound devices:%s", devlist);
-
     lib_free(devlist);
+
+    if (!device_name || device_name[0] == '\0') {
+#if defined(__BEOS__) && !defined(USE_SDL_AUDIO)
+        /* Don't use beos sound device as default for Haiku */
+        if (CheckForHaiku()) {
+            util_string_set(&device_name, "dummy");
+        } else
+#endif
+        {
+            util_string_set(&device_name, sound_devices[0]->name);
+        }
+    }
 }
 
 long sound_sample_position(void)
