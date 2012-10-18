@@ -28,7 +28,7 @@
 
 #include "render1x2.h"
 #include "types.h"
-
+#include <string.h>
 
 /* 16 color 1x2 renderers */
 
