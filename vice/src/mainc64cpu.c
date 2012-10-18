@@ -69,10 +69,10 @@ CLOCK debug_clk;
 /* Implement the hack to make opcode fetches faster.  */
 #define JUMP(addr)                            \
     do {                                      \
-        if (reg_pc >= bank_limit || ((reg_pc ^ (unsigned int)(addr)) & ~0xff)) { \
-            mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_limit);    \
-        }                                     \
         reg_pc = (unsigned int)(addr);        \
+        if (reg_pc >= bank_limit || reg_pc < bank_start) { \
+            mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_start, &bank_limit); \
+        }                                     \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -492,7 +492,7 @@ static int *o_bank_limit;
 
 void maincpu_resync_limits(void) {
     if (o_bank_base) {
-        mem_mmu_translate(reg_pc, o_bank_base, o_bank_limit);
+        mem_mmu_translate(reg_pc, o_bank_base, o_bank_start, o_bank_limit);
     }
 }
 

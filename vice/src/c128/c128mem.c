@@ -755,10 +755,11 @@ void mem_initialize_memory(void)
 #pragma optimize("",on)
 #endif
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
+    *start = addr; /* TODO */
     *limit = mem_read_limit_tab_ptr[addr >> 8];
 }
 

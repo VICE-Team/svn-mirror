@@ -2210,10 +2210,12 @@ void cartridge_sound_chip_init(void)
 /* ------------------------------------------------------------------------- */
 /* Perform MMU translation for simple cartridge RAM/ROM mappings */
 /* TODO: add more */
-void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
     int res = CART_READ_THROUGH;
     /* "Slot 0" */
 
+    *start = addr; /* TODO */
     if (mmc64_cart_enabled()) {
         if ((res = mmc64_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
             return;

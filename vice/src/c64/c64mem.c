@@ -660,14 +660,15 @@ void mem_initialize_memory(void)
     c64_256k_init_config();
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     if (p != NULL) {
         *base = p - (addr & 0xff00);
+        *start = addr; /* TODO */
         *limit = mem_read_limit_tab_ptr[addr >> 8];
     } else {
-        cartridge_mmu_translate(addr, base, limit);
+        cartridge_mmu_translate(addr, base, start, limit);
     }
 }
 

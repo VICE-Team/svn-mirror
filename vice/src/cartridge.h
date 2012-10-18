@@ -95,7 +95,7 @@ extern void cartridge_setup_context(struct machine_context_s *machine_context);
 extern BYTE cartridge_peek_mem(WORD addr);
 
 /* mmu translation */
-extern void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *limit);
+extern void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 /* Initialize RAM for power-up.  */
 extern void cartridge_ram_init(void);

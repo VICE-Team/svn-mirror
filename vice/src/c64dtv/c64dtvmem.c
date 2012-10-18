@@ -365,15 +365,17 @@ void mem_initialize_memory(void)
     c64dtvmem_init_config();
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
 #ifdef FEATURE_CPUMEMHISTORY
     *base = NULL;
+    *start = addr;
     *limit = -1;
 #else
     int bank = addr >> 14;
     int paddr;
     BYTE *p;
 
+    *start = addr; /* TODO */
     if ((((dtv_registers[8] >> (bank * 2)) & 0x03) == 0x00)) {
         if (c64dtvflash_state) {
             *base = NULL; /* not idle */
