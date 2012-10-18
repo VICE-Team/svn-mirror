@@ -520,7 +520,7 @@ int machine_addr_in_ram(unsigned int addr)
 
 const char *machine_get_name(void)
 {
-    return (machine_class == VICE_MACHINE_CBM6x0) ? machine_name : "CBM-II-5x0";
+    return machine_name;
 }
 
 #ifdef USE_SDLUI
@@ -528,14 +528,3 @@ const char *machine_get_name(void)
 const char **csidmodel = NULL;
 void psid_init_driver(void) {}
 #endif
-
-/* FIXME: further rework snapshot stuff and remove these */
-int cbm2_c500_snapshot_write_module(snapshot_t *p)
-{
-    return 0;
-}
-
-int cbm2_c500_snapshot_read_module(snapshot_t *p)
-{
-    return 0;
-}
