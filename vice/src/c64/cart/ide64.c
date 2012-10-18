@@ -979,26 +979,30 @@ void ide64_c000_cfff_store(WORD addr, BYTE value)
     export_ram0[addr & 0x7fff] = value;
 }
 
-void ide64_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+void ide64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
     case 0xf000:
     case 0xe000:
         *base = &romh_banks[romh_bank << 14] - 0xc000;
+        *start = 0xe000;
         *limit = 0xfffd;
         break;
     case 0xc000:
         *base = export_ram0 - 0x8000;
+        *start = 0xc000;
         *limit = 0xcffd;
         break;
     case 0xb000:
     case 0xa000:
         *base = &romh_banks[romh_bank << 14] - 0x8000;
+        *start = 0xa000;
         *limit = 0xbffd;
         break;
     case 0x9000:
     case 0x8000:
         *base = &roml_banks[roml_bank << 14] - 0x8000;
+        *start = 0x8000;
         *limit = 0x9ffd;
         break;
     case 0x7000:
@@ -1009,11 +1013,13 @@ void ide64_mmu_translate(unsigned int addr, BYTE **base, int *limit)
     case 0x2000:
     case 0x1000:
         *base = export_ram0;
+        *start = 0x1000;
         *limit = 0x7ffd;
         break;
     default:
         *base = NULL;
-        *limit = -1;
+        *start = 0;
+        *limit = 0;
     }
 }
 

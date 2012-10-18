@@ -119,17 +119,19 @@ static c64export_resource_t export_res_ultimax = {
 
 /* ---------------------------------------------------------------------*/
 
-void generic_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+void generic_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
     case 0xf000:
     case 0xe000:
         *base = &romh_banks[(romh_bank << 13)] - 0xe000;
+        *start = 0xe000;
         *limit = 0xfffd;
         break;
     case 0xb000:
     case 0xa000:
         *base = &romh_banks[(romh_bank << 13)] - 0xa000;
+        *start = 0xa000;
         *limit = 0xbffd;
         break;
     case 0x9000:
@@ -139,11 +141,13 @@ void generic_mmu_translate(unsigned int addr, BYTE **base, int *limit)
         } else {
             *base = &roml_banks[(roml_bank << 13)] - 0x8000;
         }
+        *start = 0x8000;
         *limit = 0x9ffd;
         break;
     default:
         *base = NULL;
-        *limit = -1;
+        *start = 0;
+        *limit = 0;
     }
 }
 

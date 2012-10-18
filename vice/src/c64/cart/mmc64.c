@@ -479,13 +479,14 @@ static int set_mmc64_image_filename(const char *name, void *param)
 
 /* ---------------------------------------------------------------------*/
 
-int mmc64_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+int mmc64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     if (!mmc64_active && !mmc64_biossel) {
         switch (addr & 0xf000) {
         case 0x9000:
         case 0x8000:
             *base = &mmc64_bios[mmc64_bios_offset] - 0x8000;
+            *start = 0x8000;
             *limit = 0x9ffd;
             return CART_READ_VALID;
         default:

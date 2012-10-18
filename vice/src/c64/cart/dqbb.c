@@ -366,7 +366,7 @@ void dqbb_reset(void)
     }
 }
 
-void dqbb_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+void dqbb_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
     case 0xb000:
@@ -374,13 +374,15 @@ void dqbb_mmu_translate(unsigned int addr, BYTE **base, int *limit)
     case 0x9000:
     case 0x8000:
         *base = dqbb_ram - 0x8000;
+        *start = 0x8000;
         *limit = 0xbffd;
         return;
     default:
         break;
     }
     *base = NULL;
-    *limit = -1;
+    *start = 0;
+    *limit = 0;
 }
 
 void dqbb_init_config(void)

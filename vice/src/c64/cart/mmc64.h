@@ -66,7 +66,7 @@ extern void mmc64_detach(void);
 extern void mmc64_reset(void);
 extern int mmc64_enable(void);
 extern const char *mmc64_get_file_name(void);
-extern int mmc64_mmu_translate(unsigned int addr, BYTE **base, int *limit);
+extern int mmc64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 struct snapshot_s;
 extern int mmc64_snapshot_read_module(struct snapshot_s *s);

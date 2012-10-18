@@ -571,16 +571,18 @@ void tpi_config_setup(BYTE *rawcart)
     memcpy(tpi_rom, rawcart, TPI_ROM_SIZE);
 }
 
-int tpi_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+int tpi_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     if (rom_enabled) {
         switch (addr & 0xf000) {
         case 0x9000:
             *base = tpi_rom - 0x9000;
+            *start = 0x9000;
             *limit = 0x9ffd;
             return CART_READ_VALID;
         case 0x8000:
             *base = tpi_rom - 0x8000;
+            *start = 0x8000;
             *limit = 0x8ffd;
             return CART_READ_VALID;
         default:

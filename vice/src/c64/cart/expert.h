@@ -63,7 +63,7 @@ extern int expert_enable(void);
 
 extern int expert_freeze_allowed(void);
 extern int expert_cart_enabled(void);
-extern void expert_mmu_translate(unsigned int addr, BYTE **base, int *limit);
+extern void expert_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 struct snapshot_s;
 extern int expert_snapshot_write_module(struct snapshot_s *s);

@@ -1220,7 +1220,7 @@ static void mv_ack_nmi(void)
 }
 #endif
 
-int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit)
+int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
     case 0xf000:
@@ -1230,6 +1230,7 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit)
         } else {
             if (mv_romE000_enabled) {
                 *base = mv_rom - 0xc000;
+                *start = 0xe000;
                 *limit = 0xfffd;
                 return CART_READ_VALID;
             }
@@ -1240,7 +1241,8 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit)
         if (mv_game8000_atB000_enabled) {
             /* FIXME: proper mapping */
             *base = NULL;
-            *limit = -1;
+            *start = 0;
+            *limit = 0;
             return CART_READ_VALID;
         }
         if (mv_gameA000_enabled) {
@@ -1248,6 +1250,7 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit)
         } else {
             if (mv_romA000_enabled) {
                 *base = mv_rom - 0xa000;
+                *start = 0xa000;
                 *limit = 0xbffd;
                 return CART_READ_VALID;
             }
@@ -1264,7 +1267,8 @@ int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *limit)
         if (mv_gameA000_at3000_enabled) {
             /* FIXME: proper mapping */
             *base = NULL;
-            *limit = -1;
+            *start = 0;
+            *limit = 0;
             return CART_READ_VALID;
         } /* fall through */
     case 0x7000:

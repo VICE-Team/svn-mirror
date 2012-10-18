@@ -2215,17 +2215,16 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
     int res = CART_READ_THROUGH;
     /* "Slot 0" */
 
-    *start = addr; /* TODO */
     if (mmc64_cart_enabled()) {
-        if ((res = mmc64_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
+        if ((res = mmc64_mmu_translate(addr, base, start, limit)) == CART_READ_VALID) {
             return;
         }
     } else if (magicvoice_cart_enabled()) {
-        if ((res = magicvoice_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
+        if ((res = magicvoice_mmu_translate(addr, base, start, limit)) == CART_READ_VALID) {
             return;
         }
     } else if (tpi_cart_enabled()) {
-        if ((res = tpi_mmu_translate(addr, base, limit)) == CART_READ_VALID) {
+        if ((res = tpi_mmu_translate(addr, base, start, limit)) == CART_READ_VALID) {
             return;
         }
     }
@@ -2233,7 +2232,8 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
     switch (res) {
         case CART_READ_C64MEM:
             *base = NULL;
-            *limit = -1;
+            *start = 0;
+            *limit = 0;
             return;
         case CART_READ_THROUGH_NO_ULTIMAX:
             break;
@@ -2241,19 +2241,19 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
 
     /* continue with "Slot 1" */
     if (isepic_cart_active()) {
-        isepic_mmu_translate(addr, base, limit);
+        isepic_mmu_translate(addr, base, start, limit);
         return;
     }
     if (expert_cart_enabled()) {
-        expert_mmu_translate(addr, base, limit);
+        expert_mmu_translate(addr, base, start, limit);
         return;
     }
     if (ramcart_cart_enabled()) {
-        ramcart_mmu_translate(addr, base, limit);
+        ramcart_mmu_translate(addr, base, start, limit);
         return;
     }
     if (dqbb_cart_enabled()) {
-        dqbb_mmu_translate(addr, base, limit);
+        dqbb_mmu_translate(addr, base, start, limit);
         return;
     }
 
@@ -2262,14 +2262,15 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
         case CARTRIDGE_GENERIC_16KB:
         case CARTRIDGE_GENERIC_8KB:
         case CARTRIDGE_ULTIMAX:
-            generic_mmu_translate(addr, base, limit);
+            generic_mmu_translate(addr, base, start, limit);
             return;
         case CARTRIDGE_IDE64:
-            ide64_mmu_translate(addr, base, limit);
+            ide64_mmu_translate(addr, base, start, limit);
             return;
         default:
             *base = NULL;
-            *limit = -1;
+            *start = 0;
+            *limit = 0;
             return;
     }
 }
