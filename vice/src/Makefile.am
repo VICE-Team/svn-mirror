@@ -830,7 +830,9 @@ vsid_libs =  \
 	$(vsid_lib) \
 	$(sid_lib) \
 	$(monitor_lib) \
-	$(driver_libs) \
+	$(sounddrv_lib) \
+	$(serial_lib) \
+	$(core_lib) \
 	$(vicii_lib) \
 	$(raster_lib) \
 	$(video_lib) \
