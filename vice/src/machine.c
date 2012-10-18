@@ -155,16 +155,16 @@ void machine_reset(void)
     log_message(LOG_DEFAULT, "Main CPU: RESET.");
 
     /* Do machine-specific initialization.  */
+    if (!mem_initialized) {
+        mem_powerup();
+        mem_initialized = 1;
+    }
+
     machine_specific_reset();
 
     autostart_reset();
 
     mem_initialize_memory();
-
-    if (!mem_initialized) {
-        mem_powerup();
-        mem_initialized = 1;
-    }
 
     event_reset_ack();
 
