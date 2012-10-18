@@ -633,7 +633,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[128 + i][1] = mem_ram;
         for (j = 2; j <= 0xfe; j++) {
             mem_read_tab[128 + i][j] = ram_read;
-            mem_read_base_tab[128 + i][j] = mem_ram + (j << 8);
+            mem_read_base_tab[128 + i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
@@ -652,7 +652,7 @@ void mem_initialize_memory(void)
             }
         }
         mem_read_tab[128 + i][0xff] = ram_read;
-        mem_read_base_tab[128 + i][0xff] = mem_ram + 0xff00;
+        mem_read_base_tab[128 + i][0xff] = mem_ram;
 
         /* vbank access is handled within `ram_hi_store()'.  */
         mem_set_write_hook(128 + i, 0xff, ram_hi_store);
@@ -758,7 +758,7 @@ void mem_initialize_memory(void)
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
-    *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
+    *base = (p == NULL) ? NULL : p;
     *start = addr; /* TODO */
     *limit = mem_read_limit_tab_ptr[addr >> 8];
 }

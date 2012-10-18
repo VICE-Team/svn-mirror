@@ -542,11 +542,11 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
             mem_read_tab[i][j] = ram_read;
-            mem_read_base_tab[i][j] = mem_ram + (j << 8);
+            mem_read_base_tab[i][j] = mem_ram;
             mem_write_tab[i][j] = ram_store;
         }
         mem_read_tab[i][0xff] = ram_read;
-        mem_read_base_tab[i][0xff] = mem_ram + 0xff00;
+        mem_read_base_tab[i][0xff] = mem_ram;
 
         /* REU $ff00 trigger is handled within `ram_hi_store()'.  */
         mem_set_write_hook(i, 0xff, ram_hi_store);
@@ -563,15 +563,15 @@ void mem_initialize_memory(void)
         mem_read_tab[25][i] = chargen_read;
         mem_read_tab[26][i] = chargen_read;
         mem_read_tab[27][i] = chargen_read;
-        mem_read_base_tab[1][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[2][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[3][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[9][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[10][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[11][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[25][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[26][i] = mem_chargen_rom + ((i & 0x0f) << 8);
-        mem_read_base_tab[27][i] = mem_chargen_rom + ((i & 0x0f) << 8);
+        mem_read_base_tab[1][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[2][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[3][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[9][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[10][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[11][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[25][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[26][i] = mem_chargen_rom - 0xd000;
+        mem_read_base_tab[27][i] = mem_chargen_rom - 0xd000;
     }
 
     c64meminit(0);

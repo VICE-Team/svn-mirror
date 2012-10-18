@@ -1,5 +1,5 @@
 /*
- * c64meminit.h -- Initialize C64 memory.
+ * c64dtvmeminit.h -- Initialize C64 memory.
  *
  * Written by
  *  Daniel Kahlin <daniel@kahlin.net>

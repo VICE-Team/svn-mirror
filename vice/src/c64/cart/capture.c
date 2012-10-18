@@ -34,7 +34,6 @@
 #undef CARTRIDGE_INCLUDE_SLOTMAIN_API
 #include "c64export.h"
 #include "c64mem.h"
-#include "c64meminit.h"
 #include "c64memrom.h"
 #include "capture.h"
 #include "cartio.h"
