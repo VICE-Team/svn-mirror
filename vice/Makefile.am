@@ -60,7 +60,7 @@ else
   X64SC_INCLUDED = no
 endif
 
-.PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0
+.PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 c1541 petcat cartconv
 vsid:
 	(cd src; $(MAKE) vsid-all)
 
@@ -94,6 +94,15 @@ xcbm2:
 
 xcbm5x0:
 	(cd src; $(MAKE) xcbm5x0-all)
+
+c1541:
+	(cd src; $(MAKE) c1541-all)
+
+petcat:
+	(cd src; $(MAKE) petcat-all)
+
+cartconv:
+	(cd src; $(MAKE) cartconv)
 
 
 install: installvice

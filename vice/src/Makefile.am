@@ -1526,6 +1526,20 @@ c1541_LDADD = \
 	@READLINE@ @READLINE_LIBS@ \
 	@ZLIB_LIBS@ @DYNLIB_LIBS@
 
+.PHONY: c1541-all
+c1541-all: \
+	$(BUILT_SOURCES) \
+	libarch \
+	libp64 \
+	libvdrive \
+	libdiskimage \
+	libserial \
+	libtape \
+	libimagecontents \
+	libfileio \
+	libplatform \
+	c1541$(EXEEXT)
+
 # petcat
 petcat_SOURCES = \
 	charset.c \
@@ -1546,6 +1560,14 @@ petcat_LDADD = \
 	$(platform_lib) \
 	@INTLLIBS@ @SDL_EXTRA_LIBS@ \
 	@ZLIB_LIBS@
+
+.PHONY: petcat-all
+petcat-all: \
+	$(BUILT_SOURCES) \
+	libarch \
+	libfileio \
+	libplatform \
+	petcat$(EXEEXT)
 
 # cartconv
 cartconv_SOURCES = cartconv.c
