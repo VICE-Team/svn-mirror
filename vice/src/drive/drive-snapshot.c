@@ -1012,6 +1012,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
     snapshot_module_close(m);
 
     drive->GCR_image_loaded = 1;
+    drive->complicated_image_loaded = 1; /* TODO: verify if it's really like this */
     drive->image = NULL;
 
     return 0;
@@ -1149,6 +1150,7 @@ static int drive_snapshot_read_p64image_module(snapshot_t *s, unsigned int dnr)
     lib_free(tmpbuf);
 
     drive->P64_image_loaded = 1;
+    drive->complicated_image_loaded = 1;
     drive->image = NULL;
 
     return 0;
