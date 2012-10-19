@@ -82,7 +82,8 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
     }
 
     cpu->rmw_flag = 0;
-    cpu->d_bank_limit = -1;
+    cpu->d_bank_limit = 0;
+    cpu->d_bank_start = 0;
     cpu->pageone = NULL;
     if (i) {
         cpu->snap_module_name = lib_msprintf("DRIVECPU%d", drv->mynumber);
@@ -133,26 +134,34 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 /* We should use tables like in maincpu instead (AF) */
 #define JUMP(addr)                                       \
     do {                                                 \
-        reg_pc = (addr);                                 \
-        if (reg_pc >= drv->drive->rom_start) {           \
-            cpu->d_bank_base = drv->drive->rom - drv->drive->rom_start; \
-            cpu->d_bank_limit = 0xfffd;                  \
-        } else if (reg_pc < 0x2000) {                    \
-            cpu->d_bank_base = drv->cpud->drive_ram;     \
-            cpu->d_bank_limit = 0x1ffd;                  \
-        } else if (reg_pc < 0x4000) {                    \
-            cpu->d_bank_base = drv->drive->drive_ram_expand2 - 0x2000; \
-            cpu->d_bank_limit = 0x3ffd;                  \
-        } else if (reg_pc >= 0x6000) {                    \
-            cpu->d_bank_base = drv->drive->drive_ram_expand6 - 0x6000; \
-            cpu->d_bank_limit = 0x7ffd;                  \
-        } else if (reg_pc >= 0x5000) {                   \
-            cpu->d_bank_base = drv->drive->drive_ram_expand4 - 0x4000; \
-            cpu->d_bank_limit = 0x5ffd;                  \
-        } else {                                         \
-            cpu->d_bank_base = NULL;                     \
-            cpu->d_bank_limit = -1;                      \
-        }                                                \
+        reg_pc = (unsigned int)(addr);                       \
+        if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) { \
+            if (reg_pc >= drv->drive->rom_start) {           \
+                cpu->d_bank_base = drv->drive->rom - drv->drive->rom_start; \
+                cpu->d_bank_start = drv->drive->rom_start;   \
+                cpu->d_bank_limit = 0xfffd;                  \
+            } else if (reg_pc < 0x2000) {                    \
+                cpu->d_bank_base = drv->cpud->drive_ram;     \
+                cpu->d_bank_start = 0x0000;                  \
+                cpu->d_bank_limit = 0x1ffd;                  \
+            } else if (reg_pc < 0x4000) {                    \
+                cpu->d_bank_base = drv->drive->drive_ram_expand2 - 0x2000; \
+                cpu->d_bank_start = 0x2000;                  \
+                cpu->d_bank_limit = 0x3ffd;                  \
+            } else if (reg_pc >= 0x6000) {                   \
+                cpu->d_bank_base = drv->drive->drive_ram_expand6 - 0x6000; \
+                cpu->d_bank_start = 0x6000;                  \
+                cpu->d_bank_limit = 0x7ffd;                  \
+            } else if (reg_pc >= 0x5000) {                   \
+                cpu->d_bank_base = drv->drive->drive_ram_expand4 - 0x4000; \
+                cpu->d_bank_start = 0x5000;                  \
+                cpu->d_bank_limit = 0x5ffd;                  \
+            } else {                                         \
+                cpu->d_bank_base = NULL;                     \
+                cpu->d_bank_start = 0;                       \
+                cpu->d_bank_limit = 0;                       \
+            }                                                \
+        }                                                    \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -473,6 +482,7 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (cpu->d_bank_limit)
+#define bank_start (cpu->d_bank_start)
 #define bank_base (cpu->d_bank_base)
 
 /* WDC_STP() and WDC_WAI() are not used on the R65C02. */

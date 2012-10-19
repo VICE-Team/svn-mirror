@@ -80,7 +80,8 @@ typedef struct drivecpu_context_s {
 
     CLOCK cycle_accum;
     BYTE *d_bank_base;
-    int d_bank_limit;     /* init to -1 */
+    unsigned int d_bank_start;
+    unsigned int d_bank_limit;
 
     /* Information about the last executed opcode.  */
     unsigned int last_opcode_info;

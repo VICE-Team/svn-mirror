@@ -91,7 +91,8 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
     }
 
     cpu->rmw_flag = 0;
-    cpu->d_bank_limit = -1;
+    cpu->d_bank_limit = 0;
+    cpu->d_bank_start = 0;
     cpu->pageone = NULL;
     if (i) {
         cpu->snap_module_name = lib_msprintf("DRIVECPU%d", drv->mynumber);
@@ -144,20 +145,26 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
    We should use tables like in maincpu instead (AF) */
 #define JUMP(addr)                                       \
     do {                                                 \
-        reg_pc = (addr);                                 \
-        if (drv->drive->type == DRIVE_TYPE_1001) {       \
-            cpu->d_bank_base = NULL;                     \
-            cpu->d_bank_limit = -1;                      \
-        } else if (reg_pc < 0x2000) {                    \
-            cpu->d_bank_base = drv->cpud->drive_ram;     \
-            cpu->d_bank_limit = 0x07fd;                  \
-        } else if (reg_pc >= drv->drive->rom_start) {    \
-            cpu->d_bank_base = drv->drive->rom - 0x8000; \
-            cpu->d_bank_limit = 0xfffd;                  \
-        } else {                                         \
-            cpu->d_bank_base = NULL;                     \
-            cpu->d_bank_limit = -1;                      \
-        }                                                \
+        reg_pc = (unsigned int)(addr);                       \
+        if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) { \
+            if (drv->drive->type == DRIVE_TYPE_1001) {       \
+                cpu->d_bank_base = NULL;                     \
+                cpu->d_bank_start = 0;                       \
+                cpu->d_bank_limit = 0;                       \
+            } else if (reg_pc < 0x800) {                     \
+                cpu->d_bank_base = drv->cpud->drive_ram;     \
+                cpu->d_bank_start = 2; /* 1551! */           \
+                cpu->d_bank_limit = 0x07fd;                  \
+            } else if (reg_pc >= drv->drive->rom_start) {    \
+                cpu->d_bank_base = drv->drive->rom - drv->drive->rom_start; \
+                cpu->d_bank_start = drv->drive->rom_start;   \
+                cpu->d_bank_limit = 0xfffd;                  \
+            } else {                                         \
+                cpu->d_bank_base = NULL;                     \
+                cpu->d_bank_start = 0;                       \
+                cpu->d_bank_limit = 0;                       \
+            }                                                \
+        }                                                    \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -497,6 +504,7 @@ void drivecpu_execute(drive_context_t *drv, CLOCK clk_value)
 
 #define cpu_reset() (cpu_reset)(drv)
 #define bank_limit (cpu->d_bank_limit)
+#define bank_start (cpu->d_bank_start)
 #define bank_base (cpu->d_bank_base)
 
 #include "6510core.c"
