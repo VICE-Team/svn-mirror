@@ -14820,8 +14820,9 @@ Amiga and BeOS ports. Added DQBB and ISEPIC cartridge support.
 Added SFX Sound Sampler and SFX Sound Expander support. Added PCI
 support to the Amiga and DOS ports.  Rewrote the sound system into
 a modular one, added always mono and always stereo support for the
-sound output. Added the RTC system. Added digiblaster support. And
-lots of other fixes and improvements.
+sound output. Added the RTC system. Added digiblaster support.
+Added 3rd SID support. Added the 6309 CPU emulation. Added the
+65(S)C02 emulation. And lots of other fixes and improvements.
 
 * Christian Vogelgsang Maintains the Mac OS X port. Added Intel Mac
 support and universal binary creation. Wrote the build scripts for
@@ -14830,7 +14831,8 @@ the TFE chip emulation. Added some GTK+ fixes.
 
 * Fabrizio Gennari Added some improvements to the DOS and GTK+
 ports. Changed the Windows video to use GDI as fallback, making it
-compile without DX if needed.
+compile without DX if needed. Fixed the t64 support. Added monitor
+window support using VTE to the GTK+ GUI.
 
 * Daniel Kahlin Worked on DTV VIC emulation, palette, DTV SID
 support in resid, better DMA/Blitter support and did lots of
@@ -14848,9 +14850,9 @@ emulation. Worked on x64sc.
 
 * Groepaz Added new more precise CRT emulation. Added support for
 the new cartridge system and many new cartridges. Fixed up parts of
-cartconv, c1541 and petcat. Implemented many bug fixes.  Wrote
-test programs. Updated this document after a long period of
-outdated mess.
+cartconv, c1541 and petcat. Added video to audio leak sound
+support.  Implemented many bug fixes.  Wrote test programs.
+Updated this document after a long period of outdated mess.
 
 * Ingo Korb Corrected block allocation and interleave for
 c1541/vdrive, added rudimentary xplus4 tape recording support,
@@ -14862,20 +14864,24 @@ himself.
 * Errol Smith Improved VDC emulation.
 
 * Olaf Seibert Contributed some PET, including PET DWW hires, Xaw,
-lightpen, hardware scaling, and disk drive patches. Maintains the
+lightpen, hardware scaling, and disk drive patches. Added proper
+SuperPET support, including 6809/6309 CPU emulation. Maintains the
 Xaw UI.
 
 * Stefan Haubenthal Added some Amiga fixes.
 
-* Thomas Giesel Added new monitor commands and features.
+* Thomas Giesel Added new monitor commands, features and
+improvements.
 
 * Marcus Sutton Made some console, dialog and joystick fixes for the
 BeOS port.  Maintains the BeOS port.
 
 Ulrich Schulz Maintains the Dingoo port(s).
 
-* Kajtar Zsolt Wrote the IDE64 interface emulation, 2000/4000 drive
-emulation and did some fixes.
+* Kajtar Zsolt Wrote the IDE64 interface emulation, FD2000/4000
+drive emulation and alot of fixes. Improved the mouse support.
+Added drive burst modification support. Added 1541 drive sounds
+emulation. Improved c64 cart emulation.
 
 
 Former/inactive team members:
@@ -15028,6 +15034,8 @@ fast serial emulation.
 * Robert H. Forsman Jr.  Provided parts of the widget set for
 implementing the Xaw GUI.
 
+* Ian Gledhill Added support for the catweasel.device driver.
+
 * Peter Gordon Provided support for native AmigaOS4 compiling.
 
 * Richard Hable Contributed the initial version of the REU emulation.
@@ -15042,10 +15050,17 @@ the labels for the C64.
 
 * Nathan Huizinga Added support for Expert and Super Snapshot carts.
 
+* Derrick Inksley Fixed loading of zip files with brackets ([]) in
+the filename for the windows port. Added drive selection
+functionality to the window sdl port.
+
 * Craig Jackson Contributed miscellaneous patches in the old X64
 times.
 
 * Dirk Jagdmann Wrote the Catweasel sound driver.
+
+* Uffe Jakobsen Wrote the Silverrock cartridge emulation and fixed
+the ocean cartridge bank wrap.
 
 * Lasse Jyrkinen Contributed miscellaneous patches in the old X64
 times.
@@ -15053,7 +15068,7 @@ times.
 * Peter Karlsson Provided the swedish UI translations in the past.
 
 * Greg King Added a working RTC to the emulation of the IDE64
-cartridge.
+cartridge. Provided some vdrive fixes.
 
 * Michael Klein Contributed the ESD sound driver, basic support for
 the OPENCBM library and some other patches.
@@ -15072,7 +15087,8 @@ configurations for the old VICE 0.12.
 cybergraphics support for the Amiga ports.
 
 * Magnus Lind Atari ST mouse and Atari CX-22 trackball emulation and
-pixel aspect fixes.
+pixel aspect fixes. Improved the Amiga mouse emulation. Improved
+the vic20 sound output. Improved sound fragment size handling.
 
 * Wolfgang Lorenz Wrote an excellent 6510 test suite that helped us
 to debug the CPU emulation.
@@ -15080,12 +15096,13 @@ to debug the CPU emulation.
 * Marko Mäkelä Wrote lots of CPU documentation. Wrote the VIC Flash
 Plugin cartridge emulation in xvic.
 
+* mar77i Fixed some resource handling issues.
+
 * Robert W. McMullen Provided parts of the widget set for
 implementing the Xaw GUI.
 
 * Jennifer Medkief Is in charge of checking up on the GUIs for
-elements that are wrong, unaccessable, and missing. Future user
-documentation writer.
+elements that are wrong, unaccessable, and missing.
 
 * Dan Miner Contributed some patches to the fast disk drive
 emulation.

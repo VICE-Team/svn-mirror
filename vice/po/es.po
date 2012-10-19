@@ -2,12 +2,12 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>, 2011
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-16 12:03-0700\n"
+"POT-Creation-Date: 2012-10-18 17:52-0700\n"
 "PO-Revision-Date: 2012-10-10 19:19+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -2241,7 +2241,7 @@ msgstr "Carga"
 
 #: src/arch/unix/gui/uifliplist.c:88 src/arch/unix/x11/xaw/uicartridge.c:171
 #: src/arch/unix/x11/xaw/uiedisk.c:473
-#: src/arch/unix/x11/xaw/uiscreenshot.c:269
+#: src/arch/unix/x11/xaw/uiscreenshot.c:270
 #: src/arch/unix/x11/xaw/uisnapshot.c:283 src/arch/win32/res.rc.po.c:1336
 #: src/arch/win32/res.rc.po.c:1573 src/arch/amigaos/intl_text.c.po.c:5045
 msgid "Save"
@@ -4339,7 +4339,7 @@ msgid "Volume"
 msgstr "Volumen"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
-#: src/arch/unix/x11/xaw/uiscreenshot.c:162
+#: src/arch/unix/x11/xaw/uiscreenshot.c:163
 msgid "Image Format"
 msgstr "Formato de imagen"
 
@@ -4369,13 +4369,13 @@ msgid "Half Framerate (25/30 fps)"
 msgstr "Velocidad media de cuadro (25/30 fps)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:497
-#: src/arch/unix/x11/xaw/uiscreenshot.c:90
+#: src/arch/unix/x11/xaw/uiscreenshot.c:91
 #: src/arch/amigaos/intl_text.c.po.c:5227
 msgid "Save screenshot file"
 msgstr "Grabar fichero de captura de pantalla"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:554
-#: src/arch/unix/x11/xaw/uiscreenshot.c:138
+#: src/arch/unix/x11/xaw/uiscreenshot.c:139
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
 msgstr "No puedo grabar captura de pantalla en  `%s' con controlador `%s'."
@@ -4600,20 +4600,20 @@ msgid "VICE Information"
 msgstr "Información VICE"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:113 src/arch/unix/x11/xaw/uiedisk.c:226
-#: src/arch/unix/x11/xaw/uiscreenshot.c:161
+#: src/arch/unix/x11/xaw/uiscreenshot.c:162
 #: src/arch/unix/x11/xaw/uisnapshot.c:125 src/arch/win32/resc128.rc.po.c:733
 msgid "File name"
 msgstr "nombre de fichero"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:155 src/arch/unix/x11/xaw/uiedisk.c:269
-#: src/arch/unix/x11/xaw/uiscreenshot.c:205
+#: src/arch/unix/x11/xaw/uiscreenshot.c:206
 #: src/arch/unix/x11/xaw/uisnapshot.c:170 src/arch/win32/res.rc.po.c:1177
 #: src/arch/win32/res.rc.po.c:1195 src/arch/amigaos/intl_text.c.po.c:5059
 msgid "Browse"
 msgstr "Explora"
 
 #: src/arch/unix/x11/xaw/uicartridge.c:177 src/arch/unix/x11/xaw/uiedisk.c:479
-#: src/arch/unix/x11/xaw/uiscreenshot.c:275
+#: src/arch/unix/x11/xaw/uiscreenshot.c:276
 #: src/arch/unix/x11/xaw/uisnapshot.c:289 src/arch/win32/res.rc.po.c:738
 #: src/arch/win32/res.rc.po.c:1175 src/arch/amigaos/intl_text.c.po.c:5241
 msgid "Cancel"
@@ -4631,7 +4631,7 @@ msgstr "No puedo crar la imagen de disco"
 msgid "Disk format:"
 msgstr "Formato del disco:"
 
-#: src/arch/unix/x11/xaw/uiscreenshot.c:289
+#: src/arch/unix/x11/xaw/uiscreenshot.c:290
 msgid "Screen Snapshot"
 msgstr "Captura de pantalla"
 

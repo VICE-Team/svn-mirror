@@ -1,5 +1,988 @@
 ------------------------------------------------------------------------------
 
+2012-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po, src/arch/win32/vice-version.bat,
+	src/version.h: VICE 2.3.24
+
+2012-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/archdep.c, src/arch/sdl/archdep_amiga.c,
+	src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c,
+	src/platform/Makefile.am, src/platform/platform.h,
+	src/platform/platform_syllable_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.c: Platform detection
+	improvements.
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64-generic.c, src/c64/cart/c64-generic.h,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/c64tpi.h, src/c64/cart/dqbb.c, src/c64/cart/dqbb.h,
+	src/c64/cart/expert.c, src/c64/cart/expert.h, src/c64/cart/ide64.c,
+	src/c64/cart/ide64.h, src/c64/cart/isepic.c, src/c64/cart/isepic.h,
+	src/c64/cart/magicvoice.c, src/c64/cart/magicvoice.h,
+	src/c64/cart/mmc64.c, src/c64/cart/mmc64.h, src/c64/cart/ramcart.c,
+	src/c64/cart/ramcart.h: Start limits for cartridges
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/machine.c: Move it up, otherwise vsid init will be cleared...
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128mem.c, src/c128/c128meminit.c, src/c64/c64memsc.c,
+	src/c64/cart/capture.c, src/c64/vsidmem.c, src/c64dtv/c64dtvmeminit.h:
+	Offsets are ok now.
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/c64meminit.c, src/c64/c64memlimit.c,
+	src/c64/c64memlimit.h, src/c64/c64memsc.c, src/c64/vsidmem.c,
+	src/mainc64cpu.c: Add start limits to c64, fix x64sc crash
+
+2012-10-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/cbm2/cbm2.c: Remove old cbm5x0 code.
+
+2012-10-18  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/sound.c: Ensure "SoundDeviceName" gets set to the right value,
+	and make testing easier under Haiku.
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mainc64cpu.c: Missed these ;(
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/cart/c64carthooks.c, src/c64/vsidmem.c,
+	src/c64dtv/c64dtvmem.c, src/cartridge.h, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm5x0mem.c, src/mainc64cpu.c, src/maincpu.c,
+	src/mainviccpu.c, src/mem.h, src/pet/petmem.c, src/plus4/plus4mem.c,
+	src/vic20/vic20mem.c: Introduce bank_start. Fix JUMP.
+
+2012-10-18  Olaf Seibert <rhialto@falu.nl>
+
+	* src/crtc/crtc-resources.c: Remove old disabled code.
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/vidmode.c, src/arch/unix/x11/xaw/uiscreenshot.c,
+	src/arch/unix/x11/xaw/widgets/ScrList.c,
+	src/arch/unix/x11/xaw/x11kbd.c, src/c64/patchrom.c, src/lib.c,
+	src/network.c, src/raster/raster-line.c, src/video/video-render-crt.c:
+	Fix some random warnings
+
+2012-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/vsid.tgt,
+	src/arch/sdl/win32-msvc/vice.dsw, src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt, src/arch/sdl/win64-msvc/vice.sln,
+	src/arch/sdl/winmips-msvc/vsid.mak, src/arch/win32/vice.dsw,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/watcom/vsid.tgt,
+	src/arch/win64/vice.sln: Removed vsid p64 dependency from all the
+	project files.
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* Makefile.am, src/Makefile.am: Build targets from main dir for c1541,
+	petcat and cartconv.
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am: Get the vsid dependencies right
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am, src/c64/vsidstubs.c: libp64 not needed at all for
+	vsid
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render1x2.c, src/video/render2x4.c: Fix warnings
+
+2012-10-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am, src/lib/Makefile.am: Fix building. On a fresh
+	source "make x???" did not built the p64 library because it was not
+	marked as a build dependency.
+
+2012-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/ram.c: Use memset
+
+2012-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvmem.c: This translation is not so easy...
+
+2012-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128rom.c, src/c64/c64rom.c, src/machine.c,
+	src/plus4/plus4mem.c, src/plus4/plus4rom.c, src/vic20/vic20rom.c:
+	Single mem_powerup per hard reset
+
+2012-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvmem.c: Use limits on flash if in idle. More fixes
+	to the monitor memory map.
+
+2012-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvmem.c, src/c64dtv/c64dtvmeminit.c,
+	src/c64dtv/c64dtvmeminit.h, src/c64dtv/c64dtvmemrom.c: Clean up dtv
+	memory handling. Chargen now comes from flash and not from internal
+	chargen rom. VICII changen at $9000 still comes from $1000, on TODO.
+	The monitor memory map was also quite wrong referencing the original
+	copies of kernal/chargen/basic instead of flash, no memory mapper
+	translation, no side effects on flash or side effects on peek, etc.
+
+2012-10-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/joy.cc, src/arch/beos/viceapp.cc,
+	src/drive/drive-sound.c, src/video/video-sound.c: Fixed for ppc beos.
+
+2012-10-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvmem.c: Missed a return...
+
+2012-10-17  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petdww.c: Fix a small buffer overflow (overwrote some
+	variables in a mysterious way).
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/xpet_ui.c: Could get stuck on 0
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed for ppc-beos compile.
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/msdos/video.c: More palette check ;(
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x4.c: Use copying instead of rendering
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render1x2.c: Use copy trick to speed up rendering
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/video.c: Fixed windows crash.
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/fr.po, po/hu.po, po/it.po, po/nl.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resautostart.rc, src/arch/win32/resc128.rc,
+	src/arch/win32/resc64dtv.rc, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvsid.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x2.c: Too much unroll of 24 bit render and the
+	wrong way. This is faster.
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x2.c: Better use memset
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x2.c: Faster 24 bit double size by copying
+
+2012-10-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/video.cc, src/arch/unix/macosx/cocoa/video.m: Fixed
+	for beos and osx too.
+
+2012-10-16  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2507t0f0u).
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/os2/video.c: Compile fix
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/os2/unused/video_gpi.c, src/arch/os2/video.c,
+	src/arch/unix/gp2x/video.c, src/arch/unix/x11/xaw/x11video.c: More
+	palette checks
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/msdos/video.c: Check for no palette
+
+2012-10-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uicolor.c: Move check
+
+2012-10-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/video.c, src/arch/win32/video.c: Check for no
+	palette
+
+2012-10-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Check for no palette
+
+2012-10-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/uicolor.c: Check if palette exists
+
+2012-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/respet.rc: Fixed.
+
+2012-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uivicset.c: Fixed.
+
+2012-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/catweaselmkiii.c, src/arch/amigaos/cw.h,
+	src/arch/amigaos/cw_device.c, src/arch/amigaos/cw_openpci.c,
+	src/arch/amigaos/cw_os4.c, src/arch/amigaos/mui/uic128settings.c: Some
+	amiga fixes.
+
+2012-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/win32/res.rc,
+	src/arch/win32/rescbm2common.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/uicbm2set.c, src/arch/win32/uicbm5x0set.c,
+	src/arch/win32/uipetset.c: Fixed the multiple translations of the
+	"Memory" item in the windows gui.
+
+2012-10-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/x11/xaw/x11ui.c: Fix limits.h include
+	test.
+
+2012-10-15  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/pet-resources.c, src/pet/petmem.c, src/pet/petmodel.c: Make
+	SuperPET and 8x96 models more *mutually* exclusive (not just one way).
+	Some combinations of model changes didn't quite work, especially if
+	vicerc and command line contradicted each other. While at it, reduced
+	a number of unneeded calls to mem_initialize_memory(). Discovered
+	that model selecting from the command line didn't update the menu
+	checkmark.
+
+2012-10-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/video.c, src/arch/unix/x11/xaw/x11video.c,
+	src/color.c, src/crtc/crtc-color.c, src/plus4/ted-color.c,
+	src/vdc/vdc-color.c, src/vic20/vic-color.c, src/vicii/viciicolor.c,
+	src/vicii/viciidtv-color.c, src/viciisc/vicii-color.c,
+	src/video/video-canvas.c, src/video/video-color.c,
+	src/video/video-render.c, src/video/video-render.h,
+	src/video/video-resources.c, src/video.h: Lazy color table update.
+	Seems like a useless micro optimization (it was called 34 times on
+	init, now only once), but actually it's a prerequisite to some other
+	changes.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x2.c, src/video/render2x2.h: These 256 color
+	renderers are not used, comment them out
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x2.c: No need to calculate over and over again, we
+	can just copy it!
+
+2012-10-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/archdep.c, src/platform/platform.h,
+	src/platform/platform_solaris_runtime_os.c: Added solaris runtime
+	detection.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvcpu.c: Execute dummy reads only when it's not
+	disabled
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvcpu.c: Use limits for burst as well. Silence
+	warnings by using memcpy, which in fact generates exactly the same
+	dword copy code.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c, src/c64dtv/c64dtvcpu.c, src/c64dtv/c64dtvmem.c,
+	src/c64dtv/c64dtvmeminit.c, src/c64dtv/c64dtvmeminit.h, src/maincpu.c:
+	Use limits on dtv for better performance. Only non-burst ram right
+	now. Also fix a lot of incorrect status setting when the source and
+	the destination of reg_a is different.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: Implement dummy cycles in interrupts, faster pc
+	dummy fetches.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: Typo in the big endian fetch
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/dqbb.c,
+	src/c64/cart/dqbb.h, src/c64/cart/expert.c, src/c64/cart/expert.h,
+	src/c64/cart/isepic.c, src/c64/cart/isepic.h, src/c64/cart/ramcart.c,
+	src/c64/cart/ramcart.h: Slot1 cards MMU support
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64tpi.c,
+	src/c64/cart/c64tpi.h, src/c64/cart/magicvoice.h: TPI MMU support
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/magicvoice.c: Magic voice
+	MMU. This needs more work, too complicated to figure it out now
+	completely for optimal performance.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/mmc64.c,
+	src/c64/cart/mmc64.h: Add MMC64 mmu support, pass through
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64-generic.c, src/c64/cart/c64-generic.h,
+	src/c64/cart/c64carthooks.c: Support generic cartridge mmu
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/cart/c64carthooks.c, src/c64/cart/ide64.c,
+	src/c64/cart/ide64.h, src/cartridge.h: Introduce
+	cartridge_mmu_translate. Execution performance is at least double now
+	on the one test cartridge supported now. More to follow.
+
+2012-10-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c, src/6510dtvcore.c, src/65c02core.c,
+	src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c, src/c64dtv/c64dtvmem.c, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm5x0mem.c, src/mainc64cpu.c, src/maincpu.c,
+	src/mainviccpu.c, src/mem.h, src/pet/petmem.c, src/plus4/plus4mem.c,
+	src/vic20/vic20mem.c: Add mem_mmu_translate
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/unix/macosx/Resources/English.lproj/Makefile.am,
+	src/arch/unix/x11/gnome/Makefile.am: Add missing files from distrib
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/z80.c, src/c128/z80.h, src/c128/z80mem.c,
+	src/c128/z80mem.h: Fix memory limit handling when banking. Part of the
+	4 MHz support was not active and broken.
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c, src/c64dtv/c64dtvmem.c, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm5x0mem.c, src/mainc64cpu.c, src/maincpu.c, src/maincpu.h,
+	src/mainviccpu.c, vice/src/mem.h, src/pet/petdww.c, src/pet/petmem.c,
+	src/pet/petmem.h, src/plus4/plus4mem.c, src/vic20/vic20mem.c: Use
+	maincpu_resync_limits instead of direct hacking of bank base and
+	limits
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/viciidtv-draw.c: Remove unused
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu65c02.c: Ok, now for real ;)
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu65c02.c: Fix limits
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c: Use symbol
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: Fix cartridge freeze of 2 cycle opcodes by
+	processing triggers inside the interrupt so that the bank switching
+	can happen before the interrupt address fetch. Related bug report:
+	http://sourceforge.net/tracker/index.php?func=detail&aid=3133999&group_id=223021&atid=1057617
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/pet/petmem.c: Declaration warning
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/zfile.c: Much less warnings when using the right type
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xrandr.c, src/drive/drivesync.c,
+	src/gfxoutputdrv/doodledrv.c, src/monitor/mon_registerz80.c,
+	src/pet/petsound.c, src/raster/raster.c, src/tape/tape-snapshot.c,
+	src/vic20/vic20iec.c, src/viciisc/vicii-mem.c: Less warnings
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c, src/c64dtv/c64dtvmem.c, src/cbm2/cbm2mem.c,
+	src/cbm2/cbm5x0mem.c, src/mainc64cpu.c, src/maincpu.c,
+	src/mainviccpu.c, src/mem.h, src/pet/petmem.c, src/plus4/plus4mem.c,
+	src/vic20/vic20mem.c: Remove mem_old_reg_pc. reg_pc is public anyway
+	and it's more up to date if there's not a lot of jumping around.
+
+2012-10-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-color.c: Precalc factor for less pow use
+
+2012-10-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/x11/xaw/x11ui.c: Made the limit.h
+	include for INT_MAX more generic.
+
+2012-10-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* config.guess, src/platform/platform_solaris_runtime_os.c: Fixed
+	config.guess
+
+2012-10-12  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/Makefile.am: Wrong case...
+
+2012-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/diskimage.tgt, src/arch/os2/watcom/vice.wpj:
+	Updated the os/2 watcom project files.
+
+2012-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/diskimage.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj: Updated the sdl win32 watcom
+	project files.
+
+2012-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/diskimage.tgt, src/arch/win32/watcom/vice.wpj,
+	src/gcr.h: Updated the win32 watcom project files.
+
+2012-10-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/uimon.c, src/arch/win32/utils/genwinres.c,
+	src/c64/cart/mmcreplay.c, src/c64/cart/retroreplay.c: Plugged some
+	leaks (patch by lioncash).
+
+2012-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Make mingw win32 compile again.
+
+2012-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/rtc.c, src/rtc/rtc.h: Some cosmetic fixes.
+
+2012-10-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/sco_sol/checkinstall,
+	src/arch/unix/sco_sol/make-bindist.sh,
+	src/platform/platform_solaris_runtime_os.c: Extended to handle
+	opensolaris properly.
+
+2012-10-10  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-10-10  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-10-10  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-10-10  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-10-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/ioutil.c, src/ioutil.h, src/platform/platform_cpu_type.h,
+	src/platform/platform_os2_runtime_os.c,
+	src/platform/platform_solaris_runtime_os.c,
+	src/platform/platform_x86_runtime_cpu.c: Style fixes.
+
+2012-10-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/sco_sol/make-bindist.sh,
+	src/platform/platform_solaris_runtime_os.c: More solaris fixes.
+
+2012-10-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/sco_sol/make-bindist.sh,
+	src/platform/platform_solaris_runtime_os.c: Solaris fixes.
+
+2012-10-03  Ulrich Schulz <peiselulli@t-online.de>
+
+	* src/arch/sdl/archdep_dingoo.h: dingoo native:make it compilable for
+	2.3.23
+
+2012-10-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/macosx/cocoa/menu/cbm5x0controller.h,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0controller.m,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0machinecontroller.h,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0machinecontroller.m,
+	src/arch/unix/macosx/cocoa/menu/cbm5x0ui.m: svn properties fixes.
+
+2012-10-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/archdep.c, src/arch/beos/ui.cc, src/arch/beos/ui.h,
+	src/arch/beos/vicewindow.cc, src/arch/sdl/archdep_beos.c,
+	src/platform/platform.h, src/platform/platform_beos_runtime_os.c,
+	src/platform/platform_discovery.h,
+	src/platform/platform_x86_runtime_cpu.c: Platform detection/BeOS
+	archdep improvements
+
+2012-10-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c, src/c64/vsidstubs.c, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-dxx.h,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-gcr.h,
+	src/diskimage/fsimage-p64.c, src/diskimage/fsimage-p64.h,
+	src/diskimage/fsimage.c, src/diskimage/fsimage.h,
+	src/diskimage/rawimage.c, src/diskimage/rawimage.h,
+	src/diskimage/realimage.c, src/diskimage/realimage.h, src/diskimage.h,
+	src/drive/drive-snapshot.c, src/drive/iec/fdd.c, src/drive/ieee/fdc.c,
+	src/imagecontents/diskcontents-block.c, src/monitor/mon_drive.c,
+	src/vdrive/vdrive-bam.c, src/vdrive/vdrive-command.c,
+	src/vdrive/vdrive-dir.c, src/vdrive/vdrive-iec.c,
+	src/vdrive/vdrive-rel.c, src/vdrive/vdrive.c, src/vdrive/vdrive.h: Add
+	disk_addr_t for physical disk address representation. Create and use
+	vdrive_read/write_sector for logical addressing, and make sure
+	disk_image_read/write_sector is for physical addressing only. In this
+	patch the disk_image variant is still using logical addressing, this
+	will be taken care of in another patch.
+
+2012-10-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds1202_1302.c: Fixed.
+
+2012-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, src/arch/unix/Makefile.am,
+	src/arch/unix/sco_sol/checkinstall,
+	src/arch/unix/sco_sol/convertprototype.c,
+	src/arch/unix/sco_sol/make-bindist.sh, src/platform/Makefile.am,
+	src/platform/platform_solaris_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: Changed the solaris
+	bindist script to support cross compiling, it now outputs in a
+	filesystem structure instead of a datastream package, will still
+	install with pkgadd.
+
+2012-09-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added some extra checks for solaris.
+
+2012-09-30  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c, src/pet/petmem.c, src/pet/petmem.h,
+	src/pet/petmemsnapshot.c: Small optimisation by pre-computing offset
+	of banked RAM.
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-p64.c: X64 header missing and other stuff
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c, src/drive/driverom.c,
+	src/drive/driverom.h: Move rom snapshot to driverom
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/snapshot.c, src/snapshot.h: Consts
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive.c: Resync stop clock after suspend, otherwise
+	there's a long wait after disabling/enabling a drive...
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-probe.c, src/diskimage.h: Remove half_track
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/blockdev.c, src/arch/beos/blockdev.c,
+	src/arch/os2/blockdev.c, src/arch/sdl/blockdev.c,
+	src/arch/unix/blockdev.c, src/arch/win32/blockdev.c, src/blockdev.h,
+	src/c64/vsidstubs.c, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-check.c, src/diskimage/fsimage-check.h,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-dxx.h,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-gcr.h,
+	src/diskimage/fsimage-p64.c, src/diskimage/fsimage-p64.h,
+	src/diskimage/fsimage.c, src/diskimage/fsimage.h,
+	src/diskimage/rawimage.c, src/diskimage/rawimage.h,
+	src/diskimage/realimage.c, src/diskimage/realimage.h, src/diskimage.h,
+	src/util.c, src/util.h: Tons of consts
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-dxx.h, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-gcr.h, src/diskimage/fsimage-p64.c,
+	src/diskimage/fsimage-p64.h, src/diskimage.h,
+	src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/driveimage.c,
+	src/gcr.c, src/gcr.h, src/monitor/mon_drive.c: use disk_track_t
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-iec.c: Unused variables
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-resources.c: Better not.
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-resources.c: Fix a leak
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c: Update data in the gcr cache as well
+	if exists
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c: Dead code
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-p64.c: Use util
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/vsidstubs.c, src/diskimage/diskimage.c, src/diskimage.h,
+	src/drive/driveimage.c: Generic disk_image_read_image
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-gcr.h,
+	src/diskimage/fsimage-p64.c, src/diskimage/fsimage-p64.h,
+	src/diskimage.h, src/drive/drive-snapshot.c, src/drive/driveimage.c,
+	src/gcr.c, src/gcr.h: Use as much memory for gcr track as needed, not
+	more.
+
+2012-09-30  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po, po/translations-status.txt: Updated.
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-create.c: Use define
+
+2012-09-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-create.c,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-p64.c, src/diskimage.h: Use correct gaps when
+	creating g64/p64
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-create.c: Other way
+	around of course
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-create.c,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-p64.c, src/diskimage.h: disk_image_speed_map
+	instead of drive specific
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c, src/diskimage/fsimage.c: Write track a
+	track at a time, not by sectors for dxx images
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/rotation.c: Limit rotation simulation length to no more
+	than two revolutions. Otherwise it causes stalls even a fast machine.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage.c: Create error info if necessary
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c, src/drive/drive.c: Extend images with
+	error info too
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-probe.c, src/diskimage.h, src/drive/drive.c,
+	src/drive/rotation.c: Disk image extension, not just for d64/x64.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/cbmdos.h, src/diskimage/fsimage-create.c,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-p64.c, src/gcr.c, src/gcr.h: Use enum for fdc
+	error codes
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-p64.c,
+	src/diskimage/fsimage-probe.c, src/diskimage/fsimage.c,
+	src/diskimage/fsimage.h: Fixup error info handling. It's also updated
+	now in the image.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c: Implement support for d71 images
+	formatted to two single sides in emulation mode.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive.c: Put the writeback on the right side
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/iec/glue1571.c: Split side from half_tracks. And the 1571
+	double sided mode works again.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/drive.h:
+	drive_current_track_size_set not needed.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c: Don't use gcr cache here, see vdrive.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c: Wrong fault check
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/cbmdos.h, src/diskimage/fsimage-create.c,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-p64.c, src/gcr.c, src/gcr.h: Take the gcr
+	routines over from the driveupdate branch. These can handle
+	non-aligned sectors as well. Also fix some breakage.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-dxx.h, src/drive/drive.c: Create
+	fsimage_dxx_write_half_track, and move dxx writeback there
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-probe.c: Simplify
+	loading of gcr images
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-dxx.h, src/diskimage.h,
+	src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/drive.h,
+	src/drive/driveimage.c: Create disk_image_read_dxx_image, and move gcr
+	image of dxx images there.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/os2/vac++/X1541.ICC, src/arch/os2/vac++/incl/diskimage.icc,
+	src/arch/sdl/win32-msvc/diskimage.dsp,
+	src/arch/sdl/win64-msvc/diskimage.vcproj,
+	src/arch/sdl/winmips-msvc/diskimage.mak, src/arch/win32/diskimage.dsp,
+	src/arch/win64/diskimage.vcproj, src/diskimage/Makefile.am,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-dxx.h,
+	src/diskimage/fsimage.c: Create fsimage-dxx for collecting d64, d71,
+	etc. handling which is scattered in different files right now.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c: And with less parameters of course
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c: Wrong version comparison
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c: Do not load older snapshots, those won't
+	read for other reasons anyway.
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-gcr.c: Get a good
+	default for non-existing tracks instead of fixed 6250 bytes
+
+2012-09-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-create.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-gcr.h, src/diskimage/fsimage-p64.c,
+	src/drive/drive-snapshot.c, src/drive/driveimage.c, vice/src/gcr.h,
+	src/tape/tap.c, src/util.c, src/util.h: Support G64 with any track
+	number of < GCR_MAX_TRACK. Extending a G64 works now. Only format
+	first 35 tracks of created G64 image, will extend as necessary.
+	Remove util_dword_read/util_dword_write. Replace util_dword_write
+	from tap.c. Add util_fpread/util_fwrite. Remove max_track_size from
+	snapshot and other places.
+
+2012-09-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c: Version 3 GCR snapshot.
+
+2012-09-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/vsidstubs.c, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-gcr.h,
+	src/diskimage/fsimage-p64.c, src/diskimage/fsimage-p64.h,
+	src/diskimage.h, src/drive/drive-snapshot.c, src/drive/drive.c,
+	src/drive/driveimage.c, src/gcr.h: Get rid of the speed zone stuff of
+	GCR images. Nothing is using it, it's dead code. Snapshots still waste
+	space on them for compatibility. Also g64 image creation was fixed,
+	someone forgot that not only internal images can be used...
+
+2012-09-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/diskimage.c, src/diskimage/fsimage-gcr.c,
+	src/diskimage/fsimage-gcr.h, src/diskimage/fsimage-p64.c,
+	src/diskimage/fsimage-p64.h, src/diskimage.h,
+	src/drive/drive-snapshot.c, src/drive/drive.c, src/drive/driveimage.c,
+	src/drive/rotation.c, src/gcr.h: Reduce memory usage by dynamically
+	allocating disk gcr image.
+
+2012-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Some itemize fixes.
+
+2012-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/unix/sco_sol/make-bindist.sh: Extended to cover solaris 5 as
+	well.
+
+2012-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added description.
+
+2012-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/socketimpl.h, Added check for in_addr_t.
+
+2012-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/widgets/MultiList.c,
+	src/arch/unix/x11/xaw/widgets/MultiListP.h,
+	src/arch/unix/x11/xaw/widgets/ScrList.c: Fixed for platforms without
+	XtNinternational defined.
+
+2012-09-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/uifliplist.c: Fixed.
+
+2012-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi: Updated.
+
+2012-09-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/html/plain/NEWS: Mention the other mouses added
+
+2012-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS, doc/vice.texi: Cosmetic fixes.
+
+2012-09-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS, doc/vice.texi, src/infocontrib.sed,
+	src/platform/platform_beos_runtime_os.c: Added news items for 2.4 and
+	updated the contributors list a bit.
+
+2012-09-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uimouse.c, src/arch/beos/c128ui.cc,
+	src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc, src/arch/msdos/c128ui.c,
+	src/arch/msdos/c64ui.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/os2/dialogs/menubar.h, src/arch/os2/dialogs/menubar.rc,
+	src/arch/sdl/menu_mouse.c, src/arch/unix/gui/uimouse.c,
+	src/arch/win32/uimouse.c, src/mouse.c, src/mouse.h: Changed the
+	MicroMys mouse extensions into a new mouse selection.
+
+2012-09-23  pottendo <pottendo@aon.at>
+
+	* src/arch/win32/Makefile.am: res.h, menuid.h, stringid.h: Split rule
+	to for cross compiling to make it compatible for multithreaded
+	compilation (e.g make -j 4).
+
+2012-09-23  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2012-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/uimon.c: Use dirent not dir.
+
+2012-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/gnome/uimon.c: Another solaris fix.
+
+2012-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11ui.c, src/geninfocontrib_h.sh,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h: Some solaris fixes.
+
+2012-09-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS, doc/vice.texi, src/infocontrib.sed: Started on
+	adding news items for vice 2.4
+
+2012-09-21  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po, po/translations-status.txt: Updated.
+
 2012-09-21  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
