@@ -500,7 +500,7 @@ char *archdep_tmpnam(void)
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
  {
-#if defined HAVE_MKSTEMP
+#if defined(HAVE_MKSTEMP)
     char *tmp;
     const char template[] = "/vice.XXXXXX";
     int fildes;
@@ -733,7 +733,7 @@ char *archdep_get_runtime_os(void)
 char *archdep_get_runtime_cpu(void)
 {
 /* MacOSX */
-#ifdefined MACOSX_COCOA
+#if defined(MACOSX_COCOA)
 #define RUNTIME_CPU_HANDLED
     return platform_get_macosx_runtime_cpu();
 #endif

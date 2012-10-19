@@ -684,7 +684,7 @@ char *archdep_get_runtime_os(void)
 char *archdep_get_runtime_cpu(void)
 {
 /* MacOSX */
-#ifdefined MACOSX_COCOA
+#if defined(MACOSX_COCOA)
 #define RUNTIME_CPU_HANDLED
     return platform_get_macosx_runtime_cpu();
 #endif
