@@ -118,8 +118,8 @@ left from previous installs.
 ** PET changes
 --------------
 
-- Added proper SuperPET support, including 6809(/6309) CPU emulation and
-  6702 (dongle) emulation.
+- Added proper SuperPET support, including 6809(/6309) CPU emulation,
+  6702 (dongle) emulation, and the TPUG MMU board (for Super-OS/9).
 
 ** CBM2 changes
 ---------------
