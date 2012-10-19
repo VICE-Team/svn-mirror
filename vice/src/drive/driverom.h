@@ -48,7 +48,7 @@ struct snapshot_s;
 #define DRIVE_ROM4040_SIZE            0x3000
 
 extern void driverom_init(void);
-extern void driverom_initialize_traps(struct drive_s *drive, int save);
+extern void driverom_initialize_traps(struct drive_s *drive);
 extern int driverom_load_images(void);
 extern int driverom_snapshot_write(struct snapshot_s *s, const struct drive_s *drive);
 extern int driverom_snapshot_read(struct snapshot_s *s, struct drive_s *drive);

@@ -131,8 +131,6 @@ typedef struct drive_s {
     /* (only needed as long as we abuse the odd devices for drive 1:) */
     struct drive_s *drive0;
     struct drive_s *drive1;
-    /* Original ROM code is saved here.  */
-    BYTE rom_idle_trap[4];
     int trap, trapcont;
 
     /* Byte ready line.  */
@@ -266,6 +264,9 @@ typedef struct drive_s {
 
     /* Current ROM image.  */
     BYTE rom[DRIVE_ROM_SIZE];
+
+    /* Current trap ROM image.  */
+    BYTE trap_rom[DRIVE_ROM_SIZE];
 
 } drive_t;
 

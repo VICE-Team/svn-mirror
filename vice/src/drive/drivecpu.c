@@ -156,7 +156,7 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
                 cpu->d_bank_start = 2; /* 1551! */           \
                 cpu->d_bank_limit = 0x07fd;                  \
             } else if (reg_pc >= drv->drive->rom_start) {    \
-                cpu->d_bank_base = drv->drive->rom - drv->drive->rom_start; \
+                cpu->d_bank_base = drv->drive->trap_rom - drv->drive->rom_start; \
                 cpu->d_bank_start = drv->drive->rom_start;   \
                 cpu->d_bank_limit = 0xfffd;                  \
             } else {                                         \
