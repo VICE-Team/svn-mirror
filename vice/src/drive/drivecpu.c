@@ -151,7 +151,7 @@ void drivecpu_setup_context(struct drive_context_s *drv, int i)
                 cpu->d_bank_base = NULL;                     \
                 cpu->d_bank_start = 0;                       \
                 cpu->d_bank_limit = 0;                       \
-            } else if (reg_pc < 0x800) {                     \
+            } else if (reg_pc > 1 && reg_pc < 0x800) {                     \
                 cpu->d_bank_base = drv->cpud->drive_ram;     \
                 cpu->d_bank_start = 2; /* 1551! */           \
                 cpu->d_bank_limit = 0x07fd;                  \
