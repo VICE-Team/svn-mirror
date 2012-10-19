@@ -74,6 +74,7 @@ AM_MAKEINFOHTMLFLAGS =
 AM_MAKEINFOFLAGS = --no-split
 
 $(builddir)/vice.txt:		$(srcdir)/vice.texi
+	touch vicetmp.txt
 	LANG=C $(MAKEINFO) -o vicetmp.txt --no-headers $(srcdir)/vice.texi
 	$(srcdir)/fixdox.sh txt <vicetmp.txt | sed 's/ \+$$//' >$(builddir)/vice.txt
 	rm -f vicetmp.txt
@@ -144,6 +145,7 @@ IPF_DEPS=
 endif
 
 $(builddir)/vice.info:	$(srcdir)/vice.texi
+	touch $(builddir)/vice.info
 	$(MAKEINFO) -o $(builddir)/vice.info --no-split $(srcdir)/vice.texi
 
 INFO_DEPS = $(builddir)/vice.txt $(builddir)/vice.info $(PDF_DEPS) $(GUIDE_DEPS) $(HLP_DEPS) $(CHM_DEPS) $(IPF_DEPS)
