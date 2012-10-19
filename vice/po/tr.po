@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-18 17:52-0700\n"
-"PO-Revision-Date: 2012-09-04 17:56+0300\n"
+"PO-Revision-Date: 2012-10-19 11:36+0300\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
 "Language: \n"
@@ -163,9 +163,8 @@ msgstr ""
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:323 src/arch/win32/resc128.rc.po.c:732
-#, fuzzy
 msgid "Internal Function ROM type"
-msgstr "Uluslararasý Function ROM"
+msgstr "Dahili Function ROM tipi"
 
 #: src/arch/unix/gui/c128ui.c:325 src/arch/amigaos/intl_text.c.po.c:10660
 msgid "Internal Function ROM file"
@@ -6396,9 +6395,8 @@ msgstr "DigiMAX ayarlarý"
 #: src/arch/win32/resvic20.rc.po.c:565 src/arch/amigaos/intl_text.c.po.c:3771
 #: src/arch/amigaos/intl_text.c.po.c:3785
 #: src/arch/amigaos/intl_text.c.po.c:10842
-#, fuzzy
 msgid "DS12C887 RTC settings"
-msgstr "CRTC ayarlarý"
+msgstr "DS12C887 RTC ayarlarý"
 
 #: src/arch/win32/res.rc.po.c:1535 src/arch/win32/reslightpen.rc.po.c:22
 msgid "Lightpen settings"
@@ -6448,9 +6446,8 @@ msgid "Enable the SFX Sound Sampler cartridge"
 msgstr "SFX Sound Sampler kartuþunu aktif et"
 
 #: src/arch/win32/res.rc.po.c:1545
-#, fuzzy
 msgid "Enable the Userport RTC expansion"
-msgstr "RamCart geniþlemesini aktif et"
+msgstr "Userport RTC geniþlemesini aktif et"
 
 #: src/arch/win32/res.rc.po.c:1546 src/arch/amigaos/intl_text.c.po.c:4093
 msgid "Save current settings to specified file"
@@ -7047,14 +7044,13 @@ msgid "Save DQBB image when changed"
 msgstr "DQBB imajý deðiþtiðinde kaydet"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:23
-#, fuzzy
 msgid "Enable the DS12C887 RTC expansion"
-msgstr "SID kartuþunu aktif et"
+msgstr "DS12C887 RTC geniþlemesini aktif et"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:10828
 msgid "DS12C887 RTC base"
-msgstr ""
+msgstr "DS12C887 RTC tabaný"
 
 #: src/arch/win32/reseasyflash.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:11500
@@ -8575,7 +8571,7 @@ msgstr "DigiMAX'ý Aktif Et"
 
 #: src/arch/amigaos/intl_text.c.po.c:10814
 msgid "DS12C887 RTC Enabled"
-msgstr ""
+msgstr "DS12C887 RTC Aktif"
 
 #: src/arch/amigaos/intl_text.c.po.c:10856
 msgid "SFX Sound Expander Enabled"
@@ -8618,13 +8614,12 @@ msgid "Atari ST mouse"
 msgstr "Atari ST mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:11304
-#, fuzzy
 msgid "Smart mouse"
-msgstr "Amiga mouse"
+msgstr "Smart mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:11318
 msgid "MicroMys mouse"
-msgstr ""
+msgstr "MicroMys mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:11514
 msgid "Save to EasyFlash CRT file on detach"
@@ -9874,7 +9869,7 @@ msgstr "Harici Function ROM imajýnýn ismini belirt"
 
 #: src/translate_text.c.po.c:3964
 msgid "Type of internal Function ROM: (0: None, 1: ROM, 2: RAM, 3: RTC)"
-msgstr ""
+msgstr "Dahili Function ROM Tipi: (0: Yok, 1: ROM, 2: RAM, 3: RTC)"
 
 #: src/translate_text.c.po.c:3981
 msgid "Disable the internal Function ROM"
@@ -11579,13 +11574,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Mouse'un baðlý olduðu joystick portunu seçin"
 
 #: src/translate_text.c.po.c:11833
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
 msgstr ""
-"Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 "
-"= ST)"
+"Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
+"CX-22, 5 = ST, 6 = Smart)"
 
 #: src/translate_text.c.po.c:11850
 msgid "Enable PS/2 mouse on userport"
@@ -11876,19 +11870,16 @@ msgid "Base address of the DigiMAX cartridge"
 msgstr "DigiMAX kartuþunun taban adresi"
 
 #: src/translate_text.c.po.c:13348
-#, fuzzy
 msgid "Enable the DS12C887 RTC cartridge"
-msgstr "SID kartuþunu aktif et"
+msgstr "DS12C887 RTC kartuþunu aktif et"
 
 #: src/translate_text.c.po.c:13365
-#, fuzzy
 msgid "Disable the DS12C887 RTC cartridge"
-msgstr "SID kartuþunu pasifleþtir"
+msgstr "DS12C887 RTC kartuþunu pasifleþtir"
 
 #: src/translate_text.c.po.c:13382
-#, fuzzy
 msgid "Base address of the DS12C887 RTC cartridge"
-msgstr "DigiMAX kartuþunun taban adresi"
+msgstr "DS12C887 RTC kartuþunun taban adresi"
 
 #~ msgid "Enable the internal Function ROM"
 #~ msgstr "Dahili Function ROM'u aktif et"
