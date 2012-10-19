@@ -946,7 +946,7 @@ void rotation_rotate_disk(drive_t *dptr)
 {
     rotation_t *rptr;
     CLOCK delta;
-    int tdelta, bit;
+    int tdelta;
     int bits_moved = 0;
 
     if ((dptr->byte_ready_active & 4) == 0) {
@@ -954,14 +954,15 @@ void rotation_rotate_disk(drive_t *dptr)
         return;
     }
 
-    /* capture 1541 drive type; should be updated for all other types using the same method */
-    if (dptr->P64_image_loaded) {
-        rotation_1541_p64_cycle(dptr);
-        return;
-    } else if (dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II) {
-        rotation_1541_gcr_cycle(dptr);
+    if (dptr->complicated_image_loaded) { /* stuff that needs complex and slow emulation */
+        if (dptr->P64_image_loaded) {
+            rotation_1541_p64_cycle(dptr);
+        } else {
+            rotation_1541_gcr_cycle(dptr);
+        }
         return;
     }
+    /* very simple and fast emulation for perfect images like those comming from dxx files */
 
     dptr->req_ref_cycles = 0;
 
@@ -983,67 +984,9 @@ void rotation_rotate_disk(drive_t *dptr)
 
     if (dptr->read_write_mode) {
         while (bits_moved -- != 0) {
-            /* GCR=0 support.
-             *
-             * In the absence of 1-bits (magnetic flux changes), the drive
-             * will use a timer counter to count how many 0s it has read. Every
-             * 4 read bits, it will detect a 1-bit, because it doesn't
-             * distinguish between reset occuring from magnetic flux or regular
-             * wraparound.
-             *
-             * Random magnetic flux events can also occur after GCR data has been
-             * quiet for a long time, for at least 4 bits. So the first value
-             * read will always be 1. Afterwards, the 0-bit sequence lengths
-             * vary randomly, but can never exceed 3.
-             *
-             * Each time a random event happens, it tends to advance the bit counter
-             * by half a clock, because the random event can occur at any time
-             * and thus the expectation value is that it occurs at 50 % point
-             * within the bitcells.
-             *
-             * Additionally, the underlying disk rotation has no way to keep in sync
-             * with the electronics, so the bitstream after a GCR=0 may or may not
-             * be shifted with respect to the bit counter by the time drive
-             * encounters it. This situation will persist until the next sync
-             * sequence. There is no specific emulation for variable disk rotation,
-             * this case is thought to be covered by the random event handling.
-             *
-             * Here's some genuine 1541 patterns for reference:
-             *
-             * 53 12 46 22 24 AA AA AA AA AA AA AA A8 AA AA AA
-             * 53 11 11 11 14 AA AA AA AA AA AA AA A8 AA AA AA
-             * 53 12 46 22 24 AA AA AA AA AA AA AA A8 AA AA AA
-             * 53 12 22 24 45 2A AA AA AA AA AA AA AA 2A AA AA
-             * 53 11 52 22 24 AA AA AA AA AA AA AA A8 AA AA AA
-             */
-
-            bit = read_next_bit(dptr);
             rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe);
 
-            if (bit) {
-                rptr->zero_count = 0;
-                rptr->last_read_data |= 1;
-            }
-
-            /* Simulate random magnetic flux events in our lame-ass emulation. */
-            if (++ rptr->zero_count > 8 && (rptr->last_read_data & 0x3f) == 0x8 && RANDOM_nextInt(rptr) > (1 << 30)) {
-                rptr->last_read_data |= 1;
-                /*
-                 * Simulate loss of sync against the underlying platter.
-                 * Whenever 1-bits occur, there's a chance that they occured
-                 * due to a random magnetic flux event, and can thus occur
-                 * at any phase of the bit-cell clock.
-                 *
-                 * It follows, therefore, that such events have a chance to
-                 * advance the bit_counter by about 0,5 clocks each time they
-                 * occur. Hence > 0 here, which filters out 50 % of events.
-                 */
-                if (rptr->bit_counter < 7 && RANDOM_nextInt(rptr) > 0) {
-                    rptr->bit_counter ++;
-                    rptr->last_read_data = (rptr->last_read_data << 1) & 0x3fe;
-                }
-            } else if ((rptr->last_read_data & 0xf) == 0) {
-                /* Simulate clock reset */
+            if (read_next_bit(dptr)) {
                 rptr->last_read_data |= 1;
             }
             rptr->last_write_data <<= 1;
@@ -1065,6 +1008,9 @@ void rotation_rotate_disk(drive_t *dptr)
                     }
                 }
             }
+        }
+        if (!dptr->GCR_read) {    /* can only happen if on a half or unformatted track */
+            dptr->GCR_read = 0x11;/* should be good enough, there's no data after all */ 
         }
     } else {
         /* When writing, the first byte after transition is going to echo the
@@ -1088,6 +1034,8 @@ void rotation_rotate_disk(drive_t *dptr)
                 }
             }
         }
+        /* TODO: only if we introduced more than two 0 bits in a row */
+        dptr->complicated_image_loaded = 1;
     }
 }
 

@@ -208,6 +208,9 @@ typedef struct drive_s {
     int old_half_track;
     int old_side;
 
+    /* Complicated image, with complex emulation requirements */
+    int complicated_image_loaded;
+
     /* Is a GCR image loaded?  */
     int GCR_image_loaded;
 

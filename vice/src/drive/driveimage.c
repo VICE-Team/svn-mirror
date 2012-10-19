@@ -158,6 +158,8 @@ int drive_image_attach(disk_image_t *image, unsigned int unit)
     } else {
         drive->GCR_image_loaded = 1;
     }
+    drive->complicated_image_loaded = (drive->image->type == DISK_IMAGE_TYPE_P64
+            || drive->image->type == DISK_IMAGE_TYPE_G64);
     drive_set_half_track(drive->current_half_track, drive->side, drive);
     return 0;
 }
