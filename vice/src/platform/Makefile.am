@@ -25,5 +25,6 @@ libplatform_a_SOURCES = \
 	platform_os2_runtime_os.c \
 	platform_qnx6_version.h \
 	platform_solaris_runtime_os.c \
+	platform_syllable_runtime_os.c \
 	platform_windows_runtime_os.c \
 	platform_x86_runtime_cpu.c

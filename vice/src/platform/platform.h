@@ -62,4 +62,8 @@ extern char *platform_get_beos_runtime_os(void);
 extern char *platform_get_beosppc_runtime_cpu(void);
 
 extern char *platform_get_solaris_runtime_os(void);
+
+extern char *platform_get_syllable_runtime_os(void);
+extern char *platform_get_syllable_runtime_cpu(void);
+
 #endif

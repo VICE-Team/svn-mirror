@@ -650,28 +650,58 @@ void archdep_shutdown(void)
 
 char *archdep_get_runtime_os(void)
 {
+
+/* Windows on cygwin */
 #ifdef __CYGWIN32__
+#define RUNTIME_OS_HANDLED
     return platform_get_windows_runtime_os();
 #endif
+
+/* MacOSX */
 #if defined(MACOSX_COCOA)
+#define RUNTIME_OS_HANDLED
     return platform_get_macosx_runtime_os();
 #endif
+
+/* Solaris */
 #if (defined(sun) || defined(__sun)) && (defined(__SVR4) || defined(__svr4__))
+#define RUNTIME_OS_HANDLED
     return platform_get_solaris_runtime_os();
 #endif
-    /* TODO: add runtime os detection code */
+
+/* Syllable */
+#ifdef __SYLLABLE__
+#define RUNTIME_OS_HANDLED
+    return platform_get_syllable_runtime_os();
+#endif
+
+/* TODO: add runtime os detection code for other *nix os'es */
+#ifndef RUNTIME_OS_HANDLED
     return "*nix";
+#endif
 }
 
 char *archdep_get_runtime_cpu(void)
 {
-#if defined(MACOSX_COCOA)
+/* MacOSX */
+#ifdefined MACOSX_COCOA
+#define RUNTIME_CPU_HANDLED
     return platform_get_macosx_runtime_cpu();
-#else
-#if (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
+#endif
+
+#ifdef __SYLLABLE__
+#define RUNTIME_CPU_HANDLED
+    return platform_get_syllable_runtime_cpu();
+#endif
+
+/* x86/amd64/x86_64 */
+#if !defined(RUNTIME_CPU_HANDLED) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__))
+#define RUNTIME_CPU_HANDLED
     return platform_get_x86_runtime_cpu();
 #endif
-#endif
-    /* TODO: add runtime cpu detection code */
+
+/* TODO: add runtime cpu detection code for other cpu's */
+#ifndef RUNTIME_CPU_HANDLED
     return "Unknown CPU";
+#endif
 }

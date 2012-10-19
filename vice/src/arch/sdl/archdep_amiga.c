@@ -485,70 +485,16 @@ void archdep_set_current_drive(const char *drive)
     }
 }
 
-#ifdef AMIGA_AROS
-static archdep_get_aros_runtime_os(void)
-{
-    /* TODO: Add AROS native/hosted detection */
-    return "AROS";
-}
-
-static archdep_get_aros_runtime_cpu(void)
-{
-#if defined(AMIGA_AROS) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__)) && !defined(__amd64__) && !defined(__x86_64__)
-    return platform_get_x86_runtime_cpu();
-#else
-    /* TODO: Add AROS cpu detection (amd64/arm/ppc) */
-    return "Unknown CPU";
-#endif
-}
-#endif
-
 #ifdef AMIGA_MORPHOS
-static archdep_get_mos_runtime_os(void)
+static char *archdep_get_mos_runtime_os(void)
 {
     /* TODO: Add MorphOS version detection */
     return "MorphOS";
 }
 
-
-static archdep_get_mos_runtime_cpu(void)
+static char *archdep_get_mos_runtime_cpu(void)
 {
     /* TODO: Add PPC type detection */
-    return "Unknown PPC CPU";
-}
-#endif
-
-#ifdef AMIGA_OS4
-static archdep_get_os4_runtime_os(void)
-{
-    /* TODO: Add AmigaOS4 version detection */
-    return "AmigaOS4.x";
-}
-
-+static archdep_get_os4_runtime_cpu(void)
-{
-    UWORD attnflags = SysBase->AttnFlags;
-
-    AFF_750     = (1<<10),
-    AFF_7400    = (1<<11),
-    AFF_ALTIVEC = (1<<12),
-    AFF_4XX     = (1<<13),
-
-    if (attnflags & AFF_603) {
-        return "PPC603";
-    }
-    if (attnflags & AFF_604) {
-        return "PPC604";
-    }
-    if (attnflags & AFF_750) {
-        return "PPC750";
-    }
-    if (attnflags & AFF_ALTIVEC) {
-        return "PPC-Altivec";
-    }
-    if (attnflags & AFF_4XX) {
-        return "PPC4xx";
-    }
     return "Unknown PPC CPU";
 }
 #endif
@@ -560,7 +506,7 @@ char *archdep_get_runtime_os(void)
 #endif
 
 #ifdef AMIGA_OS4
-    return archdep_get_os4_runtime_os();
+    return platform_get_amigaos4_runtime_os();
 #endif
 
 #ifdef AMIGA_MORPHOS
@@ -568,18 +514,18 @@ char *archdep_get_runtime_os(void)
 #endif
 
 #ifdef AMIGA_AROS
-    return archdep_get_aros_runtime_os();
+    return platform_get_aros_runtime_os();
 #endif
 }
 
 char *archdep_get_runtime_cpu(void)
 {
 #ifdef AMIGA_M68K
-    return platform_get_os3_runtime_cpu();
+    return platform_get_amigaos3_runtime_cpu();
 #endif
 
 #ifdef AMIGA_OS4
-    return archdep_get_os4_runtime_cpu();
+    return platform_get_amigaos4_runtime_cpu();
 #endif
 
 #ifdef AMIGA_MORPHOS
@@ -587,6 +533,6 @@ char *archdep_get_runtime_cpu(void)
 #endif
 
 #ifdef AMIGA_AROS
-    return archdep_get_aros_runtime_cpu();
+    return platform_get_aros_runtime_cpu();
 #endif
 }

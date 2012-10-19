@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#if defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__)
+#if !defined(__SYLLABLE__) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__))
 
 #include "types.h"
 #include <string.h>

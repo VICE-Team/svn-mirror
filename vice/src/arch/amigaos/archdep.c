@@ -393,18 +393,6 @@ int archdep_rtc_get_centisecond(void)
 }
 #endif
 
-#ifdef AMIGA_AROS
-static char *archdep_get_aros_runtime_os(void)
-{
-    return platform_get_aros_runtime_os();
-}
-
-static char *archdep_get_aros_runtime_cpu(void)
-{
-    return platform_get_aros_runtime_cpu();
-}
-#endif
-
 #ifdef AMIGA_MORPHOS
 static char *archdep_get_mos_runtime_os(void)
 {
@@ -435,7 +423,7 @@ char *archdep_get_runtime_os(void)
 #endif
 
 #ifdef AMIGA_AROS
-    return archdep_get_aros_runtime_os();
+    return platform_get_aros_runtime_os();
 #endif
 }
 
@@ -454,6 +442,6 @@ char *archdep_get_runtime_cpu(void)
 #endif
 
 #ifdef AMIGA_AROS
-    return archdep_get_aros_runtime_cpu();
+    return platform_get_aros_runtime_cpu();
 #endif
 }
