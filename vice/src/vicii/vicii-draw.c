@@ -54,8 +54,8 @@
 static DWORD hr_table[16 * 16 * 16];
 
 /* mc flag(1) | idx(2) | byte(8) -> index into double-pixel table.  */
-static BYTE mc_table[2 * 4 * 256];
-static BYTE mcmsktable[512];
+static BYTE mc_table[3 * 256];
+static BYTE mcmsktable[256];
 
 
 /* These functions draw the background from `start_pixel' to `end_pixel'.  */
@@ -229,10 +229,10 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
 
     for (i = xs; i <= xe; i++) {
         DWORD *ptr = table_ptr + (vicii.cbuf[i] << 8);
-        int d = (*(msk_ptr + i) = *(char_ptr + vicii.vbuf[i] * 8));
+        int d = msk_ptr[i] = char_ptr[vicii.vbuf[i] * 8];
 
-        *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
-        *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        *((DWORD *)p + i * 2) = ptr[d >> 4];
+        *((DWORD *)p + i * 2 + 1) = ptr[d & 0xf];
     }
 }
 
@@ -251,10 +251,10 @@ inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
 
     for (i = xs; i <= xe; i++) {
         DWORD *ptr = table_ptr + (color_data[i] << 8);
-        int d = (*(msk_ptr + i) = foreground_data[i]);
+        int d = msk_ptr[i] = foreground_data[i];
 
-        *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
-        *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        *((DWORD *)p + i * 2) = ptr[d >> 4];
+        *((DWORD *)p + i * 2 + 1) = ptr[d & 0xf];
     }
 }
 
@@ -316,7 +316,7 @@ static void draw_std_text_foreground(unsigned int start_char,
                 << vicii.raster.xsmooth_shift_left;
         }
 
-        *(msk_ptr + i) = b;
+        msk_ptr[i] = b;
         DRAW_STD_TEXT_BYTE(p, b, f);
     }
 }
@@ -368,9 +368,9 @@ inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
         else
             bmval = bmptr_low[j];
 
-        d = *(msk_ptr + i) = bmval;
-        *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
-        *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        d = msk_ptr[i] = bmval;
+        *((DWORD *)p + i * 2) = ptr[d >> 4];
+        *((DWORD *)p + i * 2 + 1) = ptr[d & 0xf];
     }
 }
 
@@ -389,9 +389,9 @@ inline static void _draw_hires_bitmap_cached(BYTE *p, unsigned int xs,
         DWORD *ptr = hr_table + (background_data[i] << 4);
         int d;
 
-        d = *(msk_ptr + i) = foreground_data[i];
-        *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
-        *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        d = msk_ptr[i] = foreground_data[i];
+        *((DWORD *)p + i * 2) = ptr[d >> 4];
+        *((DWORD *)p + i * 2 + 1) = ptr[d & 0xf];
     }
 }
 
@@ -439,10 +439,10 @@ inline static void _draw_hires_bitmap_foreground(BYTE *p, unsigned int xs,
             bmval = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
         } 
 
-        d = *(msk_ptr + i) = bmval;
+        d = msk_ptr[i] = bmval;
 
-        *((DWORD *)p + i * 2) = *(ptr + (d >> 4));
-        *((DWORD *)p + i * 2 + 1) = *(ptr + (d & 0xf));
+        *((DWORD *)p + i * 2) = ptr[d >> 4];
+        *((DWORD *)p + i * 2 + 1) = ptr[d & 0xf];
     }
 }
 
@@ -491,35 +491,42 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
 inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe,
                                  BYTE *gfx_msk_ptr)
 {
-    BYTE c[12];
+    BYTE c[8];
+    DWORD *table_ptr;
     BYTE *char_ptr, *msk_ptr;
     WORD *ptmp;
     unsigned int i;
 
+    table_ptr = hr_table + (vicii.raster.background_color << 4);
     char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
     c[1] = c[0] = vicii.raster.background_color;
     c[3] = c[2] = vicii.ext_background_color[0];
     c[5] = c[4] = vicii.ext_background_color[1];
-    c[11] = c[8] = vicii.raster.background_color;
 
     ptmp = (WORD *)(p + xs * 8);
 
-    for (i = xs; i <= xe; i++) {
+    for (i = xs; i <= xe; i++) if (vicii.cbuf[i] & 0x8) {
         unsigned int d;
 
-        d = (*(char_ptr + vicii.vbuf[i] * 8))
-            | ((vicii.cbuf[i] & 0x8) << 5);
+        c[7] = c[6] = vicii.cbuf[i] & 0x7;
 
-        *(msk_ptr + i) = mcmsktable[d];
+        d = char_ptr[vicii.vbuf[i] * 8];
 
-        c[10] = c[9] = c[7] = c[6] = vicii.cbuf[i] & 0x7;
+        msk_ptr[i] = mcmsktable[d];
 
         ptmp[0] = ((WORD *)c)[mc_table[d]];
-        ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
-        ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
-        ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
+        ptmp[1] = ((WORD *)c)[mc_table[0x100 + d]];
+        ptmp[2] = ((WORD *)c)[mc_table[0x200 + d]];
+        ptmp[3] = ((WORD *)c)[d & 3];
+        ptmp += 4;
+    } else {
+        DWORD *ptr = table_ptr + (vicii.cbuf[i] << 8);
+        int d = msk_ptr[i] = char_ptr[vicii.vbuf[i] * 8];
+
+        *((DWORD *)ptmp) = ptr[d >> 4];
+        *((DWORD *)(ptmp + 2)) = ptr[d & 0xf];
         ptmp += 4;
     }
 }
@@ -527,35 +534,43 @@ inline static void _draw_mc_text(BYTE *p, unsigned int xs, unsigned int xe,
 inline static void _draw_mc_text_cached(BYTE *p, unsigned int xs,
                                         unsigned int xe, raster_cache_t *cache)
 {
-    BYTE c[12];
+    BYTE c[8];
+    DWORD *table_ptr;
     BYTE *foreground_data, *color_data_3, *msk_ptr;
     WORD *ptmp;
     unsigned int i;
 
     foreground_data = cache->foreground_data;
     color_data_3 = cache->color_data_3;
+    table_ptr = hr_table + (cache->background_data[0] << 4);
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
     c[1] = c[0] = cache->background_data[0];
     c[3] = c[2] = cache->color_data_1[0];
     c[5] = c[4] = cache->color_data_1[1];
-    c[11] = c[8] = cache->background_data[0];
 
     ptmp = (WORD *)(p + xs * 8);
 
-    for (i = xs; i <= xe; i++) {
+    for (i = xs; i <= xe; i++) if (color_data_3[i] & 0x8) {
         unsigned int d;
 
-        d = foreground_data[i] | ((color_data_3[i] & 0x8) << 5);
+        c[7] = c[6] = color_data_3[i] & 0x7;
 
-        *(msk_ptr + i) = mcmsktable[d];
+        d = foreground_data[i];
 
-        c[10] = c[9] = c[7] = c[6] = color_data_3[i] & 0x7;
+        msk_ptr[i] = mcmsktable[d];
 
         ptmp[0] = ((WORD *)c)[mc_table[d]];
-        ptmp[1] = ((WORD *)c)[mc_table[0x200 + d]];
-        ptmp[2] = ((WORD *)c)[mc_table[0x400 + d]];
-        ptmp[3] = ((WORD *)c)[mc_table[0x600 + d]];
+        ptmp[1] = ((WORD *)c)[mc_table[0x100 + d]];
+        ptmp[2] = ((WORD *)c)[mc_table[0x200 + d]];
+        ptmp[3] = ((WORD *)c)[d & 3];
+        ptmp += 4;
+    } else {
+        DWORD *ptr = table_ptr + (color_data_3[i] << 8);
+        int d = msk_ptr[i] = foreground_data[i];
+
+        *((DWORD *)ptmp) = ptr[d >> 4];
+        *((DWORD *)(ptmp + 2)) = ptr[d & 0xf];
         ptmp += 4;
     }
 }
@@ -634,7 +649,7 @@ static void draw_mc_text_foreground(unsigned int start_char,
             else
                 b = vicii.bitmap_low_ptr[j];
         } else {
-            b = *(char_ptr + vicii.vbuf[i - vicii.buf_offset] * 8);
+            b = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
         }
 
         if (c & 0x8) {
@@ -643,15 +658,15 @@ static void draw_mc_text_foreground(unsigned int start_char,
 
             c3 = c & 0x7;
             DRAW_MC_BYTE(p, b, c1, c2, c3);
-            *(msk_ptr + i) = mcmsktable[0x100 + b];
+            msk_ptr[i] = mcmsktable[b];
 
             if (vicii.raster.xsmooth_shift_left > 0) {
                 int j;
                 
                 for (j = 0; j < vicii.raster.xsmooth_shift_left; j++)
-                    *(p + 7 - j) = orig_background;
+                    p[7 - j] = orig_background;
 
-                *(msk_ptr + i) = (BYTE)((mcmsktable[0x100 + b]
+                msk_ptr[i] = (BYTE)((mcmsktable[b]
                                  >> vicii.raster.xsmooth_shift_left)
                                  << vicii.raster.xsmooth_shift_left);
             }
@@ -666,7 +681,7 @@ static void draw_mc_text_foreground(unsigned int start_char,
 
             c3 = c;
             DRAW_STD_TEXT_BYTE(p, b, c3);
-            *(msk_ptr + i) = b;
+            msk_ptr[i] = b;
         }
     }
 }
@@ -733,15 +748,15 @@ inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
         else
             d = bmptr_low[j];
 
-        *(msk_ptr + i) = mcmsktable[d | 0x100];
+        msk_ptr[i] = mcmsktable[d];
 
         c[1] = vicii.vbuf[i] >> 4;
         c[2] = vicii.vbuf[i] & 0xf;
         c[3] = colptr[i];
 
-        ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
-        ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
-        ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
+        ptmp[1] = ptmp[0] = c[mc_table[d]];
+        ptmp[3] = ptmp[2] = c[mc_table[0x100 + d]];
+        ptmp[5] = ptmp[4] = c[mc_table[0x200 + d]];
         ptmp[7] = ptmp[6] = c[d & 3];
         ptmp += 8;
     }
@@ -771,15 +786,15 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, unsigned int xs,
 
         d = foreground_data[i];
 
-        *(msk_ptr + i) = mcmsktable[d | 0x100];
+        msk_ptr[i] = mcmsktable[d];
 
         c[1] = color_data_1[i];
         c[2] = color_data_2[i];
         c[3] = color_data_3[i];
 
-        ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
-        ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
-        ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
+        ptmp[1] = ptmp[0] = c[mc_table[d]];
+        ptmp[3] = ptmp[2] = c[mc_table[0x100 + d]];
+        ptmp[5] = ptmp[4] = c[mc_table[0x200 + d]];
         ptmp[7] = ptmp[6] = c[d & 3];
         ptmp += 8;
     }
@@ -834,16 +849,16 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
             b = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
         }
 
-        *(msk_ptr + i) = mcmsktable[0x100 + b];
+        msk_ptr[i] = mcmsktable[b];
         DRAW_MC_BYTE(p, b, c1, c2, c3);
 
         if (vicii.raster.xsmooth_shift_left > 0) {
             int j;
 
             for (j = 0; j < vicii.raster.xsmooth_shift_left; j++)
-                *(p + 7 - j) = orig_background;
+                p[7 - j] = orig_background;
 
-            *(msk_ptr + i) = (BYTE)((mcmsktable[0x100 + b]
+            msk_ptr[i] = (BYTE)((mcmsktable[b]
                              >> vicii.raster.xsmooth_shift_left)
                              << vicii.raster.xsmooth_shift_left);
         }
@@ -905,16 +920,16 @@ inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
 
         ptr = hr_table + (vicii.cbuf[i] << 8);
         bg_idx = vicii.vbuf[i] >> 6;
-        d = *(char_ptr + (vicii.vbuf[i] & 0x3f) * 8);
+        d = char_ptr[(vicii.vbuf[i] & 0x3f) * 8];
 
         if (bg_idx == 0)
             ptr += vicii.raster.background_color << 4;
         else
             ptr += vicii.ext_background_color[bg_idx - 1] << 4;
 
-        *(msk_ptr + i) = d;
-        *((DWORD *)p + 2 * i) = *(ptr + (d >> 4));
-        *((DWORD *)p + 2 * i + 1) = *(ptr + (d & 0xf));
+        msk_ptr[i] = d;
+        *((DWORD *)p + 2 * i) = ptr[d >> 4];
+        *((DWORD *)p + 2 * i + 1) = ptr[d & 0xf];
     }
 }
 
@@ -941,9 +956,9 @@ inline static void _draw_ext_text_cached(BYTE *p, unsigned int xs,
 
         ptr += color_data_2[color_data_3[i]] << 4;
 
-        *(msk_ptr + i) = d;
-        *((DWORD *)p + 2 * i) = *(ptr + (d >> 4));
-        *((DWORD *)p + 2 * i + 1) = *(ptr + (d & 0xf));
+        msk_ptr[i] = d;
+        *((DWORD *)p + 2 * i) = ptr[d >> 4];
+        *((DWORD *)p + 2 * i + 1) = ptr[d & 0xf];
     }
 }
 
@@ -997,7 +1012,7 @@ static void draw_ext_text_foreground(unsigned int start_char,
                 vicii.ext_background_color[bg_idx - 1];
         }
 
-        *(msk_ptr + i) = b;
+        msk_ptr[i] = b;
         DRAW_STD_TEXT_BYTE(p, b, f);
     }
 }
@@ -1047,10 +1062,9 @@ inline static void _draw_illegal_text(BYTE *p, unsigned int xs,
     for (i = xs; i <= xe; i++) {
         unsigned int d;
 
-        d = (*(char_ptr + (vicii.vbuf[i] & 0x3f) * 8))
-            | ((vicii.cbuf[i] & 0x8) << 5);
+        d = char_ptr[(vicii.vbuf[i] & 0x3f) * 8];
 
-        *(msk_ptr + i) = mcmsktable[d];
+        msk_ptr[i] = (vicii.cbuf[i] & 0x8) ? mcmsktable[d] : d;
     }
 }
 
@@ -1070,9 +1084,9 @@ inline static void _draw_illegal_text_cached(BYTE *p, unsigned int xs,
     for (i = xs; i <= xe; i++) {
         unsigned int d;
 
-        d = foreground_data[i] | ((color_data_1[i] & 0x8) << 5);
+        d = foreground_data[i];
 
-        *(msk_ptr + i) = mcmsktable[d];
+        msk_ptr[i] = (color_data_1[i] & 0x8) ? mcmsktable[d] : d;
     }
 }
 
@@ -1103,10 +1117,9 @@ static void draw_illegal_text_foreground(unsigned int start_char,
     for (i = start_char; i <= end_char; i++) {
         unsigned int d;
 
-        d = (*(char_ptr + (vicii.vbuf[i - vicii.buf_offset] & 0x3f) * 8))
-            | ((vicii.cbuf[i - vicii.buf_offset] & 0x8) << 5);
+        d = char_ptr[(vicii.vbuf[i - vicii.buf_offset] & 0x3f) * 8];
 
-        *(msk_ptr + i) = mcmsktable[d];
+        msk_ptr[i] = (vicii.cbuf[i - vicii.buf_offset] & 0x8) ? mcmsktable[d] : d;
     }
 }
 
@@ -1158,7 +1171,7 @@ inline static void _draw_illegal_bitmap_mode1(BYTE *p, unsigned int xs,
         else
             bmval = bmptr_high[j & 0x9ff];
 
-        *(msk_ptr + i) = bmval;
+        msk_ptr[i] = bmval;
     }
 }
 
@@ -1167,15 +1180,12 @@ inline static void _draw_illegal_bitmap_mode1_cached(BYTE *p, unsigned int xs,
                                                      raster_cache_t *cache)
 {
     BYTE *foreground_data, *msk_ptr;
-    unsigned int i;
 
     foreground_data = cache->foreground_data;
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
-
-    for (i = xs; i <= xe; i++)
-        *(msk_ptr + i) = foreground_data[i];
+    memcpy(msk_ptr + xs, foreground_data + xs, xe - xs + 1);
 }
 
 static void draw_illegal_bitmap_mode1(void)
@@ -1251,7 +1261,7 @@ inline static void _draw_illegal_bitmap_mode2(BYTE *p, unsigned int xs,
         else
             bmval = bmptr_low[j & 0x9ff];
 
-        *(msk_ptr + i) = mcmsktable[bmval | 0x100];
+        msk_ptr[i] = mcmsktable[bmval];
     }
 }
 
@@ -1268,7 +1278,7 @@ inline static void _draw_illegal_bitmap_mode2_cached(BYTE *p, unsigned int xs,
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
 
     for (i = xs; i <= xe; i++)
-        *(msk_ptr + i) = mcmsktable[foreground_data[i] | 0x100];
+        msk_ptr[i] = mcmsktable[foreground_data[i]];
 }
 
 static void draw_illegal_bitmap_mode2(void)
@@ -1330,8 +1340,8 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
         DWORD c1, c2;
 
         offs = vicii.raster.idle_background_color << 4;
-        c1 = *(hr_table + offs + (d >> 4));
-        c2 = *(hr_table + offs + (d & 0xf));
+        c1 = hr_table[offs + (d >> 4)];
+        c2 = hr_table[offs + (d & 0xf)];
 
         for (i = xs * 8; i <= xe * 8; i += 8) {
             *((DWORD *)(p + i)) = c1;
@@ -1352,19 +1362,18 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
             ptmp = p + xs * 8;
 
             for (i = xs; i <= xe; i++) {
-                *(msk_ptr + i) = mcmsktable[d | 0x100];
+                msk_ptr[i] = mcmsktable[d];
 
-                ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
-                ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
-                ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
-                ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+                ptmp[1] = ptmp[0] = c[mc_table[d]];
+                ptmp[3] = ptmp[2] = c[mc_table[0x100 + d]];
+                ptmp[5] = ptmp[4] = c[mc_table[0x200 + d]];
+                ptmp[7] = ptmp[6] = c[d & 3];
                 ptmp += 8;
             }
         } else {
             memset(p + xs * 8, 0, (xe + 1 - xs) * 8);
             if (vicii.raster.video_mode == VICII_ILLEGAL_BITMAP_MODE_2) {
-                for (i = xs; i <= xe; i++)
-                    *(msk_ptr + i) = mcmsktable[d | 0x100];
+                memset(msk_ptr + xs, mcmsktable[d], xe + 1 - xs);
             } else {
                 memset(msk_ptr + xs, d, xe + 1 - xs);
             }
@@ -1403,7 +1412,7 @@ static void draw_idle_foreground(unsigned int start_char,
 
     for (i = start_char; i <= end_char; i++) {
         DRAW_STD_TEXT_BYTE(p + i * 8, d, 0);
-        *(msk_ptr + i) = d;
+        msk_ptr[i] = d;
     }
 }
 
@@ -1478,7 +1487,6 @@ static void init_drawing_tables(void)
 {
     DWORD i;
     unsigned int f, b;
-    const BYTE tmptable[4] = { 0, 4, 5, 3 };
 
     for (i = 0; i <= 0xf; i++) {
         for (f = 0; f <= 0xf; f++) {
@@ -1492,29 +1500,19 @@ static void init_drawing_tables(void)
                 offset = (f << 8) | (b << 4);
                 p = (BYTE *)(hr_table + offset + i);
 
-                *p = i & 0x8 ? fp : bp;
-                *(p + 1) = i & 0x4 ? fp : bp;
-                *(p + 2) = i & 0x2 ? fp : bp;
-                *(p + 3) = i & 0x1 ? fp : bp;
+                p[0] = i & 0x8 ? fp : bp;
+                p[1] = i & 0x4 ? fp : bp;
+                p[2] = i & 0x2 ? fp : bp;
+                p[3] = i & 0x1 ? fp : bp;
             }
         }
     }
 
     for (i = 0; i <= 0xff; i++) {
-        mc_table[i + 0x100] = (BYTE)(i >> 6);
-        mc_table[i + 0x300] = (BYTE)((i >> 4) & 0x3);
-        mc_table[i + 0x500] = (BYTE)((i >> 2) & 0x3);
-        mc_table[i + 0x700] = (BYTE)(i & 0x3);
-        mc_table[i] = tmptable[i >> 6];
-        mc_table[i + 0x200] = tmptable[(i >> 4) & 0x3];
-        mc_table[i + 0x400] = tmptable[(i >> 2) & 0x3];
-        mc_table[i + 0x600] = tmptable[i & 0x3];
-        mcmsktable[i + 0x100] = (BYTE)0;
-        mcmsktable[i + 0x100] |= (BYTE)(((i >> 6) & 0x2) ? 0xc0 : 0);
-        mcmsktable[i + 0x100] |= (BYTE)(((i >> 4) & 0x2) ? 0x30 : 0);
-        mcmsktable[i + 0x100] |= (BYTE)(((i >> 2) & 0x2) ? 0x0c : 0);
-        mcmsktable[i + 0x100] |= (BYTE)((i & 0x2) ? 0x03 : 0);
-        mcmsktable[i] = (BYTE)i;
+        mc_table[i] = (BYTE)(i >> 6);
+        mc_table[i + 0x100] = (BYTE)((i >> 4) & 0x3);
+        mc_table[i + 0x200] = (BYTE)((i >> 2) & 0x3);
+        mcmsktable[i] = (i & 0xaa) | ((i & 0xaa) >> 1);
     }
 }
 
