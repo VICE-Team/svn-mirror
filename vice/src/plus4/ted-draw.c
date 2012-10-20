@@ -31,6 +31,7 @@
 #include <string.h>
 
 #include "raster-cache-fill.h"
+#include "raster-cache-fill-1fff.h"
 #include "raster-cache-nibbles.h"
 #include "raster-cache-text-ext.h"
 #include "raster-cache-text-std.h"
@@ -210,13 +211,11 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
     r |= raster_cache_data_fill(cache->color_data_1,
                             ted.cbuf,
                             TED_SCREEN_TEXTCOLS,
-                            1,
                             xs, xe,
                             rr);
     r |= raster_cache_data_fill(cache->color_data_2,
                             ted.vbuf,
                             TED_SCREEN_TEXTCOLS,
-                            1,
                             xs, xe,
                             rr);
 
@@ -402,14 +401,12 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
     r |= raster_cache_data_fill(cache->color_data_2,
                                 ted.cbuf,
                                 TED_SCREEN_TEXTCOLS,
-                                1,
                                 xs, xe,
                                 rr);
     r |= raster_cache_data_fill_1fff(cache->foreground_data,
-                                (ted.bitmap_ptr + ted.memptr * 8
-                                + ted.raster.ycounter),
-                                (ted.bitmap_ptr + ted.memptr * 8
-                                + ted.raster.ycounter + 0x1000),
+                                ted.bitmap_ptr,
+                                ted.bitmap_ptr + 0x1000,
+                                ted.memptr * 8 + ted.raster.ycounter,
                                 TED_SCREEN_TEXTCOLS,
                                 8,
                                 xs, xe,
@@ -498,7 +495,6 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
     r |= raster_cache_data_fill(cache->color_data_3,
                                 ted.cbuf,
                                 TED_SCREEN_TEXTCOLS,
-                                1,
                                 xs, xe,
                                 rr);
     return r;
@@ -632,20 +628,17 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
     r = raster_cache_data_fill(cache->color_data_1,
                                ted.vbuf,
                                TED_SCREEN_TEXTCOLS,
-                               1,
                                xs, xe,
                                rr);
     r |= raster_cache_data_fill(cache->color_data_2,
                                 ted.cbuf,
                                 TED_SCREEN_TEXTCOLS,
-                                1,
                                 xs, xe,
                                 rr);
     r |= raster_cache_data_fill_1fff(cache->foreground_data,
-                                (ted.bitmap_ptr + 8 * ted.memptr
-                                + ted.raster.ycounter),
-                                (ted.bitmap_ptr + 8 * ted.memptr
-                                + ted.raster.ycounter + 0x1000),
+                                ted.bitmap_ptr,
+                                ted.bitmap_ptr + 0x1000,
+                                ted.memptr * 8 + ted.raster.ycounter,
                                 TED_SCREEN_TEXTCOLS,
                                 8,
                                 xs, xe,
@@ -753,7 +746,6 @@ static int get_ext_text(raster_cache_t *cache, unsigned int *xs,
     r |= raster_cache_data_fill(cache->color_data_1,
                                 ted.cbuf,
                                 TED_SCREEN_TEXTCOLS,
-                                1,
                                 xs, xe,
                                 rr);
     return r;

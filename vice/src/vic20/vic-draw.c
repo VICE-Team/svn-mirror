@@ -88,14 +88,12 @@ static int fill_cache(raster_cache_t *cache, unsigned int *xs,
     r = raster_cache_data_fill(cache->foreground_data,
                                vic.gbuf,
                                vic.text_cols,
-                               1,
                                xs, xe,
                                rr);
 
     r |= raster_cache_data_fill(cache->color_data_1,
                                 vic.cbuf,
                                 vic.text_cols,
-                                1,
                                 xs, xe,
                                 rr);
 

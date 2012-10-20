@@ -372,7 +372,6 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
         r |= raster_cache_data_fill(cache->color_data_1,
                                 vdc.ram + vdc.attribute_adr + vdc.mem_counter,
                                 vdc.screen_text_cols,
-                                1,
                                 xs, xe,
                                 rr);
     } else {
@@ -539,7 +538,6 @@ static int get_std_bitmap(raster_cache_t *cache, unsigned int *xs,
                                     vdc.ram + vdc.attribute_adr
                                     + vdc.mem_counter + vdc.attribute_offset,
                                     vdc.screen_text_cols+1,
-                                    1,
                                     xs, xe,
                                     rr);
     } else {
