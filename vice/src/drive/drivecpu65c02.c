@@ -137,7 +137,7 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
         reg_pc = (unsigned int)(addr);                       \
         if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) { \
             if (reg_pc >= drv->drive->rom_start) {           \
-                cpu->d_bank_base = drv->drive->trap_rom - drv->drive->rom_start; \
+                cpu->d_bank_base = drv->drive->trap_rom - 0x8000; \
                 cpu->d_bank_start = drv->drive->rom_start;   \
                 cpu->d_bank_limit = 0xfffd;                  \
             } else if (reg_pc < 0x2000) {                    \

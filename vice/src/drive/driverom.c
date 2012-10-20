@@ -136,15 +136,15 @@ void driverom_initialize_traps(drive_t *drive)
         break;
     }
     if (drive->trap >=0
-        && drive->trap_rom[drive->trap - drive->rom_start] == 0x4c
-        && drive->trap_rom[drive->trap - drive->rom_start + 1] == (drive->trapcont & 0xff)
-        && drive->trap_rom[drive->trap - drive->rom_start + 2] == (drive->trapcont >> 8)) {
+        && drive->trap_rom[drive->trap - 0x8000] == 0x4c
+        && drive->trap_rom[drive->trap - 0x8000 + 1] == (drive->trapcont & 0xff)
+        && drive->trap_rom[drive->trap - 0x8000 + 2] == (drive->trapcont >> 8)) {
 
-        drive->trap_rom[drive->trap - drive->rom_start] = TRAP_OPCODE;
+        drive->trap_rom[drive->trap - 0x8000] = TRAP_OPCODE;
         if (drive->type == DRIVE_TYPE_1551) { 
-            drive->trap_rom[0xeabf - drive->rom_start] = 0xea;
-            drive->trap_rom[0xeac0 - drive->rom_start] = 0xea;
-            drive->trap_rom[0xead0 - drive->rom_start] = 0x08;
+            drive->trap_rom[0xeabf - 0x8000] = 0xea;
+            drive->trap_rom[0xeac0 - 0x8000] = 0xea;
+            drive->trap_rom[0xead0 - 0x8000] = 0x08;
         }
         return;
     }
