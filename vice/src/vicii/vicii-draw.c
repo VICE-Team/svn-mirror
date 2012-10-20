@@ -742,7 +742,7 @@ inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
         ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
         ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
         ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
-        ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+        ptmp[7] = ptmp[6] = c[d & 3];
         ptmp += 8;
     }
 }
@@ -780,7 +780,7 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, unsigned int xs,
         ptmp[1] = ptmp[0] = c[mc_table[0x100 + d]];
         ptmp[3] = ptmp[2] = c[mc_table[0x300 + d]];
         ptmp[5] = ptmp[4] = c[mc_table[0x500 + d]];
-        ptmp[7] = ptmp[6] = c[mc_table[0x700 + d]];
+        ptmp[7] = ptmp[6] = c[d & 3];
         ptmp += 8;
     }
 }
