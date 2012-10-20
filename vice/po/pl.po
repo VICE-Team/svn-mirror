@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-18 17:52-0700\n"
-"PO-Revision-Date: 2012-09-22 02:33+0200\n"
+"PO-Revision-Date: 2012-10-20 06:32+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
 "Language: pl\n"
@@ -7041,9 +7041,8 @@ msgid "Save DQBB image when changed"
 msgstr "Zapisuj obraz DQBB przy zmianie"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:23
-#, fuzzy
 msgid "Enable the DS12C887 RTC expansion"
-msgstr "Włącz kartridż DS12C887 RTC"
+msgstr "Włącz rozszerzenie DS12C887 RTC"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:10828
@@ -8620,7 +8619,7 @@ msgstr "Mysz Smart"
 
 #: src/arch/amigaos/intl_text.c.po.c:11318
 msgid "MicroMys mouse"
-msgstr ""
+msgstr "Mysz MicroMys"
 
 #: src/arch/amigaos/intl_text.c.po.c:11514
 msgid "Save to EasyFlash CRT file on detach"
