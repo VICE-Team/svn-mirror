@@ -361,8 +361,8 @@ void maincpu_mainloop(void)
     unsigned int reg_pc;
 #endif
     BYTE *bank_base;
-    int bank_start;
-    int bank_limit;
+    int bank_start = 0;
+    int bank_limit = 0;
 
     o_bank_base = &bank_base;
     o_bank_start = &bank_start;
