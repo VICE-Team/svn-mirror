@@ -199,10 +199,8 @@ static int get_std_text(raster_cache_t *cache, unsigned int *xs,
 
     r = raster_cache_data_fill_text(cache->foreground_data,
                                     vicii.vbuf,
-                                    vicii.chargen_ptr,
-                                    8,
+                                    vicii.chargen_ptr + vicii.raster.ycounter,
                                     VICII_SCREEN_TEXTCOLS,
-                                    vicii.raster.ycounter,
                                     xs, xe,
                                     rr);
 
@@ -469,10 +467,8 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
 
     r = raster_cache_data_fill_text(cache->foreground_data,
                                     vicii.vbuf,
-                                    vicii.chargen_ptr,
-                                    8,
+                                    vicii.chargen_ptr + vicii.raster.ycounter,
                                     VICII_SCREEN_TEXTCOLS,
-                                    vicii.raster.ycounter,
                                     xs, xe,
                                     rr);
     r |= raster_cache_data_fill(cache->color_data_3,

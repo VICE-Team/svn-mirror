@@ -32,37 +32,35 @@
 
 inline static int raster_cache_data_fill_text(BYTE *dest,
                                               const BYTE *src,
-                                              BYTE *char_mem,
-                                              const int bytes_per_char,
+                                              const BYTE *char_mem,
                                               const unsigned int length,
-                                              const int l,
                                               unsigned int *xs,
                                               unsigned int *xe,
                                               int no_check)
 {
-#define GET_CHAR_DATA(c, l) char_mem[((c) * bytes_per_char) + (l)]
     if (no_check) {
         unsigned int i;
 
         *xs = 0;
         *xe = length - 1;
-        for (i = 0; i < length; i++, src++)
-            dest[i] = GET_CHAR_DATA(src[0], l);
+        for (i = 0; i < length; i++) {
+            dest[i] = char_mem[src[i] * 8];
+        }
         return 1;
     } else {
         BYTE b;
         unsigned int i;
 
         for (i = 0;
-            i < length && dest[i] == GET_CHAR_DATA(src[0], l);
-            i++, src++)
+            i < length && dest[i] == char_mem[src[i] * 8];
+            i++)
             /* do nothing */ ;
 
         if (i < length) {
             *xs = *xe = i;
 
-            for (; i < length; i++, src++) {
-                if (dest[i] != (b = GET_CHAR_DATA(src[0], l))) {
+            for (; i < length; i++) {
+                if (dest[i] != (b = char_mem[src[i] * 8])) {
                     dest[i] = b;
                     *xe = i;
                 }
@@ -73,7 +71,6 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
             return 0;
         }
     }
-#undef GET_CHAR_DATA
 }
 
 #endif

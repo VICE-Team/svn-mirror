@@ -485,10 +485,8 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
 
     r = raster_cache_data_fill_text(cache->foreground_data,
                                     ted.vbuf,
-                                    ted.chargen_ptr,
-                                    8,   /* FIXME */
+                                    ted.chargen_ptr + ted.raster.ycounter,
                                     TED_SCREEN_TEXTCOLS,
-                                    ted.raster.ycounter,
                                     xs, xe,
                                     rr);
     r |= raster_cache_data_fill(cache->color_data_3,
