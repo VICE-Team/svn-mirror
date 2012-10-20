@@ -248,60 +248,14 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
 static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
                                        video_ycbcr_color_t *dst)
 {
-#if 1
-
-/* The code in else clearly is broken. This routine makes C128 RGB
- * colors work properly with HAVE_XVIDEO (overlay). - Piru
- */
     /* convert RGB to YCbCr */
 
     dst->y = 0.2989f*src->red + 0.5866f*src->green + 0.1145f*src->blue;
     dst->cb = - 0.168736f*src->red - 0.331264f*src->green + 0.5f*src->blue;
     dst->cr = 0.5f*src->red - 0.418688f*src->green - 0.081312f*src->blue;
-
-#else
-
-    float yf, cbf, crf;
-    int y, cb, cr;
-
-    /* convert RGB to YCbCr */
-
-    yf = 0.2989f*src->red + 0.5866f*src->green + 0.1145f*src->blue;
-    cbf = src->blue - yf;
-    crf = src->red - yf;
-
-    /* convert to int and clip to 8 bit boundaries */
-
-    y  = (int)yf;
-    cb = (int)cbf;
-    cr = (int)crf;
-
-    if (y  <   0) {
-        y  =   0;
-    }
-    if (y  > 255) {
-        y  = 255;
-    }
-    if (cb <   0) {
-        cb =   0;
-    }
-    if (cb > 255) {
-        cb = 255;
-    }
-    if (cr <   0) {
-        cr =   0;
-    }
-    if (cr > 255) {
-        cr = 255;
-    }
-
-    dst->y  = (BYTE)y;
-    dst->cb = (BYTE)cb;
-    dst->cr = (BYTE)cr;
-#endif
 }
 
-/* FIXME: handle gamme for CRT emulation (CGA and Monochrom video) too */
+/* FIXME: handle gamma for CRT emulation (CGA and Monochrom video) too */
 static float video_get_gamma(video_resources_t *video_resources)
 {
     int video;
@@ -434,6 +388,19 @@ static void video_palette_to_ycbcr(const palette_t *p,
     }
 }
 
+/* Convert an RGB palette to YCbCr. */
+static void video_palette_to_ycbcr_oddlines(const palette_t *p,
+                                   video_ycbcr_palette_t* ycbcr)
+{
+    unsigned int i;
+
+    for (i = 0;i < p->num_entries; i++) {
+        video_convert_rgb_to_ycbcr(&p->entries[i], &ycbcr->entries[i]);
+        ycbcr->entries[i].cr = - ycbcr->entries[i].cr;
+        ycbcr->entries[i].cb = - ycbcr->entries[i].cb;
+    }
+}
+
 /* Convert a CBM palette to YCbCr. */
 static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p,
                                        video_ycbcr_palette_t* ycbcr)
@@ -563,6 +530,9 @@ int video_color_update_palette(struct video_canvas_s *canvas)
             palette_free(palette);
             palette = video_calc_palette(canvas, ycbcr);
         }
+        /* additional table for odd lines */
+        video_palette_to_ycbcr_oddlines(palette, ycbcr);
+        video_calc_ycbcrtable_oddlines(video_resources, ycbcr, &canvas->videoconfig->color_tables);
     } else {
         video_calc_gammatable(video_resources);
         ycbcr = video_ycbcr_palette_create(canvas->videoconfig->cbm_palette->num_entries);
