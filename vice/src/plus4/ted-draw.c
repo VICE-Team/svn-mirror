@@ -405,9 +405,11 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
                                 1,
                                 xs, xe,
                                 rr);
-    r |= raster_cache_data_fill(cache->foreground_data,
+    r |= raster_cache_data_fill_1fff(cache->foreground_data,
                                 (ted.bitmap_ptr + ted.memptr * 8
                                 + ted.raster.ycounter),
+                                (ted.bitmap_ptr + ted.memptr * 8
+                                + ted.raster.ycounter + 0x1000),
                                 TED_SCREEN_TEXTCOLS,
                                 8,
                                 xs, xe,
@@ -639,9 +641,11 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
                                 1,
                                 xs, xe,
                                 rr);
-    r |= raster_cache_data_fill(cache->foreground_data,
+    r |= raster_cache_data_fill_1fff(cache->foreground_data,
                                 (ted.bitmap_ptr + 8 * ted.memptr
                                 + ted.raster.ycounter),
+                                (ted.bitmap_ptr + 8 * ted.memptr
+                                + ted.raster.ycounter + 0x1000),
                                 TED_SCREEN_TEXTCOLS,
                                 8,
                                 xs, xe,
