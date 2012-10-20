@@ -408,7 +408,6 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
                                 ted.bitmap_ptr + 0x1000,
                                 ted.memptr * 8 + ted.raster.ycounter,
                                 TED_SCREEN_TEXTCOLS,
-                                8,
                                 xs, xe,
                                 rr);
     return r;
@@ -640,7 +639,6 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
                                 ted.bitmap_ptr + 0x1000,
                                 ted.memptr * 8 + ted.raster.ycounter,
                                 TED_SCREEN_TEXTCOLS,
-                                8,
                                 xs, xe,
                                 rr);
     return r;

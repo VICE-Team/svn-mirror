@@ -336,7 +336,6 @@ static int get_hires_bitmap(raster_cache_t *cache, unsigned int *xs,
                                      vicii.bitmap_high_ptr,
                                      vicii.memptr * 8 + vicii.raster.ycounter,
                                      VICII_SCREEN_TEXTCOLS,
-                                     8,
                                      xs, xe,
                                      rr);
     return r;
@@ -709,7 +708,6 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
                                      vicii.bitmap_high_ptr,
                                      8 * vicii.memptr + vicii.raster.ycounter,
                                      VICII_SCREEN_TEXTCOLS,
-                                     8,
                                      xs, xe,
                                      rr);
     return r;

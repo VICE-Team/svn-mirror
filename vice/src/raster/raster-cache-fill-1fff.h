@@ -37,57 +37,84 @@ inline static int raster_cache_data_fill_1fff(BYTE *dest,
                                               const BYTE *src_base_high,
                                               int src_cnt,
                                               const unsigned int length,
-                                              const int src_step,
                                               unsigned int *xs,
                                               unsigned int *xe,
                                               int no_check)
 {
-    if (no_check) {
-        unsigned int i;
+    unsigned int i = 0;
+    const BYTE *src;
 
+    if (no_check) {
         *xs = 0;
         *xe = length - 1;
 
-        for (i = 0; i < length; i++, src_cnt += src_step) {
-            if (src_cnt & 0x1000)
-                dest[i] = src_base_high[src_cnt & 0xfff];
-            else
-                dest[i] = src_base_low[src_cnt & 0xfff];
+        src = (src_cnt & 0x1000) ? src_base_high : src_base_low;
+        src_cnt &= 0xfff;
+        if (src_cnt + length * 8 >= 0x1000) {
+            for (; src_cnt < 0x1000; i++, src_cnt += 8) {
+                dest[i] = src[src_cnt];
+            }
+            src = (src == src_base_low) ? src_base_high : src_base_low;
+            src_cnt &= 0xfff;
+        }
+        for (; i < length; i++, src_cnt += 8) {
+            dest[i] = src[src_cnt];
         }
         return 1;
     } else {
-        unsigned int x = 0, i;
+        unsigned int x = 0, i = 0;
 
-        for (i = 0; i < length
-            && dest[i] == ((src_cnt & 0x1000) ? src_base_high[src_cnt & 0xfff]
-            : src_base_low[src_cnt & 0xfff]); i++, src_cnt += src_step)
-            /* do nothing */ ;
-
-        if (i < length) {
-            if (*xs > i)
-                *xs = i;
-
-            for (; i < length; i++, src_cnt += src_step) {
-                BYTE bmval;
-                if (src_cnt & 0x1000)
-                    bmval = src_base_high[src_cnt & 0xfff];
-                else
-                    bmval = src_base_low[src_cnt & 0xfff];
-
-                if (dest[i] != bmval) {
-                    dest[i] = bmval;
-                    x = i;
+        src = (src_cnt & 0x1000) ? src_base_high : src_base_low;
+        src_cnt &= 0xfff;
+        if (src_cnt + length * 8 >= 0x1000) {
+            for (; src_cnt < 0x1000; i++, src_cnt += 8) {
+                if (dest[i] != src[src_cnt]) {
+                    if (*xs > i) {
+                        *xs = i;
+                    }
+                    for (; src_cnt < 0x1000; i++, src_cnt += 8) {
+                        if (dest[i] != src[src_cnt]) {
+                            dest[i] = src[src_cnt];
+                            x = i;
+                        }
+                    }
+                    src = (src == src_base_low) ? src_base_high : src_base_low;
+                    src_cnt &= 0xfff;
+                    for (; i < length; i++, src_cnt += 8) {
+                        if (dest[i] != src[src_cnt]) {
+                            dest[i] = src[src_cnt];
+                            x = i;
+                        }
+                    }
+                    if (*xe < x) {
+                        *xe = x;
+                    }
+                    return 1;
                 }
             }
+            src = (src == src_base_low) ? src_base_high : src_base_low;
+            src_cnt &= 0xfff;
+        }
 
-            if (*xe < x)
-                *xe = x;
-
-            return 1;
-        } else {
-            return 0;
+        for (; i < length; i++, src_cnt += 8) {
+            if (dest[i] != src[src_cnt]) {
+                if (*xs > i) {
+                    *xs = i;
+                }
+                for (; i < length; i++, src_cnt += 8) {
+                    if (dest[i] != src[src_cnt]) {
+                        dest[i] = src[src_cnt];
+                        x = i;
+                    }
+                }
+                if (*xe < x) {
+                    *xe = x;
+                }
+                return 1;
+            }
         }
     }
+    return 0;
 }
 
 #endif
