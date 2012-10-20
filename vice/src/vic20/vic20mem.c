@@ -543,6 +543,7 @@ void mem_initialize_memory(void)
     }
 
     mem_toggle_watchpoints(watchpoints_active, NULL);
+    maincpu_resync_limits();
 }
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
