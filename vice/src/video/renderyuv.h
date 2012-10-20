@@ -75,8 +75,7 @@ typedef union {
 #endif
 
 
-extern void render_yuv_image(int double_size,
-                             viewport_t *viewport,
+extern void render_yuv_image(viewport_t *viewport,
                              int true_pal_mode,
                              int pal_blur,
                              int pal_scanline_shade,
@@ -97,7 +96,7 @@ extern void renderyuv_4_2_2(image_t* image,
                             unsigned int* src_color,
                             int src_x, int src_y,
                             unsigned int src_w, unsigned int src_h,
-                            int dest_x, int dest_y);
+                            int dest_x, int dest_y, int *yuv_updated);
 
 extern void renderyuv_2x_4_2_2(image_t* image,
                                int shift_y0, int shift_u,
@@ -108,7 +107,7 @@ extern void renderyuv_2x_4_2_2(image_t* image,
                                int src_x, int src_y,
                                unsigned int src_w, unsigned int src_h,
                                int dest_x, int dest_y,
-                               int double_scan, int pal_scanline_shade);
+                               int double_scan, int pal_scanline_shade, int *yuv_updated);
 
 extern void renderyuv_4_1_1(image_t* image,
                             int plane_y, int plane_u, int plane_v,

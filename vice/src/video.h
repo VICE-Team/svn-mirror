@@ -153,7 +153,8 @@ struct video_render_color_tables_s {
     SDWORD cvtable_odd[256];    /* v component + phase shift */
 
     /* YUV table for hardware rendering: (Y << 16) | (U << 8) | V */
-    DWORD yuv_table[256];
+    int yuv_updated;            /* yuv table updated for packed mode */
+    DWORD yuv_table[512];
     SDWORD line_yuv_0[VIDEO_MAX_OUTPUT_WIDTH * 3];
     SWORD prevrgbline[VIDEO_MAX_OUTPUT_WIDTH * 3];
     BYTE rgbscratchbuffer[VIDEO_MAX_OUTPUT_WIDTH * 4];

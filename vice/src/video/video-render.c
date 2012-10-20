@@ -221,8 +221,7 @@ void video_render_crtfunc_set(void(*func)(video_render_config_t *,
 
 #ifdef HAVE_XVIDEO
 /* Render YUV 4:2:2 and 4:1:1 formats. */
-void render_yuv_image(int double_size,
-                      viewport_t *viewport,
+void render_yuv_image(viewport_t *viewport,
                       int true_pal_mode,
                       int pal_blur,
                       int pal_scanline_shade,
@@ -307,9 +306,13 @@ void render_yuv_image(int double_size,
             } else {
                 if (!true_pal_mode) {
                     /* not planar, 1x1, no filter */
-                    renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
-                                    src, src_pitch, config->color_tables.yuv_table,
-                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                    renderyuv_4_2_2(image, shift_y0,
+                            shift_u, shift_v,
+                            shift_y1, src, src_pitch,
+                            config->color_tables.yuv_table,
+                            src_x, src_y, src_w,
+                            src_h, dest_x, dest_y,
+                            &config->color_tables.yuv_updated);
                     return;
                 } else {
                     if (viewport->crt_type) {
@@ -389,7 +392,7 @@ void render_yuv_image(int double_size,
                     renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                                     src, src_pitch, config->color_tables.yuv_table,
                                     src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                    double_scan, pal_scanline_shade);
+                                    double_scan, pal_scanline_shade, &config->color_tables.yuv_updated);
                     return;
                 } else {
                     src_w *= 2;
@@ -461,7 +464,7 @@ void render_yuv_image(int double_size,
                 /* not planar, 1x1, no filter */
                 renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                                 src, src_pitch, config->color_tables.yuv_table,
-                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+                                src_x, src_y, src_w, src_h, dest_x, dest_y, &config->color_tables.yuv_updated);
                 return;
             }
 /* FIXME: implement renderyuv_4_1_1_crt, render_UYVY_1x1_crt, render_YUY2_1x1_crt, render_YVYU_1x1_crt */
@@ -608,7 +611,7 @@ void render_yuv_image(int double_size,
                     renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                                     src, src_pitch, config->color_tables.yuv_table,
                                     src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                    double_scan, pal_scanline_shade);
+                                    double_scan, pal_scanline_shade, &config->color_tables.yuv_updated);
                     return;
                 } else {
                     /* not planar, 2x2, crt filter */
@@ -713,7 +716,7 @@ void render_yuv_image(int double_size,
                 /* not planar, 1x1, no filter */
                 renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                                 src, src_pitch, config->color_tables.yuv_table,
-                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+                                src_x, src_y, src_w, src_h, dest_x, dest_y, &config->color_tables.yuv_updated);
             }
         return;
 
@@ -746,7 +749,7 @@ void render_yuv_image(int double_size,
                 renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
                                 src, src_pitch, config->color_tables.yuv_table,
                                 src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                double_scan, pal_scanline_shade);
+                                double_scan, pal_scanline_shade, &config->color_tables.yuv_updated);
             }
         return;
     }

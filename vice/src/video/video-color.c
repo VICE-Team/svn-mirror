@@ -396,6 +396,7 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
             | ((BYTE)(0.493111 * primary->cb * 255 / 256 + 128.5) << 8)
             | (BYTE)(0.877283 * primary->cr * 255 / 256 + 128.5);
     }
+    color_tab->yuv_updated = 0;
 }
 
 static void video_calc_ycbcrtable_oddlines(video_resources_t *video_resources,

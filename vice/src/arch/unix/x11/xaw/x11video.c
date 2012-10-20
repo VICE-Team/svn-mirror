@@ -871,8 +871,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
         if (!canvas->videoconfig->color_tables.updated) { /* update colors as necessary */
             video_render_update_palette(canvas);
         }
-        render_yuv_image(0 /*doublesize*/,
-                         canvas->viewport,
+        render_yuv_image(canvas->viewport,
                          (canvas->videoconfig->filter == VIDEO_FILTER_CRT),
                          canvas->videoconfig->video_resources.pal_blur * 64 / 1000,
                          canvas->videoconfig->video_resources.pal_scanlineshade * 1024 / 1000,

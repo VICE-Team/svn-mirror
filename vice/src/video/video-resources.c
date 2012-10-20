@@ -136,6 +136,7 @@ static int set_double_size_enabled(int val, void *param)
 
     DBG(("set_double_size_enabled sizex:%d sizey:%d doublesizex:%d doublesizey:%d rendermode:%d", cap_render->sizex, cap_render->sizey, canvas->videoconfig->doublesizex, canvas->videoconfig->doublesizey, canvas->videoconfig->rendermode));
 
+    canvas->videoconfig->color_tables.updated = 0;
     if ((canvas->videoconfig->double_size_enabled != val
          || old_doublesizex != canvas->videoconfig->doublesizex
          || old_doublesizey != canvas->videoconfig->doublesizey)
@@ -145,7 +146,6 @@ static int set_double_size_enabled(int val, void *param)
     }
 
     canvas->videoconfig->double_size_enabled = val;
-    canvas->videoconfig->color_tables.updated = 0;
     return 0;
 }
 

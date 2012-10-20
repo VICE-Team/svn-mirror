@@ -31,6 +31,7 @@
 #include "vice.h"
 
 #include <stdlib.h>
+#include <string.h>
 
 #include "renderyuv.h"
 
@@ -57,6 +58,18 @@ typedef struct {
 
 static YUV_avg yuv_lines[2][1024];
 
+void renderyuv_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
+                        unsigned int *colors)
+{
+    int i;
+    for (i = 0;i < 256; i++) {
+        unsigned int YUV = colors[i];
+        unsigned int Y0 = Y(YUV);
+        unsigned int color = ((U(YUV) >> 1) << shift_u) | ((V(YUV) >> 1) << shift_v);
+        colors[i] = (Y0 << shift_y0) | color;
+        colors[i + 256] = (Y0 << shift_y1) | color;
+    }
+}
 
 /* Render packed YUV 4:2:2 formats. */
 void renderyuv_4_2_2(image_t* image,
@@ -66,7 +79,7 @@ void renderyuv_4_2_2(image_t* image,
                      unsigned int* src_color,
                      int src_x, int src_y,
                      unsigned int src_w, unsigned int src_h,
-                     int dest_x, int dest_y)
+                     int dest_x, int dest_y, int *yuv_updated)
 {
     unsigned int x, y;
     unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
@@ -82,6 +95,13 @@ void renderyuv_4_2_2(image_t* image,
         src_w++;
     }
 
+    if (!*yuv_updated) {
+        renderyuv_4_2_2_color_update(shift_y0,
+                shift_u, shift_v, shift_y1,
+                src_color);
+        *yuv_updated = 1;
+    }
+
     /* Add start offsets. */
     dest += dest_pitch * dest_y + (dest_x >> 1);
     src += src_pitch * src_y + src_x;
@@ -89,19 +109,31 @@ void renderyuv_4_2_2(image_t* image,
     /* Render 2x1 blocks, YUV 4:2:2 */
     for (y = 0; y < src_h; y++) {
         for (x = 0; x < src_w; x += 2) {
-            unsigned int YUV0 = src_color[*src++];
-            unsigned int YUV1 = src_color[*src++];
-            *dest++ =
-                (Y(YUV0) << shift_y0)
-                | (((U(YUV0) + U(YUV1)) >> 1) << shift_u)
-                | (((V(YUV0) + V(YUV1)) >> 1) << shift_v)
-                | (Y(YUV1) << shift_y1);
+            *dest++ = src_color[src[x]] + src_color[src[x + 1] + 256];
         }
-        src += src_pitch - src_w;
+        src += src_pitch;
         dest += dest_pitch - (src_w >> 1);
     }
 }
 
+
+void renderyuv_2x_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
+                        unsigned int *colors, int double_scan, int pal_scanline_shade)
+{
+    int i;
+    for (i = 0;i < 256; i++) {
+        unsigned int YUV = colors[i];
+        unsigned int Y0 = Y(YUV);
+        unsigned int color = (U(YUV) << shift_u) | (V(YUV) << shift_v);
+        unsigned int pixel2 = (Y0 << shift_y0) | color | (Y0 << shift_y1);
+        colors[i] = pixel2;
+        if (!double_scan) {
+            Y0 = Y0*pal_scanline_shade >> 10;
+            pixel2 = (Y0 << shift_y0) | color | (Y0 << shift_y1);
+        }
+        colors[i + 256] = pixel2;
+    }
+}
 
 /* Render packed YUV 4:2:2 formats, double size. */
 void renderyuv_2x_4_2_2(image_t* image,
@@ -112,13 +144,20 @@ void renderyuv_2x_4_2_2(image_t* image,
                         int src_x, int src_y,
                         unsigned int src_w, unsigned int src_h,
                         int dest_x, int dest_y,
-                        int double_scan, int pal_scanline_shade)
+                        int double_scan, int pal_scanline_shade, int *yuv_updated)
 {
     unsigned int x, y;
     unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
     int dest_pitch = image->pitches[0]/4;
 
     /* No need to normalize to 2x1 blocks because of size doubling. */
+    if (!*yuv_updated) {
+        renderyuv_2x_4_2_2_color_update(shift_y0,
+                shift_u, shift_v, shift_y1,
+                src_color, double_scan,
+                pal_scanline_shade);
+        *yuv_updated = 1;
+    }
 
     /* Add start offsets. */
     dest += (dest_pitch << 1)*dest_y + dest_x;
@@ -126,30 +165,19 @@ void renderyuv_2x_4_2_2(image_t* image,
 
     /* Render 2x1 blocks, YUV 4:2:2 */
     for (y = 0; y < src_h; y++) {
-        for (x = 0; x < src_w; x++) {
-            unsigned int YUV = src_color[*src++];
-            unsigned int Y0 = Y(YUV);
-            unsigned int color =
-                (U(YUV) << shift_u)
-                | (V(YUV) << shift_v);
-            unsigned int pixel2 =
-                (Y0 << shift_y0)
-                | color
-                | (Y0 << shift_y1);
-            *dest = pixel2;
-            if (!double_scan) {
-                /* Set scanline shade intensity. */
-                Y0 = Y0*pal_scanline_shade >> 10;
-                pixel2 =
-                    (Y0 << shift_y0)
-                    | color
-                    | (Y0 << shift_y1);
+        if (double_scan) {
+            for (x = 0; x < src_w; x++) {
+                dest[x] = src_color[src[x]];
             }
-            *(dest + dest_pitch) = pixel2;
-            dest++;
+            memcpy(dest + dest_pitch, dest, src_w * sizeof(*dest));
+        } else {
+            for (x = 0; x < src_w; x++) {
+                dest[x] = src_color[src[x]];
+                dest[x + dest_pitch] = src_color[src[x] + 256];
+            }
         }
-        src += src_pitch - src_w;
-        dest += (dest_pitch << 1) - src_w;
+        src += src_pitch;
+        dest += dest_pitch << 1;
     }
 }
 
