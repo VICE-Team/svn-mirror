@@ -37,7 +37,6 @@
 #include "raster-cache-fill.h"
 #include "raster-cache-fill-1fff.h"
 #include "raster-cache-fill-39ff.h"
-#include "raster-cache-nibbles.h"
 #include "raster-cache-text-ext.h"
 #include "raster-cache-text-std.h"
 #include "raster-cache.h"
@@ -736,13 +735,12 @@ static int get_mc_bitmap(raster_cache_t *cache, unsigned int *xs,
         rr = 1;
     }
 
-    r = raster_cache_data_fill_nibbles(cache->color_data_1,
-                                       cache->color_data_2,
-                                       vicii.vbuf,
-                                       VICII_SCREEN_TEXTCOLS,
-                                       1,
-                                       xs, xe,
-                                       rr);
+    r = raster_cache_data_fill(cache->color_data_1,
+                               vicii.vbuf,
+                               VICII_SCREEN_TEXTCOLS,
+                               1,
+                               xs, xe,
+                               rr);
     r |= raster_cache_data_fill(cache->color_data_3,
                                 vicii.cbuf,
                                 VICII_SCREEN_TEXTCOLS,
@@ -809,7 +807,7 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, unsigned int xs,
                                           unsigned int xe,
                                           raster_cache_t *cache)
 {
-    BYTE *foreground_data, *color_data_1, *color_data_2, *color_data_3;
+    BYTE *foreground_data, *color_data_1, *color_data_3;
     BYTE *msk_ptr, *ptmp;
     BYTE c[4];
     unsigned int i;
@@ -818,7 +816,6 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, unsigned int xs,
 
     foreground_data = cache->foreground_data;
     color_data_1 = cache->color_data_1;
-    color_data_2 = cache->color_data_2;
     color_data_3 = cache->color_data_3;
     msk_ptr = cache->gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
@@ -833,8 +830,8 @@ inline static void _draw_mc_bitmap_cached(BYTE *p, unsigned int xs,
 
         *(msk_ptr + i) = mcmsktable[d | 0x100];
 
-        c[1] = color_data_1[i];
-        c[2] = color_data_2[i];
+        c[1] = color_data_1[i] >> 4;
+        c[2] = color_data_1[i] & 0xf;
         c[3] = color_data_3[i];
 
         c[1] = vicii.dtvpalette[c[1]];
@@ -1295,13 +1292,12 @@ static int get_illegal_bitmap_mode2(raster_cache_t *cache, unsigned int *xs,
 {
     int r;
 
-    r = raster_cache_data_fill_nibbles(cache->color_data_1,
-                                       cache->color_data_2,
-                                       vicii.vbuf,
-                                       VICII_SCREEN_TEXTCOLS,
-                                       1,
-                                       xs, xe,
-                                       rr);
+    r = raster_cache_data_fill(cache->color_data_1,
+                               vicii.vbuf,
+                               VICII_SCREEN_TEXTCOLS,
+                               1,
+                               xs, xe,
+                               rr);
     r |= raster_cache_data_fill(cache->color_data_3,
                                 vicii.cbuf,
                                 VICII_SCREEN_TEXTCOLS,
@@ -1732,13 +1728,12 @@ static int get_8bpp_fred_bitmap_mode(raster_cache_t *cache, unsigned int *xs,
 /*
     int r;
 
-    r = raster_cache_data_fill_nibbles(cache->color_data_1,
-                                       cache->color_data_2,
-                                       vicii.vbuf,
-                                       VICII_SCREEN_TEXTCOLS,
-                                       1,
-                                       xs, xe,
-                                       rr);
+    r = raster_cache_data_fill(cache->color_data_1,
+                               vicii.vbuf,
+                               VICII_SCREEN_TEXTCOLS,
+                               1,
+                               xs, xe,
+                               rr);
     r |= raster_cache_data_fill(cache->color_data_3,
                                 vicii.cbuf,
                                 VICII_SCREEN_TEXTCOLS,
@@ -1854,13 +1849,12 @@ static int get_8bpp_fred2_bitmap_mode(raster_cache_t *cache, unsigned int *xs,
 /*
     int r;
 
-    r = raster_cache_data_fill_nibbles(cache->color_data_1,
-                                       cache->color_data_2,
-                                       vicii.vbuf,
-                                       VICII_SCREEN_TEXTCOLS,
-                                       1,
-                                       xs, xe,
-                                       rr);
+    r = raster_cache_data_fill(cache->color_data_1,
+                               vicii.vbuf,
+                               VICII_SCREEN_TEXTCOLS,
+                               1,
+                               xs, xe,
+                               rr);
     r |= raster_cache_data_fill(cache->color_data_3,
                                 vicii.cbuf,
                                 VICII_SCREEN_TEXTCOLS,
@@ -1977,13 +1971,12 @@ static int get_8bpp_pixel_cell_bitmap_mode(raster_cache_t *cache, unsigned int *
 /*
     int r;
 
-    r = raster_cache_data_fill_nibbles(cache->color_data_1,
-                                       cache->color_data_2,
-                                       vicii.vbuf,
-                                       VICII_SCREEN_TEXTCOLS,
-                                       1,
-                                       xs, xe,
-                                       rr);
+    r = raster_cache_data_fill(cache->color_data_1,
+                               vicii.vbuf,
+                               VICII_SCREEN_TEXTCOLS,
+                               1,
+                               xs, xe,
+                               rr);
     r |= raster_cache_data_fill(cache->color_data_3,
                                 vicii.cbuf,
                                 VICII_SCREEN_TEXTCOLS,
