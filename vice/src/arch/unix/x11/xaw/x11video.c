@@ -794,11 +794,15 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
             int v_min = 0, v_max = xv_settings[i].v_max;
             int v_zero = (v_min + v_max) / 2;
             int v_range = v_max - v_min;
-
             int xv_range = xv_settings[i].max - xv_settings[i].min;
             int xv_zero = xv_settings[i].min + xv_settings[i].xv_zero * xv_range / 256;
+            int xv_val;
 
-            int xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range + xv_zero;
+            if (xv_settings[i].xv_zero > 256) { /* gamma */
+                xv_val = *xv_settings[i].value;
+            } else {
+                xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range + xv_zero;
+            }
 
             if (xv_val > xv_settings[i].max) {
                 xv_val = xv_settings[i].max;
