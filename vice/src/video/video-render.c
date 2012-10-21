@@ -376,7 +376,7 @@ void render_yuv_image(viewport_t *viewport,
                     renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
                                     src, src_pitch, config->color_tables.yuv_table,
                                     src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                    double_scan, pal_scanline_shade);
+                                    double_scan, pal_scanline_shade, &config->color_tables.yuv_updated);
                 } else {
                     /* planar, 2x2, pal filter */
                     renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
@@ -602,7 +602,7 @@ void render_yuv_image(viewport_t *viewport,
                 renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
                                 src, src_pitch, config->color_tables.yuv_table,
                                 src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                double_scan, pal_scanline_shade);
+                                double_scan, pal_scanline_shade, &config->color_tables.yuv_updated);
                 return;
 #endif
             } else {
@@ -743,7 +743,7 @@ void render_yuv_image(viewport_t *viewport,
                 renderyuv_2x_4_1_1(image, plane_y, plane_u, plane_v,
                                 src, src_pitch, config->color_tables.yuv_table,
                                 src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                double_scan, pal_scanline_shade);
+                                double_scan, pal_scanline_shade, &config->color_tables.yuv_updated);
             } else {
                 /* not planar, 2x2, no filter */
                 renderyuv_2x_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,

@@ -58,7 +58,7 @@ typedef struct {
 
 static YUV_avg yuv_lines[2][1024];
 
-void renderyuv_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
+static void renderyuv_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
                         unsigned int *colors)
 {
     int i;
@@ -117,7 +117,7 @@ void renderyuv_4_2_2(image_t* image,
 }
 
 
-void renderyuv_2x_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
+static void renderyuv_2x_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
                         unsigned int *colors, int double_scan, int pal_scanline_shade)
 {
     int i;
@@ -246,6 +246,20 @@ void renderyuv_4_1_1(image_t* image,
     }
 }
 
+static void renderyuv_2x_4_1_1_color_update(unsigned int *colors, int double_scan, int pal_scanline_shade)
+{
+    int i;
+    for (i = 0;i < 256; i++) {
+        unsigned int YUV = colors[i];
+        unsigned int Y0 = Y(YUV);
+        colors[i] = (V(YUV) << 24) | (U(YUV) << 16) | (Y0 << 8) | Y0;
+        if (!double_scan) {
+            /* Set scanline shade intensity. */
+            Y0 = Y0 * pal_scanline_shade >> 10;
+            colors[i + 256] = (V(YUV) << 24) | (U(YUV) << 16) | (Y0 << 8) | Y0;
+        }
+    }
+}
 
 /* Render planar YUV 4:1:1 formats, double size. */
 void renderyuv_2x_4_1_1(image_t* image,
@@ -256,10 +270,10 @@ void renderyuv_2x_4_1_1(image_t* image,
                         int src_x, int src_y,
                         unsigned int src_w, unsigned int src_h,
                         int dest_x, int dest_y,
-                        int double_scan, int pal_scanline_shade)
+                        int double_scan, int pal_scanline_shade, int *yuv_updated)
 {
     unsigned int x, y;
-    BYTE *Yptr = image->data + image->offsets[plane_y];
+    WORD *Yptr = (WORD *)(image->data + image->offsets[plane_y]), *Yptr2;
     BYTE *Uptr = image->data + image->offsets[plane_u];
     BYTE *Vptr = image->data + image->offsets[plane_v];
     int Ypitch = image->pitches[plane_y];
@@ -267,34 +281,48 @@ void renderyuv_2x_4_1_1(image_t* image,
     int Vpitch = image->pitches[plane_v];
 
     /* No need to normalize to 2x2 blocks because of size doubling. */
+    if (!*yuv_updated) {
+        renderyuv_2x_4_1_1_color_update(src_color, double_scan,
+                pal_scanline_shade);
+        *yuv_updated = 1;
+    }
 
     /* Add start offsets. */
-    Yptr += (Ypitch*dest_y + dest_x) << 1;
+    Yptr += Ypitch*dest_y + dest_x;
     Uptr += Upitch*dest_y + dest_x;
     Vptr += Vpitch*dest_y + dest_x;
     src += src_pitch*src_y + src_x;
 
     /* Render 2x2 blocks, YUV 4:1:1 */
     for (y = 0; y < src_h; y++) {
-        for (x = 0; x < src_w; x++) {
-            unsigned int YUV = src_color[*src++];
-            unsigned int Y0 = Y(YUV);
-            *Yptr = Y0;
-            *(Yptr + 1) = Y0;
-            if (!double_scan) {
-                /* Set scanline shade intensity. */
-                Y0 = Y0*pal_scanline_shade >> 10;
+        Yptr2 = Yptr + (Ypitch >> 1);
+        if (!double_scan) {
+            for (x = 0; x < src_w; x++) {
+                unsigned int col = src[x];
+                unsigned int tmp;
+                Yptr[x] = src_color[col];
+                tmp = src_color[col + 256];
+                Yptr2[x] = tmp;
+                tmp >>= 16;
+                Uptr[x] = tmp;
+                tmp >>= 8;
+                Vptr[x] = tmp;
             }
-            *(Yptr + Ypitch) = Y0;
-            *(Yptr + Ypitch + 1) = Y0;
-            Yptr += 2;
-            *Uptr++ = U(YUV);
-            *Vptr++ = V(YUV);
+        } else {
+            for (x = 0; x < src_w; x++) {
+                unsigned int tmp = src_color[src[x]];
+                Yptr[x] = tmp;
+                tmp >>= 16;
+                Uptr[x] = tmp;
+                tmp >>= 8;
+                Vptr[x] = tmp;
+            }
+            memcpy(Yptr2, Yptr, src_w * 2);
         }
-        src += src_pitch - src_w;
-        Yptr += (Ypitch - src_w) << 1;
-        Uptr += Upitch - src_w;
-        Vptr += Vpitch - src_w;
+        src += src_pitch;
+        Yptr += Ypitch;
+        Uptr += Upitch;
+        Vptr += Vpitch;
     }
 }
 
