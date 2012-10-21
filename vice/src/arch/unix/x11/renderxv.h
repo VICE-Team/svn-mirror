@@ -55,7 +55,7 @@ struct xywh_s {
     unsigned int h;
 };
 
-extern int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format);
+extern int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overlay);
 
 extern XvImage* create_yuv_image(Display* display, XvPortID port, fourcc_t format, int width, int height, XShmSegmentInfo* shminfo);
 

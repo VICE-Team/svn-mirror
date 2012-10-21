@@ -117,7 +117,7 @@ fourcc_t fourcc_list[] = {
     { FOURCC_IYUV }, /* IYUV is a duplicate of I420. */
 };
 
-int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
+int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overlay)
 {
     int i, j, k, found_one = 0;
 
@@ -193,7 +193,8 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
                         }
                     }
                     *port = port_id;
-                    *format = fourcc_list[j];
+                    *format = fourcc_list[j]; /* Textured video is not an overlay */
+                    *overlay = !strstr(adaptor_info[i].name, "Textured");
                     found_one = 1;
                 }
             }

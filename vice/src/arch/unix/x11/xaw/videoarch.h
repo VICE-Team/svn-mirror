@@ -79,6 +79,7 @@ struct video_canvas_s {
     XvImage *xv_image;
     XvPortID xv_port;
     fourcc_t xv_format;
+    int is_overlay;
     image_t yuv_image;  /* For architecture independent rendering. */
     struct xywh_s xv_geometry;
 #endif

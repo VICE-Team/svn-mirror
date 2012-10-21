@@ -726,7 +726,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     /* Request specified video format. */
     canvas->xv_format.id = fourcc;
 
-    if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format)) {
+    if (!find_yuv_port(x11ui_get_display_ptr(), &canvas->xv_port, &canvas->xv_format, &canvas->is_overlay)) {
         if (canvas->videoconfig->hwscale) {
             log_message(x11video_log, "HW scaling not available");
             canvas->videoconfig->hwscale = 0;

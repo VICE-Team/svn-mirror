@@ -2869,19 +2869,17 @@ UI_CALLBACK(enter_window_callback_shell)
  */
 UI_CALLBACK(structure_callback_shell)
 {
-#if 0 && defined(HAVE_XVIDEO)
+#if defined(HAVE_XVIDEO)
     XEvent *event = (XEvent *)call_data;
 
     if (event->xany.type == ConfigureNotify) {
         video_canvas_t *canvas = (video_canvas_t *)client_data;
         /*
          * XVideo must be refreshed when the shell window is moved.
-         * Actually, that doesn't seem to be needed, since a MapNotify
-         * also generates an Expose, and if the window is moved
-         * and not all contents is preserved, this would also generate
-         * an Expose.
+         * Actually, that doesn't seems to be needed for textured video,
+         * only for overlay.
          */
-        if (canvas->videoconfig->hwscale && canvas->xv_image) {
+        if (canvas->videoconfig->hwscale && canvas->xv_image && canvas->is_overlay) {
             video_canvas_refresh_all(canvas);
         }
     }
