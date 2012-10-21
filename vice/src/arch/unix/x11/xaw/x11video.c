@@ -471,9 +471,9 @@ struct {
 }
 
 xv_settings[] = {
-    { "XV_SATURATION", 0, 0, 0, 2000, 128, NULL },
+    { "XV_SATURATION", 0, 0, 0, 2000, 32, NULL },
     { "XV_CONTRAST", 0, 0, 0, 2000, 64, NULL },
-    { "XV_BRIGHTNESS", 0, 0, 0, 2000, 16, NULL },
+    { "XV_BRIGHTNESS", 0, 0, 0, 2000, 144, NULL },
     { "XV_GAMMA", 0, 0, 0, 4000, 1000, NULL }
 };
 
@@ -795,8 +795,8 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
             int v_zero = (v_min + v_max) / 2;
             int v_range = v_max - v_min;
 
-            int xv_zero = xv_settings[i].xv_zero;
             int xv_range = xv_settings[i].max - xv_settings[i].min;
+            int xv_zero = xv_settings[i].min + xv_settings[i].xv_zero * xv_range / 256;
 
             int xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range + xv_zero;
 
