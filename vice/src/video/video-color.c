@@ -339,11 +339,11 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
         color_tab->ytablel[i] = val * lf;
         color_tab->ytableh[i] = val * hf;
         color_tab->cbtable[i] = (SDWORD)((primary->cb) * sat);
-        color_tab->cutable[i] = (SDWORD)(0.493111 * primary->cb * sat);
+        color_tab->cutable[i] = (SDWORD)(0.493111 * primary->cb * 256);
         /* tint, add to cr in odd lines */
         val = (SDWORD)(tin);
         color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat);
-        color_tab->cvtable[i] = (SDWORD)(0.877283 * (primary->cr + val) * sat);
+        color_tab->cvtable[i] = (SDWORD)(0.877283 * (primary->cr + val) * 256);
 
         /* YCbCr to YUV, scale [0, 256] to [0, 255] */
         color_tab->yuv_table[i] = ((BYTE)(primary->y * 255 / 256 + 0.5) << 16)
@@ -369,11 +369,11 @@ static void video_calc_ycbcrtable_oddlines(video_resources_t *video_resources,
         /* create primary table */
         primary = &p->entries[i];
         color_tab->cbtable_odd[i] = -(SDWORD)((primary->cb) * sat);
-        color_tab->cutable_odd[i] = -(SDWORD)(0.493111 * primary->cb * sat);
+        color_tab->cutable_odd[i] = -(SDWORD)(0.493111 * primary->cb * 256);
         /* tint, substract from cr in odd lines */
         val = (SDWORD)(tin);
         color_tab->crtable_odd[i] = -(SDWORD)((primary->cr - val) * sat);
-        color_tab->cvtable_odd[i] = -(SDWORD)(0.877283 * (primary->cr - val) * sat);
+        color_tab->cvtable_odd[i] = -(SDWORD)(0.877283 * (primary->cr - val) * 256);
     }
 }
 
