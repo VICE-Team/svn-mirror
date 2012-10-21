@@ -3,7 +3,12 @@ Building the SDL port of VICE:
 Building in *nix compile enviroments
 ------------------------------------
 
+If you have checked out the unstable svn version of VICE you need to generate
+the configure script first by doing:
 ./autogen.sh
+
+The stable tarball already has the configure script, so continue with:
+
 ./configure --enable-sdlui
 make
 make install

@@ -35,8 +35,17 @@ which complains about the missing file.
 Typically, you will need to add the files ddraw.h, dsound.h, dinput.h
 and d3dtypes.h to the 'include' directory of the GNU compiler.
 
-If you use Mingw Minimal System, after running MSYS you can change-dir into the VICE directory
-and type './autogen.sh', which will generate the configure scripts. Once that is done type './configure'.  
+If you use Mingw Minimal System, after running MSYS you can change-dir into the VICE directory.
+
+If you have checked out the unstable svn version of VICE you need to generate
+the configure script first by doing:
+
+./autogen.sh
+
+The stable tarball already has the configure script, so continue with:
+
+./configure
+
 After configure has finished, you can initiate the build process by simply typing 'make'.  
 This should hopefully be enough to produce all of the VICE emulators on your Windows system.
 

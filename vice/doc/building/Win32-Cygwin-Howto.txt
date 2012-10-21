@@ -27,12 +27,14 @@ Compiling VICE on Win32 with Cygwin
    dx7libhdr.exe is a self-extracting achive.  Extract the dx7sdk directory
    from it into your Cygwin user's home directory (e.g. /home/Owner/dx7sdk).
 
-4. Change into the VICE sources directory. First generate the configure script
-   by running:
+4. Change into the VICE sources directory.
+
+   If you have checked out the unstable svn version of VICE you need to generate
+   the configure script first by doing:
 
      ./autogen.sh
 
-   After that configure the build system by running:
+    The stable tarball already has the configure script, so continue with:
 
      CFLAGS="-mno-cygwin -I$HOME/dx7sdk/include" ./configure --without-png --without-zlib
 
