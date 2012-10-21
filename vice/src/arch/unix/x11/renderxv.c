@@ -189,8 +189,10 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overl
                             XFree(attr);
                         }
                         if (!numattr) {
+                            XvUngrabPort(display, port_id, CurrentTime);
                             continue; /* no attributes? Can't be better than the previous one... */
                         }
+                        XvUngrabPort(display, *port, CurrentTime);
                     }
                     *port = port_id;
                     *format = fourcc_list[j]; /* Textured video is not an overlay */
