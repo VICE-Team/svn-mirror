@@ -181,6 +181,16 @@ void renderyuv_2x_4_2_2(image_t* image,
     }
 }
 
+static void renderyuv_4_1_1_color_update(unsigned int *colors)
+{
+    int i;
+    for (i = 0;i < 256; i++) {
+        unsigned int YUV = colors[i];
+        unsigned int Y0 = Y(YUV);
+        colors[i] = (V(YUV) << 20) | (U(YUV) << 10) | Y0;
+    }
+}
+
 /* Render planar YUV 4:1:1 formats. */
 void renderyuv_4_1_1(image_t* image,
                      int plane_y, int plane_u, int plane_v,
@@ -189,15 +199,16 @@ void renderyuv_4_1_1(image_t* image,
                      unsigned int* src_color,
                      int src_x, int src_y,
                      unsigned int src_w, unsigned int src_h,
-                     int dest_x, int dest_y)
+                     int dest_x, int dest_y, int *yuv_updated)
 {
     unsigned int x, y;
-    BYTE *Yptr = image->data + image->offsets[plane_y];
+    BYTE *Yptr = image->data + image->offsets[plane_y], *Yptr2;
     BYTE *Uptr = image->data + image->offsets[plane_u];
     BYTE *Vptr = image->data + image->offsets[plane_v];
     int Ypitch = image->pitches[plane_y];
     int Upitch = image->pitches[plane_u];
     int Vpitch = image->pitches[plane_v];
+    unsigned char *src2;
 
     /* Normalize to 2x2 blocks. */
     if (dest_x & 1) {
@@ -217,6 +228,11 @@ void renderyuv_4_1_1(image_t* image,
         src_h++;
     }
 
+    if (!*yuv_updated) {
+        renderyuv_4_1_1_color_update(src_color);
+        *yuv_updated = 1;
+    }
+
     /* Add start offsets. */
     Yptr += Ypitch*dest_y + dest_x;
     Uptr += (Upitch*dest_y + dest_x) >> 1;
@@ -225,22 +241,29 @@ void renderyuv_4_1_1(image_t* image,
 
     /* Render 2x2 blocks, YUV 4:1:1 */
     for (y = 0; y < src_h; y += 2) {
+        src2 = src + src_pitch;
+        Yptr2 = Yptr + Ypitch;
         for (x = 0; x < src_w; x += 2) {
-            unsigned int YUV0 = src_color[*src];
-            unsigned int YUV1 = src_color[*(src + 1)];
-            unsigned int YUV2 = src_color[*(src + src_pitch)];
-            unsigned int YUV3 = src_color[*(src + src_pitch + 1)];
-            src += 2;
-            *Yptr = Y(YUV0);
-            *(Yptr + 1) = Y(YUV1);
-            *(Yptr + Ypitch) = Y(YUV2);
-            *(Yptr + Ypitch + 1) = Y(YUV3);
-            Yptr += 2;
-            *Uptr++ = (U(YUV0) + U(YUV1) + U(YUV2) + U(YUV3)) >> 2;
-            *Vptr++ = (V(YUV0) + V(YUV1) + V(YUV2) + V(YUV3)) >> 2;
+            unsigned int uv, col;
+            col = src_color[src[x]];
+            Yptr[x] = (BYTE)col;
+            uv = col;
+            col = src_color[src[x + 1]];
+            Yptr[x + 1] = (BYTE)col;
+            uv += col;
+            col = src_color[src2[x]];
+            Yptr2[x] = (BYTE)col;
+            uv += col;
+            col = src_color[src2[x + 1]];
+            Yptr2[x + 1] = (BYTE)col;
+            uv += col;
+            uv >>= 12;
+            *Uptr++ = (BYTE)uv;
+            uv >>= 10;
+            *Vptr++ = (BYTE)uv;
         }
-        src += (src_pitch << 1) - src_w;
-        Yptr += (Ypitch << 1) - src_w;
+        src = src2 + src_pitch;
+        Yptr = Yptr2 + Ypitch;
         Uptr += Upitch - (src_w >> 1);
         Vptr += Vpitch - (src_w >> 1);
     }
@@ -300,22 +323,22 @@ void renderyuv_2x_4_1_1(image_t* image,
             for (x = 0; x < src_w; x++) {
                 unsigned int col = src[x];
                 unsigned int tmp;
-                Yptr[x] = src_color[col];
+                Yptr[x] = (WORD)src_color[col];
                 tmp = src_color[col + 256];
-                Yptr2[x] = tmp;
+                Yptr2[x] = (WORD)tmp;
                 tmp >>= 16;
-                Uptr[x] = tmp;
+                Uptr[x] = (BYTE)tmp;
                 tmp >>= 8;
-                Vptr[x] = tmp;
+                Vptr[x] = (BYTE)tmp;
             }
         } else {
             for (x = 0; x < src_w; x++) {
                 unsigned int tmp = src_color[src[x]];
-                Yptr[x] = tmp;
+                Yptr[x] = (WORD)tmp;
                 tmp >>= 16;
-                Uptr[x] = tmp;
+                Uptr[x] = (BYTE)tmp;
                 tmp >>= 8;
-                Vptr[x] = tmp;
+                Vptr[x] = (BYTE)tmp;
             }
             memcpy(Yptr2, Yptr, src_w * 2);
         }

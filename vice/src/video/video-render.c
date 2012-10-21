@@ -291,9 +291,10 @@ void render_yuv_image(viewport_t *viewport,
             if (planar) {
                 if (!true_pal_mode) {
                     /* planar, 1x1, no filter */
-                    renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
-                                    src, src_pitch, config->color_tables.yuv_table,
-                                    src_x, src_y, src_w, src_h, dest_x, dest_y);
+                    renderyuv_4_1_1(image, plane_y, plane_u, plane_v, src,
+                            src_pitch, config->color_tables.yuv_table, src_x,
+                            src_y, src_w, src_h, dest_x, dest_y,
+                            &config->color_tables.yuv_updated);
                 } else {
                     /* planar, 1x1, pal filter */
                     renderyuv_4_1_1_pal(image, plane_y, plane_u, plane_v,
@@ -456,9 +457,10 @@ void render_yuv_image(viewport_t *viewport,
       case VIDEO_RENDER_CRT_1X1:
             if (planar) {
                 /* planar, 1x1, no filter */
-                renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
-                                src, src_pitch, config->color_tables.yuv_table,
-                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+                renderyuv_4_1_1(image, plane_y, plane_u, plane_v, src,
+                        src_pitch, config->color_tables.yuv_table, src_x,
+                        src_y, src_w, src_h, dest_x, dest_y,
+                        &config->color_tables.yuv_updated);
                 return;
             } else {
                 /* not planar, 1x1, no filter */
@@ -711,7 +713,7 @@ void render_yuv_image(viewport_t *viewport,
                 /* planar, 1x1, no filter */
                 renderyuv_4_1_1(image, plane_y, plane_u, plane_v,
                                 src, src_pitch, config->color_tables.yuv_table,
-                                src_x, src_y, src_w, src_h, dest_x, dest_y);
+                                src_x, src_y, src_w, src_h, dest_x, dest_y, &config->color_tables.yuv_updated);
             } else {
                 /* not planar, 1x1, no filter */
                 renderyuv_4_2_2(image, shift_y0, shift_u, shift_v, shift_y1,
