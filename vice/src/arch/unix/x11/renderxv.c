@@ -119,7 +119,7 @@ fourcc_t fourcc_list[] = {
 
 int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
 {
-    int i, j, k;
+    int i, j, k, found_one = 0;
 
     /* XvQueryExtension */
     unsigned int version, release, request_base, event_base, error_base;
@@ -182,21 +182,29 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format)
                     if (XvGrabPort(display, port_id, CurrentTime) != Success) {
                         continue;
                     }
+                    if (found_one) {
+                        int numattr;
+                        XvAttribute *attr = XvQueryPortAttributes(display, port_id, &numattr);
+                        if (attr) {
+                            XFree(attr);
+                        }
+                        if (!numattr) {
+                            continue; /* no attributes? Can't be better than the previous one... */
+                        }
+                    }
                     *port = port_id;
                     *format = fourcc_list[j];
-                    XFree(format_list);
-                    XvFreeAdaptorInfo(adaptor_info);
-                    return 1;
+                    found_one = 1;
                 }
             }
         }
-
         XFree(format_list);
     }
-
     XvFreeAdaptorInfo(adaptor_info);
-    printf("No suitable Xv YUV adaptor/port available.\n");
-    return 0;
+    if (!found_one) {
+        printf("No suitable Xv YUV adaptor/port available.\n");
+    }
+    return found_one;
 }
 
 static int mitshm_failed = 0; /* will be set to true if XShmAttach() failed */
