@@ -34,8 +34,9 @@ Building the binaries using a cross-compiler :
 - AmigaOS3:   configure with --host=m68k-amigaos
 - AmigaOS4:   configure with --host=ppc-amigaos
 - MorphOS:    configure with --host=ppc-morphos
-- Intel AROS: configure with --host=i686-aros --without-resid
-- PPC AROS:   configure with --host=ppc-linux-aros --without-resid
+- Intel AROS: configure with --host=i686-aros
+- PPC AROS:   configure with --host=powerpc-aros
+- AROS64:     configure with --host=x86_64-aros
 
 After the configure script is done:
 
