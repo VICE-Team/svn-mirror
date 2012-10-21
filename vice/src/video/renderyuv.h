@@ -136,7 +136,7 @@ extern void renderyuv_4_1_1_pal(image_t* image,
                                 int src_x, int src_y,
                                 unsigned int src_w, unsigned int src_h,
                                 int dest_x, int dest_y,
-                                int pal_blur);
+                                int pal_blur, int *yuv_updated);
 
 extern void renderyuv_2x_4_1_1_pal(image_t* image,
                                    int plane_y, int plane_u, int plane_v,

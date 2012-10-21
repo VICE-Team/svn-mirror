@@ -349,6 +349,16 @@ void renderyuv_2x_4_1_1(image_t* image,
     }
 }
 
+static void renderyuv_4_1_1_pal_color_update(unsigned int *colors, int pal_blur)
+{
+ /*   int pal_sharp = 256 - (pal_blur << 1); */
+    int i;
+    for (i = 0;i < 256; i++) {
+        unsigned int YUV = colors[i];
+        unsigned int Y0 = Y(YUV);
+        colors[i] = (V(YUV) << 21) | (U(YUV) << 10) | Y0;
+    }
+}
 
 /* Render planar YUV 4:1:1 formats - PAL emulation. */
 void renderyuv_4_1_1_pal(image_t* image,
@@ -359,19 +369,18 @@ void renderyuv_4_1_1_pal(image_t* image,
                          int src_x, int src_y,
                          unsigned int src_w, unsigned int src_h,
                          int dest_x, int dest_y,
-                         int pal_blur)
+                         int pal_blur, int *yuv_updated)
 {
-    unsigned int x, y;
-    unsigned int
-        YUVm10, YUV00, YUV10, YUV20,
-        YUVm11, YUV01, YUV11, YUV21;
-    BYTE *Yptr = image->data + image->offsets[plane_y];
+    unsigned int x, y, uv;
+    unsigned int YUVm10, YUV00, YUV10, YUV20, YUVm11, YUV01, YUV11, YUV21;
+    BYTE *Yptr = image->data + image->offsets[plane_y], *Yptr2;
     BYTE *Uptr = image->data + image->offsets[plane_u];
     BYTE *Vptr = image->data + image->offsets[plane_v];
     int Ypitch = image->pitches[plane_y];
     int Upitch = image->pitches[plane_u];
     int Vpitch = image->pitches[plane_v];
     int pal_sharp = 256 - (pal_blur << 1);
+    unsigned char *src2;
 
     /* Normalize to 2x2 blocks. */
     if (dest_x & 1) {
@@ -402,6 +411,11 @@ void renderyuv_4_1_1_pal(image_t* image,
         src_w += 2;
     }
 
+    if (!*yuv_updated) {
+        renderyuv_4_1_1_pal_color_update(src_color, pal_blur);
+        *yuv_updated = 1;
+    }
+
     /* Add start offsets. */
     Yptr += Ypitch*dest_y + dest_x;
     Uptr += (Upitch*dest_y + dest_x) >> 1;
@@ -410,64 +424,80 @@ void renderyuv_4_1_1_pal(image_t* image,
 
     /* Render 2x2 blocks, YUV 4:1:1 */
     for (y = 0; y < src_h; y += 2) {
+        src2 = src + src_pitch;
         /* Read first 2x2 block. */
         if (dest_x > 0) {
             YUVm10 = src_color[*(src - 1)];
-            YUVm11 = src_color[*(src + src_pitch - 1)];
+            YUVm11 = src_color[*(src2 - 1)];
         } else {
             YUVm10 = src_color[*src];
-            YUVm11 = src_color[*(src + src_pitch)];
+            YUVm11 = src_color[*src2];
         }
         YUV00 =  src_color[*src];
-        YUV01 =  src_color[*(src + src_pitch)];
+        YUV01 =  src_color[*src2];
+        Yptr2 = Yptr + Ypitch;
         for (x = 0; x < src_w - 2; x += 2) {
             /* Read next 2x2 block. */
-            YUV10 = src_color[*(src + 1)];
-            YUV20 = src_color[*(src + 2)];
-            YUV11 = src_color[*(src + src_pitch + 1)];
-            YUV21 = src_color[*(src + src_pitch + 2)];
-            src += 2;
-            *Yptr =               (Y(YUV00)*pal_sharp + (Y(YUVm10) + Y(YUV10))*pal_blur) >> 8;
-            *(Yptr + 1) =          (Y(YUV10)*pal_sharp + (Y(YUV00) + Y(YUV20))*pal_blur) >> 8;
-            *(Yptr + Ypitch) =    (Y(YUV01)*pal_sharp + (Y(YUVm11) + Y(YUV11))*pal_blur) >> 8;
-            *(Yptr + Ypitch + 1) = (Y(YUV11)*pal_sharp + (Y(YUV01) + Y(YUV21))*pal_blur) >> 8;
-            Yptr += 2;
-            *Uptr++ =
-                (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
-                 U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
-            *Vptr++ =
-                (V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
-                 V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
-
-            /* Prepare to read next 2x2 block. */
-            YUVm10 = YUV10; YUV00 = YUV20;
-            YUVm11 = YUV11; YUV01 = YUV21;
+            YUV10 = src_color[src[x + 1]];
+            YUV20 = src_color[src[x + 2]];
+            if (pal_blur) {
+                Yptr[x] = (((BYTE)YUV00)*pal_sharp + ((YUVm10 + YUV10) & 0x1ff)*pal_blur) >> 8;
+                Yptr[x + 1] = (((BYTE)YUV10)*pal_sharp + ((YUV00 + YUV20) & 0x1ff)*pal_blur) >> 8;
+            } else {
+                Yptr[x] = (BYTE)YUV00;
+                Yptr[x + 1] = (BYTE)YUV10;
+            }
+            uv = YUVm10 + YUV00 + YUV10 + YUV20;
+            YUVm10 = YUV10; YUV00 = YUV20;/* Prepare to read next 2x2 block. */
+            YUV11 = src_color[src2[x + 1]];
+            YUV21 = src_color[src2[x + 2]];
+            if (pal_blur) {
+                Yptr2[x] = (((BYTE)YUV01)*pal_sharp + ((YUVm11 + YUV11) & 0x1ff)*pal_blur) >> 8;
+                Yptr2[x + 1] = (((BYTE)YUV11)*pal_sharp + ((YUV01 + YUV21) & 0x1ff)*pal_blur) >> 8;
+            } else {
+                Yptr2[x] = (BYTE)YUV01;
+                Yptr2[x + 1] = (BYTE)YUV11;
+            }
+            uv += YUVm11 + YUV01 + YUV11 + YUV21;
+            uv >>= 13;
+            *Uptr++ = (BYTE)uv;
+            uv >>= 11;
+            *Vptr++ = (BYTE)uv;
+            YUVm11 = YUV11; YUV01 = YUV21;/* Prepare to read next 2x2 block. */
         }
         /* Read last 2x2 block. */
-        YUV10 = src_color[*(src + 1)];
-        YUV11 = src_color[*(src + src_pitch + 1)];
+        YUV10 = src_color[src[x + 1]];
+        YUV11 = src_color[src2[x + 1]];
         if (dest_x + (int)src_w < (int)(image->width)) {
             YUV20 = YUV10;
             YUV21 = YUV11;
         } else {
-            YUV20 = src_color[*(src + 2)];
-            YUV21 = src_color[*(src + src_pitch + 2)];
+            YUV20 = src_color[src[x + 2]];
+            YUV21 = src_color[src2[x + 2]];
         }
-        src += 2;
-        *Yptr =               (Y(YUV00)*pal_sharp + (Y(YUVm10) + Y(YUV10))*pal_blur) >> 8;
-        *(Yptr + 1) =          (Y(YUV10)*pal_sharp + (Y(YUV00) + Y(YUV20))*pal_blur) >> 8;
-        *(Yptr + Ypitch) =    (Y(YUV01)*pal_sharp + (Y(YUVm11) + Y(YUV11))*pal_blur) >> 8;
-        *(Yptr + Ypitch + 1) = (Y(YUV11)*pal_sharp + (Y(YUV01) + Y(YUV21))*pal_blur) >> 8;
-        Yptr += 2;
-        *Uptr++ =
-            (U(YUVm10) + U(YUV00) + U(YUV10) + U(YUV20) +
-             U(YUVm11) + U(YUV01) + U(YUV11) + U(YUV21)) >> 3;
-        *Vptr++ =
-            (V(YUVm10) + V(YUV00) + V(YUV10) + V(YUV20) +
-             V(YUVm11) + V(YUV01) + V(YUV11) + V(YUV21)) >> 3;
+        if (pal_blur) {
+            Yptr[x] = (((BYTE)YUV00)*pal_sharp + ((YUVm10 + YUV10) & 0x1ff)*pal_blur) >> 8;
+            Yptr[x + 1] = (((BYTE)YUV10)*pal_sharp + ((YUV00 + YUV20) & 0x1ff)*pal_blur) >> 8;
+        } else {
+            Yptr[x] = (BYTE)YUV00;
+            Yptr[x + 1] = (BYTE)YUV10;
+        }
+        uv = YUVm10 + YUV00 + YUV10 + YUV20;
+        if (pal_blur) {
+            Yptr2[x] = (((BYTE)YUV01)*pal_sharp + ((YUVm11 + YUV11) & 0x1ff)*pal_blur) >> 8;
+            Yptr2[x + 1] = (((BYTE)YUV11)*pal_sharp + ((YUV01 + YUV21) & 0x1ff)*pal_blur) >> 8;
+        } else {
+            Yptr2[x] = (BYTE)YUV01;
+            Yptr2[x + 1] = (BYTE)YUV11;
+        }
+        uv += YUVm11 + YUV01 + YUV11 + YUV21;
+        uv >>= 13;
+        *Uptr++ = (BYTE)uv;
+        uv >>= 11;
+        *Vptr++ = (BYTE)uv;
 
-        src += (src_pitch << 1) - src_w;
-        Yptr += (Ypitch << 1) - src_w;
+        src = src2 + src_pitch;
+        Yptr = Yptr2 + Ypitch;
         Uptr += Upitch - (src_w >> 1);
         Vptr += Vpitch - (src_w >> 1);
     }
