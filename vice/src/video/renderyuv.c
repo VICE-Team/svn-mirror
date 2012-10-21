@@ -34,6 +34,7 @@
 #include <string.h>
 
 #include "renderyuv.h"
+#include "video.h"
 
 /* Extract YUV components. */
 inline static unsigned int Y(unsigned int YUV)
@@ -50,13 +51,6 @@ inline static unsigned int V(unsigned int YUV)
 {
     return YUV & 0xff;
 }
-
-
-typedef struct {
-    unsigned int Y0, Y1, U, V;
-} YUV_avg;
-
-static YUV_avg yuv_lines[2][1024];
 
 static void renderyuv_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
                         unsigned int *colors)
@@ -349,9 +343,8 @@ void renderyuv_2x_4_1_1(image_t* image,
     }
 }
 
-static void renderyuv_4_1_1_pal_color_update(unsigned int *colors, int pal_blur)
+static void renderyuv_4_1_1_pal_color_update(unsigned int *colors)
 {
- /*   int pal_sharp = 256 - (pal_blur << 1); */
     int i;
     for (i = 0;i < 256; i++) {
         unsigned int YUV = colors[i];
@@ -412,7 +405,7 @@ void renderyuv_4_1_1_pal(image_t* image,
     }
 
     if (!*yuv_updated) {
-        renderyuv_4_1_1_pal_color_update(src_color, pal_blur);
+        renderyuv_4_1_1_pal_color_update(src_color);
         *yuv_updated = 1;
     }
 
@@ -503,6 +496,19 @@ void renderyuv_4_1_1_pal(image_t* image,
     }
 }
 
+static void renderyuv_2x_4_1_1_pal_color_update(unsigned int *colors, int double_scan, int pal_scanline_shade)
+{
+    int i;
+    for (i = 0;i < 256; i++) {
+        unsigned int YUV = colors[i];
+        unsigned int Y0 = Y(YUV);
+        colors[i] = (V(YUV) << 21) | (U(YUV) << 10) | Y0;
+        if (!double_scan) {
+            /* Set scanline shade intensity. */
+            ((WORD*)&colors[256])[i] = (i * pal_scanline_shade >> 10) * 0x101;
+        }
+    }
+}
 
 /* Render planar YUV 4:1:1 formats - PAL emulation, double size. */
 void renderyuv_2x_4_1_1_pal(image_t* image,
@@ -514,22 +520,31 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
                             unsigned int src_w, unsigned int src_h,
                             int dest_x, int dest_y,
                             int pal_blur,
-                            int double_scan, int pal_scanline_shade)
+                            int pal_scanline_shade,
+                            int *yuv_updated)
 {
     unsigned int x, y;
     unsigned int YUVm2, YUVm1, YUV0, YUV1;
     int lineno = 0;
-    YUV_avg* linepre;
-    YUV_avg* line;
-    BYTE *Yptr = image->data + image->offsets[plane_y];
-    BYTE *Uptr = image->data + image->offsets[plane_u];
-    BYTE *Vptr = image->data + image->offsets[plane_v];
+    unsigned int yuv_lines[2][VIDEO_MAX_OUTPUT_WIDTH];
+    unsigned int* linepre;
+    unsigned int* line;
+    BYTE *Yptr = image->data + image->offsets[plane_y] - 1;
+    BYTE *Uptr = image->data + image->offsets[plane_u] - 1;
+    BYTE *Vptr = image->data + image->offsets[plane_v] - 1;
     int Ypitch = image->pitches[plane_y];
     int Upitch = image->pitches[plane_u];
     int Vpitch = image->pitches[plane_v];
     int pal_sharp = 256 - (pal_blur << 1);
+    WORD *Yptr2;
+    int double_scan = (pal_scanline_shade >= 1022);
 
     /* No need to normalize to 2x2 blocks because of size doubling. */
+    if (!*yuv_updated) {
+        renderyuv_2x_4_1_1_pal_color_update(src_color, double_scan,
+                pal_scanline_shade);
+        *yuv_updated = 1;
+    }
 
     /* Enlarge the rendered area to ensure that neighboring pixels are
        correctly averaged. */
@@ -569,35 +584,33 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
                 YUVm2 = src_color[*(src - 2)];
             }
         }
-        for (x = 0; x < src_w - 1; x++) {
+        for (x = 1; x < src_w; x++) {
             /* Read next pixel. */
-            YUV1 = src_color[*++src];
+            YUV1 = src_color[src[x]];
 
-            line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
-            line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
+            line[x] = YUVm2 + YUVm1 + YUV0 + YUV1;
 
             /* Prepare to read next pixel. */
-            line++;
             YUVm2 = YUVm1;
             YUVm1 = YUV0;
             YUV0 = YUV1;
         }
         /* Read last pixel. */
         if (dest_x + (int)src_w < (int)(image->width >> 1)) {
-            YUV1 = src_color[*++src];
+            YUV1 = src_color[src[x]];
         } else {
-            YUV1 = src_color[*src++];
+            YUV1 = src_color[src[x - 1]];
         }
-        line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
-        line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
+        line[x] = YUVm2 + YUVm1 + YUV0 + YUV1;
 
-        src += src_pitch - src_w;
+        src += src_pitch;
     } else {
         /* Trick main loop into averaging first line with itself. */
         linepre = yuv_lines[lineno ^ 1];
     }
 
     for (y = 0; y < src_h; y++) {
+        unsigned int tmp;
         /* Store current line. */
         lineno ^= 1;
         line = yuv_lines[lineno];
@@ -610,55 +623,76 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
                 YUVm2 = src_color[*(src - 2)];
             }
         }
-        for (x = 0; x < src_w - 1; x++) {
-            /* Read next pixel. */
-            YUV1 = src_color[*++src];
-            line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
-            line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
-            line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
+        Yptr2 = ((WORD *)(Yptr + Ypitch + 1)) - 1;
+        if (!double_scan) {
+            for (x = 1; x < src_w; x++) {
+                /* Read next pixel. */
+                YUV1 = src_color[src[x]];
+                tmp = pal_blur ? ((((BYTE)YUV0)*pal_sharp + ((YUVm1 + YUV1) & 0x1ff)*pal_blur) >> 8) : YUV0;
+                Yptr[x] = (BYTE)tmp;
+                Yptr++;
+                Yptr[x] = (BYTE)tmp;
+                Yptr2[x] = ((WORD *)&src_color[256])[(BYTE)tmp];
+                line[x] = tmp = YUVm2 + YUVm1 + YUV0 + YUV1;
+                tmp += linepre[x];
+                tmp >>= 13;
+                Uptr[x] = (BYTE)tmp;
+                tmp >>= 11;
+                Vptr[x] = (BYTE)tmp;
 
-            /* Prepare to read next pixel. */
-            line++;
-            YUVm2 = YUVm1;
-            YUVm1 = YUV0;
-            YUV0 = YUV1;
+                /* Prepare to read next pixel. */
+                YUVm2 = YUVm1;
+                YUVm1 = YUV0;
+                YUV0 = YUV1;
+            }
+        } else {
+            for (x = 1; x < src_w; x++) {
+                /* Read next pixel. */
+                YUV1 = src_color[src[x]];
+                tmp = pal_blur ? ((((BYTE)YUV0)*pal_sharp + ((YUVm1 + YUV1) & 0x1ff)*pal_blur) >> 8) : YUV0;
+                Yptr[x] = (BYTE)tmp;
+                Yptr++;
+                Yptr[x] = (BYTE)tmp;
+                line[x] = tmp = YUVm2 + YUVm1 + YUV0 + YUV1;
+                tmp += linepre[x];
+                tmp >>= 13;
+                Uptr[x] = (BYTE)tmp;
+                tmp >>= 11;
+                Vptr[x] = (BYTE)tmp;
+
+                /* Prepare to read next pixel. */
+                YUVm2 = YUVm1;
+                YUVm1 = YUV0;
+                YUV0 = YUV1;
+            }
         }
         /* Read last pixel. */
         if (dest_x + (int)src_w < (int)(image->width >> 1)) {
-            YUV1 = src_color[*++src];
+            YUV1 = src_color[src[x]];
         } else {
-            YUV1 = src_color[*src++];
+            YUV1 = src_color[src[x - 1]];
         }
-        line->Y0 = (Y(YUV0)*pal_sharp + (Y(YUVm1) + Y(YUV1))*pal_blur) >> 8;
-        line->U = U(YUVm2) + U(YUVm1) + U(YUV0) + U(YUV1);
-        line->V = V(YUVm2) + V(YUVm1) + V(YUV0) + V(YUV1);
-        src += src_pitch - src_w;
-
-        line = yuv_lines[lineno];
-
-        /* Render 2x1 blocks, YUV 4:1:1 */
-        for (x = 0; x < src_w; x++) {
-            unsigned int Y0 = line->Y0;
-            *Yptr = Y0;
-            *(Yptr + 1) = Y0;
-            if (!double_scan) {
-                /* Set scanline shade intensity. */
-                Y0 = line->Y0*pal_scanline_shade >> 10;
-            }
-            *(Yptr + Ypitch) = Y0;
-            *(Yptr + Ypitch + 1) = Y0;
-            Yptr += 2;
-            *Uptr++ =
-                (line->U + linepre->U) >> 3;
-            *Vptr++ =
-                (line->V + linepre->V) >> 3;
-            line++;
-            linepre++;
+        line[x] = tmp = YUVm2 + YUVm1 + YUV0 + YUV1;
+        tmp += linepre[x];
+        tmp >>= 13;
+        Uptr[x] = (BYTE)tmp;
+        tmp >>= 11;
+        Vptr[x] = (BYTE)tmp;
+        tmp = pal_blur ? ((((BYTE)YUV0)*pal_sharp + ((YUVm1 + YUV1) & 0x1ff)*pal_blur) >> 8) : YUV0;
+        Yptr[x] = (BYTE)tmp;
+        Yptr++;
+        Yptr[x] = (BYTE)tmp;
+        if (!double_scan) {
+            Yptr2[x] = ((WORD *)&src_color[256])[(BYTE)tmp];
+        } else {
+            memcpy(Yptr2 + 1, Yptr - src_w + 1, src_w * 2);
         }
-        Yptr += (Ypitch - src_w) << 1;
-        Uptr += Upitch - src_w;
-        Vptr += Vpitch - src_w;
 
-        linepre = yuv_lines[lineno];
+        src += src_pitch;
+        Yptr += (Ypitch << 1) - src_w;
+        Uptr += Upitch;
+        Vptr += Vpitch;
+
+        linepre = line;
     }
 }

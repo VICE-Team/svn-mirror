@@ -147,6 +147,7 @@ extern void renderyuv_2x_4_1_1_pal(image_t* image,
                                    unsigned int src_w, unsigned int src_h,
                                    int dest_x, int dest_y,
                                    int pal_blur,
-                                   int double_scan, int pal_scanline_shade);
+                                   int pal_scanline_shade,
+                                   int *yuv_updated);
 
 #endif

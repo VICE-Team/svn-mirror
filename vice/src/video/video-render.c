@@ -383,7 +383,7 @@ void render_yuv_image(viewport_t *viewport,
                     renderyuv_2x_4_1_1_pal(image, plane_y, plane_u, plane_v,
                                         src, src_pitch, config->color_tables.yuv_table,
                                         src_x, src_y, src_w, src_h, dest_x, dest_y,
-                                        pal_blur, double_scan, pal_scanline_shade);
+                                        pal_blur, pal_scanline_shade, &config->color_tables.yuv_updated);
 /* FIXME: implement renderyuv_2x_4_1_1_ntsc */
                 }
                 return;
