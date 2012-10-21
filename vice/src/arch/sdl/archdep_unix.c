@@ -50,6 +50,11 @@
 #include <strings.h>
 #endif
 
+#if defined(__QNX__) && !defined(__QNXNTO__)
+#include <sys/time.h>
+#include <sys/timers.h>
+#endif
+
 #include "archdep.h"
 #include "findpath.h"
 #include "ioutil.h"
@@ -74,6 +79,19 @@ const char *archdep_pref_path = NULL; /* NULL -> use home_path + ".vice" */
 #if defined(DINGUX) || defined(DINGUX_SDL) || defined(GP2X) || defined(GP2X_SDL)
 #define USE_PROC_SELF_EXE
 #define USE_EXE_RELATIVE_TMP
+#endif
+
+#if defined(__QNX__) && !defined(__QNXNTO__)
+int archdep_rtc_get_centisecond(void)
+{
+    struct timespec dtm;
+    int status;
+
+    if ((status = clock_gettime(CLOCK_REALTIME, &dtm)) == 0) {
+        return dtm.tv_nsec / 10000L;
+    }
+    return 0;
+}
 #endif
 
 int archdep_network_init(void)
