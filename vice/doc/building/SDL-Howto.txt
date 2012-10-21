@@ -3,6 +3,7 @@ Building the SDL port of VICE:
 Building in *nix compile enviroments
 ------------------------------------
 
+./autogen.sh
 ./configure --enable-sdlui
 make
 make install

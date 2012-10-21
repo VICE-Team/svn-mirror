@@ -36,9 +36,9 @@ Typically, you will need to add the files ddraw.h, dsound.h, dinput.h
 and d3dtypes.h to the 'include' directory of the GNU compiler.
 
 If you use Mingw Minimal System, after running MSYS you can change-dir into the VICE directory
-and type './configure'.  After configure has finished, you can initiate the
-build process by simply typing 'make'.  This should hopefully be enough to
-produce all of the VICE emulators on your Windows system.
+and type './autogen.sh', which will generate the configure scripts. Once that is done type './configure'.  
+After configure has finished, you can initiate the build process by simply typing 'make'.  
+This should hopefully be enough to produce all of the VICE emulators on your Windows system.
 
 If you use Cygwin, and want to use Cygwin's compilers, run
 Cygwin Bash shell, change-dir into the VICE directory
