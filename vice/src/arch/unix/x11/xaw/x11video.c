@@ -467,14 +467,16 @@ struct {
     int max;
     int v_max;
     int xv_zero;
+    int xv_default;
+    int restore;     /* 0 unknown, 1 ok, 2 fault */
     int *value;
 }
 
 xv_settings[] = {
-    { "XV_SATURATION", 0, 0, 0, 2000, 32, NULL },
-    { "XV_CONTRAST", 0, 0, 0, 2000, 64, NULL },
-    { "XV_BRIGHTNESS", 0, 0, 0, 2000, 144, NULL },
-    { "XV_GAMMA", 0, 0, 0, 4000, 1000, NULL }
+    { "XV_SATURATION", 0, 0, 0, 2000, 32, 0, 0, NULL },
+    { "XV_CONTRAST", 0, 0, 0, 2000, 64, 0, 0, NULL },
+    { "XV_BRIGHTNESS", 0, 0, 0, 2000, 144, 0, 0, NULL },
+    { "XV_GAMMA", 0, 0, 0, 4000, 1000, 0, 0, NULL }
 };
 
 static void init_xv_settings(video_canvas_t *canvas)
@@ -495,10 +497,20 @@ static void init_xv_settings(video_canvas_t *canvas)
             xv_settings[i].atom = 0;
 
             for (j = 0; j < numattr; j++) {
+                if (!(attr[j].flags & XvSettable)) {
+                    continue; /* useless, can't be set */
+                }
                 if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
                     xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name, False);
                     xv_settings[i].min = attr[j].min_value;
                     xv_settings[i].max = attr[j].max_value;
+                    if ((attr[j].flags & XvGettable) && !xv_settings[i].restore) {
+                        xv_settings[i].restore = (XvGetPortAttribute(dpy, canvas->xv_port,
+                                xv_settings[i].atom, &xv_settings[i].xv_default) == Success);
+                        if (!xv_settings[i].restore) {
+                            xv_settings[i].restore = 2;
+                        }
+                    }
                     break;
                 }
             }
@@ -766,6 +778,20 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 void video_canvas_destroy(video_canvas_t *canvas)
 {
+#ifdef HAVE_XVIDEO
+    /* Restore color settings to XVideo. */
+    if (canvas->videoconfig->hwscale && canvas->xv_image) {
+        int i;
+        Display *dpy = x11ui_get_display_ptr();
+
+        for (i = 0; i < (int)util_arraysize(xv_settings); i++) {
+            if (xv_settings[i].restore == 1) {
+                XvSetPortAttribute(dpy, canvas->xv_port, xv_settings[i].atom, xv_settings[i].xv_default);
+            }
+        }
+        video_canvas_refresh(canvas, 0, 0, 0, 0, 0, 0); /* settings not restored unless it's displayed once... */
+    }
+#endif
 #ifdef HAVE_FULLSCREEN
     if (canvas != NULL) {
         fullscreen_shutdown_alloc_hooks(canvas);
