@@ -318,7 +318,7 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
         if ((y + 1) == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (y == yys), height == 0 */
-            if ((y + 1) == yys || (y + 1) <= viewport->first_line * 2 || (y + 1) > viewport->last_line * 2) {
+            if ((y + 1) == yys || (y + 1) <= viewport->first_line * 4 || (y + 1) > viewport->last_line * 4) {
                 break;
             }
             tmptrg2 = &color_tab->rgbscratchbuffer[0];
@@ -330,14 +330,14 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline2 = ((y + 0) != yys) && ((y + 0) > viewport->first_line * 2) && ((y + 0) <= viewport->last_line * 2)
+            tmptrgscanline2 = ((y + 0) != yys) && ((y + 0) > viewport->first_line * 4) && ((y + 0) <= viewport->last_line * 4)
                 ? trg - pitcht
                 : &color_tab->rgbscratchbuffer[0];
         }
         if (y == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (y == yys), height == 0 */
-            if (y == yys || y <= viewport->first_line * 2 || y > viewport->last_line * 2) {
+            if (y == yys || y <= viewport->first_line * 4 || y > viewport->last_line * 4) {
                 break;
             }
             tmptrg1 = &color_tab->rgbscratchbuffer[0];
@@ -349,7 +349,7 @@ void render_generic_2x4_crt(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline1 = (y != yys) && (y > viewport->first_line * 2) && (y <= viewport->last_line * 2)
+            tmptrgscanline1 = (y != yys) && (y > viewport->first_line * 4) && (y <= viewport->last_line * 4)
                 ? trg - (pitcht * 2)
                 : &color_tab->rgbscratchbuffer[0];
         }
