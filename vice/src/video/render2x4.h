@@ -38,7 +38,8 @@ extern void render_08_2x4_04(const video_render_color_tables_t *color_tab,
                              const unsigned int xt, const unsigned int yt,
                              const unsigned int pitchs,
                              const unsigned int pitcht,
-                             const unsigned int doublescan);
+                             const unsigned int doublescan,
+                             video_render_config_t *config);
 extern void render_16_2x4_04(const video_render_color_tables_t *color_tab,
                              const BYTE *src, BYTE *trg,
                              unsigned int width, const unsigned int height,
@@ -46,7 +47,8 @@ extern void render_16_2x4_04(const video_render_color_tables_t *color_tab,
                              const unsigned int xt, const unsigned int yt,
                              const unsigned int pitchs,
                              const unsigned int pitcht,
-                             const unsigned int doublescan);
+                             const unsigned int doublescan,
+                             video_render_config_t *config);
 extern void render_24_2x4_04(const video_render_color_tables_t *color_tab,
                              const BYTE *src, BYTE *trg,
                              unsigned int width, const unsigned int height,
@@ -54,7 +56,8 @@ extern void render_24_2x4_04(const video_render_color_tables_t *color_tab,
                              const unsigned int xt, const unsigned int yt,
                              const unsigned int pitchs,
                              const unsigned int pitcht,
-                             const unsigned int doublescan);
+                             const unsigned int doublescan,
+                             video_render_config_t *config);
 extern void render_32_2x4_04(const video_render_color_tables_t *color_tab,
                              const BYTE *src, BYTE *trg,
                              unsigned int width, const unsigned int height,
@@ -62,5 +65,6 @@ extern void render_32_2x4_04(const video_render_color_tables_t *color_tab,
                              const unsigned int xt, const unsigned int yt,
                              const unsigned int pitchs,
                              const unsigned int pitcht,
-                             const unsigned int doublescan);
+                             const unsigned int doublescan,
+                             video_render_config_t *config);
 #endif

@@ -195,6 +195,7 @@ struct video_render_config_s {
     int external_palette;          /* Use an external palette?  */
     char *external_palette_name;   /* Name of the external palette.  */
     int double_buffer;             /* Double buffering enabled? */
+    int readable;                  /* reading of frame buffer is safe and fast */
     struct video_cbm_palette_s *cbm_palette; /* Internal palette.  */
     struct video_render_color_tables_s color_tables;
     int fullscreen_enabled;

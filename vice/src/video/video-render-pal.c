@@ -204,19 +204,19 @@ static void video_render_pal_main(video_render_config_t *config,
             switch (depth) {
               case 8:
                 render_08_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
                 return;
               case 16:
                 render_16_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
                 return;
               case 24:
                 render_24_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
                 return;
               case 32:
                 render_32_2x2_04(colortab, src, trg, width, height,
-                                 xs, ys, xt, yt, pitchs, pitcht, doublescan);
+                                 xs, ys, xt, yt, pitchs, pitcht, doublescan, config);
                 return;
             }
         }

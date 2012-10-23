@@ -37,12 +37,13 @@ void render_08_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
-                      const unsigned int doublescan)
+                      const unsigned int doublescan, video_render_config_t *config)
 {
     const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     BYTE *tmptrg;
     unsigned int x, y, wstart, wfast, wend, yys;
+    int readable = config->readable;
 
     src += pitchs * ys + xs;
     trg += pitcht * yt + xt;
@@ -61,7 +62,7 @@ void render_08_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         tmpsrc = src;
         tmptrg = trg;
         if (!(y & 1) || doublescan) {
-            if ((y & 1) && y > yys) { /* copy previous line */
+            if ((y & 1) && readable && y > yys) { /* copy previous line */
                 memcpy(trg, trg - pitcht, width);
             } else {
                 for (x = 0; x < wstart; x++) {
@@ -98,13 +99,14 @@ void render_16_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
-                      const unsigned int doublescan)
+                      const unsigned int doublescan, video_render_config_t *config)
 {
     const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     WORD *tmptrg;
     unsigned int x,y,wstart,wfast,wend,yys;
     WORD color;
+    int readable = config->readable;
 
     src=src + pitchs * ys + xs;
     trg=trg + pitcht * yt + (xt << 1);
@@ -123,7 +125,7 @@ void render_16_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         tmpsrc = src;
         tmptrg = (WORD *)trg;
         if (!(y & 1) || doublescan) {
-            if ((y & 1) && y > yys) { /* copy previous line */
+            if ((y & 1) && readable && y > yys) { /* copy previous line */
                 memcpy(trg, trg - pitcht, width << 1);
             } else {
                 for (x = 0; x < wstart; x++) {
@@ -146,7 +148,7 @@ void render_16_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                 }
             }
         } else {
-            if (y > yys + 1) { /* copy 2 lines before */
+            if (readable && y > yys + 1) { /* copy 2 lines before */
                 memcpy(trg, trg - pitcht * 2, width << 1);
             } else {
                 color = (WORD)colortab[0];
@@ -182,7 +184,7 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
-                      const unsigned int doublescan)
+                      const unsigned int doublescan, video_render_config_t *config)
 {
     const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
@@ -190,6 +192,7 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
     unsigned int x, y, wstart, wfast, wend, yys;
     register DWORD color;
     DWORD tcolor;
+    int readable = config->readable;
 
     src = src + pitchs * ys + xs;
     trg = trg + pitcht * yt + (xt * 3);
@@ -208,7 +211,7 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         tmpsrc = src;
         tmptrg = trg;
         if (!(y & 1) || doublescan) {
-            if ((y & 1) && y > yys) { /* copy previous line */
+            if ((y & 1) && readable && y > yys) { /* copy previous line */
                 memcpy(trg, trg - pitcht, width * 3);
             } else {
                 for (x = 0; x < wstart; x++) {
@@ -259,7 +262,7 @@ void render_24_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                 }
             }
         } else {
-            if (y > yys + 1) { /* copy 2 lines before */
+            if (readable && y > yys + 1) { /* copy 2 lines before */
                 memcpy(trg, trg - pitcht * 2, width * 3);
             } else {
                 tcolor = (WORD)colortab[0];
@@ -323,13 +326,14 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                       const unsigned int xs, const unsigned int ys,
                       const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
-                      const unsigned int doublescan)
+                      const unsigned int doublescan, video_render_config_t *config)
 {
     const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     DWORD *tmptrg;
     unsigned int x, y, wstart, wfast, wend, yys;
     DWORD color;
+    int readable = config->readable;
 
     src = src + pitchs * ys + xs;
     trg = trg + pitcht * yt + (xt << 2);
@@ -348,7 +352,7 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         tmpsrc = src;
         tmptrg = (DWORD *)trg;
         if (!(y & 1) || doublescan) {
-            if ((y & 1) && y > yys) { /* copy previous line */
+            if ((y & 1) && readable && y > yys) { /* copy previous line */
                 memcpy(trg, trg - pitcht, width << 2);
             } else {
                 for (x = 0; x < wstart; x++) {
@@ -371,7 +375,7 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
                 }
             }
         } else {
-            if (y > yys + 1) { /* copy 2 lines before */
+            if (readable && y > yys + 1) { /* copy 2 lines before */
                 memcpy(trg, trg - pitcht * 2, width << 2);
             } else {
                 color = colortab[0];
