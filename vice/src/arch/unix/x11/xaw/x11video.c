@@ -550,6 +550,7 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
     if (canvas->depth > 16) {
         sizeofpixel *= 2;
     }
+    canvas->videoconfig->readable = 1; /* it's not direct rendering */
 
 #ifdef HAVE_XVIDEO
     canvas->xv_image = NULL;
