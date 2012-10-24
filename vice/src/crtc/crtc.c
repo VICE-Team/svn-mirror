@@ -109,7 +109,7 @@ crtc_t crtc = {
 #define CRTC_FIRST_DISPLAYED_LINE \
     CRTC_SCREEN_BORDERHEIGHT
 #define CRTC_LAST_DISPLAYED_LINE \
-    (crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT)
+    (crtc.screen_height - CRTC_SCREEN_BORDERHEIGHT - 1)
 
 #define CRTC_CYCLES_PER_LINE() \
     crtc.regs[0]
@@ -283,15 +283,15 @@ void crtc_update_window(void)
     crtc_update_renderer();
 
     raster_set_geometry(&crtc.raster,
-                        crtc.screen_width, crtc.screen_height,
+                        crtc.screen_width, crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
                         crtc.screen_width, crtc.screen_height,
                         crtc.screen_width - 2 * CRTC_SCREEN_BORDERWIDTH,
                         crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
                         CRTC_SCREEN_TEXTCOLS(), CRTC_SCREEN_TEXTLINES(),
-                        0, 0,
+                        CRTC_SCREEN_BORDERWIDTH, CRTC_SCREEN_BORDERHEIGHT,
                         0,
-                        CRTC_SCREEN_BORDERHEIGHT,
-                        crtc.screen_height - 2 * CRTC_SCREEN_BORDERHEIGHT,
+                        CRTC_FIRST_DISPLAYED_LINE,
+                        CRTC_LAST_DISPLAYED_LINE,
                         0, 0);
 
     crtc.raster.geometry->pixel_aspect_ratio = crtc_get_pixel_aspect();
