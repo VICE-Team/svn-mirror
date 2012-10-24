@@ -301,7 +301,7 @@ static void ted_set_geometry(void)
                         width, ted.screen_height, /* screen dimensions */
                         TED_SCREEN_XPIX, TED_SCREEN_YPIX, /* gfx dimensions */
                         TED_SCREEN_TEXTCOLS, TED_SCREEN_TEXTLINES, /* text dimensions */
-                        ted.screen_leftborderwidth, ted.row_25_start_line, /* gfx position */
+                        ted.screen_leftborderwidth, ted.row_25_start_line + ted.screen_height - ted.vsync_line, /* gfx position */
                         0, /* gfx area doesn't move */
                         ted.first_displayed_line,
                         ted.last_displayed_line,

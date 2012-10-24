@@ -190,7 +190,7 @@ static void vicii_set_geometry(void)
                         width, vicii.screen_height, /* screen dimensions */
                         width, height, /* gfx dimensions */
                         width/8, height/8, /* text dimensions */
-                        0, 0, /* gfx position */
+                        0, VICII_NO_BORDER_FIRST_DISPLAYED_LINE, /* gfx position */
                         0, /* gfx area doesn't move */
                         vicii.first_displayed_line,
                         vicii.last_displayed_line,
