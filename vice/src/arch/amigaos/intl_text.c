@@ -1026,7 +1026,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDMS_ENABLE_ES, "Permitir" },
 /* fr */ { IDMS_ENABLE_FR, "Activer" },
 /* hu */ { IDMS_ENABLE_HU, "Engedélyezés" },
-/* it */ { IDMS_ENABLE_IT, "Attivo" },
+/* it */ { IDMS_ENABLE_IT, "Attiva" },
 /* ko */ { IDMS_ENABLE_KO, "ÀÛµ¿½ÃÅ°´Ù" },
 /* nl */ { IDMS_ENABLE_NL, "Activeer" },
 /* pl */ { IDMS_ENABLE_PL, "W³±cz" },
@@ -3798,13 +3798,13 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDMS_DS12C887RTC_SETTINGS_ES, "Ajustes DS12C887 RTC..." },
 /* fr */ { IDMS_DS12C887RTC_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_DS12C887RTC_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDMS_DS12C887RTC_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDMS_DS12C887RTC_SETTINGS_IT, "Impostazioni DS12C887 RTC..." },
 /* ko */ { IDMS_DS12C887RTC_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_DS12C887RTC_SETTINGS_NL, "DS12C887 RTC instellingen..." },
 /* pl */ { IDMS_DS12C887RTC_SETTINGS_PL, "Ustawienia DS12C887 RTC..." },
 /* ru */ { IDMS_DS12C887RTC_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DS12C887RTC_SETTINGS_SV, "DS12C887 RTC-inställningar..." },
-/* tr */ { IDMS_DS12C887RTC_SETTINGS_TR, "" },  /* fuzzy */
+/* tr */ { IDMS_DS12C887RTC_SETTINGS_TR, "DS12C887 RTC ayarlarý..." },
 
 /* en */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE,    "DS12C887 RTC settings (MasC=uerade)..." },
 /* da */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_DA, "" },  /* fuzzy */
@@ -3812,13 +3812,13 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_ES, "Ajustes DS12C887 RTC (MasC=uerade)..." },
 /* fr */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_FR, "" },  /* fuzzy */
 /* hu */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_HU, "" },  /* fuzzy */
-/* it */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_IT, "" },  /* fuzzy */
+/* it */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_IT, "Impostazioni DS12C887 RTC (MasC=uerade)..." },
 /* ko */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_NL, "DS12C887 RTC instellingen (MasC=uerade)..." },
 /* pl */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_PL, "Ustawienia DS12C887 RTC (MasC=uerade)..." },
 /* ru */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_SV, "DS12C887 RTC-inställningar (MasC=uerade)..." },
-/* tr */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_TR, "" },  /* fuzzy */
+/* tr */ { IDMS_DS12C887RTC_SETTINGS_MASCUERADE_TR, "DS12C887 RTC ayarlarý (MasC=uerade)..." },
 
 /* en */ { IDMS_SFX_SE_SETTINGS,    "SFX Sound Expander settings..." },
 /* da */ { IDMS_SFX_SE_SETTINGS_DA, "SFX Sound Expander-indstillinger..." },
@@ -5912,7 +5912,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_ENABLED_ES, "Habilitado" },
 /* fr */ { IDS_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_ENABLED_HU, "Engedélyezve" },
-/* it */ { IDS_ENABLED_IT, "Attivo" },
+/* it */ { IDS_ENABLED_IT, "Attivato" },
 /* ko */ { IDS_ENABLED_KO, "ÀÛµ¿" },
 /* nl */ { IDS_ENABLED_NL, "Aan" },
 /* pl */ { IDS_ENABLED_PL, "W³±cz" },
@@ -6178,7 +6178,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_256K_ENABLED_ES, "Permitir 256K" },
 /* fr */ { IDS_256K_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_256K_ENABLED_HU, "256K engedélyezve" },
-/* it */ { IDS_256K_ENABLED_IT, "256K attivi" },
+/* it */ { IDS_256K_ENABLED_IT, "Attivato 256K" },
 /* ko */ { IDS_256K_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_256K_ENABLED_NL, "256K aan" },
 /* pl */ { IDS_256K_ENABLED_PL, "W³±cz 256K" },
@@ -10799,7 +10799,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_DIGIMAX_ENABLED_ES, "Permitir DigiMAX" },
 /* fr */ { IDS_DIGIMAX_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DIGIMAX_ENABLED_HU, "" },  /* fuzzy */
-/* it */ { IDS_DIGIMAX_ENABLED_IT, "DigiMAX attivato" },
+/* it */ { IDS_DIGIMAX_ENABLED_IT, "Attivato DigiMAX" },
 /* ko */ { IDS_DIGIMAX_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_DIGIMAX_ENABLED_NL, "DigiMAX Aan/Uit" },
 /* pl */ { IDS_DIGIMAX_ENABLED_PL, "DigiMAX w³±czony" },
@@ -10841,13 +10841,13 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_DS12C887RTC_ENABLED_ES, "DS12C887 RTC Permitida" },
 /* fr */ { IDS_DS12C887RTC_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DS12C887RTC_ENABLED_HU, "" },  /* fuzzy */
-/* it */ { IDS_DS12C887RTC_ENABLED_IT, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_ENABLED_IT, "Attivato DS12C887 RTC" },
 /* ko */ { IDS_DS12C887RTC_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_DS12C887RTC_ENABLED_NL, "DS12C887 Aan/Uit" },
 /* pl */ { IDS_DS12C887RTC_ENABLED_PL, "W³±czenie DS12C887 RTC" },
 /* ru */ { IDS_DS12C887RTC_ENABLED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_ENABLED_SV, "DS12C887 RTC aktiverad" },
-/* tr */ { IDS_DS12C887RTC_ENABLED_TR, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_ENABLED_TR, "DS12C887 RTC Aktif" },
 
 /* en */ { IDS_DS12C887RTC_BASE,    "DS12C887 RTC base" },
 /* da */ { IDS_DS12C887RTC_BASE_DA, "" },  /* fuzzy */
@@ -10855,13 +10855,13 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_DS12C887RTC_BASE_ES, "DS12C887 RTC base" },
 /* fr */ { IDS_DS12C887RTC_BASE_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DS12C887RTC_BASE_HU, "" },  /* fuzzy */
-/* it */ { IDS_DS12C887RTC_BASE_IT, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_BASE_IT, "Indirizzo base DS12C887 RTC" },
 /* ko */ { IDS_DS12C887RTC_BASE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_DS12C887RTC_BASE_NL, "DS12C887 RTC basis adres" },
 /* pl */ { IDS_DS12C887RTC_BASE_PL, "Baza DS12C887 RTC" },
 /* ru */ { IDS_DS12C887RTC_BASE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_BASE_SV, "DS12C887 RTC-bas" },
-/* tr */ { IDS_DS12C887RTC_BASE_TR, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_BASE_TR, "DS12C887 RTC tabaný" },
 
 /* en */ { IDS_DS12C887RTC_SETTINGS,    "DS12C887 RTC settings" },
 /* da */ { IDS_DS12C887RTC_SETTINGS_DA, "" },  /* fuzzy */
@@ -10869,13 +10869,13 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_DS12C887RTC_SETTINGS_ES, "Ajustes DS12C887 RTC" },
 /* fr */ { IDS_DS12C887RTC_SETTINGS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_DS12C887RTC_SETTINGS_HU, "" },  /* fuzzy */
-/* it */ { IDS_DS12C887RTC_SETTINGS_IT, "" },  /* fuzzy */
+/* it */ { IDS_DS12C887RTC_SETTINGS_IT, "Impostazioni DS12C887 RTC" },
 /* ko */ { IDS_DS12C887RTC_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_DS12C887RTC_SETTINGS_NL, "DS12C887 RTC instellingen" },
 /* pl */ { IDS_DS12C887RTC_SETTINGS_PL, "Ustawienia DS12C887 RTC" },
 /* ru */ { IDS_DS12C887RTC_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_DS12C887RTC_SETTINGS_SV, "DS12C887 RTC-inställningar" },
-/* tr */ { IDS_DS12C887RTC_SETTINGS_TR, "" },  /* fuzzy */
+/* tr */ { IDS_DS12C887RTC_SETTINGS_TR, "DS12C887 RTC ayarlarý" },
 
 /* en */ { IDS_SFX_SE_ENABLED,    "SFX Sound Expander Enabled" },
 /* da */ { IDS_SFX_SE_ENABLED_DA, "SFX Sound Expander Aktiveret" },
@@ -10883,7 +10883,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_SFX_SE_ENABLED_ES, "Permitir SFX Sound Expander" },
 /* fr */ { IDS_SFX_SE_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SFX_SE_ENABLED_HU, "SFX Sound Expander engedélyezve" },
-/* it */ { IDS_SFX_SE_ENABLED_IT, "Attiva SFX Sound Expander" },
+/* it */ { IDS_SFX_SE_ENABLED_IT, "Attivato SFX Sound Expander" },
 /* ko */ { IDS_SFX_SE_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SFX_SE_ENABLED_NL, "SFX Sound Expander Aan/Uit" },
 /* pl */ { IDS_SFX_SE_ENABLED_PL, "SFX Sound Expander w³±czony" },
@@ -10911,7 +10911,7 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_SFX_SS_ENABLED_ES, "Permitir SFX Sound Sampler" },
 /* fr */ { IDS_SFX_SS_ENABLED_FR, "" },  /* fuzzy */
 /* hu */ { IDS_SFX_SS_ENABLED_HU, "" },  /* fuzzy */
-/* it */ { IDS_SFX_SS_ENABLED_IT, "SFX Sound Sampler attiva" },
+/* it */ { IDS_SFX_SS_ENABLED_IT, "Attivato SFX Sound Sampler" },
 /* ko */ { IDS_SFX_SS_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SFX_SS_ENABLED_NL, "SFX Sound Sampler Aan/Uit" },
 /* pl */ { IDS_SFX_SS_ENABLED_PL, "W³±czony sampler d¼wiêku SFX" },
@@ -11331,27 +11331,27 @@ intl_translate_t intl_string_table[] = {
 /* es */ { IDS_MOUSE_SMART_ES, "Ratón inteligente" },
 /* fr */ { IDS_MOUSE_SMART_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MOUSE_SMART_HU, "" },  /* fuzzy */
-/* it */ { IDS_MOUSE_SMART_IT, "" },  /* fuzzy */
+/* it */ { IDS_MOUSE_SMART_IT, "Smart mouse" },
 /* ko */ { IDS_MOUSE_SMART_KO, "" },  /* fuzzy */
 /* nl */ { IDS_MOUSE_SMART_NL, "Smart muis" },
 /* pl */ { IDS_MOUSE_SMART_PL, "Mysz Smart" },
 /* ru */ { IDS_MOUSE_SMART_RU, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_SMART_SV, "Smartmus" },
-/* tr */ { IDS_MOUSE_SMART_TR, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_SMART_TR, "Smart mouse" },
 
 /* en */ { IDS_MOUSE_MICROMYS,    "MicroMys mouse" },
 /* da */ { IDS_MOUSE_MICROMYS_DA, "" },  /* fuzzy */
-/* de */ { IDS_MOUSE_MICROMYS_DE, "" },  /* fuzzy */
-/* es */ { IDS_MOUSE_MICROMYS_ES, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_MICROMYS_DE, "MicroMys Maus" },
+/* es */ { IDS_MOUSE_MICROMYS_ES, "Ratón MicroMys" },
 /* fr */ { IDS_MOUSE_MICROMYS_FR, "" },  /* fuzzy */
 /* hu */ { IDS_MOUSE_MICROMYS_HU, "" },  /* fuzzy */
 /* it */ { IDS_MOUSE_MICROMYS_IT, "" },  /* fuzzy */
 /* ko */ { IDS_MOUSE_MICROMYS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_MOUSE_MICROMYS_NL, "MicroMys muis" },
-/* pl */ { IDS_MOUSE_MICROMYS_PL, "" },  /* fuzzy */
+/* pl */ { IDS_MOUSE_MICROMYS_PL, "Mysz MicroMys" },
 /* ru */ { IDS_MOUSE_MICROMYS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_MICROMYS_SV, "" },  /* fuzzy */
-/* tr */ { IDS_MOUSE_MICROMYS_TR, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_MICROMYS_TR, "MicroMys mouse" },
 
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },

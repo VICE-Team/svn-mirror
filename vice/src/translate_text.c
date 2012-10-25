@@ -4034,13 +4034,13 @@ translate_t string_table[] = {
 /* es */ {IDCLS_ENABLE_INT_FUNC_ROM_ES, "Tipo de Function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* fr */ {IDCLS_ENABLE_INT_FUNC_ROM_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_INT_FUNC_ROM_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_INT_FUNC_ROM_IT, "Tipologia di function ROM interna: (0: None, 1: ROM, 2: RAM, 3: RTC)"},
 /* ko */ {IDCLS_ENABLE_INT_FUNC_ROM_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_INT_FUNC_ROM_NL, "Intern functie ROM soort: (0: Geen, 1: ROM, 2: RAM, 3: RTC)"},
 /* pl */ {IDCLS_ENABLE_INT_FUNC_ROM_PL, "Typ wewnêtrznego Function ROM-u: (0: ¯aden, 1: ROM, 2: RAM, 3: RTC)"},
 /* ru */ {IDCLS_ENABLE_INT_FUNC_ROM_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_INT_FUNC_ROM_SV, "Typ för intern funktions-ROM (0: ingen, 1: ROM, 2: RAM, 3: RTC)"},
-/* tr */ {IDCLS_ENABLE_INT_FUNC_ROM_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_INT_FUNC_ROM_TR, "Dahili Function ROM Tipi: (0: Yok, 1: ROM, 2: RAM, 3: RTC)"},
 #endif
 
 /* c128/functionrom.c */
@@ -11914,13 +11914,13 @@ translate_t string_table[] = {
 /* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón  (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Inteligente)"},
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
 /* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a, 4 = CX-22, 5 = ST, 6 = Smart)"},
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
 #endif
 
 /* ps2mouse.c */
@@ -13429,13 +13429,13 @@ translate_t string_table[] = {
 /* es */ {IDCLS_ENABLE_DS12C887RTC_ES, "Permitir cartucho DS12C887 RTC"},
 /* fr */ {IDCLS_ENABLE_DS12C887RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_DS12C887RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_DS12C887RTC_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_DS12C887RTC_IT, "Attiva la cartuccia DS12C887 RTC"},
 /* ko */ {IDCLS_ENABLE_DS12C887RTC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_DS12C887RTC_NL, "Activeer de DS12C887 RTC cartridge"},
 /* pl */ {IDCLS_ENABLE_DS12C887RTC_PL, "W³±cz kartrid¿ DS12C887 RTC"},
 /* ru */ {IDCLS_ENABLE_DS12C887RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_DS12C887RTC_SV, "Aktivera DS12C887 RTC-insticksmodul"},
-/* tr */ {IDCLS_ENABLE_DS12C887RTC_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_DS12C887RTC_TR, "DS12C887 RTC kartuþunu aktif et"},
 #endif
 
 /* c64/cart/ds12c887rtc.c */
@@ -13446,13 +13446,13 @@ translate_t string_table[] = {
 /* es */ {IDCLS_DISABLE_DS12C887RTC_ES, "Deshabilitar cartucho DS12C887 RTC"},
 /* fr */ {IDCLS_DISABLE_DS12C887RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_DS12C887RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_DS12C887RTC_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_DS12C887RTC_IT, "Disattiva la cartuccia DS12C887 RTC"},
 /* ko */ {IDCLS_DISABLE_DS12C887RTC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_DS12C887RTC_NL, "De DS12C887 RTC cartridge uitschakelen"},
 /* pl */ {IDCLS_DISABLE_DS12C887RTC_PL, "Wy³±cz kartrid¿ DS12C887 RTC"},
 /* ru */ {IDCLS_DISABLE_DS12C887RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_DS12C887RTC_SV, "Inaktivera DS12C887 RTC-insticksmodul"},
-/* tr */ {IDCLS_DISABLE_DS12C887RTC_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_DS12C887RTC_TR, "DS12C887 RTC kartuþunu pasifleþtir"},
 #endif
 
 /* c64/cart/ds12c887rtc.c */
@@ -13463,13 +13463,13 @@ translate_t string_table[] = {
 /* es */ {IDCLS_DS12C887RTC_BASE_ES, "Dirección base para cartucho DS12C887 RTC"},
 /* fr */ {IDCLS_DS12C887RTC_BASE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DS12C887RTC_BASE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DS12C887RTC_BASE_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_DS12C887RTC_BASE_IT, "Indirizzo base della cartuccia DS12C887 RTC"},
 /* ko */ {IDCLS_DS12C887RTC_BASE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DS12C887RTC_BASE_NL, "Basisadres van de DS12C887 RTC cartridge"},
 /* pl */ {IDCLS_DS12C887RTC_BASE_PL, "Adres bazowy kartrid¿a DS12C887 RTC"},
 /* ru */ {IDCLS_DS12C887RTC_BASE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DS12C887RTC_BASE_SV, "Basadress för DS12C887 RTC-insticksmodulen"},
-/* tr */ {IDCLS_DS12C887RTC_BASE_TR, ""},  /* fuzzy */
+/* tr */ {IDCLS_DS12C887RTC_BASE_TR, "DS12C887 RTC kartuþunun taban adresi"},
 #endif
 
 };

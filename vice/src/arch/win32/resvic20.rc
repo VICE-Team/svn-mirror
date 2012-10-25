@@ -954,7 +954,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "Impostazioni ACIA (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "Impostazioni GEO-RAM (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "Impostazioni DigiMAX (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "Impostazioni DS12C887 RTC (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Impostazioni Ethernet (MasC=uerade)..."
 #endif
@@ -1323,7 +1323,7 @@ BEGIN
     IDS_MI_ACIA_SETTINGS_MASCUERADE          "ACIA Ayarlarý (MasC=uerade)..."
     IDS_MI_GEORAM_SETTINGS_MASCUERADE        "GEO-RAM ayarlarý (MasC=uerade)..."
     IDS_MI_DIGIMAX_SETTINGS_MASCUERADE       "DigiMAX ayarlarý (MasC=uerade)..."
-    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC settings (MasC=uerade)..."
+    IDS_MI_DS12C887RTC_SETTINGS_MASCUERADE   "DS12C887 RTC ayarlarý (MasC=uerade)..."
 #ifdef HAVE_TFE
     IDS_MI_TFE_SETTINGS_MASCUERADE           "Ethernet Ayarlarý (MasC=uerade)..."
 #endif
