@@ -47,6 +47,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     geometry_t *geometry;
     viewport_t *viewport;     /* this will be displayed at the end */
     rectangle_t *screen_size; /* emulated screen with border */
+    rectangle_t *gfx_size;
     position_t *gfx_position; /* top left corner of non border screen area */
     unsigned width, height;
     int first_x;
@@ -63,6 +64,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     viewport = canvas->viewport;
 
     screen_size = &geometry->screen_size;
+    gfx_size = &geometry->gfx_size;
     gfx_position = &geometry->gfx_position;
 
     if (resize_canvas && video_canvas_can_resize(canvas)) {
@@ -84,7 +86,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     height = canvas->draw_buffer->canvas_height;
 
     /* Horizontal alignment. Easy, just put it in center. */
-    first_x = ((int)screen_size->width - (int)width) / 2;
+    first_x = ((int)screen_size->width - (int)width) * (int)gfx_position->x / ((int)screen_size->width - (int)gfx_size->width);
     x_offset = ((int)width - (int)screen_size->width) / 2;
 
     if (x_offset < 0) {
