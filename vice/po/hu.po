@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-18 17:52-0700\n"
+"POT-Creation-Date: 2012-10-25 10:24-0700\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -5020,7 +5020,7 @@ msgstr "<képarány>"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "%d.%d verziójú MITSHM kiterjesztést találtam."
 
-#: src/arch/unix/x11/xaw/x11video.c:645
+#: src/arch/unix/x11/xaw/x11video.c:659
 msgid "MITSHM initialization succeed.\n"
 msgstr "A MITSHM sikeresen elindult.\n"
 

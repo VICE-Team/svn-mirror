@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-18 17:52-0700\n"
+"POT-Creation-Date: 2012-10-25 10:24-0700\n"
 "PO-Revision-Date: 2012-10-20 06:32+0200\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
@@ -4690,7 +4690,7 @@ msgstr "Wyłącz rzeczywiste proporcje obrazu"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rozszerzenie wersji MITSHM %d.%d zostało wykryte."
 
-#: src/arch/unix/x11/xaw/x11video.c:645
+#: src/arch/unix/x11/xaw/x11video.c:659
 msgid "MITSHM initialization succeed.\n"
 msgstr "Inicjalizacja MITSHM zakonczona pomyślnie.\n"
 

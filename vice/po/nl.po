@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-18 17:52-0700\n"
+"POT-Creation-Date: 2012-10-25 10:24-0700\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -4692,7 +4692,7 @@ msgstr "Werkelijke aspect verhouding uitschakelen"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM extensies versie %d.%d gevonden."
 
-#: src/arch/unix/x11/xaw/x11video.c:645
+#: src/arch/unix/x11/xaw/x11video.c:659
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM initialisatie voltooid.\n"
 
