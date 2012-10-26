@@ -597,7 +597,7 @@ void mem_initialize_memory(void)
         mem_read_limit_tab[2][i] = 0;           /* all empty banks go here */
 
         if (!_mem_read_base_tab[15][i]) {
-            mem_read_limit_tab[1][i] = -1;
+            mem_read_limit_tab[1][i] = 0;
         } else
         if (i < 0x08) { /* system RAM */
             mem_read_limit_tab[1][i] = 0x07fd;

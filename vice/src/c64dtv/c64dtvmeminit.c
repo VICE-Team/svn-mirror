@@ -144,6 +144,6 @@ void c64dtvmem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
                 mem_read_limit_tab[i][k] = limit_tab[j][i];
             }
         }
-        mem_read_limit_tab[i][0x100] = -1;
+        mem_read_limit_tab[i][0x100] = 0;
     }
 }

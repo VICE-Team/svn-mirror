@@ -369,7 +369,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
 #ifdef FEATURE_CPUMEMHISTORY
     *base = NULL;
     *start = addr;
-    *limit = -1;
+    *limit = 0;
 #else
     int bank = addr >> 14;
     int paddr;
@@ -379,7 +379,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     if ((((dtv_registers[8] >> (bank * 2)) & 0x03) == 0x00)) {
         if (c64dtvflash_state) {
             *base = NULL; /* not idle */
-            *limit = -1;
+            *limit = 0;
             return;
         }
         paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
@@ -419,7 +419,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
                 }
             }
             *base = NULL;
-            *limit = -1;
+            *limit = 0;
         }
     } else {
         *base = &mem_ram[paddr] - (addr & 0xc000);

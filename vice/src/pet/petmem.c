@@ -829,7 +829,7 @@ static void set_std_9tof(void)
             _mem_read_tab[i] = read_super_9;
             _mem_write_tab[i] = store_super_9;
             _mem_read_base_tab[i] = NULL;
-            mem_read_limit_tab[i] = -1;
+            mem_read_limit_tab[i] = 0;
         }
     } else {
         for (i = 0x90; i < 0xa0; i++) {
@@ -869,21 +869,21 @@ static void set_std_9tof(void)
     _mem_read_tab[0xe8] = read_io;
     _mem_write_tab[0xe8] = store_io;
     _mem_read_base_tab[0xe8] = NULL;
-    mem_read_limit_tab[0xe8] = -1;
+    mem_read_limit_tab[0xe8] = 0;
 
     /* ... and unused address space behind it */
     for (i = 0xe9; i < l; i++) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store;
         _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = -1;
+        mem_read_limit_tab[i] = 0;
     }
 
     if (petres.superpet) {
         _mem_read_tab[0xef] = read_super_io;
         _mem_write_tab[0xef] = store_super_io;
         _mem_read_base_tab[0xef] = NULL;
-        mem_read_limit_tab[0xef] = -1;
+        mem_read_limit_tab[0xef] = 0;
     } else
     if (petres.rompatch) {
         _mem_read_tab[0xef] = mem_read_patchbuf;
@@ -1012,7 +1012,7 @@ static void store_8x96(WORD addr, BYTE value)
                         _mem_read_tab[l] = read_io;
                         _mem_write_tab[l] = store_io;
                         _mem_read_base_tab[l] = NULL;
-                        mem_read_limit_tab[l] = -1;
+                        mem_read_limit_tab[l] = 0;
                     } else {
                         _mem_read_tab[l] = read_extC;
                         if (protected)
@@ -1112,7 +1112,7 @@ static void set_vidmem(void) {
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_dummy;
         _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = -1;
+        mem_read_limit_tab[i] = 0;
     }
 }
 
@@ -1234,7 +1234,7 @@ void mem_initialize_memory(void)
         _mem_read_tab[i] = read_unused;
         _mem_write_tab[i] = store_void;
         _mem_read_base_tab[i] = NULL;
-        mem_read_limit_tab[i] = -1;
+        mem_read_limit_tab[i] = 0;
     }
 
     set_vidmem();
@@ -1248,7 +1248,7 @@ void mem_initialize_memory(void)
     _mem_read_tab[0x100] = _mem_read_tab[0];
     _mem_write_tab[0x100] = _mem_write_tab[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
-    mem_read_limit_tab[0x100] = -1;
+    mem_read_limit_tab[0x100] = 0;
 
     ram_size = petres.ramSize * 1024;
     _mem_read_tab_ptr = _mem_read_tab;
