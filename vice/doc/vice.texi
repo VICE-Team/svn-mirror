@@ -702,6 +702,9 @@ at a time out of 64k into the @code{$9***} area.  Also it has an ACIA
 SuperPET is now emulated, since release 2.4, including the 6702 dongle
 chip.
 
+The Super-OS/9 MMU expansion, developed by TPUG (Toronto PET Users
+Group) is also emulated.
+
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
@@ -8310,7 +8313,7 @@ Integer specifying the size of the emulated PET REU in KB (128, 512, 1024, 2048)
 Boolean specifying whether DWW emulation is enabled.
 @vindex PETDWWfilename
 @item PETDWWfilename
-String specifying the filename of the DWW ROM image.
+String specifying the filename of the DWW image RAM image.
 
 @vindex UserportDAC
 @item UserportDAC
@@ -8384,7 +8387,8 @@ Enable/Disable SID Cartridge
 @itemx H6809RomDName
 @itemx H6809RomEName
 @itemx H6809RomFName
-Strings specifying the filenames of the respective H6809 ROM images.
+Strings specifying the filenames of the respective H6809 ROM images,
+relevant for the SuperPET.
 
 @end table
 
@@ -10094,6 +10098,10 @@ Version numbers: Major 1, Minor 3
 @tab 6702 dongle state information
 @item WORD[8]
 @tab SHIFT
+@item BYTE
+@tab SuperPET config 2
+@tab Extra bits due to the Super-OS/9 MMU. Bit 5: FIRQ disabled. Bit 6:
+expansion memory in OS/9 flat mode.
 
 @end multitable
 
