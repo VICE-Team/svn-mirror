@@ -188,8 +188,8 @@ static void vicii_set_geometry(void)
     raster_set_geometry(&vicii.raster,
                         width, height, /* canvas dimensions */
                         width, vicii.screen_height, /* screen dimensions */
-                        width, height, /* gfx dimensions */
-                        width/8, height/8, /* text dimensions */
+                        VICII_SCREEN_XPIX, VICII_SCREEN_YPIX, /* gfx dimensions */
+                        VICII_SCREEN_TEXTCOLS, VICII_SCREEN_TEXTLINES, /* text dimensions */
                         0, VICII_NO_BORDER_FIRST_DISPLAYED_LINE, /* gfx position */
                         0, /* gfx area doesn't move */
                         vicii.first_displayed_line,
