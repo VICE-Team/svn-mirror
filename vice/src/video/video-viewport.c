@@ -56,6 +56,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     int first_line;
     int displayed_height;
     int y_offset;
+    int small_x_border;
 
     if (canvas->initialized == 0)
         return;
@@ -85,8 +86,28 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     width = canvas->draw_buffer->canvas_width;
     height = canvas->draw_buffer->canvas_height;
 
-    /* Horizontal alignment. Easy, just put it in center. */
-    first_x = ((int)screen_size->width - (int)width) * (int)gfx_position->x / ((int)screen_size->width - (int)gfx_size->width);
+    /* Horizontal alignment strategy (from small to big):
+     * 1. cut off left border, cut as much as needed from the right side of gfx
+     *    except for moving area chips, there cut of equally from left/right side
+     * 2. gfx fits, try to make the border area symmetric
+     * 3. reveal the asymmetric border part, without black bands
+     * 4. the complete screen fits, try to do equal black banding for the remaining space */
+
+    /* smallest of left/right border */
+    small_x_border = (int)screen_size->width - (int)gfx_position->x - (int)gfx_size->width;
+    if (small_x_border > (int)gfx_position->x) {
+        small_x_border = (int)gfx_position->x;
+    }
+    /* Easy part, just put it in center with symmetric borders */
+    if ((int)gfx_size->width + small_x_border * 2 > (int)width) {
+        first_x = (int)gfx_position->x - ((int)width - (int)gfx_size->width) / 2;
+    } else { /* With a lot of space it's possible reveal the extra non-symmetric border part */
+        if ((int)gfx_position->x > small_x_border) { /* left border bigger */
+            first_x = (int)screen_size->width - (int)width;
+        } else { /* right border bigger */
+            first_x = 0;
+        }
+    }
     x_offset = ((int)width - (int)screen_size->width) / 2;
 
     if (x_offset < 0) {
