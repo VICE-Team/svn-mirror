@@ -1,17 +1,16 @@
 # Italian Translation File for VICE
 # Copyright (C) 2001-2009 Free Software Foundation, Inc.
 # Andrea Musuruane <musuruan@gmail.com>, 2001-2009.
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-25 16:13-0700\n"
-"PO-Revision-Date: 2012-10-19 10:37+0100\n"
+"PO-Revision-Date: 2012-10-26 10:26+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -6839,7 +6838,7 @@ msgstr "Impostazioni 256K"
 
 #: src/arch/win32/resc64_256k.rc.po.c:29 src/translate_text.c.po.c:12479
 msgid "Enable the 256K RAM expansion"
-msgstr "Attiva espansione 256K RAM"
+msgstr "Attiva l'espansione 256K RAM"
 
 #: src/arch/win32/resc64_256k.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:6165
@@ -7045,9 +7044,8 @@ msgid "Save DQBB image when changed"
 msgstr "Salva immagine DQBB al cambio"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:23
-#, fuzzy
 msgid "Enable the DS12C887 RTC expansion"
-msgstr "Attiva la cartuccia DS12C887 RTC"
+msgstr "Attiva l'espansione DS12C887 RTC"
 
 #: src/arch/win32/resds12c887rtc.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:10828
@@ -7312,7 +7310,7 @@ msgstr "Seleziona il file per il PET REU"
 
 #: src/arch/win32/resplus256k.rc.po.c:25 src/translate_text.c.po.c:12360
 msgid "Enable the PLUS256K RAM expansion"
-msgstr "Attiva espansione RAM PLUS256K"
+msgstr "Attiva l'espansione RAM PLUS256K"
 
 #: src/arch/win32/resplus256k.rc.po.c:27
 #: src/arch/amigaos/intl_text.c.po.c:3645
@@ -7421,7 +7419,7 @@ msgstr "Impostazioni modello Plus4"
 
 #: src/arch/win32/resplus60k.rc.po.c:29 src/translate_text.c.po.c:12411
 msgid "Enable the PLUS60K RAM expansion"
-msgstr "Attiva espansione RAM PLUS60K"
+msgstr "Attiva l'espansione RAM PLUS60K"
 
 #: src/arch/win32/resplus60k.rc.po.c:30 src/arch/amigaos/intl_text.c.po.c:7804
 msgid "PLUS60K base address"
@@ -8629,7 +8627,7 @@ msgstr "Smart mouse"
 
 #: src/arch/amigaos/intl_text.c.po.c:11318
 msgid "MicroMys mouse"
-msgstr ""
+msgstr "Mouse MicroMys"
 
 #: src/arch/amigaos/intl_text.c.po.c:11514
 msgid "Save to EasyFlash CRT file on detach"
@@ -11776,7 +11774,7 @@ msgstr "Specifica il codice ISO della lingua"
 
 #: src/translate_text.c.po.c:12377
 msgid "Disable the PLUS256K RAM expansion"
-msgstr "Disattiva espansione RAM PLUS256K"
+msgstr "Disattiva l'espansione RAM PLUS256K"
 
 #: src/translate_text.c.po.c:12394
 msgid "Specify name of PLUS256K image"
@@ -11784,7 +11782,7 @@ msgstr "Specifica il nome immagine PLUS256K"
 
 #: src/translate_text.c.po.c:12428
 msgid "Disable the PLUS60K RAM expansion"
-msgstr "Disattiva espansione RAM PLUS60K"
+msgstr "Disattiva l'espansione RAM PLUS60K"
 
 #: src/translate_text.c.po.c:12445
 msgid "Specify name of PLUS60K image"
@@ -11796,7 +11794,7 @@ msgstr "Indirizzo base espansione PLUS60K"
 
 #: src/translate_text.c.po.c:12496
 msgid "Disable the 256K RAM expansion"
-msgstr "Disattiva espansione 256K RAM"
+msgstr "Disattiva l'espansione 256K RAM"
 
 #: src/translate_text.c.po.c:12513
 msgid "Specify name of 256K image"
@@ -11824,19 +11822,19 @@ msgstr "Seleziona immagine cartuccia Simons Basic di 16kB"
 
 #: src/translate_text.c.po.c:12632
 msgid "Enable the CSORY 256K RAM expansion"
-msgstr "Attiva espansione RAM CSORY 256K"
+msgstr "Attiva l'espansione RAM CSORY 256K"
 
 #: src/translate_text.c.po.c:12649
 msgid "Enable the HANNES 256K RAM expansion"
-msgstr "Attiva espansione RAM HANNES 256K"
+msgstr "Attiva l'espansione RAM HANNES 256K"
 
 #: src/translate_text.c.po.c:12666
 msgid "Enable the HANNES 1024K RAM expansion"
-msgstr "Attiva espansione RAM HANNES 1024K"
+msgstr "Attiva l'espansione RAM HANNES 1024K"
 
 #: src/translate_text.c.po.c:12683
 msgid "Enable the HANNES 4096K RAM expansion"
-msgstr "Attiva espansione RAM HANNES 4096K"
+msgstr "Attiva l'espansione RAM HANNES 4096K"
 
 #: src/translate_text.c.po.c:12700
 msgid "Specify DTV Revision (2: DTV2, 3: DTV3)"
