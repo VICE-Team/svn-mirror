@@ -190,7 +190,7 @@ static void vicii_set_geometry(void)
                         width, vicii.screen_height, /* screen dimensions */
                         VICII_SCREEN_XPIX, VICII_SCREEN_YPIX, /* gfx dimensions */
                         VICII_SCREEN_TEXTCOLS, VICII_SCREEN_TEXTLINES, /* text dimensions */
-                        0, VICII_NO_BORDER_FIRST_DISPLAYED_LINE, /* gfx position */
+                        vicii.screen_leftborderwidth, VICII_NO_BORDER_FIRST_DISPLAYED_LINE, /* gfx position */
                         0, /* gfx area doesn't move */
                         vicii.first_displayed_line,
                         vicii.last_displayed_line,
@@ -205,6 +205,7 @@ static void vicii_set_geometry(void)
     vicii.raster.display_ystop = vicii.screen_height;
     vicii.raster.display_xstart = 0;
     vicii.raster.display_xstop = width;
+    vicii.raster.dont_cache_all = 1;
 
     vicii.raster.geometry->pixel_aspect_ratio = vicii_get_pixel_aspect();
     vicii.raster.viewport->crt_type = vicii_get_crt_type();

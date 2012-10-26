@@ -240,6 +240,7 @@ int raster_init(raster_t *raster,
     raster->cache = NULL;
     raster->cache_enabled = 0;
     raster->dont_cache = 1;
+    raster->dont_cache_all = 0;
     raster->num_cached_lines = 0;
 
     raster->fake_draw_buffer_line = NULL;

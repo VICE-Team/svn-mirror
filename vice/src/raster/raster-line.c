@@ -312,7 +312,7 @@ static void handle_visible_line_with_cache(raster_t *raster)
             - raster->ysmooth - 1;
 
         if (cache->is_dirty
-            || raster->dont_cache
+            || raster->dont_cache || raster->dont_cache_all
             || cache->n != line
             || cache->xsmooth != raster->xsmooth
             || cache->video_mode != video_mode

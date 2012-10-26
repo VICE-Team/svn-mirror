@@ -154,6 +154,9 @@ struct raster_s {
     /* This is != 0 if we cannot use the values in the cache anymore.  */
     int dont_cache;
 
+    /* Don't cache anything, for cycle based emulation */
+    int dont_cache_all;
+
     /* Number of lines that have been recalculated.  When this value reaches
        the number of lines that are displayed in the output, then the cache
        is valid again.  */
