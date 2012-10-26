@@ -151,25 +151,7 @@ static const ui_menu_entry_t x64sc_main_menu[] = {
 
 void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
-    int bordermode;
 
-    resources_get_int("VICIIBorderMode", &bordermode);
-
-    switch (bordermode) {
-        case VICII_NORMAL_BORDERS:
-            menu_draw->extra_x = 32;
-            break;
-        case VICII_FULL_BORDERS:
-            menu_draw->extra_x = 48;
-            break;
-        case VICII_DEBUG_BORDERS:
-            menu_draw->extra_x = 132;
-            break;
-        default:
-            break;
-    }
-
-    menu_draw->extra_y = 51;
 }
 
 int c64scui_init(void)

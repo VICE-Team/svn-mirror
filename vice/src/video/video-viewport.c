@@ -56,7 +56,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     int first_line;
     int displayed_height;
     int y_offset;
-    int small_x_border;
+    int small_x_border, small_y_border;
 
     if (canvas->initialized == 0)
         return;
@@ -125,7 +125,22 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
 
     /* Vertical alignment. Also easy, just put the visible area in center. */
     real_gfx_height = geometry->last_displayed_line - geometry->first_displayed_line + 1;
-    first_line = ((int)real_gfx_height - (int)height) / 2 + geometry->first_displayed_line;
+
+    small_y_border = (int)geometry->last_displayed_line - (int)gfx_position->y - (int)gfx_size->height + 1;
+    if (small_y_border > (int)gfx_position->y - (int)geometry->first_displayed_line) {
+        small_y_border = (int)gfx_position->y - (int)geometry->first_displayed_line;
+    }
+
+    /* Easy part, just put it in center with symmetric borders */
+    if ((int)gfx_size->height + small_y_border * 2 > (int)height) {
+        first_line = (int)gfx_position->y - ((int)height - (int)gfx_size->height) / 2;
+    } else { /* With a lot of space it's possible reveal the extra non-symmetric border part */
+        if ((int)gfx_position->y - (int)geometry->first_displayed_line > small_y_border) { /* top border bigger */
+            first_line = real_gfx_height - (int)height + (int)geometry->first_displayed_line;
+        } else { /* bottom border bigger */
+            first_line = (int)geometry->first_displayed_line;
+        }
+    }
     y_offset = ((int)height - real_gfx_height) / 2;
 
     if (y_offset < 0) {

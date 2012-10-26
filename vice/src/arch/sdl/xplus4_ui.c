@@ -149,7 +149,6 @@ static const ui_menu_entry_t xplus4_main_menu[] = {
 
 void plus4ui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
-    menu_draw->extra_y = 55;
     menu_draw->color_front = 113;
 
     sdl_ui_set_menu_params = NULL;

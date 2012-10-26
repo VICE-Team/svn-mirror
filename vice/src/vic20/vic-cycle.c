@@ -60,7 +60,7 @@ static inline void vic_cycle_open_v(void)
 {
     vic.area = VIC_AREA_PENDING;
     vic.raster.display_ystart = vic.raster_line;
-    vic.raster.geometry->gfx_position.y = vic.raster_line - vic.first_displayed_line;
+    vic.raster.geometry->gfx_position.y = vic.raster_line;
 
     if (vic.text_lines == 0) {
         vic_cycle_close_v();
@@ -87,7 +87,7 @@ static inline void vic_cycle_open_h(void)
 
     if (vic.area == VIC_AREA_PENDING) {
         vic.raster.display_ystart = vic.raster_line;
-        vic.raster.geometry->gfx_position.y = vic.raster_line - vic.first_displayed_line;
+        vic.raster.geometry->gfx_position.y = vic.raster_line;
         vic.area = VIC_AREA_DISPLAY;
     }
 
