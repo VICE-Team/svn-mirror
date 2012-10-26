@@ -1,5 +1,276 @@
 ------------------------------------------------------------------------------
 
+2012-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/vice.chm, doc/vice.hlp, doc/vice.pdf,
+	po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po,
+	po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/win32/vice-version.bat, src/version.h: VICE 2.3.25
+
+2012-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/it.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resds12c887rtc.rc,
+	src/arch/win32/resvic20.rc, src/translate_text.c: Did a
+	'make trans-update'.
+
+2012-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-10-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-viewport.c: Handle a asymmetric horizontal borders
+	better like debug borders.
+
+2012-10-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/crtc/crtc.c: Fix up raster_set_geometry setup
+
+2012-10-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/ted.c, src/viciisc/vicii.c, src/video/video-viewport.c:
+	Fix screen centering in canvas.
+
+2012-10-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Mark as non direct rendering
+
+2012-10-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render1x2.c, src/video/render1x2.h, src/video/render2x2.c,
+	src/video/render2x2.h, src/video/render2x4.c, src/video/render2x4.h,
+	src/video/video-render-1x2.c, src/video/video-render-2x2.c,
+	src/video/video-render-crt.c, src/video/video-render-pal.c,
+	src/video.h: Flag for readable frame buffer. It is faster to copy
+	lines in scan doubled modes if the rendering buffer is in main memory.
+	But this is slow in case of direct rendering.
+
+2012-10-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/render2x4crt.c: Fix buggy rendering
+
+2012-10-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Save and restore original XV
+	settings
+
+2012-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Readme-Amiga.txt: Updated.
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/renderxv.c: Don't forget to release unused ports
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Do not scale gamma
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Better as relative values
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/x11video.c: Give good defaults for XV
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/renderxv.c, src/arch/unix/x11/renderxv.h,
+	src/arch/unix/x11/xaw/videoarch.h, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c: Re-enable XV refreshing on window
+	moved. It may be true that this is not necessary when using textured
+	video, but for overlay it's certainly needed.
+
+2012-10-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/SDL-Howto.txt, doc/building/Win32-Cygwin-Howto.txt,
+	doc/building/Win32-Mingw32-Howto.txt: Fixed.
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/renderxv.c: Go through all adaptors and try to
+	find one with XV controls.
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-color.c: Revert. Maybe my X is broken as
+	XvQueryPortAttributes return no list, however using the attributes
+	still work. Maybe it could be done later as a fallback.
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-color.c: This is why the saturation control had no
+	effect when using XVIDEO and CRT emulation.
+
+2012-10-21  groepaz <groepaz@gmx.net>
+
+	* doc/building/SDL-Howto.txt, doc/building/Win32-Cygwin-Howto.txt,
+	doc/building/Win32-Mingw32-Howto.txt: added hints on using autogen.sh
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/renderyuv.c, src/video/renderyuv.h,
+	src/video/video-render.c: Optimize renderyuv_2x_4_1_1_pal
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/renderyuv.c, src/video/renderyuv.h,
+	src/video/video-render.c: Optimize renderyuv_4_1_1_pal
+
+2012-10-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/renderyuv.c, src/video/renderyuv.h,
+	src/video/video-render.c: Optimize renderyuv_4_1_1
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/renderyuv.c, src/video/renderyuv.h,
+	src/video/video-render.c: Optimize renderyuv_2x_4_1_1
+
+2012-10-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/qnx4, src/arch/sdl/qnx4/install_msg,
+	src/arch/sdl/qnx4/make-bindist.sh: Fixed for qnx 4.x.
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vic20/vic20mem.c: The limit resync was missing, that's why the
+	previous patch was needed. Anyway it's safer that way.
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mainc64cpu.c, src/maincpu.c, src/mainviccpu.c: Init limits
+	(possible uninitialized use on xvic)
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-color.c: It seems nobody noticed that the odd line
+	colors were not calculated for the CRT emulation when an external RGB
+	palette was used. But only until I wanted to use my green monochrome
+	monitor palette ;)
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/raster/raster-cache-fill.h: It does not matter much, but anyway.
+
+2012-10-20  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/video.c, src/arch/unix/x11/xaw/x11video.c,
+	src/video/renderyuv.c, src/video/renderyuv.h, src/video/video-color.c,
+	src/video/video-render.c, src/video/video-resources.c, src/video.h:
+	Optimized packed YUV routines. Only interesting on Amiga and Xaw.
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/ted-draw.c, src/raster/raster-cache-text-std.h,
+	src/vicii/vicii-draw.c, src/vicii/viciidtv-draw.c: Optimize
+	raster_cache_data_fill_text
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/ted-draw.c, src/raster/raster-cache-fill-1fff.h,
+	src/vicii/vicii-draw.c, src/vicii/viciidtv-draw.c: Optimize
+	raster-cache-fill-1fff
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/ted-draw.c, src/raster/raster-cache-fill.h,
+	src/vdc/vdc-draw.c, src/vic20/vic-draw.c, src/vicii/vicii-draw.c,
+	src/vicii/viciidtv-draw.c: Make raster-cache-fill constant 1 step.
+	Unbreak plus4 compile
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/ted-draw.c: Use raster_cache_data_fill_1fff for bitmap
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c, src/drive/drivecpu65c02.c,
+	src/drive/driverom.c: Ok, drive rom starts at $8000 always not at rom
+	start. This broke a few drives ;(
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-draw.c, src/vicii/viciidtv-draw.c: Splitting of
+	nibbles at cache fill time, hmm. Why not at drawing time, that happens
+	less often. That's the point of the whole caching after all...
+
+2012-10-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-draw.c: Optimize hires character drawing of
+	multicolor text. Improve readability.
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vicii/vicii-draw.c: Masking is faster than tables
+
+2012-10-19  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2012-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/Makefile.am: Quick fix for the makeinfo issue.
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-resources.c, src/drive/drive-snapshot.c,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/drivecpu65c02.c, src/drive/driverom.c, src/drive/driverom.h:
+	Implement hidden traps for drives. Much simpler, as there's no need
+	for ROM checksum adjustments.
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c: Correct unlikely 1551 bank port jump
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c, src/drive/drivecpu65c02.c,
+	src/drive/drivetypes.h: Use bank_start on drive CPUs as well
+
+2012-10-19  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive-snapshot.c: Make sure snapshotted disk images are
+	always "complicated".
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drive.h, src/drive/driveimage.c, src/drive/rotation.c:
+	There were great advancements in the 1541 emulation quality for
+	emulating faulty/protected images, which is good. Unfortunately this
+	happened on the expense of speed, and it's not just a few percents.
+	Actually in real life most people use perfect images like D64 files,
+	where all this complexity is just a waste of CPU cycles. Make sure we
+	use cheap emulation when it does not make a difference, and switch to
+	the more complex one when necessary.
+
+2012-10-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/archdep_unix.c, src/arch/unix/archdep.c: SDL and unix
+	did not compile because of a typo
+
+2012-10-19  Emir Akaydin <emir@akaydin.com>
+
+	* po/tr.po, po/translations-status.txt: Updated.
+
+2012-10-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/NEWS: Mention the TPUG MMU board and Super-OS/9.
+
 2012-10-18  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
