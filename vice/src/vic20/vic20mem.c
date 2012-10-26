@@ -355,7 +355,7 @@ static void set_mem(int start_page, int end_page,
             _mem_write_tab_nowatch[i] = store_func;
             _mem_peek_tab[i] = peek_func;
             _mem_read_base_tab[i] = NULL;
-            mem_read_limit_tab[i] = -1;
+            mem_read_limit_tab[i] = 0;
         }
     }
 }
@@ -532,7 +532,7 @@ void mem_initialize_memory(void)
     _mem_write_tab_nowatch[0x100] = _mem_write_tab_nowatch[0];
     _mem_peek_tab[0x100] = _mem_peek_tab[0];
     _mem_read_base_tab[0x100] = _mem_read_base_tab[0];
-    mem_read_limit_tab[0x100] = -1;
+    mem_read_limit_tab[0x100] = 0;
 
     _mem_read_base_tab_ptr = _mem_read_base_tab;
     mem_read_limit_tab_ptr = mem_read_limit_tab;
