@@ -381,8 +381,8 @@ _END
                            <QPM:File>kernalno</QPM:File>
                            <QPM:File>kernalse</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
-                           <QPM:File>vdc_deft.vpl</QPM:File>
                            <QPM:File>vdc_comp.vpl</QPM:File>
+                           <QPM:File>vdc_deft.vpl</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
@@ -403,24 +403,17 @@ _END
                            <QPM:File>pc64.vpl</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
+                           <QPM:File>x11_posger.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
+                           <QPM:File>x11_symger.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="C64DTV">
                            <QPM:File>basic</QPM:File>
-                           <QPM:File>c64hq.vpl</QPM:File>
-                           <QPM:File>c64mem.sym</QPM:File>
-                           <QPM:File>c64s.vpl</QPM:File>
-                           <QPM:File>ccs64.vpl</QPM:File>
                            <QPM:File>chargen</QPM:File>
-                           <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>dtvrom.bin</QPM:File>
-                           <QPM:File>frodo.vpl</QPM:File>
-                           <QPM:File>godot.vpl</QPM:File>
                            <QPM:File>kernal</QPM:File>
-                           <QPM:File>pc64.vpl</QPM:File>
-                           <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
                         </QPM:Dir>
@@ -450,6 +443,7 @@ _END
                            <QPM:File>rom500.vrs</QPM:File>
                            <QPM:File>white.vpl</QPM:File>
                            <QPM:File>x11_buks.vkm</QPM:File>
+                           <QPM:File>x11_buks_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="DRIVES">
@@ -461,9 +455,11 @@ _END
                            <QPM:File>dos1570</QPM:File>
                            <QPM:File>dos1571</QPM:File>
                            <QPM:File>dos1581</QPM:File>
+                           <QPM:File>dos2000</QPM:File>
                            <QPM:File>dos2031</QPM:File>
                            <QPM:File>dos2040</QPM:File>
                            <QPM:File>dos3040</QPM:File>
+                           <QPM:File>dos4000</QPM:File>
                            <QPM:File>dos4040</QPM:File>
                         </QPM:Dir>
 
@@ -472,6 +468,7 @@ _END
                            <QPM:File>basic1</QPM:File>
                            <QPM:File>basic2</QPM:File>
                            <QPM:File>basic4</QPM:File>
+                           <QPM:File>characters.901640-01.bin</QPM:File>
                            <QPM:File>chargen</QPM:File>
                            <QPM:File>chargen.de</QPM:File>
                            <QPM:File>edit1g</QPM:File>
@@ -490,23 +487,42 @@ _END
                            <QPM:File>rom4b40.vrs</QPM:File>
                            <QPM:File>rom4b80.vrs</QPM:File>
                            <QPM:File>rom4g40.vrs</QPM:File>
+                           <QPM:File>romsuperpet.vrs</QPM:File>
+                           <QPM:File>waterloo-a000.901898-01.bin</QPM:File>
+                           <QPM:File>waterloo-b000.901898-02.bin</QPM:File>
+                           <QPM:File>waterloo-c000.901898-03.bin</QPM:File>
+                           <QPM:File>waterloo-d000.901898-04.bin</QPM:File>
+                           <QPM:File>waterloo-e000.901897-01.bin</QPM:File>
+                           <QPM:File>waterloo-f000.901898-05.bin</QPM:File>
                            <QPM:File>white.vpl</QPM:File>
                            <QPM:File>x11_bdep.vkm</QPM:File>
+                           <QPM:File>x11_bdep_de.vkm</QPM:File>
                            <QPM:File>x11_bdes.vkm</QPM:File>
+                           <QPM:File>x11_bdes_de.vkm</QPM:File>
+                           <QPM:File>x11_bgrp.vkm</QPM:File>
+                           <QPM:File>x11_bgrp_de.vkm</QPM:File>
                            <QPM:File>x11_bgrs.vkm</QPM:File>
+                           <QPM:File>x11_bgrs_de.vkm</QPM:File>
+                           <QPM:File>x11_bukp.vkm</QPM:File>
+                           <QPM:File>x11_bukp_de.vkm</QPM:File>
                            <QPM:File>x11_buks.vkm</QPM:File>
+                           <QPM:File>x11_buks_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="PLUS4">
                            <QPM:File>3plus1hi</QPM:File>
                            <QPM:File>3plus1lo</QPM:File>
                            <QPM:File>basic</QPM:File>
+                           <QPM:File>c2lo.364</QPM:File>
                            <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
                            <QPM:File>kernal</QPM:File>
+                           <QPM:File>kernal.232</QPM:File>
+                           <QPM:File>kernal.364</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
                            <QPM:File>x11_sym.vkm</QPM:File>
+                           <QPM:File>x11_sym_de.vkm</QPM:File>
                         </QPM:Dir>
 
                         <QPM:Dir name="PRINTER">
