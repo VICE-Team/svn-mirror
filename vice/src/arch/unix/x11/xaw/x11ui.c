@@ -2033,7 +2033,7 @@ int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 }
 
 /* Resize one window. */
-void x11ui_resize_canvas_window(ui_window_t w, int width, int height, int hwscale)
+void x11ui_resize_canvas_window(ui_window_t w, int width, int height)
 {
     Dimension canvas_width, canvas_height;
     Dimension form_width, form_height;

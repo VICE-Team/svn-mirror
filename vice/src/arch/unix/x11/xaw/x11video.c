@@ -863,7 +863,20 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
     video_arch_frame_buffer_alloc(canvas, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height);
 
     if (resize_canvas) {
-        x11ui_resize_canvas_window(canvas->emuwindow, canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height, canvas->videoconfig->hwscale);
+        int width = canvas->draw_buffer->canvas_physical_width;
+        int height = canvas->draw_buffer->canvas_physical_height;
+#ifdef HAVE_XVIDEO
+        double local_aspect_ratio = 1.0;
+        if (canvas->videoconfig->hwscale) {
+            if (trueaspect) {
+                local_aspect_ratio = canvas->geometry->pixel_aspect_ratio;
+            } else if (keepaspect) {
+                local_aspect_ratio = aspect_ratio;
+            }
+        }
+        width = (int)((double)width * local_aspect_ratio + 0.5);
+#endif
+        x11ui_resize_canvas_window(canvas->emuwindow, width, height);
     }
 
     ui_finish_canvas(canvas);

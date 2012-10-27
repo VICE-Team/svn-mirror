@@ -42,7 +42,7 @@
 #endif
 #endif
 
-extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width, int hwscale);
+extern void x11ui_resize_canvas_window(ui_window_t w, int height, int width);
 extern void x11ui_move_canvas_window(ui_window_t w, int x, int y);
 extern void x11ui_canvas_position(ui_window_t w, int *x, int *y);
 extern void x11ui_get_widget_size(ui_window_t win, int *w, int *h);
