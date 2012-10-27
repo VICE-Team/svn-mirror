@@ -315,12 +315,7 @@ _END
 
                   <QPM:Dir name="info">
                      <QPM:File>vice.info</QPM:File>
-                     <QPM:File>vice.info-1</QPM:File>
-                     <QPM:File>vice.info-2</QPM:File>
-                     <QPM:File>vice.info-3</QPM:File>
-                     <QPM:File>vice.info-4</QPM:File>
-                     <QPM:File>vice.info-5</QPM:File>
-                     <QPM:File>vice.info-6</QPM:File>
+                     <QPM:File>vice.txt</QPM:File>
                   </QPM:Dir>
 
                   <QPM:Dir name="lib">
@@ -503,29 +498,61 @@ _END
 
                         <QPM:Dir name="doc">
                            <QPM:File>64doc.txt</QPM:File>
+                           <QPM:File>65C02.txt</QPM:File>
                            <QPM:File>BUGS</QPM:File>
+                           <QPM:File>CIA-README.txt</QPM:File>
                            <QPM:File>COPYING</QPM:File>
+                           <QPM:File>CommodoreInnovationPriceSoftware2008.jpg</QPM:File>
+                           <QPM:File>Documentation-Howto.txt</QPM:File>
+                           <QPM:File>Doxygen-Howto.txt</QPM:File>
+                           <QPM:File>GP2X-Howto.txt</QPM:File>
+                           <QPM:File>Linux-Mingw32-Howto.txt</QPM:File>
                            <QPM:File>MSDOS-Ethernet-Howto.txt</QPM:File>
                            <QPM:File>MSDOS-Howto.txt</QPM:File>
-                           <QPM:File>MinixVmd-Howto.txt</QPM:File>
+                           <QPM:File>MacOSX-Howto.txt</QPM:File>
+                           <QPM:File>MacOSX-ResourceTree.txt</QPM:File>
+                           <QPM:File>Minix-Howto.txt</QPM:File>
                            <QPM:File>NEWS</QPM:File>
                            <QPM:File>NLS-Howto.txt</QPM:File>
+                           <QPM:File>OpenVMS-Howto.txt</QPM:File>
                            <QPM:File>PETdoc.txt</QPM:File>
-                           <QPM:File>Readme.beos</QPM:File>
-                           <QPM:File>Readme.dos</QPM:File>
-                           <QPM:File>ReadmeMacOSX.txt</QPM:File>
-                           <QPM:File>ReadmeSDL.txt</QPM:File>
+                           <QPM:File>Readme-Amiga.txt</QPM:File>
+                           <QPM:File>Readme-BeOS.txt</QPM:File>
+                           <QPM:File>Readme-DOS.txt</QPM:File>
+                           <QPM:File>Readme-MacOSX.txt</QPM:File>
+                           <QPM:File>Readme-OS2.txt</QPM:File>
+                           <QPM:File>Readme-SDL.txt</QPM:File>
+                           <QPM:File>SDL-Howto.txt</QPM:File>
                            <QPM:File>TODO</QPM:File>
-                           <QPM:File>Walkthrough-Howto.txt</QPM:File>
-                           <QPM:File>Win32-Howto.txt</QPM:File>
+                           <QPM:File>VIC-Addendum.txt</QPM:File>
+                           <QPM:File>VIC-Article.txt</QPM:File>
+                           <QPM:File>VIC-Artikel.txt</QPM:File>
+                           <QPM:File>Win32-Cygwin-Howto.txt</QPM:File>
+                           <QPM:File>Win32-Mingw32-Howto.txt</QPM:File>
+                           <QPM:File>amigaos.html</QPM:File>
+                           <QPM:File>beos.html</QPM:File>
                            <QPM:File>cbm_basic_tokens.txt</QPM:File>
+                           <QPM:File>coding-guidelines.txt</QPM:File>
                            <QPM:File>drive_info.txt</QPM:File>
                            <QPM:File>iec-bus.txt</QPM:File>
                            <QPM:File>index.html</QPM:File>
-                           <QPM:File>mon.txt</QPM:File>
+                           <QPM:File>macosx.html</QPM:File>
                            <QPM:File>new.gif</QPM:File>
+                           <QPM:File>pixel_aspect.txt</QPM:File>
+                           <QPM:File>qnx.html</QPM:File>
+                           <QPM:File>sco.html</QPM:File>
                            <QPM:File>serial.txt</QPM:File>
+                           <QPM:File>solaris.html</QPM:File>
+                           <QPM:File>vice-logo-small.png</QPM:File>
                            <QPM:File>vice-logo.jpg</QPM:File>
+                           <QPM:File>vice.chm</QPM:File>
+                           <QPM:File>vice.css</QPM:File>
+                           <QPM:File>vice.guide</QPM:File>
+                           <QPM:File>vice.hlp</QPM:File>
+                           <QPM:File>vice.inf</QPM:File>
+                           <QPM:File>vice.info</QPM:File>
+                           <QPM:File>vice.pdf</QPM:File>
+                           <QPM:File>vice.txt</QPM:File>
                            <QPM:File>vice_1.html</QPM:File>
                            <QPM:File>vice_10.html</QPM:File>
                            <QPM:File>vice_11.html</QPM:File>
@@ -534,7 +561,11 @@ _END
                            <QPM:File>vice_14.html</QPM:File>
                            <QPM:File>vice_15.html</QPM:File>
                            <QPM:File>vice_16.html</QPM:File>
+                           <QPM:File>vice_17.html</QPM:File>
+                           <QPM:File>vice_18.html</QPM:File>
+                           <QPM:File>vice_19.html</QPM:File>
                            <QPM:File>vice_2.html</QPM:File>
+                           <QPM:File>vice_20.html</QPM:File>
                            <QPM:File>vice_3.html</QPM:File>
                            <QPM:File>vice_4.html</QPM:File>
                            <QPM:File>vice_5.html</QPM:File>
