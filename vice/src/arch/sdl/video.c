@@ -386,7 +386,7 @@ void video_shutdown(void)
 /* ------------------------------------------------------------------------- */
 /* static helper functions */
 
-static void sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, unsigned int *w, unsigned int *h, int mode)
+static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, unsigned int *w, unsigned int *h, int mode)
 {
     DBG(("%s",__func__));
     switch (mode & 3) {
@@ -394,18 +394,21 @@ static void sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, u
             if ((*w > limit_w) || (*h > limit_h)) {
                 *w = MIN(*w, limit_w);
                 *h = MIN(*h, limit_h);
+                return 1;
             }
             break;
         case SDL_LIMIT_MODE_FIXED:
             if ((*w != limit_w) || (*h != limit_h)) {
                 *w = limit_w;
                 *h = limit_h;
+                return 1;
             }
             break;
         case SDL_LIMIT_MODE_OFF:
         default:
             break;
     }
+    return 0;
 }
 
 #ifdef HAVE_HWSCALE
@@ -584,7 +587,12 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             actual_width = (unsigned int)((double)actual_width * aspect + 0.5);
         }
 #endif
-        sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit);
+        if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
+            canvas->draw_buffer->canvas_physical_width = actual_width;
+            canvas->draw_buffer->canvas_physical_height = actual_height;
+            video_viewport_resize(sdl_active_canvas, 0);
+            return canvas; /* exit here as video_viewport_resize will recall */
+        }
     }
 
     if (canvas == sdl_active_canvas) {
@@ -609,7 +617,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             sdl_gl_set_viewport(new_width, new_height, actual_width, actual_height);
             lightpen_updated = 1;
         } else {
-            new_screen = SDL_SetVideoMode(new_width, new_height, sdl_bitdepth, flags);
+            new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
             new_width = new_screen->w;
             new_height = new_screen->h;
 
@@ -862,7 +870,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
 }
 
 /* Resize window to w/h. */
-void sdl_video_resize(unsigned int w, unsigned int h)
+static void sdl_video_resize(unsigned int w, unsigned int h)
 {
     DBG(("%s: %ix%i", __func__, w, h));
 
