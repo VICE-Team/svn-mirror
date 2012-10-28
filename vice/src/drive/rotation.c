@@ -983,21 +983,41 @@ void rotation_rotate_disk(drive_t *dptr)
     }
 
     if (dptr->read_write_mode) {
-        while (bits_moved -- != 0) {
-            rptr->last_read_data = ((rptr->last_read_data << 1) & 0x3fe);
+        int off = dptr->GCR_head_offset;
+        unsigned int byte, last_read_data = rptr->last_read_data << 7;
+        unsigned int bit_counter = rptr->bit_counter;
 
-            if (read_next_bit(dptr)) {
-                rptr->last_read_data |= 1;
+        /* if no image is attached or track does not exists, read 0 */
+        if (dptr->GCR_image_loaded == 0 || dptr->GCR_track_start_ptr == NULL) {
+            byte = 0;
+        } else {
+            byte = dptr->GCR_track_start_ptr[off >> 3] << (off & 7);
+        }
+
+        while (bits_moved -- != 0) {
+
+            byte <<= 1; off++; 
+            if (!(off & 7)) {
+                if ((off >> 3) >= dptr->GCR_current_track_size) {
+                    off = 0;
+                }
+                /* if no image is attached or track does not exists, read 0 */
+                if (dptr->GCR_image_loaded == 0 || dptr->GCR_track_start_ptr == NULL) {
+                    byte = 0;
+                } else {
+                    byte = dptr->GCR_track_start_ptr[off >> 3];
+                }
             }
+
+            last_read_data <<= 1;
+            last_read_data |= byte & 0x80;
             rptr->last_write_data <<= 1;
 
             /* is sync? reset bit counter, don't move data, etc. */
-            if (rptr->last_read_data == 0x3ff) {
-                rptr->bit_counter = 0;
-            } else {
-                if (++ rptr->bit_counter == 8) {
-                    rptr->bit_counter = 0;
-                    dptr->GCR_read = (BYTE) rptr->last_read_data;
+            if (~last_read_data & 0x1ff80) {
+                if (++ bit_counter == 8) {
+                    bit_counter = 0;
+                    dptr->GCR_read = (BYTE) (last_read_data >> 7);
                     /* tlr claims that the write register is loaded at every
                      * byte boundary, and since the bus is shared, it's reasonable
                      * to guess that it would be loaded with whatever was last read. */
@@ -1007,8 +1027,13 @@ void rotation_rotate_disk(drive_t *dptr)
                         dptr->byte_ready_level = 1;
                     }
                 }
+            } else {
+                bit_counter = 0;
             }
         }
+        rptr->last_read_data = (last_read_data >> 7) & 0x3ff;
+        rptr->bit_counter = bit_counter;
+        dptr->GCR_head_offset = off;
         if (!dptr->GCR_read) {    /* can only happen if on a half or unformatted track */
             dptr->GCR_read = 0x11;/* should be good enough, there's no data after all */ 
         }
