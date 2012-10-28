@@ -142,7 +142,7 @@ static int set_sdl_limit_mode(int v, void *param)
 
 static int set_sdl_custom_width(int w, void *param)
 {
-    if (w < 0) {
+    if (w <= 0) {
         return -1;
     }
 
@@ -158,7 +158,7 @@ static int set_sdl_custom_width(int w, void *param)
 
 static int set_sdl_custom_height(int h, void *param)
 {
-    if (h < 0) {
+    if (h <= 0) {
         return -1;
     }
 
@@ -524,6 +524,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
         if (fullscreen) {
             flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
+            limit = SDL_LIMIT_MODE_OFF;
         } else {
             flags = SDL_OPENGL | SDL_SWSURFACE | SDL_RESIZABLE;
 
@@ -588,11 +589,13 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         }
 #endif
         if (sdl_video_canvas_limit(limit_w, limit_h, &actual_width, &actual_height, limit)) {
-            if (sdl_ui_finalized) {
+            if (!hwscale) {
                 canvas->draw_buffer->canvas_physical_width = actual_width;
                 canvas->draw_buffer->canvas_physical_height = actual_height;
                 video_viewport_resize(sdl_active_canvas, 0);
-                return canvas; /* exit here as video_viewport_resize will recall */
+                if (sdl_ui_finalized) {
+                    return canvas; /* exit here as video_viewport_resize will recall */
+                }
             }
         }
     }
