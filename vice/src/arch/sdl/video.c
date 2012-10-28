@@ -745,9 +745,12 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     }
 
     if (SDL_MUSTLOCK(canvas->screen)) {
+        canvas->videoconfig->readable = 0;
         if (SDL_LockSurface(canvas->screen) < 0) {
             return;
         }
+    } else { /* no direct rendering, safe to read */
+        canvas->videoconfig->readable = !(canvas->screen->flags & SDL_HWSURFACE);
     }
 
     video_canvas_render(canvas, (BYTE *)canvas->screen->pixels, w, h, xs, ys, xi, yi, canvas->screen->pitch, canvas->screen->format->BitsPerPixel);
