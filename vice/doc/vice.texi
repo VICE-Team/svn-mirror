@@ -8557,7 +8557,7 @@ thus are not present in the other emulators.
 @node CBM-II model, CBM-II commandline options, CBM-II-specific, CBM-II-specific
 @subsection Changing CBM-II model
 
-With @code{xcbm2}, it is possible to change at runtime the
+With @code{xcbm2} and @code{xcbm5x0}, it is possible to change at runtime the
 characteristics of the emulated CBM so that it matches (or not) the ones
 of a certain CBM model, and it is also possible to select from a common
 set of CBM models so that all the features are selected accordingly.
@@ -8614,31 +8614,30 @@ models are:
 
 @itemize @bullet
 @item
-C510 (128k RAM)
+C510 PAL or NTSC (128k RAM)
 @item
-C610 (128k RAM)
+C610 PAL or NTSC (128k RAM)
 @item
 C620 (256k RAM)
 @item
-C620+ (1024k RAM, expanded)
+C620+ (1024k RAM, expanded) PAL or NTSC
 @item
-C710 (128k RAM)
+C710 (128k RAM) NTSC
 @item
-C720 (256k RAM)
+C720 (256k RAM) NTSC
 @item
-C720+ (1024k RAM, expanded)
+C720+ (1024k RAM, expanded) NTSC
 @end itemize
 
 Notice that this will @strong{reset the emulated machine}.
 
-@b{Warning:} At this time switching between 510 and other machines during
-runtime is not supported and will not work.
+@b{Warning:} At this time the 5x0 and other machines are implemented
+in different executables, so switching between those models is not possible.
 
 It is also possible to select the CBM model at startup, with the
 @code{-model} command-line option: for example, @samp{xcbm2 -model 610}
 will emulate a CBM 610 while @samp{xcbm2 -model 620} will emulate a CBM
-620. Notably this is the only way to start a C510 emulation, with
-@code{-model 510}.
+620.
 
 @c @node FIXME
 @subsection CBM-II system ROM settings
@@ -8843,7 +8842,7 @@ emulators snapshot files.
 * x128 modules::
 * xvic modules::
 * xpet modules::
-* xcbm2 modules::
+* xcbm2 and xcbm5x0 modules::
 * Drive modules::
 @end menu
 
@@ -8975,7 +8974,7 @@ The modules in the xvic emulator are:
 @tab The emulated drive(s) have their own modules @pxref{Drive modules}
 @end multitable
 
-@node xpet modules, xcbm2 modules, xvic modules, Emulator modules
+@node xpet modules, xcbm2 and xcbm5x0 modules, xvic modules, Emulator modules
 @subsubsection xpet modules
 
 The modules in the xpet emulator are:
@@ -9019,10 +9018,10 @@ The modules in the xpet emulator are:
 @tab The emulated drive(s) have their own modules @pxref{Drive modules}
 @end multitable
 
-@node xcbm2 modules, Drive modules, xpet modules, Emulator modules
-@subsubsection xcbm2 modules
+@node xcbm2 and xcbm5x0 modules, Drive modules, xpet modules, Emulator modules
+@subsubsection xcbm2 and xcbm5x0 modules
 
-The modules in the xcbm2 emulator are:
+The modules in the xcbm2 and xcbm5x0 emulators are:
 
 @multitable @columnfractions .1 .4 .5
 @item Name
@@ -9066,7 +9065,7 @@ The modules in the xcbm2 emulator are:
 @tab The emulated drive(s) have their own modules @pxref{Drive modules}
 @end multitable
 
-@node Drive modules,  , xcbm2 modules, Emulator modules
+@node Drive modules,  , xcbm2 and xcbm5x0 modules, Emulator modules
 @subsubsection Drive modules
 
 The modules for the real disk drive emulation are included in the emulator
