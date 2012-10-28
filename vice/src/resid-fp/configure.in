@@ -145,7 +145,7 @@ AC_SUBST(RESID_HAVE_BOOL)
 AC_SUBST(RESID_USE_SSE)
 
 dnl Checks for library functions.
-if test x"$host_os" != "xminix"; then
+if test x"$host_os" != "xminix" -a x"$host_os" != "xmint"; then
   AC_CHECK_FUNCS(logf expf)
 fi
 

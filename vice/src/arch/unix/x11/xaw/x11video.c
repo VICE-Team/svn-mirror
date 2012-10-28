@@ -568,7 +568,9 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 	    }
 
 	    if (shminfo) {
+#ifndef __QNX__
 		canvas->using_mitshm = 0;
+#endif
 		shminfo = NULL;
 		continue;
 	    }
@@ -587,7 +589,11 @@ static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int wi
 
         log_message(x11video_log, "Successfully initialized using XVideo (%dx%d %.4s)%s shared memory.",
 		width, height, canvas->xv_format.label,
+#ifndef __QNX__
 		canvas->using_mitshm ? ", using" : " without");
+#else
+                " without");
+#endif
 
         return 0;
     }

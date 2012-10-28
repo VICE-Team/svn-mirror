@@ -3540,6 +3540,7 @@ AC_OUTPUT([Makefile
            vice.spec
            vice-gtk.spec
            vice-mint.spec
+           vice-mint-sdl.spec
            build/Makefile
            data/Makefile
            data/C128/Makefile

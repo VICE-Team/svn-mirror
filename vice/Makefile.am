@@ -20,7 +20,9 @@ COMMON_EXTRA_DIST = .descr \
 	vice-gtk.spec \
 	vice-gtk.spec.in \
 	vice-mint.spec \
-	vice-gtk.spec.in
+	vice-mint.spec.in \
+	vice-mint-sdl.spec \
+	vice-mint-sdl.spec.in
 
 # PO_EXTRA_DIST is a list of files in the po directory that need to be
 # included in the source archive, this list was added to fix the fact that
@@ -37,6 +39,7 @@ PO_EXTRA_DIST = po/ChangeLog \
 	po/hu.po \
 	po/intl2po.c \
 	po/it.po \
+	po/ko.po \
 	po/nl.po \
 	po/pl.po \
 	po/po2tbl.sed \

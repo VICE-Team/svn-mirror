@@ -14,14 +14,13 @@ BuildRoot: /var/tmp/vice-build-root
 
 %description
 VICE is a set of accurate emulators for the Commodore 64, 128, VIC20,
-PET, Plus4, CBM-II 8-bit computers and the C64DTV, all of which run under
-the X Window System.
+PET, Plus4, CBM-II 8-bit computers and the C64DTV.
 
 %prep
 %setup -q
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --with-sdlsound --host=m68k-atari-mint --x-includes="" --x-libraries="" --without-resid
+CFLAGS="$RPM_OPT_FLAGS" ./configure --prefix=%{prefix} --enable-sdlui --host=m68k-atari-mint
 make
 
 %install
