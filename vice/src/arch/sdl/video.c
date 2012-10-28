@@ -427,11 +427,11 @@ static void sdl_gl_set_viewport(unsigned int src_w, unsigned int src_h, unsigned
         /* Keep aspect ratio of src image. */
         if (dest_w * src_h < src_w * aspect * dest_h) {
             dest_y = dest_h;
-            dest_h = (unsigned int)(dest_w * src_h / (src_w * aspect));
+            dest_h = (unsigned int)(dest_w * src_h / (src_w * aspect) + 0.5);
             dest_y = (dest_y - dest_h) / 2;
         } else {
             dest_x = dest_w;
-            dest_w = (unsigned int)(dest_h * src_w * aspect / src_h);
+            dest_w = (unsigned int)(dest_h * src_w * aspect / src_h + 0.5);
             dest_x = (dest_x - dest_w) / 2;
         }
     }
@@ -515,7 +515,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
         }
 #endif
-        sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect);
+        sdl_active_canvas->real_width = (unsigned int)((double)new_width * aspect + 0.5);
         sdl_active_canvas->real_height = new_height;
     }
 
