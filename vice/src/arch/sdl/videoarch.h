@@ -51,14 +51,11 @@ struct video_canvas_s {
     /* Size of the drawable canvas area, including the black borders */
     unsigned int width, height;
 
-    /* Size of the canvas as requested by the emulator itself, without double size */
+    /* Size of the canvas as requested by the emulator itself */
     unsigned int real_width, real_height;
 
     /* Actual size of the window; in most cases the same as width/height */
     unsigned int actual_width, actual_height;
-
-    /* Double size state, for keeping track of the real size */
-    unsigned int dsizex, dsizey;
 
     /* Drawable surface */
     SDL_Surface* screen;
@@ -93,8 +90,7 @@ extern void sdl_video_resize_event(unsigned int w, unsigned int h);
 extern void sdl_video_canvas_switch(int index);
 extern int sdl_active_canvas_num;
 
-/* Flag for forced resize (as opposed to f.ex PAL/NTSC switch) */
-extern int sdl_forced_resize;
+extern void sdl_ui_init_finalize(void);
 
 /* Modes of resolution limitation */
 #define SDL_LIMIT_MODE_OFF   0

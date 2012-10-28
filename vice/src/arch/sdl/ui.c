@@ -73,25 +73,6 @@ static int sdl_ui_ready = 0;
 /* ----------------------------------------------------------------- */
 /* ui.h */
 
-static int first = 1;
-
-static void ui_setupfirst(void)
-{
-    int w, h;
-    /* restore window to its saved size first time it is shown */
-    if(first) {
-        first = 0;
-        resources_get_int("SDLWindowWidth", &w);
-        resources_get_int("SDLWindowHeight", &h);
-        DBG(("ui_setupfirst (%d,%d)", w, h));
-        if ((w == 0) || (h == 0)) {
-            sdl_video_restore_size();
-        } else {
-            sdl_video_resize((unsigned int)w, (unsigned int)h);
-        }
-    }
-}
-
 /* Misc. SDL event handling */
 void ui_handle_misc_sdl_event(SDL_Event e)
 {
@@ -102,19 +83,17 @@ void ui_handle_misc_sdl_event(SDL_Event e)
             break;
         case SDL_VIDEORESIZE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEORESIZE (%d,%d)", (unsigned int)e.resize.w, (unsigned int)e.resize.h));
-            if(!first) {
-                sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
-            }
+            sdl_video_resize_event((unsigned int)e.resize.w, (unsigned int)e.resize.h);
             video_canvas_refresh_all(sdl_active_canvas);
             break;
         case SDL_ACTIVEEVENT:
             DBG(("ui_handle_misc_sdl_event: SDL_ACTIVEEVENT"));
-            ui_setupfirst();
-            video_canvas_refresh_all(sdl_active_canvas);
+            if ((e.active.state & SDL_APPACTIVE) && e.active.gain) {
+                video_canvas_refresh_all(sdl_active_canvas);
+            }
             break;
         case SDL_VIDEOEXPOSE:
             DBG(("ui_handle_misc_sdl_event: SDL_VIDEOEXPOSE"));
-            ui_setupfirst();
             video_canvas_refresh_all(sdl_active_canvas);
             break;
 #ifdef SDL_DEBUG
@@ -386,6 +365,7 @@ int ui_init_finalize(void)
 {
     DBG(("%s",__func__));
 
+    sdl_ui_init_finalize();
     SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
     sdl_ui_ready = 1;
     return 0;

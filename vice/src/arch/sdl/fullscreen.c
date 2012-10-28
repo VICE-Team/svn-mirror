@@ -67,10 +67,6 @@ static int fullscreen_enable(struct video_canvas_s *canvas, int enable)
 
     if (canvas->initialized) {
         /* resize window back to normal when leaving fullscreen */
-        if (!enable) {
-            sdl_video_restore_size();
-        }
-        sdl_forced_resize = 1; /* the size of the SDL window changes */
         video_viewport_resize(canvas, 1);
     }
     return 0;
