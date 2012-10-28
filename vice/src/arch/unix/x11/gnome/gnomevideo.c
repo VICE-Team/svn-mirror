@@ -187,6 +187,7 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
     if (console_mode || video_disabled_mode) {
         return;
     }
+    canvas->videoconfig->readable = 1; /* it's not direct rendering */
 
     if (canvas->gdk_image != NULL) {
         g_object_unref(canvas->gdk_image);
