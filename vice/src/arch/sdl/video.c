@@ -893,6 +893,8 @@ void sdl_video_resize(unsigned int w, unsigned int h)
         }
 #endif
         sdl_gl_set_viewport(sdl_active_canvas->width, sdl_active_canvas->height, w, h);
+        sdl_active_canvas->actual_width = w;
+        sdl_active_canvas->actual_height = h;
     } else
 #endif /*  HAVE_HWSCALE */
     {
@@ -925,6 +927,8 @@ void sdl_video_resize_event(unsigned int w, unsigned int h)
         return;
     }
     sdl_video_resize(w, h);
+    resources_set_int("SDLWindowWidth", sdl_active_canvas->actual_width);
+    resources_set_int("SDLWindowHeight", sdl_active_canvas->actual_height);
 
 #endif /*  HAVE_HWSCALE */
 }
