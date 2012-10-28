@@ -521,26 +521,29 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 
 #ifdef HAVE_HWSCALE
     if (hwscale) {
+        flags |= SDL_OPENGL;
 
         if (fullscreen) {
-            flags = SDL_OPENGL | SDL_SWSURFACE | SDL_FULLSCREEN;
             limit = SDL_LIMIT_MODE_OFF;
         } else {
-            flags = SDL_OPENGL | SDL_SWSURFACE | SDL_RESIZABLE;
+            double aspect = aspect_ratio;
 
-            /* if no window geometry given then create one */
+            if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
+                aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
+            }
+
+            /* if no window geometry given then create one. */
             if (!sdl_window_width || !sdl_window_height) {
-                double aspect = aspect_ratio;
-
-                if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_TRUE) {
-                    aspect = sdl_active_canvas->geometry->pixel_aspect_ratio;
-                }
-
                 limit_w = (unsigned int)((double)new_width * aspect + 0.5);
                 limit_h = new_height;
-            } else {
-                limit_w = (unsigned int)sdl_window_width;
-                limit_h = (unsigned int)sdl_window_height;
+            } else { /* full window size remembering when aspect ratio is not important */
+                if (sdl_gl_aspect_mode == SDL_ASPECT_MODE_OFF) {
+                    limit_w = (unsigned int)sdl_window_width;
+                    limit_h = (unsigned int)sdl_window_height;
+                } else { /* only remember height, set width according to that and the aspect ratio */
+                    limit_h = (unsigned int)sdl_window_height;
+                    limit_w = (unsigned int)((double)new_width * (double)sdl_window_height * aspect / (double)new_height + 0.5);
+                }
             }
             limit = SDL_LIMIT_MODE_FIXED;
         }
