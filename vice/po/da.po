@@ -9407,7 +9407,7 @@ msgstr ""
 "sættes et tracepoint for hukommelsesområdet mellem adresserne.\n"
 "`load|store|exec' er enten `load', `store' eller `exec' (eller en\n"
 "vilkårlig kombination), og angiver på hvilken operation monitoren\n"
-"tracer. Hvis intet angives vil monitoren trace alle 3 operationer."
+"tracer. Hvis intet angives vil monitoren trace alle 3 operationer.\n"
 
 #: src/translate_text.c.po.c:2241
 msgid "Monitor state commands"
@@ -9943,7 +9943,7 @@ msgstr ""
 "Vælg hvordan I/O-kollisioner skal håndteres (0: fejlbesked og afbryd "
 "alle involverede cartridges, 1: fejlbesked og afbryd senest tilsluttede "
 "cartridge, 2: Advarsel i log og returner 'logisk OG' af de gyldige "
-"returværdier)
+"returværdier)"
 
 #: src/translate_text.c.po.c:4374
 msgid "specify IEEE488 interface image name"
