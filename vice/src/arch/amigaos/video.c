@@ -635,6 +635,9 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #if defined(HAVE_PROTO_CYBERGRAPHICS_H) && defined(HAVE_XVIDEO)
     canvas->current_overlay = 0;
 #endif
+#ifdef AMIGA_AROS
+    canvas->videoconfig->readable = 1; /* it's not direct rendering */
+#endif
 }
 
 void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
