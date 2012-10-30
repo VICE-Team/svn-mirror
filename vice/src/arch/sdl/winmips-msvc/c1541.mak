@@ -509,24 +509,24 @@ LINK32_OBJS= \
 
 "platform - Win32 Release" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\"platform.mak" CFG=""platform - Win32 Release" 
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Release" 
    cd "."
 
 ""platform - Win32 ReleaseCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\"platform.mak" CFG=""platform - Win32 Release" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Release" RECURSE=1 CLEAN 
    cd "."
 
 !ELSEIF  "$(CFG)" == "c1541 - Win32 Debug"
 
-""platform - Win32 Debug" : 
+"platform - Win32 Debug" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\"platform.mak" CFG=""platform - Win32 Debug" 
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Debug" 
    cd "."
 
-""platform - Win32 DebugCLEAN" : 
+"platform - Win32 DebugCLEAN" : 
    cd "."
-   $(MAKE) /$(MAKEFLAGS) /F ".\"platform.mak" CFG=""platform - Win32 Debug" RECURSE=1 CLEAN 
+   $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Debug" RECURSE=1 CLEAN 
    cd "."
 
 !ENDIF 

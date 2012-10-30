@@ -34,7 +34,6 @@
 #include <string.h>
 #include <windows.h>
 #include <winsock.h>
-#include <tlhelp32.h>
 #include <tchar.h>
 
 #include "ui.h"
@@ -684,7 +683,11 @@ void closedir(DIR *dir)
 
 char *archdep_get_runtime_os(void)
 {
+#ifdef WINMIPS
+    return "MIPS NT";
+#else
     return platform_get_windows_runtime_os();
+endif
 }
 
 char *archdep_get_runtime_cpu(void)
@@ -697,3 +700,4 @@ char *archdep_get_runtime_cpu(void)
     return "Unknown CPU";
 #endif
 }
+

@@ -90,6 +90,8 @@
 
 #if defined(__CYGWIN32__) || defined(WIN32_COMPILE)
 
+#ifndef WINMIPS
+
 #include <windows.h>
 #include <stdio.h>
 
@@ -953,4 +955,5 @@ char *platform_get_windows_runtime_os(void)
     }
     return windows_version;
 }
+#endif
 #endif

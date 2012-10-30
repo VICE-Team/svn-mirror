@@ -706,7 +706,11 @@ int archdep_rtc_get_centisecond(void)
 
 char *archdep_get_runtime_os(void)
 {
+#ifdef WINMIPS
+    return "MIPS NT";
+#else
     return platform_get_windows_runtime_os();
+#endif
 }
 
 char *archdep_get_runtime_cpu(void)
