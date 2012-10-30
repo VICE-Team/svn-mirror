@@ -136,8 +136,8 @@ LINK32_OBJS= \
 	".\libs\imagecontents\Release\imagecontents.lib" \
 	".\libs\fileio\Release\fileio.lib" \
 	".\libs\serial\Release\serial.lib" \
-	".\libs\p64\Release\p64.lib \
-	".\libs\p64\Release\platform.lib
+	".\libs\p64\Release\p64.lib" \
+	".\libs\platform\Release\platform.lib"
 
 
 "$(OUTDIR)\c1541.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
@@ -259,7 +259,7 @@ LINK32_OBJS= \
 	".\libs\fileio\Debug\fileio.lib" \
 	".\libs\serial\Debug\serial.lib" \
 	".\libs\p64\Debug\p64.lib" \
-	".\libs\p64\Debug\platform.lib"
+	".\libs\platform\Debug\platform.lib"
 
 "$(OUTDIR)\c1541.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<

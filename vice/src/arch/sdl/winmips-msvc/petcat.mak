@@ -121,7 +121,7 @@ LINK32_OBJS= \
 	".\libs\arch\Release\arch.lib" \
 	".\libs\base\Release\base.lib" \
 	".\libs\fileio\Release\fileio.lib" \
-	".\libs\fileio\Release\platform.lib"
+	".\libs\platform\Release\platform.lib"
 
 "$(OUTDIR)\petcat.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -226,7 +226,7 @@ LINK32_OBJS= \
 	".\libs\arch\Debug\arch.lib" \
 	".\libs\base\Debug\base.lib" \
 	".\libs\fileio\Debug\fileio.lib" \
-	".\libs\fileio\Debug\platform.lib"
+	".\libs\platform\Debug\platform.lib"
 
 "$(OUTDIR)\petcat.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
