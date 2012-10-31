@@ -378,7 +378,7 @@ SOURCE=..\..\..\c128\c128memsnapshot.c
 
 SOURCE=..\..\..\c128\c128model.c
 
-"$(INTDIR)\c128mmu.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\c128model.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
