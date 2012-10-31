@@ -131,7 +131,7 @@ LINK32_OBJS= \
 	".\libs\rtc\Release\rtc.lib" \
 	".\libs\core\Release\core.lib" \
 	".\libs\p64\Release\p64.lib" \
-	".\libs\p64\Release\platform.lib"
+	".\libs\platform\Release\platform.lib"
 
 "$(OUTDIR)\xcbm2.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -246,7 +246,7 @@ LINK32_OBJS= \
 	".\libs\rtc\Debug\rtc.lib" \
 	".\libs\core\Debug\core.lib" \
 	".\libs\p64\Debug\p64.lib" \
-	".\libs\p64\Debug\platform.lib"
+	".\libs\platform\Debug\platform.lib"
 
 "$(OUTDIR)\xcbm2.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<

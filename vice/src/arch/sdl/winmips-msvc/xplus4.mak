@@ -130,7 +130,7 @@ LINK32_OBJS= \
 	".\libs\rtc\Release\rtc.lib" \
 	".\libs\iecbus\Release\iecbus.lib" \
 	".\libs\p64\Release\p64.lib" \
-	".\libs\p64\Release\platform.lib"
+	".\libs\platform\Release\platform.lib"
 
 "$(OUTDIR)\xplus4.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
@@ -244,7 +244,7 @@ LINK32_OBJS= \
 	".\libs\rtc\Debug\rtc.lib" \
 	".\libs\iecbus\Debug\iecbus.lib" \
 	".\libs\p64\Debug\p64.lib" \
-	".\libs\p64\Debug\platform.lib"
+	".\libs\platform\Debug\platform.lib"
 
 "$(OUTDIR)\xplus4.exe" : "$(OUTDIR)" $(DEF_FILE) $(LINK32_OBJS)
     $(LINK32) @<<
