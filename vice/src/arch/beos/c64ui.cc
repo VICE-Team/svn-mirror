@@ -383,6 +383,9 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_IDE64_SIZE4:
             ui_ide64(4);
             break;
+        case MENU_MAGICVOICE_FILE:
+            ui_select_file(B_SAVE_PANEL, MAGICVOICE_FILE, (void*)0);
+            break;
         case MENU_REU_FILE:
             ui_select_file(B_SAVE_PANEL, REU_FILE, (void*)0);
             break;

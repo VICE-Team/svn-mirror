@@ -167,11 +167,16 @@ ui_res_possible_values c128mouseports[] = {
     { -1, 0 }
 };
 
-/* FIXME: We need VDC filter setting as well */
 ui_res_possible_values c128viciiRenderFilters[] = {
     { VIDEO_FILTER_NONE, MENU_RENDER_FILTER_NONE },
     { VIDEO_FILTER_CRT, MENU_RENDER_FILTER_CRT_EMULATION },
     { VIDEO_FILTER_SCALE2X, MENU_RENDER_FILTER_SCALE2X },
+    { -1, 0 }
+};
+
+ui_res_possible_values c128VDCRenderFilters[] = {
+    { VIDEO_FILTER_NONE, MENU_VDC_RENDER_FILTER_NONE },
+    { VIDEO_FILTER_CRT, MENU_VDC_RENDER_FILTER_CRT_EMULATION },
     { -1, 0 }
 };
 
@@ -189,6 +194,7 @@ ui_res_value_list c128_ui_res_values[] = {
     { "DIGIMAXbase", c128DigimaxBase },
     { "SFXSoundExpanderChip", c128SFXSoundExpanderChip },
     { "VICIIFilter", c128viciiRenderFilters },
+    { "VDCFilter", c128VDCRenderFilters },
     { "VDCRevision", c128VDCrev },
     { "Mousetype", c128mousetypes },
     { "Mouseport", c128mouseports },
@@ -242,6 +248,9 @@ void c128_ui_specific(void *msg, void *window)
             break;
         case MENU_IDE64_SIZE4:
             ui_ide64(4);
+            break;
+        case MENU_MAGICVOICE_FILE:
+            ui_select_file(B_SAVE_PANEL, MAGICVOICE_FILE, (void*)0);
             break;
         case MENU_EXPERT_FILE:
             ui_select_file(B_OPEN_PANEL, EXPERT_FILE, (void*)0);

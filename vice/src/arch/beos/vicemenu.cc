@@ -273,17 +273,21 @@ BMenuBar *menu_create(int machine_class)
     if (machine_class == VICE_MACHINE_C128) {
         /* VDC options */
         uppermenu->AddItem(menu = new BMenu("VDC"));
+            menu->AddItem(submenu = new BMenu("Render filter"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("None", new BMessage(MENU_VDC_RENDER_FILTER_NONE)));
+                submenu->AddItem(new BMenuItem("CRT emulation", new BMessage(MENU_VDC_RENDER_FILTER_CRT_EMULATION)));
             menu->AddItem(new BMenuItem("Video Cache", new BMessage(MENU_TOGGLE_VDC_VIDEOCACHE)));
             menu->AddItem(new BMenuItem("Double Size", new BMessage(MENU_TOGGLE_VDC_DOUBLESIZE)));
             menu->AddItem(new BMenuItem("Stretch Vertically", new BMessage(MENU_TOGGLE_STRETCHVERTICAL)));
             menu->AddItem(new BMenuItem("Double Scan", new BMessage(MENU_TOGGLE_VDC_DOUBLESCAN)));
             menu->AddSeparatorItem();
             menu->AddItem(new BMenuItem("64KB video memory", new BMessage(MENU_TOGGLE_VDC64KB)));
-        uppermenu->AddItem(menu = new BMenu("VDC revision"));
-            menu->SetRadioMode(true);
-            menu->AddItem(new BMenuItem("Rev 0", new BMessage(MENU_VDC_REV_0)));
-            menu->AddItem(new BMenuItem("Rev 1", new BMessage(MENU_VDC_REV_1)));
-            menu->AddItem(new BMenuItem("Rev 2", new BMessage(MENU_VDC_REV_2)));
+            menu->AddItem(submenu = new BMenu("VDC revision"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("Rev 0", new BMessage(MENU_VDC_REV_0)));
+                submenu->AddItem(new BMenuItem("Rev 1", new BMessage(MENU_VDC_REV_1)));
+                submenu->AddItem(new BMenuItem("Rev 2", new BMessage(MENU_VDC_REV_2)));
     }
 
     if (machine_class != VICE_MACHINE_VSID) {
