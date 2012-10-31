@@ -640,7 +640,7 @@ BEGIN
   IDS_PET_RAM_SETTINGS           "RAM-indstillinger"
   IDS_TOGGLE_PET_8296_RAM9       "$9*** som RAM"
   IDS_TOGGLE_PET_8296_RAMA       "$A*** som RAM"
-  IDS_PETMODEL                   "PET model"
+  IDS_PETMODEL                   "PET-model"
   IDS_MI_PET_SETTINGS            "PET-indstillinger..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW-indstillinger..."
   IDS_MI_PETREU_SETTINGS         "PET REU-indstillinger..."

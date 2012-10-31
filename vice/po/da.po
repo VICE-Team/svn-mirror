@@ -1,12 +1,12 @@
 # Danish translation file for VICE
 # Mikkel Holm Olsen <vice@symlink.dk>
 # Copyright 2009-2012
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 16:13-0700\n"
+"POT-Creation-Date: 2012-10-31 15:19-0700\n"
 "PO-Revision-Date: 2012-10-29 17:47+0100\n"
 "Last-Translator: Mikkel Holm Olsen <vice@symlink.dk>\n"
 "Language-Team: Danish <vice@symlink.dk>\n"
@@ -4690,7 +4690,7 @@ msgstr "Deaktivér ægte aspektforhold"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM-udviddelser version %d.%d fundet."
 
-#: src/arch/unix/x11/xaw/x11video.c:659
+#: src/arch/unix/x11/xaw/x11video.c:665
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM-initiering successfuld.\n"
 
@@ -5391,7 +5391,8 @@ msgstr "IDE64-filer (*.fdd;*.hdd;*.iso;*.cfa)"
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
-msgstr "Disk-image filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
+msgstr ""
+"Disk-image filer (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1117
@@ -8854,7 +8855,9 @@ msgstr ""
 msgid ""
 ".\n"
 "All devices except "
-msgstr ".\nAlle enheder undtagen "
+msgstr ""
+".\n"
+"Alle enheder undtagen "
 
 #: src/translate_text.c.po.c:875
 msgid " will be detached."
@@ -9034,8 +9037,9 @@ msgstr ""
 msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
-msgstr "Udskriv CPU-cyklus-tæller for den nuværende enhed. \"reset\" sætter "
-"tælleren til 0."
+msgstr ""
+"Udskriv CPU-cyklus-tæller for den nuværende enhed. \"reset\" sætter tælleren "
+"til 0."
 
 #: src/translate_text.c.po.c:1470
 msgid "Read a snapshot of the machine from the file specified."
@@ -9897,8 +9901,9 @@ msgstr "Angiv C128-model (c128/c128dcr, pal/ntsc)"
 msgid ""
 "Set Plus4 model (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
 "c232)"
-msgstr "Angiv Plus4-modem (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, "
-"v364/cv364, c232)"
+msgstr ""
+"Angiv Plus4-modem (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, "
+"c232)"
 
 #: src/translate_text.c.po.c:4168
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
@@ -9940,8 +9945,8 @@ msgid ""
 "detach all involved carts, 1: error message and detach last attached "
 "involved carts, 2: warning in log and 'AND' the valid return values"
 msgstr ""
-"Vælg hvordan I/O-kollisioner skal håndteres (0: fejlbesked og afbryd "
-"alle involverede cartridges, 1: fejlbesked og afbryd senest tilsluttede "
+"Vælg hvordan I/O-kollisioner skal håndteres (0: fejlbesked og afbryd alle "
+"involverede cartridges, 1: fejlbesked og afbryd senest tilsluttede "
 "cartridge, 2: Advarsel i log og returner 'logisk OG' af de gyldige "
 "returværdier)"
 
@@ -9968,15 +9973,17 @@ msgstr "Skriv ikke til GEORAM-image"
 #: src/translate_text.c.po.c:4476
 msgid ""
 "Swap io mapping (map cart I/O-1 to VIC20 I/O-3 and cart I/O-2 to VIC20 I/O-2)"
-msgstr "Ombyt I/O-forbindelse (forbind cart I/O-1 til VIC20 I/O-3 og cart "
-"I/O-2 til VIC20 I/O-2)"
+msgstr ""
+"Ombyt I/O-forbindelse (forbind cart I/O-1 til VIC20 I/O-3 og cart I/O-2 til "
+"VIC20 I/O-2)"
 
 #: src/translate_text.c.po.c:4493
 msgid ""
 "Don't swap io mapping (map cart I/O-1 to VIC20 I/O-2 and cart I/O-2 to VIC20 "
 "I/O-3)"
-msgstr "Ombyt ikke I/O-forbindelse (forbind cart I/O-1 til VIC20 I/O-2 og cart "
-"I/O-2 til VIC20 I/O-3)"
+msgstr ""
+"Ombyt ikke I/O-forbindelse (forbind cart I/O-1 til VIC20 I/O-2 og cart I/O-2 "
+"til VIC20 I/O-3)"
 
 #: src/translate_text.c.po.c:4510
 msgid "Swap io mapping (map cart I/O to VIC20 I/O-2)"
@@ -10647,8 +10654,8 @@ msgstr "Angiv navn på 4000-DOS-ROM-image"
 #: src/translate_text.c.po.c:7846
 msgid "Set drive idling method (0: no traps, 1: skip cycles, 2: trap idle)"
 msgstr ""
-"Vælg tomgangsmetode for diskettedrev (0: ingen traps, 1: spring over cykler, 2: "
-"trap ledig)"
+"Vælg tomgangsmetode for diskettedrev (0: ingen traps, 1: spring over cykler, "
+"2: trap ledig)"
 
 #: src/translate_text.c.po.c:7863
 msgid "Enable 8KB RAM expansion at $2000-$3FFF"
@@ -10694,8 +10701,9 @@ msgstr "Deaktivér 8kB RAM-udviddelse på $A000-$BFFF"
 msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
-msgstr "Vælg typen af parallelkabel (0: ingen, 1: standard, 2: Dolphin DOS 3"
-" 3: Formel 64)"
+msgstr ""
+"Vælg typen af parallelkabel (0: ingen, 1: standard, 2: Dolphin DOS 3 3: "
+"Formel 64)"
 
 #: src/translate_text.c.po.c:8067
 msgid "Disable Professional DOS"
@@ -11558,8 +11566,9 @@ msgstr "Vælg hvilken joystickport musen er tilsluttet"
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
-msgstr "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
-"CX-22, 5 = ST, 6 = Smart)"
+msgstr ""
+"Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = "
+"ST, 6 = Smart)"
 
 #: src/translate_text.c.po.c:11850
 msgid "Enable PS/2 mouse on userport"

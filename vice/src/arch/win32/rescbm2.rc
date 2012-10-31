@@ -329,9 +329,9 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_CBM2_SETTINGS           "CBM2-indstillinger"
-  IDS_CBM2MODEL               "CBM2 model"
+  IDS_CBM2MODEL               "CBM2-model"
   IDS_MI_CBM2_SETTINGS        "CBM2-indstillinger..."
-  IDS_MI_CBM2MODEL_SETTINGS   "CBM2 model settings..."
+  IDS_MI_CBM2MODEL_SETTINGS   "CBM2-modelindstillinger..."
 END
 
 

@@ -1,16 +1,17 @@
 # Italian Translation File for VICE
 # Copyright (C) 2001-2009 Free Software Foundation, Inc.
 # Andrea Musuruane <musuruan@gmail.com>, 2001-2009.
-#
-#
+# 
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 16:13-0700\n"
+"POT-Creation-Date: 2012-10-31 15:19-0700\n"
 "PO-Revision-Date: 2012-10-26 10:26+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -4692,7 +4693,7 @@ msgstr "Disattiva proporzioni video reali"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Rilevata la versione %d.%d delle estensioni MITSHM."
 
-#: src/arch/unix/x11/xaw/x11video.c:659
+#: src/arch/unix/x11/xaw/x11video.c:665
 msgid "MITSHM initialization succeed.\n"
 msgstr "Inizializzazione MITSHM riuscita.\n"
 

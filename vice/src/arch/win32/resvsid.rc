@@ -159,14 +159,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "Vælg PSID-fil"
+  IDS_TUNE_NR             "sangnummer"
   IDS_MI_LOAD_PSID_FILE   "Indlæs PSID-fil"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
+  IDS_MI_SELECT_TUNE      "Vælg sang"
+  IDS_MI_NEXT_TUNE        "Næste sang"
+  IDS_MI_PREVIOUS_TUNE    "Forrige sang"
   IDS_MI_PSID_OVERRIDE    "Overstyr PSID-indstillinger"
-  IDS_MP_MEDIA            "Media"
+  IDS_MP_MEDIA            "Medie"
 END
 
 

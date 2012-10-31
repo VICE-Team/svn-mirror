@@ -1,11 +1,11 @@
 # German Translation File for VICE
 # Copyright (C) 2000 Free Software Foundation, Inc.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 16:13-0700\n"
+"POT-Creation-Date: 2012-10-31 15:19-0700\n"
 "PO-Revision-Date: 2012-10-20 18:30+0200\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
@@ -4676,7 +4676,7 @@ msgstr "Echtes Seitenverhältnis deaktivieren"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM X Server Eweiterung in Version %d.%d erkannt."
 
-#: src/arch/unix/x11/xaw/x11video.c:659
+#: src/arch/unix/x11/xaw/x11video.c:665
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM erfolgreich initialisiert.\n"
 

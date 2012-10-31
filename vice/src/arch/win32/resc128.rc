@@ -837,7 +837,7 @@ BEGIN
   IDS_NORWEGIAN                 "Norsk"
   IDS_SWEDISH                   "Svensk"
   IDS_INT_FUNCTION_ROM          "Intern funktions-ROM"
-  IDS_INT_FUNCTION_ROM_TYPE     "Internal Function ROM type"
+  IDS_INT_FUNCTION_ROM_TYPE     "Intern funktions-ROM-type"
   IDS_FILE_NAME                 "Filnavn"
   IDS_EXT_FUNCTION_ROM          "Extern funktions-ROM"
   IDS_ENABLE_EXT_FUNCTION_ROM   "Aktivér extern funktions-ROM"
@@ -848,7 +848,7 @@ BEGIN
   IDS_MI_TOGGLE_VDC64KB         "64KB grafikhukommelse"
   IDS_MI_IEEE488                "Emulering af IEEE488-interface"
   IDS_MI_C128_SETTINGS          "C128-indstillinger..."
-  IDS_MI_C128MODEL_SETTINGS     "C128 model settings..."
+  IDS_MI_C128MODEL_SETTINGS     "C128-modelindstillinger..."
 END
 
 

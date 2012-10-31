@@ -53,10 +53,10 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_TED_CAPTION       "TED-indstillinger"
     IDS_TED_BORDERSGROUP  "Ramme-tilstand"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_NORMALBORDERS "Normal ramme"
+    IDS_TED_FULLBORDERS   "Fuld ramme"
+    IDS_TED_DEBUGBORDERS  "Debug-ramme"
+    IDS_TED_NOBORDERS     "Ingen rammer"
 END
 
 

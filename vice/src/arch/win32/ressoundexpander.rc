@@ -63,7 +63,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_SFX_SOUNDEXPANDER_CAPTION "SFX Sound Expander-indstillinger"
-    IDS_SFX_SOUNDEXPANDER_ENABLE  "Enable the SFX Sound Expander cartridge"
+    IDS_SFX_SOUNDEXPANDER_ENABLE  "Aktivér SFX sound Expander cartridget"
     IDS_SFX_SOUNDEXPANDER_TYPE    "YM chiptype"
 END
 

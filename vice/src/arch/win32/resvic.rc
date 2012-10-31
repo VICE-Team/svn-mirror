@@ -53,10 +53,10 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION       "VIC-indstillinger"
     IDS_VIC_BORDERSGROUP  "Ramme-tilstand"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_NORMALBORDERS "Normal ramme"
+    IDS_VIC_FULLBORDERS   "Fuld ramme"
+    IDS_VIC_DEBUGBORDERS  "Debug-ramme"
+    IDS_VIC_NOBORDERS     "Ingen rammer"
 END
 
 

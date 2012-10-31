@@ -52,10 +52,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "Aktivér RR flashjumper"
+  IDS_RR_BANK_JUMPER    "Aktivér RR bankjumper"
   IDS_RR_REVISION_LABEL "Udgave"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "Gem RR flash ved ændringer"
 END
 
 

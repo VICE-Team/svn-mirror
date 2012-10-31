@@ -169,7 +169,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
+  IDS_SIDCART_ENABLE                         "Aktivér SID-cartridget"
   IDS_SIDCART_ADDRESS_LABEL                  "SID-adresse"
   IDS_SIDCART_CLOCK_LABEL                    "SID-klok"
   IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID-enhedsvalg"

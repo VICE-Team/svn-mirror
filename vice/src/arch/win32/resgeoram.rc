@@ -89,7 +89,7 @@ LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_SELECT_FILE_GEORAM  "Vælg fil for GEO-RAM"
   IDS_GEORAM_CAPTION      "GEO-RAM-indstillinger"
-  IDS_GEORAM_ENABLE       "Enable the GEO-RAM expansion unit"
+  IDS_GEORAM_ENABLE       "Aktivér GEO-RAM-udviddelsesenheden"
   IDS_GEORAM_SIZE_LABEL   "GEO-RAM-størrelse"
   IDS_GEORAM_WRITE_ENABLE "Gem GEO-RAM image ved ændringer"
   IDS_GEORAM_FILE_LABEL   "GEO-RAM-fil"

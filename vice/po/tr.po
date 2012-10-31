@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 16:13-0700\n"
+"POT-Creation-Date: 2012-10-31 15:19-0700\n"
 "PO-Revision-Date: 2012-10-19 11:36+0300\n"
 "Last-Translator: Emir Akaydin <emir@akaydin.com>\n"
 "Language-Team: tr <tr@li.org>\n"
@@ -4691,7 +4691,7 @@ msgstr "Gerçek en boy oranýný pasifleþtir"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "MITSHM uzantýlarý versiyon %d.%d saptandý."
 
-#: src/arch/unix/x11/xaw/x11video.c:659
+#: src/arch/unix/x11/xaw/x11video.c:665
 msgid "MITSHM initialization succeed.\n"
 msgstr "MITSHM baþlangýç ayarlarý baþarýlý.\n"
 

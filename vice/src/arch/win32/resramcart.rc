@@ -62,8 +62,8 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_RAMCART_CAPTION      "RamCart-indstillinger"
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
+  IDS_RAMCART_ENABLE       "Aktivér RamCart-udviddelsen"
+  IDS_RAMCART_READONLY     "Kun læseadgang"
   IDS_RAMCART_SIZE         "RamCart-størrelse"
   IDS_RAMCART_WRITE_ENABLE "Gem til RamCart image ved ændringer"
   IDS_RAMCART_FILE         "RamCart fil"

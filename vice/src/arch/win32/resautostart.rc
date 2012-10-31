@@ -71,7 +71,7 @@ BEGIN
     IDS_AUTOSTART_WARP                       "Autostart i warp-tilstand"
     IDS_AUTOSTART_COLON_RUN                  "Brug \042:\042 med RUN"
     IDS_AUTOSTART_LOAD_TO_BASIC              "Indlæs ved BASIC start"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
+    IDS_AUTOSTART_RANDOM_DELAY               "Tilfældig forsinkelse"
     IDS_AUTOSTART_PRG_MODE                   "PRG-autostarttilstand"
     IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG Autostart disk-image"
     IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Vælg fil for PRG autostartdiskette"

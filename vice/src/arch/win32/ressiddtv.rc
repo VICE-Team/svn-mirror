@@ -94,7 +94,7 @@ BEGIN
   IDS_FAST_RESAMPLING    "Hurtig omsampling"
   IDS_SID_RESID_GROUP    "reSID-/reSID-fp-indstillinger"
   IDS_SID_RESID_SAMPLE   "Samplingmetode"
-  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
+  IDS_SID_RESID_PASSBAND "Pasbånd (0..90%)"
   IDS_HARDSID_GROUP      "Enhedsvalg"
   IDS_HARDSID_LEFT_LABEL "Hovedenhed"
 END

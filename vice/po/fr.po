@@ -5,12 +5,12 @@
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # -Paul
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-10-25 16:13-0700\n"
+"POT-Creation-Date: 2012-10-31 15:19-0700\n"
 "PO-Revision-Date: 2011-02-01 18:41+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -5114,7 +5114,7 @@ msgstr "<spec>"
 msgid "MITSHM extensions version %d.%d detected."
 msgstr "Détecté extensions MITSHM version %d.%d."
 
-#: src/arch/unix/x11/xaw/x11video.c:659
+#: src/arch/unix/x11/xaw/x11video.c:665
 msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 

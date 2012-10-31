@@ -86,21 +86,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
+    IDS_IDE64_V4_SETTINGS           "IDE64 V4 indstillinger"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primær master enhedsindstillinger"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primær slave enhedsindstillinger"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 sekundær master enhedsindstillinger"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 sekundær slave enhedsindstillinger"
     IDS_IDE64_SETTINGS              "IDE64-indstillinger"
     IDS_IDE64_V4                    "Aktivér IDE64 V4"
-    IDS_IDE64_IMAGE                 "ATA device image file"
+    IDS_IDE64_IMAGE                 "ATA-enhed imagefil"
     IDS_IDE64_GEOMETRY              "Geometri"
     IDS_IDE64_AUTODETECT            "Autodetektér størrelse på image"
     IDS_IDE64_CYLINDERS             "Cylindrer"
     IDS_IDE64_HEADS                 "Hoveder"
     IDS_IDE64_SECTORS               "Sektorer"
     IDS_IDE64_TOTAL_SIZE            "Total størrelse: %iKB"
-    IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
+    IDS_IDE64_SELECT_IMAGE          "Angiv ATA-enhedsimagefil"
 END
 
 

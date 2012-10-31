@@ -59,7 +59,7 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "REU-indstillinger"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
+  IDS_REU_ENABLE       "Aktivér RAM-udviddelsesenheden"
   IDS_REU_SIZE         "REU størrelse"
   IDS_REU_WRITE_ENABLE "Gem REU image ved ændringer"
   IDS_REU_FILE         "REU-fil"
