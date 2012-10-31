@@ -594,7 +594,7 @@ SOURCE="..\..\..\c64\cart\finalplus.c"
 
 SOURCE="..\..\..\c64\cart\formel64.c"
 
-$(INTDIR)\formel64.obj" : $(SOURCE) "$(INTDIR)"
+"$(INTDIR)\formel64.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

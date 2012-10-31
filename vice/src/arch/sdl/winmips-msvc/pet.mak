@@ -120,7 +120,7 @@ BSC32_SBRS= \
 LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\pet.lib" 
 LIB32_OBJS= \
-	"$(INTDIR)\6809" \
+	"$(INTDIR)\6809.obj" \
 	"$(INTDIR)\pet-cmdline-options.obj" \
 	"$(INTDIR)\pet-resources.obj" \
 	"$(INTDIR)\pet-sidcart.obj" \
