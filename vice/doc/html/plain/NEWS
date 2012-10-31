@@ -1,9 +1,9 @@
 * About this file
 =================
 
-This file lists the most important user-visible changes for each
-official release of VICE.  See `src/ChangeLog' for a more detailed
-list of all the changes in the code.
+This file lists the most important user-visible changes for each official
+release of VICE.  See `ChangeLog' in the root dir of the source tree for a
+more detailed list of all the changes in the code.
 
 * Upgrading
 ===========
@@ -192,6 +192,11 @@ left from previous installs.
 ---------------
 
 - Alot of GUI fixes and improvements.
+
+- Joystick keysets have been fixed (again.)
+
+- "beos" sound driver can now be tested on Haiku (at your own risk) with
+  command-line option: -sounddev beos
 
 ** OS/2 changes
 ---------------
