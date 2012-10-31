@@ -119,7 +119,7 @@ fourcc_t fourcc_list[] = {
 
 int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overlay)
 {
-    int i, j, k, found_one = 0;
+    int i, j, k, found_one = 0, is_overlay;
 
     /* XvQueryExtension */
     unsigned int version, release, request_base, event_base, error_base;
@@ -166,6 +166,8 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overl
         if (!(adaptor_info[i].type & XvInputMask && adaptor_info[i].type & XvImageMask)) {
             continue;
         }
+        /* Textured video is not an overlay */
+        is_overlay = !strstr(adaptor_info[i].name, "Textured");
 
         format_list = XvListImageFormats(display, adaptor_info[i].base_id, &num_formats);
 
@@ -184,6 +186,9 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overl
                     }
                     if (found_one) {
                         int numattr;
+                        if (!*overlay && is_overlay) {
+                            continue; /* Prefer non-overlay as that one can handle more than one windows */
+                        }
                         XvAttribute *attr = XvQueryPortAttributes(display, port_id, &numattr);
                         if (attr) {
                             XFree(attr);
@@ -195,8 +200,8 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overl
                         XvUngrabPort(display, *port, CurrentTime);
                     }
                     *port = port_id;
-                    *format = fourcc_list[j]; /* Textured video is not an overlay */
-                    *overlay = !strstr(adaptor_info[i].name, "Textured");
+                    *format = fourcc_list[j];
+                    *overlay = is_overlay;
                     found_one = 1;
                 }
             }
