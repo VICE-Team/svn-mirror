@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on plus4exp.dsp
 !IF "$(CFG)" == ""
-CFG=plus4exp - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to plus4exp - Win32 Debug.
+CFG=plus4exp - Win32 Release
+!MESSAGE No configuration specified. Defaulting to plus4exp - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "plus4exp - Win32 Release" && "$(CFG)" != "plus4exp - Win32 Debug"

@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on c64cartsystem.dsp
 !IF "$(CFG)" == ""
-CFG=c64cartsystem - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to c64cartsystem - Win32 Debug.
+CFG=c64cartsystem - Win32 Release
+!MESSAGE No configuration specified. Defaulting to c64cartsystem - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "c64cartsystem - Win32 Release" && "$(CFG)" != "c64cartsystem - Win32 Debug"

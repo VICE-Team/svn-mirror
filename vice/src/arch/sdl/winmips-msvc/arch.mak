@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on arch.dsp
 !IF "$(CFG)" == ""
-CFG=arch - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to arch - Win32 Debug.
+CFG=arch - Win32 Release
+!MESSAGE No configuration specified. Defaulting to arch - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "arch - Win32 Release" && "$(CFG)" != "arch - Win32 Debug"

@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on viciidtv.dsp
 !IF "$(CFG)" == ""
-CFG=viciidtv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to viciidtv - Win32 Debug.
+CFG=viciidtv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to viciidtv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "viciidtv - Win32 Release" && "$(CFG)" != "viciidtv - Win32 Debug"

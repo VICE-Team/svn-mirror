@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on c1541.dsp
 !IF "$(CFG)" == ""
-CFG=c1541 - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to c1541 - Win32 Debug.
+CFG=c1541 - Win32 Release
+!MESSAGE No configuration specified. Defaulting to c1541 - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "c1541 - Win32 Release" && "$(CFG)" != "c1541 - Win32 Debug"

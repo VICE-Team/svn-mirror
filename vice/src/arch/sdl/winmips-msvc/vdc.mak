@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on vdc.dsp
 !IF "$(CFG)" == ""
-CFG=vdc - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to vdc - Win32 Debug.
+CFG=vdc - Win32 Release
+!MESSAGE No configuration specified. Defaulting to vdc - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "vdc - Win32 Release" && "$(CFG)" != "vdc - Win32 Debug"

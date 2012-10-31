@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on imagecontents.dsp
 !IF "$(CFG)" == ""
-CFG=imagecontents - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to imagecontents - Win32 Debug.
+CFG=imagecontents - Win32 Release
+!MESSAGE No configuration specified. Defaulting to imagecontents - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "imagecontents - Win32 Release" && "$(CFG)" != "imagecontents - Win32 Debug"

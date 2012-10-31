@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on xcbm2.dsp
 !IF "$(CFG)" == ""
-CFG=xcbm2 - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to xcbm2 - Win32 Debug.
+CFG=xcbm2 - Win32 Release
+!MESSAGE No configuration specified. Defaulting to xcbm2 - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "xcbm2 - Win32 Release" && "$(CFG)" != "xcbm2 - Win32 Debug"

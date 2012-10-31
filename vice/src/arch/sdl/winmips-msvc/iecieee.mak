@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on iecieee.dsp
 !IF "$(CFG)" == ""
-CFG=iecieee - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to iecieee - Win32 Debug.
+CFG=iecieee - Win32 Release
+!MESSAGE No configuration specified. Defaulting to iecieee - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "iecieee - Win32 Release" && "$(CFG)" != "iecieee - Win32 Debug"

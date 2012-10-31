@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on xpet.dsp
 !IF "$(CFG)" == ""
-CFG=xpet - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to xpet - Win32 Debug.
+CFG=xpet - Win32 Release
+!MESSAGE No configuration specified. Defaulting to xpet - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "xpet - Win32 Release" && "$(CFG)" != "xpet - Win32 Debug"

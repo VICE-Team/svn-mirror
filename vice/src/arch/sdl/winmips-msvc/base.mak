@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on base.dsp
 !IF "$(CFG)" == ""
-CFG=base - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to base - Win32 Debug.
+CFG=base - Win32 Release
+!MESSAGE No configuration specified. Defaulting to base - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "base - Win32 Release" && "$(CFG)" != "base - Win32 Debug"

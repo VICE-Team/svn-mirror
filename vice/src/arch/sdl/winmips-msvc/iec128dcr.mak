@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on iec128dcr.dsp
 !IF "$(CFG)" == ""
-CFG=iec128dcr - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to iec128dcr - Win32 Debug.
+CFG=iec128dcr - Win32 Release
+!MESSAGE No configuration specified. Defaulting to iec128dcr - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "iec128dcr - Win32 Release" && "$(CFG)" != "iec128dcr - Win32 Debug"

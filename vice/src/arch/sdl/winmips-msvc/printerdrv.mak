@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on printerdrv.dsp
 !IF "$(CFG)" == ""
-CFG=printerdrv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to printerdrv - Win32 Debug.
+CFG=printerdrv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to printerdrv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "printerdrv - Win32 Release" && "$(CFG)" != "printerdrv - Win32 Debug"

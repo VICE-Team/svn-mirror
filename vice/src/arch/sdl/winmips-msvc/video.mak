@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on video.dsp
 !IF "$(CFG)" == ""
-CFG=video - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to video - Win32 Debug.
+CFG=video - Win32 Release
+!MESSAGE No configuration specified. Defaulting to video - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "video - Win32 Release" && "$(CFG)" != "video - Win32 Debug"

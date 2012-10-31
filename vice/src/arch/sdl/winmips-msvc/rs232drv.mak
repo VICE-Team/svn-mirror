@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on rs232drv.dsp
 !IF "$(CFG)" == ""
-CFG=rs232drv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to rs232drv - Win32 Debug.
+CFG=rs232drv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to rs232drv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "rs232drv - Win32 Release" && "$(CFG)" != "rs232drv - Win32 Debug"

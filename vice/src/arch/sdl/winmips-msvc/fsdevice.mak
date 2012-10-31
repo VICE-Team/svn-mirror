@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on fsdevice.dsp
 !IF "$(CFG)" == ""
-CFG=fsdevice - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to fsdevice - Win32 Debug.
+CFG=fsdevice - Win32 Release
+!MESSAGE No configuration specified. Defaulting to fsdevice - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "fsdevice - Win32 Release" && "$(CFG)" != "fsdevice - Win32 Debug"

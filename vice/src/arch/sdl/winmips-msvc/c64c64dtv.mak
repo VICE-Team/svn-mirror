@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on c64c64dtv.dsp
 !IF "$(CFG)" == ""
-CFG=c64c64dtv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to c64c64dtv - Win32 Debug.
+CFG=c64c64dtv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to c64c64dtv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "c64c64dtv - Win32 Release" && "$(CFG)" != "c64c64dtv - Win32 Debug"

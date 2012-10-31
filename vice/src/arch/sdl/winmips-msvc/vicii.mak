@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on vicii.dsp
 !IF "$(CFG)" == ""
-CFG=vicii - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to vicii - Win32 Debug.
+CFG=vicii - Win32 Release
+!MESSAGE No configuration specified. Defaulting to vicii - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "vicii - Win32 Release" && "$(CFG)" != "vicii - Win32 Debug"

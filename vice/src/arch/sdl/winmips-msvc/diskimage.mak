@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on diskimage.dsp
 !IF "$(CFG)" == ""
-CFG=diskimage - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to diskimage - Win32 Debug.
+CFG=diskimage - Win32 Release
+!MESSAGE No configuration specified. Defaulting to diskimage - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "diskimage - Win32 Release" && "$(CFG)" != "diskimage - Win32 Debug"

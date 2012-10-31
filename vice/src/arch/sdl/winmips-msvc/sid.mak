@@ -1,8 +1,8 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on sid.dsp
 
 !IF "$(CFG)" == ""
-CFG=sid - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to sid - Win32 Debug.
+CFG=sid - Win32 Release
+!MESSAGE No configuration specified. Defaulting to sid - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "sid - Win32 Release" && "$(CFG)" != "sid - Win32 Debug"

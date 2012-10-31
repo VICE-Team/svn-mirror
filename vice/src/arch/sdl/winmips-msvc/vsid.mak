@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on vsid.dsp
 !IF "$(CFG)" == ""
-CFG=vsid - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to vsid - Win32 Debug.
+CFG=vsid - Win32 Release
+!MESSAGE No configuration specified. Defaulting to vsid - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "vsid - Win32 Release" && "$(CFG)" != "vsid - Win32 Debug"

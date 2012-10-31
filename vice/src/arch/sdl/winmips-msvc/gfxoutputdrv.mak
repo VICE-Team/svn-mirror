@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on gfxoutputdrv.dsp
 !IF "$(CFG)" == ""
-CFG=gfxoutputdrv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to gfxoutputdrv - Win32 Debug.
+CFG=gfxoutputdrv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to gfxoutputdrv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "gfxoutputdrv - Win32 Release" && "$(CFG)" != "gfxoutputdrv - Win32 Debug"

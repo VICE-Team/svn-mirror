@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on vic20.dsp
 !IF "$(CFG)" == ""
-CFG=vic20 - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to vic20 - Win32 Debug.
+CFG=vic20 - Win32 Release
+!MESSAGE No configuration specified. Defaulting to vic20 - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "vic20 - Win32 Release" && "$(CFG)" != "vic20 - Win32 Debug"

@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on pet.dsp
 !IF "$(CFG)" == ""
-CFG=pet - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to pet - Win32 Debug.
+CFG=pet - Win32 Release
+!MESSAGE No configuration specified. Defaulting to pet - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "pet - Win32 Release" && "$(CFG)" != "pet - Win32 Debug"

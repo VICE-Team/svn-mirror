@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on userport.dsp
 !IF "$(CFG)" == ""
-CFG=userport - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to userport - Win32 Debug.
+CFG=userport - Win32 Release
+!MESSAGE No configuration specified. Defaulting to userport - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "userport - Win32 Release" && "$(CFG)" != "userport - Win32 Debug"

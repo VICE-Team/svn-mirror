@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on tape.dsp
 !IF "$(CFG)" == ""
-CFG=tape - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to tape - Win32 Debug.
+CFG=tape - Win32 Release
+!MESSAGE No configuration specified. Defaulting to tape - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "tape - Win32 Release" && "$(CFG)" != "tape - Win32 Debug"

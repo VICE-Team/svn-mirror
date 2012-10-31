@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on cartconv.dsp
 !IF "$(CFG)" == ""
-CFG=cartconv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to cartconv - Win32 Debug.
+CFG=cartconv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to cartconv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "cartconv - Win32 Release" && "$(CFG)" != "cartconv - Win32 Debug"

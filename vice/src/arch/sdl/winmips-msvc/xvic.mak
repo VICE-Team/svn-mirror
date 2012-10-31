@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on xvic.dsp
 !IF "$(CFG)" == ""
-CFG=xvic - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to xvic - Win32 Debug.
+CFG=xvic - Win32 Release
+!MESSAGE No configuration specified. Defaulting to xvic - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "xvic - Win32 Release" && "$(CFG)" != "xvic - Win32 Debug"

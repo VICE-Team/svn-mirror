@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on x128.dsp
 !IF "$(CFG)" == ""
-CFG=x128 - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to x128 - Win32 Debug.
+CFG=x128 - Win32 Release
+!MESSAGE No configuration specified. Defaulting to x128 - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "x128 - Win32 Release" && "$(CFG)" != "x128 - Win32 Debug"

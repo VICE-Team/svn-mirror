@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on fileio.dsp
 !IF "$(CFG)" == ""
-CFG=fileio - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to fileio - Win32 Debug.
+CFG=fileio - Win32 Release
+!MESSAGE No configuration specified. Defaulting to fileio - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "fileio - Win32 Release" && "$(CFG)" != "fileio - Win32 Debug"

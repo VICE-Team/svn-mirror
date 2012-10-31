@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on monitor.dsp
 !IF "$(CFG)" == ""
-CFG=monitor - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to monitor - Win32 Debug.
+CFG=monitor - Win32 Release
+!MESSAGE No configuration specified. Defaulting to monitor - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "monitor - Win32 Release" && "$(CFG)" != "monitor - Win32 Debug"

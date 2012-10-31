@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on iec.dsp
 !IF "$(CFG)" == ""
-CFG=iec - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to iec - Win32 Debug.
+CFG=iec - Win32 Release
+!MESSAGE No configuration specified. Defaulting to iec - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "iec - Win32 Release" && "$(CFG)" != "iec - Win32 Debug"

@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on vic20cart.dsp
 !IF "$(CFG)" == ""
-CFG=vic20cart - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to vic20cart - Win32 Debug.
+CFG=vic20cart - Win32 Release
+!MESSAGE No configuration specified. Defaulting to vic20cart - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "vic20cart - Win32 Release" && "$(CFG)" != "vic20cart - Win32 Debug"

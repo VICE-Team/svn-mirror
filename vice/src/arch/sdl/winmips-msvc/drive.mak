@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on drive.dsp
 !IF "$(CFG)" == ""
-CFG=drive - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to drive - Win32 Debug.
+CFG=drive - Win32 Release
+!MESSAGE No configuration specified. Defaulting to drive - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "drive - Win32 Release" && "$(CFG)" != "drive - Win32 Debug"

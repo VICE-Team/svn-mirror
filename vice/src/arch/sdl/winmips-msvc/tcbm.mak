@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on tcbm.dsp
 !IF "$(CFG)" == ""
-CFG=tcbm - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to tcbm - Win32 Debug.
+CFG=tcbm - Win32 Release
+!MESSAGE No configuration specified. Defaulting to tcbm - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "tcbm - Win32 Release" && "$(CFG)" != "tcbm - Win32 Debug"

@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on parallel.dsp
 !IF "$(CFG)" == ""
-CFG=parallel - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to parallel - Win32 Debug.
+CFG=parallel - Win32 Release
+!MESSAGE No configuration specified. Defaulting to parallel - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "parallel - Win32 Release" && "$(CFG)" != "parallel - Win32 Debug"

@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on raster.dsp
 !IF "$(CFG)" == ""
-CFG=raster - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to raster - Win32 Debug.
+CFG=raster - Win32 Release
+!MESSAGE No configuration specified. Defaulting to raster - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "raster - Win32 Release" && "$(CFG)" != "raster - Win32 Debug"

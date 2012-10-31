@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on gentranslate.dsp
 !IF "$(CFG)" == ""
-CFG=gentranslate - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to gentranslate - Win32 Debug.
+CFG=gentranslate - Win32 Release
+!MESSAGE No configuration specified. Defaulting to gentranslate - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "gentranslate - Win32 Release" && "$(CFG)" != "gentranslate - Win32 Debug"

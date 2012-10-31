@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on sounddrv.dsp
 !IF "$(CFG)" == ""
-CFG=sounddrv - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to sounddrv - Win32 Debug.
+CFG=sounddrv - Win32 Release
+!MESSAGE No configuration specified. Defaulting to sounddrv - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "sounddrv - Win32 Release" && "$(CFG)" != "sounddrv - Win32 Debug"

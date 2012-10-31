@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on geninfocontrib.dsp
 !IF "$(CFG)" == ""
-CFG=geninfocontrib - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to geninfocontrib - Win32 Debug.
+CFG=geninfocontrib - Win32 Release
+!MESSAGE No configuration specified. Defaulting to geninfocontrib - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "geninfocontrib - Win32 Release" && "$(CFG)" != "geninfocontrib - Win32 Debug"

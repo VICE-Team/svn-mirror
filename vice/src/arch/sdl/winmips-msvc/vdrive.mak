@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on vdrive.dsp
 !IF "$(CFG)" == ""
-CFG=vdrive - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to vdrive - Win32 Debug.
+CFG=vdrive - Win32 Release
+!MESSAGE No configuration specified. Defaulting to vdrive - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "vdrive - Win32 Release" && "$(CFG)" != "vdrive - Win32 Debug"

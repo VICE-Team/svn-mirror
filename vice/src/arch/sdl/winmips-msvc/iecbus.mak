@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on iecbus.dsp
 !IF "$(CFG)" == ""
-CFG=iecbus - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to iecbus - Win32 Debug.
+CFG=iecbus - Win32 Release
+!MESSAGE No configuration specified. Defaulting to iecbus - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "iecbus - Win32 Release" && "$(CFG)" != "iecbus - Win32 Debug"

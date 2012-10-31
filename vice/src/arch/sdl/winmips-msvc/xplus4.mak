@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on xplus4.dsp
 !IF "$(CFG)" == ""
-CFG=xplus4 - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to xplus4 - Win32 Debug.
+CFG=xplus4 - Win32 Release
+!MESSAGE No configuration specified. Defaulting to xplus4 - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "xplus4 - Win32 Release" && "$(CFG)" != "xplus4 - Win32 Debug"

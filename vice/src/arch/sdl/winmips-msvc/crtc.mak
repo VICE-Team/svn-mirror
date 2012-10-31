@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on crtc.dsp
 !IF "$(CFG)" == ""
-CFG=crtc - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to crtc - Win32 Debug.
+CFG=crtc - Win32 Release
+!MESSAGE No configuration specified. Defaulting to crtc - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "crtc - Win32 Release" && "$(CFG)" != "crtc - Win32 Debug"

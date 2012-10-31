@@ -1,7 +1,7 @@
 # Microsoft Developer Studio Generated NMAKE File, Based on rtc.dsp
 !IF "$(CFG)" == ""
-CFG=rtc - Win32 Debug
-!MESSAGE No configuration specified. Defaulting to rtc - Win32 Debug.
+CFG=rtc - Win32 Release
+!MESSAGE No configuration specified. Defaulting to rtc - Win32 Release.
 !ENDIF 
 
 !IF "$(CFG)" != "rtc - Win32 Release" && "$(CFG)" != "rtc - Win32 Debug"
