@@ -619,6 +619,9 @@ at a time out of 64k into the `$9***' area.  Also it has an ACIA 6551
 for RS232 communication.  The 6809 CPU that is built into the SuperPET
 is now emulated, since release 2.4, including the 6702 dongle chip.
 
+The Super-OS/9 MMU expansion, developed by TPUG (Toronto PET Users
+Group) is also emulated.
+
 The PET computers came with three major ROM revisions, so-called BASIC
 1, 2 and 4, all of which are provided.  The PET 2001 uses the version 1,
 the PET 3032 uses version 2, and the others use version 4.  The 2001 ROM
@@ -7735,7 +7738,7 @@ PET I/O extension resources
      Boolean specifying whether DWW emulation is enabled.
 
 `PETDWWfilename'
-     String specifying the filename of the DWW ROM image.
+     String specifying the filename of the DWW image RAM image.
 
 `UserportDAC'
      Boolean specifying whether userport DAC emulation is enabled.
@@ -7790,7 +7793,7 @@ PET system ROM resources
 `H6809RomEName'
 `H6809RomFName'
      Strings specifying the filenames of the respective H6809 ROM
-     images.
+     images, relevant for the SuperPET.
 
 PET system ROM command-line options
 ...................................
@@ -7954,10 +7957,10 @@ and thus are not present in the other emulators.
 Changing CBM-II model
 ---------------------
 
-With `xcbm2', it is possible to change at runtime the characteristics
-of the emulated CBM so that it matches (or not) the ones of a certain
-CBM model, and it is also possible to select from a common set of CBM
-models so that all the features are selected accordingly.
+With `xcbm2' and `xcbm5x0', it is possible to change at runtime the
+characteristics of the emulated CBM so that it matches (or not) the ones
+of a certain CBM model, and it is also possible to select from a common
+set of CBM models so that all the features are selected accordingly.
 
 The former is done by changing the following resources (via resource
 file, command line options or right-menu items):
@@ -7994,30 +7997,29 @@ Choosing a common CBM-II model is done from the right-button menu
 instead, by choosing an item from the "Model defaults" submenu.
 Available models are:
 
-   * C510 (128k RAM)
+   * C510 PAL or NTSC (128k RAM)
 
-   * C610 (128k RAM)
+   * C610 PAL or NTSC (128k RAM)
 
    * C620 (256k RAM)
 
-   * C620+ (1024k RAM, expanded)
+   * C620+ (1024k RAM, expanded) PAL or NTSC
 
-   * C710 (128k RAM)
+   * C710 (128k RAM) NTSC
 
-   * C720 (256k RAM)
+   * C720 (256k RAM) NTSC
 
-   * C720+ (1024k RAM, expanded)
+   * C720+ (1024k RAM, expanded) NTSC
 
 Notice that this will *reset the emulated machine*.
 
-Warning: At this time switching between 510 and other machines during
-runtime is not supported and will not work.
+Warning: At this time the 5x0 and other machines are implemented in
+different executables, so switching between those models is not
+possible.
 
 It is also possible to select the CBM model at startup, with the
 `-model' command-line option: for example, `xcbm2 -model 610' will
 emulate a CBM 610 while `xcbm2 -model 620' will emulate a CBM 620.
-Notably this is the only way to start a C510 emulation, with `-model
-510'.
 
 CBM-II system ROM settings
 --------------------------
@@ -8233,7 +8235,7 @@ emulators snapshot files.
  @{" x128 modules " Link "x128 modules"} 
  @{" xvic modules " Link "xvic modules"} 
  @{" xpet modules " Link "xpet modules"} 
- @{" xcbm2 modules " Link "xcbm2 modules"} 
+ @{" xcbm2 and xcbm5x0 modules " Link "xcbm2 and xcbm5x0 modules"} 
  @{" Drive modules " Link "Drive modules"} 
 
 
@@ -8322,7 +8324,7 @@ have their own modules see @{"Drive modules" Link "Drive modules"}  multitable
 @EndNode
 
 @Node "xpet modules" "vice.guide/xpet modules"
-@Next "xcbm2 modules"
+@Next "xcbm2 and xcbm5x0 modules"
 @Prev "xvic modules"
 @Toc "Emulator modules"
 
@@ -8347,15 +8349,15 @@ multitable
 
 @EndNode
 
-@Node "xcbm2 modules" "vice.guide/xcbm2 modules"
+@Node "xcbm2 and xcbm5x0 modules" "vice.guide/xcbm2 and xcbm5x0 modules"
 @Next "Drive modules"
 @Prev "xpet modules"
 @Toc "Emulator modules"
 
-xcbm2 modules
-.............
+xcbm2 and xcbm5x0 modules
+.........................
 
-The modules in the xcbm2 emulator are:
+The modules in the xcbm2 and xcbm5x0 emulators are:
 
 .1 .4 .5  Name  Type  Description  MAINCPU  6502  The Main CPU -
 although it is a 6509, only the 6502 core is saved here  CBM2MEM  Memory
@@ -8376,7 +8378,7 @@ ACIA1  6551  The RS232 interface  SID  6581  The CBM2s SID sound chip
 @EndNode
 
 @Node "Drive modules" "vice.guide/Drive modules"
-@Prev "xcbm2 modules"
+@Prev "xcbm2 and xcbm5x0 modules"
 @Toc "Emulator modules"
 
 Drive modules
@@ -9019,7 +9021,9 @@ positional mapping.   -  -  The following item has been added in V1.2
 BYTE  EOIBLANK  bit 0=0 = EOI does not blank screen, bit 0=1 = EOI
 blanks screen.   -  -  The following items have been added in V1.3  WORD
 CPU_SWITCH  6502 / 6809 / PROG  BYTE  VAL, PREVODD, WANTODD  6702
-dongle state information  WORD[8]  SHIFT
+dongle state information  WORD[8]  SHIFT  BYTE  SuperPET config 2
+Extra bits due to the Super-OS/9 MMU. Bit 5: FIRQ disabled. Bit 6:
+expansion memory in OS/9 flat mode.
 
 multitable
 

@@ -8,8 +8,8 @@ es     Spanish     100        0           0
 it     Italian     100        0           0
 nl     Dutch       100        0           0
 pl     Polish      100        0           0
+sv     Swedish     100        0           0
 tr     Turkish     100        0           0
-sv     Swedish      99        1           1
 ru     Russian      86        0         350
 hu     Hungarian    57      888         180
 fr     French       46     1087         248

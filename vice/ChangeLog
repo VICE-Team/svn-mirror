@@ -1,5 +1,350 @@
 ------------------------------------------------------------------------------
 
+2012-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,
+	doc/vice.inf, doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po, po/translations-status.txt,
+	src/arch/win32/vice-version.bat, src/version.h: Official source for
+	VICE 2.4, release date 16th of November 2012.
+
+2012-11-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/renderxv.c: And of course ungrab it
+
+2012-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm2common.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/rescia.rc,
+	src/arch/win32/resds12c887rtc.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resretroreplay.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/rested.rc,
+	src/arch/win32/resvic.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/arch/win32/resvsid.rc,
+	src/translate_text.c: Final translations update.
+
+2012-10-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/renderxv.c: Prefer textured video over overlay on
+	X11. Textured video is a bit slower, and usually don't have any
+	controls. However there's an advantage that it can handle more than
+	one windows at the same time, so x128 is not broken. Mixing xv and
+	textured video was somehow not possible within the same process for
+	some reason. Maybe xv could be preferred on single window emulators
+	later, but for now this is a minimal change to make things work on
+	configurations where both xv and textured video are available.
+
+2012-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/arch.mak,
+	src/arch/sdl/winmips-msvc/base.mak,
+	src/arch/sdl/winmips-msvc/c128.mak,
+	src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/c64.mak,
+	src/arch/sdl/winmips-msvc/c64c128.mak,
+	src/arch/sdl/winmips-msvc/c64c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64cart.mak,
+	src/arch/sdl/winmips-msvc/c64cartsystem.mak,
+	src/arch/sdl/winmips-msvc/c64commoncart.mak,
+	src/arch/sdl/winmips-msvc/c64dtv.mak,
+	src/arch/sdl/winmips-msvc/c64dtvstubs.mak,
+	src/arch/sdl/winmips-msvc/c64exp.mak,
+	src/arch/sdl/winmips-msvc/c64sc.mak,
+	src/arch/sdl/winmips-msvc/cartconv.mak,
+	src/arch/sdl/winmips-msvc/cbm2.mak,
+	src/arch/sdl/winmips-msvc/cbm2common.mak,
+	src/arch/sdl/winmips-msvc/cbm5x0.mak,
+	src/arch/sdl/winmips-msvc/core.mak,
+	src/arch/sdl/winmips-msvc/crtc.mak,
+	src/arch/sdl/winmips-msvc/diskimage.mak,
+	src/arch/sdl/winmips-msvc/drive.mak,
+	src/arch/sdl/winmips-msvc/fileio.mak,
+	src/arch/sdl/winmips-msvc/fsdevice.mak,
+	src/arch/sdl/winmips-msvc/geninfocontrib.mak,
+	src/arch/sdl/winmips-msvc/gentranslate.mak,
+	src/arch/sdl/winmips-msvc/gfxoutputdrv.mak,
+	src/arch/sdl/winmips-msvc/iec.mak,
+	src/arch/sdl/winmips-msvc/iec128dcr.mak,
+	src/arch/sdl/winmips-msvc/iecbus.mak,
+	src/arch/sdl/winmips-msvc/iecieee.mak,
+	src/arch/sdl/winmips-msvc/ieee.mak,
+	src/arch/sdl/winmips-msvc/imagecontents.mak,
+	src/arch/sdl/winmips-msvc/monitor.mak,
+	src/arch/sdl/winmips-msvc/p64.mak,
+	src/arch/sdl/winmips-msvc/parallel.mak,
+	src/arch/sdl/winmips-msvc/pet.mak,
+	src/arch/sdl/winmips-msvc/petcat.mak,
+	src/arch/sdl/winmips-msvc/platform.mak,
+	src/arch/sdl/winmips-msvc/plus4.mak,
+	src/arch/sdl/winmips-msvc/plus4exp.mak,
+	src/arch/sdl/winmips-msvc/printerdrv.mak,
+	src/arch/sdl/winmips-msvc/raster.mak,
+	src/arch/sdl/winmips-msvc/rs232drv.mak,
+	src/arch/sdl/winmips-msvc/rtc.mak,
+	src/arch/sdl/winmips-msvc/serial.mak,
+	src/arch/sdl/winmips-msvc/sid.mak,
+	src/arch/sdl/winmips-msvc/sounddrv.mak,
+	src/arch/sdl/winmips-msvc/tape.mak,
+	src/arch/sdl/winmips-msvc/tcbm.mak,
+	src/arch/sdl/winmips-msvc/userport.mak,
+	src/arch/sdl/winmips-msvc/vdc.mak,
+	src/arch/sdl/winmips-msvc/vdrive.mak,
+	src/arch/sdl/winmips-msvc/vic20.mak,
+	src/arch/sdl/winmips-msvc/vic20cart.mak,
+	src/arch/sdl/winmips-msvc/vicii.mak,
+	src/arch/sdl/winmips-msvc/viciidtv.mak,
+	src/arch/sdl/winmips-msvc/viciisc.mak,
+	src/arch/sdl/winmips-msvc/video.mak,
+	src/arch/sdl/winmips-msvc/vsid.mak,
+	src/arch/sdl/winmips-msvc/vsidlib.mak,
+	src/arch/sdl/winmips-msvc/x128.mak, src/arch/sdl/winmips-msvc/x64.mak,
+	src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak,
+	src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xcbm5x0.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak,
+	src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak: Made the winmips port default to
+	'release'.
+
+2012-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Small fix.
+
+2012-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/c128.mak: Some more winmips fixes.
+
+2012-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/c64cart.mak,
+	src/arch/sdl/winmips-msvc/pet.mak: Some more winmips fixes.
+
+2012-10-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html, doc/html/solaris.html: Some more updates.
+
+2012-10-31  Marcus Sutton <loggedoubt@gmail.com>
+
+	* doc/html/plain/NEWS, doc/readmes/Readme-BeOS.txt: Updated for
+	BeVICE 2.4
+
+2012-10-31  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/vicemenu.cc: Add VDC render
+	filter menu items and fix Magic Voice file selector for BeVICE.
+
+2012-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/x128.mak,
+	src/arch/sdl/winmips-msvc/x64.mak,
+	src/arch/sdl/winmips-msvc/x64dtv.mak,
+	src/arch/sdl/winmips-msvc/x64sc.mak,
+	src/arch/sdl/winmips-msvc/xcbm2.mak,
+	src/arch/sdl/winmips-msvc/xcbm5x0.mak,
+	src/arch/sdl/winmips-msvc/xpet.mak,
+	src/arch/sdl/winmips-msvc/xplus4.mak,
+	src/arch/sdl/winmips-msvc/xvic.mak: Some more winmips fixes.
+
+2012-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/video/video-color.h: Some more winmips fixes.
+
+2012-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/petcat.mak: Some more winmips fixes.
+
+2012-10-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/index.html: Updated.
+
+2012-10-30  Michael Litvinov <litvinov.m@i.ua>
+
+	* po/ru.po, po/translations-status.txt: Updated.
+
+2012-10-30  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Resources/English.lproj/xcbm5x0.nib/designable.nib,
+	src/arch/unix/macosx/Resources/English.lproj/xcbm5x0.nib/keyedobjects.nib:
+	macosx: fixed nib of cbm5x0
+
+2012-10-30  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/Info.plist,
+	src/arch/unix/macosx/Resources/xcbm5x0.icns: macosx: added missing
+	icon
+
+2012-10-30  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* doc/html/macosx.html: update macosx download page
+
+2012-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_win32.c, src/arch/sdl/winmips-msvc/base.mak,
+	src/arch/sdl/winmips-msvc/c1541.mak, src/arch/win32/archdep.c,
+	src/platform/platform_windows_runtime_os.c: Some winmips fixes.
+
+2012-10-29  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* po/da.po: The Danish translation was breaking the build
+
+2012-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/video.c: Aros renders into a memory buffer which
+	gets blitted/copied to the framebuffer.
+
+2012-10-29  Mikkel Holm Olsen <vice-dk@symlink.dk>
+
+	* po/da.po, po/translations-status.txt: Updated.
+
+2012-10-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/index.html,
+	doc/html/macosx.html, doc/html/qnx.html, doc/html/sco.html,
+	doc/html/solaris.html: Updated for the upcoming 2.4 release.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c: Gnomeui version is not direct
+	rendering either.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/rotation.c: Faster bit shifting
+
+2012-10-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.in, src/arch/unix/x11/xaw/x11video.c,
+	src/resid-fp/configure.in, vice-mint-sdl.spec.in, vice-mint.spec.in:
+	Some qnx and mint fixes.
+
+2012-10-28  Peter Krefting <peter@softwolves.pp.se>
+
+	* po/sv.po: Update Swedish translation (2509t0f0u)
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: The rounding was off. This caused visible
+	banding of opengl scaled image when crt emulation with scanline
+	shading was used.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Allow reading of surface to speed up rendering
+	in case it's not using direct rendering.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Only use height for non-freescale window
+	remembering and calculate width based on that. Otherwise a wrong saved
+	config results in black bands on sides.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Ok, looks good now.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Ok, this is not quite good yet, but at least
+	it gives a picture until it's fixed.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c, src/arch/sdl/videoarch.h: Fix resolution limit
+	handling I broke a few patches ago. Now it makes sense what it does ;)
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Update actual values on gl resize and save
+	them to resource.
+
+2012-10-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/fullscreen.c, src/arch/sdl/ui.c, src/arch/sdl/video.c,
+	src/arch/sdl/videoarch.h: Try to sort out the SDL window resizing
+	mess. First try ;)
+
+2012-10-28  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Some mention of the split between xcbm2 and xcbm5x0.
+
+2012-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/unix/qnx6/make-bindist.sh: Updated for qnx 6.
+
+2012-10-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/x11ui.h, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c: XAW: when XVIDEO was used with a non
+	1.0 aspect ratio the window size was not correctly calculated. This
+	resulted in unnecessary black banding on the sides or above and below.
+
+2012-10-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/unix/qnx6/make-bindist.sh: Fixed up the qnx6 make-bindist.sh
+	scripts a bit.
+
+2012-10-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/x64sc_ui.c, src/arch/sdl/xplus4_ui.c,
+	src/vic20/vic-cycle.c, src/video/video-viewport.c: Get the vertical
+	centering do the same as the horizontal. Fix some SDL menu positioning
+	problems.
+
+2012-10-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/raster/raster-line.c, src/raster/raster.c, src/raster/raster.h,
+	src/viciisc/vicii.c: Enable horizontal centering on viciisc. Was not
+	trivial to set a non-zero, border as it was going through the minor
+	changes path which cached the border even if all changes are major on
+	this cycle based emulation.
+
+2012-10-26  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Some small SuperPET additions.
+
+2012-10-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/video/video-viewport.c: Implement better horizontal centering
+	strategy in canvas.
+
+2012-10-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128memlimit.c, src/c64dtv/c64dtvmem.c,
+	src/c64dtv/c64dtvmeminit.c, src/cbm2/cbm2mem.c, src/cbm2/cbm5x0mem.c,
+	src/pet/petmem.c, src/plus4/plus4memlimit.c: Fix the remaining limit
+	problems not catched in the previous vic20 fix. These could disable
+	traps and cause permanent slow down after specific situations.
+
+2012-10-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vic20/vic20mem.c: Unbreak kernal traps.
+
+2012-10-26  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/viciisc/vicii.c: Fix a crash on boot.
+
+2012-10-26  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
 2012-10-25  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, doc/vice.chm, doc/vice.hlp, doc/vice.pdf,
