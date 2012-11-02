@@ -687,7 +687,7 @@ char *archdep_get_runtime_os(void)
     return "MIPS NT";
 #else
     return platform_get_windows_runtime_os();
-endif
+#endif
 }
 
 char *archdep_get_runtime_cpu(void)

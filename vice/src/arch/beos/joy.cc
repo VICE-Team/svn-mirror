@@ -215,6 +215,7 @@ static const cmdline_option_t joydev4cmdline_options[] = {
 int joystick_init_cmdline_options(void)
 {
     switch (machine_class) {
+        case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C128:
         case VICE_MACHINE_C64DTV:
@@ -259,6 +260,9 @@ int joystick_init_cmdline_options(void)
                 return -1;
             }
             return cmdline_register_options(joydev4cmdline_options);
+            break;
+        case VICE_MACHINE_VSID:
+            return 0;
             break;
     }
     return -1;

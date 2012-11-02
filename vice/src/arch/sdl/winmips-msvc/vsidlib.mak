@@ -49,7 +49,6 @@ CLEAN :"base - Win32 ReleaseCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64-cmdline-options.obj"
-	-@erase "$(INTDIR)\c64.obj"
 	-@erase "$(INTDIR)\c64export.obj"
 	-@erase "$(INTDIR)\c64gluelogic.obj"
 	-@erase "$(INTDIR)\c64io.obj"
@@ -82,7 +81,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\lib\p64" /I "..\..\..\rs232drv" /I "..\..\..\rtc" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vsidlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MD /W3 /GX /O2 /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\lib\p64" /I "..\..\..\rs232drv" /I "..\..\..\rtc" /I "..\..\..\video" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vsidlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -123,7 +122,6 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vsidlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\c64-cmdline-options.obj" \
-	"$(INTDIR)\c64.obj" \
 	"$(INTDIR)\c64export.obj" \
 	"$(INTDIR)\c64gluelogic.obj" \
 	"$(INTDIR)\c64io.obj" \
@@ -180,7 +178,6 @@ CLEAN :"base - Win32 DebugCLEAN"
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\c64-cmdline-options.obj"
-	-@erase "$(INTDIR)\c64.obj"
 	-@erase "$(INTDIR)\c64export.obj"
 	-@erase "$(INTDIR)\c64gluelogic.obj"
 	-@erase "$(INTDIR)\c64io.obj"
@@ -213,7 +210,7 @@ CLEAN :
     if not exist "$(OUTDIR)/$(NULL)" mkdir "$(OUTDIR)"
 
 CPP=cl.exe
-CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\lib\p64" /I "..\..\..\rs232drv" /I "..\..\..\rtc" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vsidlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
+CPP_PROJ=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\..\\" /I "..\..\..\c64\cart" /I "..\..\..\drive" /I "..\..\..\userport" /I "..\..\..\tape" /I "..\..\..\sid" /I "..\..\..\vicii" /I "..\..\..\raster" /I "..\..\..\monitor" /I "..\..\..\lib\p64" /I "..\..\..\rs232drv" /I "..\..\..\rtc" /I "..\..\..\video" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vsidlib.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
 
 .c{$(INTDIR)}.obj :
    $(CPP) @<<
@@ -254,7 +251,6 @@ LIB32=link.exe -lib
 LIB32_FLAGS=/nologo /out:"$(OUTDIR)\vsidlib.lib" 
 LIB32_OBJS= \
 	"$(INTDIR)\c64-cmdline-options.obj" \
-	"$(INTDIR)\c64.obj" \
 	"$(INTDIR)\c64export.obj" \
 	"$(INTDIR)\c64gluelogic.obj" \
 	"$(INTDIR)\c64io.obj" \
@@ -321,12 +317,6 @@ LIB32_OBJS= \
 SOURCE="..\..\..\c64\c64-cmdline-options.c"
 
 "$(INTDIR)\c64-cmdline-options.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\c64\c64.c
-
-"$(INTDIR)\c64.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

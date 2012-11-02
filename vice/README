@@ -1,5 +1,5 @@
 
-  VICE  2.3							Feb 2011
+  VICE  2.4							Nov 2012
 
 
 		 _______________
@@ -41,7 +41,11 @@
 
    - xplus4, a PLUS4 emulator;
 
-   - xcbm2, a CBM-II emulator;
+   - xcbm2, a CBM-6x0/7x0 emulator;
+
+   - xcbm5x0, a CBM-5x0 emulator;
+
+   - vsid, a SID player;
 
    - c1541, a stand-alone disk image maintenance utility;
 
@@ -118,25 +122,26 @@
 
  VICE, the Versatile Commodore Emulator
 
-    Copyright C 1998-2011 Dag Lem
-    Copyright C 1999-2011 Andreas Matthies
-    Copyright C 1999-2011 Martin Pottendorfer
-    Copyright C 2000-2011 Spiro Trikaliotis
-    Copyright C 2005-2011 Marco van den Heuvel
-    Copyright C 2006-2011 Christian Vogelgsang
-    Copyright C 2007-2011 Fabrizio Gennari
-    Copyright C 2007-2011 Daniel Kahlin
-    Copyright C 2008-2011 Antti S. Lankila
-    Copyright C 2009-2011 Groepaz
-    Copyright C 2009-2011 Ingo Korb
-    Copyright C 2009-2011 Errol Smith
-    Copyright C 2010-2011 Olaf Seibert
-    Copyright C 2011      Marcus Sutton
-    Copyright C 2011      Ulrich Schulz
-    Copyright C 2011      Stefan Haubenthal
-    Copyright C 2011      Thomas Giesel
-    Copyright C 2011      Kajtar Zsolt
+    Copyright C 1998-2012 Dag Lem
+    Copyright C 1999-2012 Andreas Matthies
+    Copyright C 1999-2012 Martin Pottendorfer
+    Copyright C 2005-2012 Marco van den Heuvel
+    Copyright C 2006-2012 Christian Vogelgsang
+    Copyright C 2007-2012 Fabrizio Gennari
+    Copyright C 2007-2012 Daniel Kahlin
+    Copyright C 2008-2012 Antti S. Lankila
+    Copyright C 2009-2012 Groepaz
+    Copyright C 2009-2012 Ingo Korb
+    Copyright C 2009-2012 Errol Smith
+    Copyright C 2010-2012 Olaf Seibert
+    Copyright C 2011-2012 Marcus Sutton
+    Copyright C 2011-2012 Ulrich Schulz
+    Copyright C 2011-2012 Stefan Haubenthal
+    Copyright C 2011-2012 Thomas Giesel
+    Copyright C 2011-2012 Kajtar Zsolt
+    Copyright C 2012      Benjamin Rosseaux
 
+    Copyright C 2000-2012 Spiro Trikaliotis
     Copyright C 2007-2011 Hannu Nuotio
     Copyright C 1998-2010 Andreas Boose
     Copyright C 1998-2010 Tibor Biczo

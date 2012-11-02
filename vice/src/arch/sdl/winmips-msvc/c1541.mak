@@ -512,7 +512,7 @@ LINK32_OBJS= \
    $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Release" 
    cd "."
 
-""platform - Win32 ReleaseCLEAN" : 
+"platform - Win32 ReleaseCLEAN" : 
    cd "."
    $(MAKE) /$(MAKEFLAGS) /F ".\platform.mak" CFG="platform - Win32 Release" RECURSE=1 CLEAN 
    cd "."
