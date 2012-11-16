@@ -127,6 +127,14 @@ static void sound_machine_close(sound_t *psid)
     }
 }
 
+/*
+    There is some inconsistency about when the buffer should be overwritten and
+    when mixed. Usually it's overwritten by SID and other cycle based engines,
+    and mixed by non-cycle based engines. On pet unfortunately it is always
+    mixed (unless SID is enabled) resulting in looping and distorted sound. As
+    a quick bandaid the memset was added below. This should be really cleaned
+    up someday.
+*/
 static int sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
     int i;
@@ -135,6 +143,7 @@ static int sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, 
     if (sound_calls[0]->cycle_based() || (!sound_calls[0]->cycle_based() && sound_calls[0]->chip_enabled)) {
         temp = sound_calls[0]->calculate_samples(psid, pbuf, nr, soc, scc, delta_t);
     } else {
+        memset(pbuf, 0, nr * sizeof(SWORD) * soc); /* FIXME: see above */
         temp = nr;
     }
 
