@@ -87,7 +87,7 @@
  * DS1202 : registers 9-30: There are no registers at these locations (emulated as returning
  *                          0 upon read)
  *
- * register 31 : Clock Burst mode, all 9 registers will be read from on written to in sequence.
+ * register 31 : Clock Burst mode, all 9 registers will be read from or written to in sequence.
  *               When writing in burst mode the first 8 registers need to be transfered before
  *               the registers are accepted
  */
