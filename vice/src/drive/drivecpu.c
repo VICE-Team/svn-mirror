@@ -57,6 +57,9 @@
 
 #define DRIVE_CPU
 
+/* Global clock counters.  */
+CLOCK drive_clk[DRIVE_NUM];
+
 static void drive_jam(drive_context_t *drv);
 
 static BYTE drive_bank_read(int bank, WORD addr, void *context);

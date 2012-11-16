@@ -141,9 +141,6 @@ void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
 
 /* ------------------------------------------------------------------------- */
 
-/* Global clock counters.  */
-CLOCK drive_clk[DRIVE_NUM];
-
 /* Initialize the hardware-level drive emulation (should be called at least
    once before anything else).  Return 0 on success, -1 on error.  */
 int drive_init(void)

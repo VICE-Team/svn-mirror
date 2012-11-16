@@ -271,7 +271,7 @@ typedef struct drive_s {
 } drive_t;
 
 
-extern CLOCK drive_clk[];
+extern CLOCK drive_clk[DRIVE_NUM];
 
 /* Drive context structure for low-level drive emulation.
    Full definition in drivetypes.h */
