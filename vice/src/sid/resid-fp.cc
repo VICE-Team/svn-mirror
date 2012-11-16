@@ -46,6 +46,8 @@ extern "C" {
 
 #ifndef __QNX__
 #include <string.h>
+#else
+extern char *strcpy(char *s1, char *s2);
 #endif
 
 #include "sid/sid.h" /* sid_engine_t */
