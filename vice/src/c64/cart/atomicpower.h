@@ -35,6 +35,7 @@ extern BYTE atomicpower_roml_read(WORD addr);
 extern void atomicpower_roml_store(WORD addr, BYTE value);
 extern BYTE atomicpower_romh_read(WORD addr);
 extern void atomicpower_romh_store(WORD addr, BYTE value);
+extern void atomicpower_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 extern void atomicpower_freeze(void);
 extern void atomicpower_reset(void);

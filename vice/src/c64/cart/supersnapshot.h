@@ -31,6 +31,7 @@
 
 extern BYTE supersnapshot_v5_roml_read(WORD addr);
 extern void supersnapshot_v5_roml_store(WORD addr, BYTE value);
+extern void supersnapshot_v5_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 extern void supersnapshot_v5_freeze(void);
 

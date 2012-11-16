@@ -155,13 +155,6 @@ static BYTE actionreplay4_io2_read(WORD addr)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE actionreplay4_roml_read(WORD addr)
-{
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-/* ---------------------------------------------------------------------*/
-
 void actionreplay4_freeze(void)
 {
     ar_active = 1;

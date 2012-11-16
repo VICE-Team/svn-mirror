@@ -315,6 +315,7 @@ void retroreplay_io1_store(WORD addr, BYTE value)
                     allow_bank = value & 2;
                     no_freeze = value & 4;
                     reu_mapping = 0; /* can not be set in flash mode */
+                    cart_port_config_changed_slotmain();
                 } else {
                     if (write_once == 0) {
                         rr_bank = ((value >> 3) & 3) | ((value >> 5) & 4);
@@ -330,6 +331,7 @@ void retroreplay_io1_store(WORD addr, BYTE value)
 #endif
                         }
                         write_once = 1;
+                        cart_port_config_changed_slotmain();
                     }
                 }
                 break;
@@ -469,6 +471,9 @@ void retroreplay_roml_store(WORD addr, BYTE value)
         /* writes to flash are completely disabled if the flash jumper is not set */
         if (rr_hw_flashjumper) {
             flash040core_store(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13), value);
+            if (flashrom_state->flash_state != FLASH040_STATE_READ) {
+                maincpu_resync_limits();
+            }
         }
     }
 }
@@ -496,6 +501,9 @@ int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value)
         } else {
             /* writes to flash are completely disabled if the flash jumper is not set */
             flash040core_store(flashrom_state, rom_offset + (addr & 0x1fff) + (roml_bank << 13), value);
+            if (flashrom_state->flash_state != FLASH040_STATE_READ) {
+                maincpu_resync_limits();
+            }
         }
     }
     return 0;
@@ -535,6 +543,60 @@ int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value)
     }
     return CART_READ_THROUGH;
 }
+
+void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
+    switch (addr & 0xe000) {
+    case 0xe000:
+        if ((rr_revision > 0) && export_ram_at_a000) {
+            *base = export_ram0 - 0xe000; /* FIXME: bank ? */
+            *start = 0xe000;
+            *limit = 0xfffd;
+            return;
+        }
+        if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+            *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xe000;
+            *start = 0xe000;
+            *limit = 0xfffd;
+            return;
+        }
+        break;
+    case 0xa000:
+        if ((rr_revision > 0) && export_ram_at_a000) {
+            *base = export_ram0 - 0xa000; /* FIXME: bank ? */
+            *start = 0xa000;
+            *limit = 0xbffd;
+            return;
+        }
+        if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+            *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xa000;
+            *start = 0xa000;
+            *limit = 0xbffd;
+            return;
+        }
+        break;
+    case 0x8000:
+        if (export_ram) {
+            *base = export_ram0 + ((roml_bank & 3) << 13) - 0x8000;
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            return;
+        }
+        if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+            *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0x8000;
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            return;
+        }
+        break;
+    default:
+        break;
+    }
+    *base = NULL;
+    *start = 0;
+    *limit = 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 void retroreplay_freeze(void)
@@ -620,6 +682,9 @@ int retroreplay_cart_enabled(void)
 static int set_rr_revision(int val, void *param)
 {
     rr_revision = val;
+    if (rr_active) {
+        maincpu_resync_limits();
+    }
     return 0;
 }
 
@@ -642,6 +707,9 @@ static int set_rr_bankjumper(int val, void *param)
         rom_offset = 0x0;
     } else {
         rom_offset = 0x10000;
+    }
+    if (rr_active) {
+        maincpu_resync_limits();
     }
     DBG(("bank jumper: %d offset: %08x\n", rr_hw_bankjumper, rom_offset));
     return 0;

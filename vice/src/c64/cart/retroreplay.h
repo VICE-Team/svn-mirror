@@ -46,6 +46,7 @@ extern int retroreplay_roml_no_ultimax_store(WORD addr, BYTE value);
 extern BYTE retroreplay_romh_read(WORD addr);
 extern void retroreplay_romh_store(WORD addr, BYTE value);
 extern int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value);
+extern void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 extern void retroreplay_freeze(void);
 extern int retroreplay_freeze_allowed(void);

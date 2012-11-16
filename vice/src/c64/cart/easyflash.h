@@ -38,6 +38,7 @@ extern BYTE easyflash_roml_read(WORD addr);
 extern void easyflash_roml_store(WORD addr, BYTE value);
 extern BYTE easyflash_romh_read(WORD addr);
 extern void easyflash_romh_store(WORD addr, BYTE value);
+extern void easyflash_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 extern void easyflash_config_init(void);
 extern void easyflash_config_setup(BYTE *rawcart);

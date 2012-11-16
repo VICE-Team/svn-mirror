@@ -237,6 +237,44 @@ void atomicpower_romh_store(WORD addr, BYTE value)
     }
 }
 
+void atomicpower_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
+    switch (addr & 0xe000) {
+    case 0x8000:
+        if (export_ram) {
+            *base = export_ram0;
+        } else {
+            *base = roml_banks + (roml_bank << 13) - 0x8000;
+        }
+        *start = 0x8000;
+        *limit = 0x9ffd;
+        return;
+    case 0xa000:
+        if (export_ram_at_a000) {
+            *base = export_ram0;
+        } else {
+            *base = romh_banks + (romh_bank << 13) - 0xa000;
+        }
+        *start = 0xa000;
+        *limit = 0xbffd;
+        return;
+    case 0xe000:
+        if (export_ram_at_a000) {
+            *base = export_ram0;
+        } else {
+            *base = romh_banks + (romh_bank << 13) - 0xe000;
+        }
+        *start = 0xe000;
+        *limit = 0xfffd;
+        return;
+    default:
+        break;
+    }
+    *base = NULL;
+    *start = 0;
+    *limit = 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 void atomicpower_freeze(void)

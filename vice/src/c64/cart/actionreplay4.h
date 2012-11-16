@@ -33,8 +33,6 @@
 
 extern void actionreplay4_freeze(void);
 
-extern BYTE actionreplay4_roml_read(WORD addr);
-
 extern void actionreplay4_config_init(void);
 extern void actionreplay4_reset(void);
 extern void actionreplay4_config_setup(BYTE *rawcart);

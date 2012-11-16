@@ -2259,14 +2259,31 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
 
     /* continue with "Main Slot" */
     switch (mem_cartridge_type) {
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_FINAL_III:
         case CARTRIDGE_GENERIC_16KB:
         case CARTRIDGE_GENERIC_8KB:
+        case CARTRIDGE_KCS_POWER:
+        case CARTRIDGE_SIMONS_BASIC:
         case CARTRIDGE_ULTIMAX:
             generic_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_ATOMIC_POWER:
+            atomicpower_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_EASYFLASH:
+            easyflash_mmu_translate(addr, base, start, limit);
             return;
         case CARTRIDGE_IDE64:
             ide64_mmu_translate(addr, base, start, limit);
             return;
+        case CARTRIDGE_RETRO_REPLAY:
+            retroreplay_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_SUPER_SNAPSHOT_V5:
+            supersnapshot_v5_mmu_translate(addr, base, start, limit);
+            return;
+        case CARTRIDGE_EPYX_FASTLOAD: /* must go through roml_read to discharge capacitor */
         default:
             *base = NULL;
             *start = 0;

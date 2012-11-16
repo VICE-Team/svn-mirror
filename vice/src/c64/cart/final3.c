@@ -167,13 +167,6 @@ static int final_v3_dump(void)
 
 /* ---------------------------------------------------------------------*/
 
-BYTE final_v3_roml_read(WORD addr)
-{
-    return roml_banks[(addr & 0x1fff) + (roml_bank << 13)];
-}
-
-/* ---------------------------------------------------------------------*/
-
 void final_v3_freeze(void)
 {
     fc3_reg_enabled = 1;

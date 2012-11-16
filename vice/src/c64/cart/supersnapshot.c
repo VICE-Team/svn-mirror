@@ -191,6 +191,26 @@ void supersnapshot_v5_roml_store(WORD addr, BYTE value)
     }
 }
 
+void supersnapshot_v5_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
+    switch (addr & 0xe000) {
+    case 0x8000:
+        if (export_ram) {
+            *base = export_ram0 + (ram_bank << 13) - 0x8000;
+        } else {
+            *base = roml_banks + (roml_bank << 13) - 0x8000;
+        }
+        *start = 0x8000;
+        *limit = 0x9ffd;
+        return;
+    default:
+        break;
+    }
+    *base = NULL;
+    *start = 0;
+    *limit = 0;
+}
+
 /* ---------------------------------------------------------------------*/
 
 void supersnapshot_v5_freeze(void)

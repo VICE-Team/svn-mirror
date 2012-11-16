@@ -564,8 +564,6 @@ static BYTE roml_read_slotmain(WORD addr)
             return actionreplay2_roml_read(addr);
         case CARTRIDGE_ACTION_REPLAY3:
             return actionreplay3_roml_read(addr);
-        case CARTRIDGE_ACTION_REPLAY4:
-            return actionreplay4_roml_read(addr);
         case CARTRIDGE_ATOMIC_POWER:
             return atomicpower_roml_read(addr);
         case CARTRIDGE_EASYFLASH:
@@ -574,8 +572,6 @@ static BYTE roml_read_slotmain(WORD addr)
             return epyxfastload_roml_read(addr);
         case CARTRIDGE_FINAL_I:
             return final_v1_roml_read(addr);
-        case CARTRIDGE_FINAL_III:
-            return final_v3_roml_read(addr);
         case CARTRIDGE_FINAL_PLUS:
             return final_plus_roml_read(addr);
         case CARTRIDGE_FREEZE_MACHINE:
@@ -609,6 +605,8 @@ static BYTE roml_read_slotmain(WORD addr)
         case CARTRIDGE_MAGIC_FORMEL: /* ? */
             /* fake ultimax hack */
             return mem_read_without_ultimax(addr);
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
         default: /* use default cartridge */
             return generic_roml_read(addr);
@@ -787,6 +785,8 @@ static BYTE romh_read_slotmain(WORD addr)
             /* fake ultimax hack, read from ram */
             return ram_read(addr);
             /* return mem_read_without_ultimax(addr); */
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
         default: /* use default cartridge */
@@ -884,6 +884,8 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
             return snapshot64_romh_read(addr);
         case CARTRIDGE_STARDOS:
             return stardos_romh_read(addr);
+        case CARTRIDGE_ACTION_REPLAY4:
+        case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
         case CARTRIDGE_FREEZE_MACHINE:
         default: /* use default cartridge */
