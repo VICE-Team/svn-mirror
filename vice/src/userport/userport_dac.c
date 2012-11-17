@@ -43,7 +43,8 @@
 
 /* ------------------------------------------------------------------------- */
 
-static double alpha; /* for high pass filter */
+static sound_dac_t userport_dac_dac;
+
 /* Some prototypes are needed */
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
@@ -135,52 +136,19 @@ void userport_dac_store(BYTE value)
 struct userport_dac_sound_s
 {
     BYTE voice0;
-    BYTE voice0_old;
-    double output0;
 };
 
 static struct userport_dac_sound_s snd;
 
 static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
-    int i;
-    int off = 0;
-    /* A simple high pass digital filter is employed here to get rid of the DC offset,
-       which would cause distortion when mixed with other signal. This filter is formed
-       on the actual hardware by the combination of output decoupling capacitor and load
-       resistance.
-    */
-    if (nr) {
-        snd.output0 = alpha * (snd.output0 + (double)((snd.voice0 - snd.voice0_old) * 128));
-        snd.voice0_old = snd.voice0;
-        pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
-        if (soc > 1) {
-            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], snd.output0);
-        }
-        off += soc;
-    }
-
-    for (i = 1; i < nr; i++) {
-        snd.output0 *= alpha;
-        if (snd.output0 > -0.5 && snd.output0 < 0.5) {
-            snd.output0 = 0.0;
-            break; /* shortcut when idle */
-        }
-        pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
-        if (soc > 1) {
-            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], snd.output0);
-        }
-        off += soc;
-    }
-    return nr;
+    return sound_dac_calculate_samples(&userport_dac_dac, pbuf, (int)snd.voice0 * 128, nr, soc, (soc > 1) ? 3 : 1);
 }
 
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    /* 20 dB/Decade high pass filter, cutoff at 5 Hz. For DC offset filtering. */
-    alpha = 0.0318309886 / (0.0318309886 + 1.0 / (double)speed);
-    snd.voice0 = snd.voice0_old = 0;
-    snd.output0 = 0.0;
+    sound_dac_init(&userport_dac_dac, speed);
+    snd.voice0 = 0;
 
     return 1;
 }
@@ -198,7 +166,6 @@ static BYTE userport_dac_sound_machine_read(sound_t *psid, WORD addr)
 
 static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    snd.voice0 = snd.voice0_old = 0;
-    snd.output0 = 0.0;
+    snd.voice0 = 0;
     userport_dac_sound_data = 0;
 }

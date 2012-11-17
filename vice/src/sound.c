@@ -1546,3 +1546,53 @@ void sound_snapshot_finish(void)
 {
     snddata.lastclk = maincpu_clk;
 }
+
+void sound_dac_init(sound_dac_t *dac, int speed)
+{
+    /* 20 dB/Decade high pass filter, cutoff at 5 Hz. For DC offset filtering. */
+    dac->alpha = 0.0318309886 / (0.0318309886 + 1.0 / (float)speed);
+    dac->value = 0;
+    dac->output = 0.0;
+}
+
+/* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
+ * have an easy-to-use infrastructure for blep generation. We should write
+ * this code. */
+int sound_dac_calculate_samples(sound_dac_t *dac, SWORD *pbuf, int value, int nr, int soc, int cs)
+{
+    int i, sample;
+    int off = 0;
+    /* A simple high pass digital filter is employed here to get rid of the DC offset,
+       which would cause distortion when mixed with other signal. This filter is formed
+       on the actual hardware by the combination of output decoupling capacitor and load
+       resistance.
+    */
+    if (nr) {
+        dac->output = dac->alpha * (dac->output + (float)(value - dac->value));
+        dac->value = value;
+        sample = (int)dac->output;
+        if (!sample) {
+            return nr;
+        }
+        if (cs & 1) {
+            pbuf[off] = sound_audio_mix(pbuf[off], sample);
+        }
+        if (cs & 2) {
+            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], sample);
+        }
+        off += soc;
+    }
+
+    for (i = 1; i < nr; i++) {
+        dac->output *= dac->alpha;
+        sample = (int)dac->output;
+        if (cs & 1) {
+            pbuf[off] = sound_audio_mix(pbuf[off], sample);
+        }
+        if (cs & 2) {
+            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], sample);
+        }
+        off += soc;
+    }
+    return nr;
+}

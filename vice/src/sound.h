@@ -211,4 +211,13 @@ typedef struct sound_chip_s {
 
 extern WORD sound_chip_register(sound_chip_t *chip);
 
+typedef struct sound_dac_s {
+    float output;
+    float alpha;
+    int value;
+} sound_dac_t;
+
+extern void sound_dac_init(sound_dac_t *dac, int speed);
+extern int sound_dac_calculate_samples(sound_dac_t *dac, SWORD *pbuf, int value, int nr, int soc, int cs);
+
 #endif

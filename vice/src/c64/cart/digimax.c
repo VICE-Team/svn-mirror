@@ -60,6 +60,7 @@
 
 /* DIGIMAX address */
 int digimax_address;
+sound_dac_t digimax_dac[4];
 
 /* ---------------------------------------------------------------------*/
 
@@ -339,36 +340,19 @@ static struct digimax_sound_s snd;
 
 static int digimax_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
-    int i;
-
-    /* FIXME: this should use bandlimited step synthesis. Sadly, VICE does not
-     * have an easy-to-use infrastructure for blep generation. We should write
-     * this code. */
-    switch (soc) {
-        default:
-        case 1:
-            for (i = 0; i < nr; i++) {
-                pbuf[i] = sound_audio_mix(pbuf[i],((int)snd.voice0) << 6);
-                pbuf[i] = sound_audio_mix(pbuf[i],((int)snd.voice1) << 6);
-                pbuf[i] = sound_audio_mix(pbuf[i],((int)snd.voice2) << 6);
-                pbuf[i] = sound_audio_mix(pbuf[i],((int)snd.voice3) << 6);
-            }
-            break;
-        case 2:
-            for (i = 0; i < nr; i++) {
-                pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], ((int)snd.voice1) << 6);
-                pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], ((int)snd.voice3) << 6);
-                pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1],((int)snd.voice0) << 6);
-                pbuf[(i * 2) + 1] = sound_audio_mix(pbuf[(i * 2) + 1],((int)snd.voice2) << 6);
-            }
-            break;
-
-    }
+    sound_dac_calculate_samples(&digimax_dac[0], pbuf, (int)snd.voice0 * 64, nr, soc, 1);
+    sound_dac_calculate_samples(&digimax_dac[1], pbuf, (int)snd.voice1 * 64, nr, soc, (soc > 1) ? 2 : 1);
+    sound_dac_calculate_samples(&digimax_dac[2], pbuf, (int)snd.voice2 * 64, nr, soc, 1);
+    sound_dac_calculate_samples(&digimax_dac[3], pbuf, (int)snd.voice3 * 64, nr, soc, (soc > 1) ? 2 : 1);
     return nr;
 }
 
 static int digimax_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+    sound_dac_init(&digimax_dac[0], speed);
+    sound_dac_init(&digimax_dac[1], speed);
+    sound_dac_init(&digimax_dac[2], speed);
+    sound_dac_init(&digimax_dac[3], speed);
     snd.voice0 = 0;
     snd.voice1 = 0;
     snd.voice2 = 0;
