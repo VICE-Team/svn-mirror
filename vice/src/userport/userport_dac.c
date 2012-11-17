@@ -151,7 +151,7 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
        resistance.
     */
     if (nr) {
-        snd.output0 = (alpha * (snd.output0 + (snd.voice0 - snd.voice0_old) * 257)) >> 15;
+        snd.output0 = (alpha * (snd.output0 + (-snd.voice0 + snd.voice0_old) * 257)) / 32768;
         snd.voice0_old = snd.voice0;
         pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
         if (soc > 1) {
@@ -161,7 +161,7 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
     }
 
     for (i = 1; i < nr; i++) {
-        snd.output0 = (alpha * snd.output0) >> 15;
+        snd.output0 = (alpha * snd.output0) / 32768;
         if (!snd.output0) break; /* shortcut when idle */
         pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
         if (soc > 1) {
