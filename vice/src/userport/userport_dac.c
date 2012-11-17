@@ -3,6 +3,8 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
+ * Filtering by
+ *  Kajtar Zsolt <soci@c64.rulez.org>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -41,6 +43,7 @@
 
 /* ------------------------------------------------------------------------- */
 
+static int alpha; /* for high pass filter */
 /* Some prototypes are needed */
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
@@ -132,6 +135,8 @@ void userport_dac_store(BYTE value)
 struct userport_dac_sound_s
 {
     BYTE voice0;
+    BYTE voice0_old;
+    int output0;
 };
 
 static struct userport_dac_sound_s snd;
@@ -140,22 +145,27 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
 {
     int i;
     int off = 0;
-
-    for (i = 0; i < nr; i++) {
-        /*
-         * The userport has unsigned 8-bit values.
-         * The mixer expects signed 16-bit values.
-         * Expanding 8 to 16 bits is easy, but you get a range [0, ffff],
-         * not [-8000, 7fff].
-         * Just shifting the range won't work properly, since the neutral
-         * value would become the most negative value and that doesn't
-         * mix well with other sound sources such as CB2 sound.
-         */
-        /*int sample = snd.voice0 + (snd.voice0 << 8) - 0x8000;*/
-        int sample = (snd.voice0 >> 1) + (snd.voice0 << 7);
-        pbuf[off] = sound_audio_mix(pbuf[off], sample);
+    /* A simple high pass digital filter is employed here to get rid of the DC offset,
+       which would cause distortion when mixed with other signal. This filter is formed
+       on the actual hardware by the combination of output decoupling capacitor and load
+       resistance.
+    */
+    if (nr) {
+        snd.output0 = (alpha * (snd.output0 + (snd.voice0 - snd.voice0_old) * 257)) >> 15;
+        snd.voice0_old = snd.voice0;
+        pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
         if (soc > 1) {
-            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], sample);
+            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], snd.output0);
+        }
+        off += soc;
+    }
+
+    for (i = 1; i < nr; i++) {
+        snd.output0 = (alpha * snd.output0) >> 15;
+        if (!snd.output0) break; /* shortcut when idle */
+        pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
+        if (soc > 1) {
+            pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], snd.output0);
         }
         off += soc;
     }
@@ -164,7 +174,10 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
 
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
-    snd.voice0 = 0;
+    /* 20 dB/Decade high pass filter, cutoff at 5 Hz. For DC offset filtering. */
+    alpha = (int)(32768.0 * 0.0318309886 / (0.0318309886 + 1.0 / (double)speed));
+    snd.voice0 = snd.voice0_old = 0;
+    snd.output0 = 0;
 
     return 1;
 }
@@ -182,6 +195,7 @@ static BYTE userport_dac_sound_machine_read(sound_t *psid, WORD addr)
 
 static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
-    snd.voice0 = 0;
+    snd.voice0 = snd.voice0_old = 0;
+    snd.output0 = 0;
     userport_dac_sound_data = 0;
 }
