@@ -1004,12 +1004,6 @@ static int sound_run_sound(void)
                                              snddata.sound_output_channels,
                                              snddata.sound_chip_channels,
                                              &delta_t);
-        if (volume < 100) {
-            for (i = 0; i < (nr * snddata.sound_output_channels); i++) {
-                bufferptr[i] = (volume!=0) ? (bufferptr[i]/(100 / volume)) : 0;
-            }
-        }
-
         if (delta_t) {
             if (overflow_warning_count < 25) {
                 log_warning(sound_log, "%s", translate_text(IDGS_SOUND_BUFFER_OVERFLOW_CYCLE));
@@ -1038,12 +1032,17 @@ static int sound_run_sound(void)
                                         snddata.sound_output_channels,
                                         snddata.sound_chip_channels,
                                         &delta_t);
-        if (volume < 100) {
-            for (i = 0; i < (nr * snddata.sound_output_channels); i++) {
-                    bufferptr[i] = (volume != 0) ? (bufferptr[i] / (100 / volume)) : 0;
-            }
-        }
         snddata.fclk += nr * snddata.clkstep;
+    }
+
+    if (volume < 100) {
+        if (volume) {
+            for (i = 0; i < (nr * snddata.sound_output_channels); i++) {
+                bufferptr[i] = bufferptr[i] * volume / 100;
+            }
+        } else {
+            memset(&bufferptr[i], 0, nr * snddata.sound_output_channels * sizeof(SWORD));
+        }
     }
 
     snddata.bufptr += nr;
