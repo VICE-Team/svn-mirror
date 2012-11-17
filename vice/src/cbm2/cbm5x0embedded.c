@@ -1,5 +1,5 @@
 /*
- * cbm2embedded.c - Code for embedding cbm2 data files.
+ * cbm5x0embedded.c - Code for embedding cbm5x0 data files.
  *
  * This feature is only active when --enable-embedded is given to the
  * configure script, its main use is to make developing new ports easier
@@ -38,11 +38,9 @@
 #include "embedded.h"
 #include "machine.h"
 
-#include "cbm2basic128.h"
-#include "cbm2basic256.h"
-#include "cbm2chargen600.h"
-#include "cbm2chargen700.h"
-#include "cbm2kernal.h"
+#include "cbm2basic500.h"
+#include "cbm2chargen500.h"
+#include "cbm2kernal500.h"
 
 #include "pet_amber_vpl.h"
 #include "c64_c64hq_vpl.h"
@@ -56,11 +54,9 @@
 #include "pet_white_vpl.h"
 
 static embedded_t cbm2files[] = {
-  { "basic.128", 0x4000, 0x4000, 0x4000, cbm2basic128_embedded },
-  { "basic.256", 0x4000, 0x4000, 0x4000, cbm2basic256_embedded },
-  { "chargen.600", 0x1000, 0x1000, 0x1000, cbm2chargen600_embedded },
-  { "chargen.700", 0x1000, 0x1000, 0x1000, cbm2chargen700_embedded },
-  { "kernal", 0x2000, 0x2000, 0x2000, cbm2kernal_embedded },
+  { "basic.500", 0x4000, 0x4000, 0x4000, cbm2basic500_embedded },
+  { "chargen.500", 0x1000, 0x1000, 0x1000, cbm2chargen500_embedded },
+  { "kernal.500", 0x2000, 0x2000, 0x2000, cbm2kernal500_embedded },
   { NULL }
 };
 

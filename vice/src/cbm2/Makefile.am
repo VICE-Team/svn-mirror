@@ -60,6 +60,7 @@ libcbm5x0_a_SOURCES = \
 	cbm5x0-snapshot.c \
 	cbm2-snapshot.h \
 	cbm5x0.c \
+	cbm5x0embedded.c \
 	cbm2.h \
 	cbm2acia.h \
 	cbm2acia1.c \
@@ -71,7 +72,6 @@ libcbm5x0_a_SOURCES = \
 	cbm2cpu.c \
 	cbm2datasette.c \
 	cbm2drive.c \
-	cbm2embedded.c \
 	cbm2iec.c \
 	cbm2iec.h \
 	cbm5x0mem.c \
