@@ -43,7 +43,7 @@
 
 /* ------------------------------------------------------------------------- */
 
-static int alpha; /* for high pass filter */
+static double alpha; /* for high pass filter */
 /* Some prototypes are needed */
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec);
 static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int sound_output_channels, int sound_chip_channels, int *delta_t);
@@ -136,7 +136,7 @@ struct userport_dac_sound_s
 {
     BYTE voice0;
     BYTE voice0_old;
-    int output0;
+    double output0;
 };
 
 static struct userport_dac_sound_s snd;
@@ -151,7 +151,7 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
        resistance.
     */
     if (nr) {
-        snd.output0 = (alpha * (snd.output0 + (snd.voice0 - snd.voice0_old) * 128)) / 32768;
+        snd.output0 = alpha * (snd.output0 + (double)((snd.voice0 - snd.voice0_old) * 128));
         snd.voice0_old = snd.voice0;
         pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
         if (soc > 1) {
@@ -161,8 +161,11 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
     }
 
     for (i = 1; i < nr; i++) {
-        snd.output0 = (alpha * snd.output0) / 32768;
-        if (!snd.output0) break; /* shortcut when idle */
+        snd.output0 *= alpha;
+        if (snd.output0 < 1.0) {
+            snd.output0 = 0.0;
+            break; /* shortcut when idle */
+        }
         pbuf[off] = sound_audio_mix(pbuf[off], snd.output0);
         if (soc > 1) {
             pbuf[off + 1] = sound_audio_mix(pbuf[off + 1], snd.output0);
@@ -175,9 +178,9 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
 static int userport_dac_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
     /* 20 dB/Decade high pass filter, cutoff at 5 Hz. For DC offset filtering. */
-    alpha = (int)(32768.0 * 0.0318309886 / (0.0318309886 + 1.0 / (double)speed));
+    alpha = 0.0318309886 / (0.0318309886 + 1.0 / (double)speed);
     snd.voice0 = snd.voice0_old = 0;
-    snd.output0 = 0;
+    snd.output0 = 0.0;
 
     return 1;
 }
@@ -196,6 +199,6 @@ static BYTE userport_dac_sound_machine_read(sound_t *psid, WORD addr)
 static void userport_dac_sound_reset(sound_t *psid, CLOCK cpu_clk)
 {
     snd.voice0 = snd.voice0_old = 0;
-    snd.output0 = 0;
+    snd.output0 = 0.0;
     userport_dac_sound_data = 0;
 }
