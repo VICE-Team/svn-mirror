@@ -104,6 +104,7 @@ static sound_chip_t sfx_soundsampler_sound_chip = {
 };
 
 static WORD sfx_soundsampler_sound_chip_offset = 0;
+static sound_dac_t sfx_soundsampler_dac;
 
 void sfx_soundsampler_sound_chip_init(void)
 {
@@ -265,19 +266,12 @@ static struct sfx_soundsampler_sound_s snd;
 
 static int sfx_soundsampler_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, int nr, int soc, int scc, int *delta_t)
 {
-    int i;
-
-    for (i = 0; i < nr; i++) {
-        pbuf[i * soc] = sound_audio_mix(pbuf[i * soc], snd.voice0 << 8);
-        if (soc > 1) {
-            pbuf[(i * soc) + 1] = sound_audio_mix(pbuf[(i * soc) + 1], snd.voice0 << 8);
-        }
-    }
-    return nr;
+    return sound_dac_calculate_samples(&sfx_soundsampler_dac, pbuf, (int)snd.voice0 * 128, nr, soc, (soc > 1) ? 3 : 1);
 }
 
 static int sfx_soundsampler_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 {
+    sound_dac_init(&sfx_soundsampler_dac, speed);
     snd.voice0 = 0;
 
     return 1;
