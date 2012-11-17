@@ -162,7 +162,7 @@ static int userport_dac_sound_machine_calculate_samples(sound_t **psid, SWORD *p
 
     for (i = 1; i < nr; i++) {
         snd.output0 *= alpha;
-        if (snd.output > -0.5 && snd.output0 < 0.5) {
+        if (snd.output0 > -0.5 && snd.output0 < 0.5) {
             snd.output0 = 0.0;
             break; /* shortcut when idle */
         }
