@@ -170,7 +170,7 @@
       reg_p = GLOBAL_REGS.p;    \
       flag_n = GLOBAL_REGS.n;   \
       flag_z = GLOBAL_REGS.z;   \
-      reg_pc = ~0; /* prevent caching */ \
+      bank_start = bank_limit = 0; /* prevent caching */ \
       JUMP(GLOBAL_REGS.pc);     \
   } while (0)
 
@@ -231,7 +231,7 @@
       reg_a_read_idx = GLOBAL_REGS.acm & 0xf; \
       reg_y_idx = GLOBAL_REGS.yxm >> 4; \
       reg_x_idx = GLOBAL_REGS.yxm & 0xf; \
-      reg_pc = ~0; /* prevent caching */ \
+      bank_start = bank_limit = 0; /* prevent caching */ \
       JUMP(GLOBAL_REGS.pc); \
   } while (0)
 
@@ -330,7 +330,7 @@
                 cpu_reset();                                          \
                 addr = LOAD(0xfffc);                                  \
                 addr |= (LOAD(0xfffd) << 8);                          \
-                reg_pc = ~0; /* prevent caching */                    \
+                bank_start = bank_limit = 0; /* prevent caching */    \
                 JUMP(addr);                                           \
                 DMA_ON_RESET;                                         \
             }                                                         \

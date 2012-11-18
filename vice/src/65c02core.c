@@ -233,7 +233,7 @@
       reg_p = GLOBAL_REGS.p;   \
       flag_n = GLOBAL_REGS.n;  \
       flag_z = GLOBAL_REGS.z;  \
-      reg_pc = ~0; /* prevent caching */ \
+      bank_start = bank_limit = 0; /* prevent caching */ \
       JUMP(GLOBAL_REGS.pc);    \
   } while (0)
 
@@ -316,7 +316,7 @@
             if (ik & IK_RESET) {                                               \
                 interrupt_ack_reset(CPU_INT_STATUS);                           \
                 cpu_reset();                                                   \
-                reg_pc = ~0; /* prevent caching */                             \
+                bank_start = bank_limit = 0; /* prevent caching */             \
                 JUMP(LOAD_ADDR(0xfffc));                                       \
                 DMA_ON_RESET;                                                  \
             }                                                                  \
