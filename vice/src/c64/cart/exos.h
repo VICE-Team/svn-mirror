@@ -38,6 +38,7 @@ extern BYTE exos_romh_read(WORD addr);
 extern int exos_romh_phi1_read(WORD addr, BYTE *value);
 extern int exos_romh_phi2_read(WORD addr, BYTE *value);
 extern int exos_peek_mem(struct export_s *export, WORD addr, BYTE *value);
+extern void exos_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit);
 
 extern void exos_config_init(void);
 extern void exos_reset(void);

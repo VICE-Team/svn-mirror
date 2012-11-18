@@ -2306,6 +2306,9 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
         case CARTRIDGE_EASYFLASH:
             easyflash_mmu_translate(addr, base, start, limit);
             return;
+        case CARTRIDGE_EXOS:
+            exos_mmu_translate(addr, base, start, limit);
+            return;
         case CARTRIDGE_IDE64:
             ide64_mmu_translate(addr, base, start, limit);
             return;

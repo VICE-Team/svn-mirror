@@ -85,6 +85,21 @@ int exos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
     return CART_READ_THROUGH;
 }
 
+void exos_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
+    switch (addr & 0xe000) {
+    case 0xe000:
+        *base = romh_banks - 0xe000;
+        *start = 0xe000;
+        *limit = 0xfffd;
+        break;
+    default:
+        *base = NULL;
+        *start = 0;
+        *limit = 0;
+    }
+}
+
 void exos_config_init(void)
 {
     cart_config_changed_slotmain(2, 3, CMODE_READ);
