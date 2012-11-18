@@ -61,7 +61,7 @@ static const c64export_resource_t export_res = {
 
 /* ---------------------------------------------------------------------*/
 
-BYTE exos_romh_read(WORD addr)
+BYTE exos_romh_read_hirom(WORD addr)
 {
     return romh_banks[(addr & 0x1fff)];
 }
@@ -83,21 +83,6 @@ int exos_peek_mem(struct export_s *export, WORD addr, BYTE *value)
         return CART_READ_VALID;
     }
     return CART_READ_THROUGH;
-}
-
-void exos_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
-{
-    switch (addr & 0xe000) {
-    case 0xe000:
-        *base = romh_banks - 0xe000;
-        *start = 0xe000;
-        *limit = 0xfffd;
-        break;
-    default:
-        *base = NULL;
-        *start = 0;
-        *limit = 0;
-    }
 }
 
 void exos_config_init(void)

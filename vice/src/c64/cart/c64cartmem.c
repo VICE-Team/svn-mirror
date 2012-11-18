@@ -861,7 +861,7 @@ BYTE ultimax_romh_read_hirom_slotmain(WORD addr)
         case CARTRIDGE_EASYFLASH:
             return easyflash_romh_read(addr);
         case CARTRIDGE_EXOS:
-            return exos_romh_read(addr);
+            return exos_romh_read_hirom(addr);
         case CARTRIDGE_FINAL_I:
             return final_v1_romh_read(addr);
         case CARTRIDGE_FINAL_PLUS:
