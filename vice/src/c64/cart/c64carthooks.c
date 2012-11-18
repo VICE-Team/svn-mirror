@@ -2208,8 +2208,40 @@ void cartridge_sound_chip_init(void)
 }
 
 /* ------------------------------------------------------------------------- */
-/* Perform MMU translation for simple cartridge RAM/ROM mappings */
-/* TODO: add more */
+/* Perform MMU translation for simple cartridge RAM/ROM/FLASH mappings.
+   This function returns a pointer to a continuous memory area where addr
+   points into. The boundary of the area are returned in start and limit,
+   where limit is the last address where a dword read can be performed (last-3).
+
+   The CPU uses this information to read data from the defined area quickly by
+   using base[addr] instead of going through chains of various memory mapping
+   hooks.
+
+   It's important to know that this mapping optimization is valid until
+   there's no memory mapping configuration change, then the translation is
+   performed again. A memory configuration change can be signaled by calling
+   maincpu_resync_limits directly, or preferably by calling one of these:
+   - mem_pla_config_changed
+   - cart_config_changed
+   - cart_port_config_changed_slot0
+   - cart_config_changed_slot0
+   - cart_port_config_changed_slot1
+   - cart_config_changed_slot1
+   - cart_port_config_changed_slotmain
+   - cart_config_changed_slotmain
+
+   If such caching is not desired or not possible a base of NULL with start and
+   limit of 0 shall be returned, then all CPU reads go through the normal
+   hooks. There could be various reasons to do so:
+   - the cartridge has no hooks yet
+   - the address does not fall into a continuous memory area (RAM/ROM) managed
+     by the cartridge in it's current configuration or banking
+   - side effects should happen when the area is accessed (e.g. capacitor discharge,
+     i/o area)
+   - the memory area is programmable flash and it's not in it's "idle" mode now
+
+   TODO: add more cartridges
+*/
 void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     int res = CART_READ_THROUGH;
