@@ -396,6 +396,13 @@ EMBEDDED_H_FILES = \
 	petkernal1.h \
 	petkernal2.h \
 	petkernal4.h \
+	superpet_char.h \
+	superpet_waterloo_a000.h \
+	superpet_waterloo_b000.h \
+	superpet_waterloo_c000.h \
+	superpet_waterloo_d000.h \
+	superpet_waterloo_e000.h \
+	superpet_waterloo_f000.h \
 	plus43plus1hi.h \
 	plus43plus1lo.h \
 	plus4basic.h \
@@ -626,6 +633,27 @@ petkernal2.h: $(EMBEDDED_DEPENDS)
 
 petkernal4.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/kernal4 petkernal4.h "BYTE petkernal4_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_char.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/characters.901640-01.bin superpet_char.h "BYTE superpet_char_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_waterloo_a000.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/waterloo-a000.901898-01.bin superpet_waterloo_a000.h "BYTE superpet_waterloo_a000_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_waterloo_b000.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/waterloo-b000.901898-02.bin superpet_waterloo_b000.h "BYTE superpet_waterloo_b000_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_waterloo_c000.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/waterloo-c000.901898-03.bin superpet_waterloo_c000.h "BYTE superpet_waterloo_c000_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_waterloo_d000.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/waterloo-d000.901898-04.bin superpet_waterloo_d000.h "BYTE superpet_waterloo_d000_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_waterloo_e000.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/waterloo-e000.901897-01.bin superpet_waterloo_e000.h "BYTE superpet_waterloo_e000_embedded[0x800]" $(CROSS) $(SHELL) $(top_srcdir)
+
+superpet_waterloo_f000.h: $(EMBEDDED_DEPENDS)
+	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PET/waterloo-f000.901898-05.bin superpet_waterloo_f000.h "BYTE superpet_waterloo_f000_embedded[0x1000]" $(CROSS) $(SHELL) $(top_srcdir)
 
 plus43plus1hi.h: $(EMBEDDED_DEPENDS)
 	$(SHELL) $(srcdir)/bin2c.sh $(top_srcdir)/data/PLUS4/3plus1hi plus43plus1hi.h "BYTE extromhi1[PLUS4_KERNAL_ROM_SIZE]" $(CROSS) $(SHELL) $(top_srcdir)

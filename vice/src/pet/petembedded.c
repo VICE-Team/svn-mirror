@@ -51,6 +51,13 @@
 #include "petkernal1.h"
 #include "petkernal2.h"
 #include "petkernal4.h"
+#include "superpet_char.h"
+#include "superpet_waterloo_a000.h"
+#include "superpet_waterloo_b000.h"
+#include "superpet_waterloo_c000.h"
+#include "superpet_waterloo_d000.h"
+#include "superpet_waterloo_e000.h"
+#include "superpet_waterloo_f000.h"
 
 #include "pet_amber_vpl.h"
 #include "pet_green_vpl.h"
@@ -70,6 +77,13 @@ static embedded_t petfiles[] = {
   { "edit2g", 0x800, 0x1000, 0x800, petedit2g_embedded },
   { "edit4b40", 0x800, 0x1000, 0x800, petedit4b40_embedded },
   { "edit4g40", 0x800, 0x1000, 0x800, petedit4g40_embedded },
+  { "characters.901640-01.bin", 0x1000, 0x1000, 0x1000, superpet_char_embedded },
+  { "waterloo-a000.901898-01.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_a000_embedded },
+  { "waterloo-b000.901898-02.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_b000_embedded },
+  { "waterloo-c000.901898-03.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_c000_embedded },
+  { "waterloo-d000.901898-04.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_d000_embedded },
+  { "waterloo-e000.901897-01.bin", 0x800, 0x800, 0x800, superpet_waterloo_e000_embedded },
+  { "waterloo-f000.901898-05.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_f000_embedded },
   { NULL }
 };
 
