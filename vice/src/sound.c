@@ -56,6 +56,7 @@
 #include "uiapi.h"
 #include "util.h"
 #include "vsync.h"
+#include "math.h"
 
 
 static log_t sound_log = LOG_ERR;
@@ -219,6 +220,7 @@ static int buffer_size;               /* app_resources.soundBufferSize */
 static int suspend_time;              /* app_resources.soundSuspendTime */
 static int speed_adjustment_setting;  /* app_resources.soundSpeedAdjustment */
 static int volume;
+static int amp;
 static int fragment_size;
 static int output_option;
 
@@ -352,6 +354,8 @@ static int set_volume(int val, void *param)
 
     if (volume > 100)
         volume = 100;
+
+    amp = (int)((exp((double)volume / 100.0 * log(2.0)) - 1.0) * 4096.0);
 
     ui_display_volume(volume);
 
@@ -1035,10 +1039,10 @@ static int sound_run_sound(void)
         snddata.fclk += nr * snddata.clkstep;
     }
 
-    if (volume < 100) {
-        if (volume) {
+    if (amp < 4096) {
+        if (amp) {
             for (i = 0; i < (nr * snddata.sound_output_channels); i++) {
-                bufferptr[i] = bufferptr[i] * volume / 100;
+                bufferptr[i] = bufferptr[i] * amp / 4096;
             }
         } else {
             memset(&bufferptr[i], 0, nr * snddata.sound_output_channels * sizeof(SWORD));
