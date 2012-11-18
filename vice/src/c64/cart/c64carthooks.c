@@ -2309,9 +2309,6 @@ void cartridge_mmu_translate(unsigned int addr, BYTE **base, int *start, int *li
         case CARTRIDGE_IDE64:
             ide64_mmu_translate(addr, base, start, limit);
             return;
-        case CARTRIDGE_MAGIC_FORMEL:
-            magicformel_mmu_translate(addr, base, start, limit);
-            return;
         case CARTRIDGE_RETRO_REPLAY:
             retroreplay_mmu_translate(addr, base, start, limit);
             return;

@@ -507,24 +507,6 @@ int magicformel_peek_mem(struct export_s *export, WORD addr, BYTE *value)
     return CART_READ_THROUGH;
 }
 
-void magicformel_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
-{
-    switch (addr & 0xe000) {
-    case 0xe000:
-        if (kernal_enabled || freeze_enabled) {
-            *base = &romh_banks[romh_bank << 13] - 0xe000;
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        }
-        /* fall through */
-    default:
-        *base = NULL;
-        *start = 0;
-        *limit = 0;
-    }
-}
-
 /****************************************************************************/
 
 /* ultimax, rom bank 1 */
