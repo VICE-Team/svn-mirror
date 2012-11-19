@@ -87,7 +87,7 @@ end
 
 say 'Creating objects for documentation...'
 
-setupstring='EXENAME=view.exe;PARAMETERS=vice2.inf;STARTUPDIR='curdir'\doc'
+setupstring='EXENAME=view.exe;PARAMETERS=vice.inf;STARTUPDIR='curdir'\doc'
 if SysCreateObject("WPProgram","Vice Manual","<VICE2>",setupstring,"update")<>1 then
 do
     say '!!! Can''t create a program object for the Vice Manual'
@@ -106,7 +106,7 @@ do
 end
 
 setupstring='URL=file://'curdir'\html\vice_toc.html'
-if SysCreateObject("WPUrl","HTML Documetation","<VICE2_DOC>",setupstring,"update")<>1 then
+if SysCreateObject("WPUrl","HTML Documentation","<VICE2_DOC>",setupstring,"update")<>1 then
 do
     say '!!! Can''t create a html object for HTML Documatation'
     say ''
