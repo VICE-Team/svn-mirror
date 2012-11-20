@@ -45,6 +45,7 @@ enum {
     SS_BMP=1,
     SS_DOODLE,
     SS_DOODLE_COMPRESSED,
+    SS_KOALA,
 #ifdef HAVE_GIF
     SS_GIF,
 #endif
@@ -118,6 +119,7 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
     strcat(choices, "BMP|");
     strcat(choices, "DOODLE|");
     strcat(choices, "DOODLE_COMPRESSED|");
+    strcat(choices, "KOALA|");
 #ifdef HAVE_GIF
     strcat(choices, "GIF|");
 #endif
@@ -143,6 +145,9 @@ void ui_screenshot_dialog(video_canvas_t *canvas)
             break;
         case SS_DOODLE_COMPRESSED:
             save_screenshot_file("#?.jj", "DOODLE_COMPRESSED", canvas);
+            break;
+        case SS_KOALA:
+            save_screenshot_file("#?.koa", "KOALA", canvas);
             break;
         case SS_GIF:
             save_screenshot_file("#?.gif", "GIF", canvas);
