@@ -1,4 +1,3 @@
-AM_CFLAGS = -ggdb
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
