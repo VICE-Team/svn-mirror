@@ -56,6 +56,7 @@ extern void petdww_resources_shutdown(void);
 extern int petdww_cmdline_options_init(void);
 
 extern void petdww_init(void);
+extern void petdww_powerup(void);
 extern void petdww_reset(void);
 extern void petdww_shutdown(void);
 extern void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *mem_write_tab, BYTE **mem_base_tab, int *mem_limit_tab);

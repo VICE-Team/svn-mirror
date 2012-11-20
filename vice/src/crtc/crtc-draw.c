@@ -46,7 +46,7 @@
  * would take 2 tables, each 16 times as big, and that would
  * not be so nice on the cpu cache.
  */
-static DWORD dwg_table[16];
+DWORD dwg_table[16];
 
 static void init_drawing_tables(void)
 {

@@ -98,7 +98,7 @@ static pet_table_t pet_table[] = {
         NULL, NULL, NULL } },
     { "SuperPET",
       { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
-        "characters.901640-01.bin", PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
+        SUPERPET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,
           { "waterloo-a000.901898-01.bin",
             "waterloo-b000.901898-02.bin",
@@ -118,8 +118,8 @@ int petmem_set_conf_info(petinfo_t *pi)
     resources_set_int("IOSize", pi->IOSize);
     resources_set_int("Crtc", pi->crtc);
     resources_set_int("VideoSize", pi->video);
-    resources_set_int("Ram9", pi->mem9);
-    resources_set_int("RamA", pi->memA);
+    resources_set_int("Ram9", pi->ramsel9);
+    resources_set_int("RamA", pi->ramselA);
     resources_set_int("EoiBlank", pi->eoiblank);
     resources_set_int("SuperPET", pi->superpet);
 
@@ -201,4 +201,4 @@ void petmodel_set(int model)
         vsync_suspend_speed_eval();
         machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
     }
- }
+}

@@ -52,6 +52,7 @@
 #include "uimenu.h"
 #include "uiperipheralieee.h"
 #include "uipetdww.h"
+#include "uipethre.h"
 #include "uipetreu.h"
 #include "uiram.h"
 #include "uiromset.h"
@@ -249,6 +250,8 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, petreu_submenu },
     { N_("PET DWW hi-res graphics"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petdww_submenu },
+    { N_("PET HRE hi-res graphics"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, pethre_submenu },
     { N_("SID cartridge"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sidcart_submenu },
     { N_("Userport DAC"), UI_MENU_TYPE_TICK,

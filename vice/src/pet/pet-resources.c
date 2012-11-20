@@ -109,9 +109,9 @@ static int set_superpet_enabled(int val, void *param)
 
 static int set_ram_9_enabled(int val, void *param)
 {
-    if (petres.mem9 != val) {
+    if (petres.ramsel9 != val) {
         if (val < 2)
-            petres.mem9 = (unsigned int)val;
+            petres.ramsel9 = (unsigned int)val;
 
         mem_initialize_memory();
     }
@@ -121,9 +121,9 @@ static int set_ram_9_enabled(int val, void *param)
 
 static int set_ram_a_enabled(int val, void *param)
 {
-    if (petres.memA != val) {
+    if (petres.ramselA != val) {
         if (val < 2)
-            petres.memA = (unsigned int)val;
+            petres.ramselA = (unsigned int)val;
 
         mem_initialize_memory();
     }
@@ -318,7 +318,7 @@ static int set_h6809_rom_name(const char *val, void *param)
 static int set_superpet_cpu_switch(int val, void *param)
 {
     int i;
- 
+
     switch (val) {
         case 6502:
         case SUPERPET_CPU_6502:
@@ -396,9 +396,9 @@ static const resource_int_t resources_int[] = {
     { "VideoSize", 1, RES_EVENT_SAME, NULL,
       &petres.video, set_video, NULL },
     { "Ram9", 0, RES_EVENT_SAME, NULL,
-      &petres.mem9, set_ram_9_enabled, NULL },
+      &petres.ramsel9, set_ram_9_enabled, NULL },
     { "RamA", 0, RES_EVENT_SAME, NULL,
-      &petres.memA, set_ram_a_enabled, NULL },
+      &petres.ramselA, set_ram_a_enabled, NULL },
     { "SuperPET", 0, RES_EVENT_SAME, NULL,
       &petres.superpet, set_superpet_enabled, NULL },
     { "Basic1", 1, RES_EVENT_SAME, NULL,

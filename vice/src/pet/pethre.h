@@ -1,20 +1,15 @@
 /*
- * crtc-draw.h - A line-based CRTC emulation (under construction).
+ * pethre.h - PET Hi-Res Emulator Emulation
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
- *
- * 16/24bpp support added by
- *  Steven Tieu <stieu@physics.ubc.ca>
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Olaf 'Rhialto' Seibert <rhialto@falu.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; either version 2 of the License, or
+ *  the Free Software Foundation; either version 3 of the License, or
  *  (at your option) any later version.
  *
  *  This program is distributed in the hope that it will be useful,
@@ -29,14 +24,30 @@
  *
  */
 
-#ifndef VICE_CRTC_DRAW_H
-#define VICE_CRTC_DRAW_H
+#ifndef VICE_PETHRE_H
+#define VICE_PETHRE_H
 
 #include "types.h"
+#include "mem.h"
 
-extern void crtc_draw_init(void);
+/* ------------------------------------------------------------------------- */
 
-extern DWORD dwg_table[16];
+struct snapshot_s;
 
+extern int pethre_init_resources(void);
+extern int pethre_init_cmdline_options(void);
+extern int pethre_resources_init(void);
+extern void pethre_resources_shutdown(void);
+extern int pethre_cmdline_options_init(void);
+
+extern void pethre_init(void);
+extern void pethre_reset(void);
+extern void pethre_shutdown(void);
+
+extern int pethre_snapshot_read_module(struct snapshot_s *);
+extern int pethre_snapshot_write_module(struct snapshot_s *);
+
+extern void crtc_write_hre(WORD addr, BYTE value);
 #endif
+
 

@@ -70,8 +70,8 @@ typedef struct petinfo_s {
     int         IOSize;         /* 256 Byte / 2k I/O */
     int         crtc;           /* 0 = no CRTC, 1 = has one */
     int         video;          /* 0 = autodetect, 40, or 80 */
-    int         mem9;           /* 0 = open/ROM, 1 = RAM */
-    int         memA;           /* 0 = open/ROM, 1 = RAM */
+    int         ramsel9;        /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
+    int         ramselA;        /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
     int         kbd_type;       /* 1 = graphics, 0 = business (UK) */
     int         pet2k;          /* 1 = do PET 2001 kernal patches */
     int         pet2kchar;      /* 1 = do PET 2001 chargen patches */
@@ -97,8 +97,8 @@ typedef struct petres_s {
     int         IOSize;         /* 256 Byte / 2k I/O */
     int         crtc;           /* 0 = no CRTC, 1 = has one */
     int         video;          /* 0 = autodetect, 40, or 80 */
-    int         mem9;           /* 0 = open/ROM, 1 = RAM */
-    int         memA;           /* 0 = open/ROM, 1 = RAM */
+    int         ramsel9;        /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
+    int         ramselA;        /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
     int         kbd_type;       /* 1 = graphics, 0 = business (UK) */
     int         pet2k;          /* 1 = do PET 2001 kernal patches */
     int         pet2kchar;      /* 1 = do PET 2001 chargen patches */

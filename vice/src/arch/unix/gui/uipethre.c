@@ -1,13 +1,8 @@
 /*
- * crtc-draw.h - A line-based CRTC emulation (under construction).
+ * uipethre.c
  *
  * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  André Fachat <fachat@physik.tu-chemnitz.de>
- *
- * 16/24bpp support added by
- *  Steven Tieu <stieu@physics.ubc.ca>
- *  Teemu Rantanen <tvr@cs.hut.fi>
+ *  Olaf 'Rhialto' Seibert <rhialto@falu.nl>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -29,14 +24,18 @@
  *
  */
 
-#ifndef VICE_CRTC_DRAW_H
-#define VICE_CRTC_DRAW_H
+#include "vice.h"
 
-#include "types.h"
+#include <stdio.h>
 
-extern void crtc_draw_init(void);
+#include "uilib.h"
+#include "uimenu.h"
+#include "uipethre.h"
 
-extern DWORD dwg_table[16];
+UI_MENU_DEFINE_TOGGLE(PETHRE)
 
-#endif
-
+ui_menu_entry_t pethre_submenu[] = {
+    { N_("Enable"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_PETHRE, NULL, NULL },
+    { NULL }
+};

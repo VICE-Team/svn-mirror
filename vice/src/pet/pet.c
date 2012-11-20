@@ -140,6 +140,7 @@ int machine_resources_init(void)
         || pia1_init_resources() < 0
         || crtc_resources_init() < 0
         || petdww_resources_init() < 0
+        || pethre_resources_init() < 0
         || sound_resources_init() < 0
         || sidcart_resources_init() < 0
         || userport_dac_resources_init() < 0
@@ -160,6 +161,7 @@ int machine_resources_init(void)
 void machine_resources_shutdown(void)
 {
     petdww_resources_shutdown();
+    pethre_resources_shutdown();
     video_resources_shutdown();
     pet_resources_shutdown();
     petreu_resources_shutdown();
@@ -184,6 +186,7 @@ int machine_cmdline_options_init(void)
         || petreu_cmdline_options_init() < 0
         || crtc_cmdline_options_init() < 0
         || petdww_cmdline_options_init() < 0
+        || pethre_cmdline_options_init() < 0
         || pia1_init_cmdline_options() < 0
         || sound_cmdline_options_init() < 0
         || sidcart_cmdline_options_init() < 0
@@ -338,6 +341,9 @@ int machine_specific_init(void)
     /* Initialize the PET Double-W Hi-Res graphics card. */
     petdww_init();
 
+    /* Initialize the PET Hi-Res Emulator graphics card. */
+    pethre_init();
+
     petiec_init();
 
     machine_drive_stub();
@@ -353,6 +359,12 @@ int machine_specific_init(void)
     }
 #endif
     return 0;
+}
+
+void machine_specific_powerup(void)
+{
+    petdww_powerup();
+    pethre_powerup();
 }
 
 /* PET-specific initialization.  */
@@ -371,10 +383,7 @@ void machine_specific_reset(void)
     datasette_reset();
     petreu_reset();
     petdww_reset();
-}
-
-void machine_specific_powerup(void)
-{
+    pethre_reset();
 }
 
 void machine_specific_shutdown(void)
@@ -386,6 +395,7 @@ void machine_specific_shutdown(void)
 
     /* close the video chip(s) */
     petdww_shutdown();
+    pethre_shutdown();
     crtc_shutdown();
 
     petreu_shutdown();

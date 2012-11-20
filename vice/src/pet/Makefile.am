@@ -1,3 +1,4 @@
+AM_CFLAGS = -ggdb
 INCLUDES = \
 	@ARCH_INCLUDES@ \
 	-I$(top_builddir)/src \
@@ -34,6 +35,8 @@ libpet_a_SOURCES = \
 	petdww.c \
 	petdww.h \
 	petembedded.c \
+	pethre.c \
+	pethre.h \
 	petiec.c \
 	petiec.h \
 	petmem.c \

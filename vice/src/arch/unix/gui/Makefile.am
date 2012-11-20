@@ -125,6 +125,8 @@ libarchgui_a_SOURCES = \
 	uiperipheralieee.h \
 	uipetdww.c \
 	uipetdww.h \
+	uipethre.c \
+	uipethre.h \
 	uipetreu.c \
 	uipetreu.h \
 	uiplus256k.c \

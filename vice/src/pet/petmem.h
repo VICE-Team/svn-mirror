@@ -73,7 +73,7 @@ extern int petmem_set_conf_info(struct petinfo_s *pi);
 
 extern int spet_ramen;
 extern int spet_bank;
-extern int spet_bank_4k;
+extern void set_spet_bank(int bank);
 extern int spet_ctrlwp;
 extern int spet_diag;
 extern int spet_ramwp;
@@ -90,6 +90,7 @@ struct dongle6702_s {
 extern struct dongle6702_s dongle6702;
 
 extern BYTE petmem_map_reg;
+extern BYTE petmem_ramON;
 extern BYTE petmem_2001_buf_ef[];
 
 extern read_func_t mem6809_read;
@@ -101,6 +102,7 @@ extern void mem6809_store32(WORD addr, DWORD value);
 extern DWORD mem6809_read32(WORD addr);
 #endif
 extern void mem_initialize_memory_6809(void);
+extern void ramsel_changed(void);
 
 extern int superpet_sync(void);
 

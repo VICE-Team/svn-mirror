@@ -134,8 +134,8 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
         config = 3;
     }
 
-    rconf = (petres.mem9 ? 0x40 : 0)
-                | (petres.memA ? 0x80 : 0) ;
+    rconf = (petres.ramsel9 ? 0x40 : 0)
+                | (petres.ramselA ? 0x80 : 0) ;
 
     conf8x96 = petmem_map_reg;
 
@@ -201,6 +201,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     petinfo_t peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
                        NULL, NULL, NULL, NULL, NULL, NULL };
     int old6809mode;
+    int spet_bank = 0;
 
     m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
     if (m == NULL)
@@ -261,8 +262,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         break;
     };
 
-    peti.mem9 = (rconf & 0x40) ? 1 : 0;
-    peti.memA = (rconf & 0x80) ? 1 : 0;
+    peti.ramsel9 = (rconf & 0x40) ? 1 : 0;
+    peti.ramselA = (rconf & 0x80) ? 1 : 0;
 
     petmem_set_conf_info(&peti);  /* set resources and config accordingly */
     petmem_map_reg = conf8x96;
@@ -334,7 +335,8 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
         mem_initialize_memory_6809();
     }
 
-    spet_bank_4k = spet_bank << 12;
+    //spet_bank_4k = spet_bank << 12;
+    set_spet_bank(spet_bank);
 
     snapshot_module_close(m);
 

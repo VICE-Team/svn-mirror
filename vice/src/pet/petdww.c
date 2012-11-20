@@ -196,6 +196,13 @@ void petdww_init(void)
     init_drawing_tables();
 }
 
+void petdww_powerup(void)
+{
+    if (petdww_ram) {
+        ram_init(petdww_ram, PET_DWW_RAM_SIZE); 
+    }
+}
+
 void petdww_reset(void)
 {
     petdwwpia_reset();
@@ -216,7 +223,7 @@ static int petdww_activate(void)
     petdww_ram = lib_realloc((void *)petdww_ram, (size_t)PET_DWW_RAM_SIZE);
 
     /* Clear newly allocated RAM.  */
-    memset(petdww_ram, 0, (size_t)PET_DWW_RAM_SIZE);
+    ram_init(petdww_ram, PET_DWW_RAM_SIZE); 
 
     log_message(petdww_log, "%dKB of hi-res RAM installed.", PET_DWW_RAM_SIZE >> 10);
 
@@ -655,8 +662,8 @@ static void pia_reset(void)
  * The "w" tables expand each input bit into double-wide bytes:
  * every 4 bits expand to 8 bytes (hence 2 tables are needed).
  */
-static DWORD dwg_table[16];
-static DWORD dwg_table_w0[16], dwg_table_w1[16];
+static DWORD dww_dwg_table[16];
+static DWORD dww_dwg_table_w0[16], dww_dwg_table_w1[16];
 
 static void init_drawing_tables(void)
 {
@@ -665,29 +672,29 @@ static void init_drawing_tables(void)
 
     for (byte = 0; byte < 0x10; byte++) {
         for (msk = 0x01, p = 0; p < 4; msk <<= 1, p++) {
-            *((BYTE *)(dwg_table + byte) + p)
+            *((BYTE *)(dww_dwg_table + byte) + p)
                 = (byte & msk ? 1 : 0);
         }
 #if DWW_DEBUG_GFX
-        log_message(petdww_log, "init_drawing_tables: %02x -> %08x", byte, dwg_table[byte]);
+        log_message(petdww_log, "init_drawing_tables: %02x -> %08x", byte, dww_dwg_table[byte]);
 #endif
     }
 
     for (byte = 0; byte < 0x10; byte++) {
         for (msk = 0x01, p = 0; p < 4; msk <<= 1, p++) {
             int bit = (byte & msk) ? 1 : 0;
-            *((BYTE *)(dwg_table_w0 + byte) + p) = bit;
+            *((BYTE *)(dww_dwg_table_w0 + byte) + p) = bit;
             p++;
-            *((BYTE *)(dwg_table_w0 + byte) + p) = bit;
+            *((BYTE *)(dww_dwg_table_w0 + byte) + p) = bit;
         }
         for (p = 0; p < 4; msk <<= 1, p++) {
             int bit = (byte & msk) ? 1 : 0;
-            *((BYTE *)(dwg_table_w1 + byte) + p) = bit;
+            *((BYTE *)(dww_dwg_table_w1 + byte) + p) = bit;
             p++;
-            *((BYTE *)(dwg_table_w1 + byte) + p) = bit;
+            *((BYTE *)(dww_dwg_table_w1 + byte) + p) = bit;
         }
 #if DWW_DEBUG_GFX
-        log_message(petdww_log, "init_drawing_tables: %02x -> %08x %08x", byte, dwg_table_w1[byte], dwg_table_w0[byte]);
+        log_message(petdww_log, "init_drawing_tables: %02x -> %08x %08x", byte, dww_dwg_table_w1[byte], dww_dwg_table_w0[byte]);
 
 #endif
     }
@@ -721,17 +728,17 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
                 d = *screen_rel++;
 
 #if DWW_DEBUG_GFX
-                log_message(petdww_log, "%2d -> %02x -> %08x", i, d, dwg_table[d]);
+                log_message(petdww_log, "%2d -> %02x -> %08x", i, d, dww_dwg_table[d]);
 #endif
-                *pw++ |= dwg_table[d & 0x0f];
-                *pw++ |= dwg_table[d >> 4];
+                *pw++ |= dww_dwg_table[d & 0x0f];
+                *pw++ |= dww_dwg_table[d >> 4];
             }
         } else {
             for (i = xstart; i < xend; i++) {
                 d = *screen_rel++;
 
-                *pw++  = dwg_table[d & 0x0f];
-                *pw++  = dwg_table[d >> 4];
+                *pw++  = dww_dwg_table[d & 0x0f];
+                *pw++  = dww_dwg_table[d >> 4];
             }
         }
     }
@@ -767,21 +774,21 @@ static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
                 d = *screen_rel++;
 
 #if DWW_DEBUG_GFX
-                log_message(petdww_log, "%2d -> %02x -> %08x", i, d, dwg_table[d]);
+                log_message(petdww_log, "%2d -> %02x -> %08x", i, d, dww_dwg_table[d]);
 #endif
-                *pw++ |= dwg_table_w0[d & 0x0f];
-                *pw++ |= dwg_table_w1[d & 0x0f];
-                *pw++ |= dwg_table_w0[d >> 4];
-                *pw++ |= dwg_table_w1[d >> 4];
+                *pw++ |= dww_dwg_table_w0[d & 0x0f];
+                *pw++ |= dww_dwg_table_w1[d & 0x0f];
+                *pw++ |= dww_dwg_table_w0[d >> 4];
+                *pw++ |= dww_dwg_table_w1[d >> 4];
             }
         } else {
             for (i = xstart; i < xend; i++) {
                 d = *screen_rel++;
 
-                *pw++  = dwg_table_w0[d & 0x0f];
-                *pw++  = dwg_table_w1[d & 0x0f];
-                *pw++  = dwg_table_w0[d >> 4];
-                *pw++  = dwg_table_w1[d >> 4];
+                *pw++  = dww_dwg_table_w0[d & 0x0f];
+                *pw++  = dww_dwg_table_w1[d & 0x0f];
+                *pw++  = dww_dwg_table_w0[d >> 4];
+                *pw++  = dww_dwg_table_w1[d >> 4];
             }
         }
     }
