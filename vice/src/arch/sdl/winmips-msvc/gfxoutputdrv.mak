@@ -52,6 +52,7 @@ CLEAN :
 	-@erase "$(INTDIR)\doodledrv.obj"
 	-@erase "$(INTDIR)\gfxoutput.obj"
 	-@erase "$(INTDIR)\iffdrv.obj"
+	-@erase "$(INTDIR)\koaladrv.obj"
 	-@erase "$(INTDIR)\pcxdrv.obj"
 	-@erase "$(INTDIR)\ppmdrv.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -105,6 +106,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\doodledrv.obj" \
 	"$(INTDIR)\gfxoutput.obj" \
 	"$(INTDIR)\iffdrv.obj" \
+	"$(INTDIR)\koaladrv.obj" \
 	"$(INTDIR)\pcxdrv.obj" \
 	"$(INTDIR)\ppmdrv.obj" \
 	".\libs\base\Release\base.lib"
@@ -141,6 +143,7 @@ CLEAN :
 	-@erase "$(INTDIR)\doodledrv.obj"
 	-@erase "$(INTDIR)\gfxoutput.obj"
 	-@erase "$(INTDIR)\iffdrv.obj"
+	-@erase "$(INTDIR)\koaladrv.obj"
 	-@erase "$(INTDIR)\pcxdrv.obj"
 	-@erase "$(INTDIR)\ppmdrv.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -194,6 +197,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\doodledrv.obj" \
 	"$(INTDIR)\gfxoutput.obj" \
 	"$(INTDIR)\iffdrv.obj" \
+	"$(INTDIR)\koaladrv.obj" \
 	"$(INTDIR)\pcxdrv.obj" \
 	"$(INTDIR)\ppmdrv.obj" \
 	".\libs\base\Debug\base.lib"
@@ -255,6 +259,12 @@ SOURCE=..\..\..\gfxoutputdrv\gfxoutput.c
 SOURCE=..\..\..\gfxoutputdrv\iffdrv.c
 
 "$(INTDIR)\iffdrv.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\gfxoutputdrv\koaladrv.c
+
+"$(INTDIR)\koaladrv.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

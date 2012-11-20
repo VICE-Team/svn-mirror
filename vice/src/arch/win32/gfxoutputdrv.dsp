@@ -156,6 +156,10 @@ SOURCE=..\..\gfxoutputdrv\iffdrv.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\gfxoutputdrv\koaladrv.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\gfxoutputdrv\pcxdrv.c
 # End Source File
 # Begin Source File
