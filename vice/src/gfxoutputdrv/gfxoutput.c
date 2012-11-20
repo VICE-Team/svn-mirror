@@ -33,6 +33,7 @@
 #include "bmpdrv.h"
 #include "doodledrv.h"
 #include "gfxoutput.h"
+#include "koaladrv.h"
 #include "lib.h"
 #include "log.h"
 #include "iffdrv.h"
@@ -98,6 +99,7 @@ int gfxoutput_early_init(void)
 
     gfxoutput_init_bmp();
     gfxoutput_init_doodle();
+    gfxoutput_init_koala();
 #if defined(HAVE_GIF) || (defined(WIN32) && !defined(USE_SDLUI))
     gfxoutput_init_gif();
 #endif
