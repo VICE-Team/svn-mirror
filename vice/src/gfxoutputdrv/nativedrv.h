@@ -1,5 +1,5 @@
 /*
- * koaladrv.h - Create a c64 koala type file.
+ * nativedrv.h - native screenshot common code header.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -24,23 +24,24 @@
  *
  */
 
-#ifndef VICE_KOALADRV_H
-#define VICE_KOALADRV_H
+#ifndef VICE_NATIVEDRV_H
+#define VICE_NATIVEDRV_H
 
 #include "types.h"
 
-typedef struct koala_data_s {
+typedef struct native_data_s {
     BYTE *colormap;
     int xsize;
     int ysize;
     const char *filename;
-} koala_data_t;
+} native_data_t;
 
-typedef struct koala_color_sort_s {
+typedef struct native_color_sort_s {
     BYTE color;
     int amount;
-} koala_color_sort_t;
+} native_color_sort_t;
 
+extern void gfxoutput_init_doodle(void);
 extern void gfxoutput_init_koala(void);
 
 #endif

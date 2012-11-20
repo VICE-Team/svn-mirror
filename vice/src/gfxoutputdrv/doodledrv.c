@@ -32,12 +32,12 @@
 
 #include "archdep.h"
 #include "cmdline.h"
-#include "doodledrv.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "gfxoutput.h"
+#include "nativedrv.h"
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -202,7 +202,7 @@ static int doodledrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------ */
 
-static void doodle_smooth_scroll_borderize_colormap(doodle_data_t *source, BYTE bordercolor, BYTE xcover, BYTE ycover)
+static void doodle_smooth_scroll_borderize_colormap(native_data_t *source, BYTE bordercolor, BYTE xcover, BYTE ycover)
 {
     int i, j, k;
     int xstart = 0;
@@ -265,14 +265,14 @@ static void doodle_smooth_scroll_borderize_colormap(doodle_data_t *source, BYTE 
     }
 }
 
-static doodle_data_t *doodle_borderize_colormap(doodle_data_t *source, BYTE bordercolor)
+static native_data_t *doodle_borderize_colormap(native_data_t *source, BYTE bordercolor)
 {
     int i, j, k, l;
     int xstart = 0;
     int xendamount = 0;
     int ystart = 0;
     int yendamount = 0;
-    doodle_data_t *dest = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
 
     dest->filename = source->filename;
 
@@ -335,7 +335,7 @@ static doodle_data_t *doodle_borderize_colormap(doodle_data_t *source, BYTE bord
     return dest;
 }
 
-static doodle_data_t *doodle_crop_and_borderize_colormap(doodle_data_t *source, BYTE bordercolor)
+static native_data_t *doodle_crop_and_borderize_colormap(native_data_t *source, BYTE bordercolor)
 {
     int startx;
     int starty;
@@ -343,7 +343,7 @@ static doodle_data_t *doodle_crop_and_borderize_colormap(doodle_data_t *source, 
     int skipxend = 0;
     int skipystart = 0;
     int i, j, k, l;
-    doodle_data_t *dest = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
 
     dest->filename = source->filename;
 
@@ -469,9 +469,9 @@ static doodle_data_t *doodle_crop_and_borderize_colormap(doodle_data_t *source, 
     return dest;
 }
 
-static doodle_data_t *doodle_scale_colormap(doodle_data_t *source)
+static native_data_t *doodle_scale_colormap(native_data_t *source)
 {
-    doodle_data_t *dest = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
     int i, j;
     int xmult, ymult;
 
@@ -497,14 +497,14 @@ static doodle_data_t *doodle_scale_colormap(doodle_data_t *source)
     return dest;
 }
 
-static doodle_color_sort_t *doodle_sort_colors_colormap(doodle_data_t *source)
+static native_color_sort_t *doodle_sort_colors_colormap(native_data_t *source)
 {
     int i, j;
     BYTE color;
     int highest;
     int amount;
     int highestindex = 0;
-    doodle_color_sort_t *colors = lib_malloc(sizeof(doodle_color_sort_t) * 16);
+    native_color_sort_t *colors = lib_malloc(sizeof(native_color_sort_t) * 16);
 
     for (i = 0; i < 16; i++) {
         colors[i].color = i;
@@ -559,7 +559,7 @@ static inline BYTE vicii_color_to_bw(BYTE color)
     return vicii_color_bw_translate[color];
 }
 
-static void doodle_color_to_bw_colormap(doodle_data_t *source)
+static void doodle_color_to_bw_colormap(native_data_t *source)
 {
     int i, j;
 
@@ -594,7 +594,7 @@ static inline BYTE vicii_color_to_gray(BYTE color)
     return vicii_color_gray_translate[color];
 }
 
-static void doodle_color_to_gray_colormap(doodle_data_t *source)
+static void doodle_color_to_gray_colormap(native_data_t *source)
 {
     int i, j;
 
@@ -655,7 +655,7 @@ static BYTE vicii_closest_color[16][16] = {
     { 15, 13, 3, 12, 14, 10, 7, 1, 4, 5, 11, 8, 6, 9, 2, 0 }
 };
 
-static inline BYTE vicii_color_to_nearest_color(BYTE color, doodle_color_sort_t *altcolors)
+static inline BYTE vicii_color_to_nearest_color(BYTE color, native_color_sort_t *altcolors)
 {
     int i, j;
 
@@ -669,7 +669,7 @@ static inline BYTE vicii_color_to_nearest_color(BYTE color, doodle_color_sort_t 
     return 0;
 }
 
-static void doodle_color_to_nearest_colors_colormap(doodle_data_t *source, doodle_color_sort_t *colors)
+static void doodle_color_to_nearest_colors_colormap(native_data_t *source, native_color_sort_t *colors)
 {
     int i, j;
 
@@ -680,11 +680,11 @@ static void doodle_color_to_nearest_colors_colormap(doodle_data_t *source, doodl
     }
 }
 
-static void doodle_check_and_correct_cell(doodle_data_t *source)
+static void doodle_check_and_correct_cell(native_data_t *source)
 {
-    doodle_data_t *dest = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
     int i, j, k, l;
-    doodle_color_sort_t *colors = NULL;
+    native_color_sort_t *colors = NULL;
 
     dest->xsize = 8;
     dest->ysize = 8;
@@ -714,7 +714,7 @@ static void doodle_check_and_correct_cell(doodle_data_t *source)
     lib_free(dest);
 }
 
-static int doodle_render_and_save(doodle_data_t *source, int compress)
+static int doodle_render_and_save(native_data_t *source, int compress)
 {
     FILE *fd;
     char *filename_ext = NULL;
@@ -840,7 +840,7 @@ static int doodle_vicii_text_mode_render(screenshot_t *screenshot, const char *f
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    doodle_data_t *data = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -877,7 +877,7 @@ static int doodle_vicii_extended_background_mode_render(screenshot_t *screenshot
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    doodle_data_t *data = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -915,8 +915,8 @@ static int doodle_vicii_multicolor_text_mode_render(screenshot_t *screenshot, co
     BYTE color2;
     BYTE color3;
     int i, j, k, l;
-    doodle_data_t *data = lib_malloc(sizeof(doodle_data_t));
-    doodle_color_sort_t *color_order = NULL;
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
+    native_color_sort_t *color_order = NULL;
     int mc_data_present = 0;
 
     data->filename = filename;
@@ -1014,7 +1014,7 @@ static int doodle_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, const
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    doodle_data_t *data = lib_malloc(sizeof(doodle_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1056,10 +1056,10 @@ static int doodle_vicii_multicolor_bitmap_mode_render(screenshot_t *screenshot, 
     BYTE color2;
     BYTE color3;
     int i, j, k, l;
-    doodle_data_t *data = NULL;
-    doodle_color_sort_t *color_order = NULL;
+    native_data_t *data = NULL;
+    native_color_sort_t *color_order = NULL;
 
-    data = lib_malloc(sizeof(doodle_data_t));
+    data = lib_malloc(sizeof(native_data_t));
     data->filename = filename;
 
     data->xsize = 320;
@@ -1361,9 +1361,9 @@ static int doodle_ted_text_mode_render(screenshot_t *screenshot, const char *fil
     BYTE bglum;
     BYTE brdrlum;
     int i, j, k, l;
-    doodle_data_t *data;
+    native_data_t *data;
 
-    data = lib_malloc(sizeof(doodle_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1429,9 +1429,9 @@ static int doodle_ted_extended_background_mode_render(screenshot_t *screenshot, 
     BYTE bglum;
     BYTE brdrlum;
     int i, j, k, l;
-    doodle_data_t *data;
+    native_data_t *data;
 
-    data = lib_malloc(sizeof(doodle_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1492,9 +1492,9 @@ static int doodle_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const c
     BYTE bglum = 0;
     BYTE brdrlum;
     int i, j, k, l;
-    doodle_data_t *data;
+    native_data_t *data;
 
-    data = lib_malloc(sizeof(doodle_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1612,8 +1612,8 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
     BYTE auxcolor;
     int i, j, k, l;
     int mc_data_present = 0;
-    doodle_data_t *data;
-    doodle_color_sort_t *color_order = NULL;
+    native_data_t *data;
+    native_color_sort_t *color_order = NULL;
     BYTE xsize;
     BYTE ysize;
 
@@ -1632,7 +1632,7 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
         return -1;
     }
 
-    data = lib_malloc(sizeof(doodle_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1743,7 +1743,7 @@ static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int 
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    doodle_data_t *data;
+    native_data_t *data;
     BYTE xsize;
     BYTE ysize;
     BYTE invert;
@@ -1786,7 +1786,7 @@ static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int 
 
     charheight = screenshot->bitmap_high_ptr[0];
 
-    data = lib_malloc(sizeof(doodle_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 

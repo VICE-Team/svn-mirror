@@ -28,12 +28,11 @@ libgfxoutputdrv_a_SOURCES = \
 	bmpdrv.c \
 	bmpdrv.h \
 	doodledrv.c \
-	doodledrv.h \
 	gfxoutput.c \
 	iffdrv.c \
 	iffdrv.h \
 	koaladrv.c \
-	koaladrv.h \
+	nativedrv.h \
 	pcxdrv.c \
 	pcxdrv.h \
 	ppmdrv.c \

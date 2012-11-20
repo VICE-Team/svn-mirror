@@ -31,12 +31,11 @@
 #include <string.h>
 
 #include "bmpdrv.h"
-#include "doodledrv.h"
 #include "gfxoutput.h"
-#include "koaladrv.h"
 #include "lib.h"
 #include "log.h"
 #include "iffdrv.h"
+#include "nativedrv.h"
 #include "pcxdrv.h"
 #include "ppmdrv.h"
 

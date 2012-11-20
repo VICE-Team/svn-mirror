@@ -32,12 +32,12 @@
 
 #include "archdep.h"
 #include "cmdline.h"
-#include "koaladrv.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
 #include "mem.h"
 #include "gfxoutput.h"
+#include "nativedrv.h"
 #include "palette.h"
 #include "resources.h"
 #include "screenshot.h"
@@ -175,7 +175,7 @@ static int koaladrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------ */
 
-static void koala_smooth_scroll_borderize_colormap(koala_data_t *source, BYTE bordercolor, BYTE xcover, BYTE ycover)
+static void koala_smooth_scroll_borderize_colormap(native_data_t *source, BYTE bordercolor, BYTE xcover, BYTE ycover)
 {
     int i, j, k;
     int xstart = 0;
@@ -238,14 +238,14 @@ static void koala_smooth_scroll_borderize_colormap(koala_data_t *source, BYTE bo
     }
 }
 
-static koala_data_t *koala_borderize_colormap(koala_data_t *source, BYTE bordercolor)
+static native_data_t *koala_borderize_colormap(native_data_t *source, BYTE bordercolor)
 {
     int i, j, k, l;
     int xstart = 0;
     int xendamount = 0;
     int ystart = 0;
     int yendamount = 0;
-    koala_data_t *dest = lib_malloc(sizeof(koala_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
 
     dest->filename = source->filename;
 
@@ -308,7 +308,7 @@ static koala_data_t *koala_borderize_colormap(koala_data_t *source, BYTE borderc
     return dest;
 }
 
-static koala_data_t *koala_crop_and_borderize_colormap(koala_data_t *source, BYTE bordercolor)
+static native_data_t *koala_crop_and_borderize_colormap(native_data_t *source, BYTE bordercolor)
 {
     int startx;
     int starty;
@@ -316,7 +316,7 @@ static koala_data_t *koala_crop_and_borderize_colormap(koala_data_t *source, BYT
     int skipxend = 0;
     int skipystart = 0;
     int i, j, k, l;
-    koala_data_t *dest = lib_malloc(sizeof(koala_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
 
     dest->filename = source->filename;
 
@@ -442,9 +442,9 @@ static koala_data_t *koala_crop_and_borderize_colormap(koala_data_t *source, BYT
     return dest;
 }
 
-static koala_data_t *koala_scale_colormap(koala_data_t *source)
+static native_data_t *koala_scale_colormap(native_data_t *source)
 {
-    koala_data_t *dest = lib_malloc(sizeof(koala_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
     int i, j;
     int xmult, ymult;
 
@@ -470,7 +470,7 @@ static koala_data_t *koala_scale_colormap(koala_data_t *source)
     return dest;
 }
 
-static void koala_multicolorize_colormap(koala_data_t *source)
+static void koala_multicolorize_colormap(native_data_t *source)
 {
     int i, j;
 
@@ -481,14 +481,14 @@ static void koala_multicolorize_colormap(koala_data_t *source)
     }
 }
 
-static koala_color_sort_t *koala_sort_colors_colormap(koala_data_t *source)
+static native_color_sort_t *koala_sort_colors_colormap(native_data_t *source)
 {
     int i, j;
     BYTE color;
     int highest;
     int amount;
     int highestindex = 0;
-    koala_color_sort_t *colors = lib_malloc(sizeof(koala_color_sort_t) * 16);
+    native_color_sort_t *colors = lib_malloc(sizeof(native_color_sort_t) * 16);
 
     for (i = 0; i < 16; i++) {
         colors[i].color = i;
@@ -569,7 +569,7 @@ static BYTE vicii_closest_color[16][16] = {
     { 15, 13, 3, 12, 14, 10, 7, 1, 4, 5, 11, 8, 6, 9, 2, 0 }
 };
 
-static inline BYTE vicii_color_to_nearest_color(BYTE color, koala_color_sort_t *altcolors)
+static inline BYTE vicii_color_to_nearest_color(BYTE color, native_color_sort_t *altcolors)
 {
     int i, j;
 
@@ -583,7 +583,7 @@ static inline BYTE vicii_color_to_nearest_color(BYTE color, koala_color_sort_t *
     return 0;
 }
 
-static void koala_color_to_nearest_colors_colormap(koala_data_t *source, koala_color_sort_t *colors)
+static void koala_color_to_nearest_colors_colormap(native_data_t *source, native_color_sort_t *colors)
 {
     int i, j;
 
@@ -594,11 +594,11 @@ static void koala_color_to_nearest_colors_colormap(koala_data_t *source, koala_c
     }
 }
 
-static void koala_check_and_correct_cell(koala_data_t *source, BYTE bgcolor)
+static void koala_check_and_correct_cell(native_data_t *source, BYTE bgcolor)
 {
-    koala_data_t *dest = lib_malloc(sizeof(koala_data_t));
+    native_data_t *dest = lib_malloc(sizeof(native_data_t));
     int i, j, k, l, bgcolor_included;
-    koala_color_sort_t *colors = NULL;
+    native_color_sort_t *colors = NULL;
 
     dest->xsize = 8;
     dest->ysize = 8;
@@ -644,7 +644,7 @@ static void koala_check_and_correct_cell(koala_data_t *source, BYTE bgcolor)
     lib_free(dest);
 }
 
-static int koala_render_and_save(koala_data_t *source)
+static int koala_render_and_save(native_data_t *source)
 {
     FILE *fd;
     char *filename_ext = NULL;
@@ -658,7 +658,7 @@ static int koala_render_and_save(koala_data_t *source)
     BYTE color3 = 255;
     BYTE colorbyte;
     BYTE bgcolor;
-    koala_color_sort_t *color_order = NULL;
+    native_color_sort_t *color_order = NULL;
 
     /* allocate file buffer */
     filebuffer = lib_malloc(10003);
@@ -763,7 +763,7 @@ static int koala_vicii_text_mode_render(screenshot_t *screenshot, const char *fi
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -800,7 +800,7 @@ static int koala_vicii_extended_background_mode_render(screenshot_t *screenshot,
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -838,7 +838,7 @@ static int koala_vicii_multicolor_text_mode_render(screenshot_t *screenshot, con
     BYTE color2;
     BYTE color3;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -900,7 +900,7 @@ static int koala_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, const 
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -942,7 +942,7 @@ static int koala_vicii_multicolor_bitmap_mode_render(screenshot_t *screenshot, c
     BYTE color2;
     BYTE color3;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1213,7 +1213,7 @@ static int koala_ted_text_mode_render(screenshot_t *screenshot, const char *file
     BYTE bglum;
     BYTE brdrlum;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1279,7 +1279,7 @@ static int koala_ted_extended_background_mode_render(screenshot_t *screenshot, c
     BYTE bglum;
     BYTE brdrlum;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1340,7 +1340,7 @@ static int koala_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const ch
     BYTE bglum = 0;
     BYTE brdrlum;
     int i, j, k, l;
-    koala_data_t *data = lib_malloc(sizeof(koala_data_t));
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1457,7 +1457,7 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
     BYTE brdrcolor;
     BYTE auxcolor;
     int i, j, k, l;
-    koala_data_t *data;
+    native_data_t *data;
     BYTE xsize;
     BYTE ysize;
 
@@ -1476,7 +1476,7 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    data = lib_malloc(sizeof(koala_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
@@ -1552,7 +1552,7 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
     BYTE fgcolor;
     BYTE bgcolor;
     int i, j, k, l;
-    koala_data_t *data;
+    native_data_t *data;
     BYTE xsize;
     BYTE ysize;
     BYTE invert;
@@ -1595,7 +1595,7 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
 
     charheight = screenshot->bitmap_high_ptr[0];
 
-    data = lib_malloc(sizeof(koala_data_t));
+    data = lib_malloc(sizeof(native_data_t));
 
     data->filename = filename;
 
