@@ -491,7 +491,11 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
             data = native_crop_and_borderize_colormap(data, (BYTE)(regs[0xf] & 7), KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, oversize_handling);
         }
     } else {
-        data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
+        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
+            data = native_scale_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
+        } else {
+            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
+        }
     }
 
     return koala_render_and_save(data);
@@ -515,7 +519,11 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
             data = native_crop_and_borderize_colormap(data, 0, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, oversize_handling);
         }
     } else {
-        data = native_borderize_colormap(data, 0, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
+        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
+            data = native_scale_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
+        } else {
+            data = native_borderize_colormap(data, 0, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
+        }
     }
     return koala_render_and_save(data);
 }

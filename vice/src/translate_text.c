@@ -7715,7 +7715,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_COLOR_TR, "<renk>"},
 #endif
 
-/* gfxoutputdrv/doodledrv.c */
+/* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
 /* en */ {IDCLS_OVERSIZED_HANDLING,    N_("Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_OVERSIZED_HANDLING_DA, "Angiv håndtering af for stort input (0: skalér ned, 1: klip venstre top, 2: klip midt top,  3: klip højre top, 4: klip venstre midt, 5: klip centreret, 6: klip højre midt, 7: klip venstre bund, 8: klip midt bund, 9: klip højre bund)"},
@@ -7730,6 +7730,23 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_OVERSIZED_HANDLING_RU, "Select the way the oversized input should be handled, (0: scale down, 1: crop left top, 2: crop center top,  3: crop right top, 4: crop left center, 5: crop center, 6: crop right center, 7: crop left bottom, 8: crop center bottom, 9:  crop right bottom)"},
 /* sv */ {IDCLS_OVERSIZED_HANDLING_SV, "Välj hur för stor indata skall hanteras, (0: skala ned, 1: visa övre vänstra, 2: visa övre mitten, 3: visa övre högra, 4: visa vänstra mitten, 5: visa mitten, 6: visa högra mitten, 7: visa nedre vänstra, 8: visa nedre mitten, 9: visa nedre högre)"},
 /* tr */ {IDCLS_OVERSIZED_HANDLING_TR, "Büyük girdilerin ele alýnma yöntemini seçin, (0: küçült, 1: sol üstten kýrp, 2: ortalý üstten kýrp,  3: sað üstten kýrp, 4: soldan ortalý kýrp, 5: ortadan kýrp, 6: saðdan ortalý kýrp, 7: sol alttan kýrp, 8: ortalý alttan kýrp, 9:  sað alttan kýrp)"},
+#endif
+
+/* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
+/* en */ {IDCLS_UNDERSIZED_HANDLING,    N_("Select the way the undersized input should be handled, (0: scale up, 1: borderize)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_OVERSIZED_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_OVERSIZED_HANDLING_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_OVERSIZED_HANDLING_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_OVERSIZED_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_OVERSIZED_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_OVERSIZED_HANDLING_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_OVERSIZED_HANDLING_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_OVERSIZED_HANDLING_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_OVERSIZED_HANDLING_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_OVERSIZED_HANDLING_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_OVERSIZED_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_OVERSIZED_HANDLING_TR, ""},  /* fuzzy */
 #endif
 
 /* gfxoutputdrv/doodledrv.c */

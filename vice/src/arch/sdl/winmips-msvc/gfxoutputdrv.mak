@@ -53,6 +53,7 @@ CLEAN :
 	-@erase "$(INTDIR)\gfxoutput.obj"
 	-@erase "$(INTDIR)\iffdrv.obj"
 	-@erase "$(INTDIR)\koaladrv.obj"
+	-@erase "$(INTDIR)\nativedrv.obj"
 	-@erase "$(INTDIR)\pcxdrv.obj"
 	-@erase "$(INTDIR)\ppmdrv.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -107,6 +108,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\gfxoutput.obj" \
 	"$(INTDIR)\iffdrv.obj" \
 	"$(INTDIR)\koaladrv.obj" \
+	"$(INTDIR)\nativedrv.obj" \
 	"$(INTDIR)\pcxdrv.obj" \
 	"$(INTDIR)\ppmdrv.obj" \
 	".\libs\base\Release\base.lib"
@@ -144,6 +146,7 @@ CLEAN :
 	-@erase "$(INTDIR)\gfxoutput.obj"
 	-@erase "$(INTDIR)\iffdrv.obj"
 	-@erase "$(INTDIR)\koaladrv.obj"
+	-@erase "$(INTDIR)\nativedrv.obj"
 	-@erase "$(INTDIR)\pcxdrv.obj"
 	-@erase "$(INTDIR)\ppmdrv.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -198,6 +201,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\gfxoutput.obj" \
 	"$(INTDIR)\iffdrv.obj" \
 	"$(INTDIR)\koaladrv.obj" \
+	"$(INTDIR)\nativedrv.obj" \
 	"$(INTDIR)\pcxdrv.obj" \
 	"$(INTDIR)\ppmdrv.obj" \
 	".\libs\base\Debug\base.lib"
@@ -265,6 +269,12 @@ SOURCE=..\..\..\gfxoutputdrv\iffdrv.c
 SOURCE=..\..\..\gfxoutputdrv\koaladrv.c
 
 "$(INTDIR)\koaladrv.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\gfxoutputdrv\nativedrv.c
+
+"$(INTDIR)\nativedrv.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

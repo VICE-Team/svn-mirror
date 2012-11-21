@@ -1000,16 +1000,19 @@ IDCLS_P_METHOD
 /* gfxoutputdrv/doodledrv.c */
 IDCLS_P_COLOR
 
-/* gfxoutputdrv/doodledrv.c */
+/* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
 IDCLS_OVERSIZED_HANDLING
+
+/* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
+IDCLS_UNDERSIZED_HANDLING
 
 /* gfxoutputdrv/doodledrv.c */
 IDCLS_MULTICOLOR_HANDLING
 
-/* gfxoutputdrv/doodledrv.c */
+/* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
 IDCLS_TED_LUM_HANDLING
 
-/* gfxoutputdrv/doodledrv.c */
+/* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
 IDCLS_CRTC_TEXT_COLOR
 
 /* drive/drive-cmdline-options.c */
