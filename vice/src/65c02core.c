@@ -379,11 +379,6 @@
        LOAD((addr) + reg_y))         \
     : LOAD((addr) + reg_y))
 
-#define LOAD_ABS_Y_RMW(addr) \
-   (LOAD(reg_pc + 2),        \
-    CLK_ADD(CLK, CYCLES_1),  \
-    LOAD((addr) + reg_y))
-
 #define LOAD_INDIRECT(addr) \
    (CLK_ADD(CLK, CYCLES_2), LOAD(LOAD_ZERO_ADDR((addr))))
 
@@ -431,12 +426,6 @@
       CLK_ADD(CLK, CYCLES_1);         \
   } while (0)
 
-#define STORE_ABS_X_RMW(addr, value)  \
-  do {                                \
-      LOAD((addr) + reg_x);           \
-      STORE((addr) + reg_x, (value)); \
-  } while (0)
-
 #define STORE_ABS_X_RRW(addr, value)  \
   do {                                \
       LOAD((addr) + reg_x);           \
@@ -448,21 +437,6 @@
 #define STORE_ABS_Y(addr, value)      \
   do {                                \
       LOAD(reg_pc - 1);               \
-      CLK_ADD(CLK, CYCLES_1);         \
-      STORE((addr) + reg_y, (value)); \
-      CLK_ADD(CLK, CYCLES_1);         \
-  } while (0)
-
-#define STORE_ABS_Y_RMW(addr, value, inc) \
-  do {                                    \
-      LOAD((addr) + reg_y, (value));      \
-      CLK_ADD(CLK, (inc));                \
-      STORE((addr) + reg_y, (value));     \
-  } while (0)
-
-#define STORE_ABS_Y_RRW(addr, value)  \
-  do {                                \
-      LOAD((addr) + reg_y);           \
       CLK_ADD(CLK, CYCLES_1);         \
       STORE((addr) + reg_y, (value)); \
       CLK_ADD(CLK, CYCLES_1);         \
