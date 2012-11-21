@@ -130,14 +130,14 @@ static const cmdline_option_t cmdline_options[] =
 {
     { "-pethre", SET_RESOURCE, 0,
       NULL, NULL, "PETHRE", (resource_value_t)1,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Enable HiRes Emulation Board" },
+      NULL, T_("Enable HiRes Emulation Board") },
     { "+pethre", SET_RESOURCE, 0,
       NULL, NULL, "PETHRE", (resource_value_t)0,
-      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       IDCLS_UNUSED, IDCLS_UNUSED,
-      NULL, "Disable HiRes Emulation Board" },
+      NULL, T_("Disable HiRes Emulation Board") },
     { NULL }
 };
 

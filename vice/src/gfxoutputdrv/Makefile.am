@@ -32,6 +32,7 @@ libgfxoutputdrv_a_SOURCES = \
 	iffdrv.c \
 	iffdrv.h \
 	koaladrv.c \
+	nativedrv.c \
 	nativedrv.h \
 	pcxdrv.c \
 	pcxdrv.h \
