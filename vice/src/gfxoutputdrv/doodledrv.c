@@ -69,6 +69,10 @@
 #define DOODLE_SCREEN_BYTE_WIDTH    DOODLE_SCREEN_PIXEL_WIDTH / 8
 #define DOODLE_SCREEN_BYTE_HEIGHT   DOODLE_SCREEN_PIXEL_HEIGHT / 8
 
+/* define offsets in the doodle file */
+#define VIDEORAM_OFFSET 2
+#define BITMAP_OFFSET 1026
+
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 extern gfxoutputdrv_t doodle_drv;
 extern gfxoutputdrv_t doodle_compressed_drv;
@@ -80,6 +84,7 @@ static gfxoutputdrv_t doodle_compressed_drv;
 /* ------------------------------------------------------------------------ */
 
 static int oversize_handling;
+static int undersize_handling;
 static int multicolor_handling;
 static int ted_lum_handling;
 static int crtc_text_color;
@@ -99,6 +104,20 @@ static int set_oversize_handling(int val, void *param)
         case NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM:
         case NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM:
             oversize_handling = val;
+            break;
+        default:
+            return -1;
+            break;
+    }
+    return 0;
+}
+
+static int set_undersize_handling(int val, void *param)
+{
+    switch (val) {
+        case NATIVE_SS_UNDERSIZE_SCALE:
+        case NATIVE_SS_UNDERSIZE_BORDERIZE:
+            undersize_handling = val;
             break;
         default:
             return -1;
@@ -161,6 +180,8 @@ static int set_crtc_text_color(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "DoodleOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
       &oversize_handling, set_oversize_handling, NULL },
+    { "DoodleUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
+      &undersize_handling, set_undersize_handling, NULL },
     { "DoodleMultiColorHandling", NATIVE_SS_MC2HR_2_COLORS, RES_EVENT_NO, NULL,
       &multicolor_handling, set_multicolor_handling, NULL },
     { "DoodleTEDLumHandling", NATIVE_SS_TED_LUM_IGNORE, RES_EVENT_NO, NULL,
@@ -180,6 +201,11 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "DoodleOversizeHandling", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_OVERSIZED_HANDLING,
+      NULL, NULL },
+    { "-doodleundersize", SET_RESOURCE, 1,
+      NULL, NULL, "DoodleUndersizeHandling", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_METHOD, IDCLS_UNDERSIZED_HANDLING,
       NULL, NULL },
     { "-doodlemc", SET_RESOURCE, 1,
       NULL, NULL, "DoodleMultiColorHandling", NULL,
@@ -263,10 +289,6 @@ static int doodle_render_and_save(native_data_t *source, int compress)
     /* set load addy */
     filebuffer[0] = 0x00;
     filebuffer[1] = 0x5C;
-
-/* define offsets */
-#define VIDEORAM_OFFSET 2
-#define BITMAP_OFFSET 1026
 
     for (i = 0; i < DOODLE_SCREEN_BYTE_HEIGHT; i++) {
         for (j = 0; j < DOODLE_SCREEN_BYTE_WIDTH; j++) {

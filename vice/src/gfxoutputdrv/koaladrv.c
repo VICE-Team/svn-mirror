@@ -69,6 +69,12 @@
 #define KOALA_SCREEN_BYTE_WIDTH    KOALA_SCREEN_PIXEL_WIDTH / 8
 #define KOALA_SCREEN_BYTE_HEIGHT   KOALA_SCREEN_PIXEL_HEIGHT / 8
 
+/* define offsets in the koala file */
+#define BITMAP_OFFSET 2
+#define SCREENRAM_OFFSET 8002
+#define VIDEORAM_OFFSET 9002
+#define BGCOLOR_OFFSET 10002
+
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 extern gfxoutputdrv_t koala_drv;
 #else
@@ -78,6 +84,7 @@ static gfxoutputdrv_t koala_drv;
 /* ------------------------------------------------------------------------ */
 
 static int oversize_handling;
+static int undersize_handling;
 static int ted_lum_handling;
 static int crtc_text_color;
 static BYTE crtc_fgcolor;
@@ -96,6 +103,20 @@ static int set_oversize_handling(int val, void *param)
         case NATIVE_SS_OVERSIZE_CROP_CENTER_BOTTOM:
         case NATIVE_SS_OVERSIZE_CROP_RIGHT_BOTTOM:
             oversize_handling = val;
+            break;
+        default:
+            return -1;
+            break;
+    }
+    return 0;
+}
+
+static int set_undersize_handling(int val, void *param)
+{
+    switch (val) {
+        case NATIVE_SS_UNDERSIZE_SCALE:
+        case NATIVE_SS_UNDERSIZE_BORDERIZE:
+            undersize_handling = val;
             break;
         default:
             return -1;
@@ -141,6 +162,8 @@ static int set_crtc_text_color(int val, void *param)
 static const resource_int_t resources_int[] = {
     { "KoalaOversizeHandling", NATIVE_SS_OVERSIZE_SCALE, RES_EVENT_NO, NULL,
       &oversize_handling, set_oversize_handling, NULL },
+    { "KoalaUndersizeHandling", NATIVE_SS_UNDERSIZE_SCALE, RES_EVENT_NO, NULL,
+      &undersize_handling, set_undersize_handling, NULL },
     { "KoalaTEDLumHandling", NATIVE_SS_TED_LUM_IGNORE, RES_EVENT_NO, NULL,
       &ted_lum_handling, set_ted_lum_handling, NULL },
     { "KoalaCRTCTextColor", NATIVE_SS_CRTC_WHITE, RES_EVENT_NO, NULL,
@@ -158,6 +181,11 @@ static const cmdline_option_t cmdline_options[] = {
       NULL, NULL, "KoalaOversizeHandling", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_METHOD, IDCLS_OVERSIZED_HANDLING,
+      NULL, NULL },
+    { "-koalaundersize", SET_RESOURCE, 1,
+      NULL, NULL, "KoalaUndersizeHandling", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_METHOD, IDCLS_UNDERSIZED_HANDLING,
       NULL, NULL },
     { "-koalatedlum", SET_RESOURCE, 1,
       NULL, NULL, "KoalaTEDLumHandling", NULL,
@@ -265,12 +293,6 @@ static int koala_render_and_save(native_data_t *source)
     /* set load addy */
     filebuffer[0] = 0x00;
     filebuffer[1] = 0x60;
-
-/* define offsets */
-#define BITMAP_OFFSET 2
-#define SCREENRAM_OFFSET 8002
-#define VIDEORAM_OFFSET 9002
-#define BGCOLOR_OFFSET 10002
 
     /* make multicolor */
     koala_multicolorize_colormap(source);
@@ -452,7 +474,6 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename)
 
 static int koala_vic_save(screenshot_t *screenshot, const char *filename)
 {
-
     BYTE *regs = screenshot->video_regs;
     native_data_t *data = native_vic_render(screenshot, filename);
 
