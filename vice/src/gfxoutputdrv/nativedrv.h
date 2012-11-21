@@ -50,6 +50,7 @@ extern void native_smooth_scroll_borderize_colormap(native_data_t *source, BYTE 
 extern native_data_t *native_borderize_colormap(native_data_t *source, BYTE bordercolor, int xsize, int ysize);
 extern native_data_t *native_crop_and_borderize_colormap(native_data_t *source, BYTE bordercolor, int xsize, int ysize, int oversize_handling);
 extern native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize);
+extern native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, BYTE bordercolor, int oversize_handling, int undersize_handling);
 extern native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int color_amount);
 
 extern void vicii_color_to_vicii_bw_colormap(native_data_t *source);

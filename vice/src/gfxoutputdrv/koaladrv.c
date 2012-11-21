@@ -483,19 +483,8 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
 
     vic_color_to_vicii_color_colormap(data);
 
-    if (data->ysize > KOALA_SCREEN_BYTE_HEIGHT) {
-        if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-            data = native_scale_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_crop_and_borderize_colormap(data, (BYTE)(regs[0xf] & 7), KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, oversize_handling);
-        }
-    } else {
-        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
-            data = native_scale_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-        }
+    if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, (BYTE)(regs[0xf] & 7), oversize_handling, undersize_handling);
     }
 
     return koala_render_and_save(data);
@@ -511,19 +500,8 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
         return -1;
     }
 
-    if (data->xsize > KOALA_SCREEN_PIXEL_WIDTH || data->ysize > KOALA_SCREEN_PIXEL_HEIGHT) {
-        if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = native_borderize_colormap(data, 0, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-            data = native_scale_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_crop_and_borderize_colormap(data, 0, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, oversize_handling);
-        }
-    } else {
-        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
-            data = native_scale_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_borderize_colormap(data, 0, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT);
-        }
+    if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
     }
     return koala_render_and_save(data);
 }

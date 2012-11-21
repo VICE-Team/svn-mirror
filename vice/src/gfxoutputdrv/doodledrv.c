@@ -538,19 +538,8 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
 
     vic_color_to_vicii_color_colormap(data);
     
-    if (data->ysize > DOODLE_SCREEN_BYTE_HEIGHT) {
-        if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-            data = native_scale_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_crop_and_borderize_colormap(data, (BYTE)(regs[0xf] & 7), DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, oversize_handling);
-        }
-    } else {
-        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
-            data = native_scale_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-        }
+    if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, (BYTE)(regs[0xf] & 7), oversize_handling, undersize_handling);
     }
 
     if (data->mc_data_present) {
@@ -600,19 +589,8 @@ static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int 
         return -1;
     }
 
-    if (data->xsize > DOODLE_SCREEN_PIXEL_WIDTH || data->ysize > DOODLE_SCREEN_PIXEL_HEIGHT) {
-        if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = native_borderize_colormap(data, 0, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-            data = native_scale_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_crop_and_borderize_colormap(data, 0, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, oversize_handling);
-        }
-    } else {
-        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
-            data = native_scale_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-        } else {
-            data = native_borderize_colormap(data, 0, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
-        }
+    if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
+        data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
     }
     return doodle_render_and_save(data, compress);
 }

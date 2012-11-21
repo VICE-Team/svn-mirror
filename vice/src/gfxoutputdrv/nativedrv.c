@@ -342,6 +342,48 @@ native_data_t *native_scale_colormap(native_data_t *source, int xsize, int ysize
     return dest;
 }
 
+native_data_t *native_resize_colormap(native_data_t *source, int xsize, int ysize, BYTE bordercolor, int oversize_handling, int undersize_handling)
+{
+    native_data_t *data = source;
+    int mc_data_present = source->mc_data_present;
+
+    if (data->xsize > xsize) {
+        if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
+            data = native_scale_colormap(data, xsize, data->ysize);
+        } else {
+            data = native_crop_and_borderize_colormap(data, bordercolor, xsize, data->ysize, oversize_handling);
+        }
+    }
+
+    if (data->xsize < xsize) {
+        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
+            data = native_scale_colormap(data, xsize, data->ysize);
+        } else {
+            data = native_borderize_colormap(data, bordercolor, xsize, data->ysize);
+        }
+    }
+
+    if (data->ysize > ysize) {
+        if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
+            data = native_scale_colormap(data, xsize, ysize);
+        } else {
+            data = native_crop_and_borderize_colormap(data, bordercolor, xsize, ysize, oversize_handling);
+        }
+    }
+
+    if (data->ysize < ysize) {
+        if (undersize_handling == NATIVE_SS_UNDERSIZE_SCALE) {
+            data = native_scale_colormap(data, xsize, ysize);
+        } else {
+            data = native_borderize_colormap(data, bordercolor, xsize, ysize);
+        }
+    }
+
+    data->mc_data_present = mc_data_present;
+
+    return data;
+}
+
 native_color_sort_t *native_sort_colors_colormap(native_data_t *source, int color_amount)
 {
     int i, j;
