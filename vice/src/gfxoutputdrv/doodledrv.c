@@ -63,6 +63,12 @@
  * - add C64DTV specific modes handling
  */
 
+#define DOODLE_SCREEN_PIXEL_WIDTH   320
+#define DOODLE_SCREEN_PIXEL_HEIGHT  200
+
+#define DOODLE_SCREEN_BYTE_WIDTH    DOODLE_SCREEN_PIXEL_WIDTH / 8
+#define DOODLE_SCREEN_BYTE_HEIGHT   DOODLE_SCREEN_PIXEL_HEIGHT / 8
+
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 extern gfxoutputdrv_t doodle_drv;
 extern gfxoutputdrv_t doodle_compressed_drv;
@@ -210,11 +216,11 @@ static void doodle_check_and_correct_cell(native_data_t *source)
     dest->ysize = 8;
     dest->colormap = lib_malloc(8 * 8);
 
-    for (i = 0; i < 25; i++) {
-        for (j = 0; j < 40; j++) {
+    for (i = 0; i < DOODLE_SCREEN_BYTE_HEIGHT; i++) {
+        for (j = 0; j < DOODLE_SCREEN_BYTE_WIDTH; j++) {
             for (k = 0; k < 8; k++) {
                 for (l = 0; l < 8; l++) {
-                    dest->colormap[(k * 8) + l] = source->colormap[(i * 8 * 320) + (j * 8) + (k * 320) + l];
+                    dest->colormap[(k * 8) + l] = source->colormap[(i * 8 * DOODLE_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * DOODLE_SCREEN_PIXEL_WIDTH) + l];
                 }
             }
             colors = native_sort_colors_colormap(dest, 16);
@@ -223,7 +229,7 @@ static void doodle_check_and_correct_cell(native_data_t *source)
                 vicii_color_to_nearest_vicii_color_colormap(dest, colors);
                 for (k = 0; k < 8; k++) {
                     for (l = 0; l < 8; l++) {
-                        source->colormap[(i * 8 * 320) + (j * 8) + (k * 320) + l] = dest->colormap[(k * 8) + l];
+                        source->colormap[(i * 8 * DOODLE_SCREEN_PIXEL_WIDTH) + (j * 8) + (k * DOODLE_SCREEN_PIXEL_WIDTH) + l] = dest->colormap[(k * 8) + l];
                     }
                 }
             }
@@ -262,13 +268,13 @@ static int doodle_render_and_save(native_data_t *source, int compress)
 #define VIDEORAM_OFFSET 2
 #define BITMAP_OFFSET 1026
 
-    for (i = 0; i < 25; i++) {
-        for (j = 0; j < 40; j++) {
+    for (i = 0; i < DOODLE_SCREEN_BYTE_HEIGHT; i++) {
+        for (j = 0; j < DOODLE_SCREEN_BYTE_WIDTH; j++) {
             bgcolor = 255;
             for (k = 0; k < 8; k++) {
                 filebuffer[BITMAP_OFFSET + m] = 0;
                 for (l = 0; l < 8; l++) {
-                    colorbyte = source->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + l];
+                    colorbyte = source->colormap[(i * DOODLE_SCREEN_PIXEL_WIDTH * 8) + (j * 8) + (k * DOODLE_SCREEN_PIXEL_WIDTH) + l];
                     if (k == 0 && l == 0) {
                         fgcolor = colorbyte;
                     }
@@ -510,15 +516,15 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
 
     vic_color_to_vicii_color_colormap(data);
     
-    if (data->ysize > 25) {
+    if (data->ysize > DOODLE_SCREEN_BYTE_HEIGHT) {
         if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), 320, 200);
-            data = native_scale_colormap(data, 320, 200);
+            data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
+            data = native_scale_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
         } else {
-            data = native_crop_and_borderize_colormap(data, (BYTE)(regs[0xf] & 7), 320, 200, oversize_handling);
+            data = native_crop_and_borderize_colormap(data, (BYTE)(regs[0xf] & 7), DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, oversize_handling);
         }
     } else {
-        data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), 320, 200);
+        data = native_borderize_colormap(data, (BYTE)(regs[0xf] & 7), DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
     }
 
     if (data->mc_data_present) {
@@ -568,15 +574,15 @@ static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int 
         return -1;
     }
 
-    if (data->xsize > 320 || data->ysize > 200) {
+    if (data->xsize > DOODLE_SCREEN_PIXEL_WIDTH || data->ysize > DOODLE_SCREEN_PIXEL_HEIGHT) {
         if (oversize_handling == NATIVE_SS_OVERSIZE_SCALE) {
-            data = native_borderize_colormap(data, 0, 320, 200);
-            data = native_scale_colormap(data, 320, 200);
+            data = native_borderize_colormap(data, 0, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
+            data = native_scale_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
         } else {
-            data = native_crop_and_borderize_colormap(data, 0, 320, 200, oversize_handling);
+            data = native_crop_and_borderize_colormap(data, 0, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, oversize_handling);
         }
     } else {
-        data = native_borderize_colormap(data, 0, 320, 200);
+        data = native_borderize_colormap(data, 0, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT);
     }
     return doodle_render_and_save(data, compress);
 }
