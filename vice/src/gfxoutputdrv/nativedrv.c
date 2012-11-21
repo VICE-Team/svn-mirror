@@ -1095,7 +1095,6 @@ native_data_t *native_ted_extended_background_mode_render(screenshot_t *screensh
     return data;
 }
 
-/* TODO: figure out where the luminances are for hires bitmap mode */
 native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const char *filename)
 {
     BYTE *regs = screenshot->video_regs;
@@ -1119,7 +1118,9 @@ native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, con
     for (i = 0; i < 25; i++) {
         for (j = 0; j < 40; j++) {
             fgcolor = (screenshot->screen_ptr[(i * 40) + j] & 0xf0) >> 4;
+            fgcolor |= (screenshot->screen_ptr[(i * 40) + j] & 0x70);
             bgcolor = screenshot->screen_ptr[(i * 40) + j] & 0xf;
+            bgcolor |= ((screenshot->screen_ptr[(i * 40) + j] & 0x7) << 4);
             for (k = 0; k < 8; k++) {
                 bitmap = screenshot->bitmap_ptr[(i * 40 * 8) + j + (k * 40)];
                 for (l = 0; l < 8; l++) {
