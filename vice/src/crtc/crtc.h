@@ -74,5 +74,6 @@ extern int crtc_offscreen(void);
 extern void crtc_update_window(void);
 extern void crtc_update_renderer(void);
 
-#endif
+extern BYTE *crtc_get_active_bitmap(void);
 
+#endif

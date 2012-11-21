@@ -649,3 +649,17 @@ const char *machine_get_name(void)
 const char **csidmodel = NULL;
 void psid_init_driver(void) {}
 #endif
+
+/* ------------------------------------------------------------------------- */
+/* native screenshot support */
+
+BYTE *crtc_get_active_bitmap(void)
+{
+    BYTE *retval = NULL;
+
+    retval = petdww_crtc_get_active_bitmap();
+
+    /* left open for future expansion of boards with their own ram */
+
+    return retval;
+}

@@ -801,7 +801,9 @@ void crtc_screenshot(screenshot_t *screenshot)
     screenshot->video_regs = crtc.regs;
     screenshot->screen_ptr = crtc.screen_base;
     screenshot->chargen_ptr = crtc.chargen_base + crtc.chargen_rel;
-    screenshot->bitmap_ptr = NULL;
+
+    /* Use the bitmap_ptr for possibly enabled hires graphics adapters (dww/hre) */
+    screenshot->bitmap_ptr = crtc_get_active_bitmap();
 
     /* Use the bitmap_low_ptr as indicator for the amount of hw columns */
     if (crtc.hw_cols & 2) {

@@ -1261,40 +1261,44 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
 
 /* ------------------------------------------------------------------------ */
 
+#define MA_WIDTH        64
+#define MA_LO           (MA_WIDTH - 1)          /* 6 bits */
+#define MA_HI           (~MA_LO)
+
 native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename, int crtc_fgcolor)
 {
     BYTE *regs = screenshot->video_regs;
+    BYTE *petdww_ram = screenshot->bitmap_ptr;
     BYTE bitmap;
     BYTE fgcolor;
     BYTE bgcolor;
-    int i, j, k, l;
+    int x, y, k, l;
     native_data_t *data;
     BYTE xsize;
     BYTE ysize;
     BYTE invert;
     BYTE charheight;
-    int shift1;
-    int shift2;
+    int shift;
     int shiftand;
+    int chars = 1;
+    int hre = 0;
+    int scr_rel;
 
     switch (screenshot->bitmap_low_ptr[0]) {
         default:
         case 40:
             xsize = regs[0x01];
-            shift1 = (regs[0x0c] & 1) ? 256 : 0;
-            shift2 = (regs[0x0c] & 2) ? 512 : 0;
+            shift = ((regs[0x0c] & 3) << 8) + regs[0x0d];
             shiftand = 0x3ff;
             break;
         case 60:
             xsize = regs[0x01];
-            shift1 = (regs[0x0c] & 1) ? 256 : 0;
-            shift2 = (regs[0x0c] & 2) ? 512 : 0;
+            shift = ((regs[0x0c] & 3) << 8) + regs[0x0d];
             shiftand = 0x7ff;
             break;
         case 80:
             xsize = regs[0x01] << 1;
-            shift1 = (regs[0x0c] & 1) ? 512 : 0;
-            shift2 = (regs[0x0c] & 2) ? 1024 : 0;
+            shift = ((regs[0x0c] & 3) << 9) + regs[0x0d];
             shiftand = 0x7ff;
             break;
     }
@@ -1319,23 +1323,61 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
 
     data->colormap = lib_malloc(data->xsize * data->ysize);
 
+    if (!invert) {	/* On 8296 only! */
+        hre = 1;
+        chars = 0;
+        invert = 1;
+    }
+
     bgcolor = 0;
     fgcolor = crtc_fgcolor;
-    for (i = 0; i < ysize; i++) {
-        for (j = 0; j < xsize; j++) {
+    scr_rel = shift;
+
+    /*
+     * Assumes screenshot->screen_ptr points to 0x8000 on a PET,
+     * not taking the CRTC registers into account
+     * (since then they would be added twice)
+     */
+    for (y = 0; y < ysize; y++) {
+        for (x = 0; x < xsize; x++) {
             for (k = 0; k < charheight; k++) {
-                bitmap = screenshot->chargen_ptr[(screenshot->screen_ptr[((i * xsize) + j + shift1 + shift2) & shiftand] *  16) + k];
+                if (hre) {
+                    int ma_hi = scr_rel & MA_HI;    /* MA<9...6> */
+                    int ma_lo = scr_rel & MA_LO;    /* MA<5...0> */
+                    /* Form <MA 9-6><RA 2-0><MA 5-0> */
+                    int addr = (ma_hi << 3) + (k << 6) + ma_lo;
+                    bitmap = screenshot->screen_ptr[addr];
+                } else {
+                    bitmap = 0;
+                    if (chars) {
+                        BYTE chr = screenshot->screen_ptr[scr_rel & shiftand];
+                        bitmap = screenshot->chargen_ptr[(chr * 16) + k];
+                    }
+                    if (petdww_ram) {
+                        int addr = (k * 1024) + scr_rel;
+                        BYTE b = petdww_ram[addr];
+
+                        /* now reverse the bits...
+                           http://graphics.stanford.edu/~seander/bithacks.html#ReverseByteWith32Bits */
+                        b = ((b * 0x0802LU & 0x22110LU) | (b * 0x8020LU & 0x88440LU)) * 0x10101LU >> 16;
+                        bitmap |= (b & 0xFF);
+                    }
+                }
                 if (!invert) {
                     bitmap = ~bitmap;
                 }
                 for (l = 0; l < 8; l++) {
+                    int color;
+
                     if (bitmap & (1 << (7 - l))) {
-                        data->colormap[(i * data->xsize * charheight) + (j * 8) + (k * data->xsize) + l] = fgcolor;
+                        color = fgcolor;
                     } else {
-                        data->colormap[(i * data->xsize * charheight) + (j * 8) + (k * data->xsize) + l] = bgcolor;
+                        color = bgcolor;
                     }
+                    data->colormap[(y * data->xsize * charheight) + (x * 8) + (k * data->xsize) + l] = color;
                 }
             }
+            scr_rel++;
         }
     }
     return data;

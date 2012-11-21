@@ -528,3 +528,11 @@ const char *machine_get_name(void)
 const char **csidmodel = NULL;
 void psid_init_driver(void) {}
 #endif
+
+/* ------------------------------------------------------------------------- */
+/* native screenshot support */
+
+BYTE *crtc_get_active_bitmap(void)
+{
+    return NULL;
+}

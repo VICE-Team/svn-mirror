@@ -73,6 +73,8 @@ extern int petdww_snapshot_write_module(struct snapshot_s *);
 extern int petdww_mem_at_9000(void);
 extern int petdwwpia_dump(void);
 
+extern BYTE *dww_crtc_get_active_bitmap(void);
+
 #endif
 
 

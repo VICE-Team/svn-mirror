@@ -59,7 +59,6 @@
  * - add TED multi-color bitmap mode
  * - add VIC mixed mode handling
  * - add possible CRTC mixed mode handling
- * - add PET CRTC DWW handling
  * - add C64DTV specific modes handling
  */
 

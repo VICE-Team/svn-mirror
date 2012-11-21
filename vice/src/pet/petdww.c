@@ -377,6 +377,17 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
 }
 
 /* ------------------------------------------------------------------------- */
+/* native screenshot support */
+
+BYTE *petdww_crtc_get_active_bitmap(void)
+{
+    if (petdww_enabled) {
+        return petdww_ram;
+    }
+    return NULL;
+}
+
+/* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
 
 #define MYPIA_NAME      "DWWPIA"
