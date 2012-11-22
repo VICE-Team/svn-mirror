@@ -217,7 +217,7 @@ void crtc_store_hre(WORD addr, BYTE value)
                 }
                 reg_E888 = value;
             } else {
-                printf("HRE: $%04X <- %02X\n", addr, value);
+                //printf("HRE: $%04X <- %02X\n", addr, value);
             }
         } else if (addr & 0x0001) {
             /*
@@ -228,16 +228,16 @@ void crtc_store_hre(WORD addr, BYTE value)
              */
             if (crtc.regno == 0x0c) {
                 if (value & CRTC_MA12) {     // off
-                    printf("HRE: Hi-Res off: start=%02X\n", value);
+                    //printf("HRE: Hi-Res off: start=%02X\n", value);
                     crtc_set_hires_draw_callback(NULL);
                 } else {                     // on
-                    printf("HRE: Hi-Res  on: start=%02X\n", value);
+                    //printf("HRE: Hi-Res  on: start=%02X\n", value);
                     crtc_set_hires_draw_callback(pethre_DRAW);
                 }
             }
         }
     } else {
-        printf("HRE: not enabled... %4x %2x\n", addr, value);
+        //printf("HRE: not enabled... %4x %2x\n", addr, value);
     }
 }
 

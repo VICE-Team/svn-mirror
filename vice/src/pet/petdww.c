@@ -222,8 +222,6 @@ static int petdww_activate(void)
 
     petdww_ram = lib_realloc((void *)petdww_ram, (size_t)PET_DWW_RAM_SIZE);
 
-    /* Clear newly allocated RAM.  */
-    ram_init(petdww_ram, PET_DWW_RAM_SIZE); 
 
     log_message(petdww_log, "%dKB of hi-res RAM installed.", PET_DWW_RAM_SIZE >> 10);
 
@@ -244,7 +242,9 @@ static int petdww_activate(void)
         log_message(petdww_log, "Reading PET DWW image %s.", petdww_filename);
     }
 
+    petdww_powerup();
     petdww_reset();
+
     return 0;
 }
 
