@@ -377,17 +377,6 @@ void petdww_restore_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *me
 }
 
 /* ------------------------------------------------------------------------- */
-/* native screenshot support */
-
-BYTE *petdww_crtc_get_active_bitmap(void)
-{
-    if (petdww_enabled) {
-        return petdww_ram;
-    }
-    return NULL;
-}
-
-/* ------------------------------------------------------------------------- */
 /* Renaming exported functions */
 
 #define MYPIA_NAME      "DWWPIA"
@@ -716,7 +705,8 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
 {
     if (ymod8 < 8 && xstart < xend) {
         int k = ymod8 * 1024;
-        BYTE *screen_rel = petdww_ram + k + scr_rel;
+        BYTE *screen_rel = petdww_ram + k + (scr_rel & 0x03FF);
+        BYTE *screen_end = petdww_ram + k + 1024;
         DWORD *pw = (DWORD *)p;
         int i;
         int d;
@@ -732,10 +722,17 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
          *
          * (The "extra charrom" option isn't implemented at all,
          * since I have no idea how it worked.)
+         *
+         * The (scr_rel & 0x03FF) and screen_end above help when the
+         * start of the screen has been moved up, and at some point we
+         * need to wrap around to the beginning.
          */
 
         if (charrom_on) {
             for (i = xstart; i < xend; i++) {
+                if (screen_rel >= screen_end) {
+                    screen_rel = petdww_ram + k;
+                }
                 d = *screen_rel++;
 
 #if DWW_DEBUG_GFX
@@ -746,6 +743,9 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
             }
         } else {
             for (i = xstart; i < xend; i++) {
+                if (screen_rel >= screen_end) {
+                    screen_rel = petdww_ram + k;
+                }
                 d = *screen_rel++;
 
                 *pw++  = dww_dwg_table[d & 0x0f];
@@ -759,7 +759,8 @@ static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
 {
     if (ymod8 < 8 && xstart < xend) {
         int k = ymod8 * 1024;
-        BYTE *screen_rel = petdww_ram + k + scr_rel / 2;
+        BYTE *screen_rel = petdww_ram + k + ((scr_rel / 2) & 0x03FF);
+        BYTE *screen_end = petdww_ram + k + 1024;
         DWORD *pw = (DWORD *)p;
         int i;
         int d;
@@ -778,10 +779,17 @@ static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
          *
          * (The "extra charrom" option isn't implemented at all,
          * since I have no idea how it worked.)
+         *
+         * The (scr_rel & 0x03FF) and screen_end above help when the
+         * start of the screen has been moved up, and at some point we
+         * need to wrap around to the beginning.
          */
 
         if (charrom_on) {
             for (i = xstart; i < xend; i++) {
+                if (screen_rel >= screen_end) {
+                    screen_rel = petdww_ram + k;
+                }
                 d = *screen_rel++;
 
 #if DWW_DEBUG_GFX
@@ -794,6 +802,9 @@ static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
             }
         } else {
             for (i = xstart; i < xend; i++) {
+                if (screen_rel >= screen_end) {
+                    screen_rel = petdww_ram + k;
+                }
                 d = *screen_rel++;
 
                 *pw++  = dww_dwg_table_w0[d & 0x0f];
@@ -824,6 +835,17 @@ static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ym
         *pw++  = 0;
         *pw++  = 0;
     }
+}
+
+/* ------------------------------------------------------------------------- */
+/* native screenshot support */
+
+BYTE *petdww_crtc_get_active_bitmap(void)
+{
+    if (petdww_enabled && !hires_off) {
+        return petdww_ram;
+    }
+    return NULL;
 }
 
 /* ------------------------------------------------------------------------- */
