@@ -579,7 +579,7 @@ void vdc_screenshot(screenshot_t *screenshot)
     screenshot->bitmap_ptr = NULL; /* todo */
     screenshot->bitmap_low_ptr = NULL;
     screenshot->bitmap_high_ptr = NULL;
-    screenshot->color_ram_ptr = NULL; /* todo */
+    screenshot->color_ram_ptr = vdc.ram + vdc.attribute_adr;
 }
 
 void vdc_async_refresh(struct canvas_refresh_s *refresh)

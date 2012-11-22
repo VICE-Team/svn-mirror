@@ -61,6 +61,8 @@ extern void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum
 
 extern void vic_color_to_vicii_color_colormap(native_data_t *source);
 
+extern void vdc_color_to_vicii_color_colormap(native_data_t *source);
+
 extern native_data_t *native_vicii_text_mode_render(screenshot_t *screenshot, const char *filename);
 extern native_data_t *native_vicii_extended_background_mode_render(screenshot_t *screenshot, const char *filename);
 extern native_data_t *native_vicii_multicolor_text_mode_render(screenshot_t *screenshot, const char *filename);
@@ -75,5 +77,7 @@ extern native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *scr
 extern native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename);
 
 extern native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename, int crtc_fgcolor);
+
+extern native_data_t *native_vdc_text_mode_render(screenshot_t *screenshot, const char *filename);
 
 #endif

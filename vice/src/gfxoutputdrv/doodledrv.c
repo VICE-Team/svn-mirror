@@ -598,14 +598,33 @@ static int doodle_crtc_save(screenshot_t *screenshot, const char *filename, int 
 
 /* ------------------------------------------------------------------------ */
 
+static int doodle_vdc_save(screenshot_t *screenshot, const char *filename, int compress)
+{
+    BYTE *regs = screenshot->video_regs;
+    native_data_t *data = NULL;
+
+    if (regs[25] & 0x80) {
+        ui_error("VDC bitmap mode screenshot saving not implemented yet");
+        return -1;
+    } else {
+        data = native_vdc_text_mode_render(screenshot, filename);
+        vdc_color_to_vicii_color_colormap(data);
+        if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
+            data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
+        }
+    }
+    return doodle_render_and_save(data, compress);
+}
+
+/* ------------------------------------------------------------------------ */
+
 static int doodledrv_save(screenshot_t *screenshot, const char *filename)
 {
     if (!(strcmp(screenshot->chipid, "VICII"))) {
         return doodle_vicii_save(screenshot, filename, 0);
     }
     if (!(strcmp(screenshot->chipid, "VDC"))) {
-        ui_error("This screen saver is a WIP, it doesn't work for the VDC chip (yet)");
-        return -1;
+        return doodle_vdc_save(screenshot, filename, 0);
     }
     if (!(strcmp(screenshot->chipid, "CRTC"))) {
         return doodle_crtc_save(screenshot, filename, 0);
@@ -626,8 +645,7 @@ static int doodledrv_compressed_save(screenshot_t *screenshot, const char *filen
         return doodle_vicii_save(screenshot, filename, 1);
     }
     if (!(strcmp(screenshot->chipid, "VDC"))) {
-        ui_error("This screen saver is a WIP, it doesn't work for the VDC chip (yet)");
-        return -1;
+        return doodle_vdc_save(screenshot, filename, 1);
     }
     if (!(strcmp(screenshot->chipid, "CRTC"))) {
         return doodle_crtc_save(screenshot, filename, 1);
