@@ -55,6 +55,9 @@ static TUI_MENU_CALLBACK(write_doodle_compressed_screenshot_callback);
 static TUI_MENU_CALLBACK(koala_file_name_callback);
 static TUI_MENU_CALLBACK(write_koala_screenshot_callback);
 
+static TUI_MENU_CALLBACK(koala_compressed_file_name_callback);
+static TUI_MENU_CALLBACK(write_koala_compressed_screenshot_callback);
+
 static TUI_MENU_CALLBACK(pcx_file_name_callback);
 static TUI_MENU_CALLBACK(write_pcx_screenshot_callback);
 
@@ -125,6 +128,18 @@ static tui_menu_item_def_t write_koala_screenshot_menu_def[] = {
     { "_Do it!",
       "Save KOALA screenshot with the specified name",
       write_koala_screenshot_callback, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { NULL }
+};
+
+static tui_menu_item_def_t write_koala_compressed_screenshot_menu_def[] = {
+    { "_File name:",
+      "Specify compressed KOALA screenshot file name",
+      koala_compressed_file_name_callback, NULL, 30,
+      TUI_MENU_BEH_CONTINUE, NULL, NULL },
+    { "_Do it!",
+      "Save compressed KOALA screenshot with the specified name",
+      write_koala_compressed_screenshot_callback, NULL, 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { NULL }
 };
@@ -224,6 +239,10 @@ tui_menu_item_def_t ui_screenshot_menu_def[] = {
       "Write a KOALA screenshot file",
       NULL, NULL, 0,
       TUI_MENU_BEH_CONTINUE, write_koala_screenshot_menu_def, NULL },
+    { "_Write compressed KOALA Screenshot",
+      "Write a compressed KOALA screenshot file",
+      NULL, NULL, 0,
+      TUI_MENU_BEH_CONTINUE, write_koala_compressed_screenshot_menu_def, NULL },
 #ifdef HAVE_GIF
     { "W_rite GIF Screenshot",
       "Write a GIF screenshot file",
@@ -358,6 +377,14 @@ static TUI_MENU_CALLBACK(koala_file_name_callback)
     return file_name;
 }
 
+static TUI_MENU_CALLBACK(koala_compressed_file_name_callback)
+{
+    if (been_activated) {
+        return screenshot_filename("Save compressed KOALA screenshot", "Save compressed KOALA screenshot file", "*.gg", "gg");
+    }
+    return file_name;
+}
+
 static TUI_MENU_CALLBACK(pcx_file_name_callback)
 {
     if (been_activated) {
@@ -457,6 +484,14 @@ static TUI_MENU_CALLBACK(write_koala_screenshot_callback)
 {
     if (been_activated) {
         return screenshot_save_file("KOALA", "Cannot save KOALA screenshot.", "KOALA screenshot save successfully.");
+    }
+    return NULL;
+}
+
+static TUI_MENU_CALLBACK(write_koala_compressed_screenshot_callback)
+{
+    if (been_activated) {
+        return screenshot_save_file("KOALA_COMPRESSED", "Cannot save compressed KOALA screenshot.", "Compressed KOALA screenshot save successfully.");
     }
     return NULL;
 }

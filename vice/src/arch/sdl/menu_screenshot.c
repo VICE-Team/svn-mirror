@@ -85,6 +85,10 @@ const ui_menu_entry_t screenshot_menu[] = {
       MENU_ENTRY_DIALOG,
       save_screenshot_callback,
       (ui_callback_data_t)"KOALA" },
+    { "Save compressed KOALA screenshot",
+      MENU_ENTRY_DIALOG,
+      save_screenshot_callback,
+      (ui_callback_data_t)"KOALA_COMPRESSED" },
 #ifdef HAVE_GIF
     { "Save GIF screenshot",
       MENU_ENTRY_DIALOG,

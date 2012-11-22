@@ -74,8 +74,10 @@
 
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 extern gfxoutputdrv_t koala_drv;
+extern gfxoutputdrv_t koala_compressed_drv;
 #else
 static gfxoutputdrv_t koala_drv;
+static gfxoutputdrv_t koala_compressed_drv;
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -265,11 +267,12 @@ static void koala_check_and_correct_cell(native_data_t *source, BYTE bgcolor)
     lib_free(dest);
 }
 
-static int koala_render_and_save(native_data_t *source)
+static int koala_render_and_save(native_data_t *source, int compress)
 {
     FILE *fd;
     char *filename_ext = NULL;
     BYTE *filebuffer = NULL;
+    BYTE *result = NULL;
     int i, j, k, l;
     int m = 0;
     int n = 0;
@@ -345,7 +348,11 @@ static int koala_render_and_save(native_data_t *source)
     }
     filebuffer[BGCOLOR_OFFSET] = bgcolor;
 
-    filename_ext = util_add_extension_const(source->filename, koala_drv.default_extension);
+    if (compress) {
+        filename_ext = util_add_extension_const(source->filename, koala_compressed_drv.default_extension);
+    } else {
+        filename_ext = util_add_extension_const(source->filename, koala_drv.default_extension);
+    }
 
     fd = fopen(filename_ext, MODE_WRITE);
     if (fd == NULL) {
@@ -353,8 +360,44 @@ static int koala_render_and_save(native_data_t *source)
     }
 
     if (retval != -1) {
-        if (fwrite(filebuffer, 10003, 1, fd) < 1) {
-            retval = -1;
+        if (compress) {
+            result = lib_malloc(10003);
+            j = 0;
+            i = 2;
+            result[j++] = 0;
+            result[j++] = 0x60;
+            while (i < 9999) {
+                if (filebuffer[i] == filebuffer[i + 1] && filebuffer[i] == filebuffer[i + 2] && filebuffer[i] == filebuffer[i + 3]) {
+                    result[j++] = 0xFE;
+                    result[j] = filebuffer[i];
+                    k = 4;
+                    i += 4;
+                    while (k != 0xFF && i < 10003 && result[j] == filebuffer[i]) {
+                        i++;
+                        k++;
+                    }
+                    j++;
+                    result[j++] = k;
+                } else {
+                    if (filebuffer[i] == 0xFE) {
+                        result[j++] = 0xFE;
+                        result[j++] = 0xFE;
+                        result[j++] = 0x01;
+                    } else {
+                        result[j++] = filebuffer[i++];
+                    }
+                }
+            }
+            while (i < 10003) {
+                result[j++] = filebuffer[i++];
+            }
+            if (fwrite(result, j, 1, fd) < 1) {
+                retval = -1;
+            }
+        } else {
+            if (fwrite(filebuffer, 10003, 1, fd) < 1) {
+                retval = -1;
+            }
         }
     }
 
@@ -366,13 +409,14 @@ static int koala_render_and_save(native_data_t *source)
     lib_free(source);
     lib_free(filename_ext);
     lib_free(filebuffer);
+    lib_free(result);
 
     return retval;
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
+static int koala_vicii_save(screenshot_t *screenshot, const char *filename, int compress)
 {
     BYTE *regs = screenshot->video_regs;
     BYTE mc;
@@ -395,23 +439,23 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
     switch (mc << 2 | eb << 1 | bm) {
         case 0:    /* normal text mode */
             data = native_vicii_text_mode_render(screenshot, filename);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 1:    /* hires bitmap mode */
             data = native_vicii_hires_bitmap_mode_render(screenshot, filename);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 2:    /* extended background mode */
             data = native_vicii_extended_background_mode_render(screenshot, filename);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 4:    /* multicolor text mode */
             data = native_vicii_multicolor_text_mode_render(screenshot, filename);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 5:    /* multicolor bitmap mode */
             data = native_vicii_multicolor_bitmap_mode_render(screenshot, filename);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
@@ -423,7 +467,7 @@ static int koala_vicii_save(screenshot_t *screenshot, const char *filename)
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_ted_save(screenshot_t *screenshot, const char *filename)
+static int koala_ted_save(screenshot_t *screenshot, const char *filename, int compress)
 {
     BYTE *regs = screenshot->video_regs;
     BYTE mc;
@@ -439,17 +483,17 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename)
         case 0:    /* normal text mode */
             data = native_ted_text_mode_render(screenshot, filename);
             ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 1:    /* hires bitmap mode */
             data = native_ted_hires_bitmap_mode_render(screenshot, filename);
             ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 2:    /* extended background mode */
             data = native_ted_extended_background_mode_render(screenshot, filename);
             ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data);
+            return koala_render_and_save(data, compress);
             break;
         case 4:    /* multicolor text mode */
             ui_error("This screen saver is a WIP, it doesn't support multicolor text mode (yet)");
@@ -458,8 +502,7 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename)
         case 5:    /* multicolor bitmap mode */
             data = native_ted_multicolor_bitmap_mode_render(screenshot, filename);
             ted_color_to_vicii_color_colormap(data, ted_lum_handling);
-            return koala_render_and_save(data);
-            return -1;
+            return koala_render_and_save(data, compress);
             break;
         default:   /* illegal modes (3, 6 and 7) */
             ui_error("Illegal mode, no saving will be done");
@@ -471,7 +514,7 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename)
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_vic_save(screenshot_t *screenshot, const char *filename)
+static int koala_vic_save(screenshot_t *screenshot, const char *filename, int compress)
 {
     BYTE *regs = screenshot->video_regs;
     native_data_t *data = native_vic_render(screenshot, filename);
@@ -486,12 +529,12 @@ static int koala_vic_save(screenshot_t *screenshot, const char *filename)
         data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, (BYTE)(regs[0xf] & 7), oversize_handling, undersize_handling);
     }
 
-    return koala_render_and_save(data);
+    return koala_render_and_save(data, compress);
 }
 
 /* ------------------------------------------------------------------------ */
 
-static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
+static int koala_crtc_save(screenshot_t *screenshot, const char *filename, int compress)
 {
     native_data_t *data = native_crtc_render(screenshot, filename, crtc_fgcolor);
 
@@ -502,7 +545,7 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
     if (data->xsize != KOALA_SCREEN_PIXEL_WIDTH || data->ysize != KOALA_SCREEN_PIXEL_HEIGHT) {
         data = native_resize_colormap(data, KOALA_SCREEN_PIXEL_WIDTH, KOALA_SCREEN_PIXEL_HEIGHT, 0, oversize_handling, undersize_handling);
     }
-    return koala_render_and_save(data);
+    return koala_render_and_save(data, compress);
 }
 
 /* ------------------------------------------------------------------------ */
@@ -510,20 +553,42 @@ static int koala_crtc_save(screenshot_t *screenshot, const char *filename)
 static int koaladrv_save(screenshot_t *screenshot, const char *filename)
 {
     if (!(strcmp(screenshot->chipid, "VICII"))) {
-        return koala_vicii_save(screenshot, filename);
+        return koala_vicii_save(screenshot, filename, 0);
     }
     if (!(strcmp(screenshot->chipid, "VDC"))) {
         ui_error("This screen saver is a WIP, it doesn't work for the VDC chip (yet)");
         return -1;
     }
     if (!(strcmp(screenshot->chipid, "CRTC"))) {
-        return koala_crtc_save(screenshot, filename);
+        return koala_crtc_save(screenshot, filename, 0);
     }
     if (!(strcmp(screenshot->chipid, "TED"))) {
-        return koala_ted_save(screenshot, filename);
+        return koala_ted_save(screenshot, filename, 0);
     }
     if (!(strcmp(screenshot->chipid, "VIC"))) {
-        return koala_vic_save(screenshot, filename);
+        return koala_vic_save(screenshot, filename, 0);
+    }
+    ui_error("Unknown graphics chip");
+    return -1;
+}
+
+static int koaladrv_compressed_save(screenshot_t *screenshot, const char *filename)
+{
+    if (!(strcmp(screenshot->chipid, "VICII"))) {
+        return koala_vicii_save(screenshot, filename, 1);
+    }
+    if (!(strcmp(screenshot->chipid, "VDC"))) {
+        ui_error("This screen saver is a WIP, it doesn't work for the VDC chip (yet)");
+        return -1;
+    }
+    if (!(strcmp(screenshot->chipid, "CRTC"))) {
+        return koala_crtc_save(screenshot, filename, 1);
+    }
+    if (!(strcmp(screenshot->chipid, "TED"))) {
+        return koala_ted_save(screenshot, filename, 1);
+    }
+    if (!(strcmp(screenshot->chipid, "VIC"))) {
+        return koala_vic_save(screenshot, filename, 1);
     }
     ui_error("Unknown graphics chip");
     return -1;
@@ -549,7 +614,28 @@ static gfxoutputdrv_t koala_drv =
 #endif
 };
 
+static gfxoutputdrv_t koala_compressed_drv =
+{
+    "KOALA_COMPRESSED",
+    "C64 compressed koala screenshot",
+    "gg",
+    NULL, /* formatlist */
+    NULL,
+    NULL,
+    NULL,
+    NULL,
+    koaladrv_compressed_save,
+    NULL,
+    NULL,
+    NULL,
+    NULL
+#ifdef FEATURE_CPUMEMHISTORY
+    ,NULL
+#endif
+};
+
 void gfxoutput_init_koala(void)
 {
     gfxoutput_register(&koala_drv);
+    gfxoutput_register(&koala_compressed_drv);
 }
