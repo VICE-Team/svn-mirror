@@ -70,6 +70,7 @@ extern native_data_t *native_vicii_multicolor_bitmap_mode_render(screenshot_t *s
 extern native_data_t *native_ted_text_mode_render(screenshot_t *screenshot, const char *filename);
 extern native_data_t *native_ted_extended_background_mode_render(screenshot_t *screenshot, const char *filename);
 extern native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, const char *filename);
+extern native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot, const char *filename);
 
 extern native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename);
 

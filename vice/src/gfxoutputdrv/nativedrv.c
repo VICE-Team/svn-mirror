@@ -1139,6 +1139,66 @@ native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, con
     return data;
 }
 
+native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot, const char *filename)
+{
+    BYTE *regs = screenshot->video_regs;
+    BYTE bitmap;
+    BYTE color0;
+    BYTE color1;
+    BYTE color2;
+    BYTE color3;
+    BYTE brdrcolor;
+    int i, j, k, l;
+    native_data_t *data = lib_malloc(sizeof(native_data_t));
+
+    data->filename = filename;
+    data->mc_data_present = 1;
+
+    data->xsize = 320;
+    data->ysize = 200;
+    data->colormap = lib_malloc(320 * 200);
+
+    brdrcolor = regs[0x19] & 0x7f;
+
+    color0 = regs[0x15];
+    color3 = regs[0x16];
+    for (i = 0; i < 25; i++) {
+        for (j = 0; j < 40; j++) {
+            color1 = (screenshot->screen_ptr[(i * 40) + j] & 0xf0) >> 4;
+            color1 |= (screenshot->screen_ptr[(i * 40) + j] & 0x70);
+            color2 = screenshot->screen_ptr[(i * 40) + j] & 0xf;
+            color2 |= ((screenshot->screen_ptr[(i * 40) + j] & 0x7) << 4);
+            for (k = 0; k < 8; k++) {
+                bitmap = screenshot->bitmap_ptr[(i * 40 * 8) + j + (k * 40)];
+                for (l = 0; l < 4; l++) {
+                    switch ((bitmap & (3 << ((3 - l) * 2))) >> ((3 - l) * 2)) {
+                        case 0:
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2)] = color0;
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2) + 1] = color0;
+                            break;
+                        case 1:
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2)] = color1;
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2) + 1] = color1;
+                            break;
+                        case 2:
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2)] = color2;
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2) + 1] = color2;
+                            break;
+                        case 3:
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2)] = color3;
+                            data->colormap[(i * 320 * 8) + (j * 8) + (k * 320) + (l * 2) + 1] = color3;
+                            break;
+                    }
+                }
+            }
+        }
+    }
+    if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+    }
+    return data;
+}
+
 /* ------------------------------------------------------------------------ */
 
 static BYTE vic_vicii_translate[16] = {

@@ -54,9 +54,7 @@
  * - add VDC text mode
  * - add VDC bitmap mode
  * - add TED FLI / mixed mode handling
- * - add TED hires mode lum handling
  * - add TED multi-color text mode
- * - add TED multi-color bitmap mode
  * - add VIC mixed mode handling
  * - add possible CRTC mixed mode handling
  * - add C64DTV specific modes handling
@@ -458,7 +456,9 @@ static int koala_ted_save(screenshot_t *screenshot, const char *filename)
             return -1;
             break;
         case 5:    /* multicolor bitmap mode */
-            ui_error("This screen saver is a WIP, it doesn't support multicolor bitmap mode (yet)");
+            data = native_ted_multicolor_bitmap_mode_render(screenshot, filename);
+            ted_color_to_vicii_color_colormap(data, ted_lum_handling);
+            return koala_render_and_save(data);
             return -1;
             break;
         default:   /* illegal modes (3, 6 and 7) */
