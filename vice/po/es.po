@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-10-31 18:24-0700\n"
-"PO-Revision-Date: 2012-11-20 08:33+0100\n"
+"PO-Revision-Date: 2012-11-23 14:33+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
 "Language: \n"
@@ -737,7 +737,7 @@ msgstr "Snapshot"
 #: src/arch/win32/resvsid.rc.po.c:37
 #: src/arch/amigaos/intl_text.c.po.c:1377
 msgid "Options"
-msgstr "Opcciones"
+msgstr "Opciones"
 
 #. WARNING: position hardcoded
 #: src/arch/unix/gui/c128ui.c:765
@@ -1388,7 +1388,7 @@ msgstr "Ejecutar proceso"
 #: src/arch/unix/gui/uiattach.c:84
 #, c-format
 msgid "Attach Disk Image as unit #%d"
-msgstr "Inserta imagen de disco como unidad  #%d"
+msgstr "Insertar imagen de disco como unidad  #%d"
 
 #: src/arch/unix/gui/uiattach.c:98
 #: src/arch/unix/gui/uiattach.c:153
@@ -1446,7 +1446,7 @@ msgstr "Todo"
 #: src/arch/win32/resvic20.rc.po.c:23
 #: src/arch/amigaos/intl_text.c.po.c:33
 msgid "Attach disk image"
-msgstr "Inserta imagen de disco"
+msgstr "Insertar imagen de disco"
 
 #: src/arch/unix/gui/uiattach.c:195
 msgid "Create and attach an empty disk"
@@ -1464,7 +1464,7 @@ msgstr "Crear e insertar imagen de disco vacia"
 #: src/arch/win32/resvic20.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:103
 msgid "Detach disk image"
-msgstr "Quitar imagen de disco"
+msgstr "Extraer imagen de disco"
 
 #: src/arch/unix/gui/uiattach.c:199
 #: src/arch/win32/res.rc.po.c:1388
@@ -1511,7 +1511,7 @@ msgstr "Imagen de cinta incorrecta"
 #: src/arch/win32/res.rc.po.c:1423
 #: src/arch/amigaos/intl_text.c.po.c:243
 msgid "Detach tape image"
-msgstr "Quitar imagen de cinta"
+msgstr "Extraer imagen de cinta"
 
 #: src/arch/unix/gui/uiattach.c:325
 msgid "Smart-attach a file"
@@ -2052,7 +2052,7 @@ msgstr "Ejecutar C1541"
 
 #: src/arch/unix/gui/uicommands.c:621
 msgid "Available command-line options:"
-msgstr "Opcciones linea de comando disponibles"
+msgstr "Opciones linea de comando disponibles"
 
 #: src/arch/unix/gui/uicommands.c:626
 msgid "Browse manuals"
@@ -7659,7 +7659,7 @@ msgstr "Usar ajustes por defecto"
 #: src/arch/win32/res.rc.po.c:1553
 #: src/arch/amigaos/intl_text.c.po.c:4289
 msgid "English"
-msgstr "inglés"
+msgstr "Inglés"
 
 #: src/arch/win32/res.rc.po.c:1554
 #: src/arch/amigaos/intl_text.c.po.c:4303
@@ -7689,7 +7689,7 @@ msgstr "Holandés"
 #: src/arch/win32/res.rc.po.c:1562
 #: src/arch/amigaos/intl_text.c.po.c:4429
 msgid "Polish"
-msgstr "polaco"
+msgstr "Polaco"
 
 #: src/arch/win32/res.rc.po.c:1563
 #: src/arch/amigaos/intl_text.c.po.c:4457
@@ -12738,7 +12738,7 @@ msgstr "Especificar nombre fichero lista de intercambio imagenes"
 
 #: src/translate_text.c.po.c:11438
 msgid "Show a list of the available options and exit normally"
-msgstr "Muestra lista de las opcciones disponibles al salir normalmente"
+msgstr "Muestra lista de las opciones disponibles al salir normalmente"
 
 #: src/translate_text.c.po.c:11456
 msgid "Console mode (for music playback)"
