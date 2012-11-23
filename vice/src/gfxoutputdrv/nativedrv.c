@@ -1371,7 +1371,13 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
     ysize = regs[0x06];
     invert = (regs[0x0c] & 0x10) >> 4;
 
-    if (xsize == 0 || ysize == 0) {
+    if (!invert) {      /* On 8296 only! */
+        hre = 1;
+        chars = 0;
+        invert = 1;
+    }
+
+    if (!hre && (xsize == 0 || ysize == 0)) {
         ui_error("Screen is blank, no save will be done");
         return NULL;
     }
@@ -1383,38 +1389,41 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
     data->filename = filename;
     data->mc_data_present = 0;
 
-    data->xsize = xsize * 8;
-    data->ysize = ysize * charheight;
+    if (hre) {
+        data->xsize = 512;
+        data->ysize = 256;
+    } else {
+        data->xsize = xsize * 8;
+        data->ysize = ysize * charheight;
+    }
 
     data->colormap = lib_malloc(data->xsize * data->ysize);
 
-    if (!invert) {      /* On 8296 only! */
-        hre = 1;
-        chars = 0;
-        invert = 1;
-    }
 
     bgcolor = 0;
     fgcolor = crtc_fgcolor;
     scr_rel = base;
 
-    /*
-     * Assumes screenshot->screen_ptr points to 0x8000 on a PET,
-     * not taking the CRTC registers into account
-     * (since then they would be added twice)
-     */
-    for (y = 0; y < ysize; y++) {
-        for (x = 0; x < xsize; x++) {
-            for (k = 0; k < charheight; k++) {
-                if (hre) {
-                    if (k < 8) {
-                        int ma_hi = scr_rel & MA_HI;    /* MA<9...6> */
-                        int ma_lo = scr_rel & MA_LO;    /* MA<5...0> */
-                        /* Form <MA 9-6><RA 2-0><MA 5-0> */
-                        int addr = (ma_hi << 3) + (k << 6) + ma_lo;
-                        bitmap = screenshot->screen_ptr[addr];
-                    }
+    if (hre) {
+        int ma_hi = scr_rel & MA_HI;    /* MA<9...6> */
+        int ma_lo = scr_rel & MA_LO;    /* MA<5...0> */
+        /* Form <MA 9-6><RA 2-0><MA 5-0> */
+        int addr = ((ma_hi << 3) + ma_lo) >> 1;
+
+        for (l = 0; l < 16384; l++) {
+            bitmap = screenshot->screen_ptr[addr + l];
+            for (k = 0; k < 8; k++) {
+                if (bitmap & (1 << (7 - k))) {
+                    data->colormap[(l * 8) + k] = fgcolor;
                 } else {
+                    data->colormap[(l * 8) + k] = bgcolor;
+                }
+            }
+        }
+    } else {
+        for (y = 0; y < ysize; y++) {
+            for (x = 0; x < xsize; x++) {
+                for (k = 0; k < charheight; k++) {
                     bitmap = 0;
                     if (chars) {
                         BYTE chr = screenshot->screen_ptr[scr_rel & shiftand];
@@ -1446,8 +1455,7 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
                             b = (b | (b << 1)) & 0x55;
                             b |= b << 1;
                         }
-
-                        /*
+                         /*
                          * Now reverse the bits...
                          * http://graphics.stanford.edu/~seander/bithacks.html#ReverseByteWith32Bits
                          */
