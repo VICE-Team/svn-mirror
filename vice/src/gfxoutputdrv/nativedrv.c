@@ -1545,13 +1545,19 @@ native_data_t *native_vdc_text_mode_render(screenshot_t *screenshot, const char 
 
     bgcolor = regs[0x26] & 0xf;
 
+    if (!(regs[25] & 0x40)) {
+        fgcolor = (regs[26] & 0xf0) >> 4;
+    }
+
     /* bitmap filling is not completely correct,
-      char x allocation, char x display, skipped chars, smooth scrolling,
-      blanked borders and monochrome are not taken into account yet.
+      char x allocation, char x display, skipped chars, smooth scrolling and
+      blanked borders are not taken into account yet.
      */
     for (i = 0; i < data->ysize / 8; i++) {
         for (j = 0; j < data->xsize / 8; j++) {
-            fgcolor = screenshot->color_ram_ptr[(i * (data->xsize / 8)) + j] & 0x7f;
+            if (regs[25] & 0x40) {
+                fgcolor = screenshot->color_ram_ptr[(i * (data->xsize / 8)) + j] & 0x7f;
+            }
             for (k = 0; k < 8; k++) {
                 bitmap = screenshot->chargen_ptr[(screenshot->screen_ptr[(i * data->xsize / 8) + j] * 16) + k];
                 for (l = 0; l < 8; l++) {
