@@ -55,6 +55,16 @@
 #include "mouse.h"
 #endif
 
+/* #define DEBUG_KBD */
+
+#ifdef DEBUG_KBD
+#define DBGA(x) printf x
+#define DBGB(x) printf x
+#else
+#define DBGA(x)
+#define DBGB(x)
+#endif
+
 void cia1_store(WORD addr, BYTE data)
 {
     ciacore_store(machine_context.cia1, addr, data);
@@ -181,22 +191,147 @@ static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
 }
 
+/* the following code is used to determine all lines connected to one given line
+   in the keyboard matrix. this must be done to emulate connecting two arbitrary
+   lines of either port by pressing more than one key on the keyboard at once.
+
+   NOTE: the current code solves the matrix "digitally", and then the various
+         analog side effects are faked into it later. For a really 100% correct
+         result the matrix should be solved as a 8x8 resistor array, including
+         modelling the CIA in/output stages as current sources/drains.
+
+   NOTE: the matrix solver itself is generic enough to consider moving it into
+         the toplevel keyboard emulation later, so it can be used by all machines
+         with a similar keyboard matrix. (VIC20, C16 ...)
+ */
+static void matrix_activate_column(int column, BYTE *activerows, BYTE *activecolumns);
+static void matrix_activate_row(int row, BYTE *activerows, BYTE *activecolumns);
+
+static void matrix_activate_row(int row, BYTE *activerows, BYTE *activecolumns)
+{
+    BYTE msk;
+    int m, i;
+    if ((1 << row) & ~(*activerows)) {
+        *activerows |= (1 << row);
+        msk = keyarr[row];
+        /* loop over columns */
+        for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+            /* activate each column connected to the given row */
+            if ((msk & m) & ~(*activecolumns)) {
+                matrix_activate_column(i, activerows, activecolumns);
+            }
+        }
+    }
+}
+
+static void matrix_activate_column(int column, BYTE *activerows, BYTE *activecolumns)
+{
+    BYTE msk;
+    int m, i;
+    if ((1 << column) & ~(*activecolumns)) {
+        *activecolumns |= (1 << column);
+        msk = rev_keyarr[column];
+        /* loop over rows */
+        for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+            /* activate each row connected to the given column */
+            if ((msk & m) & ~(*activerows)) {
+                matrix_activate_row(i, activerows, activecolumns);
+            }
+        }
+    }
+}
+
+/* get all connected rows for one active column */
+inline static BYTE matrix_get_active_rows_by_column(int column)
+{
+    BYTE activerows = 0;
+    BYTE activecolumns = 0;
+    matrix_activate_column(column, &activerows, &activecolumns);
+    return activerows;
+}
+/* get all connected rows for one active row */
+inline static BYTE matrix_get_active_rows_by_row(int row)
+{
+    BYTE activerows = 0;
+    BYTE activecolumns = 0;
+    matrix_activate_row(row, &activerows, &activecolumns);
+    return activerows;
+}
+/* get all connected columns for one active row */
+inline static BYTE matrix_get_active_columns_by_column(int column)
+{
+    BYTE activerows = 0;
+    BYTE activecolumns = 0;
+    matrix_activate_column(column, &activerows, &activecolumns);
+    return activecolumns;
+}
+/* get all connected columns for one active row */
+inline static BYTE matrix_get_active_columns_by_row(int row)
+{
+    BYTE activerows = 0;
+    BYTE activecolumns = 0;
+    matrix_activate_row(row, &activerows, &activecolumns);
+    return activecolumns;
+}
+/*
+   TODO: 
+    - do more testing (see testprogs/CIA/ciaports) and handle more strange side
+      effects
+    - perhaps write common code to solve the entire matrix that is used for both
+      read_ciapa and read_ciapb.
+    - add improvements also to C128
+*/
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     BYTE byte;
     BYTE val = 0xff;
-    BYTE msk = cia_context->old_pb & ~joystick_value[1];
-    BYTE m;
+    BYTE msk;
+    BYTE m,tmp;
     int i;
 
+    DBGA(("PA ddra:%02x pa:%02x ddrb:%02x pb:%02x ",
+         cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
+         cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
+
+    /* loop over columns,
+       pull down all bits connected to a column which is output and active.
+     */
+    msk = cia_context->old_pb & ~joystick_value[1];
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
-            val &= ~rev_keyarr[i];
+            tmp = matrix_get_active_columns_by_column(i);
+
+            /* when scanning from port B to port A with inactive bits set to 1
+               in port B, ghostkeys will be eliminated (pulled high) if the
+               matrix is connected to more 1 bits of port B. this does NOT happen
+               when the respective bits are set to input. (see testprogs/CIA/ciaports)
+             */
+            if (tmp & cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]) {
+                val &= ~rev_keyarr[i];
+                DBGA(("<force high %02x>", m));
+            } else {
+                val &= ~matrix_get_active_rows_by_column(i);
+            }
         }
     }
+    DBGA((" val:%02x", val));
+
+    /* loop over rows,
+       pull down all bits connected to a row which is output and active.
+       handles the case when port a is used for both input and output
+     */
+    msk = cia_context->old_pa & ~joystick_value[2];
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
+            val &= ~matrix_get_active_rows_by_row(i);
+        }
+    }
+    DBGA((" val:%02x", val));
 
     byte = (val & (cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
 
+    DBGA((" out:%02x\n", byte));
+    
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_port == 2)) {
         if (mouse_type == MOUSE_TYPE_NEOS) {
@@ -212,19 +347,19 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     return byte;
 }
 
-inline static int ciapb_forcelow(int i)
+inline static int ciapb_forcelow(int row, BYTE mask)
 {
     BYTE v;
 
     /* Check for shift lock.
        FIXME: keyboard_shiftlock state may be inconsistent
               with the (rev_)keyarr state. */
-    if ((i == 7) && keyboard_shiftlock) {
+    if ((row == 1) && keyboard_shiftlock) {
         return 1;
     }
 
-    /* Check if two or more keys are pressed. */
-    v = rev_keyarr[i];
+    /* Check if two or more rows are connected */
+    v = matrix_get_active_rows_by_row(row) & mask;
     if ((v & (v - 1)) != 0) {
         return 1;
     }
@@ -237,36 +372,63 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 {
     BYTE byte;
     BYTE val = 0xff;
-    BYTE val_outhi = ((cia_context->c_cia[CIA_DDRA]) & (cia_context->c_cia[CIA_DDRB])) & (cia_context->c_cia[CIA_PRB]);
-    BYTE msk = cia_context->old_pa & ~joystick_value[2];
+    BYTE val_outhi;
+    BYTE msk, tmp;
     BYTE m;
     int i;
 
+    /* loop over rows,
+       pull down all bits connected to a row which is output and active.
+     */
+    val_outhi = (cia_context->c_cia[CIA_DDRB]) & (cia_context->c_cia[CIA_PRB]);
+
+    DBGB(("PB val_outhi:%02x ddra:%02x pa:%02x ddrb:%02x pb:%02x ", val_outhi,
+         cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
+         cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
+
+    msk = cia_context->old_pa & ~joystick_value[2];
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
         if (!(msk & m)) {
-            val &= ~keyarr[i];
+            tmp = matrix_get_active_columns_by_row(i);
+            val &= ~tmp;
 
             /*
                 Handle the special case when both port A and port B are programmed as output,
                 port A outputs (active) low, and port B outputs high.
 
-                In this case pressing either shift-lock or two or more keys of the same column
-                is required to drive port B low, pressing a single key is not enough (and the
-                port will read back as high). (see testprogs/CIA/ciaports)
-
-                The initial value for val_outhi will drive the respective port B
-                bits high if the above mentioned condition is met, which gives the
-                expected result for single key presses.
+                In this case either connecting one port A 0 bit (by pressing either shift-lock)
+                or two or more port A 0 bits (by pressing keys of the same column) to one port B
+                bit is required to drive port B low (see testprogs/CIA/ciaports)
             */
-            if (ciapb_forcelow(i)) {
-                val_outhi &= ~m;
+            if ((cia_context->c_cia[CIA_DDRA] & ~cia_context->c_cia[CIA_PRA] & m) &&
+                (cia_context->c_cia[CIA_DDRB] & cia_context->c_cia[CIA_PRB] & tmp)) {
+                DBGB(("(%d)", i));
+                if (ciapb_forcelow(i, cia_context->c_cia[CIA_DDRA] & ~cia_context->c_cia[CIA_PRA])) {
+                    val_outhi &= ~tmp;
+                    DBGB(("<force low, val_outhi:%02x>",val_outhi));
+                }
             }
         }
     }
+    DBGB((" val:%02x val_outhi:%02x", val, val_outhi));
+
+    /* loop over columns,
+       pull down all bits connected to a column which is output and active.
+       handles the case when port b is used for both input and output
+     */
+    msk = cia_context->old_pb & ~joystick_value[1];
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
+            val &= ~matrix_get_active_columns_by_column(i);
+        }
+    }
+    DBGB((" val:%02x", val));
 
     byte = val & (cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]));
     byte |= val_outhi;
     byte &= ~joystick_value[1];
+
+    DBGB((" out:%02x\n", byte));
 
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_port == 1)) {
