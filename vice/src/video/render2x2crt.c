@@ -324,8 +324,10 @@ void render_generic_2x2_crt(video_render_color_tables_t *color_tab,
             }
             tmptrg = &color_tab->rgbscratchbuffer[0];
             tmptrgscanline = trg - pitcht;
-            /* src would point after the source area, so rewind one line */
-            src -= pitchs;
+            if (y == last_line + 1) {
+                /* src would point after the source area, so rewind one line */
+                src -= pitchs;
+            }
         } else {
             /* pixel data to surface */
             tmptrg = trg;
