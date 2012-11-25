@@ -360,6 +360,8 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
     SDWORD l2 = 0;
     SDWORD u2 = 0;
     SDWORD v2 = 0;
+    int first_line = viewport->first_line * 2;
+    int last_line = (viewport->last_line * 2) + 1;
 
     src = src + pitchs * ys + xs - 2;
     trg = trg + pitcht * yt + xt * pixelstride;
@@ -389,11 +391,13 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
         if (y == yys + height) {
             /* no place to put scanline in: we are outside viewport or still
              * doing the first iteration (y == yys), height == 0 */
-            if (y == yys || y <= viewport->first_line * 2 || y > viewport->last_line * 2) {
+            if (y == yys || y <= first_line || y > last_line + 1) {
                 break;
             }
             tmptrg = &color_tab->rgbscratchbuffer[0];
             tmptrgscanline = trg - pitcht;
+            /* src would point after the source area, so rewind one line */
+            src -= pitchs;
         } else {
             /* pixel data to surface */
             tmptrg = trg;
@@ -401,7 +405,7 @@ void render_generic_1x2_crt(video_render_color_tables_t *color_tab,
              * otherwise we dump it to the scratch region... We must never
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
-            tmptrgscanline = y != yys && y > viewport->first_line * 2 && y <= viewport->last_line * 2
+            tmptrgscanline = y != yys && y > first_line && y <= last_line
                 ? trg - pitcht
                 : &color_tab->rgbscratchbuffer[0];
         }
