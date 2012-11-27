@@ -50,19 +50,18 @@ struct vdrive_s;
 extern int vdrive_bam_allocate_chain(struct vdrive_s *vdrive, unsigned int t,
                                      unsigned int s);
 extern int vdrive_bam_alloc_first_free_sector(struct vdrive_s *vdrive,
-                                              BYTE *bam,
                                               unsigned int *track,
                                               unsigned int *sector);
-extern int vdrive_bam_alloc_next_free_sector(struct vdrive_s *vdrive, BYTE *bam,
+extern int vdrive_bam_alloc_next_free_sector(struct vdrive_s *vdrive,
                                              unsigned int *track,
                                              unsigned int *sector);
-extern int vdrive_bam_allocate_sector(unsigned int type, BYTE *bam,
+extern int vdrive_bam_allocate_sector(struct vdrive_s *vdrive,
                                       unsigned int track, unsigned int sector);
-extern void vdrive_bam_clear_all(unsigned int type, BYTE *bam);
+extern void vdrive_bam_clear_all(struct vdrive_s *vdrive);
 extern void vdrive_bam_create_empty_bam(struct vdrive_s *vdrive,
                                         const char *name, BYTE *id);
 extern int unsigned vdrive_bam_free_block_count(struct vdrive_s *vdrive);
-extern int vdrive_bam_free_sector(unsigned int type, BYTE *bam,
+extern int vdrive_bam_free_sector(struct vdrive_s *vdrive,
                                   unsigned int track, unsigned int sector);
 extern int vdrive_bam_get_disk_id(unsigned int unit, BYTE *id);
 extern int vdrive_bam_set_disk_id(unsigned int unit, BYTE *id);

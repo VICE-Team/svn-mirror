@@ -1960,8 +1960,7 @@ static int internal_write_geos_file(int unit, FILE* f)
 
     /* put it on disk */
 
-    if (vdrive_bam_alloc_first_free_sector(drives[unit], drives[unit]->bam,
-        &infoTrk, &infoSec) < 0) {
+    if (vdrive_bam_alloc_first_free_sector(drives[unit], &infoTrk, &infoSec) < 0) {
         fprintf(stderr, "Disk full\n");
         return FD_WRTERR;
     }
@@ -1993,7 +1992,7 @@ static int internal_write_geos_file(int unit, FILE* f)
 
     /* write the block */
 
-    if (vdrive_bam_alloc_next_free_sector(drives[unit], drives[unit]->bam,
+    if (vdrive_bam_alloc_next_free_sector(drives[unit],
         &vlirTrk, &vlirSec) < 0) {
         fprintf(stderr, "Disk full\n");
         return FD_WRTERR;
@@ -2037,7 +2036,7 @@ static int internal_write_geos_file(int unit, FILE* f)
             /* allocate it */
 
             if (vdrive_bam_alloc_next_free_sector(drives[unit],
-                drives[unit]->bam, &aktTrk, &aktSec) < 0) {
+                &aktTrk, &aktSec) < 0) {
                 fprintf(stderr, "Disk full\n");
                 return FD_WRTERR;
             }
@@ -2100,7 +2099,7 @@ static int internal_write_geos_file(int unit, FILE* f)
                     /* allocate it */
 
                     if (vdrive_bam_alloc_next_free_sector(drives[unit],
-                        drives[unit]->bam, &aktTrk,&aktSec) < 0) {
+                        &aktTrk, &aktSec) < 0) {
                         fprintf(stderr, "Disk full\n");
                         return FD_WRTERR;
                     }

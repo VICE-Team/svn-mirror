@@ -111,11 +111,11 @@ void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
             break;
 
         /* Check if this sector is really allocated.  */
-        if (!vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s))
+        if (!vdrive_bam_free_sector(vdrive, t, s))
             break;
 
         /* FIXME: This seems to be redundant.  AB19981124  */
-        vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s);
+        vdrive_bam_free_sector(vdrive, t, s);
         vdrive_read_sector(vdrive, buf, t, s);
         t = (int)buf[0];
         s = (int)buf[1];
@@ -130,8 +130,7 @@ static BYTE *find_next_directory_sector(vdrive_dir_context_t *dir, unsigned int 
 {
     vdrive_t *vdrive = dir->vdrive;
 
-    if (vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, track,
-        sector)) {
+    if (vdrive_bam_allocate_sector(vdrive, track, sector)) {
         dir->buffer[0] = track;
         dir->buffer[1] = sector;
         vdrive_write_sector(vdrive, dir->buffer, dir->track, dir->sector);

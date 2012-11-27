@@ -516,8 +516,7 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
      */
     if (bi->track == 0) {
         /* allocate the first sector */
-        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, &t_new,
-                                                    &s_new);
+        retval = vdrive_bam_alloc_first_free_sector(vdrive, &t_new, &s_new);
         if (retval < 0) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
             return -1;
@@ -546,8 +545,7 @@ static int iec_write_sequential(vdrive_t *vdrive, bufferinfo_t *bi, int length)
          */
         t_new = bi->track;
         s_new = bi->sector;
-        retval = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, &t_new,
-                                                   &s_new);
+        retval = vdrive_bam_alloc_next_free_sector(vdrive, &t_new, &s_new);
         if (retval < 0) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
             return -1;

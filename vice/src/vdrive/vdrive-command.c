@@ -387,19 +387,17 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
         if (l > 0) /* just 3 args used */
             return l;
         if (command == 'A') {
-            if (!vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
-                track, sector)) {
+            if (!vdrive_bam_allocate_sector(vdrive, track, sector)) {
                 /*
                  * Desired sector not free. Suggest another. XXX The 1541
                  * uses an inferior search function that only looks on
                  * higher tracks and can return sectors in the directory
                  * track.
                  */
-                if (vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam,
+                if (vdrive_bam_alloc_next_free_sector(vdrive,
                     (unsigned int*)&track, (unsigned int *)&sector) >= 0) {
                     /* Deallocate it and merely suggest it */
-                    vdrive_bam_free_sector(vdrive->image_format, vdrive->bam,
-                                           track, sector);
+                    vdrive_bam_free_sector(vdrive, track, sector);
                 } else {
                     /* Found none */
                     track = 0;
@@ -410,8 +408,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
                 return CBMDOS_IPE_NO_BLOCK;
             }
         } else {
-            vdrive_bam_free_sector(vdrive->image_format, vdrive->bam,
-                                   track, sector);
+            vdrive_bam_free_sector(vdrive, track, sector);
         }
         break;
       case 'P':
@@ -860,12 +857,12 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     memcpy(oldbam, vdrive->bam, vdrive->bam_size);
 
-    vdrive_bam_clear_all(vdrive->image_format, vdrive->bam);
+    vdrive_bam_clear_all(vdrive);
 
     for (t = 1; t <= vdrive->num_tracks; t++) {
         max_sector = vdrive_get_max_sectors(vdrive, t);
         for (s = 0; s < (unsigned int)max_sector; s++) {
-            vdrive_bam_free_sector(vdrive->image_format, vdrive->bam, t, s);
+            vdrive_bam_free_sector(vdrive, t, s);
         }
     }
 
@@ -883,23 +880,23 @@ int vdrive_command_validate(vdrive_t *vdrive)
         /* Map the opposite side of the directory cylinder. */
         max_sector = vdrive_get_max_sectors(vdrive, 53);
         for (s = 0; s < (unsigned int)max_sector; s++) {
-            vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 53, s);
+            vdrive_bam_allocate_sector(vdrive, 53, s);
         }
         break;
     case VDRIVE_IMAGE_FORMAT_1581:
         /* Map the BAM sectors. */
-        vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
+        vdrive_bam_allocate_sector(vdrive,
                                    vdrive->Bam_Track, vdrive->Bam_Sector + 1);
-        vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam,
+        vdrive_bam_allocate_sector(vdrive,
                                    vdrive->Bam_Track, vdrive->Bam_Sector + 2);
         break;
     case VDRIVE_IMAGE_FORMAT_4000:
         /* Map the boot sector. */
-        vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 1, 0);
+        vdrive_bam_allocate_sector(vdrive, 1, 0);
 
         /* Map the BAM sectors. */
         for (s = 2; s < 34; s++)
-            vdrive_bam_allocate_sector(vdrive->image_format, vdrive->bam, 1, s);
+            vdrive_bam_allocate_sector(vdrive, 1, s);
         break;
     }
 

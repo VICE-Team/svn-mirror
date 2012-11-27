@@ -224,8 +224,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         *sector = p->side_sector[o + 1];
 	
         /* Find a new sector */
-        retval = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, track,
-                                                   sector);
+        retval = vdrive_bam_alloc_next_free_sector(vdrive, track, sector);
     } else {
         /* New REL file, get ready to create... */
         i = 0;
@@ -235,8 +234,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         *sector = 0;
 
         /* Find the first new sector */
-        retval = vdrive_bam_alloc_first_free_sector(vdrive, vdrive->bam, track,
-                                                    sector);
+        retval = vdrive_bam_alloc_first_free_sector(vdrive, track, sector);
     }
 
     /* Leave if no space left */
@@ -249,8 +247,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
         /* Allocate a new sector for the new side sector. */
         t_new = *track;
         s_new = *sector;
-        retval = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, &t_new,
-                                                   &s_new);
+        retval = vdrive_bam_alloc_next_free_sector(vdrive, &t_new, &s_new);
         /* If no space, leave with no changes */
         if (retval < 0) {
             vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
@@ -286,8 +283,7 @@ static int vdrive_rel_add_sector(vdrive_t *vdrive, unsigned int secondary,
 
         /* Does this image require a real super side sector? */
         if (vdrive_rel_has_super(vdrive)) {
-            retval = vdrive_bam_alloc_next_free_sector(vdrive, vdrive->bam, &t_super,
-                                                       &s_super);
+            retval = vdrive_bam_alloc_next_free_sector(vdrive, &t_super, &s_super);
             /* If no space, leave with no changes */
             if (retval < 0) {
                 vdrive_command_set_error(vdrive, CBMDOS_IPE_DISK_FULL, 0, 0);
