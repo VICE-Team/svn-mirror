@@ -165,49 +165,36 @@ void vdrive_dir_create_slot(bufferinfo_t *p, char *realname,
 }
 
 /*
- * vdrive_dir_remove_slot() is called from vdrive_open() (in 'save and
- * replace') and from ip_execute() for 'SCRATCH'.
+ * vdrive_dir_remove_slot() is called from ip_execute() for 'SCRATCH'.
  */
 
-void vdrive_dir_remove_slot(vdrive_t *vdrive, BYTE *slot)
+void vdrive_dir_remove_slot(vdrive_t *vdrive)
 {
-    unsigned int tmp;
     int t, s;
 
-    /* Find slot.  */
-    for (tmp = 0; (tmp < 16) && slot[SLOT_NAME_OFFSET + tmp] != 0xa0; tmp++);
+    /* Free all sector this file is using.  */
+    t = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
+        + SLOT_FIRST_TRACK];
+    s = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
+        + SLOT_FIRST_SECTOR];
 
-    vdrive_dir_find_first_slot(vdrive,
-                               (char *)&slot[SLOT_NAME_OFFSET], tmp,
-                               slot[SLOT_TYPE_OFFSET] & 0x07);
+    vdrive_dir_free_chain(vdrive, t, s);
 
-    /* If slot found, remove.  */
-    if (vdrive_dir_find_next_slot(vdrive)) {
+    /* Free side sectors.  */
+    t = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
+        + SLOT_SIDE_TRACK];
+    s = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
+        + SLOT_SIDE_SECTOR];
 
-        /* Free all sector this file is using.  */
-        t = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
-            + SLOT_FIRST_TRACK];
-        s = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
-            + SLOT_FIRST_SECTOR];
+    vdrive_dir_free_chain(vdrive, t, s);
 
-        vdrive_dir_free_chain(vdrive, t, s);
+    /* Update bam */
+    vdrive_bam_write_bam(vdrive);
 
-        /* Free side sectors.  */
-        t = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
-            + SLOT_SIDE_TRACK];
-        s = (int) vdrive->Dir_buffer[vdrive->SlotNumber * 32
-            + SLOT_SIDE_SECTOR];
-
-        vdrive_dir_free_chain(vdrive, t, s);
-
-        /* Update bam */
-        vdrive_bam_write_bam(vdrive);
-
-        /* Update directory entry */
-        vdrive->Dir_buffer[vdrive->SlotNumber * 32 + SLOT_TYPE_OFFSET] = 0;
-        vdrive_write_sector(vdrive, vdrive->Dir_buffer,
-                                vdrive->Curr_track, vdrive->Curr_sector);
-    }
+    /* Update directory entry */
+    vdrive->Dir_buffer[vdrive->SlotNumber * 32 + SLOT_TYPE_OFFSET] = 0;
+    vdrive_write_sector(vdrive, vdrive->Dir_buffer,
+                            vdrive->Curr_track, vdrive->Curr_sector);
 }
 
 /*

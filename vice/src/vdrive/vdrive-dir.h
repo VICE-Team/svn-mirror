@@ -66,7 +66,7 @@ extern void vdrive_dir_find_first_slot(struct vdrive_s *vdrive,
                                        int length, unsigned int type);
 extern BYTE *vdrive_dir_find_next_slot(struct vdrive_s *vdrive);
 extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
-extern void vdrive_dir_remove_slot(struct vdrive_s *vdrive, BYTE *slot);
+extern void vdrive_dir_remove_slot(struct vdrive_s *vdrive);
 extern void vdrive_dir_create_slot(struct bufferinfo_s *p, char *realname,
                                    int reallength, int filetype);
 extern void vdrive_dir_free_chain(struct vdrive_s *vdrive, int t, int s);

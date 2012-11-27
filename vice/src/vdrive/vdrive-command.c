@@ -638,21 +638,12 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
 /*#endif*/
         vdrive->deleted_files = 0;
 
-        /* Since vdrive_dir_remove_slot() uses
-         * vdrive_dir_find_first_slot() too, we cannot find the
-         * matching files by simply repeating
-         * vdrive_dir find_next_slot() calls alone; we have to re-call
-         * vdrive_dir_find_first_slot() each time... EP 1996/04/07
-         */
-
         vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
                                    cmd_parse.parselength, 0);
 
         while ((slot = vdrive_dir_find_next_slot(vdrive))) {
-            vdrive_dir_remove_slot(vdrive, slot);
+            vdrive_dir_remove_slot(vdrive);
             vdrive->deleted_files++;
-            vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                                       cmd_parse.parselength, 0);
         }
 
         if (vdrive->deleted_files)
