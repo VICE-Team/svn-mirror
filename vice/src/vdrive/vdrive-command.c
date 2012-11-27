@@ -521,6 +521,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
     BYTE *slot;
     int status = CBMDOS_IPE_OK, rc;
     cbmdos_cmd_parse_t cmd_parse_dst, cmd_parse_src;
+    vdrive_dir_context_t dir;
 
     if (!dest || !(src = memchr((char *)++dest, '=', length)) ) {
         return CBMDOS_IPE_SYNTAX;
@@ -562,9 +563,9 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
 
     vdrive_dir_find_first_slot(vdrive, cmd_parse_dst.parsecmd,
                                cmd_parse_dst.parselength,
-                               cmd_parse_dst.filetype);
+                               cmd_parse_dst.filetype, &dir);
 
-    slot = vdrive_dir_find_next_slot(vdrive);
+    slot = vdrive_dir_find_next_slot(&dir);
 
     if (slot) {
         status = CBMDOS_IPE_FILE_EXISTS;
@@ -575,9 +576,9 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
 
     vdrive_dir_find_first_slot(vdrive, cmd_parse_src.parsecmd,
                                cmd_parse_src.parselength,
-                               cmd_parse_src.filetype);
+                               cmd_parse_src.filetype, &dir);
 
-    slot = vdrive_dir_find_next_slot(vdrive);
+    slot = vdrive_dir_find_next_slot(&dir);
 
     if (!slot) {
         status = CBMDOS_IPE_NOT_FOUND;
@@ -587,7 +588,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
     /* Now we can replace the old file name...  */
     /* We write directly to the Dir_buffer.  */
 
-    slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
+    slot = &dir.buffer[dir.slot * 32];
     memset(slot + SLOT_NAME_OFFSET, 0xa0, 16);
     memcpy(slot + SLOT_NAME_OFFSET, cmd_parse_dst.parsecmd,
            cmd_parse_dst.parselength);
@@ -597,9 +598,9 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
         slot[SLOT_TYPE_OFFSET] = cmd_parse_dst.filetype;
 
     /* Update the directory.  */
-    if (vdrive_write_sector(vdrive, vdrive->Dir_buffer,
-        vdrive->Curr_track, vdrive->Curr_sector) < 0)
+    if (vdrive_write_sector(vdrive, dir.buffer, dir.track, dir.sector) < 0) {
         status = CBMDOS_IPE_WRITE_ERROR_VER;
+    }
 
 out2:
     lib_free(cmd_parse_src.parsecmd);
@@ -614,6 +615,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
     int status, rc;
     BYTE *slot;
     cbmdos_cmd_parse_t cmd_parse;
+    vdrive_dir_context_t dir;
 
     /* XXX
      * Wrong name parser -- s0:file1,0:file2 means scratch
@@ -639,10 +641,10 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
         vdrive->deleted_files = 0;
 
         vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                                   cmd_parse.parselength, 0);
+                                   cmd_parse.parselength, 0, &dir);
 
-        while ((slot = vdrive_dir_find_next_slot(vdrive))) {
-            vdrive_dir_remove_slot(vdrive);
+        while ((slot = vdrive_dir_find_next_slot(&dir))) {
+            vdrive_dir_remove_slot(&dir);
             vdrive->deleted_files++;
         }
 
@@ -667,6 +669,7 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
     int status, rc;
     BYTE *slot, buffer[256];
     cbmdos_cmd_parse_t cmd_parse;
+    vdrive_dir_context_t dir;
 
     cmd_parse.cmd = name;
     cmd_parse.cmdlength = length;
@@ -684,12 +687,12 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
 /*#endif*/
 
         vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                                   cmd_parse.parselength, CBMDOS_FT_DIR);
+                                   cmd_parse.parselength, CBMDOS_FT_DIR, &dir);
 
-        slot = vdrive_dir_find_next_slot(vdrive);
+        slot = vdrive_dir_find_next_slot(&dir);
 
         if (slot) {
-            slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
+            slot = &dir.buffer[dir.slot * 32];
             rc = vdrive_read_sector(vdrive, buffer,
                                         slot[SLOT_FIRST_TRACK],
                                         slot[SLOT_FIRST_SECTOR]);
@@ -730,6 +733,7 @@ static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
     int ts,ss,te,len;
     BYTE *slot, buffer[256];
     cbmdos_cmd_parse_t cmd_parse;
+    vdrive_dir_context_t dir;
 
     cmd_parse.cmd = name;
     cmd_parse.cmdlength = length;
@@ -747,13 +751,13 @@ static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
 /*#endif*/
 
         vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
-                                   cmd_parse.parselength, CBMDOS_FT_CBM);
+                                   cmd_parse.parselength, CBMDOS_FT_CBM, &dir);
 
-        slot = vdrive_dir_find_next_slot(vdrive);
+        slot = vdrive_dir_find_next_slot(&dir);
 
         status = CBMDOS_IPE_BAD_PARTN; /* FIXME: is this correct ? */
         if (slot) {
-            slot = &vdrive->Dir_buffer[vdrive->SlotNumber * 32];
+            slot = &dir.buffer[dir.slot * 32];
             /*
             In order to use a partition as a sub-directory, it  must  adhere  to  
             the following four rules:
@@ -845,6 +849,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
     unsigned int t, s;
     int status, max_sector;
     BYTE *b, oldbam[BAM_MAXSIZE];
+    vdrive_dir_context_t dir;
 
     status = vdrive_command_initialize(vdrive);
 
@@ -898,11 +903,10 @@ int vdrive_command_validate(vdrive_t *vdrive)
         break;
     }
 
-    vdrive_dir_find_first_slot(vdrive, "*", 1, 0);
+    vdrive_dir_find_first_slot(vdrive, "*", 1, 0, &dir);
 
-    while ((b = vdrive_dir_find_next_slot(vdrive))) {
-        char *filetype = (char *)
-        &vdrive->Dir_buffer[vdrive->SlotNumber * 32 + SLOT_TYPE_OFFSET];
+    while ((b = vdrive_dir_find_next_slot(&dir))) {
+        char *filetype = (char *)&dir.buffer[dir.slot * 32 + SLOT_TYPE_OFFSET];
 
         if (*filetype & CBMDOS_FT_CLOSED) {
             status = vdrive_bam_allocate_chain(vdrive, b[SLOT_FIRST_TRACK],
@@ -922,9 +926,9 @@ int vdrive_command_validate(vdrive_t *vdrive)
         } else {
             /* Delete an unclosed file. */
             *filetype = CBMDOS_FT_DEL;
-            if (vdrive_write_sector(vdrive, vdrive->Dir_buffer,
-                vdrive->Curr_track, vdrive->Curr_sector) < 0)
+            if (vdrive_write_sector(vdrive, dir.buffer, dir.track, dir.sector) < 0) {
                 return CBMDOS_IPE_WRITE_ERROR_VER;
+            }
         }
     }
 

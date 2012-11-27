@@ -28,6 +28,7 @@
 #define VICE_VDRIVE_H
 
 #include "types.h"
+#include "vdrive-dir.h"
 
 /* High level disk formats.
    They can be different than the disk image type.  */
@@ -102,9 +103,7 @@ typedef struct bufferinfo_s {
     BYTE super_side_sector_needsupdate; /* similar to above */
     BYTE *side_sector_needsupdate;
 
-    BYTE dir_track;           /* track, sector and slot of REL file */
-    BYTE dir_sector;          /*  directory entry */
-    BYTE dir_slot;
+    vdrive_dir_context_t dir; /* directory listing context or directory entry */
 
 } bufferinfo_t;
 
@@ -136,17 +135,6 @@ typedef struct vdrive_s {
     unsigned int bam_size;
     BYTE *bam;
     bufferinfo_t buffers[16];
-
-    /* File information */
-    BYTE Dir_buffer[256];  /* Current directory sector.  */
-    unsigned int SlotNumber;
-
-    int find_length;       /* -1 allowed.  */
-    BYTE find_nslot[16];
-    unsigned int find_type;
-
-    unsigned int Curr_track;
-    unsigned int Curr_sector;
 
     /* Files deleted with the `S' command.  */
     int deleted_files;

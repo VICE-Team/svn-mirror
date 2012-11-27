@@ -29,6 +29,7 @@
 #define VICE_VDRIVE_DIR_H
 
 #include "types.h"
+#include "cbmdos.h"
 
 #define SLOT_TYPE_OFFSET      2
 #define SLOT_FIRST_TRACK      3
@@ -54,6 +55,17 @@
 struct vdrive_s;
 struct bufferinfo_s;
 
+typedef struct vdrive_dir_context_s {
+    BYTE buffer[256];      /* Current directory sector. */
+    int find_length;       /* -1 allowed.  */
+    BYTE find_nslot[CBMDOS_SLOT_NAME_LENGTH];
+    unsigned int find_type;
+    unsigned int slot;
+    unsigned int track;
+    unsigned int sector;
+    struct vdrive_s *vdrive;
+} vdrive_dir_context_t;
+
 extern void vdrive_dir_init(void);
 extern int vdrive_dir_first_directory(struct vdrive_s *vdrive,
                                       const char *name,
@@ -63,10 +75,11 @@ extern int vdrive_dir_next_directory(struct vdrive_s *vdrive,
                                      struct bufferinfo_s *b);
 extern void vdrive_dir_find_first_slot(struct vdrive_s *vdrive,
                                        const char *name,
-                                       int length, unsigned int type);
-extern BYTE *vdrive_dir_find_next_slot(struct vdrive_s *vdrive);
+                                       int length, unsigned int type,
+                                       vdrive_dir_context_t *dir);
+extern BYTE *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir);
 extern void vdrive_dir_no_a0_pads(BYTE *ptr, int l);
-extern void vdrive_dir_remove_slot(struct vdrive_s *vdrive);
+extern void vdrive_dir_remove_slot(vdrive_dir_context_t *dir);
 extern void vdrive_dir_create_slot(struct bufferinfo_s *p, char *realname,
                                    int reallength, int filetype);
 extern void vdrive_dir_free_chain(struct vdrive_s *vdrive, int t, int s);

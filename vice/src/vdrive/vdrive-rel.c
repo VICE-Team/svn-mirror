@@ -727,11 +727,6 @@ static int vdrive_rel_open_existing(vdrive_t *vdrive, unsigned int secondary)
                 break;
         }
     }
-    
-    /* Remember the directory information incase our REL file grows. */
-    p->dir_track = vdrive->Curr_track;
-    p->dir_sector = vdrive->Curr_sector;
-    p->dir_slot = vdrive->SlotNumber;
 
     return 0;
 }
@@ -748,8 +743,8 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
 #endif
 
     /* Allocate a directory slot */
-    vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
-    slot = vdrive_dir_find_next_slot(vdrive);
+    vdrive_dir_find_first_slot(vdrive, NULL, -1, 0, &p->dir);
+    slot = vdrive_dir_find_next_slot(&p->dir);
 
     /* If we can't get one the directory is full - disk full */
     if (!slot) {
@@ -772,16 +767,14 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     p->slot[SLOT_RECORD_LENGTH] = cmd_parse->recordlength;
 
     /* Store in buffer */
-    memcpy(&(vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2]),
-           p->slot + 2, 30);
+    memcpy(&(p->dir.buffer[p->dir.slot * 32 + 2]), p->slot + 2, 30);
 
 #ifdef DEBUG_DRIVE
     log_debug("DEBUG: write DIR slot (%d %d).",
               vdrive->Curr_track, vdrive->Curr_sector);
 #endif
     /* Write the sector */
-    vdrive_write_sector(vdrive, vdrive->Dir_buffer,
-                            vdrive->Curr_track, vdrive->Curr_sector);
+    vdrive_write_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);
 
     /* Allocate memory for super side sector */
     p->super_side_sector = lib_malloc(256);
@@ -807,11 +800,6 @@ static int vdrive_rel_open_new(vdrive_t *vdrive, unsigned int secondary,
     memset(p->side_sector_track, 0, SIDE_SECTORS_MAX);
     memset(p->side_sector_sector, 0, SIDE_SECTORS_MAX);
     memset(p->side_sector_needsupdate, 0, SIDE_SECTORS_MAX);
-
-    /* Remember the directory information incase our REL file grows. */
-    p->dir_track = vdrive->Curr_track;
-    p->dir_sector = vdrive->Curr_sector;
-    p->dir_slot = vdrive->SlotNumber;
 
     /* Everything okay */
     return 0;

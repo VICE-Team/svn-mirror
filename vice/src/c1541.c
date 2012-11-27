@@ -2145,8 +2145,9 @@ static int write_geos_cmd(int nargs, char **args)
     int unit, erg;
     char *dest_name_ascii, *dest_name_petscii;
     FILE *f;
-        BYTE* e;
+    BYTE* e;
     char *slashp;
+    vdrive_dir_context_t dir;
 
     /* geoswrite <source> */
     dest_name_ascii = NULL;
@@ -2192,8 +2193,8 @@ static int write_geos_cmd(int nargs, char **args)
      * The bam and directory entry must be copied to the disk. the code
      * from the vdrive routines does that thing.
      */
-    vdrive_dir_find_first_slot(drives[unit], NULL, -1, 0);
-    e = vdrive_dir_find_next_slot(drives[unit]);
+    vdrive_dir_find_first_slot(drives[unit], NULL, -1, 0, &dir);
+    e = vdrive_dir_find_next_slot(&dir);
 
     if (!e) {
         drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
@@ -2209,16 +2210,14 @@ static int write_geos_cmd(int nargs, char **args)
      */
     drives[unit]->buffers[1].slot[SLOT_TYPE_OFFSET] |= 0x80; /* Closed */
 
-    memcpy(&drives[unit]->Dir_buffer[drives[unit]->SlotNumber * 32 + 2],
+    memcpy(&dir.buffer[dir.slot * 32 + 2],
                    drives[unit]->buffers[1].slot + 2,
                    30);
 
 #ifdef DEBUG_DRIVE
     log_debug("DEBUG: closing, write DIR slot (%d %d) and BAM.", drives[unit]->Curr_track, drives[unit]->Curr_sector);
 #endif
-    vdrive_write_sector(drives[unit], drives[unit]->Dir_buffer,
-                            drives[unit]->Curr_track,
-                            drives[unit]->Curr_sector);
+    vdrive_write_sector(drives[unit], dir.buffer, dir.track, dir.sector);
     vdrive_bam_write_bam(drives[unit]);
     drives[unit]->buffers[1].mode = BUFFER_NOT_IN_USE;
     lib_free((char *)drives[unit]->buffers[1].buffer);

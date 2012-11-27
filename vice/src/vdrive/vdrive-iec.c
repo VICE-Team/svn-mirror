@@ -250,8 +250,8 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
         /* Write the directory entry to disk as an UNCLOSED file. */
 
-        vdrive_dir_find_first_slot(vdrive, NULL, -1, 0);
-        e = vdrive_dir_find_next_slot(vdrive);
+        vdrive_dir_find_first_slot(vdrive, NULL, -1, 0, &p->dir);
+        e = vdrive_dir_find_next_slot(&p->dir);
 
         /* If there is not space for the slot, disk is full */
         if (!e) {
@@ -267,18 +267,13 @@ static int iec_open_write(vdrive_t *vdrive, unsigned int secondary,
 
     if (!p->needsupdate) {
         /* copy the slot information into the sector. */
-        memcpy(&vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2],
+        memcpy(&p->dir.buffer[p->dir.slot * 32 + 2],
                p->slot + 2, 30);
 
         /* Write the sector. */
-        vdrive_write_sector(vdrive, vdrive->Dir_buffer,
-                                vdrive->Curr_track, vdrive->Curr_sector);
+        vdrive_write_sector(vdrive, p->dir.buffer,
+                                p->dir.track, p->dir.sector);
     }
-
-    /* Remember the directory information for close. */
-    p->dir_track = vdrive->Curr_track;
-    p->dir_sector = vdrive->Curr_sector;
-    p->dir_slot = vdrive->SlotNumber;
 
     return SERIAL_OK;
 }
@@ -466,14 +461,14 @@ int vdrive_iec_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
         opentype = CBMDOS_FT_DEL;
 
     vdrive_dir_find_first_slot(vdrive, cmd_parse->parsecmd,
-                               cmd_parse->parselength, opentype);
+                               cmd_parse->parselength, opentype, &p->dir);
 
     /*
      * Find the first non-DEL entry in the directory (if it exists).
      */
-    do
-        slot = vdrive_dir_find_next_slot(vdrive);
-    while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == CBMDOS_FT_DEL));
+    do {
+        slot = vdrive_dir_find_next_slot(&p->dir);
+    } while (slot && ((slot[SLOT_TYPE_OFFSET] & 0x07) == CBMDOS_FT_DEL));
 
     p->readmode = cmd_parse->readmode;
     p->slot = slot;
@@ -921,23 +916,14 @@ int vdrive_iec_update_dirent(vdrive_t *vdrive, unsigned int channel)
 {
     bufferinfo_t *p = &(vdrive->buffers[channel]);
 
-    /* Update directory information - no error checks, everything
-       should be safe at this point. */
-
-    vdrive->Curr_track = p->dir_track;
-    vdrive->Curr_sector = p->dir_sector;
-    vdrive->SlotNumber = p->dir_slot;
-
     /* Read in the track/sector where the directory entry lies. */
-    vdrive_read_sector(vdrive, vdrive->Dir_buffer,
-                           vdrive->Curr_track, vdrive->Curr_sector);
+    vdrive_read_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);
  
     /* Copy over our new slot. */
-    memcpy(&(vdrive->Dir_buffer[vdrive->SlotNumber * 32 + 2]), p->slot + 2, 30);
+    memcpy(&(p->dir.buffer[p->dir.slot * 32 + 2]), p->slot + 2, 30);
 
     /* Write it back. */
-    vdrive_write_sector(vdrive, vdrive->Dir_buffer,
-                            vdrive->Curr_track, vdrive->Curr_sector);
+    vdrive_write_sector(vdrive, p->dir.buffer, p->dir.track, p->dir.sector);
 
     return 0;
 }

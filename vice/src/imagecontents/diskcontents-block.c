@@ -103,6 +103,7 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
     BYTE buffer[256];
     int retval;
     image_contents_file_list_t *lp;
+    unsigned int curr_track, curr_sector;
 
     machine_drive_flush();
 
@@ -127,8 +128,8 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
 
     contents->blocks_free = (int)vdrive_bam_free_block_count(vdrive);
 
-    vdrive->Curr_track = vdrive->Dir_Track;
-    vdrive->Curr_sector = vdrive->Dir_Sector;
+    curr_track = vdrive->Dir_Track;
+    curr_sector = vdrive->Dir_Sector;
 
     lp = NULL;
     contents->file_list = NULL;
@@ -139,12 +140,10 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
         BYTE *p;
         int j;
 
-        retval = vdrive_read_sector(vdrive, buffer,
-                                        vdrive->Curr_track,
-                                        vdrive->Curr_sector);
+        retval = vdrive_read_sector(vdrive, buffer, curr_track, curr_sector);
 
         if (retval != 0
-            || circular_check(vdrive->Curr_track, vdrive->Curr_sector)) {
+            || circular_check(curr_track, curr_sector)) {
             /*image_contents_destroy(contents);*/
             vdrive_internal_close_disk_image(vdrive);
             circular_check_free();
@@ -188,8 +187,8 @@ image_contents_t *diskcontents_block_read(vdrive_t *vdrive)
         if (buffer[0] == 0)
             break;
 
-        vdrive->Curr_track = (int)buffer[0];
-        vdrive->Curr_sector = (int)buffer[1];
+        curr_track = (int)buffer[0];
+        curr_sector = (int)buffer[1];
     }
 
     vdrive_internal_close_disk_image(vdrive);
