@@ -1045,7 +1045,7 @@ static int sound_run_sound(void)
                 bufferptr[i] = bufferptr[i] * amp / 4096;
             }
         } else {
-            memset(&bufferptr[i], 0, nr * snddata.sound_output_channels * sizeof(SWORD));
+            memset(bufferptr, 0, nr * snddata.sound_output_channels * sizeof(SWORD));
         }
     }
 
