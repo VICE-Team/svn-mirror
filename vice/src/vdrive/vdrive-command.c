@@ -613,6 +613,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
     BYTE *slot;
     cbmdos_cmd_parse_t cmd_parse;
     vdrive_dir_context_t dir;
+    int deleted_files;
 
     /* XXX
      * Wrong name parser -- s0:file1,0:file2 means scratch
@@ -635,22 +636,19 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
                   cmd_parse.parsecmd, cmd_parse.parselength,
                   length, cmd_parse.filetype);
 /*#endif*/
-        vdrive->deleted_files = 0;
+        deleted_files = 0;
 
         vdrive_dir_find_first_slot(vdrive, cmd_parse.parsecmd,
                                    cmd_parse.parselength, 0, &dir);
 
         while ((slot = vdrive_dir_find_next_slot(&dir))) {
             vdrive_dir_remove_slot(&dir);
-            vdrive->deleted_files++;
+            deleted_files++;
         }
 
-        if (vdrive->deleted_files)
-            status = CBMDOS_IPE_DELETED;
-        else
-            status = CBMDOS_IPE_NOT_FOUND;
+        status = CBMDOS_IPE_DELETED; /* always, even if no files */
 
-        vdrive_command_set_error(vdrive, status, 1, 0);
+        vdrive_command_set_error(vdrive, status, deleted_files, 0);
     }
 
     lib_free(cmd_parse.parsecmd);
@@ -1047,8 +1045,7 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
     if (code != CBMDOS_IPE_MEMORY_READ) {
         message = cbmdos_errortext(code);
 
-        sprintf((char *)p->buffer, "%02d,%s,%02u,%02u\015",
-                code == CBMDOS_IPE_DELETED ? vdrive->deleted_files : code,
+        sprintf((char *)p->buffer, "%02d,%s,%02u,%02u\015", code,
                 message, track, sector);
 
         /* Length points to the last byte, and doesn't give the length.  */
@@ -1056,8 +1053,7 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
 
         if (code && code != CBMDOS_IPE_DOS_VERSION) {
             log_message(vdrive_command_log, "ERR = %02d, %s, %02u, %02u",
-                        code == CBMDOS_IPE_DELETED ? vdrive->deleted_files : code,
-                        message, track, sector);
+                        code, message, track, sector);
         }
     } else {
         memcpy((char *)p->buffer, vdrive->mem_buf, vdrive->mem_length);

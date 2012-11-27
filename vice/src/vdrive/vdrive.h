@@ -136,9 +136,6 @@ typedef struct vdrive_s {
     BYTE *bam;
     bufferinfo_t buffers[16];
 
-    /* Files deleted with the `S' command.  */
-    int deleted_files;
-
     /* Memory read command buffer.  */
     BYTE mem_buf[256];
     unsigned int mem_length;
