@@ -311,7 +311,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 
             if (command == 0xd7) {
                 /* For write */
-                if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
+                if (vdrive->image->read_only)
                     return CBMDOS_IPE_WRITE_PROTECT_ON;
                 if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer,
                                             track, sector) < 0)
@@ -350,7 +350,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 
             if (command == 'W') {
                 /* For write */
-                if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
+                if (vdrive->image->read_only)
                     return CBMDOS_IPE_WRITE_PROTECT_ON;
                 /* Update length of block based on the buffer pointer. */
                 l = vdrive->buffers[channel].bufptr - 1;
@@ -553,7 +553,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
         goto out2;
     }
 
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
+    if (vdrive->image->read_only) {
         status = CBMDOS_IPE_WRITE_PROTECT_ON;
         goto out2;
     }
@@ -628,7 +628,7 @@ static int vdrive_command_scratch(vdrive_t *vdrive, BYTE *name, int length)
 
     if (rc != SERIAL_OK) {
         status = CBMDOS_IPE_NO_NAME;
-    } else if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
+    } else if (vdrive->image->read_only) {
         status = CBMDOS_IPE_WRITE_PROTECT_ON;
     } else {
 /*#ifdef DEBUG_DRIVE*/
@@ -859,7 +859,7 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     if (status != CBMDOS_IPE_OK)
         return status;
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
+    if (vdrive->image->read_only)
         return CBMDOS_IPE_WRITE_PROTECT_ON;
 
     memcpy(oldbam, vdrive->bam, vdrive->bam_size);
@@ -955,7 +955,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     if (!disk_name)
         return CBMDOS_IPE_SYNTAX;
 
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
+    if (vdrive->image->read_only)
         return CBMDOS_IPE_WRITE_PROTECT_ON;
 
     if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {

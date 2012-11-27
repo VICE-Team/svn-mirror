@@ -318,6 +318,7 @@ int vdrive_attach_image(disk_image_t *image, unsigned int unit,
         vdrive->image_format = VDRIVE_IMAGE_FORMAT_4000;
         vdrive->num_tracks = image->tracks - 1;
         vdrive->bam_size = 0x2100;
+        vdrive->image->read_only = 1; /* Temporary, until it's not safe */
         break;
       default:
         return -1;
