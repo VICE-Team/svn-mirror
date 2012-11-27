@@ -128,18 +128,24 @@ unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
     unsigned int index;
 
     for (index = 0; index < CBMDOS_SLOT_NAME_LENGTH; index++) {
-        if (name1[index] == '*') {
-            return 1;
-        }
-        if ((name1[index] != '?') && (name1[index] != name2[index])) {
-            return 0;
-        }
-        if (name1[index] == 0xa0) {
-            return 1;
+        switch (name1[index]) {
+        case '*':
+            return 1; /* rest is not interesting, it's a match */
+        case '?':
+            if (name2[index] == 0xa0) {
+                return 0; /* wildcard, but the other is too short */
+            }
+            break;
+        case 0xa0:  /* This one ends, let's see if the other as well */
+            return (name2[index] == 0xa0);
+        default:
+            if (name1[index] != name2[index]) {
+                return 0; /* does not match */
+            }
         }
     }
 
-    return 1;
+    return 1; /* matched completely */
 }
 
 BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len)
