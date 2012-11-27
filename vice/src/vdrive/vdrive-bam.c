@@ -50,6 +50,33 @@
 #include "vdrive.h"
 
 /*
+    return Maximum distance from dir track to start/end of disk.  
+
+    FIXME: partition support
+*/
+static int vdrive_calculate_disk_half(vdrive_t *vdrive)
+{
+    switch (vdrive->image_format) {
+      case VDRIVE_IMAGE_FORMAT_1541:
+      case VDRIVE_IMAGE_FORMAT_2040:
+        return 17 + 5;
+      case VDRIVE_IMAGE_FORMAT_1571:
+        return 17 + 35;
+      case VDRIVE_IMAGE_FORMAT_1581:
+        return 40;
+      case VDRIVE_IMAGE_FORMAT_8050:
+      case VDRIVE_IMAGE_FORMAT_8250:
+        return 39;
+      case VDRIVE_IMAGE_FORMAT_4000:
+        return vdrive->num_tracks - 1;
+      default:
+        log_error(LOG_ERR,
+                  "Unknown disk type %i.  Cannot calculate disk half.", vdrive->image_format);
+    }
+    return -1;
+}
+
+/*
     FIXME: partition support
 */
 int vdrive_bam_alloc_first_free_sector(vdrive_t *vdrive,

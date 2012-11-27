@@ -187,7 +187,6 @@ extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
 extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
                                 vdrive_t *vdrive);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
-extern int vdrive_calculate_disk_half(vdrive_t *vdrive);
 extern int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track);
 extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector,
                                  BYTE **buffer);
