@@ -130,6 +130,10 @@ SOURCE=..\..\..\pet\petdww.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\pet\pethre.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\pet\petiec.c
 # End Source File
 # Begin Source File

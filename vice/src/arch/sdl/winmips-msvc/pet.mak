@@ -60,6 +60,7 @@ CLEAN :
 	-@erase "$(INTDIR)\petdatasette.obj"
 	-@erase "$(INTDIR)\petdrive.obj"
 	-@erase "$(INTDIR)\petdww.obj"
+	-@erase "$(INTDIR)\pethre.obj"
 	-@erase "$(INTDIR)\petiec.obj"
 	-@erase "$(INTDIR)\petmem.obj"
 	-@erase "$(INTDIR)\petmemsnapshot.obj"
@@ -132,6 +133,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\petdatasette.obj" \
 	"$(INTDIR)\petdrive.obj" \
 	"$(INTDIR)\petdww.obj" \
+	"$(INTDIR)\pethre.obj" \
 	"$(INTDIR)\petiec.obj" \
 	"$(INTDIR)\petmem.obj" \
 	"$(INTDIR)\petmemsnapshot.obj" \
@@ -187,6 +189,7 @@ CLEAN :
 	-@erase "$(INTDIR)\petdatasette.obj"
 	-@erase "$(INTDIR)\petdrive.obj"
 	-@erase "$(INTDIR)\petdww.obj"
+	-@erase "$(INTDIR)\pethre.obj"
 	-@erase "$(INTDIR)\petiec.obj"
 	-@erase "$(INTDIR)\petmem.obj"
 	-@erase "$(INTDIR)\petmemsnapshot.obj"
@@ -259,6 +262,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\petdatasette.obj" \
 	"$(INTDIR)\petdrive.obj" \
 	"$(INTDIR)\petdww.obj" \
+	"$(INTDIR)\pethre.obj" \
 	"$(INTDIR)\petiec.obj" \
 	"$(INTDIR)\petmem.obj" \
 	"$(INTDIR)\petmemsnapshot.obj" \
@@ -379,6 +383,12 @@ SOURCE=..\..\..\pet\petdrive.c
 SOURCE=..\..\..\pet\petdww.c
 
 "$(INTDIR)\petdww.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\pet\pethre.c
+
+"$(INTDIR)\pethre.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
