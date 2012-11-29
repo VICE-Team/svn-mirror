@@ -608,10 +608,14 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
     DWORD limits;
 
-    *base = (p == NULL || addr < 2) ? NULL : p;
-    limits = mem_read_limit_tab_ptr[addr >> 8];
-    *limit = limits & 0xffff;
-    *start = limits >> 16;
+    if (p != NULL && addr > 1) {
+        *base = p;
+        limits = mem_read_limit_tab_ptr[addr >> 8];
+        *limit = limits & 0xffff;
+        *start = limits >> 16;
+    } else {
+        cartridge_mmu_translate(addr, base, start, limit);
+    }
 }
 
 /* ------------------------------------------------------------------------- */
