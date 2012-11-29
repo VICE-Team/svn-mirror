@@ -38,9 +38,9 @@
    x86 |     8   |     5.8       |   Generic*    |    i86pc      | i386-pc-solaris2.8
  sparc |     8   |     5.8       |   Generic*    |    sun4u      | sparc-solaris2.8
    x86 |     9   |     5.9       |   Generic*    |    i86pc      | i386-pc-solaris2.9
- sparc |     9   |
+ sparc |     9   |     5.9       |   Generic*    |    sun4u      | sparc-solaris2.9
    x86 |    10   |     5.10      |   Generic*    |    i86pc      | i386-pc-solaris2.10
- sparc |    10   |
+ sparc |    10   |     5.10      |   Generic*    |    sun4u      | sparc-solaris2.10
    x86 |   open  |     5.11      |   *           |    i86pc      | i386-pc-solaris2.11
  sparc |   open  |
    arm |   open  |
