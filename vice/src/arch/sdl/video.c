@@ -612,6 +612,11 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
 #else
         if (hwscale) {
             new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
+            if (!new_screen) { /* Did not work out quite well. Let's try without hwscale */
+                resources_set_int("HwScalePossible", 0);
+                canvas->videoconfig->hwscale = 0;
+                return sdl_canvas_create(canvas, width, height);
+            }
             actual_width = new_screen->w;
             actual_height = new_screen->h;
 
