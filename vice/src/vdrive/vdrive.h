@@ -30,6 +30,9 @@
 #include "types.h"
 #include "vdrive-dir.h"
 
+/* temporarily until the 4000 support is not safe */
+#define VDRIVE_IMAGE_FORMAT_4000_TEST (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000)
+
 /* High level disk formats.
    They can be different than the disk image type.  */
 #define VDRIVE_IMAGE_FORMAT_1541 0
