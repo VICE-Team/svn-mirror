@@ -52,7 +52,6 @@
 #include "uisid.h"
 #include "uisound.h"
 #include "uispeed.h"
-#include "uivideo.h"
 #include "vsync.h"
 #include "winmain.h"
 
@@ -149,7 +148,6 @@ static ui_menu_translation_table_t vsidui_menu_translation_table[] = {
     { IDM_MAXIMUM_SPEED_CUSTOM, IDS_MI_MAXIMUM_SPEED_CUSTOM },
     { IDM_TOGGLE_WARP_MODE, IDS_MI_TOGGLE_WARP_MODE },
     { IDM_TOGGLE_ALWAYSONTOP, IDS_MI_TOGGLE_ALWAYSONTOP },
-    { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_SOUND_SETTINGS, IDS_MI_SOUND_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
     { IDM_SETTINGS_SAVE_FILE, IDS_MI_SETTINGS_SAVE_FILE },
@@ -738,9 +736,6 @@ static void handle_wm_command(WPARAM wparam, LPARAM lparam, HWND hwnd)
             break;
         case IDM_MAXIMUM_SPEED_CUSTOM:
             ui_speed_settings_dialog(hwnd);
-            break;
-        case IDM_VIDEO_SETTINGS:
-            ui_video_settings_dialog(hwnd, UI_VIDEO_CHIP_VICII, UI_VIDEO_CHIP_NONE);
             break;
         case IDM_SOUND_SETTINGS:
             ui_sound_settings_dialog(hwnd);
