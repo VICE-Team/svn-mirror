@@ -142,6 +142,25 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 /* ------------------------------------------------------------------------- */
 
+/* $00/$01 unused bits emulation, as investigated by groepaz:
+
+   it actually seems to work like this... somewhat unexpected indeed
+
+   a) unused bits of $00 (DDR) are actually implemented and working. any value
+      written to them can be read back and also affects $01 (DATA) the same as
+      with the used bits.
+   b) unused bits of $01 are also implemented and working. when a bit is
+      programmed as output, any value written to it can be read back. when a bit
+      is programmed as input it will read back as 0, if 1 is written to it then
+      it will read back as 1 for some time and drop back to 0 (the already
+      emulated case of when bitfading occurs)
+
+   educated guess on why this happens: on the CPU actually the full 8 bit of
+   the i/o port are implemented. what is missing for bit 6 and bit 7 are the
+   actual input/output driver stages only - which (imho) completely explains
+   the above described behavior :)
+*/
+
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
     if (pport.data_falloff_bit6) {
@@ -204,6 +223,8 @@ void mem_pla_config_changed(void)
 
 BYTE zero_read(WORD addr)
 {
+    BYTE retval;
+
     addr &= 0xff;
 #ifdef FEATURE_CPUMEMHISTORY
     if (!(memmap_state & MEMMAP_STATE_IGNORE)) {
@@ -219,7 +240,16 @@ BYTE zero_read(WORD addr)
                 check_data_set_alarm();
             }
 
-            return (pport.data_read & 0x3f) | (pport.data_set_bit6 << 6) | (pport.data_set_bit7 << 7);
+            /* set real values of bits 0-5 */
+            retval = pport.data_read & 0x3f;
+
+            /* set real value of bit 6 */
+            retval |= (pport.dir & 0x40) ? (pport.data_read & 0x40) : (pport.data_set_bit6 << 6);
+
+            /* set real value of bit 7 */
+            retval |= (pport.dir & 0x80) ? (pport.data_read & 0x80) : (pport.data_set_bit6 << 6);
+
+            return retval;
     }
 
     return mem_ram[addr & 0xff];
@@ -239,6 +269,19 @@ void zero_store(WORD addr, BYTE value)
                 mem_ram[0] = vicii_read_phi1_lowlevel();
                 machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             }
+
+            /* check if bit 6 has flipped */
+            if ((pport.dir & 0x40) != (value & 0x40)) {
+                pport.data_set_bit6 = 0;
+                pport.data_falloff_bit6 = 0;
+            }
+
+            /* check if bit 7 has flipped */
+            if ((pport.dir & 0x80) != (value & 0x80)) {
+                pport.data_set_bit7 = 0;
+                pport.data_falloff_bit7 = 0;
+            }
+
             if (pport.dir != value) {
                 pport.dir = value;
                 mem_pla_config_changed();
@@ -251,7 +294,9 @@ void zero_store(WORD addr, BYTE value)
                 mem_ram[1] = vicii_read_phi1_lowlevel();
                 machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             }
-            if (value & 0x80) {
+
+            /* only start bit 7 fall-off if direction is read and bit is set to 1 */
+            if ((value & 0x80) && !(pport.dir & 0x80)) {
                 pport.data_set_bit7 = 1;
                 pport.data_falloff_bit7 = 1;
                 pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
@@ -259,7 +304,9 @@ void zero_store(WORD addr, BYTE value)
                 pport.data_set_bit7 = 0;
                 pport.data_falloff_bit7 = 0;
             }
-            if (value & 0x40) {
+
+            /* only start bit 6 fall-off if direction is read and bit is set to 1 */
+            if ((value & 0x40) && !(pport.dir & 0x40)) {
                 pport.data_set_bit6 = 1;
                 pport.data_falloff_bit6 = 1;
                 pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
