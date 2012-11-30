@@ -103,7 +103,7 @@ void mem_limit_plus60k_init(DWORD mem_read_limit_tab[NUM_CONFIGS][0x101])
         for (j = 0; j < NUM_SEGMENTS; j++) {
             for (k = mstart[j]; k <= mend[j]; k++) {
                 if (k < 0x10) {
-                    mem_read_limit_tab[i][k] = limit_tab[j][i];
+                    mem_read_limit_tab[i][k] = 0x00020ffd;
                 } else {
                     mem_read_limit_tab[i][k] = 0;
                 }
