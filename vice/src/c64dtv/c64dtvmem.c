@@ -111,13 +111,13 @@ BYTE *mem_chargen_rom_ptr;
 read_func_ptr_t *_mem_read_tab_ptr;
 store_func_ptr_t *_mem_write_tab_ptr;
 static BYTE **_mem_read_base_tab_ptr;
-static int *mem_read_limit_tab_ptr;
+static DWORD *mem_read_limit_tab_ptr;
 
 /* Memory read and write tables.  */
 static store_func_ptr_t mem_write_tab[NUM_VBANKS][NUM_CONFIGS][0x101];
 static read_func_ptr_t mem_read_tab[NUM_CONFIGS][0x101];
 static BYTE *mem_read_base_tab[NUM_CONFIGS][0x101];
-static int mem_read_limit_tab[NUM_CONFIGS][0x101];
+static DWORD mem_read_limit_tab[NUM_CONFIGS][0x101];
 
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
@@ -374,17 +374,19 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
     int bank = addr >> 14;
     int paddr;
     BYTE *p;
+    DWORD limits;
 
-    *start = addr; /* TODO */
     if ((((dtv_registers[8] >> (bank * 2)) & 0x03) == 0x00)) {
         if (c64dtvflash_state) {
             *base = NULL; /* not idle */
             *limit = 0;
+            *start = 0;
             return;
         }
         paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
         *base = &c64dtvflash_mem[paddr] - (addr & 0xc000);
         *limit = (addr & 0xc000) | 0x3ffd;
+        *start = addr & 0xc000;
         return;
     }
     paddr = (((int)dtv_registers[12 + bank]) << 14) & (C64_RAM_SIZE - 1);
@@ -392,8 +394,16 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
         paddr |= addr & 0x3fff;
         p = _mem_read_base_tab_ptr[paddr >> 8];
         if (p) { /* easy */
-            *base = p - (addr & 0xff00);
-            *limit = mem_read_limit_tab_ptr[paddr >> 8] - paddr + addr;
+            if (addr > 1) {
+                *base = p - (addr & 0xff00);
+                limits = mem_read_limit_tab_ptr[paddr >> 8];
+                *limit = (limits & 0xffff) - paddr + addr;
+                *start = (limits >> 16) - paddr + addr;
+            } else {
+                *base = NULL;
+                *limit = 0;
+                *start = 0;
+            }
             return;
         } else {
             if (!c64dtvflash_state) {
@@ -402,28 +412,33 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
                     int mapping = c64dtvmem_memmapper[0];
                     paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
                     *base = ((mapping & 0xc0) ? mem_ram : c64dtvflash_mem) + paddr;
-                    *limit = (addr & 0xc000) | 0x3ffd;
+                    *limit = (addr & 0xe000) | 0x1ffd;
+                    *start = addr & 0xe000;
                     return;
                 }
                 if (p == c64memrom_basic64_read) {
                     int mapping = c64dtvmem_memmapper[1];
                     paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
                     *base = ((mapping & 0xc0) ? mem_ram : c64dtvflash_mem) + paddr;
-                    *limit = (addr & 0xc000) | 0x3ffd;
+                    *limit = (addr & 0xe000) | 0x1ffd;
+                    *start = addr & 0xe000;
                     return;
                 }
                 if (p == chargen_read) { /* not likely but anyway */
                     *base = c64dtvflash_mem + (paddr & ~0x3fff) - (addr & 0xc000);
-                    *limit = (addr & 0xc000) | 0x1ffd;
+                    *limit = (addr & 0xf000) | 0x0ffd;
+                    *start = addr & 0xf000;
                     return;
                 }
             }
             *base = NULL;
             *limit = 0;
+            *start = 0;
         }
     } else {
         *base = &mem_ram[paddr] - (addr & 0xc000);
         *limit = (addr & 0xc000) | 0x3ffd;
+        *start = addr & 0xc000;
     }
 #endif
 }
