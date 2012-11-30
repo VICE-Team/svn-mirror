@@ -222,7 +222,7 @@ BYTE zero_read(WORD addr)
                 check_data_set_alarm();
             }
 
-            return (pport.data_read & (0xff - (((!pport.data_set_bit6) << 6) + ((!pport.data_set_bit7) << 7))));
+            return (pport.data_read & 0x3f) | (pport.data_set_bit6 << 6) | (pport.data_set_bit7 << 7);
     }
 
     if (c64_256k_enabled) {
@@ -258,20 +258,6 @@ void zero_store(WORD addr, BYTE value)
                 mem_ram[0] = vicii_read_phi1_lowlevel();
                 machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             }
-            if (pport.data_set_bit7 && ((value & 0x80) == 0) && pport.data_falloff_bit7 == 0) {
-                pport.data_falloff_bit7 = 1;
-                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
-            }
-            if (pport.data_set_bit6 && ((value & 0x40) == 0) && pport.data_falloff_bit6 == 0) {
-                pport.data_falloff_bit6 = 1;
-                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
-            }
-            if (pport.data_set_bit7 && (value & 0x80) && pport.data_falloff_bit7) {
-                pport.data_falloff_bit7 = 0;
-            }
-            if (pport.data_set_bit6 && (value & 0x40) && pport.data_falloff_bit6) {
-                pport.data_falloff_bit6 = 0;
-            }
             if (pport.dir != value) {
                 pport.dir = value;
                 mem_pla_config_changed();
@@ -292,11 +278,21 @@ void zero_store(WORD addr, BYTE value)
                 mem_ram[1] = vicii_read_phi1_lowlevel();
                 machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             }
-            if ((pport.dir & 0x80) && (value & 0x80)) {
+            if (value & 0x80) {
                 pport.data_set_bit7 = 1;
+                pport.data_falloff_bit7 = 1;
+                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+            } else {
+                pport.data_set_bit7 = 0;
+                pport.data_falloff_bit7 = 0;
             }
-            if ((pport.dir & 0x40) && (value & 0x40)) {
+            if (value & 0x40) {
                 pport.data_set_bit6 = 1;
+                pport.data_falloff_bit6 = 1;
+                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+            } else {
+                pport.data_set_bit6 = 0;
+                pport.data_falloff_bit6 = 0;
             }
 
             if (pport.data != value) {
