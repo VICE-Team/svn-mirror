@@ -60,7 +60,7 @@ static char convert_to_ultimax = 0;
 static unsigned char input_filenames = 0;
 static char loadfile_is_crt = 0;
 static char loadfile_is_ultimax = 0;
-static unsigned char loadfile_cart_type = 0;
+static int loadfile_cart_type = 0;
 static unsigned char filebuffer[(1024 * 1024) + 2];
 static unsigned char headerbuffer[0x40];
 static unsigned char extra_buffer_32kb[0x8000];
@@ -357,7 +357,7 @@ static void printbanks(char *name)
     unsigned long len;
     unsigned long pos;
     unsigned int type, bank, start, size;
-    char *typestr[3] = {"ROM", "RAM", "FLASH"};
+    char *typestr[4] = {"ROM", "RAM", "FLASH", "UNK"};
     unsigned int numbanks;
     unsigned long tsize;
 
@@ -378,7 +378,13 @@ static void printbanks(char *name)
             bank = (b[10] * 0x100) + b[11];
             start = (b[12] * 0x100) + b[13];
             size = (b[14] * 0x100) + b[15];
-            printf("$%06lx %c%c%c%c %-5s #%03d $%04x $%04x $%04lx\n", pos, b[0], b[1], b[2], b[3], typestr[type], bank, start, size, len);
+            if ((type < 0) || (type > 2)) {
+                type = 3; /* invalid */
+            }
+            printf("$%06lx %-1c%-1c%-1c%-1c %-5s #%03d $%04x $%04x $%04lx\n", pos, b[0], b[1], b[2], b[3], typestr[type], bank, start, size, len);
+            if ((size + 0x10) > len) {
+                printf("  Error: data size exceeds chunk length\n");
+            }
             pos += len;
             numbanks++;
             tsize += size;
@@ -393,7 +399,9 @@ static void printinfo(char *name)
     int crtid;
     char *idname, *modename;
     char cartname[0x20+1];
-    load_input_file(name);
+    if (load_input_file(name) < 0) {
+        printf("Error: this file seems broken.\n\n");
+    }
     crtid = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
     if (headerbuffer[0x17] & 0x80) {
         /* handle our negative test IDs */
@@ -509,7 +517,7 @@ static int checkflag(char *flg, char *arg)
 
 static void too_many_inputs(void)
 {
-    printf("Error: too many input files\n");
+    fprintf(stderr, "Error: too many input files\n");
     cleanup();
     exit(1);
 }
@@ -546,7 +554,7 @@ static int load_easyflash_crt(void)
 
 static int load_all_banks(void)
 {
-    unsigned int length;
+    unsigned int length, size;
 
     if (loadfile_cart_type == CARTRIDGE_EASYFLASH) {
         return load_easyflash_crt();
@@ -561,13 +569,20 @@ static int load_all_banks(void)
             }
         }
         if (chipbuffer[0] != 'C' || chipbuffer[1] != 'H' || chipbuffer[2] != 'I' || chipbuffer[3] != 'P') {
+            fprintf(stderr, "Error: CHIP tag not found.\n");
             return -1;
         }
         if (load_address == 0) {
             load_address = (chipbuffer[0xc] << 8) + chipbuffer[0xd];
         }
         length = (chipbuffer[4] << 24) + (chipbuffer[5] << 16) + (chipbuffer[6] << 8) + chipbuffer[7] - 16;
+        size = (chipbuffer[14] * 0x100) + chipbuffer[15];
+        if ((size + 0x10) > length) {
+            fprintf(stderr, "Error: data size exceeds chunk length.\n");
+            return -1;
+        }
         if (fread(filebuffer + loadfile_size, 1, length, infile) != length) {
+            fprintf(stderr, "Error: could not read data from file.\n");
             return -1;
         }
         loadfile_size += length;
@@ -580,20 +595,20 @@ static int save_binary_output_file(void)
 
     outfile = fopen(output_filename, "wb");
     if (outfile == NULL) {
-        printf("Error: Can't open output file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't open output file %s\n", output_filename);
         return -1;
     }
     if (convert_to_prg == 1) {
         address_buffer[0] = load_address & 0xff;
         address_buffer[1] = load_address >> 8;
         if (fwrite(address_buffer, 1, 2, outfile) != 2) {
-            printf("Error: Can't write to file %s\n", output_filename);
+            fprintf(stderr, "Error: Can't write to file %s\n", output_filename);
             fclose(outfile);
             return -1;
         }
     }
     if (fwrite(filebuffer, 1, loadfile_size, outfile) != loadfile_size) {
-        printf("Error: Can't write to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write to file %s\n", output_filename);
         fclose(outfile);
         return -1;
     }
@@ -649,11 +664,11 @@ static int write_crt_header(unsigned char gameline, unsigned char exromline)
 
     outfile = fopen(output_filename, "wb");
     if (outfile == NULL) {
-        printf("Error: Can't open output file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't open output file %s\n", output_filename);
         return -1;
     }
     if (fwrite(crt_header, 1, 0x40, outfile) != 0x40) {
-        printf("Error: Can't write crt header to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write crt header to file %s\n", output_filename);
         fclose(outfile);
         unlink(output_filename);
         return -1;
@@ -686,13 +701,13 @@ static int write_chip_package(unsigned int length, unsigned int bankint, unsigne
     chip_header[0xe] = (unsigned char)(length >> 8);
     chip_header[0xf] = (unsigned char)(length & 0xff);
     if (fwrite(chip_header, 1, 0x10, outfile) != 0x10) {
-        printf("Error: Can't write chip header to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write chip header to file %s\n", output_filename);
         fclose(outfile);
         unlink(output_filename);
         return -1;
     }
     if (fwrite(filebuffer + loadfile_offset, 1, length, outfile) != length) {
-        printf("Error: Can't write data to file %s\n", output_filename);
+        fprintf(stderr, "Error: Can't write data to file %s\n", output_filename);
         fclose(outfile);
         unlink(output_filename);
         return -1;
@@ -989,23 +1004,23 @@ static int load_input_file(char *filename)
     loadfile_offset = 0;
     infile = fopen(filename, "rb");
     if (infile == NULL) {
-        printf("Error: Can't open %s\n", filename);
+        fprintf(stderr, "Error: Can't open %s\n", filename);
         return -1;
     }
     if (fread(filebuffer, 1, 16, infile) != 16) {
-        printf("Error: Can't read %s\n",filename);
+        fprintf(stderr, "Error: Can't read %s\n",filename);
         fclose(infile);
         return -1;
     }
     if (!strncmp("C64 CARTRIDGE   ", (char *)filebuffer, 16)) {
         loadfile_is_crt = 1;
         if (fread(headerbuffer + 0x10, 1, 0x30, infile) != 0x30) {
-            printf("Error: Can't read the full header of %s\n", filename);
+            fprintf(stderr, "Error: Can't read the full header of %s\n", filename);
             fclose(infile);
             return -1;
         }
         if (headerbuffer[0x10] != 0 || headerbuffer[0x11] != 0 || headerbuffer[0x12] != 0 || headerbuffer[0x13] != 0x40) {
-            printf("Error: Illegal header size in %s\n", filename);
+            fprintf(stderr, "Error: Illegal header size in %s\n", filename);
             fclose(infile);
             return -1;
         }
@@ -1014,15 +1029,26 @@ static int load_input_file(char *filename)
         } else {
             loadfile_is_ultimax = 0;
         }
-        loadfile_cart_type = headerbuffer[0x17];
+
+        loadfile_cart_type = headerbuffer[0x17] + (headerbuffer[0x16] << 8);
+        if (headerbuffer[0x17] & 0x80) {
+            /* handle our negative test IDs */
+            loadfile_cart_type -= 0x10000;
+        }
+        if (!((loadfile_cart_type >= 0) && (loadfile_cart_type <= CARTRIDGE_LAST))) {
+            fprintf(stderr, "Error: Unknown CRT ID: %d\n", loadfile_cart_type);
+            fclose(infile);
+            return -1;
+        }
+
         loadfile_size = 0;
         if (load_all_banks() < 0) {
             if (repair_mode) {
-                printf("Warning: Can't load all banks of %s\n", filename);
+                fprintf(stderr, "Warning: Can't load all banks of %s\n", filename);
                 fclose(infile);
                 return 0;
             } else {
-                printf("Error: Can't load all banks of %s (use -r to force)\n", filename);
+                fprintf(stderr, "Error: Can't load all banks of %s (use -r to force)\n", filename);
                 fclose(infile);
                 return -1;
             }
@@ -1076,7 +1102,7 @@ static int load_input_file(char *filename)
                 return 0;
                 break;
             default:
-                printf("Error: Illegal file size of %s\n", filename);
+                fprintf(stderr, "Error: Illegal file size of %s\n", filename);
                 fclose(infile);
                 return -1;
         }
@@ -1096,7 +1122,7 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
     int i;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        printf("Error: wrong size of Dela EP64 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Dela EP64 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
@@ -1119,11 +1145,11 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                 close_output_cleanup();
             }
             if (loadfile_is_crt == 1) {
-                printf("Error: to be inserted file can only be a binary for Dela EP64\n");
+                fprintf(stderr, "Error: to be inserted file can only be a binary for Dela EP64\n");
                 close_output_cleanup();
             }
             if (loadfile_size != CARTRIDGE_SIZE_32KB) {
-                printf("Error: to be insterted file can only be 32KB in size for Dela EP64\n");
+                fprintf(stderr, "Error: to be inserted file can only be 32KB in size for Dela EP64\n");
                 close_output_cleanup();
             }
             if (write_chip_package(0x8000, i + 1, 0x8000, 0) < 0) {
@@ -1144,13 +1170,13 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
     unsigned int insert_size = 0;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        printf("Error: wrong size of Dela EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Dela EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
 
     if (input_filenames == 1) {
-        printf("Error: no files to insert into Dela EP256 .crt\n");
+        fprintf(stderr, "Error: no files to insert into Dela EP256 .crt\n");
         cleanup();
         exit(1);
     }
@@ -1171,7 +1197,7 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
         }
 
         if (loadfile_size != CARTRIDGE_SIZE_32KB && loadfile_size != CARTRIDGE_SIZE_8KB) {
-            printf("Error: only 32KB binary files or 8KB bin/crt files can be inserted in Dela EP256\n");
+            fprintf(stderr, "Error: only 32KB binary files or 8KB bin/crt files can be inserted in Dela EP256\n");
             close_output_cleanup();
         }
 
@@ -1180,17 +1206,17 @@ static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3
         }
 
         if (insert_size == CARTRIDGE_SIZE_32KB && input_filenames > 8) {
-            printf("Error: a maximum of 8 32KB images can be inserted\n");
+            fprintf(stderr, "Error: a maximum of 8 32KB images can be inserted\n");
             close_output_cleanup();
         }
 
         if (insert_size != loadfile_size) {
-            printf("Error: only one type of insertion is allowed at this time for Dela EP256\n");
+            fprintf(stderr, "Error: only one type of insertion is allowed at this time for Dela EP256\n");
             close_output_cleanup();
         }
 
         if (loadfile_is_crt == 1 && (loadfile_size != CARTRIDGE_SIZE_8KB || load_address != 0x8000 || loadfile_is_ultimax == 1)) {
-            printf("Error: you can only insert generic 8KB .crt files for Dela EP256\n");
+            fprintf(stderr, "Error: you can only insert generic 8KB .crt files for Dela EP256\n");
             close_output_cleanup();
         }
 
@@ -1222,13 +1248,13 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
     int chip_counter = 1;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        printf("Error: wrong size of Dela EP7x8 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Dela EP7x8 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
 
     if (input_filenames == 1) {
-        printf("Error: no files to insert into Dela EP7x8 .crt\n");
+        fprintf(stderr, "Error: no files to insert into Dela EP7x8 .crt\n");
         cleanup();
         exit(1);
     }
@@ -1250,12 +1276,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
 
         if (loadfile_size == CARTRIDGE_SIZE_32KB) {
             if (loadfile_is_crt == 1) {
-                printf("Error: (%s) only binary 32KB images can be inserted into a Dela EP7x8 .crt\n",
+                fprintf(stderr, "Error: (%s) only binary 32KB images can be inserted into a Dela EP7x8 .crt\n",
                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (inserted_size != 0) {
-                    printf("Error: (%s) only the first inserted image can be a 32KB image for Dela EP7x8\n",
+                    fprintf(stderr, "Error: (%s) only the first inserted image can be a 32KB image for Dela EP7x8\n",
                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
@@ -1281,12 +1307,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
 
         if (loadfile_size == CARTRIDGE_SIZE_16KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
-                printf("Error: (%s) only generic 16KB .crt images can be inserted into a Dela EP7x8 .crt\n",
+                fprintf(stderr, "Error: (%s) only generic 16KB .crt images can be inserted into a Dela EP7x8 .crt\n",
                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (inserted_size >= 0xc000) {
-                    printf("Error: (%s) no room to insert a 16KB binary file into the Dela EP7x8 .crt\n",
+                    fprintf(stderr, "Error: (%s) no room to insert a 16KB binary file into the Dela EP7x8 .crt\n",
                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
@@ -1306,12 +1332,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
 
         if (loadfile_size == CARTRIDGE_SIZE_8KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
-                printf("Error: (%s) only generic 8KB .crt images can be inserted into a Dela EP7x8 .crt\n",
+                fprintf(stderr, "Error: (%s) only generic 8KB .crt images can be inserted into a Dela EP7x8 .crt\n",
                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (inserted_size >= 0xe000) {
-                    printf("Error: (%s) no room to insert a 8KB binary file into the Dela EP7x8 .crt\n",
+                    fprintf(stderr, "Error: (%s) no room to insert a 8KB binary file into the Dela EP7x8 .crt\n",
                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
@@ -1343,13 +1369,13 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
     int subchip_counter = 1;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
-        printf("Error: wrong size of Rex EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
+        fprintf(stderr, "Error: wrong size of Rex EP256 base file %s (%d)\n", input_filename[0], loadfile_size);
         cleanup();
         exit(1);
     }
 
     if (input_filenames == 1) {
-        printf("Error: no files to insert into Rex EP256 .crt\n");
+        fprintf(stderr, "Error: no files to insert into Rex EP256 .crt\n");
         cleanup();
         exit(1);
     }
@@ -1370,17 +1396,17 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
         }
 
         if (chip_counter > 8) {
-            printf("Error: no more room for %s in the Rex EP256 .crt\n", input_filename[name_counter]);
+            fprintf(stderr, "Error: no more room for %s in the Rex EP256 .crt\n", input_filename[name_counter]);
         }
 
         if (loadfile_size == CARTRIDGE_SIZE_32KB) {
             if (loadfile_is_crt == 1) {
-                printf("Error: (%s) only binary 32KB images can be inserted into a Rex EP256 .crt\n",
+                fprintf(stderr, "Error: (%s) only binary 32KB images can be inserted into a Rex EP256 .crt\n",
                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (images_of_8kb_started != 0) {
-                    printf("Error: (%s) only the first inserted images can be a 32KB image for Rex EP256\n",
+                    fprintf(stderr, "Error: (%s) only the first inserted images can be a 32KB image for Rex EP256\n",
                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
@@ -1396,14 +1422,14 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
 
         if (loadfile_size == CARTRIDGE_SIZE_8KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
-                printf("Error: (%s) only generic 8KB .crt images can be inserted into a Rex EP256 .crt\n",
+                fprintf(stderr, "Error: (%s) only generic 8KB .crt images can be inserted into a Rex EP256 .crt\n",
                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (images_of_8kb_started == 0) {
                     images_of_8kb_started = 1;
                     if ((9 - chip_counter) * 4 < input_filenames - name_counter) {
-                        printf("Error: no room for the amount of input files given\n");
+                        fprintf(stderr, "Error: no room for the amount of input files given\n");
                         close_output_cleanup();
                     }
                     eprom_size_for_8kb = 1;
@@ -1548,17 +1574,17 @@ int main(int argc, char *argv[])
     }
 
     if (output_filename == NULL) {
-        printf("Error: no output filename\n");
+        fprintf(stderr, "Error: no output filename\n");
         cleanup();
         exit(1);
     }
     if (input_filenames == 0) {
-        printf("Error: no input filename\n");
+        fprintf(stderr, "Error: no input filename\n");
         cleanup();
         exit(1);
     }
     if (!strcmp(output_filename, input_filename[0])) {
-        printf("Error: output filename = input filename\n");
+        fprintf(stderr, "Error: output filename = input filename\n");
         cleanup();
         exit(1);
     }
@@ -1589,14 +1615,14 @@ int main(int argc, char *argv[])
                     exit(1);
                 }
             } else {
-                printf("Error: File is already .crt format\n");
+                fprintf(stderr, "Error: File is already .crt format\n");
                 cleanup();
                 exit(1);
             }
         }
     } else {
         if (cart_type == -1) {
-            printf("Error: File is already in binary format\n");
+            fprintf(stderr, "Error: File is already in binary format\n");
             cleanup();
             exit(1);
         }
@@ -1604,7 +1630,7 @@ int main(int argc, char *argv[])
                   check is doomed to fail because of that :)
         */
         if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
-            printf("Error: Input file size (%d) doesn't match %s requirements\n",
+            fprintf(stderr, "Error: Input file size (%d) doesn't match %s requirements\n",
                    loadfile_size, cart_info[(unsigned char)cart_type].name);
             cleanup();
             exit(1);
