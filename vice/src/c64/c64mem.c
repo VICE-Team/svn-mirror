@@ -250,7 +250,7 @@ BYTE zero_read(WORD addr)
             retval |= (pport.dir & 0x40) ? (pport.data_read & 0x40) : (pport.data_set_bit6 << 6);
 
             /* set real value of bit 7 */
-            retval |= (pport.dir & 0x80) ? (pport.data_read & 0x80) : (pport.data_set_bit6 << 6);
+            retval |= (pport.dir & 0x80) ? (pport.data_read & 0x80) : (pport.data_set_bit7 << 7);
 
             return retval;
     }
