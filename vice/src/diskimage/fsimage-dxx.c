@@ -46,8 +46,8 @@ static log_t fsimage_dxx_log = LOG_ERR;
 int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                                  const disk_track_t *raw)
 {
-    unsigned int track, sector, max_sector = 0;
-    int sectors;
+    unsigned int track, sector, max_sector = 0, error_info_created = 0;
+    int sectors, res;
     long offset;
     BYTE *buffer;
     fsimage_t *fsimage = image->media.fsimage;
@@ -89,6 +89,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                     memset(fsimage->error_info.map, (BYTE)CBMDOS_FDC_ERR_OK, newlen);
                     fsimage->error_info.len = newlen;
                     fsimage->error_info.dirty = 1;
+                    error_info_created = 1;
                 }
             } 
         }
@@ -119,8 +120,14 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
                 offset += X64_HEADER_LENGTH;
 
             fsimage->error_info.dirty = 0;
-
-            if (util_fpwrite(fsimage->fd, fsimage->error_info.map, max_sector, offset) < 0) {
+            if (error_info_created) {
+                res = util_fpwrite(fsimage->fd, fsimage->error_info.map, 
+                                   fsimage->error_info.len, fsimage->error_info.len * 256);
+            } else {
+                res = util_fpwrite(fsimage->fd, fsimage->error_info.map + sectors, 
+                                   max_sector, offset);
+            }
+            if (res < 0) {
                 log_error(fsimage_dxx_log, "Error writing T:%i error info to disk image.",
                         track);
                 return -1;
