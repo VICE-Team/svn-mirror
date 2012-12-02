@@ -521,21 +521,20 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
 
 void rotation_1541_gcr_cycle(drive_t *dptr)
 {
-	rotation_t *rptr;
+	rotation_t *rptr = &rotation[dptr->mynumber];
 	CLOCK cpu_cycles;
 	int ref_cycles, ref_advance_cycles;
-
-	rptr = &rotation[dptr->mynumber];
+	CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
 
 	/* cpu cycles since last call */
-	cpu_cycles = (*(dptr->clk) - rptr->rotation_last_clk) >> rptr->frequency;
+	cpu_cycles = *(dptr->clk) - rptr->rotation_last_clk;
 	rptr->rotation_last_clk = *(dptr->clk);
         /* modulo, at least one revolution, but not more than two */
-        while (cpu_cycles > 400000) cpu_cycles -= 200000;
+        while (cpu_cycles > one_rotation * 2) cpu_cycles -= one_rotation;
 
 	/* Calculate the reference clock cycles from the cpu clock cycles - hw works the other way around...
 		 The reference clock is actually 16MHz, and the cpu clock is the result of dividing that by 16 */
-	ref_cycles = cpu_cycles << 4;
+	ref_cycles = cpu_cycles << (rptr->frequency ? 3 : 4);
 
 	/* add additional R cycles requested; R must be less than a complete C cycle */
 	ref_advance_cycles = dptr->req_ref_cycles;
@@ -904,21 +903,20 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
 
 void rotation_1541_p64_cycle(drive_t *dptr)
 {
-	rotation_t *rptr;
+	rotation_t *rptr = &rotation[dptr->mynumber];
 	CLOCK cpu_cycles;
 	int ref_cycles, ref_advance_cycles;
-
-	rptr = &rotation[dptr->mynumber];
+	CLOCK one_rotation = rptr->frequency ? 400000 : 200000;
 
 	/* cpu cycles since last call */
-	cpu_cycles = (*(dptr->clk) - rptr->rotation_last_clk) >> rptr->frequency;
+	cpu_cycles = *(dptr->clk) - rptr->rotation_last_clk;
 	rptr->rotation_last_clk = *(dptr->clk);
         /* modulo, at least one revolution, but not more than two */
-        while (cpu_cycles > 400000) cpu_cycles -= 200000;
+        while (cpu_cycles > one_rotation * 2) cpu_cycles -= one_rotation;
 
 	/* Calculate the reference clock cycles from the cpu clock cycles - hw works the other way around...
 		 The reference clock is actually 16MHz, and the cpu clock is the result of dividing that by 16 */
-	ref_cycles = cpu_cycles << 4;
+	ref_cycles = cpu_cycles << (rptr->frequency ? 3 : 4);
 
 	/* add additional R cycles requested; R must be less than a complete C cycle */
 	ref_advance_cycles = dptr->req_ref_cycles;
