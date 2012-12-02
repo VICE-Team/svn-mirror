@@ -38,7 +38,7 @@ updated to. The update happens in a loop that rolls-forward the missed alarm cal
 (in case there are any - e.g. when IRQ is disabled), then a call to cia_do_update_ta() 
 resp. cia_do_update_tb(). These are also called from the alarm functions.
 
-In these update functions, then the CIA timer is updated by calling by calling ciat_update().
+In these update functions, then the CIA timer is updated by calling ciat_update().
 
 In other parts, mostly when a register is set, the CIA alarm is set explicitely by calling
 ciat_set_alarm().
