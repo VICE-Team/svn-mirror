@@ -528,7 +528,7 @@ void rotation_1541_gcr_cycle(drive_t *dptr)
 	rptr = &rotation[dptr->mynumber];
 
 	/* cpu cycles since last call */
-	cpu_cycles = *(dptr->clk) - rptr->rotation_last_clk;
+	cpu_cycles = (*(dptr->clk) - rptr->rotation_last_clk) >> rptr->frequency;
 	rptr->rotation_last_clk = *(dptr->clk);
         /* modulo, at least one revolution, but not more than two */
         while (cpu_cycles > 400000) cpu_cycles -= 200000;
@@ -911,7 +911,7 @@ void rotation_1541_p64_cycle(drive_t *dptr)
 	rptr = &rotation[dptr->mynumber];
 
 	/* cpu cycles since last call */
-	cpu_cycles = *(dptr->clk) - rptr->rotation_last_clk;
+	cpu_cycles = (*(dptr->clk) - rptr->rotation_last_clk) >> rptr->frequency;
 	rptr->rotation_last_clk = *(dptr->clk);
         /* modulo, at least one revolution, but not more than two */
         while (cpu_cycles > 400000) cpu_cycles -= 200000;
