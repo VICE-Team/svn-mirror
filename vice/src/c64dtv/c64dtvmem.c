@@ -184,10 +184,10 @@ BYTE zero_read(WORD addr)
     addr &= 0xff;
 
     switch ((BYTE)addr) {
-      case 0:
-        return pport.dir_read;
-      case 1:
-        return pport.data_read;
+        case 0:
+            return pport.dir_read;
+        case 1:
+            return pport.data_read;
     }
 
     return mem_ram[addr & 0xff];
@@ -198,36 +198,36 @@ void zero_store(WORD addr, BYTE value)
     addr &= 0xff;
 
     switch ((BYTE)addr) {
-      case 0:
-        if (vbank == 0) {
-	    vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
-        } else {
-            mem_ram[0] = vicii_read_phi1_lowlevel();
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-        }
-        if (pport.dir != value) {
-            pport.dir = value;
-            mem_pla_config_changed();
-        }
-        break;
-      case 1:
-        if (vbank == 0) {
-	    vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
-        } else {
-            mem_ram[1] = vicii_read_phi1_lowlevel();
-            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
-        }
-        if (pport.data != value) {
-            pport.data = value;
-            mem_pla_config_changed();
-        }
-        break;
-      default:
-        if (vbank == 0) {
-	    vicii_mem_vbank_store(addr, value);
-        } else {
-            mem_ram[addr] = value;
-        }
+        case 0:
+            if (vbank == 0) {
+                vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
+            } else {
+                mem_ram[0] = vicii_read_phi1_lowlevel();
+                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+            }
+            if (pport.dir != value) {
+                pport.dir = value;
+                mem_pla_config_changed();
+            }
+            break;
+        case 1:
+            if (vbank == 0) {
+                vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
+            } else {
+                mem_ram[1] = vicii_read_phi1_lowlevel();
+                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+            }
+            if (pport.data != value) {
+                pport.data = value;
+                mem_pla_config_changed();
+            }
+            break;
+        default:
+            if (vbank == 0) {
+                vicii_mem_vbank_store(addr, value);
+            } else {
+                mem_ram[addr] = value;
+            }
     }
 }
 
@@ -255,11 +255,11 @@ void ram_store(WORD addr, BYTE value)
 
 void ram_hi_store(WORD addr, BYTE value)
 {
-    if (vbank == 3)
+    if (vbank == 3) {
         vicii_mem_vbank_3fxx_store(addr, value);
-    else
+    } else {
         mem_ram[addr] = value;
-
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -308,14 +308,14 @@ void mem_initialize_memory(void)
             for (k = 0; k < NUM_VBANKS; k++) {
                 if ((j & 0xc0) == (k << 6)) {
                     switch (j & 0x3f) {
-                      case 0x39:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
-                        break;
-                      case 0x3f:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
-                        break;
-                      default:
-                        mem_write_tab[k][i][j] = vicii_mem_vbank_store;
+                        case 0x39:
+                            mem_write_tab[k][i][j] = vicii_mem_vbank_39xx_store;
+                            break;
+                        case 0x3f:
+                            mem_write_tab[k][i][j] = vicii_mem_vbank_3fxx_store;
+                            break;
+                        default:
+                            mem_write_tab[k][i][j] = vicii_mem_vbank_store;
                     }
                 } else {
                     mem_write_tab[k][i][j] = ram_store;
@@ -365,7 +365,8 @@ void mem_initialize_memory(void)
     c64dtvmem_init_config();
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
 #ifdef FEATURE_CPUMEMHISTORY
     *base = NULL;
     *start = addr;
@@ -407,7 +408,7 @@ void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
             return;
         } else {
             if (!c64dtvflash_state) {
-                read_func_ptr_t p= _mem_read_tab_ptr[paddr >> 8];
+                read_func_ptr_t p = _mem_read_tab_ptr[paddr >> 8];
                 if (p == c64memrom_kernal64_read) {
                     int mapping = c64dtvmem_memmapper[0];
                     paddr = ((mapping & 0x1f) << 16) + (paddr & ~0x3fff) - (addr & 0xc000);
@@ -468,10 +469,12 @@ void mem_set_vbank(int new_vbank)
 
 void mem_get_basic_text(WORD *start, WORD *end)
 {
-    if (start != NULL)
+    if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
-    if (end != NULL)
+    }
+    if (end != NULL) {
         *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
+    }
 }
 
 void mem_set_basic_text(WORD start, WORD end)
@@ -493,13 +496,13 @@ int mem_rom_trap_allowed(WORD addr)
 {
     if (addr >= 0xe000) {
         switch (mem_config) {
-          case 2:
-          case 3:
-          case 6:
-          case 7:
-            return 1;
-          default: 
-            return 0;
+            case 2:
+            case 3:
+            case 6:
+            case 7:
+                return 1;
+            default:
+                return 0;
         }
     }
 
@@ -515,36 +518,36 @@ int mem_rom_trap_allowed(WORD addr)
 void store_bank_io(WORD addr, BYTE byte)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        vicii_store(addr, byte);
-        break;
-      case 0xd400:
-      case 0xd500:
-      case 0xd600:
-      case 0xd700:
-        sid_store(addr, byte);
-        break;
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        colorram_store(addr, byte);
-        break;
-      case 0xdc00:
-        cia1_store(addr, byte);
-        break;
-      case 0xdd00:
-        cia2_store(addr, byte);
-        break;
-      case 0xde00:
-        c64io1_store(addr, byte);
-        break;
-      case 0xdf00:
-        c64io2_store(addr, byte);
-        break;
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            vicii_store(addr, byte);
+            break;
+        case 0xd400:
+        case 0xd500:
+        case 0xd600:
+        case 0xd700:
+            sid_store(addr, byte);
+            break;
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            colorram_store(addr, byte);
+            break;
+        case 0xdc00:
+            cia1_store(addr, byte);
+            break;
+        case 0xdd00:
+            cia2_store(addr, byte);
+            break;
+        case 0xde00:
+            c64io1_store(addr, byte);
+            break;
+        case 0xdf00:
+            c64io2_store(addr, byte);
+            break;
     }
     return;
 }
@@ -552,29 +555,29 @@ void store_bank_io(WORD addr, BYTE byte)
 BYTE read_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        return vicii_read(addr);
-      case 0xd400:
-      case 0xd500:
-      case 0xd600:
-      case 0xd700:
-        return sid_read(addr);
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        return colorram_read(addr);
-      case 0xdc00:
-        return cia1_read(addr);
-      case 0xdd00:
-        return cia2_read(addr);
-      case 0xde00:
-        return c64io1_read(addr);
-      case 0xdf00:
-        return c64io2_read(addr);
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            return vicii_read(addr);
+        case 0xd400:
+        case 0xd500:
+        case 0xd600:
+        case 0xd700:
+            return sid_read(addr);
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            return colorram_read(addr);
+        case 0xdc00:
+            return cia1_read(addr);
+        case 0xdd00:
+            return cia2_read(addr);
+        case 0xde00:
+            return c64io1_read(addr);
+        case 0xdf00:
+            return c64io2_read(addr);
     }
     return 0xff;
 }
@@ -582,29 +585,29 @@ BYTE read_bank_io(WORD addr)
 static BYTE peek_bank_io(WORD addr)
 {
     switch (addr & 0xff00) {
-      case 0xd000:
-      case 0xd100:
-      case 0xd200:
-      case 0xd300:
-        return vicii_peek(addr);
-      case 0xd400:
-      case 0xd500:
-      case 0xd600:
-      case 0xd700:
-        return sid_read(addr);
-      case 0xd800:
-      case 0xd900:
-      case 0xda00:
-      case 0xdb00:
-        return colorram_read(addr);
-      case 0xdc00:
-        return cia1_peek(addr);
-      case 0xdd00:
-        return cia2_peek(addr);
-      case 0xde00:
-        return c64io1_read(addr);  /* FIXME */
-      case 0xdf00:
-        return c64io2_read(addr);  /* FIXME */
+        case 0xd000:
+        case 0xd100:
+        case 0xd200:
+        case 0xd300:
+            return vicii_peek(addr);
+        case 0xd400:
+        case 0xd500:
+        case 0xd600:
+        case 0xd700:
+            return sid_read(addr);
+        case 0xd800:
+        case 0xd900:
+        case 0xda00:
+        case 0xdb00:
+            return colorram_read(addr);
+        case 0xdc00:
+            return cia1_peek(addr);
+        case 0xdd00:
+            return cia2_peek(addr);
+        case 0xde00:
+            return c64io1_read(addr); /* FIXME */
+        case 0xdf00:
+            return c64io2_read(addr); /* FIXME */
     }
     return 0xff;
 }
@@ -688,8 +691,7 @@ void mem_store(WORD addr, BYTE value)
 
     int paddr = addr_to_paddr(addr);
 /* if (addr != paddr) printf("Store to adress %x mapped to %x - %d %d %d %d\n", addr, paddr, dtv_registers[12], dtv_registers[13], dtv_registers[14], dtv_registers[15]); */ /* DEBUG */
-    if (access_rom(addr))
-    {
+    if (access_rom(addr)) {
 #ifdef FEATURE_CPUMEMHISTORY
         monitor_memmap_store(paddr, MEMMAP_ROM_W);
 #endif
@@ -700,16 +702,18 @@ void mem_store(WORD addr, BYTE value)
 #ifdef FEATURE_CPUMEMHISTORY
         rptr = _mem_write_tab_ptr[paddr >> 8];
         if ((rptr == ram_store)
-          ||(rptr == ram_hi_store)
-          ||(rptr == vicii_mem_vbank_store)
-          ||(rptr == zero_store)) {
+            || (rptr == ram_hi_store)
+            || (rptr == vicii_mem_vbank_store)
+            || (rptr == zero_store)) {
             monitor_memmap_store(paddr, MEMMAP_RAM_W);
         } else {
             monitor_memmap_store(paddr, MEMMAP_I_O_W);
         }
 #endif
         /* disable dummy write if skip cycle */
-        if (dtv_registers[9] & 1) maincpu_rmw_flag = 0;
+        if (dtv_registers[9] & 1) {
+            maincpu_rmw_flag = 0;
+        }
         _mem_write_tab_ptr[paddr >> 8]((WORD)paddr, value);
     } else {
 #ifdef FEATURE_CPUMEMHISTORY
@@ -729,7 +733,7 @@ BYTE mem_read(WORD addr)
 /* if (addr != paddr) printf("Read from adress %x mapped to %x - %d %d %d %d\n", addr, paddr, dtv_registers[12], dtv_registers[13], dtv_registers[14], dtv_registers[15]); */ /* DEBUG */
     if (access_rom(addr)) {
 #ifdef FEATURE_CPUMEMHISTORY
-        monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_ROM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_ROM_R);
+        monitor_memmap_store(paddr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_ROM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_ROM_R);
         memmap_state &= ~(MEMMAP_STATE_OPCODE);
 #endif
         return c64dtvflash_read(paddr);
@@ -738,11 +742,11 @@ BYTE mem_read(WORD addr)
 #ifdef FEATURE_CPUMEMHISTORY
         rptr = _mem_read_tab_ptr[paddr >> 8];
         if ((rptr == ram_read)
-          ||(rptr == zero_read)) {
-            monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
+            || (rptr == zero_read)) {
+            monitor_memmap_store(paddr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
         } else if ((rptr == c64memrom_basic64_read)
-          ||(rptr == c64memrom_kernal64_read)) {
-            monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_ROM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_ROM_R);
+                   || (rptr == c64memrom_kernal64_read)) {
+            monitor_memmap_store(paddr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_ROM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_ROM_R);
         } else {
             monitor_memmap_store(paddr, MEMMAP_I_O_R);
         }
@@ -751,7 +755,7 @@ BYTE mem_read(WORD addr)
         return _mem_read_tab_ptr[paddr >> 8]((WORD)paddr);
     } else {
 #ifdef FEATURE_CPUMEMHISTORY
-        monitor_memmap_store(paddr, (memmap_state&MEMMAP_STATE_OPCODE)?MEMMAP_RAM_X:(memmap_state&MEMMAP_STATE_INSTR)?0:MEMMAP_RAM_R);
+        monitor_memmap_store(paddr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
         memmap_state &= ~(MEMMAP_STATE_OPCODE);
 #endif
         return mem_ram[paddr];
@@ -773,102 +777,108 @@ BYTE colorram_read(WORD addr)
 
 void c64dtv_init(void)
 {
-  int trapfl;
-  if (c64dtvmem_log == LOG_ERR)
-    c64dtvmem_log = log_open("C64DTVMEM");
+    int trapfl;
+    if (c64dtvmem_log == LOG_ERR) {
+        c64dtvmem_log = log_open("C64DTVMEM");
+    }
 
-  hummeradc_init();
-  c64dtvblitter_init();
-  c64dtvdma_init();
-  c64dtvflash_init();
-log_message(c64dtvmem_log, "installing floppy traps");  /* DEBUG */
-  /* TODO disable copying by command line parameter */
-  /* Make sure serial code traps are in place.  */
-  resources_get_int("VirtualDevices", &trapfl);
-  resources_set_int("VirtualDevices", 0);
-  resources_set_int("VirtualDevices", trapfl);
-  /* TODO chargen ROM support */
+    hummeradc_init();
+    c64dtvblitter_init();
+    c64dtvdma_init();
+    c64dtvflash_init();
+    log_message(c64dtvmem_log, "installing floppy traps"); /* DEBUG */
+    /* TODO disable copying by command line parameter */
+    /* Make sure serial code traps are in place.  */
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
+    resources_set_int("VirtualDevices", trapfl);
+    /* TODO chargen ROM support */
 
-log_message(c64dtvmem_log, "END init");  /* DEBUG */
+    log_message(c64dtvmem_log, "END init"); /* DEBUG */
 }
 
 /* init C64DTV memory table changes */
 void c64dtvmem_init_config(void)
 {
-  int i,j,k;
+    int i, j, k;
 
-  /* install DMA engine handlers */
-log_message(c64dtvmem_log, "install mem_read/mem_write handlers");  /* DEBUG */
-  for (i = 0; i < NUM_CONFIGS; i++)
-  {
-    for (j = 1; j <= 0xff; j++)
+    /* install DMA engine handlers */
+    log_message(c64dtvmem_log, "install mem_read/mem_write handlers"); /* DEBUG */
+    for (i = 0; i < NUM_CONFIGS; i++)
     {
-      for (k = 0; k < NUM_VBANKS; k++)
-      {
-        if (mem_write_tab[k][i][j]==vicii_store && j==0xd3)
-          mem_write_tab[k][i][j]=c64dtv_dmablit_store;
-        if (mem_write_tab[k][i][j]==vicii_store && j==0xd1)
-          mem_write_tab[k][i][j]=c64dtv_mapper_store;
-        if (mem_write_tab[k][i][j]==vicii_store && j==0xd2)
-          mem_write_tab[k][i][j]=c64dtv_palette_store;
-      }
-      if (mem_read_tab[i][j]==vicii_read && j==0xd3)
-        mem_read_tab[i][j]=c64dtv_dmablit_read;
-      if (mem_read_tab[i][j]==vicii_read && j==0xd1)
-        mem_read_tab[i][j]=c64dtv_mapper_read;
-      if (mem_read_tab[i][j]==vicii_read && j==0xd2)
-        mem_read_tab[i][j]=c64dtv_palette_read;
+        for (j = 1; j <= 0xff; j++)
+        {
+            for (k = 0; k < NUM_VBANKS; k++)
+            {
+                if (mem_write_tab[k][i][j] == vicii_store && j == 0xd3) {
+                    mem_write_tab[k][i][j] = c64dtv_dmablit_store;
+                }
+                if (mem_write_tab[k][i][j] == vicii_store && j == 0xd1) {
+                    mem_write_tab[k][i][j] = c64dtv_mapper_store;
+                }
+                if (mem_write_tab[k][i][j] == vicii_store && j == 0xd2) {
+                    mem_write_tab[k][i][j] = c64dtv_palette_store;
+                }
+            }
+            if (mem_read_tab[i][j] == vicii_read && j == 0xd3) {
+                mem_read_tab[i][j] = c64dtv_dmablit_read;
+            }
+            if (mem_read_tab[i][j] == vicii_read && j == 0xd1) {
+                mem_read_tab[i][j] = c64dtv_mapper_read;
+            }
+            if (mem_read_tab[i][j] == vicii_read && j == 0xd2) {
+                mem_read_tab[i][j] = c64dtv_palette_read;
+            }
+        }
     }
-  }
-log_message(c64dtvmem_log, "END init_config");  /* DEBUG */
+    log_message(c64dtvmem_log, "END init_config"); /* DEBUG */
 }
 
 
 void c64dtvmem_shutdown(void)
 {
-  int trapfl;
+    int trapfl;
 
-  hummeradc_shutdown();
-  c64dtvblitter_shutdown();
-  c64dtvdma_shutdown();
-  /* work around for non transparent kernal traps.
-     Disable serial traps when shutting down c64dtvflash, which
-     saves the contents if enabled */
-  resources_get_int("VirtualDevices", &trapfl);
-  resources_set_int("VirtualDevices", 0);
-  c64dtvflash_shutdown();
-  resources_set_int("VirtualDevices", trapfl);
+    hummeradc_shutdown();
+    c64dtvblitter_shutdown();
+    c64dtvdma_shutdown();
+    /* work around for non transparent kernal traps.
+       Disable serial traps when shutting down c64dtvflash, which
+       saves the contents if enabled */
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
+    c64dtvflash_shutdown();
+    resources_set_int("VirtualDevices", trapfl);
 
-log_message(c64dtvmem_log, "END shutdown");  /* DEBUG */
+    log_message(c64dtvmem_log, "END shutdown"); /* DEBUG */
 }
 
 void c64dtvmem_reset(void)
 {
-  int trapfl;
-log_message(c64dtvmem_log, "reset");  /* DEBUG */
+    int trapfl;
+    log_message(c64dtvmem_log, "reset"); /* DEBUG */
 
-  /* Disable serial traps when resetting mem mapper */
-  resources_get_int("VirtualDevices", &trapfl);
-  resources_set_int("VirtualDevices", 0);
-  c64dtvmem_memmapper[0x00] = 0; /* KERNAL ROM segment (0x10000 byte segments) */
-  c64dtvmem_memmapper[0x01] = 0; /* BASIC ROM segment (0x10000 byte segments) */
-  resources_set_int("VirtualDevices", trapfl);
+    /* Disable serial traps when resetting mem mapper */
+    resources_get_int("VirtualDevices", &trapfl);
+    resources_set_int("VirtualDevices", 0);
+    c64dtvmem_memmapper[0x00] = 0; /* KERNAL ROM segment (0x10000 byte segments) */
+    c64dtvmem_memmapper[0x01] = 0; /* BASIC ROM segment (0x10000 byte segments) */
+    resources_set_int("VirtualDevices", trapfl);
 
-  /* TODO move register file initialization somewhere else? */
-  dtv_registers[8] = 0x55; /* RAM/ROM access mode */
-  dtv_registers[9] = 0; /* skip cycle and burst mode */
-  dtv_registers[10] = 0; /* zero page (0x100 byte segments) */
-  dtv_registers[11] = 1; /* stack page (0x100 byte segments) */
-  dtv_registers[12] = 0; /* bank 0 (0x4000 byte segments) */
-  dtv_registers[13] = 1; /* bank 1 */
-  dtv_registers[14] = 2; /* bank 2 */
-  dtv_registers[15] = 3; /* bank 3 */
-  ps2mouse_reset();
-  hummeradc_reset();
-  c64dtvblitter_reset();
-  c64dtvdma_reset();
-  c64dtvflash_reset();
-
+    /* TODO move register file initialization somewhere else? */
+    dtv_registers[8] = 0x55; /* RAM/ROM access mode */
+    dtv_registers[9] = 0; /* skip cycle and burst mode */
+    dtv_registers[10] = 0; /* zero page (0x100 byte segments) */
+    dtv_registers[11] = 1; /* stack page (0x100 byte segments) */
+    dtv_registers[12] = 0; /* bank 0 (0x4000 byte segments) */
+    dtv_registers[13] = 1; /* bank 1 */
+    dtv_registers[14] = 2; /* bank 2 */
+    dtv_registers[15] = 3; /* bank 3 */
+    ps2mouse_reset();
+    hummeradc_reset();
+    c64dtvblitter_reset();
+    c64dtvdma_reset();
+    c64dtvflash_reset();
 }
 
 /* ------------------------------------------------------------------------- */
@@ -877,47 +887,48 @@ log_message(c64dtvmem_log, "reset");  /* DEBUG */
 
 BYTE c64dtv_mapper_read(WORD addr)
 {
-  if (!vicii_extended_regs())
-      return vicii_read(addr);
+    if (!vicii_extended_regs()) {
+        return vicii_read(addr);
+    }
 
-  return mem_ram[addr];
+    return mem_ram[addr];
 }
 
 void c64dtv_mapper_store(WORD addr, BYTE value)
 {
-  int trapfl;
-  if (!vicii_extended_regs())
-  {
-      vicii_store(addr, value);
-      return;
-  }
+    int trapfl;
+    if (!vicii_extended_regs()) {
+        vicii_store(addr, value);
+        return;
+    }
 
-  /* always write through to $d100 (this is a hardware bug) */
-  mem_ram[addr] = value;
+    /* always write through to $d100 (this is a hardware bug) */
+    mem_ram[addr] = value;
 
-  /* handle aliasing */
-  addr &= 0x0f;
+    /* handle aliasing */
+    addr &= 0x0f;
 
 /* log_message(c64dtvmem_log, "Wrote %d to %x", value, addr);  */ /* DEBUG */
 
-  switch (addr) {
-  case 0x00:
-    /* Deinstall serial traps, change KERNAL segment, reinstall traps */
-    resources_get_int("VirtualDevices", &trapfl);
-    resources_set_int("VirtualDevices", 0);
-    c64dtvmem_memmapper[0]=value;
-    maincpu_resync_limits();
-    resources_set_int("VirtualDevices", trapfl);
-    if (trapfl)
-      log_message(c64dtvmem_log, "Changed KERNAL segment - disable VirtualDevices if you encounter problems");
-    break;
-  case 0x01:
-    c64dtvmem_memmapper[1]=value;
-    maincpu_resync_limits();
-    break;
-  default:
-    break;
-  }
+    switch (addr) {
+        case 0x00:
+            /* Deinstall serial traps, change KERNAL segment, reinstall traps */
+            resources_get_int("VirtualDevices", &trapfl);
+            resources_set_int("VirtualDevices", 0);
+            c64dtvmem_memmapper[0] = value;
+            maincpu_resync_limits();
+            resources_set_int("VirtualDevices", trapfl);
+            if (trapfl) {
+                log_message(c64dtvmem_log, "Changed KERNAL segment - disable VirtualDevices if you encounter problems");
+            }
+            break;
+        case 0x01:
+            c64dtvmem_memmapper[1] = value;
+            maincpu_resync_limits();
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -944,22 +955,22 @@ void c64io2_store(WORD addr, BYTE value)
 
 BYTE c64dtv_palette_read(WORD addr)
 {
-  if (!vicii_extended_regs())
-      return vicii_read(addr);
+    if (!vicii_extended_regs()) {
+        return vicii_read(addr);
+    }
 
-  return vicii_palette_read(addr);
+    return vicii_palette_read(addr);
 }
 
 void c64dtv_palette_store(WORD addr, BYTE value)
 {
-  if (!vicii_extended_regs())
-  {
-      vicii_store(addr, value);
-      return;
-  }
+    if (!vicii_extended_regs()) {
+        vicii_store(addr, value);
+        return;
+    }
 
-  vicii_palette_store(addr, value);
-  return;
+    vicii_palette_store(addr, value);
+    return;
 }
 
 
@@ -969,8 +980,9 @@ void c64dtv_palette_store(WORD addr, BYTE value)
 
 BYTE c64dtv_dmablit_read(WORD addr)
 {
-    if (!vicii_extended_regs())
+    if (!vicii_extended_regs()) {
         return vicii_read(addr);
+    }
 
     addr &= 0x3f;
 
@@ -990,7 +1002,7 @@ void c64dtv_dmablit_store(WORD addr, BYTE value)
     }
 
     addr &= 0x3f;
-  
+
     if (addr & 0x20) {
         c64dtv_blitter_store((WORD)(addr & 0x1f), value);
     } else {
@@ -1006,20 +1018,20 @@ void c64dtv_dmablit_store(WORD addr, BYTE value)
 
 static const char *banknames[] =
 {
-    "default", "cpu", "ram", "rom", "io", "cart", 
-    "ram00", "ram01", "ram02", "ram03", "ram04", "ram05", "ram06", "ram07", 
-    "ram08", "ram09", "ram0a", "ram0b", "ram0c", "ram0d", "ram0e", "ram0f", 
-    "ram10", "ram11", "ram12", "ram13", "ram14", "ram15", "ram16", "ram17", 
-    "ram18", "ram19", "ram1a", "ram1b", "ram1c", "ram1d", "ram1e", "ram1f", 
-    "rom00", "rom01", "rom02", "rom03", "rom04", "rom05", "rom06", "rom07", 
-    "rom08", "rom09", "rom0a", "rom0b", "rom0c", "rom0d", "rom0e", "rom0f", 
-    "rom10", "rom11", "rom12", "rom13", "rom14", "rom15", "rom16", "rom17", 
-    "rom18", "rom19", "rom1a", "rom1b", "rom1c", "rom1d", "rom1e", "rom1f", 
+    "default", "cpu", "ram", "rom", "io", "cart",
+    "ram00", "ram01", "ram02", "ram03", "ram04", "ram05", "ram06", "ram07",
+    "ram08", "ram09", "ram0a", "ram0b", "ram0c", "ram0d", "ram0e", "ram0f",
+    "ram10", "ram11", "ram12", "ram13", "ram14", "ram15", "ram16", "ram17",
+    "ram18", "ram19", "ram1a", "ram1b", "ram1c", "ram1d", "ram1e", "ram1f",
+    "rom00", "rom01", "rom02", "rom03", "rom04", "rom05", "rom06", "rom07",
+    "rom08", "rom09", "rom0a", "rom0b", "rom0c", "rom0d", "rom0e", "rom0f",
+    "rom10", "rom11", "rom12", "rom13", "rom14", "rom15", "rom16", "rom17",
+    "rom18", "rom19", "rom1a", "rom1b", "rom1c", "rom1d", "rom1e", "rom1f",
     NULL
 };
 
-static const int banknums[] = 
-{ 
+static const int banknums[] =
+{
     1, 0, 1, 2, 3, 4,
     5, 6, 7, 8, 9, 10, 11, 12,
     13, 14, 15, 16, 17, 18, 19, 20,
@@ -1061,36 +1073,36 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
     }
 
     /* TODO: is restoring r8, r10..15 needed? */
-    dtv_registers[8]=MOS6510DTV_REGS_GET_R8(&maincpu_regs);
-    dtv_registers[10]=MOS6510DTV_REGS_GET_R10(&maincpu_regs);
-    dtv_registers[11]=MOS6510DTV_REGS_GET_R11(&maincpu_regs);
-    dtv_registers[12]=MOS6510DTV_REGS_GET_R12(&maincpu_regs);
-    dtv_registers[13]=MOS6510DTV_REGS_GET_R13(&maincpu_regs);
-    dtv_registers[14]=MOS6510DTV_REGS_GET_R14(&maincpu_regs);
-    dtv_registers[15]=MOS6510DTV_REGS_GET_R15(&maincpu_regs);
+    dtv_registers[8] = MOS6510DTV_REGS_GET_R8(&maincpu_regs);
+    dtv_registers[10] = MOS6510DTV_REGS_GET_R10(&maincpu_regs);
+    dtv_registers[11] = MOS6510DTV_REGS_GET_R11(&maincpu_regs);
+    dtv_registers[12] = MOS6510DTV_REGS_GET_R12(&maincpu_regs);
+    dtv_registers[13] = MOS6510DTV_REGS_GET_R13(&maincpu_regs);
+    dtv_registers[14] = MOS6510DTV_REGS_GET_R14(&maincpu_regs);
+    dtv_registers[15] = MOS6510DTV_REGS_GET_R15(&maincpu_regs);
 
     paddr = addr_to_paddr(addr);
     switch (bank) {
-      case 0:                   /* current */
-        return mem_read(addr);
-      case 3:                   /* io */
-        if (paddr >= 0xd000 && paddr < 0xe000) {
-            return read_bank_io(paddr);
-        }
-      case 4:                   /* cart */
-	break;
-      case 2:                   /* rom */
-        if (paddr >= 0xa000 && paddr <= 0xbfff) {
-            return c64memrom_basic64_read(paddr);
-        }
-        if (paddr >= 0xd000 && paddr <= 0xdfff) {
-            return chargen_read(paddr);
-        }
-        if (paddr >= 0xe000) {
-            return c64memrom_kernal64_read(paddr);
-        }
-      case 1:                   /* ram */
-        break;     /* yes, this could be flash as well */
+        case 0:                 /* current */
+            return mem_read(addr);
+        case 3:                 /* io */
+            if (paddr >= 0xd000 && paddr < 0xe000) {
+                return read_bank_io(paddr);
+            }
+        case 4:                 /* cart */
+            break;
+        case 2:                 /* rom */
+            if (paddr >= 0xa000 && paddr <= 0xbfff) {
+                return c64memrom_basic64_read(paddr);
+            }
+            if (paddr >= 0xd000 && paddr <= 0xdfff) {
+                return chargen_read(paddr);
+            }
+            if (paddr >= 0xe000) {
+                return c64memrom_kernal64_read(paddr);
+            }
+        case 1:                 /* ram */
+            break; /* yes, this could be flash as well */
     }
     return access_rom(addr) ? c64dtvflash_read(paddr) : mem_ram[paddr];
 }
@@ -1104,64 +1116,64 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
     }
 
     /* TODO: is restoring r8, r10..15 needed? */
-    dtv_registers[8]=MOS6510DTV_REGS_GET_R8(&maincpu_regs);
-    dtv_registers[10]=MOS6510DTV_REGS_GET_R10(&maincpu_regs);
-    dtv_registers[11]=MOS6510DTV_REGS_GET_R11(&maincpu_regs);
-    dtv_registers[12]=MOS6510DTV_REGS_GET_R12(&maincpu_regs);
-    dtv_registers[13]=MOS6510DTV_REGS_GET_R13(&maincpu_regs);
-    dtv_registers[14]=MOS6510DTV_REGS_GET_R14(&maincpu_regs);
-    dtv_registers[15]=MOS6510DTV_REGS_GET_R15(&maincpu_regs);
+    dtv_registers[8] = MOS6510DTV_REGS_GET_R8(&maincpu_regs);
+    dtv_registers[10] = MOS6510DTV_REGS_GET_R10(&maincpu_regs);
+    dtv_registers[11] = MOS6510DTV_REGS_GET_R11(&maincpu_regs);
+    dtv_registers[12] = MOS6510DTV_REGS_GET_R12(&maincpu_regs);
+    dtv_registers[13] = MOS6510DTV_REGS_GET_R13(&maincpu_regs);
+    dtv_registers[14] = MOS6510DTV_REGS_GET_R14(&maincpu_regs);
+    dtv_registers[15] = MOS6510DTV_REGS_GET_R15(&maincpu_regs);
 
     paddr = addr_to_paddr(addr);
     switch (bank) {
-      case 0:                   /* current */
-        if (access_rom(addr)) {
-            return c64dtvflash_mem[paddr];
-        }
-        if (paddr <= 0xffff) {
-            if (c64dtvmeminit_io_config[mem_config]) {
-                if ((paddr >= 0xd000) && (paddr < 0xe000)) {
-                    return peek_bank_io(paddr);
-                }
-            }
-            if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_basic64_read) {
-                int mapping = c64dtvmem_memmapper[1];
-                paddr |= (mapping & 0x1f) << 16;
-                return (mapping & 0xc0) ? mem_ram[paddr] : c64dtvflash_mem[paddr];
-            }
-            if (_mem_read_tab_ptr[paddr >> 8] == chargen_read) {
+        case 0:                 /* current */
+            if (access_rom(addr)) {
                 return c64dtvflash_mem[paddr];
             }
-            if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_kernal64_read) {
+            if (paddr <= 0xffff) {
+                if (c64dtvmeminit_io_config[mem_config]) {
+                    if ((paddr >= 0xd000) && (paddr < 0xe000)) {
+                        return peek_bank_io(paddr);
+                    }
+                }
+                if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_basic64_read) {
+                    int mapping = c64dtvmem_memmapper[1];
+                    paddr |= (mapping & 0x1f) << 16;
+                    return (mapping & 0xc0) ? mem_ram[paddr] : c64dtvflash_mem[paddr];
+                }
+                if (_mem_read_tab_ptr[paddr >> 8] == chargen_read) {
+                    return c64dtvflash_mem[paddr];
+                }
+                if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_kernal64_read) {
+                    int mapping = c64dtvmem_memmapper[0];
+                    paddr |= (mapping & 0x1f) << 16;
+                    return (mapping & 0xc0) ? mem_ram[paddr] : c64dtvflash_mem[paddr];
+                } /* no side effects on the rest */
+                return _mem_read_tab_ptr[paddr >> 8]((WORD)paddr);
+            }
+            return mem_ram[paddr];
+        case 3:                 /* io */
+            if (paddr >= 0xd000 && paddr < 0xe000) {
+                return peek_bank_io(paddr);
+            }
+        case 4:                 /* cart */
+            break;
+        case 2:                 /* rom */
+            if (paddr >= 0xa000 && paddr <= 0xbfff) {
+                int mapping = c64dtvmem_memmapper[1];
+                paddr += ((mapping & 0x1f) << 16);
+                return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
+            }
+            if (paddr >= 0xd000 && paddr <= 0xdfff) {
+                return c64dtvflash_mem[paddr];
+            }
+            if (paddr >= 0xe000) {
                 int mapping = c64dtvmem_memmapper[0];
-                paddr |= (mapping & 0x1f) << 16;
-                return (mapping & 0xc0) ? mem_ram[paddr] : c64dtvflash_mem[paddr];
-            } /* no side effects on the rest */
-            return _mem_read_tab_ptr[paddr >> 8]((WORD)paddr);
-        }
-        return mem_ram[paddr];
-      case 3:                   /* io */
-        if (paddr >= 0xd000 && paddr < 0xe000) {
-            return peek_bank_io(paddr);
-        }
-      case 4:                   /* cart */
-	break;
-      case 2:                   /* rom */
-        if (paddr >= 0xa000 && paddr <= 0xbfff) {
-            int mapping = c64dtvmem_memmapper[1];
-            paddr += ((mapping & 0x1f) << 16);
-            return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
-        }
-        if (paddr >= 0xd000 && paddr <= 0xdfff) {
-            return c64dtvflash_mem[paddr];
-        }
-        if (paddr >= 0xe000) {
-            int mapping = c64dtvmem_memmapper[0];
-            paddr += ((mapping & 0x1f) << 16);
-            return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
-        }
-      case 1:                   /* ram */
-        break;     /* yes, this could be flash as well */
+                paddr += ((mapping & 0x1f) << 16);
+                return ((mapping >> 6) == 0) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
+            }
+        case 1:                 /* ram */
+            break; /* yes, this could be flash as well */
     }
     return access_rom(addr) ? c64dtvflash_mem[paddr] : mem_ram[paddr];
 }
@@ -1170,48 +1182,48 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     int paddr;
     if ((bank >= 5) && (bank <= 36)) { /* ram00..1f */
-        mem_ram[((bank - 5) << 16) + addr] = byte; 
+        mem_ram[((bank - 5) << 16) + addr] = byte;
         return;
     }
-    
+
     if ((bank >= 37) && (bank <= 68)) {
         c64dtvflash_mem[((bank - 37) << 16) + addr] = byte; /* rom00..1f */
         return;
     }
-    
+
     /* TODO: is restoring r8, r10..15 needed? */
-    dtv_registers[8]=MOS6510DTV_REGS_GET_R8(&maincpu_regs);
-    dtv_registers[10]=MOS6510DTV_REGS_GET_R10(&maincpu_regs);
-    dtv_registers[11]=MOS6510DTV_REGS_GET_R11(&maincpu_regs);
-    dtv_registers[12]=MOS6510DTV_REGS_GET_R12(&maincpu_regs);
-    dtv_registers[13]=MOS6510DTV_REGS_GET_R13(&maincpu_regs);
-    dtv_registers[14]=MOS6510DTV_REGS_GET_R14(&maincpu_regs);
-    dtv_registers[15]=MOS6510DTV_REGS_GET_R15(&maincpu_regs);
+    dtv_registers[8] = MOS6510DTV_REGS_GET_R8(&maincpu_regs);
+    dtv_registers[10] = MOS6510DTV_REGS_GET_R10(&maincpu_regs);
+    dtv_registers[11] = MOS6510DTV_REGS_GET_R11(&maincpu_regs);
+    dtv_registers[12] = MOS6510DTV_REGS_GET_R12(&maincpu_regs);
+    dtv_registers[13] = MOS6510DTV_REGS_GET_R13(&maincpu_regs);
+    dtv_registers[14] = MOS6510DTV_REGS_GET_R14(&maincpu_regs);
+    dtv_registers[15] = MOS6510DTV_REGS_GET_R15(&maincpu_regs);
 
     paddr = addr_to_paddr(addr);
     switch (bank) {
-      case 0:                   /* current */
-        mem_store(addr, byte);
-        return;
-      case 3:                   /* io */
-        if (paddr >= 0xd000 && paddr < 0xe000) {
-            store_bank_io(paddr, byte);
+        case 0:                 /* current */
+            mem_store(addr, byte);
             return;
-        }
-      case 4:                   /* cart */
-	break;
-      case 2:                   /* rom */
-        if (paddr >= 0xa000 && paddr <= 0xbfff) {
-            return;
-        }
-        if (paddr >= 0xd000 && paddr <= 0xdfff) {
-            return;
-        }
-        if (paddr >= 0xe000) {
-            return;
-        }
-      case 1:                   /* ram */
-        break;     /* yes, this could be flash as well */
+        case 3:                 /* io */
+            if (paddr >= 0xd000 && paddr < 0xe000) {
+                store_bank_io(paddr, byte);
+                return;
+            }
+        case 4:                 /* cart */
+            break;
+        case 2:                 /* rom */
+            if (paddr >= 0xa000 && paddr <= 0xbfff) {
+                return;
+            }
+            if (paddr >= 0xd000 && paddr <= 0xdfff) {
+                return;
+            }
+            if (paddr >= 0xe000) {
+                return;
+            }
+        case 1:                 /* ram */
+            break; /* yes, this could be flash as well */
     }
     if (access_rom(addr)) {
         c64dtvflash_mem[paddr] = byte;
@@ -1224,22 +1236,22 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 
 int c64dtvmem_resources_init(void)
 {
-  return c64dtvblitter_resources_init() < 0 ||
-    c64dtvdma_resources_init() < 0 ||
-    c64dtvflash_resources_init() < 0;
+    return c64dtvblitter_resources_init() < 0 ||
+           c64dtvdma_resources_init() < 0 ||
+           c64dtvflash_resources_init() < 0;
 }
 
 void c64dtvmem_resources_shutdown(void)
 {
-  c64dtvblitter_resources_shutdown();
-  c64dtvdma_resources_shutdown();
-  c64dtvflash_resources_shutdown();
+    c64dtvblitter_resources_shutdown();
+    c64dtvdma_resources_shutdown();
+    c64dtvflash_resources_shutdown();
 }
 
 
 int c64dtvmem_cmdline_options_init(void)
 {
-  return c64dtvblitter_cmdline_options_init() < 0 ||
-    c64dtvdma_cmdline_options_init() < 0 ||
-    c64dtvflash_cmdline_options_init() < 0;
+    return c64dtvblitter_cmdline_options_init() < 0 ||
+           c64dtvdma_cmdline_options_init() < 0 ||
+           c64dtvflash_cmdline_options_init() < 0;
 }

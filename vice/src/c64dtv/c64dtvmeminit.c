@@ -41,11 +41,15 @@
 #define NUM_SEGMENTS 7
 #define NUM_CONFIGS 8
 
-static const int mstart[NUM_SEGMENTS] = { 0x00, 0x40, 0x80,
-                                          0xa0, 0xc0, 0xd0, 0xe0 };
+static const int mstart[NUM_SEGMENTS] = {
+    0x00, 0x40, 0x80,
+    0xa0, 0xc0, 0xd0, 0xe0
+};
 
-static const int mend[NUM_SEGMENTS] = { 0x3f, 0x7f, 0x9f,
-                                        0xbf, 0xcf, 0xdf, 0xff };
+static const int mend[NUM_SEGMENTS] = {
+    0x3f, 0x7f, 0x9f,
+    0xbf, 0xcf, 0xdf, 0xff
+};
 
 static const DWORD limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
     /* 0000-3fff */
@@ -71,8 +75,7 @@ static const DWORD limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
 };
 
 /* IO is enabled at memory configs 5, 6, 7 */
-const unsigned int c64dtvmeminit_io_config[8] = 
-    { 0, 0, 0, 0, 0, 1, 1, 1 };
+const unsigned int c64dtvmeminit_io_config[8] = { 0, 0, 0, 0, 0, 1, 1, 1 };
 
 void c64dtvmeminit(unsigned int base)
 {
@@ -112,8 +115,9 @@ void c64dtvmeminit(unsigned int base)
             mem_read_tab_set(base + j, 0xdf, c64io2_read);
             mem_set_write_hook(base + j, 0xdf, c64io2_store);
 
-            for (i = 0xd0; i <= 0xdf; i++)
+            for (i = 0xd0; i <= 0xdf; i++) {
                 mem_read_base_set(base + j, i, NULL);
+            }
         }
     }
 
@@ -128,7 +132,6 @@ void c64dtvmeminit(unsigned int base)
         mem_read_base_set(base + 6, i, NULL);
         mem_read_base_set(base + 7, i, NULL);
     }
-
 }
 
 void c64dtvmem_limit_init(DWORD mem_read_limit_tab[NUM_CONFIGS][0x101])

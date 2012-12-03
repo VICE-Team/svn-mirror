@@ -70,24 +70,27 @@ char *kernal_revision = NULL;
 
 static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&chargen_rom_name, val))
+    if (util_string_set(&chargen_rom_name, val)) {
         return 0;
+    }
 
     return c64rom_load_chargen(chargen_rom_name);
 }
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, val))
+    if (util_string_set(&kernal_rom_name, val)) {
         return 0;
+    }
 
     return c64rom_load_kernal(kernal_rom_name, NULL);
 }
 
 static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, val))
+    if (util_string_set(&basic_rom_name, val)) {
         return 0;
+    }
 
     return c64rom_load_basic(basic_rom_name);
 }
@@ -104,22 +107,25 @@ static int set_sync_factor(int val, void *param)
     int change_timing = 0;
     int border_mode = VICII_BORDER_MODE(vicii_resources.border_mode);
 
-    if (sync_factor != val)
+    if (sync_factor != val) {
         change_timing = 1;
+    }
 
     switch (val) {
-      case MACHINE_SYNC_PAL:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
-        break;
-      case MACHINE_SYNC_NTSC:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
-        break;
-      default:
-        return -1;
+        case MACHINE_SYNC_PAL:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_PAL ^ border_mode);
+            }
+            break;
+        case MACHINE_SYNC_NTSC:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_NTSC ^ border_mode);
+            }
+            break;
+        default:
+            return -1;
     }
 
     return 0;
@@ -135,7 +141,7 @@ static int c64dtv_hummer_adc_set(int val, void *param)
 
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
-       /* FIXME: should be same but names may differ */
+      /* FIXME: should be same but names may differ */
       &chargen_rom_name, set_chargen_rom_name, NULL },
     { "KernalName", "kernal", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
@@ -173,8 +179,9 @@ static const resource_int_t resources_int[] = {
 
 int c64dtv_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }

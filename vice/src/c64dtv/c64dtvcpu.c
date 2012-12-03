@@ -77,7 +77,7 @@ int dtvclockneg = 0;
 alarm_context_t *maincpu_alarm_context = NULL;
 #endif
 
-#define REWIND_FETCH_OPCODE(clock) clock-=dtvrewind; dtvclockneg+=dtvrewind
+#define REWIND_FETCH_OPCODE(clock) clock -= dtvrewind; dtvclockneg += dtvrewind
 
 /* Burst mode implementation */
 
@@ -174,77 +174,77 @@ static const BYTE burst_status_tab[] = {
 
 /* Skip cycle implementation */
 
-#define CLK_RTS (3 - (dtv_registers[9]&1))
-#define CLK_RTI (4 - 2*(dtv_registers[9]&1))
-#define CLK_BRK (5 - (dtv_registers[9]&1))
-#define CLK_ABS_I_STORE2 (2 - (dtv_registers[9]&1))
-#define CLK_STACK_PUSH (1 - (dtv_registers[9]&1))
-#define CLK_STACK_PULL (2 - 2*(dtv_registers[9]&1))
-#define CLK_ABS_RMW2 (3 - (dtv_registers[9]&1))
-#define CLK_ABS_I_RMW2 (3 - (dtv_registers[9]&1))
-#define CLK_ZERO_I_STORE (2 - (dtv_registers[9]&1))
-#define CLK_ZERO_I2 (2 - (dtv_registers[9]&1))
-#define CLK_ZERO_RMW (3 - (dtv_registers[9]&1))
-#define CLK_ZERO_I_RMW (4 - 2*(dtv_registers[9]&1))
-#define CLK_IND_X_RMW (3 - (dtv_registers[9]&1))
-#define CLK_IND_Y_RMW1 (1 - (dtv_registers[9]&1))
-#define CLK_IND_Y_RMW2 (3 - (dtv_registers[9]&1))
-#define CLK_BRANCH2 (1 - (dtv_registers[9]&1))
-#define CLK_INT_CYCLE (1 - (dtv_registers[9]&1))
-#define CLK_JSR_INT_CYCLE (1 - (dtv_registers[9]&1) + ((dtv_registers[9]&2)&&(reg_pc==0))?1:0)
-#define CLK_IND_Y_W (2 - (dtv_registers[9]&1))
-#define CLK_NOOP_ZERO_X (2 - (dtv_registers[9]&1))
+#define CLK_RTS (3 - (dtv_registers[9] & 1))
+#define CLK_RTI (4 - 2 * (dtv_registers[9] & 1))
+#define CLK_BRK (5 - (dtv_registers[9] & 1))
+#define CLK_ABS_I_STORE2 (2 - (dtv_registers[9] & 1))
+#define CLK_STACK_PUSH (1 - (dtv_registers[9] & 1))
+#define CLK_STACK_PULL (2 - 2 * (dtv_registers[9] & 1))
+#define CLK_ABS_RMW2 (3 - (dtv_registers[9] & 1))
+#define CLK_ABS_I_RMW2 (3 - (dtv_registers[9] & 1))
+#define CLK_ZERO_I_STORE (2 - (dtv_registers[9] & 1))
+#define CLK_ZERO_I2 (2 - (dtv_registers[9] & 1))
+#define CLK_ZERO_RMW (3 - (dtv_registers[9] & 1))
+#define CLK_ZERO_I_RMW (4 - 2 * (dtv_registers[9] & 1))
+#define CLK_IND_X_RMW (3 - (dtv_registers[9] & 1))
+#define CLK_IND_Y_RMW1 (1 - (dtv_registers[9] & 1))
+#define CLK_IND_Y_RMW2 (3 - (dtv_registers[9] & 1))
+#define CLK_BRANCH2 (1 - (dtv_registers[9] & 1))
+#define CLK_INT_CYCLE (1 - (dtv_registers[9] & 1))
+#define CLK_JSR_INT_CYCLE (1 - (dtv_registers[9] & 1) + ((dtv_registers[9] & 2) && (reg_pc == 0)) ? 1 : 0)
+#define CLK_IND_Y_W (2 - (dtv_registers[9] & 1))
+#define CLK_NOOP_ZERO_X (2 - (dtv_registers[9] & 1))
 
-#define IRQ_CYCLES (7 - 2*(dtv_registers[9]&1))
-#define NMI_CYCLES (7 - 2*(dtv_registers[9]&1))
+#define IRQ_CYCLES (7 - 2 * (dtv_registers[9] & 1))
+#define NMI_CYCLES (7 - 2 * (dtv_registers[9] & 1))
 
 
 /* New opcodes */
 
-#define SAC(op) \
-    do { \
-        reg_a_write_idx = op >> 4; \
+#define SAC(op)                     \
+    do {                            \
+        reg_a_write_idx = op >> 4;  \
         reg_a_read_idx = op & 0x0f; \
-        INC_PC(2); \
+        INC_PC(2);                  \
     } while (0)
 
-#define SIR(op) \
-    do { \
-        reg_y_idx = op >> 4; \
+#define SIR(op)                \
+    do {                       \
+        reg_y_idx = op >> 4;   \
         reg_x_idx = op & 0x0f; \
-        INC_PC(2); \
+        INC_PC(2);             \
     } while (0)
 
-#define NOOP_ABS_Y()   \
-  do {                 \
-      LOAD_ABS_Y(p2);  \
-      CLK_ADD(CLK,1);  \
-      INC_PC(3);       \
-  } while (0)
+#define NOOP_ABS_Y()     \
+    do {                 \
+        LOAD_ABS_Y(p2);  \
+        CLK_ADD(CLK, 1); \
+        INC_PC(3);       \
+    } while (0)
 
-#define BRANCH(cond, value)                                  \
-  do {                                                       \
-      INC_PC(2);                                             \
-                                                             \
-      if (cond) {                                            \
-          unsigned int dest_addr;                            \
-                                                             \
-          burst_broken=1;                                    \
-          dest_addr = reg_pc + (signed char)(value);         \
-                                                             \
-          if (CLK_BRANCH2) {                                 \
-              FETCH_PARAM(reg_pc);                           \
-              CLK_ADD(CLK, 1);                               \
-              if ((reg_pc ^ dest_addr) & 0xff00) {           \
-                  LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
-                  CLK_ADD(CLK, 1);                           \
-              } else {                                       \
-                  OPCODE_DELAYS_INTERRUPT();                 \
-              }                                              \
-          }                                                  \
-          JUMP(dest_addr & 0xffff);                          \
-      }                                                      \
-  } while (0)
+#define BRANCH(cond, value)                                       \
+    do {                                                          \
+        INC_PC(2);                                                \
+                                                                  \
+        if (cond) {                                               \
+            unsigned int dest_addr;                               \
+                                                                  \
+            burst_broken = 1;                                     \
+            dest_addr = reg_pc + (signed char)(value);            \
+                                                                  \
+            if (CLK_BRANCH2) {                                    \
+                FETCH_PARAM(reg_pc);                              \
+                CLK_ADD(CLK, 1);                                  \
+                if ((reg_pc ^ dest_addr) & 0xff00) {              \
+                    LOAD((reg_pc & 0xff00) | (dest_addr & 0xff)); \
+                    CLK_ADD(CLK, 1);                              \
+                } else {                                          \
+                    OPCODE_DELAYS_INTERRUPT();                    \
+                }                                                 \
+            }                                                     \
+            JUMP(dest_addr & 0xffff);                             \
+        }                                                         \
+    } while (0)
 
 /* Override optimizations in maincpu.c that directly access mem_ram[] */
 /* We need to channel everything through mem_read/mem_store to */
@@ -283,13 +283,13 @@ static const BYTE burst_status_tab[] = {
 
 #else /* !ALLOW_UNALIGNED_ACCESS */
 
-#define opcode_t          \
-    struct {              \
-        BYTE ins;         \
-        union {           \
-            BYTE op8[2];  \
-            WORD op16;    \
-        } op;             \
+#define opcode_t         \
+    struct {             \
+        BYTE ins;        \
+        union {          \
+            BYTE op8[2]; \
+            WORD op16;   \
+        } op;            \
     }
 
 #define p0 (opcode.ins)
@@ -304,219 +304,227 @@ static const BYTE burst_status_tab[] = {
 #endif /* !ALLOW_UNALIGNED_ACCESS */
 
 /*  SET_OPCODE for traps */
-#if defined ALLOW_UNALIGNED_ACCESS 
-#define SET_OPCODE(o) (opcode) = o; 
-#else 
-#if !defined WORDS_BIGENDIAN 
+#if defined ALLOW_UNALIGNED_ACCESS
+#define SET_OPCODE(o) (opcode) = o;
+#else
+#if !defined WORDS_BIGENDIAN
 #define SET_OPCODE(o)                          \
     do {                                       \
         opcode.ins = (o) & 0xff;               \
         opcode.op.op8[0] = ((o) >> 8) & 0xff;  \
         opcode.op.op8[1] = ((o) >> 16) & 0xff; \
-    } while (0) 
-#else 
+    } while (0)
+#else
 #define SET_OPCODE(o)                          \
     do {                                       \
         opcode.ins = (o) & 0xff;               \
         opcode.op.op8[1] = ((o) >> 8) & 0xff;  \
         opcode.op.op8[0] = ((o) >> 16) & 0xff; \
-    } while (0) 
-#endif 
-#endif 
+    } while (0)
+#endif
+#endif
 
 
 /* FETCH_OPCODE_DTV implementation(s) */
 
 #if defined ALLOW_UNALIGNED_ACCESS
-#define FETCH_OPCODE(o) \
-    do { \
-        dtvrewind = 0; \
-        if ((dtv_registers[9]&2)&&(((dtv_registers[8] >> ((reg_pc >> 13)&6)) & 0x03) == 0x01)) { \
-            burst_last_addr = burst_addr; \
-            burst_addr = reg_pc & 0xfffc; \
-            if ((burst_addr != burst_last_addr)||burst_broken) { \
-                if (burst_addr < bank_limit) { \
-                    memcpy(burst_cache, bank_base + burst_addr, 4); \
-                } else { \
-                    mem_burst_read(burst_addr, burst_cache); \
-                } \
-            } \
-            burst_idx = reg_pc & 3; \
-            o = burst_cache[burst_idx++]; \
-            burst_status = burst_status_tab[o]; \
-            burst_fetch = burst_status & 7; \
-            burst_diff = (burst_status >> 3) & 7; \
-            if (burst_fetch--) { \
-                if (burst_idx>3) { \
-                    burst_addr += 4; \
-                    burst_addr &= 0xfffc; \
-                    burst_last_addr = burst_addr; \
-                    burst_diff--; \
-                    burst_idx = 0; \
-                    if (burst_addr < bank_limit && burst_addr) { \
-                        memcpy(burst_cache, bank_base + burst_addr, 4); \
-                    } else { \
-                        mem_burst_read(burst_addr, burst_cache); \
-                    } \
-                } \
-                o |= (burst_cache[burst_idx++] << 8); \
-                if (burst_fetch--) { \
-                    if (burst_idx>3) { \
-                        burst_addr += 4; \
-                        burst_addr &= 0xfffc; \
-                        burst_last_addr = burst_addr; \
-                        burst_diff--; \
-                        burst_idx = 0; \
-                        if (burst_addr < bank_limit && burst_addr) { \
-                            memcpy(burst_cache, bank_base + burst_addr, 4); \
-                        } else { \
-                            mem_burst_read(burst_addr, burst_cache); \
-                        } \
-                    } \
-                    o |= (burst_cache[burst_idx] << 16); \
-                } \
-            } \
-            if ((burst_last_addr != burst_addr)||burst_broken) {burst_diff--; dtvrewind++;} \
-            burst_broken = (burst_status >> 6)&1; \
-            CLK_ADD(CLK,1);                                     \
-            if (!(((burst_status_tab[o & 0xff]&0x80))           \
-               && (dtv_registers[9]&1))) {                      \
-                CLK_ADD(CLK,1); dtvrewind++;                    \
-            }                                                   \
-            if (fetch_tab[o & 0xff]) {                          \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-        } else {                                                \
-            burst_broken=1;                                     \
-            burst_diff=0;                                       \
-            if (((int)reg_pc) < bank_limit) {                   \
-                o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);\
-                CLK_ADD(CLK,1); dtvrewind++;                    \
-                if (!(((burst_status_tab[o & 0xff]&0x80))       \
-                   && (dtv_registers[9]&1))) {                  \
-                    CLK_ADD(CLK,1); dtvrewind++;                \
-                }                                               \
-                if (fetch_tab[o & 0xff]) {                      \
-                     CLK_ADD(CLK,1);                            \
-                }                                               \
-            } else {                                            \
-                o = LOAD(reg_pc);                               \
-                CLK_ADD(CLK,1); dtvrewind++;                    \
-                o |= LOAD(reg_pc + 1) << 8;                     \
-                if (!(((burst_status_tab[o & 0xff]&0x80))       \
-                   && (dtv_registers[9]&1))) {                  \
-                    CLK_ADD(CLK,1); dtvrewind++;                \
-                }                                               \
-                if (fetch_tab[o & 0xff]) {                      \
-                     o |= (LOAD(reg_pc + 2) << 16);             \
-                     CLK_ADD(CLK,1);                            \
-                }                                               \
-            }                                                   \
-        } \
+#define FETCH_OPCODE(o)                                                                                \
+    do {                                                                                               \
+        dtvrewind = 0;                                                                                 \
+        if ((dtv_registers[9] & 2) && (((dtv_registers[8] >> ((reg_pc >> 13) & 6)) & 0x03) == 0x01)) { \
+            burst_last_addr = burst_addr;                                                              \
+            burst_addr = reg_pc & 0xfffc;                                                              \
+            if ((burst_addr != burst_last_addr) || burst_broken) {                                     \
+                if (burst_addr < bank_limit) {                                                         \
+                    memcpy(burst_cache, bank_base + burst_addr, 4);                                    \
+                } else {                                                                               \
+                    mem_burst_read(burst_addr, burst_cache);                                           \
+                }                                                                                      \
+            }                                                                                          \
+            burst_idx = reg_pc & 3;                                                                    \
+            o = burst_cache[burst_idx++];                                                              \
+            burst_status = burst_status_tab[o];                                                        \
+            burst_fetch = burst_status & 7;                                                            \
+            burst_diff = (burst_status >> 3) & 7;                                                      \
+            if (burst_fetch--) {                                                                       \
+                if (burst_idx > 3) {                                                                   \
+                    burst_addr += 4;                                                                   \
+                    burst_addr &= 0xfffc;                                                              \
+                    burst_last_addr = burst_addr;                                                      \
+                    burst_diff--;                                                                      \
+                    burst_idx = 0;                                                                     \
+                    if (burst_addr < bank_limit && burst_addr) {                                       \
+                        memcpy(burst_cache, bank_base + burst_addr, 4);                                \
+                    } else {                                                                           \
+                        mem_burst_read(burst_addr, burst_cache);                                       \
+                    }                                                                                  \
+                }                                                                                      \
+                o |= (burst_cache[burst_idx++] << 8);                                                  \
+                if (burst_fetch--) {                                                                   \
+                    if (burst_idx > 3) {                                                               \
+                        burst_addr += 4;                                                               \
+                        burst_addr &= 0xfffc;                                                          \
+                        burst_last_addr = burst_addr;                                                  \
+                        burst_diff--;                                                                  \
+                        burst_idx = 0;                                                                 \
+                        if (burst_addr < bank_limit && burst_addr) {                                   \
+                            memcpy(burst_cache, bank_base + burst_addr, 4);                            \
+                        } else {                                                                       \
+                            mem_burst_read(burst_addr, burst_cache);                                   \
+                        }                                                                              \
+                    }                                                                                  \
+                    o |= (burst_cache[burst_idx] << 16);                                               \
+                }                                                                                      \
+            }                                                                                          \
+            if ((burst_last_addr != burst_addr) || burst_broken) {                                     \
+                burst_diff--;                                                                          \
+                dtvrewind++;                                                                           \
+            }                                                                                          \
+            burst_broken = (burst_status >> 6) & 1;                                                    \
+            CLK_ADD(CLK, 1);                                                                           \
+            if (!(((burst_status_tab[o & 0xff] & 0x80)) && (dtv_registers[9] & 1))) {                  \
+                CLK_ADD(CLK, 1);                                                                       \
+                dtvrewind++;                                                                           \
+            }                                                                                          \
+            if (fetch_tab[o & 0xff]) {                                                                 \
+                CLK_ADD(CLK, 1);                                                                       \
+            }                                                                                          \
+        } else {                                                                                       \
+            burst_broken = 1;                                                                          \
+            burst_diff = 0;                                                                            \
+            if (((int)reg_pc) < bank_limit) {                                                          \
+                o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);                                     \
+                CLK_ADD(CLK, 1);                                                                       \
+                dtvrewind++;                                                                           \
+                if (!(((burst_status_tab[o & 0xff] & 0x80)) && (dtv_registers[9] & 1))) {              \
+                    CLK_ADD(CLK, 1);                                                                   \
+                    dtvrewind++;                                                                       \
+                }                                                                                      \
+                if (fetch_tab[o & 0xff]) {                                                             \
+                    CLK_ADD(CLK, 1);                                                                   \
+                }                                                                                      \
+            } else {                                                                                   \
+                o = LOAD(reg_pc);                                                                      \
+                CLK_ADD(CLK, 1);                                                                       \
+                dtvrewind++;                                                                           \
+                o |= LOAD(reg_pc + 1) << 8;                                                            \
+                if (!(((burst_status_tab[o & 0xff] & 0x80)) && (dtv_registers[9] & 1))) {              \
+                    CLK_ADD(CLK, 1);                                                                   \
+                    dtvrewind++;                                                                       \
+                }                                                                                      \
+                if (fetch_tab[o & 0xff]) {                                                             \
+                    o |= (LOAD(reg_pc + 2) << 16);                                                     \
+                    CLK_ADD(CLK, 1);                                                                   \
+                }                                                                                      \
+            }                                                                                          \
+        }                                                                                              \
     } while (0)
 
 #else /* !ALLOW_UNALIGNED_ACCESS */
 /* TODO optimize */
-#define FETCH_OPCODE(o) \
-    do { \
-        dtvrewind = 0; \
-        if ((dtv_registers[9]&2)&&(((dtv_registers[8] >> ((reg_pc >> 13)&6)) & 0x03) == 0x01)) { \
-            burst_last_addr = burst_addr; \
-            burst_addr = reg_pc & 0xfffc; \
-            if ((burst_addr != burst_last_addr)||burst_broken) { \
-                if (burst_addr < bank_limit) { \
-                    memcpy(burst_cache, bank_base + burst_addr, 4); \
-                } else { \
-                    burst_cache[0] = LOAD(burst_addr+0); \
-                    burst_cache[1] = LOAD(burst_addr+1); \
-                    burst_cache[2] = LOAD(burst_addr+2); \
-                    burst_cache[3] = LOAD(burst_addr+3); \
-                } \
-            } \
-            burst_idx = reg_pc & 3; \
-            (o).ins = burst_cache[burst_idx++]; \
-            burst_status = burst_status_tab[(o).ins]; \
-            burst_fetch = burst_status & 7; \
-            burst_diff = (burst_status >> 3) & 7; \
-            if (burst_fetch--) { \
-                if (burst_idx>3) { \
-                    burst_addr += 4; \
-                    burst_addr &= 0xfffc; \
-                    burst_last_addr = burst_addr; \
-                    burst_diff--; \
-                    burst_idx = 0; \
-                    if (burst_addr < bank_limit && burst_addr) { \
-                        memcpy(burst_cache, bank_base + burst_addr, 4); \
-                    } else { \
-                        burst_cache[0] = LOAD(burst_addr+0); \
-                        burst_cache[1] = LOAD(burst_addr+1); \
-                        burst_cache[2] = LOAD(burst_addr+2); \
-                        burst_cache[3] = LOAD(burst_addr+3); \
-                    } \
-                } \
-                (o).op.op16 = burst_cache[burst_idx++]; \
-                if (burst_fetch--) { \
-                    if (burst_idx>3) { \
-                        burst_addr += 4; \
-                        burst_addr &= 0xfffc; \
-                        burst_last_addr = burst_addr; \
-                        burst_diff--; \
-                        burst_idx = 0; \
-                        if (burst_addr < bank_limit && burst_addr) { \
-                            memcpy(burst_cache, bank_base + burst_addr, 4); \
-                        } else { \
-                            burst_cache[0] = LOAD(burst_addr+0); \
-                            burst_cache[1] = LOAD(burst_addr+1); \
-                            burst_cache[2] = LOAD(burst_addr+2); \
-                            burst_cache[3] = LOAD(burst_addr+3); \
-                        } \
-                    } \
-                    (o).op.op16 |= (burst_cache[burst_idx] << 8); \
-                } \
-            } \
-            if ((burst_last_addr != burst_addr)||burst_broken) {burst_diff--; dtvrewind++;}\
-            burst_broken = (burst_status >> 6)&1; \
-            CLK_ADD(CLK,1);                                     \
-            if (!(((burst_status_tab[(o).ins]&0x80))            \
-               && (dtv_registers[9]&1))) {                      \
-                CLK_ADD(CLK,1); dtvrewind++;                    \
-            }                                                   \
-            if (fetch_tab[(o).ins]) {                           \
-                CLK_ADD(CLK,1);                                 \
-            }                                                   \
-        } else {                                                \
-            burst_broken=1;                                     \
-            burst_diff=0;                                       \
-            if (((int)reg_pc) < bank_limit) {                   \
-                (o).ins = *(bank_base + reg_pc);                \
-                (o).op.op16 = (*(bank_base + reg_pc + 1)        \
-                              | (*(bank_base + reg_pc + 2) << 8));\
-                CLK_ADD(CLK,1); dtvrewind++;                    \
-                if (!(((burst_status_tab[(o).ins]&0x80))        \
-                   && (dtv_registers[9]&1))) {                  \
-                    CLK_ADD(CLK,1); dtvrewind++;                \
-                }                                               \
-                if (fetch_tab[(o).ins]) {                       \
-                     CLK_ADD(CLK,1);                            \
-                }                                               \
-            } else {                                            \
-                (o).ins = LOAD(reg_pc);                         \
-                CLK_ADD(CLK,1); dtvrewind++;                    \
-                (o).op.op16 = LOAD(reg_pc + 1);                 \
-                if (!(((burst_status_tab[(o).ins]&0x80))        \
-                   && (dtv_registers[9]&1))) {                  \
-                    CLK_ADD(CLK,1); dtvrewind++;                \
-                }                                               \
-                if (fetch_tab[(o).ins]) {                       \
-                     (o).op.op16 |= (LOAD(reg_pc + 2) << 8);    \
-                     CLK_ADD(CLK,1);                            \
-                }                                               \
-            }                                                   \
-        } \
+#define FETCH_OPCODE(o)                                                                                \
+    do {                                                                                               \
+        dtvrewind = 0;                                                                                 \
+        if ((dtv_registers[9] & 2) && (((dtv_registers[8] >> ((reg_pc >> 13) & 6)) & 0x03) == 0x01)) { \
+            burst_last_addr = burst_addr;                                                              \
+            burst_addr = reg_pc & 0xfffc;                                                              \
+            if ((burst_addr != burst_last_addr) || burst_broken) {                                     \
+                if (burst_addr < bank_limit) {                                                         \
+                    memcpy(burst_cache, bank_base + burst_addr, 4);                                    \
+                } else {                                                                               \
+                    burst_cache[0] = LOAD(burst_addr + 0);                                             \
+                    burst_cache[1] = LOAD(burst_addr + 1);                                             \
+                    burst_cache[2] = LOAD(burst_addr + 2);                                             \
+                    burst_cache[3] = LOAD(burst_addr + 3);                                             \
+                }                                                                                      \
+            }                                                                                          \
+            burst_idx = reg_pc & 3;                                                                    \
+            (o).ins = burst_cache[burst_idx++];                                                        \
+            burst_status = burst_status_tab[(o).ins];                                                  \
+            burst_fetch = burst_status & 7;                                                            \
+            burst_diff = (burst_status >> 3) & 7;                                                      \
+            if (burst_fetch--) {                                                                       \
+                if (burst_idx > 3) {                                                                   \
+                    burst_addr += 4;                                                                   \
+                    burst_addr &= 0xfffc;                                                              \
+                    burst_last_addr = burst_addr;                                                      \
+                    burst_diff--;                                                                      \
+                    burst_idx = 0;                                                                     \
+                    if (burst_addr < bank_limit && burst_addr) {                                       \
+                        memcpy(burst_cache, bank_base + burst_addr, 4);                                \
+                    } else {                                                                           \
+                        burst_cache[0] = LOAD(burst_addr + 0);                                         \
+                        burst_cache[1] = LOAD(burst_addr + 1);                                         \
+                        burst_cache[2] = LOAD(burst_addr + 2);                                         \
+                        burst_cache[3] = LOAD(burst_addr + 3);                                         \
+                    }                                                                                  \
+                }                                                                                      \
+                (o).op.op16 = burst_cache[burst_idx++];                                                \
+                if (burst_fetch--) {                                                                   \
+                    if (burst_idx > 3) {                                                               \
+                        burst_addr += 4;                                                               \
+                        burst_addr &= 0xfffc;                                                          \
+                        burst_last_addr = burst_addr;                                                  \
+                        burst_diff--;                                                                  \
+                        burst_idx = 0;                                                                 \
+                        if (burst_addr < bank_limit && burst_addr) {                                   \
+                            memcpy(burst_cache, bank_base + burst_addr, 4);                            \
+                        } else {                                                                       \
+                            burst_cache[0] = LOAD(burst_addr + 0);                                     \
+                            burst_cache[1] = LOAD(burst_addr + 1);                                     \
+                            burst_cache[2] = LOAD(burst_addr + 2);                                     \
+                            burst_cache[3] = LOAD(burst_addr + 3);                                     \
+                        }                                                                              \
+                    }                                                                                  \
+                    (o).op.op16 |= (burst_cache[burst_idx] << 8);                                      \
+                }                                                                                      \
+            }                                                                                          \
+            if ((burst_last_addr != burst_addr) || burst_broken) {                                     \
+                burst_diff--;                                                                          \
+                dtvrewind++;                                                                           \
+            }                                                                                          \
+            burst_broken = (burst_status >> 6) & 1;                                                    \
+            CLK_ADD(CLK, 1);                                                                           \
+            if (!(((burst_status_tab[(o).ins] & 0x80)) && (dtv_registers[9] & 1))) {                   \
+                CLK_ADD(CLK, 1);                                                                       \
+                dtvrewind++;                                                                           \
+            }                                                                                          \
+            if (fetch_tab[(o).ins]) {                                                                  \
+                CLK_ADD(CLK, 1);                                                                       \
+            }                                                                                          \
+        } else {                                                                                       \
+            burst_broken = 1;                                                                          \
+            burst_diff = 0;                                                                            \
+            if (((int)reg_pc) < bank_limit) {                                                          \
+                (o).ins = *(bank_base + reg_pc);                                                       \
+                (o).op.op16 = (*(bank_base + reg_pc + 1) | (*(bank_base + reg_pc + 2) << 8));          \
+                CLK_ADD(CLK, 1);                                                                       \
+                dtvrewind++;                                                                           \
+                if (!(((burst_status_tab[(o).ins] & 0x80)) && (dtv_registers[9] & 1))) {               \
+                    CLK_ADD(CLK, 1);                                                                   \
+                    dtvrewind++;                                                                       \
+                }                                                                                      \
+                if (fetch_tab[(o).ins]) {                                                              \
+                    CLK_ADD(CLK, 1);                                                                   \
+                }                                                                                      \
+            } else {                                                                                   \
+                (o).ins = LOAD(reg_pc);                                                                \
+                CLK_ADD(CLK, 1);                                                                       \
+                dtvrewind++;                                                                           \
+                (o).op.op16 = LOAD(reg_pc + 1);                                                        \
+                if (!(((burst_status_tab[(o).ins] & 0x80)) && (dtv_registers[9] & 1))) {               \
+                    CLK_ADD(CLK, 1);                                                                   \
+                    dtvrewind++;                                                                       \
+                }                                                                                      \
+                if (fetch_tab[(o).ins]) {                                                              \
+                    (o).op.op16 |= (LOAD(reg_pc + 2) << 8);                                            \
+                    CLK_ADD(CLK, 1);                                                                   \
+                }                                                                                      \
+            }                                                                                          \
+        }                                                                                              \
     } while (0)
 
 #endif /* !ALLOW_UNALIGNED_ACCESS */
 
 
 #include "../maincpu.c"
-

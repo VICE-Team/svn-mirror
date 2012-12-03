@@ -69,16 +69,17 @@ static int dest_line_off = 0;
 static BYTE source_memtype = 0x00;
 static BYTE dest_memtype = 0x00;
 
-#define GET_REG24(a) ((c64dtvmem_dma[a+2]<<16) | (c64dtvmem_dma[a+1]<<8) | c64dtvmem_dma[a])
-#define GET_REG16(a) ((c64dtvmem_dma[a+1]<<8) | c64dtvmem_dma[a])
+#define GET_REG24(a) ((c64dtvmem_dma[a + 2] << 16) | (c64dtvmem_dma[a + 1] << 8) | c64dtvmem_dma[a])
+#define GET_REG16(a) ((c64dtvmem_dma[a + 1] << 8) | c64dtvmem_dma[a])
 #define GET_REG8(a) (c64dtvmem_dma[a])
 
 /* ------------------------------------------------------------------------- */
 
 void c64dtvdma_init(void)
 {
-    if (c64dtvdma_log == LOG_ERR)
+    if (c64dtvdma_log == LOG_ERR) {
         c64dtvdma_log = log_open("C64DTVDMA");
+    }
 
     /* init DMA IRQ */
     c64dtv_dma_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "C64DTVDMA");
@@ -92,10 +93,12 @@ void c64dtvdma_reset(void)
 {
     int i;
 
-    if (dma_log_enabled) log_message(c64dtvdma_log, "reset");
+    if (dma_log_enabled) {
+        log_message(c64dtvdma_log, "reset");
+    }
 
     /* TODO move register file initialization somewhere else? */
-    for (i=0;i<0x20;++i) {
+    for (i = 0; i < 0x20; ++i) {
         c64dtvmem_dma[i] = 0;
     }
 
@@ -125,34 +128,35 @@ static inline void do_dma_read(int swap)
     int memtype;
 
     if (!swap) {
-        offs=dma_source_off;
-        memtype=source_memtype;
+        offs = dma_source_off;
+        memtype = source_memtype;
     } else {
-        offs=dma_dest_off;
-        memtype=dest_memtype;
+        offs = dma_dest_off;
+        memtype = dest_memtype;
     }
     offs &= 0x1fffff;
 
     switch (memtype) {
-    case 0x00: /* ROM */
-        data = c64dtvflash_read(offs); 
-        break;
-    case 0x40: /* RAM */
-        data = mem_ram[offs]; 
-        break;
-    case 0x80: /* RAM+registers */
-        if ( (offs >= 0xd000) && (offs < 0xe000) )
-            data = _mem_read_tab_ptr[offs >> 8]((WORD)offs);
-        else
-            data = mem_ram[offs]; 
-        break;
-    case 0xc0: /* unknown */
-        data = 0;
-        break;
-    default:
-        log_message(c64dtvdma_log, "invalid memtype in do_dma_read()");
-        data = 0;
-        break;
+        case 0x00: /* ROM */
+            data = c64dtvflash_read(offs);
+            break;
+        case 0x40: /* RAM */
+            data = mem_ram[offs];
+            break;
+        case 0x80: /* RAM+registers */
+            if ((offs >= 0xd000) && (offs < 0xe000)) {
+                data = _mem_read_tab_ptr[offs >> 8]((WORD)offs);
+            } else {
+                data = mem_ram[offs];
+            }
+            break;
+        case 0xc0: /* unknown */
+            data = 0;
+            break;
+        default:
+            log_message(c64dtvdma_log, "invalid memtype in do_dma_read()");
+            data = 0;
+            break;
     }
 
     if (!swap) {
@@ -169,34 +173,35 @@ static inline void do_dma_write(int swap)
     int memtype;
 
     if (!swap) {
-        offs=dma_dest_off;
-        memtype=dest_memtype;
+        offs = dma_dest_off;
+        memtype = dest_memtype;
         data = dma_data;
     } else {
-        offs=dma_source_off;
-        memtype=source_memtype;
+        offs = dma_source_off;
+        memtype = source_memtype;
         data = dma_data_swap;
     }
     offs &= 0x1fffff;
 
     switch (memtype) {
-    case 0x00: /* ROM */
-        c64dtvflash_store(offs, data);
-        break;
-    case 0x40: /* RAM */
-        mem_ram[offs] = data;
-        break;
-    case 0x80: /* RAM+registers */
-        if ( (offs>=0xd000) && (offs<0xe000) )
-            _mem_write_tab_ptr[offs >> 8]((WORD)offs, data);
-        else 
+        case 0x00: /* ROM */
+            c64dtvflash_store(offs, data);
+            break;
+        case 0x40: /* RAM */
             mem_ram[offs] = data;
-        break;
-    case 0xc0: /* unknown */
-        break;
-    default:
-        log_message(c64dtvdma_log, "invalid memtype in do_dma_write()");
-        break;
+            break;
+        case 0x80: /* RAM+registers */
+            if ((offs >= 0xd000) && (offs < 0xe000)) {
+                _mem_write_tab_ptr[offs >> 8]((WORD)offs, data);
+            } else {
+                mem_ram[offs] = data;
+            }
+            break;
+        case 0xc0: /* unknown */
+            break;
+        default:
+            log_message(c64dtvdma_log, "invalid memtype in do_dma_write()");
+            break;
     }
 }
 
@@ -208,10 +213,10 @@ static inline void update_counters(void)
     int dest_modulo = GET_REG16(0x0e);
     int source_line_length = GET_REG16(0x10);
     int dest_line_length = GET_REG16(0x12);
-    int source_modulo_enable = GET_REG8(0x1e)&0x01;
-    int dest_modulo_enable = GET_REG8(0x1e)&0x02;
-    int source_direction = (GET_REG8(0x1f)&0x04) ? +1 : -1;
-    int dest_direction = (GET_REG8(0x1f)&0x08) ? +1 : -1;
+    int source_modulo_enable = GET_REG8(0x1e) & 0x01;
+    int dest_modulo_enable = GET_REG8(0x1e) & 0x02;
+    int source_direction = (GET_REG8(0x1f) & 0x04) ? +1 : -1;
+    int dest_direction = (GET_REG8(0x1f) & 0x08) ? +1 : -1;
 
     /* update offsets */
     if (source_modulo_enable && (source_line_off >= source_line_length)) {
@@ -233,44 +238,46 @@ static inline void update_counters(void)
 
 static inline void perform_dma_cycle(void)
 {
-    int swap = GET_REG8(0x1f)&0x02;
+    int swap = GET_REG8(0x1f) & 0x02;
 
     switch (dma_state) {
-    case DMA_IDLE:
-        break;
-    case DMA_READ:
-        if (dma_count==0) {
-            dma_state=DMA_IDLE;
+        case DMA_IDLE:
             break;
-        }
-        do_dma_read(0);
-        if (swap)
-            dma_state=DMA_READ_SWAP;
-        else
-            dma_state=DMA_WRITE;
-        break;
-    case DMA_READ_SWAP:
-        do_dma_read(1);
-        dma_state=DMA_WRITE_SWAP;
-        break;
-    case DMA_WRITE_SWAP:
-        do_dma_write(1);
-        dma_state=DMA_WRITE;
-        break;
-    case DMA_WRITE:
-        do_dma_write(0);
-        update_counters();
+        case DMA_READ:
+            if (dma_count == 0) {
+                dma_state = DMA_IDLE;
+                break;
+            }
+            do_dma_read(0);
+            if (swap) {
+                dma_state = DMA_READ_SWAP;
+            } else {
+                dma_state = DMA_WRITE;
+            }
+            break;
+        case DMA_READ_SWAP:
+            do_dma_read(1);
+            dma_state = DMA_WRITE_SWAP;
+            break;
+        case DMA_WRITE_SWAP:
+            do_dma_write(1);
+            dma_state = DMA_WRITE;
+            break;
+        case DMA_WRITE:
+            do_dma_write(0);
+            update_counters();
 
-        dma_count--;
-        if (dma_count==0)
-            dma_state=DMA_IDLE;
-        else
-            dma_state=DMA_READ;
-        break;
-    default:
-        log_message(c64dtvdma_log, "invalid state in perform_dma_cycle()");
-        dma_state=DMA_IDLE;
-        break;
+            dma_count--;
+            if (dma_count == 0) {
+                dma_state = DMA_IDLE;
+            } else {
+                dma_state = DMA_READ;
+            }
+            break;
+        default:
+            log_message(c64dtvdma_log, "invalid state in perform_dma_cycle()");
+            dma_state = DMA_IDLE;
+            break;
     }
 }
 
@@ -281,25 +288,28 @@ static inline void perform_dma_cycle(void)
 void c64dtvdma_trigger_dma(void)
 {
     if (!dma_active) {
-        int source_continue = GET_REG8(0x1d)&0x02;
-        int dest_continue = GET_REG8(0x1d)&0x08;
+        int source_continue = GET_REG8(0x1d) & 0x02;
+        int dest_continue = GET_REG8(0x1d) & 0x08;
 
         if (!source_continue) {
-            dma_source_off = GET_REG24(0x00)&0x3fffff;
-            source_memtype = GET_REG8(0x02)&0xc0;
+            dma_source_off = GET_REG24(0x00) & 0x3fffff;
+            source_memtype = GET_REG8(0x02) & 0xc0;
         }
         if (!dest_continue) {
-            dma_dest_off = GET_REG24(0x03)&0x3fffff;
-            dest_memtype = GET_REG8(0x05)&0xc0;
+            dma_dest_off = GET_REG24(0x03) & 0x3fffff;
+            dest_memtype = GET_REG8(0x05) & 0xc0;
         }
 
         /* total number of bytes to transfer */
         dma_count = GET_REG16(0x0a);
         /* length=0 means 64 Kb */
-        if (dma_count==0)
-            dma_count=0x10000;
+        if (dma_count == 0) {
+            dma_count = 0x10000;
+        }
 
-        if (dma_log_enabled && (source_continue || dest_continue)) log_message(c64dtvdma_log, "Source continue %s, dest continue %s", source_continue ? "on" : "off", dest_continue ? "on" : "off");
+        if (dma_log_enabled && (source_continue || dest_continue)) {
+            log_message(c64dtvdma_log, "Source continue %s, dest continue %s", source_continue ? "on" : "off", dest_continue ? "on" : "off");
+        }
 
         /* initialize state variables */
         source_line_off = 0;
@@ -309,7 +319,9 @@ void c64dtvdma_trigger_dma(void)
 
         if (GET_REG8(0x1f) & 0x80) {
             dma_irq = 1;
-        } else dma_irq = 0;
+        } else {
+            dma_irq = 0;
+        }
 
         dma_busy = 1;
         dma_active = 1;
@@ -328,10 +340,10 @@ static inline void c64dtv_dma_done(void)
 
 BYTE c64dtv_dma_read(WORD addr)
 {
-    if (addr==0x1f) {
+    if (addr == 0x1f) {
         return dma_busy;
-    /* the default return value is 0x00 too but I have seen some strangeness
-       here.  I've seen something that looks like DMAed data. - tlr */
+        /* the default return value is 0x00 too but I have seen some strangeness
+           here.  I've seen something that looks like DMAed data. - tlr */
     }
     return 0x00;
 }
@@ -342,11 +354,13 @@ void c64dtv_dma_store(WORD addr, BYTE value)
        requested, perform if necessary. */
     c64dtvmem_dma[addr] = value;
 
-    dma_on_irq = GET_REG8(0x1f)&0x70;
-  
+    dma_on_irq = GET_REG8(0x1f) & 0x70;
+
     /* Clear DMA IRQ */
-    if ((GET_REG8(0x1d)&0x01) && (dma_busy==2)){
-        if (dma_log_enabled) log_message(c64dtvdma_log,"Clear IRQ");
+    if ((GET_REG8(0x1d) & 0x01) && (dma_busy == 2)) {
+        if (dma_log_enabled) {
+            log_message(c64dtvdma_log, "Clear IRQ");
+        }
         dma_busy &= 0xfd;
         c64dtvmem_dma[0x1f] = 0;
         maincpu_set_irq(c64dtv_dma_int_num, 0);
@@ -355,14 +369,16 @@ void c64dtv_dma_store(WORD addr, BYTE value)
         c64dtvmem_dma[0x1d] &= 0xfe;
     }
 
-    if (dma_on_irq && (dma_busy==0)) {
+    if (dma_on_irq && (dma_busy == 0)) {
         dma_busy = 1;
-        if (dma_log_enabled) log_message(c64dtvdma_log, "Scheduled DMA (%02x).", dma_on_irq);
+        if (dma_log_enabled) {
+            log_message(c64dtvdma_log, "Scheduled DMA (%02x).", dma_on_irq);
+        }
         return;
     }
 
     /* Force DMA start */
-    if (GET_REG8(0x1f)&0x01) {
+    if (GET_REG8(0x1f) & 0x01) {
         c64dtvdma_trigger_dma();
         /* reset force start strobe bit */
         c64dtvmem_dma[0x1f] &= 0xfe;
@@ -378,7 +394,9 @@ void c64dtvdma_perform_dma(void)
     perform_dma_cycle();
     maincpu_rmw_flag = dma_maincpu_rmw;
 
-    if (dma_log_enabled && (dma_state == DMA_WRITE)) log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f)&0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
+    if (dma_log_enabled && (dma_state == DMA_WRITE)) {
+        log_message(c64dtvdma_log, "%s from %x (%s) to %x (%s), %d to go", GET_REG8(0x1f) & 0x02 ? "Swapped" : "Copied", dma_source_off, source_memtype == 0 ? "Flash" : "RAM", dma_dest_off, dest_memtype == 0 ? "Flash" : "RAM", dma_count - 1);
+    }
 
     if (dma_state == DMA_IDLE) {
         c64dtv_dma_done();
@@ -436,15 +454,16 @@ int c64dtvdma_cmdline_options_init(void)
 static log_t c64_snapshot_log = LOG_ERR;
 
 static const char snap_dma_module_name[] = "C64DTVDMA";
-                                                                                           
+
 int c64dtvdma_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
     /* DMA module.  */
     m = snapshot_module_create(s, snap_dma_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (SMW_BA(m, c64dtvmem_dma, 0x20) < 0
         || SMW_DW(m, dma_source_off) < 0
@@ -460,18 +479,21 @@ int c64dtvdma_snapshot_write_module(snapshot_t *s)
         || SMW_DW(m, source_line_off) < 0
         || SMW_DW(m, dest_line_off) < 0
         || SMW_B(m, source_memtype) < 0
-        || SMW_B(m, dest_memtype) < 0)
+        || SMW_B(m, dest_memtype) < 0) {
         goto fail;
+    }
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
     m = NULL;
 
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -485,8 +507,9 @@ int c64dtvdma_snapshot_read_module(snapshot_t *s)
     /* DMA module.  */
     m = snapshot_module_open(s, snap_dma_module_name,
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         log_error(c64_snapshot_log,
@@ -510,20 +533,22 @@ int c64dtvdma_snapshot_read_module(snapshot_t *s)
         || SMR_DW_INT(m, &source_line_off) < 0
         || SMR_DW_INT(m, &dest_line_off) < 0
         || SMR_B(m, &source_memtype) < 0
-        || SMR_B(m, &dest_memtype) < 0)
+        || SMR_B(m, &dest_memtype) < 0) {
         goto fail;
+    }
 
     dma_state = temp_dma_state;
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
     m = NULL;
 
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
-

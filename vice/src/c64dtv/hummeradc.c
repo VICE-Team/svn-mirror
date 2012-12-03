@@ -37,7 +37,7 @@
 static log_t hummeradc_log = LOG_ERR;
 
 #if 0
-#define HUMMERADC_DEBUG(args...) log_message(hummeradc_log, args)
+#define HUMMERADC_DEBUG(args ...) log_message(hummeradc_log, args)
 #define HUMMERADC_DEBUG_ENABLED
 #endif
 
@@ -67,23 +67,24 @@ enum {
     /* Command 011 (Control register) states */
     ADC_CONTROL_PH, ADC_CONTROL_PL, /* Pull-up/down in digital input */
     ADC_CONTROL_RF, ADC_CONTROL_MB, /* Reference voltage source */ /* 13..16 */
-    
+
     /* Command 100 (ADC conversion) states */
     ADC_CONV_CHAN1, ADC_CONV_CHAN2, ADC_CONV_CHAN3,
     ADC_CONV_ADC1, ADC_CONV_ADC2,
     ADC_CONV_D7, ADC_CONV_D6, ADC_CONV_D5, ADC_CONV_D4,
     ADC_CONV_D3, ADC_CONV_D2, ADC_CONV_D1, ADC_CONV_D0,
     ADC_CONV_PDS,
-    
+
     /* Command 101 (Digital input reading) states */
     ADC_DINPUT_0,
-    
+
     /* Command 000/111 (Powerdown 0/1) states */
     ADC_POWERDOWN,
-    
+
     /* Command 110 (Reserved) states */
     ADC_RESERVED_S
-} hummeradc_state = ADC_IDLE;
+}
+hummeradc_state = ADC_IDLE;
 
 /* Hummer ADC command */
 enum {
@@ -96,26 +97,29 @@ enum {
     ADC_RESERVED,
     ADC_POWERDOWN1,
     ADC_NONE
-} hummeradc_command = ADC_NONE;
+}
+hummeradc_command = ADC_NONE;
 
 inline static int hummeradc_falling_edge(BYTE value)
 {
-    return ((hummeradc_prev & ADC_CLOCK_BIT)&&((value & ADC_CLOCK_BIT)==0));
+    return ((hummeradc_prev & ADC_CLOCK_BIT) && ((value & ADC_CLOCK_BIT) == 0));
 }
 
 inline static int hummeradc_rising_edge(BYTE value)
 {
-    return (((hummeradc_prev & ADC_CLOCK_BIT)==0)&&(value & ADC_CLOCK_BIT));
+    return (((hummeradc_prev & ADC_CLOCK_BIT) == 0) && (value & ADC_CLOCK_BIT));
 }
 
 void hummeradc_store(BYTE value)
 {
 #ifdef HUMMERADC_DEBUG_ENABLED
-HUMMERADC_DEBUG("write: value %02x, state %i",value,hummeradc_state);
+    HUMMERADC_DEBUG("write: value %02x, state %i", value, hummeradc_state);
 #endif
-    if (value & ADC_START_BIT) hummeradc_state = ADC_START;
+    if (value & ADC_START_BIT) {
+        hummeradc_state = ADC_START;
+    }
 
-    switch(hummeradc_state) {
+    switch (hummeradc_state) {
         case ADC_CONV_PDS:
         case ADC_RESERVED_S:
         case ADC_POWERDOWN:
@@ -181,7 +185,7 @@ HUMMERADC_DEBUG("write: value %02x, state %i",value,hummeradc_state);
                         hummeradc_state = ADC_IDLE;
                         break;
                     default:
-log_message(hummeradc_log, "BUG: Unknown command %i.",hummeradc_command);
+                        log_message(hummeradc_log, "BUG: Unknown command %i.", hummeradc_command);
                         break;
                 }
             }
@@ -257,31 +261,31 @@ BYTE hummeradc_read(void)
 {
     BYTE retval;
     retval = (hummeradc_prev & 6);
-    
-    switch(hummeradc_state) {
+
+    switch (hummeradc_state) {
         case ADC_CONV_D7:
-            retval |= ((hummeradc_value>>7)&1);
+            retval |= ((hummeradc_value >> 7) & 1);
             break;
         case ADC_CONV_D6:
-            retval |= ((hummeradc_value>>6)&1);
+            retval |= ((hummeradc_value >> 6) & 1);
             break;
         case ADC_CONV_D5:
-            retval |= ((hummeradc_value>>5)&1);
+            retval |= ((hummeradc_value >> 5) & 1);
             break;
         case ADC_CONV_D4:
-            retval |= ((hummeradc_value>>4)&1);
+            retval |= ((hummeradc_value >> 4) & 1);
             break;
         case ADC_CONV_D3:
-            retval |= ((hummeradc_value>>3)&1);
+            retval |= ((hummeradc_value >> 3) & 1);
             break;
         case ADC_CONV_D2:
-            retval |= ((hummeradc_value>>2)&1);
+            retval |= ((hummeradc_value >> 2) & 1);
             break;
         case ADC_CONV_D1:
-            retval |= ((hummeradc_value>>1)&1);
+            retval |= ((hummeradc_value >> 1) & 1);
             break;
         case ADC_CONV_D0:
-            retval |= ((hummeradc_value)&1);
+            retval |= ((hummeradc_value) & 1);
             break;
 
         case ADC_POWERDOWN:
@@ -298,7 +302,7 @@ BYTE hummeradc_read(void)
             break;
     }
 #ifdef HUMMERADC_DEBUG_ENABLED
-HUMMERADC_DEBUG(" read: value %02x, state %i",retval,hummeradc_state);
+    HUMMERADC_DEBUG(" read: value %02x, state %i", retval, hummeradc_state);
 #endif
     return retval;
 }
@@ -308,7 +312,7 @@ HUMMERADC_DEBUG(" read: value %02x, state %i",retval,hummeradc_state);
 void hummeradc_init(void)
 {
     if (hummeradc_log == LOG_ERR) {
-      hummeradc_log = log_open("HUMMERADC");
+        hummeradc_log = log_open("HUMMERADC");
     }
     hummeradc_reset();
     return;
@@ -331,4 +335,3 @@ void hummeradc_reset(void)
     hummeradc_chanwakeup = 0;
     return;
 }
-

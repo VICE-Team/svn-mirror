@@ -59,7 +59,7 @@ void cia1_store(WORD addr, BYTE data)
 BYTE cia1_read(WORD addr)
 {
     /* disable TOD & serial */
-    if (((addr&0xf)>=8)&&((addr&0xf)<=0xc)) {
+    if (((addr & 0xf) >= 8) && ((addr & 0xf) <= 0xc)) {
         return 0xff;
     }
 
@@ -87,12 +87,10 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
 
 void cia1_set_extended_keyboard_rows_mask(BYTE value)
 {
-
 }
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-
 }
 
 static void pre_store(void)
@@ -112,29 +110,29 @@ static void pre_peek(void)
 
 static void do_reset_cia(cia_context_t *cia_context)
 {
-
 }
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
     unsigned int i, m;
- 
+
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
-        if ((keyarr[i] & 0x10) && (!(b & m)))
+        if ((keyarr[i] & 0x10) && (!(b & m))) {
             vicii_trigger_light_pen(maincpu_clk);
+        }
     }
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
-
 }
 
 static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 {
     /* Falling edge triggers light pen.  */
-    if ((byte ^ 0x10) & cia_context->old_pb & 0x10)
+    if ((byte ^ 0x10) & cia_context->old_pb & 0x10) {
         vicii_trigger_light_pen(rclk);
+    }
 }
 
 static void undump_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
@@ -151,12 +149,14 @@ static BYTE read_ciapa(cia_context_t *cia_context)
 
     msk = cia_context->old_pb & ~joystick_value[1];
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~rev_keyarr[i];
+        }
+    }
 
     byte = (val & (cia_context->c_cia[CIA_PRA]
-           | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
+                   | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
 
     return byte;
 }
@@ -171,16 +171,18 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     msk = cia_context->old_pa & ~joystick_value[2];
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~keyarr[i];
+        }
+    }
 
     if (c64dtv_hummer_adc_enabled && (!(msk & 1))) {
         val &= ~(joystick_value[3] & 3);
     }
 
     byte = (val & (cia_context->c_cia[CIA_PRB]
-           | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
+                   | ~(cia_context->c_cia[CIA_DDRB]))) & ~joystick_value[1];
 
     return byte;
 }
@@ -217,7 +219,7 @@ void cia1_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
 
-    machine_context->cia1 = lib_calloc(1,sizeof(cia_context_t));
+    machine_context->cia1 = lib_calloc(1, sizeof(cia_context_t));
     cia = machine_context->cia1;
 
     cia->prv = NULL;

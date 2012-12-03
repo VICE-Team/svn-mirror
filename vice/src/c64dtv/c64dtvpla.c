@@ -57,4 +57,3 @@ void c64pla_pport_reset(void)
     pport.dir = 0;
     pport.dir_read = 0;
 }
-

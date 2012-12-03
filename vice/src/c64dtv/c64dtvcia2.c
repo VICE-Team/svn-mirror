@@ -219,7 +219,7 @@ static inline void undump_ciapb(cia_context_t *cia_context, CLOCK rclk,
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     return ((cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))
-           & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
+            & 0x3f) | (*iecbus_callback_read)(maincpu_clk);
 }
 
 /* read_* functions must return 0xff if nothing to read!!! */
@@ -229,7 +229,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 #ifdef HAVE_RS232
     if (rsuser_enabled) {
         byte = rsuser_read_ctrl();
-    } else 
+    } else
 #endif
     byte = parallel_cable_cpu_read(DRIVE_PC_STANDARD);
 
@@ -272,7 +272,7 @@ void cia2_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
 
-    machine_context->cia2 = lib_calloc(1,sizeof(cia_context_t));
+    machine_context->cia2 = lib_calloc(1, sizeof(cia_context_t));
     cia = machine_context->cia2;
 
     cia->prv = NULL;

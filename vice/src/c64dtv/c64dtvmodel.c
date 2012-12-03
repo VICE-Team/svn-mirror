@@ -91,8 +91,8 @@ int dtvmodel_get_temp(int video, int asic, int hummeradc)
 
     for (i = 0; i < DTVMODEL_NUM; ++i) {
         if ((dtvmodels[i].video == video)
-         && (dtvmodels[i].asic == asic)
-         && (dtvmodels[i].hummeradc == hummeradc)) {
+            && (dtvmodels[i].asic == asic)
+            && (dtvmodels[i].hummeradc == hummeradc)) {
             return i;
         }
     }
@@ -105,8 +105,8 @@ int dtvmodel_get(void)
     int video, asic, hummeradc;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("DtvRevision", &asic) < 0)
-     || (resources_get_int("HummerADC", &hummeradc) < 0)) {
+        || (resources_get_int("DtvRevision", &asic) < 0)
+        || (resources_get_int("HummerADC", &hummeradc) < 0)) {
         return -1;
     }
 

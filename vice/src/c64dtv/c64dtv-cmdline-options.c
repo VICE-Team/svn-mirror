@@ -130,7 +130,7 @@ static const cmdline_option_t cmdline_options[] =
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
 #endif
-   { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, 1,
       set_dtv_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_DTV_MODEL,

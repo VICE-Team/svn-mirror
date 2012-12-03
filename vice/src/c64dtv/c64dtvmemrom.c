@@ -49,30 +49,33 @@ BYTE c64memrom_kernal64_read(WORD addr)
 {
     int mapping = c64dtvmem_memmapper[0];
     int paddr = ((mapping & 0x1f) << 16) + addr;
-    if ((mapping >> 6)==0)
+    if ((mapping >> 6) == 0) {
         return c64dtvflash_read(paddr);
-    else
+    } else {
         return mem_ram[paddr];
+    }
 }
 
 static void c64memrom_kernal64_store(WORD addr, BYTE value)
 {
     int mapping = c64dtvmem_memmapper[0];
     int paddr = ((mapping & 0x1f) << 16) + addr;
-    if ((mapping >> 6)==0)
+    if ((mapping >> 6) == 0) {
         c64dtvflash_store_direct(paddr, value);
-    else
+    } else {
         mem_ram[paddr] = value;
+    }
 }
 
 BYTE c64memrom_basic64_read(WORD addr)
 {
     int mapping = c64dtvmem_memmapper[1];
     int paddr = ((mapping & 0x1f) << 16) + addr;
-    if ((mapping >> 6)==0)
+    if ((mapping >> 6) == 0) {
         return c64dtvflash_read(paddr);
-    else
+    } else {
         return mem_ram[paddr];
+    }
 }
 
 /* static void c64memrom_basic64_store(WORD addr, BYTE value)
@@ -86,10 +89,10 @@ BYTE c64memrom_basic64_read(WORD addr)
 BYTE c64memrom_trap_read(WORD addr)
 {
     switch (addr & 0xf000) {
-      case 0xe000:
-      case 0xf000:
-        return c64memrom_kernal64_read(addr);
-        break;
+        case 0xe000:
+        case 0xf000:
+            return c64memrom_kernal64_read(addr);
+            break;
     }
     return 0;
 }
@@ -97,22 +100,22 @@ BYTE c64memrom_trap_read(WORD addr)
 void c64memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
-      case 0xe000:
-      case 0xf000:
-        c64memrom_kernal64_store(addr, value);
-        break;
+        case 0xe000:
+        case 0xf000:
+            c64memrom_kernal64_store(addr, value);
+            break;
     }
 }
 
 BYTE c64memrom_rom64_read(WORD addr)
 {
     switch (addr & 0xf000) {
-      case 0xa000:
-      case 0xb000:
-      case 0xd000:
-      case 0xe000:
-      case 0xf000:
-        return c64dtvflash_read(addr);
+        case 0xa000:
+        case 0xb000:
+        case 0xd000:
+        case 0xe000:
+        case 0xf000:
+            return c64dtvflash_read(addr);
     }
 
     return 0;
@@ -122,4 +125,3 @@ void c64memrom_rom64_store(WORD addr, BYTE value)
 {
     return;
 }
-

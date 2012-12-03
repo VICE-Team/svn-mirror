@@ -33,6 +33,5 @@ extern int c64dtv_snapshot_write_module(struct snapshot_s *s, int save_roms);
 extern int c64dtv_snapshot_read_module(struct snapshot_s *s);
 extern int c64dtvmisc_snapshot_write_module(struct snapshot_s *s);
 extern int c64dtvmisc_snapshot_read_module(struct snapshot_s *s);
- 
-#endif
 
+#endif

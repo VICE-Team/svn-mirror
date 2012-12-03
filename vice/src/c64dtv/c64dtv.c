@@ -228,8 +228,9 @@ int machine_resources_init(void)
         || kbd_resources_init() < 0
 #endif
         || drive_resources_init() < 0
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -271,8 +272,9 @@ int machine_cmdline_options_init(void)
         || kbd_cmdline_options_init() < 0
 #endif
         || drive_cmdline_options_init() < 0
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -284,17 +286,18 @@ static void c64dtv_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[4];
 
-    asmarray[0]=&asm6502dtv;
-    asmarray[1]=&asm6502;
-    asmarray[2]=&asmR65C02;
-    asmarray[3]=NULL;
+    asmarray[0] = &asm6502dtv;
+    asmarray[1] = &asm6502;
+    asmarray[2] = &asmR65C02;
+    asmarray[3] = NULL;
 
     asm6502dtv_init(&asm6502dtv);
     asm6502_init(&asm6502);
     asmR65C02_init(&asmR65C02);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+    }
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
@@ -315,22 +318,25 @@ int machine_specific_init(void)
 
     c64_log = log_open("C64");
 
-    if (mem_load() < 0)
+    if (mem_load() < 0) {
         return -1;
+    }
 
     /* Setup trap handling.  */
     traps_init();
 
     /* Initialize serial traps.  */
-    if (serial_init(c64_serial_traps) < 0)
+    if (serial_init(c64_serial_traps) < 0) {
         return -1;
+    }
 
     serial_trap_init(0xa4);
     serial_iec_bus_init();
 
     /* Initialize flash traps.  */
-    if (flash_trap_init(c64dtv_flash_traps) < 0)
+    if (flash_trap_init(c64dtv_flash_traps) < 0) {
         return -1;
+    }
 
     /* Initialize RS232 handler.  */
     rs232drv_init();
@@ -347,20 +353,21 @@ int machine_specific_init(void)
     if (delay == 0) {
         delay = 3; /* default */
     }
-    autostart_init((CLOCK)(delay * C64_PAL_RFSH_PER_SEC
-		     * C64_PAL_CYCLES_PER_RFSH),
-                     1, 0xcc, 0xd1, 0xd3, 0xd5);
+    autostart_init((CLOCK)(delay * C64_PAL_RFSH_PER_SEC * C64_PAL_CYCLES_PER_RFSH),
+                   1, 0xcc, 0xd1, 0xd3, 0xd5);
 
-    if (vicii_init(VICII_DTV) == NULL && !console_mode)
+    if (vicii_init(VICII_DTV) == NULL && !console_mode) {
         return -1;
+    }
 
     cia1_init(machine_context.cia1);
     cia2_init(machine_context.cia2);
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
-    if (c64_kbd_init() < 0)
+    if (c64_kbd_init() < 0) {
         return -1;
+    }
 #endif
 
     c64keyboard_init();
@@ -383,8 +390,7 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec
-                * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 
     /* Initialize the C64-specific part of the UI.  */
     if (!console_mode) {
@@ -516,8 +522,7 @@ long machine_get_cycles_per_frame(void)
 
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
-    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
-            % machine_timing.screen_lines);
+    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
 
@@ -526,49 +531,49 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 
 void machine_change_timing(int timeval)
 {
-   int border_mode;
+    int border_mode;
 
     switch (timeval) {
-      default:
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
-        border_mode = VICII_NORMAL_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
-        border_mode = VICII_FULL_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
-        border_mode = VICII_DEBUG_BORDERS;
-        break;
-      case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-      case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
-        timeval ^= VICII_BORDER_MODE(VICII_NO_BORDERS);
-        border_mode = VICII_NO_BORDERS;
-        break;
-   }
+        default:
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NORMAL_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_NORMAL_BORDERS);
+            border_mode = VICII_NORMAL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_FULL_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_FULL_BORDERS);
+            border_mode = VICII_FULL_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_DEBUG_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_DEBUG_BORDERS);
+            border_mode = VICII_DEBUG_BORDERS;
+            break;
+        case MACHINE_SYNC_PAL ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
+        case MACHINE_SYNC_NTSC ^ VICII_BORDER_MODE(VICII_NO_BORDERS):
+            timeval ^= VICII_BORDER_MODE(VICII_NO_BORDERS);
+            border_mode = VICII_NO_BORDERS;
+            break;
+    }
 
     switch (timeval) {
-      case MACHINE_SYNC_PAL:
-        machine_timing.cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C64_PAL_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C64_PAL_SCREEN_LINES;
-        break;
-      case MACHINE_SYNC_NTSC:
-        machine_timing.cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
-        machine_timing.screen_lines = C64_NTSC_SCREEN_LINES;
-        break;
-      default:
-        log_error(c64_log, "Unknown machine timing.");
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = C64_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C64_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C64_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C64_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C64_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = C64_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = C64_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = C64_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = C64_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = C64_NTSC_SCREEN_LINES;
+            break;
+        default:
+            log_error(c64_log, "Unknown machine timing.");
     }
 
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
@@ -604,8 +609,9 @@ int machine_read_snapshot(const char *name, int event_mode)
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas != vicii_get_canvas())
+    if (canvas != vicii_get_canvas()) {
         return -1;
+    }
 
     vicii_screenshot(screenshot);
     return 0;
@@ -614,8 +620,9 @@ int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas != vicii_get_canvas())
+    if (canvas != vicii_get_canvas()) {
         return -1;
+    }
 
     vicii_async_refresh(refresh);
     return 0;
@@ -670,6 +677,12 @@ const char *machine_get_name(void)
 #ifdef USE_SDLUI
 /* Kludges for vsid & linking issues */
 const char **csidmodel = NULL;
-void psid_init_driver(void) {}
-void machine_play_psid(int tune) {}
+void psid_init_driver(void)
+{
+}
+
+void machine_play_psid(int tune)
+{
+}
+
 #endif
