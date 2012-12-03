@@ -169,7 +169,7 @@ static int DTRD = 0;
 void update_dtrd(void)
 {
 #if 1
-   if (datainfifo > (FIFO_LEN - 4)) {
+    if (datainfifo > (FIFO_LEN - 4)) {
         DTRD = 0;
     } else {
         DTRD = 1 & t6721->dtrd;
@@ -205,7 +205,7 @@ static BYTE read_data(t6721_state *t6721, unsigned int *bit)
 static BYTE write_bit_to_fifo(BYTE bit)
 {
     if (fifo_reset) {
-         /* DBG(("SPEECH: first bit %04x %d\n", writeptr, bit)); */
+        /* DBG(("SPEECH: first bit %04x %d\n", writeptr, bit)); */
         datainfifo = 0;
         readptr = 0;
         writeptr = 0;
@@ -317,7 +317,7 @@ static void set_eos(t6721_state *t6721)
 
 /*****************************************************************************
  Gate Array
- 
+
 18 in   t6721 DTRD
 20 in   t6721 phi2
  6 in   t6721 APD (reset, will also reset FIFO)
@@ -372,14 +372,14 @@ void ga_reset(void)
 
 static void ga_memconfig_changed(int mode)
 {
-int n = 1;
+    int n = 1;
 #ifdef CFGDEBUG
-int this;
-static int last;
+    int this;
+    static int last;
 #endif
     mv_game8000_atB000_enabled = 0;
     mv_gameA000_at3000_enabled = 0;
-    if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 0 */
+    if (((mv_exrom == 0) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))) { /* 0 */
         /* only with cart */
         /* game, before reading from memory */
         mv_game8000_atB000_enabled = 1;
@@ -390,7 +390,7 @@ static int last;
         mv_game8000_enabled = 1; /* ! */
         mv_gameA000_enabled = 0; /* ! */ /* code switching to this cfg is at 0xa... in mv rom */
         mv_gameE000_enabled = 1; /* ? */
-    } else if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 2 */
+    } else if (((mv_exrom == 0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))) { /* 2 */
         /* in init with "no cart", after "turn off basic" */
         /* game, after reading from memory */
         mv_romA000_enabled = 0;  /* ! */
@@ -400,7 +400,7 @@ static int last;
         mv_gameA000_enabled = 0; /* ! */
         mv_gameE000_enabled = 0; /* ! */
 #if 1
-    } else if (((mv_exrom==0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 3 */
+    } else if (((mv_exrom == 0) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))) { /* 3 */
         n = 0;
         /* used once in init in a loop ? */
         mv_romE000_enabled = 0;
@@ -410,7 +410,7 @@ static int last;
         mv_gameA000_enabled = 0; /* ? */
         mv_gameE000_enabled = 0; /* ? */
 #endif
-    } else if (((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 6 */
+    } else if (((mv_exrom == 0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))) { /* 6 */
         /* only with cart */
         /* "game */
         mv_romA000_enabled = 0;
@@ -419,7 +419,7 @@ static int last;
         mv_game8000_enabled = 1; /* ? */
         mv_gameA000_enabled = 1; /* ? */
         mv_gameE000_enabled = 1; /* ? */
-    } else if (((mv_exrom==0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 7 */
+    } else if (((mv_exrom == 0) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))) { /* 7 */
         n = 0;
         /* used once in init in a loop ? */
         mv_romA000_enabled = 1; /* ! */
@@ -428,7 +428,7 @@ static int last;
         mv_game8000_enabled = 0; /* ? */
         mv_gameA000_enabled = 0; /* ! */
         mv_gameE000_enabled = 0; /* ! */
-    } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 8 */
+    } else if (((mv_exrom == 1) && (ga_pc6 == 0) && (ga_pb5 == 0) && (ga_pb6 == 0))) { /* 8 */
         /* in init with "no cart" */
         mv_romA000_enabled = 1;
         mv_romE000_enabled = 1;
@@ -436,7 +436,7 @@ static int last;
         mv_game8000_enabled = 0; /* ? */
         mv_gameA000_enabled = 0; /* ? */
         mv_gameE000_enabled = 0; /* ? */
-    } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 10 */
+    } else if (((mv_exrom == 1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 0))) { /* 10 */
         /* only with cart */
         /* (intermediate in "turn on/off basic") */
         mv_romA000_enabled = 0;
@@ -445,7 +445,7 @@ static int last;
         mv_game8000_enabled = 1; /* ? */
         mv_gameA000_enabled = 1; /* ? */
         mv_gameE000_enabled = 0; /* ? */
-    } else if (((mv_exrom==1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 11 */
+    } else if (((mv_exrom == 1) && (ga_pc6 == 0) && (ga_pb5 == 1) && (ga_pb6 == 1))) { /* 11 */
         /* in init with "no cart" */
         mv_romE000_enabled = 1;
         mv_romA000_enabled = 1;
@@ -454,7 +454,7 @@ static int last;
         mv_gameA000_enabled = 0; /* ? */
         mv_gameE000_enabled = 0; /* ? */
 #if 0
-    } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 0) && (ga_pb6 == 0))){ /* 12 */
+    } else if (((mv_exrom == 1) && (ga_pc6 == 1) && (ga_pb5 == 0) && (ga_pb6 == 0))) { /* 12 */
         /* NMI with cart ? */
         mv_romA000_enabled = 1;
         mv_romE000_enabled = 0;
@@ -463,7 +463,7 @@ static int last;
         mv_gameA000_enabled = 0; /* ? */
         mv_gameE000_enabled = 0; /* ? */
 #endif
-    } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))){ /* 14 */
+    } else if (((mv_exrom == 1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 0))) { /* 14 */
         /* only with cart */
         /* before running "16k cart", after "turn on basic" */
         mv_romA000_enabled = 0;
@@ -472,7 +472,7 @@ static int last;
         mv_game8000_enabled = 1;
         mv_gameA000_enabled = 1;
         mv_gameE000_enabled = 0; /* ? */
-    } else if (((mv_exrom==1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))){ /* 15 */
+    } else if (((mv_exrom == 1) && (ga_pc6 == 1) && (ga_pb5 == 1) && (ga_pb6 == 1))) { /* 15 */
         /* in init with "no cart" */
         mv_romA000_enabled = 1;
         mv_romE000_enabled = 1;
@@ -501,11 +501,11 @@ static int last;
         }
         if (n) {
             DBG(("MV: @$%04x config (%2d) exrom %d pc6: %d pb5: %d pb6: %d | game: %d mv A000: %d E000: %d game 8000: %d  A000: %d E000: %d ",
-                 reg_pc, this, mv_exrom, ga_pc6, ga_pb5, ga_pb6, mv_game,  mv_romA000_enabled, mv_romE000_enabled, mv_game8000_enabled, mv_gameA000_enabled, mv_gameE000_enabled));
-            if(mv_game8000_atB000_enabled || mv_gameA000_at3000_enabled) {
-            DBG(("(%04x)",mv_passthrough_addr));
+                 reg_pc, this, mv_exrom, ga_pc6, ga_pb5, ga_pb6, mv_game, mv_romA000_enabled, mv_romE000_enabled, mv_game8000_enabled, mv_gameA000_enabled, mv_gameE000_enabled));
+            if (mv_game8000_atB000_enabled || mv_gameA000_at3000_enabled) {
+                DBG(("(%04x)", mv_passthrough_addr));
             }
-            switch((mv_exrom << 1) | mv_game) {
+            switch ((mv_exrom << 1) | mv_game) {
                 case 0:
                     DBG(("(ram)\n"));
                     break;
@@ -685,7 +685,7 @@ static void store_pc(tpi_context_t *tpi_context, BYTE byte)
     /* this function is actually never used ? */
     DBG(("MV: store pc %02x\n", byte));
 #if 0
-    if ((byte & 0x20) == 0){
+    if ((byte & 0x20) == 0) {
         DBG(("MV: triggered NMI ?\n"));
         /* OUT: !NMI (automatically generated if /EOS or DIR occurs) */
         /* cartridge_trigger_freeze_nmi_only(); */
@@ -760,7 +760,6 @@ static void magicvoice_io2_store(WORD addr, BYTE data)
             break;
     }
     tpicore_store(tpi_context, (WORD)(addr & 7), data);
-
 }
 
 static BYTE magicvoice_io2_read(WORD addr)
@@ -839,12 +838,12 @@ static void magicvoice_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int magicvoice_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int magicvoice_sound_machine_channels(void)
 {
-	return 1;
+    return 1;
 }
 
 static sound_chip_t magicvoice_sound_chip = {
@@ -1073,7 +1072,7 @@ static int set_magicvoice_enabled(int val, void *param)
         c64export_remove(&export_res);
         io_source_unregister(magicvoice_io2_list_item);
         magicvoice_io2_list_item = NULL;
-        magicvoice_sound_chip.chip_enabled =  0;
+        magicvoice_sound_chip.chip_enabled = 0;
         DBG(("MV: set_enabled unregistered\n"));
     } else if (!magicvoice_sound_chip.chip_enabled && val) {
         if (param) {
@@ -1097,12 +1096,12 @@ static int set_magicvoice_enabled(int val, void *param)
             } else {
                 DBG(("MV: set_enabled registered\n"));
                 magicvoice_io2_list_item = io_source_register(&magicvoice_io2_device);
-                magicvoice_sound_chip.chip_enabled =  1;
+                magicvoice_sound_chip.chip_enabled = 1;
             }
         }
     }
 
-    DBG(("MV: set_enabled done: '%s' %d : %d\n",magicvoice_filename , val, magicvoice_sound_chip.chip_enabled));
+    DBG(("MV: set_enabled done: '%s' %d : %d\n", magicvoice_filename, val, magicvoice_sound_chip.chip_enabled));
     return 0;
 }
 
@@ -1115,18 +1114,18 @@ static int set_magicvoice_filename(const char *name, void *param)
             return -1;
         }
     }
-    DBG(("MV: set_name: %d '%s'\n",magicvoice_sound_chip.chip_enabled, magicvoice_filename));
+    DBG(("MV: set_name: %d '%s'\n", magicvoice_sound_chip.chip_enabled, magicvoice_filename));
 
     util_string_set(&magicvoice_filename, name);
     resources_get_int("MagicVoiceCartridgeEnabled", &enabled);
 
-    if (set_magicvoice_enabled(enabled, (void*)1) < 0 ) {
+    if (set_magicvoice_enabled(enabled, (void*)1) < 0) {
         lib_free(magicvoice_filename);
         magicvoice_filename = NULL;
-        DBG(("MV: set_name done: %d '%s'\n",magicvoice_sound_chip.chip_enabled, magicvoice_filename));
+        DBG(("MV: set_name done: %d '%s'\n", magicvoice_sound_chip.chip_enabled, magicvoice_filename));
         return -1;
     }
-    DBG(("MV: set_name done: %d '%s'\n",magicvoice_sound_chip.chip_enabled, magicvoice_filename));
+    DBG(("MV: set_name done: %d '%s'\n", magicvoice_sound_chip.chip_enabled, magicvoice_filename));
     return 0;
 }
 
@@ -1223,64 +1222,64 @@ static void mv_ack_nmi(void)
 int magicvoice_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
-    case 0xf000:
-    case 0xe000:
-        if (mv_gameE000_enabled) {
-            return CART_READ_THROUGH; /* "passthrough" */
-        } else {
-            if (mv_romE000_enabled) {
-                *base = mv_rom - 0xc000;
-                *start = 0xe000;
-                *limit = 0xfffd;
+        case 0xf000:
+        case 0xe000:
+            if (mv_gameE000_enabled) {
+                return CART_READ_THROUGH; /* "passthrough" */
+            } else {
+                if (mv_romE000_enabled) {
+                    *base = mv_rom - 0xc000;
+                    *start = 0xe000;
+                    *limit = 0xfffd;
+                    return CART_READ_VALID;
+                }
+            }
+            return CART_READ_C64MEM; /* disabled, read c64 memory */
+        case 0xb000:
+        case 0xa000:
+            if (mv_game8000_atB000_enabled) {
+                /* FIXME: proper mapping */
+                *base = NULL;
+                *start = 0;
+                *limit = 0;
                 return CART_READ_VALID;
             }
-        }
-        return CART_READ_C64MEM; /* disabled, read c64 memory */
-    case 0xb000:
-    case 0xa000:
-        if (mv_game8000_atB000_enabled) {
-            /* FIXME: proper mapping */
-            *base = NULL;
-            *start = 0;
-            *limit = 0;
-            return CART_READ_VALID;
-        }
-        if (mv_gameA000_enabled) {
-            return CART_READ_THROUGH_NO_ULTIMAX;/* "passthrough" */
-        } else {
-            if (mv_romA000_enabled) {
-                *base = mv_rom - 0xa000;
-                *start = 0xa000;
-                *limit = 0xbffd;
-                return CART_READ_VALID;
+            if (mv_gameA000_enabled) {
+                return CART_READ_THROUGH_NO_ULTIMAX; /* "passthrough" */
+            } else {
+                if (mv_romA000_enabled) {
+                    *base = mv_rom - 0xa000;
+                    *start = 0xa000;
+                    *limit = 0xbffd;
+                    return CART_READ_VALID;
+                }
             }
-        }
-        /* disabled, read c64 memory */
-        return CART_READ_C64MEM;
-    case 0x9000:
-    case 0x8000:
-        if (mv_game8000_enabled) { /* "passthrough" */
-            return CART_READ_THROUGH;
-        }
-        return CART_READ_C64MEM; /* disabled, read c64 memory */
-    case 0x3000:
-        if (mv_gameA000_at3000_enabled) {
-            /* FIXME: proper mapping */
-            *base = NULL;
-            *start = 0;
-            *limit = 0;
-            return CART_READ_VALID;
-        } /* fall through */
-    case 0x7000:
-    case 0x6000:
-    case 0x5000:
-    case 0x4000:
-    case 0x2000:
-    case 0x1000:
-        /* disabled, read c64 memory */
-        return CART_READ_C64MEM;
-    default:
-        break;
+            /* disabled, read c64 memory */
+            return CART_READ_C64MEM;
+        case 0x9000:
+        case 0x8000:
+            if (mv_game8000_enabled) { /* "passthrough" */
+                return CART_READ_THROUGH;
+            }
+            return CART_READ_C64MEM; /* disabled, read c64 memory */
+        case 0x3000:
+            if (mv_gameA000_at3000_enabled) {
+                /* FIXME: proper mapping */
+                *base = NULL;
+                *start = 0;
+                *limit = 0;
+                return CART_READ_VALID;
+            } /* fall through */
+        case 0x7000:
+        case 0x6000:
+        case 0x5000:
+        case 0x4000:
+        case 0x2000:
+        case 0x1000:
+            /* disabled, read c64 memory */
+            return CART_READ_C64MEM;
+        default:
+            break;
     }
     return CART_READ_THROUGH;
 }
@@ -1458,7 +1457,7 @@ int magicvoice_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

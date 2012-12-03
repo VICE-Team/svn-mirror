@@ -1,7 +1,7 @@
 /*
  * tpi.h - IEEE488 interface for the C64.
  *
- * Written by 
+ * Written by
  *  Andre' Fachat <a.fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *

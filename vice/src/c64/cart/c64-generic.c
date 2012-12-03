@@ -77,7 +77,7 @@
           individual cart implementations should get reworked to use local buffers */
 /* Expansion port ROML/ROMH images.  */
 BYTE *roml_banks = NULL;
-BYTE *romh_banks = NULL;;
+BYTE *romh_banks = NULL;
 
 /* Expansion port RAM images.  */
 BYTE *export_ram0 = NULL;
@@ -122,32 +122,32 @@ static c64export_resource_t export_res_ultimax = {
 void generic_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
-    case 0xf000:
-    case 0xe000:
-        *base = &romh_banks[(romh_bank << 13)] - 0xe000;
-        *start = 0xe000;
-        *limit = 0xfffd;
-        break;
-    case 0xb000:
-    case 0xa000:
-        *base = &romh_banks[(romh_bank << 13)] - 0xa000;
-        *start = 0xa000;
-        *limit = 0xbffd;
-        break;
-    case 0x9000:
-    case 0x8000:
-        if (export_ram) {
-            *base = export_ram0 - 0x8000;
-        } else {
-            *base = &roml_banks[(roml_bank << 13)] - 0x8000;
-        }
-        *start = 0x8000;
-        *limit = 0x9ffd;
-        break;
-    default:
-        *base = NULL;
-        *start = 0;
-        *limit = 0;
+        case 0xf000:
+        case 0xe000:
+            *base = &romh_banks[(romh_bank << 13)] - 0xe000;
+            *start = 0xe000;
+            *limit = 0xfffd;
+            break;
+        case 0xb000:
+        case 0xa000:
+            *base = &romh_banks[(romh_bank << 13)] - 0xa000;
+            *start = 0xa000;
+            *limit = 0xbffd;
+            break;
+        case 0x9000:
+        case 0x8000:
+            if (export_ram) {
+                *base = export_ram0 - 0x8000;
+            } else {
+                *base = &roml_banks[(roml_bank << 13)] - 0x8000;
+            }
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            break;
+        default:
+            *base = NULL;
+            *start = 0;
+            *limit = 0;
     }
 }
 
@@ -390,7 +390,7 @@ int generic_snapshot_write_module(snapshot_t *s, int type)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

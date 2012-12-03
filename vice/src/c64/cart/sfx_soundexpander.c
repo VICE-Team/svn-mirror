@@ -93,11 +93,11 @@ static io_source_t sfx_soundexpander_piano_device = {
 static io_source_list_t *sfx_soundexpander_sound_list_item = NULL;
 static io_source_list_t *sfx_soundexpander_piano_list_item = NULL;
 
-static const c64export_resource_t export_res_sound= {
+static const c64export_resource_t export_res_sound = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_sound_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
-static const c64export_resource_t export_res_piano= {
+static const c64export_resource_t export_res_piano = {
     CARTRIDGE_NAME_SFX_SOUND_EXPANDER, 0, 0, NULL, &sfx_soundexpander_piano_device, CARTRIDGE_SFX_SOUND_EXPANDER
 };
 
@@ -113,12 +113,12 @@ static void sfx_soundexpander_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int sfx_soundexpander_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int sfx_soundexpander_sound_machine_channels(void)
 {
-	return 1; /* FIXME: needs to become stereo for stereo capable ports */
+    return 1;     /* FIXME: needs to become stereo for stereo capable ports */
 }
 
 static sound_chip_t sfx_soundexpander_sound_chip = {
@@ -316,8 +316,7 @@ int sfx_soundexpander_cmdline_options_init(void)
 
 /* ---------------------------------------------------------------------*/
 
-struct sfx_soundexpander_sound_s
-{
+struct sfx_soundexpander_sound_s {
     BYTE command;
 };
 
@@ -432,7 +431,7 @@ static BYTE sfx_soundexpander_sound_read(WORD addr)
 
     if (addr == 0x60) {
         if ((sfx_soundexpander_chip == 3812 && YM3812_chip)
-             || (sfx_soundexpander_chip == 3526 && YM3526_chip)) {
+            || (sfx_soundexpander_chip == 3526 && YM3526_chip)) {
             sfx_soundexpander_sound_device.io_source_valid = 1;
             value = sound_read(sfx_soundexpander_sound_chip_offset, 0);
         }
@@ -457,11 +456,11 @@ static BYTE sfx_soundexpander_sound_peek(WORD addr)
 /* No piano keyboard is emulated currently, so we return 0xff */
 static BYTE sfx_soundexpander_piano_read(WORD addr)
 {
-  sfx_soundexpander_piano_device.io_source_valid = 0;
-  if ((addr & 16) == 0 && (addr & 8) == 8) {
-      sfx_soundexpander_piano_device.io_source_valid = 1;
-  }
-  return (BYTE)0xff;
+    sfx_soundexpander_piano_device.io_source_valid = 0;
+    if ((addr & 16) == 0 && (addr & 8) == 8) {
+        sfx_soundexpander_piano_device.io_source_valid = 1;
+    }
+    return (BYTE)0xff;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -482,7 +481,7 @@ int sfx_soundexpander_snapshot_write_module(snapshot_t *s)
     }
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

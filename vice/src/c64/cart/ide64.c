@@ -227,7 +227,7 @@ static int ide64_register(void)
     }
 
     for (i = 0; i < 5; i++) {
-        if (!settings_version4 && i==2) {
+        if (!settings_version4 && i == 2) {
             continue;
         }
         if (c64export_add(&export_res[i]) < 0) {
@@ -254,7 +254,7 @@ static void ide64_unregister(void)
     }
 
     for (i = 0; i < 5; i++) {
-        if (!settings_version4 && i==2) {
+        if (!settings_version4 && i == 2) {
             continue;
         }
         c64export_remove(&export_res[i]);
@@ -341,7 +341,6 @@ static void detect_ide64_image(struct drive_s *drive)
     }
 
     if (drive->autodetect_size) {
-
         if (fread(header, 1, 24, file) < 24) {
             memset(&header, 0, sizeof(header));
         }
@@ -367,7 +366,9 @@ static void detect_ide64_image(struct drive_s *drive)
             off_t size = 0;
             if (fseek(file, 0, SEEK_END) == 0) {
                 size = ftell(file);
-                if (size < 0) size = 0;
+                if (size < 0) {
+                    size = 0;
+                }
             }
             geometry->cylinders = 0;
             geometry->heads = 0;
@@ -556,7 +557,7 @@ int ide64_resources_init(void)
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
-    
+
     return 0;
 }
 
@@ -746,7 +747,7 @@ static void ide64_idebus_store(WORD addr, BYTE value)
         case 8:
         case 9:
             idrive = (addr & 1) << 1;
-            /* fall through */
+        /* fall through */
         default:
             if (settings_version4) {
                 out_d030 = value | (out_d030 & 0xff00);
@@ -820,11 +821,11 @@ static BYTE ide64_ft245_read(WORD addr)
 {
     if (settings_version4) {
         switch (addr ^ 1) {
-        case 0:
-            break;
-        case 1:
-            ide64_ft245_device.io_source_valid = 1;
-            return 0xc0;
+            case 0:
+                break;
+            case 1:
+                ide64_ft245_device.io_source_valid = 1;
+                return 0xc0;
         }
     }
     ide64_ft245_device.io_source_valid = 0;
@@ -835,10 +836,10 @@ static BYTE ide64_ft245_peek(WORD addr)
 {
     if (settings_version4) {
         switch (addr ^ 1) {
-        case 0:
-            return 0xff;
-        case 1:
-            return 0xc0;
+            case 0:
+                return 0xff;
+            case 1:
+                return 0xc0;
         }
     }
     return 0;
@@ -928,7 +929,7 @@ static void ide64_rom_store(WORD addr, BYTE value)
             if ((kill_port & 1) == 0) {
                 return;
             }
-            /* fall through */
+        /* fall through */
         case 0xfc:
         case 0xfd:
         case 0xfe:
@@ -982,44 +983,44 @@ void ide64_c000_cfff_store(WORD addr, BYTE value)
 void ide64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
-    case 0xf000:
-    case 0xe000:
-        *base = &romh_banks[romh_bank << 14] - 0xc000;
-        *start = 0xe000;
-        *limit = 0xfffd;
-        break;
-    case 0xc000:
-        *base = export_ram0 - 0x8000;
-        *start = 0xc000;
-        *limit = 0xcffd;
-        break;
-    case 0xb000:
-    case 0xa000:
-        *base = &romh_banks[romh_bank << 14] - 0x8000;
-        *start = 0xa000;
-        *limit = 0xbffd;
-        break;
-    case 0x9000:
-    case 0x8000:
-        *base = &roml_banks[roml_bank << 14] - 0x8000;
-        *start = 0x8000;
-        *limit = 0x9ffd;
-        break;
-    case 0x7000:
-    case 0x6000:
-    case 0x5000:
-    case 0x4000:
-    case 0x3000:
-    case 0x2000:
-    case 0x1000:
-        *base = export_ram0;
-        *start = 0x1000;
-        *limit = 0x7ffd;
-        break;
-    default:
-        *base = NULL;
-        *start = 0;
-        *limit = 0;
+        case 0xf000:
+        case 0xe000:
+            *base = &romh_banks[romh_bank << 14] - 0xc000;
+            *start = 0xe000;
+            *limit = 0xfffd;
+            break;
+        case 0xc000:
+            *base = export_ram0 - 0x8000;
+            *start = 0xc000;
+            *limit = 0xcffd;
+            break;
+        case 0xb000:
+        case 0xa000:
+            *base = &romh_banks[romh_bank << 14] - 0x8000;
+            *start = 0xa000;
+            *limit = 0xbffd;
+            break;
+        case 0x9000:
+        case 0x8000:
+            *base = &roml_banks[roml_bank << 14] - 0x8000;
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            break;
+        case 0x7000:
+        case 0x6000:
+        case 0x5000:
+        case 0x4000:
+        case 0x3000:
+        case 0x2000:
+        case 0x1000:
+            *base = export_ram0;
+            *start = 0x1000;
+            *limit = 0x7ffd;
+            break;
+        default:
+            *base = NULL;
+            *start = 0;
+            *limit = 0;
     }
 }
 
@@ -1141,18 +1142,20 @@ int ide64_crt_attach(FILE *fd, BYTE *rawcart)
     return ide64_common_attach(rawcart, 1);
 }
 
-static int ide64_idebus_dump(void) {
+static int ide64_idebus_dump(void)
+{
     if (ata_register_dump(drives[idrive].drv) == 0) {
         return 0;
     }
     return ata_register_dump(drives[idrive ^ 1].drv);
 }
 
-static int ide64_io_dump(void) {
+static int ide64_io_dump(void)
+{
     const char *configs[4] = {
         "8k", "16k", "stnd", "open"
     };
-    mon_out("Version: %d, Mode: %s, ", settings_version4 ? 4:3, (kill_port & 1) ? "Disabled" : "Enabled");
+    mon_out("Version: %d, Mode: %s, ", settings_version4 ? 4 : 3, (kill_port & 1) ? "Disabled" : "Enabled");
     mon_out("ROM bank: %d, Config: %s, Interface: %d\n", current_bank, configs[current_cfg], idrive >> 1);
     return 0;
 }
@@ -1229,10 +1232,12 @@ int ide64_snapshot_read_module(snapshot_t *s)
 
     ide64_unregister();
     SMR_DW_INT(m, &settings_version4);
-    if (settings_version4) settings_version4 = 1;
+    if (settings_version4) {
+        settings_version4 = 1;
+    }
     ide64_register();
-    SMR_BA(m, roml_banks, settings_version4 ? 0x20000: 0x10000);
-    memcpy(romh_banks, roml_banks, settings_version4 ? 0x20000: 0x10000);
+    SMR_BA(m, roml_banks, settings_version4 ? 0x20000 : 0x10000);
+    memcpy(romh_banks, roml_banks, settings_version4 ? 0x20000 : 0x10000);
     SMR_BA(m, export_ram0, 0x8000);
     SMR_DW_INT(m, &current_bank);
     current_bank &= settings_version4 ? 7 : 3;
@@ -1240,7 +1245,9 @@ int ide64_snapshot_read_module(snapshot_t *s)
     current_cfg &= 3;
     SMR_B(m, &kill_port);
     SMR_DW_INT(m, &idrive);
-    if (idrive) idrive = 2;
+    if (idrive) {
+        idrive = 2;
+    }
     SMR_W(m, &in_d030);
     SMR_W(m, &out_d030);
     SMR_BA(m, (unsigned char *)ide64_DS1302, 64); /* TODO: RTC snapshot! */

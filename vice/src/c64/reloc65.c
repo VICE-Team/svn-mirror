@@ -64,7 +64,7 @@ int reloc65(char **buf, int *fsize, int addr)
 
     file.buf = (unsigned char *)*buf;
     file.fsize = *fsize;
-    tflag= 1;
+    tflag = 1;
     tbase = addr;
     extract = 1;
 
@@ -79,24 +79,24 @@ int reloc65(char **buf, int *fsize, int addr)
         return 0;
     }
 
-    hlen = BUF+read_options(file.buf+BUF);
+    hlen = BUF + read_options(file.buf + BUF);
 
-    file.tbase = file.buf[ 9] * 256 + file.buf[ 8];
-    file.tlen  = file.buf[11] * 256 + file.buf[10];
-    file.tdiff = tflag? tbase - file.tbase : 0;
+    file.tbase = file.buf[9] * 256 + file.buf[8];
+    file.tlen = file.buf[11] * 256 + file.buf[10];
+    file.tdiff = tflag ? tbase - file.tbase : 0;
     file.dbase = file.buf[13] * 256 + file.buf[12];
-    file.dlen  = file.buf[15] * 256 + file.buf[14];
-    file.ddiff = dflag? dbase - file.dbase : 0;
+    file.dlen = file.buf[15] * 256 + file.buf[14];
+    file.ddiff = dflag ? dbase - file.dbase : 0;
     file.bbase = file.buf[17] * 256 + file.buf[16];
-    file.blen  = file.buf[19] * 256 + file.buf[18];
-    file.bdiff = bflag? bbase - file.bbase : 0;
+    file.blen = file.buf[19] * 256 + file.buf[18];
+    file.bdiff = bflag ? bbase - file.bbase : 0;
     file.zbase = file.buf[21] * 256 + file.buf[20];
-    file.zlen  = file.buf[23] * 256 + file.buf[21];
-    file.zdiff = zflag? zbase - file.zbase : 0;
+    file.zlen = file.buf[23] * 256 + file.buf[21];
+    file.zdiff = zflag ? zbase - file.zbase : 0;
 
-    file.segt  = file.buf + hlen;
-    file.segd  = file.segt + file.tlen;
-    file.utab  = file.segd + file.dlen;
+    file.segt = file.buf + hlen;
+    file.segd = file.segt + file.tlen;
+    file.utab = file.segd + file.dlen;
 
     file.rttab = file.utab + read_undef(file.utab);
 
@@ -106,8 +106,8 @@ int reloc65(char **buf, int *fsize, int addr)
     reloc_globals(file.extab, &file);
 
     if (tflag) {
-        file.buf[ 9] = (tbase >> 8) & 255;
-        file.buf[ 8] = tbase & 255;
+        file.buf[9] = (tbase >> 8) & 255;
+        file.buf[8] = tbase & 255;
     }
     if (dflag) {
         file.buf[13] = (dbase >> 8) & 255;
@@ -158,7 +158,7 @@ static int read_undef(unsigned char *buf)
     n = buf[0] + 256 * buf[1];
     while (n) {
         n--;
-        while (!buf[l++]);
+        while (!buf[l++]) {}
     }
     return l;
 }
@@ -179,9 +179,9 @@ static unsigned char *reloc_seg(unsigned char *buf, int len, unsigned char *rtab
             type = *rtab & 0xe0;
             seg = *rtab & 0x07;
             rtab++;
-            switch(type) {
+            switch (type) {
                 case 0x80:
-                    old = buf[adr] + 256 * buf[adr+1];
+                    old = buf[adr] + 256 * buf[adr + 1];
                     new = old + reldiff(seg);
                     buf[adr] = new & 255;
                     buf[adr + 1] = (new >> 8) & 255;
@@ -212,7 +212,7 @@ static unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
     int n, old, new, seg;
 
     n = buf[0] + 256 * buf[1];
-    buf +=2;
+    buf += 2;
 
     while (n) {
         while (*(buf++)) {
@@ -222,7 +222,7 @@ static unsigned char *reloc_globals(unsigned char *buf, file65 *fp)
         new = old + reldiff(seg);
         buf[1] = new & 255;
         buf[2] = (new >> 8) & 255;
-        buf +=3;
+        buf += 3;
         n--;
     }
     return buf;

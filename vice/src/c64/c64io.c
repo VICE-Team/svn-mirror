@@ -118,9 +118,9 @@ static void io_source_msg_detach_all(WORD addr, int amount, io_source_list_t *st
     DBG(("IO: check %d sources for addr %04x\n", amount, addr));
     while (current) {
         /* DBG(("IO: check '%s'\n", current->device->name)); */
-        if (current->device->io_source_valid && 
-            addr >= current->device->start_address && 
-            addr <= current->device->end_address && 
+        if (current->device->io_source_valid &&
+            addr >= current->device->start_address &&
+            addr <= current->device->end_address &&
             current->device->io_source_prio == IO_PRIO_NORMAL) {
             /* found a conflict */
             detach_list[found].det_id = current->device->detach_id;
@@ -160,7 +160,7 @@ static void io_source_msg_detach_all(WORD addr, int amount, io_source_list_t *st
 
         DBG(("IO: found %d items to detach\n", found));
         for (i = 0; i < found; i++) {
-            DBG(("IO: detach #%d id:%d name: %s\n",i , detach_list[i].det_cartid, detach_list[i].det_devname));
+            DBG(("IO: detach #%d id:%d name: %s\n", i, detach_list[i].det_cartid, detach_list[i].det_devname));
             io_source_detach(&detach_list[i]);
         }
     }
@@ -185,9 +185,9 @@ static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *s
     DBG(("IO: check %d sources for addr %04x\n", real_amount, addr));
     while (current) {
         /* DBG(("IO: check '%s'\n", current->device->name)); */
-        if (current->device->io_source_valid && 
-            addr >= current->device->start_address && 
-            addr <= current->device->end_address && 
+        if (current->device->io_source_valid &&
+            addr >= current->device->start_address &&
+            addr <= current->device->end_address &&
             current->device->io_source_prio == IO_PRIO_NORMAL) {
             /* found a conflict */
             detach_list[found].det_id = current->device->detach_id;
@@ -233,7 +233,7 @@ static void io_source_msg_detach_last(WORD addr, int amount, io_source_list_t *s
         DBG(("IO: found %d items to detach\n", found));
         for (i = 0; i < found; i++) {
             if (detach_list[i].order != lowest) {
-                DBG(("IO: detach #%d id:%d name: %s\n",i , detach_list[i].det_cartid, detach_list[i].det_devname));
+                DBG(("IO: detach #%d id:%d name: %s\n", i, detach_list[i].det_cartid, detach_list[i].det_devname));
                 io_source_detach(&detach_list[i]);
             }
         }
@@ -256,9 +256,9 @@ static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *st
     DBG(("IO: check %d sources for addr %04x\n", amount, addr));
     while (current) {
         /* DBG(("IO: check '%s'\n", current->device->name)); */
-        if (current->device->io_source_valid && 
-            addr >= current->device->start_address && 
-            addr <= current->device->end_address && 
+        if (current->device->io_source_valid &&
+            addr >= current->device->start_address &&
+            addr <= current->device->end_address &&
             current->device->io_source_prio == IO_PRIO_NORMAL) {
             /* found a conflict */
             DBG(("IO: found #%d: '%s'\n", found, current->device->name));
@@ -290,7 +290,6 @@ static void io_source_log_collisions(WORD addr, int amount, io_source_list_t *st
     if (found) {
         log_message(LOG_DEFAULT, new_msg, addr);
         lib_free(new_msg);
-
     }
 }
 
@@ -800,7 +799,7 @@ static int set_io_source_collision_handling(int val, void *param)
     if (val < 0 || val > 2) {
         return -1;
     }
-	io_source_collision_handling = val;
+    io_source_collision_handling = val;
 
     return 0;
 }

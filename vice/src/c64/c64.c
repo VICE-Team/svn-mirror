@@ -453,9 +453,9 @@ static void c64_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[3];
 
-    asmarray[0]=&asm6502;
-    asmarray[1]=&asmR65C02;
-    asmarray[2]=NULL;
+    asmarray[0] = &asm6502;
+    asmarray[1] = &asmR65C02;
+    asmarray[2] = NULL;
 
     asm6502_init(&asm6502);
     asmR65C02_init(&asmR65C02);

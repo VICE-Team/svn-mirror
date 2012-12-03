@@ -51,7 +51,7 @@
          8000      a000      d000      e000
 
  0 0x00
- 1 0x01                      chr 
+ 1 0x01                      chr
  2 0x02                      chr       ker
  3 0x03            bas       chr       ker
  4 0x04
@@ -63,7 +63,7 @@
  9 0x09                      chr
 10 0x0a            romh      chr       ker
 11 0x0b  roml      bas/romh  chr       ker      8k game
-12 0x0c  
+12 0x0c
 13 0x0d                      io
 14 0x0e            romh      io        ker
 15 0x0f  roml      bas/romh  io        ker      8k game

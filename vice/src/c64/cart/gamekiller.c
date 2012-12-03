@@ -63,7 +63,7 @@
       an NMI will be triggered
 */
 
-#define GAME_KILLER_CART_SIZE (8*0x400)
+#define GAME_KILLER_CART_SIZE (8 * 0x400)
 
 /* ---------------------------------------------------------------------*/
 
@@ -71,7 +71,7 @@ static int cartridge_disable_flag;
 
 static void gamekiller_io1_store(WORD addr, BYTE value)
 {
-    DBG(("io1 %04x %02x\n",addr,value));
+    DBG(("io1 %04x %02x\n", addr, value));
     cartridge_disable_flag++;
     if (cartridge_disable_flag > 1) {
         cart_config_changed_slotmain(2, 2, CMODE_READ);
@@ -81,7 +81,7 @@ static void gamekiller_io1_store(WORD addr, BYTE value)
 
 static void gamekiller_io2_store(WORD addr, BYTE value)
 {
-    DBG(("io2 %04x %02x\n",addr,value));
+    DBG(("io2 %04x %02x\n", addr, value));
     cartridge_disable_flag++;
     if (cartridge_disable_flag > 1) {
         cart_config_changed_slotmain(2, 2, CMODE_READ);
@@ -226,7 +226,7 @@ int gamekiller_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -505,7 +505,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int cart_cmdline_options_init(void)
 {
-        /* "Slot 0" */
+    /* "Slot 0" */
     if (mmc64_cmdline_options_init() < 0
         || tpi_cmdline_options_init() < 0
         /* "Slot 1" */
@@ -547,7 +547,7 @@ int cart_cmdline_options_init(void)
 */
 int cart_resources_init(void)
 {
-        /* "Slot 0" */
+    /* "Slot 0" */
     if (mmc64_resources_init() < 0
         || magicvoice_resources_init() < 0
         || tpi_resources_init() < 0
@@ -627,7 +627,7 @@ void cart_resources_shutdown(void)
 */
 int cart_is_slotmain(int type)
 {
-   switch (type) {
+    switch (type) {
         /* slot 0 */
         case CARTRIDGE_MMC64:
         case CARTRIDGE_MAGIC_VOICE:
@@ -747,7 +747,7 @@ int cart_type_enabled(int type)
         case CARTRIDGE_TURBO232:
             return aciacart_cart_enabled();
 #endif
-        /* Main Slot handled in c64cart.c:cartridge_type_enabled */
+            /* Main Slot handled in c64cart.c:cartridge_type_enabled */
     }
     return 0;
 }
@@ -797,9 +797,9 @@ const char *cart_get_file_name(int type)
 #ifdef HAVE_RS232
         case CARTRIDGE_TURBO232:
 #endif
-          break;
+            break;
 
-        /* Main Slot handled in c64cart.c:cartridge_get_file_name */
+            /* Main Slot handled in c64cart.c:cartridge_get_file_name */
     }
     return ""; /* FIXME: NULL or empty string? */
 }
@@ -825,7 +825,7 @@ void cartridge_setup_context(machine_context_t *machine_context)
 
 int cart_bin_attach(int type, const char *filename, BYTE *rawcart)
 {
-    switch(type) {
+    switch (type) {
         /* "Slot 0" */
         case CARTRIDGE_IEEE488:
             return tpi_bin_attach(filename, rawcart);
@@ -1171,7 +1171,7 @@ void cart_attach(int type, BYTE *rawcart)
 }
 
 /* only one of the "Slot 0" carts can be enabled at a time */
-static int slot0conflicts[]=
+static int slot0conflicts[] =
 {
     CARTRIDGE_IEEE488,
     CARTRIDGE_MAGIC_VOICE,
@@ -1180,7 +1180,7 @@ static int slot0conflicts[]=
 };
 
 /* only one of the "Slot 1" carts can be enabled at a time */
-static int slot1conflicts[]=
+static int slot1conflicts[] =
 {
     CARTRIDGE_EXPERT,
     CARTRIDGE_ISEPIC,
@@ -1831,7 +1831,6 @@ void cartridge_init_config(void)
     } else if (tpi_cart_enabled()) {
         tpi_config_init((struct export_s*)&export_passthrough);
     }
-
 }
 
 /*
@@ -2365,7 +2364,7 @@ int cartridge_snapshot_write_modules(struct snapshot_s *s)
     }
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          C64CART_DUMP_VER_MAJOR, C64CART_DUMP_VER_MINOR);
+                               C64CART_DUMP_VER_MAJOR, C64CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -3251,7 +3250,7 @@ int cartridge_snapshot_read_modules(struct snapshot_s *s)
 
             default:
                 DBG(("CART snapshot read: cart %i handler missing\n", cart_ids[i]));
-                    goto fail2;
+                goto fail2;
         }
 
         cart_attach_from_snapshot(cart_ids[i]);
@@ -3274,4 +3273,3 @@ fail2:
     mem_cartridge_type = CARTRIDGE_NONE; /* Failed to load cartridge! */
     return -1;
 }
-

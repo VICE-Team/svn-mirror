@@ -172,7 +172,7 @@ void final_v3_freeze(void)
     fc3_reg_enabled = 1;
 
     /* note: freeze does NOT force a specific bank like some other carts do */
-    cart_config_changed_slotmain(2, (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);;
+    cart_config_changed_slotmain(2, (BYTE)(3 | (roml_bank << CMODE_BANK_SHIFT)), CMODE_READ);
 }
 
 void final_v3_config_init(void)
@@ -259,7 +259,7 @@ int final_v3_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

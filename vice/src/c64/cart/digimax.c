@@ -96,12 +96,12 @@ static void digimax_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int digimax_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int digimax_sound_machine_channels(void)
 {
-	return 1; /* FIXME: needs to become stereo for stereo capable ports */
+    return 1;     /* FIXME: needs to become stereo for stereo capable ports */
 }
 
 static sound_chip_t digimax_sound_chip = {
@@ -251,7 +251,7 @@ static int set_digimax_base(int val, void *param)
             if (machine_class == VICE_MACHINE_VIC20) {
                 digimax_device.start_address = (WORD)addr;
                 digimax_device.end_address = (WORD)(addr + 3);
-             } else {
+            } else {
                 return -1;
             }
             break;
@@ -264,7 +264,7 @@ static int set_digimax_base(int val, void *param)
     if (old) {
         set_digimax_enabled(1, NULL);
     }
-	return 0;
+    return 0;
 }
 
 void digimax_reset(void)
@@ -284,11 +284,11 @@ void digimax_detach(void)
 /* ---------------------------------------------------------------------*/
 
 static const resource_int_t resources_int[] = {
-  { "DIGIMAX", 0, RES_EVENT_STRICT, (resource_value_t)0,
-    &digimax_sound_chip.chip_enabled, set_digimax_enabled, NULL },
-  { "DIGIMAXbase", 0xffff, RES_EVENT_NO, NULL,
-    &digimax_address, set_digimax_base, NULL },
-  { NULL }
+    { "DIGIMAX", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &digimax_sound_chip.chip_enabled, set_digimax_enabled, NULL },
+    { "DIGIMAXbase", 0xffff, RES_EVENT_NO, NULL,
+      &digimax_address, set_digimax_base, NULL },
+    { NULL }
 };
 
 int digimax_resources_init(void)
@@ -407,7 +407,7 @@ int digimax_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

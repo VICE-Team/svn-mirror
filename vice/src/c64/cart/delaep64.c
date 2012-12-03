@@ -198,7 +198,7 @@ static int delaep64_common_attach(void)
 int delaep64_bin_attach(const char *filename, BYTE *rawcart)
 {
     int size = 0x12000;
- 
+
     memset(rawcart, 0xff, 0x12000);
     while (size != 0) {
         if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -249,7 +249,7 @@ int delaep64_crt_attach(FILE *fd, BYTE *rawcart)
         /* make sure all rom images are of the same size */
         if (rom_size < 0) {
             rom_size = chip.size;
-        } 
+        }
         if (chip.size != rom_size) {
             return -1;
         }
@@ -285,7 +285,7 @@ int delaep64_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

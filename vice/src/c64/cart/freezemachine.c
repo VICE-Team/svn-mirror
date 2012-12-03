@@ -87,8 +87,8 @@
       - ROM bank 0 (2) is mapped to E000
 */
 
-#define FREEZE_MACHINE_CART_SIZE (32*0x400)
-#define FREEZE_FRAME_MK4_CART_SIZE (16*0x400)
+#define FREEZE_MACHINE_CART_SIZE (32 * 0x400)
+#define FREEZE_FRAME_MK4_CART_SIZE (16 * 0x400)
 
 static int rom_A14;      /* when set, bank 2 and 3 are active */
 static int roml_toggle;  /* when set, bank 1 or 3 will be used for roml */
@@ -255,7 +255,6 @@ int freezemachine_crt_attach(FILE *fd, BYTE *rawcart)
     crt_chip_header_t chip;
 
     for (i = 0; i < 4; i++) {
-
         if (crt_read_chip_header(&chip, fd)) {
             break;
         }
@@ -297,7 +296,7 @@ int freezemachine_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

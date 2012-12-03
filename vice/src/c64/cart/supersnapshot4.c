@@ -174,7 +174,7 @@ void supersnapshot_v4_io2_store(WORD addr, BYTE value)
         int mode = CMODE_WRITE;
 
 #ifdef DBGSS4
-        if (value & ~(0x80 | 0x08  | 0x04 | 0x02 | 0x01)) {
+        if (value & ~(0x80 | 0x08 | 0x04 | 0x02 | 0x01)) {
             DBG(("poof!\n"));
             exit(-1);
         }
@@ -344,7 +344,7 @@ int supersnapshot_v4_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

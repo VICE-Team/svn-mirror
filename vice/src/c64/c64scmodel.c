@@ -116,10 +116,10 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
 
     for (i = 0; i < C64MODEL_NUM; ++i) {
         if ((c64models[i].vicii == vicii_model)
-         && (c64models[i].luma == new_luma)
-         && (is_new_cia(c64models[i].cia) == new_cia)
-         && (c64models[i].glue == glue_logic)
-         && (c64models[i].sid == new_sid)) {
+            && (c64models[i].luma == new_luma)
+            && (is_new_cia(c64models[i].cia) == new_cia)
+            && (c64models[i].glue == glue_logic)
+            && (c64models[i].sid == new_sid)) {
             return i;
         }
     }
@@ -132,11 +132,11 @@ int c64model_get(void)
     int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma;
 
     if ((resources_get_int("VICIIModel", &vicii_model) < 0)
-     || (resources_get_int("SidModel", &sid_model) < 0)
-     || (resources_get_int("GlueLogic", &glue_logic) < 0)
-     || (resources_get_int("CIA1Model", &cia1_model) < 0)
-     || (resources_get_int("CIA2Model", &cia2_model) < 0)
-     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        || (resources_get_int("SidModel", &sid_model) < 0)
+        || (resources_get_int("GlueLogic", &glue_logic) < 0)
+        || (resources_get_int("CIA1Model", &cia1_model) < 0)
+        || (resources_get_int("CIA2Model", &cia2_model) < 0)
+        || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
         return -1;
     }
 

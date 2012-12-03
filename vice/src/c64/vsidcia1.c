@@ -132,7 +132,7 @@ void cia1_check_lightpen(void)
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
-    cia1_internal_lightpen_check(b,  machine_context.cia1->old_pb);
+    cia1_internal_lightpen_check(b, machine_context.cia1->old_pb);
 }
 
 static void undump_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
@@ -227,7 +227,7 @@ void cia1_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
 
-    machine_context->cia1 = lib_calloc(1,sizeof(cia_context_t));
+    machine_context->cia1 = lib_calloc(1, sizeof(cia_context_t));
     cia = machine_context->cia1;
 
     cia->prv = NULL;

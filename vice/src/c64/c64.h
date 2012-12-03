@@ -1,5 +1,5 @@
 
-/*! \file c64/c64.h 
+/*! \file c64/c64.h
  *
  *  \brief Definitions for C64 Machine context and -timing.
  *
@@ -54,9 +54,9 @@
 #define C64_PALN_CYCLES_PER_LINE 65
 #define C64_PALN_SCREEN_LINES    312
 #define C64_PALN_CYCLES_PER_RFSH (C64_PALN_SCREEN_LINES \
-                                    * C64_PALN_CYCLES_PER_LINE)
+                                  * C64_PALN_CYCLES_PER_LINE)
 #define C64_PALN_RFSH_PER_SEC  (1.0 / ((double)C64_PALN_CYCLES_PER_RFSH \
-                                        / (double)C64_PALN_CYCLES_PER_SEC))
+                                       / (double)C64_PALN_CYCLES_PER_SEC))
 
 /* $01 bits 6 and 7 fall-off cycles (1->0), average is about 350 msec */
 #define C64_CPU_DATA_PORT_FALL_OFF_CYCLES 350000

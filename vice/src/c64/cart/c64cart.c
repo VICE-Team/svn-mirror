@@ -60,7 +60,7 @@
 /* #define DEBUGCART */
 
 #ifdef DEBUGCART
-#define DBG(x)  printf x ; fflush(stdout);
+#define DBG(x)  printf x; fflush(stdout);
 #else
 #define DBG(x)
 #endif
@@ -165,7 +165,7 @@ static int try_cartridge_attach(int type, const char *filename)
 
     if (filename) {
         if (util_file_exists(filename)) {
-            if((crtid=crt_getid(filename)) > 0) {
+            if ((crtid = crt_getid(filename)) > 0) {
                 cartridge_type = CARTRIDGE_CRT; /* resource value modified */
                 return cartridge_attach_image(CARTRIDGE_CRT, filename);
             } else if ((type != CARTRIDGE_NONE) && (type != CARTRIDGE_CRT)) {
@@ -640,7 +640,7 @@ static void cart_freeze_alarm_triggered(CLOCK offset, void *data)
     alarm_unset(cartridge_freeze_alarm);
     cart_freeze_alarm_time = CLOCK_MAX;
 
-    if(cart_freeze_allowed()) {  /* c64carthooks.c */
+    if (cart_freeze_allowed()) {  /* c64carthooks.c */
         DBG(("cart_trigger_freeze delay 3 cycles\n"));
         maincpu_set_nmi(cartridge_int_num, IK_NMI);
         cart_nmi_alarm_time = maincpu_clk + 3;
@@ -664,7 +664,7 @@ static void cart_freeze_alarm_triggered(CLOCK offset, void *data)
 */
 void cartridge_trigger_freeze(void)
 {
-    int delay = 1+(int)(((float)machine_get_cycles_per_frame())*rand()/(RAND_MAX+1.0));
+    int delay = 1 + (int)(((float)machine_get_cycles_per_frame()) * rand() / (RAND_MAX + 1.0));
 
     cart_freeze_alarm_time = maincpu_clk + delay;
     alarm_set(cartridge_freeze_alarm, cart_freeze_alarm_time);
@@ -697,4 +697,3 @@ void cartridge_init(void)
     cartridge_freeze_alarm = alarm_new(maincpu_alarm_context, "Cartridge", cart_freeze_alarm_triggered, NULL);
     cartridge_int_num = interrupt_cpu_status_int_new(maincpu_int_status, "Cartridge");
 }
-

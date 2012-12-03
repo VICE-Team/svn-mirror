@@ -243,8 +243,8 @@ static BYTE silverrock128_io1_peek(WORD addr)
 static int silverrock128_dump(void)
 {
     mon_out("Currently selected EPROM bank: %d, cart status: %s\n",
-    currbank,
-    (regval & 0x80) ? "Disabled" : "Enabled");
+            currbank,
+            (regval & 0x80) ? "Disabled" : "Enabled");
     return 0;
 }
 
@@ -299,7 +299,7 @@ static int silverrock128_common_attach(void)
 int silverrock128_bin_attach(const char *filename, BYTE *rawcart)
 {
     int size = 0x42000;
- 
+
     memset(rawcart, 0xff, size);
     while (size != 0) {
         if (util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
@@ -350,7 +350,7 @@ int silverrock128_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

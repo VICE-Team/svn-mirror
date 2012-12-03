@@ -113,7 +113,7 @@
     .word $df15-1  2
     .word $80c3-1  3
     .word $8057-1
-    .word $ff84-1  
+    .word $ff84-1
 
 .C:ff84   4C A3 FD   JMP $FDA3 ; Init I/O Devices, Ports & Timers
 ...
@@ -333,7 +333,7 @@ static const c64export_resource_t export_res = {
 
 /* these two values are hand tuned */
 #define CAPENABLE  65
-#define CAPDISABLE (50+(7*16))       /* 7*16: (bytes routine at $df27 * max filename max len) */
+#define CAPDISABLE (50 + (7 * 16))       /* 7*16: (bytes routine at $df27 * max filename max len) */
 
 static int ar_enabled = 0, ar_cap_enable = 0, ar_cap_disable = 0;
 
@@ -514,7 +514,7 @@ int actionreplay2_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

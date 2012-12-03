@@ -202,7 +202,7 @@ static int set_ds12c887rtc_base(int val, void *param)
             if (machine_class == VICE_MACHINE_VIC20) {
                 ds12c887rtc_device.start_address = (WORD)addr;
                 ds12c887rtc_device.end_address = (WORD)(addr + 1);
-             } else {
+            } else {
                 return -1;
             }
             break;
@@ -261,11 +261,11 @@ static void ds12c887rtc_store(WORD addr, BYTE byte)
 /* ---------------------------------------------------------------------*/
 
 static const resource_int_t resources_int[] = {
-  { "DS12C887RTC", 0, RES_EVENT_STRICT, (resource_value_t)0,
-    &ds12c887rtc_enabled, set_ds12c887rtc_enabled, NULL },
-  { "DS12C887RTCbase", 0xffff, RES_EVENT_NO, NULL,
-    &ds12c887rtc_base_address, set_ds12c887rtc_base, NULL },
-  { NULL }
+    { "DS12C887RTC", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &ds12c887rtc_enabled, set_ds12c887rtc_enabled, NULL },
+    { "DS12C887RTCbase", 0xffff, RES_EVENT_NO, NULL,
+      &ds12c887rtc_base_address, set_ds12c887rtc_base, NULL },
+    { NULL }
 };
 
 int ds12c887rtc_resources_init(void)
@@ -318,7 +318,7 @@ int ds12c887rtc_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

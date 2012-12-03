@@ -352,7 +352,7 @@ static BYTE read_pc(tpi_context_t *tpi_context)
 {
     BYTE byte = 0xff;
 
-    if(tpi_extexrom) {
+    if (tpi_extexrom) {
         byte &= ~(1 << 7);
     }
     byte = (byte & ~(tpi_context->c_tpi)[TPI_DDPC]) | (tpi_context->c_tpi[TPI_PC] & tpi_context->c_tpi[TPI_DDPC]);
@@ -476,7 +476,7 @@ static int set_ieee488_enabled(int val, void *param)
         }
     }
 
-    DBG(("IEEE: set_enabled done: '%s' %d : %d\n",ieee488_filename , val, ieee488_enabled));
+    DBG(("IEEE: set_enabled done: '%s' %d : %d\n", ieee488_filename, val, ieee488_enabled));
     return 0;
 }
 
@@ -489,19 +489,19 @@ static int set_ieee488_filename(const char *name, void *param)
             return -1;
         }
     }
-    DBG(("IEEE: set_name: %d '%s'\n",ieee488_enabled, ieee488_filename));
+    DBG(("IEEE: set_name: %d '%s'\n", ieee488_enabled, ieee488_filename));
 
     util_string_set(&ieee488_filename, name);
     resources_get_int("IEEE488", &enabled);
 
-    if (set_ieee488_enabled(enabled, (void*)1) < 0 ) {
+    if (set_ieee488_enabled(enabled, (void*)1) < 0) {
         lib_free(ieee488_filename);
         ieee488_filename = NULL;
-        DBG(("IEEE: set_name done: %d '%s'\n",ieee488_enabled, ieee488_filename));
+        DBG(("IEEE: set_name done: %d '%s'\n", ieee488_enabled, ieee488_filename));
         return -1;
     }
 
-    DBG(("IEEE: set_name done: %d '%s'\n",ieee488_enabled, ieee488_filename));
+    DBG(("IEEE: set_name done: %d '%s'\n", ieee488_enabled, ieee488_filename));
     return 0;
 }
 
@@ -575,18 +575,18 @@ int tpi_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     if (rom_enabled) {
         switch (addr & 0xf000) {
-        case 0x9000:
-            *base = tpi_rom - 0x9000;
-            *start = 0x9000;
-            *limit = 0x9ffd;
-            return CART_READ_VALID;
-        case 0x8000:
-            *base = tpi_rom - 0x8000;
-            *start = 0x8000;
-            *limit = 0x8ffd;
-            return CART_READ_VALID;
-        default:
-            break;
+            case 0x9000:
+                *base = tpi_rom - 0x9000;
+                *start = 0x9000;
+                *limit = 0x9ffd;
+                return CART_READ_VALID;
+            case 0x8000:
+                *base = tpi_rom - 0x8000;
+                *start = 0x8000;
+                *limit = 0x8ffd;
+                return CART_READ_VALID;
+            default:
+                break;
         }
     }
     return CART_READ_THROUGH;

@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -176,7 +176,7 @@ static int set_plus256k_enabled(int val, void *param)
 static int set_plus256k_filename(const char *name, void *param)
 {
     if (plus256k_filename != NULL && name != NULL && strcmp(name, plus256k_filename) == 0) {
-       return 0;
+        return 0;
     }
 
     if (name != NULL && *name != '\0') {

@@ -165,23 +165,23 @@ int ocean_cart_sizes[] = { 0x80000, 0x40000, 0x20000, 0x08000, 0 };
 
 int ocean_bin_attach(const char *filename, BYTE *rawcart)
 {
-  int rc = 0;
-  int i;
-  size_t size;
-  for(i = 0; (size = ocean_cart_sizes[i]) != 0; i++ ) {
-    rc = util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS);
-    if ( rc == 0 ) {
-      io1_mask = (size >> 13)-1;
-      /* printf("rc=%d i=%d sz=0x%x mask=0x%02x\n", rc, i, size, io1_mask); */
-      break;
+    int rc = 0;
+    int i;
+    size_t size;
+    for (i = 0; (size = ocean_cart_sizes[i]) != 0; i++) {
+        rc = util_file_load(filename, rawcart, size, UTIL_FILE_LOAD_SKIP_ADDRESS);
+        if (rc == 0) {
+            io1_mask = (size >> 13) - 1;
+            /* printf("rc=%d i=%d sz=0x%x mask=0x%02x\n", rc, i, size, io1_mask); */
+            break;
+        }
     }
-  }
 
-  if (rc == 0) {
-    cart_size = size;
-    rc = ocean_common_attach();
-  }
-  return rc;
+    if (rc == 0) {
+        cart_size = size;
+        rc = ocean_common_attach();
+    }
+    return rc;
 }
 
 int ocean_crt_attach(FILE *fd, BYTE *rawcart)
@@ -200,10 +200,10 @@ int ocean_crt_attach(FILE *fd, BYTE *rawcart)
         if (crt_read_chip(rawcart, chip.bank << 13, &chip, fd)) {
             return -1;
         }
-    	rom_size += chip.size;
+        rom_size += chip.size;
     }
 
-    io1_mask = (rom_size >> 13)-1;
+    io1_mask = (rom_size >> 13) - 1;
 
     return ocean_common_attach();
 }
@@ -226,7 +226,7 @@ int ocean_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

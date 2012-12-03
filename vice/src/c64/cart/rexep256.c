@@ -111,7 +111,7 @@ static void rexep256_io2_store(WORD addr, BYTE value)
             eprom_part = test_value;
         }
 
-        cart_romlbank_set_slotmain(rexep256_eprom_roml_bank_offset[eprom_bank]+eprom_part+1);
+        cart_romlbank_set_slotmain(rexep256_eprom_roml_bank_offset[eprom_bank] + eprom_part + 1);
     }
 }
 
@@ -138,9 +138,9 @@ static BYTE rexep256_io2_peek(WORD addr)
 static int rexep256_dump(void)
 {
     mon_out("Socket: %d, bank: %d\n",
-	        regval & 7,
-			(regval & 0x30) >> 4);
-	return 0;
+            regval & 7,
+            (regval & 0x30) >> 4);
+    return 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -268,7 +268,7 @@ int rexep256_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

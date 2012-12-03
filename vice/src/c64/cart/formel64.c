@@ -206,7 +206,7 @@ static BYTE f64_get_pb(mc6821_state *ctx)
 }
 
 /****************************************************************************
-* 
+*
 ****************************************************************************/
 
 static BYTE formel64_io2_read(WORD addr)
@@ -242,7 +242,7 @@ static void formel64_io2_store(WORD addr, BYTE value)
 }
 
 /****************************************************************************
-* 
+*
 ****************************************************************************/
 /* ---------------------------------------------------------------------*/
 
@@ -373,7 +373,7 @@ int formel64_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -385,7 +385,7 @@ int formel64_snapshot_write_module(snapshot_t *s)
         return -1;
     }
 
-    if (mc6821core_snapshot_write_data(&my6821, m)  < 0) {
+    if (mc6821core_snapshot_write_data(&my6821, m) < 0) {
         return -1;
     }
 
@@ -415,13 +415,13 @@ int formel64_snapshot_read_module(snapshot_t *s)
         return -1;
     }
 
-    if (mc6821core_snapshot_read_data(&my6821, m)  < 0) {
+    if (mc6821core_snapshot_read_data(&my6821, m) < 0) {
         return -1;
     }
 
     snapshot_module_close(m);
 
     parallel_cable_cpu_undump(DRIVE_PC_FORMEL64, (BYTE)my6821.dataA);
-    
+
     return formel64_common_attach();
 }

@@ -558,7 +558,7 @@ static void plus60k_init_config(void)
                         mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_39xx_store;
                     }
                     if (mem_write_tab[k][i][j] == vicii_mem_vbank_3fxx_store) {
-                        mem_write_tab[k][i][j]=plus60k_vicii_mem_vbank_3fxx_store;
+                        mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_3fxx_store;
                     }
                     if (mem_write_tab[k][i][j] == vicii_mem_vbank_store) {
                         mem_write_tab[k][i][j] = plus60k_vicii_mem_vbank_store;
@@ -703,7 +703,8 @@ void mem_initialize_memory(void)
     c64_256k_init_config();
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
     DWORD limits;
 
@@ -796,7 +797,7 @@ int mem_rom_trap_allowed(WORD addr)
             case 30:
             case 31:
                 return 1;
-            default: 
+            default:
                 return 0;
         }
     }
@@ -997,8 +998,8 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-             /* we must check for which bank is currently active, and only use peek_bank_io
-                when needed to avoid side effects */
+            /* we must check for which bank is currently active, and only use peek_bank_io
+               when needed to avoid side effects */
             if (c64meminit_io_config[mem_config]) {
                 if ((addr >= 0xd000) && (addr < 0xe000)) {
                     return peek_bank_io(addr);

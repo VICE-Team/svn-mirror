@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -111,10 +111,10 @@ static BYTE c64_256k_read(WORD addr)
         retval = c64_256k_PRB;
     }
     if (addr == 2 && (c64_256k_CRB & 4) == 0) {
-      retval = c64_256k_DDB;
+        retval = c64_256k_DDB;
     }
 
-  return retval;
+    return retval;
 }
 
 static void c64_256k_store(WORD addr, BYTE byte)

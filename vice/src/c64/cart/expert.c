@@ -97,7 +97,7 @@
       - according to the documentation, the cartridge is disabled. however,
         the NMI logic of the cart still seems to interfer somehow and makes
         some program misbehave. the solution for this was to put an additional
-        switch at the NMI line of the cartridge port, which then allows to 
+        switch at the NMI line of the cartridge port, which then allows to
         completely disable the cartridge for real.
 
         this misbehavior is NOT emulated
@@ -167,7 +167,7 @@ Reset entry from expert 2.70:
 .C:03b0   48         PHA
 .C:03b1   A9 37      LDA #$37
 .C:03b3   85 01      STA $01
-.C:03b5   AD 00 DE   LDA $DE00  toggle expert RAM on/off  
+.C:03b5   AD 00 DE   LDA $DE00  toggle expert RAM on/off
 .C:03b8   AD 00 E0   LDA $E000  is $85 in kernal
 .C:03bb   C9 85      CMP #$85
 .C:03bd   D0 F6      BNE $03B5
@@ -190,7 +190,7 @@ NMI entry from expert 2.70:
 
 #ifdef DBGEXPERT
 #define DBG(x) printf x
-char *expert_mode[3]={"off","prg","on"};
+char *expert_mode[3]={"off", "prg", "on"};
 #else
 #define DBG(x)
 #endif
@@ -365,7 +365,7 @@ static int set_expert_enabled(int val, void *param)
         resources_set_int("ExpertCartridgeMode", cartmode);
         cart_power_off();
     }
-    
+
     return 0;
 }
 
@@ -413,7 +413,7 @@ void expert_io1_store(WORD addr, BYTE value)
         cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
         expert_ramh_enabled ^= 1;
         expert_ram_writeable = 0; /* =0 ? */
-        DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n",expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
+        DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n", expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
     }
 }
 
@@ -425,7 +425,7 @@ BYTE expert_io1_read(WORD addr)
         cart_config_changed_slot1(2, 3, CMODE_READ | CMODE_RELEASE_FREEZE | CMODE_PHI2_RAM);
         expert_ramh_enabled ^= 1;
         expert_ram_writeable = 0; /* =0 ? */
-        DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n",expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
+        DBG(("EXPERT: ON (regs: %d ramh: %d ramwrite: %d)\n", expert_register_enabled, expert_ramh_enabled, expert_ram_writeable));
     }
     return 0;
 }
@@ -572,27 +572,27 @@ void expert_reset(void)
 void expert_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
-    case 0xf000:
-    case 0xe000:
-        if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
-            *base = expert_ram - 0xe000;
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        }
-        break;
-    case 0x9000:
-    case 0x8000:
-        if ((cartmode == EXPERT_MODE_PRG)
-            || ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled)) {
-            *base = expert_ram - 0x8000;
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return;
-        }
-        break;
-    default:
-        break;
+        case 0xf000:
+        case 0xe000:
+            if ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled) {
+                *base = expert_ram - 0xe000;
+                *start = 0xe000;
+                *limit = 0xfffd;
+                return;
+            }
+            break;
+        case 0x9000:
+        case 0x8000:
+            if ((cartmode == EXPERT_MODE_PRG)
+                || ((cartmode == EXPERT_MODE_ON) && expert_ramh_enabled)) {
+                *base = expert_ram - 0x8000;
+                *start = 0x8000;
+                *limit = 0x9ffd;
+                return;
+            }
+            break;
+        default:
+            break;
     }
     *base = NULL;
     *start = 0;
@@ -802,7 +802,7 @@ int expert_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -67,7 +67,7 @@ static io_source_t sfx_soundsampler_device = {
 
 static io_source_list_t *sfx_soundsampler_list_item = NULL;
 
-static const c64export_resource_t export_res= {
+static const c64export_resource_t export_res = {
     CARTRIDGE_NAME_SFX_SOUND_SAMPLER, 0, 0, &sfx_soundsampler_device, NULL, CARTRIDGE_SFX_SOUND_SAMPLER
 };
 
@@ -82,12 +82,12 @@ static void sfx_soundsampler_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int sfx_soundsampler_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int sfx_soundsampler_sound_machine_channels(void)
 {
-	return 1;
+    return 1;
 }
 
 static sound_chip_t sfx_soundsampler_sound_chip = {
@@ -257,8 +257,7 @@ static void sfx_soundsampler_sound_store(WORD addr, BYTE value)
     sound_store(sfx_soundsampler_sound_chip_offset, value, 0);
 }
 
-struct sfx_soundsampler_sound_s
-{
+struct sfx_soundsampler_sound_s {
     BYTE voice0;
 };
 

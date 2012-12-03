@@ -109,12 +109,13 @@ static const c64export_resource_t export_res = {
 
 /* ------------------------------------------------------------------------- */
 
-int aciacart_cart_enabled(void) {
+int aciacart_cart_enabled(void)
+{
 #ifdef HAVE_RS232
     return acia_enabled;
 #else
     return 0;
-#endif 
+#endif
 }
 
 #ifdef HAVE_RS232

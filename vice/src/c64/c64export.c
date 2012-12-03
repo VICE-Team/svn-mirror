@@ -76,13 +76,13 @@ void c64export_dump(void)
             mon_out("%5d ", current->device->cartid);
             mon_out("%4s ", current->device->game ? "GAME" : "-");
             mon_out("%5s ", current->device->exrom ? "EXROM" : "-");
-            io=current->device->io1;
+            io = current->device->io1;
             if (io) {
                 mon_out("IO1:%04x-%04x ", io->start_address, io->end_address);
             } else {
                 mon_out("              ");
             }
-            io=current->device->io2;
+            io = current->device->io2;
             if (io) {
                 mon_out("IO2:%04x-%04x ", io->start_address, io->end_address);
             } else {

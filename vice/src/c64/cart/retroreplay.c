@@ -171,7 +171,7 @@ static const c64export_resource_t export_res = {
 BYTE retroreplay_io1_read(WORD addr)
 {
     retroreplay_io1_device.io_source_valid = 0;
-    
+
 /* DBG(("io1 r %04x\n",addr)); */
 
     if (rr_active) {
@@ -227,7 +227,7 @@ void retroreplay_io1_store(WORD addr, BYTE value)
 {
     int mode = CMODE_WRITE, cmode;
 
-    DBG(("io1 w %04x %02x\n",addr,value));
+    DBG(("io1 w %04x %02x\n", addr, value));
 
     if (rr_active) {
         switch (addr & 0xff) {
@@ -371,7 +371,7 @@ BYTE retroreplay_io2_read(WORD addr)
 {
     retroreplay_io2_device.io_source_valid = 0;
 
-    DBG(("io2 r %04x\n",addr));
+    DBG(("io2 r %04x\n", addr));
 
     if (rr_active) {
         if (!reu_mapping) {
@@ -401,7 +401,7 @@ BYTE retroreplay_io2_read(WORD addr)
 
 void retroreplay_io2_store(WORD addr, BYTE value)
 {
-    DBG(("io2 w %04x %02x\n",addr,value));
+    DBG(("io2 w %04x %02x\n", addr, value));
 
     if (rr_active) {
         if (!reu_mapping) {
@@ -547,50 +547,50 @@ int retroreplay_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 void retroreplay_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xe000) {
-    case 0xe000:
-        if ((rr_revision > 0) && export_ram_at_a000) {
-            *base = export_ram0 - 0xe000; /* FIXME: bank ? */
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        }
-        if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-            *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xe000;
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        }
-        break;
-    case 0xa000:
-        if ((rr_revision > 0) && export_ram_at_a000) {
-            *base = export_ram0 - 0xa000; /* FIXME: bank ? */
-            *start = 0xa000;
-            *limit = 0xbffd;
-            return;
-        }
-        if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-            *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xa000;
-            *start = 0xa000;
-            *limit = 0xbffd;
-            return;
-        }
-        break;
-    case 0x8000:
-        if (export_ram) {
-            *base = export_ram0 + ((roml_bank & 3) << 13) - 0x8000;
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return;
-        }
-        if (flashrom_state->flash_state == FLASH040_STATE_READ) {
-            *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0x8000;
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return;
-        }
-        break;
-    default:
-        break;
+        case 0xe000:
+            if ((rr_revision > 0) && export_ram_at_a000) {
+                *base = export_ram0 - 0xe000; /* FIXME: bank ? */
+                *start = 0xe000;
+                *limit = 0xfffd;
+                return;
+            }
+            if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+                *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xe000;
+                *start = 0xe000;
+                *limit = 0xfffd;
+                return;
+            }
+            break;
+        case 0xa000:
+            if ((rr_revision > 0) && export_ram_at_a000) {
+                *base = export_ram0 - 0xa000; /* FIXME: bank ? */
+                *start = 0xa000;
+                *limit = 0xbffd;
+                return;
+            }
+            if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+                *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0xa000;
+                *start = 0xa000;
+                *limit = 0xbffd;
+                return;
+            }
+            break;
+        case 0x8000:
+            if (export_ram) {
+                *base = export_ram0 + ((roml_bank & 3) << 13) - 0x8000;
+                *start = 0x8000;
+                *limit = 0x9ffd;
+                return;
+            }
+            if (flashrom_state->flash_state == FLASH040_STATE_READ) {
+                *base = flashrom_state->flash_data + rom_offset + (roml_bank << 13) - 0x8000;
+                *start = 0x8000;
+                *limit = 0x9ffd;
+                return;
+            }
+            break;
+        default:
+            break;
     }
     *base = NULL;
     *start = 0;
@@ -619,7 +619,7 @@ int retroreplay_freeze_allowed(void)
 
 void retroreplay_config_init(void)
 {
-    DBG(("retroreplay_config_init flash:%d bank jumper: %d offset: %08x\n",rr_hw_flashjumper , rr_hw_bankjumper, rom_offset));
+    DBG(("retroreplay_config_init flash:%d bank jumper: %d offset: %08x\n", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
 
     rr_active = 1;
     rr_clockport_enabled = 0;
@@ -640,7 +640,7 @@ void retroreplay_config_init(void)
 
 void retroreplay_reset(void)
 {
-    DBG(("retroreplay_reset flash:%d bank jumper: %d offset: %08x\n",rr_hw_flashjumper , rr_hw_bankjumper, rom_offset));
+    DBG(("retroreplay_reset flash:%d bank jumper: %d offset: %08x\n", rr_hw_flashjumper, rr_hw_bankjumper, rom_offset));
     rr_active = 1;
 
     if (rr_hw_flashjumper) {
@@ -729,7 +729,7 @@ static const resource_int_t resources_int[] = {
     { "RRBiosWrite", 0, RES_EVENT_NO, NULL,
       &rr_bios_write, set_rr_bios_write, NULL },
     { "RRrevision", 0, RES_EVENT_NO, NULL,
-        &rr_revision, set_rr_revision, NULL },
+      &rr_revision, set_rr_revision, NULL },
     { NULL }
 };
 
@@ -805,7 +805,7 @@ int retroreplay_bin_attach(const char *filename, BYTE *rawcart)
     retroreplay_filename = NULL;
 
     fd = fopen(filename, MODE_READ);
-    if(fd == NULL) {
+    if (fd == NULL) {
         return -1;
     }
     len = util_file_length(fd);
@@ -885,7 +885,7 @@ static int checkempty(int bank)
 {
     int i;
     bank *= 0x10000;
-    for (i = 0;i < 0x10000;i++) {
+    for (i = 0; i < 0x10000; i++) {
         if (roml_banks[i + bank] != 0xff) {
             return 0;
         }
@@ -1014,7 +1014,7 @@ int retroreplay_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

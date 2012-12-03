@@ -32,11 +32,15 @@
 #define NUM_SEGMENTS 7
 #define NUM_CONFIGS 32
 
-static const int mstart[NUM_SEGMENTS] = { 0x00, 0x10, 0x80,
-                                          0xa0, 0xc0, 0xd0, 0xe0 };
+static const int mstart[NUM_SEGMENTS] = {
+    0x00, 0x10, 0x80,
+    0xa0, 0xc0, 0xd0, 0xe0
+};
 
-static const int mend[NUM_SEGMENTS] = { 0x0f, 0x7f, 0x9f,
-                                        0xbf, 0xcf, 0xdf, 0xff };
+static const int mend[NUM_SEGMENTS] = {
+    0x0f, 0x7f, 0x9f,
+    0xbf, 0xcf, 0xdf, 0xff
+};
 
 static const DWORD limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
     /* 0000-0fff */

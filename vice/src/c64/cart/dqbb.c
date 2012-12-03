@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -369,16 +369,16 @@ void dqbb_reset(void)
 void dqbb_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {
-    case 0xb000:
-    case 0xa000:
-    case 0x9000:
-    case 0x8000:
-        *base = dqbb_ram - 0x8000;
-        *start = 0x8000;
-        *limit = 0xbffd;
-        return;
-    default:
-        break;
+        case 0xb000:
+        case 0xa000:
+        case 0x9000:
+        case 0x8000:
+            *base = dqbb_ram - 0x8000;
+            *start = 0x8000;
+            *limit = 0xbffd;
+            return;
+        default:
+            break;
     }
     *base = NULL;
     *start = 0;
@@ -491,7 +491,7 @@ int dqbb_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

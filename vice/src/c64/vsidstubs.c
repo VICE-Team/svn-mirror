@@ -2,7 +2,7 @@
  * vsidstubs.c - dummies for unneeded/unused functions
  *
  * Written by
- *  groepaz <groepaz@gmx.net> 
+ *  groepaz <groepaz@gmx.net>
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -1152,7 +1152,7 @@ int vdrive_iec_attach(unsigned int unit, const char *name)
 
 int vdrive_bam_get_disk_id(unsigned int unit, BYTE *id)
 {
-   return 0;
+    return 0;
 }
 
 int vdrive_bam_set_disk_id(unsigned int unit, BYTE *id)

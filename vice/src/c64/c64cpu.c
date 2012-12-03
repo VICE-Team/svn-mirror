@@ -71,13 +71,13 @@ int maincpu_ba_low_flags = 0;
 
 #else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
 
-#define opcode_t          \
-    struct {              \
-        BYTE ins;         \
-        union {           \
-            BYTE op8[2];  \
-            WORD op16;    \
-        } op;             \
+#define opcode_t         \
+    struct {             \
+        BYTE ins;        \
+        union {          \
+            BYTE op8[2]; \
+            WORD op16;   \
+        } op;            \
     }
 
 #define p0 (opcode.ins)
@@ -112,59 +112,59 @@ int maincpu_ba_low_flags = 0;
 
 /* FETCH_OPCODE implementation(s) */
 #if !defined WORDS_BIGENDIAN && defined ALLOW_UNALIGNED_ACCESS
-#define FETCH_OPCODE(o) \
-    do { \
-        if (((int)reg_pc) < bank_limit) {                       \
-            check_ba();                                         \
-            o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff);  \
-            SET_LAST_OPCODE(p0);                                \
-            CLK_INC();                                          \
-            check_ba();                                         \
-            CLK_INC();                                          \
-            if (fetch_tab[o & 0xff]) {                          \
-                check_ba();                                     \
-                CLK_INC();                                      \
-            }                                                   \
-        } else {                                                \
-            o = LOAD(reg_pc);                                   \
-            SET_LAST_OPCODE(p0);                                \
-            CLK_INC();                                          \
-            o |= LOAD(reg_pc + 1) << 8;                         \
-            CLK_INC();                                          \
-            if (fetch_tab[o & 0xff]) {                          \
-                o |= (LOAD(reg_pc + 2) << 16);                  \
-                CLK_INC();                                      \
-            }                                                   \
-        }                                                       \
+#define FETCH_OPCODE(o)                                        \
+    do {                                                       \
+        if (((int)reg_pc) < bank_limit) {                      \
+            check_ba();                                        \
+            o = (*((DWORD *)(bank_base + reg_pc)) & 0xffffff); \
+            SET_LAST_OPCODE(p0);                               \
+            CLK_INC();                                         \
+            check_ba();                                        \
+            CLK_INC();                                         \
+            if (fetch_tab[o & 0xff]) {                         \
+                check_ba();                                    \
+                CLK_INC();                                     \
+            }                                                  \
+        } else {                                               \
+            o = LOAD(reg_pc);                                  \
+            SET_LAST_OPCODE(p0);                               \
+            CLK_INC();                                         \
+            o |= LOAD(reg_pc + 1) << 8;                        \
+            CLK_INC();                                         \
+            if (fetch_tab[o & 0xff]) {                         \
+                o |= (LOAD(reg_pc + 2) << 16);                 \
+                CLK_INC();                                     \
+            }                                                  \
+        }                                                      \
     } while (0)
 
 #else /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */
-#define FETCH_OPCODE(o) \
-    do { \
-        if (((int)reg_pc) < bank_limit) {                         \
-            check_ba();                                           \
-            (o).ins = *(bank_base + reg_pc);                      \
-            SET_LAST_OPCODE(p0);                                  \
-            CLK_INC();                                            \
-            check_ba();                                           \
-            (o).op.op16 = *(bank_base + reg_pc + 1);              \
-            CLK_INC();                                            \
-            if (fetch_tab[(o).ins]) {                             \
-                check_ba();                                       \
-                (o).op.op16 |= (*(bank_base + reg_pc + 2) << 8);  \
-                CLK_INC();                                        \
-            }                                                     \
-        } else {                                                  \
-            (o).ins = LOAD(reg_pc);                               \
-            SET_LAST_OPCODE(p0);                                  \
-            CLK_INC();                                            \
-            (o).op.op16 = LOAD(reg_pc + 1);                       \
-            CLK_INC();                                            \
-            if (fetch_tab[(o).ins]) {                             \
-                (o).op.op16 |= (LOAD(reg_pc + 2) << 8);           \
-                CLK_INC();                                        \
-            }                                                     \
-        }                                                         \
+#define FETCH_OPCODE(o)                                          \
+    do {                                                         \
+        if (((int)reg_pc) < bank_limit) {                        \
+            check_ba();                                          \
+            (o).ins = *(bank_base + reg_pc);                     \
+            SET_LAST_OPCODE(p0);                                 \
+            CLK_INC();                                           \
+            check_ba();                                          \
+            (o).op.op16 = *(bank_base + reg_pc + 1);             \
+            CLK_INC();                                           \
+            if (fetch_tab[(o).ins]) {                            \
+                check_ba();                                      \
+                (o).op.op16 |= (*(bank_base + reg_pc + 2) << 8); \
+                CLK_INC();                                       \
+            }                                                    \
+        } else {                                                 \
+            (o).ins = LOAD(reg_pc);                              \
+            SET_LAST_OPCODE(p0);                                 \
+            CLK_INC();                                           \
+            (o).op.op16 = LOAD(reg_pc + 1);                      \
+            CLK_INC();                                           \
+            if (fetch_tab[(o).ins]) {                            \
+                (o).op.op16 |= (LOAD(reg_pc + 2) << 8);          \
+                CLK_INC();                                       \
+            }                                                    \
+        }                                                        \
     } while (0)
 
 #endif /* WORDS_BIGENDIAN || !ALLOW_UNALIGNED_ACCESS */

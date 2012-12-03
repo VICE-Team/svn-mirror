@@ -5,7 +5,7 @@
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Teemu Rantanen <tvr@cs.hut.fi>
- *  groepaz <groepaz@gmx.net> 
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -33,7 +33,7 @@
 #include <stdlib.h>
 
 /* FIXME: remove more unneeded stuff
- * 
+ *
  * all iec/drive/printer/cartridge can be removed and replaced by stubs in
  * vsidstubs.c
  */
@@ -331,8 +331,8 @@ static void c64_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[2];
 
-    asmarray[0]=&asm6502;
-    asmarray[1]=NULL;
+    asmarray[0] = &asm6502;
+    asmarray[1] = NULL;
 
     asm6502_init(&asm6502);
 

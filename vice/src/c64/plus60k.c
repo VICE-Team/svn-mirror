@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -102,7 +102,7 @@
 #include "vicii-mem.h"
 
 /* PLUS60K registers */
-static BYTE plus60k_reg=0;
+static BYTE plus60k_reg = 0;
 
 static log_t plus60k_log = LOG_ERR;
 
@@ -351,7 +351,7 @@ void plus60k_init(void)
 
 void plus60k_reset(void)
 {
-  plus60k_reg = 0;
+    plus60k_reg = 0;
 }
 
 static int plus60k_activate(void)
@@ -435,27 +435,27 @@ void plus60k_shutdown(void)
 
 static void plus60k_memory_store(WORD addr, BYTE value)
 {
-    plus60k_ram[addr-0x1000]=value;
+    plus60k_ram[addr - 0x1000] = value;
 }
 
 static void vicii_mem_vbank_store_wrapper(WORD addr, BYTE value)
 {
-    vicii_mem_vbank_store(addr,value);
+    vicii_mem_vbank_store(addr, value);
 }
 
 static void vicii_mem_vbank_39xx_store_wrapper(WORD addr, BYTE value)
 {
-    vicii_mem_vbank_39xx_store(addr,value);
+    vicii_mem_vbank_39xx_store(addr, value);
 }
 
 static void vicii_mem_vbank_3fxx_store_wrapper(WORD addr, BYTE value)
 {
-    vicii_mem_vbank_3fxx_store(addr,value);
+    vicii_mem_vbank_3fxx_store(addr, value);
 }
 
 static void ram_hi_store_wrapper(WORD addr, BYTE value)
 {
-    ram_hi_store(addr,value);
+    ram_hi_store(addr, value);
 }
 
 static store_func_ptr_t plus60k_mem_write_tab[] = {

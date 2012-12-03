@@ -192,8 +192,8 @@ void parallel_cable_cpu_pulse(int type)
                     viacore_signal(drive_context[dnr]->via1d1541, VIA_SIG_CB1, VIA_SIG_FALL);
                     break;
                 default:
-                    if (drive->type == DRIVE_TYPE_1570 || 
-                        drive->type == DRIVE_TYPE_1571 || 
+                    if (drive->type == DRIVE_TYPE_1570 ||
+                        drive->type == DRIVE_TYPE_1571 ||
                         drive->type == DRIVE_TYPE_1571CR) {
                         ciacore_set_flag(drive_context[dnr]->cia1571);
                     } else {

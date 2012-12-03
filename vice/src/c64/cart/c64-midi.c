@@ -227,7 +227,7 @@ int c64_midi_cmdline_options_init(void)
 
 int c64_midi_base_de00(void)
 {
-    return (midi_interface[midi_mode].base_addr == 0xde00)?1:0;
+    return (midi_interface[midi_mode].base_addr == 0xde00) ? 1 : 0;
 }
 
 /* ---------------------------------------------------------------------*/
@@ -245,7 +245,7 @@ int c64_midi_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

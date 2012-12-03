@@ -153,7 +153,7 @@ void cia1_check_lightpen(void)
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE b)
 {
-    cia1_internal_lightpen_check(b,  machine_context.cia1->old_pb);
+    cia1_internal_lightpen_check(b, machine_context.cia1->old_pb);
 
 #ifdef HAVE_MOUSE
     mouse_set_input((b >> 6) & 0x03);
@@ -274,7 +274,7 @@ inline static BYTE matrix_get_active_columns_by_row(int row)
     return activecolumns;
 }
 /*
-   TODO: 
+   TODO:
     - do more testing (see testprogs/CIA/ciaports) and handle more strange side
       effects
     - perhaps write common code to solve the entire matrix that is used for both
@@ -286,12 +286,12 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     BYTE byte;
     BYTE val = 0xff;
     BYTE msk;
-    BYTE m,tmp;
+    BYTE m, tmp;
     int i;
 
     DBGA(("PA ddra:%02x pa:%02x ddrb:%02x pb:%02x ",
-         cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
-         cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
+          cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
+          cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
 
     /* loop over columns,
        pull down all bits connected to a column which is output and active.
@@ -331,7 +331,7 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     byte = (val & (cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]))) & ~joystick_value[2];
 
     DBGA((" out:%02x\n", byte));
-    
+
 #ifdef HAVE_MOUSE
     if (_mouse_enabled && (mouse_port == 2)) {
         if (mouse_type == MOUSE_TYPE_NEOS) {
@@ -383,8 +383,8 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     val_outhi = (cia_context->c_cia[CIA_DDRB]) & (cia_context->c_cia[CIA_PRB]);
 
     DBGB(("PB val_outhi:%02x ddra:%02x pa:%02x ddrb:%02x pb:%02x ", val_outhi,
-         cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
-         cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
+          cia_context->c_cia[CIA_DDRA], cia_context->c_cia[CIA_PRA],
+          cia_context->c_cia[CIA_DDRB], cia_context->c_cia[CIA_PRB]));
 
     msk = cia_context->old_pa & ~joystick_value[2];
     for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
@@ -405,7 +405,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
                 DBGB(("(%d)", i));
                 if (ciapb_forcelow(i, cia_context->c_cia[CIA_DDRA] & ~cia_context->c_cia[CIA_PRA])) {
                     val_outhi &= ~tmp;
-                    DBGB(("<force low, val_outhi:%02x>",val_outhi));
+                    DBGB(("<force low, val_outhi:%02x>", val_outhi));
                 }
             }
         }
@@ -482,7 +482,7 @@ void cia1_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
 
-    machine_context->cia1 = lib_calloc(1,sizeof(cia_context_t));
+    machine_context->cia1 = lib_calloc(1, sizeof(cia_context_t));
     cia = machine_context->cia1;
 
     cia->prv = NULL;

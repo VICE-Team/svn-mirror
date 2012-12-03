@@ -257,7 +257,8 @@ static int tfe_activate(void)
     return 0;
 }
 
-static int tfe_deactivate(void) {
+static int tfe_deactivate(void)
+{
 #ifdef TFE_DEBUG
     log_message(tfe_log, "tfe_deactivate().");
 #endif
@@ -499,7 +500,7 @@ static int set_tfe_interface(const char *name, void *param)
 
     if (tfe_enabled) {
         /* ethernet is enabled, make sure that the new name is
-           taken account of 
+           taken account of
          */
         if (tfe_deactivate() < 0) {
             return -1;
@@ -535,7 +536,7 @@ static int set_tfe_io_swap(int val, void *param)
 }
 
 static const resource_string_t resources_string[] = {
-    { "ETHERNET_INTERFACE", 
+    { "ETHERNET_INTERFACE",
       ARCHDEP_ETHERNET_DEFAULT_DEVICE, RES_EVENT_NO, NULL,
       &tfe_interface, set_tfe_interface, NULL },
     { NULL }
@@ -651,7 +652,7 @@ int tfe_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -76,30 +76,30 @@ static void iec_debug_ports(void)
         }
     }
 
-    time_usec = (unsigned long) ( (1000000. * maincpu_clk) / cycles_per_second );
+    time_usec = (unsigned long) ((1000000. * maincpu_clk) / cycles_per_second );
 
-    if ( (old_iecbus.cpu_bus != iecbus.cpu_bus) || firstcall) {
+    if ((old_iecbus.cpu_bus != iecbus.cpu_bus) || firstcall) {
         log_message(LOG_DEFAULT, "#%lu: cpu_bus changed from $%02x to $%02x.", time_usec, old_iecbus.cpu_bus, iecbus.cpu_bus);
         old_iecbus.cpu_bus = iecbus.cpu_bus;
     }
 
-    if ( (old_iecbus.cpu_port != iecbus.cpu_port) || firstcall) {
+    if ((old_iecbus.cpu_port != iecbus.cpu_port) || firstcall) {
         log_message(LOG_DEFAULT, "#%lu: cpu_port changed from $%02x to $%02x.", time_usec, old_iecbus.cpu_port, iecbus.cpu_port);
         old_iecbus.cpu_port = iecbus.cpu_port;
     }
 
-    if ( (old_iecbus.drv_port != iecbus.drv_port) || firstcall) {
+    if ((old_iecbus.drv_port != iecbus.drv_port) || firstcall) {
         log_message(LOG_DEFAULT, "#%lu: drv_port changed from $%02x to $%02x.", time_usec, old_iecbus.drv_port, iecbus.drv_port);
         old_iecbus.drv_port = iecbus.drv_port;
     }
 
     for (unit = 0; unit < 8 + DRIVE_NUM; unit++) {
-        if ( (old_iecbus.drv_bus[unit] != iecbus.drv_bus[unit]) || firstcall) {
+        if ((old_iecbus.drv_bus[unit] != iecbus.drv_bus[unit]) || firstcall) {
             log_message(LOG_DEFAULT, "#%lu: drv_bus[ %2u] changed from $%02x to $%02x.", time_usec, unit, old_iecbus.drv_bus[unit], iecbus.drv_bus[unit]);
             old_iecbus.drv_bus[unit] = iecbus.drv_bus[unit];
         }
 
-        if ( (old_iecbus.drv_data[unit] != iecbus.drv_data[unit]) || firstcall) {
+        if ((old_iecbus.drv_data[unit] != iecbus.drv_data[unit]) || firstcall) {
             log_message(LOG_DEFAULT, "#%lu: drv_data[%2u] changed from $%02x to $%02x.", time_usec, unit, old_iecbus.drv_data[unit], iecbus.drv_data[unit]);
             old_iecbus.drv_data[unit] = iecbus.drv_data[unit];
         }

@@ -139,10 +139,9 @@ static void atomicpower_io1_store(WORD addr, BYTE value)
 {
     int flags = CMODE_WRITE, bank, mode;
     if (ap_active) {
-
         bank = ((value >> 3) & 3);
         mode = (value & 3);
-        DBG(("io1 w %02x mode %d bank %d (np special: %s)\n", value, mode, bank, ((value & 0xe7) == 0x22)?"yes":"no"));
+        DBG(("io1 w %02x mode %d bank %d (np special: %s)\n", value, mode, bank, ((value & 0xe7) == 0x22) ? "yes" : "no"));
 
         if ((value & 0xe7) == 0x22) {
             mode = 1; /* 16k Game */
@@ -161,7 +160,7 @@ static void atomicpower_io1_store(WORD addr, BYTE value)
             ap_active = 0;
         }
 
-        cart_config_changed_slotmain((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)),  flags);
+        cart_config_changed_slotmain((BYTE) 2, (BYTE) (mode | (bank << CMODE_BANK_SHIFT)), flags);
     }
 }
 
@@ -240,35 +239,35 @@ void atomicpower_romh_store(WORD addr, BYTE value)
 void atomicpower_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xe000) {
-    case 0x8000:
-        if (export_ram) {
-            *base = export_ram0;
-        } else {
-            *base = roml_banks + (roml_bank << 13) - 0x8000;
-        }
-        *start = 0x8000;
-        *limit = 0x9ffd;
-        return;
-    case 0xa000:
-        if (export_ram_at_a000) {
-            *base = export_ram0;
-        } else {
-            *base = romh_banks + (romh_bank << 13) - 0xa000;
-        }
-        *start = 0xa000;
-        *limit = 0xbffd;
-        return;
-    case 0xe000:
-        if (export_ram_at_a000) {
-            *base = export_ram0;
-        } else {
-            *base = romh_banks + (romh_bank << 13) - 0xe000;
-        }
-        *start = 0xe000;
-        *limit = 0xfffd;
-        return;
-    default:
-        break;
+        case 0x8000:
+            if (export_ram) {
+                *base = export_ram0;
+            } else {
+                *base = roml_banks + (roml_bank << 13) - 0x8000;
+            }
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            return;
+        case 0xa000:
+            if (export_ram_at_a000) {
+                *base = export_ram0;
+            } else {
+                *base = romh_banks + (romh_bank << 13) - 0xa000;
+            }
+            *start = 0xa000;
+            *limit = 0xbffd;
+            return;
+        case 0xe000:
+            if (export_ram_at_a000) {
+                *base = export_ram0;
+            } else {
+                *base = romh_banks + (romh_bank << 13) - 0xe000;
+            }
+            *start = 0xe000;
+            *limit = 0xfffd;
+            return;
+        default:
+            break;
     }
     *base = NULL;
     *start = 0;
@@ -367,7 +366,7 @@ int atomicpower_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

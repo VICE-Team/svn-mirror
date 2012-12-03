@@ -471,7 +471,7 @@ void psid_init_tune(void)
     ram_store(addr, (BYTE)(start_song));
 
     /* force flag in c64 memory, many sids reads it and must be set AFTER the sid flag is read */
-    ram_store((WORD)(0x02a6), (BYTE)(sync == MACHINE_SYNC_NTSC ? 0 : 1) );
+    ram_store((WORD)(0x02a6), (BYTE)(sync == MACHINE_SYNC_NTSC ? 0 : 1));
 }
 
 void psid_set_tune(int tune)
@@ -547,9 +547,9 @@ void psid_init_driver(void)
         sid2loc = 0xd000 | ((psid->reserved >> 4) & 0x0ff0);
         log_message(vlog, "2nd SID at $%04x", sid2loc);
         if (((sid2loc >= 0xd420 && sid2loc < 0xd800) || sid2loc >= 0xde00)
-                && (sid2loc & 0x10) == 0) {
-                resources_set_int("SidStereo", 1);
-                resources_set_int("SidStereoAddressStart", sid2loc);
+            && (sid2loc & 0x10) == 0) {
+            resources_set_int("SidStereo", 1);
+            resources_set_int("SidStereoAddressStart", sid2loc);
         }
     }
 

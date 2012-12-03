@@ -117,7 +117,7 @@
 #define USESLOTS /* define to use passthrough code */
 
 #ifdef DEBUGCART
-#define DBG(x)  printf x ; fflush(stdout);
+#define DBG(x)  printf x; fflush(stdout);
 #else
 #define DBG(x)
 #endif
@@ -161,7 +161,7 @@ static void cart_config_changed(int slot, BYTE mode_phi1, BYTE mode_phi2, unsign
 #ifdef DEBUGCART
     static int old1 = 0, old2 = 0, old3 = 0;
     if ((mode_phi1 != old1) || (mode_phi2 != old2) || (wflag != old3)) {
-        DBG(("CARTMEM: cart_config_changed slot %d phi1:%d phi2:%d bank: %d flags:%02x\n", slot,mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+        DBG(("CARTMEM: cart_config_changed slot %d phi1:%d phi2:%d bank: %d flags:%02x\n", slot, mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
     }
     old1 = mode_phi1; old2 = mode_phi2; old3 = wflag;
 #endif
@@ -330,7 +330,7 @@ void cart_config_changed_slot1(BYTE mode_phi1, BYTE mode_phi2, unsigned int wfla
 #ifdef DEBUGCART
     static int old1 = 0, old2 = 0, old3 = 0;
     if ((mode_phi1 != old1) || (mode_phi2 != old2) || (wflag != old3)) {
-        DBG(("CARTMEM: cart_config_changed_slot1 phi1:%d phi2:%d bank: %d flags:%02x\n",mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+        DBG(("CARTMEM: cart_config_changed_slot1 phi1:%d phi2:%d bank: %d flags:%02x\n", mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
     }
     old1 = mode_phi1; old2 = mode_phi2; old3 = wflag;
 #endif
@@ -418,7 +418,7 @@ void cart_config_changed_slotmain(BYTE mode_phi1, BYTE mode_phi2, unsigned int w
 #ifdef DEBUGCART
     static int old1 = 0, old2 = 0, old3 = 0;
     if ((mode_phi1 != old1) || (mode_phi2 != old2) || (wflag != old3)) {
-        DBG(("CARTMEM: cart_config_changed_slotmain phi1:%d phi2:%d bank: %d flags:%02x\n",mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
+        DBG(("CARTMEM: cart_config_changed_slotmain phi1:%d phi2:%d bank: %d flags:%02x\n", mode_phi1 & 3, mode_phi2 & 3, (mode_phi2 >> CMODE_BANK_SHIFT) & CMODE_BANK_MASK, wflag));
     }
     old1 = mode_phi1; old2 = mode_phi2; old3 = wflag;
 #endif
@@ -688,11 +688,11 @@ void roml_store(WORD addr, BYTE value)
     }
     /* "Slot 1" */
     if (expert_cart_enabled()) {
-        expert_roml_store(addr,value);
+        expert_roml_store(addr, value);
         return;
     }
     if (ramcart_cart_enabled()) {
-        ramcart_roml_store(addr,value);
+        ramcart_roml_store(addr, value);
         return;
     }
     /* "Main Slot" */
@@ -784,7 +784,7 @@ static BYTE romh_read_slotmain(WORD addr)
         case CARTRIDGE_STARDOS:
             /* fake ultimax hack, read from ram */
             return ram_read(addr);
-            /* return mem_read_without_ultimax(addr); */
+        /* return mem_read_without_ultimax(addr); */
         case CARTRIDGE_ACTION_REPLAY4:
         case CARTRIDGE_FINAL_III:
         case CARTRIDGE_FREEZE_FRAME:
@@ -826,7 +826,7 @@ BYTE romh_read(WORD addr)
 
     /* "Slot 0" */
     if (magicvoice_cart_enabled()) {
-        if((res = magicvoice_romh_read(addr, &value)) == CART_READ_VALID) {
+        if ((res = magicvoice_romh_read(addr, &value)) == CART_READ_VALID) {
             return value;
         }
     }
@@ -926,7 +926,7 @@ BYTE ultimax_romh_read_hirom(WORD addr)
     /* "Slot 0" */
     res = CART_READ_THROUGH;
     if (magicvoice_cart_enabled()) {
-        if((res = magicvoice_romh_read(addr, &value)) == CART_READ_VALID) {
+        if ((res = magicvoice_romh_read(addr, &value)) == CART_READ_VALID) {
             return value;
         }
     }
@@ -1059,8 +1059,7 @@ void roml_no_ultimax_store(WORD addr, BYTE value)
             pagefox_roml_store(addr, value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            if (retroreplay_roml_no_ultimax_store(addr, value))
-            {
+            if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
             break;
@@ -1106,8 +1105,7 @@ void raml_no_ultimax_store(WORD addr, BYTE value)
             atomicpower_roml_store(addr, value);
             break;
         case CARTRIDGE_RETRO_REPLAY:
-            if (retroreplay_roml_no_ultimax_store(addr, value))
-            {
+            if (retroreplay_roml_no_ultimax_store(addr, value)) {
                 return; /* FIXME: this is weird */
             }
             break;

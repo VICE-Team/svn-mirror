@@ -296,7 +296,7 @@ void mmc64_reset(void)
 static int mmc64_activate(void)
 {
     mmc64_bios_changed = 0;
-    mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
+    mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect ^ 1);
     /* mmc64_reset(); */
     return 0;
 }
@@ -361,7 +361,6 @@ static int set_mmc64_enabled(int val, void *param)
                 mmc64_reset();
             }
         }
-
     } else if (mmc64_enabled && !val) {
         /* remove mmc64 */
         if (mmc64_deactivate() < 0) {
@@ -379,7 +378,7 @@ static int set_mmc64_enabled(int val, void *param)
         mmc64_io1_list_item = NULL;
         mmc64_io2_list_item = NULL;
     }
-    LOG(("MMC64: set_enabled done: '%s' %d : %d",mmc64_bios_filename , val, mmc64_enabled));
+    LOG(("MMC64: set_enabled done: '%s' %d : %d", mmc64_bios_filename, val, mmc64_enabled));
     return 0;
 }
 
@@ -388,7 +387,7 @@ static int set_mmc64_readonly(int val, void *param)
     if (!mmc64_image_file_readonly) {
         mmc64_hw_writeprotect = val;
         if (!((*mmc64_image_filename) == 0)) {
-            return mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
+            return mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect ^ 1);
         }
         return 0;
     } else {
@@ -396,7 +395,7 @@ static int set_mmc64_readonly(int val, void *param)
     }
 
     if (!((*mmc64_image_filename) == 0)) {
-        return mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect^1);
+        return mmc_open_card_image(mmc64_image_filename, mmc64_hw_writeprotect ^ 1);
     }
 
     return -1;
@@ -438,18 +437,18 @@ static int set_mmc64_bios_filename(const char *name, void *param)
             return -1;
         }
     }
-    LOG(("MMC64: set_name: %d '%s'",mmc64_enabled, mmc64_bios_filename));
+    LOG(("MMC64: set_name: %d '%s'", mmc64_enabled, mmc64_bios_filename));
 
     util_string_set(&mmc64_bios_filename, name);
     resources_get_int("MMC64", &enabled);
 
-    if (set_mmc64_enabled(enabled, (void*)1) < 0 ) {
+    if (set_mmc64_enabled(enabled, (void*)1) < 0) {
         lib_free(mmc64_bios_filename);
         mmc64_bios_filename = NULL;
-        LOG(("MMC64: set_name done: %d '%s'",mmc64_enabled, mmc64_bios_filename));
+        LOG(("MMC64: set_name done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
         return -1;
     }
-    LOG(("MMC64: set_name done: %d '%s'",mmc64_enabled, mmc64_bios_filename));
+    LOG(("MMC64: set_name done: %d '%s'", mmc64_enabled, mmc64_bios_filename));
 
     return 0;
 }
@@ -483,14 +482,14 @@ int mmc64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     if (!mmc64_active && !mmc64_biossel) {
         switch (addr & 0xf000) {
-        case 0x9000:
-        case 0x8000:
-            *base = &mmc64_bios[mmc64_bios_offset] - 0x8000;
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return CART_READ_VALID;
-        default:
-            break;
+            case 0x9000:
+            case 0x8000:
+                *base = &mmc64_bios[mmc64_bios_offset] - 0x8000;
+                *start = 0x8000;
+                *limit = 0x9ffd;
+                return CART_READ_VALID;
+            default:
+                break;
         }
     }
     return CART_READ_THROUGH;
@@ -553,7 +552,7 @@ static void mmc64_clockport_enable_store(WORD addr, BYTE value)
     }
 }
 
-static void mmc64_reg_store(WORD addr, BYTE value,int active)
+static void mmc64_reg_store(WORD addr, BYTE value, int active)
 {
     switch (addr) {
         case 0:
@@ -611,12 +610,12 @@ static void mmc64_reg_store(WORD addr, BYTE value,int active)
                 }
                 spi_mmc_trigger_mode_write((BYTE)(((value >> 6)) & 1));        /* bit 6 */
 
-                mmc64_active=(((value >> 7)) & 1); /* bit 7 */
+                mmc64_active = (((value >> 7)) & 1); /* bit 7 */
 
 #if USEPASSTHROUGHHACK
                 if (mmc64_active) {
                     /* cart_set_port_exrom_slot0(0); */
-                    log_message(mmc64_log,"disabling MMC64 (exrom:%d game:%d) mmc64_active: %d", mmc64_extexrom, mmc64_extgame, mmc64_active);
+                    log_message(mmc64_log, "disabling MMC64 (exrom:%d game:%d) mmc64_active: %d", mmc64_extexrom, mmc64_extgame, mmc64_active);
                     cart_config_changed_slot0((BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), (BYTE)(((mmc64_extexrom ^ 1) << 1) | mmc64_extgame), CMODE_READ);
                     mmc64_io2_device.io_source_prio = 0;
                 } else {
@@ -631,7 +630,7 @@ static void mmc64_reg_store(WORD addr, BYTE value,int active)
                 }
 #else
                 if (mmc64_active) {
-                    log_message(mmc64_log,"disabling MMC64");
+                    log_message(mmc64_log, "disabling MMC64");
                     cart_config_changed_slot0(2, 2, CMODE_READ);
                 } else {
                     if (mmc64_biossel) {
@@ -675,7 +674,7 @@ static void mmc64_reg_store(WORD addr, BYTE value,int active)
             mmc64_unlocking[1] = value;
             if ((mmc64_unlocking[0] == 0x55) && (mmc64_unlocking[1] == 0xaa)) {
                 LOG(("MMC64: bit 7 unlocked"));
-                mmc64_bit7_unlocked=1;    /* unlock bit 7 of $DF11 */
+                mmc64_bit7_unlocked = 1;    /* unlock bit 7 of $DF11 */
             } else if ((mmc64_unlocking[0] == 0x0a) && (mmc64_unlocking[1] == 0x1c)) {
                 LOG(("MMC64: mmc64 reenabled"));
                 mmc64_active = 0;
@@ -695,7 +694,7 @@ static void mmc64_reg_store(WORD addr, BYTE value,int active)
 
         default:      /* Not for us */
             return;
-  }
+    }
 }
 
 static void mmc64_io1_store(WORD addr, BYTE value)
@@ -778,7 +777,7 @@ static BYTE mmc64_io2_read(WORD addr)
              *        bit 6:  0
              *        bit 7:  0
              */
-            value = mmc64_flashjumper<<5;    /* bit 5 */
+            value = mmc64_flashjumper << 5;    /* bit 5 */
             value |= (spi_mmc_busy());     /* bit 0 */
             value |= ((mmc64_extexrom ^ 1) << 1);    /* bit 1 */
             value |= ((mmc64_extgame ^ 1)) << 2;       /* bit 2 */
@@ -791,13 +790,13 @@ static BYTE mmc64_io2_read(WORD addr)
 #endif
             return value;
 
-            /*
-             * $DF13 (R/W): MMC64 identification register
-             *              -----------------------------
-             * (R) #$64 when bit 1 of $DF11 is 0
-             *     #$01 when bit 1 of $DF11 is 1 and REV A hardware is used
-             *     #$02 when bit 1 of $DF11 is 1 and REV B hardware is used
-             */
+        /*
+         * $DF13 (R/W): MMC64 identification register
+         *              -----------------------------
+         * (R) #$64 when bit 1 of $DF11 is 0
+         *     #$01 when bit 1 of $DF11 is 1 and REV A hardware is used
+         *     #$02 when bit 1 of $DF11 is 1 and REV B hardware is used
+         */
 
         case 3:    /* MMC64 identification register */
             if (!mmc64_cardsel) {
@@ -845,7 +844,7 @@ static BYTE mmc64_io2_peek(WORD addr)
 
         case 2:
             /* $DF12: MMC status register */
-            value = mmc64_flashjumper<<5;    /* bit 5 */
+            value = mmc64_flashjumper << 5;    /* bit 5 */
             value |= (spi_mmc_busy());     /* bit 0 */
             value |= ((mmc64_extexrom ^ 1) << 1);    /* bit 1 */
             value |= ((mmc64_extgame) ^ 1) << 2;       /* bit 2 */
@@ -922,27 +921,27 @@ void mmc64_roml_store(WORD addr, BYTE byte)
 /* ---------------------------------------------------------------------*/
 
 static const resource_string_t resources_string[] = {
-  { "MMC64BIOSfilename", "", RES_EVENT_NO, NULL,
-    &mmc64_bios_filename, set_mmc64_bios_filename, NULL },
-  { "MMC64imagefilename", "", RES_EVENT_NO, NULL,
-    &mmc64_image_filename, set_mmc64_image_filename, NULL },
-  { NULL }
+    { "MMC64BIOSfilename", "", RES_EVENT_NO, NULL,
+      &mmc64_bios_filename, set_mmc64_bios_filename, NULL },
+    { "MMC64imagefilename", "", RES_EVENT_NO, NULL,
+      &mmc64_image_filename, set_mmc64_image_filename, NULL },
+    { NULL }
 };
 
 static const resource_int_t resources_int[] = {
-  { "MMC64", 0, RES_EVENT_STRICT, (resource_value_t)0,
-    &mmc64_enabled, set_mmc64_enabled, (void *)1 },
-  { "MMC64_RO", 0, RES_EVENT_NO, NULL,
-    &mmc64_hw_writeprotect, set_mmc64_readonly, NULL },
-  { "MMC64_flashjumper", 0, RES_EVENT_NO, NULL,
-    &mmc64_hw_flashjumper, set_mmc64_flashjumper, NULL },
-  { "MMC64_revision", 0, RES_EVENT_NO, NULL,
-    &mmc64_revision, set_mmc64_revision, NULL },
-  { "MMC64_bios_write", 0, RES_EVENT_NO, NULL,
-    &mmc64_bios_write, set_mmc64_bios_write, NULL },
-  { "MMC64_sd_type", 0, RES_EVENT_NO, NULL,
-    &mmc64_sd_type, set_mmc64_sd_type, NULL },
-  { NULL }
+    { "MMC64", 0, RES_EVENT_STRICT, (resource_value_t)0,
+      &mmc64_enabled, set_mmc64_enabled, (void *)1 },
+    { "MMC64_RO", 0, RES_EVENT_NO, NULL,
+      &mmc64_hw_writeprotect, set_mmc64_readonly, NULL },
+    { "MMC64_flashjumper", 0, RES_EVENT_NO, NULL,
+      &mmc64_hw_flashjumper, set_mmc64_flashjumper, NULL },
+    { "MMC64_revision", 0, RES_EVENT_NO, NULL,
+      &mmc64_revision, set_mmc64_revision, NULL },
+    { "MMC64_bios_write", 0, RES_EVENT_NO, NULL,
+      &mmc64_bios_write, set_mmc64_bios_write, NULL },
+    { "MMC64_sd_type", 0, RES_EVENT_NO, NULL,
+      &mmc64_sd_type, set_mmc64_sd_type, NULL },
+    { NULL }
 };
 
 int mmc64_resources_init(void)
@@ -966,42 +965,42 @@ void mmc64_resources_shutdown(void)
 
 static const cmdline_option_t cmdline_options[] =
 {
-  { "-mmc64", SET_RESOURCE, 0,
-    NULL, NULL, "MMC64", (resource_value_t)1,
-    USE_PARAM_STRING, USE_DESCRIPTION_ID,
-    IDCLS_UNUSED, IDCLS_ENABLE_MMC64,
-    NULL, NULL },
-  { "+mmc64", SET_RESOURCE, 0,
-    NULL, NULL, "MMC64", (resource_value_t)0,
-    USE_PARAM_STRING, USE_DESCRIPTION_ID,
-    IDCLS_UNUSED, IDCLS_DISABLE_MMC64,
-    NULL, NULL },
-  { "-mmc64bios", SET_RESOURCE, 1,
-    NULL, NULL, "MMC64BIOSfilename", NULL,
-    USE_PARAM_ID, USE_DESCRIPTION_ID,
-    IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_BIOS_NAME,
-    NULL, NULL },
-  { "-mmc64image", SET_RESOURCE, 1,
-    NULL, NULL, "MMC64imagefilename", NULL,
-    USE_PARAM_ID, USE_DESCRIPTION_ID,
-    IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_IMAGE_NAME,
-    NULL, NULL },
-  { "-mmc64readonly", SET_RESOURCE, 0,
-    NULL, NULL, "MMC64_RO", (resource_value_t)1,
-    USE_PARAM_STRING, USE_DESCRIPTION_ID,
-    IDCLS_UNUSED, IDCLS_MMC64_READONLY,
-    NULL, NULL },
-  { "-mmc64readwrite", SET_RESOURCE, 0,
-    NULL, NULL, "MMC64_RO", (resource_value_t)0,
-    USE_PARAM_STRING, USE_DESCRIPTION_ID,
-    IDCLS_UNUSED, IDCLS_MMC64_READWRITE,
-    NULL, NULL },
-  { "-mmc64bioswrite", SET_RESOURCE, 0,
-    NULL, NULL, "MMC64_bios_write", (resource_value_t)1,
-    USE_PARAM_STRING, USE_DESCRIPTION_ID,
-    IDCLS_UNUSED, IDCLS_MMC64_BIOS_WRITE,
-    NULL, NULL },
-  { NULL }
+    { "-mmc64", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_MMC64,
+      NULL, NULL },
+    { "+mmc64", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_MMC64,
+      NULL, NULL },
+    { "-mmc64bios", SET_RESOURCE, 1,
+      NULL, NULL, "MMC64BIOSfilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_BIOS_NAME,
+      NULL, NULL },
+    { "-mmc64image", SET_RESOURCE, 1,
+      NULL, NULL, "MMC64imagefilename", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_MMC64_IMAGE_NAME,
+      NULL, NULL },
+    { "-mmc64readonly", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64_RO", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC64_READONLY,
+      NULL, NULL },
+    { "-mmc64readwrite", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64_RO", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC64_READWRITE,
+      NULL, NULL },
+    { "-mmc64bioswrite", SET_RESOURCE, 0,
+      NULL, NULL, "MMC64_bios_write", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_MMC64_BIOS_WRITE,
+      NULL, NULL },
+    { NULL }
 };
 
 int mmc64_cmdline_options_init(void)
@@ -1157,7 +1156,7 @@ int mmc64_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

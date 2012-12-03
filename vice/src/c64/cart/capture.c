@@ -162,8 +162,8 @@ void capture_romh_store(WORD addr, BYTE value)
 BYTE capture_1000_7fff_read(WORD addr)
 {
     if (cart_enabled) {
-        if (addr>=0x6000) {
-            return export_ram0[addr-0x6000];
+        if (addr >= 0x6000) {
+            return export_ram0[addr - 0x6000];
         }
     }
 
@@ -173,8 +173,8 @@ BYTE capture_1000_7fff_read(WORD addr)
 void capture_1000_7fff_store(WORD addr, BYTE value)
 {
     if (cart_enabled) {
-        if (addr>=0x6000) {
-            export_ram0[addr-0x6000] = value;
+        if (addr >= 0x6000) {
+            export_ram0[addr - 0x6000] = value;
         }
     } else {
         mem_store_without_ultimax(addr, value);
@@ -195,7 +195,7 @@ int capture_peek_mem(struct export_s *export, WORD addr, BYTE *value)
 {
     if (cart_enabled == 1) {
         if (addr >= 0x6000 && addr <= 0x7fff) {
-            *value = export_ram0[addr-0x6000];
+            *value = export_ram0[addr - 0x6000];
             return CART_READ_VALID;
         }
         if (romh_enabled) {
@@ -296,7 +296,7 @@ int capture_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

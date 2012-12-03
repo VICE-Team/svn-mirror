@@ -87,7 +87,7 @@ static int ross_dump(void)
 {
     mon_out("Size: %s, bank: %d\n",
             (ross_is_32k) ? "32Kb" : "16Kb",
-             currbank);
+            currbank);
     return 0;
 }
 
@@ -221,7 +221,7 @@ int ross_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -58,7 +58,7 @@
 
     bit 4 - rom/ram bank bit1
     bit 3 - rom enable
-    bit 2 - rom/ram bank bit0 
+    bit 2 - rom/ram bank bit0
     bit 1 - ram enable, EXROM
     bit 0 - release freeze, !GAME
 */
@@ -194,17 +194,17 @@ void supersnapshot_v5_roml_store(WORD addr, BYTE value)
 void supersnapshot_v5_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xe000) {
-    case 0x8000:
-        if (export_ram) {
-            *base = export_ram0 + (ram_bank << 13) - 0x8000;
-        } else {
-            *base = roml_banks + (roml_bank << 13) - 0x8000;
-        }
-        *start = 0x8000;
-        *limit = 0x9ffd;
-        return;
-    default:
-        break;
+        case 0x8000:
+            if (export_ram) {
+                *base = export_ram0 + (ram_bank << 13) - 0x8000;
+            } else {
+                *base = roml_banks + (roml_bank << 13) - 0x8000;
+            }
+            *start = 0x8000;
+            *limit = 0x9ffd;
+            return;
+        default:
+            break;
     }
     *base = NULL;
     *start = 0;
@@ -298,7 +298,7 @@ int supersnapshot_v5_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

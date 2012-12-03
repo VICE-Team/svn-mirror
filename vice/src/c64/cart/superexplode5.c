@@ -95,7 +95,7 @@
 #define DBG(x)
 #endif
 
-#define SE5_CART_SIZE (2*0x2000)
+#define SE5_CART_SIZE (2 * 0x2000)
 
 /* ---------------------------------------------------------------------*/
 
@@ -189,7 +189,6 @@ int se5_crt_attach(FILE *fd, BYTE *rawcart)
     int i, cnt = 0;
 
     for (i = 0; i <= 0x01; i++) {
-
         if (crt_read_chip_header(&chip, fd)) {
             break;
         }
@@ -225,7 +224,7 @@ int se5_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -97,7 +97,7 @@ static struct model_s c64models[] = {
 
 /* ------------------------------------------------------------------------- */
 int c64model_get_temp(int video, int sid_model, int glue_logic,
-                        int cia1_model, int cia2_model, int new_luma)
+                      int cia1_model, int cia2_model, int new_luma)
 {
     int new_sid;
     int new_cia;
@@ -112,9 +112,9 @@ int c64model_get_temp(int video, int sid_model, int glue_logic,
 
     for (i = 0; i < C64MODEL_NUM; ++i) {
         if ((c64models[i].video == video)
-         && (c64models[i].luma == new_luma)
-         && (c64models[i].cia == new_cia)
-         && (c64models[i].sid == new_sid)) {
+            && (c64models[i].luma == new_luma)
+            && (c64models[i].cia == new_cia)
+            && (c64models[i].sid == new_sid)) {
             return i;
         }
     }
@@ -127,15 +127,15 @@ int c64model_get(void)
     int video, sid_model, cia1_model, cia2_model, new_luma;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("SidModel", &sid_model) < 0)
-     || (resources_get_int("CIA1Model", &cia1_model) < 0)
-     || (resources_get_int("CIA2Model", &cia2_model) < 0)
-     || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        || (resources_get_int("SidModel", &sid_model) < 0)
+        || (resources_get_int("CIA1Model", &cia1_model) < 0)
+        || (resources_get_int("CIA2Model", &cia2_model) < 0)
+        || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
         return -1;
     }
 
     return c64model_get_temp(video, sid_model, 0,
-                            cia1_model, cia2_model, new_luma);
+                             cia1_model, cia2_model, new_luma);
 }
 
 void c64model_set_temp(int model, int *vicii_model, int *sid_model,
@@ -149,7 +149,7 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     int old_type;
     int new_type;
 
-    old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic, 
+    old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic,
                                   *cia1_model, *cia2_model, *new_luma);
 
     if ((model == old_model) || (model == C64MODEL_UNKNOWN)) {

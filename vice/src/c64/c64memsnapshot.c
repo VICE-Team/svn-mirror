@@ -224,7 +224,7 @@ int c64_snapshot_read_module(snapshot_t *s)
         || SMR_BA(m, mem_ram, C64_RAM_SIZE) < 0) {
         goto fail;
     }
-    
+
     /* new since 1.15.x */
     SMR_B(m, &pport.data_out);
     SMR_B(m, &pport.data_read);

@@ -1,7 +1,7 @@
 /*
  * magicvoice.h - Speech Cartridge
  *
- * Written by 
+ * Written by
  *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.

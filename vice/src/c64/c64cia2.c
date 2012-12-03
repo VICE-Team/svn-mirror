@@ -280,7 +280,7 @@ void cia2_setup_context(machine_context_t *machine_context)
 {
     cia_context_t *cia;
 
-    machine_context->cia2 = lib_calloc(1,sizeof(cia_context_t));
+    machine_context->cia2 = lib_calloc(1, sizeof(cia_context_t));
     cia = machine_context->cia2;
 
     cia->prv = NULL;

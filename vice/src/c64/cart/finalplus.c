@@ -104,7 +104,7 @@ static const c64export_resource_t export_res_plus = {
 
 BYTE final_plus_io2_read(WORD addr)
 {
-    DBG(("io2 r %04x\n",addr));
+    DBG(("io2 r %04x\n", addr));
     return ((fcplus_bit << 7) || (fcplus_roml << 6) || (fcplus_romh << 5) || (fcplus_enabled << 4));
 }
 
@@ -115,7 +115,7 @@ void final_plus_io2_store(WORD addr, BYTE value)
         fcplus_roml = ((value >> 6) & 1) ^ 1;
         fcplus_romh = ((value >> 5) & 1);
         /* fcplus_enabled = ((value >> 4) & 1) ^ 1; */
-        DBG(("io2 w %04x %02x (bit:%d, rom8000:%d, romE000:%d, enabled: %d)\n",addr,value,fcplus_bit,fcplus_roml,fcplus_romh,fcplus_enabled));
+        DBG(("io2 w %04x %02x (bit:%d, rom8000:%d, romE000:%d, enabled: %d)\n", addr, value, fcplus_bit, fcplus_roml, fcplus_romh, fcplus_enabled));
 
         if ((fcplus_roml == 0) && (fcplus_romh == 0)) {
             cart_config_changed_slotmain(2, 2, CMODE_WRITE);
@@ -239,7 +239,7 @@ int final_plus_bin_attach(const char *filename, BYTE *rawcart)
         if (util_file_load(filename, rawcart, 0x6000, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
             return -1;
         }
-        memmove(&rawcart[0x2000],rawcart,0x6000);
+        memmove(&rawcart[0x2000], rawcart, 0x6000);
     }
 
     return final_plus_common_attach();
@@ -283,7 +283,7 @@ int final_plus_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

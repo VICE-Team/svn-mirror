@@ -327,7 +327,7 @@ int crt_attach(const char *filename, BYTE *rawcart)
     switch (new_crttype) {
         case CARTRIDGE_CRT:
             rc = generic_crt_attach(fd, rawcart);
-            if ( rc !=  CARTRIDGE_NONE) {
+            if (rc != CARTRIDGE_NONE) {
                 new_crttype = rc;
             }
             break;

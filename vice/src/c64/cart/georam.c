@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -175,7 +175,7 @@ static io_source_t georam_io2_device = {
 static io_source_list_t *georam_io1_list_item = NULL;
 static io_source_list_t *georam_io2_list_item = NULL;
 
-static const c64export_resource_t export_res= {
+static const c64export_resource_t export_res = {
     CARTRIDGE_NAME_GEORAM, 0, 0, &georam_io1_device, &georam_io2_device, CARTRIDGE_GEORAM
 };
 
@@ -300,7 +300,8 @@ static int set_georam_enabled(int val, void *param)
         georam_io2_list_item = NULL;
         c64export_remove(&export_res);
         georam_enabled = 0;
-    } if (!georam_enabled && val) {
+    }
+    if (!georam_enabled && val) {
         if (georam_activate() < 0) {
             return -1;
         }

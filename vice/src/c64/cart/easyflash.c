@@ -54,7 +54,7 @@
 
 #define EASYFLASH_N_BANK_BITS 6
 #define EASYFLASH_N_BANKS     (1 << (EASYFLASH_N_BANK_BITS))
-#define EASYFLASH_BANK_MASK   ((EASYFLASH_N_BANKS) - 1)
+#define EASYFLASH_BANK_MASK   ((EASYFLASH_N_BANKS) -1)
 
 /* the 29F040B statemachine */
 static flash040_context_t *easyflash_state_low = NULL;
@@ -71,24 +71,24 @@ static BYTE easyflash_register_00, easyflash_register_02;
 
 /* decoding table of the modes */
 static const BYTE easyflash_memconfig[] = {
-       /* bit3 = jumper, bit2 = mode, bit1 = !exrom, bit0 = game */
+    /* bit3 = jumper, bit2 = mode, bit1 = !exrom, bit0 = game */
 
-       /* jumper off, mode 0, trough 00,01,10,11 in game/exrom bits */
+    /* jumper off, mode 0, trough 00,01,10,11 in game/exrom bits */
     3, /* exrom high, game low, jumper off */
     3, /* Reserved, don't use this */
     1, /* exrom low, game low, jumper off */
     1, /* Reserved, don't use this */
 
-       /* jumper off, mode 1, trough 00,01,10,11 in game/exrom bits */
+    /* jumper off, mode 1, trough 00,01,10,11 in game/exrom bits */
     2, 3, 0, 1,
 
-       /* jumper on, mode 0, trough 00,01,10,11 in game/exrom bits */
+    /* jumper on, mode 0, trough 00,01,10,11 in game/exrom bits */
     2, /* exrom high, game low, jumper on */
     3, /* Reserved, don't use this */
     0, /* exrom low, game low, jumper on */
     1, /* Reserved, don't use this */
 
-       /* jumper on, mode 1, trough 00,01,10,11 in game/exrom bits */
+    /* jumper on, mode 1, trough 00,01,10,11 in game/exrom bits */
     2, 3, 0, 1,
 };
 
@@ -145,9 +145,9 @@ static BYTE easyflash_io1_peek(WORD addr)
 static int easyflash_io1_dump(void)
 {
     mon_out("Mode %i, LED %s, jumper %s\n",
-        easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)],
-        (easyflash_register_02 & 0x80) ? "on" : "off",
-        easyflash_jumper ? "on" : "off");
+            easyflash_memconfig[(easyflash_jumper << 3) | (easyflash_register_02 & 0x07)],
+            (easyflash_register_02 & 0x80) ? "on" : "off",
+            easyflash_jumper ? "on" : "off");
     return 0;
 }
 
@@ -295,32 +295,32 @@ void easyflash_romh_store(WORD addr, BYTE value)
 void easyflash_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xe000) {
-    case 0xe000:
-        if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
-            *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xe000;
-            *start = 0xe000;
-            *limit = 0xfffd;
-            return;
-        }
-        break;
-    case 0xa000:
-        if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
-            *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xa000;
-            *start = 0xa000;
-            *limit = 0xbffd;
-            return;
-        }
-        break;
-    case 0x8000:
-        if (easyflash_state_low->flash_state == FLASH040_STATE_READ) {
-            *base = easyflash_state_low->flash_data + (easyflash_register_00 * 0x2000) - 0x8000;
-            *start = 0x8000;
-            *limit = 0x9ffd;
-            return;
-        }
-        break;
-    default:
-        break;
+        case 0xe000:
+            if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
+                *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xe000;
+                *start = 0xe000;
+                *limit = 0xfffd;
+                return;
+            }
+            break;
+        case 0xa000:
+            if (easyflash_state_high->flash_state == FLASH040_STATE_READ) {
+                *base = easyflash_state_high->flash_data + (easyflash_register_00 * 0x2000) - 0xa000;
+                *start = 0xa000;
+                *limit = 0xbffd;
+                return;
+            }
+            break;
+        case 0x8000:
+            if (easyflash_state_low->flash_state == FLASH040_STATE_READ) {
+                *base = easyflash_state_low->flash_data + (easyflash_register_00 * 0x2000) - 0x8000;
+                *start = 0x8000;
+                *limit = 0x9ffd;
+                return;
+            }
+            break;
+        default:
+            break;
     }
     *base = NULL;
     *start = 0;
@@ -525,7 +525,7 @@ int easyflash_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

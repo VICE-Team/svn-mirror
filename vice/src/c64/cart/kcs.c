@@ -104,7 +104,7 @@ static void kcs_io1_store(WORD addr, BYTE value)
 
 static BYTE kcs_io2_read(WORD addr)
 {
-    DBG(("io2 r %04x (%s)", addr, (addr & 0x80) ? "release NMI":"-"));
+    DBG(("io2 r %04x (%s)", addr, (addr & 0x80) ? "release NMI" : "-"));
     if (addr & 0x80) {
         cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_READ | CMODE_RELEASE_FREEZE);
         freeze_flag = 1;
@@ -119,7 +119,7 @@ static BYTE kcs_io2_peek(WORD addr)
 
 static void kcs_io2_store(WORD addr, BYTE value)
 {
-    DBG(("io2 w %04x %02x (%s)", addr, value, (freeze_flag == 0)?"to 16k":"-"));
+    DBG(("io2 w %04x %02x (%s)", addr, value, (freeze_flag == 0) ? "to 16k" : "-"));
     if (freeze_flag == 0) {
         config = CMODE_16KGAME;
         cart_config_changed_slotmain((BYTE)config, (BYTE)config, CMODE_WRITE);
@@ -254,7 +254,7 @@ int kcs_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

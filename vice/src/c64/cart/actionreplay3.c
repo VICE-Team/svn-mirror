@@ -143,9 +143,9 @@ static BYTE actionreplay3_io2_read(WORD addr)
 
     switch (roml_bank) {
         case 0:
-           return roml_banks[addr & 0x1fff];
+            return roml_banks[addr & 0x1fff];
         case 1:
-           return roml_banks[(addr & 0x1fff) + 0x2000];
+            return roml_banks[(addr & 0x1fff) + 0x2000];
     }
 
     actionreplay3_io2_device.io_source_valid = 0;
@@ -168,9 +168,9 @@ static BYTE actionreplay3_io2_peek(WORD addr)
 
     switch (roml_bank) {
         case 0:
-           return roml_banks[addr & 0x1fff];
+            return roml_banks[addr & 0x1fff];
         case 1:
-           return roml_banks[(addr & 0x1fff) + 0x2000];
+            return roml_banks[(addr & 0x1fff) + 0x2000];
     }
 
     return 0;
@@ -293,7 +293,7 @@ int actionreplay3_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -193,7 +193,7 @@ static int set_sync_factor(int val, void *param)
 
 static const resource_string_t resources_string[] = {
     { "ChargenName", "chargen", RES_EVENT_NO, NULL,
-       /* FIXME: should be same but names may differ */
+      /* FIXME: should be same but names may differ */
       &chargen_rom_name, set_chargen_rom_name, NULL },
     { "KernalName", "kernal", RES_EVENT_NO, NULL,
       /* FIXME: should be same but names may differ */
