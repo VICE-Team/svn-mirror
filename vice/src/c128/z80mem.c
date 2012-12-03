@@ -572,8 +572,9 @@ void z80mem_update_config(int config)
 
 int z80mem_load(void)
 {
-    if (z80mem_log == LOG_ERR)
+    if (z80mem_log == LOG_ERR) {
         z80mem_log = log_open("Z80MEM");
+    }
 
     z80mem_initialize();
 

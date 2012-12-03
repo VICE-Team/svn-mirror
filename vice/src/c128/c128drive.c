@@ -40,8 +40,8 @@
 int machine_drive_resources_init(void)
 {
     if (drive_resources_type_init(DRIVE_TYPE_1571) < 0) {
-    /* FIXME: 1571CR emulation doesnt seem to work properly */
-    /* if (drive_resources_type_init(DRIVE_TYPE_1571CR) < 0) { */
+        /* FIXME: 1571CR emulation doesnt seem to work properly */
+        /* if (drive_resources_type_init(DRIVE_TYPE_1571CR) < 0) { */
         return -1;
     }
     if (iec_drive_resources_init() < 0) {

@@ -204,8 +204,8 @@ static int functionrom_load_internal(void)
         }
 
         if (util_file_load(internal_function_rom_name, int_function_rom,
-            INTERNAL_FUNCTION_ROM_SIZE,
-            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
+                           INTERNAL_FUNCTION_ROM_SIZE,
+                           UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
             return -1;
         }
     } else if (internal_function_rom_enabled == INT_FUNCTION_NONE) {
@@ -223,8 +223,8 @@ static int functionrom_load_external(void)
         }
 
         if (util_file_load(external_function_rom_name, ext_function_rom,
-            EXTERNAL_FUNCTION_ROM_SIZE,
-            UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
+                           EXTERNAL_FUNCTION_ROM_SIZE,
+                           UTIL_FILE_LOAD_SKIP_ADDRESS | UTIL_FILE_LOAD_FILL) < 0) {
             return -1;
         }
     } else {

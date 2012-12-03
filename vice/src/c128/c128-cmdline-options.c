@@ -220,7 +220,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_CIA2_MODEL,
       NULL, NULL },
-   { "-model", CALL_FUNCTION, 1,
+    { "-model", CALL_FUNCTION, 1,
       set_c128_model, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_MODEL, IDCLS_SET_C128_MODEL,

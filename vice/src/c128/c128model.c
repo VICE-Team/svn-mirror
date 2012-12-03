@@ -79,7 +79,7 @@ static int is_new_cia(int model)
 }
 
 /*
-C128:             SID 6581, VDC 8563, 16 KB VDC RAM. 
+C128:             SID 6581, VDC 8563, 16 KB VDC RAM.
 C128D (plastic):  SID 6581, VDC 8563, 16 KB VDC RAM (like C128+1571)
 C128D (metal):    SID 8580, VDC 8568, 64 KB VDC RAM, new BASIC ROM?, new floppy ROM?
 C128DCR (like above)
@@ -103,7 +103,7 @@ static struct model_s c128models[] = {
 
 /* ------------------------------------------------------------------------- */
 int c128model_get_temp(int video, int sid_model, int vdc_revision, int vdc_64k,
-                        int cia1_model, int cia2_model)
+                       int cia1_model, int cia2_model)
 {
     int new_sid;
     int new_cia;
@@ -118,10 +118,10 @@ int c128model_get_temp(int video, int sid_model, int vdc_revision, int vdc_64k,
 
     for (i = 0; i < C128MODEL_NUM; ++i) {
         if ((c128models[i].video == video)
-         && (c128models[i].vdc == vdc_revision)
-         && (c128models[i].vdc64k == vdc_64k)
-         && (c128models[i].cia == new_cia)
-         && (c128models[i].sid == new_sid)) {
+            && (c128models[i].vdc == vdc_revision)
+            && (c128models[i].vdc64k == vdc_64k)
+            && (c128models[i].cia == new_cia)
+            && (c128models[i].sid == new_sid)) {
             return i;
         }
     }
@@ -134,21 +134,21 @@ int c128model_get(void)
     int video, sid_model, cia1_model, cia2_model, vdc_revision, vdc_64k;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("SidModel", &sid_model) < 0)
-     || (resources_get_int("CIA1Model", &cia1_model) < 0)
-     || (resources_get_int("CIA2Model", &cia2_model) < 0)
-     || (resources_get_int("VDCRevision", &vdc_revision) < 0)
-     || (resources_get_int("VDC64KB", &vdc_64k) < 0)) {
+        || (resources_get_int("SidModel", &sid_model) < 0)
+        || (resources_get_int("CIA1Model", &cia1_model) < 0)
+        || (resources_get_int("CIA2Model", &cia2_model) < 0)
+        || (resources_get_int("VDCRevision", &vdc_revision) < 0)
+        || (resources_get_int("VDC64KB", &vdc_64k) < 0)) {
         return -1;
     }
 
     return c128model_get_temp(video, sid_model, vdc_revision, vdc_64k,
-                            cia1_model, cia2_model);
+                              cia1_model, cia2_model);
 }
 
 void c128model_set_temp(int model, int *vicii_model, int *sid_model,
-                       int *vdc_revision, int *vdc_64k, int *cia1_model, 
-                       int *cia2_model)
+                        int *vdc_revision, int *vdc_64k, int *cia1_model,
+                        int *cia2_model)
 {
     int old_model;
     int old_engine;
@@ -157,8 +157,8 @@ void c128model_set_temp(int model, int *vicii_model, int *sid_model,
     int old_type;
     int new_type;
 
-    old_model = c128model_get_temp(*vicii_model, *sid_model, *vdc_revision, 
-                                  *vdc_64k, *cia1_model, *cia2_model);
+    old_model = c128model_get_temp(*vicii_model, *sid_model, *vdc_revision,
+                                   *vdc_64k, *cia1_model, *cia2_model);
 
     if ((model == old_model) || (model == C128MODEL_UNKNOWN)) {
         return;

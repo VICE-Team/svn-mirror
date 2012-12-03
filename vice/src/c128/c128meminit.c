@@ -44,7 +44,6 @@ void c128meminit(void)
     unsigned int i, j;
 
     for (j = 0; j < 128; j++) {
-
         for (i = 0; i <= 0x100; i++) {
             mem_read_base_set(j, i, NULL);
         }

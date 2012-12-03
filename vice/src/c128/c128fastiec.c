@@ -62,18 +62,18 @@ void c128fastiec_fast_cpu_write(BYTE data)
             if (drive->enable) {
                 drivecpu_execute(drive_context[dnr], maincpu_clk);
                 switch (drive->type) {
-                case DRIVE_TYPE_1570:
-                case DRIVE_TYPE_1571:
-                case DRIVE_TYPE_1571CR:
-                    ciacore_set_sdr(drive_context[dnr]->cia1571, data);
-                    break;
-                case DRIVE_TYPE_1581:
-                    ciacore_set_sdr(drive_context[dnr]->cia1581, data);
-                    break;
-                case DRIVE_TYPE_2000:
-                case DRIVE_TYPE_4000:
-                    viacore_set_sr(drive_context[dnr]->via4000, data);
-                    break;
+                    case DRIVE_TYPE_1570:
+                    case DRIVE_TYPE_1571:
+                    case DRIVE_TYPE_1571CR:
+                        ciacore_set_sdr(drive_context[dnr]->cia1571, data);
+                        break;
+                    case DRIVE_TYPE_1581:
+                        ciacore_set_sdr(drive_context[dnr]->cia1581, data);
+                        break;
+                    case DRIVE_TYPE_2000:
+                    case DRIVE_TYPE_4000:
+                        viacore_set_sr(drive_context[dnr]->via4000, data);
+                        break;
                 }
             }
         }

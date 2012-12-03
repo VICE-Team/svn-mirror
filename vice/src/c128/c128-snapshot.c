@@ -113,7 +113,7 @@ int c128_snapshot_read(const char *name, int event_mode)
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
         || joystick_snapshot_read_module(s) < 0) {
-       goto fail;
+        goto fail;
     }
 
     snapshot_close(s);

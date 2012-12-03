@@ -66,20 +66,22 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
 
     m = snapshot_module_create(s, snap_rom_module_name,
                                SNAP_ROM_MAJOR, SNAP_ROM_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* disable traps before saving the ROM */
     resources_get_int("VirtualDevices", &trapfl);
     resources_set_int("VirtualDevices", 0);
 
     if (0
-        || SMW_BA(m, c128memrom_kernal_rom,  C128_KERNAL_ROM_SIZE) < 0
+        || SMW_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
         || SMW_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
         || SMW_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE,
-        C128_EDITOR_ROM_SIZE) < 0
-        || SMW_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0)
+                  C128_EDITOR_ROM_SIZE) < 0
+        || SMW_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
+    }
 
     /* FIXME: save cartridge ROM (& RAM?) areas:
        first write out the configuration, i.e.
@@ -93,17 +95,19 @@ static int mem_write_rom_snapshot_module(snapshot_t *s)
     /* enable traps again when necessary */
     resources_set_int("VirtualDevices", trapfl);
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
 
     return 0;
 
- fail:
+fail:
     /* enable traps again when necessary */
     resources_set_int("VirtualDevices", trapfl);
 
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -118,8 +122,9 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     m = snapshot_module_open(s, snap_rom_module_name,
                              &major_version, &minor_version);
     /* This module is optional.  */
-    if (m == NULL)
+    if (m == NULL) {
         return 0;
+    }
 
     /* disable traps before loading the ROM */
     resources_get_int("VirtualDevices", &trapfl);
@@ -137,11 +142,12 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
         || SMR_BA(m, c128memrom_kernal_rom, C128_KERNAL_ROM_SIZE) < 0
         || SMR_BA(m, c128memrom_basic_rom, C128_BASIC_ROM_SIZE) < 0
         || SMR_BA(m, c128memrom_basic_rom + C128_BASIC_ROM_SIZE,
-        C128_EDITOR_ROM_SIZE) < 0
-        || SMR_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0)
+                  C128_EDITOR_ROM_SIZE) < 0
+        || SMR_BA(m, mem_chargen_rom, C128_CHARGEN_ROM_SIZE) < 0) {
         goto fail;
+    }
 
-    log_warning(c128_snapshot_log,"Dumped Romset files and saved settings will "                "represent\nthe state before loading the snapshot!");
+    log_warning(c128_snapshot_log, "Dumped Romset files and saved settings will "                "represent\nthe state before loading the snapshot!");
 
     memcpy(c128memrom_kernal_trap_rom, c128memrom_kernal_rom,
            C128_KERNAL_ROM_SIZE);
@@ -157,13 +163,14 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
 
     return 0;
 
- fail:
+fail:
 
     /* enable traps again when necessary */
     resources_set_int("VirtualDevices", trapfl);
 
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 static char snap_module_name[] = "C128MEM";
@@ -178,25 +185,30 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
     /* Main memory module.  */
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* Assuming no side-effects.  */
     for (i = 0; i < 11; i++) {
-        if (SMW_B(m, mmu_read(i)) < 0)
+        if (SMW_B(m, mmu_read(i)) < 0) {
             goto fail;
+        }
     }
 
     if (0
-        || SMW_BA(m, mem_ram, C128_RAM_SIZE) < 0)
+        || SMW_BA(m, mem_ram, C128_RAM_SIZE) < 0) {
         goto fail;
+    }
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
     m = NULL;
 
-    if (save_roms && mem_write_rom_snapshot_module(s) <0)
+    if (save_roms && mem_write_rom_snapshot_module(s) < 0) {
         goto fail;
+    }
 
     if (cartridge_snapshot_read_modules(s) < 0) {
         goto fail;
@@ -205,8 +217,9 @@ int c128_snapshot_write_module(snapshot_t *s, int save_roms)
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -221,8 +234,9 @@ int c128_snapshot_read_module(snapshot_t *s)
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         log_error(c128_snapshot_log,
@@ -233,23 +247,27 @@ int c128_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 11; i++) {
-        if (SMR_B(m, &byte) < 0)
+        if (SMR_B(m, &byte) < 0) {
             goto fail;
+        }
         mmu_store(i, byte);     /* Assuming no side-effects */
     }
 
     if (0
-        || SMR_BA(m, mem_ram, C128_RAM_SIZE) < 0)
+        || SMR_BA(m, mem_ram, C128_RAM_SIZE) < 0) {
         goto fail;
+    }
 
     /* pla_config_changed(); */
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         goto fail;
+    }
     m = NULL;
 
-    if (mem_read_rom_snapshot_module(s) < 0)
+    if (mem_read_rom_snapshot_module(s) < 0) {
         goto fail;
+    }
 
     if (cartridge_snapshot_read_modules(s) < 0) {
         goto fail;
@@ -260,7 +278,8 @@ int c128_snapshot_read_module(snapshot_t *s)
     return 0;
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }

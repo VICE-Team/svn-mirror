@@ -157,7 +157,7 @@ static void mmu_switch_cpu(int value)
 static void mmu_set_ram_bank(BYTE value)
 {
     if (c128_full_banks) {
-        ram_bank = mem_ram +(((long)value & 0xc0) << 10);
+        ram_bank = mem_ram + (((long)value & 0xc0) << 10);
     } else {
         ram_bank = mem_ram + (((long)value & 0x40) << 10);
     }
@@ -344,7 +344,7 @@ BYTE mmu_ffxx_read(WORD addr)
     if ((mmu[0] & 0x30) == 0x10) {
         return internal_function_rom_read(addr);
     }
- 
+
     return top_shared_read(addr);
 }
 

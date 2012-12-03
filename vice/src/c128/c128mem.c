@@ -325,10 +325,10 @@ void zero_store(WORD addr, BYTE value)
                 vicii_mem_vbank_store((WORD)0, vicii_read_phi1_lowlevel());
             } else {
 #endif
-                mem_page_zero[0] = vicii_read_phi1_lowlevel();
-                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+            mem_page_zero[0] = vicii_read_phi1_lowlevel();
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 #if 0
-            }
+    }
 #endif
             if (pport.dir != value) {
                 pport.dir = value;
@@ -341,10 +341,10 @@ void zero_store(WORD addr, BYTE value)
                 vicii_mem_vbank_store((WORD)1, vicii_read_phi1_lowlevel());
             } else {
 #endif
-                mem_page_zero[1] = vicii_read_phi1_lowlevel();
-                machine_handle_pending_alarms(maincpu_rmw_flag + 1);
+            mem_page_zero[1] = vicii_read_phi1_lowlevel();
+            machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 #if 0
-            }
+    }
 #endif
             if (pport.data != value) {
                 pport.data = value;
@@ -357,9 +357,9 @@ void zero_store(WORD addr, BYTE value)
                 vicii_mem_vbank_store(addr, value);
             } else {
 #endif
-                mem_page_zero[addr] = value;
+            mem_page_zero[addr] = value;
 #if 0
-            }
+    }
 #endif
     }
 }
@@ -755,7 +755,8 @@ void mem_initialize_memory(void)
 #pragma optimize("",on)
 #endif
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : p;
@@ -1074,10 +1075,10 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
-                       when needed. doing this without checking is wrong, but we do it anyways to
-                       avoid side effects
-            */
+            /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
+                      when needed. doing this without checking is wrong, but we do it anyways to
+                      avoid side effects
+           */
             if (addr >= 0xd000 && addr < 0xe000) {
                 return peek_bank_io(addr);
             }
