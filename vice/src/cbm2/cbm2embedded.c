@@ -56,26 +56,26 @@
 #include "pet_white_vpl.h"
 
 static embedded_t cbm2files[] = {
-  { "basic.128", 0x4000, 0x4000, 0x4000, cbm2basic128_embedded },
-  { "basic.256", 0x4000, 0x4000, 0x4000, cbm2basic256_embedded },
-  { "chargen.600", 0x1000, 0x1000, 0x1000, cbm2chargen600_embedded },
-  { "chargen.700", 0x1000, 0x1000, 0x1000, cbm2chargen700_embedded },
-  { "kernal", 0x2000, 0x2000, 0x2000, cbm2kernal_embedded },
-  { NULL }
+    { "basic.128", 0x4000, 0x4000, 0x4000, cbm2basic128_embedded },
+    { "basic.256", 0x4000, 0x4000, 0x4000, cbm2basic256_embedded },
+    { "chargen.600", 0x1000, 0x1000, 0x1000, cbm2chargen600_embedded },
+    { "chargen.700", 0x1000, 0x1000, 0x1000, cbm2chargen700_embedded },
+    { "kernal", 0x2000, 0x2000, 0x2000, cbm2kernal_embedded },
+    { NULL }
 };
 
 static embedded_palette_t palette_files[] = {
-  { "amber",   "amber.vpl",    2, pet_amber_vpl   },
-  { "c64hq",   "c64hq.vpl",   16, c64_c64hq_vpl   },
-  { "c64s",    "c64s.vpl",    16, c64_c64s_vpl    },
-  { "ccs64",   "ccs64.vpl",   16, c64_ccs64_vpl   },
-  { "default", "default.vpl", 16, c64_default_vpl },
-  { "frodo",   "frodo.vpl",   16, c64_frodo_vpl   },
-  { "godot",   "godot.vpl",   16, c64_godot_vpl   },
-  { "green",   "green.vpl",    2, pet_green_vpl   },
-  { "pc64",    "pc64.vpl",    16, c64_pc64_vpl    },
-  { "white",   "white.vpl",    2, pet_white_vpl   },
-  { NULL }
+    { "amber", "amber.vpl", 2, pet_amber_vpl   },
+    { "c64hq", "c64hq.vpl", 16, c64_c64hq_vpl   },
+    { "c64s", "c64s.vpl", 16, c64_c64s_vpl    },
+    { "ccs64", "ccs64.vpl", 16, c64_ccs64_vpl   },
+    { "default", "default.vpl", 16, c64_default_vpl },
+    { "frodo", "frodo.vpl", 16, c64_frodo_vpl   },
+    { "godot", "godot.vpl", 16, c64_godot_vpl   },
+    { "green", "green.vpl", 2, pet_green_vpl   },
+    { "pc64", "pc64.vpl", 16, c64_pc64_vpl    },
+    { "white", "white.vpl", 2, pet_white_vpl   },
+    { NULL }
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
@@ -106,7 +106,7 @@ size_t embedded_check_file(const char *name, BYTE *dest, int minsize, int maxsiz
         return retval;
     }
 
-    if ((retval = embedded_match_file(name, dest, minsize,maxsize, cbm2files)) != 0) {
+    if ((retval = embedded_match_file(name, dest, minsize, maxsize, cbm2files)) != 0) {
         return retval;
     }
     return 0;
@@ -122,9 +122,9 @@ int embedded_palette_load(const char *fname, palette_t *p)
         if (!strcmp(palette_files[i].name1, fname) || !strcmp(palette_files[i].name2, fname)) {
             entries = palette_files[i].palette;
             for (j == 0; j < palette_files[i].num_entries; j++) {
-                p->entries[j].red    = entries[(j * 4) + 0];
-                p->entries[j].green  = entries[(j * 4) + 1];
-                p->entries[j].blue   = entries[(j * 4) + 2];
+                p->entries[j].red = entries[(j * 4) + 0];
+                p->entries[j].green = entries[(j * 4) + 1];
+                p->entries[j].blue = entries[(j * 4) + 2];
                 p->entries[j].dither = entries[(j * 4) + 3];
             }
         }

@@ -68,9 +68,9 @@ int fsimage_read_p64_image(const disk_image_t *image)
     /*num_tracks = image->tracks;*/
 
     P64MemoryStreamCreate(&P64MemoryStreamInstance);
-    P64MemoryStreamWrite(&P64MemoryStreamInstance,buffer,lSize);
-    P64MemoryStreamSeek(&P64MemoryStreamInstance,0);
-    if (P64ImageReadFromStream(P64Image,&P64MemoryStreamInstance)) {
+    P64MemoryStreamWrite(&P64MemoryStreamInstance, buffer, lSize);
+    P64MemoryStreamSeek(&P64MemoryStreamInstance, 0);
+    if (P64ImageReadFromStream(P64Image, &P64MemoryStreamInstance)) {
         rc = 0;
     } else {
         rc = -1;
@@ -95,7 +95,7 @@ int fsimage_write_p64_image(const disk_image_t *image)
 
     P64MemoryStreamCreate(&P64MemoryStreamInstance);
     P64MemoryStreamClear(&P64MemoryStreamInstance);
-    if (P64ImageWriteToStream(P64Image,&P64MemoryStreamInstance)) {
+    if (P64ImageWriteToStream(P64Image, &P64MemoryStreamInstance)) {
         if (util_fpwrite(fsimage->fd, P64MemoryStreamInstance.Data, P64MemoryStreamInstance.Size, 0) < 0) {
             rc = -1;
             log_error(fsimage_p64_log, "Could not write P64 disk image.");
@@ -147,7 +147,7 @@ int fsimage_p64_read_half_track(const disk_image_t *image, unsigned int half_tra
 }
 
 static int fsimage_p64_read_track(const disk_image_t *image, unsigned int track,
-                           disk_track_t *raw)
+                                  disk_track_t *raw)
 {
     return fsimage_p64_read_half_track(image, track << 1, raw);
 }
@@ -179,7 +179,7 @@ int fsimage_p64_write_half_track(disk_image_t *image, unsigned int half_track,
 }
 
 static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
-                            int gcr_track_size, BYTE *gcr_track_start_ptr)
+                                   int gcr_track_size, BYTE *gcr_track_start_ptr)
 {
     PP64Image P64Image = (void*)image->p64;
 
@@ -202,7 +202,7 @@ static int fsimage_p64_write_track(disk_image_t *image, unsigned int track,
 /* Read a sector from the P64 disk image.  */
 
 int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
-                               const disk_addr_t *dadr)
+                            const disk_addr_t *dadr)
 {
     fdc_err_t rf;
     disk_track_t raw;
@@ -224,30 +224,30 @@ int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
     if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", dadr->track, dadr->sector);
         switch (rf) {
-        case CBMDOS_FDC_ERR_HEADER:
-            return CBMDOS_IPE_READ_ERROR_BNF;   /* 20 */
-        case CBMDOS_FDC_ERR_SYNC:
-            return CBMDOS_IPE_READ_ERROR_SYNC;  /* 21 */
-        case CBMDOS_FDC_ERR_NOBLOCK:
-            return CBMDOS_IPE_READ_ERROR_DATA;  /* 22 */
-        case CBMDOS_FDC_ERR_DCHECK:
-            return CBMDOS_IPE_READ_ERROR_CHK;   /* 23 */ 
-        case CBMDOS_FDC_ERR_VERIFY:
-            return CBMDOS_IPE_WRITE_ERROR_VER;  /* 25 */
-        case CBMDOS_FDC_ERR_WPROT:
-            return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
-        case CBMDOS_FDC_ERR_HCHECK:
-            return CBMDOS_IPE_READ_ERROR_BCHK;  /* 27 */
-        case CBMDOS_FDC_ERR_BLENGTH:
-            return CBMDOS_IPE_WRITE_ERROR_BIG;  /* 28 */
-        case CBMDOS_FDC_ERR_ID:
-            return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
-        case CBMDOS_FDC_ERR_DRIVE:
-            return CBMDOS_IPE_NOT_READY;        /* 74 */
-        case CBMDOS_FDC_ERR_DECODE:
-            return CBMDOS_IPE_READ_ERROR_GCR;   /* 24 */
-        default:
-            return CBMDOS_IPE_NOT_READY;
+            case CBMDOS_FDC_ERR_HEADER:
+                return CBMDOS_IPE_READ_ERROR_BNF; /* 20 */
+            case CBMDOS_FDC_ERR_SYNC:
+                return CBMDOS_IPE_READ_ERROR_SYNC; /* 21 */
+            case CBMDOS_FDC_ERR_NOBLOCK:
+                return CBMDOS_IPE_READ_ERROR_DATA; /* 22 */
+            case CBMDOS_FDC_ERR_DCHECK:
+                return CBMDOS_IPE_READ_ERROR_CHK; /* 23 */
+            case CBMDOS_FDC_ERR_VERIFY:
+                return CBMDOS_IPE_WRITE_ERROR_VER; /* 25 */
+            case CBMDOS_FDC_ERR_WPROT:
+                return CBMDOS_IPE_WRITE_PROTECT_ON; /* 26 */
+            case CBMDOS_FDC_ERR_HCHECK:
+                return CBMDOS_IPE_READ_ERROR_BCHK; /* 27 */
+            case CBMDOS_FDC_ERR_BLENGTH:
+                return CBMDOS_IPE_WRITE_ERROR_BIG; /* 28 */
+            case CBMDOS_FDC_ERR_ID:
+                return CBMDOS_IPE_DISK_ID_MISMATCH; /* 29 */
+            case CBMDOS_FDC_ERR_DRIVE:
+                return CBMDOS_IPE_NOT_READY;    /* 74 */
+            case CBMDOS_FDC_ERR_DECODE:
+                return CBMDOS_IPE_READ_ERROR_GCR; /* 24 */
+            default:
+                return CBMDOS_IPE_NOT_READY;
         }
     }
     return CBMDOS_IPE_OK;
@@ -258,7 +258,7 @@ int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
 /* Write a sector to the P64 disk image.  */
 
 int fsimage_p64_write_sector(disk_image_t *image, const BYTE *buf,
-                                const disk_addr_t *dadr)
+                             const disk_addr_t *dadr)
 {
     disk_track_t raw;
 
@@ -268,7 +268,7 @@ int fsimage_p64_write_sector(disk_image_t *image, const BYTE *buf,
     }
 
     if (fsimage_p64_read_track(image, dadr->track, &raw) < 0
-            || raw.data == NULL) {
+        || raw.data == NULL) {
         log_error(fsimage_p64_log, "Cannot read track %i from P64 image.", dadr->track);
         return -1;
     }
@@ -287,7 +287,6 @@ int fsimage_p64_write_sector(disk_image_t *image, const BYTE *buf,
 
     lib_free(raw.data);
     return 0;
-
 }
 
 /*-----------------------------------------------------------------------*/
@@ -296,4 +295,3 @@ void fsimage_p64_init(void)
 {
     fsimage_p64_log = log_open("Filesystem Image P64");
 }
-

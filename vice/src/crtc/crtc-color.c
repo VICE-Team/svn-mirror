@@ -41,7 +41,7 @@
 #define ANGLE_ORN        -45.0f /* negative orange (orange is at +135.0 degree) */
 #define ANGLE_GRN       -135.0f
 
-static video_cbm_color_t crtc_colors[CRTC_NUM_COLORS]=
+static video_cbm_color_t crtc_colors[CRTC_NUM_COLORS] =
 {
     {   0.0f, ANGLE_ORN, -0, "Black"       },
     { 192.0f, ANGLE_GRN,  1, "Green"       },

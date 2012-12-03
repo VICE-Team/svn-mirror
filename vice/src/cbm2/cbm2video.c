@@ -56,4 +56,3 @@ struct video_canvas_s *machine_video_canvas_get(unsigned int window)
     }
     return NULL;
 }
-

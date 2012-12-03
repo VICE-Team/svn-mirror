@@ -32,4 +32,3 @@ extern void fsimage_create_init(void);
 extern int fsimage_create(const char *name, unsigned int type);
 
 #endif
-

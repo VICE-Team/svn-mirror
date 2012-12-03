@@ -36,96 +36,114 @@ int fsimage_check_sector(const disk_image_t *image, unsigned int track,
 {
     unsigned int sectors = 0, i;
 
-    if (track < 1)
+    if (track < 1) {
         return -1;
+    }
 
     switch (image->type) {
-      case DISK_IMAGE_TYPE_D64:
-      case DISK_IMAGE_TYPE_X64:
-        if (track > MAX_TRACKS_1541 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
+        case DISK_IMAGE_TYPE_D64:
+        case DISK_IMAGE_TYPE_X64:
+            if (track > MAX_TRACKS_1541 || sector
+                >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track)) {
+                return -1;
+            }
+            for (i = 1; i < track; i++) {
+                sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
+            }
+            sectors += sector;
+            break;
+        case DISK_IMAGE_TYPE_D67:
+            if (track > MAX_TRACKS_2040 || sector
+                >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, track)) {
+                return -1;
+            }
+            for (i = 1; i < track; i++) {
+                sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, i);
+            }
+            sectors += sector;
+            break;
+        case DISK_IMAGE_TYPE_D71:
+            if (track > MAX_TRACKS_1571) {
+                return -1;
+            }
+            if (track > NUM_TRACKS_1541) {      /* The second side */
+                track -= NUM_TRACKS_1541;
+                sectors = NUM_BLOCKS_1541;
+            }
+            if (sector >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track)) {
+                return -1;
+            }
+            for (i = 1; i < track; i++) {
+                sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
+            }
+            sectors += sector;
+            break;
+        case DISK_IMAGE_TYPE_D81:
+            if (track > MAX_TRACKS_1581 || sector >= NUM_SECTORS_1581) {
+                return -1;
+            }
+            sectors = (track - 1) * NUM_SECTORS_1581 + sector;
+            break;
+        case DISK_IMAGE_TYPE_D80:
+            if (track > MAX_TRACKS_8050 || sector
+                >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track)) {
+                return -1;
+            }
+            for (i = 1; i < track; i++) {
+                sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
+            }
+            sectors += sector;
+            break;
+        case DISK_IMAGE_TYPE_D82:
+            if (track > MAX_TRACKS_8250) {
+                return -1;
+            }
+            if (track > NUM_TRACKS_8050) {      /* The second side */
+                track -= NUM_TRACKS_8050;
+                sectors = NUM_BLOCKS_8050;
+            }
+            if (sector >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track)) {
+                return -1;
+            }
+            for (i = 1; i < track; i++) {
+                sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
+            }
+            sectors += sector;
+            break;
+        case DISK_IMAGE_TYPE_G64:
+        case DISK_IMAGE_TYPE_P64:
+            if (track > image->tracks || track > MAX_TRACKS_1541 || sector
+                >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track)) {
+                return -1;
+            }
+            for (i = 1; i < track; i++) {
+                sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
+            }
+            sectors += sector;
+            break;
+        case DISK_IMAGE_TYPE_D1M:
+            if (track > NUM_TRACKS_1000 || sector > 255
+                || (track == NUM_TRACKS_1000 && sector >= NUM_SYS_SECTORS_1000)) {
+                return -1;
+            }
+            sectors = (track - 1) * 256 + sector;
+            break;
+        case DISK_IMAGE_TYPE_D2M:
+            if (track > NUM_TRACKS_2000 || sector > 255
+                || (track == NUM_TRACKS_2000 && sector >= NUM_SYS_SECTORS_2000)) {
+                return -1;
+            }
+            sectors = (track - 1) * 256 + sector;
+            break;
+        case DISK_IMAGE_TYPE_D4M:
+            if (track > NUM_TRACKS_4000 || sector > 255
+                || (track == NUM_TRACKS_4000 && sector >= NUM_SYS_SECTORS_4000)) {
+                return -1;
+            }
+            sectors = (track - 1) * 256 + sector;
+            break;
+        default:
             return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D67:
-        if (track > MAX_TRACKS_2040 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D67, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D71:
-        if (track > MAX_TRACKS_1571)
-            return -1;
-        if (track > NUM_TRACKS_1541) {          /* The second side */
-            track -= NUM_TRACKS_1541;
-            sectors = NUM_BLOCKS_1541;
-        }
-        if (sector >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D81:
-        if (track > MAX_TRACKS_1581 || sector >=  NUM_SECTORS_1581)
-            return -1;
-        sectors = (track - 1) * NUM_SECTORS_1581 + sector;
-        break;
-      case DISK_IMAGE_TYPE_D80:
-        if (track > MAX_TRACKS_8050 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D82:
-        if (track > MAX_TRACKS_8250)
-            return -1;
-        if (track > NUM_TRACKS_8050) {          /* The second side */
-            track -= NUM_TRACKS_8050;
-            sectors = NUM_BLOCKS_8050;
-        }
-        if (sector >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D80, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_G64:
-      case DISK_IMAGE_TYPE_P64:
-        if (track > image->tracks || track > MAX_TRACKS_1541 || sector
-            >= disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, track))
-            return -1;
-        for (i = 1; i < track; i++)
-            sectors += disk_image_sector_per_track(DISK_IMAGE_TYPE_D64, i);
-        sectors += sector;
-        break;
-      case DISK_IMAGE_TYPE_D1M:
-        if (track > NUM_TRACKS_1000 || sector > 255
-            || (track == NUM_TRACKS_1000 && sector >= NUM_SYS_SECTORS_1000))
-            return -1;
-        sectors = (track - 1) * 256 + sector;
-        break;
-      case DISK_IMAGE_TYPE_D2M:
-        if (track > NUM_TRACKS_2000 || sector > 255
-            || (track == NUM_TRACKS_2000 && sector >= NUM_SYS_SECTORS_2000))
-            return -1;
-        sectors = (track - 1) * 256 + sector;
-        break;
-      case DISK_IMAGE_TYPE_D4M:
-        if (track > NUM_TRACKS_4000 || sector > 255
-            || (track == NUM_TRACKS_4000 && sector >= NUM_SYS_SECTORS_4000))
-            return -1;
-        sectors = (track - 1) * 256 + sector;
-        break;
-      default:
-        return -1;
     }
     return (int)(sectors);
 }
-

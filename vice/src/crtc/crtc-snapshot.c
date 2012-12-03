@@ -65,8 +65,9 @@ int crtc_snapshot_write_module(snapshot_t * s)
     }
 
     m = snapshot_module_create(s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* hardware-options */
     if (ef
@@ -182,38 +183,48 @@ int crtc_snapshot_read_module(snapshot_t * s)
     BYTE major, minor;
 
     m = snapshot_module_open(s, snap_module_name, &major, &minor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (major != SNAP_MAJOR) {
         log_error(crtc.log,
-                 "Major snapshot number (%d) invalid; %d expected.",
-                 major, SNAP_MAJOR);
+                  "Major snapshot number (%d) invalid; %d expected.",
+                  major, SNAP_MAJOR);
         snapshot_module_close (m);
         return -1;
     }
 
     /* hardware-options */
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.vaddr_mask = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.vaddr_charswitch = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.vaddr_charoffset = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.vaddr_revswitch = w;
+    }
 
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.chargen_mask = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.chargen_offset = w;
+    }
 
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.hw_cursor = b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.hw_cols = b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.hw_blank = b;
+    }
 
     crtc.rl_start = maincpu_clk;        /* just to be sure */
 
@@ -226,50 +237,68 @@ int crtc_snapshot_read_module(snapshot_t * s)
     }
 
     /* save the internal state of the CRTC counters */
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.regno = b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.rl_start = maincpu_clk - b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.current_charline = b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.raster.ycounter = b;
+    }
 
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.crsrcnt = b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.crsrstate = b;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.cursor_lines = b;
+    }
 
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.chargen_rel = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.screen_rel = w;
+    }
 
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.vsync = w;
-    if ((!ef) && !(ef = SMR_B(m, &b)))
+    }
+    if ((!ef) && !(ef = SMR_B(m, &b))) {
         crtc.venable = b;
+    }
 
     /* VICE-dependent runtime variables */
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.screen_width = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.screen_height = w;
+    }
 
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.screen_xoffset = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.hjitter = w;
+    }
 
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.screen_yoffset = w;
+    }
 
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.framelines = w;
-    if ((!ef) && !(ef = SMR_W(m, &w)))
+    }
+    if ((!ef) && !(ef = SMR_W(m, &w))) {
         crtc.current_line = w;
+    }
 
     /* this has been added in V1.1 module version. Values are not available
        when reading V1.0 modules */
@@ -286,48 +315,53 @@ int crtc_snapshot_read_module(snapshot_t * s)
 
 /* FIXME: compatibility mode for old snapshots */
 #if 0
-  if (SMR_B(m, &b) < 0)
-    goto fail;
-  /* for the moment simply ignore this value */
-
-  if (SMR_W(m, &w) < 0)
-    goto fail;
-  /* for the moment simply ignore this value */
-
-  if (0
-      || SMR_W(m, &vmask) < 0
-      || SMR_B(m, &hwflags))
-      goto fail;
-
-  crtc_set_screen_mode(NULL, vmask, memptr_inc, hwflags);
-  crtc_update_memory_ptrs();
-
-  for (i = 0; i < 20; i++) {
-      if (SMR_B(m, &b) < 0)
+    if (SMR_B(m, &b) < 0) {
         goto fail;
+    }
+    /* for the moment simply ignore this value */
 
-      /* XXX: This assumes that there are no side effects.
-         Well, there are, but the cursor state is restored later */
-      store_crtc (i, b);
-  }
-  if (SMR_B(m, &b) < 0)
-      goto fail;
+    if (SMR_W(m, &w) < 0) {
+        goto fail;
+    }
+    /* for the moment simply ignore this value */
 
-  crsrcnt = b & 0x3f;
-  crsrstate = (b & 0x80) ? 1 : 0;
+    if (0
+        || SMR_W(m, &vmask) < 0
+        || SMR_B(m, &hwflags)) {
+        goto fail;
+    }
 
-  alarm_set(&raster_draw_alarm, clk + CYCLES_PER_LINE /* - RASTER_CYCLE */);
+    crtc_set_screen_mode(NULL, vmask, memptr_inc, hwflags);
+    crtc_update_memory_ptrs();
 
-  SIGNAL_VERT_BLANK_OFF
+    for (i = 0; i < 20; i++) {
+        if (SMR_B(m, &b) < 0) {
+            goto fail;
+        }
 
-  force_repaint();
+        /* XXX: This assumes that there are no side effects.
+           Well, there are, but the cursor state is restored later */
+        store_crtc (i, b);
+    }
+    if (SMR_B(m, &b) < 0) {
+        goto fail;
+    }
+
+    crsrcnt = b & 0x3f;
+    crsrstate = (b & 0x80) ? 1 : 0;
+
+    alarm_set(&raster_draw_alarm, clk + CYCLES_PER_LINE /* - RASTER_CYCLE */);
+
+    SIGNAL_VERT_BLANK_OFF
+
+    force_repaint();
 #endif
 
     crtc_update_window();
 
     if (ef) {
         log_error(crtc.log, "Failed to load snapshot module %s",
-                snap_module_name);
+                  snap_module_name);
         snapshot_module_close(m);
     } else {
         ef = snapshot_module_close(m);
@@ -335,4 +369,3 @@ int crtc_snapshot_read_module(snapshot_t * s)
 
     return ef;
 }
-

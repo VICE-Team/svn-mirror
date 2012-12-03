@@ -61,8 +61,7 @@
 #define MC6821_CTRL_C1_IRQHILO  0x00
 #define MC6821_CTRL_C1_IRQLOHI  0x02
 
-typedef struct _mc6821_state
-{
+typedef struct _mc6821_state {
     BYTE ctrlA;
     BYTE dataA;
     BYTE ddrA;
@@ -92,13 +91,12 @@ typedef struct _mc6821_state
     BYTE (*get_pb)(struct _mc6821_state*);
 
     void *p;    /* parent context that may be used by the hooks */
-
 } mc6821_state;
 
 void mc6821core_reset(mc6821_state *ctx);
-BYTE mc6821core_read(mc6821_state *ctx, int port /* rs1 */,int reg /* rs0 */);
-BYTE mc6821core_peek(mc6821_state *ctx, int port /* rs1 */,int reg /* rs0 */);
-void mc6821core_store(mc6821_state *ctx, int port /* rs1 */,int reg /* rs0 */,BYTE data);
+BYTE mc6821core_read(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */);
+BYTE mc6821core_peek(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */);
+void mc6821core_store(mc6821_state *ctx, int port /* rs1 */, int reg /* rs0 */, BYTE data);
 
 /* Signal values (for signaling edges on the control lines)  */
 #define MC6821_SIGNAL_CA1 0

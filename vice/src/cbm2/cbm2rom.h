@@ -39,4 +39,3 @@ extern int cbm2rom_load_cart_6(const char *rom_name);
 extern int cbm2rom_checksum(void);
 
 #endif
-

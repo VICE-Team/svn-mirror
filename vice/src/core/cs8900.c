@@ -71,7 +71,7 @@
 
 static log_t cs8900_log = LOG_ERR;
 
-/* status which received packages to accept 
+/* status which received packages to accept
    This is used in cs8900_should_accept().
 */
 static BYTE tfe_ia_mac[6] = { 0, 0, 0, 0, 0, 0 };
@@ -102,10 +102,10 @@ static BYTE *tfe = NULL;
     RW: RXTXDATA   = DE00/DE01
     RW: RXTXDATA2  = DE02/DE03 (for 32-bit-operation)
     -W: TXCMD      = DE04/DE05 (TxCMD, Transmit Command)   mapped to PP + 0144 (Reg. 9, Sec. 4.4, page 46)
-    -W: TXLENGTH   = DE06/DE07 (TxLenght, Transmit Length) mapped to PP + 0146 
+    -W: TXLENGTH   = DE06/DE07 (TxLenght, Transmit Length) mapped to PP + 0146
     R-: INTSTQUEUE = DE08/DE09 (Interrupt Status Queue)    mapped to PP + 0120 (ISQ, Sec. 5.1, page 78)
     RW: PP_PTR     = DE0A/DE0B (PacketPage Pointer)        (see. page 75p: Read -011.---- ----.----)
-    RW: PP_DATA0   = DE0C/DE0D (PacketPage Data (Port 0))  
+    RW: PP_DATA0   = DE0C/DE0D (PacketPage Data (Port 0))
     RW: PP_DATA1   = DE0E/DE0F (PacketPage Data (Port 1))  (for 32 bit only)
 */
 
@@ -116,25 +116,25 @@ static BYTE *tfe = NULL;
 #define TFE_ADDR_INTSTQUEUE 0x08 /* R- Interrupt status queue, maps to PP + 0120 */
 #define TFE_ADDR_PP_PTR     0x0a /* RW PacketPage Pointer */
 #define TFE_ADDR_PP_DATA    0x0c /* RW PacketPage Data, Port 0 */
-#define TFE_ADDR_PP_DATA2   0x0e /* RW PacketPage Data, Port 1 - 32 bit only */    
+#define TFE_ADDR_PP_DATA2   0x0e /* RW PacketPage Data, Port 1 - 32 bit only */
 
 /* Makros for reading and writing the visible TFE register: */
-#define GET_TFE_8(_xxx_) (assert(_xxx_<TFE_COUNT_IO_REGISTER), tfe[_xxx_])
+#define GET_TFE_8(_xxx_) (assert(_xxx_ < TFE_COUNT_IO_REGISTER), tfe[_xxx_])
 
-#define SET_TFE_8(_xxx_, _val_)          \
-    do {                                     \
-        assert(_xxx_<TFE_COUNT_IO_REGISTER); \
-        tfe[_xxx_] = (_val_) & 0xff;         \
+#define SET_TFE_8(_xxx_, _val_)                \
+    do {                                       \
+        assert(_xxx_ < TFE_COUNT_IO_REGISTER); \
+        tfe[_xxx_] = (_val_) & 0xff;           \
     } while (0)
 
-#define GET_TFE_16(_xxx_) (assert(_xxx_<TFE_COUNT_IO_REGISTER), tfe[_xxx_] | (tfe[_xxx_ + 1] << 8))
+#define GET_TFE_16(_xxx_) (assert(_xxx_ < TFE_COUNT_IO_REGISTER), tfe[_xxx_] | (tfe[_xxx_ + 1] << 8))
 
-#define SET_TFE_16(_xxx_, _val_)             \
-    do {                                     \
-        assert(_xxx_<TFE_COUNT_IO_REGISTER); \
-        tfe[_xxx_] = (_val_) & 0xff;         \
-        tfe[_xxx_+1] = (_val_ >> 8) & 0xff;  \
-    } while (0) 
+#define SET_TFE_16(_xxx_, _val_)               \
+    do {                                       \
+        assert(_xxx_ < TFE_COUNT_IO_REGISTER); \
+        tfe[_xxx_] = (_val_) & 0xff;           \
+        tfe[_xxx_ + 1] = (_val_ >> 8) & 0xff;  \
+    } while (0)
 
 /* The PacketPage register */
 /* note: The locations 0 to MAX_PACKETPAGE_ARRAY-1 are handled in this array. */
@@ -147,37 +147,37 @@ static WORD tfe_packetpage_ptr = 0;
 
 /* Makros for reading and writing the PacketPage register: */
 
-#define GET_PP_8(_xxx_) (assert(_xxx_<MAX_PACKETPAGE_ARRAY), tfe_packetpage[_xxx_])
+#define GET_PP_8(_xxx_) (assert(_xxx_ < MAX_PACKETPAGE_ARRAY), tfe_packetpage[_xxx_])
 
-#define GET_PP_16(_xxx_) (assert(_xxx_<MAX_PACKETPAGE_ARRAY), assert((_xxx_ & 1) == 0), ((WORD)tfe_packetpage[_xxx_]) | ((WORD)tfe_packetpage[_xxx_ + 1] << 8))
+#define GET_PP_16(_xxx_) (assert(_xxx_ < MAX_PACKETPAGE_ARRAY), assert((_xxx_ & 1) == 0), ((WORD)tfe_packetpage[_xxx_]) | ((WORD)tfe_packetpage[_xxx_ + 1] << 8))
 
-#define GET_PP_32(_xxx_)                                           \
-    (assert(_xxx_<MAX_PACKETPAGE_ARRAY), assert((_xxx_ & 3) == 0), \
-     (((long)tfe_packetpage[_xxx_])) | (((long)tfe_packetpage[_xxx_ + 1]) << 8)| (((long)tfe_packetpage[_xxx_+2]) << 16) | (((long)tfe_packetpage[_xxx_+3]) << 24))
+#define GET_PP_32(_xxx_)                                             \
+    (assert(_xxx_ < MAX_PACKETPAGE_ARRAY), assert((_xxx_ & 3) == 0), \
+     (((long)tfe_packetpage[_xxx_])) | (((long)tfe_packetpage[_xxx_ + 1]) << 8) | (((long)tfe_packetpage[_xxx_ + 2]) << 16) | (((long)tfe_packetpage[_xxx_ + 3]) << 24))
 
 #define SET_PP_8(_xxx_, _val_)                  \
     do {                                        \
-        assert(_xxx_<MAX_PACKETPAGE_ARRAY);     \
+        assert(_xxx_ < MAX_PACKETPAGE_ARRAY);   \
         tfe_packetpage[_xxx_] = (_val_) & 0xFF; \
     } while (0)
 
 #define SET_PP_16(_xxx_, _val_)                          \
     do {                                                 \
-        assert(_xxx_<MAX_PACKETPAGE_ARRAY);              \
+        assert(_xxx_ < MAX_PACKETPAGE_ARRAY);            \
         assert((_xxx_ & 1) == 0),                        \
         tfe_packetpage[_xxx_] = (_val_) & 0xFF;          \
         tfe_packetpage[_xxx_ + 1] = (_val_ >> 8) & 0xFF; \
-    } while (0) 
+    } while (0)
 
 #define SET_PP_32(_xxx_, _val_)                           \
     do {                                                  \
-        assert(_xxx_<MAX_PACKETPAGE_ARRAY);               \
+        assert(_xxx_ < MAX_PACKETPAGE_ARRAY);             \
         assert((_xxx_ & 3) == 0),                         \
         tfe_packetpage[_xxx_] = (_val_) & 0xFF;           \
         tfe_packetpage[_xxx_ + 1] = (_val_ >> 8) & 0xFF;  \
         tfe_packetpage[_xxx_ + 2] = (_val_ >> 16) & 0xFF; \
         tfe_packetpage[_xxx_ + 3] = (_val_ >> 24) & 0xFF; \
-    } while (0) 
+    } while (0)
 
 /* The packetpage register: see p. 39f */
 #define TFE_PP_ADDR_PRODUCTID       0x0000 /*   R- - 4.3., p. 41 */
@@ -303,7 +303,7 @@ static char *debug_outbuffer(const int length, const unsigned char * const buffe
         if (i >= length) {
             break;
         }
-        sprintf( p, "%02X%c", buffer[i], ((i + 1) % 16 == 0) ? '*' : (((i + 1) %8 == 0) ? '-' : ' '));
+        sprintf( p, "%02X%c", buffer[i], ((i + 1) % 16 == 0) ? '*' : (((i + 1) % 8 == 0) ? '-' : ' '));
         p += 3;
     }
 
@@ -314,7 +314,7 @@ static char *debug_outbuffer(const int length, const unsigned char * const buffe
 /* ------------------------------------------------------------------------- */
 /*    initialization and deinitialization functions                          */
 
-static void tfe_set_tx_status(int ready,int error)
+static void tfe_set_tx_status(int ready, int error)
 {
     WORD old_status = GET_PP_16(TFE_PP_ADDR_SE_BUSST);
 
@@ -327,10 +327,10 @@ static void tfe_set_tx_status(int ready,int error)
         new_status |= 0x080; /* set TxBidErr */
     }
 
-    if (new_status!=old_status) {
-        SET_PP_16(TFE_PP_ADDR_SE_BUSST,new_status);
+    if (new_status != old_status) {
+        SET_PP_16(TFE_PP_ADDR_SE_BUSST, new_status);
 #ifdef CS8900_DEBUG_RXTX_STATE
-        log_message(cs8900_log,"TX: set status Rdy4TxNOW=%d TxBidErr=%d", ready, error);
+        log_message(cs8900_log, "TX: set status Rdy4TxNOW=%d TxBidErr=%d", ready, error);
 #endif
     }
 }
@@ -348,7 +348,7 @@ static void tfe_set_transmitter(int enabled)
     tx_enabled = enabled;
     tx_state = TFE_TX_IDLE;
 
-    tfe_set_tx_status(0,0);
+    tfe_set_tx_status(0, 0);
 }
 
 void cs8900_reset(void)
@@ -534,7 +534,7 @@ TFE_PP_ADDR_MAC_ADDR        0x0158 * # RW - 4.6., p. 71 - 5.3., p. 86 *
         int retval = _x_;                                                                                                      \
                                                                                                                                \
         log_message(cs8900_log, "%s correct_mac=%u, broadcast=%u, multicast=%u, hashed=%u, hash_index=%u",                        \
-                    (retval? "+++ ACCEPTED":"--- rejected"), *pcorrect_mac, *pbroadcast, *pmulticast, *phashed, *phash_index); \
+                    (retval ? "+++ ACCEPTED" : "--- rejected"), *pcorrect_mac, *pbroadcast, *pmulticast, *phashed, *phash_index); \
         return retval;                                                                                                         \
     }
 #endif
@@ -571,7 +571,7 @@ int cs8900_should_accept(unsigned char *buffer, int length, int *phashed, int *p
         *pcorrect_mac = 1;
 
         /* if we don't want "correct MAC", we might have the chance
-         * that this address fits the hash index 
+         * that this address fits the hash index
          */
         if (tfe_recv_mac || tfe_recv_promiscuous) {
             return(1);
@@ -597,8 +597,8 @@ int cs8900_should_accept(unsigned char *buffer, int length, int *phashed, int *p
             /* we have a multicast address */
             *pmulticast = 1;
 
-            /* if the multicast address fits into the hash filter, 
-             * the hashed bit has to be clear 
+            /* if the multicast address fits into the hash filter,
+             * the hashed bit has to be clear
              */
             *phashed = 0;
 
@@ -645,7 +645,7 @@ static WORD tfe_receive(void)
     do {
         len = MAX_RXLENGTH;
 
-        ready = 1 ; /* assume we will find a good frame */
+        ready = 1;  /* assume we will find a good frame */
 
         newframe = rawnet_arch_receive(buffer, &len, &hashed, &hash_index, &rx_ok, &correct_mac, &broadcast, &crc_error);
 
@@ -660,7 +660,6 @@ static WORD tfe_receive(void)
             } else {
                 /* determine ourself the type of frame */
                 if (!cs8900_should_accept(buffer, len, &hashed, &hash_index, &correct_mac, &broadcast, &multicast)) {
-
                     /* if we should not accept this frame, just do nothing
                      * now, look for another one */
                     ready = 0; /* try another frame */
@@ -690,7 +689,7 @@ static WORD tfe_receive(void)
             }
 
             /* discard any octets that are beyond the MAX_RXLEN */
-            if (len>MAX_RXLENGTH) {
+            if (len > MAX_RXLENGTH) {
                 len = MAX_RXLENGTH;
             }
 
@@ -709,15 +708,15 @@ static WORD tfe_receive(void)
                  */
                 rx_buffer = TFE_PP_ADDR_RXSTATUS;
                 rx_length = len;
-                rx_count  = 0;
+                rx_count = 0;
 #ifdef CS8900_DEBUG_WARN_RXTX
-                if (rx_state!=TFE_RX_IDLE) {
-                    log_message(cs8900_log,"WARNING! New frame overwrites pending one!");
+                if (rx_state != TFE_RX_IDLE) {
+                    log_message(cs8900_log, "WARNING! New frame overwrites pending one!");
                 }
 #endif
-                rx_state  = TFE_RX_GOT_FRAME;
+                rx_state = TFE_RX_GOT_FRAME;
 #ifdef CS8900_DEBUG_RXTX_STATE
-                log_message(cs8900_log,"RX: recvd frame (length=%04x,status=%04x)", rx_length, ret_val);
+                log_message(cs8900_log, "RX: recvd frame (length=%04x,status=%04x)", rx_length, ret_val);
 #endif
             }
         }
@@ -735,7 +734,7 @@ static WORD tfe_receive(void)
 /* ------------------------------------------------------------------------- */
 /* TX/RX buffer handling */
 
-static void tfe_write_tx_buffer(BYTE value,int odd_address)
+static void tfe_write_tx_buffer(BYTE value, int odd_address)
 {
     /* write tx data only if valid buffer is ready */
     if (tx_state != TFE_TX_READ_BUSST) {
@@ -743,7 +742,7 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
         log_message(cs8900_log, "WARNING! Ignoring TX Write without correct Transmit Condition! (odd=%d,value=%02x)", odd_address, value);
 #endif
         /* ensure correct tx state (needed if transmit < 4 was started) */
-        tfe_set_tx_status(0,0);
+        tfe_set_tx_status(0, 0);
     } else {
 #ifdef CS8900_DEBUG_RXTX_STATE
         if (tx_count == 0) {
@@ -757,9 +756,9 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
             addr++;
             tx_buffer += 2;
         }
-        tx_count++;            
+        tx_count++;
         SET_PP_8(addr, value);
-        
+
 #ifdef CS8900_DEBUG_RXTX_DATA
         log_message(cs8900_log, "TX: %04x/%04x: %02x (buffer=%04x,odd=%d)", tx_count, tx_length, value, addr, odd_address);
 #endif
@@ -787,13 +786,13 @@ static void tfe_write_tx_buffer(BYTE value,int odd_address)
 
             /* reset transmitter state */
             tx_state = TFE_TX_IDLE;
-    
+
 #ifdef CS8900_DEBUG_RXTX_STATE
             log_message(cs8900_log, "TX: sent  frame (length=%04x)", tx_length);
 #endif
 
             /* reset tx status */
-            tfe_set_tx_status(0,0);
+            tfe_set_tx_status(0, 0);
         }
     }
 }
@@ -814,19 +813,19 @@ static BYTE tfe_read_rx_buffer(int odd_address)
 
                                      even    odd
          TFE_PP_ADDR_RXSTATUS:         -     proceed
-         TFE_PP_ADDR_RXLENGTH:         -     proceed 
+         TFE_PP_ADDR_RXLENGTH:         -     proceed
          TFE_PP_ADDR_RX_FRAMELOC:      -       -
          TFE_PP_ADDR_RX_FRAMELOC+2: proceed    -
          TFE_PP_ADDR_RX_FRAMELOC+4: proceed    -
 
          */
-        WORD addr = odd_address ? 1:0; 
+        WORD addr = odd_address ? 1 : 0;
         BYTE value;
 
         /* read RXSTATUS or RX_LENGTH */
         if (rx_count < 4) {
-            addr  += rx_buffer;
-            value  = GET_PP_8(addr);
+            addr += rx_buffer;
+            value = GET_PP_8(addr);
             rx_count++;
 
             /* incr after RXSTATUS or RX_LENGTH even (L) read */
@@ -837,7 +836,7 @@ static BYTE tfe_read_rx_buffer(int odd_address)
             /* read frame data */
 
             /* incr before frame read (but not in first word) */
-            if ((rx_count>=6) && (!odd_address)) {
+            if ((rx_count >= 6) && (!odd_address)) {
                 rx_buffer += 2;
             }
 
@@ -847,7 +846,7 @@ static BYTE tfe_read_rx_buffer(int odd_address)
         }
 
 #ifdef CS8900_DEBUG_RXTX_DATA
-        log_message(cs8900_log,"RX: %04x/%04x: %02x (buffer=%04x,odd=%d)", rx_count, rx_length + 4, value, addr, odd_address);
+        log_message(cs8900_log, "RX: %04x/%04x: %02x (buffer=%04x,odd=%d)", rx_count, rx_length + 4, value, addr, odd_address);
 #endif
 
         /* check frame end */
@@ -872,7 +871,7 @@ static BYTE tfe_read_rx_buffer(int odd_address)
 */
 static void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
 {
-    const char *on_off[2] = { "on","off" };
+    const char *on_off[2] = { "on", "off" };
     WORD content = GET_PP_16( ppaddress );
 
     assert((ppaddress & 1) == 0);
@@ -881,12 +880,11 @@ static void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
         case TFE_PP_ADDR_CC_RXCFG:
             /* Skip_1 Flag: remove current (partial) tx frame and restore state */
             if (content & 0x40) {
-
-                /* restore tx state */ 
+                /* restore tx state */
                 if (tx_state != TFE_TX_IDLE) {
                     tx_state = TFE_TX_IDLE;
 #ifdef CS8900_DEBUG_RXTX_STATE
-                    log_message(cs8900_log,"TX: skipping current frame");
+                    log_message(cs8900_log, "TX: skipping current frame");
 #endif
                 }
 
@@ -899,7 +897,7 @@ static void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
             }
             break;
         case TFE_PP_ADDR_CC_RXCTL:
-            if (tfe_recv_control!=content) {
+            if (tfe_recv_control != content) {
                 tfe_recv_broadcast = content & 0x0800; /* broadcast */
                 tfe_recv_mac = content & 0x0400; /* individual address (IA) */
                 tfe_recv_multicast = content & 0x0200; /* multicast if address passes the hash filter */
@@ -1007,13 +1005,13 @@ static void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
                 DWORD *p = (pos < 32) ? &tfe_hash_mask[0] : &tfe_hash_mask[1];
 
                 *p &= ~(0xFF << pos); /* clear out relevant bits */
-                *p |= GET_PP_8(ppaddress+odd_address) << pos;
+                *p |= GET_PP_8(ppaddress + odd_address) << pos;
 
                 rawnet_arch_set_hashfilter(tfe_hash_mask);
 
 #if 0
                 if (odd_address && (ppaddress == TFE_PP_ADDR_LOG_ADDR_FILTER + 6)) {
-                    log_message(cs8900_log,"set hash filter: %02x:%02x:%02x:%02x:%02x:%02x",
+                    log_message(cs8900_log, "set hash filter: %02x:%02x:%02x:%02x:%02x:%02x",
                                 tfe_hash_mask[0], tfe_hash_mask[1], tfe_hash_mask[2], tfe_hash_mask[3], tfe_hash_mask[4], tfe_hash_mask[5]);
                 }
 #endif
@@ -1021,7 +1019,7 @@ static void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
             break;
         case TFE_PP_ADDR_MAC_ADDR:
         case TFE_PP_ADDR_MAC_ADDR + 2:
-        case TFE_PP_ADDR_MAC_ADDR+4:
+        case TFE_PP_ADDR_MAC_ADDR + 4:
             /* the MAC address has been changed */
             tfe_ia_mac[ppaddress - TFE_PP_ADDR_MAC_ADDR + odd_address] = GET_PP_8(ppaddress + odd_address);
             rawnet_arch_set_mac(tfe_ia_mac);
@@ -1037,7 +1035,7 @@ static void tfe_sideeffects_write_pp(WORD ppaddress, int odd_address)
 /*
  This is called *before* the relevant octets are read
 */
-static void tfe_sideeffects_read_pp(WORD ppaddress,int odd_address)
+static void tfe_sideeffects_read_pp(WORD ppaddress, int odd_address)
 {
     switch (ppaddress) {
         case TFE_PP_ADDR_SE_RXEVENT:
@@ -1103,7 +1101,7 @@ static void tfe_sideeffects_read_pp(WORD ppaddress,int odd_address)
 static WORD tfe_read_register(WORD ppaddress)
 {
     WORD value = GET_PP_16(ppaddress);
-  
+
     /* --- check the register address --- */
     if (ppaddress < 0x100) {
         /* reserved range reads 0x0300 on real HW */
@@ -1115,11 +1113,11 @@ static WORD tfe_read_register(WORD ppaddress)
         WORD regNum = ppaddress - 0x100;
 
         regNum &= ~1;
-        regNum ++;
+        regNum++;
 #ifdef CS8900_DEBUG_REGISTERS
         log_message(cs8900_log, "Read Control Register %04x: %04x (reg=%02x)", ppaddress, value, regNum);
 #endif
- 
+
         /* reserved register? */
         if ((regNum == 0x01) || (regNum == 0x11) || (regNum > 0x19)) {
 #ifdef CS8900_DEBUG_WARN_REG
@@ -1130,7 +1128,7 @@ static WORD tfe_read_register(WORD ppaddress)
         }
 
         /* make sure internal address is always valid */
-        assert((value & 0x3f) == regNum); 
+        assert((value & 0x3f) == regNum);
     } else if (ppaddress < 0x140) {
         /* --- read status register range --- */
         WORD regNum = ppaddress - 0x120;
@@ -1186,7 +1184,7 @@ static WORD tfe_read_register(WORD ppaddress)
         }
     } else if (ppaddress < 0x400) {
         /* --- reserved range below 0x400 ---
-           returns 0x300 on real HW 
+           returns 0x300 on real HW
         */
 #ifdef CS8900_DEBUG_WARN_REG
         log_message(cs8900_log, "WARNING! Read reserved Register %04x", ppaddress);
@@ -1199,32 +1197,31 @@ static WORD tfe_read_register(WORD ppaddress)
 #endif
         return 0x0000;
     } else {
-  
         /* --- range from 0xa00 .. 0xfff --- TX Frame */
 #ifdef CS8900_DEBUG_WARN_REG
         log_message(cs8900_log, "WARNING! Read from TX Buffer Range %04x", ppaddress);
 #endif
         return 0x0000;
     }
-  
+
     /* actually read from pp memory */
     return value;
 }
 
-static void tfe_write_register(WORD ppaddress,WORD value)
+static void tfe_write_register(WORD ppaddress, WORD value)
 {
     /* --- write bus interface register range --- */
     if (ppaddress < 0x100) {
         int ignore = 0;
 
         if (ppaddress < 0x20) {
-          ignore = 1;
+            ignore = 1;
         } else if ((ppaddress >= 0x26) && (ppaddress < 0x2c)) {
-          ignore = 1;
+            ignore = 1;
         } else if (ppaddress == 0x38) {
-          ignore = 1;
+            ignore = 1;
         } else if (ppaddress >= 0x44) {
-          ignore = 1;
+            ignore = 1;
         }
         if (ignore) {
 #ifdef CS8900_DEBUG_WARN_REG
@@ -1318,7 +1315,7 @@ static void tfe_write_register(WORD ppaddress,WORD value)
     }
 
     /* actually set value */
-    SET_PP_16(ppaddress, value);  
+    SET_PP_16(ppaddress, value);
 }
 
 #define PP_PTR_AUTO_INCR_FLAG 0x8000 /* auto increment flag in package pointer */
@@ -1348,7 +1345,7 @@ static void tfe_auto_incr_pp_ptr(void)
 /* ----- read byte from I/O range in VICE ----- */
 BYTE cs8900_read(WORD io_address)
 {
-    BYTE retval,lo,hi;
+    BYTE retval, lo, hi;
     WORD word_value;
     WORD reg_base;
 
@@ -1363,7 +1360,7 @@ BYTE cs8900_read(WORD io_address)
     if ((reg_base == TFE_ADDR_RXTXDATA) || (reg_base == TFE_ADDR_RXTXDATA2)) {
         return tfe_read_rx_buffer(io_address & 0x01);
     }
-    
+
     /* read packet page pointer */
     if (reg_base == TFE_ADDR_PP_PTR) {
         word_value = tfe_packetpage_ptr;
@@ -1403,7 +1400,7 @@ BYTE cs8900_read(WORD io_address)
 
         /* read register value */
         word_value = tfe_read_register(ppaddress);
-        
+
 #ifdef CS8900_DEBUG_LOAD
         log_message(cs8900_log, "reading PP Ptr: $%04X => $%04X.", ppaddress, word_value);
 #endif
@@ -1434,7 +1431,7 @@ BYTE cs8900_read(WORD io_address)
 /* ----- peek byte without side effects from I/O range in VICE ----- */
 BYTE cs8900_peek(WORD io_address)
 {
-    BYTE retval,lo,hi;
+    BYTE retval, lo, hi;
     WORD word_value;
     WORD reg_base;
 
@@ -1552,7 +1549,7 @@ void cs8900_store(WORD io_address, BYTE byte)
         WORD ppaddress = TFE_PP_ADDR_PRODUCTID;
 
         /* now determine address of write in packet page */
-        switch(reg_base) {
+        switch (reg_base) {
             case TFE_ADDR_PP_DATA:
             case TFE_ADDR_PP_DATA2:
                 /* mask and align ppaddress from page pointer */
@@ -1616,7 +1613,7 @@ int cs8900_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

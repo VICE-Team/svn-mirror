@@ -57,4 +57,3 @@ extern void rawimage_media_create(struct disk_image_s *image);
 extern void rawimage_media_destroy(struct disk_image_s *image);
 
 #endif
-

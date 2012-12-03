@@ -81,4 +81,3 @@ void machine_bus_attention_callback_set(void (*func)(void))
 void machine_bus_init_machine(void)
 {
 }
-

@@ -61,4 +61,3 @@ extern int fsimage_write_sector(struct disk_image_s *image, const BYTE *buf,
                                 const struct disk_addr_s *dadr);
 
 #endif
-

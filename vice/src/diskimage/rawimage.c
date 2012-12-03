@@ -140,8 +140,9 @@ void rawimage_init(void)
 
 static int set_raw_drive_driver(const char *val, void *param)
 {
-    if (util_string_set(&raw_drive_driver, val))
+    if (util_string_set(&raw_drive_driver, val)) {
         return 0;
+    }
 
     return 0;
 }
@@ -154,8 +155,7 @@ static const resource_string_t resources_string[] = {
 
 int rawimage_resources_init(void)
 {
-    return resources_register_string(resources_string)
-        | blockdev_resources_init();
+    return resources_register_string(resources_string) | blockdev_resources_init();
 }
 
 void rawimage_resources_shutdown(void)
@@ -169,4 +169,3 @@ int rawimage_cmdline_options_init()
 {
     return blockdev_cmdline_options_init();
 }
-

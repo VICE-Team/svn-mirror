@@ -60,7 +60,7 @@
 #define DBG(x) DBG_STATUS(); printf x;
 #define DBGADD(x) printf x
 #define DBG_STATUS() \
- printf("t6721: @:%04x apd: %d busy: %d eos: %d playing: %d ", reg_pc, t6721->apd, t6721->busy, t6721->eos, t6721->playing);
+    printf("t6721: @:%04x apd: %d busy: %d eos: %d playing: %d ", reg_pc, t6721->apd, t6721->busy, t6721->eos, t6721->playing);
 #else
 #define DBG(x)
 #define DBGADD(x)
@@ -77,7 +77,7 @@ int phrase_sample_len = 0;
 
 #define RBSTATE_STOP 0
 #define RBSTATE_PLAY 1
-#define RBSTATE_DELAY_SAMPLES (PARCOR_OUTPUT_HZ/200) /* 5 ms */
+#define RBSTATE_DELAY_SAMPLES (PARCOR_OUTPUT_HZ / 200) /* 5 ms */
 static int ringbuffer_state = 0;
 
 float upsmpcnt = 0;
@@ -136,7 +136,7 @@ static const int parcor_param_len[2][1 + 1 + 10] = {
     { 4, 5,   5,  5,  4, 4,   4, 4, 4, 3, 3, 3 }, /* [1] vaguely recognizeable */
     { 7, 7,   3,  4,  4, 4,   4, 3, 3, 3, 3, 3 }, /* [2] not working */
 #endif
-    /* 96 bits/frame (these seem correct) 
+    /* 96 bits/frame (these seem correct)
         14 bits for energy+pitch
         38 bits for k1..4
         44 bits for k5..10
@@ -496,7 +496,6 @@ static int parcor_render_frame(t6721_state *t6721, WORD *new_param)
     p_to.pitch = new_pitch;
 
     if (!silent) {
-
         for (i = 0; i < (voiced ? (12 - 2) : (6 - 2)); ++i) {
             p_to.k[i] = (SWORD)(new_param[i + 2]);
         }
@@ -718,12 +717,11 @@ void t6721_update_tick(t6721_state *t6721)
     }
 
     if ((t6721->playing == 1) && (t6721->apd == 0) && (t6721->eos == 0)) {
-
         set_dtrd(t6721, 1);
         res = read_di_fifo(t6721);
-        if ( res == -1) {
+        if (res == -1) {
             /* not enough data in FIFO */
-        } else if ( res == 1) {
+        } else if (res == 1) {
             /* got PARCOR frame */
             if ((parcor_frametype == T6721_FRAMETYPE_SILENT) ||
                 (parcor_frametype == T6721_FRAMETYPE_VOICED) ||
@@ -792,7 +790,7 @@ void t6721_update_output(t6721_state *t6721, SWORD *buf, int num)
 
     /* render output samples */
     for (i = 0; i < num; i++) {
-        *buf++=output_update_sample(t6721);
+        *buf++ = output_update_sample(t6721);
     }
 }
 
@@ -808,19 +806,17 @@ void t6721_store(t6721_state *t6721, BYTE data)
 /* DBG(("write %2x\n", data)); */
     /* an actual store is performed on Lo->HI transition of WR */
     if ((t6721->wr == 1) && (t6721->wr_last == 0)) {
-
         if (t6721->cmd_nibbles) {
-
             switch (t6721->cmd_current) {
                 case 0x03: /* ADDRESS LOAD 1/6 */
-                    DBG(("arg %2x (ADDRESS LOAD %d/6)\n", data, 6-t6721->cmd_nibbles));
+                    DBG(("arg %2x (ADDRESS LOAD %d/6)\n", data, 6 - t6721->cmd_nibbles));
                     break;
                 case 0x05: /* SPEED LOAD 1/2 */
-                    DBG(("arg %2x (SPEED LOAD %d/2)\n", data, 3-t6721->cmd_nibbles));
+                    DBG(("arg %2x (SPEED LOAD %d/2)\n", data, 3 - t6721->cmd_nibbles));
                     t6721->speed = data;
                     break;
                 case 0x06: /* CONDITION 1 1/2 */
-                    DBG(("arg %2x (CONDITION 1 %d/2) ", data, 3-t6721->cmd_nibbles));
+                    DBG(("arg %2x (CONDITION 1 %d/2) ", data, 3 - t6721->cmd_nibbles));
                     t6721->condition1 = data;
                     if (t6721->condition1 & T6721_COND1_LOSS) {
                         t6721->cond1_loss = T6721_LOSS_ENABLED;
@@ -835,7 +831,7 @@ void t6721_store(t6721_state *t6721, BYTE data)
                     DBGADD(("loss effect calculation: %d Sound Source Shape: %s\n", t6721->cond1_loss, t6721->cond1_shape ? "Triangle" : "Pitch" ));
                     break;
                 case 0x07: /* CONDITION 2 1/2 */
-                    DBG(("arg %2x (CONDITION 2 %d/2) ", data, 3-t6721->cmd_nibbles));
+                    DBG(("arg %2x (CONDITION 2 %d/2) ", data, 3 - t6721->cmd_nibbles));
                     t6721->condition2 = data;
                     if (t6721->condition2 & T6721_COND2_STAGES) {
                         t6721->cond2_stages = T6721_STAGES_8;
@@ -862,7 +858,6 @@ void t6721_store(t6721_state *t6721, BYTE data)
             }
 
             t6721->cmd_nibbles--;
-
         } else {
             t6721->cmd_current = data;
 
@@ -937,7 +932,6 @@ void t6721_store(t6721_state *t6721, BYTE data)
                     t6721->status |= T6721_STATUS_COMMAND_ERROR; /* raise command error status */
                     break;
             }
-
         }
     }
 
@@ -1014,7 +1008,7 @@ int t6721_snapshot_write_module(snapshot_t *s, t6721_state *t6721)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

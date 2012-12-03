@@ -66,8 +66,8 @@
 #else
 #define debug(_x_)
 #endif
-#define putw(a,b) {result[(a) * 2] = (b) & 0xff;result[(a) * 2 + 1] = (b) >> 8;}
-#define setb(a,b,c) {result[(a) * 2 + (b) / 8] |= (c) ? (1 << ((b) & 7)) : 0;}
+#define putw(a, b) {result[(a) * 2] = (b) & 0xff; result[(a) * 2 + 1] = (b) >> 8; }
+#define setb(a, b, c) {result[(a) * 2 + (b) / 8] |= (c) ? (1 << ((b) & 7)) : 0; }
 
 struct ata_drive_s {
     BYTE error;
@@ -277,7 +277,7 @@ static int read_sector(ata_drive_t *drv)
 
     if (!drv->file) {
         ata_set_command_block(drv);
-        drv->error = drv->atapi ? 0x24: ATA_ABRT;
+        drv->error = drv->atapi ? 0x24 : ATA_ABRT;
         drv->cmd = 0x00;
         return drv->error;
     }
@@ -289,7 +289,7 @@ static int read_sector(ata_drive_t *drv)
 
     if (ferror(drv->file)) {
         ata_set_command_block(drv);
-        drv->error = drv->atapi ? 0x54: (ATA_UNC | ATA_ABRT);
+        drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
         drv->cmd = 0x00;
     } else {
         drv->pos++;
@@ -312,7 +312,7 @@ static int write_sector(ata_drive_t *drv)
 
     if (!drv->file) {
         ata_set_command_block(drv);
-        drv->error = drv->atapi ? 0x24: ATA_ABRT;
+        drv->error = drv->atapi ? 0x24 : ATA_ABRT;
         drv->cmd = 0x00;
         return drv->error;
     }
@@ -360,31 +360,31 @@ void ata_update_timing(ata_drive_t *drv, CLOCK cycles_1s)
 {
     drv->cycles_1s = cycles_1s;
     switch (drv->type) {
-    case ATA_DRIVE_FDD:
-        drv->seek_time = (CLOCK)drv->cycles_1s*120/1000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*800/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*500/1000;
-        break;
-    case ATA_DRIVE_CD:
-        drv->seek_time = (CLOCK)drv->cycles_1s*190/1000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*2800/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*2000/1000;
-        break;
-    case ATA_DRIVE_HDD:
-        drv->seek_time = (CLOCK)drv->cycles_1s*16/1000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*3000/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*2000/1000;
-        break;
-    case ATA_DRIVE_CF:
-        drv->seek_time = (CLOCK)drv->cycles_1s*10/1000000;
-        drv->spinup_time = (CLOCK)drv->cycles_1s*300/1000;
-        drv->spindown_time = (CLOCK)drv->cycles_1s*2/1000;
-        break;
-    default:
-        drv->seek_time = (CLOCK)0;
-        drv->spinup_time = (CLOCK)0;
-        drv->spindown_time = (CLOCK)0;
-        break;
+        case ATA_DRIVE_FDD:
+            drv->seek_time = (CLOCK)drv->cycles_1s * 120 / 1000;
+            drv->spinup_time = (CLOCK)drv->cycles_1s * 800 / 1000;
+            drv->spindown_time = (CLOCK)drv->cycles_1s * 500 / 1000;
+            break;
+        case ATA_DRIVE_CD:
+            drv->seek_time = (CLOCK)drv->cycles_1s * 190 / 1000;
+            drv->spinup_time = (CLOCK)drv->cycles_1s * 2800 / 1000;
+            drv->spindown_time = (CLOCK)drv->cycles_1s * 2000 / 1000;
+            break;
+        case ATA_DRIVE_HDD:
+            drv->seek_time = (CLOCK)drv->cycles_1s * 16 / 1000;
+            drv->spinup_time = (CLOCK)drv->cycles_1s * 3000 / 1000;
+            drv->spindown_time = (CLOCK)drv->cycles_1s * 2000 / 1000;
+            break;
+        case ATA_DRIVE_CF:
+            drv->seek_time = (CLOCK)drv->cycles_1s * 10 / 1000000;
+            drv->spinup_time = (CLOCK)drv->cycles_1s * 300 / 1000;
+            drv->spindown_time = (CLOCK)drv->cycles_1s * 2 / 1000;
+            break;
+        default:
+            drv->seek_time = (CLOCK)0;
+            drv->spinup_time = (CLOCK)0;
+            drv->spindown_time = (CLOCK)0;
+            break;
     }
     return;
 }
@@ -409,44 +409,46 @@ static void ata_poweron(ata_drive_t *drv, ata_drive_type_t type)
     drv->type = type;
     ata_update_timing(drv, drv->cycles_1s);
     switch (drv->type) {
-    case ATA_DRIVE_FDD:
-        drv->atapi = 1;
-        drv->locked = 0;
-        drv->sector_size = 512;
-        drv->readonly = 0;
-        break;
-    case ATA_DRIVE_CD:
-        drv->atapi = 1;
-        drv->locked = 0;
-        drv->sector_size = 2048;
-        drv->readonly = 1;
-        break;
-    case ATA_DRIVE_HDD:
-        drv->atapi = 0;
-        drv->locked = 1;
-        drv->sector_size = 512;
-        drv->readonly = 0;
-        break;
-    case ATA_DRIVE_CF:
-        drv->atapi = 0;
-        drv->locked = 1;
-        drv->sector_size = 512;
-        drv->readonly = 0;
-        break;
-    default:
-        drv->atapi = 0;
-        drv->locked = 0;
-        drv->sector_size = 512;
-        drv->readonly = 1;
-        drv->type = ATA_DRIVE_NONE;
-        return;
+        case ATA_DRIVE_FDD:
+            drv->atapi = 1;
+            drv->locked = 0;
+            drv->sector_size = 512;
+            drv->readonly = 0;
+            break;
+        case ATA_DRIVE_CD:
+            drv->atapi = 1;
+            drv->locked = 0;
+            drv->sector_size = 2048;
+            drv->readonly = 1;
+            break;
+        case ATA_DRIVE_HDD:
+            drv->atapi = 0;
+            drv->locked = 1;
+            drv->sector_size = 512;
+            drv->readonly = 0;
+            break;
+        case ATA_DRIVE_CF:
+            drv->atapi = 0;
+            drv->locked = 1;
+            drv->sector_size = 512;
+            drv->readonly = 0;
+            break;
+        default:
+            drv->atapi = 0;
+            drv->locked = 0;
+            drv->sector_size = 512;
+            drv->readonly = 1;
+            drv->type = ATA_DRIVE_NONE;
+            return;
     }
 
     if (!drv->atapi && (drv->geometry.sectors < 1 || drv->geometry.sectors > 63 || drv->geometry.cylinders > 65535 ||
-            (drv->geometry.sectors * drv->geometry.heads * drv->geometry.cylinders) > 16514064)) {
+                        (drv->geometry.sectors * drv->geometry.heads * drv->geometry.cylinders) > 16514064)) {
         size = drv->geometry.size;
 
-        if (size > 16514064) size = 16514064;
+        if (size > 16514064) {
+            size = 16514064;
+        }
         h = 1; s = 1; i = 63; c = size;
         while (i > 1 && c > 1) {
             if ((c % i) == 0) {
@@ -461,16 +463,28 @@ static void ata_poweron(ata_drive_t *drv, ata_drive_type_t type)
             }
             i--;
         }
-        for (;;) {
+        for (;; ) {
             if (size <= 1032192) {
-                if (c <= 1024) break;
+                if (c <= 1024) {
+                    break;
+                }
             } else {
-                if (h < 5 && c < 65536) break;
-                if (h < 9 && c < 32768) break;
-                if (c < 16384) break;
+                if (h < 5 && c < 65536) {
+                    break;
+                }
+                if (h < 9 && c < 32768) {
+                    break;
+                }
+                if (c < 16384) {
+                    break;
+                }
             }
-            if (s == 63 && h < 16) h++;
-            if (s < 63) s++;
+            if (s == 63 && h < 16) {
+                h++;
+            }
+            if (s < 63) {
+                s++;
+            }
             c = size / (h * s);
         }
         drv->geometry.cylinders = c;
@@ -623,7 +637,9 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
                 drv->cylinders = 0;
             } else {
                 int size = drv->geometry.size;
-                if (size > 16514064) size = 16514064;
+                if (size > 16514064) {
+                    size = 16514064;
+                }
                 size /= drv->heads * drv->sectors;
                 drv->cylinders = (size > 65535) ? 65535 : size;
             }
@@ -637,19 +653,25 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0x94:
         case 0xe0:
-            if (!drv->pmcommands) break;
+            if (!drv->pmcommands) {
+                break;
+            }
             debug((drv->log, "STANDBY IMMEDIATE"));
             ata_change_power_mode(drv, 0x00);
             return;
         case 0x95:
         case 0xe1:
-            if (!drv->pmcommands) break;
+            if (!drv->pmcommands) {
+                break;
+            }
             debug((drv->log, "IDLE IMMEDIATE"));
             ata_change_power_mode(drv, 0x80);
             return;
         case 0x96:
         case 0xe2:
-            if (!drv->pmcommands) break;
+            if (!drv->pmcommands) {
+                break;
+            }
             debug((drv->log, "STANDBY %02x", drv->sector_count));
             if (ata_set_standby(drv, drv->sector_count)) {
                 break;
@@ -658,7 +680,9 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0x97:
         case 0xe3:
-            if (!drv->pmcommands) break;
+            if (!drv->pmcommands) {
+                break;
+            }
             debug((drv->log, "IDLE %02x", drv->sector_count));
             if (ata_set_standby(drv, drv->sector_count)) {
                 break;
@@ -666,7 +690,9 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             ata_change_power_mode(drv, 0x80);
             return;
         case 0xe4:
-            if (!drv->rbuffer) break;
+            if (!drv->rbuffer) {
+                break;
+            }
             debug((drv->log, "READ BUFFER"));
             drv->sector_count_internal = 1;
             drv->bufp = 0;
@@ -674,14 +700,18 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0x98:
         case 0xe5:
-            if (!drv->pmcommands) break;
+            if (!drv->pmcommands) {
+                break;
+            }
             debug((drv->log, "CHECK POWER MODE"));
             drv->sector_count = drv->power;
             drv->cmd = 0xe5;
             return;
         case 0x99:
         case 0xe6:
-            if (!drv->pmcommands) break;
+            if (!drv->pmcommands) {
+                break;
+            }
             debug((drv->log, "SLEEP"));
             if (drv->type != ATA_DRIVE_CF) {
                 drv->cmd = 0xe6;
@@ -689,7 +719,9 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             ata_change_power_mode(drv, 0x00);
             return;
         case 0xe7:
-            if (!drv->flush) break;
+            if (!drv->flush) {
+                break;
+            }
             debug((drv->log, "FLUSH CACHE"));
             if (drv->file) {
                 if (fflush(drv->file)) {
@@ -698,7 +730,9 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             }
             return;
         case 0xe8:
-            if (!drv->wbuffer) break;
+            if (!drv->wbuffer) {
+                break;
+            }
             debug((drv->log, "WRITE BUFFER"));
             drv->sector_count_internal = 1;
             drv->bufp = 0;
@@ -730,14 +764,16 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             setb(49, 13, 1); /* standard timers */
             setb(49, 9, drv->lbamode); /* LBA support */
             if (drv->sectors) {
-                    setb(53, 0, 1);
-                    putw(54, drv->cylinders);
-                    putw(55, drv->heads);
-                    putw(56, drv->sectors);
-                    i = drv->cylinders * drv->heads * drv->sectors;
-                    if (i > drv->geometry.size) i = drv->geometry.size;
-                    putw(57, i);
-                    putw(58, i >> 16);
+                setb(53, 0, 1);
+                putw(54, drv->cylinders);
+                putw(55, drv->heads);
+                putw(56, drv->sectors);
+                i = drv->cylinders * drv->heads * drv->sectors;
+                if (i > drv->geometry.size) {
+                    i = drv->geometry.size;
+                }
+                putw(57, i);
+                putw(58, i >> 16);
             }
             if (drv->lbamode) {
                 putw(60, drv->geometry.size);
@@ -772,40 +808,40 @@ static void ata_execute_command(ata_drive_t *drv, BYTE value)
             return;
         case 0xef:
             switch (drv->features) {
-            case 0x02:
-                debug((drv->log, "SET ENABLE WRITE CACHE"));
-                drv->wcache = 1;
-                return;
-            case 0x03:
-                debug((drv->log, "SET TRANSFER MODE %02x", drv->sector_count));
-                if (drv->sector_count > 1 && drv->sector_count != 8) {
+                case 0x02:
+                    debug((drv->log, "SET ENABLE WRITE CACHE"));
+                    drv->wcache = 1;
+                    return;
+                case 0x03:
+                    debug((drv->log, "SET TRANSFER MODE %02x", drv->sector_count));
+                    if (drv->sector_count > 1 && drv->sector_count != 8) {
+                        drv->error = ATA_ABRT;
+                    }
+                    return;
+                case 0x33:
+                    debug((drv->log, "SET DISABLE RETRY"));
+                    return;
+                case 0x55:
+                    debug((drv->log, "SET DISABLE LOOK-AHEAD"));
+                    drv->lookahead = 0;
+                    return;
+                case 0x82:
+                    debug((drv->log, "SET DISABLE WRITE CACHE"));
+                    drv->wcache = 0;
+                    if (drv->file) {
+                        fflush(drv->file);
+                    }
+                    return;
+                case 0x99:
+                    debug((drv->log, "SET ENABLE RETRY"));
+                    return;
+                case 0xaa:
+                    debug((drv->log, "SET ENABLE LOOK-AHEAD"));
+                    drv->lookahead = 1;
+                    return;
+                default:
+                    debug((drv->log, "SET FEATURES %02x", drv->features));
                     drv->error = ATA_ABRT;
-                }
-                return;
-            case 0x33:
-                debug((drv->log, "SET DISABLE RETRY"));
-                return;
-            case 0x55:
-                debug((drv->log, "SET DISABLE LOOK-AHEAD"));
-                drv->lookahead = 0;
-                return;
-            case 0x82:
-                debug((drv->log, "SET DISABLE WRITE CACHE"));
-                drv->wcache = 0;
-                if (drv->file) {
-                    fflush(drv->file);
-                }
-                return;
-            case 0x99:
-                debug((drv->log, "SET ENABLE RETRY"));
-                return;
-            case 0xaa:
-                debug((drv->log, "SET ENABLE LOOK-AHEAD"));
-                drv->lookahead = 1;
-                return;
-            default:
-                debug((drv->log, "SET FEATURES %02x", drv->features));
-                drv->error = ATA_ABRT;
             }
             return;
     }
@@ -847,7 +883,7 @@ static void atapi_execute_command(ata_drive_t *drv, BYTE value)
         case 0xa1:
             memset(result, 0, sizeof(result));
             debug((drv->log, "IDENTIFY PACKET DEVICE"));
-            putw(0, (drv->type == ATA_DRIVE_FDD) ? 0x8180: 0x8580);
+            putw(0, (drv->type == ATA_DRIVE_FDD) ? 0x8180 : 0x8580);
             ident_update_string(result + 20, ATA_SERIAL_NUMBER, 20);
             putw(21, BUFSIZ / drv->sector_size);
             ident_update_string(result + 46, ATA_REVISION, 8);
@@ -916,92 +952,92 @@ static void atapi_packet_execute_command(ata_drive_t *drv)
         return;
     }
     switch (drv->packet[0]) {
-    case 0x00:
-        debug((drv->log, "TEST UNIT READY"));
-        return;
-    case 0x1b:
-        debug((drv->log, "START/STOP UNIT (%d)", drv->packet[4] & 3));
-        switch (drv->packet[4] & 3) {
-        case 0:
-            ata_change_power_mode(drv, 0x00);
-            break;
-        case 1:
-            ata_change_power_mode(drv, 0xff);
-            break;
-        case 2:
-            if (drv->file) {
-                if (drv->locked) {
-                    drv->error = 0x24;
-                } else {
+        case 0x00:
+            debug((drv->log, "TEST UNIT READY"));
+            return;
+        case 0x1b:
+            debug((drv->log, "START/STOP UNIT (%d)", drv->packet[4] & 3));
+            switch (drv->packet[4] & 3) {
+                case 0:
                     ata_change_power_mode(drv, 0x00);
-                    ata_image_detach(drv);
-                }
-            }
-            break;
-        case 3:
-            if (!drv->file) {
-                ata_image_attach(drv, drv->filename, drv->type, drv->geometry);
-                if (!drv->file) {
-                    drv->error = 0x24;
-                } else {
+                    break;
+                case 1:
                     ata_change_power_mode(drv, 0xff);
-                }
+                    break;
+                case 2:
+                    if (drv->file) {
+                        if (drv->locked) {
+                            drv->error = 0x24;
+                        } else {
+                            ata_change_power_mode(drv, 0x00);
+                            ata_image_detach(drv);
+                        }
+                    }
+                    break;
+                case 3:
+                    if (!drv->file) {
+                        ata_image_attach(drv, drv->filename, drv->type, drv->geometry);
+                        if (!drv->file) {
+                            drv->error = 0x24;
+                        } else {
+                            ata_change_power_mode(drv, 0xff);
+                        }
+                    }
+                    break;
             }
-            break;
-        }
-        return;
-    case 0x1e:
-        debug((drv->log, "PREVENT/ALLOW MEDIUM REMOVAL (%d)", drv->packet[4] & 1));
-        drv->locked = drv->packet[4] & 1;
-        return;
-    case 0x23:
-        memset(result, 0, sizeof(result));
-        debug((drv->log, "READ FORMAT CAPACITIES"));
-        result[3] = 8;
-        result[4] = drv->geometry.size >> 24;
-        result[5] = drv->geometry.size >> 16;
-        result[6] = drv->geometry.size >> 8;
-        result[7] = drv->geometry.size;
-        result[8] = drv->file ? 2 : 3;
-        result[10] = drv->sector_size >> 8;
-        result[11] = drv->sector_size;
+            return;
+        case 0x1e:
+            debug((drv->log, "PREVENT/ALLOW MEDIUM REMOVAL (%d)", drv->packet[4] & 1));
+            drv->locked = drv->packet[4] & 1;
+            return;
+        case 0x23:
+            memset(result, 0, sizeof(result));
+            debug((drv->log, "READ FORMAT CAPACITIES"));
+            result[3] = 8;
+            result[4] = drv->geometry.size >> 24;
+            result[5] = drv->geometry.size >> 16;
+            result[6] = drv->geometry.size >> 8;
+            result[7] = drv->geometry.size;
+            result[8] = drv->file ? 2 : 3;
+            result[10] = drv->sector_size >> 8;
+            result[11] = drv->sector_size;
 
-        len = (drv->packet[8] < sizeof(result) && !drv->packet[7]) ? ((drv->packet[8] + 1) & 0xfe) : sizeof(result);
-        drv->sector_count_internal = 1;
-        memcpy(drv->buffer + drv->sector_size - len, result, len);
-        if (len) {
-            drv->bufp = drv->sector_size - len;
-            drv->cmd = 0x23;
-        }
-        return;
-    case 0x28:
-        debug((drv->log, "READ 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]));
-        drv->sector_count_internal = drv->packet[8];
-        if (seek_sector(drv)) {
+            len = (drv->packet[8] < sizeof(result) && !drv->packet[7]) ? ((drv->packet[8] + 1) & 0xfe) : sizeof(result);
+            drv->sector_count_internal = 1;
+            memcpy(drv->buffer + drv->sector_size - len, result, len);
+            if (len) {
+                drv->bufp = drv->sector_size - len;
+                drv->cmd = 0x23;
+            }
             return;
-        }
-        drv->cmd = 0x28;
-        read_sector(drv);
-        return;
-    case 0x2a:
-        debug((drv->log, "WRITE 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]));
-        drv->sector_count_internal = drv->packet[8];
-        if (seek_sector(drv)) {
+        case 0x28:
+            debug((drv->log, "READ 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]));
+            drv->sector_count_internal = drv->packet[8];
+            if (seek_sector(drv)) {
+                return;
+            }
+            drv->cmd = 0x28;
+            read_sector(drv);
             return;
-        }
-        if (drv->readonly) {
-            drv->error = 0x54;
+        case 0x2a:
+            debug((drv->log, "WRITE 10 (%d)*%d", (drv->packet[2] << 24) | (drv->packet[3] << 16) | (drv->packet[4] << 8) | drv->packet[5], drv->packet[8]));
+            drv->sector_count_internal = drv->packet[8];
+            if (seek_sector(drv)) {
+                return;
+            }
+            if (drv->readonly) {
+                drv->error = 0x54;
+                return;
+            }
+            drv->bufp = 0;
+            drv->cmd = 0x2a;
             return;
-        }
-        drv->bufp = 0;
-        drv->cmd = 0x2a;
-        return;
-    case 0xbb:
-        debug((drv->log, "SET CD SPEED %d/%d", drv->packet[2] | (drv->packet[3] << 8), drv->packet[4] | (drv->packet[5] << 8)));
-        if (drv->type != ATA_DRIVE_CD) {
-            drv->error = 0xB4;
-        }
-        return;
+        case 0xbb:
+            debug((drv->log, "SET CD SPEED %d/%d", drv->packet[2] | (drv->packet[3] << 8), drv->packet[4] | (drv->packet[5] << 8)));
+            if (drv->type != ATA_DRIVE_CD) {
+                drv->error = 0xB4;
+            }
+            return;
     }
     debug((drv->log, "PACKET COMMAND %02x", drv->packet[0]));
     drv->error = 0xB4;
@@ -1025,84 +1061,84 @@ WORD ata_register_read(ata_drive_t *drv, WORD addr, WORD bus)
         addr = 14;
     }
     switch (addr) {
-    case 0:
-        if (drv->busy || drv->bufp >= drv->sector_size) {
-            return bus;
-        }
-        switch (drv->cmd) {
-        case 0x20:
-        case 0x23:
-        case 0x28:
-        case 0xec:
-        case 0xe4:
-        case 0xa1:
-            res = drv->buffer[drv->bufp] | (drv->buffer[drv->bufp | 1] << 8);
-            drv->bufp += 2;
-            if (drv->bufp >= drv->sector_size) {
-                drv->sector_count_internal--;
-                if (!drv->sector_count_internal) {
-                    drv->cmd = 0x00;
-                }
-                switch (drv->cmd) {
-                case 0x20:
-                case 0x28:
-                    read_sector(drv);
-                    break;
-                default:
-                    drv->bufp = drv->sector_size;
-                    drv->cmd = 0x00;
-                    break;
-                }
+        case 0:
+            if (drv->busy || drv->bufp >= drv->sector_size) {
+                return bus;
             }
-            return res;
-        }
-        return bus;
-    case 1:
-        return (bus & 0xff00) | drv->error;
-    case 2:
-        if (drv->atapi) {
             switch (drv->cmd) {
-            case 0xa0:
-            case 0x08:
-                res = 0x01;
-                break;
-            case 0xa1:
-            case 0x28:
-            case 0x23:
-                res = 0x02;
-                break;
-            case 0x2a:
-                res = 0x00;
-                break;
-            case 0xe5:
-                res = drv->sector_count;
-                break;
-            default:
-                res = 0x03;
-                break;
+                case 0x20:
+                case 0x23:
+                case 0x28:
+                case 0xec:
+                case 0xe4:
+                case 0xa1:
+                    res = drv->buffer[drv->bufp] | (drv->buffer[drv->bufp | 1] << 8);
+                    drv->bufp += 2;
+                    if (drv->bufp >= drv->sector_size) {
+                        drv->sector_count_internal--;
+                        if (!drv->sector_count_internal) {
+                            drv->cmd = 0x00;
+                        }
+                        switch (drv->cmd) {
+                            case 0x20:
+                            case 0x28:
+                                read_sector(drv);
+                                break;
+                            default:
+                                drv->bufp = drv->sector_size;
+                                drv->cmd = 0x00;
+                                break;
+                        }
+                    }
+                    return res;
             }
-        } else {
-            res = drv->sector_count;
-        }
-        return (bus & 0xff00) | res;
-    case 3:
-        return (bus & 0xff00) | drv->sector;
-    case 4:
-        return (bus & 0xff00) | (drv->cylinder & 0xff);
-    case 5:
-        return (bus & 0xff00) | (drv->cylinder >> 8);
-    case 6:
-        return (bus & 0xff00) | drv->head | (drv->dev << 4) | (drv->lba << 6) | drv->legacy;
-    case 7:
-    case 14:
-        return (bus & 0xff00) | (drv->busy ? 0x80 : 0) | ((drv->atapi && drv->cmd == 0x08) ? 0: ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
-    case 15:
-        if (drv->busy & 0x04) {
-            return bus & 0xff80;
-        }
-        return (bus & 0xff80) | (0x7f ^ (drv->head << 2) ^ (1 << drv->dev));
-    default:
-        return bus;
+            return bus;
+        case 1:
+            return (bus & 0xff00) | drv->error;
+        case 2:
+            if (drv->atapi) {
+                switch (drv->cmd) {
+                    case 0xa0:
+                    case 0x08:
+                        res = 0x01;
+                        break;
+                    case 0xa1:
+                    case 0x28:
+                    case 0x23:
+                        res = 0x02;
+                        break;
+                    case 0x2a:
+                        res = 0x00;
+                        break;
+                    case 0xe5:
+                        res = drv->sector_count;
+                        break;
+                    default:
+                        res = 0x03;
+                        break;
+                }
+            } else {
+                res = drv->sector_count;
+            }
+            return (bus & 0xff00) | res;
+        case 3:
+            return (bus & 0xff00) | drv->sector;
+        case 4:
+            return (bus & 0xff00) | (drv->cylinder & 0xff);
+        case 5:
+            return (bus & 0xff00) | (drv->cylinder >> 8);
+        case 6:
+            return (bus & 0xff00) | drv->head | (drv->dev << 4) | (drv->lba << 6) | drv->legacy;
+        case 7:
+        case 14:
+            return (bus & 0xff00) | (drv->busy ? 0x80 : 0) | ((drv->atapi && drv->cmd == 0x08) ? 0 : ATA_DRDY) | ((drv->bufp < drv->sector_size) ? ATA_DRQ : 0) | ((drv->error & 0xfe) ? ATA_ERR : 0);
+        case 15:
+            if (drv->busy & 0x04) {
+                return bus & 0xff80;
+            }
+            return (bus & 0xff80) | (0x7f ^ (drv->head << 2) ^ (1 << drv->dev));
+        default:
+            return bus;
     }
 }
 
@@ -1137,47 +1173,47 @@ void ata_register_store(ata_drive_t *drv, WORD addr, WORD value)
                 return;
             }
             switch (drv->cmd) {
-            case 0x30:
-            case 0x2a:
-            case 0xe8:
-            case 0xa0:
-                drv->buffer[drv->bufp] = value & 0xff;
-                drv->buffer[drv->bufp | 1] = value >> 8;
-                drv->bufp += 2;
-                if (drv->bufp >= drv->sector_size) {
-                    switch (drv->cmd) {
-                    case 0x2a:
-                    case 0x30:
-                        if (write_sector(drv)) {
-                            return;
+                case 0x30:
+                case 0x2a:
+                case 0xe8:
+                case 0xa0:
+                    drv->buffer[drv->bufp] = value & 0xff;
+                    drv->buffer[drv->bufp | 1] = value >> 8;
+                    drv->bufp += 2;
+                    if (drv->bufp >= drv->sector_size) {
+                        switch (drv->cmd) {
+                            case 0x2a:
+                            case 0x30:
+                                if (write_sector(drv)) {
+                                    return;
+                                }
+                                if (--drv->sector_count_internal) {
+                                    drv->bufp = 0;
+                                    return;
+                                }
+                                if (!drv->file || fflush(drv->file)) {
+                                    drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
+                                    break;
+                                }
+                                break;
+                            case 0xe8:
+                                break;
+                            case 0xa0:
+                                memcpy(drv->packet, drv->buffer + drv->sector_size - sizeof(drv->packet), sizeof(drv->packet));
+                                atapi_packet_execute_command(drv);
+                                return;
                         }
-                        if (--drv->sector_count_internal) {
-                            drv->bufp = 0;
-                            return;
-                        }
-                        if (!drv->file || fflush(drv->file)) {
-                            drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
-                            break;
-                        }
-                        break;
-                    case 0xe8:
-                        break;
-                    case 0xa0:
-                        memcpy(drv->packet, drv->buffer + drv->sector_size - sizeof(drv->packet), sizeof(drv->packet));
-                        atapi_packet_execute_command(drv);
-                        return;
+                        drv->bufp = drv->sector_size;
+                        drv->cmd = 0x00;
                     }
-                    drv->bufp = drv->sector_size;
-                    drv->cmd = 0x00;
-                }
-                break;
+                    break;
             }
             return;
         case 1:
             drv->features = (BYTE)value;
             return;
         case 2:
-            drv->sector_count =  (BYTE)value;
+            drv->sector_count = (BYTE)value;
             return;
         case 3:
             drv->sector = (BYTE)value;
@@ -1334,7 +1370,7 @@ int ata_snapshot_write_module(ata_drive_t *drv, snapshot_t *s)
     off_t pos = 0;
 
     m = snapshot_module_create(s, drv->myname,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -1424,13 +1460,21 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
         drv->type = ATA_DRIVE_NONE;
     }
     SMR_W_INT(m, &drv->geometry.cylinders);
-    if (drv->geometry.cylinders < 1 || drv->geometry.cylinders > 16) drv->geometry.cylinders = 1;
+    if (drv->geometry.cylinders < 1 || drv->geometry.cylinders > 16) {
+        drv->geometry.cylinders = 1;
+    }
     SMR_B_INT(m, &drv->geometry.heads);
-    if (drv->geometry.heads < 1 || drv->geometry.heads > 16) drv->geometry.heads = 1;
+    if (drv->geometry.heads < 1 || drv->geometry.heads > 16) {
+        drv->geometry.heads = 1;
+    }
     SMR_B_INT(m, &drv->geometry.sectors);
-    if (drv->geometry.sectors < 1 || drv->geometry.sectors > 16) drv->geometry.sectors = 1;
+    if (drv->geometry.sectors < 1 || drv->geometry.sectors > 16) {
+        drv->geometry.sectors = 1;
+    }
     SMR_DW_INT(m, &drv->geometry.size);
-    if (drv->geometry.size < 1 || drv->geometry.size > 268435455) drv->geometry.size = 1;
+    if (drv->geometry.size < 1 || drv->geometry.size > 268435455) {
+        drv->geometry.size = 1;
+    }
     ata_image_attach(drv, drv->filename, drv->type, drv->geometry);
     SMR_B(m, &drv->error);
     SMR_B(m, &drv->features);
@@ -1447,23 +1491,39 @@ int ata_snapshot_read_module(ata_drive_t *drv, snapshot_t *s)
     SMR_B(m, &drv->cmd);
     SMR_B(m, &drv->power);
     SMR_BA(m, drv->packet, sizeof(drv->packet));
-    if (drv->power != 0 && drv->power != 0x80) drv->power = 0xff;
+    if (drv->power != 0 && drv->power != 0x80) {
+        drv->power = 0xff;
+    }
     SMR_W_INT(m, &drv->bufp);
-    if (drv->bufp < 0 || drv->bufp > drv->sector_size) drv->bufp = drv->sector_size;
+    if (drv->bufp < 0 || drv->bufp > drv->sector_size) {
+        drv->bufp = drv->sector_size;
+    }
     SMR_BA(m, drv->buffer, drv->sector_size);
     SMR_W_INT(m, &drv->cylinders);
-    if (drv->cylinders < 1 || drv->cylinders > 65535) drv->cylinders = 1;
+    if (drv->cylinders < 1 || drv->cylinders > 65535) {
+        drv->cylinders = 1;
+    }
     SMR_B_INT(m, &drv->heads);
-    if (drv->heads < 1 || drv->heads > 16) drv->heads = 1;
+    if (drv->heads < 1 || drv->heads > 16) {
+        drv->heads = 1;
+    }
     SMR_B_INT(m, &drv->sectors);
-    if (drv->sectors < 1 || drv->sectors > 63) drv->sectors = 1;
+    if (drv->sectors < 1 || drv->sectors > 63) {
+        drv->sectors = 1;
+    }
     SMR_DW_INT(m, &drv->pos);
-    if (drv->pos < 0 || drv->pos > 268435455) drv->pos = 0;
+    if (drv->pos < 0 || drv->pos > 268435455) {
+        drv->pos = 0;
+    }
     SMR_DW_INT(m, &pos);
     SMR_B_INT(m, &drv->wcache);
-    if (drv->wcache) drv->wcache = 1;
+    if (drv->wcache) {
+        drv->wcache = 1;
+    }
     SMR_B_INT(m, &drv->lookahead);
-    if (drv->lookahead) drv->lookahead = 1;
+    if (drv->lookahead) {
+        drv->lookahead = 1;
+    }
     SMR_B_INT(m, &drv->busy);
     SMR_DW(m, &spindle_clk);
     SMR_DW(m, &head_clk);

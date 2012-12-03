@@ -50,4 +50,3 @@ extern BYTE tpi2_peek(WORD addr);
 extern void set_cbm2_model_port_mask(BYTE);
 
 #endif
-

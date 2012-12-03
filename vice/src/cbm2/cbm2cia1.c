@@ -70,7 +70,7 @@ BYTE cia1_read(WORD addr)
     BYTE data;
     data = ciacore_read(machine_context.cia1, addr);
 /*    if (!((addr >= 0x08) && (addr <= 0x0b))) { */
-    if ((oldaddr != addr) || (olddata != data)) { 
+    if ((oldaddr != addr) || (olddata != data)) {
         DBG(("cia1_read: %04x %02x", addr, data));
         oldaddr = addr; olddata = data;
     }
@@ -128,7 +128,6 @@ static void do_reset_cia(cia_context_t *cia_context)
 
 static void pulse_ciapc(cia_context_t *cia_context, CLOCK rclk)
 {
-
 }
 
 static void store_ciapa(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
@@ -175,12 +174,12 @@ static BYTE read_ciapa(cia_context_t *cia_context)
     }
     if (machine_class == VICE_MACHINE_CBM5x0) {
         byte = ((byte & ~(cia_context->c_cia[CIA_DDRA]))
-               | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]))
-               & ~( ((joystick_value[1] & 0x10) ? 0x40 : 0)
-               | ((joystick_value[2] & 0x10) ? 0x80 : 0) );
+                | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]))
+               & ~(((joystick_value[1] & 0x10) ? 0x40 : 0)
+                   | ((joystick_value[2] & 0x10) ? 0x80 : 0));
     } else {
         byte = ((byte & ~(cia_context->c_cia[CIA_DDRA]))
-               | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]));
+                | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]));
     }
     return byte;
 }
@@ -192,15 +191,15 @@ static BYTE read_ciapb(cia_context_t *cia_context)
 
     if (machine_class == VICE_MACHINE_CBM5x0) {
         byte = ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
-               | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]))
-               & ~( (joystick_value[1] & 0x0f)
-               | ((joystick_value[2] & 0x0f) << 4));
+                | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]))
+               & ~((joystick_value[1] & 0x0f)
+                   | ((joystick_value[2] & 0x0f) << 4));
     } else {
         /* FIXME: in the upcoming userport system this call needs to be conditional */
         byte = userport_joystick_read_pbx(byte);
 
         byte &= ((0xff & ~(cia_context->c_cia[CIA_DDRB]))
-               | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]));
+                 | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]));
     }
     return byte;
 }
@@ -273,4 +272,3 @@ void cia1_setup_context(machine_context_t *machine_context)
     cia->pre_read = NULL;
     cia->pre_peek = NULL;
 }
-

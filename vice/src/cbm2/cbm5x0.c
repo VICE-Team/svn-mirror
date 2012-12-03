@@ -131,8 +131,9 @@ int machine_resources_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
 #endif
-        )
+        ) {
         return -1;
+    }
     return 0;
 }
 
@@ -165,8 +166,9 @@ int machine_cmdline_options_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
 #endif
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -184,8 +186,8 @@ int machine_cmdline_options_init(void)
 static alarm_t *c500_powerline_clk_alarm = NULL;
 static CLOCK c500_powerline_clk = 0;
 
-static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data) {
-
+static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data)
+{
     c500_powerline_clk += C500_POWERLINE_CYCLES_PER_IRQ;
 
     SIGNAL_VERT_BLANK_OFF
@@ -193,7 +195,6 @@ static void c500_powerline_clk_alarm_handler(CLOCK offset, void *data) {
     alarm_set(c500_powerline_clk_alarm, c500_powerline_clk);
 
     SIGNAL_VERT_BLANK_ON
-
 }
 
 static void c500_powerline_clk_overflow_callback(CLOCK sub, void *data)
@@ -221,8 +222,9 @@ int cbm2_c500_snapshot_write_module(snapshot_t *p)
 
     m = snapshot_module_create(p, module_name, C500DATA_DUMP_VER_MAJOR,
                                C500DATA_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     SMW_DW(m, c500_powerline_clk - maincpu_clk);
 
@@ -238,8 +240,9 @@ int cbm2_c500_snapshot_read_module(snapshot_t *p)
     DWORD dword;
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != C500DATA_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
@@ -264,13 +267,14 @@ static void cbm2_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[2];
 
-    asmarray[0]=&asm6502;
-    asmarray[1]=NULL;
+    asmarray[0] = &asm6502;
+    asmarray[1] = NULL;
 
     asm6502_init(&asm6502);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+    }
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
@@ -295,27 +299,29 @@ int machine_specific_init(void)
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 
-    if (mem_load() < 0)
+    if (mem_load() < 0) {
         return -1;
+    }
 
     rs232drv_init();
 
     /* initialize print devices */
     printer_init();
 
-    if (vicii_init(VICII_STANDARD) == NULL)
+    if (vicii_init(VICII_STANDARD) == NULL) {
         return -1;
+    }
     /*
     c500_set_phi1_bank(15);
     c500_set_phi2_bank(15);
     */
 
     c500_powerline_clk_alarm = alarm_new(maincpu_alarm_context,
-                                            "C500PowerlineClk",
-                                            c500_powerline_clk_alarm_handler,
-                                            NULL);
+                                         "C500PowerlineClk",
+                                         c500_powerline_clk_alarm_handler,
+                                         NULL);
     clk_guard_add_callback(maincpu_clk_guard,
-                            c500_powerline_clk_overflow_callback, NULL);
+                           c500_powerline_clk_overflow_callback, NULL);
     machine_timing.cycles_per_sec = C500_PAL_CYCLES_PER_SEC;
     machine_timing.rfsh_per_sec = C500_PAL_RFSH_PER_SEC;
     machine_timing.cycles_per_rfsh = C500_PAL_CYCLES_PER_RFSH;
@@ -327,8 +333,9 @@ int machine_specific_init(void)
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
-    if (cbm2_kbd_init() < 0)
+    if (cbm2_kbd_init() < 0) {
         return -1;
+    }
 #endif
 
     /* Initialize the datasette emulation.  */
@@ -470,7 +477,7 @@ long machine_get_cycles_per_frame(void)
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
     *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
-            % machine_timing.screen_lines);
+                           % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
 
@@ -479,7 +486,7 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 
 void machine_change_timing(int timeval)
 {
-   int border_mode;
+    int border_mode;
 
     /* log_message(LOG_DEFAULT, "machine_change_timing_c500 %d", timeval); */
 
@@ -626,5 +633,7 @@ const char *machine_get_name(void)
 #ifdef USE_SDLUI
 /* Kludges for vsid & linking issues */
 const char **csidmodel = NULL;
-void psid_init_driver(void) {}
+void psid_init_driver(void)
+{
+}
 #endif

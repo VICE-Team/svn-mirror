@@ -40,14 +40,13 @@ extern int fsimage_read_p64_image(const disk_image_t *image);
 extern int fsimage_write_p64_image(const disk_image_t *image);
 
 extern int fsimage_p64_read_half_track(const struct disk_image_s *image,
-                                         unsigned int half_track,
-                                         struct disk_track_s *raw);
+                                       unsigned int half_track,
+                                       struct disk_track_s *raw);
 extern int fsimage_p64_write_half_track(struct disk_image_s *image,
-                                        unsigned int half_track, 
+                                        unsigned int half_track,
                                         const struct disk_track_s *raw);
 extern int fsimage_p64_read_sector(const struct disk_image_s *image, BYTE *buf,
                                    const struct disk_addr_s *dadr);
 extern int fsimage_p64_write_sector(struct disk_image_s *image, const BYTE *buf,
                                     const struct disk_addr_s *dadr);
 #endif
-

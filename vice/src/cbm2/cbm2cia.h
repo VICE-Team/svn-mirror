@@ -47,4 +47,3 @@ extern void cia1_update_model(void);
 extern void cia1_set_timing(struct cia_context_s *cia_context, int todticks);
 
 #endif
-

@@ -37,8 +37,7 @@
 #include "types.h"
 
 
-enum crtc_video_mode_s
-{
+enum crtc_video_mode_s {
     CRTC_STANDARD_MODE,
     CRTC_REVERSE_MODE,
     CRTC_NUM_VMODES
@@ -52,8 +51,7 @@ typedef enum crtc_video_mode_s crtc_video_mode_t;
 struct alarm_s;
 struct video_chip_cap_s;
 
-struct crtc_s
-{
+struct crtc_s {
     /* Flag: Are we initialized?  */
     int initialized;
 
@@ -186,4 +184,3 @@ extern void crtc_resize(void);
 extern int crtc_dump(struct crtc_s *crtc_context);
 
 #endif
-

@@ -103,7 +103,7 @@
 #define T6721_FRAME_10MS       1
 #define T6721_FRAME_20MS       2
 
-#define T6721_FRAME_48BIT      0 
+#define T6721_FRAME_48BIT      0
 #define T6721_FRAME_96BIT      1
 
 /* reading from D0..D3 either gives status or speach ROM */
@@ -118,8 +118,7 @@
 #define T6721_FRAMETYPE_UNVOICED  3 /* 6 */
 #define T6721_FRAMETYPE_VOICED    4 /* 12 */
 
-typedef struct _t6721_state
-{
+typedef struct _t6721_state {
     int cmd_nibbles; /* nibbles left for current command */
     int cmd_current; /* current command */
 
@@ -160,7 +159,6 @@ typedef struct _t6721_state
     void (*set_apd)(struct _t6721_state*);
     void (*set_eos)(struct _t6721_state*);
     void (*set_dtrd)(struct _t6721_state*);
-
 } t6721_state;
 
 extern void t6721_reset(t6721_state *t6721);

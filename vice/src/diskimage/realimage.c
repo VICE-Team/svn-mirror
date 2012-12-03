@@ -38,12 +38,10 @@ static log_t realimage_log = LOG_DEFAULT;
 
 void realimage_media_create(disk_image_t *image)
 {
-
 }
 
 void realimage_media_destroy(disk_image_t *image)
 {
-
 }
 
 /*-----------------------------------------------------------------------*/
@@ -78,4 +76,3 @@ void realimage_init(void)
 {
     realimage_log = log_open("Real Image");
 }
-

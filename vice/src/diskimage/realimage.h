@@ -49,4 +49,3 @@ extern int realimage_write_sector(struct disk_image_s *image, const BYTE *buf,
 extern void realimage_media_create(struct disk_image_s *image);
 extern void realimage_media_destroy(struct disk_image_s *image);
 #endif
-

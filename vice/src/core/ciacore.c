@@ -100,7 +100,7 @@ inline static void check_ciatodalarm(cia_context_t *cia_context, CLOCK rclk)
 {
     if (!(cia_context->todstopped)
         && !memcmp(cia_context->todalarm, cia_context->c_cia + CIA_TOD_TEN,
-        sizeof(cia_context->todalarm))) {
+                   sizeof(cia_context->todalarm))) {
         cia_context->irqflags |= CIA_IM_TOD;
         if (cia_context->c_cia[CIA_ICR] & CIA_IM_TOD) {
             cia_context->irqflags |= 0x80;
@@ -133,8 +133,7 @@ static void cia_do_update_tb(cia_context_t *cia_context, CLOCK rclk)
     if ((n = ciat_update(cia_context->tb, rclk))) {
         cia_context->irqflags |= CIA_IM_TB;
         if (cia_context->model == CIA_MODEL_6526
-            && cia_context->rdi == rclk - 1)
-        {
+            && cia_context->rdi == rclk - 1) {
             /* flag the timer B bug */
             cia_context->irqflags |= CIA_IM_TBB;
         } else {
@@ -204,8 +203,8 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 {
 #if 0
     if ((cia_context->model == CIA_MODEL_6526)
-     && (cia_context->rdi == rclk - 1)
-     && (cia_context->irq_line != IK_NMI)) {
+        && (cia_context->rdi == rclk - 1)
+        && (cia_context->irq_line != IK_NMI)) {
         /* FIXME explanation */
         return;
     }
@@ -213,8 +212,7 @@ static void cia_do_set_int(cia_context_t *cia_context, CLOCK rclk)
 #endif
 
     if ((cia_context->rdi == rclk - 1)
-        && (cia_context->model == CIA_MODEL_6526A))
-    {
+        && (cia_context->model == CIA_MODEL_6526A)) {
         /* Interrupt delayed by 1/2 cycle if acknowledged on assert */
         rclk++;
     }
@@ -251,8 +249,9 @@ static void ciacore_clk_overflow_callback(CLOCK sub, void *data)
 
     cia_context = (cia_context_t *)data;
 
-    if (cia_context->enabled == 0)
+    if (cia_context->enabled == 0) {
         return;
+    }
 
     /* we assume that sub has already been substracted from myclk */
     cia_update_ta(cia_context, *(cia_context->clk_ptr) + sub);
@@ -261,18 +260,21 @@ static void ciacore_clk_overflow_callback(CLOCK sub, void *data)
     ciat_prevent_clock_overflow(cia_context->ta, sub);
     ciat_prevent_clock_overflow(cia_context->tb, sub);
 
-    if (cia_context->rdi > sub)
+    if (cia_context->rdi > sub) {
         cia_context->rdi -= sub;
-    else
+    } else {
         cia_context->rdi = 0;
+    }
 
-    if (cia_context->read_clk > sub)
+    if (cia_context->read_clk > sub) {
         cia_context->read_clk -= sub;
-    else
+    } else {
         cia_context->read_clk = 0;
+    }
 
-    if (cia_context->todclk)
+    if (cia_context->todclk) {
         cia_context->todclk -= sub;
+    }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -289,8 +291,9 @@ void ciacore_reset(cia_context_t *cia_context)
 {
     int i;
 
-    for (i = 0; i < 16; i++)
+    for (i = 0; i < 16; i++) {
         cia_context->c_cia[i] = 0;
+    }
 
     cia_context->rdi = 0;
     cia_context->sr_bits = 0;
@@ -323,8 +326,7 @@ void ciacore_reset(cia_context_t *cia_context)
 }
 
 
-static void ciacore_store_internal(cia_context_t *cia_context,
-                                            WORD addr, BYTE byte)
+static void ciacore_store_internal(cia_context_t *cia_context, WORD addr, BYTE byte)
 {
     CLOCK rclk;
 
@@ -334,71 +336,73 @@ static void ciacore_store_internal(cia_context_t *cia_context,
     rclk = *(cia_context->clk_ptr) - cia_context->write_offset;
 
 #ifdef CIA_TIMER_DEBUG
-    if (cia_context->debugFlag)
+    if (cia_context->debugFlag) {
         log_message(cia_context->log, "store cia[%02x] %02x @ clk=%d",
                     (int) addr, (int) byte, rclk);
+    }
 #endif
 
     switch (addr) {
-
-      case CIA_PRA:             /* port A */
-      case CIA_DDRA:
-        cia_context->c_cia[addr] = byte;
-        byte = cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]);
-        if (byte != cia_context->old_pa) {
-            (cia_context->store_ciapa)(cia_context, *(cia_context->clk_ptr),
-                                       byte);
-            cia_context->old_pa = byte;
-        }
-        break;
-
-      case CIA_PRB:             /* port B */
-      case CIA_DDRB:
-        cia_context->c_cia[addr] = byte;
-        byte = cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]);
-        if ((cia_context->c_cia[CIA_CRA]
-            | cia_context->c_cia[CIA_CRB]) & 0x02) {
-            if (cia_context->c_cia[CIA_CRA] & 0x02) {
-                cia_update_ta(cia_context, rclk);
-                byte &= 0xbf;
-                if (((cia_context->c_cia[CIA_CRA] & 0x04) ? cia_context->tat
-                    : ciat_is_underflow_clk(cia_context->ta, rclk)))
-                    byte |= 0x40;
+        case CIA_PRA:           /* port A */
+        case CIA_DDRA:
+            cia_context->c_cia[addr] = byte;
+            byte = cia_context->c_cia[CIA_PRA] | ~(cia_context->c_cia[CIA_DDRA]);
+            if (byte != cia_context->old_pa) {
+                (cia_context->store_ciapa)(cia_context, *(cia_context->clk_ptr),
+                                           byte);
+                cia_context->old_pa = byte;
             }
-            if (cia_context->c_cia[CIA_CRB] & 0x02) {
-                cia_update_tb(cia_context, rclk);
-                byte &= 0x7f;
-                if (((cia_context->c_cia[CIA_CRB] & 0x04) ? cia_context->tbt
-                    : ciat_is_underflow_clk(cia_context->tb, rclk)))
-                    byte |= 0x80;
-            }
-        }
-        if (byte != cia_context->old_pb) {
-            (cia_context->store_ciapb)(cia_context, *(cia_context->clk_ptr),
-                                       byte);
-            cia_context->old_pb = byte;
-        }
-        if (addr == CIA_PRB) {
-            (cia_context->pulse_ciapc)(cia_context, rclk);
-        }
-        break;
+            break;
 
-      case CIA_TAL:
-        cia_update_ta(cia_context, rclk);
-        ciat_set_latchlo(cia_context->ta, rclk, (BYTE)byte);
-        break;
-      case CIA_TBL:
-        cia_update_tb(cia_context, rclk);
-        ciat_set_latchlo(cia_context->tb, rclk, (BYTE)byte);
-        break;
-      case CIA_TAH:
-        cia_update_ta(cia_context, rclk);
-        ciat_set_latchhi(cia_context->ta, rclk, (BYTE)byte);
-        break;
-      case CIA_TBH:
-        cia_update_tb(cia_context, rclk);
-        ciat_set_latchhi(cia_context->tb, rclk, (BYTE)byte);
-        break;
+        case CIA_PRB:           /* port B */
+        case CIA_DDRB:
+            cia_context->c_cia[addr] = byte;
+            byte = cia_context->c_cia[CIA_PRB] | ~(cia_context->c_cia[CIA_DDRB]);
+            if ((cia_context->c_cia[CIA_CRA]
+                 | cia_context->c_cia[CIA_CRB]) & 0x02) {
+                if (cia_context->c_cia[CIA_CRA] & 0x02) {
+                    cia_update_ta(cia_context, rclk);
+                    byte &= 0xbf;
+                    if (((cia_context->c_cia[CIA_CRA] & 0x04) ? cia_context->tat
+                         : ciat_is_underflow_clk(cia_context->ta, rclk))) {
+                        byte |= 0x40;
+                    }
+                }
+                if (cia_context->c_cia[CIA_CRB] & 0x02) {
+                    cia_update_tb(cia_context, rclk);
+                    byte &= 0x7f;
+                    if (((cia_context->c_cia[CIA_CRB] & 0x04) ? cia_context->tbt
+                         : ciat_is_underflow_clk(cia_context->tb, rclk))) {
+                        byte |= 0x80;
+                    }
+                }
+            }
+            if (byte != cia_context->old_pb) {
+                (cia_context->store_ciapb)(cia_context, *(cia_context->clk_ptr),
+                                           byte);
+                cia_context->old_pb = byte;
+            }
+            if (addr == CIA_PRB) {
+                (cia_context->pulse_ciapc)(cia_context, rclk);
+            }
+            break;
+
+        case CIA_TAL:
+            cia_update_ta(cia_context, rclk);
+            ciat_set_latchlo(cia_context->ta, rclk, (BYTE)byte);
+            break;
+        case CIA_TBL:
+            cia_update_tb(cia_context, rclk);
+            ciat_set_latchlo(cia_context->tb, rclk, (BYTE)byte);
+            break;
+        case CIA_TAH:
+            cia_update_ta(cia_context, rclk);
+            ciat_set_latchhi(cia_context->ta, rclk, (BYTE)byte);
+            break;
+        case CIA_TBH:
+            cia_update_tb(cia_context, rclk);
+            ciat_set_latchhi(cia_context->tb, rclk, (BYTE)byte);
+            break;
 
         /*
          * TOD clock is stopped by writing Hours, and restarted
@@ -407,183 +411,194 @@ static void ciacore_store_internal(cia_context_t *cia_context,
          * REAL:  TOD register + (wallclock - ciatodrel)
          * VIRT:  TOD register + (cycles - begin)/cycles_per_sec
          */
-      case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
-      case CIA_TOD_HR:          /* Time Of Day clock hour */
-      case CIA_TOD_SEC: /* Time Of Day clock sec */
-      case CIA_TOD_MIN: /* Time Of Day clock min */
-        /* Flip AM/PM on hour 12
-          (Andreas Boose <viceteam@t-online.de> 1997/10/11). */
-        /* Flip AM/PM only when writing time, not when writing alarm
-          (Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de> 2000/09/17). */
-        if (addr == CIA_TOD_HR) {
-            byte &= 0x9f;
-            if ((byte & 0x1f) == 0x12 && !(cia_context->c_cia[CIA_CRB] & 0x80))
-                byte ^= 0x80;
-        }
-        if (cia_context->c_cia[CIA_CRB] & 0x80) {
-            cia_context->todalarm[addr - CIA_TOD_TEN] = byte;
-        } else {
-            if (addr == CIA_TOD_TEN)
-                cia_context->todstopped = 0;
-            if (addr == CIA_TOD_HR)
-                cia_context->todstopped = 1;
-            cia_context->c_cia[addr] = byte;
-        }
-        check_ciatodalarm(cia_context, rclk);
-        break;
+        case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
+        case CIA_TOD_HR:        /* Time Of Day clock hour */
+        case CIA_TOD_SEC: /* Time Of Day clock sec */
+        case CIA_TOD_MIN: /* Time Of Day clock min */
+            /* Flip AM/PM on hour 12
+              (Andreas Boose <viceteam@t-online.de> 1997/10/11). */
+            /* Flip AM/PM only when writing time, not when writing alarm
+              (Alexander Bluhm <mam96ehy@studserv.uni-leipzig.de> 2000/09/17). */
+            if (addr == CIA_TOD_HR) {
+                byte &= 0x9f;
+                if ((byte & 0x1f) == 0x12 && !(cia_context->c_cia[CIA_CRB] & 0x80)) {
+                    byte ^= 0x80;
+                }
+            }
+            if (cia_context->c_cia[CIA_CRB] & 0x80) {
+                cia_context->todalarm[addr - CIA_TOD_TEN] = byte;
+            } else {
+                if (addr == CIA_TOD_TEN) {
+                    cia_context->todstopped = 0;
+                }
+                if (addr == CIA_TOD_HR) {
+                    cia_context->todstopped = 1;
+                }
+                cia_context->c_cia[addr] = byte;
+            }
+            check_ciatodalarm(cia_context, rclk);
+            break;
 
-      case CIA_SDR:             /* Serial Port output buffer */
-        cia_context->c_cia[addr] = byte;
-        if ((cia_context->c_cia[CIA_CRA] & 0x40) == 0x40) {
-            cia_context->sdr_valid = 1;
-            cia_update_ta(cia_context, rclk);
-            ciat_set_alarm(cia_context->ta, rclk);
+        case CIA_SDR:           /* Serial Port output buffer */
+            cia_context->c_cia[addr] = byte;
+            if ((cia_context->c_cia[CIA_CRA] & 0x40) == 0x40) {
+                cia_context->sdr_valid = 1;
+                cia_update_ta(cia_context, rclk);
+                ciat_set_alarm(cia_context->ta, rclk);
 #if 0
-            if (cia_context->sr_bits <= 8) {
+                if (cia_context->sr_bits <= 8) {
 /*
                 if (!(cia_context->sr_bits)) {
                     (cia_context->store_sdr)(cia[CIA_SDR]);
                 }
 */
-                if (cia_context->sr_bits < 8) {
-                    /* switch timer A alarm on again, if necessary */
+                    if (cia_context->sr_bits < 8) {
+                        /* switch timer A alarm on again, if necessary */
 /* FIXME
                     update_cia(rclk);
                     if (cia_tau) {
                         my_set_tai_clk(cia_tau + 1);
                     }
 */
-                }
+                    }
 
-                cia_context->sr_bits += 8;
+                    cia_context->sr_bits += 8;
 #if defined (CIA_TIMER_DEBUG)
-                if (cia_context->debugFlag)
-                    log_message(cia_context->log, "start SDR rclk=%d.",
-                    rclk);
+                    if (cia_context->debugFlag) {
+                        log_message(cia_context->log, "start SDR rclk=%d.",
+                                    rclk);
+                    }
+#endif
+                }
 #endif
             }
-#endif
-        }
-        break;
+            break;
 
         /* Interrupts */
 
-      case CIA_ICR:             /* Interrupt Control Register */
+        case CIA_ICR:           /* Interrupt Control Register */
 
-        CIAT_LOGIN(("store_icr: rclk=%d, byte=%02x", rclk, byte));
+            CIAT_LOGIN(("store_icr: rclk=%d, byte=%02x", rclk, byte));
 
-        cia_update_ta(cia_context, rclk);
-        cia_update_tb(cia_context, rclk);
+            cia_update_ta(cia_context, rclk);
+            cia_update_tb(cia_context, rclk);
 
 #if defined (CIA_TIMER_DEBUG)
-        if (cia_context->debugFlag)
-            log_message(cia_context->log, "cia set CIA_ICR: 0x%x.", byte);
+            if (cia_context->debugFlag) {
+                log_message(cia_context->log, "cia set CIA_ICR: 0x%x.", byte);
+            }
 #endif
 
-        if (byte & CIA_IM_SET) {
-            cia_context->c_cia[CIA_ICR] |= (byte & 0x7f);
-        } else {
-            cia_context->c_cia[CIA_ICR] &= ~(byte & 0x7f);
-        }
+            if (byte & CIA_IM_SET) {
+                cia_context->c_cia[CIA_ICR] |= (byte & 0x7f);
+            } else {
+                cia_context->c_cia[CIA_ICR] &= ~(byte & 0x7f);
+            }
 
 #if defined(CIA_TIMER_DEBUG)
-        if (cia_context->debugFlag)
-            log_message(cia_context->log,
-                        "    set icr: ifr & ier & 0x7f -> %02x, int=%02x.",
-                        cia_context->c_cia[CIA_ICR] & cia_context->irqflags
-                        & 0x7f, cia_context->irqflags);
+            if (cia_context->debugFlag) {
+                log_message(cia_context->log,
+                            "    set icr: ifr & ier & 0x7f -> %02x, int=%02x.",
+                            cia_context->c_cia[CIA_ICR] & cia_context->irqflags
+                            & 0x7f, cia_context->irqflags);
+            }
 #endif
-        if (cia_context->c_cia[CIA_ICR] & cia_context->irqflags & 0x7f) {
-            cia_do_set_int(cia_context, rclk + 1);
-        }
+            if (cia_context->c_cia[CIA_ICR] & cia_context->irqflags & 0x7f) {
+                cia_do_set_int(cia_context, rclk + 1);
+            }
 
-        if (cia_context->c_cia[CIA_ICR] & CIA_IM_TA) {
-            ciat_set_alarm(cia_context->ta, rclk);
-        }
-        if (cia_context->c_cia[CIA_ICR] & CIA_IM_TB) {
-            ciat_set_alarm(cia_context->tb, rclk);
-        }
+            if (cia_context->c_cia[CIA_ICR] & CIA_IM_TA) {
+                ciat_set_alarm(cia_context->ta, rclk);
+            }
+            if (cia_context->c_cia[CIA_ICR] & CIA_IM_TB) {
+                ciat_set_alarm(cia_context->tb, rclk);
+            }
 
-        CIAT_LOGOUT((""));
-        break;
+            CIAT_LOGOUT((""));
+            break;
 
-      case CIA_CRA:             /* control register A */
-        if ((byte & 1) && !(cia_context->c_cia[CIA_CRA] & 1))
-            cia_context->tat = 1;
+        case CIA_CRA:           /* control register A */
+            if ((byte & 1) && !(cia_context->c_cia[CIA_CRA] & 1)) {
+                cia_context->tat = 1;
+            }
 
-        cia_update_ta(cia_context, rclk);
+            cia_update_ta(cia_context, rclk);
 
-        ciat_set_ctrl(cia_context->ta, rclk, byte);
+            ciat_set_ctrl(cia_context->ta, rclk, byte);
 
 #if defined (CIA_TIMER_DEBUG)
-        if (cia_context->debugFlag)
-            log_message(cia_context->log,
-                   "cia set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u).",
-                   byte, rclk, /*program_counter,*/ cia_tal, cia_tac);
+            if (cia_context->debugFlag) {
+                log_message(cia_context->log,
+                            "cia set CIA_CRA: 0x%x (clk=%d, pc=, tal=%u, tac=%u).",
+                            byte, rclk, /*program_counter,*/ cia_tal, cia_tac);
+            }
 #endif
 
-        /* bit 7 tod frequency */
-        /* bit 6 serial port mode */
+            /* bit 7 tod frequency */
+            /* bit 6 serial port mode */
 
-        /* bit 3 timer run mode */
-        /* bit 2 & 1 timer output to PB6 */
+            /* bit 3 timer run mode */
+            /* bit 2 & 1 timer output to PB6 */
 
-        /* bit 0 start/stop timer */
-        /* bit 5 timer count mode */
+            /* bit 0 start/stop timer */
+            /* bit 5 timer count mode */
 
 #if defined (CIA_TIMER_DEBUG)
-        if (cia_context->debugFlag)
-            log_message(cia_context->log, "    -> tas=%d, tau=%d.", cia_tas,
-            cia_tau);
+            if (cia_context->debugFlag) {
+                log_message(cia_context->log, "    -> tas=%d, tau=%d.", cia_tas,
+                            cia_tau);
+            }
 #endif
-        cia_context->c_cia[addr] = byte & 0xef;        /* remove strobe */
+            cia_context->c_cia[addr] = byte & 0xef;    /* remove strobe */
 
-        break;
+            break;
 
-      case CIA_CRB:             /* control register B */
-        if ((byte & 1) && !(cia_context->c_cia[CIA_CRB] & 1))
-            cia_context->tbt = 1;
+        case CIA_CRB:           /* control register B */
+            if ((byte & 1) && !(cia_context->c_cia[CIA_CRB] & 1)) {
+                cia_context->tbt = 1;
+            }
 
-        cia_update_ta(cia_context, rclk);
-        cia_update_tb(cia_context, rclk);
+            cia_update_ta(cia_context, rclk);
+            cia_update_tb(cia_context, rclk);
 
-        /* bit 5 is set when single-stepping is set */
-        if (byte & 0x40) {
-            /* we count ta - so we enable that */
-            ciat_set_alarm(cia_context->ta, rclk);
-            ciat_set_ctrl(cia_context->tb, rclk, (BYTE)(byte | 0x20));
-        } else {
-            ciat_set_ctrl(cia_context->tb, rclk, byte);
-        }
+            /* bit 5 is set when single-stepping is set */
+            if (byte & 0x40) {
+                /* we count ta - so we enable that */
+                ciat_set_alarm(cia_context->ta, rclk);
+                ciat_set_ctrl(cia_context->tb, rclk, (BYTE)(byte | 0x20));
+            } else {
+                ciat_set_ctrl(cia_context->tb, rclk, byte);
+            }
 
 #if 0 /* defined (CIA_TIMER_DEBUG)
         if (cia_context->debugFlag) */
             log_message(cia_context->log, "cia set CIA_CRB: 0x%x (clk=%d).",
-                   byte, rclk);
+                        byte, rclk);
 #endif
 
 
-        /* bit 7 set alarm/tod clock */
-        /* bit 4 force load */
+            /* bit 7 set alarm/tod clock */
+            /* bit 4 force load */
 
-        /* bit 3 timer run mode */
-        /* bit 2 & 1 timer output to PB6 */
+            /* bit 3 timer run mode */
+            /* bit 2 & 1 timer output to PB6 */
 
-        /* bit 0 stbrt/stop timer */
-        /* bit 5 & 6 timer count mode */
+            /* bit 0 stbrt/stop timer */
+            /* bit 5 & 6 timer count mode */
 
-        cia_context->c_cia[addr] = byte & 0xef;        /* remove strobe */
-        break;
+            cia_context->c_cia[addr] = byte & 0xef;    /* remove strobe */
+            break;
 
-      default:
-        cia_context->c_cia[addr] = byte;
+        default:
+            cia_context->c_cia[addr] = byte;
     }                           /* switch */
 }
 
 void ciacore_store(cia_context_t *cia_context, WORD addr, BYTE byte)
 {
-    if (cia_context->pre_store != NULL)
+    if (cia_context->pre_store != NULL) {
         (cia_context->pre_store)();
+    }
 
     if (*(cia_context->rmw_flag)) {
         (*(cia_context->clk_ptr))--;
@@ -604,15 +619,15 @@ BYTE ciacore_read(cia_context_t *cia_context, WORD addr)
     BYTE cia_read_(cia_context_t *, WORD addr);
     BYTE tmp = cia_read_(cia_context, addr);
 
-    if (cia_context->debugFlag)
+    if (cia_context->debugFlag) {
         log_message(cia_context->log, "read cia[%x] returns %02x @ clk=%d.",
                     addr, tmp, *(cia_context->clk_ptr) - READ_OFFSET);
+    }
     return tmp;
 }
 
 BYTE cia_read_(cia_context_t *cia_context, WORD addr)
 {
-
 #endif
 
     BYTE byte = 0xff;
@@ -620,81 +635,84 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
 
     addr &= 0xf;
 
-    if (cia_context->pre_read != NULL)
+    if (cia_context->pre_read != NULL) {
         (cia_context->pre_read)();
+    }
 
     cia_context->read_clk = *(cia_context->clk_ptr);
     cia_context->read_offset = 0;
     rclk = *(cia_context->clk_ptr) - READ_OFFSET;
 
-    if (cia_context->pre_read != NULL)
+    if (cia_context->pre_read != NULL) {
         (cia_context->pre_read)();
+    }
 
     switch (addr) {
+        case CIA_PRA:           /* port A */
+            /* WARNING: this pin reads the voltage of the output pins, not
+               the ORA value. Value read might be different from what is
+               expected due to excessive load. */
+            cia_context->last_read = (cia_context->read_ciapa)(cia_context);
+            return cia_context->last_read;
+            break;
 
-      case CIA_PRA:             /* port A */
-        /* WARNING: this pin reads the voltage of the output pins, not
-           the ORA value. Value read might be different from what is
-           expected due to excessive load. */
-        cia_context->last_read = (cia_context->read_ciapa)(cia_context);
-        return cia_context->last_read;
-        break;
-
-      case CIA_PRB:             /* port B */
-        /* WARNING: this pin reads the voltage of the output pins, not
-           the ORA value. Value read might be different from what is
-           expected due to excessive load. */
-        byte = (cia_context->read_ciapb)(cia_context);
-        (cia_context->pulse_ciapc)(cia_context, rclk);
-        if ((cia_context->c_cia[CIA_CRA]
-            | cia_context->c_cia[CIA_CRB]) & 0x02) {
-            if (cia_context->c_cia[CIA_CRA] & 0x02) {
-                cia_update_ta(cia_context, rclk);
-                byte &= 0xbf;
-                if (((cia_context->c_cia[CIA_CRA] & 0x04) ? cia_context->tat
-                    : ciat_is_underflow_clk(cia_context->ta, rclk)))
-                    byte |= 0x40;
+        case CIA_PRB:           /* port B */
+            /* WARNING: this pin reads the voltage of the output pins, not
+               the ORA value. Value read might be different from what is
+               expected due to excessive load. */
+            byte = (cia_context->read_ciapb)(cia_context);
+            (cia_context->pulse_ciapc)(cia_context, rclk);
+            if ((cia_context->c_cia[CIA_CRA]
+                 | cia_context->c_cia[CIA_CRB]) & 0x02) {
+                if (cia_context->c_cia[CIA_CRA] & 0x02) {
+                    cia_update_ta(cia_context, rclk);
+                    byte &= 0xbf;
+                    if (((cia_context->c_cia[CIA_CRA] & 0x04) ? cia_context->tat
+                         : ciat_is_underflow_clk(cia_context->ta, rclk))) {
+                        byte |= 0x40;
+                    }
+                }
+                if (cia_context->c_cia[CIA_CRB] & 0x02) {
+                    cia_update_tb(cia_context, rclk);
+                    byte &= 0x7f;
+                    if (((cia_context->c_cia[CIA_CRB] & 0x04) ? cia_context->tbt
+                         : ciat_is_underflow_clk(cia_context->tb, rclk))) {
+                        byte |= 0x80;
+                    }
+                }
             }
-            if (cia_context->c_cia[CIA_CRB] & 0x02) {
-                cia_update_tb(cia_context, rclk);
-                byte &= 0x7f;
-                if (((cia_context->c_cia[CIA_CRB] & 0x04) ? cia_context->tbt
-                    : ciat_is_underflow_clk(cia_context->tb, rclk)))
-                    byte |= 0x80;
-            }
-        }
-        cia_context->last_read = byte;
-        return byte;
-        break;
+            cia_context->last_read = byte;
+            return byte;
+            break;
 
         /* Timers */
-      case CIA_TAL:             /* timer A low */
-        cia_update_ta(cia_context, rclk);
-        cia_context->last_read = ciat_read_timer(cia_context->ta, rclk)
-                                 & 0xff;
-        return cia_context->last_read;
-        break;
+        case CIA_TAL:           /* timer A low */
+            cia_update_ta(cia_context, rclk);
+            cia_context->last_read = ciat_read_timer(cia_context->ta, rclk)
+                                     & 0xff;
+            return cia_context->last_read;
+            break;
 
-      case CIA_TAH:             /* timer A high */
-        cia_update_ta(cia_context, rclk);
-        cia_context->last_read = (ciat_read_timer(cia_context->ta, rclk)
-                                 >> 8) & 0xff;
-        return cia_context->last_read;
-        break;
+        case CIA_TAH:           /* timer A high */
+            cia_update_ta(cia_context, rclk);
+            cia_context->last_read = (ciat_read_timer(cia_context->ta, rclk)
+                                      >> 8) & 0xff;
+            return cia_context->last_read;
+            break;
 
-      case CIA_TBL:             /* timer B low */
-        cia_update_tb(cia_context, rclk);
-        cia_context->last_read = ciat_read_timer(cia_context->tb, rclk)
-                                 & 0xff;
-        return cia_context->last_read;
-        break;
+        case CIA_TBL:           /* timer B low */
+            cia_update_tb(cia_context, rclk);
+            cia_context->last_read = ciat_read_timer(cia_context->tb, rclk)
+                                     & 0xff;
+            return cia_context->last_read;
+            break;
 
-      case CIA_TBH:             /* timer B high */
-        cia_update_tb(cia_context, rclk);
-        cia_context->last_read = (ciat_read_timer(cia_context->tb, rclk)
-                                 >> 8) & 0xff;
-        return cia_context->last_read;
-        break;
+        case CIA_TBH:           /* timer B high */
+            cia_update_tb(cia_context, rclk);
+            cia_context->last_read = (ciat_read_timer(cia_context->tb, rclk)
+                                      >> 8) & 0xff;
+            return cia_context->last_read;
+            break;
 
         /*
          * TOD clock is latched by reading Hours, and released
@@ -702,92 +720,96 @@ BYTE cia_read_(cia_context_t *cia_context, WORD addr)
          * keeps ticking all the time.
          * Also note that this latching is different from the input one.
          */
-      case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
-      case CIA_TOD_SEC: /* Time Of Day clock sec */
-      case CIA_TOD_MIN: /* Time Of Day clock min */
-      case CIA_TOD_HR:          /* Time Of Day clock hour */
-        if (!(cia_context->todlatched))
-            memcpy(cia_context->todlatch, cia_context->c_cia + CIA_TOD_TEN,
-            sizeof(cia_context->todlatch));
-        if (addr == CIA_TOD_TEN)
-            cia_context->todlatched = 0;
-        if (addr == CIA_TOD_HR)
-            cia_context->todlatched = 1;
-        cia_context->last_read = cia_context->todlatch[addr - CIA_TOD_TEN];
-        return cia_context->last_read;
-        break;
+        case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
+        case CIA_TOD_SEC: /* Time Of Day clock sec */
+        case CIA_TOD_MIN: /* Time Of Day clock min */
+        case CIA_TOD_HR:        /* Time Of Day clock hour */
+            if (!(cia_context->todlatched)) {
+                memcpy(cia_context->todlatch, cia_context->c_cia + CIA_TOD_TEN,
+                       sizeof(cia_context->todlatch));
+            }
+            if (addr == CIA_TOD_TEN) {
+                cia_context->todlatched = 0;
+            }
+            if (addr == CIA_TOD_HR) {
+                cia_context->todlatched = 1;
+            }
+            cia_context->last_read = cia_context->todlatch[addr - CIA_TOD_TEN];
+            return cia_context->last_read;
+            break;
 
-      case CIA_SDR:             /* Serial Port Shift Register */
-        (cia_context->read_sdr)(cia_context);
-        cia_context->last_read = cia_context->c_cia[CIA_SDR];
-        return cia_context->last_read;
-        break;
+        case CIA_SDR:           /* Serial Port Shift Register */
+            (cia_context->read_sdr)(cia_context);
+            cia_context->last_read = cia_context->c_cia[CIA_SDR];
+            return cia_context->last_read;
+            break;
 
         /* Interrupts */
 
-      case CIA_ICR:             /* Interrupt Flag Register */
-        {
-            BYTE t = 0;
+        case CIA_ICR:           /* Interrupt Flag Register */
+            {
+                BYTE t = 0;
 
-            CIAT_LOGIN(("read_icr: rclk=%d, rdi=%d", rclk, cia_context->rdi));
+                CIAT_LOGIN(("read_icr: rclk=%d, rdi=%d", rclk, cia_context->rdi));
 
-            cia_context->rdi = rclk;
+                cia_context->rdi = rclk;
 
-            cia_update_ta(cia_context, rclk);
-            cia_update_tb(cia_context, rclk);
+                cia_update_ta(cia_context, rclk);
+                cia_update_tb(cia_context, rclk);
 
-            (cia_context->read_ciaicr)(cia_context);
+                (cia_context->read_ciaicr)(cia_context);
 
 #ifdef CIA_TIMER_DEBUG
-            if (cia_context->debugFlag)
-                log_message(cia_context->log,
-                            "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
-                            rclk, cia_tai, cia_tbi,
-                            (int)(cia_context->irqflags));
+                if (cia_context->debugFlag) {
+                    log_message(cia_context->log,
+                                "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
+                                rclk, cia_tai, cia_tbi,
+                                (int)(cia_context->irqflags));
+                }
 #endif
 
-            ciat_set_alarm(cia_context->ta, rclk);
-            ciat_set_alarm(cia_context->tb, rclk);
+                ciat_set_alarm(cia_context->ta, rclk);
+                ciat_set_alarm(cia_context->tb, rclk);
 
-            CIAT_LOG(("read_icr -> ta alarm at %d, tb at %d",
-                ciat_alarm_clk(cia_context->ta),
-                ciat_alarm_clk(cia_context->tb)));
+                CIAT_LOG(("read_icr -> ta alarm at %d, tb at %d",
+                          ciat_alarm_clk(cia_context->ta),
+                          ciat_alarm_clk(cia_context->tb)));
 
-            if (cia_context->irqflags & CIA_IM_TBB) {
-                /* timer b bug */
-                cia_context->irqflags &= ~(CIA_IM_TBB | CIA_IM_TB);
+                if (cia_context->irqflags & CIA_IM_TBB) {
+                    /* timer b bug */
+                    cia_context->irqflags &= ~(CIA_IM_TBB | CIA_IM_TB);
+                }
+
+                t = cia_context->irqflags;
+
+                CIAT_LOG(("read intfl gives ciaint=%02x -> %02x "
+                          "sr_bits=%d, rclk=%d",
+                          cia_context->irqflags, t, cia_context->sr_bits, rclk));
+
+                cia_context->irqflags = 0;
+                my_set_int(cia_context, 0, rclk);
+
+                CIAT_LOGOUT((""));
+
+                cia_context->last_read = t;
+
+                return t;
             }
+            break;
 
-            t = cia_context->irqflags;
+        case CIA_CRA:           /* Control Register A */
+            cia_update_ta(cia_context, rclk);
+            cia_context->last_read = (cia_context->c_cia[CIA_CRA] & 0xfe)
+                                     | ciat_is_running(cia_context->ta, rclk);
+            return cia_context->last_read;
+            break;
 
-            CIAT_LOG(("read intfl gives ciaint=%02x -> %02x "
-                      "sr_bits=%d, rclk=%d",
-                      cia_context->irqflags, t, cia_context->sr_bits, rclk));
-
-            cia_context->irqflags = 0;
-            my_set_int(cia_context, 0, rclk);
-
-            CIAT_LOGOUT((""));
-
-            cia_context->last_read = t;
-
-            return t;
-        }
-        break;
-
-      case CIA_CRA:             /* Control Register A */
-        cia_update_ta(cia_context, rclk);
-        cia_context->last_read = (cia_context->c_cia[CIA_CRA] & 0xfe)
-                                 | ciat_is_running(cia_context->ta, rclk);
-        return cia_context->last_read;
-        break;
-
-      case CIA_CRB:             /* Control Register B */
-        cia_update_tb(cia_context, rclk);
-        cia_context->last_read = (cia_context->c_cia[CIA_CRB] & 0xfe)
-                                 | ciat_is_running(cia_context->tb, rclk);
-        return cia_context->last_read;
-        break;
+        case CIA_CRB:           /* Control Register B */
+            cia_update_tb(cia_context, rclk);
+            cia_context->last_read = (cia_context->c_cia[CIA_CRB] & 0xfe)
+                                     | ciat_is_running(cia_context->tb, rclk);
+            return cia_context->last_read;
+            break;
     }                           /* switch */
 
     cia_context->last_read = cia_context->c_cia[addr];
@@ -806,38 +828,40 @@ BYTE ciacore_peek(cia_context_t *cia_context, WORD addr)
 
     addr &= 0xf;
 
-    if (cia_context->pre_peek != NULL)
+    if (cia_context->pre_peek != NULL) {
         (cia_context->pre_peek)();
+    }
 
     rclk = *(cia_context->clk_ptr) - READ_OFFSET;
 
     switch (addr) {
-
-      case CIA_PRB:             /* port B */
-        /* WARNING: this pin reads the voltage of the output pins, not
-           the ORA value. Value read might be different from what is
-           expected due to excessive load. */
-        byte = (cia_context->read_ciapb)(cia_context);
-        /* (cia_context->pulse_ciapc)(rclk); */
-        if ((cia_context->c_cia[CIA_CRA] | cia_context->c_cia[CIA_CRB])
-            & 0x02) {
-            if (cia_context->c_cia[CIA_CRA] & 0x02) {
-                cia_update_ta(cia_context, rclk);
-                byte &= 0xbf;
-                if (((cia_context->c_cia[CIA_CRA] & 0x04) ? cia_context->tat
-                    : ciat_is_underflow_clk(cia_context->ta, rclk)))
-                    byte |= 0x40;
+        case CIA_PRB:           /* port B */
+            /* WARNING: this pin reads the voltage of the output pins, not
+               the ORA value. Value read might be different from what is
+               expected due to excessive load. */
+            byte = (cia_context->read_ciapb)(cia_context);
+            /* (cia_context->pulse_ciapc)(rclk); */
+            if ((cia_context->c_cia[CIA_CRA] | cia_context->c_cia[CIA_CRB])
+                & 0x02) {
+                if (cia_context->c_cia[CIA_CRA] & 0x02) {
+                    cia_update_ta(cia_context, rclk);
+                    byte &= 0xbf;
+                    if (((cia_context->c_cia[CIA_CRA] & 0x04) ? cia_context->tat
+                         : ciat_is_underflow_clk(cia_context->ta, rclk))) {
+                        byte |= 0x40;
+                    }
+                }
+                if (cia_context->c_cia[CIA_CRB] & 0x02) {
+                    cia_update_tb(cia_context, rclk);
+                    byte &= 0x7f;
+                    if (((cia_context->c_cia[CIA_CRB] & 0x04) ? cia_context->tbt
+                         : ciat_is_underflow_clk(cia_context->tb, rclk))) {
+                        byte |= 0x80;
+                    }
+                }
             }
-            if (cia_context->c_cia[CIA_CRB] & 0x02) {
-                cia_update_tb(cia_context, rclk);
-                byte &= 0x7f;
-                if (((cia_context->c_cia[CIA_CRB] & 0x04) ? cia_context->tbt
-                    : ciat_is_underflow_clk(cia_context->tb, rclk)))
-                    byte |= 0x80;
-            }
-        }
-        return byte;
-        break;
+            return byte;
+            break;
 
         /*
          * TOD clock is latched by reading Hours, and released
@@ -845,59 +869,61 @@ BYTE ciacore_peek(cia_context_t *cia_context, WORD addr)
          * keeps ticking all the time.
          * Also note that this latching is different from the input one.
          */
-      case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
-      case CIA_TOD_SEC: /* Time Of Day clock sec */
-      case CIA_TOD_MIN: /* Time Of Day clock min */
-      case CIA_TOD_HR:  /* Time Of Day clock hour */
-        if (!(cia_context->todlatched))
-            memcpy(cia_context->todlatch, cia_context->c_cia + CIA_TOD_TEN,
-            sizeof(cia_context->todlatch));
-        return cia_context->c_cia[addr];
+        case CIA_TOD_TEN: /* Time Of Day clock 1/10 s */
+        case CIA_TOD_SEC: /* Time Of Day clock sec */
+        case CIA_TOD_MIN: /* Time Of Day clock min */
+        case CIA_TOD_HR: /* Time Of Day clock hour */
+            if (!(cia_context->todlatched)) {
+                memcpy(cia_context->todlatch, cia_context->c_cia + CIA_TOD_TEN,
+                       sizeof(cia_context->todlatch));
+            }
+            return cia_context->c_cia[addr];
 
         /* Interrupts */
 
-      case CIA_ICR:             /* Interrupt Flag Register */
-        {
-            BYTE t = 0;
+        case CIA_ICR:           /* Interrupt Flag Register */
+            {
+                BYTE t = 0;
 
-            CIAT_LOGIN(("peek_icr: rclk=%d, rdi=%d", rclk, cia_context->rdi));
+                CIAT_LOGIN(("peek_icr: rclk=%d, rdi=%d", rclk, cia_context->rdi));
 
-            /* cia_context->rdi = rclk; */
+                /* cia_context->rdi = rclk; */
 
-            cia_update_ta(cia_context, rclk);
-            cia_update_tb(cia_context, rclk);
+                cia_update_ta(cia_context, rclk);
+                cia_update_tb(cia_context, rclk);
 
-            /* read_ciaicr(); */
+                /* read_ciaicr(); */
 
 #ifdef CIA_TIMER_DEBUG
-            if (cia_context->debugFlag)
-                log_message(cia_context->log,
-                        "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
-                        rclk, cia_tai, cia_tbi, (int)(cia_context->irqflags));
+                if (cia_context->debugFlag) {
+                    log_message(cia_context->log,
+                                "cia read intfl: rclk=%d, alarm_ta=%d, alarm_tb=%d, ciaint=%02x",
+                                rclk, cia_tai, cia_tbi, (int)(cia_context->irqflags));
+                }
 #endif
 
-            ciat_set_alarm(cia_context->ta, rclk);
-            ciat_set_alarm(cia_context->tb, rclk);
+                ciat_set_alarm(cia_context->ta, rclk);
+                ciat_set_alarm(cia_context->tb, rclk);
 
-            CIAT_LOG(("peek_icr -> ta alarm at %d, tb at %d",
-                     ciat_alarm_clk(cia_context->ta),
-                     ciat_alarm_clk(cia_context->tb)));
+                CIAT_LOG(("peek_icr -> ta alarm at %d, tb at %d",
+                          ciat_alarm_clk(cia_context->ta),
+                          ciat_alarm_clk(cia_context->tb)));
 
-            t = cia_context->irqflags;
+                t = cia_context->irqflags;
 
-            CIAT_LOG(("peek intfl gives ciaint=%02x -> %02x "
-                     "sr_bits=%d, rclk=%d",
-                     cia_context->irqflags, t, cia_context->sr_bits, rclk));
+                CIAT_LOG(("peek intfl gives ciaint=%02x -> %02x "
+                          "sr_bits=%d, rclk=%d",
+                          cia_context->irqflags, t, cia_context->sr_bits, rclk));
 /*
             cia_context->irqflags = 0;
             my_set_int(0, rclk + 1);
 */
-            CIAT_LOGOUT((""));
+                CIAT_LOGOUT((""));
 
-            return (t);
-        }
-      default:
-        break;
+                return (t);
+            }
+        default:
+            break;
     }                           /* switch */
 
     return ciacore_read(cia_context, addr);
@@ -929,9 +955,9 @@ static void ciacore_intta(CLOCK offset, void *data)
     ciat_ack_alarm(cia_context->ta, rclk);
 
     CIAT_LOG((
-          "ciacore_intta(rclk = %u, tal = %u, cra=%02x, int=%02x, ier=%02x.",
-          rclk, ciat_read_latch(cia_context->ta, rclk), cia_context->c_cia[CIA_CRA],
-          cia_context->irqflags, cia_context->c_cia[CIA_ICR]));
+                 "ciacore_intta(rclk = %u, tal = %u, cra=%02x, int=%02x, ier=%02x.",
+                 rclk, ciat_read_latch(cia_context->ta, rclk), cia_context->c_cia[CIA_CRA],
+                 cia_context->irqflags, cia_context->c_cia[CIA_ICR]));
 
     /* cia_context->tat = (cia_context->tat + 1) & 1; */
 
@@ -939,7 +965,7 @@ static void ciacore_intta(CLOCK offset, void *data)
         /* if we do not need alarm, no PB6, no shift register, and not timer B
            counting timer A, then we can savely skip alarms... */
         if (((cia_context->c_cia[CIA_ICR] & CIA_IM_TA) &&
-            (!(cia_context->irqflags & 0x80)))
+             (!(cia_context->irqflags & 0x80)))
             || (cia_context->c_cia[CIA_CRA] & 0x42)
             || (cia_context->c_cia[CIA_CRB] & 0x40)) {
             ciat_set_alarm(cia_context->ta, rclk);
@@ -949,7 +975,7 @@ static void ciacore_intta(CLOCK offset, void *data)
     if (cia_context->c_cia[CIA_CRA] & 0x40) {
         if (cia_context->sr_bits) {
             CIAT_LOG(("rclk=%d SDR: timer A underflow, bits=%d",
-                       rclk, cia_context->sr_bits));
+                      rclk, cia_context->sr_bits));
 
             if (!(--(cia_context->sr_bits))) {
                 cia_context->irqflags |= CIA_IM_SDR;
@@ -992,16 +1018,16 @@ static void ciacore_inttb(CLOCK offset, void *data)
     rclk = *(cia_context->clk_ptr) - offset;
 
     CIAT_LOGIN(("ciaTimerB int_myciatb: myclk=%d, rclk=%d",
-               *(cia_context->clk_ptr), rclk));
+                *(cia_context->clk_ptr), rclk));
 
     cia_do_update_tb(cia_context, rclk);
 
     ciat_ack_alarm(cia_context->tb, rclk);
 
     CIAT_LOG((
-             "timer B ciacore_inttb(rclk=%d, crb=%d, int=%02x, ier=%02x).",
-             rclk, cia_context->c_cia[CIA_CRB], cia_context->irqflags,
-             cia_context->c_cia[CIA_ICR]));
+                 "timer B ciacore_inttb(rclk=%d, crb=%d, int=%02x, ier=%02x).",
+                 rclk, cia_context->c_cia[CIA_CRB], cia_context->irqflags,
+                 cia_context->c_cia[CIA_ICR]));
 
     /* cia_context->tbt = (cia_context->tbt + 1) & 1; */
 
@@ -1065,7 +1091,7 @@ static void ciacore_inttod(CLOCK offset, void *data)
 
         /* if the counter matches the TOD frequency ... */
         if (cia_context->todtickcounter ==
-           ((cia_context->c_cia[CIA_CRA] & 0x80) ? 5 : 6)) {
+            ((cia_context->c_cia[CIA_CRA] & 0x80) ? 5 : 6)) {
             /* reset the counter and update the timer */
             cia_context->todtickcounter = 0;
             update = 1;
@@ -1124,12 +1150,12 @@ static void ciacore_inttod(CLOCK offset, void *data)
         }
 
         DBG(("ciacore_inttod [%s %02x:%02x:%02x.%x0]->[%s %x%x:%x%x:%x%x.%x0]\n",
-            cia_context->c_cia[CIA_TOD_HR] & 0x80 ? "pm" : "am", 
-            cia_context->c_cia[CIA_TOD_HR] & 0x7f,
-            cia_context->c_cia[CIA_TOD_MIN],
-            cia_context->c_cia[CIA_TOD_SEC],
-            cia_context->c_cia[CIA_TOD_TEN],
-            pm ? "pm" : "am", t6, t5, t4, t3, t2, t1, t0));
+             cia_context->c_cia[CIA_TOD_HR] & 0x80 ? "pm" : "am",
+             cia_context->c_cia[CIA_TOD_HR] & 0x7f,
+             cia_context->c_cia[CIA_TOD_MIN],
+             cia_context->c_cia[CIA_TOD_SEC],
+             cia_context->c_cia[CIA_TOD_TEN],
+             pm ? "pm" : "am", t6, t5, t4, t3, t2, t1, t0));
 
         cia_context->c_cia[CIA_TOD_TEN] = t0;
         cia_context->c_cia[CIA_TOD_SEC] = t1 | (t2 << 4);
@@ -1139,7 +1165,6 @@ static void ciacore_inttod(CLOCK offset, void *data)
         /* check alarm */
         check_ciatodalarm(cia_context, rclk);
     }
-
 }
 
 void ciacore_setup_context(cia_context_t *cia_context)
@@ -1205,7 +1230,7 @@ void ciacore_init(cia_context_t *cia_context, alarm_context_t *alarm_context,
 #ifdef USE_IDLE_CALLBACK
     buffer = lib_msprintf("%s_IDLE", cia_context->myname);
     cia_context->idle_alarm = alarm_new(alarm_context, buffer, ciacore_idle,
-                                      (void *)cia_context);
+                                        (void *)cia_context);
     lib_free(buffer);
     alarm_set(cia_context->idle_alarm, *(cia_context->clk_ptr) + CIA_MAX_IDLE_CYCLES);
 #endif
@@ -1326,8 +1351,9 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     m = snapshot_module_create(s, cia_context->myname,
                                (BYTE)CIA_DUMP_VER_MAJOR,
                                (BYTE)CIA_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
 
 #ifdef cia_DUMP_DEBUG
@@ -1364,11 +1390,11 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
 
     /* Bits 2 & 3 are compatibility to snapshot format v1.0 */
     SMW_B(m, (BYTE)((cia_context->tat ? 0x40 : 0)
-          | (cia_context->tbt ? 0x80 : 0)
-          | (ciat_is_underflow_clk(cia_context->ta,
-          *(cia_context->clk_ptr)) ? 0x04 : 0)
-          | (ciat_is_underflow_clk(cia_context->tb, *(cia_context->clk_ptr))
-          ? 0x08 : 0)));
+                    | (cia_context->tbt ? 0x80 : 0)
+                    | (ciat_is_underflow_clk(cia_context->ta,
+                                             *(cia_context->clk_ptr)) ? 0x04 : 0)
+                    | (ciat_is_underflow_clk(cia_context->tb, *(cia_context->clk_ptr))
+                       ? 0x08 : 0)));
     SMW_B(m, (BYTE)cia_context->sr_bits);
     SMW_B(m, cia_context->todalarm[0]);
     SMW_B(m, cia_context->todalarm[1]);
@@ -1387,7 +1413,7 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_B(m, (BYTE)(byte));
 
     SMW_B(m, (BYTE)((cia_context->todlatched ? 1 : 0)
-          | (cia_context->todstopped ? 2 : 0)));
+                    | (cia_context->todstopped ? 2 : 0)));
     SMW_B(m, cia_context->todlatch[0]);
     SMW_B(m, cia_context->todlatch[1]);
     SMW_B(m, cia_context->todlatch[2]);
@@ -1396,9 +1422,9 @@ int ciacore_snapshot_write_module(cia_context_t *cia_context, snapshot_t *s)
     SMW_DW(m, (cia_context->todclk - *(cia_context->clk_ptr)));
 
     ciat_save_snapshot(cia_context->ta, *(cia_context->clk_ptr), m,
-                        (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
+                       (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
     ciat_save_snapshot(cia_context->tb, *(cia_context->clk_ptr), m,
-                        (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
+                       (CIA_DUMP_VER_MAJOR << 8) | CIA_DUMP_VER_MINOR);
 
     SMW_B(m, cia_context->shifter);
     SMW_B(m, (BYTE)(cia_context->sdr_valid));
@@ -1423,8 +1449,9 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
 
     m = snapshot_module_open(s, cia_context->myname, &vmajor, &vminor);
 
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != CIA_DUMP_VER_MAJOR) {
         log_error(cia_context->log,
@@ -1477,9 +1504,9 @@ int ciacore_snapshot_read_module(cia_context_t *cia_context, snapshot_t *s)
     cia_context->irqflags = byte;
 
 #ifdef cia_DUMP_DEBUG
-log_message(cia_context->log,
-            "read ciaint=%02x, ciaier=%02x.", cia_context->irqflags,
-            cia_context->c_cia[CIA_ICR]);
+    log_message(cia_context->log,
+                "read ciaint=%02x, ciaier=%02x.", cia_context->irqflags,
+                cia_context->c_cia[CIA_ICR]);
 #endif
 
     SMR_B(m, &byte);
@@ -1523,7 +1550,7 @@ log_message(cia_context->log,
 
 #ifdef cia_DUMP_DEBUG
     log_message(cia_context->log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",
-                *(cia_context->clk_ptr), cia[CIA_CRA], cia[CIA_CRB],cia_tas,
+                *(cia_context->clk_ptr), cia[CIA_CRA], cia[CIA_CRB], cia_tas,
                 cia_tbs);
     log_message(cia_context->log, "tai=%d, tau=%d, tac=%04x, tal=%04x",
                 cia_tai, cia_tau, cia_tac, cia_tal);
@@ -1544,7 +1571,7 @@ log_message(cia_context->log,
 
 #ifdef cia_DUMP_DEBUG
     log_message(cia_context->log, "clk=%d, cra=%02x, crb=%02x, tas=%d, tbs=%d",
-                *(cia_context->clk_ptr), cia[CIA_CRA], cia[CIA_CRB],cia_tas,
+                *(cia_context->clk_ptr), cia[CIA_CRA], cia[CIA_CRB], cia_tas,
                 cia_tbs);
     log_message(cia_context->log, "tai=%d, tau=%d, tac=%04x, tal=%04x",
                 cia_tai, cia_tau, cia_tac, cia_tal);
@@ -1552,10 +1579,11 @@ log_message(cia_context->log,
                 cia_tbi, cia_tbu, cia_tbc, cia_tbl);
 #endif
 
-    if (SMR_B(m, &(cia_context->irq_enabled)) < 0)
+    if (SMR_B(m, &(cia_context->irq_enabled)) < 0) {
         /* old (buggy) way to restore interrupt */
         /* still enabled; will be fixed in 1.13.x */
         cia_context->irq_enabled = (cia_context->c_cia[CIA_ICR] & 0x80) ? 1 : 0;
+    }
 
     if (cia_context->irq_enabled) {
         (cia_context->cia_restore_int)(cia_context, cia_context->irq_line);
@@ -1565,8 +1593,9 @@ log_message(cia_context->log,
 
     SMR_B(m, &(cia_context->todtickcounter));
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         return -1;
+    }
 
     return 0;
 }

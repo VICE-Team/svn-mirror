@@ -91,7 +91,7 @@ BYTE eeprom_data_readbit(void)
 #ifdef LOG_READ_BYTES
     if (bitpos == 0) {
         LOG(("EEPROM: eeprom_data_readbit[0x%04x]:0x%02x '%c'",
-              eeprom_readpos >> 3, value, value));
+             eeprom_readpos >> 3, value, value));
     }
 #endif
 
@@ -99,7 +99,6 @@ BYTE eeprom_data_readbit(void)
         return 1;
     }
     return 0;
-
 }
 
 BYTE eeprom_data_read(void)
@@ -214,8 +213,8 @@ int eeprom_execute_command(int eeprom_mode)
                     }
 #ifdef LOG_WRITE_BYTES
                     LOG(("EEPROM: CMDA0 write byte (%02x)  %02x:%02x '%c'",
-                          eeprom_cmdbuf[0], eeprom_cmdbuf[1], eeprom_cmdbuf[2],
-                          eeprom_cmdbuf[2]));
+                         eeprom_cmdbuf[0], eeprom_cmdbuf[1], eeprom_cmdbuf[2],
+                         eeprom_cmdbuf[2]));
 #endif
                     eeprom_data[(eeprom_readpos >> 3) & 0xff] = eeprom_cmdbuf[2]; /* FIXME: wraparound at 0x100 ?! */
                     break;
@@ -229,7 +228,7 @@ int eeprom_execute_command(int eeprom_mode)
                     }
 #ifdef LOG_COMMANDS
                     LOG(("eeprom CMDA1     (%02x) %02x", eeprom_cmdbuf[0],
-                          eeprom_cmdbuf[1]));
+                         eeprom_cmdbuf[1]));
 #endif
                     eeprom_mode = EEPROM_INCA1_DATA;
                     eeprom_readpos = ((eeprom_cmdbuf[1]) & 0x03ff) << 3;
@@ -240,8 +239,8 @@ int eeprom_execute_command(int eeprom_mode)
                     }
 #ifdef LOG_COMMANDS
                     LOG(("eeprom CMDA1 data [%04x]:%02x '%c'",
-                          eeprom_readpos >> 3, eeprom_data_readbyte (),
-                          eeprom_data_readbyte ()));
+                         eeprom_readpos >> 3, eeprom_data_readbyte (),
+                         eeprom_data_readbyte ()));
 #endif
                     break;
             }
@@ -270,7 +269,7 @@ void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status)
             }
         } else {
             if (eeprom_databit) {
-                if (eeprom_clk)  {
+                if (eeprom_clk) {
                     eeprom_resetcount++;
                 } else {
                     eeprom_resetcount = 0;
@@ -381,7 +380,6 @@ void eeprom_port_write(BYTE clk, BYTE data, int ddr, int status)
     eeprom_clk = clk;
     eeprom_databit = data;
     eeprom_mode = nextmode;
-
 }
 
 int eeprom_open_image(char *name, int rw)
@@ -457,7 +455,7 @@ int eeprom_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+                               CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

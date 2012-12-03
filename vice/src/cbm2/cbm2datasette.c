@@ -41,4 +41,3 @@ void datasette_set_tape_sense(int sense)
 {
     tpi1_set_tape_sense(sense);
 }
-

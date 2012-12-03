@@ -48,12 +48,12 @@ typedef struct modtab_s modtab_t;
 
 /* FIXME: add more/all models */
 static modtab_t modtab[] = {
-    { "510",  VICE_MACHINE_CBM5x0, CBM2MODEL_510_PAL },
-    { "610",  VICE_MACHINE_CBM6x0, CBM2MODEL_610_PAL },
-    { "620",  VICE_MACHINE_CBM6x0, CBM2MODEL_620_PAL },
+    { "510", VICE_MACHINE_CBM5x0, CBM2MODEL_510_PAL },
+    { "610", VICE_MACHINE_CBM6x0, CBM2MODEL_610_PAL },
+    { "620", VICE_MACHINE_CBM6x0, CBM2MODEL_620_PAL },
     { "620+", VICE_MACHINE_CBM6x0, CBM2MODEL_620PLUS_PAL },
-    { "710",  VICE_MACHINE_CBM6x0, CBM2MODEL_710_NTSC },
-    { "720",  VICE_MACHINE_CBM6x0, CBM2MODEL_720_NTSC },
+    { "710", VICE_MACHINE_CBM6x0, CBM2MODEL_710_NTSC },
+    { "720", VICE_MACHINE_CBM6x0, CBM2MODEL_720_NTSC },
     { "720+", VICE_MACHINE_CBM6x0, CBM2MODEL_720PLUS_NTSC },
     { NULL }
 };
@@ -79,8 +79,9 @@ int cbm2_set_model(const char *model, void *extra)
         cbm2_model = i;
 
         /* we have to wait until we did enough initialization */
-        if (!cbm2_init_ok)
-            return 0; 
+        if (!cbm2_init_ok) {
+            return 0;
+        }
 
         mem_powerup();
         mem_load();
@@ -104,10 +105,10 @@ static const cmdline_option_t cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_USE_NTSC_SYNC_FACTOR,
       NULL, NULL },
     { "-model", CALL_FUNCTION, 1,
-     cbm2_set_model, NULL, NULL, NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL,
-     NULL, NULL },
+      cbm2_set_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODELNUMBER, IDCLS_SPECIFY_CBM2_MODEL,
+      NULL, NULL },
     { "-ramsize", SET_RESOURCE, 1,
       NULL, NULL, "RamSize", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,

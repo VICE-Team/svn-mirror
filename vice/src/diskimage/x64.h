@@ -42,4 +42,3 @@
 #define X64_HEADER_LENGTH           64
 
 #endif
-

@@ -79,7 +79,7 @@ static flash_types_t flash_types[FLASH040_TYPE_NUM] = {
     { 0x01, 0xa4,
       0x80000,
       0x70000, 0x10000, 16,
-      0x555,  0x2aa,  0x7ff,  0x7ff,
+      0x555, 0x2aa, 0x7ff, 0x7ff,
       0x40 },
     /* 29F010 */
     { 0x01, 0x20,
@@ -91,7 +91,7 @@ static flash_types_t flash_types[FLASH040_TYPE_NUM] = {
     { 0x01, 0x41,
       0x400000,
       0x3f0000, 0x10000, 16,
-      0x556,  0x2a9,  0x7ff,  0x7ff,
+      0x556, 0x2a9, 0x7ff, 0x7ff,
       0x44 },
 };
 
@@ -173,9 +173,9 @@ inline static int flash_program_byte(flash040_context_t *flash040_context, unsig
 inline static int flash_write_operation_status(flash040_context_t *flash040_context)
 {
     return ((flash040_context->program_byte ^ 0x80) & 0x80)   /* DQ7 = inverse of programmed data */
-         | ((maincpu_clk & 2) << 5)                           /* DQ6 = toggle bit (2 us) */
-         | (1 << 5)                                           /* DQ5 = timeout */
-         ;
+           | ((maincpu_clk & 2) << 5)                         /* DQ6 = toggle bit (2 us) */
+           | (1 << 5)                                         /* DQ5 = timeout */
+    ;
 }
 
 inline static int flash_erase_operation_status(flash040_context_t *flash040_context)
@@ -217,7 +217,7 @@ static void erase_alarm_handler(CLOCK offset, void *data)
                 m = (BYTE)(1 << (i & 0x7));
                 if (flash040_context->erase_mask[j] & m) {
                     flash_erase_sector(flash040_context, i);
-                    flash040_context->erase_mask[j] &= (BYTE)~m;
+                    flash040_context->erase_mask[j] &= (BYTE) ~m;
                     break;
                 }
             }
@@ -242,13 +242,12 @@ static void erase_alarm_handler(CLOCK offset, void *data)
             FLASH_DEBUG(("Erase alarm - error, state %i unhandled!", (int)flash040_context->flash_state));
             break;
     }
-
 }
 
 /* -------------------------------------------------------------------------- */
 
 static void flash040core_store_internal(flash040_context_t *flash040_context,
-                                                 unsigned int addr, BYTE byte)
+                                        unsigned int addr, BYTE byte)
 {
 #ifdef FLASH_DEBUG_ENABLED
     flash040_state_t old_state = flash040_context->flash_state;
@@ -437,8 +436,8 @@ BYTE flash040core_read(flash040_context_t *flash040_context, unsigned int addr)
             break;
 
         default:
-            /* The state doesn't reset if a read occurs during a command sequence */
-            /* fall through */
+        /* The state doesn't reset if a read occurs during a command sequence */
+        /* fall through */
         case FLASH040_STATE_READ:
             value = flash040_context->flash_data[addr];
             break;

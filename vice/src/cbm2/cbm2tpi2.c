@@ -133,9 +133,11 @@ static BYTE read_pc(tpi_context_t *tpi_context)
     int m;
     int i;
 
-    for (m = 0x1, i = 0; i < 16; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 16; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~keyarr[i];
+        }
+    }
     byte = (val & 0x3f) | cbm2_model_port_mask;
 
     return byte;
@@ -179,4 +181,3 @@ void tpi2_setup_context(machine_context_t *machine_context)
     tpi_context->set_int = set_int;
     tpi_context->restore_int = restore_int;
 }
-

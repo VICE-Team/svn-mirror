@@ -51,7 +51,7 @@
 #endif
 
 /* Expansion port signals. */
-export_t export = { 0, 0};
+export_t export = { 0, 0 };
 
 /* global options for the cart system */
 static int cbm2cartridge_reset; /* (resource) hardreset system after cart was attached/detached */
@@ -160,32 +160,36 @@ int cartridge_cmdline_options_init(void)
 
 static int set_cart1_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_1_name, val))
+    if (util_string_set(&cart_1_name, val)) {
         return 0;
+    }
 
     return cbm2rom_load_cart_1(cart_1_name);
 }
 
 static int set_cart2_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_2_name, val))
+    if (util_string_set(&cart_2_name, val)) {
         return 0;
+    }
 
     return cbm2rom_load_cart_2(cart_2_name);
 }
 
 static int set_cart4_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_4_name, val))
+    if (util_string_set(&cart_4_name, val)) {
         return 0;
+    }
 
     return cbm2rom_load_cart_4(cart_4_name);
 }
 
 static int set_cart6_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&cart_6_name, val))
+    if (util_string_set(&cart_6_name, val)) {
         return 0;
+    }
 
     return cbm2rom_load_cart_6(cart_6_name);
     /* only does something after mem_load() */

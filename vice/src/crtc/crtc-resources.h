@@ -28,4 +28,3 @@
 #define VICE_CRTC_RESOURCES_H
 
 #endif
-

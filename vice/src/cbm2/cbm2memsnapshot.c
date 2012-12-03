@@ -89,8 +89,9 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
 
     m = snapshot_module_create(p, module_name,
                                CBM2MEM_DUMP_VER_MAJOR, CBM2MEM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* calculate start and size of RAM to save */
     /* ramsize starts counting at 0x10000 if less than 512k */
@@ -123,8 +124,7 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     SMW_BA(m, mem_rom + 0xd000, 0x0800);
 
     /* main memory array */
-    SMW_BA(m, mem_ram + effective_start,
-                                                ((int)memsize) << 17);
+    SMW_BA(m, mem_ram + effective_start, ((int)memsize) << 17);
 
     if (memsize < 4) {  /* if 1M memory, bank 15 is included */
         if (config & 1) {
@@ -162,8 +162,9 @@ static int mem_read_ram_snapshot_module(snapshot_t *p)
     int bank0;
 
     m = snapshot_module_open(p, module_name, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != CBM2MEM_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
@@ -272,13 +273,15 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     int trapfl;
     const char *cart_1_name, *cart_2_name, *cart_4_name, *cart_6_name;
 
-    if (!save_roms)
+    if (!save_roms) {
         return 0;
+    }
 
     m = snapshot_module_create(p, module_rom_name,
                                CBM2ROM_DUMP_VER_MAJOR, CBM2ROM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* disable traps before saving the ROM */
     resources_get_int("VirtualDevices", &trapfl);
@@ -290,10 +293,10 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
     resources_get_string("Cart6Name", &cart_6_name);
 
     config = ((cart_1_name ? 2 : 0)
-             | (cart_2_name ? 4 : 0)
-             | (cart_4_name ? 8 : 0)
-             | (cart_6_name ? 16 : 0)
-             | ((machine_class == VICE_MACHINE_CBM5x0) ? 32 : 0));
+              | (cart_2_name ? 4 : 0)
+              | (cart_4_name ? 8 : 0)
+              | (cart_6_name ? 16 : 0)
+              | ((machine_class == VICE_MACHINE_CBM5x0) ? 32 : 0));
 
     /* SMW_B(m, save_roms & 3); */
     SMW_B(m, config);
@@ -341,9 +344,9 @@ static int mem_read_rom_snapshot_module(snapshot_t *p)
     int i, trapfl;
 
     m = snapshot_module_open(p, module_rom_name, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return 0;       /* optional */
-
+    }
     if (vmajor != CBM2ROM_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
         return -1;
@@ -415,9 +418,9 @@ int cbm2_snapshot_write_module(snapshot_t *p, int save_roms)
 int cbm2_snapshot_read_module(snapshot_t *p)
 {
     if (mem_read_ram_snapshot_module(p) < 0
-        || mem_read_rom_snapshot_module(p) < 0 )
+        || mem_read_rom_snapshot_module(p) < 0) {
         return -1;
+    }
 
     return 0;
 }
-

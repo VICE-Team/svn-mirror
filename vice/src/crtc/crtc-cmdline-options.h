@@ -29,4 +29,3 @@
 #define VICE_CRTC_CMDLINE_OPTIONS_H
 
 #endif
-

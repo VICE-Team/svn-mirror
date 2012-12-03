@@ -33,4 +33,3 @@ extern void fsimage_probe_init(void);
 extern int fsimage_probe(struct disk_image_s *image);
 
 #endif
-

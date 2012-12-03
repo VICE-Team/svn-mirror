@@ -71,4 +71,3 @@ extern void colorram_store(WORD addr, BYTE value);
 extern BYTE colorram_read(WORD addr);
 
 #endif
-

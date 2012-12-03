@@ -50,7 +50,7 @@
 #define IS_CB_PULSE_MODE()      ((tpi_context->c_tpi[TPI_CREG] & 0xc0) == 0x40)
 #define IS_CB_TOGGLE_MODE()     ((tpi_context->c_tpi[TPI_CREG] & 0xc0) == 0x00)
 
- 
+
 static const BYTE pow2[] = { 1, 2, 4, 8, 16 };
 
 static int mytpi_debug = 0;
@@ -67,8 +67,9 @@ static void set_latch_bit(tpi_context_t *tpi_context, int bit)
 
     irq_latches |= bit;
 
-    if (!(irq_mask & bit))
+    if (!(irq_mask & bit)) {
         return;
+    }
 
     /* if one IRQ is already active put on stack, if not, trigger CPU int */
     if (irq_priority) {
@@ -177,76 +178,76 @@ void tpicore_store(tpi_context_t *tpi_context, WORD addr, BYTE byte)
     addr &= 0x07;
 
     switch (addr) {
-      case TPI_PA:
-      case TPI_DDPA:
-        tpi_context->c_tpi[addr] = byte;
-        byte = tpi_context->c_tpi[TPI_PA] | ~(tpi_context->c_tpi[TPI_DDPA]);
-        (tpi_context->store_pa)(tpi_context, byte);
-        tpi_context->oldpa = byte;
-        return;
-      case TPI_PB:
-      case TPI_DDPB:
-        tpi_context->c_tpi[addr] = byte;
-        byte = tpi_context->c_tpi[TPI_PB] | ~(tpi_context->c_tpi[TPI_DDPB]);
-        (tpi_context->store_pb)(tpi_context, byte);
-        tpi_context->oldpb = byte;
-        if (IS_CB_MODE()) {
-            tpi_context->cb_state = 0;
-            (tpi_context->set_cb)(tpi_context, 0);
-            if (IS_CB_PULSE_MODE()) {
-                tpi_context->cb_state = 1;
-                (tpi_context->set_cb)(tpi_context, 1);
-            }
-        }
-        return;
-      case TPI_PC:
-      case TPI_DDPC:
-        tpi_context->c_tpi[addr] = byte;
-        if (irq_mode) {
-            if (addr == TPI_PC) {
-                irq_latches &= byte;
-            } else {
-                int i;
-
-                for (i = 4; i >= 0; i--) {
-                    if (irq_mask & irq_latches & pow2[i]) {
-                        set_latch_bit(tpi_context, pow2[i]);
-                    }
+        case TPI_PA:
+        case TPI_DDPA:
+            tpi_context->c_tpi[addr] = byte;
+            byte = tpi_context->c_tpi[TPI_PA] | ~(tpi_context->c_tpi[TPI_DDPA]);
+            (tpi_context->store_pa)(tpi_context, byte);
+            tpi_context->oldpa = byte;
+            return;
+        case TPI_PB:
+        case TPI_DDPB:
+            tpi_context->c_tpi[addr] = byte;
+            byte = tpi_context->c_tpi[TPI_PB] | ~(tpi_context->c_tpi[TPI_DDPB]);
+            (tpi_context->store_pb)(tpi_context, byte);
+            tpi_context->oldpb = byte;
+            if (IS_CB_MODE()) {
+                tpi_context->cb_state = 0;
+                (tpi_context->set_cb)(tpi_context, 0);
+                if (IS_CB_PULSE_MODE()) {
+                    tpi_context->cb_state = 1;
+                    (tpi_context->set_cb)(tpi_context, 1);
                 }
             }
-        } else {
-            byte = tpi_context->c_tpi[TPI_PC] | ~(tpi_context->c_tpi[TPI_DDPC]);
-            (tpi_context->store_pc)(tpi_context, byte);
-            tpi_context->oldpc = byte;
-        }
-        return;
-      case TPI_CREG:
-        tpi_context->c_tpi[addr] = byte;
-        if (mytpi_debug) {
-            log_message(tpi_context->log, "write %02x to CREG",byte);
-        }
-        if (tpi_context->c_tpi[TPI_CREG] & 0x20) {
-            tpi_context->ca_state = (tpi_context->c_tpi[TPI_CREG] & 0x10);
-            (tpi_context->set_ca)(tpi_context, tpi_context->ca_state);
-        } else {
-          if (tpi_context->c_tpi[TPI_CREG] & 0x10) {
-              tpi_context->ca_state = 1;
-              (tpi_context->set_ca)(tpi_context, 1);
-          }
-        }
-        if (tpi_context->c_tpi[TPI_CREG] & 0x80) {
-            tpi_context->cb_state = (tpi_context->c_tpi[TPI_CREG] & 0x40);
-            (tpi_context->set_cb)(tpi_context, tpi_context->cb_state);
-        } else {
-            if (tpi_context->c_tpi[TPI_CREG] & 0x40) {
-                tpi_context->cb_state = 1;
-                (tpi_context->set_cb)(tpi_context, 1);
+            return;
+        case TPI_PC:
+        case TPI_DDPC:
+            tpi_context->c_tpi[addr] = byte;
+            if (irq_mode) {
+                if (addr == TPI_PC) {
+                    irq_latches &= byte;
+                } else {
+                    int i;
+
+                    for (i = 4; i >= 0; i--) {
+                        if (irq_mask & irq_latches & pow2[i]) {
+                            set_latch_bit(tpi_context, pow2[i]);
+                        }
+                    }
+                }
+            } else {
+                byte = tpi_context->c_tpi[TPI_PC] | ~(tpi_context->c_tpi[TPI_DDPC]);
+                (tpi_context->store_pc)(tpi_context, byte);
+                tpi_context->oldpc = byte;
             }
-        }
-        return;
-      case TPI_AIR:
-        pop_irq_state(tpi_context);
-        return;
+            return;
+        case TPI_CREG:
+            tpi_context->c_tpi[addr] = byte;
+            if (mytpi_debug) {
+                log_message(tpi_context->log, "write %02x to CREG", byte);
+            }
+            if (tpi_context->c_tpi[TPI_CREG] & 0x20) {
+                tpi_context->ca_state = (tpi_context->c_tpi[TPI_CREG] & 0x10);
+                (tpi_context->set_ca)(tpi_context, tpi_context->ca_state);
+            } else {
+                if (tpi_context->c_tpi[TPI_CREG] & 0x10) {
+                    tpi_context->ca_state = 1;
+                    (tpi_context->set_ca)(tpi_context, 1);
+                }
+            }
+            if (tpi_context->c_tpi[TPI_CREG] & 0x80) {
+                tpi_context->cb_state = (tpi_context->c_tpi[TPI_CREG] & 0x40);
+                (tpi_context->set_cb)(tpi_context, tpi_context->cb_state);
+            } else {
+                if (tpi_context->c_tpi[TPI_CREG] & 0x40) {
+                    tpi_context->cb_state = 1;
+                    (tpi_context->set_cb)(tpi_context, 1);
+                }
+            }
+            return;
+        case TPI_AIR:
+            pop_irq_state(tpi_context);
+            return;
     }
     tpi_context->c_tpi[addr] = byte;
 }
@@ -258,36 +259,36 @@ BYTE tpicore_read(tpi_context_t *tpi_context, WORD addr)
     addr &= 0x07;
 
     switch (addr) {
-      case TPI_PA:
-        byte = (tpi_context->read_pa)(tpi_context);
-        if (IS_CA_MODE()) {
-            tpi_context->ca_state = 0;
-            (tpi_context->set_ca)(tpi_context, 0);
-            if (IS_CA_PULSE_MODE()) {
-                tpi_context->ca_state = 1;
-                (tpi_context->set_ca)(tpi_context, 1);
+        case TPI_PA:
+            byte = (tpi_context->read_pa)(tpi_context);
+            if (IS_CA_MODE()) {
+                tpi_context->ca_state = 0;
+                (tpi_context->set_ca)(tpi_context, 0);
+                if (IS_CA_PULSE_MODE()) {
+                    tpi_context->ca_state = 1;
+                    (tpi_context->set_ca)(tpi_context, 1);
+                }
             }
-        }
-        tpi_context->tpi_last_read = byte;
-        return byte;
-      case TPI_PB:
-        byte = (tpi_context->read_pb)(tpi_context);
-        tpi_context->tpi_last_read = byte;
-        return byte;
-      case TPI_PC:
-        if (irq_mode) {
-            byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
-        } else {
-            byte = (tpi_context->read_pc)(tpi_context);
-        }
-        tpi_context->tpi_last_read = byte;
-        return byte;
-      case TPI_AIR:
-        tpi_context->tpi_last_read = push_irq_state(tpi_context);
-        return tpi_context->tpi_last_read;
-      default:
-        tpi_context->tpi_last_read = tpi_context->c_tpi[addr];
-        return tpi_context->tpi_last_read;
+            tpi_context->tpi_last_read = byte;
+            return byte;
+        case TPI_PB:
+            byte = (tpi_context->read_pb)(tpi_context);
+            tpi_context->tpi_last_read = byte;
+            return byte;
+        case TPI_PC:
+            if (irq_mode) {
+                byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
+            } else {
+                byte = (tpi_context->read_pc)(tpi_context);
+            }
+            tpi_context->tpi_last_read = byte;
+            return byte;
+        case TPI_AIR:
+            tpi_context->tpi_last_read = push_irq_state(tpi_context);
+            return tpi_context->tpi_last_read;
+        default:
+            tpi_context->tpi_last_read = tpi_context->c_tpi[addr];
+            return tpi_context->tpi_last_read;
     }
 }
 
@@ -298,16 +299,16 @@ BYTE tpicore_peek(tpi_context_t *tpi_context, WORD addr)
     addr &= 0x07;
 
     switch (addr) {
-      case TPI_PC:
-        if (irq_mode) {
-            byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
-        } else {
+        case TPI_PC:
+            if (irq_mode) {
+                byte = (irq_latches & 0x1f) | (irq_active ? 0x20 : 0) | 0xc0;
+            } else {
+                byte = tpi_context->c_tpi[addr];
+            }
+            break;
+        default:
             byte = tpi_context->c_tpi[addr];
-        }
-        break;
-      default:
-        byte = tpi_context->c_tpi[addr];
-        break;
+            break;
     }
 
     return byte;
@@ -319,8 +320,9 @@ BYTE tpicore_peek(tpi_context_t *tpi_context, WORD addr)
  * a state parameter != 0 */
 void tpicore_set_int(tpi_context_t *tpi_context, int bit, int state)
 {
-    if (bit >= 5)
+    if (bit >= 5) {
         return;
+    }
 
     bit = pow2[bit];
 
@@ -329,7 +331,7 @@ void tpicore_set_int(tpi_context_t *tpi_context, int bit, int state)
     /* check low-high transition */
     if (state && !(tpi_context->irq_previous & bit)) {
         /* on those two lines the transition can be selected. */
-        if ((bit & 0x18) && ((bit>>1) & tpi_context->c_tpi[TPI_CREG])) {
+        if ((bit & 0x18) && ((bit >> 1) & tpi_context->c_tpi[TPI_CREG])) {
             set_latch_bit(tpi_context, bit);
             if ((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
                 tpi_context->ca_state = 1;
@@ -345,7 +347,7 @@ void tpicore_set_int(tpi_context_t *tpi_context, int bit, int state)
     /* check high-low transition */
     if ((!state) && (tpi_context->irq_previous & bit)) {
         /* on those two lines the transition can be selected. */
-        if ((bit & 0x18) && !((bit>>1) & tpi_context->c_tpi[TPI_CREG])) {
+        if ((bit & 0x18) && !((bit >> 1) & tpi_context->c_tpi[TPI_CREG])) {
             set_latch_bit(tpi_context, bit);
             if ((bit & 0x08) && IS_CA_TOGGLE_MODE()) {
                 tpi_context->ca_state = 1;
@@ -366,8 +368,9 @@ void tpicore_set_int(tpi_context_t *tpi_context, int bit, int state)
 
 void tpicore_restore_int(tpi_context_t *tpi_context, int bit, int state)
 {
-    if (bit >= 5)
+    if (bit >= 5) {
         return;
+    }
 
     bit = pow2[bit];
 
@@ -425,8 +428,9 @@ int tpicore_snapshot_write_module(tpi_context_t *tpi_context, snapshot_t *p)
 
     m = snapshot_module_create(p, tpi_context->myname,
                                TPI_DUMP_VER_MAJOR, TPI_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     SMW_B(m, tpi_context->c_tpi[TPI_PA]);
     SMW_B(m, tpi_context->c_tpi[TPI_PB]);
@@ -440,7 +444,7 @@ int tpicore_snapshot_write_module(tpi_context_t *tpi_context, snapshot_t *p)
     SMW_B(m, tpi_context->irq_stack);
 
     SMW_B(m, (BYTE)((tpi_context->ca_state ? 0x80 : 0)
-          | (tpi_context->cb_state ? 0x40 : 0)));
+                    | (tpi_context->cb_state ? 0x40 : 0)));
 
     snapshot_module_close(m);
 
@@ -456,8 +460,9 @@ int tpicore_snapshot_read_module(tpi_context_t *tpi_context, snapshot_t *p)
     (tpi_context->restore_int)(tpi_context->tpi_int_num, 0); /* just in case */
 
     m = snapshot_module_open(p, tpi_context->myname, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != TPI_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
@@ -501,8 +506,9 @@ int tpicore_snapshot_read_module(tpi_context_t *tpi_context, snapshot_t *p)
     (tpi_context->restore_int)(tpi_context->tpi_int_num, irq_active
                                ? tpi_context->irq_line : 0);
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         return -1;
+    }
 
     return 0;
 }

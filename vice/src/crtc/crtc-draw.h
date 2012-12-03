@@ -39,4 +39,3 @@ extern void crtc_draw_init(void);
 extern DWORD dwg_table[16];
 
 #endif
-

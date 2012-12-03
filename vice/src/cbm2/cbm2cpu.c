@@ -61,4 +61,3 @@
     (*_mem_read_ind_tab_ptr[(addr) >> 8])((WORD)(addr))
 
 #include "../maincpu.c"
-

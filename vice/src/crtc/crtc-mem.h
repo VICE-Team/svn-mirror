@@ -44,4 +44,3 @@ extern void crtc_set_char(int crom);
 extern void crtc_update_memory_ptrs(void);
 
 #endif
-

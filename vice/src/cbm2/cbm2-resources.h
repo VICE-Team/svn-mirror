@@ -42,4 +42,3 @@ extern int ramsize;
 extern int cia1_model;
 
 #endif
-

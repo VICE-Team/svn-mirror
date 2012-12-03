@@ -89,7 +89,7 @@ static void update_timer(riot_context_t *riot_context)
         riot_context->r_divider = 1;
     }
     riot_context->r_write_clk += (*(riot_context->clk_ptr)
-                                 - riot_context->r_write_clk) & 0xff00;
+                                  - riot_context->r_write_clk) & 0xff00;
 }
 
 static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
@@ -98,17 +98,19 @@ static void riotcore_clk_overflow_callback(CLOCK sub, void *data)
 
     riot_context = (riot_context_t *)data;
 
-    if (riot_context->enabled == 0)
+    if (riot_context->enabled == 0) {
         return;
+    }
 
     update_timer(riot_context);
 
     riot_context->r_write_clk -= sub;
 
-    if (riot_context->read_clk > sub)
+    if (riot_context->read_clk > sub) {
         riot_context->read_clk -= sub;
-    else
+    } else {
         riot_context->read_clk = 0;
+    }
 }
 
 void riotcore_disable(riot_context_t *riot_context)
@@ -166,20 +168,20 @@ void riotcore_store(riot_context_t *riot_context, WORD addr, BYTE byte)
     if ((addr & 0x04) == 0) {           /* I/O */
         addr &= 3;
         switch (addr) {
-          case 0:         /* ORA */
-          case 1:         /* DDRA */
-            (riot_context->riot_io)[addr] = byte;
-            byte = (riot_context->riot_io)[0] | ~(riot_context->riot_io)[1];
-            riot_context->store_pra(riot_context, byte);
-            riot_context->old_pa = byte;
-            break;
-          case 2:         /* ORB */
-          case 3:         /* DDRB */
-            (riot_context->riot_io)[addr] = byte;
-            byte = (riot_context->riot_io)[2] | ~(riot_context->riot_io)[3];
-            riot_context->store_prb(riot_context, byte);
-            riot_context->old_pb = byte;
-            break;
+            case 0:       /* ORA */
+            case 1:       /* DDRA */
+                (riot_context->riot_io)[addr] = byte;
+                byte = (riot_context->riot_io)[0] | ~(riot_context->riot_io)[1];
+                riot_context->store_pra(riot_context, byte);
+                riot_context->old_pa = byte;
+                break;
+            case 2:       /* ORB */
+            case 3:       /* DDRB */
+                (riot_context->riot_io)[addr] = byte;
+                byte = (riot_context->riot_io)[2] | ~(riot_context->riot_io)[3];
+                riot_context->store_prb(riot_context, byte);
+                riot_context->old_pb = byte;
+                break;
         }
     } else
     if ((addr & 0x14) == 0x14) {        /* set timer */
@@ -231,11 +233,12 @@ BYTE riotcore_read(riot_context_t *riot_context, WORD addr)
     BYTE myriot_read_(riot_context_t *, WORD);
     BYTE retv = myriot_read_(riot_context, addr);
     addr &= 0x1f;
-    if ((addr > 3 && addr < 10) || app_resources.debugFlag)
+    if ((addr > 3 && addr < 10) || app_resources.debugFlag) {
         log_message(riot_context->log,
                     (riot_context->myname)
                     "(%x) -> %02x, clk=%d", addr, retv,
                     *(riot_context->clk_ptr));
+    }
     return retv;
 }
 BYTE myriot_read_(riot_context_t *riot_context, WORD addr)
@@ -258,22 +261,22 @@ BYTE myriot_read_(riot_context_t *riot_context, WORD addr)
 
     if ((addr & 0x04) == 0) {           /* I/O */
         switch (addr & 3) {
-          case 0:         /* ORA */
-            riot_context->last_read = riot_context->read_pra(riot_context);
-            return riot_context->last_read;
-            break;
-          case 1:         /* DDRA */
-            riot_context->last_read = riot_context->riot_io[1];
-            return riot_context->last_read;
-            break;
-          case 2:         /* ORB */
-            riot_context->last_read = riot_context->read_prb(riot_context);
-            return riot_context->last_read;
-            break;
-          case 3:         /* DDRB */
-            riot_context->last_read = riot_context->riot_io[3];
-            return riot_context->last_read;
-            break;
+            case 0:       /* ORA */
+                riot_context->last_read = riot_context->read_pra(riot_context);
+                return riot_context->last_read;
+                break;
+            case 1:       /* DDRA */
+                riot_context->last_read = riot_context->riot_io[1];
+                return riot_context->last_read;
+                break;
+            case 2:       /* ORB */
+                riot_context->last_read = riot_context->read_prb(riot_context);
+                return riot_context->last_read;
+                break;
+            case 3:       /* DDRB */
+                riot_context->last_read = riot_context->riot_io[3];
+                return riot_context->last_read;
+                break;
         }
     } else
     if ((addr & 0x05) == 0x04) {        /* read timer */
@@ -288,15 +291,15 @@ BYTE myriot_read_(riot_context_t *riot_context, WORD addr)
         riot_context->r_irqen = addr & 8;
 
         if (riot_context->r_irqen) {
-             alarm_set(riot_context->alarm, riot_context->r_write_clk
-                       + riot_context->r_N * riot_context->r_divider);
+            alarm_set(riot_context->alarm, riot_context->r_write_clk
+                      + riot_context->r_N * riot_context->r_divider);
         } else {
-             alarm_unset(riot_context->alarm);
+            alarm_unset(riot_context->alarm);
         }
 
         riot_context->last_read = (BYTE)(riot_context->r_N
-                                  - (rclk - riot_context->r_write_clk)
-                                  / riot_context->r_divider);
+                                         - (rclk - riot_context->r_write_clk)
+                                         / riot_context->r_divider);
         return riot_context->last_read;
     } else
     if ((addr & 0x05) == 0x05) {        /* read irq flag */
@@ -399,8 +402,9 @@ int riotcore_snapshot_write_module(riot_context_t *riot_context, snapshot_t *p)
 
     m = snapshot_module_create(p, riot_context->myname,
                                RIOT_DUMP_VER_MAJOR, RIOT_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     update_timer(riot_context);
 
@@ -413,11 +417,11 @@ int riotcore_snapshot_write_module(riot_context_t *riot_context, snapshot_t *p)
     SMW_B(m, (BYTE)(riot_context->r_irqfl | (riot_context->r_irqline ? 1 : 0)));
 
     SMW_B(m, (BYTE)(riot_context->r_N - (*(riot_context->clk_ptr)
-          - riot_context->r_write_clk)
-          / riot_context->r_divider));
+                                         - riot_context->r_write_clk)
+                    / riot_context->r_divider));
     SMW_W(m, (WORD)(riot_context->r_divider));
     SMW_W(m, (BYTE)((*(riot_context->clk_ptr) - riot_context->r_write_clk)
-          % riot_context->r_divider));
+                    % riot_context->r_divider));
     SMW_B(m, (BYTE)(riot_context->r_irqen ? 1 : 0));
 
     snapshot_module_close(m);
@@ -489,4 +493,3 @@ int riotcore_snapshot_read_module(riot_context_t *riot_context, snapshot_t *p)
 
     return 0;
 }
-
