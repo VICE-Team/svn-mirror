@@ -75,6 +75,11 @@ static void (*sid_store_func)(WORD addr, BYTE val, int chipno);
 
 static int sid_enable, sid_engine_type = -1;
 
+#ifdef HAVE_MOUSE
+static CLOCK pot_cycle = 0;  /* pot sampling cycle */
+static BYTE val_pot_x = 0xff, val_pot_y = 0xff; /* last sampling value */
+#endif
+
 BYTE *sid_get_siddata(unsigned int channel)
 {
     return siddata[channel];
@@ -115,14 +120,21 @@ static BYTE sid_read_chip(WORD addr, int chipno)
     machine_handle_pending_alarms(0);
 
 #ifdef HAVE_MOUSE
-    if (addr == 0x19 && _mouse_enabled && chipno == 0) {
-        val = mouse_get_x();
-    } else if (addr == 0x1a && _mouse_enabled && chipno == 0) {
-        val = mouse_get_y();
-    } else if (addr == 0x19 && lightpen_enabled && chipno == 0) {
-        val = lightpen_read_button_x();
-    } else if (addr == 0x1a && lightpen_enabled && chipno == 0) {
-        val = lightpen_read_button_y();
+    if (chipno == 0 && (addr == 0x19 || addr == 0x1a)) {
+        if ((maincpu_clk ^ pot_cycle) & ~511) {
+            pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
+            if (_mouse_enabled) {
+               val_pot_x = mouse_get_x();
+               val_pot_y = mouse_get_y();
+            } else if (lightpen_enabled) {
+               val_pot_x = lightpen_read_button_x();
+               val_pot_y = lightpen_read_button_y();
+            } else {
+               val_pot_x = 0xff;
+               val_pot_y = 0xff;
+            }
+        }
+        val = (addr == 0x19) ? val_pot_x : val_pot_y;
     } else
 #endif
     {

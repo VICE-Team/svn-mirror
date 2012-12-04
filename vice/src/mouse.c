@@ -114,9 +114,6 @@ static char smart_ram[65];
     emulation on the commandline, or (re)start (or reset incase of a cart)
     after enabling it in the gui. (see testprogs/SID/paddles/fc3detect.asm)
 
-    FIXME: this is too simplistic as it doesn't take the sampling period into
-           account.
-
     HACK: when both ports are selected, a proper combined value should be
           returned. however, since we are currently only emulating a single
           mouse or pair of paddles, always returning its respective value in
@@ -457,9 +454,6 @@ static inline BYTE mouse_paddle_update(BYTE paddle_v, SWORD *old_v, SWORD new_v)
 
 /*
     note: for the expected behaviour look at testprogs/SID/paddles/readme.txt
-
-    FIXME: this is too simplistic as it doesn't take the sampling period into
-           account.
 
     HACK: when both ports are selected, a proper combined value should be
           returned. however, since we are currently only emulating a single
