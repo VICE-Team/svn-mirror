@@ -62,10 +62,6 @@ int mousedrv_cmdline_options_init(void)
 
 /* ------------------------------------------------------------------------- */
 
-void mouse_set_format(void)
-{
-}
-
 extern ViceWindow *windowlist[];
 extern int window_count;
 

@@ -39,7 +39,6 @@ extern int mousedrv_get_x(void);
 extern int mousedrv_get_y(void);
 extern unsigned long mousedrv_get_timestamp(void);
 
-extern void mouse_set_format(void);
 extern void mouse_update_mouse(void);
 extern void mouse_update_mouse_acquire(void);
 
