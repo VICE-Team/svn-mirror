@@ -75,7 +75,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     g_mb |= MB_LEFT;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
@@ -84,7 +86,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     g_mb &= ~MB_LEFT;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
@@ -93,7 +97,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     g_mb |= MB_RIGHT;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
@@ -102,7 +108,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     g_mb &= ~MB_RIGHT;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
@@ -111,7 +119,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     g_mb |= MB_MIDDLE;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
@@ -120,7 +130,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     g_mb &= ~MB_MIDDLE;
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
@@ -128,7 +140,9 @@ static struct InputEvent *MyInputHandler(struct InputEvent *event_list)
                     Forbid();
                     g_mx += event->ie_position.ie_xy.ie_x;
                     g_my -= event->ie_position.ie_xy.ie_y;
-                    mouse_timestamp = vsyncarch_gettime();
+                    if (event->ie_position.ie_xy.ie_x || event->ie_position.ie_xy.ie_y) {
+                        mouse_timestamp = vsyncarch_gettime();
+                    }
                     Permit();
                     event->ie_Class = IECLASS_NULL; /* remove event */
                     break;
