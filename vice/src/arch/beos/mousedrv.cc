@@ -77,7 +77,6 @@ void mouse_update_mouse(void)
     static BPoint last_point;
 
     BPoint point;
-    BRect bounds;
     uint32 buttons;
 
     if (!_mouse_enabled || window_count == 0) {
@@ -86,7 +85,6 @@ void mouse_update_mouse(void)
 
     windowlist[0]->Lock();
     windowlist[0]->view->GetMouse(&point, &buttons);
-    bounds = windowlist[0]->view->Bounds();
     windowlist[0]->Unlock();
 
     if (buttons & B_SECONDARY_MOUSE_BUTTON) {
@@ -94,9 +92,11 @@ void mouse_update_mouse(void)
         return;
     }
 
-    _mouse_x += (int)((point.x - last_point.x) / bounds.Width() * 1024) % 1024;
-    _mouse_y -= (int)((point.y - last_point.y) / bounds.Height() * 1024) % 1024;
-    mouse_timestamp = vsyncarch_gettime();
+    if (point.x != last_point.x || point.y != last_point.y) {
+        _mouse_x += (int)(point.x - last_point.x);
+        _mouse_y -= (int)(point.y - last_point.y);
+        mouse_timestamp = vsyncarch_gettime();
+    }
 
     last_point = point;
 }
