@@ -27,6 +27,13 @@
  *
  */
 
+/* Important requirements to arch specific mouse drivers for proper operation:
+ * - mousedrv_get_x and mousedrv_get_y MUST return a value with at
+ *   least 16 valid bits in LSB.
+ * - mousedrv_get_timestamp MUST give the time stamp when the last
+ *   mouse movement happened. A button press is not a movement!
+*/
+
 /* #define DEBUG_MOUSE */
 
 #ifdef DEBUG_MOUSE
