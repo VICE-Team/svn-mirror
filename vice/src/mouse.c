@@ -299,8 +299,8 @@ static void clk_overflow_callback(CLOCK sub, void *data)
 BYTE mouse_poll(void)
 {
     SWORD new_x, new_y;
-    unsigned long os_now, os_iv;
-    CLOCK emu_now, emu_iv;
+    unsigned long os_now, os_iv, os_iv2;
+    CLOCK emu_now, emu_iv, emu_iv2;
     int diff_x, diff_y;
 
     /* get new mouse values */
@@ -390,6 +390,28 @@ BYTE mouse_poll(void)
                     emu_now, update_x_emu_iv, update_y_emu_iv,
                     latest_x, latest_y, new_x, new_y);
 #endif
+
+        /* The mouse read is probably old. Do the movement since then */
+        os_iv2 = vsyncarch_gettime() - os_now;
+        if (os_iv2 > (unsigned long)vsyncarch_frequency()) {
+            os_iv2 = (unsigned long)vsyncarch_frequency(); /* more than a second response time?! */
+        }
+        emu_iv2 = (CLOCK)((float)os_iv2 * emu_units_per_os_units);
+        if (emu_iv2 > machine_get_cycles_per_second()) {
+            emu_iv2 = machine_get_cycles_per_second();   /* more than a second? */
+        }
+
+        /* update x-wheel until we're ahead */
+        while (((new_x ^ last_mouse_x) & 0xffff) && next_update_x_emu_ts < emu_now + emu_iv2) {
+            last_mouse_x += sx;
+            next_update_x_emu_ts += update_x_emu_iv;
+        }
+
+        /* update y-wheel until we're ahead */
+        while (((new_y ^ last_mouse_y) & 0xffff) && next_update_y_emu_ts <= emu_now + emu_iv2) {
+            last_mouse_y -= sy;
+            next_update_y_emu_ts += update_y_emu_iv;
+        }
 
         /* store the new coordinates for next time */
         latest_x = new_x;
