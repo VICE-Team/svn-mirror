@@ -46,8 +46,7 @@ static BYTE drive_read_ram(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0x7ff];
 }
 
-static void drive_store_ram(drive_context_t *drv, WORD address,
-                                     BYTE value)
+static void drive_store_ram(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud->drive_ram[address & 0x7ff] = value;
 }
@@ -57,8 +56,7 @@ static BYTE drive_read_1581ram(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0x1fff];
 }
 
-static void drive_store_1581ram(drive_context_t *drv, WORD address,
-                                         BYTE value)
+static void drive_store_1581ram(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud->drive_ram[address & 0x1fff] = value;
 }
@@ -68,8 +66,7 @@ static BYTE drive_read_zero(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void drive_store_zero(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_zero(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud->drive_ram[address & 0xff] = value;
 }
@@ -79,8 +76,7 @@ static BYTE drive_read_ram2(drive_context_t *drv, WORD address)
     return drv->drive->drive_ram_expand2[address & 0x1fff];
 }
 
-static void drive_store_ram2(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_ram2(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->drive->drive_ram_expand2[address & 0x1fff] = value;
 }
@@ -90,8 +86,7 @@ static BYTE drive_read_ram4(drive_context_t *drv, WORD address)
     return drv->drive->drive_ram_expand4[address & 0x1fff];
 }
 
-static void drive_store_ram4(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_ram4(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->drive->drive_ram_expand4[address & 0x1fff] = value;
 }
@@ -101,8 +96,7 @@ static BYTE drive_read_ram6(drive_context_t *drv, WORD address)
     return drv->drive->drive_ram_expand6[address & 0x1fff];
 }
 
-static void drive_store_ram6(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_ram6(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->drive->drive_ram_expand6[address & 0x1fff] = value;
 }
@@ -112,8 +106,7 @@ static BYTE drive_read_ram8(drive_context_t *drv, WORD address)
     return drv->drive->drive_ram_expand8[address & 0x1fff];
 }
 
-static void drive_store_ram8(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_ram8(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->drive->drive_ram_expand8[address & 0x1fff] = value;
 }
@@ -123,8 +116,7 @@ static BYTE drive_read_rama(drive_context_t *drv, WORD address)
     return drv->drive->drive_ram_expanda[address & 0x1fff];
 }
 
-static void drive_store_rama(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_rama(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->drive->drive_ram_expanda[address & 0x1fff] = value;
 }
@@ -148,40 +140,39 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         || type == DRIVE_TYPE_1570 || type == DRIVE_TYPE_1571
         || type == DRIVE_TYPE_1571CR || type == DRIVE_TYPE_1581
         || type == DRIVE_TYPE_2000 || type == DRIVE_TYPE_4000) {
-
         /* Setup drive RAM.  */
         switch (type) {
-          case DRIVE_TYPE_1541:
-          case DRIVE_TYPE_1541II:
-            for (j = 0; j < 0x80; j += 0x20) {
-                drivemem_set_func(cpud, 0x00 + j, 0x08 + j,
+            case DRIVE_TYPE_1541:
+            case DRIVE_TYPE_1541II:
+                for (j = 0; j < 0x80; j += 0x20) {
+                    drivemem_set_func(cpud, 0x00 + j, 0x08 + j,
+                                      drive_read_ram, drive_store_ram);
+                }
+                break;
+            case DRIVE_TYPE_1570:
+            case DRIVE_TYPE_1571:
+            case DRIVE_TYPE_1571CR:
+                drivemem_set_func(cpud, 0x00, 0x10,
                                   drive_read_ram, drive_store_ram);
-            }
-            break;
-          case DRIVE_TYPE_1570:
-          case DRIVE_TYPE_1571:
-          case DRIVE_TYPE_1571CR:
-            drivemem_set_func(cpud, 0x00, 0x10,
-                              drive_read_ram, drive_store_ram);
-            break;
-          case DRIVE_TYPE_1581:
-            drivemem_set_func(cpud, 0x00, 0x20,
-                              drive_read_1581ram, drive_store_1581ram);
-            break;
-          case DRIVE_TYPE_2000:
-          case DRIVE_TYPE_4000:
-            drivemem_set_func(cpud, 0x00, 0x20,
-                              drive_read_1581ram, drive_store_1581ram);
-            realloc_expram(&drv->drive->drive_ram_expand2, 0x2000);
-            drivemem_set_func(cpud, 0x20, 0x40,
-                              drive_read_ram2, drive_store_ram2);
-            realloc_expram(&drv->drive->drive_ram_expand4, 0x2000);
-            drivemem_set_func(cpud, 0x50, 0x60,
-                              drive_read_ram4, drive_store_ram4);
-            realloc_expram(&drv->drive->drive_ram_expand6, 0x2000);
-            drivemem_set_func(cpud, 0x60, 0x80,
-                              drive_read_ram6, drive_store_ram6);
-            break;
+                break;
+            case DRIVE_TYPE_1581:
+                drivemem_set_func(cpud, 0x00, 0x20,
+                                  drive_read_1581ram, drive_store_1581ram);
+                break;
+            case DRIVE_TYPE_2000:
+            case DRIVE_TYPE_4000:
+                drivemem_set_func(cpud, 0x00, 0x20,
+                                  drive_read_1581ram, drive_store_1581ram);
+                realloc_expram(&drv->drive->drive_ram_expand2, 0x2000);
+                drivemem_set_func(cpud, 0x20, 0x40,
+                                  drive_read_ram2, drive_store_ram2);
+                realloc_expram(&drv->drive->drive_ram_expand4, 0x2000);
+                drivemem_set_func(cpud, 0x50, 0x60,
+                                  drive_read_ram4, drive_store_ram4);
+                realloc_expram(&drv->drive->drive_ram_expand6, 0x2000);
+                drivemem_set_func(cpud, 0x60, 0x80,
+                                  drive_read_ram6, drive_store_ram6);
+                break;
         }
 
         drv->cpu->pageone = cpud->drive_ram + 0x100;
@@ -229,8 +220,9 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         drivemem_set_func(cpud, 0x4e, 0x50, pc8477d_read, pc8477d_store);
     }
 
-    if (!rom_loaded)
+    if (!rom_loaded) {
         return;
+    }
 
     /* Setup RAM expansions */
     if (type == DRIVE_TYPE_1541 || type == DRIVE_TYPE_1541II) {
@@ -278,4 +270,3 @@ void memiec_init(struct drive_context_s *drv, unsigned int type)
         }
     }
 }
-

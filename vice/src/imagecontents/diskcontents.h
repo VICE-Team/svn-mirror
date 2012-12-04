@@ -38,4 +38,3 @@ extern struct image_contents_s *diskcontents_read_unit10(const char *file_name);
 extern struct image_contents_s *diskcontents_read_unit11(const char *file_name);
 
 #endif
-

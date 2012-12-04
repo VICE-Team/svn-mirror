@@ -77,7 +77,7 @@ static const int addr_mode_size[] = {
     0, /* ASM_ADDR_MODE_REG_IND_SP */
     2, /* ASM_ADDR_MODE_INDIRECT */
     3, /* ASM_ADDR_MODE_ABS_INDIRECT_X */
-    -1,/* ASM_ADDR_MODE_DOUBLE */
+   -1, /* ASM_ADDR_MODE_DOUBLE */
     3, /* ASM_ADDR_MODE_ZERO_PAGE_RELATIVE */
 };
 
@@ -361,7 +361,7 @@ static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned in
 }
 
 static unsigned int asm_addr_mode_get_size(unsigned int mode, unsigned int p0,
-                                                 unsigned int p1, unsigned int p2)
+                                           unsigned int p1, unsigned int p2)
 {
     return addr_mode_size[mode];
 }

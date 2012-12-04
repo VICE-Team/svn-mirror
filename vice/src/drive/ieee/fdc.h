@@ -67,4 +67,3 @@ extern int fdc_attach_image(struct disk_image_s *image, unsigned int unit);
 extern int fdc_detach_image(struct disk_image_s *image, unsigned int unit);
 
 #endif
-

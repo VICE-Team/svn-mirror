@@ -36,7 +36,7 @@
 #include "diskimage.h"
 #include "drive.h"
 
-const int fdd_data_rates[4] = {500, 300, 250, 1000}; /* kbit/s */
+const int fdd_data_rates[4] = { 500, 300, 250, 1000 }; /* kbit/s */
 #define INDEXLEN (16)
 static void fdd_flush_raw(fd_drive_t *drv);
 static WORD *crc1021 = NULL;
@@ -125,51 +125,51 @@ void fdd_image_attach(fd_drive_t *drv, struct disk_image_s *image)
     }
     drv->image = image;
     switch (image->type) {
-    case DISK_IMAGE_TYPE_D1M:
-        drv->tracks = 81;
-        drv->sectors = 10;
-        drv->sector_size = 2;
-        drv->head_invert = 1;
-        drv->disk_rate = 2;
-        drv->iso = 0;
-        drv->gap2 = 22;
-        drv->gap3 = 35;
-        drv->image_sectors = 256;
-        break;
-    case DISK_IMAGE_TYPE_D2M:
-        drv->tracks = 81;
-        drv->sectors = 10;
-        drv->sector_size = 3;
-        drv->head_invert = 1;
-        drv->disk_rate = 0;
-        drv->iso = 0;
-        drv->gap2 = 22;
-        drv->gap3 = 100;
-        drv->image_sectors = 256;
-        break;
-    case DISK_IMAGE_TYPE_D4M:
-        drv->tracks = 81;
-        drv->sectors = 20;
-        drv->sector_size = 3;
-        drv->head_invert = 1;
-        drv->disk_rate = 3;
-        drv->iso = 0;
-        drv->gap2 = 41;
-        drv->gap3 = 100;
-        drv->image_sectors = 256;
-        break;
-    case DISK_IMAGE_TYPE_D81:
-    default:
-        drv->tracks = 80;
-        drv->sectors = 10;
-        drv->sector_size = 2;
-        drv->head_invert = 1;
-        drv->disk_rate = 2;
-        drv->iso = 1;
-        drv->gap2 = 22;
-        drv->gap3 = 35;
-        drv->image_sectors = 40;
-        break;
+        case DISK_IMAGE_TYPE_D1M:
+            drv->tracks = 81;
+            drv->sectors = 10;
+            drv->sector_size = 2;
+            drv->head_invert = 1;
+            drv->disk_rate = 2;
+            drv->iso = 0;
+            drv->gap2 = 22;
+            drv->gap3 = 35;
+            drv->image_sectors = 256;
+            break;
+        case DISK_IMAGE_TYPE_D2M:
+            drv->tracks = 81;
+            drv->sectors = 10;
+            drv->sector_size = 3;
+            drv->head_invert = 1;
+            drv->disk_rate = 0;
+            drv->iso = 0;
+            drv->gap2 = 22;
+            drv->gap3 = 100;
+            drv->image_sectors = 256;
+            break;
+        case DISK_IMAGE_TYPE_D4M:
+            drv->tracks = 81;
+            drv->sectors = 20;
+            drv->sector_size = 3;
+            drv->head_invert = 1;
+            drv->disk_rate = 3;
+            drv->iso = 0;
+            drv->gap2 = 41;
+            drv->gap3 = 100;
+            drv->image_sectors = 256;
+            break;
+        case DISK_IMAGE_TYPE_D81:
+        default:
+            drv->tracks = 80;
+            drv->sectors = 10;
+            drv->sector_size = 2;
+            drv->head_invert = 1;
+            drv->disk_rate = 2;
+            drv->iso = 1;
+            drv->gap2 = 22;
+            drv->gap3 = 35;
+            drv->image_sectors = 40;
+            break;
     }
     drv->raw.size = 25 * fdd_data_rates[drv->disk_rate];
     drv->raw.data = lib_malloc(drv->raw.size);
@@ -194,15 +194,25 @@ void fdd_image_detach(fd_drive_t *drv)
     drv->disk_change = 1;
 }
 
-#define fdd_raw_write(b) {\
-    drv->raw.data[p] = b; \
-    drv->raw.sync[p >> 3] &= 0xff7f >> (p & 7); \
-    p++;if (p >= drv->raw.size) p = 0;}
+#define fdd_raw_write(b)                            \
+    {                                               \
+        drv->raw.data[p] = b;                       \
+        drv->raw.sync[p >> 3] &= 0xff7f >> (p & 7); \
+        p++;                                        \
+        if (p >= drv->raw.size) {                   \
+            p = 0;                                  \
+        }                                           \
+    }
 
-#define fdd_raw_write_sync(b) {\
-    drv->raw.data[p] = b; \
-    drv->raw.sync[p >> 3] |= 0x80 >> (p & 7); \
-    p++;if (p >= drv->raw.size) p = 0;}
+#define fdd_raw_write_sync(b)                     \
+    {                                             \
+        drv->raw.data[p] = b;                     \
+        drv->raw.sync[p >> 3] |= 0x80 >> (p & 7); \
+        p++;                                      \
+        if (p >= drv->raw.size) {                 \
+            p = 0;                                \
+        }                                         \
+    }
 
 inline WORD fdd_crc(WORD crc, BYTE b)
 {
@@ -212,7 +222,8 @@ inline WORD fdd_crc(WORD crc, BYTE b)
     return crc1021[(crc >> 8) ^ b] ^ (crc << 8);
 }
 
-static void fdd_flush_raw(fd_drive_t *drv) {
+static void fdd_flush_raw(fd_drive_t *drv)
+{
     int i, j, s, p, step, d;
     BYTE *data;
     WORD w;
@@ -226,9 +237,13 @@ static void fdd_flush_raw(fd_drive_t *drv) {
     if (drv->raw.track_head / 2 < drv->tracks && drv->image) {
 #if FDD_DEBUG
         for (i = 0; i < drv->raw.size; i++) {
-            if (!(i & 15)) printf("%04x: ", i);
+            if (!(i & 15)) {
+                printf("%04x: ", i);
+            }
             printf("%02x ", drv->raw.data[i]);
-            if ((i & 15)==15) printf("\n");
+            if ((i & 15) == 15) {
+                printf("\n");
+            }
         }
 #endif
         data = lib_malloc(128 << drv->sector_size);
@@ -246,107 +261,107 @@ static void fdd_flush_raw(fd_drive_t *drv) {
                     p = 0;
                 }
                 switch (step) {
-                case 0:
-                    if (w == 0x00) {
-                        step++;
-                    }
-                    continue;
-                case 1:
-                    if (w == 0x00) {
-                        continue;
-                    }
-                    if (w == 0x1a1) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 2:
-                    if (w == 0x1a1) {
-                        continue;
-                    }
-                    if (w == 0xfe) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 3:
-                    if (w == drv->raw.track_head / 2) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 4:
-                    if (w == ((drv->raw.track_head & 1) ^ drv->head_invert)) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 5:
-                    if (w == s + 1) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 6:
-                    if (w == drv->sector_size) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 7:
-                    step++;
-                    continue;
-                case 8:
-                    step++;
-                    continue;
-                case 9:
-                    if (w == 0x00) {
-                        step++;
-                    }
-                    continue;
-                case 10:
-                    if (w == 0x00) {
-                        continue;
-                    }
-                    if (w == 0x1a1) {
-                        step++;
-                        continue;
-                    }
-                    step = 9;
-                    continue;
-                case 11:
-                    if (w == 0x1a1) {
-                        continue;
-                    }
-                    if (w == 0xfb) {
-                        step++;
-                        continue;
-                    }
-                    break;
-                case 12:
-                    data[d++] = (BYTE)w;
-                    if (d >= (128 << drv->sector_size)) {
-                        step++;
-                    }
-                    continue;
-                case 13:
-                    step++;
-                    continue;
-                case 14:
-
-                    dadr.sector = (drv->raw.track_head ^ drv->head_invert) * drv->sectors + s;
-                    dadr.sector <<= drv->sector_size - 1;
-                    dadr.track = dadr.sector / drv->image_sectors + 1;
-                    dadr.sector = dadr.sector % drv->image_sectors;
-
-                    for (j = 0; j < (1 << drv->sector_size); j += 2) {
-                        disk_image_write_sector(drv->image, data + j * 128, &dadr);
-                        dadr.sector = (dadr.sector + 1) % drv->image_sectors;
-                        if (!dadr.sector) {
-                            dadr.track++;
+                    case 0:
+                        if (w == 0x00) {
+                            step++;
                         }
-                    }
-                    i = drv->raw.size * 2;
+                        continue;
+                    case 1:
+                        if (w == 0x00) {
+                            continue;
+                        }
+                        if (w == 0x1a1) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 2:
+                        if (w == 0x1a1) {
+                            continue;
+                        }
+                        if (w == 0xfe) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 3:
+                        if (w == drv->raw.track_head / 2) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 4:
+                        if (w == ((drv->raw.track_head & 1) ^ drv->head_invert)) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 5:
+                        if (w == s + 1) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 6:
+                        if (w == drv->sector_size) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 7:
+                        step++;
+                        continue;
+                    case 8:
+                        step++;
+                        continue;
+                    case 9:
+                        if (w == 0x00) {
+                            step++;
+                        }
+                        continue;
+                    case 10:
+                        if (w == 0x00) {
+                            continue;
+                        }
+                        if (w == 0x1a1) {
+                            step++;
+                            continue;
+                        }
+                        step = 9;
+                        continue;
+                    case 11:
+                        if (w == 0x1a1) {
+                            continue;
+                        }
+                        if (w == 0xfb) {
+                            step++;
+                            continue;
+                        }
+                        break;
+                    case 12:
+                        data[d++] = (BYTE)w;
+                        if (d >= (128 << drv->sector_size)) {
+                            step++;
+                        }
+                        continue;
+                    case 13:
+                        step++;
+                        continue;
+                    case 14:
+
+                        dadr.sector = (drv->raw.track_head ^ drv->head_invert) * drv->sectors + s;
+                        dadr.sector <<= drv->sector_size - 1;
+                        dadr.track = dadr.sector / drv->image_sectors + 1;
+                        dadr.sector = dadr.sector % drv->image_sectors;
+
+                        for (j = 0; j < (1 << drv->sector_size); j += 2) {
+                            disk_image_write_sector(drv->image, data + j * 128, &dadr);
+                            dadr.sector = (dadr.sector + 1) % drv->image_sectors;
+                            if (!dadr.sector) {
+                                dadr.track++;
+                            }
+                        }
+                        i = drv->raw.size * 2;
                 }
                 step = 0;
             }
@@ -355,7 +370,8 @@ static void fdd_flush_raw(fd_drive_t *drv) {
     }
 }
 
-static void fdd_update_raw(fd_drive_t *drv) {
+static void fdd_update_raw(fd_drive_t *drv)
+{
     int i, j, s, p, res;
     BYTE buffer[256];
     WORD crc;
@@ -373,7 +389,6 @@ static void fdd_update_raw(fd_drive_t *drv) {
     memset(drv->raw.sync, 0, (drv->raw.size + 7) >> 3);
 
     if (drv->track < drv->tracks && drv->image) {
-
         i = (drv->track * 2 + (drv->head ^ drv->head_invert)) * drv->sectors;
         i <<= drv->sector_size - 1;
         dadr.track = i / drv->image_sectors + 1;
@@ -447,9 +462,13 @@ static void fdd_update_raw(fd_drive_t *drv) {
         }
 #if FDD_DEBUG
         for (i = 0; i < drv->raw.size; i++) {
-            if (!(i & 15)) printf("%04x: ", i);
+            if (!(i & 15)) {
+                printf("%04x: ", i);
+            }
             printf("%02x ", drv->raw.data[i]);
-            if ((i & 15)==15) printf("\n");
+            if ((i & 15) == 15) {
+                printf("\n");
+            }
         }
 #endif
     }
@@ -588,8 +607,12 @@ void fdd_seek_pulse(fd_drive_t *drv, int dir)
     if (drv->image) {
         drv->disk_change = 0;
     }
-    if (drv->track < 0) drv->track = 0;
-    if (drv->track > 82) drv->track = 82;
+    if (drv->track < 0) {
+        drv->track = 0;
+    }
+    if (drv->track > 82) {
+        drv->track = 82;
+    }
     drv->drive->current_half_track = (drv->track + 1) * 2;
 }
 

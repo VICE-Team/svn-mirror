@@ -167,8 +167,8 @@ static int pngdrv_save(screenshot_t *screenshot, const char *filename)
     }
 
     for (screenshot->gfxoutputdrv_data->line = 0;
-        screenshot->gfxoutputdrv_data->line < screenshot->height;
-        (screenshot->gfxoutputdrv_data->line)++) {
+         screenshot->gfxoutputdrv_data->line < screenshot->height;
+         (screenshot->gfxoutputdrv_data->line)++) {
         pngdrv_write(screenshot);
     }
 
@@ -204,12 +204,12 @@ static int pngdrv_write_memmap(int line, int x_size, BYTE *gfx, BYTE *palette)
     int i;
     BYTE pixval;
 
-    for (i=0; i<x_size; i++) {
-      pixval = gfx[(line*x_size)+i];
-      pngdrv_memmap_png_data[i*4] = palette[pixval*3];
-      pngdrv_memmap_png_data[(i*4)+1] = palette[(pixval*3)+1];
-      pngdrv_memmap_png_data[(i*4)+2] = palette[(pixval*3)+2];
-      pngdrv_memmap_png_data[(i*4)+3] = 0;
+    for (i = 0; i < x_size; i++) {
+        pixval = gfx[(line * x_size) + i];
+        pngdrv_memmap_png_data[i * 4] = palette[pixval * 3];
+        pngdrv_memmap_png_data[(i * 4) + 1] = palette[(pixval * 3) + 1];
+        pngdrv_memmap_png_data[(i * 4) + 2] = palette[(pixval * 3) + 2];
+        pngdrv_memmap_png_data[(i * 4) + 3] = 0;
     }
 
     png_write_row(pngdrv_memmap_png_ptr, (png_bytep)(pngdrv_memmap_png_data));
@@ -315,7 +315,7 @@ static gfxoutputdrv_t png_drv =
     NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
-    ,pngdrv_save_memmap
+    , pngdrv_save_memmap
 #endif
 };
 
@@ -323,4 +323,3 @@ void gfxoutput_init_png(void)
 {
     gfxoutput_register(&png_drv);
 }
-

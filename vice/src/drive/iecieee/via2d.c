@@ -107,8 +107,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
     interrupt_set_irq(drive_context->cpu->int_status, int_num, value, rclk);
 }
 
-static void restore_int(via_context_t *via_context, unsigned int int_num,
-                    int value)
+static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
     drive_context_t *drive_context;
 
@@ -160,7 +159,6 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
 
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
-
 }
 
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
@@ -173,9 +171,10 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
 
     rotation_rotate_disk(via2p->drive);
 
-    if (via2p->drive->led_status)
+    if (via2p->drive->led_status) {
         via2p->drive->led_active_ticks += *(via_context->clk_ptr)
                                           - via2p->drive->led_last_change_clk;
+    }
     via2p->drive->led_last_change_clk = *(via_context->clk_ptr);
     via2p->drive->led_status = (byte & 8) ? 1 : 0;
 
@@ -185,14 +184,16 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
         /* FIXME: this code is supposed to be more correct, but breaks the AR loader */
         drive_move_head(((byte - via2p->drive->current_half_track + 3) & 3) - 1, via2p->drive);
 #else
-        if ((poldpb & 0x3) == ((byte + 1) & 0x3))
+        if ((poldpb & 0x3) == ((byte + 1) & 0x3)) {
             drive_move_head(-1, via2p->drive);
-        else if ((poldpb & 0x3) == ((byte - 1) & 0x3))
+        } else if ((poldpb & 0x3) == ((byte - 1) & 0x3)) {
             drive_move_head(+1, via2p->drive);
+        }
 #endif
     }
-    if ((poldpb ^ byte) & 0x60)     /* Zone bits */
+    if ((poldpb ^ byte) & 0x60) {   /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
+    }
     if ((poldpb ^ byte) & 0x04) {   /* Motor on/off */
         drive_sound_update((byte & 4) ? DRIVE_SOUND_MOTOR_ON : DRIVE_SOUND_MOTOR_OFF, via2p->number);
         bra = via2p->drive->byte_ready_active;
@@ -294,7 +295,7 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
     rotation_byte_read(via2p->drive);
 
     byte = ((via2p->drive->GCR_read & ~(via_context->via[VIA_DDRA]))
-           | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
+            | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
 
     via2p->drive->byte_ready_level = 0;
 
@@ -313,8 +314,8 @@ static BYTE read_prb(via_context_t *via_context)
 
     rotation_rotate_disk(via2p->drive);
     byte = ((rotation_sync_found(via2p->drive)
-           | drive_writeprotect_sense(via2p->drive))
-           & ~(via_context->via[VIA_DDRB]))
+             | drive_writeprotect_sense(via2p->drive))
+            & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 
 

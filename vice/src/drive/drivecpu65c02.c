@@ -69,7 +69,9 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
     monitor_interface_t *mi;
     drivecpu_context_t *cpu;
 
-    if (i) drv->cpu = lib_calloc(1, sizeof(drivecpu_context_t));
+    if (i) {
+        drv->cpu = lib_calloc(1, sizeof(drivecpu_context_t));
+    }
     cpu = drv->cpu;
 
     if (i) {
@@ -112,11 +114,9 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
     cpu->monspace = monitor_diskspace_mem(drv->mynumber);
 
     if (i) {
-        drv->cpu->clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX
-                                        - CLKGUARD_SUB_MIN);
+        drv->cpu->clk_guard = clk_guard_new(drv->clk_ptr, CLOCK_MAX - CLKGUARD_SUB_MIN);
 
-        drv->cpu->alarm_context = alarm_context_new(
-                                  drv->cpu->identification_string);
+        drv->cpu->alarm_context = alarm_context_new(drv->cpu->identification_string);
     }
 }
 
@@ -126,42 +126,40 @@ void drivecpu65c02_setup_context(struct drive_context_s *drv, int i)
 #define LOAD_ZERO(a)      (drv->cpud->read_func[0](drv, (WORD)(a)))
 #define LOAD_ADDR(a)      (LOAD(a) | (LOAD((a) + 1) << 8))
 #define LOAD_ZERO_ADDR(a) (LOAD_ZERO(a) | (LOAD_ZERO((a) + 1) << 8))
-#define STORE(a, b)       (drv->cpud->store_func[(a) >> 8](drv, (WORD)(a), \
-                          (BYTE)(b)))
-#define STORE_ZERO(a, b)  (drv->cpud->store_func[0](drv, (WORD)(a), \
-                          (BYTE)(b)))
+#define STORE(a, b)       (drv->cpud->store_func[(a) >> 8](drv, (WORD)(a), (BYTE)(b)))
+#define STORE_ZERO(a, b)  (drv->cpud->store_func[0](drv, (WORD)(a), (BYTE)(b)))
 
 /* We should use tables like in maincpu instead (AF) */
-#define JUMP(addr)                                       \
-    do {                                                 \
-        reg_pc = (unsigned int)(addr);                       \
-        if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) { \
-            if (reg_pc >= drv->drive->rom_start) {           \
-                cpu->d_bank_base = drv->drive->trap_rom - 0x8000; \
-                cpu->d_bank_start = drv->drive->rom_start;   \
-                cpu->d_bank_limit = 0xfffd;                  \
-            } else if (reg_pc < 0x2000) {                    \
-                cpu->d_bank_base = drv->cpud->drive_ram;     \
-                cpu->d_bank_start = 0x0000;                  \
-                cpu->d_bank_limit = 0x1ffd;                  \
-            } else if (reg_pc < 0x4000) {                    \
+#define JUMP(addr)                                                         \
+    do {                                                                   \
+        reg_pc = (unsigned int)(addr);                                     \
+        if (reg_pc >= cpu->d_bank_limit || reg_pc < cpu->d_bank_start) {   \
+            if (reg_pc >= drv->drive->rom_start) {                         \
+                cpu->d_bank_base = drv->drive->trap_rom - 0x8000;          \
+                cpu->d_bank_start = drv->drive->rom_start;                 \
+                cpu->d_bank_limit = 0xfffd;                                \
+            } else if (reg_pc < 0x2000) {                                  \
+                cpu->d_bank_base = drv->cpud->drive_ram;                   \
+                cpu->d_bank_start = 0x0000;                                \
+                cpu->d_bank_limit = 0x1ffd;                                \
+            } else if (reg_pc < 0x4000) {                                  \
                 cpu->d_bank_base = drv->drive->drive_ram_expand2 - 0x2000; \
-                cpu->d_bank_start = 0x2000;                  \
-                cpu->d_bank_limit = 0x3ffd;                  \
-            } else if (reg_pc >= 0x6000) {                   \
+                cpu->d_bank_start = 0x2000;                                \
+                cpu->d_bank_limit = 0x3ffd;                                \
+            } else if (reg_pc >= 0x6000) {                                 \
                 cpu->d_bank_base = drv->drive->drive_ram_expand6 - 0x6000; \
-                cpu->d_bank_start = 0x6000;                  \
-                cpu->d_bank_limit = 0x7ffd;                  \
-            } else if (reg_pc >= 0x5000) {                   \
+                cpu->d_bank_start = 0x6000;                                \
+                cpu->d_bank_limit = 0x7ffd;                                \
+            } else if (reg_pc >= 0x5000) {                                 \
                 cpu->d_bank_base = drv->drive->drive_ram_expand4 - 0x4000; \
-                cpu->d_bank_start = 0x5000;                  \
-                cpu->d_bank_limit = 0x5ffd;                  \
-            } else {                                         \
-                cpu->d_bank_base = NULL;                     \
-                cpu->d_bank_start = 0;                       \
-                cpu->d_bank_limit = 0;                       \
-            }                                                \
-        }                                                    \
+                cpu->d_bank_start = 0x5000;                                \
+                cpu->d_bank_limit = 0x5ffd;                                \
+            } else {                                                       \
+                cpu->d_bank_base = NULL;                                   \
+                cpu->d_bank_start = 0;                                     \
+                cpu->d_bank_limit = 0;                                     \
+            }                                                              \
+        }                                                                  \
     } while (0)
 
 /* ------------------------------------------------------------------------- */
@@ -206,8 +204,9 @@ static void cpu_reset(drive_context_t *drv)
     rotation_reset(drv->drive);
     machine_drive_reset(drv);
 
-    if (preserve_monitor)
+    if (preserve_monitor) {
         interrupt_monitor_trap_on(drv->cpu->int_status);
+    }
 }
 
 static void drivecpu65c02_toggle_watchpoints(int flag, void *context)
@@ -245,8 +244,9 @@ void drivecpu65c02_reset(drive_context_t *drv)
 
     interrupt_cpu_status_reset(drv->cpu->int_status);
 
-    if (preserve_monitor)
+    if (preserve_monitor) {
         interrupt_monitor_trap_on(drv->cpu->int_status);
+    }
 
     /* FIXME -- ugly, should be changed in interrupt.h */
     interrupt_trigger_reset(drv->cpu->int_status, *(drv->clk_ptr));
@@ -263,10 +263,12 @@ void drivecpu65c02_shutdown(drive_context_t *drv)
 
     cpu = drv->cpu;
 
-    if (cpu->alarm_context != NULL)
+    if (cpu->alarm_context != NULL) {
         alarm_context_destroy(cpu->alarm_context);
-    if (cpu->clk_guard != NULL)
+    }
+    if (cpu->clk_guard != NULL) {
         clk_guard_destroy(cpu->clk_guard);
+    }
 
     monitor_interface_destroy(cpu->monitor_interface);
     interrupt_cpu_status_destroy(cpu->int_status);
@@ -329,8 +331,9 @@ void drivecpu65c02_prevent_clk_overflow_all(CLOCK sub)
 {
     unsigned int dnr;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drivecpu65c02_prevent_clk_overflow(drive_context[dnr], sub);
+    }
 }
 
 /* Handle a ROM trap. */
@@ -343,8 +346,9 @@ inline static DWORD drive_trap_handler(drive_context_t *drv)
 
             next_clk = alarm_context_next_pending_clk(drv->cpu->alarm_context);
 
-            if (next_clk > drv->cpu->stop_clk)
+            if (next_clk > drv->cpu->stop_clk) {
                 next_clk = drv->cpu->stop_clk;
+            }
 
             *(drv->clk_ptr) = next_clk;
         }
@@ -371,11 +375,13 @@ inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
 
     /* Branch instructions delay IRQs and NMI by one cycle if branch
        is taken with no page boundary crossing.  */
-    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
+    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr)) {
         nmi_clk++;
+    }
 
-    if (cpu_clk >= nmi_clk)
+    if (cpu_clk >= nmi_clk) {
         return 1;
+    }
 
     return 0;
 }
@@ -390,8 +396,9 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 
     /* Branch instructions delay IRQs and NMI by one cycle if branch
        is taken with no page boundary crossing.  */
-    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))
+    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr)) {
         irq_clk++;
+    }
 
     /* If an opcode changes the I flag from 1 to 0, the 6510 needs
        one more opcode before it triggers the IRQ routine.  */
@@ -437,10 +444,11 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
     drivecpu_wake_up(drv);
 
     /* Calculate number of main CPU clocks to emulate */
-    if (clk_value > cpu->last_clk)
+    if (clk_value > cpu->last_clk) {
         cycles = clk_value - cpu->last_clk;
-    else
+    } else {
         cycles = 0;
+    }
 
     while (cycles != 0) {
         tcycles = cycles > 10000 ? 10000 : cycles;
@@ -456,7 +464,6 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
      * paper over it by only considering subtractions of 2nd complement
      * integers. */
     while ((int) (*(drv->clk_ptr) - cpu->stop_clk) < 0) {
-
 /* Include the R65C02 CPU emulation core.  */
 
 #define CLK (*(drv->clk_ptr))
@@ -494,7 +501,6 @@ void drivecpu65c02_execute(drive_context_t *drv, CLOCK clk_value)
 #define DRIVE_CPU
 
 #include "65c02core.c"
-
     }
 
     cpu->last_clk = clk_value;
@@ -510,8 +516,9 @@ void drivecpu65c02_execute_all(CLOCK clk_value)
     unsigned int dnr;
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        if (drive_context[dnr]->drive->enable)
+        if (drive_context[dnr]->drive->enable) {
             drivecpu65c02_execute(drive_context[dnr], clk_value);
+        }
     }
 }
 
@@ -542,8 +549,9 @@ int drivecpu65c02_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
 
     m = snapshot_module_create(s, drv->cpu->snap_module_name,
                                ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)));
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (0
         || SMW_DW(m, (DWORD) *(drv->clk_ptr)) < 0
@@ -558,26 +566,31 @@ int drivecpu65c02_snapshot_write_module(drive_context_t *drv, snapshot_t *s)
         || SMW_DW(m, (DWORD)(cpu->cycle_accum)) < 0
         || SMW_DW(m, (DWORD)(cpu->last_exc_cycles)) < 0
         || SMW_DW(m, (DWORD)(cpu->stop_clk)) < 0
-        )
+        ) {
         goto fail;
+    }
 
-    if (interrupt_write_snapshot(cpu->int_status, m) < 0)
+    if (interrupt_write_snapshot(cpu->int_status, m) < 0) {
         goto fail;
+    }
 
     if (drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
+        if (SMW_BA(m, drv->cpud->drive_ram, 0x2000) < 0) {
             goto fail;
+        }
     }
 
-    if (interrupt_write_new_snapshot(cpu->int_status, m) < 0)
+    if (interrupt_write_new_snapshot(cpu->int_status, m) < 0) {
         goto fail;
+    }
 
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -592,8 +605,9 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     cpu = drv->cpu;
 
     m = snapshot_module_open(s, drv->cpu->snap_module_name, &major, &minor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* Before we start make sure all devices are reset.  */
     drivecpu_reset(drv);
@@ -612,8 +626,9 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
         || SMR_DW(m, &(cpu->cycle_accum)) < 0
         || SMR_DW(m, &(cpu->last_exc_cycles)) < 0
         || SMR_DW(m, &(cpu->stop_clk)) < 0
-        )
+        ) {
         goto fail;
+    }
 
     R65C02_REGS_SET_A(&(cpu->cpu_regs), a);
     R65C02_REGS_SET_X(&(cpu->cpu_regs), x);
@@ -628,13 +643,15 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
 
     machine_drive_reset(drv);
 
-    if (interrupt_read_snapshot(cpu->int_status, m) < 0)
+    if (interrupt_read_snapshot(cpu->int_status, m) < 0) {
         goto fail;
+    }
 
     if (drv->drive->type == DRIVE_TYPE_2000
         || drv->drive->type == DRIVE_TYPE_4000) {
-        if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0)
+        if (SMR_BA(m, drv->cpud->drive_ram, 0x2000) < 0) {
             goto fail;
+        }
     }
 
     /* Update `*bank_base'.  */
@@ -647,7 +664,8 @@ int drivecpu65c02_snapshot_read_module(drive_context_t *drv, snapshot_t *s)
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }

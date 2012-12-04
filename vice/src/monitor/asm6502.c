@@ -334,7 +334,7 @@ static const asm_opcode_info_t *asm_opcode_info_get(unsigned int p0, unsigned in
 }
 
 static unsigned int asm_addr_mode_get_size(unsigned int mode, unsigned int p0,
-                                                 unsigned int p1, unsigned int p2)
+                                           unsigned int p1, unsigned int p2)
 {
     return addr_mode_size[mode];
 }
@@ -349,4 +349,3 @@ void asm6502_init(monitor_cpu_type_t *monitor_cpu_type)
     mon_assemble6502_init(monitor_cpu_type);
     mon_register6502_init(monitor_cpu_type);
 }
-

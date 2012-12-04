@@ -77,14 +77,14 @@
 
 /* Number of cycles before an attached disk becomes visible to the R/W head.
    This is mostly to make routines that auto-detect disk changes happy.  */
-#define DRIVE_ATTACH_DELAY           (3*600000)
+#define DRIVE_ATTACH_DELAY           (3 * 600000)
 
 /* Number of cycles the write protection is activated on detach.  */
-#define DRIVE_DETACH_DELAY           (3*200000)
+#define DRIVE_DETACH_DELAY           (3 * 200000)
 
 /* Number of cycles the after a disk can be inserted after a disk has been
    detached.  */
-#define DRIVE_ATTACH_DETACH_DELAY    (3*400000)
+#define DRIVE_ATTACH_DETACH_DELAY    (3 * 400000)
 
 /* Parallel cables available.  */
 #define DRIVE_PC_NONE     0
@@ -198,8 +198,8 @@ typedef struct drive_s {
     DWORD snap_ref_advance;
     DWORD snap_req_ref_cycles;
 
-	  /* IF: requested additional R cycles */
-	  int req_ref_cycles;
+    /* IF: requested additional R cycles */
+    int req_ref_cycles;
 
     /* UI stuff.  */
     int old_led_status;
@@ -244,7 +244,7 @@ typedef struct drive_s {
 
     /* Pointer to 8KB RAM expansion.  */
     BYTE *drive_ram_expand2, *drive_ram_expand4, *drive_ram_expand6,
-         *drive_ram_expand8, *drive_ram_expanda;
+    *drive_ram_expand8, *drive_ram_expanda;
 
     /* Which RAM expansion is enabled?  */
     int drive_ram2_enabled, drive_ram4_enabled, drive_ram6_enabled,
@@ -267,7 +267,6 @@ typedef struct drive_s {
 
     /* Current trap ROM image.  */
     BYTE trap_rom[DRIVE_ROM_SIZE];
-
 } drive_t;
 
 
@@ -323,4 +322,3 @@ extern void drive_setup_context(void);
 extern int drive_resources_type_init(unsigned int default_type);
 
 #endif
-

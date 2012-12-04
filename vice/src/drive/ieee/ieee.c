@@ -76,10 +76,11 @@ void ieee_drive_shutdown(struct drive_context_s *drv)
 
 void ieee_drive_reset(struct drive_context_s *drv)
 {
-    if (drv->drive->type == DRIVE_TYPE_2031)
+    if (drv->drive->type == DRIVE_TYPE_2031) {
         viacore_reset(drv->via1d2031);
-    else
+    } else {
         viacore_disable(drv->via1d2031);
+    }
 
     if (drive_check_old(drv->drive->type)) {
         fdc_reset(drv->mynumber, drv->drive->type);
@@ -141,15 +142,17 @@ int ieee_drive_snapshot_read(struct drive_context_s *ctxptr,
                              struct snapshot_s *s)
 {
     if (ctxptr->drive->type == DRIVE_TYPE_2031) {
-        if (viacore_snapshot_read_module(ctxptr->via1d2031, s) < 0)
+        if (viacore_snapshot_read_module(ctxptr->via1d2031, s) < 0) {
             return -1;
+        }
     }
 
     if (drive_check_old(ctxptr->drive->type)) {
         if (riotcore_snapshot_read_module(ctxptr->riot1, s) < 0
             || riotcore_snapshot_read_module(ctxptr->riot2, s) < 0
-            || fdc_snapshot_read_module(s, ctxptr->mynumber) < 0)
+            || fdc_snapshot_read_module(s, ctxptr->mynumber) < 0) {
             return -1;
+        }
     }
 
     return 0;
@@ -159,15 +162,17 @@ int ieee_drive_snapshot_write(struct drive_context_s *ctxptr,
                               struct snapshot_s *s)
 {
     if (ctxptr->drive->type == DRIVE_TYPE_2031) {
-        if (viacore_snapshot_write_module(ctxptr->via1d2031, s) < 0)
+        if (viacore_snapshot_write_module(ctxptr->via1d2031, s) < 0) {
             return -1;
+        }
     }
 
     if (drive_check_old(ctxptr->drive->type)) {
         if (riotcore_snapshot_write_module(ctxptr->riot1, s) < 0
             || riotcore_snapshot_write_module(ctxptr->riot2, s) < 0
-            || fdc_snapshot_write_module(s, ctxptr->mynumber) < 0)
+            || fdc_snapshot_write_module(s, ctxptr->mynumber) < 0) {
             return -1;
+        }
     }
 
     return 0;
@@ -188,4 +193,3 @@ void ieee_drive_parallel_set_atn(int state, drive_context_t *drv)
     via1d2031_set_atn(drv->via1d2031, state);
     riot2_set_atn(drv->riot2, state);
 }
-

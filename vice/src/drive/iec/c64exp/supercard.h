@@ -40,5 +40,4 @@ extern int supercard_load(const char *name);
 
 extern void supercard_mem_init(struct drive_context_s *drv, unsigned int type);
 
-#endif 
-
+#endif

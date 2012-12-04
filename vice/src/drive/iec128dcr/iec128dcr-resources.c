@@ -38,8 +38,9 @@ static char *dos_rom_name_1571cr = NULL;
 
 static int set_dos_rom_name_1571cr(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1571cr, val))
+    if (util_string_set(&dos_rom_name_1571cr, val)) {
         return 0;
+    }
 
     return iec128dcrrom_load_1571cr();
 }
@@ -56,8 +57,9 @@ static const resource_int_t resources_int[] = {
 
 int iec128dcr_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }

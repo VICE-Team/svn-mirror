@@ -59,8 +59,9 @@ static void tcbmrom_new_image_loaded(unsigned int dtype)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        if (drive->type == dtype)
+        if (drive->type == dtype) {
             tcbmrom_setup_image(drive);
+        }
     }
 }
 
@@ -68,8 +69,9 @@ int tcbmrom_load_1551(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName1551", &rom_name);
 
@@ -90,10 +92,10 @@ void tcbmrom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
         switch (drive->type) {
-          case DRIVE_TYPE_1551:
-            memcpy(&(drive->rom[0x4000]), drive_rom1551,
-                   DRIVE_ROM1551_SIZE);
-            break;
+            case DRIVE_TYPE_1551:
+                memcpy(&(drive->rom[0x4000]), drive_rom1551,
+                       DRIVE_ROM1551_SIZE);
+                break;
         }
     }
 }
@@ -101,9 +103,9 @@ void tcbmrom_setup_image(drive_t *drive)
 int tcbmrom_read(unsigned int type, WORD addr, BYTE *data)
 {
     switch (type) {
-      case DRIVE_TYPE_1551:
-        *data = drive_rom1551[addr & (DRIVE_ROM1551_SIZE - 1)];
-        return 0;
+        case DRIVE_TYPE_1551:
+            *data = drive_rom1551[addr & (DRIVE_ROM1551_SIZE - 1)];
+            return 0;
     }
 
     return -1;
@@ -112,18 +114,20 @@ int tcbmrom_read(unsigned int type, WORD addr, BYTE *data)
 int tcbmrom_check_loaded(unsigned int type)
 {
     switch (type) {
-      case DRIVE_TYPE_NONE:
-        return 0;
-      case DRIVE_TYPE_1551:
-        if (rom1551_loaded < 1 && rom_loaded)
+        case DRIVE_TYPE_NONE:
+            return 0;
+        case DRIVE_TYPE_1551:
+            if (rom1551_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_ANY:
+            if ((!rom1551_loaded) && rom_loaded) {
+                return -1;
+            }
+            break;
+        default:
             return -1;
-        break;
-      case DRIVE_TYPE_ANY:
-        if ((!rom1551_loaded) && rom_loaded)
-            return -1;
-        break;
-      default:
-        return -1;
     }
 
     return 0;
@@ -133,4 +137,3 @@ void tcbmrom_init(void)
 {
     tcbmrom_log = log_open("TCBMDriveROM");
 }
-

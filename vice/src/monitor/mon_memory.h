@@ -48,4 +48,3 @@ extern void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
                                     unsigned int x, unsigned int y);
 
 #endif
-

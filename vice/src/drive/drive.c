@@ -121,8 +121,8 @@ void drive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer,
     drive_gcr_data_writeback(drive);
 
     if (drive->type == DRIVE_TYPE_1570
-            || drive->type == DRIVE_TYPE_1571
-            || drive->type == DRIVE_TYPE_1571CR) {
+        || drive->type == DRIVE_TYPE_1571
+        || drive->type == DRIVE_TYPE_1571CR) {
         if (track > 35) {
             track -= 35;
             side = 1;
@@ -148,8 +148,9 @@ int drive_init(void)
     unsigned int dnr;
     drive_t *drive;
 
-    if (rom_loaded)
+    if (rom_loaded) {
         return 0;
+    }
 
     drive_init_was_called = 1;
 
@@ -194,8 +195,9 @@ int drive_init(void)
 
         machine_drive_port_default(drive_context[dnr]);
 
-        if (drive_check_type(drive->type, dnr) < 1)
+        if (drive_check_type(drive->type, dnr) < 1) {
             resources_set_int_sprintf("Drive%iType", DRIVE_TYPE_NONE, dnr + 8);
+        }
 
         machine_drive_rom_setup_image(dnr);
 
@@ -255,8 +257,9 @@ int drive_init(void)
         drivesync_factor(drive_context[dnr]);
 
         /* Make sure the traps are moved as needed.  */
-        if (drive->enable)
+        if (drive->enable) {
             drive_enable(drive_context[dnr]);
+        }
     }
 
     return 0;
@@ -296,30 +299,30 @@ void drive_shutdown(void)
 void drive_set_active_led_color(unsigned int type, unsigned int dnr)
 {
     switch (type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1551:
-      case DRIVE_TYPE_1570:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1571CR:
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
-        break;
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2000:
-      case DRIVE_TYPE_4000:
-        drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
-        break;
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_2040:
-      case DRIVE_TYPE_3040:
-      case DRIVE_TYPE_4040:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
-        break;
-      default:
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        case DRIVE_TYPE_1541:
+        case DRIVE_TYPE_1551:
+        case DRIVE_TYPE_1570:
+        case DRIVE_TYPE_1571:
+        case DRIVE_TYPE_1571CR:
+            drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+            break;
+        case DRIVE_TYPE_1541II:
+        case DRIVE_TYPE_1581:
+        case DRIVE_TYPE_2000:
+        case DRIVE_TYPE_4000:
+            drive_led_color[dnr] = DRIVE_ACTIVE_GREEN;
+            break;
+        case DRIVE_TYPE_2031:
+        case DRIVE_TYPE_2040:
+        case DRIVE_TYPE_3040:
+        case DRIVE_TYPE_4040:
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+            break;
+        default:
+            drive_led_color[dnr] = DRIVE_ACTIVE_RED;
     }
 }
 
@@ -331,8 +334,9 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
 
     dnr = drv->mynumber;
 
-    if (machine_drive_rom_check_loaded(type) < 0)
+    if (machine_drive_rom_check_loaded(type) < 0) {
         return -1;
+    }
 
     drive = drv->drive;
     rotation_rotate_disk(drive);
@@ -407,21 +411,25 @@ int drive_enable(drive_context_t *drv)
 
     /* This must come first, because this might be called before the drive
        initialization.  */
-    if (!rom_loaded)
+    if (!rom_loaded) {
         return -1;
+    }
 
     resources_get_int("DriveTrueEmulation", &drive_true_emulation);
 
     /* Always disable kernal traps. */
-    if (!drive_true_emulation)
+    if (!drive_true_emulation) {
         return 0;
+    }
 
-    if (drive->type == DRIVE_TYPE_NONE)
+    if (drive->type == DRIVE_TYPE_NONE) {
         return 0;
+    }
 
     /* Recalculate drive geometry.  */
-    if (drive->image != NULL)
+    if (drive->image != NULL) {
         drive_image_attach(drive->image, dnr + 8);
+    }
 
     /* resync */
     drv->cpu->stop_clk = *(drv->clk_ptr);
@@ -490,14 +498,17 @@ void drive_reset(void)
 void drive_set_half_track(int num, int side, drive_t *dptr)
 {
     if ((dptr->type == DRIVE_TYPE_1541 || dptr->type == DRIVE_TYPE_1541II
-        || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_1570
-        || dptr->type == DRIVE_TYPE_2031) && num > 84)
+         || dptr->type == DRIVE_TYPE_1551 || dptr->type == DRIVE_TYPE_1570
+         || dptr->type == DRIVE_TYPE_2031) && num > 84) {
         num = 84;
+    }
     if ((dptr->type == DRIVE_TYPE_1571 || dptr->type == DRIVE_TYPE_1571CR)
-        && num > 70)
+        && num > 70) {
         num = 70;
-    if (num < 2)
+    }
+    if (num < 2) {
         num = 2;
+    }
 
     if (dptr->current_half_track != num) {
         dptr->current_half_track = num;
@@ -509,12 +520,13 @@ void drive_set_half_track(int num, int side, drive_t *dptr)
 
     dptr->GCR_track_start_ptr = dptr->gcr->tracks[dptr->current_half_track - 2 + dptr->side * 70].data;
 
-    if (dptr->GCR_current_track_size != 0)
+    if (dptr->GCR_current_track_size != 0) {
         dptr->GCR_head_offset = (dptr->GCR_head_offset
-            * dptr->gcr->tracks[dptr->current_half_track - 2].size)
-            / dptr->GCR_current_track_size;
-    else
+                                 * dptr->gcr->tracks[dptr->current_half_track - 2].size)
+                                / dptr->GCR_current_track_size;
+    } else {
         dptr->GCR_head_offset = 0;
+    }
 
     dptr->GCR_current_track_size =
         dptr->gcr->tracks[dptr->current_half_track - 2].size;
@@ -553,7 +565,7 @@ void drive_gcr_data_writeback(drive_t *drive)
 
     if (drive->image->type == DISK_IMAGE_TYPE_G64) {
         disk_image_write_half_track(drive->image, half_track,
-                                   &drive->gcr->tracks[half_track - 2]);
+                                    &drive->gcr->tracks[half_track - 2]);
         drive->GCR_dirty_track = 0;
         return;
     }
@@ -564,32 +576,32 @@ void drive_gcr_data_writeback(drive_t *drive)
     }
     if (track > drive->image->tracks) {
         switch (drive->extend_image_policy) {
-        case DRIVE_EXTEND_NEVER:
-            drive->ask_extend_disk_image = 1;
-            drive->GCR_dirty_track = 0;
-            return;
-        case DRIVE_EXTEND_ASK:
-            if (drive->ask_extend_disk_image == 1) {
-                extend = ui_extend_image_dialog();
-                if (extend == 0) {
-                    drive->GCR_dirty_track = 0;
-                    drive->ask_extend_disk_image = 0;
-                    return;
-                }
-                drive->ask_extend_disk_image = 2;
-            } else if (drive->ask_extend_disk_image == 0) {
+            case DRIVE_EXTEND_NEVER:
+                drive->ask_extend_disk_image = 1;
                 drive->GCR_dirty_track = 0;
                 return;
-            }
-            break;
-        case DRIVE_EXTEND_ACCESS:
-            drive->ask_extend_disk_image = 1;
-            break;
+            case DRIVE_EXTEND_ASK:
+                if (drive->ask_extend_disk_image == 1) {
+                    extend = ui_extend_image_dialog();
+                    if (extend == 0) {
+                        drive->GCR_dirty_track = 0;
+                        drive->ask_extend_disk_image = 0;
+                        return;
+                    }
+                    drive->ask_extend_disk_image = 2;
+                } else if (drive->ask_extend_disk_image == 0) {
+                    drive->GCR_dirty_track = 0;
+                    return;
+                }
+                break;
+            case DRIVE_EXTEND_ACCESS:
+                drive->ask_extend_disk_image = 1;
+                break;
         }
     }
 
     disk_image_write_half_track(drive->image, half_track,
-            &drive->gcr->tracks[half_track - 2]);
+                                &drive->gcr->tracks[half_track - 2]);
 
     drive->GCR_dirty_track = 0;
 }
@@ -605,14 +617,12 @@ void drive_gcr_data_writeback_all(void)
         if (drive->P64_image_loaded && drive->image && drive->image->p64) {
             if (drive->image->type == DISK_IMAGE_TYPE_P64) {
                 if (drive->P64_dirty) {
-                drive->P64_dirty = 0;
+                    drive->P64_dirty = 0;
                     disk_image_write_p64_image(drive->image);
                 }
             }
         }
     }
-
-
 }
 
 /* ------------------------------------------------------------------------- */
@@ -627,13 +637,15 @@ static void drive_led_update(drive_t *drive, drive_t *drive0)
        idling method is being used, as the LED status could be
        incorrect otherwise.  */
 
-    if (drive0->idling_method != DRIVE_IDLE_SKIP_CYCLES)
+    if (drive0->idling_method != DRIVE_IDLE_SKIP_CYCLES) {
         my_led_status = drive->led_status;
+    }
 
     /* Update remaining led clock ticks. */
-    if (drive->led_status & 1)
+    if (drive->led_status & 1) {
         drive->led_active_ticks += *(drive0->clk)
                                    - drive->led_last_change_clk;
+    }
     drive->led_last_change_clk = *(drive0->clk);
 
     led_period = *(drive0->clk) - drive->led_last_uiupdate_clk;
@@ -644,10 +656,10 @@ static void drive_led_update(drive_t *drive, drive_t *drive0)
     }
 
     if (drive->led_active_ticks > led_period) {
-    /* during startup it has been observer that led_pwm > 1000,
-       which potentially breaks several UIs */
-    /* this also happens when the drive is reset from UI
-       and the LED was on */
+        /* during startup it has been observer that led_pwm > 1000,
+           which potentially breaks several UIs */
+        /* this also happens when the drive is reset from UI
+           and the LED was on */
         led_pwm = 1000;
     } else {
         led_pwm = drive->led_active_ticks * 1000 / led_period;
@@ -691,13 +703,13 @@ void drive_update_ui_status(void)
             drive_led_update(drive, drive0);
 
             if (drive->current_half_track != drive->old_half_track
-                    || drive->side != drive->old_side) {
+                || drive->side != drive->old_side) {
                 drive->old_half_track = drive->current_half_track;
                 drive->old_side = drive->side;
                 dual = dual || drive->drive1;   /* also include drive 0 */
                 ui_display_drive_track(i,
-                        dual ? 0 : 8,
-                        drive->current_half_track + drive->side * 70);
+                                       dual ? 0 : 8,
+                                       drive->current_half_track + drive->side * 70);
             }
         }
     }

@@ -47,5 +47,4 @@ extern void wd1770_reset(wd1770_t *drv);
 extern inline void wd1770_set_side(wd1770_t *drv, int side);
 extern inline void wd1770_set_motor(wd1770_t *drv, int on);
 
-#endif 
-
+#endif

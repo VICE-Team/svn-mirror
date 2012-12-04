@@ -40,7 +40,7 @@
 #include "uimon.h"
 
 
-#define TEST(x) ((x)!=0)
+#define TEST(x) ((x) != 0)
 
 static unsigned int mon_register_get_val(int mem, int reg_id)
 {
@@ -54,23 +54,23 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
 
     reg_ptr = mon_interfaces[mem]->cpu_regs;
 
-    switch(reg_id) {
-      case e_A:
-        return MOS6510_REGS_GET_A(reg_ptr);
-      case e_X:
-        return MOS6510_REGS_GET_X(reg_ptr);
-      case e_Y:
-        return MOS6510_REGS_GET_Y(reg_ptr);
-      case e_PC:
-        return MOS6510_REGS_GET_PC(reg_ptr);
-      case e_SP:
-        return MOS6510_REGS_GET_SP(reg_ptr);
-      case e_FLAGS:
-          return MOS6510_REGS_GET_FLAGS(reg_ptr)
-              | MOS6510_REGS_GET_SIGN(reg_ptr)
-              | (MOS6510_REGS_GET_ZERO(reg_ptr) << 1);
-      default:
-        log_error(LOG_ERR, "Unknown register!");
+    switch (reg_id) {
+        case e_A:
+            return MOS6510_REGS_GET_A(reg_ptr);
+        case e_X:
+            return MOS6510_REGS_GET_X(reg_ptr);
+        case e_Y:
+            return MOS6510_REGS_GET_Y(reg_ptr);
+        case e_PC:
+            return MOS6510_REGS_GET_PC(reg_ptr);
+        case e_SP:
+            return MOS6510_REGS_GET_SP(reg_ptr);
+        case e_FLAGS:
+            return MOS6510_REGS_GET_FLAGS(reg_ptr)
+                   | MOS6510_REGS_GET_SIGN(reg_ptr)
+                   | (MOS6510_REGS_GET_ZERO(reg_ptr) << 1);
+        default:
+            log_error(LOG_ERR, "Unknown register!");
     }
     return 0;
 }
@@ -88,31 +88,31 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 
     reg_ptr = mon_interfaces[mem]->cpu_regs;
 
-    switch(reg_id) {
-      case e_A:
-        MOS6510_REGS_SET_A(reg_ptr, (BYTE)val);
-        break;
-      case e_X:
-        MOS6510_REGS_SET_X(reg_ptr, (BYTE)val);
-        break;
-      case e_Y:
-        MOS6510_REGS_SET_Y(reg_ptr, (BYTE)val);
-        break;
-      case e_PC:
-        MOS6510_REGS_SET_PC(reg_ptr, val);
-        if (monitor_diskspace_dnr(mem) >= 0) {
-            mon_interfaces[mem]->set_bank_base(mon_interfaces[mem]->context);
-        }
-        break;
-      case e_SP:
-        MOS6510_REGS_SET_SP(reg_ptr, (BYTE)val);
-        break;
-      case e_FLAGS:
-        MOS6510_REGS_SET_STATUS(reg_ptr, (BYTE)val);
-        break;
-      default:
-        log_error(LOG_ERR, "Unknown register!");
-        return;
+    switch (reg_id) {
+        case e_A:
+            MOS6510_REGS_SET_A(reg_ptr, (BYTE)val);
+            break;
+        case e_X:
+            MOS6510_REGS_SET_X(reg_ptr, (BYTE)val);
+            break;
+        case e_Y:
+            MOS6510_REGS_SET_Y(reg_ptr, (BYTE)val);
+            break;
+        case e_PC:
+            MOS6510_REGS_SET_PC(reg_ptr, val);
+            if (monitor_diskspace_dnr(mem) >= 0) {
+                mon_interfaces[mem]->set_bank_base(mon_interfaces[mem]->context);
+            }
+            break;
+        case e_SP:
+            MOS6510_REGS_SET_SP(reg_ptr, (BYTE)val);
+            break;
+        case e_FLAGS:
+            MOS6510_REGS_SET_STATUS(reg_ptr, (BYTE)val);
+            break;
+        default:
+            log_error(LOG_ERR, "Unknown register!");
+            return;
     }
     force_array[mem] = 1;
 }
@@ -141,21 +141,21 @@ static void mon_register_print(int mem)
     }
 
     mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
-              addr_location(mon_register_get_val(mem, e_PC)),
-              mon_register_get_val(mem, e_A),
-              mon_register_get_val(mem, e_X),
-              mon_register_get_val(mem, e_Y),
-              mon_register_get_val(mem, e_SP),
-              mon_get_mem_val(mem, 0),
-              mon_get_mem_val(mem, 1),
-              TEST(MOS6510_REGS_GET_SIGN(regs)),
-              TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
-              '1',
-              TEST(MOS6510_REGS_GET_BREAK(regs)),
-              TEST(MOS6510_REGS_GET_DECIMAL(regs)),
-              TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
-              TEST(MOS6510_REGS_GET_ZERO(regs)),
-              TEST(MOS6510_REGS_GET_CARRY(regs)));
+            addr_location(mon_register_get_val(mem, e_PC)),
+            mon_register_get_val(mem, e_A),
+            mon_register_get_val(mem, e_X),
+            mon_register_get_val(mem, e_Y),
+            mon_register_get_val(mem, e_SP),
+            mon_get_mem_val(mem, 0),
+            mon_get_mem_val(mem, 1),
+            TEST(MOS6510_REGS_GET_SIGN(regs)),
+            TEST(MOS6510_REGS_GET_OVERFLOW(regs)),
+            '1',
+            TEST(MOS6510_REGS_GET_BREAK(regs)),
+            TEST(MOS6510_REGS_GET_DECIMAL(regs)),
+            TEST(MOS6510_REGS_GET_INTERRUPT(regs)),
+            TEST(MOS6510_REGS_GET_ZERO(regs)),
+            TEST(MOS6510_REGS_GET_CARRY(regs)));
 
     if (mon_interfaces[mem]->get_line_cycle != NULL) {
         unsigned int line, cycle;
@@ -178,8 +178,9 @@ static const char* mon_register_print_ex(int mem)
     mos6510_regs_t *regs;
 
     if (monitor_diskspace_dnr(mem) >= 0) {
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return "";
+        }
     } else if (mem != e_comp_space) {
         log_error(LOG_ERR, "Unknown memory space!");
         return "";
@@ -192,13 +193,13 @@ static const char* mon_register_print_ex(int mem)
             mon_register_get_val(mem, e_X),
             mon_register_get_val(mem, e_Y),
             mon_register_get_val(mem, e_SP),
-            MOS6510_REGS_GET_SIGN(regs)     ? 'N' : '.',
+            MOS6510_REGS_GET_SIGN(regs) ? 'N' : '.',
             MOS6510_REGS_GET_OVERFLOW(regs) ? 'V' : '.',
-            MOS6510_REGS_GET_BREAK(regs)    ? 'B' : '.',
-            MOS6510_REGS_GET_DECIMAL(regs)  ? 'D' : '.',
-            MOS6510_REGS_GET_INTERRUPT(regs)? 'I' : '.',
-            MOS6510_REGS_GET_ZERO(regs)     ? 'Z' : '.',
-            MOS6510_REGS_GET_CARRY(regs)    ? 'C' : '.');
+            MOS6510_REGS_GET_BREAK(regs) ? 'B' : '.',
+            MOS6510_REGS_GET_DECIMAL(regs) ? 'D' : '.',
+            MOS6510_REGS_GET_INTERRUPT(regs) ? 'I' : '.',
+            MOS6510_REGS_GET_ZERO(regs) ? 'Z' : '.',
+            MOS6510_REGS_GET_CARRY(regs) ? 'C' : '.');
 
     return buff;
 }
@@ -257,7 +258,6 @@ static mon_reg_list_t *mon_register_list_get6502(int mem)
         mon_reg_list[6].size = 8;
         mon_reg_list[6].flags = 0;
         mon_reg_list[6].next = &mon_reg_list[7];
-
     } else {
         mon_reg_list[4].next = &mon_reg_list[7];
     }
@@ -320,4 +320,3 @@ void mon_register6502_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_list_get = mon_register_list_get6502;
     monitor_cpu_type->mon_register_list_set = mon_register_list_set6502;
 }
-

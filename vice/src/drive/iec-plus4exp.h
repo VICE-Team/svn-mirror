@@ -38,4 +38,3 @@ extern void iec_plus4exp_mem_init(struct drive_context_s *drv,
                                   unsigned int type);
 
 #endif
-

@@ -76,8 +76,7 @@ static void cia_restore_int(cia_context_t *cia_context, int value)
 
     drive_context = (drive_context_t *)(cia_context->context);
 
-    interrupt_restore_irq(drive_context->cpu->int_status, cia_context->int_num,
-                            value);
+    interrupt_restore_irq(drive_context->cpu->int_status, cia_context->int_num, value);
 }
 
 
@@ -133,7 +132,7 @@ static void store_ciapb(cia_context_t *cia_context, CLOCK rclk, BYTE byte)
 static BYTE read_ciapa(cia_context_t *cia_context)
 {
     return (0xff & ~(cia_context->c_cia[CIA_DDRA]))
-        | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]);
+           | (cia_context->c_cia[CIA_PRA] & cia_context->c_cia[CIA_DDRA]);
 }
 
 static BYTE read_ciapb(cia_context_t *cia_context)
@@ -148,7 +147,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
     }
 
     return (byte & ~(cia_context->c_cia[CIA_DDRB]))
-        | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
+           | (cia_context->c_cia[CIA_PRB] & cia_context->c_cia[CIA_DDRB]);
 }
 
 static void read_ciaicr(cia_context_t *cia_context)
@@ -179,7 +178,7 @@ void cia1571_setup_context(drive_context_t *ctxptr)
     drivecia1571_context_t *cia1571p;
     cia_context_t *cia;
 
-    ctxptr->cia1571 = lib_calloc(1,sizeof(cia_context_t));
+    ctxptr->cia1571 = lib_calloc(1, sizeof(cia_context_t));
     cia = ctxptr->cia1571;
 
     cia->prv = lib_malloc(sizeof(drivecia1571_context_t));
@@ -218,4 +217,3 @@ void cia1571_setup_context(drive_context_t *ctxptr)
     cia->pre_read = NULL;
     cia->pre_peek = NULL;
 }
-

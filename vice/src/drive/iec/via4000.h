@@ -39,10 +39,8 @@ struct via_context_s;
 extern void via4000_setup_context(struct drive_context_s *ctxptr);
 extern void via4000_init(struct drive_context_s *ctxptr);
 
-extern void via4000_store(struct drive_context_s *ctxptr, WORD addr,
-                                     BYTE byte);
+extern void via4000_store(struct drive_context_s *ctxptr, WORD addr, BYTE byte);
 extern BYTE via4000_read(struct drive_context_s *ctxptr, WORD addr);
 extern BYTE via4000_peek(struct drive_context_s *ctxptr, WORD addr);
 
 #endif
-

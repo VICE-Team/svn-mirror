@@ -37,4 +37,3 @@ extern int fsdevice_open(struct vdrive_s *vdrive, const BYTE *name,
                          struct cbmdos_cmd_parse_s *cmd_parse_ext);
 
 #endif
-

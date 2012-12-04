@@ -47,4 +47,3 @@ extern unsigned int cbmfile_scratch(const char *file_name, const char *path);
 extern unsigned int cbmfile_get_bytes_left(struct fileio_info_s *info);
 
 #endif
-

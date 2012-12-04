@@ -84,4 +84,3 @@ extern int fsdevice_error_get_byte(struct vdrive_s *vdrive, BYTE *data);
 extern int fsdevice_flush_write_byte(struct vdrive_s *vdrive, BYTE data);
 
 #endif
-

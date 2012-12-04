@@ -42,43 +42,45 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
 {
     z80_regs_t *reg_ptr;
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return 0;
+        }
+    }
 
     reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
-    switch(reg_id) {
-      case e_AF:
-        return Z80_REGS_GET_AF(reg_ptr);
-      case e_BC:
-        return Z80_REGS_GET_BC(reg_ptr);
-      case e_DE:
-        return Z80_REGS_GET_DE(reg_ptr);
-      case e_HL:
-        return Z80_REGS_GET_HL(reg_ptr);
-      case e_IX:
-        return Z80_REGS_GET_IX(reg_ptr);
-      case e_IY:
-        return Z80_REGS_GET_IY(reg_ptr);
-      case e_SP:
-        return Z80_REGS_GET_SP(reg_ptr);
-      case e_PC:
-        return Z80_REGS_GET_PC(reg_ptr);
-      case e_I:
-        return Z80_REGS_GET_I(reg_ptr);
-      case e_R:
-        return Z80_REGS_GET_R(reg_ptr);
-      case e_AF2:
-        return Z80_REGS_GET_AF2(reg_ptr);
-      case e_BC2:
-        return Z80_REGS_GET_BC2(reg_ptr);
-      case e_DE2:
-        return Z80_REGS_GET_DE2(reg_ptr);
-      case e_HL2:
-        return Z80_REGS_GET_HL2(reg_ptr);
-      default:
-        log_error(LOG_ERR, "Unknown register!");
+    switch (reg_id) {
+        case e_AF:
+            return Z80_REGS_GET_AF(reg_ptr);
+        case e_BC:
+            return Z80_REGS_GET_BC(reg_ptr);
+        case e_DE:
+            return Z80_REGS_GET_DE(reg_ptr);
+        case e_HL:
+            return Z80_REGS_GET_HL(reg_ptr);
+        case e_IX:
+            return Z80_REGS_GET_IX(reg_ptr);
+        case e_IY:
+            return Z80_REGS_GET_IY(reg_ptr);
+        case e_SP:
+            return Z80_REGS_GET_SP(reg_ptr);
+        case e_PC:
+            return Z80_REGS_GET_PC(reg_ptr);
+        case e_I:
+            return Z80_REGS_GET_I(reg_ptr);
+        case e_R:
+            return Z80_REGS_GET_R(reg_ptr);
+        case e_AF2:
+            return Z80_REGS_GET_AF2(reg_ptr);
+        case e_BC2:
+            return Z80_REGS_GET_BC2(reg_ptr);
+        case e_DE2:
+            return Z80_REGS_GET_DE2(reg_ptr);
+        case e_HL2:
+            return Z80_REGS_GET_HL2(reg_ptr);
+        default:
+            log_error(LOG_ERR, "Unknown register!");
     }
     return 0;
 }
@@ -87,58 +89,60 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 {
     z80_regs_t *reg_ptr;
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
+    }
 
     reg_ptr = mon_interfaces[mem]->z80_cpu_regs;
 
-    switch(reg_id) {
-      case e_AF:
-        Z80_REGS_SET_AF(reg_ptr, val);
-        break;
-      case e_BC:
-        Z80_REGS_SET_BC(reg_ptr, val);
-        break;
-      case e_DE:
-        Z80_REGS_SET_DE(reg_ptr, val);
-        break;
-      case e_HL:
-        Z80_REGS_SET_HL(reg_ptr, val);
-        break;
-      case e_IX:
-        Z80_REGS_SET_IX(reg_ptr, val);
-        break;
-      case e_IY:
-        Z80_REGS_SET_IY(reg_ptr, val);
-        break;
-      case e_SP:
-        Z80_REGS_SET_SP(reg_ptr, val);
-        break;
-      case e_PC:
-        Z80_REGS_SET_PC(reg_ptr, val);
-        break;
-      case e_I:
-        Z80_REGS_SET_I(reg_ptr, (BYTE)val);
-        break;
-      case e_R:
-        Z80_REGS_SET_R(reg_ptr, (BYTE)val);
-        break;
-      case e_AF2:
-        Z80_REGS_SET_AF2(reg_ptr, val);
-        break;
-      case e_BC2:
-        Z80_REGS_SET_BC2(reg_ptr, val);
-        break;
-      case e_DE2:
-        Z80_REGS_SET_DE2(reg_ptr, val);
-        break;
-      case e_HL2:
-        Z80_REGS_SET_HL2(reg_ptr, val);
-        break;
-      default:
-        log_error(LOG_ERR, "Unknown register!");
-        return;
+    switch (reg_id) {
+        case e_AF:
+            Z80_REGS_SET_AF(reg_ptr, val);
+            break;
+        case e_BC:
+            Z80_REGS_SET_BC(reg_ptr, val);
+            break;
+        case e_DE:
+            Z80_REGS_SET_DE(reg_ptr, val);
+            break;
+        case e_HL:
+            Z80_REGS_SET_HL(reg_ptr, val);
+            break;
+        case e_IX:
+            Z80_REGS_SET_IX(reg_ptr, val);
+            break;
+        case e_IY:
+            Z80_REGS_SET_IY(reg_ptr, val);
+            break;
+        case e_SP:
+            Z80_REGS_SET_SP(reg_ptr, val);
+            break;
+        case e_PC:
+            Z80_REGS_SET_PC(reg_ptr, val);
+            break;
+        case e_I:
+            Z80_REGS_SET_I(reg_ptr, (BYTE)val);
+            break;
+        case e_R:
+            Z80_REGS_SET_R(reg_ptr, (BYTE)val);
+            break;
+        case e_AF2:
+            Z80_REGS_SET_AF2(reg_ptr, val);
+            break;
+        case e_BC2:
+            Z80_REGS_SET_BC2(reg_ptr, val);
+            break;
+        case e_DE2:
+            Z80_REGS_SET_DE2(reg_ptr, val);
+            break;
+        case e_HL2:
+            Z80_REGS_SET_HL2(reg_ptr, val);
+            break;
+        default:
+            log_error(LOG_ERR, "Unknown register!");
+            return;
     }
     force_array[mem] = 1;
 }
@@ -146,28 +150,29 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 static void mon_register_print(int mem)
 {
     if (monitor_diskspace_dnr(mem) >= 0) {
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
     } else if (mem != e_comp_space) {
         log_error(LOG_ERR, "Unknown memory space!");
         return;
     }
     mon_out("  ADDR AF   BC   DE   HL   IX   IY   SP   I  R  AF'  BC'  DE'  HL'\n");
     mon_out(".;%04x %04x %04x %04x %04x %04x %04x %04x %02x %02x %04x %04x %04x %04x\n",
-              addr_location(mon_register_get_val(mem, e_PC)),
-              mon_register_get_val(mem, e_AF),
-              mon_register_get_val(mem, e_BC),
-              mon_register_get_val(mem, e_DE),
-              mon_register_get_val(mem, e_HL),
-              mon_register_get_val(mem, e_IX),
-              mon_register_get_val(mem, e_IY),
-              mon_register_get_val(mem, e_SP),
-              mon_register_get_val(mem, e_I),
-              mon_register_get_val(mem, e_R),
-              mon_register_get_val(mem, e_AF2),
-              mon_register_get_val(mem, e_BC2),
-              mon_register_get_val(mem, e_DE2),
-              mon_register_get_val(mem, e_HL2));
+            addr_location(mon_register_get_val(mem, e_PC)),
+            mon_register_get_val(mem, e_AF),
+            mon_register_get_val(mem, e_BC),
+            mon_register_get_val(mem, e_DE),
+            mon_register_get_val(mem, e_HL),
+            mon_register_get_val(mem, e_IX),
+            mon_register_get_val(mem, e_IY),
+            mon_register_get_val(mem, e_SP),
+            mon_register_get_val(mem, e_I),
+            mon_register_get_val(mem, e_R),
+            mon_register_get_val(mem, e_AF2),
+            mon_register_get_val(mem, e_BC2),
+            mon_register_get_val(mem, e_DE2),
+            mon_register_get_val(mem, e_HL2));
 }
 
 static mon_reg_list_t *mon_register_list_getz80(int mem)
@@ -266,34 +271,48 @@ static mon_reg_list_t *mon_register_list_getz80(int mem)
 static void mon_register_list_setz80(mon_reg_list_t *reg_list, int mem)
 {
     do {
-        if (!strcmp(reg_list->name, "PC"))
+        if (!strcmp(reg_list->name, "PC")) {
             mon_register_set_val(mem, e_PC, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "AF"))
+        }
+        if (!strcmp(reg_list->name, "AF")) {
             mon_register_set_val(mem, e_AF, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "BC"))
+        }
+        if (!strcmp(reg_list->name, "BC")) {
             mon_register_set_val(mem, e_BC, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "DE"))
+        }
+        if (!strcmp(reg_list->name, "DE")) {
             mon_register_set_val(mem, e_DE, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "HL"))
+        }
+        if (!strcmp(reg_list->name, "HL")) {
             mon_register_set_val(mem, e_HL, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "IX"))
+        }
+        if (!strcmp(reg_list->name, "IX")) {
             mon_register_set_val(mem, e_IX, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "IY"))
+        }
+        if (!strcmp(reg_list->name, "IY")) {
             mon_register_set_val(mem, e_IY, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "SP"))
+        }
+        if (!strcmp(reg_list->name, "SP")) {
             mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "I"))
+        }
+        if (!strcmp(reg_list->name, "I")) {
             mon_register_set_val(mem, e_I, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "R"))
+        }
+        if (!strcmp(reg_list->name, "R")) {
             mon_register_set_val(mem, e_R, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "AF'"))
+        }
+        if (!strcmp(reg_list->name, "AF'")) {
             mon_register_set_val(mem, e_AF2, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "BC'"))
+        }
+        if (!strcmp(reg_list->name, "BC'")) {
             mon_register_set_val(mem, e_BC2, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "DE'"))
+        }
+        if (!strcmp(reg_list->name, "DE'")) {
             mon_register_set_val(mem, e_DE2, (WORD)(reg_list->val));
-        if (!strcmp(reg_list->name, "HL'"))
+        }
+        if (!strcmp(reg_list->name, "HL'")) {
             mon_register_set_val(mem, e_HL2, (WORD)(reg_list->val));
+        }
 
         reg_list = reg_list->next;
     } while (reg_list != NULL);
@@ -308,4 +327,3 @@ void mon_registerz80_init(monitor_cpu_type_t *monitor_cpu_type)
     monitor_cpu_type->mon_register_list_get = mon_register_list_getz80;
     monitor_cpu_type->mon_register_list_set = mon_register_list_setz80;
 }
-

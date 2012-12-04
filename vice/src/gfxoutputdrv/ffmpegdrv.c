@@ -45,7 +45,7 @@
 #include "vsync.h"
 #include "../sounddrv/soundmovie.h"
 
-static gfxoutputdrv_codec_t avi_audio_codeclist[] = { 
+static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
     { CODEC_ID_MP2, "MP2" },
     { CODEC_ID_MP3, "MP3" },
     { CODEC_ID_FLAC, "FLAC" },
@@ -53,7 +53,7 @@ static gfxoutputdrv_codec_t avi_audio_codeclist[] = {
     { 0, NULL }
 };
 
-static gfxoutputdrv_codec_t avi_video_codeclist[] = { 
+static gfxoutputdrv_codec_t avi_video_codeclist[] = {
     { CODEC_ID_MPEG4, "MPEG4 (DivX)" },
     { CODEC_ID_MPEG1VIDEO, "MPEG1" },
     { CODEC_ID_FFV1, "FFV1 (lossless)" },
@@ -62,12 +62,12 @@ static gfxoutputdrv_codec_t avi_video_codeclist[] = {
     { 0, NULL }
 };
 
-static gfxoutputdrv_codec_t ogg_audio_codeclist[] = { 
+static gfxoutputdrv_codec_t ogg_audio_codeclist[] = {
     { CODEC_ID_FLAC, "FLAC" },
     { 0, NULL }
 };
 
-static gfxoutputdrv_codec_t ogg_video_codeclist[] = { 
+static gfxoutputdrv_codec_t ogg_video_codeclist[] = {
     { CODEC_ID_THEORA, "Theora" },
     { 0, NULL }
 };
@@ -147,7 +147,7 @@ static int set_audio_bitrate(int val, void *param)
     audio_bitrate = (CLOCK)val;
 
     if ((audio_bitrate < VICE_FFMPEG_AUDIO_RATE_MIN)
-     || (audio_bitrate > VICE_FFMPEG_AUDIO_RATE_MAX)) {
+        || (audio_bitrate > VICE_FFMPEG_AUDIO_RATE_MAX)) {
         audio_bitrate = VICE_FFMPEG_AUDIO_RATE_DEFAULT;
     }
     return 0;
@@ -158,7 +158,7 @@ static int set_video_bitrate(int val, void *param)
     video_bitrate = (CLOCK)val;
 
     if ((video_bitrate < VICE_FFMPEG_VIDEO_RATE_MIN)
-     || (video_bitrate > VICE_FFMPEG_VIDEO_RATE_MAX)) {
+        || (video_bitrate > VICE_FFMPEG_VIDEO_RATE_MAX)) {
         video_bitrate = VICE_FFMPEG_VIDEO_RATE_DEFAULT;
     }
     return 0;
@@ -212,8 +212,9 @@ static const resource_int_t resources_int[] = {
 
 static int ffmpegdrv_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -268,7 +269,7 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
         log_debug("ffmpegdrv: could not open audio codec");
         return -1;
     }
-    
+
     audio_is_open = 1;
     audio_outbuf_size = 100000;
     audio_outbuf = lib_malloc(audio_outbuf_size);
@@ -277,22 +278,21 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
        support to compute the input frame size in samples */
     if (c->frame_size <= 1) {
         audio_inbuf_samples = audio_outbuf_size;
-        switch(st->codec->codec_id) {
-        case CODEC_ID_PCM_S16LE:
-        case CODEC_ID_PCM_S16BE:
-        case CODEC_ID_PCM_U16LE:
-        case CODEC_ID_PCM_U16BE:
-            audio_inbuf_samples >>= 1;
-            break;
-        default:
-            break;
+        switch (st->codec->codec_id) {
+            case CODEC_ID_PCM_S16LE:
+            case CODEC_ID_PCM_S16BE:
+            case CODEC_ID_PCM_U16LE:
+            case CODEC_ID_PCM_U16BE:
+                audio_inbuf_samples >>= 1;
+                break;
+            default:
+                break;
         }
     } else {
         audio_inbuf_samples = c->frame_size * c->channels;
     }
     ffmpegdrv_audio_in.size = audio_inbuf_samples;
-    ffmpegdrv_audio_in.buffer = lib_malloc(audio_inbuf_samples
-                                                    * sizeof(SWORD));
+    ffmpegdrv_audio_in.buffer = lib_malloc(audio_inbuf_samples * sizeof(SWORD));
 
     return 0;
 }
@@ -300,11 +300,13 @@ static int ffmpegdrv_open_audio(AVFormatContext *oc, AVStream *st)
 
 static void ffmpegdrv_close_audio(void)
 {
-    if (audio_st == NULL)
+    if (audio_st == NULL) {
         return;
+    }
 
-    if (audio_is_open)
+    if (audio_is_open) {
         (*ffmpeglib.p_avcodec_close)(audio_st->codec);
+    }
 
     audio_is_open = 0;
     lib_free(ffmpegdrv_audio_in.buffer);
@@ -315,22 +317,23 @@ static void ffmpegdrv_close_audio(void)
 }
 
 
-static int ffmpegmovie_init_audio(int speed, int channels,
-                                 soundmovie_buffer_t ** audio_in)
+static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t ** audio_in)
 {
     AVCodecContext *c;
     AVStream *st;
 
-    if (ffmpegdrv_oc == NULL || ffmpegdrv_fmt == NULL)
+    if (ffmpegdrv_oc == NULL || ffmpegdrv_fmt == NULL) {
         return -1;
+    }
 
     audio_init_done = 1;
 
-    if (ffmpegdrv_fmt->audio_codec == CODEC_ID_NONE)
+    if (ffmpegdrv_fmt->audio_codec == CODEC_ID_NONE) {
         return -1;
+    }
 
     *audio_in = &ffmpegdrv_audio_in;
-    
+
     (*audio_in)->size = 0; /* not allocated yet */
     (*audio_in)->used = 0;
 
@@ -352,8 +355,9 @@ static int ffmpegmovie_init_audio(int speed, int channels,
     audio_st = st;
     audio_pts = 0;
 
-    if (video_init_done)
+    if (video_init_done) {
         ffmpegdrv_init_file();
+    }
 
     return 0;
 }
@@ -367,17 +371,17 @@ static int ffmpegmovie_encode_audio(soundmovie_buffer_t *audio_in)
         AVCodecContext *c;
         (*ffmpeglib.p_av_init_packet)(&pkt);
         c = audio_st->codec;
-        pkt.size = (*ffmpeglib.p_avcodec_encode_audio)(c, 
-                        audio_outbuf, audio_outbuf_size, audio_in->buffer);
+        pkt.size = (*ffmpeglib.p_avcodec_encode_audio)(c, audio_outbuf, audio_outbuf_size, audio_in->buffer);
         pkt.pts = c->coded_frame->pts;
         pkt.flags |= AV_PKT_FLAG_KEY;
         pkt.stream_index = audio_st->index;
         pkt.data = audio_outbuf;
 
-        if ((*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt) != 0)
+        if ((*ffmpeglib.p_av_write_frame)(ffmpegdrv_oc, &pkt) != 0) {
             log_debug("ffmpegdrv_encode_audio: Error while writing audio frame");
+        }
 
-        audio_pts = (double)audio_st->pts.val * audio_st->time_base.num 
+        audio_pts = (double)audio_st->pts.val * audio_st->time_base.num
                     / audio_st->time_base.den;
     }
 
@@ -401,7 +405,7 @@ static soundmovie_funcs_t ffmpegdrv_soundmovie_funcs = {
 /* video stream encoding */
 /*-----------------------*/
 static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
-{ 
+{
     int x, y;
     int colnum;
     int bufferoffset;
@@ -410,13 +414,13 @@ static int ffmpegdrv_fill_rgb_image(screenshot_t *screenshot, AVFrame *pic)
     int pix;
 
     /* center the screenshot in the video */
-    bufferoffset = screenshot->x_offset 
-                    + screenshot->y_offset * screenshot->draw_buffer_line_size;
+    bufferoffset = screenshot->x_offset
+                   + screenshot->y_offset * screenshot->draw_buffer_line_size;
 
     pix = 3 * ((video_width - x_dim) / 2 + (video_height - y_dim) / 2 * video_width);
 
     for (y = 0; y < y_dim; y++) {
-        for (x=0; x < x_dim; x++) {
+        for (x = 0; x < x_dim; x++) {
             colnum = screenshot->draw_buffer[bufferoffset + x];
             pic->data[0][pix++] = screenshot->palette->entries[colnum].red;
             pic->data[0][pix++] = screenshot->palette->entries[colnum].green;
@@ -436,7 +440,7 @@ static AVFrame* ffmpegdrv_alloc_picture(int pix_fmt, int width, int height)
     AVFrame *picture;
     unsigned char *picture_buf;
     int size;
-    
+
     picture = lib_malloc(sizeof(AVFrame));
     memset(picture, 0, sizeof(AVFrame));
 
@@ -449,8 +453,7 @@ static AVFrame* ffmpegdrv_alloc_picture(int pix_fmt, int width, int height)
         lib_free(picture);
         return NULL;
     }
-    (*ffmpeglib.p_avpicture_fill)((AVPicture *)picture, picture_buf, 
-                   pix_fmt, width, height);
+    (*ffmpeglib.p_avpicture_fill)((AVPicture *)picture, picture_buf, pix_fmt, width, height);
 
     return picture;
 }
@@ -497,8 +500,7 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
        output format */
     tmp_picture = NULL;
     if (c->pix_fmt != PIX_FMT_RGB24) {
-        tmp_picture = ffmpegdrv_alloc_picture(PIX_FMT_RGB24, 
-                                                c->width, c->height);
+        tmp_picture = ffmpegdrv_alloc_picture(PIX_FMT_RGB24, c->width, c->height);
         if (!tmp_picture) {
             log_debug("ffmpegdrv: could not allocate temporary picture");
             return -1;
@@ -510,26 +512,28 @@ static int ffmpegdrv_open_video(AVFormatContext *oc, AVStream *st)
 
 static void ffmpegdrv_close_video(void)
 {
-    if (video_st == NULL)
+    if (video_st == NULL) {
         return;
+    }
 
-    if (video_is_open)
+    if (video_is_open) {
         (*ffmpeglib.p_avcodec_close)(video_st->codec);
+    }
 
     video_is_open = 0;
     lib_free(video_outbuf);
     video_outbuf = NULL;
     if (picture) {
-	lib_free(picture->data[0]);
-	lib_free(picture);
-	picture = NULL;
+        lib_free(picture->data[0]);
+        lib_free(picture);
+        picture = NULL;
     }
     if (tmp_picture) {
-	lib_free(tmp_picture->data[0]);
-	lib_free(tmp_picture);
-	tmp_picture = NULL;
+        lib_free(tmp_picture->data[0]);
+        lib_free(tmp_picture);
+        tmp_picture = NULL;
     }
-    
+
 #ifdef HAVE_FFMPEG_SWSCALE
     if (sws_ctx != NULL) {
         (*ffmpeglib.p_sws_freeContext)(sws_ctx);
@@ -543,13 +547,15 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     AVCodecContext *c;
     AVStream *st;
 
-    if (ffmpegdrv_oc == NULL || ffmpegdrv_fmt == NULL)
+    if (ffmpegdrv_oc == NULL || ffmpegdrv_fmt == NULL) {
         return;
+    }
 
-     video_init_done = 1;
+    video_init_done = 1;
 
-     if (ffmpegdrv_fmt->video_codec == CODEC_ID_NONE)
+    if (ffmpegdrv_fmt->video_codec == CODEC_ID_NONE) {
         return;
+    }
 
     st = (*ffmpeglib.p_av_new_stream)(ffmpegdrv_oc, 0);
     if (!st) {
@@ -564,7 +570,7 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     /* put sample parameters */
     c->bit_rate = video_bitrate;
     /* resolution should be a multiple of 16 */
-    video_width = c->width = (screenshot->width + 15) & ~0xf; 
+    video_width = c->width = (screenshot->width + 15) & ~0xf;
     video_height = c->height = (screenshot->height + 15) & ~0xf;
     /* frames per second */
     c->time_base.den = (int)(vsync_get_refresh_frequency() + 0.5);
@@ -582,17 +588,17 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
 
     /* Use XVID instead of FMP4 FOURCC for better compatibility */
     if (c->codec_id == CODEC_ID_MPEG4) {
-        c->codec_tag = MKTAG('X','V','I','D');
+        c->codec_tag = MKTAG('X', 'V', 'I', 'D');
     }
 
 #ifdef HAVE_FFMPEG_SWSCALE
     /* setup scaler */
     if (c->pix_fmt != PIX_FMT_RGB24) {
         sws_ctx = (*ffmpeglib.p_sws_getContext)
-            (video_width, video_height, PIX_FMT_RGB24, 
-             video_width, video_height, c->pix_fmt, 
-             SWS_BICUBIC, 
-             NULL, NULL, NULL);
+                      (video_width, video_height, PIX_FMT_RGB24,
+                      video_width, video_height, c->pix_fmt,
+                      SWS_BICUBIC,
+                      NULL, NULL, NULL);
         if (sws_ctx == NULL) {
             log_debug("ffmpegdrv: Can't create Scaler!\n");
         }
@@ -603,19 +609,21 @@ static void ffmpegdrv_init_video(screenshot_t *screenshot)
     video_pts = 0;
     framecounter = 0;
 
-    if (audio_init_done)
+    if (audio_init_done) {
         ffmpegdrv_init_file();
+    }
 }
 
 
 static int ffmpegdrv_init_file(void)
 {
-    if (!video_init_done || !audio_init_done)
+    if (!video_init_done || !audio_init_done) {
         return 0;
+    }
 
     if ((*ffmpeglib.p_av_set_parameters)(ffmpegdrv_oc, NULL) < 0) {
         log_debug("ffmpegdrv: Invalid output format parameters");
-            return -1;
+        return -1;
     }
 
     (*ffmpeglib.p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
@@ -633,13 +641,11 @@ static int ffmpegdrv_init_file(void)
 
     if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
         if ((*ffmpeglib.p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
-                            URL_WRONLY) < 0) 
-        {
+                                     URL_WRONLY) < 0) {
             ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_S), ffmpegdrv_oc->filename);
             screenshot_stop_recording();
             return -1;
         }
-
     }
 
     (*ffmpeglib.p_av_write_header)(ffmpegdrv_oc);
@@ -663,8 +669,9 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
 
     ffmpegdrv_fmt = (*ffmpeglib.p_av_guess_format)(ffmpeg_format, NULL, NULL);
 
-    if (!ffmpegdrv_fmt)
+    if (!ffmpegdrv_fmt) {
         ffmpegdrv_fmt = (*ffmpeglib.p_av_guess_format)("mpeg", NULL, NULL);
+    }
 
     if (!ffmpegdrv_fmt) {
         log_debug("ffmpegdrv: Cannot find suitable output format");
@@ -672,18 +679,15 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
     }
 
     if (format_index >= 0) {
-
         gfxoutputdrv_format_t *format = &ffmpegdrv_formatlist[format_index];
 
-        if (format->audio_codecs !=NULL
-            && (*ffmpeglib.p_avcodec_find_encoder)(audio_codec) != NULL)
-        {
+        if (format->audio_codecs != NULL
+            && (*ffmpeglib.p_avcodec_find_encoder)(audio_codec) != NULL) {
             ffmpegdrv_fmt->audio_codec = audio_codec;
         }
 
-        if (format->video_codecs !=NULL
-            && (*ffmpeglib.p_avcodec_find_encoder)(video_codec) != NULL)
-        {
+        if (format->video_codecs != NULL
+            && (*ffmpeglib.p_avcodec_find_encoder)(video_codec) != NULL) {
             ffmpegdrv_fmt->video_codec = video_codec;
         }
     }
@@ -697,8 +701,7 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
     }
 
     ffmpegdrv_oc->oformat = ffmpegdrv_fmt;
-    snprintf(ffmpegdrv_oc->filename, sizeof(ffmpegdrv_oc->filename), 
-             "%s", filename);
+    snprintf(ffmpegdrv_oc->filename, sizeof(ffmpegdrv_oc->filename), "%s", filename);
 
     ffmpegdrv_init_video(screenshot);
 
@@ -714,10 +717,12 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
 
     soundmovie_stop();
 
-    if (video_st)
+    if (video_st) {
         ffmpegdrv_close_video();
-    if (audio_st)
+    }
+    if (audio_st) {
         ffmpegdrv_close_audio();
+    }
 
     /* write the trailer, if any */
     if (file_init_done) {
@@ -727,7 +732,7 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
             (*ffmpeglib.p_url_fclose)(ffmpegdrv_oc->pb);
         }
     }
-    
+
     /* free the streams */
     for (i = 0; i < ffmpegdrv_oc->nb_streams; i++) {
         (*ffmpeglib.p_av_free)((void *)ffmpegdrv_oc->streams[i]);
@@ -753,11 +758,11 @@ __declspec(naked) static int ffmpeg_avcodec_encode_video(AVCodecContext* c, uint
          * can restore ESP afterwards.
          */
         push ebp
-        mov ebp,esp
+        mov ebp, esp
         sub esp, __LOCAL_SIZE /* not needed, but safer against errors when changing this function */
 
         /* adjust stack to 16 byte boundary */
-        and esp,~0x0f
+        and esp, ~0x0f
     }
 
     /* execute the command */
@@ -766,9 +771,9 @@ __declspec(naked) static int ffmpeg_avcodec_encode_video(AVCodecContext* c, uint
 
     _asm {
         /* undo the stack frame, restoring ESP and EBP */
-        mov esp,ebp
+        mov esp, ebp
         pop ebp
-        ret
+            ret
     }
 }
 #endif
@@ -780,17 +785,19 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
     int out_size;
     int ret;
 
-    if (audio_init_done && video_init_done && !file_init_done)
+    if (audio_init_done && video_init_done && !file_init_done) {
         ffmpegdrv_init_file();
+    }
 
-    if (video_st == NULL || !file_init_done)
+    if (video_st == NULL || !file_init_done) {
         return 0;
+    }
 
     if (audio_st && video_pts > audio_pts) {
         /* drop this frame */
         return 0;
     }
-    
+
     framecounter++;
     if (video_halve_framerate && (framecounter & 1)) {
         /* drop every second frame */
@@ -803,14 +810,14 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         ffmpegdrv_fill_rgb_image(screenshot, tmp_picture);
 #ifdef HAVE_FFMPEG_SWSCALE
         if (sws_ctx != NULL) {
-            (*ffmpeglib.p_sws_scale)(sws_ctx, 
-                tmp_picture->data, tmp_picture->linesize, 0, c->height,
-                picture->data, picture->linesize);
+            (*ffmpeglib.p_sws_scale)(sws_ctx,
+                                     tmp_picture->data, tmp_picture->linesize, 0, c->height,
+                                     picture->data, picture->linesize);
         }
 #else
         (*ffmpeglib.p_img_convert)((AVPicture *)picture, c->pix_fmt,
-                    (AVPicture *)tmp_picture, PIX_FMT_RGB24,
-                    c->width, c->height);
+                                   (AVPicture *)tmp_picture, PIX_FMT_RGB24,
+                                   c->width, c->height);
 #endif
     } else {
         ffmpegdrv_fill_rgb_image(screenshot, picture);
@@ -830,8 +837,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
 #if FFMPEG_ALIGNMENT_HACK
         out_size = ffmpeg_avcodec_encode_video(c, video_outbuf, video_outbuf_size, picture);
 #else
-        out_size = (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, 
-                                                video_outbuf_size, picture);
+        out_size = (*ffmpeglib.p_avcodec_encode_video)(c, video_outbuf, video_outbuf_size, picture);
 #endif
         /* if zero size, it means the image was buffered */
         if (out_size != 0) {
@@ -839,8 +845,9 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
             AVPacket pkt;
             (*ffmpeglib.p_av_init_packet)(&pkt);
             pkt.pts = c->coded_frame->pts;
-            if (c->coded_frame->key_frame)
+            if (c->coded_frame->key_frame) {
                 pkt.flags |= AV_PKT_FLAG_KEY;
+            }
             pkt.stream_index = video_st->index;
             pkt.data = video_outbuf;
             pkt.size = out_size;
@@ -854,8 +861,7 @@ static int ffmpegdrv_record(screenshot_t *screenshot)
         return -1;
     }
 
-    video_pts = (double)video_st->pts.val * video_st->time_base.num 
-                    / video_st->time_base.den;
+    video_pts = (double)video_st->pts.val * video_st->time_base.num / video_st->time_base.den;
 
     return 0;
 }
@@ -887,17 +893,17 @@ static gfxoutputdrv_t ffmpeg_drv = {
     ffmpegdrv_resources_init,
     ffmpegdrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
-    ,NULL
+    , NULL
 #endif
 };
 
 void gfxoutput_init_ffmpeg(void)
 {
-    if (ffmpeglib_open(&ffmpeglib) < 0)
+    if (ffmpeglib_open(&ffmpeglib) < 0) {
         return;
+    }
 
     gfxoutput_register(&ffmpeg_drv);
 
     (*ffmpeglib.p_av_register_all)();
 }
-

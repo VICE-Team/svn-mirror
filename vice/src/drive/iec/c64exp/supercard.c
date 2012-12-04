@@ -73,7 +73,7 @@ int supercard_load(const char *name)
     }
 
     if (util_file_load(name, supercard_rom,
-        SUPERCARD_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
+                       SUPERCARD_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
     }
     return 0;

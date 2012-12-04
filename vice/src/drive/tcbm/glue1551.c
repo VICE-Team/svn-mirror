@@ -78,13 +78,15 @@ static void glue_pport_update(drive_context_t *drv)
     /* Drive active LED.  */
     drv->drive->led_status = (output & 8) ? 0 : 1;
 
-    if (drv->drive->led_status)
+    if (drv->drive->led_status) {
         drv->drive->led_active_ticks += *(drv->clk_ptr)
                                         - drv->drive->led_last_change_clk;
+    }
     drv->drive->led_last_change_clk = *(drv->clk_ptr);
 
-    if ((old_output ^ output) & 0x60)
+    if ((old_output ^ output) & 0x60) {
         rotation_speed_zone_set((output >> 5) & 0x3, drv->mynumber);
+    }
 
     rotation_rotate_disk(drv->drive);
 
@@ -152,7 +154,7 @@ void glue1551_init(drive_context_t *drv)
                                                     buffer, glue1551_timer,
                                                     drv);
     glue1551[drv->mynumber].int_num = interrupt_cpu_status_int_new(
-                                          drv->cpu->int_status, buffer);
+        drv->cpu->int_status, buffer);
     lib_free(buffer);
 }
 
@@ -166,4 +168,3 @@ void glue1551_reset(drive_context_t *drv)
     drv->drive->led_status = 1;
     drive_update_ui_status();
 }
-

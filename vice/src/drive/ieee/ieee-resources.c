@@ -46,40 +46,45 @@ static char *dos_rom_name_4040 = NULL;
 
 static int set_dos_rom_name_2040(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_2040, val))
+    if (util_string_set(&dos_rom_name_2040, val)) {
         return 0;
+    }
 
     return ieeerom_load_2040();
 }
 
 static int set_dos_rom_name_3040(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_3040, val))
+    if (util_string_set(&dos_rom_name_3040, val)) {
         return 0;
+    }
 
     return ieeerom_load_3040();
 }
 
 static int set_dos_rom_name_4040(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_4040, val))
+    if (util_string_set(&dos_rom_name_4040, val)) {
         return 0;
+    }
 
     return ieeerom_load_4040();
 }
 
 static int set_dos_rom_name_1001(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_1001, val))
+    if (util_string_set(&dos_rom_name_1001, val)) {
         return 0;
+    }
 
     return ieeerom_load_1001();
 }
 
 static int set_dos_rom_name_2031(const char *val, void *param)
 {
-    if (util_string_set(&dos_rom_name_2031, val))
+    if (util_string_set(&dos_rom_name_2031, val)) {
         return 0;
+    }
 
     return ieeerom_load_2031();
 }
@@ -105,8 +110,9 @@ static const resource_int_t resources_int[] = {
 
 int ieee_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }

@@ -247,7 +247,7 @@ static void doodle_check_and_correct_cell(native_data_t *source)
                 }
             }
             colors = native_sort_colors_colormap(dest, 16);
-            if (colors[2].amount !=0) {
+            if (colors[2].amount != 0) {
                 colors[2].color = 255;
                 vicii_color_to_nearest_vicii_color_colormap(dest, colors);
                 for (k = 0; k < 8; k++) {
@@ -538,7 +538,7 @@ static int doodle_vic_save(screenshot_t *screenshot, const char *filename, int c
     }
 
     vic_color_to_vicii_color_colormap(data);
-    
+
     if (data->xsize != DOODLE_SCREEN_PIXEL_WIDTH || data->ysize != DOODLE_SCREEN_PIXEL_HEIGHT) {
         data = native_resize_colormap(data, DOODLE_SCREEN_PIXEL_WIDTH, DOODLE_SCREEN_PIXEL_HEIGHT, (BYTE)(regs[0xf] & 7), oversize_handling, undersize_handling);
     }
@@ -676,7 +676,7 @@ static gfxoutputdrv_t doodle_drv =
     doodledrv_resources_init,
     doodledrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
-    ,NULL
+    , NULL
 #endif
 };
 
@@ -696,7 +696,7 @@ static gfxoutputdrv_t doodle_compressed_drv =
     NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
-    ,NULL
+    , NULL
 #endif
 };
 

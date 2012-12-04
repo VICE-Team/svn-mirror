@@ -39,4 +39,3 @@ extern int tcbmrom_check_loaded(unsigned int type);
 extern int tcbmrom_load_1551(void);
 
 #endif
-

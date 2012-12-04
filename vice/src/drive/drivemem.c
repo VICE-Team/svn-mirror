@@ -60,8 +60,7 @@ static BYTE drive_read_free(drive_context_t *drv, WORD address)
     return address >> 8;
 }
 
-static void drive_store_free(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_free(drive_context_t *drv, WORD address, BYTE value)
 {
     return;
 }
@@ -75,8 +74,7 @@ static BYTE drive_read_watch(drive_context_t *drv, WORD address)
     return drv->cpud->read_func_nowatch[address >> 8](drv, address);
 }
 
-static void drive_store_watch(drive_context_t *drv, WORD address,
-                                       BYTE value)
+static void drive_store_watch(drive_context_t *drv, WORD address, BYTE value)
 {
     monitor_watch_push_store_addr(address, drv->cpu->monspace);
     drv->cpud->store_func_nowatch[address >> 8](drv, address, value);
@@ -92,12 +90,14 @@ void drivemem_set_func(drivecpud_context_t *cpud,
     unsigned int i;
 
     if (read_func != NULL) {
-        for (i = start; i < stop; i++)
+        for (i = start; i < stop; i++) {
             cpud->read_func_nowatch[i] = read_func;
+        }
     }
     if (store_func != NULL) {
-        for (i = start; i < stop; i++)
+        for (i = start; i < stop; i++) {
             cpud->store_func_nowatch[i] = store_func;
+        }
     }
 }
 
@@ -127,34 +127,34 @@ void drivemem_init(drive_context_t *drv, unsigned int type)
            sizeof(drive_store_func_t *) * 0x101);
 
     switch (type) {
-      case DRIVE_TYPE_NONE:
-        break;
-      case DRIVE_TYPE_2040:
-        drv->drive->rom_start = 0xe000;
-        break;
-      case DRIVE_TYPE_3040:
-      case DRIVE_TYPE_4040:
-        drv->drive->rom_start = 0xd000;
-        break;
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1551:
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        drv->drive->rom_start = 0xc000;
-        break;
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1570:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1571CR:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2000:
-      case DRIVE_TYPE_4000:
-        drv->drive->rom_start = 0x8000;
-        break;
-      default:
-        log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
+        case DRIVE_TYPE_NONE:
+            break;
+        case DRIVE_TYPE_2040:
+            drv->drive->rom_start = 0xe000;
+            break;
+        case DRIVE_TYPE_3040:
+        case DRIVE_TYPE_4040:
+            drv->drive->rom_start = 0xd000;
+            break;
+        case DRIVE_TYPE_1541II:
+        case DRIVE_TYPE_1551:
+        case DRIVE_TYPE_2031:
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            drv->drive->rom_start = 0xc000;
+            break;
+        case DRIVE_TYPE_1541:
+        case DRIVE_TYPE_1570:
+        case DRIVE_TYPE_1571:
+        case DRIVE_TYPE_1571CR:
+        case DRIVE_TYPE_1581:
+        case DRIVE_TYPE_2000:
+        case DRIVE_TYPE_4000:
+            drv->drive->rom_start = 0x8000;
+            break;
+        default:
+            log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
     }
 }
 
@@ -170,48 +170,47 @@ mem_ioreg_list_t *drivemem_ioreg_list_get(void *context)
     type = ((drive_context_t *)context)->drive->type;
 
     switch (type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1541II:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
-        break;
-      case DRIVE_TYPE_1551:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, NULL);
-        break;
-      case DRIVE_TYPE_1570:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1571CR:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
-        break;
-      case DRIVE_TYPE_1581:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL);
-        break;
-      case DRIVE_TYPE_2000:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL);
-        break;
-      case DRIVE_TYPE_4000:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL);
-        break;
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_2040:
-      case DRIVE_TYPE_3040:
-      case DRIVE_TYPE_4040:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, NULL);
-        mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, NULL);
-        break;
-      default:
-        log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
+        case DRIVE_TYPE_1541:
+        case DRIVE_TYPE_1541II:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
+            break;
+        case DRIVE_TYPE_1551:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "TPI", 0x4000, 0x4007, NULL);
+            break;
+        case DRIVE_TYPE_1570:
+        case DRIVE_TYPE_1571:
+        case DRIVE_TYPE_1571CR:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA1", 0x1800, 0x180f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA2", 0x1c00, 0x1c0f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x2000, 0x2003, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
+            break;
+        case DRIVE_TYPE_1581:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "CIA", 0x4000, 0x400f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "WD1770", 0x6000, 0x6003, NULL);
+            break;
+        case DRIVE_TYPE_2000:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "DP8473", 0x4e00, 0x4e07, NULL);
+            break;
+        case DRIVE_TYPE_4000:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "VIA", 0x4000, 0x400f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "PC8477", 0x4e00, 0x4e07, NULL);
+            break;
+        case DRIVE_TYPE_2031:
+        case DRIVE_TYPE_2040:
+        case DRIVE_TYPE_3040:
+        case DRIVE_TYPE_4040:
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT1", 0x0200, 0x021f, NULL);
+            mon_ioreg_add_list(&drivemem_ioreg_list, "RIOT2", 0x0280, 0x029f, NULL);
+            break;
+        default:
+            log_error(LOG_ERR, "DRIVEMEM: Unknown drive type `%i'.", type);
     }
 
     return drivemem_ioreg_list;
 }
-

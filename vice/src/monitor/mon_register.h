@@ -50,4 +50,3 @@ void mon_registerz80_init(struct monitor_cpu_type_s *monitor_cpu_type);
 void mon_register6809_init(struct monitor_cpu_type_s *monitor_cpu_type);
 
 #endif
-

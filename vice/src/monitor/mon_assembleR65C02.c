@@ -59,7 +59,6 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
 
         opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
         if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
-
             /* Special case: ZERO PAGE RELATIVE mode needs special handling. */
             if (opinfo->addr_mode == ASM_ADDR_MODE_ZERO_PAGE_RELATIVE
                 && operand_mode == ASM_ADDR_MODE_DOUBLE) {
@@ -93,7 +92,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
             /* Special case: RELATIVE mode looks like ZERO_PAGE or ABSOLUTE
                modes.  */
             if ((operand_mode == ASM_ADDR_MODE_ZERO_PAGE
-                || operand_mode == ASM_ADDR_MODE_ABSOLUTE)
+                 || operand_mode == ASM_ADDR_MODE_ABSOLUTE)
                 && opinfo->addr_mode == ASM_ADDR_MODE_RELATIVE) {
                 branch_offset = operand_value - loc - 2;
                 if (branch_offset > 127 || branch_offset < -128) {
@@ -152,7 +151,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     }
 
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
-          ((unsigned int)(operand_mode), 0, 0, 0);
+              ((unsigned int)(operand_mode), 0, 0, 0);
 
     /* EP 98.08.23 use correct memspace for assembling.  */
     mon_set_mem_val(mem, loc, opcode);

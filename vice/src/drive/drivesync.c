@@ -41,7 +41,7 @@ static unsigned int sync_factor;
 static void drive_sync_cpu_set_factor(drive_context_t *drv,
                                       unsigned int sync_factor)
 {
-	drv->cpud->sync_factor = sync_factor;
+    drv->cpud->sync_factor = sync_factor;
 }
 
 void drivesync_factor(struct drive_context_s *drv)
@@ -54,11 +54,11 @@ void drive_set_machine_parameter(long cycles_per_sec)
 {
     unsigned int dnr;
 
-    sync_factor = (unsigned int)floor(65536.0 * (1000000.0
-                  / ((double)cycles_per_sec)));
+    sync_factor = (unsigned int)floor(65536.0 * (1000000.0 / ((double)cycles_per_sec)));
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drivesync_factor(drive_context[dnr]);
+    }
 }
 
 void drivesync_set_1571(int new_sync, struct drive_context_s *drv)
@@ -86,30 +86,29 @@ void drivesync_set_4000(struct drive_context_s *drv, int new_sync)
 void drivesync_clock_frequency(unsigned int type, drive_t *drive)
 {
     switch (type) {
-      case DRIVE_TYPE_1541:
-      case DRIVE_TYPE_1541II:
-      case DRIVE_TYPE_1570:
-      case DRIVE_TYPE_1571:
-      case DRIVE_TYPE_1571CR:
-        drive->clock_frequency = 1;
-        break;
-      case DRIVE_TYPE_1551:
-      case DRIVE_TYPE_1581:
-      case DRIVE_TYPE_2000:
-      case DRIVE_TYPE_4000:
-        drive->clock_frequency = 2;
-        break;
-      case DRIVE_TYPE_2031:
-      case DRIVE_TYPE_2040:
-      case DRIVE_TYPE_3040:
-      case DRIVE_TYPE_4040:
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        drive->clock_frequency = 1;
-        break;
-      default:
-        drive->clock_frequency = 1;
+        case DRIVE_TYPE_1541:
+        case DRIVE_TYPE_1541II:
+        case DRIVE_TYPE_1570:
+        case DRIVE_TYPE_1571:
+        case DRIVE_TYPE_1571CR:
+            drive->clock_frequency = 1;
+            break;
+        case DRIVE_TYPE_1551:
+        case DRIVE_TYPE_1581:
+        case DRIVE_TYPE_2000:
+        case DRIVE_TYPE_4000:
+            drive->clock_frequency = 2;
+            break;
+        case DRIVE_TYPE_2031:
+        case DRIVE_TYPE_2040:
+        case DRIVE_TYPE_3040:
+        case DRIVE_TYPE_4040:
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            drive->clock_frequency = 1;
+            break;
+        default:
+            drive->clock_frequency = 1;
     }
 }
-

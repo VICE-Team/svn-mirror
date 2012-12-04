@@ -42,7 +42,7 @@
 #include "translate.h"
 #include "../sounddrv/soundmovie.h"
 
-#if (MAC_OS_X_VERSION_MIN_REQUIRED<MAC_OS_X_VERSION_10_5) && defined(__APPLE__)
+#if (MAC_OS_X_VERSION_MIN_REQUIRED < MAC_OS_X_VERSION_10_5) && defined(__APPLE__)
 // define missing pixel format in pre 10.5 headers
 enum {
     kCVPixelFormatType_24RGB = 0x00000018
@@ -51,10 +51,10 @@ enum {
 
 // ----- define formats -----------------------------------------------------
 
-static gfxoutputdrv_codec_t mov_audio_codeclist[] = { 
+static gfxoutputdrv_codec_t mov_audio_codeclist[] = {
     { -1, "None" },
-    { 1,  "PCM" },
-    { 0,  NULL }
+    { 1, "PCM" },
+    { 0, NULL }
 };
 
 static gfxoutputdrv_codec_t mov_video_codeclist[] = { 
@@ -75,27 +75,29 @@ static gfxoutputdrv_format_t quicktimedrv_formatlist[] =
 
 // ----- global state -------------------------------------------------------
 
-static  Movie           movie=NULL;
-static  DataHandler     dataHandler=NULL;
+static Movie movie = NULL;
+static DataHandler dataHandler = NULL;
 
 // video
-static  Track           videoTrack=NULL;
-static  Media           videoMedia=NULL;
-static  ICMCompressionSessionRef    videoCompressionSession = NULL;
-static  CVPixelBufferRef pixelBuffer=NULL;
-static  int video_width, video_height, video_xoff, video_yoff;
-static  int video_ready = 0;
+static Track videoTrack = NULL;
+static Media videoMedia = NULL;
+static ICMCompressionSessionRef videoCompressionSession = NULL;
+static CVPixelBufferRef pixelBuffer = NULL;
+static int video_width, video_height, video_xoff, video_yoff;
+static int video_ready = 0;
 
 // audio
-static  SoundDescriptionHandle  soundDescriptionHandle = NULL;
-static  Track           audioTrack=NULL;
-static  Media           audioMedia=NULL;
-static  int audio_ready = 0;
-static soundmovie_buffer_t audioBuffer = { NULL,0,0 };
+static SoundDescriptionHandle soundDescriptionHandle = NULL;
+static Track audioTrack = NULL;
+static Media audioMedia = NULL;
+static int audio_ready = 0;
+static soundmovie_buffer_t audioBuffer = {
+    NULL, 0, 0
+};
 
-static  TimeScale       timeScale = 1000000;
-static  TimeValue64     timestamp=0;
-static  TimeValue64     divider=0;
+static TimeScale timeScale = 1000000;
+static TimeValue64 timestamp = 0;
+static TimeValue64 divider = 0;
 
 // ----- resources & command line -------------------------------------------
 
@@ -108,7 +110,7 @@ static int video_codec;
 static int set_format(const char *val, void *param)
 {
     int i;
-    
+
     util_string_set(&quicktime_format, val);
     for (i = 0; quicktimedrv_formatlist[i].name != NULL; i++) {
         if (strcmp(quicktime_format, quicktimedrv_formatlist[i].name) == 0) {
@@ -121,8 +123,9 @@ static int set_format(const char *val, void *param)
 static int set_audio_bitrate(int val, void *param)
 {
     audio_bitrate = (CLOCK)val;
-    if (audio_bitrate < 16000 || audio_bitrate > 128000)
+    if (audio_bitrate < 16000 || audio_bitrate > 128000) {
         audio_bitrate = 64000;
+    }
 
     return 0;
 }
@@ -130,8 +133,9 @@ static int set_audio_bitrate(int val, void *param)
 static int set_video_bitrate(int val, void *param)
 {
     video_bitrate = (CLOCK)val;
-    if (video_bitrate < 100000 || video_bitrate > 10000000)
+    if (video_bitrate < 100000 || video_bitrate > 10000000) {
         video_bitrate = 800000;
+    }
 
     return 0;
 }
@@ -168,8 +172,9 @@ static const resource_int_t resources_int[] = {
 
 static int quicktimedrv_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -195,19 +200,20 @@ static int quicktimedrv_cmdline_options_init(void)
 
 // ----- video --------------------------------------------------------------
 
-static OSStatus FrameOutputCallback(void* encodedFrameOutputRefCon, 
-    ICMCompressionSessionRef session, OSStatus error, ICMEncodedFrameRef frame,
-    void* reserved)
+static OSStatus FrameOutputCallback(void* encodedFrameOutputRefCon,
+                                    ICMCompressionSessionRef session, OSStatus error, ICMEncodedFrameRef frame,
+                                    void* reserved)
 {
-    if (error)
+    if (error) {
         log_debug("quicktime_video: error encoding frame!");
-    else {
+    } else {
         if (ICMEncodedFrameGetDecodeDuration(frame) > 0) {
-             //  Adds sample data and description from an encoded frame to a media.
-             OSErr theError = AddMediaSampleFromEncodedFrame(videoMedia, frame, NULL);
-             if (theError)
-                 log_debug("quicktime_video: error adding media sample!");
-         }
+            //  Adds sample data and description from an encoded frame to a media.
+            OSErr theError = AddMediaSampleFromEncodedFrame(videoMedia, frame, NULL);
+            if (theError) {
+                log_debug("quicktime_video: error adding media sample!");
+            }
+        }
     }
     return error;
 }
@@ -241,24 +247,26 @@ static OSStatus setup_video(void)
     CodecType codec = (CodecType)video_codec;
 
     // Create compression session
-    ICMEncodedFrameOutputRecord record = { FrameOutputCallback, NULL, NULL };
-    theError = ICMCompressionSessionCreate(kCFAllocatorDefault, 
-        video_width, video_height, codec, timeScale, NULL /*options*/, NULL, 
-        &record, &videoCompressionSession);
+    ICMEncodedFrameOutputRecord record = {
+        FrameOutputCallback, NULL, NULL
+    };
+    theError = ICMCompressionSessionCreate(kCFAllocatorDefault,
+                                           video_width, video_height, codec, timeScale, NULL /*options*/, NULL,
+                                           &record, &videoCompressionSession);
     if (theError) {
         log_debug("quicktime_video: error creating compression session!");
         return theError;
     }
 
     // ----- PixelBuffer -----
-    theError = CVPixelBufferCreate(NULL,video_width,video_height,
-        kCVPixelFormatType_24RGB, NULL, &pixelBuffer);
+    theError = CVPixelBufferCreate(NULL, video_width, video_height,
+                                   kCVPixelFormatType_24RGB, NULL, &pixelBuffer);
     if (theError) {
         log_debug("quicktime_video: error creating pixel buffer!");
         return theError;
     }
     CVPixelBufferRetain(pixelBuffer);
-    
+
     video_ready = 1;
     return noErr;
 }
@@ -266,76 +274,79 @@ static OSStatus setup_video(void)
 static OSStatus finish_video(void)
 {
     video_ready = 0;
-    
+
     // ----- PixelBuffer -----
     CVPixelBufferRelease(pixelBuffer);
 
     // ----- Codec -----
-    
+
     OSErr theError = ICMCompressionSessionCompleteFrames(videoCompressionSession, true, 0, 0);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_video: error completing frames!");
-        
+    }
+
     ICMCompressionSessionRelease(videoCompressionSession);
-	
+
     // ----- Movie -----
 
     //End media editing
     theError = EndMediaEdits(videoMedia);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_video: error ending media edits");
+    }
 
     theError = ExtendMediaDecodeDurationToDisplayEndTime(videoMedia, NULL);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_video: error setting decode duration!");
+    }
 
     //Add media to track
     theError = InsertMediaIntoTrack(videoTrack, 0, 0, GetMediaDisplayDuration(videoMedia), fixed1);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_video: error inserting media into track!");
+    }
 
-    videoTrack=NULL;
-    videoMedia=NULL;
+    videoTrack = NULL;
+    videoMedia = NULL;
     return theError;
 }
 
 // ----- audio --------------------------------------------------------------
 
-static int init_audio(int speed,int channels,soundmovie_buffer_t **buffer)
+static int init_audio(int speed, int channels, soundmovie_buffer_t **buffer)
 {
     AudioStreamBasicDescription asbd = {0}; //see CoreAudioTypes.h
 
-    asbd.mSampleRate           = speed;
-    asbd.mFormatID             = kAudioFormatLinearPCM;
-    asbd.mFormatFlags          = kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsSignedInteger;
-    asbd.mChannelsPerFrame     = channels;
-    asbd.mBitsPerChannel       = sizeof (SWORD) * 8;
-    asbd.mBytesPerFrame        = (asbd.mBitsPerChannel>>3) // number of *bytes* per channel
-                                  * asbd.mChannelsPerFrame; // channels per frame
-    asbd.mFramesPerPacket      = 1; // For PCM, frames per packet is always 1
-    asbd.mBytesPerPacket       = asbd.mBytesPerFrame * asbd.mFramesPerPacket;
+    asbd.mSampleRate = speed;
+    asbd.mFormatID = kAudioFormatLinearPCM;
+    asbd.mFormatFlags = kAudioFormatFlagsNativeEndian | kAudioFormatFlagIsSignedInteger;
+    asbd.mChannelsPerFrame = channels;
+    asbd.mBitsPerChannel = sizeof (SWORD) * 8;
+    asbd.mBytesPerFrame = (asbd.mBitsPerChannel >> 3)      // number of *bytes* per channel
+                          * asbd.mChannelsPerFrame;         // channels per frame
+    asbd.mFramesPerPacket = 1;      // For PCM, frames per packet is always 1
+    asbd.mBytesPerPacket = asbd.mBytesPerFrame * asbd.mFramesPerPacket;
 
     UInt32 layoutSize;
     layoutSize = offsetof(AudioChannelLayout, mChannelDescriptions[0]);
     AudioChannelLayout *layout = NULL;
     layout = calloc(layoutSize, 1);
     OSErr err = -1;
-    if (layout != NULL)
-    {
-        if (channels==1)
+    if (layout != NULL) {
+        if (channels == 1) {
             layout->mChannelLayoutTag = kAudioChannelLayoutTag_Mono;
-        else if (channels==2)
+        } else if (channels == 2) {
             layout->mChannelLayoutTag = kAudioChannelLayoutTag_Stereo;
-        else {
-            log_debug("quicktime_audio: unsupported channels: %d",channels);
+        } else {
+            log_debug("quicktime_audio: unsupported channels: %d", channels);
             return -1;
         }
         err = QTSoundDescriptionCreate(
-                    &asbd,              // format description
-                    layout, layoutSize, // channel layout
-                    NULL, 0,            // magic cookie (compression parameters)
-                    kQTSoundDescriptionKind_Movie_LowestPossibleVersion,
-                    &soundDescriptionHandle); // SoundDescriptionHandle returned here
+            &asbd,                      // format description
+            layout, layoutSize,         // channel layout
+            NULL, 0,                    // magic cookie (compression parameters)
+            kQTSoundDescriptionKind_Movie_LowestPossibleVersion,
+            &soundDescriptionHandle);         // SoundDescriptionHandle returned here
         free(layout);
     }
     if (err != noErr) {
@@ -370,7 +381,7 @@ static int init_audio(int speed,int channels,soundmovie_buffer_t **buffer)
     audioBuffer.size = speed * channels / 10;
     audioBuffer.buffer = malloc(sizeof(SWORD) * audioBuffer.size);
     audioBuffer.used = 0;
-    
+
     audio_ready = 1;
     return 0;
 }
@@ -380,16 +391,16 @@ int encode_audio(soundmovie_buffer_t *buffer)
     if (!audio_ready) {
         return 0;
     }
-    
+
     OSStatus err = AddMediaSample2 (audioMedia,
-                            (const UInt8 *)buffer->buffer,
-                            buffer->used * sizeof(SWORD),
-                            1,
-                            0,
-                            (SampleDescriptionHandle)soundDescriptionHandle,
-                            buffer->used,
-                            0,
-                            NULL);
+                                    (const UInt8 *)buffer->buffer,
+                                    buffer->used * sizeof(SWORD),
+                                    1,
+                                    0,
+                                    (SampleDescriptionHandle)soundDescriptionHandle,
+                                    buffer->used,
+                                    0,
+                                    NULL);
     if (err != noErr) {
         log_debug("quicktime_audio: error adding samples!");
     }
@@ -399,28 +410,32 @@ int encode_audio(soundmovie_buffer_t *buffer)
 void finish_audio(void)
 {
     OSStatus theError;
-    
+
     // flush buffer
-    if (audioBuffer.used > 0)
+    if (audioBuffer.used > 0) {
         encode_audio(&audioBuffer);
-    
+    }
+
     //End media editing
     theError = EndMediaEdits(audioMedia);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_audio: error ending media edits");
+    }
 
     theError = ExtendMediaDecodeDurationToDisplayEndTime(audioMedia, NULL);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_audio: error setting decode duration!");
+    }
 
     //Add media to track
     theError = InsertMediaIntoTrack(audioTrack, 0, 0, GetMediaDisplayDuration(audioMedia), fixed1);
-    if (theError)
+    if (theError) {
         log_debug("quicktime_audio: error inserting media into track!");
+    }
 
-    audioTrack=NULL;
-    audioMedia=NULL;
-    
+    audioTrack = NULL;
+    audioMedia = NULL;
+
     DisposeHandle((Handle)soundDescriptionHandle);
 
     // free buffer
@@ -449,42 +464,42 @@ static int quicktimedrv_open(screenshot_t *screenshot, const char *filename)
 static int quicktimedrv_save(screenshot_t *screenshot, const char *filename)
 {
     // align and center video
-    video_width  = screenshot->width;
+    video_width = screenshot->width;
     video_height = screenshot->height;
-    video_width  = (video_width + 15)  & ~15;
+    video_width = (video_width + 15) & ~15;
     video_height = (video_height + 15) & ~15;
-    video_xoff   = (video_width - screenshot->width) >> 1;
-    video_yoff   = (video_height - screenshot->height) >> 1;
-    
-    // create cfstring from filename    
-    CFStringRef path = CFStringCreateWithCString(NULL,filename, kCFStringEncodingUTF8);
-    if (path==NULL) {
+    video_xoff = (video_width - screenshot->width) >> 1;
+    video_yoff = (video_height - screenshot->height) >> 1;
+
+    // create cfstring from filename
+    CFStringRef path = CFStringCreateWithCString(NULL, filename, kCFStringEncodingUTF8);
+    if (path == NULL) {
         log_debug("quicktime: error creating CFString!");
         return -1;
     }
-    
+
     // create data reference
     Handle dataRef;
     OSType dataRefType;
     OSErr theError = QTNewDataReferenceFromFullPathCFString(
         path, kQTNativeDefaultPathStyle, 0, &dataRef, &dataRefType);
     if (theError) {
-        log_debug("quicktime: error creating data reference for '%s'",filename);
+        log_debug("quicktime: error creating data reference for '%s'", filename);
         return -1;
     }
-    
+
     // Create a movie for this file (data ref)
     theError = CreateMovieStorage(
-        dataRef, dataRefType, 'TVOD', smCurrentScript, createMovieFileDeleteCurFile, 
+        dataRef, dataRefType, 'TVOD', smCurrentScript, createMovieFileDeleteCurFile,
         &dataHandler, &movie);
     if (theError) {
-        log_debug("quicktime: error creating movie storage for '%s'",filename);
+        log_debug("quicktime: error creating movie storage for '%s'", filename);
         return -1;
     }
 
     // dispose of the data reference handle - we no longer need it
     DisposeHandle(dataRef);
-    
+
     // define time scale and host clock divider
     divider = (TimeScale)CVGetHostClockFrequency() / timeScale;
 
@@ -505,21 +520,22 @@ static int quicktimedrv_save(screenshot_t *screenshot, const char *filename)
 
 static int quicktimedrv_record(screenshot_t *screenshot)
 {
-    if (!video_ready)
+    if (!video_ready) {
         return 0;
-    
+    }
+
     OSErr theError;
 
     // lock buffer
-    theError = CVPixelBufferLockBaseAddress(pixelBuffer,0);
+    theError = CVPixelBufferLockBaseAddress(pixelBuffer, 0);
     if (theError) {
         log_debug("quicktime: error locking pixel buffer!");
         return -1;
     }
-    
+
     // fill frame
     unsigned char *buffer = (unsigned char *)CVPixelBufferGetBaseAddress(pixelBuffer);
-    size_t bytesPerRow    = CVPixelBufferGetBytesPerRow(pixelBuffer);
+    size_t bytesPerRow = CVPixelBufferGetBytesPerRow(pixelBuffer);
 
     unsigned int line_size = screenshot->draw_buffer_line_size;
     int h = screenshot->height;
@@ -531,11 +547,11 @@ static int quicktimedrv_record(screenshot_t *screenshot)
     // move to last line in tgt buffer and to first in source
     buffer += (video_yoff) * bytesPerRow + video_xoff * 3;
     srcBuffer += yoff * line_size + xoff;
-    
-    int x,y;
+
+    int x, y;
     for (y = 0; y < h; y++) {
         int pix = 0;
-        for (x=0; x < w; x++) {
+        for (x = 0; x < w; x++) {
             BYTE val = srcBuffer[x];
             buffer[pix++] = screenshot->palette->entries[val].red;
             buffer[pix++] = screenshot->palette->entries[val].green;
@@ -546,37 +562,37 @@ static int quicktimedrv_record(screenshot_t *screenshot)
     }
 
     // unlock buffer
-    theError = CVPixelBufferUnlockBaseAddress(pixelBuffer,0);
+    theError = CVPixelBufferUnlockBaseAddress(pixelBuffer, 0);
     if (theError) {
         log_debug("quicktime: error unlocking pixel buffer!");
         return -1;
-    }    
-    
+    }
+
     TimeValue64 next = CVGetCurrentHostTime() / divider;
     TimeValue64 duration = next - timestamp;
     timestamp = next;
-    
+
     // encode frame
     theError = ICMCompressionSessionEncodeFrame(videoCompressionSession,
-        pixelBuffer,
-        timestamp, duration,  
-        kICMValidTime_DisplayTimeStampIsValid |
-        kICMValidTime_DisplayDurationIsValid, 
-        NULL, NULL, (void *)NULL);
+                                                pixelBuffer,
+                                                timestamp, duration,
+                                                kICMValidTime_DisplayTimeStampIsValid |
+                                                kICMValidTime_DisplayDurationIsValid,
+                                                NULL, NULL, (void *)NULL);
     if (theError) {
-         log_debug("quicktime: error encoding frame!");
-         return -1;
+        log_debug("quicktime: error encoding frame!");
+        return -1;
     }
-    
+
     return 0;
 }
 
 static int quicktimedrv_close(screenshot_t *screenshot)
 {
     OSStatus theError;
-    
+
     finish_video();
-    
+
     if (audio_codec != -1) {
         soundmovie_stop();
         finish_audio();
@@ -584,8 +600,9 @@ static int quicktimedrv_close(screenshot_t *screenshot)
 
     //Write movie
     theError = AddMovieToStorage(movie, dataHandler);
-    if (theError)
+    if (theError) {
         log_debug("quicktime: error adding movie to storage!");
+    }
 
     //Close movie file
     if (dataHandler) {
@@ -595,8 +612,8 @@ static int quicktimedrv_close(screenshot_t *screenshot)
         DisposeMovie(movie);
     }
 
-    movie=NULL;
-    dataHandler=NULL;
+    movie = NULL;
+    dataHandler = NULL;
     return 0;
 }
 
@@ -621,7 +638,7 @@ static gfxoutputdrv_t quicktime_drv = {
     quicktimedrv_resources_init,
     quicktimedrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
-    ,NULL
+    , NULL
 #endif
 };
 
@@ -633,7 +650,6 @@ void gfxoutput_init_quicktime(void)
         log_debug("quicktime: error initializing!");
         return;
     }
-  
+
     gfxoutput_register(&quicktime_drv);
 }
-

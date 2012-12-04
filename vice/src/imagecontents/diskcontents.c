@@ -45,12 +45,12 @@
 image_contents_t *diskcontents_read(const char *file_name, unsigned int unit)
 {
     switch (machine_bus_device_type_get(unit)) {
-    default:
-        return diskcontents_filesystem_read(file_name);
-    case SERIAL_DEVICE_REAL:
-        return machine_diskcontents_bus_read(unit);
-    case SERIAL_DEVICE_RAW:
-        return diskcontents_block_read(file_system_get_vdrive(unit));
+        default:
+            return diskcontents_filesystem_read(file_name);
+        case SERIAL_DEVICE_REAL:
+            return machine_diskcontents_bus_read(unit);
+        case SERIAL_DEVICE_RAW:
+            return diskcontents_block_read(file_system_get_vdrive(unit));
     }
 }
 

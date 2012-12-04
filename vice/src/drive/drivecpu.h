@@ -59,4 +59,3 @@ extern struct monitor_interface_s *drivecpu_monitor_interface_get(
     unsigned int dnr);
 
 #endif
-

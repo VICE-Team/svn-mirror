@@ -35,4 +35,3 @@ extern int fsdevice_write(struct vdrive_s *vdrive, BYTE data,
                           unsigned int secondary);
 
 #endif
-

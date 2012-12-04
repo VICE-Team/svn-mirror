@@ -95,13 +95,13 @@ static void reset(riot_context_t *riot_context)
 static BYTE read_pra(riot_context_t *riot_context)
 {
     return (parallel_bus & ~(riot_context->riot_io)[1])
-        | (riot_context->riot_io[0] & riot_context->riot_io[1]);
+           | (riot_context->riot_io[0] & riot_context->riot_io[1]);
 }
 
 static BYTE read_prb(riot_context_t *riot_context)
 {
     return (0xff & ~(riot_context->riot_io)[3])
-        | (riot_context->riot_io[2] & riot_context->riot_io[3]);
+           | (riot_context->riot_io[2] & riot_context->riot_io[3]);
 }
 
 void riot1_init(drive_context_t *ctxptr)
@@ -137,4 +137,3 @@ void riot1_setup_context(drive_context_t *ctxptr)
     riot->set_irq = set_irq;
     riot->restore_irq = restore_irq;
 }
-

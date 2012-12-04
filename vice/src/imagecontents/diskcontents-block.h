@@ -33,4 +33,3 @@ struct vdrive_s;
 extern struct image_contents_s *diskcontents_block_read(struct vdrive_s *vdrive);
 
 #endif
-

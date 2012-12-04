@@ -27,7 +27,7 @@
 #ifndef VICE_DRIVE_SOUND_H
 #define VICE_DRIVE_SOUND_H
 
-#define DRIVE_SOUND_MOTOR_ON 4 
+#define DRIVE_SOUND_MOTOR_ON 4
 #define DRIVE_SOUND_MOTOR_OFF 5
 
 void drive_sound_update(int i, int unit);
@@ -37,4 +37,3 @@ void drive_sound_stop(void);
 void drive_sound_init(void);
 
 #endif
-

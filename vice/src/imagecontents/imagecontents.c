@@ -59,7 +59,9 @@ void image_contents_destroy(image_contents_t *contents)
 {
     image_contents_file_list_t *p, *h;
 
-    for (p = contents->file_list; p != NULL; h = p, p = p->next, lib_free(h));
+    for (p = contents->file_list; p != NULL; h = p, p = p->next, lib_free(h))
+    {
+    }
 
     lib_free(contents);
 }
@@ -112,7 +114,6 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
 #endif
 
     for (p = contents->file_list; p != NULL; p = p->next) {
-
         sprintf((char *)rawline, "%-5d \"                  ", p->size);
         memcpy(&rawline[7], p->name, IMAGE_CONTENTS_FILE_NAME_LEN);
 
@@ -123,8 +124,9 @@ image_contents_screencode_t *image_contents_to_screencode(image_contents_t
             }
         }
 
-        if (i == IMAGE_CONTENTS_FILE_NAME_LEN)
+        if (i == IMAGE_CONTENTS_FILE_NAME_LEN) {
             rawline[7 + IMAGE_CONTENTS_FILE_NAME_LEN] = '"';
+        }
 
         memcpy(&rawline[7 + IMAGE_CONTENTS_FILE_NAME_LEN + 2], p->type, 5);
         charset_petcii_to_screencode_line(rawline, &buf, &len);
@@ -156,8 +158,9 @@ char *image_contents_to_string(image_contents_t * contents,
                                char convert_to_ascii)
 {
     char *string = lib_msprintf("0 \"%s\" %s", contents->name, contents->id);
-    if (convert_to_ascii)
+    if (convert_to_ascii) {
         charset_petconvstring((unsigned char *)string, 1);
+    }
 
     return string;
 }
@@ -168,33 +171,32 @@ static char *image_contents_get_filename(image_contents_file_list_t * p)
     static char print_name[IMAGE_CONTENTS_FILE_NAME_LEN + 3] = { 0 };
     char encountered_a0 = 0;
 
-    memset(print_name, 0x20, sizeof(print_name)-1); /* redundant? better safe than sorry */
+    memset(print_name, 0x20, sizeof(print_name) - 1); /* redundant? better safe than sorry */
     print_name[0] = '\"';
 
     for (i = 0; i < IMAGE_CONTENTS_FILE_NAME_LEN; i++) {
         if (p->name[i] == 0) { /* a 0x00 would mess a dir on real thing anyway */
-            print_name[i+1] = '?'; /* better than showing a reversed @ */
+            print_name[i + 1] = '?'; /* better than showing a reversed @ */
         } else if (p->name[i] == 0xa0) {
             encountered_a0++;
-            if(encountered_a0 == 1) {
-                print_name[i+1] = '\"';
+            if (encountered_a0 == 1) {
+                print_name[i + 1] = '\"';
             } else {
-                print_name[i+1] = 0x20;
+                print_name[i + 1] = 0x20;
             }
         } else {
-            print_name[i+1] = (char)p->name[i];
+            print_name[i + 1] = (char)p->name[i];
         }
     }
 
     if (!encountered_a0) {
-        print_name[i+1] = '\"';
+        print_name[i + 1] = '\"';
     }
 
     return print_name;
 }
 
-char *image_contents_filename_to_string(image_contents_file_list_t * p,
-                                    char convert_to_ascii)
+char *image_contents_filename_to_string(image_contents_file_list_t * p, char convert_to_ascii)
 {
     char *print_name;
     char *string;
@@ -231,8 +233,9 @@ char *image_contents_filename_by_number(image_contents_t *contents,
     image_contents_file_list_t *current;
     char *s = NULL;
 
-    if (contents == NULL)
+    if (contents == NULL) {
         return NULL;
+    }
 
     if (file_index != 0) {
         current = contents->file_list;
@@ -250,4 +253,3 @@ char *image_contents_filename_by_number(image_contents_t *contents,
 
     return s;
 }
-

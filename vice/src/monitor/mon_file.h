@@ -43,4 +43,3 @@ extern void mon_detach(int unit);
 extern void mon_autostart(const char *image_name, int file_index, int run);
 
 #endif
-

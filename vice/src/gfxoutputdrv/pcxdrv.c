@@ -41,8 +41,7 @@
 #include "util.h"
 
 
-typedef struct gfxoutputdrv_data_s
-{
+typedef struct gfxoutputdrv_data_s {
     FILE *fd;
     char *ext_filename;
     BYTE *data;
@@ -67,8 +66,8 @@ static int pcxdrv_write_file_header(screenshot_t *screenshot)
     header[2] = 1;
     header[3] = 8;
 
-    util_word_to_le_buf(&header[8], (WORD)(screenshot->width-1));
-    util_word_to_le_buf(&header[10], (WORD)(screenshot->height-1));
+    util_word_to_le_buf(&header[8], (WORD)(screenshot->width - 1));
+    util_word_to_le_buf(&header[10], (WORD)(screenshot->height - 1));
 
     util_word_to_le_buf(&header[12], (WORD)(screenshot->dpi_x));
     util_word_to_le_buf(&header[14], (WORD)(screenshot->dpi_x));
@@ -94,7 +93,7 @@ static int pcxdrv_open(screenshot_t *screenshot, const char *filename)
     sdata = lib_malloc(sizeof(gfxoutputdrv_data_t));
     screenshot->gfxoutputdrv_data = sdata;
     sdata->line = 0;
-    sdata->ext_filename=util_add_extension_const(filename, pcx_drv.default_extension);
+    sdata->ext_filename = util_add_extension_const(filename, pcx_drv.default_extension);
     sdata->fd = fopen(sdata->ext_filename, "wb");
 
     if (sdata->fd == NULL) {
@@ -111,7 +110,7 @@ static int pcxdrv_open(screenshot_t *screenshot, const char *filename)
     }
 
     sdata->data = lib_malloc(screenshot->width);
-    sdata->pcx_data = lib_malloc(screenshot->width*2);
+    sdata->pcx_data = lib_malloc(screenshot->width * 2);
 
     return 0;
 }
@@ -192,13 +191,12 @@ static int pcxdrv_close(screenshot_t *screenshot)
     gfxoutputdrv_data_t *sdata;
     unsigned int i;
     int res = -1;
-    BYTE pcx_color_prefix[2]="\x0c";
-    BYTE pcx_colors[256*3];
+    BYTE pcx_color_prefix[2] = "\x0c";
+    BYTE pcx_colors[256 * 3];
 
     sdata = screenshot->gfxoutputdrv_data;
 
     if (fwrite(pcx_color_prefix, 1, 1, sdata->fd) == 1) {
-
         for (i = 0; i < screenshot->palette->num_entries; i++) {
             pcx_colors[(i * 3)] = screenshot->palette->entries[i].red;
             pcx_colors[(i * 3) + 1] = screenshot->palette->entries[i].green;
@@ -226,8 +224,8 @@ static int pcxdrv_save(screenshot_t *screenshot, const char *filename)
     }
 
     for (screenshot->gfxoutputdrv_data->line = 0;
-      screenshot->gfxoutputdrv_data->line < screenshot->height;
-      (screenshot->gfxoutputdrv_data->line)++) {
+         screenshot->gfxoutputdrv_data->line < screenshot->height;
+         (screenshot->gfxoutputdrv_data->line)++) {
         pcxdrv_write(screenshot);
     }
 
@@ -246,11 +244,11 @@ static BYTE *pcxdrv_memmap_pcx_data;
 static int pcxdrv_close_memmap(BYTE *palette)
 {
     int res = 0;
-    BYTE pcx_color_prefix[2]="\x0c";
+    BYTE pcx_color_prefix[2] = "\x0c";
 
     if (fwrite(pcx_color_prefix, 1, 1, pcxdrv_memmap_fd) != 1) {
         res = -1;
-    } else if (fwrite(palette, 3*256, 1, pcxdrv_memmap_fd) != 1) {
+    } else if (fwrite(palette, 3 * 256, 1, pcxdrv_memmap_fd) != 1) {
         res = -1;
     }
 
@@ -311,7 +309,7 @@ static int pcxdrv_write_memmap(int line, int x_size, BYTE *gfx)
             pcxdrv_memmap_pcx_data[j + 1] = color;
             j = j + 2;
         } else {
-            pcxdrv_memmap_pcx_data[j]=color;
+            pcxdrv_memmap_pcx_data[j] = color;
             j++;
         }
     } else {
@@ -339,8 +337,8 @@ static int pcxdrv_write_file_header_memmap(int x_size, int y_size)
     header[2] = 1;
     header[3] = 8;
 
-    util_word_to_le_buf(&header[8], (WORD)(x_size-1));
-    util_word_to_le_buf(&header[10], (WORD)(y_size-1));
+    util_word_to_le_buf(&header[8], (WORD)(x_size - 1));
+    util_word_to_le_buf(&header[10], (WORD)(y_size - 1));
 
     util_word_to_le_buf(&header[12], (WORD)(0));
     util_word_to_le_buf(&header[14], (WORD)(0));
@@ -411,7 +409,7 @@ static gfxoutputdrv_t pcx_drv =
     NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
-    ,pcxdrv_save_memmap
+    , pcxdrv_save_memmap
 #endif
 };
 

@@ -66,14 +66,14 @@ fsdevice_dev_t fsdevice_dev[FSDEVICE_DEVICE_MAX];
 void fsdevice_set_directory(char *filename, unsigned int unit)
 {
     switch (unit) {
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        resources_set_string_sprintf("FSDevice%iDir", filename, unit);
-        break;
-      default:
-        log_message(LOG_DEFAULT, "Invalid unit number %d.", unit);
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            resources_set_string_sprintf("FSDevice%iDir", filename, unit);
+            break;
+        default:
+            log_message(LOG_DEFAULT, "Invalid unit number %d.", unit);
     }
     return;
 }
@@ -81,15 +81,15 @@ void fsdevice_set_directory(char *filename, unsigned int unit)
 char *fsdevice_get_path(unsigned int unit)
 {
     switch (unit) {
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        return fsdevice_dir[unit - 8];
-      default:
-        log_error(LOG_DEFAULT,
-                  "fsdevice_get_path() called with invalid device %d.", unit);
-        break;
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            return fsdevice_dir[unit - 8];
+        default:
+            log_error(LOG_DEFAULT,
+                      "fsdevice_get_path() called with invalid device %d.", unit);
+            break;
     }
     return NULL;
 }
@@ -233,4 +233,3 @@ void fsdevice_shutdown(void)
         lib_free(fsdevice_dev[i].cmdbuf);
     }
 }
-

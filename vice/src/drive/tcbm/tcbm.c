@@ -117,4 +117,3 @@ int tcbm_drive_snapshot_write(struct drive_context_s *ctxptr,
 {
     return 0;
 }
-

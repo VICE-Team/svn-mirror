@@ -47,5 +47,4 @@ extern inline int pc8477_irq(pc8477_t *drv);
 extern int pc8477_attach_image(struct disk_image_s *image, unsigned int unit);
 extern int pc8477_detach_image(struct disk_image_s *image, unsigned int unit);
 
-#endif 
-
+#endif

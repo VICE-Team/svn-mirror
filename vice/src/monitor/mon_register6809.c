@@ -49,7 +49,7 @@ static unsigned int mon_register_get_val(int mem, int reg_id)
 
     reg_ptr = mon_interfaces[mem]->h6809_cpu_regs;
 
-    switch(reg_id) {
+    switch (reg_id) {
         case e_X:
             return H6809_REGS_GET_X(reg_ptr);
         case e_Y:
@@ -88,7 +88,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
 
     reg_ptr = mon_interfaces[mem]->h6809_cpu_regs;
 
-    switch(reg_id) {
+    switch (reg_id) {
         case e_X:
             H6809_REGS_SET_X(reg_ptr, val);
             break;
@@ -131,8 +131,9 @@ static void mon_register_print(int mem)
     h6809_regs_t *regs;
 
     if (monitor_diskspace_dnr(mem) >= 0) {
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
     } else if (mem != e_comp_space) {
         log_error(LOG_ERR, "Unknown memory space!");
         return;
@@ -141,23 +142,23 @@ static void mon_register_print(int mem)
 
     mon_out("  ADDR A  B  X    Y    SP   U    DP EFHINZVC\n");
     mon_out(".;%04x %02x %02x %04x %04x %04x %04x %02x %c%c%c%c%c%c%c%c\n",
-              addr_location(mon_register_get_val(mem, e_PC)),
-              mon_register_get_val(mem, e_A),
-              mon_register_get_val(mem, e_B),
-              mon_register_get_val(mem, e_X),
-              mon_register_get_val(mem, e_Y),
-              mon_register_get_val(mem, e_SP),
-              mon_register_get_val(mem, e_U),
-              mon_register_get_val(mem, e_DP),
-              (H6809_REGS_TEST_E(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_F(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_H(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_I(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_N(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_Z(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_V(regs) ? '1' : '.'),
-              (H6809_REGS_TEST_C(regs) ? '1' : '.')
-              );
+            addr_location(mon_register_get_val(mem, e_PC)),
+            mon_register_get_val(mem, e_A),
+            mon_register_get_val(mem, e_B),
+            mon_register_get_val(mem, e_X),
+            mon_register_get_val(mem, e_Y),
+            mon_register_get_val(mem, e_SP),
+            mon_register_get_val(mem, e_U),
+            mon_register_get_val(mem, e_DP),
+            (H6809_REGS_TEST_E(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_F(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_H(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_I(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_N(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_Z(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_V(regs) ? '1' : '.'),
+            (H6809_REGS_TEST_C(regs) ? '1' : '.')
+            );
 }
 
 static const char* mon_register_print_ex(int mem)
@@ -166,8 +167,9 @@ static const char* mon_register_print_ex(int mem)
     h6809_regs_t *regs;
 
     if (monitor_diskspace_dnr(mem) >= 0) {
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return "";
+        }
     } else if (mem != e_comp_space) {
         log_error(LOG_ERR, "Unknown memory space!");
         return "";

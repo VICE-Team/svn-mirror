@@ -33,4 +33,3 @@ extern unsigned int drive_check_old(unsigned int type);
 extern unsigned int drive_check_dual(unsigned int type);
 
 #endif
-

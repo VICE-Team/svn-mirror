@@ -37,4 +37,3 @@ extern void iec_c64exp_reset(struct drive_context_s *drv);
 extern void iec_c64exp_mem_init(struct drive_context_s *drv, unsigned int type);
 
 #endif
-

@@ -43,9 +43,9 @@
 #include "uimon.h"
 
 
-static char *             bigbuffer      = NULL;
-static const unsigned int bigbuffersize  = 10000;
-static unsigned int       bigbufferwrite = 0;
+static char *bigbuffer = NULL;
+static const unsigned int bigbuffersize = 10000;
+static unsigned int bigbufferwrite = 0;
 
 static void mon_buffer_alloc(void)
 {
@@ -67,14 +67,15 @@ static int mon_buffer_flush(void)
     return rv;
 }
 
-/* like strncpy, but: 
+/* like strncpy, but:
  * 1. always add a null character
  * 2. do not fill the rest of the buffer
  */
 static void stringcopy_n(char *dest, const char *src, unsigned int len)
 {
-    while (*src && len--)
+    while (*src && len--) {
         *dest++ = *src++;
+    }
 
     *dest = 0;
 }
@@ -82,7 +83,7 @@ static void stringcopy_n(char *dest, const char *src, unsigned int len)
 static void mon_buffer_add(const char *buffer, unsigned int bufferlen)
 {
     if (bigbufferwrite + bufferlen > bigbuffersize) {
-        /* the buffer does not fit into bigbuffer, thus, 
+        /* the buffer does not fit into bigbuffer, thus,
            flush the buffer! */
         mon_buffer_flush();
     }
@@ -123,18 +124,18 @@ int mon_out(const char *format, ...)
 #ifdef HAVE_NETWORK
     if (monitor_is_remote()) {
         rc = monitor_network_transmit(buffer, strlen(buffer));
-    }
-    else {
+    } else {
 #endif
-        rc = mon_out_buffered(buffer);
+    rc = mon_out_buffered(buffer);
 #ifdef HAVE_NETWORK
-    }
+}
 #endif
 
     lib_free(buffer);
 
-    if (rc < 0)
+    if (rc < 0) {
         monitor_abort();
+    }
 
     return rc;
 }
@@ -150,7 +151,7 @@ char *mon_disassemble_with_label(MEMSPACE memspace, WORD loc, int hex,
         if (p) {
             *label_p = 1;
             *opc_size_p = 0;
-            return lib_msprintf("%s:",p);
+            return lib_msprintf("%s:", p);
         }
     } else {
         *label_p = 0;
@@ -181,14 +182,14 @@ char *mon_dump_with_label(MEMSPACE memspace, WORD loc, int hex, unsigned *label_
         p = mon_symbol_table_lookup_name(memspace, loc);
         if (p) {
             *label_p = 1;
-            return lib_msprintf("%s:",p);
+            return lib_msprintf("%s:", p);
         }
     } else {
         *label_p = 0;
     }
 
     val = mon_get_mem_val(memspace, loc);
-    return lib_msprintf((hex ? "%04X: $%02X   %03u   '%c'" : "%05u: $%02X   %03u   '%c'"), loc, val, val, isprint(val)?val:' ');
+    return lib_msprintf((hex ? "%04X: $%02X   %03u   '%c'" : "%05u: $%02X   %03u   '%c'"), loc, val, val, isprint(val) ? val : ' ');
 }
 
 #ifndef __OS2__
@@ -202,8 +203,9 @@ void mon_set_command(console_t *console_log, char *command,
     uimon_out(command);
     uimon_out("\n");
 
-    if (pAfter)
+    if (pAfter) {
         (*pAfter)();
+    }
 }
 
 char *uimon_in(const char *prompt)
@@ -221,16 +223,15 @@ char *uimon_in(const char *prompt)
             if (p == NULL) {
                 mon_set_command(NULL, "x", NULL);
             }
-        }
-        else {
+        } else {
 #endif
-            /* make sure to flush the output buffer */
-            mon_buffer_flush();
+        /* make sure to flush the output buffer */
+        mon_buffer_flush();
 
-            /* get input from the user */
-            p = uimon_get_in(&pchCommandLine, prompt);
+        /* get input from the user */
+        p = uimon_get_in(&pchCommandLine, prompt);
 #ifdef HAVE_NETWORK
-        }
+    }
 #endif
     }
 

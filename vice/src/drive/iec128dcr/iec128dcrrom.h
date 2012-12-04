@@ -39,4 +39,3 @@ extern int iec128dcrrom_check_loaded(unsigned int type);
 extern int iec128dcrrom_load_1571cr(void);
 
 #endif
-

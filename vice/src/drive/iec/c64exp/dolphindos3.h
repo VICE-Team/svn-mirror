@@ -35,5 +35,4 @@ extern void dd3_mem_init(struct drive_context_s *drv, unsigned int type);
 
 extern void dd3_set_signal(struct drive_context_s *drive_context);
 
-#endif 
-
+#endif

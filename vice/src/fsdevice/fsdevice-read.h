@@ -35,4 +35,3 @@ extern int fsdevice_read(struct vdrive_s *vdrive, BYTE *data,
                          unsigned int secondary);
 
 #endif
-

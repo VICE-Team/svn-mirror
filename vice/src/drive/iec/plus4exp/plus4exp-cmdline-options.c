@@ -52,8 +52,9 @@ int plus4exp_cmdline_options_init(void)
         cmd_drive[0].resource_name
             = lib_msprintf("Drive%iParallelCable", dnr + 8);
 
-        if (cmdline_register_options(cmd_drive) < 0)
+        if (cmdline_register_options(cmd_drive) < 0) {
             return -1;
+        }
 
         for (i = 0; i < 1; i++) {
             lib_free((char *)cmd_drive[i].name);

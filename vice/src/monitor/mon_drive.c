@@ -63,14 +63,13 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
 
     if (!op) {
         BYTE readdata[256];
-        int i,j, dst;
+        int i, j, dst;
         MEMSPACE dest_mem;
 
         /* We ignore disk error codes here.  */
         if (vdrive_read_sector(vdrive, readdata, track, sector)
             < 0) {
-            mon_out("Error reading track %d sector %d\n",
-                      track, sector);
+            mon_out("Error reading track %d sector %d\n", track, sector);
             return;
         }
 
@@ -78,17 +77,18 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
             dst = addr_location(addr);
             dest_mem = addr_memspace(addr);
 
-            for (i = 0; i < 256; i++)
-                mon_set_mem_val(dest_mem, ADDR_LIMIT(dst +  i), readdata[i]);
+            for (i = 0; i < 256; i++) {
+                mon_set_mem_val(dest_mem, ADDR_LIMIT(dst + i), readdata[i]);
+            }
 
-            mon_out("Read track %d sector %d into address $%04x\n",
-                      track, sector, dst);
+            mon_out("Read track %d sector %d into address $%04x\n", track, sector, dst);
         } else {
             for (i = 0; i < 16; i++) {
                 mon_out(">%04x", i * 16);
                 for (j = 0; j < 16; j++) {
-                    if ((j & 3) == 0)
+                    if ((j & 3) == 0) {
                         mon_out(" ");
+                    }
                     mon_out(" %02x", readdata[i * 16 + j]);
                 }
                 mon_out("\n");
@@ -102,17 +102,17 @@ void mon_drive_block_cmd(int op, int track, int sector, MON_ADDR addr)
         src = addr_location(addr);
         src_mem = addr_memspace(addr);
 
-        for (i = 0; i < 256; i++)
+        for (i = 0; i < 256; i++) {
             writedata[i] = mon_get_mem_val(src_mem, ADDR_LIMIT(src + i));
+        }
 
         if (vdrive_write_sector(vdrive, writedata, track, sector)) {
-            mon_out("Error writing track %d sector %d\n",
-                      track, sector);
+            mon_out("Error writing track %d sector %d\n", track, sector);
             return;
         }
 
         mon_out("Write data from address $%04x to track %d sector %d\n",
-                  src, track, sector);
+                src, track, sector);
     }
 }
 
@@ -160,11 +160,14 @@ void mon_drive_list(int drive_number)
 
         if (element == NULL) {
             mon_out("Empty image\n");
-        } else do {
-            string = image_contents_file_to_string(element, 1);
-            mon_out("%s\n", string);
-            lib_free(string);
-        } while ((element = element->next) != NULL);
+        } else {
+            do {
+                string = image_contents_file_to_string(element, 1);
+                mon_out("%s\n", string);
+                lib_free(string);
+            }
+            while ((element = element->next) != NULL);
+        }
 
         if (listing->blocks_free >= 0) {
             string = lib_msprintf("%d blocks free.\n", listing->blocks_free);
@@ -173,4 +176,3 @@ void mon_drive_list(int drive_number)
         }
     }
 }
-

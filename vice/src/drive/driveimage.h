@@ -37,4 +37,3 @@ extern int drive_image_attach(struct disk_image_s *image, unsigned int unit);
 extern int drive_image_detach(struct disk_image_s *image, unsigned int unit);
 
 #endif
-

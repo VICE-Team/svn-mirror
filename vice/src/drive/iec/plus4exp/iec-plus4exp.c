@@ -58,4 +58,3 @@ void iec_plus4exp_reset(struct drive_context_s *drv)
 void iec_plus4exp_mem_init(struct drive_context_s *drv, unsigned int type)
 {
 }
-

@@ -1416,7 +1416,7 @@ const static signed char bump[] = {
     -2, -3, -3
 };
 
-const static signed char nosound[1] = {0};
+const static signed char nosound[1] = { 0 };
 
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
 extern sound_chip_t drive_sound;
@@ -1440,17 +1440,17 @@ static int drive_sound_machine_calculate_samples(sound_t **psid, SWORD *pbuf, in
     for (i = 0; i < nr; i++) {
         for (j = 0; j < DRIVE_NUM; j++) {
             switch (soc) {
-            default:
-            case 1:
-                pbuf[i] = sound_audio_mix(pbuf[i], (*motor[j]) << 3);
-                pbuf[i] = sound_audio_mix(pbuf[i], (*step[j]) * stepvol[j]);
-                break;
-            case 2:
-                pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], (*motor[j]) << 3);
-                pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], (*step[j]) * stepvol[j]);
-                pbuf[i * 2 + 1] = sound_audio_mix(pbuf[i * 2 + 1], (*motor[j]) << 3);
-                pbuf[i * 2 + 1] = sound_audio_mix(pbuf[i * 2 + 1], (*step[j]) * stepvol[j]);
-                break;
+                default:
+                case 1:
+                    pbuf[i] = sound_audio_mix(pbuf[i], (*motor[j]) << 3);
+                    pbuf[i] = sound_audio_mix(pbuf[i], (*step[j]) * stepvol[j]);
+                    break;
+                case 2:
+                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], (*motor[j]) << 3);
+                    pbuf[i * 2] = sound_audio_mix(pbuf[i * 2], (*step[j]) * stepvol[j]);
+                    pbuf[i * 2 + 1] = sound_audio_mix(pbuf[i * 2 + 1], (*motor[j]) << 3);
+                    pbuf[i * 2 + 1] = sound_audio_mix(pbuf[i * 2 + 1], (*step[j]) * stepvol[j]);
+                    break;
             }
         }
         div += 44100;
@@ -1510,12 +1510,12 @@ static void drive_sound_reset(sound_t *psid, CLOCK cpu_clk)
 
 static int drive_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int drive_sound_machine_channels(void)
 {
-	return 1;
+    return 1;
 }
 
 static void drive_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
@@ -1548,14 +1548,14 @@ void drive_sound_update(int i, int unit)
     }
     sound_store((WORD)drive_sound_offset, 0, 0);
     switch (i) {
-    case DRIVE_SOUND_MOTOR_ON:
-        motor[unit] = spinup;
-        drive_sound.chip_enabled = 1;
-        break;
-    case DRIVE_SOUND_MOTOR_OFF:
-        motor[unit] = spindown;
-        drive_sound.chip_enabled = 1;
-        break;
+        case DRIVE_SOUND_MOTOR_ON:
+            motor[unit] = spinup;
+            drive_sound.chip_enabled = 1;
+            break;
+        case DRIVE_SOUND_MOTOR_OFF:
+            motor[unit] = spindown;
+            drive_sound.chip_enabled = 1;
+            break;
     }
 }
 

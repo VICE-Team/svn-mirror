@@ -88,4 +88,3 @@ int iec128dcr_drive_rom_check_loaded(unsigned int type)
 {
     return iec128dcrrom_check_loaded(type);
 }
-

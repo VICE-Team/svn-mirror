@@ -40,5 +40,4 @@ extern int profdos_load_1571(const char *name);
 
 extern void profdos_mem_init(struct drive_context_s *drv, unsigned int type);
 
-#endif 
-
+#endif

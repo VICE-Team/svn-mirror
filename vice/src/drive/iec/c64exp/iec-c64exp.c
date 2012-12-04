@@ -69,4 +69,3 @@ void iec_c64exp_mem_init(struct drive_context_s *drv, unsigned int type)
     profdos_mem_init(drv, type);
     supercard_mem_init(drv, type);
 }
-

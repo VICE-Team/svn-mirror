@@ -49,12 +49,14 @@ static unsigned int profdos_al[DRIVE_NUM];
 
 int profdos_load_1571(const char *name)
 {
-    if (util_check_null_string(name))
+    if (util_check_null_string(name)) {
         return 0;
+    }
 
     if (util_file_load(name, profdos_1571_rom,
-        PROFDOS_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0)
+                       PROFDOS_ROM_SIZE, UTIL_FILE_LOAD_SKIP_ADDRESS) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -66,11 +68,12 @@ static void profdos_store(drive_context_t *drv, WORD addr, BYTE byte)
 static BYTE profdos_read(drive_context_t *drv, WORD addr)
 {
     if (addr >= 0x7000) {
-        if (!(addr & 0x0800))
+        if (!(addr & 0x0800)) {
             addr = (WORD)((addr & 0xff0f) | (profdos_al[drv->mynumber] << 4));
-        else
+        } else {
             addr = (WORD)((addr & 0xff00)
-                   | (profdos_al[drv->mynumber] << 4) | ((addr >> 4) & 15));
+                          | (profdos_al[drv->mynumber] << 4) | ((addr >> 4) & 15));
+        }
 
         profdos_al[drv->mynumber] = addr & 15;
     }
@@ -101,4 +104,3 @@ void profdos_reset(drive_context_t *drv)
 {
     profdos_al[drv->mynumber] = 0;
 }
-

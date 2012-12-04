@@ -71,11 +71,13 @@ void mon_memory_move(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
 
     buf = lib_malloc(sizeof(BYTE) * len);
 
-    for (i = 0; (int)i < len; i++)
+    for (i = 0; (int)i < len; i++) {
         buf[i] = mon_get_mem_val(src_mem, (WORD)ADDR_LIMIT(start + i));
+    }
 
-    for (i = 0; (int)i < len; i++)
+    for (i = 0; (int)i < len; i++) {
         mon_set_mem_val(dest_mem, (WORD)ADDR_LIMIT(dst + i), buf[i]);
+    }
 
     lib_free(buf);
 }
@@ -104,9 +106,10 @@ void mon_memory_compare(MON_ADDR start_addr, MON_ADDR end_addr, MON_ADDR dest)
         byte1 = mon_get_mem_val(src_mem, (WORD)ADDR_LIMIT(start + i));
         byte2 = mon_get_mem_val(dest_mem, (WORD)ADDR_LIMIT(dst + i));
 
-        if (byte1 != byte2)
+        if (byte1 != byte2) {
             mon_out("$%04x $%04x: %02x %02x\n",
-                      ADDR_LIMIT(start + i), ADDR_LIMIT(dst+i), byte1, byte2);
+                    ADDR_LIMIT(start + i), ADDR_LIMIT(dst + i), byte1, byte2);
+        }
     }
 }
 
@@ -138,8 +141,9 @@ void mon_memory_fill(MON_ADDR start_addr, MON_ADDR end_addr,
     while ((int)i < len) {
         mon_set_mem_val(dest_mem, (WORD)ADDR_LIMIT(start + i),
                         data_buf[mon_index++]);
-        if (mon_index >= data_buf_len)
+        if (mon_index >= data_buf_len) {
             mon_index = 0;
+        }
         i++;
     }
 
@@ -166,13 +170,14 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
     buf = lib_malloc(sizeof(BYTE) * data_buf_len);
 
     /* Fill buffer */
-    for (i = 0; i < data_buf_len; i++)
+    for (i = 0; i < data_buf_len; i++) {
         buf[i] = mon_get_mem_val(mem, (WORD)ADDR_LIMIT(start + i));
+    }
 
     /* Do compares */
     next_read = start + (WORD)data_buf_len;
 
-    for (i = 0; i < (len-data_buf_len); i++, next_read++) {
+    for (i = 0; i < (len - data_buf_len); i++, next_read++) {
         int not_found = 0;
         unsigned int j;
         for (j = 0; j < data_buf_len; j++) {
@@ -181,24 +186,27 @@ void mon_memory_hunt(MON_ADDR start_addr, MON_ADDR end_addr,
                 break;
             }
         }
-        if (!not_found)
+        if (!not_found) {
             mon_out("%04x\n", ADDR_LIMIT(start + i));
+        }
 
-        if (data_buf_len > 1)
+        if (data_buf_len > 1) {
             memmove(&(buf[0]), &(buf[1]), data_buf_len - 1);
-        buf[data_buf_len-1] = mon_get_mem_val(mem, next_read);
+        }
+        buf[data_buf_len - 1] = mon_get_mem_val(mem, next_read);
     }
 
     clear_buffer();
     lib_free(buf);
 }
 
-static const int radix_chars_per_byte[] = { 2, /* default = hex */
-                                            2, /* hexadecimal */
-                                            3, /* decimal */
-                                            3, /* octal */
-                                            8, /* binary */
-                                          };
+static const int radix_chars_per_byte[] = {
+    2, /* default = hex */
+    2, /* hexadecimal */
+    3, /* decimal */
+    3, /* octal */
+    8, /* binary */
+};
 
 
 static void memory_to_string(char *buf, MEMSPACE mem, WORD addr,
@@ -210,8 +218,9 @@ static void memory_to_string(char *buf, MEMSPACE mem, WORD addr,
     for (i = 0; i < len; i++) {
         val = mon_get_mem_val(mem, addr);
 
-        if (petscii)
+        if (petscii) {
             buf[i] = charset_p_toascii(val, 0);
+        }
 
         buf[i] = isprint(val) ? val : '.';
 
@@ -237,12 +246,13 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
     prefix = (format == DF_PETSCII) ? '>' : '*';
 
     if (radix_type) {
-        if (radix_type != e_hexadecimal)
+        if (radix_type != e_hexadecimal) {
             max_width = (console_log->console_xres - 12)
                         / (radix_chars_per_byte[radix_type] + 2);
-        else
+        } else {
             max_width = (4 * (console_log->console_xres - 12))
                         / (4 * (radix_chars_per_byte[radix_type] + 2) + 1);
+        }
 
         max_width &= ~3;
 
@@ -260,63 +270,66 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
     while (cnt < len) {
         mon_out("%c%s:%04x ", prefix, mon_memspace_string[mem], addr);
         for (i = 0, real_width = 0; i < max_width; i++) {
-
             v = mon_get_mem_val(mem, (WORD)ADDR_LIMIT(addr + i));
 
-            switch(radix_type) {
-              case 0: /* special case == petscii text */
-                if (format == DF_PETSCII)
-                    mon_out("%c", charset_p_toascii(v, 1));
-                else
-                    mon_out("%c", charset_p_toascii(
-                            charset_screencode_to_petcii(v), 1));
-                real_width++;
-                cnt++;
-                break;
-              case e_decimal:
-                memset(printables, 0, 50);
-                if (cnt < len) {
-                    mon_out("%3d ", v);
+            switch (radix_type) {
+                case 0: /* special case == petscii text */
+                    if (format == DF_PETSCII) {
+                        mon_out("%c", charset_p_toascii(v, 1));
+                    } else {
+                        mon_out("%c", charset_p_toascii(
+                                    charset_screencode_to_petcii(v), 1));
+                    }
                     real_width++;
                     cnt++;
-                } else
-                    mon_out("    ");
-                break;
-              case e_hexadecimal:
-                memset(printables, 0, 50);
-                if (!(cnt % 4))
-                    mon_out(" ");
-                if (cnt < len) {
-                    mon_out("%02x ", v);
-                    real_width++;
-                } else
-                    mon_out("   ");
-                cnt++;
-                break;
-              case e_octal:
-                memset(printables, 0, 50);
-                if (cnt < len) {
-                    mon_out("%03o ", v);
-                    real_width++;
+                    break;
+                case e_decimal:
+                    memset(printables, 0, 50);
+                    if (cnt < len) {
+                        mon_out("%3d ", v);
+                        real_width++;
+                        cnt++;
+                    } else {
+                        mon_out("    ");
+                    }
+                    break;
+                case e_hexadecimal:
+                    memset(printables, 0, 50);
+                    if (!(cnt % 4)) {
+                        mon_out(" ");
+                    }
+                    if (cnt < len) {
+                        mon_out("%02x ", v);
+                        real_width++;
+                    } else {
+                        mon_out("   ");
+                    }
                     cnt++;
-                } else
-                    mon_out("    ");
-                break;
-              case e_binary:
-                memset(printables, 0, 50);
-                if (cnt < len) {
-                    mon_print_bin(v, '1', '0');
-                    mon_out(" ");
-                    real_width++;
-                    cnt++;
-                }
-                else
-                    mon_out("         ");
-                break;
-              default:
-                return;
+                    break;
+                case e_octal:
+                    memset(printables, 0, 50);
+                    if (cnt < len) {
+                        mon_out("%03o ", v);
+                        real_width++;
+                        cnt++;
+                    } else {
+                        mon_out("    ");
+                    }
+                    break;
+                case e_binary:
+                    memset(printables, 0, 50);
+                    if (cnt < len) {
+                        mon_print_bin(v, '1', '0');
+                        mon_out(" ");
+                        real_width++;
+                        cnt++;
+                    } else {
+                        mon_out("         ");
+                    }
+                    break;
+                default:
+                    return;
             }
-
         }
 
         if (radix_type != 0) {
@@ -325,8 +338,9 @@ void mon_memory_display(int radix_type, MON_ADDR start_addr, MON_ADDR end_addr, 
         }
         mon_out("\n");
         addr = ADDR_LIMIT(addr + real_width);
-        if (mon_stop_output != 0)
+        if (mon_stop_output != 0) {
             break;
+        }
     }
 
     set_addr_location(&(dot_addr[mem]), addr);
@@ -350,18 +364,20 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
             mon_out(">%s:%04x ", mon_memspace_string[mem], addr);
             for (j = 0; j < (x / 8); j++) {
                 mon_print_bin(mon_get_mem_val(mem,
-                              (WORD)(ADDR_LIMIT(addr + j))), '.', '*');
+                                              (WORD)(ADDR_LIMIT(addr + j))), '.', '*');
                 cnt++;
             }
             mon_out("\n");
             addr = ADDR_LIMIT(addr + (x / 8));
-            if (mon_stop_output != 0)
+            if (mon_stop_output != 0) {
                 break;
+            }
         }
 
         mon_out("\n");
-        if (mon_stop_output != 0)
+        if (mon_stop_output != 0) {
             break;
+        }
     }
 
     if ((x == 24) && (y == 21)) {
@@ -369,4 +385,3 @@ void mon_memory_display_data(MON_ADDR start_addr, MON_ADDR end_addr,
     }
     set_addr_location(&(dot_addr[mem]), addr);
 }
-

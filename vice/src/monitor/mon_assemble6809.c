@@ -80,136 +80,138 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
      * needs to skip prefix bytes in a 6809-specific manner.
      */
     switch (operand_mode) {
-    case ASM_ADDR_MODE_IMMEDIATE:
-	operand_mode = ASM_ADDR_MODE_IMM_BYTE;
-	break;
-    case ASM_ADDR_MODE_IMMEDIATE_16:
-	operand_mode = ASM_ADDR_MODE_IMM_WORD;
-	break;
-    case ASM_ADDR_MODE_ZERO_PAGE:	/* we have no zero page */
-	operand_mode = ASM_ADDR_MODE_EXTENDED;
-	break;
-    case ASM_ADDR_MODE_ABSOLUTE:
-	operand_mode = ASM_ADDR_MODE_EXTENDED;
-	break;
+        case ASM_ADDR_MODE_IMMEDIATE:
+            operand_mode = ASM_ADDR_MODE_IMM_BYTE;
+            break;
+        case ASM_ADDR_MODE_IMMEDIATE_16:
+            operand_mode = ASM_ADDR_MODE_IMM_WORD;
+            break;
+        case ASM_ADDR_MODE_ZERO_PAGE:   /* we have no zero page */
+            operand_mode = ASM_ADDR_MODE_EXTENDED;
+            break;
+        case ASM_ADDR_MODE_ABSOLUTE:
+            operand_mode = ASM_ADDR_MODE_EXTENDED;
+            break;
     }
     /*
      * Fix up another parsing ambiguity, for addr,X and addr,Y.
      */
     if (operand_mode == ASM_ADDR_MODE_ZERO_PAGE_X ||
-	operand_mode == ASM_ADDR_MODE_ABSOLUTE_X) {
-	int reg = 0 << 5;
-	operand_mode = ASM_ADDR_MODE_INDEXED;
-	operand_submode = reg | make_offset_mode(operand_value);
+        operand_mode == ASM_ADDR_MODE_ABSOLUTE_X) {
+        int reg = 0 << 5;
+        operand_mode = ASM_ADDR_MODE_INDEXED;
+        operand_submode = reg | make_offset_mode(operand_value);
     } else if (operand_mode == ASM_ADDR_MODE_ZERO_PAGE_Y ||
-	       operand_mode == ASM_ADDR_MODE_ABSOLUTE_Y) {
-	int reg = 1 << 5;
-	operand_mode = ASM_ADDR_MODE_INDEXED;
-	operand_submode = reg | make_offset_mode(operand_value);
+               operand_mode == ASM_ADDR_MODE_ABSOLUTE_Y) {
+        int reg = 1 << 5;
+        operand_mode = ASM_ADDR_MODE_INDEXED;
+        operand_submode = reg | make_offset_mode(operand_value);
     }
 
     DBG(printf("mon_assemble_instr: '%s' mode %d submode $%02x oper $%04x\n",
-	    opcode_name, operand_mode, operand_submode, operand_value));
+               opcode_name, operand_mode, operand_submode, operand_value));
 
     for (j = 0; j < 3 && !found; j++) {
-	do {
-	    const asm_opcode_info_t *opinfo;
+        do {
+            const asm_opcode_info_t *opinfo;
 
-	    if (prefix[j] == -1) {
-		opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
-		prefixlen = 0;
-	    } else {
-		opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(prefix[j], i, 0);
-		prefixlen = 1;
-	    }
+            if (prefix[j] == -1) {
+                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
+                prefixlen = 0;
+            } else {
+                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(prefix[j], i, 0);
+                prefixlen = 1;
+            }
 
-	    if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
-		if (opinfo->addr_mode == operand_mode) {
-		    opcode = i;
-		    found = TRUE;
-		    DBG(printf("found, prefix $%02x opcode $%02x\n", prefix[j], opcode));
-		    break;
-		}
+            if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
+                if (opinfo->addr_mode == operand_mode) {
+                    opcode = i;
+                    found = TRUE;
+                    DBG(printf("found, prefix $%02x opcode $%02x\n", prefix[j], opcode));
+                    break;
+                }
 
 
-		/* Special case: RELATIVE mode looks like EXTENDED mode.  */
-		if (operand_mode == ASM_ADDR_MODE_EXTENDED
-		    && opinfo->addr_mode == ASM_ADDR_MODE_REL_BYTE) {
-		    branch_offset = operand_value - (loc + prefixlen + 2);
-		    if (branch_offset > 127 || branch_offset < -128) {
-			mon_out("Branch offset too large.\n");
-			return -1;
-		    }
-		    operand_value = (branch_offset & 0xff);
-		    operand_mode = ASM_ADDR_MODE_REL_BYTE;
-		    opcode = i;
-		    found = TRUE;
-		    break;
-		}
+                /* Special case: RELATIVE mode looks like EXTENDED mode.  */
+                if (operand_mode == ASM_ADDR_MODE_EXTENDED
+                    && opinfo->addr_mode == ASM_ADDR_MODE_REL_BYTE) {
+                    branch_offset = operand_value - (loc + prefixlen + 2);
+                    if (branch_offset > 127 || branch_offset < -128) {
+                        mon_out("Branch offset too large.\n");
+                        return -1;
+                    }
+                    operand_value = (branch_offset & 0xff);
+                    operand_mode = ASM_ADDR_MODE_REL_BYTE;
+                    opcode = i;
+                    found = TRUE;
+                    break;
+                }
 
-		/* Special case: RELATIVE mode looks like EXTENDED mode.  */
-		if (operand_mode == ASM_ADDR_MODE_EXTENDED
-		    && opinfo->addr_mode == ASM_ADDR_MODE_REL_WORD) {
-		    branch_offset = operand_value - (loc + prefixlen + 3);
-		    operand_value = (branch_offset & 0xffff);
-		    operand_mode = ASM_ADDR_MODE_REL_WORD;
-		    opcode = i;
-		    found = TRUE;
-		    break;
-		}
+                /* Special case: RELATIVE mode looks like EXTENDED mode.  */
+                if (operand_mode == ASM_ADDR_MODE_EXTENDED
+                    && opinfo->addr_mode == ASM_ADDR_MODE_REL_WORD) {
+                    branch_offset = operand_value - (loc + prefixlen + 3);
+                    operand_value = (branch_offset & 0xffff);
+                    operand_mode = ASM_ADDR_MODE_REL_WORD;
+                    opcode = i;
+                    found = TRUE;
+                    break;
+                }
 
 #if 0
-		/* Special case: opcode A - is A a register or $A? */
-		/* If second case, is it zero page or absolute?  */
-		if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
-		    && opinfo->addr_mode == ASM_ADDR_MODE_ZERO_PAGE) {
-		    opcode = i;
-		    operand_mode = ASM_ADDR_MODE_ZERO_PAGE;
-		    operand_value = 0x000a;
-		    found = TRUE;
-		    break;
-		}
+                /* Special case: opcode A - is A a register or $A? */
+                /* If second case, is it zero page or absolute?  */
+                if (operand_mode == ASM_ADDR_MODE_ACCUMULATOR
+                    && opinfo->addr_mode == ASM_ADDR_MODE_ZERO_PAGE) {
+                    opcode = i;
+                    operand_mode = ASM_ADDR_MODE_ZERO_PAGE;
+                    operand_value = 0x000a;
+                    found = TRUE;
+                    break;
+                }
 #endif
-		/* If there is no operand and the opcode wants a register
-		 * list, it could be an empty list.
-		 */
-		if (operand_mode == ASM_ADDR_MODE_IMPLIED
-		    && (opinfo->addr_mode == ASM_ADDR_MODE_SYS_POST ||
-			opinfo->addr_mode == ASM_ADDR_MODE_USR_POST)) {
-		    opcode = i;
-		    operand_mode = opinfo->addr_mode;
-		    operand_value = 0x00;
-		    found = TRUE;
-		    break;
-		}
-		/* If there are exactly 2 registers the parser thought it
-		 * would be _REG_POST but it could also be a 2-item list.
-		 * Fortunately it kept the other interpretation hidden away
-		 * in the submode field.
-		 */
-		if (operand_mode == ASM_ADDR_MODE_REG_POST
-		    && (opinfo->addr_mode == ASM_ADDR_MODE_SYS_POST ||
-			opinfo->addr_mode == ASM_ADDR_MODE_USR_POST)) {
-		    opcode = i;
-		    operand_mode = opinfo->addr_mode;
-		    operand_value = operand_submode;
-		    found = TRUE;
-		    break;
-		}
-		/* The parser doesn't distinguish 2 kinds of register lists.
-		 * Too bad if you write PSHS S or PSHU U.
-		 */
-		if (operand_mode == ASM_ADDR_MODE_SYS_POST
-		    && opinfo->addr_mode == ASM_ADDR_MODE_USR_POST) {
-		    opcode = i;
-		    found = TRUE;
-		    break;
-		}
-	    }
-	    i++;
-	} while (i != 0);
-	if (found)
-	    break;
+                /* If there is no operand and the opcode wants a register
+                 * list, it could be an empty list.
+                 */
+                if (operand_mode == ASM_ADDR_MODE_IMPLIED
+                    && (opinfo->addr_mode == ASM_ADDR_MODE_SYS_POST ||
+                        opinfo->addr_mode == ASM_ADDR_MODE_USR_POST)) {
+                    opcode = i;
+                    operand_mode = opinfo->addr_mode;
+                    operand_value = 0x00;
+                    found = TRUE;
+                    break;
+                }
+                /* If there are exactly 2 registers the parser thought it
+                 * would be _REG_POST but it could also be a 2-item list.
+                 * Fortunately it kept the other interpretation hidden away
+                 * in the submode field.
+                 */
+                if (operand_mode == ASM_ADDR_MODE_REG_POST
+                    && (opinfo->addr_mode == ASM_ADDR_MODE_SYS_POST ||
+                        opinfo->addr_mode == ASM_ADDR_MODE_USR_POST)) {
+                    opcode = i;
+                    operand_mode = opinfo->addr_mode;
+                    operand_value = operand_submode;
+                    found = TRUE;
+                    break;
+                }
+                /* The parser doesn't distinguish 2 kinds of register lists.
+                 * Too bad if you write PSHS S or PSHU U.
+                 */
+                if (operand_mode == ASM_ADDR_MODE_SYS_POST
+                    && opinfo->addr_mode == ASM_ADDR_MODE_USR_POST) {
+                    opcode = i;
+                    found = TRUE;
+                    break;
+                }
+            }
+            i++;
+        }
+        while (i != 0);
+        if (found) {
+            break;
+        }
     }
 
     if (!found) {
@@ -227,7 +229,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     }
 
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
-          ((unsigned int)operand_mode, opc[0], opc[1], opc[2]);
+              ((unsigned int)operand_mode, opc[0], opc[1], opc[2]);
 
     DBG(printf("len = %d\n", len));
     if (len == opc_offset + 1) {
@@ -254,4 +256,3 @@ void mon_assemble6809_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_assemble_instr = mon_assemble_instr;
 }
-

@@ -40,4 +40,3 @@ extern void glue1551_init(struct drive_context_s *drv);
 extern void glue1551_reset(struct drive_context_s *drv);
 
 #endif
-

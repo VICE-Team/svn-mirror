@@ -71,8 +71,9 @@ static void ieeerom_new_image_loaded(unsigned int dtype)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        if (drive->type == dtype)
+        if (drive->type == dtype) {
             ieeerom_setup_image(drive);
+        }
     }
 }
 
@@ -80,8 +81,9 @@ int ieeerom_load_2031(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName2031", &rom_name);
 
@@ -102,8 +104,9 @@ int ieeerom_load_2040(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName2040", &rom_name);
 
@@ -124,8 +127,9 @@ int ieeerom_load_3040(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName3040", &rom_name);
 
@@ -146,8 +150,9 @@ int ieeerom_load_4040(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName4040", &rom_name);
 
@@ -168,8 +173,9 @@ int ieeerom_load_1001(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName1001", &rom_name);
 
@@ -190,28 +196,28 @@ void ieeerom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
         switch (drive->type) {
-          case DRIVE_TYPE_2031:
-            memcpy(&(drive->rom[0x4000]), drive_rom2031,
-                   DRIVE_ROM2031_SIZE);
-            break;
-          case DRIVE_TYPE_2040:
-            memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
-                   drive_rom2040, DRIVE_ROM2040_SIZE);
-            break;
-          case DRIVE_TYPE_3040:
-            memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
-                   drive_rom3040, DRIVE_ROM3040_SIZE);
-            break;
-          case DRIVE_TYPE_4040:
-            memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
-                   drive_rom4040, DRIVE_ROM4040_SIZE);
-            break;
-          case DRIVE_TYPE_1001:
-          case DRIVE_TYPE_8050:
-          case DRIVE_TYPE_8250:
-            memcpy(&(drive->rom[0x4000]), drive_rom1001,
-                   DRIVE_ROM1001_SIZE);
-            break;
+            case DRIVE_TYPE_2031:
+                memcpy(&(drive->rom[0x4000]), drive_rom2031,
+                       DRIVE_ROM2031_SIZE);
+                break;
+            case DRIVE_TYPE_2040:
+                memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM2040_SIZE]),
+                       drive_rom2040, DRIVE_ROM2040_SIZE);
+                break;
+            case DRIVE_TYPE_3040:
+                memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM3040_SIZE]),
+                       drive_rom3040, DRIVE_ROM3040_SIZE);
+                break;
+            case DRIVE_TYPE_4040:
+                memcpy(&(drive->rom[DRIVE_ROM_SIZE - DRIVE_ROM4040_SIZE]),
+                       drive_rom4040, DRIVE_ROM4040_SIZE);
+                break;
+            case DRIVE_TYPE_1001:
+            case DRIVE_TYPE_8050:
+            case DRIVE_TYPE_8250:
+                memcpy(&(drive->rom[0x4000]), drive_rom1001,
+                       DRIVE_ROM1001_SIZE);
+                break;
         }
     }
 }
@@ -219,23 +225,23 @@ void ieeerom_setup_image(drive_t *drive)
 int ieeerom_read(unsigned int type, WORD addr, BYTE *data)
 {
     switch (type) {
-      case DRIVE_TYPE_2031:
-        *data = drive_rom2031[addr & (DRIVE_ROM2031_SIZE - 1)];
-        return 0;
-      case DRIVE_TYPE_2040:
-        *data = drive_rom2040[addr & (DRIVE_ROM2040_SIZE - 1)];
-        return 0;
-      case DRIVE_TYPE_3040:
-        *data = drive_rom3040[addr & (DRIVE_ROM3040_SIZE - 1)];
-        return 0;
-      case DRIVE_TYPE_4040:
-        *data = drive_rom4040[addr & (DRIVE_ROM4040_SIZE - 1)];
-        return 0;
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        *data = drive_rom1001[addr & (DRIVE_ROM1001_SIZE - 1)];
-        return 0;
+        case DRIVE_TYPE_2031:
+            *data = drive_rom2031[addr & (DRIVE_ROM2031_SIZE - 1)];
+            return 0;
+        case DRIVE_TYPE_2040:
+            *data = drive_rom2040[addr & (DRIVE_ROM2040_SIZE - 1)];
+            return 0;
+        case DRIVE_TYPE_3040:
+            *data = drive_rom3040[addr & (DRIVE_ROM3040_SIZE - 1)];
+            return 0;
+        case DRIVE_TYPE_4040:
+            *data = drive_rom4040[addr & (DRIVE_ROM4040_SIZE - 1)];
+            return 0;
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            *data = drive_rom1001[addr & (DRIVE_ROM1001_SIZE - 1)];
+            return 0;
     }
 
     return -1;
@@ -244,37 +250,43 @@ int ieeerom_read(unsigned int type, WORD addr, BYTE *data)
 int ieeerom_check_loaded(unsigned int type)
 {
     switch (type) {
-      case DRIVE_TYPE_NONE:
-        return 0;
-      case DRIVE_TYPE_2031:
-        if (rom2031_loaded < 1 && rom_loaded)
+        case DRIVE_TYPE_NONE:
+            return 0;
+        case DRIVE_TYPE_2031:
+            if (rom2031_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_2040:
+            if (rom2040_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_3040:
+            if (rom3040_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_4040:
+            if (rom4040_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_1001:
+        case DRIVE_TYPE_8050:
+        case DRIVE_TYPE_8250:
+            if (rom1001_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_ANY:
+            if ((!rom2031_loaded && !rom2040_loaded && !rom3040_loaded
+                 && !rom4040_loaded && !rom1001_loaded) && rom_loaded) {
+                return -1;
+            }
+            break;
+        default:
             return -1;
-        break;
-      case DRIVE_TYPE_2040:
-        if (rom2040_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_3040:
-        if (rom3040_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_4040:
-        if (rom4040_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_1001:
-      case DRIVE_TYPE_8050:
-      case DRIVE_TYPE_8250:
-        if (rom1001_loaded < 1 && rom_loaded)
-            return -1;
-        break;
-      case DRIVE_TYPE_ANY:
-        if ((!rom2031_loaded && !rom2040_loaded && !rom3040_loaded
-            && !rom4040_loaded && !rom1001_loaded) && rom_loaded)
-            return -1;
-        break;
-      default:
-        return -1;
     }
 
     return 0;
@@ -284,4 +296,3 @@ void ieeerom_init(void)
 {
     ieeerom_log = log_open("IEEEDriveROM");
 }
-

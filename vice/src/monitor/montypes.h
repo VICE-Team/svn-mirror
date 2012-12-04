@@ -44,53 +44,52 @@ typedef int bool;
 #endif
 
 enum t_reg_id {
-   e_A,
-   e_X,
-   e_Y,
-   e_PC,
-   e_SP,
-   e_FLAGS,
-   e_AF,
-   e_BC,
-   e_DE,
-   e_HL,
-   e_IX,
-   e_IY,
-   e_I,
-   e_R,
-   e_AF2,
-   e_BC2,
-   e_DE2,
-   e_HL2,
+    e_A,
+    e_X,
+    e_Y,
+    e_PC,
+    e_SP,
+    e_FLAGS,
+    e_AF,
+    e_BC,
+    e_DE,
+    e_HL,
+    e_IX,
+    e_IY,
+    e_I,
+    e_R,
+    e_AF2,
+    e_BC2,
+    e_DE2,
+    e_HL2,
 /* New C64DTV regs */
-   e_R3,
-   e_R4,
-   e_R5,
-   e_R6,
-   e_R7,
-   e_R8,
-   e_R9,
-   e_R10,
-   e_R11,
-   e_R12,
-   e_R13,
-   e_R14,
-   e_R15,
-   e_ACM,
-   e_YXM,
+    e_R3,
+    e_R4,
+    e_R5,
+    e_R6,
+    e_R7,
+    e_R8,
+    e_R9,
+    e_R10,
+    e_R11,
+    e_R12,
+    e_R13,
+    e_R14,
+    e_R15,
+    e_ACM,
+    e_YXM,
 /* Registers in the 6809 not covered by the above */
-   e_B,
-   e_D,
-   e_U,
-   e_DP
-
+    e_B,
+    e_D,
+    e_U,
+    e_DP
 };
 typedef enum t_reg_id REG_ID;
 
 enum t_memory_op {
-   e_load  = 0x01,
-   e_store = 0x02,
-   e_exec  = 0x04
+    e_load  = 0x01,
+    e_store = 0x02,
+    e_exec  = 0x04
 };
 typedef enum t_memory_op MEMORY_OP;
 
@@ -98,57 +97,57 @@ typedef unsigned int MON_ADDR;
 typedef unsigned int MON_REG;
 
 enum t_conditional {
-   e_INV,
-   e_EQU,
-   e_NEQ,
-   e_GT,
-   e_LT,
-   e_GTE,
-   e_LTE,
-   e_AND,
-   e_OR
+    e_INV,
+    e_EQU,
+    e_NEQ,
+    e_GT,
+    e_LT,
+    e_GTE,
+    e_LTE,
+    e_AND,
+    e_OR
 };
 typedef enum t_conditional CONDITIONAL;
 
 enum t_radixtype {
-   e_default_radix,
-   e_hexadecimal,
-   e_decimal,
-   e_octal,
-   e_binary
+    e_default_radix,
+    e_hexadecimal,
+    e_decimal,
+    e_octal,
+    e_binary
 };
 typedef enum t_radixtype RADIXTYPE;
 
 enum t_action {
-   e_OFF = 0,
-   e_ON = 1,
-   e_TOGGLE = 2
+    e_OFF = 0,
+    e_ON = 1,
+    e_TOGGLE = 2
 };
 typedef enum t_action ACTION;
 
 struct cond_node_s {
-   int operation;
-   int value;
-   MON_REG reg_num;
-   bool is_reg;
-   bool is_parenthized;
-   struct cond_node_s *child1;
-   struct cond_node_s *child2;
+    int operation;
+    int value;
+    MON_REG reg_num;
+    bool is_reg;
+    bool is_parenthized;
+    struct cond_node_s *child1;
+    struct cond_node_s *child2;
 };
 typedef struct cond_node_s cond_node_t;
 
 typedef void monitor_toggle_func_t(int value);
 
 struct cpuhistory_s {
-   WORD addr;
-   BYTE op;
-   BYTE p1;
-   BYTE p2;
-   BYTE reg_a;
-   BYTE reg_x;
-   BYTE reg_y;
-   BYTE reg_sp;
-   WORD reg_st;
+    WORD addr;
+    BYTE op;
+    BYTE p1;
+    BYTE p2;
+    BYTE reg_a;
+    BYTE reg_x;
+    BYTE reg_y;
+    BYTE reg_sp;
+    WORD reg_st;
 };
 typedef struct cpuhistory_s cpuhistory_t;
 
@@ -161,16 +160,16 @@ typedef struct cpuhistory_s cpuhistory_t;
 #define FALSE 0
 #endif
 
-#define HI16(x) ((x)&0xffff0000)
-#define LO16(x) ((x)&0xffff)
-#define LO16_TO_HI16(x) (((x)&0xffff)<<16)
-#define HI16_TO_LO16(x) (((x)>>16)&0xffff)
+#define HI16(x) ((x) & 0xffff0000)
+#define LO16(x) ((x) & 0xffff)
+#define LO16_TO_HI16(x) (((x) & 0xffff) << 16)
+#define HI16_TO_LO16(x) (((x) >> 16) & 0xffff)
 
 #ifdef HAVE_MEMSPACE24
-#define HI8(x) ((x)&0xff000000)
-#define LO24(x) ((x)&0xffffff)
-#define LO8_TO_HI8(x) (((x)&0xff)<<24)
-#define HI8_TO_LO8(x) (((x)>>24)&0xff)
+#define HI8(x) ((x) & 0xff000000)
+#define LO24(x) ((x) & 0xffffff)
+#define LO8_TO_HI8(x) (((x) & 0xff) << 24)
+#define HI8_TO_LO8(x) (((x) >> 24) & 0xff)
 #endif
 
 #define STATE_INITIAL  0

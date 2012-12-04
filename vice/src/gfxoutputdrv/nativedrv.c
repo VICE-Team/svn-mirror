@@ -87,7 +87,6 @@ void native_smooth_scroll_borderize_colormap(native_data_t *source, BYTE borderc
     }
 
     for (i = 0; i < ysize; i++) {
-
         /* render left border if needed */
         for (j = 0; j < xstart; j++) {
             source->colormap[k++] = bordercolor;
@@ -150,7 +149,6 @@ native_data_t *native_borderize_colormap(native_data_t *source, BYTE bordercolor
     }
 
     for (i = 0; i < source->ysize; i++) {
-
         /* render left border if needed */
         for (j = 0; j < xstart; j++) {
             dest->colormap[k++] = bordercolor;
@@ -562,7 +560,7 @@ void vicii_color_to_nearest_vicii_color_colormap(native_data_t *source, native_c
 
     for (i = 0; i < source->ysize; i++) {
         for (j = 0; j < source->xsize; j++) {
-            source->colormap[(i * source->xsize) + j] = vicii_color_to_nearest_color(source->colormap[(i * source->xsize) +  j], colors);
+            source->colormap[(i * source->xsize) + j] = vicii_color_to_nearest_color(source->colormap[(i * source->xsize) + j], colors);
         }
     }
 }
@@ -603,7 +601,7 @@ native_data_t *native_vicii_text_mode_render(screenshot_t *screenshot, const cha
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
@@ -641,7 +639,7 @@ native_data_t *native_vicii_extended_background_mode_render(screenshot_t *screen
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
@@ -708,7 +706,7 @@ native_data_t *native_vicii_multicolor_text_mode_render(screenshot_t *screenshot
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
@@ -750,7 +748,7 @@ native_data_t *native_vicii_hires_bitmap_mode_render(screenshot_t *screenshot, c
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
@@ -809,7 +807,7 @@ native_data_t *native_vicii_multicolor_bitmap_mode_render(screenshot_t *screensh
         }
     }
     if (((regs[0x16] & 8) == 0) || ((regs[0x11] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11]  & 8) ? 255 : regs[0x11] & 7));
+        native_smooth_scroll_borderize_colormap(data, (BYTE)(regs[0x20] & 0xf), (BYTE)((regs[0x16] & 8) ? 255 : regs[0x16] & 7), (BYTE)((regs[0x11] & 8) ? 255 : regs[0x11] & 7));
     }
     return data;
 }
@@ -990,7 +988,7 @@ void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum_handli
 
     for (i = 0; i < source->ysize; i++) {
         for (j = 0; j < source->xsize; j++) {
-            colorbyte = source->colormap[(i * source->xsize) +  j];
+            colorbyte = source->colormap[(i * source->xsize) + j];
             if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
                 source->colormap[(i * source->xsize) + j] = ted_lum_to_vicii_color(colorbyte & 0xf, colorbyte >> 4);
             } else {
@@ -1045,7 +1043,7 @@ native_data_t *native_ted_text_mode_render(screenshot_t *screenshot, const char 
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
@@ -1090,7 +1088,7 @@ native_data_t *native_ted_extended_background_mode_render(screenshot_t *screensh
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
@@ -1134,7 +1132,7 @@ native_data_t *native_ted_hires_bitmap_mode_render(screenshot_t *screenshot, con
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
@@ -1194,7 +1192,7 @@ native_data_t *native_ted_multicolor_bitmap_mode_render(screenshot_t *screenshot
         }
     }
     if (((regs[0x07] & 8) == 0) || ((regs[0x06] & 8) == 0)) {
-        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255  : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
+        native_smooth_scroll_borderize_colormap(data, brdrcolor, (BYTE)((regs[0x07] & 8) ? 255 : regs[0x07] & 7), (BYTE)((regs[0x06] & 8) ? 255 : regs[0x06] & 7));
     }
     return data;
 }
@@ -1288,20 +1286,20 @@ native_data_t *native_vic_render(screenshot_t *screenshot, const char *filename)
                         data->mc_data_present = 1;
                         switch ((bitmap & (3 << ((3 - l) * 2))) >> ((3 - l) * 2)) {
                             case 0:
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] =  bgcolor;
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] =  bgcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] = bgcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] = bgcolor;
                                 break;
                             case 1:
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] =  brdrcolor;
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] =  brdrcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] = brdrcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] = brdrcolor;
                                 break;
                             case 2:
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] =  fgcolor;
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] =  fgcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] = fgcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] = fgcolor;
                                 break;
                             case 3:
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] =  auxcolor;
-                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] =  auxcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2)] = auxcolor;
+                                data->colormap[(i * data->xsize * 8) + (j * 8) + (k * data->xsize) + (l * 2) + 1] = auxcolor;
                                 break;
                         }
                     }
@@ -1455,10 +1453,10 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
                             b = (b | (b << 1)) & 0x55;
                             b |= b << 1;
                         }
-                         /*
-                         * Now reverse the bits...
-                         * http://graphics.stanford.edu/~seander/bithacks.html#ReverseByteWith32Bits
-                         */
+                        /*
+                        * Now reverse the bits...
+                        * http://graphics.stanford.edu/~seander/bithacks.html#ReverseByteWith32Bits
+                        */
                         b = ((b * 0x0802U & 0x22110U) | (b * 0x8020U & 0x88440U)) * 0x10101U >> 16;
                         bitmap |= b;
                     }
@@ -1610,66 +1608,66 @@ Reg#     7    6    5    4    3    2    1    0     Description              Notes
                              +-----------------+
 
 ---  Register #1:     Horizontal Displayed
-  
-  These two register function to define the display width of the screen. 
+
+  These two register function to define the display width of the screen.
 Register 0 will contain the number of characters minus 1 between sucessive
 horizontal sync pulses, the horizontal border and the interval between
 horizontal sync pulses. The normal value for this is usually set to 126.
 Register 1 specifies how many of the positions as specified in register 0 can
-actually be used to display characters.  The default value for this is 80. 
+actually be used to display characters.  The default value for this is 80.
 The VDC can take values less than 80 and thus, will only display that many
 characters. A useful effect can be a sweep from the right by incrementing
-the value here from 1 to 80. Register #2 specifies the starting character 
+the value here from 1 to 80. Register #2 specifies the starting character
 position at which the vertical sync pulse begins. Thus, it also determines
-where on the active screen characters appear. A default value of 102, 
+where on the active screen characters appear. A default value of 102,
 increasing the value moves the screen to the left, decreasing it moves it to
 the right.
- 
+
      Register #6:     Vertical Displayed
 
-  Register #4 of this register determines the total number of screen rows, 
+  Register #4 of this register determines the total number of screen rows,
 including the rows for the active display, and the top and bottom borders in
 addition to that of the vertical sync width. The value held here is normally
 a value of 32 for NTSC systems (US Standard) or 39 for PAL(European) systems.
 Register #5 holds in bits 0-4 a "fine-adjust" where any extra scan lines that
-are necessary to make up the display can be specified here. The value here is 
+are necessary to make up the display can be specified here. The value here is
 normally a 0 in both the NTSC and PAL initializations by the kernal and bits
 5-7 are unused, always returning a binary 1111. Register #6 specifies the total
 number of the vertical character positions (as set in Register 4) that can be
-used for actual display of characters. Thus, this register usually holds a 
+used for actual display of characters. Thus, this register usually holds a
 value of 25 for a standard 25-row display.
- 
+
 ^5 : Register #9:     Total Scan Lines Per Character
----- 
-  
-  Bits 0-4 of this register are the only relevant ones, the rest returning a 
+----
+
+  Bits 0-4 of this register are the only relevant ones, the rest returning a
 binary 1. Bits 0-4 determine the character height in scan-lines of displayed
 characters and allow up to scan-line heights of 32 scan lines. The VDC normally
 sets aside 16 bytes for each character (normally, each byte is equivlent to
 1 scan line) so the value here could be increased to 16-1 and a double-height
 character set could be loaded in. Note, however that values less than 16 will
 tell the VDC to use a 8,192 byte character set (normal) while specifying values
-greater than 16 will make it use 32 bytes per character even if some of the 
+greater than 16 will make it use 32 bytes per character even if some of the
 bytes are not used.
- 
+
 ^7 : Register #12:    Display Start Address (Hi)
 ---- Register #13:    Display Start Address (Lo)
      Register #20:    Attribute Start Addrs (Hi)
      Register #21:    Attribute Start Addrs (Lo)
- 
+
   Note first, that all of these registers are grouped in Hi byte, Lo byte order
-which is usually different from the 6502 convention of low byte, hi byte (ie: 
+which is usually different from the 6502 convention of low byte, hi byte (ie:
 in normal 6502 ml, $c000 is stored as $00 $c0, however in the 8563 it would be
 stored as $c0 $00).  Registers 12 and 13 determine, where in VDC memory the
 8563 is the start of the screen. Incrementing this value by 80 (the number of
-characters per line) and with a little additional work can provide a very 
+characters per line) and with a little additional work can provide a very
 effecient way of having a screen that "seems" to be larger than just 80x25.
 The cursor position in registers 14 and 15 reflect the actual character in
 memory that the cursor currently lies over. If it's not on the display screen,
 then it is not displayed. Registers 20 and 21 reflect where in the 8563 memory
 attribute memory is held. Attribute memory refers to the character attributes
 such as flash, inverse video, color etc that can be set for each character.
- 
+
 ^A : Register #22:    Character Horizontal Size Control
 ----
 
@@ -1691,8 +1689,8 @@ to a blink rate 1/16th of the refresh rate.
 
 ^C : Register #24:0-4 Vertical Smooth Scroll
 ----
-   
-  The 8563 provides for a smooth scroll, allowing bits 0-4 to function as an 
+
+  The 8563 provides for a smooth scroll, allowing bits 0-4 to function as an
 indicator of the number of bits to scroll the screen vertically upward.
 
 ^D : Register #25:7   Text or Graphics Mode Indicator Bit
@@ -1706,8 +1704,8 @@ of the screen may be bit-mapped sequentially resulting in a resolution of
 more detailed explanation of this feature). Setting this bit to 1 specifies
 graphics mode, binary 0 indicates text mode.  Bit 6 indicates to the 8563 where
 to obtain its color information etc, about the characters. Bit 6 when it is a
-binary 0 results in the 8563 taking it's color information from bits 4-7 of 
-register 26. When this bit is a binary 1, the attribute memory is used to 
+binary 0 results in the 8563 taking it's color information from bits 4-7 of
+register 26. When this bit is a binary 1, the attribute memory is used to
 obtain color, flash, reverse information. Also note than when this bit is a
 binary 1 that only the first of the two character sets is available. Bit #5
 indicates a semi-graphics mode that allows the rightmost pixel of any characters
@@ -1718,17 +1716,17 @@ horizontal pixels having twice their usual size. Thus, a 40 column screen is
 easily obtainable although the values in registers #00-#02 must be halved.
 
 ^E : Register #25:    Horizontal Smooth Control
----- 
- 
-  This register is analogous to register #24 Vertical Smooth Control and 
+----
+
+  This register is analogous to register #24 Vertical Smooth Control and
 functions similairly. Increasing this bits moves the screen one pixel to the
 right, while decreasing them moves the screen one pixel to the left.
- 
+
 ^F : Register #26:    ForeGround / BackGround Color Register
 ----
- 
+
   This register, in bits 0-3 specifies the background color of the display while
-bits 4-7 specify the foreground character colors when attributes are disabled 
+bits 4-7 specify the foreground character colors when attributes are disabled
 (via bit 6 of register #25).  Note, these are not the usual C= colors but are
 instead organized as follows:
 
@@ -1737,7 +1735,7 @@ instead organized as follows:
     %0000       0 / $00       Black         |  Note: Bit 0 = Intensity    |
     %0001       1 / $01       Dark Gray     |        Bit 1 = Blue         |
     %0010       2 / $02       Dark Blue     | RGBI   Bit 2 = Green        |
-    %0011       3 / $03       Light Blue    |        Bit 3 = Red          | 
+    %0011       3 / $03       Light Blue    |        Bit 3 = Red          |
     %0100       4 / $04       Dark Green    |                             |
     %0101       5 / $05       Light Green   +-----------------------------+
     %0110       6 / $06       Dark Cyan
@@ -1755,16 +1753,16 @@ instead organized as follows:
 ----
 
   This register specifies the number of bytes to skip, when displaying
-characters on the 8563 screen. Normally, this byte holds a value of $00 
-indicating no bytes to skip; however typically programs that "scroll" the 
+characters on the 8563 screen. Normally, this byte holds a value of $00
+indicating no bytes to skip; however typically programs that "scroll" the
 screen do so by setting this to 80 or 160 allowing the program to then alter
-the Screen Start (Registers #12 and #13) and appear to "scroll". Note the 
+the Screen Start (Registers #12 and #13) and appear to "scroll". Note the
 normal C= 128 Kernal Screen Editor does not support this function.
 
 ^H : Register #28:7-5 Character Set Address
 ----
- 
-  These bits indicate the address of screen memory * 8k. Thus the values in 
+
+  These bits indicate the address of screen memory * 8k. Thus the values in
 these bits may be multiplied by 8192 to obtain the starting character set
 position (normall these bits hold a value of $01 indicating the character
 set begins at 8192).  Note that the character set is not in ROM, but is usually
@@ -1779,7 +1777,7 @@ copied to 8192 when the computer is first turned on and the 8563 is initialized.
 worth) unless programs like Basic-8 etc, take advantage of it. There are various
 mod files describing the upgrade from 16k to 64k and it is _strongly_ advised
 (although the author has not yet done so) and be aware that ***OPENING YOUR
-COMPUTER JUST TO LOOK, YOU MAY MESS IT UP*** and it is _strongly_ advised that 
+COMPUTER JUST TO LOOK, YOU MAY MESS IT UP*** and it is _strongly_ advised that
 you contact a person experienced with electronics to perform the upgrade for
 you.  Note also that some mail order companies are offering an "up-grade board"
 which plugs into the 8563 slot and does not involve desoldering the RAM chips.
@@ -1787,7 +1785,7 @@ which plugs into the 8563 slot and does not involve desoldering the RAM chips.
   Now, the 8563 uses the 16k of memory (it ignores the extra 48k of memory when
 it's got 64k, thus the following applies also to the 8563's equipped with 64k
 of memory) and normally, has the following memory map:
- 
+
   $0000 - $07ff - Screen Memory
   $0800 - $0fff - Attribute Memory
   $1000 - $1fff - Unused

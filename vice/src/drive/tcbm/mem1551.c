@@ -40,8 +40,7 @@ static BYTE drive_read_ram(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0x1fff];
 }
 
-static void drive_store_ram(drive_context_t *drv, WORD address,
-                                     BYTE value)
+static void drive_store_ram(drive_context_t *drv, WORD address, BYTE value)
 {
     /* FIXME: This breaks the 1541 RAM mirror!  */
     drv->cpud->drive_ram[address & 0x1fff] = value;
@@ -50,25 +49,24 @@ static void drive_store_ram(drive_context_t *drv, WORD address,
 static BYTE drive_read_zero(drive_context_t *drv, WORD address)
 {
     switch (address & 0xff) {
-      case 0:
-        return glue1551_port0_read(drv);
-      case 1:
-        return glue1551_port1_read(drv);
+        case 0:
+            return glue1551_port0_read(drv);
+        case 1:
+            return glue1551_port1_read(drv);
     }
 
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void drive_store_zero(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_zero(drive_context_t *drv, WORD address, BYTE value)
 {
     switch (address & 0xff) {
-      case 0:
-        glue1551_port0_store(drv, value);
-        return;
-      case 1:
-        glue1551_port1_store(drv, value);
-        return;
+        case 0:
+            glue1551_port0_store(drv, value);
+            return;
+        case 1:
+            glue1551_port1_store(drv, value);
+            return;
     }
 
     drv->cpud->drive_ram[address & 0xff] = value;
@@ -86,8 +84,9 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
             drv->cpud->read_func_nowatch[i] = drive_read_ram;
             drv->cpud->store_func_nowatch[i] = drive_store_ram;
         }
-        for (i = 0xc0; i < 0x100; i++)
+        for (i = 0xc0; i < 0x100; i++) {
             drv->cpud->read_func_nowatch[i] = drive_read_rom;
+        }
 
         drv->cpud->read_func_nowatch[0] = drive_read_zero;
         drv->cpud->store_func_nowatch[0] = drive_store_zero;
@@ -99,4 +98,3 @@ void mem1551_init(struct drive_context_s *drv, unsigned int type)
         }
     }
 }
-

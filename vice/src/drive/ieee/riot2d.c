@@ -102,12 +102,12 @@ static void set_handshake(riot_context_t *riot_context, BYTE pa)
     */
     /* RFDO = (/ATN == ATNA) & RFDO */
     drive_context->func->parallel_set_nrfd((char)(
-        !( ((riot2p->r_atn_active ? 1 : 0) == (pa & 1)) && (pa & 4) )
-        ));
+                                               !(((riot2p->r_atn_active ? 1 : 0) == (pa & 1)) && (pa & 4))
+                                               ));
     /* DACO = /DACO & (ATNA | ATN) */
     drive_context->func->parallel_set_ndac((char)(
-        !( (!(pa & 2)) && ((pa & 1) || (!(riot2p->r_atn_active))) )
-        ));
+                                               !((!(pa & 2)) && ((pa & 1) || (!(riot2p->r_atn_active))))
+                                               ));
 }
 
 void riot2_set_atn(riot_context_t *riot_context, int state)
@@ -177,9 +177,10 @@ static void undump_prb(riot_context_t *riot_context, BYTE byte)
             = ((byte & 8) ? 1 : 0) | ((byte & 32) ? 2 : 0);
     }
 
-    if (riot2p->drive->led_status & 1)
+    if (riot2p->drive->led_status & 1) {
         riot2p->drive->led_active_ticks += *(riot_context->clk_ptr)
-            - riot2p->drive->led_last_change_clk;
+                                           - riot2p->drive->led_last_change_clk;
+    }
     riot2p->drive->led_last_change_clk = *(riot_context->clk_ptr);
 }
 
@@ -224,14 +225,17 @@ static void reset(riot_context_t *riot_context)
 static BYTE read_pra(riot_context_t *riot_context)
 {
     BYTE byte = 0xff;
-    if (!parallel_atn)
+    if (!parallel_atn) {
         byte -= 0x80;
-    if (parallel_dav)
+    }
+    if (parallel_dav) {
         byte -= 0x40;
-    if (parallel_eoi)
+    }
+    if (parallel_eoi) {
         byte -= 0x20;
+    }
     return (byte & ~(riot_context->riot_io)[1])
-        | ((riot_context->riot_io)[0] & (riot_context->riot_io)[1]);
+           | ((riot_context->riot_io)[0] & (riot_context->riot_io)[1]);
 }
 
 static BYTE read_prb(riot_context_t *riot_context)
@@ -241,16 +245,18 @@ static BYTE read_prb(riot_context_t *riot_context)
 
     riot2p = (driveriot2_context_t *)(riot_context->prv);
 
-    if (parallel_nrfd)
+    if (parallel_nrfd) {
         byte -= 0x80;
-    if (parallel_ndac)
+    }
+    if (parallel_ndac) {
         byte -= 0x40;
+    }
 
     /* Here the device number is made known to the disk. */
     byte += riot2p->drivenumberjumper;     /* device address bit 0, 1, 2 */
 
     return (byte & ~(riot_context->riot_io)[3])
-        | ((riot_context->riot_io)[2] & (riot_context->riot_io)[3]);
+           | ((riot_context->riot_io)[2] & (riot_context->riot_io)[3]);
 }
 
 void riot2_init(drive_context_t *ctxptr)
@@ -295,4 +301,3 @@ void riot2_setup_context(drive_context_t *ctxptr)
     riot->set_irq = set_irq;
     riot->restore_irq = restore_irq;
 }
-

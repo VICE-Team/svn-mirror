@@ -61,21 +61,21 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
             const asm_opcode_info_t *opinfo = NULL;
 
             switch (prefix[j]) {
-              case 0x00:
-                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
-                break;
-              case 0xcb:
-                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xcb, i, 0);
-                break;
-              case 0xdd:
-                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xdd, i, 0);
-                break;
-              case 0xed:
-                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, i, 0);
-                break;
-              case 0xfd:
-                opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, i, 0);
-                break;
+                case 0x00:
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(i, 0, 0);
+                    break;
+                case 0xcb:
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xcb, i, 0);
+                    break;
+                case 0xdd:
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xdd, i, 0);
+                    break;
+                case 0xed:
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xed, i, 0);
+                    break;
+                case 0xfd:
+                    opinfo = (monitor_cpu_for_memspace[mem]->asm_opcode_info_get)(0xfd, i, 0);
+                    break;
             }
 
             if (!strcasecmp(opinfo->mnemonic, opcode_name)) {
@@ -98,7 +98,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
                 /* Special case: RELATIVE mode looks like ZERO_PAGE or ABSOLUTE
                    modes.  */
                 if ((operand_mode == ASM_ADDR_MODE_ZERO_PAGE
-                    || operand_mode == ASM_ADDR_MODE_ABSOLUTE)
+                     || operand_mode == ASM_ADDR_MODE_ABSOLUTE)
                     && opinfo->addr_mode == ASM_ADDR_MODE_RELATIVE) {
                     branch_offset = operand_value - loc - 2;
                     if (branch_offset > 127 || branch_offset < -128) {
@@ -137,8 +137,9 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
             }
             i++;
         } while (i != 0);
-        if (found == TRUE)
+        if (found == TRUE) {
             break;
+        }
     }
 
     if (!found) {
@@ -147,25 +148,29 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     }
 
     len = (monitor_cpu_for_memspace[mem]->asm_addr_mode_get_size)
-          ((unsigned int)(operand_mode), prefix[j], 0, 0);
+              ((unsigned int)(operand_mode), prefix[j], 0, 0);
 
     if (prefix[j] == 0x00) {
         mon_set_mem_val(mem, loc, opcode);
-        if (len >= 2)
+        if (len >= 2) {
             mon_set_mem_val(mem, (WORD)(loc + 1),
                             (BYTE)(operand_value & 0xff));
-        if (len >= 3)
+        }
+        if (len >= 3) {
             mon_set_mem_val(mem, (WORD)(loc + 2),
                             (BYTE)((operand_value >> 8) & 0xff));
+        }
     } else {
         mon_set_mem_val(mem, loc, prefix[j]);
         mon_set_mem_val(mem, (WORD)(loc + 1), opcode);
-        if (len >= 3)
+        if (len >= 3) {
             mon_set_mem_val(mem, (WORD)(loc + 2),
                             (BYTE)(operand_value & 0xff));
-        if (len >= 4)
+        }
+        if (len >= 4) {
             mon_set_mem_val(mem, (WORD)(loc + 3),
                             (BYTE)((operand_value >> 8) & 0xff));
+        }
     }
 
     if (len >= 0) {
@@ -181,4 +186,3 @@ void mon_assemblez80_init(monitor_cpu_type_t *monitor_cpu_type)
 {
     monitor_cpu_type->mon_assemble_instr = mon_assemble_instr;
 }
-

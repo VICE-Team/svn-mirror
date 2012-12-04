@@ -31,4 +31,3 @@ extern int c64exp_resources_init(void);
 extern void c64exp_resources_shutdown(void);
 
 #endif
-

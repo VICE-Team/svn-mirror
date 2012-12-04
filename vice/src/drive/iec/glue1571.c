@@ -39,4 +39,3 @@ void glue1571_side_set(unsigned int side, struct drive_s *drive)
 
     drive_set_half_track(drive->current_half_track, side, drive);
 }
-

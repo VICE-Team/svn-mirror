@@ -185,7 +185,7 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Test on wildcards.  */
     if (cbmdos_parse_wildcard_check(cmd_parse->parsecmd,
-        (unsigned int)strlen(cmd_parse->parsecmd)) > 0) {
+                                    (unsigned int)strlen(cmd_parse->parsecmd)) > 0) {
         if (bufinfo[secondary].mode == Write
             || bufinfo[secondary].mode == Append) {
             fsdevice_error(vdrive, CBMDOS_IPE_BAD_NAME);
@@ -232,10 +232,10 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 
     /* Open file for read mode access.  */
     tape = bufinfo[secondary].tape;
-    tape->name = util_concat(fsdevice_get_path(vdrive->unit), 
+    tape->name = util_concat(fsdevice_get_path(vdrive->unit),
                              FSDEV_DIR_SEP_STR, rname, NULL);
-    charset_petconvstring((BYTE *)(tape->name) + 
-                          strlen(fsdevice_get_path(vdrive->unit))+
+    charset_petconvstring((BYTE *)(tape->name) +
+                          strlen(fsdevice_get_path(vdrive->unit)) +
                           strlen(FSDEV_DIR_SEP_STR), 1);
     tape->read_only = 1;
     /* Prepare for buffered reads */
@@ -250,13 +250,13 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
         tape_seek_start(tape);
         tape_seek_to_file(tape, 0);
         r = tape_get_current_file_record(tape);
-        if ( (r->type==1) || (r->type==3) ) {
+        if ((r->type == 1) || (r->type == 3)) {
             startaddr[0] = r->start_addr & 255;
             startaddr[1] = r->start_addr >> 8;
             bufinfo[secondary].bufp = startaddr;
             bufinfo[secondary].buflen = 2;
         } else {
-          bufinfo[secondary].buflen = 0;
+            bufinfo[secondary].buflen = 0;
         }
 
         return FLOPPY_COMMAND_OK;
@@ -276,8 +276,8 @@ static int fsdevice_open_file(vdrive_t *vdrive, unsigned int secondary,
 }
 
 static int fsdevice_open_buffer(vdrive_t *vdrive, unsigned int secondary,
-                              bufinfo_t *bufinfo,
-                              cbmdos_cmd_parse_t *cmd_parse, char *rname)
+                                bufinfo_t *bufinfo,
+                                cbmdos_cmd_parse_t *cmd_parse, char *rname)
 {
     log_message(LOG_DEFAULT, "Fsdevice: Warning - open channel '%s'. (block access needs disk image)", rname);
     fsdevice_error(vdrive, CBMDOS_IPE_OK);
@@ -296,7 +296,7 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
 #ifdef DEBUG_DRIVE
     log_debug("fsdevice_open name:'%s'", name);
 #endif
-    
+
     bufinfo = fsdevice_dev[vdrive->unit - 8].bufinfo;
 
     if (bufinfo[secondary].fileio_info != NULL) {
@@ -331,15 +331,15 @@ int fsdevice_open(vdrive_t *vdrive, const BYTE *name, unsigned int length,
     charset_petconvstring((BYTE *)(cmd_parse.parsecmd), 1);
 
     switch (cmd_parse.readmode) {
-      case CBMDOS_FAM_WRITE:
-        bufinfo[secondary].mode = Write;
-        break;
-      case CBMDOS_FAM_READ:
-        bufinfo[secondary].mode = Read;
-        break;
-      case CBMDOS_FAM_APPEND:
-        bufinfo[secondary].mode = Append;
-        break;
+        case CBMDOS_FAM_WRITE:
+            bufinfo[secondary].mode = Write;
+            break;
+        case CBMDOS_FAM_READ:
+            bufinfo[secondary].mode = Read;
+            break;
+        case CBMDOS_FAM_APPEND:
+            bufinfo[secondary].mode = Append;
+            break;
     }
 
     /*

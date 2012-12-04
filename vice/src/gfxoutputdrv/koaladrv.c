@@ -251,7 +251,7 @@ static void koala_check_and_correct_cell(native_data_t *source, BYTE bgcolor)
                 colors[0].amount = 8000;
                 colors[0].color = bgcolor;
             }
-            if (colors[4].amount !=0) {
+            if (colors[4].amount != 0) {
                 colors[4].color = 255;
                 vicii_color_to_nearest_vicii_color_colormap(dest, colors);
                 for (k = 0; k < 8; k++) {
@@ -626,7 +626,7 @@ static gfxoutputdrv_t koala_drv =
     koaladrv_resources_init,
     koaladrv_cmdline_options_init
 #ifdef FEATURE_CPUMEMHISTORY
-    ,NULL
+    , NULL
 #endif
 };
 
@@ -646,7 +646,7 @@ static gfxoutputdrv_t koala_compressed_drv =
     NULL,
     NULL
 #ifdef FEATURE_CPUMEMHISTORY
-    ,NULL
+    , NULL
 #endif
 };
 

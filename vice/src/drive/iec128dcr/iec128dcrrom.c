@@ -59,8 +59,9 @@ static void iec128dcrrom_new_image_loaded(unsigned int dtype)
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive = drive_context[dnr]->drive;
 
-        if (drive->type == dtype)
+        if (drive->type == dtype) {
             iec128dcrrom_setup_image(drive);
+        }
     }
 }
 
@@ -68,8 +69,9 @@ int iec128dcrrom_load_1571cr(void)
 {
     const char *rom_name = NULL;
 
-    if (!drive_rom_load_ok)
+    if (!drive_rom_load_ok) {
         return 0;
+    }
 
     resources_get_string("DosName1571cr", &rom_name);
 
@@ -90,9 +92,9 @@ void iec128dcrrom_setup_image(drive_t *drive)
 {
     if (rom_loaded) {
         switch (drive->type) {
-          case DRIVE_TYPE_1571CR:
-            memcpy(drive->rom, drive_rom1571cr, DRIVE_ROM1571_SIZE);
-            break;
+            case DRIVE_TYPE_1571CR:
+                memcpy(drive->rom, drive_rom1571cr, DRIVE_ROM1571_SIZE);
+                break;
         }
     }
 }
@@ -100,9 +102,9 @@ void iec128dcrrom_setup_image(drive_t *drive)
 int iec128dcrrom_read(unsigned int type, WORD addr, BYTE *data)
 {
     switch (type) {
-      case DRIVE_TYPE_1571CR:
-        *data = drive_rom1571cr[addr & (DRIVE_ROM1571_SIZE - 1)];
-        return 0;
+        case DRIVE_TYPE_1571CR:
+            *data = drive_rom1571cr[addr & (DRIVE_ROM1571_SIZE - 1)];
+            return 0;
     }
 
     return -1;
@@ -111,18 +113,20 @@ int iec128dcrrom_read(unsigned int type, WORD addr, BYTE *data)
 int iec128dcrrom_check_loaded(unsigned int type)
 {
     switch (type) {
-      case DRIVE_TYPE_NONE:
-        return 0;
-      case DRIVE_TYPE_1571CR:
-        if (rom1571cr_loaded < 1 && rom_loaded)
+        case DRIVE_TYPE_NONE:
+            return 0;
+        case DRIVE_TYPE_1571CR:
+            if (rom1571cr_loaded < 1 && rom_loaded) {
+                return -1;
+            }
+            break;
+        case DRIVE_TYPE_ANY:
+            if ((!rom1571cr_loaded) && rom_loaded) {
+                return -1;
+            }
+            break;
+        default:
             return -1;
-        break;
-      case DRIVE_TYPE_ANY:
-        if ((!rom1571cr_loaded) && rom_loaded)
-            return -1;
-        break;
-      default:
-        return -1;
     }
 
     return 0;
@@ -132,4 +136,3 @@ void iec128dcrrom_init(void)
 {
     iec128dcrrom_log = log_open("IEC128DCRDriveROM");
 }
-

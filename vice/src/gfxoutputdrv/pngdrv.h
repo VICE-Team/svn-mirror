@@ -30,4 +30,3 @@
 extern void gfxoutput_init_png(void);
 
 #endif
-

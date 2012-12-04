@@ -65,8 +65,9 @@ static int command_read(bufinfo_t *bufinfo, BYTE *data)
                 bufinfo->iseof = !tape_read(bufinfo->tape,
                                             &(bufinfo->buffered), 1);
                 bufinfo->isbuffered = 1;
-                if (bufinfo->iseof)
+                if (bufinfo->iseof) {
                     return SERIAL_EOF;
+                }
             }
             /* If this is our first read, read in first byte */
             if (!bufinfo->isbuffered) {
@@ -81,8 +82,9 @@ static int command_read(bufinfo_t *bufinfo, BYTE *data)
             /* Indicate we have something in the buffer for the next read */
             bufinfo->isbuffered = 1;
             /* If the EOF was signaled, return a CBM EOF */
-            if (bufinfo->iseof)
+            if (bufinfo->iseof) {
                 return SERIAL_EOF;
+            }
             /* If not, return OK */
             return SERIAL_OK;
 
@@ -100,34 +102,35 @@ static int command_read(bufinfo_t *bufinfo, BYTE *data)
                may be available */
             if (bufinfo->iseof) {
                 *data = 0xc7;
-                bufinfo->iseof = !tape_read(bufinfo->tape,
-                                 &(bufinfo->buffered), 1);
+                bufinfo->iseof = !tape_read(bufinfo->tape, &(bufinfo->buffered), 1);
                 bufinfo->isbuffered = 1;
-                if (bufinfo->iseof)
+                if (bufinfo->iseof) {
                     return SERIAL_EOF;
+                }
             }
             /* If this is our first read, read in first byte */
             if (!bufinfo->isbuffered) {
-                bufinfo->iseof = !fileio_read(bufinfo->fileio_info,
-                                 &(bufinfo->buffered), 1);
+                bufinfo->iseof = !fileio_read(bufinfo->fileio_info, &(bufinfo->buffered), 1);
                 /* We shouldn't get an EOF at this point */
                 /* Check for errors */
-                if (fileio_ferror(bufinfo->fileio_info))
+                if (fileio_ferror(bufinfo->fileio_info)) {
                     return SERIAL_ERROR;
+                }
             }
             /* Place it in the output field */
             *data = bufinfo->buffered;
             /* Read the next buffer; if nothing read, set EOF signal */
-            bufinfo->iseof = !fileio_read(bufinfo->fileio_info,
-                             &(bufinfo->buffered), 1);
+            bufinfo->iseof = !fileio_read(bufinfo->fileio_info, &(bufinfo->buffered), 1);
             /* Check for errors */
-            if (fileio_ferror(bufinfo->fileio_info))
+            if (fileio_ferror(bufinfo->fileio_info)) {
                 return SERIAL_ERROR;
+            }
             /* Indicate we have something in the buffer for the next read */
             bufinfo->isbuffered = 1;
             /* If the EOF was signaled, return a CBM EOF */
-            if (bufinfo->iseof)
+            if (bufinfo->iseof) {
                 return SERIAL_EOF;
+            }
             /* If not, return OK */
             return SERIAL_OK;
 
@@ -136,9 +139,10 @@ static int command_read(bufinfo_t *bufinfo, BYTE *data)
 
             len = fileio_read(bufinfo->info, data, 1);
 
-            if (fileio_ferror(bufinfo->info))
+            if (fileio_ferror(bufinfo->info)) {
                 return SERIAL_ERROR;
- 
+            }
+
             if (len == 0) {
                 *data = 0xc7;
                 return SERIAL_EOF;
@@ -208,7 +212,7 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         l = (int)strlen(bufinfo->dirmask);
 
         for (p = finfo->name, i = 0;
-            *p && bufinfo->dirmask[i] && i < l; i++) {
+             *p && bufinfo->dirmask[i] && i < l; i++) {
             if (bufinfo->dirmask[i] == '?') {
                 p++;
             } else if (bufinfo->dirmask[i] == '*') {
@@ -277,7 +281,6 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         *p++ = '"';
 
         for (i = 0; finfo->name[i] && (*p = finfo->name[i]); ++i, ++p) {
-            ;
         }
 
         *p++ = '"';
@@ -296,32 +299,32 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
             } else {
                 *p++ = '*'; /* splat file */
             }
-            switch(bufinfo->type) {
-              case CBMDOS_FT_DEL:
-                *p++ = 'D';
-                *p++ = 'E';
-                *p++ = 'L';
-                break;
-              case CBMDOS_FT_SEQ:
-                *p++ = 'S';
-                *p++ = 'E';
-                *p++ = 'Q';
-                break;
-              case CBMDOS_FT_PRG:
-                *p++ = 'P';
-                *p++ = 'R';
-                *p++ = 'G';
-                break;
-              case CBMDOS_FT_USR:
-                *p++ = 'U';
-                *p++ = 'S';
-                *p++ = 'R';
-                break;
-              case CBMDOS_FT_REL:
-                *p++ = 'R';
-                *p++ = 'E';
-                *p++ = 'L';
-                break;
+            switch (bufinfo->type) {
+                case CBMDOS_FT_DEL:
+                    *p++ = 'D';
+                    *p++ = 'E';
+                    *p++ = 'L';
+                    break;
+                case CBMDOS_FT_SEQ:
+                    *p++ = 'S';
+                    *p++ = 'E';
+                    *p++ = 'Q';
+                    break;
+                case CBMDOS_FT_PRG:
+                    *p++ = 'P';
+                    *p++ = 'R';
+                    *p++ = 'G';
+                    break;
+                case CBMDOS_FT_USR:
+                    *p++ = 'U';
+                    *p++ = 'S';
+                    *p++ = 'R';
+                    break;
+                case CBMDOS_FT_REL:
+                    *p++ = 'R';
+                    *p++ = 'E';
+                    *p++ = 'L';
+                    break;
             }
         }
 
@@ -342,7 +345,6 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
         *p++ = '\0';
 
         bufinfo->buflen = (int)(p - bufinfo->name);
-
     } else {
         BYTE *p = bufinfo->name;
 
@@ -373,8 +375,9 @@ static void command_directory_get(vdrive_t *vdrive, bufinfo_t *bufinfo,
 static int command_directory(vdrive_t *vdrive, bufinfo_t *bufinfo,
                              BYTE *data, unsigned int secondary)
 {
-    if (bufinfo->ioutil_dir == NULL)
+    if (bufinfo->ioutil_dir == NULL) {
         return FLOPPY_ERROR;
+    }
 
     if (bufinfo->buflen <= 0) {
         if (bufinfo->eof) {
@@ -386,7 +389,7 @@ static int command_directory(vdrive_t *vdrive, bufinfo_t *bufinfo,
 
     *data = *bufinfo->bufp++;
     bufinfo->buflen--;
-	/* Generate CBM EOF */
+    /* Generate CBM EOF */
     if (bufinfo->buflen <= 0) {
         if (bufinfo->eof) {
             return SERIAL_EOF;
@@ -400,18 +403,18 @@ int fsdevice_read(vdrive_t *vdrive, BYTE *data, unsigned int secondary)
 {
     bufinfo_t *bufinfo = &(fsdevice_dev[vdrive->unit - 8].bufinfo[secondary]);
 
-    if (secondary == 15)
+    if (secondary == 15) {
         return fsdevice_error_get_byte(vdrive, data);
+    }
 
     switch (bufinfo->mode) {
-      case Write:
-      case Append:
-        return FLOPPY_ERROR;
-      case Read:
-        return command_read(bufinfo, data);
-      case Directory:
-        return command_directory(vdrive, bufinfo, data, secondary);
+        case Write:
+        case Append:
+            return FLOPPY_ERROR;
+        case Read:
+            return command_read(bufinfo, data);
+        case Directory:
+            return command_directory(vdrive, bufinfo, data, secondary);
     }
     return FLOPPY_ERROR;
 }
-

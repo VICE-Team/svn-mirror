@@ -97,7 +97,7 @@ int mon_init_break = -1;
 #define MAX_LABEL_LEN 255
 #define MAX_MEMSPACE_NAME_LEN 10
 #define HASH_ARRAY_SIZE 256
-#define HASH_ADDR(x) ((x)%0xff)
+#define HASH_ADDR(x) ((x) % 0xff)
 #define OP_JSR 0x20
 #define OP_RTI 0x40
 #define OP_RTS 0x60
@@ -119,15 +119,15 @@ monitor_cartridge_commands_t mon_cart_cmd;
 /* Types */
 
 struct symbol_entry {
-   WORD addr;
-   char *name;
-   struct symbol_entry *next;
+    WORD addr;
+    char *name;
+    struct symbol_entry *next;
 };
 typedef struct symbol_entry symbol_entry_t;
 
 struct symbol_table {
-   symbol_entry_t *name_list;
-   symbol_entry_t *addr_hash_table[HASH_ARRAY_SIZE];
+    symbol_entry_t *name_list;
+    symbol_entry_t *addr_hash_table[HASH_ARRAY_SIZE];
 };
 typedef struct symbol_table symbol_table_t;
 
@@ -216,38 +216,40 @@ typedef struct monitor_cpu_type_list_s monitor_cpu_type_list_t;
 
 static monitor_cpu_type_list_t *monitor_cpu_type_list = NULL;
 
-static const char *cond_op_string[] = { "",
-                                        "==",
-                                        "!=",
-                                        ">",
-                                        "<",
-                                        ">=",
-                                        "<=",
-                                        "&&",
-                                        "||"
-                                       };
+static const char *cond_op_string[] = {
+    "",
+    "==",
+    "!=",
+    ">",
+    "<",
+    ">=",
+    "<=",
+    "&&",
+    "||"
+};
 
-const char *mon_memspace_string[] = {"default", "C", "8", "9", "0", "1" };
+const char *mon_memspace_string[] = { "default", "C", "8", "9", "0", "1" };
 
-static const char *register_string[] = { "A",
-                                         "X",
-                                         "Y",
-                                         "PC",
-                                         "SP"
-                                        };
+static const char *register_string[] = {
+    "A",
+    "X",
+    "Y",
+    "PC",
+    "SP"
+};
 
 /* Some local helper functions */
 int find_cpu_type_from_string(const char *cpu_string)
 {
-    if ((strcasecmp(cpu_string, "6502")==0)||(strcasecmp(cpu_string, "6510")==0)) {
+    if ((strcasecmp(cpu_string, "6502") == 0) || (strcasecmp(cpu_string, "6510") == 0)) {
         return CPU_6502;
-    } else if (strcasecmp(cpu_string, "r65c02")==0) {
+    } else if (strcasecmp(cpu_string, "r65c02") == 0) {
         return CPU_R65C02;
-    } else if (strcasecmp(cpu_string, "h6809")==0||strcmp(cpu_string, "6809")==0) {
+    } else if (strcasecmp(cpu_string, "h6809") == 0 || strcmp(cpu_string, "6809") == 0) {
         return CPU_6809;
-    } else if (strcasecmp(cpu_string, "z80")==0) {
+    } else if (strcasecmp(cpu_string, "z80") == 0) {
         return CPU_Z80;
-    } else if ((strcasecmp(cpu_string, "6502dtv")==0)||(strcasecmp(cpu_string, "6510dtv")==0)) {
+    } else if ((strcasecmp(cpu_string, "6502dtv") == 0) || (strcasecmp(cpu_string, "6510dtv") == 0)) {
         return CPU_6502DTV;
     } else {
         return -1;
@@ -257,16 +259,17 @@ int find_cpu_type_from_string(const char *cpu_string)
 monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
 {
     supported_cpu_type_list_t *ptr;
-    if (mem==e_default_space)
-        mem=default_memspace;
-    ptr=monitor_cpu_type_supported[mem];
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
+    ptr = monitor_cpu_type_supported[mem];
     while (ptr) {
         if (ptr->monitor_cpu_type_p) {
-            if (ptr->monitor_cpu_type_p->cpu_type==cpu) {
+            if (ptr->monitor_cpu_type_p->cpu_type == cpu) {
                 return ptr->monitor_cpu_type_p;
             }
         }
-        ptr=ptr->next;
+        ptr = ptr->next;
     }
     return NULL;
 }
@@ -274,31 +277,31 @@ monitor_cpu_type_t* monitor_find_cpu_for_memspace(MEMSPACE mem, CPU_TYPE_t cpu)
 void monitor_print_cpu_types_supported(MEMSPACE mem)
 {
     supported_cpu_type_list_t *ptr;
-    ptr=monitor_cpu_type_supported[mem];
+    ptr = monitor_cpu_type_supported[mem];
     while (ptr) {
         if (ptr->monitor_cpu_type_p) {
             switch (ptr->monitor_cpu_type_p->cpu_type) {
-            case CPU_6502:
-                mon_out(" 6502");
-                break;
-            case CPU_6502DTV:
-                mon_out(" 6502DTV");
-                break;
-            case CPU_6809:
-                mon_out(" 6809");
-                break;
-            case CPU_Z80:
-                mon_out(" Z80");
-                break;
-            case CPU_R65C02:
-                mon_out(" R65C02");
-                break;
-            default:
-                mon_out(" unknown(%d)",ptr->monitor_cpu_type_p->cpu_type);
-                break;
+                case CPU_6502:
+                    mon_out(" 6502");
+                    break;
+                case CPU_6502DTV:
+                    mon_out(" 6502DTV");
+                    break;
+                case CPU_6809:
+                    mon_out(" 6809");
+                    break;
+                case CPU_Z80:
+                    mon_out(" Z80");
+                    break;
+                case CPU_R65C02:
+                    mon_out(" R65C02");
+                    break;
+                default:
+                    mon_out(" unknown(%d)", ptr->monitor_cpu_type_p->cpu_type);
+                    break;
             }
         }
-        ptr=ptr->next;
+        ptr = ptr->next;
     }
     mon_out("\n");
 }
@@ -326,8 +329,9 @@ bool mon_inc_addr_location(MON_ADDR *a, unsigned inc)
 
 void mon_evaluate_default_addr(MON_ADDR *a)
 {
-    if (addr_memspace(*a) == e_default_space)
+    if (addr_memspace(*a) == e_default_space) {
         set_addr_memspace(a, default_memspace);
+    }
 }
 
 bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
@@ -336,24 +340,27 @@ bool mon_is_in_range(MON_ADDR start_addr, MON_ADDR end_addr, unsigned loc)
 
     start = addr_location(start_addr);
 
-    if (!mon_is_valid_addr(end_addr))
+    if (!mon_is_valid_addr(end_addr)) {
         return (loc == start);
+    }
 
     end = addr_location(end_addr);
 
-    if (end < start)
+    if (end < start) {
         return ((loc >= start) || (loc <= end));
+    }
 
-    return ((loc >= start) && (loc<=end));
+    return ((loc >= start) && (loc <= end));
 }
 
 static bool is_valid_addr_range(MON_ADDR start_addr, MON_ADDR end_addr)
 {
-    if (addr_memspace(start_addr) == e_invalid_space)
+    if (addr_memspace(start_addr) == e_invalid_space) {
         return FALSE;
+    }
 
     if ((addr_memspace(start_addr) != addr_memspace(end_addr)) &&
-         ((addr_memspace(start_addr) != e_default_space) ||
+        ((addr_memspace(start_addr) != e_default_space) ||
          (addr_memspace(end_addr) != e_default_space))) {
         return FALSE;
     }
@@ -366,12 +373,12 @@ static unsigned get_range_len(MON_ADDR addr1, MON_ADDR addr2)
     unsigned len = 0;
 
     start = addr_location(addr1);
-    end  = addr_location(addr2);
+    end = addr_location(addr2);
 
     if (start <= end) {
-       len = end - start + 1;
+        len = end - start + 1;
     } else {
-       len = (0xffff - start) + end + 1;
+        len = (0xffff - start) + end + 1;
     }
 
     return len;
@@ -383,8 +390,9 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
     long len = default_len;
 
     /* Check if we DEFINITELY need a range. */
-    if (!is_valid_addr_range(*start_addr, *end_addr) && must_be_range)
+    if (!is_valid_addr_range(*start_addr, *end_addr) && must_be_range) {
         return -1;
+    }
 
     if (is_valid_addr_range(*start_addr, *end_addr)) {
         MEMSPACE mem1, mem2;
@@ -424,16 +432,17 @@ long mon_evaluate_address_range(MON_ADDR *start_addr, MON_ADDR *end_addr,
 
         len = get_range_len(*start_addr, *end_addr);
     } else {
-        if (!mon_is_valid_addr(*start_addr))
+        if (!mon_is_valid_addr(*start_addr)) {
             *start_addr = dot_addr[(int)default_memspace];
-        else
+        } else {
             mon_evaluate_default_addr(start_addr);
+        }
 
         if (!mon_is_valid_addr(*end_addr)) {
             *end_addr = *start_addr;
             mon_inc_addr_location(end_addr, len);
         } else {
-            set_addr_memspace(end_addr,addr_memspace(*start_addr));
+            set_addr_memspace(end_addr, addr_memspace(*start_addr));
             len = get_range_len(*start_addr, *end_addr);
         }
     }
@@ -451,8 +460,9 @@ mon_reg_list_t *mon_register_list_get(int mem)
 
 bool check_drive_emu_level_ok(int drive_num)
 {
-    if (drive_num < 8 || drive_num > 11)
+    if (drive_num < 8 || drive_num > 11) {
         return FALSE;
+    }
 
     if (mon_interfaces[monitor_diskspace_mem(drive_num - 8)] == NULL) {
         mon_out("True drive emulation not supported for this machine.\n");
@@ -465,17 +475,17 @@ bool check_drive_emu_level_ok(int drive_num)
 void monitor_cpu_type_set(const char *cpu_type)
 {
     int serchcpu;
-    monitor_cpu_type_t *monitor_cpu_type_p=NULL;
+    monitor_cpu_type_t *monitor_cpu_type_p = NULL;
 
-    serchcpu=find_cpu_type_from_string(cpu_type);
-    if (serchcpu>-1) {
-        monitor_cpu_type_p=monitor_find_cpu_for_memspace(default_memspace, serchcpu);
+    serchcpu = find_cpu_type_from_string(cpu_type);
+    if (serchcpu > -1) {
+        monitor_cpu_type_p = monitor_find_cpu_for_memspace(default_memspace, serchcpu);
     }
     if (monitor_cpu_type_p) {
-        monitor_cpu_for_memspace[default_memspace]=monitor_cpu_type_p;
+        monitor_cpu_for_memspace[default_memspace] = monitor_cpu_type_p;
         uimon_notify_change();
     } else {
-        if (strcmp(cpu_type,"")!=0) {
+        if (strcmp(cpu_type, "") != 0) {
             mon_out("Unknown CPU type `%s'\n", cpu_type);
         }
         mon_out("This device (%s) supports the following CPU types:", _mon_space_strings[default_memspace]);
@@ -485,8 +495,9 @@ void monitor_cpu_type_set(const char *cpu_type)
 
 void mon_bank(MEMSPACE mem, const char *bankname)
 {
-    if (mem == e_default_space)
+    if (mem == e_default_space) {
         mem = default_memspace;
+    }
 
     if (!mon_interfaces[mem]->mem_bank_list) {
         mon_out("Banks not available in this memspace\n");
@@ -566,8 +577,8 @@ BYTE mon_get_mem_val(MEMSPACE mem, WORD mem_addr)
 void mon_get_mem_block_ex(MEMSPACE mem, int bank, WORD start, WORD end, BYTE *data)
 {
     int i;
-    for(i=0;i<=end;i++) {
-        data[i] = mon_get_mem_val_ex(mem, bank, (WORD)(start+i));
+    for (i = 0; i <= end; i++) {
+        data[i] = mon_get_mem_val_ex(mem, bank, (WORD)(start + i));
     }
 }
 
@@ -582,9 +593,11 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
 
     bank = mon_interfaces[mem]->current_bank;
 
-    if (monitor_diskspace_dnr(mem) >= 0)
-        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8))
+    if (monitor_diskspace_dnr(mem) >= 0) {
+        if (!check_drive_emu_level_ok(monitor_diskspace_dnr(mem) + 8)) {
             return;
+        }
+    }
 
     mon_interfaces[mem]->mem_bank_write(bank, mem_addr, val,
                                         mon_interfaces[mem]->context);
@@ -593,8 +606,7 @@ void mon_set_mem_val(MEMSPACE mem, WORD mem_addr, BYTE val)
 void mon_jump(MON_ADDR addr)
 {
     mon_evaluate_default_addr(&addr);
-    (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC,
-                                            (WORD)(addr_location(addr)));
+    (monitor_cpu_for_memspace[addr_memspace(addr)]->mon_register_set_val)(addr_memspace(addr), e_PC, (WORD)(addr_location(addr)));
     exit_mon = 1;
 }
 
@@ -633,18 +645,20 @@ void mon_print_bin(int val, char on, char off)
     int divisor;
     char digit;
 
-    if (val > 0xfff)
+    if (val > 0xfff) {
         divisor = 0x8000;
-    else if (val > 0xff)
+    } else if (val > 0xff) {
         divisor = 0x800;
-    else
+    } else {
         divisor = 0x80;
+    }
 
     while (divisor) {
         digit = (val & divisor) ? on : off;
-        mon_out("%c",digit);
-        if (divisor == 0x100)
+        mon_out("%c", digit);
+        if (divisor == 0x100) {
             mon_out(" ");
+        }
         divisor /= 2;
     }
 }
@@ -665,7 +679,7 @@ void mon_print_convert(int val)
     mon_out("+%d\n", val);
     print_hex(val);
     print_octal(val);
-    mon_print_bin(val,'1','0');
+    mon_print_bin(val, '1', '0');
     mon_out("\n");
 }
 
@@ -673,12 +687,14 @@ void mon_add_number_to_buffer(int number)
 {
     unsigned int i = data_buf_len;
     data_buf[data_buf_len++] = (number & 0xff);
-    if (number > 0xff)
-        data_buf[data_buf_len++] = ( (number>>8) & 0xff);
+    if (number > 0xff) {
+        data_buf[data_buf_len++] = ((number >> 8) & 0xff);
+    }
     data_buf[data_buf_len] = '\0';
 
-    for (; i < data_buf_len; i++)
-      data_mask_buf[i]=0xff;
+    for (; i < data_buf_len; i++) {
+        data_mask_buf[i] = 0xff;
+    }
 }
 
 void mon_add_number_masked_to_buffer(int number, int mask)
@@ -697,8 +713,9 @@ void mon_add_string_to_buffer(char *str)
     data_buf[data_buf_len] = '\0';
     lib_free(str);
 
-    for (; i < data_buf_len; i++)
-      data_mask_buf[i]=0xff;
+    for (; i < data_buf_len; i++) {
+        data_mask_buf[i] = 0xff;
+    }
 }
 
 static monitor_cpu_type_list_t *monitor_list_new(void)
@@ -745,7 +762,7 @@ void monitor_cpuhistory_store(unsigned int addr, unsigned int op,
                               unsigned int reg_st)
 {
     ++cpuhistory_i;
-    cpuhistory_i &= (CPUHISTORY_SIZE-1);
+    cpuhistory_i &= (CPUHISTORY_SIZE - 1);
     cpuhistory[cpuhistory_i].addr = addr;
     cpuhistory[cpuhistory_i].op = op;
     cpuhistory[cpuhistory_i].p1 = p1;
@@ -770,13 +787,13 @@ void mon_cpuhistory(int count)
     unsigned opc_size;
     int i, pos;
 
-    if ((count<1)||(count>CPUHISTORY_SIZE)) {
+    if ((count < 1) || (count > CPUHISTORY_SIZE)) {
         count = CPUHISTORY_SIZE;
     }
 
-    pos = (cpuhistory_i + 1 - count) & (CPUHISTORY_SIZE-1);
+    pos = (cpuhistory_i + 1 - count) & (CPUHISTORY_SIZE - 1);
 
-    for (i=0; i < count; ++i) {
+    for (i = 0; i < count; ++i) {
         addr = cpuhistory[pos].addr;
         op = cpuhistory[pos].op;
         p1 = cpuhistory[pos].p1;
@@ -790,18 +807,18 @@ void mon_cpuhistory(int count)
 
         /* Print the disassembled instruction */
         mon_out("%04x  %-30s - A:%02X Y:%02X Y:%02X SP:%02x %c%c-%c%c%c%c%c\n",
-            loc, dis_inst,
-            cpuhistory[pos].reg_a, cpuhistory[pos].reg_x, cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
-            ((cpuhistory[pos].reg_st & (1<<7))!=0)?'N':' ',
-            ((cpuhistory[pos].reg_st & (1<<6))!=0)?'V':' ',
-            ((cpuhistory[pos].reg_st & (1<<4))!=0)?'B':' ',
-            ((cpuhistory[pos].reg_st & (1<<3))!=0)?'D':' ',
-            ((cpuhistory[pos].reg_st & (1<<2))!=0)?'I':' ',
-            ((cpuhistory[pos].reg_st & (1<<1))!=0)?'Z':' ',
-            ((cpuhistory[pos].reg_st & (1<<0))!=0)?'C':' '
-		);
+                loc, dis_inst,
+                cpuhistory[pos].reg_a, cpuhistory[pos].reg_x, cpuhistory[pos].reg_y, cpuhistory[pos].reg_sp,
+                ((cpuhistory[pos].reg_st & (1 << 7)) != 0) ? 'N' : ' ',
+                ((cpuhistory[pos].reg_st & (1 << 6)) != 0) ? 'V' : ' ',
+                ((cpuhistory[pos].reg_st & (1 << 4)) != 0) ? 'B' : ' ',
+                ((cpuhistory[pos].reg_st & (1 << 3)) != 0) ? 'D' : ' ',
+                ((cpuhistory[pos].reg_st & (1 << 2)) != 0) ? 'I' : ' ',
+                ((cpuhistory[pos].reg_st & (1 << 1)) != 0) ? 'Z' : ' ',
+                ((cpuhistory[pos].reg_st & (1 << 0)) != 0) ? 'C' : ' '
+                );
 
-        pos = (pos+1) & (CPUHISTORY_SIZE-1);
+        pos = (pos + 1) & (CPUHISTORY_SIZE - 1);
     }
 #else
     mon_out("Disabled. configure with --enable-memmap and recompile.\n");
@@ -851,38 +868,44 @@ void mon_memmap_show(int mask, MON_ADDR start_addr, MON_ADDR end_addr)
     BYTE b;
 
     if (machine_class == VICE_MACHINE_C64DTV) {
-       mon_out("  addr: IO ROM RAM\n");
+        mon_out("  addr: IO ROM RAM\n");
     } else {
-       mon_out("addr: IO ROM RAM\n");
+        mon_out("addr: IO ROM RAM\n");
     }
 
-    if (start_addr == BAD_ADDR) start_addr = 0;
-    if (end_addr == BAD_ADDR) end_addr = mon_memmap_size-1;
-    if (start_addr>end_addr) start_addr = end_addr;
+    if (start_addr == BAD_ADDR) {
+        start_addr = 0;
+    }
+    if (end_addr == BAD_ADDR) {
+        end_addr = mon_memmap_size - 1;
+    }
+    if (start_addr > end_addr) {
+        start_addr = end_addr;
+    }
 
     for (i = start_addr; i <= end_addr; ++i) {
         b = mon_memmap[i];
-        if ((b & mask)!= 0) {
+        if ((b & mask) != 0) {
             if (machine_class == VICE_MACHINE_C64DTV) {
-                mon_out("%06x: %c%c %c%c%c %c%c%c\n",i,
-                    (b&MEMMAP_I_O_R)?'r':'-',
-                    (b&MEMMAP_I_O_W)?'w':'-',
-                    (b&MEMMAP_ROM_R)?'r':'-',
-                    (b&MEMMAP_ROM_W)?'w':'-',
-                    (b&MEMMAP_ROM_X)?'x':'-',
-                    (b&MEMMAP_RAM_R)?'r':'-',
-                    (b&MEMMAP_RAM_W)?'w':'-',
-                    (b&MEMMAP_RAM_X)?'x':'-');
+                mon_out("%06x: %c%c %c%c%c %c%c%c\n", i,
+                        (b & MEMMAP_I_O_R) ? 'r' : '-',
+                        (b & MEMMAP_I_O_W) ? 'w' : '-',
+                        (b & MEMMAP_ROM_R) ? 'r' : '-',
+                        (b & MEMMAP_ROM_W) ? 'w' : '-',
+                        (b & MEMMAP_ROM_X) ? 'x' : '-',
+                        (b & MEMMAP_RAM_R) ? 'r' : '-',
+                        (b & MEMMAP_RAM_W) ? 'w' : '-',
+                        (b & MEMMAP_RAM_X) ? 'x' : '-');
             } else {
-                mon_out("%04x: %c%c %c%c%c %c%c%c\n",i,
-                    (b&MEMMAP_I_O_R)?'r':'-',
-                    (b&MEMMAP_I_O_W)?'w':'-',
-                    (b&MEMMAP_ROM_R)?'r':'-',
-                    (b&MEMMAP_ROM_W)?'w':'-',
-                    (b&MEMMAP_ROM_X)?'x':'-',
-                    (b&MEMMAP_RAM_R)?'r':'-',
-                    (b&MEMMAP_RAM_W)?'w':'-',
-                    (b&MEMMAP_RAM_X)?'x':'-');
+                mon_out("%04x: %c%c %c%c%c %c%c%c\n", i,
+                        (b & MEMMAP_I_O_R) ? 'r' : '-',
+                        (b & MEMMAP_I_O_W) ? 'w' : '-',
+                        (b & MEMMAP_ROM_R) ? 'r' : '-',
+                        (b & MEMMAP_ROM_W) ? 'w' : '-',
+                        (b & MEMMAP_ROM_X) ? 'x' : '-',
+                        (b & MEMMAP_RAM_R) ? 'r' : '-',
+                        (b & MEMMAP_RAM_W) ? 'w' : '-',
+                        (b & MEMMAP_RAM_X) ? 'x' : '-');
             }
         }
     }
@@ -895,28 +918,31 @@ void monitor_memmap_store(unsigned int addr, unsigned int type)
 {
     BYTE op = cpuhistory[cpuhistory_i].op;
 
-    if (inside_monitor) return;
+    if (inside_monitor) {
+        return;
+    }
 
     /* Ignore reg_pc+2 reads on branches & JSR
        and return address read on RTS */
-    if (type & (MEMMAP_ROM_R|MEMMAP_RAM_R)
-      &&(((op & 0x1f) == 0x10)||(op == OP_JSR)
-      ||((op == OP_RTS) && ((addr>0x1ff)||(addr<0x100)))))
+    if (type & (MEMMAP_ROM_R | MEMMAP_RAM_R)
+        && (((op & 0x1f) == 0x10) || (op == OP_JSR)
+            || ((op == OP_RTS) && ((addr > 0x1ff) || (addr < 0x100))))) {
         return;
+    }
 
-    mon_memmap[addr & (mon_memmap_size-1)] |= type;
+    mon_memmap[addr & (mon_memmap_size - 1)] |= type;
 }
 
 #ifdef FEATURE_CPUMEMHISTORY
-BYTE mon_memmap_palette[256*3];
+BYTE mon_memmap_palette[256 * 3];
 
 void mon_memmap_make_palette(void)
 {
     int i;
-    for (i=0; i<256; ++i) {
-        mon_memmap_palette[i*3+0] = (i&(MEMMAP_RAM_W))?0x80:0+(i&(MEMMAP_ROM_W))?0x60:0+(i&(MEMMAP_I_O_W))?0x1f:0;
-        mon_memmap_palette[i*3+1] = (i&(MEMMAP_RAM_X))?0x80:0+(i&(MEMMAP_ROM_X))?0x60:0+(i&(MEMMAP_I_O_W|MEMMAP_I_O_R))?0x1f:0;
-        mon_memmap_palette[i*3+2] = (i&(MEMMAP_RAM_R))?0x80:0+(i&(MEMMAP_ROM_R))?0x60:0+(i&(MEMMAP_I_O_R))?0x1f:0;
+    for (i = 0; i < 256; ++i) {
+        mon_memmap_palette[i * 3 + 0] = (i & (MEMMAP_RAM_W)) ? 0x80 : 0 + (i & (MEMMAP_ROM_W)) ? 0x60 : 0 + (i & (MEMMAP_I_O_W)) ? 0x1f : 0;
+        mon_memmap_palette[i * 3 + 1] = (i & (MEMMAP_RAM_X)) ? 0x80 : 0 + (i & (MEMMAP_ROM_X)) ? 0x60 : 0 + (i & (MEMMAP_I_O_W | MEMMAP_I_O_R)) ? 0x1f : 0;
+        mon_memmap_palette[i * 3 + 2] = (i & (MEMMAP_RAM_R)) ? 0x80 : 0 + (i & (MEMMAP_ROM_R)) ? 0x60 : 0 + (i & (MEMMAP_I_O_R)) ? 0x1f : 0;
     }
 }
 #endif
@@ -926,7 +952,7 @@ void mon_memmap_save(const char* filename, int format)
 #ifdef FEATURE_CPUMEMHISTORY
     const char* drvname;
 
-    switch(format) {
+    switch (format) {
         case 1:
             drvname = "PCX";
             break;
@@ -955,7 +981,7 @@ void mon_screenshot_save(const char* filename, int format)
 {
     const char* drvname;
 
-    switch(format) {
+    switch (format) {
         case 1:
             drvname = "PCX";
             break;
@@ -990,9 +1016,9 @@ void mon_show_dir(const char *path)
     char *fullname;
 
     if (path) {
-        mpath=(char *)path;
+        mpath = (char *)path;
     } else {
-        mpath=ioutil_current_dir();
+        mpath = ioutil_current_dir();
     }
     mon_out("Displaying directory: `%s'\n", mpath);
 
@@ -1002,7 +1028,7 @@ void mon_show_dir(const char *path)
         return;
     }
 
-    while ( (name = ioutil_readdir(dir)) ) {
+    while ((name = ioutil_readdir(dir))) {
         unsigned int len, isdir;
         int ret;
         if (path) {
@@ -1013,48 +1039,50 @@ void mon_show_dir(const char *path)
             ret = ioutil_stat(name, &len, &isdir);
         }
         if (!ret) {
-            if (isdir)
+            if (isdir) {
                 mon_out("     <dir> %s\n", name);
-            else
+            } else {
                 mon_out("%10d %s\n", len, name);
-        } else
+            }
+        } else {
             mon_out("%-20s?????\n", name);
+        }
     }
     ioutil_closedir(dir);
 }
 
 void mon_resource_get(const char *name)
 {
-    switch(resources_query_type(name)) {
+    switch (resources_query_type(name)) {
         case RES_INTEGER:
         case RES_STRING:
-            mon_out("%s\n",resources_write_item_to_string(name,""));
+            mon_out("%s\n", resources_write_item_to_string(name, ""));
             break;
         default:
-            mon_out("Unknown resource \"%s\".\n",name);
+            mon_out("Unknown resource \"%s\".\n", name);
             return;
     }
 }
 
 void mon_resource_set(const char *name, const char* value)
 {
-    switch(resources_query_type(name)) {
+    switch (resources_query_type(name)) {
         case RES_INTEGER:
         case RES_STRING:
-            if (resources_set_value_string(name,value)) {
+            if (resources_set_value_string(name, value)) {
                 mon_out("Failed.\n");
             }
             ui_update_menus();
             break;
         default:
-            mon_out("Unknown resource \"%s\".\n",name);
+            mon_out("Unknown resource \"%s\".\n", name);
             return;
     }
 }
 
 void mon_reset_machine(int type)
 {
-    switch(type) {
+    switch (type) {
         case 1:
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             exit_mon = 1;
@@ -1063,7 +1091,7 @@ void mon_reset_machine(int type)
         case 9:
         case 10:
         case 11:
-            drivecpu_trigger_reset(type-8);
+            drivecpu_trigger_reset(type - 8);
             break;
         default:
             machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
@@ -1074,7 +1102,7 @@ void mon_reset_machine(int type)
 
 void mon_tape_ctrl(int command)
 {
-    if ((command<0)||(command>6)) {
+    if ((command < 0) || (command > 6)) {
         mon_out("Unknown command.\n");
     } else {
         datasette_control(command);
@@ -1105,7 +1133,7 @@ void mon_stopwatch_show(const char* prefix, const char* suffix)
     monitor_interface_t* interface;
     interface = mon_interfaces[default_memspace];
     t = (unsigned long)
-            (*interface->clk - stopwatch_start_time[default_memspace]);
+        (*interface->clk - stopwatch_start_time[default_memspace]);
     mon_out("%s%10lu%s", prefix, t, suffix);
 }
 
@@ -1120,7 +1148,7 @@ void mon_stopwatch_reset(void)
 /* Local helper functions for building the lists */
 static monitor_cpu_type_t* find_monitor_cpu_type(CPU_TYPE_t cputype)
 {
-    monitor_cpu_type_list_t *list_ptr=monitor_cpu_type_list;
+    monitor_cpu_type_list_t *list_ptr = monitor_cpu_type_list;
     while (list_ptr->monitor_cpu_type.cpu_type != cputype) {
         list_ptr = list_ptr->next_monitor_cpu_type;
         if (!list_ptr) {
@@ -1134,10 +1162,10 @@ static void add_monitor_cpu_type_supported(supported_cpu_type_list_t **list_ptr,
 {
     supported_cpu_type_list_t *element_ptr;
     if (mon_cpu_type) {
-        element_ptr=lib_malloc(sizeof(supported_cpu_type_list_t));
-        element_ptr->next=*list_ptr;
-        element_ptr->monitor_cpu_type_p=mon_cpu_type;
-        *list_ptr=element_ptr;
+        element_ptr = lib_malloc(sizeof(supported_cpu_type_list_t));
+        element_ptr->next = *list_ptr;
+        element_ptr->monitor_cpu_type_p = mon_cpu_type;
+        *list_ptr = element_ptr;
     }
 }
 
@@ -1165,9 +1193,10 @@ static void find_supported_monitor_cpu_types(supported_cpu_type_list_t **list_pt
 monitor_cpu_type_t* monitor_find_cpu_type_from_string(const char *cpu_type)
 {
     int cpu;
-    cpu=find_cpu_type_from_string(cpu_type);
-    if (cpu<0)
+    cpu = find_cpu_type_from_string(cpu_type);
+    if (cpu < 0) {
         return NULL;
+    }
     return find_monitor_cpu_type(cpu);
 }
 
@@ -1210,8 +1239,8 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
         i++;
     }
 
-    for (i=0;i<NUM_MEMSPACES;i++) {
-        monitor_cpu_type_supported[i]=NULL;
+    for (i = 0; i < NUM_MEMSPACES; i++) {
+        monitor_cpu_type_supported[i] = NULL;
     }
     /* We should really be told what CPUs are supported by each memspace, but that will
      * require a bunch of changes, so for now we detect it based on the available registers. */
@@ -1223,14 +1252,14 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     }
 
     /* Build array of pointers to monitor_cpu_type structs */
-    monitor_cpu_for_memspace[e_comp_space]=
+    monitor_cpu_for_memspace[e_comp_space] =
         monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)]=
+        monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)] =
             monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
     }
     /* Safety precaution */
-    monitor_cpu_for_memspace[e_default_space]=monitor_cpu_for_memspace[e_comp_space];
+    monitor_cpu_for_memspace[e_default_space] = monitor_cpu_for_memspace[e_comp_space];
 
     watch_load_occurred = FALSE;
     watch_store_occurred = FALSE;
@@ -1241,8 +1270,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
         watch_store_count[i] = 0;
         monitor_mask[i] = MI_NONE;
         monitor_labels[i].name_list = NULL;
-        for (j = 0; j < HASH_ARRAY_SIZE; j++)
+        for (j = 0; j < HASH_ARRAY_SIZE; j++) {
             monitor_labels[i].addr_hash_table[j] = NULL;
+        }
     }
 
     default_memspace = e_comp_space;
@@ -1251,8 +1281,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
 
     mon_interfaces[e_comp_space] = maincpu_interface_init;
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         mon_interfaces[monitor_diskspace_mem(dnr)] = drive_interface_init[dnr];
+    }
 
     mon_memmap_init();
 #ifdef FEATURE_CPUMEMHISTORY
@@ -1260,8 +1291,9 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     mon_memmap_make_palette();
 #endif
 
-    if (mon_init_break != -1)
+    if (mon_init_break != -1) {
         mon_breakpoint_add_checkpoint((WORD)mon_init_break, BAD_ADDR, TRUE, e_exec, FALSE);
+    }
 
     if (playback > 0) {
         playback_commands(playback);
@@ -1281,7 +1313,7 @@ void monitor_shutdown(void)
         montor_list_destroy(list);
         list = list_next;
     }
-    for (i=0; i < NUM_MEMSPACES; i++) {
+    for (i = 0; i < NUM_MEMSPACES; i++) {
         slist = monitor_cpu_type_supported[i];
         while (slist != NULL) {
             slist_next = slist->next;
@@ -1291,7 +1323,7 @@ void monitor_shutdown(void)
     }
 
 #ifdef FEATURE_CPUMEMHISTORY
-   lib_free(mon_memmap);
+    lib_free(mon_memmap);
 #endif
 }
 
@@ -1300,8 +1332,9 @@ static int monitor_set_initial_breakpoint(const char *param, void *extra_param)
     int val;
 
     val = strtoul(param, NULL, 0);
-    if (val >= 0 && val < 65536)
+    if (val >= 0 && val < 65536) {
         mon_init_break = val;
+    }
 
     return 0;
 }
@@ -1410,7 +1443,7 @@ void mon_display_io_regs(MON_ADDR addr)
 {
     mem_ioreg_list_t *mem_ioreg_list_base;
     unsigned int n;
-    MON_ADDR start,end;
+    MON_ADDR start, end;
     int newbank = 0;
     int currbank = mon_interfaces[default_memspace]->current_bank;
 
@@ -1424,7 +1457,7 @@ void mon_display_io_regs(MON_ADDR addr)
 
     mem_ioreg_list_base
         = mon_interfaces[default_memspace]->mem_ioreg_list_get(
-            mon_interfaces[default_memspace]->context);
+        mon_interfaces[default_memspace]->context);
     n = 0;
 
     if (mem_ioreg_list_base) {
@@ -1482,15 +1515,16 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
 
     while (base != NULL) {
         n++;
-        if (base[n - 1].next == 0)
+        if (base[n - 1].next == 0) {
             break;
+        }
     }
 
-    base = lib_realloc(base, sizeof(mem_ioreg_list_t)
-           * (n + 1));
+    base = lib_realloc(base, sizeof(mem_ioreg_list_t) * (n + 1));
 
-    if (n > 0)
+    if (n > 0) {
         base[n - 1].next = 1;
+    }
 
     base[n].name = name;
     base[n].start = start;
@@ -1506,8 +1540,9 @@ void mon_ioreg_add_list(mem_ioreg_list_t **list, const char *name,
 
 void mon_change_dir(const char *path)
 {
-    if (ioutil_chdir((char*)path) < 0)
+    if (ioutil_chdir((char*)path) < 0) {
         mon_out("Cannot change to directory `%s':\n", path);
+    }
 
     mon_out("Changing to directory: `%s'\n", path);
 }
@@ -1525,8 +1560,9 @@ void mon_save_symbols(MEMSPACE mem, const char *filename)
     mon_out("Saving symbol table to `%s'...\n", filename);
 
     /* FIXME: Write out all memspaces? */
-    if (mem == e_default_space)
-       mem = default_memspace;
+    if (mem == e_default_space) {
+        mem = default_memspace;
+    }
 
     sym_ptr = monitor_labels[mem].name_list;
 
@@ -1591,8 +1627,9 @@ static void playback_commands(int current_playback)
 
     fp = fopen(filename, MODE_READ_TEXT);
 
-    if (fp == NULL)
+    if (fp == NULL) {
         fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
+    }
 
     if (fp == NULL) {
         mon_out("Playback for `%s' failed.\n", filename);
@@ -1606,8 +1643,9 @@ static void playback_commands(int current_playback)
     playback_name = NULL;
 
     while (fgets(string, 255, fp) != NULL) {
-        if (strcmp(string, "stop\n") == 0)
+        if (strcmp(string, "stop\n") == 0) {
             break;
+        }
 
         string[strlen(string) - 1] = '\0';
         parse_and_execute_line(string);
@@ -1665,13 +1703,15 @@ char *mon_symbol_table_lookup_name(MEMSPACE mem, WORD addr)
 {
     symbol_entry_t *sym_ptr;
 
-    if (mem == e_default_space)
+    if (mem == e_default_space) {
         mem = default_memspace;
+    }
 
     sym_ptr = monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)];
     while (sym_ptr) {
-        if (addr == sym_ptr->addr)
+        if (addr == sym_ptr->addr) {
             return sym_ptr->name;
+        }
         sym_ptr = sym_ptr->next;
     }
 
@@ -1682,8 +1722,9 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
 {
     symbol_entry_t *sym_ptr;
 
-    if (mem == e_default_space)
+    if (mem == e_default_space) {
         mem = default_memspace;
+    }
 
     if (strcmp(name, ".PC") == 0) {
         return (monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC);
@@ -1691,8 +1732,9 @@ int mon_symbol_table_lookup_addr(MEMSPACE mem, char *name)
 
     sym_ptr = monitor_labels[mem].name_list;
     while (sym_ptr) {
-        if (strcmp(sym_ptr->name, name) == 0)
+        if (strcmp(sym_ptr->name, name) == 0) {
             return sym_ptr->addr;
+        }
         sym_ptr = sym_ptr->next;
     }
 
@@ -1721,18 +1763,18 @@ void mon_add_name_to_symbol_table(MON_ADDR addr, char *name)
         return;
     }
 
-    if (mem == e_default_space)
+    if (mem == e_default_space) {
         mem = default_memspace;
+    }
 
     old_name = mon_symbol_table_lookup_name(mem, loc);
     old_addr = mon_symbol_table_lookup_addr(mem, name);
-    if (old_name && (WORD)(old_addr) != addr ) {
-        mon_out("Warning: label(s) for address $%04x already exist.\n",
-                  loc);
+    if (old_name && (WORD)(old_addr) != addr) {
+        mon_out("Warning: label(s) for address $%04x already exist.\n", loc);
     }
     if (old_addr >= 0 && old_addr != loc) {
         mon_out("Changing address of label %s from $%04x to $%04x\n",
-                  name, old_addr, loc);
+                name, old_addr, loc);
         mon_remove_name_from_symbol_table(mem, name);
     }
 
@@ -1758,8 +1800,9 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
     int addr;
     symbol_entry_t *sym_ptr, *prev_ptr;
 
-    if (mem == e_default_space)
+    if (mem == e_default_space) {
         mem = default_memspace;
+    }
 
     if (name == NULL) {
         /* FIXME - prompt user */
@@ -1767,7 +1810,7 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
         return;
     }
 
-    if ( (addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
+    if ((addr = mon_symbol_table_lookup_addr(mem, name)) < 0) {
         mon_out("Symbol %s not found.\n", name);
         return;
     }
@@ -1779,10 +1822,11 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
         if (strcmp(sym_ptr->name, name) == 0) {
             /* Name memory is freed below. */
             addr = sym_ptr->addr;
-            if (prev_ptr)
+            if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
-            else
+            } else {
                 monitor_labels[mem].name_list = NULL;
+            }
             lib_free(sym_ptr);
             break;
         }
@@ -1796,10 +1840,11 @@ void mon_remove_name_from_symbol_table(MEMSPACE mem, char *name)
     while (sym_ptr) {
         if (addr == sym_ptr->addr) {
             lib_free(sym_ptr->name);
-            if (prev_ptr)
+            if (prev_ptr) {
                 prev_ptr->next = sym_ptr->next;
-            else
+            } else {
                 monitor_labels[mem].addr_hash_table[HASH_ADDR(addr)] = NULL;
+            }
             lib_free(sym_ptr);
             return;
         }
@@ -1812,12 +1857,13 @@ void mon_print_symbol_table(MEMSPACE mem)
 {
     symbol_entry_t *sym_ptr;
 
-    if (mem == e_default_space)
+    if (mem == e_default_space) {
         mem = default_memspace;
+    }
 
     sym_ptr = monitor_labels[mem].name_list;
     while (sym_ptr) {
-        mon_out("$%04x %s\n",sym_ptr->addr, sym_ptr->name);
+        mon_out("$%04x %s\n", sym_ptr->addr, sym_ptr->name);
         sym_ptr = sym_ptr->next;
     }
 }
@@ -1875,14 +1921,12 @@ void mon_instruction_return(void)
 
 void mon_stack_up(int count)
 {
-    mon_out("Going up %d stack frame(s).\n",
-              (count>=0)?count:1);
+    mon_out("Going up %d stack frame(s).\n", (count >= 0) ? count : 1);
 }
 
 void mon_stack_down(int count)
 {
-    mon_out("Going down %d stack frame(s).\n",
-              (count>=0)?count:1);
+    mon_out("Going down %d stack frame(s).\n", (count >= 0) ? count : 1);
 }
 
 
@@ -1892,8 +1936,9 @@ void mon_stack_down(int count)
 void mon_print_conditional(cond_node_t *cnode)
 {
     /* Do an in-order traversal of the tree */
-    if (cnode->is_parenthized)
+    if (cnode->is_parenthized) {
         mon_out("( ");
+    }
 
     if (cnode->operation != e_INV) {
         if (!(cnode->child1 && cnode->child2)) {
@@ -1901,17 +1946,19 @@ void mon_print_conditional(cond_node_t *cnode)
             return;
         }
         mon_print_conditional(cnode->child1);
-        mon_out(" %s ",cond_op_string[cnode->operation]);
+        mon_out(" %s ", cond_op_string[cnode->operation]);
         mon_print_conditional(cnode->child2);
     } else {
-        if (cnode->is_reg)
+        if (cnode->is_reg) {
             mon_out(".%s", register_string[reg_regid(cnode->reg_num)]);
-        else
+        } else {
             mon_out("%d", cnode->value);
+        }
     }
 
-    if (cnode->is_parenthized)
+    if (cnode->is_parenthized) {
         mon_out(" )");
+    }
 }
 
 
@@ -1926,41 +1973,42 @@ int mon_evaluate_conditional(cond_node_t *cnode)
         mon_evaluate_conditional(cnode->child1);
         mon_evaluate_conditional(cnode->child2);
 
-        switch(cnode->operation) {
-          case e_EQU:
-            cnode->value = ((cnode->child1->value) == (cnode->child2->value));
-            break;
-          case e_NEQ:
-            cnode->value = ((cnode->child1->value) != (cnode->child2->value));
-            break;
-          case e_GT :
-            cnode->value = ((cnode->child1->value) > (cnode->child2->value));
-            break;
-          case e_LT :
-            cnode->value = ((cnode->child1->value) < (cnode->child2->value));
-            break;
-          case e_GTE:
-            cnode->value = ((cnode->child1->value) >= (cnode->child2->value));
-            break;
-          case e_LTE:
-            cnode->value = ((cnode->child1->value) <= (cnode->child2->value));
-            break;
-          case e_AND:
-            cnode->value = ((cnode->child1->value) && (cnode->child2->value));
-            break;
-          case e_OR :
-            cnode->value = ((cnode->child1->value) || (cnode->child2->value));
-            break;
-          default:
-            log_error(LOG_ERR, "Unexpected conditional operator: %d\n",
-                      cnode->operation);
-            return 0;
+        switch (cnode->operation) {
+            case e_EQU:
+                cnode->value = ((cnode->child1->value) == (cnode->child2->value));
+                break;
+            case e_NEQ:
+                cnode->value = ((cnode->child1->value) != (cnode->child2->value));
+                break;
+            case e_GT:
+                cnode->value = ((cnode->child1->value) > (cnode->child2->value));
+                break;
+            case e_LT:
+                cnode->value = ((cnode->child1->value) < (cnode->child2->value));
+                break;
+            case e_GTE:
+                cnode->value = ((cnode->child1->value) >= (cnode->child2->value));
+                break;
+            case e_LTE:
+                cnode->value = ((cnode->child1->value) <= (cnode->child2->value));
+                break;
+            case e_AND:
+                cnode->value = ((cnode->child1->value) && (cnode->child2->value));
+                break;
+            case e_OR:
+                cnode->value = ((cnode->child1->value) || (cnode->child2->value));
+                break;
+            default:
+                log_error(LOG_ERR, "Unexpected conditional operator: %d\n",
+                          cnode->operation);
+                return 0;
         }
     } else {
-        if (cnode->is_reg)
+        if (cnode->is_reg) {
             cnode->value = (monitor_cpu_for_memspace[reg_memspace(cnode->reg_num)]->mon_register_get_val)
-                           (reg_memspace(cnode->reg_num),
-                           reg_regid(cnode->reg_num));
+                               (reg_memspace(cnode->reg_num),
+                               reg_regid(cnode->reg_num));
+        }
     }
 
     return cnode->value;
@@ -1969,14 +2017,17 @@ int mon_evaluate_conditional(cond_node_t *cnode)
 
 void mon_delete_conditional(cond_node_t *cnode)
 {
-    if (!cnode)
+    if (!cnode) {
         return;
+    }
 
-    if (cnode->child1)
+    if (cnode->child1) {
         mon_delete_conditional(cnode->child1);
+    }
 
-    if (cnode->child2)
+    if (cnode->child2) {
         mon_delete_conditional(cnode->child2);
+    }
 
     lib_free(cnode);
 }
@@ -1992,7 +2043,7 @@ void monitor_watch_push_load_addr(WORD addr, MEMSPACE mem)
     }
 
     if (watch_load_count[mem] == 9) {
-         return;
+        return;
     }
 
     watch_load_occurred = TRUE;
@@ -2171,14 +2222,14 @@ void monitor_check_watchpoints(unsigned int lastpc, unsigned int pc)
 int monitor_diskspace_dnr(int mem)
 {
     switch (mem) {
-      case e_disk8_space:
-       return 0;
-      case e_disk9_space:
-       return 1;
-      case e_disk10_space:
-       return 2;
-      case e_disk11_space:
-       return 3;
+        case e_disk8_space:
+            return 0;
+        case e_disk9_space:
+            return 1;
+        case e_disk10_space:
+            return 2;
+        case e_disk11_space:
+            return 3;
     }
 
     return -1;
@@ -2187,14 +2238,14 @@ int monitor_diskspace_dnr(int mem)
 int monitor_diskspace_mem(int dnr)
 {
     switch (dnr) {
-      case 0:
-        return e_disk8_space;
-      case 1:
-        return e_disk9_space;
-      case 2:
-        return e_disk10_space;
-      case 3:
-        return e_disk11_space;
+        case 0:
+            return e_disk8_space;
+        case 1:
+            return e_disk9_space;
+        case 2:
+            return e_disk10_space;
+        case 3:
+            return e_disk11_space;
     }
 
     return 0;
@@ -2202,7 +2253,7 @@ int monitor_diskspace_mem(int dnr)
 
 void monitor_change_device(MEMSPACE mem)
 {
-    mon_out("Setting default device to `%s'\n",_mon_space_strings[(int) mem]);
+    mon_out("Setting default device to `%s'\n", _mon_space_strings[(int) mem]);
     default_memspace = mem;
 }
 
@@ -2250,7 +2301,7 @@ static void monitor_open(void)
         return;
     }
 
-    if ( monitor_is_remote() ) {
+    if (monitor_is_remote()) {
         signals_pipe_set();
     }
 
@@ -2260,14 +2311,14 @@ static void monitor_open(void)
 
     uimon_notify_change();
 
-    for (i=0;i<NUM_MEMSPACES;i++) {
+    for (i = 0; i < NUM_MEMSPACES; i++) {
         slist = monitor_cpu_type_supported[i];
         while (slist != NULL) {
             slist_next = slist->next;
             lib_free(slist);
             slist = slist_next;
         }
-        monitor_cpu_type_supported[i]=NULL;
+        monitor_cpu_type_supported[i] = NULL;
     }
     /* We should really be told what CPUs are supported by each memspace, but that will
      * require a bunch of changes, so for now we detect it based on the available registers. */
@@ -2279,22 +2330,20 @@ static void monitor_open(void)
     }
 
     /* Build array of pointers to monitor_cpu_type structs */
-    monitor_cpu_for_memspace[e_comp_space]=
+    monitor_cpu_for_memspace[e_comp_space] =
         monitor_cpu_type_supported[e_comp_space]->monitor_cpu_type_p;
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
-        monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)]=
+        monitor_cpu_for_memspace[monitor_diskspace_mem(dnr)] =
             monitor_cpu_type_supported[monitor_diskspace_mem(dnr)]->monitor_cpu_type_p;
     }
     /* Safety precaution */
-    monitor_cpu_for_memspace[default_memspace]=monitor_cpu_for_memspace[default_memspace];
+    monitor_cpu_for_memspace[default_memspace] = monitor_cpu_for_memspace[default_memspace];
 
-    dot_addr[e_comp_space] = new_addr(e_comp_space,
-        ((WORD)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
+    dot_addr[e_comp_space] = new_addr(e_comp_space, ((WORD)((monitor_cpu_for_memspace[e_comp_space]->mon_register_get_val)(e_comp_space, e_PC))));
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         int mem = monitor_diskspace_mem(dnr);
-        dot_addr[mem] = new_addr(mem,
-            ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
+        dot_addr[mem] = new_addr(mem, ((WORD)((monitor_cpu_for_memspace[mem]->mon_register_get_val)(mem, e_PC))));
     }
 
     if (disassemble_on_entry) {
@@ -2315,7 +2364,6 @@ static int monitor_process(char *cmd)
                 lib_free(cmd);
 
                 cmd = last_cmd ? lib_stralloc(last_cmd) : NULL;
-
             } else {
                 /* Leave asm mode */
             }
@@ -2324,11 +2372,10 @@ static int monitor_process(char *cmd)
         if (cmd) {
             if (recording) {
                 if (fprintf(recording_fp, "%s\n", cmd) < 0) {
-                   mon_out("Error while recording commands. "
-                             "Output file closed.\n");
-                   fclose(recording_fp);
-                   recording_fp = NULL;
-                   recording = FALSE;
+                    mon_out("Error while recording commands. Output file closed.\n");
+                    fclose(recording_fp);
+                    recording_fp = NULL;
+                    recording = FALSE;
                 }
             }
 
@@ -2356,7 +2403,7 @@ static void monitor_close(int check)
     exit_mon--;
 
     if (check && exit_mon) {
-        if ( ! monitor_is_remote() ) {
+        if (!monitor_is_remote()) {
             uimon_window_close();
         }
         exit(0);
@@ -2364,11 +2411,11 @@ static void monitor_close(int check)
 
     exit_mon = 0;
 
-    if ( monitor_is_remote() ) {
+    if (monitor_is_remote()) {
         signals_pipe_unset();
     }
 
-    if ( ! monitor_is_remote() ) {
+    if (!monitor_is_remote()) {
         if (mon_console_suspend_on_leaving) {
             /*
                 if there is no log, or if the console can not stay open when the emulation
@@ -2394,8 +2441,9 @@ void monitor_startup(MEMSPACE mem)
 {
     char prompt[40];
 
-    if (mem != e_default_space)
+    if (mem != e_default_space) {
         default_memspace = mem;
+    }
 
     monitor_open();
     while (!exit_mon) {
@@ -2411,12 +2459,11 @@ static void monitor_trap(WORD addr, void *unused_data)
 #ifdef HAVE_FULLSCREEN
     fullscreen_resume();
 #endif
-
 }
 
 void monitor_startup_trap(void)
 {
-    if ( ! monitor_trap_triggered && ! inside_monitor ) {
+    if (!monitor_trap_triggered && !inside_monitor) {
         monitor_trap_triggered = TRUE;
         interrupt_maincpu_trigger_trap(monitor_trap, 0);
     }

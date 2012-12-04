@@ -243,4 +243,3 @@ void tpid_setup_context(drive_context_t *ctxptr)
     tpi->set_int = set_int;
     tpi->restore_int = restore_int;
 }
-

@@ -47,13 +47,15 @@ static char *cbmfile_find_file(const char *fsname, const char *path)
     const char *open_path;
 
     open_path = path;
-    if (path == NULL)
+    if (path == NULL) {
         open_path = "";
+    }
 
     ioutil_dir = ioutil_opendir(open_path);
 
-    if (ioutil_dir == NULL)
+    if (ioutil_dir == NULL) {
         return NULL;
+    }
 
     name1 = cbmdos_dir_slot_create(fsname, (unsigned int)strlen(fsname));
 
@@ -62,8 +64,9 @@ static char *cbmfile_find_file(const char *fsname, const char *path)
 
         name = ioutil_readdir(ioutil_dir);
 
-        if (name == NULL)
+        if (name == NULL) {
             break;
+        }
 
         name2 = cbmdos_dir_slot_create(name, (unsigned int)strlen(name));
         equal = cbmdos_parse_wildcard_compare(name1, name2);
@@ -155,7 +158,7 @@ unsigned int cbmfile_rename(const char *src_name, const char *dst_name,
 {
     char *src_cbm, *dst_cbm;
     unsigned int rc;
-     
+
     src_cbm = lib_stralloc(src_name);
     dst_cbm = lib_stralloc(dst_name);
 

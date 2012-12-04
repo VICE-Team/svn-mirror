@@ -42,8 +42,7 @@ static BYTE drive_read_ram(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0x7ff];
 }
 
-static void drive_store_ram(drive_context_t *drv, WORD address,
-                                     BYTE value)
+static void drive_store_ram(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud->drive_ram[address & 0x7ff] = value;
 }
@@ -53,8 +52,7 @@ static BYTE drive_read_zero(drive_context_t *drv, WORD address)
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void drive_store_zero(drive_context_t *drv, WORD address,
-                                      BYTE value)
+static void drive_store_zero(drive_context_t *drv, WORD address, BYTE value)
 {
     drv->cpud->drive_ram[address & 0xff] = value;
 }
@@ -69,8 +67,7 @@ static BYTE drive_read_1001_io(drive_context_t *drv, WORD address)
     return riot1_read(drv, address);
 }
 
-static void drive_store_1001_io(drive_context_t *drv,
-                                         WORD address, BYTE byte)
+static void drive_store_1001_io(drive_context_t *drv, WORD address, BYTE byte)
 {
     if (address & 0x80) {
         riot2_store(drv, address, byte);
@@ -79,27 +76,23 @@ static void drive_store_1001_io(drive_context_t *drv,
     }
 }
 
-static BYTE drive_read_1001zero_ram(drive_context_t *drv,
-                                             WORD address)
+static BYTE drive_read_1001zero_ram(drive_context_t *drv, WORD address)
 {
     return drv->cpud->drive_ram[address & 0xff];
 }
 
-static void drive_store_1001zero_ram(drive_context_t *drv,
-                                              WORD address, BYTE byte)
+static void drive_store_1001zero_ram(drive_context_t *drv, WORD address, BYTE byte)
 {
     drv->cpud->drive_ram[address & 0xff] = byte;
 }
 
-static BYTE drive_read_1001buffer_ram(drive_context_t *drv,
-                                               WORD address)
+static BYTE drive_read_1001buffer_ram(drive_context_t *drv, WORD address)
 {
     return drv->cpud->drive_ram[(((address >> 2) & 0x1c00)
-                                | (address & 0x03ff)) - 0x300];
+                                 | (address & 0x03ff)) - 0x300];
 }
 
-static void drive_store_1001buffer_ram(drive_context_t *drv,
-                                                WORD address, BYTE byte)
+static void drive_store_1001buffer_ram(drive_context_t *drv, WORD address, BYTE byte)
 {
     drv->cpud->drive_ram[(((address >> 2) & 0x1c00) | (address & 0x03ff))
                          - 0x300] = byte;
@@ -138,17 +131,23 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
     }
 
     if (type == DRIVE_TYPE_2031 || type == DRIVE_TYPE_1001
-        || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250)
-        for (i = 0xc0; i < 0x100; i++)
+        || type == DRIVE_TYPE_8050 || type == DRIVE_TYPE_8250) {
+        for (i = 0xc0; i < 0x100; i++) {
             cpud->read_func_nowatch[i] = drive_read_rom;
+        }
+    }
 
-    if (type == DRIVE_TYPE_2040)
-        for (i = 0x100 - (DRIVE_ROM2040_SIZE >> 8); i < 0x100; i++)
+    if (type == DRIVE_TYPE_2040) {
+        for (i = 0x100 - (DRIVE_ROM2040_SIZE >> 8); i < 0x100; i++) {
             cpud->read_func_nowatch[i] = drive_read_rom;
+        }
+    }
 
-    if (type == DRIVE_TYPE_3040 || type == DRIVE_TYPE_4040)
-        for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++)
+    if (type == DRIVE_TYPE_3040 || type == DRIVE_TYPE_4040) {
+        for (i = 0x100 - (DRIVE_ROM3040_SIZE >> 8); i < 0x100; i++) {
             cpud->read_func_nowatch[i] = drive_read_rom;
+        }
+    }
 
     if (drive_check_old(type)) {
         /* The 2040/3040/4040/1001/8050/8250 have 256 byte at $00xx,
@@ -175,10 +174,9 @@ void memieee_init(struct drive_context_s *drv, unsigned int type)
             cpud->store_func_nowatch[i + 3] = drive_store_1001_io;
         }
 
-        for (i = 0x10; i < 0x50; i ++) {
+        for (i = 0x10; i < 0x50; i++) {
             cpud->read_func_nowatch[i] = drive_read_1001buffer_ram;
             cpud->store_func_nowatch[i] = drive_store_1001buffer_ram;
         }
     }
 }
-

@@ -37,4 +37,3 @@ extern void drivesync_clock_frequency(unsigned int type,
                                       struct drive_s *drive);
 
 #endif
-

@@ -32,4 +32,3 @@ struct image_contents_s;
 extern struct image_contents_s *diskcontents_iec_read(unsigned int unit);
 
 #endif
-

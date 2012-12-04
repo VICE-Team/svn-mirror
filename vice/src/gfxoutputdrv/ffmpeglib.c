@@ -4,7 +4,7 @@
  * Written by
  *  Andreas Matthies <andreas.matthies@gmx.net>
  *  Christian Vogelgsang <chris@vogelgsang.org>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -27,7 +27,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_FFMPEG 
+#ifdef HAVE_FFMPEG
 
 #include "gfxoutputdrv/ffmpeglib.h"
 #include "log.h"
@@ -36,17 +36,17 @@
 #include "dynlib.h"
 
 #ifdef WIN32
-#define MAKE_SO_NAME(name,version)  #name "-" #version ".dll"
+#define MAKE_SO_NAME(name, version)  #name "-" #version ".dll"
 #else
 #ifdef MACOSX_SUPPORT
-#define MAKE_SO_NAME(name,version)  "/opt/local/lib/lib" #name "." #version ".dylib"
+#define MAKE_SO_NAME(name, version)  "/opt/local/lib/lib" #name "." #version ".dylib"
 #else
-#define MAKE_SO_NAME(name,version)  "lib" #name ".so." #version
+#define MAKE_SO_NAME(name, version)  "lib" #name ".so." #version
 #endif
 #endif
 
 // add second level macro to allow expansion and stringification
-#define MAKE_SO_NAME2(n,v) MAKE_SO_NAME(n,v)
+#define MAKE_SO_NAME2(n, v) MAKE_SO_NAME(n, v)
 
 // define major version if its not already defined
 #ifndef LIBAVCODEC_VERSION_MAJOR
@@ -64,10 +64,10 @@
 #define LIBSWSCALE_VERSION_MAJOR  0
 #endif
 
-#define AVCODEC_SO_NAME     MAKE_SO_NAME2(avcodec,LIBAVCODEC_VERSION_MAJOR)
-#define AVFORMAT_SO_NAME    MAKE_SO_NAME2(avformat,LIBAVFORMAT_VERSION_MAJOR)
-#define AVUTIL_SO_NAME      MAKE_SO_NAME2(avutil,LIBAVUTIL_VERSION_MAJOR)
-#define SWSCALE_SO_NAME     MAKE_SO_NAME2(swscale,LIBSWSCALE_VERSION_MAJOR)
+#define AVCODEC_SO_NAME     MAKE_SO_NAME2(avcodec, LIBAVCODEC_VERSION_MAJOR)
+#define AVFORMAT_SO_NAME    MAKE_SO_NAME2(avformat, LIBAVFORMAT_VERSION_MAJOR)
+#define AVUTIL_SO_NAME      MAKE_SO_NAME2(avutil, LIBAVUTIL_VERSION_MAJOR)
+#define SWSCALE_SO_NAME     MAKE_SO_NAME2(swscale, LIBSWSCALE_VERSION_MAJOR)
 
 static void *avcodec_so = NULL;
 static void *avformat_so = NULL;
@@ -77,53 +77,52 @@ static void *swscale_so = NULL;
 #endif
 
 /* macro for getting functionpointers from avcodec */
-#define GET_SYMBOL_AND_TEST_AVCODEC( _name_ ) \
-    lib->p_##_name_ = (_name_##_t) vice_dynlib_symbol(avcodec_so, #_name_ ); \
-    if (!lib->p_##_name_ ) { \
-        log_debug("getting symbol " #_name_ " failed!"); \
-        return -1; \
-    } 
+#define GET_SYMBOL_AND_TEST_AVCODEC( _name_ )                              \
+    lib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(avcodec_so, #_name_); \
+    if (!lib->p_##_name_) {                                                \
+        log_debug("getting symbol " #_name_ " failed!");                   \
+        return -1;                                                         \
+    }
 
 /* macro for getting functionpointers from avformat */
-#define GET_SYMBOL_AND_TEST_AVFORMAT( _name_ ) \
-    lib->p_##_name_ = (_name_##_t) vice_dynlib_symbol(avformat_so, #_name_ ); \
-    if (!lib->p_##_name_ ) { \
-        log_debug("getting symbol " #_name_ " failed!"); \
-        return -1; \
-    } 
+#define GET_SYMBOL_AND_TEST_AVFORMAT( _name_ )                               \
+    lib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(avformat_so, #_name_ ); \
+    if (!lib->p_##_name_) {                                                  \
+        log_debug("getting symbol " #_name_ " failed!");                     \
+        return -1;                                                           \
+    }
 
 /* macro for getting functionpointers from avutil */
-#define GET_SYMBOL_AND_TEST_AVUTIL( _name_ ) \
-    lib->p_##_name_ = (_name_##_t) vice_dynlib_symbol(avutil_so, #_name_ ); \
-    if (!lib->p_##_name_ ) { \
-        log_debug("getting symbol " #_name_ " failed!"); \
-        return -1; \
-    } 
+#define GET_SYMBOL_AND_TEST_AVUTIL( _name_ )                               \
+    lib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(avutil_so, #_name_ ); \
+    if (!lib->p_##_name_) {                                                \
+        log_debug("getting symbol " #_name_ " failed!");                   \
+        return -1;                                                         \
+    }
 
 /* macro for getting functionpointers from swscale */
-#define GET_SYMBOL_AND_TEST_SWSCALE( _name_ ) \
-    lib->p_##_name_ = (_name_##_t) vice_dynlib_symbol(swscale_so, #_name_ ); \
-    if (!lib->p_##_name_ ) { \
-        log_debug("getting symbol " #_name_ " failed!"); \
-        return -1; \
-    } 
+#define GET_SYMBOL_AND_TEST_SWSCALE( _name_ )                               \
+    lib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(swscale_so, #_name_ ); \
+    if (!lib->p_##_name_) {                                                 \
+        log_debug("getting symbol " #_name_ " failed!");                    \
+        return -1;                                                          \
+    }
 
-static int check_version(const char *lib_name, void *handle, const char *symbol,
-                         unsigned ver_inc)
+static int check_version(const char *lib_name, void *handle, const char *symbol, unsigned ver_inc)
 {
-    ffmpeg_version_t  version_func;
+    ffmpeg_version_t version_func;
     unsigned ver_lib;
     const char *result_msgs[] = { "full match","major.minor matches","major matches","unsupported" };
     enum { FULL_MATCH=0, MAJOR_MINOR_MATCH=1, MAJOR_MATCH=2, NO_MATCH=3 } result;
     
     version_func = (ffmpeg_version_t)vice_dynlib_symbol(handle, symbol);
     if (version_func == NULL) {
-        log_debug("ffmpeg %s: version function '%s' not found!",lib_name, symbol);
+        log_debug("ffmpeg %s: version function '%s' not found!", lib_name, symbol);
         return -1;
     }
 
     ver_lib = version_func();
-    
+
     /* version matches exactly */
     if (ver_lib == ver_inc) {
         result = FULL_MATCH;
@@ -144,7 +143,7 @@ static int check_version(const char *lib_name, void *handle, const char *symbol,
             }
         }
     }
-    
+
     log_debug("ffmpeg %8s lib has version %06x, VICE expects %06x: %s",
               lib_name, ver_lib, ver_inc, result_msgs[result]);
 
@@ -174,7 +173,7 @@ static int load_avcodec(ffmpeglib_t *lib)
         GET_SYMBOL_AND_TEST_AVCODEC(avpicture_get_size);
     }
 
-    return check_version("avcodec",avcodec_so,"avcodec_version",LIBAVCODEC_VERSION_INT);
+    return check_version("avcodec", avcodec_so, "avcodec_version", LIBAVCODEC_VERSION_INT);
 }
 
 static void free_avcodec(ffmpeglib_t *lib)
@@ -224,7 +223,7 @@ static int load_avformat(ffmpeglib_t *lib)
 #ifdef NO_AVFORMAT_CHECK
     return 0;
 #else
-    return check_version("avformat",avformat_so,"avformat_version",LIBAVFORMAT_VERSION_INT);
+    return check_version("avformat", avformat_so, "avformat_version", LIBAVFORMAT_VERSION_INT);
 #endif
 }
 
@@ -269,7 +268,7 @@ static int load_avutil(ffmpeglib_t *lib)
 #ifdef NO_AVUTIL_CHECK
     return 0;
 #else
-    return check_version("avutil",avutil_so,"avutil_version",LIBAVUTIL_VERSION_INT);
+    return check_version("avutil", avutil_so, "avutil_version", LIBAVUTIL_VERSION_INT);
 #endif
 }
 
@@ -282,27 +281,27 @@ static void free_avutil(ffmpeglib_t *lib)
     }
     avutil_so = NULL;
 
-    lib->p_av_free = NULL;    
+    lib->p_av_free = NULL;
 }
 
 #ifdef HAVE_FFMPEG_SWSCALE
 
 static int load_swscale(ffmpeglib_t *lib)
-{    
+{
     if (!swscale_so) {
         swscale_so = vice_dynlib_open(SWSCALE_SO_NAME);
-        
+
         if (!swscale_so) {
             log_debug("opening dynamic library " SWSCALE_SO_NAME " failed!");
             return -1;
         }
-        
+
         GET_SYMBOL_AND_TEST_SWSCALE(sws_getContext);
         GET_SYMBOL_AND_TEST_SWSCALE(sws_freeContext);
         GET_SYMBOL_AND_TEST_SWSCALE(sws_scale);
     }
-    
-    return check_version("swscale",swscale_so,"swscale_version",LIBSWSCALE_VERSION_INT);
+
+    return check_version("swscale", swscale_so, "swscale_version", LIBSWSCALE_VERSION_INT);
 }
 
 static void free_swscale(ffmpeglib_t *lib)
@@ -313,7 +312,7 @@ static void free_swscale(ffmpeglib_t *lib)
         }
     }
     swscale_so = NULL;
-    
+
     lib->p_sws_getContext = NULL;
     lib->p_sws_freeContext = NULL;
     lib->p_sws_scale = NULL;
@@ -324,7 +323,7 @@ static void free_swscale(ffmpeglib_t *lib)
 int ffmpeglib_open(ffmpeglib_t *lib)
 {
     int result;
-    
+
     result = load_avformat(lib);
     if (result != 0) {
         free_avformat(lib);

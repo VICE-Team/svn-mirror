@@ -57,29 +57,29 @@ int fsdevice_close(vdrive_t *vdrive, unsigned int secondary)
     }
 
     switch (bufinfo[secondary].mode) {
-      case Write:
-      case Read:
-      case Append:
-        if (bufinfo[secondary].tape->name) {
-            tape_image_close(bufinfo[secondary].tape);
-        } else {
-            if (bufinfo[secondary].fileio_info != NULL) {
-                fileio_close(bufinfo[secondary].fileio_info);
-                bufinfo[secondary].fileio_info = NULL;
+        case Write:
+        case Read:
+        case Append:
+            if (bufinfo[secondary].tape->name) {
+                tape_image_close(bufinfo[secondary].tape);
             } else {
+                if (bufinfo[secondary].fileio_info != NULL) {
+                    fileio_close(bufinfo[secondary].fileio_info);
+                    bufinfo[secondary].fileio_info = NULL;
+                } else {
+                    return FLOPPY_ERROR;
+                }
+            }
+            break;
+        case Directory:
+            if (bufinfo[secondary].ioutil_dir == NULL) {
                 return FLOPPY_ERROR;
             }
-        }
-        break;
-      case Directory:
-        if (bufinfo[secondary].ioutil_dir == NULL)
-            return FLOPPY_ERROR;
 
-        ioutil_closedir(bufinfo[secondary].ioutil_dir);
-        bufinfo[secondary].ioutil_dir = NULL;
-        break;
+            ioutil_closedir(bufinfo[secondary].ioutil_dir);
+            bufinfo[secondary].ioutil_dir = NULL;
+            break;
     }
 
     return FLOPPY_COMMAND_OK;
 }
-

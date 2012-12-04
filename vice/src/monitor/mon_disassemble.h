@@ -33,8 +33,8 @@
 #include "types.h"
 
 extern const char *mon_disassemble_to_string_ex(MEMSPACE, unsigned int addr, unsigned int x,
-                                             unsigned int p1, unsigned int p2, unsigned int p3,
-                                             int hex_mode, unsigned *len);
+                                                unsigned int p1, unsigned int p2, unsigned int p3,
+                                                int hex_mode, unsigned *len);
 
 extern void mon_disassemble_with_regdump(MEMSPACE mem, unsigned int addr);
 

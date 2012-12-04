@@ -56,4 +56,3 @@ extern int driverom_snapshot_read(struct snapshot_s *s, struct drive_s *drive);
 extern int drive_rom_load_ok;
 
 #endif
-

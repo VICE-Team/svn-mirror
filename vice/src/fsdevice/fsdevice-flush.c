@@ -122,7 +122,6 @@ static int fsdevice_flush_partition(vdrive_t* vdrive, char* arg)
         int i = 0;
         *comma++ = '\0';
         for (i = 0; i < 4 && *comma++; i++) {
-            ;
         }
         if (i == 4 && *comma++ == ',' && *comma++ == 'c' && !*comma) {
             er = fsdevice_flush_mkdir(arg);
@@ -180,12 +179,12 @@ static int fsdevice_flush_rename(vdrive_t *vdrive, char *realarg)
     rc = fileio_rename(src, dest, fsdevice_get_path(vdrive->unit), format);
 
     switch (rc) {
-      case FILEIO_FILE_NOT_FOUND:
-        return CBMDOS_IPE_NOT_FOUND;
-      case FILEIO_FILE_EXISTS:
-        return CBMDOS_IPE_FILE_EXISTS;
-      case FILEIO_FILE_PERMISSION:
-        return CBMDOS_IPE_PERMISSION;
+        case FILEIO_FILE_NOT_FOUND:
+            return CBMDOS_IPE_NOT_FOUND;
+        case FILEIO_FILE_EXISTS:
+            return CBMDOS_IPE_FILE_EXISTS;
+        case FILEIO_FILE_PERMISSION:
+            return CBMDOS_IPE_PERMISSION;
     }
 
     return CBMDOS_IPE_OK;
@@ -209,12 +208,12 @@ static int fsdevice_flush_scratch(vdrive_t *vdrive, char *realarg)
     rc = fileio_scratch(realarg, fsdevice_get_path(vdrive->unit), format);
 
     switch (rc) {
-      case FILEIO_FILE_NOT_FOUND:
-        return CBMDOS_IPE_NOT_FOUND;
-      case FILEIO_FILE_PERMISSION:
-        return CBMDOS_IPE_PERMISSION;
-      case FILEIO_FILE_SCRATCHED:
-        return CBMDOS_IPE_DELETED;
+        case FILEIO_FILE_NOT_FOUND:
+            return CBMDOS_IPE_NOT_FOUND;
+        case FILEIO_FILE_PERMISSION:
+            return CBMDOS_IPE_PERMISSION;
+        case FILEIO_FILE_SCRATCHED:
+            return CBMDOS_IPE_DELETED;
     }
 
     return CBMDOS_IPE_OK;
@@ -293,53 +292,52 @@ static void get4args(char *realarg, unsigned int *a1, unsigned int *a2, unsigned
         cmd++;
     }
     cmd = realarg;
-    while ((*cmd==' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (cmd != 0)) {
         cmd++;
     }
     if (a1) {
         *a1 = atoi(cmd);
     }
 
-    while ((*cmd!=' ') && (cmd != 0)) {
+    while ((*cmd != ' ') && (cmd != 0)) {
         cmd++;
     }
-    while ((*cmd==' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (cmd != 0)) {
         cmd++;
     }
     if (a2) {
         *a2 = atoi(cmd);
     }
 
-    while ((*cmd!=' ') && (cmd != 0)) {
+    while ((*cmd != ' ') && (cmd != 0)) {
         cmd++;
     }
-    while ((*cmd==' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (cmd != 0)) {
         cmd++;
     }
     if (a3) {
         *a3 = atoi(cmd);
     }
 
-    while ((*cmd!=' ') && (cmd != 0)) {
+    while ((*cmd != ' ') && (cmd != 0)) {
         cmd++;
     }
-    while ((*cmd==' ') && (cmd != 0)) {
+    while ((*cmd == ' ') && (cmd != 0)) {
         cmd++;
     }
     if (a4) {
         *a4 = atoi(cmd);
     }
-
 }
 
 static unsigned int get_bamptr(unsigned int trk, unsigned int sec)
 {
-    return (((trk-1) * FSDEVICE_SECTOR_MAX) + sec) >> 3;
+    return (((trk - 1) * FSDEVICE_SECTOR_MAX) + sec) >> 3;
 }
 
 static unsigned int get_bammask(unsigned int trk, unsigned int sec)
 {
-    return (((trk-1) * FSDEVICE_SECTOR_MAX) + sec) & 7;
+    return (((trk - 1) * FSDEVICE_SECTOR_MAX) + sec) & 7;
 }
 
 /* B-A - Block Allocate */
@@ -357,7 +355,6 @@ static int fsdevice_flush_ba(vdrive_t *vdrive, char *realarg)
     bammask = get_bammask(trk, sec);
 
     if ((fsdevice_dev[dnr].bam[bamptr] & bammask) == bammask) {
-
         err = CBMDOS_IPE_NO_BLOCK;
 
         while ((fsdevice_dev[dnr].bam[bamptr] & bammask) == bammask) {
@@ -527,7 +524,7 @@ void fsdevice_flush(vdrive_t *vdrive, unsigned int secondary)
     /* FIXME: Use `vdrive_command_parse()'! */
     /* remove trailing cr */
     while (fsdevice_dev[dnr].cptr
-        && (fsdevice_dev[dnr].cmdbuf[fsdevice_dev[dnr].cptr - 1] == 13)) {
+           && (fsdevice_dev[dnr].cmdbuf[fsdevice_dev[dnr].cptr - 1] == 13)) {
         (fsdevice_dev[dnr].cptr)--;
     }
 
@@ -660,4 +657,3 @@ int fsdevice_flush_write_byte(vdrive_t *vdrive, BYTE data)
 
     return rc;
 }
-

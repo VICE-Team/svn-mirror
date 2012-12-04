@@ -80,11 +80,13 @@ gfxoutputdrv_t *gfxoutput_drivers_iter_init(void)
 
 gfxoutputdrv_t *gfxoutput_drivers_iter_next(void)
 {
-    if (gfxoutputdrv_list_iter)
+    if (gfxoutputdrv_list_iter) {
         gfxoutputdrv_list_iter = gfxoutputdrv_list_iter->next;
+    }
 
-    if (gfxoutputdrv_list_iter)
+    if (gfxoutputdrv_list_iter) {
         return gfxoutputdrv_list_iter->drv;
+    }
 
     return NULL;
 }
@@ -135,7 +137,6 @@ void gfxoutput_shutdown(void)
     list = gfxoutputdrv_list;
 
     while (list != NULL) {
-        
         /* call shutdown function of driver */
         gfxoutputdrv_t *driver = list->drv;
         if (driver != NULL) {
@@ -143,7 +144,7 @@ void gfxoutput_shutdown(void)
                 driver->shutdown();
             }
         }
-        
+
         next = list->next;
         lib_free(list);
         list = next;
@@ -159,8 +160,9 @@ int gfxoutput_register(gfxoutputdrv_t *drv)
     current = gfxoutputdrv_list;
 
     /* Warp to end of list.  */
-    while (current->next != NULL)
+    while (current->next != NULL) {
         current = current->next;
+    }
 
     /* Fill in entry.  */
     current->drv = drv;
@@ -178,10 +180,11 @@ gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname)
     gfxoutputdrv_list_t *current = gfxoutputdrv_list;
 
     while (current->next != NULL) {
-       if (strcmp(drvname, current->drv->name) == 0
-           || strcmp(drvname, current->drv->displayname) == 0)
-           break;
-       current = current->next;
+        if (strcmp(drvname, current->drv->name) == 0
+            || strcmp(drvname, current->drv->displayname) == 0) {
+            break;
+        }
+        current = current->next;
     }
 
     /* Requested graphics output driver is not registered.  */
@@ -202,11 +205,11 @@ int gfxoutput_resources_init()
         gfxoutputdrv_t *driver = current->drv;
         if (driver && (driver->resources_init != NULL)) {
             int result = driver->resources_init();
-            if (result!=0) {
+            if (result != 0) {
                 return result;
             }
         }
-       current = current->next;
+        current = current->next;
     }
 
     return 0;
@@ -220,11 +223,11 @@ int gfxoutput_cmdline_options_init()
         gfxoutputdrv_t *driver = current->drv;
         if (driver && (driver->cmdline_options_init != NULL)) {
             int result = driver->cmdline_options_init();
-            if (result!=0) {
+            if (result != 0) {
                 return result;
             }
         }
-       current = current->next;
+        current = current->next;
     }
 
     return 0;

@@ -32,4 +32,3 @@ struct drive_context_s;
 extern void mem1551_init(struct drive_context_s *drv, unsigned int type);
 
 #endif
-

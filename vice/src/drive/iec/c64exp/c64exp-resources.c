@@ -72,7 +72,7 @@ static int set_drive_parallel_cable(int val, void *param)
 
 static int set_drive_profdos(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;;
+    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
     drive->profdos = val;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -91,7 +91,7 @@ static int set_profdos_1571_name(const char *val, void *param)
 
 static int set_drive_supercard(int val, void *param)
 {
-    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;;
+    drive_t *drive = drive_context[vice_ptr_to_uint(param)]->drive;
 
     drive->supercard = val;
     set_drive_ram(vice_ptr_to_uint(param));
@@ -162,4 +162,3 @@ void c64exp_resources_shutdown(void)
     lib_free(profdos_1571_name);
     lib_free(supercard_name);
 }
-
