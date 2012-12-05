@@ -36,9 +36,9 @@
 #ifdef __OS2__
 
 #include <stdio.h>
-#include <sys/stat.h> 
-#include <sys/types.h> 
-#include <fcntl.h> 
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <fcntl.h>
 #include <io.h>
 #include <string.h>
 

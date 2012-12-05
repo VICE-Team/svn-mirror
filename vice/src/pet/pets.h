@@ -66,17 +66,17 @@
 /* This struct is used to hold the default values for the different models */
 typedef struct petinfo_s {
     /* hardware options (resources) */
-    int         ramSize;
-    int         IOSize;         /* 256 Byte / 2k I/O */
-    int         crtc;           /* 0 = no CRTC, 1 = has one */
-    int         video;          /* 0 = autodetect, 40, or 80 */
-    int         ramsel9;        /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
-    int         ramselA;        /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
-    int         kbd_type;       /* 1 = graphics, 0 = business (UK) */
-    int         pet2k;          /* 1 = do PET 2001 kernal patches */
-    int         pet2kchar;      /* 1 = do PET 2001 chargen patches */
-    int         eoiblank;       /* 1 = EOI blanks screen */
-    int         superpet;       /* 1 = enable SuperPET I/O */
+    int ramSize;
+    int IOSize;                 /* 256 Byte / 2k I/O */
+    int crtc;                   /* 0 = no CRTC, 1 = has one */
+    int video;                  /* 0 = autodetect, 40, or 80 */
+    int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
+    int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
+    int kbd_type;               /* 1 = graphics, 0 = business (UK) */
+    int pet2k;                  /* 1 = do PET 2001 kernal patches */
+    int pet2kchar;              /* 1 = do PET 2001 chargen patches */
+    int eoiblank;               /* 1 = EOI blanks screen */
+    int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
     const char  *chargenName;   /* Character ROM */
@@ -93,17 +93,17 @@ typedef struct petinfo_s {
 /* This struct holds the resources and some other runtime-derived info */
 typedef struct petres_s {
     /* hardware options (resources) */
-    int         ramSize;
-    int         IOSize;         /* 256 Byte / 2k I/O */
-    int         crtc;           /* 0 = no CRTC, 1 = has one */
-    int         video;          /* 0 = autodetect, 40, or 80 */
-    int         ramsel9;        /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
-    int         ramselA;        /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
-    int         kbd_type;       /* 1 = graphics, 0 = business (UK) */
-    int         pet2k;          /* 1 = do PET 2001 kernal patches */
-    int         pet2kchar;      /* 1 = do PET 2001 chargen patches */
-    int         eoiblank;       /* 1 = EOI blanks screen */
-    int         superpet;       /* 1 = enable SuperPET I/O */
+    int ramSize;
+    int IOSize;                 /* 256 Byte / 2k I/O */
+    int crtc;                   /* 0 = no CRTC, 1 = has one */
+    int video;                  /* 0 = autodetect, 40, or 80 */
+    int ramsel9;                /* 0 = open/ROM, 1 = RAM: 8296 JU2 */
+    int ramselA;                /* 0 = open/ROM, 1 = RAM: 8296 JU1*/
+    int kbd_type;               /* 1 = graphics, 0 = business (UK) */
+    int pet2k;                  /* 1 = do PET 2001 kernal patches */
+    int pet2kchar;              /* 1 = do PET 2001 chargen patches */
+    int eoiblank;               /* 1 = EOI blanks screen */
+    int superpet;               /* 1 = enable SuperPET I/O */
 
     /* ROM image resources */
     char        *chargenName;   /* Character ROM */
@@ -116,18 +116,18 @@ typedef struct petres_s {
 
     /* SuperPET resources */
     char        *h6809romName[NUM_6809_ROMS];   /* $[ABCDEF]*** */
-    int         superpet_cpu_switch; /* 0 = 6502, 1 = 6809E, 2 = "prog" */
+    int superpet_cpu_switch;         /* 0 = 6502, 1 = 6809E, 2 = "prog" */
 
     /* runtime (derived) variables */
-    int         videoSize;      /* video RAM size (1k or 2k) */
-    int         map;            /* 0 = linear map, 1 = 8096 mapping */
+    int videoSize;              /* video RAM size (1k or 2k) */
+    int map;                    /* 0 = linear map, 1 = 8096 mapping */
                                 /* 2 = 8296 mapping */
-    int         vmask;          /* valid CRTC address bits */
-    int         rompatch;       /* 1 = need $ef** for ROM patch */
-    int         rom_video;      /* derived from ROM */
-    WORD        basic_start;    /* derived from ROM */
-    WORD        kernal_checksum;/* derived from ROM */
-    WORD        editor_checksum;/* derived from ROM */
+    int vmask;                  /* valid CRTC address bits */
+    int rompatch;               /* 1 = need $ef** for ROM patch */
+    int rom_video;              /* derived from ROM */
+    WORD basic_start;           /* derived from ROM */
+    WORD kernal_checksum;       /* derived from ROM */
+    WORD editor_checksum;       /* derived from ROM */
 } petres_t;
 
 extern petres_t petres;
@@ -139,4 +139,3 @@ extern int pet_init_ok; /* used in pet.c */
 extern int petmem_set_conf_info(petinfo_t *pi); /* used in petmemsnapshot.c */
 
 #endif
-

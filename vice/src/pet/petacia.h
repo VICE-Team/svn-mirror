@@ -44,4 +44,3 @@ extern int acia1_snapshot_read_module(struct snapshot_s *);
 extern int acia1_snapshot_write_module(struct snapshot_s *);
 
 #endif
-

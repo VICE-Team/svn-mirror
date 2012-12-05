@@ -76,5 +76,3 @@ extern int petdwwpia_dump(void);
 extern BYTE *petdww_crtc_get_active_bitmap(void);
 
 #endif
-
-

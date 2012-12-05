@@ -61,4 +61,3 @@
 #define mycpu_set_int_noclk maincpu_set_int
 
 #include "aciacore.c"
-

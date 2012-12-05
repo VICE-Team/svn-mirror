@@ -124,7 +124,7 @@ static double   pet_rfsh_per_sec        = PET_PAL_RFSH_PER_SEC;
 */
 
 static log_t pet_log = LOG_ERR;
-static machine_timing_t machine_timing; 
+static machine_timing_t machine_timing;
 
 /* ------------------------------------------------------------------------ */
 
@@ -152,8 +152,9 @@ int machine_resources_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
 #endif
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -175,8 +176,9 @@ void machine_resources_shutdown(void)
 int machine_cmdline_options_init(void)
 {
 #if 0
-    if (cmdline_register_options(cmdline_options) < 0)
+    if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
+    }
 #endif
 
     if (traps_cmdline_options_init() < 0
@@ -199,8 +201,9 @@ int machine_cmdline_options_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
 #endif
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -211,7 +214,8 @@ int machine_cmdline_options_init(void)
 
 #define SIGNAL_VERT_BLANK_ON    pia1_signal(PIA_SIG_CB1, PIA_SIG_FALL);
 
-static void pet_crtc_signal(unsigned int signal) {
+static void pet_crtc_signal(unsigned int signal)
+{
     if (signal) {
         SIGNAL_VERT_BLANK_ON
     } else {
@@ -233,15 +237,16 @@ static void pet_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[3];
 
-    asmarray[0]=&asm6502;
-    asmarray[1]=&asm6809;
-    asmarray[2]=NULL;
+    asmarray[0] = &asm6502;
+    asmarray[1] = &asm6809;
+    asmarray[2] = NULL;
 
     asm6502_init(&asm6502);
     asm6809_init(&asm6809);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+    }
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
@@ -264,8 +269,9 @@ int machine_specific_init(void)
     /* Setup trap handling - must be before mem_load() */
     traps_init();
 
-    if (mem_load() < 0)
+    if (mem_load() < 0) {
         return -1;
+    }
 
     log_message(pet_log, "Initializing IEEE488 bus...");
 
@@ -280,8 +286,9 @@ int machine_specific_init(void)
     */
 
     /* Initialize the CRTC emulation.  */
-    if (crtc_init() == NULL)
+    if (crtc_init() == NULL) {
         return -1;
+    }
 
     crtc_set_retrace_type(petres.crtc);
     crtc_set_retrace_callback(pet_crtc_signal);
@@ -294,8 +301,9 @@ int machine_specific_init(void)
 
 #ifndef COMMON_KBD
     /* Initialize the keyboard.  */
-    if (pet_kbd_init() < 0)
+    if (pet_kbd_init() < 0) {
         return -1;
+    }
 #endif
 
     /* Initialize the datasette emulation.  */
@@ -351,11 +359,12 @@ int machine_specific_init(void)
 #if defined (USE_XF86_EXTENSIONS) && \
     (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     {
-	/* set fullscreen if user used `-fullscreen' on cmdline */
-	int fs;
-	resources_get_int("UseFullscreen", &fs);
-	if (fs)
-	    resources_set_int("CRTCFullscreen", 1);
+        /* set fullscreen if user used `-fullscreen' on cmdline */
+        int fs;
+        resources_get_int("UseFullscreen", &fs);
+        if (fs) {
+            resources_set_int("CRTCFullscreen", 1);
+        }
     }
 #endif
     return 0;
@@ -447,8 +456,7 @@ long machine_get_cycles_per_frame(void)
 
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
-    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
-            % machine_timing.screen_lines);
+    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
 
@@ -457,7 +465,6 @@ void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_c
 
 void machine_change_timing(int timeval)
 {
-
     switch (timeval) {
         case MACHINE_SYNC_PAL:
             machine_timing.cycles_per_sec = PET_PAL_CYCLES_PER_SEC;
@@ -557,8 +564,9 @@ void pet_crtc_set_screen(void)
     }
 
     /* when switching 8296 to 40 columns, CRTC ends up at $9000 otherwise...*/
-    if (cols == 40)
+    if (cols == 40) {
         vmask = 0x3ff;
+    }
 /*
     log_message(pet_mem_log, "set_screen(vmask=%04x, cols=%d, crtc=%d)",
                 vmask, cols, petres.crtc);
@@ -602,8 +610,9 @@ void pet_crtc_set_screen(void)
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas != crtc_get_canvas())
+    if (canvas != crtc_get_canvas()) {
         return -1;
+    }
 
     crtc_screenshot(screenshot);
     return 0;
@@ -612,8 +621,9 @@ int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas != crtc_get_canvas())
+    if (canvas != crtc_get_canvas()) {
         return -1;
+    }
 
     crtc_async_refresh(refresh);
     return 0;
@@ -647,7 +657,9 @@ const char *machine_get_name(void)
 #ifdef USE_SDLUI
 /* Kludges for vsid & linking issues */
 const char **csidmodel = NULL;
-void psid_init_driver(void) {}
+void psid_init_driver(void)
+{
+}
 #endif
 
 /* ------------------------------------------------------------------------- */

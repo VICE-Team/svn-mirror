@@ -138,8 +138,9 @@ void pia1_set_tape_sense(int v)
 static void pia_set_ca2(int a)
 {
     parallel_cpu_set_eoi((BYTE)((a) ? 0 : 1));
-    if (petres.pet2k)
-        crtc_screen_enable((a)?1:0);
+    if (petres.pet2k) {
+        crtc_screen_enable((a) ? 1 : 0);
+    }
 }
 
 static void pia_set_cb2(int a)
@@ -225,20 +226,21 @@ static BYTE read_pb(void)
 
     row = mypia.port_a & 15;
 
-    if (row < KBD_ROWS)
+    if (row < KBD_ROWS) {
         j = ~keyarr[row];
+    }
 
 #if (defined(DEBUG_PIA) || defined(KBDBUG))
-    if (j < 255)
+    if (j < 255) {
         log_message(mypia_log,
-         "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x",
-         keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
-         keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
-         row, j);
+                    "%02X %02X %02X %02X %02X  %02X %02X %02X %02X %02X - row %d  %02x",
+                    keyarr[0], keyarr[1], keyarr[2], keyarr[3], keyarr[4],
+                    keyarr[5], keyarr[6], keyarr[7], keyarr[8], keyarr[9],
+                    row, j);
+    }
 #endif
 
     return j;
 }
 
 #include "piacore.c"
-

@@ -203,7 +203,7 @@ static const cmdline_option_t cmdline_options[] = {
     { "-6809romA", SET_RESOURCE, 1,
       NULL, NULL, "H6809RomAName", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_STRING,
-      IDCLS_P_NAME, IDCLS_UNUSED, 
+      IDCLS_P_NAME, IDCLS_UNUSED,
       NULL, "Specify 4K to 24K ROM file name at $A000 for 6809" },
     { "-6809romB", SET_RESOURCE, 1,
       NULL, NULL, "H6809RomBName", NULL,

@@ -54,4 +54,3 @@ extern int petrom_A_loaded;
 extern int petrom_B_loaded;
 
 #endif
-

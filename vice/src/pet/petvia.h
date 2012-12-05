@@ -39,4 +39,3 @@ extern BYTE via_peek(WORD addr);
 extern void via_store(WORD addr, BYTE value);
 
 #endif
-

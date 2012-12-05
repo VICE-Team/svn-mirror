@@ -239,34 +239,34 @@
 
 /* CPU types */
 #ifndef PROCESSOR_ARCHITECTURE_MIPS
-#define PROCESSOR_ARCHITECTURE_MIPS		1
+#define PROCESSOR_ARCHITECTURE_MIPS     1
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_ALPHA
-#define PROCESSOR_ARCHITECTURE_ALPHA		2
+#define PROCESSOR_ARCHITECTURE_ALPHA    2
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_PPC
-#define PROCESSOR_ARCHITECTURE_PPC		3
+#define PROCESSOR_ARCHITECTURE_PPC      3
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_IA64
-#define PROCESSOR_ARCHITECTURE_IA64		6
+#define PROCESSOR_ARCHITECTURE_IA64     6
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_ALPHA64
-#define PROCESSOR_ARCHITECTURE_ALPHA64	7
+#define PROCESSOR_ARCHITECTURE_ALPHA64  7
 #endif
 
 #ifndef PROCESSOR_ARCHITECTURE_AMD64
-#define PROCESSOR_ARCHITECTURE_AMD64		9
+#define PROCESSOR_ARCHITECTURE_AMD64    9
 #endif
 
 /* Bit patterns for system metrics */
-#define VICE_SM_SERVERR2		8
-#define VICE_SM_MEDIACENTER	4
-#define VICE_SM_STARTER		2
-#define VICE_SM_TABLETPC		1
+#define VICE_SM_SERVERR2        8
+#define VICE_SM_MEDIACENTER     4
+#define VICE_SM_STARTER         2
+#define VICE_SM_TABLETPC        1
 
 typedef BOOL (WINAPI *VGPI)(DWORD, DWORD, DWORD, DWORD, PDWORD);
 typedef void (WINAPI *VGNSI)(LPSYSTEM_INFO);
@@ -285,7 +285,7 @@ typedef struct winver_s {
 
 static winver_t windows_versions[] = {
     { NULL, 0,
-      0, 0, 0, 0, 0, 0, 0 },	 /* place holder for what has been detected */
+      0, 0, 0, 0, 0, 0, 0 },     /* place holder for what has been detected */
     { "Windows 95", VER_PLATFORM_WIN32_WINDOWS,
       4, 0, 3, -1, -1, -1, -1 },
     { "Windows 98", VER_PLATFORM_WIN32_WINDOWS,
@@ -448,7 +448,7 @@ static winver_t windows_versions[] = {
       0, 0, 0, 0, 0, 0, 0 }
 };
 
-/* 
+/*
         DWORD dwOSVersionInfoSize;
         DWORD dwMajorVersion;
         DWORD dwMinorVersion;
@@ -477,7 +477,7 @@ typedef struct _VICE_OSVERSIONINFOEX {
 
 static VICE_OSVERSIONINFOEX os_version_ex_info;
 
-/* 
+/*
 0: NT3, 1: NT4, 2: 95, 3: 95OSR2, 4: 98, 5: ME, 6: 2000, 7: XP, 8: XPSP1, 9: 2003, 10: VISTA+
 */
 
@@ -662,6 +662,7 @@ static int get_product_type_from_reg(void)
         }
         return 2;
     }
+    return 0;
 }
 
 static int get_sp_from_reg(void)
@@ -809,8 +810,8 @@ char *platform_get_windows_runtime_os(void)
             windows_versions[0].pt6 = -1;
         }
     } else {
-		windows_versions[0].producttype = -1;
-		windows_versions[0].suite = -1;
+        windows_versions[0].producttype = -1;
+        windows_versions[0].suite = -1;
     }
 
 /* Metrics: 0000RMST
@@ -946,12 +947,12 @@ char *platform_get_windows_runtime_os(void)
         }
     } else {
         sprintf(windows_version, "%s (%d %d %d %d %d %d)", "Unknown Windows version",
-                                                            windows_versions[0].platformid,
-                                                            windows_versions[0].majorver,
-                                                            windows_versions[0].minorver,
-                                                            windows_versions[0].realos,
-                                                            windows_versions[0].producttype,
-                                                            windows_versions[0].suite);
+                windows_versions[0].platformid,
+                windows_versions[0].majorver,
+                windows_versions[0].minorver,
+                windows_versions[0].realos,
+                windows_versions[0].producttype,
+                windows_versions[0].suite);
     }
     return windows_version;
 }

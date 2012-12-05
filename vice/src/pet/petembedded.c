@@ -64,34 +64,34 @@
 #include "pet_white_vpl.h"
 
 static embedded_t petfiles[] = {
-  { "chargen", 0x800, 0x800, 0x800, petchargen_embedded },
-  { "basic4", 0x2000, 0x3000, 0x3000, petbasic4_embedded },
-  { "kernal4", 0x1000, 0x1000, 0x1000, petkernal4_embedded },
-  { "edit4b80", 0x800, 0x1000, 0x800, petedit4b80_embedded },
-  { "kernal1", 0x1000, 0x1000, 0x1000, petkernal1_embedded },
-  { "basic1", 0x2000, 0x3000, 0x2000, petbasic1_embedded },
-  { "basic2", 0x2000, 0x3000, 0x2000, petbasic2_embedded },
-  { "kernal2", 0x1000, 0x1000, 0x1000, petkernal2_embedded },
-  { "edit1g", 0x800, 0x1000, 0x800, petedit1g_embedded },
-  { "edit2b", 0x800, 0x1000, 0x800, petedit2b_embedded },
-  { "edit2g", 0x800, 0x1000, 0x800, petedit2g_embedded },
-  { "edit4b40", 0x800, 0x1000, 0x800, petedit4b40_embedded },
-  { "edit4g40", 0x800, 0x1000, 0x800, petedit4g40_embedded },
-  { "characters.901640-01.bin", 0x1000, 0x1000, 0x1000, superpet_char_embedded },
-  { "waterloo-a000.901898-01.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_a000_embedded },
-  { "waterloo-b000.901898-02.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_b000_embedded },
-  { "waterloo-c000.901898-03.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_c000_embedded },
-  { "waterloo-d000.901898-04.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_d000_embedded },
-  { "waterloo-e000.901897-01.bin", 0x800, 0x800, 0x800, superpet_waterloo_e000_embedded },
-  { "waterloo-f000.901898-05.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_f000_embedded },
-  { NULL }
+    { "chargen", 0x800, 0x800, 0x800, petchargen_embedded },
+    { "basic4", 0x2000, 0x3000, 0x3000, petbasic4_embedded },
+    { "kernal4", 0x1000, 0x1000, 0x1000, petkernal4_embedded },
+    { "edit4b80", 0x800, 0x1000, 0x800, petedit4b80_embedded },
+    { "kernal1", 0x1000, 0x1000, 0x1000, petkernal1_embedded },
+    { "basic1", 0x2000, 0x3000, 0x2000, petbasic1_embedded },
+    { "basic2", 0x2000, 0x3000, 0x2000, petbasic2_embedded },
+    { "kernal2", 0x1000, 0x1000, 0x1000, petkernal2_embedded },
+    { "edit1g", 0x800, 0x1000, 0x800, petedit1g_embedded },
+    { "edit2b", 0x800, 0x1000, 0x800, petedit2b_embedded },
+    { "edit2g", 0x800, 0x1000, 0x800, petedit2g_embedded },
+    { "edit4b40", 0x800, 0x1000, 0x800, petedit4b40_embedded },
+    { "edit4g40", 0x800, 0x1000, 0x800, petedit4g40_embedded },
+    { "characters.901640-01.bin", 0x1000, 0x1000, 0x1000, superpet_char_embedded },
+    { "waterloo-a000.901898-01.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_a000_embedded },
+    { "waterloo-b000.901898-02.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_b000_embedded },
+    { "waterloo-c000.901898-03.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_c000_embedded },
+    { "waterloo-d000.901898-04.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_d000_embedded },
+    { "waterloo-e000.901897-01.bin", 0x800, 0x800, 0x800, superpet_waterloo_e000_embedded },
+    { "waterloo-f000.901898-05.bin", 0x1000, 0x1000, 0x1000, superpet_waterloo_f000_embedded },
+    { NULL }
 };
 
 static embedded_palette_t palette_files[] = {
-  { "amber", "amber.vpl", 2, pet_amber_vpl },
-  { "green", "green.vpl", 2, pet_green_vpl },
-  { "white", "white.vpl", 2, pet_white_vpl },
-  { NULL }
+    { "amber", "amber.vpl", 2, pet_amber_vpl },
+    { "green", "green.vpl", 2, pet_green_vpl },
+    { "white", "white.vpl", 2, pet_white_vpl },
+    { NULL }
 };
 
 static size_t embedded_match_file(const char *name, BYTE *dest, int minsize, int maxsize, embedded_t *emb)
@@ -138,9 +138,9 @@ int embedded_palette_load(const char *fname, palette_t *p)
         if (!strcmp(palette_files[i].name1, fname) || !strcmp(palette_files[i].name2, fname)) {
             entries = palette_files[i].palette;
             for (j = 0; j < palette_files[i].num_entries; j++) {
-                p->entries[j].red    = entries[(j * 4) + 0];
-                p->entries[j].green  = entries[(j * 4) + 1];
-                p->entries[j].blue   = entries[(j * 4) + 2];
+                p->entries[j].red = entries[(j * 4) + 0];
+                p->entries[j].green = entries[(j * 4) + 1];
+                p->entries[j].blue = entries[(j * 4) + 2];
                 p->entries[j].dither = entries[(j * 4) + 3];
             }
             return 0;

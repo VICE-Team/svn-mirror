@@ -34,4 +34,3 @@ extern int parallel_trap_sendbyte(BYTE data);
 extern int parallel_trap_receivebyte(BYTE *data, int fake);
 
 #endif
-

@@ -128,4 +128,3 @@
 #endif
 
 #endif // VICE_PLATFORM_AIX_VERSION_H
-

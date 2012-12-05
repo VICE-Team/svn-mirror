@@ -130,25 +130,26 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     if (petres.map) {
         config = petres.map + 3;
     } else {
-    if (petres.superpet)
-        config = 3;
+        if (petres.superpet) {
+            config = 3;
+        }
     }
 
-    rconf = (petres.ramsel9 ? 0x40 : 0)
-                | (petres.ramselA ? 0x80 : 0) ;
+    rconf = (petres.ramsel9 ? 0x40 : 0) | (petres.ramselA ? 0x80 : 0);
 
     conf8x96 = petmem_map_reg;
 
     superpet = (spet_ramen ? 1 : 0)
-                | (spet_ramwp ? 2 : 0)
-                | (spet_ctrlwp ? 4 : 0)
-                | (spet_diag ? 8 : 0)
-                | ((spet_bank << 4) & 0xf0) ;
+               | (spet_ramwp ? 2 : 0)
+               | (spet_ctrlwp ? 4 : 0)
+               | (spet_diag ? 8 : 0)
+               | ((spet_bank << 4) & 0xf0);
 
     m = snapshot_module_create(s, module_ram_name,
                                PETMEM_DUMP_VER_MAJOR, PETMEM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
     SMW_B(m, (BYTE)(config | rconf));
 
     resources_get_int("KeymapIndex", &kbdindex);
@@ -184,8 +185,12 @@ static int mem_write_ram_snapshot_module(snapshot_t *s)
     }
     /* Extra SuperPET2 byte; more state of $EFFC */
     superpet2 = spet_bank & 0x10;
-    if (spet_firq_disabled) superpet2 |= 0x20;
-    if (spet_flat_mode) superpet2 |= 0x40;
+    if (spet_firq_disabled) {
+        superpet2 |= 0x20;
+    }
+    if (spet_flat_mode) {
+        superpet2 |= 0x40;
+    }
     SMW_B(m, superpet2);
 
     snapshot_module_close(m);
@@ -198,14 +203,17 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     BYTE vmajor, vminor;
     snapshot_module_t *m;
     BYTE config, rconf, byte, memsize, conf8x96, superpet;
-    petinfo_t peti = { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
-                       NULL, NULL, NULL, NULL, NULL, NULL };
+    petinfo_t peti = {
+        32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 0,
+        NULL, NULL, NULL, NULL, NULL, NULL
+    };
     int old6809mode;
     int spet_bank = 0;
 
     m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != PETMEM_DUMP_VER_MAJOR) {
         log_error(pet_snapshot_log,
@@ -237,30 +245,30 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
     peti.superpet = 0;
 
     switch (config) {
-      case 0:           /* 40 cols w/o CRTC */
-        peti.crtc = 0;
-        peti.video = 40;
-        break;
-      case 1:           /* 40 cols w/ CRTC */
-        peti.video = 40;
-        break;
-      case 2:           /* 80 cols (w/ CRTC) */
-        break;
-      case 3:           /* SuperPET */
-        spet_ramen = superpet & 1;
-        spet_ramwp = superpet & 2;
-        spet_ctrlwp = superpet & 4;
-        spet_diag = superpet & 8;
-        spet_bank = (superpet >> 4) & 0x0f;
-        peti.superpet = 1;
-        break;
-      case 4:           /* 8096 */
-        peti.ramSize = 96;
-        break;
-      case 5:           /* 8296 */
-        peti.ramSize = 128;
-        break;
-    };
+        case 0:         /* 40 cols w/o CRTC */
+            peti.crtc = 0;
+            peti.video = 40;
+            break;
+        case 1:         /* 40 cols w/ CRTC */
+            peti.video = 40;
+            break;
+        case 2:         /* 80 cols (w/ CRTC) */
+            break;
+        case 3:         /* SuperPET */
+            spet_ramen = superpet & 1;
+            spet_ramwp = superpet & 2;
+            spet_ctrlwp = superpet & 4;
+            spet_diag = superpet & 8;
+            spet_bank = (superpet >> 4) & 0x0f;
+            peti.superpet = 1;
+            break;
+        case 4:         /* 8096 */
+            peti.ramSize = 96;
+            break;
+        case 5:         /* 8296 */
+            peti.ramSize = 128;
+            break;
+    }
 
     peti.ramsel9 = (rconf & 0x40) ? 1 : 0;
     peti.ramselA = (rconf & 0x80) ? 1 : 0;
@@ -327,7 +335,7 @@ static int mem_read_ram_snapshot_module(snapshot_t *s)
                       petres.superpet_cpu_switch == SUPERPET_CPU_6809;
         if (new6809mode != old6809mode) {
             log_error(pet_snapshot_log,
-                    "Snapshot for different CPU. Re-load the snapshot.");
+                      "Snapshot for different CPU. Re-load the snapshot.");
             machine_trigger_reset(MACHINE_RESET_MODE_HARD);
             return -1;
         }
@@ -376,13 +384,15 @@ static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
     BYTE config;
     int i, trapfl;
 
-    if (!save_roms)
+    if (!save_roms) {
         return 0;
+    }
 
     m = snapshot_module_create(s, module_rom_name,
                                PETROM_DUMP_VER_MAJOR, PETROM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     /* disable traps before saving the ROM */
     resources_get_int("VirtualDevices", &trapfl);
@@ -422,11 +432,11 @@ static int mem_write_rom_snapshot_module(snapshot_t *s, int save_roms)
         SMW_BA(m, mem_rom + 0x4000, 0x2000);
 
         if (config & 8) {
-           SMW_BA(m, mem_rom + 0x6900, 0x0700);
+            SMW_BA(m, mem_rom + 0x6900, 0x0700);
         }
 
         if (config & 16) {
-           SMW_BA(m, mem_6809rom, PET_6809_ROMSIZE);
+            SMW_BA(m, mem_6809rom, PET_6809_ROMSIZE);
 
             /* pick relevant data from upper half of chargen ROM */
             for (i = 0; i < 128; i++) {
@@ -455,13 +465,13 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     int trapfl, new_iosize;
 
     m = snapshot_module_open(s, module_rom_name, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return 0;       /* optional */
-
+    }
     if (vmajor != PETROM_DUMP_VER_MAJOR) {
         log_error(pet_snapshot_log,
-                "Cannot load PET ROM module with major version %d",
-                vmajor);
+                  "Cannot load PET ROM module with major version %d",
+                  vmajor);
         snapshot_module_close(m);
         return -1;
     }
@@ -539,7 +549,7 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
         petrom_convert_chargen(mem_chargen_rom);
     }
 
-    log_warning(pet_snapshot_log,"Dumped Romset files and saved settings will "
+    log_warning(pet_snapshot_log, "Dumped Romset files and saved settings will "
                 "represent\nthe state before loading the snapshot!");
 
     petres.rompatch = 0;
@@ -558,17 +568,20 @@ static int mem_read_rom_snapshot_module(snapshot_t *s)
     return 0;
 }
 
-int pet_snapshot_write_module(snapshot_t *s, int save_roms) {
+int pet_snapshot_write_module(snapshot_t *s, int save_roms)
+{
     if (mem_write_ram_snapshot_module(s) < 0
-        || mem_write_rom_snapshot_module(s, save_roms) < 0 )
+        || mem_write_rom_snapshot_module(s, save_roms) < 0) {
         return -1;
+    }
     return 0;
 }
 
-int pet_snapshot_read_module(snapshot_t *s) {
+int pet_snapshot_read_module(snapshot_t *s)
+{
     if (mem_read_ram_snapshot_module(s) < 0
-        || mem_read_rom_snapshot_module(s) < 0 )
+        || mem_read_rom_snapshot_module(s) < 0) {
         return -1;
+    }
     return 0;
 }
-

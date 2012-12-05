@@ -56,7 +56,7 @@ char *platform_get_amigaos4_runtime_os(void)
     } else {
         retval = "Unknown AmigaOS";
     }
-   
+
     return retval;
 }
 

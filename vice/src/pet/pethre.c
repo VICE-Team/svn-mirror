@@ -3,7 +3,7 @@
  *
  * Written by
  *  Olaf 'Rhialto' Seibert <rhialto@falu.nl>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -143,7 +143,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int pethre_cmdline_options_init(void)
 {
-  return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -283,13 +283,13 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
             int i;
 
 #if HRE_DEBUG_GFX
-            log_message(pethre_log, "pethre_DRAW: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x screen_rel=%04x", xstart, xend, ymod8, scr_rel, screen_rel-mem_ram);
+            log_message(pethre_log, "pethre_DRAW: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x screen_rel=%04x", xstart, xend, ymod8, scr_rel, screen_rel - mem_ram);
 #endif
             for (i = xstart; i < xend; i++) {
                 int d = *screen_rel++;
 
-                *pw++  = dwg_table[d >> 4];
-                *pw++  = dwg_table[d & 0x0f];
+                *pw++ = dwg_table[d >> 4];
+                *pw++ = dwg_table[d & 0x0f];
             }
         } else {
             /*
@@ -309,15 +309,15 @@ static void pethre_DRAW(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
             for (i = 0; i < width0; i++) {
                 int d = *screen_rel++;
 
-                *pw++  = dwg_table[d >> 4];
-                *pw++  = dwg_table[d & 0x0f];
+                *pw++ = dwg_table[d >> 4];
+                *pw++ = dwg_table[d & 0x0f];
             }
             screen_rel += RA_SKIP;
             for (; i < width; i++) {
                 int d = *screen_rel++;
 
-                *pw++  = dwg_table[d >> 4];
-                *pw++  = dwg_table[d & 0x0f];
+                *pw++ = dwg_table[d >> 4];
+                *pw++ = dwg_table[d & 0x0f];
             }
         }
     }
@@ -356,10 +356,10 @@ int pethre_ram_read_snapshot_module(snapshot_t *s)
     BYTE vmajor, vminor;
     WORD w;
 
-    m = snapshot_module_open(s, module_ram_name,
-                               &vmajor, &vminor);
-    if (m == NULL)
+    m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != HREMEM_DUMP_VER_MAJOR) {
         log_error(pethre_log,
@@ -380,15 +380,16 @@ int pethre_ram_read_snapshot_module(snapshot_t *s)
 
 int pethre_snapshot_write_module(snapshot_t *m)
 {
-    if (pethre_ram_write_snapshot_module(m) < 0 )
+    if (pethre_ram_write_snapshot_module(m) < 0) {
         return -1;
+    }
     return 0;
 }
 
 int pethre_snapshot_read_module(snapshot_t *m)
 {
-    if (pethre_ram_read_snapshot_module(m) < 0 )
+    if (pethre_ram_read_snapshot_module(m) < 0) {
         return 0;       /* for now, to be able to read old snapshots */
+    }
     return 0;
 }
-

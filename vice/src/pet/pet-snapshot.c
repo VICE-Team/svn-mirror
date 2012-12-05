@@ -66,8 +66,9 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
 
     s = snapshot_create(name, SNAP_MAJOR, SNAP_MINOR, machine_name);
 
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     sound_snapshot_prepare();
 
@@ -87,13 +88,15 @@ int pet_snapshot_write(const char *name, int save_roms, int save_disks,
         ef = -1;
     }
 
-    if ((!ef) && petres.superpet)
+    if ((!ef) && petres.superpet) {
         ef = acia1_snapshot_write_module(s);
+    }
 
     snapshot_close(s);
 
-    if (ef)
+    if (ef) {
         ioutil_remove(name);
+    }
 
     return ef;
 }
@@ -106,8 +109,9 @@ int pet_snapshot_read(const char *name, int event_mode)
 
     s = snapshot_open(name, &major, &minor, machine_name);
 
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         log_error(LOG_DEFAULT,
@@ -147,4 +151,3 @@ int pet_snapshot_read(const char *name, int event_mode)
 
     return ef;
 }
-

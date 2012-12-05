@@ -31,4 +31,3 @@ extern int pet_resources_init(void);
 extern void pet_resources_shutdown(void);
 
 #endif
-

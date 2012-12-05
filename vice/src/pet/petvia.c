@@ -82,8 +82,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
     interrupt_set_irq(maincpu_int_status, int_num, value, rclk);
 }
 
-static void restore_int(via_context_t *via_context, unsigned int int_num,
-                    int value)
+static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
     interrupt_restore_irq(maincpu_int_status, int_num, value);
 }
@@ -124,9 +123,9 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
     }
     parallel_cpu_set_nrfd((BYTE)(!(byte & 0x02)));
     parallel_cpu_set_atn((BYTE)(!(byte & 0x04)));
-    if ((byte ^ myoldpb) & 0x8)
-        datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte)
-                                   & 0x8);
+    if ((byte ^ myoldpb) & 0x8) {
+        datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+    }
 }
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)
@@ -134,10 +133,12 @@ static void undump_pcr(via_context_t *via_context, BYTE byte)
 #if 0
     register BYTE tmp = byte;
     /* first set bit 1 and 5 to the real output values */
-    if ((tmp & 0x0c) != 0x0c)
+    if ((tmp & 0x0c) != 0x0c) {
         tmp |= 0x02;
-    if ((tmp & 0xc0) != 0xc0)
+    }
+    if ((tmp & 0xc0) != 0xc0) {
         tmp |= 0x20;
+    }
     crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                              /* switching userport strobe with CB2 */
 #endif
@@ -150,10 +151,12 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     if (byte != via_context->via[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
-        if ((tmp & 0x0c) != 0x0c)
+        if ((tmp & 0x0c) != 0x0c) {
             tmp |= 0x02;
-        if ((tmp & 0xc0) != 0xc0)
+        }
+        if ((tmp & 0xc0) != 0xc0) {
             tmp |= 0x20;
+        }
         crtc_set_char(byte & 2); /* switching PET charrom with CA2 */
                                  /* switching userport strobe with CB2 */
         printer_userport_write_strobe(byte & 0x20);
@@ -231,7 +234,7 @@ static BYTE read_prb(via_context_t *via_context)
 
     /* none of the load changes output register value -> std. masking */
     byte = ((byte & ~(via_context->via[VIA_DDRB]))
-           | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
+            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
     return byte;
 }
 

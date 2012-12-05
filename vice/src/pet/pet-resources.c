@@ -94,8 +94,9 @@ static int set_crtc_enabled(int val, void *param)
 static int set_superpet_enabled(int val, void *param)
 {
     if (petres.superpet != val) {
-        if (val < 2)
+        if (val < 2) {
             petres.superpet = (unsigned int)val;
+        }
 
         if (petres.superpet && petres.ramSize > 32) {
             set_ramsize(32, NULL);      /* disable 8x96 */
@@ -110,8 +111,9 @@ static int set_superpet_enabled(int val, void *param)
 static int set_ram_9_enabled(int val, void *param)
 {
     if (petres.ramsel9 != val) {
-        if (val < 2)
+        if (val < 2) {
             petres.ramsel9 = (unsigned int)val;
+        }
 
         mem_initialize_memory();
     }
@@ -122,8 +124,9 @@ static int set_ram_9_enabled(int val, void *param)
 static int set_ram_a_enabled(int val, void *param)
 {
     if (petres.ramselA != val) {
-        if (val < 2)
+        if (val < 2) {
             petres.ramselA = (unsigned int)val;
+        }
 
         mem_initialize_memory();
     }
@@ -137,12 +140,14 @@ static int set_ramsize(int size, void *param)
     const int sizes[] = { 4, 8, 16, 32, 96, 128 };
 
     for (i = 0; i < util_arraysize(sizes); i++) {
-        if (size <= sizes[i])
+        if (size <= sizes[i]) {
             break;
+        }
     }
 
-    if (i > util_arraysize(sizes) - 1)
+    if (i > util_arraysize(sizes) - 1) {
         i = util_arraysize(sizes) - 1;
+    }
 
     size = sizes[i];
 
@@ -182,16 +187,18 @@ static int set_video(int col, void *param)
 
 static int set_chargen_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.chargenName, val))
+    if (util_string_set(&petres.chargenName, val)) {
         return 0;
+    }
 
     return petrom_load_chargen();
 }
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.kernalName, val))
+    if (util_string_set(&petres.kernalName, val)) {
         return 0;
+    }
 
     return petrom_load_kernal();
 }
@@ -201,40 +208,45 @@ static int set_basic_rom_name(const char *val, void *param)
 /*  do we want to reload the basic even with the same name - romB can
     overload the basic ROM image and we can restore it only here ?
 */
-    if (util_string_set(&petres.basicName, val))
+    if (util_string_set(&petres.basicName, val)) {
         return 0;
+    }
 
     return petrom_load_basic();
 }
 
 static int set_editor_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.editorName, val))
+    if (util_string_set(&petres.editorName, val)) {
         return 0;
+    }
 
     return petrom_load_editor();
 }
 
 static int set_rom_module_9_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.mem9name, val))
+    if (util_string_set(&petres.mem9name, val)) {
         return 0;
+    }
 
     return petrom_load_rom9();
 }
 
 static int set_rom_module_a_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.memAname, val))
+    if (util_string_set(&petres.memAname, val)) {
         return 0;
+    }
 
     return petrom_load_romA();
 }
 
 static int set_rom_module_b_name(const char *val, void *param)
 {
-    if (util_string_set(&petres.memBname, val))
+    if (util_string_set(&petres.memBname, val)) {
         return 0;
+    }
 
     return petrom_load_romB();
 }
@@ -246,13 +258,15 @@ static int set_pet2k_enabled(int val, void *param)
     int i = ((val) ? 1 : 0);
 
     if (i != petres.pet2k) {
-        if (petres.pet2k)
+        if (petres.pet2k) {
             petrom_unpatch_2001();
+        }
 
         petres.pet2k = i;
 
-        if (petres.pet2k)
+        if (petres.pet2k) {
             petrom_patch_2001();
+        }
     }
     return 0;
 }
@@ -285,22 +299,25 @@ static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != val)
+    if (sync_factor != val) {
         change_timing = 1;
+    }
 
     switch (val) {
-      case MACHINE_SYNC_PAL:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL);
-        break;
-      case MACHINE_SYNC_NTSC:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC);
-        break;
-      default:
-        return -1;
+        case MACHINE_SYNC_PAL:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_PAL);
+            }
+            break;
+        case MACHINE_SYNC_NTSC:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_NTSC);
+            }
+            break;
+        default:
+            return -1;
     }
     return 0;
 }
@@ -309,8 +326,9 @@ static int set_h6809_rom_name(const char *val, void *param)
 {
     unsigned int num = vice_ptr_to_uint(param);
 
-    if (util_string_set(&petres.h6809romName[num], val))
+    if (util_string_set(&petres.h6809romName[num], val)) {
         return 0;
+    }
 
     return petrom_load_6809rom(num);
 }
@@ -435,8 +453,9 @@ int pet_resources_init(void)
     }
     petres.superpet_cpu_switch = SUPERPET_CPU_6502;
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -463,4 +482,3 @@ void pet_resources_shutdown(void)
         lib_free(petres.h6809romName[i]);
     }
 }
-

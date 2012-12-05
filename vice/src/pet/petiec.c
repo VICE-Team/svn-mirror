@@ -62,4 +62,3 @@ int iec_available_busses(void)
 {
     return IEC_BUS_IEEE;
 }
-

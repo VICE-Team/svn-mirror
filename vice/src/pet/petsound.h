@@ -40,4 +40,3 @@ extern void petsound_reset(sound_t *psid, CLOCK cpu_clk);
 extern void pet_sound_chip_init(void);
 
 #endif
-

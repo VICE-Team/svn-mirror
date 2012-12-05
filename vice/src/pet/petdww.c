@@ -3,7 +3,7 @@
  *
  * Written by
  *  Olaf 'Rhialto' Seibert <rhialto@falu.nl>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -86,7 +86,7 @@ int petdww_enabled = 0;
 static int mem_at_9000;
 
 #define PET_DWW_RAM_SIZE        8192
-#define RAM_SIZE_MASK           (PET_DWW_RAM_SIZE-1)
+#define RAM_SIZE_MASK           (PET_DWW_RAM_SIZE - 1)
 #define RAM_1K_SIZE_MASK        0x3FF
 
 /* Filename of the PET DWW image.  */
@@ -116,12 +116,14 @@ static int set_petdww_enabled(int val, void *param)
 static int set_petdww_filename(const char *name, void *param)
 {
     if (petdww_filename != NULL && name != NULL
-        && strcmp(name, petdww_filename) == 0)
+        && strcmp(name, petdww_filename) == 0) {
         return 0;
+    }
 
     if (name != NULL && *name != '\0') {
-        if (util_check_filename_access(name) < 0)
+        if (util_check_filename_access(name) < 0) {
             return -1;
+        }
     }
 
     if (petdww_enabled) {
@@ -185,7 +187,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int petdww_cmdline_options_init(void)
 {
-  return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -199,7 +201,7 @@ void petdww_init(void)
 void petdww_powerup(void)
 {
     if (petdww_ram) {
-        ram_init(petdww_ram, PET_DWW_RAM_SIZE); 
+        ram_init(petdww_ram, PET_DWW_RAM_SIZE);
     }
 }
 
@@ -227,7 +229,7 @@ static int petdww_activate(void)
 
     if (!util_check_null_string(petdww_filename)) {
         if (util_file_load(petdww_filename, petdww_ram, (size_t)PET_DWW_RAM_SIZE,
-            UTIL_FILE_LOAD_RAW) < 0) {
+                           UTIL_FILE_LOAD_RAW) < 0) {
             log_message(petdww_log, "Reading PET DWW image %s failed.",
                         petdww_filename);
             if (util_file_save(petdww_filename, petdww_ram, PET_DWW_RAM_SIZE) < 0) {
@@ -346,7 +348,6 @@ void petdww_override_std_9toa(read_func_ptr_t *mem_read_tab, store_func_ptr_t *m
         mem_write_tab[i] = dww_ram9000_store;
         mem_base_tab[i] = &petdww_ram[(i - 0x90) << 8];
         mem_limit_tab[i] = 0xaffd;
-
     }
     maincpu_resync_limits();
 }
@@ -538,9 +539,9 @@ static void store_pa(BYTE byte)
 {
     output_porta = byte;
 
-    mem_bank   = (byte & 0x07) << 10;
-    hires_off  =  byte & 0x10;
-    charrom_on =  byte & 0x08;
+    mem_bank = (byte & 0x07) << 10;
+    hires_off = byte & 0x10;
+    charrom_on = byte & 0x08;
 #if DWW_DEBUG_REG || DWW_DEBUG_RAM
     log_message(petdww_log, "mem_bank    = %04x", mem_bank);
 #endif
@@ -698,7 +699,6 @@ static void init_drawing_tables(void)
 
 #endif
     }
-
 }
 
 static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8)
@@ -748,8 +748,8 @@ static void petdww_DRAW_40(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
                 }
                 d = *screen_rel++;
 
-                *pw++  = dww_dwg_table[d & 0x0f];
-                *pw++  = dww_dwg_table[d >> 4];
+                *pw++ = dww_dwg_table[d & 0x0f];
+                *pw++ = dww_dwg_table[d >> 4];
             }
         }
     }
@@ -769,7 +769,7 @@ static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
         log_message(petdww_log, "petdww_DRAW: xstart=%d, xend=%d, ymod8=%d, scr_rel=%04x", xstart, xend, ymod8, scr_rel);
 #endif
         xstart /= 2;
-        xend   /= 2;
+        xend /= 2;
 
         /*
          * The DWW board can turn off the normal character ROM.
@@ -807,10 +807,10 @@ static void petdww_DRAW_80(BYTE *p, int xstart, int xend, int scr_rel, int ymod8
                 }
                 d = *screen_rel++;
 
-                *pw++  = dww_dwg_table_w0[d & 0x0f];
-                *pw++  = dww_dwg_table_w1[d & 0x0f];
-                *pw++  = dww_dwg_table_w0[d >> 4];
-                *pw++  = dww_dwg_table_w1[d >> 4];
+                *pw++ = dww_dwg_table_w0[d & 0x0f];
+                *pw++ = dww_dwg_table_w1[d & 0x0f];
+                *pw++ = dww_dwg_table_w0[d >> 4];
+                *pw++ = dww_dwg_table_w1[d >> 4];
             }
         }
     }
@@ -832,8 +832,8 @@ static void petdww_DRAW_blank(BYTE *p, int xstart, int xend, int scr_rel, int ym
      */
 
     for (i = xstart; i < xend; i++) {
-        *pw++  = 0;
-        *pw++  = 0;
+        *pw++ = 0;
+        *pw++ = 0;
     }
 }
 
@@ -868,8 +868,9 @@ int petdww_ram_write_snapshot_module(snapshot_t *s)
 
     m = snapshot_module_create(s, module_ram_name,
                                DWWMEM_DUMP_VER_MAJOR, DWWMEM_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (petdww_ram) {
         SMW_W(m, PET_DWW_RAM_SIZE);
@@ -889,10 +890,10 @@ int petdww_ram_read_snapshot_module(snapshot_t *s)
     BYTE vmajor, vminor;
     WORD ramsize;
 
-    m = snapshot_module_open(s, module_ram_name,
-                               &vmajor, &vminor);
-    if (m == NULL)
+    m = snapshot_module_open(s, module_ram_name, &vmajor, &vminor);
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != DWWMEM_DUMP_VER_MAJOR) {
         log_error(petdww_log,
@@ -923,16 +924,17 @@ int petdww_ram_read_snapshot_module(snapshot_t *s)
 int petdww_snapshot_write_module(snapshot_t *m)
 {
     if (petdwwpia_snapshot_write_module(m) < 0
-        || petdww_ram_write_snapshot_module(m) < 0 )
+        || petdww_ram_write_snapshot_module(m) < 0) {
         return -1;
+    }
     return 0;
 }
 
 int petdww_snapshot_read_module(snapshot_t *m)
 {
     if (petdwwpia_snapshot_read_module(m) < 0
-        || petdww_ram_read_snapshot_module(m) < 0 )
+        || petdww_ram_read_snapshot_module(m) < 0) {
         return 0;       /* for now, to be able to read old snapshots */
+    }
     return 0;
 }
-

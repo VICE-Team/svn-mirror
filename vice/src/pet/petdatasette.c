@@ -39,4 +39,3 @@ void datasette_set_tape_sense(int sense)
 {
     pia1_set_tape_sense(sense);
 }
-

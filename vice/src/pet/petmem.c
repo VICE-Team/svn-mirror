@@ -278,12 +278,12 @@ static void store6809_watch(WORD addr, BYTE value)
  * There is also a dongle (6702) at $efe0.
  */
 
-int spet_ramen  = 1;
-int spet_bank   = 0;
+int spet_ramen = 1;
+int spet_bank = 0;
 static BYTE *spet_bank_ptr;
 int spet_ctrlwp = 1;
-int spet_diag   = 0;
-int spet_ramwp  = 0;
+int spet_diag = 0;
+int spet_ramwp = 0;
 int spet_flat_mode = 0;         /* This is for the extra TPUG-designed */
 int spet_firq_disabled = 0;     /* ...Super OS/9 MMU. */
 #define DEBUG_DONGLE    0
@@ -377,7 +377,7 @@ static int efe0_dump(void)
 
         mon_out("%d %3d: $%02x  %%", i, mask, sh);
 
-        for (j = 7, maskj = 1<<j; j >= 0; j--, maskj >>= 1) {
+        for (j = 7, maskj = 1 << j; j >= 0; j--, maskj >>= 1) {
             if (maskj > lm) {
                 mon_out(" ");
             } else if (sh & maskj) {
@@ -560,8 +560,9 @@ BYTE mem_read(WORD addr)
 void mem6809_store(WORD addr, BYTE value)
 {
 #if PRINT_6809_STORE
-    if (addr >= 0x8000 && addr < 0x9000)
+    if (addr >= 0x8000 && addr < 0x9000) {
         printf("mem6809_store   %04x <- %02x\n", addr, value);
+    }
 #endif
     _mem6809_write_tab_ptr[addr >> 8](addr, value);
 }
@@ -592,7 +593,7 @@ void mem6809_store16(WORD addr, WORD value)
 WORD mem6809_read16(WORD addr)
 {
     WORD val;
-    val  = _mem6809_read_tab_ptr[addr >> 8](addr) << 8;
+    val = _mem6809_read_tab_ptr[addr >> 8](addr) << 8;
     addr++;
     val |= _mem6809_read_tab_ptr[addr >> 8](addr);
 #if PRINT_6809_READ
@@ -620,7 +621,7 @@ void mem6809_store32(WORD addr, DWORD value)
 DWORD mem6809_read32(WORD addr)
 {
     DWORD val;
-    val  = _mem6809_read_tab_ptr[addr >> 8](addr) << 24;
+    val = _mem6809_read_tab_ptr[addr >> 8](addr) << 24;
     addr++;
     val |= _mem6809_read_tab_ptr[addr >> 8](addr) << 16;
     addr++;
@@ -646,14 +647,17 @@ DWORD mem6809_read32(WORD addr)
 
 static void store_io(WORD addr, BYTE value)
 {
-    if (addr & 0x10)
+    if (addr & 0x10) {
         pia1_store(addr, value);
+    }
 
-    if (addr & 0x20)
+    if (addr & 0x20) {
         pia2_store(addr, value);
+    }
 
-    if (addr & 0x40)
+    if (addr & 0x40) {
         via_store(addr, value);
+    }
 
     if ((addr & 0x80) && petres.crtc) {
         crtc_store(addr, value);
@@ -672,36 +676,39 @@ static BYTE read_io(WORD addr)
     BYTE v1, v2, v3, v4;
 
     switch (addr & 0xf0) {
-      case 0x10:                /* PIA1 */
-        return pia1_read(addr);
-      case 0x20:                /* PIA2 */
-        return pia2_read(addr);
-      case 0x40:
-        return via_read(addr);  /* VIA */
-      case 0x80:                /* CRTC */
-        if (petres.crtc) {
-            return crtc_read(addr);
-        }
-      case 0x00:
-        return addr >> 8;
-      default:                  /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
-        if (addr & 0x10)
-            v1 = pia1_read(addr);
-        else
-            v1 = 0xff;
-        if (addr & 0x20)
-            v2 = pia2_read(addr);
-        else
-            v2 = 0xff;
-        if (addr & 0x40)
-            v3 = via_read(addr);
-        else
-            v3 = 0xff;
-        v4 = 0xff;
-        if ((addr & 0x80) && petres.crtc) {
-            v4 = crtc_read(addr);
-        }
-        return v1 & v2 & v3 & v4;
+        case 0x10:              /* PIA1 */
+            return pia1_read(addr);
+        case 0x20:              /* PIA2 */
+            return pia2_read(addr);
+        case 0x40:
+            return via_read(addr); /* VIA */
+        case 0x80:              /* CRTC */
+            if (petres.crtc) {
+                return crtc_read(addr);
+            }
+        case 0x00:
+            return addr >> 8;
+        default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
+            if (addr & 0x10) {
+                v1 = pia1_read(addr);
+            } else {
+                v1 = 0xff;
+            }
+            if (addr & 0x20) {
+                v2 = pia2_read(addr);
+            } else {
+                v2 = 0xff;
+            }
+            if (addr & 0x40) {
+                v3 = via_read(addr);
+            } else {
+                v3 = 0xff;
+            }
+            v4 = 0xff;
+            if ((addr & 0x80) && petres.crtc) {
+                v4 = crtc_read(addr);
+            }
+            return v1 & v2 & v3 & v4;
     }
 }
 
@@ -719,11 +726,11 @@ static void store_dummy(WORD addr, BYTE value)
 {
     if (petreu_enabled) {
         if (addr >= 0x8800 && addr < 0x8900) {
-            store_petreu_reg(addr,value);
+            store_petreu_reg(addr, value);
         } else if (addr >= 0x8900 && addr < 0x8a00) {
-            store_petreu_ram(addr,value);
+            store_petreu_ram(addr, value);
         } else if (addr >= 0x8a00 && addr < 0x8b00) {
-            store_petreu2_reg(addr,value);
+            store_petreu2_reg(addr, value);
         }
     }
 
@@ -737,9 +744,9 @@ static void store_dummy(WORD addr, BYTE value)
 
     if (sidcart_enabled()) {
         if (sidcart_address == 1 && addr >= 0xe900 && addr < 0xe91f) {
-            sid_store(addr,value);
+            sid_store(addr, value);
         } else if (sidcart_address == 0 && addr >= 0x8f00 && addr < 0x8f1f) {
-            sid_store(addr,value);
+            sid_store(addr, value);
         }
     }
 
@@ -796,17 +803,17 @@ static void set_std_9tof(void)
         store = ram_store;
 
         if (petmem_ramON) {
-            ram9  = ramA = ramBCD = 1;
-            ramE  = petres.ramsel9 || petres.ramselA;
+            ram9 = ramA = ramBCD = 1;
+            ramE = petres.ramsel9 || petres.ramselA;
             ramE8 = petres.ramselA && !(petmem_map_reg & FFF0_IO_PEEK_THROUGH);
-            ramF  = petres.ramselA;
+            ramF = petres.ramselA;
             /*
              * XXX: If there is no I/O peek through, how can we write
              * again to the E888 register to restore I/O?
              */
         } else {
-            ram9  = petres.ramsel9;
-            ramA  = petres.ramselA;
+            ram9 = petres.ramsel9;
+            ramA = petres.ramselA;
             ramBCD = ramE = ramE8 = ramF = 0;
         }
     } else {
@@ -827,8 +834,7 @@ static void set_std_9tof(void)
         for (i = 0x90; i < 0xa0; i++) {
             _mem_read_tab[i] = fetch;
             _mem_write_tab[i] = store;
-            _mem_read_base_tab[i] = ram9 ? mem_ram + (i << 8)
-                                         : mem_rom + ((i & 0x7f) << 8);
+            _mem_read_base_tab[i] = ram9 ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
             mem_read_limit_tab[i] = 0x9ffd;
         }
     }
@@ -838,8 +844,7 @@ static void set_std_9tof(void)
     for (i = 0xa0; i < 0xb0; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramA ? mem_ram + (i << 8)
-                                     : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramA ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xaffd;
     }
 
@@ -852,8 +857,7 @@ static void set_std_9tof(void)
     for (i = 0xb0; i <= 0xdf; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramBCD ? mem_ram + (i << 8)
-                                       : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramBCD ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xdffd;
     }
 
@@ -862,8 +866,7 @@ static void set_std_9tof(void)
     for (i = 0xe0; i <= 0xe7; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8)
-                                     : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xe7fd;
     }
 
@@ -911,8 +914,7 @@ static void set_std_9tof(void)
     for (i = l; i <= 0xef; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8)
-                                     : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramE ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xeffd;
     }
 
@@ -921,8 +923,7 @@ static void set_std_9tof(void)
     for (i = 0xf0; i <= 0xff; i++) {
         _mem_read_tab[i] = fetch;
         _mem_write_tab[i] = store;
-        _mem_read_base_tab[i] = ramF ? mem_ram + (i << 8)
-                                     : mem_rom + ((i & 0x7f) << 8);
+        _mem_read_base_tab[i] = ramF ? mem_ram + (i << 8) : mem_rom + ((i & 0x7f) << 8);
         mem_read_limit_tab[i] = 0xfffd;
     }
 
@@ -1010,13 +1011,14 @@ static void store_8x96(WORD addr, BYTE value)
     BYTE changed;
     int l, protected;
 
-    if (store_ff)
+    if (store_ff) {
         store_ff(addr, value);
+    }
 
     changed = petmem_map_reg ^ value;
 
     if (addr == 0xfff0 && changed &&
-            ((petmem_map_reg | changed) & FFF0_ENABLED)) {
+        ((petmem_map_reg | changed) & FFF0_ENABLED)) {
         if (value & FFF0_ENABLED) {     /* ext. RAM enabled */
             /* A5 = FFF0_ENABLED | FFF0_SCREEN_PEEK_THROUGH |
              *      FFF0_BANK_8 | FFF0_BANK_8_WP
@@ -1036,10 +1038,11 @@ static void store_8x96(WORD addr, BYTE value)
                 bank8offset = 0x8000 + ((value & FFF0_BANK_8) ? 0x8000 : 0);
                 for (; l < 0xc0; l++) {
                     _mem_read_tab[l] = read_ext8;
-                    if (protected)
+                    if (protected) {
                         _mem_write_tab[l] = store_dummy;
-                    else
+                    } else {
                         _mem_write_tab[l] = store_ext8;
+                    }
                     _mem_read_base_tab[l] = mem_ram + bank8offset + (l << 8);
                     mem_read_limit_tab[l] = 0xbffd;
                 }
@@ -1059,10 +1062,11 @@ static void store_8x96(WORD addr, BYTE value)
                         mem_read_limit_tab[l] = 0;
                     } else {
                         _mem_read_tab[l] = read_extC;
-                        if (protected)
+                        if (protected) {
                             _mem_write_tab[l] = store_dummy;
-                        else
+                        } else {
                             _mem_write_tab[l] = store_extC;
+                        }
                         _mem_read_base_tab[l] = mem_ram
                                                 + bankCoffset + (l << 8);
                         if (l < 0xe8) {
@@ -1089,7 +1093,6 @@ static void store_8x96(WORD addr, BYTE value)
             maincpu_resync_limits();
         }
         petmem_map_reg = value;
-
     }
     return;
 }
@@ -1097,10 +1100,10 @@ static void store_8x96(WORD addr, BYTE value)
 static int fff0_dump(void)
 {
     mon_out("%s memory mapping.\n",
-            (petres.map == PET_MAP_8296   ? "8296" :
-             petres.map == PET_MAP_8096   ? "8096" :
+            (petres.map == PET_MAP_8296 ? "8296" :
+             petres.map == PET_MAP_8096 ? "8096" :
              petres.map == PET_MAP_LINEAR ? "plain" :
-                                            "unknown"));
+             "unknown"));
     mon_out("fff0 = %02x: ", petmem_map_reg);
     if (petmem_map_reg & FFF0_ENABLED) {
         mon_out("enabled, ");
@@ -1114,13 +1117,13 @@ static int fff0_dump(void)
             mon_out("$10 unused bit set, ");
         }
         mon_out("\nC000-FFFF: bank %d %s, ",
-            ((petmem_map_reg & FFF0_BANK_C) ? 3 : 1),
-            ((petmem_map_reg & FFF0_BANK_C_WP) ? "(write protected)" : "(r/w)")
-               );
+                ((petmem_map_reg & FFF0_BANK_C) ? 3 : 1),
+                ((petmem_map_reg & FFF0_BANK_C_WP) ? "(write protected)" : "(r/w)")
+                );
         mon_out("8000-BFFF: bank %d %s.\n",
-            ((petmem_map_reg & FFF0_BANK_8) ? 2 : 0),
-            ((petmem_map_reg & FFF0_BANK_8_WP) ? "(write protected)" : "(r/w)")
-               );
+                ((petmem_map_reg & FFF0_BANK_8) ? 2 : 0),
+                ((petmem_map_reg & FFF0_BANK_8_WP) ? "(write protected)" : "(r/w)")
+                );
     } else {
         mon_out("disabled.\n");
     }
@@ -1129,7 +1132,8 @@ static int fff0_dump(void)
 
 /* ------------------------------------------------------------------------- */
 
-static void set_vidmem(void) {
+static void set_vidmem(void)
+{
     int i, l;
 
     l = ((0x8000 + petres.videoSize) >> 8) & 0xff;
@@ -1142,7 +1146,7 @@ static void set_vidmem(void) {
         _mem_read_tab[i] = ram_read;
         _mem_write_tab[i] = ram_store;
         _mem_read_base_tab[i] = mem_ram + (i << 8);
-        mem_read_limit_tab[i] = (l<<8)-3;
+        mem_read_limit_tab[i] = (l << 8) - 3;
     }
 
     /* Setup video mirror from $8000 + petres.videoSize to $87ff */
@@ -1150,8 +1154,7 @@ static void set_vidmem(void) {
     for (; i < 0x88; i++) {
         _mem_read_tab[i] = read_vmirror;
         _mem_write_tab[i] = store_vmirror;
-        _mem_read_base_tab[i] = mem_ram + 0x8000 + ((i << 8)
-                                & (petres.videoSize - 1));
+        _mem_read_base_tab[i] = mem_ram + 0x8000 + ((i << 8) & (petres.videoSize - 1));
         mem_read_limit_tab[i] = 0x87fd;
     }
 
@@ -1173,8 +1176,8 @@ static void mem_initialize_memory_6809_banked(void)
 
     //extern WORD iPC; printf("mem_initialize_memory_6809_banked %04x bank %x\n", iPC, spet_bank);
     for (i = 0x00; i < 0xa0; i++) {
-        _mem6809_read_tab[i]      = _mem_read_tab[i];
-        _mem6809_write_tab[i]     = _mem_write_tab[i];
+        _mem6809_read_tab[i] = _mem_read_tab[i];
+        _mem6809_write_tab[i] = _mem_write_tab[i];
         _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
         mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
     }
@@ -1182,14 +1185,14 @@ static void mem_initialize_memory_6809_banked(void)
      * Set up the ROMs.
      */
     for (i = 0xa0; i < 0xe8; i++) {
-        _mem6809_read_tab[i]      = rom6809_read;
-        _mem6809_write_tab[i]     = store_void;
+        _mem6809_read_tab[i] = rom6809_read;
+        _mem6809_write_tab[i] = store_void;
         _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
         mem6809_read_limit_tab[i] = 0xe7fc;
     }
     for (i = 0xf0; i < 0x100; i++) {
-        _mem6809_read_tab[i]      = rom6809_read;
-        _mem6809_write_tab[i]     = store_void;
+        _mem6809_read_tab[i] = rom6809_read;
+        _mem6809_write_tab[i] = store_void;
         _mem6809_read_base_tab[i] = mem_6809rom + i - (ROM6809_BASE >> 8);
         mem6809_read_limit_tab[i] = 0xfffc;
     }
@@ -1197,8 +1200,8 @@ static void mem_initialize_memory_6809_banked(void)
      * Also copy the I/O setup from the 6502 view.
      */
     for (i = 0xe8; i < 0xf0; i++) {
-        _mem6809_read_tab[i]      = _mem_read_tab[i];
-        _mem6809_write_tab[i]     = _mem_write_tab[i];
+        _mem6809_read_tab[i] = _mem_read_tab[i];
+        _mem6809_write_tab[i] = _mem_write_tab[i];
         _mem6809_read_base_tab[i] = _mem_read_base_tab[i];
         mem6809_read_limit_tab[i] = mem_read_limit_tab[i];
     }
@@ -1218,8 +1221,8 @@ static void mem_initialize_memory_6809_flat(void)
     //extern WORD iPC; printf("mem_initialize_memory_6809_flat   %04X bank %x\n", iPC, spet_bank);
 
     for (i = 0x00; i < 0x101; i++) {
-        _mem6809_read_tab[i]      = read_super_flat;
-        _mem6809_write_tab[i]     = store_super_flat;
+        _mem6809_read_tab[i] = read_super_flat;
+        _mem6809_write_tab[i] = store_super_flat;
         _mem6809_read_base_tab[i] = mem_ram + EXT_RAM + (i << 8);
         mem6809_read_limit_tab[i] = 0xfffc;
     }
@@ -1265,9 +1268,9 @@ void mem_initialize_memory(void)
     int i, l;
 
     l = petres.ramSize << 2;       /* ramSize in kB, l in 256 Byte */
-    if (l > (32 << 2))
+    if (l > (32 << 2)) {
         l = (32 << 2);             /* fix 8096 / 8296 */
-
+    }
     /* Setup RAM from $0000 to petres.ramSize */
     _mem_read_tab[0] = zero_read;
     _mem_write_tab[0] = zero_store;
@@ -1341,7 +1344,8 @@ void mem_initialize_memory(void)
     }
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
@@ -1370,10 +1374,10 @@ void mem_get_basic_text(WORD *start, WORD *end)
     }
 
     if (start != NULL) {
-        *start = mem_ram[basicstart] | (mem_ram[basicstart+1] << 8);
+        *start = mem_ram[basicstart] | (mem_ram[basicstart + 1] << 8);
     }
     if (end != NULL) {
-        *end = mem_ram[basicstart+2] | (mem_ram[basicstart+3] << 8);
+        *end = mem_ram[basicstart + 2] | (mem_ram[basicstart + 3] << 8);
     }
 }
 
@@ -1383,21 +1387,21 @@ void mem_set_basic_text(WORD start, WORD end)
 
     if (petres.kernal_checksum == PET_KERNAL1_CHECKSUM) {
         basicstart = 0x7a;    /* Pointers to Basic program + variables */
-        loadadr    = 0xe3;    /* Utility pointers for start and end of load */
+        loadadr = 0xe3;       /* Utility pointers for start and end of load */
     } else {
         basicstart = 0x28;
-        loadadr    = 0xc7;
+        loadadr = 0xc7;
     }
 
-    mem_ram[basicstart  ] = mem_ram[loadadr  ] = start & 0xff;
-    mem_ram[basicstart+1] = mem_ram[loadadr+1] = start >> 8;
+    mem_ram[basicstart] = mem_ram[loadadr] = start & 0xff;
+    mem_ram[basicstart + 1] = mem_ram[loadadr + 1] = start >> 8;
 
-    mem_ram[basicstart+2] =
-    mem_ram[basicstart+4] =
-    mem_ram[basicstart+6] = mem_ram[loadadr+2] = end & 0xff;
-    mem_ram[basicstart+3] =
-    mem_ram[basicstart+5] =
-    mem_ram[basicstart+7] = mem_ram[loadadr+3] = end >> 8;
+    mem_ram[basicstart + 2] =
+        mem_ram[basicstart + 4] =
+            mem_ram[basicstart + 6] = mem_ram[loadadr + 2] = end & 0xff;
+    mem_ram[basicstart + 3] =
+        mem_ram[basicstart + 5] =
+            mem_ram[basicstart + 7] = mem_ram[loadadr + 3] = end >> 8;
 }
 
 void mem_inject(DWORD addr, BYTE value)
@@ -1424,34 +1428,37 @@ static BYTE peek_bank_io(WORD addr)
     BYTE v1, v2, v3, v4;
 
     switch (addr & 0xf0) {
-      case 0x10:                /* PIA1 */
-        return pia1_peek(addr);
-      case 0x20:                /* PIA2 */
-        return pia2_peek(addr);
-      case 0x40:
-        return via_peek(addr);  /* VIA */
-      case 0x80:                /* CRTC */
-        if (petres.crtc) {
-            return crtc_read(addr);
-        }
-      case 0x00:
-        return addr >> 8;
-      default:                  /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
-        break;
+        case 0x10:              /* PIA1 */
+            return pia1_peek(addr);
+        case 0x20:              /* PIA2 */
+            return pia2_peek(addr);
+        case 0x40:
+            return via_peek(addr); /* VIA */
+        case 0x80:              /* CRTC */
+            if (petres.crtc) {
+                return crtc_read(addr);
+            }
+        case 0x00:
+            return addr >> 8;
+        default:                /* 0x30, 0x50, 0x60, 0x70, 0x90-0xf0 */
+            break;
     }
 
-    if (addr & 0x10)
+    if (addr & 0x10) {
         v1 = pia1_peek(addr);
-    else
+    } else {
         v1 = 0xff;
-    if (addr & 0x20)
+    }
+    if (addr & 0x20) {
         v2 = pia2_peek(addr);
-    else
+    } else {
         v2 = 0xff;
-    if (addr & 0x40)
+    }
+    if (addr & 0x40) {
         v3 = via_peek(addr);
-    else
+    } else {
         v3 = 0xff;
+    }
     v4 = 0xff;
     if ((addr & 0x80) && petres.crtc) {
         v4 = crtc_read(addr);
@@ -1496,31 +1503,31 @@ int mem_bank_from_name(const char *name)
 BYTE mem_bank_read(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case bank_default:        /* current */
-        return mem_read(addr);
-        break;
-      case bank_extram:         /* extended RAM area (8x96, SuperPET) */
-        return mem_ram[addr + EXT_RAM];
-        break;
-      case bank_io:            /* io */
-        if (addr >= 0xe800 && addr < 0xe900) {
-            return read_io(addr);
-        }
-        if (petres.superpet && (addr & 0xff00) == 0xef00) {
-            return read_super_io(addr);
-        }
-        if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
-            return read_unused(addr);
-        }
+        case bank_default:      /* current */
+            return mem_read(addr);
+            break;
+        case bank_extram:       /* extended RAM area (8x96, SuperPET) */
+            return mem_ram[addr + EXT_RAM];
+            break;
+        case bank_io:          /* io */
+            if (addr >= 0xe800 && addr < 0xe900) {
+                return read_io(addr);
+            }
+            if (petres.superpet && (addr & 0xff00) == 0xef00) {
+                return read_super_io(addr);
+            }
+            if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+                return read_unused(addr);
+            }
         /* fallthrough to rom */
-      case bank_rom:           /* rom */
-        if (addr >= 0x9000) {
-            return mem_rom[addr & 0x7fff];
-        }
-      case bank_cpu6809:       /* 6809 */
-        return mem6809_read(addr);
-      case bank_ram:           /* ram */
-        break;
+        case bank_rom:         /* rom */
+            if (addr >= 0x9000) {
+                return mem_rom[addr & 0x7fff];
+            }
+        case bank_cpu6809:     /* 6809 */
+            return mem6809_read(addr);
+        case bank_ram:         /* ram */
+            break;
     }
     return mem_ram[addr];
 }
@@ -1528,23 +1535,23 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
 BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
-      case bank_default:        /* current */
-        return mem_read(addr);  /* FIXME */
-        break;
-      case bank_io:             /* io */
-        if (addr >= 0xe800 && addr < 0xe900) {
-            return peek_bank_io(addr);
-        }
-        if (petres.superpet && (addr & 0xff00) == 0xef00) {
-            return read_super_io(addr);
-        }
-        if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
-            BYTE result;
-            /* is_peek_access = 1; FIXME */
-            result = read_unused(addr);
-            /* is_peek_access = 0; FIXME */
-            return result;
-        }
+        case bank_default:      /* current */
+            return mem_read(addr); /* FIXME */
+            break;
+        case bank_io:           /* io */
+            if (addr >= 0xe800 && addr < 0xe900) {
+                return peek_bank_io(addr);
+            }
+            if (petres.superpet && (addr & 0xff00) == 0xef00) {
+                return read_super_io(addr);
+            }
+            if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+                BYTE result;
+                /* is_peek_access = 1; FIXME */
+                result = read_unused(addr);
+                /* is_peek_access = 0; FIXME */
+                return result;
+            }
     }
     return mem_bank_read(bank, addr, context);
 }
@@ -1552,39 +1559,40 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
-      case bank_default:        /* current */
-        mem_store(addr, byte);
-        return;
-      case bank_extram:         /* extended RAM area (8x96, SuperPET) */
-        mem_ram[addr + EXT_RAM] = byte;
-        return;
-      case bank_io:             /* io */
-        if (addr >= 0xe800 && addr < 0xe900) {
-            store_io(addr, byte);
+        case bank_default:      /* current */
+            mem_store(addr, byte);
             return;
-        }
-        if (petres.superpet && (addr & 0xff00) == 0xef00) {
-            store_super_io(addr, byte);
+        case bank_extram:       /* extended RAM area (8x96, SuperPET) */
+            mem_ram[addr + EXT_RAM] = byte;
             return;
-        }
-        if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
-            store_dummy(addr, byte);
+        case bank_io:           /* io */
+            if (addr >= 0xe800 && addr < 0xe900) {
+                store_io(addr, byte);
+                return;
+            }
+            if (petres.superpet && (addr & 0xff00) == 0xef00) {
+                store_super_io(addr, byte);
+                return;
+            }
+            if (addr >= 0xe900 && addr < 0xe800 + petres.IOSize) {
+                store_dummy(addr, byte);
+                return;
+            }
+        case bank_rom:          /* rom */
+            if (addr >= 0x9000) {
+                return;
+            }
+        case bank_cpu6809:      /* rom */
+            mem6809_store(addr, byte);
             return;
-        }
-      case bank_rom:            /* rom */
-        if (addr >= 0x9000) {
-            return;
-        }
-      case bank_cpu6809:        /* rom */
-        mem6809_store(addr, byte);
-        return;
-      case 1:                   /* ram */
-        break;
+        case 1:                 /* ram */
+            break;
     }
     mem_ram[addr] = byte;
 }
 
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0xe810) && (addr <= 0xe81f)) {
         return pia1_dump();
     } else if ((addr >= 0xe820) && (addr <= 0xe82f)) {
@@ -1613,9 +1621,9 @@ static int mem_dump_io(WORD addr) {
             // Control switch
             /* return aciacore_dump(); */
             mon_out("CPU: %s\n",
-                petres.superpet_cpu_switch == SUPERPET_CPU_6502 ? "6502" :
-                petres.superpet_cpu_switch == SUPERPET_CPU_6809 ? "6809" :
-                                                            "PROG (unimpl)");
+                    petres.superpet_cpu_switch == SUPERPET_CPU_6502 ? "6502" :
+                    petres.superpet_cpu_switch == SUPERPET_CPU_6809 ? "6809" :
+                    "PROG (unimpl)");
             mon_out("RAM write protect: $%x\n", spet_ramwp);
             mon_out("diagnostic sense: $%x\n", spet_diag);
             return 0;
@@ -1693,4 +1701,3 @@ void petmem_check_info(petres_t *pi)
         pi->videoSize = 0x1000;
     }
 }
-

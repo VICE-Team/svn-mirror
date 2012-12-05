@@ -67,7 +67,7 @@
 #endif /* 10.6 */
 #endif /* 10.7 */
 
-/* detrmine compile-time CPU */ 
+/* detrmine compile-time CPU */
 #ifdef __POWERPC__
 #   define PLATFORM_CPU "ppc"
 #else

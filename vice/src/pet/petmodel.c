@@ -45,7 +45,7 @@ int pet_init_ok = 0; /* set to 1 in pet.c */
 /*
  * table with Model information
  */
-struct pet_table_s { 
+struct pet_table_s {
     const char *model;
     petinfo_t info;
 };
@@ -100,13 +100,12 @@ static pet_table_t pet_table[] = {
       { 32, 0x0800, 1, 80, 0, 0, 0, 0, 0, 0, 1,
         SUPERPET_CHARGEN_NAME, PET_KERNAL4NAME, PET_EDITOR4B80NAME, PET_BASIC4NAME,
         NULL, NULL, NULL,
-          { "waterloo-a000.901898-01.bin",
-            "waterloo-b000.901898-02.bin",
-            "waterloo-c000.901898-03.bin",
-            "waterloo-d000.901898-04.bin",
-            "waterloo-e000.901897-01.bin",
-            "waterloo-f000.901898-05.bin" }
-        } },
+        { "waterloo-a000.901898-01.bin",
+          "waterloo-b000.901898-02.bin",
+          "waterloo-c000.901898-03.bin",
+          "waterloo-d000.901898-04.bin",
+          "waterloo-e000.901897-01.bin",
+          "waterloo-f000.901898-05.bin" }} },
     { NULL }
 };
 
@@ -144,20 +143,21 @@ static int pet_set_model_info(petinfo_t *pi)
     resources_set_string("EditorName", pi->editorName);
 
     /* allow additional ROMs to survive a model switch. */
-    if (pi->mem9name)
+    if (pi->mem9name) {
         resources_set_string("RomModule9Name", pi->mem9name);
-    if (pi->memAname)
+    }
+    if (pi->memAname) {
         resources_set_string("RomModuleAName", pi->memAname);
-    if (pi->memBname)
+    }
+    if (pi->memBname) {
         resources_set_string("RomModuleBName", pi->memBname);
+    }
     if (pi->superpet) {
         int i;
 
         for (i = 0; i < NUM_6809_ROMS; i++) {
             if (pi->h6809romName[i]) {
-                resources_set_string_sprintf("H6809Rom%cName",
-                                            pi->h6809romName[i],
-                                            'A'+i);
+                resources_set_string_sprintf("H6809Rom%cName", pi->h6809romName[i], 'A' + i);
             }
         }
     }

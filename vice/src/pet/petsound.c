@@ -96,8 +96,7 @@ void machine_sid2_enable(int val)
 {
 }
 
-struct pet_sound_s
-{
+struct pet_sound_s {
     int on;
     CLOCK t;
     BYTE sample;
@@ -125,16 +124,20 @@ static WORD pet_makesample(double s, double e, BYTE sample)
     ef = (int)floor(e);
     nr = 0;
 
-    for (i = sc; i < ef; i++)
-        if (sample & (1 << (i % 8)))
+    for (i = sc; i < ef; i++) {
+        if (sample & (1 << (i % 8))) {
             nr++;
+        }
+    }
 
     v = nr;
 
-    if (sample & (1 << (sf % 8)))
+    if (sample & (1 << (sf % 8))) {
         v += sc - s;
-    if (sample & (1 << (ef % 8)))
+    }
+    if (sample & (1 << (ef % 8))) {
         v += e - ef;
+    }
 
     return ((WORD)(v * 4095.0 / (e - s)));
 }
@@ -194,26 +197,27 @@ void petsound_store_manual(int value)
 static void pet_sound_machine_store(sound_t *psid, WORD addr, BYTE val)
 {
     switch (addr) {
-      case 0:
-        snd.on = val;
-        break;
-      case 1:
-        snd.sample = val;
-        while (snd.b >= 1.0)
-            snd.b -= 1.0;
-        break;
-      case 2:
-        snd.t = val;
-        break;
-      case 3:
-        snd.t = (snd.t & 0xff) | (val << 8);
-        snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
-        break;
-      case 4:
-        snd.manual = val;
-        break;
-      default:
-        abort();
+        case 0:
+            snd.on = val;
+            break;
+        case 1:
+            snd.sample = val;
+            while (snd.b >= 1.0) {
+                snd.b -= 1.0;
+            }
+            break;
+        case 2:
+            snd.t = val;
+            break;
+        case 3:
+            snd.t = (snd.t & 0xff) | (val << 8);
+            snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
+            break;
+        case 4:
+            snd.manual = val;
+            break;
+        default:
+            abort();
     }
 }
 
@@ -223,8 +227,9 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
     snd.speed = speed;
     snd.cycles_per_sec = cycles_per_sec;
-    if (!snd.t)
+    if (!snd.t) {
         snd.t = 32;
+    }
     snd.b = 0.0;
     snd.bs = (double)snd.cycles_per_sec / (snd.t * snd.speed);
 
@@ -234,8 +239,9 @@ static int pet_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
     snddata[3] = 0;
     snddata[4] = 0;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; i++) {
         pet_sound_machine_store(psid, i, snddata[i]);
+    }
 
     return 1;
 }

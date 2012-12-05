@@ -49,4 +49,3 @@ extern int petmodel_get(void);
 extern void petmodel_set(int model);
 
 #endif
- 

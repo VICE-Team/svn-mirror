@@ -41,43 +41,66 @@
 static char os_cpu_str[MAX_OS_CPU_STR];
 static char os_version_str[MAX_OS_VERSION_STR];
 
-/* this code was taken from: http://www.cocoadev.com/index.pl?DeterminingOSVersion 
+/* this code was taken from: http://www.cocoadev.com/index.pl?DeterminingOSVersion
    and ported to C
 */
 static void get_os_version(unsigned *major, unsigned *minor, unsigned *bugFix)
 {
     OSErr err;
     SInt32 systemVersion, versionMajor, versionMinor, versionBugFix;
-    if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) goto fail;
-    if (systemVersion < 0x1040)
-    {
-        if (major) *major = ((systemVersion & 0xF000) >> 12) * 10 +
-            ((systemVersion & 0x0F00) >> 8);
-        if (minor) *minor = (systemVersion & 0x00F0) >> 4;
-        if (bugFix) *bugFix = (systemVersion & 0x000F);
+    if ((err = Gestalt(gestaltSystemVersion, &systemVersion)) != noErr) {
+        goto fail;
     }
-    else
-    {
-        if ((err = Gestalt(gestaltSystemVersionMajor, &versionMajor)) != noErr) goto fail;
-        if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr) goto fail;
-        if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) goto fail;
-        if (major) *major = versionMajor;
-        if (minor) *minor = versionMinor;
-        if (bugFix) *bugFix = versionBugFix;
+    if (systemVersion < 0x1040) {
+        if (major) {
+            *major = ((systemVersion & 0xF000) >> 12) * 10 +
+                     ((systemVersion & 0x0F00) >> 8);
+        }
+        if (minor) {
+            *minor = (systemVersion & 0x00F0) >> 4;
+        }
+        if (bugFix) {
+            *bugFix = (systemVersion & 0x000F);
+        }
+    } else {
+        if ((err = Gestalt(gestaltSystemVersionMajor, &versionMajor)) != noErr) {
+            goto fail;
+        }
+        if ((err = Gestalt(gestaltSystemVersionMinor, &versionMinor)) != noErr) {
+            goto fail;
+        }
+        if ((err = Gestalt(gestaltSystemVersionBugFix, &versionBugFix)) != noErr) {
+            goto fail;
+        }
+        if (major) {
+            *major = versionMajor;
+        }
+        if (minor) {
+            *minor = versionMinor;
+        }
+        if (bugFix) {
+            *bugFix = versionBugFix;
+        }
     }
 
     return;
 
 fail:
-    if (major) *major = 10;
-    if (minor) *minor = 0;
-    if (bugFix) *bugFix = 0;    
+    if (major) {
+        *major = 10;
+    }
+    if (minor) {
+        *minor = 0;
+    }
+    if (bugFix) {
+        *bugFix = 0;
+    }
 }
 
 char *platform_get_macosx_runtime_os(void)
 {
-    if(os_version_str[0] == 0) {
-        unsigned major,minor,bugFix;
+    if (os_version_str[0] == 0) {
+        unsigned major, minor, bugFix;
         get_os_version(&major, &minor, &bugFix);
         snprintf(os_version_str, MAX_OS_VERSION_STR, "%u.%u.%u", major, minor, bugFix);
     }
@@ -93,13 +116,13 @@ static char *get_sysctl_hw_string(int sect)
     /* determine length of string */
     mib[0] = CTL_HW;
     mib[1] = sect;
-    if(sysctl(mib, 2, NULL, &len, NULL, 0) != 0) {
+    if (sysctl(mib, 2, NULL, &len, NULL, 0) != 0) {
         return NULL;
     }
-       
-    /* retrieve string */ 
+
+    /* retrieve string */
     str = malloc(len);
-    if(sysctl(mib, 2, str, &len, NULL, 0) != 0) {
+    if (sysctl(mib, 2, str, &len, NULL, 0) != 0) {
         free(str);
         return NULL;
     }
@@ -115,7 +138,7 @@ static int get_sysctl_hw_int(int sect)
     mib[0] = CTL_HW;
     mib[1] = sect;
     len = sizeof(data);
-    if(sysctl(mib, 2, &data, &len, NULL, 0) == 0) {
+    if (sysctl(mib, 2, &data, &len, NULL, 0) == 0) {
         return data;
     } else {
         return -1;
@@ -131,7 +154,7 @@ static int64_t get_sysctl_hw_int64(int sect)
     mib[0] = CTL_HW;
     mib[1] = sect;
     len = sizeof(data);
-    if(sysctl(mib, 2, &data, &len, NULL, 0) == 0) {
+    if (sysctl(mib, 2, &data, &len, NULL, 0) == 0) {
         return data;
     } else {
         return -1;
@@ -140,20 +163,23 @@ static int64_t get_sysctl_hw_int64(int sect)
 
 char *platform_get_macosx_runtime_cpu(void)
 {
-    if(os_cpu_str[0] == 0) {
+    if (os_cpu_str[0] == 0) {
         char *machine = get_sysctl_hw_string(HW_MACHINE);
         char *model = get_sysctl_hw_string(HW_MODEL);
         int num_cpus = get_sysctl_hw_int(HW_NCPU);
         int64_t memsize = get_sysctl_hw_int64(HW_MEMSIZE);
-        int mem_mb= (int)(memsize >> 20);
-        
+        int mem_mb = (int)(memsize >> 20);
+
         snprintf(os_cpu_str, MAX_OS_CPU_STR, "%s [%s] [%d CPUs] [%d MiB RAM]", machine, model, num_cpus, mem_mb);
-        
-        if(machine != NULL) free(machine);
-        if(model != NULL) free(model);
+
+        if (machine != NULL) {
+            free(machine);
+        }
+        if (model != NULL) {
+            free(model);
+        }
     }
     return os_cpu_str;
 }
 
 #endif
-
