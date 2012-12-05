@@ -166,36 +166,11 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
 {
-    if (pport.data_falloff_bit6) {
-        pport.data_falloff_bit6++;
-        if (pport.data_falloff_bit6 == 3) {
-            pport.data_set_bit6 = 0;
-            pport.data_falloff_bit6 = 0;
-        }
+    if (pport.data_set_clk_bit6 > (CLOCK)0) {
+        pport.data_set_clk_bit6 -= sub;
     }
-
-    if (pport.data_falloff_bit7) {
-        pport.data_falloff_bit7++;
-        if (pport.data_falloff_bit7 == 3) {
-            pport.data_set_bit7 = 0;
-            pport.data_falloff_bit7 = 0;
-        }
-    }
-
-    pport.data_set_clk_bit6 -= sub;
-    pport.data_set_clk_bit7 -= sub;
-}
-
-static void check_data_set_alarm(void)
-{
-    if (pport.data_set_clk_bit6 < maincpu_clk) {
-        pport.data_falloff_bit6 = 0;
-        pport.data_set_bit6 = 0;
-    }
-
-    if (pport.data_set_clk_bit7 < maincpu_clk) {
-        pport.data_set_bit7 = 0;
-        pport.data_falloff_bit7 = 0;
+    if (pport.data_set_clk_bit7 > (CLOCK)0) {
+        pport.data_set_clk_bit7 -= sub;
     }
 }
 
@@ -239,20 +214,22 @@ BYTE zero_read(WORD addr)
         case 0:
             return pport.dir_read;
         case 1:
-            if (pport.data_falloff_bit6 || pport.data_falloff_bit7) {
-                check_data_set_alarm();
-            }
-
             /* set real values of bits 0-5 */
             retval = pport.data_read & 0x3f;
 
             /* set real value of bit 6 */
-            retval |= (pport.dir & 0x40) ? (pport.data_read & 0x40) : (pport.data_set_bit6 << 6);
+            if (pport.data_falloff_bit6 && (pport.data_set_clk_bit6 < maincpu_clk)) {
+                pport.data_falloff_bit6 = 0;
+                pport.data_set_bit6 = 0;
+            }
 
             /* set real value of bit 7 */
-            retval |= (pport.dir & 0x80) ? (pport.data_read & 0x80) : (pport.data_set_bit7 << 7);
+            if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
+                pport.data_falloff_bit7 = 0;
+                pport.data_set_bit7 = 0;
+            }
 
-            return retval;
+            return retval | pport.data_set_bit6 | pport.data_set_bit7;
     }
 
     if (c64_256k_enabled) {
@@ -290,15 +267,25 @@ void zero_store(WORD addr, BYTE value)
             }
 
             /* check if bit 6 has flipped */
-            if ((pport.dir & 0x40) != (value & 0x40)) {
-                pport.data_set_bit6 = 0;
-                pport.data_falloff_bit6 = 0;
+            if ((pport.dir ^ value) & 0x40) {
+                if (value & 0x40) { /* output, update according to last write, cancel falloff */
+                    pport.data_set_bit6 = pport.data & 0x40;
+                    pport.data_falloff_bit6 = 0;
+                } else { /* input, start falloff if bit was set */
+                    pport.data_falloff_bit6 = pport.data_set_bit6;
+                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+                }
             }
 
             /* check if bit 7 has flipped */
-            if ((pport.dir & 0x80) != (value & 0x80)) {
-                pport.data_set_bit7 = 0;
-                pport.data_falloff_bit7 = 0;
+            if ((pport.dir ^ value) & 0x80) {
+                if (value & 0x80) { /* output, update according to last write, cancel falloff */
+                    pport.data_set_bit7 = pport.data & 0x80;
+                    pport.data_falloff_bit7 = 0;
+                } else { /* input, start falloff if bit was set */
+                    pport.data_falloff_bit7 = pport.data_set_bit7;
+                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+                }
             }
 
             if (pport.dir != value) {
@@ -322,24 +309,14 @@ void zero_store(WORD addr, BYTE value)
                 machine_handle_pending_alarms(maincpu_rmw_flag + 1);
             }
 
-            /* only start bit 7 fall-off if direction is read and bit is set to 1 */
-            if ((value & 0x80) && !(pport.dir & 0x80)) {
-                pport.data_set_bit7 = 1;
-                pport.data_falloff_bit7 = 1;
-                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
-            } else {
-                pport.data_set_bit7 = 0;
-                pport.data_falloff_bit7 = 0;
+            /* update value if output, otherwise don't touch */
+            if (pport.dir & 0x80) {
+                pport.data_set_bit7 = value & 0x80;
             }
 
-            /* only start bit 6 fall-off if direction is read and bit is set to 1 */
-            if ((value & 0x40) && !(pport.dir & 0x40)) {
-                pport.data_set_bit6 = 1;
-                pport.data_falloff_bit6 = 1;
-                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
-            } else {
-                pport.data_set_bit6 = 0;
-                pport.data_falloff_bit6 = 0;
+            /* update value if output, otherwise don't touch */
+            if (pport.dir & 0x40) {
+                pport.data_set_bit6 = value & 0x40;
             }
 
             if (pport.data != value) {
