@@ -112,6 +112,18 @@
 
 /* ------------------------------------------------------------------------- */
 
+#ifndef CYCLE_EXACT_ALARM
+#define PROCESS_ALARMS                                             \
+    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) { \
+        alarm_context_dispatch(ALARM_CONTEXT, CLK);                \
+        CPU_DELAY_CLK                                              \
+    }
+#else
+#define PROCESS_ALARMS
+#endif
+
+/* ------------------------------------------------------------------------- */
+
 #define LOCAL_SET_NZ(val)        (flag_z = flag_n = (val))
 
 #define LOCAL_SET_OVERFLOW(val)   \
@@ -247,20 +259,19 @@
 #endif
 
 #ifdef DEBUG
-#define TRACE_NMI() \
-    do { if (TRACEFLG) debug_nmi(CPU_INT_STATUS, CLK); } while (0)
-#define TRACE_IRQ() \
-    do { if (TRACEFLG) debug_irq(CPU_INT_STATUS, CLK); } while (0)
+#define TRACE_NMI(clk) \
+    do { if (TRACEFLG) debug_nmi(CPU_INT_STATUS, (clk)); } while (0)
+#define TRACE_IRQ(clk) \
+    do { if (TRACEFLG) debug_irq(CPU_INT_STATUS, (clk)); } while (0)
 #define TRACE_BRK() do { if (TRACEFLG) debug_text("*** BRK"); } while (0)
 #else
-#define TRACE_NMI()
-#define TRACE_IRQ()
+#define TRACE_NMI(clk)
+#define TRACE_IRQ(clk)
 #define TRACE_BRK()
 #endif
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
-   execute NMI.  */
-/* FIXME: Dummy LOAD() cycles are missing!  */
+   execute NMI. NMI can take over an in progress IRQ.  */
 /* FIXME: Improper BRK handling!  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                                 \
@@ -268,41 +279,42 @@
         BYTE ik = (int_kind);                                                  \
                                                                                \
         if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                             \
-            if ((ik & IK_NMI)                                                  \
-                && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {           \
-                TRACE_NMI();                                                   \
+            if (((ik & IK_NMI)                                                 \
+                && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK))             \
+                || ((ik & (IK_IRQ | IK_IRQPEND)) && (!LOCAL_INTERRUPT()        \
+                || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))                      \
+                && interrupt_check_irq_delay(CPU_INT_STATUS, CLK))) {          \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                        \
                     monitor_check_icount_interrupt();                          \
                 }                                                              \
-                interrupt_ack_nmi(CPU_INT_STATUS);                             \
-                LOCAL_SET_BREAK(0);                                            \
-                PUSH(reg_pc >> 8);                                             \
-                PUSH(reg_pc & 0xff);                                           \
-                PUSH(LOCAL_STATUS());                                          \
-                LOCAL_SET_DECIMAL(0);                                          \
-                LOCAL_SET_INTERRUPT(1);                                        \
-                JUMP(LOAD_ADDR(0xfffa));                                       \
-                SET_LAST_OPCODE(0);                                            \
-                CLK_ADD(CLK, NMI_CYCLES);                                      \
-            } else if ((ik & (IK_IRQ | IK_IRQPEND))                            \
-                       && (!LOCAL_INTERRUPT()                                  \
-                       || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))               \
-                       && interrupt_check_irq_delay(CPU_INT_STATUS,            \
-                                                    CLK)) {                    \
-                TRACE_IRQ();                                                   \
-                if (monitor_mask[CALLER] & (MI_STEP)) {                        \
-                    monitor_check_icount_interrupt();                          \
+                if (NMI_CYCLES == 7) {                                         \
+                    LOAD(reg_pc);   /* dummy reads */                          \
+                    CLK_ADD(CLK, 1);                                           \
+                    LOAD(reg_pc);                                              \
+                    CLK_ADD(CLK, 1);                                           \
                 }                                                              \
-                interrupt_ack_irq(CPU_INT_STATUS);                             \
                 LOCAL_SET_BREAK(0);                                            \
                 PUSH(reg_pc >> 8);                                             \
                 PUSH(reg_pc & 0xff);                                           \
+                CLK_ADD(CLK, 2);                                               \
                 PUSH(LOCAL_STATUS());                                          \
-                LOCAL_SET_INTERRUPT(1);                                        \
+                CLK_ADD(CLK, 1);                                               \
                 LOCAL_SET_DECIMAL(0);                                          \
-                JUMP(LOAD_ADDR(0xfffe));                                       \
+                LOCAL_SET_INTERRUPT(1);                                        \
+                CPU_DELAY_CLK /* process alarms for cartridge freeze */        \
+                PROCESS_ALARMS                                                 \
+                if ((CPU_INT_STATUS->global_pending_int & IK_NMI)              \
+                    && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) { \
+                    TRACE_NMI(CLK - NMI_CYCLES + 2);                           \
+                    interrupt_ack_nmi(CPU_INT_STATUS);                         \
+                    JUMP(LOAD_ADDR(0xfffa));                                   \
+                } else {                                                       \
+                    TRACE_IRQ(CLK - IRQ_CYCLES + 2);                           \
+                    interrupt_ack_irq(CPU_INT_STATUS);                         \
+                    JUMP(LOAD_ADDR(0xfffe));                                   \
+                }                                                              \
                 SET_LAST_OPCODE(0);                                            \
-                CLK_ADD(CLK, IRQ_CYCLES);                                      \
+                CLK_ADD(CLK, 2);                                               \
             }                                                                  \
         }                                                                      \
         if (ik & (IK_TRAP | IK_RESET)) {                                       \
@@ -1469,12 +1481,7 @@
 {
     CPU_DELAY_CLK
 
-#ifndef CYCLE_EXACT_ALARM
-    while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
-        alarm_context_dispatch(ALARM_CONTEXT, CLK);
-        CPU_DELAY_CLK
-    }
-#endif
+    PROCESS_ALARMS
 
     {
         enum cpu_int pending_interrupt;
@@ -1492,12 +1499,8 @@
                 && CPU_INT_STATUS->global_pending_int & IK_IRQPEND)
                     CPU_INT_STATUS->global_pending_int &= ~IK_IRQPEND;
             CPU_DELAY_CLK
-#ifndef CYCLE_EXACT_ALARM
-            while (CLK >= alarm_context_next_pending_clk(ALARM_CONTEXT)) {
-                alarm_context_dispatch(ALARM_CONTEXT, CLK);
-                CPU_DELAY_CLK
-            }
-#endif
+
+            PROCESS_ALARMS                                        \
         }
     }
 
