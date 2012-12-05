@@ -44,7 +44,7 @@
 
 /* still to check and possibly fix:
  *
- * - BRK doesn't get interrupted by an IRQ/NMI on the 65(S)C02.
+ * - BRK does get interrupted by an IRQ/NMI on the 65(S)C02?
  */
 
 #ifndef CPU_STR
@@ -272,7 +272,6 @@
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI. NMI can take over an in progress IRQ.  */
-/* FIXME: Improper BRK handling!  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                                 \
     do {                                                                       \
@@ -301,7 +300,7 @@
                 CLK_ADD(CLK, 1);                                               \
                 LOCAL_SET_DECIMAL(0);                                          \
                 LOCAL_SET_INTERRUPT(1);                                        \
-                CPU_DELAY_CLK /* process alarms for cartridge freeze */        \
+                CPU_DELAY_CLK /* process alarms for irq/nmi */                 \
                 PROCESS_ALARMS                                                 \
                 if ((CPU_INT_STATUS->global_pending_int & IK_NMI)              \
                     && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) { \
@@ -631,19 +630,43 @@
       }                                              \
   } while (0)
 
-#define BRK()                  \
-  do {                         \
-      EXPORT_REGISTERS();      \
-      CLK_ADD(CLK, CYCLES_5);  \
-      TRACE_BRK();             \
-      INC_PC(SIZE_2);          \
-      LOCAL_SET_BREAK(1);      \
-      PUSH(reg_pc >> 8);       \
-      PUSH(reg_pc & 0xff);     \
-      PUSH(LOCAL_STATUS());    \
-      LOCAL_SET_DECIMAL(0);    \
-      LOCAL_SET_INTERRUPT(1);  \
-      JUMP(LOAD_ADDR(0xfffe)); \
+#define BRK()                                                    \
+  do {                                                           \
+      EXPORT_REGISTERS();                                        \
+      INC_PC(SIZE_2);                                            \
+      LOCAL_SET_BREAK(1);                                        \
+      PUSH(reg_pc >> 8);                                         \
+      PUSH(reg_pc & 0xff);                                       \
+      CLK_ADD(CLK, CYCLES_2);                                    \
+      PUSH(LOCAL_STATUS());                                      \
+      CLK_ADD(CLK, CYCLES_1);                                    \
+      LOCAL_SET_DECIMAL(0);                                      \
+      CPU_DELAY_CLK    /* process alarms for irq/nmi */          \
+      PROCESS_ALARMS                                             \
+      if ((CPU_INT_STATUS->global_pending_int & IK_NMI)          \
+      && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) { \
+          LOCAL_SET_INTERRUPT(1);                                \
+          TRACE_NMI(CLK - CYCLES_5);                             \
+          if (monitor_mask[CALLER] & (MI_STEP)) {                \
+              monitor_check_icount_interrupt();                  \
+          }                                                      \
+          interrupt_ack_nmi(CPU_INT_STATUS);                     \
+          JUMP(LOAD_ADDR(0xfffa));                               \
+      } else if ((CPU_INT_STATUS->global_pending_int & (IK_IRQ | IK_IRQPEND))\
+      && !LOCAL_INTERRUPT() && (CLK >= (CPU_INT_STATUS->irq_clk + INTERRUPT_DELAY))) {\
+          LOCAL_SET_INTERRUPT(1);                                \
+          TRACE_IRQ(CLK - CYCLES_5);                             \
+          if (monitor_mask[CALLER] & (MI_STEP)) {                \
+              monitor_check_icount_interrupt();                  \
+          }                                                      \
+          interrupt_ack_irq(CPU_INT_STATUS);                     \
+          JUMP(LOAD_ADDR(0xfffe));                               \
+      } else {                                                   \
+          TRACE_BRK();                                           \
+          LOCAL_SET_INTERRUPT(1);                                \
+          JUMP(LOAD_ADDR(0xfffe));                               \
+      }                                                          \
+      CLK_ADD(CLK, CYCLES_2);                                    \
   } while (0)
 
 #define CLC()             \
