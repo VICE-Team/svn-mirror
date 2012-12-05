@@ -457,75 +457,6 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
 #endif
 }
 
-
-#ifdef HAVE_XVIDEO
-/* Mapping between VICE and XVideo color settings. */
-struct {
-    char* name;
-    Atom atom;
-    int min;
-    int max;
-    int v_max;
-    int xv_zero;
-    int xv_default;
-    int restore;     /* 0 unknown, 1 ok, 2 fault */
-    int *value;
-}
-
-xv_settings[] = {
-    { "XV_SATURATION", 0, 0, 0, 2000, 32, 0, 0, NULL },
-    { "XV_CONTRAST", 0, 0, 0, 2000, 64, 0, 0, NULL },
-    { "XV_BRIGHTNESS", 0, 0, 0, 2000, 144, 0, 0, NULL },
-    { "XV_GAMMA", 0, 0, 0, 4000, 1000, 0, 0, NULL }
-};
-
-static void init_xv_settings(video_canvas_t *canvas)
-{
-    /* Find XVideo color setting limits. */
-    if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        int i, j;
-        int numattr = 0;
-        Display *dpy = x11ui_get_display_ptr();
-        XvAttribute *attr = XvQueryPortAttributes(dpy, canvas->xv_port, &numattr);
-
-        xv_settings[0].value = &(canvas->videoconfig->video_resources.color_saturation);
-        xv_settings[1].value = &(canvas->videoconfig->video_resources.color_contrast);
-        xv_settings[2].value = &(canvas->videoconfig->video_resources.color_brightness);
-        xv_settings[3].value = &(canvas->videoconfig->video_resources.color_gamma);
-
-        for (i = 0; i < (int)util_arraysize(xv_settings); i++) {
-            xv_settings[i].atom = 0;
-
-            for (j = 0; j < numattr; j++) {
-                if (!(attr[j].flags & XvSettable)) {
-                    continue; /* useless, can't be set */
-                }
-                if (strcmp(xv_settings[i].name, attr[j].name) == 0) {
-                    xv_settings[i].atom = XInternAtom(dpy, xv_settings[i].name, False);
-                    xv_settings[i].min = attr[j].min_value;
-                    xv_settings[i].max = attr[j].max_value;
-                    if ((attr[j].flags & XvGettable) && !xv_settings[i].restore) {
-                        xv_settings[i].restore = (XvGetPortAttribute(dpy, canvas->xv_port,
-                                xv_settings[i].atom, &xv_settings[i].xv_default) == Success);
-                        if (!xv_settings[i].restore) {
-                            xv_settings[i].restore = 2;
-                        }
-                    }
-                    break;
-                }
-            }
-        }
-
-        if (attr) {
-            XFree(attr);
-        }
-
-        /* Apply color settings to XVideo. */
-        video_canvas_set_palette(canvas, canvas->palette);
-    }
-}
-#endif
-
 static void video_refresh_func(void (*rfunc)(void));
 
 static int video_arch_frame_buffer_alloc(video_canvas_t *canvas, unsigned int width, unsigned int height)
@@ -772,10 +703,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
         uicolor_init_video_colors(canvas);
     }
 
-#ifdef HAVE_XVIDEO
-    init_xv_settings(canvas);
-#endif
-
 #ifdef HAVE_OPENGL_SYNC
     openGL_sync_init(canvas);
 #endif
@@ -785,20 +712,6 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
 
 void video_canvas_destroy(video_canvas_t *canvas)
 {
-#ifdef HAVE_XVIDEO
-    /* Restore color settings to XVideo. */
-    if (canvas->videoconfig->hwscale && canvas->xv_image) {
-        int i;
-        Display *dpy = x11ui_get_display_ptr();
-
-        for (i = 0; i < (int)util_arraysize(xv_settings); i++) {
-            if (xv_settings[i].restore == 1) {
-                XvSetPortAttribute(dpy, canvas->xv_port, xv_settings[i].atom, xv_settings[i].xv_default);
-            }
-        }
-        video_canvas_refresh(canvas, 0, 0, 0, 0, 0, 0); /* settings not restored unless it's displayed once... */
-    }
-#endif
 #ifdef HAVE_FULLSCREEN
     if (canvas != NULL) {
         fullscreen_shutdown_alloc_hooks(canvas);
@@ -812,46 +725,6 @@ int video_canvas_set_palette(video_canvas_t *c, struct palette_s *palette)
     if (palette == NULL) {
         return 0; /* no palette, nothing to do */
     }
-#ifdef HAVE_XVIDEO
-    /* Apply color settings to XVideo. */
-    if (c->videoconfig->hwscale && c->xv_image) {
-        int i;
-
-        Display *dpy = x11ui_get_display_ptr();
-
-        for (i = 0; i < (int)util_arraysize(xv_settings); i++) {
-            /* Map from VICE [0,2000] to XVideo [xv_min, xv_max]. */
-            /* Problem with gamma: vice's values range [0,4000] with 2200 being
-             * neutral; XVideo ranges [100,10 000] with 1000 being neutral.
-             */
-            int v_min = 0, v_max = xv_settings[i].v_max;
-            int v_zero = (v_min + v_max) / 2;
-            int v_range = v_max - v_min;
-            int xv_range = xv_settings[i].max - xv_settings[i].min;
-            int xv_zero = xv_settings[i].min + xv_settings[i].xv_zero * xv_range / 256;
-            int xv_val;
-
-            if (xv_settings[i].xv_zero > 256) { /* gamma */
-                xv_val = *xv_settings[i].value;
-            } else {
-                xv_val = (*xv_settings[i].value - v_zero) * xv_range / v_range + xv_zero;
-            }
-
-            if (xv_val > xv_settings[i].max) {
-                xv_val = xv_settings[i].max;
-            }
-            if (xv_val < xv_settings[i].min) {
-                xv_val = xv_settings[i].min;
-            }
-
-            if (!xv_settings[i].atom) {
-                continue;
-            }
-
-            XvSetPortAttribute(dpy, c->xv_port, xv_settings[i].atom, xv_val);
-        }
-    }
-#endif
 
     c->palette = palette;
 
@@ -886,10 +759,6 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
     }
 
     ui_finish_canvas(canvas);
-
-#ifdef HAVE_XVIDEO
-    init_xv_settings(canvas);
-#endif
 }
 
 /* ------------------------------------------------------------------------- */

@@ -323,13 +323,21 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
 {
     video_ycbcr_color_t *primary;
     unsigned int i, lf, hf;
-    float sat,tin;
+    float sat, tin, bri, con, gam;
+    float yf, uf, vf;
+    int y, u, v;
+    double factor;
 
     lf = 64 * video_resources->pal_blur / 1000;
     hf = 255 - (lf << 1);
     sat = ((float)(video_resources->color_saturation)) * (256.0f / 1000.0f);
     tin = (((float)(video_resources->color_tint)) * (50.0f / 2000.0f))-25.0f;
+    bri = ((float)(video_resources->color_brightness - 1000))
+          * (112.0f / 1000.0f);
+    con = ((float)(video_resources->color_contrast   )) / 1000.0f;
+    gam = video_get_gamma(video_resources);
 
+    factor = pow(256.0f, 1.0f - gam);
     for (i = 0; i < p->num_entries; i++) {
         SDWORD val;
 
@@ -345,10 +353,29 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
         color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat);
         color_tab->cvtable[i] = (SDWORD)(0.877283 * (primary->cr + val) * 256);
 
+        yf = video_gamma(primary->y, factor, gam, bri, con) * 224.0 / 256.0 + 16.5;
+        uf = 0.493111 * primary->cb * sat * con * 224.0 / 256.0 / 256.0 + 128.5;
+        vf = 0.877283 * (primary->cr + tin) * sat * con * 224.0 / 256.0 / 256.0 + 128.5;
+        y = (int)yf;
+        u = (int)uf;
+        v = (int)vf;
+        if (y < 16) {
+            y = 16;
+        } else if (y > 240) {
+            y = 240;
+        }
+        if (u < 16) {
+            u = 16;
+        } else if (u > 240) {
+            u = 240;
+        }
+        if (v < 16) {
+            v = 16;
+        } else if (v > 240) {
+            v = 240;
+        }
         /* YCbCr to YUV, scale [0, 256] to [0, 255] */
-        color_tab->yuv_table[i] = ((BYTE)(primary->y * 255 / 256 + 0.5) << 16)
-            | ((BYTE)(0.493111 * primary->cb * 255 / 256 + 128.5) << 8)
-            | (BYTE)(0.877283 * primary->cr * 255 / 256 + 128.5);
+        color_tab->yuv_table[i] = (y << 16) | (u << 8) | v;
     }
     color_tab->yuv_updated = 0;
 }

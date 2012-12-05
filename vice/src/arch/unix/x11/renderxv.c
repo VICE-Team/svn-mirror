@@ -185,19 +185,9 @@ int find_yuv_port(Display* display, XvPortID* port, fourcc_t* format, int *overl
                         continue;
                     }
                     if (found_one) {
-                        int numattr;
-                        XvAttribute *attr;
                         if (!*overlay && is_overlay) {
                             XvUngrabPort(display, port_id, CurrentTime);
                             continue; /* Prefer non-overlay as that one can handle more than one windows */
-                        }
-                        attr = XvQueryPortAttributes(display, port_id, &numattr);
-                        if (attr) {
-                            XFree(attr);
-                        }
-                        if (!numattr) {
-                            XvUngrabPort(display, port_id, CurrentTime);
-                            continue; /* no attributes? Can't be better than the previous one... */
                         }
                         XvUngrabPort(display, *port, CurrentTime);
                     }
