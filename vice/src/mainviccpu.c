@@ -294,6 +294,12 @@ inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
 {
     CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
 
+    /* BRK (0x00) delays the NMI by one opcode.  */
+    /* TODO DO_INTERRUPT sets last opcode to 0: can NMI occur right after IRQ? */
+    if (OPINFO_NUMBER(*cs->last_opcode_info_ptr) == 0x00) {
+        return 0;
+    }
+
     /* Branch instructions delay IRQs and NMI by one cycle if branch
        is taken with no page boundary crossing.  */
     if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr))

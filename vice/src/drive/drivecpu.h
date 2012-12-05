@@ -30,6 +30,13 @@
 
 #include "types.h"
 
+/* Masks to extract information. */
+#define OPINFO_NUMBER_MSK               0xff
+
+/* Return the opcode number for `opinfo'.  */
+#define OPINFO_NUMBER(opinfo)                   \
+    ((opinfo) & OPINFO_NUMBER_MSK)
+
 struct drive_context_s;
 struct interrupt_cpu_status_s;
 struct monitor_interface_s;
