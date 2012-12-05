@@ -169,8 +169,16 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
     if (pport.data_set_clk_bit6 > (CLOCK)0) {
         pport.data_set_clk_bit6 -= sub;
     }
+    if (pport.data_falloff_bit6 && (pport.data_set_clk_bit6 < maincpu_clk)) {
+        pport.data_falloff_bit6 = 0;
+        pport.data_set_bit6 = 0;
+    }
     if (pport.data_set_clk_bit7 > (CLOCK)0) {
         pport.data_set_clk_bit7 -= sub;
+    }
+    if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
+        pport.data_falloff_bit7 = 0;
+        pport.data_set_bit7 = 0;
     }
 }
 
