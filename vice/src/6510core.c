@@ -339,19 +339,19 @@
 #endif
 
 #ifdef DEBUG
-#define TRACE_NMI() \
-    do { if (TRACEFLG) debug_nmi(CPU_INT_STATUS, CLK); } while (0)
-#define TRACE_IRQ() \
-    do { if (TRACEFLG) debug_irq(CPU_INT_STATUS, CLK); } while (0)
+#define TRACE_NMI(clk) \
+    do { if (TRACEFLG) debug_nmi(CPU_INT_STATUS, (clk)); } while (0)
+#define TRACE_IRQ(clk) \
+    do { if (TRACEFLG) debug_irq(CPU_INT_STATUS, (clk)); } while (0)
 #define TRACE_BRK() do { if (TRACEFLG) debug_text("*** BRK"); } while (0)
 #else
-#define TRACE_NMI()
-#define TRACE_IRQ()
+#define TRACE_NMI(clk)
+#define TRACE_IRQ(clk)
 #define TRACE_BRK()
 #endif
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
-   execute NMI.  */
+   execute NMI. NMI can take over an in progress IRQ.  */
 /* FIXME: Improper BRK handling!  */
 /* FIXME: LOCAL_STATUS() should check byte ready first.  */
 #define DO_INTERRUPT(int_kind)                                        \
@@ -359,13 +359,14 @@
         BYTE ik = (int_kind);                                         \
                                                                       \
         if (ik & (IK_IRQ | IK_IRQPEND | IK_NMI)) {                    \
-            if ((ik & IK_NMI)                                         \
-                && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK)) {  \
-                TRACE_NMI();                                          \
+            if (((ik & IK_NMI)                                        \
+                && interrupt_check_nmi_delay(CPU_INT_STATUS, CLK))    \
+                || ((ik & (IK_IRQ | IK_IRQPEND)) && (!LOCAL_INTERRUPT()\
+                || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))             \
+                && interrupt_check_irq_delay(CPU_INT_STATUS, CLK))) { \
                 if (monitor_mask[CALLER] & (MI_STEP)) {               \
                     monitor_check_icount_interrupt();                 \
                 }                                                     \
-                interrupt_ack_nmi(CPU_INT_STATUS);                    \
                 if (NMI_CYCLES == 7) {                                \
                     FETCH_PARAM(reg_pc);   /* dummy reads */          \
                     CLK_ADD(CLK, 1);                                  \
@@ -381,35 +382,16 @@
                 LOCAL_SET_INTERRUPT(1);                               \
                 CPU_DELAY_CLK /* process alarms for cartridge freeze */ \
                 PROCESS_ALARMS                                        \
-                JUMP(LOAD_ADDR(0xfffa));                              \
-                SET_LAST_OPCODE(0);                                   \
-                CLK_ADD(CLK, 2);                                      \
-            } else if ((ik & (IK_IRQ | IK_IRQPEND))                   \
-                       && (!LOCAL_INTERRUPT()                         \
-                       || OPINFO_DISABLES_IRQ(LAST_OPCODE_INFO))      \
-                       && interrupt_check_irq_delay(CPU_INT_STATUS,   \
-                                                    CLK)) {           \
-                TRACE_IRQ();                                          \
-                if (monitor_mask[CALLER] & (MI_STEP)) {               \
-                    monitor_check_icount_interrupt();                 \
+                if ((CPU_INT_STATUS->global_pending_int & IK_NMI)     \
+                    && (CLK >= (CPU_INT_STATUS->nmi_clk + INTERRUPT_DELAY))) {\
+                    TRACE_NMI(CLK - NMI_CYCLES + 2);                  \
+                    interrupt_ack_nmi(CPU_INT_STATUS);                \
+                    JUMP(LOAD_ADDR(0xfffa));                          \
+                } else {                                              \
+                    TRACE_IRQ(CLK - IRQ_CYCLES + 2);                  \
+                    interrupt_ack_irq(CPU_INT_STATUS);                \
+                    JUMP(LOAD_ADDR(0xfffe));                          \
                 }                                                     \
-                interrupt_ack_irq(CPU_INT_STATUS);                    \
-                if (IRQ_CYCLES == 7) {                                \
-                    FETCH_PARAM(reg_pc);   /* dummy reads */          \
-                    CLK_ADD(CLK, 1);                                  \
-                    FETCH_PARAM(reg_pc);                              \
-                    CLK_ADD(CLK, 1);                                  \
-                }                                                     \
-                LOCAL_SET_BREAK(0);                                   \
-                PUSH(reg_pc >> 8);                                    \
-                PUSH(reg_pc & 0xff);                                  \
-                CLK_ADD(CLK, 2);                                      \
-                PUSH(LOCAL_STATUS());                                 \
-                CLK_ADD(CLK, 1);                                      \
-                LOCAL_SET_INTERRUPT(1);                               \
-                CPU_DELAY_CLK /* process alarms for cartridge freeze */ \
-                PROCESS_ALARMS                                        \
-                JUMP(LOAD_ADDR(0xfffe));                              \
                 SET_LAST_OPCODE(0);                                   \
                 CLK_ADD(CLK, 2);                                      \
             }                                                         \
