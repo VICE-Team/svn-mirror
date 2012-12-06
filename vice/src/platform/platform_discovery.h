@@ -107,7 +107,9 @@
 #              define PLATFORM_COMPILER "WATCOM"
 #            endif
 #          else
-#            define PLATFORM_COMPILER "MSVC"
+#            ifndef PLATFORM_COMPILER
+#              define PLATFORM_COMPILER "MSVC"
+#            endif
 #          endif
 #        endif
 #      endif

@@ -346,7 +346,7 @@ BYTE mouse_poll(void)
             os_iv = (unsigned long)vsyncarch_frequency(); /* more than a second response time?! */
         }
         emu_iv = (CLOCK)((float)os_iv * emu_units_per_os_units);
-        if (emu_iv > machine_get_cycles_per_frame() * 2) {
+        if (emu_iv > (unsigned long)machine_get_cycles_per_frame() * 2) {
             emu_iv = machine_get_cycles_per_frame() * 2;   /* move in not more than 2 frames */
         }
 #ifdef DEBUG_MOUSE
@@ -379,13 +379,13 @@ BYTE mouse_poll(void)
             sy = 0;
             update_y_emu_iv = update_limit;
         }
-        if (update_x_emu_iv < update_limit) {
+        if (update_x_emu_iv < (unsigned int)update_limit) {
             if (update_x_emu_iv) {
                 update_y_emu_iv = update_y_emu_iv * update_limit / update_x_emu_iv;
             }
             update_x_emu_iv = update_limit;
         }
-        if (update_y_emu_iv < update_limit) {
+        if (update_y_emu_iv < (unsigned int)update_limit) {
             if (update_y_emu_iv) {
                 update_x_emu_iv = update_x_emu_iv * update_limit / update_y_emu_iv;
             }
@@ -404,7 +404,7 @@ BYTE mouse_poll(void)
             os_iv2 = (unsigned long)vsyncarch_frequency(); /* more than a second response time?! */
         }
         emu_iv2 = (CLOCK)((float)os_iv2 * emu_units_per_os_units);
-        if (emu_iv2 > machine_get_cycles_per_second()) {
+        if (emu_iv2 > (unsigned long)machine_get_cycles_per_second()) {
             emu_iv2 = machine_get_cycles_per_second();   /* more than a second? */
         }
 

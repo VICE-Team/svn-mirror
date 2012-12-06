@@ -324,7 +324,7 @@ static int write_sector(ata_drive_t *drv)
         return drv->error;
     }
 
-    if (fwrite(drv->buffer, 1, drv->sector_size, drv->file) != drv->sector_size) {
+    if (fwrite(drv->buffer, 1, drv->sector_size, drv->file) != (size_t)drv->sector_size) {
         ata_set_command_block(drv);
         drv->error = drv->atapi ? 0x54 : (ATA_UNC | ATA_ABRT);
         drv->cmd = 0x00;

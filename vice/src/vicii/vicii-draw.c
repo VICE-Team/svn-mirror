@@ -1492,7 +1492,7 @@ static void init_drawing_tables(void)
         mc_table[i] = (BYTE)(i >> 6);
         mc_table[i + 0x100] = (BYTE)((i >> 4) & 0x3);
         mc_table[i + 0x200] = (BYTE)((i >> 2) & 0x3);
-        mcmsktable[i] = (i & 0xaa) | ((i & 0xaa) >> 1);
+        mcmsktable[i] = (BYTE)((i & 0xaa) | ((i & 0xaa) >> 1));
     }
 }
 

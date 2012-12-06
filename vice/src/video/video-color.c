@@ -353,9 +353,9 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
         color_tab->crtable[i] = (SDWORD)((primary->cr + val) * sat);
         color_tab->cvtable[i] = (SDWORD)(0.877283 * (primary->cr + val) * 256);
 
-        yf = video_gamma(primary->y, factor, gam, bri, con) * 224.0 / 256.0 + 16.5;
-        uf = 0.493111 * primary->cb * sat * con * 224.0 / 256.0 / 256.0 + 128.5;
-        vf = 0.877283 * (primary->cr + tin) * sat * con * 224.0 / 256.0 / 256.0 + 128.5;
+        yf = (float)(video_gamma(primary->y, factor, gam, bri, con) * 224.0 / 256.0 + 16.5);
+        uf = (float)(0.493111 * primary->cb * sat * con * 224.0 / 256.0 / 256.0 + 128.5);
+        vf = (float)(0.877283 * (primary->cr + tin) * sat * con * 224.0 / 256.0 / 256.0 + 128.5);
         y = (int)yf;
         u = (int)uf;
         v = (int)vf;

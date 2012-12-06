@@ -92,6 +92,12 @@
 # define OFN_ENABLESIZING 0x00800000
 #endif
 
+#ifdef _MSC_VER
+# pragma warning( push )
+# pragma warning( disable: 4142 )
+#endif
+
+
 #if !defined(_WIN64) && defined _MSC_VER && _MSC_VER < 1500 && defined WINVER && WINVER < 0x0500 && !defined(WATCOM_COMPILE)
 typedef __int32 LONG_PTR;
 #endif

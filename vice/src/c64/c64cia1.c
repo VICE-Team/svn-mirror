@@ -403,7 +403,7 @@ static BYTE read_ciapb(cia_context_t *cia_context)
             if ((cia_context->c_cia[CIA_DDRA] & ~cia_context->c_cia[CIA_PRA] & m) &&
                 (cia_context->c_cia[CIA_DDRB] & cia_context->c_cia[CIA_PRB] & tmp)) {
                 DBGB(("(%d)", i));
-                if (ciapb_forcelow(i, cia_context->c_cia[CIA_DDRA] & ~cia_context->c_cia[CIA_PRA])) {
+                if (ciapb_forcelow(i, (BYTE)(cia_context->c_cia[CIA_DDRA] & ~cia_context->c_cia[CIA_PRA]))) {
                     val_outhi &= ~tmp;
                     DBGB(("<force low, val_outhi:%02x>", val_outhi));
                 }

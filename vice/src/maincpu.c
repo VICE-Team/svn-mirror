@@ -72,7 +72,7 @@
 #define JUMP(addr)                            \
     do {                                      \
         reg_pc = (unsigned int)(addr);        \
-        if (reg_pc >= bank_limit || reg_pc < bank_start) { \
+        if (reg_pc >= (unsigned int)bank_limit || reg_pc < (unsigned int)bank_start) { \
             mem_mmu_translate((unsigned int)(addr), &bank_base, &bank_start, &bank_limit); \
         }                                     \
     } while (0)

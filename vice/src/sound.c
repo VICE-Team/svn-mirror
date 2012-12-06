@@ -1553,7 +1553,7 @@ void sound_snapshot_finish(void)
 void sound_dac_init(sound_dac_t *dac, int speed)
 {
     /* 20 dB/Decade high pass filter, cutoff at 5 Hz. For DC offset filtering. */
-    dac->alpha = 0.0318309886 / (0.0318309886 + 1.0 / (float)speed);
+    dac->alpha = (float)(0.0318309886 / (0.0318309886 + 1.0 / (float)speed));
     dac->value = 0;
     dac->output = 0.0;
 }
