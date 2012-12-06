@@ -214,7 +214,7 @@ static void store_sr(via_context_t *via_context, BYTE byte)
 
     viap = (drivevia_context_t *)(via_context->prv);
 
-    iec_fast_drive_write(~byte, viap->number);
+    iec_fast_drive_write((BYTE)(~byte), viap->number);
 }
 
 static void store_t2l(via_context_t *via_context, BYTE byte)

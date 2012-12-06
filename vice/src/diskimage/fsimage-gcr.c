@@ -208,7 +208,7 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
     }
 
     if (raw->data != NULL) {
-        util_word_to_le_buf(buf, raw->size);
+        util_word_to_le_buf(buf, (WORD)raw->size);
 
         if (util_fpwrite(fsimage->fd, buf, 2, offset) < 0) {
             log_error(fsimage_gcr_log, "Could not write GCR disk image.");
@@ -278,10 +278,10 @@ int fsimage_gcr_read_sector(const disk_image_t *image, BYTE *buf, const disk_add
         if (raw.data == NULL) {
             return CBMDOS_IPE_NOT_READY;
         }
-        rf = gcr_read_sector(&raw, buf, dadr->sector);
+        rf = gcr_read_sector(&raw, buf, (BYTE)dadr->sector);
         lib_free(raw.data);
     } else {
-        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector);
+        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (BYTE)dadr->sector);
     }
     if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_gcr_log,
@@ -337,7 +337,7 @@ int fsimage_gcr_write_sector(disk_image_t *image, const BYTE *buf,
             || raw.data == NULL) {
             return -1;
         }
-        if (gcr_write_sector(&raw, buf, dadr->sector) != CBMDOS_FDC_ERR_OK) {
+        if (gcr_write_sector(&raw, buf, (BYTE)dadr->sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_gcr_log,
                       "Could not find track %i sector %i in disk image",
                       dadr->track, dadr->sector);
@@ -350,7 +350,7 @@ int fsimage_gcr_write_sector(disk_image_t *image, const BYTE *buf,
         }
         lib_free(raw.data);
     } else {
-        if (gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector) != CBMDOS_FDC_ERR_OK) {
+        if (gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (BYTE)dadr->sector) != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_gcr_log,
                       "Could not find track %i sector %i in disk image",
                       dadr->track, dadr->sector);

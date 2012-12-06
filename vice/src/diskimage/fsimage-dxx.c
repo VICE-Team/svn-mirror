@@ -76,7 +76,7 @@ int fsimage_dxx_write_half_track(disk_image_t *image, unsigned int half_track,
 
     buffer = lib_calloc(max_sector, 256);
     for (sector = 0; sector < max_sector; sector++) {
-        rf = gcr_read_sector(raw, &buffer[sector * 256], sector);
+        rf = gcr_read_sector(raw, &buffer[sector * 256], (BYTE)sector);
         if (rf != CBMDOS_FDC_ERR_OK) {
             log_error(fsimage_dxx_log,
                       "Could not find data sector of T:%d S:%d.",
@@ -182,7 +182,7 @@ int fsimage_read_dxx_image(const disk_image_t *image)
         track_size = disk_image_raw_track_size(image->type, track);
         if (image->gcr->tracks[half_track].data == NULL) {
             image->gcr->tracks[half_track].data = lib_malloc(track_size);
-        } else if (image->gcr->tracks[half_track].size != track_size) {
+        } else if (image->gcr->tracks[half_track].size != (int)track_size) {
             image->gcr->tracks[half_track].data = lib_realloc(image->gcr->tracks[half_track].data, track_size);
         }
         ptr = image->gcr->tracks[half_track].data;
@@ -275,7 +275,7 @@ int fsimage_dxx_read_sector(const disk_image_t *image, BYTE *buf, const disk_add
             rf = fsimage->error_info.map ? fsimage->error_info.map[sectors] : CBMDOS_FDC_ERR_OK;
         }
     } else {
-        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector);
+        rf = gcr_read_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (BYTE)dadr->sector);
     }
 
     switch (rf) {
@@ -335,7 +335,7 @@ int fsimage_dxx_write_sector(disk_image_t *image, const BYTE *buf, const disk_ad
         return -1;
     }
     if (image->gcr != NULL) {
-        gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, dadr->sector);
+        gcr_write_sector(&image->gcr->tracks[(dadr->track * 2) - 2], buf, (BYTE)dadr->sector);
     }
 
     if ((fsimage->error_info.map != NULL)

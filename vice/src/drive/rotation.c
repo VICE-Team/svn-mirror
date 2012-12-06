@@ -324,21 +324,21 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
             /* calculate how much cycles can we do in one single pass */
             todo = 1;
             delta = count_new_bitcell - rptr->accum;
-            if ((delta > 0) && ((cyc_sum_frv << 1) <= delta)) {
+            if ((delta > 0) && ((cyc_sum_frv << 1) <= (DWORD)delta)) {
                 todo = delta / cyc_sum_frv;
-                if (ref_cycles < todo) {
+                if (ref_cycles < (int)todo) {
                     todo = ref_cycles;
                 }
-                if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < todo)) {
+                if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < (int)todo)) {
                     todo = 16 - rptr->ue7_counter;
                 }
-                if ((rptr->filter_counter < 40) && ((40 - rptr->filter_counter) < todo)) {
+                if ((rptr->filter_counter < 40) && ((40 - rptr->filter_counter) < (int)todo)) {
                     todo = 40 - rptr->filter_counter;
                 }
                 if ((rptr->fr_randcount > 0) && (rptr->fr_randcount < todo)) {
                     todo = rptr->fr_randcount;
                 }
-                if ((rptr->so_delay > 0) && (rptr->so_delay < todo)) {
+                if ((rptr->so_delay > 0) && (rptr->so_delay < (int)todo)) {
                     todo = rptr->so_delay;
                 }
             }
@@ -440,15 +440,15 @@ void rotation_1541_gcr(drive_t *dptr, int ref_cycles)
             /* calculate how much cycles can we do in one single pass */
             todo = 1;
             delta = count_new_bitcell - rptr->accum;
-            if ((delta > 0) && ((cyc_sum_frv << 1) <= delta)) {
+            if ((delta > 0) && ((cyc_sum_frv << 1) <= (DWORD)delta)) {
                 todo = delta / cyc_sum_frv;
-                if (ref_cycles < todo) {
+                if (ref_cycles < (int)todo) {
                     todo = ref_cycles;
                 }
-                if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < todo)) {
+                if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < (int)todo)) {
                     todo = 16 - rptr->ue7_counter;
                 }
-                if ((rptr->so_delay > 0) && (rptr->so_delay < todo)) {
+                if ((rptr->so_delay > 0) && (rptr->so_delay < (int)todo)) {
                     todo = rptr->so_delay;
                 }
             }
@@ -599,19 +599,19 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                 if (ToDo <= 1) {
                     ToDo = 1;
                 } else {
-                    if (ref_cycles < ToDo) {
+                    if (ref_cycles < (int)ToDo) {
                         ToDo = ref_cycles;
                     }
-                    if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
+                    if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < (int)ToDo)) {
                         ToDo = 16 - rptr->ue7_counter;
                     }
-                    if ((rptr->filter_counter < 40) && ((40 - rptr->filter_counter) < ToDo)) {
+                    if ((rptr->filter_counter < 40) && ((40 - rptr->filter_counter) < (int)ToDo)) {
                         ToDo = 40 - rptr->filter_counter;
                     }
                     if ((rptr->fr_randcount > 0) && (rptr->fr_randcount < ToDo)) {
                         ToDo = rptr->fr_randcount;
                     }
-                    if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
+                    if ((rptr->so_delay > 0) && (rptr->so_delay < (int)ToDo)) {
                         ToDo = rptr->so_delay;
                     }
                 }
@@ -759,13 +759,13 @@ void rotation_1541_p64(drive_t *dptr, int ref_cycles)
                     if ((rptr->PulseHeadPosition + ToDo) >= P64PulseSamplesPerRotation) {
                         ToDo = P64PulseSamplesPerRotation - rptr->PulseHeadPosition;
                     }
-                    if (ref_cycles < ToDo) {
+                    if (ref_cycles < (int)ToDo) {
                         ToDo = ref_cycles;
                     }
-                    if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < ToDo)) {
+                    if ((rptr->ue7_counter < 16) && ((16 - rptr->ue7_counter) < (int)ToDo)) {
                         ToDo = 16 - rptr->ue7_counter;
                     }
-                    if ((rptr->so_delay > 0) && (rptr->so_delay < ToDo)) {
+                    if ((rptr->so_delay > 0) && (rptr->so_delay < (int)ToDo)) {
                         ToDo = rptr->so_delay;
                     }
                 }
@@ -971,7 +971,7 @@ void rotation_rotate_disk(drive_t *dptr)
         while (bits_moved-- != 0) {
             byte <<= 1; off++;
             if (!(off & 7)) {
-                if ((off >> 3) >= dptr->GCR_current_track_size) {
+                if ((off >> 3) >= (int)dptr->GCR_current_track_size) {
                     off = 0;
                 }
                 /* if no image is attached or track does not exists, read 0 */

@@ -204,7 +204,7 @@ typedef struct drive_s {
     /* UI stuff.  */
     int old_led_status;
     int old_half_track;
-    int old_side;
+    unsigned int old_side;
 
     /* Complicated image, with complex emulation requirements */
     int complicated_image_loaded;

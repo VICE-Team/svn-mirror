@@ -66,6 +66,7 @@
 #include "petmem.h"
 #include "petreu.h"
 #include "petdww.h"
+#include "pethre.h"
 #include "pets.h"
 #include "petsound.h"
 #include "petui.h"

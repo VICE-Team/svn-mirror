@@ -42,6 +42,7 @@
 #include "petmem.h"
 #include "pets.h"
 #include "piacore.h"
+#include "ram.h"
 #include "resources.h"
 #include "snapshot.h"
 #include "translate.h"

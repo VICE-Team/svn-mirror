@@ -371,7 +371,7 @@ int pethre_ram_read_snapshot_module(snapshot_t *s)
 
     w = 0x0F;
     SMR_W(m, &w);
-    reg_E888 = w;
+    reg_E888 = (BYTE)w;
 
     snapshot_module_close(m);
 

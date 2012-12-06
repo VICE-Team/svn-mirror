@@ -1087,19 +1087,19 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             return mem_read(addr);
         case 3:                 /* io */
             if (paddr >= 0xd000 && paddr < 0xe000) {
-                return read_bank_io(paddr);
+                return read_bank_io((WORD)paddr);
             }
         case 4:                 /* cart */
             break;
         case 2:                 /* rom */
             if (paddr >= 0xa000 && paddr <= 0xbfff) {
-                return c64memrom_basic64_read(paddr);
+                return c64memrom_basic64_read((WORD)paddr);
             }
             if (paddr >= 0xd000 && paddr <= 0xdfff) {
-                return chargen_read(paddr);
+                return chargen_read((WORD)paddr);
             }
             if (paddr >= 0xe000) {
-                return c64memrom_kernal64_read(paddr);
+                return c64memrom_kernal64_read((WORD)paddr);
             }
         case 1:                 /* ram */
             break; /* yes, this could be flash as well */
@@ -1133,7 +1133,7 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
             if (paddr <= 0xffff) {
                 if (c64dtvmeminit_io_config[mem_config]) {
                     if ((paddr >= 0xd000) && (paddr < 0xe000)) {
-                        return peek_bank_io(paddr);
+                        return peek_bank_io((WORD)paddr);
                     }
                 }
                 if (_mem_read_tab_ptr[paddr >> 8] == c64memrom_basic64_read) {
@@ -1154,7 +1154,7 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
             return mem_ram[paddr];
         case 3:                 /* io */
             if (paddr >= 0xd000 && paddr < 0xe000) {
-                return peek_bank_io(paddr);
+                return peek_bank_io((WORD)paddr);
             }
         case 4:                 /* cart */
             break;
@@ -1207,7 +1207,7 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
             return;
         case 3:                 /* io */
             if (paddr >= 0xd000 && paddr < 0xe000) {
-                store_bank_io(paddr, byte);
+                store_bank_io((WORD)paddr, byte);
                 return;
             }
         case 4:                 /* cart */

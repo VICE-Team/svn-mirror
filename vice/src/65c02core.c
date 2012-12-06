@@ -1160,7 +1160,7 @@
           LOCAL_SET_OVERFLOW(((reg_a ^ tmp) & 0x80)      \
                              && ((reg_a ^ src) & 0x80)); \
       }                                                  \
-      reg_a = tmp;                                       \
+      reg_a = (BYTE)tmp;                                 \
       INC_PC(pc_inc);                                    \
   } while (0)
 

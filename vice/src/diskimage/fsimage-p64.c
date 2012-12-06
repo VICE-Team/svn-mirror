@@ -219,7 +219,7 @@ int fsimage_p64_read_sector(const disk_image_t *image, BYTE *buf,
         return CBMDOS_IPE_NOT_READY;
     }
 
-    rf = gcr_read_sector(&raw, buf, dadr->sector);
+    rf = gcr_read_sector(&raw, buf, (BYTE)dadr->sector);
     lib_free(raw.data);
     if (rf != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Cannot find track: %i sector: %i within P64 image.", dadr->track, dadr->sector);
@@ -273,7 +273,7 @@ int fsimage_p64_write_sector(disk_image_t *image, const BYTE *buf,
         return -1;
     }
 
-    if (gcr_write_sector(&raw, buf, dadr->sector) != CBMDOS_FDC_ERR_OK) {
+    if (gcr_write_sector(&raw, buf, (BYTE)dadr->sector) != CBMDOS_FDC_ERR_OK) {
         log_error(fsimage_p64_log, "Could not find track %i sector %i in disk image", dadr->track, dadr->sector);
         lib_free(raw.data);
         return -1;

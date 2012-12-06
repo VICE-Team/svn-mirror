@@ -217,7 +217,7 @@ static int fsimage_create_gcr(disk_image_t *image)
     for (track = 1; track <= NUM_TRACKS_1541; track++) {
         gap = disk_image_gap_size(image->type, track);
         gcrptr = gcr_track;
-        util_word_to_le_buf(gcrptr, disk_image_raw_track_size(image->type, track));
+        util_word_to_le_buf(gcrptr, (WORD)disk_image_raw_track_size(image->type, track));
         gcrptr += 2;
         memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
 
@@ -259,7 +259,7 @@ static int fsimage_create_p64(disk_image_t *image)
     for (track = 1; track <= NUM_TRACKS_1541; track++) {
         gap = disk_image_gap_size(image->type, track);
         gcrptr = gcr_track;
-        util_word_to_le_buf(gcrptr, disk_image_raw_track_size(image->type, track));
+        util_word_to_le_buf(gcrptr, (WORD)disk_image_raw_track_size(image->type, track));
         gcrptr += 2;
         memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
 

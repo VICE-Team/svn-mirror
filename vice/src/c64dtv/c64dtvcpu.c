@@ -133,10 +133,10 @@ inline static void mem_burst_read(const WORD addr, BYTE *burst_cache)
     if (paddr <= 0xffff) {
         mrtf = _mem_read_tab_ptr[paddr >> 8];
         if (mrtf != ram_read) {
-            burst_cache[0] = mrtf(paddr + 0);
-            burst_cache[1] = mrtf(paddr + 1);
-            burst_cache[2] = mrtf(paddr + 2);
-            burst_cache[3] = mrtf(paddr + 3);
+            burst_cache[0] = mrtf((WORD)(paddr + 0));
+            burst_cache[1] = mrtf((WORD)(paddr + 1));
+            burst_cache[2] = mrtf((WORD)(paddr + 2));
+            burst_cache[3] = mrtf((WORD)(paddr + 3));
             return;
         }
     }

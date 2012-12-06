@@ -33,6 +33,7 @@
 #include "petmodel.h"
 #include "pets.h"
 #include "resources.h"
+#include "uiapi.h"
 #include "vsync.h"
 
 #define PET_CHARGEN_NAME        "chargen"

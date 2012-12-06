@@ -996,7 +996,7 @@ static int drive_snapshot_read_gcrimage_module(snapshot_t *s, unsigned int dnr)
         if (track_size) {
             if (drive->gcr->tracks[i].data == NULL) {
                 drive->gcr->tracks[i].data = lib_calloc(1, track_size);
-            } else if (drive->gcr->tracks[i].size != track_size) {
+            } else if (drive->gcr->tracks[i].size != (int)track_size) {
                 drive->gcr->tracks[i].data = lib_realloc(drive->gcr->tracks[i].data, track_size);
             }
             memset(drive->gcr->tracks[i].data, 0, track_size);

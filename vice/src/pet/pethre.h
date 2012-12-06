@@ -47,5 +47,8 @@ extern void pethre_shutdown(void);
 extern int pethre_snapshot_read_module(struct snapshot_s *);
 extern int pethre_snapshot_write_module(struct snapshot_s *);
 
-extern void crtc_write_hre(WORD addr, BYTE value);
+extern void crtc_store_hre(WORD addr, BYTE value);
+
+extern void pethre_powerup(void);
+
 #endif

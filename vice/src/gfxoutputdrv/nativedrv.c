@@ -990,9 +990,9 @@ void ted_color_to_vicii_color_colormap(native_data_t *source, int ted_lum_handli
         for (j = 0; j < source->xsize; j++) {
             colorbyte = source->colormap[(i * source->xsize) + j];
             if (ted_lum_handling == NATIVE_SS_TED_LUM_DITHER) {
-                source->colormap[(i * source->xsize) + j] = ted_lum_to_vicii_color(colorbyte & 0xf, colorbyte >> 4);
+                source->colormap[(i * source->xsize) + j] = ted_lum_to_vicii_color((BYTE)(colorbyte & 0xf), (BYTE)(colorbyte >> 4));
             } else {
-                source->colormap[(i * source->xsize) + j] = ted_to_vicii_color(colorbyte & 0xf);
+                source->colormap[(i * source->xsize) + j] = ted_to_vicii_color((BYTE)(colorbyte & 0xf));
             }
         }
     }

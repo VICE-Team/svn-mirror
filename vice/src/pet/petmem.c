@@ -36,11 +36,13 @@
 #include "crtctypes.h"
 #include "log.h"
 #include "machine.h"
+#include "maincpu.h"
 #include "mem.h"
 #include "monitor.h"
 #include "pet.h"
 #include "petacia.h"
 #include "petdww.h"
+#include "pethre.h"
 #include "petmem.h"
 #include "petmodel.h"
 #include "petpia.h"
@@ -394,7 +396,7 @@ static int efe0_dump(void)
 
 void set_spet_bank(int banknr)
 {
-    spet_bank_ptr = &mem_ram[EXT_RAM + banknr << 12];
+    spet_bank_ptr = &mem_ram[EXT_RAM + (banknr << 12)];
 }
 
 void petmem_reset(void)
