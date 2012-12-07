@@ -667,10 +667,18 @@ static int ffmpegdrv_save(screenshot_t *screenshot, const char *filename)
     video_init_done = 0;
     file_init_done = 0;
 
+#if LIBAVFORMAT_VERSION_MAJOR < 53
+    ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)(ffmpeg_format, NULL, NULL);
+#else
     ffmpegdrv_fmt = (*ffmpeglib.p_av_guess_format)(ffmpeg_format, NULL, NULL);
+#endif
 
     if (!ffmpegdrv_fmt) {
+#if LIBAVFORMAT_VERSION_MAJOR < 53
+        ffmpegdrv_fmt = (*ffmpeglib.p_guess_format)("mpeg", NULL, NULL);
+#else
         ffmpegdrv_fmt = (*ffmpeglib.p_av_guess_format)("mpeg", NULL, NULL);
+#endif
     }
 
     if (!ffmpegdrv_fmt) {

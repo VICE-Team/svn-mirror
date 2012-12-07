@@ -54,7 +54,8 @@
 #endif
 
 /* wether this check makes sense for V51 is unclear */
-#if LIBAVFORMAT_VERSION_MAJOR < 51
+#if LIBAVFORMAT_VERSION_MAJOR < 53
+#define p_av_guess_format p_guess_format
 #define av_guess_format guess_format
 #define av_guess_format_t guess_format_t
 #endif
@@ -125,7 +126,11 @@ struct ffmpeglib_s {
     url_fopen_t                 p_url_fopen;
     url_fclose_t                p_url_fclose;
     dump_format_t               p_dump_format;
+#if LIBAVFORMAT_VERSION_MAJOR < 53
+    guess_format_t              p_guess_format;
+#else
     av_guess_format_t           p_av_guess_format;
+#endif
 #ifndef HAVE_FFMPEG_SWSCALE
     img_convert_t               p_img_convert;
 #endif
