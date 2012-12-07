@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -77,8 +77,9 @@ static int set_cs256k_enabled(int val, void *param)
 
         cs256k_enabled = 1;
 
-        if (h256k_enabled)
+        if (h256k_enabled) {
             resources_set_int("H256K", 0);
+        }
         resources_set_int("RamSize", 256);
 
         return 0;
@@ -110,70 +111,73 @@ static const cmdline_option_t cmdline_options[] =
 
 int cs256k_cmdline_options_init(void)
 {
-  return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 /* ------------------------------------------------------------------------- */
 
 void cs256k_init(void)
 {
-  cs256k_log = log_open("CS256K");
+    cs256k_log = log_open("CS256K");
 }
 
 void cs256k_reset(void)
 {
-  cs256k_block=0xf;
-  cs256k_segment=3;
+    cs256k_block = 0xf;
+    cs256k_segment = 3;
 }
 
 static int cs256k_activate(void)
 {
-  cs256k_ram = lib_realloc((void *)cs256k_ram, (size_t)0x40000);
+    cs256k_ram = lib_realloc((void *)cs256k_ram, (size_t)0x40000);
 
-  log_message(cs256k_log, "CSORY 256K expansion installed.");
+    log_message(cs256k_log, "CSORY 256K expansion installed.");
 
-  cs256k_reset();
-  return 0;
+    cs256k_reset();
+    return 0;
 }
 
 static int cs256k_deactivate(void)
 {
-  lib_free(cs256k_ram);
-  cs256k_ram = NULL;
-  return 0;
+    lib_free(cs256k_ram);
+    cs256k_ram = NULL;
+    return 0;
 }
 
 void cs256k_shutdown(void)
 {
-  if (cs256k_enabled)
-    cs256k_deactivate();
+    if (cs256k_enabled) {
+        cs256k_deactivate();
+    }
 }
 
 /* ------------------------------------------------------------------------- */
 
 BYTE cs256k_reg_read(WORD addr)
 {
-  return 0xff;
+    return 0xff;
 }
 
 void cs256k_reg_store(WORD addr, BYTE value)
 {
-  cs256k_block=(value&0xf);
-  cs256k_segment=(value&0xc0)>>6;
+    cs256k_block = (value & 0xf);
+    cs256k_segment = (value & 0xc0) >> 6;
 }
 
 void cs256k_store(WORD addr, BYTE value)
 {
-  if (addr>=(cs256k_segment*0x4000) && addr<((cs256k_segment+1)*0x4000))
-    cs256k_ram[(cs256k_block*0x4000)+(addr&0x3fff)]=value;
-  else
-    mem_ram[addr]=value;
+    if (addr >= (cs256k_segment * 0x4000) && addr < ((cs256k_segment + 1) * 0x4000)) {
+        cs256k_ram[(cs256k_block * 0x4000) + (addr & 0x3fff)] = value;
+    } else {
+        mem_ram[addr] = value;
+    }
 }
 
 BYTE cs256k_read(WORD addr)
 {
-  if (addr>=(cs256k_segment*0x4000) && addr<((cs256k_segment+1)*0x4000))
-    return cs256k_ram[(cs256k_block*0x4000)+(addr&0x3fff)];
-  else
-    return mem_ram[addr];
+    if (addr >= (cs256k_segment * 0x4000) && addr < ((cs256k_segment + 1) * 0x4000)) {
+        return cs256k_ram[(cs256k_block * 0x4000) + (addr & 0x3fff)];
+    } else {
+        return mem_ram[addr];
+    }
 }

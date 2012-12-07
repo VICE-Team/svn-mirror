@@ -51,8 +51,9 @@ int plus4rom_load_kernal(const char *rom_name)
 {
     int trapfl;
 
-    if (!plus4_rom_loaded)
+    if (!plus4_rom_loaded) {
         return 0;
+    }
 
     /* Make sure serial code assumes there are no traps installed.  */
     /* serial_remove_traps(); */
@@ -63,7 +64,7 @@ int plus4rom_load_kernal(const char *rom_name)
 
     /* Load Kernal ROM.  */
     if (sysfile_load(rom_name, plus4memrom_kernal_rom,
-        PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
+                     PLUS4_KERNAL_ROM_SIZE, PLUS4_KERNAL_ROM_SIZE) < 0) {
         log_error(plus4rom_log, "Couldn't load kernal ROM `%s'.",
                   rom_name);
         resources_set_int("VirtualDevices", trapfl);
@@ -79,12 +80,13 @@ int plus4rom_load_kernal(const char *rom_name)
 
 int plus4rom_load_basic(const char *rom_name)
 {
-    if (!plus4_rom_loaded)
+    if (!plus4_rom_loaded) {
         return 0;
+    }
 
     /* Load Basic ROM.  */
     if (sysfile_load(rom_name, plus4memrom_basic_rom,
-        PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
+                     PLUS4_BASIC_ROM_SIZE, PLUS4_BASIC_ROM_SIZE) < 0) {
         log_error(plus4rom_log,
                   "Couldn't load basic ROM `%s'.",
                   rom_name);
@@ -95,54 +97,69 @@ int plus4rom_load_basic(const char *rom_name)
 
 int mem_load(void)
 {
-
     const char *rom_name = NULL;
 
-    if (plus4rom_log == LOG_ERR)
+    if (plus4rom_log == LOG_ERR) {
         plus4rom_log = log_open("PLUS4MEM");
+    }
 
     plus4_rom_loaded = 1;
 
-    if (resources_get_string("KernalName", &rom_name) < 0)
+    if (resources_get_string("KernalName", &rom_name) < 0) {
         return -1;
-    if (plus4rom_load_kernal(rom_name) < 0)
+    }
+    if (plus4rom_load_kernal(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("BasicName", &rom_name) < 0)
+    if (resources_get_string("BasicName", &rom_name) < 0) {
         return -1;
-    if (plus4rom_load_basic(rom_name) < 0)
+    }
+    if (plus4rom_load_basic(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("FunctionLowName", &rom_name) < 0)
+    if (resources_get_string("FunctionLowName", &rom_name) < 0) {
         return -1;
-    if (plus4cart_load_func_lo(rom_name) < 0)
+    }
+    if (plus4cart_load_func_lo(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("FunctionHighName", &rom_name) < 0)
+    if (resources_get_string("FunctionHighName", &rom_name) < 0) {
         return -1;
-    if (plus4cart_load_func_hi(rom_name) < 0)
+    }
+    if (plus4cart_load_func_hi(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("c1loName", &rom_name) < 0)
+    if (resources_get_string("c1loName", &rom_name) < 0) {
         return -1;
-    if (plus4cart_load_c1lo(rom_name) < 0)
+    }
+    if (plus4cart_load_c1lo(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("c1hiName", &rom_name) < 0)
+    if (resources_get_string("c1hiName", &rom_name) < 0) {
         return -1;
-    if (plus4cart_load_c1hi(rom_name) < 0)
+    }
+    if (plus4cart_load_c1hi(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("c2loName", &rom_name) < 0)
+    if (resources_get_string("c2loName", &rom_name) < 0) {
         return -1;
-    if (plus4cart_load_c2lo(rom_name) < 0)
+    }
+    if (plus4cart_load_c2lo(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("c2hiName", &rom_name) < 0)
+    if (resources_get_string("c2hiName", &rom_name) < 0) {
         return -1;
-    if (plus4cart_load_c2hi(rom_name) < 0)
+    }
+    if (plus4cart_load_c2hi(rom_name) < 0) {
         return -1;
+    }
 
     return 0;
 }
-

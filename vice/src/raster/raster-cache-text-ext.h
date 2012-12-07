@@ -59,10 +59,11 @@ inline static int raster_cache_data_fill_text_ext(BYTE *dest,
         unsigned int i;
 
         for (i = 0;
-            i < length && dest[i] == GET_CHAR_DATA(src[0], l)
-            && destbg[i] == src[0] >> 6;
-            i++, src++)
-            /* do nothing */ ;
+             i < length && dest[i] == GET_CHAR_DATA(src[0], l)
+             && destbg[i] == src[0] >> 6;
+             i++, src++) {
+            /* do nothing */
+        }
 
         if (i < length) {
             *xs = *xe = i;
@@ -85,4 +86,3 @@ inline static int raster_cache_data_fill_text_ext(BYTE *dest,
 }
 
 #endif
-

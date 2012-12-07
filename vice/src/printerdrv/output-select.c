@@ -60,8 +60,9 @@ static int set_output_device(const char *name, void *param)
 
     list = output_select_list;
 
-    if (list == NULL)
+    if (list == NULL) {
         return -1;
+    }
 
     do {
         if (!strcmp(list->output_select.output_name, name)) {
@@ -126,7 +127,6 @@ int output_select_init_cmdline_options(void)
 
 void output_select_init(void)
 {
-
 }
 
 void output_select_shutdown(void)
@@ -149,17 +149,19 @@ void output_select_register(output_select_t *output_select)
     output_select_list_t *list, *prev;
 
     prev = output_select_list;
-    while (prev != NULL && prev->next != NULL)
+    while (prev != NULL && prev->next != NULL) {
         prev = prev->next;
+    }
 
     list = lib_malloc(sizeof(output_select_list_t));
     memcpy(&(list->output_select), output_select, sizeof(output_select_t));
     list->next = NULL;
 
-    if (output_select_list != NULL)
+    if (output_select_list != NULL) {
         prev->next = list;
-    else
+    } else {
         output_select_list = list;
+    }
 }
 
 /* ------------------------------------------------------------------------- */

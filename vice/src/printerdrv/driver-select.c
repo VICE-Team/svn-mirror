@@ -67,8 +67,9 @@ static int set_printer_driver(const char *name, void *param)
 
     list = driver_select_list;
 
-    if (list == NULL)
+    if (list == NULL) {
         return -1;
+    }
 
     do {
         if (!strcmp(list->driver_select.drv_name, name)) {
@@ -85,11 +86,11 @@ static int set_printer_driver(const char *name, void *param)
 
 static const resource_string_t resources_string[] = {
     {"Printer4Driver", "ascii", RES_EVENT_NO, NULL,
-      &printer_driver[0], set_printer_driver, (void *)0 },
+     &printer_driver[0], set_printer_driver, (void *)0 },
     {"Printer5Driver", "ascii", RES_EVENT_NO, NULL,
-      &printer_driver[1], set_printer_driver, (void *)1 },
+     &printer_driver[1], set_printer_driver, (void *)1 },
     {"PrinterUserportDriver", "ascii", RES_EVENT_NO, NULL,
-      &printer_driver[2], set_printer_driver, (void *)2 },
+     &printer_driver[2], set_printer_driver, (void *)2 },
     { NULL }
 };
 
@@ -108,20 +109,20 @@ void driver_select_shutdown_resources(void)
 static const cmdline_option_t cmdline_options[] =
 {
     { "-pr4drv", SET_RESOURCE, 1,
-     NULL, NULL, "Printer4Driver", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_4_NAME,
-     NULL, NULL },
+      NULL, NULL, "Printer4Driver", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_4_NAME,
+      NULL, NULL },
     { "-pr5drv", SET_RESOURCE, 1,
-     NULL, NULL, "Printer5Driver", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_5_NAME,
-     NULL, NULL },
+      NULL, NULL, "Printer5Driver", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_5_NAME,
+      NULL, NULL },
     { "-pruserdrv", SET_RESOURCE, 1,
-     NULL, NULL, "PrinterUserportDriver", NULL,
-     USE_PARAM_ID, USE_DESCRIPTION_ID,
-     IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,
-     NULL, NULL },
+      NULL, NULL, "PrinterUserportDriver", NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_SPECIFY_PRT_DRIVER_USR_NAME,
+      NULL, NULL },
     { NULL }
 };
 
@@ -143,17 +144,19 @@ void driver_select_register(driver_select_t *driver_select)
     driver_select_list_t *list, *prev;
 
     prev = driver_select_list;
-    while (prev != NULL && prev->next != NULL)
+    while (prev != NULL && prev->next != NULL) {
         prev = prev->next;
+    }
 
     list = lib_malloc(sizeof(driver_select_list_t));
     memcpy(&(list->driver_select), driver_select, sizeof(driver_select_t));
     list->next = NULL;
 
-    if (driver_select_list != NULL)
+    if (driver_select_list != NULL) {
         prev->next = list;
-    else
+    } else {
         driver_select_list = list;
+    }
 }
 
 void driver_select_shutdown(void)
@@ -209,4 +212,3 @@ int driver_select_formfeed(unsigned int prnr)
 {
     return driver_select[prnr].drv_formfeed(prnr);
 }
-

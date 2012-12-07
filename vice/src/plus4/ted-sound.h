@@ -39,4 +39,3 @@ extern void ted_sound_reset(sound_t *psid, CLOCK cpu_clk);
 extern void ted_sound_chip_init(void);
 
 #endif
-

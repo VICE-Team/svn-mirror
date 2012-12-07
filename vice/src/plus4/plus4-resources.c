@@ -74,64 +74,72 @@ static int ram_size_plus4 = 64;
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&kernal_rom_name, val))
+    if (util_string_set(&kernal_rom_name, val)) {
         return 0;
+    }
 
     return plus4rom_load_kernal(kernal_rom_name);
 }
 
 static int set_basic_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&basic_rom_name, val))
+    if (util_string_set(&basic_rom_name, val)) {
         return 0;
+    }
 
     return plus4rom_load_basic(basic_rom_name);
 }
 
 static int set_func_lo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&func_lo_rom_name, val))
+    if (util_string_set(&func_lo_rom_name, val)) {
         return 0;
+    }
 
     return plus4cart_load_func_lo(func_lo_rom_name);
 }
 
 static int set_func_hi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&func_hi_rom_name, val))
+    if (util_string_set(&func_hi_rom_name, val)) {
         return 0;
+    }
 
     return plus4cart_load_func_hi(func_hi_rom_name);
 }
 
 static int set_c1lo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c1lo_rom_name, val))
+    if (util_string_set(&c1lo_rom_name, val)) {
         return 0;
+    }
 
     return plus4cart_load_c1lo(c1lo_rom_name);
 }
 
 static int set_c1hi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c1hi_rom_name, val))
+    if (util_string_set(&c1hi_rom_name, val)) {
         return 0;
+    }
 
     return plus4cart_load_c1hi(c1hi_rom_name);
 }
 
 static int set_c2lo_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c2lo_rom_name, val))
+    if (util_string_set(&c2lo_rom_name, val)) {
         return 0;
+    }
 
     return plus4cart_load_c2lo(c2lo_rom_name);
 }
 
 static int set_c2hi_rom_name(const char *val, void *param)
 {
-    if (util_string_set(&c2hi_rom_name, val))
+    if (util_string_set(&c2hi_rom_name, val)) {
         return 0;
+    }
 
     return plus4cart_load_c2hi(c2hi_rom_name);
 }
@@ -161,22 +169,25 @@ static int set_sync_factor(int val, void *param)
 {
     int change_timing = 0;
 
-    if (sync_factor != val)
+    if (sync_factor != val) {
         change_timing = 1;
+    }
 
     switch (val) {
-      case MACHINE_SYNC_PAL:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_PAL);
-        break;
-      case MACHINE_SYNC_NTSC:
-        sync_factor = val;
-        if (change_timing)
-            machine_change_timing(MACHINE_SYNC_NTSC);
-        break;
-      default:
-        return -1;
+        case MACHINE_SYNC_PAL:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_PAL);
+            }
+            break;
+        case MACHINE_SYNC_NTSC:
+            sync_factor = val;
+            if (change_timing) {
+                machine_change_timing(MACHINE_SYNC_NTSC);
+            }
+            break;
+        default:
+            return -1;
     }
     return 0;
 }
@@ -223,13 +234,16 @@ static const resource_int_t resources_int[] = {
 
 int plus4_resources_init(void)
 {
-    if (h256k_resources_init() < 0)
+    if (h256k_resources_init() < 0) {
         return -1;
-    if (cs256k_resources_init() < 0)
+    }
+    if (cs256k_resources_init() < 0) {
         return -1;
+    }
 
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -247,4 +261,3 @@ void plus4_resources_shutdown(void)
     lib_free(machine_keymap_file_list[0]);
     lib_free(machine_keymap_file_list[1]);
 }
-

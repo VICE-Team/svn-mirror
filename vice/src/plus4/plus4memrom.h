@@ -49,4 +49,3 @@ extern BYTE plus4memrom_rom_read(WORD addr);
 extern void plus4memrom_rom_store(WORD addr, BYTE value);
 
 #endif
-

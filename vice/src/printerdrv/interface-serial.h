@@ -36,4 +36,3 @@ extern int interface_serial_late_init(void);
 extern int interface_serial_close(unsigned int unit);
 
 #endif
-

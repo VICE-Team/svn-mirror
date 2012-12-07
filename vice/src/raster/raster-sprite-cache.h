@@ -61,4 +61,3 @@ extern void raster_sprite_cache_init(raster_sprite_cache_t *sc);
 extern raster_sprite_cache_t *raster_sprite_cache_new(void);
 
 #endif
-

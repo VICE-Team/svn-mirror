@@ -55,4 +55,3 @@ void printer_userport_write_strobe(int s)
 {
     interface_userport_write_strobe(s);
 }
-

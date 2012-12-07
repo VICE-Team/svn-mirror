@@ -136,13 +136,16 @@ int ted_snapshot_write_module(snapshot_t *s)
         || SMW_B(m, (BYTE)TED_RASTER_CYCLE(maincpu_clk)) < 0
         /* RasterLine */
         || SMW_W(m, (WORD)(TED_RASTER_Y(maincpu_clk))) < 0
-        )
+        ) {
         goto fail;
+    }
 
-    for (i = 0; i < 0x40; i++)
+    for (i = 0; i < 0x40; i++) {
         /* Registers */
-        if (SMW_B(m, ted.regs[i]) < 0)
+        if (SMW_B(m, ted.regs[i]) < 0) {
             goto fail;
+        }
+    }
 
     if (0
         || SMW_DW(m, (DWORD)ted.ted_raster_counter) < 0
@@ -154,14 +157,16 @@ int ted_snapshot_write_module(snapshot_t *s)
         || SMW_W(m, (WORD)ted.memptr) < 0
         /* VideoInt */
         || SMW_B(m, (BYTE)ted.irq_status) < 0
-        )
+        ) {
         goto fail;
+    }
 
     if (0
         /* FetchEventTick */
         || SMW_DW(m, ted.fetch_clk - maincpu_clk) < 0
-        )
+        ) {
         goto fail;
+    }
 
     DBG(("TED snapshot written.\n"));
     return snapshot_module_close(m);
@@ -182,8 +187,9 @@ int ted_snapshot_read_module(snapshot_t *s)
 
     m = snapshot_module_open(s, snap_module_name,
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
         log_error(ted.log,
@@ -200,7 +206,7 @@ int ted_snapshot_read_module(snapshot_t *s)
         /* AllowBadLines */
         || SMR_B_INT(m, &ted.allow_bad_lines) < 0
         /* BadLine */
-        || SMR_B_INT(m, &ted.bad_line) < 0 
+        || SMR_B_INT(m, &ted.bad_line) < 0
         /* Blank */
         || SMR_B_INT(m, &ted.raster.blank_enabled) < 0
         /* ColorBuf */
@@ -209,8 +215,9 @@ int ted_snapshot_read_module(snapshot_t *s)
         || SMR_B_INT(m, &ted.idle_state) < 0
         /* MatrixBuf */
         || SMR_BA(m, ted.vbuf, 40) < 0
-        )
+        ) {
         goto fail;
+    }
 
     /* Read the current raster line and the current raster cycle.  As they
        are a function of `clk', this is just a sanity check.  */
@@ -218,12 +225,13 @@ int ted_snapshot_read_module(snapshot_t *s)
         WORD RasterLine;
         BYTE RasterCycle;
 
-        if (SMR_B(m, &RasterCycle) < 0 || SMR_W(m, &RasterLine) < 0)
+        if (SMR_B(m, &RasterCycle) < 0 || SMR_W(m, &RasterLine) < 0) {
             goto fail;
+        }
 
         DBG(("TED read snapshot at clock: %d cycle: %d (%d) tedline: %d (%d) rasterline: %d\n",
-            maincpu_clk, TED_RASTER_CYCLE(maincpu_clk), RasterCycle, TED_RASTER_Y(maincpu_clk),
-            RasterLine, ted.raster.current_line));
+             maincpu_clk, TED_RASTER_CYCLE(maincpu_clk), RasterCycle, TED_RASTER_Y(maincpu_clk),
+             RasterLine, ted.raster.current_line));
 
         if (RasterCycle != (BYTE)TED_RASTER_CYCLE(maincpu_clk)) {
             log_error(ted.log,
@@ -241,7 +249,7 @@ int ted_snapshot_read_module(snapshot_t *s)
     }
 
     for (i = 0; i < 0x40; i++) {
-        if (SMR_B(m, &ted.regs[i]) < 0 /* Registers */ ) {
+        if (SMR_B(m, &ted.regs[i]) < 0 /* Registers */) {
             goto fail;
         }
     }

@@ -35,4 +35,3 @@ extern void output_text_init(void);
 extern void output_text_reset(void);
 
 #endif
-

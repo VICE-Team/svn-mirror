@@ -54,15 +54,14 @@
 #define MPS_REPEAT  0x10
 #define MPS_ESC     0x20
 
-struct mps_s
-{
+struct mps_s {
     BYTE line[MAX_COL][7];
-    int  bitcnt;
-    int  repeatn;
-    int  pos;
-    int  tab;
+    int bitcnt;
+    int repeatn;
+    int pos;
+    int tab;
     BYTE tabc[3];
-    int  mode;
+    int mode;
 };
 typedef struct mps_s mps_t;
 
@@ -143,7 +142,7 @@ static void print_cbm_char(mps_t *mps, const BYTE rawchar)
             }
         }
     }
-    
+
     if (err) {
         log_error(drv803_log, "Printing beyond limit of %d dots.", MAX_COL);
     }
@@ -156,9 +155,10 @@ static void write_line(mps_t *mps, unsigned int prnr)
     int x, y;
 
     for (y = 0; y < 7; y++) {
-        for (x = 0; x < 480; x++)
+        for (x = 0; x < 480; x++) {
             output_select_putc(prnr, (BYTE)(mps->line[x][y]
-                               ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
+                                            ? OUTPUT_PIXEL_BLACK : OUTPUT_PIXEL_WHITE));
+        }
         output_select_putc(prnr, (BYTE)(OUTPUT_NEWLINE));
     }
 
@@ -172,16 +172,18 @@ static void write_line(mps_t *mps, unsigned int prnr)
         output_select_putc(prnr, OUTPUT_NEWLINE);
     }
 
-    mps->pos=0;
+    mps->pos = 0;
 }
 
 static void clear_buffer(mps_t *mps)
 {
     unsigned int x, y;
 
-    for (x = 0; x < MAX_COL; x++)
-        for (y = 0; y < 7; y++)
+    for (x = 0; x < MAX_COL; x++) {
+        for (y = 0; y < 7; y++) {
             mps->line[x][y] = 0;
+        }
+    }
 }
 
 static void bitmode_off(mps_t *mps)
@@ -220,8 +222,9 @@ static void print_bitmask(mps_t *mps, const char c)
 {
     unsigned int y;
 
-    for (y = 0; y < 7; y++)
+    for (y = 0; y < 7; y++) {
         mps->line[mps->pos][y] = c & (1 << (6 - y)) ? 1 : 0;
+    }
 
     mps->bitcnt++;
     mps->pos++;
@@ -234,11 +237,9 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
         clear_buffer(mps);
     }
     if (mps->tab) {     /* decode tab-number*/
-
         mps->tabc[2 - mps->tab] = c;
 
-        if (mps->tab == 1)
-        {
+        if (mps->tab == 1) {
             mps->pos =
                 is_mode(mps, MPS_ESC) ?
                 mps->tabc[0] << 8 | mps->tabc[1] :
@@ -251,8 +252,9 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
         return;
     }
 
-    if (is_mode(mps, MPS_ESC) && c!=16)
+    if (is_mode(mps, MPS_ESC) && c != 16) {
         del_mode(mps, MPS_ESC);
+    }
 
     if (is_mode(mps, MPS_REPEAT)) {
         mps->repeatn = c;
@@ -266,22 +268,22 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
     }
 
     switch (c) {
-    case 8:
-        set_mode(mps, MPS_BITMODE);
-        mps->bitcnt = 0;
-        return;
+        case 8:
+            set_mode(mps, MPS_BITMODE);
+            mps->bitcnt = 0;
+            return;
 
-    case 10:  /* LF*/
-        write_line(mps, prnr);
-        clear_buffer(mps);
-        return;
+        case 10: /* LF*/
+            write_line(mps, prnr);
+            clear_buffer(mps);
+            return;
 
-    case 13:  /* CR*/
-        mps->pos = 0;
-        del_mode(mps, MPS_CRSRUP);
-        write_line(mps, prnr);
-        clear_buffer(mps);
-        return;
+        case 13: /* CR*/
+            mps->pos = 0;
+            del_mode(mps, MPS_CRSRUP);
+            write_line(mps, prnr);
+            clear_buffer(mps);
+            return;
 
         /*
          * By sending the cursor up code [CHR$(145)] to your printer, folowing
@@ -307,51 +309,54 @@ static void print_char(mps_t *mps, unsigned int prnr, const BYTE c)
          * end of this line.
          */
 
-    case 14:  /* EN on*/
-        set_mode(mps, MPS_DBLWDTH);
-        if (is_mode(mps, MPS_BITMODE))
-            bitmode_off(mps);
-        return;
+        case 14: /* EN on*/
+            set_mode(mps, MPS_DBLWDTH);
+            if (is_mode(mps, MPS_BITMODE)) {
+                bitmode_off(mps);
+            }
+            return;
 
-    case 15:  /* EN off*/
-        del_mode(mps, MPS_DBLWDTH);
-        if (is_mode(mps, MPS_BITMODE))
-            bitmode_off(mps);
-        return;
+        case 15: /* EN off*/
+            del_mode(mps, MPS_DBLWDTH);
+            if (is_mode(mps, MPS_BITMODE)) {
+                bitmode_off(mps);
+            }
+            return;
 
-    case 16:  /* POS*/
-        mps->tab = 2; /* 2 chars (digits) following, number of first char*/
-        return;
+        case 16: /* POS*/
+            mps->tab = 2; /* 2 chars (digits) following, number of first char*/
+            return;
 
-    case 17:   /* crsr dn*/
-        del_mode(mps, MPS_CRSRUP);
-        return;
+        case 17: /* crsr dn*/
+            del_mode(mps, MPS_CRSRUP);
+            return;
 
-    case 18:
-        set_mode(mps, MPS_REVERSE);
-        return;
+        case 18:
+            set_mode(mps, MPS_REVERSE);
+            return;
 
-    case 26:   /* repeat last chr$(8) c times.*/
-        set_mode(mps, MPS_REPEAT);
-        mps->repeatn = 0;
-        mps->bitcnt  = 0;
-        return;
+        case 26: /* repeat last chr$(8) c times.*/
+            set_mode(mps, MPS_REPEAT);
+            mps->repeatn = 0;
+            mps->bitcnt = 0;
+            return;
 
-    case 27:
-        set_mode(mps, MPS_ESC); /* followed by 16, and number MSB, LSB*/
-        return;
+        case 27:
+            set_mode(mps, MPS_ESC); /* followed by 16, and number MSB, LSB*/
+            return;
 
-    case 145: /* CRSR up*/
-        set_mode(mps, MPS_CRSRUP);
-        return;
+        case 145: /* CRSR up*/
+            set_mode(mps, MPS_CRSRUP);
+            return;
 
-    case 146: /* 18+128*/
-        del_mode(mps, MPS_REVERSE);
-        return;
+        case 146: /* 18+128*/
+            del_mode(mps, MPS_REVERSE);
+            return;
     }
 
-    if (is_mode(mps, MPS_BITMODE))
+    if (is_mode(mps, MPS_BITMODE)) {
         return;
+    }
 
     print_cbm_char(mps, c);
 }
@@ -383,8 +388,9 @@ static int drv_mps803_open(unsigned int prnr, unsigned int secondary)
     output_parameter.dpi_x = 72;
     output_parameter.palette = palette;
 
-    if (secondary == 7)
+    if (secondary == 7) {
         set_mode(&drv_mps803[prnr], MPS_CRSRUP);
+    }
 
     return output_select_open(prnr, &output_parameter);
 }
@@ -436,7 +442,7 @@ int drv_mps803_init(void)
 {
     static const char *color_names[2] =
     {
-      "Black", "White"
+        "Black", "White"
     };
 
     drv803_log = log_open("MPS-803");
@@ -445,8 +451,9 @@ int drv_mps803_init(void)
 
     palette = palette_create(2, color_names);
 
-    if (palette == NULL)
+    if (palette == NULL) {
         return -1;
+    }
 
     if (palette_load("mps803" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
         log_error(drv803_log, "Cannot load palette file `%s'.",
@@ -461,4 +468,3 @@ void drv_mps803_shutdown(void)
 {
     palette_free(palette);
 }
-

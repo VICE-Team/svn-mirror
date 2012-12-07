@@ -118,4 +118,3 @@ inline static int raster_cache_data_fill_1fff(BYTE *dest,
 }
 
 #endif
-

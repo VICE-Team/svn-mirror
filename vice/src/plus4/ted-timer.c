@@ -237,42 +237,42 @@ void ted_timer_store(WORD addr, BYTE value)
     log_debug("TI STORE %02x %02x CLK %x", addr, value, maincpu_clk);
 #endif
     switch (addr) {
-      case 0:
-        ted_timer_t1_store_low(value);
-        break;
-      case 1:
-        ted_timer_t1_store_high(value);
-        break;
-      case 2:
-        ted_timer_t2_store_low(value);
-        break;
-      case 3:
-        ted_timer_t2_store_high(value);
-        break;
-      case 4:
-        ted_timer_t3_store_low(value);
-        break;
-      case 5:
-        ted_timer_t3_store_high(value);
-        break;
+        case 0:
+            ted_timer_t1_store_low(value);
+            break;
+        case 1:
+            ted_timer_t1_store_high(value);
+            break;
+        case 2:
+            ted_timer_t2_store_low(value);
+            break;
+        case 3:
+            ted_timer_t2_store_high(value);
+            break;
+        case 4:
+            ted_timer_t3_store_low(value);
+            break;
+        case 5:
+            ted_timer_t3_store_high(value);
+            break;
     }
 }
 
 BYTE ted_timer_read(WORD addr)
 {
     switch (addr) {
-      case 0:
-        return ted_timer_t1_read_low();
-      case 1:
-        return ted_timer_t1_read_high();
-      case 2:
-        return ted_timer_t2_read_low();
-      case 3:
-        return ted_timer_t2_read_high();
-      case 4:
-        return ted_timer_t3_read_low();
-      case 5:
-        return ted_timer_t3_read_high();
+        case 0:
+            return ted_timer_t1_read_low();
+        case 1:
+            return ted_timer_t1_read_high();
+        case 2:
+            return ted_timer_t2_read_low();
+        case 3:
+            return ted_timer_t2_read_high();
+        case 4:
+            return ted_timer_t3_read_low();
+        case 5:
+            return ted_timer_t3_read_high();
     }
     return 0;
 }
@@ -290,4 +290,3 @@ void ted_timer_reset(void)
     alarm_unset(ted_t2_alarm);
     alarm_unset(ted_t3_alarm);
 }
-

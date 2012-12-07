@@ -45,8 +45,7 @@ void parallel_cable_drive_write(int port, BYTE data, int handshake, unsigned int
 
 BYTE parallel_cable_drive_read(int type, int handshake)
 {
-    return parallel_cable_cpu_value & parallel_cable_drive_value[0]
-        & parallel_cable_drive_value[1];
+    return parallel_cable_cpu_value & parallel_cable_drive_value[0] & parallel_cable_drive_value[1];
 }
 
 void parallel_cable_cpu_write(int type, BYTE data)
@@ -70,8 +69,7 @@ BYTE parallel_cable_cpu_read(int type)
 
     drivecpu_execute_all(maincpu_clk);
 
-    return parallel_cable_cpu_value & parallel_cable_drive_value[0]
-        & parallel_cable_drive_value[1];
+    return parallel_cable_cpu_value & parallel_cable_drive_value[0] & parallel_cable_drive_value[1];
 }
 
 void parallel_cable_cpu_undump(int type, BYTE data)

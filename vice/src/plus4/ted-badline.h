@@ -33,4 +33,3 @@ extern void ted_badline_check_state(BYTE value, const int cycle,
                                     const unsigned int line);
 
 #endif
-

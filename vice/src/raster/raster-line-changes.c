@@ -82,4 +82,3 @@ void raster_line_changes_init(raster_t *raster)
 {
     raster->line_changes = update_for_minor_changes;
 }
-

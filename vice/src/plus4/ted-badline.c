@@ -74,8 +74,7 @@ inline static void line_becomes_bad(int cycle)
 
         ted.ycounter_reset_checked = 1;
 
-        num_chars = (TED_SCREEN_TEXTCOLS
-                    - (cycle - (TED_FETCH_CYCLE + 3)));
+        num_chars = (TED_SCREEN_TEXTCOLS - (cycle - (TED_FETCH_CYCLE + 3)));
 
         /* Take over the bus until the memory fetch is done.  */
         dma_maincpu_steal_cycles(maincpu_clk, num_chars, 0);
@@ -92,12 +91,14 @@ inline static void line_becomes_bad(int cycle)
             if (ted.idle_state) {
                 pos = 0;
                 inc = num_chars;
-                if (inc < 0)
+                if (inc < 0) {
                     inc = 0;
+                }
             } else {
                 pos = cycle - (TED_FETCH_CYCLE + 3);
-                if (pos > TED_SCREEN_TEXTCOLS - 1)
+                if (pos > TED_SCREEN_TEXTCOLS - 1) {
                     pos = TED_SCREEN_TEXTCOLS - 1;
+                }
                 inc = TED_SCREEN_TEXTCOLS;
             }
         } else {
@@ -107,7 +108,7 @@ inline static void line_becomes_bad(int cycle)
         }
         /* This is normally done at cycle `TED_FETCH_CYCLE + 2'.  */
         /*ted.mem_counter = ted.memptr;*/
-		/*ted.memptr_col = ted.mem_counter;*/
+        /*ted.memptr_col = ted.mem_counter;*/
 
         /* Force the DMA.  */
         /* Note that `ted.cbuf' is loaded from the value of
@@ -118,7 +119,7 @@ inline static void line_becomes_bad(int cycle)
                    num_chars);
         } else {
             /*memset(ted.vbuf + pos, 0xff, num_0xff_fetches);*/
-			memcpy(ted.cbuf_tmp, ted.cbuf, pos);
+            memcpy(ted.cbuf_tmp, ted.cbuf, pos);
             memset(ted.cbuf_tmp + pos, mem_ram[reg_pc] & 0x7f,
                    num_0xff_fetches);
             /*ted_fetch_matrix(pos + num_0xff_fetches,
@@ -150,15 +151,15 @@ inline static void line_becomes_bad(int cycle)
         ted.bad_line = 1;
 
         /* If in idle state, counter is not incremented.  */
-        if (ted.idle_state)
+        if (ted.idle_state) {
             ted.mem_counter_inc = 0;
+        }
 
         /* We are not in idle state anymore.  */
         /* This is not 100% correct, but should be OK for most cases.
            (FIXME?)  */
         ted.raster.draw_idle_state = ted.idle_state = 0;
         ted.idle_data_location = IDLE_NONE;
-
     } else {
         /* Line is now bad, so we must switch to display state.
            Anyway, we cannot do it here as the `ycounter' handling
@@ -175,19 +176,18 @@ void ted_badline_check_state(BYTE value, const int cycle,
     /* Check whether bad line state has changed.  */
     /*was_bad_line = (ted.allow_bad_lines
                     && (ted.raster.ysmooth == (int)(line & 7)));*/
-	was_bad_line = ted.bad_line;
+    was_bad_line = ted.bad_line;
     now_bad_line = (ted.allow_bad_lines
-                    && ( ((int)(value & 7) == (int)(line & 7))
-					/*|| (ted.bad_line &&
-					 ((int)((value + 1) & 7) == (int)(line & 7) ))*/) )
-					;
+                    && (((int)(value & 7) == (int)(line & 7))
+                        /*|| (ted.bad_line &&
+                         ((int)((value + 1) & 7) == (int)(line & 7) ))*/))
+    ;
 
     if (was_bad_line && !now_bad_line) {
         line_becomes_good(cycle);
     } else {
         /*if (!was_bad_line && now_bad_line)
-			ted.raster_irq_clk++;*/
-            /*line_becomes_bad(cycle);*/
+                        ted.raster_irq_clk++;*/
+        /*line_becomes_bad(cycle);*/
     }
 }
-

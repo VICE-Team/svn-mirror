@@ -103,24 +103,25 @@ void raster_sprite_status_reset(raster_sprite_status_t *status, int sprite_offse
     status->sprite_data = status->sprite_data_1;
     status->new_sprite_data = status->sprite_data_2;
 
-    for (i = 0; i < status->num_sprites; i++)
+    for (i = 0; i < status->num_sprites; i++) {
         raster_sprite_reset(&status->sprites[i], sprite_offset);
+    }
 }
 
 void raster_sprite_status_set_draw_function(raster_sprite_status_t *status,
-                                raster_sprite_status_draw_function_t function)
+                                            raster_sprite_status_draw_function_t function)
 {
     status->draw_function = function;
 }
 
 void raster_sprite_status_set_cache_function(raster_sprite_status_t *status,
-                                raster_sprite_status_cache_function_t function)
+                                             raster_sprite_status_cache_function_t function)
 {
     status->cache_function = function;
 }
 
 void raster_sprite_status_set_draw_partial_function(raster_sprite_status_t *status,
-                                raster_sprite_status_draw_partial_function_t function)
+                                                    raster_sprite_status_draw_partial_function_t function)
 {
     status->draw_partial_function = function;
 }

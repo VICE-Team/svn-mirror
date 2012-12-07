@@ -286,7 +286,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                         case WRITE_LATCH:
                             bq4830y_write_clock_data(context);
                             context->write_latch = 0;
-                            /* fall through */
+                        /* fall through */
                         case LATCH_NONE:
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;
@@ -305,7 +305,7 @@ void bq4830y_store(rtc_bq4830y_t *context, WORD address, BYTE val)
                     switch (latch_state) {
                         case READ_LATCH:
                             context->read_latch = 0;
-                            /* fall through */
+                        /* fall through */
                         case LATCH_NONE:
                             if (context->clock_halt) {
                                 context->latch = context->clock_halt_latch;

@@ -32,4 +32,3 @@ extern int drv_raw_init_resources(void);
 extern void drv_raw_init(void);
 
 #endif
-

@@ -34,9 +34,9 @@
 
 void raster_changes_init(raster_t *raster)
 {
-    raster->changes = lib_calloc(1, sizeof(raster_changes_all_t));    
+    raster->changes = lib_calloc(1, sizeof(raster_changes_all_t));
 
-    raster->changes->background = lib_calloc(1, sizeof(raster_changes_t)); 
+    raster->changes->background = lib_calloc(1, sizeof(raster_changes_t));
     raster->changes->foreground = lib_calloc(1, sizeof(raster_changes_t));
     raster->changes->border = lib_calloc(1, sizeof(raster_changes_t));
     raster->changes->sprites = lib_calloc(1, sizeof(raster_changes_t));
@@ -67,4 +67,3 @@ raster_changes_t *raster_changes_new(void)
     return new_changes;
 }
 #endif
-

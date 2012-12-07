@@ -51,4 +51,3 @@ raster_sprite_cache_t *raster_sprite_cache_new(void)
 
     return new_cache;
 }
-

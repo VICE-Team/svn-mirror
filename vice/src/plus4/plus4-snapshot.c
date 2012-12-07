@@ -139,4 +139,3 @@ fail:
     DBG(("error loading snapshot modules.\n"));
     return -1;
 }
-

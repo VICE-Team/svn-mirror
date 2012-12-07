@@ -30,4 +30,3 @@
 extern int plus4_cmdline_options_init(void);
 
 #endif
-

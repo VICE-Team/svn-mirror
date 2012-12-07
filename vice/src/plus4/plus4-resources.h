@@ -31,4 +31,3 @@ extern int plus4_resources_init(void);
 extern void plus4_resources_shutdown(void);
 
 #endif
-

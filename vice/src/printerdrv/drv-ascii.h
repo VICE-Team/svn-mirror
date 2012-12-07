@@ -32,4 +32,3 @@ extern int drv_ascii_init_resources(void);
 extern void drv_ascii_init(void);
 
 #endif
-

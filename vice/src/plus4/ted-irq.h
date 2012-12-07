@@ -46,4 +46,3 @@ extern void ted_irq_next_frame(void);
 extern void ted_irq_init(void);
 
 #endif
-

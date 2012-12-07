@@ -48,8 +48,9 @@ inline static int raster_cache_data_fill(BYTE *dest,
         unsigned int x = 0, i;
 
 #if defined(ALLOW_UNALIGNED_ACCESS)
-        for (i = 0; i < (length & ~3) && *((DWORD *)(dest + i)) == *((DWORD *)(src + i)); i += 4)
-            /* do nothing */ ;
+        for (i = 0; i < (length & ~3) && *((DWORD *)(dest + i)) == *((DWORD *)(src + i)); i += 4) {
+            /* do nothing */
+        }
         if (i == length) {
             return 0;
         }
@@ -60,8 +61,9 @@ inline static int raster_cache_data_fill(BYTE *dest,
             i++;
         }
 #else
-        for (i = 0; i < length && dest[i] == src[i]; i++)
-            /* do nothing */ ;
+        for (i = 0; i < length && dest[i] == src[i]; i++) {
+            /* do nothing */
+        }
 #endif
         if (i < length) {
             if (*xs > i) {
@@ -83,4 +85,3 @@ inline static int raster_cache_data_fill(BYTE *dest,
 }
 
 #endif
-

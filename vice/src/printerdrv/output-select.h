@@ -33,8 +33,7 @@ struct output_parameter_s;
 
 struct output_select_s {
     const char *output_name;
-    int (*output_open)(unsigned int prnr,
-        struct output_parameter_s *output_parameter);
+    int (*output_open)(unsigned int prnr, struct output_parameter_s *output_parameter);
     void (*output_close)(unsigned int prnr);
     int (*output_putc)(unsigned int prnr, BYTE b);
     int (*output_getc)(unsigned int prnr, BYTE *b);
@@ -59,4 +58,3 @@ extern int output_select_flush(unsigned int prnr);
 extern void output_select_writeline(unsigned int prnr);
 
 #endif
-

@@ -66,8 +66,9 @@ static const resource_string_t resources_string[] = {
 
 int rs232drv_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return rs232_resources_init();
 }
@@ -75,8 +76,9 @@ int rs232drv_resources_init(void)
 void rs232drv_resources_shutdown(void)
 {
     int i;
-    for (i = 0; i < RS232_NUM_DEVICES; i++)
+    for (i = 0; i < RS232_NUM_DEVICES; i++) {
         lib_free(rs232_devfile[i]);
+    }
 
     rs232_resources_shutdown();
 }
@@ -107,8 +109,9 @@ static const cmdline_option_t cmdline_options[] = {
 
 int rs232drv_cmdline_options_init(void)
 {
-    if (cmdline_register_options(cmdline_options) < 0)
+    if (cmdline_register_options(cmdline_options) < 0) {
         return -1;
+    }
 
     return rs232_cmdline_options_init();
 }
@@ -162,12 +165,10 @@ void rs232drv_set_bps(int fd, unsigned int bps)
 
 void rs232drv_init(void)
 {
-
 }
 
 void rs232drv_reset(void)
 {
-
 }
 
 int rs232drv_open(int device)

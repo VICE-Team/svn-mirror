@@ -39,8 +39,7 @@
 
 #define CHARSPERLINE    74
 
-struct ascii_s
-{
+struct ascii_s {
     int pos;
     int mode;
 };
@@ -198,4 +197,3 @@ void drv_ascii_init(void)
 {
     drv_ascii_log = log_open("Drv-Ascii");
 }
-

@@ -46,4 +46,3 @@ extern void raster_canvas_handle_end_of_frame(struct raster_s *raster);
 extern void raster_canvas_update_all(struct raster_s *raster);
 
 #endif
-

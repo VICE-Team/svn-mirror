@@ -36,4 +36,3 @@ extern void interface_userport_write_strobe(int s);
 extern void interface_userport_init(void (*set_busy)(unsigned int));
 
 #endif
-

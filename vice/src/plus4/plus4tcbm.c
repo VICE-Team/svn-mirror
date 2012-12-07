@@ -159,48 +159,48 @@ void plus4tcbm2_reset(void)
 static void tiatcbm_store(WORD addr, BYTE byte, unsigned int dnr)
 {
     switch (addr & 7) {
-      case 0:
-        tiatcbm[dnr].dataa = byte;
-        store_pa(dnr);
-        break;
-      case 1:
-        tiatcbm[dnr].datab = byte;
-        store_pb(dnr);
-        break;
-      case 2:
-        tiatcbm[dnr].datac = byte;
-        store_pc(dnr);
-        break;
-      case 3:
-        tiatcbm[dnr].ddra = byte;
-        store_pa(dnr);
-        break;
-      case 4:
-        tiatcbm[dnr].ddrb = byte;
-        store_pb(dnr);
-        break;
-      case 5:
-        tiatcbm[dnr].ddrc = byte;
-        store_pc(dnr);
-        break;
+        case 0:
+            tiatcbm[dnr].dataa = byte;
+            store_pa(dnr);
+            break;
+        case 1:
+            tiatcbm[dnr].datab = byte;
+            store_pb(dnr);
+            break;
+        case 2:
+            tiatcbm[dnr].datac = byte;
+            store_pc(dnr);
+            break;
+        case 3:
+            tiatcbm[dnr].ddra = byte;
+            store_pa(dnr);
+            break;
+        case 4:
+            tiatcbm[dnr].ddrb = byte;
+            store_pb(dnr);
+            break;
+        case 5:
+            tiatcbm[dnr].ddrc = byte;
+            store_pc(dnr);
+            break;
     }
 }
 
 static BYTE tiatcbm_read(WORD addr, unsigned int dnr)
 {
     switch (addr & 7) {
-      case 0:
-        return dataa_read(dnr);
-      case 1:
-        return datab_read(dnr);
-      case 2:
-        return datac_read(dnr);
-      case 3:
-        return tiatcbm[dnr].ddra;
-      case 4:
-        return tiatcbm[dnr].ddrb;
-      case 5:
-        return tiatcbm[dnr].ddrc;
+        case 0:
+            return dataa_read(dnr);
+        case 1:
+            return datab_read(dnr);
+        case 2:
+            return datac_read(dnr);
+        case 3:
+            return tiatcbm[dnr].ddra;
+        case 4:
+            return tiatcbm[dnr].ddrb;
+        case 5:
+            return tiatcbm[dnr].ddrc;
     }
 
     return 0xff;
@@ -245,4 +245,3 @@ void plus4tcbm2_store(WORD addr, BYTE value)
         tiatcbm_store(addr, value, 1);
     }
 }
-

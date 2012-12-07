@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -190,5 +190,5 @@ void sidcartjoy_store(WORD addr, BYTE value)
 
 BYTE sidcartjoy_read(WORD addr)
 {
-  return ~joystick_value[3];
+    return ~joystick_value[3];
 }

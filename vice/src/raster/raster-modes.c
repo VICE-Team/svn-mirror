@@ -92,10 +92,10 @@ void raster_modes_set(raster_modes_t *modes,
 int raster_modes_set_idle_mode(raster_modes_t *modes,
                                unsigned int num_mode)
 {
-    if (num_mode >= modes->num_modes)
+    if (num_mode >= modes->num_modes) {
         return -1;
+    }
 
     modes->idle_mode = num_mode;
     return 0;
 }
-

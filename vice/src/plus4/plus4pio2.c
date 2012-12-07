@@ -40,4 +40,3 @@ void pio2_store(WORD addr, BYTE value)
 {
     pio2_kbd = value;
 }
-

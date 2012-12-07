@@ -34,4 +34,3 @@ extern void output_graphics_init(void);
 extern void output_graphics_reset(void);
 
 #endif
-

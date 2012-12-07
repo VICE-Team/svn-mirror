@@ -457,7 +457,6 @@ static void ds12c887_write_latched_clock_regs(rtc_ds12c887_t *context)
     for (i = 0; i < 10; i++) {
         if (context->clock_regs_changed[i]) {
             ds12c887_write_clock_byte(context, (BYTE)i, context->clock_regs[i]);
-            
         }
     }
     if (context->clock_regs_changed[10]) {
@@ -514,7 +513,6 @@ int ds12c887_update_flags(rtc_ds12c887_t *context)
 
     /* check for don't care */
     if (!(alarm & 0xc0)) {
-
         /* get valid second bits */
         if (context->bcd) {
             current &= 0x7f;
@@ -539,7 +537,6 @@ int ds12c887_update_flags(rtc_ds12c887_t *context)
 
         /* check for don't care */
         if (!(alarm & 0xc0)) {
-
             /* get valid minute bits */
             if (context->bcd) {
                 current &= 0x7f;
@@ -565,7 +562,6 @@ int ds12c887_update_flags(rtc_ds12c887_t *context)
 
         /* check for don't care */
         if (!(alarm & 0xc0)) {
-
             /* get valid hour bits */
             if (context->bcd) {
                 if (context->am_pm) {
@@ -742,4 +738,3 @@ BYTE ds12c887_read(rtc_ds12c887_t *context)
     }
     return retval;
 }
-

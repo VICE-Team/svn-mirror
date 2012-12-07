@@ -64,8 +64,9 @@ static int set_video_cache_enabled(int val, void *param)
         }
     }
 
-    if (val >= 0)
+    if (val >= 0) {
         raster_resource_chip->video_cache_enabled = val;
+    }
 
     raster_enable_cache(raster_resource_chip->raster,
                         raster_resource_chip->video_cache_enabled);
@@ -102,15 +103,17 @@ int raster_resources_chip_init(const char *chipname, raster_t *raster,
 
     raster->canvas = video_canvas_init();
 
-    if (resources_register_int(resources_chip) < 0)
+    if (resources_register_int(resources_chip) < 0) {
         return -1;
+    }
 
-    for (i = 0; rname_chip[i] != NULL; i++)
+    for (i = 0; rname_chip[i] != NULL; i++) {
         lib_free((char *)(resources_chip[i].name));
+    }
 
-    if (video_resources_chip_init(chipname, &raster->canvas, video_chip_cap)
-        < 0)
+    if (video_resources_chip_init(chipname, &raster->canvas, video_chip_cap) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -121,4 +124,3 @@ void raster_resources_chip_shutdown(raster_t *raster)
     lib_free(raster->raster_resource_chip);
     video_canvas_shutdown(raster->canvas);
 }
-

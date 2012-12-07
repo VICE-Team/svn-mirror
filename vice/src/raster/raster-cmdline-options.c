@@ -36,9 +36,11 @@
 #include "util.h"
 #include "video.h"
 
-static const char *cname_chip[] = { "-", "vcache", "VideoCache",
-                                    "+", "vcache", "VideoCache",
-                                    NULL };
+static const char *cname_chip[] = {
+    "-", "vcache", "VideoCache",
+    "+", "vcache", "VideoCache",
+    NULL
+};
 
 static cmdline_option_t cmdline_options_chip[] =
 {
@@ -62,21 +64,23 @@ int raster_cmdline_options_chip_init(const char *chipname,
 
     for (i = 0; cname_chip[i * 3] != NULL; i++) {
         cmdline_options_chip[i].name = util_concat(cname_chip[i * 3], chipname,
-                                       cname_chip[i * 3 + 1], NULL);
+                                                   cname_chip[i * 3 + 1], NULL);
         cmdline_options_chip[i].resource_name = util_concat(chipname,
-                                                cname_chip[i * 3 + 2], NULL);
+                                                            cname_chip[i * 3 + 2], NULL);
     }
 
-    if (cmdline_register_options(cmdline_options_chip) < 0)
+    if (cmdline_register_options(cmdline_options_chip) < 0) {
         return -1;
+    }
 
     for (i = 0; cname_chip[i * 3] != NULL; i++) {
         lib_free((char *)cmdline_options_chip[i].name);
         lib_free((char *)cmdline_options_chip[i].resource_name);
     }
 
-    if (video_cmdline_options_chip_init(chipname, video_chip_cap) < 0)
+    if (video_cmdline_options_chip_init(chipname, video_chip_cap) < 0) {
         return -1;
+    }
 
     return 0;
 }

@@ -49,8 +49,9 @@ inline static void refresh_canvas(raster_t *raster)
     viewport = raster->canvas->viewport;
 
 #if (!defined(GP2X) || defined(GP2X_SDL)) && (!defined(WIZ) || defined(WIZ_SDL))
-    if (update_area->is_null)
+    if (update_area->is_null) {
         return;
+    }
 #endif
 
     x = update_area->xs;
@@ -74,8 +75,8 @@ inline static void refresh_canvas(raster_t *raster)
         x -= 4;
         xx -= 4;
         w += 8;
-        y --;
-        yy --;
+        y--;
+        yy--;
         h += 2;
     }
 
@@ -96,10 +97,11 @@ inline static void refresh_canvas(raster_t *raster)
     yy += viewport->y_offset;
 
     if ((int)(raster->canvas->draw_buffer->canvas_height) >= yy
-        && (int)(raster->canvas->draw_buffer->canvas_width) >= xx)
+        && (int)(raster->canvas->draw_buffer->canvas_width) >= xx) {
         video_canvas_refresh(raster->canvas, x, y, xx, yy,
-            MIN(w, (int)(raster->canvas->draw_buffer->canvas_width - xx)),
-            MIN(h, (int)(raster->canvas->draw_buffer->canvas_height - yy)));
+                             MIN(w, (int)(raster->canvas->draw_buffer->canvas_width - xx)),
+                             MIN(h, (int)(raster->canvas->draw_buffer->canvas_height - yy)));
+    }
 
     update_area->is_null = 1;
 }
@@ -134,6 +136,5 @@ void raster_canvas_init(raster_t *raster)
 
 void raster_canvas_shutdown(raster_t *raster)
 {
-   lib_free(raster->update_area);
+    lib_free(raster->update_area);
 }
-

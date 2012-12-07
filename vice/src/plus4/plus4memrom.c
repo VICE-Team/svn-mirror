@@ -64,8 +64,8 @@ void plus4memrom_basic_store(WORD addr, BYTE value)
 BYTE plus4memrom_trap_read(WORD addr)
 {
     switch (addr & 0xc000) {
-      case 0xc000:
-        return plus4memrom_kernal_trap_rom[addr & 0x3fff];
+        case 0xc000:
+            return plus4memrom_kernal_trap_rom[addr & 0x3fff];
     }
 
     return 0;
@@ -74,9 +74,9 @@ BYTE plus4memrom_trap_read(WORD addr)
 void plus4memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xc000) {
-      case 0xc000:
-        plus4memrom_kernal_trap_rom[addr & 0x3fff] = value;
-        break;
+        case 0xc000:
+            plus4memrom_kernal_trap_rom[addr & 0x3fff] = value;
+            break;
     }
 }
 
@@ -113,32 +113,32 @@ BYTE plus4memrom_extromhi3_read(WORD addr)
 BYTE plus4memrom_rom_read(WORD addr)
 {
     switch (addr & 0xc000) {
-      case 0x8000:
-        switch ((mem_config >> 1) & 3) {
-          case 0:
-            return plus4memrom_basic_read(addr);
-          case 1:
-            return plus4memrom_extromlo1_read(addr);
-          case 2:
-            return plus4memrom_extromlo2_read(addr);
-          case 3:
-            return plus4memrom_extromlo3_read(addr);
-        }
-      case 0xc000:
-        if ((addr & 0xff00) == 0xfc00) {
-            return plus4memrom_kernal_read(addr);
-        } else {
-            switch ((mem_config >> 3) & 3) {
-              case 0:
-                return plus4memrom_kernal_read(addr);
-              case 1:
-                return plus4memrom_extromhi1_read(addr);
-              case 2:
-                return plus4memrom_extromhi2_read(addr);
-              case 3:
-                return plus4memrom_extromhi3_read(addr);
+        case 0x8000:
+            switch ((mem_config >> 1) & 3) {
+                case 0:
+                    return plus4memrom_basic_read(addr);
+                case 1:
+                    return plus4memrom_extromlo1_read(addr);
+                case 2:
+                    return plus4memrom_extromlo2_read(addr);
+                case 3:
+                    return plus4memrom_extromlo3_read(addr);
             }
-        }
+        case 0xc000:
+            if ((addr & 0xff00) == 0xfc00) {
+                return plus4memrom_kernal_read(addr);
+            } else {
+                switch ((mem_config >> 3) & 3) {
+                    case 0:
+                        return plus4memrom_kernal_read(addr);
+                    case 1:
+                        return plus4memrom_extromhi1_read(addr);
+                    case 2:
+                        return plus4memrom_extromhi2_read(addr);
+                    case 3:
+                        return plus4memrom_extromhi3_read(addr);
+                }
+            }
     }
 
     return 0;
@@ -147,12 +147,11 @@ BYTE plus4memrom_rom_read(WORD addr)
 void plus4memrom_rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xc000) {
-      case 0x8000:
-        plus4memrom_basic_rom[addr & 0x3fff] = value;
-        break;
-      case 0xc000:
-        plus4memrom_kernal_rom[addr & 0x3fff] = value;
-        break;
+        case 0x8000:
+            plus4memrom_basic_rom[addr & 0x3fff] = value;
+            break;
+        case 0xc000:
+            plus4memrom_kernal_rom[addr & 0x3fff] = value;
+            break;
     }
 }
-

@@ -30,18 +30,16 @@
 #define PLUS4_PAL_CYCLES_PER_SEC  1773447
 #define PLUS4_PAL_CYCLES_PER_LINE 114
 #define PLUS4_PAL_SCREEN_LINES    312
-#define PLUS4_PAL_CYCLES_PER_RFSH (PLUS4_PAL_SCREEN_LINES \
-                                  * PLUS4_PAL_CYCLES_PER_LINE)
+#define PLUS4_PAL_CYCLES_PER_RFSH (PLUS4_PAL_SCREEN_LINES * PLUS4_PAL_CYCLES_PER_LINE)
 #define PLUS4_PAL_RFSH_PER_SEC    (1.0 / ((double)PLUS4_PAL_CYCLES_PER_RFSH \
-                                  / (double)PLUS4_PAL_CYCLES_PER_SEC))
+                                          / (double)PLUS4_PAL_CYCLES_PER_SEC))
 
 #define PLUS4_NTSC_CYCLES_PER_SEC  1789772
 #define PLUS4_NTSC_CYCLES_PER_LINE 114
 #define PLUS4_NTSC_SCREEN_LINES    262
-#define PLUS4_NTSC_CYCLES_PER_RFSH (PLUS4_NTSC_SCREEN_LINES \
-                                   * PLUS4_NTSC_CYCLES_PER_LINE)
+#define PLUS4_NTSC_CYCLES_PER_RFSH (PLUS4_NTSC_SCREEN_LINES * PLUS4_NTSC_CYCLES_PER_LINE)
 #define PLUS4_NTSC_RFSH_PER_SEC    (1.0 / ((double)PLUS4_NTSC_CYCLES_PER_RFSH \
-                                   / (double)PLUS4_NTSC_CYCLES_PER_SEC))
+                                           / (double)PLUS4_NTSC_CYCLES_PER_SEC))
 
 struct printer_context_s;
 
@@ -52,4 +50,3 @@ typedef struct machine_context_s {
 extern machine_context_t machine_context;
 
 #endif
-

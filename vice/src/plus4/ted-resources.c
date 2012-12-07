@@ -54,7 +54,7 @@ static int set_border_mode(int val, void *param)
         ted_resources.border_mode = val;
         machine_change_timing(sync ^ TED_BORDER_MODE(ted_resources.border_mode));
     }
-   return 0;
+    return 0;
 }
 
 static const resource_int_t resources_int[] =
@@ -95,4 +95,3 @@ int ted_resources_init(void)
 
     return resources_register_int(resources_int);
 }
-

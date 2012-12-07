@@ -262,8 +262,9 @@ int machine_resources_init(void)
 #endif
         || drive_resources_init() < 0
         || datasette_resources_init() < 0
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -302,8 +303,9 @@ int machine_cmdline_options_init(void)
 #endif
         || drive_cmdline_options_init() < 0
         || datasette_cmdline_options_init() < 0
-        )
+        ) {
         return -1;
+    }
 
     return 0;
 }
@@ -315,9 +317,9 @@ static void plus4_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[3];
 
-    asmarray[0]=&asm6502;
-    asmarray[1]=&asmR65C02;
-    asmarray[2]=NULL;
+    asmarray[0] = &asm6502;
+    asmarray[1] = &asmR65C02;
+    asmarray[2] = NULL;
 
     asm6502_init(&asm6502);
     asmR65C02_init(&asmR65C02);
@@ -344,15 +346,17 @@ int machine_specific_init(void)
 
     plus4_log = log_open("Plus4");
 
-    if (mem_load() < 0)
+    if (mem_load() < 0) {
         return -1;
+    }
 
     /* Setup trap handling.  */
     traps_init();
 
     /* Initialize serial traps.  */
-    if (serial_init(plus4_serial_traps) < 0)
+    if (serial_init(plus4_serial_traps) < 0) {
         return -1;
+    }
 
     serial_trap_init(0xa8);
     serial_iec_bus_init();
@@ -376,8 +380,7 @@ int machine_specific_init(void)
     if (delay == 0) {
         delay = 2; /* default */
     }
-    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC
-                   * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
+    autostart_init((CLOCK)(delay * PLUS4_PAL_RFSH_PER_SEC * PLUS4_PAL_CYCLES_PER_RFSH), 0, 0, 0xc8, 0xca, -40);
 
     /* Initialize the sidcart first */
     sidcart_sound_chip_init();
@@ -416,8 +419,7 @@ int machine_specific_init(void)
                                 machine_timing.cycles_per_sec);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec
-                * machine_timing.cycles_per_rfsh));
+    kbdbuf_init(1319, 239, 8, (CLOCK)(machine_timing.rfsh_per_sec * machine_timing.cycles_per_rfsh));
 
     plus4ui_init();
 
@@ -486,7 +488,7 @@ void machine_specific_shutdown(void)
 
 void machine_handle_pending_alarms(int num_write_cycles)
 {
-     ted_handle_pending_alarms(num_write_cycles);
+    ted_handle_pending_alarms(num_write_cycles);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -532,8 +534,7 @@ long machine_get_cycles_per_frame(void)
 
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
-    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
-            % machine_timing.screen_lines);
+    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
 
@@ -569,22 +570,22 @@ void machine_change_timing(int timeval)
     }
 
     switch (timeval) {
-      case MACHINE_SYNC_PAL:
-        machine_timing.cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = PLUS4_PAL_CYCLES_PER_LINE;
-        machine_timing.screen_lines = PLUS4_PAL_SCREEN_LINES;
-        break;
-      case MACHINE_SYNC_NTSC:
-        machine_timing.cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = PLUS4_NTSC_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = PLUS4_NTSC_CYCLES_PER_LINE;
-        machine_timing.screen_lines = PLUS4_NTSC_SCREEN_LINES;
-        break;
-      default:
-        log_error(plus4_log, "Unknown machine timing.");
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = PLUS4_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = PLUS4_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = PLUS4_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = PLUS4_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = PLUS4_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = PLUS4_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = PLUS4_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = PLUS4_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = PLUS4_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = PLUS4_NTSC_SCREEN_LINES;
+            break;
+        default:
+            log_error(plus4_log, "Unknown machine timing.");
     }
 
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
@@ -674,7 +675,12 @@ const char *machine_get_name(void)
 #ifdef USE_SDLUI
 /* Kludges for vsid & linking issues */
 const char **csidmodel = NULL;
-void psid_init_driver(void) {}
-void machine_play_psid(int tune) {}
+void psid_init_driver(void)
+{
+}
+
+void machine_play_psid(int tune)
+{
+}
 BYTE *mem_chargen_rom = NULL;
 #endif

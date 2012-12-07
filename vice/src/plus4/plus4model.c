@@ -72,9 +72,9 @@ int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia)
 
     for (i = 0; i < PLUS4MODEL_NUM; ++i) {
         if ((plus4models[i].video == video)
-         && (plus4models[i].ramsize == ramsize)
-         && (plus4models[i].hasspeech == hasspeech)
-         && (plus4models[i].hasacia == hasacia)) {
+            && (plus4models[i].ramsize == ramsize)
+            && (plus4models[i].hasspeech == hasspeech)
+            && (plus4models[i].hasacia == hasacia)) {
             return i;
         }
     }
@@ -87,9 +87,9 @@ int plus4model_get(void)
     int video, ramsize, hasspeech, hasacia;
 
     if ((resources_get_int("MachineVideoStandard", &video) < 0)
-     || (resources_get_int("RamSize", &ramsize) < 0)
-     || (resources_get_int("Acia1Enable", &hasacia) < 0)
-     || (resources_get_int("SpeechEnabled", &hasspeech) < 0)) {
+        || (resources_get_int("RamSize", &ramsize) < 0)
+        || (resources_get_int("Acia1Enable", &hasacia) < 0)
+        || (resources_get_int("SpeechEnabled", &hasspeech) < 0)) {
         return -1;
     }
 
@@ -138,5 +138,4 @@ void plus4model_set(int model)
         resources_set_string("SpeechImage", "c2lo.364");
         resources_set_int("SpeechEnabled", 1);
     }
-
 }

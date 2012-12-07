@@ -38,4 +38,3 @@ extern BYTE plus4tcbm2_read(WORD addr);
 extern void plus4tcbm2_store(WORD addr, BYTE value);
 
 #endif
-

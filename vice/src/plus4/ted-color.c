@@ -61,21 +61,21 @@
 
 /* luminances */
 
-static float ted_luminances[8]=
+static float ted_luminances[8] =
 {
-         40.0f,
-         56.0f,
-         64.0f,
-         80.0f,
-        128.0f,
-        160.0f,
-        192.0f,
-        256.0f
+    40.0f,
+    56.0f,
+    64.0f,
+    80.0f,
+    128.0f,
+    160.0f,
+    192.0f,
+    256.0f
 };
 
 /* the base ted palette without luminances */
 
-static video_cbm_color_t ted_colors[16]=
+static video_cbm_color_t ted_colors[16] =
 {
     { 0.0f, ANGLE_ORN, -0, "Black"       },
     { 0.0f, ANGLE_BRN,  0, "White"       },
@@ -107,7 +107,7 @@ static video_cbm_palette_t ted_palette =
 
 int ted_color_update_palette(struct video_canvas_s *canvas)
 {
-    int col,lum,cl;
+    int col, lum, cl;
     float tedlum;
     video_cbm_color_t *vc;
 
@@ -116,10 +116,11 @@ int ted_color_update_palette(struct video_canvas_s *canvas)
         tedlum = ted_luminances[lum] * 0.867f;
         for (col = 0; col < 16; col++) {
             vc = &ted_colors_with_lum[cl];
-            if (col)
+            if (col) {
                 vc->luminance = tedlum;
-            else
+            } else {
                 vc->luminance = 0.0f;
+            }
             vc->angle = ted_colors[col].angle;
             vc->direction = ted_colors[col].direction;
             vc->name = ted_colors[col].name;
@@ -130,4 +131,3 @@ int ted_color_update_palette(struct video_canvas_s *canvas)
     video_color_palette_internal(canvas, &ted_palette);
     return 0;
 }
-

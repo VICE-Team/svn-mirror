@@ -46,10 +46,11 @@
 
 unsigned int raster_line_get_real_mode(raster_t *raster)
 {
-    if (raster->draw_idle_state)
+    if (raster->draw_idle_state) {
         return raster_modes_get_idle_mode(raster->modes);
-    else
+    } else {
         return raster->video_mode;
+    }
 }
 
 /* Increase `area' so that it also includes [xs; xe] at line y.  */
@@ -83,12 +84,12 @@ inline static void update_sprite_collisions(raster_t *raster)
 {
     BYTE *fake_draw_buffer_ptr;
 
-    if (raster->sprite_status == NULL
-        || raster->sprite_status->draw_function == NULL)
+    if (raster->sprite_status == NULL || raster->sprite_status->draw_function == NULL) {
         return;
+    }
 
     fake_draw_buffer_ptr = raster->fake_draw_buffer_line
-         + raster->geometry->extra_offscreen_border_left;
+                           + raster->geometry->extra_offscreen_border_left;
 
     raster->sprite_status->draw_function(fake_draw_buffer_ptr,
                                          raster->zero_gfx_msk);
@@ -98,10 +99,10 @@ inline static void update_sprite_collisions(raster_t *raster)
 /* VIC-II are put correctly to the lower frame buffer area */
 inline static int map_current_line_to_area(raster_t *raster)
 {
-   return (raster->current_line < raster->geometry->first_displayed_line
-           && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line ?
-        raster->geometry->screen_size.height + raster->current_line
-      : raster->current_line);
+    return (raster->current_line < raster->geometry->first_displayed_line
+            && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line ?
+            raster->geometry->screen_size.height + raster->current_line
+            : raster->current_line);
 }
 
 inline static void handle_blank_line_cached(raster_t *raster)
@@ -111,7 +112,6 @@ inline static void handle_blank_line_cached(raster_t *raster)
         || raster->border_color
         != raster->cache[raster->current_line].border_color
         || !raster->cache[raster->current_line].blank) {
-
         /* Even when the actual caching is disabled, redraw blank lines
            only if it is really necessary to do so.  */
         raster->cache[raster->current_line].border_color
@@ -155,9 +155,9 @@ static void handle_blank_line(raster_t *raster)
                 raster_changes_apply(border_changes, i);
             }
 
-            if (xs < raster->geometry->screen_size.width - 1)
-                raster_line_draw_blank(raster, xs,
-                                       raster->geometry->screen_size.width - 1);
+            if (xs < raster->geometry->screen_size.width - 1) {
+                raster_line_draw_blank(raster, xs, raster->geometry->screen_size.width - 1);
+            }
 
             raster->cache[raster->current_line].border_color = 0xFF;
             raster->cache[raster->current_line].blank = 1;
@@ -189,14 +189,13 @@ inline static void draw_sprites(raster_t *raster)
 inline static void draw_sprites_partial(raster_t *raster, int xs, int xe)
 {
     if (raster->sprite_status != NULL
-        && raster->sprite_status->draw_partial_function != NULL)
-    {
+        && raster->sprite_status->draw_partial_function != NULL) {
         if (raster->sprite_xsmooth_shift_right > 0) {
             raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
-                                             raster->zero_gfx_msk, xs, xe);
+                                                         raster->zero_gfx_msk, xs, xe);
         } else {
             raster->sprite_status->draw_partial_function(raster->draw_buffer_ptr,
-                                             raster->gfx_msk, xs, xe);
+                                                         raster->gfx_msk, xs, xe);
         }
         raster->sprite_xsmooth_shift_right = 0;
     }
@@ -235,17 +234,18 @@ inline static void fill_background(raster_t *raster)
     raster_line_fill_xsmooth_region(raster);
 
     if (raster->open_left_border || raster->border_disable) {
-        if (raster->draw_idle_state)
+        if (raster->draw_idle_state) {
             memset(raster->draw_buffer_ptr, raster->idle_background_color,
                    (raster->geometry->gfx_position.x + raster->xsmooth));
-        else
+        } else {
             memset(raster->draw_buffer_ptr, raster->xsmooth_color,
                    (raster->geometry->gfx_position.x + raster->xsmooth));
+        }
     }
 
     if (raster->open_right_border || raster->border_disable) {
         if (!raster->can_disable_border) {
-            if (raster->draw_idle_state)
+            if (raster->draw_idle_state) {
                 memset(raster->draw_buffer_ptr +
                        raster->geometry->gfx_position.x
                        + raster->geometry->gfx_size.width
@@ -255,7 +255,7 @@ inline static void fill_background(raster_t *raster)
                        - raster->geometry->gfx_position.x
                        - raster->geometry->gfx_size.width
                        - raster->xsmooth);
-            else
+            } else {
                 memset(raster->draw_buffer_ptr +
                        raster->geometry->gfx_position.x
                        + raster->geometry->gfx_size.width
@@ -265,26 +265,28 @@ inline static void fill_background(raster_t *raster)
                        - raster->geometry->gfx_position.x
                        - raster->geometry->gfx_size.width
                        - raster->xsmooth);
+            }
         } else {
-	        int len = raster->geometry->screen_size.width
-                    - raster->geometry->gfx_position.x
-                    - raster->geometry->gfx_size.width
-                    - raster->xsmooth;
+            int len = raster->geometry->screen_size.width
+                      - raster->geometry->gfx_position.x
+                      - raster->geometry->gfx_size.width
+                      - raster->xsmooth;
             if (len > 0) {
-                if (raster->draw_idle_state)
+                if (raster->draw_idle_state) {
                     memset(raster->draw_buffer_ptr +
                            raster->geometry->gfx_position.x
                            + raster->geometry->gfx_size.width
                            + raster->xsmooth,
                            raster->idle_background_color,
                            len);
-                else
+                } else {
                     memset(raster->draw_buffer_ptr +
                            raster->geometry->gfx_position.x
                            + raster->geometry->gfx_size.width
                            + raster->xsmooth,
                            raster->xsmooth_color,
                            len);
+                }
             }
         }
     }
@@ -308,8 +310,7 @@ static void handle_visible_line_with_cache(raster_t *raster)
 
         video_mode = raster_line_get_real_mode(raster);
 
-        line = raster->current_line - raster->geometry->gfx_position.y
-            - raster->ysmooth - 1;
+        line = raster->current_line - raster->geometry->gfx_position.y - raster->ysmooth - 1;
 
         if (cache->is_dirty
             || raster->dont_cache || raster->dont_cache_all
@@ -326,7 +327,6 @@ static void handle_visible_line_with_cache(raster_t *raster)
             || cache->xsmooth_color != raster->xsmooth_color
             || cache->idle_background_color
             != raster->idle_background_color) {
-
             unsigned int changed_start_char, changed_end_char;
 
             cache->n = line;
@@ -347,16 +347,17 @@ static void handle_visible_line_with_cache(raster_t *raster)
 
             fill_background(raster);
 
-            if (raster->sprite_status != NULL)
+            if (raster->sprite_status != NULL) {
                 (raster->fill_sprite_cache)(raster, cache,
                                             &changed_start_char,
                                             &changed_end_char);
+            }
 
             raster_modes_fill_cache(raster->modes,
-                                        video_mode,
-                                        cache,
-                                        &changed_start_char,
-                                        &changed_end_char, 1);
+                                    video_mode,
+                                    cache,
+                                    &changed_start_char,
+                                    &changed_end_char, 1);
 
             /* [ `changed_start' ; `changed_end' ] now covers the whole line, as
              we have called fill_cache() with `1' as the last parameter (no
@@ -366,8 +367,9 @@ static void handle_visible_line_with_cache(raster_t *raster)
                                           changed_start_char,
                                           changed_end_char);
 
-            if (raster->sprite_status != NULL)
+            if (raster->sprite_status != NULL) {
                 (raster->draw_sprites_when_cache_enabled)(raster, cache);
+            }
 
             changed_start = 0;
             changed_end = raster->geometry->screen_size.width - 1;
@@ -415,12 +417,11 @@ static void handle_visible_line_without_cache(raster_t *raster)
     cache = &raster->cache[raster->current_line];
 
     if (raster->dont_cache
-        || (raster->sprite_status != NULL
-        && raster->sprite_status->dma_msk != 0)
+        || (raster->sprite_status != NULL && raster->sprite_status->dma_msk != 0)
         || cache->is_dirty
         || cache->blank
         || cache->border_color != raster->border_color
-    /* FIXME: Done differently in another place.  */
+        /* FIXME: Done differently in another place.  */
         || cache->open_right_border != raster->open_right_border
         || cache->open_left_border != raster->open_left_border
         || cache->idle_background_color != raster->idle_background_color
@@ -474,11 +475,12 @@ static void handle_visible_line_with_changes(raster_t *raster)
         }
         raster_changes_apply(changes->background, i);
     }
-    if (xs <= (int)geometry->screen_size.width - 1)
+    if (xs <= (int)geometry->screen_size.width - 1) {
         raster_modes_draw_background(raster->modes,
                                      raster_line_get_real_mode(raster),
                                      xs,
                                      geometry->screen_size.width - 1);
+    }
 
     raster->draw_idle_state = old_draw_idle_state;
     raster->video_mode = old_video_mode;
@@ -497,15 +499,16 @@ static void handle_visible_line_with_changes(raster_t *raster)
         raster->xsmooth_shift_left = 0;
         raster_changes_apply(changes->foreground, i);
     }
-    if (xs <= (int)geometry->text_size.width - 1)
+    if (xs <= (int)geometry->text_size.width - 1) {
         raster_modes_draw_foreground(raster->modes,
                                      raster_line_get_real_mode(raster),
                                      xs,
                                      geometry->text_size.width - 1);
+    }
 
     raster->xsmooth_shift_left = 0;
 
-/* 
+/*
     Draw the sprites.
 
     NOTE: make sure not to draw more than the actually visible part of the line,
@@ -541,68 +544,75 @@ static void handle_visible_line_with_changes(raster_t *raster)
             int xe = changes->border->actions[i].where;
 
             if (xs < xe) {
-                if (!raster->border_disable)
+                if (!raster->border_disable) {
                     raster_line_draw_blank(raster, xs, xe - 1);
+                }
                 xs = xe;
             }
             raster_changes_apply(changes->border, i);
         }
-        if (!raster->border_disable)
-            if (xs <= (int)geometry->screen_size.width - 1)
+        if (!raster->border_disable) {
+            if (xs <= (int)geometry->screen_size.width - 1) {
                 raster_line_draw_blank(raster, xs, geometry->screen_size.width - 1);
+            }
+        }
     } else {
         /* Draw left border.  */
         xstop = raster->display_xstart - 1;
         if (!raster->open_left_border) {
             for (xs = i = 0;
-                (i < changes->border->count
-                && changes->border->actions[i].where <= xstop);
-                i++) {
+                 (i < changes->border->count && changes->border->actions[i].where <= xstop);
+                 i++) {
                 int xe = changes->border->actions[i].where;
 
                 if (xs < xe) {
-        	        if (!raster->border_disable)
+                    if (!raster->border_disable) {
                         raster_line_draw_blank(raster, xs, xe - 1);
+                    }
                     xs = xe;
                 }
                 raster_changes_apply(changes->border, i);
             }
-            if ((!raster->border_disable) && (xs <= xstop))
+            if ((!raster->border_disable) && (xs <= xstop)) {
                 raster_line_draw_blank(raster, xs, xstop);
+            }
         } else {
             for (i = 0;
-                (i < changes->border->count
-                && changes->border->actions[i].where <= xstop);
-                i++)
+                 (i < changes->border->count && changes->border->actions[i].where <= xstop);
+                 i++) {
                 raster_changes_apply(changes->border, i);
+            }
         }
 
         /* Draw right border.  */
         if (!raster->open_right_border) {
             for (;
-                (i < changes->border->count
-                && (changes->border->actions[i].where
-                <= raster->display_xstop));
-                i++)
+                 (i < changes->border->count && (changes->border->actions[i].where <= raster->display_xstop));
+                 i++) {
                 raster_changes_apply(changes->border, i);
+            }
             for (xs = raster->display_xstop;
-                i < changes->border->count;
-                i++) {
+                 i < changes->border->count;
+                 i++) {
                 int xe = changes->border->actions[i].where;
 
                 if (xs < xe) {
-                    if (!raster->border_disable)
+                    if (!raster->border_disable) {
                         raster_line_draw_blank(raster, xs, xe - 1);
+                    }
                     xs = xe;
                 }
                 raster_changes_apply(changes->border, i);
             }
-            if (!raster->border_disable)
-                if (xs <= (int)geometry->screen_size.width - 1)
+            if (!raster->border_disable) {
+                if (xs <= (int)geometry->screen_size.width - 1) {
                     raster_line_draw_blank(raster, xs, geometry->screen_size.width - 1);
+                }
+            }
         } else {
-            for (i = 0; i < changes->border->count; i++)
+            for (i = 0; i < changes->border->count; i++) {
                 raster_changes_apply(changes->border, i);
+            }
         }
     }
 
@@ -626,14 +636,16 @@ inline static void handle_visible_line(raster_t *raster)
     } else {
         if (raster->cache_enabled
             && !raster->open_left_border
-            && !raster->open_right_border)       /* FIXME: shortcut! */
+            && !raster->open_right_border) {     /* FIXME: shortcut! */
             handle_visible_line_with_cache(raster);
-        else
+        } else {
             handle_visible_line_without_cache(raster);
+        }
     }
 
-    if (raster->draw_idle_state)
+    if (raster->draw_idle_state) {
         raster->xsmooth_color = raster->idle_background_color;
+    }
 }
 
 void raster_line_emulate(raster_t *raster)
@@ -641,34 +653,35 @@ void raster_line_emulate(raster_t *raster)
     raster_draw_buffer_ptr_update(raster);
 
     /* Emulate the vertical blank flip-flops.  (Well, sort of.)  */
-    if (raster->current_line == raster->display_ystart && (!raster->blank
-        || raster->blank_off))
+    if (raster->current_line == raster->display_ystart && (!raster->blank || raster->blank_off)) {
         raster->blank_enabled = 0;
-    if (raster->current_line == raster->display_ystop)
+    }
+    if (raster->current_line == raster->display_ystop) {
         raster->blank_enabled = 1;
+    }
 
     if ((raster->current_line >= raster->geometry->first_displayed_line
-        && raster->current_line <= raster->geometry->last_displayed_line)
+         && raster->current_line <= raster->geometry->last_displayed_line)
         /* handle the case when lines 0+ are displayed in the lower border */
-       || (raster->current_line <= raster->geometry->last_displayed_line - raster->geometry->screen_size.height
-        && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line)
-       )
-   {
+        || (raster->current_line <= raster->geometry->last_displayed_line - raster->geometry->screen_size.height
+            && raster->geometry->screen_size.height <= raster->geometry->last_displayed_line)
+        ) {
         /* handle lines with no border or with changes that may affect
            the border as visible lines */
-        if (raster->can_disable_border && (raster->border_disable || raster->changes->have_on_this_line)) { 
+        if (raster->can_disable_border && (raster->border_disable || raster->changes->have_on_this_line)) {
             handle_visible_line(raster);
         } else {
             if ((raster->blank_this_line || raster->blank_enabled)
-                && !raster->open_left_border)
+                && !raster->open_left_border) {
                 handle_blank_line(raster);
-            else
+            } else {
                 handle_visible_line(raster);
+            }
         }
 
         if (++raster->num_cached_lines == (1
-            + raster->geometry->last_displayed_line
-            - raster->geometry->first_displayed_line)) {
+                                           + raster->geometry->last_displayed_line
+                                           - raster->geometry->first_displayed_line)) {
             raster->dont_cache = 0;
             raster->num_cached_lines = 0;
         }
@@ -701,15 +714,15 @@ void raster_line_emulate(raster_t *raster)
         /* not end of frame on NTSC VIC-II where lines 0+ are */
         /* displayed in the lower border */
         if (raster->geometry->screen_size.height > raster->geometry->last_displayed_line) {
-           raster_canvas_handle_end_of_frame(raster);
-       }
+            raster_canvas_handle_end_of_frame(raster);
+        }
     }
 
     /* end of frame on NTSC VIC-II */
     if (raster->geometry->screen_size.height <= raster->geometry->last_displayed_line
         && raster->current_line == raster->geometry->last_displayed_line - raster->geometry->screen_size.height + 1) {
         raster_canvas_handle_end_of_frame(raster);
-   }
+    }
 
     raster_changes_apply_all(raster->changes->next_line);
 
@@ -717,9 +730,9 @@ void raster_line_emulate(raster_t *raster)
     raster->open_left_border = raster->open_right_border;
     raster->open_right_border = 0;
 
-    if (raster->sprite_status != NULL)
+    if (raster->sprite_status != NULL) {
         raster->sprite_status->dma_msk = raster->sprite_status->new_dma_msk;
+    }
 
     raster->blank_this_line = 0;
 }
-

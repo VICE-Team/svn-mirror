@@ -48,4 +48,3 @@ extern int acia_enabled(void);
 extern int acia_dump(void *ctx);
 
 #endif
-

@@ -36,4 +36,3 @@ extern int plus4cart_load_c2hi(const char *rom_name);
 extern void plus4cart_detach_cartridges(void);
 
 #endif /* _PLUS4CART_H */
-

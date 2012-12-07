@@ -46,12 +46,14 @@ inline static int raster_cache_data_fill_const(BYTE *dest,
     } else {
         unsigned int x = 0, i;
 
-        for (i = 0; i < length && dest[i] == data; i++)
-            /* do nothing */ ;
+        for (i = 0; i < length && dest[i] == data; i++) {
+            /* do nothing */
+        }
 
         if (i < length) {
-            if (*xs > i)
+            if (*xs > i) {
                 *xs = i;
+            }
 
             for (; i < length; i++) {
                 if (dest[i] != data) {
@@ -60,8 +62,9 @@ inline static int raster_cache_data_fill_const(BYTE *dest,
                 }
             }
 
-            if (*xe < x)
+            if (*xe < x) {
                 *xe = x;
+            }
 
             return 1;
         } else {
@@ -71,4 +74,3 @@ inline static int raster_cache_data_fill_const(BYTE *dest,
 }
 
 #endif
-

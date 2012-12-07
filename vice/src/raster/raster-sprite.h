@@ -27,8 +27,7 @@
 #ifndef VICE_RASTER_SPRITE_H
 #define VICE_RASTER_SPRITE_H
 
-struct raster_sprite_s
-{
+struct raster_sprite_s {
     /* Physical X, Y coordinates.  Note: `x' can be negative, when the sprite
        "wraps" to the left!  It can also be different from the value in the
        corresponding register in the video chip.  */
@@ -74,4 +73,3 @@ typedef struct raster_sprite_s raster_sprite_t;
 extern void raster_sprite_reset(raster_sprite_t *s, int sprite_offset);
 
 #endif
-

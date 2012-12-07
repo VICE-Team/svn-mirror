@@ -33,8 +33,7 @@
 
 struct palette_s;
 
-struct output_parameter_s
-{
+struct output_parameter_s {
     unsigned int maxcol;
     unsigned int maxrow;
     unsigned int dpi_x;
@@ -44,4 +43,3 @@ struct output_parameter_s
 typedef struct output_parameter_s output_parameter_t;
 
 #endif
-

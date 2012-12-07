@@ -207,7 +207,7 @@ time_t rtc_set_second(int seconds, time_t offset, int bcd)
     }
     local->tm_sec = real_seconds;
     offset_now = mktime(local);
-    
+
     return offset + (offset_now - now);
 }
 
@@ -440,7 +440,7 @@ time_t rtc_set_latched_second(int seconds, time_t latch, int bcd)
     }
     local->tm_sec = real_seconds;
     offset_now = mktime(local);
-    
+
     return offset_now;
 }
 

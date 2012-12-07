@@ -58,4 +58,3 @@ extern int driver_select_flush(unsigned int prnr, unsigned int secondary);
 extern int driver_select_formfeed(unsigned int prnr);
 
 #endif
-

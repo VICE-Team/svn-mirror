@@ -157,4 +157,3 @@ inline static int raster_modes_get_idle_mode(raster_modes_t *modes)
 }
 
 #endif /* _RASTER_MODES_H */
-

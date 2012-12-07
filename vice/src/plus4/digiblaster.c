@@ -50,12 +50,12 @@ static void digiblaster_sound_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int digiblaster_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int digiblaster_sound_machine_channels(void)
 {
-	return 1;
+    return 1;
 }
 
 static sound_chip_t digiblaster_sound_chip = {
@@ -128,8 +128,7 @@ int digiblaster_cmdline_options_init(void)
 
 static BYTE digiblaster_sound_data;
 
-struct digiblaster_sound_s
-{
+struct digiblaster_sound_s {
     BYTE voice0;
 };
 

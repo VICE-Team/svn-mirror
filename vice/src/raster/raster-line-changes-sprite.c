@@ -40,14 +40,13 @@
 inline static void update_cached_sprite_collisions(raster_t *raster)
 {
     if (raster->sprite_status != NULL
-        && raster->sprite_status->cache_function != NULL)
+        && raster->sprite_status->cache_function != NULL) {
         raster->sprite_status->cache_function(
-        &(raster->cache[raster->current_line]));
+            &(raster->cache[raster->current_line]));
+    }
 }
 
-inline static int fill_sprite_cache(raster_t *raster, 
-                                    raster_cache_t *cache,
-                                    unsigned int *xs, unsigned int *xe)
+inline static int fill_sprite_cache(raster_t *raster, raster_cache_t *cache, unsigned int *xs, unsigned int *xe)
 {
     raster_sprite_t *sprite;
     raster_sprite_cache_t *sprite_cache;
@@ -85,13 +84,14 @@ inline static int fill_sprite_cache(raster_t *raster,
 
             if (sprite->x != sprite_cache->x) {
                 if (sprite_cache->visible) {
-                    sxe1 = (sprite_cache->x
-                           + (sprite_cache->x_expanded ? 48 : 24));
+                    sxe1 = (sprite_cache->x + (sprite_cache->x_expanded ? 48 : 24));
                     sxs1 = sprite_cache->x;
-                    if (sxs1 < sxs)
+                    if (sxs1 < sxs) {
                         sxs = sxs1;
-                    if (sxe1 > sxe)
+                    }
+                    if (sxe1 > sxe) {
                         sxe = sxe1;
+                    }
                 }
                 sprite_cache->x = sprite->x;
                 r = 1;
@@ -140,10 +140,12 @@ inline static int fill_sprite_cache(raster_t *raster,
             if (r) {
                 unsigned int cxs = 0, cxe = 0;
 
-                if (sxs > 0)
+                if (sxs > 0) {
                     cxs = (unsigned int)sxs;
-                if (sxe > 0)
+                }
+                if (sxe > 0) {
                     cxe = (unsigned int)sxe;
+                }
 
                 xs_return = MIN(xs_return, cxs);
                 xe_return = MAX(xe_return, cxe);
@@ -156,10 +158,12 @@ inline static int fill_sprite_cache(raster_t *raster,
                 sprite_cache->visible = 0;
                 sxe = sprite_cache->x + (sprite_cache->x_expanded ? 24 : 48);
 
-                if (sprite_cache->x > 0)
+                if (sprite_cache->x > 0) {
                     cxs = sprite_cache->x;
-                if (sxe > 0)
+                }
+                if (sxe > 0) {
                     cxe = sxe;
+                }
 
                 xs_return = MIN(xs_return, cxs);
                 xe_return = MAX(xe_return, cxe);
@@ -168,10 +172,11 @@ inline static int fill_sprite_cache(raster_t *raster,
         }
     }
 
-    if (xe_return >= raster->geometry->screen_size.width)
+    if (xe_return >= raster->geometry->screen_size.width) {
         *xe = raster->geometry->screen_size.width - 1;
-    else
+    } else {
         *xe = xe_return;
+    }
 
     *xs = xs_return;
 
@@ -181,9 +186,9 @@ inline static int fill_sprite_cache(raster_t *raster,
 static void draw_sprites_when_cache_enabled(raster_t *raster,
                                             raster_cache_t *cache)
 {
-    if (raster->sprite_status == NULL
-        || raster->sprite_status->draw_function == NULL)
+    if (raster->sprite_status == NULL || raster->sprite_status->draw_function == NULL) {
         return;
+    }
 
     raster->sprite_status->draw_function(raster->draw_buffer_ptr,
                                          cache->gfx_msk);
@@ -224,7 +229,6 @@ static int update_for_minor_changes_sprite(raster_t *raster,
                                            sprites_need_update);
 
     if (needs_update) {
-
         raster_modes_draw_line_cached(raster->modes,
                                       video_mode,
                                       cache,
@@ -238,24 +242,24 @@ static int update_for_minor_changes_sprite(raster_t *raster,
 #if 0
         if (raster->sprite_status != NULL) {
 #endif
-            /* FIXME: Could be optimized better.  */
-            draw_sprites_when_cache_enabled(raster, cache);
-            raster_line_draw_borders(raster);
+        /* FIXME: Could be optimized better.  */
+        draw_sprites_when_cache_enabled(raster, cache);
+        raster_line_draw_borders(raster);
 #if 0
-        } else {
-            if (raster->xsmooth > 0) {
-                /* If xsmooth > 0, drawing the graphics might have corrupted
-                   part of the border... fix it here.  */
-                if (!raster->open_right_border)
-                    raster_line_draw_blank(raster,
-                                           raster->geometry->gfx_position.x
-                                           + raster->geometry->gfx_size.width,
-                                           raster->geometry->gfx_position.x
-                                           + raster->geometry->gfx_size.width
-                                           + 8);
-
+    } else {
+        if (raster->xsmooth > 0) {
+            /* If xsmooth > 0, drawing the graphics might have corrupted
+               part of the border... fix it here.  */
+            if (!raster->open_right_border) {
+                raster_line_draw_blank(raster,
+                                       raster->geometry->gfx_position.x
+                                       + raster->geometry->gfx_size.width,
+                                       raster->geometry->gfx_position.x
+                                       + raster->geometry->gfx_size.width
+                                       + 8);
             }
         }
+    }
 #endif
         /* Calculate the interval in pixel coordinates.  */
 #if 0
@@ -269,10 +273,12 @@ static int update_for_minor_changes_sprite(raster_t *raster,
 
         if (sprites_need_update) {
             /* FIXME: wrong.  */
-            if (raster->open_left_border)
+            if (raster->open_left_border) {
                 *changed_start = 0;
-            if (raster->open_right_border)
+            }
+            if (raster->open_right_border) {
                 *changed_end = raster->geometry->screen_size.width - 1;
+            }
 
             /* Even if we have recalculated the whole line, we will
                refresh only the part that has actually changed when
@@ -304,4 +310,3 @@ void raster_line_changes_sprite_init(raster_t *raster)
     raster->draw_sprites_when_cache_enabled = draw_sprites_when_cache_enabled;
     raster->fill_sprite_cache = fill_sprite_cache;
 }
-

@@ -48,30 +48,34 @@ inline static int raster_cache_data_fill_39ff(BYTE *dest,
         *xe = length - 1;
 
         for (i = 0; i < length; i++, src_cnt += src_step) {
-            if (src_cnt & 0x1000)
+            if (src_cnt & 0x1000) {
                 dest[i] = src_base_high[src_cnt & 0x9ff];
-            else
+            } else {
                 dest[i] = src_base_low[src_cnt & 0x9ff];
+            }
         }
         return 1;
     } else {
         unsigned int x = 0, i;
 
         for (i = 0; i < length
-            && dest[i] == ((src_cnt & 0x1000) ? src_base_high[src_cnt & 0x9ff]
-            : src_base_low[src_cnt & 0x9ff]); i++, src_cnt += src_step)
-            /* do nothing */ ;
+             && dest[i] == ((src_cnt & 0x1000) ? src_base_high[src_cnt & 0x9ff]
+                            : src_base_low[src_cnt & 0x9ff]); i++, src_cnt += src_step) {
+            /* do nothing */
+        }
 
         if (i < length) {
-            if (*xs > i)
+            if (*xs > i) {
                 *xs = i;
+            }
 
             for (; i < length; i++, src_cnt += src_step) {
                 BYTE bmval;
-                if (src_cnt & 0x1000)
+                if (src_cnt & 0x1000) {
                     bmval = src_base_high[src_cnt & 0x9ff];
-                else
+                } else {
                     bmval = src_base_low[src_cnt & 0x9ff];
+                }
 
                 if (dest[i] != bmval) {
                     dest[i] = bmval;
@@ -79,8 +83,9 @@ inline static int raster_cache_data_fill_39ff(BYTE *dest,
                 }
             }
 
-            if (*xe < x)
+            if (*xe < x) {
                 *xe = x;
+            }
 
             return 1;
         } else {
@@ -90,4 +95,3 @@ inline static int raster_cache_data_fill_39ff(BYTE *dest,
 }
 
 #endif
-

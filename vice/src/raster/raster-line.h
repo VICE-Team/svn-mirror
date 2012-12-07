@@ -37,4 +37,3 @@ extern void raster_line_draw_blank(struct raster_s *raster, unsigned int start,
 extern void raster_line_emulate(struct raster_s *raster);
 
 #endif
-

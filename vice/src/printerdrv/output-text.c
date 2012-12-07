@@ -130,24 +130,24 @@ static int output_text_open(unsigned int prnr,
                             output_parameter_t *output_parameter)
 {
     switch (printer_device[prnr]) {
-      case 0:
-      case 1:
-      case 2:
-        if (PrinterDev[printer_device[prnr]] == NULL) {
-            return -1;
-        }
-
-        if (output_fd[printer_device[prnr]] == NULL) {
-            FILE *fd;
-            fd = fopen(PrinterDev[printer_device[prnr]], MODE_APPEND);
-            if (fd == NULL) {
+        case 0:
+        case 1:
+        case 2:
+            if (PrinterDev[printer_device[prnr]] == NULL) {
                 return -1;
             }
-            output_fd[printer_device[prnr]] = fd;
-        }
-        return 0;
-      default:
-        return -1;
+
+            if (output_fd[printer_device[prnr]] == NULL) {
+                FILE *fd;
+                fd = fopen(PrinterDev[printer_device[prnr]], MODE_APPEND);
+                if (fd == NULL) {
+                    return -1;
+                }
+                output_fd[printer_device[prnr]] = fd;
+            }
+            return 0;
+        default:
+            return -1;
     }
 }
 

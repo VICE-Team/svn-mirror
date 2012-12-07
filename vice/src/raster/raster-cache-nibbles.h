@@ -58,14 +58,16 @@ inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
         BYTE b;
 
         for (i = 0;
-            dest_hi[i] == (src[0] >> 4)
-            && dest_lo[i] == (src[0] & 0xf) && i < length;
-            i++, src += src_step)
-            /* do nothing */ ;
+             dest_hi[i] == (src[0] >> 4)
+             && dest_lo[i] == (src[0] & 0xf) && i < length;
+             i++, src += src_step) {
+            /* do nothing */
+        }
 
         if (i < length) {
-            if (*xs > i)
+            if (*xs > i) {
                 *xs = i;
+            }
 
             for (; i < length; i++, src += src_step) {
                 if (dest_hi[i] != (b = (src[0] >> 4))) {
@@ -78,8 +80,9 @@ inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
                 }
             }
 
-            if (*xe < x)
+            if (*xe < x) {
                 *xe = x;
+            }
 
             return 1;
         } else {
@@ -89,4 +92,3 @@ inline static int raster_cache_data_fill_nibbles(BYTE *dest_hi,
 }
 
 #endif
-

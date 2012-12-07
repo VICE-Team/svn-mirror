@@ -32,4 +32,3 @@ extern int plus4_snapshot_write(const char *name, int save_roms, int save_disks,
 extern int plus4_snapshot_read(const char *name, int event_mode);
 
 #endif
-

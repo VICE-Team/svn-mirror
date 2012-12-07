@@ -55,13 +55,13 @@
 #define TED_NTSC_OFFSET                 0 /* FIXME */
 
 /* values in TED raster counter */
-        /* 0x004 in TED raster counter */
+/* 0x004 in TED raster counter */
 #define TED_PAL_25ROW_START_LINE        4
-        /* 0x0CB in TED raster counter */
+/* 0x0CB in TED raster counter */
 #define TED_PAL_25ROW_STOP_LINE         0xcb
-        /* 0x008 in TED raster counter */
+/* 0x008 in TED raster counter */
 #define TED_PAL_24ROW_START_LINE        8
-        /* 0x0C7 in TED raster counter */
+/* 0x0C7 in TED raster counter */
 #define TED_PAL_24ROW_STOP_LINE         0xc7
 
 /* FIXME calculate NTSC values */
@@ -99,8 +99,7 @@ enum ted_video_mode_s {
 };
 typedef enum ted_video_mode_s ted_video_mode_t;
 
-#define TED_IS_ILLEGAL_MODE(x)       ((x) >= TED_ILLEGAL_TEXT_MODE \
-                                         && (x) != TED_IDLE_MODE)
+#define TED_IS_ILLEGAL_MODE(x)       ((x) >= TED_ILLEGAL_TEXT_MODE && (x) != TED_IDLE_MODE)
 #define TED_IS_BITMAP_MODE(x)        ((x) & 0x02)
 
 /* Note: we measure cycles from 0 to 113, not from 1 to 114.  */
@@ -126,9 +125,9 @@ typedef enum ted_video_mode_s ted_video_mode_t;
    only accurate if a pending drawing event has been served, this is
    guaranteed to be always correct. */
 #define TED_RASTER_Y(clk)           ((unsigned int)((ted.ted_raster_counter \
-                                    + (((clk) - ted.last_emulate_line_clk) \
-                                    >= 114 ? (ted.ted_raster_counter == ted.screen_height - 1 \
-                                    ? 1 - ted.screen_height : 1) : 0)) & 0x1ff))
+                                                     + (((clk) - ted.last_emulate_line_clk) \
+                                                        >= 114 ? (ted.ted_raster_counter == ted.screen_height - 1 \
+                                                                  ? 1 - ted.screen_height : 1) : 0)) & 0x1ff))
 
 /* Cycle # within the current line.  */
 #define TED_RASTER_CYCLE(clk)       ((unsigned int)((clk) - ted.last_emulate_line_clk - (((clk) - ted.last_emulate_line_clk) >= 114 ? 114 : 0)))
@@ -138,16 +137,13 @@ typedef enum ted_video_mode_s ted_video_mode_t;
 
 /* # of the previous and next raster line.  Handles wrap over.  */
 /* FIXME not always true, previous line can be 511 */
-#define TED_PREVIOUS_LINE(line)  (((line) > 0) \
-                                 ? (line) - 1 : ted.screen_height - 1)
+#define TED_PREVIOUS_LINE(line)  (((line) > 0) ? (line) - 1 : ted.screen_height - 1)
 /* FIXME not always true, line counter can be in range [screen_height, 511] */
 #define TED_NEXT_LINE(line)      (((line) + 1) % ted.screen_height)
 
 /* FIXME not used can be dropped */
-#define TED_LINE_RTOU(line) ((line + ted.screen_height - ted.offset) \
-                            % ted.screen_height)
-#define TED_LINE_UTOR(line) ((line + ted.screen_height + ted.offset) \
-                            % ted.screen_height)
+#define TED_LINE_RTOU(line) ((line + ted.screen_height - ted.offset) % ted.screen_height)
+#define TED_LINE_UTOR(line) ((line + ted.screen_height + ted.offset) % ted.screen_height)
 
 /* Bad line range.  */
 /* TED raster_counter values */
@@ -376,4 +372,3 @@ extern void ted_delay_oldclk(CLOCK num);
 #endif
 
 #endif
-

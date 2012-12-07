@@ -117,4 +117,3 @@ extern void raster_cache_realloc(raster_cache_t **cache,
                                  unsigned int screen_height);
 
 #endif
-

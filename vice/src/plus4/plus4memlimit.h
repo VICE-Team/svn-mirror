@@ -30,4 +30,3 @@
 extern void mem_limit_init(int mem_read_limit_tab[2][0x101]);
 
 #endif
-

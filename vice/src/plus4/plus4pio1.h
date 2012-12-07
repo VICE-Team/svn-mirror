@@ -35,4 +35,3 @@ extern void pio1_store(WORD addr, BYTE value);
 extern void pio1_set_tape_sense(int sense);
 
 #endif
-

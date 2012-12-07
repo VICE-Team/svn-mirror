@@ -59,21 +59,24 @@ static int set_printer_enabled(int flag, void *param)
         && flag != PRINTER_DEVICE_FS
 #ifdef HAVE_OPENCBM
         && flag != PRINTER_DEVICE_REAL
-#endif    
-        )
+#endif
+        ) {
         return -1;
+    }
 
     prnr = vice_ptr_to_uint(param);
 
     if (printer_enabled[prnr] == PRINTER_DEVICE_FS
         && flag != PRINTER_DEVICE_FS) {
-        if (interface_serial_detach(prnr) < 0)
+        if (interface_serial_detach(prnr) < 0) {
             return -1;
+        }
     }
     if (flag == PRINTER_DEVICE_FS
         && printer_enabled[prnr] != PRINTER_DEVICE_FS) {
-        if (interface_serial_attach(prnr) < 0)
+        if (interface_serial_attach(prnr) < 0) {
             return -1;
+        }
     }
 
     if (printer_enabled[prnr] == PRINTER_DEVICE_REAL
@@ -162,8 +165,9 @@ static int write_pr(unsigned int prnr, BYTE byte, unsigned int secondary)
 
         err = open_pr(prnr, NULL, 0, secondary);
 
-        if (err < 0)
+        if (err < 0) {
             return err;
+        }
     }
 
     return driver_select_putc(prnr, secondary, (BYTE)byte);
@@ -269,12 +273,14 @@ int interface_serial_close(unsigned int unit)
 int interface_serial_late_init(void)
 {
     if (printer_enabled[0]) {
-        if (interface_serial_attach(0) < 0)
+        if (interface_serial_attach(0) < 0) {
             return -1;
+        }
     }
     if (printer_enabled[1]) {
-        if (interface_serial_attach(1) < 0)
+        if (interface_serial_attach(1) < 0) {
             return -1;
+        }
     }
 
     return 0;
@@ -289,18 +295,18 @@ static int interface_serial_attach(unsigned int prnr)
     inuse[prnr] = 0;
 
     switch (prnr) {
-      case 0:
-        err = machine_bus_device_attach(4, "Printer #4 device", read_pr4,
-                                        write_pr4, open_pr4, close_pr4,
-                                        flush_pr4, NULL);
-        break;
-      case 1:
-        err = machine_bus_device_attach(5, "Printer #5 device", read_pr5,
-                                        write_pr5, open_pr5, close_pr5,
-                                        flush_pr5, NULL);
-        break;
-      default:
-        err = -1;
+        case 0:
+            err = machine_bus_device_attach(4, "Printer #4 device", read_pr4,
+                                            write_pr4, open_pr4, close_pr4,
+                                            flush_pr4, NULL);
+            break;
+        case 1:
+            err = machine_bus_device_attach(5, "Printer #5 device", read_pr5,
+                                            write_pr5, open_pr5, close_pr5,
+                                            flush_pr5, NULL);
+            break;
+        default:
+            err = -1;
     }
 
     if (err) {
@@ -336,4 +342,3 @@ void interface_serial_shutdown(void)
     interface_serial_detach(0);
     interface_serial_detach(1);
 }
-

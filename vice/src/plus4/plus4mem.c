@@ -109,47 +109,47 @@ unsigned int mem_config;
 
 static BYTE *chargen_tab[8][16] = {
     /* 0000-3fff, RAM selected  */
-    {       RAM0,       RAM0,       RAM0,       RAM0,
-            RAM0,       RAM0,       RAM0,       RAM0,
-            RAM0,       RAM0,       RAM0,       RAM0,
-            RAM0,       RAM0,       RAM0,       RAM0 },
+    {       RAM0, RAM0, RAM0, RAM0,
+            RAM0, RAM0, RAM0, RAM0,
+            RAM0, RAM0, RAM0, RAM0,
+            RAM0, RAM0, RAM0, RAM0 },
     /* 4000-7fff, RAM selected  */
-    {       RAM4,       RAM4,       RAM4,       RAM4,
-            RAM4,       RAM4,       RAM4,       RAM4,
-            RAM4,       RAM4,       RAM4,       RAM4,
-            RAM4,       RAM4,       RAM4,       RAM4 },
+    {       RAM4, RAM4, RAM4, RAM4,
+            RAM4, RAM4, RAM4, RAM4,
+            RAM4, RAM4, RAM4, RAM4,
+            RAM4, RAM4, RAM4, RAM4 },
     /* 8000-bfff, RAM selected  */
-    {       RAM8,       RAM8,       RAM8,       RAM8,
-            RAM8,       RAM8,       RAM8,       RAM8,
-            RAM8,       RAM8,       RAM8,       RAM8,
-            RAM8,       RAM8,       RAM8,       RAM8 },
+    {       RAM8, RAM8, RAM8, RAM8,
+            RAM8, RAM8, RAM8, RAM8,
+            RAM8, RAM8, RAM8, RAM8,
+            RAM8, RAM8, RAM8, RAM8 },
     /* c000-ffff, RAM selected  */
-    {       RAMC,       RAMC,       RAMC,       RAMC,
-            RAMC,       RAMC,       RAMC,       RAMC,
-            RAMC,       RAMC,       RAMC,       RAMC,
-            RAMC,       RAMC,       RAMC,       RAMC },
+    {       RAMC, RAMC, RAMC, RAMC,
+            RAMC, RAMC, RAMC, RAMC,
+            RAMC, RAMC, RAMC, RAMC,
+            RAMC, RAMC, RAMC, RAMC },
 
     /* 0000-3fff, ROM selected  */
-    {       RAM0,       RAM0,       RAM0,       RAM0,
-            RAM0,       RAM0,       RAM0,       RAM0,
-            RAM0,       RAM0,       RAM0,       RAM0,
-            RAM0,       RAM0,       RAM0,       RAM0 },
+    {       RAM0, RAM0, RAM0, RAM0,
+            RAM0, RAM0, RAM0, RAM0,
+            RAM0, RAM0, RAM0, RAM0,
+            RAM0, RAM0, RAM0, RAM0 },
     /* 4000-7fff, ROM selected  */
-    {       RAM4,       RAM4,       RAM4,       RAM4,
-            RAM4,       RAM4,       RAM4,       RAM4,
-            RAM4,       RAM4,       RAM4,       RAM4,
-            RAM4,       RAM4,       RAM4,       RAM4 },
+    {       RAM4, RAM4, RAM4, RAM4,
+            RAM4, RAM4, RAM4, RAM4,
+            RAM4, RAM4, RAM4, RAM4,
+            RAM4, RAM4, RAM4, RAM4 },
     /* 8000-bfff, ROM selected  */
-    {  plus4memrom_basic_rom,  extromlo1,      extromlo2,      extromlo3,
-       plus4memrom_basic_rom,  extromlo1,      extromlo2,      extromlo3,
-       plus4memrom_basic_rom,  extromlo1,      extromlo2,      extromlo3,
-       plus4memrom_basic_rom,  extromlo1,      extromlo2,      extromlo3 },
+    {  plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3,
+       plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3,
+       plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3,
+       plus4memrom_basic_rom, extromlo1, extromlo2, extromlo3 },
     /* c000-ffff, ROM selected  */
     {  plus4memrom_kernal_rom, plus4memrom_kernal_rom,
        plus4memrom_kernal_rom, plus4memrom_kernal_rom,
-       extromhi1,      extromhi1,      extromhi1,      extromhi1,
-       extromhi2,      extromhi2,      extromhi2,      extromhi2,
-       extromhi3,      extromhi3,      extromhi3,      extromhi3 }
+       extromhi1, extromhi1, extromhi1, extromhi1,
+       extromhi2, extromhi2, extromhi2, extromhi2,
+       extromhi3, extromhi3, extromhi3, extromhi3 }
 };
 
 
@@ -174,7 +174,6 @@ static int watchpoints_active;
 
 inline static void mem_proc_port_store(void)
 {
-
     /*  Correct clock */
     ted_handle_pending_alarms(maincpu_rmw_flag + 1);
 
@@ -202,8 +201,9 @@ inline static BYTE mem_proc_port_read(WORD addr)
     /*  Correct clock */
     ted_handle_pending_alarms(0);
 
-    if (addr == 0)
+    if (addr == 0) {
         return pport.dir;
+    }
 
     input = ((*iecbus_callback_read)(maincpu_clk) & 0xc0);
     if (tape_read) {
@@ -212,15 +212,15 @@ inline static BYTE mem_proc_port_read(WORD addr)
         input &= ~0x10;
     }
 
-    tmp = ((input & ~pport.dir) | (pport.data_out & pport.dir)) & 0xdf ;
+    tmp = ((input & ~pport.dir) | (pport.data_out & pport.dir)) & 0xdf;
 
     return tmp;
 }
 
 void mem_proc_port_trigger_flux_change(unsigned int on)
 {
-   /*printf("FLUXCHANGE\n");*/
-   tape_read = on; 
+    /*printf("FLUXCHANGE\n");*/
+    tape_read = on;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -230,14 +230,15 @@ BYTE zero_read(WORD addr)
     addr &= 0xff;
 
     switch ((BYTE)addr) {
-      case 0:
-      case 1:
-        return mem_proc_port_read(addr);
+        case 0:
+        case 1:
+            return mem_proc_port_read(addr);
     }
-    if (!cs256k_enabled)
+    if (!cs256k_enabled) {
         return mem_ram[addr];
-    else
+    } else {
         return cs256k_read(addr);
+    }
 }
 
 void zero_store(WORD addr, BYTE value)
@@ -245,28 +246,30 @@ void zero_store(WORD addr, BYTE value)
     addr &= 0xff;
 
     switch ((BYTE)addr) {
-      case 0:
-        if (pport.dir != value) {
-            pport.dir = value & 0xdf;
-            mem_proc_port_store();
-        }
-        if (!cs256k_enabled)
+        case 0:
+            if (pport.dir != value) {
+                pport.dir = value & 0xdf;
+                mem_proc_port_store();
+            }
+            if (!cs256k_enabled) {
+                mem_ram[addr] = value;
+            } else {
+                cs256k_store(addr, value);
+            }
+            break;
+        case 1:
+            if (pport.data != value) {
+                pport.data = value;
+                mem_proc_port_store();
+            }
+            if (!cs256k_enabled) {
+                mem_ram[addr] = value;
+            } else {
+                cs256k_store(addr, value);
+            }
+            break;
+        default:
             mem_ram[addr] = value;
-        else
-            cs256k_store(addr,value);
-        break;
-      case 1:
-        if (pport.data != value) {
-            pport.data = value;
-            mem_proc_port_store();
-        }
-        if (!cs256k_enabled)
-            mem_ram[addr] = value;
-        else
-            cs256k_store(addr,value);
-        break;
-      default:
-        mem_ram[addr] = value;
     }
 }
 
@@ -450,11 +453,11 @@ static void fdxx_store(WORD addr, BYTE value)
         pio2_store(addr, value);
         return;
     }
-    if (sidcart_enabled() && sidcart_address==0 && addr >= 0xfd40 && addr <= 0xfd5d) {
+    if (sidcart_enabled() && sidcart_address == 0 && addr >= 0xfd40 && addr <= 0xfd5d) {
         sid_store(addr, value);
         return;
     }
-    if (sidcart_enabled() && digiblaster_enabled() && sidcart_address==0 && addr == 0xfd5e) {
+    if (sidcart_enabled() && digiblaster_enabled() && sidcart_address == 0 && addr == 0xfd5e) {
         digiblaster_store(addr, value);
         return;
     }
@@ -478,7 +481,7 @@ static BYTE fexx_read(WORD addr)
         return plus4tcbm1_read(addr);
     }
 
-    if (sidcart_enabled() && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9f) {
+    if (sidcart_enabled() && sidcart_address == 1 && addr >= 0xfe80 && addr <= 0xfe9f) {
         return sid_read(addr);
     }
 
@@ -495,11 +498,11 @@ static void fexx_store(WORD addr, BYTE value)
         plus4tcbm1_store(addr, value);
         return;
     }
-    if (sidcart_enabled() && sidcart_address==1 && addr >= 0xfe80 && addr <= 0xfe9d) {
+    if (sidcart_enabled() && sidcart_address == 1 && addr >= 0xfe80 && addr <= 0xfe9d) {
         sid_store(addr, value);
         return;
     }
-    if (sidcart_enabled() && digiblaster_enabled() && sidcart_address==1 && addr == 0xfe9e) {
+    if (sidcart_enabled() && digiblaster_enabled() && sidcart_address == 1 && addr == 0xfe9e) {
         digiblaster_store(addr, value);
         return;
     }
@@ -508,7 +511,7 @@ static void fexx_store(WORD addr, BYTE value)
 /*
     note: the TED pseudo registers at ff3e/3f can't be read.
 
-    FIXME: "You should also note that if RAM is selected (after a write to ff3f) 
+    FIXME: "You should also note that if RAM is selected (after a write to ff3f)
     the contents of RAM are never visible in these locations (usually seems to
     return FF) Likewise, writing to these locations is never mirrored to
     underlying RAM either. You can prove this quite easily on a stock 16k
@@ -605,8 +608,8 @@ static void ram_ffxx_store_16k(WORD addr, BYTE value)
     }
 }
 /*
-    If the ROM is currently visible, ie after a write to ff3e, then reading ff3e 
-    and ff3f returns the contents of the underlying ROM, exactly as is does with 
+    If the ROM is currently visible, ie after a write to ff3e, then reading ff3e
+    and ff3f returns the contents of the underlying ROM, exactly as is does with
     ff20 - ff3d.
 */
 static BYTE rom_ffxx_read(WORD addr)
@@ -667,7 +670,7 @@ static void rom_ffxx_store_16k(WORD addr, BYTE value)
 
 static void set_write_hook(int config, int page, store_func_t *f)
 {
-     mem_write_tab[config][page] = f;
+    mem_write_tab[config][page] = f;
 }
 
 void mem_initialize_memory(void)
@@ -675,36 +678,37 @@ void mem_initialize_memory(void)
     int i, j;
     int ram_size;
 
-    if (resources_get_int("RamSize", &ram_size) < 0)
+    if (resources_get_int("RamSize", &ram_size) < 0) {
         return;
+    }
 
     switch (ram_size) {
-      default:
-      case 256:
-      case 64:
-        for (i = 0; i < 16; i++) {
-            chargen_tab[1][i] = RAM4;
-            chargen_tab[2][i] = RAM8;
-            chargen_tab[3][i] = RAMC;
-            chargen_tab[5][i] = RAM4;
-        }
-        break;
-      case 32:
-        for (i = 0; i < 16; i++) {
-            chargen_tab[1][i] = RAM4;
-            chargen_tab[2][i] = RAM0;
-            chargen_tab[3][i] = RAM4;
-            chargen_tab[5][i] = RAM4;
-        }
-        break;
-      case 16:
-        for (i = 0; i < 16; i++) {
-            chargen_tab[1][i] = RAM0;
-            chargen_tab[2][i] = RAM0;
-            chargen_tab[3][i] = RAM0;
-            chargen_tab[5][i] = RAM0;
-        }
-        break;
+        default:
+        case 256:
+        case 64:
+            for (i = 0; i < 16; i++) {
+                chargen_tab[1][i] = RAM4;
+                chargen_tab[2][i] = RAM8;
+                chargen_tab[3][i] = RAMC;
+                chargen_tab[5][i] = RAM4;
+            }
+            break;
+        case 32:
+            for (i = 0; i < 16; i++) {
+                chargen_tab[1][i] = RAM4;
+                chargen_tab[2][i] = RAM0;
+                chargen_tab[3][i] = RAM4;
+                chargen_tab[5][i] = RAM4;
+            }
+            break;
+        case 16:
+            for (i = 0; i < 16; i++) {
+                chargen_tab[1][i] = RAM0;
+                chargen_tab[2][i] = RAM0;
+                chargen_tab[3][i] = RAM0;
+                chargen_tab[5][i] = RAM0;
+            }
+            break;
     }
 
     mem_limit_init(mem_read_limit_tab);
@@ -721,56 +725,56 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xff; j++) {
             switch (ram_size) {
-              case 4096:
-              case 1024:
-              case 256:
-                if (h256k_enabled && j<0x10) {
+                case 4096:
+                case 1024:
+                case 256:
+                    if (h256k_enabled && j < 0x10) {
+                        mem_read_tab[i][j] = ram_read;
+                        mem_write_tab[i][j] = ted_mem_vbank_store;
+                    }
+                    if (h256k_enabled && j >= 0x10) {
+                        mem_read_tab[i][j] = h256k_read;
+                        mem_write_tab[i][j] = h256k_store;
+                    }
+                    if (cs256k_enabled) {
+                        mem_read_tab[i][j] = cs256k_read;
+                        mem_write_tab[i][j] = cs256k_store;
+                    }
+                    mem_read_base_tab[i][j] = mem_ram + (j << 8);
+                    break;
+                default:
+                case 64:
                     mem_read_tab[i][j] = ram_read;
+                    mem_read_base_tab[i][j] = mem_ram + (j << 8);
                     mem_write_tab[i][j] = ted_mem_vbank_store;
-                }
-                if (h256k_enabled && j>=0x10) {
-                    mem_read_tab[i][j] = h256k_read;
-                    mem_write_tab[i][j] = h256k_store;
-                }
-                if (cs256k_enabled) {
-                    mem_read_tab[i][j] = cs256k_read;
-                    mem_write_tab[i][j] = cs256k_store;
-                }
-                mem_read_base_tab[i][j] = mem_ram + (j << 8);
-                break;
-              default:
-              case 64:
-                mem_read_tab[i][j] = ram_read;
-                mem_read_base_tab[i][j] = mem_ram + (j << 8);
-                mem_write_tab[i][j] = ted_mem_vbank_store;
-                break;
-              case 32:
-                mem_read_tab[i][j] = ram_read_32k;
-                mem_read_base_tab[i][j] = mem_ram + ((j & 0x7f) << 8);
-                mem_write_tab[i][j] = ted_mem_vbank_store_32k;
-                break;
-              case 16:
-                mem_read_tab[i][j] = ram_read_16k;
-                mem_read_base_tab[i][j] = mem_ram + ((j & 0x3f) << 8);
-                mem_write_tab[i][j] = ted_mem_vbank_store_16k;
-                break;
+                    break;
+                case 32:
+                    mem_read_tab[i][j] = ram_read_32k;
+                    mem_read_base_tab[i][j] = mem_ram + ((j & 0x7f) << 8);
+                    mem_write_tab[i][j] = ted_mem_vbank_store_32k;
+                    break;
+                case 16:
+                    mem_read_tab[i][j] = ram_read_16k;
+                    mem_read_base_tab[i][j] = mem_ram + ((j & 0x3f) << 8);
+                    mem_write_tab[i][j] = ted_mem_vbank_store_16k;
+                    break;
             }
 #if 0
             if ((j & 0xc0) == (k << 6)) {
                 switch (j & 0x3f) {
-                  case 0x39:
-                    mem_write_tab[i][j] = ted_mem_vbank_39xx_store;
-                    break;
-                  case 0x3f:
-                    mem_write_tab[i][j] = ted_mem_vbank_3fxx_store;
-                    break;
-                  default:
-                    mem_write_tab[i][j] = ted_mem_vbank_store;
+                    case 0x39:
+                        mem_write_tab[i][j] = ted_mem_vbank_39xx_store;
+                        break;
+                    case 0x3f:
+                        mem_write_tab[i][j] = ted_mem_vbank_3fxx_store;
+                        break;
+                    default:
+                        mem_write_tab[i][j] = ted_mem_vbank_store;
                 }
             } else {
 #endif
 #if 0
-            }
+        }
 #endif
         }
 #if 0
@@ -876,48 +880,48 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i + 1][0xfe] = NULL;
 
         switch (ram_size) {
-          case 4096:
-          case 1024:
-          case 256:
-            if (h256k_enabled) {
-              mem_read_tab[i + 0][0xff] = h256k_ram_ffxx_read;
-              mem_write_tab[i + 0][0xff] = h256k_ram_ffxx_store;
-              mem_write_tab[i + 1][0xff] = h256k_rom_ffxx_store;
-            }
-            if (cs256k_enabled) {
-              mem_read_tab[i + 0][0xff] = cs256k_ram_ffxx_read;
-              mem_write_tab[i + 0][0xff] = cs256k_ram_ffxx_store;
-              mem_write_tab[i + 1][0xff] = cs256k_rom_ffxx_store;
-            }
-            mem_read_base_tab[i + 0][0xff] = NULL;
-            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-            mem_read_base_tab[i + 1][0xff] = NULL;
-            break;
-          default:
-          case 64:
-            mem_read_tab[i + 0][0xff] = ram_ffxx_read;
-            mem_write_tab[i + 0][0xff] = ram_ffxx_store;
-            mem_read_base_tab[i + 0][0xff] = NULL;
-            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-            mem_write_tab[i + 1][0xff] = rom_ffxx_store;
-            mem_read_base_tab[i + 1][0xff] = NULL;
-            break;
-          case 32:
-            mem_read_tab[i + 0][0xff] = ram_ffxx_read_32k;
-            mem_write_tab[i + 0][0xff] = ram_ffxx_store_32k;
-            mem_read_base_tab[i + 0][0xff] = NULL;
-            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-            mem_write_tab[i + 1][0xff] = rom_ffxx_store_32k;
-            mem_read_base_tab[i + 1][0xff] = NULL;
-            break;
-          case 16:
-            mem_read_tab[i + 0][0xff] = ram_ffxx_read_16k;
-            mem_write_tab[i + 0][0xff] = ram_ffxx_store_16k;
-            mem_read_base_tab[i + 0][0xff] = NULL;
-            mem_read_tab[i + 1][0xff] = rom_ffxx_read;
-            mem_write_tab[i + 1][0xff] = rom_ffxx_store_16k;
-            mem_read_base_tab[i + 1][0xff] = NULL;
-            break;
+            case 4096:
+            case 1024:
+            case 256:
+                if (h256k_enabled) {
+                    mem_read_tab[i + 0][0xff] = h256k_ram_ffxx_read;
+                    mem_write_tab[i + 0][0xff] = h256k_ram_ffxx_store;
+                    mem_write_tab[i + 1][0xff] = h256k_rom_ffxx_store;
+                }
+                if (cs256k_enabled) {
+                    mem_read_tab[i + 0][0xff] = cs256k_ram_ffxx_read;
+                    mem_write_tab[i + 0][0xff] = cs256k_ram_ffxx_store;
+                    mem_write_tab[i + 1][0xff] = cs256k_rom_ffxx_store;
+                }
+                mem_read_base_tab[i + 0][0xff] = NULL;
+                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+                mem_read_base_tab[i + 1][0xff] = NULL;
+                break;
+            default:
+            case 64:
+                mem_read_tab[i + 0][0xff] = ram_ffxx_read;
+                mem_write_tab[i + 0][0xff] = ram_ffxx_store;
+                mem_read_base_tab[i + 0][0xff] = NULL;
+                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+                mem_write_tab[i + 1][0xff] = rom_ffxx_store;
+                mem_read_base_tab[i + 1][0xff] = NULL;
+                break;
+            case 32:
+                mem_read_tab[i + 0][0xff] = ram_ffxx_read_32k;
+                mem_write_tab[i + 0][0xff] = ram_ffxx_store_32k;
+                mem_read_base_tab[i + 0][0xff] = NULL;
+                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+                mem_write_tab[i + 1][0xff] = rom_ffxx_store_32k;
+                mem_read_base_tab[i + 1][0xff] = NULL;
+                break;
+            case 16:
+                mem_read_tab[i + 0][0xff] = ram_ffxx_read_16k;
+                mem_write_tab[i + 0][0xff] = ram_ffxx_store_16k;
+                mem_read_base_tab[i + 0][0xff] = NULL;
+                mem_read_tab[i + 1][0xff] = rom_ffxx_read;
+                mem_write_tab[i + 1][0xff] = rom_ffxx_store_16k;
+                mem_read_base_tab[i + 1][0xff] = NULL;
+                break;
         }
 
         mem_read_tab[i + 0][0x100] = mem_read_tab[i + 0][0];
@@ -928,7 +932,7 @@ void mem_initialize_memory(void)
         mem_read_base_tab[i + 1][0x100] = mem_read_base_tab[i + 1][0];
     }
     if (hard_reset_flag) {
-        hard_reset_flag=0;
+        hard_reset_flag = 0;
         mem_config = 1;
     }
     _mem_read_tab_ptr = mem_read_tab[mem_config];
@@ -937,7 +941,8 @@ void mem_initialize_memory(void)
     mem_read_limit_tab_ptr = mem_read_limit_tab[mem_config];
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
@@ -961,10 +966,12 @@ void mem_powerup(void)
 
 void mem_get_basic_text(WORD *start, WORD *end)
 {
-    if (start != NULL)
+    if (start != NULL) {
         *start = mem_ram[0x2b] | (mem_ram[0x2c] << 8);
-    if (end != NULL)
+    }
+    if (end != NULL) {
         *end = mem_ram[0x2d] | (mem_ram[0x2e] << 8);
+    }
 }
 
 void mem_set_basic_text(WORD start, WORD end)
@@ -995,7 +1002,8 @@ int mem_rom_trap_allowed(WORD addr)
 /* Exported banked memory access functions for the monitor.  */
 
 static const char *banknames[] = {
-    "default", "cpu", "ram", "rom", "io", "funcrom", "cart1rom", "cart2rom", NULL };
+    "default", "cpu", "ram", "rom", "io", "funcrom", "cart1rom", "cart2rom", NULL
+};
 
 static const int banknums[] = { 1, 0, 1, 2, 6, 3, 4, 5 };
 
@@ -1085,10 +1093,10 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
 {
     switch (bank) {
         case 0:                   /* current */
-             /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
-                       when needed. doing this without checking is wrong, but we do it anyways to
-                       avoid side effects
-            */
+            /* FIXME: we must check for which bank is currently active, and only use peek_bank_io
+                      when needed. doing this without checking is wrong, but we do it anyways to
+                      avoid side effects
+           */
             if (addr >= 0xfd00) {
                 return peek_bank_io(addr);
             }
@@ -1157,53 +1165,54 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
 void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
 {
     switch (bank) {
-      case 0:                   /* current */
-        mem_store(addr, byte);
-        return;
-      case 1:                   /* ram */
-        break;
-      case 2:                   /* rom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
+        case 0:                 /* current */
+            mem_store(addr, byte);
             return;
-        }
-        if (addr >= 0xc000) {
+        case 1:                 /* ram */
+            break;
+        case 2:                 /* rom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return;
+            }
+            if (addr >= 0xc000) {
+                return;
+            }
+            break;
+        case 3:                 /* funcrom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return;
+            }
+            if (addr >= 0xc000) {
+                return;
+            }
+            break;
+        case 4:                 /* cart1rom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return;
+            }
+            if (addr >= 0xc000) {
+                return;
+            }
+            break;
+        case 5:                 /* cart2rom */
+            if (addr >= 0x8000 && addr <= 0xbfff) {
+                return;
+            }
+            if (addr >= 0xc000) {
+                return;
+            }
+            break;
+        case 6:                 /* i/o */
+            store_bank_io(addr, byte);
             return;
-        }
-        break;
-      case 3:                   /* funcrom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return;
-        }
-        if (addr >= 0xc000) {
-            return;
-        }
-        break;
-      case 4:                   /* cart1rom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return;
-        }
-        if (addr >= 0xc000) {
-            return;
-        }
-        break;
-      case 5:                   /* cart2rom */
-        if (addr >= 0x8000 && addr <= 0xbfff) {
-            return;
-        }
-        if (addr >= 0xc000) {
-            return;
-        }
-        break;
-      case 6:                   /* i/o */
-        store_bank_io(addr, byte);
-        return;
     }
     mem_ram[addr] = byte;
 }
 
-static int mem_dump_io(WORD addr) {
+static int mem_dump_io(WORD addr)
+{
     if ((addr >= 0xfd00) && (addr <= 0xfd0f)) {
-        if(acia_enabled()) {
+        if (acia_enabled()) {
             /* return acia_dump(machine_context.acia1); */ /* FIXME */
         }
     } else if ((addr >= 0xfd10) && (addr <= 0xfd1f)) {
@@ -1253,4 +1262,3 @@ void mem_get_screen_parameter(WORD *base, BYTE *rows, BYTE *columns, int *bank)
     *columns = 40;
     *bank = 0;
 }
-

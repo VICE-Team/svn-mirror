@@ -36,9 +36,8 @@
 
 /* #define DEBUG_PRINTER */
 
-struct raw_s
-{
-    int  mode;
+struct raw_s {
+    int mode;
 };
 typedef struct raw_s raw_t;
 
@@ -139,4 +138,3 @@ void drv_raw_init(void)
 {
     drv_raw_log = log_open("Drv-Raw");
 }
-

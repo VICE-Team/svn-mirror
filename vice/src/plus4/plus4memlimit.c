@@ -76,7 +76,8 @@ static const int limit_tab[NUM_SEGMENTS][NUM_CONFIGS] = {
     {      0,      0,      0,      0,      0,      0,      0,      0,
            0,      0,      0,      0,      0,      0,      0,      0,
            0,      0,      0,      0,      0,      0,      0,      0,
-           0,      0,      0,      0,      0,      0,      0,      0 } };
+           0,      0,      0,      0,      0,      0,      0,      0 }
+};
 
 
 void mem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
@@ -86,14 +87,18 @@ void mem_limit_init(int mem_read_limit_tab[NUM_CONFIGS][0x101])
     for (i = 0; i < NUM_CONFIGS; i++) {
         for (j = 0; j < NUM_SEGMENTS; j++) {
             for (k = mstart[j]; k <= mend[j]; k++) {
-                if (h256k_enabled && k<0x10)
+                if (h256k_enabled && k < 0x10) {
                     mem_read_limit_tab[i][k] = 0x0ffd;
-                if (h256k_enabled && k>=0x10)
+                }
+                if (h256k_enabled && k >= 0x10) {
                     mem_read_limit_tab[i][k] = 0;
-                if (cs256k_enabled)
+                }
+                if (cs256k_enabled) {
                     mem_read_limit_tab[i][k] = 0;
-                if (!h256k_enabled && !cs256k_enabled)
+                }
+                if (!h256k_enabled && !cs256k_enabled) {
                     mem_read_limit_tab[i][k] = limit_tab[j][i];
+                }
             }
         }
         mem_read_limit_tab[i][0x100] = 0;

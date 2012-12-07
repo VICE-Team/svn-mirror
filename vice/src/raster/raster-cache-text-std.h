@@ -51,10 +51,9 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
         BYTE b;
         unsigned int i;
 
-        for (i = 0;
-            i < length && dest[i] == char_mem[src[i] * 8];
-            i++)
-            /* do nothing */ ;
+        for (i = 0; i < length && dest[i] == char_mem[src[i] * 8]; i++) {
+            /* do nothing */
+        }
 
         if (i < length) {
             *xs = *xe = i;
@@ -74,4 +73,3 @@ inline static int raster_cache_data_fill_text(BYTE *dest,
 }
 
 #endif
-

@@ -43,4 +43,3 @@ void raster_sprite_reset(raster_sprite_t *s, int sprite_offset)
     s->exp_flag = 0;
     s->dma_flag = 0;
 }
-

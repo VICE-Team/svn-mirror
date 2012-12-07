@@ -56,22 +56,22 @@
 /* Unused bits in TED registers: these are always 1 when read.  */
 static int unused_bits_in_registers[64] =
 {
-    0x00 /* $FF00 */ , 0x00 /* $FF01 */ , 0x00 /* $FF02 */ , 0x00 /* $FF03 */ ,
-    0x00 /* $FF04 */ , 0x00 /* $FF05 */ , 0x00 /* $FF06 */ , 0x00 /* $FF07 */ ,
-    0x00 /* $FF08 */ , 0x00 /* $FF09 */ , 0xa0 /* $FF0A */ , 0x00 /* $FF0B */ ,
-    0xfc /* $FF0C */ , 0x00 /* $FF0D */ , 0x00 /* $FF0E */ , 0x00 /* $FF0F */ ,
-    0x00 /* $FF10 */ , 0x00 /* $FF11 */ , 0x00 /* $FF12 */ , 0x00 /* $FF13 */ ,
-    0x00 /* $FF14 */ , 0x80 /* $FF15 */ , 0x80 /* $FF16 */ , 0x80 /* $FF17 */ ,
-    0x80 /* $FF18 */ , 0x80 /* $FF19 */ , 0x00 /* $FF1A */ , 0x00 /* $FF1B */ ,
-    0x00 /* $FF1C */ , 0x00 /* $FF1D */ , 0x00 /* $FF1E */ , 0x00 /* $FF1F */ ,
-    0x00 /* $FF20 */ , 0x00 /* $FF21 */ , 0x00 /* $FF22 */ , 0x00 /* $FF23 */ ,
-    0x00 /* $FF24 */ , 0x00 /* $FF25 */ , 0x00 /* $FF26 */ , 0x00 /* $FF27 */ ,
-    0x00 /* $FF28 */ , 0x00 /* $FF29 */ , 0x00 /* $FF2A */ , 0x00 /* $FF2B */ ,
-    0x00 /* $FF2C */ , 0x00 /* $FF2D */ , 0x00 /* $FF2E */ , 0x00 /* $FF2F */ ,
-    0x00 /* $FF30 */ , 0x00 /* $FF31 */ , 0x00 /* $FF32 */ , 0x00 /* $FF33 */ ,
-    0x00 /* $FF34 */ , 0x00 /* $FF35 */ , 0x00 /* $FF36 */ , 0x00 /* $FF37 */ ,
-    0x00 /* $FF38 */ , 0x00 /* $FF39 */ , 0x00 /* $FF3A */ , 0x00 /* $FF3B */ ,
-    0x00 /* $FF3C */ , 0x00 /* $FF3D */ , 0xFF /* $FF3E */ , 0xFF /* $FF3F */
+    0x00 /* $FF00 */, 0x00 /* $FF01 */, 0x00 /* $FF02 */, 0x00 /* $FF03 */,
+    0x00 /* $FF04 */, 0x00 /* $FF05 */, 0x00 /* $FF06 */, 0x00 /* $FF07 */,
+    0x00 /* $FF08 */, 0x00 /* $FF09 */, 0xa0 /* $FF0A */, 0x00 /* $FF0B */,
+    0xfc /* $FF0C */, 0x00 /* $FF0D */, 0x00 /* $FF0E */, 0x00 /* $FF0F */,
+    0x00 /* $FF10 */, 0x00 /* $FF11 */, 0x00 /* $FF12 */, 0x00 /* $FF13 */,
+    0x00 /* $FF14 */, 0x80 /* $FF15 */, 0x80 /* $FF16 */, 0x80 /* $FF17 */,
+    0x80 /* $FF18 */, 0x80 /* $FF19 */, 0x00 /* $FF1A */, 0x00 /* $FF1B */,
+    0x00 /* $FF1C */, 0x00 /* $FF1D */, 0x00 /* $FF1E */, 0x00 /* $FF1F */,
+    0x00 /* $FF20 */, 0x00 /* $FF21 */, 0x00 /* $FF22 */, 0x00 /* $FF23 */,
+    0x00 /* $FF24 */, 0x00 /* $FF25 */, 0x00 /* $FF26 */, 0x00 /* $FF27 */,
+    0x00 /* $FF28 */, 0x00 /* $FF29 */, 0x00 /* $FF2A */, 0x00 /* $FF2B */,
+    0x00 /* $FF2C */, 0x00 /* $FF2D */, 0x00 /* $FF2E */, 0x00 /* $FF2F */,
+    0x00 /* $FF30 */, 0x00 /* $FF31 */, 0x00 /* $FF32 */, 0x00 /* $FF33 */,
+    0x00 /* $FF34 */, 0x00 /* $FF35 */, 0x00 /* $FF36 */, 0x00 /* $FF37 */,
+    0x00 /* $FF38 */, 0x00 /* $FF39 */, 0x00 /* $FF3A */, 0x00 /* $FF3B */,
+    0x00 /* $FF3C */, 0x00 /* $FF3D */, 0xFF /* $FF3E */, 0xFF    /* $FF3F */
 };
 
 
@@ -205,12 +205,13 @@ void ted_mem_vbank_39xx_store(WORD addr, BYTE value)
 {
     ted_local_store_vbank(addr, value);
 
-    if (ted.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff)
+    if (ted.idle_data_location == IDLE_39FF && (addr & 0x3fff) == 0x39ff) {
         raster_changes_foreground_add_int
             (&ted.raster,
             TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.idle_data,
             value);
+    }
 }
 
 /* As `store_vbank()', but for the $3F00...$3FFF address range.  */
@@ -218,12 +219,13 @@ void ted_mem_vbank_3fxx_store(WORD addr, BYTE value)
 {
     ted_local_store_vbank (addr, value);
 
-    if (ted.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff)
+    if (ted.idle_data_location == IDLE_3FFF && (addr & 0x3fff) == 0x3fff) {
         raster_changes_foreground_add_int
             (&ted.raster,
             TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
             &ted.idle_data,
             value);
+    }
 }
 #endif
 
@@ -259,8 +261,9 @@ inline static void check_lower_upper_border(const BYTE value,
                 && cycle > 0) {
                 ted.raster.blank_enabled = 0;
             } else {
-                if (line == ted.row_25_stop_line && cycle > 0)
+                if (line == ted.row_25_stop_line && cycle > 0) {
                     ted.raster.blank_enabled = 1;
+                }
             }
 
             TED_DEBUG_REGISTER(("24 line mode enabled"));
@@ -281,19 +284,20 @@ inline static void ted06_store(const BYTE value)
 
     TED_DEBUG_REGISTER(("Control register: $%02X", value));
     TED_DEBUG_REGISTER(("$FF06 tricks at cycle %d, line $%04X, "
-                       "value $%02X", cycle, line, value));
+                        "value $%02X", cycle, line, value));
 
     /* This is the funniest part... handle bad line tricks.  */
 
     if (line == ted.first_dma_line && (value & 0x10) != 0) {
         ted.allow_bad_lines = 1;
-		ted.raster.ycounter = 0; /* should be 7 actually */
-	}
+        ted.raster.ycounter = 0;         /* should be 7 actually */
+    }
 
     if (ted.raster.ysmooth != (value & 7)
         && line >= ted.first_dma_line
-        && line <= ted.last_dma_line)
+        && line <= ted.last_dma_line) {
         ted_badline_check_state(value, cycle, line);
+    }
 
     ted.raster.ysmooth = value & 0x7;
 
@@ -305,8 +309,9 @@ inline static void ted06_store(const BYTE value)
     old_value = ted.regs[0x06];
     ted.regs[0x06] = value;
 
-    if ((old_value & 0x40) != (value & 0x40))
+    if ((old_value & 0x40) != (value & 0x40)) {
         ted_update_memory_ptrs(cycle);
+    }
 
     /* FIXME: save time.  */
     ted_update_video_mode(cycle);
@@ -318,45 +323,51 @@ inline static void check_lateral_border(const BYTE value, int cycle,
     if ((value & 0x8) != (ted.regs[0x07] & 0x8)) {
         if (value & 0x8) {
             /* 40 column mode.  */
-            if (cycle <= 17)
+            if (cycle <= 17) {
                 raster->display_xstart = TED_40COL_START_PIXEL;
-            else
+            } else {
                 raster_changes_next_line_add_int(raster,
                                                  &raster->display_xstart,
                                                  TED_40COL_START_PIXEL);
-            if (cycle <= 56)
+            }
+            if (cycle <= 56) {
                 raster->display_xstop = TED_40COL_STOP_PIXEL;
-            else
+            } else {
                 raster_changes_next_line_add_int(raster,
                                                  &raster->display_xstop,
                                                  TED_40COL_STOP_PIXEL);
+            }
             TED_DEBUG_REGISTER(("40 column mode enabled"));
 
             /* If CSEL changes from 0 to 1 at cycle 17, the border is
                not turned off and this line is blank.  */
-            if (cycle == 17 && !(ted.regs[0x07] & 0x8))
+            if (cycle == 17 && !(ted.regs[0x07] & 0x8)) {
                 raster->blank_this_line = 1;
+            }
         } else {
             /* 38 column mode.  */
-            if (cycle <= 17)
+            if (cycle <= 17) {
                 raster->display_xstart = TED_38COL_START_PIXEL;
-            else
+            } else {
                 raster_changes_next_line_add_int(raster,
                                                  &raster->display_xstart,
                                                  TED_38COL_START_PIXEL);
-            if (cycle <= 56)
+            }
+            if (cycle <= 56) {
                 raster->display_xstop = TED_38COL_STOP_PIXEL;
-            else
+            } else {
                 raster_changes_next_line_add_int(raster,
                                                  &raster->display_xstop,
                                                  TED_38COL_STOP_PIXEL);
+            }
             TED_DEBUG_REGISTER(("38 column mode enabled"));
 
             /* If CSEL changes from 1 to 0 at cycle 56, the lateral
                border is open.  */
             if (cycle == 56 && (ted.regs[0x07] & 0x8)
-                && (!raster->blank_enabled || raster->open_left_border))
+                && (!raster->blank_enabled || raster->open_left_border)) {
                 raster->open_right_border = 1;
+            }
         }
     }
 }
@@ -375,12 +386,13 @@ inline static void ted07_store(BYTE value)
     /* FIXME: Line-based emulation!  */
     if ((value & 7) != (ted.regs[0x07] & 7)) {
 #if 1
-        if (raster->skip_frame || TED_RASTER_CHAR(cycle) <= 1)
+        if (raster->skip_frame || TED_RASTER_CHAR(cycle) <= 1) {
             raster->xsmooth = value & 0x7;
-        else
+        } else {
             raster_changes_next_line_add_int(raster,
                                              &raster->xsmooth,
                                              value & 0x7);
+        }
 #else
         raster_changes_foreground_add_int(raster,
                                           TED_RASTER_CHAR(cycle),
@@ -398,8 +410,9 @@ inline static void ted07_store(BYTE value)
 
     ted.regs[0x07] = value;
 
-    if ((old_value & 0x90) != (value & 0x90))
+    if ((old_value & 0x90) != (value & 0x90)) {
         ted_update_memory_ptrs(cycle);
+    }
 
     ted_update_video_mode(cycle);
 }
@@ -411,20 +424,24 @@ inline static void ted08_store(const BYTE value)
     BYTE m;
     int i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
-           val &= ~keyarr[i];
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
+            val &= ~keyarr[i];
+        }
+    }
 
     if (!(value & 4)) {
         val = val & ~(joystick_value[1] & 15);
-        if (joystick_value[1] & 16)
+        if (joystick_value[1] & 16) {
             val = val & ~64;
+        }
     }
 
     if (!(value & 2)) {
         val = val & ~(joystick_value[2] & 15);
-        if (joystick_value[2] & 16)
+        if (joystick_value[2] & 16) {
             val = val & ~128;
+        }
     }
 
     ted.kbdval = val;
@@ -467,34 +484,37 @@ inline static void ted0b_store(BYTE value)
 {
     TED_DEBUG_REGISTER(("Raster compare register: $%02X", value));
 
-    if (value == ted.regs[0x0b])
+    if (value == ted.regs[0x0b]) {
         return;
+    }
 
     ted.regs[0x0b] = value;
 
     ted_irq_check_state(value, 0);
 
     TED_DEBUG_REGISTER(("Raster interrupt line set to $%04X",
-                       ted.raster_irq_line));
+                        ted.raster_irq_line));
 }
 
 inline static void ted0c0d_store(const WORD addr, const BYTE value)
 {
     int pos;
 
-    if (ted.regs[addr] == value)
+    if (ted.regs[addr] == value) {
         return;
+    }
 
-    if (addr & 1)
+    if (addr & 1) {
         pos = (ted.crsrpos & 0x300) | value;
-    else
+    } else {
         pos = (ted.crsrpos & 0xff) | ((value & 3) << 8);
+    }
 
 #if 0
     raster_changes_background_add_int(&ted.raster,
-        TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
-        &ted.crsrpos,
-        pos);
+                                      TED_RASTER_CHAR(TED_RASTER_CYCLE(maincpu_clk)),
+                                      &ted.crsrpos,
+                                      pos);
 #else
     ted.crsrpos = pos;
 #endif
@@ -505,8 +525,9 @@ inline static void ted12_store(BYTE value)
 {
     value &= 0x3c;
 
-    if (ted.regs[0x12] == value)
+    if (ted.regs[0x12] == value) {
         return;
+    }
 
     ted.regs[0x12] = value;
     ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
@@ -514,8 +535,9 @@ inline static void ted12_store(BYTE value)
 
 inline static void ted13_store(const BYTE value)
 {
-    if ((ted.regs[0x13] & 0xfe) == (value & 0xfe))
+    if ((ted.regs[0x13] & 0xfe) == (value & 0xfe)) {
         return;
+    }
 
     if ((ted.regs[0x13] & 2) ^ (value & 2)) {
         if (value & 2) {
@@ -533,8 +555,9 @@ inline static void ted13_store(const BYTE value)
 
 inline static void ted14_store(const BYTE value)
 {
-    if (ted.regs[0x14] == value)
+    if (ted.regs[0x14] == value) {
         return;
+    }
 
     ted.regs[0x14] = value;
     ted_update_memory_ptrs(TED_RASTER_CYCLE(maincpu_clk));
@@ -551,11 +574,11 @@ inline static void ted15_store(BYTE value)
     if (maincpu_rmw_flag) {
         x_pos = TED_RASTER_X(TED_RASTER_CYCLE(first_write_cycle));
         raster_changes_background_add_int(&ted.raster, x_pos,
-                                         (int *)&ted.raster.background_color,
-                                         0x7f);
+                                          (int *)&ted.raster.background_color,
+                                          0x7f);
         raster_changes_background_add_int(&ted.raster, x_pos + 1,
-                                         (int *)&ted.raster.background_color,
-                                         ted.regs[0x15]);
+                                          (int *)&ted.raster.background_color,
+                                          ted.regs[0x15]);
     }
 
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(last_write_cycle));
@@ -586,7 +609,7 @@ inline static void ted161718_store(WORD addr, BYTE value)
     value &= 0x7f;
 
     TED_DEBUG_REGISTER(("Background color #%d register: $%02X",
-                       addr - 0x15, value));
+                        addr - 0x15, value));
 
     ted.regs[addr] = value;
 
@@ -601,7 +624,7 @@ inline static void ted161718_store(WORD addr, BYTE value)
 
 inline static void ted19_store(BYTE value)
 {
-int x_pos;
+    int x_pos;
 
     TED_DEBUG_REGISTER(("Border color register: $%02X", value));
 
@@ -610,13 +633,13 @@ int x_pos;
     if (maincpu_rmw_flag) {
         x_pos = TED_RASTER_X(TED_RASTER_CYCLE(first_write_cycle));
         raster_changes_border_add_int(&ted.raster,
-            x_pos,
-            (int *)&ted.raster.border_color,
-            0x7f);
+                                      x_pos,
+                                      (int *)&ted.raster.border_color,
+                                      0x7f);
         raster_changes_border_add_int(&ted.raster,
-            x_pos + 1,
-            (int *)&ted.raster.border_color,
-            ted.regs[0x19]);
+                                      x_pos + 1,
+                                      (int *)&ted.raster.border_color,
+                                      ted.regs[0x19]);
     }
 
     ted.regs[0x19] = value;
@@ -624,18 +647,18 @@ int x_pos;
     x_pos = TED_RASTER_X(TED_RASTER_CYCLE(last_write_cycle));
 
     raster_changes_border_add_int(&ted.raster,
-        x_pos,
-        (int *)&ted.raster.border_color,
-        0x7f);
+                                  x_pos,
+                                  (int *)&ted.raster.border_color,
+                                  0x7f);
     raster_changes_border_add_int(&ted.raster,
-        x_pos + 1,
-        (int *)&ted.raster.border_color,
-        value);
+                                  x_pos + 1,
+                                  (int *)&ted.raster.border_color,
+                                  value);
 }
 
 inline static void ted1a1b_store(WORD addr, BYTE value)
 {
-	unsigned int new_counter;
+    unsigned int new_counter;
 
     ted.regs[addr] = value;
     if (addr == 0x1a) {
@@ -643,13 +666,13 @@ inline static void ted1a1b_store(WORD addr, BYTE value)
     } else {
         new_counter = (ted.mem_counter & 0x100) | value;
     }
-	ted.mem_counter = new_counter;
+    ted.mem_counter = new_counter;
 }
 
 inline static void ted1c1d_store(WORD addr, BYTE value)
 {
-unsigned int new_raster;
-int diff;
+    unsigned int new_raster;
+    int diff;
 
     ted.regs[addr] = value;
     if (addr == 0x1c) {
@@ -676,25 +699,26 @@ int diff;
 
     if (ted.raster_irq_line < (unsigned int)ted.screen_height) {
         ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
-                             + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
-                             + (ted.cycles_per_line
-                             * (ted.raster_irq_line - new_raster)));
+                              + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                              + (ted.cycles_per_line
+                                 * (ted.raster_irq_line - new_raster)));
 
         /* Raster interrupts on line 0 are delayed by 1 cycle.  */
         /* FIXME this needs to be checked */
         /*if (ted.raster_irq_line == 0)
             ted.raster_irq_clk++;*/
 
-        if (ted.raster_irq_line <= new_raster)
+        if (ted.raster_irq_line <= new_raster) {
             ted.raster_irq_clk += ((new_raster >= ted.screen_height ? 512 : ted.screen_height)
-                                  * ted.cycles_per_line);
+                                   * ted.cycles_per_line);
+        }
         alarm_set(ted.raster_irq_alarm, ted.raster_irq_clk);
     } else {
         if (new_raster >= ted.screen_height) {
             ted.raster_irq_clk = (TED_LINE_START_CLK(maincpu_clk)
-                                 + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
-                                 + (ted.cycles_per_line
-                                 * (ted.raster_irq_line - new_raster)));
+                                  + TED_RASTER_IRQ_DELAY - INTERRUPT_DELAY
+                                  + (ted.cycles_per_line
+                                     * (ted.raster_irq_line - new_raster)));
 
             if (ted.raster_irq_line <= new_raster) {
                 ted.raster_irq_clk = CLOCK_MAX;
@@ -713,24 +737,24 @@ int diff;
 
 inline static void ted1e_store(BYTE value)
 {
-	/* FIXME */
-	/* int new_hcount = (~value & 0xfc) >> 1; */
+    /* FIXME */
+    /* int new_hcount = (~value & 0xfc) >> 1; */
 }
 
 inline static void ted1f_store(BYTE value)
 {
-	int current_cursor_phase;
-	int new_cursor_count;
-	
-	new_cursor_count = (value >> 3) & 0x0f;
-	current_cursor_phase = ted.cursor_phase & 0x10;
+    int current_cursor_phase;
+    int new_cursor_count;
 
-	if ((ted.cursor_phase & 0x0f) == 0x0f && (new_cursor_count & 0x0f) != 0x0f) {
-		current_cursor_phase ^= 0x10;
-	}
-	ted.cursor_phase = current_cursor_phase | new_cursor_count;
-	ted.cursor_visible = ted.cursor_phase & 0x10;
-	ted.raster.ycounter = value & 7;
+    new_cursor_count = (value >> 3) & 0x0f;
+    current_cursor_phase = ted.cursor_phase & 0x10;
+
+    if ((ted.cursor_phase & 0x0f) == 0x0f && (new_cursor_count & 0x0f) != 0x0f) {
+        current_cursor_phase ^= 0x10;
+    }
+    ted.cursor_phase = current_cursor_phase | new_cursor_count;
+    ted.cursor_visible = ted.cursor_phase & 0x10;
+    ted.raster.ycounter = value & 7;
 }
 
 inline static void ted3e_store(void)
@@ -759,87 +783,88 @@ void ted_store(WORD addr, BYTE value)
        updated and `current_line' is actually set to the current Y position of
        the raster.  Otherwise we might mix the changes for this line with the
        changes for the previous one.  */
-    if (maincpu_clk >= ted.draw_clk)
+    if (maincpu_clk >= ted.draw_clk) {
         ted_raster_draw_alarm_handler(maincpu_clk - ted.draw_clk, NULL);
+    }
 
     switch (addr) {
-      case 0x00:
-      case 0x01:
-      case 0x02:
-      case 0x03:
-      case 0x04:
-      case 0x05:
-        ted_timer_store(addr, value);
-        break;
-      case 0x06:
-        ted06_store(value);
-        break;
-      case 0x07:
-        ted07_store(value);
-        break;
-      case 0x08:
-        ted08_store(value);
-        break;
-      case 0x09:
-        ted09_store(value);
-        break;
-      case 0x0a:
-        ted0a_store(value);
-        break;
-      case 0x0b:
-        ted0b_store(value);
-        break;
-      case 0x0c:
-      case 0x0d:
-        ted0c0d_store(addr, value);
-        break;
-      case 0x0e:
-      case 0x0f:
-      case 0x10:
-      case 0x11:
-        ted_sound_store(addr, value);
-        break;
-      case 0x12:
-        ted12_store(value);
-        ted_sound_store(addr, value);
-        break;
-      case 0x13:
-        ted13_store(value);
-        break;
-      case 0x14:
-        ted14_store(value);
-        break;
-      case 0x15:
-        ted15_store(value);
-        break;
-      case 0x16:
-      case 0x17:
-      case 0x18:
-        ted161718_store(addr, value);
-        break;
-      case 0x19:
-        ted19_store(value);
-        break;
-      case 0x1a:
-      case 0x1b:
-		ted1a1b_store(addr, value);
-		break;
-      case 0x1c:
-      case 0x1d:
-        ted1c1d_store(addr, value);
-        break;
-      case 0x1e:
-		ted1e_store(value);
-		break;
-      case 0x1f:
-		ted1f_store(value);
-		break;
-      case 0x3e:
-        ted3e_store();
-        break;
-      case 0x3f:
-        ted3f_store();
-        break;
+        case 0x00:
+        case 0x01:
+        case 0x02:
+        case 0x03:
+        case 0x04:
+        case 0x05:
+            ted_timer_store(addr, value);
+            break;
+        case 0x06:
+            ted06_store(value);
+            break;
+        case 0x07:
+            ted07_store(value);
+            break;
+        case 0x08:
+            ted08_store(value);
+            break;
+        case 0x09:
+            ted09_store(value);
+            break;
+        case 0x0a:
+            ted0a_store(value);
+            break;
+        case 0x0b:
+            ted0b_store(value);
+            break;
+        case 0x0c:
+        case 0x0d:
+            ted0c0d_store(addr, value);
+            break;
+        case 0x0e:
+        case 0x0f:
+        case 0x10:
+        case 0x11:
+            ted_sound_store(addr, value);
+            break;
+        case 0x12:
+            ted12_store(value);
+            ted_sound_store(addr, value);
+            break;
+        case 0x13:
+            ted13_store(value);
+            break;
+        case 0x14:
+            ted14_store(value);
+            break;
+        case 0x15:
+            ted15_store(value);
+            break;
+        case 0x16:
+        case 0x17:
+        case 0x18:
+            ted161718_store(addr, value);
+            break;
+        case 0x19:
+            ted19_store(value);
+            break;
+        case 0x1a:
+        case 0x1b:
+            ted1a1b_store(addr, value);
+            break;
+        case 0x1c:
+        case 0x1d:
+            ted1c1d_store(addr, value);
+            break;
+        case 0x1e:
+            ted1e_store(value);
+            break;
+        case 0x1f:
+            ted1f_store(value);
+            break;
+        case 0x3e:
+            ted3e_store();
+            break;
+        case 0x3f:
+            ted3f_store();
+            break;
     }
 }
 
@@ -853,8 +878,9 @@ inline static unsigned int read_raster_y(void)
     /* Line 0 is 62 cycles long, while line (SCREEN_HEIGHT - 1) is 64
        cycles long.  As a result, the counter is incremented one
        cycle later on line 0.  */
-    if (raster_y == 0 && TED_RASTER_CYCLE(maincpu_clk) == 0)
+    if (raster_y == 0 && TED_RASTER_CYCLE(maincpu_clk) == 0) {
         raster_y = ted.screen_height - 1;
+    }
 
     return raster_y;
 }
@@ -871,10 +897,11 @@ inline static BYTE ted09_read(void)
     if (TED_RASTER_Y(maincpu_clk) == ted.raster_irq_line
         && ted.raster_irq_clk != CLOCK_MAX
         && maincpu_clk >= ted.raster_irq_clk) {
-        if (ted.regs[0x0a] & 0x2)
+        if (ted.regs[0x0a] & 0x2) {
             ted.last_read = ted.irq_status | 0xa7;
-        else
+        } else {
             ted.last_read = ted.irq_status | 0x27;
+        }
     } else {
         ted.last_read = ted.irq_status | 0x25;
     }
@@ -894,20 +921,22 @@ inline static BYTE ted12_read(void)
 
 inline static BYTE ted1a1b_read(WORD addr)
 {
-    if (addr == 0x1a)
+    if (addr == 0x1a) {
         return ((ted.mem_counter & 0x100) >> 8) | 0xfc;
-    else
+    } else {
         return ted.mem_counter & 0xff;
+    }
 }
 
 inline static BYTE ted1c1d_read(WORD addr)
 {
     unsigned int tmp = TED_RASTER_Y(maincpu_clk);
 
-    if (addr == 0x1c)
+    if (addr == 0x1c) {
         return (((tmp & 0x100) >> 8) | 0xfe) & 0xff;
-    else
+    } else {
         return tmp & 0xff;
+    }
 }
 
 inline static BYTE ted1e_read(void)
@@ -915,8 +944,9 @@ inline static BYTE ted1e_read(void)
     int xpos;
 
     xpos = ((int)TED_RASTER_CYCLE(maincpu_clk) - 16) * 4;
-    if (xpos < 0)
+    if (xpos < 0) {
         xpos = ted.cycles_per_line * 4 + xpos;
+    }
 
     xpos = (xpos / 2) & 0xfe;
 
@@ -938,36 +968,36 @@ BYTE ted_read(WORD addr)
     ted_handle_pending_alarms(0);
 
     switch (addr) {
-      case 0x00:
-      case 0x01:
-      case 0x02:
-      case 0x03:
-      case 0x04:
-      case 0x05:
-        return ted_timer_read(addr);
-      case 0x08:
-        return ted08_read();
-      case 0x09:
-        return ted09_read();
-      case 0x0a:
-        return ted0a_read();
-      case 0x0e:
-      case 0x0f:
-      case 0x10:
-      case 0x11:
-        return ted_sound_read(addr);
-      case 0x12:
-        return ted_sound_read(addr) | ted12_read();
-      case 0x1a:
-      case 0x1b:
-        return ted1a1b_read(addr);
-      case 0x1c:
-      case 0x1d:
-        return ted1c1d_read(addr);
-      case 0x1e:
-        return ted1e_read();
-      case 0x1f:
-        return ted1f_read();
+        case 0x00:
+        case 0x01:
+        case 0x02:
+        case 0x03:
+        case 0x04:
+        case 0x05:
+            return ted_timer_read(addr);
+        case 0x08:
+            return ted08_read();
+        case 0x09:
+            return ted09_read();
+        case 0x0a:
+            return ted0a_read();
+        case 0x0e:
+        case 0x0f:
+        case 0x10:
+        case 0x11:
+            return ted_sound_read(addr);
+        case 0x12:
+            return ted_sound_read(addr) | ted12_read();
+        case 0x1a:
+        case 0x1b:
+            return ted1a1b_read(addr);
+        case 0x1c:
+        case 0x1d:
+            return ted1c1d_read(addr);
+        case 0x1e:
+            return ted1e_read();
+        case 0x1f:
+            return ted1f_read();
     }
 
     return ted.regs[addr] | unused_bits_in_registers[addr];
@@ -980,10 +1010,11 @@ inline static BYTE ted09_peek(void)
     if (TED_RASTER_Y(maincpu_clk) == ted.raster_irq_line
         && ted.raster_irq_clk != CLOCK_MAX
         && maincpu_clk >= ted.raster_irq_clk) {
-        if (ted.regs[0x0a] & 0x2)
+        if (ted.regs[0x0a] & 0x2) {
             return ted.irq_status | 0xa3;
-        else
+        } else {
             return ted.irq_status | 0x23;
+        }
     } else {
         return ted.irq_status | 0x21;
     }
@@ -996,29 +1027,28 @@ BYTE ted_peek(WORD addr)
     addr &= 0x3f;
 
     switch (addr) {
-      case 0x08:
-        return ted08_read();
-      case 0x09:
-        return ted09_peek();
-      case 0x0e:
-      case 0x0f:
-      case 0x10:
-      case 0x11:
-        return ted_sound_read(addr);
-      case 0x12:
-        return ted_sound_read(addr) | ted12_read();
-      case 0x1a:
-      case 0x1b:
-        return ted1a1b_read(addr);
-      case 0x1c:
-      case 0x1d:
-        return ted1c1d_read(addr);
-      case 0x1e:
-        return ted1e_read();
-      case 0x1f:
-        return ted1f_read();
-      default:
-        return ted.regs[addr] | unused_bits_in_registers[addr];
+        case 0x08:
+            return ted08_read();
+        case 0x09:
+            return ted09_peek();
+        case 0x0e:
+        case 0x0f:
+        case 0x10:
+        case 0x11:
+            return ted_sound_read(addr);
+        case 0x12:
+            return ted_sound_read(addr) | ted12_read();
+        case 0x1a:
+        case 0x1b:
+            return ted1a1b_read(addr);
+        case 0x1c:
+        case 0x1d:
+            return ted1c1d_read(addr);
+        case 0x1e:
+            return ted1e_read();
+        case 0x1f:
+            return ted1f_read();
+        default:
+            return ted.regs[addr] | unused_bits_in_registers[addr];
     }
 }
-

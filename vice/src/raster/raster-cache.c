@@ -41,8 +41,9 @@ void raster_cache_new(raster_cache_t *cache, raster_sprite_status_t *status)
     memset(cache, 0, sizeof(raster_cache_t));
 
     if (status != NULL) {
-        for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++)
+        for (i = 0; i < RASTER_CACHE_MAX_SPRITES; i++) {
             (status->cache_init_func)(&(cache->sprites[i]));
+        }
 
         cache->gfx_msk = lib_calloc(1, RASTER_CACHE_GFX_MSK_SIZE);
     }
@@ -61,4 +62,3 @@ void raster_cache_realloc(raster_cache_t **cache, unsigned int screen_height)
 {
     *cache = lib_realloc(*cache, sizeof(raster_cache_t) * screen_height);
 }
-

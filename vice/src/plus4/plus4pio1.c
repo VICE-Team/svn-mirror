@@ -93,8 +93,9 @@ void pio1_set_tape_sense(int sense)
 
     pio1_outline = pio1_data;
 
-    if (tape_sense)
+    if (tape_sense) {
         pio1_outline &= ~4;
+    }
 
     if (drive_context[0]->drive->parallel_cable
         || drive_context[1]->drive->parallel_cable) {

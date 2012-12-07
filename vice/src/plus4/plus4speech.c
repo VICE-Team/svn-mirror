@@ -145,13 +145,12 @@ void latch_trigger(void)
     int this = (irq_latch & irq_enable) ? 1 : 0;
 
     if (last != this) {
-
         if (this) {
             DBGIRQ(("SPEECH: irq assert latch cause: "));
             DBGIRQ(("%s", (((irq_latch & irq_enable) >> IRQNUM_EOS)) & 1 ? "eos " : ""));
             DBGIRQ(("%s", (((irq_latch & irq_enable) >> IRQNUM_DTRD)) & 1 ? "dtrd " : ""));
             DBGIRQ(("\n"));
-               maincpu_set_irq(0, 1);
+            maincpu_set_irq(0, 1);
         } else {
             DBGIRQ(("SPEECH: irq deassert latch\n"));
             maincpu_set_irq(0, 0);
@@ -201,25 +200,25 @@ int datainfifo = 0;
 int fifo_reset = 0;
 unsigned int fifo_buffer = 0;
 
-void update_dtrd(int d) {
+void update_dtrd(int d)
+{
 #if 0
     if (d) {
         DTRD = 1;
     } else {
-
         DTRD = 0;
 
-        if (t6721->apd == 0)
-        if (t6721->eos == 0)
-        if (t6721->playing == 1)
-        {
-            if (datainfifo < 4) {
-                DTRD = 1;
-            } else {
-                DTRD = 0;
+        if (t6721->apd == 0) {
+            if (t6721->eos == 0) {
+                if (t6721->playing == 1) {
+                    if (datainfifo < 4) {
+                        DTRD = 1;
+                    } else {
+                        DTRD = 0;
+                    }
+                }
             }
         }
-
     }
     latch_set_irq(IRQNUM_DTRD, DTRD);
 #endif
@@ -252,15 +251,14 @@ static BYTE read_bit_from_fifo(t6721_state *t6721, unsigned int *bit)
     }
 
     return 1;
-
 }
 
 /* writes one bit to the FIFO */
 static BYTE write_bit_to_fifo(BYTE bit)
 {
     if (fifo_reset) {
-         /* DBG(("SPEECH: wr first bit: %d\n", bit)); */
-         datainfifo = 0;
+        /* DBG(("SPEECH: wr first bit: %d\n", bit)); */
+        datainfifo = 0;
     }
 
     /* if dtrd==0, then run 1 tick, which makes dtrd==1 */
@@ -406,7 +404,7 @@ BYTE speech_read(WORD addr)
             DBG(("SPEECH: <FIXME> rd cmd\n"));
             /* value = t6721_read(t6721); */
             t6721_update_ticks(t6721, 1);
-          break;
+            break;
         case 1:
             /* DBG(("SPEECH: rd status %04x\n", addr)); */
             value |= latch_load_and_clear();
@@ -429,10 +427,10 @@ void speech_store(WORD addr, BYTE value)
     switch (addr & 3) {
         case 0: /* Command register */
                 /* DBG(("SPEECH: wr cmd %02x\n", value & 0x0f)); */
-                t6721->wr = (value >> 7) & 1; /* wr line */
-                t6721_store(t6721, (BYTE)(value & 0x0f));
-                t6721_update_ticks(t6721, 1);
-                regs[0] = value;
+            t6721->wr = (value >> 7) & 1;     /* wr line */
+            t6721_store(t6721, (BYTE)(value & 0x0f));
+            t6721_update_ticks(t6721, 1);
+            regs[0] = value;
             break;
         case 1: /* IRQ latch register ? */
                 /* v364 code uses only values 0 and 3
@@ -440,14 +438,14 @@ void speech_store(WORD addr, BYTE value)
                    3 - ?
                 */
                 /* DBG(("SPEECH: wr status %02x\n", value)); */
-                latch_set_mask(value & 3);
-                t6721_update_ticks(t6721, 1);
-                regs[1] = value;
+            latch_set_mask(value & 3);
+            t6721_update_ticks(t6721, 1);
+            regs[1] = value;
             break;
         case 2: /* sample data register */
-                write_data_nibble((BYTE)((value >> 0) & 0x0f));
-                write_data_nibble((BYTE)((value >> 4) & 0x0f));
-                regs[2] = value;
+            write_data_nibble((BYTE)((value >> 0) & 0x0f));
+            write_data_nibble((BYTE)((value >> 4) & 0x0f));
+            regs[2] = value;
             break;
     }
 }
@@ -492,12 +490,12 @@ static void speech_sound_machine_reset(sound_t *psid, CLOCK cpu_clk);
 
 static int speech_sound_machine_cycle_based(void)
 {
-	return 0;
+    return 0;
 }
 
 static int speech_sound_machine_channels(void)
 {
-	return 1;
+    return 1;
 }
 
 static sound_chip_t speech_sound_chip = {
@@ -545,7 +543,7 @@ static int set_speech_enabled(int val, void *param)
         }
     }
 
-    DBG(("speech_set_enabled: '%s' %d : %d\n",speech_filename , val, speech_enabled));
+    DBG(("speech_set_enabled: '%s' %d : %d\n", speech_filename, val, speech_enabled));
     return 0;
 }
 
@@ -562,13 +560,13 @@ static int set_speech_filename(const char *name, void *param)
     resources_get_int("SpeechEnabled", &enabled);
     util_string_set(&speech_filename, name);
 
-    if (set_speech_enabled(enabled, NULL) < 0 ) {
+    if (set_speech_enabled(enabled, NULL) < 0) {
         lib_free (speech_filename);
         speech_filename = NULL;
-        DBG(("speech_set_name: %d '%s'\n",speech_enabled, speech_filename));
+        DBG(("speech_set_name: %d '%s'\n", speech_enabled, speech_filename));
         return -1;
     }
-    DBG(("speech_set_name: %d '%s'\n",speech_enabled, speech_filename));
+    DBG(("speech_set_name: %d '%s'\n", speech_enabled, speech_filename));
 
     return 0;
 }
@@ -627,7 +625,7 @@ static const cmdline_option_t cmdline_options[] =
 
 int speech_cmdline_options_init(void)
 {
-  return cmdline_register_options(cmdline_options);
+    return cmdline_register_options(cmdline_options);
 }
 
 

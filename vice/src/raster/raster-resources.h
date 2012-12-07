@@ -37,4 +37,3 @@ extern void raster_resources_chip_shutdown(struct raster_s *raster);
 extern void raster_resources_shutdown(void);
 
 #endif
-

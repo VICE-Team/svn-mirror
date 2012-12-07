@@ -164,11 +164,11 @@ static const cmdline_option_t cmdline_options[] =
 
 int plus4_cmdline_options_init(void)
 {
-    if (h256k_cmdline_options_init()<0) {
-      return -1;
+    if (h256k_cmdline_options_init() < 0) {
+        return -1;
     }
-    if (cs256k_cmdline_options_init()<0) {
-      return -1;
+    if (cs256k_cmdline_options_init() < 0) {
+        return -1;
     }
 
     return cmdline_register_options(cmdline_options);

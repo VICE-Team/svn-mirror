@@ -31,4 +31,3 @@
 extern void ted_draw_init(void);
 
 #endif
-
