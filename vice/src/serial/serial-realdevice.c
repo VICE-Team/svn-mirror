@@ -45,4 +45,3 @@ void serial_realdevice_disable(void)
     realdevice_disable();
 #endif
 }
-

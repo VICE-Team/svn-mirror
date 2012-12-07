@@ -33,13 +33,12 @@
 
 static FILE *dump_fd = NULL;
 
-static int dump_init(const char *param, int *speed,
-		     int *fragsize, int *fragnr, int *channels)
+static int dump_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* No stereo capability. */
     *channels = 1;
 
-    dump_fd = fopen(param?param:"vicesnd.sid", "w");
+    dump_fd = fopen(param ? param : "vicesnd.sid", "w");
     return !dump_fd;
 }
 
@@ -55,8 +54,9 @@ static int dump_dump(WORD addr, BYTE byte, CLOCK clks)
 
 static int dump_flush(char *state)
 {
-    if (fprintf(dump_fd, "%s", state) < 0)
+    if (fprintf(dump_fd, "%s", state) < 0) {
         return 1;
+    }
 
     return fflush(dump_fd);
 }

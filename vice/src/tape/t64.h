@@ -131,4 +131,3 @@ extern int t64_read(t64_t *t64, BYTE *buf, size_t size);
 extern void t64_get_header(t64_t *t64, BYTE *name);
 
 #endif
-

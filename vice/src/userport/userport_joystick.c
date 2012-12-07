@@ -108,8 +108,7 @@ BYTE userport_joystick_read_pbx(BYTE orig)
                 retval = (BYTE)~((jv3 & 0xf) | ((jv4 & 0xf) << 4));
                 break;
             case USERPORT_JOYSTICK_CGA:
-                retval = (BYTE)~((jv3 & 0x10) | ((jv4 & 0x10) << 1)
-                               | (get_joystick_value(userport_joystick_cga_select + 3) & 0xf));
+                retval = (BYTE)~((jv3 & 0x10) | ((jv4 & 0x10) << 1) | (get_joystick_value(userport_joystick_cga_select + 3) & 0xf));
                 break;
             case USERPORT_JOYSTICK_PET:
                 retval = ((jv3 & 0xf) | ((jv4 & 0xf) << 4));

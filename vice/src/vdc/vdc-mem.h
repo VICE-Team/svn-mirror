@@ -38,4 +38,3 @@ extern void vdc_ram_store(WORD addr, BYTE value);
 extern BYTE vdc_ram_read(WORD addr);
 
 #endif
-

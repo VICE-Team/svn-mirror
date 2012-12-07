@@ -35,41 +35,41 @@
 
 #define VOC_MAX 0x6fc00c   /* taken from sound conversion program */
 
-static FILE *voc_fd=NULL;
-static int samples=0;
-static int block_start=0;
-static int extra_block=0;
+static FILE *voc_fd = NULL;
+static int samples = 0;
+static int block_start = 0;
+static int extra_block = 0;
 
 static int voc_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-  /* VOC header. */
-  BYTE header[26]="Creative Voice File\032\032\0\024\001\037\021";
-  BYTE block_header[16]="\011sssrrrr\026c\004\0\0\0\0\0";
-  DWORD sample_rate=*speed;
+    /* VOC header. */
+    BYTE header[26] = "Creative Voice File\032\032\0\024\001\037\021";
+    BYTE block_header[16] = "\011sssrrrr\026c\004\0\0\0\0\0";
+    DWORD sample_rate = *speed;
 
-  voc_fd = fopen(param ? param : "vicesnd.voc", MODE_WRITE);
-  if (!voc_fd)
-    return 1;
+    voc_fd = fopen(param ? param : "vicesnd.voc", MODE_WRITE);
+    if (!voc_fd) {
+        return 1;
+    }
 
-  samples = 0;
-  extra_block = 0;
+    samples = 0;
+    extra_block = 0;
 
-  if (fwrite(header, 1, 26, voc_fd)!=26)
-  {
-    fclose(voc_fd);
-    return 1;
-  }
+    if (fwrite(header, 1, 26, voc_fd) != 26) {
+        fclose(voc_fd);
+        return 1;
+    }
 
-  block_start=ftell(voc_fd);
+    block_start = ftell(voc_fd);
 
-  /* Initialize header. */
-  block_header[9]=(BYTE)(*channels & 0xff);
-  block_header[4]=(BYTE)(sample_rate & 0xff);
-  block_header[5]=(BYTE)((sample_rate >> 8) & 0xff);
-  block_header[6]=(BYTE)((sample_rate >> 16) & 0xff);
-  block_header[7]=(BYTE)((sample_rate >> 24) & 0xff);
+    /* Initialize header. */
+    block_header[9] = (BYTE)(*channels & 0xff);
+    block_header[4] = (BYTE)(sample_rate & 0xff);
+    block_header[5] = (BYTE)((sample_rate >> 8) & 0xff);
+    block_header[6] = (BYTE)((sample_rate >> 16) & 0xff);
+    block_header[7] = (BYTE)((sample_rate >> 24) & 0xff);
 
-  return (fwrite(block_header, 1, 16, voc_fd)!=16);
+    return (fwrite(block_header, 1, 16, voc_fd) != 16);
 }
 
 static int voc_write(SWORD *pbuf, size_t nr)
@@ -88,10 +88,8 @@ static int voc_write(SWORD *pbuf, size_t nr)
     }
     #endif
 
-    if ((samples + (nr * 2)) >= (VOC_MAX - 12))
-    {
-        if (extra_block == 0)
-        {
+    if ((samples + (nr * 2)) >= (VOC_MAX - 12)) {
+        if (extra_block == 0) {
             rlen[0] = (BYTE)(((samples * 2) + 12) & 0xff);
             rlen[1] = (BYTE)((((samples * 2) + 12) >> 8) & 0xff);
             rlen[2] = (BYTE)((((samples * 2) + 12) >> 16) & 0xff);
@@ -106,9 +104,7 @@ static int voc_write(SWORD *pbuf, size_t nr)
             }
             samples = 0;
             extra_block++;
-        }
-        else
-        {
+        } else {
             rlen[0] = (BYTE)((samples * 2) & 0xff);
             rlen[1] = (BYTE)(((samples * 2) >> 8) & 0xff);
             rlen[2] = (BYTE)(((samples * 2) >> 16) & 0xff);
@@ -147,16 +143,16 @@ static void voc_close(void)
     int res = -1;
     BYTE rlen[3];
 
-    rlen[0] = (BYTE)((samples*2) & 0xff);
-    rlen[1] = (BYTE)(((samples*2) >> 8) & 0xff);
-    rlen[2] = (BYTE)(((samples*2) >> 16) & 0xff);
+    rlen[0] = (BYTE)((samples * 2) & 0xff);
+    rlen[1] = (BYTE)(((samples * 2) >> 8) & 0xff);
+    rlen[2] = (BYTE)(((samples * 2) >> 16) & 0xff);
     fseek(voc_fd, block_start + 1, SEEK_SET);
     if (fwrite(rlen, 1, 3, voc_fd) == 3) {
         res = 0;
     }
     fclose(voc_fd);
     voc_fd = NULL;
-    
+
     if (res < 0) {
         log_debug("ERROR voc_close failed.");
     }
@@ -179,5 +175,5 @@ static sound_device_t voc_device =
 
 int sound_init_voc_device(void)
 {
-  return sound_register_device(&voc_device);
+    return sound_register_device(&voc_device);
 }

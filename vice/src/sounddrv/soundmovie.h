@@ -36,13 +36,12 @@ typedef struct soundmovie_buffer_s {
 } soundmovie_buffer_t;
 
 typedef struct soundmovie_funcs_t {
-  int  (*init)(int speed,int channels,soundmovie_buffer_t **buffer);
-  int  (*encode)(soundmovie_buffer_t *buffer);
-  void (*close)(void);
+    int (*init)(int speed, int channels, soundmovie_buffer_t **buffer);
+    int (*encode)(soundmovie_buffer_t *buffer);
+    void (*close)(void);
 } soundmovie_funcs_t;
 
 extern int soundmovie_start(soundmovie_funcs_t *funcs);
 extern int soundmovie_stop(void);
 
 #endif
-

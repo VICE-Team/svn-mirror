@@ -208,8 +208,7 @@ int tape_find_header_trap(void)
     int err;
     BYTE *cassette_buffer;
 
-    cassette_buffer = mem_ram + (mem_read(buffer_pointer_addr)
-                      | (mem_read((WORD)(buffer_pointer_addr + 1)) << 8));
+    cassette_buffer = mem_ram + (mem_read(buffer_pointer_addr) | (mem_read((WORD)(buffer_pointer_addr + 1)) << 8));
 
     if (tape_image_dev1->name == NULL
         || tape_image_dev1->type != TAPE_TYPE_T64) {
@@ -356,28 +355,27 @@ int tape_receive_trap(void)
     end = (mem_read(eal_addr) | (mem_read((WORD)(eal_addr + 1)) << 8));
 
     switch (MOS6510_REGS_GET_X(&maincpu_regs)) {
-      case 0x0e:
-        {
-            int amount;
+        case 0x0e:
+            {
+                int amount;
 
-            len = (int)(end - start);
-            amount = t64_read((t64_t *)tape_image_dev1->data, mem_ram
-                              + (int)start, len);
-            if (amount == len) {
-                st = 0x40;      /* EOF */
-            } else {
-                st = 0x10;
+                len = (int)(end - start);
+                amount = t64_read((t64_t *)tape_image_dev1->data, mem_ram + (int)start, len);
+                if (amount == len) {
+                    st = 0x40;  /* EOF */
+                } else {
+                    st = 0x10;
 
-                log_warning(tape_log,
-                            "Unexpected end of tape: file may be truncated.");
+                    log_warning(tape_log,
+                                "Unexpected end of tape: file may be truncated.");
+                }
             }
-        }
-        break;
-      default:
-        log_error(tape_log, "Kernal command %x not supported.",
-                  MOS6510_REGS_GET_X(&maincpu_regs));
-        st = 0x40;
-        break;
+            break;
+        default:
+            log_error(tape_log, "Kernal command %x not supported.",
+                      MOS6510_REGS_GET_X(&maincpu_regs));
+            st = 0x40;
+            break;
     }
 
     /* Set registers and flags like the Kernal routine does.  */
@@ -458,22 +456,22 @@ int tape_image_detach_internal(unsigned int unit)
     }
 
     switch (tape_image_dev1->type) {
-      case TAPE_TYPE_T64:
-        log_message(tape_log,
-                    "Detaching T64 image `%s'.", tape_image_dev1->name);
-        /* Tape detached: release play button.  */
-        datasette_set_tape_sense(0);
-        break;
-      case TAPE_TYPE_TAP:
-        log_message(tape_log,
-                    "Detaching TAP image `%s'.", tape_image_dev1->name);
-        datasette_set_tape_image(NULL);
+        case TAPE_TYPE_T64:
+            log_message(tape_log,
+                        "Detaching T64 image `%s'.", tape_image_dev1->name);
+            /* Tape detached: release play button.  */
+            datasette_set_tape_sense(0);
+            break;
+        case TAPE_TYPE_TAP:
+            log_message(tape_log,
+                        "Detaching TAP image `%s'.", tape_image_dev1->name);
+            datasette_set_tape_image(NULL);
 
-        tape_traps_install();
-        break;
-      default:
-        log_error(tape_log, "Unknown tape type %i.",
-                  tape_image_dev1->type);
+            tape_traps_install();
+            break;
+        default:
+            log_error(tape_log, "Unknown tape type %i.",
+                      tape_image_dev1->type);
     }
 
     retval = tape_image_close(tape_image_dev1);
@@ -508,7 +506,7 @@ int tape_image_detach(unsigned int unit)
         return 0;
     }
 
-   return tape_image_detach_internal(unit);
+    return tape_image_detach_internal(unit);
 }
 
 /* Attach.  */
@@ -540,23 +538,23 @@ static int tape_image_attach_internal(unsigned int unit, const char *name)
     ui_display_tape_current_image(tape_image_dev1->name);
 
     switch (tape_image_dev1->type) {
-      case TAPE_TYPE_T64:
-        log_message(tape_log, "T64 image '%s' attached.", name);
-        /* Tape attached: press play button.  */
-        datasette_set_tape_sense(1);
-        break;
-      case TAPE_TYPE_TAP:
-        datasette_set_tape_image((tap_t *)tape_image_dev1->data);
-        log_message(tape_log, "TAP image '%s' attached.", name);
-        log_message(tape_log, "TAP image version: %i, system: %i.",
-                    ((tap_t *)tape_image_dev1->data)->version,
-                    ((tap_t *)tape_image_dev1->data)->system);
-        tape_traps_deinstall();
-        break;
-      default:
-        log_error(tape_log, "Unknown tape type %i.",
-                  tape_image_dev1->type);
-        return -1;
+        case TAPE_TYPE_T64:
+            log_message(tape_log, "T64 image '%s' attached.", name);
+            /* Tape attached: press play button.  */
+            datasette_set_tape_sense(1);
+            break;
+        case TAPE_TYPE_TAP:
+            datasette_set_tape_image((tap_t *)tape_image_dev1->data);
+            log_message(tape_log, "TAP image '%s' attached.", name);
+            log_message(tape_log, "TAP image version: %i, system: %i.",
+                        ((tap_t *)tape_image_dev1->data)->version,
+                        ((tap_t *)tape_image_dev1->data)->system);
+            tape_traps_deinstall();
+            break;
+        default:
+            log_error(tape_log, "Unknown tape type %i.",
+                      tape_image_dev1->type);
+            return -1;
     }
 
     event_record_attach_image(unit, name, tape_image.read_only);

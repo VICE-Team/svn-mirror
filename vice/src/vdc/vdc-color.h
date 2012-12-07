@@ -32,4 +32,3 @@ struct video_canvas_s;
 extern int vdc_color_update_palette(struct video_canvas_s *canvas);
 
 #endif
-

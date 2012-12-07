@@ -133,9 +133,9 @@ int vdc_resources_init(void)
 
     vdc.video_chip_cap = &video_chip_cap;
 
-    if (raster_resources_chip_init("VDC", &vdc.raster, &video_chip_cap) < 0)
+    if (raster_resources_chip_init("VDC", &vdc.raster, &video_chip_cap) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
-

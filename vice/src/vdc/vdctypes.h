@@ -72,8 +72,7 @@ enum vdc_video_mode_s {
 };
 typedef enum vdc_video_mode_s vdc_video_mode_t;
 
-#define VDC_IS_ILLEGAL_MODE(x)  ((x) >= VDC_ILLEGAL_TEXT_MODE \
-                                         && (x) != VDC_IDLE_MODE)
+#define VDC_IS_ILLEGAL_MODE(x)  ((x) >= VDC_ILLEGAL_TEXT_MODE && (x) != VDC_IDLE_MODE)
 #define VDC_IS_BITMAP_MODE(x)   ((x) & 0x02)
 
 /* VDC structures.  This is meant to be used by VDC modules
@@ -154,11 +153,11 @@ struct vdc_s {
     /* Memory address mask.  */
     int vdc_address_mask;
 
-	/* Frame counter (required for character blink, cursor blink and interlace) */
-	int frame_counter;
+    /* Frame counter (required for character blink, cursor blink and interlace) */
+    int frame_counter;
 
-	/* Character attribute blink */
-	int attribute_blink;
+    /* Character attribute blink */
+    int attribute_blink;
 
     /* Cursor position.  */
     int crsrpos;
@@ -199,7 +198,7 @@ struct vdc_s {
     int old_reg27;
 
     /* Row counter (required for comparison with reg[6] - number of visible screen rows - to know if we are at the end of the visible data) */
-	unsigned int row_counter;
+    unsigned int row_counter;
 
     /* Row counter_y counts individual raster lines of the current row to know if we are at the end of the current row. */
     int row_counter_y;
@@ -209,7 +208,6 @@ struct vdc_s {
 
     /* Light pen. */
     vdc_light_pen_t light_pen;
-
 };
 typedef struct vdc_s vdc_t;
 
@@ -224,4 +222,3 @@ extern void vdc_set_set_canvas_refresh(int enable);
 extern void vdc_calculate_xsync(void);
 
 #endif
-

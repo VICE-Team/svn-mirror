@@ -84,14 +84,14 @@ int serial_trap_attention(void)
     b = mem_read(((BYTE)(BSOUR))); /* BSOUR - character for serial bus */
 
     if (((b & 0xf0) == 0x20) || ((b & 0xf0) == 0x40)) {
-        if (serial_truedrive && ((b & 0x0f) !=4 ) && ((b & 0x0f) != 5)) {
+        if (serial_truedrive && ((b & 0x0f) != 4 ) && ((b & 0x0f) != 5)) {
             /* Set TrapDevice even if the trap is not taken; needed
                for other traps.  */
             TrapDevice = b;
             return 0;
         }
     } else {
-        if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
+        if (serial_truedrive && ((TrapDevice & 0x0f) != 4)
             && ((TrapDevice & 0x0f) != 5)) {
             return 0;
         }
@@ -104,42 +104,43 @@ int serial_trap_attention(void)
         serial_iec_bus_untalk(TrapDevice, TrapSecondary, serial_set_st);
     } else {
         switch (b & 0xf0) {
-          case 0x20:
-          case 0x40:
-            TrapDevice = b;
-            break;
-          case 0x60:
-            TrapSecondary = b;
-            switch (TrapDevice & 0xf0) {
-              case 0x20:
-                serial_iec_bus_listen(TrapDevice, TrapSecondary,
-                                      serial_set_st);
+            case 0x20:
+            case 0x40:
+                TrapDevice = b;
                 break;
-              case 0x40:
-                serial_iec_bus_talk(TrapDevice, TrapSecondary, serial_set_st);
+            case 0x60:
+                TrapSecondary = b;
+                switch (TrapDevice & 0xf0) {
+                    case 0x20:
+                        serial_iec_bus_listen(TrapDevice, TrapSecondary, serial_set_st);
+                        break;
+                    case 0x40:
+                        serial_iec_bus_talk(TrapDevice, TrapSecondary, serial_set_st);
+                        break;
+                }
                 break;
-            }
-            break;
-          case 0xe0:
-            TrapSecondary = b;
-            serial_iec_bus_close(TrapDevice, TrapSecondary, serial_set_st);
-            break;
-          case 0xf0:
-            TrapSecondary = b;
-            serial_iec_bus_open(TrapDevice, TrapSecondary, serial_set_st);
-            break;
+            case 0xe0:
+                TrapSecondary = b;
+                serial_iec_bus_close(TrapDevice, TrapSecondary, serial_set_st);
+                break;
+            case 0xf0:
+                TrapSecondary = b;
+                serial_iec_bus_open(TrapDevice, TrapSecondary, serial_set_st);
+                break;
         }
     }
 
     p = serial_device_get(TrapDevice & 0x0f);
-    if (!(p->inuse))
+    if (!(p->inuse)) {
         serial_set_st(0x80);
+    }
 
     MOS6510_REGS_SET_CARRY(&maincpu_regs, 0);
     MOS6510_REGS_SET_INTERRUPT(&maincpu_regs, 0);
 
-    if (attention_callback_func)
+    if (attention_callback_func) {
         attention_callback_func();
+    }
 
     return 1;
 }
@@ -149,8 +150,7 @@ int serial_trap_send(void)
 {
     BYTE data;
 
-    if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
-        && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && ((TrapDevice & 0x0f) != 4) && ((TrapDevice & 0x0f) != 5)) {
         return 0;
     }
 
@@ -169,8 +169,7 @@ int serial_trap_receive(void)
 {
     BYTE data;
 
-    if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
-        && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && ((TrapDevice & 0x0f) != 4) && ((TrapDevice & 0x0f) != 5)) {
         return 0;
     }
 
@@ -179,8 +178,9 @@ int serial_trap_receive(void)
     mem_store(tmp_in, data);
 
     /* If at EOF, call specified callback function.  */
-    if ((serial_get_st() & 0x40) && eof_callback_func != NULL)
+    if ((serial_get_st() & 0x40) && eof_callback_func != NULL) {
         eof_callback_func();
+    }
 
     /* Set registers like the Kernal routine does.  */
     MOS6510_REGS_SET_A(&maincpu_regs, data);
@@ -198,8 +198,7 @@ int serial_trap_receive(void)
 
 int serial_trap_ready(void)
 {
-    if (serial_truedrive && ((TrapDevice & 0x0f) !=4)
-        && ((TrapDevice & 0x0f) != 5)) {
+    if (serial_truedrive && ((TrapDevice & 0x0f) != 4) && ((TrapDevice & 0x0f) != 5)) {
         return 0;
     }
 
@@ -252,4 +251,3 @@ void serial_trap_truedrive_set(unsigned int flag)
 {
     serial_truedrive = flag;
 }
-

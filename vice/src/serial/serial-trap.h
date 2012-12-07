@@ -32,4 +32,3 @@
 extern void serial_trap_init(WORD tmpin);
 
 #endif
-

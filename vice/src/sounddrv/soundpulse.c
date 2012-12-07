@@ -53,8 +53,7 @@ static pa_buffer_attr attr = {
  * unnecessary. Pulse is already going to do its own thing regarding latency
  * and hopefully just does the right thing for us without forcing us to
  * bother with our own timing code. */
-static int pulsedrv_init(const char *param, int *speed,
-		         int *fragsize, int *fragnr, int *channels)
+static int pulsedrv_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     int error = 0;
 

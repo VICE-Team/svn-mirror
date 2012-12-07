@@ -3,7 +3,7 @@
  *
  * Written by
  *  Christian Vogelgsang <chris@vogelgsang.org>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -53,7 +53,7 @@ static void *lib_so = NULL;
         log_debug("getting symbol " #_name_ " failed!"); \
         return -1; \
     }
-    
+
 static int load_lib(void)
 {
     if (!lib_so) {
@@ -101,7 +101,7 @@ static void free_lib(void)
 int lamelib_open(void)
 {
     int result;
-    
+
     result = load_lib();
     if (result != 0) {
         free_lib();

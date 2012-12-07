@@ -33,92 +33,84 @@
 #include "types.h"
 
 
-void serial_iec_bus_open(unsigned int device, BYTE secondary,
-                         void(*st_func)(BYTE))
+void serial_iec_bus_open(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_open(device, secondary, st_func);
-    else
+    } else
 #endif
-        fsdrive_open(device, secondary, st_func);
+    fsdrive_open(device, secondary, st_func);
 }
 
-void serial_iec_bus_close(unsigned int device, BYTE secondary,
-                          void(*st_func)(BYTE))
+void serial_iec_bus_close(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_close(device, secondary, st_func);
-    else
+    } else
 #endif
-        fsdrive_close(device, secondary, st_func);
+    fsdrive_close(device, secondary, st_func);
 }
 
-void serial_iec_bus_listen(unsigned int device, BYTE secondary,
-                           void(*st_func)(BYTE))
+void serial_iec_bus_listen(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_listen(device, secondary, st_func);
-    else
+    } else
 #endif
-        fsdrive_listentalk(device, secondary, st_func);
+    fsdrive_listentalk(device, secondary, st_func);
 }
 
-void serial_iec_bus_talk(unsigned int device, BYTE secondary,
-                         void(*st_func)(BYTE))
+void serial_iec_bus_talk(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_talk(device, secondary, st_func);
-    else
+    } else
 #endif
-        fsdrive_listentalk(device, secondary, st_func);
+    fsdrive_listentalk(device, secondary, st_func);
 }
 
-void serial_iec_bus_unlisten(unsigned int device, BYTE secondary,
-                             void(*st_func)(BYTE))
+void serial_iec_bus_unlisten(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_unlisten(st_func);
-    else
+    } else
 #endif
-        fsdrive_unlisten(device, secondary, st_func);
+    fsdrive_unlisten(device, secondary, st_func);
 }
 
-void serial_iec_bus_untalk(unsigned int device, BYTE secondary,
-                           void(*st_func)(BYTE))
+void serial_iec_bus_untalk(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_untalk(st_func);
-    else
+    } else
 #endif
-        fsdrive_untalk(device, secondary, st_func);
+    fsdrive_untalk(device, secondary, st_func);
 }
 
-void serial_iec_bus_write(unsigned int device, BYTE secondary, BYTE data,
-                          void(*st_func)(BYTE))
+void serial_iec_bus_write(unsigned int device, BYTE secondary, BYTE data, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         realdevice_write(data, st_func);
-    else
+    } else
 #endif
-        fsdrive_write(device, secondary, data, st_func);
+    fsdrive_write(device, secondary, data, st_func);
 }
 
-BYTE serial_iec_bus_read(unsigned int device, BYTE secondary,
-                         void(*st_func)(BYTE))
+BYTE serial_iec_bus_read(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
 #ifdef HAVE_OPENCBM
-    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL)
+    if (serial_device_type_get(device & 0x0f) == SERIAL_DEVICE_REAL) {
         return realdevice_read(st_func);
-    else
+    } else
 #endif
-        return fsdrive_read(device, secondary, st_func);
+    return fsdrive_read(device, secondary, st_func);
 }
 
 void serial_iec_bus_reset(void)
@@ -136,4 +128,3 @@ void serial_iec_bus_init(void)
     realdevice_init();
 #endif
 }
-

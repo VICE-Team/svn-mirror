@@ -72,31 +72,32 @@ static int sun_written = 0;
 
 static int toulaw8(SWORD data)
 {
-    int			v, s, a;
+    int v, s, a;
 
     a = data / 8;
 
     v = (a < 0 ? -a : a);
     s = (a < 0 ? 0 : 0x80);
 
-    if (v >= 4080)
+    if (v >= 4080) {
         a = 0;
-    else if (v >= 2032)
+    } else if (v >= 2032) {
         a = 0x0f - (v - 2032) / 128;
-    else if (v >= 1008)
+    } else if (v >= 1008) {
         a = 0x1f - (v - 1008) / 64;
-    else if (v >= 496)
+    } else if (v >= 496) {
         a = 0x2f - (v - 496) / 32;
-    else if (v >= 240)
+    } else if (v >= 240) {
         a = 0x3f - (v - 240) / 16;
-    else if (v >= 112)
+    } else if (v >= 112) {
         a = 0x4f - (v - 112) / 8;
-    else if (v >= 48)
+    } else if (v >= 48) {
         a = 0x5f - (v - 48) / 4;
-    else if (v >= 16)
+    } else if (v >= 16) {
         a = 0x6f - (v - 16) / 2;
-    else
+    } else {
         a = 0x7f - v;
+    }
 
     a |= s;
 
@@ -104,10 +105,9 @@ static int toulaw8(SWORD data)
 }
 
 
-static int sun_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *channels)
+static int sun_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-    int	st;
+    int st;
     struct audio_info info;
 
 #if !defined(__NetBSD__)
@@ -116,14 +116,16 @@ static int sun_init(const char *param, int *speed,
 #endif
 
     if (!param) {
-        if (getenv("AUDIODEV"))
+        if (getenv("AUDIODEV")) {
             param = (const char *)getenv("AUDIODEV");
-        else
+        } else {
             param = "/dev/audio";
+        }
     }
     sun_fd = open(param, O_WRONLY, 0777);
-    if (sun_fd < 0)
-	return 1;
+    if (sun_fd < 0) {
+        return 1;
+    }
     AUDIO_INITINFO(&info);
     info.play.sample_rate = *speed;
     info.play.channels = *channels;
@@ -131,20 +133,21 @@ static int sun_init(const char *param, int *speed,
     info.play.encoding = AUDIO_ENCODING_LINEAR;
     st = ioctl(sun_fd, AUDIO_SETINFO, &info);
     if (st < 0) {
-	AUDIO_INITINFO(&info);
-	info.play.sample_rate = 8000;
-	info.play.channels = 1;
-	info.play.precision = 8;
-	info.play.encoding = AUDIO_ENCODING_ULAW;
-	st = ioctl(sun_fd, AUDIO_SETINFO, &info);
-	if (st < 0)
-	    goto fail;
-	sun_8bit = 1;
-	*speed = 8000;
+        AUDIO_INITINFO(&info);
+        info.play.sample_rate = 8000;
+        info.play.channels = 1;
+        info.play.precision = 8;
+        info.play.encoding = AUDIO_ENCODING_ULAW;
+        st = ioctl(sun_fd, AUDIO_SETINFO, &info);
+        if (st < 0) {
+            goto fail;
+        }
+        sun_8bit = 1;
+        *speed = 8000;
         *channels = 1;
-	log_message(LOG_DEFAULT, "Playing 8 bit ulaw at 8000Hz");
+        log_message(LOG_DEFAULT, "Playing 8 bit ulaw at 8000Hz");
     }
-    sun_bufsize = (*fragsize)*(*fragnr);
+    sun_bufsize = (*fragsize) * (*fragnr);
 #if !defined(__NetBSD__)
     sun_written = 0;
 #endif
@@ -159,46 +162,49 @@ fail:
 static int sun_write(SWORD *pbuf, size_t nr)
 {
     unsigned int total, i, now;
-    if (sun_8bit)
-    {
-	/* XXX: ugly to change contents of the buffer */
-	for (i = 0; i < nr; i++)
-	    ((char *)pbuf)[i] = toulaw8(pbuf[i]);
-	total = nr;
+    if (sun_8bit) {
+        /* XXX: ugly to change contents of the buffer */
+        for (i = 0; i < nr; i++) {
+            ((char *)pbuf)[i] = toulaw8(pbuf[i]);
+        }
+        total = nr;
+    } else {
+        total = nr * sizeof(SWORD) * sun_channels;
     }
-    else
-	total = nr*sizeof(SWORD)*sun_channels;
     for (i = 0; i < total; i += now)
     {
-	now = write(sun_fd, (char *)pbuf + i, total - i);
-	if (now <= 0)
-	    return 1;
+        now = write(sun_fd, (char *)pbuf + i, total - i);
+        if (now <= 0) {
+            return 1;
+        }
     }
 #if !defined(__NetBSD__)
     sun_written += nr;
 #endif
 
-    while (sun_bufferspace() < 0)
-	usleep(5000);
+    while (sun_bufferspace() < 0) {
+        usleep(5000);
+    }
 
     return 0;
 }
 
 static int sun_bufferspace(void)
 {
-    int	st;
+    int st;
 #if defined(__NetBSD__)
     int size;
 #endif
-    struct audio_info	info;
+    struct audio_info info;
     /* ioctl(fd, AUDIO_GET_STATUS, &info) yields number of played samples
        in info.play.samples. */
     st = ioctl(sun_fd, AUDIO_GETINFO, &info);
-    if (st < 0)
-	return -1;
+    if (st < 0) {
+        return -1;
+    }
 #if defined(__NetBSD__)
     size = (sun_8bit ? 1 : 2) * sun_channels;
-    return sun_bufsize - info.play.seek  / size;
+    return sun_bufsize - info.play.seek / size;
 #else
     return sun_bufsize - (sun_written - info.play.samples);
 #endif

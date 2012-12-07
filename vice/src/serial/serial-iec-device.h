@@ -34,4 +34,3 @@ extern void serial_iec_device_init(void);
 extern void serial_iec_device_reset(void);
 
 #endif
-

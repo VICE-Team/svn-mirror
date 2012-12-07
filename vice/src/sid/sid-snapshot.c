@@ -52,8 +52,9 @@ static int sid_snapshot_write_module_simple(snapshot_t *s)
 
     m = snapshot_module_create(s, snap_module_name_simple, SNAP_MAJOR_SIMPLE,
                                SNAP_MINOR_SIMPLE);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     resources_get_int("Sound", &sound);
     if (SMW_B(m, (BYTE)sound) < 0) {
@@ -87,8 +88,9 @@ static int sid_snapshot_read_module_simple(snapshot_t *s)
 
     m = snapshot_module_open(s, snap_module_name_simple,
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         goto fail;
+    }
 
     if (major_version > SNAP_MAJOR_SIMPLE
         || minor_version > SNAP_MINOR_SIMPLE) {
@@ -149,8 +151,9 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
 
     resources_get_int("Sound", &sound);
 
-    if (sound == 0)
+    if (sound == 0) {
         return 0;
+    }
 
     resources_get_int("SidEngine", &sid_engine);
 
@@ -158,15 +161,17 @@ static int sid_snapshot_write_module_extended(snapshot_t *s)
 #ifdef HAVE_RESID
         && sid_engine != SID_ENGINE_RESID
 #endif
-        )
+        ) {
         return 0;
+    }
 
     sid_state_read(0, &sid_state);
 
     m = snapshot_module_create(s, snap_module_name_extended,
                                SNAP_MAJOR_EXTENDED, SNAP_MINOR_EXTENDED);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (SMW_BA(m, sid_state.sid_register, 32) < 0
         || SMW_B(m, sid_state.bus_value) < 0
@@ -214,8 +219,9 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
 
     resources_get_int("Sound", &sound);
 
-    if (sound == 0)
+    if (sound == 0) {
         return 0;
+    }
 
     resources_get_int("SidEngine", &sid_engine);
 
@@ -223,13 +229,15 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
 #ifdef HAVE_RESID
         && sid_engine != SID_ENGINE_RESID
 #endif
-        )
+        ) {
         return 0;
+    }
 
     m = snapshot_module_open(s, snap_module_name_extended,
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (major_version > SNAP_MAJOR_EXTENDED
         || minor_version > SNAP_MINOR_EXTENDED) {
@@ -272,22 +280,24 @@ static int sid_snapshot_read_module_extended(snapshot_t *s)
 
 int sid_snapshot_write_module(snapshot_t *s)
 {
-    if (sid_snapshot_write_module_simple(s) < 0)
+    if (sid_snapshot_write_module_simple(s) < 0) {
         return -1;
+    }
 
-    if (sid_snapshot_write_module_extended(s) < 0)
+    if (sid_snapshot_write_module_extended(s) < 0) {
         return -1;
+    }
 
     return 0;
 }
 
 int sid_snapshot_read_module(snapshot_t *s)
 {
-    if (sid_snapshot_read_module_simple(s) < 0)
+    if (sid_snapshot_read_module_simple(s) < 0) {
         return -1;
+    }
 
     sid_snapshot_read_module_extended(s);
 
     return 0;
 }
-

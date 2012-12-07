@@ -133,8 +133,7 @@ void userport_dac_store(BYTE value)
     }
 }
 
-struct userport_dac_sound_s
-{
+struct userport_dac_sound_s {
     BYTE voice0;
 };
 

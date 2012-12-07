@@ -42,23 +42,22 @@ static void le_store(BYTE* buf, DWORD val, int len)
 {
     int i;
     for (i = 0; i < len; i++) {
-      buf[i] = (BYTE)(val & 0xff);
-      val >>= 8;
+        buf[i] = (BYTE)(val & 0xff);
+        val >>= 8;
     }
 }
 
-static int wav_init(const char *param, int *speed,
-		   int *fragsize, int *fragnr, int *channels)
+static int wav_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
     /* RIFF/WAV header. */
-    BYTE header[45] =
-      "RIFFllllWAVEfmt \020\0\0\0\001\0ccrrrrbbbb88\020\0datallll";
+    BYTE header[45] = "RIFFllllWAVEfmt \020\0\0\0\001\0ccrrrrbbbb88\020\0datallll";
     DWORD sample_rate = *speed;
-    DWORD bytes_per_sec = *speed**channels*2;
+    DWORD bytes_per_sec = *speed * *channels * 2;
 
-    wav_fd = fopen(param?param:"vicesnd.wav", MODE_WRITE);
-    if (!wav_fd)
-	return 1;
+    wav_fd = fopen(param ? param : "vicesnd.wav", MODE_WRITE);
+    if (!wav_fd) {
+        return 1;
+    }
 
     /* Reset number of samples. */
     samples = 0;
@@ -67,7 +66,7 @@ static int wav_init(const char *param, int *speed,
     le_store(header + 22, (DWORD)*channels, 2);
     le_store(header + 24, sample_rate, 4);
     le_store(header + 28, bytes_per_sec, 4);
-    le_store(header + 32, (DWORD)*channels*2, 2);
+    le_store(header + 32, (DWORD)*channels * 2, 2);
 
     return (fwrite(header, 1, 44, wav_fd) != 44);
 }
@@ -83,8 +82,9 @@ static int wav_write(SWORD *pbuf, size_t nr)
     }
 #endif
 
-    if (nr != fwrite(pbuf, sizeof(SWORD), nr, wav_fd))
-	return 1;
+    if (nr != fwrite(pbuf, sizeof(SWORD), nr, wav_fd)) {
+        return 1;
+    }
 
     /* Swap the bytes back just in case. */
 #ifdef WORDS_BIGENDIAN
@@ -104,8 +104,8 @@ static void wav_close(void)
     int res = -1;
     BYTE rlen[4];
     BYTE dlen[4];
-    DWORD rifflen = samples*2 + 36;
-    DWORD datalen = samples*2;
+    DWORD rifflen = samples * 2 + 36;
+    DWORD datalen = samples * 2;
 
     le_store(rlen, rifflen, 4);
     le_store(dlen, datalen, 4);
@@ -144,4 +144,3 @@ int sound_init_wav_device(void)
 {
     return sound_register_device(&wav_device);
 }
-

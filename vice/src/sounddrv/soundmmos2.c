@@ -43,15 +43,14 @@
 
 #include "sounddrv.h"
 
-typedef struct _playlist
-{
+typedef struct _playlist {
     ULONG ulCommand;
     ULONG ulOperandOne;
     ULONG ulOperandTwo;
     ULONG ulOperandThree;
 } PLAYLIST;
 
-PLAYLIST Playlist[3]={
+PLAYLIST Playlist[3] = {
     {DATA_OPERATION,   0, 0, 0},
     {BRANCH_OPERATION, 0, 0, 0},  // jump to instruction 0
     {EXIT_OPERATION,   0, 0, 0}   // maybe not needed
@@ -60,7 +59,7 @@ PLAYLIST Playlist[3]={
 static USHORT usSoundDevID;
 //ULONG  ulSamplesPerSec;
 //USHORT usBitsPerSample;
-static log_t mlog=LOG_ERR;
+static log_t mlog = LOG_ERR;
 
 SWORD *dataBuf;
 
@@ -69,14 +68,16 @@ static void mmos2_close(void)
     int rc;
     // MCI_WAIT hangs???
     log_message(mlog, "mmos2_close");
-    rc=mciSendCommand(usSoundDevID, MCI_STOP, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS)
+    rc = mciSendCommand(usSoundDevID, MCI_STOP, MCI_WAIT, NULL, 0);
+    if (rc != MCIERR_SUCCESS) {
         sound_err(mlog, rc, "Stopping MMOS2 Playback (MCI_STOP)");
+    }
     log_message(mlog, "MCI stopped");
 
-    rc=mciSendCommand(usSoundDevID, MCI_CLOSE, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS)
+    rc = mciSendCommand(usSoundDevID, MCI_CLOSE, MCI_WAIT, NULL, 0);
+    if (rc != MCIERR_SUCCESS) {
         sound_err(mlog, rc, "Closing MMOS2 Waveform Audio Device (MCI_CLOSE)");
+    }
     log_message(mlog, "MCI closed");
 
     lib_free(dataBuf);
@@ -93,48 +94,51 @@ static int mmos2_init(const char *param, int *speed,
     int rc;
     MCI_WAVE_SET_PARMS mciSet; // fragnr = refreshs / buffer; (gerundet)
 
-    if (usSoundDevID)
+    if (usSoundDevID) {
         return 1;
+    }
 
-    mciOpen.pszDeviceType  = MCI_DEVTYPE_WAVEFORM_AUDIO_NAME;
-    mciOpen.hwndCallback   = (HWND) NULL;
-    mciOpen.pszAlias       = (CHAR) NULL;
+    mciOpen.pszDeviceType = MCI_DEVTYPE_WAVEFORM_AUDIO_NAME;
+    mciOpen.hwndCallback = (HWND) NULL;
+    mciOpen.pszAlias = (CHAR) NULL;
     mciOpen.pszElementName = (PSZ)  Playlist;
-    rc=mciSendCommand(0, MCI_OPEN,
-                      MCI_WAIT|
-                      MCI_OPEN_PLAYLIST|
-                      MCI_OPEN_SHAREABLE,
-                      &mciOpen, 0);
+    rc = mciSendCommand(0, MCI_OPEN,
+                        MCI_WAIT |
+                        MCI_OPEN_PLAYLIST |
+                        MCI_OPEN_SHAREABLE,
+                        &mciOpen, 0);
 
-    if (rc != MCIERR_SUCCESS)
-       return sound_err(mlog, rc, "Open MMOS2 Waveform Audio Device (MCI_OPEN)");
+    if (rc != MCIERR_SUCCESS) {
+        return sound_err(mlog, rc, "Open MMOS2 Waveform Audio Device (MCI_OPEN)");
+    }
 
     usSoundDevID = mciOpen.usDeviceID;
 
-    mciSet.usChannels      = *channels;
+    mciSet.usChannels = *channels;
     mciSet.ulSamplesPerSec = *speed;
-    mciSet.usBitsPerSample = sizeof(SWORD)*8;
-    rc=mciSendCommand(usSoundDevID, MCI_SET,
-                      MCI_WAIT|
-                      MCI_WAVE_SET_SAMPLESPERSEC|
-                      MCI_WAVE_SET_BITSPERSAMPLE|
-                      MCI_WAVE_SET_CHANNELS,
-                      &mciSet, 0);
+    mciSet.usBitsPerSample = sizeof(SWORD) * 8;
+    rc = mciSendCommand(usSoundDevID, MCI_SET,
+                        MCI_WAIT |
+                        MCI_WAVE_SET_SAMPLESPERSEC |
+                        MCI_WAVE_SET_BITSPERSAMPLE |
+                        MCI_WAVE_SET_CHANNELS,
+                        &mciSet, 0);
 
-    if (rc != MCIERR_SUCCESS)
-       return sound_err(mlog, rc, "Setting Sample Rate or Saples Per Sec (MCI_SET)");
+    if (rc != MCIERR_SUCCESS) {
+        return sound_err(mlog, rc, "Setting Sample Rate or Saples Per Sec (MCI_SET)");
+    }
 
     //    atexit(mmos2_close);
-    pos=*fragsize*0;//3;//3*4;//14
-    frag_size    = *fragsize;
-    frag_numbers = *fragnr;//*3; //(*speed)/(*fragsize)*bufsize;  // entspricht 0.349s
+    pos = *fragsize * 0; //3;//3*4;//14
+    frag_size = *fragsize;
+    frag_numbers = *fragnr; //*3; //(*speed)/(*fragsize)*bufsize;  // entspricht 0.349s
     log_message(mlog, "speed %i Hz", *speed);
 //    log_message(mlog, "soundmmos2.c: bufsize %1.4f s", bufsize);
     log_message(mlog, "fragsize %i byte", *fragsize);
     log_message(mlog, "fragnumbers %i", frag_numbers);
-    dataBuf=lib_calloc(*fragsize*frag_numbers*sizeof(SWORD), 2);
-    Playlist[0].ulOperandOne   = (ULONG)dataBuf;
-    Playlist[0].ulOperandTwo   = *fragsize*frag_numbers*sizeof(SWORD);
+    dataBuf = lib_calloc(*fragsize * frag_numbers * sizeof(SWORD), 2);
+    Playlist[0].ulOperandOne = (ULONG)dataBuf;
+    Playlist[0].ulOperandTwo = *fragsize * frag_numbers * sizeof(SWORD);
     Playlist[0].ulOperandThree = 0;
 //    rc=mciSendCommand(usSoundDevID, MCI_PLAY, 0, &mciOpen, 0);
 //    if (rc != MCIERR_SUCCESS) return sound_err(rc, "MCI_PLAY");
@@ -147,34 +151,37 @@ static int mmos2_write(SWORD *pbuf, size_t nr)
 {   // maximale differenz anschauen!
     static ULONG first;
 
-    memcpy(dataBuf+pos, pbuf, nr*sizeof(SWORD)); // dst, src, cnt
+    memcpy(dataBuf + pos, pbuf, nr * sizeof(SWORD)); // dst, src, cnt
     if (!first) {
-        int rc=mciSendCommand(usSoundDevID, MCI_PLAY, 0, &mciOpen, 0);
-        if (rc != MCIERR_SUCCESS)
-           return sound_err(mlog, rc, "MCI_PLAY");
-        first=TRUE;
+        int rc = mciSendCommand(usSoundDevID, MCI_PLAY, 0, &mciOpen, 0);
+        if (rc != MCIERR_SUCCESS) {
+            return sound_err(mlog, rc, "MCI_PLAY");
+        }
+        first = TRUE;
     }
     pos += nr;  // fragsize
-    pos %= (frag_size*frag_numbers);
+    pos %= (frag_size * frag_numbers);
     return 0;
 }
-    /*MCI_STATUS_PARMS mciStat;
-    mciStat.ulItem = MCI_STATUS_POSITION; //_IN_TRACK; here: the same?
+/*MCI_STATUS_PARMS mciStat;
+mciStat.ulItem = MCI_STATUS_POSITION; //_IN_TRACK; here: the same?
 
-    mciSendCommand(usSoundDevID, MCI_STATUS,
-                      MCI_WAIT|
-                      MCI_STATUS_ITEM,
-                      &mciStat, 0);
-                      mciStat.ulReturn = (double)mciStat.ulReturn*(44100/3000);     // milliseconds
-                      */
+mciSendCommand(usSoundDevID, MCI_STATUS,
+                  MCI_WAIT|
+                  MCI_STATUS_ITEM,
+                  &mciStat, 0);
+                  mciStat.ulReturn = (double)mciStat.ulReturn*(44100/3000);     // milliseconds
+                  */
 
 #if 0
 static int mmos2_suspend(void)
 {
     int rc;
     //    mmlog("pausing",0);
-    rc=mciSendCommand(usSoundDevID, MCI_PAUSE, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(mlog, rc, "Pausing MMOS2 Playback (MCI_PAUSE)");
+    rc = mciSendCommand(usSoundDevID, MCI_PAUSE, MCI_WAIT, NULL, 0);
+    if (rc != MCIERR_SUCCESS) {
+        sound_err(mlog, rc, "Pausing MMOS2 Playback (MCI_PAUSE)");
+    }
     //    mmlog("paused",0);
     return 0;
 }
@@ -183,8 +190,10 @@ static int mmos2_resume(void)
 {
     int rc;
     //    mmlog("resuming",0);
-    rc=mciSendCommand(usSoundDevID, MCI_RESUME, MCI_WAIT, NULL, 0);
-    if (rc != MCIERR_SUCCESS) sound_err(mlog, rc, "Resuming MMOS2 Playback (MCI_RESUME)");
+    rc = mciSendCommand(usSoundDevID, MCI_RESUME, MCI_WAIT, NULL, 0);
+    if (rc != MCIERR_SUCCESS) {
+        sound_err(mlog, rc, "Resuming MMOS2 Playback (MCI_RESUME)");
+    }
     //    mmlog("resumed",0);
     return 0;
 }

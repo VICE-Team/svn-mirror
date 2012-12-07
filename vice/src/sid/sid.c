@@ -124,14 +124,14 @@ static BYTE sid_read_chip(WORD addr, int chipno)
         if ((maincpu_clk ^ pot_cycle) & ~511) {
             pot_cycle = maincpu_clk & ~511; /* simplistic 512 cycle sampling */
             if (_mouse_enabled) {
-               val_pot_x = mouse_get_x();
-               val_pot_y = mouse_get_y();
+                val_pot_x = mouse_get_x();
+                val_pot_y = mouse_get_y();
             } else if (lightpen_enabled) {
-               val_pot_x = lightpen_read_button_x();
-               val_pot_y = lightpen_read_button_y();
+                val_pot_x = lightpen_read_button_x();
+                val_pot_y = lightpen_read_button_y();
             } else {
-               val_pot_x = 0xff;
-               val_pot_y = 0xff;
+                val_pot_x = 0xff;
+                val_pot_y = 0xff;
             }
         }
         val = (addr == 0x19) ? val_pot_x : val_pot_y;
@@ -154,7 +154,7 @@ static BYTE sid_read_chip(WORD addr, int chipno)
     /* Fallback when sound is switched off. */
     if (val < 0) {
         if (addr == 0x19 || addr == 0x1a) {
-	    val = 0xff;
+            val = 0xff;
         } else {
             if (addr == 0x1b || addr == 0x1c) {
                 val = maincpu_clk % 256;
@@ -187,9 +187,9 @@ static void sid_store_chip(WORD addr, BYTE byte, int chipno)
     machine_handle_pending_alarms(maincpu_rmw_flag + 1);
 
     if (maincpu_rmw_flag) {
-	maincpu_clk--;
-	sid_store_func(addr, lastsidread, chipno);
-	maincpu_clk++;
+        maincpu_clk--;
+        sid_store_func(addr, lastsidread, chipno);
+        maincpu_clk++;
     }
 
     sid_store_func(addr, byte, chipno);
@@ -404,29 +404,29 @@ char *sid_sound_machine_dump_state(sound_t *psid)
 int sid_sound_machine_cycle_based(void)
 {
     switch (sidengine) {
-      case SID_ENGINE_FASTSID:
-        return 0;
+        case SID_ENGINE_FASTSID:
+            return 0;
 #ifdef HAVE_RESID
-      case SID_ENGINE_RESID:
-        return 1;
+        case SID_ENGINE_RESID:
+            return 1;
 #endif
 #ifdef HAVE_RESID_FP
-      case SID_ENGINE_RESID_FP:
-        return 1;
+        case SID_ENGINE_RESID_FP:
+            return 1;
 #endif
 #ifdef HAVE_CATWEASELMKIII
-      case SID_ENGINE_CATWEASELMKIII:
-        return 0;
+        case SID_ENGINE_CATWEASELMKIII:
+            return 0;
 #endif
 #ifdef HAVE_HARDSID
-      case SID_ENGINE_HARDSID:
-        return 0;
+        case SID_ENGINE_HARDSID:
+            return 0;
 #endif
 #ifdef HAVE_PARSID
-      case SID_ENGINE_PARSID_PORT1:
-      case SID_ENGINE_PARSID_PORT2:
-      case SID_ENGINE_PARSID_PORT3:
-        return 0;
+        case SID_ENGINE_PARSID_PORT1:
+        case SID_ENGINE_PARSID_PORT2:
+        case SID_ENGINE_PARSID_PORT3:
+            return 0;
 #endif
     }
 

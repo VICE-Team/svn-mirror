@@ -53,10 +53,9 @@ long out_rate;
 long left_gain, right_gain;
 
 
-static int aix_init(const char *param, int *speed,
-		    int *fragsize, int *fragnr, int *channels)
+static int aix_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-    int	st, tmp, i;
+    int st, tmp, i;
 
     /* No stereo capability. */
     *channels = 1;
@@ -64,13 +63,11 @@ static int aix_init(const char *param, int *speed,
     /* open device */
     ev = somGetGlobalEnvironment();
     audio_device = UMSBAUDDeviceNew();
-    rc = UMSAudioDevice_open(audio_device, ev, "/dev/paud0", "PLAY",
-			     UMSAudioDevice_BlockingIO);
-    if (audio_device == NULL)
-    {
-    	fprintf(errfile,"can't create audio device object\nError: %s\n",
-		error_string);
-	return 1;
+    rc = UMSAudioDevice_open(audio_device, ev, "/dev/paud0", "PLAY", UMSAudioDevice_BlockingIO);
+    if (audio_device == NULL) {
+        fprintf(errfile, "can't create audio device object\nError: %s\n",
+                error_string);
+        return 1;
     }
 
     rc = UMSAudioDevice_set_volume(audio_device, ev, 100);
@@ -96,13 +93,12 @@ static int aix_init(const char *param, int *speed,
 
     /* should we use the default? */
     left_gain = right_gain = 100;
-    rc = UMSAudioDevice_enable_output(audio_device, ev, "LINE_OUT",
-				      &left_gain, &right_gain);
+    rc = UMSAudioDevice_enable_output(audio_device, ev, "LINE_OUT", &left_gain, &right_gain);
 
     /* set buffer size */
     tmp = (*fragsize) * (*fragnr) * sizeof(SWORD);
     buffer._maximum = tmp;
-    buffer._buffer  = lib_malloc(tmp);
+    buffer._buffer = lib_malloc(tmp);
     buffer._length = 0;
 
 
@@ -125,14 +121,13 @@ fail:
 
 static int aix_write(SWORD *pbuf, size_t nr)
 {
-    int	total, i, now;
+    int total, i, now;
     long samples_written;
 
-    total = nr*sizeof(SWORD);
+    total = nr * sizeof(SWORD);
     buffer._length = total;
-    memcpy(buffer._buffer,pbuf,total);
-    rc = UMSAudioDevice_write(audio_device, ev, &buffer, total,
-			      &samples_written);
+    memcpy(buffer._buffer, pbuf, total);
+    rc = UMSAudioDevice_write(audio_device, ev, &buffer, total, &samples_written);
     return 0;
 }
 
@@ -141,10 +136,11 @@ static int aix_bufferspace(void)
     int i = -1;
     /* UMSAudioDevice_write_buff_remain returns space in bytes. */
     rc = UMSAudioDevice_write_buff_remain(audio_device, ev, &i);
-    if (i < 0)
-      return -1;
+    if (i < 0) {
+        return -1;
+    }
     /* fprintf(errfile,"Audio Buffer remains: %d\n blocks",i); */
-    return i/sizeof(SWORD);
+    return i / sizeof(SWORD);
 }
 
 static void aix_close(void)

@@ -56,13 +56,14 @@ static char snap_module_name[] = "VDC";
 
 int vdc_snapshot_write_module(snapshot_t *s)
 {
-  snapshot_module_t *m;
+    snapshot_module_t *m;
 
-  m = snapshot_module_create (s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
-  if (m == NULL)
-      return -1;
+    m = snapshot_module_create (s, snap_module_name, SNAP_MAJOR, SNAP_MINOR);
+    if (m == NULL) {
+        return -1;
+    }
 
-  return snapshot_module_close(m);
+    return snapshot_module_close(m);
 
 /*
 fail:
@@ -76,27 +77,28 @@ fail:
 
 int vdc_snapshot_read_module(snapshot_t *s)
 {
-  BYTE major_version, minor_version;
-  snapshot_module_t *m;
+    BYTE major_version, minor_version;
+    snapshot_module_t *m;
 
-  m = snapshot_module_open(s, snap_module_name,
-                           &major_version, &minor_version);
-  if (m == NULL)
-      return -1;
+    m = snapshot_module_open(s, snap_module_name,
+                             &major_version, &minor_version);
+    if (m == NULL) {
+        return -1;
+    }
 
-  if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
-      log_error(vdc.log,
-                "Snapshot module version (%d.%d) newer than %d.%d.",
-                major_version, minor_version,
-                SNAP_MAJOR, SNAP_MINOR);
-      goto fail;
-  }
+    if (major_version > SNAP_MAJOR || minor_version > SNAP_MINOR) {
+        log_error(vdc.log,
+                  "Snapshot module version (%d.%d) newer than %d.%d.",
+                  major_version, minor_version,
+                  SNAP_MAJOR, SNAP_MINOR);
+        goto fail;
+    }
 
-  return 0;
+    return 0;
 
 fail:
-  if (m != NULL)
-      snapshot_module_close(m);
-  return -1;
+    if (m != NULL) {
+        snapshot_module_close(m);
+    }
+    return -1;
 }
-

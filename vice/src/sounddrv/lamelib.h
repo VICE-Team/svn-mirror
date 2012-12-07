@@ -63,10 +63,8 @@ typedef int CDECL (*lame_set_in_samplerate_t)(lame_global_flags *, int);
 typedef int CDECL (*lame_set_quality_t)(lame_global_flags *, int);
 typedef int CDECL (*lame_set_brate_t)(lame_global_flags *, int);
 typedef int CDECL (*lame_init_params_t)(lame_global_flags *);
-typedef int CDECL (*lame_encode_buffer_interleaved_t)(lame_global_flags*,
-                    short int [], int, unsigned char*, int);
-typedef int CDECL (*lame_encode_flush_t)(lame_global_flags *  gfp,
-                    unsigned char*, int);
+typedef int CDECL (*lame_encode_buffer_interleaved_t)(lame_global_flags*, short int [], int, unsigned char*, int);
+typedef int CDECL (*lame_encode_flush_t)(lame_global_flags *  gfp, unsigned char*, int);
 
 struct lamelib_s {
     lame_init_t                             p_lame_init;

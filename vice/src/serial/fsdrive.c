@@ -81,74 +81,74 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
         /*
          * Open Channel
          */
-      case 0x60:
-        if (p->isopen[channel] == 1) {
-            p->isopen[channel] = 2;
-            st = (BYTE)((*(p->openf))(vdrive, NULL, 0, channel, NULL));
-            for (i = 0; i < SerialPtr; i++) {
-                (*(p->putf))(vdrive, ((BYTE)(SerialBuffer[i])), channel);
+        case 0x60:
+            if (p->isopen[channel] == 1) {
+                p->isopen[channel] = 2;
+                st = (BYTE)((*(p->openf))(vdrive, NULL, 0, channel, NULL));
+                for (i = 0; i < SerialPtr; i++) {
+                    (*(p->putf))(vdrive, ((BYTE)(SerialBuffer[i])), channel);
+                }
+                SerialPtr = 0;
             }
-            SerialPtr = 0;
-        }
-        if (p->flushf) {
-            (*(p->flushf))(vdrive, channel);
-        }
-        break;
+            if (p->flushf) {
+                (*(p->flushf))(vdrive, channel);
+            }
+            break;
 
         /*
          * Close File
          */
-      case 0xE0:
-        p->isopen[channel] = 0;
-        st = (BYTE)((*(p->closef))(vdrive, channel));
-        break;
+        case 0xE0:
+            p->isopen[channel] = 0;
+            st = (BYTE)((*(p->closef))(vdrive, channel));
+            break;
 
         /*
          * Open File
          */
-      case 0xF0:
-        if (p->isopen[channel]) {
+        case 0xF0:
+            if (p->isopen[channel]) {
 #ifndef DELAYEDCLOSE
-            if (p->isopen[channel] == 2) {
-                log_warning(fsdrive_log, "Bogus close?");
-                (*(p->closef))(vdrive, channel);
-            }
-            p->isopen[channel] = 2;
-            SerialBuffer[SerialPtr] = 0;
-            st = (BYTE)((*(p->openf))(vdrive, SerialBuffer, SerialPtr,
-                 channel, NULL));
-            SerialPtr = 0;
-
-            if (st) {
-                p->isopen[channel] = 0;
-                (*(p->closef))(vdrive, channel);
-
-                log_error(fsdrive_log, "Cannot open file. Status $%02x.", st);
-            }
-#else
-            if (SerialPtr != 0 || channel == 0x0f) {
-                (*(p->closef))(vdrive, channel);
+                if (p->isopen[channel] == 2) {
+                    log_warning(fsdrive_log, "Bogus close?");
+                    (*(p->closef))(vdrive, channel);
+                }
                 p->isopen[channel] = 2;
                 SerialBuffer[SerialPtr] = 0;
                 st = (BYTE)((*(p->openf))(vdrive, SerialBuffer, SerialPtr,
-                     channel, NULL));
+                                          channel, NULL));
                 SerialPtr = 0;
+
                 if (st) {
                     p->isopen[channel] = 0;
                     (*(p->closef))(vdrive, channel);
 
                     log_error(fsdrive_log, "Cannot open file. Status $%02x.", st);
                 }
-            }
-#endif
-        }
-        if (p->flushf) {
-            (*(p->flushf))(vdrive, channel);
-        }
-        break;
+#else
+                if (SerialPtr != 0 || channel == 0x0f) {
+                    (*(p->closef))(vdrive, channel);
+                    p->isopen[channel] = 2;
+                    SerialBuffer[SerialPtr] = 0;
+                    st = (BYTE)((*(p->openf))(vdrive, SerialBuffer, SerialPtr,
+                                              channel, NULL));
+                    SerialPtr = 0;
+                    if (st) {
+                        p->isopen[channel] = 0;
+                        (*(p->closef))(vdrive, channel);
 
-      default:
-        log_error(fsdrive_log, "Unknown command %02X.", secondary & 0xff);
+                        log_error(fsdrive_log, "Cannot open file. Status $%02x.", st);
+                    }
+                }
+#endif
+            }
+            if (p->flushf) {
+                (*(p->flushf))(vdrive, channel);
+            }
+            break;
+
+        default:
+            log_error(fsdrive_log, "Unknown command %02X.", secondary & 0xff);
     }
 
     return st;
@@ -156,7 +156,7 @@ static BYTE serialcommand(unsigned int device, BYTE secondary)
 
 /* ------------------------------------------------------------------------- */
 
-void fsdrive_open(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
+void fsdrive_open(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
     serial_t *p;
 #ifndef DELAYEDCLOSE
@@ -177,7 +177,7 @@ void fsdrive_open(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     p->isopen[secondary & 0x0f] = 1;
 }
 
-void fsdrive_close(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
+void fsdrive_close(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
     BYTE st;
 
@@ -185,8 +185,7 @@ void fsdrive_close(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     st_func(st);
 }
 
-void fsdrive_listentalk(unsigned int device, BYTE secondary,
-                        void(*st_func)(BYTE))
+void fsdrive_listentalk(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
     BYTE st;
     serial_t *p;
@@ -199,17 +198,14 @@ void fsdrive_listentalk(unsigned int device, BYTE secondary,
     if (p->listenf) {
         /* send listen/talk to emulated devices for flushing of
            REL file write buffer. */
-        if ((device & 0x0f) >= 8)
-        {
+        if ((device & 0x0f) >= 8) {
             vdrive = (void *)file_system_get_vdrive(device & 0x0f);
             (*(p->listenf))(vdrive, secondary & 0x0f);
         }
     }
-
 }
 
-void fsdrive_unlisten(unsigned int device, BYTE secondary,
-                      void(*st_func)(BYTE))
+void fsdrive_unlisten(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
     BYTE st;
     serial_t *p;
@@ -225,21 +221,18 @@ void fsdrive_unlisten(unsigned int device, BYTE secondary,
     } else if (p->listenf) {
         /* send unlisten to emulated devices for flushing of
            REL file write buffer. */
-        if ((device & 0x0f) >= 8)
-        {
+        if ((device & 0x0f) >= 8) {
             vdrive = (void *)file_system_get_vdrive(device & 0x0f);
             (*(p->listenf))(vdrive, secondary & 0x0f);
         }
     }
 }
 
-void fsdrive_untalk(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
+void fsdrive_untalk(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
-
 }
 
-void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
-                   void(*st_func)(BYTE))
+void fsdrive_write(unsigned int device, BYTE secondary, BYTE data, void (*st_func)(BYTE))
 {
     BYTE st;
     serial_t *p;
@@ -269,7 +262,7 @@ void fsdrive_write(unsigned int device, BYTE secondary, BYTE data,
     }
 }
 
-BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
+BYTE fsdrive_read(unsigned int device, BYTE secondary, void (*st_func)(BYTE))
 {
     int st = 0, secadr = secondary & 0x0f;
     BYTE data;
@@ -288,7 +281,7 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     /* Get next byte if necessary.  */
     if (!(p->nextok[secadr]))
 #endif
-        st = (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
+    st = (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
 
     /* Move byte from buffer to output.  */
     data = p->nextbyte[secadr];
@@ -297,8 +290,9 @@ BYTE fsdrive_read(unsigned int device, BYTE secondary, void(*st_func)(BYTE))
     /* Fill buffer again.  */
     if (!st) {
         st = (*(p->getf))(vdrive, &(p->nextbyte[secadr]), secadr);
-        if (!st)
+        if (!st) {
             p->nextok[secadr] = 1;
+        }
     }
 #endif
     st_func((BYTE)st);
@@ -330,4 +324,3 @@ void fsdrive_init(void)
 {
     fsdrive_log = log_open("FSDrive");
 }
-

@@ -43,48 +43,54 @@
 
 static int hpux_fd = -1;
 
-static int hpux_init(const char *param, int *speed,
-		     int *fragsize, int *fragnr, int *channels)
+static int hpux_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-    int				st, tmp, i;
+    int st, tmp, i;
 
     /* No stereo capability. */
     *channels = 1;
 
-    if (!param)
-	param = "/dev/audio";
+    if (!param) {
+        param = "/dev/audio";
+    }
     /* open device */
     hpux_fd = open(param, O_WRONLY, 0777);
-    if (hpux_fd < 0)
-	return 1;
+    if (hpux_fd < 0) {
+        return 1;
+    }
     /* set 16bit */
     st = ioctl(hpux_fd, AUDIO_SET_DATA_FORMAT, AUDIO_FORMAT_LINEAR16BIT);
-    if (st < 0)
-	goto fail;
+    if (st < 0) {
+        goto fail;
+    }
     /* set speed */
     st = ioctl(hpux_fd, AUDIO_SET_SAMPLE_RATE, *speed);
-    if (st < 0)
-	goto fail;
+    if (st < 0) {
+        goto fail;
+    }
     /* channels */
     st = ioctl(hpux_fd, AUDIO_SET_CHANNELS, 1);
-    if (st < 0)
-	goto fail;
+    if (st < 0) {
+        goto fail;
+    }
     /* should we use the default? */
     st = ioctl(hpux_fd, AUDIO_SET_OUTPUT, AUDIO_OUT_SPEAKER);
-    if (st < 0)
-	goto fail;
+    if (st < 0) {
+        goto fail;
+    }
     /* set buffer size */
-    tmp = (*fragsize)*(*fragnr)*sizeof(SWORD);
+    tmp = (*fragsize) * (*fragnr) * sizeof(SWORD);
     st = ioctl(hpux_fd, AUDIO_SET_TXBUFSIZE, tmp);
-    if (st < 0)
-    {
-	/* XXX: what are valid buffersizes? */
-	for (i = 1; i < tmp; i *= 2);
-	tmp = i;
-	st = ioctl(hpux_fd, AUDIO_SET_TXBUFSIZE, tmp);
-	if (st < 0)
-	    goto fail;
-	*fragnr = tmp / ((*fragsize)*sizeof(SWORD));
+    if (st < 0) {
+        /* XXX: what are valid buffersizes? */
+        for (i = 1; i < tmp; i *= 2) {
+        }
+        tmp = i;
+        st = ioctl(hpux_fd, AUDIO_SET_TXBUFSIZE, tmp);
+        if (st < 0) {
+            goto fail;
+        }
+        *fragnr = tmp / ((*fragsize) * sizeof(SWORD));
     }
     return 0;
 fail:
@@ -95,26 +101,27 @@ fail:
 
 static int hpux_write(SWORD *pbuf, size_t nr)
 {
-    int			total, i, now;
-    total = nr*sizeof(SWORD);
-    for (i = 0; i < total; i += now)
-    {
-	now = write(hpux_fd, (char *)pbuf + i, total - i);
-	if (now <= 0)
-	    return 1;
+    int total, i, now;
+    total = nr * sizeof(SWORD);
+    for (i = 0; i < total; i += now) {
+        now = write(hpux_fd, (char *)pbuf + i, total - i);
+        if (now <= 0) {
+            return 1;
+        }
     }
     return 0;
 }
 
 static int hpux_bufferspace(void)
 {
-    int				st;
-    struct audio_status		ast;
+    int st;
+    struct audio_status ast;
     /* ioctl(fd, AUDIO_GET_STATUS, &ast) yields space in bytes
        in ast.transmit_buffer_count. */
     st = ioctl(hpux_fd, AUDIO_GET_STATUS, &ast);
-    if (st < 0)
-	return -1;
+    if (st < 0) {
+        return -1;
+    }
     return ast.transmit_buffer_count / sizeof(SWORD);
 }
 

@@ -63,8 +63,9 @@ int serial_init(const trap_t *trap_list)
     serial_traps = trap_list;
     serial_install_traps();
 
-    if (printer_serial_late_init() < 0)
+    if (printer_serial_late_init() < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -73,8 +74,9 @@ void serial_shutdown(void)
 {
     unsigned int unit;
 
-    for (unit = 0; unit < SERIAL_MAXDEVICES; unit++)
+    for (unit = 0; unit < SERIAL_MAXDEVICES; unit++) {
         machine_bus_device_detach(unit);
+    }
 }
 
 int serial_install_traps(void)
@@ -82,8 +84,9 @@ int serial_install_traps(void)
     if (!traps_installed && serial_traps != NULL) {
         const trap_t *p;
 
-        for (p = serial_traps; p->func != NULL; p++)
+        for (p = serial_traps; p->func != NULL; p++) {
             traps_add(p);
+        }
         traps_installed = 1;
     }
     return 0;
@@ -94,10 +97,10 @@ int serial_remove_traps(void)
     if (traps_installed && serial_traps != NULL) {
         const trap_t *p;
 
-        for (p = serial_traps; p->func != NULL; p++)
+        for (p = serial_traps; p->func != NULL; p++) {
             traps_remove(p);
+        }
         traps_installed = 0;
     }
     return 0;
 }
-

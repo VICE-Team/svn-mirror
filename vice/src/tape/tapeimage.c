@@ -43,12 +43,12 @@ int tape_image_close(tape_image_t *tape_image)
     int retval = 0;
 
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        retval = t64_close((t64_t *)tape_image->data);
-        break;
-      case TAPE_TYPE_TAP:
-        retval = tap_close((tap_t *)tape_image->data);
-        break;
+        case TAPE_TYPE_T64:
+            retval = t64_close((t64_t *)tape_image->data);
+            break;
+        case TAPE_TYPE_TAP:
+            retval = tap_close((tap_t *)tape_image->data);
+            break;
     }
 
     lib_free(tape_image->name);
@@ -92,12 +92,12 @@ int tape_image_create(const char *name, unsigned int type)
 void tape_get_header(tape_image_t *tape_image, BYTE *name)
 {
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        t64_get_header((t64_t *)tape_image->data, name);
-        break;
-      case TAPE_TYPE_TAP:
-        tap_get_header((tap_t *)tape_image->data, name);
-        break;
+        case TAPE_TYPE_T64:
+            t64_get_header((t64_t *)tape_image->data, name);
+            break;
+        case TAPE_TYPE_TAP:
+            tap_get_header((tap_t *)tape_image->data, name);
+            break;
     }
 }
 
@@ -108,30 +108,30 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
     memset(rec.name, 0, 17);
 
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        {
-            t64_file_record_t *t64_rec;
+        case TAPE_TYPE_T64:
+            {
+                t64_file_record_t *t64_rec;
 
-            t64_rec = t64_get_current_file_record((t64_t *)tape_image->data);
-            memcpy(rec.name, t64_rec->cbm_name, 16);
-            rec.type = (t64_rec->entry_type == T64_FILE_RECORD_FREE) ? 0 : 1;
-            rec.encoding = TAPE_ENCODING_NONE;
-            rec.start_addr = t64_rec->start_addr;
-            rec.end_addr = t64_rec->end_addr;
-            break;
-        }
-      case TAPE_TYPE_TAP:
-        {
-            tape_file_record_t *tape_rec;
+                t64_rec = t64_get_current_file_record((t64_t *)tape_image->data);
+                memcpy(rec.name, t64_rec->cbm_name, 16);
+                rec.type = (t64_rec->entry_type == T64_FILE_RECORD_FREE) ? 0 : 1;
+                rec.encoding = TAPE_ENCODING_NONE;
+                rec.start_addr = t64_rec->start_addr;
+                rec.end_addr = t64_rec->end_addr;
+                break;
+            }
+        case TAPE_TYPE_TAP:
+            {
+                tape_file_record_t *tape_rec;
 
-            tape_rec = tap_get_current_file_record((tap_t *)tape_image->data);
-            memcpy(rec.name, tape_rec->name, 16);
-            rec.type = tape_rec->type;
-            rec.encoding = tape_rec->encoding;
-            rec.start_addr = tape_rec->start_addr;
-            rec.end_addr = tape_rec->end_addr;
-            break;
-        }
+                tape_rec = tap_get_current_file_record((tap_t *)tape_image->data);
+                memcpy(rec.name, tape_rec->name, 16);
+                rec.type = tape_rec->type;
+                rec.encoding = tape_rec->encoding;
+                rec.start_addr = tape_rec->start_addr;
+                rec.end_addr = tape_rec->end_addr;
+                break;
+            }
     }
     return &rec;
 }
@@ -139,10 +139,10 @@ tape_file_record_t *tape_get_current_file_record(tape_image_t *tape_image)
 int tape_seek_start(tape_image_t *tape_image)
 {
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        return t64_seek_start((t64_t *)tape_image->data);
-      case TAPE_TYPE_TAP:
-        return tap_seek_start((tap_t *)tape_image->data);
+        case TAPE_TYPE_T64:
+            return t64_seek_start((t64_t *)tape_image->data);
+        case TAPE_TYPE_TAP:
+            return tap_seek_start((tap_t *)tape_image->data);
     }
     return -1;
 }
@@ -150,10 +150,10 @@ int tape_seek_start(tape_image_t *tape_image)
 int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number)
 {
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        return t64_seek_to_file((t64_t *)tape_image->data, file_number);
-      case TAPE_TYPE_TAP:
-        return tap_seek_to_file((tap_t *)tape_image->data, file_number);
+        case TAPE_TYPE_T64:
+            return t64_seek_to_file((t64_t *)tape_image->data, file_number);
+        case TAPE_TYPE_TAP:
+            return tap_seek_to_file((tap_t *)tape_image->data, file_number);
     }
     return -1;
 }
@@ -161,10 +161,10 @@ int tape_seek_to_file(tape_image_t *tape_image, unsigned int file_number)
 int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
 {
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        return t64_seek_to_next_file((t64_t *)tape_image->data, allow_rewind);
-      case TAPE_TYPE_TAP:
-        return tap_seek_to_next_file((tap_t *)tape_image->data, allow_rewind);
+        case TAPE_TYPE_T64:
+            return t64_seek_to_next_file((t64_t *)tape_image->data, allow_rewind);
+        case TAPE_TYPE_TAP:
+            return tap_seek_to_next_file((tap_t *)tape_image->data, allow_rewind);
     }
     return -1;
 }
@@ -172,10 +172,10 @@ int tape_seek_to_next_file(tape_image_t *tape_image, unsigned int allow_rewind)
 int tape_read(tape_image_t *tape_image, BYTE *buf, size_t size)
 {
     switch (tape_image->type) {
-      case TAPE_TYPE_T64:
-        return t64_read((t64_t *)tape_image->data, buf, size);
-      case TAPE_TYPE_TAP:
-        return tap_read((tap_t *)tape_image->data, buf, size);
+        case TAPE_TYPE_T64:
+            return t64_read((t64_t *)tape_image->data, buf, size);
+        case TAPE_TYPE_TAP:
+            return tap_read((tap_t *)tape_image->data, buf, size);
     }
     return -1;
 }
@@ -185,4 +185,3 @@ int tape_read(tape_image_t *tape_image, BYTE *buf, size_t size)
 void tape_image_init(void)
 {
 }
-

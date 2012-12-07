@@ -110,7 +110,7 @@ static int set_sid_engine(int set_engine, void *param)
         && engine != SID_ENGINE_PARSID_PORT2
         && engine != SID_ENGINE_PARSID_PORT3
 #endif
-    ) {
+        ) {
         return -1;
     }
 
@@ -399,15 +399,15 @@ static sid_engine_model_t sid_engine_models_parsid[] = {
 
 #ifdef HAVE_RESID_FP
 static sid_engine_model_t sid_engine_models_resid_fp[] = {
-    { "6581R3 4885 (ReSID-fp)",  SID_RESIDFP_6581R3_4885 },
+    { "6581R3 4885 (ReSID-fp)", SID_RESIDFP_6581R3_4885 },
     { "6581R3 0486S (ReSID-fp)", SID_RESIDFP_6581R3_0486S },
-    { "6581R3 3984 (ReSID-fp)",  SID_RESIDFP_6581R3_3984 },
+    { "6581R3 3984 (ReSID-fp)", SID_RESIDFP_6581R3_3984 },
     { "6581R4AR 3789 (ReSID-fp)", SID_RESIDFP_6581R4AR_3789 },
-    { "6581R3 4485 (ReSID-fp)",  SID_RESIDFP_6581R3_4485 },
+    { "6581R3 4485 (ReSID-fp)", SID_RESIDFP_6581R3_4485 },
     { "6581R4 1986S (ReSID-fp)", SID_RESIDFP_6581R4_1986S },
-    { "8580R5 3691 (ReSID-fp)",  SID_RESIDFP_8580R5_3691 },
+    { "8580R5 3691 (ReSID-fp)", SID_RESIDFP_8580R5_3691 },
     { "8580R5 3691 + digi boost (ReSID-fp)", SID_RESIDFP_8580R5_3691D },
-    { "8580R5 1489 (ReSID-fp)",  SID_RESIDFP_8580R5_1489 },
+    { "8580R5 1489 (ReSID-fp)", SID_RESIDFP_8580R5_1489 },
     { "8580R5 1489 + digi boost (ReSID-fp)", SID_RESIDFP_8580R5_1489D, },
     { NULL, -1 }
 };
@@ -420,7 +420,6 @@ static void add_sid_engine_models(sid_engine_model_t *sid_engine_models)
     while (sid_engine_models[i].name) {
         sid_engine_model_list[num_sid_engine_models++] = &sid_engine_models[i++];
     }
-
 }
 
 sid_engine_model_t **sid_get_engine_model_list(void)

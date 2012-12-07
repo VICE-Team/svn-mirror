@@ -101,16 +101,18 @@ static int allegro_init_sound(const char *param, int *speed,
     /* No stereo capability. */
     *channels = 1;
 
-    if (allegro_startup(*speed) < 0)
+    if (allegro_startup(*speed) < 0) {
         return 1;
+    }
 
     fragment_size = *fragsize * sizeof(SWORD);
 
     buffer_len = fragment_size * *fragnr;
     buffer = create_sample(16, 0, *speed, buffer_len / sizeof(SWORD));
 
-    for (i = 0; i < buffer_len / 2; i++)
+    for (i = 0; i < buffer_len / 2; i++) {
         *((WORD *)buffer->data + i) = 0x8000;
+    }
 
     voice = allocate_voice(buffer);
     if (voice < 0) {
@@ -159,41 +161,46 @@ static int allegro_write(SWORD *pbuf, size_t nr)
                 unsigned int pos2 = pos + fragment_size;
 
                 if (pos2 < buffer_len) {
-                    if (buffer_offset >= pos2 || write_end < pos)
+                    if (buffer_offset >= pos2 || write_end < pos) {
                         break;
+                    }
                 } else {
                     pos2 -= buffer_len;
-                    if (write_end < pos && buffer_offset >= pos2)
+                    if (write_end < pos && buffer_offset >= pos2) {
                         break;
+                    }
                 }
             }
         }
 
         /* Write fragment.  */
-	{
-	    unsigned int j;
-	    WORD *p = (WORD *) (buffer->data + buffer_offset);
+        {
+            unsigned int j;
+            WORD *p = (WORD *)(buffer->data + buffer_offset);
 
             /* XXX: Maybe the SID engine could already produce samples in
                unsigned format as we need them here?  */
-	    for (j = 0; j < fragment_size / sizeof(SWORD); j++)
-	        p[j] = pbuf[j] + 0x8000;
-	}
+            for (j = 0; j < fragment_size / sizeof(SWORD); j++) {
+                p[j] = pbuf[j] + 0x8000;
+            }
+        }
 
-	buffer_offset += fragment_size;
-        if (buffer_offset >= buffer_len)
+        buffer_offset += fragment_size;
+        if (buffer_offset >= buffer_len) {
             buffer_offset = 0;
+        }
 
-	if (been_suspended) {
-	    been_suspended = 0;
-	    voice_set_position(voice, 0);
-	    voice_start(voice);
-	}
+        if (been_suspended) {
+            been_suspended = 0;
+            voice_set_position(voice, 0);
+            voice_start(voice);
+        }
     }
 
     written_samples += nr;
-    if (written_samples > buffer_len)
+    if (written_samples > buffer_len) {
         written_samples = buffer_len;
+    }
 
     return 0;
 }
@@ -205,15 +212,17 @@ static int allegro_bufferspace(void)
     /* voice_get_position returns current position in samples. */
     pos = voice_get_position(voice) * sizeof(SWORD);
     ret = buffer_offset - pos;
-    if (ret < 0)
+    if (ret < 0) {
         ret += buffer_len;
+    }
 
     ret /= sizeof(SWORD);
 
-    if (ret > (int)written_samples)
+    if (ret > (int)written_samples) {
         ret = written_samples;
+    }
 
-    return buffer_len/sizeof(SWORD) - ret;
+    return buffer_len / sizeof(SWORD) - ret;
 }
 
 static void allegro_close(void)

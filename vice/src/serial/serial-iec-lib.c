@@ -71,8 +71,9 @@ int serial_iec_lib_read_sector(unsigned int unit, unsigned int track,
     serial_iec_open(unit, 2, "#", (unsigned int)strlen("#"));
     serial_iec_open(unit, 15, command, (unsigned int)strlen(command));
 
-    for (i = 0; i < 256; i++)
+    for (i = 0; i < 256; i++) {
         serial_iec_read(unit, 2, &buf[i]);
+    }
 
     serial_iec_close(unit, 15);
     serial_iec_close(unit, 2);
@@ -87,4 +88,3 @@ int serial_iec_lib_write_sector(unsigned int unit, unsigned int track,
 {
     return 0;
 }
-

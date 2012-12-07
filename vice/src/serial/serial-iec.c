@@ -112,4 +112,3 @@ int serial_iec_flush(unsigned int unit, unsigned int secondary)
 {
     return 0;
 }
-

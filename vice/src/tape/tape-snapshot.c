@@ -76,8 +76,9 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
 
     m = snapshot_module_create(s, "TAPIMAGE", TAPIMAGE_SNAP_MAJOR,
                                TAPIMAGE_SNAP_MINOR);
-    if (m == NULL)
-       return -1;
+    if (m == NULL) {
+        return -1;
+    }
 
     /* get the file descriptor */
     ftap = ((tap_t*)tape_image_dev1->data)->fd;
@@ -121,8 +122,9 @@ static int tape_snapshot_write_tapimage_module(snapshot_t *s)
     /* restore position */
     fseek(ftap, pos, SEEK_SET);
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -139,8 +141,9 @@ static int tape_snapshot_read_tapimage_module(snapshot_t *s)
 
     m = snapshot_module_open(s, "TAPIMAGE",
                              &major_version, &minor_version);
-    if (m == NULL)
+    if (m == NULL) {
         return 0;
+    }
 
     if (major_version > TAPIMAGE_SNAP_MAJOR
         || minor_version > TAPIMAGE_SNAP_MINOR) {
@@ -198,33 +201,35 @@ int tape_snapshot_write_module(snapshot_t *s, int save_image)
     snapshot_module_t *m;
     tap_t *tap;
 
-    if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL)
+    if (tape_image_dev1 == NULL || tape_image_dev1->name == NULL) {
         return 0;
+    }
 
     if (save_image) {
         switch (tape_image_dev1->type) {
             case TAPE_TYPE_T64:
-                if (tape_snapshot_write_t64image_module(s) < 0)
+                if (tape_snapshot_write_t64image_module(s) < 0) {
                     return -1;
+                }
                 break;
             case TAPE_TYPE_TAP:
-                if (tape_snapshot_write_tapimage_module(s) < 0)
+                if (tape_snapshot_write_tapimage_module(s) < 0) {
                     return -1;
+                }
                 break;
             default:
                 break;
         }
     }
 
-    m = snapshot_module_create(s, snap_module_name, TAPE_SNAP_MAJOR,
-                               TAPE_SNAP_MINOR);
-    if (m == NULL)
+    m = snapshot_module_create(s, snap_module_name, TAPE_SNAP_MAJOR, TAPE_SNAP_MINOR);
+    if (m == NULL) {
         return -1;
+    }
 
     if (0
-        || SMW_B(m, (BYTE)tape_image_dev1->read_only) < 0 
-        || SMW_B(m, (BYTE)tape_image_dev1->type) < 0) 
-    {
+        || SMW_B(m, (BYTE)tape_image_dev1->read_only) < 0
+        || SMW_B(m, (BYTE)tape_image_dev1->type) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -245,8 +250,7 @@ int tape_snapshot_write_module(snapshot_t *s, int save_image)
                 || SMW_DW(m, tap->counter) < 0
                 || SMW_DW(m, tap->mode) < 0
                 || SMW_DW(m, tap->read_only) < 0
-                || SMW_DW(m, tap->has_changed) < 0)
-            {
+                || SMW_DW(m, tap->has_changed) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
@@ -256,11 +260,13 @@ int tape_snapshot_write_module(snapshot_t *s, int save_image)
             break;
     }
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         return -1;
+    }
 
-    if (datasette_write_snapshot(s) < 0)
+    if (datasette_write_snapshot(s) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -277,8 +283,9 @@ int tape_snapshot_read_module(snapshot_t *s)
     tap_t *tap;
 
     if (tape_snapshot_read_tapimage_module(s) < 0
-        || tape_snapshot_read_t64image_module(s) < 0)
+        || tape_snapshot_read_t64image_module(s) < 0) {
         return -1;
+    }
 
 
     m = snapshot_module_open(s, snap_module_name,
@@ -291,9 +298,8 @@ int tape_snapshot_read_module(snapshot_t *s)
     }
 
     if (0
-        || SMR_B_INT(m, (int *)&tape_image_dev1->read_only) < 0 
-        || SMR_B_INT(m, (int *)&snap_type) < 0) 
-    {
+        || SMR_B_INT(m, (int *)&tape_image_dev1->read_only) < 0
+        || SMR_B_INT(m, (int *)&snap_type) < 0) {
         snapshot_module_close(m);
         return -1;
     }
@@ -301,7 +307,7 @@ int tape_snapshot_read_module(snapshot_t *s)
     if (snap_type != tape_image_dev1->type) {
         /* attached image type is not correct */
         log_error(tape_snapshot_log,
-            "No tape image attached or type not correct.");
+                  "No tape image attached or type not correct.");
         snapshot_module_close(m);
         return -1;
     }
@@ -322,8 +328,7 @@ int tape_snapshot_read_module(snapshot_t *s)
                 || SMR_DW(m, (DWORD*)&tap->counter) < 0
                 || SMR_DW(m, (DWORD*)&tap->mode) < 0
                 || SMR_DW(m, (DWORD*)&tap->read_only) < 0
-                || SMR_DW(m, (DWORD*)&tap->has_changed) < 0)
-            {
+                || SMR_DW(m, (DWORD*)&tap->has_changed) < 0) {
                 snapshot_module_close(m);
                 return -1;
             }
@@ -335,9 +340,9 @@ int tape_snapshot_read_module(snapshot_t *s)
 
     snapshot_module_close(m);
 
-    if (datasette_read_snapshot(s) < 0)
+    if (datasette_read_snapshot(s) < 0) {
         return -1;
+    }
 
     return 0;
 }
-

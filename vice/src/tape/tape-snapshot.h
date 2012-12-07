@@ -33,4 +33,3 @@ extern int tape_snapshot_write_module(struct snapshot_s *s, int save_image);
 extern int tape_snapshot_read_module(struct snapshot_s *s);
 
 #endif
-

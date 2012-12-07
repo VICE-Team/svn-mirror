@@ -207,7 +207,7 @@ raster_t *vdc_init(void)
     vdc.initialized = 0;
 
 #if defined(GP2X) || defined(WIZ)
-    vicii_setup_delay=1;
+    vicii_setup_delay = 1;
 #endif
 
     vdc.log = log_open("VDC");
@@ -261,13 +261,11 @@ static void vdc_update_geometry(void)
                 screen_ypix
                 screen_text_cols
                 hsync_shift
-                border_width    */    
-
+                border_width    */
     /* Leave this fixed so the window isn't getting constantly resized */
     vdc.screen_height = VDC_SCREEN_HEIGHT;
 
-    vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE,
-                              vdc.screen_height - 1);
+    vdc.last_displayed_line = MIN(VDC_LAST_DISPLAYED_LINE, vdc.screen_height - 1);
 
     /* TODO get rid of this if/when it we don't need it anymore..  */
 /*     printf("BH:%1i 0:%02X 1:%02X 2:%02X 3:%02X 4:%02X 5:%02X 6:%02X 7:%02X 9:%02X 22:%02X 24:%02X 25:%02X 26:%02X\n",
@@ -288,8 +286,9 @@ static void vdc_update_geometry(void)
 
     vdc.hsync_shift = 80 + (102 - vdc.regs[2]) * 8;
 
-    if ((VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8 < vdc.hsync_shift)
+    if ((VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8 < vdc.hsync_shift) {
         vdc.hsync_shift = (VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8;
+    }
 
     vdc.border_width = VDC_SCREEN_BORDERWIDTH + vdc.hsync_shift;
 
@@ -300,10 +299,11 @@ static void vdc_update_geometry(void)
 /* Reset the VDC chip */
 void vdc_reset(void)
 {
-    if (vdc.initialized)
+    if (vdc.initialized) {
         raster_reset(&vdc.raster);
+    }
 
-	vdc.frame_counter = 0;
+    vdc.frame_counter = 0;
     vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     vdc.xsmooth = 0;
     vdc.regs[0] = 126;
@@ -388,8 +388,9 @@ void vdc_update_memory_ptrs(unsigned int cycle)
 static void vdc_increment_memory_pointer(void)
 {
     vdc.mem_counter_inc = vdc.screen_text_cols;
-    if (vdc.raster.ycounter >= vdc.raster_ycounter_max)
+    if (vdc.raster.ycounter >= vdc.raster_ycounter_max) {
         vdc.mem_counter += vdc.mem_counter_inc + vdc.regs[27];
+    }
 
     vdc.raster.ycounter = (vdc.raster.ycounter + 1)
                           % (vdc.raster_ycounter_max + 1);
@@ -402,8 +403,9 @@ static void vdc_set_video_mode(void)
     vdc.raster.video_mode = (vdc.regs[25] & 0x80)
                             ? VDC_BITMAP_MODE : VDC_TEXT_MODE;
 
-    if (vdc.raster.ycounter > (unsigned int)(vdc.regs[9] & 0x1f))
+    if (vdc.raster.ycounter > (unsigned int)(vdc.regs[9] & 0x1f)) {
         vdc.raster.video_mode = VDC_IDLE_MODE;
+    }
 }
 
 
@@ -439,10 +441,10 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
            sync pulse [7] in relation to the total height of the screen [4]
            and the width of the sync pulse [3] */
         calculated_border_height = (vdc.regs[4] + 1 - vdc.regs[7])  /* # of rows from sync pulse */
-                                    * ((vdc.regs[9] & 0x1f) + 1)    /* height of each row (R9) */
-                                    - (vdc.regs[3] >> 4);           /* vertical sync pulse width */
-        
-        if ( calculated_border_height >= 0 ) {
+                                   * ((vdc.regs[9] & 0x1f) + 1)     /* height of each row (R9) */
+                                   - (vdc.regs[3] >> 4);            /* vertical sync pulse width */
+
+        if (calculated_border_height >= 0) {
             vdc.border_height = calculated_border_height;
         } else {
             vdc.border_height = 0;
@@ -452,7 +454,7 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
         screen_ystart = vdc.border_height + (((vdc.regs[9] & 0x1f) - (vdc.regs[24] & 0x1f)) & 0x1f);  /* - R24 is vertical smooth scroll, which interacts with the screen & R9 like this based on experimentation. */
         vdc.border_height = vdc.border_height + (vdc.regs[9] & 0x1f);
         /* fix to catch the end of the display for the bitmap/character memory pointers */
-        if ((vdc.border_height + vdc.screen_ypix + 1) > vdc.last_displayed_line ) {
+        if ((vdc.border_height + vdc.screen_ypix + 1) > vdc.last_displayed_line) {
             vdc.screen_ypix = vdc.last_displayed_line - vdc.border_height - 1;
         }
         vdc.raster.display_ystart = vdc.border_height;
@@ -500,9 +502,8 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
 
     /* If in_idle_state then we are not drawing anything on the current raster line */
     in_idle_state = (vdc.raster.current_line < vdc.border_height)
-                    || vdc.raster.current_line < screen_ystart            
-                    || (vdc.raster.current_line >=
-                    (vdc.border_height + vdc.screen_ypix));
+                    || vdc.raster.current_line < screen_ystart
+                    || (vdc.raster.current_line >= (vdc.border_height + vdc.screen_ypix));
 
     if (!in_idle_state) {
         vdc_set_video_mode();
@@ -514,11 +515,11 @@ static void vdc_raster_draw_alarm_handler(CLOCK offset, void *data)
     raster_line_emulate(&vdc.raster);
 
 #ifdef __MSDOS__
-    if (vdc.raster.canvas->viewport->update_canvas)
-        canvas_set_border_color(vdc.raster.canvas,
-                                vdc.raster.border_color);
+    if (vdc.raster.canvas->viewport->update_canvas) {
+        canvas_set_border_color(vdc.raster.canvas, vdc.raster.border_color);
+    }
 #endif
-    
+
     /* see if we still should be drawing things - if we haven't drawn more than regs[6] rows since the top border */
     if (!in_idle_state) {
         vdc.row_counter_y--;

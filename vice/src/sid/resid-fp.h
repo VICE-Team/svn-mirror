@@ -32,4 +32,3 @@
 extern sid_engine_t residfp_hooks;
 
 #endif
-

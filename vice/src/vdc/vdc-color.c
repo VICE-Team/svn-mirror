@@ -77,7 +77,7 @@
 
 /* the VDC palette converted to yuv space */
 
-static video_cbm_color_t vdc_colors[VDC_NUM_COLORS]=
+static video_cbm_color_t vdc_colors[VDC_NUM_COLORS] =
 {                                                  /*  r g b        y      u      v     sat  hue */
     { VDC_LUMA_0,  ANGLE_BLK, -0, "Black"       }, /* 000000 ->   0.0%   0.0%   0.0%   0.0%      */
     { VDC_LUMA_1,  ANGLE_BLK,  0, "Medium Gray" }, /* 555555 ->  33.3%   0.0%   0.0%   0.0%      */
@@ -110,4 +110,3 @@ int vdc_color_update_palette(struct video_canvas_s *canvas)
     video_color_palette_internal(canvas, &vdc_palette);
     return 0;
 }
-

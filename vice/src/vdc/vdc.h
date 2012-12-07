@@ -56,4 +56,3 @@ extern void vdc_set_canvas_refresh(int enable);
 extern void vdc_shutdown(void);
 
 #endif
-

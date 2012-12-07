@@ -33,67 +33,63 @@
 #include "archdep.h"
 #include "log.h"
 
-static FILE *iff_fd=NULL;
-static int samples=0;
-static int stereo=0;
+static FILE *iff_fd = NULL;
+static int samples = 0;
+static int stereo = 0;
 
 static int iff_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-  /* IFF/8SVX header. */
-  BYTE mono_header[48] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\000BODYssss";
-  BYTE stereo_header[60] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\0CHAN\0\0\0\004\0\0\0\006BODYssss";
+    /* IFF/8SVX header. */
+    BYTE mono_header[48] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\000BODYssss";
+    BYTE stereo_header[60] = "FORMssss8SVXVHDR\0\0\0\024oooo\0\0\0\0\0\0\0\0rr\001\0\0\001\0\0CHAN\0\0\0\004\0\0\0\006BODYssss";
 
-  WORD sample_rate = (WORD)*speed;
+    WORD sample_rate = (WORD)*speed;
 
-  iff_fd=fopen(param ? param : "vicesnd.iff", MODE_WRITE);
-  if (!iff_fd)
-    return 1;
-
-  /* Reset number of samples. */
-  samples=0;
-
-  /* Initialize header. */
-  if (*channels==2)
-  {
-    stereo=1;
-    stereo_header[32]=(BYTE)((sample_rate >> 8) & 0xff);
-    stereo_header[33]=(BYTE)(sample_rate & 0xff);
-    if (fwrite(stereo_header, 1, 60, iff_fd)!=60)
-    {
-      fclose(iff_fd);
-      return 1;
+    iff_fd = fopen(param ? param : "vicesnd.iff", MODE_WRITE);
+    if (!iff_fd) {
+        return 1;
     }
-  }
-  else
-  {
-    stereo=0;
-    mono_header[32]=(BYTE)((sample_rate >> 8) & 0xff);
-    mono_header[33]=(BYTE)(sample_rate & 0xff);
-    if (fwrite(mono_header, 1, 48, iff_fd)!=48)
-    {
-      fclose(iff_fd);
-      return 1;
+
+    /* Reset number of samples. */
+    samples = 0;
+
+    /* Initialize header. */
+    if (*channels == 2) {
+        stereo = 1;
+        stereo_header[32] = (BYTE)((sample_rate >> 8) & 0xff);
+        stereo_header[33] = (BYTE)(sample_rate & 0xff);
+        if (fwrite(stereo_header, 1, 60, iff_fd) != 60) {
+            fclose(iff_fd);
+            return 1;
+        }
+    } else {
+        stereo = 0;
+        mono_header[32] = (BYTE)((sample_rate >> 8) & 0xff);
+        mono_header[33] = (BYTE)(sample_rate & 0xff);
+        if (fwrite(mono_header, 1, 48, iff_fd) != 48) {
+            fclose(iff_fd);
+            return 1;
+        }
     }
-  }
-  return 0;
+    return 0;
 }
 
 static int iff_write(SWORD *pbuf, size_t nr)
 {
-  BYTE sample[1];
-  unsigned int i;
+    BYTE sample[1];
+    unsigned int i;
 
-  for (i=0; i<nr; i++)
-  {
-    sample[0]=(BYTE)((WORD)pbuf[i] >> 8);
-    if (fwrite(sample, 1, 1, iff_fd)!=1)
-	return 1;
-  }
+    for (i = 0; i < nr; i++) {
+        sample[0] = (BYTE)((WORD)pbuf[i] >> 8);
+        if (fwrite(sample, 1, 1, iff_fd) != 1) {
+            return 1;
+        }
+    }
 
-  /* Accumulate number of samples. */
-  samples+=(int)nr;
+    /* Accumulate number of samples. */
+    samples += (int)nr;
 
-  return 0;
+    return 0;
 }
 
 static void iff_close(void)
@@ -114,20 +110,20 @@ static void iff_close(void)
         slen[2] = (BYTE)((samples >> 9) & 0xff);
         slen[3] = (BYTE)((samples >> 1) & 0xff);
 
-        flen[0] = (BYTE)(((samples+52) >> 24) & 0xff);
-        flen[1] = (BYTE)(((samples+52) >> 16) & 0xff);
-        flen[2] = (BYTE)(((samples+52) >> 8) & 0xff);
-        flen[3] = (BYTE)((samples+52) & 0xff);
+        flen[0] = (BYTE)(((samples + 52) >> 24) & 0xff);
+        flen[1] = (BYTE)(((samples + 52) >> 16) & 0xff);
+        flen[2] = (BYTE)(((samples + 52) >> 8) & 0xff);
+        flen[3] = (BYTE)((samples + 52) & 0xff);
     } else {
         slen[0] = blen[0];
         slen[1] = blen[1];
         slen[2] = blen[2];
         slen[3] = blen[3];
 
-        flen[0] = (BYTE)(((samples+40) >> 24) & 0xff);
-        flen[1] = (BYTE)(((samples+40) >> 16) & 0xff);
-        flen[2] = (BYTE)(((samples+40) >> 8) & 0xff);
-        flen[3] = (BYTE)((samples+40) & 0xff);
+        flen[0] = (BYTE)(((samples + 40) >> 24) & 0xff);
+        flen[1] = (BYTE)(((samples + 40) >> 16) & 0xff);
+        flen[2] = (BYTE)(((samples + 40) >> 8) & 0xff);
+        flen[3] = (BYTE)((samples + 40) & 0xff);
     }
     fseek(iff_fd, 4, SEEK_SET);
     if (fwrite(flen, 1, 4, iff_fd) != 4) {

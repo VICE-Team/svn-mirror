@@ -39,71 +39,75 @@ static MIDASstreamHandle midas_stream = NULL;
 static int midas_bufsize = -1;
 static int midas_maxsize = -1;
 
-static int midas_init(const char *param, int *speed,
-		      int *fragsize, int *fragnr, int *channels)
+static int midas_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-    BOOL		st;
+    BOOL st;
 
     /* No stereo capability. */
     *channels = 1;
 
     st = vmidas_startup();
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
     st = MIDASsetOption(MIDAS_OPTION_MIXRATE, *speed);
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
     st = MIDASsetOption(MIDAS_OPTION_MIXING_MODE, MIDAS_MIX_NORMAL_QUALITY);
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
     st = MIDASsetOption(MIDAS_OPTION_OUTPUTMODE, MIDAS_MODE_16BIT_MONO);
-    if (st != TRUE)
-	return 1;
-    st = MIDASsetOption(MIDAS_OPTION_MIXBUFLEN,
-			(*fragsize)*(*fragnr)*sizeof(SWORD));
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
+    st = MIDASsetOption(MIDAS_OPTION_MIXBUFLEN, (*fragsize) * (*fragnr) * sizeof(SWORD));
+    if (st != TRUE) {
+        return 1;
+    }
     st = MIDASsetOption(MIDAS_OPTION_MIXBUFBLOCKS, *fragnr);
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
 #ifdef __MSDOS__
 #if 0
     st = MIDASconfig();
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
 #endif
 #endif
     st = vmidas_init();
-    if (st != TRUE)
-	return 1;
+    if (st != TRUE) {
+        return 1;
+    }
     st = MIDASopenChannels(1);
-    if (st != TRUE)
-    {
-	/* st = MIDASclose(); */
-	return 1;
+    if (st != TRUE) {
+        /* st = MIDASclose(); */
+        return 1;
     }
     midas_stream = MIDASplayStreamPolling(MIDAS_SAMPLE_16BIT_MONO, *speed,
-					  (int)(*fragsize**fragnr*1000));
-    if (!midas_stream)
-    {
-	st = MIDAScloseChannels();
-	/* st = MIDASclose(); */
-	return 1;
+                                          (int)(*fragsize * *fragnr * 1000));
+    if (!midas_stream) {
+        st = MIDAScloseChannels();
+        /* st = MIDASclose(); */
+        return 1;
     }
-    midas_bufsize = (*fragsize)*(*fragnr);
+    midas_bufsize = (*fragsize) * (*fragnr);
     midas_maxsize = midas_bufsize / 2;
     return 0;
 }
 
 static int midas_write(SWORD *pbuf, size_t nr)
 {
-    BOOL		st = 1;
-    unsigned int	ist;
+    BOOL st = 1;
+    unsigned int ist;
 
-    ist = MIDASfeedStreamData(midas_stream, (unsigned char *)pbuf,
-			      nr*sizeof(SWORD), TRUE);
-    if (ist != nr*sizeof(SWORD))
-	return 1;
+    ist = MIDASfeedStreamData(midas_stream, (unsigned char *)pbuf, nr * sizeof(SWORD), TRUE);
+    if (ist != nr * sizeof(SWORD)) {
+        return 1;
+    }
 #ifndef __MSDOS__
     st = MIDASpoll();
 #endif
@@ -112,29 +116,30 @@ static int midas_write(SWORD *pbuf, size_t nr)
 
 static int midas_bufferspace(void)
 {
-    int			nr;
+    int nr;
     /* MIDASgetStreamBytesBuffered returns the number of buffered bytes. */
     nr = midas_bufsize - MIDASgetStreamBytesBuffered(midas_stream);
-    if (nr < 0)
-	nr = 0;
+    if (nr < 0) {
+        nr = 0;
+    }
     nr /= sizeof(SWORD);
-    if (nr > midas_maxsize)
-	midas_maxsize = nr;
-    return (int)((double)nr/midas_maxsize*midas_bufsize);
+    if (nr > midas_maxsize) {
+        midas_maxsize = nr;
+    }
+    return (int)((double)nr / midas_maxsize * midas_bufsize);
 }
 
 static void midas_close(void)
 {
-    BOOL		st;
+    BOOL st;
 
     /* XXX: we might come here from `atexit', so MIDAS might have been shut
        down already.  This is a dirty kludge, we should find a cleaner way to
        do it. */
-    if (vmidas_available())
-    {
-	st = MIDASstopStream(midas_stream);
-	st = MIDAScloseChannels();
-	/* st = MIDASclose(); */
+    if (vmidas_available()) {
+        st = MIDASstopStream(midas_stream);
+        st = MIDAScloseChannels();
+        /* st = MIDASclose(); */
     }
     midas_stream = NULL;
     midas_bufsize = -1;

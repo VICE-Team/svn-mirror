@@ -99,51 +99,51 @@ static void sound_debug(const char *format, ...)
 static char *ds_error(HRESULT result)
 {
     switch (result) {
-      case DSERR_ALLOCATED:
-        return "Already allocated resource";
-      case DSERR_CONTROLUNAVAIL:
-        return "Control not available";
-      case DSERR_INVALIDPARAM:
-        return "Parameter not valid";
-      case DSERR_INVALIDCALL:
-        return "Call not valid";
-      case DSERR_GENERIC:
-        return "Generic error";
-      case DSERR_PRIOLEVELNEEDED:
-        return "Priority level needed";
-      case DSERR_OUTOFMEMORY:
-        return "Out of memory";
-      case DSERR_BADFORMAT:
-        return "Specified WAVE format not supported";
-      case DSERR_UNSUPPORTED:
-        return "Not supported";
-      case DSERR_NODRIVER:
-        return "No sound driver is available for use";
-      case DSERR_ALREADYINITIALIZED:
-        return "Object already initialized";
-      case DSERR_NOAGGREGATION:
-        return "Object does not support aggregation";
-      case DSERR_BUFFERLOST:
-        return "Buffer lost";
-      case DSERR_OTHERAPPHASPRIO:
-        return "Another app has a higher priority level";
-      case DSERR_UNINITIALIZED:
-        return "Object not initialized";
-      case DSERR_NOINTERFACE:
-        return "Requested COM interface is not available";
-      default:
-        return "Whadda hell?!";
+        case DSERR_ALLOCATED:
+            return "Already allocated resource";
+        case DSERR_CONTROLUNAVAIL:
+            return "Control not available";
+        case DSERR_INVALIDPARAM:
+            return "Parameter not valid";
+        case DSERR_INVALIDCALL:
+            return "Call not valid";
+        case DSERR_GENERIC:
+            return "Generic error";
+        case DSERR_PRIOLEVELNEEDED:
+            return "Priority level needed";
+        case DSERR_OUTOFMEMORY:
+            return "Out of memory";
+        case DSERR_BADFORMAT:
+            return "Specified WAVE format not supported";
+        case DSERR_UNSUPPORTED:
+            return "Not supported";
+        case DSERR_NODRIVER:
+            return "No sound driver is available for use";
+        case DSERR_ALREADYINITIALIZED:
+            return "Object already initialized";
+        case DSERR_NOAGGREGATION:
+            return "Object does not support aggregation";
+        case DSERR_BUFFERLOST:
+            return "Buffer lost";
+        case DSERR_OTHERAPPHASPRIO:
+            return "Another app has a higher priority level";
+        case DSERR_UNINITIALIZED:
+            return "Object not initialized";
+        case DSERR_NOINTERFACE:
+            return "Requested COM interface is not available";
+        default:
+            return "Whadda hell?!";
     }
 }
 
 /* ------------------------------------------------------------------------ */
 
 /* DirectSound object.  */
-static LPDIRECTSOUND ds=NULL;
+static LPDIRECTSOUND ds = NULL;
 
 /* Audio buffer.  */
-static LPDIRECTSOUNDBUFFER buffer=NULL;
-static LPDIRECTSOUNDBUFFER pbuffer=NULL;
+static LPDIRECTSOUNDBUFFER buffer = NULL;
+static LPDIRECTSOUNDBUFFER pbuffer = NULL;
 
 /* Buffer offset.  */
 static DWORD buffer_offset;
@@ -165,88 +165,88 @@ static int earlier_bufferspace;
 
 #if 0
 /*  DirectSoundNotify Interface, if present */
-static LPDIRECTSOUNDNOTIFY      notify;
+static LPDIRECTSOUNDNOTIFY notify;
 
 typedef enum {
-        STREAM_NOTIFY,
-        STREAM_TIMER
+    STREAM_NOTIFY,
+    STREAM_TIMER
 } streammode_t;
 
 /*  Flag: streaming mode */
-static streammode_t         streammode=STREAM_TIMER;
+static streammode_t streammode = STREAM_TIMER;
 
 /*  Notify Position Array */
 static DSBPOSITIONNOTIFY    *notifypositions;
 
 /*  Notify Event */
-static HANDLE               notifyevent;
+static HANDLE notifyevent;
 
 /*  End Event */
-static HANDLE               endevent;
+static HANDLE endevent;
 
 /*  Event Table */
-static HANDLE               events[2];
+static HANDLE events[2];
 
 /*  ID of Notify Thread */
-static DWORD                notifyThreadID;
+static DWORD notifyThreadID;
 
 /*  Handle of Notify Thread */
-static HANDLE               notifyThreadHandle;
+static HANDLE notifyThreadHandle;
 
 /*  Pointer for waiting fragment */
-static LPVOID               fragment_pointer;
+static LPVOID fragment_pointer;
 #endif
 
 /*  Last played sample. This will be played in underflow condition */
-static SWORD                last_buffered_sample[2];
+static SWORD last_buffered_sample[2];
 
 /*  Flag: is soundcard a 16bit or 8bit card? */
-static int                  is16bit;
+static int is16bit;
 
 #if 0
 /*  Streaming buffer */
 static SWORD                *stream_buffer;
 
 /*  Offset of first buffered sample */
-static volatile int         stream_buffer_first;
+static volatile int stream_buffer_first;
 
 /*  Offset of last buffered sample */
-static volatile int         stream_buffer_last;
+static volatile int stream_buffer_last;
 
 /*  Offset of first buffered sample in shadow counter */
-static volatile DWORD       stream_buffer_shadow_first;
+static volatile DWORD stream_buffer_shadow_first;
 
 /*  Offset of last buffered sample in shadow counter */
-static volatile DWORD       stream_buffer_shadow_last;
+static volatile DWORD stream_buffer_shadow_last;
 #endif
 
 /*  Size of streaming buffer */
-static int                  stream_buffer_size;
+static int stream_buffer_size;
 
 #if 0
 /*  Timer callback interval */
-static int                  timer_interval;
+static int timer_interval;
 
 /*  ID of timer event */
-static UINT                 timer_id;
+static UINT timer_id;
 #endif
 
 /* ------------------------------------------------------------------------ */
 
 DSBUFFERDESC desc;
 PCMWAVEFORMAT pcmwf;
-DSCAPS  capabilities;
-WAVEFORMATEX    wfex;
+DSCAPS capabilities;
+WAVEFORMATEX wfex;
 
 HWND ui_get_main_hwnd(void);
 
 static void dx_clear(void)
 {
-LPVOID  lpvPtr1;
-DWORD   dwBytes1;
-LPVOID  lpvPtr2;
-DWORD   dwBytes2;
-HRESULT result;
+    LPVOID lpvPtr1;
+    DWORD dwBytes1;
+    LPVOID lpvPtr2;
+    DWORD dwBytes2;
+    HRESULT result;
 
     result = IDirectSoundBuffer_Lock(buffer, 0, buffer_size,
                                      &lpvPtr1, &dwBytes1, &lpvPtr2,
@@ -256,10 +256,14 @@ HRESULT result;
     } else {
         if (is16bit) {
             memset(lpvPtr1, 0, dwBytes1);
-            if (lpvPtr2) memset(lpvPtr2, 0, dwBytes2);
+            if (lpvPtr2) {
+                memset(lpvPtr2, 0, dwBytes2);
+            }
         } else {
             memset(lpvPtr1, 0x80, dwBytes1);
-            if (lpvPtr2) memset(lpvPtr2, 0x80, dwBytes2);
+            if (lpvPtr2) {
+                memset(lpvPtr2, 0x80, dwBytes2);
+            }
         }
         result = IDirectSoundBuffer_Unlock(buffer, lpvPtr1, dwBytes1,
                                            lpvPtr2, dwBytes2);
@@ -269,7 +273,7 @@ HRESULT result;
 static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
                    int *channels)
 {
-HRESULT result;
+    HRESULT result;
 
     DEBUG(("DirectSound driver initialization: speed = %d, fragsize = %d, fragnr = %d, channels = %d\n",
            *speed, *fragsize, *fragnr, *channels));
@@ -281,8 +285,9 @@ HRESULT result;
         CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
         result = CoCreateInstance(&CLSID_DirectSound, NULL, CLSCTX_INPROC_SERVER, &IID_IDirectSound, (PVOID*)&ds);
-        if (result == S_OK)
+        if (result == S_OK) {
             result = IDirectSound_Initialize(ds, NULL);
+        }
 #endif
         if (result != DS_OK) {
             ui_error("Cannot initialize DirectSound:\n%s", ds_error(result));
@@ -308,17 +313,16 @@ HRESULT result;
     } else {
         is16bit = 0;
     }
-    if (!((capabilities.dwFlags & DSCAPS_PRIMARYSTEREO)
-        || (capabilities.dwFlags & DSCAPS_SECONDARYSTEREO))) {
+    if (!((capabilities.dwFlags & DSCAPS_PRIMARYSTEREO) || (capabilities.dwFlags & DSCAPS_SECONDARYSTEREO))) {
         *channels = 1;
     }
     num_of_channels = *channels;
 
-    DEBUG(("16bit flag: %d",is16bit));
-    DEBUG(("Channels: %d",*channels));
-    DEBUG(("Capabilities %08x",capabilities.dwFlags));
-    DEBUG(("Secondary min Hz: %d",capabilities.dwMinSecondarySampleRate));
-    DEBUG(("Secondary max Hz: %d",capabilities.dwMaxSecondarySampleRate));
+    DEBUG(("16bit flag: %d", is16bit));
+    DEBUG(("Channels: %d", *channels));
+    DEBUG(("Capabilities %08x", capabilities.dwFlags));
+    DEBUG(("Secondary min Hz: %d", capabilities.dwMinSecondarySampleRate));
+    DEBUG(("Secondary max Hz: %d", capabilities.dwMaxSecondarySampleRate));
 
     memset(&pcmwf, 0, sizeof(PCMWAVEFORMAT));
     pcmwf.wf.wFormatTag = WAVE_FORMAT_PCM;
@@ -339,7 +343,7 @@ HRESULT result;
     buffer_size = *fragsize * *fragnr * (is16bit ? 2 : 1) * *channels; /* bytes */
     stream_buffer_size = fragment_size * *fragnr * *channels; /* nr of samples */
     buffer_offset = 0; /* bytes */
-    
+
     result = IDirectSound_CreateSoundBuffer(ds, &desc, &pbuffer, NULL);
 
     if (result != DS_OK) {
@@ -352,7 +356,7 @@ HRESULT result;
     desc.dwSize = sizeof(DSBUFFERDESC);
     desc.dwFlags = DSBCAPS_CTRLPOSITIONNOTIFY | DSBCAPS_GETCURRENTPOSITION2
                    | DSBCAPS_CTRLFREQUENCY | DSBCAPS_CTRLPAN
-                   | DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS ;
+                   | DSBCAPS_CTRLVOLUME | DSBCAPS_GLOBALFOCUS;
 
     desc.dwBufferBytes = buffer_size;
     desc.lpwfxFormat = (LPWAVEFORMATEX)&pcmwf;
@@ -371,7 +375,7 @@ HRESULT result;
     wfex.nBlockAlign = (is16bit ? 2 : 1) * *channels;
     wfex.nAvgBytesPerSec = wfex.nSamplesPerSec * wfex.nBlockAlign;
 
-    result=IDirectSoundBuffer_SetFormat(pbuffer, &wfex);
+    result = IDirectSoundBuffer_SetFormat(pbuffer, &wfex);
     if (result != DS_OK) {
         ui_error("Cannot set Output format for primary sound buffer:\n%s",
                  ds_error(result));
@@ -383,8 +387,9 @@ HRESULT result;
     result = IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
     if (result == DSERR_BUFFERLOST) {
         ui_error("Restoring DirectSound buffer.");
-        if ((result = IDirectSoundBuffer_Restore(buffer)) != DS_OK)
+        if ((result = IDirectSoundBuffer_Restore(buffer)) != DS_OK) {
             ui_error("Cannot restore buffer:\n%s", ds_error(result));
+        }
         result = IDirectSoundBuffer_Play(buffer, 0, 0, DSBPLAY_LOOPING);
     }
     if (result != DS_OK) {
@@ -400,8 +405,9 @@ HRESULT result;
 static void dx_close(void)
 {
     /*  Stop buffer play */
-    if (ds == NULL)
+    if (ds == NULL) {
         return;
+    }
 
     IDirectSoundBuffer_Stop(buffer);
 
@@ -422,10 +428,11 @@ static int dx_bufferspace(void)
     /* We should properly distinguish between buffer empty and buffer fill
      * case. However, it's absolutely essential that the state where play and
      * write cursors overlap is read as buffer being filled with data. */
-    if (play_cursor < buffer_offset)
+    if (play_cursor < buffer_offset) {
         free_samples = buffer_size - (buffer_offset - play_cursor);
-    else
+    } else {
         free_samples = play_cursor - buffer_offset;
+    }
 
     DEBUG(("play=%d, ourwrite=%d, free=%d", play_cursor, buffer_offset, free_samples));
 
@@ -479,17 +486,18 @@ static int dx_write(SWORD *pbuf, size_t nr)
 
         /* put data as-is, or convert to 8 bits first */
         if (is16bit) {
-            memcpy(lpvPtr1,pbuf,dwBytes1);
-            if (lpvPtr2)
-                memcpy(lpvPtr2,(BYTE *)pbuf + dwBytes1, dwBytes2);
+            memcpy(lpvPtr1, pbuf, dwBytes1);
+            if (lpvPtr2) {
+                memcpy(lpvPtr2, (BYTE *)pbuf + dwBytes1, dwBytes2);
+            }
             pbuf += fragment_size;
         } else {
             for (i = 0; i < dwBytes1; i++) {
-                ((BYTE *)lpvPtr1)[i]=(*(pbuf++) >> 8) + 0x80;
+                ((BYTE *)lpvPtr1)[i] = (*(pbuf++) >> 8) + 0x80;
             }
             if (lpvPtr2 != NULL) {
                 for (i = 0; i < dwBytes2; i++) {
-                    ((BYTE *)lpvPtr2)[i]=(*(pbuf++) >> 8) + 0x80;
+                    ((BYTE *)lpvPtr2)[i] = (*(pbuf++) >> 8) + 0x80;
                 }
             }
         }
@@ -500,8 +508,9 @@ static int dx_write(SWORD *pbuf, size_t nr)
         buffer_offset += buffer_lock_size;
 
         /* loop */
-        if (buffer_offset == buffer_size)
+        if (buffer_offset == buffer_size) {
             buffer_offset = 0;
+        }
     }
 
     pbuf -= num_of_channels;
@@ -518,11 +527,13 @@ static int dx_suspend(void)
     int i;
     SWORD *p = lib_malloc(stream_buffer_size * sizeof(SWORD));
 
-    if (!p)
+    if (!p) {
         return 0;
+    }
 
-    for (i = 0; i < stream_buffer_size; i ++)
-         p[i] = last_buffered_sample[i % num_of_channels];
+    for (i = 0; i < stream_buffer_size; i++) {
+        p[i] = last_buffered_sample[i % num_of_channels];
+    }
 
     i = dx_write(p, stream_buffer_size);
     lib_free(p);
@@ -550,7 +561,7 @@ static sound_device_t dx_device =
     dx_suspend,
     dx_resume,
     0,
-    2		/* FIXME: should account for mono and stereo devices */
+    2           /* FIXME: should account for mono and stereo devices */
 };
 
 int sound_init_dx_device(void)

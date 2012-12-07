@@ -28,8 +28,7 @@
 #define VICE_VDC_RESOURCES_H
 
 /* VDC resources.  */
-struct vdc_resources_s
-{
+struct vdc_resources_s {
     int vdc_64kb_expansion; /* Flag: VDC memory size.  */
     int stretchy;           /* additional doubling of y size */
 };
@@ -40,4 +39,3 @@ extern vdc_resources_t vdc_resources;
 extern int vdc_resources_init(void);
 
 #endif
-

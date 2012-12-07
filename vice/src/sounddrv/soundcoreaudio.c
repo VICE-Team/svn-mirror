@@ -29,7 +29,7 @@
  * Notation Hints:
  *
  * Mac OS X Audio:
- *  1 Packet = 1 Frame 
+ *  1 Packet = 1 Frame
  *  1 Frame  = 1 or 2 Samples (SWORD)  1:mono SID, 2:stereo SID
  *  1 Slice  = n Frames
  *
@@ -140,10 +140,10 @@ static inline void atomic_decrement(atomic_int_t * addr)
 
 static AudioConverterRef converter = 0;
 
-static OSStatus converter_input(AudioConverterRef inAudioConverter, 
-                                UInt32 * ioNumberDataPackets, 
-                                AudioBufferList * ioData, 
-                                AudioStreamPacketDescription** outDataPacketDescription, 
+static OSStatus converter_input(AudioConverterRef inAudioConverter,
+                                UInt32 * ioNumberDataPackets,
+                                AudioBufferList * ioData,
+                                AudioStreamPacketDescription** outDataPacketDescription,
                                 void * inUserData)
 {
     UInt32 num_frames = *ioNumberDataPackets;
@@ -151,32 +151,28 @@ static OSStatus converter_input(AudioConverterRef inAudioConverter,
     SWORD *buffer;
     if (fragments_in_queue) {
         /* too many -> crop to available in current fragment */
-        if(num_frames > frames_left_in_fragment) {
+        if (num_frames > frames_left_in_fragment) {
             num_frames = frames_left_in_fragment;
         }
 
         /* calc position in sound buffer */
         int sample_offset_in_fragment = frames_in_fragment - frames_left_in_fragment;
-        buffer = soundbuffer 
-            + swords_in_fragment * read_position 
-            + sample_offset_in_fragment * in_channels;
+        buffer = soundbuffer + swords_in_fragment * read_position + sample_offset_in_fragment * in_channels;
 
         /* update the samples left in the current fragment */
         frames_left_in_fragment -= num_frames;
 
         /* fetch next fragment */
-        if(frames_left_in_fragment == 0) {
+        if (frames_left_in_fragment == 0) {
             read_position = (read_position + 1) % fragment_count;
             atomic_decrement(&fragments_in_queue);
             frames_left_in_fragment = frames_in_fragment;
         }
-    }
-    else
-    {
-        if(num_frames > frames_in_fragment) {
+    } else {
+        if (num_frames > frames_in_fragment) {
             num_frames = frames_in_fragment;
         }
-        
+
         /* output silence */
         buffer = silence;
     }
@@ -193,41 +189,36 @@ static int converter_open(AudioStreamBasicDescription *in,
                           AudioStreamBasicDescription *out)
 {
     OSStatus err;
-    
+
     /* need to to sample rate conversion? */
-    if (out->mSampleRate != in->mSampleRate)
-    {
+    if (out->mSampleRate != in->mSampleRate) {
         log_warning(LOG_DEFAULT, "sound (coreaudio_init): sampling rate conversion %dHz->%dHz",
                     (int)in->mSampleRate, (int)out->mSampleRate);
     }
 
     /* create a new audio converter */
     err = AudioConverterNew(in, out, &converter);
-    if (err != noErr)
-    {
+    if (err != noErr) {
         log_error(LOG_DEFAULT,
                   "sound (coreaudio_init): could not create AudioConverter: err=%d", (int)err);
         return -1;
     }
 
     /* duplicate mono stream to all output channels */
-    if (in->mChannelsPerFrame == 1 && out->mChannelsPerFrame > 1)
-    {
+    if (in->mChannelsPerFrame == 1 && out->mChannelsPerFrame > 1) {
         Boolean writable;
         UInt32 size;
         err = AudioConverterGetPropertyInfo(converter, kAudioConverterChannelMap, &size, &writable);
-        if (err == noErr && writable)
-        {
+        if (err == noErr && writable) {
             SInt32 * channel_map = lib_malloc(size);
-            if (channel_map)
-            {
+            if (channel_map) {
                 memset(channel_map, 0, size);
                 AudioConverterSetProperty(converter, kAudioConverterChannelMap, size, channel_map);
                 lib_free(channel_map);
             }
         }
     }
-    
+
     return 0;
 }
 
@@ -236,7 +227,7 @@ static void converter_close(void)
     if (converter) {
         AudioConverterDispose(converter);
         converter = NULL;
-    }    
+    }
 }
 
 /* ----- Audio API before AudioUnits ------------------------------------- */
@@ -265,12 +256,12 @@ static OSStatus audio_render(AudioDeviceID device,
     UInt32 bufferPacketSize = output_data->mBuffers[0].mDataByteSize / out_frame_byte_size;
 
     OSStatus result = AudioConverterFillComplexBuffer(converter,
-                                    converter_input,
-                                    NULL,
-                                    &bufferPacketSize,
-                                    output_data,
-                                    NULL);
-                                    
+                                                      converter_input,
+                                                      NULL,
+                                                      &bufferPacketSize,
+                                                      output_data,
+                                                      NULL);
+
     return result;
 }
 
@@ -279,13 +270,12 @@ static int audio_open(AudioStreamBasicDescription *in)
     OSStatus err;
     UInt32 size;
     AudioStreamBasicDescription out;
-    
+
     /* get default audio device */
     size = sizeof(device);
     err = AudioHardwareGetProperty(kAudioHardwarePropertyDefaultOutputDevice,
                                    &size, (void*)&device);
-    if (err != kAudioHardwareNoError)
-    {
+    if (err != kAudioHardwareNoError) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): Failed to get default output device");
         return -1;
     }
@@ -295,8 +285,7 @@ static int audio_open(AudioStreamBasicDescription *in)
     err = AudioDeviceGetProperty(device, 0, false,
                                  kAudioDevicePropertyStreamFormat,
                                  &size, (void*)&out);
-    if (err != kAudioHardwareNoError)
-    {
+    if (err != kAudioHardwareNoError) {
         log_error(LOG_DEFAULT, "sound (coreaudio_init): stream format not support");
         return -1;
     }
@@ -309,9 +298,8 @@ static int audio_open(AudioStreamBasicDescription *in)
 #else
     err = AudioDeviceAddIOProc( device, audio_render, NULL );
 #endif
-    if (err != kAudioHardwareNoError)
-    {
-    	log_error(LOG_DEFAULT,
+    if (err != kAudioHardwareNoError) {
+        log_error(LOG_DEFAULT,
                   "sound (coreaudio_init): could not add IO proc: err=%d", (int)err);
         return -1;
     }
@@ -334,19 +322,21 @@ static void audio_close(void)
 static int audio_start(void)
 {
     OSStatus err = AudioDeviceStart(device, audio_render);
-    if (err != kAudioHardwareNoError)
+    if (err != kAudioHardwareNoError) {
         return -1;
-    else
-        return 0;    
+    } else {
+        return 0;
+    }
 }
 
 static int audio_stop(void)
 {
     OSStatus err = AudioDeviceStop(device, audio_render);
-    if (err != kAudioHardwareNoError)
+    if (err != kAudioHardwareNoError) {
         return -1;
-    else
-        return 0;    
+    } else {
+        return 0;
+    }
 }
 
 #else /* HAVE_AUDIO_UNIT */
@@ -357,12 +347,12 @@ static int audio_stop(void)
 
 static AudioUnit outputUnit;
 
-static OSStatus	audio_render(void *inRefCon, 
-    AudioUnitRenderActionFlags  *ioActionFlags, 
-    const AudioTimeStamp        *inTimeStamp, 
-    UInt32                      inBusNumber, 
-    UInt32                      inNumberFrames, 
-    AudioBufferList             *ioData)
+static OSStatus audio_render(void *inRefCon,
+                             AudioUnitRenderActionFlags  *ioActionFlags,
+                             const AudioTimeStamp        *inTimeStamp,
+                             UInt32 inBusNumber,
+                             UInt32 inNumberFrames,
+                             AudioBufferList             *ioData)
 {
     UInt32 numFrames = inNumberFrames;
     return AudioConverterFillComplexBuffer(converter,
@@ -386,50 +376,48 @@ static int audio_open(AudioStreamBasicDescription *in)
     desc.componentManufacturer = kAudioUnitManufacturer_Apple;
     desc.componentFlags = 0;
     desc.componentFlagsMask = 0;
-    
+
     Component comp = FindNextComponent(NULL, &desc);
-    if (comp == NULL) { 
-      log_error(LOG_DEFAULT,
-                "sound (coreaudio_init): can't find next component");
-      return -1;
+    if (comp == NULL) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): can't find next component");
+        return -1;
     }
-    
+
     /* open audio component */
     err = OpenAComponent(comp, &outputUnit);
     if (err) {
-      log_error(LOG_DEFAULT,
-                "sound (coreaudio_init): error opening output unit");
-      return -1;
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): error opening output unit");
+        return -1;
     }
 
     /* Set up a callback function to generate output to the output unit */
     AURenderCallbackStruct input;
     input.inputProc = audio_render;
     input.inputProcRefCon = NULL;
-    err = AudioUnitSetProperty(outputUnit, 
-        kAudioUnitProperty_SetRenderCallback, 
-        kAudioUnitScope_Input,
-        0, 
-        &input, 
-        sizeof(input));
+    err = AudioUnitSetProperty(outputUnit,
+                               kAudioUnitProperty_SetRenderCallback,
+                               kAudioUnitScope_Input,
+                               0,
+                               &input,
+                               sizeof(input));
     if (err) {
         log_error(LOG_DEFAULT,
                   "sound (coreaudio_init): error setting render callback");
-        return -1;        
+        return -1;
     }
-    
+
     /* Get output properties */
     size = sizeof(AudioStreamBasicDescription);
     err = AudioUnitGetProperty(outputUnit,
-        kAudioUnitProperty_StreamFormat,
-        kAudioUnitScope_Input,
-        0,
-        &out,
-        &size);
+                               kAudioUnitProperty_StreamFormat,
+                               kAudioUnitScope_Input,
+                               0,
+                               &out,
+                               &size);
     if (err) {
         log_error(LOG_DEFAULT,
                   "sound (coreaudio_init): error setting desired input format");
-        return -1;        
+        return -1;
     }
 
     /* Init unit */
@@ -437,9 +425,9 @@ static int audio_open(AudioStreamBasicDescription *in)
     if (err) {
         log_error(LOG_DEFAULT,
                   "sound (coreaudio_init): error initializing audio unit");
-        return -1;        
+        return -1;
     }
-    
+
     /* open converter */
     return converter_open(in, &out);
 }
@@ -447,36 +435,37 @@ static int audio_open(AudioStreamBasicDescription *in)
 static void audio_close(void)
 {
     OSStatus err;
-   
+
     converter_close();
-   
+
     /* Uninit unit */
     err = AudioUnitUninitialize(outputUnit);
-    if (err) { 
-        log_error(LOG_DEFAULT,
-                  "sound (coreaudio_close): error uninitializing audio unit");
+    if (err) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_close): error uninitializing audio unit");
     }
-    
+
     /* Close component */
     CloseComponent(outputUnit);
 }
 
 static int audio_start(void)
 {
-	OSStatus err = AudioOutputUnitStart(outputUnit);
-    if(err)
+    OSStatus err = AudioOutputUnitStart(outputUnit);
+    if (err) {
         return -1;
-    else
+    } else {
         return 0;
+    }
 }
 
 static int audio_stop(void)
 {
-	OSStatus err = AudioOutputUnitStop(outputUnit);
-    if(err)
+    OSStatus err = AudioOutputUnitStop(outputUnit);
+    if (err) {
         return -1;
-    else
-        return 0;    
+    } else {
+        return 0;
+    }
 }
 
 #endif /* HAVE_AUDIO_UNIT */
@@ -492,13 +481,13 @@ static int coreaudio_init(const char *param, int *speed,
     int result;
 
     /* store fragment parameters */
-    fragment_count     = *fragnr;
+    fragment_count = *fragnr;
     frames_in_fragment = *fragsize;
-    in_channels        = *channels;
+    in_channels = *channels;
 
     /* the size of a fragment in bytes and SWORDs */
     swords_in_fragment = frames_in_fragment * in_channels;
-    bytes_in_fragment  = swords_in_fragment * sizeof(SWORD);
+    bytes_in_fragment = swords_in_fragment * sizeof(SWORD);
 
     /* the size of a sample */
     in_frame_byte_size = sizeof(SWORD) * in_channels;
@@ -524,8 +513,9 @@ static int coreaudio_init(const char *param, int *speed,
 
     /* setup audio device */
     result = audio_open(&in);
-    if(result < 0)
-      return result;
+    if (result < 0) {
+        return result;
+    }
 
     coreaudio_resume();
 
@@ -541,8 +531,7 @@ static int coreaudio_write(SWORD *pbuf, size_t nr)
 
     for (i = 0; i < count; i++)
     {
-        if (fragments_in_queue == fragment_count)
-        {
+        if (fragments_in_queue == fragment_count) {
             log_warning(LOG_DEFAULT, "sound (coreaudio): buffer overrun");
             return -1;
         }
@@ -575,9 +564,8 @@ static void coreaudio_close(void)
 static int coreaudio_suspend(void)
 {
     int result = audio_stop();
-    if(result < 0) {
-        log_error(LOG_DEFAULT,
-                  "sound (coreaudio_init): could not stop audio");
+    if (result < 0) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): could not stop audio");
     }
     return result;
 }
@@ -585,17 +573,16 @@ static int coreaudio_suspend(void)
 static int coreaudio_resume(void)
 {
     int result;
-    
+
     /* reset buffers before resume */
     read_position = 0;
     write_position = 0;
     fragments_in_queue = 0;
     frames_left_in_fragment = frames_in_fragment;
-    
+
     result = audio_start();
-    if(result < 0) {
-        log_error(LOG_DEFAULT,
-                  "sound (coreaudio_init): could not start audio");
+    if (result < 0) {
+        log_error(LOG_DEFAULT, "sound (coreaudio_init): could not start audio");
     }
     return result;
 }

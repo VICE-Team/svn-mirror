@@ -32,4 +32,3 @@
 extern void vdc_draw_init(void);
 
 #endif
-

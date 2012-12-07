@@ -35,53 +35,53 @@ static int num_channels = 1;
 
 static int _ahi_init(const char *param, int *speed, int *fragsize, int *fragnr, int *channels)
 {
-  u32 mode;
+    u32 mode;
 
 /*
   printf("speed: %d, fragsize: %d, fragnr: %d, channels: %d\n", *speed, *fragsize, *fragnr, *channels);
 */
 
-  if (*channels == 1) {
-    mode = AUDIO_M16S;
-  } else {
-    mode = AUDIO_S16S;
-  }
+    if (*channels == 1) {
+        mode = AUDIO_M16S;
+    } else {
+        mode = AUDIO_S16S;
+    }
 
-  num_channels = *channels;
+    num_channels = *channels;
 
-  if (ahi_open(*speed, mode, *fragsize, *fragnr, NULL) != 0) {
-    return 1;
-  }
+    if (ahi_open(*speed, mode, *fragsize, *fragnr, NULL) != 0) {
+        return 1;
+    }
 
-  return 0;
+    return 0;
 }
 
 static int _ahi_write(SWORD *pbuf, size_t nr)
 {
-  nr /= num_channels; /* we want "samples per channel" */
-  ahi_play_samples(pbuf, nr, NOTIME, NOWAIT);
-  return 0;
+    nr /= num_channels; /* we want "samples per channel" */
+    ahi_play_samples(pbuf, nr, NOTIME, NOWAIT);
+    return 0;
 }
 
 static int _ahi_bufferspace(void)
 {
-  return ahi_samples_free();
+    return ahi_samples_free();
 }
 
 static void _ahi_close(void)
 {
-  ahi_close();
+    ahi_close();
 }
 
 static int _ahi_suspend(void)
 {
-  ahi_pause();
-  return 0;
+    ahi_pause();
+    return 0;
 }
 
 static int _ahi_resume(void)
 {
-  return 0;
+    return 0;
 }
 
 static sound_device_t ahi_device =
@@ -103,4 +103,3 @@ int sound_init_ahi_device(void)
 {
     return sound_register_device(&ahi_device);
 }
-
