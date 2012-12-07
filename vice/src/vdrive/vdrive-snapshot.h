@@ -36,4 +36,3 @@ extern int vdrive_snapshot_module_write(struct snapshot_s *s, int start);
 extern int vdrive_snapshot_module_read(struct snapshot_s *s, int start);
 
 #endif
-

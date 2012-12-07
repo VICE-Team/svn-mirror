@@ -45,22 +45,22 @@
 
 int border_set_func(const char *value, void *extra_param)
 {
-   int video;
+    int video;
     resources_get_int("MachineVideoStandard", &video);
 
-   if (strcmp(value, "1") == 0 || strcmp(value, "full") == 0) {
-       vicii_resources.border_mode = VICII_FULL_BORDERS;
-   } else if (strcmp(value, "2") == 0 || strcmp(value, "debug") == 0) {
-       vicii_resources.border_mode = VICII_DEBUG_BORDERS;
-   } else if (strcmp(value, "3") == 0 || strcmp(value, "none") == 0) {
-       vicii_resources.border_mode = VICII_NO_BORDERS;
-   } else {
-       vicii_resources.border_mode = VICII_NORMAL_BORDERS;
-   }
+    if (strcmp(value, "1") == 0 || strcmp(value, "full") == 0) {
+        vicii_resources.border_mode = VICII_FULL_BORDERS;
+    } else if (strcmp(value, "2") == 0 || strcmp(value, "debug") == 0) {
+        vicii_resources.border_mode = VICII_DEBUG_BORDERS;
+    } else if (strcmp(value, "3") == 0 || strcmp(value, "none") == 0) {
+        vicii_resources.border_mode = VICII_NO_BORDERS;
+    } else {
+        vicii_resources.border_mode = VICII_NORMAL_BORDERS;
+    }
 
-   machine_change_timing(video ^ VICII_BORDER_MODE(vicii_resources.border_mode));
+    machine_change_timing(video ^ VICII_BORDER_MODE(vicii_resources.border_mode));
 
-   return 0;
+    return 0;
 }
 
 /* VIC-II command-line options.  */

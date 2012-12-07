@@ -42,4 +42,3 @@ extern int vicii_extended_regs(void);
 extern void viciidtv_update_colorram(void);
 
 #endif
-

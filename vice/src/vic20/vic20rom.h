@@ -38,4 +38,3 @@ extern int vic20rom_kernal_checksum(void);
 extern int vic20rom_basic_checksum(void);
 
 #endif
-

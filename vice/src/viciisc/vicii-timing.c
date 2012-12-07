@@ -46,107 +46,106 @@ void vicii_timing_set(machine_timing_t *machine_timing, int border_mode)
     vicii.last_displayed_line = VICII_NO_BORDER_LAST_DISPLAYED_LINE;
 
     switch (mode) {
-      case MACHINE_SYNC_NTSC:
-        switch (border_mode) {
-          default:
-          case VICII_NORMAL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_NORMAL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE;
-            break;       
-          case VICII_FULL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_FULL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_FULL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_NTSC_FULL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_NTSC_FULL_LAST_DISPLAYED_LINE;
+        case MACHINE_SYNC_NTSC:
+            switch (border_mode) {
+                default:
+                case VICII_NORMAL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_NORMAL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_NORMAL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSC_NORMAL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_FULL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_FULL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_FULL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSC_FULL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSC_FULL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_DEBUG_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_DEBUG_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_DEBUG_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_NO_BORDERS:
+                    break;
+            }
             break;
-          case VICII_DEBUG_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_NTSC_DEBUG_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_NTSC_DEBUG_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_NTSC_DEBUG_LAST_DISPLAYED_LINE;
+        case MACHINE_SYNC_NTSCOLD:
+            switch (border_mode) {
+                default:
+                case VICII_NORMAL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_NORMAL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_NORMAL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_FULL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_FULL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_FULL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSCOLD_FULL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSCOLD_FULL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_DEBUG_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_DEBUG_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_DEBUG_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_NO_BORDERS:
+                    break;
+            }
             break;
-          case VICII_NO_BORDERS:
+        case MACHINE_SYNC_PALN:
+            switch (border_mode) {
+                default:
+                case VICII_NORMAL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PALN_NORMAL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_FULL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PALN_FULL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PALN_FULL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PALN_FULL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PALN_FULL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_DEBUG_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PALN_DEBUG_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_NO_BORDERS:
+                    break;
+            }
             break;
-        }
-        break;
-      case MACHINE_SYNC_NTSCOLD:
-        switch (border_mode) {
-          default:
-          case VICII_NORMAL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_NORMAL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_NORMAL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_NTSCOLD_NORMAL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_NTSCOLD_NORMAL_LAST_DISPLAYED_LINE;
+        case MACHINE_SYNC_PAL:
+        default:
+            switch (border_mode) {
+                default:
+                case VICII_NORMAL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PAL_NORMAL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_FULL_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PAL_FULL_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PAL_FULL_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PAL_FULL_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PAL_FULL_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_DEBUG_BORDERS:
+                    vicii.screen_leftborderwidth = VICII_SCREEN_PAL_DEBUG_LEFTBORDERWIDTH;
+                    vicii.screen_rightborderwidth = VICII_SCREEN_PAL_DEBUG_RIGHTBORDERWIDTH;
+                    vicii.first_displayed_line = VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE;
+                    vicii.last_displayed_line = VICII_PAL_DEBUG_LAST_DISPLAYED_LINE;
+                    break;
+                case VICII_NO_BORDERS:
+                    break;
+            }
             break;
-          case VICII_FULL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_FULL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_FULL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_NTSCOLD_FULL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_NTSCOLD_FULL_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_DEBUG_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_NTSCOLD_DEBUG_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_NTSCOLD_DEBUG_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_NTSCOLD_DEBUG_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_NTSCOLD_DEBUG_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_NO_BORDERS:
-            break;
-        }
-        break;
-      case MACHINE_SYNC_PALN:
-        switch (border_mode) {
-          default:
-          case VICII_NORMAL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_PALN_NORMAL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_PALN_NORMAL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_PALN_NORMAL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_PALN_NORMAL_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_FULL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_PALN_FULL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_PALN_FULL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_PALN_FULL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_PALN_FULL_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_DEBUG_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_PALN_DEBUG_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_PALN_DEBUG_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_PALN_DEBUG_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_PALN_DEBUG_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_NO_BORDERS:
-            break;
-        }
-        break;
-      case MACHINE_SYNC_PAL:
-      default:
-        switch (border_mode) {
-          default:
-          case VICII_NORMAL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_PAL_NORMAL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_PAL_NORMAL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_PAL_NORMAL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_PAL_NORMAL_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_FULL_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_PAL_FULL_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_PAL_FULL_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_PAL_FULL_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_PAL_FULL_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_DEBUG_BORDERS:
-            vicii.screen_leftborderwidth = VICII_SCREEN_PAL_DEBUG_LEFTBORDERWIDTH;
-            vicii.screen_rightborderwidth = VICII_SCREEN_PAL_DEBUG_RIGHTBORDERWIDTH;
-            vicii.first_displayed_line = VICII_PAL_DEBUG_FIRST_DISPLAYED_LINE;
-            vicii.last_displayed_line = VICII_PAL_DEBUG_LAST_DISPLAYED_LINE;
-            break;
-          case VICII_NO_BORDERS:
-            break;
-        }
-        break;
     }
-
 }

@@ -76,8 +76,8 @@ void store_line_and_scanline_2(
     tmp2 = (WORD *) line;
 
     *tmp1 = (WORD) (gamma_red_fac[512 + red + prevline[0]]
-          | gamma_grn_fac[512 + grn + prevline[1]]
-          | gamma_blu_fac[512 + blu + prevline[2]]);
+                    | gamma_grn_fac[512 + grn + prevline[1]]
+                    | gamma_blu_fac[512 + blu + prevline[2]]);
 
     *tmp2 = (WORD) (gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]);
 
@@ -130,11 +130,11 @@ void store_line_and_scanline_4(
     tmp1 = (DWORD *) scanline;
     tmp2 = (DWORD *) line;
     *tmp1 = gamma_red_fac[512 + red + prevline[0]]
-          | gamma_grn_fac[512 + grn + prevline[1]]
-          | gamma_blu_fac[512 + blu + prevline[2]]
-          | alpha;
+            | gamma_grn_fac[512 + grn + prevline[1]]
+            | gamma_blu_fac[512 + blu + prevline[2]]
+            | alpha;
     *tmp2 = gamma_red[256 + red] | gamma_grn[256 + grn] | gamma_blu[256 + blu]
-          | alpha;
+            | alpha;
 
     prevline[0] = red;
     prevline[1] = grn;
@@ -268,17 +268,17 @@ void get_yuv_from_video(
 
 static inline
 void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       unsigned int xs, const unsigned int ys,
-                       unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, unsigned int pixelstride,
-                       void (*store_func)(
-                            BYTE *const line, BYTE *const scanline,
-                            SWORD *const prevline, const int shade,
-                            SDWORD l, SDWORD u, SDWORD v),
-                       const int write_interpolated_pixels, video_render_config_t *config)
+                             const BYTE *src, BYTE *trg,
+                             unsigned int width, const unsigned int height,
+                             unsigned int xs, const unsigned int ys,
+                             unsigned int xt, const unsigned int yt,
+                             const unsigned int pitchs, const unsigned int pitcht,
+                             viewport_t *viewport, unsigned int pixelstride,
+                             void (*store_func)(
+                                 BYTE *const line, BYTE *const scanline,
+                                 SWORD *const prevline, const int shade,
+                                 SDWORD l, SDWORD u, SDWORD v),
+                             const int write_interpolated_pixels, video_render_config_t *config)
 {
     SWORD *prevrgblineptr;
     const SDWORD *ytablel = color_tab->ytablel;
@@ -312,7 +312,6 @@ void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
 
     /* height & 1 == 0. */
     for (y = yys; y < yys + height + 1; y += 2) {
-
         /* when we are dealing with the last line, the rules change:
          * we no longer write the main output to screen, we just put it into
          * the scanline. */
@@ -336,8 +335,8 @@ void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
              * render the scanline for the first row, because prevlinergb is not
              * yet initialized and scanline data would be bogus! */
             tmptrgscanline = y != yys && y > (unsigned int)first_line && y <= (unsigned int)last_line
-                ? trg - pitcht
-                : &color_tab->rgbscratchbuffer[0];
+                             ? trg - pitcht
+                             : &color_tab->rgbscratchbuffer[0];
         }
 
         /* current source image for YUV xform */
@@ -366,7 +365,7 @@ void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
             tmpsrc += 1;
 
             if (write_interpolated_pixels) {
-                store_func(tmptrg, tmptrgscanline, prevrgblineptr, shade, (l+l2)>>1, (u+u2)>>1, (v+v2)>>1);
+                store_func(tmptrg, tmptrgscanline, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline += pixelstride;
                 tmptrg += pixelstride;
                 prevrgblineptr += 3;
@@ -391,7 +390,7 @@ void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
             tmpsrc += 1;
 
             if (write_interpolated_pixels) {
-                store_func(tmptrg, tmptrgscanline, prevrgblineptr, shade, (l+l2)>>1, (u+u2)>>1, (v+v2)>>1);
+                store_func(tmptrg, tmptrgscanline, prevrgblineptr, shade, (l + l2) >> 1, (u + u2) >> 1, (v + v2) >> 1);
                 tmptrgscanline += pixelstride;
                 tmptrg += pixelstride;
                 prevrgblineptr += 3;
@@ -411,79 +410,79 @@ void render_generic_2x2_ntsc(video_render_color_tables_t *color_tab,
 }
 
 void render_UYVY_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                          const BYTE *src, BYTE *trg,
+                          unsigned int width, const unsigned int height,
+                          const unsigned int xs, const unsigned int ys,
+                          const unsigned int xt, const unsigned int yt,
+                          const unsigned int pitchs, const unsigned int pitcht,
+                          viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_UYVY, 0, config);
+                            xt, yt, pitchs, pitcht, viewport,
+                            4, store_line_and_scanline_UYVY, 0, config);
 }
 
 void render_YUY2_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                          const BYTE *src, BYTE *trg,
+                          unsigned int width, const unsigned int height,
+                          const unsigned int xs, const unsigned int ys,
+                          const unsigned int xt, const unsigned int yt,
+                          const unsigned int pitchs, const unsigned int pitcht,
+                          viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_YUY2, 0, config);
+                            xt, yt, pitchs, pitcht, viewport,
+                            4, store_line_and_scanline_YUY2, 0, config);
 }
 
 void render_YVYU_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                          const BYTE *src, BYTE *trg,
+                          unsigned int width, const unsigned int height,
+                          const unsigned int xs, const unsigned int ys,
+                          const unsigned int xt, const unsigned int yt,
+                          const unsigned int pitchs, const unsigned int pitcht,
+                          viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_YVYU, 0, config);
+                            xt, yt, pitchs, pitcht, viewport,
+                            4, store_line_and_scanline_YVYU, 0, config);
 }
 
 void render_16_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                        const BYTE *src, BYTE *trg,
+                        unsigned int width, const unsigned int height,
+                        const unsigned int xs, const unsigned int ys,
+                        const unsigned int xt, const unsigned int yt,
+                        const unsigned int pitchs, const unsigned int pitcht,
+                        viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           2, store_line_and_scanline_2, 1, config);
+                            xt, yt, pitchs, pitcht, viewport,
+                            2, store_line_and_scanline_2, 1, config);
 }
 
 void render_24_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                        const BYTE *src, BYTE *trg,
+                        unsigned int width, const unsigned int height,
+                        const unsigned int xs, const unsigned int ys,
+                        const unsigned int xt, const unsigned int yt,
+                        const unsigned int pitchs, const unsigned int pitcht,
+                        viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           3, store_line_and_scanline_3, 1, config);
+                            xt, yt, pitchs, pitcht, viewport,
+                            3, store_line_and_scanline_3, 1, config);
 }
 
 void render_32_2x2_ntsc(video_render_color_tables_t *color_tab,
-                       const BYTE *src, BYTE *trg,
-                       unsigned int width, const unsigned int height,
-                       const unsigned int xs, const unsigned int ys,
-                       const unsigned int xt, const unsigned int yt,
-                       const unsigned int pitchs, const unsigned int pitcht,
-                       viewport_t *viewport, video_render_config_t *config)
+                        const BYTE *src, BYTE *trg,
+                        unsigned int width, const unsigned int height,
+                        const unsigned int xs, const unsigned int ys,
+                        const unsigned int xt, const unsigned int yt,
+                        const unsigned int pitchs, const unsigned int pitcht,
+                        viewport_t *viewport, video_render_config_t *config)
 {
     render_generic_2x2_ntsc(color_tab, src, trg, width, height, xs, ys,
-                           xt, yt, pitchs, pitcht, viewport,
-                           4, store_line_and_scanline_4, 1, config);
+                            xt, yt, pitchs, pitcht, viewport,
+                            4, store_line_and_scanline_4, 1, config);
 }

@@ -217,7 +217,7 @@ void megacart_blk123_store(WORD addr, BYTE value)
     ram_high_en = (bank_high & 0x80) ? 1 : 0;
     ram_wp = (bank_high & 0x40) ? 0 : 1;
 
-    if (!ram_wp && (ram_low_en && ram_high_en) ) {
+    if (!ram_wp && (ram_low_en && ram_high_en)) {
         cart_ram[addr] = value;
     }
 }
@@ -267,7 +267,7 @@ void megacart_blk5_store(WORD addr, BYTE value)
     ram_high_en = (bank_high & 0x80) ? 1 : 0;
     ram_wp = (bank_high & 0x40) ? 0 : 1;
 
-    if (!ram_wp && (ram_low_en && ram_high_en) ) {
+    if (!ram_wp && (ram_low_en && ram_high_en)) {
         cart_ram[addr & 0x1fff] = value;
     }
 }
@@ -389,7 +389,7 @@ static int zfile_load(const char *filename, BYTE *dest, size_t size)
         zfile_fclose(fd);
         return -1;
     }
-    if ( fread(dest, size, 1, fd) < 1) {
+    if (fread(dest, size, 1, fd) < 1) {
         zfile_fclose(fd);
         return -1;
     }
@@ -400,13 +400,11 @@ static int zfile_load(const char *filename, BYTE *dest, size_t size)
 static int try_nvram_load(const char *filename)
 {
     if (cart_nvram && filename && *filename != '\0') {
-        if ( zfile_load(filename, cart_nvram, (size_t)CART_NVRAM_SIZE) < 0 ) {
-            log_message(megacart_log, "Failed to read NvRAM image `%s'!",
-                        filename);
+        if (zfile_load(filename, cart_nvram, (size_t)CART_NVRAM_SIZE) < 0) {
+            log_message(megacart_log, "Failed to read NvRAM image `%s'!", filename);
             return -1;
         } else {
-            log_message(megacart_log, "Read NvRAM image `%s'.",
-                        filename);
+            log_message(megacart_log, "Read NvRAM image `%s'.", filename);
         }
     }
 
@@ -449,7 +447,7 @@ int megacart_bin_attach(const char *filename)
         cart_rom = lib_malloc(CART_ROM_SIZE);
     }
 
-    if ( zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0 ) {
+    if (zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0) {
         megacart_detach();
         return -1;
     }
@@ -460,8 +458,8 @@ int megacart_bin_attach(const char *filename)
     cart_rom_high = cart_rom + 0x100000;
 
     mem_cart_blocks = VIC_CART_RAM123 |
-        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
-        VIC_CART_IO2 | VIC_CART_IO3;
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
 
     megacart_io2_list_item = io_source_register(&megacart_io2_device);
@@ -472,7 +470,7 @@ int megacart_bin_attach(const char *filename)
 
 void megacart_detach(void)
 {
-    /* try to write back NvRAM contents if write back is enabled 
+    /* try to write back NvRAM contents if write back is enabled
        and cartridge is not from a snapshot */
     if (nvram_writeback && !cartridge_is_from_snapshot) {
         try_nvram_save(nvram_filename);
@@ -586,8 +584,7 @@ int megacart_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -659,8 +656,8 @@ int megacart_snapshot_read_module(snapshot_t *s)
     reset_mode = BUTTON_RESET;
 
     mem_cart_blocks = VIC_CART_RAM123 |
-        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
-        VIC_CART_IO2 | VIC_CART_IO3;
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
 
     return 0;

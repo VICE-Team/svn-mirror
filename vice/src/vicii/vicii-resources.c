@@ -57,7 +57,7 @@ static int set_border_mode(int val, void *param)
         vicii_resources.border_mode = val;
         machine_change_timing(sync ^ VICII_BORDER_MODE(vicii_resources.border_mode));
     }
-   return 0;
+    return 0;
 }
 
 static int set_sprite_sprite_collisions_enabled(int val, void *param)
@@ -120,10 +120,9 @@ int vicii_resources_init(void)
 
     vicii.video_chip_cap = &video_chip_cap;
 
-    if (raster_resources_chip_init("VICII", &vicii.raster,
-        &video_chip_cap) < 0)
+    if (raster_resources_chip_init("VICII", &vicii.raster, &video_chip_cap) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
-

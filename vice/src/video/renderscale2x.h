@@ -62,4 +62,3 @@ extern void render_32_scale2x(const video_render_color_tables_t *color_tab,
                               const unsigned int pitcht);
 
 #endif
-

@@ -54,8 +54,9 @@ int vic20rom_kernal_checksum(void)
     WORD sum;
 
     /* Check Kernal ROM.  */
-    for (i = 0, sum = 0; i < VIC20_KERNAL_ROM_SIZE; i++)
+    for (i = 0, sum = 0; i < VIC20_KERNAL_ROM_SIZE; i++) {
         sum += vic20memrom_kernal_rom[i];
+    }
 
     if (sum != VIC20_KERNAL_CHECKSUM) {
         log_error(vic20rom_log,
@@ -69,8 +70,9 @@ int vic20rom_load_kernal(const char *rom_name)
 {
     int trapfl;
 
-    if (!vicrom_loaded)
+    if (!vicrom_loaded) {
         return 0;
+    }
 
     /* disable traps before saving the ROM */
     resources_get_int("VirtualDevices", &trapfl);
@@ -78,8 +80,8 @@ int vic20rom_load_kernal(const char *rom_name)
 
     /* Load Kernal ROM. */
     if (sysfile_load(rom_name,
-        vic20memrom_kernal_rom, VIC20_KERNAL_ROM_SIZE,
-        VIC20_KERNAL_ROM_SIZE) < 0) {
+                     vic20memrom_kernal_rom, VIC20_KERNAL_ROM_SIZE,
+                     VIC20_KERNAL_ROM_SIZE) < 0) {
         log_error(vic20rom_log, "Couldn't load kernal ROM.");
         resources_set_int("VirtualDevices", trapfl);
         return -1;
@@ -100,26 +102,29 @@ int vic20rom_basic_checksum(void)
     WORD sum;
 
     /* Check Basic ROM. */
-    for (i = 0, sum = 0; i < VIC20_BASIC_ROM_SIZE; i++)
+    for (i = 0, sum = 0; i < VIC20_BASIC_ROM_SIZE; i++) {
         sum += vic20memrom_basic_rom[i];
+    }
 
-    if (sum != VIC20_BASIC_CHECKSUM)
+    if (sum != VIC20_BASIC_CHECKSUM) {
         log_error(vic20rom_log,
                   "Warning: Unknown Basic image.  Sum: %d ($%04X).",
                   sum, sum);
+    }
     return 0;
 }
 
 int vic20rom_load_basic(const char *rom_name)
 {
-    if (!vicrom_loaded)
+    if (!vicrom_loaded) {
         return 0;
+    }
 
     if (!util_check_null_string(rom_name)) {
         /* Load Basic ROM. */
         if (sysfile_load(rom_name,
-            vic20memrom_basic_rom, VIC20_BASIC_ROM_SIZE,
-            VIC20_BASIC_ROM_SIZE) < 0) {
+                         vic20memrom_basic_rom, VIC20_BASIC_ROM_SIZE,
+                         VIC20_BASIC_ROM_SIZE) < 0) {
             log_error(vic20rom_log, "Couldn't load basic ROM.");
             return -1;
         }
@@ -129,14 +134,15 @@ int vic20rom_load_basic(const char *rom_name)
 
 int vic20rom_load_chargen(const char *rom_name)
 {
-    if (!vicrom_loaded)
+    if (!vicrom_loaded) {
         return 0;
+    }
 
     if (!util_check_null_string(rom_name)) {
         /* Load chargen ROM. */
         if (sysfile_load(rom_name,
-            vic20memrom_chargen_rom, VIC20_CHARGEN_ROM_SIZE,
-            VIC20_CHARGEN_ROM_SIZE) < 0) {
+                         vic20memrom_chargen_rom, VIC20_CHARGEN_ROM_SIZE,
+                         VIC20_CHARGEN_ROM_SIZE) < 0) {
             log_error(vic20rom_log, "Couldn't load character ROM.");
             return -1;
         }
@@ -148,29 +154,35 @@ int mem_load(void)
 {
     const char *rom_name = NULL;
 
-    if (vic20rom_log == LOG_ERR)
+    if (vic20rom_log == LOG_ERR) {
         vic20rom_log = log_open("VIC20MEM");
+    }
 
     vicrom_loaded = 1;
 
-    if (resources_get_string("KernalName", &rom_name) < 0)
+    if (resources_get_string("KernalName", &rom_name) < 0) {
         return -1;
-    if (vic20rom_load_kernal(rom_name) < 0)
+    }
+    if (vic20rom_load_kernal(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("BasicName", &rom_name) < 0)
+    if (resources_get_string("BasicName", &rom_name) < 0) {
         return -1;
-    if (vic20rom_load_basic(rom_name) < 0)
+    }
+    if (vic20rom_load_basic(rom_name) < 0) {
         return -1;
+    }
 
-    if (resources_get_string("ChargenName", &rom_name) < 0)
+    if (resources_get_string("ChargenName", &rom_name) < 0) {
         return -1;
-    if (vic20rom_load_chargen(rom_name) < 0)
+    }
+    if (vic20rom_load_chargen(rom_name) < 0) {
         return -1;
+    }
 
     /* patch the kernal respecting the video mode */
     mem_patch_kernal();
 
     return 0;
 }
-

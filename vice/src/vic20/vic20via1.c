@@ -71,8 +71,7 @@ static void set_int(via_context_t *via_context, unsigned int int_num,
     interrupt_set_irq(maincpu_int_status, int_num, value, rclk);
 }
 
-static void restore_int(via_context_t *via_context, unsigned int int_num,
-                    int value)
+static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
     interrupt_restore_irq(maincpu_int_status, int_num, value);
 }
@@ -109,9 +108,9 @@ static void undump_prb(via_context_t *via_context, BYTE byte)
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE myoldpb,
                       WORD addr)
 {
-    if ((byte ^ myoldpb) & 8)
-        datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte)
-                                   & 0x8);
+    if ((byte ^ myoldpb) & 8) {
+        datasette_toggle_write_bit((~(via_context->via[VIA_DDRB]) | byte) & 0x8);
+    }
 }
 
 static void undump_pcr(via_context_t *via_context, BYTE byte)
@@ -129,10 +128,13 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     if (byte != via_context->via[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
-        if ((tmp & 0x0c) != 0x0c)
+        if ((tmp & 0x0c) != 0x0c) {
             tmp |= 0x02;
-        if ((tmp & 0xc0) != 0xc0) tmp |= 0x20;
-           iec_pcr_write(tmp);
+        }
+        if ((tmp & 0xc0) != 0xc0) {
+            tmp |= 0x20;
+        }
+        iec_pcr_write(tmp);
     }
     return byte;
 }
@@ -146,9 +148,11 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
     BYTE m;
     int i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~rev_keyarr[i];
+        }
+    }
 
     byte = val | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]);
     return byte;
@@ -162,14 +166,17 @@ static BYTE read_prb(via_context_t *via_context)
     BYTE msk = via_context->oldpa;
     int m, i;
 
-    for (m = 0x1, i = 0; i < 8; m <<= 1, i++)
-        if (!(msk & m))
+    for (m = 0x1, i = 0; i < 8; m <<= 1, i++) {
+        if (!(msk & m)) {
             val &= ~keyarr[i];
+        }
+    }
 
     /* Bit 7 is mapped to the right direction of the joystick (bit
        3 in `joystick_value[]'). */
-    if ((joystick_value[1] | joystick_value[2]) & 0x8)
+    if ((joystick_value[1] | joystick_value[2]) & 0x8) {
         val &= 0x7f;
+    }
 
     byte = val | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
     return byte;
@@ -221,4 +228,3 @@ void vic20via1_setup_context(machine_context_t *machine_context)
     via->set_cb2 = set_cb2;
     via->reset = reset;
 }
-

@@ -31,4 +31,3 @@
 extern void vicii_draw_init(void);
 
 #endif
-

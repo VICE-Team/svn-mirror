@@ -82,7 +82,8 @@ static int cmdline_memory(const char *param, void *extra_param)
 
         opt = lib_malloc(strlen(param) + 1);
         while (*memstring) {
-            for (optend = memstring; *optend && *optend != ','; optend++);
+            for (optend = memstring; *optend && *optend != ','; optend++) {
+            }
 
             strncpy(opt, memstring, optend - memstring);
             opt[optend - memstring] = '\0';
@@ -98,7 +99,7 @@ static int cmdline_memory(const char *param, void *extra_param)
             } else if (strcmp(opt, "16k") == 0) {
                 memconf |= VIC_BLK1 | VIC_BLK2;
             } else if (strcmp(opt, "24k") == 0) {
-                memconf |= VIC_BLK1 | VIC_BLK2 | VIC_BLK3;;
+                memconf |= VIC_BLK1 | VIC_BLK2 | VIC_BLK3;
             } else if (strcmp(opt, "0") == 0 || strcmp(opt, "04") == 0) {
                 memconf |= VIC_BLK0;
             } else if (strcmp(opt, "1") == 0 || strcmp(opt, "20") == 0) {
@@ -117,8 +118,9 @@ static int cmdline_memory(const char *param, void *extra_param)
                 return -1;
             }
             memstring = optend;
-            if (*memstring)
+            if (*memstring) {
                 memstring++;    /* skip ',' */
+            }
         }
         lib_free(opt);
     }
@@ -156,8 +158,9 @@ static int cmdline_memory(const char *param, void *extra_param)
     } else {
         resources_set_int("RAMBlock5", 0);
     }
-    if (memconf == 0)
+    if (memconf == 0) {
         log_message(LOG_DEFAULT, "none");
+    }
 
     return 0;
 }

@@ -32,8 +32,7 @@
 /* The table derives from what Christian Bauer <bauec002@physik.uni-mainz.de>
    says in both the "VIC-Article" and Frodo's `VIC_SC.cpp' source file.  */
 
-struct vicii_sprites_fetch_s
-{
+struct vicii_sprites_fetch_s {
     int cycle, num;
     unsigned int first, last;
 };
@@ -44,12 +43,10 @@ extern const int vicii_sprites_crunch_table[64];
 
 extern void vicii_sprites_init(void);
 extern void vicii_sprites_shutdown(void);
-extern void vicii_sprites_set_x_position(unsigned int num,
-                                         int new_x, int raster_x);
+extern void vicii_sprites_set_x_position(unsigned int num, int new_x, int raster_x);
 extern void vicii_sprites_reset_sprline(void);
 extern void vicii_sprites_init_sprline(void);
 extern void vicii_sprites_reset_xshift(void);
 extern int vicii_sprite_offset(void);
 
 #endif
-

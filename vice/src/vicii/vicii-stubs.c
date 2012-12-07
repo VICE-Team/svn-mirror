@@ -40,4 +40,3 @@ void c64dtvdma_trigger_dma(void)
 void c64dtvblitter_trigger_blitter(void)
 {
 }
-

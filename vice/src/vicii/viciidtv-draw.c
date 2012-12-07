@@ -4,7 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Ettore Perazzoli <ettore@comm2000.it>
- * 
+ *
  * DTV sections written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
  *  Daniel Kahlin <daniel@kahlin.net>
@@ -72,8 +72,9 @@ static void draw_std_background(unsigned int start_pixel,
 
     background_color = (BYTE)vicii.raster.background_color;
 
-    if (VICII_IS_ILLEGAL_MODE(vicii.raster.video_mode))
+    if (VICII_IS_ILLEGAL_MODE(vicii.raster.video_mode)) {
         background_color = 0;
+    }
 
     gfxstart = vicii.raster.geometry->gfx_position.x + vicii.raster.xsmooth;
     gfxend = gfxstart + vicii.raster.geometry->gfx_size.width;
@@ -119,8 +120,8 @@ static void draw_std_background(unsigned int start_pixel,
             }
         } else {
             memset(vicii.raster.draw_buffer_ptr + start_pixel,
-                       vicii.raster.xsmooth_color,
-                       end_pixel - start_pixel + 1);
+                   vicii.raster.xsmooth_color,
+                   end_pixel - start_pixel + 1);
         }
     }
 
@@ -130,21 +131,23 @@ static void draw_std_background(unsigned int start_pixel,
         pos = (start_pixel - vicii.raster.geometry->gfx_position.x) / 8;
 
         if (pos >= 0 && pos < VICII_SCREEN_TEXTCOLS) {
-            if (vicii.raster.video_mode == VICII_HIRES_BITMAP_MODE)
+            if (vicii.raster.video_mode == VICII_HIRES_BITMAP_MODE) {
                 background_color = vicii.vbuf[pos] & 0xf;
+            }
             if (vicii.raster.video_mode == VICII_EXTENDED_TEXT_MODE) {
                 int bg_idx;
 
                 bg_idx = vicii.vbuf[pos] >> 6;
 
-                if (bg_idx > 0)
+                if (bg_idx > 0) {
                     background_color = vicii.ext_background_color[bg_idx - 1];
+                }
             }
-            if (VICII_IS_ILLEGAL_MODE(vicii.raster.video_mode))
+            if (VICII_IS_ILLEGAL_MODE(vicii.raster.video_mode)) {
                 background_color = 0;
+            }
             memset(vicii.raster.draw_buffer_ptr + start_pixel + 8,
                    background_color, vicii.raster.xsmooth_shift_right);
-
         }
         vicii.raster.xsmooth_shift_right = 0;
     }
@@ -170,21 +173,18 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
 
 
 /* Pointer to the start of the graphics area on the frame buffer.  */
-#define GFX_PTR()                 \
-    (vicii.raster.draw_buffer_ptr \
-    + (vicii.raster.geometry->gfx_position.x + vicii.raster.xsmooth))
+#define GFX_PTR() (vicii.raster.draw_buffer_ptr + (vicii.raster.geometry->gfx_position.x + vicii.raster.xsmooth))
 
 #ifdef ALLOW_UNALIGNED_ACCESS
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) \
-   name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
 #else
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)           \
-   do {                                                      \
-       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
-       memcpy(GFX_PTR() + (xs) * 8,                          \
-              aligned_line_buffer + (xs) * 8,                \
-              ((xe) - (xs) + 1) * 8);                        \
-   } while (0)
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)            \
+    do {                                                      \
+        name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
+        memcpy(GFX_PTR() + (xs) * 8,                          \
+               aligned_line_buffer + (xs) * 8,                \
+               ((xe) - (xs) + 1) * 8);                        \
+    } while (0)
 #endif
 
 
@@ -229,19 +229,19 @@ inline static void _draw_std_text(BYTE *p, unsigned int xs, unsigned int xe,
 
     char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
-    
+
     for (i = xs; i <= xe; i++) {
         *(msk_ptr + i) = *(char_ptr + vicii.vbuf[i] * 8);
         fcolor = vicii.dtvpalette[vicii.cbuf[i] & cmask];
         bcolor = vicii.raster.background_color;
-        *(p+i*8+0) = (*(msk_ptr + i) & 0x80) ? fcolor : bcolor;
-        *(p+i*8+1) = (*(msk_ptr + i) & 0x40) ? fcolor : bcolor;
-        *(p+i*8+2) = (*(msk_ptr + i) & 0x20) ? fcolor : bcolor;
-        *(p+i*8+3) = (*(msk_ptr + i) & 0x10) ? fcolor : bcolor;
-        *(p+i*8+4) = (*(msk_ptr + i) & 0x08) ? fcolor : bcolor;
-        *(p+i*8+5) = (*(msk_ptr + i) & 0x04) ? fcolor : bcolor;
-        *(p+i*8+6) = (*(msk_ptr + i) & 0x02) ? fcolor : bcolor;
-        *(p+i*8+7) = (*(msk_ptr + i) & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (*(msk_ptr + i) & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (*(msk_ptr + i) & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (*(msk_ptr + i) & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (*(msk_ptr + i) & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (*(msk_ptr + i) & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (*(msk_ptr + i) & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (*(msk_ptr + i) & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (*(msk_ptr + i) & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -264,14 +264,14 @@ inline static void _draw_std_text_cached(BYTE *p, unsigned int xs,
         *(msk_ptr + i) = foreground_data[i];
         fcolor = vicii.dtvpalette[color_data[i] & cmask];
         bcolor = vicii.raster.background_color;
-    	*(p+i*8+0) = (*(msk_ptr + i) & 0x80) ? fcolor : bcolor;
-    	*(p+i*8+1) = (*(msk_ptr + i) & 0x40) ? fcolor : bcolor;
-    	*(p+i*8+2) = (*(msk_ptr + i) & 0x20) ? fcolor : bcolor;
-    	*(p+i*8+3) = (*(msk_ptr + i) & 0x10) ? fcolor : bcolor;
-    	*(p+i*8+4) = (*(msk_ptr + i) & 0x08) ? fcolor : bcolor;
-    	*(p+i*8+5) = (*(msk_ptr + i) & 0x04) ? fcolor : bcolor;
-	    *(p+i*8+6) = (*(msk_ptr + i) & 0x02) ? fcolor : bcolor;
-    	*(p+i*8+7) = (*(msk_ptr + i) & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (*(msk_ptr + i) & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (*(msk_ptr + i) & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (*(msk_ptr + i) & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (*(msk_ptr + i) & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (*(msk_ptr + i) & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (*(msk_ptr + i) & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (*(msk_ptr + i) & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (*(msk_ptr + i) & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -287,20 +287,35 @@ static void draw_std_text(void)
                     vicii.raster.gfx_msk);
 }
 
-#define DRAW_STD_TEXT_BYTE(p, b, f)       \
-    do {                                  \
-        if ((b) & 0x80) *(p) = (f);       \
-        if ((b) & 0x40) *((p) + 1) = (f); \
-        if ((b) & 0x20) *((p) + 2) = (f); \
-        if ((b) & 0x10) *((p) + 3) = (f); \
-        if ((b) & 0x08) *((p) + 4) = (f); \
-        if ((b) & 0x04) *((p) + 5) = (f); \
-        if ((b) & 0x02) *((p) + 6) = (f); \
-        if ((b) & 0x01) *((p) + 7) = (f); \
-    } while (0)                           \
+#define DRAW_STD_TEXT_BYTE(p, b, f) \
+    do {                            \
+        if ((b) & 0x80) {           \
+            *(p) = (f);             \
+        }                           \
+        if ((b) & 0x40) {           \
+            *((p) + 1) = (f);       \
+        }                           \
+        if ((b) & 0x20) {           \
+            *((p) + 2) = (f);       \
+        }                           \
+        if ((b) & 0x10) {           \
+            *((p) + 3) = (f);       \
+        }                           \
+        if ((b) & 0x08) {           \
+            *((p) + 4) = (f);       \
+        }                           \
+        if ((b) & 0x04) {           \
+            *((p) + 5) = (f);       \
+        }                           \
+        if ((b) & 0x02) {           \
+            *((p) + 6) = (f);       \
+        }                           \
+        if ((b) & 0x01) {           \
+            *((p) + 7) = (f);       \
+        }                           \
+    } while (0)
 
-static void draw_std_text_foreground(unsigned int start_char,
-                                     unsigned int end_char)
+static void draw_std_text_foreground(unsigned int start_char, unsigned int end_char)
 {
     unsigned int i;
     BYTE *char_ptr, *msk_ptr, *p;
@@ -316,24 +331,24 @@ static void draw_std_text_foreground(unsigned int start_char,
 
         b = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
 
-        if (vicii.raster.last_video_mode == VICII_EXTENDED_TEXT_MODE)
+        if (vicii.raster.last_video_mode == VICII_EXTENDED_TEXT_MODE) {
             b = char_ptr[(vicii.vbuf[i - vicii.buf_offset] & 0x3f) * 8];
+        }
 
         if (vicii.raster.last_video_mode == VICII_HIRES_BITMAP_MODE) {
-            unsigned int j = ((vicii.memptr << 3) 
-                                + vicii.raster.ycounter + i * 8) & 0x1fff;
-            if (j & 0x1000)
+            unsigned int j = ((vicii.memptr << 3) + vicii.raster.ycounter + i * 8) & 0x1fff;
+            if (j & 0x1000) {
                 b = vicii.bitmap_high_ptr[j & 0xfff];
-            else
+            } else {
                 b = vicii.bitmap_low_ptr[j];
+            }
         }
 
         f = vicii.cbuf[i - vicii.buf_offset];
         f = vicii.dtvpalette[f & cmask];
-        
+
         if (vicii.raster.xsmooth_shift_left > 0) {
-            b = (b >> vicii.raster.xsmooth_shift_left) 
-                << vicii.raster.xsmooth_shift_left;
+            b = (b >> vicii.raster.xsmooth_shift_left) << vicii.raster.xsmooth_shift_left;
         }
 
         *(msk_ptr + i) = b;
@@ -374,29 +389,28 @@ inline static void _draw_hires_bitmap(BYTE *p, unsigned int xs,
     bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
-    for (j = ((vicii.memptr << 3)
-        + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
-        i <= xe; i++, j = (j + 8) & 0x1fff) {
-
+    for (j = ((vicii.memptr << 3) + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+         i <= xe; i++, j = (j + 8) & 0x1fff) {
         BYTE fcolor;
         BYTE bcolor;
 
-        if (j & 0x1000)
+        if (j & 0x1000) {
             bmval = bmptr_high[j & 0xfff];
-        else
+        } else {
             bmval = bmptr_low[j];
+        }
 
         *(msk_ptr + i) = bmval;
-        fcolor = vicii.dtvpalette[(vicii.vbuf[i]>>4) & 0xf];
+        fcolor = vicii.dtvpalette[(vicii.vbuf[i] >> 4) & 0xf];
         bcolor = vicii.dtvpalette[vicii.vbuf[i] & 0xf];
-        *(p+i*8+0) = (bmval & 0x80) ? fcolor : bcolor;
-        *(p+i*8+1) = (bmval & 0x40) ? fcolor : bcolor;
-        *(p+i*8+2) = (bmval & 0x20) ? fcolor : bcolor;
-        *(p+i*8+3) = (bmval & 0x10) ? fcolor : bcolor;
-        *(p+i*8+4) = (bmval & 0x08) ? fcolor : bcolor;
-        *(p+i*8+5) = (bmval & 0x04) ? fcolor : bcolor;
-        *(p+i*8+6) = (bmval & 0x02) ? fcolor : bcolor;
-        *(p+i*8+7) = (bmval & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (bmval & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (bmval & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (bmval & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (bmval & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (bmval & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (bmval & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (bmval & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (bmval & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -418,16 +432,16 @@ inline static void _draw_hires_bitmap_cached(BYTE *p, unsigned int xs,
     for (i = xs; i <= xe; i++) {
         *(msk_ptr + i) = foreground_data[i];
         bmval = foreground_data[i];
-        fcolor = vicii.dtvpalette[(background_data[i]>>4) & 0xf];
+        fcolor = vicii.dtvpalette[(background_data[i] >> 4) & 0xf];
         bcolor = vicii.dtvpalette[background_data[i] & 0xf];
-        *(p+i*8+0) = (bmval & 0x80) ? fcolor : bcolor;
-        *(p+i*8+1) = (bmval & 0x40) ? fcolor : bcolor;
-        *(p+i*8+2) = (bmval & 0x20) ? fcolor : bcolor;
-        *(p+i*8+3) = (bmval & 0x10) ? fcolor : bcolor;
-        *(p+i*8+4) = (bmval & 0x08) ? fcolor : bcolor;
-        *(p+i*8+5) = (bmval & 0x04) ? fcolor : bcolor;
-        *(p+i*8+6) = (bmval & 0x02) ? fcolor : bcolor;
-        *(p+i*8+7) = (bmval & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (bmval & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (bmval & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (bmval & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (bmval & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (bmval & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (bmval & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (bmval & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (bmval & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -455,38 +469,38 @@ inline static void _draw_hires_bitmap_foreground(BYTE *p, unsigned int xs,
     bmptr_high = vicii.bitmap_high_ptr;
     msk_ptr = gfx_msk_ptr + GFX_MSK_LEFTBORDER_SIZE;
 
-    for (j = ((vicii.memptr << 3)
-        + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
-        i <= xe; i++, j = (j + 8) & 0x1fff) {
-
+    for (j = ((vicii.memptr << 3) + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+         i <= xe; i++, j = (j + 8) & 0x1fff) {
         BYTE fcolor;
         BYTE bcolor;
 
-        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_1)
+        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_1) {
             j &= 0x19ff;
+        }
 
-        if (j & 0x1000)
+        if (j & 0x1000) {
             bmval = bmptr_high[j & 0xfff];
-        else
+        } else {
             bmval = bmptr_low[j];
+        }
 
         if (vicii.raster.last_video_mode == VICII_NORMAL_TEXT_MODE) {
             BYTE *char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
             bmval = char_ptr[vicii.vbuf[i - vicii.buf_offset] * 8];
-        } 
+        }
 
         *(msk_ptr + i) = bmval;
 
-        fcolor = vicii.dtvpalette[(vicii.vbuf[i]>>4) & 0xf];
+        fcolor = vicii.dtvpalette[(vicii.vbuf[i] >> 4) & 0xf];
         bcolor = vicii.dtvpalette[vicii.vbuf[i] & 0xf];
-        *(p+i*8+0) = (bmval & 0x80) ? fcolor : bcolor;
-        *(p+i*8+1) = (bmval & 0x40) ? fcolor : bcolor;
-        *(p+i*8+2) = (bmval & 0x20) ? fcolor : bcolor;
-        *(p+i*8+3) = (bmval & 0x10) ? fcolor : bcolor;
-        *(p+i*8+4) = (bmval & 0x08) ? fcolor : bcolor;
-        *(p+i*8+5) = (bmval & 0x04) ? fcolor : bcolor;
-        *(p+i*8+6) = (bmval & 0x02) ? fcolor : bcolor;
-        *(p+i*8+7) = (bmval & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (bmval & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (bmval & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (bmval & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (bmval & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (bmval & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (bmval & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (bmval & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (bmval & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -510,7 +524,7 @@ static int get_mc_text(raster_cache_t *cache, unsigned int *xs,
         || cache->chargen_ptr != vicii.chargen_ptr) {
         cache->background_data[0] = vicii.raster.background_color;
         cache->color_data_1[0] = vicii.ext_background_color[0];
-	        cache->color_data_1[1] = vicii.ext_background_color[1];
+        cache->color_data_1[1] = vicii.ext_background_color[1];
         cache->chargen_ptr = vicii.chargen_ptr;
         rr = 1;
     }
@@ -617,40 +631,47 @@ static void draw_mc_text_cached(raster_cache_t *cache, unsigned int xs,
 #define DRAW_MC_BYTE(p, b, f1, f2, f3)          \
     do {                                        \
         if ((b) & 0x80) {                       \
-            if ((b) & 0x40)                     \
+            if ((b) & 0x40) {                   \
                 *(p) = *((p) + 1) = (f3);       \
-            else                                \
+            } else {                            \
                 *(p) = *((p) + 1) = (f2);       \
-        } else if ((b) & 0x40)                  \
+            }                                   \
+        } else if ((b) & 0x40) {                \
             *(p) = *((p) + 1) = (f1);           \
+        }                                       \
                                                 \
         if ((b) & 0x20) {                       \
-            if ((b) & 0x10)                     \
+            if ((b) & 0x10) {                   \
                 *((p) + 2) = *((p) + 3) = (f3); \
-            else                                \
+            } else {                            \
                 *((p) + 2) = *((p) + 3) = (f2); \
-        } else if ((b) & 0x10)                  \
+            }                                   \
+        } else if ((b) & 0x10) {                \
             *((p) + 2) = *((p) + 3) = (f1);     \
+        }                                       \
                                                 \
         if ((b) & 0x08) {                       \
-            if ((b) & 0x04)                     \
+            if ((b) & 0x04) {                   \
                 *((p) + 4) = *((p) + 5) = (f3); \
-            else                                \
+            } else {                            \
                 *((p) + 4) = *((p) + 5) = (f2); \
-        } else if ((b) & 0x04)                  \
+            }                                   \
+        } else if ((b) & 0x04) {                \
             *((p) + 4) = *((p) + 5) = (f1);     \
+        }                                       \
                                                 \
         if ((b) & 0x02) {                       \
-            if ((b) & 0x01)                     \
+            if ((b) & 0x01) {                   \
                 *((p) + 6) = *((p) + 7) = (f3); \
-            else                                \
+            } else {                            \
                 *((p) + 6) = *((p) + 7) = (f2); \
-        } else if ((b) & 0x01)                  \
+            }                                   \
+        } else if ((b) & 0x01) {                \
             *((p) + 6) = *((p) + 7) = (f1);     \
+        }                                       \
     } while (0)
 
-static void draw_mc_text_foreground(unsigned int start_char,
-                                    unsigned int end_char)
+static void draw_mc_text_foreground(unsigned int start_char, unsigned int end_char)
 {
     BYTE *char_ptr, *msk_ptr;
     BYTE c1, c2;
@@ -670,12 +691,13 @@ static void draw_mc_text_foreground(unsigned int start_char,
 
         c = vicii.cbuf[i - vicii.buf_offset];
         if (vicii.raster.last_video_mode == VICII_MULTICOLOR_BITMAP_MODE) {
-            unsigned int j = ((vicii.memptr << 3) 
-                                + vicii.raster.ycounter + i * 8) & 0x1fff;
-            if (j & 0x1000)
+            unsigned int j = ((vicii.memptr << 3)
+                              + vicii.raster.ycounter + i * 8) & 0x1fff;
+            if (j & 0x1000) {
                 b = vicii.bitmap_high_ptr[j & 0xfff];
-            else
+            } else {
                 b = vicii.bitmap_low_ptr[j];
+            }
         } else {
             b = *(char_ptr + vicii.vbuf[i - vicii.buf_offset] * 8);
         }
@@ -690,20 +712,20 @@ static void draw_mc_text_foreground(unsigned int start_char,
 
             if (vicii.raster.xsmooth_shift_left > 0) {
                 int j;
-                
-                for (j = 0; j < vicii.raster.xsmooth_shift_left; j++)
+
+                for (j = 0; j < vicii.raster.xsmooth_shift_left; j++) {
                     *(p + 7 - j) = orig_background;
+                }
 
                 *(msk_ptr + i) = (BYTE)((mcmsktable[0x100 + b]
-                                 >> vicii.raster.xsmooth_shift_left)
-                                 << vicii.raster.xsmooth_shift_left);
+                                         >> vicii.raster.xsmooth_shift_left)
+                                        << vicii.raster.xsmooth_shift_left);
             }
-
         } else {
             BYTE c3;
 
             if (vicii.raster.xsmooth_shift_left > 0) {
-                b = (b >> vicii.raster.xsmooth_shift_left) 
+                b = (b >> vicii.raster.xsmooth_shift_left)
                     << vicii.raster.xsmooth_shift_left;
             }
 
@@ -766,14 +788,14 @@ inline static void _draw_mc_bitmap(BYTE *p, unsigned int xs, unsigned int xe,
     ptmp = p + xs * 8;
 
     for (j = ((vicii.memptr << 3) + vicii.raster.ycounter + xs * 8) & 0x1fff,
-        i = xs; i <= xe; i++, j = (j + 8) & 0x1fff) {
-
+         i = xs; i <= xe; i++, j = (j + 8) & 0x1fff) {
         unsigned int d;
 
-        if (j & 0x1000)
+        if (j & 0x1000) {
             d = bmptr_high[j & 0xfff];
-        else
+        } else {
             d = bmptr_low[j];
+        }
 
         *(msk_ptr + i) = mcmsktable[d | 0x100];
         c[1] = vicii.vbuf[i] >> 4;
@@ -861,9 +883,8 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
     msk_ptr = vicii.raster.gfx_msk + GFX_MSK_LEFTBORDER_SIZE;
 
     for (j = ((vicii.memptr << 3)
-        + vicii.raster.ycounter + 8 * start_char) & 0x1fff,
-        i = start_char; i <= end_char; j = (j + 8) & 0x1fff, i++, p += 8) {
-
+              + vicii.raster.ycounter + 8 * start_char) & 0x1fff,
+         i = start_char; i <= end_char; j = (j + 8) & 0x1fff, i++, p += 8) {
         BYTE c1, c2, c3;
         BYTE b;
         BYTE orig_background = *p;
@@ -876,13 +897,15 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         c2 = vicii.dtvpalette[c2];
         c3 = vicii.dtvpalette[c3 & cmask];
 
-        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_2)
+        if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_2) {
             j &= 0x19ff;
+        }
 
-        if (j & 0x1000)
+        if (j & 0x1000) {
             b = bmptr_high[j & 0xfff];
-        else
+        } else {
             b = bmptr_low[j];
+        }
 
         if (vicii.raster.last_video_mode == VICII_MULTICOLOR_TEXT_MODE) {
             BYTE *char_ptr = vicii.chargen_ptr + vicii.raster.ycounter;
@@ -895,12 +918,13 @@ static void draw_mc_bitmap_foreground(unsigned int start_char,
         if (vicii.raster.xsmooth_shift_left > 0) {
             int j;
 
-            for (j = 0; j < vicii.raster.xsmooth_shift_left; j++)
+            for (j = 0; j < vicii.raster.xsmooth_shift_left; j++) {
                 *(p + 7 - j) = orig_background;
+            }
 
             *(msk_ptr + i) = (BYTE)((mcmsktable[0x100 + b]
-                             >> vicii.raster.xsmooth_shift_left)
-                             << vicii.raster.xsmooth_shift_left);
+                                     >> vicii.raster.xsmooth_shift_left)
+                                    << vicii.raster.xsmooth_shift_left);
         }
     }
 }
@@ -967,14 +991,14 @@ inline static void _draw_ext_text(BYTE *p, unsigned int xs, unsigned int xe,
         fcolor = vicii.dtvpalette[vicii.cbuf[i] & cmask];
         bcolor = (bg_idx == 0) ? (BYTE)vicii.raster.background_color : vicii.ext_background_color[bg_idx - 1];
         *(msk_ptr + i) = d;
-        *(p+i*8+0) = (d & 0x80) ? fcolor : bcolor;
-        *(p+i*8+1) = (d & 0x40) ? fcolor : bcolor;
-        *(p+i*8+2) = (d & 0x20) ? fcolor : bcolor;
-        *(p+i*8+3) = (d & 0x10) ? fcolor : bcolor;
-        *(p+i*8+4) = (d & 0x08) ? fcolor : bcolor;
-        *(p+i*8+5) = (d & 0x04) ? fcolor : bcolor;
-        *(p+i*8+6) = (d & 0x02) ? fcolor : bcolor;
-        *(p+i*8+7) = (d & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (d & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (d & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (d & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (d & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (d & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (d & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (d & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (d & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -1009,14 +1033,14 @@ inline static void _draw_ext_text_cached(BYTE *p, unsigned int xs,
 
         fcolor = vicii.dtvpalette[color_data_1[i] & cmask];
         bcolor = color_data_2[color_data_3[i]];
-        *(p+i*8+0) = (d & 0x80) ? fcolor : bcolor;
-        *(p+i*8+1) = (d & 0x40) ? fcolor : bcolor;
-        *(p+i*8+2) = (d & 0x20) ? fcolor : bcolor;
-        *(p+i*8+3) = (d & 0x10) ? fcolor : bcolor;
-        *(p+i*8+4) = (d & 0x08) ? fcolor : bcolor;
-        *(p+i*8+5) = (d & 0x04) ? fcolor : bcolor;
-        *(p+i*8+6) = (d & 0x02) ? fcolor : bcolor;
-        *(p+i*8+7) = (d & 0x01) ? fcolor : bcolor;
+        *(p + i * 8 + 0) = (d & 0x80) ? fcolor : bcolor;
+        *(p + i * 8 + 1) = (d & 0x40) ? fcolor : bcolor;
+        *(p + i * 8 + 2) = (d & 0x20) ? fcolor : bcolor;
+        *(p + i * 8 + 3) = (d & 0x10) ? fcolor : bcolor;
+        *(p + i * 8 + 4) = (d & 0x08) ? fcolor : bcolor;
+        *(p + i * 8 + 5) = (d & 0x04) ? fcolor : bcolor;
+        *(p + i * 8 + 6) = (d & 0x02) ? fcolor : bcolor;
+        *(p + i * 8 + 7) = (d & 0x01) ? fcolor : bcolor;
     }
 }
 
@@ -1051,12 +1075,12 @@ static void draw_ext_text_foreground(unsigned int start_char,
         b = char_ptr[(vicii.vbuf[i - vicii.buf_offset] & 0x3f) * 8];
 
         if (vicii.raster.last_video_mode == VICII_ILLEGAL_BITMAP_MODE_1) {
-            unsigned int j = ((vicii.memptr << 3) 
-                                + vicii.raster.ycounter + i * 8) & 0x19ff;
-            if (j & 0x1000)
+            unsigned int j = ((vicii.memptr << 3) + vicii.raster.ycounter + i * 8) & 0x19ff;
+            if (j & 0x1000) {
                 b = vicii.bitmap_high_ptr[j & 0xfff];
-            else
+            } else {
                 b = vicii.bitmap_low_ptr[j];
+            }
         }
 
         f = vicii.cbuf[i - vicii.buf_offset];
@@ -1064,13 +1088,11 @@ static void draw_ext_text_foreground(unsigned int start_char,
         bg_idx = vicii.vbuf[i - vicii.buf_offset] >> 6;
 
         if (vicii.raster.xsmooth_shift_left > 0) {
-            b = (b >> vicii.raster.xsmooth_shift_left) 
-                << vicii.raster.xsmooth_shift_left;
+            b = (b >> vicii.raster.xsmooth_shift_left) << vicii.raster.xsmooth_shift_left;
         }
 
         if (bg_idx > 0) {
-            p[7] = p[6] = p[5] = p[4] = p[3] = p[2] = p[1] = p[0] =
-                vicii.ext_background_color[bg_idx - 1];
+            p[7] = p[6] = p[5] = p[4] = p[3] = p[2] = p[1] = p[0] = vicii.ext_background_color[bg_idx - 1];
         }
 
         *(msk_ptr + i) = b;
@@ -1223,14 +1245,13 @@ inline static void _draw_illegal_bitmap_mode1(BYTE *p, unsigned int xs,
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
 
-    for (j = ((vicii.memptr << 3)
-        + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
-        i <= xe; i++, j = (j + 8) & 0x1fff) {
-
-        if (j & 0x1000)
+    for (j = ((vicii.memptr << 3) + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+         i <= xe; i++, j = (j + 8) & 0x1fff) {
+        if (j & 0x1000) {
             bmval = bmptr_low[j & 0x9ff];
-        else
+        } else {
             bmval = bmptr_high[j & 0x9ff];
+        }
 
         *(msk_ptr + i) = bmval;
     }
@@ -1248,8 +1269,9 @@ inline static void _draw_illegal_bitmap_mode1_cached(BYTE *p, unsigned int xs,
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
 
-    for (i = xs; i <= xe; i++)
+    for (i = xs; i <= xe; i++) {
         *(msk_ptr + i) = foreground_data[i];
+    }
 }
 
 static void draw_illegal_bitmap_mode1(void)
@@ -1314,13 +1336,13 @@ inline static void _draw_illegal_bitmap_mode2(BYTE *p, unsigned int xs,
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
 
-    for (j = ((vicii.memptr << 3)
-        + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
-        i <= xe; i++, j = (j + 8) & 0x1fff) {
-        if (j & 0x1000)
+    for (j = ((vicii.memptr << 3) + vicii.raster.ycounter + xs * 8) & 0x1fff, i = xs;
+         i <= xe; i++, j = (j + 8) & 0x1fff) {
+        if (j & 0x1000) {
             bmval = bmptr_high[j & 0x9ff];
-        else
+        } else {
             bmval = bmptr_low[j & 0x9ff];
+        }
 
         *(msk_ptr + i) = mcmsktable[bmval | 0x100];
     }
@@ -1338,8 +1360,9 @@ inline static void _draw_illegal_bitmap_mode2_cached(BYTE *p, unsigned int xs,
 
     memset(p + 8 * xs, 0, (xe - xs + 1) * 8);
 
-    for (i = xs; i <= xe; i++)
+    for (i = xs; i <= xe; i++) {
         *(msk_ptr + i) = mcmsktable[foreground_data[i] | 0x100];
+    }
 }
 
 static void draw_illegal_bitmap_mode2(void)
@@ -1376,10 +1399,11 @@ static int get_idle(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
         cache->color_data_1[1] = vicii.raster.idle_background_color;
         cache->color_data_1[2] = vicii.raster.video_mode;
         *xs = 0;
-        if (!vicii.overscan) 
+        if (!vicii.overscan) {
             *xe = VICII_SCREEN_TEXTCOLS - 1;
-        else
-            *xe = VICII_SCREEN_TEXTCOLS+8 - 1;
+        } else {
+            *xe = VICII_SCREEN_TEXTCOLS + 8 - 1;
+        }
         return 1;
     } else {
         return 0;
@@ -1397,10 +1421,11 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
     if (vicii.raster.video_mode == VICII_8BPP_CHUNKY_MODE) {
         BYTE *dest_ptr;
 
-        for (i=0; i<4; i++)
+        for (i = 0; i < 4; i++) {
             vicii.idle_data_m[i] = *(((vicii.regs[0x45] & 0x1f) << 16) + vicii.screen_ptr + 0x03fc + i);
+        }
 
-        dest_ptr = p+8*xs;
+        dest_ptr = p + 8 * xs;
         for (i = xs; i <= xe; i++) {
             *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[3]];
             *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[0]];
@@ -1416,7 +1441,6 @@ inline static void _draw_idle(BYTE *p, unsigned int xs, unsigned int xe,
         memset(p + xs * 8, vicii.raster.idle_background_color, (xe + 1 - xs) * 8);
         memset(msk_ptr + xs, 0, xe + 1 - xs);
     }
-
 }
 
 static void draw_idle(void)
@@ -1477,62 +1501,60 @@ inline static void _draw_8bpp_chunky_bitmap(BYTE *p, unsigned int xs,
     BYTE *countb_ptr, *dest_ptr;
     unsigned int i;
 
-    countb_ptr = mem_ram 
-               + vicii.countb
-               + xs*vicii.countb_step;
+    countb_ptr = mem_ram + vicii.countb + xs * vicii.countb_step;
 
     /* fetch idle data (this should really be made somewhere better) */
-    for (i=0; i<4; i++)
-      vicii.idle_data_m[i] = *(((vicii.regs[0x45] & 0x1f) << 16) + vicii.screen_ptr + 0x03fc + i);
+    for (i = 0; i < 4; i++) {
+        vicii.idle_data_m[i] = *(((vicii.regs[0x45] & 0x1f) << 16) + vicii.screen_ptr + 0x03fc + i);
+    }
 
     /* skip off-screen overscan region by adding an offset */
-    if (vicii.overscan)
+    if (vicii.overscan) {
         countb_ptr += 0x18;
+    }
 
-    dest_ptr = p+8*xs;
+    dest_ptr = p + 8 * xs;
 
     for (i = xs; i <= xe; i++) {
-        if (i<45) {
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+0)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+1)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+2)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+3)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+4)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+5)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+6)];
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+7)];
+        if (i < 45) {
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 0)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 1)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 2)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 3)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 4)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 5)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 6)];
+            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 7)];
             countb_ptr += vicii.countb_step;
-	} else {
-	    if (vicii.raster.ycounter != 7) {
-            *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+0)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+1)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+2)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+3)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+4)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+5)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+6)];
-        	*(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+7)];
-	    } else {
-	        if (i==45) {
-                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+0)];
-                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+1)];
-                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+2)];
-                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr+3)];
+        } else {
+            if (vicii.raster.ycounter != 7) {
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 0)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 1)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 2)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 3)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 4)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 5)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 6)];
+                *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 7)];
             } else {
+                if (i == 45) {
+                    *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 0)];
+                    *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 1)];
+                    *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 2)];
+                    *(dest_ptr++) = vicii.dtvpalette[*(countb_ptr + 3)];
+                } else {
+                    *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[3]];
+                    *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[0]];
+                    *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[1]];
+                    *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[2]];
+                }
                 *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[3]];
                 *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[0]];
                 *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[1]];
                 *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[2]];
-		    }
-            *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[3]];
-            *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[0]];
-            *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[1]];
-            *(dest_ptr++) = vicii.dtvpalette[vicii.idle_data_m[2]];
+            }
         }
-
-	}
     }
-
 }
 
 inline static void _draw_8bpp_chunky_bitmap_cached(BYTE *p, unsigned int xs,
@@ -1572,15 +1594,14 @@ static void draw_8bpp_chunky_bitmap_cached(raster_cache_t *cache, unsigned int x
 /*
     _draw_8bpp_chunky_bitmap_cached(GFX_PTR(), xs, xe, cache);
 */
-    _draw_8bpp_chunky_bitmap(GFX_PTR(), 0, vicii.raster.geometry->text_size.width - 1, 
+    _draw_8bpp_chunky_bitmap(GFX_PTR(), 0, vicii.raster.geometry->text_size.width - 1,
                              vicii.raster.gfx_msk);
 }
 
 static void draw_8bpp_chunky_bitmap_foreground(unsigned int start_char,
                                                unsigned int end_char)
 {
-    _draw_8bpp_chunky_bitmap(GFX_PTR(), start_char, end_char, 
-                             vicii.raster.gfx_msk);
+    _draw_8bpp_chunky_bitmap(GFX_PTR(), start_char, end_char, vicii.raster.gfx_msk);
 }
 
 /* 8BPP Two Plane bitmap mode  */
@@ -1619,15 +1640,11 @@ inline static void _draw_8bpp_two_plane_bitmap_mode(BYTE *p, unsigned int xs,
     unsigned int i;
     BYTE ctab[4];
 
-    countb_ptr = mem_ram
-                 + vicii.countb
-                 + xs*vicii.countb_step;
+    countb_ptr = mem_ram + vicii.countb + xs * vicii.countb_step;
 
-    counta_ptr = mem_ram
-                 + vicii.counta
-                 + xs*vicii.counta_step;
+    counta_ptr = mem_ram + vicii.counta + xs * vicii.counta_step;
 
-    dest_ptr = p+8*xs;
+    dest_ptr = p + 8 * xs;
 
     ctab[0] = vicii.raster.background_color;
     ctab[3] = vicii.ext_background_color[0];
@@ -1637,21 +1654,21 @@ inline static void _draw_8bpp_two_plane_bitmap_mode(BYTE *p, unsigned int xs,
         pa = *(counta_ptr);
         pb = *(countb_ptr);
 
-        c = ((pb & 0x80)>>6) | ((pa & 0x80)>>7);
+        c = ((pb & 0x80) >> 6) | ((pa & 0x80) >> 7);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x40)>>5) | ((pa & 0x40)>>6);
+        c = ((pb & 0x40) >> 5) | ((pa & 0x40) >> 6);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x20)>>4) | ((pa & 0x20)>>5);
+        c = ((pb & 0x20) >> 4) | ((pa & 0x20) >> 5);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x10)>>3) | ((pa & 0x10)>>4);
+        c = ((pb & 0x10) >> 3) | ((pa & 0x10) >> 4);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x08)>>2) | ((pa & 0x08)>>3);
+        c = ((pb & 0x08) >> 2) | ((pa & 0x08) >> 3);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x04)>>1) | ((pa & 0x04)>>2);
+        c = ((pb & 0x04) >> 1) | ((pa & 0x04) >> 2);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x02)>>0) | ((pa & 0x02)>>1);
+        c = ((pb & 0x02) >> 0) | ((pa & 0x02) >> 1);
         *(dest_ptr++) = ctab[c];
-        c = ((pb & 0x01)<<1) | ((pa & 0x01)>>0);
+        c = ((pb & 0x01) << 1) | ((pa & 0x01) >> 0);
         *(dest_ptr++) = ctab[c];
 
         countb_ptr += vicii.countb_step;
@@ -1684,8 +1701,7 @@ static void draw_8bpp_two_plane_bitmap_mode(void)
                                      vicii.raster.gfx_msk);
 }
 
-static void draw_8bpp_two_plane_bitmap_mode_cached(raster_cache_t *cache,
-                                             unsigned int xs, unsigned int xe)
+static void draw_8bpp_two_plane_bitmap_mode_cached(raster_cache_t *cache, unsigned int xs, unsigned int xe)
 {
 /*
     _draw_8bpp_two_plane_bitmap_mode_cached(GFX_PTR(), xs, xe, cache);
@@ -1694,8 +1710,7 @@ static void draw_8bpp_two_plane_bitmap_mode_cached(raster_cache_t *cache,
                                      vicii.raster.gfx_msk);
 }
 
-static void draw_8bpp_two_plane_bitmap_mode_foreground(unsigned int start_char,
-                                                 unsigned int end_char)
+static void draw_8bpp_two_plane_bitmap_mode_foreground(unsigned int start_char, unsigned int end_char)
 {
     _draw_8bpp_two_plane_bitmap_mode(GFX_PTR(), start_char, end_char,
                                      vicii.raster.gfx_msk);
@@ -1741,36 +1756,32 @@ inline static void _draw_8bpp_fred_bitmap_mode(BYTE *p, unsigned int xs,
     BYTE *countb_ptr, *counta_ptr, *dest_ptr, c, cr, pa, pb;
     unsigned int i;
 
-    countb_ptr = mem_ram
-                 + vicii.countb
-                 + xs*vicii.countb_step;
+    countb_ptr = mem_ram + vicii.countb + xs * vicii.countb_step;
 
-    counta_ptr = mem_ram
-                 + vicii.counta
-                 + xs*vicii.counta_step;
+    counta_ptr = mem_ram + vicii.counta + xs * vicii.counta_step;
 
-    dest_ptr = p+8*xs;
+    dest_ptr = p + 8 * xs;
 
     for (i = xs; i <= xe; i++) {
-        cr = vicii.cbuf[i]<<4;
+        cr = vicii.cbuf[i] << 4;
         pa = *(counta_ptr);
         pb = *(countb_ptr);
-        c = vicii.dtvpalette[cr | ((pb & 0xc0)>>4) | ((pa & 0xc0)>>6)];
+        c = vicii.dtvpalette[cr | ((pb & 0xc0) >> 4) | ((pa & 0xc0) >> 6)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         pb <<= 2;
         pa <<= 2;
-        c = vicii.dtvpalette[cr | ((pb & 0xc0)>>4) | ((pa & 0xc0)>>6)];
+        c = vicii.dtvpalette[cr | ((pb & 0xc0) >> 4) | ((pa & 0xc0) >> 6)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         pb <<= 2;
         pa <<= 2;
-        c = vicii.dtvpalette[cr | ((pb & 0xc0)>>4) | ((pa & 0xc0)>>6)];
+        c = vicii.dtvpalette[cr | ((pb & 0xc0) >> 4) | ((pa & 0xc0) >> 6)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         pb <<= 2;
         pa <<= 2;
-        c = vicii.dtvpalette[cr | ((pb & 0xc0)>>4) | ((pa & 0xc0)>>6)];
+        c = vicii.dtvpalette[cr | ((pb & 0xc0) >> 4) | ((pa & 0xc0) >> 6)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         countb_ptr += vicii.countb_step;
@@ -1869,28 +1880,28 @@ inline static void _draw_8bpp_fred2_bitmap_mode(BYTE *p, unsigned int xs,
                  + vicii.counta
                  + xs;
 
-    dest_ptr = p+8*xs;
+    dest_ptr = p + 8 * xs;
 
     for (i = xs; i <= xe; i++) {
-        cr = (vicii.cbuf[i]&0xc<<2) | (vicii.cbuf[i] & 0x3);
+        cr = (vicii.cbuf[i] & 0xc << 2) | (vicii.cbuf[i] & 0x3);
         pa = *(counta_ptr);
         pb = *(countb_ptr);
-        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0)>>4)];
+        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0) >> 4)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         pb <<= 2;
         pa <<= 2;
-        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0)>>4)];
+        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0) >> 4)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         pb <<= 2;
         pa <<= 2;
-        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0)>>4)];
+        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0) >> 4)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         pb <<= 2;
         pa <<= 2;
-        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0)>>4)];
+        c = vicii.dtvpalette[cr | (pb & 0xc0) | ((pa & 0xc0) >> 4)];
         *(dest_ptr++) = c;
         *(dest_ptr++) = c;
         countb_ptr += vicii.countb_step;
@@ -1984,15 +1995,13 @@ inline static void _draw_8bpp_pixel_cell_bitmap_mode(BYTE *p, unsigned int xs,
     counta_ptr = mem_ram
                  + (vicii.counta & 0x1fc000)
                  + vicii.mem_counter; // TODO broken in last ~3 lines
-*/		 
-    countb_ptr = mem_ram
-                 + (vicii.countb & 0x1fc000)
-                 + vicii.raster.ycounter*8;
+*/
+    countb_ptr = mem_ram + (vicii.countb & 0x1fc000) + vicii.raster.ycounter * 8;
 
-    dest_ptr = p+8*xs;
+    dest_ptr = p + 8 * xs;
 
     for (i = xs; i <= xe; i++) {
-        c_ptr = countb_ptr + vicii.vbuf[i]*64; /* (*counta_ptr)*64; */
+        c_ptr = countb_ptr + vicii.vbuf[i] * 64; /* (*counta_ptr)*64; */
         *(dest_ptr++) = vicii.dtvpalette[*(c_ptr++)];
         *(dest_ptr++) = vicii.dtvpalette[*(c_ptr++)];
         *(dest_ptr++) = vicii.dtvpalette[*(c_ptr++)];
@@ -2241,4 +2250,3 @@ void vicii_draw_init(void)
 
     setup_modes();
 }
-

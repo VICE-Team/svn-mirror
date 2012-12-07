@@ -172,8 +172,8 @@ static void update_pixel_tables(raster_t *raster)
     for (i = 0; i < 256; i++) {
         vic.pixel_table.sing[i] = i;
         *((BYTE *)(vic.pixel_table.doub + i))
-        = *((BYTE *)(vic.pixel_table.doub + i) + 1)
-        = vic.pixel_table.sing[i];
+            = *((BYTE *)(vic.pixel_table.doub + i) + 1)
+                  = vic.pixel_table.sing[i];
     }
 }
 
@@ -495,8 +495,7 @@ int vic_dump(void)
             break;
 
         case VIC_FETCH_CHARGEN:
-            addr = char_base
-                 + (vic.vbuf * vic.char_height + (vic.raster.ycounter & ((vic.char_height >> 1) | 7)));
+            addr = char_base + (vic.vbuf * vic.char_height + (vic.raster.ycounter & ((vic.char_height >> 1) | 7)));
 
             mon_out("$%04x (vbuf $%02x)\n", vic_dump_addr(addr), vic.vbuf);
             break;

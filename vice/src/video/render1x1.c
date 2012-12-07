@@ -73,7 +73,7 @@ void render_08_1x1_04(const video_render_color_tables_t *color_tab, const BYTE *
             tmpsrc += 8;
             tmptrg += 8;
         }
-        for (x = 0; x <wend; x++) {
+        for (x = 0; x < wend; x++) {
             *tmptrg++ = (BYTE)colortab[*tmpsrc++];
         }
         src += pitchs;
@@ -110,7 +110,7 @@ void render_16_1x1_04(const video_render_color_tables_t *color_tab, const BYTE *
         for (x = 0; x < wstart; x++) {
             *tmptrg++ = (WORD)colortab[*tmpsrc++];
         }
-        for (x = 0; x< wfast; x++) {
+        for (x = 0; x < wfast; x++) {
             tmptrg[0] = (WORD)colortab[tmpsrc[0]];
             tmptrg[1] = (WORD)colortab[tmpsrc[1]];
             tmptrg[2] = (WORD)colortab[tmpsrc[2]];

@@ -53,7 +53,7 @@ static int set_border_mode(int val, void *param)
         vic_resources.border_mode = val;
         machine_change_timing(sync ^ VIC_BORDER_MODE(vic_resources.border_mode));
     }
-   return 0;
+    return 0;
 }
 
 static const resource_int_t resources_int[] =
@@ -94,4 +94,3 @@ int vic_resources_init(void)
 
     return resources_register_int(resources_int);
 }
-

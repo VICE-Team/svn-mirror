@@ -52,10 +52,10 @@
 
 #define WRITE_BLOCK 512
 
-#define SET_LO_HI(p, val)             \
-    do {                              \
-        *((p)++) = (val) & 0xff;      \
-        *((p)++) = ((val)>>8) & 0xff; \
+#define SET_LO_HI(p, val)               \
+    do {                                \
+        *((p)++) = (val) & 0xff;        \
+        *((p)++) = ((val) >> 8) & 0xff; \
     } while (0)
 
 #define DRIVE_RAMSIZE           0x400
@@ -107,7 +107,6 @@ typedef struct bufferinfo_s {
     BYTE *side_sector_needsupdate;
 
     vdrive_dir_context_t dir; /* directory listing context or directory entry */
-
 } bufferinfo_t;
 
 struct disk_image_s;
@@ -130,7 +129,7 @@ typedef struct vdrive_s {
     unsigned int Dir_Track;    /* First directory sector location */
     unsigned int Dir_Sector;
     unsigned int num_tracks;
-    /* CBM partition first and last track (1581) 
+    /* CBM partition first and last track (1581)
      * Part_Start is 1, Part_End = num_tracks if no partition is used
      */
     unsigned int Part_Start, Part_End;
@@ -182,24 +181,17 @@ typedef struct vdrive_s {
 extern void vdrive_init(void);
 extern int vdrive_device_setup(vdrive_t *vdrive, unsigned int unit);
 extern void vdrive_device_shutdown(vdrive_t *vdrive);
-extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit,
-                               vdrive_t *vdrive);
-extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit,
-                                vdrive_t *vdrive);
+extern int vdrive_attach_image(struct disk_image_s *image, unsigned int unit, vdrive_t *vdrive);
+extern void vdrive_detach_image(struct disk_image_s *image, unsigned int unit, vdrive_t *vdrive);
 extern void vdrive_close_all_channels(vdrive_t *vdrive);
 extern int vdrive_get_max_sectors(vdrive_t *vdrive, unsigned int track);
-extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector,
-                                 BYTE **buffer);
-extern void vdrive_set_last_read(unsigned int track, unsigned int sector,
-                                 BYTE *buffer);
+extern void vdrive_get_last_read(unsigned int *track, unsigned int *sector, BYTE **buffer);
+extern void vdrive_set_last_read(unsigned int track, unsigned int sector, BYTE *buffer);
 
 extern void vdrive_alloc_buffer(struct bufferinfo_s *p, int mode);
 extern void vdrive_free_buffer(struct bufferinfo_s *p);
 extern void vdrive_set_disk_geometry(vdrive_t *vdrive);
-extern int vdrive_read_sector(vdrive_t *vdrive, BYTE *buf,
-                              unsigned int track, unsigned int sector);
-extern int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf,
-                               unsigned int track, unsigned int sector);
+extern int vdrive_read_sector(vdrive_t *vdrive, BYTE *buf, unsigned int track, unsigned int sector);
+extern int vdrive_write_sector(vdrive_t *vdrive, const BYTE *buf, unsigned int track, unsigned int sector);
 
 #endif
-

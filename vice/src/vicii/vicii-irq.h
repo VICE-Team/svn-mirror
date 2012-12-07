@@ -47,4 +47,3 @@ extern void vicii_irq_alarm_handler(CLOCK offset, void *data);
 extern void vicii_irq_init(void);
 
 #endif
-

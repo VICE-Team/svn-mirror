@@ -52,11 +52,10 @@ inline static unsigned int V(unsigned int YUV)
     return YUV & 0xff;
 }
 
-static void renderyuv_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
-                        unsigned int *colors)
+static void renderyuv_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1, unsigned int *colors)
 {
     int i;
-    for (i = 0;i < 256; i++) {
+    for (i = 0; i < 256; i++) {
         unsigned int YUV = colors[i];
         unsigned int Y0 = Y(YUV);
         unsigned int color = ((U(YUV) >> 1) << shift_u) | ((V(YUV) >> 1) << shift_v);
@@ -77,7 +76,7 @@ void renderyuv_4_2_2(image_t* image,
 {
     unsigned int x, y;
     unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
-    int dest_pitch = image->pitches[0]/4;
+    int dest_pitch = image->pitches[0] / 4;
 
     /* Normalize to 2x1 blocks. */
     if (dest_x & 1) {
@@ -90,9 +89,7 @@ void renderyuv_4_2_2(image_t* image,
     }
 
     if (!*yuv_updated) {
-        renderyuv_4_2_2_color_update(shift_y0,
-                shift_u, shift_v, shift_y1,
-                src_color);
+        renderyuv_4_2_2_color_update(shift_y0, shift_u, shift_v, shift_y1, src_color);
         *yuv_updated = 1;
     }
 
@@ -112,17 +109,17 @@ void renderyuv_4_2_2(image_t* image,
 
 
 static void renderyuv_2x_4_2_2_color_update(int shift_y0, int shift_u, int shift_v, int shift_y1,
-                        unsigned int *colors, int double_scan, int pal_scanline_shade)
+                                            unsigned int *colors, int double_scan, int pal_scanline_shade)
 {
     int i;
-    for (i = 0;i < 256; i++) {
+    for (i = 0; i < 256; i++) {
         unsigned int YUV = colors[i];
         unsigned int Y0 = Y(YUV);
         unsigned int color = (U(YUV) << shift_u) | (V(YUV) << shift_v);
         unsigned int pixel2 = (Y0 << shift_y0) | color | (Y0 << shift_y1);
         colors[i] = pixel2;
         if (!double_scan) {
-            Y0 = Y0*pal_scanline_shade >> 10;
+            Y0 = Y0 * pal_scanline_shade >> 10;
             pixel2 = (Y0 << shift_y0) | color | (Y0 << shift_y1);
         }
         colors[i + 256] = pixel2;
@@ -142,20 +139,20 @@ void renderyuv_2x_4_2_2(image_t* image,
 {
     unsigned int x, y;
     unsigned int *dest = (unsigned int *)(image->data + image->offsets[0]);
-    int dest_pitch = image->pitches[0]/4;
+    int dest_pitch = image->pitches[0] / 4;
 
     /* No need to normalize to 2x1 blocks because of size doubling. */
     if (!*yuv_updated) {
         renderyuv_2x_4_2_2_color_update(shift_y0,
-                shift_u, shift_v, shift_y1,
-                src_color, double_scan,
-                pal_scanline_shade);
+                                        shift_u, shift_v, shift_y1,
+                                        src_color, double_scan,
+                                        pal_scanline_shade);
         *yuv_updated = 1;
     }
 
     /* Add start offsets. */
-    dest += (dest_pitch << 1)*dest_y + dest_x;
-    src += src_pitch*src_y + src_x;
+    dest += (dest_pitch << 1) * dest_y + dest_x;
+    src += src_pitch * src_y + src_x;
 
     /* Render 2x1 blocks, YUV 4:2:2 */
     for (y = 0; y < src_h; y++) {
@@ -178,7 +175,7 @@ void renderyuv_2x_4_2_2(image_t* image,
 static void renderyuv_4_1_1_color_update(unsigned int *colors)
 {
     int i;
-    for (i = 0;i < 256; i++) {
+    for (i = 0; i < 256; i++) {
         unsigned int YUV = colors[i];
         unsigned int Y0 = Y(YUV);
         colors[i] = (V(YUV) << 20) | (U(YUV) << 10) | Y0;
@@ -228,10 +225,10 @@ void renderyuv_4_1_1(image_t* image,
     }
 
     /* Add start offsets. */
-    Yptr += Ypitch*dest_y + dest_x;
-    Uptr += (Upitch*dest_y + dest_x) >> 1;
-    Vptr += (Vpitch*dest_y + dest_x) >> 1;
-    src += src_pitch*src_y + src_x;
+    Yptr += Ypitch * dest_y + dest_x;
+    Uptr += (Upitch * dest_y + dest_x) >> 1;
+    Vptr += (Vpitch * dest_y + dest_x) >> 1;
+    src += src_pitch * src_y + src_x;
 
     /* Render 2x2 blocks, YUV 4:1:1 */
     for (y = 0; y < src_h; y += 2) {
@@ -266,7 +263,7 @@ void renderyuv_4_1_1(image_t* image,
 static void renderyuv_2x_4_1_1_color_update(unsigned int *colors, int double_scan, int pal_scanline_shade)
 {
     int i;
-    for (i = 0;i < 256; i++) {
+    for (i = 0; i < 256; i++) {
         unsigned int YUV = colors[i];
         unsigned int Y0 = Y(YUV);
         colors[i] = (V(YUV) << 24) | (U(YUV) << 16) | (Y0 << 8) | Y0;
@@ -299,16 +296,15 @@ void renderyuv_2x_4_1_1(image_t* image,
 
     /* No need to normalize to 2x2 blocks because of size doubling. */
     if (!*yuv_updated) {
-        renderyuv_2x_4_1_1_color_update(src_color, double_scan,
-                pal_scanline_shade);
+        renderyuv_2x_4_1_1_color_update(src_color, double_scan, pal_scanline_shade);
         *yuv_updated = 1;
     }
 
     /* Add start offsets. */
-    Yptr += Ypitch*dest_y + dest_x;
-    Uptr += Upitch*dest_y + dest_x;
-    Vptr += Vpitch*dest_y + dest_x;
-    src += src_pitch*src_y + src_x;
+    Yptr += Ypitch * dest_y + dest_x;
+    Uptr += Upitch * dest_y + dest_x;
+    Vptr += Vpitch * dest_y + dest_x;
+    src += src_pitch * src_y + src_x;
 
     /* Render 2x2 blocks, YUV 4:1:1 */
     for (y = 0; y < src_h; y++) {
@@ -346,7 +342,7 @@ void renderyuv_2x_4_1_1(image_t* image,
 static void renderyuv_4_1_1_pal_color_update(unsigned int *colors)
 {
     int i;
-    for (i = 0;i < 256; i++) {
+    for (i = 0; i < 256; i++) {
         unsigned int YUV = colors[i];
         unsigned int Y0 = Y(YUV);
         colors[i] = (V(YUV) << 21) | (U(YUV) << 10) | Y0;
@@ -410,10 +406,10 @@ void renderyuv_4_1_1_pal(image_t* image,
     }
 
     /* Add start offsets. */
-    Yptr += Ypitch*dest_y + dest_x;
-    Uptr += (Upitch*dest_y + dest_x) >> 1;
-    Vptr += (Vpitch*dest_y + dest_x) >> 1;
-    src += src_pitch*src_y + src_x;
+    Yptr += Ypitch * dest_y + dest_x;
+    Uptr += (Upitch * dest_y + dest_x) >> 1;
+    Vptr += (Vpitch * dest_y + dest_x) >> 1;
+    src += src_pitch * src_y + src_x;
 
     /* Render 2x2 blocks, YUV 4:1:1 */
     for (y = 0; y < src_h; y += 2) {
@@ -426,27 +422,27 @@ void renderyuv_4_1_1_pal(image_t* image,
             YUVm10 = src_color[*src];
             YUVm11 = src_color[*src2];
         }
-        YUV00 =  src_color[*src];
-        YUV01 =  src_color[*src2];
+        YUV00 = src_color[*src];
+        YUV01 = src_color[*src2];
         Yptr2 = Yptr + Ypitch;
         for (x = 0; x < src_w - 2; x += 2) {
             /* Read next 2x2 block. */
             YUV10 = src_color[src[x + 1]];
             YUV20 = src_color[src[x + 2]];
             if (pal_blur) {
-                Yptr[x] = (((BYTE)YUV00)*pal_sharp + ((YUVm10 + YUV10) & 0x1ff)*pal_blur) >> 8;
-                Yptr[x + 1] = (((BYTE)YUV10)*pal_sharp + ((YUV00 + YUV20) & 0x1ff)*pal_blur) >> 8;
+                Yptr[x] = (((BYTE)YUV00) * pal_sharp + ((YUVm10 + YUV10) & 0x1ff) * pal_blur) >> 8;
+                Yptr[x + 1] = (((BYTE)YUV10) * pal_sharp + ((YUV00 + YUV20) & 0x1ff) * pal_blur) >> 8;
             } else {
                 Yptr[x] = (BYTE)YUV00;
                 Yptr[x + 1] = (BYTE)YUV10;
             }
             uv = YUVm10 + YUV00 + YUV10 + YUV20;
-            YUVm10 = YUV10; YUV00 = YUV20;/* Prepare to read next 2x2 block. */
+            YUVm10 = YUV10; YUV00 = YUV20; /* Prepare to read next 2x2 block. */
             YUV11 = src_color[src2[x + 1]];
             YUV21 = src_color[src2[x + 2]];
             if (pal_blur) {
-                Yptr2[x] = (((BYTE)YUV01)*pal_sharp + ((YUVm11 + YUV11) & 0x1ff)*pal_blur) >> 8;
-                Yptr2[x + 1] = (((BYTE)YUV11)*pal_sharp + ((YUV01 + YUV21) & 0x1ff)*pal_blur) >> 8;
+                Yptr2[x] = (((BYTE)YUV01) * pal_sharp + ((YUVm11 + YUV11) & 0x1ff) * pal_blur) >> 8;
+                Yptr2[x + 1] = (((BYTE)YUV11) * pal_sharp + ((YUV01 + YUV21) & 0x1ff) * pal_blur) >> 8;
             } else {
                 Yptr2[x] = (BYTE)YUV01;
                 Yptr2[x + 1] = (BYTE)YUV11;
@@ -456,7 +452,7 @@ void renderyuv_4_1_1_pal(image_t* image,
             *Uptr++ = (BYTE)uv;
             uv >>= 11;
             *Vptr++ = (BYTE)uv;
-            YUVm11 = YUV11; YUV01 = YUV21;/* Prepare to read next 2x2 block. */
+            YUVm11 = YUV11; YUV01 = YUV21; /* Prepare to read next 2x2 block. */
         }
         /* Read last 2x2 block. */
         YUV10 = src_color[src[x + 1]];
@@ -469,16 +465,16 @@ void renderyuv_4_1_1_pal(image_t* image,
             YUV21 = src_color[src2[x + 2]];
         }
         if (pal_blur) {
-            Yptr[x] = (((BYTE)YUV00)*pal_sharp + ((YUVm10 + YUV10) & 0x1ff)*pal_blur) >> 8;
-            Yptr[x + 1] = (((BYTE)YUV10)*pal_sharp + ((YUV00 + YUV20) & 0x1ff)*pal_blur) >> 8;
+            Yptr[x] = (((BYTE)YUV00) * pal_sharp + ((YUVm10 + YUV10) & 0x1ff) * pal_blur) >> 8;
+            Yptr[x + 1] = (((BYTE)YUV10) * pal_sharp + ((YUV00 + YUV20) & 0x1ff) * pal_blur) >> 8;
         } else {
             Yptr[x] = (BYTE)YUV00;
             Yptr[x + 1] = (BYTE)YUV10;
         }
         uv = YUVm10 + YUV00 + YUV10 + YUV20;
         if (pal_blur) {
-            Yptr2[x] = (((BYTE)YUV01)*pal_sharp + ((YUVm11 + YUV11) & 0x1ff)*pal_blur) >> 8;
-            Yptr2[x + 1] = (((BYTE)YUV11)*pal_sharp + ((YUV01 + YUV21) & 0x1ff)*pal_blur) >> 8;
+            Yptr2[x] = (((BYTE)YUV01) * pal_sharp + ((YUVm11 + YUV11) & 0x1ff) * pal_blur) >> 8;
+            Yptr2[x + 1] = (((BYTE)YUV11) * pal_sharp + ((YUV01 + YUV21) & 0x1ff) * pal_blur) >> 8;
         } else {
             Yptr2[x] = (BYTE)YUV01;
             Yptr2[x + 1] = (BYTE)YUV11;
@@ -499,7 +495,7 @@ void renderyuv_4_1_1_pal(image_t* image,
 static void renderyuv_2x_4_1_1_pal_color_update(unsigned int *colors, int double_scan, int pal_scanline_shade)
 {
     int i;
-    for (i = 0;i < 256; i++) {
+    for (i = 0; i < 256; i++) {
         unsigned int YUV = colors[i];
         unsigned int Y0 = Y(YUV);
         colors[i] = (V(YUV) << 21) | (U(YUV) << 10) | Y0;
@@ -541,8 +537,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
 
     /* No need to normalize to 2x2 blocks because of size doubling. */
     if (!*yuv_updated) {
-        renderyuv_2x_4_1_1_pal_color_update(src_color, double_scan,
-                pal_scanline_shade);
+        renderyuv_2x_4_1_1_pal_color_update(src_color, double_scan, pal_scanline_shade);
         *yuv_updated = 1;
     }
 
@@ -565,10 +560,10 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
     }
 
     /* Add start offsets. */
-    Yptr += (Ypitch*dest_y + dest_x) << 1;
-    Uptr += Upitch*dest_y + dest_x;
-    Vptr += Vpitch*dest_y + dest_x;
-    src += src_pitch*src_y + src_x;
+    Yptr += (Ypitch * dest_y + dest_x) << 1;
+    Uptr += Upitch * dest_y + dest_x;
+    Vptr += Vpitch * dest_y + dest_x;
+    src += src_pitch * src_y + src_x;
 
     if (dest_y > 0) {
         /* Store previous line. */
@@ -628,7 +623,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
             for (x = 1; x < src_w; x++) {
                 /* Read next pixel. */
                 YUV1 = src_color[src[x]];
-                tmp = pal_blur ? ((((BYTE)YUV0)*pal_sharp + ((YUVm1 + YUV1) & 0x1ff)*pal_blur) >> 8) : YUV0;
+                tmp = pal_blur ? ((((BYTE)YUV0) * pal_sharp + ((YUVm1 + YUV1) & 0x1ff) * pal_blur) >> 8) : YUV0;
                 Yptr[x] = (BYTE)tmp;
                 Yptr++;
                 Yptr[x] = (BYTE)tmp;
@@ -649,7 +644,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
             for (x = 1; x < src_w; x++) {
                 /* Read next pixel. */
                 YUV1 = src_color[src[x]];
-                tmp = pal_blur ? ((((BYTE)YUV0)*pal_sharp + ((YUVm1 + YUV1) & 0x1ff)*pal_blur) >> 8) : YUV0;
+                tmp = pal_blur ? ((((BYTE)YUV0) * pal_sharp + ((YUVm1 + YUV1) & 0x1ff) * pal_blur) >> 8) : YUV0;
                 Yptr[x] = (BYTE)tmp;
                 Yptr++;
                 Yptr[x] = (BYTE)tmp;
@@ -678,7 +673,7 @@ void renderyuv_2x_4_1_1_pal(image_t* image,
         Uptr[x] = (BYTE)tmp;
         tmp >>= 11;
         Vptr[x] = (BYTE)tmp;
-        tmp = pal_blur ? ((((BYTE)YUV0)*pal_sharp + ((YUVm1 + YUV1) & 0x1ff)*pal_blur) >> 8) : YUV0;
+        tmp = pal_blur ? ((((BYTE)YUV0) * pal_sharp + ((YUVm1 + YUV1) & 0x1ff) * pal_blur) >> 8) : YUV0;
         Yptr[x] = (BYTE)tmp;
         Yptr++;
         Yptr[x] = (BYTE)tmp;

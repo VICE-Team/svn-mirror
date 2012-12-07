@@ -89,10 +89,10 @@ static int mem_write_ram_snapshot_module(snapshot_t *p)
     BYTE config;
 
     config = (ram_block_0_enabled ? 1 : 0)
-                | (ram_block_1_enabled ? 2 : 0)
-                | (ram_block_2_enabled ? 4 : 0)
-                | (ram_block_3_enabled ? 8 : 0)
-                | (ram_block_5_enabled ? 32 : 0) ;
+             | (ram_block_1_enabled ? 2 : 0)
+             | (ram_block_2_enabled ? 4 : 0)
+             | (ram_block_3_enabled ? 8 : 0)
+             | (ram_block_5_enabled ? 32 : 0);
 
     m = snapshot_module_create(p, SNAP_MEM_MODULE_NAME,
                                VIC20MEM_DUMP_VER_MAJOR,
@@ -225,8 +225,7 @@ static int mem_write_rom_snapshot_module(snapshot_t *p, int save_roms)
         return 0;
     }
 
-    m = snapshot_module_create(p, SNAP_ROM_MODULE_NAME,
-                          VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
+    m = snapshot_module_create(p, SNAP_ROM_MODULE_NAME, VIC20MEM_DUMP_VER_MAJOR, VIC20MEM_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -320,4 +319,3 @@ int vic20_snapshot_read_module(snapshot_t *m)
     }
     return 0;
 }
-

@@ -42,9 +42,9 @@
 #define VICII_NUM_SPRITES      8
 #define VICII_NUM_COLORS       16
 
-/* This macro translated PAL cycles 1 to 63 into our internal 
+/* This macro translated PAL cycles 1 to 63 into our internal
    representation, i.e 0-63. */
-#define VICII_PAL_CYCLE(c) ( (c) - 1)
+#define VICII_PAL_CYCLE(c) ((c) - 1)
 
 /* Common parameters for all video standards */
 #define VICII_25ROW_START_LINE    0x33
@@ -294,4 +294,3 @@ extern void vicii_raster_draw_handler(void);
 #endif
 
 #endif
-

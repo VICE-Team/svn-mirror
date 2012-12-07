@@ -4,7 +4,7 @@
  * Written by
  *  Daniel Kahlin <daniel@kahlin.net>
  *
- * Based on code by 
+ * Based on code by
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
  *
@@ -304,66 +304,66 @@ int cartridge_attach_image(int type, const char *filename)
 {
     int type_orig;
     int generic_multifile = 0;
-    int ret=0;
+    int ret = 0;
 
     /* Attaching no cartridge always works.  */
-    if (type == CARTRIDGE_NONE || filename==NULL || *filename == '\0')
+    if (type == CARTRIDGE_NONE || filename == NULL || *filename == '\0') {
         return 0;
+    }
 
-    log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.",
-          type, filename);
+    log_message(LOG_DEFAULT, "Attached cartridge type %d, file=`%s'.", type, filename);
 
-    type_orig=type;
+    type_orig = type;
     switch (type_orig) {
-    case CARTRIDGE_VIC20_DETECT:
-    case CARTRIDGE_VIC20_4KB_2000:
-    case CARTRIDGE_VIC20_8KB_2000:
-    case CARTRIDGE_VIC20_4KB_6000:
-    case CARTRIDGE_VIC20_8KB_6000:
-    case CARTRIDGE_VIC20_4KB_A000:
-    case CARTRIDGE_VIC20_8KB_A000:
-    case CARTRIDGE_VIC20_4KB_B000:
-    case CARTRIDGE_VIC20_8KB_4000:
-    case CARTRIDGE_VIC20_4KB_4000:
-    case CARTRIDGE_VIC20_16KB_2000:
-    case CARTRIDGE_VIC20_16KB_4000:
-    case CARTRIDGE_VIC20_16KB_6000:
-        /* 
-         * For specific layouts only detach if we were something else than
-         * CARTRIDGE_VIC20_GENERIC before.
-         * This allows us to add images to a generic type.
-         */
-        if (vic20cart_type != CARTRIDGE_VIC20_GENERIC) {
+        case CARTRIDGE_VIC20_DETECT:
+        case CARTRIDGE_VIC20_4KB_2000:
+        case CARTRIDGE_VIC20_8KB_2000:
+        case CARTRIDGE_VIC20_4KB_6000:
+        case CARTRIDGE_VIC20_8KB_6000:
+        case CARTRIDGE_VIC20_4KB_A000:
+        case CARTRIDGE_VIC20_8KB_A000:
+        case CARTRIDGE_VIC20_4KB_B000:
+        case CARTRIDGE_VIC20_8KB_4000:
+        case CARTRIDGE_VIC20_4KB_4000:
+        case CARTRIDGE_VIC20_16KB_2000:
+        case CARTRIDGE_VIC20_16KB_4000:
+        case CARTRIDGE_VIC20_16KB_6000:
+            /*
+             * For specific layouts only detach if we were something else than
+             * CARTRIDGE_VIC20_GENERIC before.
+             * This allows us to add images to a generic type.
+             */
+            if (vic20cart_type != CARTRIDGE_VIC20_GENERIC) {
+                cartridge_detach_image(-1);
+            }
+            generic_multifile = 1;
+            type = CARTRIDGE_VIC20_GENERIC;
+            break;
+        case CARTRIDGE_VIC20_GENERIC:
+            /*
+             * this is because the only generic cart that is attachable
+             * will be attached as a auto detected multi file cart for now
+             * Remove when this changes.
+             */
+            generic_multifile = 1;
+            break;
+        default:
             cartridge_detach_image(-1);
-        }
-        generic_multifile = 1;
-        type=CARTRIDGE_VIC20_GENERIC;
-        break;
-    case CARTRIDGE_VIC20_GENERIC:
-        /*
-         * this is because the only generic cart that is attachable
-         * will be attached as a auto detected multi file cart for now
-         * Remove when this changes.
-         */
-        generic_multifile = 1;
-        break;
-    default:
-        cartridge_detach_image(-1);
     }
 
     switch (type) {
-    case CARTRIDGE_VIC20_GENERIC:
-        ret = generic_bin_attach(type_orig, filename);
-        break;
-    case CARTRIDGE_VIC20_FP:
-        ret = vic_fp_bin_attach(filename);
-        break;
-    case CARTRIDGE_VIC20_MEGACART:
-        ret = megacart_bin_attach(filename);
-        break;
-    case CARTRIDGE_VIC20_FINAL_EXPANSION:
-        ret = finalexpansion_bin_attach(filename);
-        break;
+        case CARTRIDGE_VIC20_GENERIC:
+            ret = generic_bin_attach(type_orig, filename);
+            break;
+        case CARTRIDGE_VIC20_FP:
+            ret = vic_fp_bin_attach(filename);
+            break;
+        case CARTRIDGE_VIC20_MEGACART:
+            ret = megacart_bin_attach(filename);
+            break;
+        case CARTRIDGE_VIC20_FINAL_EXPANSION:
+            ret = finalexpansion_bin_attach(filename);
+            break;
     }
 
     vic20cart_type = type;
@@ -373,7 +373,7 @@ int cartridge_attach_image(int type, const char *filename)
         util_string_set(&cartfile, filename);
     }
     if (ret == 0) {
-        cartridge_attach(type,NULL);
+        cartridge_attach(type, NULL);
     }
     return ret;
 }
@@ -423,8 +423,7 @@ int vic20cart_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
     int ret = 0;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

@@ -27,8 +27,7 @@
 #ifndef VICE_VIC_RESOURCES_H
 #define VICE_VIC_RESOURCES_H
 
-struct vic_resources_s
-{
+struct vic_resources_s {
     /* VIC border mode, 0..3 */
     int border_mode;
 };
@@ -39,4 +38,3 @@ extern vic_resources_t vic_resources;
 extern int vic_resources_init(void);
 
 #endif
-

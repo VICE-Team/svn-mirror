@@ -89,8 +89,7 @@ void render_08_scale2x(const video_render_color_tables_t *color_tab,
         srcy2 = (y & 1 ? tmpsrc - pitchs : tmpsrc + pitchs);
 
         for (x = 0; x < width; x++) {
-            *tmptrg++ = (BYTE)scale2x(colortab, &srcx1, &srcx2,
-                                        &srcy1, &srcy2, &tmpsrc);
+            *tmptrg++ = (BYTE)scale2x(colortab, &srcx1, &srcx2, &srcy1, &srcy2, &tmpsrc);
         }
 
         if (y & 1) {
@@ -128,8 +127,7 @@ void render_16_scale2x(const video_render_color_tables_t *color_tab,
         srcy2 = (y & 1 ? tmpsrc - pitchs : tmpsrc + pitchs);
 
         for (x = 0; x < width; x++) {
-            *tmptrg++ = (WORD)scale2x(colortab, &srcx1, &srcx2,
-                                        &srcy1, &srcy2, &tmpsrc);
+            *tmptrg++ = (WORD)scale2x(colortab, &srcx1, &srcx2, &srcy1, &srcy2, &tmpsrc);
         }
 
         if (y & 1) {
@@ -168,8 +166,7 @@ void render_24_scale2x(const video_render_color_tables_t *color_tab,
         srcy2 = (y & 1 ? tmpsrc - pitchs : tmpsrc + pitchs);
 
         for (x = 0; x < width; x++) {
-            color = scale2x(colortab, &srcx1, &srcx2,
-                                        &srcy1, &srcy2, &tmpsrc);
+            color = scale2x(colortab, &srcx1, &srcx2, &srcy1, &srcy2, &tmpsrc);
             *tmptrg++ = (BYTE)color;
             color >>= 8;
             *tmptrg++ = (BYTE)color;
@@ -212,8 +209,7 @@ void render_32_scale2x(const video_render_color_tables_t *color_tab,
         srcy2 = (y & 1 ? tmpsrc - pitchs : tmpsrc + pitchs);
 
         for (x = 0; x < width; x++) {
-            *tmptrg++ = scale2x(colortab, &srcx1, &srcx2,
-                                        &srcy1, &srcy2, &tmpsrc);
+            *tmptrg++ = scale2x(colortab, &srcx1, &srcx2, &srcy1, &srcy2, &tmpsrc);
         }
 
         if (y & 1) {
@@ -223,4 +219,3 @@ void render_32_scale2x(const video_render_color_tables_t *color_tab,
         trg += pitcht;
     }
 }
-

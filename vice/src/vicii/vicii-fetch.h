@@ -35,4 +35,3 @@ extern void vicii_fetch_alarm_handler(CLOCK offset, void *data);
 extern void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle);
 
 #endif
-

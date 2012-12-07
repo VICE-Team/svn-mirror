@@ -222,16 +222,16 @@ static BYTE internal_blk0_read(WORD addr, WORD base)
 
     /* Perform access */
     switch (mode) {
-    case MODE_ROM_RAM:
-    case MODE_RAM1:
-    case MODE_RAM2:
-    case MODE_SUPER_ROM:
-    case MODE_SUPER_RAM:
-        value = cart_ram[faddr];
-        break;
-    default:
-        value = vic20_cpu_last_data;
-        break;
+        case MODE_ROM_RAM:
+        case MODE_RAM1:
+        case MODE_RAM2:
+        case MODE_SUPER_ROM:
+        case MODE_SUPER_RAM:
+            value = cart_ram[faddr];
+            break;
+        default:
+            value = vic20_cpu_last_data;
+            break;
     }
     return value;
 }
@@ -252,19 +252,19 @@ static void internal_blk0_store(WORD addr, BYTE value, WORD base, int ro)
 
     /* Perform access */
     switch (mode) {
-    case MODE_ROM_RAM:
-    case MODE_RAM1:
-    case MODE_RAM2:
-        if (!ro) {
+        case MODE_ROM_RAM:
+        case MODE_RAM1:
+        case MODE_RAM2:
+            if (!ro) {
+                cart_ram[faddr] = value;
+            }
+            break;
+        case MODE_SUPER_ROM:
+        case MODE_SUPER_RAM:
             cart_ram[faddr] = value;
-        }
-        break;
-    case MODE_SUPER_ROM:
-    case MODE_SUPER_RAM:
-        cart_ram[faddr] = value;
-        break;
-    default:
-        break;
+            break;
+        default:
+            break;
     }
 }
 
@@ -279,25 +279,25 @@ static BYTE internal_read(WORD addr, int blk, WORD base, int sel)
 
     /* Determine which bank to access */
     switch (mode) {
-    case MODE_FLASH:
-    case MODE_SUPER_ROM:
-    case MODE_SUPER_RAM:
-        bank = register_a & REGA_BANK_MASK;
-        break;
-    case MODE_ROM_RAM:
-    case MODE_RAM1:
-        bank = 1;
-        break;
-    case MODE_RAM2:
-        if (sel) {
-            bank = 2;
-        } else {
+        case MODE_FLASH:
+        case MODE_SUPER_ROM:
+        case MODE_SUPER_RAM:
+            bank = register_a & REGA_BANK_MASK;
+            break;
+        case MODE_ROM_RAM:
+        case MODE_RAM1:
             bank = 1;
-        }
-        break;
-    default:
-        bank = 0;
-        break;
+            break;
+        case MODE_RAM2:
+            if (sel) {
+                bank = 2;
+            } else {
+                bank = 1;
+            }
+            break;
+        default:
+            bank = 0;
+            break;
     }
 
     /* Calculate Address */
@@ -305,32 +305,32 @@ static BYTE internal_read(WORD addr, int blk, WORD base, int sel)
 
     /* Perform access */
     switch (mode) {
-    case MODE_START:
-        if (blk == 5) {
+        case MODE_START:
+            if (blk == 5) {
+                value = flash040core_read(&flash_state, faddr);
+            } else {
+                value = vic20_cpu_last_data;
+            }
+            break;
+        case MODE_FLASH:
+        case MODE_SUPER_ROM:
             value = flash040core_read(&flash_state, faddr);
-        } else {
-            value = vic20_cpu_last_data;
-        }
-        break;
-    case MODE_FLASH:
-    case MODE_SUPER_ROM:
-        value = flash040core_read(&flash_state, faddr);
-        break;
-    case MODE_ROM_RAM:
-        if (sel) {
-            value = flash040core_read(&flash_state, faddr);
-        } else {
+            break;
+        case MODE_ROM_RAM:
+            if (sel) {
+                value = flash040core_read(&flash_state, faddr);
+            } else {
+                value = cart_ram[faddr];
+            }
+            break;
+        case MODE_RAM1:
+        case MODE_RAM2:
+        case MODE_SUPER_RAM:
             value = cart_ram[faddr];
-        }
-        break;
-    case MODE_RAM1:
-    case MODE_RAM2:
-    case MODE_SUPER_RAM:
-        value = cart_ram[faddr];
-        break;
-    default:
-        value = vic20_cpu_last_data;
-        break;
+            break;
+        default:
+            value = vic20_cpu_last_data;
+            break;
     }
     return value;
 }
@@ -345,32 +345,32 @@ static void internal_store(WORD addr, BYTE value, int blk, WORD base, int sel)
 
     /* Determine which bank to access */
     switch (mode) {
-    case MODE_FLASH:
-    case MODE_SUPER_RAM:
-        bank = register_a & REGA_BANK_MASK;
-        break;
-    case MODE_SUPER_ROM:
+        case MODE_FLASH:
+        case MODE_SUPER_RAM:
+            bank = register_a & REGA_BANK_MASK;
+            break;
+        case MODE_SUPER_ROM:
 #ifdef FE3_2_SUPER_ROM_BUG
-        bank = 1 | (register_a & REGA_BANK_MASK);
-        break;
+            bank = 1 | (register_a & REGA_BANK_MASK);
+            break;
 #endif
-    case MODE_START:
-        bank = 1;
-        break;
-    case MODE_ROM_RAM:
-    case MODE_RAM1:
-        if (sel) {
-            bank = 2;
-        } else {
+        case MODE_START:
             bank = 1;
-        }
-        break;
-    case MODE_RAM2:
-        bank = 1;
-        break;
-    default:
-        bank = 0;
-        break;
+            break;
+        case MODE_ROM_RAM:
+        case MODE_RAM1:
+            if (sel) {
+                bank = 2;
+            } else {
+                bank = 1;
+            }
+            break;
+        case MODE_RAM2:
+            bank = 1;
+            break;
+        default:
+            bank = 0;
+            break;
     }
 
     /* Calculate Address */
@@ -378,23 +378,23 @@ static void internal_store(WORD addr, BYTE value, int blk, WORD base, int sel)
 
     /* Perform access */
     switch (mode) {
-    case MODE_FLASH:
-        flash040core_store(&flash_state, faddr, value);
-        break;
-    case MODE_ROM_RAM:
-        if (sel) {
+        case MODE_FLASH:
+            flash040core_store(&flash_state, faddr, value);
+            break;
+        case MODE_ROM_RAM:
+            if (sel) {
+                cart_ram[faddr] = value;
+            }
+            break;
+        case MODE_START:
+        case MODE_RAM1:
+        case MODE_RAM2:
+        case MODE_SUPER_ROM:
+        case MODE_SUPER_RAM:
             cart_ram[faddr] = value;
-        }
-        break;
-    case MODE_START:
-    case MODE_RAM1:
-    case MODE_RAM2:
-    case MODE_SUPER_ROM:
-    case MODE_SUPER_RAM:
-        cart_ram[faddr] = value;
-        break;
-    default:
-        break;
+            break;
+        default:
+            break;
     }
 }
 
@@ -404,7 +404,7 @@ static void internal_store(WORD addr, BYTE value, int blk, WORD base, int sel)
 BYTE finalexpansion_ram123_read(WORD addr)
 {
     BYTE value;
-    if ( !(register_b & REGB_BLK0_OFF) ) {
+    if (!(register_b & REGB_BLK0_OFF)) {
         value = internal_blk0_read(addr, BLK0_BASE);
     } else {
         value = vic20_v_bus_last_data;
@@ -415,7 +415,7 @@ BYTE finalexpansion_ram123_read(WORD addr)
 /* store 0x0400 - 0x0fff */
 void finalexpansion_ram123_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK0_OFF) ) {
+    if (!(register_b & REGB_BLK0_OFF)) {
         internal_blk0_store(addr, value, BLK0_BASE, (register_a & REGA_BLK0_RO));
     }
 }
@@ -424,7 +424,7 @@ void finalexpansion_ram123_store(WORD addr, BYTE value)
 BYTE finalexpansion_blk1_read(WORD addr)
 {
     BYTE value;
-    if ( !(register_b & REGB_BLK1_OFF) ) {
+    if (!(register_b & REGB_BLK1_OFF)) {
         value = internal_read(addr, 1, BLK1_BASE, register_a & REGA_BLK1_SEL);
     } else {
         value = vic20_cpu_last_data;
@@ -435,7 +435,7 @@ BYTE finalexpansion_blk1_read(WORD addr)
 /* store 0x2000-0x3fff */
 void finalexpansion_blk1_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK1_OFF) ) {
+    if (!(register_b & REGB_BLK1_OFF)) {
         internal_store(addr, value, 1, BLK1_BASE, register_a & REGA_BLK1_SEL);
     }
 }
@@ -444,7 +444,7 @@ void finalexpansion_blk1_store(WORD addr, BYTE value)
 BYTE finalexpansion_blk2_read(WORD addr)
 {
     BYTE value;
-    if ( !(register_b & REGB_BLK2_OFF) ) {
+    if (!(register_b & REGB_BLK2_OFF)) {
         value = internal_read(addr, 2, BLK2_BASE, register_a & REGA_BLK2_SEL);
     } else {
         value = vic20_cpu_last_data;
@@ -455,7 +455,7 @@ BYTE finalexpansion_blk2_read(WORD addr)
 /* store 0x4000-0x5fff */
 void finalexpansion_blk2_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK2_OFF) ) {
+    if (!(register_b & REGB_BLK2_OFF)) {
         internal_store(addr, value, 2, BLK2_BASE, register_a & REGA_BLK2_SEL);
     }
 }
@@ -464,7 +464,7 @@ void finalexpansion_blk2_store(WORD addr, BYTE value)
 BYTE finalexpansion_blk3_read(WORD addr)
 {
     BYTE value;
-    if ( !(register_b & REGB_BLK3_OFF) ) {
+    if (!(register_b & REGB_BLK3_OFF)) {
         value = internal_read(addr, 3, BLK3_BASE, register_a & REGA_BLK3_SEL);
     } else {
         value = vic20_cpu_last_data;
@@ -475,7 +475,7 @@ BYTE finalexpansion_blk3_read(WORD addr)
 /* store 0x6000-0x7fff */
 void finalexpansion_blk3_store(WORD addr, BYTE value)
 {
-    if ( !(register_b & REGB_BLK3_OFF) ) {
+    if (!(register_b & REGB_BLK3_OFF)) {
         internal_store(addr, value, 3, BLK3_BASE, register_a & REGA_BLK3_SEL);
     }
 }
@@ -487,7 +487,7 @@ BYTE finalexpansion_blk5_read(WORD addr)
 
     lock_bit = 1;
 
-    if ( !(register_b & REGB_BLK5_OFF) ) {
+    if (!(register_b & REGB_BLK5_OFF)) {
         value = internal_read(addr, 5, BLK5_BASE, register_a & REGA_BLK5_SEL);
     } else {
         value = vic20_cpu_last_data;
@@ -500,7 +500,7 @@ void finalexpansion_blk5_store(WORD addr, BYTE value)
 {
     lock_bit = 0;
 
-    if ( !(register_b & REGB_BLK5_OFF) ) {
+    if (!(register_b & REGB_BLK5_OFF)) {
         internal_store(addr, value, 5, BLK5_BASE, register_a & REGA_BLK5_SEL);
     }
 }
@@ -516,17 +516,17 @@ static BYTE finalexpansion_io3_read(WORD addr)
     FE_DEBUG(("Read reg%02x. (locked=%d)", addr, is_locked()));
     if (!is_locked()) {
         switch (addr) {
-        case 0x02:
-            value = register_a;
-            finalexpansion_device.io_source_valid = 1;
-            break;
-        case 0x03:
-            value = register_b;
-            finalexpansion_device.io_source_valid = 1;
-            break;
-        default:
-            value = vic20_cpu_last_data;
-            break;
+            case 0x02:
+                value = register_a;
+                finalexpansion_device.io_source_valid = 1;
+                break;
+            case 0x03:
+                value = register_b;
+                finalexpansion_device.io_source_valid = 1;
+                break;
+            default:
+                value = vic20_cpu_last_data;
+                break;
         }
     } else {
         value = vic20_cpu_last_data;
@@ -542,15 +542,15 @@ static BYTE finalexpansion_io3_peek(WORD addr)
     FE_DEBUG(("Peek reg%02x", addr));
 
     switch (addr) {
-    case 0x02:
-        value = register_a;
-        break;
-    case 0x03:
-        value = register_b;
-        break;
-    default:
-        value = 0;
-        break;
+        case 0x02:
+            value = register_a;
+            break;
+        case 0x03:
+            value = register_b;
+            break;
+        default:
+            value = 0;
+            break;
     }
     return value;
 }
@@ -562,12 +562,12 @@ static void finalexpansion_io3_store(WORD addr, BYTE value)
     FE_DEBUG(("Wrote reg%02x = %02x. (locked=%d)", addr, value, is_locked()));
     if (!is_locked()) {
         switch (addr) {
-        case 0x02:
-            register_a = value;
-            break;
-        case 0x03:
-            register_b = value;
-            break;
+            case 0x02:
+                register_a = value;
+                break;
+            case 0x03:
+                register_b = value;
+                break;
         }
     }
 }
@@ -613,19 +613,18 @@ static int zfile_load(const char *filename, BYTE *dest)
     if (fsize < 0x8000) {
         size_t tsize;
         size_t offs;
-        tsize = (fsize+0x0fff) & 0xfffff000;
+        tsize = (fsize + 0x0fff) & 0xfffff000;
         offs = 0x8000 - tsize;
         dest += offs;
-        log_message(fe_log, "Size less than 32kB.  Aligning as close as possible to the 32kB boundary in 4kB blocks. (0x%06X-0x%06X)", (unsigned int)offs, (unsigned int)(offs+tsize));
+        log_message(fe_log, "Size less than 32kB.  Aligning as close as possible to the 32kB boundary in 4kB blocks. (0x%06X-0x%06X)", (unsigned int)offs, (unsigned int)(offs + tsize));
     } else if (fsize < (size_t)CART_ROM_SIZE) {
         log_message(fe_log, "Size less than 512kB, padding.");
     } else if (fsize > (size_t)CART_ROM_SIZE) {
         fsize = CART_ROM_SIZE;
         log_message(fe_log, "Size larger than 512kB, truncating.");
     }
-    if ( fread(dest, fsize, 1, fd) < 1) {
-        log_message(fe_log, "Failed to read image `%s'!",
-                    filename);
+    if (fread(dest, fsize, 1, fd) < 1) {
+        log_message(fe_log, "Failed to read image `%s'!", filename);
         zfile_fclose(fd);
         return -1;
     }
@@ -654,14 +653,14 @@ int finalexpansion_bin_attach(const char *filename)
     flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_B, cart_flash);
 
     util_string_set(&cartfile, filename);
-    if ( zfile_load(filename, flash_state.flash_data) < 0 ) {
+    if (zfile_load(filename, flash_state.flash_data) < 0) {
         finalexpansion_detach();
         return -1;
     }
 
     mem_cart_blocks = VIC_CART_RAM123 |
-        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
-        VIC_CART_IO3;
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO3;
     mem_initialize_memory();
 
     finalexpansion_list_item = io_source_register(&finalexpansion_device);
@@ -678,19 +677,17 @@ void finalexpansion_detach(void)
             int n;
             FILE *fd;
 
-            n=0;
+            n = 0;
             log_message(fe_log, "Flash dirty, trying to write back...");
             fd = fopen(cartfile, "wb");
             if (fd) {
                 n = fwrite(flash_state.flash_data, (size_t)CART_ROM_SIZE, 1, fd);
                 fclose(fd);
             }
-            if (n<1) {
-                log_message(fe_log, "Failed to write back image `%s'!",
-                            cartfile);
+            if (n < 1) {
+                log_message(fe_log, "Failed to write back image `%s'!", cartfile);
             } else {
-                log_message(fe_log, "Wrote back image `%s'.",
-                            cartfile);
+                log_message(fe_log, "Wrote back image `%s'.", cartfile);
             }
         } else {
             log_message(fe_log, "Flash clean, skipping write back.");
@@ -766,8 +763,7 @@ int finalexpansion_snapshot_write_module(snapshot_t *s)
 {
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, VIC20CART_DUMP_VER_MAJOR, VIC20CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }
@@ -843,8 +839,8 @@ int finalexpansion_snapshot_read_module(snapshot_t *s)
     }
 
     mem_cart_blocks = VIC_CART_RAM123 |
-        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
-        VIC_CART_IO2 | VIC_CART_IO3;
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO2 | VIC_CART_IO3;
     mem_initialize_memory();
 
     return 0;
@@ -999,7 +995,6 @@ static int finalexpansion_mon_dump(void)
                 break;
             default:
                 break;
-
         }
     }
 

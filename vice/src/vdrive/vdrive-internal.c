@@ -85,18 +85,15 @@ int vdrive_internal_close_disk_image(vdrive_t *vdrive)
 {
     disk_image_t *image = vdrive->image;
 
-    if (vdrive->unit != 8
-      && vdrive->unit != 9
-      && vdrive->unit != 10
-      && vdrive->unit != 11)
-    {
+    if (vdrive->unit != 8 && vdrive->unit != 9 && vdrive->unit != 10 && vdrive->unit != 11) {
         vdrive_detach_image(image, 100, vdrive);
 
-        if (disk_image_close(image) < 0)
-          return -1;
+        if (disk_image_close(image) < 0) {
+            return -1;
+        }
 
         P64ImageDestroy((void*)image->p64);
-        
+
         disk_image_media_destroy(image);
         vdrive_device_shutdown(vdrive);
         lib_free(image->p64);
@@ -120,14 +117,17 @@ static int vdrive_internal_format_disk_image(const char *filename,
     machine_drive_flush();
     vdrive = vdrive_internal_open_fsimage(filename, 0);
 
-    if (vdrive == NULL)
+    if (vdrive == NULL) {
         return -1;
+    }
 
-    if (vdrive_command_format(vdrive, format_name) != CBMDOS_IPE_OK)
+    if (vdrive_command_format(vdrive, format_name) != CBMDOS_IPE_OK) {
         status = -1;
+    }
 
-    if (vdrive_internal_close_disk_image(vdrive) < 0)
+    if (vdrive_internal_close_disk_image(vdrive) < 0) {
         return -1;
+    }
 
     return status;
 }
@@ -136,10 +136,12 @@ int vdrive_internal_create_format_disk_image(const char *filename,
                                              const char *diskname,
                                              unsigned int type)
 {
-    if (cbmimage_create_image(filename, type) < 0)
+    if (cbmimage_create_image(filename, type) < 0) {
         return -1;
-    if (vdrive_internal_format_disk_image(filename, diskname) < 0)
+    }
+    if (vdrive_internal_format_disk_image(filename, diskname) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -148,4 +150,3 @@ void vdrive_internal_init(void)
 {
     vdrive_internal_log = log_open("VDrive Internal");
 }
-

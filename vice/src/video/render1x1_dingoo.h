@@ -82,7 +82,7 @@ static void render_16_1x1_04_dingoo(const video_render_color_tables_t *color_tab
         tmptrg_d = (DWORD *)trg;
         for (x = 0; x < wstart; x += 2) {
             *tmptrg_d++ = colors[*((WORD *)tmpsrc)];
-            tmpsrc+=2;
+            tmpsrc += 2;
         }
         for (x = 0; x < wfast; x++) {
             tmptrg_d[0] = colors[((WORD *)tmpsrc)[0]];

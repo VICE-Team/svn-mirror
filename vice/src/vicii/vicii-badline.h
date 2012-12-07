@@ -34,4 +34,3 @@ extern void vicii_badline_check_state(BYTE value, const int cycle,
                                       const int old_allow_bad_lines);
 
 #endif
-

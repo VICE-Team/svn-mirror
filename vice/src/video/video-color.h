@@ -46,4 +46,3 @@ extern DWORD alpha;
 extern void video_color_palette_free(struct palette_s *palette);
 
 #endif
-

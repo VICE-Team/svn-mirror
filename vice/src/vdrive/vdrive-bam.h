@@ -71,4 +71,3 @@ extern int vdrive_bam_write_bam(struct vdrive_s *vdrive);
 extern int vdrive_bam_get_interleave(unsigned int type);
 
 #endif
-

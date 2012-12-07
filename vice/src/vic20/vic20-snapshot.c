@@ -65,8 +65,9 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
 
     s = snapshot_create(name, ((BYTE)(SNAP_MAJOR)), ((BYTE)(SNAP_MINOR)),
                         machine_name);
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     sound_snapshot_prepare();
 
@@ -89,8 +90,7 @@ int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
     resources_get_int("IEEE488", &ieee488);
     if (ieee488) {
         if (viacore_snapshot_write_module(machine_context.ieeevia1, s) < 0
-            || viacore_snapshot_write_module(machine_context.ieeevia2,
-            s) < 0) {
+            || viacore_snapshot_write_module(machine_context.ieeevia2, s) < 0) {
             snapshot_close(s);
             ioutil_remove(name);
             return 1;
@@ -107,8 +107,9 @@ int vic20_snapshot_read(const char *name, int event_mode)
     BYTE minor, major;
 
     s = snapshot_open(name, &major, &minor, machine_name);
-    if (s == NULL)
+    if (s == NULL) {
         return -1;
+    }
 
     if (major != SNAP_MAJOR || minor != SNAP_MINOR) {
         log_error(LOG_DEFAULT,
@@ -127,8 +128,9 @@ int vic20_snapshot_read(const char *name, int event_mode)
         || event_snapshot_read_module(s, event_mode) < 0
         || tape_snapshot_read_module(s) < 0
         || keyboard_snapshot_read_module(s) < 0
-        || joystick_snapshot_read_module(s) < 0)
+        || joystick_snapshot_read_module(s) < 0) {
         goto fail;
+    }
 
     if (viacore_snapshot_read_module(machine_context.ieeevia1, s) < 0
         || viacore_snapshot_read_module(machine_context.ieeevia2, s) < 0) {
@@ -145,12 +147,11 @@ int vic20_snapshot_read(const char *name, int event_mode)
     return 0;
 
 fail:
-    if (s != NULL)
+    if (s != NULL) {
         snapshot_close(s);
+    }
 
     machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
 
     return -1;
 }
-
-

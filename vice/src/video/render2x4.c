@@ -196,7 +196,7 @@ void render_16_2x4_04(const video_render_color_tables_t *color_tab,
                     tmptrg[7] = color;
                     tmptrg += 8;
                 }
-                for (x = 0;x < wend; x++) {
+                for (x = 0; x < wend; x++) {
                     *tmptrg++ = color;
                 }
                 if (wlast) {

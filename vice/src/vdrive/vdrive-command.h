@@ -41,4 +41,3 @@ extern int vdrive_command_memory_write(struct vdrive_s *vdrive, const BYTE *buf,
 extern int vdrive_command_memory_exec(struct vdrive_s *vdrive, const BYTE *buf, WORD addr, unsigned int length);
 
 #endif
-

@@ -34,11 +34,11 @@
 #define VIC20_PAL_CYCLES_PER_LINE       71
 #define VIC20_PAL_SCREEN_LINES          312
 #define VIC20_PAL_CYCLE_OFFSET          0
- 
+
 #define VIC20_PAL_CYCLES_PER_RFSH (VIC20_PAL_SCREEN_LINES \
-                                  * VIC20_PAL_CYCLES_PER_LINE)
+                                   * VIC20_PAL_CYCLES_PER_LINE)
 #define VIC20_PAL_RFSH_PER_SEC    (1.0 / ((double)VIC20_PAL_CYCLES_PER_RFSH  \
-                                  / (double)VIC20_PAL_CYCLES_PER_SEC))
+                                          / (double)VIC20_PAL_CYCLES_PER_SEC))
 
 #define VIC20_NTSC_CYCLES_PER_SEC       1022727
 #define VIC20_NTSC_CYCLES_PER_LINE      65
@@ -46,9 +46,9 @@
 #define VIC20_NTSC_CYCLE_OFFSET         37
 
 #define VIC20_NTSC_CYCLES_PER_RFSH (VIC20_NTSC_SCREEN_LINES \
-                                   * VIC20_NTSC_CYCLES_PER_LINE)
+                                    * VIC20_NTSC_CYCLES_PER_LINE)
 #define VIC20_NTSC_RFSH_PER_SEC    (1.0 / ((double)VIC20_NTSC_CYCLES_PER_RFSH \
-                                   / (double)VIC20_NTSC_CYCLES_PER_SEC))
+                                           / (double)VIC20_NTSC_CYCLES_PER_SEC))
 
 #define VIC_SCREEN_PAL_NORMAL_WIDTH  (VIC_PAL_DISPLAY_WIDTH * 2)
 #define VIC_SCREEN_PAL_NORMAL_HEIGHT (VIC20_PAL_LAST_DISPLAYED_LINE - VIC20_PAL_FIRST_DISPLAYED_LINE)
@@ -69,4 +69,3 @@ typedef struct machine_context_s {
 extern machine_context_t machine_context;
 
 #endif
-

@@ -55,7 +55,7 @@
 
 /* Available video modes.  The number is given by
    ((vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10)) >> 4.  */
-/* Also for DTV: 
+/* Also for DTV:
    | (vicii.regs[0x3c] & 0x04)<<1 | (vicii.regs[0x3c] & 0x01)<<3
    + FRED/FRED2, CHUNKY/PIXEL/ILLEGAL_LINEAR separation */
 enum vicii_video_mode_s {
@@ -85,13 +85,13 @@ enum vicii_video_mode_s {
 typedef enum vicii_video_mode_s vicii_video_mode_t;
 
 #define VICII_IS_ILLEGAL_MODE(x) ((x) >= VICII_ILLEGAL_TEXT_MODE \
-                                 && (x) <= VICII_ILLEGAL_BITMAP_MODE_2)
+                                  && (x) <= VICII_ILLEGAL_BITMAP_MODE_2)
 
 #define VICII_IS_BITMAP_MODE(x)  ((x) & 0x02)
 
 #define VICII_IS_TEXT_MODE(x)    ((x) == VICII_NORMAL_TEXT_MODE \
-                                 || (x) == VICII_MULTICOLOR_TEXT_MODE \
-                                 || (x) == VICII_EXTENDED_TEXT_MODE)
+                                  || (x) == VICII_MULTICOLOR_TEXT_MODE \
+                                  || (x) == VICII_EXTENDED_TEXT_MODE)
 
 /* The actual modes with modulo bug (possibly incomplete) */
 /*
@@ -131,23 +131,23 @@ typedef enum vicii_video_mode_s vicii_video_mode_t;
    only accurate if a pending drawing event has been served, this is
    guarranteed to be always correct.  It is a bit slow, though.  */
 #define VICII_RASTER_Y(clk)        ((unsigned int)((clk) \
-                                   / vicii.cycles_per_line) \
-                                   % vicii.screen_height)
+                                                   / vicii.cycles_per_line) \
+                                    % vicii.screen_height)
 
 /* Cycle # within the current line.  */
 #define VICII_RASTER_CYCLE(clk)    ((unsigned int)((clk) \
-                                   % vicii.cycles_per_line))
+                                                   % vicii.cycles_per_line))
 /* DTV Cycle # within the current line.
    Handles the "hole" on PAL systems at cycles 54-55 and the 1 cycle shift */
-#define VICIIDTV_RASTER_CYCLE(clk) ((unsigned int)( (((clk)-1) % vicii.cycles_per_line) + ((vicii.cycles_per_line == 63 && (((clk)-1) % vicii.cycles_per_line) > 53)?2:0)) )
+#define VICIIDTV_RASTER_CYCLE(clk) ((unsigned int)((((clk) - 1) % vicii.cycles_per_line) + ((vicii.cycles_per_line == 63 && (((clk) - 1) % vicii.cycles_per_line) > 53) ? 2 : 0)))
 
 /* `clk' value for the beginning of the current line.  */
 #define VICII_LINE_START_CLK(clk)  (((clk) / vicii.cycles_per_line) \
-                                   * vicii.cycles_per_line)
+                                    * vicii.cycles_per_line)
 
 /* # of the previous and next raster line.  Handles wrap over.  */
 #define VICII_PREVIOUS_LINE(line)  (((line) > 0) \
-                                   ? (line) - 1 : vicii.screen_height - 1)
+                                    ? (line) - 1 : vicii.screen_height - 1)
 #define VICII_NEXT_LINE(line)      (((line) + 1) % vicii.screen_height)
 
 /* VIC-II structures.  This is meant to be used by VIC-II modules
@@ -430,7 +430,7 @@ struct vicii_s {
 
     /* Flag: DTV high color */
     unsigned int high_color;
-    
+
     /* Flag: DTV border off */
     unsigned int border_off;
 
@@ -474,4 +474,3 @@ extern void vicii_delay_oldclk(CLOCK num);
 #endif
 
 #endif
-

@@ -30,4 +30,3 @@
 extern void vic_cycle(void);
 
 #endif
-

@@ -217,4 +217,3 @@ static inline int cycle_is_check_border_r(unsigned int flags, int csel)
     return 0;
 }
 #endif
-

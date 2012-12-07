@@ -30,7 +30,6 @@
 struct video_canvas_s;
 struct palette_s;
 
-extern int video_canvas_palette_set(struct video_canvas_s *canvas,
-                                    struct palette_s *palette);
+extern int video_canvas_palette_set(struct video_canvas_s *canvas, struct palette_s *palette);
 
 #endif

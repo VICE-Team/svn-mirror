@@ -74,14 +74,12 @@ static void set_cb2(via_context_t *via_context, int state)
 {
 }
 
-static void set_int(via_context_t *via_context, unsigned int int_num,
-                    int value, CLOCK rclk)
+static void set_int(via_context_t *via_context, unsigned int int_num, int value, CLOCK rclk)
 {
     interrupt_set_nmi(maincpu_int_status, int_num, value, rclk);
 }
 
-static void restore_int(via_context_t *via_context, unsigned int int_num,
-                    int value)
+static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
     interrupt_restore_nmi(maincpu_int_status, int_num, value);
 }
@@ -104,8 +102,7 @@ static void via2_internal_lightpen_check(BYTE pa)
 
 void via2_check_lightpen(void)
 {
-    BYTE pa = machine_context.via2->via[VIA_PRA]
-          | ~(machine_context.via2->via[VIA_DDRA]);
+    BYTE pa = machine_context.via2->via[VIA_PRA] | ~(machine_context.via2->via[VIA_DDRA]);
 
     via2_internal_lightpen_check(pa);
 }
@@ -227,7 +224,7 @@ inline static BYTE read_pra(via_context_t *via_context, WORD addr)
     /* We assume `iec_pa_read()' returns the non-IEC bits
        as zeroes. */
     byte = ((via_context->via[VIA_PRA] & via_context->via[VIA_DDRA])
-           | ((iec_pa_read() | joy_bits) & ~(via_context->via[VIA_DDRA])));
+            | ((iec_pa_read() | joy_bits) & ~(via_context->via[VIA_DDRA])));
     return byte;
 }
 

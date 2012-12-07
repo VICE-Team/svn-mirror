@@ -104,12 +104,12 @@ void render_16_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
     const DWORD *colortab = color_tab->physical_colors;
     const BYTE *tmpsrc;
     WORD *tmptrg;
-    unsigned int x,y,wstart,wfast,wend,yys;
+    unsigned int x, y, wstart, wfast, wend, yys;
     WORD color;
     int readable = config->readable;
 
-    src=src + pitchs * ys + xs;
-    trg=trg + pitcht * yt + (xt << 1);
+    src = src + pitchs * ys + xs;
+    trg = trg + pitcht * yt + (xt << 1);
     yys = (ys << 1) | (yt & 1);
     if (width < 8) {
         wstart = width;
@@ -119,7 +119,7 @@ void render_16_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         /* alignment: 8 pixels*/
         wstart = (unsigned int)(8 - (vice_ptr_to_uint(trg) & 7));
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
-        wend  = (width - wstart) & 0x07; /* do not forget the rest*/
+        wend = (width - wstart) & 0x07;  /* do not forget the rest*/
     }
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
@@ -346,7 +346,7 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         /* alignment: 8 pixels*/
         wstart = (unsigned int)8 - (vice_ptr_to_uint(trg) & 7);
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
-        wend  = (width - wstart) & 0x07; /* do not forget the rest*/
+        wend = (width - wstart) & 0x07;  /* do not forget the rest*/
     }
     for (y = yys; y < (yys + height); y++) {
         tmpsrc = src;
@@ -405,4 +405,3 @@ void render_32_1x2_04(const video_render_color_tables_t *color_tab, const BYTE *
         trg += pitcht;
     }
 }
-

@@ -60,7 +60,7 @@
     http://sourceforge.net/tracker/?func=detail&atid=1057619&aid=3542105&group_id=223021
 */
 
-static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
+static video_cbm_color_t vic_colors[VIC_NUM_COLORS] =
 {
     {   0.0f, ANGLE_ORN, -0, "Black"       },
     { 256.0f, ANGLE_ORN, -0, "White"       },
@@ -80,7 +80,7 @@ static video_cbm_color_t vic_colors[VIC_NUM_COLORS]=
     { 234.0f, ANGLE_BLU, -1, "Light Yellow"}
 };
 
-static video_cbm_palette_t vic_palette=
+static video_cbm_palette_t vic_palette =
 {
     VIC_NUM_COLORS,
     vic_colors,
@@ -93,4 +93,3 @@ int vic_color_update_palette(struct video_canvas_s *canvas)
     video_color_palette_internal(canvas, &vic_palette);
     return 0;
 }
-

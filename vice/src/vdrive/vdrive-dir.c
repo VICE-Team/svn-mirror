@@ -4,7 +4,7 @@
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
- *  Ingo Korb <ingo@akana.de>  
+ *  Ingo Korb <ingo@akana.de>
  *
  * Based on old code by
  *  Teemu Rantanen <tvr@cs.hut.fi>
@@ -66,37 +66,38 @@ static int vdrive_dir_get_interleave(unsigned int type)
 {
     /* Note: Values for all drives determined empirically */
     switch (type) {
-    case VDRIVE_IMAGE_FORMAT_1541:
-    case VDRIVE_IMAGE_FORMAT_2040:
-    case VDRIVE_IMAGE_FORMAT_1571:
-    case VDRIVE_IMAGE_FORMAT_8050:
-    case VDRIVE_IMAGE_FORMAT_8250:
-        return 3;
-    case VDRIVE_IMAGE_FORMAT_1581:
-    case VDRIVE_IMAGE_FORMAT_4000:
-        return 1;
-    default:
-        log_error(LOG_ERR,
-                  "Unknown disk type %i.  Using interleave 3.", type);
-        return 3;
+        case VDRIVE_IMAGE_FORMAT_1541:
+        case VDRIVE_IMAGE_FORMAT_2040:
+        case VDRIVE_IMAGE_FORMAT_1571:
+        case VDRIVE_IMAGE_FORMAT_8050:
+        case VDRIVE_IMAGE_FORMAT_8250:
+            return 3;
+        case VDRIVE_IMAGE_FORMAT_1581:
+        case VDRIVE_IMAGE_FORMAT_4000:
+            return 1;
+        default:
+            log_error(LOG_ERR, "Unknown disk type %i.  Using interleave 3.", type);
+            return 3;
     }
 }
 
-static unsigned int vdrive_dir_name_match(BYTE *slot, BYTE *nslot, int length,
-                                          int type)
+static unsigned int vdrive_dir_name_match(BYTE *slot, BYTE *nslot, int length, int type)
 {
     if (length < 0) {
-        if (slot[SLOT_TYPE_OFFSET])
+        if (slot[SLOT_TYPE_OFFSET]) {
             return 0;
-        else
+        } else {
             return 1;
+        }
     }
 
-    if (!slot[SLOT_TYPE_OFFSET])
+    if (!slot[SLOT_TYPE_OFFSET]) {
         return 0;
+    }
 
-    if (type != CBMDOS_FT_DEL && type != (slot[SLOT_TYPE_OFFSET] & 0x07))
+    if (type != CBMDOS_FT_DEL && type != (slot[SLOT_TYPE_OFFSET] & 0x07)) {
         return 0;
+    }
 
     return cbmdos_parse_wildcard_compare(nslot, &slot[SLOT_NAME_OFFSET]);
 }
@@ -107,12 +108,14 @@ void vdrive_dir_free_chain(vdrive_t *vdrive, int t, int s)
 
     while (t) {
         /* Check for illegal track or sector.  */
-        if (disk_image_check_sector(vdrive->image, t, s) < 0)
+        if (disk_image_check_sector(vdrive->image, t, s) < 0) {
             break;
+        }
 
         /* Check if this sector is really allocated.  */
-        if (!vdrive_bam_free_sector(vdrive, t, s))
+        if (!vdrive_bam_free_sector(vdrive, t, s)) {
             break;
+        }
 
         /* FIXME: This seems to be redundant.  AB19981124  */
         vdrive_bam_free_sector(vdrive, t, s);
@@ -223,7 +226,7 @@ void vdrive_dir_find_first_slot(vdrive_t *vdrive, const char *name,
     dir->buffer[1] = vdrive->Dir_Sector;
 
 #ifdef DEBUG_DRIVE
-    log_debug("DIR: vdrive_dir_find_first_slot (curr t:%d/s:%d dir t:%d/s:%d)", 
+    log_debug("DIR: vdrive_dir_find_first_slot (curr t:%d/s:%d dir t:%d/s:%d)",
               dir->track, dir->sector, vdrive->Dir_Track, vdrive->Dir_Sector);
 #endif
 }
@@ -256,7 +259,7 @@ BYTE *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
             }
 
             dir->slot = 0;
-            dir->track  = (unsigned int)dir->buffer[0];
+            dir->track = (unsigned int)dir->buffer[0];
             dir->sector = (unsigned int)dir->buffer[1];
 
             status = vdrive_read_sector(vdrive, dir->buffer, dir->track, dir->sector);
@@ -286,7 +289,6 @@ BYTE *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
         sector = dir->sector + vdrive_dir_get_interleave(vdrive->image_format);
 
         for (i = 0; i < vdrive_get_max_sectors(vdrive, dir->track); i++) {
-
             dirbuf = find_next_directory_sector(dir, dir->track, sector);
             if (dirbuf != NULL) {
                 return dirbuf;
@@ -304,8 +306,9 @@ BYTE *vdrive_dir_find_next_slot(vdrive_dir_context_t *dir)
 void vdrive_dir_no_a0_pads(BYTE *ptr, int l)
 {
     while (l--) {
-        if (*ptr == 0xa0)
+        if (*ptr == 0xa0) {
             *ptr = 0x20;
+        }
         ptr++;
     }
 }
@@ -373,9 +376,7 @@ int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b)
     int blocks, i;
 
     while ((p = vdrive_dir_find_next_slot(&b->dir))) {
-
         if (p[SLOT_TYPE_OFFSET]) {
-
             l = b->buffer + b->bufptr;
 
             *l++ = 1;
@@ -392,18 +393,21 @@ int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b)
 
             blocks = p[SLOT_NR_BLOCKS] + p[SLOT_NR_BLOCKS + 1] * 256;
 
-            if (blocks < 10)
+            if (blocks < 10) {
                 l++;
-            if (blocks < 100)
+            }
+            if (blocks < 100) {
                 l++;
+            }
             l++;
 
             *l++ = '"';
 
             memcpy(l, &p[SLOT_NAME_OFFSET], 16);
 
-            for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0);)
+            for (i = 0; (i < 16) && (p[SLOT_NAME_OFFSET + i] != 0xa0); ) {
                 i++;
+            }
 
             vdrive_dir_no_a0_pads(l, 16);
 
@@ -423,8 +427,9 @@ int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b)
 
             b->bufptr = (b->bufptr + 32) & 255;
 
-            if (b->bufptr == 0)
+            if (b->bufptr == 0) {
                 return 0;
+            }
         }
     }
 
@@ -442,4 +447,3 @@ int vdrive_dir_next_directory(vdrive_t *vdrive, bufferinfo_t *b)
     l[27] = 0;
     return b->bufptr + 31;
 }
-

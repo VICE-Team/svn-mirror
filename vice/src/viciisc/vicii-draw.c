@@ -53,23 +53,22 @@ static BYTE *const aligned_line_buffer = (BYTE *)_aligned_line_buffer;
 
 
 #ifdef ALLOW_UNALIGNED_ACCESS
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr) \
-   name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)  name(GFX_PTR(), (xs), (xe), (gfx_msk_ptr))
 #else
-#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)           \
-   do {                                                      \
-       name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
-       memcpy(GFX_PTR() + (xs) * 8,                          \
-              aligned_line_buffer + (xs) * 8,                \
-              ((xe) - (xs) + 1) * 8);                        \
-   } while (0)
+#define ALIGN_DRAW_FUNC(name, xs, xe, gfx_msk_ptr)            \
+    do {                                                      \
+        name(aligned_line_buffer, (xs), (xe), (gfx_msk_ptr)); \
+        memcpy(GFX_PTR() + (xs) * 8,                          \
+               aligned_line_buffer + (xs) * 8,                \
+               ((xe) - (xs) + 1) * 8);                        \
+    } while (0)
 #endif
 
 
 /* Dummy mode for using cycle based drawing.  */
-#define FULL_WIDTH_CHARS ((vicii.screen_leftborderwidth/8) + VICII_SCREEN_TEXTCOLS + (vicii.screen_rightborderwidth/8))
+#define FULL_WIDTH_CHARS ((vicii.screen_leftborderwidth / 8) + VICII_SCREEN_TEXTCOLS + (vicii.screen_rightborderwidth / 8))
 
-#define DBUF_OFFSET (17*8 - vicii.screen_leftborderwidth)
+#define DBUF_OFFSET (17 * 8 - vicii.screen_leftborderwidth)
 
 static int get_dummy(raster_cache_t *cache, unsigned int *xs, unsigned int *xe,
                      int rr)
@@ -142,4 +141,3 @@ void vicii_draw_init(void)
 {
     setup_modes();
 }
-

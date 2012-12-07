@@ -52,12 +52,12 @@ static BYTE vic_sound_machine_read(sound_t *psid, WORD addr);
 
 static int vic_sound_machine_cycle_based(void)
 {
-	return 1;
+    return 1;
 }
 
 static int vic_sound_machine_channels(void)
 {
-	return 1;
+    return 1;
 }
 
 static sound_chip_t vic_sound_chip = {
@@ -209,8 +209,7 @@ void machine_sid2_enable(int val)
 {
 }
 
-struct sound_vic20_s
-{
+struct sound_vic20_s {
     unsigned char div;
     struct {
         unsigned char out;
@@ -303,14 +302,14 @@ void vic_sound_store(WORD addr, BYTE value)
 
 void vic_sound_clock(int cycles)
 {
-    int i,j;
+    int i, j;
 
     if (cycles <= 0) {
         return;
     }
 
     for (j = 0; j < 3; j++) {
-        int chspeed="\4\3\2"[j];
+        int chspeed = "\4\3\2"[j];
 
         if (snd.ch[j].ctr > cycles) {
             snd.accum += snd.ch[j].out * cycles;
@@ -319,14 +318,14 @@ void vic_sound_clock(int cycles)
             for (i = cycles; i; i--) {
                 snd.ch[j].ctr--;
                 if (snd.ch[j].ctr <= 0) {
-                    int a = (~snd.ch[j].reg)&127;
-                    a = a?a:128;
+                    int a = (~snd.ch[j].reg) & 127;
+                    a = a ? a : 128;
                     snd.ch[j].ctr += a << chspeed;
-                    if (snd.ch[j].reg&128) {
+                    if (snd.ch[j].reg & 128) {
                         unsigned char shift = snd.ch[j].shift;
-                        shift = ((shift<<1) | ((shift&128)>>7))^1;
+                        shift = ((shift << 1) | ((shift & 128) >> 7)) ^ 1;
                         snd.ch[j].shift = shift;
-                        snd.ch[j].out = shift&1;
+                        snd.ch[j].out = shift & 1;
                     } else {
                         snd.ch[j].shift <<= 1;
                         snd.ch[j].out = 0;
@@ -344,12 +343,11 @@ void vic_sound_clock(int cycles)
         for (i = cycles; i; i--) {
             snd.ch[3].ctr--;
             if (snd.ch[3].ctr <= 0) {
-                int a = (~snd.ch[3].reg)&127;
-                a = a?a:128;
+                int a = (~snd.ch[3].reg) & 127;
+                a = a ? a : 128;
                 snd.ch[3].ctr += a << 4;
-                if (snd.ch[3].reg&128) {
-                    snd.ch[3].out =
-                        (noisepattern[(snd.noisectr>>3)&1023]>>(snd.noisectr&7))&1;
+                if (snd.ch[3].reg & 128) {
+                    snd.ch[3].out = (noisepattern[(snd.noisectr >> 3) & 1023] >> (snd.noisectr & 7)) & 1;
                 } else {
                     snd.ch[3].out = 0;
                 }
@@ -365,21 +363,21 @@ void vic_sound_clock(int cycles)
 static void vic_sound_machine_store(sound_t *psid, WORD addr, BYTE value)
 {
     switch (addr) {
-      case 0xA:
-        snd.ch[0].reg = value;
-        break;
-      case 0xB:
-        snd.ch[1].reg = value;
-        break;
-      case 0xC:
-        snd.ch[2].reg = value;
-        break;
-      case 0xD:
-        snd.ch[3].reg = value;
-        break;
-      case 0xE:
-        snd.volume = value & 0x0f;
-        break;
+        case 0xA:
+            snd.ch[0].reg = value;
+            break;
+        case 0xB:
+            snd.ch[1].reg = value;
+            break;
+        case 0xC:
+            snd.ch[2].reg = value;
+            break;
+        case 0xD:
+            snd.ch[3].reg = value;
+            break;
+        case 0xE:
+            snd.volume = value & 0x0f;
+            break;
     }
 }
 
@@ -394,7 +392,7 @@ static int vic_sound_machine_init(sound_t *psid, int speed, int cycles_per_sec)
 
     snd.speed = speed;
 
-    snd.lowpassbeta =  1.0f - snd.cycles_per_sample / ( snd.cycles_per_sample + 62.0f );
+    snd.lowpassbeta = 1.0f - snd.cycles_per_sample / ( snd.cycles_per_sample + 62.0f );
     snd.highpassbeta = 1.0f - snd.cycles_per_sample / ( snd.cycles_per_sample + 0.04f );
 
     for (i = 0; i < 16; i++) {

@@ -30,4 +30,3 @@
 extern int vic_cmdline_options_init(void);
 
 #endif
-

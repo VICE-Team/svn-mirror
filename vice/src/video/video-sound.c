@@ -52,7 +52,7 @@
 
 /* noise floor vaguely resembling random spikes at line frequency (~15khz) */
 const static signed char noise_sample[] = {
-    7,0,0,8,0,7,0,0,7,0,6,0,0,8,0,0
+    7, 0, 0, 8, 0, 7, 0, 0, 7, 0, 6, 0, 0, 8, 0, 0
 };
 
 #if defined(__BEOS__) && defined(WORDS_BIGENDIAN)
@@ -66,8 +66,7 @@ static int cycles_per_sec = 1000000;
 static int sample_rate = 22050;
 static int numchips = 1;
 
-typedef struct
-{
+typedef struct {
     float lumas[MAX_LUMALINES];
     float avglum;
     const signed char *sampleptr;
@@ -196,9 +195,9 @@ static inline int check_enabled(void)
 }
 
 void video_sound_update(video_render_config_t *config, const BYTE *src,
-                      unsigned int width, unsigned int height,
-                      unsigned int xs, unsigned int ys,
-                      unsigned int pitchs, viewport_t *viewport)
+                        unsigned int width, unsigned int height,
+                        unsigned int xs, unsigned int ys,
+                        unsigned int pitchs, viewport_t *viewport)
 {
     const SDWORD *c1 = config->color_tables.ytablel;
     const SDWORD *c2 = config->color_tables.ytableh;
@@ -216,7 +215,7 @@ void video_sound_update(video_render_config_t *config, const BYTE *src,
 
     chip[chipnum].firstline = viewport->first_line;
     chip[chipnum].lastline = viewport->last_line;
-    DBG(("video_sound_update (firstline:%d lastline:%d w:%d h:%d xs:%d ys:%d)", 
+    DBG(("video_sound_update (firstline:%d lastline:%d w:%d h:%d xs:%d ys:%d)",
          chip[chipnum].firstline, chip[chipnum].lastline, width, height, xs, ys));
 
     width /= (config->doublesizex + 1);

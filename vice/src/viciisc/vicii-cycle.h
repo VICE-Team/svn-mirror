@@ -31,4 +31,3 @@ extern int vicii_cycle(void);
 extern void vicii_steal_cycles(void);
 
 #endif
-

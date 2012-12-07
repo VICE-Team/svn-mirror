@@ -34,4 +34,3 @@ extern BYTE vic_read(WORD addr);
 extern BYTE vic_peek(WORD addr);
 
 #endif
-

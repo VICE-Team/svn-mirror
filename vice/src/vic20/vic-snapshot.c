@@ -97,8 +97,9 @@ int vic_snapshot_write_module(snapshot_t *s)
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
 
@@ -140,8 +141,8 @@ int vic_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
     if (w != VIC_RASTER_Y(maincpu_clk)) {
-          log_error(vic.log, "Raster line value (%d) incorrect; should be %d.",
-                    (int)w, VIC_RASTER_Y(maincpu_clk));
+        log_error(vic.log, "Raster line value (%d) incorrect; should be %d.",
+                  (int)w, VIC_RASTER_Y(maincpu_clk));
         goto fail;
     }
 
@@ -193,8 +194,8 @@ int vic_snapshot_read_module(snapshot_t *s)
     return snapshot_module_close(m);
 
 fail:
-    if (m != NULL)
+    if (m != NULL) {
         snapshot_module_close(m);
+    }
     return -1;
 }
-

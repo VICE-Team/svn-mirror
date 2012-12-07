@@ -52,8 +52,9 @@ inline static void switch_to_display_state(const int cycle)
 
 inline static void line_becomes_good(const int cycle)
 {
-    if (cycle < VICII_FETCH_CYCLE)
+    if (cycle < VICII_FETCH_CYCLE) {
         vicii.bad_line = 0;
+    }
 
     /* By changing the values in the registers, one can make the VIC-II
        switch from idle to display state, but not from display to idle
@@ -83,15 +84,16 @@ inline static void line_becomes_bad(const int cycle)
 
         vicii.bad_line = 1;
 
-        if (cycle <= VICII_FETCH_CYCLE + 2)
+        if (cycle <= VICII_FETCH_CYCLE + 2) {
             vicii.raster.ycounter = 0;
+        }
 
         xpos = cycle - (VICII_FETCH_CYCLE + 3);
 
         if (vicii.viciidtv) {
             /* there is a skew of DMA delay on the DTV.
-    	    this fix partly works. */
-            xpos -=  1;
+            this fix partly works. */
+            xpos -= 1;
         }
 
         num_chars = VICII_SCREEN_TEXTCOLS - xpos;
@@ -115,12 +117,14 @@ inline static void line_becomes_bad(const int cycle)
             if (vicii.idle_state) {
                 pos = 0;
                 inc = num_chars;
-                if (inc < 0)
+                if (inc < 0) {
                     inc = 0;
+                }
             } else {
                 pos = xpos;
-                if (pos > VICII_SCREEN_TEXTCOLS - 1)
+                if (pos > VICII_SCREEN_TEXTCOLS - 1) {
                     pos = VICII_SCREEN_TEXTCOLS - 1;
+                }
                 inc = VICII_SCREEN_TEXTCOLS;
             }
         } else {
@@ -132,8 +136,9 @@ inline static void line_becomes_bad(const int cycle)
         /* This is normally done at cycle `VICII_FETCH_CYCLE + 2'.  */
         vicii.mem_counter = vicii.memptr;
 
-        if (vicii.idle_state && xpos > 0)
+        if (vicii.idle_state && xpos > 0) {
             vicii.buf_offset = xpos;
+        }
 
         /* As we are on a bad line, switch to display state.
            Display state becomes visible after one cycle delay.
@@ -143,8 +148,9 @@ inline static void line_becomes_bad(const int cycle)
         switch_to_display_state(cycle + 1);
 
         /* Force the DMA.  */
-        if (num_chars > 0)
+        if (num_chars > 0) {
             vicii_fetch_matrix(pos, num_chars, num_0xff_fetches, cycle);
+        }
 
         /* Set the value by which `vicii.mem_counter' is incremented on
            this line.  */
@@ -152,7 +158,6 @@ inline static void line_becomes_bad(const int cycle)
 
         /* Remember we have done a DMA.  */
         vicii.memory_fetch_done = 2;
-
     } else if (cycle <= VICII_FETCH_CYCLE + VICII_SCREEN_TEXTCOLS + 6) {
         /* Bad line has been generated after fetch interval, but
            before `vicii.raster.ycounter' is incremented.  */
@@ -160,8 +165,9 @@ inline static void line_becomes_bad(const int cycle)
         vicii.bad_line = 1;
 
         /* If in idle state, counter is not incremented.  */
-        if (vicii.idle_state)
+        if (vicii.idle_state) {
             vicii.mem_counter_inc = 0;
+        }
 
         /* As we are on a bad line, switch to display state.  */
         switch_to_display_state(cycle + 1);
@@ -189,8 +195,8 @@ void vicii_badline_check_state(BYTE value, const int cycle,
     if (was_bad_line && !now_bad_line) {
         line_becomes_good(cycle);
     } else {
-        if (!was_bad_line && now_bad_line)
+        if (!was_bad_line && now_bad_line) {
             line_becomes_bad(cycle);
+        }
     }
 }
-

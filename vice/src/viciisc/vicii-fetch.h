@@ -41,4 +41,3 @@ extern int vicii_check_sprite_ba(unsigned int cycle_flags);
 extern void vicii_fetch_sprites(unsigned int cycle_flags);
 
 #endif
-

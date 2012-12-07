@@ -70,12 +70,13 @@ const char *vdrive_command_errortext(unsigned int code)
 {
     unsigned int count = 0;
 
-    while (floppy_error_messages[count].nr != 255
-        && floppy_error_messages[count].nr != code)
+    while (floppy_error_messages[count].nr != 255 && floppy_error_messages[count].nr != code) {
         count++;
+    }
 
-    if (floppy_error_messages[count].nr != 255)
+    if (floppy_error_messages[count].nr != 255) {
         return floppy_error_messages[count].text;
+    }
 
     return "UNKNOWN ERROR NUMBER";
 }
@@ -93,8 +94,9 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
     BYTE *p, *minus;
     char *name;
 
-    if (!length)
+    if (!length) {
         return CBMDOS_IPE_OK;
+    }
     if (length > IP_MAX_COMMAND_LEN) {
         vdrive_command_set_error(vdrive, CBMDOS_IPE_LONG_LINE, 0, 0);
         return CBMDOS_IPE_LONG_LINE;
@@ -116,130 +118,132 @@ int vdrive_command_execute(vdrive_t *vdrive, const BYTE *buf,
 #endif
 
     switch (*p) {
-      case 'M':
-      case 'P':
-        break;          /* In binary commands, colons are data */
-      default:
-        if (name) {     /* Fix name length */
-            length -= (BYTE *)name - p;
-        }
+        case 'M':
+        case 'P':
+            break;      /* In binary commands, colons are data */
+        default:
+            if (name) { /* Fix name length */
+                length -= (BYTE *)name - p;
+            }
     }
 
     switch (*p) {
-      case 'C':         /* Copy */
-        if (p[1] == 'D' && vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
-            if (!name) { /* CD_ doesn't allow a : */
-                name = (char *)(p + 1);
+        case 'C':       /* Copy */
+            if (p[1] == 'D' && vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000) {
+                if (!name) { /* CD_ doesn't allow a : */
+                    name = (char *)(p + 1);
+                }
+                status = vdrive_command_chdir(vdrive, (BYTE *)name, length);
+            } else {
+                status = vdrive_command_copy(vdrive, (char *)name, length);
             }
-            status = vdrive_command_chdir(vdrive, (BYTE *)name, length);
-        } else {
-            status = vdrive_command_copy(vdrive, (char *)name, length);
-        }
-        break;
+            break;
 
-      case '/':         /* change partition */
-        if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) ||
-            (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000)) {
-            if (!name) { /* handle "/dir" */
-                name = (char *)(p + 1);
-                --length;
+        case '/':       /* change partition */
+            if ((vdrive->image_format == VDRIVE_IMAGE_FORMAT_1581) ||
+                (vdrive->image_format == VDRIVE_IMAGE_FORMAT_4000)) {
+                if (!name) { /* handle "/dir" */
+                    name = (char *)(p + 1);
+                    --length;
+                }
+                status = vdrive_command_chpart(vdrive, (BYTE *)name, length);
             }
-            status = vdrive_command_chpart(vdrive, (BYTE *)name, length);
-        }
-        break;
+            break;
 
 #if 0
-      case 'D':         /* Duplicate is unused */
-        break;
+        case 'D':       /* Duplicate is unused */
+            break;
 #endif
 
-      case 'R':         /* Rename */
-        status = vdrive_command_rename(vdrive, (BYTE *)name, length);
-        break;
-
-      case 'S':         /* Scratch */
-        status = vdrive_command_scratch(vdrive, (BYTE *)name, length);
-        break;
-
-      case 'I':
-        status = vdrive_command_initialize(vdrive);
-        break;
-
-      case 'N':
-        /* Skip ":" at the start of the name.  */
-        status = vdrive_command_format(vdrive,
-                                       (name == NULL) ? NULL : name + 1);
-        break;
-
-      case 'V':
-        status = vdrive_command_validate(vdrive);
-        break;
-
-      case 'B': /* Block, Buffer */
-        if (!name)      /* B-x does not require a : */
-            name = (char *)(p + 2);
-        if (minus) {
-            status = vdrive_command_block(vdrive, minus[1], name + 1);
-        }
-        break;
-
-      case 'M': /* Memory */
-        if (minus) {
-            status = vdrive_command_memory(vdrive, minus + 1, length);
-        }
-        break;
-
-      case 'P': /* Position */
-        status = vdrive_command_position(vdrive, p, length);
-        break;
-
-      case 'U': /* User */
-        if (!name) {    /* Colons are optional */
-            name = (char *)(p + 1);
-        }
-        switch (p[1] & 0x0f) {
-          case 1: /* UA */
-            if (name)
-                status = vdrive_command_block(vdrive, (unsigned char)0xd2, name + 1);
+        case 'R':       /* Rename */
+            status = vdrive_command_rename(vdrive, (BYTE *)name, length);
             break;
 
-          case 2: /* UB */
-            if (name)
-                status = vdrive_command_block(vdrive, (unsigned char)0xd7, name + 1);
+        case 'S':       /* Scratch */
+            status = vdrive_command_scratch(vdrive, (BYTE *)name, length);
             break;
 
-          case 3: /* Jumps */
-          case 4:
-          case 5:
-          case 6:
-          case 7:
-          case 8:
-            status = CBMDOS_IPE_NOT_READY;
+        case 'I':
+            status = vdrive_command_initialize(vdrive);
             break;
 
-          case 9: /* UI */
-            if (p[2] == '-' || p[2] == '+') {
-                status = CBMDOS_IPE_OK; /* Set IEC bus speed */
-                break;
+        case 'N':
+            /* Skip ":" at the start of the name.  */
+            status = vdrive_command_format(vdrive, (name == NULL) ? NULL : name + 1);
+            break;
+
+        case 'V':
+            status = vdrive_command_validate(vdrive);
+            break;
+
+        case 'B': /* Block, Buffer */
+            if (!name) { /* B-x does not require a : */
+                name = (char *)(p + 2);
             }
-            /* Fall through. */
-          case 10: /* U:, UJ */
-            vdrive_close_all_channels(vdrive); /* Warm/Cold reset */
-            status = CBMDOS_IPE_DOS_VERSION;
-            break;
-
-          default: /* U0, UK..UO */
-            if (p[1] == '0') {
-                status = CBMDOS_IPE_OK;
-                break;
+            if (minus) {
+                status = vdrive_command_block(vdrive, minus[1], name + 1);
             }
-            status = CBMDOS_IPE_NOT_READY;
             break;
-        } /* Un */
-        break;
 
-      default:
-        break;
+        case 'M': /* Memory */
+            if (minus) {
+                status = vdrive_command_memory(vdrive, minus + 1, length);
+            }
+            break;
+
+        case 'P': /* Position */
+            status = vdrive_command_position(vdrive, p, length);
+            break;
+
+        case 'U': /* User */
+            if (!name) { /* Colons are optional */
+                name = (char *)(p + 1);
+            }
+            switch (p[1] & 0x0f) {
+                case 1: /* UA */
+                    if (name) {
+                        status = vdrive_command_block(vdrive, (unsigned char)0xd2, name + 1);
+                    }
+                    break;
+
+                case 2: /* UB */
+                    if (name) {
+                        status = vdrive_command_block(vdrive, (unsigned char)0xd7, name + 1);
+                    }
+                    break;
+
+                case 3: /* Jumps */
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                case 8:
+                    status = CBMDOS_IPE_NOT_READY;
+                    break;
+
+                case 9: /* UI */
+                    if (p[2] == '-' || p[2] == '+') {
+                        status = CBMDOS_IPE_OK; /* Set IEC bus speed */
+                        break;
+                    }
+                /* Fall through. */
+                case 10: /* U:, UJ */
+                    vdrive_close_all_channels(vdrive); /* Warm/Cold reset */
+                    status = CBMDOS_IPE_DOS_VERSION;
+                    break;
+
+                default: /* U0, UK..UO */
+                    if (p[1] == '0') {
+                        status = CBMDOS_IPE_OK;
+                        break;
+                    }
+                    status = CBMDOS_IPE_NOT_READY;
+                    break;
+            } /* Un */
+            break;
+
+        default:
+            break;
     } /* commands */
 
     if (status == CBMDOS_IPE_INVAL) {
@@ -267,16 +271,19 @@ static int vdrive_get_block_parameters(char *buf, int *p1, int *p2, int *p3,
 
     for (ip = 0; ip < 4; ip++) {
         /* 1541 firmware skips 0x20, 0x2c, and 0x1d */
-        while (*bp == ' ' || *bp == ')' || *bp == ',' || *bp == '#' || *bp == 0x1d)
+        while (*bp == ' ' || *bp == ')' || *bp == ',' || *bp == '#' || *bp == 0x1d) {
             bp++;
-        if (*bp == 0)
+        }
+        if (*bp == 0) {
             break;
+        }
         /* Convert and skip over decimal number.  */
         *p[ip] = strtol(bp, &bp, 10);
     }
     endsign = *bp;
-    if (isalnum((int)endsign) && (ip == 4))
+    if (isalnum((int)endsign) && (ip == 4)) {
         return CBMDOS_IPE_SYNTAX;
+    }
     return -ip;                 /* negative of # arguments found */
 }
 
@@ -291,141 +298,144 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
 #endif
 
     switch (command) {
-      /* 1581 has u-R (shifted) and u-W (shifted) for block read/write
-         without track/sector checking. */
-      /* Use this for U1,UA and U2,UB also */
-      case 0xd2:
-      case 0xd7:
-        l = vdrive_get_block_parameters(buffer, &channel, &drive, &track,
-                                        &sector);
+        /* 1581 has u-R (shifted) and u-W (shifted) for block read/write
+           without track/sector checking. */
+        /* Use this for U1,UA and U2,UB also */
+        case 0xd2:
+        case 0xd7:
+            l = vdrive_get_block_parameters(buffer, &channel, &drive, &track, &sector);
 
-        if (l < 0) {
+            if (l < 0) {
 #ifdef DEBUG_DRIVE
-            log_debug("b-R/W parsed OK. (l=%d) channel %d mode %d, "
-                      "drive=%d, track=%d sector=%d.", l, channel,
-                      vdrive->buffers[channel].mode, drive, track, sector);
+                log_debug("b-R/W parsed OK. (l=%d) channel %d mode %d, "
+                          "drive=%d, track=%d sector=%d.", l, channel,
+                          vdrive->buffers[channel].mode, drive, track, sector);
 #endif
 
-            if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
-                return CBMDOS_IPE_NO_CHANNEL;
-
-            if (command == 0xd7) {
-                /* For write */
-                if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
-                    return CBMDOS_IPE_WRITE_PROTECT_ON;
-                if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer,
-                                            track, sector) < 0)
-                    return CBMDOS_IPE_NOT_READY;
-            } else {
-                /* For read */
-                rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer,
-                                            track, sector);
-                if (rc > 0)
-                    return rc;
-                if (rc < 0)
-                    return CBMDOS_IPE_NOT_READY;
-            }
-            vdrive->buffers[channel].bufptr = 0;
-        } else {
-            log_error(vdrive_command_log, "b-R/W invalid parameter "
-                      "C:%i D:%i T:%i S:%i.", channel, drive, track, sector);
-            return l;
-        }
-        break;
-      /* Old-style B-R and B-W */
-      case 'R':
-      case 'W':
-        l = vdrive_get_block_parameters(buffer, &channel, &drive, &track,
-                                        &sector);
-
-        if (l < 0) {
-#ifdef DEBUG_DRIVE
-            log_debug("b-r/w parsed OK. (l=%d) channel %d mode %d, "
-                      "drive=%d, track=%d sector=%d.", l, channel,
-                      vdrive->buffers[channel].mode, drive, track, sector);
-#endif
-
-            if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
-                return CBMDOS_IPE_NO_CHANNEL;
-
-            if (command == 'W') {
-                /* For write */
-                if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
-                    return CBMDOS_IPE_WRITE_PROTECT_ON;
-                /* Update length of block based on the buffer pointer. */
-                l = vdrive->buffers[channel].bufptr - 1;
-                vdrive->buffers[channel].buffer[0] = ( l < 1 ? 1 : l );
-                if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer,
-                                            track, sector) < 0)
-                    return CBMDOS_IPE_NOT_READY;
-                /* after write, buffer pointer is 1. */
-                vdrive->buffers[channel].bufptr = 1;
-            } else {
-                /* For read */
-                rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer,
-                                            track, sector);
-                /* set buffer length base on first value */
-                vdrive->buffers[channel].length =
-                    vdrive->buffers[channel].buffer[0] + 1;
-                /* buffer pointer is 1, not 0. */
-                vdrive->buffers[channel].bufptr = 1;
-                if (rc > 0)
-                    return rc;
-                if (rc < 0)
-                    return CBMDOS_IPE_NOT_READY;
-            }
-        } else {
-            log_error(vdrive_command_log, "b-r/w invalid parameter "
-                      "C:%i D:%i T:%i S:%i.", channel, drive, track, sector);
-            return l;
-        }
-        break;
-      case 'A':
-      case 'F':
-        l = vdrive_get_block_parameters(buffer, &drive, &track, &sector,
-                                        &channel);
-        if (l > 0) /* just 3 args used */
-            return l;
-        if (command == 'A') {
-            if (!vdrive_bam_allocate_sector(vdrive, track, sector)) {
-                /*
-                 * Desired sector not free. Suggest another. XXX The 1541
-                 * uses an inferior search function that only looks on
-                 * higher tracks and can return sectors in the directory
-                 * track.
-                 */
-                if (vdrive_bam_alloc_next_free_sector(vdrive,
-                    (unsigned int*)&track, (unsigned int *)&sector) >= 0) {
-                    /* Deallocate it and merely suggest it */
-                    vdrive_bam_free_sector(vdrive, track, sector);
-                } else {
-                    /* Found none */
-                    track = 0;
-                    sector = 0;
+                if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER) {
+                    return CBMDOS_IPE_NO_CHANNEL;
                 }
-                vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_BLOCK, track,
-                                         sector);
-                return CBMDOS_IPE_NO_BLOCK;
+
+                if (command == 0xd7) {
+                    /* For write */
+                    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
+                        return CBMDOS_IPE_WRITE_PROTECT_ON;
+                    }
+                    if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer, track, sector) < 0) {
+                        return CBMDOS_IPE_NOT_READY;
+                    }
+                } else {
+                    /* For read */
+                    rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
+                    if (rc > 0) {
+                        return rc;
+                    }
+                    if (rc < 0) {
+                        return CBMDOS_IPE_NOT_READY;
+                    }
+                }
+                vdrive->buffers[channel].bufptr = 0;
+            } else {
+                log_error(vdrive_command_log, "b-R/W invalid parameter "
+                          "C:%i D:%i T:%i S:%i.", channel, drive, track, sector);
+                return l;
             }
-        } else {
-            vdrive_bam_free_sector(vdrive, track, sector);
-        }
-        break;
-      case 'P':
-        l = vdrive_get_block_parameters(buffer, &channel, &position, &track,
-                                        &sector);
-        if (l > 0) /* just 2 args used */
-            return l;
-        if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER)
-            return CBMDOS_IPE_NO_CHANNEL;
-        vdrive->buffers[channel].bufptr = position;
-        break;
-      case 'E':
-        l = vdrive_get_block_parameters(buffer, &channel, &drive, &track, &sector);
-        log_warning(vdrive_command_log, "B-E: %d %d %d %d (needs TDE)", channel, drive, track, sector);
-        break;
-      default:
-        return CBMDOS_IPE_INVAL;
+            break;
+        /* Old-style B-R and B-W */
+        case 'R':
+        case 'W':
+            l = vdrive_get_block_parameters(buffer, &channel, &drive, &track, &sector);
+
+            if (l < 0) {
+#ifdef DEBUG_DRIVE
+                log_debug("b-r/w parsed OK. (l=%d) channel %d mode %d, "
+                          "drive=%d, track=%d sector=%d.", l, channel,
+                          vdrive->buffers[channel].mode, drive, track, sector);
+#endif
+
+                if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER) {
+                    return CBMDOS_IPE_NO_CHANNEL;
+                }
+
+                if (command == 'W') {
+                    /* For write */
+                    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
+                        return CBMDOS_IPE_WRITE_PROTECT_ON;
+                    }
+                    /* Update length of block based on the buffer pointer. */
+                    l = vdrive->buffers[channel].bufptr - 1;
+                    vdrive->buffers[channel].buffer[0] = ( l < 1 ? 1 : l );
+                    if (vdrive_write_sector(vdrive, vdrive->buffers[channel].buffer, track, sector) < 0) {
+                        return CBMDOS_IPE_NOT_READY;
+                    }
+                    /* after write, buffer pointer is 1. */
+                    vdrive->buffers[channel].bufptr = 1;
+                } else {
+                    /* For read */
+                    rc = vdrive_read_sector(vdrive, vdrive->buffers[channel].buffer, track, sector);
+                    /* set buffer length base on first value */
+                    vdrive->buffers[channel].length =
+                        vdrive->buffers[channel].buffer[0] + 1;
+                    /* buffer pointer is 1, not 0. */
+                    vdrive->buffers[channel].bufptr = 1;
+                    if (rc > 0) {
+                        return rc;
+                    }
+                    if (rc < 0) {
+                        return CBMDOS_IPE_NOT_READY;
+                    }
+                }
+            } else {
+                log_error(vdrive_command_log, "b-r/w invalid parameter "
+                          "C:%i D:%i T:%i S:%i.", channel, drive, track, sector);
+                return l;
+            }
+            break;
+        case 'A':
+        case 'F':
+            l = vdrive_get_block_parameters(buffer, &drive, &track, &sector, &channel);
+            if (l > 0) { /* just 3 args used */
+                return l;
+            }
+            if (command == 'A') {
+                if (!vdrive_bam_allocate_sector(vdrive, track, sector)) {
+                    /*
+                     * Desired sector not free. Suggest another. XXX The 1541
+                     * uses an inferior search function that only looks on
+                     * higher tracks and can return sectors in the directory
+                     * track.
+                     */
+                    if (vdrive_bam_alloc_next_free_sector(vdrive, (unsigned int*)&track, (unsigned int *)&sector) >= 0) {
+                        /* Deallocate it and merely suggest it */
+                        vdrive_bam_free_sector(vdrive, track, sector);
+                    } else {
+                        /* Found none */
+                        track = 0;
+                        sector = 0;
+                    }
+                    vdrive_command_set_error(vdrive, CBMDOS_IPE_NO_BLOCK, track, sector);
+                    return CBMDOS_IPE_NO_BLOCK;
+                }
+            } else {
+                vdrive_bam_free_sector(vdrive, track, sector);
+            }
+            break;
+        case 'P':
+            l = vdrive_get_block_parameters(buffer, &channel, &position, &track, &sector);
+            if (l > 0) { /* just 2 args used */
+                return l;
+            }
+            if (vdrive->buffers[channel].mode != BUFFER_MEMORY_BUFFER) {
+                return CBMDOS_IPE_NO_CHANNEL;
+            }
+            vdrive->buffers[channel].bufptr = position;
+            break;
+        case 'E':
+            l = vdrive_get_block_parameters(buffer, &channel, &drive, &track, &sector);
+            log_warning(vdrive_command_log, "B-E: %d %d %d %d (needs TDE)", channel, drive, track, sector);
+            break;
+        default:
+            return CBMDOS_IPE_INVAL;
     }
     return CBMDOS_IPE_OK;
 }
@@ -437,8 +447,7 @@ static int vdrive_command_block(vdrive_t *vdrive, unsigned char command,
     The buffer pointer passed to the sub-functions points to the byte
     after the first argument (address) which is passed separately.
 */
-static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
-                                 unsigned int length)
+static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer, unsigned int length)
 {
     WORD addr;
 
@@ -449,14 +458,14 @@ static int vdrive_command_memory(vdrive_t *vdrive, BYTE *buffer,
     addr = util_le_buf_to_word(buffer + 1);
 
     switch (*buffer) {
-      case 'W':
-        return vdrive_command_memory_write(vdrive, buffer + 3, addr, length);
-      case 'R':
-        return vdrive_command_memory_read(vdrive, buffer + 3, addr, length);
-      case 'E':
-        return vdrive_command_memory_exec(vdrive, NULL, addr, length);
-      default:
-        break;
+        case 'W':
+            return vdrive_command_memory_write(vdrive, buffer + 3, addr, length);
+        case 'R':
+            return vdrive_command_memory_read(vdrive, buffer + 3, addr, length);
+        case 'E':
+            return vdrive_command_memory_exec(vdrive, NULL, addr, length);
+        default:
+            break;
     }
     return CBMDOS_IPE_INVAL;
 }
@@ -467,7 +476,7 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     int status = 0;
 
     /* Split command line */
-    if (!dest || !(files = (char *)memchr(++dest, '=', length)) ) {
+    if (!dest || !(files = (char *)memchr(++dest, '=', length))) {
         return CBMDOS_IPE_SYNTAX;
     }
     *files++ = 0;
@@ -476,17 +485,20 @@ static int vdrive_command_copy(vdrive_t *vdrive, char *dest, int length)
     log_debug("COPY: dest= '%s', orig= '%s'.", dest, files);
 #endif
 
-    if (vdrive_iec_open(vdrive, (BYTE *)dest, (unsigned int)strlen(dest), 1, NULL))
+    if (vdrive_iec_open(vdrive, (BYTE *)dest, (unsigned int)strlen(dest), 1, NULL)) {
         return CBMDOS_IPE_FILE_EXISTS;
+    }
 
     name = p = files;
     while (*name) { /* Loop for given files.  */
-        for (; *p && *p != ','; p++) ;
+        for (; *p && *p != ','; p++) {
+        }
         *p = 0;
 
         /* Skip optional colon. */
-        if ((files = strchr(name, ':')))
+        if ((files = strchr(name, ':'))) {
             name = files + 1;
+        }
 
 #ifdef DEBUG_DRIVE
         log_debug("searching for file '%s'.", name);
@@ -520,7 +532,7 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
     cbmdos_cmd_parse_t cmd_parse_dst, cmd_parse_src;
     vdrive_dir_context_t dir;
 
-    if (!dest || !(src = memchr((char *)++dest, '=', length)) ) {
+    if (!dest || !(src = memchr((char *)++dest, '=', length))) {
         return CBMDOS_IPE_SYNTAX;
     }
     *src++ = 0;
@@ -591,8 +603,9 @@ static int vdrive_command_rename(vdrive_t *vdrive, BYTE *dest, int length)
            cmd_parse_dst.parselength);
 
     /* FIXME: is this right? */
-    if (cmd_parse_dst.filetype)
+    if (cmd_parse_dst.filetype) {
         slot[SLOT_TYPE_OFFSET] = cmd_parse_dst.filetype;
+    }
 
     /* Update the directory.  */
     if (vdrive_write_sector(vdrive, dir.buffer, dir.track, dir.sector) < 0) {
@@ -688,9 +701,7 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
 
         if (slot) {
             slot = &dir.buffer[dir.slot * 32];
-            rc = vdrive_read_sector(vdrive, buffer,
-                                        slot[SLOT_FIRST_TRACK],
-                                        slot[SLOT_FIRST_SECTOR]);
+            rc = vdrive_read_sector(vdrive, buffer, slot[SLOT_FIRST_TRACK], slot[SLOT_FIRST_SECTOR]);
             if (rc > 0) {
                 return rc;
             }
@@ -725,7 +736,7 @@ static int vdrive_command_chdir(vdrive_t *vdrive, BYTE *name, int length)
 static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
 {
     int status, rc;
-    int ts,ss,te,len;
+    int ts, ss, te, len;
     BYTE *slot, buffer[256];
     cbmdos_cmd_parse_t cmd_parse;
     vdrive_dir_context_t dir;
@@ -754,11 +765,11 @@ static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
         if (slot) {
             slot = &dir.buffer[dir.slot * 32];
             /*
-            In order to use a partition as a sub-directory, it  must  adhere  to  
+            In order to use a partition as a sub-directory, it  must  adhere  to
             the following four rules:
 
             1. It must start on sector 0
-            2. It's size must be in multiples of 40 sectors (which means the 
+            2. It's size must be in multiples of 40 sectors (which means the
                last sector is 39)
             3. It must be a minimum of 120 sectors long (3 tracks)
             4. It must not start on or cross  track 40
@@ -773,9 +784,9 @@ static int vdrive_command_chpart(vdrive_t *vdrive, BYTE *name, int length)
                     return CBMDOS_IPE_BAD_PARTN; /* FIXME: is this correct ? */
                 }
 
-                /* read the first BAM sector to get the DIR start 
-                   The BAM track for the sub-directory exists on  the  first  
-                   track  of  the partition, and has the same layout as the disk 
+                /* read the first BAM sector to get the DIR start
+                   The BAM track for the sub-directory exists on  the  first
+                   track  of  the partition, and has the same layout as the disk
                    BAM on track 40.
                  */
                 rc = vdrive_read_sector(vdrive, buffer, ts, 0);
@@ -848,10 +859,12 @@ int vdrive_command_validate(vdrive_t *vdrive)
 
     status = vdrive_command_initialize(vdrive);
 
-    if (status != CBMDOS_IPE_OK)
+    if (status != CBMDOS_IPE_OK) {
         return status;
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
+    }
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
         return CBMDOS_IPE_WRITE_PROTECT_ON;
+    }
 
     memcpy(oldbam, vdrive->bam, vdrive->bam_size);
 
@@ -874,28 +887,27 @@ int vdrive_command_validate(vdrive_t *vdrive)
     }
 
     switch (vdrive->image_format) {
-    case VDRIVE_IMAGE_FORMAT_1571:
-        /* Map the opposite side of the directory cylinder. */
-        max_sector = vdrive_get_max_sectors(vdrive, 53);
-        for (s = 0; s < (unsigned int)max_sector; s++) {
-            vdrive_bam_allocate_sector(vdrive, 53, s);
-        }
-        break;
-    case VDRIVE_IMAGE_FORMAT_1581:
-        /* Map the BAM sectors. */
-        vdrive_bam_allocate_sector(vdrive,
-                                   vdrive->Bam_Track, vdrive->Bam_Sector + 1);
-        vdrive_bam_allocate_sector(vdrive,
-                                   vdrive->Bam_Track, vdrive->Bam_Sector + 2);
-        break;
-    case VDRIVE_IMAGE_FORMAT_4000:
-        /* Map the boot sector. */
-        vdrive_bam_allocate_sector(vdrive, 1, 0);
+        case VDRIVE_IMAGE_FORMAT_1571:
+            /* Map the opposite side of the directory cylinder. */
+            max_sector = vdrive_get_max_sectors(vdrive, 53);
+            for (s = 0; s < (unsigned int)max_sector; s++) {
+                vdrive_bam_allocate_sector(vdrive, 53, s);
+            }
+            break;
+        case VDRIVE_IMAGE_FORMAT_1581:
+            /* Map the BAM sectors. */
+            vdrive_bam_allocate_sector(vdrive, vdrive->Bam_Track, vdrive->Bam_Sector + 1);
+            vdrive_bam_allocate_sector(vdrive, vdrive->Bam_Track, vdrive->Bam_Sector + 2);
+            break;
+        case VDRIVE_IMAGE_FORMAT_4000:
+            /* Map the boot sector. */
+            vdrive_bam_allocate_sector(vdrive, 1, 0);
 
-        /* Map the BAM sectors. */
-        for (s = 2; s < 34; s++)
-            vdrive_bam_allocate_sector(vdrive, 1, s);
-        break;
+            /* Map the BAM sectors. */
+            for (s = 2; s < 34; s++) {
+                vdrive_bam_allocate_sector(vdrive, 1, s);
+            }
+            break;
     }
 
     vdrive_dir_find_first_slot(vdrive, "*", 1, 0, &dir);
@@ -942,15 +954,18 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     char *name, *comma;
     BYTE id[2];
 
-    if (!disk_name)
+    if (!disk_name) {
         return CBMDOS_IPE_SYNTAX;
+    }
 
-    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST)
+    if (vdrive->image->read_only || VDRIVE_IMAGE_FORMAT_4000_TEST) {
         return CBMDOS_IPE_WRITE_PROTECT_ON;
+    }
 
     if (vdrive->image->device == DISK_IMAGE_DEVICE_FS) {
-        if (disk_image_fsimage_fd_get(vdrive->image) == NULL)
+        if (disk_image_fsimage_fd_get(vdrive->image) == NULL) {
             return CBMDOS_IPE_NOT_READY;
+        }
     }
 
     comma = strchr(disk_name, ',');
@@ -981,8 +996,7 @@ int vdrive_command_format(vdrive_t *vdrive, const char *disk_name)
     memset(tmp, 0, 256);
     tmp[1] = 255;
 
-    if (vdrive_write_sector(vdrive, tmp, vdrive->Dir_Track,
-        vdrive->Dir_Sector) < 0) {
+    if (vdrive_write_sector(vdrive, tmp, vdrive->Dir_Track, vdrive->Dir_Sector) < 0) {
         lib_free(name);
         return CBMDOS_IPE_WRITE_ERROR_VER;
     }
@@ -1005,18 +1019,19 @@ static int vdrive_command_position(vdrive_t *vdrive, BYTE *buf,
     unsigned int rec_lo = buf[2], rec_hi = buf[3], position = buf[4];
 
     switch (length) {
-      case 1: /* no channel was specified; return NO CHANNEL */
-        return CBMDOS_IPE_NO_CHANNEL;
-      case 2: /* default the record number to 1 */
-        rec_lo = 1;
-      case 3: /* default the record number's high byte to 0 */
-        rec_hi = 0;
-      case 4: /* default the position to 1 */
-        position = 1;
+        case 1: /* no channel was specified; return NO CHANNEL */
+            return CBMDOS_IPE_NO_CHANNEL;
+        case 2: /* default the record number to 1 */
+            rec_lo = 1;
+        case 3: /* default the record number's high byte to 0 */
+            rec_hi = 0;
+        case 4: /* default the position to 1 */
+            position = 1;
     }
 
-    if (vdrive->buffers[channel].mode != BUFFER_RELATIVE)
+    if (vdrive->buffers[channel].mode != BUFFER_RELATIVE) {
         return CBMDOS_IPE_NO_CHANNEL;
+    }
 
     return vdrive_rel_position(vdrive, channel, rec_lo, rec_hi, position);
 }
@@ -1037,8 +1052,9 @@ void vdrive_command_set_error(vdrive_t *vdrive, int code, unsigned int track,
 #endif
 
     /* Set an error only once per command. */
-    if (code != CBMDOS_IPE_OK && last_code != CBMDOS_IPE_OK)
+    if (code != CBMDOS_IPE_OK && last_code != CBMDOS_IPE_OK) {
         return;
+    }
 
     last_code = code;
 
@@ -1076,7 +1092,7 @@ int vdrive_command_memory_write(vdrive_t *vdrive, const BYTE *buf, WORD addr, un
 
 #if 0
     /* data= buf[1+0 ... 1+34]; */
-    memcpy ( ... , buf + 1, len);
+    memcpy ( ..., buf + 1, len);
 #endif
     return CBMDOS_IPE_OK;
 }
@@ -1117,32 +1133,32 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const BYTE *buf, WORD addr, uns
 
         if (addr >= 0x8000) {
             switch (vdrive->image_format) {
-              case VDRIVE_IMAGE_FORMAT_2040:
-                if (machine_drive_rom_read(2040, addr, &val) < 0) {
-                    val = 0x55;
-                }
-                break;
-              case VDRIVE_IMAGE_FORMAT_1541:
-                if (machine_drive_rom_read(1541, addr, &val) < 0) {
-                    val = 0x55;
-                }
-                break;
-              case VDRIVE_IMAGE_FORMAT_1571:
-                if (machine_drive_rom_read(1571, addr, &val) < 0) {
-                    val = 0x55;
-                }
-                break;
-              case VDRIVE_IMAGE_FORMAT_1581:
-                if (machine_drive_rom_read(1581, addr, &val) < 0) {
-                    val = 0x55;
-                }
-                break;
-              case VDRIVE_IMAGE_FORMAT_8050:
-              case VDRIVE_IMAGE_FORMAT_8250:
-                if (machine_drive_rom_read(1001, addr, &val) < 0) {
-                    val = 0x55;
-                }
-                break;
+                case VDRIVE_IMAGE_FORMAT_2040:
+                    if (machine_drive_rom_read(2040, addr, &val) < 0) {
+                        val = 0x55;
+                    }
+                    break;
+                case VDRIVE_IMAGE_FORMAT_1541:
+                    if (machine_drive_rom_read(1541, addr, &val) < 0) {
+                        val = 0x55;
+                    }
+                    break;
+                case VDRIVE_IMAGE_FORMAT_1571:
+                    if (machine_drive_rom_read(1571, addr, &val) < 0) {
+                        val = 0x55;
+                    }
+                    break;
+                case VDRIVE_IMAGE_FORMAT_1581:
+                    if (machine_drive_rom_read(1581, addr, &val) < 0) {
+                        val = 0x55;
+                    }
+                    break;
+                case VDRIVE_IMAGE_FORMAT_8050:
+                case VDRIVE_IMAGE_FORMAT_8250:
+                    if (machine_drive_rom_read(1001, addr, &val) < 0) {
+                        val = 0x55;
+                    }
+                    break;
             }
         }
         addr++;
@@ -1153,4 +1169,3 @@ int vdrive_command_memory_read(vdrive_t *vdrive, const BYTE *buf, WORD addr, uns
     vdrive->mem_length = len;
     return CBMDOS_IPE_MEMORY_READ;
 }
-

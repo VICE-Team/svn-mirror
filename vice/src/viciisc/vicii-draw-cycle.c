@@ -49,7 +49,7 @@
 #define COL_D022     0x22
 #define COL_D023     0x23
 #define COL_D024     0x24
-#define COL_D025     0x25 
+#define COL_D025     0x25
 #define COL_D026     0x26
 #define COL_D027     0x27
 #define COL_D028     0x28
@@ -122,18 +122,18 @@ static unsigned int cycle_flags_pipe;
 /**************************************************************************
  *
  * SECTION  draw_graphics()
- *   
+ *
  ******/
 
 static const BYTE colors[] = {
-    COL_D021,   COL_D021,   COL_CBUF,   COL_CBUF,   /* ECM=0 BMM=0 MCM=0 */
-    COL_D021,   COL_D022,   COL_D023,   COL_CBUF_MC,/* ECM=0 BMM=0 MCM=1 */
-    COL_VBUF_L, COL_VBUF_L,   COL_VBUF_H,   COL_VBUF_H, /* ECM=0 BMM=1 MCM=0 */
-    COL_D021,   COL_VBUF_H, COL_VBUF_L, COL_CBUF,   /* ECM=0 BMM=1 MCM=1 */
-    COL_D02X_EXT, COL_D02X_EXT, COL_CBUF,  COL_CBUF,   /* ECM=1 BMM=0 MCM=0 */
-    COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE,   /* ECM=1 BMM=0 MCM=1 */
-    COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE,   /* ECM=1 BMM=1 MCM=0 */
-    COL_NONE,   COL_NONE,   COL_NONE,   COL_NONE    /* ECM=1 BMM=1 MCM=1 */
+    COL_D021, COL_D021, COL_CBUF, COL_CBUF,         /* ECM=0 BMM=0 MCM=0 */
+    COL_D021, COL_D022, COL_D023, COL_CBUF_MC,      /* ECM=0 BMM=0 MCM=1 */
+    COL_VBUF_L, COL_VBUF_L, COL_VBUF_H, COL_VBUF_H, /* ECM=0 BMM=1 MCM=0 */
+    COL_D021, COL_VBUF_H, COL_VBUF_L, COL_CBUF,     /* ECM=0 BMM=1 MCM=1 */
+    COL_D02X_EXT, COL_D02X_EXT, COL_CBUF, COL_CBUF, /* ECM=1 BMM=0 MCM=0 */
+    COL_NONE, COL_NONE, COL_NONE, COL_NONE,         /* ECM=1 BMM=0 MCM=1 */
+    COL_NONE, COL_NONE, COL_NONE, COL_NONE,         /* ECM=1 BMM=1 MCM=0 */
+    COL_NONE, COL_NONE, COL_NONE, COL_NONE          /* ECM=1 BMM=1 MCM=1 */
 };
 
 static DRAW_INLINE void draw_graphics(int i)
@@ -152,12 +152,12 @@ static DRAW_INLINE void draw_graphics(int i)
         gbuf_mc_flop = 1;
     }
 
-    /* 
+    /*
      * read pixels depending on video mode
      * mc pixels if MCM=1 and BMM=1, or MCM=1 and cbuf bit 3 = 1
      */
-    if ( vmode16_pipe2 ) {
-        if ( (vmode11_pipe & 0x08) || (cbuf_reg & 0x08) ) {
+    if (vmode16_pipe2) {
+        if ((vmode11_pipe & 0x08) || (cbuf_reg & 0x08)) {
             /* mc pixels */
             if (gbuf_mc_flop) {
                 gbuf_pixel_reg = gbuf_reg >> 6;
@@ -172,7 +172,7 @@ static DRAW_INLINE void draw_graphics(int i)
          * MC and non-MC chars.
          * This is rather ugly. There must be a simpler solution.
          */
-        if ( (vmode11_pipe & 0x08) || (cbuf_reg & 0x08) ) {
+        if ((vmode11_pipe & 0x08) || (cbuf_reg & 0x08)) {
             /* hires pixels */
             gbuf_pixel_reg = (gbuf_reg & 0x80) ? 2 : 0;
         } else {
@@ -193,26 +193,26 @@ static DRAW_INLINE void draw_graphics(int i)
 
     /* lookup colors and render pixel */
     switch (cc) {
-    case COL_NONE:
-        cc = 0;
-        break;
-    case COL_VBUF_L:
-        cc = vbuf_reg & 0x0f;
-        break;
-    case COL_VBUF_H:
-        cc = vbuf_reg >> 4;
-        break;
-    case COL_CBUF:
-        cc = cbuf_reg;
-        break;
-    case COL_CBUF_MC:
-        cc = cbuf_reg & 0x07;
-        break;
-    case COL_D02X_EXT:
-        cc = COL_D021 + (vbuf_reg >> 6);
-        break;
-    default:
-        break;
+        case COL_NONE:
+            cc = 0;
+            break;
+        case COL_VBUF_L:
+            cc = vbuf_reg & 0x0f;
+            break;
+        case COL_VBUF_H:
+            cc = vbuf_reg >> 4;
+            break;
+        case COL_CBUF:
+            cc = cbuf_reg;
+            break;
+        case COL_CBUF_MC:
+            cc = cbuf_reg & 0x07;
+            break;
+        case COL_D02X_EXT:
+            cc = COL_D021 + (vbuf_reg >> 6);
+            break;
+        default:
+            break;
     }
 
     render_buffer[i] = cc;
@@ -250,7 +250,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
     }
     draw_graphics(6);
     /* pixel 7 */
-    if ( vmode16_pipe && !vmode16_pipe2 ) {
+    if (vmode16_pipe && !vmode16_pipe2) {
         gbuf_mc_flop = 0;
     }
     vmode16_pipe2 = vmode16_pipe;
@@ -267,7 +267,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
 
     /* this makes sure gbuf is 0 outside the visible area
        It should probably be done somewhere around the fetch instead */
-    if ( vis_en && vicii.vborder == 0) {
+    if (vis_en && vicii.vborder == 0) {
         gbuf_pipe0_reg = vicii.gbuf;
         xscroll_pipe = vicii.regs[0x16] & 0x07;
     } else {
@@ -275,7 +275,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
     }
 
     /* Only update vbuf and cbuf registers in the display state. */
-    if ( vis_en && vicii.vborder == 0 ) {
+    if (vis_en && vicii.vborder == 0) {
         if (!vicii.idle_state) {
             vbuf_pipe0_reg = vicii.vbuf[dmli];
             cbuf_pipe0_reg = vicii.cbuf[dmli];
@@ -283,7 +283,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
             vbuf_pipe0_reg = 0;
             cbuf_pipe0_reg = 0;
         }
-    } 
+    }
 
     /* update display index in the visible region */
     if (vis_en) {
@@ -291,7 +291,6 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
     } else {
         dmli = 0;
     }
-
 }
 
 
@@ -299,7 +298,7 @@ static DRAW_INLINE void draw_graphics8(unsigned int cycle_flags)
 /**************************************************************************
  *
  * SECTION  draw_sprites()
- *   
+ *
  ******/
 static DRAW_INLINE BYTE get_trigger_candidates(int xpos)
 {
@@ -308,7 +307,7 @@ static DRAW_INLINE BYTE get_trigger_candidates(int xpos)
 
     /* check for partial xpos match */
     for (s = 0; s < 8; s++) {
-        if ( (xpos & 0x1f8) == (sprite_x_pipe[s] & 0x1f8) ) {
+        if ((xpos & 0x1f8) == (sprite_x_pipe[s] & 0x1f8)) {
             candidate_bits |= 1 << s;
         }
     }
@@ -320,7 +319,7 @@ static DRAW_INLINE void trigger_sprites(int xpos, BYTE candidate_bits)
     int s;
 
     /* do nothing if no sprites are candidates or pending */
-    if ( !candidate_bits || !sprite_pending_bits  ) {
+    if (!candidate_bits || !sprite_pending_bits) {
         return;
     }
 
@@ -329,8 +328,8 @@ static DRAW_INLINE void trigger_sprites(int xpos, BYTE candidate_bits)
         BYTE m = 1 << s;
 
         /* start rendering on position match */
-        if ( (candidate_bits & m) && (sprite_pending_bits & m) && !(sprite_active_bits & m) && !(sprite_halt_bits & m) ) {
-            if ( xpos == sprite_x_pipe[s] ) {
+        if ((candidate_bits & m) && (sprite_pending_bits & m) && !(sprite_active_bits & m) && !(sprite_halt_bits & m)) {
+            if (xpos == sprite_x_pipe[s]) {
                 sbuf_expx_flops |= m;
                 sbuf_mc_flops |= m;
                 sprite_active_bits |= m;
@@ -346,7 +345,7 @@ static DRAW_INLINE void draw_sprites(int i)
     BYTE collision_mask;
 
     /* do nothing if all sprites are inactive */
-    if ( !sprite_active_bits ) {
+    if (!sprite_active_bits) {
         return;
     }
 
@@ -356,26 +355,25 @@ static DRAW_INLINE void draw_sprites(int i)
     for (s = 7; s >= 0; --s) {
         BYTE m = 1 << s;
 
-        if ( sprite_active_bits & m ) {
+        if (sprite_active_bits & m) {
             /* render pixels if shift register or pixel reg still contains data */
-            if ( sbuf_reg[s] || sbuf_pixel_reg[s] ) {
-                     
-                if ( !(sprite_halt_bits & m) ) {
-                    if ( sbuf_expx_flops & m ) {
+            if (sbuf_reg[s] || sbuf_pixel_reg[s]) {
+                if (!(sprite_halt_bits & m)) {
+                    if (sbuf_expx_flops & m) {
                         if (sprite_mc_bits & m) {
-                            if ( sbuf_mc_flops & m ) {
+                            if (sbuf_mc_flops & m) {
                                 /* fetch 2 bits */
                                 sbuf_pixel_reg[s] = (BYTE)((sbuf_reg[s] >> 22) & 0x03);
                             }
                             sbuf_mc_flops ^= m;
                         } else {
                             /* fetch 1 bit and make it 0 or 2 */
-                            sbuf_pixel_reg[s] = (BYTE)(( (sbuf_reg[s] >> 23) & 0x01 ) << 1);
+                            sbuf_pixel_reg[s] = (BYTE)(((sbuf_reg[s] >> 23) & 0x01 ) << 1);
                         }
                     }
 
                     /* shift the sprite buffer and handle expansion flags */
-                    if ( sbuf_expx_flops & m ) {
+                    if (sbuf_expx_flops & m) {
                         sbuf_reg[s] <<= 1;
                     }
                     if (sprite_expx_bits & m) {
@@ -391,7 +389,6 @@ static DRAW_INLINE void draw_sprites(int i)
                     active_sprite = s;
                     collision_mask |= m;
                 }
-
             } else {
                 sprite_active_bits &= ~m;
             }
@@ -402,19 +399,19 @@ static DRAW_INLINE void draw_sprites(int i)
         BYTE pixel_pri = pri_buffer[i];
         int s = active_sprite;
         BYTE spri = sprite_pri_bits & (1 << s);
-        if ( !(pixel_pri && spri) ) {
+        if (!(pixel_pri && spri)) {
             switch (sbuf_pixel_reg[s]) {
-            case 1:
-                render_buffer[i] = COL_D025;
-                break;
-            case 2:
-                render_buffer[i] = COL_D027 + s;
-                break;
-            case 3:
-                render_buffer[i] = COL_D026;
-                break;
-            default:
-                break;
+                case 1:
+                    render_buffer[i] = COL_D025;
+                    break;
+                case 2:
+                    render_buffer[i] = COL_D027 + s;
+                    break;
+                case 3:
+                    render_buffer[i] = COL_D026;
+                    break;
+                default:
+                    break;
             }
         }
         /* if there was a foreground pixel, trigger collision */
@@ -422,9 +419,9 @@ static DRAW_INLINE void draw_sprites(int i)
             vicii.sprite_background_collisions |= collision_mask;
         }
     }
-    
+
     /* if 2 or more bits are set, trigger collisions */
-    if ( collision_mask & (collision_mask-1) ) {
+    if (collision_mask & (collision_mask - 1)) {
         vicii.sprite_sprite_collisions |= collision_mask;
     }
 }
@@ -459,7 +456,7 @@ static DRAW_INLINE void update_sprite_data(unsigned int cycle_flags)
 static DRAW_INLINE void update_sprite_xpos(void)
 {
     int s;
-    for (s=0; s<8; s++) {
+    for (s = 0; s < 8; s++) {
         sprite_x_pipe[s] = vicii.sprite[s].x;
     }
 }
@@ -529,14 +526,13 @@ static DRAW_INLINE void draw_sprites8(unsigned int cycle_flags)
 
     /* pipe xpos */
     update_sprite_xpos();
-
 }
 
 
 /**************************************************************************
  *
  * SECTION  draw_border()
- *   
+ *
  ******/
 
 static DRAW_INLINE void draw_border8(void)
@@ -545,17 +541,17 @@ static DRAW_INLINE void draw_border8(void)
 
 #if 1
     /* early exit for the no border case */
-    if ( !(border_state || vicii.main_border) ) {
+    if (!(border_state || vicii.main_border)) {
         return;
     }
     /* early exit for the continuous border case */
-    if ( border_state && vicii.main_border ) {
+    if (border_state && vicii.main_border) {
         memset(render_buffer, COL_D020, 8);
         return;
     }
 #endif
 
-    /* 
+    /*
      * normal border handling in case there was a transition
      * (the code below can handle all border logic)
      */
@@ -579,7 +575,7 @@ static DRAW_INLINE void draw_border8(void)
 /**************************************************************************
  *
  * SECTION  draw_colors()
- *   
+ *
  ******/
 
 static DRAW_INLINE void update_cregs(void)
@@ -628,7 +624,7 @@ static DRAW_INLINE void draw_colors8(void)
     int offs = vicii.dbuf_offset;
 
     /* guard (could possibly be removed) */
-    if (offs > VICII_DRAW_BUFFER_SIZE-8) {
+    if (offs > VICII_DRAW_BUFFER_SIZE - 8) {
         return;
     }
 
@@ -666,7 +662,7 @@ static DRAW_INLINE void draw_colors8(void)
 /**************************************************************************
  *
  * SECTION  vicii_draw_cycle()
- *   
+ *
  ******/
 
 void vicii_draw_cycle(void)
@@ -701,7 +697,7 @@ void vicii_draw_cycle_init(void)
 
     /* clear cregs and fill 0x00-0x0f with 1:1 mapping */
     memset(cregs, 0, sizeof(cregs));
-    for (i=0; i < 0x10; i++) {
+    for (i = 0; i < 0x10; i++) {
         cregs[i] = i;
     }
     vicii.last_color_reg = 0xff;
@@ -846,4 +842,3 @@ int vicii_draw_cycle_snapshot_read(snapshot_module_t *m)
 
     return 0;
 }
-

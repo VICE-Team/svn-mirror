@@ -40,68 +40,66 @@ void vic_timing_set(machine_timing_t *machine_timing, int border_mode)
     resources_get_int("MachineVideoStandard", &mode);
 
     switch (mode) {
-      case MACHINE_SYNC_NTSC:
-        vic.screen_height = VIC20_NTSC_SCREEN_LINES;
-        switch (border_mode) {
-          default:
-          case VIC_NORMAL_BORDERS:
-            vic.first_displayed_line = VIC_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_NTSC_NORMAL_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_NTSC_NORMAL_DISPLAY_WIDTH;
-            break;       
-          case VIC_FULL_BORDERS:
-            vic.first_displayed_line = VIC_NTSC_FULL_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_NTSC_FULL_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_NTSC_FULL_DISPLAY_WIDTH;
+        case MACHINE_SYNC_NTSC:
+            vic.screen_height = VIC20_NTSC_SCREEN_LINES;
+            switch (border_mode) {
+                default:
+                case VIC_NORMAL_BORDERS:
+                    vic.first_displayed_line = VIC_NTSC_NORMAL_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_NTSC_NORMAL_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_NTSC_NORMAL_DISPLAY_WIDTH;
+                    break;
+                case VIC_FULL_BORDERS:
+                    vic.first_displayed_line = VIC_NTSC_FULL_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_NTSC_FULL_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_NTSC_FULL_DISPLAY_WIDTH;
+                    break;
+                case VIC_DEBUG_BORDERS:
+                    vic.first_displayed_line = VIC_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_NTSC_DEBUG_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_NTSC_DEBUG_DISPLAY_WIDTH;
+                    break;
+                case VIC_NO_BORDERS:
+                    vic.first_displayed_line = VIC_NTSC_NO_BORDER_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_NTSC_NO_BORDER_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_NTSC_NO_BORDER_DISPLAY_WIDTH;
+                    break;
+            }
+            vic.screen_width = VIC_NTSC_SCREEN_WIDTH;
+            vic.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
+            vic.cycle_offset = VIC20_NTSC_CYCLE_OFFSET;
+            vic.max_text_cols = VIC_NTSC_MAX_TEXT_COLS;
             break;
-          case VIC_DEBUG_BORDERS:
-            vic.first_displayed_line = VIC_NTSC_DEBUG_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_NTSC_DEBUG_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_NTSC_DEBUG_DISPLAY_WIDTH;
+        case MACHINE_SYNC_PAL:
+        default:
+            vic.screen_height = VIC20_PAL_SCREEN_LINES;
+            switch (border_mode) {
+                default:
+                case VIC_NORMAL_BORDERS:
+                    vic.first_displayed_line = VIC_PAL_NORMAL_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_PAL_NORMAL_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_PAL_NORMAL_DISPLAY_WIDTH;
+                    break;
+                case VIC_FULL_BORDERS:
+                    vic.first_displayed_line = VIC_PAL_FULL_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_PAL_FULL_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_PAL_FULL_DISPLAY_WIDTH;
+                    break;
+                case VIC_DEBUG_BORDERS:
+                    vic.first_displayed_line = VIC_PAL_DEBUG_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_PAL_DEBUG_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_PAL_DEBUG_DISPLAY_WIDTH;
+                    break;
+                case VIC_NO_BORDERS:
+                    vic.first_displayed_line = VIC_PAL_NO_BORDER_FIRST_DISPLAYED_LINE;
+                    vic.last_displayed_line = VIC_PAL_NO_BORDER_LAST_DISPLAYED_LINE;
+                    vic.display_width = VIC_PAL_NO_BORDER_DISPLAY_WIDTH;
+                    break;
+            }
+            vic.screen_width = VIC_PAL_SCREEN_WIDTH;
+            vic.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
+            vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
+            vic.max_text_cols = VIC_PAL_MAX_TEXT_COLS;
             break;
-          case VIC_NO_BORDERS:
-            vic.first_displayed_line = VIC_NTSC_NO_BORDER_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_NTSC_NO_BORDER_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_NTSC_NO_BORDER_DISPLAY_WIDTH;
-            break;
-        }
-        vic.screen_width = VIC_NTSC_SCREEN_WIDTH;
-        vic.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
-        vic.cycle_offset = VIC20_NTSC_CYCLE_OFFSET;
-        vic.max_text_cols = VIC_NTSC_MAX_TEXT_COLS;
-        break;
-      case MACHINE_SYNC_PAL:
-      default:
-        vic.screen_height = VIC20_PAL_SCREEN_LINES;
-        switch (border_mode) {
-          default:
-          case VIC_NORMAL_BORDERS:
-            vic.first_displayed_line = VIC_PAL_NORMAL_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_PAL_NORMAL_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_PAL_NORMAL_DISPLAY_WIDTH;
-            break;       
-          case VIC_FULL_BORDERS:
-            vic.first_displayed_line = VIC_PAL_FULL_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_PAL_FULL_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_PAL_FULL_DISPLAY_WIDTH;
-            break;
-          case VIC_DEBUG_BORDERS:
-            vic.first_displayed_line = VIC_PAL_DEBUG_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_PAL_DEBUG_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_PAL_DEBUG_DISPLAY_WIDTH;
-            break;
-          case VIC_NO_BORDERS:
-            vic.first_displayed_line = VIC_PAL_NO_BORDER_FIRST_DISPLAYED_LINE;
-            vic.last_displayed_line = VIC_PAL_NO_BORDER_LAST_DISPLAYED_LINE;
-            vic.display_width = VIC_PAL_NO_BORDER_DISPLAY_WIDTH;
-            break;
-        }
-        vic.screen_width = VIC_PAL_SCREEN_WIDTH;
-        vic.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
-        vic.cycle_offset = VIC20_PAL_CYCLE_OFFSET;
-        vic.max_text_cols = VIC_PAL_MAX_TEXT_COLS;
-        break;
     }
-
 }
-

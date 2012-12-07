@@ -93,8 +93,7 @@ void vicii_set_phi1_addr_options(WORD mask, WORD offset)
     vicii.vaddr_mask_phi1 = mask;
     vicii.vaddr_offset_phi1 = offset;
 
-    VICII_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x",
-                         mask, offset));
+    VICII_DEBUG_REGISTER(("Set phi1 video addr mask=%04x, offset=%04x", mask, offset));
     vicii_update_memory_ptrs_external();
 }
 
@@ -103,8 +102,7 @@ void vicii_set_phi2_addr_options(WORD mask, WORD offset)
     vicii.vaddr_mask_phi2 = mask;
     vicii.vaddr_offset_phi2 = offset;
 
-    VICII_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x",
-                         mask, offset));
+    VICII_DEBUG_REGISTER(("Set phi2 video addr mask=%04x, offset=%04x", mask, offset));
     vicii_update_memory_ptrs_external();
 }
 
@@ -113,8 +111,7 @@ void vicii_set_phi1_chargen_addr_options(WORD mask, WORD value)
     vicii.vaddr_chargen_mask_phi1 = mask;
     vicii.vaddr_chargen_value_phi1 = value;
 
-    VICII_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x",
-                         mask, value));
+    VICII_DEBUG_REGISTER(("Set phi1 chargen addr mask=%04x, value=%04x", mask, value));
     vicii_update_memory_ptrs_external();
 }
 
@@ -123,8 +120,7 @@ void vicii_set_phi2_chargen_addr_options(WORD mask, WORD value)
     vicii.vaddr_chargen_mask_phi2 = mask;
     vicii.vaddr_chargen_value_phi2 = value;
 
-    VICII_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x",
-                         mask, value));
+    VICII_DEBUG_REGISTER(("Set phi2 chargen addr mask=%04x, value=%04x", mask, value));
     vicii_update_memory_ptrs_external();
 }
 
@@ -135,8 +131,7 @@ void vicii_set_chargen_addr_options(WORD mask, WORD value)
     vicii.vaddr_chargen_mask_phi2 = mask;
     vicii.vaddr_chargen_value_phi2 = value;
 
-    VICII_DEBUG_REGISTER(("Set chargen addr mask=%04x, value=%04x",
-                         mask, value));
+    VICII_DEBUG_REGISTER(("Set chargen addr mask=%04x, value=%04x", mask, value));
     vicii_update_memory_ptrs_external();
 }
 
@@ -182,8 +177,9 @@ inline void vicii_delay_clk(void)
     if (vicii.fastmode == 0) {
         diff = maincpu_clk - old_maincpu_clk;
 
-	if (!vicii.badline_disable)
-        dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
+        if (!vicii.badline_disable) {
+            dma_maincpu_steal_cycles(maincpu_clk, diff, 0);
+        }
     }
 
     old_maincpu_clk = maincpu_clk;
@@ -194,8 +190,9 @@ inline void vicii_delay_clk(void)
 
 inline void vicii_handle_pending_alarms(int num_write_cycles)
 {
-    if (vicii.viciie != 0)
+    if (vicii.viciie != 0) {
         vicii_delay_clk();
+    }
 
     if (num_write_cycles != 0) {
         int f;
@@ -216,15 +213,16 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk > vicii.fetch_clk) {
                 vicii_fetch_alarm_handler(0, NULL);
                 f = 1;
-                if (vicii.viciie != 0)
+                if (vicii.viciie != 0) {
                     vicii_delay_clk();
+                }
             }
             if (maincpu_clk >= vicii.draw_clk) {
-                vicii_raster_draw_alarm_handler((CLOCK)(maincpu_clk
-                                                - vicii.draw_clk), NULL);
+                vicii_raster_draw_alarm_handler((CLOCK)(maincpu_clk - vicii.draw_clk), NULL);
                 f = 1;
-                if (vicii.viciie != 0)
+                if (vicii.viciie != 0) {
                     vicii_delay_clk();
+                }
             }
         }
         while (f);
@@ -235,7 +233,6 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
            old value in the first write access, and then store the new one in
            the second write access).  */
         maincpu_clk += num_write_cycles;
-
     } else {
         int f;
 
@@ -244,14 +241,16 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
             if (maincpu_clk >= vicii.fetch_clk) {
                 vicii_fetch_alarm_handler(0, NULL);
                 f = 1;
-                if (vicii.viciie != 0)
+                if (vicii.viciie != 0) {
                     vicii_delay_clk();
+                }
             }
             if (maincpu_clk >= vicii.draw_clk) {
                 vicii_raster_draw_alarm_handler(0, NULL);
                 f = 1;
-                if (vicii.viciie != 0)
+                if (vicii.viciie != 0) {
                     vicii_delay_clk();
+                }
             }
         }
         while (f);
@@ -260,15 +259,17 @@ inline void vicii_handle_pending_alarms(int num_write_cycles)
 
 void vicii_handle_pending_alarms_external(int num_write_cycles)
 {
-    if (vicii.initialized)
+    if (vicii.initialized) {
         vicii_handle_pending_alarms(num_write_cycles);
+    }
 }
 
 void vicii_handle_pending_alarms_external_write(void)
 {
     /* WARNING: assumes `maincpu_rmw_flag' is 0 or 1.  */
-    if (vicii.initialized)
+    if (vicii.initialized) {
         vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
+    }
 }
 
 /* return pixel aspect ratio for current video mode
@@ -319,10 +320,10 @@ static void vicii_set_geometry(void)
                         VICII_SCREEN_XPIX, VICII_SCREEN_YPIX, /* gfx dimensions */
                         VICII_SCREEN_TEXTCOLS, VICII_SCREEN_TEXTLINES, /* text dimensions */
                         vicii.screen_leftborderwidth, vicii.row_25_start_line, /* gfx position */
-                        vicii.viciidtv?1:0, /* gfx area doesn't move except on DTV*/
+                        vicii.viciidtv ? 1 : 0, /* gfx area doesn't move except on DTV*/
                         vicii.first_displayed_line,
                         vicii.last_displayed_line,
-                        - VICII_RASTER_X(0), /* extra offscreen border left */
+                        -VICII_RASTER_X(0),  /* extra offscreen border left */
                         vicii.sprite_wrap_x - VICII_SCREEN_XPIX -
                         vicii.screen_leftborderwidth - vicii.screen_rightborderwidth + VICII_RASTER_X(0)) /* extra offscreen border right */;
 #ifdef __MSDOS__
@@ -345,8 +346,9 @@ static int init_raster(void)
     /* FIXME: VICII_NUM_VMODES is only valid for DTV.
        A smaller number could be used for !DTV, but
        VICII_IDLE_MODE needs to be < VICII_NUM_VMODES. */
-    if (raster_init(raster, VICII_NUM_VMODES) < 0)
+    if (raster_init(raster, VICII_NUM_VMODES) < 0) {
         return -1;
+    }
     raster_modes_set_idle_mode(raster->modes, VICII_IDLE_MODE);
     resources_touch("VICIIVideoCache");
 
@@ -379,7 +381,7 @@ raster_t *vicii_init(unsigned int flag)
     vicii.fastmode = 0;
     vicii.half_cycles = 0;
 
-    switch(flag) {
+    switch (flag) {
         case VICII_EXTENDED:
             vicii.viciie = 1;
             vicii.viciidtv = 0;
@@ -405,8 +407,9 @@ raster_t *vicii_init(unsigned int flag)
     vicii.raster_draw_alarm = alarm_new(maincpu_alarm_context,
                                         "VicIIRasterDraw",
                                         vicii_raster_draw_alarm_handler, NULL);
-    if (init_raster() < 0)
+    if (init_raster() < 0) {
         return NULL;
+    }
 
     vicii_powerup();
 
@@ -485,24 +488,26 @@ void vicii_reset(void)
     vicii.countb = 0;
     vicii.countb_mod = 0;
     vicii.countb_step = 0;
-    for (i=0;i<256;i++) vicii.dtvpalette[i]=i;
+    for (i = 0; i < 256; i++) {
+        vicii.dtvpalette[i] = i;
+    }
 
-    vicii.dtvpalette[0]=0;
-    vicii.dtvpalette[1]=0x0f;
-    vicii.dtvpalette[2]=0x36;
-    vicii.dtvpalette[3]=0xbe;
-    vicii.dtvpalette[4]=0x58;
-    vicii.dtvpalette[5]=0xdb;
-    vicii.dtvpalette[6]=0x86;
-    vicii.dtvpalette[7]=0xff;
-    vicii.dtvpalette[8]=0x29;
-    vicii.dtvpalette[9]=0x26;
-    vicii.dtvpalette[10]=0x3b;
-    vicii.dtvpalette[11]=0x05;
-    vicii.dtvpalette[12]=0x07;
-    vicii.dtvpalette[13]=0xdf;
-    vicii.dtvpalette[14]=0x9a;
-    vicii.dtvpalette[15]=0x0a;
+    vicii.dtvpalette[0] = 0;
+    vicii.dtvpalette[1] = 0x0f;
+    vicii.dtvpalette[2] = 0x36;
+    vicii.dtvpalette[3] = 0xbe;
+    vicii.dtvpalette[4] = 0x58;
+    vicii.dtvpalette[5] = 0xdb;
+    vicii.dtvpalette[6] = 0x86;
+    vicii.dtvpalette[7] = 0xff;
+    vicii.dtvpalette[8] = 0x29;
+    vicii.dtvpalette[9] = 0x26;
+    vicii.dtvpalette[10] = 0x3b;
+    vicii.dtvpalette[11] = 0x05;
+    vicii.dtvpalette[12] = 0x07;
+    vicii.dtvpalette[13] = 0xdf;
+    vicii.dtvpalette[14] = 0x9a;
+    vicii.dtvpalette[15] = 0x0a;
 
     /* clear the high nibble from colors so that standard colors can be written without
        having extended_enable=1 */
@@ -516,7 +521,7 @@ void vicii_reset(void)
 
     vicii.regs[0x36] = 0x76;
     vicii.regs[0x37] = 0;
-    
+
     /* clear count[ab] & other regs,
        fixes problem with DTVBIOS, gfxmodes & soft reset */
     vicii.regs[0x38] = 0;
@@ -542,7 +547,7 @@ void vicii_reset(void)
     vicii.overscan = 0;
     vicii.color_ram_ptr = &mem_ram[0x01d800];
 
-    vicii.raster_irq_offset  = 0;
+    vicii.raster_irq_offset = 0;
     vicii.raster_irq_prevent = 0;
 
     /* Disable DTV features on non-DTV VIC-II */
@@ -557,21 +562,25 @@ void vicii_reset_registers(void)
 {
     WORD i;
 
-    if (!vicii.initialized)
+    if (!vicii.initialized) {
         return;
+    }
 
     if (!vicii.viciidtv) {
-        for (i = 0; i <= 0x3f; i++)
+        for (i = 0; i <= 0x3f; i++) {
             vicii_store(i, 0);
+        }
     } else {
         vicii.extended_enable = 1;
         vicii.extended_lockout = 0;
-        for (i = 0; i <= 0x3e; i++)
+        for (i = 0; i <= 0x3e; i++) {
             vicii_store(i, 0);
-        vicii_store(0x36,0x76); 
-        for (i = 0x40; i <= 0x4f; i++)
+        }
+        vicii_store(0x36, 0x76);
+        for (i = 0x40; i <= 0x4f; i++) {
             vicii_store(i, 0);
-        vicii_store(0x3f, 0); 
+        }
+        vicii_store(0x3f, 0);
     }
     raster_sprite_status_reset(vicii.raster.sprite_status, vicii_sprite_offset());
 }
@@ -634,8 +643,9 @@ static inline void vicii_set_vbanks(int vbank_p1, int vbank_p2)
     /* Also, we assume the bank has *really* changed, and do not do any
        special optimizations for the not-really-changed case.  */
     vicii_handle_pending_alarms(maincpu_rmw_flag + 1);
-    if (maincpu_clk >= vicii.draw_clk)
+    if (maincpu_clk >= vicii.draw_clk) {
         vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk, NULL);
+    }
 
     vicii.vbank_phi1 = vbank_p1;
     vicii.vbank_phi2 = vbank_p2;
@@ -677,11 +687,11 @@ void vicii_trigger_light_pen(CLOCK mclk)
 {
     if (!vicii.light_pen.triggered) {
         vicii.light_pen.triggered = 1;
-        vicii.light_pen.x = VICII_RASTER_X(mclk % vicii.cycles_per_line)
-                                - vicii.screen_leftborderwidth + 0x20;
+        vicii.light_pen.x = VICII_RASTER_X(mclk % vicii.cycles_per_line) - vicii.screen_leftborderwidth + 0x20;
 
-        if (vicii.light_pen.x < 0)
+        if (vicii.light_pen.x < 0) {
             vicii.light_pen.x = vicii.sprite_wrap_x + vicii.light_pen.x;
+        }
 
         /* FIXME: why `+2'? */
         vicii.light_pen.x = vicii.light_pen.x / 2 + 2 + vicii.light_pen.x_extra_bits;
@@ -745,8 +755,9 @@ void vicii_set_phi2_ram_base(BYTE *base)
 
 void vicii_update_memory_ptrs_external(void)
 {
-    if (vicii.initialized > 0)
+    if (vicii.initialized > 0) {
         vicii_update_memory_ptrs(VICII_RASTER_CYCLE(maincpu_clk));
+    }
 }
 
 /* Set the memory pointers according to the values in the registers.  */
@@ -763,9 +774,10 @@ void vicii_update_memory_ptrs(unsigned int cycle)
     BYTE *bitmap_high_base;       /* Pointer to bitmap memory (high part).  */
     int tmp, bitmap_bank;
 
-    if (vicii.viciidtv)
+    if (vicii.viciidtv) {
         viciidtv_update_colorram();
-    
+    }
+
     screen_addr = vicii.vbank_phi2 + ((vicii.regs[0x18] & 0xf0) << 6);
 
     screen_addr = (screen_addr & vicii.vaddr_mask_phi2)
@@ -789,13 +801,13 @@ void vicii_update_memory_ptrs(unsigned int cycle)
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi2 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000  + (screen_addr & 0xfff)));
+            vicii.screen_base_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000 + (screen_addr & 0xfff)));
         } else {
             vicii.screen_base_phi2 = vicii.ram_base_phi2 + screen_addr;
         }
 #endif
         BYTE *ptr;
-        if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000  + (screen_addr & 0xfff))))) {
+        if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000 + (screen_addr & 0xfff))))) {
             if ((screen_addr & 0x3fff) >= 0x3000) {
                 vicii.screen_base_phi2 = ptr;
             } else {
@@ -821,13 +833,13 @@ phi2noultimax:
         if ((screen_addr & 0x3fff) >= 0x3000) {
             /* vicii.screen_base_phi1 = romh_banks + (romh_bank << 13)
                                      + (screen_addr & 0xfff) + 0x1000; */
-            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000  + (screen_addr & 0xfff)));
+            vicii.screen_base_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000 + (screen_addr & 0xfff)));
         } else {
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
         }
 #endif
         BYTE *ptr;
-        if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000  + (screen_addr & 0xfff))))) {
+        if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000 + (screen_addr & 0xfff))))) {
             if ((screen_addr & 0x3fff) >= 0x3000) {
                 vicii.screen_base_phi1 = ptr;
             } else {
@@ -838,7 +850,7 @@ phi2noultimax:
         }
         if ((tmp & 0x3fff) >= 0x3000) {
             /* char_base = romh_banks + (romh_bank << 13) + (tmp & 0xfff) + 0x1000; */
-            char_base = ultimax_romh_phi1_ptr((WORD)(0x1000  + (tmp & 0xfff)));
+            char_base = ultimax_romh_phi1_ptr((WORD)(0x1000 + (tmp & 0xfff)));
         } else {
             char_base = vicii.ram_base_phi1 + tmp;
         }
@@ -849,27 +861,25 @@ phi2noultimax:
         } else {
             bitmap_high_base = bitmap_low_base + 0x1000;
         }
-
     } else {
 phi1noultimax:
-        if ((screen_addr & vicii.vaddr_chargen_mask_phi1)
-            != vicii.vaddr_chargen_value_phi1)
+        if ((screen_addr & vicii.vaddr_chargen_mask_phi1) != vicii.vaddr_chargen_value_phi1) {
             vicii.screen_base_phi1 = vicii.ram_base_phi1 + screen_addr;
-        else
-            vicii.screen_base_phi1 = mem_chargen_rom_ptr
-                                     + (screen_addr & 0xc00);
+        } else {
+            vicii.screen_base_phi1 = mem_chargen_rom_ptr + (screen_addr & 0xc00);
+        }
 
-        if ((tmp & vicii.vaddr_chargen_mask_phi1)
-            != vicii.vaddr_chargen_value_phi1)
+        if ((tmp & vicii.vaddr_chargen_mask_phi1) != vicii.vaddr_chargen_value_phi1) {
             char_base = vicii.ram_base_phi1 + tmp;
-        else
+        } else {
             char_base = mem_chargen_rom_ptr + (tmp & 0x0800);
+        }
 
-        if (((bitmap_bank + 0x1000) & vicii.vaddr_chargen_mask_phi1)
-            != vicii.vaddr_chargen_value_phi1)
+        if (((bitmap_bank + 0x1000) & vicii.vaddr_chargen_mask_phi1) != vicii.vaddr_chargen_value_phi1) {
             bitmap_high_base = bitmap_low_base + 0x1000;
-        else
+        } else {
             bitmap_high_base = mem_chargen_rom_ptr;
+        }
     }
 
     if (vicii.viciidtv) {
@@ -877,13 +887,13 @@ phi1noultimax:
             /* TODO other modes */
             case VICII_8BPP_PIXEL_CELL_MODE:
             case VICII_ILLEGAL_LINEAR_MODE:
-                vicii.screen_base_phi2 = vicii.ram_base_phi2 + (vicii.regs[0x45]<<16) + (vicii.regs[0x3b]<<8) + vicii.regs[0x3a];
+                vicii.screen_base_phi2 = vicii.ram_base_phi2 + (vicii.regs[0x45] << 16) + (vicii.regs[0x3b] << 8) + vicii.regs[0x3a];
                 break;
             default:
-                vicii.screen_base_phi2 += (vicii.regs[0x45]<<16);
-                char_base += (vicii.regs[0x3d]<<16);
-                bitmap_low_base += (vicii.regs[0x3d]<<16);
-                bitmap_high_base += (vicii.regs[0x3d]<<16);
+                vicii.screen_base_phi2 += (vicii.regs[0x45] << 16);
+                char_base += (vicii.regs[0x3d] << 16);
+                bitmap_low_base += (vicii.regs[0x3d] << 16);
+                bitmap_high_base += (vicii.regs[0x3d] << 16);
                 break;
         }
     }
@@ -892,18 +902,19 @@ phi1noultimax:
 
     if (vicii.idle_data_location != IDLE_NONE &&
         old_vbank_p2 != vicii.vbank_phi2) {
-        if (vicii.idle_data_location == IDLE_39FF)
+        if (vicii.idle_data_location == IDLE_39FF) {
             raster_changes_foreground_add_int(&vicii.raster,
                                               VICII_RASTER_CHAR(cycle),
                                               &vicii.idle_data,
                                               vicii.ram_base_phi2[vicii.vbank_phi2
-                                              + 0x39ff]);
-        else
+                                                                  + 0x39ff]);
+        } else {
             raster_changes_foreground_add_int(&vicii.raster,
                                               VICII_RASTER_CHAR(cycle),
                                               &vicii.idle_data,
                                               vicii.ram_base_phi2[vicii.vbank_phi2
-                                              + 0x3fff]);
+                                                                  + 0x3fff]);
+        }
     }
 
     if (tmp <= 0 && maincpu_clk < vicii.draw_clk) {
@@ -998,20 +1009,16 @@ void vicii_update_video_mode(unsigned int cycle)
 {
     int new_video_mode;
 
-    new_video_mode = ((vicii.regs[0x11] & 0x60)
-                     | (vicii.regs[0x16] & 0x10)) >> 4;
+    new_video_mode = ((vicii.regs[0x11] & 0x60) | (vicii.regs[0x16] & 0x10)) >> 4;
 
     if (vicii.viciidtv) {
-        new_video_mode |= (((vicii.regs[0x3c] & 0x04)<<1) 
-    	                 | ((vicii.regs[0x3c] & 0x01)<<3));
+        new_video_mode |= (((vicii.regs[0x3c] & 0x04) << 1) | ((vicii.regs[0x3c] & 0x01) << 3));
 
-        if (((new_video_mode) == VICII_8BPP_FRED_MODE)
-           && ((vicii.regs[0x3c] & 0x04)==0)) {
-             new_video_mode = VICII_8BPP_FRED2_MODE;
+        if (((new_video_mode) == VICII_8BPP_FRED_MODE) && ((vicii.regs[0x3c] & 0x04) == 0)) {
+            new_video_mode = VICII_8BPP_FRED2_MODE;
         }
 
-        if (((new_video_mode) == VICII_8BPP_CHUNKY_MODE)
-           && ((vicii.regs[0x3c] & 0x10)==0)) {
+        if (((new_video_mode) == VICII_8BPP_CHUNKY_MODE) && ((vicii.regs[0x3c] & 0x10) == 0)) {
             if (vicii.regs[0x3c] & 0x04) {
                 new_video_mode = VICII_8BPP_PIXEL_CELL_MODE;
             } else {
@@ -1020,9 +1027,8 @@ void vicii_update_video_mode(unsigned int cycle)
         }
 
         /* HACK to make vcache display gfx in chunky & the rest */
-        if ((new_video_mode >= VICII_8BPP_CHUNKY_MODE)&&
-            (new_video_mode <= VICII_8BPP_PIXEL_CELL_MODE)) {
-                vicii.raster.dont_cache = 1;
+        if ((new_video_mode >= VICII_8BPP_CHUNKY_MODE) && (new_video_mode <= VICII_8BPP_PIXEL_CELL_MODE)) {
+            vicii.raster.dont_cache = 1;
         }
 
         viciidtv_update_colorram();
@@ -1030,61 +1036,61 @@ void vicii_update_video_mode(unsigned int cycle)
 
     if (new_video_mode != vicii.video_mode) {
         switch (new_video_mode) {
-          case VICII_ILLEGAL_TEXT_MODE:
-          case VICII_ILLEGAL_BITMAP_MODE_1:
-          case VICII_ILLEGAL_BITMAP_MODE_2:
-          case VICII_ILLEGAL_LINEAR_MODE:
-            /* Force the overscan color to black.  */
-            raster_changes_background_add_int
-                (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.idle_background_color, 0);
-            raster_changes_background_add_int
-                (&vicii.raster,
-                VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
-                &vicii.raster.xsmooth_color, 0);
-            vicii.get_background_from_vbuf = 0;
-            vicii.force_black_overscan_background_color = 1;
-            break;
-          case VICII_HIRES_BITMAP_MODE:
-            raster_changes_background_add_int
-                (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.idle_background_color, 0);
-            raster_changes_background_add_int
-                (&vicii.raster,
-                VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
-                &vicii.raster.xsmooth_color,
-                vicii.background_color_source & 0x0f);
-            vicii.get_background_from_vbuf = VICII_HIRES_BITMAP_MODE;
-            vicii.force_black_overscan_background_color = 1;
-            break;
-          case VICII_EXTENDED_TEXT_MODE:
-            raster_changes_background_add_int
-                (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.idle_background_color,
-                vicii.viciidtv?vicii.dtvpalette[vicii.regs[0x21]]:vicii.regs[0x21]);
-            raster_changes_background_add_int
-                (&vicii.raster,
-                VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
-                &vicii.raster.xsmooth_color,
-                vicii.viciidtv?vicii.dtvpalette[vicii.regs[0x21 + (vicii.background_color_source >> 6)]]:vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
-            vicii.get_background_from_vbuf = VICII_EXTENDED_TEXT_MODE;
-            vicii.force_black_overscan_background_color = 0;
-            break;
-          default:
-            /* The overscan background color is given by the background
-               color register.  */
-            raster_changes_background_add_int
-                (&vicii.raster, VICII_RASTER_X(cycle),
-                &vicii.raster.idle_background_color,
-                vicii.viciidtv?vicii.dtvpalette[vicii.regs[0x21]]:vicii.regs[0x21]);
-            raster_changes_background_add_int
-                (&vicii.raster,
-                VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
-                &vicii.raster.xsmooth_color,
-                vicii.viciidtv?vicii.dtvpalette[vicii.regs[0x21]]:vicii.regs[0x21]);
-            vicii.get_background_from_vbuf = 0;
-            vicii.force_black_overscan_background_color = 0;
-            break;
+            case VICII_ILLEGAL_TEXT_MODE:
+            case VICII_ILLEGAL_BITMAP_MODE_1:
+            case VICII_ILLEGAL_BITMAP_MODE_2:
+            case VICII_ILLEGAL_LINEAR_MODE:
+                /* Force the overscan color to black.  */
+                raster_changes_background_add_int
+                    (&vicii.raster, VICII_RASTER_X(cycle),
+                    &vicii.raster.idle_background_color, 0);
+                raster_changes_background_add_int
+                    (&vicii.raster,
+                    VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+                    &vicii.raster.xsmooth_color, 0);
+                vicii.get_background_from_vbuf = 0;
+                vicii.force_black_overscan_background_color = 1;
+                break;
+            case VICII_HIRES_BITMAP_MODE:
+                raster_changes_background_add_int
+                    (&vicii.raster, VICII_RASTER_X(cycle),
+                    &vicii.raster.idle_background_color, 0);
+                raster_changes_background_add_int
+                    (&vicii.raster,
+                    VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+                    &vicii.raster.xsmooth_color,
+                    vicii.background_color_source & 0x0f);
+                vicii.get_background_from_vbuf = VICII_HIRES_BITMAP_MODE;
+                vicii.force_black_overscan_background_color = 1;
+                break;
+            case VICII_EXTENDED_TEXT_MODE:
+                raster_changes_background_add_int
+                    (&vicii.raster, VICII_RASTER_X(cycle),
+                    &vicii.raster.idle_background_color,
+                    vicii.viciidtv ? vicii.dtvpalette[vicii.regs[0x21]] : vicii.regs[0x21]);
+                raster_changes_background_add_int
+                    (&vicii.raster,
+                    VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+                    &vicii.raster.xsmooth_color,
+                    vicii.viciidtv ? vicii.dtvpalette[vicii.regs[0x21 + (vicii.background_color_source >> 6)]] : vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
+                vicii.get_background_from_vbuf = VICII_EXTENDED_TEXT_MODE;
+                vicii.force_black_overscan_background_color = 0;
+                break;
+            default:
+                /* The overscan background color is given by the background
+                   color register.  */
+                raster_changes_background_add_int
+                    (&vicii.raster, VICII_RASTER_X(cycle),
+                    &vicii.raster.idle_background_color,
+                    vicii.viciidtv ? vicii.dtvpalette[vicii.regs[0x21]] : vicii.regs[0x21]);
+                raster_changes_background_add_int
+                    (&vicii.raster,
+                    VICII_RASTER_X(VICII_RASTER_CYCLE(maincpu_clk)),
+                    &vicii.raster.xsmooth_color,
+                    vicii.viciidtv ? vicii.dtvpalette[vicii.regs[0x21]] : vicii.regs[0x21]);
+                vicii.get_background_from_vbuf = 0;
+                vicii.force_black_overscan_background_color = 0;
+                break;
         }
 
         {
@@ -1106,20 +1112,20 @@ void vicii_update_video_mode(unsigned int cycle)
                                               new_video_mode);
 
             if (vicii.idle_data_location != IDLE_NONE) {
-                if (vicii.regs[0x11] & 0x40)
+                if (vicii.regs[0x11] & 0x40) {
                     raster_changes_foreground_add_int
-                    (&vicii.raster, pos + 1, (void *)&vicii.idle_data,
-                    vicii.ram_base_phi2[vicii.vbank_phi2 + 0x39ff]);
-                else
+                        (&vicii.raster, pos + 1, (void *)&vicii.idle_data,
+                        vicii.ram_base_phi2[vicii.vbank_phi2 + 0x39ff]);
+                } else {
                     raster_changes_foreground_add_int
-                    (&vicii.raster, pos + 1, (void *)&vicii.idle_data,
-                    vicii.ram_base_phi2[vicii.vbank_phi2 + 0x3fff]);
+                        (&vicii.raster, pos + 1, (void *)&vicii.idle_data,
+                        vicii.ram_base_phi2[vicii.vbank_phi2 + 0x3fff]);
+                }
             }
 
             raster_changes_foreground_add_int(&vicii.raster, pos + 2,
                                               &vicii.raster.last_video_mode,
                                               -1);
-
         }
 
         vicii.video_mode = new_video_mode;
@@ -1127,65 +1133,65 @@ void vicii_update_video_mode(unsigned int cycle)
 
 #ifdef VICII_VMODE_DEBUG
     switch (new_video_mode) {
-      case VICII_NORMAL_TEXT_MODE:
-        VICII_DEBUG_VMODE(("Standard Text"));
-        break;
-      case VICII_MULTICOLOR_TEXT_MODE:
-        VICII_DEBUG_VMODE(("Multicolor Text"));
-        break;
-      case VICII_HIRES_BITMAP_MODE:
-        VICII_DEBUG_VMODE(("Hires Bitmap"));
-        break;
-      case VICII_MULTICOLOR_BITMAP_MODE:
-        VICII_DEBUG_VMODE(("Multicolor Bitmap"));
-        break;
-      case VICII_EXTENDED_TEXT_MODE:
-        VICII_DEBUG_VMODE(("Extended Text"));
-        break;
-      case VICII_ILLEGAL_TEXT_MODE:
-        VICII_DEBUG_VMODE(("Illegal Text"));
-        break;
-      case VICII_ILLEGAL_BITMAP_MODE_1:
-        VICII_DEBUG_VMODE(("Invalid Bitmap"));
-        break;
-      case VICII_ILLEGAL_BITMAP_MODE_2:
-        VICII_DEBUG_VMODE(("Invalid Bitmap"));
-        break;
-      case VICII_8BPP_NORMAL_TEXT_MODE:
-        VICII_DEBUG_VMODE(("8BPP Standard Text"));
-        break;
-      case VICII_8BPP_MULTICOLOR_TEXT_MODE:
-        VICII_DEBUG_VMODE(("8BPP Multicolor Text"));
-        break;
-      case VICII_8BPP_HIRES_BITMAP_MODE:
-        VICII_DEBUG_VMODE(("8BPP Hires Bitmap (?)"));
-        break;
-      case VICII_8BPP_MULTICOLOR_BITMAP_MODE:
-        VICII_DEBUG_VMODE(("8BPP Multicolor Bitmap"));
-        break;
-      case VICII_8BPP_EXTENDED_TEXT_MODE:
-        VICII_DEBUG_VMODE(("8BPP Extended Text"));
-        break;
-      case VICII_8BPP_CHUNKY_MODE:
-        VICII_DEBUG_VMODE(("Chunky mode"));
-        break;
-      case VICII_8BPP_TWO_PLANE_BITMAP_MODE:
-        VICII_DEBUG_VMODE(("Two plane bitmap"));
-        break;
-      case VICII_8BPP_FRED_MODE:
-        VICII_DEBUG_VMODE(("FRED"));
-        break;
-      case VICII_8BPP_FRED2_MODE:
-        VICII_DEBUG_VMODE(("FRED2"));
-        break;
-      case VICII_8BPP_PIXEL_CELL_MODE:
-        VICII_DEBUG_VMODE(("8BPP Pixel Cell"));
-        break;
-      case VICII_ILLEGAL_LINEAR_MODE:
-        VICII_DEBUG_VMODE(("Illegal Linear"));
-        break;
-      default:                    /* cannot happen */
-        VICII_DEBUG_VMODE(("???"));
+        case VICII_NORMAL_TEXT_MODE:
+            VICII_DEBUG_VMODE(("Standard Text"));
+            break;
+        case VICII_MULTICOLOR_TEXT_MODE:
+            VICII_DEBUG_VMODE(("Multicolor Text"));
+            break;
+        case VICII_HIRES_BITMAP_MODE:
+            VICII_DEBUG_VMODE(("Hires Bitmap"));
+            break;
+        case VICII_MULTICOLOR_BITMAP_MODE:
+            VICII_DEBUG_VMODE(("Multicolor Bitmap"));
+            break;
+        case VICII_EXTENDED_TEXT_MODE:
+            VICII_DEBUG_VMODE(("Extended Text"));
+            break;
+        case VICII_ILLEGAL_TEXT_MODE:
+            VICII_DEBUG_VMODE(("Illegal Text"));
+            break;
+        case VICII_ILLEGAL_BITMAP_MODE_1:
+            VICII_DEBUG_VMODE(("Invalid Bitmap"));
+            break;
+        case VICII_ILLEGAL_BITMAP_MODE_2:
+            VICII_DEBUG_VMODE(("Invalid Bitmap"));
+            break;
+        case VICII_8BPP_NORMAL_TEXT_MODE:
+            VICII_DEBUG_VMODE(("8BPP Standard Text"));
+            break;
+        case VICII_8BPP_MULTICOLOR_TEXT_MODE:
+            VICII_DEBUG_VMODE(("8BPP Multicolor Text"));
+            break;
+        case VICII_8BPP_HIRES_BITMAP_MODE:
+            VICII_DEBUG_VMODE(("8BPP Hires Bitmap (?)"));
+            break;
+        case VICII_8BPP_MULTICOLOR_BITMAP_MODE:
+            VICII_DEBUG_VMODE(("8BPP Multicolor Bitmap"));
+            break;
+        case VICII_8BPP_EXTENDED_TEXT_MODE:
+            VICII_DEBUG_VMODE(("8BPP Extended Text"));
+            break;
+        case VICII_8BPP_CHUNKY_MODE:
+            VICII_DEBUG_VMODE(("Chunky mode"));
+            break;
+        case VICII_8BPP_TWO_PLANE_BITMAP_MODE:
+            VICII_DEBUG_VMODE(("Two plane bitmap"));
+            break;
+        case VICII_8BPP_FRED_MODE:
+            VICII_DEBUG_VMODE(("FRED"));
+            break;
+        case VICII_8BPP_FRED2_MODE:
+            VICII_DEBUG_VMODE(("FRED2"));
+            break;
+        case VICII_8BPP_PIXEL_CELL_MODE:
+            VICII_DEBUG_VMODE(("8BPP Pixel Cell"));
+            break;
+        case VICII_ILLEGAL_LINEAR_MODE:
+            VICII_DEBUG_VMODE(("Illegal Linear"));
+            break;
+        default:                  /* cannot happen */
+            VICII_DEBUG_VMODE(("???"));
     }
 
     VICII_DEBUG_VMODE(("Mode enabled at line $%04X, cycle %d.",
@@ -1205,14 +1211,14 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     prev_sprite_background_collisions = vicii.sprite_background_collisions;
 
     in_visible_area = (vicii.raster.current_line
-                      >= (unsigned int)vicii.first_displayed_line
-                      && vicii.raster.current_line
-                      <= (unsigned int)vicii.last_displayed_line);
+                       >= (unsigned int)vicii.first_displayed_line
+                       && vicii.raster.current_line
+                       <= (unsigned int)vicii.last_displayed_line);
 
     /* handle wrap if the first few lines are displayed in the visible lower border */
     if ((unsigned int)vicii.last_displayed_line >= vicii.screen_height) {
         in_visible_area |= vicii.raster.current_line
-                          <= ((unsigned int)vicii.last_displayed_line - vicii.screen_height);
+                           <= ((unsigned int)vicii.last_displayed_line - vicii.screen_height);
     }
 
     vicii.raster.xsmooth_shift_left = 0;
@@ -1227,12 +1233,13 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
         int j, i;
         for (i = 0; i < 8; i++) {
             memset(buf, 0, sizeof(buf));
-            for (j = 0; j < 40; j++)
-            sprintf(&buf[strlen(buf)], "%02x",
-                    vicii.raster.draw_buffer_ptr[vicii.raster.xsmooth
-                    + vicii.raster.geometry->gfx_position.x + i * 40 + j]);
+            for (j = 0; j < 40; j++) {
+                sprintf(&buf[strlen(buf)], "%02x",
+                        vicii.raster.draw_buffer_ptr[vicii.raster.xsmooth
+                                                     + vicii.raster.geometry->gfx_position.x + i * 40 + j]);
+            }
             log_debug(buf);
-        } 
+        }
     }
 #endif
 
@@ -1241,7 +1248,7 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
         if ((unsigned int)vicii.last_displayed_line < vicii.screen_height) {
             raster_skip_frame(&vicii.raster,
                               vsync_do_vsync(vicii.raster.canvas,
-                              vicii.raster.skip_frame));
+                                             vicii.raster.skip_frame));
         }
         vicii.memptr = 0;
         vicii.mem_counter = 0;
@@ -1266,9 +1273,9 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
             }
 
             /* HACK to make vcache display gfx in chunky & the rest */
-            if ((vicii.video_mode >= VICII_8BPP_CHUNKY_MODE)&&
+            if ((vicii.video_mode >= VICII_8BPP_CHUNKY_MODE) &&
                 (vicii.video_mode <= VICII_8BPP_PIXEL_CELL_MODE)) {
-                    vicii.raster.dont_cache = 1;
+                vicii.raster.dont_cache = 1;
             }
 
             /* HACK to fix greetings in 2008 */
@@ -1283,9 +1290,10 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
                 <= VICII_SCREEN_XPIX
                 && vicii.raster.canvas->draw_buffer->canvas_height
                 <= VICII_SCREEN_YPIX
-                && vicii.raster.canvas->viewport->update_canvas)
+                && vicii.raster.canvas->viewport->update_canvas) {
                 canvas_set_border_color(vicii.raster.canvas,
                                         vicii.raster.border_color);
+            }
         }
 #endif
     }
@@ -1295,58 +1303,55 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
         && vicii.raster.current_line == vicii.last_displayed_line - vicii.screen_height + 1) {
         raster_skip_frame(&vicii.raster,
                           vsync_do_vsync(vicii.raster.canvas,
-                          vicii.raster.skip_frame));
+                                         vicii.raster.skip_frame));
 #ifdef __MSDOS__
         if (vicii.raster.canvas->draw_buffer->canvas_width
             <= VICII_SCREEN_XPIX
             && vicii.raster.canvas->draw_buffer->canvas_height
             <= VICII_SCREEN_YPIX
-            && vicii.raster.canvas->viewport->update_canvas)
+            && vicii.raster.canvas->viewport->update_canvas) {
             canvas_set_border_color(vicii.raster.canvas,
                                     vicii.raster.border_color);
+        }
 #endif
     }
 
     if (vicii.viciidtv) {
-        if ( (!vicii.overscan && vicii.raster.current_line == 48)
-           || (vicii.overscan && vicii.raster.current_line == 10) ) {
-            vicii.counta = vicii.regs[0x3a]
-    	             + (vicii.regs[0x3b]<<8)
-    	             + (vicii.regs[0x45]<<16);
+        if ((!vicii.overscan && vicii.raster.current_line == 48) || (vicii.overscan && vicii.raster.current_line == 10)) {
+            vicii.counta = vicii.regs[0x3a] + (vicii.regs[0x3b] << 8) + (vicii.regs[0x45] << 16);
 
-            vicii.countb = vicii.regs[0x49]
-    	             + (vicii.regs[0x4a]<<8)
-    	             + (vicii.regs[0x4b]<<16);
+            vicii.countb = vicii.regs[0x49] + (vicii.regs[0x4a] << 8) + (vicii.regs[0x4b] << 16);
         }
     }
 
     if (in_visible_area) {
-        if (!vicii.idle_state)
-            vicii.mem_counter = (vicii.mem_counter
-                                + vicii.mem_counter_inc) & 0x3ff;
+        if (!vicii.idle_state) {
+            vicii.mem_counter = (vicii.mem_counter + vicii.mem_counter_inc) & 0x3ff;
+        }
         vicii.mem_counter_inc = VICII_SCREEN_TEXTCOLS;
 
-    	if (vicii.viciidtv && !vicii.idle_state) {
+        if (vicii.viciidtv && !vicii.idle_state) {
             /* TODO should be done in cycle 57 */
-            if ( !(VICII_MODULO_BUG(vicii.video_mode) && (vicii.raster.ycounter == 7)) ) {
+            if (!(VICII_MODULO_BUG(vicii.video_mode) && (vicii.raster.ycounter == 7))) {
                 vicii.counta += vicii.counta_mod;
                 vicii.countb += vicii.countb_mod;
-            } 
-	      
+            }
+
             /* TODO hack */
-    	    if (!vicii.overscan) { 
-                vicii.counta += vicii.counta_step*40;
-            	vicii.countb += vicii.countb_step*40;
-    	    } else {
-    	        /* faked overscan */
-                vicii.counta += vicii.counta_step*48;
-                vicii.countb += vicii.countb_step*48;
-    	    }
+            if (!vicii.overscan) {
+                vicii.counta += vicii.counta_step * 40;
+                vicii.countb += vicii.countb_step * 40;
+            } else {
+                /* faked overscan */
+                vicii.counta += vicii.counta_step * 48;
+                vicii.countb += vicii.countb_step * 48;
+            }
 
             /* HACK to fix greetings in 2008 */
-            if ((vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE)&&(vicii.raster.ycounter == 7))
+            if ((vicii.video_mode == VICII_8BPP_PIXEL_CELL_MODE) && (vicii.raster.ycounter == 7)) {
                 vicii.screen_base_phi2 += vicii.counta_mod;
-    	}
+            }
+        }
 
         /* `ycounter' makes the chip go to idle state when it reaches the
            maximum value.  */
@@ -1370,8 +1375,9 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
     vicii.memory_fetch_done = 0;
     vicii.buf_offset = 0;
 
-    if (vicii.raster.current_line == vicii.first_dma_line)
+    if (vicii.raster.current_line == vicii.first_dma_line) {
         vicii.allow_bad_lines = !vicii.raster.blank;
+    }
 
     /* As explained in Christian's article, only the first collision
        (i.e. the first time the collision register becomes non-zero) actually
@@ -1396,8 +1402,9 @@ void vicii_raster_draw_alarm_handler(CLOCK offset, void *data)
             vicii.idle_data_location = IDLE_3FFF;
             vicii.idle_data = vicii.ram_base_phi2[vicii.vbank_phi2 + 0x3fff];
         }
-    } else
+    } else {
         vicii.idle_data_location = IDLE_NONE;
+    }
 
     /* Set the next draw event.  */
     vicii.last_emulate_line_clk += vicii.cycles_per_line;
@@ -1468,16 +1475,16 @@ int vicii_dump(void)
     if (m_disp) {
         mon_out("Bitmap Memory:     $%04x\n", (((vicii.regs[0x18] >> 3) & 1) * 0x2000) + v_bank);
     } else {
-        i=(((vicii.regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
+        i = (((vicii.regs[0x18] >> 1) & 0x7) * 0x800) + v_bank;
         /* FIXME: how does cbm510 work ? */
-        if (machine_class == VICE_MACHINE_C64   ||
-            machine_class == VICE_MACHINE_C128  ||
-            machine_class == VICE_MACHINE_C64DTV||
-            machine_class == VICE_MACHINE_C64SC ) {
-                /* $1x00 and $9x00 mapped to $dx00 */
-                if ( (( i >> 12) == 1 ) || (( i >> 12) == 9 ) ) {
-                    i = 0xd000 | (i & 0x0f00);
-                }
+        if (machine_class == VICE_MACHINE_C64 ||
+            machine_class == VICE_MACHINE_C128 ||
+            machine_class == VICE_MACHINE_C64DTV ||
+            machine_class == VICE_MACHINE_C64SC) {
+            /* $1x00 and $9x00 mapped to $dx00 */
+            if ((( i >> 12) == 1 ) || (( i >> 12) == 9 )) {
+                i = 0xd000 | (i & 0x0f00);
+            }
         }
         mon_out("Character Set:     $%04x\n", i);
     }
@@ -1496,7 +1503,7 @@ int vicii_dump(void)
     }
     mon_out("\nAddress: ");
     for (i = 0x3f8; i < 0x400; i++) {
-        mon_out("  $%04x", v_bank+(vicii.screen_ptr[i]*0x40));
+        mon_out("  $%04x", v_bank + (vicii.screen_ptr[i] * 0x40));
     }
     mon_out("\nX-Pos:   ");
     bits = vicii.regs[0x10]; /* sprite x msb */

@@ -32,9 +32,9 @@
 extern void reset_try_flags(void);
 extern int try_cartridge_attach(int c);
 
-#define TRY_RESOURCE_CARTTYPE (1<<0)
-#define TRY_RESOURCE_CARTNAME (1<<1)
-#define TRY_RESOURCE_CARTRESET (1<<2)
+#define TRY_RESOURCE_CARTTYPE (1 << 0)
+#define TRY_RESOURCE_CARTNAME (1 << 1)
+#define TRY_RESOURCE_CARTRESET (1 << 2)
 
 extern int cartridge_is_from_snapshot;
 

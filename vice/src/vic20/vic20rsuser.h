@@ -30,4 +30,3 @@
 extern void vic20_rsuser_init(void);
 
 #endif
-

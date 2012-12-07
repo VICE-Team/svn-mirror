@@ -51,13 +51,13 @@
 #define VIC_BLK_ALL (VIC_BLK0 | VIC_BLK1 | VIC_BLK2 | VIC_BLK3 | VIC_BLK5)
 
 /* new cart system */
-#define VIC_CART_RAM123  (1<<0)
-#define VIC_CART_BLK1    (1<<1)
-#define VIC_CART_BLK2    (1<<2)
-#define VIC_CART_BLK3    (1<<3)
-#define VIC_CART_BLK5    (1<<4)
-#define VIC_CART_IO2     (1<<5)
-#define VIC_CART_IO3     (1<<6)
+#define VIC_CART_RAM123  (1 << 0)
+#define VIC_CART_BLK1    (1 << 1)
+#define VIC_CART_BLK2    (1 << 2)
+#define VIC_CART_BLK3    (1 << 3)
+#define VIC_CART_BLK5    (1 << 4)
+#define VIC_CART_IO2     (1 << 5)
+#define VIC_CART_IO3     (1 << 6)
 
 extern int vic20_mem_init_resources(void);
 extern int vic20_mem_init_cmdline_options(void);
@@ -70,7 +70,7 @@ extern void mem_detach_cartridge(int type);
 
 extern int mem_patch_kernal(void);
 
-/* Last data read/write by the cpu, this value lingers on the C(PU)-bus and 
+/* Last data read/write by the cpu, this value lingers on the C(PU)-bus and
    gets used when the CPU reads from unconnected space on the C(PU)-bus */
 extern BYTE vic20_cpu_last_data;
 /* Last read data on V-bus (VD0-VD7) */
@@ -93,4 +93,3 @@ inline static void vic20_mem_v_bus_store(WORD addr)
 }
 
 #endif
-

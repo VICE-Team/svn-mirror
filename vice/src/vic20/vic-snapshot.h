@@ -33,4 +33,3 @@ extern int vic_snapshot_write_module(struct snapshot_s *s);
 extern int vic_snapshot_read_module(struct snapshot_s *s);
 
 #endif
-

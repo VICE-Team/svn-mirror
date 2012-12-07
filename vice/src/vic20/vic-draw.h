@@ -30,4 +30,3 @@
 extern void vic_draw_init(void);
 
 #endif
-

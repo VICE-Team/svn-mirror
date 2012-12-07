@@ -91,20 +91,22 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
 
         if (c >= num) {
             memcpy(vicii.vbuf + offs, vicii.screen_base_phi2 + start_char, num);
-            if (!vicii.colorfetch_disable)
+            if (!vicii.colorfetch_disable) {
                 memcpy(vicii.cbuf + offs, colorram + start_char, num);
+            }
         } else {
             memcpy(vicii.vbuf + offs, vicii.screen_base_phi2 + start_char, c);
             memcpy(vicii.vbuf + offs + c, vicii.screen_base_phi2, num - c);
 
-            if (!vicii.colorfetch_disable)
+            if (!vicii.colorfetch_disable) {
                 memcpy(vicii.cbuf + offs, colorram + start_char, c);
+            }
 
-            if (!vicii.colorfetch_disable)
+            if (!vicii.colorfetch_disable) {
                 memcpy(vicii.cbuf + offs + c, colorram, num - c);
+            }
         }
-        vicii.background_color_source = vicii.vbuf[VICII_SCREEN_TEXTCOLS
-                                        - 1 /*- vicii.buf_offset*/];
+        vicii.background_color_source = vicii.vbuf[VICII_SCREEN_TEXTCOLS - 1 /*- vicii.buf_offset*/];
     }
 
     /* Set correct background color in in the xsmooth area.
@@ -112,18 +114,18 @@ void vicii_fetch_matrix(int offs, int num, int num_0xff, int cycle)
        set if the right border is opened.  */
     if (offs + num >= VICII_SCREEN_TEXTCOLS) {
         switch (vicii.get_background_from_vbuf) {
-          case VICII_HIRES_BITMAP_MODE:
-            raster_changes_next_line_add_int(
-                &vicii.raster,
-                &vicii.raster.xsmooth_color,
-                vicii.background_color_source & 0x0f);
-            break;
-          case VICII_EXTENDED_TEXT_MODE:
-            raster_changes_next_line_add_int(
-                &vicii.raster,
-                &vicii.raster.xsmooth_color,
-                vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
-            break;
+            case VICII_HIRES_BITMAP_MODE:
+                raster_changes_next_line_add_int(
+                    &vicii.raster,
+                    &vicii.raster.xsmooth_color,
+                    vicii.background_color_source & 0x0f);
+                break;
+            case VICII_EXTENDED_TEXT_MODE:
+                raster_changes_next_line_add_int(
+                    &vicii.raster,
+                    &vicii.raster.xsmooth_color,
+                    vicii.regs[0x21 + (vicii.background_color_source >> 6)]);
+                break;
         }
     }
 }
@@ -191,17 +193,16 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
         /* This makes sure we only create VICII_FETCH_MATRIX events in the bad
            line range.  These checks are (a little) redundant for safety.  */
         if (raster->current_line < vicii.first_dma_line) {
-            vicii.fetch_clk += ((vicii.first_dma_line
-                               - raster->current_line)
-                               * vicii.cycles_per_line);
+            vicii.fetch_clk += ((vicii.first_dma_line - raster->current_line) * vicii.cycles_per_line);
         } else {
-            if (raster->current_line >= vicii.last_dma_line)
+            if (raster->current_line >= vicii.last_dma_line) {
                 vicii.fetch_clk += ((vicii.screen_height
-                                   - raster->current_line
-                                   + vicii.first_dma_line)
-                                   * vicii.cycles_per_line);
-            else
+                                     - raster->current_line
+                                     + vicii.first_dma_line)
+                                    * vicii.cycles_per_line);
+            } else {
                 vicii.fetch_clk += vicii.cycles_per_line;
+            }
         }
 
         alarm_set(vicii.raster_fetch_alarm, vicii.fetch_clk);
@@ -225,8 +226,9 @@ inline static int handle_fetch_matrix(long offset, CLOCK sub,
             return 1;
         }
 
-        if (fetch_done && sub == 0)
+        if (fetch_done && sub == 0) {
             *write_offset = VICII_SCREEN_TEXTCOLS + 3;
+        }
     }
 
     return 0;
@@ -269,8 +271,9 @@ inline static void check_sprite_dma(void)
 
     sprite_status = vicii.raster.sprite_status;
 
-    if (!sprite_status->visible_msk && !sprite_status->dma_msk)
+    if (!sprite_status->visible_msk && !sprite_status->dma_msk) {
         return;
+    }
 
     sprite_status->new_dma_msk = sprite_status->dma_msk;
 
@@ -281,13 +284,14 @@ inline static void check_sprite_dma(void)
 
         if ((sprite_status->visible_msk & b)
             && sprite->y == ((int)vicii.raster.current_line & 0xff)
-            && !sprite->dma_flag)
+            && !sprite->dma_flag) {
             turn_sprite_dma_on(i);
-        else if (sprite->dma_flag) {
+        } else if (sprite->dma_flag) {
             sprite->memptr = (sprite->memptr + sprite->memptr_inc) & 0x3f;
 
-            if (sprite->y_expanded)
+            if (sprite->y_expanded) {
                 sprite->exp_flag = !sprite->exp_flag;
+            }
 
             sprite->memptr_inc = sprite->exp_flag ? 3 : 0;
 
@@ -296,8 +300,9 @@ inline static void check_sprite_dma(void)
                 sprite_status->new_dma_msk &= ~b;
 
                 if ((sprite_status->visible_msk & b)
-                    && sprite->y == ((int)vicii.raster.current_line & 0xff))
+                    && sprite->y == ((int)vicii.raster.current_line & 0xff)) {
                     turn_sprite_dma_on(i);
+                }
             }
         }
     }
@@ -309,14 +314,12 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
 
     check_sprite_dma();
 
-    if (vicii.raster.sprite_status->dma_msk 
-        || vicii.raster.sprite_status->new_dma_msk) {
+    if (vicii.raster.sprite_status->dma_msk || vicii.raster.sprite_status->new_dma_msk) {
         vicii_sprites_reset_sprline();
     }
 
     /* FIXME?  Slow!  */
-    vicii.sprite_fetch_clk = (VICII_LINE_START_CLK(maincpu_clk)
-                             + vicii.sprite_fetch_cycle);
+    vicii.sprite_fetch_clk = (VICII_LINE_START_CLK(maincpu_clk) + vicii.sprite_fetch_cycle);
     vicii.sprite_fetch_msk = vicii.raster.sprite_status->new_dma_msk;
 
     if (vicii_sprites_fetch_table[vicii.sprite_fetch_msk][0].cycle == -1) {
@@ -324,20 +327,18 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
             && vicii.raster.current_line <= vicii.last_dma_line + 1) {
             vicii.fetch_idx = VICII_FETCH_MATRIX;
             vicii.fetch_clk = (vicii.sprite_fetch_clk
-                              - vicii.sprite_fetch_cycle
-                              + VICII_FETCH_CYCLE
-                              + vicii.cycles_per_line);
+                               - vicii.sprite_fetch_cycle
+                               + VICII_FETCH_CYCLE
+                               + vicii.cycles_per_line);
         } else {
             vicii.fetch_idx = VICII_CHECK_SPRITE_DMA;
-            vicii.fetch_clk = (vicii.sprite_fetch_clk
-                              + vicii.cycles_per_line);
+            vicii.fetch_clk = (vicii.sprite_fetch_clk + vicii.cycles_per_line);
         }
     } else {
         /* Next time, fetch sprite data.  */
         vicii.fetch_idx = VICII_FETCH_SPRITE;
         vicii.sprite_fetch_idx = 0;
-        vicii.fetch_clk = (vicii.sprite_fetch_clk
-                          + vicii_sprites_fetch_table[vicii.sprite_fetch_msk][0].cycle);
+        vicii.fetch_clk = (vicii.sprite_fetch_clk + vicii_sprites_fetch_table[vicii.sprite_fetch_msk][0].cycle);
     }
 
     /*log_debug("HCSD SCLK %i FCLK %i CLK %i OFFSET %li SUB %i",
@@ -351,9 +352,10 @@ inline static int handle_check_sprite_dma(long offset, CLOCK sub)
     }
 
     vicii.num_idle_3fff_old = vicii.num_idle_3fff;
-    if (vicii.num_idle_3fff > 0)
+    if (vicii.num_idle_3fff > 0) {
         memcpy(vicii.idle_3fff_old, vicii.idle_3fff,
                sizeof(idle_3fff_t) * vicii.num_idle_3fff);
+    }
     vicii.num_idle_3fff = 0;
 
     if (vicii.fetch_clk > maincpu_clk || offset == 0) {
@@ -383,8 +385,9 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
     bank_phi1 = vicii.ram_base_phi1 + vicii.vbank_phi1;
     bank_phi2 = vicii.ram_base_phi2 + vicii.vbank_phi2;
     spr_base = vicii.screen_base_phi1 + 0x3f8 + sf->first;
-    if (vicii.viciidtv)
-        spr_base += (vicii.regs[0x4d]<<16);
+    if (vicii.viciidtv) {
+        spr_base += (vicii.regs[0x4d] << 16);
+    }
 
     /* Fetch sprite data.  */
     for (i = sf->first; i <= sf->last; i++, spr_base++) {
@@ -394,8 +397,9 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
             int my_memptr;
 
 #ifdef DEBUG
-            if (debug.maincpu_traceflg)
+            if (debug.maincpu_traceflg) {
                 log_debug("SDMA %i", i);
+            }
 #endif
 
             src_phi1 = bank_phi1 + (*spr_base << 6);
@@ -409,11 +413,11 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                 if (*spr_base >= 0xc0) {
                     /* src_phi1 = (romh_banks + 0x1000 + (romh_bank << 13)
                                + ((*spr_base - 0xc0) << 6)); */
-                    src_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6)));
+                    src_phi1 = ultimax_romh_phi1_ptr((WORD)(0x1000 + ((*spr_base - 0xc0) << 6)));
                 }
 #endif
                 BYTE *ptr;
-                if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6))))) {
+                if ((ptr = ultimax_romh_phi1_ptr((WORD)(0x1000 + ((*spr_base - 0xc0) << 6))))) {
                     if (*spr_base >= 0xc0) {
                         src_phi1 = ptr;
                     }
@@ -422,10 +426,9 @@ inline static int handle_fetch_sprite(long offset, CLOCK sub,
                 }
             } else {
 phi1noultimax:
-                if (((vicii.vbank_phi1 + (*spr_base << 6))
-                    & vicii.vaddr_chargen_mask_phi1)
-                    == vicii.vaddr_chargen_value_phi1)
+                if (((vicii.vbank_phi1 + (*spr_base << 6)) & vicii.vaddr_chargen_mask_phi1) == vicii.vaddr_chargen_value_phi1) {
                     src_phi1 = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
+                }
             }
 
             if (export.ultimax_phi2) {
@@ -434,11 +437,11 @@ phi1noultimax:
                 if (*spr_base >= 0xc0) {
                     /* src_phi2 = (romh_banks + 0x1000 + (romh_bank << 13)
                                + ((*spr_base - 0xc0) << 6)); */
-                    src_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6)));
+                    src_phi2 = ultimax_romh_phi2_ptr((WORD)(0x1000 + ((*spr_base - 0xc0) << 6)));
                 }
 #endif
                 BYTE *ptr;
-                if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000  + ((*spr_base - 0xc0) << 6))))) {
+                if ((ptr = ultimax_romh_phi2_ptr((WORD)(0x1000 + ((*spr_base - 0xc0) << 6))))) {
                     if (*spr_base >= 0xc0) {
                         src_phi2 = ptr;
                     }
@@ -447,15 +450,14 @@ phi1noultimax:
                 }
             } else {
 phi2noultimax:
-                if (((vicii.vbank_phi2 + (*spr_base << 6))
-                    & vicii.vaddr_chargen_mask_phi2)
-                    == vicii.vaddr_chargen_value_phi2)
+                if (((vicii.vbank_phi2 + (*spr_base << 6)) & vicii.vaddr_chargen_mask_phi2) == vicii.vaddr_chargen_value_phi2) {
                     src_phi2 = mem_chargen_rom_ptr + ((*spr_base & 0x3f) << 6);
+                }
             }
 
             if (vicii.viciidtv) {
-                src_phi1 += (vicii.regs[0x4d]<<16);
-                src_phi2 += (vicii.regs[0x4d]<<16);
+                src_phi1 += (vicii.regs[0x4d] << 16);
+                src_phi2 += (vicii.regs[0x4d] << 16);
             }
 
             dest[0] = src_phi2[my_memptr];
@@ -486,28 +488,29 @@ phi2noultimax:
             && vicii.raster.current_line <= vicii.last_dma_line + 1) {
             vicii.fetch_idx = VICII_FETCH_MATRIX;
             vicii.fetch_clk = (vicii.sprite_fetch_clk
-                              - vicii.sprite_fetch_cycle
-                              + VICII_FETCH_CYCLE
-                              + vicii.cycles_per_line);
+                               - vicii.sprite_fetch_cycle
+                               + VICII_FETCH_CYCLE
+                               + vicii.cycles_per_line);
         } else {
             vicii.fetch_idx = VICII_CHECK_SPRITE_DMA;
-            vicii.fetch_clk = (vicii.sprite_fetch_clk
-                              + vicii.cycles_per_line);
+            vicii.fetch_clk = (vicii.sprite_fetch_clk + vicii.cycles_per_line);
         }
     } else {
         vicii.fetch_clk = vicii.sprite_fetch_clk + next_cycle;
     }
 
-    if (maincpu_clk >= vicii.draw_clk)
+    if (maincpu_clk >= vicii.draw_clk) {
         vicii_raster_draw_alarm_handler(maincpu_clk - vicii.draw_clk, NULL);
+    }
 
     if (vicii.fetch_clk > maincpu_clk || offset == 0) {
         alarm_set(vicii.raster_fetch_alarm, vicii.fetch_clk);
         return 1;
     }
 
-    if (maincpu_clk >= vicii.raster_irq_clk)
+    if (maincpu_clk >= vicii.raster_irq_clk) {
         vicii_irq_alarm_handler(maincpu_clk - vicii.raster_irq_clk, NULL);
+    }
 
     return 0;
 }
@@ -526,32 +529,32 @@ void vicii_fetch_alarm_handler(CLOCK offset, void *data)
 
     if (offset > 0) {
         switch (OPINFO_NUMBER(last_opcode_info)) {
-          case 0:
-            /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
-               accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
-            last_opcode_first_write_clk = maincpu_clk - 5;
-            last_opcode_last_write_clk = maincpu_clk - 3;
-            break;
+            case 0:
+                /* In BRK, IRQ and NMI the 3rd, 4th and 5th cycles are write
+                   accesses, while the 1st, 2nd, 6th and 7th are read accesses.  */
+                last_opcode_first_write_clk = maincpu_clk - 5;
+                last_opcode_last_write_clk = maincpu_clk - 3;
+                break;
 
-          case 0x20:
-            /* In JSR, the 4th and 5th cycles are write accesses, while the
-               1st, 2nd, 3rd and 6th are read accesses.  */
-            last_opcode_first_write_clk = maincpu_clk - 3;
-            last_opcode_last_write_clk = maincpu_clk - 2;
-            break;
+            case 0x20:
+                /* In JSR, the 4th and 5th cycles are write accesses, while the
+                   1st, 2nd, 3rd and 6th are read accesses.  */
+                last_opcode_first_write_clk = maincpu_clk - 3;
+                last_opcode_last_write_clk = maincpu_clk - 2;
+                break;
 
-          default:
-            /* In all the other opcodes, all the write accesses are the last
-               ones.  */
-            if (maincpu_num_write_cycles() != 0) {
-                last_opcode_last_write_clk = maincpu_clk - 1;
-                last_opcode_first_write_clk = maincpu_clk
-                                              - maincpu_num_write_cycles();
-            } else {
-                last_opcode_first_write_clk = (CLOCK)0;
-                last_opcode_last_write_clk = last_opcode_first_write_clk;
-            }
-            break;
+            default:
+                /* In all the other opcodes, all the write accesses are the last
+                   ones.  */
+                if (maincpu_num_write_cycles() != 0) {
+                    last_opcode_last_write_clk = maincpu_clk - 1;
+                    last_opcode_first_write_clk = maincpu_clk
+                                                  - maincpu_num_write_cycles();
+                } else {
+                    last_opcode_first_write_clk = (CLOCK)0;
+                    last_opcode_last_write_clk = last_opcode_first_write_clk;
+                }
+                break;
         }
     } else { /* offset <= 0, i.e. offset == 0 */
         /* If we are called with no offset, we don't have to care about write
@@ -564,33 +567,34 @@ void vicii_fetch_alarm_handler(CLOCK offset, void *data)
         CLOCK write_offset;
         int leave;
 
-        if (vicii.fetch_clk < last_opcode_first_write_clk
-            || vicii.fetch_clk > last_opcode_last_write_clk)
+        if (vicii.fetch_clk < last_opcode_first_write_clk || vicii.fetch_clk > last_opcode_last_write_clk) {
             sub = 0;
-        else
+        } else {
             sub = last_opcode_last_write_clk - vicii.fetch_clk + 1;
-
-        switch (vicii.fetch_idx) {
-          case VICII_FETCH_MATRIX:
-            leave = handle_fetch_matrix(offset, sub, &write_offset);
-            last_opcode_first_write_clk += write_offset;
-            last_opcode_last_write_clk += write_offset;
-            break;
-
-          case VICII_CHECK_SPRITE_DMA:
-            leave = handle_check_sprite_dma(offset, sub);
-            break;
-
-          case VICII_FETCH_SPRITE:
-          default:                /* Make compiler happy.  */
-            leave = handle_fetch_sprite(offset, sub, &write_offset);
-            last_opcode_first_write_clk += write_offset;
-            last_opcode_last_write_clk += write_offset;
-            break;
         }
 
-        if (leave)
+        switch (vicii.fetch_idx) {
+            case VICII_FETCH_MATRIX:
+                leave = handle_fetch_matrix(offset, sub, &write_offset);
+                last_opcode_first_write_clk += write_offset;
+                last_opcode_last_write_clk += write_offset;
+                break;
+
+            case VICII_CHECK_SPRITE_DMA:
+                leave = handle_check_sprite_dma(offset, sub);
+                break;
+
+            case VICII_FETCH_SPRITE:
+            default:              /* Make compiler happy.  */
+                leave = handle_fetch_sprite(offset, sub, &write_offset);
+                last_opcode_first_write_clk += write_offset;
+                last_opcode_last_write_clk += write_offset;
+                break;
+        }
+
+        if (leave) {
             break;
+        }
     }
 }
 
@@ -600,4 +604,3 @@ void vicii_fetch_init(void)
                                          "VicIIRasterFetch",
                                          vicii_fetch_alarm_handler, NULL);
 }
-

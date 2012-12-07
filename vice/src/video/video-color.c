@@ -100,9 +100,9 @@ void video_render_setrawalpha(DWORD a)
 
 */
 
-#define MATH_PI         3.141592653589793238462643383279
-    /* 5028841971 6939937510 5820974944 5923078164 0628620899 8628034825
-       3421170679 */
+#define MATH_PI 3.141592653589793238462643383279
+/* 5028841971 6939937510 5820974944 5923078164 0628620899 8628034825
+   3421170679 */
 
 typedef struct video_ycbcr_color_s {
     float y;
@@ -165,7 +165,6 @@ static void video_convert_cbm_to_ycbcr(const video_cbm_color_t *src,
         dst->cb = -dst->cb;
         dst->cr = -dst->cr;
     }
-
 }
 
 /* gamma correction */
@@ -197,13 +196,13 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
                                        palette_entry_t *dst)
 {
     float rf, bf, gf;
-    float cb,cr,y;
+    float cb, cr, y;
     double factor;
     int r, g, b;
 
-    cb=src->cb;
-    cr=src->cr;
-    y=src->y;
+    cb = src->cb;
+    cr = src->cr;
+    y = src->y;
 
     cr += tin; /* apply tint */
 
@@ -237,10 +236,10 @@ static void video_convert_ycbcr_to_rgb(video_ycbcr_color_t *src, float sat,
         b = 255;
     }
     dst->dither = 0;
-    dst->red    = (BYTE)r;
-    dst->green  = (BYTE)g;
-    dst->blue   = (BYTE)b;
-    dst->name   = NULL;
+    dst->red = (BYTE)r;
+    dst->green = (BYTE)g;
+    dst->blue = (BYTE)b;
+    dst->name = NULL;
 }
 
 /* conversion of RGB to YCbCr */
@@ -250,9 +249,9 @@ static void video_convert_rgb_to_ycbcr(const palette_entry_t *src,
 {
     /* convert RGB to YCbCr */
 
-    dst->y = 0.2989f*src->red + 0.5866f*src->green + 0.1145f*src->blue;
-    dst->cb = - 0.168736f*src->red - 0.331264f*src->green + 0.5f*src->blue;
-    dst->cr = 0.5f*src->red - 0.418688f*src->green - 0.081312f*src->blue;
+    dst->y = 0.2989f * src->red + 0.5866f * src->green + 0.1145f * src->blue;
+    dst->cb = -0.168736f * src->red - 0.331264f * src->green + 0.5f * src->blue;
+    dst->cr = 0.5f * src->red - 0.418688f * src->green - 0.081312f * src->blue;
 }
 
 /* FIXME: handle gamma for CRT emulation (CGA and Monochrom video) too */
@@ -268,7 +267,7 @@ static float video_get_gamma(video_resources_t *video_resources)
         vgam = 2.2f;
     }
 
-    mgam = ((float)(video_resources->color_gamma))/1000.0f;
+    mgam = ((float)(video_resources->color_gamma)) / 1000.0f;
     return mgam / vgam;
 }
 
@@ -319,7 +318,7 @@ static void video_calc_gammatable(video_resources_t *video_resources)
 /* ycbcr table calculation */
 
 static void video_calc_ycbcrtable(video_resources_t *video_resources,
-    const video_ycbcr_palette_t *p, video_render_color_tables_t *color_tab)
+                                  const video_ycbcr_palette_t *p, video_render_color_tables_t *color_tab)
 {
     video_ycbcr_color_t *primary;
     unsigned int i, lf, hf;
@@ -331,7 +330,7 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
     lf = 64 * video_resources->pal_blur / 1000;
     hf = 255 - (lf << 1);
     sat = ((float)(video_resources->color_saturation)) * (256.0f / 1000.0f);
-    tin = (((float)(video_resources->color_tint)) * (50.0f / 2000.0f))-25.0f;
+    tin = (((float)(video_resources->color_tint)) * (50.0f / 2000.0f)) - 25.0f;
     bri = ((float)(video_resources->color_brightness - 1000))
           * (112.0f / 1000.0f);
     con = ((float)(video_resources->color_contrast   )) / 1000.0f;
@@ -381,14 +380,14 @@ static void video_calc_ycbcrtable(video_resources_t *video_resources,
 }
 
 static void video_calc_ycbcrtable_oddlines(video_resources_t *video_resources,
-    const video_ycbcr_palette_t *p, video_render_color_tables_t *color_tab)
+                                           const video_ycbcr_palette_t *p, video_render_color_tables_t *color_tab)
 {
     video_ycbcr_color_t *primary;
     unsigned int i;
-    float sat,tin;
+    float sat, tin;
 
     sat = ((float)(video_resources->color_saturation)) * (256.0f / 1000.0f);
-    tin = (((float)(video_resources->color_tint)) * (50.0f / 2000.0f))-25.0f;
+    tin = (((float)(video_resources->color_tint)) * (50.0f / 2000.0f)) - 25.0f;
 
     for (i = 0; i < p->num_entries; i++) {
         SDWORD val;
@@ -410,33 +409,30 @@ static void video_palette_to_ycbcr(const palette_t *p,
 {
     unsigned int i;
 
-    for (i = 0;i < p->num_entries; i++) {
+    for (i = 0; i < p->num_entries; i++) {
         video_convert_rgb_to_ycbcr(&p->entries[i], &ycbcr->entries[i]);
     }
 }
 
 /* Convert an RGB palette to YCbCr. */
-static void video_palette_to_ycbcr_oddlines(const palette_t *p,
-                                   video_ycbcr_palette_t* ycbcr)
+static void video_palette_to_ycbcr_oddlines(const palette_t *p, video_ycbcr_palette_t* ycbcr)
 {
     unsigned int i;
 
-    for (i = 0;i < p->num_entries; i++) {
+    for (i = 0; i < p->num_entries; i++) {
         video_convert_rgb_to_ycbcr(&p->entries[i], &ycbcr->entries[i]);
-        ycbcr->entries[i].cr = - ycbcr->entries[i].cr;
-        ycbcr->entries[i].cb = - ycbcr->entries[i].cb;
+        ycbcr->entries[i].cr = -ycbcr->entries[i].cr;
+        ycbcr->entries[i].cb = -ycbcr->entries[i].cb;
     }
 }
 
 /* Convert a CBM palette to YCbCr. */
-static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p,
-                                       video_ycbcr_palette_t* ycbcr)
+static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p, video_ycbcr_palette_t* ycbcr)
 {
     unsigned int i;
 
-    for (i = 0;i < p->num_entries; i++) {
-        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
-                                   p->phase, &ycbcr->entries[i]);
+    for (i = 0; i < p->num_entries; i++) {
+        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation, p->phase, &ycbcr->entries[i]);
     }
 }
 
@@ -451,14 +447,13 @@ static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p,
 */
 
 static void video_cbm_palette_to_ycbcr_oddlines(video_resources_t *video_resources,
-    const video_cbm_palette_t *p, video_ycbcr_palette_t* ycbcr)
+                                                const video_cbm_palette_t *p, video_ycbcr_palette_t* ycbcr)
 {
     unsigned int i;
-    float offs = (((float)(video_resources->pal_oddlines_phase)) / (2000.0f / 90.0f))+(180.0f-45.0f);
+    float offs = (((float)(video_resources->pal_oddlines_phase)) / (2000.0f / 90.0f)) + (180.0f - 45.0f);
 
-    for (i = 0;i < p->num_entries; i++) {
-        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation,
-                                   (p->phase+offs), &ycbcr->entries[i]);
+    for (i = 0; i < p->num_entries; i++) {
+        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation, (p->phase + offs), &ycbcr->entries[i]);
     }
 }
 
@@ -466,7 +461,7 @@ static void video_cbm_palette_to_ycbcr_oddlines(video_resources_t *video_resourc
     Calculate a RGB palette out of VIC/VIC-II/TED colors (in ycbcr format),
     apply saturation, brightness, contrast, tint and gamma settings.
 
-    this palette will be used for screenshots and by renderers if CRT emulation 
+    this palette will be used for screenshots and by renderers if CRT emulation
     is disabled.
 */
 static palette_t *video_calc_palette(struct video_canvas_s *canvas, const video_ycbcr_palette_t *p)
@@ -492,7 +487,7 @@ static palette_t *video_calc_palette(struct video_canvas_s *canvas, const video_
 
     for (i = 0; i < p->num_entries; i++) {
         video_convert_ycbcr_to_rgb(&p->entries[i], sat, bri, con, gam, tin,
-                                    &prgb->entries[i]);
+                                   &prgb->entries[i]);
     }
 
     return prgb;
@@ -597,4 +592,3 @@ void video_render_initraw(struct video_render_config_s *videoconfig)
 {
     video_calc_gammatable(&(videoconfig->video_resources));
 }
-

@@ -175,7 +175,7 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (readable && y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst + wlast) << 1);
+                memcpy(trg, trg - pitcht * 2, ((width << 1) + wfirst + wlast) << 1);
             } else {
                 color = colortab[0];
                 if (wfirst) {
@@ -196,7 +196,7 @@ void render_16_2x2_04(const video_render_color_tables_t *color_tab,
                     tmptrg[7] = color;
                     tmptrg += 8;
                 }
-                for (x = 0;x < wend; x++) {
+                for (x = 0; x < wend; x++) {
                     *tmptrg++ = color;
                 }
                 if (wlast) {
@@ -259,7 +259,7 @@ void render_24_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (readable && y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wlast) * 3);
+                memcpy(trg, trg - pitcht * 2, ((width << 1) + wlast) * 3);
             } else {
                 color = colortab[0];
                 for (x = 0; x < width; x++) {
@@ -373,7 +373,7 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
             }
         } else {
             if (readable && y > yys + 1) { /* copy 2 lines before */
-                memcpy(trg, trg - pitcht*2, ((width << 1) + wfirst + wlast) << 2);
+                memcpy(trg, trg - pitcht * 2, ((width << 1) + wfirst + wlast) << 2);
             } else {
                 color = colortab[0];
                 if (wfirst) {
@@ -427,8 +427,8 @@ void render_32_2x2_04(const video_render_color_tables_t *color_tab,
 void render_08_2x2_08(const video_render_color_tables_t *color_tab,
                       const BYTE *src, BYTE *trg,
                       unsigned int width, const unsigned int height,
-                      const unsigned int xs,const unsigned int ys,
-                      const unsigned int xt,const unsigned int yt,
+                      const unsigned int xs, const unsigned int ys,
+                      const unsigned int xt, const unsigned int yt,
                       const unsigned int pitchs, const unsigned int pitcht,
                       const unsigned int doublescan)
 {
@@ -457,21 +457,20 @@ void render_08_2x2_08(const video_render_color_tables_t *color_tab,
         wfast = (width - wstart) >> 3; /* fast loop for 8 pixel segments*/
         wend = (width - wstart) & 0x07; /* do not forget the rest*/
     }
-    pre = src-pitchs-1;
+    pre = src - pitchs - 1;
     for (y = yys; y < (yys + height); y++) {
         tmppre = pre;
         tmpsrc = src;
         tmptrg = (WORD *)trg;
         if ((y & 1) || doublescan) {
             if (wfirst) {
-                *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc++
-                                    | (*tmppre++ << 4)];
+                *((BYTE *)tmptrg) = (BYTE)colortab[*tmpsrc++ | (*tmppre++ << 4)];
                 tmptrg = (WORD *)(((BYTE *)tmptrg) + 1);
             }
             for (x = 0; x < wstart; x++) {
                 *tmptrg++ = (WORD)colortab[*tmpsrc++ | (*tmppre++ << 4)];
             }
-            for (x = 0;x < wfast; x++) {
+            for (x = 0; x < wfast; x++) {
                 tmptrg[0] = (WORD)colortab[tmpsrc[0] | (tmppre[0] << 4)];
                 tmptrg[1] = (WORD)colortab[tmpsrc[1] | (tmppre[1] << 4)];
                 tmptrg[2] = (WORD)colortab[tmpsrc[2] | (tmppre[2] << 4)];
@@ -565,8 +564,7 @@ void render_16_2x2_08(const video_render_color_tables_t *color_tab,
         tmptrg = (DWORD *)trg;
         if ((y & 1) || doublescan) {
             if (wfirst) {
-                *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc++
-                                    | (*tmppre++ << 4)];
+                *((WORD *)tmptrg) = (WORD)colortab[*tmpsrc++ | (*tmppre++ << 4)];
                 tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
             }
             for (x = 0; x < wstart; x++) {
@@ -601,7 +599,7 @@ void render_16_2x2_08(const video_render_color_tables_t *color_tab,
                 *((WORD *)tmptrg) = (WORD)color;
                 tmptrg = (DWORD *)(((WORD *)tmptrg) + 1);
             }
-            for (x = 0; x <wstart; x++) {
+            for (x = 0; x < wstart; x++) {
                 *tmptrg++ = color;
             }
             for (x = 0; x < wfast; x++) {
@@ -766,7 +764,7 @@ void render_24_2x2_08(const video_render_color_tables_t *color_tab,
                 tmptrg[2] = (BYTE)color;
             }
             if (y & 1) {
-                pre = src-1;
+                pre = src - 1;
                 src += pitchs;
             }
         } else {
@@ -857,7 +855,7 @@ void render_32_2x2_08(const video_render_color_tables_t *color_tab,
         wstart = width;
         wfast = 0;
         wend = 0;
-   } else {
+    } else {
         /* alignment: 4 pixels*/
         wstart = (unsigned int)(4 - (vice_ptr_to_uint(trg) & 3));
         wfast = (width - wstart) >> 2; /* fast loop for 4 pixel segments*/
@@ -903,7 +901,7 @@ void render_32_2x2_08(const video_render_color_tables_t *color_tab,
                 *tmptrg = colortab[*tmpsrc | (*tmppre << 4)];
             }
             if (y & 1) {
-                pre = src-1;
+                pre = src - 1;
                 src += pitchs;
             }
         } else {

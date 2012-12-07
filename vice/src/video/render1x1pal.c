@@ -167,9 +167,9 @@ render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
 
     /* ensure starting on even coords */
     if ((xt & 1) && xs > 0) {
-        xs --;
-        xt --;
-        width ++;
+        xs--;
+        xt--;
+        width++;
     }
 
     src = src + pitchs * ys + xs - 2;
@@ -261,11 +261,11 @@ render_generic_1x1_pal(video_render_color_tables_t *color_tab, const BYTE *src, 
 
 void
 render_UYVY_1x1_pal(video_render_color_tables_t *color_tab,
-                  const BYTE *src, BYTE *trg,
-                  const unsigned int width, const unsigned int height,
-                  const unsigned int xs, const unsigned int ys,
-                  const unsigned int xt, const unsigned int yt,
-                  const unsigned int pitchs, const unsigned int pitcht, video_render_config_t *config)
+                    const BYTE *src, BYTE *trg,
+                    const unsigned int width, const unsigned int height,
+                    const unsigned int xs, const unsigned int ys,
+                    const unsigned int xt, const unsigned int yt,
+                    const unsigned int pitchs, const unsigned int pitcht, video_render_config_t *config)
 {
     render_generic_1x1_pal(color_tab, src, trg, width, height, xs, ys, xt, yt,
                            pitchs, pitcht,
@@ -274,11 +274,11 @@ render_UYVY_1x1_pal(video_render_color_tables_t *color_tab,
 
 void
 render_YUY2_1x1_pal(video_render_color_tables_t *color_tab,
-                  const BYTE *src, BYTE *trg,
-                  const unsigned int width, const unsigned int height,
-                  const unsigned int xs, const unsigned int ys,
-                  const unsigned int xt, const unsigned int yt,
-                  const unsigned int pitchs, const unsigned int pitcht, video_render_config_t *config)
+                    const BYTE *src, BYTE *trg,
+                    const unsigned int width, const unsigned int height,
+                    const unsigned int xs, const unsigned int ys,
+                    const unsigned int xt, const unsigned int yt,
+                    const unsigned int pitchs, const unsigned int pitcht, video_render_config_t *config)
 {
     render_generic_1x1_pal(color_tab, src, trg, width, height, xs, ys, xt, yt,
                            pitchs, pitcht,
@@ -287,11 +287,11 @@ render_YUY2_1x1_pal(video_render_color_tables_t *color_tab,
 
 void
 render_YVYU_1x1_pal(video_render_color_tables_t *color_tab,
-                  const BYTE *src, BYTE *trg,
-                  const unsigned int width, const unsigned int height,
-                  const unsigned int xs, const unsigned int ys,
-                  const unsigned int xt, const unsigned int yt,
-                  const unsigned int pitchs, const unsigned int pitcht, video_render_config_t *config)
+                    const BYTE *src, BYTE *trg,
+                    const unsigned int width, const unsigned int height,
+                    const unsigned int xs, const unsigned int ys,
+                    const unsigned int xt, const unsigned int yt,
+                    const unsigned int pitchs, const unsigned int pitcht, video_render_config_t *config)
 {
     render_generic_1x1_pal(color_tab, src, trg, width, height, xs, ys, xt, yt,
                            pitchs, pitcht,

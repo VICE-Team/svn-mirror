@@ -63,14 +63,12 @@ static void set_cb2(via_context_t *via_context, int state)
 {
 }
 
-static void set_int(via_context_t *via_context, unsigned int int_num,
-                        int value, CLOCK rclk)
+static void set_int(via_context_t *via_context, unsigned int int_num, int value, CLOCK rclk)
 {
     interrupt_set_irq(maincpu_int_status, int_num, value, rclk);
 }
 
-static void restore_int(via_context_t *via_context, unsigned int int_num,
-                        int value)
+static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
     interrupt_restore_irq(maincpu_int_status, int_num, value);
 }
@@ -143,15 +141,15 @@ static BYTE read_prb(via_context_t *via_context)
     drivecpu_execute_all(maincpu_clk);
 
     byte = 255
-        - (parallel_atn  ? 0x80 : 0)
-        - (parallel_ndac ? 0x40 : 0)
-        - (parallel_nrfd ? 0x20 : 0)
-        - (parallel_dav  ? 0x10 : 0)
-        - (parallel_eoi  ? 0x08 : 0);
+           - (parallel_atn ? 0x80 : 0)
+           - (parallel_ndac ? 0x40 : 0)
+           - (parallel_nrfd ? 0x20 : 0)
+           - (parallel_dav ? 0x10 : 0)
+           - (parallel_eoi ? 0x08 : 0);
 
     /* none of the load changes output register value -> std. masking */
     byte = ((byte & ~(via_context->via[VIA_DDRB]))
-           | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
+            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]));
     return byte;
 }
 
@@ -201,4 +199,3 @@ void vic20ieeevia1_setup_context(machine_context_t *machine_context)
     via->set_cb2 = set_cb2;
     via->reset = reset;
 }
-

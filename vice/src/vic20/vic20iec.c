@@ -43,7 +43,7 @@
 #include "vic20iec.h"
 
 
-#define NOT(x) ((x)^1)
+#define NOT(x) ((x) ^ 1)
 
 
 static BYTE cpu_data, cpu_clock, cpu_atn;
@@ -83,7 +83,6 @@ void vic20iec_init(void)
 
 void iec_update_cpu_bus(BYTE data)
 {
-
 }
 
 void iec_update_ports_embedded(void)
@@ -94,13 +93,13 @@ void iec_update_ports_embedded(void)
 static void iec_calculate_data_modifier(unsigned int dnr)
 {
     switch (drive_context[dnr]->drive->type) {
-    case DRIVE_TYPE_1581:
-    case DRIVE_TYPE_2000:
-    case DRIVE_TYPE_4000:
-        drive_data_modifier[dnr] = (cpu_atn & drive_atna[dnr]);
-        break;
-    default:
-        drive_data_modifier[dnr] = (NOT(cpu_atn) ^ NOT(drive_atna[dnr]));
+        case DRIVE_TYPE_1581:
+        case DRIVE_TYPE_2000:
+        case DRIVE_TYPE_4000:
+            drive_data_modifier[dnr] = (cpu_atn & drive_atna[dnr]);
+            break;
+        default:
+            drive_data_modifier[dnr] = (NOT(cpu_atn) ^ NOT(drive_atna[dnr]));
     }
 }
 
@@ -160,17 +159,15 @@ void iec_pa_write(BYTE data)
 
             if (drive->enable) {
                 switch (drive->type) {
-                case DRIVE_TYPE_1581:
-                    ciacore_set_flag(drive_context[i]->cia1581);
-                    break;
-                case DRIVE_TYPE_2000:
-                case DRIVE_TYPE_4000:
-                    viacore_signal(drive_context[i]->via4000, VIA_SIG_CA2,
-                                   VIA_SIG_RISE);
-                    break;
-                default:
-                    viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1,
-                                   VIA_SIG_RISE);
+                    case DRIVE_TYPE_1581:
+                        ciacore_set_flag(drive_context[i]->cia1581);
+                        break;
+                    case DRIVE_TYPE_2000:
+                    case DRIVE_TYPE_4000:
+                        viacore_signal(drive_context[i]->via4000, VIA_SIG_CA2, VIA_SIG_RISE);
+                        break;
+                    default:
+                        viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1, VIA_SIG_RISE);
                 }
             }
         }
@@ -183,14 +180,14 @@ void iec_pa_write(BYTE data)
 
             if (drive->enable) {
                 switch (drive->type) {
-                case DRIVE_TYPE_1581:
-                    break;
-                case DRIVE_TYPE_2000:
-                case DRIVE_TYPE_4000:
-                    viacore_signal(drive_context[i]->via4000, VIA_SIG_CA1, 0);
-                    break;
-                default:
-                    viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1, 0);
+                    case DRIVE_TYPE_1581:
+                        break;
+                    case DRIVE_TYPE_2000:
+                    case DRIVE_TYPE_4000:
+                        viacore_signal(drive_context[i]->via4000, VIA_SIG_CA1, 0);
+                        break;
+                    default:
+                        viacore_signal(drive_context[i]->via1d1541, VIA_SIG_CA1, 0);
                 }
             }
         }
@@ -198,8 +195,9 @@ void iec_pa_write(BYTE data)
 
     cpu_atn = ((data & 128) >> 7);
 
-    for (i = 0; i < DRIVE_NUM; i++)
+    for (i = 0; i < DRIVE_NUM; i++) {
         iec_calculate_data_modifier(i);
+    }
 
     resolve_bus_signals();
 }
@@ -219,8 +217,9 @@ void iec_pcr_write(BYTE data)
     cpu_data = ((data & 32) >> 5);
     cpu_clock = ((data & 2) >> 1);
 
-    for (i = 0; i < DRIVE_NUM; i++)
+    for (i = 0; i < DRIVE_NUM; i++) {
         iec_calculate_data_modifier(i);
+    }
 
     resolve_bus_signals();
 }
@@ -256,4 +255,3 @@ int iec_available_busses(void)
 
     return IEC_BUS_IEC | (ieee488_enabled ? IEC_BUS_IEEE : 0);
 }
-

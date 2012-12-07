@@ -58,8 +58,9 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
     int y_offset;
     int small_x_border, small_y_border;
 
-    if (canvas->initialized == 0)
+    if (canvas->initialized == 0) {
         return;
+    }
 
     geometry = canvas->geometry;
     viewport = canvas->viewport;
@@ -75,8 +76,7 @@ void video_viewport_resize(video_canvas_t *canvas, char resize_canvas)
         canvas->draw_buffer->canvas_height = canvas->draw_buffer->visible_height;
         canvas->draw_buffer->canvas_physical_width = canvas->draw_buffer->canvas_width * (canvas->videoconfig->doublesizex + 1);
         canvas->draw_buffer->canvas_physical_height = canvas->draw_buffer->canvas_height * (canvas->videoconfig->doublesizey + 1);
-    }
-    else {
+    } else {
         /* The emulator's screen has been resized,
            or he emulated screen has changed but the emulator's screen is unable to adapt:
            in any case, the size of the emulator screen won't change now */
@@ -179,4 +179,3 @@ void video_viewport_title_free(viewport_t *viewport)
 {
     lib_free(viewport->title);
 }
-

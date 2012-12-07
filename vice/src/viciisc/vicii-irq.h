@@ -47,4 +47,3 @@ extern void vicii_irq_raster_trigger(void);
 extern void vicii_irq_init(void);
 
 #endif
-

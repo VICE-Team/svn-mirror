@@ -39,18 +39,18 @@ CLOCK vicii_clock_add(CLOCK clock, int amount)
 
     if (vicii.fastmode != 0) {
         if (amount > 0) {
-            tmp_clock += (amount>>1);
-            vicii.half_cycles += amount&1;
+            tmp_clock += (amount >> 1);
+            vicii.half_cycles += amount & 1;
             if (vicii.half_cycles > 1) {
                 tmp_clock++;
                 vicii.half_cycles = 0;
             }
         } else {
-            tmp_clock -= ((-amount)>>1);
-            vicii.half_cycles -= (-amount)&1;
+            tmp_clock -= ((-amount) >> 1);
+            vicii.half_cycles -= (-amount) & 1;
             if (vicii.half_cycles < 0) {
                 tmp_clock--;
-                vicii.half_cycles=1;
+                vicii.half_cycles = 1;
             }
         }
     } else {
@@ -78,7 +78,7 @@ void vicii_clock_read_stretch(void)
         current = c128cpu_memory_refresh_clk % vicii.cycles_per_line;
         if (current + 1 > 15) {
             /* push alarm to the next line */
-            c128cpu_memory_refresh_clk += vicii.cycles_per_line-current+11;
+            c128cpu_memory_refresh_clk += vicii.cycles_per_line - current + 11;
         } else {
             /* push alarm to the next cycle */
             c128cpu_memory_refresh_clk++;
@@ -106,7 +106,7 @@ void vicii_clock_write_stretch(void)
         if (maincpu_clk - 1 == c128cpu_memory_refresh_clk) {
             if (current + 2 > 15) {
                 /* push alarm to the next line */
-                c128cpu_memory_refresh_clk += vicii.cycles_per_line-current+11;
+                c128cpu_memory_refresh_clk += vicii.cycles_per_line - current + 11;
             } else {
                 /* push alarm forward 2 cycles */
                 c128cpu_memory_refresh_clk += 2;
@@ -115,14 +115,14 @@ void vicii_clock_write_stretch(void)
         if (maincpu_clk == c128cpu_memory_refresh_clk) {
             if (current + 1 > 15) {
                 /* push alarm to the next line */
-                c128cpu_memory_refresh_clk += vicii.cycles_per_line-current+11;
+                c128cpu_memory_refresh_clk += vicii.cycles_per_line - current + 11;
             } else {
                 /* push alarm forward 1 cycle */
                 c128cpu_memory_refresh_clk++;
             }
         }
 
-        if (vicii.fastmode!=0) {
+        if (vicii.fastmode != 0) {
             /* handle I/O access stretch for rmw */
             maincpu_clk++;
         }
@@ -131,7 +131,7 @@ void vicii_clock_write_stretch(void)
 
 int vicii_get_half_cycle(void)
 {
-    if (vicii.fastmode!=0) {
+    if (vicii.fastmode != 0) {
         return vicii.half_cycles;
     }
     return -1;
@@ -144,7 +144,7 @@ void vicii_memory_refresh_alarm_handler(void)
     int current_refresh;
     int current_cycle;
 
-    offset = maincpu_clk-c128cpu_memory_refresh_clk;
+    offset = maincpu_clk - c128cpu_memory_refresh_clk;
 
     if (offset >= 0) {
         current_refresh = c128cpu_memory_refresh_clk % vicii.cycles_per_line;
@@ -153,20 +153,20 @@ void vicii_memory_refresh_alarm_handler(void)
         if (vicii.fastmode == 0) {
             if (current_cycle > 15) {
                 /* push alarm to the next line */
-                c128cpu_memory_refresh_clk += vicii.cycles_per_line-current_refresh+11;
+                c128cpu_memory_refresh_clk += vicii.cycles_per_line - current_refresh + 11;
             } else {
                 /* push alarm to the next cycle to check */
-                c128cpu_memory_refresh_clk += offset+1;
+                c128cpu_memory_refresh_clk += offset + 1;
             }
         } else {
-            amount = (offset*2)+vicii.half_cycles;
+            amount = (offset * 2) + vicii.half_cycles;
             if (amount > 0) {
                 if (current_refresh + amount > 15) {
                     /* stretch max memory refresh cycles */
-                    maincpu_clk = vicii_clock_add(maincpu_clk, 15-current_refresh+1);
+                    maincpu_clk = vicii_clock_add(maincpu_clk, 15 - current_refresh + 1);
 
                     /* push alarm to the next line */
-                    c128cpu_memory_refresh_clk += vicii.cycles_per_line-current_refresh+11;
+                    c128cpu_memory_refresh_clk += vicii.cycles_per_line - current_refresh + 11;
                 } else {
                     /* stretch the amount of half cycles */
                     maincpu_clk = vicii_clock_add(maincpu_clk, amount);
@@ -188,11 +188,11 @@ int vicii_check_memory_refresh(CLOCK clock)
     }
 
     if (clock == c128cpu_memory_refresh_clk) {
-        vicii_clock_add(maincpu_clk,1);
+        vicii_clock_add(maincpu_clk, 1);
         current = c128cpu_memory_refresh_clk % vicii.cycles_per_line;
         if (current + 1 > 15) {
             /* push alarm to the next line */
-            c128cpu_memory_refresh_clk += vicii.cycles_per_line-current+11;
+            c128cpu_memory_refresh_clk += vicii.cycles_per_line - current + 11;
         } else {
             /* push alarm to the next cycle */
             c128cpu_memory_refresh_clk++;

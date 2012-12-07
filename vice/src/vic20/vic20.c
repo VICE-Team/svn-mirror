@@ -254,7 +254,7 @@ int machine_resources_init(void)
         || vic20_midi_resources_init() < 0
 #endif
         || vic20_ieee488_resources_init() < 0
-        || cartio_resources_init() < 0 ) {
+        || cartio_resources_init() < 0) {
         return -1;
     }
 
@@ -319,15 +319,16 @@ static void vic20_monitor_init(void)
     monitor_interface_t *drive_interface_init[DRIVE_NUM];
     monitor_cpu_type_t *asmarray[3];
 
-    asmarray[0]=&asm6502;
-    asmarray[1]=&asmR65C02;
-    asmarray[2]=NULL;
+    asmarray[0] = &asm6502;
+    asmarray[1] = &asmR65C02;
+    asmarray[2] = NULL;
 
     asm6502_init(&asm6502);
     asmR65C02_init(&asmR65C02);
 
-    for (dnr = 0; dnr < DRIVE_NUM; dnr++)
+    for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
         drive_interface_init[dnr] = drivecpu_monitor_interface_get(dnr);
+    }
 
     /* Initialize the monitor.  */
     monitor_init(maincpu_monitor_interface_get(), drive_interface_init,
@@ -354,16 +355,18 @@ int machine_specific_init(void)
 
     vic20_log = log_open("VIC20");
 
-    if (mem_load() < 0)
+    if (mem_load() < 0) {
         return -1;
+    }
 
     /* Setup trap handling.  */
     traps_init();
 
     /* Initialize serial traps.  If user does not want them, or if the
        ``drive'' emulation is used, do not install them.  */
-    if (serial_init(vic20_serial_traps) < 0)
+    if (serial_init(vic20_serial_traps) < 0) {
         return -1;
+    }
 
     serial_trap_init(0xa4);
     serial_iec_bus_init();
@@ -394,8 +397,9 @@ int machine_specific_init(void)
                    1, 0xcc, 0xd1, 0xd3, 0xd5);
 
     /* Initialize the VIC-I emulation.  */
-    if (vic_init() == NULL)
+    if (vic_init() == NULL) {
         return -1;
+    }
 
     via1_init(machine_context.via1);
     via2_init(machine_context.via2);
@@ -405,8 +409,9 @@ int machine_specific_init(void)
 
 #ifndef COMMON_KBD
     /* Load the default keymap file.  */
-    if (vic20_kbd_init() < 0)
+    if (vic20_kbd_init() < 0) {
         return -1;
+    }
 #endif
 
     vic20_monitor_init();
@@ -433,8 +438,7 @@ int machine_specific_init(void)
     sound_init(machine_timing.cycles_per_sec, machine_timing.cycles_per_rfsh);
 
     /* Initialize keyboard buffer.  */
-    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.cycles_per_rfsh
-                * machine_timing.rfsh_per_sec));
+    kbdbuf_init(631, 198, 10, (CLOCK)(machine_timing.cycles_per_rfsh * machine_timing.rfsh_per_sec));
 
     /* Initialize the VIC20-specific part of the UI.  */
     vic20ui_init();
@@ -572,8 +576,7 @@ long machine_get_cycles_per_frame(void)
 
 void machine_get_line_cycle(unsigned int *line, unsigned int *cycle, int *half_cycle)
 {
-    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line
-            % machine_timing.screen_lines);
+    *line = (unsigned int)((maincpu_clk) / machine_timing.cycles_per_line % machine_timing.screen_lines);
 
     *cycle = (unsigned int)((maincpu_clk) % machine_timing.cycles_per_line);
 
@@ -609,22 +612,22 @@ void machine_change_timing(int timeval)
     }
 
     switch (timeval) {
-      case MACHINE_SYNC_PAL:
-        machine_timing.cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = VIC20_PAL_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
-        machine_timing.screen_lines = VIC20_PAL_SCREEN_LINES;
-        break;
-      case MACHINE_SYNC_NTSC:
-        machine_timing.cycles_per_sec = VIC20_NTSC_CYCLES_PER_SEC;
-        machine_timing.cycles_per_rfsh = VIC20_NTSC_CYCLES_PER_RFSH;
-        machine_timing.rfsh_per_sec = VIC20_NTSC_RFSH_PER_SEC;
-        machine_timing.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
-        machine_timing.screen_lines = VIC20_NTSC_SCREEN_LINES;
-        break;
-      default:
-        log_error(vic20_log, "Unknown machine timing.");
+        case MACHINE_SYNC_PAL:
+            machine_timing.cycles_per_sec = VIC20_PAL_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = VIC20_PAL_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = VIC20_PAL_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = VIC20_PAL_CYCLES_PER_LINE;
+            machine_timing.screen_lines = VIC20_PAL_SCREEN_LINES;
+            break;
+        case MACHINE_SYNC_NTSC:
+            machine_timing.cycles_per_sec = VIC20_NTSC_CYCLES_PER_SEC;
+            machine_timing.cycles_per_rfsh = VIC20_NTSC_CYCLES_PER_RFSH;
+            machine_timing.rfsh_per_sec = VIC20_NTSC_RFSH_PER_SEC;
+            machine_timing.cycles_per_line = VIC20_NTSC_CYCLES_PER_LINE;
+            machine_timing.screen_lines = VIC20_NTSC_SCREEN_LINES;
+            break;
+        default:
+            log_error(vic20_log, "Unknown machine timing.");
     }
 
     vsync_set_machine_parameter(machine_timing.rfsh_per_sec,
@@ -671,8 +674,9 @@ void machine_play_psid(int tune)
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
-    if (canvas != vic_get_canvas())
+    if (canvas != vic_get_canvas()) {
         return -1;
+    }
 
     vic_screenshot(screenshot);
     return 0;
@@ -681,8 +685,9 @@ int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 int machine_canvas_async_refresh(struct canvas_refresh_s *refresh,
                                  struct video_canvas_s *canvas)
 {
-    if (canvas != vic_get_canvas())
+    if (canvas != vic_get_canvas()) {
         return -1;
+    }
 
     vic_async_refresh(refresh);
     return 0;
@@ -716,6 +721,10 @@ const char *machine_get_name(void)
 #ifdef USE_SDLUI
 /* Kludges for vsid & linking issues */
 const char **csidmodel = NULL;
-void psid_init_driver(void) {}
+
+void psid_init_driver(void)
+{
+}
+
 BYTE *mem_chargen_rom = NULL;
 #endif

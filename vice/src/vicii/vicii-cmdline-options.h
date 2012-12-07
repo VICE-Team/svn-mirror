@@ -32,4 +32,3 @@
 extern int vicii_cmdline_options_init(void);
 
 #endif
-

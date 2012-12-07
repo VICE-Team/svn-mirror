@@ -65,14 +65,12 @@ static void set_cb2(via_context_t *via_context, int state)
     parallel_cpu_set_eoi((BYTE)(state ? 0 : 1));
 }
 
-static void set_int(via_context_t *via_context, unsigned int int_num,
-                    int value, CLOCK rclk)
+static void set_int(via_context_t *via_context, unsigned int int_num, int value, CLOCK rclk)
 {
     interrupt_set_irq(maincpu_int_status, int_num, value, rclk);
 }
 
-static void restore_int(via_context_t *via_context, unsigned int int_num,
-                    int value)
+static void restore_int(via_context_t *via_context, unsigned int int_num, int value)
 {
     interrupt_restore_irq(maincpu_int_status, int_num, value);
 }
@@ -128,8 +126,12 @@ static BYTE store_pcr(via_context_t *via_context, BYTE byte, WORD addr)
     if (byte != via_context->via[VIA_PCR]) {
         register BYTE tmp = byte;
         /* first set bit 1 and 5 to the real output values */
-        if ((tmp & 0x0c) != 0x0c) tmp |= 0x02;
-        if ((tmp & 0xc0) != 0xc0) tmp |= 0x20;
+        if ((tmp & 0x0c) != 0x0c) {
+            tmp |= 0x02;
+        }
+        if ((tmp & 0xc0) != 0xc0) {
+            tmp |= 0x20;
+        }
         parallel_cpu_set_atn((byte & 2) ? 0 : 1);
         parallel_cpu_set_eoi((byte & 0x20) ? 0 : 1);
     }
@@ -199,4 +201,3 @@ void vic20ieeevia2_setup_context(machine_context_t *machine_context)
     via->set_cb2 = set_cb2;
     via->reset = reset;
 }
-

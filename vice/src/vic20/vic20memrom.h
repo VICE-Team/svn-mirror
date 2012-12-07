@@ -42,4 +42,3 @@ extern BYTE vic20memrom_trap_read(WORD addr);
 extern void vic20memrom_trap_store(WORD addr, BYTE value);
 
 #endif
-

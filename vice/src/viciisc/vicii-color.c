@@ -149,12 +149,12 @@ int vicii_color_update_palette(struct video_canvas_s *canvas)
 {
     video_cbm_palette_t *cp;
 
-    if (vicii_resources.new_luminances)
+    if (vicii_resources.new_luminances) {
         cp = &vicii_palette;
-    else
+    } else {
         cp = &vicii_palette_old;
+    }
 
     video_color_palette_internal(canvas, cp);
     return 0;
 }
-

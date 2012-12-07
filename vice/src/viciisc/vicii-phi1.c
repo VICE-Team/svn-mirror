@@ -35,4 +35,3 @@ BYTE vicii_read_phi1(void)
 {
     return vicii.last_read_phi1;
 }
-

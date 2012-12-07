@@ -276,9 +276,7 @@ static inline void vic_cycle_fetch(void)
 
         /* fetch from screen/color memomy */
         case VIC_FETCH_MATRIX:
-            addr = (((vic.regs[5] & 0xf0) << 6)
-                 | ((vic.regs[2] & 0x80) << 2))
-                 + ((vic.memptr + vic.buf_offset));
+            addr = (((vic.regs[5] & 0xf0) << 6) | ((vic.regs[2] & 0x80) << 2))+ ((vic.memptr + vic.buf_offset));
 
             vic.vbuf = vic_cycle_do_fetch(vic_cycle_fix_addr(addr), &b);
             vic.cbuf[vic.buf_offset] = b;
@@ -289,8 +287,7 @@ static inline void vic_cycle_fetch(void)
         /* fetch from chargen */
         case VIC_FETCH_CHARGEN:
             b = vic.vbuf;
-            addr = ((vic.regs[5] & 0xf) << 10)
-                 + ((b * vic.char_height + (vic.raster.ycounter & ((vic.char_height >> 1) | 7))));
+            addr = ((vic.regs[5] & 0xf) << 10) + ((b * vic.char_height + (vic.raster.ycounter & ((vic.char_height >> 1) | 7))));
 
             vic.gbuf[vic.buf_offset] = vic_cycle_do_fetch(vic_cycle_fix_addr(addr), &b);
 
@@ -371,4 +368,3 @@ void vic_cycle(void)
     /* Perform fetch */
     vic_cycle_fetch();
 }
-

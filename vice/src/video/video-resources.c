@@ -116,7 +116,7 @@ static int set_double_size_enabled(int val, void *param)
     if (cap_render->sizex > 1
         && (video_chip_cap->dsize_limit_width == 0
             || (canvas->draw_buffer->canvas_width
-                   <= video_chip_cap->dsize_limit_width))
+                <= video_chip_cap->dsize_limit_width))
         ) {
         canvas->videoconfig->doublesizex = (cap_render->sizex - 1);
     } else {
@@ -126,7 +126,7 @@ static int set_double_size_enabled(int val, void *param)
     if (cap_render->sizey > 1
         && (video_chip_cap->dsize_limit_height == 0
             || (canvas->draw_buffer->canvas_height
-                   <= video_chip_cap->dsize_limit_height))
+                <= video_chip_cap->dsize_limit_height))
         ) {
         canvas->videoconfig->doublesizey = (cap_render->sizey - 1);
     } else {
@@ -279,10 +279,10 @@ static int set_fullscreen_enabled(int val, void *param)
         if (val) {
             r = (video_chip_cap->fullscreen.enable)(canvas, val);
             (void) (video_chip_cap->fullscreen.statusbar)
-            (canvas, canvas->videoconfig->fullscreen_statusbar_enabled); 
+                (canvas, canvas->videoconfig->fullscreen_statusbar_enabled);
         } else {
             /* always show statusbar when coming back to window mode */
-            (void) (video_chip_cap->fullscreen.statusbar) (canvas, 1); 
+            (void) (video_chip_cap->fullscreen.statusbar)(canvas, 1);
             r = (video_chip_cap->fullscreen.enable)(canvas, val);
         }
     }
@@ -326,8 +326,8 @@ static int set_fullscreen_device(const char *val, void *param)
 
     if (canvas->videoconfig->fullscreen_enabled) {
         log_message(LOG_DEFAULT,
-            _("Fullscreen (%s) already active - disable first."),
-            canvas->videoconfig->fullscreen_device);
+                    "Fullscreen (%s) already active - disable first.",
+                    canvas->videoconfig->fullscreen_device);
         return 0;
     }
 
@@ -405,8 +405,7 @@ static int set_palette_file_name(const char *val, void *param)
     return 0;
 }
 
-static const char *vname_chip_palette[] = { "PaletteFile", "ExternalPalette",
-                                            NULL };
+static const char *vname_chip_palette[] = { "PaletteFile", "ExternalPalette", NULL };
 
 static resource_string_t resources_chip_palette_string[] =
 {
@@ -717,8 +716,8 @@ int video_resources_chip_init(const char *chipname,
 
             resources_chip_fullscreen_mode[0].name
                 = util_concat(chipname,
-                    video_chip_cap->fullscreen.device_name[i],
-                    vname_chip_fullscreen_mode[0], NULL);
+                              video_chip_cap->fullscreen.device_name[i],
+                              vname_chip_fullscreen_mode[0], NULL);
             resources_chip_fullscreen_mode[0].value_ptr
                 = &((*canvas)->videoconfig->fullscreen_mode[i]);
             resources_chip_fullscreen_mode[0].param

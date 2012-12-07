@@ -30,4 +30,3 @@
 extern int vic20_cmdline_options_init(void);
 
 #endif
-

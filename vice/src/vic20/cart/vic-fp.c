@@ -110,17 +110,20 @@ static int blk1_en_flop;
 /** RAM at BLK5 instead of ROM */
 static int ram5_flop;
 
-#define CART_CFG_UPDATE do {                             \
-    cfg_en_flop = CART_CFG_ENABLE;                       \
-    ram123_en_flop = CART_CFG_RAM123;                    \
-    blk1_en_flop = CART_CFG_BLK1;                        \
-    ram5_flop = CART_CFG_BLK5_RAM;                       \
-    cart_rom_bank = cart_bank_reg | (CART_CFG_A21 << 8); \
-} while (0)
-#define CART_CFG_INIT(value) do {                        \
-    cart_cfg_reg = value & CART_CFG_MASK;                \
-    CART_CFG_UPDATE;                                     \
-} while (0)
+#define CART_CFG_UPDATE                                      \
+    do {                                                     \
+        cfg_en_flop = CART_CFG_ENABLE;                       \
+        ram123_en_flop = CART_CFG_RAM123;                    \
+        blk1_en_flop = CART_CFG_BLK1;                        \
+        ram5_flop = CART_CFG_BLK5_RAM;                       \
+        cart_rom_bank = cart_bank_reg | (CART_CFG_A21 << 8); \
+    } while (0)
+
+#define CART_CFG_INIT(value)                  \
+    do {                                      \
+        cart_cfg_reg = value & CART_CFG_MASK; \
+        CART_CFG_UPDATE;                      \
+    } while (0)
 
 /* ------------------------------------------------------------------------- */
 
@@ -327,7 +330,7 @@ int vic_fp_bin_attach(const char *filename)
     }
 
     util_string_set(&cartfile, filename);
-    if (zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0 ) {
+    if (zfile_load(filename, cart_rom, (size_t)CART_ROM_SIZE) < 0) {
         vic_fp_detach();
         return -1;
     }
@@ -335,8 +338,8 @@ int vic_fp_bin_attach(const char *filename)
     flash040core_init(&flash_state, maincpu_alarm_context, FLASH040_TYPE_032B_A0_1_SWAP, cart_rom);
 
     mem_cart_blocks = VIC_CART_RAM123 |
-        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
-        VIC_CART_IO2;
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO2;
     mem_initialize_memory();
 
     vfp_list_item = io_source_register(&vfp_device);
@@ -517,8 +520,8 @@ int vic_fp_snapshot_read_module(snapshot_t *s)
     CART_CFG_INIT(cart_cfg_reg);
 
     mem_cart_blocks = VIC_CART_RAM123 |
-        VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
-        VIC_CART_IO2;
+                      VIC_CART_BLK1 | VIC_CART_BLK2 | VIC_CART_BLK3 | VIC_CART_BLK5 |
+                      VIC_CART_IO2;
     mem_initialize_memory();
 
     return 0;

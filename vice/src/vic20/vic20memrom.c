@@ -61,9 +61,9 @@ BYTE vic20memrom_chargen_read(WORD addr)
 BYTE vic20memrom_trap_read(WORD addr)
 {
     switch (addr & 0xf000) {
-      case 0xe000:
-      case 0xf000:
-        return vic20memrom_kernal_trap_rom[addr & 0x1fff];
+        case 0xe000:
+        case 0xf000:
+            return vic20memrom_kernal_trap_rom[addr & 0x1fff];
     }
 
     return 0;
@@ -72,24 +72,24 @@ BYTE vic20memrom_trap_read(WORD addr)
 void vic20memrom_trap_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
-      case 0xe000:
-      case 0xf000:
-        vic20memrom_kernal_trap_rom[addr & 0x1fff] = value;
-        break;
+        case 0xe000:
+        case 0xf000:
+            vic20memrom_kernal_trap_rom[addr & 0x1fff] = value;
+            break;
     }
 }
 
 BYTE rom_read(WORD addr)
 {
     switch (addr & 0xf000) {
-      case 0x8000:
-        return vic20memrom_chargen_read(addr);
-      case 0xc000:
-      case 0xd000:
-        return vic20memrom_basic_read(addr);
-      case 0xe000:
-      case 0xf000:
-        return vic20memrom_kernal_read(addr);
+        case 0x8000:
+            return vic20memrom_chargen_read(addr);
+        case 0xc000:
+        case 0xd000:
+            return vic20memrom_basic_read(addr);
+        case 0xe000:
+        case 0xf000:
+            return vic20memrom_kernal_read(addr);
     }
 
     return 0;
@@ -98,17 +98,16 @@ BYTE rom_read(WORD addr)
 void rom_store(WORD addr, BYTE value)
 {
     switch (addr & 0xf000) {
-      case 0x8000:
-        vic20memrom_chargen_rom[addr & 0x0fff] = value;
-        break;
-      case 0xc000:
-      case 0xd000:
-        vic20memrom_basic_rom[addr & 0x1fff] = value;
-        break;
-      case 0xe000:
-      case 0xf000:
-        vic20memrom_kernal_rom[addr & 0x1fff] = value;
-        break;
+        case 0x8000:
+            vic20memrom_chargen_rom[addr & 0x0fff] = value;
+            break;
+        case 0xc000:
+        case 0xd000:
+            vic20memrom_basic_rom[addr & 0x1fff] = value;
+            break;
+        case 0xe000:
+        case 0xf000:
+            vic20memrom_kernal_rom[addr & 0x1fff] = value;
+            break;
     }
 }
-

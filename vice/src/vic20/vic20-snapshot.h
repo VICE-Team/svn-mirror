@@ -30,6 +30,5 @@
 extern int vic20_snapshot_write(const char *name, int save_roms, int save_disks,
                                 int event_mode);
 extern int vic20_snapshot_read(const char *name, int event_mode);
- 
-#endif
 
+#endif

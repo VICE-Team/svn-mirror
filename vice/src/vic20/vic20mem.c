@@ -177,7 +177,7 @@ static void via_store(WORD addr, BYTE value)
 
 static BYTE via_read(WORD addr)
 {
-    if ( (addr & 0x30) == 0x00 ) {  /* $910x (unconnected V-bus) */
+    if ((addr & 0x30) == 0x00) {    /* $910x (unconnected V-bus) */
         vic20_cpu_last_data = vic20_v_bus_last_data;
     } else {
         BYTE temp_bus = 0xff;
@@ -196,7 +196,6 @@ static BYTE via_read(WORD addr)
 
 static BYTE via_peek(WORD addr)
 {
-
     if ((addr & 0x30) == 0x00) {  /* $910x (unconnected V-bus) */
         return vic20_v_bus_last_data;
     } else {
@@ -218,7 +217,7 @@ static BYTE io3_peek(WORD addr)
 {
 #if 0
     /* TODO */
-    if (sidcart_enabled && sidcart_address==1 && addr>=0x9c00 && addr<=0x9c1f) {
+    if (sidcart_enabled && sidcart_address == 1 && addr >= 0x9c00 && addr <= 0x9c1f) {
         return sid_peek(addr);
     }
 #endif
@@ -241,7 +240,7 @@ static BYTE io2_peek(WORD addr)
 {
 #if 0
     /* TODO */
-    if (sidcart_enabled && sidcart_address==0 && addr>=0x9800 && addr<=0x981f) {
+    if (sidcart_enabled && sidcart_address == 0 && addr >= 0x9800 && addr <= 0x981f) {
         return sid_peek(addr);
     }
 #endif
@@ -546,7 +545,8 @@ void mem_initialize_memory(void)
     maincpu_resync_limits();
 }
 
-void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit) {
+void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
+{
     BYTE *p = _mem_read_base_tab_ptr[addr >> 8];
 
     *base = (p == NULL) ? NULL : (p - (addr & 0xff00));
@@ -729,22 +729,22 @@ int mem_patch_kernal(void)
     resources_get_int("MachineVideoStandard", &video_mode);
 
     switch (video_mode) {
-      case MACHINE_SYNC_PAL:
-        rev = 0;    /* use kernal 901486-07 */
-        break;
-      case MACHINE_SYNC_NTSC:
-        rev = 1;    /* use kernal 901486-06 */
-        break;
-      default:
-        log_message(LOG_ERR, "VIC20MEM: unknown sync, cannot patch kernal.");
-        return -1;
+        case MACHINE_SYNC_PAL:
+            rev = 0; /* use kernal 901486-07 */
+            break;
+        case MACHINE_SYNC_NTSC:
+            rev = 1; /* use kernal 901486-06 */
+            break;
+        default:
+            log_message(LOG_ERR, "VIC20MEM: unknown sync, cannot patch kernal.");
+            return -1;
     }
 
     while ((bytes = patch_bytes[i++]) > 0) {
         a = (WORD)patch_bytes[i++];
 
         i += (bytes * rev); /* select patch */
-        for (n = bytes; n--;) {
+        for (n = bytes; n--; ) {
             vic20memrom_trap_store(a, (BYTE)patch_bytes[i]);
             rom_store(a++, (BYTE)patch_bytes[i++]);
         }
@@ -752,8 +752,7 @@ int mem_patch_kernal(void)
         i += (bytes * (PATCH_VERSIONS - rev));  /* skip patch */
     }
 
-    log_message(LOG_DEFAULT, "VIC20 kernal patched to 901486-0%d.",7-rev);
+    log_message(LOG_DEFAULT, "VIC20 kernal patched to 901486-0%d.", 7 - rev);
 
     return 0;
 }
-

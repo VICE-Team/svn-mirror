@@ -49,4 +49,3 @@ BYTE cartridge_peek_blk5(WORD addr);
 void cartridge_store_blk5(WORD addr, BYTE value);
 
 #endif
-

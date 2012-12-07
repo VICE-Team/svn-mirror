@@ -30,4 +30,3 @@
 extern void vicii_trigger_light_pen_internal(int retrigger);
 
 #endif
-

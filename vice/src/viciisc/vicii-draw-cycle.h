@@ -36,4 +36,3 @@ extern int vicii_draw_cycle_snapshot_write(struct snapshot_module_s *m);
 extern int vicii_draw_cycle_snapshot_read(struct snapshot_module_s *m);
 
 #endif
-
