@@ -316,8 +316,10 @@ static void set_eos(t6721_state *t6721)
 }
 
 /*****************************************************************************
- Gate Array
+ LA05-124 Gate Array
 
+ 4bit parallel to serial converter/buffer:
+ 
 18 in   t6721 DTRD
 20 in   t6721 phi2
  6 in   t6721 APD (reset, will also reset FIFO)
@@ -330,6 +332,8 @@ static void set_eos(t6721_state *t6721)
  1 out  FIFO CI
 19 out  t6721 DI
 
+ Address decoder:
+
 25 in   C64 Cartridge Port IO2
 26 in   C64 Cartridge Port ROML
 21 in   C64 Cartridge Port ROMH
@@ -339,18 +343,19 @@ static void set_eos(t6721_state *t6721)
 12 in   C64 Cartridge Port A12
 23 in   C64 Cartridge Port phi2
 
-24 out  C64 Cartridge Port GAME
+ 7 in   6525 PC6 (CA) (with pullup) (toggles rom on/off ?)
+ 8 in   6525 PB5 (with pullup)
+ 9 in   6525 PB6 (with pullup)
 
- 7 in?  <- 6525 PC6 (CA) (with pullup) (toggles rom on/off ?)
- 8 in?  <- 6525 PB5 (with pullup)
- 9 in?  <- 6525 PB6 (with pullup)
 10 out  chip select for 6525
 22 out  chip select for MV ROM
+17 out  MV Cartridge Port Multiplexer (LS257)
+        (select wether A12..A15 for MV Cart Port comes from C64 Cart Port or PB0..PB3 of the 6525)
+
+24 out  C64 Cartridge Port GAME
 
 11 out  MV Cartridge Port ROMH
 27 out  MV Cartridge Port ROML
-17 out  MV Cartridge Port Multiplexer
-        (select wether A12..A15 for MV Cart Port comes from C64 Cart Port or PB0..PB3 of the 6525)
 
 exrom - does not go into the GA but due to the way we do the fake mapping it
         goes into the equations here too
