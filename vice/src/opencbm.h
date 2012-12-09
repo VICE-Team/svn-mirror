@@ -94,7 +94,7 @@ extern void vdd_usleep(CBM_FILE f, unsigned int howlong);
 #endif
 
 /* On Macs we need to define the __u_char */
-#if defined(__APPLE__) || defined(__FreeBSD__)
+#if defined(__APPLE__) || defined(__FreeBSD__) || defined(__NetBSD__) || defined (__DragonflyBSD__)
 typedef unsigned char __u_char;
 #endif
 
