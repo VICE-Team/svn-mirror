@@ -30,7 +30,9 @@
  */
 
 /* #define DEBUG_X11UI */
-/* #define DEBUGMOUSECURSOR */
+/* #define DEBUGMOUSECURSOR */   /* dont use a blank mouse cursor */
+/* #define DEBUGNOMOUSEGRAB */  /* dont grab mouse */
+/* #define DEBUGNOKBDGRAB */    /* dont explicitly grab keyboard focus */
 
 #ifdef DEBUG_X11UI
 #define DBG(_x_) log_debug _x_
@@ -605,45 +607,106 @@ void ui_restore_focus(void)
 /* ------------------------------------------------------------------------- */
 
 /*
-    grab pointer and keyboard, set mouse pointer shape
+    grab pointer, set mouse pointer shape
+
+    called by: ui_check_mouse_cursor, ui_restore_mouse, x11ui_fullscreen
 
     TODO: also route lightpen stuff through this function
 */
 static int mouse_grabbed = 0;
 static void mouse_cursor_grab(int grab, GdkCursor *cursor)
 {
-    GtkWidget *widget = get_active_toplevel();
+#ifdef DEBUGNOMOUSEGRAB
+    DBG(("mouse_cursor_grab disabled (%d)", grab));
+#else
+    GtkWidget *widget;
     GdkWindow *window;
-    window = widget ? widget->window : NULL;
+
+    DBG(("mouse_cursor_grab (%d, was %d)", grab, mouse_grabbed));
+
     if (mouse_grabbed) {
-        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
         mouse_grabbed = 0;
     }
 
-    if ((widget == NULL) || (window == NULL)) {
-        log_error(ui_log, "mouse_cursor_grab: bad params");
-        return;
-    }
-
     if (grab) {
-        gdk_keyboard_grab(window, 1, GDK_CURRENT_TIME);
+        /*ui_dispatch_events();
+        gdk_flush();*/
+
+        widget = get_active_toplevel();
+        window = widget ? widget->window : NULL;
+
+        if ((widget == NULL) || (window == NULL)) {
+            log_error(ui_log, "mouse_cursor_grab: bad params");
+            return;
+        }
+#ifdef DEBUGMOUSECURSOR
+        if (cursor == blankCursor) {
+            DBG(("mouse_cursor_grab blankCursor disabled"));
+            cursor = NULL;
+        }
+#endif
         gdk_pointer_grab(window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, window, cursor, GDK_CURRENT_TIME);
         mouse_grabbed = 1;
     }
+#endif
 }
+
+/*
+    grab keyboard focus
+
+    called by: ui_init_finalize
+ */
+static int keyboard_grabbed = 0;
+static void keyboard_grab(int grab)
+{
+#ifdef DEBUGNOKBDGRAB
+    DBG(("keyboard_grab disabled (%d)", grab));
+#else
+    GtkWidget *widget;
+    GdkWindow *window;
+
+    DBG(("keyboard_grab (%d, was %d)", grab, keyboard_grabbed));
+
+    if (grab == keyboard_grabbed) {
+        return;
+    }
+
+    /*ui_dispatch_events();
+    gdk_flush();*/
+
+    if (grab) {
+        widget = get_active_toplevel();
+        window = widget ? widget->window : NULL;
+
+        if ((widget == NULL) || (window == NULL)) {
+            log_error(ui_log, "keyboard_grab: bad params");
+            return;
+        }
+
+        gdk_keyboard_grab(window, 1, GDK_CURRENT_TIME);
+        keyboard_grabbed = 1;
+    } else {
+        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+        keyboard_grabbed = 0;
+    }
+#endif
+}
+
 
 void ui_check_mouse_cursor(void)
 {
 #ifdef HAVE_FULLSCREEN
-    if (fullscreen_is_enabled) {
+    video_canvas_t *canvas;
+    if ((canvas = get_active_canvas()) == NULL) {
+        log_error(ui_log, "ui_check_mouse_cursor canvas == NULL");
+        mouse_cursor_grab(0, NULL);
+        return;
+    }
+
+    if (canvas->fullscreenconfig->enable) {
         if (_mouse_enabled) {
-#ifdef DEBUGMOUSECURSOR
-            /* dont blank cursor for debuging */
-            mouse_cursor_grab(1, NULL);
-#else
             mouse_cursor_grab(1, blankCursor);
-#endif
         } else {
             /* FIXME: this case seems odd */
             mouse_cursor_grab(1, NULL);
@@ -652,23 +715,23 @@ void ui_check_mouse_cursor(void)
     }
 #endif
     if (_mouse_enabled) {
-#ifdef DEBUGMOUSECURSOR
-        /* dont blank cursor for debuging */
-        mouse_cursor_grab(1, NULL);
-#else
         mouse_cursor_grab(1, blankCursor);
-#endif
     } else {
         mouse_cursor_grab(0, NULL);
     }
 }
 
+/*
+    ungrab mouse and restore mouse pointer shape
+
+    called by uicommands.c:activate_monitor, ui_jam_dialog, ui_popup. ui_exit
+*/
 void ui_restore_mouse(void)
 {
     mouse_cursor_grab(0, NULL);
 }
 
-void initBlankCursor(void)
+static void initBlankCursor(void)
 {
     static char cursor[] = { 0x00 };
     GdkColor fg = { 0, 0, 0, 0 };
@@ -1043,6 +1106,7 @@ int ui_init_finish(void)
 int ui_init_finalize(void)
 {
     ui_check_mouse_cursor();
+    keyboard_grab(1);
     return 0;
 }
 
@@ -1520,6 +1584,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     g_signal_connect(G_OBJECT(new_canvas), "key-press-event", G_CALLBACK(kbd_event_handler), (void *) c);
     g_signal_connect(G_OBJECT(new_canvas), "key-release-event", G_CALLBACK(kbd_event_handler), (void *) c);
     g_signal_connect(G_OBJECT(new_canvas), "focus-in-event", G_CALLBACK(enter_window_callback), (void *) c);
+    g_signal_connect(G_OBJECT(new_canvas), "visibility-notify-event", G_CALLBACK(enter_window_callback), (void *) c);
 
     if (c->videoconfig->hwscale) {
         /* For hwscale, it's a feature that new_canvas must bloat to 100% size
@@ -1548,7 +1613,19 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     GTK_WIDGET_SET_FLAGS(new_canvas, GTK_CAN_FOCUS);
     gtk_widget_grab_focus(new_canvas);
     c->emuwindow = new_canvas;
+/*
+explicitly setup the events we want to handle. the following are the remaining
+events that are NOT handled:
 
+GDK_BUTTON_MOTION_MASK         GDK_MOTION_NOTIFY (while a button is pressed) 
+GDK_BUTTON1_MOTION_MASK        GDK_MOTION_NOTIFY (while button 1 is pressed) 
+GDK_BUTTON2_MOTION_MASK        GDK_MOTION_NOTIFY (while button 2 is pressed) 
+GDK_BUTTON3_MOTION_MASK        GDK_MOTION_NOTIFY (while button 3 is pressed) 
+GDK_PROPERTY_CHANGE_MASK       GDK_PROPERTY_NOTIFY 
+GDK_PROXIMITY_IN_MASK          GDK_PROXIMITY_IN 
+GDK_PROXIMITY_OUT_MASK         GDK_PROXIMITY_OUT 
+GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child windows 
+*/
     gtk_widget_add_events(new_canvas,
                           GDK_LEAVE_NOTIFY_MASK |
                           GDK_ENTER_NOTIFY_MASK |
@@ -1559,6 +1636,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
                           GDK_FOCUS_CHANGE_MASK |
                           GDK_POINTER_MOTION_MASK |
                           GDK_STRUCTURE_MASK |
+                          GDK_VISIBILITY_NOTIFY_MASK |
                           GDK_EXPOSURE_MASK);
 }
 
@@ -1702,7 +1780,19 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
         c->offx = c->geometry->screen_size.width - w;
     }
+/*
+explicitly setup the events we want to handle. the following are the remaining
+events that are NOT handled:
 
+GDK_BUTTON_MOTION_MASK         GDK_MOTION_NOTIFY (while a button is pressed) 
+GDK_BUTTON1_MOTION_MASK        GDK_MOTION_NOTIFY (while button 1 is pressed) 
+GDK_BUTTON2_MOTION_MASK        GDK_MOTION_NOTIFY (while button 2 is pressed) 
+GDK_BUTTON3_MOTION_MASK        GDK_MOTION_NOTIFY (while button 3 is pressed) 
+GDK_PROPERTY_CHANGE_MASK       GDK_PROPERTY_NOTIFY 
+GDK_PROXIMITY_IN_MASK          GDK_PROXIMITY_IN 
+GDK_PROXIMITY_OUT_MASK         GDK_PROXIMITY_OUT 
+GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child windows 
+*/
     gtk_widget_add_events(new_window,
                             GDK_LEAVE_NOTIFY_MASK |
                             GDK_ENTER_NOTIFY_MASK |
@@ -1712,6 +1802,8 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
                             GDK_KEY_RELEASE_MASK |
                             GDK_FOCUS_CHANGE_MASK |
                             GDK_POINTER_MOTION_MASK |
+                            GDK_VISIBILITY_NOTIFY_MASK |
+                            GDK_STRUCTURE_MASK |
                             GDK_EXPOSURE_MASK);
 
     return 0;
@@ -1890,9 +1982,10 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 }
 
-/* ------------------------------------------------------------------------- */
+/*******************************************************************************
+ * Floppy Drive related stuff
+ ******************************************************************************/
 
-/* drive stuff */
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
     int i, j;
@@ -2029,8 +2122,10 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
     ui_enable_drive_status(enabled_drives, drive_active_led);
 }
 
-/* ------------------------------------------------------------------------- */
-/* tape stuff */
+/*******************************************************************************
+ * Tape related stuff
+ ******************************************************************************/
+
 void ui_set_tape_status(int tape_status)
 {
     static int ts;
@@ -2246,25 +2341,45 @@ void ui_dispatch_events(void)
 
     FIXME: this is still buggy when changing mode rapidly, eg by holding ALT-D
  */
-void x11ui_fullscreen(int enable)
+static volatile int fslock = 0;
+static int fsoldx = 0, fsoldy = 0, fsoldw = WINDOW_MINW, fsoldh = WINDOW_MINH;
+
+int x11ui_fullscreen(int enable)
 {
 #ifdef HAVE_FULLSCREEN
-    video_canvas_t *canvas = get_active_canvas();
+    video_canvas_t *canvas;
     GtkWidget *s;
-    int x, y, w, h;
-    int current_enable;
 
-    if (canvas == NULL) {
-        return;
+    ui_dispatch_events();
+    gdk_flush();
+
+    if (fslock) {
+        log_debug("x11ui_fullscreen (%d) ignored (locked).", enable);
+        return -1;
+    }
+    fslock = 1;
+
+    if ((canvas = get_active_canvas()) == NULL) {
+        log_debug("x11ui_fullscreen (%d) ignored (canvas == NULL).", enable);
+        fslock = 0;
+        return -1;
+    }
+
+    if (enable == canvas->fullscreenconfig->enable) {
+        log_debug("x11ui_fullscreen (%d) ignored (was %d).", enable, enable);
+        fslock = 0;
+        return 0;
     }
 
     set_active_shell(canvas->app_shell);
     s = get_active_toplevel();
-    current_enable = canvas->fullscreenconfig->enable;
 
-    DBG(("x11ui_fullscreen (shell: %d fullscreen: %d->%d)", canvas->app_shell, current_enable, enable));
+    DBG(("x11ui_fullscreen (shell: %d fullscreen: %d->%d)", canvas->app_shell, canvas->fullscreenconfig->enable, enable));
 
-    if ((enable) && (!current_enable)) {
+    if (enable) {
+        /* save window dimensions before going to fullscreen */
+        get_window_resources(canvas, &fsoldx, &fsoldy, &fsoldw, &fsoldh);
+        DBG(("x11ui_fullscreen (fs:%d saved winx: %d winy: %d winw: %d winh: %d)", enable, fsoldx, fsoldy, fsoldw, fsoldh));
         /* when switching to fullscreen, set the flag first */
         canvas->fullscreenconfig->enable = 1;
         /* window managers (bug detected on compiz 0.7.4) may ignore
@@ -2277,30 +2392,27 @@ void x11ui_fullscreen(int enable)
         gtk_window_present(GTK_WINDOW(s));
         ui_dispatch_events();
         gdk_flush();
-    } else if ((!enable) && (current_enable)) {
-        gtk_window_unfullscreen(GTK_WINDOW(s));
-        ui_dispatch_events();
-        gdk_flush();
-        mouse_cursor_grab(0, NULL);
-
-        get_window_resources(canvas, &x, &y, &w, &h);
-        DBG(("x11ui_fullscreen (winx: %d winy: %d winw: %d winh: %d)", x, y, w, h));
-        if (!((w < WINDOW_MINW) || (h < WINDOW_MINH))) {
-            gtk_window_resize(GTK_WINDOW(s), w, h);
-        }
-        if (!((x < 0) || (y < 0))) {
-            gtk_window_move(GTK_WINDOW(s), x, y);
-        }
-
-        ui_dispatch_events();
-        gdk_flush();
-        canvas->fullscreenconfig->enable = 0;
     } else {
+        canvas->fullscreenconfig->enable = 0;
+
+        gtk_window_unfullscreen(GTK_WINDOW(s));
+        gtk_window_present(GTK_WINDOW(s));
         ui_dispatch_events();
         gdk_flush();
+
+        /* restore previously saved window dimensions */
+        DBG(("x11ui_fullscreen (fs:%d restore winx: %d winy: %d winw: %d winh: %d)", enable, fsoldx, fsoldy, fsoldw, fsoldh));
+        gtk_window_resize(GTK_WINDOW(s), fsoldw, fsoldh);
+        gtk_window_move(GTK_WINDOW(s), fsoldx, fsoldy);
     }
+    ui_check_mouse_cursor();
+    ui_dispatch_events();
+    gdk_flush();
+
+    fslock = 0;
     DBG(("x11ui_fullscreen done"));
 #endif
+    return 0;
 }
 
 void ui_trigger_resize(void);
@@ -2314,25 +2426,32 @@ int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 
     DBG(("ui_fullscreen_statusbar (enable:%d)", enable));
 
-    if (enable) {
-        for (j = 0; j < num_app_shells; j++) {
-            gtk_widget_show(app_shells[j].status_bar);
-            gtk_widget_show(app_shells[j].topmenu);
-        }
+    if (!enable
 #ifdef HAVE_FULLSCREEN
-        canvas->fullscreenconfig->ui_border_top = appshell->topmenu->allocation.height;
-        canvas->fullscreenconfig->ui_border_bottom = appshell->status_bar->allocation.height;
+        && canvas->fullscreenconfig->enable
 #endif
-    } else {
+       ) {
         for (j = 0; j < num_app_shells; j++) {
             gtk_widget_hide(app_shells[j].status_bar);
             gtk_widget_hide(app_shells[j].topmenu);
         }
+    } else {
+        for (j = 0; j < num_app_shells; j++) {
+            gtk_widget_show(app_shells[j].status_bar);
+            gtk_widget_show(app_shells[j].topmenu);
+        }
+    }
+
 #ifdef HAVE_FULLSCREEN
+    if (enable) {
+        canvas->fullscreenconfig->ui_border_top = appshell->topmenu->allocation.height;
+        canvas->fullscreenconfig->ui_border_bottom = appshell->status_bar->allocation.height;
+    } else {
         canvas->fullscreenconfig->ui_border_top = 0;
         canvas->fullscreenconfig->ui_border_bottom = 0;
-#endif
     }
+#endif
+
     ui_trigger_resize();
     return 0;
 }
@@ -2470,7 +2589,7 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
 
     get_window_resources(canvas, &window_xpos, &window_ypos, &window_width, &window_height);
 
-    DBG(("ui_resize_canvas_window (width: %d height: %d  winw: %d winh: %d hwscale:%d)", width, height, window_width, window_height,canvas->videoconfig->hwscale));
+    DBG(("ui_resize_canvas_window (winw: %d winh: %d hwscale:%d)", window_width, window_height,canvas->videoconfig->hwscale));
 
     def = 0;
     if (!canvas->videoconfig->hwscale || (window_width < WINDOW_MINW) || (window_height < WINDOW_MINH)) {
@@ -2496,7 +2615,9 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     }
     gtk_window_resize(GTK_WINDOW(appshell->shell), window_width, window_height);
 
-    set_window_resources(canvas, window_xpos, window_ypos, window_width, window_height);
+    if (!canvas->fullscreenconfig->enable) {
+        set_window_resources(canvas, window_xpos, window_ypos, window_width, window_height);
+    }
 
     DBG(("ui_resize_canvas_window exit (w:%d h:%d)", window_width, window_height));
 }

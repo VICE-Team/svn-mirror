@@ -761,13 +761,17 @@ static void mouse_cursor_grab(int grab, Cursor cursor)
         XGrabPointer(display, XtWindow(last_visited_canvas), 0, PointerMotionMask | ButtonPressMask | ButtonReleaseMask, GrabModeAsync, GrabModeAsync, XtWindow(last_visited_canvas), cursor, CurrentTime);
 #endif
         mouse_grabbed = 1;
-    }
+    } 
 }
 
 void ui_check_mouse_cursor(void)
 {
+    if (!ui_cached_video_canvas) {
+        return;
+    }
+
 #ifdef HAVE_FULLSCREEN
-    if (fullscreen_is_enabled) {
+    if (ui_cached_video_canvas->fullscreenconfig->enable) {
         if (_mouse_enabled) {
             mouse_cursor_grab(1, blankCursor);
         } else {
@@ -776,10 +780,6 @@ void ui_check_mouse_cursor(void)
         return;
     }
 #endif
-
-    if (!ui_cached_video_canvas) {
-        return;
-    }
 
     if (_mouse_enabled) {
         mouse_cursor_grab(1, blankCursor);
@@ -1981,8 +1981,10 @@ void ui_dispatch_next_event(void)
 {
     XEvent report;
 
-    XtAppNextEvent(app_context, &report);
-    XtDispatchEvent(&report);
+    if (app_context) {
+        XtAppNextEvent(app_context, &report);
+        XtDispatchEvent(&report);
+    }
 }
 
 /* Dispatch all the pending Xt events. */
@@ -1992,12 +1994,14 @@ void ui_dispatch_events(void)
         return;
     }
 
-    while (XtAppPending(app_context)) {
-        ui_dispatch_next_event();
+    if (app_context) {
+        while (XtAppPending(app_context)) {
+            ui_dispatch_next_event();
+        }
     }
 }
 
-void x11ui_fullscreen(int i)
+int x11ui_fullscreen(int i)
 {
     static Atom _net_wm_state = None;
     static Atom _net_wm_state_fullscreen = None;
@@ -2022,13 +2026,22 @@ void x11ui_fullscreen(int i)
     xev.xclient.format = 32;
     xev.xclient.data.l[0] = i;
     xev.xclient.data.l[1] = _net_wm_state_fullscreen;
-  
+
     XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask, &xev);
+
+    ui_dispatch_events();
+    mouse_cursor_grab(1, None);
+
+    return 0;
 }
 
+static int stb = 1;
 int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 {
-    log_message(ui_log, "Toggling of Statusbar/Menu in Xaw is not supported.");
+    if (stb) {
+        log_message(ui_log, "Toggling of Statusbar/Menu in Xaw is not supported.");
+        stb = 0;
+    }
     return 0;
 }
 

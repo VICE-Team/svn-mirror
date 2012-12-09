@@ -49,6 +49,8 @@
 #include "openGL_sync.h"
 #endif
 
+#define DEBUG_XRANDR
+
 static log_t xrandr_log = LOG_ERR;
 static int no_xrandr = 1;
 static int xrandr_active = 0;
@@ -60,7 +62,7 @@ static struct video_canvas_s *current_canvas;
 
 static int init_XRandR(Display *dpy);
 static int set_xrandr(int mode);
-static int sd = 0;
+static int set_fullscreen(int enable);
 
 typedef struct {
     char *mode_string;
@@ -104,16 +106,14 @@ int xrandr_mode(struct video_canvas_s *canvas, int mode)
 
 int xrandr_enable(struct video_canvas_s *canvas, int activate)
 {
-    int ret = -1;
 #ifdef HAVE_FULLSCREEN
     if (canvas->fullscreenconfig->double_size) {
         log_message(xrandr_log, "double size not implemented - use standard double size from menu.");
     }
-
-    ret = set_xrandr(activate);
-    x11ui_fullscreen(activate);
+    return set_fullscreen(activate);
+#else
+    return -1;
 #endif
-    return ret;
 }
 
 void xrandr_suspend(int level)
@@ -128,8 +128,7 @@ void xrandr_suspend(int level)
         return;
     }
     xrandr_is_suspended=1;
-    set_xrandr(0);
-    x11ui_fullscreen(0);
+    set_fullscreen(0);
 }
 
 void xrandr_resume(void)
@@ -141,8 +140,7 @@ void xrandr_resume(void)
         return;
     }
     xrandr_is_suspended = 0;
-    set_xrandr(1);
-    x11ui_fullscreen(1);
+    set_fullscreen(1);
 }
 
 int xrandr_init(void)
@@ -162,6 +160,14 @@ int xrandr_init(void)
     no_xrandr = 0;
 
     return 0;
+}
+
+int xrandr_available(void)
+{
+    if (no_xrandr) {
+        return 0;
+    }
+    return 1;
 }
 
 void xrandr_menu_create(struct ui_menu_entry_s *menu)
@@ -212,6 +218,8 @@ void xrandr_resize(struct video_canvas_s *canvas, int uienable)
 void xrandr_shutdown(void)
 {
     if (xrandr_active) {
+        /* calling set_xrandr directly (instead of set_fullscreen) here to
+           force disabling and to avoid unnecessary calls to ui_update_menus */
         set_xrandr(0);
     }
 }
@@ -219,10 +227,6 @@ void xrandr_shutdown(void)
 void xrandr_menu_shutdown(struct ui_menu_entry_s *menu)
 {
     int i;
-
-    sd = 1; /* kludge to avoid segfault in shutdown,
-               where some resources seemed to be freed
-               already */
 
     xrandr_shutdown(); /* early shutdown, otherwhise
                           screen_info.all_modes[0] is freed  */
@@ -299,46 +303,84 @@ static int init_XRandR(Display *dpy)
 static int set_xrandr(int val)
 {
     Status status;
+    int ret = 0;
 
-    if (!sd) {
-        ui_update_menus();
-    }
     if (no_xrandr) {
-        return 1;
+        return -1;
     }
 
-    xrandr_active = val;
-    log_message(xrandr_log, "%s XRandR", xrandr_active ? "enabling" : "disabling");
+    xrandr_active = 0;
+    log_message(xrandr_log, "%s XRandR", val ? "enabling" : "disabling");
     vsync_suspend_speed_eval();
 
-    if (xrandr_active) {
+    if (val) {
         status = XRRSetScreenConfigAndRate(x11ui_get_display_ptr(), screen_info.config, x11ui_get_X11_window(), screen_info.all_modes[xrandr_selected_mode].index,
                                            screen_info.current_rotation, screen_info.all_modes[xrandr_selected_mode].rate, 0);
         if (status) {
             log_message(xrandr_log, "XRandR setting failed: %d", status);
+            ret = -1;
         } else {
             current_canvas->refreshrate = screen_info.all_modes[xrandr_selected_mode].rate;
 #ifdef HAVE_OPENGL_SYNC
             init_openGL();
 #endif
+            xrandr_active = 1;
         }
     } else {
-
-        /* FIXME: don't ungrab if either mouse or lightpen emulation is enabled */
-        XUngrabPointer(x11ui_get_display_ptr(), CurrentTime);
-        XUngrabKeyboard(x11ui_get_display_ptr(), CurrentTime);
-
         status = XRRSetScreenConfigAndRate(x11ui_get_display_ptr(), screen_info.config, x11ui_get_X11_window(), screen_info.all_modes[0].index,
                                            screen_info.current_rotation, screen_info.all_modes[0].rate, 0);
         if (status) {
             log_message(xrandr_log, "XRandR setting failed: %d", status);
+            ret = -1;
         } else {
             current_canvas->refreshrate = screen_info.all_modes[0].rate;
         }
     }
+    return ret;
+}
 
-    if (!sd) {
-        ui_update_menus();
+static volatile int fslock = 0;
+static int set_fullscreen(int enable)
+{
+    int ret = 0;
+
+    ui_dispatch_events();
+    if (xrandr_active == enable) {
+        log_message(xrandr_log, "set_fullscreen (%d->%d) skipped", xrandr_active, enable);
+        return 0;
     }
-    return 0;
+    if (fslock) {
+        log_message(xrandr_log, "set_fullscreen (%d->%d) failed (locked)", xrandr_active, enable);
+        return -1;
+    }
+    fslock = 1;
+#ifdef DEBUG_XRANDR
+    log_message(xrandr_log, "set_fullscreen (%d->%d)", xrandr_active, enable);
+#endif
+    ui_update_menus();
+
+    /* try setting up XRandR */
+    if (set_xrandr(enable) < 0) {
+        /* if it failed for some reason, switch to windowed UI */
+        log_message(xrandr_log, "set_xrandr (%s) failed.", enable ? "enable" : "disable");
+        x11ui_fullscreen(0);
+        ret = -1;
+    } else {
+        /* if it worked, try to setup the UI accordingly */
+        if (x11ui_fullscreen(enable) < 0) {
+            log_message(xrandr_log, "x11ui_fullscreen (%s) failed.", enable ? "enable" : "disable");
+            /* it failed, and we were trying to enable fullscreen
+               switch back to windowed UI */
+            if (enable) {
+                set_xrandr(0);
+                x11ui_fullscreen(0);
+            }
+            ret = -1;
+        }
+    }
+
+    ui_update_menus();
+
+    fslock = 0;
+    return ret;
 }

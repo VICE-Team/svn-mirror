@@ -53,7 +53,7 @@ extern void x11ui_destroy_widget(ui_window_t w);
 #if (defined USE_XF86_EXTENSIONS || defined USE_XAWUI)
 extern int x11ui_get_display_depth(void);
 extern int x11ui_get_screen(void);
-extern void x11ui_fullscreen(int enable);
+extern int x11ui_fullscreen(int enable);
 
 extern Display *x11ui_get_display_ptr(void);
 extern Window x11ui_get_X11_window(void);

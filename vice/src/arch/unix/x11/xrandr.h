@@ -30,6 +30,7 @@
 struct ui_menu_entry_s;
 
 extern int xrandr_init(void);
+extern int xrandr_available(void);
 extern void xrandr_menu_create(struct ui_menu_entry_s *menu);
 extern int xrandr_enable(struct video_canvas_s *canvase, int activate);
 extern int xrandr_mode(struct video_canvas_s *canvase, int mode);

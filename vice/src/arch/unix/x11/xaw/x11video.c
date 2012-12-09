@@ -418,7 +418,7 @@ static void video_arch_frame_buffer_free(video_canvas_t *canvas)
 #endif
 
 #ifdef HAVE_FULLSCREEN
-    if (fullscreen_is_enabled) {
+    if (canvas->fullscreenconfig->enable) {
         return;
     }
 #endif
