@@ -36,6 +36,17 @@ body {
     font-weight:bold;
 }
 
+#menu h1 {
+    margin:0;
+    border:0px solid white;
+    padding:0.1em 0.1em 1.0em 0.1em;
+
+    font-family:fixed;
+    font-size:150%;
+    font-weight:bold;
+    text-align:center;
+}
+
 #footer {
     text-align:right;
 }
