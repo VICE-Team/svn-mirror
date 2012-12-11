@@ -42,6 +42,9 @@
 extern int userport_joystick_enable;
 extern int userport_joystick_type;
 
+extern int userport_joystick_resources_init(void);
+extern int userport_joystick_cmdline_options_init(void);
+
 extern void userport_joystick_store_pa2(BYTE value);
 extern void userport_joystick_store_pbx(BYTE value);
 extern void userport_joystick_store_sdr(BYTE value);

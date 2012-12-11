@@ -1726,29 +1726,29 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 
 #if !defined(__XPLUS4__) && !defined(__XCBM5X0__)
         case IDM_USERPORT_JOY:
-            toggle("ExtraJoy");
+            toggle("UserportJoy");
             return;
         case IDM_USERPORT_JOY_CGA:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_CGA);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_CGA);
             return;
         case IDM_USERPORT_JOY_PET:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_PET);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_PET);
             return;
         case IDM_USERPORT_JOY_HUMMER:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_HUMMER);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_HUMMER);
             return;
         case IDM_USERPORT_JOY_OEM:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_OEM);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_OEM);
             return;
 #if defined __X64__ || defined __X128__
         case IDM_USERPORT_JOY_HIT:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_HIT);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_HIT);
             return;
         case IDM_USERPORT_JOY_KINGSOFT:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_KINGSOFT);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_KINGSOFT);
             return;
         case IDM_USERPORT_JOY_STARBYTE:
-            resources_set_int("ExtraJoyType", USERPORT_JOYSTICK_STARBYTE);
+            resources_set_int("UserportJoyType", USERPORT_JOYSTICK_STARBYTE);
             return;
 #endif
         case IDM_USERPORT_JOY_SETUP:
@@ -1994,11 +1994,11 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 
 #if !defined(__XPLUS4__) && !defined(__XCBM5X0__)
-            WinCheckRes(hwnd, IDM_USERPORT_JOY, "ExtraJoy");
-            resources_get_int("ExtraJoy", &val);
+            WinCheckRes(hwnd, IDM_USERPORT_JOY, "UserportJoy");
+            resources_get_int("UserportJoy", &val);
             WinEnableMenuItem(hwnd, IDM_USERPORT_JOY_SETUP, val);
             WinEnableMenuItem(hwnd, IDM_USERPORT_JOY_TYPE, val);
-            resources_get_int("ExtraJoyType", &val);
+            resources_get_int("UserportJoyType", &val);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_CGA, val == USERPORT_JOYSTICK_CGA);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_PET, val == USERPORT_JOYSTICK_PET);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_HUMMER, val == USERPORT_JOYSTICK_HUMMER);

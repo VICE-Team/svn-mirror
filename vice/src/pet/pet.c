@@ -86,6 +86,7 @@
 #include "traps.h"
 #include "types.h"
 #include "userport_dac.h"
+#include "userport_joystick.h"
 #include "util.h"
 #include "via.h"
 #include "video.h"
@@ -153,6 +154,7 @@ int machine_resources_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
 #endif
+        || userport_joystick_resources_init() < 0
         ) {
         return -1;
     }
@@ -202,6 +204,7 @@ int machine_cmdline_options_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
 #endif
+        || userport_joystick_cmdline_options_init() < 0
         ) {
         return -1;
     }

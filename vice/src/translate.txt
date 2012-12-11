@@ -984,8 +984,10 @@ IDCLS_ENABLE_DRIVE_SOUND
 /* drive/drive-cmdline-options.c */
 IDCLS_DISABLE_DRIVE_SOUND
 
-/* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
-   attach.c, drive/iec/iec-cmdline-options.c */
+/* drive/drive-cmdline-options.c, drive/iec/plus4exp/plus4exp-cmdline-options.c,
+   drive/iec/c64exp/c64exp-cmdline-options.c, printerdrv/interface-serial.c,
+   attach.c, lightpen.c, c128/functionrom.c, userport/userport_joystick.c,
+   c64/c64gluelogic.c, c64/cart/sfx_soundexpander.c */
 IDCLS_P_TYPE
 
 /* monitor/mon_command.c */
@@ -1922,6 +1924,15 @@ IDCLS_ENABLE_USERPORT_DAC
 
 /* userport/userport_dac.c */
 IDCLS_DISABLE_USERPORT_DAC
+
+/* userport/userport_joystick.c */
+IDCLS_ENABLE_USERPORT_JOY
+
+/* userport/userport_joystick.c */
+IDCLS_DISABLE_USERPORT_JOY
+
+/* userport/userport_joystick.c */
+IDCLS_SET_USERPORT_JOY_TYPE
 
 /* userport/userport_rtc.c */
 IDCLS_ENABLE_USERPORT_RTC

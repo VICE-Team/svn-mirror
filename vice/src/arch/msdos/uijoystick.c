@@ -281,12 +281,12 @@ static TUI_MENU_CALLBACK(joy_hw_callback)
 static TUI_MENU_CALLBACK(userport_type_callback)
 {
     if (been_activated) {
-        resources_set_int("ExtraJoyType", (int)(param));
+        resources_set_int("UserportJoyType", (int)(param));
         ui_update_menus();
     } else {
         int value;
 
-        resources_get_int("ExtraJoyType", &value);
+        resources_get_int("UserportJoyType", &value);
         if (value == ((int)param)) {
             *become_default = 1;
         }
@@ -802,7 +802,7 @@ static tui_menu_item_def_t userport_joy_type_submenu[] = {
     { NULL }
 };
 
-TUI_MENU_DEFINE_TOGGLE(ExtraJoy)
+TUI_MENU_DEFINE_TOGGLE(UserportJoy)
 TUI_MENU_DEFINE_TOGGLE(SIDCartJoy)
 TUI_MENU_DEFINE_TOGGLE(JoyOpposite)
 
@@ -831,7 +831,7 @@ static tui_menu_item_def_t c64_joystick_submenu[] = {
     { "--" },
     { "_Userport joystick adapter enable",
       "Enable userport joystick adapter",
-      toggle_ExtraJoy_callback, NULL, 3,
+      toggle_UserportJoy_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Set userport joystick adapter type...",
       "Set userport joystick adapter type",
@@ -893,7 +893,7 @@ static tui_menu_item_def_t c64dtv_joystick_submenu[] = {
     { "--" },
     { "_Userport joystick adapter enable",
       "Enable userport joystick adapter",
-      toggle_ExtraJoy_callback, NULL, 3,
+      toggle_UserportJoy_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Set userport joystick adapter type...",
       "Set userport joystick adapter type",
@@ -985,7 +985,7 @@ static tui_menu_item_def_t pet_joystick_submenu[] = {
     { "--" },
     { "_Userport joystick adapter enable",
       "Enable userport joystick adapter",
-      toggle_ExtraJoy_callback, NULL, 3,
+      toggle_UserportJoy_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Set userport joystick adapter type...",
       "Set userport joystick adapter type",
@@ -1038,7 +1038,7 @@ static tui_menu_item_def_t vic20_joystick_submenu[] = {
     { "--" },
     { "_Userport joystick adapter enable",
       "Enable userport joystick adapter",
-      toggle_ExtraJoy_callback, NULL, 3,
+      toggle_UserportJoy_callback, NULL, 3,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "_Set userport joystick adapter type...",
       "Set userport joystick adapter type",

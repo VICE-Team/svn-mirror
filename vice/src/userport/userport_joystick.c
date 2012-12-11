@@ -1,5 +1,5 @@
 /*
- * userport_dac.c - Generic userport joystick emulation.
+ * userport_joystick.c - Generic userport joystick emulation.
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
@@ -30,7 +30,10 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "cmdline.h"
 #include "joystick.h"
+#include "resources.h"
+#include "translate.h"
 #include "types.h"
 #include "userport_joystick.h"
 
@@ -39,6 +42,61 @@ int userport_joystick_type = 0;
 
 static int userport_joystick_cga_select = 0;
 static BYTE userport_joystick_button_sp2 = 0xff;
+
+/* ------------------------------------------------------------------------- */
+
+static int set_userport_joystick_enable(int val, void *param)
+{
+    userport_joystick_enable = val;
+    return 0;
+}
+
+static int set_userport_joystick_type(int val, void *param)
+{
+    if (val >= USERPORT_JOYSTICK_NUM) {
+        return -1;
+    }
+    userport_joystick_type = val;
+    return 0;
+}
+
+static const resource_int_t resources_int[] = {
+    { "UserportJoy", 0, RES_EVENT_NO, NULL,
+      &userport_joystick_enable, set_userport_joystick_enable, NULL },
+    { "UserportJoyType", 0, RES_EVENT_NO, NULL,
+      &userport_joystick_type, set_userport_joystick_type, NULL },
+    { NULL }
+};
+
+int userport_joystick_resources_init(void)
+{
+    return resources_register_int(resources_int);
+}
+
+static const cmdline_option_t cmdline_options[] =
+{
+    { "-userportjoy", SET_RESOURCE, 0,
+      NULL, NULL, "UserportJoy", (resource_value_t)1,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_ENABLE_USERPORT_JOY,
+      NULL, NULL },
+    { "+userportjoy", SET_RESOURCE, 0,
+      NULL, NULL, "UserportJoy", (resource_value_t)0,
+      USE_PARAM_STRING, USE_DESCRIPTION_ID,
+      IDCLS_UNUSED, IDCLS_DISABLE_USERPORT_JOY,
+      NULL, NULL },
+    { "-userportjoytype", SET_RESOURCE, 1,
+      NULL, NULL, "UserportJoyType", (resource_value_t)0,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_TYPE, IDCLS_SET_USERPORT_JOY_TYPE,
+      NULL, NULL },
+    { NULL }
+};
+
+int userport_joystick_cmdline_options_init(void)
+{
+    return cmdline_register_options(cmdline_options);
+}
 
 /* ------------------------------------------------------------------------- */
 

@@ -4800,6 +4800,57 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_USERPORT_DAC_TR, "Ses çýkýþý için Userport DAC'ý pasifleþtir"},
 #endif
 
+/* userport/userport_joystick.c */
+/* en */ {IDCLS_ENABLE_USERPORT_JOY,    N_("Enable Userport joystick adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_USERPORT_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_JOY_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_JOY_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_USERPORT_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_USERPORT_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_ENABLE_USERPORT_JOY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_JOY_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_JOY_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDCLS_DISABLE_USERPORT_JOY,    N_("Disable Userport joystick adapter")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_USERPORT_JOY_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_JOY_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_JOY_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_USERPORT_JOY_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_USERPORT_JOY_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_DISABLE_USERPORT_JOY_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_JOY_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_JOY_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
+#endif
+
+/* userport/userport_joystick.c */
+/* en */ {IDCLS_SET_USERPORT_JOY_TYPE,    N_("Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_USERPORT_JOY_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_USERPORT_JOY_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_USERPORT_JOY_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_USERPORT_JOY_TYPE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_USERPORT_JOY_TYPE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_USERPORT_JOY_TYPE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_USERPORT_JOY_TYPE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_USERPORT_JOY_TYPE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_USERPORT_JOY_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_USERPORT_JOY_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_USERPORT_JOY_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_USERPORT_JOY_TYPE_TR, ""},  /* fuzzy */
+#endif
+
 /* userport/userport_rtc.c */
 /* en */ {IDCLS_ENABLE_USERPORT_RTC,    N_("Enable Userport DAC for sound output")},
 #ifdef HAS_TRANSLATION
@@ -7644,8 +7695,10 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_DRIVE_SOUND_TR, "Disk sürücülerinin ses emülasyonunu pasifleþtir"},
 #endif
 
-/* drive/drive-cmdline-options.c, printerdrv/interface-serial.c,
-   attach.c, drive/iec/iec-cmdline-options.c, c64/c64gluelogic.c */
+/* drive/drive-cmdline-options.c, drive/iec/plus4exp/plus4exp-cmdline-options.c,
+   drive/iec/c64exp/c64exp-cmdline-options.c, printerdrv/interface-serial.c,
+   attach.c, lightpen.c, c128/functionrom.c, userport/userport_joystick.c,
+   c64/c64gluelogic.c, c64/cart/sfx_soundexpander.c */
 /* en */ {IDCLS_P_TYPE,    N_("<Type>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_TYPE_DA, "<Type>"},

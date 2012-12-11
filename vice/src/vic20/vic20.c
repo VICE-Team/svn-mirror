@@ -69,6 +69,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_joystick.h"
 #include "via.h"
 #include "vic.h"
 #include "vic20-cmdline-options.h"
@@ -254,6 +255,7 @@ int machine_resources_init(void)
         || vic20_midi_resources_init() < 0
 #endif
         || vic20_ieee488_resources_init() < 0
+        || userport_joystick_resources_init() < 0
         || cartio_resources_init() < 0) {
         return -1;
     }
@@ -305,6 +307,7 @@ int machine_cmdline_options_init(void)
         || vic20_midi_cmdline_options_init() < 0
 #endif
         || vic20_ieee488_cmdline_options_init() < 0
+        || userport_joystick_cmdline_options_init() < 0
         || cartio_cmdline_options_init() < 0) {
         return -1;
     }

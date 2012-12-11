@@ -80,6 +80,7 @@
 #include "tpi.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_joystick.h"
 #include "video.h"
 #include "video-sound.h"
 #include "vsync.h"
@@ -134,9 +135,11 @@ int machine_resources_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_resources_init() < 0
 #endif
+        || userport_joystick_resources_init() < 0
         ) {
         return -1;
     }
+
     return 0;
 }
 
@@ -169,6 +172,7 @@ int machine_cmdline_options_init(void)
 #ifndef COMMON_KBD
         || pet_kbd_cmdline_options_init() < 0
 #endif
+        || userport_joystick_cmdline_options_init() < 0
         ) {
         return -1;
     }

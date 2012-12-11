@@ -82,6 +82,7 @@
 #include "tape.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_joystick.h"
 #include "vicii.h"
 #include "video.h"
 #include "video-sound.h"
@@ -228,6 +229,7 @@ int machine_resources_init(void)
         || kbd_resources_init() < 0
 #endif
         || drive_resources_init() < 0
+        || userport_joystick_resources_init() < 0
         ) {
         return -1;
     }
@@ -272,6 +274,7 @@ int machine_cmdline_options_init(void)
         || kbd_cmdline_options_init() < 0
 #endif
         || drive_cmdline_options_init() < 0
+        || userport_joystick_cmdline_options_init() < 0
         ) {
         return -1;
     }

@@ -216,9 +216,9 @@ static MRESULT EXPENTRY pm_extra_joystick(HWND hwnd, ULONG msg, MPARAM mp1, MPAR
                     WinEnableControl(hwnd, ID_CALIBRATE, 0);
                 }
 
-                if (machine_class != VICE_MACHINE_PLUS4) {
-                    resources_get_int("ExtraJoy", &joy_enable);
-                    resources_get_int("ExtraJoyType", &joy_type);
+                if (machine_class != VICE_MACHINE_CBM5x0 && machine_class != VICE_MACHINE_PLUS4) {
+                    resources_get_int("UserportJoy", &joy_enable);
+                    resources_get_int("UserportJoyType", &joy_type);
                     if (joy_enable) {
                         if (joy_type == USERPORT_JOYSTICK_HUMMER || joy_type == USERPORT_JOYSTICK_OEM) {
                             WinEnableControl(hwnd, CB_JOY12, 0);

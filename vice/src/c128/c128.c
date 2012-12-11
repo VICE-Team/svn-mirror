@@ -91,6 +91,7 @@
 #include "tpi.h"
 #include "traps.h"
 #include "types.h"
+#include "userport_joystick.h"
 #include "userport_rtc.h"
 #include "vicii.h"
 #include "vicii-mem.h"
@@ -454,6 +455,7 @@ int machine_resources_init(void)
         || cartridge_resources_init() < 0
         || mmu_resources_init() < 0
         || z80mem_resources_init() < 0
+        || userport_joystick_resources_init() < 0
         || userport_rtc_resources_init() < 0
         || cartio_resources_init() < 0
         || functionrom_resources_init() < 0) {
@@ -506,6 +508,7 @@ int machine_cmdline_options_init(void)
         || cartridge_cmdline_options_init() < 0
         || mmu_cmdline_options_init() < 0
         || functionrom_cmdline_options_init() < 0
+        || userport_joystick_cmdline_options_init() < 0
         || userport_rtc_cmdline_options_init() < 0
         || cartio_cmdline_options_init() < 0
         || z80mem_cmdline_options_init() < 0) {

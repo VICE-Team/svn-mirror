@@ -786,12 +786,12 @@ static void init_extra_joystick_dialog(HWND hwnd)
             SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_KINGSOFT_USERPORT_ADAPTER));
             SendMessage(joy_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_STARBYTE_USERPORT_ADAPTER));
         }
-        resources_get_int("ExtraJoy", &res_value);
+        resources_get_int("UserportJoy", &res_value);
         if (res_value == 0) {
             SendMessage(joy_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
             joyamount = 0;
         } else {
-            resources_get_int("ExtraJoyType", &res_value);
+            resources_get_int("UserportJoyType", &res_value);
             if (res_value == USERPORT_JOYSTICK_HUMMER || res_value == USERPORT_JOYSTICK_OEM) {
                 joyamount = 1;
             } else {
@@ -1233,11 +1233,11 @@ static INT_PTR CALLBACK dialog_proc_2(HWND hwnd, UINT msg, WPARAM wparam, LPARAM
                         resources_set_int("SIDCartJoy", res_value);
                     } else {
                         if (res_value == 0) {
-                            resources_set_int("ExtraJoy", 0);
+                            resources_set_int("UserportJoy", 0);
                         } else {
                             res_value--;
-                            resources_set_int("ExtraJoy", 1);
-                            resources_set_int("ExtraJoyType", res_value);
+                            resources_set_int("UserportJoy", 1);
+                            resources_set_int("UserportJoyType", res_value);
                         }
                     }
                     resources_set_int("JoyDevice3", (int)SendMessage(GetDlgItem(hwnd, IDC_JOY_DEV1), CB_GETCURSEL, 0, 0));
