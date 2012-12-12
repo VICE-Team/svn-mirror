@@ -2615,7 +2615,10 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     }
     gtk_window_resize(GTK_WINDOW(appshell->shell), window_width, window_height);
 
-    if (!canvas->fullscreenconfig->enable) {
+#ifdef HAVE_FULLSCREEN
+    if (!canvas->fullscreenconfig->enable)
+#endif
+    {
         set_window_resources(canvas, window_xpos, window_ypos, window_width, window_height);
     }
 
