@@ -2137,7 +2137,7 @@ if test x"$is_win32" = "xyes"; then
               [ LIBS="$old_LIBS" ]
         )
 
-        if test x"$dsound_header_no_lib" == "xyes" -o x"$dinput_header_no_lib" == "xyes"; then
+        if test x"$dsound_header_no_lib" = "xyes" -o x"$dinput_header_no_lib" = "xyes"; then
               AC_MSG_CHECKING(if CoInitialize can be linked)
               LIBS="$LIBS -lole32"
               AC_LINK_IFELSE([
@@ -2494,8 +2494,12 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   X_LIBS=""
   AC_PATH_XTRA
 
-  PATH_X_LIBS=$X_LIBS
+  PATH_X_LIBS="$X_LIBS"
   LINK_X_LIBS=""
+  dnl This is necessary because CPP tests use `CPPFLAGS' instead.
+  dnl FIXME: Are we sure `AC_PATH_XTRA' will always put only X11
+  dnl include paths in?  Let's hope so.
+  CPPFLAGS="$CPPFLAGS $X_CFLAGS"
 
   have_xvideo_header="no"
   have_xvideo_lib="no"
@@ -2545,11 +2549,6 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
                  LINK_X_LIBS="-lICE $LINK_X_LIBS"],,$X_LIBS)
     AC_CHECK_LIB(SM, SmFreeProperty,[ X_LIBS="-lSM $X_LIBS";
                  LINK_X_LIBS="-lSM $LINK_X_LIBS"],,$X_LIBS)
-
-    dnl This is necessary because CPP tests use `CPPFLAGS' instead.
-    dnl FIXME: Are we sure `AC_PATH_XTRA' will always put only X11
-    dnl include paths in?  Let's hope so.
-    CPPFLAGS="$CPPFLAGS $X_CFLAGS"
 
     MISSING_X_LIBS=""
 
