@@ -535,7 +535,7 @@
     do {                                     \
         CLK_ADD(CLK, (inc));                 \
         STORE((addr) + reg_x_read, (value)); \
-    } while (0)                              \
+    } while (0)
 
 #define STORE_ABS_SH_X(addr, value, inc)                          \
     do {                                                          \
