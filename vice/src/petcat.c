@@ -1091,8 +1091,7 @@ int main(int argc, char **argv)
     if (wr_mode) {
         fprintf(stderr, "\nLoad address %04x\n", load_addr);
         if ((load_addr & 255) != 1) {
-            fprintf (stderr, "I'm afraid I cannot accept that.\n");
-            exit(1);
+            fprintf (stderr, "Warning: odd load address (are you sure?)\n");
         }
 
         fprintf(stderr, "Control code set: %s\n\n", (ctrls ? "enabled" : "disabled"));
