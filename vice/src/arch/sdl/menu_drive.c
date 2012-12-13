@@ -414,6 +414,24 @@ DRIVE_SHOW_EXPAND_CALLBACK(9)
 DRIVE_SHOW_EXPAND_CALLBACK(10)
 DRIVE_SHOW_EXPAND_CALLBACK(11)
 
+#define DRIVE_SHOW_EXBOARD_CALLBACK(x)                         \
+    static UI_MENU_CALLBACK(drive_##x##_show_exboard_callback) \
+    {                                                          \
+        int type;                                              \
+                                                               \
+        type = get_drive_type(x);                              \
+                                                               \
+        if (drive_check_profdos(type) || drive_check_supercard(type)) { \
+            return "->";                                       \
+        }                                                      \
+        return "(N/A)";                                        \
+    }
+
+DRIVE_SHOW_EXBOARD_CALLBACK(8)
+DRIVE_SHOW_EXBOARD_CALLBACK(9)
+DRIVE_SHOW_EXBOARD_CALLBACK(10)
+DRIVE_SHOW_EXBOARD_CALLBACK(11)
+
 #define DRIVE_SHOW_TYPE_CALLBACK(x) \
     static UI_MENU_CALLBACK(drive_##x##_show_type_callback) \
     {                                                       \
@@ -574,6 +592,53 @@ static UI_MENU_CALLBACK(set_expand_callback)
             return "(N/A)";
         } else {
             resources_get_int_sprintf("Drive%iRAM%X", &memory, drive, parameter);
+            if (memory) {
+                return sdl_menu_text_tick;
+            }
+        }
+    }
+    return NULL;
+}
+
+static UI_MENU_CALLBACK(set_exboard_callback)
+{
+    int drive;
+    int parameter;
+    int type;
+    int memory;
+    int available = 0;
+
+    drive = (int)(vice_ptr_to_int(param) >> 16);
+    parameter = (int)(vice_ptr_to_int(param) & 0xffff);
+
+    type = get_drive_type(drive);
+
+    switch (parameter) {
+        case 0:
+            available = drive_check_profdos(type);
+            resources_get_int_sprintf("Drive%iProfDOS", &memory, drive);
+            break;
+        case 1:
+            available = drive_check_supercard(type);
+            resources_get_int_sprintf("Drive%iSuperCard", &memory, drive);
+            break;
+    }
+
+    if (activated) {
+        if (available) {
+            switch (parameter) {
+                case 0:
+                    resources_set_int_sprintf("Drive%iProfDOS", !memory, drive);
+                    break;
+                case 1:
+                    resources_set_int_sprintf("Drive%iSuperCard", !memory, drive);
+                    break;
+            }
+        }
+    } else {
+        if (!available) {
+            return "(N/A)";
+        } else {
             if (memory) {
                 return sdl_menu_text_tick;
             }
@@ -863,6 +928,35 @@ DRIVE_EXPAND_MENU(9)
 DRIVE_EXPAND_MENU(10)
 DRIVE_EXPAND_MENU(11)
 
+UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
+UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
+
+#define DRIVE_EXBOARD_MENU(x)                                         \
+    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {       \
+        { "Professional DOS 1571",                                    \
+          MENU_ENTRY_OTHER,                                           \
+          set_exboard_callback,                                       \
+          (ui_callback_data_t)0 + (x * 0x10000) },                    \
+        { "Professional DOS 1571 ROM file",                           \
+          MENU_ENTRY_DIALOG,                                          \
+          file_string_DriveProfDOS1571Name_callback,                  \
+          (ui_callback_data_t)"Set Professional DOS 1571 ROM image" },\
+        { "Supercard+",                                               \
+          MENU_ENTRY_OTHER,                                           \
+          set_exboard_callback,                                       \
+          (ui_callback_data_t)1 + (x * 0x10000) },                    \
+        { "Supercard+ ROM file",                                      \
+          MENU_ENTRY_DIALOG,                                          \
+          file_string_DriveSuperCardName_callback,                    \
+          (ui_callback_data_t)"Set Supercard+ ROM image" },           \
+        SDL_MENU_LIST_END                                             \
+    };
+
+DRIVE_EXBOARD_MENU(8)
+DRIVE_EXBOARD_MENU(9)
+DRIVE_EXBOARD_MENU(10)
+DRIVE_EXBOARD_MENU(11)
+
 #define DRIVE_IDLE_MENU(x)                                            \
     static const ui_menu_entry_t drive_##x##_idle_menu[] = {          \
         { "None",                                                     \
@@ -917,6 +1011,10 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
           MENU_ENTRY_SUBMENU,                            \
           drive_##x##_show_expand_callback,              \
           (ui_callback_data_t)drive_##x##_expand_menu }, \
+        { "Drive " #x " expansion board",               \
+          MENU_ENTRY_SUBMENU,                            \
+          drive_##x##_show_exboard_callback,              \
+          (ui_callback_data_t)drive_##x##_exboard_menu }, \
         { "Drive " #x " idle method",                    \
           MENU_ENTRY_SUBMENU,                            \
           drive_##x##_show_idle_callback,                \
