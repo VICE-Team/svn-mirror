@@ -221,7 +221,7 @@ static int set_chip_rendermode(int val, void *param)
     old = canvas->videoconfig->filter;
     chip = canvas->videoconfig->chip_name;
 
-    DBG(("set_chip_rendermode %s (%d->%d)", chip, old, val));
+    DBG(("set_chip_rendermode %s (canvas:%p) (%d->%d)", chip, canvas, old, val));
 
     dsize = util_concat(chip, "DoubleSize", NULL);
 
@@ -617,6 +617,8 @@ int video_resources_chip_init(const char *chipname,
                               video_chip_cap_t *video_chip_cap)
 {
     unsigned int i;
+    
+    DBG(("video_resources_chip_init (%s) (canvas:%p) (cap:%p)", chipname, *canvas, video_chip_cap));
 
     video_render_initconfig((*canvas)->videoconfig);
     (*canvas)->videoconfig->cap = video_chip_cap;

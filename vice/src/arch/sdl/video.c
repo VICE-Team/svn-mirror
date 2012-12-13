@@ -696,9 +696,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         sdl_lightpen_adjust.scale_y = (double)*height / (double)actual_height;
     }
 
-    if (canvas == sdl_active_canvas) {
-        video_canvas_set_palette(canvas, canvas->palette);
-    }
+    video_canvas_set_palette(canvas, canvas->palette);
 
     return canvas;
 }
@@ -833,6 +831,8 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
     SDL_PixelFormat *fmt;
     SDL_Color colors[256];
 
+    DBG(("video_canvas_set_palette canvas: %p", canvas));
+
     if (palette == NULL) {
         return 0; /* no palette, nothing to do */
     }
@@ -851,6 +851,11 @@ int video_canvas_set_palette(struct video_canvas_s *canvas, struct palette_s *pa
             col = SDL_MapRGB(fmt, palette->entries[i].red, palette->entries[i].green, palette->entries[i].blue);
         }
         video_render_setphysicalcolor(canvas->videoconfig, i, col, canvas->depth);
+    }
+
+    if (canvas != sdl_active_canvas) {
+        DBG(("video_canvas_set_palette not active canvas, don't update hw palette"));
+        return 0;
     }
 
     if (canvas->depth == 8) {
