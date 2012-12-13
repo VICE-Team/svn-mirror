@@ -1106,7 +1106,7 @@ int ui_init_finish(void)
 int ui_init_finalize(void)
 {
     ui_check_mouse_cursor();
-    keyboard_grab(1);
+    /* keyboard_grab(1); */
     return 0;
 }
 
