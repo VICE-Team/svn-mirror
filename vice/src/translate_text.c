@@ -4852,37 +4852,37 @@ translate_t string_table[] = {
 #endif
 
 /* userport/userport_rtc.c */
-/* en */ {IDCLS_ENABLE_USERPORT_RTC,    N_("Enable Userport DAC for sound output")},
+/* en */ {IDCLS_ENABLE_USERPORT_RTC,    N_("Enable Userport RTC")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_ENABLE_USERPORT_RTC_DA, "Aktivér brugerport DAC for lydoutput"},
-/* de */ {IDCLS_ENABLE_USERPORT_RTC_DE, "Userport DAC Sound aktivieren"},
-/* es */ {IDCLS_ENABLE_USERPORT_RTC_ES, "Permitir puerto DAC para salida de sonido"},
+/* da */ {IDCLS_ENABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_USERPORT_RTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_ENABLE_USERPORT_RTC_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_USERPORT_RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, "Attiva DAC su userport per la riproduzione audio"},
+/* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, "Activeer userport DAC voor geluidsuitvoer"},
-/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, "W³±cz userport DAC jako wyj¶cie d¼wiêku"},
-/* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, "Enable Userport DAC for sound output"},
-/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, "Aktivera D/A-omvandlare på användarporten för ljudutdata"},
-/* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, "Ses çýkýþý için Userport DAC'ý aktif et"},
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
 #endif
 
 /* userport/userport_rtc.c */
-/* en */ {IDCLS_DISABLE_USERPORT_RTC,    N_("Disable Userport DAC for sound output")},
+/* en */ {IDCLS_DISABLE_USERPORT_RTC,    N_("Disable Userport RTC")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_DISABLE_USERPORT_RTC_DA, "Deaktivér brugerport DAC for lydoutput"},
-/* de */ {IDCLS_DISABLE_USERPORT_RTC_DE, "Userport DAC Sound deaktivieren"},
-/* es */ {IDCLS_DISABLE_USERPORT_RTC_ES, "Deshabilitar puerto DAC para salida de sonido"},
+/* da */ {IDCLS_DISABLE_USERPORT_RTC_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_USERPORT_RTC_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_DISABLE_USERPORT_RTC_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_USERPORT_RTC_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, "Disattiva DAC su userport per la riproduzione audio"},
+/* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, "Userport DAC voor geluidsuitvoer uitschakelen"},
-/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, "Wy³±cz userport DAC jako wy¶cie d¼wiêku"},
-/* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, "Disable Userport DAC for sound output"},
-/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, "Inaktivera D/A-omvandlare på användarporten för ljudutdata"},
-/* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, "Ses çýkýþý için Userport DAC'ý pasifleþtir"},
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
 #endif
 
 /* initcmdline.c */
