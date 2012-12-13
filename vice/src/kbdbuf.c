@@ -82,8 +82,9 @@ static void kbd_buf_parse_string(const char *string)
 
     len = strlen(string);
 
-    if (len > QUEUE_SIZE)
+    if (len > QUEUE_SIZE) {
         len = QUEUE_SIZE;
+    }
 
     kbd_buf_string = lib_realloc(kbd_buf_string, len + 1);
     memset(kbd_buf_string, 0, len + 1);
@@ -144,10 +145,11 @@ void kbdbuf_reset(int location, int plocation, int size, CLOCK mincycles)
     buffer_size = size;
     kernal_init_cycles = mincycles;
 
-    if (mincycles)
+    if (mincycles) {
         kbd_buf_enabled = 1;
-    else
+    } else {
         kbd_buf_enabled = 0;
+    }
 }
 
 /* Initialization.  */
@@ -155,8 +157,9 @@ void kbdbuf_init(int location, int plocation, int size, CLOCK mincycles)
 {
     kbdbuf_reset(location, plocation, size, mincycles);
 
-    if (kbd_buf_string != NULL)
+    if (kbd_buf_string != NULL) {
         kbdbuf_feed(kbd_buf_string);
+    }
 }
 
 void kbdbuf_shutdown(void)
@@ -176,11 +179,12 @@ int kbdbuf_feed(const char *string)
     const int num = (int)strlen(string);
     int i, p;
 
-    if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled)
+    if (num_pending + num > QUEUE_SIZE || !kbd_buf_enabled) {
         return -1;
+    }
 
     for (p = (head_idx + num_pending) % QUEUE_SIZE, i = 0;
-        i < num; p = (p + 1) % QUEUE_SIZE, i++) {
+         i < num; p = (p + 1) % QUEUE_SIZE, i++) {
         queue[p] = string[i];
     }
 
@@ -199,16 +203,17 @@ void kbdbuf_flush(void)
     unsigned int i, n;
 
     if ((!kbd_buf_enabled)
-          || num_pending == 0
-          || maincpu_clk < kernal_init_cycles
-          || !kbdbuf_is_empty())
+        || num_pending == 0
+        || maincpu_clk < kernal_init_cycles
+        || !kbdbuf_is_empty()) {
         return;
+    }
 
     n = num_pending > buffer_size ? buffer_size : num_pending;
-    for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++)
+    for (i = 0; i < n; head_idx = (head_idx + 1) % QUEUE_SIZE, i++) {
         mem_store((WORD)(buffer_location + i), queue[head_idx]);
+    }
 
     mem_store((WORD)(num_pending_location), (BYTE)(n));
     num_pending -= n;
 }
-

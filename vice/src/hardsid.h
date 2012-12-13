@@ -39,4 +39,3 @@ extern int hardsid_available(void);
 extern void hardsid_set_device(unsigned int chipno, unsigned int device);
 
 #endif
-

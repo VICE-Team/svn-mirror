@@ -30,8 +30,7 @@
 #include "types.h"
 
 void *vice_dynlib_open(const char *name);
-void *vice_dynlib_symbol(void *handle,const char *name);
+void *vice_dynlib_symbol(void *handle, const char *name);
 int vice_dynlib_close(void *handle);
 
 #endif
-

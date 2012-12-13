@@ -59,4 +59,3 @@ extern enum rs232handshake_in rs232drv_get_status(int fd);
 extern void rs232drv_set_bps(int fd, unsigned int bps);
 
 #endif
-

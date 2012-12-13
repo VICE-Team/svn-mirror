@@ -24,7 +24,7 @@
  *
  */
 
-#ifdef HAVE_TFE 
+#ifdef HAVE_TFE
 #else
   #error RAWNET.H should not be included if HAVE_TFE is not defined!
 #endif /* #ifdef HAVE_TFE */

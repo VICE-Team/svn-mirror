@@ -1,5 +1,5 @@
 
-/*! \file vice.h 
+/*! \file vice.h
  *
  *  \brief Main header file for VICE.
  *
@@ -105,7 +105,7 @@
 #if defined(sun) || defined(__sun)
 #  if !defined(__SVR4) && !defined(__svr4__)
 #    include <unistd.h>
-     typedef int ssize_t;
+typedef int ssize_t;
 #  endif
 #endif
 

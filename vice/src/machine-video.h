@@ -35,4 +35,3 @@ extern void machine_video_init(void);
 extern struct video_canvas_s *machine_video_canvas_get(unsigned int window);
 
 #endif
-

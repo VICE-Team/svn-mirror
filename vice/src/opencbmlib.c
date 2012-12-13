@@ -4,7 +4,7 @@
  * Written by
  *  Andreas Boose <viceteam@t-online.de>
  *  Christian Vogelgsang <chris@vogelgsang.org>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -48,10 +48,10 @@
 static void *opencbm_so = NULL;
 
 /* Macro for getting function pointers from opencbm dll.  */
-#define GET_SYMBOL_AND_TEST(_name_)                                      \
+#define GET_SYMBOL_AND_TEST(_name_)                                               \
     opencbmlib->p_##_name_ = (_name_##_t)vice_dynlib_symbol(opencbm_so, #_name_); \
-    if (opencbmlib->p_##_name_ == NULL) {                                      \
-        log_debug("symbol " #_name_ " failed!");                       \
+    if (opencbmlib->p_##_name_ == NULL) {                                         \
+        log_debug("symbol " #_name_ " failed!");                                  \
     }
 
 static void opencbmlib_free_library(void)
@@ -88,7 +88,7 @@ static int opencbmlib_load_library(opencbmlib_t *opencbmlib)
         GET_SYMBOL_AND_TEST(cbm_untalk);
         GET_SYMBOL_AND_TEST(cbm_get_eoi);
         GET_SYMBOL_AND_TEST(cbm_reset);
-        
+
         log_verbose("sucessfully loaded " OPENCBM_SO_NAME);
     }
 
@@ -107,11 +107,11 @@ void opencbmlib_close(void)
 
 unsigned int opencbmlib_is_available(void)
 {
-    if (opencbm_so != NULL)
+    if (opencbm_so != NULL) {
         return 1;
+    }
 
     return 0;
 }
 
 #endif
-

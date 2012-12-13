@@ -51,7 +51,7 @@
 #define MOTOR_DELAY         32000
 #define TAP_BUFFER_LENGTH   100000
 
-/* at least every DATASETTE_MAX_GAP cycle there should be an alarm */ 
+/* at least every DATASETTE_MAX_GAP cycle there should be an alarm */
 #define DATASETTE_MAX_GAP   100000
 
 
@@ -183,7 +183,7 @@ int datasette_cmdline_options_init(void)
 
 /* constants to make the counter-calculation a little faster */
 /* see datasette.h for the complete formular                 */
-static const double ds_c1 = DS_V_PLAY / DS_D/PI;
+static const double ds_c1 = DS_V_PLAY / DS_D / PI;
 static const double ds_c2 = (DS_R * DS_R) / (DS_D * DS_D);
 static const double ds_c3 = DS_R / DS_D;
 
@@ -191,14 +191,15 @@ static void datasette_internal_reset(void);
 
 static void datasette_update_ui_counter(void)
 {
-    if (current_image == NULL)
+    if (current_image == NULL) {
         return;
+    }
 
     current_image->counter = (1000 - datasette_counter_offset +
-                             (int) (DS_G *
-                             (sqrt((current_image->cycle_counter
-                             / (datasette_cycles_per_second / 8.0)
-                             * ds_c1) + ds_c2)- ds_c3))) % 1000;
+                              (int) (DS_G *
+                                     (sqrt((current_image->cycle_counter
+                                            / (datasette_cycles_per_second / 8.0)
+                                            * ds_c1) + ds_c2) - ds_c3))) % 1000;
 
     ui_display_tape_counter(current_image->counter);
 }
@@ -206,13 +207,14 @@ static void datasette_update_ui_counter(void)
 
 void datasette_reset_counter(void)
 {
-    if (current_image == NULL)
+    if (current_image == NULL) {
         return;
+    }
 
     datasette_counter_offset = (1000 + (int) (DS_G *
-                               (sqrt((current_image->cycle_counter
-                               / (datasette_cycles_per_second / 8.0)
-                               * ds_c1) + ds_c2)- ds_c3))) % 1000;
+                                              (sqrt((current_image->cycle_counter
+                                                     / (datasette_cycles_per_second / 8.0)
+                                                     * ds_c1) + ds_c2) - ds_c3))) % 1000;
     datasette_update_ui_counter();
 }
 
@@ -224,14 +226,15 @@ inline static int datasette_move_buffer_forward(int offset)
     */
     if (next_tap + offset >= last_tap) {
         if (fseek(current_image->fd, current_image->current_file_seek_position
-            + current_image->offset, SEEK_SET)) {
-            log_error(datasette_log,"Cannot read in tap-file.");
+                  + current_image->offset, SEEK_SET)) {
+            log_error(datasette_log, "Cannot read in tap-file.");
             return 0;
         }
         last_tap = (long)fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
         next_tap = 0;
-        if (next_tap >= last_tap)
+        if (next_tap >= last_tap) {
             return 0;
+        }
     }
     return 1;
 }
@@ -241,43 +244,47 @@ inline static int datasette_move_buffer_back(int offset)
     /* reads buffer to fit the next gap-read at current_file_seek_position-1
        tap_buffer[next_tap] ~ current_file_seek_position
     */
-    if (next_tap+offset < 0) {
-        if (current_image->current_file_seek_position >= TAP_BUFFER_LENGTH)
+    if (next_tap + offset < 0) {
+        if (current_image->current_file_seek_position >= TAP_BUFFER_LENGTH) {
             next_tap = TAP_BUFFER_LENGTH;
-        else
+        } else {
             next_tap = current_image->current_file_seek_position;
+        }
         if (fseek(current_image->fd, current_image->current_file_seek_position
-            - next_tap + current_image->offset, SEEK_SET)) {
-            log_error(datasette_log,"Cannot read in tap-file.");
+                  - next_tap + current_image->offset, SEEK_SET)) {
+            log_error(datasette_log, "Cannot read in tap-file.");
             return 0;
         }
         last_tap = (long)fread(tap_buffer, 1, TAP_BUFFER_LENGTH, current_image->fd);
-        if (next_tap > last_tap)
+        if (next_tap > last_tap) {
             return 0;
+        }
     }
     return 1;
 }
 
 inline static int fetch_gap(CLOCK *gap, int *direction, long read_tap)
 {
-    if ((read_tap >= last_tap) || (read_tap < 0))
+    if ((read_tap >= last_tap) || (read_tap < 0)) {
         return -1;
+    }
 
     *gap = tap_buffer[read_tap];
 
     if ((current_image->version == 0) || *gap) {
         *gap = (*gap ? (CLOCK)(*gap * 8) : (CLOCK)datasette_zero_gap_delay)
-        + (CLOCK)datasette_speed_tuning;
+               + (CLOCK)datasette_speed_tuning;
     } else {
         if (read_tap >= last_tap - 3) {
             return -1;
         }
         *direction *= 4;
         *gap = tap_buffer[read_tap + 1]
-             + (tap_buffer[read_tap + 2] << 8)
-             + (tap_buffer[read_tap + 3] << 16);
-        if (!(*gap))
+               + (tap_buffer[read_tap + 2] << 8)
+               + (tap_buffer[read_tap + 3] << 16);
+        if (!(*gap)) {
             *gap = (CLOCK)datasette_zero_gap_delay;
+        }
     }
 
     return 0;
@@ -307,23 +314,24 @@ inline static int read_gap_backward_v1(long *read_tap)
     current_image->current_file_seek_position -= 4;
     next_tap -= 4;
 
-    while ((non_zeros_in_a_row < 3)
-        && current_image->current_file_seek_position) {
-        if (!datasette_move_buffer_back(-1))
+    while ((non_zeros_in_a_row < 3) && current_image->current_file_seek_position) {
+        if (!datasette_move_buffer_back(-1)) {
             return 1;
+        }
         current_image->current_file_seek_position--;
         next_tap--;
-        if (tap_buffer[next_tap])
+        if (tap_buffer[next_tap]) {
             non_zeros_in_a_row++;
-        else
+        } else {
             non_zeros_in_a_row = 0;
+        }
     }
 
     /* now forward */
-    while (current_image->current_file_seek_position
-        < remember_file_seek_position - 4) {
-        if (!datasette_move_buffer_forward(1))
+    while (current_image->current_file_seek_position < remember_file_seek_position - 4) {
+        if (!datasette_move_buffer_forward(1)) {
             return -1;
+        }
         if (tap_buffer[next_tap]) {
             current_image->current_file_seek_position++;
             next_tap++;
@@ -332,12 +340,12 @@ inline static int read_gap_backward_v1(long *read_tap)
             next_tap += 4;
         }
     }
-    if (!datasette_move_buffer_forward(4))
+    if (!datasette_move_buffer_forward(4)) {
         return -1;
+    }
 
     *read_tap = next_tap;
-    next_tap += (remember_file_seek_position
-                - current_image->current_file_seek_position);
+    next_tap += (remember_file_seek_position - current_image->current_file_seek_position);
     current_image->current_file_seek_position = remember_file_seek_position;
 
     return 0;
@@ -351,49 +359,55 @@ static CLOCK datasette_read_gap(int direction)
 
 /*    if (current_image->system != 2 || current_image->version != 1
         || !fullwave) {*/
-    if (current_image->system != 2 ) {
-        if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
+    if (current_image->system != 2) {
+        if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
             return 0;
-        if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
+        }
+        if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4)) {
             return 0;
+        }
 
         if (direction > 0) {
             read_gap_forward(&read_tap);
         } else {
-            if ((current_image->version == 0) || (next_tap < 4)
-                || tap_buffer[next_tap-4]) {
+            if ((current_image->version == 0) || (next_tap < 4) || tap_buffer[next_tap - 4]) {
                 read_gap_backward_v0(&read_tap);
             } else {
-                if (read_gap_backward_v1(&read_tap) < 0)
+                if (read_gap_backward_v1(&read_tap) < 0) {
                     return 0;
+                }
             }
         }
-        if (fetch_gap(&gap, &direction, read_tap) < 0)
+        if (fetch_gap(&gap, &direction, read_tap) < 0) {
             return 0;
+        }
         next_tap += direction;
         current_image->current_file_seek_position += direction;
     }
 
     if (current_image->system == 2 && current_image->version == 1) {
         if (!fullwave) {
-            if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
+            if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
                 return 0;
-            if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
+            }
+            if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4)) {
                 return 0;
+            }
 
             if (direction > 0) {
                 read_gap_forward(&read_tap);
             } else {
-                if ((current_image->version == 0) || (next_tap < 4)
-                    || tap_buffer[next_tap-4]) {
+                if ((current_image->version == 0) || (next_tap < 4) || tap_buffer[next_tap - 4]) {
                     read_gap_backward_v0(&read_tap);
                 } else {
-                    if (read_gap_backward_v1(&read_tap) < 0)
+                    if (read_gap_backward_v1(&read_tap) < 0) {
                         return 0;
+                    }
                 }
             }
-            if (fetch_gap(&gap, &direction, read_tap) < 0)
+            if (fetch_gap(&gap, &direction, read_tap) < 0) {
                 return 0;
+            }
 
             fullwave_gap = gap;
             next_tap += direction;
@@ -403,24 +417,27 @@ static CLOCK datasette_read_gap(int direction)
         }
         fullwave ^= 1;
     } else if (current_image->system == 2 && current_image->version == 2) {
-        if ((direction < 0) && !datasette_move_buffer_back(direction * 4))
+        if ((direction < 0) && !datasette_move_buffer_back(direction * 4)) {
             return 0;
-        if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4))
+        }
+        if ((direction > 0 ) && !datasette_move_buffer_forward(direction * 4)) {
             return 0;
+        }
 
         if (direction > 0) {
             read_gap_forward(&read_tap);
         } else {
-            if ((current_image->version == 0) || (next_tap < 4)
-                || tap_buffer[next_tap-4]) {
+            if ((current_image->version == 0) || (next_tap < 4) || tap_buffer[next_tap - 4]) {
                 read_gap_backward_v0(&read_tap);
             } else {
-                if (read_gap_backward_v1(&read_tap) < 0)
+                if (read_gap_backward_v1(&read_tap) < 0) {
                     return 0;
+                }
             }
         }
-        if (fetch_gap(&gap, &direction, read_tap) < 0)
+        if (fetch_gap(&gap, &direction, read_tap) < 0) {
             return 0;
+        }
         gap *= 2;
         fullwave ^= 1;
         next_tap += direction;
@@ -439,8 +456,9 @@ static void datasette_read_bit(CLOCK offset, void *data)
     alarm_unset(datasette_alarm);
     datasette_alarm_pending = 0;
 
-    if (current_image == NULL)
+    if (current_image == NULL) {
         return;
+    }
 
     /* check for delay of motor stop */
     if (motor_stop_clk > 0 && maincpu_clk >= motor_stop_clk) {
@@ -449,39 +467,41 @@ static void datasette_read_bit(CLOCK offset, void *data)
         datasette_motor = 0;
     }
 
-    if (!datasette_motor)
+    if (!datasette_motor) {
         return;
+    }
 
     switch (current_image->mode) {
-      case DATASETTE_CONTROL_START:
-        direction = 1;
-        speed_of_tape = DS_V_PLAY;
-        if (!datasette_long_gap_pending)
-            datasette_trigger_flux_change(fullwave);
-        break;
-      case DATASETTE_CONTROL_FORWARD:
-        direction = 1;
-        speed_of_tape = DS_RPS_FAST / DS_G
-            * sqrt(4 * PI * DS_D
-            * DS_V_PLAY / datasette_cycles_per_second * 8
-            * current_image->cycle_counter
-            + 4 * PI * PI * DS_R * DS_R);
-        break;
-      case DATASETTE_CONTROL_REWIND:
-        direction = -1;
-        speed_of_tape = DS_RPS_FAST / DS_G
-            * sqrt(4 * PI * DS_D
-            * DS_V_PLAY / datasette_cycles_per_second * 8
-            * (current_image->cycle_counter_total
-            - current_image->cycle_counter)
-            + 4 * PI * PI * DS_R * DS_R);
-        break;
-      case DATASETTE_CONTROL_RECORD:
-      case DATASETTE_CONTROL_STOP:
-        return;
-      default:
-        log_error(datasette_log, "Unknown datasette mode.");
-        return;
+        case DATASETTE_CONTROL_START:
+            direction = 1;
+            speed_of_tape = DS_V_PLAY;
+            if (!datasette_long_gap_pending) {
+                datasette_trigger_flux_change(fullwave);
+            }
+            break;
+        case DATASETTE_CONTROL_FORWARD:
+            direction = 1;
+            speed_of_tape = DS_RPS_FAST / DS_G
+                            * sqrt(4 * PI * DS_D
+                                   * DS_V_PLAY / datasette_cycles_per_second * 8
+                                   * current_image->cycle_counter
+                                   + 4 * PI * PI * DS_R * DS_R);
+            break;
+        case DATASETTE_CONTROL_REWIND:
+            direction = -1;
+            speed_of_tape = DS_RPS_FAST / DS_G
+                            * sqrt(4 * PI * DS_D
+                                   * DS_V_PLAY / datasette_cycles_per_second * 8
+                                   * (current_image->cycle_counter_total
+                                      - current_image->cycle_counter)
+                                   + 4 * PI * PI * DS_R * DS_R);
+            break;
+        case DATASETTE_CONTROL_RECORD:
+        case DATASETTE_CONTROL_STOP:
+            return;
+        default:
+            log_error(datasette_log, "Unknown datasette mode.");
+            return;
     }
 
     if (direction + datasette_last_direction == 0) {
@@ -496,8 +516,9 @@ static void datasette_read_bit(CLOCK offset, void *data)
         datasette_long_gap_pending = 0;
     } else {
         gap = datasette_read_gap(direction);
-        if (gap)
+        if (gap) {
             datasette_long_gap_elapsed = 0;
+        }
     }
     if (!gap) {
         datasette_control(DATASETTE_CONTROL_STOP);
@@ -510,10 +531,11 @@ static void datasette_read_bit(CLOCK offset, void *data)
     datasette_long_gap_elapsed += gap;
     datasette_last_direction = direction;
 
-    if (direction > 0)
+    if (direction > 0) {
         current_image->cycle_counter += gap / 8;
-    else
+    } else {
         current_image->cycle_counter -= gap / 8;
+    }
 
     gap -= offset;
 
@@ -533,10 +555,12 @@ static void datasette_read_bit(CLOCK offset, void *data)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
-    if (last_write_clk > (CLOCK)0)
+    if (last_write_clk > (CLOCK)0) {
         last_write_clk -= sub;
-    if (motor_stop_clk > (CLOCK)0)
+    }
+    if (motor_stop_clk > (CLOCK)0) {
         motor_stop_clk -= sub;
+    }
 }
 
 void datasette_init(void)
@@ -615,8 +639,9 @@ static void datasette_internal_reset(void)
             datasette_alarm_pending = 0;
         }
         datasette_control(DATASETTE_CONTROL_STOP);
-        if (!autostart_ignore_reset)
+        if (!autostart_ignore_reset) {
             tap_seek_start(current_image);
+        }
         current_image->cycle_counter = 0;
         datasette_counter_offset = 0;
         datasette_long_gap_pending = 0;
@@ -634,8 +659,9 @@ void datasette_reset(void)
 
     resources_get_int("DatasetteResetWithCPU", &ds_reset);
 
-    if (ds_reset)
+    if (ds_reset) {
         datasette_internal_reset();
+    }
 }
 
 static void datasette_start_motor(void)
@@ -656,10 +682,11 @@ static void datasette_event_record(int command)
 
     rec_cmd = (DWORD)command;
 
-    if (network_connected())
+    if (network_connected()) {
         network_event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
-    else
+    } else {
         event_record(EVENT_DATASETTE, (void *)&rec_cmd, sizeof(DWORD));
+    }
 }
 
 void datasette_event_playback(CLOCK offset, void *data)
@@ -676,44 +703,50 @@ void datasette_event_playback(CLOCK offset, void *data)
 static void datasette_control_internal(int command)
 {
     if (current_image != NULL) {
-        switch(command) {
-          case DATASETTE_CONTROL_RESET_COUNTER:
-            datasette_reset_counter();
-            break;
-          case DATASETTE_CONTROL_RESET:
-            datasette_internal_reset();
-          case DATASETTE_CONTROL_STOP:
-            current_image->mode = DATASETTE_CONTROL_STOP;
-            datasette_set_tape_sense(0);
-            last_write_clk = (CLOCK)0;
-            break;
-          case DATASETTE_CONTROL_START:
-            current_image->mode = DATASETTE_CONTROL_START;
-            datasette_set_tape_sense(1);
-            last_write_clk = (CLOCK)0;
-            if (datasette_motor) datasette_start_motor();
-            break;
-          case DATASETTE_CONTROL_FORWARD:
-            current_image->mode = DATASETTE_CONTROL_FORWARD;
-            datasette_forward();
-            datasette_set_tape_sense(1);
-            last_write_clk = (CLOCK)0;
-            if (datasette_motor) datasette_start_motor();
-            break;
-          case DATASETTE_CONTROL_REWIND:
-            current_image->mode = DATASETTE_CONTROL_REWIND;
-            datasette_rewind();
-            datasette_set_tape_sense(1);
-            last_write_clk = (CLOCK)0;
-            if (datasette_motor) datasette_start_motor();
-            break;
-          case DATASETTE_CONTROL_RECORD:
-            if (current_image->read_only == 0) {
-                current_image->mode = DATASETTE_CONTROL_RECORD;
+        switch (command) {
+            case DATASETTE_CONTROL_RESET_COUNTER:
+                datasette_reset_counter();
+                break;
+            case DATASETTE_CONTROL_RESET:
+                datasette_internal_reset();
+            case DATASETTE_CONTROL_STOP:
+                current_image->mode = DATASETTE_CONTROL_STOP;
+                datasette_set_tape_sense(0);
+                last_write_clk = (CLOCK)0;
+                break;
+            case DATASETTE_CONTROL_START:
+                current_image->mode = DATASETTE_CONTROL_START;
                 datasette_set_tape_sense(1);
                 last_write_clk = (CLOCK)0;
-            }
-            break;
+                if (datasette_motor) {
+                    datasette_start_motor();
+                }
+                break;
+            case DATASETTE_CONTROL_FORWARD:
+                current_image->mode = DATASETTE_CONTROL_FORWARD;
+                datasette_forward();
+                datasette_set_tape_sense(1);
+                last_write_clk = (CLOCK)0;
+                if (datasette_motor) {
+                    datasette_start_motor();
+                }
+                break;
+            case DATASETTE_CONTROL_REWIND:
+                current_image->mode = DATASETTE_CONTROL_REWIND;
+                datasette_rewind();
+                datasette_set_tape_sense(1);
+                last_write_clk = (CLOCK)0;
+                if (datasette_motor) {
+                    datasette_start_motor();
+                }
+                break;
+            case DATASETTE_CONTROL_RECORD:
+                if (current_image->read_only == 0) {
+                    current_image->mode = DATASETTE_CONTROL_RECORD;
+                    datasette_set_tape_sense(1);
+                    last_write_clk = (CLOCK)0;
+                }
+                break;
         }
         ui_display_tape_control_status(current_image->mode);
         /* clear the tap-buffer */
@@ -723,12 +756,14 @@ static void datasette_control_internal(int command)
 
 void datasette_control(int command)
 {
-    if (event_playback_active())
+    if (event_playback_active()) {
         return;
+    }
 
     datasette_event_record(command);
-    if (!network_connected())
+    if (!network_connected()) {
         datasette_control_internal(command);
+    }
 }
 
 void datasette_set_motor(int flag)
@@ -768,8 +803,9 @@ inline static void bit_write(void)
         write_time = write_time / 2;
     }
 
-    if (write_time < (CLOCK)7)
+    if (write_time < (CLOCK)7) {
         return;
+    }
 
     if (write_time < (CLOCK)(255 * 8 + 7)) {
         write_gap = (BYTE)(write_time / (CLOCK)8);
@@ -799,8 +835,9 @@ inline static void bit_write(void)
             }
         }
     }
-    if (current_image->size < current_image->current_file_seek_position)
+    if (current_image->size < current_image->current_file_seek_position) {
         current_image->size = current_image->current_file_seek_position;
+    }
 
     current_image->cycle_counter += write_time / 8;
 
@@ -809,11 +846,11 @@ inline static void bit_write(void)
         current_image->cycle_counter += write_time / 8;
     }
 
-    if (current_image->cycle_counter_total
-        < current_image->cycle_counter)
+    if (current_image->cycle_counter_total < current_image->cycle_counter) {
         current_image->cycle_counter_total = current_image->cycle_counter;
-        current_image->has_changed = 1;
-        datasette_update_ui_counter();
+    }
+    current_image->has_changed = 1;
+    datasette_update_ui_counter();
 }
 
 void datasette_toggle_write_bit(int write_bit)
@@ -841,12 +878,12 @@ int datasette_write_snapshot(snapshot_t *s)
 
     m = snapshot_module_create(s, "DATASETTE", DATASETTE_SNAP_MAJOR,
                                DATASETTE_SNAP_MINOR);
-    if (m == NULL)
-       return -1;
+    if (m == NULL) {
+        return -1;
+    }
 
     if (datasette_alarm_pending) {
-        alarm_clk = datasette_alarm->context->
-                        pending_alarms[datasette_alarm->pending_idx].clk;
+        alarm_clk = datasette_alarm->context->pending_alarms[datasette_alarm->pending_idx].clk;
     }
 
     if (0
@@ -863,14 +900,14 @@ int datasette_write_snapshot(snapshot_t *s)
         || SMW_DW(m, datasette_zero_gap_delay) < 0
         || SMW_DW(m, datasette_speed_tuning) < 0
         || SMW_B(m, (BYTE)fullwave) < 0
-        || SMW_DW(m, fullwave_gap) < 0) 
-    {
+        || SMW_DW(m, fullwave_gap) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    if (snapshot_module_close(m) < 0)
+    if (snapshot_module_close(m) < 0) {
         return -1;
+    }
 
     return 0;
 }
@@ -901,16 +938,16 @@ int datasette_read_snapshot(snapshot_t *s)
         || SMR_DW_INT(m, &datasette_zero_gap_delay) < 0
         || SMR_DW_INT(m, &datasette_speed_tuning) < 0
         || SMR_B_INT(m, (int *)&fullwave) < 0
-        || SMR_DW(m, &fullwave_gap) < 0) 
-    {
+        || SMR_DW(m, &fullwave_gap) < 0) {
         snapshot_module_close(m);
         return -1;
     }
 
-    if (datasette_alarm_pending)
+    if (datasette_alarm_pending) {
         alarm_set(datasette_alarm, alarm_clk);
-    else
+    } else {
         alarm_unset(datasette_alarm);
+    }
 
     ui_set_tape_status(current_image ? 1 : 0);
     datasette_update_ui_counter();
@@ -918,10 +955,11 @@ int datasette_read_snapshot(snapshot_t *s)
     if (current_image) {
         ui_display_tape_control_status(current_image->mode);
 
-        if (current_image->mode > 0)
+        if (current_image->mode > 0) {
             datasette_set_tape_sense(1);
-        else
+        } else {
             datasette_set_tape_sense(0);
+        }
     }
 
     /* reset buffer */

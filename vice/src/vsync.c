@@ -101,8 +101,9 @@ static int set_relative_speed(int val, void *param)
 
 static int set_refresh_rate(int val, void *param)
 {
-    if (val < 0)
+    if (val < 0) {
         return -1;
+    }
 
     refresh_rate = val;
 
@@ -238,14 +239,14 @@ static void display_speed(int num_frames)
     /* Lie a bit by correcting for sound speed.  This yields a nice
        100%, 50 fps instead of e.g. 98%, 49fps if the sound hardware
        should have a slightly different understanding of time. */
-    double factor = timer_speed ? (double)frame_ticks/frame_ticks_orig : 1.0;
+    double factor = timer_speed ? (double)frame_ticks / frame_ticks_orig : 1.0;
 
     diff_clk = maincpu_clk - speed_eval_prev_clk;
     diff_sec = (double)(signed long)(now - display_start) / vsyncarch_freq
                / factor;
     frame_rate = num_frames / diff_sec;
     speed_index = 100.0 * diff_clk / (cycles_per_sec * diff_sec);
-    
+
     if (!console_mode && machine_class != VICE_MACHINE_VSID) {
         vsyncarch_display_speed(speed_index, frame_rate, warp_mode_enabled);
     }
@@ -319,7 +320,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
      * these are the counters to show how many frames are skipped
      * since the last vsync_display_speed
      */
-    static int frame_counter  = 0;
+    static int frame_counter = 0;
     static int skipped_frames = 0;
 
     /*
@@ -357,8 +358,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     vsyncarch_presync();
 
     /* Run vsync jobs. */
-    if (network_connected())
+    if (network_connected()) {
         network_hook_time = vsyncarch_gettime();
+    }
 
     vsync_hook();
 
@@ -392,8 +394,8 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
     if (!speed_eval_suspended &&
         (signed long)(now - display_start) >= 2 * vsyncarch_freq) {
         display_speed(frame_counter - skipped_frames);
-        display_start  = now;
-        frame_counter  = 0;
+        display_start = now;
+        frame_counter = 0;
         skipped_frames = 0;
     }
 
@@ -489,9 +491,9 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
             || (skipped_redraw < refresh_rate - 1)
             || ((!timer_speed || delay > compval)
                 && !refresh_rate
-               )
-           )
-       ) {
+                )
+            )
+        ) {
         skip_next_frame = 1;
         skipped_redraw++;
     } else {
@@ -499,7 +501,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         skipped_redraw = 0;
     }
 #if (defined(HAVE_OPENGL_SYNC)) && !defined(USE_SDLUI)
-    }
+}
 #endif
 
     /*
@@ -530,7 +532,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         /* Account for both relative and absolute delay. */
         adjust = (avg_sdelay - prev_sdelay + avg_sdelay / 8) / frames_adjust;
         /* Maximum adjustment step 1%. */
-        if (labs(adjust) > frame_ticks/100) {
+        if (labs(adjust) > frame_ticks / 100) {
             adjust = adjust / labs(adjust) * frame_ticks / 100;
         }
         frame_ticks -= adjust;
@@ -542,7 +544,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
         adjust_start = now;
     } else {
         /* Actual sound delay is sound delay minus vsync delay. */
-        signed long sdelay = (signed long)(sound_delay*vsyncarch_freq);
+        signed long sdelay = (signed long)(sound_delay * vsyncarch_freq);
         avg_sdelay += sdelay;
     }
 
@@ -552,7 +554,7 @@ int vsync_do_vsync(struct video_canvas_s *c, int been_skipped)
 #if 0
     FILE *fd = fopen("latencylog.txt", "a");
     fprintf(fd, "%d %ld %ld %lf\n",
-        vsync_frame_counter, frame_ticks, delay, sound_delay * 1000000);
+            vsync_frame_counter, frame_ticks, delay, sound_delay * 1000000);
     fclose(fd);
 #endif
     return skip_next_frame;
@@ -567,8 +569,9 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
 {
     unsigned long nowi, lastx, max, frm, vbl;
 
-    if (c->refreshrate <= 0.0f)
+    if (c->refreshrate <= 0.0f) {
         return;
+    }
 
     nowi = vsyncarch_frequency();
 
@@ -581,12 +584,12 @@ void vsyncarch_verticalblank(video_canvas_t *c, float rate, int frames)
     max = (frm * 7) >> 3;
     vbl = 0;
     while (max >= (nowi - lastx)) {
-    vsyncarch_sync_with_raster(c);
+        vsyncarch_sync_with_raster(c);
         nowi = vsyncarch_gettime();
         vbl = 1;
     }
     if ((!vbl) && (nosynccount < 16)) {
-        nosynccount ++;
+        nosynccount++;
     } else {
         last = nowi;
         nosynccount = 0;
@@ -603,4 +606,3 @@ void vsyncarch_prepare_vbl(void)
 #endif /* defined (HAVE_OPENGL_SYNC) && !defined(USE_SDLUI) */
 
 #endif
-

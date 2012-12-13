@@ -64,8 +64,8 @@ char *util_concat(const char *s, ...)
 
     va_start(ap, s);
     for (i = 1;
-        i < _CONCAT_MAX_ARGS && (arg = va_arg(ap, const char *)) != NULL;
-        i++) {
+         i < _CONCAT_MAX_ARGS && (arg = va_arg(ap, const char *)) != NULL;
+         i++) {
         arg_len[i] = strlen(arg);
         tot_len += arg_len[i];
     }
@@ -74,8 +74,9 @@ char *util_concat(const char *s, ...)
 
     newp = lib_malloc(tot_len + 1);
 
-    if (arg_len[0] > 0)
+    if (arg_len[0] > 0) {
         memcpy(newp, s, arg_len[0]);
+    }
     ptr = newp + arg_len[0];
 
     va_start(ap, s);
@@ -134,7 +135,7 @@ BYTE *util_bufcat(BYTE *buf, int *buf_size, size_t *max_buf_size,
         BYTE *new_buf;
 
         *max_buf_size = (((*buf_size + src_size) / BUFCAT_GRANULARITY + 1)
-                        * BUFCAT_GRANULARITY);
+                         * BUFCAT_GRANULARITY);
         new_buf = lib_realloc(buf, *max_buf_size);
         buf = new_buf;
     }
@@ -151,15 +152,15 @@ void util_remove_spaces(char *s)
     char *p;
     size_t l = strlen(s);
 
-    for (p = s; *p == ' '; p++)
-        ;
+    for (p = s; *p == ' '; p++) {
+    }
 
     l -= (p - s);
     memmove(s, p, l + 1);
 
     if (l > 0) {
-        for (p = s + l - 1; l > 0 && *p == ' '; l--, p--)
-            ;
+        for (p = s + l - 1; l > 0 && *p == ' '; l--, p--) {
+        }
         *(p + 1) = '\0';
     }
 }
@@ -169,16 +170,18 @@ void util_remove_spaces(char *s)
 int util_string_set(char **str, const char *new_value)
 {
     if (*str == NULL) {
-        if (new_value != NULL)
+        if (new_value != NULL) {
             *str = lib_stralloc(new_value);
+        }
     } else {
         if (new_value == NULL) {
             lib_free(*str);
             *str = NULL;
         } else {
             /* Skip copy if src and dest are already the same.  */
-            if (strcmp(*str, new_value) == 0)
+            if (strcmp(*str, new_value) == 0) {
                 return -1;
+            }
 
             *str = lib_realloc(*str, strlen(new_value) + 1);
             strcpy(*str, new_value);
@@ -189,8 +192,9 @@ int util_string_set(char **str, const char *new_value)
 
 int util_check_null_string(const char *string)
 {
-    if (string != NULL && *string != '\0')
+    if (string != NULL && *string != '\0') {
         return 0;
+    }
 
     return -1;
 }
@@ -226,16 +230,18 @@ int util_string_to_long(const char *str, const char **endptr, int base,
     char last_letter = 0;       /* Initialize to make compiler happy.  */
     char c;
 
-    if (base > 10)
+    if (base > 10) {
         last_letter = 'A' + base - 11;
+    }
 
     c = toupper((int) *str);
 
     if (!isspace((int)c)
         && !isdigit((int)c)
         && (base <= 10 || c > last_letter || c < 'A')
-        && c != '+' && c != '-')
+        && c != '+' && c != '-') {
         return -1;
+    }
 
     if (*str == '+') {
         sign = +1;
@@ -243,32 +249,36 @@ int util_string_to_long(const char *str, const char **endptr, int base,
     } else if (*str == '-') {
         str++;
         sign = -1;
-    } else
+    } else {
         sign = +1;
+    }
 
-    for (sp = str; isspace((int)*sp); sp++)
-        ;
+    for (sp = str; isspace((int)*sp); sp++) {
+    }
 
     for (ep = sp;
          (isdigit((int)*ep)
           || (base > 10
               && toupper((int)*ep) <= last_letter
-              && toupper((int)*ep) >= 'A')); ep++)
-        ;
+              && toupper((int)*ep) >= 'A')); ep++) {
+    }
 
-    if (ep == sp)
+    if (ep == sp) {
         return -1;
+    }
 
-    if (endptr != NULL)
+    if (endptr != NULL) {
         *endptr = (char *)ep;
+    }
 
     ep--;
 
     for (value = 0, weight = 1; ep >= sp; weight *= base, ep--) {
-        if (base > 10 && toupper((int) *ep) >= 'A')
+        if (base > 10 && toupper((int) *ep) >= 'A') {
             value += weight * (toupper((int)*ep) - 'A' + 10);
-        else
+        } else {
             value += weight * (int)(*ep - '0');
+        }
     }
 
     *result = value * sign;
@@ -292,8 +302,8 @@ char *util_subst(const char *s, const char *string, const char *replacement)
        time.  */
     for (num_occurrences = 0, sp = s;
          (sp = strstr(sp, string)) != NULL;
-         num_occurrences++, sp += string_len)
-        ;
+         num_occurrences++, sp += string_len) {
+    }
 
     total_size = (int)(s_len - (string_len - replacement_len) * num_occurrences + 1);
 
@@ -304,8 +314,9 @@ char *util_subst(const char *s, const char *string, const char *replacement)
     do {
         char *f = strstr(sp, string);
 
-        if (f == NULL)
+        if (f == NULL) {
             break;
+        }
 
         memcpy(dp, sp, f - sp);
         memcpy(dp + (f - sp), replacement, replacement_len);
@@ -350,8 +361,9 @@ int util_file_load(const char *name, BYTE *dest, size_t size,
 
     fd = fopen(name, MODE_READ);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return -1;
+    }
 
     length = util_file_length(fd);
 
@@ -372,18 +384,21 @@ int util_file_load(const char *name, BYTE *dest, size_t size,
 
     for (i = 0; i < size; i += length) {
         fseek(fd, start, SEEK_SET);
-        if (i + length > size)
+        if (i + length > size) {
             break;
+        }
         r = fread((void *)&(dest[i]), length, 1, fd);
 /* log_debug("READ %i bytes to offset %i result %i.",length,i,r); */
-        if (r < 1)
+        if (r < 1) {
             break;
+        }
     }
 
     fclose(fd);
 
-    if (r < 1)
+    if (r < 1) {
         return -1;
+    }
 
     return 0;
 }
@@ -403,15 +418,17 @@ int util_file_save(const char *name, BYTE *src, int size)
 
     fd = fopen(name, MODE_WRITE);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return -1;
+    }
 
     r = fwrite((char *)src, size, 1, fd);
 
     fclose(fd);
 
-    if (r < 1)
+    if (r < 1) {
         return -1;
+    }
 
     return 0;
 }
@@ -425,8 +442,9 @@ int util_get_line(char *buf, int bufsize, FILE *f)
 
     r = fgets(buf, bufsize, f);
 
-    if (r == NULL)
+    if (r == NULL) {
         return -1;
+    }
 
     len = strlen(buf);
 
@@ -436,14 +454,16 @@ int util_get_line(char *buf, int bufsize, FILE *f)
         /* Remove trailing newline characters.  */
         /* Remove both 0x0a and 0x0d characters, this solution makes it */
         /* work on all target platforms: Unixes, Win32, DOS, and even for MAC */
-        while ((len > 0) && ((*(buf + len - 1) == 0x0d)
-            || (*(buf + len - 1) == 0x0a)))
+        while ((len > 0) && ((*(buf + len - 1) == 0x0d) || (*(buf + len - 1) == 0x0a))) {
             len--;
+        }
 
         /* Remove useless spaces.  */
-        while ((len > 0) && (*(buf + len - 1) == ' '))
+        while ((len > 0) && (*(buf + len - 1) == ' ')) {
             len--;
-        for (p = buf; *p == ' '; p++, len--);
+        }
+        for (p = buf; *p == ' '; p++, len--) {
+        }
         memmove(buf, p, len + 1);
         *(buf + len) = '\0';
     }
@@ -471,16 +491,19 @@ void util_fname_split(const char *path, char **directory_return,
         const char *p1;
 
         p1 = strrchr(path, '\\');
-        if (p == NULL || p < p1)
+        if (p == NULL || p < p1) {
             p = p1;
+        }
     }
 #endif
 
     if (p == NULL) {
-        if (directory_return != NULL)
+        if (directory_return != NULL) {
             *directory_return = NULL;
-        if (name_return != NULL)
+        }
+        if (name_return != NULL) {
             *name_return = lib_stralloc(path);
+        }
         return;
     }
 
@@ -490,8 +513,9 @@ void util_fname_split(const char *path, char **directory_return,
         (*directory_return)[p - path] = '\0';
     }
 
-    if (name_return != NULL)
+    if (name_return != NULL) {
         *name_return = lib_stralloc(p + 1);
+    }
 
     return;
 }
@@ -519,8 +543,7 @@ void util_fname_split(const char *path, char **directory_return,
 
 int util_fpread(FILE *fd, void *buf, size_t num, long offset)
 {
-    if (fseek(fd, offset, SEEK_SET) < 0
-            || fread(buf, num, 1, fd) < 1) {
+    if (fseek(fd, offset, SEEK_SET) < 0 || fread(buf, num, 1, fd) < 1) {
         return -1;
     }
 
@@ -547,8 +570,7 @@ int util_fpread(FILE *fd, void *buf, size_t num, long offset)
 */
 int util_fpwrite(FILE *fd, const void *buf, size_t num, long offset)
 {
-    if (fseek(fd, offset, SEEK_SET) < 0
-            || fwrite(buf, num, 1, fd) < 1) {
+    if (fseek(fd, offset, SEEK_SET) < 0 || fwrite(buf, num, 1, fd) < 1) {
         return -1;
     }
     return 0;
@@ -667,15 +689,19 @@ char *util_find_prev_line(const char *text, const char *pos)
 {
     const char *p;
 
-    if (pos - text <= 2)
+    if (pos - text <= 2) {
         return (char *) text;
+    }
 
-    for (p = pos - 2; p != text; p--)
-        if (*p == '\n')
+    for (p = pos - 2; p != text; p--) {
+        if (*p == '\n') {
             break;
+        }
+    }
 
-    if (*p == '\n')
+    if (*p == '\n') {
         p++;
+    }
 
     return (char *)p;
 }
@@ -694,11 +720,13 @@ void *memmove(void *target, const void *source, unsigned int length)
     if (tptr > sptr) {
         tptr += length;
         sptr += length;
-        while (length--)
+        while (length--) {
             *(--tptr) = *(--sptr);
+        }
     } else if (tptr < sptr) {
-        while (length--)
+        while (length--) {
             *(tptr++) = *(sptr++);
+        }
     }
 
     return target;
@@ -747,16 +775,18 @@ int strcasecmp(const char *s1, const char *s2)
 {
     int c1, c2;
 
-    if (s1 == NULL || s2 == NULL)
+    if (s1 == NULL || s2 == NULL) {
         return 0;
+    }
 
     while (*s1 && *s2) {
         /* According to A. Cox, some platforms have islower's that don't work
            right on non-uppercase.  */
         c1 = isupper ((unsigned int)*s1) ? tolower ((unsigned int)*s1) : *s1;
         c2 = isupper ((unsigned int)*s2) ? tolower ((unsigned int)*s2) : *s2;
-        if (c1 != c2)
+        if (c1 != c2) {
             return (c1 - c2);
+        }
         s1++; s2++;
     }
 
@@ -771,24 +801,27 @@ int strncasecmp(const char *s1, const char *s2, unsigned int n)
 {
     int c1, c2;
 
-    if (s1 == NULL || s2 == NULL)
+    if (s1 == NULL || s2 == NULL) {
         return 0;
+    }
 
     while (n-- && *s1 && *s2) {
         /* According to A. Cox, some platforms have islower's that don't work
            right on non-uppercase.  */
         c1 = isupper((unsigned int)*s1) ? tolower((unsigned int)*s1) : *s1;
         c2 = isupper((unsigned int)*s2) ? tolower((unsigned int)*s2) : *s2;
-        if (c1 != c2)
+        if (c1 != c2) {
             return (c1 - c2);
+        }
         s1++;
         s2++;
     }
 
-    if (n)
+    if (n) {
         return (((int)(unsigned char)*s1) - ((int)(unsigned char)*s2));
-    else
+    } else {
         return 0;
+    }
 }
 
 #endif
@@ -802,18 +835,21 @@ void util_add_extension(char **name, const char *extension)
 {
     size_t name_len, ext_len;
 
-    if (extension == NULL || *name == NULL)
+    if (extension == NULL || *name == NULL) {
         return;
+    }
 
     name_len = strlen(*name);
     ext_len = strlen(extension);
 
-    if (ext_len == 0)
+    if (ext_len == 0) {
         return;
+    }
 
     if ((name_len > ext_len + 1)
-        && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0))
+        && (strcasecmp(&((*name)[name_len - ext_len]), extension) == 0)) {
         return;
+    }
 
     *name = lib_realloc(*name, name_len + ext_len + 2);
     (*name)[name_len] = FSDEV_EXT_SEP_CHR;
@@ -839,23 +875,27 @@ void util_add_extension_maxpath(char *name, const char *extension, unsigned int 
 {
     size_t name_len, ext_len;
 
-    if (extension == NULL || name == NULL)
+    if (extension == NULL || name == NULL) {
         return;
+    }
 
     name_len = strlen(name);
     ext_len = strlen(extension);
 
-    if (ext_len == 0)
+    if (ext_len == 0) {
         return;
+    }
 
-    if (name_len+ext_len>maxpath)
+    if (name_len + ext_len > maxpath) {
         return;
+    }
 
     if ((name_len > ext_len + 1)
-        && (strcasecmp(&((name)[name_len - ext_len]), extension) == 0))
+        && (strcasecmp(&((name)[name_len - ext_len]), extension) == 0)) {
         return;
+    }
 
-    sprintf(name,"%s%c%s",name,FSDEV_EXT_SEP_CHR,extension);
+    sprintf(name, "%s%c%s", name, FSDEV_EXT_SEP_CHR, extension);
 }
 
 char *util_get_extension(char *filename)

@@ -61,7 +61,7 @@ void machine_bus_init(void)
         p->getf = (int (*)(struct vdrive_s *, BYTE *, unsigned int))fn;
         p->putf = (int (*)(struct vdrive_s *, BYTE, unsigned int))fn;
         p->openf = (int (*)(struct vdrive_s *, const BYTE *, unsigned int,
-                   unsigned int, struct cbmdos_cmd_parse_s *))fn;
+                            unsigned int, struct cbmdos_cmd_parse_s *))fn;
         p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
         p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
         p->listenf = (void (*)(struct vdrive_s *, unsigned int))NULL;
@@ -71,13 +71,11 @@ void machine_bus_init(void)
 }
 
 int machine_bus_device_attach(unsigned int unit, const char *name,
-                              int (*getf)(struct vdrive_s *, BYTE *,
-                              unsigned int),
-                              int (*putf)(struct vdrive_s *, BYTE,
-                              unsigned int),
+                              int (*getf)(struct vdrive_s *, BYTE *, unsigned int),
+                              int (*putf)(struct vdrive_s *, BYTE, unsigned int),
                               int (*openf)(struct vdrive_s *, const BYTE *,
-                              unsigned int, unsigned int,
-                              struct cbmdos_cmd_parse_s *),
+                                           unsigned int, unsigned int,
+                                           struct cbmdos_cmd_parse_s *),
                               int (*closef)(struct vdrive_s *, unsigned int),
                               void (*flushf)(struct vdrive_s *, unsigned int),
                               void (*listenf)(struct vdrive_s *, unsigned int))
@@ -85,8 +83,9 @@ int machine_bus_device_attach(unsigned int unit, const char *name,
     serial_t *p;
     int i;
 
-    if (unit >= SERIAL_MAXDEVICES)
+    if (unit >= SERIAL_MAXDEVICES) {
         return 1;
+    }
 
     p = serial_device_get(unit);
 
@@ -141,7 +140,7 @@ int machine_bus_device_detach(unsigned int unit)
         p->getf = (int (*)(struct vdrive_s *, BYTE *, unsigned int))fn;
         p->putf = (int (*)(struct vdrive_s *, BYTE, unsigned int))fn;
         p->openf = (int (*)(struct vdrive_s *, const BYTE *, unsigned int,
-                   unsigned int, struct cbmdos_cmd_parse_s *))fn;
+                            unsigned int, struct cbmdos_cmd_parse_s *))fn;
         p->closef = (int (*)(struct vdrive_s *, unsigned int))fn;
         p->flushf = (void (*)(struct vdrive_s *, unsigned int))NULL;
         p->listenf = (void (*)(struct vdrive_s *, unsigned int))NULL;
@@ -149,4 +148,3 @@ int machine_bus_device_detach(unsigned int unit)
 
     return 0;
 }
-

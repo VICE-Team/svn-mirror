@@ -58,8 +58,7 @@ struct viewport_s;
 struct geometry_s;
 struct palette_s;
 
-struct canvas_refresh_s
-{
+struct canvas_refresh_s {
     BYTE *draw_buffer;
     int draw_buffer_line_size;
 #ifdef __OS2__
@@ -161,9 +160,8 @@ struct video_render_color_tables_s {
 };
 typedef struct video_render_color_tables_s video_render_color_tables_t;
 
-/* options for the color generator and crt emulation */ 
-typedef struct video_resources_s
-{
+/* options for the color generator and crt emulation */
+typedef struct video_resources_s {
     /* parameters for color generation */
     int color_saturation;
     int color_contrast;
@@ -222,8 +220,8 @@ extern int video_init(void);
 extern void video_shutdown(void);
 
 extern struct video_canvas_s *video_canvas_create(struct video_canvas_s *canvas,
-                                 unsigned int *width, unsigned int *height,
-                                 int mapped);
+                                                  unsigned int *width, unsigned int *height,
+                                                  int mapped);
 extern void video_arch_canvas_init(struct video_canvas_s *canvas);
 extern void video_canvas_shutdown(struct video_canvas_s *canvas);
 extern struct video_canvas_s *video_canvas_init(void);
@@ -260,8 +258,8 @@ typedef struct video_draw_buffer_callback_s {
                              unsigned int *fb_pitch);
     void (*draw_buffer_free)(struct video_canvas_s *canvas, BYTE *draw_buffer);
     void (*draw_buffer_clear)(struct video_canvas_s *canvas, BYTE *draw_buffer,
-                             BYTE value, unsigned int fb_width,
-                             unsigned int fb_height, unsigned int fb_pitch);
+                              BYTE value, unsigned int fb_width,
+                              unsigned int fb_height, unsigned int fb_pitch);
 } video_draw_buffer_callback_t;
 
 struct raster_s;
@@ -295,7 +293,7 @@ typedef struct video_cbm_palette_s {
 } video_cbm_palette_t;
 
 extern void video_color_palette_internal(struct video_canvas_s *canvas,
-            struct video_cbm_palette_s *cbm_palette);
+                                         struct video_cbm_palette_s *cbm_palette);
 extern int video_color_update_palette(struct video_canvas_s *canvas);
 extern void video_color_palette_free(struct palette_s *palette);
 
@@ -306,4 +304,3 @@ extern void video_render_pal_init(void);
 extern void video_render_crt_init(void);
 
 #endif
-

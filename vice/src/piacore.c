@@ -71,7 +71,7 @@ static void mypia_update_irq(void)
         || ((mypia.ctrl_a & 0x68) == 0x48)
         || ((mypia.ctrl_b & 0x81) == 0x81)
         || ((mypia.ctrl_b & 0x68) == 0x48)
-       ) {
+        ) {
         my_set_int(pia_int_num, 1);
     } else {
         my_set_int(pia_int_num, 0);
@@ -85,26 +85,26 @@ static void mypia_update_irq(void)
 
 void mypia_signal(int line, int edge)
 {
-    switch(line) {
-      case PIA_SIG_CA1:
-        if (((mypia.ctrl_a & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
-            mypia.ctrl_a |= 0x80;
-            mypia_update_irq();
-            if (IS_CA2_TOGGLE_MODE()) {
-                pia_set_ca2(1);
-                mypia.ca_state = 1;
+    switch (line) {
+        case PIA_SIG_CA1:
+            if (((mypia.ctrl_a & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
+                mypia.ctrl_a |= 0x80;
+                mypia_update_irq();
+                if (IS_CA2_TOGGLE_MODE()) {
+                    pia_set_ca2(1);
+                    mypia.ca_state = 1;
+                }
             }
-        }
-      case PIA_SIG_CB1:
-        if (((mypia.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
-            mypia.ctrl_b |= 0x80;
-            mypia_update_irq();
-            if (IS_CB2_TOGGLE_MODE()) {
-                pia_set_cb2(1);
-                mypia.cb_state = 1;
+        case PIA_SIG_CB1:
+            if (((mypia.ctrl_b & 0x02) ? PIA_SIG_RISE : PIA_SIG_FALL) == edge) {
+                mypia.ctrl_b |= 0x80;
+                mypia_update_irq();
+                if (IS_CB2_TOGGLE_MODE()) {
+                    pia_set_cb2(1);
+                    mypia.cb_state = 1;
+                }
             }
-        }
-        break;
+            break;
     }
 }
 
@@ -114,90 +114,93 @@ void mypia_signal(int line, int edge)
 
 void mypia_store(WORD addr, BYTE byte)
 {
-
     if (mycpu_rmw_flag) {
-        myclk --;
+        myclk--;
         mycpu_rmw_flag = 0;
         mypia_store(addr, pia_last_read);
-        myclk ++;
+        myclk++;
     }
 
     addr &= 3;
 
     switch (addr) {
-      case P_PORT_A: /* port A */
-        if (mypia.ctrl_a & 4) {
-            mypia.port_a = byte;
-        } else {
-            mypia.ddr_a = byte;
-        }
-        byte = mypia.port_a | ~mypia.ddr_a;
-        store_pa(byte);
-        break;
-
-      case P_PORT_B: /* port B */
-        if (mypia.ctrl_b & 4) {
-            mypia.port_b = byte;
-        } else {
-            mypia.ddr_b = byte;
-        }
-        byte = mypia.port_b | ~mypia.ddr_b;
-        store_pb(byte);
-        if (IS_CB2_HANDSHAKE()) {
-            pia_set_cb2(0);
-            mypia.cb_state = 0;
-            if (IS_CB2_PULSE_MODE()) {
-                pia_set_cb2(1);
-                mypia.cb_state = 1;
+        case P_PORT_A: /* port A */
+            if (mypia.ctrl_a & 4) {
+                mypia.port_a = byte;
+            } else {
+                mypia.ddr_a = byte;
             }
-        }
-        break;
+            byte = mypia.port_a | ~mypia.ddr_a;
+            store_pa(byte);
+            break;
+
+        case P_PORT_B: /* port B */
+            if (mypia.ctrl_b & 4) {
+                mypia.port_b = byte;
+            } else {
+                mypia.ddr_b = byte;
+            }
+            byte = mypia.port_b | ~mypia.ddr_b;
+            store_pb(byte);
+            if (IS_CB2_HANDSHAKE()) {
+                pia_set_cb2(0);
+                mypia.cb_state = 0;
+                if (IS_CB2_PULSE_MODE()) {
+                    pia_set_cb2(1);
+                    mypia.cb_state = 1;
+                }
+            }
+            break;
 
         /* Control */
 
-      case P_CTRL_A: /* Control A */
-        if ((byte & 0x38) == 0x30 ) {   /* set output low */
-            pia_set_ca2(0);
-            mypia.ca_state = 0;
-        } else
-        if ((byte & 0x38) == 0x38) {    /* set output high */
-            pia_set_ca2(1);
-            mypia.ca_state = 1;
-        } else                          /* change to toggle/pulse */
-        if ((mypia.ctrl_a & 0x30) == 0x30) {
-            pia_set_ca2(1);
-            mypia.ca_state = 1;
-        }
+        case P_CTRL_A: /* Control A */
+            if ((byte & 0x38) == 0x30) { /* set output low */
+                pia_set_ca2(0);
+                mypia.ca_state = 0;
+            } else
+            if ((byte & 0x38) == 0x38) { /* set output high */
+                pia_set_ca2(1);
+                mypia.ca_state = 1;
+            } else                      /* change to toggle/pulse */
+            if ((mypia.ctrl_a & 0x30) == 0x30) {
+                pia_set_ca2(1);
+                mypia.ca_state = 1;
+            }
 
-        mypia.ctrl_a = (mypia.ctrl_a & 0xc0) | (byte & 0x3f);
+            mypia.ctrl_a = (mypia.ctrl_a & 0xc0) | (byte & 0x3f);
 
-        if (mypia.ctrl_a & 0x20) mypia.ctrl_a &= 0xbf;
+            if (mypia.ctrl_a & 0x20) {
+                mypia.ctrl_a &= 0xbf;
+            }
 
-        mypia_update_irq();
+            mypia_update_irq();
 
-        break;
+            break;
 
-      case P_CTRL_B: /* Control B */
-        if ((byte & 0x38) == 0x30 ) {   /* set output low */
-            pia_set_cb2(0);
-            mypia.cb_state = 0;
-        } else
-        if ((byte & 0x38) == 0x38) {    /* set output high */
-            pia_set_cb2(1);
-            mypia.cb_state = 1;
-        } else                          /* change to toggle/pulse */
-        if ((mypia.ctrl_b & 0x30) == 0x30) {
-            pia_set_cb2(1);
-            mypia.cb_state = 1;
-        }
+        case P_CTRL_B: /* Control B */
+            if ((byte & 0x38) == 0x30) { /* set output low */
+                pia_set_cb2(0);
+                mypia.cb_state = 0;
+            } else
+            if ((byte & 0x38) == 0x38) { /* set output high */
+                pia_set_cb2(1);
+                mypia.cb_state = 1;
+            } else                      /* change to toggle/pulse */
+            if ((mypia.ctrl_b & 0x30) == 0x30) {
+                pia_set_cb2(1);
+                mypia.cb_state = 1;
+            }
 
-        mypia.ctrl_b = (mypia.ctrl_b & 0xc0) | (byte & 0x3f);
+            mypia.ctrl_b = (mypia.ctrl_b & 0xc0) | (byte & 0x3f);
 
-        if (mypia.ctrl_b & 0x20) mypia.ctrl_b &= 0xbf;
+            if (mypia.ctrl_b & 0x20) {
+                mypia.ctrl_b &= 0xbf;
+            }
 
-        mypia_update_irq();
+            mypia_update_irq();
 
-        break;
+            break;
     }  /* switch */
 }
 
@@ -211,57 +214,54 @@ BYTE mypia_read(WORD addr)
     addr &= 3;
 
     switch (addr) {
-      case P_PORT_A: /* port A */
-        if (mypia.ctrl_a & 4) {
-
-            if (!is_peek_access) {
-                mypia.ctrl_a &= 0x3f;           /* Clear CA1,CA2 IRQ */
-                mypia_update_irq();
+        case P_PORT_A: /* port A */
+            if (mypia.ctrl_a & 4) {
+                if (!is_peek_access) {
+                    mypia.ctrl_a &= 0x3f;       /* Clear CA1,CA2 IRQ */
+                    mypia_update_irq();
+                }
+                /* WARNING: for output pins, this port reads the voltage of
+                 * the output pins, not the ORA value as the other port.
+                 * Value read might be different from what is expected due
+                 * to excessive electrical load on the pin.
+                 */
+                byte = read_pa();
+                pia_last_read = byte;
+                return byte;
             }
-            /* WARNING: for output pins, this port reads the voltage of
-             * the output pins, not the ORA value as the other port.
-             * Value read might be different from what is expected due
-             * to excessive electrical load on the pin.
-             */
-            byte = read_pa();
-            pia_last_read = byte;
-            return byte;
-        }
-        pia_last_read = (mypia.ddr_a);
-        return pia_last_read;
-        break;
-
-      case P_PORT_B: /* port B */
-        if (mypia.ctrl_b & 4) {
-
-            if (!is_peek_access) {
-                mypia.ctrl_b &= 0x3f;           /* Clear CB1,CB2 IRQ */
-                mypia_update_irq();
-            }
-
-            /* WARNING: this port reads the ORB for output pins, not
-               the voltage on the pins as the other port. */
-            byte = read_pb();
-            pia_last_read = (byte & ~mypia.ddr_b)
-                        | (mypia.port_b & mypia.ddr_b);
+            pia_last_read = (mypia.ddr_a);
             return pia_last_read;
-        }
-        pia_last_read = (mypia.ddr_b);
-        return pia_last_read;
-        break;
+            break;
+
+        case P_PORT_B: /* port B */
+            if (mypia.ctrl_b & 4) {
+                if (!is_peek_access) {
+                    mypia.ctrl_b &= 0x3f;       /* Clear CB1,CB2 IRQ */
+                    mypia_update_irq();
+                }
+
+                /* WARNING: this port reads the ORB for output pins, not
+                   the voltage on the pins as the other port. */
+                byte = read_pb();
+                pia_last_read = (byte & ~mypia.ddr_b)
+                                | (mypia.port_b & mypia.ddr_b);
+                return pia_last_read;
+            }
+            pia_last_read = (mypia.ddr_b);
+            return pia_last_read;
+            break;
 
         /* Control */
 
-      case P_CTRL_A: /* Control A */
-        pia_last_read = (mypia.ctrl_a);
-        return pia_last_read;
-        break;
+        case P_CTRL_A: /* Control A */
+            pia_last_read = (mypia.ctrl_a);
+            return pia_last_read;
+            break;
 
-      case P_CTRL_B: /* Control B */
-        pia_last_read = (mypia.ctrl_b);
-        return pia_last_read;
-        break;
-
+        case P_CTRL_B: /* Control B */
+            pia_last_read = (mypia.ctrl_b);
+            return pia_last_read;
+            break;
     }  /* switch */
 
     /* should never happen */
@@ -283,7 +283,7 @@ BYTE mypia_peek(WORD addr)
 int mypia_dump(void)
 {
     mon_out("port_a: %02x  port_b: %02x   (written bits only)\n", mypia.port_a, mypia.port_b);
-    mon_out(" ddr_a: %02x   ddr_b: %02x   (1 bits are outputs)\n", mypia. ddr_a, mypia. ddr_b);
+    mon_out(" ddr_a: %02x   ddr_b: %02x   (1 bits are outputs)\n", mypia.ddr_a, mypia.ddr_b);
     mon_out("ctrl_a: %02x  ctrl_b: %02x\n", mypia.ctrl_a, mypia.ctrl_b);
     mon_out("   ca2: %2x     cb2: %2x\n", mypia.ca_state, mypia.cb_state);
     mon_out("CA1 active transition: %d\n", (mypia.ctrl_a & 0x80) >> 7);
@@ -420,8 +420,9 @@ int mypia_snapshot_write_module(snapshot_t * p)
 
     m = snapshot_module_create(p, snap_module_name,
                                PIA_DUMP_VER_MAJOR, PIA_DUMP_VER_MINOR);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     SMW_B(m, mypia.port_a);
     SMW_B(m, mypia.ddr_a);
@@ -431,8 +432,7 @@ int mypia_snapshot_write_module(snapshot_t * p)
     SMW_B(m, mypia.ddr_b);
     SMW_B(m, mypia.ctrl_b);
 
-    SMW_B(m, (BYTE)((mypia.ca_state ? 0x80 : 0)
-          | (mypia.cb_state ? 0x40 : 0)));
+    SMW_B(m, (BYTE)((mypia.ca_state ? 0x80 : 0) | (mypia.cb_state ? 0x40 : 0)));
 
     snapshot_module_close(m);
 
@@ -448,8 +448,9 @@ int mypia_snapshot_read_module(snapshot_t * p)
     my_restore_int(pia_int_num, 0);          /* just in case */
 
     m = snapshot_module_open(p, snap_module_name, &vmajor, &vminor);
-    if (m == NULL)
+    if (m == NULL) {
         return -1;
+    }
 
     if (vmajor != PIA_DUMP_VER_MAJOR) {
         snapshot_module_close(m);
@@ -480,12 +481,11 @@ int mypia_snapshot_read_module(snapshot_t * p)
     if (0
         || ((mypia.ctrl_a & 0x81) == 0x81)
         || ((mypia.ctrl_a & 0x68) == 0x48)
-         || ((mypia.ctrl_b & 0x81) == 0x81)
+        || ((mypia.ctrl_b & 0x81) == 0x81)
         || ((mypia.ctrl_b & 0x68) == 0x48)
-       ) {
+        ) {
         my_restore_int(pia_int_num, 1);
     }
 
     return snapshot_module_close(m);
 }
-

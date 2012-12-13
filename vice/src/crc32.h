@@ -32,4 +32,3 @@ extern unsigned long crc32_buf(const char *buffer, unsigned int len);
 extern unsigned long crc32_file(const char *filename);
 
 #endif
-

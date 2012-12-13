@@ -98,4 +98,3 @@ extern int mem_write_snapshot_module(struct snapshot_s *s, int save_roms);
 extern int mem_read_snapshot_module(struct snapshot_s *s);
 
 #endif
-

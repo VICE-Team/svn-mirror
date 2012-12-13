@@ -42,10 +42,12 @@ static int pattern_invert;
 static int set_start_value(int val, void *param)
 {
     start_value = val;
-    if (start_value < 0)
+    if (start_value < 0) {
         start_value = 0;
-    if (start_value > 0xff)
+    }
+    if (start_value > 0xff) {
         start_value = 0xff;
+    }
     return 0;
 }
 
@@ -84,7 +86,7 @@ static const cmdline_option_t cmdline_options[] = {
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_VALUE, IDCLS_SET_FIRST_RAM_ADDRESS_VALUE,
       NULL, NULL },
-    { "-raminitvalueinvert" , SET_RESOURCE, 1,
+    { "-raminitvalueinvert", SET_RESOURCE, 1,
       NULL, NULL, "RAMInitValueInvert", NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NUM_OF_BYTES, IDCLS_LENGTH_BLOCK_SAME_VALUE,
@@ -105,7 +107,6 @@ int ram_cmdline_options_init(void)
 
 void ram_init(BYTE *memram, unsigned int ramsize)
 {
-
     unsigned int i, j, k, l;
     BYTE v = start_value;
 
@@ -147,19 +148,15 @@ const char *ram_init_print_pattern(void)
         pattern_line[0] = 0;
 
         for (i = 0; i < 8; i++) {
-            sprintf(s_tmp," %02x", v);
-            
+            sprintf(s_tmp, " %02x", v);
+
             strcat(pattern_line, s_tmp);
 
-            if (value_invert > 0
-                && (linenum * 8 + i + 1) % value_invert == 0)
-            {
+            if (value_invert > 0 && (linenum * 8 + i + 1) % value_invert == 0) {
                 v ^= 0xff;
             }
 
-            if (pattern_invert > 0
-                && (linenum * 8 + i + 1) % pattern_invert == 0)
-            {
+            if (pattern_invert > 0 && (linenum * 8 + i + 1) % pattern_invert == 0) {
                 v ^= 0xff;
             }
         }
@@ -167,25 +164,25 @@ const char *ram_init_print_pattern(void)
         if (linenum * 8 == 0
             || linenum * 8 == value_invert
             || linenum * 8 == pattern_invert
-            || linenum * 8 == pattern_invert + value_invert)
-        {
+            || linenum * 8 == pattern_invert + value_invert) {
             sprintf(s_tmp, "%04x ", linenum * 8);
             strcat(s, s_tmp);
             strcat(s, pattern_line);
             strcat(s, "\n");
             last_line_drawn = 1;
         } else {
-            if (last_line_drawn == 1)
+            if (last_line_drawn == 1) {
                 strcat(s, "...\n");
+            }
             last_line_drawn = 0;
         }
 
         linenum++;
-
     } while (linenum * 8 < value_invert * 2 || linenum * 8 < pattern_invert * 2);
 
-    if (last_line_drawn == 1)
+    if (last_line_drawn == 1) {
         strcat(s, "...\n");
+    }
 
     return s;
 }

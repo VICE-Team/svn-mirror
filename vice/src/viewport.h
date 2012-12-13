@@ -97,4 +97,3 @@ struct geometry_s {
 typedef struct geometry_s geometry_t;
 
 #endif
-

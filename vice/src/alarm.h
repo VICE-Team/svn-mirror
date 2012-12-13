@@ -180,10 +180,10 @@ inline static void alarm_set(alarm_t *alarm, CLOCK cpu_clk)
 
         context->pending_alarms[idx].clk = cpu_clk;
         if (context->next_pending_alarm_clk > cpu_clk
-            || idx == context->next_pending_alarm_idx)
+            || idx == context->next_pending_alarm_idx) {
             alarm_context_update_next_pending(context);
+        }
     }
 }
 
 #endif
-

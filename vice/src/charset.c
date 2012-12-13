@@ -66,33 +66,33 @@ BYTE *charset_petconvstring(BYTE *c, int dir)
     int ch;
 
     switch (dir) {
-      case 0: /* To petscii.  */
-        while (*s) {
-            if ((ch = test_lineend(s))) {
-                *d++ = 0x0d; /* petscii CR */
-                s += ch;
-            } else {
-                *d++ = charset_p_topetcii(*s);
+        case 0: /* To petscii.  */
+            while (*s) {
+                if ((ch = test_lineend(s))) {
+                    *d++ = 0x0d; /* petscii CR */
+                    s += ch;
+                } else {
+                    *d++ = charset_p_topetcii(*s);
+                    s++;
+                }
+            }
+            break;
+
+        case 1: /* To ascii. */
+            while (*s) {
+                *d++ = charset_p_toascii(*s, 0);
                 s++;
             }
-        }
-        break;
+            break;
 
-      case 1: /* To ascii. */
-        while (*s) {
-            *d++ = charset_p_toascii(*s, 0);
-            s++;
-        }
-        break;
-
-      case 2: /* To ascii, convert also screencodes. */
-        while (*s) {
-            *d++ = charset_p_toascii(*s, 1);
-            s++;
-        }
-        break;
-      default:
-        log_error(LOG_DEFAULT, "Unkown conversion rule.");
+        case 2: /* To ascii, convert also screencodes. */
+            while (*s) {
+                *d++ = charset_p_toascii(*s, 1);
+                s++;
+            }
+            break;
+        default:
+            log_error(LOG_DEFAULT, "Unkown conversion rule.");
     }
 
     *d = 0;
@@ -248,20 +248,17 @@ char * charset_hexstring_to_byte( char * source, char * destination )
     char c;
     BYTE value = 0;
     int digit = 0;
-    
-    while ( *next && digit++ < 2) {
 
+    while (*next && digit++ < 2) {
         value <<= 4;
 
         c = util_toupper( *next++ );
 
-        if (c >= 'A' && c <= 'F' ) {
+        if (c >= 'A' && c <= 'F') {
             value += c - 'A';
-        }
-        else if ( isdigit((int)c) ) {
+        } else if (isdigit((int)c)) {
             value += c - '0';
-        }
-        else {
+        } else {
             break;
         }
     }
@@ -280,16 +277,15 @@ char *charset_replace_hexcodes(char * source)
 {
     char * destination = lib_stralloc(source ? source : "");
 
-    if ( destination ) {
+    if (destination) {
         char * pread = destination;
         char * pwrite = destination;
 
-        while ( *pread != 0 ) {
-            if ( *pread == '$' ) {
+        while (*pread != 0) {
+            if (*pread == '$') {
                 pread = charset_hexstring_to_byte( pread, pwrite++ );
-            }
-            else {
-                *pwrite ++ = *pread ++;
+            } else {
+                *pwrite++ = *pread++;
             }
         }
         *pwrite = 0;

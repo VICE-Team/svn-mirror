@@ -67,7 +67,7 @@ extern int machine_class;
 extern int vsid_mode;
 extern
 #ifdef __OS2__
-    const
+const
 #endif
 int console_mode;
 extern int video_disabled_mode;
@@ -186,4 +186,3 @@ extern int machine_addr_in_ram(unsigned int addr);
 extern const char *machine_get_name(void);
 
 #endif
-

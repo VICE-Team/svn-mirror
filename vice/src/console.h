@@ -45,7 +45,6 @@ typedef struct console_s {
     int console_cannot_output;
 
     struct console_private_s *private;
-
 } console_t;
 
 extern console_t *console_open(const char *id);

@@ -88,8 +88,9 @@ static int color_has_owner(owner_list_t *owner, void *c)
 {
     while (owner->next != NULL)
     {
-        if (owner->color_owner == c)
+        if (owner->color_owner == c) {
             return 1;
+        }
         owner = owner->next;
     }
     return 0;
@@ -97,11 +98,13 @@ static int color_has_owner(owner_list_t *owner, void *c)
 
 static void color_owner_add(owner_list_t *owner, void *c)
 {
-    if (color_has_owner(owner, c))
+    if (color_has_owner(owner, c)) {
         return;
+    }
 
-    while (owner->next != NULL)
+    while (owner->next != NULL) {
         owner = owner->next;
+    }
 
     owner->color_owner = c;
     color_owner_create_empty(&owner->next);
@@ -109,8 +112,9 @@ static void color_owner_add(owner_list_t *owner, void *c)
 
 static void color_owner_copy(owner_list_t *dest, owner_list_t *src)
 {
-    while (dest->next != NULL)
+    while (dest->next != NULL) {
         dest = dest->next;
+    }
 
     while (src->next != NULL) {
         dest->color_owner = src->color_owner;
@@ -124,8 +128,9 @@ static void color_owner_remove(owner_list_t **owner, void *c)
 {
     owner_list_t *owner_list;
 
-    if ((*owner)->next == NULL)
+    if ((*owner)->next == NULL) {
         return;
+    }
 
     if ((*owner)->color_owner == c) {
         owner_list_t *next_owner;
@@ -147,7 +152,6 @@ static void color_owner_remove(owner_list_t **owner, void *c)
         }
         owner_list = owner_list->next;
     }
-
 }
 
 /*-----------------------------------------------------------------------*/
@@ -164,8 +168,9 @@ static void color_free(color_list_t *list)
 {
     color_list_t *list_next;
 
-    if (list == NULL)
+    if (list == NULL) {
         return;
+    }
 
     do {
         list_next = list->next;
@@ -181,8 +186,9 @@ static void color_palette_to_list(color_list_t *color_list, void *c,
     unsigned int i;
     color_list_t *current = color_list;
 
-    while (current->next != NULL)
+    while (current->next != NULL) {
         current = current->next;
+    }
 
     for (i = 0; i < palette->num_entries; i++) {
         current->color_rgb_req.red = palette->entries[i].red;
@@ -198,8 +204,9 @@ static void color_palette_to_list(color_list_t *color_list, void *c,
 
 static void color_copy_entry(color_list_t *dest, color_list_t *src)
 {
-    while (dest->next != NULL)
+    while (dest->next != NULL) {
         dest = dest->next;
+    }
 
     dest->color_rgb_req.red = src->color_rgb_req.red;
     dest->color_rgb_req.green = src->color_rgb_req.green;
@@ -272,8 +279,9 @@ static void color_add_owner_from_other_list(color_list_t *dest,
 static void color_copy_list_with_owner(color_list_t *dest, color_list_t *src)
 {
     while (src->next != NULL) {
-        if (src->owner->next != NULL)
+        if (src->owner->next != NULL) {
             color_copy_entry(dest, src);
+        }
         src = src->next;
     }
 }
@@ -281,8 +289,9 @@ static void color_copy_list_with_owner(color_list_t *dest, color_list_t *src)
 static void color_copy_list_without_owner(color_list_t *dest, color_list_t *src)
 {
     while (src->next != NULL) {
-        if (src->owner->next == NULL)
+        if (src->owner->next == NULL) {
             color_copy_entry(dest, src);
+        }
         src = src->next;
     }
 }
@@ -301,7 +310,6 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
         dest_colnr = 0;
 
         while (cdest->next != NULL) {
-
             cowner = cdest->owner;
             while (cowner->next != NULL) {
                 if (cowner->color_owner == c) {
@@ -313,12 +321,12 @@ static void color_fill_pixel_return(color_list_t *dest, color_list_t *src,
                         uicolor_convert_color_table(colnr,
                                                     &(cdest->pixel_data),
                                                     cdest->color_pixel, c);
-                        if (col_return != NULL)
+                        if (col_return != NULL) {
                             col_return[colnr] = cdest->color_pixel;
+                        }
                         colnr++;
                         goto out;
                     }
-
                 }
                 cowner = cowner->next;
             }
@@ -369,10 +377,10 @@ static int color_alloc_new_colors(color_list_t *list)
 
     while (list->next != NULL) {
         if (uicolor_alloc_color(list->color_rgb_req.red,
-                            list->color_rgb_req.green,
-                            list->color_rgb_req.blue,
-                            &color_pixel,
-                            &data) < 0) {
+                                list->color_rgb_req.green,
+                                list->color_rgb_req.blue,
+                                &color_pixel,
+                                &data) < 0) {
             while (list_start != list) {
                 uicolor_free_color(list_start->color_rgb_req.red,
                                    list_start->color_rgb_req.green,
@@ -418,7 +426,7 @@ int color_alloc_colors(void *c, const palette_t *palette,
                        unsigned long *col_return)
 {
     color_list_t *color_new, *color_to_alloc, *color_no_alloc,
-                 *color_alloced_owner, *color_without_owner;
+    *color_alloced_owner, *color_without_owner;
 
     if (palette == NULL) {
         return 0; /* no palette yet, nothing to alloc. */
@@ -475,4 +483,3 @@ int color_alloc_colors(void *c, const palette_t *palette,
     return 0;
 }
 #endif
-

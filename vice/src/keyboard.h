@@ -98,4 +98,3 @@ extern int pet_kbd_cmdline_options_init(void);
 extern int pet_kbd_resources_init(void);
 
 #endif
-

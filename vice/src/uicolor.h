@@ -46,4 +46,3 @@ extern int uicolor_set_palette(struct video_canvas_s *c,
 extern int uicolor_alloc_colors(struct video_canvas_s *c);
 
 #endif
-

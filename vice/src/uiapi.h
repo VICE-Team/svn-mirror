@@ -53,16 +53,16 @@ extern int ui_init_finalize(void);
 extern void ui_shutdown(void);
 
 /* Print a message.  */
-extern void ui_message(const char *format,...);
+extern void ui_message(const char *format, ...);
 
 /* Print an error message.  */
-extern void ui_error(const char *format,...);
+extern void ui_error(const char *format, ...);
 
 /* Display a mesage without interrupting emulation */
 extern void ui_display_statustext(const char *text, int fade_out);
 
 /* Let the user browse for a filename; display format as a titel */
-extern char* ui_get_file(const char *format,...);
+extern char* ui_get_file(const char *format, ...);
 
 /* Drive related UI.  */
 extern void ui_enable_drive_status(ui_drive_enable_t state,
@@ -71,10 +71,8 @@ extern void ui_display_drive_track(unsigned int drive_number,
                                    unsigned int drive_base,
                                    unsigned int half_track_number);
 /* The pwm value will vary between 0 and 1000.  */
-extern void ui_display_drive_led(int drive_number, unsigned int pwm1,
-                                 unsigned int led_pwm2);
-extern void ui_display_drive_current_image(unsigned int drive_number,
-                                           const char *image);
+extern void ui_display_drive_led(int drive_number, unsigned int pwm1, unsigned int led_pwm2);
+extern void ui_display_drive_current_image(unsigned int drive_number, const char *image);
 extern int ui_extend_image_dialog(void);
 
 /* Tape related UI */

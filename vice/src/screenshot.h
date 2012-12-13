@@ -121,4 +121,3 @@ extern int memmap_screenshot_save(const char *drvname, const char *filename, int
 #endif
 
 #endif
-

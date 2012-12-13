@@ -85,11 +85,11 @@ extern void flash040core_shutdown(struct flash040_context_s *flash040_context);
 extern void flash040core_reset(struct flash040_context_s *flash040_context);
 
 extern void flash040core_store(struct flash040_context_s *flash040_context,
-                                        unsigned int addr, BYTE data);
+                               unsigned int addr, BYTE data);
 extern BYTE flash040core_read(struct flash040_context_s *flash040_context,
-                                       unsigned int addr);
+                              unsigned int addr);
 extern BYTE flash040core_peek(struct flash040_context_s *flash040_context,
-                                       unsigned int addr);
+                              unsigned int addr);
 
 struct snapshot_s;
 

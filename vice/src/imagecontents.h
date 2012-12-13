@@ -66,20 +66,15 @@ typedef struct image_contents_screencode_s image_contents_screencode_t;
 extern void image_contents_destroy(image_contents_t *contents);
 extern image_contents_t *image_contents_new(void);
 
-extern image_contents_screencode_t *image_contents_to_screencode
-                                   (image_contents_t *contents);
+extern image_contents_screencode_t *image_contents_to_screencode (image_contents_t *contents);
 extern void image_contents_screencode_destroy(image_contents_screencode_t *c);
 
-extern char *image_contents_to_string(image_contents_t * contents,
-                                      char convert_to_ascii);
-extern char *image_contents_file_to_string(image_contents_file_list_t * p,
-                                           char convert_to_ascii);
-extern char *image_contents_filename_to_string(image_contents_file_list_t * p,
-                                           char convert_to_ascii);
+extern char *image_contents_to_string(image_contents_t * contents, char convert_to_ascii);
+extern char *image_contents_file_to_string(image_contents_file_list_t * p, char convert_to_ascii);
+extern char *image_contents_filename_to_string(image_contents_file_list_t * p, char convert_to_ascii);
 extern char *image_contents_filename_by_number(image_contents_t *contents,
                                                unsigned int file_index);
 
 extern image_contents_t *diskcontents_iec_read(unsigned int unit);
 
 #endif
-

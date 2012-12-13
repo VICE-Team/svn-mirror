@@ -33,10 +33,10 @@
 int cbmimage_create_image(const char *name, unsigned int type)
 {
     switch (type) {
-      case DISK_IMAGE_TYPE_TAP:
-        return tape_image_create(name, type);
-      default:
-        break;
+        case DISK_IMAGE_TYPE_TAP:
+            return tape_image_create(name, type);
+        default:
+            break;
     }
     return disk_image_fsimage_create(name, type);
 }

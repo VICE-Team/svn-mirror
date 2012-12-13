@@ -51,11 +51,11 @@ extern void lib_free_pinpoint(void *p, char *name, unsigned int line);
 
 extern char *lib_stralloc_pinpoint(const char *str, char *name, unsigned int line);
 
-#define lib_malloc(x) lib_malloc_pinpoint(x,__FILE__,__LINE__)
-#define lib_free(x) lib_free_pinpoint(x,__FILE__,__LINE__)
-#define lib_calloc(x,y) lib_calloc_pinpoint(x,y,__FILE__,__LINE__)
-#define lib_realloc(x,y) lib_realloc_pinpoint(x,y,__FILE__,__LINE__)
-#define lib_stralloc(x) lib_stralloc_pinpoint(x,__FILE__,__LINE__)
+#define lib_malloc(x) lib_malloc_pinpoint(x, __FILE__, __LINE__)
+#define lib_free(x) lib_free_pinpoint(x, __FILE__, __LINE__)
+#define lib_calloc(x, y) lib_calloc_pinpoint(x, y, __FILE__, __LINE__)
+#define lib_realloc(x, y) lib_realloc_pinpoint(x, y, __FILE__, __LINE__)
+#define lib_stralloc(x) lib_stralloc_pinpoint(x, __FILE__, __LINE__)
 
 #if defined(AMIGA_SUPPORT) || defined(__VBCC__)
 extern void *lib_AllocVec_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);
@@ -63,10 +63,10 @@ extern void lib_FreeVec_pinpoint(void *ptr, char *name, unsigned int line);
 extern void *lib_AllocMem_pinpoint(unsigned long size, unsigned long attributes, char *name, unsigned int line);
 extern void lib_FreeMem_pinpoint(void *ptr, unsigned long size, char *name, unsigned int line);
 
-#define lib_AllocVec(x,y) lib_AllocVec_pinpoint(x,y,__FILE__,__LINE__)
-#define lib_FreeVec(x) lib_FreeVec_pinpoint(x,__FILE__,__LINE__)
-#define lib_AllocMem(x,y) lib_AllocMem_pinpoint(x,y,__FILE__,__LINE__)
-#define lib_FreeMem(x,y) lib_FreeMem_pinpoint(x,y,__FILE__,__LINE__)
+#define lib_AllocVec(x, y) lib_AllocVec_pinpoint(x, y, __FILE__, __LINE__)
+#define lib_FreeVec(x) lib_FreeVec_pinpoint(x, __FILE__, __LINE__)
+#define lib_AllocMem(x, y) lib_AllocMem_pinpoint(x, y, __FILE__, __LINE__)
+#define lib_FreeMem(x, y) lib_FreeMem_pinpoint(x, y, __FILE__, __LINE__)
 #endif
 
 #else

@@ -57,8 +57,9 @@ static char *romset_archive_active = NULL;
 
 static int set_romset_source_file(int source, void *param)
 {
-    if (source < 0 || source > 1)
+    if (source < 0 || source > 1) {
         return -1;
+    }
 
     romset_source_file = source;
 
@@ -67,27 +68,31 @@ static int set_romset_source_file(int source, void *param)
 
 static int set_romset_archive_name(const char *val, void *param)
 {
-    if (util_string_set(&romset_archive_name, val))
+    if (util_string_set(&romset_archive_name, val)) {
         return 0;
+    }
 
     return 0;
 }
 
 static int set_romset_archive_active(const char *val, void *param)
 {
-    if (util_string_set(&romset_archive_active, val))
+    if (util_string_set(&romset_archive_active, val)) {
         return 0;
+    }
 
-    if (romset_archive_item_select(romset_archive_active) < 0)
+    if (romset_archive_item_select(romset_archive_active) < 0) {
         return 0;
+    }
 
     return 0;
 }
 
 static int set_romset_filename(const char *val, void *param)
 {
-    if (util_string_set(&romset_filename, val))
+    if (util_string_set(&romset_filename, val)) {
         return 0;
+    }
 
     return 0;
 }
@@ -111,8 +116,9 @@ static const resource_int_t resources_int[] = {
 
 int romset_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -236,7 +242,9 @@ static string_link_t *romsets = NULL;
 #define READ_ROM_LINE \
     if ((bptr = fgets(buffer, 256, fp)) != NULL) { \
         line_num++; b = buffer;                    \
-        while ((*b == ' ') || (*b == '\t')) b++;   \
+        while ((*b == ' ') || (*b == '\t')) {      \
+            b++;                                   \
+        }                                          \
     }
 
 int romset_archive_load(const char *filename, int autostart)
@@ -262,14 +270,17 @@ int romset_archive_load(const char *filename, int autostart)
         int entry;
 
         READ_ROM_LINE;
-        if (bptr == NULL)
+        if (bptr == NULL) {
             break;
-        if ((*b == '\n') || (*b == '#'))
+        }
+        if ((*b == '\n') || (*b == '#')) {
             continue;
+        }
         length = strlen(b);
         for (entry = 0, item = romsets; entry < num_romsets; entry++, item++) {
-            if (strncmp(item->name, b, length - 1) == 0)
+            if (strncmp(item->name, b, length - 1) == 0) {
                 break;
+            }
         }
         if (entry >= array_size) {
             array_size += 4;
@@ -290,8 +301,9 @@ int romset_archive_load(const char *filename, int autostart)
         }
         anchor->next = NULL;
 
-        if ((autostart != 0) && (autoset == NULL))
+        if ((autostart != 0) && (autoset == NULL)) {
             autoset = anchor;
+        }
 
         READ_ROM_LINE
         if ((bptr == NULL) || (*b != '{')) {
@@ -307,8 +319,9 @@ int romset_archive_load(const char *filename, int autostart)
                 fclose(fp);
                 return -1;
             }
-            if (*b == '}')
+            if (*b == '}') {
                 break;
+            }
             length = strlen(b);
             item = lib_malloc(sizeof(string_link_t));
             item->name = lib_malloc(length);
@@ -318,14 +331,16 @@ int romset_archive_load(const char *filename, int autostart)
             last->next = item;
             last = item;
         }
-        if (entry >= num_romsets)
+        if (entry >= num_romsets) {
             num_romsets++;
+        }
     }
 
     fclose(fp);
 
-    if (autoset != 0)
+    if (autoset != 0) {
         romset_archive_item_select(autoset->name);
+    }
 
     return 0;
 }
@@ -453,10 +468,11 @@ int romset_archive_item_select(const char *romset_name)
                 b = buffer;
                 d = item->name;
                 while (*d != '\0') {
-                    if (*d == '=')
+                    if (*d == '=') {
                         break;
-                    else
+                    } else {
                         *b++ = *d++;
+                    }
                 }
                 *b++ = '\0';
                 if (*d == '=') {
@@ -465,22 +481,23 @@ int romset_archive_item_select(const char *romset_name)
 
                     arg = b; d++;
                     while (*d != '\0') {
-                        if (*d != '\"')
+                        if (*d != '\"') {
                             *b++ = *d;
+                        }
                         d++;
                     }
                     *b++ = '\0';
                     tp = resources_query_type(buffer);
                     switch (tp) {
-                      case RES_INTEGER:
-                        resources_set_int(buffer, atoi(arg));
-                        break;
-                      case RES_STRING:
-                        resources_set_string(buffer, arg);
-                        break;
-                      default:
-                        b = NULL;
-                        break;
+                        case RES_INTEGER:
+                            resources_set_int(buffer, atoi(arg));
+                            break;
+                        case RES_STRING:
+                            resources_set_string(buffer, arg);
+                            break;
+                        default:
+                            b = NULL;
+                            break;
                     }
                 }
             }
@@ -499,8 +516,9 @@ int romset_archive_item_create(const char *romset_name,
     const char **res;
 
     for (entry = 0, item = romsets; entry < num_romsets; entry++, item++) {
-        if (strcmp(romset_name, item->name) == 0)
+        if (strcmp(romset_name, item->name) == 0) {
             break;
+        }
     }
     if (entry >= array_size) {
         array_size += 4;
@@ -532,8 +550,9 @@ int romset_archive_item_create(const char *romset_name,
         res++;
     }
 
-    if (entry >= num_romsets)
+    if (entry >= num_romsets) {
         num_romsets++;
+    }
 
     return 0;
 }
@@ -601,8 +620,9 @@ int romset_archive_get_number(void)
 
 char *romset_archive_get_item(int number)
 {
-    if ((number < 0) || (number >= num_romsets))
+    if ((number < 0) || (number >= num_romsets)) {
         return NULL;
+    }
 
     return romsets[number].name;
 }
@@ -613,4 +633,3 @@ void romset_init(void)
 
     machine_romset_init();
 }
-

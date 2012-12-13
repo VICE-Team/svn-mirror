@@ -48,17 +48,19 @@ unsigned long crc32_buf(const char *buffer, unsigned int len)
     if (!crc32_is_initialized) {
         for (i = 0; i < 256; i++) {
             c = (unsigned long) i;
-            for (j = 0; j < 8; j++)
+            for (j = 0; j < 8; j++) {
                 c = c & 1 ? CRC32_POLY ^ (c >> 1) : c >> 1;
+            }
             crc32_table[i] = c;
         }
         crc32_is_initialized = 1;
     }
 
     crc = 0xffffffff;
-    for (p = buffer; len > 0; ++p, --len)
+    for (p = buffer; len > 0; ++p, --len) {
         crc = (crc >> 8) ^ crc32_table[(crc ^ *p) & 0xff];
-    
+    }
+
     return ~crc;
 }
 
@@ -69,24 +71,26 @@ unsigned long crc32_file(const char *filename)
     unsigned int len;
     unsigned long crc = 0;
 
-    if (util_check_null_string(filename) < 0)
+    if (util_check_null_string(filename) < 0) {
         return 0;
+    }
 
     fd = fopen(filename, MODE_READ);
 
-    if (fd == NULL)
+    if (fd == NULL) {
         return 0;
+    }
 
     len = (unsigned int)util_file_length(fd);
 
     buffer = lib_malloc(len);
 
-    if (fread(buffer, len, 1, fd) == 1)
+    if (fread(buffer, len, 1, fd) == 1) {
         crc = crc32_buf(buffer, len);
+    }
 
     fclose(fd);
     lib_free(buffer);
 
     return crc;
 }
-

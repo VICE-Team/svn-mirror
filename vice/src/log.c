@@ -60,15 +60,16 @@ static void log_file_open(void)
         return;
     } else {
 #ifndef __OS2__
-        if (strcmp(log_file_name, "-") == 0)
+        if (strcmp(log_file_name, "-") == 0) {
             log_file = stdout;
-        else
+        } else
 #endif
-            log_file = fopen(log_file_name, MODE_WRITE_TEXT);
+        log_file = fopen(log_file_name, MODE_WRITE_TEXT);
     }
     /* flush all data direct to the output stream. */
-    if (log_file)
+    if (log_file) {
         setbuf(log_file, NULL);
+    }
 }
 
 static int set_log_file_name(const char *val, void *param)
@@ -162,8 +163,9 @@ int log_cmdline_options_init(void)
 
 int log_init_with_fd(FILE *f)
 {
-    if (f == NULL)
+    if (f == NULL) {
         return -1;
+    }
 
     log_file = f;
     return 0;
@@ -179,8 +181,9 @@ int log_init(void)
      * stdout (e.g win32) no logging will be seen.  On win32 startup will
      * also be preceeded by a modal error requester.  / tlr
      */
-    if (logs != NULL)
+    if (logs != NULL) {
         return -1;
+    }
 #endif
 
     log_file_open();
@@ -211,8 +214,9 @@ log_t log_open(const char *id)
 
 int log_close(log_t log)
 {
-    if (logs[(unsigned int)log] == NULL)
+    if (logs[(unsigned int)log] == NULL) {
         return -1;
+    }
 
     lib_free(logs[(unsigned int)log]);
     logs[(unsigned int)log] = NULL;
@@ -224,8 +228,9 @@ void log_close_all(void)
 {
     log_t i;
 
-    for (i = 0; i < num_logs; i++)
+    for (i = 0; i < num_logs; i++) {
         log_close(i);
+    }
 
     lib_free(logs);
 }
@@ -245,16 +250,18 @@ static int log_archdep(const char *logtxt, const char *fmt, va_list ap)
     while (beg < end) {
         char *eol = strchr(beg, '\n');
 
-        if (eol)
-            *eol='\0';
+        if (eol) {
+            *eol = '\0';
+        }
 
         if (archdep_default_logger(*beg ? logtxt : "", beg) < 0) {
             rc = -1;
             break;
         }
 
-        if (!eol)
+        if (!eol) {
             break;
+        }
 
         beg = eol + 1;
     }
@@ -299,8 +306,9 @@ static int log_helper(log_t log, unsigned int level, const char *format,
 #endif /* #ifdef WIN32 */
         if (fputs(logtxt, log_file) == EOF
             || vfprintf(log_file, format, ap) < 0
-            || fputc ('\n', log_file) == EOF)
+            || fputc ('\n', log_file) == EOF) {
             rc = -1;
+        }
     }
 
     lib_free(logtxt);
@@ -374,4 +382,3 @@ void log_enable(int on)
 {
     log_enabled = on;
 }
-

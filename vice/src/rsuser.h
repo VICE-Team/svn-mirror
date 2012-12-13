@@ -53,4 +53,3 @@ extern BYTE rsuser_get_rx_bit(void);
 extern void rsuser_set_tx_bit(int b);
 
 #endif
-

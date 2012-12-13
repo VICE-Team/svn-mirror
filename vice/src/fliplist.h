@@ -51,8 +51,6 @@ extern unsigned int fliplist_get_unit(fliplist_t fl);
 
 extern void fliplist_clear_list(unsigned int unit);
 extern int fliplist_save_list(unsigned int unit, const char *filename);
-extern int fliplist_load_list(unsigned int unit, const char *filename,
-                          int autoattach);
+extern int fliplist_load_list(unsigned int unit, const char *filename, int autoattach);
 
 #endif
-

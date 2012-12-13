@@ -68,4 +68,3 @@ extern enum fdc_err_e gcr_write_sector(disk_track_t *raw, const BYTE *data, BYTE
 extern gcr_t *gcr_create_image(void);
 extern void gcr_destroy_image(gcr_t *gcr);
 #endif
-

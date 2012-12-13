@@ -63,25 +63,27 @@
    `delay'.  */
 #define OPINFO_SET_DELAYS_INTERRUPT(opinfo, delay)   \
     do {                                             \
-        if ((delay))                                 \
+        if ((delay)) {                               \
             (opinfo) |= OPINFO_DELAYS_INTERRUPT_MSK; \
+        }                                            \
     } while (0)
 
 /* Set whether the opcode disables previously enabled IRQs according to
    `disable'.  */
 #define OPINFO_SET_DISABLES_IRQ(opinfo, disable) \
     do {                                         \
-        if ((disable))                           \
+        if ((disable)) {                         \
             (opinfo) |= OPINFO_DISABLES_IRQ_MSK; \
+        }                                        \
     } while (0)
 
 /* Set whether the opcode enables previously disabled IRQs according to
    `enable'.  */
 #define OPINFO_SET_ENABLES_IRQ(opinfo, enable)  \
     do {                                        \
-        if ((enable))                           \
+        if ((enable)) {                         \
             (opinfo) |= OPINFO_ENABLES_IRQ_MSK; \
+        }                                       \
     } while (0)
 
 #endif
-

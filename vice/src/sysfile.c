@@ -74,20 +74,20 @@ static int set_system_path(const char *val, void *param)
                 s = util_concat(tmp_path, NULL); /* concat allocs a new str. */
             } else {
                 s = util_concat(expanded_system_path,
-                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                    tmp_path, NULL );
+                                ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                tmp_path, NULL );
             }
         } else { /* relative path */
             if (expanded_system_path == NULL) {
                 s = util_concat(current_dir,
-                    FSDEV_DIR_SEP_STR,
-                    tmp_path, NULL );
+                                FSDEV_DIR_SEP_STR,
+                                tmp_path, NULL );
             } else {
                 s = util_concat(expanded_system_path,
-                    ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                    current_dir,
-                    FSDEV_DIR_SEP_STR,
-                    tmp_path, NULL );
+                                ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                                current_dir,
+                                FSDEV_DIR_SEP_STR,
+                                tmp_path, NULL );
             }
         }
         lib_free(expanded_system_path);
@@ -178,8 +178,9 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
     p = findpath(name, expanded_system_path, IOUTIL_ACCESS_R_OK);
 
     if (p == NULL) {
-        if (complete_path_return != NULL)
+        if (complete_path_return != NULL) {
             *complete_path_return = NULL;
+        }
         return NULL;
     } else {
         f = fopen(p, open_mode);
@@ -188,11 +189,12 @@ FILE *sysfile_open(const char *name, char **complete_path_return,
             lib_free(p);
             p = NULL;
         }
-        if (complete_path_return != NULL)
+        if (complete_path_return != NULL) {
             *complete_path_return = p;
+        }
         return f;
     }
-#endif	/* DINGOO_NATIVE */
+#endif  /* DINGOO_NATIVE */
 }
 
 /* As `sysfile_open', but do not open the file.  Just return 0 if the file is
@@ -204,8 +206,9 @@ int sysfile_locate(const char *name, char **complete_path_return)
     if (f != NULL) {
         fclose(f);
         return 0;
-    } else
+    } else {
         return -1;
+    }
 }
 
 /* ------------------------------------------------------------------------- */
@@ -242,9 +245,10 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
     fp = sysfile_open(name, &complete_path, MODE_READ);
 
     if (fp == NULL) {
-
         /* Try to open the file from the current directory. */
-        const char working_dir_prefix[3] = { '.', FSDEV_DIR_SEP_CHR, '\0' };
+        const char working_dir_prefix[3] = {
+            '.', FSDEV_DIR_SEP_CHR, '\0'
+        };
         char *local_name = NULL;
 
         local_name = util_concat(working_dir_prefix, name, NULL);
@@ -261,10 +265,10 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
 
     rsize = util_file_length(fp);
     if (minsize < 0) {
-	minsize = -minsize;
-	load_at_end = 0;
+        minsize = -minsize;
+        load_at_end = 0;
     } else {
-	load_at_end = 1;
+        load_at_end = 1;
     }
 
     if (rsize < ((size_t)minsize)) {
@@ -275,7 +279,7 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
         log_warning(LOG_DEFAULT,
                     "ROM `%s': two bytes too large - removing assumed "
                     "start address.", complete_path);
-        if(fread((char *)dest, 1, 2, fp) < 2) {
+        if (fread((char *)dest, 1, 2, fp) < 2) {
             goto fail;
         }
         rsize -= 2;
@@ -287,8 +291,9 @@ int sysfile_load(const char *name, BYTE *dest, int minsize, int maxsize)
                     complete_path);
         rsize = maxsize;
     }
-    if ((rsize = fread((char *)dest, 1, rsize, fp)) < ((size_t)minsize))
+    if ((rsize = fread((char *)dest, 1, rsize, fp)) < ((size_t)minsize)) {
         goto fail;
+    }
 
     fclose(fp);
     lib_free(complete_path);

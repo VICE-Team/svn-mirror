@@ -32,4 +32,3 @@
 extern void dma_maincpu_steal_cycles(CLOCK start_clk, int num, CLOCK sub);
 
 #endif
-

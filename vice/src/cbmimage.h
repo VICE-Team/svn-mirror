@@ -30,4 +30,3 @@
 extern int cbmimage_create_image(const char *name, unsigned int type);
 
 #endif
-

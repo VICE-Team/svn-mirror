@@ -33,8 +33,8 @@
 
 struct autostart_prg_s {
     BYTE *data;
-    WORD  start_addr;
-    DWORD  size;
+    WORD start_addr;
+    DWORD size;
 };
 typedef struct autostart_prg_s autostart_prg_t;
 

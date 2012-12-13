@@ -75,4 +75,3 @@ extern CLOCK clk_guard_clock_sub(clk_guard_t *guard);
 extern CLOCK clk_guard_prevent_overflow(clk_guard_t *guard);
 
 #endif
-

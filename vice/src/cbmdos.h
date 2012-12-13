@@ -130,13 +130,10 @@ typedef struct cbmdos_cmd_parse_s cbmdos_cmd_parse_t;
 extern const char *cbmdos_errortext(unsigned int code);
 extern const char *cbmdos_filetype_get(unsigned int filetype);
 
-extern unsigned int cbmdos_parse_wildcard_check(const char *name,
-                                                unsigned int len);
-extern unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1,
-                                                  const BYTE *name2);
+extern unsigned int cbmdos_parse_wildcard_check(const char *name, unsigned int len);
+extern unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2);
 extern BYTE *cbmdos_dir_slot_create(const char *name, unsigned int len);
 
 extern unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse);
 
 #endif
-

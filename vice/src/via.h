@@ -158,11 +158,11 @@ extern void viacore_signal(struct via_context_s *via_context, int line,
                            int edge);
 
 extern void viacore_store(struct via_context_s *via_context,
-                                   WORD addr, BYTE data);
+                          WORD addr, BYTE data);
 extern BYTE viacore_read(struct via_context_s *via_context,
-                                  WORD addr);
+                         WORD addr);
 extern BYTE viacore_peek(struct via_context_s *via_context,
-                                  WORD addr);
+                         WORD addr);
 
 extern void viacore_set_sr(via_context_t *via_context, BYTE data);
 
@@ -172,4 +172,3 @@ extern int viacore_snapshot_read_module(struct via_context_s *via_context,
                                         struct snapshot_s *s);
 extern int viacore_dump(via_context_t *via_context);
 #endif
-

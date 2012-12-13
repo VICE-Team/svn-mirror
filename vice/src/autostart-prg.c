@@ -51,10 +51,10 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
 {
     DWORD ptr;
     DWORD end;
-    BYTE lo,hi;
-    int  i;
+    BYTE lo, hi;
+    int i;
     autostart_prg_t *prg;
-    
+
     prg = lib_malloc(sizeof(autostart_prg_t));
     if (prg == NULL) {
         return NULL;
@@ -65,8 +65,7 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     prg->data = NULL;
 
     /* read start address */
-    if ((fileio_read(finfo, &lo, 1) != 1) ||
-       (fileio_read(finfo, &hi, 1) != 1)) {
+    if ((fileio_read(finfo, &lo, 1) != 1) || (fileio_read(finfo, &hi, 1) != 1)) {
         log_error(log, "Cannot read start address from '%s'", file_name);
         return NULL;
     }
@@ -84,9 +83,9 @@ static autostart_prg_t * load_prg(const char *file_name, fileio_info_t *finfo, l
     prg->data = lib_malloc(prg->size);
     if (prg->data == NULL) {
         log_error(log, "No memory for '%s'", file_name);
-        return NULL;        
+        return NULL;
     }
-    
+
     /* copy data to memory */
     ptr = prg->start_addr;
     i = 0;
@@ -154,7 +153,7 @@ int autostart_prg_with_virtual_fs(const char *file_name,
 
     lib_free(directory);
     lib_free(file);
-    
+
     return 0;
 }
 
@@ -166,7 +165,7 @@ int autostart_prg_with_ram_injection(const char *file_name,
     if (inject_prg != NULL) {
         free_prg(inject_prg);
     }
-    
+
     /* load program file into memory */
     inject_prg = load_prg(file_name, fh, log);
     return (inject_prg == NULL) ? -1 : 0;
@@ -184,9 +183,9 @@ int autostart_prg_with_disk_image(const char *file_name,
     unsigned int i;
     int old_tde_state;
     int file_name_size;
-    BYTE lo,hi;
-    
-    /* read prg file */ 
+    BYTE lo, hi;
+
+    /* read prg file */
     prg = load_prg(file_name, fh, log);
     if (prg == NULL) {
         return -1;
@@ -194,50 +193,48 @@ int autostart_prg_with_disk_image(const char *file_name,
 
     /* disable TDE */
     resources_get_int("DriveTrueEmulation", &old_tde_state);
-    if (old_tde_state != 0)
+    if (old_tde_state != 0) {
         resources_set_int("DriveTrueEmulation", 0);
+    }
 
     /* create empty image */
-    if (vdrive_internal_create_format_disk_image(image_name, 
-        (char *)"AUTOSTART", DISK_IMAGE_TYPE_D64) <0 ) {
+    if (vdrive_internal_create_format_disk_image(image_name, (char *)"AUTOSTART", DISK_IMAGE_TYPE_D64) < 0) {
         log_error(log, "Error creating autostart disk image: %s", image_name);
         free_prg(prg);
         return -1;
     }
-    
+
     /* attach disk image */
     if (file_system_attach_disk(drive, image_name) < 0) {
         log_error(log, "Could not attach disk image: %s", image_name);
         free_prg(prg);
         return -1;
     }
-    
+
     /* copy file to disk */
     vdrive = file_system_get_vdrive((unsigned int)drive);
     if (vdrive == NULL) {
         free_prg(prg);
         return -1;
     }
-    
+
     /* get file name size */
     file_name_size = strlen((const char *)fh->name);
     if (file_name_size > 16) {
         file_name_size = 16;
     }
-    
+
     /* open file on disk */
-    if (vdrive_iec_open(vdrive, (const BYTE *)fh->name,
-        file_name_size, secondary, NULL) != SERIAL_OK) {
+    if (vdrive_iec_open(vdrive, (const BYTE *)fh->name, file_name_size, secondary, NULL) != SERIAL_OK) {
         log_error(log, "Could not open file");
         free_prg(prg);
         return -1;
     }
-    
+
     /* write start address to file */
     lo = (BYTE)(prg->start_addr & 0xff);
     hi = (BYTE)((prg->start_addr >> 8) & 0xff);
-    if ((vdrive_iec_write(vdrive, lo, secondary) != SERIAL_OK) ||
-       (vdrive_iec_write(vdrive, hi, secondary) != SERIAL_OK)) {
+    if ((vdrive_iec_write(vdrive, lo, secondary) != SERIAL_OK) || (vdrive_iec_write(vdrive, hi, secondary) != SERIAL_OK)) {
         log_error(log, "Could not write file");
         free_prg(prg);
         return -1;
@@ -258,14 +255,15 @@ int autostart_prg_with_disk_image(const char *file_name,
         free_prg(prg);
         return -1;
     }
-    
+
     /* free prg file */
     free_prg(prg);
-    
+
     /* re-enable TDE */
-    if (old_tde_state != 0)
+    if (old_tde_state != 0) {
         resources_set_int("DriveTrueEmulation", old_tde_state);
-    
+    }
+
     /* ready */
     return 0;
 }
@@ -276,30 +274,29 @@ int autostart_prg_perform_injection(log_t log)
     WORD start, end;
 
     autostart_prg_t *prg = inject_prg;
-    
+
     if (prg == NULL) {
         log_error(log, "Nothing to inject!");
         return -1;
     }
-    
-    log_message(log, "Injecting program data at $%04x (size $%04x)", 
+
+    log_message(log, "Injecting program data at $%04x (size $%04x)",
                 prg->start_addr,
                 prg->size);
-                
+
     /* store data in emu memory */
     for (i = 0; i < prg->size; i++) {
         mem_inject((WORD)(prg->start_addr + i), prg->data[i]);
     }
-    
+
     /* now simulate a basic load */
     mem_get_basic_text(&start, &end);
     end = (WORD)(prg->start_addr + prg->size);
     mem_set_basic_text(start, end);
-    
+
     /* clean up injected prog */
     free_prg(inject_prg);
     inject_prg = NULL;
-            
+
     return 0;
 }
-

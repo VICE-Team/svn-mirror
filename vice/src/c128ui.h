@@ -32,4 +32,3 @@ extern int c128ui_init(void);
 extern void c128ui_shutdown(void);
 
 #endif
-

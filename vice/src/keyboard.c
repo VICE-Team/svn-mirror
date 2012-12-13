@@ -148,7 +148,7 @@ void keyboard_restore_event_playback(CLOCK offset, void *data)
 {
     machine_set_restore_key((int)(*(DWORD *)data));
 }
-    
+
 static void keyboard_latch_handler(CLOCK offset, void *data)
 {
     alarm_unset(keyboard_alarm);
@@ -371,8 +371,7 @@ static void keyboard_restore_pressed(void)
     DWORD event_data;
     event_data = (DWORD)1;
     if (network_connected()) {
-        network_event_record(EVENT_KEYBOARD_RESTORE,
-                (void*)&event_data, sizeof(DWORD));
+        network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
     } else {
         if (restore_raw == 0) {
             restore_delayed = 1;
@@ -388,8 +387,7 @@ static void keyboard_restore_released(void)
     DWORD event_data;
     event_data = (DWORD)0;
     if (network_connected()) {
-        network_event_record(EVENT_KEYBOARD_RESTORE,
-                (void*)&event_data, sizeof(DWORD));
+        network_event_record(EVENT_KEYBOARD_RESTORE, (void*)&event_data, sizeof(DWORD));
     } else {
         if (restore_raw == 1) {
             if (restore_delayed) {
@@ -412,29 +410,30 @@ void keyboard_key_pressed(signed long key)
 
     /* Restore */
     if (((key == key_ctrl_restore1) || (key == key_ctrl_restore2))
-        && machine_has_restore_key())
-    {
+        && machine_has_restore_key()) {
         keyboard_restore_pressed();
         return;
     }
 
     if (key == key_ctrl_column4080) {
-        if (key_ctrl_column4080_func != NULL)
+        if (key_ctrl_column4080_func != NULL) {
             key_ctrl_column4080_func();
+        }
         return;
     }
 
     if (key == key_ctrl_caps) {
-        if (key_ctrl_caps_func != NULL)
+        if (key_ctrl_caps_func != NULL) {
             key_ctrl_caps_func();
+        }
         return;
     }
 
     for (i = 0; i < JOYSTICK_NUM; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
-         || joystick_port_map[i] == JOYDEV_KEYSET1
-         || joystick_port_map[i] == JOYDEV_KEYSET2) {
-            if (joystick_check_set(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1+i)) {
+            || joystick_port_map[i] == JOYDEV_KEYSET1
+            || joystick_port_map[i] == JOYDEV_KEYSET2) {
+            if (joystick_check_set(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1 + i)) {
                 return;
             }
         }
@@ -468,10 +467,8 @@ void keyboard_key_pressed(signed long key)
         keyboard_set_latch_keyarr(key_latch_row, key_latch_column, 1);
         if (network_connected()) {
             CLOCK keyboard_delay = KEYBOARD_RAND();
-            network_event_record(EVENT_KEYBOARD_DELAY,
-                    (void *)&keyboard_delay, sizeof(keyboard_delay));
-            network_event_record(EVENT_KEYBOARD_MATRIX, 
-                    (void *)latch_keyarr, sizeof(latch_keyarr));
+            network_event_record(EVENT_KEYBOARD_DELAY, (void *)&keyboard_delay, sizeof(keyboard_delay));
+            network_event_record(EVENT_KEYBOARD_MATRIX, (void *)latch_keyarr, sizeof(latch_keyarr));
         } else {
             alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
         }
@@ -504,7 +501,7 @@ static int keyboard_key_released_matrix(int row, int column, int shift)
         if (shift & SHIFT_LOCK) {
             keyboard_shiftlock = 0;
             if (((shiftl == KEY_RSHIFT) && right_shift_down)
-             || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
+                || ((shiftl == KEY_LSHIFT) && left_shift_down)) {
                 skip_release = 1;
             }
         }
@@ -549,9 +546,9 @@ void keyboard_key_released(signed long key)
 
     for (i = 0; i < JOYSTICK_NUM; ++i) {
         if (joystick_port_map[i] == JOYDEV_NUMPAD
-         || joystick_port_map[i] == JOYDEV_KEYSET1
-         || joystick_port_map[i] == JOYDEV_KEYSET2) {
-            if (joystick_check_clr(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1+i)) {
+            || joystick_port_map[i] == JOYDEV_KEYSET1
+            || joystick_port_map[i] == JOYDEV_KEYSET2) {
+            if (joystick_check_clr(key, joystick_port_map[i] - JOYDEV_NUMPAD, 1 + i)) {
                 return;
             }
         }
@@ -586,10 +583,8 @@ void keyboard_key_released(signed long key)
     if (latch) {
         if (network_connected()) {
             CLOCK keyboard_delay = KEYBOARD_RAND();
-            network_event_record(EVENT_KEYBOARD_DELAY,
-                        (void *)&keyboard_delay, sizeof(keyboard_delay));
-            network_event_record(EVENT_KEYBOARD_MATRIX, 
-                        (void *)latch_keyarr, sizeof(latch_keyarr));
+            network_event_record(EVENT_KEYBOARD_DELAY, (void *)&keyboard_delay, sizeof(keyboard_delay));
+            network_event_record(EVENT_KEYBOARD_MATRIX, (void *)latch_keyarr, sizeof(latch_keyarr));
         } else {
             alarm_set(keyboard_alarm, maincpu_clk + KEYBOARD_RAND());
         }
@@ -640,7 +635,6 @@ void keyboard_set_keyarr_any(int row, int col, int value)
         } else {
             keyboard_key_released(sym);
         }
-
     } else {
         keyboard_set_keyarr(row, col, value);
     }
@@ -890,8 +884,8 @@ static void keyboard_parse_entry(char *buffer)
                 } else {
                     if (keyboard_parse_set_neg_row(sym, row, col) < 0) {
                         log_error(keyboard_log,
-                            "Bad row/column value (%d/%d) for keysym `%s'.",
-                            row, col, key);
+                                  "Bad row/column value (%d/%d) for keysym `%s'.",
+                                  row, col, key);
                     }
                 }
             }
@@ -926,20 +920,20 @@ static int keyboard_parse_keymap(const char *filename)
             buffer[strlen(buffer) - 1] = 0; /* remove newline */
             /* remove comments */
             if ((p = strchr(buffer, '#'))) {
-                *p=0;
+                *p = 0;
             }
 
-            switch(*buffer) {
-              case 0:
-                break;
-              case '!':
-                /* keyword handling */
-                keyboard_parse_keyword(buffer);
-                break;
-              default:
-                /* table entry handling */
-                keyboard_parse_entry(buffer);
-                break;
+            switch (*buffer) {
+                case 0:
+                    break;
+                case '!':
+                    /* keyword handling */
+                    keyboard_parse_keyword(buffer);
+                    break;
+                default:
+                    /* table entry handling */
+                    keyboard_parse_entry(buffer);
+                    break;
             }
         }
     } while (!feof(fp));
@@ -1033,7 +1027,7 @@ int keyboard_keymap_dump(const char *filename)
             "# 'keysym -4 0' 40/80 column key\n"
             "# 'keysym -4 1' CAPS (ASCII/DIN) key\n"
             "#\n\n"
-        );
+            );
     fprintf(fp, "!CLEAR\n");
     fprintf(fp, "!LSHIFT %d %d\n", kbd_lshiftrow, kbd_lshiftcol);
     fprintf(fp, "!RSHIFT %d %d\n", kbd_rshiftrow, kbd_rshiftcol);
@@ -1101,8 +1095,9 @@ int keyboard_set_keymap_index(int val, void *param)
 
     resname = machine_keymap_res_name_list[val];
 
-    if (resources_get_string(resname, &name) < 0)
+    if (resources_get_string(resname, &name) < 0) {
         return -1;
+    }
 
     if (load_keymap_ok) {
         if (keyboard_keymap_load(name) >= 0) {
@@ -1168,7 +1163,7 @@ void keyboard_init(void)
                                keyboard_latch_handler, NULL);
 #ifdef COMMON_KBD
     restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
-                                restore_alarm_triggered, NULL);
+                              restore_alarm_triggered, NULL);
 
     kbd_arch_init();
 
@@ -1190,8 +1185,9 @@ int keyboard_snapshot_write_module(snapshot_t *s)
     snapshot_module_t *m;
 
     m = snapshot_module_create(s, "KEYBOARD", 1, 0);
-    if (m == NULL)
-       return -1;
+    if (m == NULL) {
+        return -1;
+    }
 
     if (0
         || SMW_DWA(m, (DWORD *)keyarr, KBD_ROWS) < 0

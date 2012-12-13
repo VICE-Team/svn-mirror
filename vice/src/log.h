@@ -65,4 +65,3 @@ extern int log_verbose(const char *format, ...);
 #endif
 
 #endif
-

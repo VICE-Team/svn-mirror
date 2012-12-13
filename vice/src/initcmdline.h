@@ -33,4 +33,3 @@ extern int initcmdline_check_args(int argc, char **argv);
 extern void initcmdline_check_attach(void);
 
 #endif
-

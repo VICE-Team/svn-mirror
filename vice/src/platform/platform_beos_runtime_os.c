@@ -27,6 +27,7 @@
 /* Tested and confirmed working on:
    - BeOS R5 PE x86
    - Haiku R1 Alpha3 x86
+   - Haiku R1 Alpha4 x86
 */
 
 #include "vice.h"

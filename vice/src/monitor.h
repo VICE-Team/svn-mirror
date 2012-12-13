@@ -43,13 +43,13 @@ enum mon_int {
 };
 
 enum t_memspace {
-   e_default_space = 0,
-   e_comp_space,
-   e_disk8_space,
-   e_disk9_space,
-   e_disk10_space,
-   e_disk11_space,
-   e_invalid_space
+    e_default_space = 0,
+    e_comp_space,
+    e_disk8_space,
+    e_disk9_space,
+    e_disk10_space,
+    e_disk11_space,
+    e_invalid_space
 };
 typedef enum t_memspace MEMSPACE;
 
@@ -133,8 +133,8 @@ extern unsigned monitor_mask[NUM_MEMSPACES];
 /* Prototypes */
 extern monitor_cpu_type_t* monitor_find_cpu_type_from_string(const char *cpu_type);
 
-extern void monitor_init(monitor_interface_t *maincpu_interface,
-                         monitor_interface_t *drive_interface_init[],
+extern void monitor_init(monitor_interface_t * maincpu_interface,
+                         monitor_interface_t * drive_interface_init[],
                          struct monitor_cpu_type_s **asmarray);
 extern void monitor_shutdown(void);
 extern int monitor_cmdline_options_init(void);

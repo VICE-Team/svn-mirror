@@ -1,5 +1,5 @@
 
-/*! \file iecbus.h 
+/*! \file iecbus.h
  *
  *  \brief IEC bus handling.
  *
@@ -102,4 +102,3 @@ extern int  iecbus_device_write(unsigned int unit, BYTE data);
 extern void (*iecbus_update_ports)(void);
 
 #endif
-

@@ -97,7 +97,7 @@ static double sinus(double arg, int quad)
 {
     double e, f;
     double ysq;
-    double x,y;
+    double x, y;
     int k;
     double temp1, temp2;
 
@@ -169,7 +169,7 @@ double exp(double arg)
 
 double log(double arg)
 {
-    double x,z, zsq, temp;
+    double x, z, zsq, temp;
     int exp;
 
     if (arg <= 0.) {
@@ -178,7 +178,7 @@ double log(double arg)
     }
     x = frexp(arg, &exp);
     while (x < 0.5) {
-        x = x*2;
+        x = x * 2;
         exp = exp - 1;
     }
     if (x < sqrto2) {
@@ -237,7 +237,7 @@ double sqrt(double arg)
         return (0.);
     }
 
-    x = frexp(arg,&exp);
+    x = frexp(arg, &exp);
 
     while (x < 0.5) {
         x *= 2;
@@ -249,26 +249,26 @@ double sqrt(double arg)
         exp--;
     }
 
-    temp = 0.5*(1.0+x);
+    temp = 0.5 * (1.0 + x);
 
     while (exp > 60) {
-        temp *= (1L<<30);
+        temp *= (1L << 30);
         exp -= 60;
     }
 
     while (exp < -60) {
-        temp /= (1L<<30);
+        temp /= (1L << 30);
         exp += 60;
     }
 
     if (exp >= 0) {
-        temp *= 1L << (exp/2);
+        temp *= 1L << (exp / 2);
     } else {
-        temp /= 1L << (-exp/2);
+        temp /= 1L << (-exp / 2);
     }
 
-    for (i=0; i<=4; i++) {
-        temp = 0.5*(temp + arg/temp);
+    for (i = 0; i <= 4; i++) {
+        temp = 0.5 * (temp + arg / temp);
     }
 
     return (temp);

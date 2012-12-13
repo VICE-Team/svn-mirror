@@ -96,7 +96,7 @@ int main_program(int argc, char **argv)
         } else
 #endif
         if (strcmp(argv[i], "-config") == 0) {
-            if ((i+1) < argc) {
+            if ((i + 1) < argc) {
                 vice_config_file = lib_stralloc(argv[++i]);
             }
         }
@@ -146,7 +146,7 @@ int main_program(int argc, char **argv)
     }
 
 #ifdef HAS_TRANSLATION
-   /* set the default arch language */
+    /* set the default arch language */
     translate_arch_language_init();
 #endif
 
@@ -225,4 +225,3 @@ int main_program(int argc, char **argv)
 
     return 0;
 }
-

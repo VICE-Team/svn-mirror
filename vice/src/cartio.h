@@ -26,7 +26,7 @@
 
 #ifndef VICE_CARTIO_H
 #define VICE_CARTIO_H
- 
+
 #include "types.h"
 
 #define IO_DETACH_CART     0
@@ -97,7 +97,7 @@ typedef struct io_source_s {
     WORD start_address;
     WORD end_address;
     WORD address_mask;
-    int  io_source_valid; /*!< after reading, is 1 if read was valid */
+    int io_source_valid;  /*!< after reading, is 1 if read was valid */
     void (*store)(WORD address, BYTE data);
     BYTE (*read)(WORD address);
     BYTE (*peek)(WORD address); /*!< read without side effects (used by monitor) */

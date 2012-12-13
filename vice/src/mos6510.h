@@ -56,97 +56,81 @@ typedef struct mos6510_regs_s {
 #define P_ZERO          0x02
 #define P_CARRY         0x01
 
-#define MOS6510_REGS_SET_A(regs, val) \
-    (regs)->a = (val)
-#define MOS6510_REGS_SET_X(regs, val) \
-    (regs)->x = (val)
-#define MOS6510_REGS_SET_Y(regs, val) \
-    (regs)->y = (val)
-#define MOS6510_REGS_SET_SP(regs, val) \
-    (regs)->sp = (val)
-#define MOS6510_REGS_SET_PC(regs, val) \
-    (regs)->pc = (val)
+#define MOS6510_REGS_SET_A(regs, val) (regs)->a = (val)
+#define MOS6510_REGS_SET_X(regs, val) (regs)->x = (val)
+#define MOS6510_REGS_SET_Y(regs, val) (regs)->y = (val)
+#define MOS6510_REGS_SET_SP(regs, val) (regs)->sp = (val)
+#define MOS6510_REGS_SET_PC(regs, val) (regs)->pc = (val)
 
 #define MOS6510_REGS_SET_OVERFLOW(regs, val) \
     do {                                     \
-        if (val)                             \
+        if (val) {                           \
             (regs)->p |= P_OVERFLOW;         \
-        else                                 \
+        } else {                             \
             (regs)->p &= ~P_OVERFLOW;        \
+        }                                    \
     } while (0)
 
 #define MOS6510_REGS_SET_BREAK(regs, val) \
     do {                                  \
-        if (val)                          \
+        if (val) {                        \
             (regs)->p |= P_BREAK;         \
-        else                              \
+        } else {                          \
             (regs)->p &= ~P_BREAK;        \
+        }                                 \
     } while (0)
 
 #define MOS6510_REGS_SET_DECIMAL(regs, val) \
     do {                                    \
-        if (val)                            \
+        if (val) {                          \
             (regs)->p |= P_DECIMAL;         \
-        else                                \
+        } else {                            \
             (regs)->p &= ~P_DECIMAL;        \
+        }                                   \
     } while (0)
 
 #define MOS6510_REGS_SET_INTERRUPT(regs, val) \
     do {                                      \
-        if (val)                              \
+        if (val) {                            \
             (regs)->p |= P_INTERRUPT;         \
-        else                                  \
+        } else {                              \
             (regs)->p &= ~P_INTERRUPT;        \
+        }                                     \
     } while (0)
 
 #define MOS6510_REGS_SET_CARRY(regs, val) \
     do {                                  \
-        if (val)                          \
+        if (val) {                        \
             (regs)->p |= P_CARRY;         \
-        else                              \
+        } else {                          \
             (regs)->p &= ~P_CARRY;        \
+        }                                 \
     } while (0)
 
-#define MOS6510_REGS_SET_SIGN(regs, val) \
-    ((regs)->n = (val) ? 0x80 : 0)
+#define MOS6510_REGS_SET_SIGN(regs, val) ((regs)->n = (val) ? 0x80 : 0)
 
-#define MOS6510_REGS_SET_ZERO(regs, val) \
-    ((regs)->z = !(val))
+#define MOS6510_REGS_SET_ZERO(regs, val) ((regs)->z = !(val))
 
-#define MOS6510_REGS_SET_STATUS(regs, val) \
-    ((regs)->p = ((val) & ~(P_ZERO | P_SIGN)), \
+#define MOS6510_REGS_SET_STATUS(regs, val)        \
+    ((regs)->p = ((val) & ~(P_ZERO | P_SIGN)),    \
      MOS6510_REGS_SET_ZERO(regs, (val) & P_ZERO), \
      (regs)->n = (val))
 
-#define MOS6510_REGS_GET_A(regs) \
-    ((regs)->a)
-#define MOS6510_REGS_GET_X(regs) \
-    ((regs)->x)
-#define MOS6510_REGS_GET_Y(regs) \
-    ((regs)->y)
-#define MOS6510_REGS_GET_SP(regs) \
-    ((regs)->sp)
-#define MOS6510_REGS_GET_PC(regs) \
-    ((regs)->pc)
-#define MOS6510_REGS_GET_FLAGS(regs) \
-    ((regs)->p)
-#define MOS6510_REGS_GET_OVERFLOW(regs) \
-    ((regs)->p & P_OVERFLOW)
-#define MOS6510_REGS_GET_BREAK(regs) \
-    ((regs)->p & P_BREAK)
-#define MOS6510_REGS_GET_DECIMAL(regs) \
-    ((regs)->p & P_DECIMAL)
-#define MOS6510_REGS_GET_INTERRUPT(regs) \
-    ((regs)->p & P_INTERRUPT)
-#define MOS6510_REGS_GET_CARRY(regs) \
-    ((regs)->p & P_CARRY)
-#define MOS6510_REGS_GET_SIGN(regs) \
-    ((regs)->n & 0x80)
-#define MOS6510_REGS_GET_ZERO(regs) \
-    (!(regs)->z)
-#define MOS6510_REGS_GET_STATUS(regs) \
+#define MOS6510_REGS_GET_A(regs) ((regs)->a)
+#define MOS6510_REGS_GET_X(regs) ((regs)->x)
+#define MOS6510_REGS_GET_Y(regs) ((regs)->y)
+#define MOS6510_REGS_GET_SP(regs) ((regs)->sp)
+#define MOS6510_REGS_GET_PC(regs) ((regs)->pc)
+#define MOS6510_REGS_GET_FLAGS(regs) ((regs)->p)
+#define MOS6510_REGS_GET_OVERFLOW(regs) ((regs)->p & P_OVERFLOW)
+#define MOS6510_REGS_GET_BREAK(regs) ((regs)->p & P_BREAK)
+#define MOS6510_REGS_GET_DECIMAL(regs) ((regs)->p & P_DECIMAL)
+#define MOS6510_REGS_GET_INTERRUPT(regs) ((regs)->p & P_INTERRUPT)
+#define MOS6510_REGS_GET_CARRY(regs) ((regs)->p & P_CARRY)
+#define MOS6510_REGS_GET_SIGN(regs) ((regs)->n & 0x80)
+#define MOS6510_REGS_GET_ZERO(regs) (!(regs)->z)
+#define MOS6510_REGS_GET_STATUS(regs)          \
     ((regs)->p | ((regs)->n & 0x80) | P_UNUSED \
      | (MOS6510_REGS_GET_ZERO(regs) ? P_ZERO : 0))
 
 #endif
-

@@ -64,23 +64,26 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         const char *ps;
 
         if (archdep_path_is_relative(cmd)) {
-            if (ioutil_getcwd(buf + 1, (int)maxpathlen - 128) == NULL)
+            if (ioutil_getcwd(buf + 1, (int)maxpathlen - 128) == NULL) {
                 goto fail;
+            }
 
             l = strlen(buf + 1);
         } else {
             l = 0;
         }
 
-        if (l + strlen(cmd) >= maxpathlen - 5)
+        if (l + strlen(cmd) >= maxpathlen - 5) {
             goto fail;
+        }
 
         ps = cmd;
         pd = buf + l; /* buf + 1 + l - 1 */
 
 #if !defined (__MSDOS__) && !defined (WIN32) && !defined (__OS2__)
-        if (*pd++ != '/')
+        if (*pd++ != '/') {
             *pd++ = '/';
+        }
 #else
         pd++;
 #endif
@@ -90,49 +93,53 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         /* delete extra `/./', '/../' and '//':s from the path */
         while (*ps) {
             switch (state) {
-              case 0:
-                if (*ps == '/')
+                case 0:
+                    if (*ps == '/') {
+                        state = 1;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 1:
+                    if (*ps == '.') {
+                        state = 2;
+                        break;
+                    }
+                    if (*ps == '/') {
+                        pd--;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 2:
+                    if (*ps == '/') {
+                        state = 1;
+                        pd -= 2;
+                        break;
+                    }
+                    if (*ps == '.') {
+                        state = 3;
+                    } else {
+                        state = 0;
+                    }
+                    break;
+                case 3:
+                    if (*ps != '/') {
+                        state = 0;
+                        break;
+                    }
                     state = 1;
-                else
-                    state = 0;
-                break;
-              case 1:
-                if (*ps == '.') {
-                    state = 2;
-                    break;
-                }
-                if (*ps == '/')
-                    pd--;
-                else
-                    state = 0;
-                break;
-              case 2:
-                if (*ps == '/') {
+                    pd -= 4;
+                    while (*pd != '/' && *pd != '\0') {
+                        pd--;
+                    }
+                    if (*pd == '\0') {
+                        pd++;
+                    }
                     state = 1;
-                    pd -= 2;
                     break;
-                }
-                if (*ps == '.')
-                    state = 3;
-                else
-                    state = 0;
-                break;
-              case 3:
-                if (*ps != '/') {
-                    state = 0;
-                    break;
-                }
-                state = 1;
-                pd -= 4;
-                while (*pd != '/' && *pd != '\0')
-                    pd--;
-                if (*pd == '\0')
-                    pd++;
-                state = 1;
-                break;
             }
             *pd++ = *ps++;
-
         }
 
         *pd = '\0';
@@ -149,28 +156,33 @@ char *findpath(const char *cmd, const char *syspath, int mode)
             s = strchr(path, ARCHDEP_FINDPATH_SEPARATOR_CHAR);
             l = s ? (int)(s - path) : (int)strlen(path);
 
-            if (l + cl > maxpathlen - 5)
+            if (l + cl > maxpathlen - 5) {
                 continue;
+            }
 
             memcpy(buf + 1, path, l);
 
             p = buf + l;  /* buf + 1 + l - 1 */
 
-            if (*p++ != '/')
+            if (*p++ != '/') {
                 *p++ = '/';
+            }
 
             memcpy(p, cmd, cl);
 
-            for (c = buf + 1; *c != '\0'; c++)
+            for (c = buf + 1; *c != '\0'; c++) {
 #if defined (__MSDOS__) || defined (WIN32) || defined (__OS2__)
-                if (*c == '/')
+                if (*c == '/') {
                     *c = '\\';
+                }
 #else
-                if (*c == '\\')
-                    *c ='/';
+                if (*c == '\\') {
+                    *c = '/';
+                }
 #endif
+            }
             if (ioutil_access(buf + 1, mode) == 0) {
-                pd = p /* + cl*/ ;
+                pd = p /* + cl*/;
                 break;
             }
         }
@@ -180,11 +192,13 @@ char *findpath(const char *cmd, const char *syspath, int mode)
     if (pd) {
         char *tmpbuf;
 #if 0
-        do pd--;
-        while (*pd != '/'); /* there is at least one '/' */
+        do {
+            pd--;
+        } while (*pd != '/'); /* there is at least one '/' */
 
-        if (*(pd - 1) == '\0')
+        if (*(pd - 1) == '\0') {
             pd++;
+        }
         *pd = '\0';
 #endif
 
@@ -192,7 +206,7 @@ char *findpath(const char *cmd, const char *syspath, int mode)
         lib_free(buf);
         return tmpbuf;
     }
- fail:
+fail:
     lib_free(buf);
     return NULL;
 }

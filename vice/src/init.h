@@ -32,4 +32,3 @@ extern int init_cmdline_options(void);
 extern int init_main(void);
 
 #endif
-

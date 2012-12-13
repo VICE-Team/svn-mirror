@@ -72,14 +72,16 @@ static int set_traps_enabled(int new_value, void *param)
             /* Traps have been disabled.  */
             traplist_t *p;
 
-            for (p = traplist; p != NULL; p = p->next)
+            for (p = traplist; p != NULL; p = p->next) {
                 remove_trap(p->trap);
+            }
         } else {
             /* Traps have been enabled.  */
             traplist_t *p;
 
-            for (p = traplist; p != NULL; p = p->next)
+            for (p = traplist; p != NULL; p = p->next) {
                 install_trap(p->trap);
+            }
         }
     }
 
@@ -171,8 +173,9 @@ int traps_add(const trap_t *trap)
     p->trap = trap;
     traplist = p;
 
-    if (traps_enabled)
+    if (traps_enabled) {
         install_trap(trap);
+    }
 
     return 0;
 }
@@ -193,8 +196,9 @@ int traps_remove(const trap_t *trap)
     traplist_t *p = traplist, *prev = NULL;
 
     while (p) {
-        if (p->trap->address == trap->address)
+        if (p->trap->address == trap->address) {
             break;
+        }
         prev = p;
         p = p->next;
     }
@@ -204,15 +208,17 @@ int traps_remove(const trap_t *trap)
         return -1;
     }
 
-    if (prev)
+    if (prev) {
         prev->next = p->next;
-    else
+    } else {
         traplist = p->next;
+    }
 
     lib_free(p);
 
-    if (traps_enabled)
+    if (traps_enabled) {
         remove_trap(trap);
+    }
 
     return 0;
 }
@@ -237,12 +243,11 @@ DWORD traps_handler(void)
             result = (*p->trap->func)();
             if (!result) {
                 return (p->trap->check[0] | (p->trap->check[1] << 8) | (p->trap->check[2] << 16));
-            } 
+            }
             /* XXX ALERT!  `p' might not be valid anymore here, because
                `p->trap->func()' might have removed all the traps.  */
             if (machine_class == VICE_MACHINE_C64DTV) {
                 MOS6510DTV_REGS_SET_PC(&maincpu_regs, resume_address);
-
             } else {
                 MOS6510_REGS_SET_PC(&maincpu_regs, resume_address);
             }

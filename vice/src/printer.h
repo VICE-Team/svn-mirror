@@ -60,4 +60,3 @@ extern void printer_userport_write_data(BYTE b);
 extern void printer_userport_write_strobe(int s);
 
 #endif
-

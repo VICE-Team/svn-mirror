@@ -166,13 +166,13 @@ static void joystick_latch_handler(CLOCK offset, void *data)
 
     joystick_latch_matrix(offset);
 
-    joystick_event_record(); 
+    joystick_event_record();
 }
 
 void joystick_event_delayed_playback(void *data)
 {
     /*! \todo SRT: why network_joystick_value?
-     * and why sizeof latch_joystick_value, 
+     * and why sizeof latch_joystick_value,
      * if the target is network_joystick_value?
      */
     memcpy(network_joystick_value, data, sizeof(latch_joystick_value));
@@ -317,7 +317,7 @@ static int getjoyvalue(int *status)
     return val;
 }
 
-/* toggle keyset joystick. 
+/* toggle keyset joystick.
    this disables any active key-based joystick and is useful for typing. */
 static int joykeys_enable = 0;
 
@@ -386,7 +386,7 @@ static const resource_int_t resources_int[] = {
 static void DBGSTATUS(int keysetnum, int value, int joyport, int key, int flg)
 {
     int column;
-    char *flags[3] = {"set", "unset", "ignored"};
+    char *flags[3] = { "set", "unset", "ignored" };
 
     DBG((" key:%02x |", key));
     for (column = 0; column < KEYSET_NUM_KEYS; column++) {
@@ -426,7 +426,6 @@ int joystick_check_set(signed long key, int keysetnum, unsigned int joyport)
 
     for (column = 0; column < KEYSET_NUM_KEYS; column++) {
         if (key == joykeys[keysetnum][column]) {
-
             DBG(("joystick_check_set:"));
 
             joypad_status[keysetnum][column] = 1;
@@ -475,7 +474,6 @@ int joystick_check_clr(signed long key, int keysetnum, unsigned int joyport)
 
     for (column = 0; column < KEYSET_NUM_KEYS; column++) {
         if (key == joykeys[keysetnum][column]) {
-
             joypad_status[keysetnum][column] = 0;
             value = getjoyvalue(joypad_status[keysetnum]);
 
@@ -547,7 +545,7 @@ int joystick_snapshot_write_module(snapshot_t *s)
 
     m = snapshot_module_create(s, "JOYSTICK", 1, 0);
     if (m == NULL) {
-       return -1;
+        return -1;
     }
 
     if (SMW_BA(m, joystick_value, (JOYSTICK_NUM + 1)) < 0) {

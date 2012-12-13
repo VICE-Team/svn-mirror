@@ -112,7 +112,6 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
     num banks == 0 - take number of banks from input file size
 */
 static const cart_t cart_info[] = {
-
 /*  {1, 0, CARTRIDGE_SIZE_8KB, 0x2000, 0x8000, 1, 0, "Generic 8kb", NULL, NULL}, */
 /*  {0, 0, CARTRIDGE_SIZE_12KB, 0x3000, 0x8000, 1, 0, "Generic 12kb", NULL, NULL}, */
 /*  {0, 0, CARTRIDGE_SIZE_16KB, 0x4000, 0x8000, 1, 0, "Generic 16kb", NULL, NULL}, */
@@ -239,7 +238,7 @@ int strncasecmp(const char *s1, const char *s2, int n)
         u1 = (unsigned char)*s1++;
         u2 = (unsigned char)*s2++;
         if (charmap[u1] != charmap[u2]) {
-            return charmap[u1]-charmap[u2];
+            return charmap[u1] - charmap[u2];
         }
 
         if (u1 == '\0') {
@@ -343,8 +342,8 @@ static void usage(void)
 
     /* output the sorted list */
     for (i = 0; i < amount; i++) {
-         n = sorted_option_elements[i].insertion;
-         printf("%-8s %s .crt file%s\n", sorted_option_elements[i].opt, sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
+        n = sorted_option_elements[i].insertion;
+        printf("%-8s %s .crt file%s\n", sorted_option_elements[i].opt, sorted_option_elements[i].name, n ? ", extra files can be inserted" : "");
     }
     free(sorted_option_elements);
     exit(1);
@@ -357,7 +356,7 @@ static void printbanks(char *name)
     unsigned long len;
     unsigned long pos;
     unsigned int type, bank, start, size;
-    char *typestr[4] = {"ROM", "RAM", "FLASH", "UNK"};
+    char *typestr[4] = { "ROM", "RAM", "FLASH", "UNK" };
     unsigned int numbanks;
     unsigned long tsize;
 
@@ -398,7 +397,7 @@ static void printinfo(char *name)
 {
     int crtid;
     char *idname, *modename;
-    char cartname[0x20+1];
+    char cartname[0x20 + 1];
     if (load_input_file(name) < 0) {
         printf("Error: this file seems broken.\n\n");
     }
@@ -794,7 +793,6 @@ static void save_fcplus_crt(unsigned int length, unsigned int banks, unsigned in
 
 static void save_2_blocks_crt(unsigned int l1, unsigned int l2, unsigned int a1, unsigned int a2, unsigned char game, unsigned char exrom)
 {
-
     if (write_crt_header(game, exrom) < 0) {
         cleanup();
         exit(1);
@@ -924,7 +922,7 @@ static void save_ocean_crt(unsigned int p1, unsigned int p2, unsigned int p3, un
 
 static void save_funplay_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i=0;
+    int i = 0;
 
     if (write_crt_header(0, 0) < 0) {
         cleanup();
@@ -1008,7 +1006,7 @@ static int load_input_file(char *filename)
         return -1;
     }
     if (fread(filebuffer, 1, 16, infile) != 16) {
-        fprintf(stderr, "Error: Can't read %s\n",filename);
+        fprintf(stderr, "Error: Can't read %s\n", filename);
         fclose(infile);
         return -1;
     }
@@ -1166,7 +1164,7 @@ static void save_delaep64_crt(unsigned int p1, unsigned int p2, unsigned int p3,
 
 static void save_delaep256_crt(unsigned int p1, unsigned int p2, unsigned int p3, unsigned int p4, unsigned char p5, unsigned char p6)
 {
-    int i,j;
+    int i, j;
     unsigned int insert_size = 0;
 
     if (loadfile_size != CARTRIDGE_SIZE_8KB) {
@@ -1277,12 +1275,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
         if (loadfile_size == CARTRIDGE_SIZE_32KB) {
             if (loadfile_is_crt == 1) {
                 fprintf(stderr, "Error: (%s) only binary 32KB images can be inserted into a Dela EP7x8 .crt\n",
-                       input_filename[name_counter]);
+                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (inserted_size != 0) {
                     fprintf(stderr, "Error: (%s) only the first inserted image can be a 32KB image for Dela EP7x8\n",
-                           input_filename[name_counter]);
+                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
                     if (write_chip_package(0x2000, chip_counter, 0x8000, 0) < 0) {
@@ -1308,12 +1306,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
         if (loadfile_size == CARTRIDGE_SIZE_16KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
                 fprintf(stderr, "Error: (%s) only generic 16KB .crt images can be inserted into a Dela EP7x8 .crt\n",
-                       input_filename[name_counter]);
+                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (inserted_size >= 0xc000) {
                     fprintf(stderr, "Error: (%s) no room to insert a 16KB binary file into the Dela EP7x8 .crt\n",
-                           input_filename[name_counter]);
+                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
                     if (write_chip_package(0x2000, chip_counter, 0x8000, 0) < 0) {
@@ -1333,12 +1331,12 @@ static void save_delaep7x8_crt(unsigned int p1, unsigned int p2, unsigned int p3
         if (loadfile_size == CARTRIDGE_SIZE_8KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
                 fprintf(stderr, "Error: (%s) only generic 8KB .crt images can be inserted into a Dela EP7x8 .crt\n",
-                       input_filename[name_counter]);
+                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (inserted_size >= 0xe000) {
                     fprintf(stderr, "Error: (%s) no room to insert a 8KB binary file into the Dela EP7x8 .crt\n",
-                           input_filename[name_counter]);
+                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
                     if (write_chip_package(0x2000, chip_counter, 0x8000, 0) < 0) {
@@ -1402,12 +1400,12 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
         if (loadfile_size == CARTRIDGE_SIZE_32KB) {
             if (loadfile_is_crt == 1) {
                 fprintf(stderr, "Error: (%s) only binary 32KB images can be inserted into a Rex EP256 .crt\n",
-                       input_filename[name_counter]);
+                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (images_of_8kb_started != 0) {
                     fprintf(stderr, "Error: (%s) only the first inserted images can be a 32KB image for Rex EP256\n",
-                           input_filename[name_counter]);
+                            input_filename[name_counter]);
                     close_output_cleanup();
                 } else {
                     if (write_chip_package(0x8000, chip_counter, 0x8000, 0) < 0) {
@@ -1423,7 +1421,7 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
         if (loadfile_size == CARTRIDGE_SIZE_8KB) {
             if (loadfile_is_crt == 1 && (loadfile_cart_type != 0 || loadfile_is_ultimax == 1)) {
                 fprintf(stderr, "Error: (%s) only generic 8KB .crt images can be inserted into a Rex EP256 .crt\n",
-                       input_filename[name_counter]);
+                        input_filename[name_counter]);
                 close_output_cleanup();
             } else {
                 if (images_of_8kb_started == 0) {
@@ -1467,10 +1465,10 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                         subchip_counter = 1;
                     }
 
-                    if (eprom_size_for_8kb == 4 && (subchip_counter == 3 || subchip_counter == 2) && 
+                    if (eprom_size_for_8kb == 4 && (subchip_counter == 3 || subchip_counter == 2) &&
                         name_counter != input_filenames) {
                         memcpy(extra_buffer_32kb + ((subchip_counter - 1) * 0x2000), filebuffer + loadfile_offset, 0x2000);
-                        printf(", %s",input_filename[name_counter]);
+                        printf(", %s", input_filename[name_counter]);
                         subchip_counter++;
                     }
 
@@ -1488,7 +1486,7 @@ static void save_rexep256_crt(unsigned int p1, unsigned int p2, unsigned int p3,
                                        input_filename[name_counter], chip_counter);
                             } else {
                                 printf(" and %s as a 16KB eprom in bank %d of the Rex EP256 .crt\n",
-                                       input_filename[name_counter],chip_counter);
+                                       input_filename[name_counter], chip_counter);
                             }
                             chip_counter++;
                             subchip_counter = 1;
@@ -1631,17 +1629,17 @@ int main(int argc, char *argv[])
         */
         if ((loadfile_size & cart_info[(unsigned char)cart_type].sizes) != loadfile_size) {
             fprintf(stderr, "Error: Input file size (%d) doesn't match %s requirements\n",
-                   loadfile_size, cart_info[(unsigned char)cart_type].name);
+                    loadfile_size, cart_info[(unsigned char)cart_type].name);
             cleanup();
             exit(1);
         }
         if (cart_info[(unsigned char)cart_type].save != NULL) {
             cart_info[(unsigned char)cart_type].save(cart_info[(unsigned char)cart_type].bank_size,
-            cart_info[(unsigned char)cart_type].banks,
-            cart_info[(unsigned char)cart_type].load_address,
-            cart_info[(unsigned char)cart_type].data_type,
-            cart_info[(unsigned char)cart_type].game,
-            cart_info[(unsigned char)cart_type].exrom);
+                                                     cart_info[(unsigned char)cart_type].banks,
+                                                     cart_info[(unsigned char)cart_type].load_address,
+                                                     cart_info[(unsigned char)cart_type].data_type,
+                                                     cart_info[(unsigned char)cart_type].game,
+                                                     cart_info[(unsigned char)cart_type].exrom);
         }
     }
     return 0;

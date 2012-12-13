@@ -4,7 +4,7 @@
  * Written by
  *  Hannu Nuotio <hannu.nuotio@tut.fi>
  * Based on code by
- *  Andreas Boose <viceteam@t-online.de> 
+ *  Andreas Boose <viceteam@t-online.de>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.

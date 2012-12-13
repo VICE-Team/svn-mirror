@@ -101,7 +101,7 @@ void mouse_set_input(int port)
     to avoid strange side effects two things are done here:
 
     - max delta is limited to MOUSE_MAX_DIFF
-    - if the delta is limited, then the current position is linearly 
+    - if the delta is limited, then the current position is linearly
       interpolated towards the real position using MOUSE_MAX_DIFF for the axis
       with the largest delta
 */
@@ -130,15 +130,15 @@ static char smart_ram[65];
 static BYTE mouse_get_1351_x(void)
 {
     switch (input_port) {
-    case 3: /* both */
-        mouse_poll();
-        return (last_mouse_x & 0x7f) + 0x40; /* HACK: see above */
-    case 1: /* port1 */
-    case 2: /* port2 */
-        if (input_port == mouse_port) {
+        case 3: /* both */
             mouse_poll();
-            return (last_mouse_x & 0x7f) + 0x40;
-        }
+            return (last_mouse_x & 0x7f) + 0x40; /* HACK: see above */
+        case 1: /* port1 */
+        case 2: /* port2 */
+            if (input_port == mouse_port) {
+                mouse_poll();
+                return (last_mouse_x & 0x7f) + 0x40;
+            }
     }
     return 0xff;
 }
@@ -146,15 +146,15 @@ static BYTE mouse_get_1351_x(void)
 static BYTE mouse_get_1351_y(void)
 {
     switch (input_port) {
-    case 3: /* both */
-        mouse_poll();
-        return (last_mouse_y & 0x7f) + 0x40; /* HACK: see above */
-    case 1: /* port1 */
-    case 2: /* port2 */
-        if (input_port == mouse_port) {
+        case 3: /* both */
             mouse_poll();
-            return (last_mouse_y & 0x7f) + 0x40;
-        }
+            return (last_mouse_y & 0x7f) + 0x40; /* HACK: see above */
+        case 1: /* port1 */
+        case 2: /* port2 */
+            if (input_port == mouse_port) {
+                mouse_poll();
+                return (last_mouse_y & 0x7f) + 0x40;
+            }
     }
     return 0xff;
 }

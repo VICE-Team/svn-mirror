@@ -77,4 +77,3 @@ typedef struct z80_regs_s {
 #define Z80_REGS_SET_HL2(reg_ptr, val) ((reg_ptr)->reg_hl2 = (val))
 
 #endif
-

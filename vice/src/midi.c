@@ -397,8 +397,7 @@ int midi_test_read(WORD a)
 {
     a &= midi_interface[midi_mode].mask;
 
-    return (a == midi_interface[midi_mode].status_addr)
-        || (a == midi_interface[midi_mode].rx_addr);
+    return (a == midi_interface[midi_mode].status_addr) || (a == midi_interface[midi_mode].rx_addr);
 }
 
 int midi_test_peek(WORD a)
@@ -406,8 +405,8 @@ int midi_test_peek(WORD a)
     a &= midi_interface[midi_mode].mask;
 
     return midi_test_read(a)
-          || (a == midi_interface[midi_mode].ctrl_addr)
-          || (a == midi_interface[midi_mode].tx_addr);
+           || (a == midi_interface[midi_mode].ctrl_addr)
+           || (a == midi_interface[midi_mode].tx_addr);
 }
 
 static void int_midi(CLOCK offset, void *data)
@@ -429,7 +428,7 @@ static void int_midi(CLOCK offset, void *data)
         status |= MIDI_STATUS_RDRF;
         rxirq = 1;
 #ifdef DEBUG
-       log_message(midi_log, "int got %02x", rxdata);
+        log_message(midi_log, "int got %02x", rxdata);
 #endif
     }
 
@@ -466,8 +465,7 @@ int midi_snapshot_write_module(snapshot_t *s)
 #if 0
     snapshot_module_t *m;
 
-    m = snapshot_module_create(s, SNAP_MODULE_NAME,
-                          CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
+    m = snapshot_module_create(s, SNAP_MODULE_NAME, CART_DUMP_VER_MAJOR, CART_DUMP_VER_MINOR);
     if (m == NULL) {
         return -1;
     }

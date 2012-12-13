@@ -41,7 +41,7 @@ extern char *uimon_in(const char *prompt);
 
 extern void uimon_notify_change(void);
 extern void uimon_set_interface(struct monitor_interface_s **, int);
-extern char *uimon_get_in(char **,const char *);
+extern char *uimon_get_in(char **, const char *);
 
 #ifdef WIN32
 

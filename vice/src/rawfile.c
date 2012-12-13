@@ -61,21 +61,21 @@ rawfile_info_t *rawfile_open(const char *file_name, const char *path,
     }
 
     switch (command) {
-      case FILEIO_COMMAND_STAT:
-      case FILEIO_COMMAND_READ:
-        mode = MODE_READ;
-        break;
-      case FILEIO_COMMAND_WRITE:
-        mode = MODE_WRITE;
-        break;
-      case FILEIO_COMMAND_APPEND:
-        mode = MODE_APPEND;
-        break;
-      case FILEIO_COMMAND_APPEND_READ:
-        mode = MODE_APPEND_READ_WRITE;
-        break;
-      default:
-        return NULL;
+        case FILEIO_COMMAND_STAT:
+        case FILEIO_COMMAND_READ:
+            mode = MODE_READ;
+            break;
+        case FILEIO_COMMAND_WRITE:
+            mode = MODE_WRITE;
+            break;
+        case FILEIO_COMMAND_APPEND:
+            mode = MODE_APPEND;
+            break;
+        case FILEIO_COMMAND_APPEND_READ:
+            mode = MODE_APPEND_READ_WRITE;
+            break;
+        default:
+            return NULL;
     }
 
     if (ioutil_stat(complete, &len, &isdir) != 0) {
@@ -178,31 +178,33 @@ unsigned int rawfile_rename(const char *src_name, const char *dst_name,
     lib_free(complete_dst);
 
     if (rc < 0) {
-        if (ioutil_errno(IOUTIL_ERRNO_EPERM))
+        if (ioutil_errno(IOUTIL_ERRNO_EPERM)) {
             return FILEIO_FILE_PERMISSION;
+        }
         return FILEIO_FILE_NOT_FOUND;
     }
 
     return FILEIO_FILE_OK;
 }
- 
+
 unsigned int rawfile_remove(const char *src_name, const char *path)
 {
     char *complete_src;
     int rc;
 
-    if (path == NULL)
+    if (path == NULL) {
         complete_src = lib_stralloc(src_name);
-    else
+    } else {
         complete_src = util_concat(path, FSDEV_DIR_SEP_STR, src_name, NULL);
+    }
 
     rc = ioutil_remove(complete_src);
 
     lib_free(complete_src);
 
-    if (rc < 0)
+    if (rc < 0) {
         return FILEIO_FILE_NOT_FOUND;
+    }
 
     return FILEIO_FILE_SCRATCHED;
 }
-

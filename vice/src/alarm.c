@@ -53,7 +53,7 @@ void alarm_context_init(alarm_context_t *context, const char *name)
     context->alarms = NULL;
 
     context->num_pending_alarms = 0;
-    context->next_pending_alarm_clk = (CLOCK)~0L;
+    context->next_pending_alarm_clk = (CLOCK) ~0L;
 }
 
 void alarm_context_destroy(alarm_context_t *context)
@@ -81,20 +81,23 @@ void alarm_context_time_warp(alarm_context_t *context, CLOCK warp_amount,
 {
     unsigned int i;
 
-    if (warp_direction == 0)
+    if (warp_direction == 0) {
         return;
-
-    for (i = 0; i < context->num_pending_alarms; i++) {
-        if (warp_direction > 0)
-            context->pending_alarms[i].clk += warp_amount;
-        else
-            context->pending_alarms[i].clk -= warp_amount;
     }
 
-    if (warp_direction > 0)
+    for (i = 0; i < context->num_pending_alarms; i++) {
+        if (warp_direction > 0) {
+            context->pending_alarms[i].clk += warp_amount;
+        } else {
+            context->pending_alarms[i].clk -= warp_amount;
+        }
+    }
+
+    if (warp_direction > 0) {
         context->next_pending_alarm_clk += warp_amount;
-    else
+    } else {
         context->next_pending_alarm_clk -= warp_amount;
+    }
 }
 
 /* ------------------------------------------------------------------------ */
@@ -137,20 +140,24 @@ void alarm_destroy(alarm_t *alarm)
 {
     alarm_context_t *context;
 
-    if (alarm == NULL)
+    if (alarm == NULL) {
         return;
+    }
 
     alarm_unset(alarm);
 
     context = alarm->context;
 
-    if (alarm == context->alarms)
+    if (alarm == context->alarms) {
         context->alarms = alarm->next;
+    }
 
-    if (alarm->next != NULL)
+    if (alarm->next != NULL) {
         alarm->next->prev = alarm->prev;
-    if (alarm->prev != NULL)
+    }
+    if (alarm->prev != NULL) {
         alarm->prev->next = alarm->next;
+    }
 
     lib_free(alarm->name);
 
@@ -164,9 +171,9 @@ void alarm_unset(alarm_t *alarm)
 
     idx = alarm->pending_idx;
 
-    if (idx < 0)
+    if (idx < 0) {
         return;                 /* Not pending.  */
-
+    }
     context = alarm->context;
 
     if (context->num_pending_alarms > 1) {
@@ -185,10 +192,11 @@ void alarm_unset(alarm_t *alarm)
             context->pending_alarms[idx].alarm->pending_idx = idx;
         }
 
-        if (context->next_pending_alarm_idx == idx)
+        if (context->next_pending_alarm_idx == idx) {
             alarm_context_update_next_pending(context);
-        else if (context->next_pending_alarm_idx == last)
+        } else if (context->next_pending_alarm_idx == last) {
             context->next_pending_alarm_idx = idx;
+        }
     } else {
         context->num_pending_alarms = 0;
         context->next_pending_alarm_clk = (CLOCK) ~0L;
@@ -202,4 +210,3 @@ void alarm_log_too_many_alarms(void)
 {
     log_error(LOG_DEFAULT, "alarm_set(): Too many alarms set!");
 }
-

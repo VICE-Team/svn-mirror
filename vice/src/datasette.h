@@ -72,4 +72,3 @@ extern int datasette_cmdline_options_init(void);
 extern int datasette_write_snapshot(struct snapshot_s *s);
 extern int datasette_read_snapshot(struct snapshot_s *s);
 #endif
-

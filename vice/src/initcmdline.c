@@ -131,20 +131,19 @@ static int cmdline_attach(const char *param, void *extra_param)
     int unit = vice_ptr_to_int(extra_param);
 
     switch (unit) {
-      case 1:
-        lib_free(startup_tape_image);
-        startup_tape_image = lib_stralloc(param);
-        break;
-      case 8:
-      case 9:
-      case 10:
-      case 11:
-        lib_free(startup_disk_images[unit - 8]);
-        startup_disk_images[unit - 8] = lib_stralloc(param);
-        break;
-      default:
-        archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n",
-                                  unit);
+        case 1:
+            lib_free(startup_tape_image);
+            startup_tape_image = lib_stralloc(param);
+            break;
+        case 8:
+        case 9:
+        case 10:
+        case 11:
+            lib_free(startup_disk_images[unit - 8]);
+            startup_disk_images[unit - 8] = lib_stralloc(param);
+            break;
+        default:
+            archdep_startup_log_error("cmdline_attach(): unexpected unit number %d?!\n", unit);
     }
 
     return 0;
@@ -303,13 +302,15 @@ int initcmdline_check_args(int argc, char **argv)
     if (argc > 1) {
         int len = 0, j;
 
-        for (j = 1; j < argc; j++)
+        for (j = 1; j < argc; j++) {
             len += (int)strlen(argv[j]);
+        }
 
         {
             char *txt = lib_calloc(1, len + argc + 1);
-            for (j = 1; j < argc; j++)
+            for (j = 1; j < argc; j++) {
                 strcat(strcat(txt, " "), argv[j]);
+            }
             archdep_startup_log_error("Extra arguments on command-line: %s\n",
                                       txt);
             lib_free(txt);
@@ -336,20 +337,20 @@ void initcmdline_check_attach(void)
             for (i = 0; i < 4; i++) {
                 if (startup_disk_images[i] != NULL
                     && file_system_attach_disk(i + 8, startup_disk_images[i])
-                    < 0)
+                    < 0) {
                     log_error(LOG_DEFAULT,
                               "Cannot attach disk image `%s' to unit %d.",
                               startup_disk_images[i], i + 8);
+                }
             }
         }
 
         /* `-1': Attach specified tape image.  */
-        if (startup_tape_image && tape_image_attach(1, startup_tape_image) < 0)
+        if (startup_tape_image && tape_image_attach(1, startup_tape_image) < 0) {
             log_error(LOG_DEFAULT, "Cannot attach tape image `%s'.",
                       startup_tape_image);
-
+        }
     }
 
     cmdline_free_autostart_string();
 }
-

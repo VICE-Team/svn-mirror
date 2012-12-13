@@ -115,115 +115,89 @@ typedef struct mos6510dtv_regs_s {
     (regs)->yxm = (val)
 
 #define MOS6510DTV_REGS_SET_OVERFLOW(regs, val) \
-    do {                                     \
-        if (val)                             \
-            (regs)->p |= P_OVERFLOW;         \
-        else                                 \
-            (regs)->p &= ~P_OVERFLOW;        \
+    do {                                        \
+        if (val) {                              \
+            (regs)->p |= P_OVERFLOW;            \
+        } else {                                \
+            (regs)->p &= ~P_OVERFLOW;           \
+        }                                       \
     } while (0)
 
 #define MOS6510DTV_REGS_SET_BREAK(regs, val) \
-    do {                                  \
-        if (val)                          \
-            (regs)->p |= P_BREAK;         \
-        else                              \
-            (regs)->p &= ~P_BREAK;        \
+    do {                                     \
+        if (val) {                           \
+            (regs)->p |= P_BREAK;            \
+        } else {                             \
+            (regs)->p &= ~P_BREAK;           \
+        }                                    \
     } while (0)
 
 #define MOS6510DTV_REGS_SET_DECIMAL(regs, val) \
-    do {                                    \
-        if (val)                            \
-            (regs)->p |= P_DECIMAL;         \
-        else                                \
-            (regs)->p &= ~P_DECIMAL;        \
+    do {                                       \
+        if (val) {                             \
+            (regs)->p |= P_DECIMAL;            \
+        } else {                               \
+            (regs)->p &= ~P_DECIMAL;           \
+        }                                      \
     } while (0)
 
 #define MOS6510DTV_REGS_SET_INTERRUPT(regs, val) \
-    do {                                      \
-        if (val)                              \
-            (regs)->p |= P_INTERRUPT;         \
-        else                                  \
-            (regs)->p &= ~P_INTERRUPT;        \
+    do {                                         \
+        if (val) {                               \
+            (regs)->p |= P_INTERRUPT;            \
+        } else {                                 \
+            (regs)->p &= ~P_INTERRUPT;           \
+        }                                        \
     } while (0)
 
 #define MOS6510DTV_REGS_SET_CARRY(regs, val) \
-    do {                                  \
-        if (val)                          \
-            (regs)->p |= P_CARRY;         \
-        else                              \
-            (regs)->p &= ~P_CARRY;        \
+    do {                                     \
+        if (val) {                           \
+            (regs)->p |= P_CARRY;            \
+        } else {                             \
+            (regs)->p &= ~P_CARRY;           \
+        }                                    \
     } while (0)
 
-#define MOS6510DTV_REGS_SET_SIGN(regs, val) \
-    ((regs)->n = (val) ? 0x80 : 0)
+#define MOS6510DTV_REGS_SET_SIGN(regs, val) ((regs)->n = (val) ? 0x80 : 0)
 
-#define MOS6510DTV_REGS_SET_ZERO(regs, val) \
-    ((regs)->z = !(val))
+#define MOS6510DTV_REGS_SET_ZERO(regs, val) ((regs)->z = !(val))
 
-#define MOS6510DTV_REGS_SET_STATUS(regs, val) \
-    ((regs)->p = ((val) & ~(P_ZERO | P_SIGN)), \
+#define MOS6510DTV_REGS_SET_STATUS(regs, val)        \
+    ((regs)->p = ((val) & ~(P_ZERO | P_SIGN)),       \
      MOS6510DTV_REGS_SET_ZERO(regs, (val) & P_ZERO), \
      (regs)->n = (val))
 
-#define MOS6510DTV_REGS_GET_A(regs) \
-    ((regs)->a)
-#define MOS6510DTV_REGS_GET_X(regs) \
-    ((regs)->x)
-#define MOS6510DTV_REGS_GET_Y(regs) \
-    ((regs)->y)
-#define MOS6510DTV_REGS_GET_SP(regs) \
-    ((regs)->sp)
-#define MOS6510DTV_REGS_GET_PC(regs) \
-    ((regs)->pc)
-#define MOS6510DTV_REGS_GET_FLAGS(regs) \
-    ((regs)->p)
-#define MOS6510DTV_REGS_GET_R3(regs) \
-    ((regs)->r3)
-#define MOS6510DTV_REGS_GET_R4(regs) \
-    ((regs)->r4)
-#define MOS6510DTV_REGS_GET_R5(regs) \
-    ((regs)->r5)
-#define MOS6510DTV_REGS_GET_R6(regs) \
-    ((regs)->r6)
-#define MOS6510DTV_REGS_GET_R7(regs) \
-    ((regs)->r7)
-#define MOS6510DTV_REGS_GET_R8(regs) \
-    ((regs)->r8)
-#define MOS6510DTV_REGS_GET_R9(regs) \
-    ((regs)->r9)
-#define MOS6510DTV_REGS_GET_R10(regs) \
-    ((regs)->r10)
-#define MOS6510DTV_REGS_GET_R11(regs) \
-    ((regs)->r11)
-#define MOS6510DTV_REGS_GET_R12(regs) \
-    ((regs)->r12)
-#define MOS6510DTV_REGS_GET_R13(regs) \
-    ((regs)->r13)
-#define MOS6510DTV_REGS_GET_R14(regs) \
-    ((regs)->r14)
-#define MOS6510DTV_REGS_GET_R15(regs) \
-    ((regs)->r15)
-#define MOS6510DTV_REGS_GET_ACM(regs) \
-    ((regs)->acm)
-#define MOS6510DTV_REGS_GET_YXM(regs) \
-    ((regs)->yxm)
-#define MOS6510DTV_REGS_GET_OVERFLOW(regs) \
-    ((regs)->p & P_OVERFLOW)
-#define MOS6510DTV_REGS_GET_BREAK(regs) \
-    ((regs)->p & P_BREAK)
-#define MOS6510DTV_REGS_GET_DECIMAL(regs) \
-    ((regs)->p & P_DECIMAL)
-#define MOS6510DTV_REGS_GET_INTERRUPT(regs) \
-    ((regs)->p & P_INTERRUPT)
-#define MOS6510DTV_REGS_GET_CARRY(regs) \
-    ((regs)->p & P_CARRY)
-#define MOS6510DTV_REGS_GET_SIGN(regs) \
-    ((regs)->n & 0x80)
-#define MOS6510DTV_REGS_GET_ZERO(regs) \
-    (!(regs)->z)
-#define MOS6510DTV_REGS_GET_STATUS(regs) \
+#define MOS6510DTV_REGS_GET_A(regs) ((regs)->a)
+#define MOS6510DTV_REGS_GET_X(regs) ((regs)->x)
+#define MOS6510DTV_REGS_GET_Y(regs) ((regs)->y)
+#define MOS6510DTV_REGS_GET_SP(regs) ((regs)->sp)
+#define MOS6510DTV_REGS_GET_PC(regs) ((regs)->pc)
+#define MOS6510DTV_REGS_GET_FLAGS(regs) ((regs)->p)
+#define MOS6510DTV_REGS_GET_R3(regs) ((regs)->r3)
+#define MOS6510DTV_REGS_GET_R4(regs) ((regs)->r4)
+#define MOS6510DTV_REGS_GET_R5(regs) ((regs)->r5)
+#define MOS6510DTV_REGS_GET_R6(regs) ((regs)->r6)
+#define MOS6510DTV_REGS_GET_R7(regs) ((regs)->r7)
+#define MOS6510DTV_REGS_GET_R8(regs) ((regs)->r8)
+#define MOS6510DTV_REGS_GET_R9(regs) ((regs)->r9)
+#define MOS6510DTV_REGS_GET_R10(regs) ((regs)->r10)
+#define MOS6510DTV_REGS_GET_R11(regs) ((regs)->r11)
+#define MOS6510DTV_REGS_GET_R12(regs) ((regs)->r12)
+#define MOS6510DTV_REGS_GET_R13(regs) ((regs)->r13)
+#define MOS6510DTV_REGS_GET_R14(regs) ((regs)->r14)
+#define MOS6510DTV_REGS_GET_R15(regs) ((regs)->r15)
+#define MOS6510DTV_REGS_GET_ACM(regs) ((regs)->acm)
+#define MOS6510DTV_REGS_GET_YXM(regs) ((regs)->yxm)
+#define MOS6510DTV_REGS_GET_OVERFLOW(regs) ((regs)->p & P_OVERFLOW)
+#define MOS6510DTV_REGS_GET_BREAK(regs) ((regs)->p & P_BREAK)
+#define MOS6510DTV_REGS_GET_DECIMAL(regs) ((regs)->p & P_DECIMAL)
+#define MOS6510DTV_REGS_GET_INTERRUPT(regs) ((regs)->p & P_INTERRUPT)
+#define MOS6510DTV_REGS_GET_CARRY(regs) ((regs)->p & P_CARRY)
+#define MOS6510DTV_REGS_GET_SIGN(regs) ((regs)->n & 0x80)
+#define MOS6510DTV_REGS_GET_ZERO(regs) (!(regs)->z)
+#define MOS6510DTV_REGS_GET_STATUS(regs)       \
     ((regs)->p | ((regs)->n & 0x80) | P_UNUSED \
      | (MOS6510DTV_REGS_GET_ZERO(regs) ? P_ZERO : 0))
 
 #endif
-

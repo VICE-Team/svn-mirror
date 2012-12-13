@@ -56,8 +56,7 @@ extern int sound_state_changed;
 extern int sid_state_changed;
 
 /* device structure */
-typedef struct sound_device_s
-{
+typedef struct sound_device_s {
     /* name of the device */
     const char *name;
     /* init -routine to be called at device initialization. Should use
@@ -87,14 +86,14 @@ typedef struct sound_device_s
 static inline SWORD sound_audio_mix(int ch1, int ch2)
 {
     if (ch1 == 0) {
-       return (SWORD)ch2;
+        return (SWORD)ch2;
     }
 
     if (ch2 == 0) {
         return (SWORD)ch1;
     }
 
-    if ((ch1 > 0 && ch2 < 0) || (ch1 < 0 && ch2 >0)) {
+    if ((ch1 > 0 && ch2 < 0) || (ch1 < 0 && ch2 > 0)) {
         return (SWORD)ch1 + ch2;
     }
 

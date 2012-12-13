@@ -207,8 +207,9 @@ char *ioutil_current_dir(void)
         if (errno == ERANGE) {
             len *= 2;
             p = lib_realloc(p, len);
-        } else
+        } else {
             return NULL;
+        }
     }
 
     return p;
@@ -330,8 +331,8 @@ ioutil_dir_t *ioutil_opendir(const char *path)
 
     ioutil_dir = lib_malloc(sizeof(ioutil_dir_t));
 
-    ioutil_dir->dirs = lib_malloc(sizeof(ioutil_name_table_t)*dirs_amount);
-    ioutil_dir->files = lib_malloc(sizeof(ioutil_name_table_t)*files_amount);
+    ioutil_dir->dirs = lib_malloc(sizeof(ioutil_name_table_t) * dirs_amount);
+    ioutil_dir->files = lib_malloc(sizeof(ioutil_name_table_t) * files_amount);
 
     ioutil_filldir(path, ioutil_dir->dirs, ioutil_dir->files);
     qsort(ioutil_dir->dirs, dirs_amount, sizeof(ioutil_name_table_t), ioutil_compare_names);
@@ -349,12 +350,12 @@ char *ioutil_readdir(ioutil_dir_t *ioutil_dir)
 {
     char *retval;
 
-    if (ioutil_dir->counter >= (ioutil_dir->dir_amount+ioutil_dir->file_amount)) {
+    if (ioutil_dir->counter >= (ioutil_dir->dir_amount + ioutil_dir->file_amount)) {
         return NULL;
     }
 
     if (ioutil_dir->counter >= ioutil_dir->dir_amount) {
-        retval = ioutil_dir->files[ioutil_dir->counter-ioutil_dir->dir_amount].name;
+        retval = ioutil_dir->files[ioutil_dir->counter - ioutil_dir->dir_amount].name;
     } else {
         retval = ioutil_dir->dirs[ioutil_dir->counter].name;
     }

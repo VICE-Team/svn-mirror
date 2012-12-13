@@ -79,7 +79,7 @@
    - Windows 2008 Datacenter Server (x86/x64)
    - Windows 2008 HPC Server (x64)
    - Windows 7 Starter (x86)
-   - Windows 7 Home Basic (x86)
+   - Windows 7 Home Basic (x86/x64)
    - Windows 7 Ultimate (x86/x64)
    - HXDOS
    - ReactOS

@@ -83,14 +83,14 @@ char *clipboard_read_screen_output(char *line_ending)
 
             /* add a line-ending */
 
-            for (i = 0; i < line_ending_length; i++)
-              *p++ = line_ending[i];
+            for (i = 0; i < line_ending_length; i++) {
+                *p++ = line_ending[i];
+            }
         }
 
         *p = 0;
 
         assert(p < outputbuffer + size);
-
     } while (0);
 
     return outputbuffer;

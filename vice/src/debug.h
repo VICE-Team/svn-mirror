@@ -49,10 +49,10 @@ typedef struct debug_s {
     int drivecpu_traceflg[4];
     int trace_mode;
 
-     /*
-      * if this is set, the CPU will break into the monitor before executing the 
-      * next statement. This is often handy for debugging.
-      */
+    /*
+     * if this is set, the CPU will break into the monitor before executing the
+     * next statement. This is often handy for debugging.
+     */
     int perform_break_into_monitor;
 
     /*! If this is set, inputs and outputs to the IEC bus are output. */
@@ -119,9 +119,9 @@ extern void debug_iec_bus_read(unsigned int data);
 
 #else
 
-# define STATIC_ASSERT(_x) \
-    { \
-        BYTE dummy[1 - 2 * ((_x) == 0)]; \
+# define STATIC_ASSERT(_x)                                                      \
+    {                                                                           \
+        BYTE dummy[1 - 2 * ((_x) == 0)];                                        \
         dummy[0] = dummy[0] - dummy[0]; /* prevent "unused variable" warning */ \
     }
 

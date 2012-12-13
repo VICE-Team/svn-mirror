@@ -41,8 +41,9 @@ clk_guard_t *clk_guard_new(CLOCK *init_clk_ptr, CLOCK init_clk_max_value)
 
     new_guard = lib_malloc(sizeof(clk_guard_t));
 
-    if (clk_guard_init(new_guard, init_clk_ptr, init_clk_max_value) < 0)
+    if (clk_guard_init(new_guard, init_clk_ptr, init_clk_max_value) < 0) {
         return NULL;
+    }
 
     return new_guard;
 }
@@ -50,8 +51,9 @@ clk_guard_t *clk_guard_new(CLOCK *init_clk_ptr, CLOCK init_clk_max_value)
 int clk_guard_init(clk_guard_t *guard, CLOCK *init_clk_ptr,
                    CLOCK init_clk_max_value)
 {
-    if (init_clk_max_value < CLKGUARD_SUB_MIN * 3)
+    if (init_clk_max_value < CLKGUARD_SUB_MIN * 3) {
         return -1;
+    }
 
     guard->clk_ptr = init_clk_ptr;
     guard->clk_base = (CLOCK)0;
@@ -111,8 +113,9 @@ CLOCK clk_guard_clock_sub(clk_guard_t *guard)
     sub = guard->clk_max_value - CLKGUARD_SUB_MIN;
 
     /* Make sure we subtract a multiple of the `clk_base'.  */
-    if (guard->clk_base)
+    if (guard->clk_base) {
         sub = (sub / guard->clk_base) * guard->clk_base;
+    }
 
     return sub;
 }
@@ -131,10 +134,10 @@ CLOCK clk_guard_prevent_overflow(clk_guard_t *guard)
         *guard->clk_ptr -= sub;
 
         /* Execute the callbacks. */
-        for (lp = guard->callback_list; lp != NULL; lp = lp->next)
+        for (lp = guard->callback_list; lp != NULL; lp = lp->next) {
             lp->function(sub, lp->data);
+        }
 
         return sub;
     }
 }
-

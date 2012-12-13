@@ -94,8 +94,7 @@ const char *cbmdos_errortext(unsigned int code)
 {
     unsigned int count = 0;
 
-    while (cbmdos_error_messages[count].nr != 255
-        && cbmdos_error_messages[count].nr != code) {
+    while (cbmdos_error_messages[count].nr != 255 && cbmdos_error_messages[count].nr != code) {
         count++;
     }
 
@@ -108,7 +107,7 @@ const char *cbmdos_errortext(unsigned int code)
 
 const char *cbmdos_filetype_get(unsigned int filetype)
 {
-   return cbmdos_ft[filetype];
+    return cbmdos_ft[filetype];
 }
 
 unsigned int cbmdos_parse_wildcard_check(const char *name, unsigned int len)
@@ -129,19 +128,19 @@ unsigned int cbmdos_parse_wildcard_compare(const BYTE *name1, const BYTE *name2)
 
     for (index = 0; index < CBMDOS_SLOT_NAME_LENGTH; index++) {
         switch (name1[index]) {
-        case '*':
-            return 1; /* rest is not interesting, it's a match */
-        case '?':
-            if (name2[index] == 0xa0) {
-                return 0; /* wildcard, but the other is too short */
-            }
-            break;
-        case 0xa0:  /* This one ends, let's see if the other as well */
-            return (name2[index] == 0xa0);
-        default:
-            if (name1[index] != name2[index]) {
-                return 0; /* does not match */
-            }
+            case '*':
+                return 1; /* rest is not interesting, it's a match */
+            case '?':
+                if (name2[index] == 0xa0) {
+                    return 0; /* wildcard, but the other is too short */
+                }
+                break;
+            case 0xa0: /* This one ends, let's see if the other as well */
+                return (name2[index] == 0xa0);
+            default:
+                if (name1[index] != name2[index]) {
+                    return 0; /* does not match */
+                }
         }
     }
 
@@ -174,7 +173,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     int cmdlen;
 
 #ifdef DEBUG_CBMDOS
-        log_debug("CBMDOS parse cmd: '%s' cmdlen: %d", cmd_parse->cmd, cmd_parse->cmdlength);
+    log_debug("CBMDOS parse cmd: '%s' cmdlen: %d", cmd_parse->cmd, cmd_parse->cmdlength);
 #endif
 
     cmd_parse->parsecmd = NULL;
@@ -224,12 +223,13 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     }
 
 #ifdef DEBUG_CBMDOS
-        log_debug("CBMDOS parse pattern: '%s' drive:%d", p, cmd_parse->drive);
+    log_debug("CBMDOS parse pattern: '%s' drive:%d", p, cmd_parse->drive);
 #endif
 
 #if 0
-    if (cmd_parse->cmd[0] == '@' && p == cmd_parse->cmd)
+    if (cmd_parse->cmd[0] == '@' && p == cmd_parse->cmd) {
         p++;
+    }
 #endif
 
     cmdlen = cmd_parse->cmdlength - (int)(p - cmd_parse->cmd);
@@ -247,7 +247,7 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
     }
 
 #ifdef DEBUG_CBMDOS
-        log_debug("CBMDOS parsed cmd: '%s'", cmd_parse->parsecmd);
+    log_debug("CBMDOS parsed cmd: '%s'", cmd_parse->parsecmd);
 #endif
 
     cmd_parse->filetype = 0;
@@ -264,46 +264,46 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
         }
 
         switch (*p) {
-          case 'S':
-            cmd_parse->filetype = CBMDOS_FT_SEQ;
-            break;
-          case 'P':
-            cmd_parse->filetype = CBMDOS_FT_PRG;
-            break;
-          case 'U':
-            cmd_parse->filetype = CBMDOS_FT_USR;
-            break;
-          case 'L':                     /* L,(#record length)  max 254 */
-            if (p[1] == ',') {
-                cmd_parse->recordlength = p[2]; /* Changing RL causes error */
+            case 'S':
+                cmd_parse->filetype = CBMDOS_FT_SEQ;
+                break;
+            case 'P':
+                cmd_parse->filetype = CBMDOS_FT_PRG;
+                break;
+            case 'U':
+                cmd_parse->filetype = CBMDOS_FT_USR;
+                break;
+            case 'L':                   /* L,(#record length)  max 254 */
+                if (p[1] == ',') {
+                    cmd_parse->recordlength = p[2]; /* Changing RL causes error */
 
-                /* Don't allow REL file record lengths less than 2 or
-                   greater than 254.  The 1541/71/81 lets you create a
-                   REL file of record length 0, but it locks up the CPU
-                   on the drive - nice. */
-                if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254) {
-                    return CBMDOS_IPE_OVERFLOW;
+                    /* Don't allow REL file record lengths less than 2 or
+                       greater than 254.  The 1541/71/81 lets you create a
+                       REL file of record length 0, but it locks up the CPU
+                       on the drive - nice. */
+                    if (cmd_parse->recordlength < 2 || cmd_parse->recordlength > 254) {
+                        return CBMDOS_IPE_OVERFLOW;
+                    }
+                    /* skip the REL length */
+                    p += 3;
+                    cmdlen -= 3;
                 }
-                /* skip the REL length */
-                p+=3;
-                cmdlen-=3;
-            }
-            cmd_parse->filetype = CBMDOS_FT_REL;
-            break;
-          case 'R':
-            cmd_parse->readmode = CBMDOS_FAM_READ;
-            break;
-          case 'W':
-            cmd_parse->readmode = CBMDOS_FAM_WRITE;
-            break;
-          case 'A':
-            cmd_parse->readmode = CBMDOS_FAM_APPEND;
-            break;
-          default:
-            if (cmd_parse->readmode != CBMDOS_FAM_READ
-                && cmd_parse->readmode != CBMDOS_FAM_WRITE) {
-                return CBMDOS_IPE_INVAL;
-            }
+                cmd_parse->filetype = CBMDOS_FT_REL;
+                break;
+            case 'R':
+                cmd_parse->readmode = CBMDOS_FAM_READ;
+                break;
+            case 'W':
+                cmd_parse->readmode = CBMDOS_FAM_WRITE;
+                break;
+            case 'A':
+                cmd_parse->readmode = CBMDOS_FAM_APPEND;
+                break;
+            default:
+                if (cmd_parse->readmode != CBMDOS_FAM_READ
+                    && cmd_parse->readmode != CBMDOS_FAM_WRITE) {
+                    return CBMDOS_IPE_INVAL;
+                }
         }
 
         c = (char *)memchr(p, ',', cmdlen);
@@ -332,4 +332,3 @@ unsigned int cbmdos_command_parse(cbmdos_cmd_parse_t *cmd_parse)
 
     return CBMDOS_IPE_OK;
 }
-

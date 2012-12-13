@@ -30,10 +30,10 @@
 #include "types.h"
 
 #define D64_FILE_SIZE_35   174848        /* D64 image, 35 tracks */
-#define D64_FILE_SIZE_35E (174848+683)   /* D64 image, 35 tracks with errors */
+#define D64_FILE_SIZE_35E (174848 + 683) /* D64 image, 35 tracks with errors */
 #define D67_FILE_SIZE      176640        /* D67 image, 35 tracks DOS1 */
 #define D71_FILE_SIZE      349696        /* D71 image, 70 tracks */
-#define D71_FILE_SIZE_E   (349696+1366)  /* D71 image, 70 tracks with errors */
+#define D71_FILE_SIZE_E   (349696 + 1366)/* D71 image, 70 tracks with errors */
 
 #define D81_FILE_SIZE      819200        /* D81 image, 80 tracks */
 #define D81_FILE_SIZE_E    822400        /* D81 image, 80 tracks with errors */
@@ -147,4 +147,3 @@ extern void disk_image_detach_log(const disk_image_t *image, signed int lognum,
                                   unsigned int unit);
 
 #endif
-

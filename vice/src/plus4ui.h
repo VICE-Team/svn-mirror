@@ -31,4 +31,3 @@ extern int plus4ui_init(void);
 extern void plus4ui_shutdown(void);
 
 #endif
-

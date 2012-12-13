@@ -36,4 +36,3 @@ extern int c64dtvui_init(void);
 extern void c64dtvui_shutdown(void);
 
 #endif
-

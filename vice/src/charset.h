@@ -48,4 +48,3 @@ extern char * charset_hexstring_to_byte( char * source, char * destination );
 extern char *charset_replace_hexcodes(char * source);
 
 #endif
-

@@ -31,15 +31,12 @@
 #include "types.h"
 
 extern int kbdbuf_is_empty(void);
-extern void kbdbuf_init(int location, int plocation, int buffer_size,
-                        CLOCK mincycles);
+extern void kbdbuf_init(int location, int plocation, int buffer_size, CLOCK mincycles);
 extern void kbdbuf_shutdown(void);
-extern void kbdbuf_reset(int location, int plocation, int buffer_size,
-                         CLOCK mincycles);
+extern void kbdbuf_reset(int location, int plocation, int buffer_size, CLOCK mincycles);
 extern int kbdbuf_feed(const char *s);
 extern int kbdbuf_feed_string(const char *string);
 extern void kbdbuf_flush(void);
 extern int kbdbuf_cmdline_options_init(void);
 
 #endif
-

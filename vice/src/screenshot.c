@@ -76,40 +76,37 @@ static void screenshot_line_data(screenshot_t *screenshot, BYTE *data,
         return;
     }
 
-#define BUFFER_LINE_START(i, n) ((i)->draw_buffer \
-                                + (n) * (i)->draw_buffer_line_size)
+#define BUFFER_LINE_START(i, n) ((i)->draw_buffer + (n) * (i)->draw_buffer_line_size)
 
     line_base = BUFFER_LINE_START(screenshot,
                                   (line + screenshot->y_offset)
                                   * screenshot->size_height);
 
     switch (mode) {
-      case SCREENSHOT_MODE_PALETTE:
-        for (i = 0; i < screenshot->width; i++)
-            data[i] = screenshot->color_map[line_base[i
-                      * screenshot->size_width + screenshot->x_offset]];
-        break;
-      case SCREENSHOT_MODE_RGB32:
-        for (i = 0; i < screenshot->width; i++) {
-            color = screenshot->color_map[line_base[i
-                    * screenshot->size_width + screenshot->x_offset]];
-            data[i * 4] = screenshot->palette->entries[color].red;
-            data[i * 4 + 1] = screenshot->palette->entries[color].green;
-            data[i * 4 + 2] = screenshot->palette->entries[color].blue;
-            data[i * 4 + 3] = 0;
-        }
-        break;
-      case SCREENSHOT_MODE_RGB24:
-        for (i = 0; i < screenshot->width; i++) {
-            color = screenshot->color_map[line_base[i
-                    * screenshot->size_width + screenshot->x_offset]];
-            data[i * 3] = screenshot->palette->entries[color].red;
-            data[i * 3 + 1] = screenshot->palette->entries[color].green;
-            data[i * 3 + 2] = screenshot->palette->entries[color].blue;
-        }
-        break;
-      default:
-        log_error(screenshot_log, "Invalid mode %i.", mode);
+        case SCREENSHOT_MODE_PALETTE:
+            for (i = 0; i < screenshot->width; i++) {
+                data[i] = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
+            }
+            break;
+        case SCREENSHOT_MODE_RGB32:
+            for (i = 0; i < screenshot->width; i++) {
+                color = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
+                data[i * 4] = screenshot->palette->entries[color].red;
+                data[i * 4 + 1] = screenshot->palette->entries[color].green;
+                data[i * 4 + 2] = screenshot->palette->entries[color].blue;
+                data[i * 4 + 3] = 0;
+            }
+            break;
+        case SCREENSHOT_MODE_RGB24:
+            for (i = 0; i < screenshot->width; i++) {
+                color = screenshot->color_map[line_base[i * screenshot->size_width + screenshot->x_offset]];
+                data[i * 3] = screenshot->palette->entries[color].red;
+                data[i * 3 + 1] = screenshot->palette->entries[color].green;
+                data[i * 3 + 2] = screenshot->palette->entries[color].blue;
+            }
+            break;
+        default:
+            log_error(screenshot_log, "Invalid mode %i.", mode);
     }
 }
 
@@ -119,15 +116,15 @@ static int screenshot_save_core(screenshot_t *screenshot, gfxoutputdrv_t *drv,
 {
     unsigned int i;
 
-    screenshot->width  = screenshot->max_width & ~3;
-    screenshot->height = screenshot->last_displayed_line
-                       - screenshot->first_displayed_line + 1;
+    screenshot->width = screenshot->max_width & ~3;
+    screenshot->height = screenshot->last_displayed_line - screenshot->first_displayed_line + 1;
     screenshot->y_offset = screenshot->first_displayed_line;
 
     screenshot->color_map = lib_calloc(1, 256);
 
-    for (i = 0; i < screenshot->palette->num_entries; i++)
+    for (i = 0; i < screenshot->palette->num_entries; i++) {
         screenshot->color_map[i] = i;
+    }
 
     screenshot->convert_line = screenshot_line_data;
 
@@ -169,8 +166,9 @@ int screenshot_save(const char *drvname, const char *filename,
     gfxoutputdrv_t *drv;
     int result;
 
-    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
+    if ((drv = gfxoutput_get_driver(drvname)) == NULL) {
         return -1;
+    }
 
     if (recording_driver == drv) {
         ui_error(translate_text(IDGS_SORRY_NO_MULTI_RECORDING));
@@ -197,7 +195,7 @@ int screenshot_save(const char *drvname, const char *filename,
         recording_driver = NULL;
         recording_canvas = NULL;
     }
-    
+
     return result;
 }
 
@@ -206,12 +204,13 @@ int memmap_screenshot_save(const char *drvname, const char *filename, int x_size
 {
     gfxoutputdrv_t *drv;
 
-    if ((drv = gfxoutput_get_driver(drvname)) == NULL)
+    if ((drv = gfxoutput_get_driver(drvname)) == NULL) {
         return -1;
+    }
 
     if ((drv->savememmap)(filename, x_size, y_size, gfx, palette) < 0) {
-            log_error(screenshot_log, "Saving failed...");
-            return -1;
+        log_error(screenshot_log, "Saving failed...");
+        return -1;
     }
     return 0;
 }
@@ -221,8 +220,9 @@ int screenshot_record()
 {
     screenshot_t screenshot;
 
-    if (recording_driver == NULL)
+    if (recording_driver == NULL) {
         return 0;
+    }
 
     /* Retrive framebuffer and screen geometry.  */
     if (recording_canvas != NULL) {
@@ -232,8 +232,8 @@ int screenshot_record()
         }
     } else {
         /* should not happen */
-            log_error(screenshot_log, "Canvas is unknown.");
-            return -1;
+        log_error(screenshot_log, "Canvas is unknown.");
+        return -1;
     }
 
     return screenshot_save_core(&screenshot, NULL, NULL);
@@ -241,8 +241,9 @@ int screenshot_record()
 
 void screenshot_stop_recording()
 {
-    if (recording_driver != NULL && recording_driver->close != NULL)
+    if (recording_driver != NULL && recording_driver->close != NULL) {
         recording_driver->close(NULL);
+    }
 
     recording_driver = NULL;
     recording_canvas = NULL;
@@ -267,4 +268,3 @@ void screenshot_try_reopen(void)
     }
     reopen = 0;
 }
-

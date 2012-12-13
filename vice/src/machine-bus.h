@@ -53,20 +53,19 @@ extern void machine_bus_eof_callback_set(void (*func)(void));
 extern void machine_bus_attention_callback_set(void (*func)(void));
 
 extern int machine_bus_device_attach(unsigned int unit, const char *name,
-                                    int (*getf)(struct vdrive_s *,
-                                    BYTE *, unsigned int),
-                                    int (*putf)(struct vdrive_s *, BYTE,
-                                    unsigned int),
-                                    int (*openf)(struct vdrive_s *,
-                                    const BYTE *, unsigned int, unsigned int,
-                                    struct cbmdos_cmd_parse_s *),
-                                    int (*closef)(struct vdrive_s *,
-                                    unsigned int),
-                                    void (*flushf)(struct vdrive_s *,
-                                    unsigned int),
-                                    void (*listenf)(struct vdrive_s *,
-                                    unsigned int));
+                                     int (*getf)(struct vdrive_s *,
+                                                 BYTE *, unsigned int),
+                                     int (*putf)(struct vdrive_s *, BYTE,
+                                                 unsigned int),
+                                     int (*openf)(struct vdrive_s *,
+                                                  const BYTE *, unsigned int, unsigned int,
+                                                  struct cbmdos_cmd_parse_s *),
+                                     int (*closef)(struct vdrive_s *,
+                                                   unsigned int),
+                                     void (*flushf)(struct vdrive_s *,
+                                                    unsigned int),
+                                     void (*listenf)(struct vdrive_s *,
+                                                     unsigned int));
 extern int machine_bus_device_detach(unsigned int unit);
 
 #endif
-

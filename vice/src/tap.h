@@ -68,7 +68,7 @@ typedef struct tap_s {
     int current_file_seek_position;
 
     /* buffer for decoded content of current file */
-    size_t current_file_data_pos; 
+    size_t current_file_data_pos;
     size_t current_file_size;
     BYTE * current_file_data;
 
@@ -95,7 +95,6 @@ typedef struct tap_s {
 
     /* Has the tap changed? We correct the size then.  */
     int has_changed;
-
 } tap_t;
 
 extern void tap_init(const struct tape_init_s *init);
@@ -112,4 +111,3 @@ extern struct tape_file_record_s *tap_get_current_file_record(tap_t *tap);
 extern int tap_read(tap_t *tap, BYTE *buf, size_t size);
 
 #endif
-

@@ -31,4 +31,3 @@
 char *findpath(const char *cmd, const char *syspath, int mode);
 
 #endif /* _FINDPATH_H */
-

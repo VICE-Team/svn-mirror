@@ -39,7 +39,7 @@
 #define UTIL_FILE_LOAD_SKIP_ADDRESS 1
 #define UTIL_FILE_LOAD_FILL         2
 
-#define util_arraysize( _x ) ( sizeof( _x ) / sizeof( _x[0] ) )
+#define util_arraysize(_x) (sizeof(_x) / sizeof(_x[0]))
 
 extern char *util_concat(const char *s1, ...);
 extern void util_addline(char **list, const char *line);

@@ -55,9 +55,11 @@ palette_t *palette_create(unsigned int num_entries, const char *entry_names[])
     p->num_entries = num_entries;
     p->entries = lib_calloc(num_entries, sizeof(palette_entry_t));
 
-    if (entry_names != NULL)
-        for (i = 0; i < num_entries; i++)
+    if (entry_names != NULL) {
+        for (i = 0; i < num_entries; i++) {
             p->entries[i].name = lib_stralloc(entry_names[i]);
+        }
+    }
 
     return p;
 }
@@ -66,8 +68,9 @@ void palette_free(palette_t *p)
 {
     unsigned int i;
 
-    if (p == NULL)
+    if (p == NULL) {
         return;
+    }
 
     for (i = 0; i < p->num_entries; i++) {
         lib_free(p->entries[i].name);
@@ -79,8 +82,9 @@ void palette_free(palette_t *p)
 static int palette_set_entry(palette_t *p, unsigned int number,
                              BYTE red, BYTE green, BYTE blue, BYTE dither)
 {
-    if (p == NULL || number >= p->num_entries)
+    if (p == NULL || number >= p->num_entries) {
         return -1;
+    }
 
     p->entries[number].red = red;
     p->entries[number].green = green;
@@ -100,17 +104,19 @@ static int palette_copy(palette_t *dest, const palette_t *src)
         return -1;
     }
 
-    for (i = 0; i < src->num_entries; i++)
+    for (i = 0; i < src->num_entries; i++) {
         palette_set_entry(dest, i, src->entries[i].red, src->entries[i].green,
                           src->entries[i].blue, src->entries[i].dither);
+    }
 
     return 0;
 }
 
 static char *next_nonspace(const char *p)
 {
-    while (*p != '\0' && isspace((int)*p))
+    while (*p != '\0' && isspace((int)*p)) {
         p++;
+    }
 
     return (char *)p;
 }
@@ -121,7 +127,7 @@ static int palette_load_core(FILE *f, const char *file_name,
 {
     char buf[1024];
 
-    unsigned int line_num  = 0;
+    unsigned int line_num = 0;
     unsigned int entry_num = 0;
 
     while (1) {
@@ -131,18 +137,21 @@ static int palette_load_core(FILE *f, const char *file_name,
 
         int line_len = util_get_line(buf, 1024, f);
 
-        if (line_len < 0)
+        if (line_len < 0) {
             break;
+        }
 
         line_num++;
 
-        if (*buf == '#')
+        if (*buf == '#') {
             continue;
+        }
 
         p1 = next_nonspace(buf);
 
-        if (*p1 == '\0') /* empty line */
+        if (*p1 == '\0') { /* empty line */
             continue;
+        }
 
         for (i = 0; i < 4; i++) {
             long result;
@@ -226,8 +235,9 @@ int palette_load(const char *file_name, palette_t *palette_return)
         f = sysfile_open(tmp, &complete_path, MODE_READ_TEXT);
         lib_free(tmp);
 
-        if (f == NULL)
+        if (f == NULL) {
             return -1;
+        }
     }
 
     log_message(palette_log, "Loading palette `%s'.", complete_path);
@@ -250,19 +260,21 @@ int palette_save(const char *file_name, const palette_t *palette)
 
     f = fopen(file_name, MODE_WRITE);
 
-    if (f == NULL)
+    if (f == NULL) {
         return -1;
+    }
 
     fprintf(f, "#\n# VICE Palette file\n#\n");
     fprintf(f, "# Syntax:\n# Red Green Blue Dither\n#\n\n");
 
-    for (i = 0; i < palette->num_entries; i++)
+    for (i = 0; i < palette->num_entries; i++) {
         fprintf(f, "# %s\n%02X %02X %02X %01X\n\n",
                 palette->entries[i].name,
                 palette->entries[i].red,
                 palette->entries[i].green,
                 palette->entries[i].blue,
                 palette->entries[i].dither);
+    }
 
     return fclose(f);
 }
@@ -271,4 +283,3 @@ void palette_init(void)
 {
     palette_log = log_open("Palette");
 }
-

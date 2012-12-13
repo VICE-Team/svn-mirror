@@ -43,7 +43,7 @@
 
 /* Only make the function(s) visible if no inlining or inlining _and_ we're
  *  not compiling fixpoint.c */
-#if (!defined(INLINE_FIXPOINT_FUNCTIONS) || (defined(INLINE_FIXPOINT_FUNCTIONS) && defined(FIXPOINT_FROM_HEADER))) 
+#if (!defined(INLINE_FIXPOINT_FUNCTIONS) || (defined(INLINE_FIXPOINT_FUNCTIONS) && defined(FIXPOINT_FROM_HEADER)))
 
 FUNC_INLINE_STATEMENT vreal_t fixpoint_mult(vreal_t x, vreal_t y)
 {
@@ -51,13 +51,17 @@ FUNC_INLINE_STATEMENT vreal_t fixpoint_mult(vreal_t x, vreal_t y)
 
     int sign = ((x ^ y) < 0) ? 1 : 0;
 
-    if (x < 0) x *= -1;
-    if (y < 0) y *= -1;
+    if (x < 0) {
+        x *= -1;
+    }
+    if (y < 0) {
+        y *= -1;
+    }
 
     a = (((unsigned int) x) >> FIXPOINT_PREC);
-    b = ( (unsigned int) x) &  ~(a << FIXPOINT_PREC);
+    b = ((unsigned int) x) & ~(a << FIXPOINT_PREC);
     c = (((unsigned int) y) >> FIXPOINT_PREC);
-    d = ( (unsigned int) y) &  ~(c << FIXPOINT_PREC);
+    d = ((unsigned int) y) & ~(c << FIXPOINT_PREC);
     a = (((a * c) << FIXPOINT_PREC)
          + (a * d + b * c)
          + (((b * d) + (1 << (FIXPOINT_PREC - 1))) >> FIXPOINT_PREC));
@@ -66,10 +70,10 @@ FUNC_INLINE_STATEMENT vreal_t fixpoint_mult(vreal_t x, vreal_t y)
 
 FUNC_INLINE_STATEMENT soundclk_t soundclk_mult(soundclk_t a, soundclk_t b)
 {
-  unsigned long ia, ib, fa, fb;
-  ia = (a>>SOUNDCLK_PREC); fa = a & ((1<<SOUNDCLK_PREC)-1);
-  ib = (b>>SOUNDCLK_PREC); fb = b & ((1<<SOUNDCLK_PREC)-1);
-  return (((ia*ib)<<SOUNDCLK_PREC) + (ia*fb+ib*fa) + ((fa*fb)>>SOUNDCLK_PREC));
+    unsigned long ia, ib, fa, fb;
+    ia = (a >> SOUNDCLK_PREC); fa = a & ((1 << SOUNDCLK_PREC) - 1);
+    ib = (b >> SOUNDCLK_PREC); fb = b & ((1 << SOUNDCLK_PREC) - 1);
+    return (((ia * ib) << SOUNDCLK_PREC) + (ia * fb + ib * fa) + ((fa * fb) >> SOUNDCLK_PREC));
 }
 
 #endif
@@ -77,4 +81,3 @@ FUNC_INLINE_STATEMENT soundclk_t soundclk_mult(soundclk_t a, soundclk_t b)
 #endif
 
 #endif
-

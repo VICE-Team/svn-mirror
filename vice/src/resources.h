@@ -32,8 +32,8 @@
 
 
 typedef enum resource_type_s {
-     RES_INTEGER,
-     RES_STRING
+    RES_INTEGER,
+    RES_STRING
 } resource_type_t;
 
 typedef enum resource_event_relevant_s {
@@ -127,8 +127,7 @@ extern int resources_set_int(const char *name, int value);
 extern int resources_set_string(const char *name, const char *value);
 extern void resources_set_value_event(void *data, int size);
 extern int resources_set_int_sprintf(const char *name, int value, ...);
-extern int resources_set_string_sprintf(const char *name, const char *value,
-                                        ...);
+extern int resources_set_string_sprintf(const char *name, const char *value, ...);
 extern int resources_set_value_string(const char *name, const char *value);
 extern int resources_toggle(const char *name, int *new_value_return);
 extern int resources_touch(const char *name);
@@ -136,8 +135,7 @@ extern int resources_get_value(const char *name, void *value_return);
 extern int resources_get_int(const char *name, int *value_return);
 extern int resources_get_string(const char *name, const char **value_return);
 extern int resources_get_int_sprintf(const char *name, int *value_return, ...);
-extern int resources_get_string_sprintf(const char *name,
-                                        const char **value_return, ...);
+extern int resources_get_string_sprintf(const char *name, const char **value_return, ...);
 extern int resources_get_default_value(const char *name, void *value_return);
 extern resource_type_t resources_query_type(const char *name);
 extern int resources_save(const char *fname);
@@ -145,8 +143,7 @@ extern int resources_load(const char *fname);
 
 extern int resources_write_item_to_file(FILE *fp, const char *name);
 extern int resources_read_item_from_file(FILE *fp);
-extern char *resources_write_item_to_string(const char *name,
-                                            const char *delim);
+extern char *resources_write_item_to_string(const char *name, const char *delim);
 
 extern int resources_set_defaults(void);
 extern int resources_set_event_safe(void);
@@ -159,4 +156,3 @@ extern int resources_register_callback(const char *name, resource_callback_func_
                                        void *callback_param);
 
 #endif /* _RESOURCES_H */
-

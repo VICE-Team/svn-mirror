@@ -43,4 +43,3 @@ extern int blockdev_write_sector(const BYTE *buf, unsigned int track,
                                  unsigned int sector);
 
 #endif
-

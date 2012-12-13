@@ -32,4 +32,3 @@ extern int vic20ui_init(void);
 extern void vic20ui_shutdown(void);
 
 #endif
-

@@ -36,4 +36,3 @@ extern void ram_init(BYTE *memram, unsigned int ramsize);
 extern const char *ram_init_print_pattern(void);
 
 #endif
-

@@ -29,8 +29,7 @@
 
 struct machine_context_s;
 
-extern void machine_printer_setup_context(
-                struct machine_context_s *machine_context);
+extern void machine_printer_setup_context(struct machine_context_s *machine_context);
 extern int machine_printer_resources_init(void);
 extern void machine_printer_resources_shutdown(void);
 extern int machine_printer_cmdline_options_init(void);
@@ -38,4 +37,3 @@ extern void machine_printer_init(void);
 extern void machine_printer_shutdown(void);
 
 #endif
-

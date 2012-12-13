@@ -1,4 +1,4 @@
-/*! \file cia.h 
+/*! \file cia.h
  *
  *  \brief Definitions for MOS6526 (CIA) chip emulation.
  *
@@ -151,12 +151,9 @@ extern void ciacore_init(struct cia_context_s *cia_context,
 extern void ciacore_shutdown(cia_context_t *cia_context);
 extern void ciacore_reset(struct cia_context_s *cia_context);
 extern void ciacore_disable(struct cia_context_s *cia_context);
-extern void ciacore_store(struct cia_context_s *cia_context,
-                                   WORD addr, BYTE data);
-extern BYTE ciacore_read(struct cia_context_s *cia_context,
-                                  WORD addr);
-extern BYTE ciacore_peek(struct cia_context_s *cia_context,
-                                  WORD addr);
+extern void ciacore_store(struct cia_context_s *cia_context, WORD addr, BYTE data);
+extern BYTE ciacore_read(struct cia_context_s *cia_context, WORD addr);
+extern BYTE ciacore_peek(struct cia_context_s *cia_context, WORD addr);
 
 extern void ciacore_set_flag(struct cia_context_s *cia_context);
 extern void ciacore_set_sdr(struct cia_context_s *cia_context, BYTE data);
@@ -167,4 +164,3 @@ extern int ciacore_snapshot_read_module(struct cia_context_s *cia_context,
                                         struct snapshot_s *s);
 extern int ciacore_dump(cia_context_t *cia_context);
 #endif
-

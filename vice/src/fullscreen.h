@@ -32,4 +32,3 @@ struct cap_fullscreen_s;
 extern void fullscreen_capability(struct cap_fullscreen_s *cap_fullscreen);
 
 #endif
-
