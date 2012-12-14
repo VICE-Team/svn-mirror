@@ -85,7 +85,8 @@ static video_cbm_palette_t vic_palette =
     VIC_NUM_COLORS,
     vic_colors,
     VIC_SATURATION,
-    VIC_PHASE
+    VIC_PHASE,
+    CBM_PALETTE_YUV
 };
 
 int vic_color_update_palette(struct video_canvas_s *canvas)

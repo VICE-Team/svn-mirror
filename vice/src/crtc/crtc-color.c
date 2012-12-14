@@ -31,6 +31,12 @@
 #include "crtc-resources.h"
 #include "video.h"
 
+/*
+    FIXME: instead of defining a green palette, we should output no/max luma
+           here and convert it to proper colors according to what kind of
+           monitor is emulated in the generic video code
+ */
+
 /* base saturation */
 #define CRTC_SATURATION  150.0f
 
@@ -52,7 +58,8 @@ static video_cbm_palette_t crtc_palette =
     CRTC_NUM_COLORS,
     crtc_colors,
     CRTC_SATURATION,
-    CRTC_PHASE
+    CRTC_PHASE,
+    CBM_PALETTE_YUV
 };
 
 int crtc_color_update_palette(struct video_canvas_s *canvas)

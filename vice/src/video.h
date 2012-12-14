@@ -277,19 +277,26 @@ extern void video_arch_resources_shutdown(void);
 
 /* Video render interface */
 
-/* VIC/VIC-II/TED related color/palette types */
+/* Videochip related color/palette types */
+
+#define CBM_PALETTE_YUV  0
+#define CBM_PALETTE_RGB  1
+
 typedef struct video_cbm_color_s {
     float luminance;        /* luminance                      */
     float angle;            /* angle on color wheel           */
     int direction;          /* +1 (pos), -1 (neg) or 0 (grey) */
     char *name;             /* name of this color             */
 } video_cbm_color_t;
+/* note: to handle chips that output RGB (such as the VDC), the above structure
+         is currently abused for RGB colors also. */
 
 typedef struct video_cbm_palette_s {
     unsigned int num_entries;           /* number of colors in palette */
     video_cbm_color_t *entries;         /* array of colors             */
     float saturation; /* base saturation of all colors except the grey tones */
     float phase;      /* color phase (will be added to all color angles) */
+    int type;
 } video_cbm_palette_t;
 
 extern void video_color_palette_internal(struct video_canvas_s *canvas,

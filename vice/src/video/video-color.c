@@ -426,13 +426,25 @@ static void video_palette_to_ycbcr_oddlines(const palette_t *p, video_ycbcr_pale
     }
 }
 
-/* Convert a CBM palette to YCbCr. */
+/* Convert the internal videochip palette to YCbCr. */
 static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p, video_ycbcr_palette_t* ycbcr)
 {
     unsigned int i;
 
-    for (i = 0; i < p->num_entries; i++) {
-        video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation, p->phase, &ycbcr->entries[i]);
+    if (p->type == CBM_PALETTE_RGB) {
+        /* special case for handling chips that output RGB (such as the VDC),
+           admittedly slightly ugly but simple and effective :) */
+        palette_entry_t src;
+        for (i = 0; i < p->num_entries; i++) {
+            src.red = p->entries[i].luminance;
+            src.green = p->entries[i].angle;
+            src.blue = p->entries[i].direction;
+            video_convert_rgb_to_ycbcr(&src, &ycbcr->entries[i]);
+        }
+    } else {
+        for (i = 0; i < p->num_entries; i++) {
+            video_convert_cbm_to_ycbcr(&p->entries[i], p->saturation, p->phase, &ycbcr->entries[i]);
+        }
     }
 }
 

@@ -102,7 +102,8 @@ static video_cbm_palette_t ted_palette =
     TED_NUM_COLORS,
     ted_colors_with_lum,
     TED_SATURATION,
-    TED_PHASE
+    TED_PHASE,
+    CBM_PALETTE_YUV
 };
 
 int ted_color_update_palette(struct video_canvas_s *canvas)

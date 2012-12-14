@@ -112,7 +112,8 @@ static video_cbm_palette_t vicii_palette_old =
     VICII_NUM_COLORS,
     vicii_colors_old,
     VICII_SATURATION,
-    VICII_PHASE
+    VICII_PHASE,
+    CBM_PALETTE_YUV
 };
 
 /* the wellknown vic-ii palette used for 99% of all vic-ii chips */
@@ -142,7 +143,8 @@ static video_cbm_palette_t vicii_palette =
     VICII_NUM_COLORS,
     vicii_colors,
     VICII_SATURATION,
-    VICII_PHASE
+    VICII_PHASE,
+    CBM_PALETTE_YUV
 };
 
 int vicii_color_update_palette(struct video_canvas_s *canvas)
