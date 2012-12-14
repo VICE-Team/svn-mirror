@@ -703,6 +703,11 @@ void ui_check_mouse_cursor(void)
         mouse_cursor_grab(0, NULL);
         return;
     }
+    if (canvas->fullscreenconfig == NULL) {
+        log_error(ui_log, "ui_check_mouse_cursor canvas->fullscreenconfig == NULL");
+        mouse_cursor_grab(0, NULL);
+        return;
+    }
 
     if (canvas->fullscreenconfig->enable) {
         if (_mouse_enabled) {
