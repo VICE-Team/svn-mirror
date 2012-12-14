@@ -94,7 +94,7 @@ static int sdl_gl_flipy;
 
 static int sdl_gl_vertex_base = 0;
 
-static const float sdl_gl_vertex_coord[4*4] = {
+static const float sdl_gl_vertex_coord[4 * 4] = {
     /* Normal */
     -1.0f, +1.0f, -1.0f, +1.0f,
     /* Flip X */
@@ -149,7 +149,7 @@ static int set_sdl_custom_width(int w, void *param)
     if (sdl_custom_width != w) {
         sdl_custom_width = w;
         if (sdl_active_canvas && sdl_active_canvas->fullscreenconfig->enable
-                && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+            && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
@@ -165,7 +165,7 @@ static int set_sdl_custom_height(int h, void *param)
     if (sdl_custom_height != h) {
         sdl_custom_height = h;
         if (sdl_active_canvas && sdl_active_canvas->fullscreenconfig->enable
-                && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
+            && sdl_active_canvas->fullscreenconfig->mode == FULLSCREEN_MODE_CUSTOM) {
             video_viewport_resize(sdl_active_canvas, 1);
         }
     }
@@ -310,8 +310,9 @@ static const resource_int_t resources_int[] = {
 int video_arch_resources_init(void)
 {
     DBG(("%s", __func__));
-    if (resources_register_string(resources_string) < 0)
+    if (resources_register_string(resources_string) < 0) {
         return -1;
+    }
 
     return resources_register_int(resources_int);
 }
@@ -388,7 +389,7 @@ void video_shutdown(void)
 
 static int sdl_video_canvas_limit(unsigned int limit_w, unsigned int limit_h, unsigned int *w, unsigned int *h, int mode)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     switch (mode & 3) {
         case SDL_LIMIT_MODE_MAX:
             if ((*w > limit_w) || (*h > limit_h)) {
@@ -552,7 +553,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             case 0:
                 log_warning(sdlvideo_log, "bitdepth not set for OpenGL, trying 32...");
                 sdl_bitdepth = 32;
-                /* fall through */
+            /* fall through */
             case 32:
                 rbits = gbits = bbits = 8;
                 sdl_gl_mode = GL_RGBA;
@@ -621,7 +622,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             actual_height = new_screen->h;
 
             /* free the old rendering surface when staying in hwscale mode */
-            if ((canvas->hwscale_screen)&&(canvas->screen)) {
+            if ((canvas->hwscale_screen) && (canvas->screen)) {
                 SDL_FreeSurface(canvas->screen);
             }
 
@@ -682,7 +683,7 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
         resources_set_int("SDLWindowHeight", actual_height);
     }
 
-    log_message(sdlvideo_log, "%ix%i %ibpp %s%s", actual_width, actual_height, sdl_bitdepth, hwscale?"OpenGL ":"", (canvas->fullscreenconfig->enable)?"(fullscreen)":"");
+    log_message(sdlvideo_log, "%ix%i %ibpp %s%s", actual_width, actual_height, sdl_bitdepth, hwscale ? "OpenGL " : "", (canvas->fullscreenconfig->enable) ? "(fullscreen)" : "");
 #ifdef SDL_DEBUG
     log_message(sdlvideo_log, "Canvas %ix%i, real %ix%i", new_width, new_height, canvas->real_width, canvas->real_height);
 #endif
@@ -743,7 +744,7 @@ void video_canvas_refresh(struct video_canvas_s *canvas, unsigned int xs, unsign
     h = MIN(h, canvas->height);
 
     /* FIXME attempt to draw outside canvas */
-    if ((xi + w > canvas->width)||(yi + h > canvas->height)) {
+    if ((xi + w > canvas->width) || (yi + h > canvas->height)) {
         return;
     }
 
@@ -880,7 +881,7 @@ void video_canvas_resize(struct video_canvas_s *canvas, char resize_canvas)
     if (sdl_ui_finalized) {
         sdl_window_width = 0; /* force recalculate */
         sdl_window_height = 0;
-        sdl_canvas_create(canvas, &width, &height);/* set the real canvas size */
+        sdl_canvas_create(canvas, &width, &height); /* set the real canvas size */
 
         if (resize_canvas) {
             DBG(("%s: set and resize to real size (%ix%i)", __func__, width, height));
@@ -985,7 +986,7 @@ void sdl_video_canvas_switch(int index)
 
     canvas = sdl_canvaslist[sdl_active_canvas_num];
     sdl_active_canvas = canvas;
-    
+
     video_viewport_resize(canvas, 1);
 }
 
@@ -994,7 +995,7 @@ void video_arch_canvas_init(struct video_canvas_s *canvas)
     DBG(("%s: (%p, %i)", __func__, canvas, sdl_num_screens));
 
     if (sdl_num_screens == MAX_CANVAS_NUM) {
-        log_error(sdlvideo_log,"Too many canvases!");
+        log_error(sdlvideo_log, "Too many canvases!");
         exit(-1);
     }
 
@@ -1049,6 +1050,6 @@ void sdl_ui_init_finalize(void)
     unsigned int width = sdl_active_canvas->draw_buffer->canvas_width;
     unsigned int height = sdl_active_canvas->draw_buffer->canvas_height;
 
-    sdl_canvas_create(sdl_active_canvas, &width, &height);/* set the real canvas size */
+    sdl_canvas_create(sdl_active_canvas, &width, &height); /* set the real canvas size */
     sdl_ui_finalized = 1;
 }

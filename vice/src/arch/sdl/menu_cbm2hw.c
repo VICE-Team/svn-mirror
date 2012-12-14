@@ -54,19 +54,19 @@ UI_MENU_DEFINE_TOGGLE(Ram4)
 UI_MENU_DEFINE_TOGGLE(Ram6)
 UI_MENU_DEFINE_TOGGLE(RamC)
 
-#define CIA_MODEL_MENU(xyz)           \
-UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
-static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
-    { "6526  (old)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526 },                 \
-    { "6526A (new)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526A },                \
-    SDL_MENU_LIST_END                                       \
-};
+#define CIA_MODEL_MENU(xyz)                                     \
+    UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
+    static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
+        { "6526  (old)",                                        \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          radio_CIA##xyz##Model_callback,                       \
+          (ui_callback_data_t)CIA_MODEL_6526 },                 \
+        { "6526A (new)",                                        \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          radio_CIA##xyz##Model_callback,                       \
+          (ui_callback_data_t)CIA_MODEL_6526A },                \
+        SDL_MENU_LIST_END                                       \
+    };
 
 CIA_MODEL_MENU(1)
 

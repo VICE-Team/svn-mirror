@@ -35,68 +35,68 @@
 #include "resources.h"
 #include "uimenu.h"
 
-#define VICE_SDL_PRINTER_DRIVER_MENU(prn)       \
-UI_MENU_DEFINE_RADIO(Printer##prn##Driver)      \
-static const ui_menu_entry_t printer_##prn##_driver_submenu[] = { \
-    { "ASCII",                                  \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##Driver_callback,      \
-      (ui_callback_data_t)"ascii" },            \
-    { "MPS803",                                 \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##Driver_callback,      \
-      (ui_callback_data_t)"mps803" },           \
-    { "NL10",                                   \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##Driver_callback,      \
-      (ui_callback_data_t)"nl10" },             \
-    { "Raw",                                    \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##Driver_callback,      \
-      (ui_callback_data_t)"raw" },              \
-    SDL_MENU_LIST_END                           \
-};
+#define VICE_SDL_PRINTER_DRIVER_MENU(prn)                             \
+    UI_MENU_DEFINE_RADIO(Printer##prn##Driver)                        \
+    static const ui_menu_entry_t printer_##prn##_driver_submenu[] = { \
+        { "ASCII",                                                    \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"ascii" },                              \
+        { "MPS803",                                                   \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"mps803" },                             \
+        { "NL10",                                                     \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"nl10" },                               \
+        { "Raw",                                                      \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Driver_callback,                        \
+          (ui_callback_data_t)"raw" },                                \
+        SDL_MENU_LIST_END                                             \
+    };
 
 VICE_SDL_PRINTER_DRIVER_MENU(4)
 VICE_SDL_PRINTER_DRIVER_MENU(5)
 VICE_SDL_PRINTER_DRIVER_MENU(Userport)
 
-#define VICE_SDL_PRINTER_DEVICE_MENU(prn)       \
-UI_MENU_DEFINE_RADIO(Printer##prn##TextDevice)  \
-static const ui_menu_entry_t printer_##prn##_device_submenu[] = { \
-    { "1",                                      \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##TextDevice_callback,  \
-      (ui_callback_data_t)0 },                  \
-    { "2",                                      \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##TextDevice_callback,  \
-      (ui_callback_data_t)1 },                  \
-    { "3",                                      \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##TextDevice_callback,  \
-      (ui_callback_data_t)2 },                  \
-    SDL_MENU_LIST_END                           \
-};
+#define VICE_SDL_PRINTER_DEVICE_MENU(prn)                             \
+    UI_MENU_DEFINE_RADIO(Printer##prn##TextDevice)                    \
+    static const ui_menu_entry_t printer_##prn##_device_submenu[] = { \
+        { "1",                                                        \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##TextDevice_callback,                    \
+          (ui_callback_data_t)0 },                                    \
+        { "2",                                                        \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##TextDevice_callback,                    \
+          (ui_callback_data_t)1 },                                    \
+        { "3",                                                        \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##TextDevice_callback,                    \
+          (ui_callback_data_t)2 },                                    \
+        SDL_MENU_LIST_END                                             \
+    };
 
 VICE_SDL_PRINTER_DEVICE_MENU(4)
 VICE_SDL_PRINTER_DEVICE_MENU(5)
 VICE_SDL_PRINTER_DEVICE_MENU(Userport)
 
 
-#define VICE_SDL_PRINTER_OUTPUT_MENU(prn)       \
-UI_MENU_DEFINE_RADIO(Printer##prn##Output)      \
-static const ui_menu_entry_t printer_##prn##_output_submenu[] = { \
-    { "Text",                                   \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##Output_callback,      \
-      (ui_callback_data_t)"text" },             \
-    { "Graphics",                               \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##Output_callback,      \
-      (ui_callback_data_t)"graphics" },         \
-    SDL_MENU_LIST_END                           \
-};
+#define VICE_SDL_PRINTER_OUTPUT_MENU(prn)                             \
+    UI_MENU_DEFINE_RADIO(Printer##prn##Output)                        \
+    static const ui_menu_entry_t printer_##prn##_output_submenu[] = { \
+        { "Text",                                                     \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Output_callback,                        \
+          (ui_callback_data_t)"text" },                               \
+        { "Graphics",                                                 \
+          MENU_ENTRY_RESOURCE_RADIO,                                  \
+          radio_Printer##prn##Output_callback,                        \
+          (ui_callback_data_t)"graphics" },                           \
+        SDL_MENU_LIST_END                                             \
+    };
 
 VICE_SDL_PRINTER_OUTPUT_MENU(4)
 VICE_SDL_PRINTER_OUTPUT_MENU(5)
@@ -104,39 +104,39 @@ VICE_SDL_PRINTER_OUTPUT_MENU(Userport)
 
 #ifdef HAVE_OPENCBM
 
-#define VICE_SDL_PRINTER_TYPE_MENU(prn)         \
-UI_MENU_DEFINE_RADIO(Printer##prn)              \
-static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
-    { "None",                                   \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##_callback,            \
-      (ui_callback_data_t)PRINTER_DEVICE_NONE },\
-    { "File system access",                     \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##_callback,            \
-      (ui_callback_data_t)PRINTER_DEVICE_FS },  \
-    { "Real device access",                     \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##_callback,            \
-      (ui_callback_data_t)PRINTER_DEVICE_REAL },\
-    SDL_MENU_LIST_END                           \
-};
+#define VICE_SDL_PRINTER_TYPE_MENU(prn)                             \
+    UI_MENU_DEFINE_RADIO(Printer##prn)                              \
+    static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
+        { "None",                                                   \
+          MENU_ENTRY_RESOURCE_RADIO,                                \
+          radio_Printer##prn##_callback,                            \
+          (ui_callback_data_t)PRINTER_DEVICE_NONE },                \
+        { "File system access",                                     \
+          MENU_ENTRY_RESOURCE_RADIO,                                \
+          radio_Printer##prn##_callback,                            \
+          (ui_callback_data_t)PRINTER_DEVICE_FS },                  \
+        { "Real device access",                                     \
+          MENU_ENTRY_RESOURCE_RADIO,                                \
+          radio_Printer##prn##_callback,                            \
+          (ui_callback_data_t)PRINTER_DEVICE_REAL },                \
+        SDL_MENU_LIST_END                                           \
+    };
 
 #else   /* !HAVE_OPENCBM */
 
-#define VICE_SDL_PRINTER_TYPE_MENU(prn)         \
-UI_MENU_DEFINE_RADIO(Printer##prn)              \
-static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
-    { "None",                                   \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##_callback,            \
-      (ui_callback_data_t)PRINTER_DEVICE_NONE },\
-    { "File system access",                     \
-      MENU_ENTRY_RESOURCE_RADIO,                \
-      radio_Printer##prn##_callback,            \
-      (ui_callback_data_t)PRINTER_DEVICE_FS },  \
-    SDL_MENU_LIST_END                           \
-};
+#define VICE_SDL_PRINTER_TYPE_MENU(prn)                             \
+    UI_MENU_DEFINE_RADIO(Printer##prn)                              \
+    static const ui_menu_entry_t printer_##prn##_type_submenu[] = { \
+        { "None",                                                   \
+          MENU_ENTRY_RESOURCE_RADIO,                                \
+          radio_Printer##prn##_callback,                            \
+          (ui_callback_data_t)PRINTER_DEVICE_NONE },                \
+        { "File system access",                                     \
+          MENU_ENTRY_RESOURCE_RADIO,                                \
+          radio_Printer##prn##_callback,                            \
+          (ui_callback_data_t)PRINTER_DEVICE_FS },                  \
+        SDL_MENU_LIST_END                                           \
+    };
 
 #endif
 
@@ -276,4 +276,3 @@ const ui_menu_entry_t printer_iec_nouserport_menu[] = {
     VICE_SDL_PRINTER_DEVICEFILE_MENU_ITEMS
     SDL_MENU_LIST_END
 };
-

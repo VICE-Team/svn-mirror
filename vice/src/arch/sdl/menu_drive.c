@@ -342,8 +342,8 @@ static UI_MENU_CALLBACK(fliplist_callback)
                         ui_error("Cannot load fliplist.");
                     }
                     lib_free(name);
-               }
-               break;
+                }
+                break;
             case UI_FLIP_SAVE:
             default:
                 name = sdl_ui_file_selection_dialog("Select fliplist to save", FILEREQ_MODE_SAVE_FILE);
@@ -353,8 +353,8 @@ static UI_MENU_CALLBACK(fliplist_callback)
                         ui_error("Cannot save fliplist.");
                     }
                     lib_free(name);
-               }
-               break;
+                }
+                break;
         }
     }
     return NULL;
@@ -414,17 +414,17 @@ DRIVE_SHOW_EXPAND_CALLBACK(9)
 DRIVE_SHOW_EXPAND_CALLBACK(10)
 DRIVE_SHOW_EXPAND_CALLBACK(11)
 
-#define DRIVE_SHOW_EXBOARD_CALLBACK(x)                         \
-    static UI_MENU_CALLBACK(drive_##x##_show_exboard_callback) \
-    {                                                          \
-        int type;                                              \
-                                                               \
-        type = get_drive_type(x);                              \
-                                                               \
+#define DRIVE_SHOW_EXBOARD_CALLBACK(x)                                  \
+    static UI_MENU_CALLBACK(drive_##x##_show_exboard_callback)          \
+    {                                                                   \
+        int type;                                                       \
+                                                                        \
+        type = get_drive_type(x);                                       \
+                                                                        \
         if (drive_check_profdos(type) || drive_check_supercard(type)) { \
-            return "->";                                       \
-        }                                                      \
-        return "(N/A)";                                        \
+            return "->";                                                \
+        }                                                               \
+        return "(N/A)";                                                 \
     }
 
 DRIVE_SHOW_EXBOARD_CALLBACK(8)
@@ -432,7 +432,7 @@ DRIVE_SHOW_EXBOARD_CALLBACK(9)
 DRIVE_SHOW_EXBOARD_CALLBACK(10)
 DRIVE_SHOW_EXBOARD_CALLBACK(11)
 
-#define DRIVE_SHOW_TYPE_CALLBACK(x) \
+#define DRIVE_SHOW_TYPE_CALLBACK(x)                         \
     static UI_MENU_CALLBACK(drive_##x##_show_type_callback) \
     {                                                       \
         return get_drive_type_string(x);                    \
@@ -576,7 +576,7 @@ static UI_MENU_CALLBACK(set_expand_callback)
     int parameter;
     int current;
     int memory;
-    
+
     drive = (int)(vice_ptr_to_int(param) >> 16);
     parameter = (int)(vice_ptr_to_int(param) & 0xffff);
 
@@ -661,7 +661,7 @@ static UI_MENU_CALLBACK(set_drive_type_callback)
 #ifdef HAVE_OPENCBM
         support = opencbmlib_is_available();
 #else
-		support = 0;
+        support = 0;
 #endif
     } else {
         support = (is_fs(parameter) || drive_check_type(parameter, drive - 8));
@@ -725,7 +725,7 @@ UI_MENU_CALLBACK(create_disk_image_callback)
         name = sdl_ui_file_selection_dialog("Select diskimage name", FILEREQ_MODE_SAVE_FILE);
         if (name != NULL) {
             if (util_file_exists(name)) {
-                if (message_box("VICE QUESTION","File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {
+                if (message_box("VICE QUESTION", "File exists, do you want to overwrite?", MESSAGE_YESNO) == 1) {
                     overwrite = 0;
                 }
             }
@@ -864,7 +864,7 @@ DRIVE_TYPE_MENU(11)
           MENU_ENTRY_OTHER,                                   \
           set_write_p00_files_callback,                       \
           (ui_callback_data_t)x },                            \
-        { "Hide non-P00 files",                                   \
+        { "Hide non-P00 files",                               \
           MENU_ENTRY_OTHER,                                   \
           set_hide_p00_files_callback,                        \
           (ui_callback_data_t)x },                            \
@@ -931,25 +931,25 @@ DRIVE_EXPAND_MENU(11)
 UI_MENU_DEFINE_FILE_STRING(DriveProfDOS1571Name)
 UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
 
-#define DRIVE_EXBOARD_MENU(x)                                         \
-    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {       \
-        { "Professional DOS 1571",                                    \
-          MENU_ENTRY_OTHER,                                           \
-          set_exboard_callback,                                       \
-          (ui_callback_data_t)0 + (x * 0x10000) },                    \
-        { "Professional DOS 1571 ROM file",                           \
-          MENU_ENTRY_DIALOG,                                          \
-          file_string_DriveProfDOS1571Name_callback,                  \
-          (ui_callback_data_t)"Set Professional DOS 1571 ROM image" },\
-        { "Supercard+",                                               \
-          MENU_ENTRY_OTHER,                                           \
-          set_exboard_callback,                                       \
-          (ui_callback_data_t)1 + (x * 0x10000) },                    \
-        { "Supercard+ ROM file",                                      \
-          MENU_ENTRY_DIALOG,                                          \
-          file_string_DriveSuperCardName_callback,                    \
-          (ui_callback_data_t)"Set Supercard+ ROM image" },           \
-        SDL_MENU_LIST_END                                             \
+#define DRIVE_EXBOARD_MENU(x)                                          \
+    static const ui_menu_entry_t drive_##x##_exboard_menu[] = {        \
+        { "Professional DOS 1571",                                     \
+          MENU_ENTRY_OTHER,                                            \
+          set_exboard_callback,                                        \
+          (ui_callback_data_t)0 + (x * 0x10000) },                     \
+        { "Professional DOS 1571 ROM file",                            \
+          MENU_ENTRY_DIALOG,                                           \
+          file_string_DriveProfDOS1571Name_callback,                   \
+          (ui_callback_data_t)"Set Professional DOS 1571 ROM image" }, \
+        { "Supercard+",                                                \
+          MENU_ENTRY_OTHER,                                            \
+          set_exboard_callback,                                        \
+          (ui_callback_data_t)1 + (x * 0x10000) },                     \
+        { "Supercard+ ROM file",                                       \
+          MENU_ENTRY_DIALOG,                                           \
+          file_string_DriveSuperCardName_callback,                     \
+          (ui_callback_data_t)"Set Supercard+ ROM image" },            \
+        SDL_MENU_LIST_END                                              \
     };
 
 DRIVE_EXBOARD_MENU(8)
@@ -984,47 +984,47 @@ UI_MENU_DEFINE_FILE_STRING(RawDriveDriver)
 #endif
 
 #ifdef HAVE_RAWDRIVE
-#define DRIVE_MENU_RAWDRIVE_ITEM                                \
-   { "Blockdevice",                                             \
-     MENU_ENTRY_DIALOG,                                         \
-     file_string_RawDriveDriver_callback,                       \
-     (ui_callback_data_t)"Select device file to use as drive" },
+#define DRIVE_MENU_RAWDRIVE_ITEM           \
+    { "Blockdevice",                       \
+      MENU_ENTRY_DIALOG,                   \
+      file_string_RawDriveDriver_callback, \
+      (ui_callback_data_t)"Select device file to use as drive" },
 #else
 #define DRIVE_MENU_RAWDRIVE_ITEM
 #endif
 
-#define DRIVE_MENU(x)                                    \
-    static const ui_menu_entry_t drive_##x##_menu[] = {  \
-        { "Drive " #x " type",                           \
-          MENU_ENTRY_SUBMENU,                            \
-          drive_##x##_show_type_callback,                \
-          (ui_callback_data_t)drive_##x##_type_menu },   \
-        { "Drive " #x " dir settings",                   \
-          MENU_ENTRY_SUBMENU,                            \
-          submenu_callback,                              \
-          (ui_callback_data_t)drive_##x##_fsdir_menu },  \
-        { "Drive " #x " 40 track handling",              \
-          MENU_ENTRY_SUBMENU,                            \
-          drive_##x##_show_extend_callback,              \
-          (ui_callback_data_t)drive_##x##_extend_menu }, \
-        { "Drive " #x " expansion memory",               \
-          MENU_ENTRY_SUBMENU,                            \
-          drive_##x##_show_expand_callback,              \
-          (ui_callback_data_t)drive_##x##_expand_menu }, \
-        { "Drive " #x " expansion board",               \
-          MENU_ENTRY_SUBMENU,                            \
-          drive_##x##_show_exboard_callback,              \
-          (ui_callback_data_t)drive_##x##_exboard_menu }, \
-        { "Drive " #x " idle method",                    \
-          MENU_ENTRY_SUBMENU,                            \
-          drive_##x##_show_idle_callback,                \
-          (ui_callback_data_t)drive_##x##_idle_menu },   \
-        { "Drive " #x " parallel cable",                 \
-          MENU_ENTRY_SUBMENU,                            \
-          drive_##x##_show_parallel_callback,                \
-          (ui_callback_data_t)drive_##x##_parallel_menu },   \
-        DRIVE_MENU_RAWDRIVE_ITEM                         \
-        SDL_MENU_LIST_END                                \
+#define DRIVE_MENU(x)                                     \
+    static const ui_menu_entry_t drive_##x##_menu[] = {    \
+        { "Drive " #x " type",                             \
+          MENU_ENTRY_SUBMENU,                              \
+          drive_##x##_show_type_callback,                  \
+          (ui_callback_data_t)drive_##x##_type_menu },     \
+        { "Drive " #x " dir settings",                     \
+          MENU_ENTRY_SUBMENU,                              \
+          submenu_callback,                                \
+          (ui_callback_data_t)drive_##x##_fsdir_menu },    \
+        { "Drive " #x " 40 track handling",                \
+          MENU_ENTRY_SUBMENU,                              \
+          drive_##x##_show_extend_callback,                \
+          (ui_callback_data_t)drive_##x##_extend_menu },   \
+        { "Drive " #x " expansion memory",                 \
+          MENU_ENTRY_SUBMENU,                              \
+          drive_##x##_show_expand_callback,                \
+          (ui_callback_data_t)drive_##x##_expand_menu },   \
+        { "Drive " #x " expansion board",                  \
+          MENU_ENTRY_SUBMENU,                              \
+          drive_##x##_show_exboard_callback,               \
+          (ui_callback_data_t)drive_##x##_exboard_menu },  \
+        { "Drive " #x " idle method",                      \
+          MENU_ENTRY_SUBMENU,                              \
+          drive_##x##_show_idle_callback,                  \
+          (ui_callback_data_t)drive_##x##_idle_menu },     \
+        { "Drive " #x " parallel cable",                   \
+          MENU_ENTRY_SUBMENU,                              \
+          drive_##x##_show_parallel_callback,              \
+          (ui_callback_data_t)drive_##x##_parallel_menu }, \
+        DRIVE_MENU_RAWDRIVE_ITEM                           \
+        SDL_MENU_LIST_END                                  \
     };
 
 

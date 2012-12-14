@@ -137,7 +137,7 @@ static char *contrib_convert(char *text, int cols)
         } else {
             if ((text[i] == ' ' || text[i] == '\n') && text[i + 1] == '<') {
                 while (text[i] != '>') {
-                   i++;
+                    i++;
                 }
                 i++;
             } else {
@@ -260,8 +260,8 @@ static void show_text(const char *text)
                         z += 3;
                         break;
                     default:
-                       string[x + z] = text[current_line + x];
-                       break;
+                        string[x + z] = text[current_line + x];
+                        break;
                 }
             }
             if (x != 0) {
@@ -278,7 +278,7 @@ static void show_text(const char *text)
         sdl_ui_refresh();
 
         while (active_keys) {
-            switch(sdl_ui_menu_poll_input()) {
+            switch (sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:
                 case MENU_ACTION_SELECT:
@@ -342,7 +342,7 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_refresh();
 
         while (active) {
-            switch(sdl_ui_menu_poll_input()) {
+            switch (sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:
                 case MENU_ACTION_SELECT:
@@ -462,7 +462,7 @@ static UI_MENU_CALLBACK(show_font_callback)
         }
         sdl_ui_refresh();
         while (active) {
-            switch(sdl_ui_menu_poll_input()) {
+            switch (sdl_ui_menu_poll_input()) {
                 case MENU_ACTION_CANCEL:
                 case MENU_ACTION_EXIT:
                     active = 0;

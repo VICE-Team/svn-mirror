@@ -52,8 +52,8 @@ extern vkbd_t vkbd_cbm2;
 extern vkbd_t vkbd_pet_uk;
 extern vkbd_t vkbd_pet_gr;
 
-#define SDL_VKBD_ACTIVE  (1<<0)
-#define SDL_VKBD_REPAINT (1<<1)
+#define SDL_VKBD_ACTIVE  (1 << 0)
+#define SDL_VKBD_REPAINT (1 << 1)
 extern int sdl_vkbd_state;
 
 extern void sdl_vkbd_activate(void);

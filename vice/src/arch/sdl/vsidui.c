@@ -397,14 +397,14 @@ void vsid_ui_display_sid_model(int model)
 
 void vsid_ui_set_default_tune(int nr)
 {
-    sprintf(vsidstrings[VSID_S_DEFAULT],"Default tune: %d", nr);
+    sprintf(vsidstrings[VSID_S_DEFAULT], "Default tune: %d", nr);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_DEFAULT]);
     sdl_vsid_default_tune = nr;
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    sprintf(vsidstrings[VSID_S_PLAYING],"Playing tune: %d", nr);
+    sprintf(vsidstrings[VSID_S_PLAYING], "Playing tune: %d", nr);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_PLAYING]);
     sdl_vsid_current_tune = nr;
 
@@ -415,7 +415,7 @@ void vsid_ui_display_tune_nr(int nr)
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    sprintf(vsidstrings[VSID_S_TUNES],"Number of tunes: %d", count);
+    sprintf(vsidstrings[VSID_S_TUNES], "Number of tunes: %d", count);
     log_message(LOG_DEFAULT, "%s", vsidstrings[VSID_S_TUNES]);
     sdl_vsid_tunes = count;
 }
@@ -438,7 +438,7 @@ void vsid_ui_display_time(unsigned int sec)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    sprintf(vsidstrings[VSID_S_IRQ],"Using %s interrupt", irq);
+    sprintf(vsidstrings[VSID_S_IRQ], "Using %s interrupt", irq);
 }
 
 void vsid_ui_setdrv(char* driver_info_text)

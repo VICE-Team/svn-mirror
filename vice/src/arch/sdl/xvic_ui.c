@@ -182,7 +182,7 @@ int vic20ui_init(void)
     int i, j;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
     sdl_ui_set_menu_params = vic20ui_set_menu_params;

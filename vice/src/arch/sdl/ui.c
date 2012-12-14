@@ -171,7 +171,7 @@ ui_menu_action_t ui_dispatch_events(void)
                 break;
         }
         /* When using the menu or vkbd, pass every meaningful event to the caller */
-        if (((sdl_menu_state)||(sdl_vkbd_state & SDL_VKBD_ACTIVE)) && (retval != MENU_ACTION_NONE) && (retval != MENU_ACTION_NONE_RELEASE)) {
+        if (((sdl_menu_state) || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) && (retval != MENU_ACTION_NONE) && (retval != MENU_ACTION_NONE_RELEASE)) {
             break;
         }
     }
@@ -195,7 +195,7 @@ void ui_message(const char* format, ...)
     char *tmp;
 
     va_start(ap, format);
-    tmp = lib_mvsprintf(format,ap);
+    tmp = lib_mvsprintf(format, ap);
     va_end(ap);
 
     if (sdl_ui_ready) {
@@ -278,7 +278,7 @@ void ui_sdl_quit(void)
 /* Initialization  */
 int ui_resources_init(void)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     if (resources_register_int(resources_int) < 0) {
         return -1;
     }
@@ -288,7 +288,7 @@ int ui_resources_init(void)
 
 void ui_resources_shutdown(void)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     joystick_arch_resources_shutdown();
     sdlkbd_resources_shutdown();
 }
@@ -344,26 +344,26 @@ static const cmdline_option_t cmdline_options[] = {
 
 int ui_cmdline_options_init(void)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
 
     return cmdline_register_options(cmdline_options);
 }
 
 int ui_init(int *argc, char **argv)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     return 0;
 }
 
 int ui_init_finish(void)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     return 0;
 }
 
 int ui_init_finalize(void)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
 
     sdl_ui_init_finalize();
     SDL_WM_SetCaption(sdl_active_canvas->viewport->title, "VICE");
@@ -373,12 +373,12 @@ int ui_init_finalize(void)
 
 void ui_shutdown(void)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     sdl_ui_file_selection_dialog_shutdown();
 }
 
 /* Print an error message.  */
-void ui_error(const char *format,...)
+void ui_error(const char *format, ...)
 {
     va_list ap;
     char *tmp;
@@ -396,7 +396,7 @@ void ui_error(const char *format,...)
 }
 
 /* Let the user browse for a filename; display format as a titel */
-char* ui_get_file(const char *format,...)
+char* ui_get_file(const char *format, ...)
 {
     return NULL;
 }
@@ -426,29 +426,31 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
 }
 
 /* Update all menu entries.  */
-void ui_update_menus(void){}
+void ui_update_menus(void)
+{
+}
 
 /* ----------------------------------------------------------------- */
 /* uicolor.h */
 
 int uicolor_alloc_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long *color_pixel, BYTE *pixel_return)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     return 0;
 }
 
 void uicolor_free_color(unsigned int red, unsigned int green, unsigned int blue, unsigned long color_pixel)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
 }
 
 void uicolor_convert_color_table(unsigned int colnr, BYTE *data, long color_pixel, void *c)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
 }
 
 int uicolor_set_palette(struct video_canvas_s *c, const struct palette_s *palette)
 {
-    DBG(("%s",__func__));
+    DBG(("%s", __func__));
     return 0;
 }

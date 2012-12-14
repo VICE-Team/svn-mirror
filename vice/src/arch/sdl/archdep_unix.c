@@ -113,8 +113,7 @@ static int archdep_init_extra(int *argc, char **argv)
 
     if (read == -1) {
         return 1;
-    }
-    else {
+    } else {
         argv0[read] = '\0';
     }
     /* set this up now to remove extra .vice directory */
@@ -164,7 +163,7 @@ const char *archdep_boot_path(void)
 const char *archdep_home_path(void)
 {
 #ifdef USE_PROC_SELF_EXE
-    /* everything is relative to the location of the exe which is already known 
+    /* everything is relative to the location of the exe which is already known
        from archdep_init_bootpath() so just reuse it */
     return (archdep_boot_path());
 #else
@@ -205,7 +204,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
 
 #if defined(MINIXVMD) || defined(MINIX_SUPPORT)
         default_path_temp = util_concat(LIBDIR, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
-                                   home_path, "/", VICEUSERDIR, "/", emu_id,NULL);
+                                        home_path, "/", VICEUSERDIR, "/", emu_id, NULL);
 
         default_path = util_concat(default_path_temp, ARCHDEP_FINDPATH_SEPARATOR_STRING,
                                    boot_path, "/", emu_id, ARCHDEP_FINDPATH_SEPARATOR_STRING,
@@ -217,7 +216,7 @@ char *archdep_default_sysfile_pathlist(const char *emu_id)
                                    boot_path, "/PRINTER", NULL);
         lib_free(default_path_temp);
 
-#else 
+#else
 #if defined(MACOSX_BUNDLE)
         /* Mac OS X Bundles keep their ROMS in Resources/bin/../ROM */
 #if defined(MACOSX_COCOA) || defined(USE_SDLUI)
@@ -263,7 +262,7 @@ char *archdep_default_resource_file_name(void)
 {
     if (archdep_pref_path == NULL) {
         const char *home;
-      
+
         home = archdep_home_path();
         return util_concat(home, "/.vice/sdl-vicerc", NULL);
     } else {
@@ -273,7 +272,7 @@ char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    if (archdep_pref_path==NULL) {
+    if (archdep_pref_path == NULL) {
         const char *home;
 
         home = archdep_home_path();
@@ -285,7 +284,7 @@ char *archdep_default_fliplist_file_name(void)
 
 char *archdep_default_autostart_disk_image_file_name(void)
 {
-    if (archdep_pref_path==NULL) {
+    if (archdep_pref_path == NULL) {
         const char *home;
 
         home = archdep_home_path();
@@ -297,7 +296,7 @@ char *archdep_default_autostart_disk_image_file_name(void)
 
 char *archdep_default_hotkey_file_name(void)
 {
-    if (archdep_pref_path==NULL) {
+    if (archdep_pref_path == NULL) {
         const char *home;
 
         home = archdep_home_path();
@@ -320,7 +319,7 @@ char *archdep_default_joymap_file_name(void)
 }
 
 char *archdep_default_save_resource_file_name(void)
-{ 
+{
     char *fname;
     const char *home;
     const char *viceuserdir;
@@ -337,7 +336,7 @@ char *archdep_default_save_resource_file_name(void)
     }
 
     fname = util_concat(viceuserdir, "/sdl-vicerc", NULL);
-    
+
     if (archdep_pref_path == NULL) {
         lib_free(viceuserdir);
     }
@@ -440,7 +439,7 @@ int archdep_spawn(const char *name, char **argv, char **pstdout_redir, const cha
         return WEXITSTATUS(child_status);
     } else {
         return -1;
-   }
+    }
 }
 
 /* return malloc'd version of full pathname of orig_name */
@@ -517,7 +516,7 @@ char *archdep_tmpnam(void)
 }
 
 FILE *archdep_mkstemp_fd(char **filename, const char *mode)
- {
+{
 #if defined(HAVE_MKSTEMP)
     char *tmp;
     const char template[] = "/vice.XXXXXX";
@@ -530,15 +529,16 @@ FILE *archdep_mkstemp_fd(char **filename, const char *mode)
 #else
     tmpdir = getenv("TMPDIR");
 
-    if (tmpdir != NULL ) 
+    if (tmpdir != NULL) {
         tmp = util_concat(tmpdir, template, NULL);
-    else
+    } else {
         tmp = util_concat("/tmp", template, NULL);
+    }
 #endif
 
     fildes = mkstemp(tmp);
 
-    if (fildes < 0 ) {
+    if (fildes < 0) {
         lib_free(tmp);
         return NULL;
     }
@@ -717,7 +717,6 @@ void archdep_signals_pipe_unset(void)
 
 char *archdep_get_runtime_os(void)
 {
-
 /* Windows on cygwin */
 #ifdef __CYGWIN32__
 #define RUNTIME_OS_HANDLED

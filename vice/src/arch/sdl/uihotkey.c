@@ -115,7 +115,7 @@ int sdl_ui_hotkey_map(ui_menu_entry_t *item)
         item = NULL;
     }
 
-    e = sdl_ui_poll_event("hotkey", item?item->string:"(unmap hotkey)", SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
+    e = sdl_ui_poll_event("hotkey", item ? item->string : "(unmap hotkey)", SDL_POLL_JOYSTICK | SDL_POLL_KEYBOARD, 5);
 
     /* TODO check if key/event is suitable */
     switch (e.type) {

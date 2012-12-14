@@ -151,7 +151,6 @@ static const ui_menu_entry_t x64sc_main_menu[] = {
 
 void c64scui_set_menu_params(int index, menu_draw_t *menu_draw)
 {
-
 }
 
 int c64scui_init(void)

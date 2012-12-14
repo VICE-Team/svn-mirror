@@ -262,7 +262,7 @@ static UI_MENU_CALLBACK(show_SidStereoAddressStart_callback)
 
     resources_get_int("SidStereoAddressStart", &value);
 
-    sprintf(buf,"$%04x", value);
+    sprintf(buf, "$%04x", value);
     return buf;
 }
 
@@ -565,7 +565,7 @@ static UI_MENU_CALLBACK(show_SidTripleAddressStart_callback)
 
     resources_get_int("SidTripleAddressStart", &value);
 
-    sprintf(buf,"$%04x", value);
+    sprintf(buf, "$%04x", value);
     return buf;
 }
 

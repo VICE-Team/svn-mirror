@@ -379,7 +379,7 @@ void archdep_workaround_nop(const char *otto)
 
 time_t time(time_t *timer)
 {
-    return SDL_GetTicks()/1000;
+    return SDL_GetTicks() / 1000;
 }
 
 int mkdir (const char *filename, mode_t mode)

@@ -208,9 +208,9 @@ static void sdl_ui_display_item(ui_menu_entry_t *item, int y_pos, int value_offs
         sdl_ui_reverse_colors();
     }
 
-    i = sdl_ui_print(item->string, MENU_FIRST_X, y_pos+MENU_FIRST_Y);
+    i = sdl_ui_print(item->string, MENU_FIRST_X, y_pos + MENU_FIRST_Y);
 
-    if ((item->type == MENU_ENTRY_TEXT)&&(vice_ptr_to_int(item->data) == 1)) {
+    if ((item->type == MENU_ENTRY_TEXT) && (vice_ptr_to_int(item->data) == 1)) {
         sdl_ui_reverse_colors();
     }
 
@@ -292,7 +292,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 if ((menu[cur + cur_offset].type != MENU_ENTRY_SUBMENU) && (menu[cur + cur_offset].type != MENU_ENTRY_DYNAMIC_SUBMENU)) {
                     break;
                 }
-                /* fall through */
+            /* fall through */
             case MENU_ACTION_SELECT:
                 if (sdl_ui_menu_item_activate(&(menu[cur + cur_offset])) == MENU_RETVAL_EXIT_UI) {
                     in_menu = 0;
@@ -303,7 +303,7 @@ static ui_menu_retval_t sdl_ui_menu_display(ui_menu_entry_t *menu, const char *t
                 break;
             case MENU_ACTION_EXIT:
                 menu_retval = MENU_RETVAL_EXIT_UI;
-                /* fall through */
+            /* fall through */
             case MENU_ACTION_LEFT:
             case MENU_ACTION_CANCEL:
                 in_menu = 0;
@@ -327,7 +327,7 @@ static ui_menu_retval_t sdl_ui_menu_item_activate(ui_menu_entry_t *item)
 {
     const char *p = NULL;
 
-    switch(item->type) {
+    switch (item->type) {
         case MENU_ENTRY_OTHER:
         case MENU_ENTRY_DIALOG:
         case MENU_ENTRY_RESOURCE_TOGGLE:
@@ -581,7 +581,6 @@ static int sdl_ui_readline_input(SDLKey *key, SDLMod *mod, Uint16 *c_uni)
                 break;
         }
         SDL_Delay(20);
-
     } while (!got_key);
 
     return got_key;
@@ -628,7 +627,7 @@ static int sdl_ui_slider(const char* title, const int cur, const int min, const 
             screen_dirty = 0;
         }
 
-        switch(sdl_ui_menu_poll_input()) {
+        switch (sdl_ui_menu_poll_input()) {
             case MENU_ACTION_LEFT:
                 if (i > min) {
                     i = i - step;
@@ -786,8 +785,8 @@ void sdl_ui_init_draw_params(void)
 
     menu_draw.pitch = sdl_active_canvas->draw_buffer->draw_buffer_pitch;
     menu_draw.offset = sdl_active_canvas->geometry->gfx_position.x + menu_draw.extra_x
-                     + (sdl_active_canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
-                     + sdl_active_canvas->geometry->extra_offscreen_border_left;
+                       + (sdl_active_canvas->geometry->gfx_position.y + menu_draw.extra_y) * menu_draw.pitch
+                       + sdl_active_canvas->geometry->extra_offscreen_border_left;
 }
 
 void sdl_ui_reverse_colors(void)
@@ -873,7 +872,7 @@ int sdl_ui_print_center(const char *text, int pos_y)
         return -1;
     }
 
-    if ((pos_x >= menu_draw.max_text_x)||(pos_y >= menu_draw.max_text_y)) {
+    if ((pos_x >= menu_draw.max_text_x) || (pos_y >= menu_draw.max_text_y)) {
         return -1;
     }
 
@@ -1048,7 +1047,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
             got_key = sdl_ui_readline_input(&key, &mod, &c_uni);
         }
 
-        switch(key) {
+        switch (key) {
             case SDLK_LEFT:
                 if (i > 0) {
                     --i;
@@ -1095,7 +1094,7 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
             case SDLK_ESCAPE:
                 string_changed = 0;
                 escaped = 1;
-                /* fall through */
+            /* fall through */
             case SDLK_RETURN:
                 if (pc_vkbd_state) {
                     sdl_ui_readline_vkbd_erase();
@@ -1119,7 +1118,6 @@ char* sdl_ui_readline(const char* previous, int pos_x, int pos_y)
             prev = -1;
             string_changed = 1;
         }
-
     } while (!done);
 
     SDL_EnableUNICODE(0);

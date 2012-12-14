@@ -94,26 +94,26 @@ static const ui_menu_entry_t c64_model_submenu[] = {
 
 static UI_MENU_CALLBACK(custom_sidsubmenu_callback)
 {
-    /* Display the SID model by using the submenu radio callback 
+    /* Display the SID model by using the submenu radio callback
        on the first submenu (SID model) of the SID settings. */
     return submenu_radio_callback(0, sid_c64_menu[0].data);
 }
 
 UI_MENU_DEFINE_TOGGLE(VICIINewLuminances)
 
-#define CIA_MODEL_MENU(xyz)           \
-UI_MENU_DEFINE_RADIO(CIA##xyz##Model) \
-static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
-    { "6526  (old)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526 },                 \
-    { "6526A (new)",                                        \
-      MENU_ENTRY_RESOURCE_TOGGLE,                           \
-      radio_CIA##xyz##Model_callback,                       \
-      (ui_callback_data_t)CIA_MODEL_6526A },                \
-    SDL_MENU_LIST_END                                       \
-};
+#define CIA_MODEL_MENU(xyz)                                     \
+    UI_MENU_DEFINE_RADIO(CIA##xyz##Model)                       \
+    static const ui_menu_entry_t cia##xyz##_model_submenu[] = { \
+        { "6526  (old)",                                        \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          radio_CIA##xyz##Model_callback,                       \
+          (ui_callback_data_t)CIA_MODEL_6526 },                 \
+        { "6526A (new)",                                        \
+          MENU_ENTRY_RESOURCE_TOGGLE,                           \
+          radio_CIA##xyz##Model_callback,                       \
+          (ui_callback_data_t)CIA_MODEL_6526A },                \
+        SDL_MENU_LIST_END                                       \
+    };
 
 CIA_MODEL_MENU(1)
 CIA_MODEL_MENU(2)

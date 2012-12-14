@@ -3,7 +3,7 @@
  *
  * Written by
  *  Marco van den Heuvel <blackystardust68@yahoo.com>
- * 
+ *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
  *
@@ -26,7 +26,7 @@
 
 #include "vice.h"
 
-#ifdef HAVE_TFE 
+#ifdef HAVE_TFE
 
 #ifdef UNIX_COMPILE
 #include "../unix/rawnetarch.c"

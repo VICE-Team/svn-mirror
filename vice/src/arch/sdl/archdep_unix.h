@@ -81,7 +81,7 @@
 
 extern const char *archdep_home_path(void);
 
-/* set this path to customize the preference storage */ 
+/* set this path to customize the preference storage */
 extern const char *archdep_pref_path;
 
 /* Define the default system directory (where the ROMs are).  */

@@ -153,7 +153,7 @@ void atexitfunc(void)
         _lcd_set_frame();
         do {
             kbd_get_status(&KS);
-        } while((KS.status & CONTROL_BUTTON_SELECT) == 0);
+        } while ((KS.status & CONTROL_BUTTON_SELECT) == 0);
     }
 }
 #endif
@@ -249,7 +249,7 @@ int archdep_expand_path(char **return_path, const char *orig_name)
     if (archdep_path_is_relative(orig_name)) {
         getcwd(tmp, FILENAME_MAX);
         len = strlen(tmp);
-        if (tmp[len-1] == FSDEV_DIR_SEP_CHR) {
+        if (tmp[len - 1] == FSDEV_DIR_SEP_CHR) {
             *return_path = util_concat(tmp, orig_name, NULL);
         } else {
             *return_path = util_concat(tmp, FSDEV_DIR_SEP_STR, orig_name, NULL);
@@ -395,7 +395,7 @@ static void create_dir_string(char *path_string)
     int path_size;
     getcwd(path_string, FILENAME_MAX);
     path_size = strlen(path_string);
-    if (path_string[path_size-1] == FSDEV_DIR_SEP_CHR) {
+    if (path_string[path_size - 1] == FSDEV_DIR_SEP_CHR) {
         strcat(path_string, "*");
     } else {
         strcat(path_string, FSDEV_DIR_SEP_STR "*");
@@ -405,7 +405,7 @@ static void create_dir_string(char *path_string)
 static void ioutil_count_dir_items(const char *path, int *dir_count, int *files_count)
 {
     int ret;
-    fsys_file_info_t fData;;
+    fsys_file_info_t fData;
 
     *dir_count = 1; /* with ".." */
     *files_count = 0;
@@ -472,8 +472,8 @@ ioutil_dir_t *ioutil_opendir(const char *path)
 
     ioutil_dir = lib_malloc(sizeof(ioutil_dir_t));
 
-    ioutil_dir->dirs = lib_malloc(sizeof(ioutil_name_table_t)*dir_count);
-    ioutil_dir->files = lib_malloc(sizeof(ioutil_name_table_t)*files_count);
+    ioutil_dir->dirs = lib_malloc(sizeof(ioutil_name_table_t) * dir_count);
+    ioutil_dir->files = lib_malloc(sizeof(ioutil_name_table_t) * files_count);
 
     ioutil_filldir(path, ioutil_dir->dirs, ioutil_dir->files);
     qsort(ioutil_dir->dirs, dir_count, sizeof(ioutil_name_table_t), ioutil_compare_names);
@@ -493,7 +493,8 @@ void dingoo_reboot(void)
     REG_WDT_TDR = JZ_EXTAL / 1000;   /* reset after 4ms */
     REG_TCU_TSCR = TCU_TSSR_WDTSC;   /* enable wdt clock */
     REG_WDT_TCER = WDT_TCER_TCEN;    /* wdt start */
-    while (1);
+    while (1) {
+    }
 }
 
 char *archdep_get_runtime_os(void)

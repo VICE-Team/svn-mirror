@@ -86,7 +86,7 @@ typedef enum {
 } sdljoystick_input_t;
 
 /* Number of actions per input source */
-static const int input_mult[NUM_INPUT_TYPES] = { 
+static const int input_mult[NUM_INPUT_TYPES] = {
     2, /* Axis: actions for positive and negative */
     1, /* Button */
     4, /* Hat: actions for all 4 directions */
@@ -370,18 +370,18 @@ int joy_arch_init(void)
     sdljoy_log = log_open("SDLJoystick");
 
     if (SDL_InitSubSystem(SDL_INIT_JOYSTICK)) {
-        log_error(sdljoy_log,"Subsystem init failed!");
+        log_error(sdljoy_log, "Subsystem init failed!");
         return -1;
     }
 
     num_joysticks = SDL_NumJoysticks();
 
     if (num_joysticks == 0) {
-        log_message(sdljoy_log,"No joysticks found");
+        log_message(sdljoy_log, "No joysticks found");
         return 0;
     }
 
-    log_message(sdljoy_log,"%i joysticks found",num_joysticks);
+    log_message(sdljoy_log, "%i joysticks found", num_joysticks);
 
     sdljoystick = lib_malloc(sizeof(sdljoystick_t) * num_joysticks);
 
@@ -402,12 +402,11 @@ int joy_arch_init(void)
                 }
             }
 
-            log_message(sdljoy_log,"Device %i \"%s\" (%i axes, %i buttons, %i hats, %i balls)", i, sdljoystick[i].name, axis, button, hat, ball);
+            log_message(sdljoy_log, "Device %i \"%s\" (%i axes, %i buttons, %i hats, %i balls)", i, sdljoystick[i].name, axis, button, hat, ball);
 
             joy_arch_init_default_mapping(i);
-
         } else {
-            log_warning(sdljoy_log,"Couldn't open joystick %i",i);
+            log_warning(sdljoy_log, "Couldn't open joystick %i", i);
         }
     }
 
@@ -423,7 +422,7 @@ void joystick_close(void)
     sdljoystick_input_t j;
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
     if (sdljoystick == NULL) {
@@ -473,7 +472,7 @@ void joy_arch_init_default_mapping(int joynum)
         /* Check that the default joystick value is within the threshold.
            Some devices have axes that are +/-32767 when idle; mapping
            those to NONE (by default) avoids some problems. */
-        if ((state > joystick_threshold)||(state < -joystick_threshold)) {
+        if ((state > joystick_threshold) || (state < -joystick_threshold)) {
             log_warning(sdljoy_log, "Axis %i exceeds threshold, mapping to NONE", i / input_mult[AXIS]);
             for (j = 0; j < input_mult[AXIS]; ++j) {
                 sdljoystick[joynum].input[AXIS][i + j].action = NONE;
@@ -529,7 +528,7 @@ int joy_arch_mapping_dump(const char *filename)
     char *hotkey_path = NULL;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
     if (filename == NULL) {
@@ -554,7 +553,7 @@ int joy_arch_mapping_dump(const char *filename)
             "# Keywords and their lines are:\n"
             "# '!CLEAR'    clear all mappings\n"
             "#\n"
-        );
+            );
 
     fprintf(fp, "# inputtype:\n"
             "# 0      axis\n"
@@ -572,7 +571,7 @@ int joy_arch_mapping_dump(const char *filename)
             "# 4               UI activate\n"
             "# 5 path&to&item  UI function\n"
             "#\n\n"
-        );
+            );
 
     fprintf(fp, "!CLEAR\n\n");
 
@@ -584,13 +583,13 @@ int joy_arch_mapping_dump(const char *filename)
                 fprintf(fp, "%i %i %i %i", i, j, k, t);
                 switch (t) {
                     case JOYSTICK:
-                        fprintf(fp, " %i %i", 
+                        fprintf(fp, " %i %i",
                                 sdljoystick[i].input[j][k].value.joy[0],
                                 sdljoystick[i].input[j][k].value.joy[1]
                                 );
                         break;
                     case KEYBOARD:
-                        fprintf(fp, " %i %i", 
+                        fprintf(fp, " %i %i",
                                 sdljoystick[i].input[j][k].value.key[0],
                                 sdljoystick[i].input[j][k].value.key[1]
                                 );
@@ -681,7 +680,7 @@ static void joy_arch_parse_entry(char *buffer)
                         break;
                 }
 
-                if (inputindex < sdljoystick[joynum].input_max[inputtype]*input_mult[inputtype]) {
+                if (inputindex < sdljoystick[joynum].input_max[inputtype] * input_mult[inputtype]) {
                     sdljoystick[joynum].input[inputtype][inputindex].action = action;
 
                     switch (action) {
@@ -714,7 +713,7 @@ int joy_arch_mapping_load(const char *filename)
     char buffer[1000];
 
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s, %s\n",__func__, filename);
+    fprintf(stderr, "%s, %s\n", __func__, filename);
 #endif
 
     /* Silently ignore keymap load on resource & cmdline init */
@@ -898,7 +897,7 @@ static ui_menu_action_t sdljoy_perform_event(sdljoystick_mapping_t *event, int v
                 if (value) {
                     joystick_set_value_or(t + 1, event->value.joy[1]);
                 } else {
-                    joystick_set_value_and(t + 1, (BYTE)~(event->value.joy[1]));
+                    joystick_set_value_and(t + 1, (BYTE) ~(event->value.joy[1]));
                 }
             }
             break;
@@ -1098,7 +1097,7 @@ ui_menu_entry_t *sdljoy_get_hotkey(SDL_Event e)
     return retval;
 }
 
-void sdljoy_set_joystick(SDL_Event e, int port, int bits) 
+void sdljoy_set_joystick(SDL_Event e, int port, int bits)
 {
     sdljoystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 
@@ -1109,7 +1108,7 @@ void sdljoy_set_joystick(SDL_Event e, int port, int bits)
     }
 }
 
-void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value) 
+void sdljoy_set_hotkey(SDL_Event e, ui_menu_entry_t *value)
 {
     sdljoystick_mapping_t *joyevent = sdljoy_get_mapping(e);
 

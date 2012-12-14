@@ -67,23 +67,23 @@ void mousedrv_init(void)
 void mouse_button(int bnumber, int state)
 {
     switch (bnumber) {
-    case SDL_BUTTON_LEFT:
-        mouse_button_left(state);
-        break;
-    case SDL_BUTTON_MIDDLE:
-        mouse_button_middle(state);
-        break;
-    case SDL_BUTTON_RIGHT:
-        mouse_button_right(state);
-        break;
-    case SDL_BUTTON_WHEELUP:
-        mouse_button_up(state);
-        break;
-    case SDL_BUTTON_WHEELDOWN:
-        mouse_button_down(state);
-        break;
-    default:
-        break;
+        case SDL_BUTTON_LEFT:
+            mouse_button_left(state);
+            break;
+        case SDL_BUTTON_MIDDLE:
+            mouse_button_middle(state);
+            break;
+        case SDL_BUTTON_RIGHT:
+            mouse_button_right(state);
+            break;
+        case SDL_BUTTON_WHEELUP:
+            mouse_button_up(state);
+            break;
+        case SDL_BUTTON_WHEELDOWN:
+            mouse_button_down(state);
+            break;
+        default:
+            break;
     }
 }
 

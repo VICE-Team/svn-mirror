@@ -174,7 +174,7 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
         e = sdl_ui_poll_event("joystick", target, SDL_POLL_JOYSTICK, 5);
         lib_free(target);
 
-        switch(e.type) {
+        switch (e.type) {
             case SDL_JOYAXISMOTION:
             case SDL_JOYBUTTONDOWN:
             case SDL_JOYHATMOTION:
@@ -188,30 +188,30 @@ static UI_MENU_CALLBACK(custom_joymap_callback)
     return NULL;
 }
 
-#define VICE_SDL_JOYSTICK_MAPPING_MENU(port)               \
-static const ui_menu_entry_t define_joy##port##_menu[] = { \
-    { "Up",                                                \
-      MENU_ENTRY_DIALOG,                                   \
-      custom_joymap_callback,                              \
-      (ui_callback_data_t)(0 | ((port - 1) << 4)) },       \
-    { "Down",                                              \
-      MENU_ENTRY_DIALOG,                                   \
-      custom_joymap_callback,                              \
-      (ui_callback_data_t)(1 | ((port - 1) << 4)) },       \
-    { "Left",                                              \
-      MENU_ENTRY_DIALOG,                                   \
-      custom_joymap_callback,                              \
-      (ui_callback_data_t)(2 | ((port - 1) << 4)) },       \
-    { "Right",                                             \
-      MENU_ENTRY_DIALOG,                                   \
-      custom_joymap_callback,                              \
-      (ui_callback_data_t)(3 | ((port - 1) << 4)) },       \
-    { "Fire",                                              \
-      MENU_ENTRY_DIALOG,                                   \
-      custom_joymap_callback,                              \
-      (ui_callback_data_t)(4 | ((port - 1) << 4)) },       \
-    SDL_MENU_LIST_END                                      \
-};
+#define VICE_SDL_JOYSTICK_MAPPING_MENU(port)                       \
+    static const ui_menu_entry_t define_joy ## port ## _menu[] = { \
+        { "Up",                                                    \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(0 | ((port - 1) << 4)) },           \
+        { "Down",                                                  \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(1 | ((port - 1) << 4)) },           \
+        { "Left",                                                  \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(2 | ((port - 1) << 4)) },           \
+        { "Right",                                                 \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(3 | ((port - 1) << 4)) },           \
+        { "Fire",                                                  \
+          MENU_ENTRY_DIALOG,                                       \
+          custom_joymap_callback,                                  \
+          (ui_callback_data_t)(4 | ((port - 1) << 4)) },           \
+        SDL_MENU_LIST_END                                          \
+    };
 
 VICE_SDL_JOYSTICK_MAPPING_MENU(1)
 VICE_SDL_JOYSTICK_MAPPING_MENU(2)
@@ -224,7 +224,7 @@ static UI_MENU_CALLBACK(custom_joy_misc_callback)
     SDL_Event e;
 
     if (activated) {
-        e = sdl_ui_poll_event("joystick", (vice_ptr_to_int(param))? "Map" : "Menu activate", SDL_POLL_JOYSTICK, 5);
+        e = sdl_ui_poll_event("joystick", (vice_ptr_to_int(param)) ? "Map" : "Menu activate", SDL_POLL_JOYSTICK, 5);
         lib_free(target);
 
         switch (e.type) {

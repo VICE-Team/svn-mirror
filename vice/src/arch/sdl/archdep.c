@@ -66,7 +66,7 @@ int archdep_init(int *argc, char **argv)
 
     return archdep_init_extra(argc, argv);
 }
- 
+
 void archdep_shutdown(void)
 {
     SDL_Quit();

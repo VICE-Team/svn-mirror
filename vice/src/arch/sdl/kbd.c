@@ -71,7 +71,7 @@ ui_menu_entry_t *sdlkbd_ui_hotkeys[SDLKBD_UI_HOTKEYS_MAX];
 static int hotkey_file_set(const char *val, void *param)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s: %s\n",__func__,val);
+    fprintf(stderr, "%s: %s\n", __func__, val);
 #endif
 
     if (util_string_set(&hotkey_file, val)) {
@@ -111,7 +111,7 @@ static inline int sdlkbd_key_mod_to_index(SDLKey key, SDLMod mod)
 {
     int i = 0;
 
-    mod &= (KMOD_CTRL|KMOD_SHIFT|KMOD_ALT|KMOD_META);
+    mod &= (KMOD_CTRL | KMOD_SHIFT | KMOD_ALT | KMOD_META);
 
     if (mod) {
         if (mod & KMOD_SHIFT) {
@@ -231,10 +231,10 @@ int sdlkbd_hotkeys_load(const char *filename)
 
             /* remove comments */
             if ((p = strchr(buffer, '#'))) {
-                *p=0;
+                *p = 0;
             }
 
-            switch(*buffer) {
+            switch (*buffer) {
                 case 0:
                     break;
                 case '!':
@@ -259,8 +259,9 @@ int sdlkbd_hotkeys_dump(const char *filename)
     int i;
     char *hotkey_path;
 
-    if (filename == NULL)
+    if (filename == NULL) {
         return -1;
+    }
 
     fp = fopen(filename, MODE_WRITE_TEXT);
 
@@ -280,14 +281,14 @@ int sdlkbd_hotkeys_dump(const char *filename)
             "# Keywords and their lines are:\n"
             "# '!CLEAR'    clear all mappings\n"
             "#\n\n"
-        );
+            );
 
     fprintf(fp, "!CLEAR\n\n");
 
     for (i = 0; i < SDLKBD_UI_HOTKEYS_MAX; ++i) {
         if (sdlkbd_ui_hotkeys[i]) {
             hotkey_path = sdl_ui_hotkey_path(sdlkbd_ui_hotkeys[i]);
-            fprintf(fp,"%i %s\n",i,hotkey_path);
+            fprintf(fp, "%i %s\n", i, hotkey_path);
             lib_free(hotkey_path);
         }
     }
@@ -305,7 +306,7 @@ ui_menu_action_t sdlkbd_press(SDLKey key, SDLMod mod)
     ui_menu_entry_t *hotkey_action = NULL;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i (%s),%i\n",__func__,key,SDL_GetKeyName(key),mod);
+    fprintf(stderr, "%s: %i (%s),%i\n", __func__, key, SDL_GetKeyName(key), mod);
 #endif
     if (sdl_menu_state || (sdl_vkbd_state & SDL_VKBD_ACTIVE)) {
         if (key != SDLK_UNKNOWN) {

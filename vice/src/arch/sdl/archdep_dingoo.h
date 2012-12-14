@@ -80,7 +80,7 @@
 
 #define is_lcd_active() ((REG_LCD_CFG & LCD_CFG_LCDPIN_MASK) >> LCD_CFG_LCDPIN_BIT)
 
-#define archdep_num_text_lines (40) 
+#define archdep_num_text_lines (40)
 #define archdep_num_text_columns (30)
 #define archdep_file_is_blockdev (0)
 #define archdep_file_is_chardev (0)
@@ -91,7 +91,7 @@ extern const char *archdep_home_path(void);
 extern void set_overclock(int activate);
 extern void set_dingoo_pwd(const char *path);
 
-/* set this path to customize the preference storage */ 
+/* set this path to customize the preference storage */
 extern const char *archdep_pref_path;
 
 extern char *make_absolute_system_path(const char *s);

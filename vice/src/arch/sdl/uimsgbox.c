@@ -58,7 +58,7 @@ static unsigned int make_28_cols(char *text)
     }
 
     /* chop the text into lines of a maximum of 28 chars */
-    while (i < len ) {
+    while (i < len) {
         while (text[i] != ' ') {
             assert(i != 0);
             i--;
@@ -178,8 +178,8 @@ static int handle_message_box(const char *title, const char *message, int messag
                     sdl_ui_reverse_colors();
                 }
                 break;
-           case MESSAGE_CPUJAM:
-           default:
+            case MESSAGE_CPUJAM:
+            default:
                 if (cur_pos == 0) {
                     sdl_ui_reverse_colors();
                 }

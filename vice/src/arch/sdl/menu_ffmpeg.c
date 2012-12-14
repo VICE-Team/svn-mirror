@@ -127,7 +127,7 @@ static void update_codec_menus(const char *current_format)
 
     if (!ffmpeg_drv) {
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: no driver found\n", __func__);
+        fprintf(stderr, "%s: no driver found\n", __func__);
 #endif
         return;
     }
@@ -145,7 +145,7 @@ fprintf(stderr, "%s: no driver found\n", __func__);
 
     if (!format) {
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: format %s not found\n", __func__, current_format ? current_format : "(NULL)");
+        fprintf(stderr, "%s: format %s not found\n", __func__, current_format ? current_format : "(NULL)");
 #endif
         return;
     }
@@ -160,7 +160,7 @@ fprintf(stderr, "%s: format %s not found\n", __func__, current_format ? current_
         video_codec_menu[i].callback = radio_FFMPEGVideoCodec_callback;
         video_codec_menu[i].data = int_to_void_ptr(codec->id);
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: video codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
+        fprintf(stderr, "%s: video codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
 #endif
 
         codec++;
@@ -168,7 +168,7 @@ fprintf(stderr, "%s: video codec %i: %s (%i)\n", __func__, i, (codec->name) ? co
 
         if (i == MAX_CODECS) {
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: FIXME video codec %i > %i (MAX)\n", __func__, i, MAX_CODECS);
+            fprintf(stderr, "%s: FIXME video codec %i > %i (MAX)\n", __func__, i, MAX_CODECS);
 #endif
             break;
         }
@@ -185,7 +185,7 @@ fprintf(stderr, "%s: FIXME video codec %i > %i (MAX)\n", __func__, i, MAX_CODECS
         audio_codec_menu[i].callback = radio_FFMPEGAudioCodec_callback;
         audio_codec_menu[i].data = int_to_void_ptr(codec->id);
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: audio codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
+        fprintf(stderr, "%s: audio codec %i: %s (%i)\n", __func__, i, (codec->name) ? codec->name : "(NULL)", codec->id);
 #endif
 
         codec++;
@@ -193,7 +193,7 @@ fprintf(stderr, "%s: audio codec %i: %s (%i)\n", __func__, i, (codec->name) ? co
 
         if (i == MAX_CODECS) {
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: FIXME audio codec %i > %i (MAX)\n", __func__, i, MAX_CODECS);
+            fprintf(stderr, "%s: FIXME audio codec %i > %i (MAX)\n", __func__, i, MAX_CODECS);
 #endif
             break;
         }
@@ -227,7 +227,7 @@ void sdl_menu_ffmpeg_init(void)
 
     if (!ffmpeg_drv) {
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: no driver found\n", __func__);
+        fprintf(stderr, "%s: no driver found\n", __func__);
 #endif
         return;
     }
@@ -241,7 +241,7 @@ fprintf(stderr, "%s: no driver found\n", __func__);
         format_menu[i].callback = custom_FFMPEGFormat_callback;
         format_menu[i].data = (ui_callback_data_t)(format->name);
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: format %i: %s\n", __func__, i, (format->name) ? format->name : "(NULL)");
+        fprintf(stderr, "%s: format %i: %s\n", __func__, i, (format->name) ? format->name : "(NULL)");
 #endif
 
         format++;
@@ -249,7 +249,7 @@ fprintf(stderr, "%s: format %i: %s\n", __func__, i, (format->name) ? format->nam
 
         if (i == MAX_FORMATS) {
 #ifdef SDL_DEBUG
-fprintf(stderr, "%s: FIXME format %i > %i (MAX)\n", __func__, i, MAX_FORMATS);
+            fprintf(stderr, "%s: FIXME format %i > %i (MAX)\n", __func__, i, MAX_FORMATS);
 #endif
             break;
         }

@@ -286,7 +286,7 @@ int cbm2ui_init(void)
 void cbm2ui_shutdown(void)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
 #ifdef HAVE_FFMPEG
@@ -318,7 +318,7 @@ int cbm5x0ui_init(void)
 void cbm5x0ui_shutdown(void)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
 #ifdef HAVE_FFMPEG

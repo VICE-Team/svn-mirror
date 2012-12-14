@@ -29,8 +29,8 @@
 
 #include "vice.h"
 
-#define SDL_VSID_ACTIVE  (1<<0)
-#define SDL_VSID_REPAINT (1<<1)
+#define SDL_VSID_ACTIVE  (1 << 0)
+#define SDL_VSID_REPAINT (1 << 1)
 extern int sdl_vsid_state;
 
 extern void sdl_vsid_activate(void);

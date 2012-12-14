@@ -55,7 +55,6 @@ static UI_MENU_CALLBACK(save_settings_callback)
         /* TODO:
            to be uncommented after the fliplist menus have been made
         uifliplist_save_settings(); */
-
     }
     return NULL;
 }
@@ -147,7 +146,7 @@ static UI_MENU_CALLBACK(load_keymap_callback)
         resname = machine_keymap_res_name_list[keymap];
 
 #ifdef SDL_DEBUG
-fprintf(stderr,"%s: map %i, \"%s\"\n",__func__,keymap,resname);
+        fprintf(stderr, "%s: map %i, \"%s\"\n", __func__, keymap, resname);
 #endif
 
         name = sdl_ui_file_selection_dialog("Choose keymap file", FILEREQ_MODE_CHOOSE_FILE);

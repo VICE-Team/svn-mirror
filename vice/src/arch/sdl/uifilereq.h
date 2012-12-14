@@ -47,14 +47,14 @@ typedef enum {
 extern char *sdl_ui_slot_selection_dialog(const char* title, ui_menu_slot_mode_t mode);
 
 typedef struct {
-	int used;
-	char *slot_name;
-	char *slot_string;
+    int used;
+    char *slot_name;
+    char *slot_string;
 } ui_menu_slot_entry;
 
 typedef struct {
-	int number_of_elements;
-	ui_menu_slot_entry *entries;
+    int number_of_elements;
+    ui_menu_slot_entry *entries;
 } ui_menu_slots;
 
 #endif

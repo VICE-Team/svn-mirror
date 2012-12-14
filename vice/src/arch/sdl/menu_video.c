@@ -356,28 +356,28 @@ UI_MENU_DEFINE_STRING(AspectRatio)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipX)
 UI_MENU_DEFINE_TOGGLE(SDLGLFlipY)
 
-#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)  \
-    SDL_MENU_ITEM_SEPARATOR,                   \
-    SDL_MENU_ITEM_TITLE("OpenGL"),             \
-    { "OpenGL free scaling",                   \
-      MENU_ENTRY_RESOURCE_TOGGLE,              \
-      toggle_##chip##HwScale_callback,         \
-      NULL },                                  \
-    { "Fixed aspect ratio",                    \
-      MENU_ENTRY_SUBMENU,                      \
-      submenu_radio_callback,                  \
-      (ui_callback_data_t)aspect_menu },       \
-    { "Custom aspect ratio",                   \
-      MENU_ENTRY_RESOURCE_STRING,              \
-      string_AspectRatio_callback,             \
+#define VICE_SDL_SIZE_MENU_OPENGL_ITEMS(chip)               \
+    SDL_MENU_ITEM_SEPARATOR,                                \
+    SDL_MENU_ITEM_TITLE("OpenGL"),                          \
+    { "OpenGL free scaling",                                \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      toggle_##chip##HwScale_callback,                      \
+      NULL },                                               \
+    { "Fixed aspect ratio",                                 \
+      MENU_ENTRY_SUBMENU,                                   \
+      submenu_radio_callback,                               \
+      (ui_callback_data_t)aspect_menu },                    \
+    { "Custom aspect ratio",                                \
+      MENU_ENTRY_RESOURCE_STRING,                           \
+      string_AspectRatio_callback,                          \
       (ui_callback_data_t)"Set aspect ratio (0.5 - 2.0)" }, \
-    { "Flip X",                                \
-      MENU_ENTRY_RESOURCE_TOGGLE,              \
-      toggle_SDLGLFlipX_callback,              \
-      NULL },                                  \
-    { "Flip Y",                                \
-      MENU_ENTRY_RESOURCE_TOGGLE,              \
-      toggle_SDLGLFlipY_callback,              \
+    { "Flip X",                                             \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      toggle_SDLGLFlipX_callback,                           \
+      NULL },                                               \
+    { "Flip Y",                                             \
+      MENU_ENTRY_RESOURCE_TOGGLE,                           \
+      toggle_SDLGLFlipY_callback,                           \
       NULL },
 #endif
 
@@ -478,7 +478,7 @@ UI_MENU_DEFINE_RADIO(VICFilter)
 UI_MENU_DEFINE_RADIO(VDCFilter)
 UI_MENU_DEFINE_RADIO(CrtcFilter)
 
-#define VICE_SDL_FILTER_MENU_ITEMS(chip)  \
+#define VICE_SDL_FILTER_MENU_ITEMS(chip)       \
     { "None",                                  \
       MENU_ENTRY_RESOURCE_RADIO,               \
       radio_##chip##Filter_callback,           \
@@ -488,10 +488,10 @@ UI_MENU_DEFINE_RADIO(CrtcFilter)
       radio_##chip##Filter_callback,           \
       (ui_callback_data_t)VIDEO_FILTER_CRT }
 
-#define VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(chip)  \
-    { "Scale2x",                               \
-      MENU_ENTRY_RESOURCE_RADIO,               \
-      radio_##chip##Filter_callback,           \
+#define VICE_SDL_FILTER_MENU_SCALE2X_ITEMS(chip) \
+    { "Scale2x",                                 \
+      MENU_ENTRY_RESOURCE_RADIO,                 \
+      radio_##chip##Filter_callback,             \
       (ui_callback_data_t)VIDEO_FILTER_SCALE2X }
 
 static const ui_menu_entry_t vicii_filter_menu[] = {

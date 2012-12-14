@@ -74,7 +74,7 @@ static inline void uistatusbar_putchar(BYTE c, int pos_x, int pos_y, BYTE color_
 
     draw_pos += draw_offset;
 
-    for (y=0; y < menufont->h; ++y) {
+    for (y = 0; y < menufont->h; ++y) {
         fontchar = *font_pos;
         for (x = 0; x < menufont->w; ++x) {
             draw_pos[x] = (fontchar & (0x80 >> x)) ? color_f : color_b;
@@ -94,7 +94,7 @@ static void display_tape(void)
     int len;
 
     if (tape_enabled) {
-        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor) ?'*' : ' ', tape_counter, " >f<R"[tape_control]);
+        len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "%c%03d%c", (tape_motor) ? '*' : ' ', tape_counter, " >f<R"[tape_control]);
     } else {
         len = sprintf(&(statusbar_text[STATUSBAR_TAPE_POS]), "     ");
     }
@@ -296,7 +296,7 @@ void ui_display_recording(int recording_status)
 void ui_display_event_time(unsigned int current, unsigned int total)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %i, %i\n", __func__, current,total);
+    fprintf(stderr, "%s: %i, %i\n", __func__, current, total);
 #endif
 }
 
@@ -304,7 +304,7 @@ void ui_display_event_time(unsigned int current, unsigned int total)
 void ui_display_joyport(BYTE *joyport)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr, "%s: %02x %02x %02x %02x %02x\n", __func__, joyport[0], joyport[1], joyport[2],  joyport[3], joyport[4]);
+    fprintf(stderr, "%s: %02x %02x %02x %02x %02x\n", __func__, joyport[0], joyport[1], joyport[2], joyport[3], joyport[4]);
 #endif
 }
 
@@ -382,8 +382,8 @@ void uistatusbar_draw(void)
     line = MIN(sdl_active_canvas->viewport->last_line, sdl_active_canvas->geometry->last_displayed_line);
 
     draw_offset = (line - menufont->h + 1) * pitch
-                + sdl_active_canvas->geometry->extra_offscreen_border_left
-                + sdl_active_canvas->viewport->first_x;
+                  + sdl_active_canvas->geometry->extra_offscreen_border_left
+                  + sdl_active_canvas->viewport->first_x;
 
 
     for (i = 0; i < MAX_STATUSBAR_LEN; ++i) {

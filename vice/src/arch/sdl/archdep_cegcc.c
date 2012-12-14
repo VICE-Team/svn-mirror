@@ -57,7 +57,7 @@ typedef struct WSAData {
 } WSADATA;
 typedef WSADATA *LPWSADATA;
 
-extern int PASCAL WSAStartup(WORD,LPWSADATA);
+extern int PASCAL WSAStartup(WORD, LPWSADATA);
 extern int PASCAL WSACleanup(void);
 
 static char *orig_workdir;
@@ -170,13 +170,13 @@ const char *archdep_boot_path(void)
 
     GetModuleFileName(NULL, boot_path, MAX_PATH);
 
-    checkpath=boot_path+strlen(boot_path);
+    checkpath = boot_path + strlen(boot_path);
 
     while (*checkpath != '\\') {
         checkpath--;
     }
     *checkpath = 0;
-    
+
     return boot_path;
 }
 

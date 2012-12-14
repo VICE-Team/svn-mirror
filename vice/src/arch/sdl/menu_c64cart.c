@@ -325,7 +325,6 @@ static UI_MENU_CALLBACK(c64_cart_flush_callback)
         int cartid = vice_ptr_to_int(param);
 
         if (cartridge_flush_image(cartid) < 0) {
-
             /* find cartid in carts */
             for (i = 0; carts[i].cartid != 0 && !found; i++) {
                 if (carts[i].cartid == cartid) {
@@ -376,7 +375,6 @@ static UI_MENU_CALLBACK(c64_cart_save_callback)
             }
             lib_free(name);
         }
-
     }
     return NULL;
 }

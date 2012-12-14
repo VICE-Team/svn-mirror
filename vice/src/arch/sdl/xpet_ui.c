@@ -178,14 +178,14 @@ int petui_init(void)
     int i, j;
 
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
     sdl_ui_set_menu_params = petui_set_menu_params;
 
     sdl_ui_set_main_menu(xpet_main_menu);
 
-    pet_font=lib_malloc(8 * 256);
+    pet_font = lib_malloc(8 * 256);
     for (i = 0; i < 128; i++) {
         for (j = 0; j < 8; j++) {
             pet_font[(i * 8) + j] = mem_chargen_rom[(i * 16) + (256 * 16) + j];
@@ -204,7 +204,7 @@ int petui_init(void)
 void petui_shutdown(void)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 
 #ifdef HAVE_FFMPEG

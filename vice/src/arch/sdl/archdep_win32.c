@@ -231,13 +231,13 @@ const char *archdep_boot_path(void)
 
     GetModuleFileName(NULL, boot_path, MAX_PATH);
 
-    checkpath=boot_path+strlen(boot_path);
+    checkpath = boot_path + strlen(boot_path);
 
     while (*checkpath != '\\') {
         checkpath--;
     }
     *checkpath = 0;
-    
+
     return boot_path;
 }
 
@@ -278,8 +278,7 @@ char *archdep_default_resource_file_name(void)
 
 char *archdep_default_fliplist_file_name(void)
 {
-    return util_concat(archdep_boot_path(), "\\fliplist-", 
-                       machine_get_name(), ".vfl", NULL);
+    return util_concat(archdep_boot_path(), "\\fliplist-", machine_get_name(), ".vfl", NULL);
 }
 
 char *archdep_default_autostart_disk_image_file_name(void)
@@ -700,4 +699,3 @@ char *archdep_get_runtime_cpu(void)
     return "Unknown CPU";
 #endif
 }
-

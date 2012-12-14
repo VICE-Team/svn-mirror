@@ -59,7 +59,7 @@ extern void ui_display_paused(int flag);
 extern void ui_handle_misc_sdl_event(SDL_Event e);
 extern ui_menu_action_t ui_dispatch_events(void);
 extern void ui_exit(void);
-extern void ui_message(const char *format,...);
+extern void ui_message(const char *format, ...);
 extern void ui_show_text(const char *title, const char *text, int width, int height);
 extern char *ui_select_file(const char *title, char *(*read_contents_func)(const char *, unsigned int unit), unsigned int unit,
                             unsigned int allow_autostart, const char *default_dir, const char *default_pattern,

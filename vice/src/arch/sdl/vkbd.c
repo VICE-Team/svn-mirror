@@ -124,7 +124,7 @@ static void sdl_vkbd_key_press(int value, int shift)
     int mr, mc, neg;
     BYTE b, sb;
 
-    b = vkbd->keytable[vkbd_x + vkbd_y*vkbd_w];
+    b = vkbd->keytable[vkbd_x + vkbd_y * vkbd_w];
 
     if ((b == VKBD_COMMAND_CLOSE) && (value)) {
         sdl_vkbd_close();
@@ -181,7 +181,8 @@ static void sdl_vkbd_key_map(void)
         unmap = 1;
     } else {
         /* get the key name for displaying */
-        for (j = vkbd_x; (j > -1) && (vkbd->keytable[j + vkbd_y * vkbd_w] == b); --j);
+        for (j = vkbd_x; (j > -1) && (vkbd->keytable[j + vkbd_y * vkbd_w] == b); --j) {
+        }
         ++j;
 
         for (i = 0; ((i + j) < vkbd_w) && (vkbd->keytable[i + j + vkbd_y * vkbd_w] == b); ++i) {
@@ -255,10 +256,12 @@ void sdl_vkbd_set_vkbd(const vkbd_t *machine_vkbd)
         return;
     }
 
-    for (vkbd_h = 0; vkbd->keyb[vkbd_h] != NULL; ++vkbd_h);
+    for (vkbd_h = 0; vkbd->keyb[vkbd_h] != NULL; ++vkbd_h) {
+    }
 
     if (vkbd_h > 0) {
-        for (vkbd_w = 0; vkbd->keyb[0][vkbd_w] != 0; ++vkbd_w);
+        for (vkbd_w = 0; vkbd->keyb[0][vkbd_w] != 0; ++vkbd_w) {
+        }
     }
 }
 
@@ -309,7 +312,7 @@ int sdl_vkbd_process(ui_menu_action_t input)
 {
     int retval = 1;
 
-    switch(input) {
+    switch (input) {
         case MENU_ACTION_UP:
             if (vkbd_move) {
                 sdl_vkbd_move(&vkbd_pos_y, -1, 0, vkbd_pos_max_y);

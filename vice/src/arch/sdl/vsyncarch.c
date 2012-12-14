@@ -64,7 +64,7 @@ unsigned long vsyncarch_gettime(void)
 void vsyncarch_init(void)
 {
 #ifdef SDL_DEBUG
-    fprintf(stderr,"%s\n",__func__);
+    fprintf(stderr, "%s\n", __func__);
 #endif
 }
 
@@ -77,13 +77,14 @@ void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 /* Sleep a number of timer units. */
 void vsyncarch_sleep(signed long delay)
 {
-    SDL_Delay(delay/VICE_SDL_TICKS_SCALE);
+    SDL_Delay(delay / VICE_SDL_TICKS_SCALE);
 }
 
 void vsyncarch_presync(void)
 {
     if (sdl_vkbd_state & SDL_VKBD_ACTIVE) {
-        while (sdl_vkbd_process(ui_dispatch_events()));
+        while (sdl_vkbd_process(ui_dispatch_events())) {
+        }
 #ifdef HAVE_SDL_NUMJOYSTICKS
         sdl_vkbd_process(sdljoy_autorepeat());
 #endif
@@ -92,9 +93,9 @@ void vsyncarch_presync(void)
     }
 
     if ((sdl_vkbd_state & SDL_VKBD_REPAINT) || (uistatusbar_state & UISTATUSBAR_REPAINT) || (sdl_vsid_state & SDL_VSID_REPAINT)) {
-	if (!console_mode) {
-	    raster_force_repaint(sdl_active_canvas->parent_raster);
-	}
+        if (!console_mode) {
+            raster_force_repaint(sdl_active_canvas->parent_raster);
+        }
         sdl_vkbd_state &= ~SDL_VKBD_REPAINT;
         uistatusbar_state &= ~UISTATUSBAR_REPAINT;
     }

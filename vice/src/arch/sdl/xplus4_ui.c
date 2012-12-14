@@ -171,7 +171,7 @@ int plus4ui_init(void)
     plus4_font = lib_malloc(8 * 256);
     for (i = 0; i < 128; i++) {
         for (j = 0; j < 8; j++) {
-            plus4_font[(i * 8) + j] = plus4memrom_kernal_rom[(i * 8)+(128 * 8) + j + 0x1000];
+            plus4_font[(i * 8) + j] = plus4memrom_kernal_rom[(i * 8) + (128 * 8) + j + 0x1000];
             plus4_font[(i * 8) + (128 * 8) + j] = plus4memrom_kernal_rom[(i * 8) + j + 0x1000];
         }
     }

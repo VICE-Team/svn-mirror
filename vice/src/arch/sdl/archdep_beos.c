@@ -85,7 +85,7 @@ int archdep_init_extra(int *argc, char **argv)
     return 0;
 }
 
-static char *program_name=NULL;
+static char *program_name = NULL;
 
 char *archdep_program_name(void)
 {
@@ -154,7 +154,7 @@ char *archdep_make_backup_filename(const char *fname)
 }
 
 char *archdep_default_save_resource_file_name(void)
-{ 
+{
     return archdep_default_resource_file_name();
 }
 
