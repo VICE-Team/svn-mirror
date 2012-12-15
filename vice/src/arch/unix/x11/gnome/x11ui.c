@@ -145,8 +145,9 @@ static void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
 /* UI logging goes here.  */
 static log_t ui_log = LOG_ERR;
 
-static int tape_motor_status = -1;
-static int tape_control_status = -1;
+static int tape_motor_status = -1;        /* tape motor on/off */
+static int tape_control_status = -1;      /* tape button/operation status */
+static int tape_image_status = -1;        /* tape image present */
 
 #define VSID_WINDOW_MINW     (400)
 #define VSID_WINDOW_MINH     (300)
@@ -1346,7 +1347,7 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
         /* Tape Label */
         as->tape_status.label = gtk_label_new(_("Tape 000"));
         gtk_container_add(GTK_CONTAINER(as->tape_status.box), as->tape_status.label);
-        gtk_misc_set_alignment(GTK_MISC (as->tape_status.label), 0, -1);
+        /* gtk_misc_set_alignment(GTK_MISC (as->tape_status.label), 0, -1); */
         gtk_widget_show(as->tape_status.label);
 
         /* Tape control */
@@ -1373,8 +1374,10 @@ static GtkWidget *ui_create_status_bar(GtkWidget *pane)
             gtk_widget_hide(as->drive_status[i].event_box);	/* Hide Drive widget */
             gdk_window_set_cursor(as->drive_status[i].event_box->window, gdk_cursor_new (GDK_HAND1)); 
         }
+#if 0
         gtk_widget_hide(as->tape_status.event_box);	/* Hide Tape widget */
         gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
+#endif
     }
 
     /* finalize event-box */
@@ -2133,30 +2136,17 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
 
 void ui_set_tape_status(int tape_status)
 {
-    static int ts;
-    int i;
-
-    if (ts == tape_status) {
+    DBG(("ui_set_tape_status (%d)\n", tape_status));
+    if (tape_image_status == tape_status) {
         return;
     }
-    ts = tape_status;
-    for (i = 0; i < num_app_shells; i++) {
-        if (ts) {
-            gtk_widget_show(app_shells[i].tape_status.event_box);
-            gtk_widget_show(app_shells[i].tape_status.control);
-        } else {
-            if (last_attached_tape) {
-                gtk_widget_show(app_shells[i].tape_status.event_box);
-                gtk_widget_hide(app_shells[i].tape_status.control);
-            } else {
-                gtk_widget_hide(app_shells[i].tape_status.event_box);
-            }
-        }
-    }
+    tape_image_status = tape_status;
+    ui_display_tape_control_status(-1);
 }
 
 void ui_display_tape_motor_status(int motor)
-{   
+{
+    DBG(("ui_display_tape_motor_status (%d)\n", motor));
     if (tape_motor_status == motor) {
         return;
     }
@@ -2203,20 +2193,27 @@ void ui_display_tape_control_status(int control)
     GdkPoint *p;
     int i, num;
 
+    DBG(("ui_display_tape_control_status (%d) motor:%d image:%d\n", control, tape_motor_status, tape_image_status));
+
+    if (app_gc == NULL) {
+        DBG(("ui_display_tape_control_status skipped\n"));
+        return;
+    }
+
     if (control < 0) {
         control = tape_control_status;
     } else {
         tape_control_status = control;
     }
 
-    color = tape_motor_status ? &motor_running_pixel : &drive_led_off_pixel;
-
-    /* Set background color depending on motor status */
+    /* Set background color */
+    color = (tape_image_status == 1) ? &drive_led_on_green_pixel : &drive_led_on_red_pixel;
     gdk_gc_set_rgb_fg_color(app_gc, color);
     for (i = 0; i < num_app_shells; i++) {
         tape_status_widget *ts = &app_shells[i].tape_status;
-
-        gdk_draw_rectangle(ts->control_pixmap, app_gc, TRUE, 0, 0, CTRL_WIDTH, CTRL_HEIGHT);
+        if (ts) {
+            gdk_draw_rectangle(ts->control_pixmap, app_gc, TRUE, 0, 0, CTRL_WIDTH, CTRL_HEIGHT);
+        }
     }
 
     switch (control) {
@@ -2236,9 +2233,10 @@ void ui_display_tape_control_status(int control)
             gdk_gc_set_rgb_fg_color(app_gc, &drive_led_on_red_pixel);
             for (i = 0; i < num_app_shells; i++) {
                 tape_status_widget *ts = &app_shells[i].tape_status;
-
-                gdk_draw_arc(ts->control_pixmap, app_gc, TRUE, 3, 1, CTRL_WIDTH - 6, CTRL_HEIGHT - 2, 0, 360 * 64);
-                gtk_widget_queue_draw(ts->control);
+                if (ts) {
+                    gdk_draw_arc(ts->control_pixmap, app_gc, TRUE, 3, 1, CTRL_WIDTH - 6, CTRL_HEIGHT - 2, 0, 360 * 64);
+                    gtk_widget_queue_draw(ts->control);
+                }
             }
             gdk_flush();
             return;
@@ -2247,14 +2245,15 @@ void ui_display_tape_control_status(int control)
             p = stop;
             break;
     }
-
-    color = &tape_control_pixel;
+    /* set foreground color for tape-button */
+    color = (tape_motor_status == 1) ? &motor_running_pixel : &tape_control_pixel;
     gdk_gc_set_rgb_fg_color(app_gc, color);
     for (i = 0; i < num_app_shells; i++) {
         tape_status_widget *ts = &app_shells[i].tape_status;
-        gdk_draw_polygon(ts->control_pixmap, app_gc, TRUE, p, num);
-
-        gtk_widget_queue_draw(ts->control);
+        if (ts) {
+            gdk_draw_polygon(ts->control_pixmap, app_gc, TRUE, p, num);
+            gtk_widget_queue_draw(ts->control);
+        }
     }
     gdk_flush();
 }
