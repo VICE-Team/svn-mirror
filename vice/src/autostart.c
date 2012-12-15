@@ -433,6 +433,8 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
     line_length = (int)(lnmx < 0 ? -lnmx : mem_read((WORD)(lnmx)) + 1);
 
+    DBG(("check(%s)", s));
+
     if (!kbdbuf_is_empty()) {
         return NOT_YET;
     }
@@ -693,11 +695,7 @@ static void advance_hastape(void)
             } else {
                 kbdbuf_feed("LOAD:\r");
             }
-            if (tape_tap_attached()) {
-                autostartmode = AUTOSTART_PRESSPLAYONTAPE;
-            } else {
-                autostartmode = AUTOSTART_LOADINGTAPE;
-            }
+            autostartmode = AUTOSTART_PRESSPLAYONTAPE;
             entered_rom = 0;
             deallocate_program_name();
             break;
