@@ -122,7 +122,6 @@ int vdc_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_VDC_DSCAN;
     video_chip_cap.hwscale_allowed = ARCHDEP_VDC_HWSCALE;
     video_chip_cap.scale2x_allowed = 0;
-    video_chip_cap.internal_palette_allowed = 1;
     video_chip_cap.external_palette_name = "vdc_deft";
     video_chip_cap.double_buffering_allowed = ARCHDEP_VDC_DBUF;
 

@@ -125,7 +125,6 @@ struct video_chip_cap_s {
     unsigned int dscan_allowed;
     unsigned int hwscale_allowed;
     unsigned int scale2x_allowed;
-    unsigned int internal_palette_allowed;
     unsigned int double_buffering_allowed;
     const char *external_palette_name;
     cap_render_t single_mode;

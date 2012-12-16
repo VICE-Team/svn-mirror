@@ -101,7 +101,6 @@ int crtc_resources_init(void)
     video_chip_cap.dscan_allowed = ARCHDEP_CRTC_DSCAN;
     video_chip_cap.hwscale_allowed = ARCHDEP_CRTC_HWSCALE;
     video_chip_cap.scale2x_allowed = ARCHDEP_CRTC_DSIZE;
-    video_chip_cap.internal_palette_allowed = 1;
     video_chip_cap.external_palette_name = "green";
     video_chip_cap.double_buffering_allowed = ARCHDEP_CRTC_DBUF;
     fullscreen_capability(&(video_chip_cap.fullscreen));

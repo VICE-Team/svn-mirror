@@ -742,16 +742,11 @@ int video_resources_chip_init(const char *chipname,
         = &((*canvas)->videoconfig->external_palette_name);
     resources_chip_palette_string[0].param = (void *)*canvas;
 
-    if (video_chip_cap->internal_palette_allowed != 0) {
-        resources_chip_palette_int[0].name
-            = util_concat(chipname, vname_chip_palette[1], NULL);
-        resources_chip_palette_int[0].value_ptr
-            = &((*canvas)->videoconfig->external_palette);
-        resources_chip_palette_int[0].param = (void *)*canvas;
-    } else {
-        resources_chip_palette_int[0].name = NULL;
-        (*canvas)->videoconfig->external_palette = 1;
-    }
+    resources_chip_palette_int[0].name
+        = util_concat(chipname, vname_chip_palette[1], NULL);
+    resources_chip_palette_int[0].value_ptr
+        = &((*canvas)->videoconfig->external_palette);
+    resources_chip_palette_int[0].param = (void *)*canvas;
 
     if (resources_register_string(resources_chip_palette_string) < 0) {
         return -1;
@@ -762,9 +757,7 @@ int video_resources_chip_init(const char *chipname,
     }
 
     lib_free((char *)(resources_chip_palette_string[0].name));
-    if (video_chip_cap->internal_palette_allowed != 0) {
-        lib_free((char *)(resources_chip_palette_int[0].name));
-    }
+    lib_free((char *)(resources_chip_palette_int[0].name));
 
     /* double buffering */
     if (video_chip_cap->double_buffering_allowed != 0) {
