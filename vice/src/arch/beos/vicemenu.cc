@@ -761,6 +761,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Userport joystick emulation", new BMessage(MENU_TOGGLE_USERPORT_JOY)));
             menu->AddItem(new BMenuItem("Userport joystick settings...", new BMessage(MENU_EXTRA_JOYSTICK_SETTINGS)));
             menu->AddItem(submenu = new BMenu("Userport joystick type"));
+                submenu->SetRadioMode(true);
                 submenu->AddItem(new BMenuItem("CGA", new BMessage(MENU_USERPORT_JOY_CGA)));
                 submenu->AddItem(new BMenuItem("PET", new BMessage(MENU_USERPORT_JOY_PET)));
                 submenu->AddItem(new BMenuItem("Hummer", new BMessage(MENU_USERPORT_JOY_HUMMER)));
