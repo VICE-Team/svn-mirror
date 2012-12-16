@@ -28,6 +28,7 @@ libgnomeui_a_SOURCES = \
 	uimon.c \
 	uinetplay.c \
 	uipalcontrol.c \
+	uipalcontrol.h \
 	uiscreenshot.c \
 	uisnapshot.c \
 	uivsidcontrol.c \

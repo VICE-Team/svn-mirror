@@ -36,6 +36,7 @@
 
 #include "vice.h"
 #include "ui.h"
+#include "uiapi.h"
 
 typedef GtkWidget *ui_window_t;
 typedef GCallback ui_callback_t;
@@ -87,8 +88,54 @@ typedef enum ui_keysym_s ui_keysym_t;
 #define CHECK_MENUS      (((ui_menu_cb_obj*)event_data)->status != CB_NORMAL)
 #define UI_MENU_CB_PARAM (((ui_menu_cb_obj*)event_data)->value) 
 
+/* Drive status widget */
+typedef struct {
+    GtkWidget *box;                     /* contains all the widgets */
+    char *label;
+    GtkWidget *pixmap;
+#if 0
+    GtkWidget *image;
+#endif
+    GtkWidget *event_box;
+    GtkWidget *track_label;
+    GtkWidget *led;
+    GdkPixmap *led_pixmap;
+    GtkWidget *led1;
+    GdkPixmap *led1_pixmap;
+    GtkWidget *led2;
+    GdkPixmap *led2_pixmap;
+} drive_status_widget;
+
+/* Tape status widget */
+typedef struct {
+    GtkWidget *box;
+    GtkWidget *event_box;
+    GtkWidget *label;
+    GtkWidget *control;
+    GdkPixmap *control_pixmap;
+} tape_status_widget;
+
+#define MAX_APP_SHELLS 10
+typedef struct {
+    gchar *title;
+    GtkWidget *shell;
+    GtkWidget *topmenu;
+    GtkWidget *status_bar;
+    GtkWidget *pal_ctrl;
+    void *pal_ctrl_data;
+    GtkLabel *speed_label;
+    GtkLabel *statustext;
+    GtkAccelGroup *accel;
+    drive_status_widget drive_status[NUM_DRIVES];
+    tape_status_widget tape_status;
+    GdkGeometry geo;
+    struct video_canvas_s *canvas;
+} app_shell_type;
+extern app_shell_type app_shells[MAX_APP_SHELLS];
+
 extern GtkWidget *get_active_toplevel(void);
 extern GdkVisual *visual;
+extern struct video_canvas_s *get_active_canvas(void);
 
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int heigth, int no_autorepeat);
 extern void ui_resize_canvas_window(struct video_canvas_s *c);

@@ -94,6 +94,7 @@
 #include "uiapi.h"
 #include "uicolor.h"
 #include "uimenu.h"
+#include "uipalcontrol.h"
 #include "uisettings.h"
 #include "uicommands.h"
 #include "uifileentry.h"
@@ -193,50 +194,7 @@ ui_drive_enable_t enabled_drives;  /* used also in uicommands.c */
 /* Color of the drive active LED.  */
 static int *drive_active_led;
 
-/* Drive status widget */
-typedef struct {
-    GtkWidget *box;			/* contains all the widgets */
-    char *label;
-    GtkWidget *pixmap;
-#if 0
-    GtkWidget *image;
-#endif
-    GtkWidget *event_box;
-    GtkWidget *track_label;
-    GtkWidget *led;
-    GdkPixmap *led_pixmap;
-    GtkWidget *led1;
-    GdkPixmap *led1_pixmap;
-    GtkWidget *led2;
-    GdkPixmap *led2_pixmap;
-} drive_status_widget;
-
-/* Tape status widget */
-typedef struct {
-    GtkWidget *box;
-    GtkWidget *event_box;
-    GtkWidget *label;
-    GtkWidget *control;
-    GdkPixmap *control_pixmap;
-} tape_status_widget;
-
-#define MAX_APP_SHELLS 10
-typedef struct {
-    gchar *title;
-    GtkWidget *shell;
-    GtkWidget *topmenu;
-    GtkWidget *status_bar;
-    GtkWidget *pal_ctrl;
-    GtkLabel *speed_label;
-    GtkLabel *statustext;
-    GtkAccelGroup *accel;
-    drive_status_widget drive_status[NUM_DRIVES];
-    tape_status_widget tape_status;
-    GdkGeometry geo;
-    video_canvas_t *canvas;
-} app_shell_type;
-
-static app_shell_type app_shells[MAX_APP_SHELLS];
+app_shell_type app_shells[MAX_APP_SHELLS];
 static unsigned int num_app_shells = 0;
 
 /* Pixels for updating the drive LED's state.  */
@@ -265,7 +223,6 @@ static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data);
 static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data);
 
 static GtkWidget* rebuild_contents_menu(int unit, const char *image_name);
-extern GtkWidget* build_pal_ctrl_widget(video_canvas_t *canvas);
 
 static void toggle_aspect(video_canvas_t *canvas);
 static void setup_aspect(video_canvas_t *canvas);
@@ -295,7 +252,7 @@ GtkWidget *get_active_toplevel(void)
     return NULL;
 }
 
-static video_canvas_t *get_active_canvas(void)
+video_canvas_t *get_active_canvas(void)
 {
     unsigned int key = get_active_shell();
     return app_shells[key].canvas;
@@ -1706,7 +1663,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     sb = ui_create_status_bar(panelcontainer);
     if (machine_class != VICE_MACHINE_VSID) {
-        pal_ctrl_widget = build_pal_ctrl_widget(c);
+        pal_ctrl_widget = build_pal_ctrl_widget(c, &app_shells[num_app_shells - 1].pal_ctrl_data);
         gtk_box_pack_end(GTK_BOX(panelcontainer), pal_ctrl_widget, FALSE, FALSE, 0);
         gtk_widget_hide(pal_ctrl_widget);
     }
@@ -3219,6 +3176,7 @@ ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf, unsi
 void ui_update_menus(void)
 {
     ui_menu_update_all();
+    ui_update_palctrl();
 }
 
 void ui_block_shells(void)

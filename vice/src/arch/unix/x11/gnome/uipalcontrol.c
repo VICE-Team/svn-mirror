@@ -32,12 +32,18 @@
 #include "lib.h"
 #include "machine.h"
 #include "ui.h"
+#include "uiarch.h"
 #include "util.h"
 #include "video.h"
 #include "resources.h"
 #include "videoarch.h"
 
-static video_canvas_t *cached_canvas;
+typedef struct pal_templ_s {
+    char *label;        /* Label of Adjustmentbar */
+    char *res;          /* Associated resource */
+    int scale;          /* Scale to adjust to value range 0..4000 */
+    int perchip;        /* resource per chip (=1) or global (=0) */
+} pal_templ_t;
 
 typedef struct pal_res_s {
     char *label;        /* Label of Adjustmentbar */
@@ -45,21 +51,62 @@ typedef struct pal_res_s {
     int scale;          /* Scale to adjust to value range 0..4000 */
     GtkObject *adj;     /* pointer to widget */
     GtkWidget *w;       /* widget holding the scrollbar+label */
+    video_canvas_t *canvas;
+    struct pal_res_s *first;
 } pal_res_t;
 
-static pal_res_t ctrls[] = {
-    { N_("Brightness"), "ColorBrightness", 2, NULL, NULL  },
-    { N_("Contrast"), "ColorContrast", 2, NULL, NULL  },
-    { N_("Saturation"), "ColorSaturation", 2, NULL, NULL  },
-    { N_("Tint"), "ColorTint", 2, NULL, NULL  },
-    { N_("Gamma"), "ColorGamma", 1, NULL, NULL  },
-    { N_("Blur"), "PALBlur", 4, NULL, NULL },
-    { N_("Scanline shade"), "PALScanLineShade", 4, NULL, NULL  },
-    { N_("Odd lines phase"), "PALOddLinePhase", 2, NULL, NULL  },
-    { N_("Odd lines offset"), "PALOddLineOffset", 2, NULL, NULL  },
+static pal_templ_t ctrls[] = {
+    { N_("Brightness"), "ColorBrightness", 2, 1 },
+    { N_("Contrast"), "ColorContrast", 2, 1 },
+    { N_("Saturation"), "ColorSaturation", 2, 1 },
+    { N_("Tint"), "ColorTint", 2, 1 },
+    { N_("Gamma"), "ColorGamma", 1, 1 },
+    /* PAL/CRT related settings */
+    { N_("Blur"), "PALBlur", 4, 1 },
+    { N_("Scanline shade"), "PALScanLineShade", 4, 1 },
+    { N_("Odd lines phase"), "PALOddLinePhase", 2, 1 },
+    { N_("Odd lines offset"), "PALOddLineOffset", 2, 1 },
+    /* volume settings */
+    { N_("Volume"), "SoundVolume", 40, 0 },
 };
 
-static void upd_sb (GtkAdjustment *adj, gpointer data)
+#define NUMSLIDERS (sizeof(ctrls) / sizeof(pal_templ_t))
+
+static void pal_ctrl_update_internal(pal_res_t *ctrldata)
+{
+    int rmode, filter, ispal;
+    video_canvas_t *canvas;
+
+    ctrldata = ctrldata->first;
+    canvas= ctrldata->canvas;
+
+    if (canvas) {
+        rmode = canvas->videoconfig->rendermode;
+        filter = canvas->videoconfig->filter;
+        ispal = (rmode == VIDEO_RENDER_PAL_1X1) || (rmode == VIDEO_RENDER_PAL_2X2);
+        if (ispal) {
+            gtk_widget_set_sensitive(ctrldata[3].w, TRUE);
+        } else {
+            gtk_widget_set_sensitive(ctrldata[3].w, FALSE);
+        }
+        if (filter == VIDEO_FILTER_CRT) {
+            gtk_widget_set_sensitive(ctrldata[5].w, TRUE);
+            gtk_widget_set_sensitive(ctrldata[6].w, TRUE);
+        } else {
+            gtk_widget_set_sensitive(ctrldata[5].w, FALSE);
+            gtk_widget_set_sensitive(ctrldata[6].w, FALSE);
+        }
+        if ((ispal) && (filter == VIDEO_FILTER_CRT)) {
+            gtk_widget_set_sensitive(ctrldata[7].w, TRUE);
+            gtk_widget_set_sensitive(ctrldata[8].w, TRUE);
+        } else {
+            gtk_widget_set_sensitive(ctrldata[7].w, FALSE);
+            gtk_widget_set_sensitive(ctrldata[8].w, FALSE);
+        }
+    }
+}
+
+static gboolean value_changed_cb(GtkAdjustment *adj, gpointer data)
 {
     int v = (int) adj->value;
     pal_res_t *p = (pal_res_t *)data;
@@ -68,24 +115,19 @@ static void upd_sb (GtkAdjustment *adj, gpointer data)
 
     resources_set_int(p->res, v);
 
-    /* video_canvas_refresh_all(cached_canvas); */
+    pal_ctrl_update_internal(p);
+    video_canvas_refresh_all(p->canvas);
+    return 0;
 }
 
-GtkObject *voladj;
-
-static void upd_vol (GtkAdjustment *adj, gpointer data)
-{
-    int v = (int) adj->value / 40;
-    resources_set_int("SoundVolume", v);
-}
-
-static void pal_ctrl_reset (GtkWidget *w, gpointer data)
+/* reset all sliders to default values */
+static gboolean pal_ctrl_reset(GtkWidget *w, gpointer data)
 {
     pal_res_t *p = (pal_res_t *)data;
     unsigned int i;
     int tmp;
 
-    for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
+    for (i = 0; i < NUMSLIDERS; i++) {
         resources_get_default_value(p[i].res, (void *)&tmp);
         resources_set_int(p[i].res, tmp);
         tmp = tmp * p[i].scale;
@@ -93,14 +135,26 @@ static void pal_ctrl_reset (GtkWidget *w, gpointer data)
             gtk_adjustment_set_value(GTK_ADJUSTMENT(p[i].adj), (gfloat)tmp);
         }
     }
-    resources_get_default_value("SoundVolume", (void *)&tmp);
-    resources_set_int("SoundVolume", tmp);
-    gtk_adjustment_set_value(GTK_ADJUSTMENT(voladj), (gfloat)(tmp * 40));
 
-    video_canvas_refresh_all(cached_canvas);
+    pal_ctrl_update_internal(p);
+    video_canvas_refresh_all(p->canvas);
+    return 0;
 }
 
-GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
+void ui_update_palctrl(void)
+{
+    video_canvas_t *canvas;
+    if ((canvas = get_active_canvas()) == NULL) {
+        return;
+    }
+
+    if (app_shells[canvas->app_shell].pal_ctrl) {
+        pal_res_t *p = (pal_res_t *)app_shells[canvas->app_shell].pal_ctrl_data;
+        pal_ctrl_update_internal(p);
+    }
+}
+
+GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
 {
     GtkWidget *b, *hb;
     GtkObject *adj;
@@ -116,22 +170,21 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     pal_res_t *ctrldata;
 
     chip = canvas->videoconfig->chip_name;
-    ctrldata = lib_malloc(sizeof(ctrls));
-    memcpy(ctrldata, ctrls, sizeof(ctrls));
+    ctrldata = lib_malloc(sizeof(pal_res_t) * NUMSLIDERS);
 
-    cached_canvas = canvas;
     f = gtk_frame_new(_("CRT emulation settings"));
 
     b = gtk_vbox_new(FALSE, 5);
 
-    for (i = 0; i < sizeof(ctrls) / sizeof(ctrls[0]); i++) {
+    for (i = 0; i < NUMSLIDERS; ++i) {
 
-        resname = util_concat(chip, ctrls[i].res, NULL);
+        resname = util_concat(ctrls[i].perchip ? chip : "", ctrls[i].res, NULL);
         hb = gtk_hbox_new(FALSE, 0);
 
         c = gtk_hbox_new(FALSE, 0);
         gtk_widget_set_size_request(GTK_WIDGET(c), 100, 10);
 
+        ctrldata[i].label = ctrls[i].label;
         l = gtk_label_new(_(ctrldata[i].label));
         gtk_container_add(GTK_CONTAINER(c), l);
         gtk_widget_show(l);
@@ -139,6 +192,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
         gtk_box_pack_start(GTK_BOX(hb), c, FALSE, FALSE, 5);
         gtk_widget_show(c);
 
+        ctrldata[i].scale = ctrls[i].scale;
         ctrldata[i].adj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
 
         resources_get_int(resname, &v);
@@ -149,44 +203,22 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
         gtk_range_set_update_policy(GTK_RANGE(sb), GTK_UPDATE_CONTINUOUS);
         gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
 
-        g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (upd_sb), &ctrldata[i]);
+        g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (value_changed_cb), &ctrldata[i]);
 
         gtk_widget_show(sb);
         gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
         gtk_widget_show(hb);
         ctrldata[i].w = hb;
+
+        ctrldata[i].first = ctrldata;
+        ctrldata[i].canvas = canvas;
     }
-
-    /* volume slider */
-    hb = gtk_hbox_new(FALSE, 0);
-    c = gtk_hbox_new(FALSE, 0);
-    gtk_widget_set_size_request(GTK_WIDGET(c), 100, 10);
-
-    l = gtk_label_new(_("Volume"));
-    gtk_container_add(GTK_CONTAINER(c), l);
-    gtk_widget_show(l);
-
-    gtk_box_pack_start(GTK_BOX(hb), c, FALSE, FALSE, 5);
-    gtk_widget_show(c);
-    voladj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
-
-    resources_get_int("SoundVolume", &v);
-    gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * 40));
-    sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
-    gtk_range_set_update_policy(GTK_RANGE(sb), GTK_UPDATE_CONTINUOUS);
-    gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
-
-    g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (upd_vol), "SoundVolume");
-
-    gtk_widget_show(sb);
-    gtk_box_pack_start(GTK_BOX(b), hb, TRUE, TRUE, 0);
-    gtk_widget_show(hb);
-    
+    /* "Reset" button */
     box = gtk_hbox_new(FALSE, 0);
 
     rb = gtk_button_new_with_label(_("Reset"));
     gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
-    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), ctrldata);
+    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), &ctrldata[0]);
     GTK_WIDGET_UNSET_FLAGS(rb, GTK_CAN_FOCUS);
     gtk_widget_show(rb);
 
@@ -197,5 +229,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas)
     gtk_container_add(GTK_CONTAINER(f), b);
     gtk_widget_show(f);
 
+    pal_ctrl_update_internal(ctrldata);
+    *(pal_res_t **)data = ctrldata;
     return f;
 }
