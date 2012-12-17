@@ -20,8 +20,15 @@ libgnomeui_a_SOURCES = \
 	uiarch.h \
 	uicartridge.c \
 	uicolor.c \
+	uicontents.c \
+	uicontents.h \
+	uidialogs.c \
+	uidrivestatus.c \
+	uidrivestatus.h \
 	uiedisk.c \
 	uiedit.c \
+	uifilechooser.c \
+	uifilechooser.h \
 	uijoystickkeys.c \
 	uimenu.c \
 	uimenu.h \
@@ -31,6 +38,10 @@ libgnomeui_a_SOURCES = \
 	uipalcontrol.h \
 	uiscreenshot.c \
 	uisnapshot.c \
+	uistatusbar.c \
+	uistatusbar.h \
+	uitapestatus.c \
+	uitapestatus.h \
 	uivsidcontrol.c \
 	uifileentry.c \
 	uifileentry.h \

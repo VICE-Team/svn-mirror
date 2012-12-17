@@ -132,9 +132,12 @@ typedef struct {
     struct video_canvas_s *canvas;
 } app_shell_type;
 extern app_shell_type app_shells[MAX_APP_SHELLS];
+extern int get_num_shells(void);
 
+extern GdkGC *get_toplevel(void);
 extern GtkWidget *get_active_toplevel(void);
-extern GdkVisual *visual;
+extern int get_active_shell(void);
+extern GdkVisual *visual; /* FIXME: also wrap into a function call */
 extern struct video_canvas_s *get_active_canvas(void);
 
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int heigth, int no_autorepeat);
@@ -150,5 +153,7 @@ extern void ui_unblock_shells(void);
 extern int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 
 extern void ui_set_drop_callback(void *cb);
+
+extern unsigned char *convert_utf8(unsigned char *s);
 
 #endif /* !defined (_UIARCH_H) */

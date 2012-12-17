@@ -2,7 +2,10 @@
  * uipalcontrol.c - GTK only, UI controls for CRT emu
  *
  * Written by
+ *  Ettore Perazzoli
+ *  Oliver Schaertel
  *  pottendo <pottendo@gmx.net>
+ *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
