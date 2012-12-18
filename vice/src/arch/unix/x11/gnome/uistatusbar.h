@@ -28,6 +28,7 @@
 #define UISTATUSBAR_H_
 
 extern GtkWidget *ui_create_status_bar(GtkWidget *pane);
+extern void ui_init_checkbox_style(void);
 
 #endif
 

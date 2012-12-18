@@ -1,7 +1,10 @@
 /*
- * uidrivestatus.h - GTK only, UI controls for Drive emulation
+ * x11mouse.h - GTK only, Mouse handling
  *
  * Written by
+ *  Ettore Perazzoli
+ *  Oliver Schaertel
+ *  pottendo <pottendo@gmx.net>
  *  groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
@@ -24,14 +27,11 @@
  *
  */
  
-#ifndef UIDRIVESTATUS_H_
-#define UIDRIVESTATUS_H_
+#ifndef X11MOUSE_H_
+#define X11MOUSE_H_
 
-#include "uiarch.h"
-
-extern GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window);
-extern void ui_init_drive_status_widget(void);
+extern void mouse_init_cursor(void);
+extern void mouse_connect_handler(GtkWidget *widget, void *data);
+extern void mouse_connect_wrap_handler(GtkWidget *widget, void *data);
 
 #endif
- 
- 

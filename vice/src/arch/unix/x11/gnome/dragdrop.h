@@ -1,5 +1,5 @@
 /*
- * uidrivestatus.h - GTK only, UI controls for Drive emulation
+ * dragdrop.h - GTK only, drag and drop handling
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -24,14 +24,10 @@
  *
  */
  
-#ifndef UIDRIVESTATUS_H_
-#define UIDRIVESTATUS_H_
+#ifndef DRAGANDDROP_H_
+#define DRAGANDDROP_H_
 
-#include "uiarch.h"
-
-extern GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window);
-extern void ui_init_drive_status_widget(void);
+extern void set_drop_target_widget(GtkWidget *w);
 
 #endif
- 
  

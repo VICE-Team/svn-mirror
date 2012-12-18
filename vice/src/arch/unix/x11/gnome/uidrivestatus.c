@@ -60,14 +60,9 @@ char *last_menus[NUM_DRIVES];  /* FIXME: We want this to be static.  */
 GtkWidget *last_drive_menus[NUM_DRIVES];  /* FIXME: We want this to be static.  */
 
 /* Enabled drives.  */
-ui_drive_enable_t enabled_drives = UI_DRIVE_ENABLE_NONE;  /* used also in uicommands, x11ui */
+ui_drive_enable_t enabled_drives = UI_DRIVE_ENABLE_NONE;  /* used also in uicommands */
 /* Color of the drive active LED.  */
-int *drive_active_led;  /* used also in x11ui */
-
-/* Pixels for updating the drive LED's state.  */
-GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel, motor_running_pixel;
-GdkColor drive_led_on_red_pixels[16];
-GdkColor drive_led_on_green_pixels[16];
+static int *drive_active_led;
 
 static GtkWidget *drive_menus[NUM_DRIVES];
 
@@ -250,6 +245,20 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
             ui_resize_canvas_window(app_shells[i].canvas, width, height);
         }
 #endif
+    }
+}
+
+void ui_init_drive_status_widget(void)
+{
+    int i;
+    /* This is necessary because the status might have been set before we
+    actually open the canvas window. e.g. by commandline */
+    ui_enable_drive_status(enabled_drives, drive_active_led);
+
+    /* make sure that all drive status widgets are initialized.
+    This is needed for proper dual disk/dual led drives (8050, 8250). */
+    for (i = 0; i < NUM_DRIVES; i++) {
+        ui_display_drive_led(i, 1000, 1000);
     }
 }
 

@@ -13,8 +13,13 @@ noinst_LIBRARIES = libgnomeui.a
 
 libgnomeui_a_SOURCES = \
 	about.c \
+	dragdrop.c \
+	dragdrop.h \
 	gnomekbd.c \
+	gnomekbd.h \
 	gnomevideo.c \
+	lightpendrv.c \
+	lightpendrv.h \
 	linenoise.c \
 	linenoise.h \
 	uiarch.h \
@@ -29,6 +34,8 @@ libgnomeui_a_SOURCES = \
 	uiedit.c \
 	uifilechooser.c \
 	uifilechooser.h \
+	uifileentry.c \
+	uifileentry.h \
 	uijoystickkeys.c \
 	uimenu.c \
 	uimenu.h \
@@ -43,9 +50,7 @@ libgnomeui_a_SOURCES = \
 	uitapestatus.c \
 	uitapestatus.h \
 	uivsidcontrol.c \
-	uifileentry.c \
-	uifileentry.h \
-	lightpendrv.c \
-	lightpendrv.h \
 	videoarch.h \
+	x11mouse.c \
+	x11mouse.h \
 	x11ui.c

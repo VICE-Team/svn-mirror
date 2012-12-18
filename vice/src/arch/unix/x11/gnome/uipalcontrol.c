@@ -146,13 +146,11 @@ static gboolean pal_ctrl_reset(GtkWidget *w, gpointer data)
 
 void ui_update_palctrl(void)
 {
-    video_canvas_t *canvas;
-    if ((canvas = get_active_canvas()) == NULL) {
-        return;
-    }
+    int i;
+    int num_app_shells = get_num_shells();
 
-    if (app_shells[canvas->app_shell].pal_ctrl) {
-        pal_res_t *p = (pal_res_t *)app_shells[canvas->app_shell].pal_ctrl_data;
+    for (i = 0; i < num_app_shells; i++) {
+        pal_res_t *p = (pal_res_t *)app_shells[i].pal_ctrl_data;
         pal_ctrl_update_internal(p);
     }
 }

@@ -59,9 +59,6 @@ static int tape_image_status = -1;        /* tape image present */
 char *last_attached_tape; /* FIXME: We want this to be static.  */
 static GtkWidget *tape_menu;
 
-GdkColor tape_control_pixel;
-extern GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel, motor_running_pixel;
-
 static gboolean tape_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     if (event->type == GDK_BUTTON_PRESS) {

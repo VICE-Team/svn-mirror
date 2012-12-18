@@ -1,5 +1,5 @@
 /*
- * gnomekbd.c - Simple Gnome-based graphical user interface.
+ * gnomekbd.c - GTK Keyboard driver
  *
  * Written by
  *  Oliver Schaertel
@@ -26,6 +26,10 @@
  * GTK Keyboard driver
  */
 
+/* #define DEBUG_X11UI */
+/* #define DEBUG_KBD */
+/* #define DEBUGNOKBDGRAB */    /* dont explicitly grab keyboard focus */
+
 #include "vice.h"
 
 #include <string.h>             /* memset() */
@@ -35,6 +39,12 @@
 #include "kbd.h"
 #include "keyboard.h"
 #include "machine.h"
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 void kbd_arch_init(void)
 {
@@ -56,9 +66,7 @@ const char *kbd_arch_keynum_to_keyname(signed long keynum)
     return gdk_keyval_name((guint)keynum);
 }
 
-/* #define DEBUG_KBD */
-
-gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
+static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 {
     gint key;
 
@@ -90,6 +98,18 @@ gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
     return FALSE;
 }
 
+void kbd_connect_handler(GtkWidget *widget, void *data)
+{
+    g_signal_connect(G_OBJECT(widget), "key-press-event", G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(G_OBJECT(widget), "key-release-event", G_CALLBACK(kbd_event_handler), data);
+}
+
+void kbd_connect_enterleave_handler(GtkWidget *widget, void *data)
+{
+    g_signal_connect(G_OBJECT(widget), "enter-notify-event", G_CALLBACK(kbd_event_handler), data);
+    g_signal_connect(G_OBJECT(widget), "leave-notify-event", G_CALLBACK(kbd_event_handler), data);
+}
+
 void kbd_initialize_numpad_joykeys(int* joykeys)
 {
     joykeys[0] = GDK_KP_0;
@@ -102,3 +122,46 @@ void kbd_initialize_numpad_joykeys(int* joykeys)
     joykeys[7] = GDK_KP_8;
     joykeys[8] = GDK_KP_9;
 }
+
+#if 0
+/*
+    grab keyboard focus
+
+    called by: ui_init_finalize
+ */
+static int keyboard_grabbed = 0;
+static void keyboard_grab(int grab)
+{
+#ifdef DEBUGNOKBDGRAB
+    DBG(("keyboard_grab disabled (%d)", grab));
+#else
+    GtkWidget *widget;
+    GdkWindow *window;
+
+    DBG(("keyboard_grab (%d, was %d)", grab, keyboard_grabbed));
+
+    if (grab == keyboard_grabbed) {
+        return;
+    }
+
+    /*ui_dispatch_events();
+    gdk_flush();*/
+
+    if (grab) {
+        widget = get_active_toplevel();
+        window = widget ? widget->window : NULL;
+
+        if ((widget == NULL) || (window == NULL)) {
+            log_error(ui_log, "keyboard_grab: bad params");
+            return;
+        }
+
+        gdk_keyboard_grab(window, 1, GDK_CURRENT_TIME);
+        keyboard_grabbed = 1;
+    } else {
+        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
+        keyboard_grabbed = 0;
+    }
+#endif
+}
+#endif

@@ -30,17 +30,8 @@
  */
 
 /* #define DEBUG_X11UI */
-/* #define DEBUGMOUSECURSOR */   /* dont use a blank mouse cursor */
-/* #define DEBUGNOMOUSEGRAB */  /* dont grab mouse */
-/* #define DEBUGNOKBDGRAB */    /* dont explicitly grab keyboard focus */
 
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
-#define _UI_C
+#define _UI_C /* WTH is this? */
 
 #include "vice.h"
 
@@ -71,25 +62,15 @@
 #include "uiapi.h"
 #include "uiarch.h"
 
-#include "autostart.h"
 #include "charset.h"
-#include "drive/drive.h"
+#include "dragdrop.h"
 #include "fullscreenarch.h"
-#include "imagecontents.h"
-#include "tapecontents.h"
-#include "diskcontents.h"
-#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
-#include "kbd.h"
 #include "machine.h"
-#include "maincpu.h"
-#include "mouse.h"
-#include "mousedrv.h"
 #include "keyboard.h"
 #include "resources.h"
 #include "types.h"
-#include "uiapi.h"
 #include "uicolor.h"
 #include "uimenu.h"
 #include "uipalcontrol.h"
@@ -100,29 +81,27 @@
 #include "uilib.h"
 #include "uistatusbar.h"
 #include "uitapestatus.h"
-#include "util.h"
+#include "uidrivestatus.h"
 #include "version.h"
 #include "vsync.h"
 #include "video.h"
 #include "videoarch.h"
 #include "vsidui.h"
 #include "vsiduiunix.h"
-#include "screenshot.h"
-#include "vice-event.h"
-#include "uifliplist.h"
-#include "c128/c128.h"
-#include "lightpen.h"
 #include "lightpendrv.h"
-
-/* FIXME: move code  (drivestatus init) so these are not needed here */
-extern ui_drive_enable_t enabled_drives;
-extern int *drive_active_led;
-extern GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel;
+#include "x11mouse.h"
+#include "gnomekbd.h"
 
 #ifdef USE_XF86_EXTENSIONS
 #include <gdk/gdkx.h>
 #endif
 #include "x11ui.h"
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 #ifdef USE_XF86_EXTENSIONS
 static Display *display;
@@ -143,46 +122,35 @@ void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
 }
 #endif
 
-/* UI logging goes here.  */
-static log_t ui_log = LOG_ERR;
+/******************************************************************************/
 
+/* UI logging goes here.  */
+log_t ui_log = LOG_ERR;
+
+/* the minimum (and initial) size of the VSID window */
 #define VSID_WINDOW_MINW     (400)
 #define VSID_WINDOW_MINH     (300)
-
+/* minimum size of regular emulator window */
 #define WINDOW_MINW     (320 / 2)
 #define WINDOW_MINH     (200 / 2)
 
-/* FIXME: move respective code (statusbar) so these are not needed here */
-extern GtkWidget *video_ctrl_checkbox;
-extern GtkWidget *event_rec_checkbox;
-extern GtkWidget *event_playback_checkbox;
-extern GtkWidget *video_ctrl_checkbox_label;
-extern GtkWidget *event_rec_checkbox_label;
-extern GtkWidget *event_playback_checkbox_label;
-
-static GtkStyle *ui_style_red;
-static GtkStyle *ui_style_green;
-static GdkCursor *blankCursor;
-
+/* FIXME: perhaps also move these into app_shell_type */
 char *fixedfontname="CBM 10";
 int have_cbm_font = 0;
 PangoFontDescription *fixed_font_desc;
 
 static int popped_up_count = 0;
 
-/* Left-button and right-button menu.  */
-static GtkWidget *left_menu, *right_menu;
-
 /* Toplevel widget. */
 static GdkGC *app_gc = NULL;
 
 /* GdkColormap *colormap; */
 
-app_shell_type app_shells[MAX_APP_SHELLS];
+app_shell_type app_shells[MAX_APP_SHELLS]; /* FIXME: we want this to be the exclusive global info */
 static unsigned int num_app_shells = 0;
 static unsigned int active_shell = 0;
 
-/* ------------------------------------------------------------------------- */
+/******************************************************************************/
 
 static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
 static gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p);
@@ -190,15 +158,13 @@ static gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpoin
 static gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer p);
 static gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer p);
 static gboolean map_callback(GtkWidget *widget, GdkEvent  *event, gpointer user_data);
-
-static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data);
+static gboolean update_menu_callback(GtkWidget *w, GdkEvent *event,gpointer data);
 
 static void toggle_aspect(video_canvas_t *canvas);
 static void setup_aspect(video_canvas_t *canvas);
 static gfloat get_aspect(video_canvas_t *canvas);
 
 void ui_trigger_resize(void);
-gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report,gpointer gp);
 
 /******************************************************************************/
 GdkGC *get_toplevel(void)
@@ -547,153 +513,6 @@ void ui_restore_focus(void)
 
 /******************************************************************************/
 
-/*
-    grab pointer, set mouse pointer shape
-
-    called by: ui_check_mouse_cursor, ui_restore_mouse, x11ui_fullscreen
-
-    TODO: also route lightpen stuff through this function
-*/
-static int mouse_grabbed = 0;
-static void mouse_cursor_grab(int grab, GdkCursor *cursor)
-{
-#ifdef DEBUGNOMOUSEGRAB
-    DBG(("mouse_cursor_grab disabled (%d)", grab));
-#else
-    GtkWidget *widget;
-    GdkWindow *window;
-
-    DBG(("mouse_cursor_grab (%d, was %d)", grab, mouse_grabbed));
-
-    if (mouse_grabbed) {
-        gdk_pointer_ungrab(GDK_CURRENT_TIME);
-        mouse_grabbed = 0;
-    }
-
-    if (grab) {
-        /*ui_dispatch_events();
-        gdk_flush();*/
-
-        widget = get_active_toplevel();
-        window = widget ? widget->window : NULL;
-
-        if ((widget == NULL) || (window == NULL)) {
-            log_error(ui_log, "mouse_cursor_grab: bad params");
-            return;
-        }
-#ifdef DEBUGMOUSECURSOR
-        if (cursor == blankCursor) {
-            DBG(("mouse_cursor_grab blankCursor disabled"));
-            cursor = NULL;
-        }
-#endif
-        gdk_pointer_grab(window, 1, GDK_POINTER_MOTION_MASK | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK, window, cursor, GDK_CURRENT_TIME);
-        mouse_grabbed = 1;
-    }
-#endif
-}
-
-#if 0
-/*
-    grab keyboard focus
-
-    called by: ui_init_finalize
- */
-static int keyboard_grabbed = 0;
-static void keyboard_grab(int grab)
-{
-#ifdef DEBUGNOKBDGRAB
-    DBG(("keyboard_grab disabled (%d)", grab));
-#else
-    GtkWidget *widget;
-    GdkWindow *window;
-
-    DBG(("keyboard_grab (%d, was %d)", grab, keyboard_grabbed));
-
-    if (grab == keyboard_grabbed) {
-        return;
-    }
-
-    /*ui_dispatch_events();
-    gdk_flush();*/
-
-    if (grab) {
-        widget = get_active_toplevel();
-        window = widget ? widget->window : NULL;
-
-        if ((widget == NULL) || (window == NULL)) {
-            log_error(ui_log, "keyboard_grab: bad params");
-            return;
-        }
-
-        gdk_keyboard_grab(window, 1, GDK_CURRENT_TIME);
-        keyboard_grabbed = 1;
-    } else {
-        gdk_keyboard_ungrab(GDK_CURRENT_TIME);
-        keyboard_grabbed = 0;
-    }
-#endif
-}
-#endif
-
-void ui_check_mouse_cursor(void)
-{
-#ifdef HAVE_FULLSCREEN
-    video_canvas_t *canvas;
-    if ((canvas = get_active_canvas()) == NULL) {
-        log_error(ui_log, "ui_check_mouse_cursor canvas == NULL");
-        mouse_cursor_grab(0, NULL);
-        return;
-    }
-    if (canvas->fullscreenconfig == NULL) {
-        log_error(ui_log, "ui_check_mouse_cursor canvas->fullscreenconfig == NULL");
-        mouse_cursor_grab(0, NULL);
-        return;
-    }
-
-    if (canvas->fullscreenconfig->enable) {
-        if (_mouse_enabled) {
-            mouse_cursor_grab(1, blankCursor);
-        } else {
-            /* FIXME: this case seems odd */
-            mouse_cursor_grab(1, NULL);
-        }
-        return;
-    }
-#endif
-    if (_mouse_enabled) {
-        mouse_cursor_grab(1, blankCursor);
-    } else {
-        mouse_cursor_grab(0, NULL);
-    }
-}
-
-/*
-    ungrab mouse and restore mouse pointer shape
-
-    called by uicommands.c:activate_monitor, ui_jam_dialog, ui_popup. ui_exit
-*/
-void ui_restore_mouse(void)
-{
-    mouse_cursor_grab(0, NULL);
-}
-
-static void initBlankCursor(void)
-{
-    static char cursor[] = { 0x00 };
-    GdkColor fg = { 0, 0, 0, 0 };
-    GdkColor bg = { 0, 0, 0, 0 };
-    GdkBitmap *source = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
-    GdkBitmap *mask = gdk_bitmap_create_from_data (NULL, cursor, 1, 1);
-
-    blankCursor = gdk_cursor_new_from_pixmap (source, mask, &fg, &bg, 1, 1); 
-
-    g_object_unref (source);
-    g_object_unref (mask); 
-}
-
-/******************************************************************************/
-
 void archdep_ui_init(int argc, char *argv[])
 {
     /* Fake Gnome to see empty arguments; 
@@ -719,6 +538,11 @@ void archdep_ui_init(int argc, char *argv[])
 #endif
 }
 
+static void atexit_handler(void)
+{
+    /* ui_autorepeat_on(); */
+}
+
 /* Initialize the GUI and parse the command line. */
 int ui_init(int *argc, char **argv)
 {
@@ -729,209 +553,12 @@ int ui_init(int *argc, char **argv)
     screen = gdk_screen_get_number(gdk_screen_get_default());
 #endif
 
-    atexit(ui_autorepeat_on);
+    atexit(atexit_handler);
 
     ui_common_init();
 
     /* enabled_drives = UI_DRIVE_ENABLE_NONE; */
 
-    return 0;
-}
-
-void ui_shutdown(void)
-{
-    ui_common_shutdown();
-}
-
-#if 0
-typedef struct {
-    char *name;
-    GdkVisualType class;
-} namedvisual_t;
-#endif
-
-/* exit the application */
-static gboolean delete_event(GtkWidget *w, GdkEvent *e, gpointer data) 
-{
-    vsync_suspend_speed_eval();
-    ui_exit();
-    /* ui_exit() will exit the application if user allows it. So if
-       we return here then we should keep going => return TRUE */
-    return TRUE;
-}
-
-static gint mouse_dx = 0, mouse_dy = 0;
-static gint mouse_lasteventx = 0, mouse_lasteventy = 0;
-static gint mouse_warped = 0;
-static gint mouse_warpx = 0, mouse_warpy = 0;
-#define MOUSE_WRAP_MARGIN  50
-
-void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
-{
-    video_canvas_t *canvas = (video_canvas_t *)data;
-
-    if (event->type == GDK_BUTTON_PRESS) {
-        GdkEventButton *bevent = (GdkEventButton*)event;
-        if (_mouse_enabled || lightpen_enabled) {
-            mouse_button(bevent->button-1, TRUE);
-            gtk_lightpen_setbutton(bevent->button, TRUE);
-        } else {
-            if (bevent->button == 1) {
-                ui_menu_update_all_GTK();
-                gtk_menu_popup(GTK_MENU(left_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
-            } else if (bevent->button == 3) {
-                ui_menu_update_all_GTK();
-                gtk_menu_popup(GTK_MENU(right_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
-            }
-        }
-    } else if (event->type == GDK_BUTTON_RELEASE && (_mouse_enabled || lightpen_enabled)) {
-        GdkEventButton *bevent = (GdkEventButton*)event;
-        mouse_button(bevent->button-1, FALSE);
-        gtk_lightpen_setbutton(bevent->button, FALSE);
-   } else if (event->type == GDK_MOTION_NOTIFY) {
-        GdkEventMotion *mevent = (GdkEventMotion*)event;
-        if (_mouse_enabled) {
-            /* handle pointer motion events for mouse emulation */
-            gint x=0, y=0, w=0, h=0, warp=0;
-            gint xoff=0, yoff=0;
-            gint ptrx, ptry;
-            GdkDisplay *display = NULL;
-            GdkScreen *screen = NULL;
-
-            /* get default display and screen */
-            display = gdk_display_get_default ();
-            screen = gdk_display_get_default_screen (display);
-
-            /* get cursor position */
-            gdk_display_get_pointer (display, NULL, &x, &y, NULL);
-
-            ptrx = (int)mevent->x;
-            ptry = (int)mevent->y;
-            xoff = x - ptrx;
-            yoff = y - ptry;
-
-            w = canvas->draw_buffer->canvas_physical_width;
-            h = canvas->draw_buffer->canvas_physical_height;
-
-            /* DBG(("ptrx:%d ptry:%d x:%d y:%d w:%d h:%d", ptrx, ptry, x, y, w, h)); */
-
-            if (mouse_warpx == 1) {
-                /* from left to right */
-                if ((ptrx > mouse_lasteventx) && (ptrx >= (w - (MOUSE_WRAP_MARGIN * 2))) && (ptrx <= (w - MOUSE_WRAP_MARGIN))) {
-                    mouse_warpx = 0;
-                    mouse_lasteventx = ptrx;
-                }
-            } else if (mouse_warpx == 2) {
-                /* from right to left */
-                if ((ptrx < mouse_lasteventx) && (ptrx <= (MOUSE_WRAP_MARGIN * 2)) && (ptrx >= MOUSE_WRAP_MARGIN)) {
-                    mouse_warpx = 0;
-                    mouse_lasteventx = ptrx;
-                }
-            }
-
-            if (mouse_warpy == 1) {
-                /* from top to bottom */
-                if ((ptry > mouse_lasteventy) && (ptry >= (h - (MOUSE_WRAP_MARGIN * 2))) && (ptry <= (h - MOUSE_WRAP_MARGIN))) {
-                    mouse_warpy = 0;
-                    mouse_lasteventy = ptry;
-                }
-            } else if (mouse_warpy == 2) {
-                /* from bottom to top */
-                if ((ptry < mouse_lasteventy) && (ptry <= (MOUSE_WRAP_MARGIN * 2)) && (ptry >= MOUSE_WRAP_MARGIN)) {
-                    mouse_warpy = 0;
-                    mouse_lasteventy = ptry;
-                }
-            }
-
-            if (mouse_warped || mouse_warpx || mouse_warpy) {
-                /* ignore this event, its the result of us having moved the pointer */
-                /* DBG(("warped!:%d/%d/%d ptrx:%d ptry:%d lastx:%d lasty:%d", mouse_warped, mouse_warpx, mouse_warpy, ptrx, ptry, mouse_lasteventx, mouse_lasteventy)); */
-                if (mouse_warped) {
-                    --mouse_warped;
-                }
-            } else {
-
-                if (ptrx < MOUSE_WRAP_MARGIN) {
-                    /* from left to right */
-                    mouse_lasteventx = ptrx;
-                    ptrx = w - (MOUSE_WRAP_MARGIN + 10);
-                    mouse_warpx = 1;
-                    warp = 1;
-                }
-                else if (ptrx > (w - MOUSE_WRAP_MARGIN)) {
-                    /* from right to left */
-                    mouse_lasteventx = ptrx;
-                    ptrx = (MOUSE_WRAP_MARGIN + 10);
-                    mouse_warpx = 2;
-                    warp = 1;
-                }
-
-                if (ptry < (MOUSE_WRAP_MARGIN)) {
-                    /* from top to bottom */
-                    mouse_lasteventy = ptry;
-                    ptry = (h - (MOUSE_WRAP_MARGIN + 10));
-                    mouse_warpy = 1;
-                    warp = 1;
-                } else if (ptry > (h - MOUSE_WRAP_MARGIN)) {
-                    /* from bottom to top */
-                    mouse_lasteventy = ptry;
-                    ptry = (MOUSE_WRAP_MARGIN + 10);
-                    mouse_warpy = 2;
-                    warp = 1;
-                }
-                /* DBG(("warp:%d ptrx:%d ptry:%d x:%d y:%d w:%d h:%d", warp, ptrx, ptry, x, y, w, h)); */
-
-                if (warp) {
-                    /* set new cusor position */
-                    ++mouse_warped;
-                    /* DBG(("warp to: x:%d y:%d", ptrx, ptry)); */
-                    gdk_display_warp_pointer (display, screen, ptrx + xoff, ptry + yoff);
-                } else {
-                    mouse_dx = (ptrx - mouse_lasteventx) * 2 / (canvas->videoconfig->doublesizex + 1);
-                    mouse_dy = (ptry - mouse_lasteventy) * 2 / (canvas->videoconfig->doublesizey + 1);
-                    DBG(("mouse move dx:%8d dy:%8d", mouse_dx, mouse_dy));
-                    mouse_move((float)mouse_dx, (float)mouse_dy);
-                    mouse_lasteventx = ptrx;
-                    mouse_lasteventy = ptry;
-                }
-            }
-        }
-#ifdef HAVE_FULLSCREEN
-        fullscreen_mouse_moved(canvas, (int)mevent->x, (int)mevent->y, 0);
-#endif
-   }
-}
-
-/*
-    connected to the "leave-notify-event" of the pane, generates an extra mouse
-    event to make sure the cursor can not escape the wraparound area. needed
-    because the area handled by mouse grab includes the menu and statusbar.
-*/
-static gboolean mouse_handler_wrap(GtkWidget *w, GdkEventCrossing *e, gpointer p)
-{
-    if (_mouse_enabled)
-    {
-        GdkEventMotion mevent;
-
-        DBG(("mouse_handler_wrap"));
-
-        mevent.x = e->x;
-        mevent.y = e->y;
-        mevent.type = GDK_MOTION_NOTIFY;
-
-        mouse_warped = 0;
-        mouse_warpx = 0;
-        mouse_warpy = 0;
-
-        mouse_handler(w, (GdkEvent*)&mevent, p);
-    }
-    return 0;
-}
-
-/* Event handler for popup menus */
-static gboolean update_menu_cb(GtkWidget *w, GdkEvent *event,gpointer data)
-{
-    ui_menu_update_all_GTK();
     return 0;
 }
 
@@ -962,6 +589,32 @@ int ui_init_finalize(void)
     return 0;
 }
 
+/******************************************************************************/
+
+void ui_shutdown(void)
+{
+    ui_common_shutdown();
+}
+
+#if 0
+typedef struct {
+    char *name;
+    GdkVisualType class;
+} namedvisual_t;
+#endif
+
+/* exit the application */
+static gboolean delete_event_callback(GtkWidget *w, GdkEvent *e, gpointer data) 
+{
+    vsync_suspend_speed_eval();
+    ui_exit();
+    /* ui_exit() will exit the application if user allows it. So if
+       we return here then we should keep going => return TRUE */
+    return TRUE;
+}
+
+/******************************************************************************/
+
 #ifdef USE_XF86_EXTENSIONS
 int x11ui_get_display_depth(void)
 {
@@ -988,139 +641,6 @@ int x11ui_get_screen(void)
     return screen;
 }
 #endif
-
-/*******************************************************************************
- * Drag and Drop support
- *******************************************************************************/
-
-/* Define a list of data types called "targets" that a destination widget will
- * accept. The string type is arbitrary, and negotiated between DnD widgets by
- * the developer. An enum or GQuark can serve as the integer target id. */
-enum {
-    TARGET_STRING,
-};
-
-#if 0
-/* datatype (string), restrictions on DnD (GtkTargetFlags), datatype (int) */
-static GtkTargetEntry target_list[] = {
-        { "STRING",     0, TARGET_STRING },
-        { "text/plain", 0, TARGET_STRING },
-};
-#endif
-
-static int dropdata = 0;
-static int (*drop_cb)(char*) = NULL; 
-
-/* Emitted when the user releases (drops) the selection. It should check that
- * the drop is over a valid part of the widget (if its a complex widget), and
- * itself to return true if the operation should continue. Next choose the
- * target type it wishes to ask the source for. Finally call gtk_drag_get_data
- * which will emit "drag-data-get" on the source. */
-static gboolean drag_drop_handler(GtkWidget *widget, GdkDragContext *context, 
-    gint x, gint y, guint time, gpointer user_data)
-{
-    GdkAtom target_type;
-
-    DBG(("drag_drop_handler"));
-
-    /* If the source offers a target */
-    if (context-> targets) {
-        /* Choose the best target type */
-        target_type = GDK_POINTER_TO_ATOM(g_list_nth_data (context->targets, TARGET_STRING));
-
-        dropdata = 1;
-        /* Request the data from the source. */
-        gtk_drag_get_data(
-            widget,         /* will receive 'drag-data-received' signal */
-            context,        /* represents the current state of the DnD */
-            target_type,    /* the target type we want */
-            time            /* time stamp */
-        );
-        return TRUE;
-    }
-    /* No target offered by source => error */
-    return FALSE;
-}
-
-/* Emitted when the data has been received from the source. It should check
- * the GtkSelectionData sent by the source, and do something with it. Finally
- * it needs to finish the operation by calling gtk_drag_finish, which will emit
- * the "data-delete" signal if told to. */
-static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *context, 
-    gint x, gint y, GtkSelectionData *selection_data, guint target_type, guint time,
-    gpointer data)
-{
-    char *filename, *p;
-    gboolean dnd_success = FALSE;
-    gboolean delete_selection_data = FALSE;
-
-    DBG(("drag_data_received_handler"));
-
-    /* Deal with what we are given from source */
-    if(dropdata && (selection_data != NULL) && (selection_data->length >= 0))
-    {
-        dropdata = 0;
-        if (context->action == GDK_ACTION_MOVE) {
-            delete_selection_data = TRUE;
-        }
-
-        /* FIXME; Check that we got a format we can use */
-        filename = (char*)selection_data->data;
-        DBG(("DnD got string: %s", filename));
-        dnd_success = TRUE;
-
-        /* the filename may be an URI starting with file: and/or a varying
-           number of forward slashes (skip them) */
-        if (strncasecmp("file:", filename, 5) == 0) {
-            filename += 5;
-        }
-        while ((filename[0] == '/') && (filename[1] == '/')) {
-            filename++;
-        }
-        /* incase we got a list of files, terminate the list after the first
-           file */
-        p = filename;
-        while (p) {
-            if ((*p == '\n') || (*p == '\r')) {
-                *p = 0;
-                break;
-            }
-            p++;
-        }
-        DBG(("DnD using filename: '%s'", filename));
-        /* finally call the drop callback set by the individual ui */
-        if (drop_cb) {
-            drop_cb(filename);
-        }
-    }
-
-    if (dnd_success == FALSE) {
-        DBG(("DnD data transfer failed!"));
-    }
-
-    gtk_drag_finish (context, dnd_success, delete_selection_data, time);
-}
-
-static void set_drop_target_widget(GtkWidget *w)
-{
-    gtk_drag_dest_set(w, 
-        GTK_DEST_DEFAULT_ALL, 
-        NULL, /* set targets to NULL */
-        0, 
-        GDK_ACTION_COPY | GDK_ACTION_MOVE /* must be copy AND move or it won't 
-                                             work with all WMs / Filemanagers */
-    );
-    gtk_drag_dest_add_text_targets(w); /* add text targets */
-    gtk_drag_dest_add_uri_targets(w); /* add uri targets, to eg include nautilus list view drops */
-
-    g_signal_connect (G_OBJECT(w), "drag-data-received", G_CALLBACK(drag_data_received_handler), NULL);
-    g_signal_connect (G_OBJECT(w), "drag-drop", G_CALLBACK(drag_drop_handler), NULL);
-}
-
-void ui_set_drop_callback(void *cb)
-{
-    drop_cb = cb;
-}
 
 /******************************************************************************/
 
@@ -1155,16 +675,14 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     g_signal_connect(G_OBJECT(new_canvas), "configure-event", G_CALLBACK(configure_callback_canvas), (void*)c);
     g_signal_connect(G_OBJECT(new_canvas), "expose-event", G_CALLBACK(exposure_callback_canvas), (void*)c);
     g_signal_connect(G_OBJECT(new_canvas), "enter-notify-event", G_CALLBACK(enter_window_callback), (void *)c);
+    g_signal_connect(G_OBJECT(new_canvas), "focus-in-event", G_CALLBACK(enter_window_callback), (void *) c);
+    g_signal_connect(G_OBJECT(new_canvas), "visibility-notify-event", G_CALLBACK(enter_window_callback), (void *) c);
     g_signal_connect(G_OBJECT(new_canvas), "leave-notify-event", G_CALLBACK(leave_window_callback), (void *)c);
     g_signal_connect(G_OBJECT(new_canvas), "focus-out-event", G_CALLBACK(leave_window_callback), (void *)c);
     g_signal_connect(G_OBJECT(new_canvas), "map-event", G_CALLBACK(map_callback), NULL);
-    g_signal_connect(G_OBJECT(new_canvas), "button-press-event", G_CALLBACK(mouse_handler), (void *) c);
-    g_signal_connect(G_OBJECT(new_canvas), "button-release-event", G_CALLBACK(mouse_handler), (void *) c);
-    g_signal_connect(G_OBJECT(new_canvas), "motion-notify-event", G_CALLBACK(mouse_handler), (void *) c);
-    g_signal_connect(G_OBJECT(new_canvas), "key-press-event", G_CALLBACK(kbd_event_handler), (void *) c);
-    g_signal_connect(G_OBJECT(new_canvas), "key-release-event", G_CALLBACK(kbd_event_handler), (void *) c);
-    g_signal_connect(G_OBJECT(new_canvas), "focus-in-event", G_CALLBACK(enter_window_callback), (void *) c);
-    g_signal_connect(G_OBJECT(new_canvas), "visibility-notify-event", G_CALLBACK(enter_window_callback), (void *) c);
+
+    mouse_connect_handler(new_canvas, (void*)c);
+    kbd_connect_handler(new_canvas, (void*)c);
 
     if (c->videoconfig->hwscale) {
         /* For hwscale, it's a feature that new_canvas must bloat to 100% size
@@ -1229,7 +747,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     GtkWidget *new_window, *topmenu, *panelcontainer, *sb, *pal_ctrl_widget = NULL;
     GtkAccelGroup* accel;
     GdkColor black = { 0, 0, 0, 255 };
-    int i;
     gint window_width, window_height, window_xpos, window_ypos;
 
     DBG(("ui_open_canvas_window %p (w: %d h: %d)", c, w, h));
@@ -1255,18 +772,20 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_container_add(GTK_CONTAINER(new_window), panelcontainer);
     gtk_widget_show(panelcontainer);
 
+    /* create the menu bar */
     topmenu = gtk_menu_bar_new();
     gtk_widget_show(topmenu);
-    g_signal_connect(G_OBJECT(topmenu), "button-press-event", G_CALLBACK(update_menu_cb), NULL);
+    g_signal_connect(G_OBJECT(topmenu), "button-press-event", G_CALLBACK(update_menu_callback), NULL);
     gtk_box_pack_start(GTK_BOX(panelcontainer), topmenu, FALSE, TRUE, 0);
 
     c->pane = gtk_event_box_new();
     gtk_widget_modify_bg(c->pane, GTK_STATE_NORMAL, &black);
     gtk_box_pack_start(GTK_BOX(panelcontainer), c->pane, TRUE, TRUE, 0);
     gtk_widget_show(c->pane);
-    g_signal_connect(G_OBJECT(c->pane), "leave-notify-event", G_CALLBACK(mouse_handler_wrap), (void*)c);
 
-    gtk_widget_show(new_window);
+    mouse_connect_wrap_handler(c->pane, (void*)c);
+
+    /* create the window canvas widget */
     if (machine_class == VICE_MACHINE_VSID) {
         GtkWidget *new_canvas = build_vsid_ctrl_widget();
         gtk_container_add(GTK_CONTAINER(c->pane), new_canvas);
@@ -1276,6 +795,12 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         build_screen_canvas_widget(c);
     }
 
+    /* FIXME: we want to show the window as late as possible, when the final
+              size is known. currently at least the tape widget does some stuff
+              at init time that prevents us from doing it later */
+    gtk_widget_show(new_window);
+
+    /* create the status bar area */
     sb = ui_create_status_bar(panelcontainer);
     if (machine_class != VICE_MACHINE_VSID) {
         pal_ctrl_widget = build_pal_ctrl_widget(c, &app_shells[num_app_shells - 1].pal_ctrl_data);
@@ -1289,10 +814,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     }
 #endif
     g_signal_connect(G_OBJECT(new_window), "configure-event", G_CALLBACK(configure_callback_app), (void*)c);
-    g_signal_connect(G_OBJECT(new_window), "enter-notify-event", G_CALLBACK(kbd_event_handler), NULL);
-    g_signal_connect(G_OBJECT(new_window), "leave-notify-event", G_CALLBACK(kbd_event_handler), NULL);
-    g_signal_connect(G_OBJECT(new_window), "delete_event", G_CALLBACK(delete_event), NULL);
-    g_signal_connect(G_OBJECT(new_window), "destroy_event", G_CALLBACK(delete_event), NULL);
+    g_signal_connect(G_OBJECT(new_window), "delete_event", G_CALLBACK(delete_event_callback), NULL);
+    g_signal_connect(G_OBJECT(new_window), "destroy_event", G_CALLBACK(delete_event_callback), NULL);
+    kbd_connect_enterleave_handler(new_window, NULL);
 
     set_drop_target_widget(new_window);
 
@@ -1331,36 +855,17 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
             return -1;
         }
 
-        /* This is necessary because the status might have been set before we
-        actually open the canvas window. e.g. by commandline */
-        ui_enable_drive_status(enabled_drives, drive_active_led);
-
-        /* make sure that all drive status widgets are initialized.
-        This is needed for proper dual disk/dual led drives (8050, 8250). */
-        for (i = 0; i < NUM_DRIVES; i++) {
-            ui_display_drive_led(i, 1000, 1000);
-        }
-
-        ui_style_red = gtk_style_new();
-        ui_style_red->fg[GTK_STATE_NORMAL] = drive_led_on_red_pixel;
-        ui_style_red->fg[GTK_STATE_ACTIVE] = drive_led_on_red_pixel;
-        ui_style_red->fg[GTK_STATE_SELECTED] = drive_led_on_red_pixel;
-        ui_style_red->fg[GTK_STATE_PRELIGHT] = drive_led_on_red_pixel;
-        gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
-        gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
-
-        ui_style_green = gtk_style_new();
-        ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
-        ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
-        ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
-        ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
-        gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
-
-        initBlankCursor();
+        ui_init_drive_status_widget();
+        ui_init_checkbox_style();
+        mouse_init_cursor();
         gtk_init_lightpen();
 
         c->offx = c->geometry->screen_size.width - w;
     }
+
+    /* FIXME: ideally we want to do this last */
+    /* gtk_widget_show(new_window); */
+
 /*
 explicitly setup the events we want to handle. the following are the remaining
 events that are NOT handled:
@@ -1388,62 +893,6 @@ GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child wind
                             GDK_EXPOSURE_MASK);
 
     return 0;
-}
-
-/* Attach `w' as the left menu of all the current open windows.  */
-void ui_set_left_menu(ui_menu_entry_t *menu)
-{
-    int i;
-    static GtkAccelGroup *accel;
-
-    DBG(("ui_set_left_menu"));
-
-    ui_block_shells();
-
-    if (accel) {
-        g_object_unref(accel);
-    }
-
-    accel = gtk_accel_group_new();
-    for (i = 0; i < num_app_shells; i++) {
-        gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
-    }
-
-    if (left_menu != NULL) {
-        gtk_widget_destroy(left_menu);
-    }
-    left_menu = gtk_menu_new();
-    ui_menu_create(left_menu, accel, "LeftMenu", menu);
-
-    ui_unblock_shells();
-}
-
-/* Attach `w' as the right menu of all the current open windows.  */
-void ui_set_right_menu(ui_menu_entry_t *menu)
-{
-    int i;
-    static GtkAccelGroup *accel;
-
-    DBG(("ui_set_right_menu"));
-
-    ui_block_shells();
-
-    if (accel) {
-        g_object_unref(accel);
-    }
-
-    accel = gtk_accel_group_new();
-    for (i = 0; i < num_app_shells; i++) {
-        gtk_window_add_accel_group (GTK_WINDOW (app_shells[i].shell), accel);
-    }
-
-    if (right_menu != NULL) {
-        gtk_widget_destroy(right_menu);
-    }
-    right_menu = gtk_menu_new();
-    ui_menu_create(right_menu, accel, "RightMenu", menu);
-
-    ui_unblock_shells();
 }
 
 void ui_set_topmenu(ui_menu_entry_t *menu)
@@ -1478,50 +927,7 @@ void ui_set_application_icon(const char *icon_data[])
     }
 }
 
-/* ------------------------------------------------------------------------- */
-
-void ui_exit(void)
-{
-    ui_button_t b;
-    int value;
-    char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
-
-#ifdef HAVE_FULLSCREEN
-    fullscreen_suspend(1);
-#endif
-    resources_get_int("ConfirmOnExit", &value);
-    if (value) {
-        b = ui_ask_confirmation(s, _("Do you really want to exit?"));
-    } else {
-        b = UI_BUTTON_YES;
-    }
-
-    if (b == UI_BUTTON_YES) {
-        resources_get_int("SaveResourcesOnExit", &value);
-        if (value) {
-            b = ui_ask_confirmation(s, _("Save the current settings?"));
-            if (b == UI_BUTTON_YES) {
-                if (resources_save(NULL) < 0) {
-                    ui_error(_("Cannot save settings."));
-                }
-            } else if (b == UI_BUTTON_CANCEL) {
-                lib_free(s);
-                return;
-            }
-        }
-        ui_autorepeat_on();
-        ui_restore_mouse();
-#ifdef HAVE_FULLSCREEN
-        fullscreen_suspend(0);
-#endif
-        ui_dispatch_events();
-
-        lib_free(s);
-        exit(0);
-    }
-    lib_free(s);
-    vsync_suspend_speed_eval();
-}
+/******************************************************************************/
 
 
 /* Dispatch the next Xt event.  If not pending, wait for it. */
@@ -1538,7 +944,7 @@ void ui_dispatch_events(void)
     }
 }
 
-/*
+/*******************************************************************************
     enable / disable fullscreen mode
 
     NOTE: we must make sure that no events resulting from operations done in
@@ -1546,7 +952,7 @@ void ui_dispatch_events(void)
           ->fullscreenconfig->enable for the active canvas.
 
     FIXME: this is still buggy when changing mode rapidly, eg by holding ALT-D
- */
+*******************************************************************************/
 static volatile int fslock = 0;
 static int fsoldx = 0, fsoldy = 0, fsoldw = WINDOW_MINW, fsoldh = WINDOW_MINH;
 
@@ -1684,6 +1090,8 @@ static void toggle_aspect(video_canvas_t *canvas)
 #endif
     }
 }
+
+/******************************************************************************/
 
 static gfloat get_aspect(video_canvas_t *canvas)
 {
@@ -1829,6 +1237,21 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     DBG(("ui_resize_canvas_window exit (w:%d h:%d)", window_width, window_height));
 }
 
+/*
+    trigger recalculation of screen/window dimensions
+ */
+void ui_trigger_resize(void)
+{
+    GtkWidget *toplevel = get_active_toplevel();
+    if ((toplevel) && (toplevel->window)) {
+        DBG(("ui_trigger_resize"));
+        gdk_flush();
+        gdk_window_raise(toplevel->window);
+    }
+}
+
+/******************************************************************************/
+
 void x11ui_move_canvas_window(ui_window_t w, int x, int y)
 {
     DBG(("x11ui_move_canvas_window x:%d y:%d", x, y));
@@ -1863,6 +1286,8 @@ void x11ui_destroy_widget(ui_window_t w)
     gtk_widget_destroy(w);
 }
 
+/******************************************************************************/
+/* these are just dummies (and we really should leave it to the WM) */
 
 /* Enable autorepeat. */
 void ui_autorepeat_on(void)
@@ -1874,6 +1299,8 @@ void ui_autorepeat_off(void)
 {
 }
 #endif
+
+/******************************************************************************/
 
 void ui_make_window_transient(GtkWidget *parent,GtkWidget *window)
 {
@@ -1953,11 +1380,20 @@ void ui_unblock_shells(void)
         } else {
             gdk_pointer_grab(canvas->emuwindow->window, 1, 0, 
                             canvas->emuwindow->window, 
-                            blankCursor, GDK_CURRENT_TIME);
+                            NULL, GDK_CURRENT_TIME);
         }
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
         ui_check_mouse_cursor();
     }
+}
+
+/* ------------------------------------------------------------------------- */
+
+/* Event handler for menu bar menus */
+static gboolean update_menu_callback(GtkWidget *w, GdkEvent *event,gpointer data)
+{
+    ui_menu_update_all_GTK();
+    return 0;
 }
 
 /* Pop up a popup shell and center it to the last visited AppShell */
@@ -2015,7 +1451,7 @@ void ui_popdown(GtkWidget *w)
 
 /* Miscellaneous callbacks.  */
 
-gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
+static gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     DBG(("enter_window_callback %p", p));
 
@@ -2033,7 +1469,7 @@ gboolean enter_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     return 0;
 }
 
-gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
+static gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 {
     DBG(("leave_window_callback %p", p));
 #ifdef HAVE_FULLSCREEN
@@ -2042,7 +1478,7 @@ gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
     return 0;
 }
 
-gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
+static gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
 {
 #ifdef HAVE_HWSCALE
     video_canvas_t *canvas = (video_canvas_t *)user_data;
@@ -2063,7 +1499,7 @@ gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
     return FALSE;
 }
 
-gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
+static gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
 #ifdef HAVE_HWSCALE
@@ -2150,7 +1586,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEventConfigure *e, gpointer 
   connected to "configure-event" of the window, which is emitted to size, 
   position and stack order events. 
 */
-gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
+static gboolean configure_callback_app(GtkWidget *w, GdkEventConfigure *e, gpointer client_data)
 {
     video_canvas_t *canvas = (video_canvas_t *) client_data;
     app_shell_type *appshell;
@@ -2300,16 +1736,3 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
     return 0;
 }
 
-/* ------------------------------------------------------------------------- */
-/*
-    trigger recalculation of screen/window dimensions
- */
-void ui_trigger_resize(void)
-{
-    GtkWidget *toplevel = get_active_toplevel();
-    if ((toplevel) && (toplevel->window)) {
-        DBG(("ui_trigger_resize"));
-        gdk_flush();
-        gdk_window_raise(toplevel->window);
-    }
-}

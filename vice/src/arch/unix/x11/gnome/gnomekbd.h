@@ -1,5 +1,5 @@
 /*
- * uidrivestatus.h - GTK only, UI controls for Drive emulation
+ * gnomekbd.h - GTK Keyboard driver
  *
  * Written by
  *  groepaz <groepaz@gmx.net>
@@ -24,13 +24,11 @@
  *
  */
  
-#ifndef UIDRIVESTATUS_H_
-#define UIDRIVESTATUS_H_
+#ifndef GNOMEKBD_H_
+#define GNOMEKBD_H_
 
-#include "uiarch.h"
-
-extern GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window);
-extern void ui_init_drive_status_widget(void);
+extern void kbd_connect_handler(GtkWidget *widget, void *data);
+extern void kbd_connect_enterleave_handler(GtkWidget *widget, void *data);
 
 #endif
  

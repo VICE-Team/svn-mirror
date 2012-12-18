@@ -44,12 +44,15 @@
 #include "videoarch.h"
 
 
-extern int screen;
-extern GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
-extern GdkColor drive_led_on_red_pixels[16];
-extern GdkColor drive_led_on_green_pixels[16];
+extern int screen; /* FIXME */
 
-void uicolor_init_video_colors();
+/* UI color constants shared by GUI elements */
+GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel;
+GdkColor drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
+GdkColor drive_led_on_red_pixels[16];
+GdkColor drive_led_on_green_pixels[16];
+
+void uicolor_init_video_colors(void);
 
 /*-----------------------------------------------------------------------*/
 

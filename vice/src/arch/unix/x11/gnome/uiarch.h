@@ -34,7 +34,15 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+/* #define DEBUG_X11UI */
+/* #define DEBUGMOUSECURSOR */  /* dont use a blank mouse cursor */
+/* #define DEBUGNOMOUSEGRAB */  /* dont grab mouse */
+/* #define DEBUG_KBD */
+/* #define DEBUGNOKBDGRAB */    /* dont explicitly grab keyboard focus */
+
 #include "vice.h"
+
+#include "log.h"
 #include "ui.h"
 #include "uiapi.h"
 
@@ -155,5 +163,14 @@ extern int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable);
 extern void ui_set_drop_callback(void *cb);
 
 extern unsigned char *convert_utf8(unsigned char *s);
+
+/* UI logging goes here.  */
+extern log_t ui_log;
+
+/* color constants used by the GUI */
+extern GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel;
+extern GdkColor drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
+extern GdkColor drive_led_on_red_pixels[16];
+extern GdkColor drive_led_on_green_pixels[16];
 
 #endif /* !defined (_UIARCH_H) */

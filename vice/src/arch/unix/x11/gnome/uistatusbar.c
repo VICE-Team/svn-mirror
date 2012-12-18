@@ -63,6 +63,9 @@ GtkWidget *event_playback_checkbox_label;
 static GtkWidget *speed_menu;
 static int statustext_display_time = 0;
 
+static GtkStyle *ui_style_red;
+static GtkStyle *ui_style_green;
+
 /* ------------------------------------------------------------------------- */
 static void ui_update_video_checkbox (GtkWidget *w, gpointer data);
 static void ui_update_event_checkbox (GtkWidget *w, gpointer data);
@@ -145,6 +148,25 @@ void ui_display_playback(int playback_status, char *version)
     } else {
         gtk_widget_hide(event_playback_checkbox);
     }
+}
+
+/* called from ui_open_canvas_window */
+void ui_init_checkbox_style(void)
+{
+    ui_style_red = gtk_style_new();
+    ui_style_red->fg[GTK_STATE_NORMAL] = drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_ACTIVE] = drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_SELECTED] = drive_led_on_red_pixel;
+    ui_style_red->fg[GTK_STATE_PRELIGHT] = drive_led_on_red_pixel;
+    gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
+    gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
+
+    ui_style_green = gtk_style_new();
+    ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
+    ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
+    gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
 }
 
 /* Display a message in the title bar indicating that the emulation is

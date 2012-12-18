@@ -43,6 +43,7 @@
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
+#include "resources.h"
 #include "ui.h"
 #include "uiarch.h"
 #include "util.h"
@@ -336,3 +337,48 @@ void ui_error(const char *format, ...)
     va_end(ap);
     ui_message2(GTK_MESSAGE_ERROR, str, _("VICE Error!"));
 }
+
+void ui_exit(void)
+{
+    ui_button_t b;
+    int value;
+    char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
+
+#ifdef HAVE_FULLSCREEN
+    fullscreen_suspend(1);
+#endif
+    resources_get_int("ConfirmOnExit", &value);
+    if (value) {
+        b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+    } else {
+        b = UI_BUTTON_YES;
+    }
+
+    if (b == UI_BUTTON_YES) {
+        resources_get_int("SaveResourcesOnExit", &value);
+        if (value) {
+            b = ui_ask_confirmation(s, _("Save the current settings?"));
+            if (b == UI_BUTTON_YES) {
+                if (resources_save(NULL) < 0) {
+                    ui_error(_("Cannot save settings."));
+                }
+            } else if (b == UI_BUTTON_CANCEL) {
+                lib_free(s);
+                return;
+            }
+        }
+        /* ui_autorepeat_on(); */
+        ui_restore_mouse();
+#ifdef HAVE_FULLSCREEN
+        fullscreen_suspend(0);
+#endif
+        ui_dispatch_events();
+
+        lib_free(s);
+        exit(0);
+    }
+    lib_free(s);
+    vsync_suspend_speed_eval();
+}
+
+
