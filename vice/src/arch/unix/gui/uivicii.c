@@ -157,8 +157,14 @@ UI_MENU_DEFINE_TOGGLE(UseXSync)
 #endif
 
 #ifdef HAVE_HWSCALE
-UI_MENU_DEFINE_TOGGLE(KeepAspectRatio)
-UI_MENU_DEFINE_TOGGLE(TrueAspectRatio)
+static int get_aspect_enabled(int m)
+{
+    int n;
+    resources_get_int("VICIIHwScale", &n);
+    return n && m;
+}
+UI_MENU_DEFINE_TOGGLE_COND(KeepAspectRatio, VICIIHwScale, NOTHING)
+UI_MENU_DEFINE_TOGGLE_COND(TrueAspectRatio, KeepAspectRatio, get_aspect_enabled)
 #ifndef USE_GNOMEUI
 #ifdef HAVE_XVIDEO
 extern UI_CALLBACK(set_custom_aspect_ratio);
