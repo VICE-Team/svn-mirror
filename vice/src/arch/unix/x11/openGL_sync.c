@@ -40,6 +40,7 @@
 #include "videoarch.h"
 #include "x11ui.h"
 #include "log.h"
+#include "machine.h"
 #include "openGL_sync.h"
 #include "resources.h"
 #include "uiapi.h"
@@ -104,7 +105,7 @@ void openGL_sync_with_raster(void)
     unsigned int c;
     if (openGL_sync && !no_sync) {
         if ((r = glXWaitVideoSyncSGI(1, 0, &c))) {
-            log_error(openGL_log, "glXWaitVideoSyncSGI() returned %d", r);
+            log_error(openGL_log, "GL: glXWaitVideoSyncSGI() returned %d", r);
         }
     }
 }
@@ -136,7 +137,7 @@ void init_openGL(void)
     dpy = x11ui_get_display_ptr();
     vi = glXChooseVisual(dpy, DefaultScreen(dpy), attributeListSgl); 
     if (vi == NULL) {
-        log_error(openGL_log, "glXChooseVisual() failed");
+        log_error(openGL_log, "GL: glXChooseVisual() failed");
         no_sync = 1;
         return;
     }
@@ -147,7 +148,7 @@ void init_openGL(void)
 
     cx = glXCreateContext(dpy, vi, 0, GL_TRUE);
     if (!cx) {
-        log_error(openGL_log, "glXCreateContext() failed");
+        log_error(openGL_log, "GL: GL: glXCreateContext() failed");
         no_sync = 1;
         return;
     }
@@ -183,7 +184,7 @@ static int check_openGL(Display *dpy)
         t2 = strtok(t1, " ");
         while (t2) {
             if (strcmp(t2, "GLX_SGI_video_sync") == 0) {
-                log_message(openGL_log, "GLX_SGI_video_sync extension is supported");
+                log_message(openGL_log, "GL: GLX_SGI_video_sync extension is supported");
                 lib_free(t1);
                 return 0;
             }
@@ -191,14 +192,14 @@ static int check_openGL(Display *dpy)
         }
         lib_free(t1);
     }
-    log_message(openGL_log, "GLX_SGI_video_sync extension not supported");
+    log_message(openGL_log, "GL: GLX_SGI_video_sync extension not supported");
 
     return 1;
 }
 
 static int set_openGL_sync(int val, void *param)
 {
-    if (no_sync) {
+    if ((no_sync) || (machine_class == VICE_MACHINE_VSID)) {
         return 0;
     }
 
@@ -206,8 +207,7 @@ static int set_openGL_sync(int val, void *param)
     if (openGL_sync && openGL_initialized) {
         init_openGL();
     }
-
-    log_message(openGL_log, "%s openGL_sync", openGL_sync? "enabling" : "disabling");
+    log_message(openGL_log, "GL: %s openGL_sync", openGL_sync? "enabling" : "disabling");
     ui_update_menus();
     return 0;
 }

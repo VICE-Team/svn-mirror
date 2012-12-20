@@ -118,26 +118,28 @@ static void mouse_cursor_grab(int grab, GdkCursor *cursor)
 void ui_check_mouse_cursor(void)
 {
 #ifdef HAVE_FULLSCREEN
-    video_canvas_t *canvas;
-    if ((canvas = get_active_canvas()) == NULL) {
-        log_error(ui_log, "ui_check_mouse_cursor canvas == NULL");
-        mouse_cursor_grab(0, NULL);
-        return;
-    }
-    if (canvas->fullscreenconfig == NULL) {
-        log_error(ui_log, "ui_check_mouse_cursor canvas->fullscreenconfig == NULL");
-        mouse_cursor_grab(0, NULL);
-        return;
-    }
-
-    if (canvas->fullscreenconfig->enable) {
-        if (_mouse_enabled) {
-            mouse_cursor_grab(1, blankCursor);
-        } else {
-            /* FIXME: this case seems odd */
-            mouse_cursor_grab(1, NULL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        video_canvas_t *canvas;
+        if ((canvas = get_active_canvas()) == NULL) {
+            log_error(ui_log, "ui_check_mouse_cursor canvas == NULL");
+            mouse_cursor_grab(0, NULL);
+            return;
         }
-        return;
+        if (canvas->fullscreenconfig == NULL) {
+            log_error(ui_log, "ui_check_mouse_cursor canvas->fullscreenconfig == NULL");
+            mouse_cursor_grab(0, NULL);
+            return;
+        }
+
+        if (canvas->fullscreenconfig->enable) {
+            if (_mouse_enabled) {
+                mouse_cursor_grab(1, blankCursor);
+            } else {
+                /* FIXME: this case seems odd */
+                mouse_cursor_grab(1, NULL);
+            }
+            return;
+        }
     }
 #endif
     if (_mouse_enabled) {
