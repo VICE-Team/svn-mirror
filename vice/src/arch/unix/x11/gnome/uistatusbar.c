@@ -37,6 +37,7 @@
 
 #include "vice.h"
 
+#include "fullscreenarch.h"
 #include "lib.h"
 #include "machine.h"
 #include "ui.h"
@@ -53,12 +54,12 @@
 #include "videoarch.h"
 
 /* FIXME: we want these to be static */
-GtkWidget *video_ctrl_checkbox;
-GtkWidget *event_rec_checkbox;
-GtkWidget *event_playback_checkbox;
-GtkWidget *video_ctrl_checkbox_label;
-GtkWidget *event_rec_checkbox_label;
-GtkWidget *event_playback_checkbox_label;
+GtkWidget *video_ctrl_checkbox; /* used in uiscreenshot */
+static GtkWidget *event_rec_checkbox;
+GtkWidget *event_playback_checkbox; /* used in uiscreenshot */
+static GtkWidget *video_ctrl_checkbox_label;
+static GtkWidget *event_rec_checkbox_label;
+static GtkWidget *event_playback_checkbox_label;
 
 static GtkWidget *speed_menu;
 static int statustext_display_time = 0;
@@ -339,10 +340,12 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show(drive_box);
         gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
 
-        build_tape_status_widget(as, window);
+        if (machine_class != VICE_MACHINE_C64DTV) {
+            build_tape_status_widget(as, window);
+            gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
+            gtk_widget_show(as->tape_status.event_box);
+        }
 
-        gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
-        gtk_widget_show(as->tape_status.event_box);
         gtk_widget_show(status_bar);
 
         for (i = 0; i < NUM_DRIVES; i++) {
@@ -369,4 +372,39 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     return status_bar;
 }
 
- 
+/* FIXME: we need to know the height of the statusbar when calculating the
+          initial window size and geometry hints. since this currently happens 
+          before we want to show the window, the size is still unknown. this is
+          worked around by using a resource to save the last known size (which
+          probably wont change often :))
+*/
+int statusbar_get_height(video_canvas_t *canvas)
+{
+    app_shell_type *appshell;
+    GtkWidget *sb;
+    int size;
+
+    if (canvas) {
+#ifdef HAVE_FULLSCREEN
+        if (canvas->fullscreenconfig->enable) {
+            return canvas->fullscreenconfig->ui_border_bottom;
+        } else {
+#endif
+            appshell = &app_shells[canvas->app_shell];
+            if (appshell) {
+                sb = appshell->status_bar;
+                if (sb) {
+                    size = sb->allocation.height;
+                    if (size > 5) {
+                        resources_set_int("WindowBotHint", size);
+                    }
+                }
+            }
+#ifdef HAVE_FULLSCREEN
+        }
+#endif
+    }
+    resources_get_int("WindowBotHint", &size);
+    return size;
+}
+

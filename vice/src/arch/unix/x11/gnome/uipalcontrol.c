@@ -234,3 +234,26 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
     *(pal_res_t **)data = ctrldata;
     return f;
 }
+
+int palctrl_get_height(video_canvas_t *canvas)
+{
+    app_shell_type *appshell;
+    GtkWidget *palctrl;
+    if (canvas) {
+        appshell = &app_shells[canvas->app_shell];
+        if (appshell) {
+            palctrl = appshell->pal_ctrl;
+            if (palctrl) {
+                /* return height if visible */
+#if GTK_CHECK_VERSION(2,18,0)
+                if (gtk_widget_get_visible(palctrl)) {
+#else
+                if (GTK_WIDGET_VISIBLE(palctrl)) {
+#endif
+                    return palctrl->allocation.height;
+                }
+            }
+        }
+    }
+    return 0;
+}

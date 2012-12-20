@@ -187,9 +187,23 @@ static int fullscreen_set_fs(int val, void *param)
 }
 #endif
 
-/*
-    FIXME: WindowXXX should be per window (for x128)
-*/
+/* FIXME: these are used to workaround the initial size problem in GTK and
+          should be removed once the X11 ui is completely fixed.
+ */
+#ifdef USE_GNOMEUI
+static int tophint, bothint;
+static int set_tophint(int d, void *param)
+{
+    tophint = d;
+    return 0;
+}
+static int set_bothint(int d, void *param)
+{
+    bothint = d;
+    return 0;
+}
+#endif
+
 static const resource_int_t resources_int[] = {
     { "PrivateColormap", 0, RES_EVENT_NO, NULL,
       &ui_resources.use_private_colormap, set_use_private_colormap, NULL },
@@ -210,6 +224,15 @@ static const resource_int_t resources_int[] = {
 #if defined (USE_XF86_EXTENSIONS) && (defined(USE_XF86_VIDMODE_EXT) || defined (HAVE_XRANDR))
     { "UseFullscreen", 0, RES_EVENT_NO, NULL,
       &ui_resources.fs_enabled_pending, fullscreen_set_fs, NULL },
+#endif
+/* FIXME: these are used to workaround the initial size problem in GTK and
+          should be removed once the X11 ui is completely fixed.
+ */
+#ifdef USE_GNOMEUI
+    { "WindowTopHint", 0, RES_EVENT_NO, NULL,
+      &tophint, set_tophint, NULL },
+    { "WindowBotHint", 0, RES_EVENT_NO, NULL,
+      &bothint, set_bothint, NULL },
 #endif
     { NULL }
 };

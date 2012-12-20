@@ -28,7 +28,10 @@
 #ifndef UIPALCONTROL_H_
 #define UIPALCONTROL_H_
 
-extern GtkWidget *build_pal_ctrl_widget(struct video_canvas_s *canvas, void *data);
+#include "videoarch.h"
+
+extern GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data);
 extern void ui_update_palctrl(void);
+extern int palctrl_get_height(video_canvas_t *canvas);
 
 #endif

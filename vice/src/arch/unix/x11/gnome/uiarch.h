@@ -34,6 +34,10 @@
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
+#if !GTK_CHECK_VERSION(2, 12, 0)
+void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text);
+#endif
+
 /* #define DEBUG_X11UI */
 /* #define DEBUGMOUSECURSOR */  /* dont use a blank mouse cursor */
 /* #define DEBUGNOMOUSEGRAB */  /* dont grab mouse */
