@@ -217,7 +217,11 @@ void parsid_outb(int addr, BYTE value)
 #endif
 #endif
 #ifdef HAVE_IOPERM
+#ifndef HAVE_OUTB_P
+    outb(value, addr);
+#else
     outb_p(value, addr);
+#endif
 #endif
 }
 
@@ -237,7 +241,11 @@ BYTE parsid_inb(int addr)
 #endif
 #endif
 #ifdef HAVE_IOPERM
+#ifndef HAVE_INB_P
+    return inb((unsigned short)addr);
+#else
     return inb_p((unsigned short)addr);
+#endif
 #endif
 }
 

@@ -2299,6 +2299,7 @@ if test x"$is_unix" = "xyes" -a x"$is_unix_gp2x" != "xyes" -a x"$is_unix_wiz" !=
 
     if test x"$PARSID_SUPPORT" = "xno"; then
       AC_CHECK_FUNCS(ioperm,[PARSID_SUPPORT=yes],)
+      AC_CHECK_FUNCS(outb_p inb_p)
     fi
 
     if test x"$PARSID_SUPPORT" = "xyes"; then
