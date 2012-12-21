@@ -527,6 +527,7 @@ static void vsid_create_menus(void)
 
 #ifdef USE_GNOMEUI
     ui_set_topmenu(vsidui_top_menu);
+    ui_set_speedmenu(vsid_run_commands_menu);
 #endif
 
     ui_update_menus();
@@ -560,19 +561,19 @@ void vsid_ui_close(void) /* FIXME: bad name */
 
 void vsid_ui_display_name(const char *name)
 {
-    log_message(LOG_DEFAULT, "Name: %s", name);
+    log_message(LOG_DEFAULT, "VSID: Name: %s", name);
     ui_vsid_setpsid(name);
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    log_message(LOG_DEFAULT, "Author: %s", author);
+    log_message(LOG_DEFAULT, "VSID: Author: %s", author);
     ui_vsid_setauthor(author);
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    log_message(LOG_DEFAULT, "Copyright: %s", copyright);
+    log_message(LOG_DEFAULT, "VSID: Copyright: %s", copyright);
     ui_vsid_setcopyright(copyright);
 }
 
@@ -580,30 +581,30 @@ void vsid_ui_display_sync(int sync)
 {
     char buf[50];
     sprintf(buf, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-    log_message(LOG_DEFAULT, "%s", buf);
+    log_message(LOG_DEFAULT, "VSID: %s", buf);
     ui_vsid_setsync(buf);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    log_message(LOG_DEFAULT, "Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
+    log_message(LOG_DEFAULT, "VSID: Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
     ui_vsid_setmodel(model == 0 ? "MOS6581" : "MOS8580");
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
-    log_message(LOG_DEFAULT, "Default tune: %i", nr);
+    log_message(LOG_DEFAULT, "VSID: Default tune: %i", nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    log_message(LOG_DEFAULT, "Playing tune: %i", nr);
+    log_message(LOG_DEFAULT, "VSID: Playing tune: %i", nr);
     ui_vsid_settune(nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    log_message(LOG_DEFAULT, "Number of tunes: %i", count);
+    log_message(LOG_DEFAULT, "VSID: Number of tunes: %i", count);
 }
 
 void vsid_ui_display_time(unsigned int sec)
@@ -612,7 +613,7 @@ void vsid_ui_display_time(unsigned int sec)
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    log_message(LOG_DEFAULT, "Using %s interrupt", irq);
+    log_message(LOG_DEFAULT, "VSID: Using %s interrupt", irq);
     ui_vsid_setirq(irq);
 }
 
