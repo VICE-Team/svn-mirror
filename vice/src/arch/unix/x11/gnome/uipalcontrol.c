@@ -77,35 +77,40 @@ static pal_templ_t ctrls[] = {
 
 static void pal_ctrl_update_internal(pal_res_t *ctrldata)
 {
-    int rmode, filter, ispal;
+    int i, enabled, rmode, filter, ispal;
     video_canvas_t *canvas;
 
     ctrldata = ctrldata->first;
     canvas= ctrldata->canvas;
 
-    if (canvas) {
-        rmode = canvas->videoconfig->rendermode;
-        filter = canvas->videoconfig->filter;
-        ispal = (rmode == VIDEO_RENDER_PAL_1X1) || (rmode == VIDEO_RENDER_PAL_2X2);
-        if (ispal) {
-            gtk_widget_set_sensitive(ctrldata[3].w, TRUE);
-        } else {
-            gtk_widget_set_sensitive(ctrldata[3].w, FALSE);
+    if (machine_class == VICE_MACHINE_VSID) {
+        enabled = (1 << 9);
+    } else {
+        enabled = 0x3ff;
+        if (canvas) {
+            rmode = canvas->videoconfig->rendermode;
+            filter = canvas->videoconfig->filter;
+            ispal = (rmode == VIDEO_RENDER_PAL_1X1) || (rmode == VIDEO_RENDER_PAL_2X2);
+            if (!ispal) {
+                enabled &= ~(1 << 3);
+            }
+            if (filter != VIDEO_FILTER_CRT) {
+                enabled &= ~((1 << 5) | (1 << 6));
+            }
+            if (!((ispal) && (filter == VIDEO_FILTER_CRT))) {
+                enabled &= ~((1 << 7) | (1 << 8));
+            }
         }
-        if (filter == VIDEO_FILTER_CRT) {
-            gtk_widget_set_sensitive(ctrldata[5].w, TRUE);
-            gtk_widget_set_sensitive(ctrldata[6].w, TRUE);
+    }
+
+    for (i = 0; i < NUMSLIDERS; i++) {
+        gtk_widget_set_sensitive(ctrldata[i].w, (enabled & 1) ? TRUE : FALSE);
+        if (enabled & 1) {
+            gtk_widget_show(ctrldata[i].w);
         } else {
-            gtk_widget_set_sensitive(ctrldata[5].w, FALSE);
-            gtk_widget_set_sensitive(ctrldata[6].w, FALSE);
+            gtk_widget_hide(ctrldata[i].w);
         }
-        if ((ispal) && (filter == VIDEO_FILTER_CRT)) {
-            gtk_widget_set_sensitive(ctrldata[7].w, TRUE);
-            gtk_widget_set_sensitive(ctrldata[8].w, TRUE);
-        } else {
-            gtk_widget_set_sensitive(ctrldata[7].w, FALSE);
-            gtk_widget_set_sensitive(ctrldata[8].w, FALSE);
-        }
+        enabled >>= 1;
     }
 }
 
@@ -152,6 +157,7 @@ void ui_update_palctrl(void)
     for (i = 0; i < num_app_shells; i++) {
         pal_res_t *p = (pal_res_t *)app_shells[i].pal_ctrl_data;
         pal_ctrl_update_internal(p);
+        ui_trigger_window_resize(p->canvas);
     }
 }
 
@@ -166,6 +172,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
     GtkWidget *rb;
     unsigned int i;
     int v;
+    char *name;
     char *resname;
     char *chip;
     pal_res_t *ctrldata;
@@ -173,7 +180,12 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
     chip = canvas->videoconfig->chip_name;
     ctrldata = lib_malloc(sizeof(pal_res_t) * NUMSLIDERS);
 
-    f = gtk_frame_new(_("CRT emulation settings"));
+    /* we cant properly add a margin around the frame label, so we add a
+       leading space instead */
+    name = util_concat(" ", (machine_class != VICE_MACHINE_VSID) ? _("CRT emulation settings") : _("Mixer"), NULL);
+    f = gtk_frame_new(name);
+    gtk_frame_set_label_align(GTK_FRAME(f), 0, 0);
+    gtk_frame_set_shadow_type(GTK_FRAME(f), GTK_SHADOW_IN);
 
     b = gtk_vbox_new(FALSE, 5);
 
@@ -214,24 +226,26 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         ctrldata[i].first = ctrldata;
         ctrldata[i].canvas = canvas;
     }
-    /* "Reset" button */
-    box = gtk_hbox_new(FALSE, 0);
 
-    rb = gtk_button_new_with_label(_("Reset"));
-    gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
-    g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), &ctrldata[0]);
-    GTK_WIDGET_UNSET_FLAGS(rb, GTK_CAN_FOCUS);
-    gtk_widget_show(rb);
+    if (machine_class != VICE_MACHINE_VSID) {
+        /* "Reset" button */
+        box = gtk_hbox_new(FALSE, 0);
 
-    gtk_widget_show(box);
+        rb = gtk_button_new_with_label(_("Reset"));
+        gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
+        g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), &ctrldata[0]);
+        GTK_WIDGET_UNSET_FLAGS(rb, GTK_CAN_FOCUS);
+        gtk_widget_show(rb);
 
-    gtk_box_pack_start(GTK_BOX(b), box, FALSE, FALSE, 5);
+        gtk_widget_show(box);
+        gtk_box_pack_start(GTK_BOX(b), box, FALSE, FALSE, 5);
+    }
     gtk_widget_show(b);
     gtk_container_add(GTK_CONTAINER(f), b);
     gtk_widget_show(f);
 
-    pal_ctrl_update_internal(ctrldata);
     *(pal_res_t **)data = ctrldata;
+    pal_ctrl_update_internal(ctrldata);
     return f;
 }
 

@@ -877,12 +877,12 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
               us from doing this earlier */
     /* create the status bar area */
     app_shells[num_app_shells - 1].status_bar = ui_create_status_bar(panelcontainer);
-    if (machine_class != VICE_MACHINE_VSID) {
-        pal_ctrl_widget = build_pal_ctrl_widget(c, &app_shells[num_app_shells - 1].pal_ctrl_data);
-        gtk_box_pack_end(GTK_BOX(panelcontainer), pal_ctrl_widget, FALSE, FALSE, 0);
-        gtk_widget_hide(pal_ctrl_widget);
-        app_shells[num_app_shells - 1].pal_ctrl = pal_ctrl_widget;
-    }
+    /* crt emu control / mixer */
+    pal_ctrl_widget = build_pal_ctrl_widget(c, &app_shells[num_app_shells - 1].pal_ctrl_data);
+    gtk_box_pack_end(GTK_BOX(panelcontainer), pal_ctrl_widget, FALSE, FALSE, 0);
+    gtk_widget_hide(pal_ctrl_widget);
+    app_shells[num_app_shells - 1].pal_ctrl = pal_ctrl_widget;
+
 
     /* window managers may ignore the move/position requests completely, some may
        only ignore them unless the window is visible, so we explicitly move/resize
@@ -890,7 +890,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     gtk_widget_show(new_window);
     gtk_window_resize(GTK_WINDOW(new_window), window_width, window_height);
     gtk_window_move(GTK_WINDOW(new_window), window_xpos, window_ypos);
-    
+
 #if 0
     if (no_autorepeat) {
         g_signal_connect(G_OBJECT(new_window), "enter-notify-event", G_CALLBACK(ui_autorepeat_off), NULL);
@@ -909,13 +909,13 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         }
 
         ui_init_drive_status_widget();
-        ui_init_checkbox_style();
         mouse_init_cursor();
         gtk_init_lightpen();
 
         c->offx = c->geometry->screen_size.width - w;
     }
 
+    ui_init_checkbox_style();
 /*
 explicitly setup the events we want to handle. the following are the remaining
 events that are NOT handled:
@@ -942,6 +942,7 @@ GDK_SUBSTRUCTURE_MASK          Receive  GDK_STRUCTURE_MASK events for child wind
                             GDK_STRUCTURE_MASK |
                             GDK_EXPOSURE_MASK);
 
+    ui_dispatch_events();
     return 0;
 }
 
@@ -1316,6 +1317,22 @@ void ui_trigger_resize(void)
         DBG(("ui_trigger_resize"));
         gdk_flush();
         gdk_window_raise(toplevel->window);
+    }
+}
+
+void ui_trigger_window_resize(video_canvas_t *canvas)
+{
+    app_shell_type *appshell;
+    int window_xpos, window_ypos, window_width, window_height;
+    GdkEvent event;
+    if (canvas) {
+        appshell = &app_shells[canvas->app_shell];
+        ui_dispatch_events();
+        get_window_resources(canvas, &window_xpos, &window_ypos, &window_width, &window_height);
+        DBG(("ui_trigger_window_resize (w:%d h:%d)", window_width, window_height));
+        event.configure.width = window_width;
+        event.configure.height = window_height - (topmenu_get_height(canvas) + statusbar_get_height(canvas) + palctrl_get_height(canvas));
+        configure_callback_canvas(canvas->emuwindow, &event, canvas);
     }
 }
 

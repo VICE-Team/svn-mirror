@@ -152,6 +152,9 @@ extern int get_active_shell(void);
 extern GdkVisual *visual; /* FIXME: also wrap into a function call */
 extern struct video_canvas_s *get_active_canvas(void);
 
+extern void ui_trigger_resize(void);
+extern void ui_trigger_window_resize(struct video_canvas_s *c);
+
 extern int ui_open_canvas_window(struct video_canvas_s *c, const char *title, int width, int heigth, int no_autorepeat);
 extern void ui_resize_canvas_window(struct video_canvas_s *c);
 extern GtkWidget *ui_create_transient_shell(GtkWidget *parent, const char *name);

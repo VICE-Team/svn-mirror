@@ -29,12 +29,6 @@
 
 /* #define DEBUG_X11UI */
 
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
 #include "vice.h"
 
 #include "fullscreenarch.h"
@@ -43,6 +37,7 @@
 #include "ui.h"
 #include "uiarch.h"
 #include "uicontents.h"
+#include "uicommands.h"
 #include "uidrivestatus.h"
 #include "uimenu.h"
 #include "uitapestatus.h"
@@ -50,8 +45,15 @@
 #include "video.h"
 #include "resources.h"
 #include "screenshot.h"
+#include "sound.h"
 #include "vice-event.h"
 #include "videoarch.h"
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 /* FIXME: we want these to be static */
 GtkWidget *video_ctrl_checkbox; /* used in uiscreenshot */
@@ -89,6 +91,7 @@ void ui_display_statustext(const char *text, int fade_out)
     } else {
         statustext_display_time = 0;
     }
+    ui_update_video_checkbox(video_ctrl_checkbox, NULL);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -97,18 +100,21 @@ void ui_display_statustext(const char *text, int fade_out)
 void ui_display_speed(float percent, float framerate, int warp_flag)
 {
     int i;
-    char str[256];
+    char str[32];
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
     int num_app_shells = get_num_shells();
+    char *warp;
 
     for (i = 0; i < num_app_shells; i++) {
+        warp = (warp_flag ? _("(warp)") : "");
         if (!percent) {
-            gtk_label_set_text(app_shells[i].speed_label, warp_flag ? _("(warp)") : "");
+            str[0] = 0;
         } else {
-            sprintf(str, "%d%%, %d fps %s", percent_int, framerate_int, warp_flag ? _("(warp)") : "");
-            gtk_label_set_text(app_shells[i].speed_label, str);
+            sprintf(str, "%d%%, %d fps ", percent_int, framerate_int);
         }
+        /* we cant properly add a margin around the label, so we add a leading space instead */
+        gtk_label_set_text(app_shells[i].speed_label, util_concat(" ", &str[0], warp, NULL));
     }
     if (statustext_display_time > 0) {
         statustext_display_time--;
@@ -116,11 +122,8 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
             statusbar_setstatustext("");
         }
     }
-    if (machine_class != VICE_MACHINE_VSID) {
-        if (!screenshot_is_recording()) {
-            ui_update_video_checkbox(video_ctrl_checkbox, NULL);
-        }
-    }
+
+    ui_update_video_checkbox(video_ctrl_checkbox, NULL);
 }
 
 void ui_set_speedmenu(ui_menu_entry_t *menu)
@@ -160,14 +163,17 @@ void ui_init_checkbox_style(void)
     ui_style_red->fg[GTK_STATE_SELECTED] = drive_led_on_red_pixel;
     ui_style_red->fg[GTK_STATE_PRELIGHT] = drive_led_on_red_pixel;
     gtk_widget_set_style(video_ctrl_checkbox_label, ui_style_red);
-    gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
 
-    ui_style_green = gtk_style_new();
-    ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
-    ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
-    gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_widget_set_style(event_rec_checkbox_label, ui_style_red);
+
+        ui_style_green = gtk_style_new();
+        ui_style_green->fg[GTK_STATE_NORMAL] = drive_led_on_green_pixel;
+        ui_style_green->fg[GTK_STATE_ACTIVE] = drive_led_on_green_pixel;
+        ui_style_green->fg[GTK_STATE_SELECTED] = drive_led_on_green_pixel;
+        ui_style_green->fg[GTK_STATE_PRELIGHT] = drive_led_on_green_pixel;
+        gtk_widget_set_style(event_playback_checkbox_label, ui_style_green);
+    }
 }
 
 /* Display a message in the title bar indicating that the emulation is
@@ -207,8 +213,16 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
 
 static void ui_update_video_checkbox (GtkWidget *w, gpointer data)
 {
-    gtk_widget_hide(video_ctrl_checkbox);
-    screenshot_stop_recording();
+    DBG(("ui_update_video_checkbox (audio:%d video:%d)", sound_is_recording(), screenshot_is_recording()));
+    if (data) {
+        uicommands_sound_record_stop();
+        screenshot_stop_recording();
+    }
+    if (sound_is_recording() || screenshot_is_recording()) {
+        gtk_widget_show(video_ctrl_checkbox);
+    } else {
+        gtk_widget_hide(video_ctrl_checkbox);
+    }
 }
 
 static void ui_update_event_checkbox (GtkWidget *w, gpointer data)
@@ -224,7 +238,6 @@ static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     if (event->type == GDK_BUTTON_PRESS) {
         GdkEventButton *bevent = (GdkEventButton*) event;
-        
         if (speed_menu) {
             ui_menu_update_all_GTK();
             gtk_menu_popup(GTK_MENU(speed_menu), NULL, NULL, NULL, NULL, bevent->button, bevent->time);
@@ -248,6 +261,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     gtk_box_pack_end(GTK_BOX(pane), status_bar, FALSE, FALSE, 0);
     gtk_widget_show(status_bar);
 
+    /* speed menu */
     event_box = gtk_event_box_new();
     gtk_box_pack_start(GTK_BOX(status_bar), event_box, TRUE, TRUE,0);
     gtk_widget_show(event_box);
@@ -258,9 +272,13 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     gtk_container_add(GTK_CONTAINER(event_box), frame);
     gtk_widget_show(frame);
 
+    gdk_window_set_cursor(event_box->window, gdk_cursor_new(GDK_HAND1)); 
+
+    /* speed label */
     speed_label = gtk_label_new("");
     app_shells[num_app_shells - 1].speed_label = (GtkLabel*)speed_label;
-    gtk_misc_set_alignment (GTK_MISC(speed_label), 0, -1);
+    gtk_misc_set_alignment (GTK_MISC(speed_label), 0, 0.5f);
+    gtk_misc_set_padding(GTK_MISC(speed_label), 1, 1);
     gtk_container_add(GTK_CONTAINER(frame), speed_label);
     gtk_widget_show(speed_label);
 
@@ -270,41 +288,43 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
 
     tmp = gtk_label_new("");
     app_shells[num_app_shells - 1].statustext = (GtkLabel*)tmp;
-    gtk_misc_set_alignment(GTK_MISC (tmp), 0, -1);
+    gtk_misc_set_alignment(GTK_MISC(tmp), 0, 0.5f);
+    gtk_misc_set_padding(GTK_MISC(tmp), 1, 1);
     gtk_container_add(GTK_CONTAINER(frame), tmp);
     gtk_widget_show(tmp);
     gtk_box_pack_start(GTK_BOX(status_bar), frame, TRUE, TRUE,0);
     gtk_widget_show(frame);
 
+    as = &app_shells[num_app_shells - 1];
+
+    /* PAL Control checkbox */
+    pal_ctrl_checkbox = gtk_frame_new(NULL);
+    gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
+    pcb = gtk_check_button_new_with_label((machine_class != VICE_MACHINE_VSID) ? _("CRT Controls") : _("Mixer"));
+    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+    g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), as);
+    gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
+    gtk_widget_show(pcb);
+    gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, FALSE, FALSE, 0);
+    gtk_widget_show(pal_ctrl_checkbox);
+
+    /* Video Control checkbox */
+    video_ctrl_checkbox = gtk_frame_new(NULL);
+    gtk_frame_set_shadow_type(GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
+
+    video_ctrl_checkbox_label = gtk_label_new(_("audio/video recording"));
+    vcb = gtk_button_new();
+    gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
+    gtk_widget_show(video_ctrl_checkbox_label);
+    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+    g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_video_checkbox), vcb);
+    gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
+    gtk_widget_show(vcb);
+    gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, FALSE, FALSE, 0);
+    gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
+
     /* additional controls */
     if (machine_class != VICE_MACHINE_VSID) {
-        as = &app_shells[num_app_shells - 1];
-
-        /* PAL Control checkbox */
-        pal_ctrl_checkbox = gtk_frame_new(NULL);
-        gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
-        pcb = gtk_check_button_new_with_label(_("CRT Controls"));
-        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-        g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), as);
-        gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
-        gtk_widget_show(pcb);
-        gtk_box_pack_start(GTK_BOX(status_bar), pal_ctrl_checkbox, FALSE, FALSE, 0);
-        gtk_widget_show(pal_ctrl_checkbox);
-
-        /* Video Control checkbox */
-        video_ctrl_checkbox = gtk_frame_new(NULL);
-        gtk_frame_set_shadow_type(GTK_FRAME(video_ctrl_checkbox), GTK_SHADOW_IN);
-
-        video_ctrl_checkbox_label = gtk_label_new(_("audio/video recording"));
-        vcb = gtk_button_new();
-        gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
-        gtk_widget_show(video_ctrl_checkbox_label);
-        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
-        g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_video_checkbox), vcb);
-        gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
-        gtk_widget_show(vcb);
-        gtk_box_pack_start(GTK_BOX(status_bar), video_ctrl_checkbox, FALSE, FALSE, 0);
-        gtk_widget_set_tooltip_text(GTK_WIDGET(vcb), _("click to stop recording"));
 
         /* Event record control checkbox */
         event_rec_checkbox = gtk_frame_new(NULL);
@@ -344,6 +364,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
             build_tape_status_widget(as, window);
             gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
             gtk_widget_show(as->tape_status.event_box);
+            gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
         }
 
         gtk_widget_show(status_bar);
@@ -362,10 +383,14 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_widget_hide(as->tape_status.event_box);     /* Hide Tape widget */
         gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
 #endif
+    } else {
+        gtk_widget_show(status_bar);
     }
 
     /* finalize event-box */
+#if 0
     gdk_window_set_cursor(event_box->window, gdk_cursor_new(GDK_HAND1)); 
+#endif
 
     lib_free(empty);
 
