@@ -42,5 +42,6 @@ extern struct ui_menu_entry_s ui_tool_commands_monitor_menu[];
 
 extern void uicommands_shutdown(void);
 extern ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf,unsigned int buflen);
+extern void uicommands_sound_record_stop(void);
 
 #endif

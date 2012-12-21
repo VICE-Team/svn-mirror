@@ -369,14 +369,16 @@ static UI_CALLBACK(events_return_ms)
     event_record_reset_milestone();
 }
 
-static void sound_record_stop(void)
+void uicommands_sound_record_stop(void)
 {
     char *retval;
 
-    resources_set_string("SoundRecordDeviceName", "");
-    retval = util_concat(_("Sound Recording stopped"), "...", NULL);
-    ui_display_statustext(retval, 10);
-    lib_free(retval);
+    if (sound_is_recording()) {
+        sound_stop_recording();
+        retval = util_concat(_("Sound Recording stopped"), "...", NULL);
+        ui_display_statustext(retval, 10);
+        lib_free(retval);
+    }
 }
 
 static char *soundrecordpath = NULL;
@@ -389,7 +391,7 @@ static void sound_record_start(char *format, uilib_file_filter_enum_t extension)
 
     vsync_suspend_speed_eval();
 
-    resources_set_string("SoundRecordDeviceName", "");
+    sound_stop_recording();
     s = ui_select_file(_("Record sound to file"), NULL, 0, soundrecordpath, &extension, 1, &button, 0, NULL, UI_FC_SAVE);
     if (button == UI_BUTTON_OK && s != NULL) {
         lib_free(soundrecordpath);
@@ -533,7 +535,7 @@ ui_menu_entry_t ui_sound_record_commands_menu[] = {
       (ui_callback_t)sound_record_mp3, NULL, NULL },
 #endif
     { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)sound_record_stop, NULL, NULL },
+      (ui_callback_t)uicommands_sound_record_stop, NULL, NULL },
     { NULL }
 };
 
