@@ -239,7 +239,7 @@ int screenshot_record()
     return screenshot_save_core(&screenshot, NULL, NULL);
 }
 
-void screenshot_stop_recording()
+void screenshot_stop_recording(void)
 {
     if (recording_driver != NULL && recording_driver->close != NULL) {
         recording_driver->close(NULL);

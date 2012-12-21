@@ -1619,3 +1619,14 @@ int sound_dac_calculate_samples(sound_dac_t *dac, SWORD *pbuf, int value, int nr
     }
     return nr;
 }
+
+/* recording related functions, equivalent to screenshot_... */
+void sound_stop_recording(void)
+{
+    resources_set_string("SoundRecordDeviceName", "");
+}
+
+int sound_is_recording(void)
+{
+    return (strlen(recorddevice_name) > 0);
+}

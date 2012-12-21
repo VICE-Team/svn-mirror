@@ -219,4 +219,8 @@ typedef struct sound_dac_s {
 extern void sound_dac_init(sound_dac_t *dac, int speed);
 extern int sound_dac_calculate_samples(sound_dac_t *dac, SWORD *pbuf, int value, int nr, int soc, int cs);
 
+/* recording related functions, equivalent to screenshot_... */
+extern void sound_stop_recording(void);
+extern int sound_is_recording(void);
+
 #endif
