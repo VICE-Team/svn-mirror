@@ -553,15 +553,17 @@ static int load_easyflash_crt(void)
 
 static int load_all_banks(void)
 {
-    unsigned int length, size;
+    unsigned int length, datasize, loadsize, pad;
 
     if (loadfile_cart_type == CARTRIDGE_EASYFLASH) {
         return load_easyflash_crt();
     }
 
     while (1) {
+        /* get CHIP header */
         if (fread(chipbuffer, 1, 16, infile) != 16) {
             if (loadfile_size == 0) {
+                fprintf(stderr, "Error: could not read data from file.\n");
                 return -1;
             } else {
                 return 0;
@@ -571,21 +573,42 @@ static int load_all_banks(void)
             fprintf(stderr, "Error: CHIP tag not found.\n");
             return -1;
         }
+        /* set load address to the load address of first CHIP in the file. this is not quite
+           correct, but works ok for the few cases when it matters */
         if (load_address == 0) {
             load_address = (chipbuffer[0xc] << 8) + chipbuffer[0xd];
         }
-        length = (chipbuffer[4] << 24) + (chipbuffer[5] << 16) + (chipbuffer[6] << 8) + chipbuffer[7] - 16;
-        size = (chipbuffer[14] * 0x100) + chipbuffer[15];
-        if ((size + 0x10) > length) {
-            fprintf(stderr, "Error: data size exceeds chunk length.\n");
+        length = (chipbuffer[4] << 24) + (chipbuffer[5] << 16) + (chipbuffer[6] << 8) + chipbuffer[7];
+        datasize = (chipbuffer[14] * 0x100) + chipbuffer[15];
+        loadsize = datasize;
+        if ((datasize + 0x10) > length) {
+            if (repair_mode) {
+                fprintf(stderr, "Warning: data size exceeds chunk length. (data:%04x chunk:%04x)\n", datasize, length);
+                loadsize = length - 0x10;
+            } else {
+                fprintf(stderr, "Error: data size exceeds chunk length. (data:%04x chunk:%04x) (use -r to force)\n", datasize, length);
+                return -1;
+            }
+        }
+        /* load data */
+        if (fread(filebuffer + loadfile_size, 1, loadsize, infile) != loadsize) {
+            if (repair_mode) {
+                fprintf(stderr, "Warning: unexpected end of file.\n");
+                loadfile_size += datasize;
+                break;
+            }
+            fprintf(stderr, "Error: could not read data from file. (use -r to force)\n");
             return -1;
         }
-        if (fread(filebuffer + loadfile_size, 1, length, infile) != length) {
-            fprintf(stderr, "Error: could not read data from file.\n");
-            return -1;
+        /* if the chunk is larger than the contained data+chip header, skip the rest */
+        pad = length - (datasize + 0x10);
+        if (pad > 0) {
+            fprintf(stderr, "Warning: chunk length exceeds data size (data:%04x chunk:%04x), skipping %04x bytes.\n", datasize, length, pad);
+            fseek(infile, pad, SEEK_CUR);
         }
-        loadfile_size += length;
+        loadfile_size += datasize;
     }
+    return 0;
 }
 
 static int save_binary_output_file(void)
