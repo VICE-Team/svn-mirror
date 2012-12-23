@@ -109,10 +109,7 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
     gint x, gint y, GtkSelectionData *selection_data, guint target_type, guint time,
     gpointer data)
 {
-    char *filename, *p, *src, *dest;
-    gchar esc[3];
-    gint ret;
-    guint i;
+    char *filename, *p, *lfn;
     gboolean dnd_success = FALSE;
     gboolean delete_selection_data = FALSE;
     DBG(("drag_data_received_handler"));
@@ -129,15 +126,6 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
         filename = (char*)gtk_selection_data_get_data(selection_data);
         DBG(("DnD got string: %s", filename));
         dnd_success = TRUE;
-
-        /* the filename may be an URI starting with file: and/or a varying
-           number of forward slashes (skip them) */
-        if (strncasecmp("file:", filename, 5) == 0) {
-            filename += 5;
-        }
-        while ((filename[0] == '/') && (filename[1] == '/')) {
-            filename++;
-        }
         /* incase we got a list of files, terminate the list after the first
            file */
         p = filename;
@@ -148,56 +136,20 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
             }
             p++;
         }
-	/*
-	 * unescape the escaped URI characters (spaces, ...)
-	 *
-	 * we have to replace escaped chars to their equivalents,
-	 * e.g. %20 (always a two digit hexstring) -> ' '
-	 * the percent character '%' is escaped be a double one "%%"
-	 *
-	 * we do this conversation "in place" as the result is always
-	 * equal or smaller in size.
-	 */
-	src = filename;
-	dest = filename;
-	while (*src) {
-	    if (*src == '%') {
-		src++;
-		if (*src == '%') {
-		    /* this is an escaped '%' char (was: "%%") */
-		    *dest = *src;
-		    src++;
-		    dest++;
-		} else {
-		    /* convert escaped hexnumber to unscaped character */
-		    esc[0] = src[0];
-		    esc[1] = src[1];
-		    esc[2] = '\0';
-		    ret = sscanf(esc, "%x", &i);
-		    if (ret == 1) {
-			src+=2;
-			*dest = (gchar) i;
-			dest++;
-		    } else {
-			/* somethings wrong, just jump over that char
-			 * this will result in a wrong string, but we might get
-			 * user feedback and can fix it later ;-) */
-			src++;
-		    }
-		}
-	    } else {
-		*dest = *src;
-		src++;
-		dest++;
-	    }
+	lfn = g_filename_from_uri(filename, NULL, NULL);
+	if (!lfn) {
+	    log_error(ui_log, "URI conversion failed: %s", filename);
 	}
-	*dest = '\0';
-        DBG(("DnD using filename: '%s'", filename));
+	
+        DBG(("DnD using filename: '%s'", lfn));
         /* finally call the drop callback set by the individual ui */
         if (drop_cb) {
-            drop_cb(filename);
+            drop_cb(lfn);
         }
         DBG(("DnD done"));
+	if (lfn) {
+	    lib_free(lfn);
+	}
     }
 
     if (dnd_success == FALSE) {
