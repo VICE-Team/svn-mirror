@@ -970,16 +970,6 @@ BYTE ide64_a000_bfff_read(WORD addr)
     return romh_banks[(addr & 0x3fff) | (romh_bank << 14)];
 }
 
-BYTE ide64_c000_cfff_read(WORD addr)
-{
-    return export_ram0[addr & 0x7fff];
-}
-
-void ide64_c000_cfff_store(WORD addr, BYTE value)
-{
-    export_ram0[addr & 0x7fff] = value;
-}
-
 void ide64_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)
 {
     switch (addr & 0xf000) {

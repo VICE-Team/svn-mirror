@@ -1342,8 +1342,6 @@ BYTE ultimax_c000_cfff_read_slot1(WORD addr)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_IDE64:
-            return ide64_c000_cfff_read(addr);
         case CARTRIDGE_MMC_REPLAY:
             return mmcreplay_c000_cfff_read(addr);
         case CARTRIDGE_MAGIC_FORMEL:
@@ -1408,9 +1406,6 @@ void ultimax_c000_cfff_store(WORD addr, BYTE value)
 
     /* "Main Slot" */
     switch (mem_cartridge_type) {
-        case CARTRIDGE_IDE64:
-            ide64_c000_cfff_store(addr, value);
-            break;
         case CARTRIDGE_MMC_REPLAY:
             mmcreplay_c000_cfff_store(addr, value);
             break;
