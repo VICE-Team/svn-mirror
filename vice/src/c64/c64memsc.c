@@ -315,13 +315,13 @@ void zero_store(WORD addr, BYTE value)
                 machine_handle_pending_alarms(1);
             }
 
-            /* update value if output, otherwise don't touch */
-            if (pport.dir & 0x80) {
+            /* update value if input, otherwise don't touch */
+            if (!(pport.dir & 0x80)) {
                 pport.data_set_bit7 = value & 0x80;
             }
 
-            /* update value if output, otherwise don't touch */
-            if (pport.dir & 0x40) {
+            /* update value if input, otherwise don't touch */
+            if (!(pport.dir & 0x40)) {
                 pport.data_set_bit6 = value & 0x40;
             }
 
