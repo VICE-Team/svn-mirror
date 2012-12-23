@@ -261,7 +261,7 @@ static int fsimage_create_p64(disk_image_t *image)
         gcrptr = gcr_track;
         util_word_to_le_buf(gcrptr, (WORD)disk_image_raw_track_size(image->type, track));
         gcrptr += 2;
-        memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK);
+        memset(gcrptr, 0x55, NUM_MAX_BYTES_TRACK - 2);
 
         header.track = track;
         for (sector = 0;
