@@ -80,6 +80,9 @@
    - Windows 2008 HPC Server (x64)
    - Windows 7 Starter (x86)
    - Windows 7 Home Basic (x86/x64)
+   - Windows 7 Home Premium (x86/x64)
+   - Windows 7 Professional (x86/x64)
+   - Windows 7 Enterprise (x86/x64)
    - Windows 7 Ultimate (x86/x64)
    - HXDOS
    - ReactOS
@@ -218,6 +221,10 @@
 
 #ifndef PRODUCT_SERVER_FOUNDATION
 #define PRODUCT_SERVER_FOUNDATION        0x00000021
+#endif
+
+#ifndef PRODUCT_PROFESSIONAL
+#define PRODUCT_PROFESSIONAL             0x00000030
 #endif
 
 /* System metrics */
@@ -420,6 +427,8 @@ static winver_t windows_versions[] = {
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_BASIC, -1 },
     { "Windows 7 Home Premium", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_HOME_PREMIUM, -1 },
+    { "Windows 7 Professional", VER_PLATFORM_WIN32_NT,
+      6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_PROFESSIONAL, -1 },
     { "Windows 7 Enterprise", VER_PLATFORM_WIN32_NT,
       6, 1, 10, VER_NT_WORKSTATION, 0, PRODUCT_ENTERPRISE, -1 },
     { "Windows 7 Business", VER_PLATFORM_WIN32_NT,
