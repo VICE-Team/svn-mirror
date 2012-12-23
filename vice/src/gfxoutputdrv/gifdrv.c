@@ -70,7 +70,9 @@ static int gifdrv_open(screenshot_t *screenshot, const char *filename)
     unsigned int i;
     gfxoutputdrv_data_t *sdata;
     GifColorType ColorMap256[256];
+#if GIFLIB_MAJOR >= 5
     int ec;
+#endif
 
     if (screenshot->palette->num_entries > 256) {
         log_error(LOG_DEFAULT, "Max 256 colors supported.");
@@ -201,7 +203,9 @@ static int gifdrv_open_memmap(const char *filename, int x_size, int y_size, BYTE
 {
     unsigned int i;
     GifColorType ColorMap256[256];
+#if GIFLIB_MAJOR >= 5
     int ec;
+#endif
 
     gifdrv_memmap_ext_filename = util_add_extension_const(filename, gif_drv.default_extension);
 
