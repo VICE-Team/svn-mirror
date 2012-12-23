@@ -170,7 +170,7 @@ static int fsimage_gcr_read_track(const disk_image_t *image, unsigned int track,
 int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
                                  const disk_track_t *raw)
 {
-    int gap, extend = 0;
+    int gap, extend = 0, res;
     WORD max_track_length;
     BYTE buf[4];
     long offset;
@@ -225,8 +225,12 @@ int fsimage_gcr_write_half_track(disk_image_t *image, unsigned int half_track,
 
         if (gap > 0) {
             BYTE *padding = lib_calloc(1, gap);
-            fwrite(padding, gap, 1, fsimage->fd);
+            res = fwrite(padding, gap, 1, fsimage->fd);
             lib_free(padding);
+            if (res < 1) {
+                log_error(fsimage_gcr_log, "Could not write GCR disk image.");
+                return -1;
+            }
         }
 
         if (extend) {
