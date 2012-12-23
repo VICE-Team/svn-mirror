@@ -133,8 +133,8 @@ void ui_about(gpointer data)
         g_signal_connect(GTK_OBJECT(button), "clicked", G_CALLBACK(contrib_cb), NULL);
         g_signal_connect(G_OBJECT(about), "response", G_CALLBACK(response_cb), about);
     } else {
-        gdk_window_show(about->window);
-        gdk_window_raise(about->window);
+        gdk_window_show(gtk_widget_get_window(about));
+        gdk_window_raise(gtk_widget_get_window(about));
     }
 
     ui_make_window_transient(get_active_toplevel(), about);

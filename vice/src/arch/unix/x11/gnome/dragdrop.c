@@ -24,13 +24,7 @@
  *
  */
  
-/* #define DEBUG_X11UI */
-
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
+#define DEBUG_X11UI
 
 #include "vice.h"
 
@@ -46,6 +40,12 @@
 #include "video.h"
 #include "resources.h"
 #include "videoarch.h"
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 /*******************************************************************************
  * Drag and Drop support
@@ -78,13 +78,14 @@ static gboolean drag_drop_handler(GtkWidget *widget, GdkDragContext *context,
     gint x, gint y, guint time, gpointer user_data)
 {
     GdkAtom target_type;
+    GList *targets = gdk_drag_context_list_targets(context);
 
     DBG(("drag_drop_handler"));
 
     /* If the source offers a target */
-    if (context-> targets) {
+    if (targets) {
         /* Choose the best target type */
-        target_type = GDK_POINTER_TO_ATOM(g_list_nth_data (context->targets, TARGET_STRING));
+        target_type = GDK_POINTER_TO_ATOM(g_list_nth_data (targets, TARGET_STRING));
 
         dropdata = 1;
         /* Request the data from the source. */
@@ -115,15 +116,15 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
     DBG(("drag_data_received_handler"));
 
     /* Deal with what we are given from source */
-    if(dropdata && (selection_data != NULL) && (selection_data->length >= 0))
+    if(dropdata && (selection_data != NULL) && (gtk_selection_data_get_length (selection_data) >= 0))
     {
         dropdata = 0;
-        if (context->action == GDK_ACTION_MOVE) {
+        if (gdk_drag_context_get_selected_action(context) == GDK_ACTION_MOVE) {
             delete_selection_data = TRUE;
         }
 
         /* FIXME; Check that we got a format we can use */
-        filename = (char*)selection_data->data;
+        filename = (char*)gtk_selection_data_get_data(selection_data);
         DBG(("DnD got string: %s", filename));
         dnd_success = TRUE;
 
@@ -150,6 +151,7 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
         if (drop_cb) {
             drop_cb(filename);
         }
+        DBG(("DnD done"));
     }
 
     if (dnd_success == FALSE) {
