@@ -24,7 +24,7 @@
  *
  */
  
-#define DEBUG_X11UI
+/* #define DEBUG_X11UI */
 
 #include "vice.h"
 
