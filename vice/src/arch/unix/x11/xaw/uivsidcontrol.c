@@ -45,8 +45,8 @@
 #include "uiarch.h"
 #include "vsiduiunix.h"
 
-static char *author, *copyright, *name, *vsidsync, *model, *irq;
-static int tune;
+static char *author, *copyright, *name, *vsidsync, *model, *irq, *info;
+static int tune, numtunes;
 static char *line;
 
 static Widget psidparent;
@@ -55,7 +55,8 @@ static Widget psidwidget;
 static void update_line(void)
 {
     lib_free(line);
-    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s"), name, tune, author, copyright, vsidsync, model, irq);
+    line = lib_msprintf(_("Name: %s\nTune: %d of %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s\n%s"), 
+                        name, tune, numtunes, author, copyright, vsidsync, model, irq, info);
     XtVaSetValues(psidwidget, XtNlabel, line, NULL);
 }
 
@@ -68,7 +69,19 @@ ui_window_t build_vsid_ctrl_widget(void)
 {
     Pixel Background = 0;
 
-    line = lib_msprintf(_("Name: %s\nTune: %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s"), "-", 0, "-", "-", "", "-", "-");
+    name = lib_stralloc("-");
+    tune = 0;
+    numtunes = 0;
+    author = lib_stralloc("-");
+    copyright = lib_stralloc("-");
+    model = lib_stralloc("-");
+    vsidsync = lib_stralloc("-");
+    irq = lib_stralloc("-");
+    info = lib_stralloc("-");
+    
+    line = lib_msprintf(_("Name: %s\nTune: %d of %d\nAuthor: %s\nCopyright: %s\n%s\nModel: %s\nIRQ: %s\n%s"), 
+                        name, tune, numtunes, author, copyright, vsidsync, model, irq, info);
+
     XtVaGetValues(psidparent, XtNbackground, &Background,NULL);
     psidwidget = XtVaCreateManagedWidget("Canvas",
                                     labelWidgetClass, psidparent,
@@ -98,6 +111,17 @@ void ui_vsid_settune(const int t)
 {
     tune = t;
     update_line();
+}
+
+void ui_vsid_setnumtunes(const int t)
+{
+    numtunes = t;
+    update_line();
+}
+
+void ui_vsid_settime(const int sec)
+{
+    /* FIXME */
 }
 
 void ui_vsid_setauthor(const char *a)
@@ -131,5 +155,12 @@ void ui_vsid_setirq(const char *c)
 {
     lib_free(irq);
     irq = lib_stralloc(c);
+    update_line();
+}
+
+void ui_vsid_setdrv(const char *c)
+{
+    lib_free(info);
+    info = lib_stralloc(c);
     update_line();
 }

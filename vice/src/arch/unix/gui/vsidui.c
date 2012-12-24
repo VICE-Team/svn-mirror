@@ -538,7 +538,7 @@ int vsid_ui_init(void)
     int res;
     video_canvas_t *canvas = vicii_get_canvas();
 
-    res = ui_open_canvas_window(canvas, _("VSID: The SID Emulator"), VSID_WINDOW_MINW, VSID_WINDOW_MINH, 0);
+    res = ui_open_canvas_window(canvas, _("VSIDUI: The SID Emulator"), VSID_WINDOW_MINW, VSID_WINDOW_MINH, 0);
     if (res < 0) {
         return -1;
     }
@@ -561,19 +561,19 @@ void vsid_ui_close(void) /* FIXME: bad name */
 
 void vsid_ui_display_name(const char *name)
 {
-    log_message(LOG_DEFAULT, "VSID: Name: %s", name);
+    log_message(LOG_DEFAULT, "VSIDUI: Name: %s", name);
     ui_vsid_setpsid(name);
 }
 
 void vsid_ui_display_author(const char *author)
 {
-    log_message(LOG_DEFAULT, "VSID: Author: %s", author);
+    log_message(LOG_DEFAULT, "VSIDUI: Author: %s", author);
     ui_vsid_setauthor(author);
 }
 
 void vsid_ui_display_copyright(const char *copyright)
 {
-    log_message(LOG_DEFAULT, "VSID: Copyright: %s", copyright);
+    log_message(LOG_DEFAULT, "VSIDUI: Copyright: %s", copyright);
     ui_vsid_setcopyright(copyright);
 }
 
@@ -581,42 +581,47 @@ void vsid_ui_display_sync(int sync)
 {
     char buf[50];
     sprintf(buf, "Using %s sync", sync == MACHINE_SYNC_PAL ? "PAL" : "NTSC");
-    log_message(LOG_DEFAULT, "VSID: %s", buf);
+    log_message(LOG_DEFAULT, "VSIDUI: %s", buf);
     ui_vsid_setsync(buf);
 }
 
 void vsid_ui_display_sid_model(int model)
 {
-    log_message(LOG_DEFAULT, "VSID: Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
+    log_message(LOG_DEFAULT, "VSIDUI: Using %s emulation", model == 0 ? "MOS6581" : "MOS8580");
     ui_vsid_setmodel(model == 0 ? "MOS6581" : "MOS8580");
 }
 
 void vsid_ui_set_default_tune(int nr)
 {
-    log_message(LOG_DEFAULT, "VSID: Default tune: %i", nr);
+    log_message(LOG_DEFAULT, "VSIDUI: Default tune: %i", nr);
 }
 
 void vsid_ui_display_tune_nr(int nr)
 {
-    log_message(LOG_DEFAULT, "VSID: Playing tune: %i", nr);
+    log_message(LOG_DEFAULT, "VSIDUI: Playing tune: %i", nr);
     ui_vsid_settune(nr);
 }
 
 void vsid_ui_display_nr_of_tunes(int count)
 {
-    log_message(LOG_DEFAULT, "VSID: Number of tunes: %i", count);
+    log_message(LOG_DEFAULT, "VSIDUI: Number of tunes: %i", count);
+    ui_vsid_setnumtunes(count);
 }
 
 void vsid_ui_display_time(unsigned int sec)
 {
+    /* log_message(LOG_DEFAULT, "VSIDUI: Time: %i", sec); */
+    ui_vsid_settime(sec);
 }
 
 void vsid_ui_display_irqtype(const char *irq)
 {
-    log_message(LOG_DEFAULT, "VSID: Using %s interrupt", irq);
+    log_message(LOG_DEFAULT, "VSIDUI: Using %s interrupt", irq);
     ui_vsid_setirq(irq);
 }
 
 void vsid_ui_setdrv(char* driver_info_text)
 {
+    log_message(LOG_DEFAULT, "VSIDUI: Driver info: %s", driver_info_text);
+    ui_vsid_setdrv(driver_info_text);
 }

@@ -126,6 +126,21 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     ui_update_video_checkbox(video_ctrl_checkbox, NULL);
 }
 
+void ui_vsid_settime(const int sec)
+{
+    char str[32];
+    /* we cant properly add a margin around the label, so we add a leading space instead */
+    sprintf(str, " %2d:%02d", sec / 60, sec % 60);
+    gtk_label_set_text(app_shells[0].speed_label, str);
+    if (statustext_display_time > 0) {
+        statustext_display_time--;
+        if (statustext_display_time == 0) {
+            statusbar_setstatustext("");
+        }
+    }
+    ui_update_video_checkbox(video_ctrl_checkbox, NULL);
+}
+
 void ui_set_speedmenu(ui_menu_entry_t *menu)
 {
     if (speed_menu) {
