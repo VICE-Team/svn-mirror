@@ -129,7 +129,7 @@ static void drag_data_received_handler(GtkWidget *widget, GdkDragContext *contex
         /* incase we got a list of files, terminate the list after the first
            file */
         p = filename;
-        while (p) {
+        while (*p) {
             if ((*p == '\n') || (*p == '\r')) {
                 *p = 0;
                 break;

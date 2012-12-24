@@ -29,7 +29,7 @@
 
 #include "vice.h"
 
-#define VSIDUI 1
+#define VSIDUI 1 /* WTH ? */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -263,6 +263,7 @@ static char *psidpath = NULL;
 
 static int vsid_ui_load_psid(char *filename)
 {
+    vsync_suspend_speed_eval();
     if (machine_autodetect_psid(filename) < 0) {
         log_error(vsid_log, "`%s' is not a valid PSID file.", filename);
         return -1;
@@ -400,6 +401,7 @@ static ui_menu_entry_t psid_menu[] = {
     { NULL }
 };
 
+#ifndef USE_GNOMEUI
 static ui_menu_entry_t vsidui_left_menu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_load_commands_menu },
@@ -431,6 +433,7 @@ static ui_menu_entry_t vsidui_right_menu[] = {
 #endif
     { NULL }
 };
+#endif
 
 #ifdef USE_GNOMEUI
 static ui_menu_entry_t vsidui_file_menu[] = {
@@ -460,8 +463,8 @@ static ui_menu_entry_t vsidui_settings_menu[] = {
 static ui_menu_entry_t vsidui_top_menu[] = {
     { N_("File"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vsidui_file_menu },
-    { N_("Tunes"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL }, /* WARNING: position hardcoded */
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_tune_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vsidui_settings_menu },
 #ifdef DEBUG
@@ -513,24 +516,21 @@ static void vsid_create_menus(void)
 
     lib_free(buf);
 
+    /* last entry in menu */
     tune_menu[i].string = (ui_callback_data_t) NULL;
 
-    ui_tune_menu[0].sub_menu = tune_menu;
-#ifdef USE_GNOMEUI
-    vsidui_top_menu[1].sub_menu = tune_menu;
-#endif
-
     num_checkmark_menu_items = 0;
+    ui_tune_menu[0].sub_menu = tune_menu;
 
+#ifndef USE_GNOMEUI
     ui_set_left_menu(vsidui_left_menu);
     ui_set_right_menu(vsidui_right_menu);
+#endif
 
 #ifdef USE_GNOMEUI
     ui_set_topmenu(vsidui_top_menu);
     ui_set_speedmenu(vsid_run_commands_menu);
 #endif
-
-    ui_update_menus();
 }
 
 int vsid_ui_init(void)
