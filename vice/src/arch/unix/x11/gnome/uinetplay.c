@@ -231,7 +231,7 @@ static GtkWidget *build_netplay_dialog(void)
     rb = gtk_button_new_with_label(_("Start server"));
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_start_server), rb);
-    GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
 
     l = gtk_label_new(tcp_port);
@@ -264,7 +264,7 @@ static GtkWidget *build_netplay_dialog(void)
     rb = gtk_button_new_with_label(connect_to);
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_connect), rb);
-    GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
     lib_free(connect_to);
 
@@ -316,13 +316,13 @@ static GtkWidget *build_netplay_dialog(void)
 
     gtk_container_add(GTK_CONTAINER(f), h);
     gtk_widget_show(h);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), f, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), f, TRUE, TRUE, 0);
     gtk_widget_show(f);
 
     dcb = rb = gtk_button_new_with_label(_("Disconnect"));
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), rb, FALSE, FALSE, 5);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), rb, FALSE, FALSE, 5);
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_disconnect), rb);
-    GTK_WIDGET_UNSET_FLAGS (rb, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
     netplay_update_status();
 
@@ -335,8 +335,8 @@ void ui_netplay_dialog(void)
     gint res;
     
     if (netplay_dialog) {
-        gdk_window_show(netplay_dialog->window);
-        gdk_window_raise(netplay_dialog->window);
+        gdk_window_show(gtk_widget_get_window(netplay_dialog));
+        gdk_window_raise(gtk_widget_get_window(netplay_dialog));
         gtk_widget_show(netplay_dialog);
         netplay_update_status();
     } else {

@@ -62,11 +62,7 @@ static GtkWidget *build_snapshot_dialog(void)
     gtk_container_add(GTK_CONTAINER(tmp), box);
     gtk_widget_show(box);
 
-#if GTK_CHECK_VERSION(2, 14, 0)
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), tmp, TRUE, TRUE, 0);
-#else
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), tmp, TRUE, TRUE, 0);
-#endif
     gtk_widget_show(tmp);
 
     return d;
@@ -78,8 +74,8 @@ void ui_snapshot_dialog(void)
     char *name;
 
     if (snapshot_dialog) {
-        gdk_window_show(snapshot_dialog->window);
-        gdk_window_raise(snapshot_dialog->window);
+        gdk_window_show(gtk_widget_get_window(snapshot_dialog));
+        gdk_window_raise(gtk_widget_get_window(snapshot_dialog));
         gtk_widget_show(snapshot_dialog);
     } else {
         snapshot_dialog = build_snapshot_dialog();
@@ -101,7 +97,7 @@ void ui_snapshot_dialog(void)
     }
 
     /* ok button pressed */
-    if (machine_write_snapshot(name, GTK_TOGGLE_BUTTON(attach_rom)->active, GTK_TOGGLE_BUTTON(attach_disk)->active, 0) < 0) {
+    if (machine_write_snapshot(name, gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(attach_rom)), gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(attach_disk)), 0) < 0) {
         ui_error(_("Cannot write snapshot file\n`%s'\n"), name);
     } else {
         ui_message(_("Successfully wrote `%s'\n"), name);

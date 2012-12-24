@@ -118,13 +118,8 @@ static GtkWidget *build_empty_disk_dialog(void)
     gtk_container_add(GTK_CONTAINER(frame), box);
     gtk_widget_show(box);
 
-#if GTK_CHECK_VERSION(2, 14, 0)
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), frame, FALSE, FALSE, 0);
-#else
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, FALSE, FALSE, 0);
-#endif
     gtk_widget_show(frame);
-
     return d;
 }
 
@@ -138,8 +133,8 @@ int ui_empty_disk_dialog(char *name)
     int i, type = 0, ret = 0;
 
     if (edisk_dialog) {
-        gdk_window_show(edisk_dialog->window);
-        gdk_window_raise(edisk_dialog->window);
+        gdk_window_show(gtk_widget_get_window(edisk_dialog));
+        gdk_window_raise(gtk_widget_get_window(edisk_dialog));
         gtk_widget_show(edisk_dialog);
     } else {
         edisk_dialog = build_empty_disk_dialog();
@@ -183,7 +178,7 @@ int ui_empty_disk_dialog(char *name)
 
     /* type radio button */
     for (i = 0; type_radio[i].label; i++) {
-        if (GTK_TOGGLE_BUTTON(type_radio[i].w)->active) {
+        if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(type_radio[i].w))) {
             type = type_radio[i].type;
             break;
         }

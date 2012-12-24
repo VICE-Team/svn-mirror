@@ -28,21 +28,101 @@
 #ifndef VICE_UIARCH_H
 #define VICE_UIARCH_H
 
+/*
+    FIXME: maintaining backwards compatibility in terms of being able to compile
+           the code conflicts with updating the code so it can be compiled 
+           without the "#undef GSEAL_ENABLE" workaround below.
+
+           however, since we really want to update the code so we can compile it
+           cleanly and hopefully some day without using any deprecated stuff at
+           all, backwards compatibility would have to be maintained seperately
+           on source level (by providing the missing setter/getter functions as
+           macros, for example) - see gtk2legacy.c/h
+
+           at this point, you will likely need at least 2.22 to compile the
+           source
+
+    TODO:
+           - GdkImage is deprecated since 2.22
+           - GtkObjectFlags has been deprecated since version 2.22
+           - The GdkGC and GdkImage objects, as well as all the functions using 
+             them, are gone in gtk3
+
+           see http://developer.gnome.org/gtk3/3.5/gtk-migrating-2-to-3.html
+
+            gnomevideo.c:video_canvas_resize
+            gnomevideo.c:195:5: gdk_image_new
+            gnomevideo.c:199:5: gdk_image_get_width
+            gnomevideo.c:199:5: gdk_image_get_height
+
+            gnomevideo.c:video_canvas_refresh
+            gnomevideo.c:264:9: gdk_image_get_pixels
+            gnomevideo.c:264:9: gdk_image_get_bytes_per_line
+            gnomevideo.c:264:9: gdk_image_get_bits_per_pixel
+
+            uicolor.c:uicolor_set_palette
+            uicolor.c:140:9: gdk_image_get_visual
+
+            lightpendrv.c:x11_lightpen_update
+            lightpendrv.c:67:9: gdk_drawable_get_size
+
+            uidrivestatus.c:ui_display_drive_led
+            uidrivestatus.c:308:9: gdk_gc_set_rgb_fg_color
+            uidrivestatus.c:309:9: gdk_draw_rectangle
+
+            uitapestatus.c:ui_display_tape_control_status
+            uitapestatus.c:252:5: gdk_gc_set_rgb_fg_color
+            uitapestatus.c:256:13: gdk_draw_rectangle
+            uitapestatus.c:278:21: gdk_draw_arc
+            uitapestatus.c:295:13: gdk_draw_polygon
+
+            x11mouse.c:mouse_init_cursor
+            x11mouse.c:167:5: gdk_bitmap_create_from_data
+
+            uipalcontrol.c:build_pal_ctrl_widget
+            uipalcontrol.c:216:9:gtk_range_set_update_policy
+
+            uiscreenshot.c:build_screenshot_dialog
+            uiscreenshot.c:327:5:gtk_combo_box_new_text
+            uiscreenshot.c:331:9:gtk_combo_box_append_text
+ */
+
 /* FIXME: really fix the code for gtk3 */
 #undef GSEAL_ENABLE
+
+#if 0 /* use this when working on the code */
+
+#define GSEAL_ENABLE
+
+/* only gtk3 */
+/* #define GDK_VERSION_MIN_REQIRED GDK_VERSION_2_24 */ /* dont use symbols deprecated in this version */
+/* #define GDK_VERSION_MAX_REQIRED GDK_VERSION_3_00 */ /* dont use symbols introduced after this version */
+
+/* #define GDK_MULTIHEAD_SAFE 1 */ /* conflicts with manipulating mouse cursor and using clipboard */
+#define GTK_MULTIDEVICE_SAFE 1
+
+#define GTK_DISABLE_DEPRECATED
+#define GNOME_DISABLE_DEPRECATED
+#define GDK_DISABLE_DEPRECATED
+#define GDK_PIXBUF_DISABLE_DEPRECATED
+#define G_DISABLE_DEPRECATED
+#define GTK_DISABLE_SINGLE_INCLUDES
+
+#endif
 
 #include <gtk/gtk.h>
 #include <gdk/gdkkeysyms.h>
 
-#if !GTK_CHECK_VERSION(2, 12, 0)
-void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text);
-#endif
-
+/* FIXME: only use one of these for all GTK stuff */
 /* #define DEBUG_X11UI */
+/* #define DEBUG_GNOMEUI */
+
 /* #define DEBUGMOUSECURSOR */  /* dont use a blank mouse cursor */
 /* #define DEBUGNOMOUSEGRAB */  /* dont grab mouse */
 /* #define DEBUG_KBD */
 /* #define DEBUGNOKBDGRAB */    /* dont explicitly grab keyboard focus */
+
+#include "gtk2legacy.h" /* this must come first here */
 
 #include "vice.h"
 
@@ -55,6 +135,45 @@ typedef GCallback ui_callback_t;
 typedef gpointer ui_callback_data_t;
 enum ui_keysym_s {
     KEYSYM_NONE = 0,
+#if GTK_CHECK_VERSION(2, 24, 0)
+    KEYSYM_0 = GDK_KEY_0,
+    KEYSYM_1 = GDK_KEY_1,
+    KEYSYM_2 = GDK_KEY_2,
+    KEYSYM_3 = GDK_KEY_3,
+    KEYSYM_4 = GDK_KEY_4,
+    KEYSYM_5 = GDK_KEY_5,
+    KEYSYM_6 = GDK_KEY_6,
+    KEYSYM_7 = GDK_KEY_7,
+    KEYSYM_8 = GDK_KEY_8,
+    KEYSYM_9 = GDK_KEY_9,
+    KEYSYM_a = GDK_KEY_a,
+    KEYSYM_b = GDK_KEY_b,
+    KEYSYM_c = GDK_KEY_c,
+    KEYSYM_d = GDK_KEY_d,
+    KEYSYM_e = GDK_KEY_e,
+    KEYSYM_f = GDK_KEY_f,
+    KEYSYM_g = GDK_KEY_g,
+    KEYSYM_h = GDK_KEY_h,
+    KEYSYM_i = GDK_KEY_i,
+    KEYSYM_j = GDK_KEY_j,
+    KEYSYM_J = GDK_KEY_J,
+    KEYSYM_k = GDK_KEY_k,
+    KEYSYM_l = GDK_KEY_l,
+    KEYSYM_m = GDK_KEY_m,
+    KEYSYM_n = GDK_KEY_n,
+    KEYSYM_N = GDK_KEY_N,
+    KEYSYM_p = GDK_KEY_p,
+    KEYSYM_q = GDK_KEY_q,
+    KEYSYM_s = GDK_KEY_s,
+    KEYSYM_t = GDK_KEY_t,
+    KEYSYM_u = GDK_KEY_u,
+    KEYSYM_w = GDK_KEY_w,
+    KEYSYM_z = GDK_KEY_z,
+    KEYSYM_F9  = GDK_KEY_F9 ,
+    KEYSYM_F10 = GDK_KEY_F10,
+    KEYSYM_F11 = GDK_KEY_F11,
+    KEYSYM_F12 = GDK_KEY_F12
+#else
     KEYSYM_0 = GDK_0,
     KEYSYM_1 = GDK_1,
     KEYSYM_2 = GDK_2,
@@ -92,6 +211,7 @@ enum ui_keysym_s {
     KEYSYM_F10 = GDK_F10,
     KEYSYM_F11 = GDK_F11,
     KEYSYM_F12 = GDK_F12
+#endif
 };
 typedef enum ui_keysym_s ui_keysym_t;
 
@@ -111,11 +231,14 @@ typedef struct {
     GtkWidget *event_box;
     GtkWidget *track_label;
     GtkWidget *led;
-    GdkPixmap *led_pixmap;
     GtkWidget *led1;
-    GdkPixmap *led1_pixmap;
     GtkWidget *led2;
+#if !GTK_CHECK_VERSION(3, 0, 0)
+    /* FIXME: alternative for GTK3 */
+    GdkPixmap *led_pixmap;
+    GdkPixmap *led1_pixmap;
     GdkPixmap *led2_pixmap;
+#endif
 } drive_status_widget;
 
 /* Tape status widget */
@@ -124,7 +247,10 @@ typedef struct {
     GtkWidget *event_box;
     GtkWidget *label;
     GtkWidget *control;
+#if !GTK_CHECK_VERSION(3, 0, 0)
+    /* FIXME: alternative for GTK3 */
     GdkPixmap *control_pixmap;
+#endif
 } tape_status_widget;
 
 #define MAX_APP_SHELLS 10
@@ -146,7 +272,10 @@ typedef struct {
 extern app_shell_type app_shells[MAX_APP_SHELLS];
 extern int get_num_shells(void);
 
+#if !GTK_CHECK_VERSION(3, 0, 0)
+/* FIXME: alternative for GTK3 */
 extern GdkGC *get_toplevel(void);
+#endif
 extern GtkWidget *get_active_toplevel(void);
 extern int get_active_shell(void);
 extern GdkVisual *visual; /* FIXME: also wrap into a function call */

@@ -18,6 +18,8 @@ libgnomeui_a_SOURCES = \
 	gnomekbd.c \
 	gnomekbd.h \
 	gnomevideo.c \
+	gtk2legacy.c \
+	gtk2legacy.h \
 	lightpendrv.c \
 	lightpendrv.h \
 	linenoise.c \

@@ -203,7 +203,7 @@ static void ui_update_pal_checkbox (GtkWidget *w, gpointer data)
         return;
     }
 
-    if (GTK_TOGGLE_BUTTON(w)->active) {
+    if (gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))) {
         gtk_widget_show(appshell->pal_ctrl);
     } else {
         gtk_widget_hide(appshell->pal_ctrl);
@@ -249,7 +249,7 @@ static gboolean speed_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 GtkWidget *ui_create_status_bar(GtkWidget *pane)
 {
     /* Create the status bar on the bottom.  */
-    GdkWindow *window = get_active_toplevel()->window;
+    GdkWindow *window = gtk_widget_get_window(get_active_toplevel());
     GtkWidget *speed_label, *drive_box, *frame, *event_box, *pcb, *vcb, *tmp, *pal_ctrl_checkbox, *status_bar;
     int i;
     app_shell_type *as;
@@ -272,7 +272,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     gtk_container_add(GTK_CONTAINER(event_box), frame);
     gtk_widget_show(frame);
 
-    gdk_window_set_cursor(event_box->window, gdk_cursor_new(GDK_HAND1)); 
+    gdk_window_set_cursor(gtk_widget_get_window(event_box), gdk_cursor_new(GDK_HAND1)); 
 
     /* speed label */
     speed_label = gtk_label_new("");
@@ -301,7 +301,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     pal_ctrl_checkbox = gtk_frame_new(NULL);
     gtk_frame_set_shadow_type(GTK_FRAME(pal_ctrl_checkbox), GTK_SHADOW_IN);
     pcb = gtk_check_button_new_with_label((machine_class != VICE_MACHINE_VSID) ? _("CRT Controls") : _("Mixer"));
-    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus(pcb, 0);
     g_signal_connect(G_OBJECT(pcb), "toggled", G_CALLBACK(ui_update_pal_checkbox), as);
     gtk_container_add(GTK_CONTAINER(pal_ctrl_checkbox), pcb);
     gtk_widget_show(pcb);
@@ -316,7 +316,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
     vcb = gtk_button_new();
     gtk_container_add(GTK_CONTAINER(vcb), video_ctrl_checkbox_label);
     gtk_widget_show(video_ctrl_checkbox_label);
-    GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus(pcb, 0);
     g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_video_checkbox), vcb);
     gtk_container_add(GTK_CONTAINER(video_ctrl_checkbox), vcb);
     gtk_widget_show(vcb);
@@ -334,7 +334,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         vcb = gtk_button_new();
         gtk_container_add(GTK_CONTAINER(vcb), event_rec_checkbox_label);
         gtk_widget_show(event_rec_checkbox_label);
-        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+        gtk_widget_set_can_focus(pcb, 0);
         g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_event_checkbox), (gpointer)0);
         gtk_container_add(GTK_CONTAINER(event_rec_checkbox), vcb);
         gtk_widget_show(vcb);
@@ -349,7 +349,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         vcb = gtk_button_new();
         gtk_container_add(GTK_CONTAINER(vcb), event_playback_checkbox_label);
         gtk_widget_show(event_playback_checkbox_label);
-        GTK_WIDGET_UNSET_FLAGS(pcb, GTK_CAN_FOCUS);
+        gtk_widget_set_can_focus(pcb, 0);
         g_signal_connect(G_OBJECT(vcb), "clicked", G_CALLBACK(ui_update_event_checkbox), (gpointer)1);
         gtk_container_add(GTK_CONTAINER(event_playback_checkbox), vcb);
         gtk_widget_show(vcb);
@@ -364,7 +364,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
             build_tape_status_widget(as, window);
             gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
             gtk_widget_show(as->tape_status.event_box);
-            gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
+            gdk_window_set_cursor(gtk_widget_get_window(as->tape_status.event_box), gdk_cursor_new(GDK_HAND1)); 
         }
 
         gtk_widget_show(status_bar);
@@ -377,7 +377,7 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
             gtk_widget_set_size_request(as->drive_status[i].image, width / 3, ih);
 #endif
             gtk_widget_hide(as->drive_status[i].event_box);     /* Hide Drive widget */
-            gdk_window_set_cursor(as->drive_status[i].event_box->window, gdk_cursor_new (GDK_HAND1)); 
+            gdk_window_set_cursor(gtk_widget_get_window(as->drive_status[i].event_box), gdk_cursor_new (GDK_HAND1)); 
         }
 #if 0
         gtk_widget_hide(as->tape_status.event_box);     /* Hide Tape widget */
@@ -419,7 +419,7 @@ int statusbar_get_height(video_canvas_t *canvas)
             if (appshell) {
                 sb = appshell->status_bar;
                 if (sb) {
-                    size = sb->allocation.height;
+                    size = gtk_widget_get_allocated_height(sb);
                     if (size > 5) {
                         resources_set_int("WindowBotHint", size);
                     }

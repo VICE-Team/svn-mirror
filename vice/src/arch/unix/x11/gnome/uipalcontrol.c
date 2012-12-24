@@ -116,7 +116,7 @@ static void pal_ctrl_update_internal(pal_res_t *ctrldata)
 
 static gboolean value_changed_cb(GtkAdjustment *adj, gpointer data)
 {
-    int v = (int) adj->value;
+    int v = (int) gtk_adjustment_get_value(adj);
     pal_res_t *p = (pal_res_t *)data;
 
     v  = (int)v / p->scale;
@@ -234,7 +234,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         rb = gtk_button_new_with_label(_("Reset"));
         gtk_box_pack_start(GTK_BOX(box), rb, FALSE, FALSE, 5);
         g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(pal_ctrl_reset), &ctrldata[0]);
-        GTK_WIDGET_UNSET_FLAGS(rb, GTK_CAN_FOCUS);
+        gtk_widget_set_can_focus(rb, 0);
         gtk_widget_show(rb);
 
         gtk_widget_show(box);
@@ -259,12 +259,8 @@ int palctrl_get_height(video_canvas_t *canvas)
             palctrl = appshell->pal_ctrl;
             if (palctrl) {
                 /* return height if visible */
-#if GTK_CHECK_VERSION(2,18,0)
                 if (gtk_widget_get_visible(palctrl)) {
-#else
-                if (GTK_WIDGET_VISIBLE(palctrl)) {
-#endif
-                    return palctrl->allocation.height;
+                    return gtk_widget_get_allocated_height(palctrl);
                 }
             }
         }

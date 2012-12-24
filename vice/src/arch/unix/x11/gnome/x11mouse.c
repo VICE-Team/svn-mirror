@@ -97,7 +97,7 @@ static void mouse_cursor_grab(int grab, GdkCursor *cursor)
         gdk_flush();*/
 
         widget = get_active_toplevel();
-        window = widget ? widget->window : NULL;
+        window = widget ? gtk_widget_get_window(widget) : NULL;
 
         if ((widget == NULL) || (window == NULL)) {
             log_error(ui_log, "mouse_cursor_grab: bad params");

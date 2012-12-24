@@ -279,8 +279,8 @@ static void update_halffps_checkbox (GtkWidget *w, gpointer data)
     if (!w || !GTK_IS_TOGGLE_BUTTON(w)) {
         return;
     }
-    resources_set_int("FFMPEGVideoHalveFramerate", GTK_TOGGLE_BUTTON(w)->active);
-    DBG(("update_halffps_checkbox (%d)\n", GTK_TOGGLE_BUTTON(w)->active));
+    resources_set_int("FFMPEGVideoHalveFramerate", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)));
+    DBG(("update_halffps_checkbox (%d)\n", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))));
 }
 
 static GtkWidget *build_screenshot_dialog(void)
@@ -449,25 +449,22 @@ static GtkWidget *build_screenshot_dialog(void)
         fpsmenu = gtk_frame_new(NULL);
         gtk_frame_set_shadow_type(GTK_FRAME(fpsmenu), GTK_SHADOW_IN);
         fcb = gtk_check_button_new_with_label(_("Half Framerate (25/30 fps)"));
-        GTK_WIDGET_UNSET_FLAGS(fcb, GTK_CAN_FOCUS);
+        gtk_widget_set_can_focus(fcb, 0);
         g_signal_connect(G_OBJECT(fcb), "toggled", G_CALLBACK(update_halffps_checkbox), 0);
         gtk_container_add(GTK_CONTAINER(fpsmenu), fcb);
         gtk_widget_show(fcb);
         gtk_box_pack_start(GTK_BOX(ffmpg_opts), fpsmenu, FALSE, FALSE, 0);
         gtk_widget_show(fpsmenu);
     }
-    
+
   no_ffmpeg:
 #endif    
 
     gtk_container_add(GTK_CONTAINER(frame), vbox);
     gtk_widget_show(vbox);
 
-#if GTK_CHECK_VERSION(2, 14, 0)
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(d))), frame, TRUE, TRUE, 0);
-#else
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(d)->vbox), frame, TRUE, TRUE, 0);
-#endif
+
     gtk_widget_show(frame);
     gtk_widget_show(d);
 
@@ -481,8 +478,8 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     const char *driver, *ext;
     
     if (screenshot_dialog) {
-        gdk_window_show(screenshot_dialog->window);
-        gdk_window_raise(screenshot_dialog->window);
+        gdk_window_show(gtk_widget_get_window(screenshot_dialog));
+        gdk_window_raise(gtk_widget_get_window(screenshot_dialog));
         gtk_widget_show(screenshot_dialog);
         gtk_combo_box_set_active(GTK_COMBO_BOX(drv_menu), combo_box_current_active);
     } else {

@@ -109,19 +109,6 @@ int screen;
 static int depth;
 #endif
 
-#if !GTK_CHECK_VERSION(2, 12, 0)
-void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
-{
-    static GtkTooltips * tooltips = NULL;
-
-    if (tooltips == NULL) {
-        tooltips = gtk_tooltips_new();
-        gtk_tooltips_enable(tooltips);
-    }
-    gtk_tooltips_set_tip(tooltips, widget, text, NULL);
-}
-#endif
-
 /******************************************************************************/
 
 /* UI logging goes here.  */
@@ -549,7 +536,7 @@ int ui_init(int *argc, char **argv)
 {
 
 #ifdef USE_XF86_EXTENSIONS
-    display = GDK_DISPLAY();
+    display = gdk_x11_get_default_xdisplay();
     depth = gdk_visual_get_system()->depth;
     screen = gdk_screen_get_number(gdk_screen_get_default());
 #endif
@@ -564,6 +551,8 @@ int ui_init(int *argc, char **argv)
 int ui_init_finish(void)
 {
     ui_log = log_open("X11");
+
+    log_message(ui_log, "GTK version compiled with: %d.%d", GTK_MAJOR_VERSION, GTK_MINOR_VERSION);
 
     have_cbm_font = TRUE;
     fixed_font_desc = pango_font_description_from_string(fixedfontname);

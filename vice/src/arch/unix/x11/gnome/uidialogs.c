@@ -107,7 +107,7 @@ static GtkWidget* build_show_text(const gchar *text, int width, int height)
     gtk_text_buffer_set_text(tb, utf8_text, -1);
     gtk_container_add(GTK_CONTAINER(scrollw), textw);
     gtk_widget_show(textw);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(show_text)->vbox), scrollw, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(show_text))), scrollw, TRUE, TRUE, 0);
     gtk_widget_show(scrollw);
     g_free(utf8_text);
     return show_text;
@@ -120,7 +120,7 @@ static GtkWidget *build_confirm_dialog(GtkWidget **confirm_dialog_message)
     confirm_dialog = gtk_dialog_new_with_buttons("", NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_CANCEL, GTK_RESPONSE_CANCEL, GTK_STOCK_NO,
                                                  GTK_RESPONSE_NO, GTK_STOCK_YES, GTK_RESPONSE_YES, NULL);
     *confirm_dialog_message = gtk_label_new("");
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(confirm_dialog)->vbox), *confirm_dialog_message,TRUE,TRUE,0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(confirm_dialog))), *confirm_dialog_message,TRUE,TRUE,0);
     gtk_widget_show(*confirm_dialog_message);
 
     return confirm_dialog;
@@ -141,10 +141,10 @@ ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, un
     entry = gtk_entry_new();
 
     label = gtk_label_new(prompt);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), label, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(input_dialog))), label, FALSE, FALSE, 0);
     gtk_widget_show(label);
 
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(input_dialog)->vbox), entry, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(input_dialog))), entry, FALSE, FALSE, 0);
     gtk_entry_set_text(GTK_ENTRY(GTK_ENTRY(entry)), buf);
     gtk_widget_show(entry);
 
@@ -252,7 +252,7 @@ ui_jam_action_t ui_jam_dialog(const char *format, ...)
     vsprintf(str, format, ap);
     va_end(ap);
     message = gtk_label_new(str);
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(jam_dialog)->vbox), message, TRUE, TRUE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(jam_dialog))), message, TRUE, TRUE, 0);
     gtk_widget_show(message);
     gtk_dialog_set_default_response(GTK_DIALOG(jam_dialog), 0);
 

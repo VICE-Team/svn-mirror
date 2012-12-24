@@ -60,7 +60,7 @@ char *last_menus[NUM_DRIVES];  /* FIXME: We want this to be static.  */
 GtkWidget *last_drive_menus[NUM_DRIVES];  /* FIXME: We want this to be static.  */
 
 /* Enabled drives.  */
-ui_drive_enable_t enabled_drives = UI_DRIVE_ENABLE_NONE;  /* used also in uicommands */
+ui_drive_enable_t enabled_drives = UI_DRIVE_ENABLE_NONE;  /* FIXME: used also in uicommands */
 /* Color of the drive active LED.  */
 static int *drive_active_led;
 
@@ -150,9 +150,9 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 
 #if 0
         drive_tooltips[i] = gtk_tooltips_new();
-        gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), as->drive_status[i].box->parent->parent, empty, NULL);
+        gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), gtk_widget_get_parent(gtk_widget_get_parent(as->drive_status[i].box)), empty, NULL);
 #else
-        gtk_widget_set_tooltip_text(GTK_WIDGET(as->drive_status[i].box->parent->parent), empty);
+        gtk_widget_set_tooltip_text(GTK_WIDGET(gtk_widget_get_parent(gtk_widget_get_parent(as->drive_status[i].box))), empty);
 #endif
         /* Label */
         as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
@@ -348,7 +348,7 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
 #if 0
         gtk_label_set_text(GTK_LABEL(app_shells[i].drive_status[drive_number].image), name);
 #endif
-        gtk_widget_set_tooltip_text(GTK_WIDGET(app_shells[i].drive_status[drive_number].box->parent->parent), name);
+        gtk_widget_set_tooltip_text(GTK_WIDGET(gtk_widget_get_parent(gtk_widget_get_parent(app_shells[i].drive_status[drive_number].box))), name);
     }
     lib_free(name);
 

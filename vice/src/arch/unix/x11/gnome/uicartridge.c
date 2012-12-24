@@ -42,11 +42,10 @@ void ui_cartridge_save_dialog(int type)
 {
     gint res;
     char *name;
-    
-    if (cartridge_dialog)
-    {
-        gdk_window_show(cartridge_dialog->window);
-        gdk_window_raise(cartridge_dialog->window);
+
+    if (cartridge_dialog) {
+        gdk_window_show(gtk_widget_get_window(cartridge_dialog));
+        gdk_window_raise(gtk_widget_get_window(cartridge_dialog));
         gtk_widget_show(cartridge_dialog);
     } else {
         uilib_file_filter_enum_t filter = UILIB_FILTER_ALL;

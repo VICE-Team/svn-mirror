@@ -121,7 +121,8 @@ unsigned int endian_swap(unsigned int color, unsigned int bpp, unsigned int swap
 
 int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 {
-    unsigned int i, rs, gs, bs, rb, gb, bb, bpp, swap;
+    unsigned int i, bpp, swap;
+    gint rs, gs, bs, rb, gb, bb;
 
     /* Hwscaled colours are expected in GL_RGB order. 24 bpp renderers are
      * special, they always seem to expect color order to be logically ABGR,
@@ -136,20 +137,17 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
         bs = 16;
         swap = 0;
     } else {
-        GdkVisual *vis = c->gdk_image->visual;
+        GdkVisual *vis = gdk_image_get_visual(c->gdk_image);
 
-        bpp = vis->depth;
-        rb = vis->red_prec;
-        gb = vis->green_prec;
-        bb = vis->blue_prec;
-        rs = vis->red_shift;
-        gs = vis->green_shift;
-        bs = vis->blue_shift;
+        bpp = gdk_visual_get_depth(vis);
+        gdk_visual_get_red_pixel_details(vis, NULL, &rs, &rb);
+        gdk_visual_get_green_pixel_details(vis, NULL, &gs, &gb);
+        gdk_visual_get_blue_pixel_details(vis, NULL, &bs, &bb);
 
 #ifdef WORDS_BIGENDIAN
-        swap = vis->byte_order == GDK_LSB_FIRST;
+        swap = (gdk_visual_get_byte_order(vis) == GDK_LSB_FIRST);
 #else
-        swap = vis->byte_order == GDK_MSB_FIRST;
+        swap = (gdk_visual_get_byte_order(vis) == GDK_MSB_FIRST);
 #endif
 
         /* 24 bpp modes do not really work with the existing

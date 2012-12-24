@@ -30,14 +30,12 @@
 
 /* #define DEBUG_GNOMEUI */
 
-#ifdef DEBUG_GNOMEUI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
 #include <string.h>
 #include <stdlib.h>
+
+#include "ui.h"
+#include "uiarch.h"
+#include "uicolor.h"
 
 #include "fullscreenarch.h"
 #include "log.h"
@@ -48,12 +46,14 @@
 #include "machine.h"
 #include "lib.h"
 
-#include "ui.h"
-#include "uiarch.h"
-#include "uicolor.h"
-
 #ifdef HAVE_OPENGL_SYNC
 #include "openGL_sync.h"
+#endif
+
+#ifdef DEBUG_GNOMEUI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
 #endif
 
 static log_t gnomevideo_log = LOG_ERR;
@@ -196,7 +196,7 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 
 #ifdef HAVE_HWSCALE
     lib_free(canvas->hwscale_image);
-    canvas->hwscale_image = lib_malloc(canvas->gdk_image->width * canvas->gdk_image->height * 4);
+    canvas->hwscale_image = lib_malloc(gdk_image_get_width(canvas->gdk_image) * gdk_image_get_height(canvas->gdk_image) * 4);
 #endif
 
     if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
@@ -247,30 +247,31 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     }
 #endif
 
-    if (xi + w > canvas->gdk_image->width || yi + h > canvas->gdk_image->height) {
+    if (((xi + w) > gdk_image_get_width(canvas->gdk_image)) || ((yi + h) > gdk_image_get_height(canvas->gdk_image))) {
 #ifdef DEBUG	
-        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, canvas->gdk_image->width, canvas->gdk_image->height);
+        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, gdk_image_get_width(canvas->gdk_image), gdk_image_get_height(canvas->gdk_image));
 #endif
 	return;
     }
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
-        video_canvas_render(canvas, canvas->hwscale_image, w, h, xs, ys, xi, yi, canvas->gdk_image->width * 4, 32);
+        video_canvas_render(canvas, canvas->hwscale_image, w, h, xs, ys, xi, yi, gdk_image_get_width(canvas->gdk_image) * 4, 32);
         gtk_widget_queue_draw(canvas->emuwindow);
     } else
 #endif
     {
-        video_canvas_render(canvas, canvas->gdk_image->mem, w, h, xs, ys, xi, yi, canvas->gdk_image->bpl, canvas->gdk_image->bits_per_pixel);
+        video_canvas_render(canvas, gdk_image_get_pixels(canvas->gdk_image), w, h, xs, ys, xi, yi, gdk_image_get_bytes_per_line(canvas->gdk_image), gdk_image_get_bits_per_pixel(canvas->gdk_image));
         gtk_widget_queue_draw_area(canvas->emuwindow, xi, yi, w, h);
     }
 }
 
+/* FIXME: this one should really return an int instead */
 char video_canvas_can_resize(video_canvas_t *canvas)
 {
     GtkWidget *t = get_active_toplevel();
     if (t) {
-        return !(gdk_window_get_state(gtk_widget_get_window(t)) & GDK_WINDOW_STATE_MAXIMIZED);
+        return (gdk_window_get_state(gtk_widget_get_window(t)) & GDK_WINDOW_STATE_MAXIMIZED) ? 0 : 1;
     }
     return 0;
 }

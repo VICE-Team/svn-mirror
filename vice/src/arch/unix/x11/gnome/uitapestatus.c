@@ -29,12 +29,6 @@
 
 /* #define DEBUG_X11UI */
 
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
 #include "vice.h"
 
 #include "datasette.h"
@@ -48,6 +42,14 @@
 #include "video.h"
 #include "resources.h"
 #include "videoarch.h"
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
+/******************************************************************************/
 
 #define CTRL_WIDTH 13
 #define CTRL_HEIGHT 11
@@ -133,7 +135,7 @@ void ui_display_tape_current_image(const char *image)
     util_fname_split(image, NULL, &name);
 
     for (i = 0; i < num_app_shells; i++) {
-        gtk_widget_set_tooltip_text(GTK_WIDGET(app_shells[i].tape_status.box->parent->parent), name);
+        gtk_widget_set_tooltip_text(GTK_WIDGET(gtk_widget_get_parent(gtk_widget_get_parent(app_shells[i].tape_status.box))), name);
     }
     lib_free(name);
 }
@@ -154,7 +156,7 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
     gtk_container_add(GTK_CONTAINER(as->tape_status.event_box), frame);
     gtk_widget_show(frame);
 
-    gtk_widget_set_tooltip_text(GTK_WIDGET(as->tape_status.box->parent->parent), "");
+    gtk_widget_set_tooltip_text(GTK_WIDGET(gtk_widget_get_parent(gtk_widget_get_parent(as->tape_status.box))), "");
 
     /* Tape Label */
     as->tape_status.label = gtk_label_new(_("Tape 000"));

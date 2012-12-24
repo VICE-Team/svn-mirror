@@ -61,10 +61,10 @@ void x11_lightpen_update(void)
     float fx, fy;
 
     if (c && lightpen_enabled)  {
-        gdk_window_set_cursor(c->emuwindow->window, cursor);
+        gdk_window_set_cursor(gtk_widget_get_window(c->emuwindow), cursor);
         gdk_display_get_window_at_pointer(
                 gtk_widget_get_display(c->emuwindow), &x, &y);
-        gdk_drawable_get_size(c->emuwindow->window, &w, &h);
+        gdk_drawable_get_size(gtk_widget_get_window(c->emuwindow), &w, &h);
         fx = w / (float) (c->geometry->screen_size.width - c->offx);
         fy = h / (float) (c->geometry->last_displayed_line -
                 c->geometry->first_displayed_line + 1);
@@ -79,7 +79,7 @@ void x11_lightpen_update(void)
         lightpen_update(c->app_shell, x, y, buttons);
     } else {
         if (c) {
-            gdk_window_set_cursor(c->emuwindow->window, NULL);
+            gdk_window_set_cursor(gtk_widget_get_window(c->emuwindow), NULL);
         }
         buttons = 0;
     }
