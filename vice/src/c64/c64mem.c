@@ -281,7 +281,7 @@ void zero_store(WORD addr, BYTE value)
                     pport.data_falloff_bit6 = 0;
                 } else { /* input, start falloff if bit was set */
                     pport.data_falloff_bit6 = pport.data_set_bit6;
-                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
                 }
             }
 
@@ -292,7 +292,7 @@ void zero_store(WORD addr, BYTE value)
                     pport.data_falloff_bit7 = 0;
                 } else { /* input, start falloff if bit was set */
                     pport.data_falloff_bit7 = pport.data_set_bit7;
-                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU_DATA_PORT_FALL_OFF_CYCLES;
+                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
                 }
             }
 
