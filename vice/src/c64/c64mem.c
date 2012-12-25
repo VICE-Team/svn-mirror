@@ -320,11 +320,13 @@ void zero_store(WORD addr, BYTE value)
             /* update value if input, otherwise don't touch */
             if (!(pport.dir & 0x80)) {
                 pport.data_set_bit7 = value & 0x80;
+                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
             }
 
             /* update value if input, otherwise don't touch */
             if (!(pport.dir & 0x40)) {
                 pport.data_set_bit6 = value & 0x40;
+                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
             }
 
             if (pport.data != value) {
