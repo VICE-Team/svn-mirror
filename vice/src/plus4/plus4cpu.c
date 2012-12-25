@@ -1,5 +1,5 @@
 /*
- * plus4cpu.c - Emulation of the main 7501 processor.
+ * plus4cpu.c - Emulation of the main 7501/8501 processor.
  *
  * Written by
  *  Andreas Boose <viceteam@t-online.de>

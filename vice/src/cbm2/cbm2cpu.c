@@ -1,5 +1,5 @@
 /*
- * cbm2cpu.c - Emulation of the main 6510 processor.
+ * cbm2cpu.c - Emulation of the main 6509 processor.
  *
  * Written by
  *  Ettore Perazzoli <ettore@comm2000.it>
