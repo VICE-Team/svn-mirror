@@ -87,6 +87,7 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uicolor.h"
+#include "uicontents.h"
 #include "uifliplist.h"
 #include "uihotkey.h"
 #include "uilib.h"
@@ -147,7 +148,8 @@ static Widget left_menu, right_menu;
 static XtTranslations left_menu_translations, right_menu_translations;
 static XtTranslations left_menu_disabled_translations, right_menu_disabled_translations;
 
-static Widget drive_menu[NUM_DRIVES];
+static Widget left_drive_menu[NUM_DRIVES];
+static Widget right_drive_menu[NUM_DRIVES];
 static XtTranslations drive_menu_translations[NUM_DRIVES];
 
 /* Application context. */
@@ -1546,18 +1548,24 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
 void ui_destroy_drive_menu(int drive)
 {
     if (drive >= 0 && drive < NUM_DRIVES) {
-        if (drive_menu[drive]) {
+        if (left_drive_menu[drive]) {
             /* pop down the menu if it is still up */
-            XtPopdown(drive_menu[drive]);
-            XtDestroyWidget(drive_menu[drive]);
-            drive_menu[drive] = 0;
+            XtPopdown(left_drive_menu[drive]);
+            XtDestroyWidget(left_drive_menu[drive]);
+            left_drive_menu[drive] = 0;
+        }
+        if (right_drive_menu[drive]) {
+            /* pop down the menu if it is still up */
+            XtPopdown(right_drive_menu[drive]);
+            XtDestroyWidget(right_drive_menu[drive]);
+            right_drive_menu[drive] = 0;
         }
     }
 }
 
 void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
 {
-    char *menuname;
+    char *leftmenuname, *rightmenuname;
     int i;
     Widget w;
 
@@ -1565,25 +1573,40 @@ void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
         return;
     }
 
-    menuname = lib_msprintf("LeftDrive%iMenu", drive + 8);
+    leftmenuname = lib_msprintf("LeftDrive%iMenu", drive + 8);
+    rightmenuname = lib_msprintf("RightDrive%iMenu", drive + 8);
     if (flipmenu != NULL) {
-        w = ui_menu_create(menuname, flipmenu, NULL);
-        drive_menu[drive] = w;
+        w = ui_menu_create(leftmenuname, flipmenu, NULL);
+        left_drive_menu[drive] = w;
+        w = rebuild_contents_menu(rightmenuname, drive + 8, last_attached_images[drive]);
+        right_drive_menu[drive] = w;
     }
 
     if (!drive_menu_translations[drive]) {
         char *translation_table;
 
-        translation_table = util_concat("<Btn1Down>: XawPositionSimpleMenu(",
-                                                        menuname, ") "
-                                                    "XtMenuPopup(",
-                                                        menuname, ")\n",
-                                        NULL);
+        translation_table = util_concat(
+                "<Btn1Down>: "
+                        "XawPositionSimpleMenu(", leftmenuname, ") "
+                        "XtMenuPopup(", leftmenuname, ")\n",
+                "Meta Shift <KeyDown>z: "
+                        "FakeButton(1) "
+                        "XawPositionSimpleMenu(", leftmenuname, ") "
+                        "XtMenuPopup(", leftmenuname, ")\n",
+                "<Btn3Down>: "
+                        "XawPositionSimpleMenu(", rightmenuname, ") "
+                        "XtMenuPopup(", rightmenuname, ")\n",
+                "Meta Shift <KeyDown>x: "
+                        "FakeButton(3) "
+                        "XawPositionSimpleMenu(", rightmenuname, ") "
+                        "XtMenuPopup(", rightmenuname, ")\n",
+                NULL);
         drive_menu_translations[drive] =
                                 XtParseTranslationTable(translation_table);
         lib_free(translation_table);
     }
-    lib_free(menuname);
+    lib_free(leftmenuname);
+    lib_free(rightmenuname);
 
     for (i = 0; i < num_app_shells; i++) {
         int n = app_shells[i].drive_mapping[drive];
