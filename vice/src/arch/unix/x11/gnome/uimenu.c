@@ -258,9 +258,9 @@ static void menu_handle_block(gpointer data, gpointer user_data)
     checkmark_t *cm = (checkmark_t *)data;
 
     if (user_data) {
-        g_signal_handler_block(GTK_OBJECT(cm->w), cm->handlerid);
+        g_signal_handler_block(G_OBJECT(cm->w), cm->handlerid);
     } else {
-        g_signal_handler_unblock(GTK_OBJECT(cm->w), cm->handlerid);
+        g_signal_handler_unblock(G_OBJECT(cm->w), cm->handlerid);
     }
 }
 

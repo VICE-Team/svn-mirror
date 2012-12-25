@@ -52,15 +52,18 @@
 #include <locale.h>
 #endif
 
-#ifdef HAVE_HWSCALE
-#include <gtk/gtkgl.h>
-#include <gdk/gdkgl.h>
-#include <GL/gl.h>
-#endif
-
 #include "ui.h"
 #include "uiapi.h"
 #include "uiarch.h"
+
+#ifdef HAVE_HWSCALE
+#if !GTK_CHECK_VERSION(3, 0, 0)
+/* in gtk3 we should not include these directly */
+#include <gtk/gtkgl.h>
+#include <gdk/gdkgl.h>
+#endif
+#include <GL/gl.h>
+#endif
 
 #include "charset.h"
 #include "dragdrop.h"
@@ -128,8 +131,10 @@ PangoFontDescription *fixed_font_desc;
 
 static int popped_up_count = 0;
 
+#if !defined(GTK_USE_CAIRO)
 /* Toplevel widget. */
 static GdkGC *app_gc = NULL;
+#endif
 
 /* GdkColormap *colormap; */
 
@@ -155,10 +160,12 @@ static gfloat get_aspect(video_canvas_t *canvas);
 void ui_trigger_resize(void);
 
 /******************************************************************************/
+#if !defined(GTK_USE_CAIRO)
 GdkGC *get_toplevel(void)
 {
     return app_gc;
 }
+#endif
 
 int get_num_shells(void)
 {
@@ -485,7 +492,7 @@ void ui_restore_focus(void)
     GtkWidget *widget = get_active_toplevel();
     GdkWindow *window;
 
-    window = widget ? widget->window : NULL;
+    window = widget ? gtk_widget_get_window(widget) : NULL;
     DBG(("ui_restore_focus %p:%p", window, widget));
     if (window) {
         ui_dispatch_events();
@@ -537,7 +544,13 @@ int ui_init(int *argc, char **argv)
 
 #ifdef USE_XF86_EXTENSIONS
     display = gdk_x11_get_default_xdisplay();
-    depth = gdk_visual_get_system()->depth;
+#if !GTK_CHECK_VERSION(3, 0, 0)
+    depth = gdk_visual_get_depth(gdk_visual_get_system());
+#else
+    /* FIXME */
+    depth = 32;
+    #warning "FIXME: ui_init"
+#endif
     screen = gdk_screen_get_number(gdk_screen_get_default());
 #endif
 
@@ -614,7 +627,7 @@ Display *x11ui_get_display_ptr(void)
 
 Window x11ui_get_X11_window(void)
 {
-    GdkWindow *window = get_active_toplevel()->window;
+    GdkWindow *window = gtk_widget_get_window(get_active_toplevel());
     if (window) {
         return GDK_WINDOW_XID(window);
     } else {
@@ -699,7 +712,7 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     }
 
     gtk_widget_show(new_canvas);
-    GTK_WIDGET_SET_FLAGS(new_canvas, GTK_CAN_FOCUS);
+    gtk_widget_set_can_focus(new_canvas, TRUE);
     gtk_widget_grab_focus(new_canvas);
     c->emuwindow = new_canvas;
 /*
@@ -889,10 +902,11 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     if (machine_class != VICE_MACHINE_VSID) {
 
+#if !defined(GTK_USE_CAIRO)
         if (!app_gc) {
             app_gc = gdk_gc_new(new_window->window);
         }
-
+#endif
         if (uicolor_alloc_colors(c) < 0) {
             return -1;
         }
@@ -901,7 +915,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         mouse_init_cursor();
         gtk_init_lightpen();
 
+        /* FIXME: is this correct ?! */
         c->offx = c->geometry->screen_size.width - w;
+        DBG(("ui_open_canvas_window lp offset=%i (scrw: %i w: %i)", c->offx, c->geometry->screen_size.width, w));
     }
 
     ui_init_checkbox_style();
@@ -976,7 +992,7 @@ static int topmenu_get_height(video_canvas_t *canvas)
             if (appshell) {
                 topmenu = appshell->topmenu;
                 if (topmenu) {
-                    size = topmenu->allocation.height;
+                    size = gtk_widget_get_allocated_height(topmenu);
                     if (size > 5) {
                         resources_set_int("WindowTopHint", size);
                     }
@@ -992,15 +1008,19 @@ static int topmenu_get_height(video_canvas_t *canvas)
 
 void ui_set_application_icon(const char *icon_data[])
 {
+#if !GTK_CHECK_VERSION(3, 0, 0)
     int i;
     GdkPixmap *icon;
-    GdkWindow *window = get_active_toplevel()->window;
+    GdkWindow *window = gtk_widget_get_window(get_active_toplevel());
 
     icon = gdk_pixmap_create_from_xpm_d(window, NULL, NULL, (char **)icon_data);
 
     for (i = 0; i < num_app_shells; i++) {
-        gdk_window_set_icon(app_shells[i].shell->window, NULL, icon, NULL);
+        gdk_window_set_icon(gtk_widget_get_window(app_shells[i].shell), NULL, icon, NULL);
     }
+#else
+    #warning "FIXME: ui_set_application_icon"
+#endif
 }
 
 /******************************************************************************/
@@ -1130,8 +1150,8 @@ int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
 
 #ifdef HAVE_FULLSCREEN
     if (enable) {
-        canvas->fullscreenconfig->ui_border_top = appshell->topmenu->allocation.height;
-        canvas->fullscreenconfig->ui_border_bottom = appshell->status_bar->allocation.height;
+        canvas->fullscreenconfig->ui_border_top = gtk_widget_get_allocated_height(appshell->topmenu);
+        canvas->fullscreenconfig->ui_border_bottom = gtk_widget_get_allocated_height(appshell->status_bar);
     } else {
         canvas->fullscreenconfig->ui_border_top = 0;
         canvas->fullscreenconfig->ui_border_bottom = 0;
@@ -1284,8 +1304,6 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
         window_height = appshell->geo.min_height;
     }
 
-    gtk_window_resize(GTK_WINDOW(appshell->shell), window_width, window_height);
-
 #ifdef HAVE_FULLSCREEN
     if (!canvas->fullscreenconfig->enable)
 #endif
@@ -1293,7 +1311,14 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
         set_window_resources(canvas, window_xpos, window_ypos, window_width, window_height);
     }
 
+    /* FIXME: is this correct ?! */
+    canvas->offx = canvas->geometry->screen_size.width - window_width;
+    DBG(("ui_resize_canvas_window lp offset=%i (scrw: %i w: %i)", canvas->offx, canvas->geometry->screen_size.width, window_width));
+
     DBG(("ui_resize_canvas_window exit (w:%d h:%d)", window_width, window_height));
+
+    gtk_window_resize(GTK_WINDOW(appshell->shell), window_width, window_height);
+    ui_dispatch_events();
 }
 
 /*
@@ -1302,10 +1327,10 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
 void ui_trigger_resize(void)
 {
     GtkWidget *toplevel = get_active_toplevel();
-    if ((toplevel) && (toplevel->window)) {
+    if ((toplevel) && (gtk_widget_get_window(toplevel))) {
         DBG(("ui_trigger_resize"));
         gdk_flush();
-        gdk_window_raise(toplevel->window);
+        gdk_window_raise(gtk_widget_get_window(toplevel));
     }
 }
 
@@ -1330,7 +1355,7 @@ void ui_trigger_window_resize(video_canvas_t *canvas)
 void x11ui_move_canvas_window(ui_window_t w, int x, int y)
 {
     DBG(("x11ui_move_canvas_window x:%d y:%d", x, y));
-    gdk_window_move(gdk_window_get_toplevel(w->window), x, y);
+    gdk_window_move(gdk_window_get_toplevel(gtk_widget_get_window(w)), x, y);
     gdk_flush();
 }
 
@@ -1339,12 +1364,12 @@ void x11ui_canvas_position(ui_window_t w, int *x, int *y)
     gint tl_x, tl_y, pos_x, pos_y;
 
     gdk_flush();
-    gdk_window_get_position(gdk_window_get_toplevel(w->window), &tl_x, &tl_y);
-    gdk_window_get_position(w->window, &pos_x, &pos_y);
+    gdk_window_get_position(gdk_window_get_toplevel(gtk_widget_get_window(w)), &tl_x, &tl_y);
+    gdk_window_get_position(gtk_widget_get_window(w), &pos_x, &pos_y);
     *x = (pos_x + tl_x);
     *y = (pos_y + tl_y);
     DBG(("x11ui_canvas_position x:%d y:%d", *x, *y));
-    gdk_window_raise(gdk_window_get_toplevel(w->window));
+    gdk_window_raise(gdk_window_get_toplevel(gtk_widget_get_window(w)));
 }
 
 void x11ui_get_widget_size(ui_window_t win, int *w, int *h)
@@ -1419,6 +1444,7 @@ unsigned char *convert_utf8(unsigned char *s)
 */
 void ui_update_menus(void)
 {
+    DBG(("ui_update_menus"));
     ui_menu_update_all();
     if (machine_class != VICE_MACHINE_VSID) {
         ui_update_palctrl();
@@ -1455,9 +1481,9 @@ void ui_unblock_shells(void)
         if (machine_class == VICE_MACHINE_VSID) {
             /* FIXME */
         } else {
-            gdk_pointer_grab(canvas->emuwindow->window, 1, 0, 
-                            canvas->emuwindow->window, 
-                            NULL, GDK_CURRENT_TIME);
+            gdk_pointer_grab(gtk_widget_get_window(canvas->emuwindow), 1, 0, 
+                             gtk_widget_get_window(canvas->emuwindow),
+                             NULL, GDK_CURRENT_TIME);
         }
         gdk_pointer_ungrab(GDK_CURRENT_TIME);
         ui_check_mouse_cursor();
@@ -1490,8 +1516,8 @@ void ui_popup(GtkWidget *w, const char *title, gboolean wait_popdown)
     gtk_widget_show(w);
     gtk_window_present(GTK_WINDOW(w));
 
-    gdk_window_set_decorations(w->window, GDK_DECOR_ALL | GDK_DECOR_MENU);
-    gdk_window_set_functions(w->window, GDK_FUNC_ALL | GDK_FUNC_RESIZE);
+    gdk_window_set_decorations(gtk_widget_get_window(w), GDK_DECOR_ALL | GDK_DECOR_MENU);
+    gdk_window_set_functions(gtk_widget_get_window(w), GDK_FUNC_ALL | GDK_FUNC_RESIZE);
 
     ui_block_shells();
     /* If requested, wait for this widget to be popped down before
@@ -1557,6 +1583,7 @@ static gboolean leave_window_callback(GtkWidget *w, GdkEvent *e, gpointer p)
 
 static gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
 {
+    DBG(("map_callback %p", user_data));
 #ifdef HAVE_HWSCALE
     video_canvas_t *canvas = (video_canvas_t *)user_data;
 
@@ -1571,8 +1598,6 @@ static gboolean map_callback(GtkWidget *w, GdkEvent *event, gpointer user_data)
         gdk_gl_drawable_gl_end(gl_drawable);
     }
 #endif
-    DBG(("map_callback %p", user_data));
-
     return FALSE;
 }
 
@@ -1703,7 +1728,7 @@ static gboolean configure_callback_app(GtkWidget *w, GdkEvent *event, gpointer c
            window area that we use, without the window frame and -decorations. to
            restore the exact window position and size, we do however need the position
            and size of the window including frame and decorations. */
-        gdk_window_get_frame_extents(appshell->shell->window, &rect);
+        gdk_window_get_frame_extents(gtk_widget_get_window(appshell->shell), &rect);
         DBG(("configure_callback_app actual window x %d y %d w %d h %d", rect.x, rect.y, rect.width, rect.height));
         set_window_resources(canvas, rect.x, rect.y, e->width, e->height);
 #ifdef HAVE_FULLSCREEN
@@ -1768,8 +1793,15 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
+#if !defined(GTK_USE_CAIRO)
         tw = canvas->gdk_image->width;
         th = canvas->gdk_image->height;
+#else
+        /* FIXME! */
+        tw = canvas->draw_buffer->canvas_physical_width;
+        th = canvas->draw_buffer->canvas_physical_height;
+#endif
+
 #ifdef __BIG_ENDIAN__
 #ifndef GL_ABGR_EXT
     #error "Your headers do not supply GL_ABGR_EXT. Disable HWSCALE and try again."
@@ -1802,7 +1834,17 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         int width = e->area.width;
         int height = e->area.height;
 
+#if !defined(GTK_USE_CAIRO)
         gdk_draw_image(w->window, app_gc, canvas->gdk_image, x, y, x, y, width, height);
+#else
+        canvas->cairo_ctx = gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
+        if (canvas->cairo_ctx != NULL) {
+            /* FIXME: this always redraws the entire canvas area */
+            gdk_cairo_set_source_pixbuf(canvas->cairo_ctx, canvas->gdk_pixbuf, 0, 0);
+            cairo_paint (canvas->cairo_ctx);
+            cairo_destroy(canvas->cairo_ctx);
+        }
+#endif
     }
 
     return 0;

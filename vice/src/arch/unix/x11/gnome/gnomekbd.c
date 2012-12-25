@@ -33,8 +33,8 @@
 #include "vice.h"
 
 #include <string.h>             /* memset() */
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
+
+#include "uiarch.h"
 
 #include "kbd.h"
 #include "keyboard.h"
@@ -54,7 +54,7 @@ signed long kbd_arch_keyname_to_keynum(char *keyname)
 {
     guint sym = gdk_keyval_from_name(keyname);
 
-    if (sym == GDK_VoidSymbol) {
+    if (sym == KEYSYM_VoidSymbol) {
         return -1;
     }
 
@@ -82,7 +82,7 @@ static gboolean kbd_event_handler(GtkWidget *w, GdkEvent *report, gpointer gp)
 #ifdef DEBUG_KBD
             log_debug("KeyRelese`%d'.", key);
 #endif
-            if (key == GDK_Shift_L || key == GDK_Shift_R || key == GDK_ISO_Level3_Shift) {
+            if (key == KEYSYM_Shift_L || key == KEYSYM_Shift_R || key == KEYSYM_ISO_Level3_Shift) {
                 keyboard_key_clear();
             }
             keyboard_key_released(key);
@@ -112,15 +112,15 @@ void kbd_connect_enterleave_handler(GtkWidget *widget, void *data)
 
 void kbd_initialize_numpad_joykeys(int* joykeys)
 {
-    joykeys[0] = GDK_KP_0;
-    joykeys[1] = GDK_KP_1;
-    joykeys[2] = GDK_KP_2;
-    joykeys[3] = GDK_KP_3;
-    joykeys[4] = GDK_KP_4;
-    joykeys[5] = GDK_KP_6;
-    joykeys[6] = GDK_KP_7;
-    joykeys[7] = GDK_KP_8;
-    joykeys[8] = GDK_KP_9;
+    joykeys[0] = KEYSYM_KP_0;
+    joykeys[1] = KEYSYM_KP_1;
+    joykeys[2] = KEYSYM_KP_2;
+    joykeys[3] = KEYSYM_KP_3;
+    joykeys[4] = KEYSYM_KP_4;
+    joykeys[5] = KEYSYM_KP_6;
+    joykeys[6] = KEYSYM_KP_7;
+    joykeys[7] = KEYSYM_KP_8;
+    joykeys[8] = KEYSYM_KP_9;
 }
 
 #if 0

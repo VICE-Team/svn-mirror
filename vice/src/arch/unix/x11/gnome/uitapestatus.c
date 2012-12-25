@@ -165,11 +165,13 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
     gtk_widget_show(as->tape_status.label);
 
     /* Tape control */
+#if !defined(GTK_USE_CAIRO)
     as->tape_status.control_pixmap = gdk_pixmap_new(window, CTRL_WIDTH, CTRL_HEIGHT, -1);
     as->tape_status.control = gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
     gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
     gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control, FALSE, FALSE, 4);
     gtk_widget_show(as->tape_status.control);
+#endif
 
     gtk_widget_set_events(as->tape_status.event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(as->tape_status.event_box), "button-press-event", G_CALLBACK(tape_popup_cb), (gpointer)NULL);
@@ -233,6 +235,7 @@ void ui_display_tape_control_status(int control)
 
     GdkPoint *p;
     int i, num;
+#if !defined(GTK_USE_CAIRO)
     GdkGC *app_gc = get_toplevel();
     int num_app_shells = get_num_shells();
 
@@ -298,6 +301,7 @@ void ui_display_tape_control_status(int control)
             gtk_widget_queue_draw(ts->control);
         }
     }
+#endif
     gdk_flush();
 }
 

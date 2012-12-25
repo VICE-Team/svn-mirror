@@ -43,9 +43,6 @@
 #include "video.h"
 #include "videoarch.h"
 
-
-extern int screen; /* FIXME */
-
 /* UI color constants shared by GUI elements */
 GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel;
 GdkColor drive_led_off_pixel, motor_running_pixel, tape_control_pixel;
@@ -114,7 +111,7 @@ unsigned int endian_swap(unsigned int color, unsigned int bpp, unsigned int swap
     if (bpp == 32) {
         return ((color >> 24) & 0x000000ff) | ((color >>  8) & 0x0000ff00) | ((color <<  8) & 0x00ff0000) | ((color << 24) & 0xff000000);
     }
-    
+
     /* err? */
     return color;
 }
@@ -137,6 +134,8 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
         bs = 16;
         swap = 0;
     } else {
+#if !defined(GTK_USE_CAIRO)
+        /* FIXME: GdkImage and GdkVisual are deprecated since 2.22 */
         GdkVisual *vis = gdk_image_get_visual(c->gdk_image);
 
         bpp = gdk_visual_get_depth(vis);
@@ -154,6 +153,17 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
          * arrangement as they have been written to assume the A component is
          * in the 32-bit longword bits 24-31. If any arch needs 24 bpp, that
          * code must be specially written for it. */
+#else
+        /* FIXME */
+        bpp = 24;
+        rb = 8;
+        gb = 8;
+        bb = 8;
+        rs = 0;
+        gs = 8;
+        bs = 16;
+        swap = 0;
+#endif
     }
 
     for (i = 0; i < palette->num_entries; i++) {

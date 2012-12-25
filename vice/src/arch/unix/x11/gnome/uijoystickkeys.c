@@ -57,10 +57,10 @@ static gboolean ui_change_key(GtkWidget *widget, GdkEventKey *event, gpointer us
     struct keysbuttons *k = user_data;
     guint key = event->keyval;
 
-    if (key == GDK_Alt_L || key == GDK_Alt_R) {
+    if (key == KEYSYM_Alt_L || key == KEYSYM_Alt_R) {
         return FALSE;
     }
-    if (key == GDK_Escape) {
+    if (key == KEYSYM_Escape) {
         key = 0;
     }
 
@@ -143,7 +143,7 @@ UI_CALLBACK(ui_keyset_dialog)
         gtk_widget_show(label[i]);
         g_signal_connect(G_OBJECT(button[i]), "pressed", G_CALLBACK(ui_keybutton_pressed), (gpointer) button);
     }
-    gtk_box_pack_start(GTK_BOX(GTK_DIALOG(keyset_dialog)->vbox), keyset1, FALSE, FALSE, 0);
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(keyset_dialog))), keyset1, FALSE, FALSE, 0);
     gtk_table_attach (GTK_TABLE(keyset1), titlelabel1, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
     gtk_table_attach (GTK_TABLE(keyset1), ruler, 0, 3, 4, 5, GTK_EXPAND|GTK_FILL, 0, 0, 0);
     gtk_table_attach (GTK_TABLE(keyset1), titlelabel2, 0, 3, 5, 6, GTK_EXPAND|GTK_FILL, 0, 0, 0);

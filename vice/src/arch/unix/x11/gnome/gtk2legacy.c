@@ -53,6 +53,19 @@ void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text)
 }
 #endif
 
+#if !GTK_CHECK_VERSION(2, 24, 0)
+/* since 2.24 */
+GtkWidget *gtk_combo_box_text_new(void)
+{
+    return gtk_combo_box_new_text();
+}
+/* since 2.24 */
+void gtk_combo_box_text_append_text(GtkComboBoxText *combo_box, const gchar *text)
+{
+    gtk_combo_box_append_text(combo_box, text);
+}
+#endif
+
 #if !GTK_CHECK_VERSION(3, 0, 0)
 /* since 3.0 ? */
 int gtk_widget_get_allocated_height(GtkWidget *widget)

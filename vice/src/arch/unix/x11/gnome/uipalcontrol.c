@@ -52,7 +52,7 @@ typedef struct pal_res_s {
     char *label;        /* Label of Adjustmentbar */
     char *res;          /* Associated resource */
     int scale;          /* Scale to adjust to value range 0..4000 */
-    GtkObject *adj;     /* pointer to widget */
+    GtkAdjustment *adj; /* pointer to widget */
     GtkWidget *w;       /* widget holding the scrollbar+label */
     video_canvas_t *canvas;
     struct pal_res_s *first;
@@ -164,7 +164,7 @@ void ui_update_palctrl(void)
 GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
 {
     GtkWidget *b, *hb;
-    GtkObject *adj;
+    GtkAdjustment *adj;
     GtkWidget *sb;
     GtkWidget *f;
     GtkWidget *l, *c;
@@ -206,14 +206,17 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         gtk_widget_show(c);
 
         ctrldata[i].scale = ctrls[i].scale;
-        ctrldata[i].adj = adj = gtk_adjustment_new(0, 0, 4100, 1, 100, 100);
+        ctrldata[i].adj = adj = GTK_ADJUSTMENT(gtk_adjustment_new(0, 0, 4100, 1, 100, 100));
 
         resources_get_int(resname, &v);
         ctrldata[i].res = resname;
 
         gtk_adjustment_set_value(GTK_ADJUSTMENT(adj), (gfloat)(v * ctrldata[i].scale));
         sb = gtk_hscrollbar_new(GTK_ADJUSTMENT(adj));
+#if !GTK_CHECK_VERSION(2, 24, 0)
+        /* deprecated since 2.24, removed in 3.0 ("continuous" is default however) */
         gtk_range_set_update_policy(GTK_RANGE(sb), GTK_UPDATE_CONTINUOUS);
+#endif
         gtk_box_pack_start(GTK_BOX(hb), sb, TRUE, TRUE, 0);
 
         g_signal_connect(G_OBJECT(adj), "value_changed", G_CALLBACK (value_changed_cb), &ctrldata[i]);

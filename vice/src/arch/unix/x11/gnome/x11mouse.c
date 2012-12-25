@@ -161,6 +161,7 @@ void ui_restore_mouse(void)
 
 void mouse_init_cursor(void)
 {
+#if !GTK_CHECK_VERSION(2, 2, 0)
     static char cursor[] = { 0x00 };
     GdkColor fg = { 0, 0, 0, 0 };
     GdkColor bg = { 0, 0, 0, 0 };
@@ -170,7 +171,12 @@ void mouse_init_cursor(void)
     blankCursor = gdk_cursor_new_from_pixmap (source, mask, &fg, &bg, 1, 1); 
 
     g_object_unref (source);
-    g_object_unref (mask); 
+    g_object_unref (mask);
+#else
+    /* GDK_BLANK_CURSOR exists since 2.16 */
+    /* FIXME: to support multiple screens, we must use gdk_cursor_new_for_display */
+    blankCursor = gdk_cursor_new(GDK_BLANK_CURSOR);
+#endif
 }
 
 static void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)

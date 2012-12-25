@@ -29,12 +29,6 @@
 
 /* #define DEBUG_X11UI */
 
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
 #include "vice.h"
 
 #include <string.h>
@@ -51,6 +45,14 @@
 #include "video.h"
 #include "resources.h"
 #include "videoarch.h"
+
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
+/******************************************************************************/
 
 #define LED_WIDTH 12
 #define LED_HEIGHT 6
@@ -169,26 +171,29 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
         gtk_widget_show(as->drive_status[i].track_label);      
 
         /* Single Led */
+#if !defined(GTK_USE_CAIRO)
         as->drive_status[i].led_pixmap = gdk_pixmap_new(window, LED_WIDTH, LED_HEIGHT, -1);
         as->drive_status[i].led = gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
         gtk_widget_set_size_request(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led, FALSE, FALSE, 4);
         gtk_widget_show(as->drive_status[i].led);
-
+#endif
         /* Led1 for double Led drive */
+#if !defined(GTK_USE_CAIRO)
         as->drive_status[i].led1_pixmap = gdk_pixmap_new(window, LED_WIDTH / 2, LED_HEIGHT, -1);
         as->drive_status[i].led1 = gtk_image_new_from_pixmap(as->drive_status[i].led1_pixmap, NULL);
         gtk_widget_set_size_request(as->drive_status[i].led1, LED_WIDTH / 2, LED_HEIGHT);
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led1, FALSE, FALSE, 1);
         gtk_widget_show(as->drive_status[i].led1);
-
+#endif
         /* Led2 for double Led drive */
+#if !defined(GTK_USE_CAIRO)
         as->drive_status[i].led2_pixmap = gdk_pixmap_new(window, LED_WIDTH / 2, LED_HEIGHT, -1);
         as->drive_status[i].led2 = gtk_image_new_from_pixmap(as->drive_status[i].led2_pixmap, NULL);
         gtk_widget_set_size_request(as->drive_status[i].led2, LED_WIDTH / 2, LED_HEIGHT);
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led2, FALSE, FALSE, 1);
         gtk_widget_show(as->drive_status[i].led2);
-
+#endif
         /* Pack everything together */
         gtk_box_pack_start(GTK_BOX(drive_box), as->drive_status[i].event_box, FALSE, FALSE, 0);
 
@@ -214,6 +219,7 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                 /* enabled + active drive */
                 gtk_widget_show(app_shells[i].drive_status[j].event_box);
                 gtk_widget_show(app_shells[i].drive_status[j].track_label);
+#if !defined(GTK_USE_CAIRO)
                 if (drive_num_leds(j) == 1) {
                     gtk_widget_show(app_shells[i].drive_status[j].led);
                     gtk_widget_hide(app_shells[i].drive_status[j].led1);
@@ -223,12 +229,15 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                     gtk_widget_show(app_shells[i].drive_status[j].led1);
                     gtk_widget_show(app_shells[i].drive_status[j].led2);
                 }
+#endif
             } else if (!enabled_drives && (strcmp(last_attached_images[j], "") != 0)) {
                 gtk_widget_show(app_shells[i].drive_status[j].event_box);
                 gtk_widget_hide(app_shells[i].drive_status[j].track_label);
+#if !defined(GTK_USE_CAIRO)
                 gtk_widget_hide(app_shells[i].drive_status[j].led);
                 gtk_widget_hide(app_shells[i].drive_status[j].led1);
                 gtk_widget_hide(app_shells[i].drive_status[j].led2);
+#endif
             } else {
                 gtk_widget_hide(app_shells[i].drive_status[j].event_box);
             }
@@ -280,7 +289,9 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
 {
     int status = 0;
     int i, ci1, ci2;
+#if !defined(GTK_USE_CAIRO)
     GdkGC *app_gc = get_toplevel();
+#endif
     int num_app_shells = get_num_shells();
 
     GdkColor *color;
@@ -305,19 +316,25 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
         drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
 
         color = status ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
+#if !defined(GTK_USE_CAIRO)
         gdk_gc_set_rgb_fg_color(app_gc, color);
         gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH, LED_HEIGHT);
         gtk_widget_queue_draw(ds->led);
+#endif
 
         color = (status & 1) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
+#if !defined(GTK_USE_CAIRO)
         gdk_gc_set_rgb_fg_color(app_gc, color);
         gdk_draw_rectangle(ds->led1_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH / 2, LED_HEIGHT);
         gtk_widget_queue_draw(ds->led1);
+#endif
 
         color = (status & 2) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci2] : &drive_led_on_red_pixels[ci2]) : &drive_led_off_pixel;
+#if !defined(GTK_USE_CAIRO)
         gdk_gc_set_rgb_fg_color(app_gc, color);
         gdk_draw_rectangle(ds->led2_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH / 2, LED_HEIGHT);
         gtk_widget_queue_draw(ds->led2);
+#endif
     }
 }
 

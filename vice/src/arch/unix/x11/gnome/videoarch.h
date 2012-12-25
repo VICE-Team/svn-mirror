@@ -45,9 +45,12 @@ struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
     GtkWidget *emuwindow, *pane;
-#if !GTK_CHECK_VERSION(3, 0, 0)
-    /* FIXME: alternative for GTK3 */
+#if !defined(GTK_USE_CAIRO)
+    /* deprecated since 2.22, removed in 3.0 */
     GdkImage *gdk_image;
+#else
+    GdkPixbuf *gdk_pixbuf;
+    cairo_t *cairo_ctx;
 #endif
     struct video_render_config_s *videoconfig;
     struct draw_buffer_s *draw_buffer;

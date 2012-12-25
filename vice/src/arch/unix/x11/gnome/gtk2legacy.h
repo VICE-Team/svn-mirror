@@ -84,6 +84,17 @@ extern void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text);
 #define gdk_visual_get_depth(v) (v)->depth
 #endif
 
+#if !GTK_CHECK_VERSION(2, 24, 0)
+/* since 2.24 ? */
+typedef GtkComboBox GtkComboBoxText;
+/* since 2.24 ? */
+#define GTK_COMBO_BOX_TEXT(w) GTK_COMBO_BOX(w)
+/* since 2.24 */
+extern GtkWidget *gtk_combo_box_text_new(void);
+/* since 2.24 */
+extern void gtk_combo_box_text_append_text(GtkComboBoxText *combo_box, const gchar *text);
+#endif
+
 #if !GTK_CHECK_VERSION(3, 0, 0)
 /* since 3.0 ? */
 extern int gtk_widget_get_allocated_height(GtkWidget *widget);

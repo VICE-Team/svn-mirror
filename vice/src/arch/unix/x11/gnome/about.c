@@ -126,11 +126,11 @@ void ui_about(gpointer data)
                              NULL);
         g_signal_connect(G_OBJECT(about), "destroy", G_CALLBACK(gtk_widget_destroyed), &about);
         button = gtk_dialog_add_button(GTK_DIALOG(about), _("License"), GTK_RESPONSE_OK);
-        g_signal_connect(GTK_OBJECT(button), "clicked", G_CALLBACK(license_cb), NULL);
+        g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(license_cb), NULL);
         button = gtk_dialog_add_button(GTK_DIALOG(about), _("Warranty"), GTK_RESPONSE_OK);
-        g_signal_connect(GTK_OBJECT(button), "clicked", G_CALLBACK(warranty_cb), NULL);
+        g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(warranty_cb), NULL);
         button = gtk_dialog_add_button(GTK_DIALOG(about), _("Contributors"), GTK_RESPONSE_OK);
-        g_signal_connect(GTK_OBJECT(button), "clicked", G_CALLBACK(contrib_cb), NULL);
+        g_signal_connect(G_OBJECT(button), "clicked", G_CALLBACK(contrib_cb), NULL);
         g_signal_connect(G_OBJECT(about), "response", G_CALLBACK(response_cb), about);
     } else {
         gdk_window_show(gtk_widget_get_window(about));

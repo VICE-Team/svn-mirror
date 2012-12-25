@@ -293,7 +293,7 @@ static GtkWidget *build_screenshot_dialog(void)
 
 #ifdef HAVE_FFMPEG
     GtkWidget *l, *hbox, *tmp;
-    GtkObject *adj;
+    GtkAdjustment *adj;
     int audio_bitrate, video_bitrate;
     gfxoutputdrv_format_t *f;
     GtkListStore *drv_store;
@@ -324,11 +324,11 @@ static GtkWidget *build_screenshot_dialog(void)
     }
 
     /* "output driver" combo box */
-    drv_menu = omenu = gtk_combo_box_new_text ();
+    drv_menu = omenu = gtk_combo_box_text_new();
 
     driver = gfxoutput_drivers_iter_init();
     for (i = 0; i < num_buttons; i++) {
-        gtk_combo_box_append_text(GTK_COMBO_BOX(omenu), driver->displayname);
+        gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), driver->displayname);
         buttons[i].driver = driver->name;
         buttons[i].ext = driver->default_extension;
         driver = gfxoutput_drivers_iter_next();
@@ -420,7 +420,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(hbox);
 
     resources_get_int("FFMPEGAudioBitrate", &audio_bitrate);
-    adj = gtk_adjustment_new((gfloat)audio_bitrate, (gfloat)VICE_FFMPEG_AUDIO_RATE_MIN, (gfloat)VICE_FFMPEG_AUDIO_RATE_MAX, (gfloat)1000, (gfloat)10000, (gfloat)00000);
+    adj = GTK_ADJUSTMENT(gtk_adjustment_new((gfloat)audio_bitrate, (gfloat)VICE_FFMPEG_AUDIO_RATE_MIN, (gfloat)VICE_FFMPEG_AUDIO_RATE_MAX, (gfloat)1000, (gfloat)10000, (gfloat)00000));
     ffmpg_audio = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)1000, 0);
     gtk_widget_set_size_request(ffmpg_audio, 100, -1);
     l = gtk_label_new(_("Audio bitrate"));
@@ -430,7 +430,7 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(ffmpg_opts), tmp, FALSE, FALSE, 0);
 
     resources_get_int("FFMPEGVideoBitrate", &video_bitrate);
-    adj = gtk_adjustment_new((gfloat)video_bitrate, (gfloat)VICE_FFMPEG_VIDEO_RATE_MIN, (gfloat)VICE_FFMPEG_VIDEO_RATE_MAX, (gfloat)10000, (gfloat)100000, (gfloat)000000);
+    adj = GTK_ADJUSTMENT(gtk_adjustment_new((gfloat)video_bitrate, (gfloat)VICE_FFMPEG_VIDEO_RATE_MIN, (gfloat)VICE_FFMPEG_VIDEO_RATE_MAX, (gfloat)10000, (gfloat)100000, (gfloat)000000));
     ffmpg_video = gtk_spin_button_new(GTK_ADJUSTMENT(adj), (gfloat)10000, 0);
     gtk_widget_set_size_request(ffmpg_video, 100, -1);
     l = gtk_label_new(_("Video bitrate"));

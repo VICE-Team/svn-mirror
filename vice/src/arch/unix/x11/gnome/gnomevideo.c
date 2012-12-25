@@ -136,7 +136,13 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     int res;
     DBG(("video_canvas_create %p", canvas));
 
+#if !defined(GTK_USE_CAIRO)
     canvas->gdk_image = NULL;
+#else
+    canvas->gdk_pixbuf = NULL;
+    /* canvas->cairo_ctx = gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow)); */
+#endif
+
 #ifdef HAVE_HWSCALE
     canvas->hwscale_image = NULL;
 #endif
@@ -161,9 +167,14 @@ void video_canvas_destroy(video_canvas_t *canvas)
         fullscreen_shutdown_alloc_hooks(canvas);
         lib_free(canvas->fullscreenconfig);
 #endif
+
+#if !defined(GTK_USE_CAIRO)
         if (canvas->gdk_image != NULL) {
             g_object_unref(canvas->gdk_image);
         }
+#else
+    /* FIXME */
+#endif
 
 #ifdef HAVE_HWSCALE
         lib_free(canvas->hwscale_image);
@@ -184,19 +195,37 @@ int video_canvas_set_palette(video_canvas_t *canvas, struct palette_s *palette)
 /* Change the size of the canvas. */
 void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 {
+    int imgw, imgh;
+
     if (console_mode || video_disabled_mode) {
         return;
     }
     canvas->videoconfig->readable = 1; /* it's not direct rendering */
 
+    imgw = canvas->draw_buffer->canvas_physical_width;
+    imgh = canvas->draw_buffer->canvas_physical_height;
+#if !defined(GTK_USE_CAIRO)
     if (canvas->gdk_image != NULL) {
         g_object_unref(canvas->gdk_image);
     }
-    canvas->gdk_image = gdk_image_new(GDK_IMAGE_FASTEST, gtk_widget_get_visual(canvas->emuwindow), canvas->draw_buffer->canvas_physical_width, canvas->draw_buffer->canvas_physical_height);
+    canvas->gdk_image = gdk_image_new(GDK_IMAGE_FASTEST, gtk_widget_get_visual(canvas->emuwindow), imgw, imgh);
+#else
+/*
+    if (canvas->cairo_ctx != NULL) {
+        cairo_destroy(canvas->cairo_ctx);
+    }
+    canvas->cairo_ctx = gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
+*/
+    if (canvas->gdk_pixbuf != NULL) {
+        g_object_unref(canvas->gdk_pixbuf);
+    }
+    canvas->gdk_pixbuf = gdk_pixbuf_new(GDK_COLORSPACE_RGB, 0, 8, imgw, imgh);
+#endif
 
 #ifdef HAVE_HWSCALE
     lib_free(canvas->hwscale_image);
-    canvas->hwscale_image = lib_malloc(gdk_image_get_width(canvas->gdk_image) * gdk_image_get_height(canvas->gdk_image) * 4);
+    /* canvas->hwscale_image = lib_malloc(gdk_image_get_width(canvas->gdk_image) * gdk_image_get_height(canvas->gdk_image) * 4); */
+    canvas->hwscale_image = lib_malloc(imgw * imgh * 4);
 #endif
 
     if (video_canvas_set_palette(canvas, canvas->palette) < 0) {
@@ -222,6 +251,7 @@ void video_canvas_unmap(video_canvas_t *s)
 /* Refresh a canvas.  */
 void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int ys, unsigned int xi, unsigned int yi, unsigned int w, unsigned int h)
 {
+    int imgw, imgh;
 #if 0
     log_debug("XS%i YS%i XI%i YI%i W%i H%i PS%i", xs, ys, xi, yi, w, h, canvas->draw_buffer->draw_buffer_width);
 #endif
@@ -247,21 +277,35 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     }
 #endif
 
-    if (((xi + w) > gdk_image_get_width(canvas->gdk_image)) || ((yi + h) > gdk_image_get_height(canvas->gdk_image))) {
+#if !defined(GTK_USE_CAIRO)
+    imgw = gdk_image_get_width(canvas->gdk_image);
+    imgh = gdk_image_get_height(canvas->gdk_image);
+#else
+    /* FIXME */
+    imgw = canvas->draw_buffer->canvas_physical_width;
+    imgh = canvas->draw_buffer->canvas_physical_height;
+#endif
+
+    if (((xi + w) > imgw) || ((yi + h) > imgh)) {
 #ifdef DEBUG	
-        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, gdk_image_get_width(canvas->gdk_image), gdk_image_get_height(canvas->gdk_image));
+        log_debug("Attempt to draw outside canvas!\nXI%i YI%i W%i H%i CW%i CH%i\n", xi, yi, w, h, imgw, imgh);
 #endif
 	return;
     }
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
-        video_canvas_render(canvas, canvas->hwscale_image, w, h, xs, ys, xi, yi, gdk_image_get_width(canvas->gdk_image) * 4, 32);
+        video_canvas_render(canvas, canvas->hwscale_image, w, h, xs, ys, xi, yi, canvas->draw_buffer->canvas_physical_width * 4, 32);
         gtk_widget_queue_draw(canvas->emuwindow);
     } else
 #endif
     {
+#if !defined(GTK_USE_CAIRO)
         video_canvas_render(canvas, gdk_image_get_pixels(canvas->gdk_image), w, h, xs, ys, xi, yi, gdk_image_get_bytes_per_line(canvas->gdk_image), gdk_image_get_bits_per_pixel(canvas->gdk_image));
+#else
+        /* FIXME */
+        video_canvas_render(canvas, gdk_pixbuf_get_pixels(canvas->gdk_pixbuf), w, h, xs, ys, xi, yi, gdk_pixbuf_get_rowstride(canvas->gdk_pixbuf), gdk_pixbuf_get_bits_per_sample(canvas->gdk_pixbuf) * gdk_pixbuf_get_n_channels(canvas->gdk_pixbuf));
+#endif
         gtk_widget_queue_draw_area(canvas->emuwindow, xi, yi, w, h);
     }
 }
