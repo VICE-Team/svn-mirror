@@ -184,17 +184,9 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_t)toggle_VICIINewLuminances, NULL, NULL },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
-#ifndef USE_GNOMEUI
-    { N_("Color settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
-#ifndef USE_GNOMEUI
-    { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Border mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, bordermode_submenu },
@@ -242,18 +234,10 @@ ui_menu_entry_t vicii_submenu[] = {
 
 void uivicii_menu_create(void)
 {
-#ifndef USE_GNOMEUI
-    vicii_submenu[6].sub_menu = build_color_menu("VICII");
-    vicii_submenu[9].sub_menu = build_crt_menu("VICII");
-#endif
     UI_FULLSCREEN_MENU_CREATE(VICII)
 }
 
 void uivicii_menu_shutdown(void)
 {
-#ifndef USE_GNOMEUI
-    shutdown_color_menu(vicii_submenu[6].sub_menu);
-    shutdown_crt_menu(vicii_submenu[9].sub_menu);
-#endif
     UI_FULLSCREEN_MENU_SHUTDOWN(VICII)
 }

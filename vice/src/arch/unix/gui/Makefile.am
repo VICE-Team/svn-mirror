@@ -113,8 +113,6 @@ libarchgui_a_SOURCES = \
 	uilightpen.h \
 	uinetplay.c \
 	uinetplay.h \
-	uipalemu.c \
-	uipalemu.h \
 	uipalette.c \
 	uipalette.h \
 	uiperipheral.c \

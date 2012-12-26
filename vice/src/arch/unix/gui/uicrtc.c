@@ -158,17 +158,9 @@ ui_menu_entry_t crtc_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, crtc_palette_submenu },
-#ifndef USE_GNOMEUI
-    { N_("Color settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
-#ifndef USE_GNOMEUI
-    { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_CrtcAudioLeak, NULL, NULL },
@@ -185,7 +177,7 @@ ui_menu_entry_t crtc_submenu[] = {
     { N_("Set custom aspect ratio"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_custom_aspect_ratio,
       (ui_callback_data_t)"AspectRatio", NULL },
-#endif
+#endif /* HAVE_XVIDEO */
 #endif /* USE_GNOMEUI */
 #endif /* HAVE_HWSCALE */
 #ifdef HAVE_OPENGL_SYNC
@@ -209,18 +201,10 @@ ui_menu_entry_t crtc_submenu[] = {
 
 void uicrtc_menu_create(void)
 {
-#ifndef USE_GNOMEUI
-    crtc_submenu[6].sub_menu = build_color_menu("Crtc");
-    crtc_submenu[9].sub_menu = build_crt_menu("Crtc");
-#endif
     UI_FULLSCREEN_MENU_CREATE(CRTC)
 }
 
 void uicrtc_menu_shutdown(void)
 {
-#ifndef USE_GNOMEUI
-    shutdown_color_menu(crtc_submenu[6].sub_menu);
-    shutdown_crt_menu(crtc_submenu[9].sub_menu);
-#endif
     UI_FULLSCREEN_MENU_SHUTDOWN(CRTC)
 }

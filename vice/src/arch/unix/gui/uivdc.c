@@ -175,17 +175,9 @@ ui_menu_entry_t vdc_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vdc_palette_submenu },
-#ifndef USE_GNOMEUI
-    { N_("Color settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
-#ifndef USE_GNOMEUI
-    { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Audio leak emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_VDCAudioLeak, NULL, NULL },
@@ -226,18 +218,10 @@ ui_menu_entry_t vdc_submenu[] = {
 
 void uivdc_menu_create(void)
 {
-#ifndef USE_GNOMEUI
-    vdc_submenu[6].sub_menu = build_color_menu("VDC");
-    vdc_submenu[9].sub_menu = build_crt_menu("VDC");
-#endif
     UI_FULLSCREEN_MENU_CREATE(VDC)
 }
 
 void uivdc_menu_shutdown(void)
 {
-#ifndef USE_GNOMEUI
-    shutdown_color_menu(vdc_submenu[6].sub_menu);
-    shutdown_crt_menu(vdc_submenu[9].sub_menu);
-#endif
     UI_FULLSCREEN_MENU_SHUTDOWN(VDC)
 }

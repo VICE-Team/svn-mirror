@@ -162,17 +162,9 @@ ui_menu_entry_t ted_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Colors"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, palette_submenu },
-#ifndef USE_GNOMEUI
-    { N_("Color settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Render filter"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, renderer_submenu },
-#ifndef USE_GNOMEUI
-    { N_("CRT emulation settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, NULL },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Border mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, bordermode_submenu },
@@ -191,9 +183,9 @@ ui_menu_entry_t ted_submenu[] = {
     { N_("Set custom aspect ratio"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)set_custom_aspect_ratio,
       (ui_callback_data_t)"AspectRatio", NULL },
-#endif
+#endif /* HAVE_XVIDEO */
 #endif /* USE_GNOMEUI */
-#endif
+#endif /* HAVE_HWSCALE */
 #ifdef HAVE_OPENGL_SYNC
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,
@@ -215,18 +207,10 @@ ui_menu_entry_t ted_submenu[] = {
 
 void uited_menu_create(void)
 {
-#ifndef USE_GNOMEUI
-    ted_submenu[5].sub_menu = build_color_menu("TED");
-    ted_submenu[8].sub_menu = build_crt_menu("TED");
-#endif
     UI_FULLSCREEN_MENU_CREATE(TED)
 }
 
 void uited_menu_shutdown(void)
 {
-#ifndef USE_GNOMEUI
-    shutdown_color_menu(ted_submenu[5].sub_menu);
-    shutdown_crt_menu(ted_submenu[8].sub_menu);
-#endif
     UI_FULLSCREEN_MENU_SHUTDOWN(TED);
 }
