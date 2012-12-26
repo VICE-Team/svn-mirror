@@ -34,7 +34,6 @@
 #include "resources.h"
 #include "uiapi.h"
 #include "uimenu.h"
-#include "uipalemu.h"
 #include "uipalette.h"
 #include "util.h"
 #include "vic.h"

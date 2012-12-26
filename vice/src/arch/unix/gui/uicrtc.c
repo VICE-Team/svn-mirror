@@ -35,7 +35,6 @@
 #include "uiapi.h"
 #include "uicrtc.h"
 #include "uimenu.h"
-#include "uipalemu.h"
 #include "uipalette.h"
 #include "util.h"
 #include "video.h"

@@ -38,7 +38,6 @@
 #include "uipalette.h"
 #include "uimenu.h"
 #include "uivicii.h"
-#include "uipalemu.h"
 #include "util.h"
 #include "vicii.h"
 #include "video.h"
