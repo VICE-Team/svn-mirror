@@ -51,7 +51,6 @@ src/arch/unix/gui/uimmc64.c
 src/arch/unix/gui/uimmcreplay.c
 src/arch/unix/gui/uimouse.c
 src/arch/unix/gui/uinetplay.c
-src/arch/unix/gui/uipalemu.c
 src/arch/unix/gui/uipalette.c
 src/arch/unix/gui/uiperipheral.c
 src/arch/unix/gui/uiperipheraliec.c
