@@ -49,6 +49,7 @@
 #include "cartio.h"
 #include "cartridge.h"
 #include "cia.h"
+#include "clkguard.h"
 #include "functionrom.h"
 #include "georam.h"
 #include "keyboard.h"
@@ -300,15 +301,57 @@ static void mem_toggle_caps_key(void)
 
 /* ------------------------------------------------------------------------- */
 
+/* $00/$01 unused bits emulation, assumed to behave the same as on the 6510
+   as investigated by groepaz:
+
+   it actually seems to work like this... somewhat unexpected indeed
+
+   a) unused bit of $00 (DDR) is actually implemented and working. any value
+      written to it can be read back and also affects $01 (DATA) the same as
+      with the used bits.
+   b) unused bit of $01 is also implemented and working. when the bit is
+      programmed as output, any value written to it can be read back. when the
+      bit is programmed as input it will read back as 0, if 1 is written to it
+      then it will read back as 1 for some time and drop back to 0 (the already
+      emulated case of when bitfading occurs)
+
+   educated guess on why this happens: on the CPU actually the full 8 bit of
+   the i/o port are implemented. what is missing for bit 7 is the actual
+   input/output driver stage only - which (imho) completely explains the above
+   described behavior :)
+*/
+
+static void clk_overflow_callback(CLOCK sub, void *unused_data)
+{
+    if (pport.data_set_clk_bit7 > (CLOCK)0) {
+        pport.data_set_clk_bit7 -= sub;
+    }
+    if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
+        pport.data_falloff_bit7 = 0;
+        pport.data_set_bit7 = 0;
+    }
+}
+
 BYTE zero_read(WORD addr)
 {
-    addr &= 0xff;
+    BYTE retval;
+    
+	addr &= 0xff;
 
     switch ((BYTE)addr) {
         case 0:
             return pport.dir_read;
         case 1:
-            return pport.data_read;
+            /* set real values of bits 0-6 */
+            retval = pport.data_read & 0x7f;
+
+            /* set real value of bit 7 */
+            if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
+                pport.data_falloff_bit7 = 0;
+                pport.data_set_bit7 = 0;
+            }
+
+            return retval | pport.data_set_bit6 | pport.data_set_bit7;
     }
 
     return mem_page_zero[addr];
@@ -330,6 +373,17 @@ void zero_store(WORD addr, BYTE value)
 #if 0
     }
 #endif
+            /* check if bit 7 has flipped */
+            if ((pport.dir ^ value) & 0x80) {
+                if (value & 0x80) { /* output, update according to last write, cancel falloff */
+                    pport.data_set_bit7 = pport.data & 0x80;
+                    pport.data_falloff_bit7 = 0;
+                } else { /* input, start falloff if bit was set */
+                    pport.data_falloff_bit7 = pport.data_set_bit7;
+                    pport.data_set_clk_bit7 = maincpu_clk + C128_CPU8502_DATA_PORT_FALL_OFF_CYCLES;
+                }
+            }
+
             if (pport.dir != value) {
                 pport.dir = value;
                 mem_pla_config_changed();
@@ -346,6 +400,12 @@ void zero_store(WORD addr, BYTE value)
 #if 0
     }
 #endif
+            /* update value if input, otherwise don't touch */
+            if (!(pport.dir & 0x80)) {
+                pport.data_set_bit7 = value & 0x80;
+                pport.data_set_clk_bit7 = maincpu_clk + C128_CPU8502_DATA_PORT_FALL_OFF_CYCLES;
+            }
+
             if (pport.data != value) {
                 pport.data = value;
                 mem_pla_config_changed();
@@ -608,6 +668,8 @@ void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
 void mem_initialize_memory(void)
 {
     int i, j, k;
+
+    clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL);
 
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
