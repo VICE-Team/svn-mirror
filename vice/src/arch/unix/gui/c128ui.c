@@ -390,8 +390,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX, UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_c64_submenu },
-    { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ds12c887rtc_c128_submenu },
     { CARTRIDGE_NAME_MAGIC_VOICE, UI_MENU_TYPE_NORMAL,
       NULL, NULL, magicvoice_submenu },
 #ifdef HAVE_MIDI
@@ -402,6 +400,9 @@ static ui_menu_entry_t io_extensions_submenu[] = {
       NULL, NULL, soundexpander_c64_submenu },
     { CARTRIDGE_NAME_SFX_SOUND_SAMPLER, UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_SFXSoundSampler, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { CARTRIDGE_NAME_DS12C887RTC, UI_MENU_TYPE_NORMAL,
+      NULL, NULL, ds12c887rtc_c128_submenu },
     { "Userport RTC", UI_MENU_TYPE_NORMAL,
       (ui_callback_t)toggle_UserportRTC, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
@@ -648,6 +649,8 @@ static ui_menu_entry_t c128_left_menu[] = {
       NULL, NULL, ui_help_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
@@ -723,9 +726,7 @@ static ui_menu_entry_t c128_snapshot_menu[] = {
 
 static ui_menu_entry_t c128_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joystick_options_submenu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, model_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -735,6 +736,8 @@ static ui_menu_entry_t c128_options_menu[] = {
 
 static ui_menu_entry_t c128_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -775,6 +778,14 @@ static ui_menu_entry_t c128_main_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t c128_speed_menu[] = {
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
+    { NULL }
+};
+
 static ui_menu_entry_t c128_tape_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, uiattach_tape_menu },
@@ -809,7 +820,7 @@ int c128ui_init(void)
     ui_set_right_menu(c128_right_menu);
 
     ui_set_topmenu(c128_main_menu);
-    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_speedmenu(c128_speed_menu);
     ui_set_tape_menu(c128_tape_menu);
 
     ui_set_drop_callback(uiattach_autostart_file);

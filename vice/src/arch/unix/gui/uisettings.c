@@ -312,7 +312,6 @@ static UI_CALLBACK(set_default_resources)
 
 UI_MENU_DEFINE_TOGGLE(SaveResourcesOnExit)
 UI_MENU_DEFINE_TOGGLE(ConfirmOnExit)
-UI_MENU_DEFINE_TOGGLE(WarpMode)
 
 /* ------------------------------------------------------------------------- */
 
@@ -379,8 +378,6 @@ ui_menu_entry_t ui_performance_settings_menu[] = {
       NULL, NULL, set_refresh_rate_submenu },
     { N_("Maximum speed"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_maximum_speed_submenu },
-    { N_("Enable warp mode"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_WarpMode, NULL, NULL, KEYSYM_w, UI_HOTMOD_META },
     { NULL }
 };
 

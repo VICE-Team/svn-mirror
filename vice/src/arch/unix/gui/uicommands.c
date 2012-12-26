@@ -236,6 +236,8 @@ static UI_CALLBACK(do_exit)
 
 /* ------------------------------------------------------------------------- */
 
+UI_MENU_DEFINE_TOGGLE(WarpMode)
+
 static UI_CALLBACK(toggle_pause)
 {
     static int pause = 0;
@@ -521,7 +523,7 @@ ui_menu_entry_t ui_snapshot_commands_menu[] = {
     { NULL }
 };
 
-ui_menu_entry_t ui_sound_record_commands_menu[] = {
+ui_menu_entry_t ui_sound_record_commands_submenu[] = {
     { N_("Sound record WAV"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)sound_record_wav, NULL, NULL },
     { N_("Sound record AIFF"), UI_MENU_TYPE_DOTS,
@@ -536,6 +538,12 @@ ui_menu_entry_t ui_sound_record_commands_menu[] = {
 #endif
     { N_("Stop Sound record"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uicommands_sound_record_stop, NULL, NULL },
+    { NULL }
+};
+
+ui_menu_entry_t ui_sound_record_commands_menu[] = {
+    { N_("Sound recording"), UI_MENU_TYPE_NORMAL,
+      NULL,  NULL, ui_sound_record_commands_submenu },
     { NULL }
 };
 
@@ -637,9 +645,14 @@ ui_menu_entry_t ui_help_commands_menu[] = {
 ui_menu_entry_t ui_run_commands_menu[] = {
     { N_("Reset"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, reset_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t ui_runmode_commands_menu[] = {
     { N_("Pause"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_pause, NULL, NULL,
-      KEYSYM_p, UI_HOTMOD_META },
+      (ui_callback_t)toggle_pause, NULL, NULL, KEYSYM_p, UI_HOTMOD_META },
+    { N_("Enable warp mode"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_WarpMode, NULL, NULL, KEYSYM_w, UI_HOTMOD_META },
     { NULL }
 };
 

@@ -509,6 +509,8 @@ static ui_menu_entry_t petui_left_menu[] = {
       NULL, NULL, ui_help_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
@@ -590,9 +592,7 @@ static ui_menu_entry_t petui_snapshot_menu[] = {
 
 static ui_menu_entry_t petui_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joystick_options_submenu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, model_options_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -602,6 +602,8 @@ static ui_menu_entry_t petui_options_menu[] = {
 
 static ui_menu_entry_t petui_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -642,6 +644,14 @@ static ui_menu_entry_t petui_top_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t petui_speed_menu[] = {
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
+    { NULL }
+};
+
 static void petui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -667,7 +677,7 @@ int petui_init(void)
 
     ui_set_tape_menu(petui_tape_menu);
     ui_set_topmenu(petui_top_menu);
-    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_speedmenu(petui_speed_menu);
 
     ui_set_drop_callback(uiattach_autostart_file);
 

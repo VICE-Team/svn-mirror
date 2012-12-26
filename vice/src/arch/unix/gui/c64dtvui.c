@@ -198,7 +198,7 @@ static ui_menu_entry_t x64_left_menu[] = {
       NULL, NULL, uiattach_disk_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_smart_attach_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_snapshot_commands_menu },
@@ -212,6 +212,8 @@ static ui_menu_entry_t x64_left_menu[] = {
       NULL, NULL, ui_help_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
@@ -281,9 +283,7 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
 
 static ui_menu_entry_t x64_options_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joystick_options_submenu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, NULL },
     { N_("DTV model"), UI_MENU_TYPE_NORMAL,
@@ -293,10 +293,10 @@ static ui_menu_entry_t x64_options_submenu[] = {
     { NULL }
 };
 
-
-
 static ui_menu_entry_t x64_settings_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -340,6 +340,8 @@ static ui_menu_entry_t x64_main_menu[] = {
 static ui_menu_entry_t x64_speed_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
     { NULL }
 };
 

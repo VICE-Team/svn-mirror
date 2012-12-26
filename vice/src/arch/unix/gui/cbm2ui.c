@@ -467,6 +467,8 @@ static ui_menu_entry_t cbm2_left_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_datasette_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_snapshot_commands_menu },
@@ -482,6 +484,8 @@ static ui_menu_entry_t cbm2_left_menu[] = {
       NULL, NULL, ui_help_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
@@ -589,9 +593,7 @@ static ui_menu_entry_t cbm2_snapshot_menu[] = {
 
 static ui_menu_entry_t cbm5x0_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL,  ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joystick_options_submenu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm5x0_model_defaults_submenu },
@@ -602,9 +604,7 @@ static ui_menu_entry_t cbm5x0_options_menu[] = {
 
 static ui_menu_entry_t cbm6x0_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL,  ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joystick_options_submenu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm6x0_model_defaults_submenu },
@@ -615,6 +615,8 @@ static ui_menu_entry_t cbm6x0_options_menu[] = {
 
 static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL,  uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -633,6 +635,8 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
 
 static ui_menu_entry_t cbm6x0_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL,  uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -697,6 +701,14 @@ static ui_menu_entry_t cbm6x0_top_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t cbm2_speed_menu[] = {
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
+    { NULL }
+};
+
 /* ------------------------------------------------------------------------- */
 
 static void cbm2ui_dynamic_menu_create(void)
@@ -732,7 +744,7 @@ int cbm2ui_init(void)
     ui_set_topmenu(cbm6x0_top_menu);
 
     ui_set_tape_menu(cbm2_tape_menu);
-    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_speedmenu(cbm2_speed_menu);
     ui_update_menus();
 
     return 0;
@@ -755,7 +767,7 @@ int cbm5x0ui_init(void)
     ui_set_topmenu(cbm5x0_top_menu);
 
     ui_set_tape_menu(cbm2_tape_menu);
-    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_speedmenu(cbm2_speed_menu);
 
     ui_set_drop_callback(uiattach_autostart_file);
 

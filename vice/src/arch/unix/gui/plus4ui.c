@@ -346,6 +346,8 @@ static ui_menu_entry_t plus4_left_menu[] = {
       NULL, NULL, ui_help_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
@@ -429,9 +431,7 @@ static ui_menu_entry_t plus4_snapshot_menu[] = {
 
 static ui_menu_entry_t plus4_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, joystick_options_submenu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, NULL },
     { N_("Model"), UI_MENU_TYPE_NORMAL,
@@ -443,6 +443,8 @@ static ui_menu_entry_t plus4_options_menu[] = {
 
 static ui_menu_entry_t plus4_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -487,6 +489,14 @@ static ui_menu_entry_t plus4_top_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t plus4_speed_menu[] = {
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
+    { NULL }
+};
+
 static void plus4ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -512,7 +522,7 @@ int plus4ui_init(void)
 
     ui_set_topmenu(plus4_top_menu);
 
-    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_speedmenu(plus4_speed_menu);
     ui_set_tape_menu(plus4_tape_menu);
 
     ui_set_drop_callback(uiattach_autostart_file);

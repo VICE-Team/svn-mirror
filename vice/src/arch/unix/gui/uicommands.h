@@ -34,9 +34,11 @@ extern struct ui_menu_entry_s ui_directory_commands_menu[];
 extern struct ui_menu_entry_s ui_exit_commands_menu[];
 extern struct ui_menu_entry_s ui_help_commands_menu[];
 extern struct ui_menu_entry_s ui_run_commands_menu[];
+extern struct ui_menu_entry_s ui_runmode_commands_menu[];
 extern struct ui_menu_entry_s ui_snapshot_commands_menu[];
 extern struct ui_menu_entry_s ui_snapshot_commands_submenu[];
 extern struct ui_menu_entry_s ui_sound_record_commands_menu[];
+extern struct ui_menu_entry_s ui_sound_record_commands_submenu[];
 extern struct ui_menu_entry_s ui_tool_commands_menu[];
 extern struct ui_menu_entry_s ui_tool_commands_monitor_menu[];
 

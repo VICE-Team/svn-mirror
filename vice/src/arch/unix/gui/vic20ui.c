@@ -545,6 +545,8 @@ static ui_menu_entry_t vic20_left_menu[] = {
       NULL, NULL, ui_help_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
@@ -628,7 +630,7 @@ static ui_menu_entry_t vic20_snapshot_menu[] = {
 
 static ui_menu_entry_t vic20_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, io_extensions_submenu },
     { NULL }
@@ -636,6 +638,8 @@ static ui_menu_entry_t vic20_options_menu[] = {
 
 static ui_menu_entry_t vic20_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
@@ -676,6 +680,14 @@ static ui_menu_entry_t vic20_top_menu[] = {
     { NULL }
 };
 
+static ui_menu_entry_t vic20_speed_menu[] = {
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_performance_settings_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
+    { NULL }
+};
+
 static void vic20ui_dynamic_menu_create(void)
 {
     uisound_menu_create();
@@ -701,7 +713,7 @@ int vic20ui_init(void)
 
     ui_set_tape_menu(vic20_tape_menu);
     ui_set_topmenu(vic20_top_menu);
-    ui_set_speedmenu(ui_performance_settings_menu);
+    ui_set_speedmenu(vic20_speed_menu);
 
     ui_set_drop_callback(uiattach_autostart_file);
 

@@ -298,16 +298,6 @@ static UI_CALLBACK(psid_load)
     lib_free(filename);
 }
 
-#if 0
-static UI_CALLBACK(psid_tune)
-{
-    int tune = *((int *)UI_MENU_CB_PARAM);
-    machine_play_psid(tune);
-    vsync_suspend_speed_eval();
-    machine_trigger_reset(MACHINE_RESET_MODE_SOFT);
-}
-#endif
-
 static ui_menu_entry_t ui_load_commands_menu[] = {
     { N_("Load PSID file"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)psid_load, NULL, NULL,
@@ -332,6 +322,7 @@ static ui_menu_entry_t set_video_standard_submenu_vsid[] = {
     { NULL }
 };
 
+/* FIXME: find a better way that lets us use the global reset menu */
 static UI_CALLBACK(reset)
 {
     vsync_suspend_speed_eval();
@@ -354,38 +345,11 @@ static ui_menu_entry_t reset_submenu[] = {
     { NULL }
 };
 
-static UI_CALLBACK(toggle_pause)
-{
-    static int pause = 0;
-
-    if (!CHECK_MENUS) {
-        pause = !pause;
-        ui_update_menus();
-        ui_pause_emulation(pause);
-        return;
-    }
-
-    ui_menu_set_tick(w, pause);
-}
-
 static ui_menu_entry_t vsid_run_commands_menu[] = {
     { N_("Reset"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, reset_submenu },
-    { N_("Pause"), UI_MENU_TYPE_TICK,
-      (ui_callback_t)toggle_pause, NULL, NULL,
-      KEYSYM_p, UI_HOTMOD_META },
-    { NULL }
-};
-
-static ui_menu_entry_t ui_sound_settings_menu_vsid[] = {
-    { N_("Sound settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, sound_settings_submenu },
-    { NULL }
-};
-
-static ui_menu_entry_t ui_sound_recording_menu_vsid[] = {
-    { N_("Sound recording"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ui_sound_record_commands_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
     { NULL }
 };
 
@@ -408,7 +372,7 @@ static ui_menu_entry_t vsidui_left_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_tune_menu },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_recording_menu_vsid },
+      NULL, NULL, ui_sound_record_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, vsid_run_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -420,7 +384,7 @@ static ui_menu_entry_t vsidui_left_menu[] = {
 
 static ui_menu_entry_t vsidui_right_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_settings_menu_vsid },
+      NULL, NULL, ui_sound_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, psid_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -433,6 +397,7 @@ static ui_menu_entry_t vsidui_right_menu[] = {
 #endif
     { NULL }
 };
+
 #endif
 
 #ifdef USE_GNOMEUI
@@ -440,7 +405,7 @@ static ui_menu_entry_t vsidui_file_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_load_commands_menu },
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_recording_menu_vsid },
+      NULL, NULL, ui_sound_record_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, vsid_run_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -452,7 +417,7 @@ static ui_menu_entry_t vsidui_file_menu[] = {
 
 static ui_menu_entry_t vsidui_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_settings_menu_vsid },
+      NULL, NULL, ui_sound_settings_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, psid_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -475,6 +440,14 @@ static ui_menu_entry_t vsidui_top_menu[] = {
         saved in your tranlation! e.g. german "RJHilfe" */
     { N_("RJHelp"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, ui_help_commands_menu },
+    { NULL }
+};
+
+static ui_menu_entry_t vsidui_speed_menu[] = {
+    { N_("Reset"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, reset_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_runmode_commands_menu },
     { NULL }
 };
 #endif  /* USE_GNOMEUI */
@@ -529,7 +502,7 @@ static void vsid_create_menus(void)
 
 #ifdef USE_GNOMEUI
     ui_set_topmenu(vsidui_top_menu);
-    ui_set_speedmenu(vsid_run_commands_menu);
+    ui_set_speedmenu(vsidui_speed_menu);
 #endif
 }
 
