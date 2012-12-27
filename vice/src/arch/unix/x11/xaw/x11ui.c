@@ -120,6 +120,7 @@
 
 /* FIXME: We want these to be static.  */
 Visual *visual;
+XFontStruct *cbm_font_struct;
 static int have_truecolor;
 
 static Display *display;
@@ -387,7 +388,6 @@ static int check_ancestor(pid_t winpid)
     return 0;
 }
 
-//#include <X11/Xlib.h>
 #include <X11/Xatom.h>
 /* get list of client windows for given display */
 static Window *getwinlist (Display *disp, unsigned long *len) 
@@ -826,6 +826,19 @@ static UI_CALLBACK(event_recording_button_callback)
 /* ------------------------------------------------------------------------- */
 
 /*
+ * Original unscaled:
+ * "-freetype-vice cbm-medium-r-normal-medium-12-120-100-72-m-104-symbol-0"
+ *  -foundry -font family      -set width     -pixels-xdpi-spacing
+ *                    -weight-slant   -???      -10*points   -average width (10*pixels)
+ *                                                      -ydpi    -characterset
+ *
+ * First try the scaled version, if unavailable fall back to the original size,
+ * which is a bit small for most current screen resolutions.
+ */
+static String cbm_fontspec1 = "-freetype-vice cbm-medium-r-normal-medium-24-*-*-*-m-*-symbol-0";
+static String cbm_fontspec2 = "-freetype-vice cbm-medium-r-normal-medium-12-*-*-*-m-*-symbol-0";
+
+/*
  * Reminder to the user: you can specify additional resource strings
  * in your $HOME/.Xresources file and on the command line with
  * the -xrm option.
@@ -882,9 +895,9 @@ static String fallback_resources[] = {
     "*yesButton.label:				     Yes",
     "*resetButton.label:			     Reset",
     "*hardResetButton.label:                         Hard Reset",
-    "*monButton.label:			   	     Monitor",
-    "*noneButton.label:			   	     Continue",
-    "*debugButton.label:		   	     XDebugger",
+    "*monButton.label:				     Monitor",
+    "*noneButton.label:				     Continue",
+    "*debugButton.label:			     XDebugger",
     "*noButton.label:				     No",
     "*licenseButton.label:			     License...",
     "*noWarrantyButton.label:			     No warranty!",
@@ -893,6 +906,20 @@ static String fallback_resources[] = {
     "                                                <Key>Return: no-op()\\n"
     "						     <Key>Linefeed: no-op()\\n"
     "						     Ctrl<Key>J: no-op() \\n",
+
+    /* These fonts will be overridden later if the VICE-CBM font is available */
+    "*RightDrive8Menu*SmeBSB.international:          False",
+    "*RightDrive8Menu*SmeBSB.vertSpace:              25",
+    "*RightDrive8Menu*SmeBSB.font:       -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*RightDrive9Menu*SmeBSB.international:          False",
+    "*RightDrive9Menu*SmeBSB.vertSpace:              25",
+    "*RightDrive9Menu*SmeBSB.font:       -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*RightDrive10Menu*SmeBSB.international:         False",
+    "*RightDrive10Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*RightDrive10Menu*SmeBSB.vertSpace:              25",
+    "*RightDrive11Menu*SmeBSB.international:         False",
+    "*RightDrive11Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*RightDrive11Menu*SmeBSB.vertSpace:              25",
 
     /* Default color settings (suggestions are welcome...) */
     "*foreground:				     black",
@@ -928,8 +955,8 @@ static String fallback_resources[] = {
     "*driveCurrentImage4.fontSet:              -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
-    "*statustext.font:                         -*-helvetica-medium-r-*-*-8-*",
-    "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-8-*",
+    "*statustext.font:                         -*-helvetica-medium-r-*-*-10-*",
+    "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-10-*",
 
     NULL
 };
@@ -1006,6 +1033,17 @@ int ui_init(int *argc, char **argv)
     screen = XDefaultScreen(display);
     atexit(ui_autorepeat_on);
 
+    /*
+     * Check if we can use the VICE-CBM font.
+     */
+    cbm_font_struct = XLoadQueryFont(display, cbm_fontspec1);
+    if (cbm_font_struct == NULL) {
+        cbm_font_struct = XLoadQueryFont(display, cbm_fontspec2);
+    }
+    if (cbm_font_struct == 0) {
+        log_warning(ui_log, "The VICE-CBM font is not available.");
+    }
+
     wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
     XtAppAddActions(app_context, actions, XtNumber(actions));
 
@@ -1030,8 +1068,11 @@ void ui_shutdown(void)
     lib_free(filesel_dir);
 
     ui_common_shutdown();
-
     uimenu_shutdown();
+
+    if (cbm_font_struct) {
+        XFreeFont(display, cbm_font_struct);
+    }
 }
 
 typedef struct {
@@ -1150,7 +1191,22 @@ Window x11ui_get_X11_window()
     return XtWindow(_ui_top_level);
 }
 
-/* Create a shell with a canvas widget in it.  */
+/*
+ * Create a shell with a canvas widget in it.
+ *
+ * +-----------------------------------------------------------------------+
+ * |+---------------------------------------------------------------------+|
+ * ||                                                                     ||
+ * ...                           video canvas                            ...
+ * ||                                                                     ||
+ * |+---------------------------------------------------------------------+|
+ * |100%, 50fps            | Drive  8 image        |    8: Track 18,0   XX |
+ * |    CRT Controls       | Drive  9 image        |    9: Track 18,0   XX |
+ * |(statustext)           | Drive 10 image        |   10: Track 18,0   XX |
+ * |recording...           | Drive 11 image        |   11: Track 18,0   XX |
+ * |event recording...     |                       |                       |
+ * +-----------------------------------------------------------------------+
+ */
 int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int height, int no_autorepeat)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
@@ -1362,7 +1418,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         statustext_label = XtVaCreateManagedWidget("statustext",
                                                    labelWidgetClass, pane,
                                                    XtNwidth, width / 3 - 2,
-                                                   XtNfromVert, fromvert,
+                                                   XtNfromVert, drive_current_image[1],
                                                    XtNtop, XawChainBottom,
                                                    XtNbottom, XawChainBottom,
                                                    XtNjustify, XtJustifyLeft,
@@ -1375,7 +1431,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                              commandWidgetClass, pane,
                                              XtNmappedWhenManaged, False,
                                              XtNwidth, width / 3 - 2,
-                                             XtNfromVert, statustext_label,
+                                             XtNfromVert, drive_current_image[2],
                                              XtNtop, XawChainBottom,
                                              XtNbottom, XawChainBottom,
                                              XtNjustify, XtJustifyLeft,
@@ -1390,7 +1446,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                             commandWidgetClass, pane,
                                             XtNmappedWhenManaged, False,
                                             XtNwidth, width / 3 - 2,
-                                            XtNfromVert, rec_button,
+                                            XtNfromVert, drive_current_image[3],
                                             XtNtop, XawChainBottom,
                                             XtNbottom, XawChainBottom,
                                             XtNjustify, XtJustifyLeft,

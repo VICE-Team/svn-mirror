@@ -54,12 +54,14 @@
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
+#include <X11/Xaw/SmeBSB.h>
 
-/*extern int have_cbm_font;*/
-int have_cbm_font = 0;
-
-extern char last_attached_images[NUM_DRIVES][256]; /* FIXME: We want this to be static.  */
-extern char *last_attached_tape;  /* FIXME: We want this to be static.  */
+/*
+ * FIXME: we want these to be static.
+ */
+extern XFontStruct *cbm_font_struct;
+extern char last_attached_images[NUM_DRIVES][256];
+extern char *last_attached_tape;
 
 static UI_CALLBACK(ui_popup_selected_file)
 {
@@ -94,7 +96,6 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     int fno = 0, mask, i;
     char *title, *tmp, *tmp1;
     Widget menu_widget;
-    //GtkStyle *menu_entry_style;
     image_contents_t *s;
     image_contents_file_list_t *element;
 
@@ -110,10 +111,8 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     mask = unit << 24;
     memset(menu, 0, 2 * sizeof(ui_menu_entry_t));
     util_fname_split(name, NULL, &title);
-    for (tmp = title; *tmp; tmp++) {
-        *tmp = util_toupper(*tmp);
-    }
     menu[fno].string = lib_stralloc(title);
+    menu[fno].type = UI_MENU_TYPE_NORMAL;
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
     menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr(fno | mask);
     menu[fno].sub_menu = NULL;
@@ -121,9 +120,11 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     menu[fno].hotkey_modifier = 0;
     fno++;
     menu[fno].string = lib_stralloc("--");
+    menu[fno].type = UI_MENU_TYPE_SEPARATOR;
     fno++;
-    tmp1 = image_contents_to_string(s, !have_cbm_font);
+    tmp1 = image_contents_to_string(s, cbm_font_struct == NULL);
     menu[fno].string = (char *)lib_stralloc(tmp1);
+    menu[fno].type = UI_MENU_TYPE_NORMAL;
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
     menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 2) | mask);
     menu[fno].sub_menu = NULL;
@@ -138,12 +139,10 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
             menu = lib_realloc(menu, (limit + 1) * sizeof(ui_menu_entry_t)); /* ditto */
         }
 
-        tmp1 = (char *)image_contents_file_to_string(element, !have_cbm_font);
+        tmp1 = (char *)image_contents_file_to_string(element, cbm_font_struct == NULL);
 
-        if (tmp1[0] == '-') {
-            tmp1[0] = ' ';          /* Arg, this is the line magic */ 
-        }
         menu[fno].string = lib_stralloc(tmp1);
+        menu[fno].type = UI_MENU_TYPE_NORMAL;
         menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
         menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 2) | mask);
         menu[fno].sub_menu = NULL;
@@ -154,6 +153,7 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     }
     if (s->blocks_free >= 0) {
         menu[fno].string = lib_msprintf("%d BLOCKS FREE.", s->blocks_free);
+        menu[fno].type = UI_MENU_TYPE_NORMAL;
         menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
         menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 1) | mask);
         menu[fno].sub_menu = NULL;
@@ -163,6 +163,27 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
 
     menu_widget = ui_menu_create(menuname, menu, NULL);
+
+    if (cbm_font_struct) {
+        /*
+         * Change the settings of all menu items that belong to the
+         * directory listing to use the cbm font.
+         * Somewhat inefficient, really...
+         */
+        WidgetList children;
+        Cardinal numChildren;
+
+        XtVaGetValues(menu_widget, XtNchildren, &children,
+                                   XtNnumChildren, &numChildren,
+                                   NULL);
+
+        /* These are SmeBSB objects */
+        for (i = 2; i < numChildren; i++) {
+            XtVaSetValues(children[i],
+                          XtNfont, cbm_font_struct,
+                          NULL);
+        }
+    }
 
     /* Cleanup */
     for (i = 0; i < fno; i++) {

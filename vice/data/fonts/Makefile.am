@@ -19,8 +19,7 @@ install: install-data-am
 @HAVE_FC_CACHE_TRUE@@SDL_COMPILE_FALSE@	else \
 @HAVE_FC_CACHE_TRUE@@SDL_COMPILE_FALSE@	  echo 'fc-cache not available... giving up.' ; \
 @HAVE_FC_CACHE_TRUE@@SDL_COMPILE_FALSE@	fi
-@HAVE_FC_CACHE_FALSE@@SDL_COMPILE_FALSE@	@echo "Preparing fontdir..." ; \
-@HAVE_FC_CACHE_FALSE@@SDL_COMPILE_FALSE@	cd $(DESTDIR)$(fontsdir) ; \
-@HAVE_FC_CACHE_FALSE@@SDL_COMPILE_FALSE@	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
-@HAVE_FC_CACHE_FALSE@@SDL_COMPILE_FALSE@	rm vice-cbm.bdf ; \
-@HAVE_FC_CACHE_FALSE@@SDL_COMPILE_FALSE@	mkfontdir .
+@SDL_COMPILE_FALSE@	@echo "Preparing fontdir..." ; \
+@SDL_COMPILE_FALSE@	cd $(DESTDIR)$(fontsdir) ; \
+@SDL_COMPILE_FALSE@	bdftopcf -o vice-cbm.pcf vice-cbm.bdf ; \
+@SDL_COMPILE_FALSE@	mkfontdir .
