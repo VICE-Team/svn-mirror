@@ -625,6 +625,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddItem(menu = new BMenu("PET DWW Options"));
             menu->AddItem(new BMenuItem("PET DWW emulation", new BMessage(MENU_TOGGLE_PETDWW)));
             menu->AddItem(new BMenuItem("PET DWW File", new BMessage(MENU_PETDWW_FILE)));
+        uppermenu->AddItem(new BMenuItem("PET High Res Emulator board emulation", new BMessage(MENU_TOGGLE_PETHRE)));
         uppermenu->AddItem(new BMenuItem("PET Userport DAC emulation", new BMessage(MENU_TOGGLE_PET_USERPORT_DAC)));
     }
 

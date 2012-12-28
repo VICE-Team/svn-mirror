@@ -203,6 +203,7 @@ const uint32 MENU_TOGGLE_PLUS256K                 = 'M145';
 const uint32 MENU_TOGGLE_C64_256K                 = 'M146';
 const uint32 MENU_TOGGLE_PETREU                   = 'M147';
 const uint32 MENU_TOGGLE_PETDWW                   = 'M148';
+const uint32 MENU_TOGGLE_PETHRE                   = 'M034';
 const uint32 MENU_TOGGLE_PET_USERPORT_DAC         = 'M241';
 const uint32 MENU_TOGGLE_V364SPEECH               = 'M258';
 const uint32 MENU_TOGGLE_DIGIMAX                  = 'M149';

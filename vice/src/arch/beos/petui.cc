@@ -60,6 +60,7 @@ ui_menu_toggle  pet_ui_menu_toggles[] = {
     { "CRTCVideoCache", MENU_TOGGLE_VIDEOCACHE },
     { "PETREU", MENU_TOGGLE_PETREU },
     { "PETDWW", MENU_TOGGLE_PETDWW },
+    { "PETHRE", MENU_TOGGLE_PETHRE },
     { "UserportDAC", MENU_TOGGLE_PET_USERPORT_DAC },
     { NULL, 0 }
 };
