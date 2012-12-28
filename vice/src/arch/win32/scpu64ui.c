@@ -70,7 +70,7 @@
 #include "uivideo.h"
 
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
-    IDD_C64ROM_RESOURCE_DIALOG,
+    IDD_SCPU64ROM_RESOURCE_DIALOG,
     IDD_C64ROMDRIVE_RESOURCE_DIALOG,
     0
 };
@@ -87,12 +87,9 @@ static const ui_menu_toggle_t scpu64_ui_menu_toggles[] = {
 };
 
 static const uirom_settings_t uirom_settings[] = {
-    { UIROM_TYPE_MAIN, TEXT("Kernal"), "KernalName",
-      IDC_C64ROM_KERNAL_FILE, IDC_C64ROM_KERNAL_BROWSE,
-      IDC_C64ROM_KERNAL_RESOURCE },
-    { UIROM_TYPE_MAIN, TEXT("Basic"), "BasicName",
-      IDC_C64ROM_BASIC_FILE, IDC_C64ROM_BASIC_BROWSE,
-      IDC_C64ROM_BASIC_RESOURCE },
+    { UIROM_TYPE_MAIN, TEXT("SCPU64"), "SCPU64Name",
+      IDC_SCPU64ROM_SCPU64_FILE, IDC_SCPU64ROM_SCPU64_BROWSE,
+      IDC_SCPU64ROM_SCPU64_RESOURCE },
     { UIROM_TYPE_MAIN, TEXT("Character"), "ChargenName",
       IDC_C64ROM_CHARGEN_FILE, IDC_C64ROM_CHARGEN_BROWSE,
       IDC_C64ROM_CHARGEN_RESOURCE },
@@ -393,10 +390,8 @@ ui_popup_translation_table_t scpu64ui_popup_translation_table[] = {
 };
 
 static uilib_localize_dialog_param scpu64_main_trans[] = {
-    { IDC_KERNAL, IDS_KERNAL, 0 },
-    { IDC_C64ROM_KERNAL_BROWSE, IDS_BROWSE, 0 },
-    { IDC_BASIC, IDS_BASIC, 0 },
-    { IDC_C64ROM_BASIC_BROWSE, IDS_BROWSE, 0 },
+    { IDC_SCPU64, IDS_SCPU64, 0 },
+    { IDC_SCPU64ROM_SCPU64_BROWSE, IDS_BROWSE, 0 },
     { IDC_CHARACTER, IDS_CHARACTER, 0 },
     { IDC_C64ROM_CHARGEN_BROWSE, IDS_BROWSE, 0 },
     { 0, 0, 0 }
@@ -421,8 +416,7 @@ static uilib_localize_dialog_param scpu64_drive_trans[] = {
 static uilib_localize_dialog_param scpu64_main_res_trans[] = {
     { 0, IDS_COMPUTER_RESOURCES_CAPTION, -1 },
     { IDC_COMPUTER_RESOURCES, IDS_COMPUTER_RESOURCES, 0 },
-    { IDC_C64ROM_KERNAL_RESOURCE, IDS_KERNAL, 0 },
-    { IDC_C64ROM_BASIC_RESOURCE, IDS_BASIC, 0 },
+    { IDC_SCPU64ROM_SCPU64_RESOURCE, IDS_SCPU64, 0 },
     { IDC_C64ROM_CHARGEN_RESOURCE, IDS_CHARACTER, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
@@ -430,22 +424,19 @@ static uilib_localize_dialog_param scpu64_main_res_trans[] = {
 };
 
 static uilib_dialog_group scpu64_main_left_group[] = {
-    { IDC_KERNAL, 0 },
-    { IDC_BASIC, 0 },
+    { IDC_SCPU64, 0 },
     { IDC_CHARACTER, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group scpu64_main_middle_group[] = {
-    { IDC_C64ROM_KERNAL_FILE, 0 },
-    { IDC_C64ROM_BASIC_FILE, 0} ,
+    { IDC_SCPU64ROM_SCPU64_FILE, 0 },
     { IDC_C64ROM_CHARGEN_FILE, 0 },
     { 0, 0 }
 };
 
 static uilib_dialog_group scpu64_main_right_group[] = {
-    { IDC_C64ROM_KERNAL_BROWSE, 0 },
-    { IDC_C64ROM_BASIC_BROWSE, 0 },
+    { IDC_SCPU64ROM_SCPU64_BROWSE, 0 },
     { IDC_C64ROM_CHARGEN_BROWSE, 0 },
     { 0, 0}
 };
@@ -610,7 +601,7 @@ static void scpu64_ui_specific(WPARAM wparam, HWND hwnd)
             ui_extra_joystick_settings_dialog(hwnd);
             break;
         case IDM_ROM_SETTINGS:
-            uirom_settings_dialog(hwnd, IDD_C64ROM_SETTINGS_DIALOG, IDD_C64DRIVEROM_SETTINGS_DIALOG,
+            uirom_settings_dialog(hwnd, IDD_SCPU64ROM_SETTINGS_DIALOG, IDD_C64DRIVEROM_SETTINGS_DIALOG,
                                   romset_dialog_resources, uirom_settings,
                                   scpu64_main_trans, scpu64_drive_trans, scpu64_generic_trans,
                                   scpu64_main_left_group, scpu64_main_middle_group, scpu64_main_right_group,

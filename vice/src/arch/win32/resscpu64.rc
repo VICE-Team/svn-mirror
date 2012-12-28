@@ -309,28 +309,22 @@ END
 
 // dialog template for all languages
 
-IDD_C64ROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 70
+IDD_SCPU64ROM_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 240, 50
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
-    LTEXT      "", IDC_KERNAL,
+    LTEXT      "", IDC_SCPU64,
                9, 8, 40, 8
-    EDITTEXT   IDC_C64ROM_KERNAL_FILE,
+    EDITTEXT   IDC_SCPU64ROM_SCPU64_FILE,
                55, 7, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C64ROM_KERNAL_BROWSE,
+    PUSHBUTTON "", IDC_SCPU64ROM_SCPU64_BROWSE,
                185, 7, 50, 14, 0
-    LTEXT      "", IDC_BASIC,
-               9, 28, 40, 8
-    EDITTEXT   IDC_C64ROM_BASIC_FILE,
-               55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
-    PUSHBUTTON "", IDC_C64ROM_BASIC_BROWSE,
-               185, 27, 50, 14, 0
     LTEXT      "", IDC_CHARACTER,
-               9, 48, 40, 8
+               9, 28, 40, 8
     EDITTEXT   IDC_C64ROM_CHARGEN_FILE,
-               55, 47, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
+               55, 27, 125, 12, WS_TABSTOP | ES_AUTOHSCROLL
     PUSHBUTTON "", IDC_C64ROM_CHARGEN_BROWSE,
-               185, 47, 50, 14, 0
+               185, 27, 50, 14, 0
 END
 
 // -----------------------------------------------------------------------------
@@ -430,23 +424,21 @@ END
 
 // dialog template for all languages
 
-IDD_C64ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 85
+IDD_SCPU64ROM_RESOURCE_DIALOG DIALOG DISCARDABLE 0, 0, 160, 70
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
     GROUPBOX      "", IDC_COMPUTER_RESOURCES,
-                  4, 3, 151, 55
-    AUTOCHECKBOX  "", IDC_C64ROM_KERNAL_RESOURCE,
+                  4, 3, 151, 40
+    AUTOCHECKBOX  "", IDC_SCPU64ROM_SCPU64_RESOURCE,
                   11, 13, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
-    AUTOCHECKBOX  "", IDC_C64ROM_BASIC_RESOURCE,
-                  11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
     AUTOCHECKBOX  "", IDC_C64ROM_CHARGEN_RESOURCE,
-                  11, 43, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+                  11, 28, 95, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
 
     DEFPUSHBUTTON "", IDOK,
-                  20, 65, 50, 14, WS_TABSTOP
+                  20, 50, 50, 14, WS_TABSTOP
     PUSHBUTTON    "", IDCANCEL,
-                  80, 65, 50, 14, WS_TABSTOP
+                  80, 50, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
