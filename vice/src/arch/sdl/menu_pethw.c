@@ -219,6 +219,7 @@ static const ui_menu_entry_t pet_keyboard_menu[] = {
 };
 
 UI_MENU_DEFINE_TOGGLE(Crtc)
+UI_MENU_DEFINE_TOGGLE(PETHRE)
 UI_MENU_DEFINE_TOGGLE(UserportDAC)
 
 const ui_menu_entry_t pet_hardware_menu[] = {
@@ -255,6 +256,10 @@ const ui_menu_entry_t pet_hardware_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)petdww_menu },
+    { "Enable PET High Res Emulation board",
+      MENU_ENTRY_RESOURCE_TOGGLE,
+      toggle_PETHRE_callback,
+      NULL },
     { "PET Userport DAC enable",
       MENU_ENTRY_RESOURCE_TOGGLE,
       toggle_UserportDAC_callback,
