@@ -538,12 +538,9 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 /* ------------------------------------------------------------------------- */
 
 static ui_menu_entry_t scpu64ui_main_romset_submenu[] = {
-    { N_("Load new kernal ROM"), UI_MENU_TYPE_NORMAL,
+    { N_("Load new SCPU64 ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"KernalName", NULL },
-    { N_("Load new BASIC ROM"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)ui_load_rom_file,
-      (ui_callback_data_t)"BasicName", NULL },
+      (ui_callback_data_t)"SCPU64Name", NULL },
     { N_("Load new character ROM"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_load_rom_file,
       (ui_callback_data_t)"ChargenName", NULL },
