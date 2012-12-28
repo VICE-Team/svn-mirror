@@ -226,6 +226,8 @@ libarch_a_SOURCES = \
 	mui/uirompetsettings.h \
 	mui/uiromplus4settings.c \
 	mui/uiromplus4settings.h \
+	mui/uiromscpu64settings.c \
+	mui/uiromscpu64settings.h \
 	mui/uirs232user.c \
 	mui/uirs232user.h \
 	mui/uiscpu64.c \
