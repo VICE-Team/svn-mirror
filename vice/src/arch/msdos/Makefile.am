@@ -143,6 +143,8 @@ libarch_a_SOURCES = \
 	uipetmodel.h \
 	uipetdww.c \
 	uipetdww.h \
+	uipethre.c \
+	uipethre.h \
 	uipetreu.c \
 	uipetreu.h \
 	uiplus4cart.c \
