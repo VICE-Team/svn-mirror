@@ -79,6 +79,7 @@ enum t_reg_id {
     e_ACM,
     e_YXM,
 /* 65816 */
+    e_C,
     e_DPR,
     e_PBR,
     e_DBR,

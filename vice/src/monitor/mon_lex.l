@@ -332,6 +332,8 @@ if		{ BEGIN (COND_MODE); return IF; }
 
 <REG_ASGN>{
         a   { yylval.i = e_A; return MON_REGISTER; }
+        b   { yylval.i = e_B; return MON_REGISTER; }
+        c   { yylval.i = e_C; return MON_REGISTER; }
         x   { yylval.i = e_X; return MON_REGISTER; }
         y   { yylval.i = e_Y; return MON_REGISTER; }
         pc  { yylval.i = e_PC; return MON_REGISTER; }
