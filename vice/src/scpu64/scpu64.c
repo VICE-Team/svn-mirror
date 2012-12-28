@@ -166,36 +166,6 @@ static io_source_t vicii_d100_device = {
     0
 };
 
-static io_source_t vicii_d200_device = {
-    "VIC-II $D200-$D2FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd200, 0xd2ff, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
-};
-
-static io_source_t vicii_d300_device = {
-    "VIC-II $D300-$D3FF mirrors",
-    IO_DETACH_CART, /* dummy */
-    NULL,           /* dummy */
-    0xd300, 0xd3ff, 0x3f,
-    1, /* read is always valid */
-    vicii_store,
-    vicii_read,
-    vicii_peek,
-    vicii_dump,
-    0, /* dummy (not a cartridge) */
-    IO_PRIO_HIGH, /* priority, device and mirrors never involved in collisions */
-    0
-};
-
 static io_source_t sid_d400_device = {
     "SID",
     IO_DETACH_CART, /* dummy */
@@ -273,8 +243,6 @@ static io_source_t sid_d700_device = {
 
 static io_source_list_t *vicii_d000_list_item = NULL;
 static io_source_list_t *vicii_d100_list_item = NULL;
-static io_source_list_t *vicii_d200_list_item = NULL;
-static io_source_list_t *vicii_d300_list_item = NULL;
 static io_source_list_t *sid_d400_list_item = NULL;
 static io_source_list_t *sid_d420_list_item = NULL;
 static io_source_list_t *sid_d500_list_item = NULL;
@@ -285,8 +253,6 @@ void c64io_vicii_init(void)
 {
     vicii_d000_list_item = io_source_register(&vicii_d000_device);
     vicii_d100_list_item = io_source_register(&vicii_d100_device);
-    vicii_d200_list_item = io_source_register(&vicii_d200_device);
-    vicii_d300_list_item = io_source_register(&vicii_d300_device);
 }
 
 void c64io_vicii_deinit(void)
@@ -299,16 +265,6 @@ void c64io_vicii_deinit(void)
     if (vicii_d100_list_item != NULL) {
         io_source_unregister(vicii_d100_list_item);
         vicii_d100_list_item = NULL;
-    }
-
-    if (vicii_d200_list_item != NULL) {
-        io_source_unregister(vicii_d200_list_item);
-        vicii_d200_list_item = NULL;
-    }
-
-    if (vicii_d300_list_item != NULL) {
-        io_source_unregister(vicii_d300_list_item);
-        vicii_d300_list_item = NULL;
     }
 }
 
