@@ -37,5 +37,6 @@ extern const ui_menu_entry_t c64dtv_rom_menu[];
 extern const ui_menu_entry_t cbm2_rom_menu[];
 extern const ui_menu_entry_t pet_rom_menu[];
 extern const ui_menu_entry_t plus4_rom_menu[];
+extern const ui_menu_entry_t scpu64_rom_menu[];
 
 #endif

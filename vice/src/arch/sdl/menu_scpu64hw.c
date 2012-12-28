@@ -147,7 +147,7 @@ const ui_menu_entry_t scpu64_hardware_menu[] = {
     { "ROM settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
-      (ui_callback_data_t)c64_vic20_rom_menu },
+      (ui_callback_data_t)scpu64_rom_menu },
     SDL_MENU_ITEM_SEPARATOR,
     SDL_MENU_ITEM_TITLE("Hardware expansions"),
 #ifdef HAVE_RS232

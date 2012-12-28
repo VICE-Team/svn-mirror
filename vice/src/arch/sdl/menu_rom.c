@@ -100,6 +100,7 @@ UI_MENU_DEFINE_FILE_STRING(Basic64Name)
 UI_MENU_DEFINE_FILE_STRING(KernalName)
 UI_MENU_DEFINE_FILE_STRING(BasicName)
 UI_MENU_DEFINE_FILE_STRING(ChargenName)
+UI_MENU_DEFINE_FILE_STRING(SCPU64Name)
 
 const ui_menu_entry_t c128_rom_menu[] = {
     { "Drive ROMs",
@@ -234,6 +235,24 @@ const ui_menu_entry_t cbm2_rom_menu[] = {
       MENU_ENTRY_DIALOG,
       file_string_BasicName_callback,
       (ui_callback_data_t)"Select basic ROM image" },
+    { "Chargen",
+      MENU_ENTRY_DIALOG,
+      file_string_ChargenName_callback,
+      (ui_callback_data_t)"Select chargen ROM image" },
+    SDL_MENU_LIST_END
+};
+
+const ui_menu_entry_t scpu64_rom_menu[] = {
+    { "Drive ROMs",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)iec_ieee_drive_rom_menu },
+    SDL_MENU_ITEM_SEPARATOR,
+    SDL_MENU_ITEM_TITLE("Computer ROMs"),
+    { "SCPU64",
+      MENU_ENTRY_DIALOG,
+      file_string_SCPU64Name_callback,
+      (ui_callback_data_t)"Select SCPU64 ROM image" },
     { "Chargen",
       MENU_ENTRY_DIALOG,
       file_string_ChargenName_callback,
