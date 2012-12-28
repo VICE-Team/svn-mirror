@@ -130,7 +130,7 @@ static void mon_register_print(int mem)
 
     regs = mon_interfaces[mem]->cpu_R65C02_regs;
 
-    mon_out("  ADDR AC XR YR SP 00 01 NV-BDIZC ");
+    mon_out("  ADDR AC XR YR SP NV-BDIZC ");
 
     if (mon_interfaces[mem]->get_line_cycle != NULL) {
         mon_out("LIN CYC  STOPWATCH\n");
@@ -138,14 +138,12 @@ static void mon_register_print(int mem)
         mon_out(" STOPWATCH\n");
     }
 
-    mon_out(".;%04x %02x %02x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
+    mon_out(".;%04x %02x %02x %02x %02x %d%d%c%d%d%d%d%d",
             addr_location(mon_register_get_val(mem, e_PC)),
             mon_register_get_val(mem, e_A),
             mon_register_get_val(mem, e_X),
             mon_register_get_val(mem, e_Y),
             mon_register_get_val(mem, e_SP),
-            mon_get_mem_val(mem, 0),
-            mon_get_mem_val(mem, 1),
             TEST(R65C02_REGS_GET_SIGN(regs)),
             TEST(R65C02_REGS_GET_OVERFLOW(regs)),
             '1',
@@ -236,43 +234,21 @@ static mon_reg_list_t *mon_register_list_getR65C02(int mem)
     mon_reg_list[4].val = (unsigned int)mon_register_get_val(mem, e_SP);
     mon_reg_list[4].size = 8;
     mon_reg_list[4].flags = 0;
-    /* mon_reg_list[4].next = &mon_reg_list[5];
-       this is depandant upon the following distinction! */
+    mon_reg_list[4].next = &mon_reg_list[5];
 
-    /* FIXME: This is not elegant. The destinction between 6502/6510
-       should not be done by the memory space.  This will change once
-       we have completely separated 6502, 6509, 6510 and Z80. */
-    if (mem == e_comp_space) {
-        mon_reg_list[4].next = &mon_reg_list[5];
-
-        mon_reg_list[5].name = "00";
-        mon_reg_list[5].val = (unsigned int)mon_get_mem_val(mem, 0);
-        mon_reg_list[5].size = 8;
-        mon_reg_list[5].flags = 0;
-        mon_reg_list[5].next = &mon_reg_list[6];
-
-        mon_reg_list[6].name = "01";
-        mon_reg_list[6].val = (unsigned int)mon_get_mem_val(mem, 1);
-        mon_reg_list[6].size = 8;
-        mon_reg_list[6].flags = 0;
-        mon_reg_list[6].next = &mon_reg_list[7];
-    } else {
-        mon_reg_list[4].next = &mon_reg_list[7];
-    }
-
-    mon_reg_list[7].name = "FL";
-    mon_reg_list[7].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
+    mon_reg_list[5].name = "FL";
+    mon_reg_list[5].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
                           | 0x20;
-    mon_reg_list[7].size = 8;
-    mon_reg_list[7].flags = 0;
-    mon_reg_list[7].next = &mon_reg_list[8];
+    mon_reg_list[5].size = 8;
+    mon_reg_list[5].flags = 0;
+    mon_reg_list[5].next = &mon_reg_list[6];
 
-    mon_reg_list[8].name = "NV-BDIZC";
-    mon_reg_list[8].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
+    mon_reg_list[6].name = "NV-BDIZC";
+    mon_reg_list[6].val = (unsigned int)mon_register_get_val(mem, e_FLAGS)
                           | 0x20;
-    mon_reg_list[8].size = 8;
-    mon_reg_list[8].flags = 1;
-    mon_reg_list[8].next = NULL;
+    mon_reg_list[6].size = 8;
+    mon_reg_list[6].flags = 1;
+    mon_reg_list[6].next = NULL;
 
     return mon_reg_list;
 }
@@ -294,12 +270,6 @@ static void mon_register_list_setR65C02(mon_reg_list_t *reg_list, int mem)
         }
         if (!strcmp(reg_list->name, "SP")) {
             mon_register_set_val(mem, e_SP, (WORD)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "00")) {
-            mon_set_mem_val(mem, 0, (BYTE)(reg_list->val));
-        }
-        if (!strcmp(reg_list->name, "01")) {
-            mon_set_mem_val(mem, 1, (BYTE)(reg_list->val));
         }
         if (!strcmp(reg_list->name, "NV-BDIZC")) {
             mon_register_set_val(mem, e_FLAGS, (WORD)(reg_list->val));
