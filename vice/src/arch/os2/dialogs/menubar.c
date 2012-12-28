@@ -1300,6 +1300,10 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             resources_set_string("PETDWWfilename", ViceFileSelect(hwnd, 1));
             return;
 
+        case IDM_PETHRE:
+            toggle("PETHRE");
+            return;
+
         case IDM_PET_USERPORT_DAC:
             toggle("UserportDAC");
             return;
@@ -2283,6 +2287,8 @@ void menu_select(HWND hwnd, USHORT item)
             resources_get_int("PETDWW", &val);
             WinCheckMenuItem(hwnd, IDM_PETDWW, val);
             WinEnableMenuItem(hwnd, IDM_PETDWWFILE, val);
+            resources_get_int("PETHRE", &val);
+            WinCheckMenuItem(hwnd, IDM_PETHRE, val);
             WinCheckRes(hwnd, IDM_CHARSET, "Basic1Chars");
             WinCheckRes(hwnd, IDM_EOI, "EoiBlank");
             WinCheckRes(hwnd, IDM_ROMPATCH, "Basic1");

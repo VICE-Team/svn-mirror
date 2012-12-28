@@ -759,6 +759,7 @@ BEGIN
             MENUITEM "PET D~WW",                          IDM_PETDWW,                   MIS_TEXT
             MENUITEM "PET DWW Filename",                  IDM_PETDWWFILE,               MIS_TEXT
         END
+        MENUITEM "PET H~RE",                              IDM_PETHRE,                   MIS_TEXT
         MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DAC,         MIS_TEXT
 #endif
 

@@ -412,6 +412,8 @@
 #define IDM_PETDWW                   0x153
 #define IDM_PETDWWFILE               0x1e8
 
+#define IDM_PETHRE                   0x335
+
 #define IDM_PET_USERPORT_DAC         0x1cc
 
 #define IDM_USERPORT_RTC             0x326
