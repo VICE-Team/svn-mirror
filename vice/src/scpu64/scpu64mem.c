@@ -56,6 +56,7 @@
 #include "vicii.h"
 #include "scpu64cpu.h"
 #include "lib.h"
+#include "wdc65816.h"
 
 /* Machine class */
 int machine_class = VICE_MACHINE_SCPU64;
@@ -437,6 +438,40 @@ BYTE mem_read2(DWORD addr)
     default:
         if (mem_simm_ram_mask && addr < mem_conf_size) {
             scpu64_clock_read_stretch_simm(addr);
+            if (mem_simm_page_size != mem_conf_page_size) {
+                addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
+            }
+            return mem_simm_ram[addr & mem_simm_ram_mask];
+        }
+        break;
+    }
+    return addr >> 16;
+}
+
+BYTE mem_peek2(DWORD addr)
+{
+    switch (addr & 0xfe0000) {
+    case 0xf60000:
+        if (mem_simm_ram_mask) {
+            if (mem_simm_page_size != mem_conf_page_size) {
+                addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
+                addr &= mem_simm_ram_mask;
+            }
+            return mem_simm_ram[addr & 0x1ffff];
+        }
+        break;
+    case 0xf80000:
+    case 0xfa0000:
+    case 0xfc0000:
+    case 0xfe0000:
+        return scpu64rom_scpu64_rom[addr & (SCPU64_SCPU64_ROM_MAXSIZE-1) & 0x7ffff];
+    case 0x000000:
+        if (addr & 0xfffe) {
+            return mem_sram[addr];
+        }
+        return mem_sram[addr & 1];
+    default:
+        if (mem_simm_ram_mask && addr < mem_conf_size) {
             if (mem_simm_page_size != mem_conf_page_size) {
                 addr = ((addr >> mem_conf_page_size) << mem_simm_page_size) | (addr & ((1 << mem_simm_page_size)-1));
             }
@@ -1597,6 +1632,10 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
 
     switch (bank) {
         case 0:                   /* current */
+            bank = WDC65816_REGS_GET_PBR(maincpu_monitor_interface->cpu_65816_regs);
+            if (bank > 0) {
+                return mem_peek2(addr + (bank << 16));
+            }
             return mem_read(addr);
         case 3:                   /* io */
             if (addr >= 0xd000 && addr < 0xe000) {
@@ -1629,6 +1668,10 @@ BYTE mem_bank_peek(int bank, WORD addr, void *context)
     }
     switch (bank) {
         case 0:                   /* current */
+            bank = WDC65816_REGS_GET_PBR(maincpu_monitor_interface->cpu_65816_regs);
+            if (bank > 0) {
+                return mem_peek2(addr + (bank << 16));
+            }
             /* we must check for which bank is currently active, and only use peek_bank_io
                when needed to avoid side effects */
             if ((addr >= 0xd000) && (addr < 0xe000)) {
@@ -1671,6 +1714,11 @@ void mem_bank_write(int bank, WORD addr, BYTE byte, void *context)
     }
     switch (bank) {
         case 0:                   /* current */
+            bank = WDC65816_REGS_GET_PBR(maincpu_monitor_interface->cpu_65816_regs);
+            if (bank > 0) {
+                mem_store2(addr + (bank << 16), byte);
+                return;
+            }
             mem_store(addr, byte);
             return;
         case 3:                   /* io */
