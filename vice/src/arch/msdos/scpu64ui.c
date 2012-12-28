@@ -159,13 +159,9 @@ static TUI_MENU_CALLBACK(load_rom_file_callback)
 
 static tui_menu_item_def_t rom_menu_items[] = {
     { "--" },
-    { "Load new _Kernal ROM...",
-      "Load new Kernal ROM",
-      load_rom_file_callback, "KernalName", 0,
-      TUI_MENU_BEH_CONTINUE, NULL, NULL },
-    { "Load new _BASIC ROM...",
-      "Load new BASIC ROM",
-      load_rom_file_callback, "BasicName", 0,
+    { "Load new _SCPU64 ROM...",
+      "Load new SCPU64 ROM",
+      load_rom_file_callback, "SCPU64Name", 0,
       TUI_MENU_BEH_CONTINUE, NULL, NULL },
     { "Load new _Character ROM...",
       "Load new Character ROM",
