@@ -557,6 +557,8 @@ void machine_specific_shutdown(void)
     ciacore_shutdown(machine_context.cia1);
     ciacore_shutdown(machine_context.cia2);
 
+    scpu64_mem_shutdown();
+
     /* close the video chip(s) */
     vicii_shutdown();
 

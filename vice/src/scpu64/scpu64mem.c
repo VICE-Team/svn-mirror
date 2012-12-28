@@ -1820,3 +1820,9 @@ void mem_color_ram_from_snapshot(BYTE *color_ram)
 {
     memcpy(mem_color_ram, color_ram, 0x400);
 }
+
+void scpu64_mem_shutdown(void)
+{
+    lib_free(mem_simm_ram);
+    mem_simm_ram = NULL;
+}

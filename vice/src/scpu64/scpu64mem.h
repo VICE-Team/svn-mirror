@@ -124,5 +124,6 @@ extern BYTE mem_read2(DWORD addr);
 extern void scpu64_mem_init(void);
 
 extern void scpu64_hardware_reset(void);
+extern void scpu64_mem_shutdown(void);
 
 #endif
