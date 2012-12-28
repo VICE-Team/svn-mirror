@@ -299,23 +299,28 @@
   } while (0)
 
 /* Import the public version of the registers.  */
-#define IMPORT_REGISTERS()         \
-  do {                             \
-      reg_a = GLOBAL_REGS.a;       \
-      reg_b = GLOBAL_REGS.b;       \
-      reg_x = GLOBAL_REGS.x;       \
-      reg_y = GLOBAL_REGS.y;       \
-      reg_emul = GLOBAL_REGS.emul; \
-      reg_dpr = GLOBAL_REGS.dpr;   \
-      reg_pbr = GLOBAL_REGS.pbr;   \
-      reg_dbr = GLOBAL_REGS.dbr;   \
-      reg_sp = GLOBAL_REGS.sp;     \
-      reg_p = GLOBAL_REGS.p;       \
-      flag_n = GLOBAL_REGS.n;      \
-      flag_z = GLOBAL_REGS.z;      \
+#define IMPORT_REGISTERS()                               \
+  do {                                                   \
+      reg_a = GLOBAL_REGS.a;                             \
+      reg_b = GLOBAL_REGS.b;                             \
+      reg_x = GLOBAL_REGS.x;                             \
+      reg_y = GLOBAL_REGS.y;                             \
+      reg_emul = GLOBAL_REGS.emul;                       \
+      reg_dpr = GLOBAL_REGS.dpr;                         \
+      reg_pbr = GLOBAL_REGS.pbr;                         \
+      reg_dbr = GLOBAL_REGS.dbr;                         \
+      reg_sp = GLOBAL_REGS.sp;                           \
+      reg_p = GLOBAL_REGS.p;                             \
+      flag_n = GLOBAL_REGS.n;                            \
+      flag_z = GLOBAL_REGS.z;                            \
+      if (reg_emul) { /* fixup emulation mode */         \
+          reg_x &= 0xff;                                 \
+          reg_y &= 0xff;                                 \
+          reg_sp = 0x100 | (reg_sp & 0xff);              \
+      }                                                  \
       bank_start = bank_limit = 0; /* prevent caching */ \
-      EMULATION_MODE_CHANGED;      \
-      JUMP(GLOBAL_REGS.pc);        \
+      EMULATION_MODE_CHANGED;                            \
+      JUMP(GLOBAL_REGS.pc);                              \
   } while (0)
 
 /* Stack operations. */
