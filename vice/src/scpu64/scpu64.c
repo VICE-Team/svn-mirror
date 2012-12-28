@@ -76,7 +76,6 @@
 #include "parallel.h"
 #include "patchrom.h"
 #include "printer.h"
-#include "psid.h"
 #include "resources.h"
 #include "rs232drv.h"
 #include "rsuser.h"
@@ -804,3 +803,11 @@ const char *machine_get_name(void)
 {
     return machine_name;
 }
+
+#ifdef USE_SDLUI
+/* Kludges for vsid & linking issues */
+const char **csidmodel = NULL;
+void psid_init_driver(void)
+{
+}
+#endif
