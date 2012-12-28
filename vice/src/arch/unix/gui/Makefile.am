@@ -27,6 +27,7 @@ libarchgui_a_SOURCES = \
 	cbm2ui.c \
 	petui.c \
 	plus4ui.c \
+	scpu64ui.c \
 	ui.c \
 	uiacia1.c \
 	uiacia1.h \
@@ -161,6 +162,8 @@ libarchgui_a_SOURCES = \
 	uirs232petplus4cbm2.h \
 	uirs232user.c \
 	uirs232user.h \
+	uiscpu64.c \
+	uiscpu64.h \
 	uiscreenshot.h \
 	uisettings.c \
 	uisettings.h \

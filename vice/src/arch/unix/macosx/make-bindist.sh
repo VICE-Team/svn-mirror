@@ -72,12 +72,13 @@ else
 fi
 
 # define emulators and command line tools
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
+EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
 TOOLS="c1541 petcat cartconv"
 
 # define data files for emulators
 ROM_COMMON="DRIVES PRINTER"
 ROM_x64=C64
+ROM_xscpu64=SCPU64
 ROM_x64sc=C64
 ROM_x64dtv=C64DTV
 ROM_x128=C128

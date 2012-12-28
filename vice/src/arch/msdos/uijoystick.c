@@ -1138,6 +1138,7 @@ void uijoystick_init(struct tui_menu *parent_submenu)
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C128:
+        case VICE_MACHINE_SCPU64:
             tui_menu_add(ui_joystick_settings_submenu, c64_joystick_submenu);
             break;
         case VICE_MACHINE_C64DTV:

@@ -9,6 +9,7 @@ type install.cmd > Vice2\install.cmd
 copy ..\..\..\data\x64.exe      Vice2
 copy ..\..\..\data\x64dtv.exe   Vice2
 copy ..\..\..\data\x64sc.exe    Vice2
+copy ..\..\..\data\xscpu64.exe  Vice2
 copy ..\..\..\data\x128.exe     Vice2
 copy ..\..\..\data\xvic.exe     Vice2
 copy ..\..\..\data\xpet.exe     Vice2
@@ -30,6 +31,7 @@ copy icons\vsid.ico    Vice2\Icons
 
 md Vice2\C64
 copy ..\..\..\data\C64\basic        Vice2\C64
+copy ..\..\..\data\C64\c64hq.vpl    Vice2\C64
 copy ..\..\..\data\C64\c64mem.sym   Vice2\C64
 copy ..\..\..\data\C64\c64s.vpl     Vice2\C64
 copy ..\..\..\data\C64\ccs64.vpl    Vice2\C64
@@ -60,6 +62,22 @@ copy ..\..\..\data\C64DTV\os2.vkm      Vice2\C64DTV
 copy ..\..\..\data\C64DTV\os2_sym.vkm  Vice2\C64DTV
 copy ..\..\..\data\C64DTV\pc64.vpl     Vice2\C64DTV
 copy ..\..\..\data\C64DTV\vice.vpl     Vice2\C64DTV
+
+md Vice2\SCPU64
+copy ..\..\..\data\SCPU64\c64hq.vpl     Vice2\SCPU64
+copy ..\..\..\data\SCPU64\c64s.vpl      Vice2\SCPU64
+copy ..\..\..\data\SCPU64\ccs64.vpl     Vice2\SCPU64
+copy ..\..\..\data\SCPU64\chargen       Vice2\SCPU64
+copy ..\..\..\data\SCPU64\default.vpl   Vice2\SCPU64
+copy ..\..\..\data\SCPU64\default.vrs   Vice2\SCPU64
+copy ..\..\..\data\SCPU64\frodo.vpl     Vice2\SCPU64
+copy ..\..\..\data\SCPU64\godot.vpl     Vice2\SCPU64
+copy ..\..\..\data\SCPU64\os2.vkm       Vice2\SCPU64
+copy ..\..\..\data\SCPU64\os2_sym.vkm   Vice2\SCPU64
+copy ..\..\..\data\SCPU64\pc64.vpl      Vice2\SCPU64
+copy ..\..\..\data\SCPU64\scpu64        Vice2\SCPU64
+copy ..\..\..\data\SCPU64\scpu64mem.sym Vice2\SCPU64
+copy ..\..\..\data\SCPU64\vice.vpl      Vice2\SCPU64
 
 md Vice2\C128
 copy ..\..\..\data\C128\basic64      Vice2\C128

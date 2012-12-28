@@ -245,6 +245,8 @@ int find_cpu_type_from_string(const char *cpu_string)
         return CPU_6502;
     } else if (strcasecmp(cpu_string, "r65c02") == 0) {
         return CPU_R65C02;
+    } else if (strcasecmp(cpu_string, "65816")==0) {
+        return CPU_65816;
     } else if (strcasecmp(cpu_string, "h6809") == 0 || strcmp(cpu_string, "6809") == 0) {
         return CPU_6809;
     } else if (strcasecmp(cpu_string, "z80") == 0) {
@@ -295,6 +297,9 @@ void monitor_print_cpu_types_supported(MEMSPACE mem)
                     break;
                 case CPU_R65C02:
                     mon_out(" R65C02");
+                    break;
+                case CPU_65816:
+                    mon_out(" 65816/65802");
                     break;
                 default:
                     mon_out(" unknown(%d)", ptr->monitor_cpu_type_p->cpu_type);
@@ -1185,6 +1190,9 @@ static void find_supported_monitor_cpu_types(supported_cpu_type_list_t **list_pt
     }
     if (mon_interface->cpu_R65C02_regs) {
         add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_R65C02));
+    }
+    if (mon_interface->cpu_65816_regs) {
+        add_monitor_cpu_type_supported(list_ptr, find_monitor_cpu_type(CPU_65816));
     }
 }
 

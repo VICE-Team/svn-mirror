@@ -16,6 +16,7 @@ EXTRA_DIST = \
 	c64commoncart.vcproj \
 	c64exp.vcproj \
 	c64sc.vcproj \
+	c64scpu64.vcproj \
 	cartconv.vcproj \
 	cbm2.vcproj \
 	cbm2common.vcproj \
@@ -52,6 +53,7 @@ EXTRA_DIST = \
 	residfp.vcproj \
 	rs232drv.vcproj \
 	rtc.vcproj \
+	scpu64.vcproj \
 	serial.vcproj \
 	sid.vcproj \
 	sounddrv.vcproj \
@@ -76,6 +78,7 @@ EXTRA_DIST = \
 	xcbm5x0.vcproj \
 	xpet.vcproj \
 	xplus4.vcproj \
+	xscpu64.vcproj \
 	xvic.vcproj \
 	vice.sln \
 	make-msvc-bindist.bat \

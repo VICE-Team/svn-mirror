@@ -35,6 +35,7 @@ libx11ui_a_SOURCES = \
 	qnxshm.h \
 	renderxv.c \
 	renderxv.h \
+	scpu64icon.c \
 	ui-cmdline-options.c \
 	ui-resources.c \
 	vic20icon.c \

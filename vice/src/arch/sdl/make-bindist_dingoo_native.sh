@@ -12,7 +12,7 @@ ENABLEARCH=$3
 ZIPKIND=$4
 TOPSRCDIR=$5
 
-EMULATORS="x64 x64dtv x128 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv xscpu64 x128 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS=""
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 

@@ -4,6 +4,7 @@ set VICEDIR=Vice2-%VICEVERSION%
 if not exist x64.exe goto missingwatcom
 if not exist x64dtv.exe goto missingwatcom
 if not exist x64sc.exe goto missingwatcom
+if not exist xscpu64.exe goto missingwatcom
 if not exist x128.exe goto missingwatcom
 if not exist xcbm2.exe goto missingwatcom
 if not exist xcbm5x0.exe goto missingwatcom
@@ -23,6 +24,7 @@ type ..\install.cmd > %VICEDIR%\install.cmd
 copy x64.exe      %VICEDIR%
 copy x64dtv.exe   %VICEDIR%
 copy x64sc.exe    %VICEDIR%
+copy xscpu64.exe  %VICEDIR%
 copy x128.exe     %VICEDIR%
 copy xvic.exe     %VICEDIR%
 copy xpet.exe     %VICEDIR%
@@ -43,6 +45,7 @@ copy ..\icons\vsid.ico    %VICEDIR%\Icons
 
 mkdir %VICEDIR%\C64
 copy ..\..\..\..\data\C64\basic       %VICEDIR%\C64
+copy ..\..\..\..\data\C64\c64hq.vpl   %VICEDIR%\C64
 copy ..\..\..\..\data\C64\c64mem.sym  %VICEDIR%\C64
 copy ..\..\..\..\data\C64\c64s.vpl    %VICEDIR%\C64
 copy ..\..\..\..\data\C64\ccs64.vpl   %VICEDIR%\C64
@@ -73,6 +76,22 @@ copy ..\..\..\..\data\C64DTV\os2.vkm     %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\os2_sym.vkm %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\pc64.vpl    %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\vice.vpl    %VICEDIR%\C64DTV
+
+mkdir %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\c64hq.vpl     %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\c64s.vpl      %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\ccs64.vpl     %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\chargen       %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\default.vpl   %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\default.vrs   %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\frodo.vpl     %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\godot.vpl     %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\os2.vkm       %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\os2_sym.vkm   %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\pc64.vpl      %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\scpu64        %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\scpu64mem.sym %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\vice.vpl      %VICEDIR%\SCPU64
 
 mkdir %VICEDIR%\C128
 copy ..\..\..\..\data\C128\basic64      %VICEDIR%\C128

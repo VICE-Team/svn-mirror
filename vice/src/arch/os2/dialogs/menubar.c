@@ -67,7 +67,7 @@
 #include "cartridge.h"
 #endif
 
-#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
+#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__) || defined(__XSCPU64__)
 #include "vicii.h"
 #endif
 
@@ -79,7 +79,7 @@
 #include "c64dtv-resources.h"
 #endif
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
 #include "c64model.h"        // c64model_set(), C64MODEL_*
 #endif
 
@@ -108,7 +108,7 @@
 #include "cbm2model.h"
 #endif
 
-#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__)
+#if defined(__X128__) || defined(__X64__) || defined(__X64DTV__) || defined(__XCBM5X0__) || defined(__XSCPU64__)
 static const char *VIDEO_CACHE = "VICIIVideoCache";
 static const char *DOUBLE_SIZE = "VICIIDoubleSize";
 static const char *DOUBLE_SCAN = "VICIIDoubleScan";
@@ -516,7 +516,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM2__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM2__) || defined(__XSCPU64__)
         case IDM_CIA1_6526_OLD:
             resources_set_int("CIA1Model", 0);
             return;
@@ -531,7 +531,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__)
+#if defined(__X64__) || defined(__XSCPU64__)
         case IDM_C64PAL:
         case IDM_C64CPAL:
         case IDM_C64OLDPAL:
@@ -622,7 +622,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_CRTGEN:
         case IDM_CRTGEN8KB:
         case IDM_CRTGEN16KB:
@@ -774,21 +774,21 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__X64DTV__) || defined(__XSCPU64__)
         case IDM_PAL:
             resources_set_int("MachineVideoStandard", MACHINE_SYNC_PAL);
             return;
         case IDM_NTSC:
             resources_set_int("MachineVideoStandard", MACHINE_SYNC_NTSC);
             return;
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
         case IDM_NTSCOLD:
             resources_set_int("MachineVideoStandard", MACHINE_SYNC_NTSCOLD);
             return;
 #endif // __X64__
 #endif //  __X64__ || __X128__ || __XVIC__
 
-#if defined(__X64__) || defined(__X128__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__X64DTV__) || defined(__XSCPU64__)
         case IDM_SBCOLL:
             toggle("VICIICheckSbColl");
             return;
@@ -812,7 +812,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XVIC__)
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__XSCPU64__)
         case IDM_GEORAM:
             toggle("GEORAM");
             return;
@@ -942,7 +942,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
 #endif
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_REU:
             toggle("REU");
             return;
@@ -1001,6 +1001,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_C64_256K:
             toggle("C64_256K");
             return;
+#endif
+
+#if defined(__X64__) || defined(__XSCPU64__)
         case IDM_BURST_NONE:
             resources_set_int("BurstMod", 0);
             return;
@@ -1009,6 +1012,30 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_BURST_CIA2:
             resources_set_int("BurstMod", 2);
+            return;
+#endif
+
+#ifdef __XSCPU64__
+        case IDM_SCPU64_SIMM_0:
+            resources_set_int("SIMMSize", 0);
+            return;
+        case IDM_SCPU64_SIMM_1:
+            resources_set_int("SIMMSize", 1);
+            return;
+        case IDM_SCPU64_SIMM_4:
+            resources_set_int("SIMMSize", 4);
+            return;
+        case IDM_SCPU64_SIMM_8:
+            resources_set_int("SIMMSize", 8);
+            return;
+        case IDM_SCPU64_SIMM_16:
+            resources_set_int("SIMMSize", 8);
+            return;
+        case IDM_SCPU64_JIFFY_SWITCH:
+            toggle("JiffySwitch");
+            return;
+        case IDM_SCPU64_SPEED_SWITCH:
+            toggle("SpeedSwitch");
             return;
 #endif
 
@@ -1286,7 +1313,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             toggle("HideMousePtr");
             return;
 
-#if defined(__X128__) || defined(__X64__)
+#if defined(__X128__) || defined(__X64__) || defined(__XSCPU64__)
         case IDM_MOUSE_TYPE_1351:
             resources_set_int("Mousetype", MOUSE_TYPE_1351);
             return;
@@ -1467,7 +1494,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
 #endif // HAVE_RESID
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
         case IDM_SIDFILTER:
             toggle("SidFilters");
             return;
@@ -1740,7 +1767,7 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_USERPORT_JOY_OEM:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_OEM);
             return;
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_USERPORT_JOY_HIT:
             resources_set_int("UserportJoyType", USERPORT_JOYSTICK_HIT);
             return;
@@ -1821,7 +1848,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM2__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM2__) || defined(__XSCPU64__)
         case IDM_CIA1_MODEL:
             resources_get_int("CIA1Model", &val);
             WinCheckMenuItem(hwnd, IDM_CIA1_6526_OLD, val == 0);
@@ -1834,7 +1861,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
-#if defined(__X64__)
+#if defined(__X64__) || defined(__XSCPU64__)
         case IDM_CUSTOM_C64_MODEL:
             resources_get_int("VICIINewLuminances", &val);
             WinCheckMenuItem(hwnd, IDM_VICII_NEW_LUMINANCES, val);
@@ -1856,7 +1883,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_IDE64_REVISION:
             resources_get_int("IDE64version4", &val);
             WinCheckMenuItem(hwnd, IDM_IDE64_VER_3, val == 0);
@@ -1946,7 +1973,7 @@ void menu_select(HWND hwnd, USHORT item)
 
         case IDM_DETACH:
 
-#if defined(__X64__) || defined(__X128__)
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
             resources_get_int("CartridgeType", &val);
             WinEnableMenuItem(hwnd, IDM_CARTRIDGEDET, val != CARTRIDGE_NONE);
 #endif
@@ -2003,7 +2030,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_PET, val == USERPORT_JOYSTICK_PET);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_HUMMER, val == USERPORT_JOYSTICK_HUMMER);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_OEM, val == USERPORT_JOYSTICK_OEM);
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_HIT, val == USERPORT_JOYSTICK_HIT);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_KINGSOFT, val == USERPORT_JOYSTICK_KINGSOFT);
             WinCheckMenuItem(hwnd, IDM_USERPORT_JOY_STARBYTE, val == USERPORT_JOYSTICK_STARBYTE);
@@ -2015,13 +2042,13 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
             return;
 
-#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__X64DTV__) || defined(__XSCPU64__)
         case IDM_VIDEOSTD:
             resources_get_int("MachineVideoStandard", &val);
             WinCheckMenuItem(hwnd, IDM_PAL, val == MACHINE_SYNC_PAL);
             WinCheckMenuItem(hwnd, IDM_NTSC, val == MACHINE_SYNC_NTSC);
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
             WinCheckMenuItem(hwnd, IDM_NTSCOLD, val == MACHINE_SYNC_NTSCOLD);
 #endif
 
@@ -2034,7 +2061,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_MOUSE, "Mouse");
             WinCheckRes(hwnd, IDM_HIDEMOUSE, "HideMousePtr");
 
-#if defined(__X128__) || defined(__X64__)
+#if defined(__X128__) || defined(__X64__) || defined(__XSCPU64__)
             WinEnableMenuItem(hwnd, IDM_MOUSE_TYPE, 1);
             WinEnableMenuItem(hwnd, IDM_MOUSE_PORT, 1);
 #endif
@@ -2051,7 +2078,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckRes(hwnd, IDM_IEEE, "IEEE488");
 #endif // __X128__ || __XVIC__
 
-#if defined(__X64__) || defined(__X128__) || defined(__XVIC__)
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__XSCPU64__)
             resources_get_int("GEORAM", &val);
             WinCheckMenuItem(hwnd, IDM_GEORAM, val);
             WinEnableMenuItem(hwnd, IDM_GEORAMSIZE, val);
@@ -2091,14 +2118,25 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 #endif
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
             resources_get_int("BurstMod", &val);
             WinCheckMenuItem(hwnd, IDM_BURST_NONE, val == 0);
             WinCheckMenuItem(hwnd, IDM_BURST_CIA1, val == 1);
             WinCheckMenuItem(hwnd, IDM_BURST_CIA2, val == 2);
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#ifdef __XSCPU64__
+            resources_get_int("SIMMSize", &val);
+            WinCheckMenuItem(hwnd, IDM_SCPU64_SIMM_0, val == 0);
+            WinCheckMenuItem(hwnd, IDM_SCPU64_SIMM_1, val == 1);
+            WinCheckMenuItem(hwnd, IDM_SCPU64_SIMM_4, val == 4);
+            WinCheckMenuItem(hwnd, IDM_SCPU64_SIMM_8, val == 8);
+            WinCheckMenuItem(hwnd, IDM_SCPU64_SIMM_16, val == 16);
+            WinCheckRes(hwnd, IDM_SCPU64_JIFFY_SWITCH, "JiffySwitch");
+            WinCheckRes(hwnd, IDM_SCPU64_SPEED_SWITCH, "SpeedSwitch");
+#endif
+
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
             resources_get_int("REU", &val);
             WinCheckMenuItem(hwnd, IDM_REU, val);
             WinEnableMenuItem(hwnd, IDM_REUSIZE, val);
@@ -2121,7 +2159,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_USERPORT_RTC, val);
 #endif
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
             resources_get_int("DQBB", &val);
             WinCheckMenuItem(hwnd, IDM_DQBB, val);
             WinEnableMenuItem(hwnd, IDM_SAVE_DQBB, val);
@@ -2140,6 +2178,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_SAVE_EXPERT, val);
             WinCheckRes(hwnd, IDM_SAVE_EXPERT, "ExpertImageWrite");
             WinEnableMenuItem(hwnd, IDM_EXPERTFILE, val);
+#ifdef __X64__
             resources_get_int("PLUS60K", &val);
             WinCheckMenuItem(hwnd, IDM_PLUS60K, val);
             WinEnableMenuItem(hwnd, IDM_PLUS60KBASE, val);
@@ -2151,6 +2190,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64_256K, val);
             WinEnableMenuItem(hwnd, IDM_C64_256K_BASE, val);
             WinEnableMenuItem(hwnd, IDM_C64_256KFILE, val);
+#endif
 
 #ifdef __X64SC__
             val = c64model_get();
@@ -2192,7 +2232,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C232NTSC, val == PLUS4MODEL_232_NTSC);
 #endif
 
-#if defined(__XPET__)
+#ifdef __XPET__
             val = petmodel_get();
             WinCheckMenuItem(hwnd, IDM_PET2001, val == PETMODEL_2001);
             WinCheckMenuItem(hwnd, IDM_PET3008, val == PETMODEL_3008);
@@ -2208,7 +2248,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_PETSUPER, val == PETMODEL_SUPERPET);
 #endif
 
-#if defined(__XCBM__)
+#ifdef __XCBM__
             val = cbm2model_get();
             WinCheckMenuItem(hwnd, IDM_CBM510PAL, val == CBM2MODEL_510_PAL);
             WinCheckMenuItem(hwnd, IDM_CBM510NTSC, val == CBM2MODEL_510_NTSC);
@@ -2270,7 +2310,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_AUTOSTART_PRG_DISK_IMAGE, val == 2);
             return;
 
-#if defined(HAVE_MOUSE) && (defined(__X64__) || defined(__X128__))
+#if defined(HAVE_MOUSE) && (defined(__X64__) || defined(__X128__) || defined(__XSCPU64__))
         case IDM_MOUSE_TYPE:
             resources_get_int("Mousetype", &val);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_1351, val == MOUSE_TYPE_1351);
@@ -2347,7 +2387,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif
 
-#if defined(__X64__) || defined(__X128__) || defined(__XVIC__)
+#if defined(__X64__) || defined(__X128__) || defined(__XVIC__) || defined(__XSCPU64__)
         case IDM_GEORAMSIZE:
             resources_get_int("GEORAMSize", &val);
             WinCheckMenuItem(hwnd, IDM_GEORAM64, val == 64);
@@ -2425,7 +2465,7 @@ void menu_select(HWND hwnd, USHORT item)
 #endif
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case IDM_REUSIZE:
             resources_get_int("REUSize", &val);
             WinCheckMenuItem(hwnd, IDM_REU128, val == 128);
@@ -2443,13 +2483,14 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_RAMCART128, val == 128);
             return;
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
         case IDM_EXPERT_MODE:
             resources_get_int("ExpertCartridgeMode", &val);
             WinCheckMenuItem(hwnd, IDM_EXPERT_MODE_OFF, val == 0);
             WinCheckMenuItem(hwnd, IDM_EXPERT_MODE_PRG, val == 1);
             WinCheckMenuItem(hwnd, IDM_EXPERT_MODE_ON, val == 2);
             return;
+#ifdef __X64__
         case IDM_PLUS60KBASE:
             resources_get_int("PLUS60Kbase", &val);
             WinCheckMenuItem(hwnd, IDM_PLUS60KD040, val == 0xd040);
@@ -2462,6 +2503,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDF00, val == 0xdf00);
             WinCheckMenuItem(hwnd, IDM_C64_256K_BASEDF80, val == 0xdf80);
             return;
+#endif
 #endif
 #endif
 
@@ -2522,7 +2564,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinEnableMenuItem(hwnd, IDM_SOUNDSYNC, !val);
 #endif // HAVE_RESID
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
             WinCheckRes(hwnd, IDM_SIDFILTER, "SidFilters");
 
 #ifndef __X64DTV__
@@ -2556,7 +2598,7 @@ void menu_select(HWND hwnd, USHORT item)
             return;
 #endif // HAVE_RESID
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
         case IDM_SIDCHIP:
             resources_get_int("SidModel", &val);
             WinCheckMenuItem(hwnd, IDM_SC6581, val == 0);

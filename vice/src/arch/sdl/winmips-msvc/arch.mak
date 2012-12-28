@@ -125,6 +125,7 @@ CLEAN :
 	-@erase "$(INTDIR)\xcbm2_ui.obj"
 	-@erase "$(INTDIR)\xpet_ui.obj"
 	-@erase "$(INTDIR)\xplus4_ui.obj"
+	-@erase "$(INTDIR)\xscpu64_ui.obj"
 	-@erase "$(INTDIR)\xvic_ui.obj"
 	-@erase "$(OUTDIR)\arch.lib"
 
@@ -248,6 +249,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\xcbm2_ui.obj" \
 	"$(INTDIR)\xpet_ui.obj" \
 	"$(INTDIR)\xplus4_ui.obj" \
+	"$(INTDIR)\xscpu64_ui.obj" \
 	"$(INTDIR)\xvic_ui.obj" \
 	".\libs\base\Release\base.lib"
 
@@ -356,6 +358,7 @@ CLEAN :
 	-@erase "$(INTDIR)\xcbm2_ui.obj"
 	-@erase "$(INTDIR)\xpet_ui.obj"
 	-@erase "$(INTDIR)\xplus4_ui.obj"
+	-@erase "$(INTDIR)\xscpu64_ui.obj"
 	-@erase "$(INTDIR)\xvic_ui.obj"
 	-@erase "$(OUTDIR)\arch.lib"
 
@@ -479,6 +482,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\xcbm2_ui.obj" \
 	"$(INTDIR)\xpet_ui.obj" \
 	"$(INTDIR)\xplus4_ui.obj" \
+	"$(INTDIR)\xscpu64_ui.obj" \
 	"$(INTDIR)\xvic_ui.obj" \
 	".\libs\base\Debug\base.lib"
 
@@ -1023,6 +1027,12 @@ SOURCE=..\xpet_ui.c
 SOURCE=..\xplus4_ui.c
 
 "$(INTDIR)\xplus4_ui.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\xscpu64_ui.c
+
+"$(INTDIR)\xscpu64_ui.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

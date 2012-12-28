@@ -76,9 +76,9 @@ static void video_debug(const char *format, ...)
     va_end(args);
     log_debug(tmp);
 }
-#define DEBUG(x) video_debug x
+#define VDEBUG(x) video_debug x
 #else
-#define DEBUG(x)
+#define VDEBUG(x)
 #endif
 
 /* ------------------------------------------------------------------------ */
@@ -302,7 +302,7 @@ void video_canvas_refresh_ddraw(video_canvas_t *canvas, unsigned int xs, unsigne
         }
     }
     if (window_index == number_of_windows) {
-        DEBUG(("PANIC: can't find window"));
+        VDEBUG(("PANIC: can't find window"));
         return;
     }
 

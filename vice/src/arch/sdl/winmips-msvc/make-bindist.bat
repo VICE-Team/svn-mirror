@@ -4,6 +4,7 @@ set VICEDIR=SDLVICE-%VICEVERSION%-winmips
 if not exist ..\..\..\..\data\x64.exe goto missingmsvc
 if not exist ..\..\..\..\data\x64dtv.exe goto missingmsvc
 if not exist ..\..\..\..\data\x64sc.exe goto missingmsvc
+if not exist ..\..\..\..\data\xscpu64.exe goto missingmsvc
 if not exist ..\..\..\..\data\x128.exe goto missingmsvc
 if not exist ..\..\..\..\data\xcbm2.exe goto missingmsvc
 if not exist ..\..\..\..\data\xcbm5x0.exe goto missingmsvc
@@ -21,6 +22,7 @@ mkdir %VICEDIR%
 copy ..\..\..\..\data\x64.exe %VICEDIR%
 copy ..\..\..\..\data\x64dtv.exe %VICEDIR%
 copy ..\..\..\..\data\x64sc.exe %VICEDIR%
+copy ..\..\..\..\data\xscpu64.exe %VICEDIR%
 copy ..\..\..\..\data\x128.exe %VICEDIR%
 copy ..\..\..\..\data\xvic.exe %VICEDIR%
 copy ..\..\..\..\data\xpet.exe %VICEDIR%
@@ -46,6 +48,13 @@ copy ..\..\..\..\data\C64\chargen %VICEDIR%\C64
 copy ..\..\..\..\data\C64\*.vrs %VICEDIR%\C64
 copy ..\..\..\..\data\C64\kernal %VICEDIR%\C64
 copy ..\..\..\..\data\C64\sdl*.* %VICEDIR%\C64
+mkdir %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\*.vpl %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\chargen %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\*.vrs %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\scpu64 %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\scpu64mem.sym %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\sdl*.* %VICEDIR%\SCPU64
 mkdir %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\basic %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\*.vpl %VICEDIR%\C64DTV

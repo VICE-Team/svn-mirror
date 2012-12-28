@@ -33,6 +33,7 @@ extern const char *c64dtv_icon_data[];
 extern const char *cbm2_icon_data[];
 extern const char *pet_icon_data[];
 extern const char *plus4_icon_data[];
+extern const char *scpu64_icon_data[];
 extern const char *vic20_icon_data[];
 
 #endif

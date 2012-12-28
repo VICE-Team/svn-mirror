@@ -16,7 +16,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/rtc
 
-noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a
+noinst_LIBRARIES = libvsid.a libc64.a libc64sc.a libc64c128.a libc64c64dtv.a libc64scpu64.a
 
 libvsid_a_SOURCES = \
 	c64-cmdline-options.c \
@@ -244,6 +244,42 @@ libc64c128_a_SOURCES = \
 	c64sound.c \
 	patchrom.c \
 	patchrom.h
+
+libc64scpu64_a_SOURCES = \
+	c64bus.c \
+	c64cart.h \
+	c64cia.h \
+	c64cia1.c \
+	c64cia2.c \
+	c64datasette.c \
+	c64drive.c \
+	c64embedded.c \
+	c64export.c \
+	c64export.h \
+	c64fastiec.c \
+	c64fastiec.h \
+	c64iec.c \
+	c64iec.h \
+	c64io.c \
+	c64keyboard.c \
+	c64keyboard.h \
+	c64memsnapshot.c \
+	c64memsnapshot.h \
+	c64model.c \
+	c64model.h \
+	c64parallel.c \
+	c64parallel.h \
+	c64pla.c \
+	c64pla.h \
+	c64printer.c \
+	c64romset.c \
+	c64rsuser.c \
+	c64rsuser.h \
+	c64sound.c \
+	c64video.c \
+	patchrom.c \
+	patchrom.h \
+	reloc65.c
 
 BUILT_SOURCES = psiddrv.h
 

@@ -44,6 +44,7 @@ libarch_a_SOURCES = \
 	mousedrv.h \
 	petui.cc \
 	plus4ui.cc \
+	scpu64ui.cc \
 	signals.c \
 	socketimpl.h \
 	statusbar.cc \

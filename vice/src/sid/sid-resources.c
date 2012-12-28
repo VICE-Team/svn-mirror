@@ -154,7 +154,8 @@ static int set_sid_stereo(int val, void *param)
         (machine_class == VICE_MACHINE_PLUS4) ||
         (machine_class == VICE_MACHINE_PET) ||
         (machine_class == VICE_MACHINE_CBM5x0) ||
-        (machine_class == VICE_MACHINE_CBM6x0)) {
+        (machine_class == VICE_MACHINE_CBM6x0) ||
+        (machine_class == VICE_MACHINE_SCPU64)) {
         sid_stereo = 0;
     } else {
         if (val != sid_stereo) {

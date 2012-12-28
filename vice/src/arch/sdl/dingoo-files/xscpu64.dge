@@ -1,0 +1,4 @@
+#!/bin/sh
+
+./xscpu64 >vice_log.txt 2>&1
+sync

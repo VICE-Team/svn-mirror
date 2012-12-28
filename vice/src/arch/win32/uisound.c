@@ -338,7 +338,7 @@ static void init_sound_record_dialog(HWND hwnd)
     /* translate all dialog items */
     uilib_localize_dialog(hwnd, sound_record_dialog_trans);
 
-    /* adjust the size of the elements in the datasette_sub_group */
+    /* adjust the size of the elements in the sound_record_group */
     uilib_adjust_group_width(hwnd, sound_record_group);
 
     /* get the max x of the sound record format element */

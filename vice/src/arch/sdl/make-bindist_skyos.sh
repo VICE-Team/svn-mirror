@@ -25,7 +25,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -76,6 +76,7 @@ DefaultPath=
 [PANELMENU]
 /menu="Emulators/SDLVICE"	/name="vsid"	/link="/boot/programs/SDLVICE/bin/vsid.app"	/icon="/boot/programs/SDLVICE/icons/vsid.ico"
 /menu="Emulators/SDLVICE"	/name="x64"	/link="/boot/programs/SDLVICE/bin/x64.app"		/icon="/boot/programs/SDLVICE/icons/x64.ico"   
+/menu="Emulators/SDLVICE"	/name="xscpu64"	/link="/boot/programs/SDLVICE/bin/xscpu64.app"		/icon="/boot/programs/SDLVICE/icons/xscpu64.ico"   
 /menu="Emulators/SDLVICE"	/name="x64dtv"	/link="/boot/programs/SDLVICE/bin/x64dtv.app"		/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"   
 _end
 
@@ -96,6 +97,7 @@ cat >>SDLVICE-$VERSION/install.sif <<_END
 [FILEICONS]
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/vsid.app"	/icon="/boot/programs/SDLVICE/icons/vsid.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64.app"	/icon="/boot/programs/SDLVICE/icons/x64.ico"
+/file="\$INSTALL_ROOT/programs/SDLVICE/bin/xscpu64.app"	/icon="/boot/programs/SDLVICE/icons/xscpu64.ico"
 /file="\$INSTALL_ROOT/programs/SDLVICE/bin/x64dtv.app"	/icon="/boot/programs/SDLVICE/icons/x64dtv.ico"
 _END
 

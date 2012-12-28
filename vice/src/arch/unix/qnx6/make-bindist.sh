@@ -32,7 +32,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -188,6 +188,7 @@ cat >manifest.15 <<_END
                      <QPM:File>vsid</QPM:File>
                      <QPM:File>x128</QPM:File>
                      <QPM:File>x64</QPM:File>
+                     <QPM:File>xscpu64</QPM:File>
                      <QPM:File>x64dtv</QPM:File>
 _END
 
@@ -414,6 +415,25 @@ _END
                            <QPM:File>godot.vpl</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>vice.vpl</QPM:File>
+                           <QPM:File>x11_pos.vkm</QPM:File>
+                           <QPM:File>x11_posger.vkm</QPM:File>
+                           <QPM:File>x11_sym.vkm</QPM:File>
+                           <QPM:File>x11_symger.vkm</QPM:File>
+                        </QPM:Dir>
+
+                        <QPM:Dir name="SCPU64">
+                           <QPM:File>c64hq.vpl</QPM:File>
+                           <QPM:File>c64s.vpl</QPM:File>
+                           <QPM:File>ccs64.vpl</QPM:File>
+                           <QPM:File>chargen</QPM:File>
+                           <QPM:File>default.vpl</QPM:File>
+                           <QPM:File>default.vrs</QPM:File>
+                           <QPM:File>frodo.vpl</QPM:File>
+                           <QPM:File>godot.vpl</QPM:File>
+                           <QPM:File>pc64.vpl</QPM:File>
+                           <QPM:File>scpu64</QPM:File>
+                           <QPM:File>scpu64mem.sym</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                            <QPM:File>x11_pos.vkm</QPM:File>
                            <QPM:File>x11_posger.vkm</QPM:File>
@@ -727,6 +747,18 @@ _END
       <QPM:Launch name="x64 (no sound)">
          <QPM:String name="Topic" value="Applications/Emulators"/>
          <QPM:String name="Command" value="/opt/bin/x64 -sounddev dummy"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="xscpu64">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/xscpu64"/>
+         <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
+      </QPM:Launch>
+
+      <QPM:Launch name="xscpu64 (no sound)">
+         <QPM:String name="Topic" value="Applications/Emulators"/>
+         <QPM:String name="Command" value="/opt/bin/xscpu64 -sounddev dummy"/>
          <QPM:String name="Icon" value="/usr/share/icons/topics/chameleon.gif"/>
       </QPM:Launch>
 

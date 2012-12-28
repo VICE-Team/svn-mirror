@@ -146,6 +146,7 @@ VideoWindow::VideoWindow(int chipno)
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
         case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_CBM5x0:
         default:
             chip[0] = 0;

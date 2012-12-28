@@ -23,7 +23,7 @@ MCommand
 
 5
 MCommand
-2400
+2928
 genwt.bat
 copy /b ..\resc128.rc + ..\res.rc + ..\resacia.rc + ..\rescia.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdrivec128.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexpert.rc + ..\restfe.rc + ..\resretroreplay.rc + ..\resds12c887rtc.rc ..\resc128cat.rc /b
 copy /b ..\resc64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resplus256k.rc + ..\resplus60k.rc + ..\resc64_256k.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexper.rc + ..\restfe.rc + ..\resretroreplay.rc + ..\resds12c887rtc.rc ..\resc64cat.rc /b
@@ -35,6 +35,7 @@ copy /b ..\respet.rc + ..\res.rc + ..\resacia.rc + ..\resdrivepetcbm2.rc + ..\re
 copy /b ..\resplus4.rc + ..\res.rc + ..\rested.rc + ..\resacia.rc + ..\resdriveplus4.rc + ..\resautostart.rc + ..\resv364speech.rc + ..\ressidcart.rc ..\resplus4cat.rc /b
 copy /b ..\resvic20.rc + ..\res.rc + ..\resvic.rc + ..\ressoundexpander.rc + ..\ressoundsampler.rc + ..\restfe.rc + ..\resdigimax.rc + ..\resacia.rc + ..\resgeoram.rc + ..\resdrivevic20.rc + ..\resrs232user.rc + ..\ressidcart.rc + ..\reslightpen.rc + ..\resautostart.rc + ..\resmidi.rc + ..\resds12c887rtc.rc  ..\resvic20cat.rc /b
 copy /b ..\resvsid.rc + ..\res.rc + ..\ressid.rc + ..\resvicii.rc ..\resvsidcat.rc /b
+copy /b ..\resscpu64.rc + ..\res.rc + ..\resacia.rc + ..\resdrivec64.rc + ..\reside64.rc + ..\resreu.rc + ..\resgeoram.rc + ..\resramcart.rc + ..\resmmc64.rc + ..\resmmcreplay.rc + ..\resrs232user.rc + ..\ressid.rc + ..\resvicii.rc + ..\resdigimax.rc + ..\resmouse.rc + ..\resmidi.rc + ..\resdqbb.rc + ..\resisepic.rc + ..\reslightpen.rc + ..\reseasyflash.rc + ..\ressoundexpander.rc + ..\resautostart.rc + ..\resmagicvoice.rc + ..\resexper.rc + ..\restfe.rc + ..\resretroreplay.rc + ..\resds12c887rtc.rc ..\resscpu64cat.rc /b
 
 6
 MItem

@@ -33,6 +33,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "debug.h"
+
 #ifdef DEBUG
 /* memory leak pinpointing, don't forget to enable in lib.c */
 #define LIB_DEBUG_PINPOINT

@@ -12,7 +12,7 @@ ENABLEARCH=$3
 ZIPKIND=$4
 TOPSRCDIR=$5
 
-EMULATORS="x64 x64dtv x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -36,7 +36,7 @@ done
 cp $TOPSRCDIR/src/arch/sdl/dingoo-files/*.dge SDLVICE-dingoo-$VICEVERSION
 cp $TOPSRCDIR/src/arch/sdl/dingoo-files/sdl-vicerc* SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 SDLVICE-dingoo-$VICEVERSION
-cp -a $TOPSRCDIR/data/C64DTV SDLVICE-dingoo-$VICEVERSION
+cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/SCPU64 SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/CBM-II SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET SDLVICE-dingoo-$VICEVERSION
 cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/VIC20 SDLVICE-dingoo-$VICEVERSION

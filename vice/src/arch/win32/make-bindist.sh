@@ -27,7 +27,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="vsid x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
+EMULATORS="vsid x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -78,7 +78,7 @@ do
 done
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $TOPSRCDIR/data/C64DTV $WINVICE
 cp -a $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET $WINVICE
-cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $WINVICE
+cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/PRINTER $WINVICE
 cp -a $TOPSRCDIR/data/VIC20 $TOPSRCDIR/data/fonts $TOPSRCDIR/doc/html $WINVICE
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README $WINVICE
 rm -f `find $WINVICE -name "Makefile*"`

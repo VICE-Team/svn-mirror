@@ -3302,6 +3302,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_VICII_SETTINGS_SV, "VIC-II-inställningar..." },
 /* tr */ { IDMS_VICII_SETTINGS_TR, "VIC-II ayarlarý..." },
 
+/* en */ { IDMS_SCPU64_SETTINGS,    "SuperCPU64 settings..." },
+/* da */ { IDMS_SCPU64_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_SCPU64_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_SCPU64_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_SCPU64_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_SCPU64_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_SCPU64_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_SCPU64_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_SCPU64_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_SCPU64_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_SCPU64_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_SCPU64_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_SCPU64_SETTINGS_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_VIC_SETTINGS,    "VIC settings..." },
 /* da */ { IDMS_VIC_SETTINGS_DA, "VIC-indstillinger..." },
 /* de */ { IDMS_VIC_SETTINGS_DE, "VIC Einstellungen..." },
@@ -10946,6 +10960,62 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_SFX_SS_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SFX_SS_SETTINGS_SV, "Inställningar för SFX Sound Sampler" },
 /* tr */ { IDS_SFX_SS_SETTINGS_TR, "SFX Sound Sampler ayarlarý" },
+
+/* en */ { IDS_SCPU64_JIFFY_ENABLED,    "Jiffy switch enabled" },
+/* da */ { IDS_SCPU64_JIFFY_ENABLED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCPU64_JIFFY_ENABLED_DE, "" },  /* fuzzy */
+/* es */ { IDS_SCPU64_JIFFY_ENABLED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SCPU64_JIFFY_ENABLED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCPU64_JIFFY_ENABLED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCPU64_JIFFY_ENABLED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SCPU64_JIFFY_ENABLED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SCPU64_JIFFY_ENABLED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_JIFFY_ENABLED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SCPU64_JIFFY_ENABLED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SCPU64_JIFFY_ENABLED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCPU64_JIFFY_ENABLED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SCPU64_SPEED_ENABLED,    "Speed switch enabled" },
+/* da */ { IDS_SCPU64_SPEED_ENABLED_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCPU64_SPEED_ENABLED_DE, "" },  /* fuzzy */
+/* es */ { IDS_SCPU64_SPEED_ENABLED_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SCPU64_SPEED_ENABLED_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCPU64_SPEED_ENABLED_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCPU64_SPEED_ENABLED_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SCPU64_SPEED_ENABLED_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SCPU64_SPEED_ENABLED_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_SPEED_ENABLED_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SCPU64_SPEED_ENABLED_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SCPU64_SPEED_ENABLED_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCPU64_SPEED_ENABLED_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SCPU64_SIMM_SIZE,    "SIMM size" },
+/* da */ { IDS_SCPU64_SIMM_SIZE_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCPU64_SIMM_SIZE_DE, "" },  /* fuzzy */
+/* es */ { IDS_SCPU64_SIMM_SIZE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SCPU64_SIMM_SIZE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCPU64_SIMM_SIZE_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCPU64_SIMM_SIZE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SCPU64_SIMM_SIZE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SCPU64_SIMM_SIZE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_SIMM_SIZE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SCPU64_SIMM_SIZE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SCPU64_SIMM_SIZE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCPU64_SIMM_SIZE_TR, "" },  /* fuzzy */
+
+/* en */ { IDS_SCPU64_SETTINGS,    "SuperCPU64 settings" },
+/* da */ { IDS_SCPU64_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDS_SCPU64_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDS_SCPU64_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDS_SCPU64_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDS_SCPU64_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDS_SCPU64_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDS_SCPU64_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDS_SCPU64_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDS_SCPU64_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDS_SCPU64_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDS_SCPU64_SETTINGS_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_SOUND_RECORDING_STOPPED,    "Sound Recording stopped..." },
 /* da */ { IDS_SOUND_RECORDING_STOPPED_DA, "Lydoptagelse stoppet..." },

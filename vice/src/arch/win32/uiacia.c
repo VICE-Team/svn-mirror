@@ -567,6 +567,7 @@ void ui_acia_settings_dialog(HWND hwnd)
     switch (machine_class) {
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_C128:
         case VICE_MACHINE_VIC20:
             DialogBox(winmain_instance, (LPCTSTR)IDD_ACIA_SETTINGS_DIALOG, hwnd, dialog_proc);

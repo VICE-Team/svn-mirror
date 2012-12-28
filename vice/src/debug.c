@@ -253,6 +253,59 @@ void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis, BYTE reg_a,
     }
 }
 
+void debug_main65816cpu(DWORD reg_pc, CLOCK mclk, const char *dis, WORD reg_c,
+                   WORD reg_x, WORD reg_y, WORD reg_sp, BYTE reg_pbr)
+{
+    switch (debug.trace_mode) {
+        case DEBUG_SMALL:
+        {
+            char small_dis[7];
+
+            small_dis[0] = dis[0];
+            small_dis[1] = dis[1];
+
+            if (dis[3] == ' ') {
+                small_dis[2] = '\0';
+            } else {
+                small_dis[2] = dis[3];
+                small_dis[3] = dis[4];
+                if (dis[6] == ' ') {
+                    small_dis[4] = '\0';
+                } else {
+                    small_dis[4] = dis[6];
+                    small_dis[5] = dis[7];
+                    small_dis[6] = '\0';
+                }  
+            }
+
+            log_debug("%02X%04X %ld %04X %04X %04X %s", reg_pbr, (unsigned int)reg_pc,
+                    (long)mclk, reg_c, reg_x, reg_y, small_dis);
+            break;
+      }
+      case DEBUG_HISTORY:
+      case DEBUG_AUTOPLAY:
+      {
+            char st[DEBUG_MAXLINELEN];
+
+            sprintf(st, ".%02X%04X %02X %02X %8lX %-23s "
+                    "%04X %04X %04X %02X", reg_pbr, (unsigned int)reg_pc,
+                    RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                    reg_c, reg_x, reg_y, reg_sp);
+            debug_history_step(st);
+            break;
+      }
+      case DEBUG_NORMAL:
+            log_debug(".%02X%04X %03i %03i %10ld  %-25s "
+                    "%04x %04x %04x %04x", reg_pbr, (unsigned int)reg_pc,
+                    RLINE(mclk), RCYCLE(mclk), (long)mclk, dis,
+                    reg_c, reg_x, reg_y, reg_sp);
+            break;
+      default:
+            log_debug("Unknown debug format.");
+
+    }
+}
+
 void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
                  BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp,
                  unsigned int driveno)
@@ -337,7 +390,7 @@ static int debug_autoplay_current_frame;
 static void debug_close_file(void)
 {
     if (debug_file != NULL) {
-        if (fwrite(debug_buffer, sizeof(char), debug_buffer_ptr, debug_file) < debug_buffer_ptr) {
+        if (fwrite(debug_buffer, sizeof(char), debug_buffer_ptr, debug_file) < (size_t)debug_buffer_ptr) {
             fprintf(stderr, "error writing debug log.\n");
         }
         fclose(debug_file);

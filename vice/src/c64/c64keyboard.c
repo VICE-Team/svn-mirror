@@ -65,6 +65,7 @@ void c64keyboard_init(void)
     switch (machine_class) {
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64SC:
+        case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_C128:
             keyboard_register_machine(c64keyboard_machine_func);
             joystick_register_machine(c64joystick_machine_func);

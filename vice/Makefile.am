@@ -63,7 +63,7 @@ else
   X64SC_INCLUDED = no
 endif
 
-.PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 c1541 petcat cartconv
+.PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 c1541 petcat cartconv
 vsid:
 	(cd src; $(MAKE) vsid-all)
 
@@ -82,6 +82,9 @@ if SUPPORT_X64DTV
 x64dtv:
 	(cd src; $(MAKE) x64dtv-all)
 endif
+
+xscpu64:
+	(cd src; $(MAKE) xscpu64-all)
 
 xvic:
 	(cd src; $(MAKE) xvic-all)

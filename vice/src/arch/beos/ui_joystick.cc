@@ -346,6 +346,7 @@ void ui_joystick() {
         case VICE_MACHINE_C128:
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_CBM5x0:
         case VICE_MACHINE_PLUS4:
         default:
@@ -385,6 +386,7 @@ void ui_extra_joystick() {
         case VICE_MACHINE_C128:
         case VICE_MACHINE_C64:
         case VICE_MACHINE_C64DTV:
+        case VICE_MACHINE_SCPU64:
         case VICE_MACHINE_CBM6x0:
         case VICE_MACHINE_PET:
         case VICE_MACHINE_VIC20:

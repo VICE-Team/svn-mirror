@@ -77,7 +77,7 @@ static const char *VIDEO_PALETTE = "TedPaletteFile";
 static const char *VIDEO_PALETTE = "CrtcPaletteFile";
 #endif
 
-#if defined HAVE_VIC_II && !defined HAVE_CRTC
+#if (defined HAVE_VIC_II && !defined HAVE_CRTC) || defined(__XSCPU64__)
 static const char *VIDEO_PALETTE = "ViciiPaletteFile";
 #endif
 
@@ -124,7 +124,7 @@ static filter_t FilterTape[] = {
     { NULL }
 };
 
-#if defined(__X64__) || defined(__X128__) || defined(__XPET__) || defined(__XCBM__)
+#if defined(__X64__) || defined(__X128__) || defined(__XPET__) || defined(__XCBM__) || defined(__XSCPU64__)
 static filter_t FilterCart[] = {
     { "*.crt; *.bin", "All Cartridge Images" },
     { "*.crt", "CRT" },
@@ -177,7 +177,7 @@ static subaction_t SubTape[] = { { "as Tape to Datasette", FilterTape }, { NULL 
 static subaction_t SubKbd[] = { { "as new keyboard mapping", FilterKbd }, { NULL } };
 static subaction_t SubCfg[] = { { "as new configuration", FilterCfg }, { NULL } };
 
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
 static subaction_t SubCart2[]  = { { "as cartridge image", FilterCart }, { NULL } };
 #endif
 
@@ -203,7 +203,7 @@ static subaction_t SubPal[] = {
     { NULL }
 };
 
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
 static subaction_t SubCart[] = {
     { "as Generic Cartridge", FilterCart },
     { "as Generic 8kB Cartridge", FilterCart },
@@ -384,7 +384,7 @@ static action_t LoadAction[] = {
     { "Load Fliplist", SubFlip, TRUE },
     { "Load and Attach Fliplist", SubFlip, TRUE },
     { "Load Snapshot", SubVsf, FALSE },
-#if defined __X128__ || defined __CBM2__
+#if defined(__X128__) || defined(__CBM2__)
     { "Load Color Palette", SubPal, TRUE },
 #else
     { "Load Color Palette", SubPal, FALSE },
@@ -393,7 +393,7 @@ static action_t LoadAction[] = {
     { "Load ROM Image", SubRom, TRUE },
     { "Load ROM Set", SubRomSet, FALSE },
     { "Load Configuration File", SubCfg, FALSE },
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
     { "Attach Cartridge Image", SubCart, TRUE },
 #endif
 #ifdef __XPET__
@@ -503,7 +503,7 @@ static BOOL FdmDoLoadAction(HWND hwnd, const char *szpath, int act, int sact)
             return machine_romset_file_load(szpath);
         case 9:
             return resources_load(szpath);
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         case 10:
             switch (sact) {
                 case 0:

@@ -46,6 +46,7 @@
 #endif
 
 #include "types.h"
+#include "debug.h"
 
 #ifdef DEBUG
 /* enable memory debugging */

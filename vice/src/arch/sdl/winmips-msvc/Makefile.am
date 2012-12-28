@@ -17,6 +17,7 @@ EXTRA_DIST = \
 	c64dtvstubs.mak \
 	c64exp.mak \
 	c64sc.mak \
+	c64scpu64.mak \
 	cartconv.mak \
 	cbm2.mak \
 	cbm2common.mak \
@@ -48,6 +49,7 @@ EXTRA_DIST = \
 	raster.mak \
 	rs232drv.mak \
 	rtc.mak \
+	scpu64.mak \
 	serial.mak \
 	sid.mak \
 	sounddrv.mak \

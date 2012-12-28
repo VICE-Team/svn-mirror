@@ -74,7 +74,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 xscpu64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -170,6 +170,20 @@ installfile data/C64/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/pc64.
 installfile data/C64/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/vice.vpl run 0644
 installfile data/C64/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64/x11_pos.vkm run 0644
 installfile data/C64/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64/x11_sym.vkm run 0644
+installfile data/SCPU64/c64hq.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/c64hq.vpl run 0644
+installfile data/SCPU64/c64s.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/c64s.vpl run 0644
+installfile data/SCPU64/ccs64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/ccs64.vpl run 0644
+installfile data/SCPU64/chargen vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/chargen run 0644
+installfile data/SCPU64/default.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/default.vpl run 0644
+installfile data/SCPU64/default.vrs vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/default.vrs run 0644
+installfile data/SCPU64/frodo.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/frodo.vpl run 0644
+installfile data/SCPU64/godot.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/godot.vpl run 0644
+installfile data/SCPU64/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/pc64.vpl run 0644
+installfile data/SCPU64/scpu64 vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/scpu64 run 0644
+installfile data/SCPU64/scpu64mem.sym vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/scpu64mem.sym run 0644
+installfile data/SCPU64/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/vice.vpl run 0644
+installfile data/SCPU64/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/x11_pos.vkm run 0644
+installfile data/SCPU64/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/SCPU64/x11_sym.vkm run 0644
 installfile data/C64DTV/basic vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/basic run 0644
 installfile data/C64DTV/c64hq.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/c64hq.vpl run 0644
 installfile data/C64DTV/c64mem.sym vice/vice-RUN runtmp /usr/local/lib/vice/C64DTV/c64mem.sym run 0644

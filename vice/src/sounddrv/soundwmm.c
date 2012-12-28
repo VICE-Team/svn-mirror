@@ -65,9 +65,9 @@ static void sound_debug(const char *format, ...)
     va_end(args);
     log_debug(tmp);
 }
-#define DEBUG(x) sound_debug x
+#define SDEBUG(x) sound_debug x
 #else
-#define DEBUG(x)
+#define SDEBUG(x)
 #endif
 
 
@@ -177,7 +177,7 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr,
 {
     DWORD dwVersion;
 
-    DEBUG(("Windows Multimedia sound driver initialization: speed = %d, fragsize = %d, fragnr = %d\n",
+    SDEBUG(("Windows Multimedia sound driver initialization: speed = %d, fragsize = %d, fragnr = %d\n",
            *speed, *fragsize, *fragnr));
 
     num_of_channels = *channels;
@@ -218,7 +218,7 @@ static int wmm_init(const char *param, int *speed, int *fragsize, int *fragnr,
     }
 WAVEOUT_OK:
 
-    DEBUG(("16bit flag: %d", is16bit));
+    SDEBUG(("16bit flag: %d", is16bit));
 
     /* Calculate buffer size */
     fragment_size = *fragsize;
@@ -290,7 +290,7 @@ WAVEOUT_OK:
         return -1;
     }
 
-    DEBUG(("Windows Multimedia Sound initialization done succesfully.\n"));
+    SDEBUG(("Windows Multimedia Sound initialization done succesfully.\n"));
 
     sndinitted = 1;
     return 0;

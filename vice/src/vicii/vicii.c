@@ -1480,7 +1480,8 @@ int vicii_dump(void)
         if (machine_class == VICE_MACHINE_C64 ||
             machine_class == VICE_MACHINE_C128 ||
             machine_class == VICE_MACHINE_C64DTV ||
-            machine_class == VICE_MACHINE_C64SC) {
+            machine_class == VICE_MACHINE_C64SC ||
+            machine_class == VICE_MACHINE_SCPU64) {
             /* $1x00 and $9x00 mapped to $dx00 */
             if ((( i >> 12) == 1 ) || (( i >> 12) == 9 )) {
                 i = 0xd000 | (i & 0x0f00);

@@ -20,7 +20,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv xscpu64 $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -42,7 +42,7 @@ do
   cp src/$i.exe dosvice
 done
 cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II $TOPSRCDIR/data/DRIVES dosvice
-cp -a $TOPSRCDIR/data/PET $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $TOPSRCDIR/data/VIC20 dosvice
+cp -a $TOPSRCDIR/data/PET $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER $TOPSRCDIR/data/VIC20 $TOPSRCDIR/data/SCPU64 dosvice
 cp -a $TOPSRCDIR/data/fonts dosvice
 cp -a $TOPSRCDIR/doc/html dosvice
 cp $TOPSRCDIR/FEEDBACK $TOPSRCDIR/README dosvice

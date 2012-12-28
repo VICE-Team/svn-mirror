@@ -3322,7 +3322,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
+   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_USE_PAL_SYNC_FACTOR,    N_("Use PAL sync factor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_PAL_SYNC_FACTOR_DA, "Anvend PAL-synkfaktor"},
@@ -3341,7 +3341,7 @@ translate_t string_table[] = {
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
+   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_USE_NTSC_SYNC_FACTOR,    N_("Use NTSC sync factor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_NTSC_SYNC_FACTOR_DA, "Anvend NTSC-synkfaktor"},
@@ -3358,7 +3358,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_NTSC_SYNC_FACTOR_TR, "NTSC senkron faktörü kullan"},
 #endif
 
-/* c64/c64-cmdline-options.c, c64/psid.c */
+/* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_USE_PALN_SYNC_FACTOR,    N_("Use PAL-N sync factor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_PALN_SYNC_FACTOR_DA, "Anvend PAL-N synkfaktor"},
@@ -3375,7 +3375,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_PALN_SYNC_FACTOR_TR, "PAL-N senkron faktörü kullan"},
 #endif
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_BURST_MOD,    N_("Burst modification (0 = None, 1 = CIA1, 2 = CIA2)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BURST_MOD_DA, "Burst modification (0 = ingen, 1 = CIA1, 2 = CIA2)"},
@@ -3404,7 +3404,7 @@ translate_t string_table[] = {
    rs232drv/rs232drv.c, vic20/vic20-cmdline-options.c,
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
-   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c */
+   c64/c64_256k.c, pet/petreu.c, c64/plus256k.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_P_NAME,    N_("<Name>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NAME_DA, "<Navn>"},
@@ -3779,7 +3779,8 @@ translate_t string_table[] = {
 #endif
 
 #ifdef HAVE_RS232
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU,    N_("Enable the ACIA RS232 interface emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_DA, "Aktivér ACIA RS232-interface emulering"},
@@ -3796,7 +3797,8 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_ENABLE_DEXX_ACIA_RS232_EMU_TR, "ACIA RS232 arabirim emülasyonunu aktif et"},
 #endif
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU,    N_("Disable the ACIA RS232 interface emulation")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_DEXX_ACIA_RS232_EMU_DA, "Deaktivér ACIA-RS232-interface emulering"},
@@ -3851,7 +3853,8 @@ translate_t string_table[] = {
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_P_NUMBER,    N_("<number>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_NUMBER_DA, "<nummer>"},
@@ -3888,7 +3891,8 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME,    N_("Specify name of symbolic keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME_DA, "Angiv filnavn for symbolsk tastatur"},
@@ -3906,7 +3910,8 @@ translate_t string_table[] = {
 #endif
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,    N_("Specify name of positional keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME_DA, "Angiv fil for positionsbestemt tastatur"},
@@ -4094,7 +4099,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_EXT_FUNC_ROM_TR, "Harici Function ROM'u pasifleþtir"},
 #endif
 
-/* c64/c64-cmdline-options.c, c64/psid.c */
+/* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR,    N_("Use old NTSC sync factor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_DA, "Anvend gammel NTSC-synkfaktor"},
@@ -4111,7 +4116,8 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_USE_OLD_NTSC_SYNC_FACTOR_TR, "Eski NTSC senkron faktörü kullan"},
 #endif
 
-/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c */
+/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_P_MODEL,    N_("<Model>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_MODEL_DA, "<Model>"},
@@ -4128,7 +4134,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_P_MODEL_TR, "<Model>"},
 #endif
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_BOTH_CIA_MODELS,    N_("Set both CIA models (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_BOTH_CIA_MODELS_DA, "Vælg type for begge CIA-kredse (0=gammel 6526, 1=ny 6526A)"},
@@ -4145,7 +4151,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_BOTH_CIA_MODELS_TR, "Her iki CIA modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_CIA1_MODEL,    N_("Set CIA 1 model (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CIA1_MODEL_DA, "Vælg CIA 1 type (0=gammel 6526, 1=ny 6526A)"},
@@ -4162,7 +4168,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_CIA1_MODEL_TR, "CIA 1 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_CIA2_MODEL,    N_("Set CIA 2 model (0 = old 6526, 1 = new 6526A)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_CIA2_MODEL_DA, "Vælg CIA 2 type (0=gammel 6526, 1=ny 6526A)"},
@@ -4179,7 +4185,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_CIA2_MODEL_TR, "CIA 2 modelini belirle (0 = eski 6526, 1 = yeni 6526A)"},
 #endif
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_C64_MODEL_DA, "Vælg C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"},
@@ -4286,7 +4292,8 @@ translate_t string_table[] = {
 #endif
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME,    N_("Specify name of character generator ROM image")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_CHARGEN_ROM_NAME_DA, "Angiv navn på BASIC-ROM-image"},
@@ -4304,7 +4311,7 @@ translate_t string_table[] = {
 #endif
 
 #ifdef COMMON_KBD
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2,    N_("Specify index of keymap file (0=sym, 1=symDE, 2=pos)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_DA, "Angiv indeks for tastaturindstillingsfil (0=symbolsk, 1=symbolsk tysk, 2=positionsbestemt)"},
@@ -4321,7 +4328,7 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2_TR, "Tuþ haritasý dosyasýnýn indeksini belirt (0=sembol, 1=sembol Almanca, 2=konumsal)"},
 #endif
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP,    N_("Specify name of symbolic German keymap file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP_DA, "Angiv fil for tysk symbolsk tastaturindstilling"},
@@ -13542,4 +13549,88 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DS12C887RTC_BASE_TR, "DS12C887 RTC kartuþunun taban adresi"},
 #endif
 
+/* scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_SET_SIMM_SIZE,    N_("Size of the SIMM RAM (0/1/4/8/16 MB)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_SIMM_SIZE_DA, "Størrelse af SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* de */ {IDCLS_SET_SIMM_SIZE_DE, "Größe der SIMM RAM (0/1/4/8/16 MB)"},
+/* es */ {IDCLS_SET_SIMM_SIZE_ES, "Tamaño de la SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* fr */ {IDCLS_SET_SIMM_SIZE_FR, "Taille de SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* hu */ {IDCLS_SET_SIMM_SIZE_HU, "SIMM RAM mérete (0/1/4/8/16 MB)"},
+/* it */ {IDCLS_SET_SIMM_SIZE_IT, "Dimensione SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* ko */ {IDCLS_SET_SIMM_SIZE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_SIMM_SIZE_NL, "Grootte van de SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* pl */ {IDCLS_SET_SIMM_SIZE_PL, "Rozmiar SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* ru */ {IDCLS_SET_SIMM_SIZE_RU, "Size of the SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* sv */ {IDCLS_SET_SIMM_SIZE_SV, "Storlek på SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* tr */ {IDCLS_SET_SIMM_SIZE_TR, "SIMM RAM boyutu (0/1/4/8/16 MB)"},  /* fuzzy */
+#endif
+
+/* scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_JIFFY_SWITCH,    N_("Turn on Jiffy switch")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_JIFFY_SWITCH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_JIFFY_SWITCH_DE, "Jiffy shalter einshalten"},
+/* es */ {IDCLS_ENABLE_JIFFY_SWITCH_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_JIFFY_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_JIFFY_SWITCH_HU, "Jiffy kapcsoló bekapcsolása"},
+/* it */ {IDCLS_ENABLE_JIFFY_SWITCH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_JIFFY_SWITCH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_JIFFY_SWITCH_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_JIFFY_SWITCH_TR, ""},  /* fuzzy */
+#endif
+
+/* scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_JIFFY_SWITCH,    N_("Turn off Jiffy switch")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_JIFFY_SWITCH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_JIFFY_SWITCH_DE, "Jiffy shalter ausshalten"},
+/* es */ {IDCLS_DISABLE_JIFFY_SWITCH_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_JIFFY_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_JIFFY_SWITCH_HU, "Jiffy kapcsoló kikapcsolása"},
+/* it */ {IDCLS_DISABLE_JIFFY_SWITCH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_JIFFY_SWITCH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_JIFFY_SWITCH_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_JIFFY_SWITCH_TR, ""},  /* fuzzy */
+#endif
+
+/* scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_ENABLE_SPEED_SWITCH,    N_("Turn on Speed switch")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_ENABLE_SPEED_SWITCH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_ENABLE_SPEED_SWITCH_DE, "Speed shalter einshalten"},
+/* es */ {IDCLS_ENABLE_SPEED_SWITCH_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_ENABLE_SPEED_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_ENABLE_SPEED_SWITCH_HU, "Speed kapcsoló bekapcsolása"},
+/* it */ {IDCLS_ENABLE_SPEED_SWITCH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_ENABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SPEED_SWITCH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SPEED_SWITCH_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_ENABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_ENABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_ENABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
+#endif
+
+/* scpu64/scpu64-cmdline-options.c */
+/* en */ {IDCLS_DISABLE_SPEED_SWITCH,    N_("Turn off Speed switch")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_DISABLE_SPEED_SWITCH_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_DISABLE_SPEED_SWITCH_DE, "Speed shalter ausshalten"},
+/* es */ {IDCLS_DISABLE_SPEED_SWITCH_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_DISABLE_SPEED_SWITCH_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_DISABLE_SPEED_SWITCH_HU, "Speed kapcsoló kikapcsolása"},
+/* it */ {IDCLS_DISABLE_SPEED_SWITCH_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_DISABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SPEED_SWITCH_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SPEED_SWITCH_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_DISABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_DISABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_DISABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
+#endif
 };

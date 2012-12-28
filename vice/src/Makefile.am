@@ -35,6 +35,7 @@ SUBDIRS = \
 	rtc \
 	userport \
 	c64 \
+	scpu64 \
 	c64dtv \
 	c128 \
 	vic20 \
@@ -72,6 +73,7 @@ DIST_SUBDIRS = \
 	rtc \
 	userport \
 	c64 \
+	scpu64 \
 	c64dtv \
 	c128 \
 	vic20 \
@@ -169,6 +171,8 @@ noinst_HEADERS = \
 	main.h \
 	mainc64cpu.c \
 	mainc64cpu.h \
+	main65816cpu.c \
+	main65816cpu.h \
 	maincpu.h \
 	mainviccpu.c \
 	mem.h \
@@ -199,6 +203,7 @@ noinst_HEADERS = \
 	romset.h \
 	rs232drv.h \
 	rsuser.h \
+	scpu64ui.h \
 	screenshot.h \
 	serial.h \
 	sidcart.h \
@@ -234,6 +239,7 @@ noinst_HEADERS = \
 	vsidui.h \
 	vsync.h \
 	vsyncapi.h \
+	wdc65816.h \
 	z80regs.h \
 	zfile.h \
 	zipcode.h
@@ -305,7 +311,8 @@ midi_sources = \
 
 cpucore_sources = \
 	6510core.c \
-	65c02core.c
+	65c02core.c \
+	65816core.c
 
 cpudtvcore_sources = \
 	6510dtvcore.c
@@ -315,6 +322,7 @@ maincpu_sources = \
 
 EXTRA_DIST = \
 	6510core.c \
+	65816core.c \
 	65c02core.c \
 	6510dtvcore.c \
 	ChangeLog \
@@ -730,9 +738,11 @@ vic20_default_vpl.h: $(EMBEDDED_DEPENDS)
 c128_lib = $(top_builddir)/src/c128/libc128.a
 c64_lib = $(top_builddir)/src/c64/libc64.a
 c64sc_lib = $(top_builddir)/src/c64/libc64sc.a
+scpu64_lib = $(top_builddir)/src/scpu64/libscpu64.a
 c64dtv_lib = $(top_builddir)/src/c64dtv/libc64dtv.a
 c64dtvstubs_lib = $(top_builddir)/src/c64dtv/libc64dtvstubs.a
 c64c128_lib = $(top_builddir)/src/c64/libc64c128.a
+c64scpu64_lib = $(top_builddir)/src/c64/libc64scpu64.a
 c64c64dtv_lib = $(top_builddir)/src/c64/libc64c64dtv.a
 c64cart_lib = $(top_builddir)/src/c64/cart/libc64cart.a
 c64cartsystem_lib = $(top_builddir)/src/c64/cart/libc64cartsystem.a
@@ -832,6 +842,7 @@ endif
 vsidow_SOURCES = maincpu.c
 x128ow_SOURCES = maincpu.c
 x64ow_SOURCES = maincpu.c
+xscpu64ow_SOURCES = maincpu.c
 x64dtvow_SOURCES = maincpu.c
 x64scow_SOURCES = maincpu.c
 xcbm2ow_SOURCES = maincpu.c
@@ -841,12 +852,12 @@ xplus4ow_SOURCES = maincpu.c
 xvicow_SOURCES = maincpu.c
 
 if OWCC
-OW_progs = vsidow x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow xcbm5x0ow
+OW_progs = vsidow x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow xcbm5x0ow xscpu64ow
 else
 OW_progs =
 endif
 
-bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(c1541) $(petcat) $(cartconv) $(OW_progs)
+bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 $(c1541) $(petcat) $(cartconv) $(OW_progs)
 
 EXTRA_PROGRAMS =
 
@@ -1110,6 +1121,82 @@ x64dtv-all: \
 	librtc \
 	libplatform \
 	x64dtv$(EXEEXT)
+
+# xscpu64
+xscpu64_libs =  \
+	@XSCPU64_WINRES@ \
+	$(scpu64_lib) \
+	$(c64cartsystem_lib) \
+	$(c64cart_lib) \
+	$(c64commoncart_lib) \
+	$(c64scpu64_lib) \
+	$(driveiec_lib) \
+	$(driveiecieee_lib) \
+	$(driveiecc64exp_lib) \
+	$(driveieee_lib) \
+	$(drive_lib) \
+	$(p64_lib) \
+	$(iecbus_lib) \
+	$(parallel_lib) \
+	$(vdrive_lib) \
+	$(sid_lib) \
+	$(monitor_lib) \
+	$(driver_libs) \
+	$(vicii_lib) \
+	$(raster_lib) \
+	$(userport_lib) \
+	$(rtc_lib) \
+	$(video_lib) \
+	$(common_libs) \
+	$(imagecontents_lib) \
+	$(resid_libs) \
+	$(platform_lib)
+
+xscpu64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
+xscpu64_LDADD = $(xscpu64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
+xscpu64_DEPENDENCIES = $(xscpu64_libs)
+xscpu64_LDFLAGS = @xscpu64_LDFLAGS@
+
+.PHONY: xscpu64-all
+xscpu64-all: \
+	$(BUILT_SOURCES) \
+	libscpu64 \
+	libc64scpu64 \
+	libc64cartsystem \
+	libc64cart \
+	libc64commoncart \
+	libsounddrv \
+	libgfxoutputdrv \
+	libprinterdrv \
+	librs232drv \
+	libdriveiec \
+	libdriveiecieee \
+	libdriveiecc64exp \
+	libdriveieee \
+	libdrive \
+	libp64 \
+	libparallel \
+	libvdrive \
+	libarch \
+	libsid \
+	libvicii \
+	libvideo \
+	libraster \
+	libmonitor \
+	libdiskimage \
+	libiecbus \
+	libserial \
+	libfsdevice \
+	libtape \
+	libimagecontents \
+	libfileio \
+	libcore \
+	librtc \
+	libuserport \
+	libplatform \
+	@RESID_DEP@ \
+	@RESID_FP_DEP@ \
+	xscpu64$(EXEEXT)
 
 # x128
 x128_libs =  \
@@ -1611,7 +1698,7 @@ DISTCLEANFILES = $(BUILT_SOURCES)
 	librs232drv libgfxoutputdrv libsounddrv libdiskimage libfsdevice
 	libtape libarch libvicii libviciisc libviciidtv libvdc libsid libcrtc
 	libvideo libserial libparallel libcore libiecbus libfileio librtc
-	libuserport libp64 @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
+	libuserport libp64 libscpu64 @RESID_DEP@ @RESID_DTV_DEP@ @RESID_FP_DEP@
 
 libarch:
 	(cd arch && $(MAKE))
@@ -1619,10 +1706,14 @@ libc128:
 	(cd c128 && $(MAKE))
 libc64:
 	(cd c64 && $(MAKE) libc64.a)
+libscpu64:
+	(cd scpu64 && $(MAKE) libscpu64.a)
 libc64sc:
 	(cd c64 && $(MAKE) libc64sc.a)
 libc64c128:
 	(cd c64 && $(MAKE) libc64c128.a)
+libc64scpu64:
+	(cd c64 && $(MAKE) libc64scpu64.a)
 libc64c64dtv:
 	(cd c64 && $(MAKE) libc64c64dtv.a)
 libc64cart:
@@ -1733,6 +1824,9 @@ x64ow$(EXEEXT): x64$(EXEEXT)
 
 x64dtvow$(EXEEXT): x64dtv$(EXEEXT)
 	wrc -fe=x64dtvow$(EXEEXT) arch/win32/resc64dtv.res x64dtv$(EXEEXT)
+
+xscpu64ow$(EXEEXT): xscpu64$(EXEEXT)
+	wrc -fe=xscpu64ow$(EXEEXT) arch/win32/resscpu64.res xscpu64$(EXEEXT)
 
 x64scow$(EXEEXT): x64sc$(EXEEXT)
 	wrc -fe=x64scow$(EXEEXT) arch/win32/resc64.res x64sc$(EXEEXT)

@@ -327,6 +327,9 @@ int ui_init(int *argc, char **argv)
         case VICE_MACHINE_C64SC:
             emu_menu = IDR_MENUC64;
             break;
+        case VICE_MACHINE_SCPU64:
+            emu_menu = IDR_MENUSCPU64;
+            break;
         case VICE_MACHINE_C64DTV:
             emu_menu = IDR_MENUC64DTV;
             break;

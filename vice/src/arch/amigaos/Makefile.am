@@ -8,6 +8,8 @@ x64dtvns_SOURCES = x64dtvns.c
 
 x64scns_SOURCES = x64scns.c
 
+xscpu64ns_SOURCES = xscpu64ns.c
+
 x128ns_SOURCES = x128ns.c
 
 xvicns_SOURCES = xvicns.c
@@ -91,6 +93,8 @@ libarch_a_SOURCES = \
 	pointer.h \
 	private.h \
 	rs232.c \
+	scpu64ui.c \
+	scpu64uires.h \
 	screen-shot.c \
 	screen-shot.h \
 	signals.c \
@@ -224,6 +228,8 @@ libarch_a_SOURCES = \
 	mui/uiromplus4settings.h \
 	mui/uirs232user.c \
 	mui/uirs232user.h \
+	mui/uiscpu64.c \
+	mui/uiscpu64.h \
 	mui/uisid.c \
 	mui/uisid.h \
 	mui/uisidcart.c \
@@ -263,6 +269,7 @@ EXTRA_DIST = \
 	info-files/xcbm5x0.exe.info \
 	info-files/xpet.exe.info \
 	info-files/xplus4.exe.info \
+	info-files/xscpu64.exe.info \
 	info-files/xvic.exe.info \
 	info-files/morphos/VICE.info \
 	info-files/morphos/vsid.info \
@@ -274,6 +281,7 @@ EXTRA_DIST = \
 	info-files/morphos/xcbm5x0.info \
 	info-files/morphos/xpet.info \
 	info-files/morphos/xplus4.info \
+	info-files/morphos/xscpu64.info \
 	info-files/morphos/xvic.info \
 	fixdeps.c \
 	genintl_h.sh.in \

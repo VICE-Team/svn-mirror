@@ -4,6 +4,7 @@ set VICEDIR=SDLVICE-%VICEVERSION%-win32
 if not exist x64.exe goto missingwatcom
 if not exist x64dtv.exe goto missingwatcom
 if not exist x64sc.exe goto missingwatcom
+if not exist xscpu64.exe goto missingwatcom
 if not exist x128.exe goto missingwatcom
 if not exist xcbm2.exe goto missingwatcom
 if not exist xcbm5x0.exe goto missingwatcom
@@ -21,6 +22,7 @@ mkdir %VICEDIR%
 copy x64.exe %VICEDIR%
 copy x64dtv.exe %VICEDIR%
 copy x64sc.exe %VICEDIR%
+copy xscpu64.exe %VICEDIR%
 copy x128.exe %VICEDIR%
 copy xvic.exe %VICEDIR%
 copy xpet.exe %VICEDIR%
@@ -46,6 +48,13 @@ copy ..\..\..\..\data\C64\chargen %VICEDIR%\C64
 copy ..\..\..\..\data\C64\*.vrs %VICEDIR%\C64
 copy ..\..\..\..\data\C64\kernal %VICEDIR%\C64
 copy ..\..\..\..\data\C64\sdl*.* %VICEDIR%\C64
+mkdir %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\*.vpl %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\chargen %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\*.vrs %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\scpu64 %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\scpu64mem.sym %VICEDIR%\SCPU64
+copy ..\..\..\..\data\SCPU64\sdl*.* %VICEDIR%\SCPU64
 mkdir %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\basic %VICEDIR%\C64DTV
 copy ..\..\..\..\data\C64DTV\*.vpl %VICEDIR%\C64DTV

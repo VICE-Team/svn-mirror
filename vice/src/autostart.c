@@ -1268,7 +1268,7 @@ int autostart_autodetect(const char *file_name, const char *program_name,
         return 0;
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV) {
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_SCPU64) {
         if (autostart_tape(file_name, program_name, program_number, runmode) == 0) {
             log_message(autostart_log, "`%s' recognized as tape image.", file_name);
             return 0;

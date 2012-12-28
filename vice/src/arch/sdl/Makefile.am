@@ -108,6 +108,8 @@ libarch_a_SOURCES = \
 	menu_rom.h \
 	menu_rs232.c \
 	menu_rs232.h \
+	menu_scpu64hw.c \
+	menu_scpu64hw.h \
 	menu_screenshot.c \
 	menu_screenshot.h \
 	menu_settings.c \
@@ -175,6 +177,7 @@ libarch_a_SOURCES = \
 	xcbm2_ui.c \
 	xpet_ui.c \
 	xplus4_ui.c \
+	xscpu64_ui.c \
 	xvic_ui.c
 
 EXTRA_DIST = \

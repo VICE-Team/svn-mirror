@@ -45,6 +45,7 @@
 #include "translate.h"
 #include "traps.h"
 #include "types.h"
+#include "wdc65816.h"
 
 typedef struct traplist_s {
     struct traplist_s *next;
@@ -231,6 +232,9 @@ DWORD traps_handler(void)
 
     if (machine_class == VICE_MACHINE_C64DTV) {
         pc = MOS6510DTV_REGS_GET_PC(&maincpu_regs);
+    } else if (machine_class == VICE_MACHINE_SCPU64) {
+        /* FIXME: PBR also needed ?? */
+        pc = WDC65816_REGS_GET_PC(&maincpu_regs);
     } else {
         pc = MOS6510_REGS_GET_PC(&maincpu_regs);
     }

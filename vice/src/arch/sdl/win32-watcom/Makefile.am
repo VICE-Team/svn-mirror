@@ -12,13 +12,17 @@ EXTRA_DIST = \
 	c64commonall.tgt \
 	c64commoncart.tgt \
 	c64commonsc.tgt \
-	c64commonsc128.tgt \
-	c64commonsc128vsid.tgt \
-	c64commonscdtv.tgt \
-	c64commonscdtv128.tgt \
-	c64commonscdtvvsid.tgt \
+	c64commonsc128scpu.tgt \
+	c64commonscdtv128scpu.tgt \
+	c64commonscdtvscpu.tgt \
+	c64commonscscpu.tgt \
 	c64commonscvsid.tgt \
-	c64commonvsid.tgt \
+	c64commonscvsid128.tgt \
+	c64commonvsidsc128scpu.tgt \
+	c64commonvsidscdtv.tgt \
+	c64commonvsidscdtvscpu.tgt \
+	c64commonvsidscpu.tgt \
+	c64commonvsidscscpu.tgt \
 	c64dtv.tgt \
 	c64exp.tgt \
 	c64sc.tgt \
@@ -60,6 +64,7 @@ EXTRA_DIST = \
 	residdtv.tgt \
 	residfp.tgt \
 	rs232drv.tgt \
+	scpu64.tgt \
 	serial.tgt \
 	sid.tgt \
 	sounddrv.tgt \
@@ -86,4 +91,5 @@ EXTRA_DIST = \
 	xcbm5x0.tgt \
 	xpet.tgt \
 	xplus4.tgt \
+	xscpu64.tgt \
 	xvic.tgt

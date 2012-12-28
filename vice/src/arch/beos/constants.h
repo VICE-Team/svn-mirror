@@ -348,6 +348,16 @@ const uint32 PLAY_VSID                            = 'M301';
 const uint32 MENU_VSID_TUNE                       = 'M302';
 const uint32 MENU_TOGGLE_KEEP_ENV                 = 'M323';
 
+const uint32 MENU_TOGGLE_SCPU64_JIFFY_ENABLE      = 'M012';
+
+const uint32 MENU_TOGGLE_SCPU64_SPEED_ENABLE      = 'M023';
+
+const uint32 MENU_SCPU64_SIMM_SIZE_0              = 'M324';
+const uint32 MENU_SCPU64_SIMM_SIZE_1              = 'M325';
+const uint32 MENU_SCPU64_SIMM_SIZE_4              = 'M326';
+const uint32 MENU_SCPU64_SIMM_SIZE_8              = 'M327';
+const uint32 MENU_SCPU64_SIMM_SIZE_16             = 'M328';
+
 const uint32 MENU_REU_SIZE_128                    = 'M400';
 const uint32 MENU_REU_SIZE_256                    = 'M401';
 const uint32 MENU_REU_SIZE_512                    = 'M402';

@@ -81,4 +81,5 @@ EXTRA_DIST = \
 	watcom-source-wrappers/xcbm5x0-main.c \
 	watcom-source-wrappers/xpet-main.c \
 	watcom-source-wrappers/xplus4-main.c \
+	watcom-source-wrappers/xscpu64-main.c \
 	watcom-source-wrappers/xvic-main.c

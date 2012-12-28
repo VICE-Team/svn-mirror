@@ -96,7 +96,7 @@ BEGIN
     MENUITEM "Detach cart",                               IDM_PLUS4_DETACH_CART,        MIS_TEXT
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
         MENUITEM SEPARATOR
         SUBMENU "~Attach Cartridge",                      IDM_CARTRIDGE,                MIS_TEXT
         BEGIN
@@ -120,12 +120,12 @@ BEGIN
         SUBMENU "~Detach Image from...",                  IDM_DETACH,                   MIS_TEXT
         BEGIN
 
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSPCU64__)
             MENUITEM "~Cartridge",                        IDM_CARTRIDGEDET,             MIS_TEXT
             MENUITEM SEPARATOR
 #endif
 
-#if !defined __X64DTV__
+#if !defined(__X64DTV__) && !defined(__XSCPU64__)
             MENUITEM "~Tape",                             IDM_DETACHTAPE,               MIS_TEXT
             MENUITEM SEPARATOR
 #endif
@@ -138,7 +138,7 @@ BEGIN
             MENUITEM "~All Disks",                        IDM_DETACHALL,                MIS_TEXT
         END
 
-#if defined __X64DTV__
+#ifdef __X64DTV__
         MENUITEM "~Attach DTV flash ROM image",           IDM_C64DTV_FLASHROM_ATTACH,   MIS_TEXT
         MENUITEM "~Detach DTV flash ROM image",           IDM_C64DTV_FLASHROM_DETACH,   MIS_TEXT
         MENUITEM "DTV flash ROM image write enabled",     IDM_C64DTV_FLASHROM_RW,       MIS_TEXT
@@ -185,11 +185,11 @@ BEGIN
     BEGIN
         MENUITEM "~Drive Setup\tAlt-D",                   IDM_DRIVE,                    MIS_TEXT
 
-#if !defined __XCBM2__ && !defined __XPET__
+#if !defined(__XCBM2__) && !defined(__XPET__)
         MENUITEM "~Joystick Setup\tAlt-J",                IDM_JOYSTICK,                 MIS_TEXT
 #endif
 
-#if defined __XPET__ || defined __XPLUS4__ || defined __XVIC__
+#if defined(__XPET__) || defined(__XPLUS4__) || defined(__XVIC__)
         SUBMENU "SID cart",                               IDM_SIDCART,                  MIS_TEXT
         BEGIN
             MENUITEM "SID cart enable",                   IDM_SIDCART_ENABLE,           MIS_TEXT
@@ -227,7 +227,7 @@ BEGIN
                 MENUITEM "VIC20 clock",                   IDM_SIDCART_CLOCK_NATIVE,     MIS_TEXT
 #endif
             END
-#if defined __XPLUS4__
+#ifdef __XPLUS4__
             MENUITEM "Digiblaster",                       IDM_DIGIBLASTER,              MIS_TEXT
             MENUITEM "SID cart joystick",                 IDM_SIDCART_JOY,              MIS_TEXT
             MENUITEM "SID cart Joystick Setup",           IDM_USERPORT_JOY_SETUP,       MIS_TEXT
@@ -235,7 +235,7 @@ BEGIN
         END
 #endif
 
-#if !defined __XCBM5X0__ && !defined __XPLUS4__
+#if !defined(__XCBM5X0__) && !defined(__XPLUS4__)
         MENUITEM "Userport joystick adapter",             IDM_USERPORT_JOY,             MIS_TEXT
         SUBMENU "Userport joystick type",                 IDM_USERPORT_JOY_TYPE,        MIS_TEXT
         BEGIN
@@ -243,7 +243,7 @@ BEGIN
             MENUITEM "PET",                               IDM_USERPORT_JOY_PET,         MIS_TEXT
             MENUITEM "Hummer",                            IDM_USERPORT_JOY_HUMMER,      MIS_TEXT
             MENUITEM "OEM",                               IDM_USERPORT_JOY_OEM,         MIS_TEXT
-#if defined __X64__ || defined __X128__
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
             MENUITEM "HIT",                               IDM_USERPORT_JOY_HIT,         MIS_TEXT
             MENUITEM "Kingsoft",                          IDM_USERPORT_JOY_KINGSOFT,    MIS_TEXT
             MENUITEM "Starbyte",                          IDM_USERPORT_JOY_STARBYTE,    MIS_TEXT
@@ -254,7 +254,7 @@ BEGIN
 
         MENUITEM "Allow opposite joystick directions",    IDM_ALLOW_OPPOSITE_JOY,       MIS_TEXT
 
-#if !defined __X64DTV__
+#ifndef __X64DTV__
         MENUITEM "Datasette ~Control\tAlt-C",             IDM_DATASETTE,                MIS_TEXT
 #endif
 
@@ -264,7 +264,7 @@ BEGIN
     SUBMENU "Set~up",                                     IDM_SETUP,                    MIS_TEXT
     BEGIN
 
-#if defined __X64__ || defined __X128__ || defined __X64DTV__ || defined __XCBM5X0__
+#if defined(__X64__) || defined(__X128__) || defined(__X64DTV__) || defined(__XCBM5X0__) || defined(__XSCPU64__)
         SUBMENU "VICII Settings",                         IDM_VIDEO_SETTINGS,           MIS_TEXT
         BEGIN
             MENUITEM "VICII Video ~Cache",                IDM_VCACHE,                   MIS_TEXT
@@ -291,7 +291,7 @@ BEGIN
         END
 #endif
 
-#if defined __XCBM2__ || defined __XPET__
+#if defined(__XCBM2__) || defined(__XPET__)
         SUBMENU "CRTC Settings",                          IDM_VIDEO_SETTINGS,           MIS_TEXT
         BEGIN
             MENUITEM "CRTC Video ~Cache",                 IDM_VCACHE,                   MIS_TEXT
@@ -312,7 +312,7 @@ BEGIN
         END
 #endif
 
-#if defined __XPLUS4__
+#ifdef __XPLUS4__
         SUBMENU "TED Settings",                           IDM_VIDEO_SETTINGS,           MIS_TEXT
         BEGIN
             MENUITEM "TED Video ~Cache",                  IDM_VCACHE,                   MIS_TEXT
@@ -339,7 +339,7 @@ BEGIN
         END
 #endif
 
-#if defined __XVIC__
+#ifdef __XVIC__
         SUBMENU "VIC Settings",                           IDM_VIDEO_SETTINGS,           MIS_TEXT
         BEGIN
             MENUITEM "VIC Video ~Cache",                  IDM_VCACHE,                   MIS_TEXT
@@ -417,20 +417,20 @@ BEGIN
         END
 #endif      
 
-#if (defined(__X64__) || defined(__X64DTV__) || defined(__X128__) || defined(__XVIC__)) && !defined(__X64SC__)
+#if (defined(__X64__) || defined(__X64DTV__) || defined(__XSCPU64__) || defined(__X128__) || defined(__XVIC__)) && !defined(__X64SC__)
         SUBMENU "~Video Frequency Standard",              IDM_VIDEOSTD,                 MIS_TEXT
         BEGIN
             MENUITEM "~PAL-G",                            IDM_PAL,                      MIS_TEXT
             MENUITEM "~NTSC-M",                           IDM_NTSC,                     MIS_TEXT
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
             MENUITEM "~old NTSC-M",                       IDM_NTSCOLD,                  MIS_TEXT
 #endif // __X64__
 
         END
 #endif
 
-#if defined(__X64__) || defined(__X64DTV__) || defined(__X128__)
+#if defined(__X64__) || defined(__X64DTV__) || defined(__X128__) || defined(__XSCPU64__)
         SUBMENU "Sprite Collision ~Detection",            IDM_COLLISION,                MIS_TEXT
         BEGIN
             MENUITEM "Sprite-~Sprite",                    IDM_SSCOLL,                   MIS_TEXT
@@ -505,7 +505,7 @@ BEGIN
             END  
         END
 
-#if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__))
+#if defined(HAVE_MOUSE) && (defined(__X128__) || defined(__X64__) || defined(__XSCPU64__))
         SUBMENU "Mouse Type",                             IDM_MOUSE_TYPE,               MIS_TEXT
         BEGIN
             MENUITEM "~1351",                             IDM_MOUSE_TYPE_1351,          MIS_TEXT
@@ -604,7 +604,7 @@ BEGIN
 #endif
 
 
-#if defined __X128__ || defined __XCBM__
+#if defined(__X128__) || defined(__XCBM__)
         SUBMENU "CIA-1 model",                    IDM_CIA1_MODEL,               MIS_TEXT
         BEGIN
             MENUITEM "6526 (old)",                IDM_CIA1_6526_OLD,            MIS_TEXT
@@ -762,7 +762,7 @@ BEGIN
         MENUITEM "PET Userport ~DAC",                     IDM_PET_USERPORT_DAC,         MIS_TEXT
 #endif
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
         SUBMENU "Drive burst modification",               IDM_BURSTMOD,                 MIS_TEXT
         BEGIN
             MENUITEM "None",                              IDM_BURST_NONE,               MIS_TEXT
@@ -771,7 +771,23 @@ BEGIN
         END
 #endif
 
-#if defined(__X64__) || defined(__X128__)
+#ifdef (__XSCPU64__)
+        SUBMENU "SuperCPU64 settings",                    IDM_SCPU64_SETTINGS,          MIS_TEXT
+            SUBMENU "SIMM size",                          IDM_SCPU64_SIMM_SIZE,         MIS_TEXT
+            BEGIN
+                MENUITEM "0 MB",                          IDM_SCPU64_SIMM_0,            MIS_TEXT
+                MENUITEM "1 MB",                          IDM_SCPU64_SIMM_1,            MIS_TEXT
+                MENUITEM "4 MB",                          IDM_SCPU64_SIMM_4,            MIS_TEXT
+                MENUITEM "8 MB",                          IDM_SCPU64_SIMM_8,            MIS_TEXT
+                MENUITEM "16 MB",                         IDM_SCPU64_SIMM_16,           MIS_TEXT
+            END
+            MENUITEM "Jiffy switch",                      IDM_SCPU64_JIFFY_SWITCH,      MIS_TEXT
+            MENUITEM "Speed switch",                      IDM_SCPU64_SPEED_SWITCH,      MIS_TEXT
+        BEGIN
+        END
+#endif
+
+#if defined(__X64__) || defined(__X128__) || defined(__XSCPU64__)
 
 #ifdef HAVE_TFE
         MENUITEM "TFE - Cartridge",                       IDM_TFE,                      MIS_TEXT
@@ -975,7 +991,7 @@ BEGIN
         MENUITEM "Userport RTC",                          IDM_USERPORT_RTC,             MIS_TEXT
 #endif // __X64__ || __X128__
 
-#ifdef __X64__
+#if defined(__X64__) || defined(__XSCPU64__)
         SUBMENU "DQBB Settings",                          IDM_DQBB_SETTINGS,            MIS_TEXT
         BEGIN
             MENUITEM "~Double Quick Brown Box",           IDM_DQBB,                     MIS_TEXT
@@ -1004,6 +1020,7 @@ BEGIN
             MENUITEM "Expert Cartridge Filename",         IDM_EXPERTFILE,               MIS_TEXT
         END
 
+#ifndef (__XSCPU64__)
         SUBMENU "PLUS60K Settings",                       IDM_PLUS60K_SETTINGS,         MIS_TEXT
         BEGIN
             MENUITEM "PLUS~60K - Memory Expansion",       IDM_PLUS60K,                  MIS_TEXT
@@ -1033,6 +1050,7 @@ BEGIN
             END
             MENUITEM "256K Filename",                     IDM_C64_256KFILE,             MIS_TEXT
         END
+#endif
 #endif
 
 #ifdef __XPLUS4__
@@ -1169,7 +1187,7 @@ BEGIN
         MENUITEM "Drive Sound",                           IDM_DRIVE_SOUND,              MIS_TEXT
         MENUITEM SEPARATOR
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
         SUBMENU "SID ~Chip",                              IDM_SIDCHIP,                  MIS_TEXT
         BEGIN
             MENUITEM "~6581",                             IDM_SC6581,                   MIS_TEXT
@@ -1316,7 +1334,7 @@ BEGIN
     "d",          IDM_DRIVE,       ALT
     "D",          IDM_DRIVE,       ALT, SHIFT
 
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
     "i",          IDM_COLOR,       ALT
     "I",          IDM_COLOR,       ALT, SHIFT
 #endif
@@ -1371,4 +1389,3 @@ BEGIN
     HELPSUBITEM IDM_EXIT,        IDM_EXIT
 END
 #endif
-

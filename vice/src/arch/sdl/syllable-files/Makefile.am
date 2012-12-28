@@ -13,4 +13,5 @@ EXTRA_DIST = \
         xcbm5x0.sh \
 	xpet.sh \
 	xplus4.sh \
+	xscpu64.sh \
 	xvic.sh

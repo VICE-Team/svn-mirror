@@ -91,9 +91,9 @@ static void sound_debug(const char *format, ...)
     va_end(args);
     log_debug(tmp);
 }
-#define DEBUG(x) sound_debug x
+#define SDEBUG(x) sound_debug x
 #else
-#define DEBUG(x)
+#define SDEBUG(x)
 #endif
 
 static char *ds_error(HRESULT result)
@@ -275,7 +275,7 @@ static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
 {
     HRESULT result;
 
-    DEBUG(("DirectSound driver initialization: speed = %d, fragsize = %d, fragnr = %d, channels = %d\n",
+    SDEBUG(("DirectSound driver initialization: speed = %d, fragsize = %d, fragnr = %d, channels = %d\n",
            *speed, *fragsize, *fragnr, *channels));
 
     if (ds == NULL) {
@@ -318,11 +318,11 @@ static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
     }
     num_of_channels = *channels;
 
-    DEBUG(("16bit flag: %d", is16bit));
-    DEBUG(("Channels: %d", *channels));
-    DEBUG(("Capabilities %08x", capabilities.dwFlags));
-    DEBUG(("Secondary min Hz: %d", capabilities.dwMinSecondarySampleRate));
-    DEBUG(("Secondary max Hz: %d", capabilities.dwMaxSecondarySampleRate));
+    SDEBUG(("16bit flag: %d", is16bit));
+    SDEBUG(("Channels: %d", *channels));
+    SDEBUG(("Capabilities %08x", capabilities.dwFlags));
+    SDEBUG(("Secondary min Hz: %d", capabilities.dwMinSecondarySampleRate));
+    SDEBUG(("Secondary max Hz: %d", capabilities.dwMaxSecondarySampleRate));
 
     memset(&pcmwf, 0, sizeof(PCMWAVEFORMAT));
     pcmwf.wf.wFormatTag = WAVE_FORMAT_PCM;
@@ -397,7 +397,7 @@ static int dx_init(const char *param, int *speed, int *fragsize, int *fragnr,
         return -1;
     }
 
-    DEBUG(("DirectSound initialization done succesfully.\n"));
+    SDEBUG(("DirectSound initialization done succesfully.\n"));
 
     return 0;
 }
@@ -434,7 +434,7 @@ static int dx_bufferspace(void)
         free_samples = play_cursor - buffer_offset;
     }
 
-    DEBUG(("play=%d, ourwrite=%d, free=%d", play_cursor, buffer_offset, free_samples));
+    SDEBUG(("play=%d, ourwrite=%d, free=%d", play_cursor, buffer_offset, free_samples));
 
     free_samples /= (is16bit ? 2 : 1) * num_of_channels;
 

@@ -106,16 +106,21 @@ EXTRA_DIST = \
 	watcom/c128.tgt \
 	watcom/c64.tgt \
 	watcom/c64cart.tgt \
-	watcom/c64common.tgt \
+	watcom/c64commonall.tgt \
 	watcom/c64commoncart.tgt \
-	watcom/c64commonc128dtvsc.tgt \
-	watcom/c64commonc128sc.tgt \
-	watcom/c64commonc128scvsid.tgt \
-	watcom/c64commondtvsc.tgt \
-	watcom/c64commondtvscvsid.tgt \
 	watcom/c64commonsc.tgt \
+	watcom/c64commonsc128scpu.tgt \
+	watcom/c64commonscdtv128scpu.tgt \
+	watcom/c64commonscdtvscpu.tgt \
+	watcom/c64commonscscpu.tgt \
 	watcom/c64commonscvsid.tgt \
+	watcom/c64commonscvsid128.tgt \
 	watcom/c64commonvsid.tgt \
+	watcom/c64commonvsidsc128scpu.tgt \
+	watcom/c64commonvsidscdtv.tgt \
+	watcom/c64commonvsidscdtvscpu.tgt \
+	watcom/c64commonvsidscpu.tgt \
+	watcom/c64commonvsidscscpu.tgt \
 	watcom/c64dtv.tgt \
 	watcom/c64sc.tgt \
 	watcom/cartconv.tgt \
@@ -176,6 +181,7 @@ EXTRA_DIST = \
 	watcom/resid-specific.tgt \
 	watcom/resid.tgt \
 	watcom/rs232drv.tgt \
+	watcom/scpu64.tgt \
 	watcom/serial.tgt \
 	watcom/sounddrv.tgt \
 	watcom/tape.tgt \
@@ -236,6 +242,12 @@ EXTRA_DIST = \
 	watcom/xplus4-menubar.c \
 	watcom/xplus4-specific.tgt \
 	watcom/xplus4.tgt \
+	watcom/xscpu64.tgt \
+	watcom/xscpu64-dlg-fileio.c \
+	watcom/xscpu64-dragndrop.c \
+	watcom/xscpu64-specific.tgt \
+	watcom/xscpu64-video.c \
+	watcom/xscpu64-vsyncharch.c \
 	watcom/xvic-dlg-fileio.c \
 	watcom/xvic-menubar.c \
 	watcom/xvic-specific.tgt \

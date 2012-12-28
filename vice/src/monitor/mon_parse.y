@@ -181,7 +181,7 @@ extern int cur_len, last_len;
 %token<i> MASK
 %type<str> hunt_list hunt_element
 %type<mode> asm_operand_mode
-%type<i> index_reg index_usreg
+%type<i> index_reg index_ureg
 
 %left '+' '-'
 %left '*' '/'
@@ -767,7 +767,10 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
                           $$.addr_mode = ASM_ADDR_MODE_IMMEDIATE;
                           $$.param = $2;
                         } }
-  | number { if ($1 < 0x100) {
+  | number { if ($1 >= 0x10000) {
+               $$.addr_mode = ASM_ADDR_MODE_ABSOLUTE_LONG;
+               $$.param = $1;
+             } else if ($1 < 0x100) {
                $$.addr_mode = ASM_ADDR_MODE_ZERO_PAGE;
                $$.param = $1;
              } else {
@@ -775,7 +778,10 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
                $$.param = $1;
              }
            }
-  | number COMMA REG_X  { if ($1 < 0x100) {
+  | number COMMA REG_X  { if ($1 >= 0x10000) {
+                            $$.addr_mode = ASM_ADDR_MODE_ABSOLUTE_LONG_X;
+                            $$.param = $1;
+                          } else if ($1 < 0x100) { 
                             $$.addr_mode = ASM_ADDR_MODE_ZERO_PAGE_X;
                             $$.param = $1;
                           } else {
@@ -789,6 +795,25 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
                           } else {
                             $$.addr_mode = ASM_ADDR_MODE_ABSOLUTE_Y;
                             $$.param = $1;
+                          }
+                        }
+  | number COMMA REG_S  { if ($1 < 0x100) {
+                            $$.addr_mode = ASM_ADDR_MODE_STACK_RELATIVE;
+                            $$.param = $1;
+                          } else { /* 6809 */
+                            $$.addr_mode = ASM_ADDR_MODE_INDEXED;
+                            if ($1 >= -16 && $1 < 16) {
+                                $$.addr_submode = $3 | ($1 & 0x1F);
+                            } else if ($1 >= -128 && $1 < 128) {
+                                $$.addr_submode = 0x80 | $3 | ASM_ADDR_MODE_INDEXED_OFF8;
+                                $$.param = $1;
+                            } else if ($1 >= -32768 && $1 < 32768) {
+                                $$.addr_submode = 0x80 | $3 | ASM_ADDR_MODE_INDEXED_OFF16;
+                                $$.param = $1;
+                            } else {
+                                $$.addr_mode = ASM_ADDR_MODE_ILLEGAL;
+                                mon_out("offset too large even for 16 bits (signed)\n");
+                            }
                           }
                         }
   | number COMMA number { if ($1 < 0x100) {
@@ -813,6 +838,8 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
                                            $$.param = $2;
                                          }
                                        }
+  | L_PAREN number COMMA REG_S R_PAREN COMMA REG_Y
+    { $$.addr_mode = ASM_ADDR_MODE_STACK_RELATIVE_Y; $$.param = $2; }
   | L_PAREN number R_PAREN COMMA REG_Y
     { $$.addr_mode = ASM_ADDR_MODE_INDIRECT_Y; $$.param = $2; }
   | L_PAREN REG_BC R_PAREN { $$.addr_mode = ASM_ADDR_MODE_REG_IND_BC; }
@@ -850,15 +877,15 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
   | REG_SP { $$.addr_mode = ASM_ADDR_MODE_REG_SP; }
     /* 6809 modes */
   | LESS_THAN number { $$.addr_mode = ASM_ADDR_MODE_DIRECT; $$.param = $2; }
-  | number COMMA index_usreg {    /* Clash with addr,x addr,y modes! */
+  | number COMMA index_ureg {    /* Clash with addr,x addr,y addr,s modes! */
         $$.addr_mode = ASM_ADDR_MODE_INDEXED;
         if ($1 >= -16 && $1 < 16) {
-            $$.addr_submode = $3 | ($1 & 0x1F);
+            $$.addr_submode = (3 << 5) | ($1 & 0x1F);
         } else if ($1 >= -128 && $1 < 128) {
-            $$.addr_submode = 0x80 | $3 | ASM_ADDR_MODE_INDEXED_OFF8;
+            $$.addr_submode = 0x80 | (3 << 5) | ASM_ADDR_MODE_INDEXED_OFF8;
             $$.param = $1;
         } else if ($1 >= -32768 && $1 < 32768) {
-            $$.addr_submode = 0x80 | $3 | ASM_ADDR_MODE_INDEXED_OFF16;
+            $$.addr_submode = 0x80 | (3 << 5) | ASM_ADDR_MODE_INDEXED_OFF16;
             $$.param = $1;
         } else {
             $$.addr_mode = ASM_ADDR_MODE_ILLEGAL;
@@ -973,18 +1000,22 @@ asm_operand_mode: ARG_IMMEDIATE number { if ($2 > 0xff) {
         $$.addr_submode = 0x80 | ASM_ADDR_MODE_EXTENDED_INDIRECT;
         $$.param = $2;
         }
+  | L_BRACKET number R_BRACKET COMMA REG_Y {
+        $$.addr_mode = ASM_ADDR_MODE_INDIRECT_LONG_Y;
+        $$.param = $2;
+        }
   /* TODO: register lists for PSHx PULx, and register pairs for TFR and EXG */
   ;
 
 index_reg:
     REG_X { $$ = (0 << 5); printf("reg_x\n"); }
   | REG_Y { $$ = (1 << 5); printf("reg_y\n"); }
-  | index_usreg { $$ = $1; }
+  | index_ureg { $$ = $1; }
+  | REG_S { $$ = (3 << 5); printf("reg_s\n"); }
   ;
 
-index_usreg:
+index_ureg:
     REG_U { $$ = (2 << 5); printf("reg_u\n"); }
-  | REG_S { $$ = (3 << 5); printf("reg_s\n"); }
   ;
 
 

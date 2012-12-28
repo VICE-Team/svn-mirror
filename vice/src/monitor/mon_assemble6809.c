@@ -94,7 +94,7 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
             break;
     }
     /*
-     * Fix up another parsing ambiguity, for addr,X and addr,Y.
+     * Fix up another parsing ambiguity, for addr,X and addr,Y and addr,S.
      */
     if (operand_mode == ASM_ADDR_MODE_ZERO_PAGE_X ||
         operand_mode == ASM_ADDR_MODE_ABSOLUTE_X) {
@@ -104,6 +104,10 @@ static int mon_assemble_instr(const char *opcode_name, asm_mode_addr_info_t oper
     } else if (operand_mode == ASM_ADDR_MODE_ZERO_PAGE_Y ||
                operand_mode == ASM_ADDR_MODE_ABSOLUTE_Y) {
         int reg = 1 << 5;
+        operand_mode = ASM_ADDR_MODE_INDEXED;
+        operand_submode = reg | make_offset_mode(operand_value);
+    } else if (operand_mode == ASM_ADDR_MODE_STACK_RELATIVE) {
+        int reg = 3 << 5;
         operand_mode = ASM_ADDR_MODE_INDEXED;
         operand_submode = reg | make_offset_mode(operand_value);
     }

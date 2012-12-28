@@ -222,12 +222,12 @@ IDCLS_DISABLE_AUTOSTART_RANDOM_DELAY
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
+   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_PAL_SYNC_FACTOR
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, plus4/plus4-cmdline-options.c,
-   vic20/vic20-cmdline-options.c */
+   vic20/vic20-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_NTSC_SYNC_FACTOR
 
 /* c128/c128-cmdline-options.c, c128/functionrom.c,
@@ -243,7 +243,7 @@ IDCLS_USE_NTSC_SYNC_FACTOR
    vic20/vic20cartridge.c, video/video-cmdline-options.c,
    fliplist.c, initcmdline.c, log.c, sound.c, c64/plus60k.c,
    c64/c64_256k.c, pet/petreu.c, c64/plus256k.c,
-   c64/cart/mmc64.c */
+   c64/cart/mmc64.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_P_NAME
 
 /* c128/c128-cmdline-options.c */
@@ -310,10 +310,12 @@ IDCLS_P_REVISION
 IDCLS_PATCH_KERNAL_TO_REVISION
 
 #ifdef HAVE_RS232
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_ENABLE_DEXX_ACIA_RS232_EMU
 
-/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c */
+/* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_DISABLE_DEXX_ACIA_RS232_EMU
 #endif   /* HAVE_RS232 */
 
@@ -326,7 +328,8 @@ IDCLS_DISABLE_ACIA_EMU
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
    c64/psid.c, cbm2/cbm2-cmdline-options.c,
    pet/pet-cmdline-options.c, plus4/plus4-cmdline-options.c,
-   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   vdc/vdc-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_P_NUMBER
 
 #ifdef COMMON_KBD
@@ -335,11 +338,13 @@ IDCLS_P_NUMBER
 IDCLS_SPECIFY_KEYMAP_FILE_INDEX
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_SYM_KEYMAP_FILE_NAME
 
 /* c128/c128-cmdline-options.c, c64/c64-cmdline-options.c,
-   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   plus4/plus4-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME
 #endif  /* COMMON_KBD */
 
@@ -373,22 +378,23 @@ IDCLS_ENABLE_EXT_FUNC_ROM
 /* c128/functionrom.c */
 IDCLS_DISABLE_EXT_FUNC_ROM
 
-/* c64/c64-cmdline-options.c, c64/psid.c */
+/* c64/c64-cmdline-options.c, c64/psid.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_OLD_NTSC_SYNC_FACTOR
 
-/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c */
+/* c64/c64-cmdline-options.c, viciisc/vicii-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_P_MODEL
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_BOTH_CIA_MODELS
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_CIA1_MODEL
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_CIA2_MODEL
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_C64_MODEL
 
 /* c128/c128-cmdline-options.c */
@@ -400,10 +406,10 @@ IDCLS_SET_PLUS4_MODEL
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_SET_DTV_MODEL
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_USE_PALN_SYNC_FACTOR
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SET_BURST_MOD
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
@@ -417,14 +423,15 @@ IDCLS_SPECIFY_KERNAL_ROM_NAME
 IDCLS_SPECIFY_BASIC_ROM_NAME
 
 /* c64/c64-cmdline-options.c, cbm2/cbm2-cmdline-options.c,
-   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c */
+   pet/pet-cmdline-options.c, vic20/vic20-cmdline-options.c,
+   scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_CHARGEN_ROM_NAME
 
 #ifdef COMMON_KBD
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_INDEX_KEYMAP_FILE_0_2
 
-/* c64/c64-cmdline-options.c */
+/* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 IDCLS_SPECIFY_NAME_SYM_DE_KEYMAP
 #endif   /* COMMON_KBD */
 
@@ -2439,3 +2446,18 @@ IDCLS_ENABLE_EASYFLASH_CRT_WRITING
 
 /* c64/cart/lash.c */
 IDCLS_DISABLE_EASYFLASH_CRT_WRITING
+
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_SET_SIMM_SIZE
+
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_ENABLE_JIFFY_SWITCH
+
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_DISABLE_JIFFY_SWITCH
+
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_ENABLE_SPEED_SWITCH
+
+/* scpu64/scpu64-cmdline-options.c */
+IDCLS_DISABLE_SPEED_SWITCH

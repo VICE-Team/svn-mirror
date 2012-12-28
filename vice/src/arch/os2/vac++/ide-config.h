@@ -40,12 +40,12 @@
 #define USE_MITSHM 1
 
 /* Do we want to enable the ReSID code support?  */
-#if defined(__X64___) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64___) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
 #define HAVE_RESID 1
 #endif
 
 /* Do we support a 1351 mouse?  */
-#if defined(__X64__) || defined(__X128__) || defined(__X64DTV__) || defined(__XVIC__)
+#if defined(__X64__) || defined(__X128__) || defined(__X64DTV__) || defined(__XVIC__) || defined (__XSCPU64__)
 #define HAVE_MOUSE 1
 #endif
 
@@ -53,7 +53,7 @@
 #define HAS_JOYSTICK 1
 
 /* VIC II Doublesize/-scan  */
-#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X128__) || defined(__XCBM__) || defined(__X64DTV__) || defined(__XSCPU64__)
 #define HAVE_VIC_II 1
 #endif
 

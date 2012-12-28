@@ -107,6 +107,7 @@ libarch_a_SOURCES = \
 	resretroreplay.rc \
 	resreu.rc \
 	resrs232user.rc \
+	resscpu64.rc \
 	ressid.rc \
 	ressidcart.rc \
 	ressiddtv.rc \
@@ -124,6 +125,7 @@ libarch_a_SOURCES = \
 	rs232dev.h \
 	rs232net.c \
 	rs232net.h \
+	scpu64ui.c \
 	signals.c \
 	socketimpl.h \
 	statusbar.c \
@@ -264,6 +266,8 @@ libarch_a_SOURCES = \
 	uirs232.h \
 	uirs232user.c \
 	uirs232user.h \
+	uiscpu64.c \
+	uiscpu64.h \
 	uisid.c \
 	uisid.h \
 	uisidcart.c \
@@ -310,10 +314,10 @@ libarch_a_SOURCES = \
 
 if OWCC
 libarch_a_DEPENDENCIES = \
-	resc128.res resc64.res resc64dtv.res rescbm2.res rescbm5x0.res respet.res resplus4.res resvic20.res resvsid.res
+	resc128.res resc64.res resscpu64.res resc64dtv.res rescbm2.res rescbm5x0.res respet.res resplus4.res resvic20.res resvsid.res
 else
 libarch_a_DEPENDENCIES = \
-	resc128.o resc64.o resc64dtv.o rescbm2.o rescbm5x0.o respet.o resplus4.o resvic20.o resvsid.o
+	resc128.o resc64.o resscpu64.o resc64dtv.o rescbm2.o rescbm5x0.o respet.o resplus4.o resvic20.o resvsid.o
 endif
 
 EXTRA_DIST = \
@@ -342,13 +346,17 @@ EXTRA_DIST = \
 	watcom/c64commonall.tgt \
 	watcom/c64commoncart.tgt \
 	watcom/c64commonsc.tgt \
-	watcom/c64commonsc128.tgt \
-	watcom/c64commondscdtv.tgt \
-	watcom/c64commonscdtv128.tgt \
-	watcom/c64commonscdtvvsid.tgt \
+	watcom/c64commonsc128scpu.tgt \
+	watcom/c64commonscdtv128scpu.tgt \
+	watcom/c64commonscdtvscpu.tgt \
+	watcom/c64commonscscpu.tgt \
 	watcom/c64commonscvsid.tgt \
 	watcom/c64commonscvsid128.tgt \
-	watcom/c64commonvsid.tgt \
+	watcom/c64commonvsidsc128scpu.tgt \
+	watcom/c64commonvsidscdtv.tgt \
+	watcom/c64commonvsidscdtvscpu.tgt \
+	watcom/c64commonvsidscpu.tgt \
+	watcom/c64commonvsidscscpu.tgt \
 	watcom/c64dtv.tgt \
 	watcom/c64exp.tgt \
 	watcom/c64sc.tgt \
@@ -398,6 +406,7 @@ EXTRA_DIST = \
 	watcom/resid-dtv.tgt \
 	watcom/resid-fp.tgt \
 	watcom/rs232drv.tgt \
+	watcom/scpu64.tgt \
 	watcom/serial.tgt \
 	watcom/sid.tgt \
 	watcom/sounddrv.tgt \
@@ -426,6 +435,7 @@ EXTRA_DIST = \
 	watcom/xcbm5x0.tgt \
 	watcom/xpet.tgt \
 	watcom/xplus4.tgt \
+	watcom/xscpu64.tgt \
 	watcom/xvic.tgt \
 	_vice.dsp \
 	arch.dsp \
@@ -442,6 +452,7 @@ EXTRA_DIST = \
 	c64commoncart.dsp \
 	c64exp.dsp \
 	c64sc.dsp \
+	c64scpu64.dsp \
 	cartconv.dsp \
 	cbm2.dsp \
 	cbm2common.dsp \
@@ -486,6 +497,7 @@ EXTRA_DIST = \
 	resstrings.txt \
 	rs232drv.dsp \
 	rtc.dsp \
+	scpu64.dsp \
 	serial.dsp \
 	sid.dsp \
 	sounddrv.dsp \
@@ -510,6 +522,7 @@ EXTRA_DIST = \
 	xcbm5x0.dsp \
 	xpet.dsp \
 	xplus4.dsp \
+	xscpu64.dsp \
 	xvic.dsp \
 	vice.dsw \
 	vice.manifest \
@@ -583,6 +596,31 @@ resc64cat.rc: $(srcdir)/resc64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
 	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
 	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc $(srcdir)/resplus256k.rc \
 	$(srcdir)/resplus60k.rc $(srcdir)/resc64_256k.rc \
+	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
+	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
+	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
+	$(srcdir)/reslightpen.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
+	$(srcdir)/ressoundexpander.rc $(srcdir)/resautostart.rc \
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
+	$(srcdir)/resds12c887rtc.rc
+
+resscpu64cat.rc: $(srcdir)/resscpu64.rc $(srcdir)/res.rc res.h $(srcdir)/resacia.rc \
+	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
+	$(srcdir)/resreu.rc $(srcdir)/resgeoram.rc $(srcdir)/resramcart.rc \
+	$(srcdir)/resmmc64.rc $(srcdir)/reside64.rc \
+	$(srcdir)/resautostart.rc $(srcdir)/resdrivec64.rc \
+	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc \
+	$(srcdir)/restfe.rc $(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc \
+	$(srcdir)/resisepic.rc $(srcdir)/reslightpen.rc \
+	$(srcdir)/ressoundexpander.rc $(srcdir)/reseasyflash.rc \
+	$(srcdir)/resmagicvoice.rc $(srcdir)/resexpert.rc \
+	$(srcdir)/resmmcreplay.rc $(srcdir)/resretroreplay.rc \
+	$(srcdir)/resds12c887rtc.rc $(top_builddir)/src/debug.h
+	cat >resscpu64cat.rc $(srcdir)/resscpu64.rc $(srcdir)/res.rc \
+	$(srcdir)/resacia.rc $(srcdir)/resdrivec64.rc \
+	$(srcdir)/reside64.rc $(srcdir)/resreu.rc $(srcdir)/resgeoram.rc \
+	$(srcdir)/resmmc64.rc $(srcdir)/resramcart.rc \
 	$(srcdir)/resrs232user.rc $(srcdir)/ressid.rc $(srcdir)/resvicii.rc \
 	$(srcdir)/resdigimax.rc $(srcdir)/resmouse.rc $(srcdir)/restfe.rc \
 	$(srcdir)/resmidi.rc $(srcdir)/resdqbb.rc $(srcdir)/resisepic.rc \
@@ -690,6 +728,22 @@ resc64.o: resc64cat.rc
 	--include-dir $(top_srcdir)/src/arch/win32  \
 	--include-dir $(top_srcdir)/src
 	$(WINDRES) -i resc64.res -o $@
+endif
+
+if OWCC
+resscpu64.res: resscpu64cat.rc
+	wrc -fo=resscpu64.res -r -bt=nt \
+	-i=$(top_builddir)/src \
+	-i=$(top_srcdir)/src/arch/win32 \
+	-i=$(top_srcdir)/src \
+	resscpu64cat.rc
+else
+resscpu64.o: resscpu64cat.rc
+	$(WRC) -i resscpu64cat.rc -o resscpu64.res \
+	--include-dir $(top_builddir)/src \
+	--include-dir $(top_srcdir)/src/arch/win32  \
+	--include-dir $(top_srcdir)/src
+	$(WINDRES) -i resscpu64.res -o $@
 endif
 
 if OWCC

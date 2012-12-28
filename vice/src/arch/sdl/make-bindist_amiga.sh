@@ -22,7 +22,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv xscpu64 $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -92,6 +92,7 @@ cp -a $TOPSCRDIR/data/C64DTV $TOPSCRDIR/data/CBM-II SDLVICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/data/DRIVES $TOPSCRDIR/data/PET SDLVICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/data/PLUS4 $TOPSCRDIR/data/PRINTER SDLVICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/data/VIC20 $TOPSCRDIR/data/fonts SDLVICE-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/SCPU64 SDLVICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/doc/html SDLVICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/FEEDBACK $TOPSCRDIR/README SDLVICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/doc/readmes/Readme-SDL.txt SDLVICE-$AMIGAFLAVOR
@@ -105,16 +106,14 @@ fi
 if test x"$HOSTSYSTEM" = "xmorphos"; then
   cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/VICE.info SDLVICE-$AMIGAFLAVOR.info
   cp $TOPSCRDIR/src/arch/amigaos/info-files/morphos/x*.info SDLVICE-$AMIGAFLAVOR
-  cp SDLVICE-$AMIGAFLAVOR/x64.info SDLVICE-$AMIGAFLAVOR/x64dtv.info
-  if test x"$X64SC" = "xyes"; then
-    cp SDLVICE-$AMIGAFLAVOR/x64.info SDLVICE-$AMIGAFLAVOR/x64sc.info
+  if test x"$X64SC" != "xyes"; then
+    rm -f SDLVICE-$AMIGAFLAVOR/x64sc.info
   fi
 else
   cp $TOPSCRDIR/src/arch/amigaos/info-files/VICE.info SDLVICE-$AMIGAFLAVOR.info
   cp $TOPSCRDIR/src/arch/amigaos/info-files/*.exe.info SDLVICE-$AMIGAFLAVOR
-  cp SDLVICE-$AMIGAFLAVOR/x64.exe.info SDLVICE-$AMIGAFLAVOR/x64dtv.exe.info
-  if test x"$X64SC" = "xyes"; then
-    cp SDLVICE-$AMIGAFLAVOR/x64.exe.info SDLVICE-$AMIGAFLAVOR/x64sc.exe.info
+  if test x"$X64SC" != "xyes"; then
+    rm -f SDLVICE-$AMIGAFLAVOR/x64sc.exe.info
   fi
 fi
 rm `find SDLVICE-$AMIGAFLAVOR -name "Makefile*"`

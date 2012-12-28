@@ -76,6 +76,16 @@
 #define IDM_BURST_CIA1               0x2e4
 #define IDM_BURST_CIA2               0x2e5
 
+#define IDM_SCPU64_SETTINGS          0x32c
+#define IDM_SCPU64_SIMM_SIZE         0x32d
+#define IDM_SCPU64_SIMM_0            0x32e
+#define IDM_SCPU64_SIMM_1            0x32f
+#define IDM_SCPU64_SIMM_4            0x330
+#define IDM_SCPU64_SIMM_8            0x331
+#define IDM_SCPU64_SIMM_16           0x332
+#define IDM_SCPU64_JIFFY_SWITCH      0x333
+#define IDM_SCPU64_SPEED_SWITCH      0x334
+
 #define IDM_SOUND_OUTPUT_MODE        0x2e6
 #define IDM_SOUND_OUTPUT_SYSTEM      0x2e7
 #define IDM_SOUND_OUTPUT_MONO        0x2e8

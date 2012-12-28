@@ -117,7 +117,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID) {
+    if (machine_class != VICE_MACHINE_C64DTV && machine_class != VICE_MACHINE_VSID && machine_class != VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(new BMenuItem("Attach Tape", new BMessage(MENU_ATTACH_TAPE), 'T'));
         uppermenu->AddItem(new BMenuItem("Detach Tape", new BMessage(MENU_DETACH_TAPE)));
         uppermenu->AddItem(menu = new BMenu("Datasette Control"));
@@ -131,7 +131,7 @@ BMenuBar *menu_create(int machine_class)
         uppermenu->AddSeparatorItem();
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(menu = new BMenu("Attach cartridge image"));
             menu->AddItem(new BMenuItem("CRT", new BMessage(MENU_CART_ATTACH_CRT)));
             menu->AddItem(new BMenuItem("Generic 8KB", new BMessage(MENU_CART_ATTACH_8KB)));
@@ -322,19 +322,19 @@ BMenuBar *menu_create(int machine_class)
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64DTV ||
         machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_VIC20 ||
-        machine_class == VICE_MACHINE_VSID) {
+        machine_class == VICE_MACHINE_VSID || machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(menu = new BMenu("Video Standard"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("PAL-G", new BMessage(MENU_SYNC_FACTOR_PAL)));
             menu->AddItem(new BMenuItem("NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_VSID) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_VSID) {
             menu->AddItem(new BMenuItem("Old NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
             menu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_SYNC_FACTOR_PALN)));
     }
 
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(menu = new BMenu("C64 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("C64 PAL", new BMessage(MENU_C64_MODEL_C64_PAL)));
@@ -378,7 +378,8 @@ BMenuBar *menu_create(int machine_class)
     }
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_C128) {
+        machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_C128 ||
+        machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddSeparatorItem();
         uppermenu->AddItem(new BMenuItem("Grab mouse events", new BMessage(MENU_TOGGLE_MOUSE)));
     }
@@ -401,8 +402,21 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("Enable Hummer ADC", new BMessage(MENU_HUMMER_USERPORT_ADC)));
     }
 
+    if (machine_class == VICE_MACHINE_SCPU64) {
+        uppermenu->AddItem(menu = new BMenu("SuperCPU64 Options"));
+            menu->AddItem(submenu = new BMenu("SIMM size"));
+                submenu->SetRadioMode(true);
+                submenu->AddItem(new BMenuItem("0 MB", new BMessage(MENU_SCPU64_SIMM_SIZE_0)));
+                submenu->AddItem(new BMenuItem("1 MB", new BMessage(MENU_SCPU64_SIMM_SIZE_1)));
+                submenu->AddItem(new BMenuItem("4 MB", new BMessage(MENU_SCPU64_SIMM_SIZE_4)));
+                submenu->AddItem(new BMenuItem("8 MB", new BMessage(MENU_SCPU64_SIMM_SIZE_8)));
+                submenu->AddItem(new BMenuItem("16 MB", new BMessage(MENU_SCPU64_SIMM_SIZE_16)));
+            menu->AddItem(new BMenuItem("Enable jiffy switch", new BMessage(MENU_TOGGLE_SCPU64_JIFFY_ENABLE)));
+            menu->AddItem(new BMenuItem("Enable speed switch", new BMessage(MENU_TOGGLE_SCPU64_SPEED_ENABLE)));
+    }
+
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
-        machine_class == VICE_MACHINE_C128) {
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(menu = new BMenu("Mouse Options"));
             menu->AddItem(submenu = new BMenu("Mouse Type"));
                 submenu->SetRadioMode(true);
@@ -504,7 +518,7 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("Save .crt file now", new BMessage(MENU_EASYFLASH_SAVE_NOW)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
             menu->AddItem(submenu = new BMenu("Double Quick Brown Box Options"));
                 submenu->AddItem(new BMenuItem("DQBB emulation", new BMessage(MENU_TOGGLE_DQBB)));
                 submenu->AddItem(new BMenuItem("Save to DQBB image when changed", new BMessage(MENU_TOGGLE_DQBB_SWC)));
@@ -528,6 +542,9 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("None", new BMessage(MENU_BURSTMOD_NONE)));
                 submenu->AddItem(new BMenuItem("CIA-1", new BMessage(MENU_BURSTMOD_CIA1)));
                 submenu->AddItem(new BMenuItem("CIA-2", new BMessage(MENU_BURSTMOD_CIA2)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC) {
             menu->AddItem(submenu = new BMenu("PLUS60K Options"));
                 submenu->AddItem(new BMenuItem("PLUS60K emulation", new BMessage(MENU_TOGGLE_PLUS60K)));
                 submenu->AddItem(extsubmenu = new BMenu("PLUS60K base"));
@@ -547,6 +564,9 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("$DF00-$DF7F", new BMessage(MENU_C64_256K_BASE_DF00)));
                     extsubmenu->AddItem(new BMenuItem("$DF80-$DFFF", new BMessage(MENU_C64_256K_BASE_DF80)));
                 submenu->AddItem(new BMenuItem("C64_256K File", new BMessage(MENU_C64_256K_FILE)));
+    }
+
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
             menu->AddItem(submenu = new BMenu("MMC64 Options"));
                 submenu->AddItem(new BMenuItem("MMC64 emulation", new BMessage(MENU_TOGGLE_MMC64)));
                 submenu->AddItem(extsubmenu = new BMenu("MMC64 revision"));
@@ -668,7 +688,8 @@ BMenuBar *menu_create(int machine_class)
                     machine_class == VICE_MACHINE_C64DTV ||
                     machine_class == VICE_MACHINE_C128 ||
                     machine_class == VICE_MACHINE_PLUS4 ||
-                    machine_class == VICE_MACHINE_VIC20) {
+                    machine_class == VICE_MACHINE_VIC20 ||
+                    machine_class == VICE_MACHINE_SCPU64) {
                     submenu->AddItem(new BMenuItem("Enable IEC emulation", new BMessage(MENU_PRINTER_4_IEC)));
                 }
                 
@@ -698,13 +719,15 @@ BMenuBar *menu_create(int machine_class)
                     machine_class == VICE_MACHINE_C64DTV ||
                     machine_class == VICE_MACHINE_C128 ||
                     machine_class == VICE_MACHINE_PLUS4 ||
-                    machine_class == VICE_MACHINE_VIC20) {
+                    machine_class == VICE_MACHINE_VIC20 ||
+                    machine_class == VICE_MACHINE_SCPU64) {
                     submenu->AddItem(new BMenuItem("Enable IEC emulation", new BMessage(MENU_PRINTER_5_IEC)));
                 }
 
             if (machine_class == VICE_MACHINE_C64 ||
                 machine_class == VICE_MACHINE_C64SC ||
-                machine_class == VICE_MACHINE_C128) {
+                machine_class == VICE_MACHINE_C128 ||
+                machine_class == VICE_MACHINE_SCPU64) {
                 menu->AddItem(submenu = new BMenu("Userport printer ..."));
                     submenu->AddItem(new BMenuItem("Userport printer emulation", new BMessage(MENU_TOGGLE_USERPORT_PRINTER)));
                     submenu->AddItem(extsubmenu = new BMenu("Userport printer driver"));
@@ -736,7 +759,7 @@ BMenuBar *menu_create(int machine_class)
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_CBM5x0 ||
-        machine_class == VICE_MACHINE_C128) {
+        machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(new BMenuItem("VIC-II ...", new BMessage(MENU_VICII_SETTINGS)));
     }
 
@@ -768,7 +791,8 @@ BMenuBar *menu_create(int machine_class)
                 submenu->AddItem(new BMenuItem("OEM", new BMessage(MENU_USERPORT_JOY_OEM)));
             if (machine_class == VICE_MACHINE_C64 ||
                 machine_class == VICE_MACHINE_C64SC ||
-                machine_class == VICE_MACHINE_C128) {
+                machine_class == VICE_MACHINE_C128 ||
+                machine_class == VICE_MACHINE_SCPU64) {
                 submenu->AddItem(new BMenuItem("HIT", new BMessage(MENU_USERPORT_JOY_HIT)));
                 submenu->AddItem(new BMenuItem("Kingsoft", new BMessage(MENU_USERPORT_JOY_KINGSOFT)));
                 submenu->AddItem(new BMenuItem("Starbyte", new BMessage(MENU_USERPORT_JOY_STARBYTE)));
@@ -782,7 +806,7 @@ BMenuBar *menu_create(int machine_class)
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
         machine_class == VICE_MACHINE_C64DTV || machine_class == VICE_MACHINE_C128 ||
         machine_class == VICE_MACHINE_CBM5x0 || machine_class == VICE_MACHINE_CBM6x0 ||
-        machine_class == VICE_MACHINE_VSID) {
+        machine_class == VICE_MACHINE_VSID || machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(new BMenuItem("SID ...", new BMessage(MENU_SID_SETTINGS)));
     }
 

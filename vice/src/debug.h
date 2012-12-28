@@ -29,8 +29,21 @@
 
 #include "types.h"
 
-/* You can also enable/disable this option by hand. */
+/* Manually defined */
+/* To enable/disable this option by hand change the 0 below to 1. */
 #if 0
+/* This enables debugging.  Attention: It makes things a bit slower.  */
+#define DEBUG
+#endif
+
+/* configure defined, not valid when using an IDE */
+#if 0 && !defined(IDE_COMPILE)
+/* This enables debugging.  Attention: It makes things a bit slower.  */
+#define DEBUG
+#endif
+
+/* IDE defined. */
+#if defined(IDE_COMPILE) && defined(_DEBUG)
 /* This enables debugging.  Attention: It makes things a bit slower.  */
 #define DEBUG
 #endif
@@ -72,6 +85,8 @@ extern void debug_set_machine_parameter(unsigned int cycles,
                                         unsigned int lines);
 extern void debug_maincpu(DWORD reg_pc, CLOCK mclk, const char *dis,
                           BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp);
+extern void debug_main65816cpu(DWORD reg_pc, CLOCK mclk, const char *dis, WORD reg_c,
+                               WORD reg_x, WORD reg_y, WORD reg_sp, BYTE reg_pbr);
 extern void debug_drive(DWORD reg_pc, CLOCK mclk, const char *dis,
                         BYTE reg_a, BYTE reg_x, BYTE reg_y, BYTE reg_sp,
                         unsigned int driveno);

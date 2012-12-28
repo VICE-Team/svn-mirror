@@ -21,6 +21,7 @@ EXTRA_DIST = \
 	c64dtvstubs.dsp \
 	c64exp.dsp \
 	c64sc.dsp \
+	c64scpu64.dsp \
 	cartconv.dsp \
 	cbm2.dsp \
 	cbm2common.dsp \
@@ -55,6 +56,7 @@ EXTRA_DIST = \
 	residfp.dsp \
 	rs232drv.dsp \
 	rtc.dsp \
+	scpu64.dsp \
 	serial.dsp \
 	sid.dsp \
 	sounddrv.dsp \
@@ -81,4 +83,5 @@ EXTRA_DIST = \
 	xcbm5x0.dsp \
 	xpet.dsp \
 	xplus4.dsp \
+	xscpu64.dsp \
 	xvic.dsp

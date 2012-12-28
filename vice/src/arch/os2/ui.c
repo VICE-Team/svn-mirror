@@ -127,6 +127,11 @@ int c64scui_init(void)
     return 0;
 }
 
+int scpu64ui_init(void)
+{
+    return 0;
+}
+
 int c128ui_init(void)
 {
     return 0;
@@ -167,6 +172,10 @@ void ui_shutdown(void)
 }
 
 void c64ui_shutdown(void)
+{
+}
+
+void scpu64ui_shutdown(void)
 {
 }
 

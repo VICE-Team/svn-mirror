@@ -78,6 +78,11 @@ enum t_reg_id {
     e_R15,
     e_ACM,
     e_YXM,
+/* 65816 */
+    e_DPR,
+    e_PBR,
+    e_DBR,
+    e_EMUL,
 /* Registers in the 6809 not covered by the above */
     e_B,
     e_D,

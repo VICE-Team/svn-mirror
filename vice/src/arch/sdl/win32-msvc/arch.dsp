@@ -394,6 +394,10 @@ SOURCE=..\xplus4_ui.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\xscpu64_ui.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\xvic_ui.c
 # End Source File
 # End Target

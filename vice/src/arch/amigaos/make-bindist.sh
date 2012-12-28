@@ -22,7 +22,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
+EMULATORS="x64 x64dtv $SCFILE xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS vsid"
 
@@ -105,7 +105,7 @@ else
 fi
 cp -a $TOPSCRDIR/data/C128 $TOPSCRDIR/data/C64 $TOPSCRDIR/data/C64DTV $TOPSCRDIR/data/CBM-II $TOPSCRDIR/data/DRIVES VICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/data/PET $TOPSCRDIR/data/PLUS4 $TOPSCRDIR/data/PRINTER $TOPSCRDIR/data/VIC20 VICE-$AMIGAFLAVOR
-cp -a $TOPSCRDIR/data/fonts VICE-$AMIGAFLAVOR
+cp -a $TOPSCRDIR/data/SCPU64 $TOPSCRDIR/data/fonts VICE-$AMIGAFLAVOR
 cp -a $TOPSCRDIR/doc/html VICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/FEEDBACK $TOPSCRDIR/README VICE-$AMIGAFLAVOR
 cp $TOPSCRDIR/doc/readmes/Readme-Amiga.txt VICE-$AMIGAFLAVOR
@@ -124,6 +124,7 @@ if test x"$HOSTSYSTEM" = "xmorphos"; then
   else
     cp VICE-$AMIGAFLAVOR/x64sc.info VICE-$AMIGAFLAVOR/x64sc\ \(no\ sound\).info
   fi
+  cp VICE-$AMIGAFLAVOR/xscpu64.info VICE-$AMIGAFLAVOR/xscpu64\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/x128.info VICE-$AMIGAFLAVOR/x128\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/xvic.info VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).info
   cp VICE-$AMIGAFLAVOR/xpet.info VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).info
@@ -139,6 +140,7 @@ else
   else
     cp VICE-$AMIGAFLAVOR/x64sc.exe.info VICE-$AMIGAFLAVOR/x64sc\ \(no\ sound\).exe.info
   fi
+  cp VICE-$AMIGAFLAVOR/xscpu64.exe.info VICE-$AMIGAFLAVOR/xscpu64\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/x128.exe.info VICE-$AMIGAFLAVOR/x128\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/xvic.exe.info VICE-$AMIGAFLAVOR/xvic\ \(no\ sound\).exe.info
   cp VICE-$AMIGAFLAVOR/xpet.exe.info VICE-$AMIGAFLAVOR/xpet\ \(no\ sound\).exe.info
