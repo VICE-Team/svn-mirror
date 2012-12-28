@@ -61,6 +61,7 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcDoubleScan", IDM_TOGGLE_CRTCDOUBLESCAN },
     { "CrtcStretchVertical", IDM_TOGGLE_CRTCDOUBLEVERTICAL },
     { "CrtcVideoCache", IDM_TOGGLE_CRTCVIDEOCACHE },
+    { "PETHRE", IDM_TOGGLE_PETHRE },
     { NULL, 0 }
 };
 
