@@ -54,6 +54,7 @@ static const ui_menu_toggle_t pet_ui_menu_toggles[] = {
     { "CrtcVideoCache", IDM_TOGGLE_VIDEOCACHE },
     { "CrtcAudioLeak", IDM_TOGGLE_AUDIO_LEAK },
     { "CrtcStretchVertical", IDM_TOGGLE_VERTICAL_STRETCH },
+    { "PETHRE", IDM_ENABLE_PETHRE },
     { "UserportDAC", IDM_TOGGLE_USERPORT_DAC },
     { NULL, 0 }
 };

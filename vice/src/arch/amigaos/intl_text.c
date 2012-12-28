@@ -3932,6 +3932,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_BURST_MOD_SETTINGS_SV, "Inställningar för diskettburstmodifiering..." },
 /* tr */ { IDMS_BURST_MOD_SETTINGS_TR, "Sürücü atlama modifikasyon ayarlarý..." },
 
+/* en */ { IDMS_ENABLE_PETHRE,    "Enable PET High Res Emulator board" },
+/* da */ { IDMS_ENABLE_PETHRE_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ENABLE_PETHRE_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ENABLE_PETHRE_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ENABLE_PETHRE_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ENABLE_PETHRE_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ENABLE_PETHRE_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ENABLE_PETHRE_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ENABLE_PETHRE_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_PETHRE_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ENABLE_PETHRE_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ENABLE_PETHRE_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ENABLE_PETHRE_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_ENABLE_USERPORT_DAC,    "Enable Userport DAC for sound output" },
 /* da */ { IDMS_ENABLE_USERPORT_DAC_DA, "Aktivér brugerport DAC for lydoutput" },
 /* de */ { IDMS_ENABLE_USERPORT_DAC_DE, "Userport DAC Sound aktivieren" },
