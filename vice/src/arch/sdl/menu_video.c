@@ -1090,7 +1090,7 @@ const ui_menu_entry_t vic20_video_menu[] = {
       MENU_ENTRY_SUBMENU,
       submenu_callback,
       (ui_callback_data_t)vic_crt_controls_menu },
-    { "Rrender filter",
+    { "Render filter",
       MENU_ENTRY_SUBMENU,
       submenu_radio_callback,
       (ui_callback_data_t)vic_filter_menu },
