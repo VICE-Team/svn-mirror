@@ -293,7 +293,8 @@ void cia2_setup_context(machine_context_t *machine_context)
 
     ciacore_setup_context(cia);
 
-    if (machine_class == VICE_MACHINE_C64SC) {
+    if (machine_class == VICE_MACHINE_C64SC
+        || machine_class == VICE_MACHINE_SCPU64) {
         cia->write_offset = 0;
     }
 

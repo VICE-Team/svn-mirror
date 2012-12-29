@@ -149,12 +149,10 @@ void scpu64_clock_write_stretch_io_cia(void)
 {
     if (fastmode) {
         wait_buffer();
-        while (maincpu_accu < 56550000) { /* measured */
+        while (maincpu_accu < 35950000) { /* measured */
             maincpu_accu += maincpu_diff;
         }
-        maincpu_accu -= 40600000;
-        alarms();
-        maincpu_clk++;
+        maincpu_accu -= 20000000;
         alarms();
         maincpu_clk++;
     }
@@ -177,7 +175,7 @@ void scpu64_clock_write_stretch_io_long(void)
 {
     if (fastmode) {
         wait_buffer();
-        while (maincpu_accu < 39000000) { /* measured */
+        while (maincpu_accu < 38000000) { /* measured */
             maincpu_accu += maincpu_diff;
         }
         maincpu_accu -= 20600000;
@@ -198,10 +196,16 @@ void scpu64_clock_write_stretch(void)
 void scpu64_set_fastmode(int mode)
 {
     if (fastmode != mode) {
-        fastmode = mode;
-        if (!fastmode) {
-            scpu64_clock_write_stretch_io(); /* TODO: verify */
+        if (!mode) {
+            if (maincpu_accu > 17700000) {
+                alarms();
+                maincpu_clk++;
+            }
+            maincpu_accu = 17700000; /* measured */
+            alarms();
+            maincpu_clk++;
         }
+        fastmode = mode;
         maincpu_resync_limits();
     }
 }
@@ -293,12 +297,12 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 
 static inline void store_long(DWORD addr, BYTE value)
 {
-    scpu64_clock_add(1, 1);
     if (addr & ~0xffff) {
         mem_store2(addr, value);
     } else {
         (*_mem_write_tab_ptr[addr >> 8])((WORD)addr, value);
     }
+    scpu64_clock_add(1, 1);
 }
 
 #define LOAD_LONG(addr) load_long(addr)

@@ -138,7 +138,8 @@ static BYTE sid_read_chip(WORD addr, int chipno)
     } else
 #endif
     {
-        if (machine_class == VICE_MACHINE_C64SC) {
+        if (machine_class == VICE_MACHINE_C64SC
+            || machine_class == VICE_MACHINE_SCPU64) {
             /* On x64sc, the read/write calls both happen before incrementing
                the clock, so don't mess with maincpu_clk here.  */
             val = sid_read_func(addr, chipno);
