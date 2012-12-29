@@ -870,9 +870,8 @@ msgid "PET DWW hi-res graphics"
 msgstr "PET DWW hi-res bord"
 
 #: src/arch/unix/gui/petui.c:253
-#, fuzzy
 msgid "PET HRE hi-res graphics"
-msgstr "PET DWW hi-res bord"
+msgstr "PET HRE hi-res bord"
 
 #: src/arch/unix/gui/petui.c:255 src/arch/unix/gui/plus4ui.c:258
 #: src/arch/unix/gui/vic20ui.c:455 src/arch/amigaos/intl_text.c.po.c:9638
@@ -1198,12 +1197,12 @@ msgstr "Disk bestand voor PRG autostart"
 msgid ""
 "Enter maximum random autostart delay in frames\n"
 "(max. 1000, 0 means default)"
-msgstr ""
+msgstr "Geef de maximale willekeurige autostart vetraging in frames\n"
+"(max. 1000, 0 betekent standaard)"
 
 #: src/arch/unix/gui/uiautostart.c:69
-#, fuzzy
 msgid "Autostart delay"
-msgstr "Willekeurige vertraging van de autostart"
+msgstr "Vertraging van de autostart"
 
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:11416
@@ -1236,9 +1235,8 @@ msgid "Autostart random delay"
 msgstr "Willekeurige vertraging van de autostart"
 
 #: src/arch/unix/gui/uiautostart.c:102
-#, fuzzy
 msgid "Maximum random autostart delay"
-msgstr "Activeer willekeurige vertraging bij begin van het autostarten."
+msgstr "Maximum willekeurige vertraging van het autostarten."
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:11500
@@ -4096,9 +4094,8 @@ msgid "Tune %d"
 msgstr "Deuntje %d"
 
 #: src/arch/unix/gui/vsidui.c:514
-#, fuzzy
 msgid "VSIDUI: The SID Emulator"
-msgstr "VSID: De SID Emulator"
+msgstr "VSIDUI: De SID Emulator"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:62
 msgid "VICE is FREE software!"
@@ -4362,7 +4359,7 @@ msgstr "CRT emulatie instellingen"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:185
 msgid "Mixer"
-msgstr ""
+msgstr "Mixer"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
 #: src/arch/unix/x11/xaw/uiscreenshot.c:163
@@ -4430,7 +4427,7 @@ msgstr "Met succes `%s' geschreven\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:45
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:78
-#, fuzzy, c-format
+#,  c-format
 msgid ""
 "Name: %s\n"
 "Author: %s\n"
@@ -4444,12 +4441,15 @@ msgid ""
 "%s"
 msgstr ""
 "Naam: %s\n"
-"Deuntje: %d\n"
 "Maker: %s\n"
 "Copyright: %s\n"
+"\n"
+"Deuntje: %d of %d\n"
 "%s\n"
 "Model: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"\n"
+"%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
@@ -4534,7 +4534,7 @@ msgstr "Scherm Afdruk"
 
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:58
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Tune: %d of %d\n"
@@ -4546,12 +4546,13 @@ msgid ""
 "%s"
 msgstr ""
 "Naam: %s\n"
-"Deuntje: %d\n"
+"Deuntje: %d of %d\n"
 "Maker: %s\n"
 "Copyright: %s\n"
 "%s\n"
 "Model: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"%s"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1311
 msgid "CRT Controls"
@@ -5967,7 +5968,7 @@ msgstr "Kernal"
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "SCPU64"
-msgstr ""
+msgstr "SCPU64"
 
 #: src/arch/win32/res.rc.po.c:1348
 msgid "Basic"
@@ -7262,9 +7263,8 @@ msgid "PET REU settings"
 msgstr "PET REU instellingen"
 
 #: src/arch/win32/respet.rc.po.c:562
-#, fuzzy
 msgid "Enable PET High Res Emulation board"
-msgstr "Activeer de lichtpen emulatie"
+msgstr "Activeer PET High Res Emulation bord"
 
 #: src/arch/win32/respet.rc.po.c:563 src/arch/amigaos/intl_text.c.po.c:3925
 #: src/translate_text.c.po.c:4697
@@ -7479,25 +7479,21 @@ msgstr "Userport baudrate"
 #: src/arch/win32/resscpu64.rc.po.c:619 src/arch/win32/resscpu64.rc.po.c:625
 #: src/arch/amigaos/intl_text.c.po.c:3281
 #: src/arch/amigaos/intl_text.c.po.c:10996
-#, fuzzy
 msgid "SuperCPU64 settings"
-msgstr "MMC64 instellingen"
+msgstr "SuperCPU64 instellingen"
 
 #: src/arch/win32/resscpu64.rc.po.c:620
 #: src/arch/amigaos/intl_text.c.po.c:10982
-#, fuzzy
 msgid "SIMM size"
-msgstr "RAM grootte"
+msgstr "SIMM grootte"
 
 #: src/arch/win32/resscpu64.rc.po.c:621
-#, fuzzy
 msgid "Enable the jiffy switch"
-msgstr "Activeer schakelaar"
+msgstr "Activeer de jiffy schakelaar"
 
 #: src/arch/win32/resscpu64.rc.po.c:622
-#, fuzzy
 msgid "Enable the speed switch"
-msgstr "Activeer schakelaar"
+msgstr "Activeer de snelheid schakelaar"
 
 #: src/arch/win32/ressid.rc.po.c:72 src/arch/win32/ressiddtv.rc.po.c:54
 msgid "General"
@@ -8044,9 +8040,8 @@ msgid "Drive burst modification settings"
 msgstr "Drive burst modificatie instellingen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3911
-#, fuzzy
 msgid "Enable PET High Res Emulator board"
-msgstr "Activeer het PET DWW hi-res bord"
+msgstr "Activeer PET High Res Emulator bord"
 
 #: src/arch/amigaos/intl_text.c.po.c:4541
 msgid "Fullscreen Statusbar"
@@ -8603,11 +8598,11 @@ msgstr "SFX Sound Sampler Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:10954
 msgid "Jiffy switch enabled"
-msgstr ""
+msgstr "Jiffy schakelaar Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:10968
 msgid "Speed switch enabled"
-msgstr ""
+msgstr "Snelheid schakelaar Aan/Uit"
 
 #: src/arch/amigaos/intl_text.c.po.c:11038
 msgid "Select Sound Record File"
@@ -10087,30 +10082,26 @@ msgid "Disable Userport DAC for sound output"
 msgstr "Userport DAC voor geluidsuitvoer uitschakelen"
 
 #: src/translate_text.c.po.c:4731
-#, fuzzy
 msgid "Enable Userport joystick adapter"
-msgstr "Userport joystick adapter"
+msgstr "Activeer Userport joystick adapter"
 
 #: src/translate_text.c.po.c:4748
-#, fuzzy
 msgid "Disable Userport joystick adapter"
-msgstr "De OEM userport joystick adapter uitschakelen"
+msgstr "De Userport joystick adapter uitschakelen"
 
 #: src/translate_text.c.po.c:4765
 msgid ""
 "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, "
 "3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
-msgstr ""
+msgstr "Zet Userport joystick adapter soort (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 
 #: src/translate_text.c.po.c:4782
-#, fuzzy
 msgid "Enable Userport RTC"
 msgstr "Activeer de Userport RTC uitbreiding"
 
 #: src/translate_text.c.po.c:4799
-#, fuzzy
 msgid "Disable Userport RTC"
-msgstr "Activeer de Userport RTC uitbreiding"
+msgstr "De Userport RTC uitbreiding uischakelen"
 
 #: src/translate_text.c.po.c:4816
 msgid "SID player mode"
@@ -10692,13 +10683,11 @@ msgstr ""
 "onderkant)"
 
 #: src/translate_text.c.po.c:7710
-#, fuzzy
 msgid ""
 "Select the way the undersized input should be handled, (0: scale up, 1: "
 "borderize)"
 msgstr ""
-"Selecteer de manier waarop de TED kleuren moeten worden afgehandeld, (0: "
-"negeren, 1: dither)"
+"Selecteer de manier waarop de te kleine invoer moet worden afgehandeld, (0: maak groter, 1: maak border)"
 
 #: src/translate_text.c.po.c:7727
 msgid ""
@@ -11983,71 +11972,20 @@ msgstr "Basisadres van de DS12C887 RTC cartridge"
 
 #: src/translate_text.c.po.c:13467
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
-msgstr ""
+msgstr "Grootte van het SIMM RAM (0/1/4/8/16 MB)"
 
 #: src/translate_text.c.po.c:13484
 msgid "Turn on Jiffy switch"
-msgstr ""
+msgstr "Activeer Jiffy schakelaar"
 
 #: src/translate_text.c.po.c:13501
 msgid "Turn off Jiffy switch"
-msgstr ""
+msgstr "Jiffy schakelaar uitschakelen"
 
 #: src/translate_text.c.po.c:13518
 msgid "Turn on Speed switch"
-msgstr ""
+msgstr "Activeer snelheid schakelaar"
 
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
-msgstr ""
-
-#~ msgid "in percent"
-#~ msgstr "in procent"
-
-#~ msgid "audio/video recording"
-#~ msgstr "geluid-/beeldopname"
-
-#~ msgid "click to stop recording"
-#~ msgstr "klik om de opname te stoppen"
-
-#~ msgid "event playback"
-#~ msgstr "gebeurtenis terugspelen"
-
-#~ msgid "click to stop playback"
-#~ msgstr "klik om het terugspelen te stoppen"
-
-#~ msgid "Drive %d: "
-#~ msgstr "Drive %d: "
-
-#~ msgid "Tape 000"
-#~ msgstr "Tape 000"
-
-#~ msgid "Tape %03d"
-#~ msgstr "Tape %03d"
-
-#~ msgid "Hard Reset"
-#~ msgstr "Harde Reset"
-
-#~ msgid "Continue"
-#~ msgstr "Doorgaan"
-
-#~ msgid "Do you want to extend the disk image to 40 tracks?"
-#~ msgstr "Wilt U het schijfbestand uitbreiden naar 40 sporen?"
-
-#~ msgid "Autostart not possible for unit %d"
-#~ msgstr "Autostarten niet mogelijk voor drive %d"
-
-#~ msgid "Can't autostart selection %d in image %s"
-#~ msgstr "Kan de selectie %d in schijfbestand %s niet autostarten"
-
-#~ msgid "NO IMAGE CONTENTS AVAILABLE"
-#~ msgstr "GEEN BESTAND INHOUD BESCHIKBAAR"
-
-#~ msgid "Contents"
-#~ msgstr "Inhoud"
-
-#~ msgid "Show hidden files"
-#~ msgstr "Toon verborgen bestanden"
-
-#~ msgid "Text cannot be displayed.\n"
-#~ msgstr "Tekst kan niet worden weergegeven.\n"
+msgstr "Snelheid schakelaar uischakelen"
