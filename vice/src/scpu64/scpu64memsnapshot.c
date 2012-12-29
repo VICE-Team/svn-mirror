@@ -36,6 +36,7 @@
 #include "scpu64mem.h"
 #include "scpu64memsnapshot.h"
 #include "scpu64rom.h"
+#include "scpu64cpu.h"
 #include "cartridge.h"
 #include "log.h"
 #include "mem.h"
@@ -52,6 +53,19 @@
 
 #define SNAP_ROM_MAJOR 0
 #define SNAP_ROM_MINOR 0
+
+/* private stuff, but it's needed for the snapshot */
+extern int mem_reg_soft_1mhz;
+extern int mem_reg_sys_1mhz;
+extern int mem_reg_hwenable;
+extern int mem_reg_dosext;  
+extern int mem_reg_ramlink; 
+extern int mem_reg_optim; 
+extern int mem_reg_bootmap;
+extern int mem_reg_simm;  
+extern int mem_pport;   
+extern unsigned int mem_simm_ram_mask;
+/* ------------------------ */
 
 static log_t c64_snapshot_log = LOG_ERR;
 
@@ -160,9 +174,19 @@ int scpu64_snapshot_write_module(snapshot_t *s, int save_roms)
         return -1;
     }
 
-    if (SMW_B(m, mem_pport_data) < 0
+    if (SMW_B(m, mem_pport) < 0
+        || SMW_B(m, mem_reg_soft_1mhz) < 0
+        || SMW_B(m, mem_reg_sys_1mhz) < 0
+        || SMW_B(m, mem_reg_hwenable) < 0
+        || SMW_B(m, mem_reg_dosext) < 0
+        || SMW_B(m, mem_reg_ramlink) < 0
+        || SMW_B(m, mem_reg_optim) < 0
+        || SMW_B(m, mem_reg_bootmap) < 0
+        || SMW_B(m, mem_reg_simm) < 0
         || SMW_B(m, export.exrom) < 0
         || SMW_B(m, export.game) < 0
+        || scpu64_snapshot_write_cpu_state(m)
+        || SMW_DW(m, mem_simm_ram_mask) < 0
         || SMW_BA(m, mem_ram, SCPU64_RAM_SIZE) < 0
         || SMW_BA(m, mem_sram, SCPU64_SRAM_SIZE) < 0
         || SMW_BA(m, mem_simm_ram, mem_simm_ram_mask + 1) < 0) {
@@ -195,6 +219,7 @@ int scpu64_snapshot_read_module(snapshot_t *s)
 {
     BYTE major_version, minor_version;
     snapshot_module_t *m;
+    unsigned int simm_mask;
 
     /* Main memory module.  */
 
@@ -208,16 +233,50 @@ int scpu64_snapshot_read_module(snapshot_t *s)
         goto fail;
     }
 
-    if (SMR_B(m, &mem_pport_data) < 0
+    if (SMR_B_INT(m, &mem_pport) < 0
+        || SMR_B_INT(m, &mem_reg_soft_1mhz) < 0
+        || SMR_B_INT(m, &mem_reg_sys_1mhz) < 0
+        || SMR_B_INT(m, &mem_reg_hwenable) < 0
+        || SMR_B_INT(m, &mem_reg_dosext) < 0
+        || SMR_B_INT(m, &mem_reg_ramlink) < 0
+        || SMR_B_INT(m, &mem_reg_optim) < 0
+        || SMR_B_INT(m, &mem_reg_bootmap) < 0
+        || SMR_B_INT(m, &mem_reg_simm) < 0
         || SMR_B(m, &export.exrom) < 0
         || SMR_B(m, &export.game) < 0
+        || scpu64_snapshot_read_cpu_state(m)
+        || SMR_DW_UINT(m, &simm_mask) < 0
         || SMR_BA(m, mem_ram, SCPU64_RAM_SIZE) < 0
-        || SMR_BA(m, mem_sram, SCPU64_SRAM_SIZE) < 0
-        || SMR_BA(m, mem_simm_ram, mem_simm_ram_mask + 1) < 0) {
-
+        || SMR_BA(m, mem_sram, SCPU64_SRAM_SIZE) < 0) {
         goto fail;
     }
 
+    switch (simm_mask) {
+    case 0x0:
+        resources_set_int("SIMMSize", 0);
+        break;
+    case 0xfffff:
+        resources_set_int("SIMMSize", 1);
+        break;
+    case 0x3fffff:
+        resources_set_int("SIMMSize", 4);
+        break;
+    case 0x7fffff:
+        resources_set_int("SIMMSize", 8);
+        break;
+    case 0xffffff:
+        resources_set_int("SIMMSize", 16);
+        break;
+    default:
+        goto fail;
+    }
+
+    if (SMR_BA(m, mem_simm_ram, mem_simm_ram_mask + 1) < 0) {
+        goto fail;
+    }
+
+    mem_set_mirroring(mem_reg_optim);
+    mem_set_simm(mem_reg_simm);
     mem_pla_config_changed();
 
     if (snapshot_module_close(m) < 0) {

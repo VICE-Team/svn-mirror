@@ -38,6 +38,7 @@
 #include "scpu64mem.h"
 #include "vicii.h"
 #include "viciitypes.h"
+#include "snapshot.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -378,6 +379,23 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
         }
     }
     return 0;
+}
+
+int scpu64_snapshot_write_cpu_state(snapshot_module_t *m)
+{
+    return SMW_B(m, fastmode) < 0
+        || SMW_DW(m, buffer_finish) < 0
+        || SMW_DW(m, buffer_finish_half) < 0
+        || SMW_DW(m, maincpu_accu) < 0;
+}
+
+/* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
+int scpu64_snapshot_read_cpu_state(snapshot_module_t *m)
+{
+    return SMR_B_INT(m, &fastmode) < 0
+        || SMR_DW_UINT(m, &buffer_finish) < 0
+        || SMR_DW_UINT(m, &buffer_finish_half) < 0
+        || SMR_DW_UINT(m, &maincpu_accu) < 0;
 }
 
 #define EMULATION_MODE_CHANGED scpu64_emulation_mode = reg_emul

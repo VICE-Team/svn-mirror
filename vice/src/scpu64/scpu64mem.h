@@ -98,14 +98,15 @@ extern int scpu64_interrupt_reroute(void);
 extern void mem_set_simm_size(int val);
 extern void mem_set_jiffy_switch(int val);
 extern void mem_set_speed_switch(int val);
+extern void mem_set_mirroring(int new_mirroring);
+extern void mem_set_simm(int config);
+
 
 extern void mem_pla_config_changed(void);
 extern void mem_set_tape_sense(int sense);
-extern BYTE mem_pport_data;
 
 extern BYTE mem_chargen_rom[];
 extern BYTE *mem_simm_ram;
-extern unsigned int mem_simm_ram_mask;
 
 extern void mem_set_write_hook(int config, int page, store_func_t *f);
 extern void mem_read_tab_set(unsigned int base, unsigned int index, read_func_ptr_t read_func);

@@ -119,9 +119,6 @@ static DWORD mem_read_limit_tab[NUM_CONFIGS][0x101];
 static store_func_ptr_t mem_write_tab_watch[0x101];
 static read_func_ptr_t mem_read_tab_watch[0x101];
 
-static void mem_set_mirroring(int new_mirroring);
-static void mem_set_simm(int config);
-
 /* Current video bank (0, 1, 2 or 3).  */
 static int vbank;
 
@@ -132,17 +129,17 @@ static int mem_config;
 static int watchpoints_active;
 
 
-static int reg_sw_1mhz;     /* 1MHz physical switch */
-static int reg_sw_jiffy = 1;/* Jiffy physical switch */
-static int reg_soft_1mhz;   /* 1MHz software enabled */
-static int reg_sys_1mhz;    /* 1MHz system enabled */
-static int reg_hwenable;    /* hardware enabled */
-static int reg_dosext;      /* dos extension enable */
-static int reg_ramlink;     /* ramlink registers enable */
-static int reg_optim;       /* optimization mode */
-static int reg_bootmap = 1; /* boot map */
-static int reg_simm;        /* simm configuration */
-BYTE mem_pport_data;        /* processor "port" */
+static int mem_reg_sw_1mhz;     /* 1MHz physical switch */
+static int mem_reg_sw_jiffy = 1;/* Jiffy physical switch */
+int mem_reg_soft_1mhz;          /* 1MHz software enabled */
+int mem_reg_sys_1mhz;           /* 1MHz system enabled */
+int mem_reg_hwenable;           /* hardware enabled */
+int mem_reg_dosext;             /* dos extension enable */
+int mem_reg_ramlink;            /* ramlink registers enable */
+int mem_reg_optim;              /* optimization mode */
+int mem_reg_bootmap;            /* boot map */
+int mem_reg_simm;               /* simm configuration */
+int mem_pport;                  /* processor "port" */
 
 /* ------------------------------------------------------------------------- */
 
@@ -178,8 +175,8 @@ void scpu64_mem_init(void)
 
 void mem_pla_config_changed(void)
 {
-    mem_config = ((mem_pport_data & 7) | (export.exrom << 3) | (export.game << 4) 
-                | (reg_hwenable << 5) | (reg_dosext << 6) | (reg_bootmap << 7));
+    mem_config = ((mem_pport & 7) | (export.exrom << 3) | (export.game << 4) 
+                | (mem_reg_hwenable << 5) | (mem_reg_dosext << 6) | (mem_reg_bootmap << 7));
 
     if (watchpoints_active) {
         _mem_read_tab_ptr = mem_read_tab_watch;
@@ -197,8 +194,8 @@ void mem_pla_config_changed(void)
 
 static void pport_store(WORD addr, BYTE value)
 {
-    if (mem_pport_data != value) {
-        mem_pport_data = value;
+    if (mem_pport != value) {
+        mem_pport = value;
         mem_pla_config_changed();
     }
 }
@@ -522,15 +519,15 @@ static BYTE scpu64_hardware_read(WORD addr)
         break;
     case 0xd0b2:       /* bit 7 - hwreg enabled (1)/disabled (0) */
                        /* bit 6 - system 1 MHz enabled (1)/disabled (0) */
-        value = (reg_hwenable ? 0x80 : 0x00) | (reg_sys_1mhz ? 0x40 : 0x00);
+        value = (mem_reg_hwenable ? 0x80 : 0x00) | (mem_reg_sys_1mhz ? 0x40 : 0x00);
         break;
     case 0xd0b3:
     case 0xd0b4:
-        value = reg_optim & 0xc0;
+        value = mem_reg_optim & 0xc0;
         break;
     case 0xd0b5:      /* bit 7 - Jiffy (1)/No jiffy (0) switch */
                       /* bit 6 - 1 MHz (1)/20 MHz (0) switch */
-        value = (reg_sw_jiffy ? 0x80 : 0x00) | (reg_sw_1mhz ? 0x40 : 0x00);
+        value = (mem_reg_sw_jiffy ? 0x80 : 0x00) | (mem_reg_sw_1mhz ? 0x40 : 0x00);
         break;
     case 0xd0b6:      /* bit 7 - Emulation mode (1)/Native (0) */
         value = scpu64_emulation_mode ? 0x80 : 0x00;
@@ -540,7 +537,8 @@ static BYTE scpu64_hardware_read(WORD addr)
     case 0xd0b9:      /* same as 0xd0b8 */
     case 0xd0b8:      /* bit 7 - software 1 MHz enabled (1)/disabled (0) */
                       /* bit 6 - 1 MHz (1)/20 MHz (2) switch+software+system */
-        value = (reg_soft_1mhz ? 0x80 : 0x00) | ((reg_soft_1mhz || (reg_sw_1mhz && !reg_hwenable) || reg_sys_1mhz) ? 0x40 : 0x00);
+        value = (mem_reg_soft_1mhz ? 0x80 : 0x00) | ((mem_reg_soft_1mhz
+                 || (mem_reg_sw_1mhz && !mem_reg_hwenable) || mem_reg_sys_1mhz) ? 0x40 : 0x00);
         break;
     case 0xd0ba:
         break;
@@ -550,13 +548,13 @@ static BYTE scpu64_hardware_read(WORD addr)
     case 0xd0bd:
     case 0xd0be:
     case 0xd0bf:
-        value = (reg_dosext ? 0x80 : 0x00) | (reg_ramlink ? 0x40 : 0x00);
+        value = (mem_reg_dosext ? 0x80 : 0x00) | (mem_reg_ramlink ? 0x40 : 0x00);
         break;
     default:
         value = 0xff;
         break;
     }
-    return value | (reg_optim & 7);
+    return value | (mem_reg_optim & 7);
 }
 
 void scpu64_hardware_store(WORD addr, BYTE value)
@@ -565,59 +563,59 @@ void scpu64_hardware_store(WORD addr, BYTE value)
     case 0xd071:
         break;
     case 0xd072: /* System 1MHz enable */
-        if (!reg_sys_1mhz) {
-            reg_sys_1mhz = 1; 
+        if (!mem_reg_sys_1mhz) {
+            mem_reg_sys_1mhz = 1; 
             scpu64_set_fastmode(0);
         }
         break;
     case 0xd073: /* System 1MHz disable */
-        if (reg_sys_1mhz) {
-            reg_sys_1mhz = 0; 
-            scpu64_set_fastmode(!(reg_soft_1mhz || (reg_sw_1mhz && !reg_hwenable)));
+        if (mem_reg_sys_1mhz) {
+            mem_reg_sys_1mhz = 0; 
+            scpu64_set_fastmode(!(mem_reg_soft_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
         }
         break;
     case 0xd074: /* Optimization modes */
     case 0xd075:
     case 0xd076:
     case 0xd077:
-        if (reg_hwenable) {
-            reg_optim = (addr << 6);
-            mem_set_mirroring(reg_optim);
+        if (mem_reg_hwenable) {
+            mem_reg_optim = (addr << 6);
+            mem_set_mirroring(mem_reg_optim);
         }
         break;
     case 0xd078: /* SIMM configuration */
-        if (reg_hwenable && reg_simm != value) {
-            reg_simm = value;
-            mem_set_simm(reg_simm);
+        if (mem_reg_hwenable && mem_reg_simm != value) {
+            mem_reg_simm = value;
+            mem_set_simm(mem_reg_simm);
         }
         break;
     case 0xd07a: /* Software 1MHz enable */
-        if (!reg_soft_1mhz) {
-            reg_soft_1mhz = 1; 
+        if (!mem_reg_soft_1mhz) {
+            mem_reg_soft_1mhz = 1; 
             scpu64_set_fastmode(0);
         }
         break;
     case 0xd079: /* same as 0xd07b */
     case 0xd07b: /* Software 1MHz disable */
-        if (reg_soft_1mhz) {
-            reg_soft_1mhz = 0;
-            scpu64_set_fastmode(!(reg_sys_1mhz || (reg_sw_1mhz && !reg_hwenable)));
+        if (mem_reg_soft_1mhz) {
+            mem_reg_soft_1mhz = 0;
+            scpu64_set_fastmode(!(mem_reg_sys_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
         }
         break;
     case 0xd07c:
         break;
     case 0xd07e: /* hwreg enable */
-        if (!reg_hwenable) {
-            reg_hwenable = 1;
-            scpu64_set_fastmode(!(reg_sys_1mhz || reg_soft_1mhz));
+        if (!mem_reg_hwenable) {
+            mem_reg_hwenable = 1;
+            scpu64_set_fastmode(!(mem_reg_sys_1mhz || mem_reg_soft_1mhz));
             mem_pla_config_changed();
         }
         break;
     case 0xd07d: /* same as 0xd07d */
     case 0xd07f: /* hwreg disable */
-        if (reg_hwenable) {
-            reg_hwenable = 0;
-            scpu64_set_fastmode(!(reg_sys_1mhz || reg_soft_1mhz || reg_sw_1mhz));
+        if (mem_reg_hwenable) {
+            mem_reg_hwenable = 0;
+            scpu64_set_fastmode(!(mem_reg_sys_1mhz || mem_reg_soft_1mhz || mem_reg_sw_1mhz));
             mem_pla_config_changed();
         }
         break;
@@ -625,45 +623,45 @@ void scpu64_hardware_store(WORD addr, BYTE value)
     case 0xd0b1:
         break;
     case 0xd0b2: /* hwenable and set system 1 MHz */
-        if (reg_hwenable) {
-            reg_sys_1mhz = !!(value & 0x40);
+        if (mem_reg_hwenable) {
+            mem_reg_sys_1mhz = !!(value & 0x40);
             if (!(value & 0x80)) {
-                reg_hwenable = 0;
+                mem_reg_hwenable = 0;
                 mem_pla_config_changed();
             }
-            scpu64_set_fastmode(!(reg_sys_1mhz || reg_soft_1mhz || (reg_sw_1mhz && !reg_hwenable)));
+            scpu64_set_fastmode(!(mem_reg_sys_1mhz || mem_reg_soft_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
         }
         break;
     case 0xd0b3: /* set optim mode */
-        if (reg_hwenable) {
-            reg_optim = (reg_optim & 0x38) | (value & 0xc7);
-            mem_set_mirroring(reg_optim);
+        if (mem_reg_hwenable) {
+            mem_reg_optim = (mem_reg_optim & 0x38) | (value & 0xc7);
+            mem_set_mirroring(mem_reg_optim);
         }
         break;
     case 0xd0b4: /* set optim mode */
-        if (reg_hwenable) {
-            reg_optim = (reg_optim & 0x3f) | (value & 0xc0);
-            mem_set_mirroring(reg_optim);
+        if (mem_reg_hwenable) {
+            mem_reg_optim = (mem_reg_optim & 0x3f) | (value & 0xc0);
+            mem_set_mirroring(mem_reg_optim);
         }
         break;
     case 0xd0b5:
         break;
     case 0xd0b6: /* disable bootmap */
-        if (reg_hwenable && reg_bootmap) {
-            reg_bootmap = 0;
+        if (mem_reg_hwenable && mem_reg_bootmap) {
+            mem_reg_bootmap = 0;
             mem_pla_config_changed();
         }
         break;
     case 0xd0b7: /* enable bootmap */
-        if (reg_hwenable && !reg_bootmap) {
-            reg_bootmap = 1;
+        if (mem_reg_hwenable && !mem_reg_bootmap) {
+            mem_reg_bootmap = 1;
             mem_pla_config_changed();
         }
         break;
     case 0xd0b8: /* set software 1 MHz */
-        if (reg_hwenable) {
-            reg_soft_1mhz = value >> 7;
-            scpu64_set_fastmode(!(reg_sys_1mhz || reg_soft_1mhz || (reg_sw_1mhz && !reg_hwenable)));
+        if (mem_reg_hwenable) {
+            mem_reg_soft_1mhz = value >> 7;
+            scpu64_set_fastmode(!(mem_reg_sys_1mhz || mem_reg_soft_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
         }
         break;
     case 0xd0b9:
@@ -671,21 +669,21 @@ void scpu64_hardware_store(WORD addr, BYTE value)
     case 0xd0bb:
         break;
     case 0xd0bc: /* set dos extension */
-        if (reg_hwenable && (reg_dosext != (value >> 7))) {
-            reg_dosext = value >> 7;
+        if (mem_reg_hwenable && (mem_reg_dosext != (value >> 7))) {
+            mem_reg_dosext = value >> 7;
             mem_pla_config_changed();
         }
         break;
     case 0xd0be: /* dos extension enable */
-        if (reg_hwenable && !reg_dosext) {
-            reg_dosext = 1;
+        if (mem_reg_hwenable && !mem_reg_dosext) {
+            mem_reg_dosext = 1;
             mem_pla_config_changed();
         }
         break;
     case 0xd0bd: /* same as 0xd0bf */
     case 0xd0bf: /* dos extension disable */
-        if (reg_dosext) {
-            reg_dosext = 0;
+        if (mem_reg_dosext) {
+            mem_reg_dosext = 0;
             mem_pla_config_changed();
         }
         break;
@@ -712,7 +710,7 @@ static BYTE scpu64_d200_read(WORD addr)
 
 static void scpu64_d200_store(WORD addr, BYTE value)
 {
-    if (reg_hwenable || addr == 0xd27e) {
+    if (mem_reg_hwenable || addr == 0xd27e) {
         mem_sram[0x10000 + addr] = value;
     }
 }
@@ -724,7 +722,7 @@ static BYTE scpu64_d300_read(WORD addr)
 
 static void scpu64_d300_store(WORD addr, BYTE value)
 {
-    if (reg_hwenable) {
+    if (mem_reg_hwenable) {
         mem_sram[0x10000 + addr] = value;
     }
 }
@@ -931,11 +929,11 @@ void scpu64io_df00_store(WORD addr, BYTE value)
         break;
     case 0xdf7e:
         scpu64_clock_write_stretch_io(); /* TODO: verify */
-        reg_ramlink = 1;
+        mem_reg_ramlink = 1;
         break;
     case 0xdf7f:
         scpu64_clock_write_stretch_io(); /* TODO: verify */
-        reg_ramlink = 0;
+        mem_reg_ramlink = 0;
         break;
     default:
         scpu64_clock_write_stretch_io();
@@ -1195,10 +1193,10 @@ void mem_initialize_memory(void)
 
     vicii_set_chargen_addr_options(0x7000, 0x1000);
 
-    mem_pport_data = 7;
+    mem_pport = 7;
     export.exrom = 0;
     export.game = 0;
-    reg_bootmap = 1;
+    mem_reg_bootmap = 1;
 
     /* Setup initial memory configuration.  */
     mem_pla_config_changed();
@@ -1281,7 +1279,7 @@ void mem_set_vbank(int new_vbank)
     vicii_set_vbank(new_vbank);
 }
 
-static void mem_set_mirroring(int new_mirroring)
+void mem_set_mirroring(int new_mirroring)
 {
     vbank = (vbank & (NUM_VBANKS-1)) | ((new_mirroring & 0x1) ? 4 : 0)
         | ((new_mirroring & 0x4) ? 8 : 0) | ((new_mirroring & 0x40) ? 16 : 0)
@@ -1293,7 +1291,7 @@ static void mem_set_mirroring(int new_mirroring)
     }
 }
 
-static void mem_set_simm(int config)
+void mem_set_simm(int config)
 {
     switch (config & 7) {
     case 0:
@@ -1322,17 +1320,17 @@ static void mem_set_simm(int config)
 
 void scpu64_hardware_reset(void)
 {
-    reg_optim = 0xc7;
-    reg_soft_1mhz = 0;
-    reg_sys_1mhz = 0;
-    reg_hwenable = 0;
-    reg_dosext = 0; 
-    reg_ramlink = 0; 
-    reg_bootmap = 1;
-    reg_simm = 4; 
-    mem_pport_data = 7;
-    mem_set_mirroring(reg_optim);
-    mem_set_simm(reg_simm);
+    mem_reg_optim = 0xc7;
+    mem_reg_soft_1mhz = 0;
+    mem_reg_sys_1mhz = 0;
+    mem_reg_hwenable = 0;
+    mem_reg_dosext = 0; 
+    mem_reg_ramlink = 0; 
+    mem_reg_bootmap = 1;
+    mem_reg_simm = 4; 
+    mem_pport = 7;
+    mem_set_mirroring(mem_reg_optim);
+    mem_set_simm(mem_reg_simm);
     mem_pla_config_changed();
 }
 
@@ -1532,7 +1530,7 @@ static BYTE peek_bank_io(WORD addr)
 
 int scpu64_interrupt_reroute(void)
 {
-    return (_mem_read_tab_ptr[0xff] == scpu64_kernalshadow_read || _mem_read_tab_ptr[0xff] == ram1_read) && (!scpu64_emulation_mode || reg_hwenable || reg_sys_1mhz || reg_dosext || reg_ramlink);
+    return (_mem_read_tab_ptr[0xff] == scpu64_kernalshadow_read || _mem_read_tab_ptr[0xff] == ram1_read) && (!scpu64_emulation_mode || mem_reg_hwenable || mem_reg_sys_1mhz || mem_reg_dosext || mem_reg_ramlink);
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1662,7 +1660,7 @@ BYTE mem_bank_read(int bank, WORD addr, void *context)
             }
             if (addr >= 0xe000) {
 
-                return reg_hwenable ? scpu64_kernalshadow_read(addr) : ram1_read(addr);
+                return mem_reg_hwenable ? scpu64_kernalshadow_read(addr) : ram1_read(addr);
             }
         case 1:                   /* ram */
             break;
@@ -1808,14 +1806,14 @@ void mem_set_simm_size(int val)
 
 void mem_set_jiffy_switch(int val)
 {
-    reg_sw_jiffy = !!val;
+    mem_reg_sw_jiffy = !!val;
 }
 
 void mem_set_speed_switch(int val)
 {
-    if (reg_sw_1mhz == val) {
-        reg_sw_1mhz = !val;
-        scpu64_set_fastmode(!(reg_soft_1mhz || reg_sys_1mhz || (reg_sw_1mhz && !reg_hwenable)));
+    if (mem_reg_sw_1mhz == val) {
+        mem_reg_sw_1mhz = !val;
+        scpu64_set_fastmode(!(mem_reg_soft_1mhz || mem_reg_sys_1mhz || (mem_reg_sw_1mhz && !mem_reg_hwenable)));
     }
 }
 
