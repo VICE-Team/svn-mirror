@@ -109,8 +109,8 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
         return (GtkWidget *)NULL;
     }
 
-    menu = g_new(ui_menu_entry_t, limit + 1); /* +1 because we have to store
-                                                 NULL as end delimiter */
+    menu = g_new(ui_menu_entry_t, limit + 2);
+    /* +2 because we have to store BLOCKS FREE, and NULL as end delimiter */
 
     mask = unit << 24;
     memset(menu, 0, 2 * sizeof(ui_menu_entry_t));
@@ -119,6 +119,7 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
         *tmp = util_toupper(*tmp);
     }
     menu[fno].string = lib_stralloc(title);
+    menu[fno].type = UI_MENU_TYPE_NORMAL;
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
     menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr(fno | mask);
     menu[fno].sub_menu = NULL;
@@ -126,9 +127,11 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
     menu[fno].hotkey_modifier = 0;
     fno++;
     menu[fno].string = lib_stralloc("--");
+    menu[fno].type = UI_MENU_TYPE_SEPARATOR;
     fno++;
     tmp1 = image_contents_to_string(s, !have_cbm_font);
     menu[fno].string = (char *)convert_utf8((unsigned char *)tmp1);
+    menu[fno].type = UI_MENU_TYPE_NORMAL;
     menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
     menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 2) | mask);
     menu[fno].sub_menu = NULL;
@@ -140,7 +143,7 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
     for (element = s->file_list; element != NULL; element = element->next) {
         if (fno >= limit) {
             limit *= 2;
-            menu = g_renew(ui_menu_entry_t, menu, limit + 1); /* ditto */
+            menu = g_renew(ui_menu_entry_t, menu, limit + 2); /* ditto */
         }
 
         tmp1 = (char *)image_contents_file_to_string(element, !have_cbm_font);
@@ -149,6 +152,7 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
             tmp1[0] = ' ';          /* Arg, this is the line magic */ 
         }
         menu[fno].string = (char *)convert_utf8((unsigned char *)tmp1);
+    menu[fno].type = UI_MENU_TYPE_NORMAL;
         menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
         menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 2) | mask);
         menu[fno].sub_menu = NULL;
@@ -159,11 +163,13 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
     }
     if (s->blocks_free >= 0) {
         menu[fno].string = lib_msprintf("%d BLOCKS FREE.", s->blocks_free);
+        menu[fno].type = UI_MENU_TYPE_NORMAL;
         menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-        menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 1) | mask);
+        menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr(0 | mask);
         menu[fno].sub_menu = NULL;
         menu[fno].hotkey_keysym = 0;
         menu[fno].hotkey_modifier = 0;
+        fno++;
     }
     memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
 

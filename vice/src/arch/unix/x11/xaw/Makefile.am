@@ -31,6 +31,8 @@ libxawui_a_SOURCES = \
 	uicolor.c \
 	uicontents.c \
 	uicontents.h \
+	uidrivestatus.h \
+	uidrivestatus.c \
 	uiedisk.c \
 	uiedit.c \
 	uimenu.c \
@@ -39,6 +41,8 @@ libxawui_a_SOURCES = \
 	uipalcontrol.h \
 	uiscreenshot.c \
 	uisnapshot.c \
+	uitapestatus.c \
+	uitapestatus.h \
 	uivsidcontrol.c \
 	videoarch.h \
 	x11video.c \

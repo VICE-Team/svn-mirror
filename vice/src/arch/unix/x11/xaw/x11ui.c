@@ -57,6 +57,7 @@
 #include <X11/Xaw/Paned.h>
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/AsciiText.h>
+#include <X11/Xaw/Tip.h>
 
 #include <X11/keysym.h>
 
@@ -73,7 +74,6 @@
 #endif
 #endif
 
-#include "drive.h"
 #include "fullscreenarch.h"
 #include "ioutil.h"
 #include "lib.h"
@@ -87,7 +87,7 @@
 #include "ui.h"
 #include "uiapi.h"
 #include "uicolor.h"
-#include "uicontents.h"
+#include "uidrivestatus.h"
 #include "uifliplist.h"
 #include "uihotkey.h"
 #include "uilib.h"
@@ -135,7 +135,6 @@ Cursor blankCursor;
 static video_canvas_t *ui_cached_video_canvas;
 static Widget last_visited_canvas;
 
-static void ui_display_drive_current_image2(void);
 static Widget get_last_visited_app_shell(void);
 
 /* ------------------------------------------------------------------------- */
@@ -148,10 +147,6 @@ static Widget left_menu, right_menu;
 /* Translations for the left and right menus.  */
 static XtTranslations left_menu_translations, right_menu_translations;
 static XtTranslations left_menu_disabled_translations, right_menu_disabled_translations;
-
-static Widget left_drive_menu[NUM_DRIVES];
-static Widget right_drive_menu[NUM_DRIVES];
-static XtTranslations drive_menu_translations[NUM_DRIVES];
 
 /* Application context. */
 static XtAppContext app_context;
@@ -172,40 +167,12 @@ Colormap colormap;
 /* Application icon.  */
 static Pixmap icon_pixmap;
 
-/* Enabled drives.  */
-ui_drive_enable_t enabled_drives;
-
-/* Color of the drive active LED.  */
-static int *drive_active_led;
-
 /* This allows us to pop up the transient shells centered to the last visited
    shell. */
 static Widget last_visited_app_shell = NULL;
 
-#define MAX_APP_SHELLS 10
-typedef struct {
-    String title;
-    Widget shell;
-    Widget canvas;
-    Widget speed_label;
-    Widget statustext_label;
-    struct {
-        Widget track_label;
-        Widget driveled;
-        Widget current_image;
-        /* those two replace the single LED widget when SFD1001 is selected */
-        Widget driveled1;
-        Widget driveled2;
-    } drive_widgets[NUM_DRIVES];
-    int drive_mapping[NUM_DRIVES];
-    int drive_nleds[NUM_DRIVES];
-} app_shell_type;
-
-static app_shell_type app_shells[MAX_APP_SHELLS];
+app_shell_type app_shells[MAX_APP_SHELLS];
 static int num_app_shells = 0;
-
-#define ATT_IMG_SIZE 256
-char last_attached_images[NUM_DRIVES][ATT_IMG_SIZE];
 
 /* Pixels for updating the drive LED's state.  */
 Pixel drive_led_on_red_pixel, drive_led_on_green_pixel, drive_led_off_pixel;
@@ -920,6 +887,9 @@ static String fallback_resources[] = {
     "*RightDrive11Menu*SmeBSB.international:         False",
     "*RightDrive11Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
     "*RightDrive11Menu*SmeBSB.vertSpace:              25",
+    "*RightTapeMenu*SmeBSB.international:         False",
+    "*RightTapeMenu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*RightTapeMenu*SmeBSB.vertSpace:              25",
 
     /* Default color settings (suggestions are welcome...) */
     "*foreground:				     black",
@@ -937,6 +907,11 @@ static String fallback_resources[] = {
     "*Form.background:				     gray80",
     "*Label.background:				     gray80",
     "*Canvas.background:                             black",
+    "*Tip.background:                                rgb:f/f/8",
+/*
+    "*Tip.borderWidth:                               0",
+    "*Tip.displayList: foreground rgb:8/8/4; lines 1,-1,-1,-1,-1,1; foreground rgb:f/f/c; lines -1,0,0,0,0,-1",
+ */
     "*driveTrack1.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack1.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack2.font:                        -*-helvetica-medium-r-*-*-12-*",
@@ -955,8 +930,8 @@ static String fallback_resources[] = {
     "*driveCurrentImage4.fontSet:              -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
-    "*statustext.font:                         -*-helvetica-medium-r-*-*-10-*",
-    "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-10-*",
+    "*statustext.font:                         -*-helvetica-medium-r-*-*-12-*",
+    "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-12-*",
 
     NULL
 };
@@ -1008,6 +983,7 @@ int ui_init(int *argc, char **argv)
 {
     static XtActionsRec actions[] = {
         { "Close", close_action },
+        { "RebuildTapeMenu", rebuild_tape_menu_action },
     };
     int skip_resources = 0;
 
@@ -1040,7 +1016,7 @@ int ui_init(int *argc, char **argv)
     if (cbm_font_struct == NULL) {
         cbm_font_struct = XLoadQueryFont(display, cbm_fontspec2);
     }
-    if (cbm_font_struct == 0) {
+    if (cbm_font_struct == NULL) {
         log_warning(ui_log, "The VICE-CBM font is not available.");
     }
 
@@ -1049,7 +1025,7 @@ int ui_init(int *argc, char **argv)
 
     ui_common_init();
 
-    enabled_drives = UI_DRIVE_ENABLE_NONE;
+    //enabled_drives = UI_DRIVE_ENABLE_NONE;
 
     finish_prepare_wm_command();
 
@@ -1191,6 +1167,21 @@ Window x11ui_get_X11_window()
     return XtWindow(_ui_top_level);
 }
 
+#if DEBUG_X11UI
+void printxywh(char *name, Widget widget)
+{
+    Dimension x = -1, y = -1, w = -1, h = -1;
+
+    XtVaGetValues(widget,
+                    XtNx, &x,
+                    XtNy, &y,
+                    XtNwidth, &w,
+                    XtNheight, &h,
+                    NULL);
+    printf("%s: x=%d y=%d w=%d h=%d\n", name, x, y, w, h);
+}
+#endif /* DEBUG_X11UI */
+
 /*
  * Create a shell with a canvas widget in it.
  *
@@ -1206,14 +1197,28 @@ Window x11ui_get_X11_window()
  * |recording...           | Drive 11 image        |   11: Track 18,0   XX |
  * |event recording...     |                       |                       |
  * +-----------------------------------------------------------------------+
+ *
+ * New layout:
+ * +-----------------------------------------------------------------------+
+ * |+---------------------------------------------------------------------+|
+ * ||                                                                     ||
+ * ...                           video canvas                            ...
+ * ||                                                                     ||
+ * |+---------------------------------------------------------------------+|
+ * |100%, 50fps            |    9: Track 18,0   XX |    8: Track 18,0   XX |
+ * |    CRT Controls       |   11: Track 18,0   XX |   10: Track 18,0   XX |
+ * |(statustext)           |recording...|event rec |   Tape #1: 000     [] |
+ * +-----------------------------------------------------------------------+
  */
 int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int height, int no_autorepeat)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
     Widget shell, speed_label, statustext_label;
+    Widget drive_status[NUM_DRIVES];
     Widget drive_track_label[NUM_DRIVES], drive_led[NUM_DRIVES];
-    Widget drive_current_image[NUM_DRIVES];
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
+    Widget tape_counter_label[NUM_TAPES];
+    Widget tape_button_status[NUM_TAPES];
     Widget pane;
     Widget canvas;
     Widget pal_ctrl_widget = 0;
@@ -1246,9 +1251,12 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
        popup dialogs and menus are also shells. */
     XtVaSetValues(shell, XtNvisual, visual, XtNdepth, depth, XtNcolormap, colormap, NULL);
 
+#define DD      2               /* default distance */
+#define BW      1               /* border width */
+
     pane = XtVaCreateManagedWidget("Form",
                                    formWidgetClass, shell,
-                                   XtNdefaultDistance, 2,
+                                   XtNdefaultDistance, DD,
                                    NULL);
 
     if (machine_class != VICE_MACHINE_VSID) {
@@ -1286,7 +1294,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     {
         Dimension height;
         Dimension led_width = 14, led_height = 5;
-        Dimension led_dist = 8;
+        Dimension led_dist = 6;
         Widget fromvert;
 
         speed_label = XtVaCreateManagedWidget("speedStatus",
@@ -1298,6 +1306,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                               XtNbottom, XawChainBottom,
                                               XtNjustify, XtJustifyLeft,
                                               XtNborderWidth, 0,
+                                              XtNtip, _("Emulation Speed Status"),
                                               NULL);
 
         fromvert = speed_label;
@@ -1305,13 +1314,13 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         XtVaGetValues(speed_label, XtNheight, &height, NULL);
 
         if (machine_class != VICE_MACHINE_VSID) {
-            Widget drivefromvert;
+            Widget drivefromvert, drivefromhoriz;
 
             Arg args[] = {
                 { XtNlabel, (XtArgVal)_("CRT Controls") },
-                { XtNwidth, width / 3 - 2 },
+                { XtNwidth, width / 3 - DD },
                 { XtNfromVert, (XtArgVal)fromvert },
-                { XtNvertDistance, 2 + 2 * 1 }, /* 2 + 2*border of drive_current_image */
+                { XtNvertDistance, DD + 2 * BW }, /* 2 + 2*border of drive_current_image */
                 { XtNtop, XawChainBottom },
                 { XtNbottom, XawChainBottom },
             };
@@ -1320,52 +1329,66 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
             fromvert = pal_ctrl_widget;
             drivefromvert = canvas;
+            drivefromhoriz = speed_label;
 
             for (i = 0; i < NUM_DRIVES; i++) {
                 char *name;
+                Widget form;
+                int status_width = (width / 3) - DD;
+                int d = i ^ 1;
 
-                name = lib_msprintf("driveCurrentImage%d", i + 1);
-                drive_current_image[i] = XtVaCreateManagedWidget(name,
-                                    commandWidgetClass, pane,
+                name = lib_msprintf("driveStatus%d", d + 1);
+                form =
+                drive_status[d] = XtVaCreateManagedWidget(name,
+                                    formWidgetClass, pane,
                                     XtNmappedWhenManaged, False,
-                                    XtNlabel, "",
-                                    XtNwidth, (width / 3) - 2,
+                                    XtNwidth, status_width,
+                                    XtNheight, height,
+                                    XtNborderWidth, 0,
+                                    XtNdefaultDistance, 0,
                                     XtNfromVert, drivefromvert,
-                                    XtNfromHoriz, speed_label,
-                                    XtNhorizDistance, 0,
+                                    XtNfromHoriz, drivefromhoriz,
+                                    XtNhorizDistance, DD,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
-                                    XtNjustify, XtJustifyLeft,
+                                    XtNleft, XawRubber,
+                                    XtNright, XawRubber,
                                     NULL);
                 lib_free(name);
 
-                name = lib_msprintf("driveTrack%d", i + 1);
-                drive_track_label[i] = XtVaCreateManagedWidget(name,
-                                    labelWidgetClass, pane,
-                                    XtNmappedWhenManaged, False,
+                if (i & 1) {
+                    drivefromhoriz = speed_label;
+                    drivefromvert = form;
+                } else {
+                    drivefromhoriz = form;
+                }
+
+                name = lib_msprintf("driveTrack%d", d + 1);
+                drive_track_label[d] = XtVaCreateManagedWidget(name,
+                                    commandWidgetClass, form,
                                     XtNlabel, "",
-                                    XtNwidth, (width / 3) - led_width - 2 * led_dist - 2,
-                                    XtNfromVert, drivefromvert,
-                                    XtNfromHoriz, drive_current_image[i],
+                                    XtNwidth, status_width - led_width - 2 * led_dist - DD,
                                     XtNhorizDistance, 0,
+                                    XtNvertDistance, 0,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
+                                    XtNleft, XawChainLeft,
                                     XtNright, XawChainRight,
                                     XtNjustify, XtJustifyRight,
-                                    XtNborderWidth, 0,
                                     NULL);
                 lib_free(name);
 
-                name = lib_msprintf("driveLed%d", i + 1);
-                drive_led[i] = XtVaCreateManagedWidget(name,
-                                    xfwfcanvasWidgetClass, pane,
+                /* single LED */
+
+                name = lib_msprintf("driveLed%d", d + 1);
+                drive_led[d] = XtVaCreateManagedWidget(name,
+                                    xfwfcanvasWidgetClass, form,
                                     XtNmappedWhenManaged, False,
                                     XtNwidth, led_width,
                                     XtNheight, led_height,
-                                    XtNfromVert, drivefromvert,
-                                    XtNfromHoriz, drive_track_label[i],
+                                    XtNfromHoriz, drive_track_label[d],
                                     XtNhorizDistance, led_dist,
-                                    XtNvertDistance, (height-led_height)/2 + 1,
+                                    XtNvertDistance, (height-led_height)/2 + BW,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
                                     XtNleft, XawChainRight,
@@ -1376,49 +1399,46 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 
                 /* double LEDs */
 
-                name = lib_msprintf("driveLedA%d", i + 1);
-                drive_led1[i] = XtVaCreateManagedWidget(name,
-                                    xfwfcanvasWidgetClass, pane,
+                name = lib_msprintf("driveLedA%d", d + 1);
+                drive_led1[d] = XtVaCreateManagedWidget(name,
+                                    xfwfcanvasWidgetClass, form,
                                     XtNmappedWhenManaged, False,
-                                    XtNwidth, led_width / 2 - 1,
+                                    XtNwidth, led_width / 2 - BW,
                                     XtNheight, led_height,
-                                    XtNfromVert, drivefromvert,
-                                    XtNfromHoriz, drive_track_label[i],
+                                    XtNfromHoriz, drive_track_label[d],
                                     XtNhorizDistance, led_dist,
-                                    XtNvertDistance, (height-led_height)/2 + 1,
+                                    XtNvertDistance, (height-led_height)/2 + BW,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
                                     XtNleft, XawChainRight,
                                     XtNright, XawChainRight,
-                                    XtNborderWidth, 1,
+                                    XtNborderWidth, BW,
                                     NULL);
                 lib_free(name);
 
-                name = lib_msprintf("driveLedB%d", i + 1);
-                drive_led2[i] = XtVaCreateManagedWidget(name,
-                                    xfwfcanvasWidgetClass, pane,
+                name = lib_msprintf("driveLedB%d", d + 1);
+                drive_led2[d] = XtVaCreateManagedWidget(name,
+                                    xfwfcanvasWidgetClass, form,
                                     XtNmappedWhenManaged, False,
-                                    XtNwidth, led_width / 2 - 1,
+                                    XtNwidth, led_width / 2 - BW,
                                     XtNheight, led_height,
-                                    XtNfromVert, drivefromvert,
-                                    XtNfromHoriz, drive_led1[i],
+                                    XtNfromHoriz, drive_led1[d],
                                     XtNhorizDistance, led_dist,
-                                    XtNvertDistance, (height-led_height)/2 + 1,
+                                    XtNvertDistance, (height-led_height)/2 + BW,
                                     XtNtop, XawChainBottom,
                                     XtNbottom, XawChainBottom,
                                     XtNleft, XawChainRight,
                                     XtNright, XawChainRight,
-                                    XtNborderWidth, 1,
+                                    XtNborderWidth, BW,
                                     NULL);
                 lib_free(name);
-                drivefromvert = drive_current_image[i];
             }
         }
 
         statustext_label = XtVaCreateManagedWidget("statustext",
                                                    labelWidgetClass, pane,
-                                                   XtNwidth, width / 3 - 2,
-                                                   XtNfromVert, drive_current_image[1],
+                                                   XtNwidth, width / 3 - 0, // 0 = 2*borderwidth
+                                                   XtNfromVert, drive_status[2],
                                                    XtNtop, XawChainBottom,
                                                    XtNbottom, XawChainBottom,
                                                    XtNjustify, XtJustifyLeft,
@@ -1430,8 +1450,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         rec_button = XtVaCreateManagedWidget("recButton",
                                              commandWidgetClass, pane,
                                              XtNmappedWhenManaged, False,
-                                             XtNwidth, width / 3 - 2,
-                                             XtNfromVert, drive_current_image[2],
+                                             XtNwidth, width / 6 - 2 - DD,
+                                             XtNfromVert, drive_status[2],
+                                             XtNfromHoriz, statustext_label,
                                              XtNtop, XawChainBottom,
                                              XtNbottom, XawChainBottom,
                                              XtNjustify, XtJustifyLeft,
@@ -1445,8 +1466,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
         event_recording_button = XtVaCreateManagedWidget("eventRecButton",
                                             commandWidgetClass, pane,
                                             XtNmappedWhenManaged, False,
-                                            XtNwidth, width / 3 - 2,
-                                            XtNfromVert, drive_current_image[3],
+                                            XtNwidth, width / 6 - DD,
+                                            XtNfromVert, drive_status[2],
+                                            XtNfromHoriz, rec_button,
                                             XtNtop, XawChainBottom,
                                             XtNbottom, XawChainBottom,
                                             XtNjustify, XtJustifyLeft,
@@ -1454,6 +1476,47 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                             NULL);
         lib_free(button_title);
         XtAddCallback(event_recording_button, XtNcallback, event_recording_button_callback, NULL);
+
+        Dimension tape_btn_d = 4;
+        Dimension tape_btn_w = 24;
+
+        for (i = 0; i < NUM_TAPES; i++) {
+            char *name = lib_msprintf("tapeCounter%d", i + 1);
+            tape_counter_label[i] = XtVaCreateManagedWidget(name,
+                                            commandWidgetClass, pane,
+                                            XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, // 4 borderwidths for 2 widgets, 1 defaultDistance
+                                            XtNjustify, XtJustifyLeft,
+                                            XtNlabel, "Tape #1",
+                                            XtNfromVert, drive_status[3],
+                                            XtNfromHoriz, drive_status[3],
+                                            XtNtop, XawChainBottom,
+                                            XtNbottom, XawChainBottom,
+                                            XtNright, XawChainRight,
+                                            NULL);
+            lib_free(name);
+
+            name = lib_msprintf("tapeButtons%d", i + 1);
+            tape_button_status[i] = XtVaCreateManagedWidget(name,
+                                            simpleWidgetClass, pane,
+                                            XtNwidth, tape_btn_w,
+                                            XtNheight, height,
+                                            XtNjustify, XtJustifyLeft,
+                                            XtNfromVert, drive_status[3],
+                                            XtNfromHoriz, tape_counter_label[i],
+                                            XtNhorizDistance, tape_btn_d,
+                                            XtNtop, XawChainBottom,
+                                            XtNbottom, XawChainBottom,
+                                            XtNleft, XawChainRight,
+                                            XtNright, XawChainRight,
+                                            NULL);
+            lib_free(name);
+
+            app_shells[num_app_shells - 1].tape_widgets[i].counter_value = -1;
+            app_shells[num_app_shells - 1].tape_widgets[i].counter_label = tape_counter_label[i];
+            app_shells[num_app_shells - 1].tape_widgets[i].button_status = tape_button_status[i];
+
+            build_tape_status_widget(&app_shells[num_app_shells - 1].tape_widgets[i], pane, tape_btn_w, height);
+        }
     }
 
     /* Assign proper translations to open the menus, if already
@@ -1502,22 +1565,18 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
             app_shells[num_app_shells - 1].drive_widgets[i].driveled2 = drive_led2[i];
             XtUnmapWidget(drive_led1[i]);
             XtUnmapWidget(drive_led2[i]);
-            app_shells[num_app_shells - 1].drive_widgets[i].current_image = drive_current_image[i];
-            strcpy(&(last_attached_images[i][0]), ""); 
-            XtMapWidget(app_shells[num_app_shells - 1].drive_widgets[i].current_image);
+            app_shells[num_app_shells - 1].drive_widgets[i].status = drive_status[i];
+            strcpy(&(last_attached_images[i][0]), "");
+            XtMapWidget(app_shells[num_app_shells - 1].drive_widgets[i].status);
 
         }
     }
-    XtUnmapWidget(rec_button);
-    XtUnmapWidget(event_recording_button);
 
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell, XtParseTranslationTable("<Message>WM_PROTOCOLS: Close()"));
 
     if (machine_class != VICE_MACHINE_VSID) {
-        /* This is necessary because the status might have been set before we
-        actually open the canvas window.  */
-        ui_enable_drive_status(enabled_drives, drive_active_led);
+        ui_init_drive_status_widget();
     }
 
     initBlankCursor(canvas);
@@ -1601,88 +1660,11 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     right_menu = w;
 }
 
-void ui_destroy_drive_menu(int drive)
-{
-    if (drive >= 0 && drive < NUM_DRIVES) {
-        if (left_drive_menu[drive]) {
-            /* pop down the menu if it is still up */
-            XtPopdown(left_drive_menu[drive]);
-            XtDestroyWidget(left_drive_menu[drive]);
-            left_drive_menu[drive] = 0;
-        }
-        if (right_drive_menu[drive]) {
-            /* pop down the menu if it is still up */
-            XtPopdown(right_drive_menu[drive]);
-            XtDestroyWidget(right_drive_menu[drive]);
-            right_drive_menu[drive] = 0;
-        }
-    }
-}
-
-void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
-{
-    char *leftmenuname, *rightmenuname;
-    int i;
-    Widget w;
-
-    if (drive < 0 || drive >= NUM_DRIVES) {
-        return;
-    }
-
-    leftmenuname = lib_msprintf("LeftDrive%iMenu", drive + 8);
-    rightmenuname = lib_msprintf("RightDrive%iMenu", drive + 8);
-    if (flipmenu != NULL) {
-        w = ui_menu_create(leftmenuname, flipmenu, NULL);
-        left_drive_menu[drive] = w;
-        w = rebuild_contents_menu(rightmenuname, drive + 8, last_attached_images[drive]);
-        right_drive_menu[drive] = w;
-    }
-
-    if (!drive_menu_translations[drive]) {
-        char *translation_table;
-
-        translation_table = util_concat(
-                "<Btn1Down>: "
-                        "XawPositionSimpleMenu(", leftmenuname, ") "
-                        "XtMenuPopup(", leftmenuname, ")\n",
-                "Meta Shift <KeyDown>z: "
-                        "FakeButton(1) "
-                        "XawPositionSimpleMenu(", leftmenuname, ") "
-                        "XtMenuPopup(", leftmenuname, ")\n",
-                "<Btn3Down>: "
-                        "XawPositionSimpleMenu(", rightmenuname, ") "
-                        "XtMenuPopup(", rightmenuname, ")\n",
-                "Meta Shift <KeyDown>x: "
-                        "FakeButton(3) "
-                        "XawPositionSimpleMenu(", rightmenuname, ") "
-                        "XtMenuPopup(", rightmenuname, ")\n",
-                NULL);
-        drive_menu_translations[drive] =
-                                XtParseTranslationTable(translation_table);
-        lib_free(translation_table);
-    }
-    lib_free(leftmenuname);
-    lib_free(rightmenuname);
-
-    for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive];
-        if (n >= 0) {
-            XtOverrideTranslations(app_shells[i].
-                                        drive_widgets[n].current_image,
-                                   drive_menu_translations[drive]);
-        }
-    }
-}
-
 void ui_set_topmenu(ui_menu_entry_t *menu)
 {
 }
 
 void ui_set_speedmenu(ui_menu_entry_t *menu)
-{
-}
-
-void ui_set_tape_menu(ui_menu_entry_t *menu)
 {
 }
 
@@ -1699,6 +1681,13 @@ void ui_set_application_icon(const char *icon_data[])
         XtVaSetValues(app_shells[i].shell, XtNiconPixmap, icon_pixmap, NULL);
     }
 #endif
+}
+
+/* ------------------------------------------------------------------------- */
+
+int get_num_shells(void)
+{
+    return num_app_shells;
 }
 
 /* ------------------------------------------------------------------------- */
@@ -1772,7 +1761,10 @@ static void statusbar_setstatustext(const char *t)
 {
     int i;
     for (i = 0; i < num_app_shells; i++) {
-        XtVaSetValues(app_shells[i].statustext_label, XtNlabel, t, NULL);
+        XtVaSetValues(app_shells[i].statustext_label,
+                      XtNlabel, t,
+                      XtNtip, t,
+                      NULL);
     }
 }
 
@@ -1784,17 +1776,20 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     int i;
     int percent_int = (int)(percent + 0.5);
     int framerate_int = (int)(framerate + 0.5);
+    char *str = NULL;
+
+    if (percent) {
+        str = lib_msprintf("%d%%, %dfps %s", percent_int, framerate_int, warp_flag ? _("(warp)") : "");
+    }
 
     for (i = 0; i < num_app_shells; i++) {
         if (!percent) {
             XtVaSetValues(app_shells[i].speed_label, XtNlabel, warp_flag ? _("(warp)") : "", NULL);
         } else {
-            char *str;
-            str = lib_msprintf("%d%%, %dfps %s", percent_int, framerate_int, warp_flag ? _("(warp)") : "");
             XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
-            lib_free(str);
         }
     }
+    lib_free(str);
     if (statustext_display_time > 0) {
         statustext_display_time--;
         if (statustext_display_time == 0) {
@@ -1805,222 +1800,6 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     if (!screenshot_is_recording()) {
         XtUnmapWidget(rec_button);
     }
-}
-
-void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
-{
-    int i, j, num, k, true_emu;
-    int drive_mapping[NUM_DRIVES];
-
-    num = 0;
-
-    enabled_drives = enable;
-    drive_active_led = drive_led_color;
-
-    /* -1 should be safe, otherwise the display code in `ui_display_*'
-       was wrong before. */
-    memset(drive_mapping, -1, sizeof(drive_mapping));
-
-    resources_get_int("DriveTrueEmulation", &true_emu);
-
-    if (true_emu) {
-        /* num == number of drives which are active;
-           drive_mapping[i] stores the widget number into which the i'th drive
-           things should be displayed */
-        for (i = 0, j = 1; i < NUM_DRIVES; i++, j <<= 1) {
-            if (enabled_drives & j) {
-                drive_mapping[i] = num++;
-            }
-        }
-    } else {
-        for (i = 0; i < NUM_DRIVES; i++) {
-            if (strcmp(&(last_attached_images[i][0]), "") != 0) {
-                drive_mapping[i] = num++;
-            }
-        }
-    }
-
-    for (i = 0; i < num_app_shells; i++) {
-        /* now show `num' widgets ... */
-        for (j = 0; j < num; j++) {
-            XtMapWidget(app_shells[i].drive_widgets[j].current_image);
-        }
-        for (; j < NUM_DRIVES; j++) {
-            XtUnmapWidget(app_shells[i].drive_widgets[j].current_image);
-        }
-        /* Show label+led widgets in true drive emulation mode */
-        for (j = 0; j < num && true_emu > 0; j++) {
-            XtMapWidget(app_shells[i].drive_widgets[j].track_label);
-
-            for (k = 0; k < NUM_DRIVES; k++) {
-                if (drive_mapping[k] == j) {
-                    break;
-                }
-            }
-            app_shells[i].drive_nleds[j] = drive_num_leds(k);
-            if (app_shells[i].drive_nleds[j] == 1) {
-                XtMapWidget(app_shells[i].drive_widgets[j].driveled);
-                XtUnmapWidget(app_shells[i].drive_widgets[j].driveled1);
-                XtUnmapWidget(app_shells[i].drive_widgets[j].driveled2);
-            } else {
-                XtUnmapWidget(app_shells[i].drive_widgets[j].driveled);
-                XtMapWidget(app_shells[i].drive_widgets[j].driveled1);
-                XtMapWidget(app_shells[i].drive_widgets[j].driveled2);
-            }
-        }
-
-        /* ...and hide the rest until `NUM_DRIVES' */
-        for (; j < NUM_DRIVES; j++) {
-            XtUnmapWidget(app_shells[i].drive_widgets[j].track_label);
-            XtUnmapWidget(app_shells[i].drive_widgets[j].driveled);
-            XtUnmapWidget(app_shells[i].drive_widgets[j].driveled1);
-            XtUnmapWidget(app_shells[i].drive_widgets[j].driveled2);
-        }
-        for (j = 0; j < NUM_DRIVES; j++) {
-            app_shells[i].drive_mapping[j] = drive_mapping[j];
-        }
-    }
-    /* now update all image names from the cached names */
-    ui_display_drive_current_image2();
-}
-
-void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
-{
-    int i;
-    /* FIXME: Fixed length.  */
-    char str[256];
-    double track_number = (double)half_track_number / 2.0;
-    int d = drive_base ? (drive_base + drive_number) : (drive_number & 1);
-
-    sprintf(str, _("%d: Track %.1f"), d, (double)track_number);
-    for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive_number];
-        Widget w;
-
-        if (n < 0) {
-            return;             /* bad mapping */
-        }
-        w = app_shells[i].drive_widgets[n].track_label;
-
-        XtVaSetValues(w, XtNlabel, str, NULL);
-    }
-}
-
-void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int led_pwm2)
-{
-    Pixel pixel;
-    int status = 0;
-    int i;
-
-    if (led_pwm1 > 100) {
-        status |= 1;
-    }
-    if (led_pwm2 > 100) {
-        status |= 2;
-    }
-
-    for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive_number];
-        Widget w;
-        Pixel on_pixel;
-
-        if (n < 0) {
-            return;             /* bad mapping */
-        }
-
-        on_pixel = drive_active_led[drive_number] ? drive_led_on_green_pixel
-                                                  : drive_led_on_red_pixel;
-        pixel = status ? on_pixel : drive_led_off_pixel;
-        w = app_shells[i].drive_widgets[n].driveled;
-        XtVaSetValues(w, XtNbackground, pixel, NULL);
-
-        pixel = (status & 1) ? on_pixel : drive_led_off_pixel;
-        w = app_shells[i].drive_widgets[n].driveled1;
-        XtVaSetValues(w, XtNbackground, pixel, NULL);
-
-        pixel = (status & 2) ? on_pixel : drive_led_off_pixel;
-        w = app_shells[i].drive_widgets[n].driveled2;
-        XtVaSetValues(w, XtNbackground, pixel, NULL);
-    }
-}
-
-void ui_display_drive_current_image(unsigned int drive_number, const char *image)
-{
-    if (console_mode) {
-        return;
-    }
-
-    if (drive_number >= NUM_DRIVES) {
-        return;
-    }
-
-    /*if (strcmp(image, "") == 0) {
-        image = "<detached>";
-    }*/
-    strncpy(&(last_attached_images[drive_number][0]), image, ATT_IMG_SIZE);
-
-    /* update drive mapping */
-    ui_enable_drive_status(enabled_drives, drive_active_led);
-    uifliplist_update_menus(drive_number + 8, drive_number + 8);
-}
-
-static void ui_display_drive_current_image2 (void)
-{
-    int i, j;
-    char *name;
-
-    /* Now update all fields according to drive_mapping */
-    for (i = 0; i < num_app_shells; i++) {
-        for (j = 0; j < NUM_DRIVES; j++) {
-            int n = app_shells[i].drive_mapping[j];
-            Widget w;
-
-            /* It is assumed that the j-1'th widget is not touched anymore.
-               -> the drive mapping code fills the widgets up from 0 */
-
-            /* first clear the j'th widget */
-            w = app_shells[i].drive_widgets[j].current_image;
-            XtVaSetValues(w, XtNlabel, "", NULL);
-
-            if (n < 0) {
-                continue;       /* j'th is drive not mapped */
-            }
-
-            /* now fill the j'th widget */
-            w = app_shells[i].drive_widgets[n].current_image;
-
-            util_fname_split(&(last_attached_images[j][0]), NULL, &name);
-            XtVaSetValues(w, XtNlabel, name, NULL);
-            lib_free(name);
-
-            /* Also update drive menu; will call ui_set_drive_menu() */
-            if (i == 0) {
-                uifliplist_update_menus(8 + j, 8 + j);
-            }
-        }
-    }
-}
-
-
-/* tape-related ui, dummies so far */
-void ui_set_tape_status(int tape_status)
-{
-}
-
-void ui_display_tape_motor_status(int motor)
-{
-}
-
-void ui_display_tape_control_status(int control)
-{
-}
-
-void ui_display_tape_counter(int counter)
-{
-}
-
-void ui_display_tape_current_image(const char *image)
-{
 }
 
 void ui_display_recording(int recording_status)
@@ -2086,7 +1865,7 @@ int x11ui_fullscreen(int i)
     static Atom _net_wm_state_fullscreen = None;
     XEvent xev;
     int mode;
-    
+
     if (strcmp(machine_name, "C128") == 0) {
         /* mode == 1 -> VICII, mode == 0 VDC */
         resources_get_int("40/80ColumnKey", &mode); 

@@ -38,18 +38,13 @@
 
 #include "autostart.h"
 #include "imagecontents/diskcontents.h"
-#include "lib.h"
-#include "machine.h"
 #include "imagecontents/tapecontents.h"
-#include "ui.h"
+#include "lib.h"
 #include "uiapi.h"
 #include "uiarch.h"
 #include "uicontents.h"
 #include "uimenu.h"
 #include "util.h"
-#include "video.h"
-#include "resources.h"
-#include "videoarch.h"
 #include "x11menu.h"
 
 #include <X11/Xlib.h>
@@ -79,13 +74,11 @@ static UI_CALLBACK(ui_popup_selected_file)
         }
         lib_free(tmp);
     } else if (unit == 1) {
-#if 0
         tmp = lib_stralloc(last_attached_tape);
         if (autostart_tape(last_attached_tape, NULL, selected, AUTOSTART_MODE_RUN) < 0) {
             ui_error(_("Can't autostart selection %d in image %s"), selected, tmp);
         }
         lib_free(tmp);
-#endif
     }
 }
 
@@ -94,7 +87,7 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     ui_menu_entry_t *menu;
     int limit = 16;
     int fno = 0, mask, i;
-    char *title, *tmp, *tmp1;
+    char *title, *tmp1;
     Widget menu_widget;
     image_contents_t *s;
     image_contents_file_list_t *element;
@@ -105,8 +98,8 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
         return (Widget)0;
     }
 
-    menu = lib_calloc(sizeof(ui_menu_entry_t), limit + 1);
-    /* +1 because we have to store NULL as end delimiter */
+    menu = lib_calloc(sizeof(ui_menu_entry_t), limit + 2);
+    /* +2 because we have to store BLOCKS FREE, and NULL as end delimiter */
 
     mask = unit << 24;
     memset(menu, 0, 2 * sizeof(ui_menu_entry_t));
@@ -136,7 +129,7 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
     for (element = s->file_list; element != NULL; element = element->next) {
         if (fno >= limit) {
             limit *= 2;
-            menu = lib_realloc(menu, (limit + 1) * sizeof(ui_menu_entry_t)); /* ditto */
+            menu = lib_realloc(menu, (limit + 2) * sizeof(ui_menu_entry_t)); /* ditto */
         }
 
         tmp1 = (char *)image_contents_file_to_string(element, cbm_font_struct == NULL);
@@ -155,10 +148,11 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
         menu[fno].string = lib_msprintf("%d BLOCKS FREE.", s->blocks_free);
         menu[fno].type = UI_MENU_TYPE_NORMAL;
         menu[fno].callback = (ui_callback_t) ui_popup_selected_file;
-        menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr((fno - 1) | mask);
+        menu[fno].callback_data = (ui_callback_data_t)int_to_void_ptr(0 | mask);
         menu[fno].sub_menu = NULL;
         menu[fno].hotkey_keysym = 0;
         menu[fno].hotkey_modifier = 0;
+        fno++;
     }
     memset(&menu[fno++], 0, sizeof(ui_menu_entry_t)); /* end delimiter */
 
@@ -195,4 +189,3 @@ Widget rebuild_contents_menu(char *menuname, int unit, const char *name)
 
     return menu_widget;
 }
- 
