@@ -4817,7 +4817,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_USERPORT_JOY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_JOY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_JOY_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_JOY_NL, "Activeer Userport joystick adapter"},
 /* pl */ {IDCLS_ENABLE_USERPORT_JOY_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
@@ -4834,7 +4834,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_USERPORT_JOY_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_JOY_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_JOY_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_JOY_NL, "De Userport joystick adapter uitschakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_JOY_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
@@ -4851,7 +4851,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_USERPORT_JOY_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_USERPORT_JOY_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_USERPORT_JOY_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_USERPORT_JOY_TYPE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_USERPORT_JOY_TYPE_NL, "Zet Userport joystick adapter soort (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
 /* pl */ {IDCLS_SET_USERPORT_JOY_TYPE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_USERPORT_JOY_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_USERPORT_JOY_TYPE_SV, ""},  /* fuzzy */
@@ -4868,7 +4868,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_ENABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, "Activeer de Userport RTC uitbreiding"},
 /* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
@@ -4885,7 +4885,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_DISABLE_USERPORT_RTC_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, "De Userport RTC uitbreiding uischakelen"},
 /* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
@@ -7795,18 +7795,18 @@ translate_t string_table[] = {
 /* gfxoutputdrv/doodledrv.c, gfxoutputdrv/koaladrv.c */
 /* en */ {IDCLS_UNDERSIZED_HANDLING,    N_("Select the way the undersized input should be handled, (0: scale up, 1: borderize)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_OVERSIZED_HANDLING_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_OVERSIZED_HANDLING_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_OVERSIZED_HANDLING_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_OVERSIZED_HANDLING_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_OVERSIZED_HANDLING_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_OVERSIZED_HANDLING_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_OVERSIZED_HANDLING_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_OVERSIZED_HANDLING_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_OVERSIZED_HANDLING_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_OVERSIZED_HANDLING_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_OVERSIZED_HANDLING_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_OVERSIZED_HANDLING_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_UNDERSIZED_HANDLING_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_UNDERSIZED_HANDLING_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_UNDERSIZED_HANDLING_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_UNDERSIZED_HANDLING_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_UNDERSIZED_HANDLING_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_UNDERSIZED_HANDLING_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_UNDERSIZED_HANDLING_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_UNDERSIZED_HANDLING_NL, "Selecteer de manier waarop de te kleine invoer moet worden afgehandeld, (0: maak groter, 1: maak border)"},
+/* pl */ {IDCLS_UNDERSIZED_HANDLING_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_UNDERSIZED_HANDLING_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_UNDERSIZED_HANDLING_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_UNDERSIZED_HANDLING_TR, ""},  /* fuzzy */
 #endif
 
 /* gfxoutputdrv/doodledrv.c */
@@ -8187,7 +8187,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_PAR_CABLE_C64EXP_TYPE,    N_("Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel 64)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DA, "Vælg typen af parallelkabel (0: ingen, 1: standard, 2: Dolphin DOS 3 3: Formel 64)"},
-/* de */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DE, "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3, 3: Formel 64)"},
+/* de */ {IDCLS_PAR_CABLE_C64EXP_TYPE_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_PAR_CABLE_C64EXP_TYPE_ES, "Seleccionar tipo de cable paralelo (0:no, 1:estandar, 2:Dolphin DOS 3, 3:Formel 64)"},
 /* fr */ {IDCLS_PAR_CABLE_C64EXP_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_PAR_CABLE_C64EXP_TYPE_HU, ""},  /* fuzzy */
@@ -11593,7 +11593,7 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_DA, "Vis en liste over tilgængelige parametre og afslut"},
 /* de */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_DE, "Liste von verfügbaren Optionen zeigen und beenden"},
-/* es */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_ES, "Muestra lista de las opcciones disponibles al salir normalmente"},
+/* es */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_ES, "Muestra lista de las opciones disponibles al salir normalmente"},
 /* fr */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_FR, "Montrer une liste des options disponibles et terminer normalement"},
 /* hu */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_HU, "Kilistázza a lehetséges opciókat és kilép"},
 /* it */ {IDCLS_SHOW_COMMAND_LINE_OPTIONS_IT, "Mostra la lista delle opzioni disponibili ed esce"},
@@ -11987,7 +11987,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Mouse typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón  (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Inteligente)"},
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
@@ -13552,31 +13552,31 @@ translate_t string_table[] = {
 /* scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_SIMM_SIZE,    N_("Size of the SIMM RAM (0/1/4/8/16 MB)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_SIMM_SIZE_DA, "Størrelse af SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* de */ {IDCLS_SET_SIMM_SIZE_DE, "Größe der SIMM RAM (0/1/4/8/16 MB)"},
-/* es */ {IDCLS_SET_SIMM_SIZE_ES, "Tamaño de la SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* fr */ {IDCLS_SET_SIMM_SIZE_FR, "Taille de SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* hu */ {IDCLS_SET_SIMM_SIZE_HU, "SIMM RAM mérete (0/1/4/8/16 MB)"},
-/* it */ {IDCLS_SET_SIMM_SIZE_IT, "Dimensione SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
+/* da */ {IDCLS_SET_SIMM_SIZE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_SIMM_SIZE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_SIMM_SIZE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_SIMM_SIZE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_SIMM_SIZE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_SIMM_SIZE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_SIMM_SIZE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_SIMM_SIZE_NL, "Grootte van de SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* pl */ {IDCLS_SET_SIMM_SIZE_PL, "Rozmiar SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* ru */ {IDCLS_SET_SIMM_SIZE_RU, "Size of the SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* sv */ {IDCLS_SET_SIMM_SIZE_SV, "Storlek på SIMM RAM (0/1/4/8/16 MB)"},  /* fuzzy */
-/* tr */ {IDCLS_SET_SIMM_SIZE_TR, "SIMM RAM boyutu (0/1/4/8/16 MB)"},  /* fuzzy */
+/* nl */ {IDCLS_SET_SIMM_SIZE_NL, "Grootte van het SIMM RAM (0/1/4/8/16 MB)"},
+/* pl */ {IDCLS_SET_SIMM_SIZE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_SIMM_SIZE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_SIMM_SIZE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_SIMM_SIZE_TR, ""},  /* fuzzy */
 #endif
 
 /* scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_ENABLE_JIFFY_SWITCH,    N_("Turn on Jiffy switch")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_JIFFY_SWITCH_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_JIFFY_SWITCH_DE, "Jiffy shalter einshalten"},
+/* de */ {IDCLS_ENABLE_JIFFY_SWITCH_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_ENABLE_JIFFY_SWITCH_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_JIFFY_SWITCH_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_JIFFY_SWITCH_HU, "Jiffy kapcsoló bekapcsolása"},
+/* hu */ {IDCLS_ENABLE_JIFFY_SWITCH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_JIFFY_SWITCH_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_JIFFY_SWITCH_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_JIFFY_SWITCH_NL, "Activeer Jiffy schakelaar"},
 /* pl */ {IDCLS_ENABLE_JIFFY_SWITCH_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
@@ -13587,13 +13587,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_JIFFY_SWITCH,    N_("Turn off Jiffy switch")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_JIFFY_SWITCH_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_JIFFY_SWITCH_DE, "Jiffy shalter ausshalten"},
+/* de */ {IDCLS_DISABLE_JIFFY_SWITCH_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_DISABLE_JIFFY_SWITCH_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_JIFFY_SWITCH_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_JIFFY_SWITCH_HU, "Jiffy kapcsoló kikapcsolása"},
+/* hu */ {IDCLS_DISABLE_JIFFY_SWITCH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_JIFFY_SWITCH_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_JIFFY_SWITCH_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_JIFFY_SWITCH_NL, "Jiffy schakelaar uitschakelen"},
 /* pl */ {IDCLS_DISABLE_JIFFY_SWITCH_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
@@ -13604,13 +13604,13 @@ translate_t string_table[] = {
 /* en */ {IDCLS_ENABLE_SPEED_SWITCH,    N_("Turn on Speed switch")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_ENABLE_SPEED_SWITCH_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_ENABLE_SPEED_SWITCH_DE, "Speed shalter einshalten"},
+/* de */ {IDCLS_ENABLE_SPEED_SWITCH_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_ENABLE_SPEED_SWITCH_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_ENABLE_SPEED_SWITCH_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_ENABLE_SPEED_SWITCH_HU, "Speed kapcsoló bekapcsolása"},
+/* hu */ {IDCLS_ENABLE_SPEED_SWITCH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_ENABLE_SPEED_SWITCH_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_ENABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_ENABLE_SPEED_SWITCH_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_ENABLE_SPEED_SWITCH_NL, "Activeer snelheid schakelaar"},
 /* pl */ {IDCLS_ENABLE_SPEED_SWITCH_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_ENABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
@@ -13621,16 +13621,17 @@ translate_t string_table[] = {
 /* en */ {IDCLS_DISABLE_SPEED_SWITCH,    N_("Turn off Speed switch")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_DISABLE_SPEED_SWITCH_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_DISABLE_SPEED_SWITCH_DE, "Speed shalter ausshalten"},
+/* de */ {IDCLS_DISABLE_SPEED_SWITCH_DE, ""},  /* fuzzy */
 /* es */ {IDCLS_DISABLE_SPEED_SWITCH_ES, ""},  /* fuzzy */
 /* fr */ {IDCLS_DISABLE_SPEED_SWITCH_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_DISABLE_SPEED_SWITCH_HU, "Speed kapcsoló kikapcsolása"},
+/* hu */ {IDCLS_DISABLE_SPEED_SWITCH_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_DISABLE_SPEED_SWITCH_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_DISABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_DISABLE_SPEED_SWITCH_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_DISABLE_SPEED_SWITCH_NL, "Snelheid schakelaar uischakelen"},
 /* pl */ {IDCLS_DISABLE_SPEED_SWITCH_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_DISABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
 #endif
+
 };

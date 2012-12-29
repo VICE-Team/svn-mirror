@@ -1,14 +1,14 @@
 # translation of hu.po to Hungarian
 # Copyright (C) 2007 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the VICE package.
-#
+# 
 # Czirkos Zoltan <cirix@fw.hu>, 2007.
 # Karai Csaba <cskarai@freemail.hu>, 2006, 2009.
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.2\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-29 11:01-0800\n"
+"POT-Creation-Date: 2012-12-29 14:23-0800\n"
 "PO-Revision-Date: 2009-12-06 16:13+0100\n"
 "Last-Translator: Karai Csaba <cskarai@freemail.hu>\n"
 "Language-Team: Hungarian <hu@li.org>\n"
@@ -1247,7 +1247,7 @@ msgid "Smart-attach a file"
 msgstr "Egy fájl gyors-csatolása"
 
 #: src/arch/unix/gui/uiattach.c:333 src/arch/unix/gui/uiattach.c:340
-#: src/arch/unix/x11/xaw/x11ui.c:2511
+#: src/arch/unix/x11/xaw/x11ui.c:2290
 msgid "Unknown image type"
 msgstr "Ismeretlen képmás típus"
 
@@ -3788,7 +3788,7 @@ msgid "Invalid speed value"
 msgstr "Hibás sebesség érték"
 
 #: src/arch/unix/gui/uisettings.c:209 src/arch/unix/gui/uisettings.c:262
-#: src/arch/unix/x11/xaw/x11ui.c:1725 src/arch/win32/res.rc.po.c:967
+#: src/arch/unix/x11/xaw/x11ui.c:1714 src/arch/win32/res.rc.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:4821
 msgid "Cannot save settings."
 msgstr "A beállítások mentése nem sikerült."
@@ -4871,52 +4871,51 @@ msgstr ""
 "Modell: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1311
+#: src/arch/unix/x11/xaw/x11ui.c:1309
+msgid "Emulation Speed Status"
+msgstr ""
+
+#: src/arch/unix/x11/xaw/x11ui.c:1320
 #, fuzzy
 msgid "CRT Controls"
 msgstr "PAL Vezérlés"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1429
+#: src/arch/unix/x11/xaw/x11ui.c:1449
 #, fuzzy
 msgid "recording"
 msgstr "felvétel..."
 
-#: src/arch/unix/x11/xaw/x11ui.c:1444
+#: src/arch/unix/x11/xaw/x11ui.c:1465
 msgid "event recording"
 msgstr "esemény felvétel"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1710
+#: src/arch/unix/x11/xaw/x11ui.c:1699
 msgid " emulator"
 msgstr " emulátor"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1714
+#: src/arch/unix/x11/xaw/x11ui.c:1703
 msgid "Do you really want to exit?"
 msgstr "Valóban ki szeretne lépni?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1722
+#: src/arch/unix/x11/xaw/x11ui.c:1711
 msgid "Save the current settings?"
 msgstr "Elmentsem a jelenlegi beállításokat?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1790 src/arch/unix/x11/xaw/x11ui.c:1793
+#: src/arch/unix/x11/xaw/x11ui.c:1782 src/arch/unix/x11/xaw/x11ui.c:1787
 msgid "(warp)"
 msgstr "(hiper)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1895
-#, c-format
-msgid "%d: Track %.1f"
-msgstr "%d: Sáv %.1f"
-
-#: src/arch/unix/x11/xaw/x11ui.c:2049
+#: src/arch/unix/x11/xaw/x11ui.c:1828
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (szünet)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2256 src/arch/win32/res.rc.po.c:962
+#: src/arch/unix/x11/xaw/x11ui.c:2035 src/arch/win32/res.rc.po.c:962
 #: src/arch/amigaos/intl_text.c.po.c:4849
 msgid "VICE Error!"
 msgstr "VICE hiba!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2387
+#: src/arch/unix/x11/xaw/x11ui.c:2166
 msgid "Extend disk image"
 msgstr "Lemez képmás kiterjesztése"
 
@@ -12806,6 +12805,9 @@ msgstr ""
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
 msgstr ""
+
+#~ msgid "%d: Track %.1f"
+#~ msgstr "%d: Sáv %.1f"
 
 #, fuzzy
 #~ msgid "in percent"

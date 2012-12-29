@@ -2,12 +2,12 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-29 11:01-0800\n"
+"POT-Creation-Date: 2012-12-29 14:23-0800\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -1174,7 +1174,7 @@ msgid "Smart-attach a file"
 msgstr "Slim koppel een bestand"
 
 #: src/arch/unix/gui/uiattach.c:333 src/arch/unix/gui/uiattach.c:340
-#: src/arch/unix/x11/xaw/x11ui.c:2511
+#: src/arch/unix/x11/xaw/x11ui.c:2290
 msgid "Unknown image type"
 msgstr "Onbekend bestand type"
 
@@ -1197,7 +1197,8 @@ msgstr "Disk bestand voor PRG autostart"
 msgid ""
 "Enter maximum random autostart delay in frames\n"
 "(max. 1000, 0 means default)"
-msgstr "Geef de maximale willekeurige autostart vetraging in frames\n"
+msgstr ""
+"Geef de maximale willekeurige autostart vetraging in frames\n"
 "(max. 1000, 0 betekent standaard)"
 
 #: src/arch/unix/gui/uiautostart.c:69
@@ -3535,7 +3536,7 @@ msgid "Invalid speed value"
 msgstr "Ongeldige snelheid waarde"
 
 #: src/arch/unix/gui/uisettings.c:209 src/arch/unix/gui/uisettings.c:262
-#: src/arch/unix/x11/xaw/x11ui.c:1725 src/arch/win32/res.rc.po.c:967
+#: src/arch/unix/x11/xaw/x11ui.c:1714 src/arch/win32/res.rc.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:4821
 msgid "Cannot save settings."
 msgstr "Kan de instellingen niet opslaan."
@@ -4427,7 +4428,7 @@ msgstr "Met succes `%s' geschreven\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:45
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:78
-#,  c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Author: %s\n"
@@ -4554,50 +4555,49 @@ msgstr ""
 "IRQ: %s\n"
 "%s"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1311
+#: src/arch/unix/x11/xaw/x11ui.c:1309
+msgid "Emulation Speed Status"
+msgstr ""
+
+#: src/arch/unix/x11/xaw/x11ui.c:1320
 msgid "CRT Controls"
 msgstr "CRT bediening"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1429
+#: src/arch/unix/x11/xaw/x11ui.c:1449
 msgid "recording"
 msgstr "opname"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1444
+#: src/arch/unix/x11/xaw/x11ui.c:1465
 msgid "event recording"
 msgstr "gebeurtenisopname"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1710
+#: src/arch/unix/x11/xaw/x11ui.c:1699
 msgid " emulator"
 msgstr " emulator"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1714
+#: src/arch/unix/x11/xaw/x11ui.c:1703
 msgid "Do you really want to exit?"
 msgstr "Wilt u echt afsluiten?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1722
+#: src/arch/unix/x11/xaw/x11ui.c:1711
 msgid "Save the current settings?"
 msgstr "De huidige instellingen opslaan?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1790 src/arch/unix/x11/xaw/x11ui.c:1793
+#: src/arch/unix/x11/xaw/x11ui.c:1782 src/arch/unix/x11/xaw/x11ui.c:1787
 msgid "(warp)"
 msgstr "(warp)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1895
-#, c-format
-msgid "%d: Track %.1f"
-msgstr "%d: Spoor %.1f"
-
-#: src/arch/unix/x11/xaw/x11ui.c:2049
+#: src/arch/unix/x11/xaw/x11ui.c:1828
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (op pauze)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2256 src/arch/win32/res.rc.po.c:962
+#: src/arch/unix/x11/xaw/x11ui.c:2035 src/arch/win32/res.rc.po.c:962
 #: src/arch/amigaos/intl_text.c.po.c:4849
 msgid "VICE Error!"
 msgstr "VICE Fout!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2387
+#: src/arch/unix/x11/xaw/x11ui.c:2166
 msgid "Extend disk image"
 msgstr "40-sporen schijfbestand"
 
@@ -10093,7 +10093,9 @@ msgstr "De Userport joystick adapter uitschakelen"
 msgid ""
 "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, "
 "3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
-msgstr "Zet Userport joystick adapter soort (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
+msgstr ""
+"Zet Userport joystick adapter soort (0: CGA/Protovision, 1: PET, 2: Hummer, "
+"3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 
 #: src/translate_text.c.po.c:4782
 msgid "Enable Userport RTC"
@@ -10687,7 +10689,8 @@ msgid ""
 "Select the way the undersized input should be handled, (0: scale up, 1: "
 "borderize)"
 msgstr ""
-"Selecteer de manier waarop de te kleine invoer moet worden afgehandeld, (0: maak groter, 1: maak border)"
+"Selecteer de manier waarop de te kleine invoer moet worden afgehandeld, (0: "
+"maak groter, 1: maak border)"
 
 #: src/translate_text.c.po.c:7727
 msgid ""
@@ -11989,3 +11992,6 @@ msgstr "Activeer snelheid schakelaar"
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
 msgstr "Snelheid schakelaar uischakelen"
+
+#~ msgid "%d: Track %.1f"
+#~ msgstr "%d: Spoor %.1f"

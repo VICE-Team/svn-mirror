@@ -917,7 +917,7 @@ BEGIN
   IDS_MI_PET_SETTINGS            "PET instellingen..."
   IDS_MI_PETDWW_SETTINGS         "PET DWW instellingen..."
   IDS_MI_PETREU_SETTINGS         "PET REU instellingen..."
-  IDS_MI_TOGGLE_PETHRE           "Enable PET High Res Emulation board"
+  IDS_MI_TOGGLE_PETHRE           "Activeer PET High Res Emulation bord"
   IDS_MI_TOGGLE_PET_USERPORT_DAC "Activeer userport DAC voor geluidsuitvoer"
   IDS_MI_PETMODEL_SETTINGS       "PET model instellingen..."
 END
@@ -1087,3 +1087,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

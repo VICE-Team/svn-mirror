@@ -5,12 +5,12 @@
 # Long Live To Vice and to all it's developpers and contributors!  Thanks to you all!
 # The C64 started my addiction ;)
 # -Paul
-#
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-29 11:01-0800\n"
+"POT-Creation-Date: 2012-12-29 14:23-0800\n"
 "PO-Revision-Date: 2011-02-01 18:41+0100\n"
 "Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -1272,7 +1272,7 @@ msgid "Smart-attach a file"
 msgstr "Insérer un fichier de manière intelligente"
 
 #: src/arch/unix/gui/uiattach.c:333 src/arch/unix/gui/uiattach.c:340
-#: src/arch/unix/x11/xaw/x11ui.c:2511
+#: src/arch/unix/x11/xaw/x11ui.c:2290
 msgid "Unknown image type"
 msgstr "Type d'image inconnu"
 
@@ -3855,7 +3855,7 @@ msgid "Invalid speed value"
 msgstr "Valeur de vitesse invalide"
 
 #: src/arch/unix/gui/uisettings.c:209 src/arch/unix/gui/uisettings.c:262
-#: src/arch/unix/x11/xaw/x11ui.c:1725 src/arch/win32/res.rc.po.c:967
+#: src/arch/unix/x11/xaw/x11ui.c:1714 src/arch/win32/res.rc.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:4821
 msgid "Cannot save settings."
 msgstr "Impossible d'enregistrer les paramètres."
@@ -4965,52 +4965,51 @@ msgstr ""
 "Modèle: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1311
+#: src/arch/unix/x11/xaw/x11ui.c:1309
+msgid "Emulation Speed Status"
+msgstr ""
+
+#: src/arch/unix/x11/xaw/x11ui.c:1320
 #, fuzzy
 msgid "CRT Controls"
 msgstr "Contrôles PAL"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1429
+#: src/arch/unix/x11/xaw/x11ui.c:1449
 #, fuzzy
 msgid "recording"
 msgstr "enregistrement d'événements"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1444
+#: src/arch/unix/x11/xaw/x11ui.c:1465
 msgid "event recording"
 msgstr "enregistrement d'événements"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1710
+#: src/arch/unix/x11/xaw/x11ui.c:1699
 msgid " emulator"
 msgstr " émulateur"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1714
+#: src/arch/unix/x11/xaw/x11ui.c:1703
 msgid "Do you really want to exit?"
 msgstr "Voulez-vous vraiment quitter?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1722
+#: src/arch/unix/x11/xaw/x11ui.c:1711
 msgid "Save the current settings?"
 msgstr "Enregistrer les paramètres courants?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1790 src/arch/unix/x11/xaw/x11ui.c:1793
+#: src/arch/unix/x11/xaw/x11ui.c:1782 src/arch/unix/x11/xaw/x11ui.c:1787
 msgid "(warp)"
 msgstr "(Turbo)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1895
-#, c-format
-msgid "%d: Track %.1f"
-msgstr "%d: Piste %.1f"
-
-#: src/arch/unix/x11/xaw/x11ui.c:2049
+#: src/arch/unix/x11/xaw/x11ui.c:1828
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (en pause)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2256 src/arch/win32/res.rc.po.c:962
+#: src/arch/unix/x11/xaw/x11ui.c:2035 src/arch/win32/res.rc.po.c:962
 #: src/arch/amigaos/intl_text.c.po.c:4849
 msgid "VICE Error!"
 msgstr "Erreur VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2387
+#: src/arch/unix/x11/xaw/x11ui.c:2166
 msgid "Extend disk image"
 msgstr "Étendre l'image de disque"
 
@@ -12835,6 +12834,9 @@ msgstr ""
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
 msgstr ""
+
+#~ msgid "%d: Track %.1f"
+#~ msgstr "%d: Piste %.1f"
 
 #, fuzzy
 #~ msgid "in percent"

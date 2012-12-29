@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Vice v2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-12-29 11:01-0800\n"
+"POT-Creation-Date: 2012-12-29 14:23-0800\n"
 "PO-Revision-Date: 2012-11-23 14:33+0100\n"
 "Last-Translator: Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>\n"
 "Language-Team:  <formater@winuaespanol.com>\n"
@@ -1176,7 +1176,7 @@ msgid "Smart-attach a file"
 msgstr "Insertar fichero inteligentemente"
 
 #: src/arch/unix/gui/uiattach.c:333 src/arch/unix/gui/uiattach.c:340
-#: src/arch/unix/x11/xaw/x11ui.c:2511
+#: src/arch/unix/x11/xaw/x11ui.c:2290
 msgid "Unknown image type"
 msgstr "Tipo de imagen desconocido"
 
@@ -3538,7 +3538,7 @@ msgid "Invalid speed value"
 msgstr "Valor de velocidad incorrecto"
 
 #: src/arch/unix/gui/uisettings.c:209 src/arch/unix/gui/uisettings.c:262
-#: src/arch/unix/x11/xaw/x11ui.c:1725 src/arch/win32/res.rc.po.c:967
+#: src/arch/unix/x11/xaw/x11ui.c:1714 src/arch/win32/res.rc.po.c:967
 #: src/arch/amigaos/intl_text.c.po.c:4821
 msgid "Cannot save settings."
 msgstr "No puedo grabar ajustes"
@@ -4554,50 +4554,49 @@ msgstr ""
 "Modelo: %s\n"
 "IRQ: %s"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1311
+#: src/arch/unix/x11/xaw/x11ui.c:1309
+msgid "Emulation Speed Status"
+msgstr ""
+
+#: src/arch/unix/x11/xaw/x11ui.c:1320
 msgid "CRT Controls"
 msgstr "Controles CRT"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1429
+#: src/arch/unix/x11/xaw/x11ui.c:1449
 msgid "recording"
 msgstr "Grabando"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1444
+#: src/arch/unix/x11/xaw/x11ui.c:1465
 msgid "event recording"
 msgstr "Grabar eventos"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1710
+#: src/arch/unix/x11/xaw/x11ui.c:1699
 msgid " emulator"
 msgstr "emulador"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1714
+#: src/arch/unix/x11/xaw/x11ui.c:1703
 msgid "Do you really want to exit?"
 msgstr "¿Realmente quieres salir?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1722
+#: src/arch/unix/x11/xaw/x11ui.c:1711
 msgid "Save the current settings?"
 msgstr "¿Guardo la actual configuración?"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1790 src/arch/unix/x11/xaw/x11ui.c:1793
+#: src/arch/unix/x11/xaw/x11ui.c:1782 src/arch/unix/x11/xaw/x11ui.c:1787
 msgid "(warp)"
 msgstr "(máxima velocidad)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:1895
-#, c-format
-msgid "%d: Track %.1f"
-msgstr "%d: Track %.1f"
-
-#: src/arch/unix/x11/xaw/x11ui.c:2049
+#: src/arch/unix/x11/xaw/x11ui.c:1828
 #, c-format
 msgid "%s (paused)"
 msgstr "%s (detenido)"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2256 src/arch/win32/res.rc.po.c:962
+#: src/arch/unix/x11/xaw/x11ui.c:2035 src/arch/win32/res.rc.po.c:962
 #: src/arch/amigaos/intl_text.c.po.c:4849
 msgid "VICE Error!"
 msgstr "¡Error VICE!"
 
-#: src/arch/unix/x11/xaw/x11ui.c:2387
+#: src/arch/unix/x11/xaw/x11ui.c:2166
 msgid "Extend disk image"
 msgstr "Imagen de disco extendida"
 
@@ -11990,6 +11989,9 @@ msgstr ""
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
 msgstr ""
+
+#~ msgid "%d: Track %.1f"
+#~ msgstr "%d: Track %.1f"
 
 #~ msgid "in percent"
 #~ msgstr "en porcentaje"
