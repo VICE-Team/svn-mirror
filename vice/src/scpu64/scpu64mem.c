@@ -290,8 +290,8 @@ static void ram_hi_store_vbank(WORD addr, BYTE value) /* mirrored, vbank */
 
     vicii_mem_vbank_3fxx_store(addr, value);
     if (addr == 0xff00) {
-        reu_dma(-1);
         scpu64_clock_write_stretch_io_long();
+        reu_dma(-1);
     } else {
         scpu64_clock_write_stretch();
     }
@@ -302,8 +302,8 @@ static void ram_hi_store_mirrored(WORD addr, BYTE value) /* mirrored, no vbank *
     mem_sram[addr] = value;
     mem_ram[addr] = value;
     if (addr == 0xff00) {
-        reu_dma(-1);
         scpu64_clock_write_stretch_io_long();
+        reu_dma(-1);
     } else {
         scpu64_clock_write_stretch();
     }
@@ -313,8 +313,8 @@ static void ram_hi_store(WORD addr, BYTE value) /* not mirrored */
 {
     mem_sram[addr] = value;
     if (addr == 0xff00) {
-        reu_dma(-1);
         scpu64_clock_write_stretch_io_long();
+        reu_dma(-1);
     }
 }
 
@@ -322,8 +322,8 @@ static void ram_hi_store_int(WORD addr, BYTE value) /* internal */
 {
     mem_ram[addr] = value;
     if (addr == 0xff00) {
-        reu_dma(-1);
         scpu64_clock_write_stretch_io_long();
+        reu_dma(-1);
     } else {
         scpu64_clock_write_stretch();
     }
@@ -333,8 +333,8 @@ static void ram_hi_store_vbank_int(WORD addr, BYTE value) /* internal, vbank */
 {
     vicii_mem_vbank_3fxx_store(addr, value);
     if (addr == 0xff00) {
-        reu_dma(-1);
         scpu64_clock_write_stretch_io_long();
+        reu_dma(-1);
     } else {
         scpu64_clock_write_stretch();
     }
@@ -749,6 +749,7 @@ static BYTE scpu64io_d000_peek(WORD addr)
 void scpu64io_d000_store(WORD addr, BYTE value)
 {
     int oldfastmode;
+    scpu64_clock_write_stretch_io();
     mem_sram[0x10000 + addr] = value;
     if ((addr >= 0xd071 && addr < 0xd080) || (addr >= 0xd0b0 && addr < 0xd0c0)) {
         oldfastmode = scpu64_get_fastmode(); 
@@ -761,7 +762,6 @@ void scpu64io_d000_store(WORD addr, BYTE value)
         c64io_d000_store(addr, value);
         maincpu_clk--;
     }
-    scpu64_clock_write_stretch_io();
 }
 
 BYTE scpu64io_d100_read(WORD addr)
@@ -772,11 +772,11 @@ BYTE scpu64io_d100_read(WORD addr)
 
 void scpu64io_d100_store(WORD addr, BYTE value)
 {
+    scpu64_clock_write_stretch_io();
     mem_sram[0x10000 + addr] = value;
     maincpu_clk++; /* hack, hardcoded offset in VICII emulation... */
     c64io_d100_store(addr, value);
     maincpu_clk--;
-    scpu64_clock_write_stretch_io();
 }
 
 BYTE scpu64io_d200_read(WORD addr)
@@ -809,9 +809,9 @@ BYTE scpu64io_d400_read(WORD addr)
 
 void scpu64io_d400_store(WORD addr, BYTE value)
 {
+    scpu64_clock_write_stretch_io();
     mem_sram[0x10000 + addr] = value;
     c64io_d400_store(addr, value);
-    scpu64_clock_write_stretch_io();
 }
 
 BYTE scpu64io_d500_read(WORD addr)
@@ -822,9 +822,9 @@ BYTE scpu64io_d500_read(WORD addr)
 
 void scpu64io_d500_store(WORD addr, BYTE value)
 {
+    scpu64_clock_write_stretch_io();
     mem_sram[0x10000 + addr] = value;
     c64io_d500_store(addr, value);
-    scpu64_clock_write_stretch_io();
 }
 
 BYTE scpu64io_d600_read(WORD addr)
@@ -847,8 +847,8 @@ BYTE scpu64io_d700_read(WORD addr)
 
 void scpu64io_d700_store(WORD addr, BYTE value)
 {
-    c64io_d700_store(addr, value);
     scpu64_clock_write_stretch_io();
+    c64io_d700_store(addr, value);
 }
 
 BYTE scpu64io_colorram_read(WORD addr)
@@ -881,8 +881,8 @@ BYTE scpu64_cia1_read(WORD addr)
 
 void scpu64_cia1_store(WORD addr, BYTE value)
 {
+    scpu64_clock_write_stretch_io_start();
     mem_sram[0x10000 + addr] = value;
-    scpu64_clock_write_stretch_io();
     cia1_store(addr, value);
     scpu64_clock_write_stretch_io_cia();
 }
@@ -895,8 +895,8 @@ BYTE scpu64_cia2_read(WORD addr)
 
 void scpu64_cia2_store(WORD addr, BYTE value)
 {
+    scpu64_clock_write_stretch_io_start();
     mem_sram[0x10000 + addr] = value;
-    scpu64_clock_write_stretch_io();
     cia2_store(addr, value);
     scpu64_clock_write_stretch_io_cia();
 }
@@ -909,8 +909,8 @@ BYTE scpu64io_de00_read(WORD addr)
 
 void scpu64io_de00_store(WORD addr, BYTE value)
 {
-    c64io_de00_store(addr, value);
     scpu64_clock_write_stretch_io();
+    c64io_de00_store(addr, value);
 }
 
 BYTE scpu64io_df00_read(WORD addr)
@@ -921,7 +921,6 @@ BYTE scpu64io_df00_read(WORD addr)
 
 void scpu64io_df00_store(WORD addr, BYTE value)
 {
-    c64io_df00_store(addr, value);
     switch (addr) {
     case 0xdf01:
     case 0xdf21:
@@ -939,6 +938,7 @@ void scpu64io_df00_store(WORD addr, BYTE value)
         scpu64_clock_write_stretch_io();
         break;
     }
+    c64io_df00_store(addr, value);
 }
 
 BYTE scpu64_roml_read(WORD addr)
@@ -949,8 +949,8 @@ BYTE scpu64_roml_read(WORD addr)
 
 void scpu64_roml_store(WORD addr, BYTE value)
 {
-    roml_store(addr, value); /* i/o write */
     scpu64_clock_write_stretch_io();
+    roml_store(addr, value); /* i/o write */
 }
 
 BYTE scpu64_romh_read(WORD addr)
@@ -961,8 +961,8 @@ BYTE scpu64_romh_read(WORD addr)
 
 void scpu64_romh_store(WORD addr, BYTE value)
 {
-    romh_store(addr, value); /* i/o write */
     scpu64_clock_write_stretch_io();
+    romh_store(addr, value); /* i/o write */
 }
 
 BYTE scpu64_ultimax_1000_7fff_read(WORD addr)
@@ -973,8 +973,8 @@ BYTE scpu64_ultimax_1000_7fff_read(WORD addr)
 
 void scpu64_ultimax_1000_7fff_store(WORD addr, BYTE value)
 {
-    ultimax_1000_7fff_store(addr, value); /* i/o write */
     scpu64_clock_write_stretch_io();
+    ultimax_1000_7fff_store(addr, value); /* i/o write */
 }
 
 BYTE scpu64_ultimax_a000_bfff_read(WORD addr)
@@ -985,8 +985,8 @@ BYTE scpu64_ultimax_a000_bfff_read(WORD addr)
 
 void scpu64_ultimax_a000_bfff_store(WORD addr, BYTE value)
 {
-    ultimax_a000_bfff_store(addr, value); /* i/o write */
     scpu64_clock_write_stretch_io();
+    ultimax_a000_bfff_store(addr, value); /* i/o write */
 }
 
 BYTE scpu64_ultimax_c000_cfff_read(WORD addr)
@@ -997,8 +997,8 @@ BYTE scpu64_ultimax_c000_cfff_read(WORD addr)
 
 void scpu64_ultimax_c000_cfff_store(WORD addr, BYTE value)
 {
-    ultimax_c000_cfff_store(addr, value); /* i/o write */
     scpu64_clock_write_stretch_io();
+    ultimax_c000_cfff_store(addr, value); /* i/o write */
 }
 
 static void scpu64_mem_vbank_store(WORD addr, BYTE value) {

@@ -132,56 +132,68 @@ void scpu64_clock_readwrite_stretch_eprom(void)
         }
     }
 }
-
+#define SHIFT -4000000
 void scpu64_clock_read_stretch_io(void)
 {
     if (fastmode) {
         wait_buffer();
-        while (maincpu_accu < 31730000) { /* measured */
-            maincpu_accu += maincpu_diff;
+        if (maincpu_accu >= 0 + SHIFT + 20000000) {
+            alarms();
+            maincpu_clk++;
         }
-        maincpu_accu -= 20600000;
+            alarms();
+            maincpu_clk++;
+        maincpu_accu = 11500000 + SHIFT; /* measured */
+    }
+}
+
+void scpu64_clock_write_stretch_io_start(void) /* before write! */
+{
+    if (fastmode) {
+        wait_buffer();
+        if (maincpu_accu >= 0 + SHIFT + 20000000) {
+            alarms();
+            maincpu_clk++;
+        }
+            alarms();
+            maincpu_clk++;
+    }
+}
+
+void scpu64_clock_write_stretch_io_cia(void) /* after write! */
+{
+    if (fastmode) {
+        maincpu_accu = 16800000 + SHIFT; /* measured */
         alarms();
         maincpu_clk++;
     }
 }
 
-void scpu64_clock_write_stretch_io_cia(void)
+void scpu64_clock_write_stretch_io(void) /* before write! */
 {
     if (fastmode) {
         wait_buffer();
-        while (maincpu_accu < 35950000) { /* measured */
-            maincpu_accu += maincpu_diff;
+        if (maincpu_accu >= 0 + SHIFT + 20000000) {
+            alarms();
+            maincpu_clk++;
         }
-        maincpu_accu -= 20000000;
-        alarms();
-        maincpu_clk++;
+            alarms();
+            maincpu_clk++;
+        maincpu_accu = 11500000 + SHIFT; /* measured */
     }
 }
 
-void scpu64_clock_write_stretch_io(void)
+void scpu64_clock_write_stretch_io_long(void) /* before write! */
 {
     if (fastmode) {
         wait_buffer();
-        while (maincpu_accu < 31730000) { /* measured */
-            maincpu_accu += maincpu_diff;
+        if (maincpu_accu >= 0 + SHIFT + 20000000) {
+            alarms();
+            maincpu_clk++;
         }
-        maincpu_accu -= 20600000;
-        alarms();
-        maincpu_clk++;
-    }
-}
-
-void scpu64_clock_write_stretch_io_long(void)
-{
-    if (fastmode) {
-        wait_buffer();
-        while (maincpu_accu < 38000000) { /* measured */
-            maincpu_accu += maincpu_diff;
-        }
-        maincpu_accu -= 20600000;
-        alarms();
-        maincpu_clk++;
+            alarms();
+            maincpu_clk++;
+        maincpu_accu = 17600000 + SHIFT; /* measured */
     }
 }
 
@@ -190,7 +202,10 @@ void scpu64_clock_write_stretch(void)
     if (fastmode) {
         wait_buffer();
         buffer_finish = maincpu_clk + 1;
-        buffer_finish_half = 13000000;
+        if (maincpu_accu >= 0 + SHIFT + 20000000) {
+            buffer_finish++;
+        }
+        buffer_finish_half = 11500000 + SHIFT;
     }
 }
 
@@ -198,13 +213,7 @@ void scpu64_set_fastmode(int mode)
 {
     if (fastmode != mode) {
         if (!mode) {
-            if (maincpu_accu > 17700000) {
-                alarms();
-                maincpu_clk++;
-            }
-            maincpu_accu = 17700000; /* measured */
-            alarms();
-            maincpu_clk++;
+            maincpu_accu = 17700000 + SHIFT; /* measured */
         }
         fastmode = mode;
         maincpu_resync_limits();

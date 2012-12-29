@@ -36,6 +36,7 @@ int scpu64_get_fastmode(void);
 void scpu64_clock_read_stretch_io(void);
 void scpu64_clock_readwrite_stretch_eprom(void);
 void scpu64_clock_write_stretch(void);
+void scpu64_clock_write_stretch_io_start(void);
 void scpu64_clock_write_stretch_io(void);
 void scpu64_clock_write_stretch_io_long(void);
 void scpu64_clock_write_stretch_io_cia(void);
