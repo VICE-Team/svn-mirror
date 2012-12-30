@@ -227,6 +227,7 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
 
+    /* button "start server" */
     hb = gtk_hbox_new(FALSE, 0);
     rb = gtk_button_new_with_label(_("Start server"));
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
@@ -245,12 +246,6 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_widget_set_size_request(entry, 100, -1);
     gtk_widget_show(entry);
 
-    gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
-    gtk_widget_show(hb);
-
-    gtk_box_pack_start(GTK_BOX(h), b, FALSE, FALSE, 5);
-    gtk_widget_show(b);
-
     /* entry port */
     np_port = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
@@ -260,6 +255,7 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_box_pack_start(GTK_BOX(b), hb, FALSE, FALSE, 5);
     gtk_widget_show(hb);
 
+    /* button "connect to server" */
     hb = gtk_hbox_new(FALSE, 0);
     rb = gtk_button_new_with_label(connect_to);
     gtk_box_pack_start(GTK_BOX(hb), rb, FALSE, FALSE, 5);
@@ -268,7 +264,7 @@ static GtkWidget *build_netplay_dialog(void)
     gtk_widget_show(rb);
     lib_free(connect_to);
 
-    /* entry IP */
+    /* entry "remote IP" */
     np_server = entry = gtk_entry_new();
     gtk_box_pack_start(GTK_BOX(hb), entry, FALSE, FALSE, 0);
     gtk_widget_set_size_request(entry, 100, -1);
@@ -324,6 +320,7 @@ static GtkWidget *build_netplay_dialog(void)
     g_signal_connect(G_OBJECT(rb), "clicked", G_CALLBACK(netplay_disconnect), rb);
     gtk_widget_set_can_focus(rb, 0);
     gtk_widget_show(rb);
+    
     netplay_update_status();
 
     /* gtk_dialog_close_hides(GTK_DIALOG(d), TRUE); */
