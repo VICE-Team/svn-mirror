@@ -108,9 +108,9 @@ static ui_menu_entry_t first_byte_menu[] = {
 ui_menu_entry_t ui_ram_pattern_submenu[] = {
     { N_("Value of first byte"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, first_byte_menu },
-    { N_("Lenght of constant values"), UI_MENU_TYPE_NORMAL,
+    { N_("Length of constant values"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, constant_pattern_menu },
-    { N_("Lenght of constant pattern"), UI_MENU_TYPE_NORMAL,
+    { N_("Length of constant pattern"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, constant_values_menu },
     { NULL }
 };

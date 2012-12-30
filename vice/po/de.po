@@ -5774,7 +5774,7 @@ msgstr "Wert erstes Byte"
 
 #: src/arch/win32/res.rc.po.c:1283 src/arch/amigaos/intl_text.c.po.c:7902
 msgid "Length of constant values"
-msgstr "Länge der konstaten Werte"
+msgstr "Länge der konstanten Werte"
 
 #: src/arch/win32/res.rc.po.c:1284 src/arch/amigaos/intl_text.c.po.c:7916
 msgid "Length of constant pattern"
