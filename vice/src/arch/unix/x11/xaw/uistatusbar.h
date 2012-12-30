@@ -1,5 +1,5 @@
 /*
- * uitapestatus.h - Xaw only, UI controls for Datasette emulation
+ * uistatusbar.h - Xaw only, status bar
  *
  * Written by
  *  Olaf Seibert <rhialto@falu.nl>
@@ -24,25 +24,9 @@
  *
  */
 
-#ifndef UITAPESTATUS_H_
-#define UITAPESTATUS_H_
+#ifndef XAW_UISTATUSBAR_H_
+#define XAW_UISTATUSBAR_H_
 
-#include "uiarch.h"
+extern void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *c, int app_shell);
 
-typedef struct _XawDisplayList XawDisplayList;
-
-struct tape_widgets {
-    int counter_value;
-    Widget counter_label;
-    Widget button_status;
-    XawDisplayList *motor_on[5];
-    XawDisplayList *motor_off[5];
-};
-
-typedef struct tape_widgets tape_widgets_t;
-
-extern void build_tape_status_widget(tape_widgets_t *ts, Widget parent, int width, int height);
-extern void rebuild_tape_menu_action(Widget w, XEvent *event, String *params, Cardinal *num_params);
-extern void tape_play_stop_action(Widget w, XEvent *event, String *params, Cardinal *num_params);
-
-#endif
+#endif /* XAW_UISTATUSBAR_H_ */

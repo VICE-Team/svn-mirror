@@ -3,6 +3,7 @@
  * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
+ *  Olaf Seibert <rhialto@falu.nl>
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  André Fachat <fachat@physik.tu-chemnitz.de>
  *  Andreas Boose <viceteam@t-online.de>
@@ -88,7 +89,6 @@
 #include "uiapi.h"
 #include "uicolor.h"
 #include "uidrivestatus.h"
-#include "uifliplist.h"
 #include "uihotkey.h"
 #include "uilib.h"
 #include "uimenu.h"
@@ -102,12 +102,12 @@
 #include "video.h"
 #include "videoarch.h"
 #include "vsiduiunix.h"
-#include "screenshot.h"
 #include "vice-event.h"
 #include "x11ui.h"
 #include "lightpen.h"
 #include "lightpendrv.h"
 #include "uipalcontrol.h"
+#include "uistatusbar.h"
 
 /* #define DEBUG_X11UI */
 /* #define DEBUGMOUSECURSOR */
@@ -128,7 +128,7 @@ int screen;
 static int depth;
 
 /* UI logging goes here.  */
-static log_t ui_log = LOG_ERR;
+log_t ui_log = LOG_ERR;
 extern log_t vsid_log;
 
 Cursor blankCursor;
@@ -156,11 +156,7 @@ static Atom wm_delete_window;
 
 /* Toplevel widget. */
 Widget _ui_top_level = NULL;
-Widget status_bar = NULL;
-Widget rec_button = NULL;
-static Widget event_recording_button = NULL;
-static int statustext_display_time = 0;
-
+//Widget status_bar = NULL;
 /* Our colormap. */
 Colormap colormap;
 
@@ -778,18 +774,6 @@ UI_CALLBACK(structure_callback_shell);
 UI_CALLBACK(exposure_callback_canvas);
 UI_CALLBACK(structure_callback_canvas);
 
-static UI_CALLBACK(rec_button_callback)
-{
-    screenshot_stop_recording();
-    XtUnmapWidget(rec_button);
-}
-
-static UI_CALLBACK(event_recording_button_callback)
-{
-    event_record_stop();
-    XtUnmapWidget(event_recording_button);
-}
-
 /* ------------------------------------------------------------------------- */
 
 /*
@@ -912,26 +896,25 @@ static String fallback_resources[] = {
     "*Tip.borderWidth:                               0",
     "*Tip.displayList: foreground rgb:8/8/4; lines 1,-1,-1,-1,-1,1; foreground rgb:f/f/c; lines -1,0,0,0,0,-1",
  */
+    "*driveTrack1.cursorName:                  hand1",
     "*driveTrack1.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack1.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack2.cursorName:                  hand1",
     "*driveTrack2.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack2.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage1.font:                 -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage1.fontSet:              -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage2.font:                 -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage2.fontSet:              -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack3.cursorName:                  hand1",
     "*driveTrack3.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack3.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
+    "*driveTrack4.cursorName:                  hand1",
     "*driveTrack4.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*driveTrack4.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage3.font:                 -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage3.fontSet:              -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage4.font:                 -*-helvetica-medium-r-*-*-12-*",
-    "*driveCurrentImage4.fontSet:              -*-helvetica-medium-r-*-*-12-*",
+    "*speedStatus.cursorName:                  hand1",
     "*speedStatus.font:                        -*-helvetica-medium-r-*-*-12-*",
     "*speedStatus.fontSet:                     -*-helvetica-medium-r-*-*-12-*",
     "*statustext.font:                         -*-helvetica-medium-r-*-*-12-*",
     "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-12-*",
+    "*tapeCounter1.cursorName:                 hand1",
+    "*tapeButtons1.translations:               #override\\n<BtnDown>: TapePlayStop()\n",
 
     NULL
 };
@@ -984,6 +967,7 @@ int ui_init(int *argc, char **argv)
     static XtActionsRec actions[] = {
         { "Close", close_action },
         { "RebuildTapeMenu", rebuild_tape_menu_action },
+        { "TapePlayStop", tape_play_stop_action },
     };
     int skip_resources = 0;
 
@@ -1024,8 +1008,6 @@ int ui_init(int *argc, char **argv)
     XtAppAddActions(app_context, actions, XtNumber(actions));
 
     ui_common_init();
-
-    //enabled_drives = UI_DRIVE_ENABLE_NONE;
 
     finish_prepare_wm_command();
 
@@ -1184,21 +1166,6 @@ void printxywh(char *name, Widget widget)
 
 /*
  * Create a shell with a canvas widget in it.
- *
- * +-----------------------------------------------------------------------+
- * |+---------------------------------------------------------------------+|
- * ||                                                                     ||
- * ...                           video canvas                            ...
- * ||                                                                     ||
- * |+---------------------------------------------------------------------+|
- * |100%, 50fps            | Drive  8 image        |    8: Track 18,0   XX |
- * |    CRT Controls       | Drive  9 image        |    9: Track 18,0   XX |
- * |(statustext)           | Drive 10 image        |   10: Track 18,0   XX |
- * |recording...           | Drive 11 image        |   11: Track 18,0   XX |
- * |event recording...     |                       |                       |
- * +-----------------------------------------------------------------------+
- *
- * New layout:
  * +-----------------------------------------------------------------------+
  * |+---------------------------------------------------------------------+|
  * ||                                                                     ||
@@ -1207,24 +1174,16 @@ void printxywh(char *name, Widget widget)
  * |+---------------------------------------------------------------------+|
  * |100%, 50fps            |    9: Track 18,0   XX |    8: Track 18,0   XX |
  * |    CRT Controls       |   11: Track 18,0   XX |   10: Track 18,0   XX |
- * |(statustext)           |recording...|event rec |   Tape #1: 000     [] |
+ * |(statustext)           |recording..|event reco |   Tape #1: 000     [] |
  * +-----------------------------------------------------------------------+
  */
 int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int height, int no_autorepeat)
 {
     /* Note: this is correct because we never destroy CanvasWindows.  */
-    Widget shell, speed_label, statustext_label;
-    Widget drive_status[NUM_DRIVES];
-    Widget drive_track_label[NUM_DRIVES], drive_led[NUM_DRIVES];
-    Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
-    Widget tape_counter_label[NUM_TAPES];
-    Widget tape_button_status[NUM_TAPES];
+    Widget shell;
     Widget pane;
     Widget canvas;
-    Widget pal_ctrl_widget = 0;
     XSetWindowAttributes attr;
-    int i;
-    char *button_title;
 
     if (machine_class != VICE_MACHINE_VSID) {
         if (uicolor_alloc_colors(c) < 0) {
@@ -1252,7 +1211,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     XtVaSetValues(shell, XtNvisual, visual, XtNdepth, depth, XtNcolormap, colormap, NULL);
 
 #define DD      2               /* default distance */
-#define BW      1               /* border width */
 
     pane = XtVaCreateManagedWidget("Form",
                                    formWidgetClass, shell,
@@ -1291,233 +1249,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     }
 
     /* Create the status bar on the bottom.  */
-    {
-        Dimension height;
-        Dimension led_width = 14, led_height = 5;
-        Dimension led_dist = 6;
-        Widget fromvert;
-
-        speed_label = XtVaCreateManagedWidget("speedStatus",
-                                              labelWidgetClass, pane,
-                                              XtNlabel, "",
-                                              XtNwidth, width / 3,
-                                              XtNfromVert, canvas,
-                                              XtNtop, XawChainBottom,
-                                              XtNbottom, XawChainBottom,
-                                              XtNjustify, XtJustifyLeft,
-                                              XtNborderWidth, 0,
-                                              XtNtip, _("Emulation Speed Status"),
-                                              NULL);
-
-        fromvert = speed_label;
-
-        XtVaGetValues(speed_label, XtNheight, &height, NULL);
-
-        if (machine_class != VICE_MACHINE_VSID) {
-            Widget drivefromvert, drivefromhoriz;
-
-            Arg args[] = {
-                { XtNlabel, (XtArgVal)_("CRT Controls") },
-                { XtNwidth, width / 3 - DD },
-                { XtNfromVert, (XtArgVal)fromvert },
-                { XtNvertDistance, DD + 2 * BW }, /* 2 + 2*border of drive_current_image */
-                { XtNtop, XawChainBottom },
-                { XtNbottom, XawChainBottom },
-            };
-            pal_ctrl_widget = build_pal_ctrl_widget(c, pane,
-                                        args, util_arraysize(args));
-
-            fromvert = pal_ctrl_widget;
-            drivefromvert = canvas;
-            drivefromhoriz = speed_label;
-
-            for (i = 0; i < NUM_DRIVES; i++) {
-                char *name;
-                Widget form;
-                int status_width = (width / 3) - DD;
-                int d = i ^ 1;
-
-                name = lib_msprintf("driveStatus%d", d + 1);
-                form =
-                drive_status[d] = XtVaCreateManagedWidget(name,
-                                    formWidgetClass, pane,
-                                    XtNmappedWhenManaged, False,
-                                    XtNwidth, status_width,
-                                    XtNheight, height,
-                                    XtNborderWidth, 0,
-                                    XtNdefaultDistance, 0,
-                                    XtNfromVert, drivefromvert,
-                                    XtNfromHoriz, drivefromhoriz,
-                                    XtNhorizDistance, DD,
-                                    XtNtop, XawChainBottom,
-                                    XtNbottom, XawChainBottom,
-                                    XtNleft, XawRubber,
-                                    XtNright, XawRubber,
-                                    NULL);
-                lib_free(name);
-
-                if (i & 1) {
-                    drivefromhoriz = speed_label;
-                    drivefromvert = form;
-                } else {
-                    drivefromhoriz = form;
-                }
-
-                name = lib_msprintf("driveTrack%d", d + 1);
-                drive_track_label[d] = XtVaCreateManagedWidget(name,
-                                    commandWidgetClass, form,
-                                    XtNlabel, "",
-                                    XtNwidth, status_width - led_width - 2 * led_dist - DD,
-                                    XtNhorizDistance, 0,
-                                    XtNvertDistance, 0,
-                                    XtNtop, XawChainBottom,
-                                    XtNbottom, XawChainBottom,
-                                    XtNleft, XawChainLeft,
-                                    XtNright, XawChainRight,
-                                    XtNjustify, XtJustifyRight,
-                                    NULL);
-                lib_free(name);
-
-                /* single LED */
-
-                name = lib_msprintf("driveLed%d", d + 1);
-                drive_led[d] = XtVaCreateManagedWidget(name,
-                                    xfwfcanvasWidgetClass, form,
-                                    XtNmappedWhenManaged, False,
-                                    XtNwidth, led_width,
-                                    XtNheight, led_height,
-                                    XtNfromHoriz, drive_track_label[d],
-                                    XtNhorizDistance, led_dist,
-                                    XtNvertDistance, (height-led_height)/2 + BW,
-                                    XtNtop, XawChainBottom,
-                                    XtNbottom, XawChainBottom,
-                                    XtNleft, XawChainRight,
-                                    XtNright, XawChainRight,
-                                    XtNborderWidth, 0,
-                                    NULL);
-                lib_free(name);
-
-                /* double LEDs */
-
-                name = lib_msprintf("driveLedA%d", d + 1);
-                drive_led1[d] = XtVaCreateManagedWidget(name,
-                                    xfwfcanvasWidgetClass, form,
-                                    XtNmappedWhenManaged, False,
-                                    XtNwidth, led_width / 2 - BW,
-                                    XtNheight, led_height,
-                                    XtNfromHoriz, drive_track_label[d],
-                                    XtNhorizDistance, led_dist,
-                                    XtNvertDistance, (height-led_height)/2 + BW,
-                                    XtNtop, XawChainBottom,
-                                    XtNbottom, XawChainBottom,
-                                    XtNleft, XawChainRight,
-                                    XtNright, XawChainRight,
-                                    XtNborderWidth, BW,
-                                    NULL);
-                lib_free(name);
-
-                name = lib_msprintf("driveLedB%d", d + 1);
-                drive_led2[d] = XtVaCreateManagedWidget(name,
-                                    xfwfcanvasWidgetClass, form,
-                                    XtNmappedWhenManaged, False,
-                                    XtNwidth, led_width / 2 - BW,
-                                    XtNheight, led_height,
-                                    XtNfromHoriz, drive_led1[d],
-                                    XtNhorizDistance, led_dist,
-                                    XtNvertDistance, (height-led_height)/2 + BW,
-                                    XtNtop, XawChainBottom,
-                                    XtNbottom, XawChainBottom,
-                                    XtNleft, XawChainRight,
-                                    XtNright, XawChainRight,
-                                    XtNborderWidth, BW,
-                                    NULL);
-                lib_free(name);
-            }
-        }
-
-        statustext_label = XtVaCreateManagedWidget("statustext",
-                                                   labelWidgetClass, pane,
-                                                   XtNwidth, width / 3 - 0, // 0 = 2*borderwidth
-                                                   XtNfromVert, drive_status[2],
-                                                   XtNtop, XawChainBottom,
-                                                   XtNbottom, XawChainBottom,
-                                                   XtNjustify, XtJustifyLeft,
-                                                   XtNlabel, "",
-                                                   XtNborderWidth, 0,
-                                                   NULL);
-
-        button_title = util_concat(_("recording"), "...", NULL);
-        rec_button = XtVaCreateManagedWidget("recButton",
-                                             commandWidgetClass, pane,
-                                             XtNmappedWhenManaged, False,
-                                             XtNwidth, width / 6 - 2 - DD,
-                                             XtNfromVert, drive_status[2],
-                                             XtNfromHoriz, statustext_label,
-                                             XtNtop, XawChainBottom,
-                                             XtNbottom, XawChainBottom,
-                                             XtNjustify, XtJustifyLeft,
-                                             XtNlabel, button_title,
-                                             NULL);
-        lib_free(button_title);
-
-        XtAddCallback(rec_button, XtNcallback, rec_button_callback, NULL);
-
-        button_title = util_concat(_("event recording"), "...", NULL);
-        event_recording_button = XtVaCreateManagedWidget("eventRecButton",
-                                            commandWidgetClass, pane,
-                                            XtNmappedWhenManaged, False,
-                                            XtNwidth, width / 6 - DD,
-                                            XtNfromVert, drive_status[2],
-                                            XtNfromHoriz, rec_button,
-                                            XtNtop, XawChainBottom,
-                                            XtNbottom, XawChainBottom,
-                                            XtNjustify, XtJustifyLeft,
-                                            XtNlabel, button_title,
-                                            NULL);
-        lib_free(button_title);
-        XtAddCallback(event_recording_button, XtNcallback, event_recording_button_callback, NULL);
-
-        Dimension tape_btn_d = 4;
-        Dimension tape_btn_w = 24;
-
-        for (i = 0; i < NUM_TAPES; i++) {
-            char *name = lib_msprintf("tapeCounter%d", i + 1);
-            tape_counter_label[i] = XtVaCreateManagedWidget(name,
-                                            commandWidgetClass, pane,
-                                            XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, // 4 borderwidths for 2 widgets, 1 defaultDistance
-                                            XtNjustify, XtJustifyLeft,
-                                            XtNlabel, "Tape #1",
-                                            XtNfromVert, drive_status[3],
-                                            XtNfromHoriz, drive_status[3],
-                                            XtNtop, XawChainBottom,
-                                            XtNbottom, XawChainBottom,
-                                            XtNright, XawChainRight,
-                                            NULL);
-            lib_free(name);
-
-            name = lib_msprintf("tapeButtons%d", i + 1);
-            tape_button_status[i] = XtVaCreateManagedWidget(name,
-                                            simpleWidgetClass, pane,
-                                            XtNwidth, tape_btn_w,
-                                            XtNheight, height,
-                                            XtNjustify, XtJustifyLeft,
-                                            XtNfromVert, drive_status[3],
-                                            XtNfromHoriz, tape_counter_label[i],
-                                            XtNhorizDistance, tape_btn_d,
-                                            XtNtop, XawChainBottom,
-                                            XtNbottom, XawChainBottom,
-                                            XtNleft, XawChainRight,
-                                            XtNright, XawChainRight,
-                                            NULL);
-            lib_free(name);
-
-            app_shells[num_app_shells - 1].tape_widgets[i].counter_value = -1;
-            app_shells[num_app_shells - 1].tape_widgets[i].counter_label = tape_counter_label[i];
-            app_shells[num_app_shells - 1].tape_widgets[i].button_status = tape_button_status[i];
-
-            build_tape_status_widget(&app_shells[num_app_shells - 1].tape_widgets[i], pane, tape_btn_w, height);
-        }
-    }
+    ui_create_status_bar(pane, width, canvas, c, num_app_shells - 1);
 
     /* Assign proper translations to open the menus, if already
        defined.  */
@@ -1552,25 +1284,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
     app_shells[num_app_shells - 1].shell = shell;
     app_shells[num_app_shells - 1].canvas = canvas;
     app_shells[num_app_shells - 1].title = lib_stralloc(title);
-    app_shells[num_app_shells - 1].speed_label = speed_label;
-    app_shells[num_app_shells - 1].statustext_label = statustext_label;
-    status_bar = speed_label;
-
-    if (machine_class != VICE_MACHINE_VSID) {
-        for (i = 0; i < NUM_DRIVES; i++) {
-            app_shells[num_app_shells - 1].drive_widgets[i].track_label = drive_track_label[i];
-            app_shells[num_app_shells - 1].drive_widgets[i].driveled = drive_led[i];
-            XtUnmapWidget(drive_led[i]);
-            app_shells[num_app_shells - 1].drive_widgets[i].driveled1 = drive_led1[i];
-            app_shells[num_app_shells - 1].drive_widgets[i].driveled2 = drive_led2[i];
-            XtUnmapWidget(drive_led1[i]);
-            XtUnmapWidget(drive_led2[i]);
-            app_shells[num_app_shells - 1].drive_widgets[i].status = drive_status[i];
-            strcpy(&(last_attached_images[i][0]), "");
-            XtMapWidget(app_shells[num_app_shells - 1].drive_widgets[i].status);
-
-        }
-    }
 
     XSetWMProtocols(display, XtWindow(shell), &wm_delete_window, 1);
     XtOverrideTranslations(shell, XtParseTranslationTable("<Message>WM_PROTOCOLS: Close()"));
@@ -1666,6 +1379,27 @@ void ui_set_topmenu(ui_menu_entry_t *menu)
 
 void ui_set_speedmenu(ui_menu_entry_t *menu)
 {
+    Widget w = ui_menu_create("SpeedMenu", menu, NULL);
+    int i;
+    static XtTranslations speed_menu_translations;
+    static Widget speed_menu;
+
+    XtRealizeWidget(w);
+    if (speed_menu_translations == 0) {
+        char *translation_table;
+        translation_table = "<BtnDown>: XawPositionSimpleMenu(SpeedMenu) XtMenuPopup(SpeedMenu)\n"
+                           "Meta Shift <KeyDown>z: FakeButton(1) XawPositionSimpleMenu(SpeedMenu) XtMenuPopup(SpeedMenu)\n";
+        speed_menu_translations = XtParseTranslationTable(translation_table);
+    }
+
+    for (i = 0; i < num_app_shells; i++) {
+        XtOverrideTranslations(app_shells[i].speed_label, speed_menu_translations);
+    }
+
+    if (speed_menu != NULL) {
+        XtDestroyWidget(speed_menu);
+    }
+    speed_menu = w;
 }
 
 void ui_set_application_icon(const char *icon_data[])
@@ -1757,82 +1491,7 @@ static int alloc_colormap(void)
     return 0;
 }
 
-static void statusbar_setstatustext(const char *t)
-{
-    int i;
-    for (i = 0; i < num_app_shells; i++) {
-        XtVaSetValues(app_shells[i].statustext_label,
-                      XtNlabel, t,
-                      XtNtip, t,
-                      NULL);
-    }
-}
-
 /* ------------------------------------------------------------------------- */
-
-/* Show the speed index to the user.  */
-void ui_display_speed(float percent, float framerate, int warp_flag)
-{
-    int i;
-    int percent_int = (int)(percent + 0.5);
-    int framerate_int = (int)(framerate + 0.5);
-    char *str = NULL;
-
-    if (percent) {
-        str = lib_msprintf("%d%%, %dfps %s", percent_int, framerate_int, warp_flag ? _("(warp)") : "");
-    }
-
-    for (i = 0; i < num_app_shells; i++) {
-        if (!percent) {
-            XtVaSetValues(app_shells[i].speed_label, XtNlabel, warp_flag ? _("(warp)") : "", NULL);
-        } else {
-            XtVaSetValues(app_shells[i].speed_label, XtNlabel, str, NULL);
-        }
-    }
-    lib_free(str);
-    if (statustext_display_time > 0) {
-        statustext_display_time--;
-        if (statustext_display_time == 0) {
-            statusbar_setstatustext("");
-        }
-    }
-
-    if (!screenshot_is_recording()) {
-        XtUnmapWidget(rec_button);
-    }
-}
-
-void ui_display_recording(int recording_status)
-{
-    if (recording_status) {
-        XtMapWidget(event_recording_button);
-    } else {
-        XtUnmapWidget(event_recording_button);
-    }
-}
-
-void ui_display_playback(int playback_status, char *version)
-{
-}
-
-/* Display a message in the title bar indicating that the emulation is
-   paused.  */
-void ui_display_paused(int flag)
-{
-    int i;
-
-    for (i = 0; i < num_app_shells; i++) {
-        if (flag) {
-            char *str;
-
-            str = lib_msprintf(_("%s (paused)"), app_shells[i].title);
-            XtVaSetValues(app_shells[i].shell, XtNtitle, str, NULL);
-            lib_free(str);
-        } else {
-            XtVaSetValues(app_shells[i].shell, XtNtitle, app_shells[i].title, NULL);
-        }
-    }
-}
 
 /* Dispatch the next Xt event.  If not pending, wait for it. */
 void ui_dispatch_next_event(void)
@@ -1890,16 +1549,6 @@ int x11ui_fullscreen(int i)
     ui_dispatch_events();
     mouse_cursor_grab(1, None);
 
-    return 0;
-}
-
-static int stb = 1;
-int ui_fullscreen_statusbar(struct video_canvas_s *canvas, int enable)
-{
-    if (stb) {
-        log_message(ui_log, "Toggling of Statusbar/Menu in Xaw is not supported.");
-        stb = 0;
-    }
     return 0;
 }
 
@@ -2818,16 +2467,5 @@ static void close_action(Widget w, XEvent *event, String *params, Cardinal *num_
     vsync_suspend_speed_eval();
 
     ui_exit();
-}
-
-void ui_display_statustext(const char *text, int fade_out)
-{
-    log_message(LOG_DEFAULT, "%s", text);
-    statusbar_setstatustext(text);
-    if (fade_out) {
-        statustext_display_time = 5;
-    } else {
-        statustext_display_time = 0;
-    }
 }
 

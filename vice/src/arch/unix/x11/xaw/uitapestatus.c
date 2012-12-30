@@ -43,7 +43,7 @@
 #include "resources.h"
 #include "videoarch.h"
 
-#include <X11/Xaw/Box.h>
+#include <X11/Xaw/Simple.h>
 #include <X11/Xaw/Tip.h>
 
 /* #define DEBUG_X11UI */
@@ -70,9 +70,9 @@ static void invalidate_tape_menu(void);
  * C Language Interface", since they are a late addition (like tips).
  * They are in the Xaw(3) manual page instead.
  */
-static XawDisplayList *create_display_list(Widget w, const char *fmt, ...)
+static XawDisplayList *create_display_list(Widget w, char *fmt, ...)
 {
-    va_list args;
+    //va_list args;
     char *buf;
     XawDisplayList *xdl;
     XrmValue from, to;
@@ -283,6 +283,7 @@ void ui_set_tape_menu(ui_menu_entry_t *menu)
 {
     DBG(("ui_set_tape_menu"));
     if (left_tape_menu) {
+        XtPopdown(left_tape_menu);
         XtDestroyWidget(left_tape_menu);
     }
     left_tape_menu = ui_menu_create("LeftTapeMenu", menu, NULL);
@@ -341,12 +342,22 @@ static void invalidate_tape_menu()
 void rebuild_tape_menu_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
 {
     DBG(("rebuild_tape_menu_action"));
-    invalidate_tape_menu();
+    invalidate_tape_menu();     // NOTE: this line is here to make it easier to find the bug re: second & third right-clicks on the GUI element.
     if (right_tape_menu == NULL) {
         if (last_attached_tape == NULL || last_attached_tape[0] == 0) {
             return;
         }
 
         right_tape_menu = rebuild_contents_menu("RightTapeMenu", 1, last_attached_tape);
+    }
+}
+
+void tape_play_stop_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    DBG(("tape_play_stop_action"));
+    if (tape_control_status == DATASETTE_CONTROL_STOP) {
+        datasette_control(DATASETTE_CONTROL_START);
+    } else {
+        datasette_control(DATASETTE_CONTROL_STOP);
     }
 }
