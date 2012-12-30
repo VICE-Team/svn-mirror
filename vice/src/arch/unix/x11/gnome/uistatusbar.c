@@ -375,7 +375,8 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
         gtk_widget_show(drive_box);
         gtk_box_pack_start(GTK_BOX(status_bar), drive_box, FALSE, FALSE, 0);
 
-        if (machine_class != VICE_MACHINE_C64DTV) {
+        if ((machine_class != VICE_MACHINE_C64DTV) &&
+            (machine_class != VICE_MACHINE_SCPU64)) {
             build_tape_status_widget(as, window);
             gtk_box_pack_start(GTK_BOX(status_bar), as->tape_status.event_box, FALSE, FALSE, 0);
             gtk_widget_show(as->tape_status.event_box);
