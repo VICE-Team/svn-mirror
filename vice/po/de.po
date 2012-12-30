@@ -1466,7 +1466,7 @@ msgstr "Kann Snapshot Datei `%s' nicht speichern.\n"
 
 #: src/arch/unix/gui/uicommands.c:340 src/arch/unix/gui/uicommands.c:495
 msgid "Select history directory"
-msgstr "Verzeichnis für Event Aufnahme..."
+msgstr "Verzeichnis für Event Aufnahme"
 
 #: src/arch/unix/gui/uicommands.c:340 src/arch/unix/gui/uidrive.c:192
 msgid "Path:"
@@ -1698,7 +1698,7 @@ msgstr "Weiß"
 #: src/arch/unix/gui/uivdc.c:63 src/arch/unix/gui/uivic.c:63
 #: src/arch/unix/gui/uivicii.c:79
 msgid "Load custom"
-msgstr "Benutzerdefiniert..."
+msgstr "Benutzerdefiniert"
 
 #: src/arch/unix/gui/uicrtc.c:75 src/arch/unix/gui/uited.c:85
 #: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:85
@@ -2928,7 +2928,7 @@ msgstr "Verbindung Trennen"
 
 #: src/arch/unix/gui/uipalette.c:51
 msgid "Load custom palette"
-msgstr "Benutzerdefinierte Palette..."
+msgstr "Benutzerdefinierte Palette laden"
 
 #: src/arch/unix/gui/uipalette.c:62
 #, c-format
