@@ -106,7 +106,7 @@ static UI_CALLBACK(ui_netplay_disconnect)
 
 ui_menu_entry_t netplay_submenu[] = {
 #ifdef USE_GNOMEUI
-    { N_("Netplay (experimental)"), UI_MENU_TYPE_NORMAL,
+    { N_("Netplay"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)netplay, NULL, NULL },
 #else
     { N_("TCP port"), UI_MENU_TYPE_NORMAL,

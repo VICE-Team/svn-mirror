@@ -50,6 +50,7 @@
 #include "uijoystick2.h"
 #include "uikeyboard.h"
 #include "uimenu.h"
+#include "uinetplay.h"
 #include "uiperipheralieee.h"
 #include "uipetdww.h"
 #include "uipethre.h"
@@ -505,8 +506,10 @@ static ui_menu_entry_t petui_left_menu[] = {
       NULL, NULL, ui_sound_record_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
+#ifdef HAVE_NETWORK
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_help_commands_menu },
+      NULL, NULL, netplay_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -514,6 +517,8 @@ static ui_menu_entry_t petui_left_menu[] = {
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_edit_commands_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_help_commands_menu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
@@ -565,6 +570,10 @@ static ui_menu_entry_t petui_file_menu[] = {
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
+#ifdef HAVE_NETWORK
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, netplay_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

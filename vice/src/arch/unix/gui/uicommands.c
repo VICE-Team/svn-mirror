@@ -492,7 +492,7 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
       (ui_callback_t)save_quicksnap, NULL, NULL,
       KEYSYM_F11, UI_HOTMOD_META },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Select history directory"), UI_MENU_TYPE_NORMAL,
+    { N_("Select history directory"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)events_select_dir, NULL, NULL },
     { N_("Start recording events"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)record_events_start, NULL, NULL },
@@ -509,11 +509,6 @@ ui_menu_entry_t ui_snapshot_commands_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Recording start mode"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_event_start_mode_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-#ifdef HAVE_NETWORK
-    { N_("Netplay (experimental)"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, netplay_submenu },
-#endif
     { NULL }
 };
 
