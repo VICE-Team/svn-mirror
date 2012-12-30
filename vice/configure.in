@@ -3426,6 +3426,8 @@ case "$host_os" in
     ;;  
 esac
 AC_SUBST(VICEDIR)
+AC_DEFINE_UNQUOTED(VICEDIR, "$VICEDIR",
+		   [Where should we lookup for data files?])
 
 if false ; then
     dnl Now produce the directories & Makefiles.
