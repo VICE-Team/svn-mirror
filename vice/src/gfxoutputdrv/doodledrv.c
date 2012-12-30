@@ -683,7 +683,7 @@ static gfxoutputdrv_t doodle_drv =
 static gfxoutputdrv_t doodle_compressed_drv =
 {
     "DOODLE_COMPRESSED",
-    "C64 compredded doodle screenshot",
+    "C64 compressed doodle screenshot",
     "jj",
     NULL, /* formatlist */
     NULL,
