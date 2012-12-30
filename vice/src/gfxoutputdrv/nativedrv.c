@@ -1397,7 +1397,7 @@ native_data_t *native_crtc_render(screenshot_t *screenshot, const char *filename
 
     data->colormap = lib_malloc(data->xsize * data->ysize);
 
-
+    bitmap = 0;
     bgcolor = 0;
     fgcolor = crtc_fgcolor;
     scr_rel = base;
@@ -1523,9 +1523,9 @@ native_data_t *native_vdc_text_mode_render(screenshot_t *screenshot, const char 
     BYTE *regs = screenshot->video_regs;
     BYTE displayed_chars_h = regs[1];
     BYTE displayed_chars_v = regs[6];
-    BYTE scanlines_per_char = (regs[9] & 0x1f) + 1;
+    /* BYTE scanlines_per_char = (regs[9] & 0x1f) + 1;
     BYTE char_h_size_alloc = regs[22] & 0xf;
-    BYTE char_h_size_displayed = (regs[22] & 0xf0) >> 4;
+    BYTE char_h_size_displayed = (regs[22] & 0xf0) >> 4; */
     BYTE bitmap;
     BYTE fgcolor;
     BYTE bgcolor;
@@ -1549,6 +1549,7 @@ native_data_t *native_vdc_text_mode_render(screenshot_t *screenshot, const char 
 
     data->colormap = lib_malloc(data->xsize * data->ysize);
 
+    fgcolor = 1;
     bgcolor = regs[0x26] & 0xf;
 
     if (!(regs[25] & 0x40)) {
