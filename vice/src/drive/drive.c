@@ -236,7 +236,7 @@ int drive_init(void)
 
         /* Position the R/W head on the directory track.  */
         drive_set_half_track(36, 0, drive);
-        drive_led_color[dnr] = DRIVE_ACTIVE_RED;
+        drive_set_active_led_color(drive->type, dnr);
     }
 
     for (dnr = 0; dnr < DRIVE_NUM; dnr++) {
