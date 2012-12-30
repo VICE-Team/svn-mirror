@@ -250,10 +250,6 @@
 #define SET_LAST_OPCODE(x) \
     OPINFO_SET(LAST_OPCODE_INFO, (x), 0, 0, 0)
 
-/* Remember that the last opcode delayed a pending IRQ or NMI by one cycle.  */
-#define OPCODE_DELAYS_INTERRUPT() \
-    OPINFO_SET_DELAYS_INTERRUPT(LAST_OPCODE_INFO, 1)
-
 /* Remember that the last opcode changed the I flag from 0 to 1, so we have
    to dispatch an IRQ even if the I flag is 0 when we check it.  */
 #define OPCODE_DISABLES_IRQ() \
@@ -268,7 +264,6 @@
 
 /* Info about the last opcode is not needed.  */
 #define SET_LAST_OPCODE(x)
-#define OPCODE_DELAYS_INTERRUPT()
 #define OPCODE_DISABLES_IRQ()
 #define OPCODE_ENABLES_IRQ()
 
@@ -823,6 +818,8 @@
       INC_PC(SIZE_3);                                                               \
       if (!LOCAL_65816_X() || ((p1 + reg_x) > 0xff)) {                              \
           LOAD_LONG_DUMMY(((ea + reg_x) & 0xff) + (ea & 0xff00) + (reg_dbr << 16)); \
+      } else {                                                                      \
+          LOAD_LONG_DUMMY((ea + reg_x) + (reg_dbr << 16));                          \
       }                                                                             \
       ea = (ea + reg_x + (reg_dbr << 16)) & 0xffffff;                               \
       var = LOAD_LONG(ea);                                                          \
@@ -1372,8 +1369,6 @@
           FETCH_PARAM_DUMMY(reg_pc);                         \
           if (((reg_pc ^ dest_addr) & ~0xff) && reg_emul) {  \
               FETCH_PARAM_DUMMY(dest_addr);                  \
-          } else {                                           \
-              OPCODE_DELAYS_INTERRUPT();                     \
           }                                                  \
           reg_pc = dest_addr;                                \
           JUMP(reg_pc);                                      \
@@ -1384,7 +1379,6 @@
   do {                                                       \
       INC_PC(SIZE_2);                                        \
       FETCH_PARAM_DUMMY(reg_pc);                             \
-      OPCODE_DELAYS_INTERRUPT();                             \
       INC_PC(p2 + 1);                                        \
       JUMP(reg_pc);                                          \
   } while (0)

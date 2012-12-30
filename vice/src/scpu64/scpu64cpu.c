@@ -341,12 +341,6 @@ inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
 
     if (!fastmode) {
         nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
-
-        /* Branch instructions delay IRQs and NMI by one cycle if branch
-           is taken with no page boundary crossing.  */
-        if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr)) {
-            nmi_clk++;
-        }
     } else {
         nmi_clk = cs->nmi_clk;
     }
@@ -368,19 +362,12 @@ inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
 
     if (!fastmode) {
         irq_clk = cs->irq_clk + INTERRUPT_DELAY;
-
-        /* Branch instructions delay IRQs and NMI by one cycle if branch
-           is taken with no page boundary crossing.  */
-        if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr)) {
-            irq_clk++;
-        }
-
-        /* If an opcode changes the I flag from 1 to 0, the 65802 needs
-           one more opcode before it triggers the IRQ routine.  */
     } else {
         irq_clk = cs->irq_clk;
     }
     if (cpu_clk >= irq_clk) {
+        /* If an opcode changes the I flag from 1 to 0, the 65802 needs
+           one more opcode before it triggers the IRQ routine.  */
         if (!OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr)) {
             return 1;
         } else {
