@@ -76,7 +76,7 @@ static ui_menu_entry_t palette_submenu[] = {
     { "C64HQ", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIPaletteFile,
       (ui_callback_data_t)"c64hq", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
+    { N_("Load custom"), UI_MENU_TYPE_DOTS, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VICII", NULL },
     { NULL }
 };

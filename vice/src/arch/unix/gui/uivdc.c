@@ -60,7 +60,7 @@ static ui_menu_entry_t vdc_palette_submenu[] = {
     { N_("Composite"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VDCPaletteFile,
       (ui_callback_data_t)"vdc_comp", NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Load custom"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_load_palette,
+    { N_("Load custom"), UI_MENU_TYPE_DOTS, (ui_callback_t)ui_load_palette,
       (ui_callback_data_t)"VDC", NULL },
     { NULL }
 };
