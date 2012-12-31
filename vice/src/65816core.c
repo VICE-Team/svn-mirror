@@ -103,16 +103,16 @@
 #define EMULATION_MODE_CHANGED
 #endif
 
-#ifndef WAI_65816 
-#define WAI_65816() INC_PC(SIZE_1)
+#ifndef WAI_65816
+#define WAI_65816() NOP()
 #endif
 
-#ifndef STP_65816 
-#define STP_65816() INC_PC(SIZE_1)
+#ifndef STP_65816
+#define STP_65816() NOP()
 #endif
 
-#ifndef COP_65816 
-#define COP_65816(value) INC_PC(SIZE_1)
+#ifndef COP_65816
+#define COP_65816(value) NOP()
 #endif
 
 
@@ -337,103 +337,14 @@
 
 /* Perform the interrupts in `int_kind'.  If we have both NMI and IRQ,
    execute NMI.  */
-#define DO_INTERRUPT(int_kind)                                                 \
+#define DO_INTERRUPT(ik)                                                       \
     do {                                                                       \
-        BYTE ik = (int_kind);                                                  \
-                                                                               \
-        if (ik & (IK_IRQ | IK_NMI)) {                                          \
-            if (ik & IK_NMI) {                                                 \
-                TRACE_NMI();                                                   \
-                if (monitor_mask[CALLER] & (MI_STEP)) {                        \
-                    monitor_check_icount_interrupt();                          \
-                }                                                              \
-                interrupt_ack_nmi(CPU_INT_STATUS);                             \
-                FETCH_PARAM(reg_pc);                                           \
-                FETCH_PARAM_DUMMY(reg_pc);                                     \
-                if (reg_emul) {                                                \
-                    LOCAL_SET_BREAK(0);                                        \
-                    PUSH(reg_pc >> 8);                                         \
-                    PUSH(reg_pc);                                              \
-                    PUSH(LOCAL_STATUS());                                      \
-                    LOCAL_SET_INTERRUPT(1);                                    \
-                    LOCAL_SET_DECIMAL(0);                                      \
-                    CHECK_INTERRUPT();                                         \
-                    LOAD_INT_ADDR(0xfffa);                                     \
-                } else {                                                       \
-                    PUSH(reg_pbr);                                             \
-                    PUSH(reg_pc >> 8);                                         \
-                    PUSH(reg_pc);                                              \
-                    PUSH(LOCAL_65816_STATUS());                                \
-                    LOCAL_SET_INTERRUPT(1);                                    \
-                    LOCAL_SET_DECIMAL(0);                                      \
-                    CHECK_INTERRUPT();                                         \
-                    LOAD_INT_ADDR(0xffea);                                     \
-                }                                                              \
-                LOCAL_SET_DECIMAL(0);                                          \
-                LOCAL_SET_INTERRUPT(1);                                        \
-                reg_pbr = 0;                                                   \
-                JUMP(reg_pc);                                                  \
-                SET_LAST_OPCODE(0);                                            \
-            } else if (ik & IK_IRQ) {                                          \
-                TRACE_IRQ();                                                   \
-                if (monitor_mask[CALLER] & (MI_STEP)) {                        \
-                    monitor_check_icount_interrupt();                          \
-                }                                                              \
-                interrupt_ack_irq(CPU_INT_STATUS);                             \
-                FETCH_PARAM(reg_pc);                                           \
-                FETCH_PARAM_DUMMY(reg_pc);                                     \
-                if (reg_emul) {                                                \
-                    LOCAL_SET_BREAK(0);                                        \
-                    PUSH(reg_pc >> 8);                                         \
-                    PUSH(reg_pc);                                              \
-                    PUSH(LOCAL_STATUS());                                      \
-                    LOCAL_SET_INTERRUPT(1);                                    \
-                    LOCAL_SET_DECIMAL(0);                                      \
-                    CHECK_INTERRUPT();                                         \
-                    LOAD_INT_ADDR(0xfffe);                                     \
-                } else {                                                       \
-                    PUSH(reg_pbr);                                             \
-                    PUSH(reg_pc >> 8);                                         \
-                    PUSH(reg_pc);                                              \
-                    PUSH(LOCAL_65816_STATUS());                                \
-                    LOCAL_SET_INTERRUPT(1);                                    \
-                    LOCAL_SET_DECIMAL(0);                                      \
-                    CHECK_INTERRUPT();                                         \
-                    LOAD_INT_ADDR(0xffee);                                     \
-                }                                                              \
-                reg_pbr = 0;                                                   \
-                JUMP(reg_pc);                                                  \
-                SET_LAST_OPCODE(0);                                            \
-            }                                                                  \
-        }                                                                      \
-        if (ik & (IK_TRAP | IK_RESET | IK_MONITOR | IK_DMA)) {                 \
+        if (ik & (IK_TRAP | IK_MONITOR | IK_DMA)) {                            \
             if (ik & IK_TRAP) {                                                \
                 EXPORT_REGISTERS();                                            \
                 interrupt_do_trap(CPU_INT_STATUS, (WORD)reg_pc);               \
                 IMPORT_REGISTERS();                                            \
-                if (CPU_INT_STATUS->global_pending_int & IK_RESET)             \
-                    ik |= IK_RESET;                                            \
                 interrupt &= ~IK_TRAP;                                         \
-            }                                                                  \
-            if (ik & IK_RESET) {                                               \
-                interrupt_ack_reset(CPU_INT_STATUS);                           \
-                cpu_reset();                                                   \
-                bank_start = bank_limit = 0; /* prevent caching */             \
-                reg_emul = 1;                                                  \
-                EMULATION_MODE_CHANGED;                                        \
-                LOCAL_SET_BREAK(0);                                            \
-                LOCAL_SET_INTERRUPT(1);                                        \
-                LOCAL_SET_DECIMAL(0);                                          \
-                reg_x &= 0xff;                                                 \
-                reg_y &= 0xff;                                                 \
-                reg_sp = 0x100 | (reg_sp & 0xff);                              \
-                reg_dpr = 0;                                                   \
-                reg_dbr = 0;                                                   \
-                reg_pbr = 0;                                                   \
-                CHECK_INTERRUPT();                                             \
-                LOAD_INT_ADDR(0xfffc);                                         \
-                JUMP(reg_pc);                                                  \
-                DMA_ON_RESET;                                                  \
             }                                                                  \
             if (ik & IK_MONITOR) {                                             \
                 if (monitor_force_import(CALLER))                              \
@@ -467,7 +378,6 @@
             }                                                                  \
         }                                                                      \
     } while (0)
-
 /* ------------------------------------------------------------------------- */
 
 /* Addressing modes.  For convenience, page boundary crossing cycles and
@@ -526,7 +436,7 @@
         p2 = FETCH_PARAM(reg_pc) << 8;                 \
         var = p1 + p2;                                 \
     }                                                  \
-    INC_PC(SIZE_1);       
+    INC_PC(SIZE_1);
 
 /* $ff wrapping */
 #define DIRECT_PAGE_FUNC(var, value, bits8, write)     \
@@ -720,7 +630,7 @@
 
 /* ($ff) no wrapping */
 #define LOAD_INDIRECT_FUNC(var, bits8) INDIRECT_FUNC(var, bits8, 0)
-      
+
 /* ($ff,x) no wrapping */
 #define INDIRECT_X_FUNC(var, bits8, write)                   \
   do {                                                       \
@@ -1094,11 +1004,11 @@
 
 /* $ffff,x */
 #define LOAD_ABS_X_FUNC(var, bits8) \
-    LOAD_ABS_R_FUNC(var, bits8, reg_x)        
+    LOAD_ABS_R_FUNC(var, bits8, reg_x)
 
 /* $ffff,x */
 #define LOAD_ABS_Y_FUNC(var, bits8) \
-    LOAD_ABS_R_FUNC(var, bits8, reg_y)        
+    LOAD_ABS_R_FUNC(var, bits8, reg_y)
 
 /* $ffff,x no wrapping */
 #define LOAD_ABS_X_FUNC_RRW(var, bits8)                                             \
@@ -1160,10 +1070,10 @@
   } while (0)
 
 /* $ffff,x */
-#define LOAD_ABS2_X_FUNC(var, bits8) LOAD_ABS2_R_FUNC(var, bits8, reg_x)        
+#define LOAD_ABS2_X_FUNC(var, bits8) LOAD_ABS2_R_FUNC(var, bits8, reg_x)
 
 /* $ffff,y */
-#define LOAD_ABS2_Y_FUNC(var, bits8) LOAD_ABS2_R_FUNC(var, bits8, reg_y)        
+#define LOAD_ABS2_Y_FUNC(var, bits8) LOAD_ABS2_R_FUNC(var, bits8, reg_y)
 
 /* $ffffff no wrapping */
 #define ABS_LONG_FUNC(var, bits8, write)                 \
@@ -1310,7 +1220,7 @@
 #define LOAD_STACK_REL_Y_FUNC(var, bits8) STACK_REL_Y_FUNC(var, bits8, 0)
 
 #define STORE_BANK0(addr, value) \
-    STORE_LONG((addr) & 0xffff, value); 
+    STORE_LONG((addr) & 0xffff, value);
 
 /* s */
 #define STORE_STACK(value, bits8)             \
@@ -1359,7 +1269,7 @@
 #define STORE_DIRECT_PAGE_Y(value, bits8) DIRECT_PAGE_R_FUNC(ea, value, bits8, reg_y, 1)
 
 /* $ff,x wrapping */
-#define STORE_DIRECT_PAGE_X_RRW(value, bits8) STORE_DIRECT_PAGE_RRW(value, bits8) 
+#define STORE_DIRECT_PAGE_X_RRW(value, bits8) STORE_DIRECT_PAGE_RRW(value, bits8)
 
 /* ($ff) no wrapping */
 #define STORE_INDIRECT(value, bits8) INDIRECT_FUNC(value, bits8, 1)
@@ -1793,7 +1703,39 @@
           }                                                     \
       }                                                         \
   } while (0)
-  
+
+#define IRQ()                                 \
+  do {                                        \
+      TRACE_IRQ();                            \
+      if (monitor_mask[CALLER] & (MI_STEP)) { \
+          monitor_check_icount_interrupt();   \
+      }                                       \
+      interrupt_ack_irq(CPU_INT_STATUS);      \
+      FETCH_PARAM(reg_pc);                    \
+      FETCH_PARAM_DUMMY(reg_pc);              \
+      if (reg_emul) {                         \
+          LOCAL_SET_BREAK(0);                 \
+          PUSH(reg_pc >> 8);                  \
+          PUSH(reg_pc);                       \
+          PUSH(LOCAL_STATUS());               \
+          LOCAL_SET_INTERRUPT(1);             \
+          LOCAL_SET_DECIMAL(0);               \
+          CHECK_INTERRUPT();                  \
+          LOAD_INT_ADDR(0xfffe);              \
+      } else {                                \
+          PUSH(reg_pbr);                      \
+          PUSH(reg_pc >> 8);                  \
+          PUSH(reg_pc);                       \
+          PUSH(LOCAL_65816_STATUS());         \
+          LOCAL_SET_INTERRUPT(1);             \
+          LOCAL_SET_DECIMAL(0);               \
+          CHECK_INTERRUPT();                  \
+          LOAD_INT_ADDR(0xffee);              \
+      }                                       \
+      reg_pbr = 0;                            \
+      JUMP(reg_pc);                           \
+  } while (0)
+
 #define JMP()                                                \
   do {                                                       \
       INC_PC(SIZE_1);                                        \
@@ -1996,11 +1938,36 @@
 
 #define MVP() MOVE(--)
 
-#define WDM()                          \
-  do {                                 \
-      INC_PC(SIZE_1);                  \
-      FETCH_PARAM_DUMMY(reg_pc);       \
-      INC_PC(SIZE_1);                  \
+#define NMI()                                 \
+  do {                                        \
+      TRACE_NMI();                            \
+      if (monitor_mask[CALLER] & (MI_STEP)) { \
+          monitor_check_icount_interrupt();   \
+      }                                       \
+      interrupt_ack_nmi(CPU_INT_STATUS);      \
+      FETCH_PARAM(reg_pc);                    \
+      FETCH_PARAM_DUMMY(reg_pc);              \
+      if (reg_emul) {                         \
+          LOCAL_SET_BREAK(0);                 \
+          PUSH(reg_pc >> 8);                  \
+          PUSH(reg_pc);                       \
+          PUSH(LOCAL_STATUS());               \
+          LOCAL_SET_INTERRUPT(1);             \
+          LOCAL_SET_DECIMAL(0);               \
+          CHECK_INTERRUPT();                  \
+          LOAD_INT_ADDR(0xfffa);              \
+      } else {                                \
+          PUSH(reg_pbr);                      \
+          PUSH(reg_pc >> 8);                  \
+          PUSH(reg_pc);                       \
+          PUSH(LOCAL_65816_STATUS());         \
+          LOCAL_SET_INTERRUPT(1);             \
+          LOCAL_SET_DECIMAL(0);               \
+          CHECK_INTERRUPT();                  \
+          LOAD_INT_ADDR(0xffea);              \
+      }                                       \
+      reg_pbr = 0;                            \
+      JUMP(reg_pc);                           \
   } while (0)
 
 #define NOP()                          \
@@ -2196,6 +2163,36 @@
 
 #define REP(load_func) REPSEP(load_func, 0)
 
+#define RES()                                                        \
+  do {                                                               \
+      interrupt_ack_reset(CPU_INT_STATUS);                           \
+      cpu_reset();                                                   \
+      bank_start = bank_limit = 0; /* prevent caching */             \
+      FETCH_PARAM(reg_pc);                                           \
+      FETCH_PARAM_DUMMY(reg_pc);                                     \
+      LOCAL_SET_BREAK(0);                                            \
+      reg_emul = 1;                                                  \
+      reg_x &= 0xff;                                                 \
+      reg_y &= 0xff;                                                 \
+      reg_sp = 0x100 | (reg_sp & 0xff);                              \
+      reg_dpr = 0;                                                   \
+      reg_dbr = 0;                                                   \
+      reg_pbr = 0;                                                   \
+      EMULATION_MODE_CHANGED;                                        \
+      LOAD_LONG(reg_sp);                                             \
+      reg_sp = 0x100 | ((reg_sp - 1) & 0xff);                        \
+      LOAD_LONG(reg_sp);                                             \
+      reg_sp = 0x100 | ((reg_sp - 1) & 0xff);                        \
+      LOAD_LONG(reg_sp);                                             \
+      reg_sp = 0x100 | ((reg_sp - 1) & 0xff);                        \
+      LOCAL_SET_INTERRUPT(1);                                        \
+      LOCAL_SET_DECIMAL(0);                                          \
+      CHECK_INTERRUPT();                                             \
+      LOAD_INT_ADDR(0xfffc);                                         \
+      JUMP(reg_pc);                                                  \
+      DMA_ON_RESET;                                                  \
+  } while (0)
+
 #define ROL(load_func, store_func) ASLROL(load_func, store_func, LOCAL_CARRY())
 
 #define ROR(load_func, store_func) LSRROR(load_func, store_func, LOCAL_CARRY())
@@ -2340,6 +2337,21 @@
 #define STA(store_func) \
       store_func(reg_c, LOCAL_65816_M());
 
+#define STP()                                                                   \
+  do {                                                                          \
+      if (!(CPU_INT_STATUS->global_pending_int & IK_RESET)) {                   \
+          do {                                                                  \
+              DO_INTERRUPT(CPU_INT_STATUS->global_pending_int);                 \
+              CLK_INC(CLK);                                                     \
+          } while (!(CPU_INT_STATUS->global_pending_int & IK_RESET));           \
+          CLK_INC(CLK);                                                         \
+      }                                                                         \
+      CHECK_INTERRUPT();                                                        \
+      INC_PC(SIZE_1);                                                           \
+      FETCH_PARAM_DUMMY(reg_pc);                                                \
+      FETCH_PARAM_DUMMY(reg_pc);                                                \
+  } while (0)
+
 #define STX(store_func) \
       store_func(reg_x, LOCAL_65816_X())
 
@@ -2468,20 +2480,27 @@
       LOCAL_SET_NZ(reg_x, LOCAL_65816_X()); \
   } while (0)
 
-#define WAI()                                                                              \
-  do {                                                                                     \
-      INC_PC(SIZE_1);                                                                      \
-      if ((CPU_INT_STATUS->global_pending_int & ~IK_IRQPEND) == IK_NONE) {                 \
-          do {                                                                             \
-              CLK_INC(CLK);                                                                \
-          } while ((CPU_INT_STATUS->global_pending_int & ~IK_IRQPEND) == IK_NONE);         \
-          CLK_INC(CLK); /* yes, this is really this complicated with this extra cycle */   \
-      }                                                                                    \
-      CHECK_INTERRUPT();                                                                   \
-      FETCH_PARAM_DUMMY(reg_pc);                                                           \
-      FETCH_PARAM_DUMMY(reg_pc);                                                           \
+#define WAI()                                                                                       \
+  do {                                                                                              \
+      if (!(CPU_INT_STATUS->global_pending_int & (IK_RESET | IK_NMI | IK_IRQ))) {                   \
+          do {                                                                                      \
+              DO_INTERRUPT(CPU_INT_STATUS->global_pending_int);                                     \
+              CLK_INC(CLK);                                                                         \
+          } while (!(CPU_INT_STATUS->global_pending_int & (IK_RESET | IK_NMI | IK_IRQ)));           \
+          CLK_INC(CLK); /* yes, this is really this complicated with this extra cycle */            \
+      }                                                                                             \
+      CHECK_INTERRUPT();                                                                            \
+      INC_PC(SIZE_1);                                                                               \
+      FETCH_PARAM_DUMMY(reg_pc);                                                                    \
+      FETCH_PARAM_DUMMY(reg_pc);                                                                    \
   } while (0)
 
+#define WDM()                          \
+  do {                                 \
+      INC_PC(SIZE_1);                  \
+      FETCH_PARAM_DUMMY(reg_pc);       \
+      INC_PC(SIZE_1);                  \
+  } while (0)
 
 #define XBA()                    \
   do {                           \
@@ -2522,12 +2541,6 @@
 /* Here, the CPU is emulated. */
 
 {
-    {
-        while (interrupt != IK_NONE) {
-            DO_INTERRUPT(interrupt);
-        }
-        CHECK_INTERRUPT();
-    }
 
     {
         unsigned int p0, p1, p2, p3;
@@ -2551,7 +2564,22 @@
         }
 #endif
 
-        p0 = FETCH_PARAM(reg_pc);
+        if (interrupt != IK_NONE) {
+            DO_INTERRUPT(interrupt);
+            if (interrupt & IK_RESET) {
+                p0 = 0x300;
+            } else if (interrupt & IK_NMI) {
+                p0 = 0x200;
+            } else if (interrupt & IK_IRQ) {
+                p0 = 0x100;
+            } else {
+                CHECK_INTERRUPT();
+                p0 = FETCH_PARAM(reg_pc);
+            }
+        } else {
+            CHECK_INTERRUPT();
+            p0 = FETCH_PARAM(reg_pc);
+        }
         SET_LAST_ADDR(reg_pc);
 
 #ifdef DEBUG
@@ -2566,10 +2594,6 @@ trap_skipped:
         SET_LAST_OPCODE(p0);
 
         switch (p0) {
-
-          case 0x42:            /* WDM */
-            WDM();
-            break;
 
           case 0x00:            /* BRK */
             BRK();
@@ -2834,6 +2858,10 @@ trap_skipped:
 
           case 0x41:            /* EOR ($nn,X) */
             EOR(LOAD_INDIRECT_X_FUNC);
+            break;
+
+          case 0x42:            /* WDM */
+            WDM();
             break;
 
           case 0x43:            /* EOR $nn,S */
@@ -3591,9 +3619,24 @@ trap_skipped:
           case 0xff:            /* SBC $nnnnnn,X */
             SBC(LOAD_ABS_LONG_X_FUNC);
             break;
+
+          default:
+            switch (p0) {
+            case 0x100:           /* IRQ */
+                IRQ();
+                break;
+
+            case 0x200:           /* NMI */
+                NMI();
+                break;
+
+            case 0x300:           /* RES */
+                RES();
+                break;
+            }
         }
 #ifdef DEBUG
-        if (TRACEFLG) {
+        if (TRACEFLG && p0 < 0x100) {
             BYTE op = (BYTE)(p0);
             BYTE lo = (BYTE)(p1);
             BYTE hi = (BYTE)(p2 >> 8);

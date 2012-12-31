@@ -316,7 +316,7 @@ void maincpu_mainloop(void)
                 IMPORT_REGISTERS();                                   \
                 break;                                                \
             default:                                                  \
-                CLK_INC(CLK);                                         \
+                STP();                                                \
         }                                                             \
     } while (0)
 
