@@ -1,0 +1,4 @@
+This document is a Work In Progress and it will be inteded for the following purposes:
+
+- to list and explain the 6809 cpu as used in the superpet.
+- to list and explain the differences between the 6809 and the 6309.

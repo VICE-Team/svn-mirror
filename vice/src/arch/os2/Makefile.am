@@ -247,7 +247,7 @@ EXTRA_DIST = \
 	watcom/xscpu64-dragndrop.c \
 	watcom/xscpu64-specific.tgt \
 	watcom/xscpu64-video.c \
-	watcom/xscpu64-vsyncharch.c \
+	watcom/xscpu64-vsyncarch.c \
 	watcom/xvic-dlg-fileio.c \
 	watcom/xvic-menubar.c \
 	watcom/xvic-specific.tgt \

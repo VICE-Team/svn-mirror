@@ -1,0 +1,5 @@
+This document is a Work In Progress and it will be inteded for the following purposes:
+
+- to list and explain the differences between the 6502 and the 65CE02.
+- to keep track and document which parts have been emulated and tested in the
+  65CE02core.c file.

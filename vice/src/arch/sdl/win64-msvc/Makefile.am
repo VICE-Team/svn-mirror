@@ -16,7 +16,7 @@ EXTRA_DIST = \
 	c64commoncart.vcproj \
 	c64exp.vcproj \
 	c64sc.vcproj \
-	c64scpu.vcproj \
+	c64scpu64.vcproj \
 	cartconv.vcproj \
 	cbm2.vcproj \
 	cbm2common.vcproj \

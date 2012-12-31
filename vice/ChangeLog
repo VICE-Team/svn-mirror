@@ -1,5 +1,2712 @@
 ------------------------------------------------------------------------------
 
+2012-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, configure.in, doc/html/Makefile.am,
+	doc/html/plain/65802and65816.txt, doc/html/plain/65CE02.txt,
+	doc/html/plain/6809and6309.txt, doc/html/plain/z80.txt, doc/vice.chm,
+	doc/vice.guide, doc/vice.hlp, doc/vice.pdf, po/da.po, po/de.po,
+	po/es.po, po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po,
+	po/ru.po, po/sv.po, po/tr.po, src/arch/os2/Makefile.am,
+	src/arch/sdl/win64-msvc/Makefile.am, src/arch/win32/vice-version.bat,
+	src/monitor/mon_lex.c, src/version.h: VICE 2.4.1
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c: CIA write is different
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: DMA timing partly implemented.
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/main65816cpu.c: Clean up interrupt handling
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix interrupted interrupt case
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c: Fine tune phase shift
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/scpu64ui.c, src/c64/Makefile.am: Use c64modelsc,
+	update unix GUI
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/Makefile.am, src/main65816cpu.c,
+	src/main65816cpu.h, src/scpu64/Makefile.am, src/scpu64/scpu64cpu.c,
+	src/scpu64/scpu64cpu.h, src/scpu64/scpu64mem.c, src/viciisc/vicii.c:
+	Move to VICIISC. Implement proper 2 cycle delay of interrupts (that
+	in CPU cycle not 1 MHz cycle).
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/gtk2legacy.h,
+	src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uifileentry.c,
+	src/arch/unix/x11/gnome/uijoystickkeys.c,
+	src/arch/unix/x11/gnome/uimon.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/x11ui.c: some more gtk3 related fixes,
+	actually builds and works now :)
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/drive/drive.c: properly init drive led color depending on type
+	of drive
+
+2012-12-30  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uistatusbar.c,
+	src/arch/unix/x11/xaw/uistatusbar.h,
+	src/arch/unix/x11/xaw/uitapestatus.c,
+	src/arch/unix/x11/xaw/uitapestatus.h, src/arch/unix/x11/xaw/x11ui.c:
+	Split "statusbar" creation and managent code to a separate file.
+	Clicking on the tape indicator presses datasette start or stop
+	buttons.
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uinetplay.c: fixed x-errors
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* po/de.po, src/arch/unix/gui/uiram.c: fixed typo
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* po/de.po: removed superfluous dots
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c: fixed menu types
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uinetplay.c,
+	src/arch/unix/gui/vic20ui.c: moved netplay into file menu.
+
+2012-12-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/Makefile.am: Missing xscpu64ns
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uistatusbar.c: removed tape status widget
+	from xscpu64
+
+2012-12-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/scpu64/scpu64cpu.c: Branches don't delay
+	interrupts. Missing dummy read in RMW a,x
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/nativedrv.c: fix warnings
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/pet/pethre.c: fix warning
+
+2012-12-30  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/doodledrv.c: fix typo
+
+2012-12-30  pottendo <pottendo@aon.at>
+
+	* src/arch/sdl/archdep_unix.h: Fixes install/runtime lookup issue of:
+	https://sourceforge.net/tracker/?func=detail&aid=3598877&group_id=223021&atid=1057617
+
+2012-12-30  pottendo <pottendo@aon.at>
+
+	* configure.in, src/arch/unix/archdep.h: Fixes install/runtime lookup
+	issue of: https://sourceforge.net/tracker/?func=detail&aid=3598877&group_id=223021&atid=1057617
+
+2012-12-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: Even more timing fixes
+
+2012-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/respet.rc, src/arch/win32/resscpu64.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2012-12-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64memsnapshot.c: It's about time to implement proper
+	snapshot
+
+2012-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2012-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	po/translations-status.txt: Did a 'make update-po'.
+
+2012-12-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64cia1.c, src/c64/c64cia2.c, src/scpu64/scpu64cpu.c,
+	src/scpu64/scpu64mem.c, src/sid/sid.c: Finally found where that one
+	cycle difference with the CIA comes from ;) Unfortunately it seems the
+	VICII has a hardcoded delay compatible with the 6510 core. So it gets
+	a hack for now, and SID and CIA is run without the hack, just like
+	with the 6510dtv core.
+
+2012-12-29  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/gnome/uicontents.c,
+	src/arch/unix/x11/xaw/Makefile.am, src/arch/unix/x11/xaw/uiarch.h,
+	src/arch/unix/x11/xaw/uicontents.c,
+	src/arch/unix/x11/xaw/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uidrivestatus.h,
+	src/arch/unix/x11/xaw/uitapestatus.c,
+	src/arch/unix/x11/xaw/uitapestatus.h, src/arch/unix/x11/xaw/x11ui.c:
+	Rearrange Xaw GUI elements to save space and make room for a new tape
+	status element (including pop-up menus on left and right mouse buttons
+	and Shift-Alt-X or -Z).
+
+2012-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_video.c: Fixed a typo.
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/res.rc, src/arch/win32/resdialogs.txt,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/scpu64ui.c: Update SCPU64 ROM settings
+
+2012-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/scpu64ui.c: Fixed dos tui rom settings for scpu64.
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/menu_rom.c, src/arch/sdl/menu_rom.h,
+	src/arch/sdl/menu_scpu64hw.c: Fix ROM menu
+
+2012-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/mui/uiromscpu64settings.c,
+	src/arch/amigaos/mui/uiromscpu64settings.h,
+	src/arch/amigaos/scpu64ui.c: Fixed amiga gui rom settings for scpu64.
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64.c: Fix SDL compilation
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/scpu64ui.c: Fix up the ROM loading menu
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/gui/scpu64ui.c: Apply the GUI cleanup to SCPU64 UI
+	too. And now I have warp mode again ;)
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_lex.c, src/monitor/mon_lex.l,
+	src/monitor/mon_register65816.c, src/monitor/montypes.h: Add C
+	register, updated register display.
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix emulation mode register import
+
+2012-12-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/petui.c, src/arch/win32/resmenu.txt,
+	src/arch/win32/respet.rc, src/arch/win32/resstrings.txt: Added pet hre
+	to the windows gui.
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64.c, src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h:
+	Free SIMM RAM on shutdown
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Use PBR for monitor CPU bank
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64.c: Remove VICII I/O device D200/D300 mirrors from
+	device list
+
+2012-12-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_registerR65C02.c: There's no 00 and 01 registers on
+	65C02
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_pethw.c: Added pet hre to the sdl gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added pet hre to the os/2 gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/petui.c,
+	src/arch/msdos/uipethre.c, src/arch/msdos/uipethre.h: Added pet hre to
+	the dos tui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/petui.cc,
+	src/arch/beos/vicemenu.cc: Added pet hre to the beos gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/petui.c, src/arch/amigaos/petuires.h,
+	src/arch/amigaos/uires.h: Added pet hre to the amiga gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uiscpu64.c, src/arch/unix/gui/uiscpu64.h: Added
+	scpu64 settings to the unix gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_scpu64hw.c: Added scpu64 settings to the sdl gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added scpu64 settings to the os/2
+	gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/scpu64ui.c,
+	src/arch/msdos/uiscpu64.c, src/arch/msdos/uiscpu64.h: Added scpu64
+	settings to the dos tui.
+
+2012-12-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: Update ROM. Now 64K only, changed startup
+	screen, some misc fixes.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/constants.h, src/arch/beos/scpu64ui.cc,
+	src/arch/beos/vicemenu.cc: Added scpu64 settings to the beos gui.
+
+2012-12-27  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/mui/uiscpu64.c,
+	src/arch/amigaos/mui/uiscpu64.h, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h, src/arch/amigaos/uires.h: Added scpu64
+	settings to the amiga gui.
+
+2012-12-27  Olaf Seibert <rhialto@falu.nl>
+
+	* data/fonts/Makefile.am, data/fonts/vice-cbm.bdf,
+	src/arch/unix/x11/xaw/uicontents.c, src/arch/unix/x11/xaw/x11ui.c:
+	Show the disk contents in the context menu in the VICE CBM font, if
+	available. Increase the chances of that by installing it a bit
+	better.
+
+2012-12-27  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2012-12-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resstrings.txt,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uiscpu64.c,
+	src/arch/win32/uiscpu64.h, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/arch.vcproj: Added
+	scpu64 settings to the windows gui.
+
+2012-12-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/Makefile.am, src/arch/os2/dialogs/dlg-fileio.c,
+	src/arch/os2/dialogs/menubar.c, src/arch/os2/kbd/Makefile.am,
+	src/arch/os2/kbd/kbd-scpu64.c, src/arch/os2/watcom/c64common.tgt,
+	src/arch/os2/watcom/c64commonall.tgt,
+	src/arch/os2/watcom/c64commonc128dtvsc.tgt,
+	src/arch/os2/watcom/c64commonc128sc.tgt,
+	src/arch/os2/watcom/c64commonc128scvsid.tgt,
+	src/arch/os2/watcom/c64commondtvsc.tgt,
+	src/arch/os2/watcom/c64commondtvscvsid.tgt,
+	src/arch/os2/watcom/c64commonsc.tgt,
+	src/arch/os2/watcom/c64commonsc128scpu.tgt,
+	src/arch/os2/watcom/c64commonscdtv128scpu.tgt,
+	src/arch/os2/watcom/c64commonscdtvscpu.tgt,
+	src/arch/os2/watcom/c64commonscscpu.tgt,
+	src/arch/os2/watcom/c64commonscvsid.tgt,
+	src/arch/os2/watcom/c64commonscvsid128.tgt,
+	src/arch/os2/watcom/c64commonvsid.tgt,
+	src/arch/os2/watcom/c64commonvsidsc128scpu.tgt,
+	src/arch/os2/watcom/c64commonvsidscdtv.tgt,
+	src/arch/os2/watcom/c64commonvsidscdtvscpu.tgt,
+	src/arch/os2/watcom/c64commonvsidscpu.tgt,
+	src/arch/os2/watcom/c64commonvsidscscpu.tgt,
+	src/arch/os2/watcom/monitor.tgt, src/arch/os2/watcom/scpu64.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/os2/watcom/vsid.tgt,
+	src/arch/os2/watcom/x128.tgt, src/arch/os2/watcom/x64.tgt,
+	src/arch/os2/watcom/x64dtv.tgt, src/arch/os2/watcom/x64sc.tgt,
+	src/arch/os2/watcom/xscpu64-dlg-fileio.c,
+	src/arch/os2/watcom/xscpu64-dragndrop.c,
+	src/arch/os2/watcom/xscpu64-menubar.c,
+	src/arch/os2/watcom/xscpu64-specific.tgt,
+	src/arch/os2/watcom/xscpu64-video.c,
+	src/arch/os2/watcom/xscpu64-vsyncarch.c,
+	src/arch/os2/watcom/xscpu64.tgt: Added xscpu64 support to the os/2 ow
+	project files.
+
+2012-12-26  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c: Sigh... remove #include of removed
+	uipalemu.h.
+
+2012-12-26  Olaf Seibert <rhialto@falu.nl>
+
+	* po/POTFILES.in: Remove uipalemu.c here too.
+
+2012-12-26  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/uicrtc.c,
+	src/arch/unix/gui/uipalemu.c, src/arch/unix/gui/uipalemu.h,
+	src/arch/unix/gui/uited.c, src/arch/unix/gui/uivdc.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c: Remove CRT
+	Emulation menu entries (for Xaw) since they are no longer needed now
+	that the CRT Controls dialog is there.
+
+2012-12-25  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/uicommands.c,
+	src/arch/unix/gui/uicommands.h, src/arch/unix/gui/uisettings.c,
+	src/arch/unix/gui/vic20ui.c, src/arch/unix/gui/vsidui.c: some menu
+	cleanups
+
+2012-12-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4.h: Added some preparations for 7501/8501 drop-off
+	emulation.
+
+2012-12-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.h, src/c128/c128mem.c: Added $00/$01 8502 unused bits
+	drop-off emulation.
+
+2012-12-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/main65816cpu.c, src/scpu64/scpu64cpu.c: Faster interrupt in fast
+	mode
+
+2012-12-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Deleted NMI by mistake
+
+2012-12-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix WAI interrupt delay
+
+2012-12-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-watcom/Makefile.am,
+	src/arch/sdl/win32-watcom/arch.tgt,
+	src/arch/sdl/win32-watcom/base.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc128.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc128scpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonsc128vsid.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtv.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtv128.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtv128scpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtvscpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonscdtvvsid.tgt,
+	src/arch/sdl/win32-watcom/c64commonscscpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonscvsid.tgt,
+	src/arch/sdl/win32-watcom/c64commonscvsid128.tgt,
+	src/arch/sdl/win32-watcom/c64commonvsid.tgt,
+	src/arch/sdl/win32-watcom/c64commonvsidsc128scpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonvsidscdtv.tgt,
+	src/arch/sdl/win32-watcom/c64commonvsidscdtvscpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonvsidscpu.tgt,
+	src/arch/sdl/win32-watcom/c64commonvsidscscpu.tgt,
+	src/arch/sdl/win32-watcom/monitor.tgt,
+	src/arch/sdl/win32-watcom/scpu64.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/vsid.tgt,
+	src/arch/sdl/win32-watcom/x128.tgt, src/arch/sdl/win32-watcom/x64.tgt,
+	src/arch/sdl/win32-watcom/x64dtv.tgt,
+	src/arch/sdl/win32-watcom/x64sc.tgt,
+	src/arch/sdl/win32-watcom/xscpu64.tgt, src/opencbm.h: Added xscpu64
+	support to the win32 sdl ow project files.
+
+2012-12-25  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/uicontents.c,
+	src/arch/unix/x11/xaw/uicontents.h, src/arch/unix/x11/xaw/x11ui.c,
+	src/arch/unix/x11/xaw/x11video.c: Add popup menu for disk contents
+	(ugly, for it is not in a nice font). Right-click on disk image name
+	to access it, or Shift-Alt-X. Shift-Alt-Z for the other existing
+	fliplist menu.
+
+2012-12-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/scpu64/scpu64cpu.c: Cycle exact alarm, plus
+	write delay in emulation mode.
+
+2012-12-25  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/win32/Makefile.am: Typo
+
+2012-12-24  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/gnome/gnomekbd.c,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/gtk2legacy.c,
+	src/arch/unix/x11/gnome/gtk2legacy.h,
+	src/arch/unix/x11/gnome/lightpendrv.c,
+	src/arch/unix/x11/gnome/uiarch.h, src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uijoystickkeys.c,
+	src/arch/unix/x11/gnome/uimenu.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uiscreenshot.c,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11mouse.c, src/arch/unix/x11/gnome/x11ui.c:
+	more gtk3 related fixes, added cairo rendering, builds with gtk3
+
+2012-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c: Whenever $01 unused bits are written to when in
+	input mode the fall-off cycle count starts over again.
+
+2012-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128.h, src/c64/c64.h, src/c64/c64mem.c,
+	src/c64/c64memsc.c, src/c64/vsidmem.c: Added some cpu specific
+	'average' $01 unused bits drop-off times.
+
+2012-12-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2cpu.c, src/plus4/plus4cpu.c: Typo fixes.
+
+2012-12-24  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/autostart.c: There's no tape on SCPU64
+
+2012-12-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c, src/arch/unix/vsiduiunix.h,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uivsidcontrol.c,
+	src/arch/unix/x11/xaw/uivsidcontrol.c: some vsid ui improvements
+
+2012-12-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c, src/arch/unix/x11/gnome/dragdrop.c:
+	fixed occasional crashes on dropping files into vsid
+
+2012-12-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/dragdrop.c: disable debug msg
+
+2012-12-23  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/gtk2legacy.c,
+	src/arch/unix/x11/gnome/gtk2legacy.h,
+	src/arch/unix/x11/gnome/lightpendrv.c,
+	src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uicartridge.c,
+	src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/uidialogs.c,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uiedisk.c,
+	src/arch/unix/x11/gnome/uifilechooser.c,
+	src/arch/unix/x11/gnome/uinetplay.c,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uiscreenshot.c,
+	src/arch/unix/x11/gnome/uisnapshot.c,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/videoarch.h,
+	src/arch/unix/x11/gnome/x11mouse.c, src/arch/unix/x11/gnome/x11ui.c:
+	more gtk3 related fixes, moved support for older gtk into seperate
+	file
+
+2012-12-23  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c, src/scpu64/scpu64memsnapshot.c,
+	src/scpu64/scpu64rom.c, src/scpu64/scpu64rom.h: Allow loading of ROM
+	up to 512KB
+
+2012-12-22  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: fixed checks when loading crt, slightly improved
+	repair mode
+
+2012-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_windows_runtime_os.c: Updated.
+
+2012-12-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Fixed the
+	behavior of $01.
+
+2012-12-23  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/dragdrop.c: (drag_data_received_handler):
+	Improved URI conversion by using the glib conversion function
+
+2012-12-23  pottendo <pottendo@aon.at>
+
+	* po/de.po: Pushed version string to 2.5.
+
+2012-12-23  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/dragdrop.c: (drag_data_received_handler):
+	Convert URI escapes (eg. %20 -> ' ') to respective chars to match
+	local filenames.
+
+2012-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64cartmem.c, src/c64/cart/ide64.c,
+	src/c64/cart/ide64.h: These's nothing at c000-cfff on IDE64. That was
+	a mistake.
+
+2012-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Missing speed switches
+
+2012-12-22  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/about.c, src/arch/unix/x11/gnome/dragdrop.c:
+	gtk3 fixes
+
+2012-12-22  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/gifdrv.c: fix warning
+
+2012-12-22  groepaz <groepaz@gmx.net>
+
+	* src/diskimage/fsimage-gcr.c: fix warning
+
+2012-12-22  groepaz <groepaz@gmx.net>
+
+	* src/diskimage/fsimage-create.c: fix buffer overflow
+
+2012-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Ramlink register enable/disable
+
+2012-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Speed switch override
+
+2012-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64-cmdline-options.c, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h, src/translate.txt,
+	src/translate_text.c: Resources/command line options for jiffy/speed
+	switch
+
+2012-12-22  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: EPROM always slow, even if mapped
+	differently
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/Makefile.am,
+	src/arch/watcom-source-wrappers/xscpu64-main.c,
+	src/arch/win32/Makefile.am, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/base.tgt,
+	src/arch/win32/watcom/c64commondscdtv.tgt,
+	src/arch/win32/watcom/c64commonsc.tgt,
+	src/arch/win32/watcom/c64commonsc128.tgt,
+	src/arch/win32/watcom/c64commonsc128scpu.tgt,
+	src/arch/win32/watcom/c64commonscdtv128.tgt,
+	src/arch/win32/watcom/c64commonscdtv128scpu.tgt,
+	src/arch/win32/watcom/c64commonscdtvscpu.tgt,
+	src/arch/win32/watcom/c64commonscdtvvsid.tgt,
+	src/arch/win32/watcom/c64commonscscpu.tgt,
+	src/arch/win32/watcom/c64commonscvsid.tgt,
+	src/arch/win32/watcom/c64commonscvsid128.tgt,
+	src/arch/win32/watcom/c64commonvsid.tgt,
+	src/arch/win32/watcom/c64commonvsidsc128scpu.tgt,
+	src/arch/win32/watcom/c64commonvsidscdtv.tgt,
+	src/arch/win32/watcom/c64commonvsidscdtvscpu.tgt,
+	src/arch/win32/watcom/c64commonvsidscpu.tgt,
+	src/arch/win32/watcom/c64commonvsidscscpu.tgt,
+	src/arch/win32/watcom/cartconv.tgt, src/arch/win32/watcom/monitor.tgt,
+	src/arch/win32/watcom/scpu64.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win32/watcom/vsid.tgt, src/arch/win32/watcom/x128.tgt,
+	src/arch/win32/watcom/x64.tgt, src/arch/win32/watcom/x64dtv.tgt,
+	src/arch/win32/watcom/x64sc.tgt, src/arch/win32/watcom/xscpu64.tgt:
+	Added xscpu64 support to the win32 ow project files.
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/main65816cpu.h, src/scpu64/scpu64-snapshot.c,
+	src/scpu64/scpu64.c, src/scpu64/scpu64cpu.c,
+	src/scpu64/scpu64gluelogic.c, src/scpu64/scpu64mem.c: Don't forget to
+	resync limits on speed change. Some optimizations don't apply for 20
+	MHz mode, only for 1 MHz.
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/c64scpu64.dsp,
+	src/arch/sdl/win64-msvc/c64scpu64.vcproj,
+	src/arch/sdl/winmips-msvc/c64scpu64.mak, src/arch/win32/c64scpu64.dsp,
+	src/arch/win64/c64scpu64.vcproj, src/c64/Makefile.am: Removed c64rom.c
+	from the c64scpu64 lib.
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64mem.c: Don't return a value in void functions.
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resscpu64.rc: Removed the datasette settings menu
+	from the windows xscpu64 menu.
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uisound.c: Fixed a typo.
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/unix/parsid.c: For parsid, when ioperm is
+	found, check for inb_p and outb_p, should fix bug #3598034.
+
+2012-12-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/scpu64.dsp,
+	src/arch/sdl/win64-msvc/scpu64.vcproj,
+	src/arch/sdl/winmips-msvc/scpu64.mak, src/arch/win32/scpu64.dsp,
+	src/arch/win64/scpu64.vcproj: Removed scpu64memlimit.c from the msvc
+	project files.
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Address range clamping
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: Updated ROM to set up SIMM configuration
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: Set the SIMM timing according to row size
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64-cmdline-options.c, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64memsnapshot.c, src/scpu64/scpu64rom.c,
+	src/scpu64/scpu64rom.h, src/translate.txt, src/translate_text.c:
+	Configurable SIMM RAM size
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Limits for higher banks
+
+2012-12-21  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c: Cartridge is always slow I/O
+
+2012-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/x11ui.c: make sliders invisible instead of
+	inactive, make av recording button actually work, make use of
+	statusbar controls in vsid aswell
+
+2012-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/arch/unix/gui/uicommands.h: make
+	sound_record_stop a uicommand_ function so we can use it from other
+	places in the gnome ui
+
+2012-12-20  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c: set run commands as menu for statusbar,
+	better logging
+
+2012-12-20  groepaz <groepaz@gmx.net>
+
+	* src/screenshot.c, src/sound.c, src/sound.h: added
+	sound_stop_recording sound_is_recording equivalent to respective
+	screenshot_... functions
+
+2012-12-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c, src/scpu64/scpu64meminit.c: Allow one more
+	byte
+
+2012-12-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: eol style
+
+2012-12-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/Makefile.am, src/scpu64/scpu64mem.c,
+	src/scpu64/scpu64mem.h, src/scpu64/scpu64meminit.c,
+	src/scpu64/scpu64meminit.h, src/scpu64/scpu64memlimit.c,
+	src/scpu64/scpu64memlimit.h: Implement the rest of the memory
+	mappings. And get rid of that useless manual limit table setup, it's
+	much better done automatically anyway ;)
+
+2012-12-20  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Fix pport mirroring
+
+2012-12-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11mouse.c, src/arch/unix/x11/openGL_sync.c:
+	fix X errors at vsid startup
+
+2012-12-19  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uipalcontrol.h,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uistatusbar.h,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/ui-resources.c:
+	workaround for the initial resizing problem in GTK, some more cleanup
+
+2012-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/scpu64.dsp,
+	src/arch/sdl/win32-msvc/vice.dsw,
+	src/arch/sdl/win64-msvc/scpu64.vcproj,
+	src/arch/sdl/win64-msvc/vice.sln,
+	src/arch/sdl/winmips-msvc/scpu64.mak,
+	src/arch/sdl/winmips-msvc/xscpu64.mak, src/arch/win32/scpu64.dsp,
+	src/arch/win32/vice.dsw, src/arch/win64/scpu64.vcproj,
+	src/arch/win64/vice.sln, src/scpu64/Makefile.am,
+	src/scpu64/scpu64stubs.c: Stubbed out the tape code for xscpu64.
+
+2012-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.rc,
+	src/arch/os2/vac++/ide-config.h: Prepared the os/2 dialog code for
+	xscpu64.
+
+2012-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/scpu64uires.h, src/arch/beos/vicemenu.cc,
+	src/arch/sdl/xscpu64_ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/win32/resscpu64.rc, src/arch/win32/scpu64ui.c: Eliminated
+	tape support from the xscpu64 guis.
+
+2012-12-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: Some software depends on the memory detection
+	vector...
+
+2012-12-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65816core.c: Some Simplifications.
+
+2012-12-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: There was a bug in the repeat patch...
+
+2012-12-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: New SCPU64 replacement ROM version. Floppy
+	routines are usable now at 20MHz, it detects memory size and sets up
+	specific locations. Contains the standard vector table and an
+	implementation of vector rerouting.
+
+2012-12-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Extend vector remap
+
+2012-12-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64-cmdline-options.c,
+	src/scpu64/scpu64-cmdline-options.h, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64-resources.h, src/scpu64/scpu64-snapshot.c,
+	src/scpu64/scpu64-snapshot.h, src/scpu64/scpu64.c,
+	src/scpu64/scpu64.h, src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64gluelogic.c, src/scpu64/scpu64gluelogic.h,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c, src/scpu64/scpu64meminit.h,
+	src/scpu64/scpu64memlimit.c, src/scpu64/scpu64memlimit.h,
+	src/scpu64/scpu64memsnapshot.c, src/scpu64/scpu64memsnapshot.h,
+	src/scpu64/scpu64rom.c, src/scpu64/scpu64rom.h: Set eol-style
+
+2012-12-19  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: This DBR clear on emulation interrupt must be a
+	documentation error.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/scpu64ui.c, src/arch/amigaos/scpu64uires.h,
+	src/arch/beos/scpu64ui.cc, src/arch/beos/vicemenu.cc,
+	src/arch/msdos/scpu64ui.c, src/arch/sdl/Makefile.am,
+	src/arch/sdl/menu_scpu64hw.c, src/arch/sdl/menu_scpu64hw.h,
+	src/arch/sdl/xscpu64_ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/win32/Makefile.am, src/arch/win32/resscpu64.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/xscpu64.dsp,
+	src/arch/win64/xscpu64.vcproj: Eliminated +60K, +256K and C64_256K
+	support from the xscpu64 guis.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/POTFILES.in, src/arch/amigaos/joy.c, src/arch/amigaos/joyll.c,
+	src/arch/beos/joy.cc, src/arch/beos/ui_joystick.cc,
+	src/arch/beos/ui_video.cc, src/arch/beos/vicemenu.cc,
+	src/arch/msdos/joy.c, src/arch/msdos/uijoystick.c, src/arch/os2/joy.c,
+	src/arch/sdl/joy.c, src/arch/unix/joy.c, src/arch/unix/macosx/joy.c,
+	src/arch/win32/Makefile.am, src/arch/win32/joy.c,
+	src/arch/win32/resmenu.txt, src/arch/win32/resscpu64.rc,
+	src/arch/win32/ui.c, src/arch/win32/uiacia.c,
+	src/arch/win32/uijoystick.c, src/arch/win32/xscpu64.dsp,
+	src/arch/win64/xscpu64.vcproj, src/c64/c64keyboard.c, src/machine.h,
+	src/scpu64/scpu64-cmdline-options.c, src/scpu64/scpu64.c,
+	src/scpu64/scpu64mem.c, src/sid/sid-cmdline-options.c,
+	src/sid/sid-resources.c, src/traps.c, src/vicii/vicii.c: Added
+	VICE_MACHINE_SCPU64 and fixed the code to make xscpu64 work.
+
+2012-12-18  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivdc.c, src/arch/unix/gui/uivic.c,
+	src/arch/unix/gui/uivicii.c: disable aspect ratio options when hw
+	scaling is disabled
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt: Updated.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/arch/sdl/win32-msvc/arch.dsp,
+	src/arch/sdl/win32-msvc/c64scpu64.dsp,
+	src/arch/sdl/win64-msvc/arch.vcproj,
+	src/arch/sdl/win64-msvc/c64scpu64.vcproj,
+	src/arch/sdl/winmips-msvc/arch.mak, src/arch/win32/arch.dsp,
+	src/arch/win64/arch.vcproj, src/debug.h, src/monitor/mon_lex.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h, src/scpu64ui.h:
+	Adapted the various msvc files to the xscpu64 gui changes.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/scpu64/scpu64.c: Changed the ui init/shutdown call to be xscpu64
+	specific.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/icon.h, src/arch/unix/x11/Makefile.am,
+	src/arch/unix/x11/scpu64icon.c: Copied the unix x64 ui for use with
+	xscpu64.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/Makefile.am, src/arch/beos/scpu64ui.cc: Copied the
+	beos x64 ui for use with xscpu64.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am, src/arch/amigaos/scpu64ui.c,
+	src/arch/amigaos/scpu64uires.h: Copied the amiga x64 ui for use with
+	xscpu64.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/scpu64ui.c: Copied the
+	dos x64 ui for use with xscpu64.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/ui.c: Copied the os/2 x64 ui for use with xscpu64.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/xscpu64_ui.c: Copied the sdl
+	x64 ui for use with xscpu64.
+
+2012-12-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/scpu64ui.c: Copied the
+	windows x64 ui for use with xscpu64.
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: I/O long strectches
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi: Update docs
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: Simm cycle stretching
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Not for simm
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c: Eprom read/write stretch
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/scpu64/scpu64cpu.c: Now at 20.0 MHz ;)
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/scpu64/scpu64cpu.c: Proper dummy fetches
+
+2012-12-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64.c, src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c, Implement memory mirroring and write
+	buffer
+
+2012-12-17  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/gnome/dragdrop.c,
+	src/arch/unix/x11/gnome/dragdrop.h,
+	src/arch/unix/x11/gnome/gnomekbd.c,
+	src/arch/unix/x11/gnome/gnomekbd.h, src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/uidialogs.c,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uidrivestatus.h,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uistatusbar.h,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/x11mouse.c,
+	src/arch/unix/x11/gnome/x11mouse.h, src/arch/unix/x11/gnome/x11ui.c:
+	some more stuff splitted into seperate files
+
+2012-12-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/Makefile.am,
+	src/arch/sdl/winmips-msvc/_vice.mak,
+	src/arch/sdl/winmips-msvc/c64scpu64.mak,
+	src/arch/sdl/winmips-msvc/monitor.mak,
+	src/arch/sdl/winmips-msvc/scpu64.mak,
+	src/arch/sdl/winmips-msvc/xscpu64.mak: Fixed the sdl winmips msvc
+	project files for xscpu64.
+
+2012-12-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: Processor port and i/o shadow fixes
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix SBC in BCD 
+
+2012-12-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uicontents.c,
+	src/arch/unix/x11/gnome/uicontents.h,
+	src/arch/unix/x11/gnome/uidialogs.c,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uidrivestatus.h,
+	src/arch/unix/x11/gnome/uifilechooser.c,
+	src/arch/unix/x11/gnome/uifilechooser.h,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uistatusbar.c,
+	src/arch/unix/x11/gnome/uistatusbar.h,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/uitapestatus.h,
+	src/arch/unix/x11/gnome/x11ui.c: moved various functions from x11ui
+	into seperate files
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix BCD
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix RMW native/emulation mode differences
+
+2012-12-16  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/vicemenu.cc: Add missing SetRadioMode() call.
+
+2012-12-16  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/Makefile.am,
+	src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/uipalcontrol.h,
+	src/arch/unix/x11/gnome/x11ui.c: enable/disable sliders in crt emu
+	control depending on supported features
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix ADC/SBC
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/main65816cpu.c: WAI/STP/COP
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: More wrapping tricks
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Some stack specialities
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Even more wrapping fixes
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: More wrapping fixes ;)
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: More wrapping fixes
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Fix direct page crossing
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Clear DBR when doing emulation mode interrupts
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64memsnapshot.c: Processor port and it's mirroring
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Stack addressing modes
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Also optimize for (a,x)
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c, src/65816core.c: Optimize dummy fetches, don't let
+	reg_pc overflow
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: Continuation not needed
+
+2012-12-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Put pc increments and parameters into addressing
+	modes
+
+2012-12-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: Fix booting now that the move opcode works
+	correctly ;)
+
+2012-12-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h: Emulation bit and
+	interrupt rerouting correction
+
+2012-12-15  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-resources.c: allow scale2x (only) when output is not
+	stretched
+
+2012-12-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Move modifies DBR
+
+2012-12-15  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-resources.c, src/plus4/ted-resources.c,
+	src/vdc/vdc-resources.c, src/vic20/vic-resources.c,
+	src/vicii/vicii-resources.c, src/viciisc/vicii-resources.c,
+	src/video/video-cmdline-options.c, src/video/video-resources.c,
+	src/video.h: removed now useless internal_palette_allowed from
+	videochip capabilities
+
+2012-12-15  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-resources.c, src/debug.h, src/plus4/ted-resources.c,
+	src/vdc/vdc-resources.c, src/vic20/vic-resources.c,
+	src/vicii/vicii-resources.c, src/viciisc/vicii-resources.c,
+	src/video.h: removed now pointless palemulation_allowed from videochip
+	capabilities
+
+2012-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win64-msvc/Makefile.am,
+	src/arch/sdl/win64-msvc/c64scpu64.vcproj,
+	src/arch/sdl/win64-msvc/monitor.vcproj,
+	src/arch/sdl/win64-msvc/scpu64.vcproj,
+	src/arch/sdl/win64-msvc/vice.sln,
+	src/arch/sdl/win64-msvc/xscpu64.vcproj: Fixed the sdl win64 msvc
+	project files for xscpu64.
+
+2012-12-15  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c, src/main65816cpu.c, src/scpu64/scpu64cpu.c: Rework
+	to be more like a single cycle version
+
+2012-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/Makefile.am,
+	src/arch/sdl/win32-msvc/c64scpu64.dsp,
+	src/arch/sdl/win32-msvc/monitor.dsp,
+	src/arch/sdl/win32-msvc/scpu64.dsp, src/arch/sdl/win32-msvc/vice.dsw,
+	src/arch/sdl/win32-msvc/xscpu64.dsp: Fixed the sdl win32 msvc project
+	files for xscpu64.
+
+2012-12-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win64/Makefile.am, src/arch/win64/c64scpu64.vcproj,
+	src/arch/win64/monitor.vcproj, src/arch/win64/scpu64.vcproj,
+	src/arch/win64/vice.sln, src/arch/win64/xscpu64.vcproj: Fixed the
+	win64 msvc project files for xscpu64.
+
+2012-12-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiautostart.c: added missing menu item for
+	AutostartDelay
+
+2012-12-14  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: updated tape control widget
+
+2012-12-14  groepaz <groepaz@gmx.net>
+
+	* src/autostart.c, src/datasette.c: updated datasette emulation to
+	also work when there is no tape present, which conveniently also
+	covers the t64 case. UIs need updating (see devlog). fixes bug
+	#3587927
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: JSR (a,x) address comes from program bank
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Wrong BRK address, JMP () address comes from bank 0
+
+2012-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/make-bindist.sh: Forgot one.
+
+2012-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/info-files/morphos/xscpu64.info,
+	src/arch/amigaos/info-files/xscpu64.exe.info,
+	src/arch/amigaos/make-bindist.sh, src/arch/amigaos/xscpu64ns.c,
+	src/arch/beos/make-bindist.sh, src/arch/msdos/make-bindist.sh,
+	src/arch/os2/install.cmd, src/arch/os2/makedist.cmd,
+	src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/dingoo-files/Makefile.am,
+	src/arch/sdl/dingoo-files/xscpu64.dge,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh,
+	src/arch/sdl/make-bindist_gp2x.sh, src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/sdl/make-bindist_scosol.sh,
+	src/arch/sdl/make-bindist_skyos.sh,
+	src/arch/sdl/make-bindist_syllable.sh,
+	src/arch/sdl/make-bindist_win32.sh, src/arch/sdl/qnx4/make-bindist.sh,
+	src/arch/sdl/syllable-files/Makefile.am,
+	src/arch/sdl/syllable-files/xscpu64.sh,
+	src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/make-bindist.bat, src/arch/unix/Makefile.am,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/macosx/make-bindist.sh,
+	src/arch/unix/next_open_rhap/make-bindist.sh,
+	src/arch/unix/qnx4/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/sco_sol/make-bindist.sh,
+	src/arch/unix/skyos/icons/xscpu64.ico,
+	src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win64/make-msvc-bindist.bat: Adapted all the make-bindist
+	scripts for xscpu64.
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: ASL wrong for 16 bit
+
+2012-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/c64scpu64.dsp,
+	src/arch/win32/monitor.dsp, src/arch/win32/scpu64.dsp,
+	src/arch/win32/vice.dsw, src/arch/win32/xscpu64.dsp: Fixed the win32
+	msvc project files for xscpu64.
+
+2012-12-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/video-ddraw.c, src/debug.c, src/debug.h,
+	src/debug.h.in, src/lib.c, src/lib.h, src/sounddrv/sounddx.c,
+	src/sounddrv/soundwmm.c: Fixed some 'debug' problems, the same
+	problems exist in the trunk, but since I'm focusing on the scpu64
+	branch I'm doing the fixes in this branch, they will be merged into
+	the trunk at a later time.
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Lots of bank crossing problems
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Simplify immediate handling
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Direct page delay only applies if the lower bytes
+	in non-zero
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Simplify SP handling, TCS does not set any flags
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Clamp index registers as soon as set to 8 bit
+
+2012-12-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: add one more sanity check,
+	prevents vsid from crashing at startup
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: DBR of course, not PBR
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65c02core.c: There's no IRQ/BRK takeover on 65c02
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c: Native mode vector fetch
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Direct page is always bank0. bit # is 2/3 bytes
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64mem.c: More banks for monitor
+
+2012-12-14  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/debug.c, src/debug.h, src/debug.h.in: Show program bank
+
+2012-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/opencbm.h: Fixed for cygwin compilation.
+
+2012-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* data/SCPU64, src, src/scpu64: Added some svn ignores.
+
+2012-12-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep.c, src/arch/sdl/archdep_beos.c,
+	src/arch/sdl/archdep_cegcc.c, src/arch/sdl/archdep_dingoo.c,
+	src/arch/sdl/archdep_dingoo.h, src/arch/sdl/archdep_unix.c,
+	src/arch/sdl/archdep_unix.h, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/archdep_xbox.c, src/arch/sdl/joy.c, src/arch/sdl/kbd.c,
+	src/arch/sdl/menu_c128hw.c, src/arch/sdl/menu_c64cart.c,
+	src/arch/sdl/menu_c64model.c, src/arch/sdl/menu_cbm2hw.c,
+	src/arch/sdl/menu_common.c, src/arch/sdl/menu_drive.c,
+	src/arch/sdl/menu_ffmpeg.c, src/arch/sdl/menu_help.c,
+	src/arch/sdl/menu_joystick.c, src/arch/sdl/menu_printer.c,
+	src/arch/sdl/menu_settings.c, src/arch/sdl/menu_sid.c,
+	src/arch/sdl/menu_video.c, src/arch/sdl/mousedrv.c,
+	src/arch/sdl/rawnetarch.c, src/arch/sdl/ui.c, src/arch/sdl/ui.h,
+	src/arch/sdl/uicmdline.c, src/arch/sdl/uifilereq.c,
+	src/arch/sdl/uifilereq.h, src/arch/sdl/uihotkey.c,
+	src/arch/sdl/uimenu.c, src/arch/sdl/uimsgbox.c,
+	src/arch/sdl/uistatusbar.c, src/arch/sdl/video.c, src/arch/sdl/vkbd.c,
+	src/arch/sdl/vkbd.h, src/arch/sdl/vsidui.c, src/arch/sdl/vsidui_sdl.h,
+	src/arch/sdl/vsyncarch.c, src/arch/sdl/x64sc_ui.c,
+	src/arch/sdl/xcbm2_ui.c, src/arch/sdl/xpet_ui.c,
+	src/arch/sdl/xplus4_ui.c, src/arch/sdl/xvic_ui.c: More coding-style
+	fixes.
+
+2012-12-13  groepaz <groepaz@gmx.net>
+
+	* src/crtc/crtc-color.c, src/plus4/ted-color.c, src/vdc/vdc-color.c,
+	src/vic20/vic-color.c, src/vicii/vicii-color.c,
+	src/viciisc/vicii-color.c, src/video/video-color.c, src/video.h: added
+	special case handling for RGB videochips (VDC), fixes broken VDC
+	colors when CRT emulation is enabled
+
+2012-12-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/menu_drive.c: added menu items for supercard and
+	professional dos
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Clear pbr also for BRK
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65816core.c: Before interrupt the program bank is set to zero...
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_register65816.c: Initialize mon_register_print_ex
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* data/SCPU64/scpu64: Replacement ROM
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/debug.h.in: Now at the right place
+
+2012-12-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: dont grab keyboard at all at
+	startup to allow window manager keys being recognized by the
+	application
+
+2012-12-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/sdl/video.c, src/video/video-resources.c: do only update hw
+	palette for active (visible) canvas, fixes bug #3381409
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/monitor/mon_assemble65816.c, src/monitor/mon_disassemble.c:
+	Still some swapping needed for mvn/mvp
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/debug.h: Debug
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/Makefile.am, src/scpu64/scpu64-cmdline-options.c: Rom
+	command line
+
+2012-12-13  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* Makefile.am, configure.in, data/Makefile.am, data/SCPU64,
+	data/SCPU64/Makefile.am, data/SCPU64/amiga_pos.vkm,
+	data/SCPU64/amiga_sym.vkm, data/SCPU64/beos_pos.vkm,
+	data/SCPU64/beos_sym.vkm, data/SCPU64/c64hq.vpl, data/SCPU64/c64s.vpl,
+	data/SCPU64/ccs64.vpl, data/SCPU64/chargen, data/SCPU64/default.vpl,
+	data/SCPU64/default.vrs, data/SCPU64/dos_pos.vkm,
+	data/SCPU64/dos_sym.vkm, data/SCPU64/frodo.vpl, data/SCPU64/godot.vpl,
+	data/SCPU64/gp2x_pos.vkm, data/SCPU64/gp2x_sym.vkm,
+	data/SCPU64/os2.vkm, data/SCPU64/os2_sym.vkm, data/SCPU64/osx_pos.vkm,
+	data/SCPU64/osx_sym_de.vkm, data/SCPU64/osx_sym_us.vkm,
+	data/SCPU64/pc64.vpl, data/SCPU64/scpu64, data/SCPU64/scpu64mem.sym,
+	data/SCPU64/sdl_sym.vkm, data/SCPU64/sdl_sym_da.vkm,
+	data/SCPU64/sdl_sym_de.vkm, data/SCPU64/sdl_sym_fi.vkm,
+	data/SCPU64/sdl_sym_no.vkm, data/SCPU64/vice.vpl,
+	data/SCPU64/win_hotkeys.vhk, data/SCPU64/win_pos.vkm,
+	data/SCPU64/win_shortcuts.vsc, data/SCPU64/win_sym_de.vkm,
+	data/SCPU64/win_sym_it.vkm, data/SCPU64/win_sym_us.vkm,
+	data/SCPU64/x11_pos.vkm, data/SCPU64/x11_posger.vkm,
+	data/SCPU64/x11_sym.vkm, data/SCPU64/x11_symger.vkm, doc/vice.pdf,
+	doc/vice.texi, src/65816core.c, src/Makefile.am, src/c64/Makefile.am,
+	src/debug.c, src/main65816cpu.c, src/main65816cpu.h,
+	src/monitor/Makefile.am, src/monitor/asm.h, src/monitor/asm65816.c,
+	src/monitor/asm6809.c, src/monitor/mon_assemble.h,
+	src/monitor/mon_assemble65816.c, src/monitor/mon_assemble6809.c,
+	src/monitor/mon_disassemble.c, src/monitor/mon_lex.c,
+	src/monitor/mon_lex.l, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/monitor/mon_parse.y,
+	src/monitor/mon_register.h, src/monitor/mon_register65816.c,
+	src/monitor/monitor.c, src/monitor/montypes.h, src/monitor.h,
+	src/scpu64, src/scpu64/Makefile.am,
+	src/scpu64/scpu64-cmdline-options.c,
+	src/scpu64/scpu64-cmdline-options.h, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64-resources.h, src/scpu64/scpu64-snapshot.c,
+	src/scpu64/scpu64-snapshot.h, src/scpu64/scpu64.c,
+	src/scpu64/scpu64.h, src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64gluelogic.c, src/scpu64/scpu64gluelogic.h,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c, src/scpu64/scpu64meminit.h,
+	src/scpu64/scpu64memlimit.c, src/scpu64/scpu64memlimit.h,
+	src/scpu64/scpu64memsnapshot.c, src/scpu64/scpu64memsnapshot.h,
+	src/scpu64/scpu64rom.c, src/scpu64/scpu64rom.h, src/wdc65816.h:
+	Current state.
+
+2012-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510core.c: Fixed.
+
+2012-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/6510core.c, src/6510core.h, src/6510dtvcore.c, src/65c02core.c,
+	src/aciacore.c, src/alarm.c, src/alarm.h, src/attach.c, src/attach.h,
+	src/autostart-prg.c, src/autostart-prg.h, src/autostart.c,
+	src/autostart.h, src/bin2c.c, src/blockdev.h, src/c128ui.h,
+	src/c1541.c, src/c64ui.h, src/cartconv.c, src/cartio.h, src/cbmdos.c,
+	src/cbmdos.h, src/cbmimage.c, src/cbmimage.h, src/charset.c,
+	src/charset.h, src/cia.h, src/clipboard.c, src/clkguard.c,
+	src/clkguard.h, src/cmdline.c, src/cmdline.h, src/color.c,
+	src/color.h, src/console.h, src/crc32.c, src/crc32.h, src/datasette.c,
+	src/datasette.h, src/debug.c, src/debug.h, src/diskconstants.h,
+	src/diskimage.h, src/dma.c, src/dma.h, src/dynlib.h, src/embedded.c,
+	src/event.c, src/fileio.h, src/findpath.c, src/findpath.h,
+	src/fixpoint.c, src/fixpoint.h, src/flash040.h, src/fliplist.c,
+	src/fliplist.h, src/fsdevice.h, src/fullscreen.h, src/gcr.c,
+	src/gcr.h, src/h6809regs.h, src/hardsid.h, src/iecbus.h,
+	src/imagecontents.h, src/info.c, src/init.c, src/init.h,
+	src/initcmdline.c, src/initcmdline.h, src/interrupt.c,
+	src/interrupt.h, src/ioutil.c, src/joystick.c, src/joystick.h,
+	src/kbdbuf.c, src/kbdbuf.h, src/keyboard.c, src/keyboard.h, src/lib.c,
+	src/lib.h, src/libm_math.c, src/lightpen.c, src/log.c, src/log.h,
+	src/machine-bus.c, src/machine-bus.h, src/machine-drive.h,
+	src/machine-printer.h, src/machine-video.h, src/machine.c,
+	src/machine.h, src/main.c, src/main.h, src/mainc64cpu.c,
+	src/mainc64cpu.h, src/maincpu.c, src/maincpu.h, src/mainviccpu.c,
+	src/mem.h, src/memcmp.c, src/midi.c, src/monitor.h, src/mos6510.h,
+	src/mos6510dtv.h, src/mouse.c, src/network.c, src/network.h,
+	src/opencbmlib.c, src/palette.c, src/palette.h, src/parallel.h,
+	src/petcat.c, src/petui.h, src/piacore.c, src/piacore.h,
+	src/platform/platform_beos_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c, src/plus4ui.h,
+	src/printer.h, src/ps2mouse.c, src/ps2mouse.h, src/r65c02.h,
+	src/ram.c, src/ram.h, src/rawfile.c, src/rawfile.h, src/rawnet.h,
+	src/resources.c, src/resources.h, src/riot.h, src/romset.c,
+	src/romset.h, src/rs232drv.h, src/rsuser.h, src/screenshot.c,
+	src/screenshot.h, src/serial.h, src/signals.h, src/snapshot.c,
+	src/socket.c, src/sound.c, src/sound.h, src/sysfile.c, src/sysfile.h,
+	src/tap.h, src/tape.h, src/tpi.h, src/translate.c,
+	src/translate_languages.h, src/traps.c, src/traps.h, src/uiapi.h,
+	src/uicolor.h, src/uimon.h, src/usleep.c, src/util.c, src/util.h,
+	src/via.h, src/vic20ui.h, src/vice-event.h, src/vice.h, src/video.h,
+	src/viewport.h, src/vsync.c, src/vsync.h, src/z80regs.h, src/zfile.c,
+	src/zfile.h, src/zipcode.c, src/zipcode.h: More coding-style cleanups.
+
+2012-12-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Fixed some translations.
+
+2012-12-12  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: print warning instead of erroring out on odd load
+	addresses
+
+2012-12-12  Olaf Seibert <rhialto@falu.nl>
+
+	* configure.in: Move assignment of CPPFLAGS so it works for the GTK
+	GUI also.
+
+2012-12-12  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Add missing #ifdef HAVE_FULLSCREEN.
+
+2012-12-11  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/amigaos/mui/uijoystick.c,
+	src/arch/amigaos/mui/uijoystickll.c,
+	src/arch/beos/ui.cc, src/arch/msdos/uijoystick.c,
+	src/arch/os2/dialogs/dlg-joystick.c, src/arch/os2/dialogs/menubar.c,
+	src/arch/sdl/menu_joystick.c, src/arch/unix/gui/uijoystick2.c,
+	src/arch/win32/uijoystick.c, src/c128/c128.c, src/c64/c64.c,
+	src/c64/vsidstubs.c, src/c64dtv/c64dtv.c, src/cbm2/cbm2.c,
+	src/joystick.c, src/pet/pet.c, src/translate.txt,
+	src/translate_text.c, src/userport/userport_joystick.c,
+	src/userport/userport_joystick.h, src/vic20/vic20.c: Replace
+	"ExtraJoy*" resources with "UserportJoy*" resources and command-line
+	options init'ed from machine-specific code (except for cbm5x0, plus4
+	and vsid.)
+
+2012-12-10  groepaz <groepaz@gmx.net>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/index.html,
+	doc/html/macosx.html, doc/html/qnx.html, doc/html/robots.txt,
+	doc/html/sco.html, doc/html/sitemap.xml, doc/html/solaris.html,
+	doc/html/vice.css: some SEO :)
+
+2012-12-09  Olaf Seibert <rhialto@falu.nl>
+
+	* src/opencbm.h: Fix OS check for NetBSD and hopefully DragonflyBSD.
+
+2012-12-09  groepaz <groepaz@gmx.net>
+
+	* src/opencbm.h: replaced opencbm.h with a recent copy from opencbm
+	repository, hopefully fixes bug #3594057
+
+2012-12-09  groepaz <groepaz@gmx.net>
+
+	* doc/html/favicon.ico: added favicon for the website
+
+2012-12-09  groepaz <groepaz@gmx.net>
+
+	* src/c64/cart/magicvoice.c: minor comment fixes
+
+2012-12-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/fullscreen.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/x11/vidmode.c, src/arch/unix/x11/x11ui.h,
+	src/arch/unix/x11/xaw/x11ui.c, src/arch/unix/x11/xaw/x11video.c,
+	src/arch/unix/x11/xrandr.c, src/arch/unix/x11/xrandr.h: event handling
+	improvements, fixes bug #3586038, fixes mouse (un)grabbing when
+	switching from/to fullscreen for at least xrandr, improves handling of
+	rapidly firing (async) events
+
+2012-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vdrive/vdrive-bam.c, src/vdrive/vdrive-bam.h,
+	src/vdrive/vdrive-command.c, src/vdrive/vdrive-command.h,
+	src/vdrive/vdrive-dir.c, src/vdrive/vdrive-dir.h,
+	src/vdrive/vdrive-iec.c, src/vdrive/vdrive-iec.h,
+	src/vdrive/vdrive-internal.c, src/vdrive/vdrive-internal.h,
+	src/vdrive/vdrive-rel.c, src/vdrive/vdrive-rel.h,
+	src/vdrive/vdrive-snapshot.c, src/vdrive/vdrive-snapshot.h,
+	src/vdrive/vdrive.c, src/vdrive/vdrive.h,
+	src/vic20/cart/finalexpansion.c, src/vic20/cart/megacart.c,
+	src/vic20/cart/vic-fp.c, src/vic20/cart/vic20-generic.c,
+	src/vic20/cart/vic20-ieee488.c, src/vic20/cart/vic20-midi.c,
+	src/vic20/cart/vic20cart.c, src/vic20/cart/vic20cart.h,
+	src/vic20/cart/vic20cartmem.c, src/vic20/cart/vic20cartmem.h,
+	src/vic20/vic-cmdline-options.c, src/vic20/vic-cmdline-options.h,
+	src/vic20/vic-color.c, src/vic20/vic-color.h, src/vic20/vic-cycle.c,
+	src/vic20/vic-cycle.h, src/vic20/vic-draw.c, src/vic20/vic-draw.h,
+	src/vic20/vic-mem.c, src/vic20/vic-mem.h, src/vic20/vic-resources.c,
+	src/vic20/vic-resources.h, src/vic20/vic-snapshot.c,
+	src/vic20/vic-snapshot.h, src/vic20/vic-timing.c,
+	src/vic20/vic-timing.h, src/vic20/vic.c, src/vic20/vic.h,
+	src/vic20/vic20-cmdline-options.c, src/vic20/vic20-cmdline-options.h,
+	src/vic20/vic20-resources.c, src/vic20/vic20-resources.h,
+	src/vic20/vic20-snapshot.c, src/vic20/vic20-snapshot.h,
+	src/vic20/vic20.c, src/vic20/vic20.h, src/vic20/vic20bus.c,
+	src/vic20/vic20datasette.c, src/vic20/vic20drive.c,
+	src/vic20/vic20embedded.c, src/vic20/vic20iec.c, src/vic20/vic20iec.h,
+	src/vic20/vic20ieeevia.h, src/vic20/vic20ieeevia1.c,
+	src/vic20/vic20ieeevia2.c, src/vic20/vic20io.c, src/vic20/vic20mem.c,
+	src/vic20/vic20mem.h, src/vic20/vic20memrom.c,
+	src/vic20/vic20memrom.h, src/vic20/vic20memsnapshot.c,
+	src/vic20/vic20memsnapshot.h, src/vic20/vic20printer.c,
+	src/vic20/vic20rom.c, src/vic20/vic20rom.h, src/vic20/vic20romset.c,
+	src/vic20/vic20rsuser.c, src/vic20/vic20rsuser.h,
+	src/vic20/vic20sound.c, src/vic20/vic20sound.h, src/vic20/vic20via.h,
+	src/vic20/vic20via1.c, src/vic20/vic20via2.c, src/vic20/vic20video.c,
+	src/vic20/victypes.h, src/vicii/vicii-badline.c,
+	src/vicii/vicii-badline.h, src/vicii/vicii-clock-stretch.c,
+	src/vicii/vicii-cmdline-options.c, src/vicii/vicii-cmdline-options.h,
+	src/vicii/vicii-color.c, src/vicii/vicii-color.h,
+	src/vicii/vicii-draw.c, src/vicii/vicii-draw.h,
+	src/vicii/vicii-fetch.c, src/vicii/vicii-fetch.h,
+	src/vicii/vicii-irq.c, src/vicii/vicii-irq.h, src/vicii/vicii-mem.c,
+	src/vicii/vicii-mem.h, src/vicii/vicii-phi1.c, src/vicii/vicii-phi1.h,
+	src/vicii/vicii-resources.c, src/vicii/vicii-resources.h,
+	src/vicii/vicii-snapshot.c, src/vicii/vicii-snapshot.h,
+	src/vicii/vicii-sprites.c, src/vicii/vicii-sprites.h,
+	src/vicii/vicii-stubs.c, src/vicii/vicii-timing.c,
+	src/vicii/vicii-timing.h, src/vicii/vicii.c,
+	src/vicii/viciidtv-color.c, src/vicii/viciidtv-draw.c,
+	src/vicii/viciidtv-snapshot.c, src/vicii/viciitypes.h,
+	src/viciisc/vicii-chip-model.c, src/viciisc/vicii-chip-model.h,
+	src/viciisc/vicii-cmdline-options.c,
+	src/viciisc/vicii-cmdline-options.h, src/viciisc/vicii-color.c,
+	src/viciisc/vicii-color.h, src/viciisc/vicii-cycle.c,
+	src/viciisc/vicii-cycle.h, src/viciisc/vicii-draw-cycle.c,
+	src/viciisc/vicii-draw-cycle.h, src/viciisc/vicii-draw.c,
+	src/viciisc/vicii-draw.h, src/viciisc/vicii-fetch.c,
+	src/viciisc/vicii-fetch.h, src/viciisc/vicii-irq.h,
+	src/viciisc/vicii-lightpen.h, src/viciisc/vicii-mem.c,
+	src/viciisc/vicii-mem.h, src/viciisc/vicii-phi1.c,
+	src/viciisc/vicii-phi1.h, src/viciisc/vicii-resources.c,
+	src/viciisc/vicii-resources.h, src/viciisc/vicii-snapshot.c,
+	src/viciisc/vicii-snapshot.h, src/viciisc/vicii-timing.c,
+	src/viciisc/vicii.c, src/viciisc/viciitypes.h, src/video/render1x1.c,
+	src/video/render1x1_dingoo.h, src/video/render1x1ntsc.c,
+	src/video/render1x1ntsc.h, src/video/render1x1pal.c,
+	src/video/render1x1pal.h, src/video/render1x2.c,
+	src/video/render1x2crt.c, src/video/render1x2crt.h,
+	src/video/render2x2.c, src/video/render2x2.h,
+	src/video/render2x2crt.c, src/video/render2x2crt.h,
+	src/video/render2x2ntsc.c, src/video/render2x2ntsc.h,
+	src/video/render2x2pal.c, src/video/render2x2pal.h,
+	src/video/render2x4.c, src/video/render2x4crt.c,
+	src/video/render2x4crt.h, src/video/renderscale2x.c,
+	src/video/renderscale2x.h, src/video/renderyuv.c,
+	src/video/renderyuv.h, src/video/video-canvas.c,
+	src/video/video-canvas.h, src/video/video-cmdline-options.c,
+	src/video/video-color.c, src/video/video-color.h,
+	src/video/video-render-1x2.c, src/video/video-render-2x2.c,
+	src/video/video-render-crt.c, src/video/video-render-pal.c,
+	src/video/video-render.c, src/video/video-render.h,
+	src/video/video-resources.c, src/video/video-sound.c,
+	src/video/video-sound.h, src/video/video-viewport.c: More coding-style
+	cleanups.
+
+2012-12-07  groepaz <groepaz@gmx.net>
+
+	* src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c,
+	src/gfxoutputdrv/ffmpeglib.h: fix import problems for the time being,
+	fixes bug #3429844, patch by ian coog
+
+2012-12-07  groepaz <groepaz@gmx.net>
+
+	* src/6510dtvcore.c: fix the case when IRQ and NMI trigger at the same
+	cycle, fixes bug #3547995, patch by nojoopa
+
+2012-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/serial/fsdrive.c, src/serial/fsdrive.h, src/serial/realdevice.c,
+	src/serial/realdevice.h, src/serial/serial-iec-bus.c,
+	src/serial/serial-iec-bus.h, src/serial/serial-iec-device.c,
+	src/serial/serial-iec-device.h, src/serial/serial-iec-lib.c,
+	src/serial/serial-iec.c, src/serial/serial-iec.h,
+	src/serial/serial-realdevice.c, src/serial/serial-trap.c,
+	src/serial/serial-trap.h, src/serial/serial.c, src/sid/fastsid.c,
+	src/sid/fastsid.h, src/sid/resid-fp.h, src/sid/resid.h,
+	src/sid/sid-cmdline-options.h, src/sid/sid-resources.c,
+	src/sid/sid-snapshot.c, src/sid/sid-snapshot.h, src/sid/sid.c,
+	src/sid/wave6581.h, src/sid/wave8580.h, src/sounddrv/lamelib.c,
+	src/sounddrv/lamelib.h, src/sounddrv/soundahi.c,
+	src/sounddrv/soundaiff.c, src/sounddrv/soundaix.c,
+	src/sounddrv/soundallegro.c, src/sounddrv/soundalsa.c,
+	src/sounddrv/soundarts.c, src/sounddrv/soundcoreaudio.c,
+	src/sounddrv/sounddart.c, src/sounddrv/sounddump.c,
+	src/sounddrv/sounddx.c, src/sounddrv/soundfs.c,
+	src/sounddrv/soundhpux.c, src/sounddrv/soundiff.c,
+	src/sounddrv/soundmidas.c, src/sounddrv/soundmmos2.c,
+	src/sounddrv/soundmovie.c, src/sounddrv/soundmovie.h,
+	src/sounddrv/soundmp3.c, src/sounddrv/soundpulse.c,
+	src/sounddrv/soundsdl.c, src/sounddrv/soundsgi.c,
+	src/sounddrv/soundsun.c, src/sounddrv/sounduss.c,
+	src/sounddrv/soundvoc.c, src/sounddrv/soundwav.c,
+	src/sounddrv/soundwmm.c, src/tape/t64.c, src/tape/t64.h,
+	src/tape/tap.c, src/tape/tape-internal.c, src/tape/tape-internal.h,
+	src/tape/tape-snapshot.c, src/tape/tape-snapshot.h, src/tape/tape.c,
+	src/tape/tapeimage.c, src/tape/tapeimage.h,
+	src/userport/userport_dac.c, src/userport/userport_joystick.c,
+	src/vdc/vdc-cmdline-options.h, src/vdc/vdc-color.c,
+	src/vdc/vdc-color.h, src/vdc/vdc-draw.c, src/vdc/vdc-draw.h,
+	src/vdc/vdc-mem.c, src/vdc/vdc-mem.h, src/vdc/vdc-resources.c,
+	src/vdc/vdc-resources.h, src/vdc/vdc-snapshot.c,
+	src/vdc/vdc-snapshot.h, src/vdc/vdc.c, src/vdc/vdc.h,
+	src/vdc/vdctypes.h: More coding-style cleanups.
+
+2012-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/digiblaster.c, src/plus4/plus4-cmdline-options.c,
+	src/plus4/plus4-cmdline-options.h, src/plus4/plus4-resources.c,
+	src/plus4/plus4-resources.h, src/plus4/plus4-sidcart.c,
+	src/plus4/plus4-snapshot.c, src/plus4/plus4-snapshot.h,
+	src/plus4/plus4.c, src/plus4/plus4.h, src/plus4/plus4acia.h,
+	src/plus4/plus4bus.c, src/plus4/plus4cart.c, src/plus4/plus4cart.h,
+	src/plus4/plus4datasette.c, src/plus4/plus4drive.c,
+	src/plus4/plus4embedded.c, src/plus4/plus4iec.c, src/plus4/plus4iec.h,
+	src/plus4/plus4mem.c, src/plus4/plus4memcsory256k.c,
+	src/plus4/plus4memhannes256k.c, src/plus4/plus4memlimit.c, 
+	src/plus4/plus4memlimit.h, src/plus4/plus4memrom.c,
+	src/plus4/plus4memrom.h, src/plus4/plus4memsnapshot.h,
+	src/plus4/plus4model.c, src/plus4/plus4parallel.c,
+	src/plus4/plus4pio1.c, src/plus4/plus4pio1.h, src/plus4/plus4pio2.c,
+	src/plus4/plus4pio2.h, src/plus4/plus4printer.c, src/plus4/plus4rom.c,
+	src/plus4/plus4rom.h, src/plus4/plus4romset.c,
+	src/plus4/plus4speech.c, src/plus4/plus4tcbm.c, src/plus4/plus4tcbm.h,
+	src/plus4/plus4video.c, src/plus4/ted-badline.c,
+	src/plus4/ted-badline.h, src/plus4/ted-cmdline-options.c,
+	src/plus4/ted-cmdline-options.h, src/plus4/ted-color.c,
+	src/plus4/ted-color.h, src/plus4/ted-draw.c, src/plus4/ted-draw.h,
+	src/plus4/ted-fetch.c, src/plus4/ted-fetch.h, src/plus4/ted-irq.c,
+	src/plus4/ted-irq.h, src/plus4/ted-mem.c, src/plus4/ted-mem.h,
+	src/plus4/ted-resources.c, src/plus4/ted-resources.h,
+	src/plus4/ted-snapshot.c, src/plus4/ted-snapshot.h,
+	src/plus4/ted-sound.c, src/plus4/ted-sound.h, src/plus4/ted-timer.c,
+	src/plus4/ted-timer.h, src/plus4/ted-timing.c, src/plus4/ted-timing.h,
+	src/plus4/ted.c, src/plus4/ted.h, src/plus4/tedtypes.h,
+	src/printerdrv/driver-select.c, src/printerdrv/driver-select.h,
+	src/printerdrv/drv-ascii.c, src/printerdrv/drv-ascii.h,
+	src/printerdrv/drv-mps803.c, src/printerdrv/drv-mps803.h,
+	src/printerdrv/drv-nl10.c, src/printerdrv/drv-nl10.h,
+	src/printerdrv/drv-raw.c, src/printerdrv/drv-raw.h,
+	src/printerdrv/interface-serial.c, src/printerdrv/interface-serial.h,
+	src/printerdrv/interface-userport.h, src/printerdrv/output-graphics.c,
+	src/printerdrv/output-graphics.h, src/printerdrv/output-select.c,
+	src/printerdrv/output-select.h, src/printerdrv/output-text.c,
+	src/printerdrv/output-text.h, src/printerdrv/output.h,
+	src/printerdrv/printer-serial.c, src/printerdrv/printer-userport.c,
+	src/raster/raster-cache-const.h, src/raster/raster-cache-fill-1fff.h,
+	src/raster/raster-cache-fill-39ff.h, src/raster/raster-cache-fill.h,
+	src/raster/raster-cache-nibbles.h, src/raster/raster-cache-text-ext.h,
+	src/raster/raster-cache-text-std.h, src/raster/raster-cache.c,
+	src/raster/raster-cache.h, src/raster/raster-canvas.c,
+	src/raster/raster-canvas.h, src/raster/raster-changes.c,
+	src/raster/raster-changes.h, src/raster/raster-cmdline-options.c,
+	src/raster/raster-cmdline-options.h,
+	src/raster/raster-line-changes-sprite.c,
+	src/raster/raster-line-changes.c, src/raster/raster-line.c,
+	src/raster/raster-line.h, src/raster/raster-modes.c,
+	src/raster/raster-modes.h, src/raster/raster-resources.c,
+	src/raster/raster-resources.h, src/raster/raster-sprite-cache.c,
+	src/raster/raster-sprite-cache.h, src/raster/raster-sprite-status.c,
+	src/raster/raster-sprite-status.h, src/raster/raster-sprite.c,
+	src/raster/raster-sprite.h, src/raster/raster.c, src/raster/raster.h,
+	src/rs232drv/rs232drv.c, src/rs232drv/rsuser.c, src/rtc/bq4830y.c,
+	src/rtc/ds1202_1302.c, src/rtc/ds12c887.c, src/rtc/rtc.c: More
+	coding-style cleanups.
+
+2012-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/mainc64cpu.c, src/mainviccpu.c: Some more warning fixes.
+
+2012-12-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65c02core.c, src/c64dtv/c64dtvcpu.c, src/c64dtv/c64dtvmem.c,
+	src/diskimage/fsimage-create.c, src/diskimage/fsimage-dxx.c,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-p64.c,
+	src/drive/drive-snapshot.c, src/drive/drive.h,
+	src/drive/iec/via4000.c, src/drive/rotation.c,
+	src/gfxoutputdrv/nativedrv.c, src/pet/pet.c, src/pet/petdww.c,
+	src/pet/pethre.c, src/pet/pethre.h, src/pet/petmem.c,
+	src/pet/petmodel.c: Fixed some more warnings.
+
+2012-12-06  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c128/c128memlimit.c: Finish the "RAM and internal function
+	RAM+RTC" changes. Setting the base to NULL is not sufficient, the
+	limits must be adjusted as well...
+
+2012-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/winlong.h, src/c64/c64cia1.c, src/core/ata.c,
+	src/maincpu.c, src/mouse.c, src/platform/platform_discovery.h,
+	src/sid/sid-resources.c, src/sound.c, src/vicii/vicii-draw.c,
+	src/video/render1x2crt.c, src/video/render2x2crt.c,
+	src/video/render2x2ntsc.c, src/video/render2x2pal.c,
+	src/video/video-color.c, src/video/video-viewport.c: Fixed some
+	warnings.
+
+2012-12-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/parallel/parallel-trap.c, src/parallel/parallel-trap.h,
+	src/parallel/parallel.c, src/pet/6809.c, src/pet/6809.h,
+	src/pet/pet-cmdline-options.c, src/pet/pet-cmdline-options.h,
+	src/pet/pet-resources.c, src/pet/pet-resources.h,
+	src/pet/pet-snapshot.c, src/pet/pet-snapshot.h, src/pet/pet.c,
+	src/pet/pet.h, src/pet/petacia.h, src/pet/petacia1.c,
+	src/pet/petbus.c, src/pet/petcpu.c, src/pet/petdatasette.c,
+	src/pet/petdrive.c, src/pet/petdww.c, src/pet/petdww.h,
+	src/pet/petembedded.c, src/pet/pethre.c, src/pet/pethre.h,
+	src/pet/petiec.c, src/pet/petiec.h, src/pet/petmem.c,
+	src/pet/petmemsnapshot.c, src/pet/petmemsnapshot.h,
+	src/pet/petmodel.c, src/pet/petmodel.h, src/pet/petpia.h,
+	src/pet/petpia1.c, src/pet/petpia2.c, src/pet/petprinter.c,
+	src/pet/petreu.c, src/pet/petrom.c, src/pet/petrom.h,
+	src/pet/petromset.c, src/pet/pets.h, src/pet/petsound.c,
+	src/pet/petsound.h, src/pet/petvia.c, src/pet/petvia.h,
+	src/pet/petvideo.c, src/platform/platform_aix_version.h,
+	src/platform/platform_amigaos3_runtime_os.c,
+	src/platform/platform_amigaos4_runtime_os.c,
+	src/platform/platform_macosx.c, src/platform/platform_macosx.h,
+	src/platform/platform_os2_runtime_os.c,
+	src/platform/platform_windows_runtime_os.c: More coding-style
+	cleanups.
+
+2012-12-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/renderxv.c, src/arch/unix/x11/xaw/x11video.c,
+	src/video/video-color.c: Get rid of xv color controls. Some cards
+	don't have it, if it's present then the settings and ranges are
+	non-standard, if VICE is killed than the defaults are not restored.
+	Instead apply brightness, contrast, saturation, gamma, tint in
+	software to the YUV palette. Guaranteed to work on all cards, simpler
+	and shorter ;)
+
+2012-12-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Fade bits
+	also on overflow. Too much delete.
+
+2012-12-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Fix cpu
+	port bit fading. It's just a simple capacitor which is discharged when
+	not in use. The Lorenz suite and that DJ Puff game should be both ok
+	with this, also it's less code than before.
+
+2012-12-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/drivecpu.c, src/drive/drivecpu.h,
+	src/drive/drivecpu65c02.c, src/drive/drivecpu65c02.h, src/maincpu.c,
+	src/mainviccpu.c: Fix NMI delay after BRK
+
+2012-12-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c, src/65c02core.c: Fix BRK interruption by IRQ/NMI.
+
+2012-12-05  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/iec/pc8477.c: Unbreak pc8477.
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/65c02core.c: Implement IRQ NMI takeover on 65c02
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c: Fix NMI IRQ takeover
+
+2012-12-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive-check.c, src/drive/drive-check.h,
+	src/drive/drive-cmdline-options.h, src/drive/drive-overflow.c,
+	src/drive/drive-overflow.h, src/drive/drive-resources.c,
+	src/drive/drive-resources.h, src/drive/drive-snapshot.c,
+	src/drive/drive-snapshot.h, src/drive/drive-sound.c,
+	src/drive/drive-sound.h, src/drive/drive-writeprotect.h,
+	src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/drive/drivecpu.h, src/drive/drivecpu65c02.c,
+	src/drive/drivecpu65c02.h, src/drive/driveimage.c,
+	src/drive/driveimage.h, src/drive/drivemem.c, src/drive/drivemem.h,
+	src/drive/driverom.c, src/drive/driverom.h, src/drive/drivesync.c,
+	src/drive/drivesync.h, src/drive/drivetypes.h,
+	src/drive/iec/c64exp/c64exp-cmdline-options.c,
+	src/drive/iec/c64exp/c64exp-cmdline-options.h,
+	src/drive/iec/c64exp/c64exp-resources.c,
+	src/drive/iec/c64exp/c64exp-resources.h,
+	src/drive/iec/c64exp/dolphindos3.h, src/drive/iec/c64exp/iec-c64exp.c,
+	src/drive/iec/c64exp/profdos.c, src/drive/iec/c64exp/profdos.h,
+	src/drive/iec/c64exp/supercard.c, src/drive/iec/c64exp/supercard.h,
+	src/drive/iec/cia1571d.c, src/drive/iec/cia1581d.c,
+	src/drive/iec/ciad.h, src/drive/iec/fdd.c, src/drive/iec/fdd.h,
+	src/drive/iec/glue1571.c, src/drive/iec/glue1571.h,
+	src/drive/iec/iec-cmdline-options.h, src/drive/iec/iec-resources.c,
+	src/drive/iec/iec-resources.h, src/drive/iec/iec.c,
+	src/drive/iec/iecrom.c, src/drive/iec/iecrom.h,
+	src/drive/iec/memiec.c, src/drive/iec/memiec.h,
+	src/drive/iec/pc8477.c, src/drive/iec/pc8477.h,
+	src/drive/iec/plus4exp/iec-plus4exp.c,
+	src/drive/iec/plus4exp/plus4exp-cmdline-options.c,
+	src/drive/iec/plus4exp/plus4exp-cmdline-options.h,
+	src/drive/iec/plus4exp/plus4exp-resources.c,
+	src/drive/iec/plus4exp/plus4exp-resources.h,
+	src/drive/iec/via1d1541.c, src/drive/iec/via1d1541.h,
+	src/drive/iec/via4000.c, src/drive/iec/via4000.h,
+	src/drive/iec/wd1770.c, src/drive/iec/wd1770.h,
+	src/drive/iec-c64exp.h, src/drive/iec-plus4exp.h, src/drive/iec.h,
+	src/drive/iec128dcr/iec128dcr-cmdline-options.h,
+	src/drive/iec128dcr/iec128dcr-resources.c,
+	src/drive/iec128dcr/iec128dcr-resources.h,
+	src/drive/iec128dcr/iec128dcr.c, src/drive/iec128dcr/iec128dcrrom.c,
+	src/drive/iec128dcr/iec128dcrrom.h, src/drive/iec128dcr.h,
+	src/drive/iecieee/iecieee.c, src/drive/iecieee/via2d.c,
+	src/drive/iecieee.h, src/drive/ieee/fdc.c, src/drive/ieee/fdc.h,
+	src/drive/ieee/ieee-cmdline-options.h,
+	src/drive/ieee/ieee-resources.c, src/drive/ieee/ieee-resources.h,
+	src/drive/ieee/ieee.c, src/drive/ieee/ieeerom.c,
+	src/drive/ieee/ieeerom.h, src/drive/ieee/memieee.c,
+	src/drive/ieee/memieee.h, src/drive/ieee/riot1d.c,
+	src/drive/ieee/riot2d.c, src/drive/ieee/riotd.h,
+	src/drive/ieee/via1d2031.c, src/drive/ieee/via1d2031.h,
+	src/drive/ieee.h, src/drive/rotation.c, src/drive/rotation.h,
+	src/drive/tcbm/glue1551.c, src/drive/tcbm/glue1551.h,
+	src/drive/tcbm/mem1551.c, src/drive/tcbm/mem1551.h,
+	src/drive/tcbm/tcbm-cmdline-options.h,
+	src/drive/tcbm/tcbm-resources.c, src/drive/tcbm/tcbm-resources.h,
+	src/drive/tcbm/tcbm.c, src/drive/tcbm/tcbmrom.c,
+	src/drive/tcbm/tcbmrom.h, src/drive/tcbm/tpid.c,
+	src/drive/tcbm/tpid.h, src/drive/tcbm.h, src/drive/viad.h,
+	src/fileio/cbmfile.c, src/fileio/cbmfile.h, src/fileio/fileio.c,
+	src/fileio/p00.c, src/fileio/p00.h, src/fsdevice/fsdevice-close.c,
+	src/fsdevice/fsdevice-close.h,
+	src/fsdevice/fsdevice-cmdline-options.h,
+	src/fsdevice/fsdevice-flush.c, src/fsdevice/fsdevice-flush.h,
+	src/fsdevice/fsdevice-open.c, src/fsdevice/fsdevice-open.h,
+	src/fsdevice/fsdevice-read.c, src/fsdevice/fsdevice-read.h,
+	src/fsdevice/fsdevice-resources.c, src/fsdevice/fsdevice-resources.h,
+	src/fsdevice/fsdevice-write.h, src/fsdevice/fsdevice.c,
+	src/fsdevice/fsdevicetypes.h, src/gfxoutputdrv/bmpdrv.c,
+	src/gfxoutputdrv/bmpdrv.h, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/ffmpegdrv.c, src/gfxoutputdrv/ffmpeglib.c,
+	src/gfxoutputdrv/ffmpeglib.h, src/gfxoutputdrv/gfxoutput.c,
+	src/gfxoutputdrv/gifdrv.c, src/gfxoutputdrv/iffdrv.c,
+	src/gfxoutputdrv/jpegdrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/nativedrv.c, src/gfxoutputdrv/pcxdrv.c,
+	src/gfxoutputdrv/pngdrv.c, src/gfxoutputdrv/pngdrv.h,
+	src/gfxoutputdrv/ppmdrv.c, src/gfxoutputdrv/quicktimedrv.c,
+	src/iecbus/iecbus.c, src/imagecontents/diskcontents-block.c,
+	src/imagecontents/diskcontents-block.h,
+	src/imagecontents/diskcontents-iec.c,
+	src/imagecontents/diskcontents-iec.h,
+	src/imagecontents/diskcontents.c, src/imagecontents/diskcontents.h,
+	src/imagecontents/imagecontents.c, src/imagecontents/tapecontents.c,
+	src/imagecontents/tapecontents.h, src/monitor/asm6502.c,
+	src/monitor/asm6502dtv.c, src/monitor/asm6809.c,
+	src/monitor/asmR65C02.c, src/monitor/asmz80.c,
+	src/monitor/mon_assemble.h, src/monitor/mon_assemble6502.c,
+	src/monitor/mon_assemble6809.c, src/monitor/mon_assembleR65C02.c,
+	src/monitor/mon_assemblez80.c, src/monitor/mon_breakpoint.c,
+	src/monitor/mon_breakpoint.h, src/monitor/mon_command.c,
+	src/monitor/mon_command.h, src/monitor/mon_disassemble.c,
+	src/monitor/mon_disassemble.h, src/monitor/mon_drive.c,
+	src/monitor/mon_drive.h, src/monitor/mon_file.c,
+	src/monitor/mon_file.h, src/monitor/mon_memory.c,
+	src/monitor/mon_memory.h, src/monitor/mon_register.h,
+	src/monitor/mon_register6502.c, src/monitor/mon_register6502dtv.c,
+	src/monitor/mon_register6809.c, src/monitor/mon_registerR65C02.c,
+	src/monitor/mon_registerz80.c, src/monitor/mon_ui.c,
+	src/monitor/mon_ui.h, src/monitor/mon_util.c, src/monitor/mon_util.h,
+	src/monitor/monitor.c, src/monitor/monitor_network.c,
+	src/monitor/montypes.h: More coding-style cleanups.
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/beos/mousedrv.cc, src/arch/beos/mousedrv.h,
+	src/arch/win32/mousedrv.h: Remove mouse_set_format, not used
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/beos/mousedrv.h, src/arch/win32/mousedrv.h: Remove
+	mouse_set_cooperative_level, not used
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/mousedrv.c, src/arch/sdl/mousedrv.h: Remove useless
+	accel
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/beos/mousedrv.cc: Timestamp only when moved. No scaling
+	here.
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Important notes.
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/amigaos/mousedrv.c, src/arch/win32/mousedrv.c: Only set
+	mouse timestamp when moved.
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Do mouse movement missed due to "slow" polling. This
+	gives immediate feedback if the polling is slower than the mouse
+	movement.
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c, src/sid/sid.c: Implement simple pot sampling
+
+2012-12-04  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/mouse.c: Fix mouse rate limiting vs. potx/y polling to use time
+	limit instead of difference limit. The original problem is better
+	described below:
+	https://sourceforge.net/tracker/?func=detail&atid=1057617&aid=3590369&group_id=223021
+	ALeX Kazik: "I find it a bad idea to "remember" the mouse movement and
+	"deliver" it when asked. a real c64 does not do that. and when I copy
+	the current pot[xy] to the internal buffer then the remaining mouse
+	movement is "absorbed" (on a real c64, not vice)"
+
+2012-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2-cmdline-options.c, src/cbm2/cbm2-cmdline-options.h,
+	src/cbm2/cbm2-resources.c, src/cbm2/cbm2-resources.h,
+	src/cbm2/cbm2-snapshot.c, src/cbm2/cbm2-snapshot.h, src/cbm2/cbm2.c,
+	src/cbm2/cbm2.h, src/cbm2/cbm2acia.h, src/cbm2/cbm2acia1.c,
+	src/cbm2/cbm2bus.c, src/cbm2/cbm2cart.c, src/cbm2/cbm2cia.h,
+	src/cbm2/cbm2cia1.c, src/cbm2/cbm2cpu.c, src/cbm2/cbm2datasette.c,
+	src/cbm2/cbm2drive.c, src/cbm2/cbm2embedded.c, src/cbm2/cbm2iec.c,
+	src/cbm2/cbm2iec.h, src/cbm2/cbm2mem.c, src/cbm2/cbm2mem.h,
+	src/cbm2/cbm2memsnapshot.c, src/cbm2/cbm2memsnapshot.h,
+	src/cbm2/cbm2model.c, src/cbm2/cbm2printer.c, src/cbm2/cbm2rom.c,
+	src/cbm2/cbm2rom.h, src/cbm2/cbm2romset.c, src/cbm2/cbm2tpi.h,
+	src/cbm2/cbm2tpi1.c, src/cbm2/cbm2tpi2.c, src/cbm2/cbm2video.c,
+	src/cbm2/cbm5x0-resources.c, src/cbm2/cbm5x0-snapshot.c,
+	src/cbm2/cbm5x0.c, src/cbm2/cbm5x0embedded.c, src/cbm2/cbm5x0mem.c,
+	src/cbm2/cbm5x0rom.c, src/cbm2/cbm5x0video.c, src/core/ata.c,
+	src/core/ciacore.c, src/core/ciatimer.c, src/core/ciatimer.h,
+	src/core/cs8900.c, src/core/flash040core.c, src/core/fmopl.c,
+	src/core/fmopl.h, src/core/mc6821core.c, src/core/mc6821core.h,
+	src/core/riotcore.c, src/core/ser-eeprom.c, src/core/spi-sdcard.c,
+	src/core/t6721.c, src/core/t6721.h, src/core/tpicore.c,
+	src/core/viacore.c, src/crtc/crtc-cmdline-options.c,
+	src/crtc/crtc-cmdline-options.h, src/crtc/crtc-color.c,
+	src/crtc/crtc-color.h, src/crtc/crtc-draw.c, src/crtc/crtc-draw.h,
+	src/crtc/crtc-mem.c, src/crtc/crtc-mem.h, src/crtc/crtc-resources.c,
+	src/crtc/crtc-resources.h, src/crtc/crtc-snapshot.c, src/crtc/crtc.c,
+	src/crtc/crtc.h, src/crtc/crtctypes.h, src/diskimage/diskimage.c,
+	src/diskimage/fsimage-check.c, src/diskimage/fsimage-check.h,
+	src/diskimage/fsimage-create.c, src/diskimage/fsimage-create.h,
+	src/diskimage/fsimage-dxx.c, src/diskimage/fsimage-dxx.h,
+	src/diskimage/fsimage-gcr.c, src/diskimage/fsimage-gcr.h,
+	src/diskimage/fsimage-p64.c, src/diskimage/fsimage-p64.h,
+	src/diskimage/fsimage-probe.c, src/diskimage/fsimage-probe.h,
+	src/diskimage/fsimage.c, src/diskimage/fsimage.h,
+	src/diskimage/rawimage.c, src/diskimage/rawimage.h,
+	src/diskimage/realimage.c, src/diskimage/realimage.h,
+	src/diskimage/x64.h: More coding-style cleanups.
+
+2012-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128-cmdline-options.c, src/c128/c128-snapshot.c,
+	src/c128/c128.c, src/c128/c128cia1.c, src/c128/c128drive.c,
+	src/c128/c128embedded.c, src/c128/c128fastiec.c, src/c128/c128mem.c,
+	src/c128/c128meminit.c, src/c128/c128memsnapshot.c,
+	src/c128/c128memsnapshot.h, src/c128/c128mmu.c, src/c128/c128model.c,
+	src/c128/c128model.h, src/c128/c128rom.c, src/c128/c128rom.h,
+	src/c128/c128romset.c, src/c128/c128video.c, src/c128/daa.c,
+	src/c128/daa.h, src/c128/functionrom.c, src/c128/functionrom.h,
+	src/c128/z80.c, src/c128/z80mem.c: More coding-style cleanups.
+
+2012-12-03  Christian Vogelgsang <chris@vogelgsang.org>
+
+	* src/arch/unix/macosx/cocoa/mousedrv.m: macosx: fixed mouse handling
+
+2012-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64dtv/c64dtv-cmdline-options.c, src/c64dtv/c64dtv-resources.c,
+	src/c64dtv/c64dtv-snapshot.c, src/c64dtv/c64dtv-snapshot.h,
+	src/c64dtv/c64dtv.c, src/c64dtv/c64dtv.h, src/c64dtv/c64dtvblitter.c,
+	src/c64dtv/c64dtvcia1.c, src/c64dtv/c64dtvcia2.c,
+	src/c64dtv/c64dtvcpu.c, src/c64dtv/c64dtvdma.c,
+	src/c64dtv/c64dtvembedded.c, src/c64dtv/c64dtvflash.c,
+	src/c64dtv/c64dtviec.c, src/c64dtv/c64dtvmem.c,
+	src/c64dtv/c64dtvmeminit.c, src/c64dtv/c64dtvmeminit.h,
+	src/c64dtv/c64dtvmemrom.c, src/c64dtv/c64dtvmemsnapshot.c,
+	src/c64dtv/c64dtvmemsnapshot.h, src/c64dtv/c64dtvmodel.c,
+	src/c64dtv/c64dtvpla.c, src/c64dtv/flash-trap.c,
+	src/c64dtv/hummeradc.c: More coding-style cleanups.
+
+2012-12-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64-resources.c, src/c64/c64-snapshot.h, src/c64/c64.c,
+	src/c64/c64.h, src/c64/c64_256k.c, src/c64/c64cart.h,
+	src/c64/c64cia1.c, src/c64/c64cia2.c, src/c64/c64cpu.c,
+	src/c64/c64embedded.c, src/c64/c64export.c, src/c64/c64fastiec.c,
+	src/c64/c64gluelogic.c, src/c64/c64iec.c, src/c64/c64io.c,
+	src/c64/c64mem.c, src/c64/c64meminit.c, src/c64/c64memlimit.c,
+	src/c64/c64memsc.c, src/c64/c64memsnapshot.c,
+	src/c64/c64memsnapshot.h, src/c64/c64model.c, src/c64/c64parallel.c,
+	src/c64/c64pla.h, src/c64/c64scmodel.c, src/c64/cart/actionreplay.c,
+	src/c64/cart/actionreplay2.c, src/c64/cart/actionreplay3.c,
+	src/c64/cart/actionreplay4.c, src/c64/cart/atomicpower.c,
+	src/c64/cart/c64-generic.c, src/c64/cart/c64-midi.c,
+	src/c64/cart/c64acia1.c, src/c64/cart/c64cart.c,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/c64tpi.c, src/c64/cart/c64tpi.h, src/c64/cart/capture.c,
+	src/c64/cart/comal80.c, src/c64/cart/crt.c, src/c64/cart/delaep256.c,
+	src/c64/cart/delaep64.c, src/c64/cart/delaep7x8.c,
+	src/c64/cart/diashowmaker.c, src/c64/cart/digimax.c,
+	src/c64/cart/dinamic.c, src/c64/cart/dqbb.c,
+	src/c64/cart/ds12c887rtc.c, src/c64/cart/easyflash.c,
+	src/c64/cart/epyxfastload.c, src/c64/cart/exos.c,
+	src/c64/cart/expert.c, src/c64/cart/final.c, src/c64/cart/final3.c,
+	src/c64/cart/finalplus.c, src/c64/cart/formel64.c,
+	src/c64/cart/freezeframe.c, src/c64/cart/freezemachine.c,
+	src/c64/cart/funplay.c, src/c64/cart/gamekiller.c,
+	src/c64/cart/georam.c, src/c64/cart/gs.c, src/c64/cart/ide64.c,
+	src/c64/cart/isepic.c, src/c64/cart/kcs.c, src/c64/cart/kingsoft.c,
+	src/c64/cart/mach5.c, src/c64/cart/magicdesk.c,
+	src/c64/cart/magicformel.c, src/c64/cart/magicvoice.c,
+	src/c64/cart/magicvoice.h, src/c64/cart/mikroass.c,
+	src/c64/cart/mmc64.c, src/c64/cart/mmcreplay.c,
+	src/c64/cart/mmcreplay.h, src/c64/cart/ocean.c,
+	src/c64/cart/pagefox.c, src/c64/cart/prophet64.c,
+	src/c64/cart/ramcart.c, src/c64/cart/retroreplay.c,
+	src/c64/cart/reu.c, src/c64/cart/reu.h, src/c64/cart/rexep256.c,
+	src/c64/cart/rexutility.c, src/c64/cart/ross.c,
+	src/c64/cart/sfx_soundexpander.c, src/c64/cart/sfx_soundsampler.c,
+	src/c64/cart/silverrock128.c, src/c64/cart/silverrock128.h,
+	src/c64/cart/simonsbasic.c, src/c64/cart/snapshot64.c,
+	src/c64/cart/stardos.c, src/c64/cart/stb.c,
+	src/c64/cart/superexplode5.c, src/c64/cart/supergames.c,
+	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot4.c,
+	src/c64/cart/tfe.c, src/c64/cart/tfe.h, src/c64/cart/warpspeed.c,
+	src/c64/cart/westermann.c, src/c64/cart/zaxxon.c, src/c64/patchrom.c,
+	src/c64/plus256k.c, src/c64/plus60k.c, src/c64/psid.c,
+	src/c64/psiddrv.h, src/c64/reloc65.c, src/c64/vsid-resources.c,
+	src/c64/vsid.c, src/c64/vsidcia1.c, src/c64/vsidcia2.c,
+	src/c64/vsidmem.c, src/c64/vsidstubs.c: Started on some coding-style
+	cleanups.
+
+2012-12-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/CIA-README.txt: Fixed a typo.
+
+2012-12-02  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c: fixed geosread/geoswrite, fixes bug 3579153
+
+2012-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/rotation.c: More accurate if the LSB is not thrown away on
+	2MHz.
+
+2012-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/drive/rotation.c: Hard coded 1 MHz CPU clock in the new shiny
+	GCR/P64 emulation. No wonder it does not work in 1571 native mode...
+
+2012-12-02  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/diskimage/fsimage-dxx.c: When creating the error info of dxx
+	images for the first time, save it completely, not just the modified
+	track. This resulted in a too short image if there was no error on the
+	last track.
+
+2012-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Removed dsound check for sdl, sdl port should only
+	depend on the SDL.dll used.
+
+2012-12-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Corrected a
+	typo.
+
+2012-12-01  groepaz <groepaz@gmx.net>
+
+	* src/cartconv.c: print errors to stderr, prevent segfault when chip
+	type is illegal, added sanity checks for chunklen vs data size
+
+2012-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resvsid.rc, src/arch/win32/vsidui.c: Video settings
+	item removed from the windows vsid menu.
+
+2012-11-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Fixed the
+	behavior of $00/$01.
+
+2012-11-30  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64dtv/c64dtvmem.c, src/c64dtv/c64dtvmeminit.c,
+	src/c64dtv/c64dtvmeminit.h: Implement start limits for dtv
+
+2012-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64memlimit.c: The plus60k lower static memory limit was too
+	high
+
+2012-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: This
+	partially fixes bug #3591167, however the unused bits drop-off
+	emulation still interferes with the games' operation, more information
+	about if the game even works on a real c64 is needed.
+
+2012-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/pet.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/pet.dsp, src/arch/sdl/win32-watcom/pet.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/pet.vcproj, src/arch/sdl/winmips-msvc/pet.mak,
+	src/arch/win32/pet.dsp, src/arch/win32/watcom/pet.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/pet.vcproj: Added
+	pethre.c to the various project files.
+
+2012-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64memsc.c, src/c64/vsidmem.c: Fix handling of processor i/o
+	ports for execution
+
+2012-11-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/platform/platform_solaris_runtime_os.c: Updated slightly.
+
+2012-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-command.c, src/vdrive/vdrive-iec.c,
+	src/vdrive/vdrive-rel.c, src/vdrive/vdrive.c, src/vdrive/vdrive.h: Put
+	back the original test, otherwise the native support is also read
+	only.
+
+2012-11-29  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/sdl/video.c: Don't crash in case hardware scaling is not
+	possible. Just retry without.
+
+2012-11-29  groepaz <groepaz@gmx.net>
+
+	* src/resid/wave.cc: really zero (ground) bit 0 of triangle waveform
+	as intended by r24849 - bug found by Leandro Nini
+
+2012-11-29  groepaz <groepaz@gmx.net>
+
+	* man/c1541.1, man/petcat.1, man/vice.1: man page fixes, patch by
+	anthonyjbentley
+
+2012-11-28  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/macosx/cocoa/mousedrv.m: Update mouse driver like it
+	was done on unix. Movement speed limit should not be handled here.
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-command.c, src/vdrive/vdrive.h: Fix FILES
+	SCRATCHED message
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-bam.c, src/vdrive/vdrive.c, src/vdrive/vdrive.h:
+	Move vdrive_calculate_disk_half
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sound.c: [i] is not needed, possibly it could cause a crash.
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c, src/vdrive/vdrive-bam.c, src/vdrive/vdrive-bam.h,
+	src/vdrive/vdrive-command.c, src/vdrive/vdrive-dir.c,
+	src/vdrive/vdrive-iec.c, src/vdrive/vdrive-rel.c: Simplify arguments
+	of bam functions by using vdrive instead of several parameters.
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c1541.c, src/imagecontents/diskcontents-block.c,
+	src/vdrive/vdrive-command.c, src/vdrive/vdrive-dir.c,
+	src/vdrive/vdrive-dir.h, src/vdrive/vdrive-iec.c,
+	src/vdrive/vdrive-rel.c, src/vdrive/vdrive.h: Introduce
+	vdrive_dir_context_t
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/cbmdos.c: Fix ? wildcard matching, it does not match a 0xa0.
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-command.c, src/vdrive/vdrive-dir.c,
+	src/vdrive/vdrive-dir.h: Change vdrive_dir_remove_slot to really only
+	remove the entry and don't search for it. Then there's no need to
+	rewind the directory when removing multiple entries with scratch.
+
+2012-11-27  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/vdrive/vdrive-command.c, src/vdrive/vdrive-iec.c,
+	src/vdrive/vdrive-rel.c, src/vdrive/vdrive.c, src/vdrive/vdrive.h:
+	Remove VDRIVE_IMAGE_FORMAT_4000_TEST, set read_only directly.
+
+2012-11-25  groepaz <groepaz@gmx.net>
+
+	* src/video/render1x2crt.c, src/video/render2x2crt.c,
+	src/video/render2x2ntsc.c, src/video/render2x2pal.c: fix for video
+	cache
+
+2012-11-25  groepaz <groepaz@gmx.net>
+
+	* src/video/render1x2crt.c, src/video/render2x2crt.c,
+	src/video/render2x2ntsc.c, src/video/render2x2pal.c: properly render
+	last line, fixes bug #3546583
+
+2012-11-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/nativedrv.c: Fixed the hre native screenshot
+	rendering.
+
+2012-11-23  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-11-23  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64cia1.c: improved keyboard matrix emulation, handles
+	ghosting and connecting arbitrary lines via several keys. (see
+	testprogs/CIA/ciaports)
+
+2012-11-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/nativedrv.c: Added vdc monochrome/attribute support
+	to the native screenshot code.
+
+2012-11-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/nativedrv.c, src/gfxoutputdrv/nativedrv.h,
+	src/vdc/vdc.c: Started adding vdc native screenshot support.
+
+2012-11-22  Olaf Seibert <rhialto@falu.nl>
+
+	* src/gfxoutputdrv/nativedrv.c, src/pet/petdww.c, src/pet/petdww.h:
+	Native DWW screenshot on 80 column screens (horizontal expansion).
+
+2012-11-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/screen-shot.c, src/arch/msdos/uiscreenshot.c,
+	src/arch/sdl/menu_screenshot.c, src/gfxoutputdrv/koaladrv.c: Added
+	compressed koala native screenshot support.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/nativedrv.c, src/gfxoutputdrv/nativedrv.h: Added ted
+	multicolor bitmap mode for native screenshots.
+
+2012-11-21  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/petdww.c, src/pet/pethre.c, src/pet/petmodel.c: Clean up
+	some debugging printf()s, and svn:eol-style.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/nativedrv.c: Added luminances support to the ted
+	hires mode for native screenshots.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/cbm2.c, src/crtc/crtc.c, src/crtc/crtc.h,
+	src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/nativedrv.c, src/pet/pet.c, src/pet/petdww.c,
+	src/pet/petdww.h: Added olaf's dww/hre support (in a slightly modified
+	form) to the native screenshot code.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/koaladrv.c,
+	src/gfxoutputdrv/nativedrv.c, src/gfxoutputdrv/nativedrv.h: Made the
+	resizing better.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/gfxoutputdrv.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/gfxoutputdrv.vcproj,
+	src/arch/sdl/winmips-msvc/gfxoutputdrv.mak,
+	src/arch/win32/gfxoutputdrv.dsp,
+	src/arch/win32/watcom/gfxoutputdrv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/gfxoutputdrv.vcproj,
+	src/gfxoutput.h, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/koaladrv.c, src/translate.txt, src/translate_text.c:
+	Added the nativedrv.c file to the various project files.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/koaladrv.c: Added
+	undersize handling resources and command-line options, no actions
+	based on this are performed yet.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/doodledrv.c, src/gfxoutputdrv/koaladrv.c: Less
+	'magic' numbers, in this case they are kinda obvious, but for future
+	formats the numbers might not be so obvious.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/Makefile.am, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/koaladrv.c, src/gfxoutputdrv/nativedrv.c,
+	src/gfxoutputdrv/nativedrv.h, src/pet/pethre.c: Made the native
+	screenshot code modular and more prepared for future enhancements.
+
+2012-11-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65c02core.c: Removed some redundant code.
+
+2012-11-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/Makefile.am: Nor that part of this file.
+
+2012-11-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/crtc/Makefile.am: Oops, didn't mean to include that file.
+
+2012-11-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/uipethre.c, src/arch/unix/gui/uipethre.h,
+	src/crtc/Makefile.am, src/crtc/crtc-draw.c, src/crtc/crtc-draw.h,
+	src/pet/Makefile.am, src/pet/pet-resources.c, src/pet/pet.c,
+	src/pet/petdww.c, src/pet/petdww.h, src/pet/pethre.c,
+	src/pet/pethre.h, src/pet/petmem.c, src/pet/petmem.h,
+	src/pet/petmemsnapshot.c, src/pet/petmodel.c, src/pet/pets.h: Add
+	first pass at PET 8296GD support (the HRE (High Res Emulator) board.
+	More hardware research will hopefully refine the emulation.
+
+2012-11-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/gfxoutputdrv/Makefile.am, src/gfxoutputdrv/doodledrv.c,
+	src/gfxoutputdrv/doodledrv.h, src/gfxoutputdrv/gfxoutput.c,
+	src/gfxoutputdrv/koaladrv.c, src/gfxoutputdrv/koaladrv.h,
+	src/gfxoutputdrv/nativedrv.h: Unified the data structures of the
+	native screenshot drivers.
+
+2012-11-20  Olaf Seibert <rhialto@falu.nl>
+
+	* src/pet/6809.c: Clean up the unused code to avoid the 6702 dongle
+	check in Waterloo software.
+
+2012-11-19  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2012-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/gfxoutputdrv.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/gfxoutputdrv.dsp,
+	src/arch/sdl/win32-watcom/gfxoutputdrv.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/gfxoutputdrv.vcproj,
+	src/arch/sdl/winmips-msvc/gfxoutputdrv.mak,
+	src/arch/win32/gfxoutputdrv.dsp,
+	src/arch/win32/watcom/gfxoutputdrv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/gfxoutputdrv.vcproj:
+	Updated the various project files to the koala native screenshot
+	changes.
+
+2012-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/screen-shot.c, src/arch/msdos/uiscreenshot.c,
+	src/arch/sdl/menu_screenshot.c: Added koala native screenshot support
+	to the various GUI's.
+
+2012-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.chm, doc/vice.hlp, doc/vice.pdf,
+	src/gfxoutputdrv/Makefile.am, src/gfxoutputdrv/gfxoutput.c,
+	src/gfxoutputdrv/koaladrv.c, src/gfxoutputdrv/koaladrv.h,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.h: Added koala native
+	screenshot support (wip).
+
+2012-11-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/install.cmd: Fixed some issues.
+
+2012-11-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/screen-shot.c, src/arch/msdos/uiscreenshot.c,
+	src/arch/sdl/menu_screenshot.c, src/gfxoutputdrv/doodledrv.c: Added
+	compressed doodle screenshot support.
+
+2012-11-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/magicformel.c,
+	src/c64/cart/magicformel.h: Not sure if it's correct, better revert
+	it.
+
+2012-11-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/exos.c, src/c64/cart/exos.h: This is not going to work
+	well yet
+
+2012-11-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/magicformel.c,
+	src/c64/cart/magicformel.h: Add mmu translate to magic formel. Applied
+	some cleanup, but as far as I can tell the emulation is not 100%
+	accurate here yet...
+
+2012-11-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c, src/c64/cart/exos.c,
+	src/c64/cart/exos.h: Add exos_mmu_translate
+
+2012-11-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/6510core.c, src/6510dtvcore.c, src/65c02core.c: This is the
+	right way to prevent caching, forgot to update it ;(
+
+2012-11-18  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/c64carthooks.c: Add docs to cartridge_mmu_translate
+
+2012-11-17  groepaz <groepaz@gmx.net>
+
+	* doc/html/amigaos.html, doc/html/beos.html, doc/html/index.html,
+	doc/html/macosx.html, doc/html/qnx.html, doc/html/sco.html,
+	doc/html/solaris.html: fixed links to wiki
+
+2012-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/Makefile.am, src/pet/petembedded.c: Added the superpet rom files
+	to the embedded generation process.
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sound.c: Use logarithmic volume control
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sound.c: Single volume calculation
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/sfx_soundsampler.c: Make sfx_soundsampler to use the
+	generic DAC.
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/plus4/digiblaster.c: Use generic DAC for digiblaster
+
+2012-11-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/cbm2/Makefile.am, src/cbm2/cbm2embedded.c,
+	src/cbm2/cbm5x0embedded.c: Split off cbm5x0 embedded code from cbm2
+	embedded code.
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/digimax.c, src/sound.c, src/sound.h,
+	src/userport/userport_dac.c: General DAC, first lets use it with
+	digimax and userport DAC. No band limited step synthesis yet, just the
+	high pass filter for DC removal.
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: Typo.
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: Clipped by mistake
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: Better "linearity" (on logarithmic
+	scale) on small values when done with floating point
+
+2012-11-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: Less amplification, it was too much.
+
+2012-11-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: The sign makes no difference in
+	practice, but this was not intended to be changed.
+
+2012-11-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: Negative values don't shift well,
+	better divide it to get an arithmetic shift.
+
+2012-11-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/userport/userport_dac.c: Implement high pass filtering for
+	userport DAC.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sid/resid-fp.cc, src/sid/resid.cc: Provide a prototype of strcpy
+	for qnx.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/rtc/ds1202_1302.c: Fixed a typo.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/drive/drive.c, src/drive/drive.h, src/drive/drivecpu.c,
+	src/interrupt.h: Fixed the places where drive_clk is
+	defined/prototyped.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/xaw/x11video.c: Fix for minix.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/x11/renderxv.c: Variable declaration position fix.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/winmips-msvc/x128.mak: winmips sdl msvc project file
+	fix.
+
+2012-11-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/mainsrc.tgt, src/arch/os2/watcom/vice.wpj: Some
+	os/2 ow project file fixes.
+
+2012-11-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/actionreplay4.c, src/c64/cart/actionreplay4.h,
+	src/c64/cart/atomicpower.c, src/c64/cart/atomicpower.h,
+	src/c64/cart/c64carthooks.c, src/c64/cart/c64cartmem.c,
+	src/c64/cart/easyflash.c, src/c64/cart/easyflash.h,
+	src/c64/cart/final3.c, src/c64/cart/final3.h,
+	src/c64/cart/retroreplay.c, src/c64/cart/retroreplay.h,
+	src/c64/cart/supersnapshot.c, src/c64/cart/supersnapshot.h: Implement
+	further support for mmu translate. Cartridges: ar4, f3, ss5, kcs,
+	simons, atomic, ef, rr. Add note that epyx is not possible due to
+	capacitor discharge. Change ar4 and f3 to use generic roml_read.
+
+2012-11-16  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sound.c: Fix pet sound. Sound buffer was not cleared.
+
+2012-11-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, src/arch/beos/joy.cc, src/arch/sdl/archdep_win32.c,
+	src/arch/sdl/win32-msvc/base.dsp, src/arch/sdl/win64-msvc/base.vcproj,
+	src/arch/sdl/winmips-msvc/c1541.mak,
+	src/arch/sdl/winmips-msvc/vsidlib.mak, src/arch/win32/base.dsp,
+	src/arch/win64/base.vcproj: Some issues of VICE 2.4 fixed, this will
+	lead to the VICE 2.4a tag, the source code will be vice-2.4.tar.gz
+	though, and binaries for the release will be built from this source.
+
 2012-11-01  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, doc/vice.chm, doc/vice.guide, doc/vice.hlp,

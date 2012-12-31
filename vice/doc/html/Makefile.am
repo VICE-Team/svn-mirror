@@ -13,7 +13,10 @@ doc_DATA = \
 	index.html \
 	macosx.html \
 	plain/64doc.txt \
+	plain/65802and65816.txt \
 	plain/65C02.txt \
+	plain/65CE02.txt \
+	plain/6809and6309.txt \
 	plain/BUGS \
 	plain/COPYING \
 	plain/NEWS \
@@ -26,6 +29,7 @@ doc_DATA = \
 	plain/drive_info.txt \
 	plain/serial.txt \
 	plain/pixel_aspect.txt \
+	plain/z80.txt \
 	qnx.html \
 	sco.html \
 	solaris.html \
