@@ -215,7 +215,7 @@ void scpu64_clock_write_stretch_io_start_cia(void) /* before write! */
         }
         scpu64_maincpu_inc();
     }
-    if (maincpu_clk >= maincpu_ba_low_start) {
+    if (maincpu_ba_low_flags) { /* yes it's not an ordinary write, can't be performed in the BA delay */
         maincpu_steal_cycles();
     }
 }
