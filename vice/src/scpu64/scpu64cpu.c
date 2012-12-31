@@ -37,8 +37,10 @@
 #include "mem.h"
 #include "scpu64mem.h"
 #include "vicii.h"
+#include "vicii-cycle.h"
 #include "viciitypes.h"
 #include "snapshot.h"
+#include "reu.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -61,54 +63,67 @@
 /* ------------------------------------------------------------------------- */
 #define CYCLE_EXACT_ALARM
 
-static int fastmode = 1;
+int scpu64_fastmode = 1;
 static CLOCK buffer_finish, buffer_finish_half;
 static CLOCK maincpu_diff, maincpu_accu;
 int scpu64_emulation_mode;
-#ifdef CYCLE_EXACT_ALARM
 alarm_context_t *maincpu_alarm_context = NULL;
-#endif
+
+/* Mask: BA low */
+int maincpu_ba_low_flags = 0;
 
 int scpu64_get_half_cycle(void)
 {
-    if (fastmode) {
+    if (scpu64_fastmode) {
         return maincpu_accu / 1000000;
     }
     return -1;
 }
 
-static inline void alarms(void)
+void maincpu_steal_cycles(void)
 {
-#ifdef CYCLE_EXACT_ALARM
+    if (maincpu_ba_low_flags & MAINCPU_BA_LOW_VICII) {
+        vicii_steal_cycles();
+        maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_VICII;
+    }
+
+    if (maincpu_ba_low_flags & MAINCPU_BA_LOW_REU) {
+        reu_dma_start();
+        maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_REU;
+    }
+
     while (maincpu_clk >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
         alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
     }
-#endif
 }
 
-static inline void scpu64_clock_add(int amount, int write)
+inline static void check_ba(void)
 {
-    if (fastmode) {
-        maincpu_accu += maincpu_diff * amount;
-        while (maincpu_accu > 20000000) {
+    if (!scpu64_fastmode && maincpu_ba_low_flags) {
+        maincpu_steal_cycles();
+    }
+}
+
+static inline void scpu64_maincpu_inc(void)
+{
+    while (maincpu_clk >= alarm_context_next_pending_clk(maincpu_alarm_context)) {
+        alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
+    }
+    maincpu_clk++;
+    maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_VICII;
+    maincpu_ba_low_flags |= vicii_cycle();
+}
+
+static inline void scpu64_clock_inc(int write)
+{
+    if (scpu64_fastmode) {
+        maincpu_accu += maincpu_diff;
+        if (maincpu_accu > 20000000) {
             maincpu_accu -= 20000000;
-            /* no alarm processing if in emulation mode and doing a write, this is for VICII */
-            if (!scpu64_emulation_mode || !write) {
-                alarms();
-            }
-            maincpu_clk++;
+            scpu64_maincpu_inc();
         }
     } else {
-        /* no alarm processing if in emulation mode and doing a write, this is for VICII */
-        if (!scpu64_emulation_mode || !write) {
-            while (amount) {
-                amount--;
-                alarms();
-                maincpu_clk++;
-            }
-        } else {
-            maincpu_clk += amount;
-        }
+        scpu64_maincpu_inc();
     }
 }
 
@@ -116,115 +131,136 @@ static inline void wait_buffer(void)
 {
     if (buffer_finish > maincpu_clk || (buffer_finish == maincpu_clk && buffer_finish_half > maincpu_accu)) {
         maincpu_accu = buffer_finish_half;
-        alarms();
-        maincpu_clk = buffer_finish;
+        while (maincpu_clk < buffer_finish) {
+            scpu64_maincpu_inc();
+        }
     }
 }
 
-void scpu64_clock_readwrite_stretch_eprom(void)
+void scpu64_clock_read_stretch_eprom(void)
 {
-    if (fastmode) {
+    if (scpu64_fastmode) {
         maincpu_accu += maincpu_diff * 3;
         if (maincpu_accu > 20000000) {
             maincpu_accu -= 20000000;
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
+        }
+    } else {
+        if (maincpu_ba_low_flags) {
+            maincpu_steal_cycles();
         }
     }
 }
+
+void scpu64_clock_write_stretch_eprom(void)
+{
+    if (scpu64_fastmode) {
+        maincpu_accu += maincpu_diff * 3;
+        if (maincpu_accu > 20000000) {
+            maincpu_accu -= 20000000;
+            scpu64_maincpu_inc();
+        }
+    } else {
+        if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+            maincpu_steal_cycles();
+        }
+    }
+}
+
 #define SHIFT -4000000
 void scpu64_clock_read_stretch_io(void)
 {
-    if (fastmode) {
+    if (maincpu_ba_low_flags) {
+        maincpu_steal_cycles();
+    }
+    if (scpu64_fastmode) {
         wait_buffer();
         if (maincpu_accu >= 0 + SHIFT + 20000000) {
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
         }
-            alarms();
-            maincpu_clk++;
+        scpu64_maincpu_inc();
         maincpu_accu = 11500000 + SHIFT; /* measured */
     }
 }
 
 void scpu64_clock_write_stretch_io_start(void) /* before write! */
 {
-    if (fastmode) {
+    if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+        maincpu_steal_cycles();
+    }
+    if (scpu64_fastmode) {
         wait_buffer();
         if (maincpu_accu >= 0 + SHIFT + 20000000) {
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
         }
-            alarms();
-            maincpu_clk++;
+        scpu64_maincpu_inc();
     }
 }
 
 void scpu64_clock_write_stretch_io_cia(void) /* after write! */
 {
-    if (fastmode) {
+    if (scpu64_fastmode) {
         maincpu_accu = 16800000 + SHIFT; /* measured */
-        alarms();
-        maincpu_clk++;
+        scpu64_maincpu_inc();
     }
 }
 
 void scpu64_clock_write_stretch_io(void) /* before write! */
 {
-    if (fastmode) {
+    if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+        maincpu_steal_cycles();
+    }
+    if (scpu64_fastmode) {
         wait_buffer();
         if (maincpu_accu >= 0 + SHIFT + 20000000) {
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
         }
-            alarms();
-            maincpu_clk++;
+        scpu64_maincpu_inc();
         maincpu_accu = 11500000 + SHIFT; /* measured */
     }
 }
 
 void scpu64_clock_write_stretch_io_long(void) /* before write! */
 {
-    if (fastmode) {
+    if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+        maincpu_steal_cycles();
+    }
+    if (scpu64_fastmode) {
         wait_buffer();
         if (maincpu_accu >= 0 + SHIFT + 20000000) {
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
         }
-            alarms();
-            maincpu_clk++;
+        scpu64_maincpu_inc();
         maincpu_accu = 17600000 + SHIFT; /* measured */
     }
 }
 
 void scpu64_clock_write_stretch(void)
 {
-    if (fastmode) {
+    if (scpu64_fastmode) {
         wait_buffer();
         buffer_finish = maincpu_clk + 1;
         if (maincpu_accu >= 0 + SHIFT + 20000000) {
             buffer_finish++;
         }
         buffer_finish_half = 11500000 + SHIFT;
+    } else {
+        if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+            maincpu_steal_cycles();
+        }
     }
 }
 
 void scpu64_set_fastmode(int mode)
 {
-    if (fastmode != mode) {
+    if (scpu64_fastmode != mode) {
         if (!mode) {
             maincpu_accu = 17700000 + SHIFT; /* measured */
         }
-        fastmode = mode;
+        scpu64_fastmode = mode;
         maincpu_resync_limits();
     }
 }
-
-int scpu64_get_fastmode(void)
-{
-    return fastmode;
-}
-
 
 /* TODO: refresh */
 static DWORD simm_cell;
@@ -237,7 +273,7 @@ void scpu64_set_simm_row_size(int value)
 
 void scpu64_clock_read_stretch_simm(DWORD addr)
 {
-    if (fastmode) {
+    if (scpu64_fastmode) {
         if (!((simm_cell ^ addr) & ~3)) {
             return; /* same cell, no delay */
         } else if ((simm_cell ^ addr) & simm_row_mask) {
@@ -252,15 +288,18 @@ void scpu64_clock_read_stretch_simm(DWORD addr)
         simm_cell = addr;
         if (maincpu_accu > 20000000) {
             maincpu_accu -= 20000000;
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
+        }
+    } else {
+        if (maincpu_ba_low_flags) {
+            maincpu_steal_cycles();
         }
     }
 }
 
 void scpu64_clock_write_stretch_simm(DWORD addr)
 {
-    if (fastmode) {
+    if (scpu64_fastmode) {
         if ((simm_cell ^ addr) & simm_row_mask) {
             maincpu_accu += maincpu_diff * 2;/* different row, two delay */
         } else {
@@ -269,8 +308,11 @@ void scpu64_clock_write_stretch_simm(DWORD addr)
         simm_cell = addr;
         if (maincpu_accu > 20000000) {
             maincpu_accu -= 20000000;
-            alarms();
-            maincpu_clk++;
+            scpu64_maincpu_inc();
+        }
+    } else {
+        if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+            maincpu_steal_cycles();
         }
     }
 }
@@ -312,7 +354,7 @@ static inline void store_long(DWORD addr, BYTE value)
     } else {
         (*_mem_write_tab_ptr[addr >> 8])((WORD)addr, value);
     }
-    scpu64_clock_add(1, 1);
+    scpu64_clock_inc(1);
 }
 
 #define LOAD_LONG(addr) load_long(addr)
@@ -326,60 +368,13 @@ static inline BYTE load_long(DWORD addr)
     } else {
         tmp = (*_mem_read_tab_ptr[(addr) >> 8])((WORD)addr);
     }
-    scpu64_clock_add(1, 0);
+    scpu64_clock_inc(0);
     return tmp;
-}
-
-#define CUSTOM_INTERRUPT_DELAY
-/* Return nonzero if a pending NMI should be dispatched now.  This takes
-   account for the internal delays of the 65SC02, but does not actually check
-   the status of the NMI line.  */
-inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
-                                            CLOCK cpu_clk)
-{
-    CLOCK nmi_clk;
-
-    if (!fastmode) {
-        nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
-    } else {
-        nmi_clk = cs->nmi_clk;
-    }
-
-    if (cpu_clk >= nmi_clk) {
-        return 1;
-    }
-
-    return 0;
-}
-
-/* Return nonzero if a pending IRQ should be dispatched now.  This takes
-   account for the internal delays of the 65802, but does not actually check
-   the status of the IRQ line.  */
-inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
-                                            CLOCK cpu_clk)
-{
-    CLOCK irq_clk;
-
-    if (!fastmode) {
-        irq_clk = cs->irq_clk + INTERRUPT_DELAY;
-    } else {
-        irq_clk = cs->irq_clk;
-    }
-    if (cpu_clk >= irq_clk) {
-        /* If an opcode changes the I flag from 1 to 0, the 65802 needs
-           one more opcode before it triggers the IRQ routine.  */
-        if (!OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr)) {
-            return 1;
-        } else {
-            cs->global_pending_int |= IK_IRQPEND;
-        }
-    }
-    return 0;
 }
 
 int scpu64_snapshot_write_cpu_state(snapshot_module_t *m)
 {
-    return SMW_B(m, fastmode) < 0
+    return SMW_B(m, scpu64_fastmode) < 0
         || SMW_DW(m, buffer_finish) < 0
         || SMW_DW(m, buffer_finish_half) < 0
         || SMW_DW(m, maincpu_accu) < 0;
@@ -388,7 +383,7 @@ int scpu64_snapshot_write_cpu_state(snapshot_module_t *m)
 /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
 int scpu64_snapshot_read_cpu_state(snapshot_module_t *m)
 {
-    return SMR_B_INT(m, &fastmode) < 0
+    return SMR_B_INT(m, &scpu64_fastmode) < 0
         || SMR_DW_UINT(m, &buffer_finish) < 0
         || SMR_DW_UINT(m, &buffer_finish_half) < 0
         || SMR_DW_UINT(m, &maincpu_accu) < 0;
@@ -396,12 +391,13 @@ int scpu64_snapshot_read_cpu_state(snapshot_module_t *m)
 
 #define EMULATION_MODE_CHANGED scpu64_emulation_mode = reg_emul
 
-#define CLK_ADD(clock, amount) scpu64_clock_add(amount, 0)
+#define CLK_INC(clock) scpu64_clock_inc(0)
 
 #define CPU_ADDITIONAL_RESET() (buffer_finish = maincpu_clk, buffer_finish_half = 0, maincpu_accu = 0, maincpu_diff = machine_get_cycles_per_second())
 
-#define FETCH_PARAM_DUMMY(addr) scpu64_clock_add(1, 0)
-#define LOAD_LONG_DUMMY(addr) scpu64_clock_add(1, 0)
+#define FETCH_PARAM(addr) ((((int)(addr)) < bank_limit) ? (check_ba(), scpu64_clock_inc(0), bank_base[addr]) : LOAD_PBR(addr))
+#define FETCH_PARAM_DUMMY(addr) scpu64_clock_inc(0)
+#define LOAD_LONG_DUMMY(addr) scpu64_clock_inc(0)
 
 #define LOAD_INT_ADDR(addr)                        \
     if (scpu64_interrupt_reroute()) {              \

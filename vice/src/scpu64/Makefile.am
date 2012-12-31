@@ -9,7 +9,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/tape \
 	-I$(top_srcdir)/src/userport \
-	-I$(top_srcdir)/src/vicii \
+	-I$(top_srcdir)/src/viciisc \
 	-I$(top_srcdir)/src/video \
 	-I$(top_srcdir)/src/lib/p64 \
 	-I$(top_srcdir)/src/vdc \

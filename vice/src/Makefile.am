@@ -1142,7 +1142,7 @@ xscpu64_libs =  \
 	$(sid_lib) \
 	$(monitor_lib) \
 	$(driver_libs) \
-	$(vicii_lib) \
+	$(viciisc_lib) \
 	$(raster_lib) \
 	$(userport_lib) \
 	$(rtc_lib) \
@@ -1179,7 +1179,7 @@ xscpu64-all: \
 	libvdrive \
 	libarch \
 	libsid \
-	libvicii \
+	libviciisc \
 	libvideo \
 	libraster \
 	libmonitor \

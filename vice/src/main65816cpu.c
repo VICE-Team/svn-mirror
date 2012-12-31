@@ -111,13 +111,12 @@ alarm_context_t *maincpu_alarm_context = NULL;
 clk_guard_t *maincpu_clk_guard = NULL;
 monitor_interface_t *maincpu_monitor_interface = NULL;
 
+/* This flag is an obsolete optimization. It's always 0 for the 65816 CPU,
+   but has to be kept for the common code. */
+int maincpu_rmw_flag = 0;
+
 /* Global clock counter.  */
 CLOCK maincpu_clk = 0L;
-
-/* FIXME: This flag is unused and needs to be removed, there is no RMW on
-   the 65802, they have become RRW instead and need to be emulated as
-   such. */
-int maincpu_rmw_flag = 0;
 
 /* Information about the last executed opcode.  This is used to know the
    number of write cycles in the last executed opcode and to delay interrupts
@@ -127,30 +126,6 @@ unsigned int last_opcode_info;
 
 /* Address of the last executed opcode. This is used by watchpoints. */
 unsigned int last_opcode_addr;
-
-/* FIXME: this table needs to be updated for 65816/65802
-   and adapted to handle X/M flags */
-/* Number of write cycles for each 65802 opcode.  */
-const CLOCK maincpu_opcode_write_cycles[] = {
-            /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
-    /* $00 */  3, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0, 2, 1, 0, 1, 0, /* $00 */
-    /* $10 */  0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, 1, 0, /* $10 */
-    /* $20 */  2, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, /* $20 */
-    /* $30 */  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, /* $30 */
-    /* $40 */  0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 1, 0, /* $40 */
-    /* $50 */  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, /* $50 */
-    /* $60 */  0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, /* $60 */
-    /* $70 */  0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, /* $70 */
-    /* $80 */  0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 0, /* $80 */
-    /* $90 */  0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, /* $90 */
-    /* $A0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* $A0 */
-    /* $B0 */  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* $B0 */
-    /* $C0 */  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, /* $C0 */
-    /* $D0 */  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, /* $D0 */
-    /* $E0 */  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, /* $E0 */
-    /* $F0 */  0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0  /* $F0 */
-            /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
-};
 
 /* Public copy of the CPU registers.  As putting the registers into the
    function makes it faster, you have to generate a `TRAP' interrupt to have
@@ -221,7 +196,7 @@ static void cpu_reset(void)
         interrupt_monitor_trap_on(maincpu_int_status);
     }
 
-    maincpu_clk = 4; /* # of clock cycles needed for RESET.  */
+    maincpu_clk = 6; /* # of clock cycles needed for RESET.  */
 
     /* CPU specific extra reset routine, currently only used
        for 8502 fast mode refresh cycle. */
@@ -235,57 +210,6 @@ void maincpu_reset(void)
 {
     cpu_reset();
 }
-
-/* ------------------------------------------------------------------------- */
-
-#ifndef CUSTOM_INTERRUPT_DELAY
-/* Return nonzero if a pending NMI should be dispatched now.  This takes
-   account for the internal delays of the 65SC02, but does not actually check
-   the status of the NMI line.  */
-inline static int interrupt_check_nmi_delay(interrupt_cpu_status_t *cs,
-                                            CLOCK cpu_clk)
-{
-    CLOCK nmi_clk = cs->nmi_clk + INTERRUPT_DELAY;
-
-    /* Branch instructions delay IRQs and NMI by one cycle if branch
-       is taken with no page boundary crossing.  */
-    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr)) {
-        nmi_clk++;
-    }
-
-    if (cpu_clk >= nmi_clk) {
-        return 1;
-    }
-
-    return 0;
-}
-
-/* Return nonzero if a pending IRQ should be dispatched now.  This takes
-   account for the internal delays of the 65802, but does not actually check
-   the status of the IRQ line.  */
-inline static int interrupt_check_irq_delay(interrupt_cpu_status_t *cs,
-                                            CLOCK cpu_clk)
-{
-    CLOCK irq_clk = cs->irq_clk + INTERRUPT_DELAY;
-
-    /* Branch instructions delay IRQs and NMI by one cycle if branch
-       is taken with no page boundary crossing.  */
-    if (OPINFO_DELAYS_INTERRUPT(*cs->last_opcode_info_ptr)) {
-        irq_clk++;
-    }
-
-    /* If an opcode changes the I flag from 1 to 0, the 65802 needs
-       one more opcode before it triggers the IRQ routine.  */
-    if (cpu_clk >= irq_clk) {
-        if (!OPINFO_ENABLES_IRQ(*cs->last_opcode_info_ptr)) {
-            return 1;
-        } else {
-            cs->global_pending_int |= IK_IRQPEND;
-        }
-    }
-    return 0;
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -332,6 +256,7 @@ void maincpu_mainloop(void)
     BYTE flag_n = 0;
     BYTE flag_z = 0;
     BYTE reg_emul = 1;
+    int interrupt = IK_RESET;
 #ifndef NEED_REG_PC
     unsigned int reg_pc;
 #endif
@@ -352,7 +277,6 @@ void maincpu_mainloop(void)
     while (1) {
 
 #define CLK maincpu_clk
-#define RMW_FLAG maincpu_rmw_flag
 #define LAST_OPCODE_INFO last_opcode_info
 #define LAST_OPCODE_ADDR last_opcode_addr
 #define TRACEFLG debug.maincpu_traceflg
@@ -392,7 +316,7 @@ void maincpu_mainloop(void)
                 IMPORT_REGISTERS();                                   \
                 break;                                                \
             default:                                                  \
-                CLK_ADD(CLK, CYCLES_1);                               \
+                CLK_INC(CLK);                                         \
         }                                                             \
     } while (0)
 
@@ -475,10 +399,6 @@ int maincpu_snapshot_read_module(snapshot_t *s)
     if (m == NULL) {
         return -1;
     }
-
-    /* FIXME: This is a mighty kludge to prevent VIC-II from stealing the
-       wrong number of cycles.  */
-    maincpu_rmw_flag = 0;
 
     /* XXX: Assumes `CLOCK' is the same size as a `DWORD'.  */
     if (0
