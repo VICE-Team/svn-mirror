@@ -265,7 +265,7 @@ libc64scpu64_a_SOURCES = \
 	c64keyboard.h \
 	c64memsnapshot.c \
 	c64memsnapshot.h \
-	c64model.c \
+	c64scmodel.c \
 	c64model.h \
 	c64parallel.c \
 	c64parallel.h \

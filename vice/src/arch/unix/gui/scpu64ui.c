@@ -82,6 +82,7 @@
 #include "uitpi.h"
 #include "uivicii.h"
 #include "vsync.h"
+#include "vicii.h"
 
 /* ------------------------------------------------------------------------- */
 
@@ -202,16 +203,20 @@ static UI_CALLBACK(radio_VICIIModel)
 }
 
 static ui_menu_entry_t set_vicii_model_submenu[] = {
-    { "PAL-G", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)0, NULL },
-    { N_("Old PAL-G"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)1, NULL },
-    { "NTSC-M", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)2, NULL },
-    { N_("Old NTSC-M"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)3, NULL },
-    { "PAL-N", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
-      (ui_callback_data_t)4, NULL },
+    { "6569 (PAL)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_6569, NULL },
+    { "8565 (PAL)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_8565, NULL },
+    { N_("6569R1 (old PAL)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_6569R1, NULL },
+    { "6567 (NTSC)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_6567, NULL },
+    { "8562 (NTSC)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_8562, NULL },
+    { N_("6567R56A (old NTSC)"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_6567R56A, NULL },
+    { "6572 (PAL-N)", UI_MENU_TYPE_TICK, (ui_callback_t)radio_VICIIModel,
+      (ui_callback_data_t)VICII_MODEL_6572, NULL },
     { NULL }
 };
 
