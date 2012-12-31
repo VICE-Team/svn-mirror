@@ -167,7 +167,7 @@ void scpu64_clock_write_stretch_eprom(void)
     }
 }
 
-#define SHIFT -4000000
+#define SHIFT -2000000
 void scpu64_clock_read_stretch_io(void)
 {
     if (maincpu_ba_low_flags) {
