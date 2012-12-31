@@ -355,12 +355,18 @@
                     PUSH(reg_pc >> 8);                                         \
                     PUSH(reg_pc);                                              \
                     PUSH(LOCAL_STATUS());                                      \
+                    LOCAL_SET_INTERRUPT(1);                                    \
+                    LOCAL_SET_DECIMAL(0);                                      \
+                    CHECK_INTERRUPT();                                         \
                     LOAD_INT_ADDR(0xfffa);                                     \
                 } else {                                                       \
                     PUSH(reg_pbr);                                             \
                     PUSH(reg_pc >> 8);                                         \
                     PUSH(reg_pc);                                              \
                     PUSH(LOCAL_65816_STATUS());                                \
+                    LOCAL_SET_INTERRUPT(1);                                    \
+                    LOCAL_SET_DECIMAL(0);                                      \
+                    CHECK_INTERRUPT();                                         \
                     LOAD_INT_ADDR(0xffea);                                     \
                 }                                                              \
                 LOCAL_SET_DECIMAL(0);                                          \
@@ -381,28 +387,33 @@
                     PUSH(reg_pc >> 8);                                         \
                     PUSH(reg_pc);                                              \
                     PUSH(LOCAL_STATUS());                                      \
+                    LOCAL_SET_INTERRUPT(1);                                    \
+                    LOCAL_SET_DECIMAL(0);                                      \
+                    CHECK_INTERRUPT();                                         \
                     LOAD_INT_ADDR(0xfffe);                                     \
                 } else {                                                       \
                     PUSH(reg_pbr);                                             \
                     PUSH(reg_pc >> 8);                                         \
                     PUSH(reg_pc);                                              \
                     PUSH(LOCAL_65816_STATUS());                                \
+                    LOCAL_SET_INTERRUPT(1);                                    \
+                    LOCAL_SET_DECIMAL(0);                                      \
+                    CHECK_INTERRUPT();                                         \
                     LOAD_INT_ADDR(0xffee);                                     \
                 }                                                              \
-                LOCAL_SET_INTERRUPT(1);                                        \
-                LOCAL_SET_DECIMAL(0);                                          \
                 reg_pbr = 0;                                                   \
                 JUMP(reg_pc);                                                  \
                 SET_LAST_OPCODE(0);                                            \
             }                                                                  \
         }                                                                      \
-        if (ik & (IK_TRAP | IK_RESET)) {                                       \
+        if (ik & (IK_TRAP | IK_RESET | IK_MONITOR | IK_DMA)) {                 \
             if (ik & IK_TRAP) {                                                \
                 EXPORT_REGISTERS();                                            \
                 interrupt_do_trap(CPU_INT_STATUS, (WORD)reg_pc);               \
                 IMPORT_REGISTERS();                                            \
                 if (CPU_INT_STATUS->global_pending_int & IK_RESET)             \
                     ik |= IK_RESET;                                            \
+                interrupt &= ~IK_TRAP;                                         \
             }                                                                  \
             if (ik & IK_RESET) {                                               \
                 interrupt_ack_reset(CPU_INT_STATUS);                           \
@@ -419,12 +430,11 @@
                 reg_dpr = 0;                                                   \
                 reg_dbr = 0;                                                   \
                 reg_pbr = 0;                                                   \
+                CHECK_INTERRUPT();                                             \
                 LOAD_INT_ADDR(0xfffc);                                         \
                 JUMP(reg_pc);                                                  \
                 DMA_ON_RESET;                                                  \
             }                                                                  \
-        }                                                                      \
-        if (ik & (IK_MONITOR | IK_DMA)) {                                      \
             if (ik & IK_MONITOR) {                                             \
                 if (monitor_force_import(CALLER))                              \
                     IMPORT_REGISTERS();                                        \
@@ -445,6 +455,7 @@
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)reg_pc); \
                     IMPORT_REGISTERS();                                        \
                 }                                                              \
+                interrupt &= ~IK_MONITOR;                                      \
             }                                                                  \
             if (ik & IK_DMA) {                                                 \
                 EXPORT_REGISTERS();                                            \
@@ -452,6 +463,7 @@
                 interrupt_ack_dma(CPU_INT_STATUS);                             \
                 IMPORT_REGISTERS();                                            \
                 JUMP(reg_pc);                                                  \
+                interrupt &= ~IK_DMA;                                          \
             }                                                                  \
         }                                                                      \
     } while (0)
@@ -2511,7 +2523,7 @@
 
 {
     {
-        if (interrupt != IK_NONE) {
+        while (interrupt != IK_NONE) {
             DO_INTERRUPT(interrupt);
         }
         CHECK_INTERRUPT();
