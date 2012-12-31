@@ -170,10 +170,6 @@ void scpu64_clock_write_stretch_eprom(void)
             maincpu_accu -= 20000000;
             scpu64_maincpu_inc();
         }
-    } else {
-        if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
-            maincpu_steal_cycles();
-        }
     }
 }
 
@@ -214,9 +210,9 @@ void scpu64_clock_write_stretch_io_start_cia(void) /* before write! */
             scpu64_maincpu_inc();
         }
         scpu64_maincpu_inc();
-    }
-    if (maincpu_ba_low_flags) { /* yes it's not an ordinary write, can't be performed in the BA delay */
-        maincpu_steal_cycles();
+        if (maincpu_ba_low_flags) { /* yes it's not an ordinary write, can't be performed in the BA delay */
+            maincpu_steal_cycles();
+        }
     }
 }
 
@@ -253,10 +249,6 @@ void scpu64_clock_write_stretch(void)
             buffer_finish++;
         }
         buffer_finish_half = 11500000 + SHIFT;
-    } else {
-        if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
-            maincpu_steal_cycles();
-        }
     }
 }
 
@@ -320,11 +312,7 @@ void scpu64_clock_write_stretch_simm(DWORD addr)
             maincpu_accu -= 20000000;
             scpu64_maincpu_inc();
         }
-    } else {
-        if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
-            maincpu_steal_cycles();
-        }
-    }
+    } 
 }
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
