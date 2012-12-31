@@ -140,6 +140,14 @@ void ui_display_tape_current_image(const char *image)
     lib_free(name);
 }
 
+#if defined(GTK_USE_CAIRO)
+static gboolean tape_draw(GtkWidget *w, GdkEvent *event, gpointer data)
+{
+    ui_display_tape_control_status(-1);
+    return 0;
+}
+#endif
+
 void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
 {
     GtkWidget *frame;
@@ -168,13 +176,18 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
 #if !defined(GTK_USE_CAIRO)
     as->tape_status.control_pixmap = gdk_pixmap_new(window, CTRL_WIDTH, CTRL_HEIGHT, -1);
     as->tape_status.control = gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
+#else
+    as->tape_status.control = gtk_drawing_area_new();
+#endif
     gtk_widget_set_size_request(as->tape_status.control, CTRL_WIDTH, CTRL_HEIGHT);
     gtk_box_pack_start(GTK_BOX(as->tape_status.box), as->tape_status.control, FALSE, FALSE, 4);
     gtk_widget_show(as->tape_status.control);
-#endif
 
     gtk_widget_set_events(as->tape_status.event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(as->tape_status.event_box), "button-press-event", G_CALLBACK(tape_popup_cb), (gpointer)NULL);
+#if defined(GTK_USE_CAIRO)
+    g_signal_connect(G_OBJECT(as->tape_status.control), "draw", G_CALLBACK(tape_draw), (gpointer)as->canvas);
+#endif
 }
 
 void ui_set_tape_status(int tape_status)
@@ -197,63 +210,54 @@ void ui_display_tape_motor_status(int motor)
     ui_display_tape_control_status(-1);
 }
 
-void ui_display_tape_control_status(int control)
-{
-    GdkColor *color;
-    static GdkPoint ffw[] = {
-        { 0, 0 },
-        { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
-        { CTRL_WIDTH / 2, 0 },
-        { CTRL_WIDTH - 1, CTRL_HEIGHT / 2 },
-        { CTRL_WIDTH / 2, CTRL_HEIGHT - 1 }, 
-        { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
-        { 0, CTRL_HEIGHT - 1 }
-    };
 
-    static GdkPoint rew[] = {
-        { 0, CTRL_HEIGHT / 2 },
-        { CTRL_WIDTH / 2, 0 },
-        { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
-        { CTRL_WIDTH - 1, 0 },
-        { CTRL_WIDTH - 1, CTRL_HEIGHT - 1 },
-        { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
-        { CTRL_WIDTH / 2, CTRL_HEIGHT - 1 }
-    };
+static GdkPoint ffw[] = {
+    { 0, 0 },
+    { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
+    { CTRL_WIDTH / 2, 0 },
+    { CTRL_WIDTH - 1, CTRL_HEIGHT / 2 },
+    { CTRL_WIDTH / 2, CTRL_HEIGHT - 1 }, 
+    { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
+    { 0, CTRL_HEIGHT - 1 }
+};
 
-    static GdkPoint play[] = {
-        { 3, 0 },
-        { CTRL_WIDTH - 3, CTRL_HEIGHT / 2},
-        { 3, CTRL_HEIGHT - 1 }
-    };
+static GdkPoint rew[] = {
+    { 0, CTRL_HEIGHT / 2 },
+    { CTRL_WIDTH / 2, 0 },
+    { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
+    { CTRL_WIDTH - 1, 0 },
+    { CTRL_WIDTH - 1, CTRL_HEIGHT - 1 },
+    { CTRL_WIDTH / 2, CTRL_HEIGHT / 2 },
+    { CTRL_WIDTH / 2, CTRL_HEIGHT - 1 }
+};
 
-    static GdkPoint stop[] = {
-        { 3, 2 },
-        { CTRL_WIDTH - 3, 2 },
-        { CTRL_WIDTH - 3, CTRL_HEIGHT - 2 },
-        { 3, CTRL_HEIGHT - 2 }
-    };
+static GdkPoint play[] = {
+    { 3, 0 },
+    { CTRL_WIDTH - 3, CTRL_HEIGHT / 2},
+    { 3, CTRL_HEIGHT - 1 }
+};
 
-    GdkPoint *p;
-    int i, num;
+static GdkPoint stop[] = {
+    { 3, 2 },
+    { CTRL_WIDTH - 3, 2 },
+    { CTRL_WIDTH - 3, CTRL_HEIGHT - 2 },
+    { 3, CTRL_HEIGHT - 2 }
+};
+
+static int numpoints[5] = {
+    4, 3, 7, 7, 0
+};
+static GdkPoint *polyptr[5] = {
+    stop, play, ffw, rew, NULL
+};
+
 #if !defined(GTK_USE_CAIRO)
-    GdkGC *app_gc = get_toplevel();
+static void set_background(GdkColor *color)
+{
+    int i;
     int num_app_shells = get_num_shells();
+    GdkGC *app_gc = get_toplevel();
 
-    DBG(("ui_display_tape_control_status (%d) motor:%d image:%d\n", control, tape_motor_status, tape_image_status));
-
-    if (app_gc == NULL) {
-        DBG(("ui_display_tape_control_status skipped\n"));
-        return;
-    }
-
-    if (control < 0) {
-        control = tape_control_status;
-    } else {
-        tape_control_status = control;
-    }
-
-    /* Set background color */
-    color = (tape_image_status == 1) ? &drive_led_on_green_pixel : &drive_led_on_red_pixel;
     gdk_gc_set_rgb_fg_color(app_gc, color);
     for (i = 0; i < num_app_shells; i++) {
         tape_status_widget *ts = &app_shells[i].tape_status;
@@ -261,47 +265,139 @@ void ui_display_tape_control_status(int control)
             gdk_draw_rectangle(ts->control_pixmap, app_gc, TRUE, 0, 0, CTRL_WIDTH, CTRL_HEIGHT);
         }
     }
+}
 
-    switch (control) {
-        case DATASETTE_CONTROL_START:
-            num = 3;
-            p = play;
-            break;
-        case DATASETTE_CONTROL_FORWARD:
-            num = 7;
-            p = ffw;
-            break;
-        case DATASETTE_CONTROL_REWIND:
-            num = 7;
-            p = rew;
-            break;
-        case DATASETTE_CONTROL_RECORD:
-            gdk_gc_set_rgb_fg_color(app_gc, &drive_led_on_red_pixel);
-            for (i = 0; i < num_app_shells; i++) {
-                tape_status_widget *ts = &app_shells[i].tape_status;
-                if (ts) {
-                    gdk_draw_arc(ts->control_pixmap, app_gc, TRUE, 3, 1, CTRL_WIDTH - 6, CTRL_HEIGHT - 2, 0, 360 * 64);
-                    gtk_widget_queue_draw(ts->control);
-                }
+static void set_foreground(GdkColor *color, int status)
+{
+    int i, num;
+    GdkPoint *p;
+    int num_app_shells = get_num_shells();
+    GdkGC *app_gc = get_toplevel();
+
+    num = numpoints[status];
+    p = polyptr[status];
+
+    if (num) {
+        gdk_gc_set_rgb_fg_color(app_gc, color);
+        for (i = 0; i < num_app_shells; i++) {
+            tape_status_widget *ts = &app_shells[i].tape_status;
+            if (ts) {
+                gdk_draw_polygon(ts->control_pixmap, app_gc, TRUE, p, num);
+                gtk_widget_queue_draw(ts->control);
             }
-            gdk_flush();
-            return;
-        default:
-            num = 4;
-            p = stop;
-            break;
+        }
+    } else {
+        gdk_gc_set_rgb_fg_color(app_gc, &drive_led_on_red_pixel);
+        for (i = 0; i < num_app_shells; i++) {
+            tape_status_widget *ts = &app_shells[i].tape_status;
+            if (ts) {
+                gdk_draw_arc(ts->control_pixmap, app_gc, TRUE, 3, 1, CTRL_WIDTH - 6, CTRL_HEIGHT - 2, 0, 360 * 64);
+                gtk_widget_queue_draw(ts->control);
+            }
+        }
     }
-    /* set foreground color for tape-button */
-    color = (tape_motor_status == 1) ? &motor_running_pixel : &tape_control_pixel;
-    gdk_gc_set_rgb_fg_color(app_gc, color);
+}
+
+#else
+
+static void draw_polygon(cairo_t *cr, GdkPoint *p, int num)
+{
+    cairo_move_to(cr, p->x, p->y);
+    ++p;--num;
+    while(num) {
+        cairo_line_to(cr, p->x, p->y);
+        ++p;--num;
+    }
+}
+
+static void set_background(GdkColor *color)
+{
+    int num_app_shells = get_num_shells();
+    int i;
+
     for (i = 0; i < num_app_shells; i++) {
         tape_status_widget *ts = &app_shells[i].tape_status;
         if (ts) {
-            gdk_draw_polygon(ts->control_pixmap, app_gc, TRUE, p, num);
-            gtk_widget_queue_draw(ts->control);
+            cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(ts->control));
+            gdk_cairo_set_source_color(cr, color);
+            cairo_translate(cr, 0, (gtk_widget_get_allocated_height(ts->control) - CTRL_HEIGHT) / 2);
+            cairo_rectangle (cr, 0, 0, CTRL_WIDTH, CTRL_HEIGHT);
+            cairo_fill (cr);
+            cairo_destroy(cr);
         }
     }
-#endif
-    gdk_flush();
 }
 
+static void set_foreground(GdkColor *color, int status)
+{
+    int num_app_shells = get_num_shells();
+    int i, num;
+    GdkPoint *p;
+
+    num = numpoints[status];
+    p = polyptr[status];
+
+    for (i = 0; i < num_app_shells; i++) {
+        tape_status_widget *ts = &app_shells[i].tape_status;
+        if (ts) {
+            cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(ts->control));
+            gdk_cairo_set_source_color(cr, color);
+            cairo_translate(cr, 0, (gtk_widget_get_allocated_height(ts->control) - CTRL_HEIGHT) / 2);
+            if (num) {
+                draw_polygon(cr, p, num);
+            } else {
+                cairo_arc(cr, CTRL_WIDTH / 2, CTRL_HEIGHT / 2, (CTRL_HEIGHT / 2) - 1, 0, 360 * 64);
+            }
+            cairo_fill (cr);
+            cairo_destroy(cr);
+        }
+    }
+}
+#endif
+
+void ui_display_tape_control_status(int control)
+{
+    GdkColor *color;
+    int status = 0;
+#if !defined(GTK_USE_CAIRO)
+    GdkGC *app_gc = get_toplevel();
+#endif
+
+    DBG(("ui_display_tape_control_status (%d) motor:%d image:%d\n", control, tape_motor_status, tape_image_status));
+
+    if (control < 0) {
+        control = tape_control_status;
+    } else {
+        tape_control_status = control;
+    }
+
+#if !defined(GTK_USE_CAIRO)
+    if (app_gc == NULL) {
+        DBG(("ui_display_tape_control_status skipped\n"));
+        return;
+    }
+#endif
+
+    /* Set background color */
+    color = (tape_image_status == 1) ? &drive_led_on_green_pixel : &drive_led_on_red_pixel;
+    set_background(color);
+
+    /* set foreground color for tape-button */
+    color = (tape_motor_status == 1) ? &motor_running_pixel : &tape_control_pixel;
+    switch (control) {
+        case DATASETTE_CONTROL_START:
+            status = 1;
+            break;
+        case DATASETTE_CONTROL_FORWARD:
+            status = 2;
+            break;
+        case DATASETTE_CONTROL_REWIND:
+            status = 3;
+            break;
+        case DATASETTE_CONTROL_RECORD:
+            status = 4;
+            break;
+    }
+    set_foreground(color, status);
+    gdk_flush();
+}

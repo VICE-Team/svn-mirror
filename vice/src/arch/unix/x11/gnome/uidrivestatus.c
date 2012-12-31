@@ -69,7 +69,7 @@ static int *drive_active_led;
 static GtkWidget *drive_menus[NUM_DRIVES];
 
 /*******************************************************************************
- * Floppy Drive related stuff
+ * Drive widget popup menus
  ******************************************************************************/
 
 void ui_destroy_drive_menu(int drvnr)
@@ -126,6 +126,10 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
     return 0;
 }
 
+/*******************************************************************************
+ * Drive status widget
+ ******************************************************************************/
+
 GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 {
     GtkWidget *drive_box, *frame;
@@ -150,21 +154,13 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
         gtk_container_add(GTK_CONTAINER(as->drive_status[i].event_box), frame);
         gtk_widget_show(frame);
 
-#if 0
-        drive_tooltips[i] = gtk_tooltips_new();
-        gtk_tooltips_set_tip(GTK_TOOLTIPS(drive_tooltips[i]), gtk_widget_get_parent(gtk_widget_get_parent(as->drive_status[i].box)), empty, NULL);
-#else
         gtk_widget_set_tooltip_text(GTK_WIDGET(gtk_widget_get_parent(gtk_widget_get_parent(as->drive_status[i].box))), empty);
-#endif
+
         /* Label */
         as->drive_status[i].label = (void *)gtk_label_new(g_strdup(label));
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].label, TRUE, TRUE, 0);
         gtk_widget_show((GtkWidget *)as->drive_status[i].label);
-#if 0
-        as->drive_status[i].image = (void *)gtk_label_new(empty);
-        gtk_container_add(GTK_CONTAINER(event_box), as->drive_status[i].image);
-        gtk_widget_show(as->drive_status[i].image);
-#endif
+
         /* Track Label */
         as->drive_status[i].track_label = gtk_label_new("");
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), as->drive_status[i].track_label, FALSE, FALSE, 0);
@@ -362,9 +358,6 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
     }
 
     for (i = 0; i < num_app_shells; i++) {
-#if 0
-        gtk_label_set_text(GTK_LABEL(app_shells[i].drive_status[drive_number].image), name);
-#endif
         gtk_widget_set_tooltip_text(GTK_WIDGET(gtk_widget_get_parent(gtk_widget_get_parent(app_shells[i].drive_status[drive_number].box))), name);
     }
     lib_free(name);

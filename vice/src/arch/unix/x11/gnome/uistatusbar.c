@@ -395,10 +395,6 @@ GtkWidget *ui_create_status_bar(GtkWidget *pane)
             gtk_widget_hide(as->drive_status[i].event_box);     /* Hide Drive widget */
             gdk_window_set_cursor(gtk_widget_get_window(as->drive_status[i].event_box), gdk_cursor_new (GDK_HAND1)); 
         }
-#if 0
-        gtk_widget_hide(as->tape_status.event_box);     /* Hide Tape widget */
-        gdk_window_set_cursor(as->tape_status.event_box->window, gdk_cursor_new(GDK_HAND1)); 
-#endif
     } else {
         gtk_widget_show(status_bar);
     }

@@ -48,7 +48,6 @@
 
            - fix uicolor.c:uicolor_set_palette
            - fix uidrivestatus.c:ui_display_drive_led (draw with cairo)
-           - fix uitapestatus.c:ui_display_tape_control_status (draw with cairo)
 */
 
 /* undefine the access checks to make the compatibility layer work */
@@ -58,10 +57,20 @@
 
 #define GSEAL_ENABLE
 
-#if 0
+#if 1
 /* gtk3 */
-/* #define GDK_VERSION_MIN_REQIRED GDK_VERSION_2_24 */ /* dont use symbols deprecated in this version */
-/* #define GDK_VERSION_MAX_REQIRED GDK_VERSION_3_00 */ /* dont use symbols introduced after this version */
+#define GDK_VERSION_MIN_REQIRED GDK_VERSION_2_24  /* dont use symbols deprecated in this version */
+#define GDK_VERSION_MAX_REQIRED GDK_VERSION_3_00  /* dont use symbols introduced after this version */
+
+/* #define GDK_MULTIHEAD_SAFE 1 */ /* conflicts with manipulating mouse cursor and using clipboard */
+#define GTK_MULTIDEVICE_SAFE 1
+
+/* #define GTK_DISABLE_DEPRECATED */
+#define GNOME_DISABLE_DEPRECATED
+#define GDK_DISABLE_DEPRECATED
+#define GDK_PIXBUF_DISABLE_DEPRECATED
+#define G_DISABLE_DEPRECATED
+/* #define GTK_DISABLE_SINGLE_INCLUDES */ /* FIXME: GL stuff */
 
 #else
 /* gtk2 */
@@ -76,6 +85,9 @@
 #define G_DISABLE_DEPRECATED
 /* #define GTK_DISABLE_SINGLE_INCLUDES */ /* FIXME: GL stuff */
 
+#define GTK_USE_CAIRO /* force cairo rendering */
+#endif
+
 /* FIXME: only use one of these for all GTK stuff */
 /* #define DEBUG_X11UI */
 /* #define DEBUG_GNOMEUI */
@@ -85,9 +97,6 @@
 /* #define DEBUG_KBD */
 /* #define DEBUGNOKBDGRAB */    /* dont explicitly grab keyboard focus */
 /* #define DEBUG_LIGHTPEN */
-
-#define GTK_USE_CAIRO /* force cairo rendering */
-#endif
 
 #endif
 
@@ -101,6 +110,9 @@
 #define GTK_USE_CAIRO
 #endif
 
+/* FIXME: there should be a config switch to disable VTE */
+#define HAVE_VTE
+
 #include "gtk2legacy.h" /* this must come first here */
 
 #include "vice.h"
@@ -108,6 +120,8 @@
 #if GTK_CHECK_VERSION(3, 0, 0)
 /* FIXME: open gl stuff does not compile with gtk3 atm */
 #undef HAVE_HWSCALE
+/* FIXME: there should be a config switch to disable VTE */
+#undef HAVE_VTE
 #endif
 
 #include "log.h"

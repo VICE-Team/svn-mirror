@@ -75,13 +75,24 @@ static pal_templ_t ctrls[] = {
 
 #define NUMSLIDERS (sizeof(ctrls) / sizeof(pal_templ_t))
 
+static int getmaxlen(void)
+{
+    int i, n, len = 0;
+    for (i = 0; i < NUMSLIDERS; i++) {
+        n = strlen(ctrls[i].label);
+        if (n > len) {
+            len = n;
+        }
+    }
+    return len;
+}
 static void pal_ctrl_update_internal(pal_res_t *ctrldata)
 {
     int i, enabled, rmode, filter, ispal;
     video_canvas_t *canvas;
 
     ctrldata = ctrldata->first;
-    canvas= ctrldata->canvas;
+    canvas = ctrldata->canvas;
 
     if (machine_class == VICE_MACHINE_VSID) {
         enabled = (1 << 9);
@@ -195,7 +206,7 @@ GtkWidget *build_pal_ctrl_widget(video_canvas_t *canvas, void *data)
         hb = gtk_hbox_new(FALSE, 0);
 
         c = gtk_hbox_new(FALSE, 0);
-        gtk_widget_set_size_request(GTK_WIDGET(c), 100, 10);
+        gtk_widget_set_size_request(GTK_WIDGET(c), 10 * getmaxlen(), 10);
 
         ctrldata[i].label = ctrls[i].label;
         l = gtk_label_new(_(ctrldata[i].label));

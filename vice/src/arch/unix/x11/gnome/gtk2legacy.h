@@ -100,4 +100,13 @@ extern void gtk_combo_box_text_append_text(GtkComboBoxText *combo_box, const gch
 extern int gtk_widget_get_allocated_height(GtkWidget *widget);
 #endif
 
+/* Work around an incompatible change in GDK header files
+ * http://git.gnome.org/browse/gtk+/commit/gdk/gdkkeysyms.h?id=913cdf3be750a1e74c09b20edf55a57f9a919fcc */
+
+#if defined GDK_KEY_0
+#define GDK_KEY(symbol) GDK_KEY_##symbol
+#else
+#define GDK_KEY(symbol) GDK_##symbol
+#endif
+
 #endif /* GTK2LEGACY_H_ */

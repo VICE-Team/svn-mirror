@@ -25,11 +25,14 @@
  *
  */
 
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
+#include "vice.h"
+#include "uiarch.h"
+
 #include <stdlib.h>
 #include <string.h>
+#ifdef HAVE_VTE
 #include <vte/vte.h>
+#endif
 #include <dirent.h>
 #include <ctype.h>
 
@@ -39,19 +42,13 @@
 
 #include "console.h"
 #include "lib.h"
+#ifdef HAVE_VTE
 #include "linenoise.h"
-#include "uiarch.h"
+#endif
 #include "uimon.h"
 #include "mon_command.h"
 
-/* Work around an incompatible change in GDK header files
- * http://git.gnome.org/browse/gtk+/commit/gdk/gdkkeysyms.h?id=913cdf3be750a1e74c09b20edf55a57f9a919fcc */
-
-#if defined GDK_KEY_0
-#define GDK_KEY(symbol) GDK_KEY_##symbol
-#else
-#define GDK_KEY(symbol) GDK_##symbol
-#endif
+#ifdef HAVE_VTE
 
 struct console_private_s {
     GtkWidget *window;
@@ -554,3 +551,139 @@ int console_close_all(void)
     return 0;
 }
 
+#else
+
+/*******************************************************************************
+ Fallback implementation for when the VTE library is not available
+ ******************************************************************************/
+
+static console_t *console_log_local = NULL;
+
+#if defined(HAVE_READLINE)
+#include <readline/readline.h>
+#include <readline/history.h>
+#else
+static FILE *mon_input, *mon_output;
+#endif
+
+int console_init(void)
+{
+#if defined(HAVE_READLINE) && defined(HAVE_RLNAME)
+    rl_readline_name = "VICE";
+#endif
+
+    return 0;
+}
+
+console_t *uimon_window_open(void)
+{
+    if (!isatty(fileno(stdin))) {
+        log_error(LOG_DEFAULT, "console_open: stdin is not a tty.");
+        console_log_local = NULL;
+    }
+    else if (!isatty(fileno(stdout))) {
+        log_error(LOG_DEFAULT, "console_open: stdout is not a tty.");
+        console_log_local = NULL;
+    }
+    else {
+        console_log_local = lib_malloc(sizeof(console_t));
+
+#if !defined(HAVE_READLINE)
+        mon_input = stdin;
+        mon_output = stdout;
+#endif
+
+        console_log_local->console_xres = 80;
+        console_log_local->console_yres = 25;
+        console_log_local->console_can_stay_open = 1;
+        console_log_local->console_cannot_output = 0;
+    }
+    ui_focus_monitor();
+    return console_log_local;
+}
+
+void uimon_window_close(void)
+{
+    lib_free(console_log_local);
+    console_log_local = NULL;
+
+    uimon_window_suspend();
+}
+
+void uimon_window_suspend( void )
+{
+    ui_restore_focus();
+#ifdef HAVE_MOUSE
+    ui_check_mouse_cursor();
+#endif
+}
+
+console_t *uimon_window_resume(void)
+{
+    if (console_log_local) {
+        ui_focus_monitor();
+        return console_log_local;
+    }
+    log_error(LOG_DEFAULT, "uimon_window_resume: log was not opened.");
+    return uimon_window_open();
+}
+
+int uimon_out(const char *buffer)
+{
+    fprintf(stdout, "%s", buffer);
+    return 0;
+}
+
+#ifndef HAVE_READLINE
+static char *readline(const char *prompt)
+{
+    char *p = lib_malloc(1024);
+
+    console_out(NULL, "%s", prompt);
+
+    fflush(mon_output);
+    if (fgets(p, 1024, mon_input) == NULL) {
+        /* FIXME: handle error */
+    }
+
+    /* Remove trailing newlines.  */
+    {
+        int len;
+
+        for (len = strlen(p); len > 0 && (p[len - 1] == '\r' || p[len - 1] == '\n'); len--) {
+            p[len - 1] = '\0';
+        }
+    }
+
+    return p;
+}
+#endif
+
+char *uimon_get_in(char **ppchCommandLine, const char *prompt)
+{
+    char *p, *ret_sting;
+
+    p = readline(prompt);
+    if (p && *p) {
+        add_history(p);
+    }
+    ret_sting = lib_stralloc(p);
+    free(p);
+
+    return ret_sting;
+}
+
+int console_close_all(void)
+{
+    return 0;
+}
+
+void uimon_notify_change( void )
+{
+}
+
+void uimon_set_interface(struct monitor_interface_s **monitor_interface_init, int count)
+{
+}
+
+#endif

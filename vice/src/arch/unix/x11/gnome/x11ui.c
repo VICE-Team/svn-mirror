@@ -85,6 +85,7 @@
 #include "uistatusbar.h"
 #include "uitapestatus.h"
 #include "uidrivestatus.h"
+#include "util.h"
 #include "version.h"
 #include "vsync.h"
 #include "video.h"
@@ -286,7 +287,7 @@ static pid_t get_ppid_from_pid(pid_t pid)
 }
 #endif
 
-#if 0
+#if !defined(HAVE_VTE)
 #define PROCSTATLEN     0x200
 static pid_t get_ppid_from_pid(pid_t pid) 
 {
@@ -677,7 +678,11 @@ static void build_screen_canvas_widget(video_canvas_t *c)
     if (c->draw_buffer->canvas_physical_width) { /* HACK: do not connect events to initial dummy canvas */
         DBG(("build_screen_canvas_widget resizing to %d,%d", c->draw_buffer->canvas_physical_width, c->draw_buffer->canvas_physical_height));
         g_signal_connect(G_OBJECT(new_canvas), "configure-event", G_CALLBACK(configure_callback_canvas), (void*)c);
+#if GTK_CHECK_VERSION(3, 0, 0)
+        g_signal_connect(G_OBJECT(new_canvas), "draw", G_CALLBACK(exposure_callback_canvas), (void*)c);
+#else
         g_signal_connect(G_OBJECT(new_canvas), "expose-event", G_CALLBACK(exposure_callback_canvas), (void*)c);
+#endif
         g_signal_connect(G_OBJECT(new_canvas), "enter-notify-event", G_CALLBACK(enter_window_callback), (void *)c);
         g_signal_connect(G_OBJECT(new_canvas), "focus-in-event", G_CALLBACK(enter_window_callback), (void *) c);
         g_signal_connect(G_OBJECT(new_canvas), "visibility-notify-event", G_CALLBACK(enter_window_callback), (void *) c);

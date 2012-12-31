@@ -29,10 +29,10 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <string.h>
-#include <gtk/gtk.h>
 
 #include "ui.h"
 #include "uiapi.h"
+#include "uiarch.h"
 #include "uifileentry.h"
 #include "uilib.h"
 #include "util.h"

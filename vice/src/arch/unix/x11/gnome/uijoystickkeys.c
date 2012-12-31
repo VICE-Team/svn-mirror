@@ -24,12 +24,6 @@
  *
  */
 
-/* FIXME: really fix the code for gtk3 */
-#undef GSEAL_ENABLE
-
-#include <gtk/gtk.h>
-#include <gdk/gdkkeysyms.h>
-
 #include "uiarch.h"
 #include "uimenu.h"
 #include "resources.h"
@@ -78,9 +72,9 @@ static gboolean ui_change_key(GtkWidget *widget, GdkEventKey *event, gpointer us
 UI_CALLBACK(ui_keyset_dialog)
 {
     GtkWidget *keyset_dialog,
-    *keyset1,
-    *button[18], *label[18], *box[18],
-    *titlelabel1, *titlelabel2, *ruler;
+    *keyset1, *keyset2,
+    *button[18], *label[18], *box[18], *vb;
+    GtkWidget *f;
     guint keys[18];
     int i;
     struct keysbuttons k = {button, keys};
@@ -108,10 +102,9 @@ UI_CALLBACK(ui_keyset_dialog)
     resources_get_int("KeySet2North", (void *)&keys[16]);
     resources_get_int("KeySet2NorthEast", (void *)&keys[17]);
 
-    titlelabel1 = gtk_label_new("Keyset 1");
-    titlelabel2 = gtk_label_new("Keyset 2");
-    ruler = gtk_hruler_new();
-    keyset1 = gtk_table_new(9, 3, 0);
+    vb = gtk_vbox_new(FALSE, 0);
+    keyset1 = gtk_table_new(3, 3, TRUE);
+    keyset2 = gtk_table_new(3, 3, TRUE);
     label[0] = gtk_label_new("Southwest");
     label[1] = gtk_label_new("South");
     label[2] = gtk_label_new("Southeast");
@@ -130,6 +123,7 @@ UI_CALLBACK(ui_keyset_dialog)
     label[15] = gtk_label_new("Northwest");
     label[16] = gtk_label_new("North");
     label[17] = gtk_label_new("Northeast");
+
     for (i = 0;i < 18; i++) {
         char *keylabel = (keys[i] != 0) ? gdk_keyval_name(keys[i]) : "None";
 
@@ -143,32 +137,44 @@ UI_CALLBACK(ui_keyset_dialog)
         gtk_widget_show(label[i]);
         g_signal_connect(G_OBJECT(button[i]), "pressed", G_CALLBACK(ui_keybutton_pressed), (gpointer) button);
     }
-    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(keyset_dialog))), keyset1, FALSE, FALSE, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), titlelabel1, 0, 3, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), ruler, 0, 3, 4, 5, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), titlelabel2, 0, 3, 5, 6, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[0], 0, 1, 3, 4, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[1], 1, 2, 3, 4, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[2], 2, 3, 3, 4, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[3], 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[4], 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[5], 2, 3, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[6], 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[7], 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[8], 2, 3, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[9], 0, 1, 8, 9, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[10], 1, 2, 8, 9, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[11], 2, 3, 8, 9, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[12], 0, 1, 7, 8, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[13], 1, 2, 7, 8, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[14], 2, 3, 7, 8, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[15], 0, 1, 6, 7, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[16], 1, 2, 6, 7, GTK_EXPAND|GTK_FILL, 0, 0, 0);
-    gtk_table_attach (GTK_TABLE(keyset1), box[17], 2, 3, 6, 7, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+
+    f = gtk_frame_new("Keyset 1");
+    gtk_frame_set_label_align(GTK_FRAME(f), 0, 0);
+    gtk_container_add(GTK_CONTAINER(f), keyset1);
+    gtk_widget_show(f);
+    gtk_box_pack_start(GTK_BOX(vb), f, FALSE, FALSE, 5);
+
+    f = gtk_frame_new("Keyset 2");
+    gtk_frame_set_label_align(GTK_FRAME(f), 0, 0);
+    gtk_container_add(GTK_CONTAINER(f), keyset2);
+    gtk_widget_show(f);
+    gtk_box_pack_start(GTK_BOX(vb), f, FALSE, FALSE, 5);
+
+    gtk_widget_show(vb);
+    gtk_container_add(GTK_CONTAINER(gtk_dialog_get_content_area(GTK_DIALOG(keyset_dialog))), vb);
+
+    gtk_table_attach (GTK_TABLE(keyset1), box[0], 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[1], 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[2], 2, 3, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[3], 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[4], 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[5], 2, 3, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[6], 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[7], 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset1), box[8], 2, 3, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
     gtk_widget_show(keyset1);
-    gtk_widget_show(titlelabel1);
-    gtk_widget_show(titlelabel2);
-    gtk_widget_show(ruler);
+    
+    gtk_table_attach (GTK_TABLE(keyset2), box[9], 0, 1, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[10], 1, 2, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[11], 2, 3, 2, 3, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[12], 0, 1, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[13], 1, 2, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[14], 2, 3, 1, 2, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[15], 0, 1, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[16], 1, 2, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_table_attach (GTK_TABLE(keyset2), box[17], 2, 3, 0, 1, GTK_EXPAND|GTK_FILL, 0, 0, 0);
+    gtk_widget_show(keyset2);
+
     g_signal_connect(G_OBJECT(keyset_dialog), "key-press-event", G_CALLBACK(ui_change_key), (gpointer)&k);
     res = gtk_dialog_run(GTK_DIALOG(keyset_dialog));
     if (res == GTK_RESPONSE_OK) {
