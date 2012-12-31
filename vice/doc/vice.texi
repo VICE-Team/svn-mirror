@@ -79,7 +79,7 @@ Copyright @copyright{} 2011-2012 Marcus Sutton
 Copyright @copyright{} 2011-2012 Ulrich Schulz
 Copyright @copyright{} 2011-2012 Stefan Haubenthal
 Copyright @copyright{} 2011-2012 Thomas Giesel
-Copyright @copyright{} 2011-2012 Kajtar Zsolt
+Copyright @copyright{} 2011-2013 Kajtar Zsolt
 Copyright @copyright{} 2012-2012 Benjamin 'BeRo' Rosseaux
 
 Copyright @copyright{} 2000-2011 Spiro Trikaliotis
@@ -19913,14 +19913,15 @@ Added new monitor commands, features and improvements.
 Made some console, dialog and joystick fixes for the BeOS port.
 Maintains the BeOS port.
 
+@item
 @b{Ulrich Schulz}
 Maintains the Dingoo port(s).
 
 @item
 @b{Kajtar Zsolt}
-Wrote the IDE64 interface emulation, FD2000/4000 drive emulation
-and alot of fixes. Improved the mouse support. Added drive burst
-modification support. Added 1541 drive sounds emulation. Improved
+Wrote the IDE64 interface emulation, FD2000/4000 drive emulation, SCPU64
+emulation and alot of fixes. Improved the mouse support. Added drive
+burst modification support. Added 1541 drive sounds emulation. Improved
 c64 cart emulation.
 
 @end itemize
@@ -20571,7 +20572,7 @@ Copyright @copyright{} 2011-2012 Stefan Haubenthal
 @item
 Copyright @copyright{} 2011-2012 Thomas Giesel
 @item
-Copyright @copyright{} 2011-2012 Kajtar Zsolt
+Copyright @copyright{} 2011-2013 Kajtar Zsolt
 @item
 Copyright @copyright{} 2012-2012 Benjamin 'BeRo' Rosseaux
 
