@@ -71,6 +71,7 @@ alarm_context_t *maincpu_alarm_context = NULL;
 
 /* Mask: BA low */
 int maincpu_ba_low_flags = 0;
+static CLOCK maincpu_ba_low_start = 0;
 
 int scpu64_get_half_cycle(void)
 {
@@ -110,8 +111,14 @@ static inline void scpu64_maincpu_inc(void)
         alarm_context_dispatch(maincpu_alarm_context, maincpu_clk);
     }
     maincpu_clk++;
-    maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_VICII;
-    maincpu_ba_low_flags |= vicii_cycle();
+    if (maincpu_ba_low_flags) {
+        maincpu_ba_low_flags &= ~MAINCPU_BA_LOW_VICII;
+        maincpu_ba_low_flags |= vicii_cycle();
+        if (!maincpu_ba_low_flags) maincpu_ba_low_start = CLOCK_MAX;
+    } else {
+        maincpu_ba_low_flags |= vicii_cycle();
+        if (maincpu_ba_low_flags) maincpu_ba_low_start = maincpu_clk + 3;
+    }
 }
 
 static inline void scpu64_clock_inc(int write)
@@ -132,6 +139,9 @@ static inline void wait_buffer(void)
     if (buffer_finish > maincpu_clk || (buffer_finish == maincpu_clk && buffer_finish_half > maincpu_accu)) {
         maincpu_accu = buffer_finish_half;
         while (maincpu_clk < buffer_finish) {
+            if (maincpu_clk >= maincpu_ba_low_start) {
+                maincpu_steal_cycles();
+            }
             scpu64_maincpu_inc();
         }
     }
@@ -185,15 +195,28 @@ void scpu64_clock_read_stretch_io(void)
 
 void scpu64_clock_write_stretch_io_start(void) /* before write! */
 {
-    if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
+    if (scpu64_fastmode) {
+        wait_buffer();
+        if (maincpu_accu >= 0 + SHIFT + 20000000) {
+            scpu64_maincpu_inc();
+        }
+    }
+    if (maincpu_clk >= maincpu_ba_low_start) {
         maincpu_steal_cycles();
     }
+}
+
+void scpu64_clock_write_stretch_io_start_cia(void) /* before write! */
+{
     if (scpu64_fastmode) {
         wait_buffer();
         if (maincpu_accu >= 0 + SHIFT + 20000000) {
             scpu64_maincpu_inc();
         }
         scpu64_maincpu_inc();
+    }
+    if (maincpu_clk >= maincpu_ba_low_start) {
+        maincpu_steal_cycles();
     }
 }
 
@@ -207,31 +230,17 @@ void scpu64_clock_write_stretch_io_cia(void) /* after write! */
 
 void scpu64_clock_write_stretch_io(void) /* before write! */
 {
-    if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
-        maincpu_steal_cycles();
-    }
     if (scpu64_fastmode) {
-        wait_buffer();
-        if (maincpu_accu >= 0 + SHIFT + 20000000) {
-            scpu64_maincpu_inc();
-        }
-        scpu64_maincpu_inc();
         maincpu_accu = 11500000 + SHIFT; /* measured */
+        scpu64_maincpu_inc();
     }
 }
 
 void scpu64_clock_write_stretch_io_long(void) /* before write! */
 {
-    if (!scpu64_emulation_mode && maincpu_ba_low_flags) {
-        maincpu_steal_cycles();
-    }
     if (scpu64_fastmode) {
-        wait_buffer();
-        if (maincpu_accu >= 0 + SHIFT + 20000000) {
-            scpu64_maincpu_inc();
-        }
-        scpu64_maincpu_inc();
         maincpu_accu = 17600000 + SHIFT; /* measured */
+        scpu64_maincpu_inc();
     }
 }
 
@@ -255,6 +264,7 @@ void scpu64_set_fastmode(int mode)
 {
     if (scpu64_fastmode != mode) {
         if (!mode) {
+            scpu64_maincpu_inc();
             maincpu_accu = 17700000 + SHIFT; /* measured */
         }
         scpu64_fastmode = mode;
