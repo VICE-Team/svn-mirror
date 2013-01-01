@@ -550,7 +550,7 @@ resall.txt:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(s
 @CROSS_TRUE@	echo "generating "$@
 @CROSS_TRUE@	. $(srcdir)/genstringid.sh <resall.txt >stringid.h
 
-@CROSS_FALSE@res.h menuid.h stringid.h:	resall.txt
+@CROSS_FALSE@res.h menuid.h stringid.h:	$(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 @CROSS_FALSE@	(cd utils; $(MAKE))
 @CROSS_FALSE@	utils/genwinres$(EXEEXT) res.h menuid.h stringid.h $(srcdir)/res.txt $(srcdir)/resdialogs.txt $(srcdir)/resmenu.txt $(srcdir)/resstrings.txt
 
