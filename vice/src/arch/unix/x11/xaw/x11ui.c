@@ -854,9 +854,9 @@ static String fallback_resources[] = {
     "*noWarrantyButton.label:			     No warranty!",
     "*contribButton.label:			     Contributors...",
     "*Text.translations:			     #override \\n"
-    "                                                <Key>Return: no-op()\\n"
-    "						     <Key>Linefeed: no-op()\\n"
-    "						     Ctrl<Key>J: no-op() \\n",
+                                                    "<Key>Return: no-op()\\n"
+                                                    "<Key>Linefeed: no-op()\\n"
+                                                    "Ctrl<Key>J: no-op() \\n",
 
     /* These fonts will be overridden later if the VICE-CBM font is available */
     "*RightDrive8Menu*SmeBSB.international:          False",
@@ -914,7 +914,11 @@ static String fallback_resources[] = {
     "*statustext.font:                         -*-helvetica-medium-r-*-*-12-*",
     "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-12-*",
     "*tapeCounter1.cursorName:                 hand1",
-    "*tapeButtons1.translations:               #override\\n<BtnDown>: TapePlayStop()\n",
+    "*tapeButtons1.translations:               #override\\n~Shift ~Ctrl ~Meta<BtnDown>: TapePlayStop()\\n"
+                                              "Ctrl<BtnDown>: TapePlayStop(rew)\\n"
+                                              "Meta<BtnDown>: TapePlayStop(ffwd)\\n"
+                                              "Shift<BtnDown>(2): TapePlayStop(rec)\\n",
+    /* ~Shift -> Shift not pressed */
 
     NULL
 };

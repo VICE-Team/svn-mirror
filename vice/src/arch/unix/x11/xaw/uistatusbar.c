@@ -33,8 +33,10 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
+#include <X11/Xaw/Box.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
+#include <X11/Xaw/Porthole.h>
 
 #include "ioutil.h"
 #include "lib.h"
@@ -58,32 +60,44 @@ extern log_t ui_log;  // TODO to header file
 
 Widget rec_button = NULL;       /* referenced in uiscreenshot.c */
 static Widget event_recording_button = NULL;
+static Widget event_playback_button = NULL;
 
 static int statustext_display_time = 0;
+
+/* #define DEBUG_LAYOUT    1 */
 
 static UI_CALLBACK(rec_button_callback)
 {
     screenshot_stop_recording();
-    XtUnmapWidget(rec_button);
+    XtUnmanageChild(rec_button);
 }
 
 static UI_CALLBACK(event_recording_button_callback)
 {
     event_record_stop();
-    XtUnmapWidget(event_recording_button);
+    XtUnmanageChild(event_recording_button);
+}
+
+static UI_CALLBACK(event_playback_button_callback)
+{
+    event_playback_stop();
+    XtUnmanageChild(event_playback_button);
 }
 
 void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *c, int app_shell)
 {
+    Widget notification_porthole;
     Widget speed_label, statustext_label;
+    Widget notification_box;
     Widget drive_status[NUM_DRIVES];
     Widget drive_track_label[NUM_DRIVES], drive_led[NUM_DRIVES];
     Widget drive_led1[NUM_DRIVES], drive_led2[NUM_DRIVES];
     Widget tape_counter_label[NUM_TAPES];
     Widget tape_button_status[NUM_TAPES];
     Widget pal_ctrl_widget;
-    int i;
     char *button_title;
+    int notification_width;
+    int i;
 
 #define DD      2               /* default distance */
 #define BW      1               /* border width */
@@ -97,12 +111,13 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                             labelWidgetClass, pane,
                                             XtNlabel, "",
                                             XtNwidth, width / 3,
+                                            XtNborderWidth, 0,
+                                            XtNtip, _("Emulation Speed Status"),
+                                            /* Constraints: */
                                             XtNfromVert, below,
                                             XtNtop, XawChainBottom,
                                             XtNbottom, XawChainBottom,
                                             XtNjustify, XtJustifyLeft,
-                                            XtNborderWidth, 0,
-                                            XtNtip, _("Emulation Speed Status"),
                                             NULL);
 
     fromvert = speed_label;
@@ -141,6 +156,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNwidth, status_width,
                                 XtNheight, height,
                                 XtNborderWidth, 0,
+                                /* Constraints: */
                                 XtNdefaultDistance, 0,
                                 XtNfromVert, drivefromvert,
                                 XtNfromHoriz, drivefromhoriz,
@@ -232,60 +248,101 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
 
             app_shells[app_shell].drive_widgets[d].track_label = drive_track_label[d];
             app_shells[app_shell].drive_widgets[d].driveled = drive_led[d];
-            //XtUnmapWidget(drive_led[d]);
             app_shells[app_shell].drive_widgets[d].driveled1 = drive_led1[d];
             app_shells[app_shell].drive_widgets[d].driveled2 = drive_led2[d];
-            //XtUnmapWidget(drive_led1[d]);
-            //XtUnmapWidget(drive_led2[d]);
             app_shells[app_shell].drive_widgets[d].status = drive_status[d];
             strcpy(&(last_attached_images[d][0]), "");
-            //XtMapWidget(app_shells[app_shell].drive_widgets[d].status);
         }
     }
 
+    /*
+     * Pack the notification elements, which are sometimes turned on but
+     * mostly turned off, into a horizontal Box, and manage/unmanage
+     * them as needed. This will automatically re-layout them inside
+     * the box.
+     * Wrap the box in a Porthole widget to control the size of the
+     * space that is used (clipping the stuff that doesn't fit).
+     * Too bad there isn't just a single widget doing this. That would
+     * make it easier to try to shrink the children when everything
+     * doesn't fit, or automatically switch between a one-line and a
+     * two-line statusbar, or something like that.
+     */
+    notification_width = 2 * width / 3 - 0;
+
+    notification_porthole = XtVaCreateManagedWidget("notificationPorthole",
+                                            portholeWidgetClass, pane,
+                                            XtNwidth, notification_width,
+                                            XtNheight, height + 2 * BW,
+                                            XtNborderWidth, 0,
+                                            XtNorientation, XtorientHorizontal,
+                                            /* Constraints: */
+                                            XtNfromVert, drive_status[2],
+                                            XtNtop, XawChainBottom,
+                                            XtNbottom, XawChainBottom,
+                                            XtNleft, XawChainLeft,
+                                            XtNright, XawRubber,
+                                            NULL);
+
+    notification_box = XtVaCreateManagedWidget("notificationBox",
+                                         boxWidgetClass, notification_porthole,
+                                         XtNwidth, notification_width,
+                                         XtNorientation, XtorientHorizontal,
+                                         XtNborderWidth, 0,
+                                         XtNvSpace, 0,
+                                         XtNhSpace, DD,
+                                         NULL);
+
     statustext_label = XtVaCreateManagedWidget("statustext",
-                                                labelWidgetClass, pane,
-                                                XtNwidth, width / 3 - 0, // 0 = 2*borderwidth
-                                                XtNfromVert, drive_status[2],
-                                                XtNtop, XawChainBottom,
-                                                XtNbottom, XawChainBottom,
-                                                XtNjustify, XtJustifyLeft,
-                                                XtNlabel, "",
-                                                XtNborderWidth, 0,
-                                                NULL);
+                                            labelWidgetClass, notification_box,
+                                            XtNjustify, XtJustifyLeft,
+                                            XtNlabel, "",
+                                            XtNborderWidth, 0,
+                                            NULL);
 
     button_title = util_concat(_("recording"), "...", NULL);
     rec_button = XtVaCreateManagedWidget("recButton",
-                                            commandWidgetClass, pane,
-                                            XtNmappedWhenManaged, False,
-                                            XtNwidth, width / 6 - 2 - DD,
-                                            XtNtip, _("click to stop recording"),
-                                            XtNfromVert, drive_status[2],
-                                            XtNfromHoriz, statustext_label,
-                                            XtNtop, XawChainBottom,
-                                            XtNbottom, XawChainBottom,
-                                            XtNjustify, XtJustifyLeft,
-                                            XtNlabel, button_title,
-                                            NULL);
+                                          commandWidgetClass, notification_box,
+                                          XtNtip, _("click to stop recording"),
+                                          XtNjustify, XtJustifyLeft,
+                                          XtNlabel, button_title,
+                                          NULL);
     lib_free(button_title);
 
     XtAddCallback(rec_button, XtNcallback, rec_button_callback, NULL);
 
     button_title = util_concat(_("event recording"), "...", NULL);
     event_recording_button = XtVaCreateManagedWidget("eventRecButton",
-                                        commandWidgetClass, pane,
-                                        XtNmappedWhenManaged, False,
+                                        commandWidgetClass, notification_box,
                                         XtNtip, _("click to stop recording"),
-                                        XtNwidth, width / 6 - DD,
-                                        XtNfromVert, drive_status[2],
-                                        XtNfromHoriz, rec_button,
-                                        XtNtop, XawChainBottom,
-                                        XtNbottom, XawChainBottom,
                                         XtNjustify, XtJustifyLeft,
                                         XtNlabel, button_title,
                                         NULL);
     lib_free(button_title);
     XtAddCallback(event_recording_button, XtNcallback, event_recording_button_callback, NULL);
+
+    button_title = util_concat(_("event playback"), "...", NULL);
+    event_playback_button = XtVaCreateManagedWidget("eventPlayButton",
+                                        commandWidgetClass, notification_box,
+                                        XtNtip, _("click to stop playback"),
+                                        XtNjustify, XtJustifyLeft,
+                                        XtNlabel, button_title,
+                                        NULL);
+    lib_free(button_title);
+    XtAddCallback(event_playback_button, XtNcallback, event_playback_button_callback, NULL);
+
+    {
+        Widget list[3];
+        list[0] = rec_button;
+        list[1] = event_recording_button;
+        list[2] = event_playback_button;
+
+#if !DEBUG_LAYOUT
+        XtUnmanageChildren(list, util_arraysize(list));
+#endif /* DEBUG_LAYOUT */
+    }
+
+    /* End of the notification_porthole */
+    /* Start of TAPE #1 */
 
     Dimension tape_btn_d = 4;
     Dimension tape_btn_w = 24;
@@ -294,7 +351,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
         char *name = lib_msprintf("tapeCounter%d", i + 1);
         tape_counter_label[i] = XtVaCreateManagedWidget(name,
                                         commandWidgetClass, pane,
-                                        XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, // 4 borderwidths for 2 widgets, 1 defaultDistance
+                                        XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
                                         XtNjustify, XtJustifyLeft,
                                         XtNlabel, "Tape #1",
                                         XtNfromVert, drive_status[3],
@@ -336,12 +393,17 @@ static void statusbar_setstatustext(const char *t)
 {
     int num_app_shells = get_num_shells();
     int i;
+    char *tip = t[0] ? XtNtip : NULL;
 
     for (i = 0; i < num_app_shells; i++) {
         XtVaSetValues(app_shells[i].statustext_label,
                       XtNlabel, t,
-                      XtNtip, t,
+                      tip, t,
                       NULL);
+        /*
+         * It would be nice to set the tip on the Porthole too,
+         * but portholes don't have tips, unfortunately.
+         */
     }
 }
 
@@ -374,21 +436,32 @@ void ui_display_speed(float percent, float framerate, int warp_flag)
     }
 
     if (!screenshot_is_recording()) {
-        XtUnmapWidget(rec_button);
+#if !DEBUG_LAYOUT
+        XtUnmanageChild(rec_button);
+#endif /* DEBUG_LAYOUT */
     }
 }
 
 void ui_display_recording(int recording_status)
 {
     if (recording_status) {
-        XtMapWidget(event_recording_button);
+        XtManageChild(event_recording_button);
     } else {
-        XtUnmapWidget(event_recording_button);
+#if !DEBUG_LAYOUT
+        XtUnmanageChild(event_recording_button);
+#endif /* DEBUG_LAYOUT */
     }
 }
 
 void ui_display_playback(int playback_status, char *version)
 {
+    if (playback_status) {
+        XtManageChild(event_playback_button);
+    } else {
+#if !DEBUG_LAYOUT
+        XtUnmanageChild(event_playback_button);
+#endif /* DEBUG_LAYOUT */
+    }
 }
 
 /* Display a message in the title bar indicating that the emulation is

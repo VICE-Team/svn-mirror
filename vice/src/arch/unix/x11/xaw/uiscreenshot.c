@@ -141,7 +141,7 @@ static UI_CALLBACK(save_callback)
         return;
     } else {
         if (screenshot_is_recording()) {
-            XtMapWidget(rec_button);
+            XtManageChild(rec_button);
         }
         /* ui_message(_("Successfully wrote `%s'"), tmp); */
         lib_free(tmp);

@@ -354,10 +354,34 @@ void rebuild_tape_menu_action(Widget w, XEvent *event, String *params, Cardinal 
 
 void tape_play_stop_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
 {
-    DBG(("tape_play_stop_action"));
+    int action;
+
     if (tape_control_status == DATASETTE_CONTROL_STOP) {
-        datasette_control(DATASETTE_CONTROL_START);
+        action = DATASETTE_CONTROL_START;
+
+        if (*num_params >= 1) {
+            switch (params[0][0]) {
+                case 'p':       /* play */
+                    action = DATASETTE_CONTROL_START;
+                    break;
+                case 'r':       /* rew (Ctrl-click) */
+                    if (params[0][2] == 'c') {
+                        action = DATASETTE_CONTROL_RECORD;
+                    } else {    /* rec (Shift-doubleclick) */
+                        action = DATASETTE_CONTROL_REWIND;
+                    }
+                    break;
+                case 'f':       /* ffwd (Meta-click) */
+                    action = DATASETTE_CONTROL_FORWARD;
+                    break;
+                case 's':       /* stop */
+                    action = DATASETTE_CONTROL_STOP;
+                    break;
+            }
+        }
     } else {
-        datasette_control(DATASETTE_CONTROL_STOP);
+        action = DATASETTE_CONTROL_STOP;
     }
+    DBG(("tape_play_stop_action %d", action));
+    datasette_control(action);
 }
