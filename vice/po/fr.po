@@ -11,13 +11,13 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-31 13:42-0800\n"
-"PO-Revision-Date: 2011-02-01 18:41+0100\n"
-"Last-Translator: Paul Dubé <dubepaul@gmail.com>\n"
+"PO-Revision-Date: 2013-01-01 14:00-0500\n"
+"Last-Translator: Paul Dubé <dubepaul @t outlook d0tcom>\n"
 "Language-Team: fr <fr@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=ISO-8859-1\n"
-"Content-Transfer-Encoding: 8-bit\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:564
 msgid "Set device for joystick port 1"
@@ -341,9 +341,8 @@ msgstr "Captures d'écrans..."
 
 #: src/arch/unix/gui/c128ui.c:525 src/arch/unix/gui/c128ui.c:571
 #: src/arch/win32/resc128.rc.po.c:737
-#, fuzzy
 msgid "C128 model"
-msgstr "Périphérique ACIA"
+msgstr "Modèle C128"
 
 #: src/arch/unix/gui/c128ui.c:533 src/arch/win32/resc128.rc.po.c:724
 #: src/arch/amigaos/intl_text.c.po.c:4303
@@ -353,9 +352,8 @@ msgstr "Kernal international"
 
 #: src/arch/unix/gui/c128ui.c:535 src/arch/win32/resc128.rc.po.c:725
 #: src/arch/amigaos/intl_text.c.po.c:4373
-#, fuzzy
 msgid "Finnish"
-msgstr "Kernal finlandais"
+msgstr "Finlandais"
 
 #: src/arch/unix/gui/c128ui.c:537 src/arch/win32/res.rc.po.c:1558
 #: src/arch/win32/resc128.rc.po.c:726 src/arch/amigaos/intl_text.c.po.c:4387
@@ -415,7 +413,6 @@ msgstr "Type de machine"
 #: src/arch/unix/gui/cbm2ui.c:283 src/arch/win32/resc64.rc.po.c:602
 #: src/arch/win32/resscpu64.rc.po.c:598
 #: src/arch/amigaos/intl_text.c.po.c:11780
-#, fuzzy
 msgid "VIC-II model"
 msgstr "Modèle VIC-II"
 
@@ -426,12 +423,10 @@ msgstr "Modèle VIC-II"
 #: src/arch/unix/gui/vic20ui.c:157 src/arch/unix/gui/vsidui.c:235
 #: src/arch/win32/res.rc.po.c:1384 src/arch/win32/resc64.rc.po.c:604
 #: src/arch/win32/resscpu64.rc.po.c:600 src/arch/amigaos/intl_text.c.po.c:9680
-#, fuzzy
 msgid "SID model"
 msgstr "Modèle SID"
 
 #: src/arch/unix/gui/c128ui.c:580
-#, fuzzy
 msgid "VDC model"
 msgstr "Modèle VDC"
 
@@ -440,7 +435,6 @@ msgstr "Modèle VDC"
 #: src/arch/win32/resc64.rc.po.c:605 src/arch/win32/rescia.rc.po.c:49
 #: src/arch/win32/resscpu64.rc.po.c:601
 #: src/arch/amigaos/intl_text.c.po.c:11794
-#, fuzzy
 msgid "CIA 1 model"
 msgstr "Modèle CIA 1"
 
@@ -448,7 +442,6 @@ msgstr "Modèle CIA 1"
 #: src/arch/unix/gui/c64ui.c:253 src/arch/win32/resc64.rc.po.c:606
 #: src/arch/win32/rescia.rc.po.c:50 src/arch/win32/resscpu64.rc.po.c:602
 #: src/arch/amigaos/intl_text.c.po.c:11808
-#, fuzzy
 msgid "CIA 2 model"
 msgstr "Modèle CIA 2"
 
@@ -637,9 +630,8 @@ msgid "Save media file"
 msgstr "Sauvegarder un fichier média"
 
 #: src/arch/unix/gui/c64dtvui.c:151 src/arch/unix/gui/c64dtvui.c:298
-#, fuzzy
 msgid "DTV model"
-msgstr "Modèle SID"
+msgstr "Modèle DTV"
 
 #: src/arch/unix/gui/c64dtvui.c:154 src/arch/amigaos/intl_text.c.po.c:6277
 #, fuzzy
@@ -685,9 +677,8 @@ msgstr "6581 (ancien)"
 
 #: src/arch/unix/gui/c64scui.c:156 src/arch/unix/gui/c64scui.c:166
 #: src/arch/unix/gui/c64ui.c:228 src/arch/unix/gui/c64ui.c:238
-#, fuzzy
 msgid "6526 (new)"
-msgstr "*6526 (nouveau)"
+msgstr "6526 (nouveau)"
 
 #: src/arch/unix/gui/c64scui.c:174 src/arch/win32/resc64.rc.po.c:610
 #: src/arch/win32/resscpu64.rc.po.c:606
@@ -718,11 +709,11 @@ msgstr "Glue logic"
 
 #: src/arch/unix/gui/c64scui.c:394 src/arch/unix/gui/c64ui.c:454
 msgid "CIA1"
-msgstr ""
+msgstr "CIA1"
 
 #: src/arch/unix/gui/c64scui.c:396 src/arch/unix/gui/c64ui.c:456
 msgid "CIA2"
-msgstr ""
+msgstr "CIA2"
 
 #: src/arch/unix/gui/c64scui.c:404 src/arch/unix/gui/c64ui.c:464
 #: src/arch/unix/gui/vic20ui.c:440
@@ -733,7 +724,7 @@ msgstr "Datassette détaché"
 #: src/arch/unix/gui/c64scui.c:406 src/arch/unix/gui/c64ui.c:466
 #: src/arch/unix/gui/vic20ui.c:442
 msgid "detach last"
-msgstr ""
+msgstr "détacher dernier"
 
 #: src/arch/unix/gui/c64scui.c:408 src/arch/unix/gui/c64ui.c:468
 #: src/arch/unix/gui/vic20ui.c:444
@@ -749,7 +740,7 @@ msgstr "&Identification de l'émulateur"
 #: src/arch/unix/gui/c64scui.c:484 src/arch/unix/gui/c64ui.c:544
 #: src/arch/unix/gui/vic20ui.c:485
 msgid "I/O collision handling"
-msgstr ""
+msgstr "Prise en charge collision E/S"
 
 #: src/arch/unix/gui/c64ui.c:212
 #, fuzzy
@@ -785,7 +776,7 @@ msgstr "Graphiques"
 #: src/arch/unix/gui/cbm2ui.c:256 src/arch/unix/gui/petui.c:161
 #: src/arch/win32/respet.rc.po.c:552 src/arch/amigaos/intl_text.c.po.c:10450
 msgid "Business (UK)"
-msgstr "Business (UK)"
+msgstr "Bureautique (UK)"
 
 #: src/arch/unix/gui/cbm2ui.c:280 src/arch/unix/gui/cbm2ui.c:315
 #: src/arch/unix/gui/cbm2ui.c:607 src/arch/unix/gui/cbm2ui.c:618
@@ -793,9 +784,8 @@ msgid "Model defaults"
 msgstr "Valeurs par défaut du modèle"
 
 #: src/arch/unix/gui/cbm2ui.c:287
-#, fuzzy
 msgid "CIA model"
-msgstr "Périphérique ACIA"
+msgstr "Modèle CIA"
 
 #: src/arch/unix/gui/cbm2ui.c:289 src/arch/unix/gui/cbm2ui.c:322
 #: src/arch/unix/gui/petui.c:371
@@ -894,9 +884,8 @@ msgid "SID clock"
 msgstr "Horloge SID"
 
 #: src/arch/unix/gui/petui.c:163
-#, fuzzy
 msgid "Business (DE)"
-msgstr "*Business (DE)"
+msgstr "Bureautique (DE)"
 
 #: src/arch/unix/gui/petui.c:169 src/arch/win32/respet.rc.po.c:543
 #: src/arch/amigaos/intl_text.c.po.c:10352
@@ -1074,17 +1063,15 @@ msgstr "ACIA SuperPET"
 
 #: src/arch/unix/gui/petui.c:384
 msgid "SuperPET 6809 ROMs"
-msgstr ""
+msgstr "ROMs SuperPET 6809"
 
 #: src/arch/unix/gui/petui.c:387
-#, fuzzy
 msgid "$9*** as RAM (8296 only)"
-msgstr "*$9*** comme RAM (8296 seulement)"
+msgstr "$9*** comme RAM (8296 seulement)"
 
 #: src/arch/unix/gui/petui.c:389
-#, fuzzy
 msgid "$A*** as RAM (8296 only)"
-msgstr "*$A*** comme RAM (8296 seulement)"
+msgstr "$A*** comme RAM (8296 seulement)"
 
 #: src/arch/unix/gui/plus4ui.c:155
 msgid "Load new 3 plus 1 LO ROM"
@@ -1115,9 +1102,8 @@ msgid "Load new c2 HI ROM"
 msgstr "Charger une nouvelle ROM haute Basic"
 
 #: src/arch/unix/gui/plus4ui.c:255
-#, fuzzy
 msgid "ACIA"
-msgstr "Périphérique ACIA"
+msgstr "ACIA"
 
 #: src/arch/unix/gui/plus4ui.c:257 src/arch/amigaos/intl_text.c.po.c:9722
 #, fuzzy
@@ -1136,9 +1122,8 @@ msgid "Model"
 msgstr "Modèle"
 
 #: src/arch/unix/gui/plus4ui.c:286
-#, fuzzy
 msgid "TED model"
-msgstr "Modèle SID"
+msgstr "Modèle TED"
 
 #: src/arch/unix/gui/plus4ui.c:316 src/arch/win32/resplus4.rc.po.c:505
 #: src/arch/win32/rested.rc.po.c:33 src/arch/amigaos/intl_text.c.po.c:3309
@@ -1299,6 +1284,8 @@ msgid ""
 "Enter maximum random autostart delay in frames\n"
 "(max. 1000, 0 means default)"
 msgstr ""
+"Entrer le délai autostart au hasard maximal en images\n"
+"(max. 1000, 0 pour défaut)"
 
 #: src/arch/unix/gui/uiautostart.c:69
 #, fuzzy
@@ -1308,7 +1295,7 @@ msgstr "Démarrer automatiquement une image de disque"
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:11416
 msgid "Virtual FS"
-msgstr ""
+msgstr "SF virtuel"
 
 #: src/arch/unix/gui/uiautostart.c:88 src/arch/win32/resautostart.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:11430
@@ -1347,7 +1334,7 @@ msgstr "Activer Turbo"
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:11500
 msgid "Use ':' with RUN"
-msgstr ""
+msgstr "Utiliser \":\" avec RUN"
 
 #: src/arch/unix/gui/uiautostart.c:107 src/arch/win32/resautostart.rc.po.c:46
 #: src/arch/amigaos/intl_text.c.po.c:11528
@@ -1642,9 +1629,8 @@ msgid "Start with reset"
 msgstr "Réinitialiser au démarrage"
 
 #: src/arch/unix/gui/uicommands.c:475
-#, fuzzy
 msgid "Overwrite running playback"
-msgstr "*Écraser le 'playback' actuel"
+msgstr "Écraser le son jouant actuellement"
 
 #: src/arch/unix/gui/uicommands.c:484 src/arch/unix/x11/gnome/uisnapshot.c:46
 #: src/arch/unix/x11/xaw/uisnapshot.c:85
@@ -1744,7 +1730,7 @@ msgstr "Pilote:"
 
 #: src/arch/unix/gui/uicommands.c:562
 msgid "Keep monitor open"
-msgstr ""
+msgstr "Laisser le moniteur ouvert"
 
 #: src/arch/unix/gui/uicommands.c:565
 #, fuzzy
@@ -1753,7 +1739,7 @@ msgstr "Saisir la souris"
 
 #: src/arch/unix/gui/uicommands.c:567
 msgid "Set remote monitor server address"
-msgstr ""
+msgstr "Régler l'adresse du moniteur distant"
 
 #: src/arch/unix/gui/uicommands.c:573 src/arch/unix/gui/uicommands.c:584
 msgid "Activate monitor"
@@ -1850,15 +1836,14 @@ msgstr "Charger un fichier..."
 #: src/arch/unix/gui/uivdc.c:71 src/arch/unix/gui/uivic.c:85
 #: src/arch/unix/gui/uivicii.c:101
 msgid "Unfiltered"
-msgstr ""
+msgstr "Non filtré"
 
 #: src/arch/unix/gui/uicrtc.c:77 src/arch/unix/gui/uited.c:87
 #: src/arch/unix/gui/uivdc.c:73 src/arch/unix/gui/uivic.c:87
 #: src/arch/unix/gui/uivicii.c:103 src/arch/win32/res.rc.po.c:1046
 #: src/arch/amigaos/intl_text.c.po.c:10016
-#, fuzzy
 msgid "CRT emulation"
-msgstr "Émulation PAL"
+msgstr "Émulation CRT"
 
 #: src/arch/unix/gui/uicrtc.c:80 src/arch/unix/gui/uited.c:89
 #: src/arch/unix/gui/uivdc.c:76 src/arch/unix/gui/uivic.c:89
@@ -1926,7 +1911,7 @@ msgstr "Couleurs"
 #: src/arch/unix/gui/uivicii.c:187 src/arch/win32/res.rc.po.c:1047
 #: src/arch/amigaos/intl_text.c.po.c:10044
 msgid "Render filter"
-msgstr ""
+msgstr "Filtre de rendu"
 
 #: src/arch/unix/gui/uicrtc.c:164 src/arch/unix/gui/uited.c:170
 #: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:173
@@ -1938,9 +1923,8 @@ msgstr "Émulation d'imprimante"
 #: src/arch/unix/gui/uicrtc.c:168 src/arch/unix/gui/uited.c:174
 #: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:177
 #: src/arch/unix/gui/uivicii.c:201
-#, fuzzy
 msgid "Hardware scaling"
-msgstr "*'scaling' matériel"
+msgstr "Mise à l'échelle matérielle"
 
 #: src/arch/unix/gui/uicrtc.c:170 src/arch/unix/gui/uited.c:176
 #: src/arch/unix/gui/uivdc.c:187 src/arch/unix/gui/uivic.c:179
@@ -2043,9 +2027,8 @@ msgid "Datassette control"
 msgstr "Contrôle datassette"
 
 #: src/arch/unix/gui/uidigimax.c:39
-#, fuzzy
 msgid "Userport"
-msgstr "Périphérique de port utilisateur RS232"
+msgstr "Port Utilisateur"
 
 #: src/arch/unix/gui/uidqbb.c:52 src/arch/unix/gui/uieasyflash.c:49
 #: src/arch/unix/gui/uiexpert.c:63 src/arch/unix/gui/uigeoram.c:74
@@ -2132,7 +2115,7 @@ msgstr "Sélectionnez le répertoire du système de fichiers"
 
 #: src/arch/unix/gui/uidrive.c:196 src/translate_text.c.po.c:12955
 msgid "Enable true hardware flash file system"
-msgstr ""
+msgstr "Activer le système de fichier flash matériel réel"
 
 #: src/arch/unix/gui/uidrive.c:198
 #, fuzzy
@@ -2162,7 +2145,6 @@ msgstr "Support d'images de 40 pistes sur le lecteur #8"
 #: src/arch/unix/gui/uidrivec128.c:183 src/arch/unix/gui/uidrivec64.c:56
 #: src/arch/unix/gui/uidrivec64dtv.c:56 src/arch/unix/gui/uidrivepetcbm2.c:113
 #: src/arch/unix/gui/uidriveplus4.c:240 src/arch/unix/gui/uidrivevic20.c:79
-#, fuzzy
 msgid "Drive #8 idle method"
 msgstr "Méthode d'idle du lecteur #8"
 
@@ -2189,7 +2171,6 @@ msgstr "Support d'images de 40 pistes sur le lecteur #9"
 #: src/arch/unix/gui/uidrivec128.c:195 src/arch/unix/gui/uidrivec64.c:68
 #: src/arch/unix/gui/uidrivec64dtv.c:68 src/arch/unix/gui/uidrivepetcbm2.c:122
 #: src/arch/unix/gui/uidriveplus4.c:252 src/arch/unix/gui/uidrivevic20.c:91
-#, fuzzy
 msgid "Drive #9 idle method"
 msgstr "Méthode d'idle du lecteur #9"
 
@@ -2216,7 +2197,6 @@ msgstr "Support d'images de 40 pistes sur le lecteur #10"
 #: src/arch/unix/gui/uidrivec128.c:207 src/arch/unix/gui/uidrivec64.c:80
 #: src/arch/unix/gui/uidrivec64dtv.c:80 src/arch/unix/gui/uidrivepetcbm2.c:131
 #: src/arch/unix/gui/uidriveplus4.c:264 src/arch/unix/gui/uidrivevic20.c:103
-#, fuzzy
 msgid "Drive #10 idle method"
 msgstr "Méthode d'idle du lecteur #10"
 
@@ -2243,7 +2223,6 @@ msgstr "Support d'images de 40 pistes sur le lecteur #11"
 #: src/arch/unix/gui/uidrivec128.c:219 src/arch/unix/gui/uidrivec64.c:92
 #: src/arch/unix/gui/uidrivec64dtv.c:92 src/arch/unix/gui/uidrivepetcbm2.c:140
 #: src/arch/unix/gui/uidriveplus4.c:276 src/arch/unix/gui/uidrivevic20.c:115
-#, fuzzy
 msgid "Drive #11 idle method"
 msgstr "Méthode d'idle du lecteur #11"
 
@@ -2342,7 +2321,7 @@ msgstr "*Dolphin DOS 3"
 #: src/arch/unix/gui/uidrivec64c128.c:100
 #: src/arch/unix/gui/uidrivec64c128.c:112
 msgid "Formel 64"
-msgstr ""
+msgstr "Formel 64"
 
 #: src/arch/unix/gui/uidrivec64c128.c:118
 #: src/arch/unix/gui/uidrivec64c128.c:133
@@ -2528,9 +2507,8 @@ msgstr "Retirer #%d"
 
 #: src/arch/unix/gui/uifliplist.c:204 src/arch/unix/gui/uiramcart.c:58
 #: src/arch/win32/resramcart.rc.po.c:43 src/arch/amigaos/intl_text.c.po.c:7958
-#, fuzzy
 msgid "Read-only"
-msgstr "*Accès en lecture seuel"
+msgstr "Lecture seule"
 
 #: src/arch/unix/gui/uifliplist.c:245 src/arch/unix/gui/uifliplist.c:247
 msgid "Next: "
@@ -2979,23 +2957,23 @@ msgstr "Paramètres du clavier"
 
 #: src/arch/unix/gui/uilightpen.c:40
 msgid "Pen with button Up"
-msgstr ""
+msgstr "Stylet avec bouton Haut"
 
 #: src/arch/unix/gui/uilightpen.c:42
 msgid "Pen with button Left"
-msgstr ""
+msgstr "Stylet avec bouton Gauche"
 
 #: src/arch/unix/gui/uilightpen.c:44
 msgid "Datel Pen"
-msgstr ""
+msgstr "Stylet Datel"
 
 #: src/arch/unix/gui/uilightpen.c:46
 msgid "Magnum Light Phaser"
-msgstr ""
+msgstr "Magnum Light Phaser"
 
 #: src/arch/unix/gui/uilightpen.c:48
 msgid "Stack Light Rifle"
-msgstr ""
+msgstr "Stack Light Rifle"
 
 #: src/arch/unix/gui/uilightpen.c:68 src/arch/win32/reslightpen.rc.po.c:23
 #: src/translate_text.c.po.c:13246
@@ -3115,14 +3093,12 @@ msgid "Paddles"
 msgstr "Inactif"
 
 #: src/arch/unix/gui/uimouse.c:61
-#, fuzzy
 msgid "Port 1"
-msgstr "Port joystick 1"
+msgstr "Port 1"
 
 #: src/arch/unix/gui/uimouse.c:63
-#, fuzzy
 msgid "Port 2"
-msgstr "Port joystick 2"
+msgstr "Port 2"
 
 #: src/arch/unix/gui/uimouse.c:71 src/translate_text.c.po.c:11850
 msgid "Enable mouse grab"
@@ -3173,9 +3149,8 @@ msgid "Error connecting to server."
 msgstr "Erreur de connection au serveur."
 
 #: src/arch/unix/gui/uinetplay.c:109
-#, fuzzy
 msgid "Netplay"
-msgstr "Port TCP pour le jeu en réseau"
+msgstr "Jeu en réseau"
 
 #: src/arch/unix/gui/uinetplay.c:112 src/arch/unix/x11/gnome/uinetplay.c:208
 #: src/arch/win32/res.rc.po.c:1316 src/arch/amigaos/intl_text.c.po.c:5115
@@ -3219,29 +3194,25 @@ msgid "Path"
 msgstr "Emplacement:"
 
 #: src/arch/unix/gui/uiperipheral.c:64
-#, fuzzy
 msgid "Select block device for raw access"
-msgstr "*Accès aux périphériques réels"
+msgstr "Sélectionner le périphérique bloc pour accès direct (RAW)"
 
 #: src/arch/unix/gui/uiperipheral.c:70 src/arch/unix/gui/uiperipheral.c:86
 #: src/arch/unix/gui/uiperipheral.c:102 src/arch/unix/gui/uiperipheral.c:118
 #: src/arch/unix/gui/uiprinter.c:174 src/arch/unix/gui/uiprinter.c:186
-#, fuzzy
 msgid "File system access"
-msgstr "*Accès au système de fichiers"
+msgstr "Accès au système de fichiers"
 
 #: src/arch/unix/gui/uiperipheral.c:73 src/arch/unix/gui/uiperipheral.c:89
 #: src/arch/unix/gui/uiperipheral.c:105 src/arch/unix/gui/uiperipheral.c:121
 #: src/arch/unix/gui/uiprinter.c:177 src/arch/unix/gui/uiprinter.c:189
-#, fuzzy
 msgid "Real device access"
-msgstr "*Accès aux périphériques réels"
+msgstr "Accès aux périphérique réel"
 
 #: src/arch/unix/gui/uiperipheral.c:77 src/arch/unix/gui/uiperipheral.c:93
 #: src/arch/unix/gui/uiperipheral.c:109 src/arch/unix/gui/uiperipheral.c:125
-#, fuzzy
 msgid "Raw device access"
-msgstr "*Accès de bas niveaux aux périphériques"
+msgstr "Accès de bas niveau (RAW) aux périphériques"
 
 #: src/arch/unix/gui/uiperipheraliec.c:65
 #: src/arch/unix/gui/uiperipheraliec.c:84
@@ -3270,9 +3241,8 @@ msgstr "*Activer le périphérique IEC"
 #: src/arch/unix/gui/uiperipheralieee.c:79
 #: src/arch/unix/gui/uiperipheralieee.c:96
 #: src/arch/unix/gui/uiperipheralieee.c:113
-#, fuzzy
 msgid "Read only access"
-msgstr "*Accès en lecture seuel"
+msgstr "Accès en lecture seule"
 
 #: src/arch/unix/gui/uiperipheraliec.c:72
 #: src/arch/unix/gui/uiperipheraliec.c:91
@@ -3364,7 +3334,7 @@ msgstr "*Activer les périphériques virtuels"
 #: src/arch/unix/gui/uiperipheraliec.c:170
 #: src/arch/unix/gui/uiperipheralieee.c:139
 msgid "RAW Block Device Name"
-msgstr ""
+msgstr "Nom du périphérique bloc RAW"
 
 #: src/arch/unix/gui/uiperipheraliec.c:177
 #: src/arch/unix/gui/uiperipheraliec.c:183
@@ -3536,23 +3506,20 @@ msgstr "\"formfeed\" de imprimante sur port utilisateur"
 #: src/arch/unix/gui/uiprinteriec.c:79
 #: src/arch/unix/gui/uiprinteriecplus4.c:67
 #: src/arch/unix/gui/uiprinterieee.c:74
-#, fuzzy
 msgid "Printer text device 1"
-msgstr "Périphérique d'imprimante texte #1"
+msgstr "Périphérique d'imprimante texte 1"
 
 #: src/arch/unix/gui/uiprinteriec.c:81
 #: src/arch/unix/gui/uiprinteriecplus4.c:69
 #: src/arch/unix/gui/uiprinterieee.c:76
-#, fuzzy
 msgid "Printer text device 2"
-msgstr "Périphérique d'imprimante texte #2"
+msgstr "Périphérique d'imprimante texte 2"
 
 #: src/arch/unix/gui/uiprinteriec.c:83
 #: src/arch/unix/gui/uiprinteriecplus4.c:71
 #: src/arch/unix/gui/uiprinterieee.c:78
-#, fuzzy
 msgid "Printer text device 3"
-msgstr "Périphérique d'imprimante texte #3"
+msgstr "Périphérique d'imprimante texte 3"
 
 #: src/arch/unix/gui/uips2mouse.c:42 src/arch/win32/res.rc.po.c:1506
 #: src/arch/amigaos/intl_text.c.po.c:2203
@@ -3692,19 +3659,16 @@ msgid "List current ROM set"
 msgstr "Lister le fichier image"
 
 #: src/arch/unix/gui/uirs232.c:54 src/arch/unix/gui/uirs232.c:90
-#, fuzzy
 msgid "38400 (Swiftlink/Turbo232 only)"
-msgstr "*38400 (Swiftlink/Turbo232 seulement)"
+msgstr "38400 (Swiftlink/Turbo232 seulement)"
 
 #: src/arch/unix/gui/uirs232.c:56 src/arch/unix/gui/uirs232.c:92
-#, fuzzy
 msgid "57600 (Turbo232 only)"
-msgstr "*57600 (Turbo232 only)"
+msgstr "57600 (Turbo232 only)"
 
 #: src/arch/unix/gui/uirs232.c:58 src/arch/unix/gui/uirs232.c:94
-#, fuzzy
 msgid "115200 (Turbo232 only)"
-msgstr "*115200 (Turbo232 seulement)"
+msgstr "115200 (Turbo232 seulement)"
 
 #: src/arch/unix/gui/uirs232.c:115
 msgid "Select RS232 device file"
@@ -3762,9 +3726,8 @@ msgstr "Interruption ACIA"
 #: src/arch/unix/gui/uirs232c64c128.c:102
 #: src/arch/unix/gui/uirs232c64c128.c:139
 #: src/arch/unix/gui/uirs232c64c128.c:176
-#, fuzzy
 msgid "ACIA emulation mode"
-msgstr "Périphérique ACIA $DExx"
+msgstr "Mode d'émulation ACIA"
 
 #: src/arch/unix/gui/uirs232c64c128.c:105
 #: src/arch/unix/gui/uirs232c64c128.c:142
@@ -3791,9 +3754,8 @@ msgstr "Périphérique de port utilisateur RS232"
 #: src/arch/unix/gui/uirs232c64c128.c:149
 #: src/arch/unix/gui/uirs232c64c128.c:186
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:41
-#, fuzzy
 msgid "Serial 1 device"
-msgstr "Port série #1..."
+msgstr "Périphérique port série 1"
 
 #: src/arch/unix/gui/uirs232c64c128.c:114
 #: src/arch/unix/gui/uirs232c64c128.c:151
@@ -3831,9 +3793,8 @@ msgid "ACIA RS232 interface emulation (MasC=uerade)"
 msgstr "*Émulation d'interface ACIA $DExx RS232"
 
 #: src/arch/unix/gui/uirs232petplus4cbm2.c:46
-#, fuzzy
 msgid "Serial 2 device"
-msgstr "Port série #2..."
+msgstr "Périphérique port série 2"
 
 #: src/arch/unix/gui/uisettings.c:182
 msgid "Enter speed"
@@ -3943,57 +3904,48 @@ msgid "Confirm quiting VICE"
 msgstr "Demander une confirmation avant de quitter VICE"
 
 #: src/arch/unix/gui/uisid.c:74
-#, fuzzy
 msgid "8580 + digi boost (ReSID)"
-msgstr "*8580 + boost digital"
+msgstr "8580 + boost digital (ReSID)"
 
 #: src/arch/unix/gui/uisid.c:79 src/arch/unix/gui/uisid.c:134
-#, fuzzy
 msgid "6581R3 4885 (very light)"
-msgstr "*6581 (ancien)"
+msgstr "6581R3 4885 (très léger)"
 
 #: src/arch/unix/gui/uisid.c:81 src/arch/unix/gui/uisid.c:136
-#, fuzzy
 msgid "6581R3 0486S (light)"
-msgstr "*6581 (ancien)"
+msgstr "6581R3 0486S (léger)"
 
 #: src/arch/unix/gui/uisid.c:83 src/arch/unix/gui/uisid.c:138
 msgid "6581R3 3984 (light avg)"
-msgstr ""
+msgstr "6581R3 3984 (léger moyen)"
 
 #: src/arch/unix/gui/uisid.c:85 src/arch/unix/gui/uisid.c:140
 msgid "6581R4AR 3789 (avg)"
-msgstr ""
+msgstr "6581R4AR 3789 (moyen)"
 
 #: src/arch/unix/gui/uisid.c:87 src/arch/unix/gui/uisid.c:142
-#, fuzzy
 msgid "6581R3 4485 (dark)"
-msgstr "*6581 (ancien)"
+msgstr "6581R 4485 (foncé)"
 
 #: src/arch/unix/gui/uisid.c:89 src/arch/unix/gui/uisid.c:144
-#, fuzzy
 msgid "6581R4 1986S (very dark)"
-msgstr "*6581 (ancien)"
+msgstr "6581R4 1986S (très foncé)"
 
 #: src/arch/unix/gui/uisid.c:91 src/arch/unix/gui/uisid.c:146
-#, fuzzy
 msgid "8580 3691 (light)"
-msgstr "*8580 + boost digital"
+msgstr "8580 3691 (clair)"
 
 #: src/arch/unix/gui/uisid.c:93 src/arch/unix/gui/uisid.c:148
-#, fuzzy
 msgid "8580 3691 + digi boost"
-msgstr "*8580 + boost digital"
+msgstr "8580 3691 + boost digital"
 
 #: src/arch/unix/gui/uisid.c:95 src/arch/unix/gui/uisid.c:150
-#, fuzzy
 msgid "8580 1489 (dark)"
-msgstr "*6581 (ancien)"
+msgstr "8580 1489 (foncé)"
 
 #: src/arch/unix/gui/uisid.c:97 src/arch/unix/gui/uisid.c:152
-#, fuzzy
 msgid "8580 1489 + digi boost"
-msgstr "*8580 + boost digital"
+msgstr "8580 1489 + boost digital"
 
 #: src/arch/unix/gui/uisid.c:111 src/arch/unix/gui/uisid.c:166
 #: src/arch/unix/gui/uisid.c:194
@@ -4056,7 +4008,7 @@ msgstr "On"
 
 #: src/arch/unix/gui/uisid.c:256
 msgid "Two"
-msgstr ""
+msgstr "Deux"
 
 #: src/arch/unix/gui/uisound.c:49 src/arch/unix/gui/uisound.c:147
 #, fuzzy
@@ -4064,9 +4016,8 @@ msgid "Sound driver argument"
 msgstr "Pilote son: DirectX"
 
 #: src/arch/unix/gui/uisound.c:49
-#, fuzzy
 msgid "Argument:"
-msgstr "problèmes de fragments."
+msgstr "Argument:"
 
 #: src/arch/unix/gui/uisound.c:91 src/arch/win32/res.rc.po.c:1228
 #: src/arch/win32/res.rc.po.c:1472 src/arch/amigaos/intl_text.c.po.c:11094
@@ -4076,13 +4027,12 @@ msgstr "Petit"
 #: src/arch/unix/gui/uisound.c:93 src/arch/win32/res.rc.po.c:1229
 #: src/arch/amigaos/intl_text.c.po.c:11108
 msgid "Medium"
-msgstr ""
+msgstr "Moyen"
 
 #: src/arch/unix/gui/uisound.c:95 src/arch/win32/res.rc.po.c:1230
 #: src/arch/amigaos/intl_text.c.po.c:11122
-#, fuzzy
 msgid "Large"
-msgstr "&Langage"
+msgstr "Grand"
 
 #: src/arch/unix/gui/uisound.c:101
 #, fuzzy
@@ -4133,7 +4083,7 @@ msgstr "Système de fichiers"
 #: src/arch/unix/gui/uisound.c:131 src/arch/win32/res.rc.po.c:1132
 #: src/arch/amigaos/intl_text.c.po.c:11234
 msgid "Mono"
-msgstr ""
+msgstr "Mono"
 
 #: src/arch/unix/gui/uisound.c:134 src/arch/win32/res.rc.po.c:1133
 #: src/arch/amigaos/intl_text.c.po.c:11248
@@ -4263,9 +4213,8 @@ msgstr "*Révison 2"
 
 #: src/arch/unix/gui/uivdc.c:158 src/arch/win32/resc128.rc.po.c:740
 #: src/arch/amigaos/intl_text.c.po.c:1769
-#, fuzzy
 msgid "64KB video memory"
-msgstr "Mémoire d'affichage de 64Ko"
+msgstr "Mémoire vidéo de 64Ko"
 
 #: src/arch/unix/gui/uivic.c:164 src/arch/amigaos/intl_text.c.po.c:3099
 #: src/arch/amigaos/intl_text.c.po.c:8154
@@ -4321,29 +4270,24 @@ msgid "Common configurations"
 msgstr "Configurations communes"
 
 #: src/arch/unix/gui/vic20ui.c:235 src/arch/win32/resvic20.rc.po.c:530
-#, fuzzy
 msgid "Block 0 (3K at $0400-$0FFF)"
-msgstr "*Block 0 (3Ko à $0400-$0FFF)"
+msgstr "Bloc 0 (3Ko à $0400-$0FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:237 src/arch/win32/resvic20.rc.po.c:531
-#, fuzzy
 msgid "Block 1 (8K at $2000-$3FFF)"
-msgstr "*Block 1 (8Ko à $2000-$3FFF)"
+msgstr "Bloc 1 (8Ko à $2000-$3FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:239 src/arch/win32/resvic20.rc.po.c:532
-#, fuzzy
 msgid "Block 2 (8K at $4000-$5FFF)"
-msgstr "*Block 2 (8Ko à $4000-$5FFF)"
+msgstr "Bloc 2 (8Ko à $4000-$5FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:241 src/arch/win32/resvic20.rc.po.c:533
-#, fuzzy
 msgid "Block 3 (8K at $6000-$7FFF)"
-msgstr "*Block 3 (8Ko à $6000-$7FFF)"
+msgstr "Bloc 3 (8Ko à $6000-$7FFF)"
 
 #: src/arch/unix/gui/vic20ui.c:243 src/arch/win32/resvic20.rc.po.c:534
-#, fuzzy
 msgid "Block 5 (8K at $A000-$BFFF)"
-msgstr "*Block 5 (8Ko à $A000-$BFFF)"
+msgstr "Bloc 5 (8Ko à $A000-$BFFF)"
 
 #: src/arch/unix/gui/vic20ui.c:263 src/arch/win32/res.rc.po.c:992
 #: src/arch/win32/res.rc.po.c:994 src/arch/amigaos/intl_text.c.po.c:4919
@@ -4428,9 +4372,8 @@ msgid "NvRAM image file"
 msgstr "Nom du fichier image GEORAM..."
 
 #: src/arch/unix/gui/vic20ui.c:430
-#, fuzzy
 msgid "VIC model"
-msgstr "Modèle SID"
+msgstr "Modèle VIC"
 
 #: src/arch/unix/gui/vic20ui.c:432
 msgid "Memory expansions"
@@ -4535,9 +4478,8 @@ msgstr ""
 "Flooder - Polish\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
-#, fuzzy
 msgid "(c) 1998 - 2012 The VICE Team"
-msgstr "(c) 1998 – 2008 The Vice Team"
+msgstr "(c) 1998 - 2012 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:128 src/arch/win32/res.rc.po.c:1083
 #: src/arch/win32/res.rc.po.c:1569 src/arch/amigaos/intl_text.c.po.c:4275
@@ -4597,7 +4539,7 @@ msgstr "Impossible de créer l'image `%s'."
 #: src/arch/unix/x11/gnome/uiedit.c:77 src/arch/win32/res.rc.po.c:1414
 #: src/arch/amigaos/intl_text.c.po.c:1139
 msgid "Copy"
-msgstr ""
+msgstr "Copier"
 
 #: src/arch/unix/x11/gnome/uiedit.c:78 src/arch/win32/res.rc.po.c:1415
 #: src/arch/amigaos/intl_text.c.po.c:1153
@@ -4612,14 +4554,12 @@ msgid "Keyboard"
 msgstr "Type de &clavier"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:59 src/arch/win32/res.rc.po.c:1324
-#, fuzzy
 msgid "Joystick 1"
-msgstr "Joystick:"
+msgstr "Joystick 2"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:62 src/arch/win32/res.rc.po.c:1325
-#, fuzzy
 msgid "Joystick 2"
-msgstr "Joystick:"
+msgstr "Joystick 2"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:65 src/arch/win32/res.rc.po.c:1326
 #, fuzzy
@@ -4750,7 +4690,7 @@ msgstr "Luminosité (0..2)"
 #. volume settings
 #: src/arch/unix/x11/gnome/uipalcontrol.c:73
 msgid "Volume"
-msgstr ""
+msgstr "Volume"
 
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
@@ -4763,7 +4703,7 @@ msgstr "Paramètres d'émulation PAL"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:196
 msgid "Mixer"
-msgstr ""
+msgstr "Mixeur"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
 #: src/arch/unix/x11/xaw/uiscreenshot.c:163
@@ -4797,7 +4737,7 @@ msgstr "Flux de données vidéo"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:451
 msgid "Half Framerate (25/30 fps)"
-msgstr ""
+msgstr "Moitié images par secondes (25/30 ips)"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:494
 #: src/arch/unix/x11/xaw/uiscreenshot.c:91
@@ -4898,9 +4838,8 @@ msgid "Specify X display depth (1..32)"
 msgstr "Sécifiez la profondeur des couleurs de votre affichage X (1..32)"
 
 #: src/arch/unix/x11/xrandr.c:283
-#, fuzzy
 msgid "Desktop"
-msgstr "*Bureau"
+msgstr "Bureau"
 
 #: src/arch/unix/x11/xaw/about.c:171 src/arch/win32/res.rc.po.c:963
 msgid "VICE Information"
@@ -5014,7 +4953,7 @@ msgstr "Ne pas utiliser la mémoire partagée (plus lent)"
 
 #: src/arch/unix/x11/xaw/x11video.c:276
 msgid "fourcc"
-msgstr ""
+msgstr "fourcc"
 
 #: src/arch/unix/x11/xaw/x11video.c:276
 msgid "Request YUV FOURCC format"
@@ -5045,34 +4984,32 @@ msgid "MITSHM initialization succeed.\n"
 msgstr "Initialisation MITSHM réussie.\n"
 
 #: src/arch/unix/macosx/joy.c:480
-#, fuzzy
 msgid "Set HID A device"
-msgstr "Périphérique ACIA"
+msgstr "Périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:485
 msgid "Set X Axis for HID A device"
-msgstr ""
+msgstr "Axe X pour le périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:490
 msgid "Set Y Axis for HID A device"
-msgstr ""
+msgstr "Axe Y pour le périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:495
-#, fuzzy
 msgid "Set Buttons for HID A device"
-msgstr "Périphérique ACIA"
+msgstr "Boutons pour périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:500
 msgid "Set Auto Fire Buttons for HID A device"
-msgstr ""
+msgstr "Feu Automatique pour le périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:505
 msgid "Set X Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Régler le seuil de l'axe X en % pour pour le périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:510
 msgid "Set Y Axis Threshold in Percent of HID A device"
-msgstr ""
+msgstr "Régler le seuil de l'axe Y en % pour pour le périphérique HID A"
 
 #: src/arch/unix/macosx/joy.c:515
 #, fuzzy
@@ -5081,11 +5018,11 @@ msgstr "Périphérique IEC réel"
 
 #: src/arch/unix/macosx/joy.c:520
 msgid "Set X Axis for HID B device"
-msgstr ""
+msgstr "Axe X pour le périphérique HID B"
 
 #: src/arch/unix/macosx/joy.c:525
 msgid "Set Y Axis for HID B device"
-msgstr ""
+msgstr "Axe Y pour le périphérique HID B"
 
 #: src/arch/unix/macosx/joy.c:530
 #, fuzzy
@@ -5094,56 +5031,56 @@ msgstr "Périphérique IEC réel"
 
 #: src/arch/unix/macosx/joy.c:535
 msgid "Set Auto Fire Buttons for HID B device"
-msgstr ""
+msgstr "Feu Automatique pour le périphérique HID B"
 
 #: src/arch/unix/macosx/joy.c:540
 msgid "Set X Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Régler le seuil de l'axe X en % pour pour le périphérique HID B"
 
 #: src/arch/unix/macosx/joy.c:545
 msgid "Set Y Axis Threshold in Percent of HID B device"
-msgstr ""
+msgstr "Régler le seuil de l'axe Y en % pour pour le périphérique HID B"
 
 #: src/arch/unix/macosx/joy.c:550
 msgid "Set Hat Switch for Joystick of HID A device"
-msgstr ""
+msgstr "Régler le POV pour le Joystick du périphérique A"
 
 #: src/arch/unix/macosx/joy.c:555
 msgid "Set Hat Switch for Joystick of HID B device"
-msgstr ""
+msgstr "Régler le POV pour le Joystick du périphérique B"
 
 #: src/arch/unix/macosx/mididrv.c:120
 msgid "Name of MIDI Client"
-msgstr ""
+msgstr "Nom du client MIDI"
 
 #: src/arch/unix/macosx/mididrv.c:125
 msgid "Name of MIDI-In Port"
-msgstr ""
+msgstr "Nom du port MIDI-IN"
 
 #: src/arch/unix/macosx/mididrv.c:130
 msgid "Name of MIDI-Out Port"
-msgstr ""
+msgstr "Nom du port MIDI-OUT"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:82
 msgid "Set scaling factor for mouse movement along X"
-msgstr ""
+msgstr "Régler le facteur d'échelle du mouvement de la souris sur axe X"
 
 #: src/arch/unix/macosx/cocoa/mousedrv.m:87
 msgid "Set scaling factor for mouse movement along Y"
-msgstr ""
+msgstr "Régler le facteur d'échelle du mouvement de la souris sur axe Y"
 
 #: src/arch/unix/macosx/cocoa/video.m:167
 msgid "Enable draw synchronization to vertical blank"
-msgstr ""
+msgstr "Activer le 'sync draw' avec 'vertical blank'"
 
 #: src/arch/unix/macosx/cocoa/video.m:172
 msgid "Set number of buffers used for sync draw (0=use default)"
-msgstr ""
+msgstr "Nombre de tampons utilisés pour 'sync draw' (0=défaut)"
 
 #: src/arch/unix/macosx/cocoa/video.m:177
 #: src/arch/unix/macosx/cocoa/video.m:182
 msgid "Enable flicker fixing in sync draw"
-msgstr ""
+msgstr "Activer correction de scintillement pour 'sync draw'"
 
 #: src/arch/win32/res.rc.po.c:104 src/arch/win32/res.rc.po.c:1409
 msgid "View"
@@ -5172,9 +5109,8 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2012 Dag Lem"
-msgstr " Copyright (c) 1998-2008 Dag Lem "
+msgstr " Copyright (c) 1998-2012 Dag Lem "
 
 #: src/arch/win32/res.rc.po.c:183
 #, fuzzy
@@ -5360,10 +5296,17 @@ msgid ""
 "\n"
 "for possible reasons and to activate networking with VICE."
 msgstr ""
+"Le support TFE/RR-Net n'est pas disponible sur votre système,\n"
+"car une partie important manque. SVP, jeter un coup d'oeil à\n"
+"la page Base de Connaissances VICE :\n"
+"\n"
+"      http://vicekb.trikaliotis.net/13-005\n"
+"\n"
+"pour les raisons possibles et pour activer le réseautage avec VICE."
 
 #: src/arch/win32/res.rc.po.c:984
 msgid "TFE/RR-Net support"
-msgstr ""
+msgstr "Support TFE/RR-Net"
 
 #: src/arch/win32/res.rc.po.c:985 src/arch/amigaos/intl_text.c.po.c:4891
 msgid "Cannot autostart specified file."
@@ -5767,7 +5710,7 @@ msgstr "Images de disques (*.d64;*.d71;*.d80;*.d81;*.d82;*.g64;*.g41;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
-msgstr ""
+msgstr "Fichiers IDE64 (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1116
 #, fuzzy
@@ -5856,9 +5799,8 @@ msgstr "Datassette:"
 
 #: src/arch/win32/res.rc.po.c:1141 src/arch/win32/resc64dtv.rc.po.c:482
 #: src/arch/amigaos/intl_text.c.po.c:6067
-#, fuzzy
 msgid "Joystick"
-msgstr "Joystick:"
+msgstr "Joystick"
 
 #: src/arch/win32/res.rc.po.c:1142
 #, c-format
@@ -6085,9 +6027,8 @@ msgid "Sound Fragment Size"
 msgstr "<tailleram>"
 
 #: src/arch/win32/res.rc.po.c:1231
-#, fuzzy
 msgid "Synchronization Method"
-msgstr "Méthode de synchronisation :"
+msgstr "Méthode de synchronisation"
 
 #: src/arch/win32/res.rc.po.c:1235
 #, fuzzy
@@ -6111,11 +6052,13 @@ msgstr "Rendu à la surface primaire DX"
 #, c-format
 msgid "Value %.3f for %s is out of range, using %.3f instead"
 msgstr ""
+"La valeur %.3f pour %s est en dehors de la plage valide, %.3f sera utilisé."
 
 #: src/arch/win32/res.rc.po.c:1243
 #, c-format
 msgid "Value %d for %s is out of range, using %d instead"
 msgstr ""
+"La valeur %d pour %s est en dehors de la plage valide, %d sera utilisé."
 
 #: src/arch/win32/res.rc.po.c:1244 src/arch/amigaos/intl_text.c.po.c:3071
 #, fuzzy
@@ -6148,9 +6091,8 @@ msgid "TED Palette"
 msgstr "Palette externe"
 
 #: src/arch/win32/res.rc.po.c:1259
-#, fuzzy
 msgid "VICII Colors"
-msgstr "Modèle SID"
+msgstr "Couleurs VICII"
 
 #: src/arch/win32/res.rc.po.c:1260
 #, fuzzy
@@ -6173,29 +6115,24 @@ msgid "TED Colors"
 msgstr "Couleurs"
 
 #: src/arch/win32/res.rc.po.c:1264
-#, fuzzy
 msgid "VICII CRT emulation"
-msgstr "Émulation PAL"
+msgstr "Émulation VICII CRT"
 
 #: src/arch/win32/res.rc.po.c:1265
-#, fuzzy
 msgid "VIC CRT emulation"
-msgstr "Émulation PAL"
+msgstr "Émulation VIC CRT"
 
 #: src/arch/win32/res.rc.po.c:1266
-#, fuzzy
 msgid "CRTC CRT emulation"
-msgstr "Émulation PAL"
+msgstr "Émulation CRTC CRT"
 
 #: src/arch/win32/res.rc.po.c:1267
-#, fuzzy
 msgid "VDC CRT emulation"
-msgstr "Émulation PAL"
+msgstr "Émulation VDC CRT"
 
 #: src/arch/win32/res.rc.po.c:1268
-#, fuzzy
 msgid "TED CRT emulation"
-msgstr "Émulation PAL"
+msgstr "Émulation TED CRT"
 
 #: src/arch/win32/res.rc.po.c:1269
 #, fuzzy
@@ -6224,23 +6161,23 @@ msgstr "Fichier de palette VDC"
 
 #: src/arch/win32/res.rc.po.c:1274
 msgid "VICII Audio leak"
-msgstr ""
+msgstr "Fuite Audio VICII"
 
 #: src/arch/win32/res.rc.po.c:1275
 msgid "VIC Audio leak"
-msgstr ""
+msgstr "Fuite Audio VIC"
 
 #: src/arch/win32/res.rc.po.c:1276
 msgid "CRTC Audio leak"
-msgstr ""
+msgstr "Fuite Audio CRTC"
 
 #: src/arch/win32/res.rc.po.c:1277
 msgid "VDC Audio leak"
-msgstr ""
+msgstr "Fuite Audio VDC"
 
 #: src/arch/win32/res.rc.po.c:1278
 msgid "TED Audio leak"
-msgstr ""
+msgstr "Fuite Audio TED"
 
 #: src/arch/win32/res.rc.po.c:1279
 #, fuzzy
@@ -6437,7 +6374,7 @@ msgstr "Kernal"
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "SCPU64"
-msgstr ""
+msgstr "SCPU64"
 
 #: src/arch/win32/res.rc.po.c:1348
 msgid "Basic"
@@ -6477,7 +6414,7 @@ msgstr "Exporter le mappage clavier dans un fichier"
 
 #: src/arch/win32/res.rc.po.c:1357
 msgid "Dump shortcuts"
-msgstr ""
+msgstr "Raccourcis Dump"
 
 #: src/arch/win32/res.rc.po.c:1358
 msgid "Symbolic US"
@@ -6521,12 +6458,10 @@ msgid "Drive type"
 msgstr "Type de lecteur"
 
 #: src/arch/win32/res.rc.po.c:1368 src/arch/amigaos/intl_text.c.po.c:6655
-#, fuzzy
 msgid "40 track handling"
 msgstr "Prise en charge du 40 pistes"
 
 #: src/arch/win32/res.rc.po.c:1372 src/arch/amigaos/intl_text.c.po.c:6683
-#, fuzzy
 msgid "Idle method"
 msgstr "Méthode d'idle"
 
@@ -6570,9 +6505,8 @@ msgstr "*Expansion de RAM $A000-$BFFF"
 #: src/arch/win32/resexpert.rc.po.c:42 src/arch/win32/respet.rc.po.c:78
 #: src/arch/win32/resplus4.rc.po.c:93 src/arch/win32/resscpu64.rc.po.c:91
 #: src/arch/win32/resvic20.rc.po.c:100 src/translate_text.c.po.c:10871
-#, fuzzy
 msgid "Mode"
-msgstr "Modèle"
+msgstr "Mode"
 
 #: src/arch/win32/res.rc.po.c:1404 src/arch/win32/rescbm2.rc.po.c:186
 #: src/arch/win32/rescbm5x0.rc.po.c:185 src/arch/win32/respet.rc.po.c:173
@@ -6759,9 +6693,8 @@ msgid "Select History files/directory"
 msgstr "Sélectionnez le répertoire des captures"
 
 #: src/arch/win32/res.rc.po.c:1492 src/arch/amigaos/intl_text.c.po.c:1349
-#, fuzzy
 msgid "Save/stop media file"
-msgstr "Enregistrer/Arrêter fichier média...\tAlt+C"
+msgstr "Enregistrer/Arrêter fichier média"
 
 #: src/arch/win32/res.rc.po.c:1498 src/arch/amigaos/intl_text.c.po.c:1671
 msgid "Warp mode"
@@ -6772,9 +6705,8 @@ msgid "Always on Top"
 msgstr "Toujours au dessus"
 
 #: src/arch/win32/res.rc.po.c:1504 src/arch/amigaos/intl_text.c.po.c:1965
-#, fuzzy
 msgid "Enable Joy Keys"
-msgstr "*Activer la souris"
+msgstr "Activer les touches joystick"
 
 #: src/arch/win32/res.rc.po.c:1505 src/arch/amigaos/intl_text.c.po.c:2049
 msgid "Virtual device traps"
@@ -6783,29 +6715,24 @@ msgstr "Activer les périphériques virtuels"
 #: src/arch/win32/res.rc.po.c:1507 src/arch/win32/resc64.rc.po.c:619
 #: src/arch/win32/resscpu64.rc.po.c:615 src/arch/amigaos/intl_text.c.po.c:2245
 #: src/arch/amigaos/intl_text.c.po.c:11836
-#, fuzzy
 msgid "C64 model settings"
-msgstr "Paramètres du modèle PET"
+msgstr "Paramètres du modèle C64"
 
 #: src/arch/win32/res.rc.po.c:1512
-#, fuzzy
 msgid "Userport joystick settings"
-msgstr "Paramètres des joysticks..."
+msgstr "Paramètres des joysticks userport"
 
 #: src/arch/win32/res.rc.po.c:1513
-#, fuzzy
 msgid "Sidcart joystick settings"
-msgstr "Paramètres des joysticks..."
+msgstr "Paramètres des joysticks sidcart"
 
 #: src/arch/win32/res.rc.po.c:1520 src/arch/amigaos/intl_text.c.po.c:3379
 #: src/arch/amigaos/intl_text.c.po.c:11276
-#, fuzzy
 msgid "Mouse settings"
 msgstr "Paramètres de souris"
 
 #: src/arch/win32/res.rc.po.c:1523 src/arch/amigaos/intl_text.c.po.c:3519
 #: src/arch/amigaos/intl_text.c.po.c:8112
-#, fuzzy
 msgid "REU settings"
 msgstr "Paramètres REU"
 
@@ -6813,23 +6740,20 @@ msgstr "Paramètres REU"
 #: src/arch/win32/resvic20.rc.po.c:563 src/arch/amigaos/intl_text.c.po.c:3547
 #: src/arch/amigaos/intl_text.c.po.c:3561
 #: src/arch/amigaos/intl_text.c.po.c:6795
-#, fuzzy
 msgid "GEO-RAM settings"
-msgstr "Paramètres GEORAM"
+msgstr "Paramètres GEO-RAM"
 
 #: src/arch/win32/res.rc.po.c:1525 src/arch/win32/resramcart.rc.po.c:41
 #: src/arch/amigaos/intl_text.c.po.c:3575
 #: src/arch/amigaos/intl_text.c.po.c:8042
-#, fuzzy
 msgid "RamCart settings"
-msgstr "Paramètres CRTC"
+msgstr "Paramètres RamCart"
 
 #: src/arch/win32/res.rc.po.c:1526 src/arch/win32/resdqbb.rc.po.c:13
 #: src/arch/win32/resdqbb.rc.po.c:37 src/arch/amigaos/intl_text.c.po.c:3589
 #: src/arch/amigaos/intl_text.c.po.c:6963
-#, fuzzy
 msgid "Double Quick Brown Box settings"
-msgstr "Paramètres des joysticks..."
+msgstr "Paramètres Double Quick Brown Box"
 
 #: src/arch/win32/res.rc.po.c:1527 src/arch/win32/resexpert.rc.po.c:40
 #: src/arch/amigaos/intl_text.c.po.c:3617
@@ -7005,11 +6929,11 @@ msgstr "Polonais"
 
 #: src/arch/win32/res.rc.po.c:1564 src/arch/amigaos/intl_text.c.po.c:4485
 msgid "Russian"
-msgstr ""
+msgstr "Russe"
 
 #: src/arch/win32/res.rc.po.c:1566 src/arch/amigaos/intl_text.c.po.c:4513
 msgid "Turkish"
-msgstr ""
+msgstr "Turc"
 
 #: src/arch/win32/res.rc.po.c:1571 src/arch/amigaos/intl_text.c.po.c:1685
 msgid "Fullscreen"
@@ -7130,9 +7054,8 @@ msgid "ACIA location"
 msgstr "Emplacement ACIA"
 
 #: src/arch/win32/resacia.rc.po.c:89 src/arch/amigaos/intl_text.c.po.c:6151
-#, fuzzy
 msgid "ACIA mode"
-msgstr "Périphérique ACIA"
+msgstr "Mode ACIA"
 
 #: src/arch/win32/resautostart.rc.po.c:47
 #, fuzzy
@@ -7308,27 +7231,27 @@ msgstr "Paramètres du modèle CBM-II"
 #: src/arch/win32/resc64.rc.po.c:612 src/arch/win32/resscpu64.rc.po.c:608
 #: src/arch/amigaos/intl_text.c.po.c:11626
 msgid "6569 (PAL)"
-msgstr ""
+msgstr "6569 (PAL)"
 
 #: src/arch/win32/resc64.rc.po.c:613 src/arch/win32/resscpu64.rc.po.c:609
 #: src/arch/amigaos/intl_text.c.po.c:11640
 msgid "8565 (PAL)"
-msgstr ""
+msgstr "8565 (PAL)"
 
 #: src/arch/win32/resc64.rc.po.c:615 src/arch/win32/resscpu64.rc.po.c:611
 #: src/arch/amigaos/intl_text.c.po.c:11668
 msgid "6567 (NTSC)"
-msgstr ""
+msgstr "6567 (NTSC)"
 
 #: src/arch/win32/resc64.rc.po.c:616 src/arch/win32/resscpu64.rc.po.c:612
 #: src/arch/amigaos/intl_text.c.po.c:11682
 msgid "8562 (NTSC)"
-msgstr ""
+msgstr "8562 (NTSC)"
 
 #: src/arch/win32/resc64.rc.po.c:618 src/arch/win32/resscpu64.rc.po.c:614
 #: src/arch/amigaos/intl_text.c.po.c:11710
 msgid "6572 (PAL-N)"
-msgstr ""
+msgstr "6572 (PAL-N)"
 
 #: src/arch/win32/resc64.rc.po.c:620 src/arch/win32/resc64.rc.po.c:627
 #: src/arch/win32/resscpu64.rc.po.c:616 src/arch/win32/resscpu64.rc.po.c:624
@@ -7343,7 +7266,7 @@ msgstr "*Activer l'émulation réelle de lecteur"
 
 #: src/arch/win32/resc64.rc.po.c:622 src/arch/win32/resscpu64.rc.po.c:618
 msgid "C64 drive burst modification CIA"
-msgstr ""
+msgstr "Modification CIA \"Burst drive\" pour C64"
 
 #: src/arch/win32/resc64.rc.po.c:623 src/arch/win32/resscpu64.rc.po.c:623
 #: src/arch/amigaos/intl_text.c.po.c:1363
@@ -7398,7 +7321,7 @@ msgstr "Insérer une image de disque"
 
 #: src/arch/win32/resc64dtv.rc.po.c:472
 msgid "DTV ROM"
-msgstr ""
+msgstr "ROM DTV"
 
 #: src/arch/win32/resc64dtv.rc.po.c:475 src/arch/win32/resc64dtv.rc.po.c:492
 #: src/arch/amigaos/intl_text.c.po.c:4093
@@ -7408,9 +7331,8 @@ msgid "C64DTV settings"
 msgstr "Paramètres IDE64"
 
 #: src/arch/win32/resc64dtv.rc.po.c:476 src/arch/win32/resc64dtv.rc.po.c:483
-#, fuzzy
 msgid "C64DTV model"
-msgstr "Modèle SID"
+msgstr "Modèle C64DTV"
 
 #: src/arch/win32/resc64dtv.rc.po.c:477 src/translate_text.c.po.c:4289
 #, fuzzy
@@ -7424,11 +7346,11 @@ msgstr "Création d'image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:479
 msgid "DTV ROM Creation"
-msgstr ""
+msgstr "Création ROM DTV"
 
 #: src/arch/win32/resc64dtv.rc.po.c:480
 msgid "Copy C64 ROMS into image"
-msgstr ""
+msgstr "Copier ROMS C64 dans l'image"
 
 #: src/arch/win32/resc64dtv.rc.po.c:481
 #, fuzzy
@@ -7446,9 +7368,8 @@ msgid "Attach flash rom image"
 msgstr "Insérer une image de &disque"
 
 #: src/arch/win32/resc64dtv.rc.po.c:488
-#, fuzzy
 msgid "Detach flash rom image"
-msgstr "Retirer une image de disque"
+msgstr "Détacher une image de disque"
 
 #: src/arch/win32/resc64dtv.rc.po.c:490
 #, fuzzy
@@ -7543,9 +7464,8 @@ msgid "CBM2 settings"
 msgstr "Paramètres CBM2"
 
 #: src/arch/win32/rescbm2.rc.po.c:302
-#, fuzzy
 msgid "CBM2 model"
-msgstr "Périphérique ACIA"
+msgstr "Modèle CBM2"
 
 #: src/arch/win32/rescbm2.rc.po.c:304 src/arch/amigaos/intl_text.c.po.c:2805
 #, fuzzy
@@ -7564,9 +7484,8 @@ msgid "64 kByte"
 msgstr "64 kOctets"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:302
-#, fuzzy
 msgid "CBM5x0 model"
-msgstr "Modèle VDC"
+msgstr "Modèle CBM5x0"
 
 #: src/arch/win32/rescbm5x0.rc.po.c:304 src/arch/amigaos/intl_text.c.po.c:2945
 #, fuzzy
@@ -7595,9 +7514,8 @@ msgid "Select file for DQBB"
 msgstr "Sélectionner fichier pour REU"
 
 #: src/arch/win32/resdqbb.rc.po.c:38 src/translate_text.c.po.c:4969
-#, fuzzy
 msgid "Enable Double Quick Brown Box"
-msgstr "Paramètres des joysticks..."
+msgstr "Activer Double Quick Brown Box"
 
 #: src/arch/win32/resdqbb.rc.po.c:39 src/arch/amigaos/intl_text.c.po.c:6935
 #, fuzzy
@@ -7612,7 +7530,7 @@ msgstr "Activer Scale2x"
 #: src/arch/win32/resds12c887rtc.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:10856
 msgid "DS12C887 RTC base"
-msgstr ""
+msgstr "Base RTC DS12C887"
 
 #: src/arch/win32/reseasyflash.rc.po.c:30
 #: src/arch/amigaos/intl_text.c.po.c:11584
@@ -7852,14 +7770,12 @@ msgid "IO Settings"
 msgstr "Paramètres E/S"
 
 #: src/arch/win32/respet.rc.po.c:556 src/arch/amigaos/intl_text.c.po.c:10548
-#, fuzzy
 msgid "$9*** as RAM"
-msgstr "$9*** comme RAM (8296 seulement)"
+msgstr "$9*** comme RAM"
 
 #: src/arch/win32/respet.rc.po.c:557 src/arch/amigaos/intl_text.c.po.c:10562
-#, fuzzy
 msgid "$A*** as RAM"
-msgstr "*$A*** comme RAM (8296 seulement)"
+msgstr "$A*** comme RAM (8296 seulement)"
 
 #: src/arch/win32/respet.rc.po.c:560 src/arch/win32/respetdww.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:4023
@@ -7993,9 +7909,8 @@ msgid "4096 kByte (HANNES)"
 msgstr "4096 kOctets (HANNES)"
 
 #: src/arch/win32/resplus4.rc.po.c:495
-#, fuzzy
 msgid "Plus4 model"
-msgstr "Modèle C64"
+msgstr "Modèle Plus4"
 
 #: src/arch/win32/resplus4.rc.po.c:496 src/arch/amigaos/intl_text.c.po.c:551
 #, fuzzy
@@ -8136,9 +8051,8 @@ msgid "SIMM size"
 msgstr "Taille du GEORAM"
 
 #: src/arch/win32/resscpu64.rc.po.c:621
-#, fuzzy
 msgid "Enable the jiffy switch"
-msgstr "&Activer ACIA"
+msgstr "Activer 'Jiffy Switch'"
 
 #: src/arch/win32/resscpu64.rc.po.c:622
 #, fuzzy
@@ -8156,7 +8070,7 @@ msgstr "&Activer ACIA"
 
 #: src/arch/win32/ressid.rc.po.c:79
 msgid "Amount of extra SID chips"
-msgstr ""
+msgstr "Quantité de puces SID supplémentaires"
 
 #: src/arch/win32/ressid.rc.po.c:80
 #, fuzzy
@@ -8387,7 +8301,7 @@ msgstr "Collisions de Sprites"
 #: src/arch/win32/resvsid.rc.po.c:32 src/arch/win32/resvsid.rc.po.c:138
 #: src/arch/amigaos/intl_text.c.po.c:4639
 msgid "Media"
-msgstr ""
+msgstr "Média"
 
 #: src/arch/win32/resvsid.rc.po.c:131
 #, fuzzy
@@ -8410,9 +8324,8 @@ msgid "Next tune"
 msgstr "Suivant: "
 
 #: src/arch/win32/resvsid.rc.po.c:136 src/arch/amigaos/intl_text.c.po.c:4625
-#, fuzzy
 msgid "Previous tune"
-msgstr "Précédent: "
+msgstr "Chanson précédente"
 
 #: src/arch/amigaos/intl_text.c.po.c:635
 #, fuzzy
@@ -8486,7 +8399,7 @@ msgstr "10%"
 
 #: src/arch/amigaos/intl_text.c.po.c:1741
 msgid "Vertical stretch"
-msgstr ""
+msgstr "Étirement vertical"
 
 #: src/arch/amigaos/intl_text.c.po.c:2077
 msgid "PAL"
@@ -8507,11 +8420,11 @@ msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2259
 msgid "C64 PAL"
-msgstr ""
+msgstr "RTC baseC64 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2273
 msgid "C64C PAL"
-msgstr ""
+msgstr "C64C PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2301
 #, fuzzy
@@ -8525,7 +8438,7 @@ msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2343
 msgid "Drean"
-msgstr ""
+msgstr "Rêve"
 
 #: src/arch/amigaos/intl_text.c.po.c:2357
 #, fuzzy
@@ -8543,9 +8456,8 @@ msgid "C16 NTSC"
 msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2413
-#, fuzzy
 msgid "Plus4 PAL"
-msgstr "Modèle C64"
+msgstr "Plus4 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2427
 #, fuzzy
@@ -8589,11 +8501,11 @@ msgstr "&Activer ACIA"
 
 #: src/arch/amigaos/intl_text.c.po.c:2567
 msgid "C128 PAL"
-msgstr ""
+msgstr "C128 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2581
 msgid "C128DCR PAL"
-msgstr ""
+msgstr "C128DCR PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2595
 #, fuzzy
@@ -8607,47 +8519,47 @@ msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2637
 msgid "2001"
-msgstr ""
+msgstr "2001"
 
 #: src/arch/amigaos/intl_text.c.po.c:2651
 msgid "3008"
-msgstr ""
+msgstr "3008"
 
 #: src/arch/amigaos/intl_text.c.po.c:2665
 msgid "3016"
-msgstr ""
+msgstr "3016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2679
 msgid "3032"
-msgstr ""
+msgstr "3032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2693
 msgid "3032B"
-msgstr ""
+msgstr "3032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2707
 msgid "4016"
-msgstr ""
+msgstr "4016"
 
 #: src/arch/amigaos/intl_text.c.po.c:2721
 msgid "4032"
-msgstr ""
+msgstr "4032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2735
 msgid "4032B"
-msgstr ""
+msgstr "4032B"
 
 #: src/arch/amigaos/intl_text.c.po.c:2749
 msgid "8032"
-msgstr ""
+msgstr "8032"
 
 #: src/arch/amigaos/intl_text.c.po.c:2763
 msgid "8096"
-msgstr ""
+msgstr "8096"
 
 #: src/arch/amigaos/intl_text.c.po.c:2777
 msgid "8296"
-msgstr ""
+msgstr "8296"
 
 #: src/arch/amigaos/intl_text.c.po.c:2791
 #, fuzzy
@@ -8656,7 +8568,7 @@ msgstr "ACIA SuperPET"
 
 #: src/arch/amigaos/intl_text.c.po.c:2819
 msgid "CBM610 PAL"
-msgstr ""
+msgstr "CBM610 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2833
 #, fuzzy
@@ -8665,7 +8577,7 @@ msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2847
 msgid "CBM620 PAL"
-msgstr ""
+msgstr "CBM620 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2861
 #, fuzzy
@@ -8674,7 +8586,7 @@ msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2875
 msgid "CBM620+ PAL"
-msgstr ""
+msgstr "CBM620+ PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2889
 #, fuzzy
@@ -8698,7 +8610,7 @@ msgstr "*NTSC-M"
 
 #: src/arch/amigaos/intl_text.c.po.c:2959
 msgid "CBM510 PAL"
-msgstr ""
+msgstr "CBM510 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2973
 #, fuzzy
@@ -8793,12 +8705,14 @@ msgstr "Enregistrement du son..."
 #: src/arch/amigaos/intl_text.c.po.c:4667
 #, c-format
 msgid "Value %d out of range, range is from %d to %d, using %d instead"
-msgstr ""
+msgstr "Valeur %d en dehors de la plage %d to %d, utilisation de %d à la place"
 
 #: src/arch/amigaos/intl_text.c.po.c:4681
 #, c-format
 msgid "Value %.3f out of range, range is from %.3f to %.3f, using %.3f instead"
 msgstr ""
+"Valeur %.3f en dehors de la plage %.3f to %.3f, utilisation de %.3f à la "
+"place"
 
 #: src/arch/amigaos/intl_text.c.po.c:4737
 msgid "VICE Message"
@@ -8877,7 +8791,7 @@ msgstr "*Dolphin DOS 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:6025
 msgid "Formel64"
-msgstr ""
+msgstr "Formel64"
 
 #: src/arch/amigaos/intl_text.c.po.c:6039
 #, fuzzy
@@ -8886,7 +8800,7 @@ msgstr "Système de fichiers"
 
 #: src/arch/amigaos/intl_text.c.po.c:6053
 msgid "Raw"
-msgstr ""
+msgstr "Raw"
 
 #: src/arch/amigaos/intl_text.c.po.c:6179
 #, fuzzy
@@ -8900,7 +8814,7 @@ msgstr "Sélectionner fichier pour REU"
 
 #: src/arch/amigaos/intl_text.c.po.c:6291
 msgid "Writes to C64DTV ROM"
-msgstr ""
+msgstr "Écriture dans le ROM C64DTV"
 
 #: src/arch/amigaos/intl_text.c.po.c:6347 src/translate_text.c.po.c:7130
 #, fuzzy
@@ -8908,14 +8822,12 @@ msgid "RAM size"
 msgstr "Taille du GEORAM"
 
 #: src/arch/amigaos/intl_text.c.po.c:6361
-#, fuzzy
 msgid "RAM Block $0400-$0FFF"
-msgstr "*Block 0 (3Ko à $0400-$0FFF)"
+msgstr "Bloc 0 (3Ko à $0400-$0FFF)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6375
-#, fuzzy
 msgid "RAM Block $0800-$0FFF"
-msgstr "*Block 0 (3Ko à $0400-$0FFF)"
+msgstr "Bloc 0 (3Ko à $0400-$0FFF)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6389
 #, fuzzy
@@ -8923,24 +8835,20 @@ msgid "RAM Block $1000-$1FFF"
 msgstr "*Banque 15 $1000-$1FFF RAM"
 
 #: src/arch/amigaos/intl_text.c.po.c:6403
-#, fuzzy
 msgid "RAM Block $2000-$3FFF"
-msgstr "*Block 1 (8Ko à $2000-$3FFF)"
+msgstr "Bloc 1 (8Ko à $2000-$3FFF)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6417
-#, fuzzy
 msgid "RAM Block $4000-$5FFF"
-msgstr "*Block 2 (8Ko à $4000-$5FFF)"
+msgstr "Bloc 2 (8Ko à $4000-$5FFF)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6431
-#, fuzzy
 msgid "RAM Block $6000-$7FFF"
-msgstr "*Block 3 (8Ko à $6000-$7FFF)"
+msgstr "Bloc 3 (8Ko à $6000-$7FFF)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6445
-#, fuzzy
 msgid "RAM Block $A000-$BFFF"
-msgstr "*Block 5 (8Ko à $A000-$BFFF)"
+msgstr "Bloc 5 (8Ko à $A000-$BFFF)"
 
 #: src/arch/amigaos/intl_text.c.po.c:6459
 #, fuzzy
@@ -8971,12 +8879,10 @@ msgid "Joy Port 0"
 msgstr "Port joystick 0"
 
 #: src/arch/amigaos/intl_text.c.po.c:7230
-#, fuzzy
 msgid "Joy Port 1"
 msgstr "Port joystick 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:7244
-#, fuzzy
 msgid "Joy Port 2"
 msgstr "Port joystick 2"
 
@@ -9201,19 +9107,16 @@ msgid "Send formfeed to userport printer"
 msgstr "Spécifiez le nom du périphérique de sortie pour l'imprimante userport"
 
 #: src/arch/amigaos/intl_text.c.po.c:8490
-#, fuzzy
 msgid "Printer device #1 output"
-msgstr "Périphérique d'imprimante texte #1"
+msgstr "Sortie du périphérique d'imprimante texte 1"
 
 #: src/arch/amigaos/intl_text.c.po.c:8504
-#, fuzzy
 msgid "Printer device #2 output"
-msgstr "Périphérique d'imprimante texte #2"
+msgstr "Sortie du périphérique d'imprimante texte 2"
 
 #: src/arch/amigaos/intl_text.c.po.c:8518
-#, fuzzy
 msgid "Printer device #3 output"
-msgstr "Périphérique d'imprimante texte #3"
+msgstr "Sortie du périphérique d'imprimante texte 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:8532
 #, fuzzy
@@ -9362,7 +9265,7 @@ msgstr "Palette externe"
 
 #: src/arch/amigaos/intl_text.c.po.c:10436
 msgid "Text"
-msgstr ""
+msgstr "Texte"
 
 #: src/arch/amigaos/intl_text.c.po.c:10520
 #, fuzzy
@@ -9375,13 +9278,12 @@ msgid "Current Model"
 msgstr "Fichier image ROM courant"
 
 #: src/arch/amigaos/intl_text.c.po.c:10604
-#, fuzzy
 msgid "PET Model"
-msgstr "Modèle"
+msgstr "Modèle PET"
 
 #: src/arch/amigaos/intl_text.c.po.c:10730
 msgid "RAM banks 2 & 3"
-msgstr ""
+msgstr "Banques RAM 2 & 3"
 
 #: src/arch/amigaos/intl_text.c.po.c:10758
 #, fuzzy
@@ -9395,7 +9297,7 @@ msgstr "Activer"
 
 #: src/arch/amigaos/intl_text.c.po.c:10842
 msgid "DS12C887 RTC Enabled"
-msgstr ""
+msgstr "DS12C887 RTC Activé"
 
 #: src/arch/amigaos/intl_text.c.po.c:10884
 #, fuzzy
@@ -9414,11 +9316,11 @@ msgstr "*Émulation de la souris 1351"
 
 #: src/arch/amigaos/intl_text.c.po.c:10954
 msgid "Jiffy switch enabled"
-msgstr ""
+msgstr "'Jiffy switch' activée"
 
 #: src/arch/amigaos/intl_text.c.po.c:10968
 msgid "Speed switch enabled"
-msgstr ""
+msgstr "'Speed switch' activée"
 
 #: src/arch/amigaos/intl_text.c.po.c:11038
 #, fuzzy
@@ -9443,7 +9345,7 @@ msgstr "Souris Amiga"
 
 #: src/arch/amigaos/intl_text.c.po.c:11360
 msgid "Atari CX-22 trackball"
-msgstr ""
+msgstr "Trackball Atari CX-22"
 
 #: src/arch/amigaos/intl_text.c.po.c:11374
 #, fuzzy
@@ -9457,15 +9359,15 @@ msgstr "Souris Amiga"
 
 #: src/arch/amigaos/intl_text.c.po.c:11402
 msgid "MicroMys mouse"
-msgstr ""
+msgstr "Souris MicroMys"
 
 #: src/arch/amigaos/intl_text.c.po.c:11598
 msgid "Save to EasyFlash CRT file on detach"
-msgstr ""
+msgstr "Enregistrer sur fichier CRT EasyFlash au détachement"
 
 #: src/arch/amigaos/intl_text.c.po.c:11612
 msgid "Save to EasyFlash CRT now"
-msgstr ""
+msgstr "Enregistrer sur fichier CRT EasyFlash maintenant"
 
 #: src/arch/amigaos/intl_text.c.po.c:11850
 #, fuzzy
@@ -9696,7 +9598,6 @@ msgid "I/O read collision at %X from "
 msgstr "Collision lors de la lecture E/S at %X à partir de "
 
 #: src/translate_text.c.po.c:824
-#, fuzzy
 msgid " and "
 msgstr " et "
 
@@ -9713,6 +9614,8 @@ msgid ""
 ".\n"
 "All devices except "
 msgstr ""
+".\n"
+"Tous périphériques excepté  "
 
 #: src/translate_text.c.po.c:875
 #, fuzzy
@@ -9749,12 +9652,12 @@ msgstr "Sauvegarde des paramètres effectuée correctement."
 #: src/translate_text.c.po.c:994
 #, c-format
 msgid "Command `%s' unknown.\n"
-msgstr ""
+msgstr "Commande `%s' inconnue.\n"
 
 #: src/translate_text.c.po.c:1011
 #, c-format
 msgid "No help available for `%s'\n"
-msgstr ""
+msgstr "Aucune aide à propos de`%s'\n"
 
 #: src/translate_text.c.po.c:1028
 #, c-format
@@ -9762,11 +9665,13 @@ msgid ""
 "\n"
 "Syntax: %s %s\n"
 msgstr ""
+"\n"
+"Syntaxe: %s %s\n"
 
 #: src/translate_text.c.po.c:1045
 #, c-format
 msgid "Abbreviation: %s\n"
-msgstr ""
+msgstr "Abbréviation: %s\n"
 
 #: src/translate_text.c.po.c:1062
 #, fuzzy
@@ -9783,11 +9688,11 @@ msgstr "Commandes d'enregistrement"
 
 #: src/translate_text.c.po.c:1096
 msgid "memspace"
-msgstr ""
+msgstr "espace mémoire"
 
 #: src/translate_text.c.po.c:1113
 msgid "bankname"
-msgstr ""
+msgstr "nom de la banque"
 
 #: src/translate_text.c.po.c:1130
 msgid ""
@@ -9795,6 +9700,9 @@ msgid ""
 "If bankname is given set the current bank in the memspace to the given\n"
 "bank."
 msgstr ""
+"Si le nom de la banque n'est pas donné, afficher les banques possible pour\n"
+"cet espace mémoire. Si le nom de la banque est donnée, régler la banques\n"
+"courante de l'espace mémoire à cette banque sélectionnée."
 
 #: src/translate_text.c.po.c:1147
 msgid ""
@@ -9802,10 +9710,13 @@ msgid ""
 "relative to SP+1 is printed in parentheses. This is a best guess\n"
 "only."
 msgstr ""
+"Afficher la chaine d'appels JSR (plus récent appel en premier)\n"
+"L'emplacement de la pile relatif à SP+1 est affiché entre\n"
+"paranthèses. Il ne s'agit que de la meilleure estimation possible."
 
 #: src/translate_text.c.po.c:1164
 msgid "Specify the type of CPU currently used (6502/z80)."
-msgstr ""
+msgstr "Spécifiez le type de processeur utilisé (6502/z80)."
 
 #: src/translate_text.c.po.c:1181
 #, fuzzy
@@ -9814,7 +9725,7 @@ msgstr "Sud"
 
 #: src/translate_text.c.po.c:1198
 msgid "Show <count> last executed commands."
-msgstr ""
+msgstr "Afficher les <count> dernières commandes exécutées."
 
 #: src/translate_text.c.po.c:1215 src/translate_text.c.po.c:11629
 #, fuzzy
@@ -9827,6 +9738,9 @@ msgid ""
 "This snapshot is compatible with a snapshot written out by the UI.\n"
 "Note: No ROM images are included into the dump."
 msgstr ""
+"Écrire un instantané de la machine dans le fichier spécifié.\n"
+"Cet instantané est compatible avec les instantanés de l'IU.\n"
+"Note: Aucune image ROM n'est incluse dans l'instantané."
 
 #: src/translate_text.c.po.c:1249
 #, fuzzy
@@ -9835,61 +9749,71 @@ msgstr "<adresse de base>"
 
 #: src/translate_text.c.po.c:1266
 msgid "Change the PC to ADDRESS and continue execution"
-msgstr ""
+msgstr "Modifier le PC à l'ADRESSE et continuer l'exécution"
 
 #: src/translate_text.c.po.c:1283
 msgid "Print out the I/O area of the emulated machine."
-msgstr ""
+msgstr "Afficher la zone d'E/S de la machine émulée."
 
 #: src/translate_text.c.po.c:1300
 msgid "Print out list of attached expansion port devices."
-msgstr ""
+msgstr "Afficher la liste des périphériques attachés aux ports d'expansion."
 
 #: src/translate_text.c.po.c:1317
 msgid ""
 "Advance to the next instruction.  Subroutines are treated as\n"
 "a single instruction."
 msgstr ""
+"Avancer à la prochaine instruction. Les sous-routines sont\n"
+"traitées comme étant une seule instruction."
 
 #: src/translate_text.c.po.c:1334
 msgid "reg_name"
-msgstr ""
+msgstr "reg_name"
 
 #: src/translate_text.c.po.c:1368
 msgid ""
 "Assign respective registers.  With no parameters, display register\n"
 "values."
 msgstr ""
+"Assigner des registres respectifs. Sans paramètres, affichera\n"
+"les valeurs des registres."
 
 #: src/translate_text.c.po.c:1385
 msgid "Reset the machine or drive. Type: 0 = soft, 1 = hard, 8-11 = drive."
-msgstr ""
+msgstr "Réinitialiser la machine ou le lecteur. (0=Soft, 1=Hard, 8-11=Lecteur)"
 
 #: src/translate_text.c.po.c:1402
 msgid ""
 "Continues execution and returns to the monitor just before the next\n"
 "RTS or RTI is executed."
 msgstr ""
+"Continuer l'exécution et retourner au moniteur juste avant la prochaine\n"
+"exécution de RTS ou RTI."
 
 #: src/translate_text.c.po.c:1419
 msgid "Displays the contents of the screen."
-msgstr ""
+msgstr "Affiche le contenu de l'écran."
 
 #: src/translate_text.c.po.c:1436
 msgid ""
 "Single-step through instructions.  COUNT allows stepping\n"
 "more than a single instruction at a time."
 msgstr ""
+"Instructions à étape-unique. COUNT permet de faire pas-à-pas plus qu'une "
+"seule instruction à la fois."
 
 #: src/translate_text.c.po.c:1453
 msgid ""
 "Print the CPU cycle counter of the current device. 'reset' sets the counter "
 "to 0."
 msgstr ""
+"Afficher le compteur du cycle CPU du pépiphérique actuel. 'reset' remet ce "
+"compteur à 0."
 
 #: src/translate_text.c.po.c:1470
 msgid "Read a snapshot of the machine from the file specified."
-msgstr ""
+msgstr "Lire un instantané de machine depuis le fichier spécifié."
 
 #: src/translate_text.c.po.c:1487
 #, fuzzy
@@ -9898,7 +9822,7 @@ msgstr "Commandes d'enregistrement"
 
 #: src/translate_text.c.po.c:1504
 msgid "label"
-msgstr ""
+msgstr "label"
 
 #: src/translate_text.c.po.c:1521
 msgid ""
@@ -9910,6 +9834,16 @@ msgid ""
 "assembly code and is shown during disassembly.  Additionally, it can\n"
 "be used whenever an address must be specified."
 msgstr ""
+"<memspace> est un des choix suivants (C: 8: 9: 10: 11:)\n"
+"<address>  est l'adresse qui devrait prendre le label.\n"
+"<label>    est le nom de l'étiquette; il doit commencer par un point (\"."
+"\").\n"
+"\n"
+"Associe une adresse a une étiquette. Cette étiquette peut être utilisé en "
+"entrant\n"
+"du code assembleur et est montré durant le déassemblement. Aussi, vous "
+"pouvez\n"
+"l'utiliser à tout moment ou une adresse doit être entrée."
 
 #: src/translate_text.c.po.c:1538
 msgid ""
@@ -9918,6 +9852,10 @@ msgid ""
 "\n"
 "Delete a previously defined label."
 msgstr ""
+"<memspace> est un des choix suivants (C: 8: 9: 10: 11:)\n"
+"<label>    est le nom de l'étiquette et commence par un point (\".\").\n"
+"\n"
+"Détruit une étiquette préalablement créée."
 
 #: src/translate_text.c.po.c:1555
 msgid ""
@@ -9927,30 +9865,39 @@ msgid ""
 "The format of the file is the one written out by the `save_labels' command;\n"
 "it consists of some `add_label' commands, written one after the other."
 msgstr ""
+"Charge un fichier contenant des étiquettes d'adresses. Si aucune adresse\n"
+"mémoire n'est spécifiée, l'adressage par défaut est utilisé.\n"
+"\n"
+"Le format du fichier est celui utilisé par la commande `save_labels';\n"
+"Il consiste de quelques commandes `add_label', écrites l'une après l'autre."
 
 #: src/translate_text.c.po.c:1572
 msgid ""
 "Save labels to a file.  If no memory space is specified, all of the\n"
 "labels are saved."
 msgstr ""
+"Enregistres les étiquettes dans un fichier. Si aucune adresse mémoire\n"
+"n'est spécifiée, toutes les étiquettes mémoires sont sauvegardées."
 
 #: src/translate_text.c.po.c:1589
 msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
 msgstr ""
+"Affiche les étiquettes mémoires actuelles. Si aucune adresse mémoire\n"
+"n'est spécifiée, affichera toutes les étiquettes."
 
 #: src/translate_text.c.po.c:1606
 msgid "Assembler and memory commands"
-msgstr ""
+msgstr "Commandes assembleur et mémoire"
 
 #: src/translate_text.c.po.c:1623
 msgid "data_list"
-msgstr ""
+msgstr "data_list"
 
 #: src/translate_text.c.po.c:1640
 msgid "Write the specified data at `address'."
-msgstr ""
+msgstr "Écrire toutes les données spécifiées à `address'."
 
 #: src/translate_text.c.po.c:1657
 #, fuzzy
@@ -9963,6 +9910,9 @@ msgid ""
 "instruction is specified, enter assembly mode (enter an empty line to\n"
 "exit assembly mode)."
 msgstr ""
+"Assembler les instructions à l'adresse spécifiée. Si seulement\n"
+"une instruction est spécifiée, entrez le mode assembleur (entrez\n"
+"une ligne vide pour quitter le mode assembleur)."
 
 #: src/translate_text.c.po.c:1691
 #, fuzzy
@@ -9975,14 +9925,17 @@ msgid ""
 "destination specified by the address.  The regions may overlap.  Any\n"
 "values that miscompare are displayed using the default displaytype."
 msgstr ""
+"Comparer la mémoire de la source spécifiée par la plage d'adresse à la\n"
+"destination spécifiée par l'adresse. Les régions peuvent se chevaucher.\n"
+"Toute valeur discordante est affichée avec le type d'affichage par défaut."
 
 #: src/translate_text.c.po.c:1725
 msgid "checknum"
-msgstr ""
+msgstr "checknum"
 
 #: src/translate_text.c.po.c:1742
 msgid "Delete checkpoint `checknum'."
-msgstr ""
+msgstr "Supprimer le point de contrôle `checknum'."
 
 #: src/translate_text.c.po.c:1759
 msgid ""
@@ -9992,6 +9945,12 @@ msgid ""
 "disassembled.  If no addresses are specified, a default number of\n"
 "instructions are disassembled from the dot address."
 msgstr ""
+"Désassembler les instructions. Si deux adresse sont spécifiées, elles\n"
+"seront utilisées comme adresse de départ et de fin. Si une seule adresse\n"
+"est spécifiée, elle sera traitée comme adresse de départ et un nombre\n"
+"par défaut d'instructions seront désassemblées. Si aucune adresse n'est\n"
+"spécifiée, un nombre par défaut d'instructions seront désassemblées\n"
+"depuis l'adresse marquée d'un point."
 
 #: src/translate_text.c.po.c:1776
 msgid ""
@@ -10050,7 +10009,7 @@ msgstr ""
 
 #: src/translate_text.c.po.c:1946
 msgid "mask"
-msgstr ""
+msgstr "mask"
 
 #: src/translate_text.c.po.c:1963
 msgid ""
@@ -10825,14 +10784,12 @@ msgid "Size of the RAMCART expansion"
 msgstr "Taille de l'expansion RAMCART"
 
 #: src/translate_text.c.po.c:4986
-#, fuzzy
 msgid "Disable Double Quick Brown Box"
-msgstr "Paramètres des joysticks..."
+msgstr "Désactiver Double Quick Brown Box"
 
 #: src/translate_text.c.po.c:5003
-#, fuzzy
 msgid "Specify Double Quick Brown Box filename"
-msgstr "Paramètres des joysticks..."
+msgstr "Spécifier nom de fichier Double Quick Brown Box"
 
 #: src/translate_text.c.po.c:5020
 msgid "Allow writing to DQBB image"
@@ -11042,19 +10999,16 @@ msgid "Attach raw Dela EP7x8 cartridge image"
 msgstr "Insérer une cartouche 8KO"
 
 #: src/translate_text.c.po.c:5991
-#, fuzzy
 msgid "Attach raw 128kB Dinamic cartridge image"
-msgstr "Insérer une cartouche 8KO"
+msgstr "Attacher une image RAW 128kO Dinamic"
 
 #: src/translate_text.c.po.c:6008
-#, fuzzy
 msgid "Attach raw 8kB Diashow-Maker cartridge image"
-msgstr "Insérer une cartouche 8KO"
+msgstr "Attacher image RAW 8kO Diashow-Maker"
 
 #: src/translate_text.c.po.c:6025
-#, fuzzy
 msgid "Attach raw 16kB Double Quick Brown Box cartridge image"
-msgstr "Cartouche Double Quick Brown Box"
+msgstr "Attacher image RAW 16ko Cartouche Double Quick Brown Box"
 
 #: src/translate_text.c.po.c:6076
 #, fuzzy
@@ -11997,13 +11951,12 @@ msgid "Do not emulate SID filters"
 msgstr "Ne pas émuler les filtres SID"
 
 #: src/translate_text.c.po.c:10003
-#, fuzzy
 msgid ""
 "reSID sampling method (0: fast, 1: interpolating, 2: resampling, 3: fast "
 "resampling)"
 msgstr ""
-"Méthode reSID (0: rapide, 1: interpolation, 2: rééchantillonnage, 3: "
-"rééchantillonnage rapide)"
+"Méthode échantillonnage reSID (0: rapide, 1: interpolation, 2: rééch., 3: "
+"rééch. rapide)"
 
 #: src/translate_text.c.po.c:10020
 #, fuzzy
@@ -12028,11 +11981,11 @@ msgstr "Gain reSID en pourcent (90 - 100)"
 
 #: src/translate_text.c.po.c:10089
 msgid "Enable additional vertical stretching."
-msgstr ""
+msgstr "Activer l'ajout d'étirement vertical."
 
 #: src/translate_text.c.po.c:10106
 msgid "Disable additional vertical stretching."
-msgstr ""
+msgstr "Désactiver l'ajout d'étirement vertical."
 
 #: src/translate_text.c.po.c:10123
 msgid "Set the VDC memory size to 16KB"
@@ -12188,7 +12141,7 @@ msgstr "Désactiver le \"scaling\" matériel"
 
 #: src/translate_text.c.po.c:10769
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr ""
+msgstr "Sélectionner le filtre de rendu (0:aucun, 1:Ému CRT, 2: Scale2x)"
 
 #: src/translate_text.c.po.c:10786
 msgid "Use an internal calculated palette"
@@ -12215,36 +12168,36 @@ msgid "Specify RS232 device this ACIA should work on"
 msgstr "Spécifier le périphérique RS232 sur lequel cet ACIA doit fonctionner"
 
 #: src/translate_text.c.po.c:10922
-#, fuzzy
 msgid ""
 "Set device type for device #8 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
 msgstr ""
-"Régler le type de périphérique pour #10 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
+"Régler le type de périphérique pour #10 (0: AUCUN, 1: SF, 2: OPENCBM, 3: "
+"PÉRIPH.BLOC)"
 
 #: src/translate_text.c.po.c:10939
-#, fuzzy
 msgid ""
 "Set device type for device #9 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
 msgstr ""
-"Régler le type de périphérique pour #10 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
+"Régler le type de périphérique pour #10 (0: AUCUN, 1: SF, 2: OPENCBM, 3: "
+"PÉRIPH.BLOC)"
 
 #: src/translate_text.c.po.c:10956
-#, fuzzy
 msgid ""
 "Set device type for device #10 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
 msgstr ""
-"Régler le type de périphérique pour #10 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
+"Régler le type de périphérique pour #10 (0: AUCUN, 1: SF, 2: OPENCBM, 3: "
+"PÉRIPH.BLOC)"
 
 #: src/translate_text.c.po.c:10973
-#, fuzzy
 msgid ""
 "Set device type for device #11 (0: NONE, 1: FILESYSTEM, 2: OPENCBM, 3: BLOCK "
 "DEVICE)"
 msgstr ""
-"Régler le type de périphérique pour #11 (0: AUCUN, 1: FS, 2: RÉEL, 3: RAW)"
+"Régler le type de périphérique pour #11 (0: AUCUN, 1: SF, 2: OPENCBM, 3: "
+"PÉRIPH.BLOC)"
 
 #: src/translate_text.c.po.c:10990
 msgid "Attach disk image for drive #8 read only"
@@ -12359,18 +12312,16 @@ msgid "Set an initial breakpoint for the monitor"
 msgstr "Régler un point d’arrêt initial pour le moniteur"
 
 #: src/translate_text.c.po.c:11438
-#, fuzzy
 msgid "Enable remote monitor"
-msgstr "Saisir la souris"
+msgstr "Activer le moniteur distant"
 
 #: src/translate_text.c.po.c:11455
-#, fuzzy
 msgid "Disable remote monitor"
-msgstr "Ne pas saisir la souris"
+msgstr "Désactiver le moniteur distant"
 
 #: src/translate_text.c.po.c:11472
 msgid "The local address the remote monitor should bind to"
-msgstr ""
+msgstr "L'adresse locale à laquelle le moniteur distant devrait se brancher"
 
 #: src/translate_text.c.po.c:11489
 msgid "Specify name of the flip list file image"
@@ -12401,9 +12352,8 @@ msgid "Call exception handler (default)"
 msgstr "Utiliser l'assistant d'exception (par défaut)"
 
 #: src/translate_text.c.po.c:11646
-#, fuzzy
 msgid "Specify config file"
-msgstr "Spécifier le nom du fichier log"
+msgstr "Spécifier le fichier de configuration"
 
 #: src/translate_text.c.po.c:11663
 msgid "Attach and autostart tape/disk image <name>"
@@ -12439,7 +12389,7 @@ msgstr "Spécifier le nom du fichier log"
 
 #: src/translate_text.c.po.c:11833
 msgid "Enable verbose log output."
-msgstr ""
+msgstr "Activer la journalisation verbeuse"
 
 #: src/translate_text.c.po.c:11867
 msgid "Disable mouse grab"
@@ -12498,7 +12448,7 @@ msgstr "Régler la taille du tampon son à <valeur> ms"
 
 #: src/translate_text.c.po.c:12088
 msgid "Set sound fragment size (0 = small, 1 = medium, 2 = large)"
-msgstr ""
+msgstr "Régler la taille du fragment de son (0:petite, 1:moyenne, 2:large)"
 
 #: src/translate_text.c.po.c:12105
 msgid "Specify sound driver"
@@ -12542,6 +12492,8 @@ msgid ""
 "Sound output mode: (0: system decides mono/stereo, 1: always mono, 2: always "
 "stereo)"
 msgstr ""
+"Mode de sortie de son (0:Le système décide, 1:Toujours MONO, 2: Toujours "
+"STEREO)"
 
 #: src/translate_text.c.po.c:12275
 msgid "Define search path to locate system files"
@@ -12655,11 +12607,11 @@ msgstr "Spécifier l’engin SID (0: FastSID, 3: ParSID)"
 
 #: src/translate_text.c.po.c:12785
 msgid "Enable DTV blitter logs."
-msgstr ""
+msgstr "Activer la journalisation pour DTV blitter"
 
 #: src/translate_text.c.po.c:12802
 msgid "Disable DTV blitter logs."
-msgstr ""
+msgstr "Désactiver la journalisation pour DTV blitter"
 
 #: src/translate_text.c.po.c:12819
 #, fuzzy
@@ -12683,11 +12635,11 @@ msgstr "Spécifier le nom de l'image BASIC ROM"
 
 #: src/translate_text.c.po.c:12904
 msgid "Enable DTV flash chip logs."
-msgstr ""
+msgstr "Activer la journalisation pour DTV Flash Chip"
 
 #: src/translate_text.c.po.c:12921
 msgid "Disable DTV flash chip logs."
-msgstr ""
+msgstr "Désactiver la journalisation pour DTV Flash Chip"
 
 #: src/translate_text.c.po.c:12938
 #, fuzzy
@@ -12710,6 +12662,8 @@ msgid ""
 "MIDI interface type (0: Sequential, 1: Passport, 2: DATEL, 3: Namesoft, 4: "
 "Maplin)"
 msgstr ""
+"Type d'interface MIDI (0:Séquentielle, 1:Passport, 2:DATEL, 3:Namesoft, 4:"
+"Maplin)"
 
 #: src/translate_text.c.po.c:13059
 #, fuzzy
@@ -12733,7 +12687,7 @@ msgstr "Désactiver la cartouche Digimax"
 
 #: src/translate_text.c.po.c:13195
 msgid "Set YM chip type (3526 / 3812)"
-msgstr ""
+msgstr "Régler le type de puce YM (3526  3812)"
 
 #: src/translate_text.c.po.c:13229
 #, fuzzy
@@ -12747,7 +12701,7 @@ msgstr "Désactiver l'émulation de périphérique RS232 userport"
 
 #: src/translate_text.c.po.c:13280
 msgid "Set lightpen type"
-msgstr ""
+msgstr "Régler le type de stylet lumineux"
 
 #: src/translate_text.c.po.c:13297
 #, fuzzy
@@ -12761,11 +12715,11 @@ msgstr "Activer le BIOS &Flash Jumper"
 
 #: src/translate_text.c.po.c:13331
 msgid "Enable writing to EasyFlash .crt image"
-msgstr ""
+msgstr "Activer l'écriture pour les images EasyFlash .crt"
 
 #: src/translate_text.c.po.c:13348
 msgid "Disable writing to EasyFlash .crt image"
-msgstr ""
+msgstr "Désactiver l'écriture pour les images EasyFlash .crt"
 
 #: src/translate_text.c.po.c:13382
 #, fuzzy
@@ -12798,19 +12752,19 @@ msgstr ""
 
 #: src/translate_text.c.po.c:13484
 msgid "Turn on Jiffy switch"
-msgstr ""
+msgstr "Activer la 'Jiffy Switch'"
 
 #: src/translate_text.c.po.c:13501
 msgid "Turn off Jiffy switch"
-msgstr ""
+msgstr "Désactiver 'Jiffy Switch'"
 
 #: src/translate_text.c.po.c:13518
 msgid "Turn on Speed switch"
-msgstr ""
+msgstr "Activer 'Speed Switch'"
 
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
-msgstr ""
+msgstr "Désactiver la 'Speed Switch'"
 
 #, fuzzy
 #~ msgid "CRT Controls"
