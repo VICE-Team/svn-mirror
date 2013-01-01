@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2012-12-31 13:42-0800\n"
-"PO-Revision-Date: 2012-12-27 13:39+0100\n"
+"PO-Revision-Date: 2013-01-01 17:53+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -867,9 +867,8 @@ msgid "PET DWW hi-res graphics"
 msgstr "PET DWW Hi-Res Grafik"
 
 #: src/arch/unix/gui/petui.c:254
-#, fuzzy
 msgid "PET HRE hi-res graphics"
-msgstr "PET DWW Hi-Res Grafik"
+msgstr "PET HRE Hi-Res Grafik"
 
 #: src/arch/unix/gui/petui.c:256 src/arch/unix/gui/plus4ui.c:259
 #: src/arch/unix/gui/vic20ui.c:456 src/arch/amigaos/intl_text.c.po.c:9638
@@ -1196,11 +1195,12 @@ msgid ""
 "Enter maximum random autostart delay in frames\n"
 "(max. 1000, 0 means default)"
 msgstr ""
+"Setze maximale Zufallsverzögerung in Frames\n"
+"(1000: maximum, 0: Standard )"
 
 #: src/arch/unix/gui/uiautostart.c:69
-#, fuzzy
 msgid "Autostart delay"
-msgstr "Autostart Zufallsverzögerung"
+msgstr "Autostart Verzögerung"
 
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:11416
@@ -1233,9 +1233,8 @@ msgid "Autostart random delay"
 msgstr "Autostart Zufallsverzögerung"
 
 #: src/arch/unix/gui/uiautostart.c:102
-#, fuzzy
 msgid "Maximum random autostart delay"
-msgstr "Zufälle Verzögerung während Autostart aktivieren,"
+msgstr "Maximale Zufallsverzögerung während Autostart"
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:11500
@@ -2898,9 +2897,8 @@ msgid "Error connecting to server."
 msgstr "Fehler beim Verbindungsaufbau zum Server"
 
 #: src/arch/unix/gui/uinetplay.c:109
-#, fuzzy
 msgid "Netplay"
-msgstr "Netplay TCP Port"
+msgstr "Netplay"
 
 #: src/arch/unix/gui/uinetplay.c:112 src/arch/unix/x11/gnome/uinetplay.c:208
 #: src/arch/win32/res.rc.po.c:1316 src/arch/amigaos/intl_text.c.po.c:5115
@@ -4080,9 +4078,8 @@ msgid "Tune %d"
 msgstr "Tune %d"
 
 #: src/arch/unix/gui/vsidui.c:514
-#, fuzzy
 msgid "VSIDUI: The SID Emulator"
-msgstr "VSID: DER SID Emulator"
+msgstr "VSIDUI: Der SID Emulator"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:62
 msgid "VICE is FREE software!"
@@ -4344,7 +4341,7 @@ msgstr "CRT Emulator Einstellungen"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:196
 msgid "Mixer"
-msgstr ""
+msgstr "Mixer"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:319
 #: src/arch/unix/x11/xaw/uiscreenshot.c:163
@@ -4412,7 +4409,7 @@ msgstr "`%s' erfolgreich gespeichert\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:45
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:78
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Author: %s\n"
@@ -4426,12 +4423,15 @@ msgid ""
 "%s"
 msgstr ""
 "Name: %s\n"
-"Stück: %d\n"
 "Autor: %s\n"
 "Copyright: %s\n"
+"\n"
+"Stück: %d von %d\n"
 "%s\n"
 "Modell: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"\n"
+"%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
@@ -4516,7 +4516,7 @@ msgstr "Bildschirm Screenshot"
 
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:58
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Tune: %d of %d\n"
@@ -4528,12 +4528,13 @@ msgid ""
 "%s"
 msgstr ""
 "Name: %s\n"
-"Stück: %d\n"
+"Stück: %d von %d\n"
 "Autor: %s\n"
 "Copyright: %s\n"
 "%s\n"
 "Modell: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"%s"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1433
 msgid " emulator"
@@ -5290,37 +5291,29 @@ msgid "VICE snapshot files (*.vsf)"
 msgstr "VICE Snapshot Dateien (*.vsf)"
 
 #: src/arch/win32/res.rc.po.c:1114
-#, fuzzy
 msgid ""
 "CBM files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;"
 "*.x64;*.t64;*.tap;*.prg;*.p00)"
-msgstr ""
-"CBM Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*."
-"x64;*.t64;*.tap;*.prg;*.p00)"
+msgstr "CBM Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m;*.d4m;*.g64;*.g41;*.p64;*.x64;*.t64;*.tap;*.prg;*.p00)"
 
 #: src/arch/win32/res.rc.po.c:1115
 msgid "IDE64 files (*.fdd;*.hdd;*.iso;*.cfa)"
 msgstr "IDE64 Dateien (*.fdd;*.hdd;*.iso;*.cfa)"
 
 #: src/arch/win32/res.rc.po.c:1116
-#, fuzzy
 msgid ""
 "Disk image files (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
 "g41;*.p64;*.x64)"
-msgstr ""
-"Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*."
-"g41;*.x64)"
+msgstr "Disk Image Dateien (*.d64;*.d71;*.d80;*.d81;*.d82;*.d1m;*.d2m*;*.d4m;.g64;*.g41;*.p64;*.x64)"
 
 #: src/arch/win32/res.rc.po.c:1117
 msgid "Tape image files (*.t64;*.tap)"
 msgstr "Band Image Dateien (*.t64;*.tap)"
 
 #: src/arch/win32/res.rc.po.c:1118
-#, fuzzy
 msgid ""
 "Zipped files (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
-msgstr ""
-"Komprimierte Dateien (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.x6z)"
+msgstr "Komprimierte Dateien (*.zip;*.bz2;*.gz;*.d6z;*.d7z;*.d8z;*.g6z;*.g4z;*.p6z;*.x6z)"
 
 #: src/arch/win32/res.rc.po.c:1119
 msgid "CRT cartridge image files (*.crt)"
@@ -5920,7 +5913,7 @@ msgstr "Kernal"
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "SCPU64"
-msgstr ""
+msgstr "SCPU64"
 
 #: src/arch/win32/res.rc.po.c:1348
 msgid "Basic"
@@ -7220,9 +7213,8 @@ msgid "PET REU settings"
 msgstr "PET REU Einstellungen"
 
 #: src/arch/win32/respet.rc.po.c:562
-#, fuzzy
 msgid "Enable PET High Res Emulation board"
-msgstr "Lichtgriffel Emulation aktivieren"
+msgstr "PET Hi-Res Emulation Board aktivieren"
 
 #: src/arch/win32/respet.rc.po.c:563 src/arch/amigaos/intl_text.c.po.c:3925
 #: src/translate_text.c.po.c:4697
@@ -7437,25 +7429,21 @@ msgstr "Userport Baud Rate"
 #: src/arch/win32/resscpu64.rc.po.c:619 src/arch/win32/resscpu64.rc.po.c:625
 #: src/arch/amigaos/intl_text.c.po.c:3281
 #: src/arch/amigaos/intl_text.c.po.c:10996
-#, fuzzy
 msgid "SuperCPU64 settings"
-msgstr "MMC64 Einstellungen"
+msgstr "SuperCPU64 Einstellungen"
 
 #: src/arch/win32/resscpu64.rc.po.c:620
 #: src/arch/amigaos/intl_text.c.po.c:10982
-#, fuzzy
 msgid "SIMM size"
-msgstr "RAM Größe"
+msgstr "SIMM Größe"
 
 #: src/arch/win32/resscpu64.rc.po.c:621
-#, fuzzy
 msgid "Enable the jiffy switch"
-msgstr "Schalter aktivieren"
+msgstr "Jiffy Schalter aktivieren"
 
 #: src/arch/win32/resscpu64.rc.po.c:622
-#, fuzzy
 msgid "Enable the speed switch"
-msgstr "Schalter aktivieren"
+msgstr "Speed Schalter aktivieren"
 
 #: src/arch/win32/ressid.rc.po.c:72 src/arch/win32/ressiddtv.rc.po.c:54
 msgid "General"
@@ -8002,9 +7990,8 @@ msgid "Drive burst modification settings"
 msgstr "Laufwerk Burstmodifkation Einstellungen"
 
 #: src/arch/amigaos/intl_text.c.po.c:3911
-#, fuzzy
 msgid "Enable PET High Res Emulator board"
-msgstr "PET DWW hi-res Karte aktivieren"
+msgstr "PET Hi-Res Emulator Karte aktivieren"
 
 #: src/arch/amigaos/intl_text.c.po.c:4541
 msgid "Fullscreen Statusbar"
@@ -8565,11 +8552,11 @@ msgstr "SFX Sound Sampler aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:10954
 msgid "Jiffy switch enabled"
-msgstr ""
+msgstr "Jiffy Schalter aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:10968
 msgid "Speed switch enabled"
-msgstr ""
+msgstr "Speed Schalter aktiviert"
 
 #: src/arch/amigaos/intl_text.c.po.c:11038
 msgid "Select Sound Record File"
@@ -10036,30 +10023,26 @@ msgid "Disable Userport DAC for sound output"
 msgstr "Userport DAC Sound deaktivieren"
 
 #: src/translate_text.c.po.c:4731
-#, fuzzy
 msgid "Enable Userport joystick adapter"
-msgstr "Userport Joystick Adapter"
+msgstr "Userport Joystick Adapter aktivieren"
 
 #: src/translate_text.c.po.c:4748
-#, fuzzy
 msgid "Disable Userport joystick adapter"
-msgstr "OEM Userport Joystick Adapter deaktivieren"
+msgstr "Userport Joystick Adapter deaktivieren"
 
 #: src/translate_text.c.po.c:4765
 msgid ""
 "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, "
 "3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
-msgstr ""
+msgstr "Setze Userport Joystick adapter Typ (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 
 #: src/translate_text.c.po.c:4782
-#, fuzzy
 msgid "Enable Userport RTC"
-msgstr "Userport DAC aktivieren"
+msgstr "Userport RTC aktivieren"
 
 #: src/translate_text.c.po.c:4799
-#, fuzzy
 msgid "Disable Userport RTC"
-msgstr "Userport DAC aktivieren"
+msgstr "Userport RTC deaktivieren"
 
 #: src/translate_text.c.po.c:4816
 msgid "SID player mode"
@@ -10633,12 +10616,10 @@ msgstr ""
 "unten, 8: schneide mitte unten, 9:  schneide rechts unten)"
 
 #: src/translate_text.c.po.c:7710
-#, fuzzy
 msgid ""
 "Select the way the undersized input should be handled, (0: scale up, 1: "
 "borderize)"
-msgstr ""
-"Wähle, wie TED Leuchtstärke behandelt werden soll, (0: ignorieren, 1: dither)"
+msgstr "Wie soll ungenügende Eingabe behandelt werden (0: skaliere, 1: borderize)"
 
 #: src/translate_text.c.po.c:7727
 msgid ""
@@ -10736,11 +10717,10 @@ msgid "Disable 8KB RAM expansion at $A000-$BFFF"
 msgstr "8KB RAM Erweiterung bei $A000-Bfff deaktivieren"
 
 #: src/translate_text.c.po.c:8101
-#, fuzzy
 msgid ""
 "Set parallel cable type (0: none, 1: standard, 2: Dolphin DOS 3, 3: Formel "
 "64)"
-msgstr "Parallelkabel Typ (0: kein, 1: Standard, 2: Dolphin DOS 3)"
+msgstr "Parallel Kabel Typ (0: Kein, 1: Standard, 2: Dolphin DOS 3, 3: Formel 64)"
 
 #: src/translate_text.c.po.c:8135
 msgid "Disable Professional DOS"
@@ -11605,13 +11585,10 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Joystickport für Maus auswählen"
 
 #: src/translate_text.c.po.c:11901
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart)"
-msgstr ""
-"Maus Typ wählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = "
-"ST)"
+msgstr "Maus Typ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"
 
 #: src/translate_text.c.po.c:11918
 msgid "Enable PS/2 mouse on userport"
@@ -11916,23 +11893,23 @@ msgstr "Basis Adresse für DS12C887 RTC Modul"
 
 #: src/translate_text.c.po.c:13467
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
-msgstr ""
+msgstr "Größe des SIMM RAM (0/1/4/8/16 MB)"
 
 #: src/translate_text.c.po.c:13484
 msgid "Turn on Jiffy switch"
-msgstr ""
+msgstr "Jiffy Schalter einschalten"
 
 #: src/translate_text.c.po.c:13501
 msgid "Turn off Jiffy switch"
-msgstr ""
+msgstr "Jiffy Schalter ausschalten"
 
 #: src/translate_text.c.po.c:13518
 msgid "Turn on Speed switch"
-msgstr ""
+msgstr "Speed Schalter einschalten"
 
 #: src/translate_text.c.po.c:13535
 msgid "Turn off Speed switch"
-msgstr ""
+msgstr "Speed Schalter ausschalten"
 
 #~ msgid "CRT Controls"
 #~ msgstr "CRT Steuerung"
