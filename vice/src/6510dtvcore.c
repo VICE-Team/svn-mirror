@@ -1513,6 +1513,7 @@ static const BYTE fetch_tab[] = {
         FETCH_OPCODE(opcode);
 
 #ifdef FEATURE_CPUMEMHISTORY
+        memmap_mem_read(reg_pc);
         /* FIXME JSR (0x20) hasn't load p2 yet. The earlier LOAD(reg_pc+2) hack can break stealing badly on x64sc. */
         monitor_cpuhistory_store(reg_pc, p0, p1, p2 >> 8, reg_a_read, reg_x, reg_y, reg_sp, LOCAL_STATUS());
         memmap_state &= ~(MEMMAP_STATE_INSTR | MEMMAP_STATE_OPCODE);
