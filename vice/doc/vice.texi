@@ -792,6 +792,8 @@ The XSCPU64 emulator is a simulation of a C64 equipped with a SuperCPU64 V2B. Fe
 Still to do:
 
 @itemize @bullet
+@item Measure and verify VICII interrupt phase shift
+@item Measure and verify BA phase shift
 @item SIMM RAM extra 7.5 cycle refresh delay every 10us missing.
 @item CPU NMI support for ``reset'' button
 @end itemize
