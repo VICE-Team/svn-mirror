@@ -95,6 +95,8 @@ typedef enum ui_keysym_s ui_keysym_t;
 
 extern Widget _ui_top_level;
 extern Visual *visual;
+extern Atom wm_delete_window;
+extern Atom wm_protocols;
 
 /* ------------------------------------------------------------------------- */
 

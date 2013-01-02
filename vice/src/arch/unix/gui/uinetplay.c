@@ -40,15 +40,13 @@
 #include "uinetplay.h"
 #include "vsync.h"
 
-#ifdef USE_GNOMEUI
-
 static UI_CALLBACK(netplay)
 {
     vsync_suspend_speed_eval();
     ui_netplay_dialog();
 }
 
-#else
+#if !defined(USE_GNOMEUI) && !defined(USE_XAWUI)
 static UI_CALLBACK(ui_netplay_set_port)
 {
     static char input_string[32];
@@ -102,13 +100,12 @@ static UI_CALLBACK(ui_netplay_disconnect)
 {
     network_disconnect();
 }
-#endif /* USE_GNOMEUI */
+#endif /* USE_GNOMEUI or USE_XAWUI */
 
 ui_menu_entry_t netplay_submenu[] = {
-#ifdef USE_GNOMEUI
     { N_("Netplay"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)netplay, NULL, NULL },
-#else
+#if !defined(USE_GNOMEUI) && !defined(USE_XAWUI)
     { N_("TCP port"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_set_port, NULL, NULL },
     { N_("Start server"), UI_MENU_TYPE_NORMAL,
@@ -120,7 +117,7 @@ ui_menu_entry_t netplay_submenu[] = {
       (ui_callback_t)ui_netplay_connect_to_server, NULL, NULL },
     { N_("Disconnect"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)ui_netplay_disconnect, NULL, NULL },
-#endif /* USE_GNOMEUI */
+#endif /* USE_GNOMEUI or USE_XAWUI */
     { NULL }
 };
 

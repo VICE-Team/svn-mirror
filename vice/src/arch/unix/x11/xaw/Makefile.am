@@ -37,6 +37,7 @@ libxawui_a_SOURCES = \
 	uiedit.c \
 	uimenu.c \
 	uimenu.h \
+	uinetplay.c \
 	uipalcontrol.c \
 	uipalcontrol.h \
 	uiscreenshot.c \

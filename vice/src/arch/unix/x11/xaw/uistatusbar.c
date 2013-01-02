@@ -96,7 +96,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
     Widget tape_button_status[NUM_TAPES];
     Widget pal_ctrl_widget;
     char *button_title;
-    int notification_width;
+    int has_tape, notification_width;
     int i;
 
 #define DD      2               /* default distance */
@@ -267,7 +267,15 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
      * doesn't fit, or automatically switch between a one-line and a
      * two-line statusbar, or something like that.
      */
-    notification_width = 2 * width / 3 - 0;
+    has_tape = machine_class != VICE_MACHINE_VSID &&
+               machine_class != VICE_MACHINE_C64DTV &&
+               machine_class != VICE_MACHINE_SCPU64;
+
+    if (has_tape) {
+        notification_width = 2 * width / 3 - 0;
+    } else {
+        notification_width = width;
+    }
 
     notification_porthole = XtVaCreateManagedWidget("notificationPorthole",
                                             portholeWidgetClass, pane,
@@ -342,43 +350,43 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
     }
 
     /* End of the notification_porthole */
+    /* Start of TAPE #1 */
 
-    if ((machine_class != VICE_MACHINE_C64DTV) &&
-            (machine_class != VICE_MACHINE_SCPU64)) {
-        /* Start of TAPE #1 */
-
+    if (has_tape) {
         Dimension tape_btn_d = 4;
         Dimension tape_btn_w = 24;
 
         for (i = 0; i < NUM_TAPES; i++) {
             char *name = lib_msprintf("tapeCounter%d", i + 1);
             tape_counter_label[i] = XtVaCreateManagedWidget(name,
-                    commandWidgetClass, pane,
-                    XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
-                    XtNjustify, XtJustifyLeft,
-                    XtNlabel, "Tape #1",
-                    XtNfromVert, drive_status[3],
-                    XtNfromHoriz, drive_status[3],
-                    XtNtop, XawChainBottom,
-                    XtNbottom, XawChainBottom,
-                    XtNright, XawChainRight,
-                    NULL);
+                                            commandWidgetClass, pane,
+                                            XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
+                                            XtNjustify, XtJustifyLeft,
+                                            XtNlabel, "Tape #1",
+                                            /* Constraints: */
+                                            XtNfromVert, drive_status[3],
+                                            XtNfromHoriz, drive_status[3],
+                                            XtNtop, XawChainBottom,
+                                            XtNbottom, XawChainBottom,
+                                            XtNright, XawChainRight,
+                                            NULL);
             lib_free(name);
 
             name = lib_msprintf("tapeButtons%d", i + 1);
             tape_button_status[i] = XtVaCreateManagedWidget(name,
-                    simpleWidgetClass, pane,
-                    XtNwidth, tape_btn_w,
-                    XtNheight, height,
-                    XtNjustify, XtJustifyLeft,
-                    XtNfromVert, drive_status[3],
-                    XtNfromHoriz, tape_counter_label[i],
-                    XtNhorizDistance, tape_btn_d,
-                    XtNtop, XawChainBottom,
-                    XtNbottom, XawChainBottom,
-                    XtNleft, XawChainRight,
-                    XtNright, XawChainRight,
-                    NULL);
+                                            simpleWidgetClass, pane,
+                                            XtNwidth, tape_btn_w,
+                                            XtNheight, height,
+                                            XtNjustify, XtJustifyLeft,
+                                            /* Constraints: */
+                                            XtNhorizDistance, tape_btn_d,
+                                            XtNfromVert, drive_status[3],
+                                            XtNfromHoriz, tape_counter_label[i],
+                                            XtNtop, XawChainBottom,
+                                            XtNbottom, XawChainBottom,
+                                            XtNleft, XawChainRight,
+                                            XtNright, XawChainRight,
+                                            NULL);
             lib_free(name);
 
             app_shells[app_shell].tape_widgets[i].counter_value = -1;
@@ -388,6 +396,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
             build_tape_status_widget(&app_shells[app_shell].tape_widgets[i], pane, tape_btn_w, height);
         }
     }
+
     app_shells[app_shell].speed_label = speed_label;
     app_shells[app_shell].statustext_label = statustext_label;
 }

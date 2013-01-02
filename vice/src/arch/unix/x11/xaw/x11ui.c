@@ -152,7 +152,8 @@ static XtTranslations left_menu_disabled_translations, right_menu_disabled_trans
 static XtAppContext app_context;
 
 /* This is needed to catch the `Close' command from the Window Manager. */
-static Atom wm_delete_window;
+Atom wm_delete_window;
+Atom wm_protocols;
 
 /* Toplevel widget. */
 Widget _ui_top_level = NULL;
@@ -919,7 +920,6 @@ static String fallback_resources[] = {
                                               "Meta<BtnDown>: TapePlayStop(ffwd)\\n"
                                               "Shift<BtnDown>(2): TapePlayStop(rec)\\n",
     /* ~Shift -> Shift not pressed */
-
     NULL
 };
 
@@ -1009,6 +1009,8 @@ int ui_init(int *argc, char **argv)
     }
 
     wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
+    wm_protocols = XInternAtom(display, "WM_PROTOCOLS", False);
+
     XtAppAddActions(app_context, actions, XtNumber(actions));
 
     ui_common_init();

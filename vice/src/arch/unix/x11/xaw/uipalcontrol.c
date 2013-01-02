@@ -42,6 +42,7 @@
 #include "util.h"
 #include "resources.h"
 #include "videoarch.h"
+#include "uiarch.h"
 
 void destroy_pal_ctrl_widget(Widget w, XtPointer client_data, XtPointer call_data);
 
@@ -169,10 +170,6 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
 
     form = XtVaCreateManagedWidget("palControlsForm",
                                     formWidgetClass, parent,
-                                    XtNtop, XawChainBottom,
-                                    XtNbottom, XawChainBottom,
-                                    XtNleft, XawChainLeft,
-                                    XtNright, XawChainRight,
                                     NULL);
 
     toplabel = XtVaCreateManagedWidget("topLabel",
@@ -187,8 +184,6 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
     reset = XtVaCreateManagedWidget("reset",
                                     commandWidgetClass, form,
                                     XtNlabel, _("Reset"),
-                                    XtNwidth, 50,
-                                    XtNheight, 15,
                                     XtNfromHoriz, toplabel,
                                     XtNtop, XawChainTop,
                                     XtNbottom, XawChainTop,
@@ -271,10 +266,6 @@ Widget build_pal_ctrl_widget_sliders(video_canvas_t *canvas, Widget parent, clea
     return form;
 }
 
-/* This is needed to catch the `Close' command from the Window Manager. */
-static Atom wm_delete_window;
-static Atom wm_protocols;
-
 void ToggleProc(Widget w, XtPointer client_data, XtPointer togglevalue)
 {
     Widget shell = (Widget)client_data;
@@ -347,10 +338,6 @@ Widget build_pal_ctrl_widget(video_canvas_t *canvas, Widget parent, ArgList args
     XtAddCallback(toggle, XtNdestroyCallback, destroy_pal_ctrl_widget, cleanupdata);
 
     display = XtDisplay(toggle);
-    if (wm_delete_window == 0) {
-        wm_delete_window = XInternAtom(display, "WM_DELETE_WINDOW", False);
-        wm_protocols = XInternAtom(display, "WM_PROTOCOLS", False);
-    }
 
     XtAddEventHandler(shell, 0, True, (XtEventHandler)nonmaskable_callback_shell, (XtPointer)toggle);
 
