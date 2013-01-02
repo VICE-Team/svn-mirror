@@ -103,8 +103,7 @@ EXTRA_DIST = \
 	skyos/icons/xplus4.ico \
 	skyos/icons/xscpu64.ico \
 	skyos/icons/xvic.ico \
-	skyos/make-bindist.sh \
-	vms/config.h
+	skyos/make-bindist.sh
 
 .PHONY: x11
 x11:

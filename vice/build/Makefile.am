@@ -18,6 +18,4 @@ EXTRA_DIST = \
 	openstep/build.sh \
 	openwatcom/win32-build.sh \
 	qnx4/build.sh \
-	rhapsody/build.sh \
-	vms/build.sh \
-	xbox-sdl/build.sh
+	rhapsody/build.sh
