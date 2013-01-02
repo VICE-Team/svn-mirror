@@ -342,49 +342,52 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
     }
 
     /* End of the notification_porthole */
-    /* Start of TAPE #1 */
 
-    Dimension tape_btn_d = 4;
-    Dimension tape_btn_w = 24;
+    if ((machine_class != VICE_MACHINE_C64DTV) &&
+            (machine_class != VICE_MACHINE_SCPU64)) {
+        /* Start of TAPE #1 */
 
-    for (i = 0; i < NUM_TAPES; i++) {
-        char *name = lib_msprintf("tapeCounter%d", i + 1);
-        tape_counter_label[i] = XtVaCreateManagedWidget(name,
-                                        commandWidgetClass, pane,
-                                        XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
-                                        XtNjustify, XtJustifyLeft,
-                                        XtNlabel, "Tape #1",
-                                        XtNfromVert, drive_status[3],
-                                        XtNfromHoriz, drive_status[3],
-                                        XtNtop, XawChainBottom,
-                                        XtNbottom, XawChainBottom,
-                                        XtNright, XawChainRight,
-                                        NULL);
-        lib_free(name);
+        Dimension tape_btn_d = 4;
+        Dimension tape_btn_w = 24;
 
-        name = lib_msprintf("tapeButtons%d", i + 1);
-        tape_button_status[i] = XtVaCreateManagedWidget(name,
-                                        simpleWidgetClass, pane,
-                                        XtNwidth, tape_btn_w,
-                                        XtNheight, height,
-                                        XtNjustify, XtJustifyLeft,
-                                        XtNfromVert, drive_status[3],
-                                        XtNfromHoriz, tape_counter_label[i],
-                                        XtNhorizDistance, tape_btn_d,
-                                        XtNtop, XawChainBottom,
-                                        XtNbottom, XawChainBottom,
-                                        XtNleft, XawChainRight,
-                                        XtNright, XawChainRight,
-                                        NULL);
-        lib_free(name);
+        for (i = 0; i < NUM_TAPES; i++) {
+            char *name = lib_msprintf("tapeCounter%d", i + 1);
+            tape_counter_label[i] = XtVaCreateManagedWidget(name,
+                    commandWidgetClass, pane,
+                    XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
+                    XtNjustify, XtJustifyLeft,
+                    XtNlabel, "Tape #1",
+                    XtNfromVert, drive_status[3],
+                    XtNfromHoriz, drive_status[3],
+                    XtNtop, XawChainBottom,
+                    XtNbottom, XawChainBottom,
+                    XtNright, XawChainRight,
+                    NULL);
+            lib_free(name);
 
-        app_shells[app_shell].tape_widgets[i].counter_value = -1;
-        app_shells[app_shell].tape_widgets[i].counter_label = tape_counter_label[i];
-        app_shells[app_shell].tape_widgets[i].button_status = tape_button_status[i];
+            name = lib_msprintf("tapeButtons%d", i + 1);
+            tape_button_status[i] = XtVaCreateManagedWidget(name,
+                    simpleWidgetClass, pane,
+                    XtNwidth, tape_btn_w,
+                    XtNheight, height,
+                    XtNjustify, XtJustifyLeft,
+                    XtNfromVert, drive_status[3],
+                    XtNfromHoriz, tape_counter_label[i],
+                    XtNhorizDistance, tape_btn_d,
+                    XtNtop, XawChainBottom,
+                    XtNbottom, XawChainBottom,
+                    XtNleft, XawChainRight,
+                    XtNright, XawChainRight,
+                    NULL);
+            lib_free(name);
 
-        build_tape_status_widget(&app_shells[app_shell].tape_widgets[i], pane, tape_btn_w, height);
+            app_shells[app_shell].tape_widgets[i].counter_value = -1;
+            app_shells[app_shell].tape_widgets[i].counter_label = tape_counter_label[i];
+            app_shells[app_shell].tape_widgets[i].button_status = tape_button_status[i];
+
+            build_tape_status_widget(&app_shells[app_shell].tape_widgets[i], pane, tape_btn_w, height);
+        }
     }
-
     app_shells[app_shell].speed_label = speed_label;
     app_shells[app_shell].statustext_label = statustext_label;
 }
