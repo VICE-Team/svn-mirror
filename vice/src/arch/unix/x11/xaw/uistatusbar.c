@@ -99,7 +99,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
     int has_tape, notification_width;
     int i;
 
-#define DD      2               /* default distance */
+#define DD      4               /* default distance */
 #define BW      1               /* border width */
 
     Dimension height;
@@ -131,7 +131,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
             { XtNlabel, (XtArgVal)_("CRT Controls") },
             { XtNwidth, width / 3 - DD },
             { XtNfromVert, (XtArgVal)fromvert },
-            { XtNvertDistance, DD + 2 * BW }, /* 2 + 2*border of drive_current_image */
+            { XtNvertDistance, DD + BW }, /* DD + missing border of speed_label */
             { XtNtop, XawChainBottom },
             { XtNbottom, XawChainBottom },
         };
@@ -272,7 +272,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                machine_class != VICE_MACHINE_SCPU64;
 
     if (has_tape) {
-        notification_width = 2 * width / 3 - 0;
+        notification_width = 2 * width / 3 + DD; /* spans 2 columns */
     } else {
         notification_width = width;
     }
