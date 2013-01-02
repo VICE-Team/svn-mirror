@@ -99,7 +99,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
     int has_tape, notification_width;
     int i;
 
-#define DD      4               /* default distance */
+#define DD      2               /* default distance */
 #define BW      1               /* border width */
 
     Dimension height;
@@ -113,6 +113,9 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                             XtNwidth, width / 3,
                                             XtNborderWidth, 0,
                                             XtNtip, _("Emulation Speed Status"),
+#if DEBUG_LAYOUT
+                                            XtNbackground, "green",
+#endif
                                             /* Constraints: */
                                             XtNfromVert, below,
                                             XtNtop, XawChainBottom,
@@ -131,7 +134,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
             { XtNlabel, (XtArgVal)_("CRT Controls") },
             { XtNwidth, width / 3 - DD },
             { XtNfromVert, (XtArgVal)fromvert },
-            { XtNvertDistance, DD + BW }, /* DD + missing border of speed_label */
+            { XtNvertDistance, DD + 2*BW }, /* DD + missing borders of speed_label */
             { XtNtop, XawChainBottom },
             { XtNbottom, XawChainBottom },
         };
@@ -272,7 +275,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                machine_class != VICE_MACHINE_SCPU64;
 
     if (has_tape) {
-        notification_width = 2 * width / 3 + DD; /* spans 2 columns */
+        notification_width = 2 * width / 3 - DD; /* spans 2 columns */
     } else {
         notification_width = width;
     }
@@ -283,6 +286,9 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                             XtNheight, height + 2 * BW,
                                             XtNborderWidth, 0,
                                             XtNorientation, XtorientHorizontal,
+#if DEBUG_LAYOUT
+                                            XtNbackground, "red1",
+#endif
                                             /* Constraints: */
                                             XtNfromVert, drive_status[2],
                                             XtNtop, XawChainBottom,
@@ -298,6 +304,9 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                          XtNborderWidth, 0,
                                          XtNvSpace, 0,
                                          XtNhSpace, DD,
+#if DEBUG_LAYOUT
+                                         XtNbackground, "pink1",
+#endif
                                          NULL);
 
     statustext_label = XtVaCreateManagedWidget("statustext",
