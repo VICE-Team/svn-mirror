@@ -29,6 +29,7 @@
 #include <assert.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "archdep.h"
@@ -46,6 +47,49 @@
 static char *bigbuffer = NULL;
 static const unsigned int bigbuffersize = 10000;
 static unsigned int bigbufferwrite = 0;
+
+static FILE *mon_log_file = NULL;
+
+/******************************************************************************/
+
+int mon_log_file_open(const char *name)
+{
+    FILE *fp;
+
+    if (name) {
+        /* try to open new file */
+        fp = fopen(name, MODE_WRITE_TEXT);
+        if (fp) {
+            /* close old logfile */
+            mon_log_file_close();
+            mon_log_file = fp;
+            return 0;
+        }
+    }
+    return -1;
+}
+
+void mon_log_file_close(void)
+{
+    if (mon_log_file) {
+        fclose(mon_log_file);
+    }
+    mon_log_file = NULL;
+}
+
+static int mon_log_file_out(const char *buffer)
+{
+    int len;
+    if ((mon_log_file) && (buffer)) {
+        len = strlen(buffer);
+        if (fwrite(buffer, 1, len, mon_log_file) == len) {
+            return 0;
+        }
+    }
+    return -1;
+}
+
+/******************************************************************************/
 
 static void mon_buffer_alloc(void)
 {
@@ -126,10 +170,11 @@ int mon_out(const char *format, ...)
         rc = monitor_network_transmit(buffer, strlen(buffer));
     } else {
 #endif
-    rc = mon_out_buffered(buffer);
+        rc = mon_out_buffered(buffer);
 #ifdef HAVE_NETWORK
-}
+    }
 #endif
+    mon_log_file_out(buffer);
 
     lib_free(buffer);
 
@@ -225,23 +270,26 @@ char *uimon_in(const char *prompt)
             }
         } else {
 #endif
-        /* make sure to flush the output buffer */
-        mon_buffer_flush();
+            /* make sure to flush the output buffer */
+            mon_buffer_flush();
 
-        /* get input from the user */
-        p = uimon_get_in(&pchCommandLine, prompt);
+            /* get input from the user */
+            p = uimon_get_in(&pchCommandLine, prompt);
 #ifdef HAVE_NETWORK
-    }
+        }
 #endif
     }
 
     if (pchCommandLine) {
         /* we have an "artificially" generated command line */
-
         lib_free(p);
         p = lib_stralloc(pchCommandLine);
         pchCommandLine = NULL;
     }
+
+    mon_log_file_out(prompt);
+    mon_log_file_out(p);
+    mon_log_file_out("\n");
 
     /* return the command (the one or other way...) */
     return p;

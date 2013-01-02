@@ -1314,6 +1314,8 @@ void monitor_shutdown(void)
     supported_cpu_type_list_t *slist, *slist_next;
     int i;
 
+    mon_log_file_close();
+
     list = monitor_cpu_type_list;
 
     while (list != NULL) {
@@ -1366,11 +1368,21 @@ int monitor_resources_init(void)
     return resources_register_int(resources_int);
 }
 
+static int set_monlog_name(const char *param, void *extra_param)
+{
+    return mon_log_file_open(param);
+}
+
 static const cmdline_option_t cmdline_options[] = {
     { "-moncommands", CALL_FUNCTION, 1,
       set_playback_name, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_NAME, IDCLS_EXECUTE_MONITOR_FROM_FILE,
+      NULL, NULL },
+    { "-monlog", CALL_FUNCTION, 1,
+      set_monlog_name, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_NAME, IDCLS_WRITE_MONITOR_LOG_TO_FILE,
       NULL, NULL },
     { "-initbreak", CALL_FUNCTION, 1,
       monitor_set_initial_breakpoint, NULL, NULL, NULL,

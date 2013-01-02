@@ -11504,6 +11504,23 @@ translate_t string_table[] = {
 #endif
 
 /* monitor.c */
+/* en */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE,    N_("Write monitor output also to file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_TR, ""},  /* fuzzy */
+#endif
+
+/* monitor.c */
 /* en */ {IDCLS_SET_INITIAL_BREAKPOINT,    N_("Set an initial breakpoint for the monitor")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_INITIAL_BREAKPOINT_DA, "Sæt et initielt breakpoint for monitoren"},
