@@ -81,9 +81,9 @@ UI_MENU_DEFINE_TOGGLE(DatasetteResetWithCPU)
 ui_menu_entry_t datasette_control_submenu[] = {
     { N_("Reset Datasette with CPU"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DatasetteResetWithCPU, NULL, NULL },
-    { N_("Datasette zero gap delay"), UI_MENU_TYPE_NORMAL,
+    { N_("Datasette zero gap delay"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)datasette_settings, (ui_callback_data_t)0, NULL },
-    { N_("Datasette speed tuning"), UI_MENU_TYPE_NORMAL,
+    { N_("Datasette speed tuning"), UI_MENU_TYPE_DOTS,
       (ui_callback_t)datasette_settings, (ui_callback_data_t)1, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Stop"), UI_MENU_TYPE_NORMAL, (ui_callback_t)ui_datasette_control,
