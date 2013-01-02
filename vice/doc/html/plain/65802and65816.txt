@@ -1,3 +1,262 @@
 This document is a Work In Progress and it will be inteded for the following purposes:
 
-- to list and explain the differences between the 6502 and the 65802/65816.
+- to list and explain the differences between the WDC65C02 and the 65802/65816.
+
+opcode   mnemonic         65C02 bytes   65C02 cycles   65816 bytes   65816 cycles
+------   --------         ------------  ------------   -----------   ------------
+00       BRK              2             7              2             7/8
+01       ORA ($nn,X)      2             6              2             6/7/8
+*02*     COP #$nn         n/a           n/a            2             7/8
+*03*     ORA $ss,S        n/a           n/a            2             4/5
+04       TSB $nn          2             5              2             5/6/7/8
+05       ORA $nn          2             3              2             3/4/5
+06       ASL $nn          2             5              2             5/6/7/8
+*07*     ORA [$nn]        n/a           n/a            2             6/7/8
+08       PHP              1             3              1             3
+09       ORA #$xxnn       2             2              2/3           2/3
+0A       ASL A            1             2              1             2
+*0B*     PHD              n/a           n/a            1             4
+0C       TSB $nnnn        3             6              3             6/8
+0D       ORA $nnnn        3             4              3             4/5
+0E       ASL $nnnn        3             6              3             6/8
+*0F*     ORA $nnnnnn      n/a           n/a            4             5/6
+10       BPL $nnnn        2             2/3/4          2             2/3/4
+11       ORA ($nn),Y      2             5/6            2             5/6/7/8
+12       ORA ($nn)        2             5              2             5/6/7
+*13*     ORA ($ss,S),Y    n/a           n/a            2             7/8
+14       TRB $nn          2             5              2             5/6/7/8
+15       ORA $nn,X        2             4              2             4/5/6
+16       ASL $nn,X        2             6              2             6/7/8/9
+*17*     ORA [$nn],Y      n/a           n/a            2             6/7/8/9
+18       CLC              1             2              1             2
+19       ORA $nnnn,Y      3             4/5            3             4/5/6
+1A       INC A            1             2              1             2
+*1B*     TCS              n/a           n/a            1             2
+1C       TRB $nnnn        3             6              3             6/8
+1D       ORA $nnnn,X      3             4/5            3             4/5/6
+1E       ASL $nnnn,X      3             6/7            3             7/8
+*1F*     ORA $nnnnnn,X    n/a           n/a            4             5/6
+20       JSR $nnnn        3             6              3             6
+21       AND ($nn,X)      2             6              2             6/7/8
+*22*     JSL $nnnnnn      n/a           n/a            4             8
+*23*     AND $ss,S        n/a           n/a            2             4/5
+24       BIT $nn          2             3              2             3/4/5
+25       AND $nn          2             3              2             3/4/5
+26       ROL $nn          2             5              2             5/6/7/8
+*27*     AND [$nn]        n/a           n/a            2             6/7/8
+28       PLP              1             4              1             4
+29       AND #$xxnn       2             2              2/3           2/3
+2A       ROL A            1             2              1             2
+*2B*     PLD              n/a           n/a            1             5
+2C       BIT $nnnn        3             4              3             4/5
+2D       AND $nnnn        3             4              3             4/5
+2E       ROL $nnnn        3             6              3             6/8
+*2F*     AND $nnnnnn      n/a           n/a            4             5/6
+30       BMI $nnnn        2             2/3/4          2             2/3/4
+31       AND ($nn),Y      2             5/6            2             5/6/7/8
+32       AND ($nn)        2             5              2             5/6/7
+*33*     AND ($ss,S),Y    n/a           n/a            2             7/8
+34       BIT $nn,X        2             4              2             4/5/6
+35       AND $nn,X        2             4              2             4/5/6
+36       ROL $nn,X        2             6              2             6/7/8/9
+*37*     AND [$nn],Y      n/a           n/a            2             6/7/8/9
+38       SEC              1             2              1             2
+39       AND $nnnn,Y      3             4/5            3             4/5/6
+3A       DEC A            1             2              1             2
+*3B*     TSC              n/a           n/a            1             2
+3C       BIT $nnnn,X      3             4/5            3             4/5/6
+3D       AND $nnnn,X      3             4/5            3             4/5/6
+3E       ROL $nnnn,X      3             6/7            3             7/9
+*3F*     AND $nnnnnn,X    n/a           n/a            4             5/6
+40       RTI              1             6              1             6/7
+41       EOR ($nn,X)      2             6              2             6/7/8
+*42*     WDM              n/a           n/a            2             ???
+*43*     EOR $ss,S        n/a           n/a            2             4/5
+*44*     MVP $nn,$nn      n/a           n/a            3             (7 * every byte moved)
+45       EOR $nn          2             3              2             3/4/5
+46       LSR $nn          2             5              2             5/6/7/8
+*47*     EOR [$nn]        n/a           n/a            2             6/7/8
+48       PHA              1             3              1             3/4
+49       EOR #$xxnn       2             2              2             2/3
+4A       LSR A            1             2              1             2
+*4B*     PHK              n/a           n/a            1             3
+4C       JMP $nnnn        3             3              3             3
+4D       EOR $nnnn        3             4              3             4/5
+4E       LSR $nnnn        3             6              3             6/7
+*4F*     EOR $nnnnnn      n/a           n/a            4             5/6
+50       BVC $nnnn        2             2/3/4          2             2/3/4
+51       EOR ($nn),Y      2             5/6            2             5/6/7/8
+52       EOR ($nn)        2             5              2             5/6/7
+*53*     EOR ($ss,S),Y    n/a           n/a            2             7/8
+*54*     MVN $nn,$nn      n/a           n/a            3             (7 * every byte moved)
+55       EOR $nn,X        2             4              2             4/5/6
+56       LSR $nn,X        2             6              2             6/7/8/9
+*57*     EOR [$nn],Y      n/a           n/a            2             6/7/8
+58       CLI              1             2              1             2
+59       EOR $nnnn,Y      3             4/5            3             4/5/6
+5A       PHY              1             3              1             3/4
+*5B*     TCD              n/a           n/a            1             2
+*5C*     JML $nnnnnn      n/a           n/a            4             4
+5D       EOR $nnnn,X      3             4/5            3             4/5/6
+5E       LSR $nnnn,X      3             6/7            3             7/9
+*5F*     EOR $nnnnnn,X    n/a           n/a            4             5/6
+60       RTS              1             6              1             6
+61       ADC ($nn,X)      2             6/7            2             6/7/8/9
+*62*     PER $nnnn        n/a           n/a            3             6
+*63*     ADC $ss,S        n/a           n/a            2             4/5/6
+64       STZ $nn          2             3              2             3/4/5
+65       ADC $nn          2             3/4            2             3/4/5/6
+66       ROR $nn          2             5              2             5/6/7/8
+*67*     ADC [$nn]        n/a           n/a            2             6/7/8/9
+68       PLA              1             4              1             4/5
+69       ADC #$xxnn       2             2/3            2/3           2/3/4
+6A       ROR A            1             2              1             2
+*6B*     RTL              n/a           n/a            1             6
+6C       JMP ($nnnn)      3             6              3             5
+6D       ADC $nnnn        3             4/5            3             4/5/6
+6E       ROR $nnnn        3             6              3             6/8
+*6F*     ADC $nnnnnn      n/a           n/a            4             5/6/7
+70       BVS $nnnn        2             2/3/4          2             2/3/4
+71       ADC ($nn),Y      2             5/6/7          2             5/6/7/8/9
+72       ADC ($nn)        2             5/6            2             5/6/7/8
+*73*     ADC ($ss,S),Y    n/a           n/a            2             7/8/9
+74       STZ $nn,X        2             4              2             4/5/6
+75       ADC $nn,X        2             4/5            2             4/5/6/7
+76       ROR $nn,X        2             6              2             6/7/8/9
+*77*     ADC [$nn],Y      n/a           n/a            2             6/7/8/9
+78       SEI              1             2              1             2
+79       ADC $nnnn,Y      3             4/5/6          3             4/5/6/7
+7A       PLY              1             4              1             4/5
+*7B*     TDC              n/a           n/a            1             2
+7C       JMP ($nnnn,X)    3             6              3             6
+7D       ADC $nnnn,X      3             4/5/6          3             4/5/6/7
+7E       ROR $nnnn,X      3             6/7            3             7/9
+*7F*     ADC $nnnnnn,X    n/a           n/a            4             5/6/7
+80       BRA $nnnn        2             3/4            2             3/4
+81       STA ($nn,X)      2             6              2             6/7/8
+*82*     BRL $nnnn        n/a           n/a            3             4
+*83*     STA $ss,S        n/a           n/a            2             4/5
+84       STY $nn          2             3              2             3/4/5
+85       STA $nn          2             3              2             3/4/5
+86       STX $nn          2             3              2             3/4/5
+*87*     STA [$nn]        n/a           n/a            2             6/7/8
+88       DEY              1             2              1             2
+89       BIT #$xxnn       2             2              2/3           2/3
+8A       TXA              1             2              1             2
+*8B*     PHB              n/a           n/a            1             3
+8C       STY $nnnn        3             4              3             4/5
+8D       STA $nnnn        3             4              3             4/5
+8E       STX $nnnn        3             4              3             4/5
+*8F*     STA $nnnnnn      n/a           n/a            4             5/6
+90       BCC $nnnn        2             2/3/4          2             2/3/4
+91       STA ($nn),Y      2             6              2             6/7/8
+92       STA ($nn)        2             5              2             5/6/7
+*93*     STA ($ss,S),Y    n/a           n/a            2             7/8
+94       STY $nn,X        2             4              2             4/5/6
+95       STA $nn,X        2             4              2             4/5/6
+96       STX $nn,Y        2             4              2             4/5/6
+*97*     STA [$nn],Y      n/a           n/a            2             6/7/8
+98       TYA              1             2              1             2
+99       STA $nnnn,Y      3             5              3             5/6
+9A       TXS              1             2              1             2
+*9B*     TXY              n/a           n/a            1             2
+9C       STZ $nnnn        3             4              3             4/5
+9D       STA $nnnn,X      3             5              3             5/6
+9E       STZ $nnnn,X      3             5              3             5/6
+*9F*     STA $nnnnnn,X    n/a           n/a            4             5/6
+A0       LDY #$xxnn       2             2              2/3           2/3
+A1       LDA ($nn,X)      2             6              2             6/7/8
+A2       LDX #$xxnn       2             2              2/3           2/3
+*A3*     LDA $ss,S        n/a           n/a            2             4/5
+A4       LDY $nn          2             3              2             3/4/5
+A5       LDA $nn          2             3              2             3/4/5
+A6       LDX $nn          2             3              2             3/4/5
+*A7*     LDA [$nn]        n/a           n/a            2             6/7/8
+A8       TAY              1             2              1             2
+A9       LDA #$xxnn       2             2              2/3           2/3
+AA       TAX              1             2              1             2
+*AB*     PLB              n/a           n/a            1             4
+AC       LDY $nnnn        3             4              3             4/5
+AD       LDA $nnnn        3             4              3             4/5
+AE       LDX $nnnn        3             4              3             4/5
+*AF*     LDA $nnnnnn      n/a           n/a            4             5/6
+B0       BCS $nnnn        2             2/3/4          2             2/3/4
+B1       LDA ($nn),Y      2             5/6            2             5/6/7/8
+B2       LDA ($nn)        2             5              2             5/6/7
+*B3*     LDA ($ss,S),Y    n/a           n/a            2             7/8
+B4       LDY $nn,X        2             4              2             4/5/6
+B5       LDA $nn,X        2             4              2             4/5/6
+B6       LDX $nn,Y        2             4              2             4/5/6
+*B7*     LDA [$nn],Y      n/a           n/a            2             6/7/8
+B8       CLV              1             2              1             2
+B9       LDA $nnnn,Y      3             4/5            3             4/5/6
+BA       TSX              1             2              1             2
+*BB*     TYX              n/a           n/a            1             2
+BC       LDY $nnnn,X      3             4/5            3             4/5/6
+BD       LDA $nnnn,X      3             4/5            3             4/5/6
+BE       LDX $nnnn,Y      3             4/5            3             4/5/6
+*BF*     LDA $nnnnnn,X    n/a           n/a            4             5/6
+C0       CPY #$xxnn       2             2              2/3           2/3
+C1       CMP ($nn,X)      2             6              2             6/7/8
+*C2*     REP #$nn         n/a           n/a            2             3
+*C3*     CMP $ss,S        n/a           n/a            2             4/5
+C4       CPY $nn          2             3              2             3/4/5
+C5       CMP $nn          2             3              2             3/4/5
+C6       DEC $nn          2             5              2             5/6/7/8
+*C7*     CMP [$nn]        n/a           n/a            2             6/7/8
+C8       INY              1             2              1             2
+C9       CMP #$xxnn       2             2              2/3           2/3
+CA       DEX              1             2              1             2
+CB       WAI              1             3              1             3
+CC       CPY $nnnn        3             4              3             4/5
+CD       CMP $nnnn        3             4              3             4/5
+CE       DEC $nnnn        3             6              3             6/8
+*CF*     CMP $nnnnnn      n/a           n/a            4             5/6
+D0       BNE $nnnn        2             2/3/4          2             2/3/4
+D1       CMP ($nn),Y      2             5/6            2             5/6/7/8
+D2       CMP ($nn)        2             5              2             5/6/7
+*D3*     CMP ($ss,S),Y    n/a           n/a            2             7/8
+*D4*     PEI ($nn)        n/a           n/a            2             6/7
+D5       CMP $nn,X        2             4              2             4/5/6
+D6       DEC $nn,X        2             6              2             6/7/8/9
+*D7*     CMP [$nn],Y      n/a           n/a            2             6/7/8
+D8       CLD              1             2              1             2
+D9       CMP $nnnn,Y      3             4/5            3             4/5/6
+DA       PHX              1             3              1             3/4
+DB       STP              1             3              1             3
+*DC*     JML [$nnnn]      n/a           n/a            3             6
+DD       CMP $nnnn,X      3             4/5            3             4/5/6
+DE       DEC $nnnn,X      3             7              3             7/9
+*DF*     CMP $nnnnnn,X    n/a           n/a            4             5/6
+E0       CPX #$xxnn       2             2              2/3           2/3
+E1       SBC ($nn,X)      2             6/7            2             6/7/8
+*E2*     SEP #$nn         n/a           n/a            2             3
+*E3*     SBC $ss,S        n/a           n/a            2             4/5
+E4       CPX $nn          2             3              2             3/4/5
+E5       SBC $nn          2             3/4            2             3/4/5
+E6       INC $nn          2             5              2             5/6/7/8
+*E7*     SBC [$nn]        n/a           n/a            2             6/7/8
+E8       INX              1             2              1             2
+E9       SBC #$xxnn       2             2/3            2             2/3
+*EB*     XBA              n/a           n/a            1             3
+EA       NOP              1             2              1             2
+EC       CPX $nnnn        3             4              3             4/5
+ED       SBC $nnnn        3             4/5            3             4/5
+EE       INC $nnnn        3             6              3             6/8
+*EF*     SBC $nnnnnn      n/a           n/a            4             5/6
+F0       BEQ $nnnn        2             2/3/4          2             2/3/4
+F1       SBC ($nn),Y      2             5/6/7          2             5/6/7/8
+F2       SBC ($nn)        2             5/6            2             5/6/7
+*F3*     SBC ($ss,S),Y    n/a           n/a            2             7/8
+*F4*     PEA $nnnn        n/a           n/a            3             5
+F5       SBC $nn,X        2             4/5            2             4/5/6/7
+F6       INC $nn,X        2             6              2             6/7/8/9
+*F7*     SBC [$nn],Y      n/a           n/a            2             6/7/8
+F8       SED              1             2              1             2
+F9       SBC $nnnn,Y      3             4/5/6          3             4/5/6
+FA       PLX              1             4              1             5
+*FB*     XCE              n/a           n/a            1             2
+*FC*     JSR ($nnnn,X)    n/a           n/a            3             8
+FD       SBC $nnnn,X      3             4/5/6          3             4/5/6
+FE       INC $nnnn,X      3             7              3             7/9
+*FF*     SBC $nnnnnn,X    n/a           n/a            4             5/6

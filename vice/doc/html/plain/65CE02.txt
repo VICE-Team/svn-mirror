@@ -1,5 +1,347 @@
 This document is a Work In Progress and it will be inteded for the following purposes:
 
-- to list and explain the differences between the 6502 and the 65CE02.
+- to list and explain the differences between the 65C02 and the 65CE02.
 - to keep track and document which parts have been emulated and tested in the
   65CE02core.c file.
+
+The 65CE02 is based on the 65C02, but it has additional instructions,
+has additional addressing modes. All of the (legal/documented) 6502 opcodes
+are also available in the 65CE02, additionally most 65C02 specific opcodes
+are also available in the 65CE02, most of the 65C02 NOP's have been replaced
+with additional opcodes.
+
+The 65CE02 opcodes have been streamlined by getting rid of dead cycles caused
+by boundry crossings and optimizing the microcode pipeline, most instructions
+execute faster than on the 65C02 or 6502.
+
+The 65CE02's stack pointer has been extended to 16 bits and is capable of
+being switched between 8bit mode (offset from a stack page) and full 16bit mode.
+
+A new register 'Z' has been added to the 65CE02, which defaults to the value
+0, the STZ instruction now stores the Z register instead of storing 0, and
+the ($..) addressing mode has become the ($..),Z addressing mode which does
+the same if Z is 0.
+
+The 65C02 branch opcodes have been extended with a 16bit relative counterpart.
+
+The 65CE02 has a 'B' register which is the 'base page' for the addressing modes
+previously involving the 'zero page'.
+
+
+Below is a table of 65C02 opcodes that have remained unchanged in behavior and
+execution timing (besides 'zero page' -> 'base page' changes):
+
+opcode   mnemonic         65C02 cycles   65CE02 cycles
+------   --------         ------------   -------------
+00       BRK                   7               7
+05       ORA $nn               3               3
+08       PHP                   3               3
+09       ORA #$nn              2               2
+0D       ORA $nnnn             4               4
+25       AND $nn               3               3
+29       AND #$nn              2               2
+2D       AND $nnnn             4               4
+34       BIT $nn,X             4               4
+45       EOR $nn               3               3
+48       PHA                   3               3
+49       EOR #$nn              2               2
+4C       JMP $nnnn             3               3
+4D       EOR $nnnn             4               4
+5A       PHY                   3               3
+78       SEI                   2               2
+84       STY $nn               3               3
+85       STA $nn               3               3
+86       STX $nn               3               3
+89       BIT #$nn              2               2
+8C       STY $nnnn             4               4
+8D       STA $nnnn             4               4
+8E       STX $nnnn             4               4
+A0       LDY #$nn              2               2
+A2       LDX #$nn              2               2
+A4       LDY $nn               3               3
+A5       LDA $nn               3               3
+A6       LDX $nn               3               3
+A9       LDA #$nn              2               2
+AC       LDY $nnnn             4               4
+AD       LDA $nnnn             4               4
+AE       LDX $nnnn             4               4
+C0       CPY #$nn              2               2
+C4       CPY $nn               3               3
+C5       CMP $nn               3               3
+C9       CMP #$nn              2               2
+CC       CPY $nnnn             4               4
+CD       CMP $nnnn             4               4
+DA       PHX                   3               3
+E0       CPX #$nn              2               2
+E4       CPX $nn               3               3
+EC       CPX $nnnn             4               4
+
+
+Below is a table of 65C02 opcodes that have remained unchanged in behavior but
+are different in execution timing on the 65CE02:
+
+opcode   mnemonic         65C02 cycles   65CE02 cycles
+------   --------         ------------   -------------
+01       ORA ($nn,X)           6               5
+04       TSB $nn               5               4
+06       ASL $nn               5               4
+07       RMB #0,$nn            5               4
+0A       ASL A                 2               1
+0C       TSB $nnnn             6               5
+0E       ASL $nnnn             6               5
+0F       BBR #0,$nn,$nnnn      5               4
+10       BPL $nnnn             2/3/4           2
+11       ORA ($nn),Y           5/6             5
+14       TRB $nn               5               4
+15       ORA $nn,X             4               3
+16       ASL $nn,X             6               4
+17       RMB #1,$nn            5               4
+18       CLC                   2               1
+19       ORA $nnnn,Y           4/5             4
+1A       INC A                 2               1
+1C       TRB $nnnn             6               5
+1D       ORA $nnnn,X           4/5             4
+1E       ASL $nnnn,X           6/7             5
+1F       BBR #1,$nn,$nnnn      5               4
+20       JSR $nnnn             6               5
+21       AND ($nn,X)           6               5
+24       BIT $nn               3               4
+26       ROL $nn               5               4
+27       RMB #2,$nn            5               4
+28       PLP                   4               3
+2A       ROL A                 2               1
+2C       BIT $nnnn             4               5
+2E       ROL $nnnn             6               5
+2F       BBR #2,$nn,$nnnn      5               4
+30       BMI $nnnn             2/3/4           2
+31       AND ($nn),Y           5/6             5
+35       AND $nn,X             4               3
+36       ROL $nn,X             6               4
+37       RMB #3,$nn            5               4
+38       SEC                   2               1
+39       AND $nnnn,Y           4/5             4
+3A       DEC A                 2               1
+3C       BIT $nnnn,X           4/5             5
+3D       AND $nnnn,X           4/5             4
+3E       ROL $nnnn,X           6/7             5
+3F       BBR #3,$nn,$nnnn      5               4
+40       RTI                   6               5
+41       EOR ($nn,X)           6               5
+46       LSR $nn               5               4
+47       RMB #4,$nn            5               4
+4A       LSR A                 2               1
+4E       LSR $nnnn             6               5
+4F       BBR #4,$nn,$nnnn      5               4
+50       BVC $nnnn             2/3/4           2
+51       EOR ($nn),Y           5/6             5
+55       EOR $nn,X             4               3
+56       LSR $nn,X             6               4
+57       RMB #5,$nn            5               4
+58       CLI                   2               1
+59       EOR $nnnn,Y           4/5             4
+5D       EOR $nnnn,X           4/5             4
+5E       LSR $nnnn,X           6/7             5
+5F       BBR #5,$nn,$nnnn      5               4
+60       RTS                   6               4
+61       ADC ($nn,X)           6/7             5
+65       ADC $nn               3/4             3
+66       ROR $nn               5               4
+67       RMB #6,$nn            5               4
+68       PLA                   4               3
+69       ADC #$nn              2/3             2
+6A       ROR A                 2               1
+6C       JMP ($nnnn)           6               5
+6D       ADC $nnnn             4/5             4
+6E       ROR $nnnn             6               5
+6F       BBR #6,$nn,$nnnn      5               4
+70       BVS $nnnn             2/3/4           2
+71       ADC ($nn),Y           5/6/7           5
+75       ADC $nn,X             4/5             3
+76       ROR $nn,X             6               4
+77       RMB #7,$nn            5               4
+79       ADC $nnnn,Y           4/5/6           4
+7A       PLY                   4               3
+7C       JMP ($nnnn,X)         6               5
+7D       ADC $nnnn,X           4/5/6           4
+7E       ROR $nnnn,X           6/7             5
+7F       BBR #7,$nn,$nnnn      5               4
+80       BRA $nnnn             3/4             2
+81       STA ($nn,X)           6               5
+87       SMB #0,$nn            5               4
+88       DEY                   2               1
+8A       TXA                   2               1
+8F       BBS #0,$nn,$nnnn      5               4
+90       BCC $nnnn             2/3/4           2
+91       STA ($nn),Y           6               5
+94       STY $nn,X             4               3
+95       STA $nn,X             4               3
+96       STX $nn,Y             4               3
+97       SMB #1,$nn            5               4
+98       TYA                   2               1
+99       STA $nnnn,Y           5               4
+9A       TXS                   2               1
+9D       STA $nnnn,X           5               4
+9F       BBS #1,$nn,$nnnn      5               4
+A1       LDA ($nn,X)           6               5
+A7       SMB #2,$nn            5               4
+A8       TAY                   2               1
+AA       TAX                   2               1
+AF       BBS #2,$nn,$nnnn      5               4
+B0       BCS $nnnn             2/3/4           2
+B1       LDA ($nn),Y           5/6             5
+B4       LDY $nn,X             4               3
+B5       LDA $nn,X             4               3
+B6       LDX $nn,Y             4               3
+B7       SMB #3,$nn            5               4
+B8       CLV                   2               1
+B9       LDA $nnnn,Y           4/5             4
+BA       TSX                   2               1
+BC       LDY $nnnn,X           4/5             4
+BD       LDA $nnnn,X           4/5             4
+BE       LDX $nnnn,Y           4/5             4
+BF       BBS #3,$nn,$nnnn      5               4
+C1       CMP ($nn,X)           6               5
+C6       DEC $nn               5               4
+C7       SMB #4,$nn            5               4
+C8       INY                   2               1
+CA       DEX                   2               1
+CE       DEC $nnnn             6               5
+CF       BBS4 $nn,$nnnn        5               4
+D0       BNE $nnnn             2/3/4           2
+D1       CMP ($nn),Y           5/6             5
+D5       CMP $nn,X             4               3
+D6       DEC $nn,X             6               4
+D7       SMB #5,$nn            5               4
+D8       CLD                   2               1
+D9       CMP $nnnn,Y           4/5             4
+DD       CMP $nnnn,X           4/5             4
+DE       DEC $nnnn,X           7               5
+DF       BBS #5,$nn,$nnnn      5               4
+E1       SBC ($nn,X)           6/7             5
+E5       SBC $nn               3/4             3
+E6       INC $nn               5               4
+E7       SMB #6,$nn            5               4
+E8       INX                   2               1
+E9       SBC #$nn              2/3             2
+EA       NOP                   2               1
+ED       SBC $nnnn             4/5             4
+EE       INC $nnnn             6               5
+EF       BBS #6,$nn,$nnnn      5               4
+F0       BEQ $nnnn             2/3/4           2
+F1       SBC ($nn),Y           5/6/7           5
+F5       SBC $nn,X             4/5             3
+F6       INC $nn,X             6               4
+F7       SMB #7,$nn            5               4
+F8       SED                   2               1
+F9       SBC $nnnn,Y           4/5/6           4
+FA       PLX                   4               3
+FD       SBC $nnnn,X           4/5/6           4
+FE       INC $nnnn,X           7               5
+FF       BBS #7,$nn,$nnnn      5               4
+
+
+Below is a table of 65CE02 opcodes that deal with wide (16bit) relative offset branches:
+
+opcode   mnemonic        bytes   cycles   description
+------   --------        -----   ------   -----------
+13       BPL $nnnnW      3       3        Branch on plus
+33       BMI $nnnnW      3       3        Branch on minus
+53       BVC $nnnnW      3       3        Branch on overflow clear
+63       BSR $nnnnW      3       5        Branch subroutine
+73       BVS $nnnnW      3       3        Branch on overflow set
+83       BRA $nnnnW      3       3        Branch always
+93       BCC $nnnnW      3       3        Branch on carry clear
+B3       BCS $nnnnW      3       3        Branch on carry set
+D3       BNE $nnnnW      3       3        Branch on not equal to zero
+F3       BEQ $nnnnW      3       3        Branch on equal to zero
+
+
+Below is a table of 65CE02 opcodes that use the new ($nn),Z addressing mode:
+
+opcode   mnemonic        bytes   cycles
+------   --------        -----   ------
+12       ORA ($nn),Z     2       5
+32       AND ($nn),Z     2       5
+52       EOR ($nn),Z     2       5
+72       ADC ($nn),Z     2       5
+92       STA ($nn),Z     2       5
+B2       LDA ($nn),Z     2       5
+D2       CMP ($nn),Z     2       5
+F2       SBC ($nn),Z     2       5
+
+
+Below is a table of 65CE02 opcodes that deal with the new 'Z' register:
+
+opcode   mnemonic        bytes   cycles   description
+------   --------        -----   ------   -----------
+1B       INZ             1       1        Increment Z
+3B       DEZ             1       1        Decrement Z
+4B       TAZ             1       1        Transfer A into Z
+64       STZ $nn         2       3        Store Z in bp
+6B       TZA             1       1        Transfer Z into A
+74       STZ $nn,X       2       3        Store Z in bp,X
+9C       STZ $nnnn       3       4        Store Z in abs
+9E       STZ $nnnn,X     3       4        Store Z in abs,X
+A3       LDZ #$nn        2       2        Load Z with #$nn
+AB       LDZ $nnnn       3       4        Load Z with abs
+BB       LDZ $nnnn,X     3       4        Load Z with abs,X
+C2       CPZ #$nn        2       2        Compare Z with #$nn
+D4       CPZ $nn         2       3        Compare Z with bp
+DB       PHZ             1       3        Push Z onto the stack
+DC       CPZ $nnnn       3       4        Compare Z with abs
+FB       PLZ             1       3        Pull Z from stack
+
+
+Below is a table of 65CE02 opcodes that deal with the new 'B' (base page) register:
+
+opcode   mnemonic        bytes   cycles   description
+------   --------        -----   ------   -----------
+5B       TAB             1       1        Transfer A into B
+7B       TBA             1       1        Transfer B into A
+
+
+Please note that TXS and TSX transfer to and from the low byte of the 16bit stack pointer.
+
+Below is a table of 65CE02 opcodes that deal with the extended stack:
+
+opcode   mnemonic        bytes   cycles   description
+------   --------        -----   ------   -----------
+02       CLE             1       2        Clear extended stack disable
+03       SEE             1       2        Set extended stack disable
+0B       TSY             1       1        Transfer the high byte of the 16bit stack into Y
+2B       TYS             1       1        Transfer Y into the high byte of the 16bit stack
+
+
+The 65CE02 has support for indirect subroutine calling, below is a table of the new opcodes:
+
+opcode   mnemonic        bytes   cycles
+------   --------        -----   ------
+22       JSR ($nnnn)     3       7        
+23       JSR ($nnnn,X)   3       7
+
+
+The 65CE02 has support for Arithmetic Shift Right, below is a table of the new opcodes:
+
+opcode   mnemonic        bytes   cycles
+------   --------        -----   ------
+43       ASR A           1       2
+44       ASR $nn         2       4
+54       ASR $nn,X       2       4
+
+
+
+opcode   mnemonic        bytes   cycles
+------   --------        -----   ------
+42       NEG A           1       2
+5C       AUG #$nnnnnn    4       4
+62       RTN #$nn        2       7
+82       STA ($nn,S),Y   2       6
+8B       STY $nnnn,X     3       4
+9B       STX $nnnn,Y     3       4
+C3       DEW $nn         2       6
+CB       ASW $nnnn       3       7
+E2       LDA ($nn,S),Y   2       6
+E3       INW $nn         2       6
+EB       ROW $nnnn       3       6
+F4       PHW #$nnnn      3       5
+FC       PHW $nnnn       3       7
