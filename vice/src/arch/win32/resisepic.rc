@@ -98,12 +98,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_ISEPIC  "Select file for ISEPIC"
-  IDS_ISEPIC_CAPTION      "ISEPIC settings"
-  IDS_ISEPIC_ENABLE       "Enable the ISEPIC cartridge"
-  IDS_ISEPIC_SWITCH       "ISEPIC switch"
-  IDS_ISEPIC_WRITE_ENABLE "Save ISEPIC image when changed"
-  IDS_ISEPIC_FILE_LABEL   "ISEPIC file"
+  IDS_SELECT_FILE_ISEPIC  "Sélectionner fichier pour ISEPIC"
+  IDS_ISEPIC_CAPTION      "Paramètres ISEPIC"
+  IDS_ISEPIC_ENABLE       "Activer la cartouche ISEPIC"
+  IDS_ISEPIC_SWITCH       "Paramètres d'interrupteur ISEPIC"
+  IDS_ISEPIC_WRITE_ENABLE "Enregistrer l'image ISEPIC lorsque modifiée"
+  IDS_ISEPIC_FILE_LABEL   "Fichier ISEPIC"
 END
 
 

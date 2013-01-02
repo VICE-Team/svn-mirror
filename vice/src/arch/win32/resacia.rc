@@ -171,12 +171,12 @@ BEGIN
   IDS_NORMAL         "Normal"
   IDS_SWIFTLINK      "Swiftlink"
   IDS_TURBO232       "Turbo232"
-  IDS_ACIA_CAPTION   "ACIA settings"
-  IDS_ACIA_ENABLE    "Enable the ACIA RS232 interface emulation"
+  IDS_ACIA_CAPTION   "Paramètres ACIA"
+  IDS_ACIA_ENABLE    "Activer l'émulation de l'interface ACIA RS232"
   IDS_ACIA_DEVICE    "Périphérique ACIA"
   IDS_ACIA_LOCATION  "Emplacement ACIA"
   IDS_ACIA_INTERRUPT "Interruption ACIA"
-  IDS_ACIA_MODE      "ACIA mode"
+  IDS_ACIA_MODE      "Mode ACIA"
 END
 
 

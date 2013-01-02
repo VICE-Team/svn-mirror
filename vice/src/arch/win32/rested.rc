@@ -94,11 +94,11 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_TED_CAPTION       "Paramètres TED"
-    IDS_TED_BORDERSGROUP  "Border mode"
-    IDS_TED_NORMALBORDERS "Normal borders"
-    IDS_TED_FULLBORDERS   "Full borders"
-    IDS_TED_DEBUGBORDERS  "Debug borders"
-    IDS_TED_NOBORDERS     "No borders"
+    IDS_TED_BORDERSGROUP  "Mode Bordure"
+    IDS_TED_NORMALBORDERS "Bordures normales"
+    IDS_TED_FULLBORDERS   "Bordures complètes"
+    IDS_TED_DEBUGBORDERS  "Bordures de déboguage"
+    IDS_TED_NOBORDERS     "Pas de bordures"
 END
 
 

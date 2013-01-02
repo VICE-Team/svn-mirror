@@ -117,15 +117,15 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VICII_CAPTION       "Paramètres VIC-II"
-    IDS_VICII_BORDERSGROUP  "Border mode"
-    IDS_VICII_NORMALBORDERS "Normal borders"
-    IDS_VICII_FULLBORDERS   "Full borders"
-    IDS_VICII_DEBUGBORDERS  "Debug borders"
-    IDS_VICII_NOBORDERS     "No borders"
+    IDS_VICII_BORDERSGROUP  "Mode Bordure"
+    IDS_VICII_NORMALBORDERS "Bordures normales"
+    IDS_VICII_FULLBORDERS   "Bordures complètes"
+    IDS_VICII_DEBUGBORDERS  "Bordures de déboguage"
+    IDS_VICII_NOBORDERS     "Pas de bordures"
     IDS_VICII_SPRITEGROUP   "Collisions de Sprites"
-    IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
-    IDS_VICII_BACKCOLL      "Sprite-background collisions"
-    IDS_VICII_LUMINANCE     "New luminances"
+    IDS_VICII_SPRITECOLL    "Collisions sprite-sprite"
+    IDS_VICII_BACKCOLL      "Collisions sprite-arrière-plan"
+    IDS_VICII_LUMINANCE     "Nouvelles luminescences"
 END
 
 

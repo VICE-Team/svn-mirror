@@ -113,7 +113,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_TFE_CAPTION   "Ethernet settings"
+    IDS_TFE_CAPTION   "Paramètres Ethernet"
     IDS_TFE_ETHERNET  "Ethernet"
     IDS_TFE_INTERFACE "Interface"
 END

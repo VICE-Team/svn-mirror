@@ -82,10 +82,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_EASYFLASH_CAPTION  "EasyFlash settings"
-  IDS_EASYFLASH_JUMPER   "EasyFlash jumper"
-  IDS_EASYFLASH_AUTOSAVE "Save CRT on detach"
-  IDS_EASYFLASH_SAVE_NOW "Save CRT now"
+  IDS_EASYFLASH_CAPTION  "Paramètres datassette"
+  IDS_EASYFLASH_JUMPER   "Jumper EasyFlash"
+  IDS_EASYFLASH_AUTOSAVE "Enregistrer CRT au détachement"
+  IDS_EASYFLASH_SAVE_NOW "Sauvegarder CRT maintenant"
 END
 
 

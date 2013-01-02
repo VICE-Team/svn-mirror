@@ -112,12 +112,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SELECT_FILE_EXPERT  "Select file for Expert Cartridge"
-  IDS_EXPERT_CAPTION      "Expert Cartridge settings"
-  IDS_EXPERT_ENABLE       "Enable the Expert Cartridge"
+  IDS_SELECT_FILE_EXPERT  "Sélectionner fichier pour Cartouche Expert"
+  IDS_EXPERT_CAPTION      "Paramètres Cartouche Expert"
+  IDS_EXPERT_ENABLE       "Activer Cartouche Expert"
   IDS_EXPERT_MODE_LABEL   "Mode"
-  IDS_EXPERT_WRITE_ENABLE "Save Expert Cartridge image when changed"
-  IDS_EXPERT_FILE_LABEL   "Expert Cartridge file"
+  IDS_EXPERT_WRITE_ENABLE "Sauvegarder l'image Cartouche Expert lorsque modifiée"
+  IDS_EXPERT_FILE_LABEL   "Fichier Cartouche Expert"
   IDS_OFF                 "Off"
   IDS_PRG                 "Prg"
   IDS_ON                  "On"

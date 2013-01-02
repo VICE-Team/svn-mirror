@@ -88,10 +88,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RR_FLASH_JUMPER   "Enable RR flash jumper"
-  IDS_RR_BANK_JUMPER    "Enable RR bank jumper"
+  IDS_RR_FLASH_JUMPER   "Activer le RR flash jumper"
+  IDS_RR_BANK_JUMPER    "Activer le RR bank jumper"
   IDS_RR_REVISION_LABEL "Révision"
-  IDS_RR_BIOS_SAVE      "Save RR flash when changed"
+  IDS_RR_BIOS_SAVE      "Enregistrer le RR flash lorsque modifié"
 END
 
 

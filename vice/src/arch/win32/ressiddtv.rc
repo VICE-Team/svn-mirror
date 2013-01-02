@@ -145,15 +145,15 @@ LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_GENERAL            "Général"
   IDS_SID_SETTINGS       "Paramètres SID"
-  IDS_FAST               "Fast"
-  IDS_INTERPOLATING      "Interpolating"
-  IDS_RESAMPLING         "Resampling"
-  IDS_FAST_RESAMPLING    "Fast resampling"
-  IDS_SID_RESID_GROUP    "reSID/reSID-fp options"
+  IDS_FAST               "Rapide"
+  IDS_INTERPOLATING      "Par interpolation"
+  IDS_RESAMPLING         "Rééchantillonnage"
+  IDS_FAST_RESAMPLING    "Rééchantillonage rapide"
+  IDS_SID_RESID_GROUP    "Options reSID/reSID-fp"
   IDS_SID_RESID_SAMPLE   "Méthode d'échantillonnage"
-  IDS_SID_RESID_PASSBAND "Passband (0..90%)"
+  IDS_SID_RESID_PASSBAND "Bande passante (0..90%)"
   IDS_HARDSID_GROUP      "Sélection des périphériques"
-  IDS_HARDSID_LEFT_LABEL "Main device"
+  IDS_HARDSID_LEFT_LABEL "Périphérique principal"
 END
 
 

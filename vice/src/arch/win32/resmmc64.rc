@@ -122,13 +122,13 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_MMC64_ENABLE           "Activer l'expansion MMC64"
-  IDS_MMC64_REVISION_LABEL   "BIOS Revision"
+  IDS_MMC64_REVISION_LABEL   "Révision BIOS"
   IDS_MMC64_FLASHJUMPER      "Activer le BIOS Flash Jumper"
   IDS_MMC64_BIOS_SAVE        "Enregistrer le BIOS lorsque modifié"
   IDS_MMC64_BIOS_FILE_LABEL  "Fichier du BIOS"
   IDS_MMC64_IMAGE_RO         "Image MMC/SD en lecture seule"
   IDS_MMC64_IMAGE_FILE_LABEL "Nom d'image MMC/SD"
-  IDS_MMC64_SDTYPE_LABEL     "Card type"
+  IDS_MMC64_SDTYPE_LABEL     "Type de carte"
 END
 
 

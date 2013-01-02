@@ -87,7 +87,7 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RS232USER_CAPTION "RS232 userport settings"
+  IDS_RS232USER_CAPTION "Paramètres port utilisateur RS232"
   IDS_RS232USER_ENABLE  "Activer l'émulation de périphérique RS232 userport"
   IDS_RS232USER_DEVICE  "Périphérique Userport"
   IDS_RS232USER_BAUD    "Vitesse du Userport"

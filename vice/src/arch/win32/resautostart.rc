@@ -124,16 +124,16 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_AUTOSTART_CAPTION                    "Autostart settings"
-    IDS_AUTOSTART_WARP                       "Autostart warp"
-    IDS_AUTOSTART_COLON_RUN                  "Use '"
-    IDS_AUTOSTART_LOAD_TO_BASIC              "Load to BASIC start"
-    IDS_AUTOSTART_RANDOM_DELAY               "Random delay"
-    IDS_AUTOSTART_PRG_MODE                   "PRG autostart mode"
-    IDS_AUTOSTART_PRG_DISK_IMAGE             "PRG autostart disk image"
-    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Select file for PRG autostart disk"
-    IDS_AUTOSTART_VIRTUAL_FS                 "Virtual FS"
-    IDS_AUTOSTART_INJECT                     "Inject to RAM"
+    IDS_AUTOSTART_CAPTION                    "Paramètres Autodémarrage"
+    IDS_AUTOSTART_WARP                       "Turbo à l'autodémarrage"
+    IDS_AUTOSTART_COLON_RUN                  "Utiliser \042:\042 avec RUN"
+    IDS_AUTOSTART_LOAD_TO_BASIC              "Charger au démarrage BASIC"
+    IDS_AUTOSTART_RANDOM_DELAY               "Délai aléatoire"
+    IDS_AUTOSTART_PRG_MODE                   "Mode d'autodémarrage des PRG"
+    IDS_AUTOSTART_PRG_DISK_IMAGE             "Autocharger PRG d'une image de disque"
+    IDS_AUTOSTART_PRG_DISK_IMAGE_SELECT_FILE "Sélectionner fichier pour autodémarrage PRG"
+    IDS_AUTOSTART_VIRTUAL_FS                 "SF virtuel"
+    IDS_AUTOSTART_INJECT                     "Injecter dans le RAM"
     IDS_AUTOSTART_DISK                       "Image de disque"
 END
 

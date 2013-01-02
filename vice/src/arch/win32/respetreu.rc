@@ -94,11 +94,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_PETREU_CAPTION     "PET REU settings"
+    IDS_PETREU_CAPTION     "Paramètres PET REU"
     IDS_PETREU_ENABLE      "Activer l'expansion d'unité et de RAM du PET"
-    IDS_PETREU_SIZE        "PET REU size"
-    IDS_PETREU_FILE        "PET REU file"
-    IDS_PETREU_SELECT_FILE "Select file for PET REU"
+    IDS_PETREU_SIZE        "Taille du PET REU"
+    IDS_PETREU_FILE        "Fichier PET REU"
+    IDS_PETREU_SELECT_FILE "Sélectionner fichier pour PET REU"
 END
 
 

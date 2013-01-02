@@ -71,9 +71,9 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_LIGHTPEN_CAPTION "Lightpen settings"
-    IDS_LIGHTPEN_ENABLE  "Enable lightpen emulation"
-    IDS_LIGHTPEN_TYPE    "Lightpen type"
+    IDS_LIGHTPEN_CAPTION "Paramètres crayon optique"
+    IDS_LIGHTPEN_ENABLE  "Activer l'émulation du stylet optique"
+    IDS_LIGHTPEN_TYPE    "Type de stylet optique"
 END
 
 

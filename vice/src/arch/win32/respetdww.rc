@@ -77,10 +77,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PETDWW_CAPTION     "PET DWW settings"
-  IDS_PETDWW_ENABLE      "Enable the PET DWW hi-res board"
-  IDS_PETDWW_FILE        "PET DWW file"
-  IDS_PETDWW_SELECT_FILE "Select file for PET DWW"
+  IDS_PETDWW_CAPTION     "Paramètres PET DWW"
+  IDS_PETDWW_ENABLE      "Activer la carte haute-rés PET DWW"
+  IDS_PETDWW_FILE        "Fichier PET DWW"
+  IDS_PETDWW_SELECT_FILE "Sélectionner fichier pour PET DWW"
 END
 
 

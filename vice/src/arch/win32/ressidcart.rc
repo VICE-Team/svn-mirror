@@ -211,12 +211,12 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_SIDCART_ENABLE                         "Enable the SID cartridge"
-  IDS_SIDCART_ADDRESS_LABEL                  "SID address"
+  IDS_SIDCART_ENABLE                         "Activer la cartouche SID"
+  IDS_SIDCART_ADDRESS_LABEL                  "Adresse SID"
   IDS_SIDCART_CLOCK_LABEL                    "Horloge SID"
-  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "HardSID device selection"
-  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Main device"
-  IDS_DIGIBLASTER                            "Enable the digiblaster add-on"
+  IDS_SIDCART_HARDSID_DEVICE_SELECTION_LABEL "Sélection des périphériques HardSID"
+  IDS_SIDCART_HARDSID_MAIN_DEVICE_LABEL      "Périphérique principal"
+  IDS_DIGIBLASTER                            "Activer le add-on digiblaster"
 END
 
 

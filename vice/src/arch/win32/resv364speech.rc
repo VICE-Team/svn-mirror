@@ -77,10 +77,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_V364SPEECH_CAPTION     "V364 Speech settings"
-  IDS_V364SPEECH_ENABLE      "Enable the v364 speech add-on"
-  IDS_V364SPEECH_FILE        "V364 Speech ROM file"
-  IDS_V364SPEECH_SELECT_FILE "Select ROM file for V364 Speech"
+  IDS_V364SPEECH_CAPTION     "Paramètres du V364 Speech"
+  IDS_V364SPEECH_ENABLE      "Activer le add-on V364 Speech"
+  IDS_V364SPEECH_FILE        "Sélectionner le fichier ROM V364 Speech"
+  IDS_V364SPEECH_SELECT_FILE "Sélectionner fichier ROM pour V364 Speech"
 END
 
 

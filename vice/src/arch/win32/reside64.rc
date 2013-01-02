@@ -155,21 +155,21 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-    IDS_IDE64_V4_SETTINGS           "IDE64 V4 settings"
-    IDS_IDE64_HD_IMAGE_1_SETTINGS   "IDE64 primary master device settings"
-    IDS_IDE64_HD_IMAGE_2_SETTINGS   "IDE64 primary slave device settings"
-    IDS_IDE64_HD_IMAGE_3_SETTINGS   "IDE64 secondary master device settings"
-    IDS_IDE64_HD_IMAGE_4_SETTINGS   "IDE64 secondary slave device settings"
-    IDS_IDE64_SETTINGS              "IDE64 settings"
-    IDS_IDE64_V4                    "Enable IDE64 V4"
-    IDS_IDE64_IMAGE                 "ATA device image file"
+    IDS_IDE64_V4_SETTINGS           "Paramètres IDE64 V4"
+    IDS_IDE64_HD_IMAGE_1_SETTINGS   "Paramètres périphérique maître primaire IDE64"
+    IDS_IDE64_HD_IMAGE_2_SETTINGS   "Paramètres périphérique esclave primaire IDE64"
+    IDS_IDE64_HD_IMAGE_3_SETTINGS   "Paramètres périphérique maître secondaire IDE64"
+    IDS_IDE64_HD_IMAGE_4_SETTINGS   "Paramètres esclave secondaire IDE64"
+    IDS_IDE64_SETTINGS              "Paramètres IDE64"
+    IDS_IDE64_V4                    "Activer IDE64 V4"
+    IDS_IDE64_IMAGE                 "Fichier image périphérique ATA"
     IDS_IDE64_GEOMETRY              "Géométrie"
-    IDS_IDE64_AUTODETECT            "Autodetect image size"
+    IDS_IDE64_AUTODETECT            "Autodétection de la taille de l'image"
     IDS_IDE64_CYLINDERS             "Cylindres"
     IDS_IDE64_HEADS                 "Têtes"
     IDS_IDE64_SECTORS               "Secteurs"
     IDS_IDE64_TOTAL_SIZE            "Taille totale: %iKo"
-    IDS_IDE64_SELECT_IMAGE          "Select ATA device image file"
+    IDS_IDE64_SELECT_IMAGE          "Sélectionnez le fichier image du périphérique ATA"
 END
 
 

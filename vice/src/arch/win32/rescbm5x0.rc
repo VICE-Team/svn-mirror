@@ -367,11 +367,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CBM5X0_SETTINGS           "CBM5x0 settings"
-  IDS_SELECT_CBMII_MEM_64       "64 kOctets"
-  IDS_CBM5X0MODEL               "CBM5x0 model"
-  IDS_MI_CBM5X0_SETTINGS        "CBM5x0 settings..."
-  IDS_MI_CBM5X0MODEL_SETTINGS   "CBM5x0 model settings..."
+  IDS_CBM5X0_SETTINGS           "Paramètres CBM5x0"
+  IDS_SELECT_CBMII_MEM_64       "64 ko"
+  IDS_CBM5X0MODEL               "Modèle CBM5x0"
+  IDS_MI_CBM5X0_SETTINGS        "Paramètres CBM5x0..."
+  IDS_MI_CBM5X0MODEL_SETTINGS   "Paramètres du modèle CBM5x0..."
 END
 
 

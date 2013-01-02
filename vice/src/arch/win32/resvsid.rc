@@ -206,14 +206,14 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_PSID_FILE           "Select PSID file"
-  IDS_TUNE_NR             "Tune number"
+  IDS_PSID_FILE           "Sélectionner le fichier PSID"
+  IDS_TUNE_NR             "Numéro de clip"
   IDS_MI_LOAD_PSID_FILE   "Charger le fichier PSID"
-  IDS_MI_SELECT_TUNE      "Select tune"
-  IDS_MI_NEXT_TUNE        "Next tune"
-  IDS_MI_PREVIOUS_TUNE    "Previous tune"
-  IDS_MI_PSID_OVERRIDE    "Override PSID settings"
-  IDS_MP_MEDIA            "Media"
+  IDS_MI_SELECT_TUNE      "Sélectionner le clip"
+  IDS_MI_NEXT_TUNE        "Clip suivant"
+  IDS_MI_PREVIOUS_TUNE    "Clip précédent"
+  IDS_MI_PSID_OVERRIDE    "Écraser les paramètres PSID"
+  IDS_MP_MEDIA            "Média"
 END
 
 

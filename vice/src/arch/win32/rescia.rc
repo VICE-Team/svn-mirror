@@ -108,11 +108,11 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_CIA1_MODEL                "CIA 1 model"
-  IDS_CIA2_MODEL                "CIA 2 model"
-  IDS_6526_OLD                  "6526 (old)"
-  IDS_6526A_NEW                 "6526A (new)"
-  IDS_MI_CIA_SETTINGS           "CIA settings..."
+  IDS_CIA1_MODEL                "Modèle CIA 1"
+  IDS_CIA2_MODEL                "Modèle CIA 2"
+  IDS_6526_OLD                  "6526 (ancien)"
+  IDS_6526A_NEW                 "6526A (récent)"
+  IDS_MI_CIA_SETTINGS           "Paramètres CIA..."
 END
 
 

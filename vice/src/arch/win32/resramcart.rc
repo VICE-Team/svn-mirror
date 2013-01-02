@@ -106,13 +106,13 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_RAMCART_CAPTION      "RamCart settings"
-  IDS_RAMCART_ENABLE       "Enable the RamCart expansion"
-  IDS_RAMCART_READONLY     "Read-only"
-  IDS_RAMCART_SIZE         "RamCart size"
-  IDS_RAMCART_WRITE_ENABLE "Save to RamCart image when changed"
-  IDS_RAMCART_FILE         "RamCart file"
-  IDS_RAMCART_SELECT_FILE  "Select file for RamCart"
+  IDS_RAMCART_CAPTION      "Paramètres RamCart"
+  IDS_RAMCART_ENABLE       "Activer l'expansion RAMCART"
+  IDS_RAMCART_READONLY     "Lecture seule"
+  IDS_RAMCART_SIZE         "Taille de l'extention RAMCART"
+  IDS_RAMCART_WRITE_ENABLE "Sauvegarder dans l'image RamCart lorsque modifié"
+  IDS_RAMCART_FILE         "Fichier RamCart"
+  IDS_RAMCART_SELECT_FILE  "Sélectionner fichier pour RamCart"
 END
 
 

@@ -77,10 +77,10 @@ END
 STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
-  IDS_MAGICVOICE_CAPTION     "Magic Voice settings"
-  IDS_MAGICVOICE_ENABLE      "Enable Magic Voice"
-  IDS_MAGICVOICE_FILE        "Magic Voice file"
-  IDS_MAGICVOICE_SELECT_FILE "Select file for Magic Voice"
+  IDS_MAGICVOICE_CAPTION     "Paramètres Magic Voice"
+  IDS_MAGICVOICE_ENABLE      "Activer Magic Voice"
+  IDS_MAGICVOICE_FILE        "Fichier Magic Voice"
+  IDS_MAGICVOICE_SELECT_FILE "Sélectionner fichier pour Magic Voice"
 END
 
 

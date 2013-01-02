@@ -101,9 +101,9 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_REU_CAPTION      "Paramètres REU"
-  IDS_REU_ENABLE       "Enable the RAM Expansion Unit"
+  IDS_REU_ENABLE       "Activer l'unité d'expansion RAM"
   IDS_REU_SIZE         "Taille du REU"
-  IDS_REU_WRITE_ENABLE "Save REU image when changed"
+  IDS_REU_WRITE_ENABLE "Enregistrer l'image REU lorsque modifiée"
   IDS_REU_FILE         "Fichier REU"
   IDS_REU_SELECT_FILE  "Sélectionner fichier pour REU"
 END

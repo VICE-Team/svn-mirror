@@ -94,11 +94,11 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
     IDS_VIC_CAPTION       "Paramètres VIC"
-    IDS_VIC_BORDERSGROUP  "Border mode"
-    IDS_VIC_NORMALBORDERS "Normal borders"
-    IDS_VIC_FULLBORDERS   "Full borders"
-    IDS_VIC_DEBUGBORDERS  "Debug borders"
-    IDS_VIC_NOBORDERS     "No borders"
+    IDS_VIC_BORDERSGROUP  "Mode Bordure"
+    IDS_VIC_NORMALBORDERS "Bordures normales"
+    IDS_VIC_FULLBORDERS   "Bordures complètes"
+    IDS_VIC_DEBUGBORDERS  "Bordures de déboguage"
+    IDS_VIC_NOBORDERS     "Pas de bordures"
 END
 
 
