@@ -54,9 +54,14 @@
 #include "gfxoutputdrv/ffmpegdrv.h"
 #endif
 
+/* #undef HAVE_FFMPEG */
+
 extern GtkWidget *video_ctrl_checkbox;
 static GtkWidget *screenshot_dialog;
 static GtkWidget *drv_menu;
+
+static GtkWidget *native_opts, *native_oversize, *native_undersize, *native_mcolor;
+static GtkWidget *native_tedluma, *native_crtccolor;
 
 #ifdef HAVE_FFMPEG
 static GtkWidget *ffmpg_opts, *ffmpg_audio, *ffmpg_video;
@@ -77,26 +82,51 @@ static img_type_buttons *buttons = NULL;
 static int combo_box_current_active = 0;
 
 #ifdef HAVE_FFMPEG
-
 enum { DRV_NAME, DRV_INDEX, DRV_ACMENU, DRV_VCMENU, DRV_N };
+#endif
+
+/******************************************************************************/
+static int is_koala(void) {
+    int d = gtk_combo_box_get_active(GTK_COMBO_BOX(drv_menu));
+    if ((strcmp(buttons[d].driver, "KOALA") == 0) ||
+        (strcmp(buttons[d].driver, "KOALA_COMPRESSED") == 0)) {
+        return 1;
+    }
+    return 0;
+}
+
+static int is_doodle(void) {
+    int d = gtk_combo_box_get_active(GTK_COMBO_BOX(drv_menu));
+    if ((strcmp(buttons[d].driver, "DOODLE") == 0) ||
+        (strcmp(buttons[d].driver, "DOODLE_COMPRESSED") == 0)) {
+        return 1;
+    }
+    return 0;
+}
+static int is_native(void) {
+    return is_koala() || is_doodle();
+}
 
 /* "output driver" combo box */
-static void ffmpeg_widget(GtkWidget *w, gpointer data)
+static void ffmpeg_output_driver_changed(GtkWidget *w, gpointer data)
 {
     int i;
-    const char *current_driver;
 
     g_return_if_fail(GTK_IS_COMBO_BOX(w));
 
-    resources_get_string("FFMPEGFormat", &current_driver);
-
     i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    DBG(("ffmpeg_output_driver_changed (driver:%s)\n", buttons[i].driver));
+#ifdef HAVE_FFMPEG
     if (strcmp(buttons[i].driver, "FFMPEG") == 0) {
         GtkListStore *store;
         GtkTreeIter iter;
         int index, found;
         char *drv_name = NULL;
+        const char *current_driver;
 
+        gtk_widget_hide(native_opts);
+        gtk_widget_show(ffmpg_opts);
+        resources_get_string("FFMPEGFormat", &current_driver);
         store = GTK_LIST_STORE(gtk_combo_box_get_model(GTK_COMBO_BOX(ffmpeg_omenu)));
         if (gtk_tree_model_get_iter_first(GTK_TREE_MODEL(store), &iter)) {
             do {
@@ -111,10 +141,48 @@ static void ffmpeg_widget(GtkWidget *w, gpointer data)
             gtk_widget_set_sensitive(ffmpg_opts, TRUE);
             return;
         }
+        gtk_widget_set_sensitive(ffmpg_opts, FALSE);
+    } else {
+        gtk_widget_hide(ffmpg_opts);
+#endif
+        if (is_native()) {
+            int n0 = 0, n1 = 0, n2 = 0, n3 = 0, n4 = 0;
+            if(is_doodle()) {
+                resources_get_int("DoodleOversizeHandling", &n0);
+                resources_get_int("DoodleUndersizeHandling", &n1);
+                resources_get_int("DoodleMultiColorHandling", &n2);
+                resources_get_int("DoodleTEDLumHandling", &n3);
+                resources_get_int("DoodleCRTCTextColor", &n4);
+                gtk_widget_set_sensitive(native_mcolor, TRUE);
+            } else {
+                resources_get_int("KoalaOversizeHandling", &n0);
+                resources_get_int("KoalaUndersizeHandling", &n1);
+                /* resources_get_int("KoalaMultiColorHandling", &n2); */
+                resources_get_int("KoalaTEDLumHandling", &n3);
+                resources_get_int("KoalaCRTCTextColor", &n4);
+                gtk_widget_set_sensitive(native_mcolor, FALSE);
+            }
+            gtk_combo_box_set_active(GTK_COMBO_BOX(native_oversize), n0);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(native_undersize), n1);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(native_mcolor), n2);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(native_tedluma), n3);
+            gtk_combo_box_set_active(GTK_COMBO_BOX(native_crtccolor), n4);
+            gtk_widget_show(native_opts);
+            gtk_widget_set_sensitive(native_opts, TRUE);
+            return;
+        }
+        gtk_widget_hide(native_opts);
+        gtk_widget_set_sensitive(native_opts, FALSE);
+#ifdef HAVE_FFMPEG
     }
-    gtk_widget_set_sensitive(ffmpg_opts, FALSE);
+#endif
 }
 
+/******************************************************************************
+    actual FFMPEG options
+ ******************************************************************************/
+
+#ifdef HAVE_FFMPEG
 static void ffmpeg_audio_codec_changed(GtkWidget *widget, gpointer data)
 {
     GtkTreeModel *audioCodecStore;
@@ -271,16 +339,178 @@ static void ffmpeg_details(GtkWidget *w, gpointer data)
     }
 }
 
-#endif
-
 /* "Half Framerate" checkbox */
-static void update_halffps_checkbox (GtkWidget *w, gpointer data)
+static void update_halffps_checkbox(GtkWidget *w, gpointer data)
 {
     if (!w || !GTK_IS_TOGGLE_BUTTON(w)) {
         return;
     }
     resources_set_int("FFMPEGVideoHalveFramerate", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w)));
     DBG(("update_halffps_checkbox (%d)\n", gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(w))));
+}
+
+#endif
+
+/******************************************************************************/
+static void update_oversize(GtkWidget *w, gpointer data)
+{
+    int i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    DBG(("update_oversize (%d)\n", i));
+
+    if (is_doodle()) {
+        resources_set_int("DoodleOversizeHandling", i);
+    } else if (is_koala()) {
+        resources_set_int("KoalaOversizeHandling", i);
+    }
+}
+
+static void update_undersize(GtkWidget *w, gpointer data)
+{
+    int i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    DBG(("update_undersize (%d)\n", i));
+
+    if (is_doodle()) {
+        resources_set_int("DoodleUndersizeHandling", i);
+    } else if (is_koala()) {
+        resources_set_int("KoalaUndersizeHandling", i);
+    }
+}
+
+static void update_multicolor(GtkWidget *w, gpointer data)
+{
+    int i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    DBG(("update_multicolor (%d)\n", i));
+
+    if (is_doodle()) {
+        resources_set_int("DoodleMultiColorHandling", i);
+    }
+}
+
+static void update_tedluma(GtkWidget *w, gpointer data)
+{
+    int i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    DBG(("update_tedluma (%d)\n", i));
+
+    if (is_doodle()) {
+        resources_set_int("DoodleTEDLumHandling", i);
+    } else if (is_koala()) {
+        resources_set_int("KoalaTEDLumHandling", i);
+    }
+}
+
+static void update_crtccolor(GtkWidget *w, gpointer data)
+{
+    int i = gtk_combo_box_get_active(GTK_COMBO_BOX(w));
+    DBG(("update_crtccolor (%d)\n", i));
+
+    if (is_doodle()) {
+        resources_set_int("DoodleCRTCTextColor", i);
+    } else if (is_koala()) {
+        resources_set_int("KoalaCRTCTextColor", i);
+    }
+}
+
+/******************************************************************************/
+
+static GtkWidget *build_native_options(void)
+{
+    GtkWidget *vbox, *omenu, *hbox, *tmp;
+    vbox = gtk_vbox_new(FALSE, 5);
+
+    hbox = gtk_hbox_new(0, FALSE);
+    tmp = gtk_label_new(_("Oversize handling"));
+    native_oversize = omenu = gtk_combo_box_text_new();
+
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("scale down"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop left top"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop center top"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop right top"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop left center"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop center"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop right center"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop left bottom"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop center bottom"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("crop right bottom"));
+    gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
+
+    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_widget_show(tmp);
+    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    gtk_widget_show(omenu);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_oversize), NULL);
+    
+    hbox = gtk_hbox_new(0, FALSE);
+    tmp = gtk_label_new(_("Undersize handling"));
+    native_undersize = omenu = gtk_combo_box_text_new();
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("scale up"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("add borders"));
+    gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
+
+    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_widget_show(tmp);
+    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    gtk_widget_show(omenu);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_undersize), NULL);
+
+    hbox = gtk_hbox_new(0, FALSE);
+    tmp = gtk_label_new(_("Multicolor handling"));
+    native_mcolor = omenu = gtk_combo_box_text_new();
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("b&w"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("2 colors"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("4 colors"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("gray scale"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("best cell colors"));
+    gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
+
+    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_widget_show(tmp);
+    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    gtk_widget_show(omenu);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_multicolor), NULL);
+
+    hbox = gtk_hbox_new(0, FALSE);
+    tmp = gtk_label_new(_("TED luma handling"));
+    native_tedluma = omenu = gtk_combo_box_text_new();
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("ignore"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("dither"));
+    gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
+
+    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_widget_show(tmp);
+    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    gtk_widget_show(omenu);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_tedluma), NULL);
+
+    native_crtccolor = omenu = gtk_combo_box_text_new();
+    hbox = gtk_hbox_new(0, FALSE);
+    tmp = gtk_label_new(_("CRTC textcolor"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("white"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("amber"));
+    gtk_combo_box_text_append_text(GTK_COMBO_BOX_TEXT(omenu), _("green"));
+    gtk_combo_box_set_active(GTK_COMBO_BOX(omenu), 0);
+
+    gtk_box_pack_start(GTK_BOX(hbox), tmp, FALSE, FALSE, 0);
+    gtk_widget_show(tmp);
+    gtk_box_pack_start(GTK_BOX(hbox), omenu, FALSE, FALSE, 0);
+    gtk_widget_show(omenu);
+    gtk_box_pack_start(GTK_BOX(vbox), hbox, FALSE, FALSE, 0);
+    gtk_widget_show(hbox);
+
+    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(update_crtccolor), NULL);
+
+    return vbox;
 }
 
 static GtkWidget *build_screenshot_dialog(void)
@@ -337,12 +567,18 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_box_pack_start(GTK_BOX(vbox), omenu, FALSE, FALSE, 0);
     gtk_widget_show(omenu);
 
+    native_opts = build_native_options();
+
+    gtk_box_pack_start(GTK_BOX(vbox), native_opts, FALSE, FALSE, 0);
+    gtk_widget_show_all(native_opts);
+    gtk_widget_set_sensitive(native_opts, FALSE);
+
+    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(ffmpeg_output_driver_changed), (gpointer)omenu);
+
 #ifdef HAVE_FFMPEG
     if (!ffmpegdrv_formatlist[0].name) {
         goto no_ffmpeg;
     }
-
-    g_signal_connect(G_OBJECT(omenu), "changed", G_CALLBACK(ffmpeg_widget), (gpointer)omenu);
 
     /* ffmpeg options */
     ffmpg_opts = gtk_vbox_new(FALSE, 5);
@@ -468,6 +704,8 @@ static GtkWidget *build_screenshot_dialog(void)
     gtk_widget_show(frame);
     gtk_widget_show(d);
 
+    ffmpeg_output_driver_changed(drv_menu, NULL);
+
     return d;
 }
 
@@ -476,7 +714,8 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
     int res, i, driveridx = -1;
     char *fn, *tmp, *tmpext;
     const char *driver, *ext;
-    
+
+    /* build the dialog, or raise it if it exists */
     if (screenshot_dialog) {
         gdk_window_show(gtk_widget_get_window(screenshot_dialog));
         gdk_window_raise(gtk_widget_get_window(screenshot_dialog));
@@ -491,6 +730,7 @@ int ui_screenshot_dialog(char *name, struct video_canvas_s *wid)
         }
     }
 
+    /* pop up and run the dialog */
     ui_popup(screenshot_dialog, _("Save screenshot file"), FALSE);
     res = gtk_dialog_run(GTK_DIALOG(screenshot_dialog));
     ui_popdown(screenshot_dialog);
