@@ -746,7 +746,7 @@ void sdl_ui_activate_pre_action(void)
         sdl_vkbd_close();
     }
 
-    if (vsid_mode && (sdl_vsid_state & SDL_VSID_ACTIVE)) {
+    if (sdl_vsid_state & SDL_VSID_ACTIVE) {
         sdl_vsid_close();
     }
 
@@ -769,7 +769,7 @@ void sdl_ui_activate_post_action(void)
         sound_resume();
     }
 
-    if (vsid_mode) {
+    if (machine_class == VICE_MACHINE_VSID) {
         sdl_vsid_activate();
     }
 

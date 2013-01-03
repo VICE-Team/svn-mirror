@@ -56,6 +56,7 @@
 #include "uistatusbar.h"
 #include "videoarch.h"
 #include "vkbd.h"
+#include "vsidui_sdl.h"
 #include "vsync.h"
 
 #ifndef SDL_DISABLE
@@ -454,3 +455,35 @@ int uicolor_set_palette(struct video_canvas_s *c, const struct palette_s *palett
     DBG(("%s", __func__));
     return 0;
 }
+
+/* ---------------------------------------------------------------------*/
+/* vsidui_sdl.h */
+
+/* These items are here so they can be used in generic UI
+   code without vsidui.c being linked into all emulators. */
+int sdl_vsid_state = 0;
+
+static ui_draw_func_t vsid_draw_func = NULL;
+
+void sdl_vsid_activate(void)
+{
+    sdl_vsid_state = SDL_VSID_ACTIVE | SDL_VSID_REPAINT;
+}
+
+void sdl_vsid_close(void)
+{
+    sdl_vsid_state = 0;
+}
+
+void sdl_vsid_draw_init(ui_draw_func_t func)
+{
+    vsid_draw_func = func;
+}
+
+void sdl_vsid_draw(void)
+{
+    if (vsid_draw_func) {
+        vsid_draw_func();
+    }
+}
+

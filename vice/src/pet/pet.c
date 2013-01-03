@@ -542,10 +542,6 @@ int machine_autodetect_psid(const char *name)
     return -1;
 }
 
-void machine_play_psid(int tune)
-{
-}
-
 
 /* ------------------------------------------------------------------------- */
 
@@ -657,14 +653,6 @@ const char *machine_get_name(void)
 {
     return machine_name;
 }
-
-#ifdef USE_SDLUI
-/* Kludges for vsid & linking issues */
-const char **csidmodel = NULL;
-void psid_init_driver(void)
-{
-}
-#endif
 
 /* ------------------------------------------------------------------------- */
 /* native screenshot support */

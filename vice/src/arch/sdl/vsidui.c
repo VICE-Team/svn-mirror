@@ -322,21 +322,9 @@ static const ui_menu_entry_t vsid_main_menu[] = {
 
 
 /* ---------------------------------------------------------------------*/
-/* vsidui_sdl.h */
+/* vsidui_sdl.h draw func */
 
-int sdl_vsid_state = 0;
-
-void sdl_vsid_activate(void)
-{
-    sdl_vsid_state = SDL_VSID_ACTIVE | SDL_VSID_REPAINT;
-}
-
-void sdl_vsid_close(void)
-{
-    sdl_vsid_state = 0;
-}
-
-void sdl_vsid_draw(void)
+static void draw_func(void)
 {
     int i;
 
@@ -355,6 +343,7 @@ int vsid_ui_init(void)
     sdl_ui_set_main_menu(vsid_main_menu);
     sdl_ui_set_menu_font(mem_chargen_rom + 0x800, 8, 8);
 
+    sdl_vsid_draw_init(draw_func);
     sdl_vsid_activate();
 
     sprintf(vsidstrings[VSID_CS_TITLE], "Title:");

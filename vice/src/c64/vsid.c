@@ -354,7 +354,6 @@ void machine_setup_context(void)
 /* C64-specific initialization.  */
 int machine_specific_init(void)
 {
-    vsid_mode = 1; /* FIXME: remove this when all ports have been updated */
 #ifdef USE_SDLUI
     if (console_mode) {
         video_disabled_mode = 1;

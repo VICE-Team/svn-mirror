@@ -65,7 +65,6 @@ struct machine_timing_s {
 typedef struct machine_timing_s machine_timing_t;
 
 extern int machine_class;
-extern int vsid_mode;
 extern
 #ifdef __OS2__
 const

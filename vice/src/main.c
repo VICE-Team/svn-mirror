@@ -68,7 +68,6 @@
 #include "video.h"
 
 
-int vsid_mode = 0; /* FIXME: remove this if all ports are updated */
 #ifdef __OS2__
 const
 #endif

@@ -671,9 +671,6 @@ int machine_autodetect_psid(const char *name)
     return -1;
 }
 
-void machine_play_psid(int tune)
-{
-}
 
 int machine_screenshot(screenshot_t *screenshot, struct video_canvas_s *canvas)
 {
@@ -720,14 +717,3 @@ const char *machine_get_name(void)
 {
     return machine_name;
 }
-
-#ifdef USE_SDLUI
-/* Kludges for vsid & linking issues */
-const char **csidmodel = NULL;
-
-void psid_init_driver(void)
-{
-}
-
-BYTE *mem_chargen_rom = NULL;
-#endif
