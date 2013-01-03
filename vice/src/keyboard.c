@@ -1159,17 +1159,19 @@ void keyboard_init(void)
 {
     keyboard_log = log_open("Keyboard");
 
-    keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
-                               keyboard_latch_handler, NULL);
+    if (machine_class != VICE_MACHINE_VSID) {
+        keyboard_alarm = alarm_new(maincpu_alarm_context, "Keyboard",
+                                keyboard_latch_handler, NULL);
 #ifdef COMMON_KBD
-    restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
-                              restore_alarm_triggered, NULL);
+        restore_alarm = alarm_new(maincpu_alarm_context, "Restore",
+                                restore_alarm_triggered, NULL);
 
-    kbd_arch_init();
+        kbd_arch_init();
 
-    load_keymap_ok = 1;
-    keyboard_set_keymap_index(machine_keymap_index, NULL);
+        load_keymap_ok = 1;
+        keyboard_set_keymap_index(machine_keymap_index, NULL);
 #endif
+    }
 }
 
 void keyboard_shutdown(void)
