@@ -40,19 +40,24 @@ static char *line;
 
 static void update_line(void)
 {
-    char *aline;
-    lib_free(line);
-    aline = lib_msprintf(_("Name: %s\nAuthor: %s\nCopyright: %s\n\nTune: %d of %d\n%s\nModel: %s\nIRQ: %s\n\n%s"), 
-                        name, author, copyright, tune, numtunes, vsidsync, model, irq, info);
-    line = (char*)convert_utf8((unsigned char*)aline);
+    char *a1, *a2, *a3;
+    if (line) {
+        lib_free(line);
+    }
+    a1 = (char*)convert_utf8((unsigned char*)name);
+    a2 = (char*)convert_utf8((unsigned char*)author);
+    a3 = (char*)convert_utf8((unsigned char*)copyright);
+    line = lib_msprintf(_("Name: %s\nAuthor: %s\nCopyright: %s\n\nTune: %d of %d\n%s\nModel: %s\nIRQ: %s\n\n%s"), 
+                        a1, a2, a3, tune, numtunes, vsidsync, model, irq, info);
     gtk_label_set_text(GTK_LABEL(current_line), line);
-    lib_free(aline);
+    lib_free(a1);
+    lib_free(a2);
+    lib_free(a3);
 }
 
 ui_window_t build_vsid_ctrl_widget(void)
 {
     GtkWidget *event_box, *f;
-    char *aline;
 
     event_box = gtk_event_box_new();
     f = gtk_frame_new("");
@@ -75,12 +80,7 @@ ui_window_t build_vsid_ctrl_widget(void)
     irq = lib_stralloc("-");
     info = lib_stralloc("-");
 
-    aline = lib_msprintf(_("Name: %s\nAuthor: %s\nCopyright: %s\n\nTune: %d of %d\n%s\nModel: %s\nIRQ: %s\n\n%s"), 
-                        name, author, copyright, tune, numtunes, vsidsync, model, irq, info);
-    line = (char*)convert_utf8((unsigned char*)aline);
-    gtk_label_set_text(GTK_LABEL(current_line), line);
-    lib_free(aline);
-
+    update_line();
     return event_box;
 }
 
