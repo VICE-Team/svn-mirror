@@ -162,6 +162,10 @@ void machine_drive_stub(void)
 {
 }
 
+int drive_get_disk_drive_type(int dnr)
+{
+    return DRIVE_TYPE_NONE;
+}
 /*******************************************************************************
     Cartridge system
 *******************************************************************************/

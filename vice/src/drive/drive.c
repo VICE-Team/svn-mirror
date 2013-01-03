@@ -376,6 +376,15 @@ int drive_set_disk_drive_type(unsigned int type, struct drive_context_s *drv)
     return 0;
 }
 
+int drive_get_disk_drive_type(int dnr)
+{
+    if (dnr >= 0 && dnr < DRIVE_NUM) {
+	return drive_context[dnr]->drive->type;
+    }
+
+    return DRIVE_TYPE_NONE;
+}
+
 void drive_enable_update_ui(drive_context_t *drv)
 {
     int i;

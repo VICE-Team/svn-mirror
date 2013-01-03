@@ -286,6 +286,8 @@ extern void drive_move_head(int step, struct drive_s *drive);
 extern void drive_reset(void);
 extern void drive_shutdown(void);
 extern void drive_vsync_hook(void);
+extern int drive_get_disk_drive_type(int dnr);
+extern void drive_enable_update_ui(struct drive_context_s *drv);
 extern void drive_update_ui_status(void);
 extern void drive_gcr_data_writeback(struct drive_s *drive);
 extern void drive_gcr_data_writeback_all(void);

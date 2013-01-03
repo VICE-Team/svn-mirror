@@ -160,6 +160,9 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNheight, height,
                                 XtNborderWidth, 0,
                                 /* Constraints: */
+#if DEBUG_LAYOUT
+                                XtNbackground, "yellow",
+#endif
                                 XtNdefaultDistance, 0,
                                 XtNfromVert, drivefromvert,
                                 XtNfromHoriz, drivefromhoriz,
@@ -184,6 +187,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 commandWidgetClass, form,
                                 XtNlabel, "",
                                 XtNwidth, status_width - led_width - 2 * led_dist - DD,
+                                /* Constraints: */
                                 XtNhorizDistance, 0,
                                 XtNvertDistance, 0,
                                 XtNtop, XawChainBottom,
@@ -202,6 +206,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNmappedWhenManaged, False,
                                 XtNwidth, led_width,
                                 XtNheight, led_height,
+                                /* Constraints: */
                                 XtNfromHoriz, drive_track_label[d],
                                 XtNhorizDistance, led_dist,
                                 XtNvertDistance, (height-led_height)/2 + BW,
@@ -221,6 +226,8 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNmappedWhenManaged, False,
                                 XtNwidth, led_width / 2 - BW,
                                 XtNheight, led_height,
+                                XtNborderWidth, BW,
+                                /* Constraints: */
                                 XtNfromHoriz, drive_track_label[d],
                                 XtNhorizDistance, led_dist,
                                 XtNvertDistance, (height-led_height)/2 + BW,
@@ -228,7 +235,6 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNbottom, XawChainBottom,
                                 XtNleft, XawChainRight,
                                 XtNright, XawChainRight,
-                                XtNborderWidth, BW,
                                 NULL);
             lib_free(name);
 
@@ -238,6 +244,8 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNmappedWhenManaged, False,
                                 XtNwidth, led_width / 2 - BW,
                                 XtNheight, led_height,
+                                XtNborderWidth, BW,
+                                /* Constraints: */
                                 XtNfromHoriz, drive_led1[d],
                                 XtNhorizDistance, led_dist,
                                 XtNvertDistance, (height-led_height)/2 + BW,
@@ -245,7 +253,6 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
                                 XtNbottom, XawChainBottom,
                                 XtNleft, XawChainRight,
                                 XtNright, XawChainRight,
-                                XtNborderWidth, BW,
                                 NULL);
             lib_free(name);
 
@@ -369,7 +376,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
             char *name = lib_msprintf("tapeCounter%d", i + 1);
             tape_counter_label[i] = XtVaCreateManagedWidget(name,
                                             commandWidgetClass, pane,
-                                            XtNwidth, width / 3 - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
+                                            XtNwidth, width / 3 - DD - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
                                             XtNjustify, XtJustifyLeft,
                                             XtNlabel, "Tape #1",
                                             /* Constraints: */

@@ -116,7 +116,6 @@ typedef struct {
         Widget driveled1;
         Widget driveled2;
     } drive_widgets[NUM_DRIVES];
-    int drive_mapping[NUM_DRIVES];
     int drive_nleds[NUM_DRIVES];
     tape_widgets_t tape_widgets[NUM_TAPES];
 } app_shell_type;

@@ -1228,13 +1228,14 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
                                         xfwfcanvasWidgetClass, pane,
                                         XtNwidth, width,
                                         XtNheight, height,
+                                        XtNborderWidth, 0,
+                                        XtNbackground, BlackPixel(display, screen),
+                                        /* Constraints: */
                                         XtNresizable, True,
                                         XtNbottom, XawChainBottom,
                                         XtNtop, XawChainTop,
                                         XtNleft, XawChainLeft,
                                         XtNright, XawChainRight,
-                                        XtNborderWidth, 0,
-                                        XtNbackground, BlackPixel(display, screen),
                                         NULL);
     } else {
         vsid_ctrl_widget_set_parent(pane);
@@ -1567,7 +1568,9 @@ void x11ui_resize_canvas_window(ui_window_t w, int width, int height)
     /* Ok, form widgets are stupid animals; in a perfect world, I should be
        allowed to resize the canvas and let the Form do the rest.  Unluckily,
        this does not happen, so let's do things the dirty way then.  This
-       sucks badly.  */
+       sucks badly.
+       Even setting the "resizable" constraint property to True does not help.
+     */
 
     XtVaGetValues((Widget)w,
                   XtNwidth, &canvas_width,

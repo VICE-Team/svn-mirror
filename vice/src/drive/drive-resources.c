@@ -183,6 +183,8 @@ static int drive_resources_type(int val, void *param)
                 /* 1551 drive does not use the IEC bus */
                 machine_bus_status_drivetype_set(dnr + 8, drive_check_bus(type,
                                                                           IEC_BUS_IEC));
+            } else {
+                drive_enable_update_ui(drive_context[dnr]);
             }
             drive_set_disk_drive_type(type, drive_context[dnr]);
             driverom_initialize_traps(drive);

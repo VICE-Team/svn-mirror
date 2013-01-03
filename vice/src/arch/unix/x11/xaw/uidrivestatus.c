@@ -32,7 +32,6 @@
 #include <X11/Xaw/Tip.h>
 
 #include "drive.h"
-#include "drivetypes.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -60,7 +59,7 @@ char last_attached_images[NUM_DRIVES][ATT_IMG_SIZE];
 
 /* Enabled drives.  */
 ui_drive_enable_t enabled_drives = UI_DRIVE_ENABLE_NONE;
-int tracks_shown;
+static int tracks_shown;
 
 /* Color of the drive active LED.  */
 static int *drive_active_led;
@@ -70,7 +69,7 @@ static Widget right_drive_menu[NUM_DRIVES];
 static XtTranslations drive_menu_translations[NUM_DRIVES];
 
 static void hide_drive_track(unsigned int drive_number);
-static void ui_display_drive_current_image2(void);
+static void ui_display_drive_current_images(void);
 
 void ui_destroy_drive_menu(int drive)
 {
@@ -147,21 +146,22 @@ void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
     lib_free(rightmenuname);
 
     for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive];
-        if (n >= 0) {
-            XtOverrideTranslations(app_shells[i].
-                                        drive_widgets[n].track_label,
-                                   drive_menu_translations[drive]);
-        }
+        XtOverrideTranslations(app_shells[i].
+                                        drive_widgets[drive].track_label,
+                               drive_menu_translations[drive]);
     }
 }
 
 void ui_init_drive_status_widget()
 {
     int i;
+
+    DBG(("ui_init_drive_status_widget: enable=%x", enabled_drives));
     /* This is necessary because the status might have been set before we
     actually open the canvas window. e.g. by commandline */
+    tracks_shown = 1;
     ui_enable_drive_status(enabled_drives, drive_active_led);
+    ui_display_drive_current_images();
 
     /* make sure that all drive status widgets are initialized.
     This is needed for proper dual disk/dual led drives (8050, 8250). */
@@ -172,75 +172,58 @@ void ui_init_drive_status_widget()
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-    int i, j, num, k, true_emu;
-    int drive_mapping[NUM_DRIVES];
+    int i, j, true_emu;
     int num_app_shells = get_num_shells();
-    int prev_enabled_drives = enabled_drives;
-
-    num = 0;
 
     enabled_drives = enable;
     drive_active_led = drive_led_color;
 
-    /* -1 should be safe, otherwise the display code in `ui_display_*'
-       was wrong before. */
-    memset(drive_mapping, -1, sizeof(drive_mapping));
-
     resources_get_int("DriveTrueEmulation", &true_emu);
 
-    DBG(("ui_enable_drive_status: enable=%x true_emu=%d\n", enable, true_emu));
+    DBG(("ui_enable_drive_status: enable=%x true_emu=%d", enable, true_emu));
 
-    if (true_emu) {
-        /* num == number of drives which are active;
-           drive_mapping[i] stores the widget number into which the i'th drive
-           things should be displayed */
-        for (i = 0, j = 1; i < NUM_DRIVES; i++, j <<= 1) {
-            if (enabled_drives & j) {
-                drive_mapping[i] = num++;
-            }
-        }
-    } else {
-        int hide_tracks = tracks_shown || prev_enabled_drives != enable;
+    if (!true_emu) {
         int prev_tracks_shown = tracks_shown;
-
         /*
          * Note that I'm changing the criterion used to decide whether
          * to show the UI elements for the drive. I think it is silly that
          * a drive which has no disk inserted is not shown, since the menu
-         * has a handy item to insert (attach) such a disk. (OS)
-         * However, if a drive type is changed to/from _NONE, this code
-         * is apparently not called if TDE isn't active...
+         * has a handy item to insert (attach) such a disk.
+         * 'enable' tends to be 0 when !true_emu.
+         * Additionally, I had to change drive-resources.c to get this
+         * function to be called when a drive type was changed from
+         * DRIVE_TYPE_NONE to something else. (It was already called when
+         * it was made DRIVE_TYPE_NONE).
          */
         for (i = 0; i < NUM_DRIVES; i++) {
+            DBG(("ui_enable_drive_status: drive %d type %d", i, drive_get_disk_drive_type(i)));
             /* if (strcmp(&(last_attached_images[i][0]), "") != 0) { //} */
-            if (drive_context[i]->drive->type != DRIVE_TYPE_NONE) {
-                drive_mapping[i] = num++;
-                if (prev_tracks_shown ||
-                        app_shells[0].drive_mapping[i] != drive_mapping[i]) {
-                    hide_drive_track(i);
-                }
+            if (drive_get_disk_drive_type(i) != DRIVE_TYPE_NONE) {
+                enable |= 1<<i;
+            }
+            if (prev_tracks_shown) {
+                hide_drive_track(i);
             }
         }
+        enabled_drives = enable;
     }
 
     for (i = 0; i < num_app_shells; i++) {
-        /* now show `num' widgets ... */
-        for (j = 0; j < num; j++) {
-            XtMapWidget(app_shells[i].drive_widgets[j].status);
-        }
-        for (; j < NUM_DRIVES; j++) {
-            XtUnmapWidget(app_shells[i].drive_widgets[j].status);
-        }
-        /* Show led widgets in true drive emulation mode */
-        j = 0;
-        if (true_emu > 0) {
-            for (; j < num; j++) {
-                for (k = 0; k < NUM_DRIVES; k++) {
-                    if (drive_mapping[k] == j) {
-                        break;
-                    }
-                }
-                app_shells[i].drive_nleds[j] = drive_num_leds(k);
+        /* now show widgets ... */
+        for (j = 0; j < NUM_DRIVES; j++) {
+            int enabled = (enable & (1 << j));
+
+            DBG(("app_shell %d drive %d enabled %d", i, j, enabled));
+
+            if (enabled) {
+                XtMapWidget(app_shells[i].drive_widgets[j].status);
+            } else {
+                XtUnmapWidget(app_shells[i].drive_widgets[j].status);
+            }
+            /* Show led widgets in true drive emulation mode */
+            if (enabled && (true_emu > 0)) {
+                app_shells[i].drive_nleds[j] = drive_num_leds(j);
+
                 if (app_shells[i].drive_nleds[j] == 1) {
                     XtMapWidget(app_shells[i].drive_widgets[j].driveled);
                     XtUnmapWidget(app_shells[i].drive_widgets[j].driveled1);
@@ -250,43 +233,33 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                     XtMapWidget(app_shells[i].drive_widgets[j].driveled1);
                     XtMapWidget(app_shells[i].drive_widgets[j].driveled2);
                 }
+            } else {
+                XtUnmapWidget(app_shells[i].drive_widgets[j].driveled);
+                XtUnmapWidget(app_shells[i].drive_widgets[j].driveled1);
+                XtUnmapWidget(app_shells[i].drive_widgets[j].driveled2);
             }
         }
-
-        /* ...and hide the rest until `NUM_DRIVES' */
-        for (; j < NUM_DRIVES; j++) {
-            XtUnmapWidget(app_shells[i].drive_widgets[j].driveled);
-            XtUnmapWidget(app_shells[i].drive_widgets[j].driveled1);
-            XtUnmapWidget(app_shells[i].drive_widgets[j].driveled2);
-        }
-        for (j = 0; j < NUM_DRIVES; j++) {
-            app_shells[i].drive_mapping[j] = drive_mapping[j];
-        }
     }
-    /* now update all image names from the cached names */
-    ui_display_drive_current_image2();
 }
 
 void ui_display_drive_track(unsigned int drive_number, unsigned int drive_base, unsigned int half_track_number)
 {
     int i;
     /* FIXME: Fixed length.  */
-    char str[256];
+    char str[64];
     double track_number = (double)half_track_number / 2.0;
     int d = drive_base ? (drive_base + drive_number) : (drive_number & 1);
     int num_app_shells = get_num_shells();
 
     sprintf(str, _("%d: Track %.1f"), d, (double)track_number);
     for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive_number];
         Widget w;
 
-        if (n < 0) {
-            return;             /* bad mapping */
-        }
-        w = app_shells[i].drive_widgets[n].track_label;
+        w = app_shells[i].drive_widgets[drive_number].track_label;
 
-        XtVaSetValues(w, XtNlabel, str, NULL);
+        if (w) {
+            XtVaSetValues(w, XtNlabel, str, NULL);
+        }
     }
 
     tracks_shown = 1;
@@ -296,21 +269,19 @@ static void hide_drive_track(unsigned int drive_number)
 {
     int i;
     /* FIXME: Fixed length.  */
-    char str[256];
+    char str[32];
     int d = 8 + drive_number;
     int num_app_shells = get_num_shells();
 
     sprintf(str, _("Drive %d"), d);
     for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive_number];
         Widget w;
 
-        if (n < 0) {
-            return;             /* bad mapping */
-        }
-        w = app_shells[i].drive_widgets[n].track_label;
+        w = app_shells[i].drive_widgets[drive_number].track_label;
 
-        XtVaSetValues(w, XtNlabel, str, NULL);
+        if (w) {
+            XtVaSetValues(w, XtNlabel, str, NULL);
+        }
     }
 
     tracks_shown = 0;
@@ -331,32 +302,31 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
     }
 
     for (i = 0; i < num_app_shells; i++) {
-        int n = app_shells[i].drive_mapping[drive_number];
         Widget w;
         Pixel on_pixel;
-
-        if (n < 0) {
-            return;             /* bad mapping */
-        }
 
         on_pixel = drive_active_led[drive_number] ? drive_led_on_green_pixel
                                                   : drive_led_on_red_pixel;
         pixel = status ? on_pixel : drive_led_off_pixel;
-        w = app_shells[i].drive_widgets[n].driveled;
+        w = app_shells[i].drive_widgets[drive_number].driveled;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
         pixel = (status & 1) ? on_pixel : drive_led_off_pixel;
-        w = app_shells[i].drive_widgets[n].driveled1;
+        w = app_shells[i].drive_widgets[drive_number].driveled1;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
 
         pixel = (status & 2) ? on_pixel : drive_led_off_pixel;
-        w = app_shells[i].drive_widgets[n].driveled2;
+        w = app_shells[i].drive_widgets[drive_number].driveled2;
         XtVaSetValues(w, XtNbackground, pixel, NULL);
     }
 }
 
 void ui_display_drive_current_image(unsigned int drive_number, const char *image)
 {
+    char *name;
+    int i;
+    int num_app_shells;
+
     if (console_mode) {
         return;
     }
@@ -365,44 +335,52 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
         return;
     }
 
-    /*if (strcmp(image, "") == 0) {
-        image = "<detached>";
-    }*/
     strncpy(&(last_attached_images[drive_number][0]), image, ATT_IMG_SIZE);
 
-    /* update drive mapping */
-    ui_enable_drive_status(enabled_drives, drive_active_led);
+#if 0
+    /* Compensate for not being fully notified when TDE is off */
+    if (!(enabled_drives & (1 << drive_number))) {
+        ui_enable_drive_status(enabled_drives, drive_active_led);
+    }
+#endif
+
+    if (last_attached_images[drive_number][0]) {
+        util_fname_split(&(last_attached_images[drive_number][0]), NULL, &name);
+    } else {
+        name = _("<empty>");
+    }
+
+    num_app_shells = get_num_shells();
+    for (i = 0; i < num_app_shells; i++) {
+        Widget w;
+
+        w = app_shells[i].drive_widgets[drive_number].track_label;
+        XtVaSetValues(w, XtNtip, name, NULL);
+    }
+
+    if (last_attached_images[drive_number][0]) {
+        lib_free(name);
+    }
+
     uifliplist_update_menus(drive_number + 8, drive_number + 8);
 }
 
-static void ui_display_drive_current_image2 (void)
+static void ui_display_drive_current_images (void)
 {
     int i, j;
     char *name;
     int num_app_shells = get_num_shells();
 
-    /* Now update all fields according to drive_mapping */
     for (i = 0; i < num_app_shells; i++) {
         for (j = 0; j < NUM_DRIVES; j++) {
-            int n = app_shells[i].drive_mapping[j];
-            Widget w2;
+            Widget w;
 
-            /* It is assumed that the j-1'th widget is not touched anymore.
-               -> the drive mapping code fills the widgets up from 0 */
-
-            /* first clear the j'th widget */
-            w2 = app_shells[i].drive_widgets[j].track_label;
-            XtVaSetValues(w2, XtNtip, NULL, NULL);
-
-            if (n < 0) {
-                continue;       /* j'th is drive not mapped */
-            }
-
-            /* now fill the j'th widget */
-            w2 = app_shells[i].drive_widgets[n].track_label;
+            w = app_shells[i].drive_widgets[j].track_label;
 
             util_fname_split(&(last_attached_images[j][0]), NULL, &name);
-            XtVaSetValues(w2, XtNtip, name, NULL);
+            XtVaSetValues(w,
+                            XtNtip, (name[0] ? name : _("<empty>")),
+                            NULL);
             lib_free(name);
 
             /* Also update drive menu; will call ui_set_drive_menu() */
