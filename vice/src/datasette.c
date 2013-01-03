@@ -849,7 +849,7 @@ void datasette_set_motor(int flag)
     DBG(("datasette_set_motor(%d) (image present:%s)", flag, current_image ? "yes" : "no"));
 
     if (datasette_alarm == NULL) {
-        log_error(datasette_log, "datasette_set_motor (datasette_alarm == NULL)");
+        DBG(("datasette_set_motor (datasette_alarm == NULL)"));
         return;
     }
 
