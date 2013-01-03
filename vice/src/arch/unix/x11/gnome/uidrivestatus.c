@@ -177,7 +177,7 @@ static void set_led2(GdkColor *color1, GdkColor *color2, int i, int j)
         gdk_cairo_set_source_color(cr, color1);
         cairo_translate(cr, 0, ((gtk_widget_get_allocated_height(ts->led) - LED_HEIGHT) / 2));
         cairo_rectangle (cr, 0, -(LED_HEIGHT / 2) - 1, LED_WIDTH, LED_HEIGHT);
-        gdk_cairo_set_source_color(cr, color1);
+        gdk_cairo_set_source_color(cr, color2);
         cairo_rectangle (cr, 0, (LED_HEIGHT / 2) + 1, LED_WIDTH, LED_HEIGHT);
         cairo_fill (cr);
         cairo_destroy(cr);
