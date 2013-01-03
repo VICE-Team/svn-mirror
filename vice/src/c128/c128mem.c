@@ -320,15 +320,19 @@ static void mem_toggle_caps_key(void)
    input/output driver stage only - which (imho) completely explains the above
    described behavior :)
 
-   The following is how the unused bits are emulated:
+   The following is how the unused bit is emulated:
 
+   - There are 2 different unused bits, 1) the output bit, 2) the input bit
+   - The output bit can be (re)set when the data-direction is set to output
+     for that bit and the output bit will not drop-off to 0.
+   - When the data-direction for the unused bit is set to output then the
+     unused input bit can be (re)set by writing to them, when set to 1 the
+     drop-off timer will start which will cause the unused input bit to drop
+     down to 0 in a certain amount of time.
+   - When the unused input bit already had the drop-off timer running, and is
+     set to 1 again, the drop-off timer will restart.
    - Any flip (1->0, 0->1) of the unused bit in the data-direction register
-     ($00) will reset the unused bit.
-   - Only when data-direction for the unused bit is set to input
-     can the unused bit be set to 0 or 1, when set to 1 the drop-off timer
-     starts.
-   - When the unused bit already had the drop-off timer running, and is set to
-     1 again, the drop-off timer will restart.
+     ($00) will reset the unused input bit.
 */
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
