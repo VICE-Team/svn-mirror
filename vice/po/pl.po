@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-02 14:02-0800\n"
-"PO-Revision-Date: 2012-10-20 06:32+0200\n"
+"POT-Creation-Date: 2013-01-03 02:17+0100\n"
+"PO-Revision-Date: 2013-01-03 03:06+0100\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
 "Language: pl\n"
@@ -593,7 +593,7 @@ msgstr "Wczytaj nowy ROM BASIC-a"
 #: src/arch/unix/gui/c64dtvui.c:143 src/arch/unix/gui/c64scui.c:547
 #: src/arch/unix/gui/c64ui.c:607 src/arch/unix/gui/cbm2ui.c:458
 #: src/arch/unix/gui/petui.c:485 src/arch/unix/gui/plus4ui.c:88
-#: src/arch/unix/gui/vic20ui.c:414 src/arch/unix/x11/gnome/uiscreenshot.c:311
+#: src/arch/unix/gui/vic20ui.c:414 src/arch/unix/x11/gnome/uiscreenshot.c:541
 #: src/arch/win32/res.rc.po.c:1138
 msgid "Save media file"
 msgstr "Zapisz plik multimediów"
@@ -868,9 +868,8 @@ msgid "PET DWW hi-res graphics"
 msgstr "Grafika wysokiej rozdzielczości PET DWW"
 
 #: src/arch/unix/gui/petui.c:254
-#, fuzzy
 msgid "PET HRE hi-res graphics"
-msgstr "Grafika wysokiej rozdzielczości PET DWW"
+msgstr "Grafika wysokiej rozdzielczości PET HRE"
 
 #: src/arch/unix/gui/petui.c:256 src/arch/unix/gui/plus4ui.c:259
 #: src/arch/unix/gui/vic20ui.c:456 src/arch/amigaos/intl_text.c.po.c:9638
@@ -1197,11 +1196,12 @@ msgid ""
 "Enter maximum random autostart delay in frames\n"
 "(max. 1000, 0 means default)"
 msgstr ""
+"Wprowadź maksymalną liczbę klatek losowego opóźnienia autostartu\n"
+"(maks 1000, 0 oznacza wartość domyślną)"
 
 #: src/arch/unix/gui/uiautostart.c:69
-#, fuzzy
 msgid "Autostart delay"
-msgstr "Losowe opóźnienie autostartu"
+msgstr "Opóźnienie autostartu"
 
 #: src/arch/unix/gui/uiautostart.c:86 src/arch/win32/resautostart.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:11416
@@ -1234,9 +1234,8 @@ msgid "Autostart random delay"
 msgstr "Losowe opóźnienie autostartu"
 
 #: src/arch/unix/gui/uiautostart.c:102
-#, fuzzy
 msgid "Maximum random autostart delay"
-msgstr "Włącz losowe opóźnienie na początku autostartu."
+msgstr "Maksymalne losowe opóźnienie autostartu"
 
 #: src/arch/unix/gui/uiautostart.c:105 src/arch/win32/resautostart.rc.po.c:45
 #: src/arch/amigaos/intl_text.c.po.c:11500
@@ -2281,7 +2280,7 @@ msgid "Error reading `%s'."
 msgstr "Błąd odczytu `%s'."
 
 #: src/arch/unix/gui/uifliplist.c:101 src/arch/unix/x11/gnome/uicartridge.c:73
-#: src/arch/unix/x11/gnome/uiscreenshot.c:558
+#: src/arch/unix/x11/gnome/uiscreenshot.c:798
 #, c-format
 msgid "Successfully wrote `%s'"
 msgstr "Zapisywanie `%s' zakończone pomyślnie"
@@ -2888,11 +2887,11 @@ msgstr "Błędny port TCP"
 
 #: src/arch/unix/gui/uinetplay.c:83
 msgid "Error starting the netplay server."
-msgstr "Błąd przy uruchamianiu serwera netplay."
+msgstr "Błąd przy uruchamianiu serwera gry sieciowej."
 
 #: src/arch/unix/gui/uinetplay.c:89
 msgid "Netplay Server name"
-msgstr "Nazwa serwera netplay"
+msgstr "Nazwa serwera gry sieciowej"
 
 #: src/arch/unix/gui/uinetplay.c:89
 msgid "Hostname:"
@@ -2903,9 +2902,8 @@ msgid "Error connecting to server."
 msgstr "Bład połączenia z serwerem."
 
 #: src/arch/unix/gui/uinetplay.c:106
-#, fuzzy
 msgid "Netplay"
-msgstr "Port TCP netplay"
+msgstr "Gra sieciowa"
 
 #: src/arch/unix/gui/uinetplay.c:109 src/arch/unix/x11/gnome/uinetplay.c:208
 #: src/arch/win32/res.rc.po.c:1316 src/arch/amigaos/intl_text.c.po.c:5115
@@ -4093,9 +4091,8 @@ msgid "Tune %d"
 msgstr "Ton %d"
 
 #: src/arch/unix/gui/vsidui.c:514
-#, fuzzy
 msgid "VSIDUI: The SID Emulator"
-msgstr "VSID: Emulator SID"
+msgstr "VSIDUI: Emulator SID"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:62
 msgid "VICE is FREE software!"
@@ -4148,9 +4145,8 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - Turkish\n"
 
 #: src/arch/unix/x11/gnome/about.c:121
-#, fuzzy
 msgid "(c) 1998 - 2013 The VICE Team"
-msgstr "(c) 1998 - 2012 Zespół VICE"
+msgstr "(c) 1998 - 2013 Zespół VICE"
 
 #: src/arch/unix/x11/gnome/about.c:128 src/arch/win32/res.rc.po.c:1083
 #: src/arch/win32/res.rc.po.c:1569 src/arch/amigaos/intl_text.c.po.c:4275
@@ -4174,7 +4170,7 @@ msgid "Save cartridge image"
 msgstr "Zapisz obraz kartridża"
 
 #: src/arch/unix/x11/gnome/uicartridge.c:66
-#: src/arch/unix/x11/gnome/uiscreenshot.c:504
+#: src/arch/unix/x11/gnome/uiscreenshot.c:744
 #: src/arch/unix/x11/gnome/uisnapshot.c:95
 msgid "Invalid filename"
 msgstr "Błędna nazwa pliku"
@@ -4261,7 +4257,7 @@ msgstr "Połączony klient"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:178
 msgid "Couldn't start netplay server."
-msgstr "Nie można uruchomić serwera netplay."
+msgstr "Nie można uruchomić serwera gry sieciowej."
 
 #: src/arch/unix/x11/gnome/uinetplay.c:188
 msgid "Couldn't connect client."
@@ -4285,7 +4281,7 @@ msgstr "Obecny tryb"
 #: src/arch/unix/x11/gnome/uinetplay.c:212 src/arch/win32/res.rc.po.c:1313
 #: src/arch/amigaos/intl_text.c.po.c:5241
 msgid "Netplay Settings"
-msgstr "Ustawienia netplay"
+msgstr "Ustawienia gry sieciowej"
 
 #: src/arch/unix/x11/gnome/uinetplay.c:284 src/arch/win32/res.rc.po.c:1320
 msgid "Control"
@@ -4360,45 +4356,154 @@ msgstr "Ustawienia emulacji CRT"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:196
 msgid "Mixer"
-msgstr ""
+msgstr "Mikser"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:319
+#: src/arch/unix/x11/gnome/uiscreenshot.c:421
+msgid "Oversize handling"
+msgstr "obsługa dużego obrazu"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:424
+msgid "scale down"
+msgstr "skaluj w dół"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:425
+msgid "crop left top"
+msgstr "przytnij z lewej od góry"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:426
+msgid "crop center top"
+msgstr "przytnij od góry"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:427
+msgid "crop right top"
+msgstr "przytnij z prawej od góry"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:428
+msgid "crop left center"
+msgstr "przytnij z lewej"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:429
+msgid "crop center"
+msgstr "przytnij do środka"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:430
+msgid "crop right center"
+msgstr "przytnij z prawej"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:431
+msgid "crop left bottom"
+msgstr "przytnij z lewej od dołu"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:432
+msgid "crop center bottom"
+msgstr "przytnij od dołu"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:433
+msgid "crop right bottom"
+msgstr "przytnij z prawej od dołu"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:446
+msgid "Undersize handling"
+msgstr "Obsługa małego obrazu"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:448
+msgid "scale up"
+msgstr "skaluj w górę"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:449
+msgid "add borders"
+msgstr "dodaj ramki"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:462
+msgid "Multicolor handling"
+msgstr "obsługa wielu kolorów"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:464
+msgid "b&w"
+msgstr "czarno-biały"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:465
+msgid "2 colors"
+msgstr "2 barwy"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:466
+msgid "4 colors"
+msgstr "4 barwy"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:467
+msgid "gray scale"
+msgstr "skala szarości"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:468
+msgid "best cell colors"
+msgstr "najlepsze kolory komórek"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:481
+msgid "TED luma handling"
+msgstr "Obsługa luminancji TED"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:483
+msgid "ignore"
+msgstr "ignoruj"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:484
+msgid "dither"
+msgstr "rozpraszaj"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:498
+msgid "CRTC textcolor"
+msgstr "Kolory tekstu CRTC"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:499
+msgid "white"
+msgstr "biały"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:500
+msgid "amber"
+msgstr "bursztynowy"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:501
+msgid "green"
+msgstr "zielony"
+
+#: src/arch/unix/x11/gnome/uiscreenshot.c:549
 #: src/arch/unix/x11/xaw/uiscreenshot.c:163
 msgid "Image Format"
 msgstr "Format obrazu"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:386 src/arch/win32/res.rc.po.c:1339
+#: src/arch/unix/x11/gnome/uiscreenshot.c:622 src/arch/win32/res.rc.po.c:1339
 #: src/translate_text.c.po.c:1912
 msgid "Format"
 msgstr "Format"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:400 src/arch/win32/res.rc.po.c:1340
+#: src/arch/unix/x11/gnome/uiscreenshot.c:636 src/arch/win32/res.rc.po.c:1340
 msgid "Audio codec"
 msgstr "Kodek audio"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:414 src/arch/win32/res.rc.po.c:1342
+#: src/arch/unix/x11/gnome/uiscreenshot.c:650 src/arch/win32/res.rc.po.c:1342
 msgid "Video codec"
 msgstr "Kodek wideo"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:426
+#: src/arch/unix/x11/gnome/uiscreenshot.c:662
 msgid "Audio bitrate"
 msgstr "Szybkość transmisji audio"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:436
+#: src/arch/unix/x11/gnome/uiscreenshot.c:672
 msgid "Video bitrate"
 msgstr "Szybkość transmisji video"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:451
+#: src/arch/unix/x11/gnome/uiscreenshot.c:687
 msgid "Half Framerate (25/30 fps)"
 msgstr "Połowa klatek na sekundę (25/30 kl./s)"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:494
+#. pop up and run the dialog
+#: src/arch/unix/x11/gnome/uiscreenshot.c:734
 #: src/arch/unix/x11/xaw/uiscreenshot.c:91
 #: src/arch/amigaos/intl_text.c.po.c:5255
 msgid "Save screenshot file"
 msgstr "Zapisz plik zrzutu ekranu"
 
-#: src/arch/unix/x11/gnome/uiscreenshot.c:551
+#: src/arch/unix/x11/gnome/uiscreenshot.c:791
 #: src/arch/unix/x11/xaw/uiscreenshot.c:139
 #, c-format
 msgid "Couldn't write screenshot to `%s' with driver `%s'."
@@ -4428,7 +4533,7 @@ msgstr "Zapisywanie %s' pomyślnie zakończone\n"
 
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:45
 #: src/arch/unix/x11/gnome/uivsidcontrol.c:78
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Author: %s\n"
@@ -4442,12 +4547,15 @@ msgid ""
 "%s"
 msgstr ""
 "Nazwa %s\n"
-"Muzyka: %d\n"
 "Autor: %s\n"
 "Copyright: %s\n"
+"\n"
+"Utwór: %d of %d\n"
 "%s\n"
 "Model: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"\n"
+"%s"
 
 #: src/arch/unix/x11/ui-cmdline-options.c:42
 msgid "Specify an HTML browser for the on-line help"
@@ -4532,7 +4640,7 @@ msgstr "Zrzut ekranu"
 
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:58
 #: src/arch/unix/x11/xaw/uivsidcontrol.c:82
-#, fuzzy, c-format
+#, c-format
 msgid ""
 "Name: %s\n"
 "Tune: %d of %d\n"
@@ -4543,13 +4651,14 @@ msgid ""
 "IRQ: %s\n"
 "%s"
 msgstr ""
-"Nazwa %s\n"
-"Muzyka: %d\n"
+"Nazwa: %s\n"
+"Utwór: %d of %d\n"
 "Autor: %s\n"
 "Copyright: %s\n"
 "%s\n"
 "Model: %s\n"
-"IRQ: %s"
+"IRQ: %s\n"
+"%s"
 
 #: src/arch/unix/x11/xaw/x11ui.c:1439
 msgid " emulator"
@@ -4748,94 +4857,76 @@ msgid "Version 0.0"
 msgstr "Version 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2013 Dag Lem"
-msgstr "Copyright (c) 1998-2012 Dag Lem"
+msgstr "Copyright (c) 1998-2013 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2013 Andreas Matthies"
-msgstr "Copyright (c) 1999-2012 Andreas Matthies"
+msgstr "Copyright (c) 1999-2013 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 1999-2013 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2012 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2013 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2013 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2012 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2013 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2013 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2012 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2013 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2013 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2012 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2013 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2013 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2012 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2013 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2008-2013 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2012 Antti S. Lankila"
+msgstr "Copyright (c) 2008-2013 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2009-2013 Groepaz"
-msgstr "Copyright (c) 2009-2012 Groepaz"
+msgstr "Copyright (c) 2009-2013 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2009-2013 Ingo Korb"
-msgstr "Copyright (c) 2009-2012 Ingo Korb"
+msgstr "Copyright (c) 2009-2013 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 2009-2013 Errol Smith"
-msgstr "Copyright (c) 2009-2012 Errol Smith"
+msgstr "Copyright (c) 2009-2013 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2010-2013 Olaf Seibert"
-msgstr "Copyright (c) 2010-2012 Olaf Seibert"
+msgstr "Copyright (c) 2010-2013 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:194
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Marcus Sutton"
-msgstr "Copyright (c) 2011-2012 Marcus Sutton"
+msgstr "Copyright (c) 2011-2013 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Ulrich Schulz"
-msgstr "Copyright (c) 2011-2012 Ulrich Schulz"
+msgstr "Copyright (c) 2011-2013 Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Stefan Haubenthal"
-msgstr "Copyright (c) 2011-2012 Stefan Haubenthal"
+msgstr "Copyright (c) 2011-2013 Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Thomas Giesel"
-msgstr "Copyright (c) 2011-2012 Thomas Giesel"
+msgstr "Copyright (c) 2011-2013 Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Kajtar Zsolt"
-msgstr "Copyright (c) 2011-2012 Kajtar Zsolt"
+msgstr "Copyright (c) 2011-2013 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2012-2013 Benjamin 'BeRo' Rosseaux"
-msgstr "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
+msgstr "Copyright (c) 2012-2013 Benjamin 'BeRo' Rosseaux"
 
 #: src/arch/win32/res.rc.po.c:964 src/arch/amigaos/intl_text.c.po.c:5339
 msgid "VICE Question"
@@ -5953,7 +6044,7 @@ msgstr "Kernal"
 
 #: src/arch/win32/res.rc.po.c:1347
 msgid "SCPU64"
-msgstr ""
+msgstr "SCPU64"
 
 #: src/arch/win32/res.rc.po.c:1348
 msgid "Basic"
@@ -6789,7 +6880,7 @@ msgstr "CIA trybu synchronicznego napędu C64"
 #: src/arch/win32/resc64.rc.po.c:623 src/arch/win32/resscpu64.rc.po.c:623
 #: src/arch/amigaos/intl_text.c.po.c:1363
 msgid "Netplay (experimental)"
-msgstr "Netplay (eksperymentalne)"
+msgstr "Gra sieciowa (eksperymentalne)"
 
 #: src/arch/win32/resc64.rc.po.c:624 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3631
@@ -7253,9 +7344,8 @@ msgid "PET REU settings"
 msgstr "Ustawienia PET REU"
 
 #: src/arch/win32/respet.rc.po.c:562
-#, fuzzy
 msgid "Enable PET High Res Emulation board"
-msgstr "Włącz emulację pióra świetlnego"
+msgstr "Włącz układ emulatora PET hi-res"
 
 #: src/arch/win32/respet.rc.po.c:563 src/arch/amigaos/intl_text.c.po.c:3925
 #: src/translate_text.c.po.c:4697
@@ -7470,25 +7560,21 @@ msgstr "Prędkość transmisji userportu"
 #: src/arch/win32/resscpu64.rc.po.c:619 src/arch/win32/resscpu64.rc.po.c:625
 #: src/arch/amigaos/intl_text.c.po.c:3281
 #: src/arch/amigaos/intl_text.c.po.c:10996
-#, fuzzy
 msgid "SuperCPU64 settings"
-msgstr "Ustawienia MMC64"
+msgstr "Ustawienia SuperCPU64"
 
 #: src/arch/win32/resscpu64.rc.po.c:620
 #: src/arch/amigaos/intl_text.c.po.c:10982
-#, fuzzy
 msgid "SIMM size"
-msgstr "Rozmiar RAM"
+msgstr "Ilość SIMM"
 
 #: src/arch/win32/resscpu64.rc.po.c:621
-#, fuzzy
 msgid "Enable the jiffy switch"
-msgstr "Włącz przełącznik"
+msgstr "Włącz przełącznik jiffy"
 
 #: src/arch/win32/resscpu64.rc.po.c:622
-#, fuzzy
 msgid "Enable the speed switch"
-msgstr "Włącz przełącznik"
+msgstr "Włącz przełącznik speed"
 
 #: src/arch/win32/ressid.rc.po.c:72 src/arch/win32/ressiddtv.rc.po.c:54
 msgid "General"
@@ -8035,9 +8121,8 @@ msgid "Drive burst modification settings"
 msgstr "Ustawienia trybu synchronicznego napędu"
 
 #: src/arch/amigaos/intl_text.c.po.c:3911
-#, fuzzy
 msgid "Enable PET High Res Emulator board"
-msgstr "Włącz układ PET DWW hi-res"
+msgstr "Włącz układ emulatora PET hi-res"
 
 #: src/arch/amigaos/intl_text.c.po.c:4541
 msgid "Fullscreen Statusbar"
@@ -8600,11 +8685,11 @@ msgstr "Włączony sampler dźwięku SFX"
 
 #: src/arch/amigaos/intl_text.c.po.c:10954
 msgid "Jiffy switch enabled"
-msgstr ""
+msgstr "Przełącznik jiffy włączony"
 
 #: src/arch/amigaos/intl_text.c.po.c:10968
 msgid "Speed switch enabled"
-msgstr ""
+msgstr "Przełącznik speed włączony"
 
 #: src/arch/amigaos/intl_text.c.po.c:11038
 msgid "Select Sound Record File"
@@ -10046,30 +10131,28 @@ msgid "Disable Userport DAC for sound output"
 msgstr "Wyłącz userport DAC jako wyście dźwięku"
 
 #: src/translate_text.c.po.c:4731
-#, fuzzy
 msgid "Enable Userport joystick adapter"
-msgstr "Złącze userportu joysticka"
+msgstr "Włącz złącze userportu joysticka"
 
 #: src/translate_text.c.po.c:4748
-#, fuzzy
 msgid "Disable Userport joystick adapter"
-msgstr "Wyłącz złącze OEM userportu joysticka"
+msgstr "Wyłącz złącze userportu joysticka"
 
 #: src/translate_text.c.po.c:4765
 msgid ""
 "Set Userport joystick adapter type (0: CGA/Protovision, 1: PET, 2: Hummer, "
 "3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 msgstr ""
+"Określ typ złącza userportu joysticka (0: CGA/Protovision, 1: PET, 2: "
+"Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"
 
 #: src/translate_text.c.po.c:4782
-#, fuzzy
 msgid "Enable Userport RTC"
-msgstr "Włącz rozszerzenie Userport RTC"
+msgstr "Włącz Userport RTC"
 
 #: src/translate_text.c.po.c:4799
-#, fuzzy
 msgid "Disable Userport RTC"
-msgstr "Włącz rozszerzenie Userport RTC"
+msgstr "Wyłącz Userport RTC"
 
 #: src/translate_text.c.po.c:4816
 msgid "SID player mode"
@@ -10644,11 +10727,10 @@ msgstr ""
 "lewej z dołu, 8: ścięcie z dołu, 9: ścięcie z prawej z dołu)"
 
 #: src/translate_text.c.po.c:7710
-#, fuzzy
 msgid ""
 "Select the way the undersized input should be handled, (0: scale up, 1: "
 "borderize)"
-msgstr "Wybór sposobu obsługi jaskrawości TED (0: ignoruj, 1: ditheruj)"
+msgstr "Wybierz sposób obsługi małego obrazu (0: skaluj, 1: dodaj ramkę)"
 
 #: src/translate_text.c.po.c:7727
 msgid ""
@@ -11535,9 +11617,8 @@ msgid "Execute monitor commands from file"
 msgstr "Wykonaj polecenia monitora z pliku"
 
 #: src/translate_text.c.po.c:11421
-#, fuzzy
 msgid "Write monitor output also to file"
-msgstr "Wykonaj polecenia monitora z pliku"
+msgstr "Zapisuj wyjście monitora również do pliku"
 
 #: src/translate_text.c.po.c:11438
 msgid "Set an initial breakpoint for the monitor"
@@ -11943,23 +12024,23 @@ msgstr "Adres bazowy kartridża DS12C887 RTC"
 
 #: src/translate_text.c.po.c:13484
 msgid "Size of the SIMM RAM (0/1/4/8/16 MB)"
-msgstr ""
+msgstr "Ilość SIMM RAM-u (0/1/4/8/16 MB)"
 
 #: src/translate_text.c.po.c:13501
 msgid "Turn on Jiffy switch"
-msgstr ""
+msgstr "Włącz przełącznik Jiffy"
 
 #: src/translate_text.c.po.c:13518
 msgid "Turn off Jiffy switch"
-msgstr ""
+msgstr "Wyłącz przełącznik Jiffy"
 
 #: src/translate_text.c.po.c:13535
 msgid "Turn on Speed switch"
-msgstr ""
+msgstr "Włącz przełącznik Speed"
 
 #: src/translate_text.c.po.c:13552
 msgid "Turn off Speed switch"
-msgstr ""
+msgstr "Wyłącz przełącznik Speed"
 
 #~ msgid "CRT Controls"
 #~ msgstr "Kontrola CRT"
