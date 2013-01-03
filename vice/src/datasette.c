@@ -27,12 +27,6 @@
 
 /* #define DEBUG_TAPE */
 
-#ifdef DEBUG_TAPE
-#define DBG(x)  log_debug x
-#else
-#define DBG(x)
-#endif
-
 #include "vice.h"
 
 #include <stdio.h>
@@ -55,6 +49,11 @@
 #include "uiapi.h"
 #include "vice-event.h"
 
+#ifdef DEBUG_TAPE
+#define DBG(x)  log_debug x
+#else
+#define DBG(x)
+#endif
 
 #define MOTOR_DELAY         32000
 #define TAP_BUFFER_LENGTH   100000
@@ -469,7 +468,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
     alarm_unset(datasette_alarm);
     datasette_alarm_pending = 0;
 
-    DBG(("datasette_read_bit(motor:%d) (image present:%s)", datasette_motor, current_image ? "yes" : "no"));
+    DBG(("datasette_read_bit(motor:%d) %d>=%d (image present:%s)", datasette_motor, maincpu_clk, motor_stop_clk, current_image ? "yes" : "no"));
 
     /* check for delay of motor stop */
     if (motor_stop_clk > 0 && maincpu_clk >= motor_stop_clk) {
@@ -477,12 +476,27 @@ static void datasette_read_bit(CLOCK offset, void *data)
         ui_display_tape_motor_status(0);
         datasette_motor = 0;
     }
+    DBG(("datasette_read_bit(motor:%d)", datasette_motor));
 
     if (!datasette_motor) {
         return;
     }
 
     if (current_image == NULL) {
+        switch (notape_mode) {
+            case DATASETTE_CONTROL_START:
+            case DATASETTE_CONTROL_FORWARD:
+            case DATASETTE_CONTROL_REWIND:
+            case DATASETTE_CONTROL_RECORD:
+                break;
+            case DATASETTE_CONTROL_STOP:
+                if (motor_stop_clk > 0) {
+                    alarm_set(datasette_alarm, motor_stop_clk);
+                    datasette_alarm_pending = 1;
+                }
+                break;
+        }
+        datasette_update_ui_counter();
         return;
     }
 
@@ -570,6 +584,7 @@ static void datasette_read_bit(CLOCK offset, void *data)
 
 static void clk_overflow_callback(CLOCK sub, void *data)
 {
+    DBG(("clk_overflow_callback"));
     if (last_write_clk > (CLOCK)0) {
         last_write_clk -= sub;
     }
@@ -660,7 +675,7 @@ static void datasette_internal_reset(void)
 {
     int mode = current_image ? current_image->mode : notape_mode;
 
-    DBG(("datasette_internal_reset"));
+    DBG(("datasette_internal_reset (mode:%d)", mode));
 
     if (mode == DATASETTE_CONTROL_START ||
         mode == DATASETTE_CONTROL_FORWARD ||
@@ -850,6 +865,7 @@ void datasette_set_motor(int flag)
     }
     if (!flag && datasette_motor && motor_stop_clk == 0) {
         motor_stop_clk = maincpu_clk + MOTOR_DELAY;
+        DBG(("datasette_set_motor(maincpu_clk:%d motor_stop_clk:%d)", maincpu_clk, motor_stop_clk));
         if (!datasette_alarm_pending) {
             /* make sure that the motor will stop */
             alarm_set(datasette_alarm, motor_stop_clk);
