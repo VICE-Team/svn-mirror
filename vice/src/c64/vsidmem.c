@@ -159,6 +159,16 @@ void mem_toggle_watchpoints(int flag, void *context)
    the i/o port are implemented. what is missing for bit 6 and bit 7 are the
    actual input/output driver stages only - which (imho) completely explains
    the above described behavior :)
+
+   The following is how the unused bits are emulated:
+
+   - Any flip (1->0, 0->1) of the unused bits in the data-direction register
+     ($00) will reset the unused bit in question.
+   - Only when data-direction for the unused bit in question is set to input
+     can the unused bit be set to 0 or 1, when set to 1 the drop-off timer
+     starts.
+   - When an unused bit already had the drop-off timer running, and is set to
+     1 again, the drop-off timer will restart.
 */
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -257,24 +267,14 @@ void zero_store(WORD addr, BYTE value)
 
             /* check if bit 6 has flipped */
             if ((pport.dir ^ value) & 0x40) {
-                if (value & 0x40) { /* output, update according to last write, cancel falloff */
-                    pport.data_set_bit6 = pport.data & 0x40;
-                    pport.data_falloff_bit6 = 0;
-                } else { /* input, start falloff if bit was set */
-                    pport.data_falloff_bit6 = pport.data_set_bit6;
-                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
-                }
+                pport.data_set_bit6 = 0;
+                pport.data_falloff_bit6 = 0;
             }
 
             /* check if bit 7 has flipped */
             if ((pport.dir ^ value) & 0x80) {
-                if (value & 0x80) { /* output, update according to last write, cancel falloff */
-                    pport.data_set_bit7 = pport.data & 0x80;
-                    pport.data_falloff_bit7 = 0;
-                } else { /* input, start falloff if bit was set */
-                    pport.data_falloff_bit7 = pport.data_set_bit7;
-                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
-                }
+                pport.data_set_bit7 = 0;
+                pport.data_falloff_bit7 = 0;
             }
 
             if (pport.dir != value) {
@@ -293,11 +293,15 @@ void zero_store(WORD addr, BYTE value)
             /* update value if input, otherwise don't touch */
             if (!(pport.dir & 0x80)) {
                 pport.data_set_bit7 = value & 0x80;
+                pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                pport.data_falloff_bit7 = 1;
             }
 
             /* update value if input, otherwise don't touch */
             if (!(pport.dir & 0x40)) {
                 pport.data_set_bit6 = value & 0x40;
+                pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                pport.data_falloff_bit6 = 1;
             }
 
             if (pport.data != value) {

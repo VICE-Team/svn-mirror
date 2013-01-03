@@ -319,6 +319,16 @@ static void mem_toggle_caps_key(void)
    the i/o port are implemented. what is missing for bit 7 is the actual
    input/output driver stage only - which (imho) completely explains the above
    described behavior :)
+
+   The following is how the unused bits are emulated:
+
+   - Any flip (1->0, 0->1) of the unused bit in the data-direction register
+     ($00) will reset the unused bit.
+   - Only when data-direction for the unused bit is set to input
+     can the unused bit be set to 0 or 1, when set to 1 the drop-off timer
+     starts.
+   - When the unused bit already had the drop-off timer running, and is set to
+     1 again, the drop-off timer will restart.
 */
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -351,7 +361,7 @@ BYTE zero_read(WORD addr)
                 pport.data_set_bit7 = 0;
             }
 
-            return retval | pport.data_set_bit6 | pport.data_set_bit7;
+            return retval | pport.data_set_bit7;
     }
 
     return mem_page_zero[addr];
@@ -375,13 +385,8 @@ void zero_store(WORD addr, BYTE value)
 #endif
             /* check if bit 7 has flipped */
             if ((pport.dir ^ value) & 0x80) {
-                if (value & 0x80) { /* output, update according to last write, cancel falloff */
-                    pport.data_set_bit7 = pport.data & 0x80;
-                    pport.data_falloff_bit7 = 0;
-                } else { /* input, start falloff if bit was set */
-                    pport.data_falloff_bit7 = pport.data_set_bit7;
-                    pport.data_set_clk_bit7 = maincpu_clk + C128_CPU8502_DATA_PORT_FALL_OFF_CYCLES;
-                }
+                pport.data_set_bit7 = 0;
+                pport.data_falloff_bit7 = 0;
             }
 
             if (pport.dir != value) {
@@ -404,6 +409,7 @@ void zero_store(WORD addr, BYTE value)
             if (!(pport.dir & 0x80)) {
                 pport.data_set_bit7 = value & 0x80;
                 pport.data_set_clk_bit7 = maincpu_clk + C128_CPU8502_DATA_PORT_FALL_OFF_CYCLES;
+                pport.data_falloff_bit7 = 1;
             }
 
             if (pport.data != value) {
