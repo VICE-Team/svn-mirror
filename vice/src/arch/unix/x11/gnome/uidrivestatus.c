@@ -130,6 +130,79 @@ static gboolean fliplist_popup_cb(GtkWidget *w, GdkEvent *event, gpointer data)
  * Drive status widget
  ******************************************************************************/
 
+#if !defined(GTK_USE_CAIRO)
+static void set_led(GdkColor *color1, int i, int drive_number)
+{
+    GdkGC *app_gc = get_toplevel();
+    drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
+
+    gdk_gc_set_rgb_fg_color(app_gc, color1);
+    gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH, LED_HEIGHT);
+    gtk_widget_queue_draw(ds->led);
+}
+
+static void set_led2(GdkColor *color1, GdkColor *color2, int i, int drive_number)
+{
+    GdkGC *app_gc = get_toplevel();
+    drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
+
+    gdk_gc_set_rgb_fg_color(app_gc, color1);
+    gdk_draw_rectangle(ds->led1_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH / 2, LED_HEIGHT);
+    gtk_widget_queue_draw(ds->led1);
+    gdk_gc_set_rgb_fg_color(app_gc, color2);
+    gdk_draw_rectangle(ds->led2_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH / 2, LED_HEIGHT);
+    gtk_widget_queue_draw(ds->led2);
+}
+
+#else
+
+static void set_led(GdkColor *color, int i, int j)
+{
+    drive_status_widget *ts = &app_shells[i].drive_status[j];
+    if (ts) {
+        cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(ts->led));
+        gdk_cairo_set_source_color(cr, color);
+        cairo_translate(cr, 0, (gtk_widget_get_allocated_height(ts->led) - LED_HEIGHT) / 2);
+        cairo_rectangle (cr, 0, 0, LED_WIDTH, LED_HEIGHT);
+        cairo_fill (cr);
+        cairo_destroy(cr);
+    }
+}
+
+static void set_led2(GdkColor *color1, GdkColor *color2, int i, int j)
+{
+    drive_status_widget *ts = &app_shells[i].drive_status[j];
+    if (ts) {
+        cairo_t *cr = gdk_cairo_create(gtk_widget_get_window(ts->led));
+        gdk_cairo_set_source_color(cr, color1);
+        cairo_translate(cr, 0, ((gtk_widget_get_allocated_height(ts->led) - LED_HEIGHT) / 2));
+        cairo_rectangle (cr, 0, -(LED_HEIGHT / 2) - 1, LED_WIDTH, LED_HEIGHT);
+        gdk_cairo_set_source_color(cr, color1);
+        cairo_rectangle (cr, 0, (LED_HEIGHT / 2) + 1, LED_WIDTH, LED_HEIGHT);
+        cairo_fill (cr);
+        cairo_destroy(cr);
+    }
+}
+
+static gboolean leds_draw(GtkWidget *w, GdkEvent *event, gpointer data)
+{
+    int i;
+    int drive_number = (int)data;
+    int num_app_shells = get_num_shells();
+
+    /* FIXME: only draw one widget at a time */
+    for (i = 0; i < num_app_shells; i++) {
+        drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
+        if (drive_num_leds(drive_number) == 1) {
+            set_led(ds->color1, i, drive_number);
+        } else {
+            set_led2(ds->color1, ds->color2, i, drive_number);
+        }
+    }
+    return 0;
+}
+#endif
+
 GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 {
     GtkWidget *drive_box, *frame;
@@ -170,10 +243,13 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 #if !defined(GTK_USE_CAIRO)
         as->drive_status[i].led_pixmap = gdk_pixmap_new(window, LED_WIDTH, LED_HEIGHT, -1);
         as->drive_status[i].led = gtk_image_new_from_pixmap(as->drive_status[i].led_pixmap, NULL);
+#else
+        as->drive_status[i].led = gtk_drawing_area_new();
+#endif
         gtk_widget_set_size_request(as->drive_status[i].led, LED_WIDTH, LED_HEIGHT);
         gtk_box_pack_start(GTK_BOX(as->drive_status[i].box), (GtkWidget *)as->drive_status[i].led, FALSE, FALSE, 4);
         gtk_widget_show(as->drive_status[i].led);
-#endif
+
         /* Led1 for double Led drive */
 #if !defined(GTK_USE_CAIRO)
         as->drive_status[i].led1_pixmap = gdk_pixmap_new(window, LED_WIDTH / 2, LED_HEIGHT, -1);
@@ -196,6 +272,14 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
         gtk_widget_set_events(as->drive_status[i].event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
         g_signal_connect(G_OBJECT(as->drive_status[i].event_box), "button-press-event", G_CALLBACK(fliplist_popup_cb), (gpointer)(int_to_void_ptr(i)));
         gtk_widget_show(as->drive_status[i].event_box);
+
+#if defined(GTK_USE_CAIRO)
+#if GTK_CHECK_VERSION(3, 0, 0)
+        g_signal_connect(G_OBJECT(as->drive_status[i].led), "draw", G_CALLBACK(leds_draw), (gpointer)i);
+#else
+        g_signal_connect(G_OBJECT(as->drive_status[i].led), "expose-event", G_CALLBACK(leds_draw), (gpointer)i);
+#endif
+#endif
     }
     lib_free(empty);
     return drive_box;
@@ -285,12 +369,7 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
 {
     int status = 0;
     int i, ci1, ci2;
-#if !defined(GTK_USE_CAIRO)
-    GdkGC *app_gc = get_toplevel();
-#endif
     int num_app_shells = get_num_shells();
-
-    GdkColor *color;
 
     if (led_pwm1 > 100) {
         status |= 1;
@@ -310,27 +389,14 @@ void ui_display_drive_led(int drive_number, unsigned int led_pwm1, unsigned int 
 
     for (i = 0; i < num_app_shells; i++) {
         drive_status_widget *ds = &app_shells[i].drive_status[drive_number];
-
-        color = status ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
-#if !defined(GTK_USE_CAIRO)
-        gdk_gc_set_rgb_fg_color(app_gc, color);
-        gdk_draw_rectangle(ds->led_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH, LED_HEIGHT);
-        gtk_widget_queue_draw(ds->led);
-#endif
-
-        color = (status & 1) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
-#if !defined(GTK_USE_CAIRO)
-        gdk_gc_set_rgb_fg_color(app_gc, color);
-        gdk_draw_rectangle(ds->led1_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH / 2, LED_HEIGHT);
-        gtk_widget_queue_draw(ds->led1);
-#endif
-
-        color = (status & 2) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci2] : &drive_led_on_red_pixels[ci2]) : &drive_led_off_pixel;
-#if !defined(GTK_USE_CAIRO)
-        gdk_gc_set_rgb_fg_color(app_gc, color);
-        gdk_draw_rectangle(ds->led2_pixmap, app_gc, TRUE, 0, 0, LED_WIDTH / 2, LED_HEIGHT);
-        gtk_widget_queue_draw(ds->led2);
-#endif
+        if (drive_num_leds(drive_number) == 1) {
+            ds->color1 = status ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
+            set_led(ds->color1, i, drive_number);
+        } else {
+            ds->color1 = (status & 1) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci1] : &drive_led_on_red_pixels[ci1]) : &drive_led_off_pixel;
+            ds->color2 = (status & 2) ? (drive_active_led[drive_number] ? &drive_led_on_green_pixels[ci2] : &drive_led_on_red_pixels[ci2]) : &drive_led_off_pixel;
+            set_led2(ds->color1, ds->color2, i, drive_number);
+        }
     }
 }
 

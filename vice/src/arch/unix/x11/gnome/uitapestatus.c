@@ -143,6 +143,7 @@ void ui_display_tape_current_image(const char *image)
 #if defined(GTK_USE_CAIRO)
 static gboolean tape_draw(GtkWidget *w, GdkEvent *event, gpointer data)
 {
+    /* FIXME: only draw one widget at a time */
     ui_display_tape_control_status(-1);
     return 0;
 }
@@ -186,7 +187,11 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
     gtk_widget_set_events(as->tape_status.event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(as->tape_status.event_box), "button-press-event", G_CALLBACK(tape_popup_cb), (gpointer)NULL);
 #if defined(GTK_USE_CAIRO)
+#if GTK_CHECK_VERSION(3, 0, 0)
     g_signal_connect(G_OBJECT(as->tape_status.control), "draw", G_CALLBACK(tape_draw), (gpointer)as->canvas);
+#else
+    g_signal_connect(G_OBJECT(as->tape_status.control), "expose-event", G_CALLBACK(tape_draw), (gpointer)as->canvas);
+#endif
 #endif
 }
 

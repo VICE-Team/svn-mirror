@@ -47,7 +47,6 @@
            see http://developer.gnome.org/gtk3/3.5/gtk-migrating-2-to-3.html
 
            - fix uicolor.c:uicolor_set_palette
-           - fix uidrivestatus.c:ui_display_drive_led (draw with cairo)
 */
 
 /* undefine the access checks to make the compatibility layer work */
@@ -57,7 +56,7 @@
 
 #define GSEAL_ENABLE
 
-#if 1
+#if 0
 /* gtk3 */
 #define GDK_VERSION_MIN_REQIRED GDK_VERSION_2_24  /* dont use symbols deprecated in this version */
 #define GDK_VERSION_MAX_REQIRED GDK_VERSION_3_00  /* dont use symbols introduced after this version */
@@ -267,6 +266,7 @@ typedef struct {
     GdkPixmap *led1_pixmap;
     GdkPixmap *led2_pixmap;
 #endif
+    GdkColor *color1, *color2;
 } drive_status_widget;
 
 /* Tape status widget */
