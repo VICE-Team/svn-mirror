@@ -63,7 +63,6 @@ EXTRA_DIST = \
 	plus4exp.tgt \
 	printerdrv.tgt \
 	raster.tgt \
-	README.txt \
 	resid.tgt \
 	resid-dtv.tgt \
 	resid-fp.tgt \

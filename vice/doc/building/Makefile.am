@@ -11,6 +11,7 @@ BUILDING_DOX = \
 	MSDOS-Howto.txt \
 	MSDOS-Ethernet-Howto.txt \
 	OpenVMS-Howto.txt \
+	OpenWatcom-Howto.txt \
 	SDL-Howto.txt \
 	Win32-Cygwin-Howto.txt \
 	Win32-Mingw32-Howto.txt
