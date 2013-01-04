@@ -42,6 +42,16 @@ copy ..\icons\folder1.ico %VICEDIR%\Icons
 copy ..\icons\folder2.ico %VICEDIR%\Icons
 copy ..\icons\c1541.ico   %VICEDIR%\Icons
 copy ..\icons\vsid.ico    %VICEDIR%\Icons
+copy ..\icons\x64.ico     %VICEDIR%\Icons
+copy ..\icons\x64dtv.ico  %VICEDIR%\Icons
+copy ..\icons\x64sc.ico   %VICEDIR%\Icons
+copy ..\icons\x128.ico    %VICEDIR%\Icons
+copy ..\icons\xcbm2.ico   %VICEDIR%\Icons
+copy ..\icons\xcbm5x0.ico %VICEDIR%\Icons
+copy ..\icons\xpet.ico    %VICEDIR%\Icons
+copy ..\icons\xplus4.ico  %VICEDIR%\Icons
+copy ..\icons\xscpu64.ico %VICEDIR%\Icons
+copy ..\icons\xvic.ico    %VICEDIR%\Icons
 
 mkdir %VICEDIR%\C64
 copy ..\..\..\..\data\C64\basic       %VICEDIR%\C64

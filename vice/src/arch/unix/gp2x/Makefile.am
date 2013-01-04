@@ -1,11 +1,11 @@
 # Makefile.am for the GP2X version of `libarchgp2x.a'.
 
 if UNIX_WIZ_COMPILE
-SUBDIRS = wiz
+SUBDIRS = gpe-files wiz
 endif
 
 if UNIX_GP2X_COMPILE
-SUBDIRS = minimal
+SUBDIRS = gpe-files minimal
 endif
 
 INCLUDES = \
@@ -58,12 +58,4 @@ libarchgp2x_a_SOURCES = \
 	vkeyboard_gp2x.h \
 	vsidui.c
 
-EXTRA_DIST = \
-	gpe-files/x128.gpe \
-	gpe-files/x64.gpe \
-	gpe-files/x64dtv.gpe \
-	gpe-files/xvic.gpe \
-	gpe-files/xpet.gpe \
-	gpe-files/xplus4.gpe \
-	gpe-files/xcbm2.gpe \
-	make-bindist.sh
+EXTRA_DIST = make-bindist.sh

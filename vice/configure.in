@@ -3210,7 +3210,7 @@ elif test x"$is_amiga" = "xyes"; then
   if test x"$enable_sdlui" != "xyes"; then
     ARCH_DIR="\$(top_builddir)/src/arch/amigaos"
     ARCH_SRC_DIR="\$(top_srcdir)/src/arch/amigaos"
-    ARCH_LIBS="$ARCH_DIR/libarch.a"
+    ARCH_LIBS="$ARCH_DIR/libarch.a $ARCH_DIR/mui/libarchmui.a"
     ARCH_INCLUDES="-I\$(top_srcdir)/src/arch/amigaos"
   fi
   AM_CONDITIONAL(UNIX_COMPILE, false)
@@ -3435,6 +3435,16 @@ AC_OUTPUT([Makefile
            vice-mint.spec
            vice-mint-sdl.spec
            build/Makefile
+           build/amigaos/Makefile
+           build/beos/Makefile
+           build/macosx/Makefile
+           build/mingw32/Makefile
+           build/minix3/Makefile
+           build/nextstep/Makefile
+           build/openstep/Makefile
+           build/openwatcom/Makefile
+           build/qnx4/Makefile
+           build/rhapsody/Makefile
            data/Makefile
            data/C128/Makefile
            data/C64/Makefile
@@ -3448,7 +3458,9 @@ AC_OUTPUT([Makefile
            data/VIC20/Makefile
            data/fonts/Makefile
            doc/Makefile
+           doc/building/Makefile
            doc/html/Makefile
+           doc/readmes/Makefile
            man/Makefile
            src/Makefile
            src/debug.h
@@ -3456,28 +3468,58 @@ AC_OUTPUT([Makefile
            src/arch/Makefile
            src/arch/amigaos/Makefile
            src/arch/amigaos/genintl_h.sh
+           src/arch/amigaos/info-files/Makefile
+           src/arch/amigaos/info-files/morphos/Makefile
+           src/arch/amigaos/mui/Makefile
            src/arch/beos/Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile
            src/arch/os2/dialogs/Makefile
+           src/arch/os2/doc/Makefile
+           src/arch/os2/fonts/Makefile
+           src/arch/os2/icons/Makefile
            src/arch/os2/kbd/Makefile
            src/arch/os2/snippets/Makefile
+           src/arch/os2/unused/Makefile
+           src/arch/os2/unused/pm/Makefile
            src/arch/os2/vac++/Makefile
+           src/arch/os2/vac++/ctools/Makefile
+           src/arch/os2/vac++/incl/Makefile
+           src/arch/os2/vac++/x64/Makefile
+           src/arch/os2/vac++/x64dtv/Makefile
+           src/arch/os2/vac++/x64sc/Makefile
+           src/arch/os2/vac++/x128/Makefile
+           src/arch/os2/vac++/xcbm2/Makefile
+           src/arch/os2/vac++/xcbm5x0/Makefile
+           src/arch/os2/vac++/xpet/Makefile
+           src/arch/os2/vac++/xplus4/Makefile
+           src/arch/os2/vac++/xvic/Makefile
+           src/arch/os2/watcom/Makefile
            src/arch/sdl/Makefile
+           src/arch/sdl/dingoo-files/Makefile
+           src/arch/sdl/qnx4/Makefile
+           src/arch/sdl/syllable-files/Makefile
            src/arch/sdl/win32-msvc/Makefile
            src/arch/sdl/win32-watcom/Makefile
            src/arch/sdl/win64-msvc/Makefile
            src/arch/sdl/winmips-msvc/Makefile
-           src/arch/sdl/dingoo-files/Makefile
-           src/arch/sdl/syllable-files/Makefile
            src/arch/sdl/xbox/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
+           src/arch/unix/gp2x/gpe-files/Makefile
            src/arch/unix/gp2x/minimal/Makefile
            src/arch/unix/gp2x/wiz/Makefile
            src/arch/unix/gui/Makefile
+           src/arch/unix/hpux/Makefile
+           src/arch/unix/minix/Makefile
+           src/arch/unix/next_open_rhap/Makefile
            src/arch/unix/next_open_rhap/vice.info
+           src/arch/unix/qnx4/Makefile
+           src/arch/unix/qnx6/Makefile
            src/arch/unix/readline/Makefile
+           src/arch/unix/sco_sol/Makefile
+           src/arch/unix/skyos/Makefile
+           src/arch/unix/skyos/icons/Makefile
            src/arch/unix/x11/Makefile
            src/arch/unix/x11/gnome/Makefile
            src/arch/unix/x11/xaw/Makefile
@@ -3489,9 +3531,16 @@ AC_OUTPUT([Makefile
            src/arch/unix/macosx/cocoa/dialog/Makefile
            src/arch/unix/macosx/Resources/Makefile
            src/arch/unix/macosx/Resources/English.lproj/Makefile
+           src/arch/watcom-source-wrappers/Makefile
            src/arch/win32/Makefile
            src/arch/win32/vice-version.bat
+           src/arch/win32/evc/Makefile
+           src/arch/win32/mingw32/Makefile
+           src/arch/win32/msvc/Makefile
+           src/arch/win32/msvc/wpcap/Makefile
+           src/arch/win32/msvc/wpcap/net/Makefile
            src/arch/win32/utils/Makefile
+           src/arch/win32/watcom/Makefile
            src/arch/win64/Makefile
            src/c128/Makefile
            src/c64/Makefile
@@ -3516,6 +3565,12 @@ AC_OUTPUT([Makefile
            src/iecbus/Makefile
            src/imagecontents/Makefile
            src/lib/Makefile
+           src/lib/libffmpeg/Makefile
+           src/lib/libffmpeg/libavcodec/Makefile
+           src/lib/libffmpeg/libavdevice/Makefile
+           src/lib/libffmpeg/libavformat/Makefile
+           src/lib/libffmpeg/libavutil/Makefile
+           src/lib/libffmpeg/libswscale/Makefile
            src/lib/p64/Makefile
            src/monitor/Makefile
            src/parallel/Makefile

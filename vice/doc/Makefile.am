@@ -1,3 +1,5 @@
+SUBDIRS = building html readmes
+
 @ALTERNATE_DOCDIR_TRUE@realdocdir = $(prefix)/share/doc/vice
 @ALTERNATE_DOCDIR_FALSE@realdocdir = $(VICEDIR)/doc
 
@@ -11,26 +13,6 @@ MISC_DOX = \
 	iec-bus.txt \
 	MacOSX-ResourceTree.txt \
 	NLS-Howto.txt
-
-BUILDING_DOX = \
-	building/GP2X-Howto.txt \
-	building/MacOSX-Howto.txt \
-	building/Minix-Howto.txt \
-	building/MSDOS-Howto.txt \
-	building/MSDOS-Ethernet-Howto.txt \
-	building/OpenVMS-Howto.txt \
-	building/SDL-Howto.txt \
-	building/Win32-Cygwin-Howto.txt \
-	building/Win32-Mingw32-Howto.txt \
-	building/Linux-Mingw32-Howto.txt
-
-READMES = \
-	readmes/Readme-Amiga.txt \
-	readmes/Readme-BeOS.txt \
-	readmes/Readme-DOS.txt \
-	readmes/Readme-MacOSX.txt \
-	readmes/Readme-OS2.txt \
-	readmes/Readme-SDL.txt
 
 TEXI_TOOLS = \
 	fixdox.sh \
@@ -64,11 +46,9 @@ VICE_DOX = \
 	
 info_TEXINFOS = vice.texi
 
-dist_doc_DATA = $(MISC_DOX) $(VICE_DOX) $(BUILDING_DOX) $(READMES)
+dist_doc_DATA = $(MISC_DOX) $(VICE_DOX)
 
 EXTRA_DIST = $(DOC_TOOLS) $(TEXI_TOOLS) $(STYLE_TOOLS)
-
-SUBDIRS = html
 
 AM_MAKEINFOHTMLFLAGS = 
 AM_MAKEINFOFLAGS = --no-split

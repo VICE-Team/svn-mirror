@@ -17,9 +17,9 @@ if UNIX_WIZ_COMPILE
 SUBDIRS = gp2x
 else
 if NEED_READLINE
-SUBDIRS = gui x11 readline
+SUBDIRS = gui hpux minix next_open_rhap qnx4 qnx6 readline sco_sol skyos x11
 else
-SUBDIRS = gui x11
+SUBDIRS = gui hpux minix next_open_rhap qnx4 qnx6 sco_sol skyos x11
 endif
 endif
 endif
@@ -77,33 +77,6 @@ libarch_a_SOURCES = \
 	vmstermios.h \
 	vsyncarch.c \
 	vsiduiunix.h
-
-EXTRA_DIST = \
-	hpux/getdate.pl \
-	hpux/getnow.pl \
-	hpux/make-bindist.sh \
-	minix/minix-ar.sh \
-	next_open_rhap/make-bindist.sh \
-	next_open_rhap/vice.info.in \
-	qnx4/install_msg \
-	qnx4/make-bindist.sh \
-	qnx6/getlibs.c \
-	qnx6/getsize.c \
-	qnx6/make-bindist.sh \
-	sco_sol/checkinstall \
-	sco_sol/make-bindist.sh \
-        skyos/icons/vsid.ico \
-	skyos/icons/x64.ico \
-	skyos/icons/x64dtv.ico \
-	skyos/icons/x64sc.ico \
-	skyos/icons/x128.ico \
-	skyos/icons/xcbm2.ico \
-	skyos/icons/xcbm5x0.ico \
-	skyos/icons/xpet.ico \
-	skyos/icons/xplus4.ico \
-	skyos/icons/xscpu64.ico \
-	skyos/icons/xvic.ico \
-	skyos/make-bindist.sh
 
 .PHONY: x11
 x11:

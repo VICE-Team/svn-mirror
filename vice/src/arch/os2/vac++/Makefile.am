@@ -1,15 +1,9 @@
+SUBDIRS = ctools incl x64 x64dtv x64sc x128 xcbm2 xcbm5x0 xpet xplus4 xvic
+
 EXTRA_DIST = \
-	x64/X64.ICC \
-	x64dtv/X64DTV.ICC \
-	x64sc/X64SC.ICC \
-	x128/X128.ICC \
 	X1541.ICC \
 	cartconv.ICC \
-	xcbm2/Xcbm2.ICC \
-	xcbm5x0/Xcbm5x0.ICC \
-	xpet/Xpet.ICC \
-	xplus4/Xplus4.ICC \
-	xvic/Xvic.ICC \
+	cbm2-pet-dummy.c \
 	fonts1.icc \
 	fonts2.icc \
 	geninfo1.icc \
@@ -21,70 +15,4 @@ EXTRA_DIST = \
 	RESID.ICC \
 	RESIDDTV.ICC \
 	RESIDFP.ICC \
-	vicedll.ICC \
-	incl/archdep.icc \
-	incl/c128.icc \
-	incl/c64.icc \
-	incl/c64cart.icc \
-	incl/c64commonall.icc \
-	incl/c64commonc64dtv.icc \
-	incl/c64commonc64sc.icc \
-	incl/c64commonc128.icc \
-	incl/c64commoncart.icc \
-	incl/c64dtv.icc \
-	incl/c64sc.icc \
-	incl/cbm2.icc \
-	incl/cbm2common.icc \
-	incl/cbm5x0.icc \
-	incl/core.icc \
-	incl/crtc.icc \
-	incl/dialogs.icc \
-	incl/diskimage.icc \
-	incl/drive.icc \
-	incl/fileio.icc \
-	incl/fsdevice.icc \
-	incl/gfxoutputdrv.icc \
-	incl/iec.icc \
-	incl/iec128dcr.icc \
-	incl/iecbus.icc \
-	incl/iecc64exp.icc \
-	incl/iecieee.icc \
-	incl/iecplus4exp.icc \
-	incl/ieee.icc \
-	incl/imagecontents.icc \
-	incl/kbd.icc \
-	incl/mainsrc.icc \
-	incl/mon6809.icc \
-	incl/monitor.icc \
-	incl/monz80.icc \
-	incl/p64.icc \
-	incl/parallel.icc \
-	incl/pet.icc \
-	incl/plus4.icc \
-	incl/printerdrv.icc \
-	incl/raster.icc \
-	incl/resid.icc \
-	incl/residdtv.icc \
-	incl/resources.icc \
-	incl/rs232drv.icc \
-	incl/rtc.icc \
-	incl/serial.icc \
-	incl/sounddrv.icc \
-	incl/tape.icc \
-	incl/tcbm.icc \
-	incl/userport.icc \
-	incl/vdc.icc \
-	incl/vdrive.icc \
-	incl/vic20.icc \
-	incl/vic20cart.icc \
-	incl/vicii.icc \
-	incl/viciicommon.icc \
-	incl/viciidtv.icc \
-	incl/viciisc.icc \
-	incl/video.icc \
-	incl/vsid.icc \
-	ctools/biosdump.icc \
-	ctools/cformat.icc \
-	ctools/ctools.icc \
-	ctools/d64dump.icc \
-	cbm2-pet-dummy.c
+	vicedll.ICC

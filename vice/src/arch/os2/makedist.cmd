@@ -28,6 +28,16 @@ copy icons\folder1.ico Vice2\Icons
 copy icons\folder2.ico Vice2\Icons
 copy icons\c1541.ico   Vice2\Icons
 copy icons\vsid.ico    Vice2\Icons
+copy icons\x64.ico     Vice2\Icons
+copy icons\x64dtv.ico  Vice2\Icons
+copy icons\x64sc.ico   Vice2\Icons
+copy icons\x128.ico    Vice2\Icons
+copy icons\xcbm2.ico   Vice2\Icons
+copy icons\xcbm5x0.ico Vice2\Icons
+copy icons\xpet.ico    Vice2\Icons
+copy icons\xplus4.ico  Vice2\Icons
+copy icons\xscpu64.ico Vice2\Icons
+copy icons\xvic.ico    Vice2\Icons
 
 md Vice2\C64
 copy ..\..\..\data\C64\basic        Vice2\C64

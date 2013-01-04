@@ -1,0 +1,1 @@
+EXTRA_DIST = Xcbm2.ICC

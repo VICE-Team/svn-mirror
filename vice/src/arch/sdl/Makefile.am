@@ -6,7 +6,15 @@ else
 extra_includes =
 endif
 
-SUBDIRS = win32-msvc win64-msvc win32-watcom winmips-msvc dingoo-files syllable-files xbox
+SUBDIRS = \
+	dingoo-files \
+	qnx4 \
+	syllable-files \
+	win32-msvc \
+	win64-msvc \
+	win32-watcom \
+	winmips-msvc \
+	xbox
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
@@ -204,6 +212,4 @@ EXTRA_DIST = \
 	make-bindist_scosol.sh \
 	make-bindist_skyos.sh \
 	make-bindist_syllable.sh \
-	make-bindist_win32.sh \
-	qnx4/install_msg \
-	qnx4/make-bindist.sh
+	make-bindist_win32.sh

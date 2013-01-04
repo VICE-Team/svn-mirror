@@ -1,7 +1,7 @@
 ## Makefile.am for the Win32 version of `libarch.a'.
 
 if !CROSS
-SUBDIRS = utils
+SUBDIRS = evc mingw32 msvc utils watcom
 endif
 
 SUFFIXES = .rc
@@ -33,7 +33,6 @@ INCLUDES = \
 noinst_LIBRARIES = libarch.a
 
 libarch_a_SOURCES = \
-	mingw32/system.h \
 	archdep.c \
 	archdep.h \
 	blockdev.c \
@@ -321,122 +320,6 @@ libarch_a_DEPENDENCIES = \
 endif
 
 EXTRA_DIST = \
-	evc/config.h \
-	evc/system.c \
-	evc/system.h \
-	msvc/dirent.h \
-	msvc/ide-config.h \
-	msvc/ide-siddefs.h \
-	msvc/ide-siddtvdefs.h \
-	msvc/ide-sidfpdefs.h \
-	msvc/inttypes.h \
-	msvc/stdint.h \
-	msvc/system.h \
-	msvc/wpcap/bittypes.h \
-	msvc/wpcap/ip6_misc.h \
-	msvc/wpcap/pcap-stdinc.h \
-	msvc/wpcap/pcap.h \
-	msvc/wpcap/net/bpf.h \
-	watcom/arch.tgt \
-	watcom/base.tgt \
-	watcom/c128.tgt \
-	watcom/c1541.tgt \
-	watcom/c64.tgt \
-	watcom/c64cart.tgt \
-	watcom/c64commonall.tgt \
-	watcom/c64commoncart.tgt \
-	watcom/c64commonsc.tgt \
-	watcom/c64commonsc128scpu.tgt \
-	watcom/c64commonscdtv128scpu.tgt \
-	watcom/c64commonscdtvscpu.tgt \
-	watcom/c64commonscscpu.tgt \
-	watcom/c64commonscvsid.tgt \
-	watcom/c64commonscvsid128.tgt \
-	watcom/c64commonvsidsc128scpu.tgt \
-	watcom/c64commonvsidscdtv.tgt \
-	watcom/c64commonvsidscdtvscpu.tgt \
-	watcom/c64commonvsidscpu.tgt \
-	watcom/c64commonvsidscscpu.tgt \
-	watcom/c64dtv.tgt \
-	watcom/c64exp.tgt \
-	watcom/c64sc.tgt \
-	watcom/cartconv.tgt \
-	watcom/cbm2.tgt \
-	watcom/cbm2common.tgt \
-	watcom/cbm5x0.tgt \
-	watcom/core.tgt \
-	watcom/crtc.tgt \
-	watcom/dirent.h \
-	watcom/diskimage.tgt \
-	watcom/drive.tgt \
-	watcom/fileio.tgt \
-	watcom/fsdevice.tgt \
-	watcom/genic.tgt \
-	watcom/geninfocontrib32.tgt \
-	watcom/gentr.tgt \
-	watcom/gentranslate32.tgt \
-	watcom/genwinres32.tgt \
-	watcom/genwr.tgt \
-	watcom/genwt.bat \
-	watcom/gfxoutputdrv.tgt \
-	watcom/ide-config.h \
-	watcom/ide-siddefs.h \
-	watcom/ide-siddtvdefs.h \
-	watcom/ide-sidfpdefs.h \
-	watcom/iec.tgt \
-	watcom/iec128dcr.tgt \
-	watcom/iecbus.tgt \
-	watcom/iecieee.tgt \
-	watcom/ieee.tgt \
-	watcom/imagecontents.tgt \
-	watcom/maincpu.tgt \
-	watcom/make-watcom-bindist.bat \
-	watcom/monitor.tgt \
-	watcom/p64.tgt \
-	watcom/parallel.tgt \
-	watcom/pet.tgt \
-	watcom/petcat.tgt \
-	watcom/platform.tgt \
-	watcom/plus4.tgt \
-	watcom/plus4exp.tgt \
-	watcom/printerdrv.tgt \
-	watcom/raster.tgt \
-	watcom/README.txt \
-	watcom/resid.tgt \
-	watcom/resid-dtv.tgt \
-	watcom/resid-fp.tgt \
-	watcom/rs232drv.tgt \
-	watcom/scpu64.tgt \
-	watcom/serial.tgt \
-	watcom/sid.tgt \
-	watcom/sounddrv.tgt \
-	watcom/system.h \
-	watcom/tape.tgt \
-	watcom/tcbm.tgt \
-	watcom/userport.tgt \
-	watcom/vdc.tgt \
-	watcom/vdrive.tgt \
-	watcom/vic20.tgt \
-	watcom/vic20cart.tgt \
-	watcom/vice.wpj \
-	watcom/vicii.tgt \
-	watcom/viciicommon.tgt \
-	watcom/viciidtv.tgt \
-	watcom/viciinew.tgt \
-	watcom/video.tgt \
-	watcom/vsid.tgt \
-	watcom/vsidlib.tgt \
-	watcom/watcom-ar.sh \
-	watcom/x128.tgt \
-	watcom/x64.tgt \
-	watcom/x64dtv.tgt \
-	watcom/x64sc.tgt \
-	watcom/xcbm2.tgt \
-	watcom/xcbm5x0.tgt \
-	watcom/xpet.tgt \
-	watcom/xplus4.tgt \
-	watcom/xscpu64.tgt \
-	watcom/xvic.tgt \
 	_vice.dsp \
 	arch.dsp \
 	base.dsp \

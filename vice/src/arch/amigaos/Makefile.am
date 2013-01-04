@@ -1,5 +1,7 @@
 # Makefile.am for the AMIGAOS version of `libarch.a'.
 
+SUBDIRS = info-files mui
+
 bin_PROGRAMS = x64ns x64dtvns x64scns x128ns xvicns xplus4ns xcbm2ns xcbm5x0ns xpetns xscpu64ns
 
 x64ns_SOURCES = x64ns.c
@@ -127,164 +129,10 @@ libarch_a_SOURCES = \
 	videoarch.h \
 	vsidui.c \
 	vsiduires.h \
-	vsyncapi.c \
-	mui/filereq.c \
-	mui/filereq.h \
-	mui/mui.c \
-	mui/mui.h \
-	mui/uiacia.c \
-	mui/uiacia.h \
-	mui/uiautostart.c \
-	mui/uiautostart.h \
-	mui/uiburstmod.c \
-	mui/uiburstmod.h \
-	mui/uic64_256k.c \
-	mui/uic64_256k.h \
-	mui/uic64dtv.c \
-	mui/uic64dtv.h \
-	mui/uic64model.c \
-	mui/uic64model.h \
-	mui/uic128settings.c \
-	mui/uic128settings.h \
-	mui/uicbm2settings.c \
-	mui/uicbm2settings.h \
-	mui/uicbm5x0settings.c \
-	mui/uicbm5x0settings.h \
-	mui/uiciamodel.c \
-	mui/uiciamodel.h \
-	mui/uidatasette.c \
-	mui/uidatasette.h \
-	mui/uidigimax.c \
-	mui/uidigimax.h \
-	mui/uidqbb.c \
-	mui/uidqbb.h \
-	mui/uidrivec128.c \
-	mui/uidrivec128.h \
-	mui/uidrivec64vic20.c \
-	mui/uidrivec64vic20.h \
-	mui/uidrivepetcbm2.c \
-	mui/uidrivepetcbm2.h \
-	mui/uidriveplus4.c \
-	mui/uidriveplus4.h \
-	mui/uids12c887rtc.c \
-	mui/uids12c887rtc.h \
-	mui/uieasyflash.c \
-	mui/uieasyflash.h \
-	mui/uiexpert.c \
-	mui/uiexpert.h \
-	mui/uifliplist.c \
-	mui/uifliplist.h \
-	mui/uigeoram.c \
-	mui/uigeoram.h \
-	mui/uiide64.c \
-	mui/uiide64.h \
-	mui/uiisepic.c \
-	mui/uiisepic.h \
-	mui/uijoystick.c \
-	mui/uijoystick.h \
-	mui/uijoystickll.c \
-	mui/uijoystickll.h \
-	mui/uimagicvoice.c \
-	mui/uimagicvoice.h \
-	mui/uimmc64.c \
-	mui/uimmc64.h \
-	mui/uimmcreplay.c \
-	mui/uimmcreplay.h \
-	mui/uimouse.c \
-	mui/uimouse.h \
-	mui/uinetwork.c \
-	mui/uinetwork.h \
-	mui/uipetdww.c \
-	mui/uipetdww.h \
-	mui/uipetreu.c \
-	mui/uipetreu.h \
-	mui/uipetsettings.c \
-	mui/uipetsettings.h \
-	mui/uiplus256k.c \
-	mui/uiplus256k.h \
-	mui/uiplus4settings.c \
-	mui/uiplus4settings.h \
-	mui/uiplus60k.c \
-	mui/uiplus60k.h \
-	mui/uiprinter.c \
-	mui/uiprinter.h \
-	mui/uiram.c \
-	mui/uiram.h \
-	mui/uiramcart.c \
-	mui/uiramcart.h \
-	mui/uiretroreplay.c \
-	mui/uiretroreplay.h \
-	mui/uireu.c \
-	mui/uireu.h \
-	mui/uiromc128settings.c \
-	mui/uiromc128settings.h \
-	mui/uiromc64vic20settings.c \
-	mui/uiromc64vic20settings.h \
-	mui/uiromcbm2settings.c \
-	mui/uiromcbm2settings.h \
-	mui/uirompetsettings.c \
-	mui/uirompetsettings.h \
-	mui/uiromplus4settings.c \
-	mui/uiromplus4settings.h \
-	mui/uiromscpu64settings.c \
-	mui/uiromscpu64settings.h \
-	mui/uirs232user.c \
-	mui/uirs232user.h \
-	mui/uiscpu64.c \
-	mui/uiscpu64.h \
-	mui/uisid.c \
-	mui/uisid.h \
-	mui/uisidcart.c \
-	mui/uisidcart.h \
-	mui/uisiddtv.c \
-	mui/uisiddtv.h \
-	mui/uisnapshot.c \
-	mui/uisnapshot.h \
-	mui/uisound.c \
-	mui/uisound.h \
-	mui/uisoundexpander.c \
-	mui/uisoundexpander.h \
-	mui/uisoundsampler.c \
-	mui/uisoundsampler.h \
-	mui/uited.c \
-	mui/uited.h \
-	mui/uiv364speech.c \
-	mui/uiv364speech.h \
-	mui/uivic.c \
-	mui/uivic.h \
-	mui/uivic20mem.c \
-	mui/uivic20mem.h \
-	mui/uivicii.c \
-	mui/uivicii.h \
-	mui/uivideo.c \
-	mui/uivideo.h
+	vsyncapi.c
 
 EXTRA_DIST = \
 	intl_text.c \
-	info-files/VICE.info \
-	info-files/vsid.exe.info \
-	info-files/x128.exe.info \
-	info-files/x64.exe.info \
-	info-files/x64dtv.exe.info \
-	info-files/x64sc.exe.info \
-	info-files/xcbm2.exe.info \
-	info-files/xcbm5x0.exe.info \
-	info-files/xpet.exe.info \
-	info-files/xplus4.exe.info \
-	info-files/xscpu64.exe.info \
-	info-files/xvic.exe.info \
-	info-files/morphos/VICE.info \
-	info-files/morphos/vsid.info \
-	info-files/morphos/x128.info \
-	info-files/morphos/x64.info \
-	info-files/morphos/x64dtv.info \
-	info-files/morphos/x64sc.info \
-	info-files/morphos/xcbm2.info \
-	info-files/morphos/xcbm5x0.info \
-	info-files/morphos/xpet.info \
-	info-files/morphos/xplus4.info \
-	info-files/morphos/xscpu64.info \
-	info-files/morphos/xvic.info \
 	fixdeps.c \
 	genintl_h.sh.in \
 	genintltable.sh \
