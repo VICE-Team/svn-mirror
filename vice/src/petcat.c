@@ -212,6 +212,8 @@ void ui_error(const char *format, ...)
 
 #define KW_NONE         0xFE    /* flag unused token */
 
+#define CODE_NONE       -1      /* flag unknown control code */
+
 #define CLARIF_LP       '{'     /* control code left delimiter */
 #define CLARIF_RP       '}'     /* control code right delimiter */
 
@@ -229,7 +231,7 @@ static const unsigned char MagicHeaderP00[8] = "C64File\0";
  */
 
 /* all numeric codes */
-static const char *hexcodes[] = {
+static const char *hexcodes[0x100] = {
     "$00", "$01", "$02", "$03", "$04", "$05", "$06", "$07", "$08", "$09", "$0a", "$0b", "$0c", "$0d", "$0e", "$0f",
     "$10", "$11", "$12", "$13", "$14", "$15", "$16", "$17", "$18", "$19", "$1a", "$1b", "$1c", "$1d", "$1e", "$1f",
     "$20", "$21", "$22", "$23", "$24", "$25", "$26", "$27", "$28", "$29", "$2a", "$2b", "$2c", "$2d", "$2e", "$2f",
@@ -249,15 +251,15 @@ static const char *hexcodes[] = {
 };
 
 /* 0x00 - 0x1f */
-static const char *ctrl1[] = {
-    "",     "",     "",     "",     "",    "wht",  "",     "",
-    "dish", "ensh", "\n",   "",     "\f",  "\n",   "swlc", "",
-    "",     "down", "rvon", "home", "del", "",     "",     "",
-    "",     "",     "",     "esc",  "red", "rght", "grn",  "blu"
+static const char *ctrl1[0x20] = {
+    "",       "CTRL-A", "CTRL-B", "stop",   "CTRL-D", "wht",    "CTRL-F", "CTRL-G",
+    "dish",   "ensh",   "\n",     "CTRL-K", "CTRL-L", "\n",     "swlc",   "CTRL-O",
+    "CTRL-P", "down",   "rvon",   "home",   "del",    "CTRL-U", "CTRL-V", "CTRL-W",
+    "CTRL-X", "CTRL-Y", "CTRL-Z", "esc",    "red",    "rght",   "grn",    "blu"
 };
 
 /* 0x80 - 0x9f */
-static const char *ctrl2[] = {
+static const char *ctrl2[0x20] = {
     "",     "orng", "",     "",     "",     "F1",   "F3",   "F5",
     "F7",   "F2",   "F4",   "F6",   "F8",   "sret", "swuc", "",
     "blk",  "up",   "rvof", "clr",  "inst", "brn",  "lred", "gry1",
@@ -270,7 +272,7 @@ static const char *ctrl2[] = {
  */
 
 /* 0x00 - 0x1f */
-const char *a_ctrl1[] = {
+const char *a_ctrl1[0x20] = {
     "",              "",               "",       "",     "",       "wht",    "",           "",
     "up/lo lock on", "up/lo lock off", "",       "",     "",       "return", "lower case", "",
     "",              "down",           "rvs on", "home", "delete", "",       "",           "",
@@ -278,7 +280,7 @@ const char *a_ctrl1[] = {
 };
 
 /* 0x00 - 0x1f */
-const char *b_ctrl1[] = {
+const char *b_ctrl1[0x20] = {
     "", "", "",           "", "", "", "", "",
     "", "", "",           "", "", "", "", "",
     "", "", "REVERSE ON", "", "", "", "", "",
@@ -286,7 +288,7 @@ const char *b_ctrl1[] = {
 };
 
 /* 0x20 - 0x3f */
-const char *cbmchars[] = {
+const char *cbmchars[0x20] = {
     "space", "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
     "",      "", "", "", "", "", "", "",
@@ -294,7 +296,7 @@ const char *cbmchars[] = {
 };
 
 /* 0x80 - 0x9f */
-const char *a_ctrl2[] = {
+const char *a_ctrl2[0x20] = {
     "",      "orange",   "",        "",      "",       "f1",           "f3",         "f5",
     "f7",    "f2",       "f4",      "f6",    "f8",     "shift return", "upper case", "",
     "blk",   "up",       "rvs off", "clear", "insert", "brown",        "lt red",     "grey1",
@@ -302,7 +304,7 @@ const char *a_ctrl2[] = {
 };
 
 /* keys for charcodes 0xa0-0xe0 */
-static const char *cbmkeys[] = {
+static const char *cbmkeys[0x40] = {
     "SHIFT-SPACE", "CBM-K",       "CBM-I",   "CBM-T",   "CBM-@",   "CBM-G",   "CBM-+",   "CBM-M", 
     "CBM-POUND",   "SHIFT-POUND", "CBM-N",   "CBM-Q",   "CBM-D",   "CBM-Z",   "CBM-S",   "CBM-P",
     "CBM-A",       "CBM-E",       "CBM-R",   "CBM-W",   "CBM-H",   "CBM-J",   "CBM-L",   "CBM-Y",
@@ -314,7 +316,7 @@ static const char *cbmkeys[] = {
 };
 
 /* alternative keys for charcodes 0xa0-0xe0 */
-static const char *a_cbmkeys[] = {
+static const char *a_cbmkeys[0x40] = {
     "", "", "", "", "", "", "",      "",
     "", "", "", "", "", "", "",      "",
     "", "", "", "", "", "", "",      "",
@@ -805,16 +807,17 @@ const char *supergrakw[] = {
 static int parse_version(char *str);
 static void list_keywords(int version);
 static void pet_2_asc (int ctrls);
+static void asc_2_pet (int ctrls);
 static void _p_toascii(int c, int ctrls);
 static int p_expand(int version, int addr, int ctrls);
 static void p_tokenize(int version, unsigned int addr, int ctrls);
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems);
-static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist, int token, int maxitems);
+static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, int maxitems);
 
 /* ------------------------------------------------------------------------- */
 
 static FILE *source, *dest;
-static int kwlen;
+static int kwlen = 0;
 static int codesnocase = 0; /* flag, =1 if controlcodes should be interpreted case insensitive */
 
 /* dummy functions */
@@ -1084,14 +1087,14 @@ int main(int argc, char **argv)
     }
 
     if (wr_mode) {
-        fprintf(stderr, "\nLoad address %04x\n", load_addr);
-        if ((load_addr & 255) != 1) {
-            fprintf (stderr, "Warning: odd load address (are you sure?)\n");
+        if (!textmode) {
+            fprintf(stderr, "\nLoad address %04x\n", load_addr);
+            if ((load_addr & 255) != 1) {
+                fprintf (stderr, "Warning: odd load address (are you sure?)\n");
+            }
         }
-
         fprintf(stderr, "Control code set: %s\n\n", (ctrls ? "enabled" : "disabled"));
     }
-
 
     /*
      * Loop all files
@@ -1144,7 +1147,11 @@ int main(int argc, char **argv)
 
 
         if (wr_mode) {
-            p_tokenize(version, load_addr, ctrls);
+            if (textmode) {
+                asc_2_pet(ctrls);
+            } else {
+                p_tokenize(version, load_addr, ctrls);
+            }
         } else {
             if (hdr) { /* iAN: name as comment when using petcat name.prg > name.txt */
                 fprintf(dest, "\n\n;%s ", (fil ? argv[0] : "<stdin>"));
@@ -1681,21 +1688,28 @@ static void pet_2_asc(int ctrls)
     }      /* line */
 }
 
-/*
-      translate petscii code into an ascii representation
+/*******************************************************************************
+    translate petscii code into an ascii representation
 
-29/01/2009 gpz
-- fixed $5b,$5d
-*/
-/*
-iAN: "left arrow" petscii 0x5f was converted as ascii 0x7f and not translated back correctly
-*/
+    notes:
+    - petscii codes 0x61-0x7f and (*) 0xc1-0xdf produce the same screencodes
+    - petscii codes (*) 0xa1-0xbe and 0xe1-0xfe produce the same screencodes
+    - petscii codes (*) 0xff, 0x7e and 0xde (PI) produces the same screencode
+    
+ ******************************************************************************/
 static void _p_toascii(int c, int ctrls)
 {
+    /* fprintf(stderr, "<%02x:%d>", c, ctrls); */
     switch (c) {
-        case 0x00:                          /* 00 for SEQ */
+        case 0x00: /* 00 for SEQ */
         case 0x0a:
-        case 0x0d:
+            if (!ctrls) {
+                fputc('\n', dest);
+            } else {
+                fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+            }
+            break;
+        case 0x0d: /* CBM carriage return */
             fputc('\n', dest);
             break;
         case 0x40:
@@ -1713,49 +1727,76 @@ static void _p_toascii(int c, int ctrls)
         case 0x5e:
             fputc('^', dest);
             break;
-        case 0x5f:
+        case 0x5f: /* left arrow */
             fputc('_', dest);
             break;
         case 0x60: /* produces the same screencode as $c0! */
             fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
             break;
+
+        case 0x7b: /* produces the same screencode as $db! */
+        case 0x7c: /* produces the same screencode as $dc! */
+        case 0x7d: /* produces the same screencode as $dd! */
+        case 0x7e: /* PI produces the same screencode as $de! */
+        case 0x7f: /* produces the same screencode as $df! */
+            fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff); /* shift+arrow up */
+            break;
+
         case 0xc0:
             fprintf(dest, CLARIF_LP_ST "SHIFT-*" CLARIF_RP_ST);
             break;
-        case 0x7c:
+        case 0xdb: /* (*) produces the same screencode as $7b! */
+            fprintf(dest, CLARIF_LP_ST "SHIFT-+" CLARIF_RP_ST);
+            break;
+        case 0xdc: /* (*) produces the same screencode as $7c! */
             fprintf(dest, CLARIF_LP_ST "CBM--" CLARIF_RP_ST); /* Conflicts with Scandinavian Chars */
             break;
-        case 0x7f:
+        case 0xdd: /* (*) produces the same screencode as $7d! */
+            fprintf(dest, CLARIF_LP_ST "SHIFT--" CLARIF_RP_ST);
+            break;
+        case 0xde: /* PI produces the same screencode as $7e and $ff! */
+            fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+            break;
+        case 0xdf: /* (*) produces the same screencode as $7f! */
             fprintf(dest, CLARIF_LP_ST "CBM-*" CLARIF_RP_ST);
             break;
-        case 0xa0:                          /* CBM: Shifted Space */
-        case 0xe0:
+
+        case 0xa0: /* shifted Space */
+        case 0xe0: /* produces the same screencode as $a0! */
             if (!ctrls) {
                 fputc(' ', dest);
             } else {
                 fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
             }
             break;
-        case 0xff:
-            fputc(0x7e, dest);
+        case 0xff: /* (*) PI produces the same screencode as $7e and $de! */
+            fputc(0x7e, dest); /*  '~' is ASCII for 'pi' */
             break;
 
         default:
             switch (c & 0xe0) {
-                case 0x40:                /* 41 - 7F */
-                case 0x60:
+                case 0x40:                /* 41 - 5F */
                     fputc(c ^ 0x20, dest);
                     break;
-                case 0xa0:                /* A1 - BF */
-                case 0xe0:                /* E1 - FE */
+                case 0x60:                /* 61 - 7F (produces same screencodes as C1...) */
+                    if (ctrls) {
+                        fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+                    } else {
+                        fputc(c ^ 0x20, dest);
+                    }
+                    break;
+                case 0xa0:                /* (*) A1 - BF (produces same screencodes as E1...) */
                     fprintf(dest, CLARIF_LP_ST "%s" CLARIF_RP_ST, cbmkeys[c & 0x1f]);
                     break;
-                case 0xc0:                /* C0 - DF */
+                case 0xe0:                /* E1 - FE (produces same screencodes as A1...) */
+                    fprintf(dest, CLARIF_LP_ST "$%02x" CLARIF_RP_ST, c & 0xff);
+                    break;
+                case 0xc0:                /* (*) C0 - DF (produces same screencodes as 61...) */
                     fputc(c ^ 0x80, dest);
                     break;
 
                 default:
-                    if (isprint(c)) {
+                    if ((c > 0x1f) && isprint(c)) {
                         fputc(c, dest);
                     } else if (ctrls) {
                         if ((c < 0x20) && *ctrl1[c]) {
@@ -1770,6 +1811,21 @@ static void _p_toascii(int c, int ctrls)
     }  /* switch */
 }
 
+static int _a_topetscii(int c, int ctrls)
+{
+    if (c == '\n') {
+        return 0x0d;
+    } else if (c == 0x7e) {              /*  '~' is ASCII for 'pi' */
+        return 0xff;
+    } else if ((c >= 0x5b) && (c <= 0x5f)) { /* iAN: '_' -> left arrow, no char value change */
+        return c;
+    } else if ((c >= 0x60) && (c <= 0x7e)) {
+        return c ^ 0x20;
+    } else if ((c >= 'A') && (c <= 'Z')) {
+        return c | 0x80;
+    }
+    return c;
+}
 
 /*
  * This routine starts from the beginning of Basic, and not from the
@@ -2059,7 +2115,7 @@ static int p_expand(int version, int addr, int ctrls)
     }      /* line */
 
 #ifdef DEBUG
-    printf("\n c %02x  EOF %d  *line %d  sysflg %d\n", c, feof(source), *line, sysflg);
+    fprintf(stderr, "\n c %02x  EOF %d  *line %d  sysflg %d\n", c, feof(source), *line, sysflg);
 #endif
 
     return (!feof(source) && (*line | line[1]) && sysflg);
@@ -2093,7 +2149,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 {
     static char line[MAX_INLINE_LEN + 1];
     static char tokenizedline[MAX_OUTLINE_LEN + 1];
-    unsigned char *p1, *p2, quote, c;
+    unsigned char *p1, *p2, quote;
+    int c;
     unsigned char rem_data_mode, rem_data_endchar = '\0';
     int len = 0, match;
     unsigned int linum = 10;
@@ -2193,21 +2250,21 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
 
                     if (
                         (
-                            ((c = sstrcmp_codes(p, hexcodes, 0, 0x100)) != KW_NONE) || /* 0x00-0xff */
+                            ((c = sstrcmp_codes(p, hexcodes, 0, 0x100)) != CODE_NONE) || /* 0x00-0xff */
 
-                            ((c = sstrcmp_codes(p, ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x1f */
-                            ((c = sstrcmp_codes(p, a_ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x1f */
-                            ((c = sstrcmp_codes(p, b_ctrl1, 0, 0x20)) != KW_NONE) || /* 0x00-0x1f */
+                            ((c = sstrcmp_codes(p, ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
+                            ((c = sstrcmp_codes(p, a_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
+                            ((c = sstrcmp_codes(p, b_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
 
-                            ((((c = sstrcmp_codes(p, cbmchars, 0, 0x20)) != KW_NONE) /* 0x20-0x3f */
+                            ((((c = sstrcmp_codes(p, cbmchars, 0, 0x20)) != CODE_NONE) /* 0x20-0x3f */
                               ) && (c += 0x20)) ||
 
-                            ((((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != KW_NONE) ||
-                              ((c = sstrcmp_codes(p, a_ctrl2, 0, 0x20)) != KW_NONE)
+                            ((((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != CODE_NONE) ||
+                              ((c = sstrcmp_codes(p, a_ctrl2, 0, 0x20)) != CODE_NONE)
                               ) && (c += 0x80)) ||
 
-                            ((((c = sstrcmp_codes(p, cbmkeys, 0, 0x40)) != KW_NONE) ||
-                              ((c = sstrcmp_codes(p, a_cbmkeys, 0, 0x40)) != KW_NONE)
+                            ((((c = sstrcmp_codes(p, cbmkeys, 0, 0x40)) != CODE_NONE) ||
+                              ((c = sstrcmp_codes(p, a_cbmkeys, 0, 0x40)) != CODE_NONE)
                               ) && (c += 0xA0))
 
 
@@ -2604,17 +2661,8 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
             } /* !quote */
 
             if (!match) {
-                if (*p2 == 0x7e) {              /*  '~' is ASCII for 'pi' */
-                    *p1++ = 0xff;
-                } else if ((*p2 >= 0x5b) && (*p2 <= 0x5f)) { /* iAN: '_' -> left arrow, no char value change */
-                    *p1++ = *p2;
-                } else if ((*p2 >= 0x60) && (*p2 <= 0x7e)) {
-                    *p1++ = *p2 ^ 0x20;
-                } else if ((*p2 >= 'A') && (*p2 <= 'Z')) {
-                    *p1++ = *p2 | 0x80;
-                } else {
-                    *p1++ = *p2;
-                }
+                /* convert character */
+                *p1++ = _a_topetscii(*p2 & 0xff, ctrls);
 
                 /* check if the REM/DATA mode has to be stopped: */
                 if (*p2 == rem_data_endchar) {
@@ -2647,10 +2695,150 @@ static void p_tokenize(int version, unsigned int addr, int ctrls)
     fprintf(dest, "%c%c", 0, 0);        /* program end marker */
 }
 
+
+static void asc_2_pet(int ctrls)
+{
+    static unsigned char line[MAX_INLINE_LEN + 1];
+    int c, d;
+    int len = 0;
+
+    /* Copies from p2 to p1 */
+    while ((c = fgetc(source)) != EOF) {
+
+            {
+                /* control code evaluation */
+
+                if (ctrls && (c == CLARIF_LP)) {
+                    unsigned char *p;
+                    int pos;
+                    pos = ftell(source);
+                    if (fread(line, 1, 0x20, source) < 1) {
+                        break;
+                    }
+                    p = line;
+#ifdef DEBUG
+                    fprintf(stderr, "controlcode start: %c\n", c);
+#endif
+
+                    /* repetition count */
+                    len = 1;
+#ifndef GEMDOS
+                    if (sscanf((char *)p, "%d%n", &len, &kwlen) == 1) {
+                        p += kwlen;
+#else
+                    if (sscanf(p, "%d", &len) == 1) {
+                        while (isspace(*p) || isdigit(*p)) {
+                            p++;
+                        }
+#endif
+
+#ifdef DEBUG
+                        fprintf(stderr, "controlcode repeat count: len:%d kwlen:%d\n", len, kwlen);
+#endif
+                        /* if we are already at the closing brace, then the previous
+                           value wasnt the repeat count but an actual decimal charactercode */
+                        if (*p == CLARIF_RP) {
+                            fputc(len, dest);
+                            fseek(source, pos + ((int)(&p[0] - &line[0])), SEEK_SET);
+                            continue;
+                        }
+
+                        if (*p == ' ') {
+                            ++p;
+                        }
+                    }
+
+#ifdef DEBUG
+                    fprintf(stderr, "controlcode test: %s\n", p);
+#endif
+
+                    if (
+                        (
+                            ((c = sstrcmp_codes(p, hexcodes, 0, 0x100)) != CODE_NONE) || /* 0x00-0xff */
+
+                            ((c = sstrcmp_codes(p, ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
+                            ((c = sstrcmp_codes(p, a_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
+                            ((c = sstrcmp_codes(p, b_ctrl1, 0, 0x20)) != CODE_NONE) || /* 0x00-0x1f */
+
+                            ((((c = sstrcmp_codes(p, cbmchars, 0, 0x20)) != CODE_NONE) /* 0x20-0x3f */
+                              ) && (c += 0x20)) ||
+
+                            ((((c = sstrcmp_codes(p, ctrl2, 0, 0x20)) != CODE_NONE) ||
+                              ((c = sstrcmp_codes(p, a_ctrl2, 0, 0x20)) != CODE_NONE)
+                              ) && (c += 0x80)) ||
+
+                            ((((c = sstrcmp_codes(p, cbmkeys, 0, 0x40)) != CODE_NONE) ||
+                              ((c = sstrcmp_codes(p, a_cbmkeys, 0, 0x40)) != CODE_NONE)
+                              ) && (c += 0xA0))
+
+
+                        )
+                        ) {
+#ifdef DEBUG
+                        fprintf(stderr, "controlcode test 2: %c %s %d\n", p[kwlen], p, kwlen);
+#endif
+                        if (p[kwlen] == '*') {
+                            /* repetition count */
+                            p += (kwlen);
+
+#ifdef DEBUG
+                            fprintf(stderr, "controlcode test rpt: %s\n", p);
+#endif
+                            len = 1;
+#ifndef GEMDOS
+                            if (sscanf((char *)++p, "%d%n", &len, &kwlen) == 1) {
+                                p += kwlen;
+#else
+                            if (sscanf(++p, "%d", &len) == 1) {
+                                while (isspace(*p) || isdigit(*p)) {
+                                    p++;
+                                }
+#endif
+
+#ifdef DEBUG
+                                fprintf(stderr, "controlcode repeat count: len:%d kwlen:%d\n", len, kwlen);
+#endif
+                                kwlen = 0;
+                            }
+                        }
+
+#ifdef DEBUG
+                        fprintf(stderr, "controlcode test 3: %c %s %d\n", p[0], p, kwlen);
+#endif
+
+                        if (p[kwlen] == CLARIF_RP) {
+                            for (; len-- > 0; ) {
+                                fputc(c, dest);
+                            }
+#ifdef DEBUG
+                            fprintf(stderr, "controlcode continue\n");
+#endif
+
+                            fseek(source, pos + kwlen + 1, SEEK_SET);
+                            continue;
+                        }
+                    }
+
+                    fprintf(stderr, "error: unknown control code: %s\n", p);
+                    exit(-1);
+                }
+            }
+
+#ifdef DEBUG
+        fprintf(stderr,"convert character (%02x)\n", c);
+#endif
+        /* convert character */
+        d = _a_topetscii(c, ctrls);
+        fputc(d, dest);
+    }
+}
+
 /*
      look up a controlcode
+
+     sets kwlen
 */
-static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist, int token, int maxitems)
+static int sstrcmp_codes(unsigned char *line, const char **wordlist, int token, int maxitems)
 {
     int j;
     const char *p, *q;
@@ -2667,23 +2855,25 @@ static unsigned char sstrcmp_codes(unsigned char *line, const char **wordlist, i
                  *p && *q && *p == *q; p++, q++, j++) {}
         }
 
-        /*fprintf (stderr,
-                 "compare %s %s - %d %d\n", wordlist[token], line, j, kwlen);*/
+        /* fprintf (stderr,
+                 "compare %s %s - %d %d\n", wordlist[token], line, j, kwlen); */
 
         /* found an exact or abbreviated keyword
          */
         if (j && (!*p)) {
             kwlen = j;
-            /*fprintf (stderr, "found %s %2x\n", wordlist[token], token);*/
+            /* fprintf (stderr, "found %s %2x\n", wordlist[token], token); */
             return token;
         }
-    } /* for */
+    } /* for */ 
 
-    return (KW_NONE);
+    return (CODE_NONE);
 }
 
 /*
      look up a keyword
+
+     sets kwlen
 */
 static unsigned char sstrcmp(unsigned char *line, const char **wordlist, int token, int maxitems)
 {
