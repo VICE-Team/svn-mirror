@@ -218,7 +218,7 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
         frame = gtk_frame_new(NULL);
         gtk_frame_set_shadow_type(GTK_FRAME(frame), GTK_SHADOW_IN);
 
-        sprintf(label, _("Drive %d: "), i + 8);
+        sprintf(label, _("Drive %d "), i + 8);
         as->drive_status[i].box = gtk_hbox_new(FALSE, 0);
 
         gtk_container_add(GTK_CONTAINER(frame), as->drive_status[i].box);
@@ -287,38 +287,65 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 
 void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
 {
-    int i, j;
+    int i, j, true_emu;
     int num_app_shells = get_num_shells();
+
+    resources_get_int("DriveTrueEmulation", &true_emu);
+
+    DBG(("ui_enable_drive_status: enable=%x true_emu=%d", enable, true_emu));
+
+    if (!true_emu) {
+        /*
+         * Note that I'm changing the criterion used to decide whether
+         * to show the UI elements for the drive. I think it is silly that
+         * a drive which has no disk inserted is not shown, since the menu
+         * has a handy item to insert (attach) such a disk.
+         * 'enable' tends to be 0 when !true_emu.
+         * Additionally, I had to change drive-resources.c to get this
+         * function to be called when a drive type was changed from
+         * DRIVE_TYPE_NONE to something else. (It was already called when
+         * it was made DRIVE_TYPE_NONE).
+         */
+        for (i = 0; i < NUM_DRIVES; i++) {
+            DBG(("ui_enable_drive_status: drive %d type %d", i, drive_get_disk_drive_type(i)));
+            /* if (strcmp(&(last_attached_images[i][0]), "") != 0) { //} */
+            if (drive_get_disk_drive_type(i) != DRIVE_TYPE_NONE) {
+                enable |= 1<<i;
+            }
+        }
+    }
 
     enabled_drives = enable;
     drive_active_led = drive_led_color;
 
     for (i = 0; i < num_app_shells; i++) {
         for (j = 0; j < NUM_DRIVES; j++) {
-            if (enabled_drives && (enabled_drives & (1 << j))) {
-                /* enabled + active drive */
+            if (enabled_drives & (1 << j)) {
+                /* drive enabled */
                 gtk_widget_show(app_shells[i].drive_status[j].event_box);
-                gtk_widget_show(app_shells[i].drive_status[j].track_label);
+                if (true_emu) {
+                    gtk_widget_show(app_shells[i].drive_status[j].track_label);
 #if !defined(GTK_USE_CAIRO)
-                if (drive_num_leds(j) == 1) {
-                    gtk_widget_show(app_shells[i].drive_status[j].led);
+                    if (drive_num_leds(j) == 1) {
+                        gtk_widget_show(app_shells[i].drive_status[j].led);
+                        gtk_widget_hide(app_shells[i].drive_status[j].led1);
+                        gtk_widget_hide(app_shells[i].drive_status[j].led2);
+                    } else {
+                        gtk_widget_hide(app_shells[i].drive_status[j].led);
+                        gtk_widget_show(app_shells[i].drive_status[j].led1);
+                        gtk_widget_show(app_shells[i].drive_status[j].led2);
+                    }
+#endif
+                } else {
+                    gtk_widget_hide(app_shells[i].drive_status[j].track_label);
+#if !defined(GTK_USE_CAIRO)
+                    gtk_widget_hide(app_shells[i].drive_status[j].led);
                     gtk_widget_hide(app_shells[i].drive_status[j].led1);
                     gtk_widget_hide(app_shells[i].drive_status[j].led2);
-                } else {
-                    gtk_widget_hide(app_shells[i].drive_status[j].led);
-                    gtk_widget_show(app_shells[i].drive_status[j].led1);
-                    gtk_widget_show(app_shells[i].drive_status[j].led2);
+#endif
                 }
-#endif
-            } else if (!enabled_drives && (strcmp(last_attached_images[j], "") != 0)) {
-                gtk_widget_show(app_shells[i].drive_status[j].event_box);
-                gtk_widget_hide(app_shells[i].drive_status[j].track_label);
-#if !defined(GTK_USE_CAIRO)
-                gtk_widget_hide(app_shells[i].drive_status[j].led);
-                gtk_widget_hide(app_shells[i].drive_status[j].led1);
-                gtk_widget_hide(app_shells[i].drive_status[j].led2);
-#endif
             } else {
+                /* drive disabled */
                 gtk_widget_hide(app_shells[i].drive_status[j].event_box);
             }
         }
