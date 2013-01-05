@@ -30,13 +30,15 @@ VICE_ARG_WITH_LIST(picasso96,     [  --with-picasso96        use Amiga P96 grafi
 VICE_ARG_WITH_LIST(cocoa,         [  --with-cocoa            enables native Cocoa UI on Macs])
 VICE_ARG_ENABLE_LIST(textfield,   [  --disable-textfield     disable enhanced text field widget])
 VICE_ARG_ENABLE_LIST(fullscreen,  [  --disable-fullscreen    disable XFree86 fullscreen detection])
-VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI support])
+VICE_ARG_ENABLE_LIST(gnomeui,     [  --enable-gnomeui        enables GNOME UI with GTK2 support])
+VICE_ARG_ENABLE_LIST(gnomeui3,    [  --enable-gnomeui3       enables GNOME UI with GTK3 support])
 VICE_ARG_ENABLE_LIST(sdlui,       [  --enable-sdlui          enables SDL UI support])
 VICE_ARG_ENABLE_LIST(gp2x,        [  --enable-gp2x           enables GP2X support])
 VICE_ARG_ENABLE_LIST(wiz,         [  --enable-wiz            enables WIZ support])
 VICE_ARG_ENABLE_LIST(dingoo,      [  --enable-dingoo         enables native Dingoo support])
 VICE_ARG_ENABLE_LIST(dingux,      [  --enable-dingux         enables Dingux (Dingoo Linux) support])
 VICE_ARG_ENABLE_LIST(nls,         [  --disable-nls           disables national language support])
+VICE_ARG_ENABLE_LIST(vte,         [  --disable-vte           disable VTE support])
 VICE_ARG_ENABLE_LIST(realdevice,  [  --disable-realdevice    disables access to real peripheral devices (CBM4Linux/OpenCBM)])
 VICE_ARG_ENABLE_LIST(ffmpeg,      [  --disable-ffmpeg        disable FFmpeg library support])
 VICE_ARG_ENABLE_LIST(quicktime,   [  --enable-quicktime      enables Apple QuickTime support])
@@ -66,7 +68,7 @@ dnl check for invalid options
 VICE_ARG_LIST_CHECK()
 
 dnl check for conflicting ui options
-vice_ui_list="--enable-gnomeui --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz"
+vice_ui_list="--enable-gnomeui --enable-gnomeui3 --enable-sdlui --with-cocoa --enable-gp2x --enable-wiz"
 vice_ui_1=none
 vice_ui_2=none
 
@@ -90,6 +92,11 @@ fi
 
 if test x"$enable_dingoo" = "xyes" -a x"$enable_dingux" = "xyes"; then
   AC_MSG_ERROR([conflicting UI options: --enable-dingoo --enable-dingux])
+fi
+
+dnl enable_gnomeui3 is only checked for special cases.
+if test x"$enable_gnomeui3" = "xyes"; then
+  enable_gnomeui="yes"
 fi
 
 AC_SUBST(VICE_VERSION_MAJOR)
@@ -2509,17 +2516,28 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
     have_vte=no
 
-    PKG_CHECK_MODULES(GTK, [gtk+-2.0])
+    if test x"$enable_gnomeui3" = "xyes"; then
+      PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+      if test x"$enable_vte" != "xno"; then
+        PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no))
+      fi
+    else
+      PKG_CHECK_MODULES(GTK, [gtk+-2.0])
+      if test x"$enable_vte" != "xno"; then
+        PKG_CHECK_MODULES(VTE, [vte], have_vte=yes, AC_MSG_RESULT(no))
+      fi
+    fi
 
-    dnl PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no))
-    dnl if test x"$have_vte" = "xno"; then
-      PKG_CHECK_MODULES(VTE, [vte])
-    dnl fi
+    if test x"$have_vte" = "xyes"; then
+      AC_DEFINE(HAVE_VTE,,[Enable VTE support])
+    fi
 
-    PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
-        AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
-        AC_MSG_RESULT(no)
-      )
+    if test x"$enable_gnomeui3" != "xyes"; then
+      PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
+          AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
+          AC_MSG_RESULT(no)
+        )
+    fi
     X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS $VTE_LIBS"
     LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS $VTE_LIBS"
   else
