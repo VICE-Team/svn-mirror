@@ -13,8 +13,7 @@ SUBDIRS = \
 	win32-msvc \
 	win64-msvc \
 	win32-watcom \
-	winmips-msvc \
-	xbox
+	winmips-msvc
 
 INCLUDES = \
 	@ARCH_INCLUDES@ \
