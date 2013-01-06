@@ -564,7 +564,7 @@ int ui_init(int *argc, char **argv)
 /* Continue GUI initialization after resources are set. */
 int ui_init_finish(void)
 {
-#ifdef GTK_USE_CAIRO
+#ifdef HAVE_CAIRO
     char *usecairo = "yes";
 #else
     char *usecairo = "no";
@@ -574,9 +574,14 @@ int ui_init_finish(void)
 #else
     char *usevte = "no";
 #endif
+#ifdef HAVE_HWSCALE
+    char *usegl = "yes";
+#else
+    char *usegl = "no";
+#endif
     ui_log = log_open("X11");
 
-    log_message(ui_log, "GTK version compiled with: %d.%d (cairo:%s VTE:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usecairo, usevte);
+    log_message(ui_log, "GTK version compiled with: %d.%d (cairo:%s VTE:%s hwscale:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usecairo, usevte, usegl);
 
     have_cbm_font = TRUE;
     fixed_font_desc = pango_font_description_from_string(fixedfontname);

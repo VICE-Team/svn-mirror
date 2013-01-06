@@ -103,6 +103,8 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 
+#include "vice.h"
+
 /* FIXME: use HAVE_CAIRO directly in the code */
 #ifdef HAVE_CAIRO
 /* GdkImage and GdkVisual are deprecated since 2.22 and removed in 3.0, we have
@@ -112,11 +114,9 @@
 
 #include "gtk2legacy.h" /* this must come first here */
 
-#include "vice.h"
-
 #if GTK_CHECK_VERSION(3, 0, 0)
 /* FIXME: open gl stuff does not compile with gtk3 atm */
-#undef HAVE_HWSCALE
+/* #undef HAVE_HWSCALE */
 #endif
 
 #include "log.h"
