@@ -103,14 +103,12 @@
 #include <gdk/gdk.h>
 #include <gdk/gdkkeysyms.h>
 
-#if GTK_CHECK_VERSION(3, 0, 0)
+/* FIXME: use HAVE_CAIRO directly in the code */
+#ifdef HAVE_CAIRO
 /* GdkImage and GdkVisual are deprecated since 2.22 and removed in 3.0, we have
    to use cairo for drawing */
 #define GTK_USE_CAIRO
 #endif
-
-/* FIXME: there should be a config switch to disable VTE */
-#define HAVE_VTE
 
 #include "gtk2legacy.h" /* this must come first here */
 
@@ -119,8 +117,6 @@
 #if GTK_CHECK_VERSION(3, 0, 0)
 /* FIXME: open gl stuff does not compile with gtk3 atm */
 #undef HAVE_HWSCALE
-/* FIXME: there should be a config switch to disable VTE */
-#undef HAVE_VTE
 #endif
 
 #include "log.h"
