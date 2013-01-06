@@ -936,7 +936,7 @@ UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
         { "Professional DOS 1571",                                     \
           MENU_ENTRY_OTHER,                                            \
           set_exboard_callback,                                        \
-          (ui_callback_data_t)0 + (x * 0x10000) },                     \
+          (ui_callback_data_t)(0 + (x * 0x10000)) },                   \
         { "Professional DOS 1571 ROM file",                            \
           MENU_ENTRY_DIALOG,                                           \
           file_string_DriveProfDOS1571Name_callback,                   \
@@ -944,7 +944,7 @@ UI_MENU_DEFINE_FILE_STRING(DriveSuperCardName)
         { "Supercard+",                                                \
           MENU_ENTRY_OTHER,                                            \
           set_exboard_callback,                                        \
-          (ui_callback_data_t)1 + (x * 0x10000) },                     \
+          (ui_callback_data_t)(1 + (x * 0x10000)) },                   \
         { "Supercard+ ROM file",                                       \
           MENU_ENTRY_DIALOG,                                           \
           file_string_DriveSuperCardName_callback,                     \
