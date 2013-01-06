@@ -45,7 +45,7 @@ struct video_canvas_s {
     unsigned int initialized;
     unsigned int created;
     GtkWidget *emuwindow, *pane;
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     /* deprecated since 2.22, removed in 3.0 */
     GdkImage *gdk_image;
 #else

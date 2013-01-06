@@ -136,7 +136,7 @@ video_canvas_t *video_canvas_create(video_canvas_t *canvas, unsigned int *width,
     int res;
     DBG(("video_canvas_create %p", canvas));
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     canvas->gdk_image = NULL;
 #else
     canvas->gdk_pixbuf = NULL;
@@ -168,7 +168,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
         lib_free(canvas->fullscreenconfig);
 #endif
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
         if (canvas->gdk_image != NULL) {
             g_object_unref(canvas->gdk_image);
         }
@@ -204,7 +204,7 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 
     imgw = canvas->draw_buffer->canvas_physical_width;
     imgh = canvas->draw_buffer->canvas_physical_height;
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     if (canvas->gdk_image != NULL) {
         g_object_unref(canvas->gdk_image);
     }
@@ -277,7 +277,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     }
 #endif
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     imgw = gdk_image_get_width(canvas->gdk_image);
     imgh = gdk_image_get_height(canvas->gdk_image);
 #else
@@ -300,7 +300,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     } else
 #endif
     {
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
         video_canvas_render(canvas, gdk_image_get_pixels(canvas->gdk_image), w, h, xs, ys, xi, yi, gdk_image_get_bytes_per_line(canvas->gdk_image), gdk_image_get_bits_per_pixel(canvas->gdk_image));
 #else
         /* FIXME */

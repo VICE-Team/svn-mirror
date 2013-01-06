@@ -140,7 +140,7 @@ void ui_display_tape_current_image(const char *image)
     lib_free(name);
 }
 
-#if defined(GTK_USE_CAIRO)
+#if defined(HAVE_CAIRO)
 static gboolean tape_draw(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     /* FIXME: only draw one widget at a time */
@@ -174,7 +174,7 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
     gtk_widget_show(as->tape_status.label);
 
     /* Tape control */
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     as->tape_status.control_pixmap = gdk_pixmap_new(window, CTRL_WIDTH, CTRL_HEIGHT, -1);
     as->tape_status.control = gtk_image_new_from_pixmap(as->tape_status.control_pixmap, NULL);
 #else
@@ -186,7 +186,7 @@ void build_tape_status_widget(app_shell_type *as, GdkWindow *window)
 
     gtk_widget_set_events(as->tape_status.event_box, GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_ENTER_NOTIFY_MASK);
     g_signal_connect(G_OBJECT(as->tape_status.event_box), "button-press-event", G_CALLBACK(tape_popup_cb), (gpointer)NULL);
-#if defined(GTK_USE_CAIRO)
+#if defined(HAVE_CAIRO)
 #if GTK_CHECK_VERSION(3, 0, 0)
     g_signal_connect(G_OBJECT(as->tape_status.control), "draw", G_CALLBACK(tape_draw), (gpointer)as->canvas);
 #else
@@ -256,7 +256,7 @@ static GdkPoint *polyptr[5] = {
     stop, play, ffw, rew, NULL
 };
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
 static void set_background(GdkColor *color)
 {
     int i;
@@ -364,7 +364,7 @@ void ui_display_tape_control_status(int control)
 {
     GdkColor *color;
     int status = 0;
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     GdkGC *app_gc = get_toplevel();
 #endif
 
@@ -376,7 +376,7 @@ void ui_display_tape_control_status(int control)
         tape_control_status = control;
     }
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     if (app_gc == NULL) {
         DBG(("ui_display_tape_control_status skipped\n"));
         return;

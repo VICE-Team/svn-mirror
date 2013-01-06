@@ -84,7 +84,6 @@
 #define G_DISABLE_DEPRECATED
 /* #define GTK_DISABLE_SINGLE_INCLUDES */ /* FIXME: GL stuff */
 
-#define GTK_USE_CAIRO /* force cairo rendering */
 #endif
 
 /* FIXME: only use one of these for all GTK stuff */
@@ -105,17 +104,11 @@
 
 #include "vice.h"
 
-/* FIXME: use HAVE_CAIRO directly in the code */
-#ifdef HAVE_CAIRO
-/* GdkImage and GdkVisual are deprecated since 2.22 and removed in 3.0, we have
-   to use cairo for drawing */
-#define GTK_USE_CAIRO
-#endif
-
 #include "gtk2legacy.h" /* this must come first here */
 
 #if GTK_CHECK_VERSION(3, 0, 0)
-/* FIXME: open gl stuff does not compile with gtk3 atm */
+/* FIXME: open gl stuff does not compile with gtk3 atm, gtkglext-3.0 is not
+          available in packaged form yet */
 /* #undef HAVE_HWSCALE */
 #endif
 
@@ -257,7 +250,7 @@ typedef struct {
     GtkWidget *led;
     GtkWidget *led1;
     GtkWidget *led2;
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     GdkPixmap *led_pixmap;
     GdkPixmap *led1_pixmap;
     GdkPixmap *led2_pixmap;
@@ -271,7 +264,7 @@ typedef struct {
     GtkWidget *event_box;
     GtkWidget *label;
     GtkWidget *control;
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
     GdkPixmap *control_pixmap;
 #endif
 } tape_status_widget;
@@ -295,7 +288,7 @@ typedef struct {
 extern app_shell_type app_shells[MAX_APP_SHELLS];
 extern int get_num_shells(void);
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
 extern GdkGC *get_toplevel(void);
 extern GdkVisual *visual; /* FIXME: also wrap into a function call */
 #endif

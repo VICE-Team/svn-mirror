@@ -134,7 +134,7 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
         bs = 16;
         swap = 0;
     } else {
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
         /* FIXME: GdkImage and GdkVisual are deprecated since 2.22 */
         GdkVisual *vis = gdk_image_get_visual(c->gdk_image);
 

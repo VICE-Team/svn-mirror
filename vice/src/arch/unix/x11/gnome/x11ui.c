@@ -132,7 +132,7 @@ PangoFontDescription *fixed_font_desc;
 
 static int popped_up_count = 0;
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
 /* Toplevel widget. */
 static GdkGC *app_gc = NULL;
 #endif
@@ -161,7 +161,7 @@ static gfloat get_aspect(video_canvas_t *canvas);
 void ui_trigger_resize(void);
 
 /******************************************************************************/
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
 GdkGC *get_toplevel(void)
 {
     return app_gc;
@@ -922,7 +922,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
 
     if (machine_class != VICE_MACHINE_VSID) {
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
         if (!app_gc) {
             app_gc = gdk_gc_new(new_window->window);
         }
@@ -1813,7 +1813,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
         tw = canvas->gdk_image->width;
         th = canvas->gdk_image->height;
 #else
@@ -1854,7 +1854,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         int width = e->area.width;
         int height = e->area.height;
 
-#if !defined(GTK_USE_CAIRO)
+#if !defined(HAVE_CAIRO)
         gdk_draw_image(w->window, app_gc, canvas->gdk_image, x, y, x, y, width, height);
 #else
         canvas->cairo_ctx = gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
