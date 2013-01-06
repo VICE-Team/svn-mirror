@@ -41,12 +41,6 @@
 #define PLUS4_NTSC_RFSH_PER_SEC    (1.0 / ((double)PLUS4_NTSC_CYCLES_PER_RFSH \
                                            / (double)PLUS4_NTSC_CYCLES_PER_SEC))
 
-/* $01 bit 5 fall-off cycles (1->0), average is unknown for a 7501, and therefor not emulated yet */
-#define PLUS4_CPU7501_DATA_PORT_FALL_OFF_CYCLES 1000
-
-/* $01 bit 5 fall-off cycles (1->0), average is unknown for a 8501, and therefor not emulated yet */
-#define PLUS4_CPU8501_DATA_PORT_FALL_OFF_CYCLES 1000
-
 struct printer_context_s;
 
 typedef struct machine_context_s {
