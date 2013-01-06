@@ -2518,6 +2518,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
 
     if test x"$enable_gnomeui3" = "xyes"; then
       PKG_CHECK_MODULES(GTK, [gtk+-3.0])
+      AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support])
       if test x"$enable_vte" != "xno"; then
         PKG_CHECK_MODULES(VTE, [vte-2.90], have_vte=yes, AC_MSG_RESULT(no))
       fi
@@ -2533,6 +2534,10 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     fi
 
     if test x"$enable_gnomeui3" != "xyes"; then
+      PKG_CHECK_MODULES(CAIRO, [cairo >= 0.5.1],
+          AC_DEFINED(HAVE_CAIRO,,[Enable Cairo rendering support]),
+          AC_MSG_RESULT(no)
+        )
       PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
           AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
           AC_MSG_RESULT(no)
