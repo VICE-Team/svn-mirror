@@ -87,6 +87,7 @@ CLEAN :
 	-@erase "$(INTDIR)\menu_reset.obj"
 	-@erase "$(INTDIR)\menu_rom.obj"
 	-@erase "$(INTDIR)\menu_rs232.obj"
+	-@erase "$(INTDIR)\menu_scpu64hw.obj"
 	-@erase "$(INTDIR)\menu_screenshot.obj"
 	-@erase "$(INTDIR)\menu_settings.obj"
 	-@erase "$(INTDIR)\menu_sid.obj"
@@ -212,6 +213,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\menu_reset.obj" \
 	"$(INTDIR)\menu_rom.obj" \
 	"$(INTDIR)\menu_rs232.obj" \
+	"$(INTDIR)\menu_scpu64hw.obj" \
 	"$(INTDIR)\menu_screenshot.obj" \
 	"$(INTDIR)\menu_settings.obj" \
 	"$(INTDIR)\menu_sid.obj" \
@@ -320,6 +322,7 @@ CLEAN :
 	-@erase "$(INTDIR)\menu_reset.obj"
 	-@erase "$(INTDIR)\menu_rom.obj"
 	-@erase "$(INTDIR)\menu_rs232.obj"
+	-@erase "$(INTDIR)\menu_scpu64hw.obj"
 	-@erase "$(INTDIR)\menu_screenshot.obj"
 	-@erase "$(INTDIR)\menu_settings.obj"
 	-@erase "$(INTDIR)\menu_sid.obj"
@@ -445,6 +448,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\menu_reset.obj" \
 	"$(INTDIR)\menu_rom.obj" \
 	"$(INTDIR)\menu_rs232.obj" \
+	"$(INTDIR)\menu_scpu64hw.obj" \
 	"$(INTDIR)\menu_screenshot.obj" \
 	"$(INTDIR)\menu_settings.obj" \
 	"$(INTDIR)\menu_sid.obj" \
@@ -805,6 +809,12 @@ SOURCE=..\menu_rom.c
 SOURCE=..\menu_rs232.c
 
 "$(INTDIR)\menu_rs232.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\menu_scpu64hw.c
+
+"$(INTDIR)\menu_scpu64hw.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

@@ -238,6 +238,10 @@ SOURCE=..\menu_rs232.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\menu_scpu64hw.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\menu_screenshot.c
 # End Source File
 # Begin Source File

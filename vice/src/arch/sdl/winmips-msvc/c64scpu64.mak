@@ -53,7 +53,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64cia2.obj"
 	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64drive.obj"
-	-@erase "$(INTDIR)\c64embedded.obj"
 	-@erase "$(INTDIR)\c64export.obj"
 	-@erase "$(INTDIR)\c64fastiec.obj"
 	-@erase "$(INTDIR)\c64iec.obj"
@@ -122,7 +121,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64cia2.obj" \
 	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64drive.obj" \
-	"$(INTDIR)\c64embedded.obj" \
 	"$(INTDIR)\c64export.obj" \
 	"$(INTDIR)\c64fastiec.obj" \
 	"$(INTDIR)\c64iec.obj" \
@@ -174,7 +172,6 @@ CLEAN :
 	-@erase "$(INTDIR)\c64cia2.obj"
 	-@erase "$(INTDIR)\c64datasette.obj"
 	-@erase "$(INTDIR)\c64drive.obj"
-	-@erase "$(INTDIR)\c64embedded.obj"
 	-@erase "$(INTDIR)\c64export.obj"
 	-@erase "$(INTDIR)\c64fastiec.obj"
 	-@erase "$(INTDIR)\c64iec.obj"
@@ -243,7 +240,6 @@ LIB32_OBJS= \
 	"$(INTDIR)\c64cia2.obj" \
 	"$(INTDIR)\c64datasette.obj" \
 	"$(INTDIR)\c64drive.obj" \
-	"$(INTDIR)\c64embedded.obj" \
 	"$(INTDIR)\c64export.obj" \
 	"$(INTDIR)\c64fastiec.obj" \
 	"$(INTDIR)\c64iec.obj" \
@@ -325,12 +321,6 @@ SOURCE="..\..\..\c64\c64datasette.c"
 SOURCE="..\..\..\c64\c64drive.c"
 
 "$(INTDIR)\c64drive.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE="..\..\..\c64\c64embedded.c"
-
-"$(INTDIR)\c64embedded.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 
