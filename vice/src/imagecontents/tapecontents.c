@@ -68,7 +68,7 @@ static void tape_read_contents(tape_image_t *tape_image, image_contents_t *new)
                 new_list->size = 0;
             } else {
                 strcpy((char *)new_list->type + 1, "PRG ");
-                new_list->size = 1 + (rec->end_addr - rec->start_addr) / 254;
+                new_list->size = (rec->end_addr - rec->start_addr + 253) / 254;
             }
             new_list->next = NULL;
 

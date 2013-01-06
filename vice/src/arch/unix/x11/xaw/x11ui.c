@@ -860,21 +860,21 @@ static String fallback_resources[] = {
                                                     "Ctrl<Key>J: no-op() \\n",
 
     /* These fonts will be overridden later if the VICE-CBM font is available */
-    "*RightDrive8Menu*SmeBSB.international:          False",
-    "*RightDrive8Menu*SmeBSB.vertSpace:              25",
-    "*RightDrive8Menu*SmeBSB.font:       -*-lucidatypewriter-medium-r-*-*-12-*",
-    "*RightDrive9Menu*SmeBSB.international:          False",
-    "*RightDrive9Menu*SmeBSB.vertSpace:              25",
-    "*RightDrive9Menu*SmeBSB.font:       -*-lucidatypewriter-medium-r-*-*-12-*",
-    "*RightDrive10Menu*SmeBSB.international:         False",
-    "*RightDrive10Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
-    "*RightDrive10Menu*SmeBSB.vertSpace:              25",
-    "*RightDrive11Menu*SmeBSB.international:         False",
-    "*RightDrive11Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
-    "*RightDrive11Menu*SmeBSB.vertSpace:              25",
-    "*RightTapeMenu*SmeBSB.international:         False",
-    "*RightTapeMenu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
-    "*RightTapeMenu*SmeBSB.vertSpace:              25",
+    "*rightDrive8Menu*SmeBSB.international:          False",
+    "*rightDrive8Menu*SmeBSB.vertSpace:              25",
+    "*rightDrive8Menu*SmeBSB.font:       -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*rightDrive9Menu*SmeBSB.international:          False",
+    "*rightDrive9Menu*SmeBSB.vertSpace:              25",
+    "*rightDrive9Menu*SmeBSB.font:       -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*rightDrive10Menu*SmeBSB.international:         False",
+    "*rightDrive10Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*rightDrive10Menu*SmeBSB.vertSpace:              25",
+    "*rightDrive11Menu*SmeBSB.international:         False",
+    "*rightDrive11Menu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*rightDrive11Menu*SmeBSB.vertSpace:              25",
+    "*rightTapeMenu*SmeBSB.international:         False",
+    "*rightTapeMenu*SmeBSB.font:      -*-lucidatypewriter-medium-r-*-*-12-*",
+    "*rightTapeMenu*SmeBSB.vertSpace:              25",
 
     /* Default color settings (suggestions are welcome...) */
     "*foreground:				     black",
@@ -915,6 +915,8 @@ static String fallback_resources[] = {
     "*statustext.font:                         -*-helvetica-medium-r-*-*-12-*",
     "*statustext.fontSet:                      -*-helvetica-medium-r-*-*-12-*",
     "*tapeCounter1.cursorName:                 hand1",
+    "*tapeCounter1.font:                       -*-helvetica-medium-r-*-*-12-*",
+    "*tapeCounter1.fontSet:                    -*-helvetica-medium-r-*-*-12-*",
     "*tapeButtons1.translations:               #override\\n~Shift ~Ctrl ~Meta<BtnDown>: TapePlayStop()\\n"
                                               "Ctrl<BtnDown>: TapePlayStop(rew)\\n"
                                               "Meta<BtnDown>: TapePlayStop(ffwd)\\n"
@@ -972,6 +974,7 @@ int ui_init(int *argc, char **argv)
         { "Close", close_action },
         { "RebuildTapeMenu", rebuild_tape_menu_action },
         { "TapePlayStop", tape_play_stop_action },
+        { "RebuildDiskMenu", rebuild_disk_menu_action },
     };
     int skip_resources = 0;
 
@@ -1316,7 +1319,7 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int width, int h
 /* Attach `w' as the left menu of all the current open windows.  */
 void ui_set_left_menu(ui_menu_entry_t *menu)
 {
-    Widget w = ui_menu_create("LeftMenu", menu, NULL);
+    Widget w = ui_menu_create("leftMenu", menu, NULL);
     char *translation_table;
     char *name = XtName(w);
     int i;
@@ -1344,7 +1347,7 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
     }
 
     if (left_menu != NULL) {
-        XtDestroyWidget(left_menu);
+        ui_menu_delete(left_menu);
     }
     left_menu = w;
 }
@@ -1352,7 +1355,7 @@ void ui_set_left_menu(ui_menu_entry_t *menu)
 /* Attach `w' as the right menu of all the current open windows.  */
 void ui_set_right_menu(ui_menu_entry_t *menu)
 {
-    Widget w = ui_menu_create("RightMenu", menu, NULL);
+    Widget w = ui_menu_create("rightMenu", menu, NULL);
     char *translation_table;
     char *name = XtName(w);
     int i;
@@ -1375,7 +1378,7 @@ void ui_set_right_menu(ui_menu_entry_t *menu)
     }
 
     if (right_menu != NULL) {
-        XtDestroyWidget(right_menu);
+        ui_menu_delete(right_menu);
     }
     right_menu = w;
 }
@@ -1404,7 +1407,7 @@ void ui_set_speedmenu(ui_menu_entry_t *menu)
     }
 
     if (speed_menu != NULL) {
-        XtDestroyWidget(speed_menu);
+        ui_menu_delete(speed_menu);
     }
     speed_menu = w;
 }

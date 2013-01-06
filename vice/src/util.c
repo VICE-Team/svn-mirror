@@ -479,7 +479,12 @@ void util_fname_split(const char *path, char **directory_return,
     const char *p;
 
     if (path == NULL) {
-        *directory_return = *name_return = NULL;
+        if (directory_return != NULL) {
+            *directory_return = NULL;
+        }
+        if (name_return != NULL) {
+            *name_return = NULL;
+        }
         return;
     }
 

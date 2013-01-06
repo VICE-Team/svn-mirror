@@ -133,6 +133,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
         Arg args[] = {
             { XtNlabel, (XtArgVal)_("CRT Controls") },
             { XtNwidth, width / 3 - DD },
+            { XtNheight, height },
             { XtNfromVert, (XtArgVal)fromvert },
             { XtNvertDistance, DD + 2*BW }, /* DD + missing borders of speed_label */
             { XtNtop, XawChainBottom },
@@ -377,7 +378,7 @@ void ui_create_status_bar(Widget pane, int width, Widget below, video_canvas_t *
             tape_counter_label[i] = XtVaCreateManagedWidget(name,
                                             commandWidgetClass, pane,
                                             XtNwidth, width / 3 - DD - tape_btn_d - tape_btn_w - 4 * BW - DD, /* 4 borderwidths for 2 widgets */
-                                            XtNjustify, XtJustifyLeft,
+                                            XtNjustify, XtJustifyRight,
                                             XtNlabel, "Tape #1",
                                             /* Constraints: */
                                             XtNfromVert, drive_status[3],

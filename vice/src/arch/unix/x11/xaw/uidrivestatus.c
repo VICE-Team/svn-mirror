@@ -75,15 +75,11 @@ void ui_destroy_drive_menu(int drive)
 {
     if (drive >= 0 && drive < NUM_DRIVES) {
         if (left_drive_menu[drive]) {
-            /* pop down the menu if it is still up */
-            XtPopdown(left_drive_menu[drive]);
-            XtDestroyWidget(left_drive_menu[drive]);
+            ui_menu_delete(left_drive_menu[drive]);
             left_drive_menu[drive] = 0;
         }
         if (right_drive_menu[drive]) {
-            /* pop down the menu if it is still up */
-            XtPopdown(right_drive_menu[drive]);
-            XtDestroyWidget(right_drive_menu[drive]);
+            ui_menu_delete(right_drive_menu[drive]);
             right_drive_menu[drive] = 0;
         }
     }
@@ -91,7 +87,7 @@ void ui_destroy_drive_menu(int drive)
 
 void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
 {
-    char *leftmenuname, *rightmenuname;
+    char *leftmenuname;
     int i;
     Widget w;
     int num_app_shells = get_num_shells();
@@ -100,27 +96,19 @@ void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
         return;
     }
 
-    leftmenuname = lib_msprintf("LeftDrive%iMenu", drive + 8);
-    rightmenuname = lib_msprintf("RightDrive%iMenu", drive + 8);
+    leftmenuname = lib_msprintf("leftDrive%iMenu", drive + 8);
     if (flipmenu != NULL) {
         w = ui_menu_create(leftmenuname, flipmenu, NULL);
         left_drive_menu[drive] = w;
-        {
-            char *image = last_attached_images[drive];
-            if (image && image[0]) {
-                if (right_drive_menu[drive]) {
-                    /* pop down the menu if it is still up */
-                    XtPopdown(right_drive_menu[drive]);
-                    XtDestroyWidget(right_drive_menu[drive]);
-                }
-                right_drive_menu[drive] =
-                    rebuild_contents_menu(rightmenuname, drive + 8, image);
-            }
-        }
     }
 
     if (!drive_menu_translations[drive]) {
         char *translation_table;
+        char number[16];
+        char *rightmenuname;
+
+        sprintf(number, "%d", drive);
+        rightmenuname = lib_msprintf("rightDrive%iMenu", drive + 8);
 
         translation_table = util_concat(
                 "<Btn1Down>: "
@@ -131,9 +119,11 @@ void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
                         "XawPositionSimpleMenu(", leftmenuname, ") "
                         "XtMenuPopup(", leftmenuname, ")\n",
                 "<Btn3Down>: "
+                        "RebuildDiskMenu(", number, ",", rightmenuname, ") "
                         "XawPositionSimpleMenu(", rightmenuname, ") "
                         "XtMenuPopup(", rightmenuname, ")\n",
                 "Meta Shift <KeyDown>x: "
+                        "RebuildDiskMenu(", number, ",", rightmenuname, ") "
                         "FakeButton(3) "
                         "XawPositionSimpleMenu(", rightmenuname, ") "
                         "XtMenuPopup(", rightmenuname, ")\n",
@@ -141,15 +131,16 @@ void ui_set_drive_menu(int drive, ui_menu_entry_t *flipmenu)
         drive_menu_translations[drive] =
                                 XtParseTranslationTable(translation_table);
         lib_free(translation_table);
+        lib_free(rightmenuname);
+
+        for (i = 0; i < num_app_shells; i++) {
+            XtOverrideTranslations(app_shells[i].
+                                            drive_widgets[drive].track_label,
+                                   drive_menu_translations[drive]);
+        }
+
     }
     lib_free(leftmenuname);
-    lib_free(rightmenuname);
-
-    for (i = 0; i < num_app_shells; i++) {
-        XtOverrideTranslations(app_shells[i].
-                                        drive_widgets[drive].track_label,
-                               drive_menu_translations[drive]);
-    }
 }
 
 void ui_init_drive_status_widget()
@@ -157,9 +148,9 @@ void ui_init_drive_status_widget()
     int i;
 
     DBG(("ui_init_drive_status_widget: enable=%x", enabled_drives));
+    tracks_shown = 1;
     /* This is necessary because the status might have been set before we
     actually open the canvas window. e.g. by commandline */
-    tracks_shown = 1;
     ui_enable_drive_status(enabled_drives, drive_active_led);
     ui_display_drive_current_images();
 
@@ -327,6 +318,7 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
     int i;
     int num_app_shells;
 
+    DBG(("ui_display_drive_current_image %d %s", drive_number, image));
     if (console_mode) {
         return;
     }
@@ -337,17 +329,10 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
 
     strncpy(&(last_attached_images[drive_number][0]), image, ATT_IMG_SIZE);
 
-#if 0
-    /* Compensate for not being fully notified when TDE is off */
-    if (!(enabled_drives & (1 << drive_number))) {
-        ui_enable_drive_status(enabled_drives, drive_active_led);
-    }
-#endif
-
     if (last_attached_images[drive_number][0]) {
         util_fname_split(&(last_attached_images[drive_number][0]), NULL, &name);
     } else {
-        name = _("<empty>");
+        name = util_concat("<", _("empty"), ">", NULL);
     }
 
     num_app_shells = get_num_shells();
@@ -358,10 +343,9 @@ void ui_display_drive_current_image(unsigned int drive_number, const char *image
         XtVaSetValues(w, XtNtip, name, NULL);
     }
 
-    if (last_attached_images[drive_number][0]) {
-        lib_free(name);
-    }
+    lib_free(name);
 
+    /* Also update drive menu; will call ui_set_drive_menu() */
     uifliplist_update_menus(drive_number + 8, drive_number + 8);
 }
 
@@ -387,6 +371,27 @@ static void ui_display_drive_current_images (void)
             if (i == 0) {
                 uifliplist_update_menus(8 + j, 8 + j);
             }
+        }
+    }
+}
+
+void rebuild_disk_menu_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
+{
+    DBG(("rebuild_disk_menu_action"));
+    if (*num_params >= 2) {
+        int drive;
+        char *menuname;
+
+        drive = atoi(params[0]);
+        menuname = params[1];
+
+        char *image = last_attached_images[drive];
+        if (image && image[0]) {
+            if (right_drive_menu[drive]) {
+                ui_menu_delete(right_drive_menu[drive]);
+            }
+            right_drive_menu[drive] =
+                rebuild_contents_menu(menuname, drive + 8, image);
         }
     }
 }

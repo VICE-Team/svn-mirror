@@ -37,6 +37,7 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeLine.h>
 #include <X11/Xaw/SmeBSB.h>
+#include <X11/IntrinsicI.h>
 
 #include "checkmark.xbm"
 #include "right_arrow.xbm"
@@ -725,6 +726,44 @@ int ui_menu_init(XtAppContext app_context, Display *d, int s)
     return 0;
 }
 
+/*
+ * Hack the popup_list from the Core part of the parent Widget from a
+ * FIFO to a LIFO list.
+ *
+ * Reason: if a Widget (a menu in our case) is destroyed, this happens
+ * in 2 phases. Only in phase 2 is the Widget removed from this
+ * popup_list.  Phase 2 is only called if app->dispatch_level == 0. So,
+ * if we destroy a menu in a callback or Action, this does not happen
+ * (yet).  If (before the dispatch ends) a new replacement menu is
+ * created with the same name, it will normally be put at the end of the
+ * list. If the old (half-destroyed one) is still there, it will be
+ * found first. Chaos will ensue.
+ *
+ * Changing the order of the list seems the least disruptive way to fix
+ * this.
+ */
+
+static void do_popuplist_hack(Widget widget)
+{
+    Widget parent = XtParent(widget);
+    Cardinal i, n;
+
+    n = parent->core.num_popups - 1;
+    if (parent->core.popup_list[n] == widget) {
+        for (i = n; i > 0; i--) {
+            parent->core.popup_list[i] = parent->core.popup_list[i-1];
+        }
+        parent->core.popup_list[0] = widget;
+    } else {
+        static int warned;
+        
+        if (!warned) {
+            log_warning("popup widget list not FIFO");
+            warned = 1;
+        }
+    }
+}
+
 static void ui_add_items_to_shell(Widget w, int menulevel, ui_menu_entry_t *list);
 static XtTranslations menu_translations;
 
@@ -735,6 +774,7 @@ Widget ui_menu_create(const char *menu_name, ...)
     va_list ap;
 
     w = ui_create_shell(_ui_top_level, menu_name, simpleMenuWidgetClass);
+    do_popuplist_hack(w);
     XtAddCallback(w, XtNpopupCallback, menu_popup_callback, NULL);
     XtAddCallback(w, XtNpopdownCallback, menu_popdown_callback, NULL);
 
@@ -766,6 +806,15 @@ Widget ui_menu_create(const char *menu_name, ...)
     va_end(ap);
 
     return w;
+}
+
+void ui_menu_delete(Widget widget)
+{
+    if (widget) {
+        /* pop down the menu if it is still up */
+        XtPopdown(widget);
+        XtDestroyWidget(widget);
+    }
 }
 
 static void tick_destroy(Widget w, XtPointer client_data, XtPointer call_data)

@@ -31,5 +31,6 @@ extern void ui_init_drive_status_widget(void);
 
 #define ATT_IMG_SIZE 256
 extern char last_attached_images[NUM_DRIVES][ATT_IMG_SIZE];
+extern void rebuild_disk_menu_action(Widget w, XEvent *event, String *params, Cardinal *num_params);
 
 #endif /* UIDRIVESTATUS_H_ */

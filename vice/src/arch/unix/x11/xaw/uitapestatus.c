@@ -137,10 +137,20 @@ void build_tape_status_widget(tape_widgets_t *ts, Widget parent, int width, int 
                 "draw-lines 1/2,4, 4,1/2, 1/2,-5;");
 
     /* Record */
+                /*
+                 * The RECORDING button is red. To make sure it is visible even
+                 * on the red background, draw some  extra black lines. However
+                 * this should not be necessary since the UI tends to prevent
+                 * recording without a tape inserted.
+                 */
     ts->motor_on [3] = create_display_list(w,
-                "foreground rgb:0/0/0;"
-                "line-width 5;"
-                "draw-arc 4,4, -5,-5;");
+                "foreground rgb:f/0/0;"         
+                "line-width 5;"                 
+                "draw-arc 4,4, -5,-5;"          
+                "foreground rgb:0/0/0;"         
+                "line-width 1;"                 
+                "draw-arc 1,1, -2,-2;"          
+                "draw-arc 6,6, -7,-7;");        
     ts->motor_off[3] = create_display_list(w,
                 "foreground rgb:80/80/80;"
                 "line-width 5;"
@@ -161,21 +171,21 @@ void build_tape_status_widget(tape_widgets_t *ts, Widget parent, int width, int 
 
         translation_table =
                 "<Btn1Down>: "
-                        "XawPositionSimpleMenu(LeftTapeMenu) "
-                        "XtMenuPopup(LeftTapeMenu)\n"
+                        "XawPositionSimpleMenu(leftTapeMenu) "
+                        "XtMenuPopup(leftTapeMenu)\n"
                 "Meta Shift <KeyDown>z: "
                         "FakeButton(1) "
-                        "XawPositionSimpleMenu(LeftTapeMenu) "
-                        "XtMenuPopup(LeftTapeMenu)\n"
+                        "XawPositionSimpleMenu(leftTapeMenu) "
+                        "XtMenuPopup(leftTapeMenu)\n"
                 "<Btn3Down>: "
                         "RebuildTapeMenu(1) "
-                        "XawPositionSimpleMenu(RightTapeMenu) "
-                        "XtMenuPopup(RightTapeMenu)\n"
+                        "XawPositionSimpleMenu(rightTapeMenu) "
+                        "XtMenuPopup(rightTapeMenu)\n"
                 "Meta Shift <KeyDown>x: "
                         "RebuildTapeMenu(1) "
                         "FakeButton(3) "
-                        "XawPositionSimpleMenu(RightTapeMenu) "
-                        "XtMenuPopup(RightTapeMenu)\n";
+                        "XawPositionSimpleMenu(rightTapeMenu) "
+                        "XtMenuPopup(rightTapeMenu)\n";
         tape_menu_translations = XtParseTranslationTable(translation_table);
     }
 
@@ -186,6 +196,9 @@ void build_tape_status_widget(tape_widgets_t *ts, Widget parent, int width, int 
 void ui_set_tape_status(int tape_status)
 {
     DBG(("ui_set_tape_status (%d)", tape_status));
+    if (tape_status == DATASETTE_CONTROL_RECORD) {
+        invalidate_tape_menu();
+    }
     if (tape_image_status == tape_status) {
         return;
     }
@@ -253,6 +266,10 @@ void ui_display_tape_control_status(int control)
             displayList = 3;
             invalidate_tape_menu();
             break;
+        case DATASETTE_CONTROL_RESET:
+            displayList = 4;
+            invalidate_tape_menu();
+            break;
         default:
             displayList = 4;
             break;
@@ -283,10 +300,9 @@ void ui_set_tape_menu(ui_menu_entry_t *menu)
 {
     DBG(("ui_set_tape_menu"));
     if (left_tape_menu) {
-        XtPopdown(left_tape_menu);
-        XtDestroyWidget(left_tape_menu);
+        ui_menu_delete(left_tape_menu);
     }
-    left_tape_menu = ui_menu_create("LeftTapeMenu", menu, NULL);
+    left_tape_menu = ui_menu_create("leftTapeMenu", menu, NULL);
 }
 
 void ui_display_tape_counter(int counter)
@@ -332,9 +348,7 @@ static void invalidate_tape_menu()
 {
     DBG(("invalidate_tape_menu"));
     if (right_tape_menu) {
-        /* pop down the menu if it is still up */
-        XtPopdown(right_tape_menu);
-        XtDestroyWidget(right_tape_menu);
+        ui_menu_delete(right_tape_menu);
         right_tape_menu = NULL;
     }
 }
@@ -342,13 +356,12 @@ static void invalidate_tape_menu()
 void rebuild_tape_menu_action(Widget w, XEvent *event, String *params, Cardinal *num_params)
 {
     DBG(("rebuild_tape_menu_action"));
-    invalidate_tape_menu();     // NOTE: this line is here to make it easier to find the bug re: second & third right-clicks on the GUI element.
     if (right_tape_menu == NULL) {
         if (last_attached_tape == NULL || last_attached_tape[0] == 0) {
             return;
         }
 
-        right_tape_menu = rebuild_contents_menu("RightTapeMenu", 1, last_attached_tape);
+        right_tape_menu = rebuild_contents_menu("rightTapeMenu", 1, last_attached_tape);
     }
 }
 
