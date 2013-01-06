@@ -256,7 +256,7 @@ void maincpu_mainloop(void)
     BYTE flag_n = 0;
     BYTE flag_z = 0;
     BYTE reg_emul = 1;
-    int interrupt = IK_RESET;
+    int interrupt65816 = IK_RESET;
 #ifndef NEED_REG_PC
     unsigned int reg_pc;
 #endif

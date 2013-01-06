@@ -124,7 +124,7 @@
 #define LOAD_LONG_DUMMY(addr) LOAD_LONG(addr)
 #endif
 
-#define CHECK_INTERRUPT() (interrupt = CPU_INT_STATUS->global_pending_int & (LOCAL_INTERRUPT() ? ~(IK_IRQPEND | IK_IRQ) : ~IK_IRQPEND))
+#define CHECK_INTERRUPT() (interrupt65816 = CPU_INT_STATUS->global_pending_int & (LOCAL_INTERRUPT() ? ~(IK_IRQPEND | IK_IRQ) : ~IK_IRQPEND))
 /* ------------------------------------------------------------------------- */
 /* Hook for interrupt address manipulation.  */
 
@@ -344,7 +344,7 @@
                 EXPORT_REGISTERS();                                            \
                 interrupt_do_trap(CPU_INT_STATUS, (WORD)reg_pc);               \
                 IMPORT_REGISTERS();                                            \
-                interrupt &= ~IK_TRAP;                                         \
+                interrupt65816 &= ~IK_TRAP;                                    \
             }                                                                  \
             if (ik & IK_MONITOR) {                                             \
                 if (monitor_force_import(CALLER))                              \
@@ -366,7 +366,7 @@
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)reg_pc); \
                     IMPORT_REGISTERS();                                        \
                 }                                                              \
-                interrupt &= ~IK_MONITOR;                                      \
+                interrupt65816 &= ~IK_MONITOR;                                 \
             }                                                                  \
             if (ik & IK_DMA) {                                                 \
                 EXPORT_REGISTERS();                                            \
@@ -374,7 +374,7 @@
                 interrupt_ack_dma(CPU_INT_STATUS);                             \
                 IMPORT_REGISTERS();                                            \
                 JUMP(reg_pc);                                                  \
-                interrupt &= ~IK_DMA;                                          \
+                interrupt65816 &= ~IK_DMA;                                     \
             }                                                                  \
         }                                                                      \
     } while (0)
@@ -2564,13 +2564,13 @@
         }
 #endif
 
-        if (interrupt != IK_NONE) {
-            DO_INTERRUPT(interrupt);
-            if (interrupt & IK_RESET) {
+        if (interrupt65816 != IK_NONE) {
+            DO_INTERRUPT(interrupt65816);
+            if (interrupt65816 & IK_RESET) {
                 p0 = 0x300;
-            } else if (interrupt & IK_NMI) {
+            } else if (interrupt65816 & IK_NMI) {
                 p0 = 0x200;
-            } else if (interrupt & IK_IRQ) {
+            } else if (interrupt65816 & IK_IRQ) {
                 p0 = 0x100;
             } else {
                 CHECK_INTERRUPT();
