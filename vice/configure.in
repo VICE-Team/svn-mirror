@@ -2533,6 +2533,11 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
       AC_DEFINE(HAVE_VTE,,[Enable VTE support])
     fi
 
+    PKG_CHECK_MODULES(PANGO, [pango],
+        AC_DEFINE(HAVE_PANGO,,[Enable support for Pango]),
+        AC_MSG_RESULT(no)
+      )
+
     if test x"$enable_gnomeui3" != "xyes"; then
       PKG_CHECK_MODULES(CAIRO, [cairo >= 0.5.1],
           AC_DEFINE(HAVE_CAIRO,,[Enable Cairo rendering support]),
