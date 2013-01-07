@@ -37,6 +37,7 @@
 #endif
 
 #include "archdep.h"
+#include "ioutil.h"
 #include "lib.h"
 #include "log.h"
 #include "machine.h"
@@ -130,18 +131,54 @@ void romset_resources_shutdown(void)
     lib_free(romset_filename);
 }
 
+const char *prepend_dir_to_path(const char *dir)
+{
+    const char *saved_path;
+    char *new_path;
+
+    resources_get_string("Directory", &saved_path);
+    saved_path = lib_stralloc(saved_path);
+
+    if (dir && *dir) {
+        new_path = util_concat(dir,
+                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                               saved_path,
+                               NULL);
+    } else {
+        char *current_dir = ioutil_current_dir();
+        new_path = util_concat(current_dir,
+                               ARCHDEP_FINDPATH_SEPARATOR_STRING,
+                               saved_path,
+                               NULL);
+        lib_free(current_dir);
+    }
+
+    resources_set_string("Directory", new_path);
+    lib_free(new_path);
+
+    return saved_path;
+} 
+
+void restore_path(const char *saved_path)
+{
+    resources_set_string("Directory", saved_path);
+    lib_free(saved_path);
+}
+
 int romset_file_load(const char *filename)
 {
     FILE *fp;
     int retval, line_num;
     int err = 0;
+    char *complete_path, *dir;
+    const char *saved_path;
 
     if (filename == NULL) {
         log_error(romset_log, "ROM set filename is NULL!");
         return -1;
     }
 
-    fp = sysfile_open(filename, NULL, MODE_READ_TEXT);
+    fp = sysfile_open(filename, &complete_path, MODE_READ_TEXT);
 
     if (fp == NULL) {
         log_warning(romset_log, "Could not open file '%s' for reading (%s)!",
@@ -150,6 +187,12 @@ int romset_file_load(const char *filename)
     }
 
     log_message(romset_log, "Loading ROM set from file '%s'", filename);
+
+    /* Prepend dir to search path */
+    util_fname_split(complete_path, &dir, NULL);
+    saved_path = prepend_dir_to_path(dir);
+    lib_free(dir);
+    lib_free(complete_path);
 
     line_num = 0;
     do {
@@ -169,6 +212,8 @@ int romset_file_load(const char *filename)
         line_num++;
     } while (retval != 0);
 
+    /* Restore search path */
+    restore_path(saved_path);
     fclose(fp);
 
     return err;
@@ -237,6 +282,7 @@ typedef struct string_link_s {
 static int num_romsets = 0;
 static int array_size = 0;
 static string_link_t *romsets = NULL;
+static char *romset_dir;
 
 
 #define READ_ROM_LINE \
@@ -261,6 +307,8 @@ int romset_archive_load(const char *filename, int autostart)
     }
 
     log_message(romset_log, "Loading ROM set archive from file '%s'", filename);
+    lib_free(romset_dir);
+    util_fname_split(filename, &romset_dir, NULL);
 
     line_num = 0;
     while (!feof(fp)) {
@@ -459,6 +507,9 @@ int romset_archive_item_select(const char *romset_name)
 
     for (i = 0, item = romsets; i < num_romsets; i++, item++) {
         if (strcmp(romset_name, item->name) == 0) {
+            /* Prepend dir to search path */
+            const char *saved_path = prepend_dir_to_path(romset_dir);
+
             while (item->next != NULL) {
                 /* FIXME: Apparently there are no boundary checks! */
                 char buffer[256];
@@ -501,6 +552,7 @@ int romset_archive_item_select(const char *romset_name)
                     }
                 }
             }
+            restore_path(saved_path);
             return 0;
         }
     }
@@ -610,6 +662,8 @@ void romset_archive_clear(void)
 
     num_romsets = 0;
     array_size = 0;
+    lib_free(romset_dir);
+    romset_dir = NULL;
 }
 
 int romset_archive_get_number(void)
