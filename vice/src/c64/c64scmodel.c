@@ -27,6 +27,8 @@
 
 #include "vice.h"
 
+#include <string.h>
+
 #include "c64-resources.h"
 #include "c64model.h"
 #include "cia.h"
@@ -86,22 +88,37 @@ struct model_s {
     int glue;       /* discrete or ASIC */
     int sid;        /* old or new */
     int sid_model;  /* specific type for reSID-fp */
+    int board;
+    char *kernalname;
+    char *chargenname;
 };
 
 static struct model_s c64models[] = {
-    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW },
-    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW },
-    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD },
-    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD }
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "kernal", "chargen" },
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW, 0, "kernal", "chargen" },
+    { VICII_MODEL_6569R1,   MACHINE_SYNC_PAL,     0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "kernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "kernal", "chargen" },
+    { VICII_MODEL_8562,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW, 0, "kernal", "chargen" },
+    { VICII_MODEL_6567R56A, MACHINE_SYNC_NTSCOLD, 0, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "kernal", "chargen" },
+    { VICII_MODEL_6572,     MACHINE_SYNC_PALN,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "kernal", "chargen" },
+    /* SX64 FIXME: guessed */
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "sxkernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "sxkernal", "chargen" },
+    /* C64 Japanese FIXME: guessed */
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "jpkernal", "jpchargen" },
+    /* C64 GS FIXME: guessed */
+    { VICII_MODEL_8565,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_NEW, 1, 1, SID_MODEL_DEFAULT_NEW, 0, "gskernal", "chargen" },
+    /* PET64 FIXME: guessed */
+    { VICII_MODEL_6569,     MACHINE_SYNC_PAL,     1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "edkernal", "chargen" },
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 0, "edkernal", "chargen" },
+    /* ultimax FIXME: guessed */
+    { VICII_MODEL_6567,     MACHINE_SYNC_NTSC,    1, CIA_MODEL_DEFAULT_OLD, 0, 0, SID_MODEL_DEFAULT_OLD, 1, "kernal", "chargen" },
 };
 
 /* ------------------------------------------------------------------------- */
 
 int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
-                      int cia1_model, int cia2_model, int new_luma)
+                      int cia1_model, int cia2_model, int new_luma, int board, const char *kernal, const char *chargen)
 {
     int new_sid;
     int new_cia;
@@ -119,7 +136,10 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
             && (c64models[i].luma == new_luma)
             && (is_new_cia(c64models[i].cia) == new_cia)
             && (c64models[i].glue == glue_logic)
-            && (c64models[i].sid == new_sid)) {
+            && (c64models[i].sid == new_sid)
+            && (c64models[i].board == board)
+            && (!strcmp(c64models[i].kernalname, kernal))
+            && (!strcmp(c64models[i].chargenname, chargen))) {
             return i;
         }
     }
@@ -129,24 +149,29 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
 
 int c64model_get(void)
 {
-    int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma;
+    int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma, board;
+    char c[0x10], k[0x10];
+    const char *chargen = c, *kernal = k;
 
     if ((resources_get_int("VICIIModel", &vicii_model) < 0)
         || (resources_get_int("SidModel", &sid_model) < 0)
         || (resources_get_int("GlueLogic", &glue_logic) < 0)
         || (resources_get_int("CIA1Model", &cia1_model) < 0)
         || (resources_get_int("CIA2Model", &cia2_model) < 0)
-        || (resources_get_int("VICIINewLuminances", &new_luma) < 0)) {
+        || (resources_get_int("VICIINewLuminances", &new_luma) < 0)
+        || (resources_get_int("BoardType", &board) < 0)
+        || (resources_get_string("KernalName", &kernal) < 0)
+        || (resources_get_string("ChargenName", &chargen) < 0)) {
         return -1;
     }
 
     return c64model_get_temp(vicii_model, sid_model, glue_logic,
-                             cia1_model, cia2_model, new_luma);
+                             cia1_model, cia2_model, new_luma, board, kernal, chargen);
 }
 
 void c64model_set_temp(int model, int *vicii_model, int *sid_model,
                        int *glue_logic, int *cia1_model, int *cia2_model,
-                       int *new_luma)
+                       int *new_luma, int *board, const char *kernal, const char *chargen)
 {
     int old_model;
     int old_engine;
@@ -156,7 +181,7 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     int new_type;
 
     old_model = c64model_get_temp(*vicii_model, *sid_model, *glue_logic,
-                                  *cia1_model, *cia2_model, *new_luma);
+                                  *cia1_model, *cia2_model, *new_luma, *board, kernal, chargen);
 
     if ((model == old_model) || (model == C64MODEL_UNKNOWN)) {
         return;
@@ -208,6 +233,10 @@ void c64model_set(int model)
     resources_set_int("CIA1Model", c64models[model].cia);
     resources_set_int("CIA2Model", c64models[model].cia);
     resources_set_int("GlueLogic", c64models[model].glue);
+    resources_set_int("BoardType", c64models[model].board);
+
+    resources_set_string("KernalName", c64models[model].kernalname);
+    resources_set_string("ChargenName", c64models[model].chargenname);
 
     /* Only change the SID model if the model changes from 6581 to 8580
        or the specific SID type changes if residfp is used. This allows

@@ -72,6 +72,18 @@ static struct model_s model_match[] = {
     { "c64oldntsc", C64MODEL_C64_OLD_NTSC },
     { "paln", C64MODEL_C64_PAL_N },
     { "drean", C64MODEL_C64_PAL_N },
+    { "sx64", C64MODEL_C64SX_PAL },
+    { "sx64pal", C64MODEL_C64SX_PAL },
+    { "sx64ntsc", C64MODEL_C64SX_NTSC },
+    { "pet64", C64MODEL_PET64_PAL },
+    { "pet64pal", C64MODEL_PET64_PAL },
+    { "pet64ntsc", C64MODEL_PET64_NTSC },
+    { "max", C64MODEL_ULTIMAX },
+    { "ultimax", C64MODEL_ULTIMAX },
+    { "gs", C64MODEL_C64_GS },
+    { "c64gs", C64MODEL_C64_GS },
+    { "jap", C64MODEL_C64_JAP },
+    { "c64jap", C64MODEL_C64_JAP },
     { NULL, C64MODEL_UNKNOWN }
 };
 

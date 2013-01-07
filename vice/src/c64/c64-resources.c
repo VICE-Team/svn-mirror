@@ -75,6 +75,8 @@ char *kernal_revision = NULL;
 int cia1_model;
 int cia2_model;
 
+static int board_type = 0;
+
 static int set_chargen_rom_name(const char *val, void *param)
 {
     if (util_string_set(&chargen_rom_name, val)) {
@@ -86,21 +88,40 @@ static int set_chargen_rom_name(const char *val, void *param)
 
 static int set_kernal_rom_name(const char *val, void *param)
 {
+    int ret;
     if (util_string_set(&kernal_rom_name, val)) {
         return 0;
     }
 
     /* load kernal without a kernal overriding buffer */
-    return c64rom_load_kernal(kernal_rom_name, NULL);
+    ret = c64rom_load_kernal(kernal_rom_name, NULL);
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    return ret;
 }
 
 static int set_basic_rom_name(const char *val, void *param)
 {
+    int ret;
     if (util_string_set(&basic_rom_name, val)) {
         return 0;
     }
 
-    return c64rom_load_basic(basic_rom_name);
+    ret = c64rom_load_basic(basic_rom_name);
+    machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    return ret;
+}
+
+static int set_board_type(int val, void *param)
+{
+    int old_board_type = board_type;
+    if ((val < 0) || (val > 1)) {
+        return -1;
+    }
+    board_type = val;
+    if (old_board_type != board_type) {
+        machine_trigger_reset(MACHINE_RESET_MODE_HARD);
+    }
+    return 0;
 }
 
 static int set_cia1_model(int val, void *param)
@@ -220,6 +241,8 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "MachineVideoStandard", MACHINE_SYNC_PAL, RES_EVENT_SAME, NULL,
       &sync_factor, set_sync_factor, NULL },
+    { "BoardType", 0, RES_EVENT_SAME, NULL,
+      &board_type, set_board_type, NULL },
     { "CIA1Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,
       &cia1_model, set_cia1_model, NULL },
     { "CIA2Model", CIA_MODEL_6526, RES_EVENT_SAME, NULL,

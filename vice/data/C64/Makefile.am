@@ -3,7 +3,12 @@ c64dir = $(VICEDIR)/C64
 roms = \
 	basic \
 	chargen \
-	kernal
+	jpchrgen \
+	kernal \
+	sxkernal \
+	edkernal \
+	gskernal \
+	jpkernal
 
 romsets = \
 	default.vrs
