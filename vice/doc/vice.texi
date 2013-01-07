@@ -1864,6 +1864,11 @@ RomModuleBName=
 As you can see, the file even uses the same syntax as the
 resource file, it is just a bit stripped down.
 
+While a Romset file is processed, the directory where the Romset file
+was found is temporarily prepended to the search path (@code{Directory}
+resource). This also means that if you have a setting for
+@code{Directory} in it, its effect is limited to the Romset file itself.
+
 @node Basics, Settings and resources, System files, Top
 @chapter Basic operation
 
