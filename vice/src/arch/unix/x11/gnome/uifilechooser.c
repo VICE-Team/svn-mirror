@@ -30,12 +30,6 @@
 
 /* #define DEBUG_X11UI */
 
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
 #include "vice.h"
 
 #include <string.h>
@@ -60,14 +54,25 @@
 #include "videoarch.h"
 #include "vsync.h"
 
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
+/******************************************************************************/
+
 extern int have_cbm_font;
 extern char *fixedfontname;
 
 static GtkWidget *image_preview_list, *auto_start_button, *last_file_selection;
 
-/* ------------------------------------------------------------------------- */
+/******************************************************************************/
+
 static void ui_fill_preview(GtkFileChooser *fs, gpointer data);
 static gboolean ui_select_contents_cb(GtkTreeSelection *selection, GtkTreeModel *model, GtkTreePath *path, gboolean path_currently_selected, gpointer userdata);
+
+/******************************************************************************/
 
 static void sh_checkbox_cb(GtkWidget *w, gpointer data)
 {

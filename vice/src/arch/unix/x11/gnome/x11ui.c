@@ -126,9 +126,11 @@ log_t ui_log = LOG_ERR;
 #define WINDOW_MINH     (200 / 2)
 
 /* FIXME: perhaps also move these into app_shell_type */
+int have_cbm_font = FALSE;
 char *fixedfontname="CBM 10";
-int have_cbm_font = 0;
+#ifdef HAVE_PANGO
 PangoFontDescription *fixed_font_desc;
+#endif
 
 static int popped_up_count = 0;
 
@@ -569,6 +571,11 @@ int ui_init_finish(void)
 #else
     char *usecairo = "no";
 #endif
+#ifdef HAVE_PANGO
+    char *usepango = "yes";
+#else
+    char *usepango = "no";
+#endif
 #ifdef HAVE_VTE
     char *usevte = "yes";
 #else
@@ -579,16 +586,23 @@ int ui_init_finish(void)
 #else
     char *usegl = "no";
 #endif
+#ifdef HAVE_FULLSCREEN
+    char *usefs = "yes";
+#else
+    char *usefs = "no";
+#endif
     ui_log = log_open("X11");
 
-    log_message(ui_log, "GTK version compiled with: %d.%d (cairo:%s VTE:%s hwscale:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usecairo, usevte, usegl);
+    log_message(ui_log, "GTK version compiled with: %d.%d (cairo:%s pango:%s VTE:%s hwscale:%s fullscreen:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usecairo, usepango, usevte, usegl, usefs);
 
+#ifdef HAVE_PANGO
     have_cbm_font = TRUE;
     fixed_font_desc = pango_font_description_from_string(fixedfontname);
     if (!fixed_font_desc) {
         log_warning(ui_log, "Cannot load CBM font %s.", fixedfontname);
         have_cbm_font = FALSE;
     }
+#endif
 
 #ifdef HAVE_FULLSCREEN
     if (fullscreen_init() != 0) {

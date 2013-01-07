@@ -42,11 +42,6 @@
            at this point, you will likely need at least 2.22 to compile the
            source. with gtk3 the code should build, but some details do not
            work yet.
-
-    TODO:
-           see http://developer.gnome.org/gtk3/3.5/gtk-migrating-2-to-3.html
-
-           - fix uicolor.c:uicolor_set_palette
 */
 
 /* undefine the access checks to make the compatibility layer work */
@@ -106,11 +101,13 @@
 
 #include "gtk2legacy.h" /* this must come first here */
 
-#if GTK_CHECK_VERSION(3, 0, 0)
 /* FIXME: open gl stuff does not compile with gtk3 atm, gtkglext-3.0 is not
           available in packaged form yet */
+/* #undef HAVE_PANGO */
+/* #undef HAVE_CAIRO */
+/* #undef HAVE_VTE */
 /* #undef HAVE_HWSCALE */
-#endif
+/* #undef HAVE_FULLSCREEN */
 
 #include "log.h"
 #include "ui.h"

@@ -29,12 +29,6 @@
 
 /* #define DEBUG_X11UI */
 
-#ifdef DEBUG_X11UI
-#define DBG(_x_) log_debug _x_
-#else
-#define DBG(_x_)
-#endif
-
 #include "vice.h"
 
 #include <string.h>
@@ -53,11 +47,22 @@
 #include "resources.h"
 #include "videoarch.h"
 
-extern int have_cbm_font;
-extern PangoFontDescription *fixed_font_desc;
+#ifdef DEBUG_X11UI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
+/******************************************************************************/
+
+extern int have_cbm_font;
+#ifdef HAVE_PANGO
+extern PangoFontDescription *fixed_font_desc;
+#endif
 extern char last_attached_images[NUM_DRIVES][256]; /* FIXME: We want this to be static.  */
 extern char *last_attached_tape;  /* FIXME: We want this to be static.  */
+
+/******************************************************************************/
 
 static UI_CALLBACK(ui_popup_selected_file)
 {
@@ -83,6 +88,7 @@ static UI_CALLBACK(ui_popup_selected_file)
     }
 }
 
+#ifdef HAVE_PANGO
 static void menu_set_style(GtkWidget *w, gpointer data)
 {
     if (GTK_IS_CONTAINER(w)) {
@@ -91,6 +97,7 @@ static void menu_set_style(GtkWidget *w, gpointer data)
         gtk_widget_set_style(w, (GtkStyle *)data);
     }
 }
+#endif
 
 GtkWidget *rebuild_contents_menu(int unit, const char *name)
 {
@@ -99,7 +106,9 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
     int fno = 0, mask, i;
     char *title, *tmp, *tmp1;
     GtkWidget *menu_widget;
+#ifdef HAVE_PANGO
     GtkStyle *menu_entry_style;
+#endif
     image_contents_t *s;
     image_contents_file_list_t *element;
 
@@ -175,6 +184,7 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
 
     menu_widget = gtk_menu_new();
     ui_menu_create(menu_widget, NULL, title, menu);
+#ifdef HAVE_PANGO
     if (fixed_font_desc) {
         menu_entry_style = gtk_style_new();
         pango_font_description_free(menu_entry_style->font_desc);
@@ -182,7 +192,7 @@ GtkWidget *rebuild_contents_menu(int unit, const char *name)
         gtk_container_foreach(GTK_CONTAINER(menu_widget), menu_set_style, menu_entry_style);
         menu_entry_style = NULL;
     }
-
+#endif
     /* Cleanup */
     for (i = 0; i < fno; i++) {
         lib_free(menu[i].string);
