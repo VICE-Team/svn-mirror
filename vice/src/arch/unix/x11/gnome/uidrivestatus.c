@@ -187,7 +187,7 @@ static void set_led2(GdkColor *color1, GdkColor *color2, int i, int j)
 static gboolean leds_draw(GtkWidget *w, GdkEvent *event, gpointer data)
 {
     int i;
-    int drive_number = (int)data;
+    int drive_number = vice_ptr_to_int(data);
     int num_app_shells = get_num_shells();
 
     /* FIXME: only draw one widget at a time */
@@ -275,9 +275,9 @@ GtkWidget *build_drive_status_widget(app_shell_type *as, GdkWindow *window)
 
 #if defined(HAVE_CAIRO)
 #if GTK_CHECK_VERSION(3, 0, 0)
-        g_signal_connect(G_OBJECT(as->drive_status[i].led), "draw", G_CALLBACK(leds_draw), (gpointer)i);
+        g_signal_connect(G_OBJECT(as->drive_status[i].led), "draw", G_CALLBACK(leds_draw), int_to_void_ptr(i));
 #else
-        g_signal_connect(G_OBJECT(as->drive_status[i].led), "expose-event", G_CALLBACK(leds_draw), (gpointer)i);
+        g_signal_connect(G_OBJECT(as->drive_status[i].led), "expose-event", G_CALLBACK(leds_draw), int_to_void_ptr(i));
 #endif
 #endif
     }
@@ -325,21 +325,23 @@ void ui_enable_drive_status(ui_drive_enable_t enable, int *drive_led_color)
                 gtk_widget_show(app_shells[i].drive_status[j].event_box);
                 if (true_emu) {
                     gtk_widget_show(app_shells[i].drive_status[j].track_label);
-#if !defined(HAVE_CAIRO)
                     if (drive_num_leds(j) == 1) {
                         gtk_widget_show(app_shells[i].drive_status[j].led);
+#if !defined(HAVE_CAIRO)
                         gtk_widget_hide(app_shells[i].drive_status[j].led1);
                         gtk_widget_hide(app_shells[i].drive_status[j].led2);
+#endif
                     } else {
                         gtk_widget_hide(app_shells[i].drive_status[j].led);
+#if !defined(HAVE_CAIRO)
                         gtk_widget_show(app_shells[i].drive_status[j].led1);
                         gtk_widget_show(app_shells[i].drive_status[j].led2);
-                    }
 #endif
+                    }
                 } else {
                     gtk_widget_hide(app_shells[i].drive_status[j].track_label);
-#if !defined(HAVE_CAIRO)
                     gtk_widget_hide(app_shells[i].drive_status[j].led);
+#if !defined(HAVE_CAIRO)
                     gtk_widget_hide(app_shells[i].drive_status[j].led1);
                     gtk_widget_hide(app_shells[i].drive_status[j].led2);
 #endif
