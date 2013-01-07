@@ -2547,6 +2547,14 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
           AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
           AC_MSG_RESULT(no)
         )
+    else
+      PKG_CHECK_MODULES(GTKGL, [gtkglext-3.0],
+          have_gtkglext3=yes,
+          AC_MSG_RESULT(no)
+        )
+      if test x"$have_gtkglext3" = "xyes"; then
+      AC_MSG_WARN([The use of the gtkglext-3.0 module is untested, please let us know how well it works.])
+      fi
     fi
     X_LIBS="$GTK_LIBS $GTKGL_LIBS $X_LIBS $VTE_LIBS"
     LINK_X_LIBS="$GTK_LIBS $GTKGL_LIBS $LINK_X_LIBS $VTE_LIBS"
@@ -3531,7 +3539,6 @@ AC_OUTPUT([Makefile
            src/arch/sdl/win32-watcom/Makefile
            src/arch/sdl/win64-msvc/Makefile
            src/arch/sdl/winmips-msvc/Makefile
-           src/arch/sdl/xbox/Makefile
            src/arch/unix/Makefile
            src/arch/unix/gp2x/Makefile
            src/arch/unix/gp2x/gpe-files/Makefile
