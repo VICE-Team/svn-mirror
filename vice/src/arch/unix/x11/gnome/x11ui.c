@@ -852,7 +852,9 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
     app_shells[num_app_shells - 1].topmenu = topmenu;
 
     c->pane = gtk_event_box_new();
-    gtk_widget_modify_bg(c->pane, GTK_STATE_NORMAL, &black);
+    if (machine_class != VICE_MACHINE_VSID) {
+        gtk_widget_modify_bg(c->pane, GTK_STATE_NORMAL, &black);
+    }
     gtk_box_pack_start(GTK_BOX(panelcontainer), c->pane, TRUE, TRUE, 0);
     gtk_widget_show(c->pane);
 
