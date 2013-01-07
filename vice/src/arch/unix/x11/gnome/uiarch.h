@@ -38,10 +38,6 @@
            all, backwards compatibility would have to be maintained seperately
            on source level (by providing the missing setter/getter functions as
            macros, for example) - see gtk2legacy.c/h
-
-           at this point, you will likely need at least 2.22 to compile the
-           source. with gtk3 the code should build, but some details do not
-           work yet.
 */
 
 /* undefine the access checks to make the compatibility layer work */
@@ -101,13 +97,13 @@
 
 #include "gtk2legacy.h" /* this must come first here */
 
-/* FIXME: open gl stuff does not compile with gtk3 atm, gtkglext-3.0 is not
-          available in packaged form yet */
+/* various options, undefine them here for testing */
 /* #undef HAVE_PANGO */
 /* #undef HAVE_CAIRO */
 /* #undef HAVE_VTE */
 /* #undef HAVE_HWSCALE */
 /* #undef HAVE_FULLSCREEN */
+/* #undef USE_XF86_EXTENSIONS */
 
 #include "log.h"
 #include "ui.h"

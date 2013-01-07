@@ -547,13 +547,7 @@ int ui_init(int *argc, char **argv)
 
 #ifdef USE_XF86_EXTENSIONS
     display = gdk_x11_get_default_xdisplay();
-#if !GTK_CHECK_VERSION(3, 0, 0)
     depth = gdk_visual_get_depth(gdk_visual_get_system());
-#else
-    /* FIXME */
-    depth = 32;
-    #warning "FIXME: ui_init"
-#endif
     screen = gdk_screen_get_number(gdk_screen_get_default());
 #endif
 
@@ -591,9 +585,14 @@ int ui_init_finish(void)
 #else
     char *usefs = "no";
 #endif
+#ifdef USE_XF86_EXTENSIONS
+    char *usexf86ext = "yes";
+#else
+    char *usexf86ext = "no";
+#endif
     ui_log = log_open("X11");
 
-    log_message(ui_log, "GTK version compiled with: %d.%d (cairo:%s pango:%s VTE:%s hwscale:%s fullscreen:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usecairo, usepango, usevte, usegl, usefs);
+    log_message(ui_log, "GTK version compiled with: %d.%d (xf86 ext:%s cairo:%s pango:%s VTE:%s hwscale:%s fullscreen:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usexf86ext, usecairo, usepango, usevte, usegl, usefs);
 
 #ifdef HAVE_PANGO
     have_cbm_font = TRUE;

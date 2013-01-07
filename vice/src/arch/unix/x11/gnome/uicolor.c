@@ -135,9 +135,12 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
         swap = 0;
     } else {
 #if !defined(HAVE_CAIRO)
-        /* FIXME: GdkImage and GdkVisual are deprecated since 2.22 */
+        /* GdkImage is deprecated since 2.22 and removed in 3.0 */
         GdkVisual *vis = gdk_image_get_visual(c->gdk_image);
-
+#else
+        /* FIXME: it should come from the screen to support multi-monitor setup */
+        GdkVisual *vis = gdk_visual_get_system();
+#endif
         bpp = gdk_visual_get_depth(vis);
         gdk_visual_get_red_pixel_details(vis, NULL, &rs, &rb);
         gdk_visual_get_green_pixel_details(vis, NULL, &gs, &gb);
@@ -153,17 +156,6 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
          * arrangement as they have been written to assume the A component is
          * in the 32-bit longword bits 24-31. If any arch needs 24 bpp, that
          * code must be specially written for it. */
-#else
-        /* FIXME */
-        bpp = 24;
-        rb = 8;
-        gb = 8;
-        bb = 8;
-        rs = 0;
-        gs = 8;
-        bs = 16;
-        swap = 0;
-#endif
     }
 
     for (i = 0; i < palette->num_entries; i++) {
