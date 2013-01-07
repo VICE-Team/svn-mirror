@@ -1028,22 +1028,37 @@ static int topmenu_get_height(video_canvas_t *canvas)
     return size;
 }
 
+/* gdk_pixmap_create_from_xpm_d has been deprecated since version 2.22 and has
+   been removed in 3.0
+ */
+#if !GTK_CHECK_VERSION(3, 0, 0)
 void ui_set_application_icon(const char *icon_data[])
 {
-#if !GTK_CHECK_VERSION(3, 0, 0)
     int i;
-    GdkPixmap *icon;
     GdkWindow *window = gtk_widget_get_window(get_active_toplevel());
+    GdkPixmap *icon;
 
     icon = gdk_pixmap_create_from_xpm_d(window, NULL, NULL, (char **)icon_data);
 
     for (i = 0; i < num_app_shells; i++) {
         gdk_window_set_icon(gtk_widget_get_window(app_shells[i].shell), NULL, icon, NULL);
     }
-#else
-    #warning "FIXME: ui_set_application_icon"
-#endif
 }
+#else
+void ui_set_application_icon(const char *icon_data[])
+{
+    int i;
+    GdkPixbuf *icon;
+    GList *iconlist=NULL;
+
+    icon = gdk_pixbuf_new_from_xpm_data ((const char **) icon_data);
+    iconlist = g_list_append (iconlist, icon);
+
+    for (i = 0; i < num_app_shells; i++) {
+        gdk_window_set_icon_list(gtk_widget_get_window(app_shells[i].shell), iconlist);    
+    }
+}
+#endif
 
 /******************************************************************************/
 
