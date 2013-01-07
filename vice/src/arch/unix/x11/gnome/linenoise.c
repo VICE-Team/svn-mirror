@@ -253,6 +253,7 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
     size_t len = 0;
     size_t cols = getColumns(term);
     int history_index = 0;
+    int i;
 
     buf[0] = '\0';
     buflen--; /* Make sure there is always space for the nulterm */
@@ -261,7 +262,22 @@ static int linenoisePrompt(struct console_private_s *term, char *buf, size_t buf
      * initially is just an empty string. */
     linenoiseHistoryAdd("");
 
-    write_to_terminal(term, prompt, plen);
+    /* HACK HACK HACK
+
+       what we really want to do here is writing the prompt, and then tell VTE
+       to flush its buffers and redraw its terminal. (necessary to make the
+       initial prompt show up reliably, else it may be delayed until a key is
+       pressed, which is confusing and annoying) unfortunately there seems to be 
+       no distinct way to do this, however.
+
+       the following loop seems to do the trick (using about 10 iterations, so
+       i am using 20 to be on the safe side). yes its ugly :( 
+    */
+    for(i = 0; i < 20; i++) {
+        write_to_terminal(term, "\r", 1);
+        write_to_terminal(term, prompt, plen);
+        gtk_main_iteration();
+    }
 
     while(1) {
         char c;

@@ -83,11 +83,6 @@ void write_to_terminal(struct console_private_s *t,
 {
     if(t->term) {
         vte_terminal_feed(VTE_TERMINAL(t->term), data, length);
-        /* this is a horrible hack to work around the fact VTE is not ment to be
-           used like it is used here (no child process at all). flushing stdout
-           here will make the initial prompt show up immediatly and not delay it
-           until a key is pressed */
-        fflush(stdout);
     }
 }
 
@@ -340,7 +335,7 @@ console_t *uimon_window_open(void)
 console_t *uimon_window_resume(void)
 {
     gtk_widget_show_all(fixed.window);
-    gtk_window_present (GTK_WINDOW(fixed.window));
+    gtk_window_present(GTK_WINDOW(fixed.window));
     ui_dispatch_events();
     gdk_flush();
     return &vte_console;
