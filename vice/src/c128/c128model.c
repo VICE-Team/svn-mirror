@@ -102,7 +102,8 @@ static struct model_s c128models[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-int c128model_get_temp(int video, int sid_model, int vdc_revision, int vdc_64k,
+
+static int c128model_get_temp(int video, int sid_model, int vdc_revision, int vdc_64k,
                        int cia1_model, int cia2_model)
 {
     int new_sid;
@@ -146,7 +147,8 @@ int c128model_get(void)
                               cia1_model, cia2_model);
 }
 
-void c128model_set_temp(int model, int *vicii_model, int *sid_model,
+#if 0
+static void c128model_set_temp(int model, int *vicii_model, int *sid_model,
                         int *vdc_revision, int *vdc_64k, int *cia1_model,
                         int *cia2_model)
 {
@@ -190,6 +192,7 @@ void c128model_set_temp(int model, int *vicii_model, int *sid_model,
         *sid_model = (old_engine << 8 ) | new_sid_model;
     }
 }
+#endif
 
 void c128model_set(int model)
 {

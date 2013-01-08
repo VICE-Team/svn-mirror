@@ -66,7 +66,8 @@ static struct model_s plus4models[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia)
+
+static int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia)
 {
     int i;
 
@@ -96,7 +97,8 @@ int plus4model_get(void)
     return plus4model_get_temp(video, ramsize, hasspeech, hasacia);
 }
 
-void plus4model_set_temp(int model, int *ted_model, int *ramsize, int *hasspeech, int *hasacia)
+#if 0
+static void plus4model_set_temp(int model, int *ted_model, int *ramsize, int *hasspeech, int *hasacia)
 {
     int old_model;
 
@@ -111,6 +113,7 @@ void plus4model_set_temp(int model, int *ted_model, int *ramsize, int *hasspeech
     *hasacia = plus4models[model].hasacia;
     *hasspeech = plus4models[model].hasspeech;
 }
+#endif
 
 void plus4model_set(int model)
 {

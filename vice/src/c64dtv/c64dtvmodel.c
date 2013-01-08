@@ -85,7 +85,7 @@ static struct model_s dtvmodels[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-int dtvmodel_get_temp(int video, int asic, int hummeradc)
+static int dtvmodel_get_temp(int video, int asic, int hummeradc)
 {
     int i;
 
@@ -113,7 +113,8 @@ int dtvmodel_get(void)
     return dtvmodel_get_temp(video, asic, hummeradc);
 }
 
-void dtvmodel_set_temp(int model, int *vic_model, int *asic, int *hummeradc)
+#if 0
+static void dtvmodel_set_temp(int model, int *vic_model, int *asic, int *hummeradc)
 {
     int old_model;
 
@@ -127,6 +128,7 @@ void dtvmodel_set_temp(int model, int *vic_model, int *asic, int *hummeradc)
     *asic = dtvmodels[model].asic;
     *hummeradc = dtvmodels[model].hummeradc;
 }
+#endif
 
 void dtvmodel_set(int model)
 {

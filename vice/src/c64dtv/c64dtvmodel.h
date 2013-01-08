@@ -40,8 +40,6 @@
 #define DTVMODEL_UNKNOWN 99
 
 extern int dtvmodel_get(void);
-extern int dtvmodel_get_temp(int video, int asic, int hummeradc);
 extern void dtvmodel_set(int model);
-extern void dtvmodel_set_temp(int model, int *vic_model, int *asic, int *hummeradc);
 
 #endif

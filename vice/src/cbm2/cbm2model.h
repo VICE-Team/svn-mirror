@@ -46,8 +46,6 @@
 #define CBM2MODEL_UNKNOWN 99
 
 extern int cbm2model_get(void);
-extern int cbm2model_get_temp(int video, int ramsize, int hasspeech, int hasacia);
 extern void cbm2model_set(int model);
-extern void cbm2model_set_temp(int model, int *video_sync, int *ramsize, int *hasspeech, int *hasacia);
 
 #endif

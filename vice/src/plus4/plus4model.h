@@ -41,8 +41,6 @@
 #define PLUS4MODEL_UNKNOWN 99
 
 extern int plus4model_get(void);
-extern int plus4model_get_temp(int video, int ramsize, int hasspeech, int hasacia);
 extern void plus4model_set(int model);
-extern void plus4model_set_temp(int model, int *ted_model, int *ramsize, int *hasspeech, int *hasacia);
 
 #endif

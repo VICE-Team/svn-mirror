@@ -75,7 +75,7 @@ static struct model_s cbm2models[] = {
 };
 
 /* ------------------------------------------------------------------------- */
-int cbm2model_get_temp(int video, int ramsize, int hasvicii, int line)
+static int cbm2model_get_temp(int video, int ramsize, int hasvicii, int line)
 {
     int i;
 
@@ -106,7 +106,8 @@ int cbm2model_get(void)
     return cbm2model_get_temp(video, ramsize, hasvicii, line);
 }
 
-void cbm2model_set_temp(int model, int *video_sync, int *ramsize, int *hasvicii, int *line)
+#if 0
+static void cbm2model_set_temp(int model, int *video_sync, int *ramsize, int *hasvicii, int *line)
 {
     int old_model;
 
@@ -121,6 +122,7 @@ void cbm2model_set_temp(int model, int *video_sync, int *ramsize, int *hasvicii,
     *line = cbm2models[model].line;
     *hasvicii = cbm2models[model].hasvicii;
 }
+#endif
 
 void cbm2model_set(int model)
 {

@@ -40,11 +40,6 @@
 #define C128MODEL_UNKNOWN 99
 
 extern int c128model_get(void);
-extern int c128model_get_temp(int vicii_model, int sid_model, int vdc_revision,
-                              int vdc_64k, int cia1_model, int cia2_model);
 extern void c128model_set(int model);
-extern void c128model_set_temp(int model, int *vicii_model, int *sid_model,
-                               int *vdc_revision, int *vdc_64k, int *cia1_model,
-                               int *cia2_model);
 
 #endif
