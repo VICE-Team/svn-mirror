@@ -2378,6 +2378,104 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_DREAN_SV, "Drean" },
 /* tr */ { IDMS_DREAN_TR, "Drean" },
 
+/* en */ { IDMS_C64SX_PAL,    "C64 SX PAL" },
+/* da */ { IDMS_C64SX_PAL_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C64SX_PAL_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C64SX_PAL_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C64SX_PAL_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C64SX_PAL_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C64SX_PAL_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C64SX_PAL_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C64SX_PAL_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C64SX_PAL_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C64SX_PAL_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C64SX_PAL_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C64SX_PAL_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_C64SX_NTSC,    "C64 SX NTSC" },
+/* da */ { IDMS_C64SX_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C64SX_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C64SX_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C64SX_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C64SX_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C64SX_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C64SX_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C64SX_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C64SX_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C64SX_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C64SX_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C64SX_NTSC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_C64_JAP,    "Japanese" },
+/* da */ { IDMS_C64_JAP_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C64_JAP_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C64_JAP_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C64_JAP_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C64_JAP_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C64_JAP_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C64_JAP_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C64_JAP_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C64_JAP_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C64_JAP_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C64_JAP_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C64_JAP_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_C64_GS,    "C64 GS" },
+/* da */ { IDMS_C64_GS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_C64_GS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_C64_GS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_C64_GS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_C64_GS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_C64_GS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_C64_GS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_C64_GS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_C64_GS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_C64_GS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_C64_GS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_C64_GS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PET64_PAL,    "PET64 PAL" },
+/* da */ { IDMS_PET64_PAL_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PET64_PAL_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PET64_PAL_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PET64_PAL_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PET64_PAL_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PET64_PAL_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PET64_PAL_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PET64_PAL_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PET64_PAL_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PET64_PAL_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PET64_PAL_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PET64_PAL_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_PET64_NTSC,    "PET64 NTSC" },
+/* da */ { IDMS_PET64_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_PET64_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_PET64_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_PET64_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_PET64_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_PET64_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_PET64_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_PET64_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_PET64_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_PET64_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_PET64_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_PET64_NTSC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_ULTIMAX,    "MAX Machine" },
+/* da */ { IDMS_ULTIMAX_DA, "" },  /* fuzzy */
+/* de */ { IDMS_ULTIMAX_DE, "" },  /* fuzzy */
+/* es */ { IDMS_ULTIMAX_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_ULTIMAX_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_ULTIMAX_HU, "" },  /* fuzzy */
+/* it */ { IDMS_ULTIMAX_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_ULTIMAX_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_ULTIMAX_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_ULTIMAX_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_ULTIMAX_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_ULTIMAX_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_ULTIMAX_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_CUSTOM_C64_MODEL,    "Custom C64 model" },
 /* da */ { IDMS_CUSTOM_C64_MODEL_DA, "Speciel C64 model" },
 /* de */ { IDMS_CUSTOM_C64_MODEL_DE, "Modifiziertes C64 Modell" },

@@ -187,7 +187,7 @@ static ui_menu_entry_t set_c64_model_submenu[] = {
       (ui_callback_data_t)C64MODEL_C64SX_PAL, NULL },
     { "C64 SX NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_C64SX_NTSC, NULL },
-    { "Japanese", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+    { N_("Japanese"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_C64_JAP, NULL },
     { "C64 GS", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_C64_GS, NULL },
@@ -195,7 +195,7 @@ static ui_menu_entry_t set_c64_model_submenu[] = {
       (ui_callback_data_t)C64MODEL_PET64_PAL, NULL },
     { "PET64 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_PET64_NTSC, NULL },
-    { "MAX Machine", UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
+    { N_("MAX Machine"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_c64model,
       (ui_callback_data_t)C64MODEL_ULTIMAX, NULL },
     { NULL }
 };
