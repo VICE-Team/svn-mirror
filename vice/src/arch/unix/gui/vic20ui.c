@@ -72,6 +72,7 @@
 #include "uitfe.h"
 #include "uivic.h"
 #include "util.h"
+#include "vic20model.h"
 #include "vsync.h"
 
 enum {
@@ -418,6 +419,42 @@ static ui_menu_entry_t ui_screenshot_commands_menu[] = {
 
 UI_MENU_DEFINE_RADIO(MachineVideoStandard)
 
+static UI_CALLBACK(radio_vic20model)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(UI_MENU_CB_PARAM);
+
+    if (!CHECK_MENUS) {
+        vic20model_set(selected);
+        ui_update_menus();
+    } else {
+        model = vic20model_get();
+
+        if (selected == model) {
+            ui_menu_set_tick(w, 1);
+        } else {
+            ui_menu_set_tick(w, 0);
+        }
+    }
+}
+
+static ui_menu_entry_t set_vic20_model_submenu[] = {
+    { "VIC20 PAL", UI_MENU_TYPE_TICK, (ui_callback_t)radio_vic20model,
+      (ui_callback_data_t)VIC20MODEL_VIC20_PAL, NULL },
+    { "VIC20 NTSC", UI_MENU_TYPE_TICK, (ui_callback_t)radio_vic20model,
+      (ui_callback_data_t)VIC20MODEL_VIC20_NTSC, NULL },
+    { "VIC21", UI_MENU_TYPE_TICK, (ui_callback_t)radio_vic20model,
+      (ui_callback_data_t)VIC20MODEL_VIC21, NULL },
+    { NULL }
+};
+
+static ui_menu_entry_t set_vic20_model_menu[] = {
+    { N_("Model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_vic20_model_submenu },
+    { NULL }
+};
+
 static ui_menu_entry_t set_vic_model_submenu[] = {
     { "PAL-G", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
@@ -427,6 +464,9 @@ static ui_menu_entry_t set_vic_model_submenu[] = {
 };
 
 static ui_menu_entry_t vic20_model_submenu[] = {
+    { N_("Model"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, set_vic20_model_submenu },
+    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("VIC model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_vic_model_submenu },
     { N_("Memory expansions"), UI_MENU_TYPE_NORMAL,
@@ -641,6 +681,8 @@ static ui_menu_entry_t vic20_options_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, set_vic20_model_menu },
+     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, io_extensions_submenu },
     { NULL }
 };

@@ -40,6 +40,46 @@
 #include "translate.h"
 #include "vic20-cmdline-options.h"
 #include "vic20mem.h"
+#include "vic20model.h"
+
+struct model_s {
+    const char *name;
+    int model;
+};
+
+static struct model_s model_match[] = {
+    { "vic20", VIC20MODEL_VIC20_PAL },
+    { "vic20pal", VIC20MODEL_VIC20_PAL },
+    { "vic20ntsc", VIC20MODEL_VIC20_NTSC },
+    { "vic21", VIC20MODEL_VIC21 },
+    { NULL, VIC20MODEL_UNKNOWN }
+};
+
+static int set_vic20_model(const char *param, void *extra_param)
+{
+    int model = VIC20MODEL_UNKNOWN;
+    int i = 0;
+
+    if (!param) {
+        return -1;
+    }
+
+    do {
+        if (strcmp(model_match[i].name, param) == 0) {
+            model = model_match[i].model;
+        }
+        i++;
+    } while ((model == VIC20MODEL_UNKNOWN) && (model_match[i].name != NULL));
+
+    if (model == VIC20MODEL_UNKNOWN) {
+        return -1;
+    }
+
+    vic20model_set(model);
+
+    return 0;
+}
+
 
 /* This function parses the mem config string given as `-memory' and returns
  * the appropriate values or'ed together.
@@ -224,6 +264,11 @@ static cmdline_option_t const cmdline_options[] =
       IDCLS_P_NAME, IDCLS_SPECIFY_POS_KEYMAP_FILE_NAME,
       NULL, NULL },
 #endif
+    { "-model", CALL_FUNCTION, 1,
+      set_vic20_model, NULL, NULL, NULL,
+      USE_PARAM_ID, USE_DESCRIPTION_ID,
+      IDCLS_P_MODEL, IDCLS_SET_VIC20_MODEL,
+      NULL, NULL },
     { NULL}
 };
 

@@ -403,6 +403,9 @@ IDCLS_SET_C128_MODEL
 /* plus4/plus4-cmdline-options.c */
 IDCLS_SET_PLUS4_MODEL
 
+/* vic29/vic29-cmdline-options.c */
+IDCLS_SET_VIC20_MODEL
+
 /* c64dtv/c64dtv-cmdline-options.c */
 IDCLS_SET_DTV_MODEL
 

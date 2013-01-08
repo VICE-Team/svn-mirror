@@ -4236,6 +4236,23 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_SET_PLUS4_MODEL_TR, "Plus4 modelini ayarla (c16/c16pal/c16ntsc, plus4/plus4pal/plus4ntsc, v364/cv364, c232)"},
 #endif
 
+/* vic20/vic20-cmdline-options.c */
+/* en */ {IDCLS_SET_VIC20_MODEL,    N_("Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_VIC20_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VIC20_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_VIC20_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VIC20_MODEL_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_VIC20_MODEL_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_VIC20_MODEL_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_VIC20_MODEL_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VIC20_MODEL_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_VIC20_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_VIC20_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VIC20_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_VIC20_MODEL_TR, ""},  /* fuzzy */
+#endif
+
 /* c64dtv/c64dtv-cmdline-options.c */
 /* en */ {IDCLS_SET_DTV_MODEL,    N_("Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)")},
 #ifdef HAS_TRANSLATION

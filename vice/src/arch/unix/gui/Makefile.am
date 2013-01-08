@@ -10,6 +10,7 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vic20 \
 	-I$(top_srcdir)/src/pet \
 	-I$(top_srcdir)/src/plus4 \
+	-I$(top_srcdir)/src/scpu64 \
 	-I$(top_srcdir)/src/cbm2 \
 	-I$(top_srcdir)/src/sid \
 	-I$(top_srcdir)/src/userport \

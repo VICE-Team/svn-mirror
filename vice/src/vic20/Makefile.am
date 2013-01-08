@@ -60,6 +60,8 @@ libvic20_a_SOURCES = \
 	vic20memrom.c \
 	vic20memsnapshot.c \
 	vic20memsnapshot.h \
+	vic20model.c \
+	vic20model.h \
 	vic20printer.c \
 	vic20rom.c \
 	vic20rom.h \
