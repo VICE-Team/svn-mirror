@@ -26,6 +26,8 @@
  *
  */
 
+/* #define DEBUG_GNOMEUI */
+
 #include "vice.h"
 
 #include <stdlib.h>
@@ -42,6 +44,12 @@
 #include "uicolor.h"
 #include "video.h"
 #include "videoarch.h"
+
+#ifdef DEBUG_GNOMEUI
+#define DBG(_x_) log_debug _x_
+#else
+#define DBG(_x_)
+#endif
 
 /* UI color constants shared by GUI elements */
 GdkColor drive_led_on_red_pixel, drive_led_on_green_pixel;
@@ -137,10 +145,6 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
 #if !defined(HAVE_CAIRO)
         /* GdkImage is deprecated since 2.22 and removed in 3.0 */
         GdkVisual *vis = gdk_image_get_visual(c->gdk_image);
-#else
-        /* FIXME: it should come from the screen to support multi-monitor setup */
-        GdkVisual *vis = gdk_visual_get_system();
-#endif
         bpp = gdk_visual_get_depth(vis);
         gdk_visual_get_red_pixel_details(vis, NULL, &rs, &rb);
         gdk_visual_get_green_pixel_details(vis, NULL, &gs, &gb);
@@ -152,11 +156,33 @@ int uicolor_set_palette(struct video_canvas_s *c, const palette_t *palette)
         swap = (gdk_visual_get_byte_order(vis) == GDK_MSB_FIRST);
 #endif
 
+#else
+        if (gdk_pixbuf_get_colorspace(c->gdk_pixbuf) == GDK_COLORSPACE_RGB) {
+            bpp = gdk_pixbuf_get_n_channels(c->gdk_pixbuf) * gdk_pixbuf_get_bits_per_sample(c->gdk_pixbuf);
+            rb = gb = bb = gdk_pixbuf_get_bits_per_sample(c->gdk_pixbuf);
+            rs = 0;
+            gs = 8;
+            bs = 16;
+            swap = 0;
+        } else {
+            log_error(ui_log, "uicolor_set_palette: unsupported color space");
+            bpp = 24;
+            rb = 8;
+            gb = 8;
+            bb = 8;
+            rs = 0;
+            gs = 8;
+            bs = 16;
+            swap = 0;
+        }
+#endif
         /* 24 bpp modes do not really work with the existing
          * arrangement as they have been written to assume the A component is
          * in the 32-bit longword bits 24-31. If any arch needs 24 bpp, that
          * code must be specially written for it. */
     }
+    
+    DBG(("bpp:%d rb:%d gb:%d bb:%d rs:%d gs:%d bs:%d swap:%d", bpp, rb, gb, bb, rs, gs, bs, swap));
 
     for (i = 0; i < palette->num_entries; i++) {
         palette_entry_t color = palette->entries[i];
