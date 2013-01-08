@@ -79,16 +79,6 @@ UI_CALLBACK(ui_unload_rom_file)
     resources_set_string((char *)UI_MENU_CB_PARAM, NULL);
 }
 
-UI_MENU_DEFINE_RADIO(RomsetSourceFile)
-
-ui_menu_entry_t uiromset_type_submenu[] = {
-    { N_("Archive"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_RomsetSourceFile,
-      (ui_callback_data_t)0, NULL },
-    { N_("File"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_RomsetSourceFile,
-      (ui_callback_data_t)1, NULL },
-    { NULL }
-};
-
 static UI_CALLBACK(uiromset_archive_load)
 {
     char *filename;
@@ -188,22 +178,15 @@ static UI_CALLBACK(uiromset_archive_item_delete)
 
 static UI_CALLBACK(uiromset_archive_item_select)
 {
-    static char input_string[32];
+    static char input_string[32+4];
     ui_button_t button;
     const char *active;
 
     if (!CHECK_MENUS) {
-        /* FIXME: Apparently there are no boundary checks! */
-        resources_get_string("RomsetArchiveActive", &active);
-
-        if (!*input_string) {
-            sprintf(input_string, "%s", active);
-        }
-
         vsync_suspend_speed_eval();
         button = ui_input_string(_("Active configuration"), _("Enter name"), input_string, 32);
         if (button == UI_BUTTON_OK) {
-            resources_set_string("RomsetArchiveActive", input_string);
+            romset_archive_item_select(input_string);
             ui_update_menus();
         }
     }

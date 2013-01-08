@@ -53,83 +53,13 @@ static log_t romset_log = LOG_DEFAULT;
 
 static int romset_source_file;
 
-static char *romset_filename = NULL;
-static char *romset_archive_name = NULL;
-static char *romset_archive_active = NULL;
-
-static int set_romset_source_file(int source, void *param)
-{
-    if (source < 0 || source > 1) {
-        return -1;
-    }
-
-    romset_source_file = source;
-
-    return 0;
-}
-
-static int set_romset_archive_name(const char *val, void *param)
-{
-    if (util_string_set(&romset_archive_name, val)) {
-        return 0;
-    }
-
-    return 0;
-}
-
-static int set_romset_archive_active(const char *val, void *param)
-{
-    if (util_string_set(&romset_archive_active, val)) {
-        return 0;
-    }
-
-    if (romset_archive_item_select(romset_archive_active) < 0) {
-        return 0;
-    }
-
-    return 0;
-}
-
-static int set_romset_filename(const char *val, void *param)
-{
-    if (util_string_set(&romset_filename, val)) {
-        return 0;
-    }
-
-    return 0;
-}
-
-static const resource_string_t resources_string[] = {
-    { "RomsetArchiveName", "default", RES_EVENT_NO, NULL,
-      /* FIXME: filenames may differ */
-      &romset_archive_name, set_romset_archive_name, NULL },
-    { "RomsetArchiveActive", "", RES_EVENT_NO, NULL,
-      &romset_archive_active, set_romset_archive_active, NULL },
-    { "RomsetFileName", "default", RES_EVENT_NO, NULL,
-      &romset_filename, set_romset_filename, NULL },
-    { NULL }
-};
-
-static const resource_int_t resources_int[] = {
-    { "RomsetSourceFile", 1, RES_EVENT_NO, NULL,
-      &romset_source_file, set_romset_source_file, NULL },
-    { NULL }
-};
-
 int romset_resources_init(void)
 {
-    if (resources_register_string(resources_string) < 0) {
-        return -1;
-    }
-
-    return resources_register_int(resources_int);
+    return 0;
 }
 
 void romset_resources_shutdown(void)
 {
-    lib_free(romset_archive_name);
-    lib_free(romset_archive_active);
-    lib_free(romset_filename);
 }
 
 static int option_romsetfile(const char *value, void *extra_param)
