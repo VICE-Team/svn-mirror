@@ -37,6 +37,7 @@
 #endif
 
 #include "archdep.h"
+#include "cmdline.h"
 #include "ioutil.h"
 #include "lib.h"
 #include "log.h"
@@ -129,6 +130,45 @@ void romset_resources_shutdown(void)
     lib_free(romset_archive_name);
     lib_free(romset_archive_active);
     lib_free(romset_filename);
+}
+
+static int option_romsetfile(const char *value, void *extra_param)
+{
+    return romset_file_load(value);
+}
+
+static int option_romsetarchive(const char *value, void *extra_param)
+{
+    return romset_archive_load(value, 0);
+}
+
+static int option_romsetarchiveselect(const char *value, void *extra_param)
+{
+    return romset_archive_item_select(value);
+}
+
+static const cmdline_option_t cmdline_options[] = {
+    { "-romsetfile", CALL_FUNCTION, 1,
+      option_romsetfile, NULL, NULL, NULL,
+      0, 0,
+      0, 0,
+      "", "load the given romset file" },
+    { "-romsetarchive", CALL_FUNCTION, 1,
+      option_romsetarchive, NULL, NULL, NULL,
+      0, 0,
+      0, 0,
+      "", "load the given romset archive" },
+    { "-romsetarchiveselect", CALL_FUNCTION, 1,
+      option_romsetarchiveselect, NULL, NULL, NULL,
+      0, 0,
+      0, 0,
+      "", "select the given item from the current romset archive" },
+    { 0 }
+};
+
+int romset_cmdline_options_init()
+{
+    return cmdline_register_options(cmdline_options);
 }
 
 const char *prepend_dir_to_path(const char *dir)

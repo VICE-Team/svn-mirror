@@ -188,6 +188,10 @@ int init_cmdline_options(void)
             init_resource_fail("autostart");
             return -1;
         }
+        if (romset_cmdline_options_init() < 0) {
+            init_cmdline_options_fail("romset");
+            return -1;
+        }
         if (fliplist_cmdline_options_init() < 0) {
             init_cmdline_options_fail("flip list");
             return -1;
