@@ -320,6 +320,13 @@ const uint32 MENU_C64_MODEL_C64_NTSC              = 'M219';
 const uint32 MENU_C64_MODEL_C64C_NTSC             = 'M224';
 const uint32 MENU_C64_MODEL_C64_OLD_NTSC          = 'M225';
 const uint32 MENU_C64_MODEL_DREAN                 = 'M226';
+const uint32 MENU_C64_MODEL_C64SX_PAL             = 'M035';
+const uint32 MENU_C64_MODEL_C64SX_NTSC            = 'M036';
+const uint32 MENU_C64_MODEL_C64_JAP               = 'M139';
+const uint32 MENU_C64_MODEL_C64_GS                = 'M168';
+const uint32 MENU_C64_MODEL_PET64_PAL             = 'M170';
+const uint32 MENU_C64_MODEL_PET64_NTSC            = 'M171';
+const uint32 MENU_C64_MODEL_ULTIMAX               = 'M215';
 
 const uint32 MENU_VICII_MODEL_6569_PAL            = 'M227';
 const uint32 MENU_VICII_MODEL_8565_PAL            = 'M228';

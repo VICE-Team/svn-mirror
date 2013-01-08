@@ -344,6 +344,13 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("C64C NTSC", new BMessage(MENU_C64_MODEL_C64C_NTSC)));
             menu->AddItem(new BMenuItem("C64 old NTSC", new BMessage(MENU_C64_MODEL_C64_OLD_NTSC)));
             menu->AddItem(new BMenuItem("Drean", new BMessage(MENU_C64_MODEL_DREAN)));
+            menu->AddItem(new BMenuItem("C64 SX PAL", new BMessage(MENU_C64_MODEL_C64SX_PAL)));
+            menu->AddItem(new BMenuItem("C64 SX NTSC", new BMessage(MENU_C64_MODEL_C64SX_NTSC)));
+            menu->AddItem(new BMenuItem("Japanese", new BMessage(MENU_C64_MODEL_C64_JAP)));
+            menu->AddItem(new BMenuItem("C64 GS", new BMessage(MENU_C64_MODEL_C64_GS)));
+            menu->AddItem(new BMenuItem("PET64 PAL", new BMessage(MENU_C64_MODEL_PET64_PAL)));
+            menu->AddItem(new BMenuItem("PET64 NTSC", new BMessage(MENU_C64_MODEL_PET64_NTSC)));
+            menu->AddItem(new BMenuItem("MAX Machine", new BMessage(MENU_C64_MODEL_ULTIMAX)));
             menu->AddItem(submenu = new BMenu("Custom"));
                 submenu->AddItem(extsubmenu = new BMenu("VICII model"));
                     extsubmenu->SetRadioMode(true);

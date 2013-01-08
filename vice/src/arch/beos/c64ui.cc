@@ -451,6 +451,27 @@ void c64_ui_specific(void *msg, void *window)
         case MENU_C64_MODEL_DREAN:
             c64model_set(C64MODEL_C64_PAL_N);
             break;
+        case MENU_C64_MODEL_C64SX_PAL:
+            c64model_set(C64MODEL_C64SX_PAL);
+            break;
+        case MENU_C64_MODEL_C64SX_NTSC:
+            c64model_set(C64MODEL_C64SX_NTSC);
+            break;
+        case MENU_C64_MODEL_C64_JAP:
+            c64model_set(C64MODEL_C64_JAP);
+            break;
+        case MENU_C64_MODEL_C64_GS:
+            c64model_set(C64MODEL_C64_GS);
+            break;
+        case MENU_C64_MODEL_PET64_PAL:
+            c64model_set(C64MODEL_PET64_PAL);
+            break;
+        case MENU_C64_MODEL_PET64_NTSC:
+            c64model_set(C64MODEL_PET64_NTSC);
+            break;
+        case MENU_C64_MODEL_ULTIMAX:
+            c64model_set(C64MODEL_ULTIMAX);
+            break;
         default:
             break;
     }
