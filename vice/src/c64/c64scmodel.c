@@ -38,11 +38,22 @@
 #include "types.h"
 #include "vicii.h"
 
+/******************************************************************************/
+
 #define SID_MODEL_DEFAULT_OLD SID_MODEL_6581R4AR_3789
 #define SID_MODEL_DEFAULT_NEW SID_MODEL_8580R5_3691
 
 #define CIA_MODEL_DEFAULT_OLD CIA_MODEL_6526
 #define CIA_MODEL_DEFAULT_NEW CIA_MODEL_6526A
+
+static int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
+                             int cia1_model, int cia2_model, int new_luma, int board,
+                             const char *kernal, const char *chargen);
+static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
+                              int *glue_logic, int *cia1_model, int *cia2_model,
+                              int *new_luma, int *board, const char *kernal, const char *chargen);
+
+/******************************************************************************/
 
 static int is_new_sid(int model)
 {
@@ -117,7 +128,7 @@ static struct model_s c64models[] = {
 
 /* ------------------------------------------------------------------------- */
 
-int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
+static int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
                       int cia1_model, int cia2_model, int new_luma, int board, const char *kernal, const char *chargen)
 {
     int new_sid;
@@ -147,6 +158,14 @@ int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
     return C64MODEL_UNKNOWN;
 }
 
+/* get model from details */
+int c64model_get_model(c64model_details_t *details)
+{
+    return c64model_get_temp(details->vicii_model, details->sid_model, details->glue_logic,
+                             details->cia1_model, details->cia2_model, details->new_luma, 
+                             details->board, details->kernal, details->chargen);
+}
+
 int c64model_get(void)
 {
     int vicii_model, sid_model, glue_logic, cia1_model, cia2_model, new_luma, board;
@@ -169,7 +188,7 @@ int c64model_get(void)
                              cia1_model, cia2_model, new_luma, board, kernal, chargen);
 }
 
-void c64model_set_temp(int model, int *vicii_model, int *sid_model,
+static void c64model_set_temp(int model, int *vicii_model, int *sid_model,
                        int *glue_logic, int *cia1_model, int *cia2_model,
                        int *new_luma, int *board, const char *kernal, const char *chargen)
 {
@@ -212,6 +231,14 @@ void c64model_set_temp(int model, int *vicii_model, int *sid_model,
     if (((old_engine == SID_ENGINE_RESID_FP) && (new_sid_model != old_sid_model)) || (old_type != new_type)) {
         *sid_model = (old_engine << 8) | new_sid_model;
     }
+}
+
+/* get details for model */
+void c64model_set_details(c64model_details_t *details, int model)
+{
+    c64model_set_temp(model, &details->vicii_model, &details->sid_model,
+                       &details->glue_logic, &details->cia1_model, &details->cia2_model,
+                       &details->new_luma, &details->board, details->kernal, details->chargen);
 }
 
 void c64model_set(int model)

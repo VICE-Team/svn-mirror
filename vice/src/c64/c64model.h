@@ -56,13 +56,23 @@
 
 #define C64MODEL_UNKNOWN 99
 
+typedef struct {
+    int vicii_model;
+    int new_luma;
+    int sid_model;
+    int glue_logic; /* x64sc only */
+    int cia1_model;
+    int cia2_model;
+    int board; /* 0: normal, 1: ultimax */
+    const char *kernal;
+    const char *chargen;
+} c64model_details_t;
+
 extern int c64model_get(void);
-extern int c64model_get_temp(int vicii_model, int sid_model, int glue_logic,
-                             int cia1_model, int cia2_model, int new_luma, int board,
-                             const char *kernal, const char *chargen);
 extern void c64model_set(int model);
-extern void c64model_set_temp(int model, int *vicii_model, int *sid_model,
-                              int *glue_logic, int *cia1_model, int *cia2_model,
-                              int *new_luma, int *board, const char *kernal, const char *chargen);
+/* get details for model */
+extern void c64model_set_details(c64model_details_t *details, int model);
+/* get model from details */
+extern int c64model_get_model(c64model_details_t *details);
 
 #endif
