@@ -31,5 +31,6 @@
 extern void mem_limit_init(DWORD mem_read_limit_tab[32][0x101]);
 extern void mem_limit_plus60k_init(DWORD mem_read_limit_tab[32][0x101]);
 extern void mem_limit_256k_init(DWORD mem_read_limit_tab[32][0x101]);
+extern void mem_limit_max_init(DWORD mem_read_limit_tab[32][0x101]);
 
 #endif

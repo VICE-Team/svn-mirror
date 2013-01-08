@@ -392,6 +392,16 @@ void ram_hi_store(WORD addr, BYTE value)
     }
 }
 
+static BYTE void_read(WORD addr)
+{
+    return vicii_read_phi1();
+}
+
+static void void_store(WORD addr, BYTE value)
+{
+    return;
+}
+
 /* ------------------------------------------------------------------------- */
 
 /* Generic memory access.  */
@@ -598,6 +608,7 @@ void mem_read_base_set(unsigned int base, unsigned int index, BYTE *mem_ptr)
 void mem_initialize_memory(void)
 {
     int i, j, k;
+    int board;
 
     mem_chargen_rom_ptr = mem_chargen_rom;
     mem_color_ram_cpu = mem_color_ram;
@@ -611,11 +622,19 @@ void mem_initialize_memory(void)
         mem_write_tab_watch[i] = store_watch;
     }
 
+    resources_get_int("BoardType", &board);
+
     for (i = 0; i < NUM_CONFIGS; i++) {
         mem_set_write_hook(i, 0, zero_store);
         mem_read_tab[i][0] = zero_read;
         mem_read_base_tab[i][0] = mem_ram;
         for (j = 1; j <= 0xfe; j++) {
+            if (board == 1 && j >= 0x08) {
+                mem_read_tab[i][j] = void_read;
+                mem_read_base_tab[i][j] = NULL;
+                mem_set_write_hook(0, j, void_store);
+                continue;
+            }
             mem_read_tab[i][j] = ram_read;
             mem_read_base_tab[i][j] = mem_ram;
             for (k = 0; k < NUM_VBANKS; k++) {
@@ -694,6 +713,10 @@ void mem_initialize_memory(void)
     plus60k_init_config();
     plus256k_init_config();
     c64_256k_init_config();
+
+    if (board == 1) {
+        mem_limit_max_init(mem_read_limit_tab);
+    }
 }
 
 void mem_mmu_translate(unsigned int addr, BYTE **base, int *start, int *limit)

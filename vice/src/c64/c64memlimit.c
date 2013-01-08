@@ -130,3 +130,21 @@ void mem_limit_256k_init(DWORD mem_read_limit_tab[NUM_CONFIGS][0x101])
         mem_read_limit_tab[i][0x100] = 0;
     }
 }
+
+void mem_limit_max_init(DWORD mem_read_limit_tab[NUM_CONFIGS][0x101])
+{
+    int i, j, k;
+
+    for (i = 0; i < NUM_CONFIGS; i++) {
+        for (j = 0; j < NUM_SEGMENTS; j++) {
+            for (k = mstart[j]; k <= mend[j]; k++) {
+                if (k < 0x8) {
+                    mem_read_limit_tab[i][k] = 0x000207fd;
+                } else {
+                    mem_read_limit_tab[i][k] = 0;
+                }
+            }
+        }
+        mem_read_limit_tab[i][0x100] = 0;
+    }
+}
