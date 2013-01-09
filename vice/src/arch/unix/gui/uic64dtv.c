@@ -131,9 +131,5 @@ static ui_menu_entry_t hummeradc_submenu[] = {
 ui_menu_entry_t c64dtv_extension_submenu[] = {
     { N_("Hummer ADC"), UI_MENU_TYPE_TICK,
       NULL, NULL, hummeradc_submenu },
-#ifdef HAVE_MOUSE
-    { N_("PS/2 mouse on Userport"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, ps2_mouse_submenu },
-#endif
     { NULL }
 };

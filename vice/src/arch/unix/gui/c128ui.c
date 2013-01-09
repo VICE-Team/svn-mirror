@@ -381,13 +381,6 @@ static ui_menu_entry_t io_extensions_submenu[] = {
 #endif
     { CARTRIDGE_NAME_IEEE488, UI_MENU_TYPE_NORMAL,
       NULL, NULL, tpi_submenu },
-#ifdef HAVE_MOUSE
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mouse_submenu },
-    { N_("Lightpen emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, lightpen_submenu },
-#endif
     { "--", UI_MENU_TYPE_SEPARATOR },
     { CARTRIDGE_NAME_DIGIMAX, UI_MENU_TYPE_NORMAL,
       NULL, NULL, digimax_c64_submenu },
@@ -669,6 +662,12 @@ static ui_menu_entry_t c128_right_menu[] = {
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_c64_menu },
+#ifdef HAVE_MOUSE
+    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mouse_submenu },
+    { N_("Lightpen emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, lightpen_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, c128_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -739,6 +738,12 @@ static ui_menu_entry_t c128_settings_menu[] = {
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_c64_menu },
+#ifdef HAVE_MOUSE
+    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, mouse_submenu },
+    { N_("Lightpen emulation"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, lightpen_submenu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, c128_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

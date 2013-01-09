@@ -238,6 +238,10 @@ static ui_menu_entry_t x64_right_menu[] = {
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_c64dtv_menu },
+#ifdef HAVE_MOUSE
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ps2_mouse_menu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, c64_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -302,6 +306,10 @@ static ui_menu_entry_t x64_settings_submenu[] = {
       NULL, NULL, ui_peripheraliec_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, joystick_settings_c64dtv_menu },
+#ifdef HAVE_MOUSE
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ps2_mouse_menu },
+#endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, c64_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,

@@ -30,5 +30,6 @@
 #include "uimenu.h"
 
 extern struct ui_menu_entry_s ps2_mouse_submenu[];
+extern struct ui_menu_entry_s ps2_mouse_menu[];
 
 #endif
