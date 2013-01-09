@@ -446,12 +446,6 @@ static ui_menu_entry_t set_vic20_model_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t set_vic20_model_menu[] = {
-    { N_("Model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_vic20_model_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t set_vic_model_submenu[] = {
     { "PAL-G", UI_MENU_TYPE_TICK, (ui_callback_t)radio_MachineVideoStandard,
       (ui_callback_data_t)MACHINE_SYNC_PAL, NULL },
@@ -674,19 +668,11 @@ static ui_menu_entry_t vic20_snapshot_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t vic20_options_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, set_vic20_model_menu },
-     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, io_extensions_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t vic20_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -713,8 +699,6 @@ static ui_menu_entry_t vic20_top_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vic20_snapshot_menu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, vic20_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, vic20_settings_menu },
 #ifdef DEBUG

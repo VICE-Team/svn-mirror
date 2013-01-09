@@ -435,21 +435,11 @@ static ui_menu_entry_t plus4_snapshot_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t plus4_options_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, NULL },
-    { N_("Model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_model_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, io_extensions_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t plus4_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -480,8 +470,6 @@ static ui_menu_entry_t plus4_top_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus4_snapshot_menu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, plus4_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, plus4_settings_menu },
 #ifdef DEBUG

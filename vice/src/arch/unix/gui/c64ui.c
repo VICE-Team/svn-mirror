@@ -452,12 +452,6 @@ static ui_menu_entry_t sid_submenu[] = {
     { NULL },
 };
 
-static ui_menu_entry_t model_options_submenu[] = {
-    { N_("C64 model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, set_c64_model_submenu },
-    { NULL }
-};
-
 /* ------------------------------------------------------------------------- */
 
 UI_MENU_DEFINE_RADIO(BurstMod)
@@ -762,19 +756,11 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t x64_options_submenu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, model_options_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, io_extensions_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t x64_settings_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -801,8 +787,6 @@ static ui_menu_entry_t x64_main_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, x64_snapshot_submenu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, x64_options_submenu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, x64_settings_submenu },
 #ifdef DEBUG

@@ -411,8 +411,12 @@ static ui_menu_entry_t cbm6x0_menu[] = {
       NULL, NULL, crtc_submenu },
     { N_("SID settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_submenu },
+    { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, io_extensions_submenu },
+#ifdef HAVE_RS232
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
+#endif
     { NULL }
 };
 
@@ -427,8 +431,12 @@ static ui_menu_entry_t cbm5x0_menu[] = {
       NULL, NULL, vicii_submenu },
     { N_("SID settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, sid_submenu },
+    { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, io_extensions_submenu },
+#ifdef HAVE_RS232
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
+#endif
     { NULL }
 };
 
@@ -594,31 +602,11 @@ static ui_menu_entry_t cbm2_snapshot_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t cbm5x0_options_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm5x0_model_defaults_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, io_extensions_submenu },
-    { NULL }
-};
-
-static ui_menu_entry_t cbm6x0_options_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Model defaults"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm6x0_model_defaults_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, io_extensions_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t cbm5x0_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL,  uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -639,6 +627,8 @@ static ui_menu_entry_t cbm5x0_settings_menu[] = {
 static ui_menu_entry_t cbm6x0_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL,  uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -665,8 +655,6 @@ static ui_menu_entry_t cbm5x0_top_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_snapshot_menu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm5x0_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm5x0_settings_menu },
 #ifdef DEBUG
@@ -689,8 +677,6 @@ static ui_menu_entry_t cbm6x0_top_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm2_snapshot_menu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, cbm6x0_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, cbm6x0_settings_menu },
 #ifdef DEBUG

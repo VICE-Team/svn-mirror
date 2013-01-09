@@ -223,12 +223,6 @@ static ui_menu_entry_t model_defaults_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t model_options_submenu[] = {
-    { N_("PET model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, model_defaults_submenu },
-    { NULL }
-};
-
 UI_MENU_DEFINE_STRING_RADIO(ChargenName)
 
 static ui_menu_entry_t petui_main_romset_submenu[] = {
@@ -596,19 +590,11 @@ static ui_menu_entry_t petui_snapshot_menu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t petui_options_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, model_options_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, io_extensions_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t petui_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -635,8 +621,6 @@ static ui_menu_entry_t petui_top_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_snapshot_menu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, petui_options_menu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, petui_settings_menu },
 #ifdef DEBUG

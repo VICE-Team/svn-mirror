@@ -287,21 +287,11 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
     { NULL }
 };
 
-static ui_menu_entry_t x64_options_submenu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, NULL },
-    { N_("DTV model"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, c64dtv_setmodel_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, c64dtv_extension_submenu },
-    { NULL }
-};
-
 static ui_menu_entry_t x64_settings_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, ui_runmode_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
@@ -328,8 +318,6 @@ static ui_menu_entry_t x64_main_menu[] = {
 #endif
     { N_("Snapshot"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, x64_snapshot_submenu },
-    { N_("Options"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, x64_options_submenu },
     { N_("Settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, x64_settings_submenu },
 #ifdef DEBUG
