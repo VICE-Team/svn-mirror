@@ -323,13 +323,13 @@ static ui_menu_entry_t plus4_menu[] = {
 
 static ui_menu_entry_t plus4_left_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_disk_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_tape_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_datasette_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uiattach_smart_attach_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_directory_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -338,6 +338,8 @@ static ui_menu_entry_t plus4_left_menu[] = {
       NULL, NULL, ui_screenshot_commands_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_record_commands_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_edit_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
 #ifdef HAVE_NETWORK
@@ -350,36 +352,10 @@ static ui_menu_entry_t plus4_left_menu[] = {
       NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_edit_commands_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_help_commands_menu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
-    { NULL }
-};
-
-static ui_menu_entry_t plus4_right_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uikeyboard_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_driveplus4_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_peripheraliec_plus4_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, joystick_settings_plus4_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, plus4_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_settings_settings_menu },
-#ifdef DEBUG
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_debug_settings_menu },
-#endif
     { NULL }
 };
 
@@ -512,7 +488,7 @@ int plus4ui_init(void)
     plus4ui_dynamic_menu_create();
     ui_set_left_menu(plus4_left_menu);
 
-    ui_set_right_menu(plus4_right_menu);
+    ui_set_right_menu(plus4_settings_menu);
 
     ui_set_topmenu(plus4_top_menu);
 

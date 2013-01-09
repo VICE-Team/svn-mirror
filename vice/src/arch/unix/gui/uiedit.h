@@ -30,5 +30,6 @@
 #include "ui.h"
 
 extern struct ui_menu_entry_s ui_edit_commands_submenu[];
+extern struct ui_menu_entry_s ui_edit_commands_menu[];
 
 #endif /* _UIEDIT_H */

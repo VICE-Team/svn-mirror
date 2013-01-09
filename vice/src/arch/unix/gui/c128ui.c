@@ -611,13 +611,13 @@ static ui_menu_entry_t c128_menu[] = {
 
 static ui_menu_entry_t c128_left_menu[] = {
     { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, uiattach_smart_attach_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_disk_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, uiattach_tape_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_datasette_commands_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uiattach_smart_attach_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_c64cart_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
@@ -628,6 +628,8 @@ static ui_menu_entry_t c128_left_menu[] = {
       NULL, NULL, ui_screenshot_commands_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_record_commands_menu },
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_edit_commands_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_tool_commands_menu },
 #ifdef HAVE_NETWORK
@@ -640,42 +642,10 @@ static ui_menu_entry_t c128_left_menu[] = {
       NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_edit_commands_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_help_commands_menu },
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_exit_commands_menu },
-    { NULL }
-};
-
-static ui_menu_entry_t c128_right_menu[] = {
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_performance_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, uikeyboard_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_sound_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_drivec128_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_peripheraliec_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, joystick_settings_c64_menu },
-#ifdef HAVE_MOUSE
-    { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, mouse_submenu },
-    { N_("Lightpen emulation"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, lightpen_submenu },
-#endif
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, c128_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_settings_settings_menu },
-#ifdef DEBUG
-    { "--", UI_MENU_TYPE_SEPARATOR,
-      NULL, NULL, ui_debug_settings_menu },
-#endif
     { NULL }
 };
 
@@ -748,6 +718,10 @@ static ui_menu_entry_t c128_settings_menu[] = {
       NULL, NULL, c128_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_settings_settings_menu },
+#ifdef DEBUG
+    { "--", UI_MENU_TYPE_SEPARATOR,
+      NULL, NULL, ui_debug_settings_menu },
+#endif
     { NULL }
 };
 
@@ -812,7 +786,7 @@ int c128ui_init(void)
     c128ui_dynamic_menu_create();
     ui_set_left_menu(c128_left_menu);
 
-    ui_set_right_menu(c128_right_menu);
+    ui_set_right_menu(c128_settings_menu);
 
     ui_set_topmenu(c128_main_menu);
     ui_set_speedmenu(c128_speed_menu);
