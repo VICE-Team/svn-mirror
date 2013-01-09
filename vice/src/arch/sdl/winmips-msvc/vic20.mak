@@ -73,6 +73,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vic20mem.obj"
 	-@erase "$(INTDIR)\vic20memrom.obj"
 	-@erase "$(INTDIR)\vic20memsnapshot.obj"
+	-@erase "$(INTDIR)\vic20model.obj"
 	-@erase "$(INTDIR)\vic20printer.obj"
 	-@erase "$(INTDIR)\vic20rom.obj"
 	-@erase "$(INTDIR)\vic20romset.obj"
@@ -151,6 +152,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\vic20mem.obj" \
 	"$(INTDIR)\vic20memrom.obj" \
 	"$(INTDIR)\vic20memsnapshot.obj" \
+	"$(INTDIR)\vic20model.obj" \
 	"$(INTDIR)\vic20printer.obj" \
 	"$(INTDIR)\vic20rom.obj" \
 	"$(INTDIR)\vic20romset.obj" \
@@ -214,6 +216,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vic20mem.obj"
 	-@erase "$(INTDIR)\vic20memrom.obj"
 	-@erase "$(INTDIR)\vic20memsnapshot.obj"
+	-@erase "$(INTDIR)\vic20model.obj"
 	-@erase "$(INTDIR)\vic20printer.obj"
 	-@erase "$(INTDIR)\vic20rom.obj"
 	-@erase "$(INTDIR)\vic20romset.obj"
@@ -292,6 +295,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\vic20mem.obj" \
 	"$(INTDIR)\vic20memrom.obj" \
 	"$(INTDIR)\vic20memsnapshot.obj" \
+	"$(INTDIR)\vic20model.obj" \
 	"$(INTDIR)\vic20printer.obj" \
 	"$(INTDIR)\vic20rom.obj" \
 	"$(INTDIR)\vic20romset.obj" \
@@ -479,6 +483,12 @@ SOURCE=..\..\..\vic20\vic20memrom.c
 SOURCE=..\..\..\vic20\vic20memsnapshot.c
 
 "$(INTDIR)\vic20memsnapshot.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\vic20\vic20model.c
+
+"$(INTDIR)\vic20model.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

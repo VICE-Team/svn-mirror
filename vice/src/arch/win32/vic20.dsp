@@ -228,6 +228,10 @@ SOURCE=..\..\vic20\vic20memsnapshot.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\vic20\vic20model.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\vic20\vic20printer.c
 # End Source File
 # Begin Source File
