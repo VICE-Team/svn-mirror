@@ -62,12 +62,17 @@ copy ..\..\..\..\data\C64\ccs64.vpl   %VICEDIR%\C64
 copy ..\..\..\..\data\C64\chargen     %VICEDIR%\C64
 copy ..\..\..\..\data\C64\default.vpl %VICEDIR%\C64
 copy ..\..\..\..\data\C64\default.vrs %VICEDIR%\C64
+copy ..\..\..\..\data\C64\edkernal    %VICEDIR%\C64
 copy ..\..\..\..\data\C64\frodo.vpl   %VICEDIR%\C64
 copy ..\..\..\..\data\C64\godot.vpl   %VICEDIR%\C64
+copy ..\..\..\..\data\C64\gskernal    %VICEDIR%\C64
+copy ..\..\..\..\data\C64\jpchrgen    %VICEDIR%\C64
+copy ..\..\..\..\data\C64\jpkernal    %VICEDIR%\C64
 copy ..\..\..\..\data\C64\kernal      %VICEDIR%\C64
 copy ..\..\..\..\data\C64\os2.vkm     %VICEDIR%\C64
 copy ..\..\..\..\data\C64\os2_sym.vkm %VICEDIR%\C64
 copy ..\..\..\..\data\C64\pc64.vpl    %VICEDIR%\C64
+copy ..\..\..\..\data\C64\sxkernal    %VICEDIR%\C64
 copy ..\..\..\..\data\C64\vice.vpl    %VICEDIR%\C64
 
 mkdir %VICEDIR%\C64DTV
