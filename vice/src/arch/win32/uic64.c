@@ -134,6 +134,13 @@ static const TCHAR *ui_c64model[] = {
     TEXT("C64C NTSC"),
     TEXT("C64 old NTSC"),
     TEXT("Drean"),
+    TEXT("C64 SX PAL"),
+    TEXT("C64 SX NTSC"),
+    TEXT("Japanese"),
+    TEXT("C64 GS"),
+    TEXT("PET64 PAL"),
+    TEXT("PET64 NTSC"),
+    TEXT("MAX Machine"),
     TEXT("Custom"),
     NULL
 };
@@ -146,6 +153,13 @@ static const int ui_c64model_values[] = {
     C64MODEL_C64C_NTSC,
     C64MODEL_C64_OLD_NTSC,
     C64MODEL_C64_PAL_N,
+    C64MODEL_C64SX_PAL,
+    C64MODEL_C64SX_NTSC,
+    C64MODEL_C64_JAP,
+    C64MODEL_C64_GS,
+    C64MODEL_PET64_PAL,
+    C64MODEL_PET64_NTSC,
+    C64MODEL_ULTIMAX,
     C64MODEL_UNKNOWN,
     -1
 };
