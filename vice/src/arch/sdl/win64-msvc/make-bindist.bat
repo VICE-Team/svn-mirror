@@ -47,7 +47,11 @@ copy ..\..\..\..\data\C64\*.vpl %VICEDIR%\C64
 copy ..\..\..\..\data\C64\c64mem.sym %VICEDIR%\C64
 copy ..\..\..\..\data\C64\chargen %VICEDIR%\C64
 copy ..\..\..\..\data\C64\*.vrs %VICEDIR%\C64
+copy ..\..\..\..\data\C64\edkernal %VICEDIR%\C64
+copy ..\..\..\..\data\C64\gskernal %VICEDIR%\C64
+copy ..\..\..\..\data\C64\jp* %VICEDIR%\C64
 copy ..\..\..\..\data\C64\kernal %VICEDIR%\C64
+copy ..\..\..\..\data\C64\sxkernal %VICEDIR%\C64
 copy ..\..\..\..\data\C64\sdl*.* %VICEDIR%\C64
 mkdir %VICEDIR%\SCPU64
 copy ..\..\..\..\data\SCPU64\*.vpl %VICEDIR%\SCPU64
