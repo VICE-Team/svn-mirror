@@ -25,7 +25,7 @@ else
   SCFILE=""
 fi
 
-EMULATORS="x64 x64dtv $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv xscpu64 $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 LANGUAGES="da de fr hu it nl pl sv tr"
@@ -83,6 +83,7 @@ DefaultPath=
 [PANELMENU]
 /menu="Emulators/VICE"	/name="vsid"	/link="/boot/programs/VICE/bin/vsid.app"	/icon="/boot/programs/VICE/icons/vsid.ico"
 /menu="Emulators/VICE"	/name="x64"	/link="/boot/programs/VICE/bin/x64.app"		/icon="/boot/programs/VICE/icons/x64.ico"   
+/menu="Emulators/VICE"	/name="xscpu64"	/link="/boot/programs/VICE/bin/xscpu64.app"		/icon="/boot/programs/VICE/icons/xscpu64.ico"   
 /menu="Emulators/VICE"	/name="x64dtv"	/link="/boot/programs/VICE/bin/x64dtv.app"		/icon="/boot/programs/VICE/icons/x64dtv.ico"   
 _END
 
@@ -103,6 +104,7 @@ cat >>VICE-$VERSION/install.sif <<_END
 [FILEICONS]
 /file="\$INSTALL_ROOT/programs/VICE/bin/vsid.app"	/icon="/boot/programs/VICE/icons/vsid.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64.app"	/icon="/boot/programs/VICE/icons/x64.ico"
+/file="\$INSTALL_ROOT/programs/VICE/bin/xscpu64.app"	/icon="/boot/programs/VICE/icons/xscpu64.ico"
 /file="\$INSTALL_ROOT/programs/VICE/bin/x64dtv.app"	/icon="/boot/programs/VICE/icons/x64dtv.ico"
 _END
 

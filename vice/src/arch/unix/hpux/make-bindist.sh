@@ -163,10 +163,15 @@ installfile data/C64/ccs64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/ccs6
 installfile data/C64/chargen vice/vice-RUN runtmp /usr/local/lib/vice/C64/chargen run 0644
 installfile data/C64/default.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/default.vpl run 0644
 installfile data/C64/default.vrs vice/vice-RUN runtmp /usr/local/lib/vice/C64/default.vrs run 0644
+installfile data/C64/edkernal vice/vice-RUN runtmp /usr/local/lib/vice/C64/edkernal run 0644
 installfile data/C64/frodo.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/frodo.vpl run 0644
 installfile data/C64/godot.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/godot.vpl run 0644
+installfile data/C64/gskernal vice/vice-RUN runtmp /usr/local/lib/vice/C64/gskernal run 0644
+installfile data/C64/jpchrgen vice/vice-RUN runtmp /usr/local/lib/vice/C64/jpchrgen run 0644
+installfile data/C64/jpkernal vice/vice-RUN runtmp /usr/local/lib/vice/C64/jpkernal run 0644
 installfile data/C64/kernal vice/vice-RUN runtmp /usr/local/lib/vice/C64/kernal run 0644
 installfile data/C64/pc64.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/pc64.vpl run 0644
+installfile data/C64/sxkernal vice/vice-RUN runtmp /usr/local/lib/vice/C64/sxkernal run 0644
 installfile data/C64/vice.vpl vice/vice-RUN runtmp /usr/local/lib/vice/C64/vice.vpl run 0644
 installfile data/C64/x11_pos.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64/x11_pos.vkm run 0644
 installfile data/C64/x11_sym.vkm vice/vice-RUN runtmp /usr/local/lib/vice/C64/x11_sym.vkm run 0644

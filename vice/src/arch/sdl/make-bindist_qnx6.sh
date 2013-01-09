@@ -360,8 +360,12 @@ _END
                            <QPM:File>chargen</QPM:File>
                            <QPM:File>default.vpl</QPM:File>
                            <QPM:File>default.vrs</QPM:File>
+                           <QPM:File>edkernal</QPM:File>
                            <QPM:File>frodo.vpl</QPM:File>
                            <QPM:File>godot.vpl</QPM:File>
+                           <QPM:File>gskernal</QPM:File>
+                           <QPM:File>jpchrgen</QPM:File>
+                           <QPM:File>jpkernal</QPM:File>
                            <QPM:File>kernal</QPM:File>
                            <QPM:File>pc64.vpl</QPM:File>
                            <QPM:File>sdl_sym.vkm</QPM:File>
@@ -369,6 +373,7 @@ _END
                            <QPM:File>sdl_sym_de.vkm</QPM:File>
                            <QPM:File>sdl_sym_fi.vkm</QPM:File>
                            <QPM:File>sdl_sym_no.vkm</QPM:File>
+                           <QPM:File>sxkernal</QPM:File>
                            <QPM:File>vice.vpl</QPM:File>
                         </QPM:Dir>
 
