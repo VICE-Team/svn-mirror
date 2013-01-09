@@ -541,6 +541,15 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DREAN:
             c64model_set(C64MODEL_C64_PAL + idm - IDM_C64PAL);
             return;
+        case IDM_C64SXPAL:
+        case IDM_C64SXNTSC:
+        case IDM_C64JAP:
+        case IDM_C64GS:
+        case IDM_PET64PAL:
+        case IDM_PET64NTSC:
+        case IDM_ULTIMAX:
+            c64model_set(C64MODEL_C64SX_PAL + idm - IDM_C64SXPAL);
+            return;
         case IDM_6569_PAL:
         case IDM_8565_PAL:
         case IDM_6569R1_OLD_PAL:
@@ -2205,6 +2214,13 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_C64CNTSC, val == C64MODEL_C64C_NTSC);
             WinCheckMenuItem(hwnd, IDM_C64OLDNTSC, val == C64MODEL_C64_OLD_NTSC);
             WinCheckMenuItem(hwnd, IDM_DREAN, val == C64MODEL_C64_PAL_N);
+            WinCheckMenuItem(hwnd, IDM_C64SXPAL, val == C64MODEL_C64SX_PAL);
+            WinCheckMenuItem(hwnd, IDM_C64SXNTSC, val == C64MODEL_C64SX_NTSC);
+            WinCheckMenuItem(hwnd, IDM_C64JAP, val == C64MODEL_C64_JAP);
+            WinCheckMenuItem(hwnd, IDM_C64GS, val == C64MODEL_C64_GS);
+            WinCheckMenuItem(hwnd, IDM_PET64PAL, val == C64MODEL_PET64_PAL);
+            WinCheckMenuItem(hwnd, IDM_PET64NTSC, val == C64MODEL_PET64_NTSC);
+            WinCheckMenuItem(hwnd, IDM_ULTIMAX, val == C64MODEL_ULTIMAX);
             resources_get_int("VICIIModel", &val);
             WinCheckMenuItem(hwnd, IDM_6569_PAL, val == VICII_MODEL_6569);
             WinCheckMenuItem(hwnd, IDM_8565_PAL, val == VICII_MODEL_8565);

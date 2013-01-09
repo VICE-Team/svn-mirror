@@ -614,6 +614,13 @@
 #define IDM_C64CNTSC                 0x1d2
 #define IDM_C64OLDNTSC               0x1d3
 #define IDM_DREAN                    0x1d4
+#define IDM_C64SXPAL                 0x336
+#define IDM_C64SXNTSC                0x337
+#define IDM_C64JAP                   0x338
+#define IDM_C64GS                    0x339
+#define IDM_PET64PAL                 0x33a
+#define IDM_PET64NTSC                0x33b
+#define IDM_ULTIMAX                  0x33c
 #define IDM_CUSTOM_C64_MODEL         0x1d5
 #define IDM_VICII_MODEL              0x1d6
 #define IDM_6569_PAL                 0x1d7
