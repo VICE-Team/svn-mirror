@@ -35,6 +35,8 @@
 #include "uidrivec64c128.h"
 #include "uidriveiec.h"
 #include "uimenu.h"
+#include "uiperipheral.h"
+#include "uiperipheraliec.h"
 #include "uiromset.h"
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
@@ -174,6 +176,8 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #8 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive0_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheraliec_settings_drive8_submenu },
     { N_("Drive #8 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)0,
       uidrivec64c128_drive0_expansion_submenu },
@@ -186,6 +190,8 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #9 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive1_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheraliec_settings_drive9_submenu },
     { N_("Drive #9 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)1,
       uidrivec64c128_drive1_expansion_submenu },
@@ -198,6 +204,8 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #10 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive2_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheraliec_settings_drive10_submenu },
     { N_("Drive #10 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)2,
       uidrivec64c128_drive2_expansion_submenu },
@@ -210,6 +218,8 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Drive #11 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive3_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheraliec_settings_drive11_submenu },
     { N_("Drive #11 expansion"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_expansion_control, (ui_callback_data_t)3,
       uidrivec64c128_drive3_expansion_submenu },
@@ -219,6 +229,11 @@ static ui_menu_entry_t drivec128_settings_submenu[] = {
     { N_("Drive #11 idle method"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)3,
       set_drive3_idle_method_submenu },
+#ifdef HAVE_RAWDRIVE
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("RAW Block Device Name"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_rawdevice_name,
+      (ui_callback_data_t)"RawDriveDriver", NULL },
+#endif
     { NULL }
 };
 
