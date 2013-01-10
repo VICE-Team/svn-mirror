@@ -492,8 +492,6 @@ static ui_menu_entry_t cbm2_left_menu[] = {
 #endif
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_run_commands_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_runmode_commands_menu },
 #if defined(USE_XAWUI)
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_help_commands_menu },
