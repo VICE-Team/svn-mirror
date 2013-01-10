@@ -106,7 +106,7 @@ _END
             <QPM:AuthorEmbedURL/>
             <QPM:AuthorEmail>vice-emu-mail@lists.sourceforge.net</QPM:AuthorEmail>
             <QPM:ProductIconSmall>http://www.trikaliotis.net/vicekb/common/vice-logo.png</QPM:ProductIconSmall>
-            <QPM:ProductIconLarge>http://www.viceteam.org/images/vice-logo.jpg</QPM:ProductIconLarge>
+            <QPM:ProductIconLarge>http://vice-emu.sourceforge.net/images/vice-logo.jpg</QPM:ProductIconLarge>
             <QPM:ProductDescriptionShort>The Versatile Commodore Emulator</QPM:ProductDescriptionShort>
             <QPM:ProductDescriptionLong>VICE is a program that runs on a Unix, MS-DOS, Win32, OS/2, Acorn RISC OS, QNX 6.x, AmigaOS or BeOS machine and executes programs intended for the old 8-bit computers. The current version emulates the C64, the C64DTV, the C128, the VIC20, all the PET models (except the SuperPET 9000, which is out of line anyway), the PLUS4 and the CBM-II (aka C610).</QPM:ProductDescriptionLong>
             <QPM:ProductDescriptionURL>http://vice-emu.sourceforge.net</QPM:ProductDescriptionURL>
