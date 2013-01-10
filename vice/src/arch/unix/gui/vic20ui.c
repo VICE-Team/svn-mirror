@@ -60,6 +60,7 @@
 #include "uinetplay.h"
 #include "uilightpen.h"
 #include "uiperipheraliec.h"
+#include "uiprinteriec.h"
 #include "uiram.h"
 #include "uiromset.h"
 #include "uirs232c64c128.h"
@@ -638,6 +639,8 @@ static ui_menu_entry_t vic20_snapshot_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VirtualDevices)
+
 static ui_menu_entry_t vic20_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
@@ -647,11 +650,13 @@ static ui_menu_entry_t vic20_settings_menu[] = {
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivevic20_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_peripheraliec_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
+      NULL, NULL, printeriec_settings_menu },
+    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
+      (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_settings_vic20_menu },
     { N_("Paddle emulation"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, mouse_vic20_submenu },

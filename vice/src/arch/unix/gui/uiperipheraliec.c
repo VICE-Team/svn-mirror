@@ -34,12 +34,9 @@
 #include "lib.h"
 #include "resources.h"
 #include "uimenu.h"
-#include "uiprinteriec.h"
-#include "uiprinteriecplus4.h"
 #include "uiperipheral.h"
 #include "vsync.h"
 
-UI_MENU_DEFINE_TOGGLE(VirtualDevices)
 UI_MENU_DEFINE_TOGGLE(FSDevice8ConvertP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice9ConvertP00)
 UI_MENU_DEFINE_TOGGLE(FSDevice10ConvertP00)
@@ -62,8 +59,6 @@ UI_MENU_DEFINE_TOGGLE(IECDevice10)
 UI_MENU_DEFINE_TOGGLE(IECDevice11)
 
 static ui_menu_entry_t fsdevice_drive8_submenu[] = {
-    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device8_type_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice8, NULL, NULL },
     { N_("Read only access"), UI_MENU_TYPE_TICK,
@@ -81,8 +76,6 @@ static ui_menu_entry_t fsdevice_drive8_submenu[] = {
 };
 
 static ui_menu_entry_t fsdevice_drive9_submenu[] = {
-    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device9_type_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice9, NULL, NULL },
     { N_("Read only access"), UI_MENU_TYPE_TICK,
@@ -100,8 +93,6 @@ static ui_menu_entry_t fsdevice_drive9_submenu[] = {
 };
 
 static ui_menu_entry_t fsdevice_drive10_submenu[] = {
-    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device10_type_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice10, NULL, NULL },
     { N_("Read only access"), UI_MENU_TYPE_TICK,
@@ -119,8 +110,6 @@ static ui_menu_entry_t fsdevice_drive10_submenu[] = {
 };
 
 static ui_menu_entry_t fsdevice_drive11_submenu[] = {
-    { N_("Device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device11_type_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("Enable IEC device"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_IECDevice11, NULL, NULL },
     { N_("Read only access"), UI_MENU_TYPE_TICK,
@@ -137,50 +126,50 @@ static ui_menu_entry_t fsdevice_drive11_submenu[] = {
     { NULL }
 };
 
-ui_menu_entry_t peripheraliec_settings_submenu[] = {
-    { N_("Device #8"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
-    { N_("Device #9"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
-    { N_("Device #10"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
-    { N_("Device #11"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, printeriec_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_VirtualDevices,
-      NULL, NULL },
-#ifdef HAVE_RAWDRIVE
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("RAW Block Device Name"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_rawdevice_name,
-      (ui_callback_data_t)"RawDriveDriver", NULL },
-#endif
+ui_menu_entry_t peripheraliec_settings_drive8_submenu[] = {
+    { N_("Drive #8 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device8_type_submenu },
+    { N_("Drive #8 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
     { NULL }
 };
 
-ui_menu_entry_t peripheraliec_plus4_settings_submenu[] = {
-    { N_("Device #8"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
-    { N_("Device #9"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
-    { N_("Device #10"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
-    { N_("Device #11"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, NULL, NULL, printeriec_plus4_settings_menu },
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, (ui_callback_t)toggle_VirtualDevices,
-      NULL, NULL },
-#ifdef HAVE_RAWDRIVE
-    { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("RAW Block Device Name"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_rawdevice_name,
-      (ui_callback_data_t)"RawDriveDriver", NULL },
-#endif
+ui_menu_entry_t peripheraliec_settings_drive9_submenu[] = {
+    { N_("Drive #9 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device9_type_submenu },
+    { N_("Drive #9 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
     { NULL }
 };
 
-ui_menu_entry_t ui_peripheraliec_settings_menu[] = {
-    { N_("Peripheral settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, peripheraliec_settings_submenu },
+ui_menu_entry_t peripheraliec_settings_drive10_submenu[] = {
+    { N_("Drive #10 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device10_type_submenu },
+    { N_("Drive #10 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
     { NULL }
 };
 
-ui_menu_entry_t ui_peripheraliec_plus4_settings_menu[] = {
-    { N_("Peripheral settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, peripheraliec_plus4_settings_submenu },
+ui_menu_entry_t peripheraliec_settings_drive11_submenu[] = {
+    { N_("Drive #11 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device11_type_submenu },
+    { N_("Drive #11 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t peripheraliec_plus4_settings_drive8_submenu[] = {
+    { N_("Drive #8 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device8_type_submenu },
+    { N_("Drive #8 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive8_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t peripheraliec_plus4_settings_drive9_submenu[] = {
+    { N_("Drive #9 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device9_type_submenu },
+    { N_("Drive #9 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive9_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t peripheraliec_plus4_settings_drive10_submenu[] = {
+    { N_("Drive #10 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device10_type_submenu },
+    { N_("Drive #10 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive10_submenu },
+    { NULL }
+};
+
+ui_menu_entry_t peripheraliec_plus4_settings_drive11_submenu[] = {
+    { N_("Drive #11 device type"), UI_MENU_TYPE_NORMAL, NULL, NULL, uiperipheral_set_device11_type_submenu },
+    { N_("Drive #11 options"), UI_MENU_TYPE_NORMAL, NULL, NULL, fsdevice_drive11_submenu },
     { NULL }
 };

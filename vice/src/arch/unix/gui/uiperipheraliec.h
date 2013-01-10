@@ -29,9 +29,14 @@
 
 #include "uimenu.h"
 
-extern struct ui_menu_entry_s peripheraliec_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheraliec_settings_menu[];
-extern struct ui_menu_entry_s peripheraliec_plus4_settings_submenu[];
-extern struct ui_menu_entry_s ui_peripheraliec_plus4_settings_menu[];
+extern struct ui_menu_entry_s peripheraliec_settings_drive8_submenu[];
+extern struct ui_menu_entry_s peripheraliec_settings_drive9_submenu[];
+extern struct ui_menu_entry_s peripheraliec_settings_drive10_submenu[];
+extern struct ui_menu_entry_s peripheraliec_settings_drive11_submenu[];
+
+extern struct ui_menu_entry_s peripheraliec_plus4_settings_drive8_submenu[];
+extern struct ui_menu_entry_s peripheraliec_plus4_settings_drive9_submenu[];
+extern struct ui_menu_entry_s peripheraliec_plus4_settings_drive10_submenu[];
+extern struct ui_menu_entry_s peripheraliec_plus4_settings_drive11_submenu[];
 
 #endif

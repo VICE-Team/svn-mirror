@@ -50,6 +50,7 @@
 #include "uinetplay.h"
 #include "uiperipheraliec.h"
 #include "uiplus4cart.h"
+#include "uiprinteriecplus4.h"
 #include "uiram.h"
 #include "uiromset.h"
 #ifdef HAVE_RS232
@@ -411,6 +412,8 @@ static ui_menu_entry_t plus4_snapshot_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VirtualDevices)
+
 static ui_menu_entry_t plus4_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
@@ -420,11 +423,13 @@ static ui_menu_entry_t plus4_settings_menu[] = {
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_driveplus4_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_peripheraliec_plus4_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
+      NULL, NULL, printeriec_plus4_settings_menu },
+    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
+      (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_settings_plus4_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, plus4_menu },

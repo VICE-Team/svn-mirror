@@ -35,6 +35,8 @@
 #include "uidrivepetcbm2.h"
 #include "uimenu.h"
 #include "uiromset.h"
+#include "uiperipheral.h"
+#include "uiperipheralieee.h"
 
 UI_MENU_DEFINE_TOGGLE(DriveTrueEmulation)
 UI_MENU_DEFINE_TOGGLE(DriveSoundEmulation)
@@ -105,8 +107,10 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
     { N_("Drive sound emulation"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_DriveSoundEmulation, NULL, NULL },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive #8 floppy disk type"), UI_MENU_TYPE_NORMAL,
+    { N_("Drive #8 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive0_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheralieee_settings_drive8_submenu },
     { N_("Drive #8 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)0,
       set_drive0_extend_image_policy_submenu },
@@ -114,8 +118,10 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)0,
       set_drive0_idle_method_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive #9 floppy disk type"), UI_MENU_TYPE_NORMAL,
+    { N_("Drive #9 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive1_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheralieee_settings_drive9_submenu },
     { N_("Drive #9 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)1,
       set_drive1_extend_image_policy_submenu },
@@ -123,8 +129,10 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)1,
       set_drive1_idle_method_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive #10 floppy disk type"), UI_MENU_TYPE_NORMAL,
+    { N_("Drive #10 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive2_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheralieee_settings_drive10_submenu },
     { N_("Drive #10 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)2,
       set_drive2_extend_image_policy_submenu },
@@ -132,14 +140,21 @@ static ui_menu_entry_t drivepetcbm2_settings_submenu[] = {
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)2,
       set_drive2_idle_method_submenu },
     { "--", UI_MENU_TYPE_SEPARATOR },
-    { N_("Drive #11 floppy disk type"), UI_MENU_TYPE_NORMAL,
+    { N_("Drive #11 model"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_drive3_type_submenu },
+    { "", UI_MENU_TYPE_NONE,
+      NULL, NULL, peripheralieee_settings_drive11_submenu },
     { N_("Drive #11 40-track image support"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidrive_extend_policy_control, (ui_callback_data_t)3,
       set_drive3_extend_image_policy_submenu },
     { N_("Drive #11 idle method"), UI_MENU_TYPE_NORMAL,
       (ui_callback_t)uidriveiec_idle_method_control, (ui_callback_data_t)3,
       set_drive3_idle_method_submenu },
+#ifdef HAVE_RAWDRIVE
+    { "--", UI_MENU_TYPE_SEPARATOR },
+    { N_("RAW Block Device Name"), UI_MENU_TYPE_DOTS, (ui_callback_t)uiperipheral_set_rawdevice_name,
+      (ui_callback_data_t)"RawDriveDriver", NULL },
+#endif
     { NULL }
 };
 

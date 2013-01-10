@@ -55,6 +55,7 @@
 #include "uipetdww.h"
 #include "uipethre.h"
 #include "uipetreu.h"
+#include "uiprinterieee.h"
 #include "uiram.h"
 #include "uiromset.h"
 #include "uirs232petplus4cbm2.h"
@@ -566,6 +567,8 @@ static ui_menu_entry_t petui_snapshot_menu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VirtualDevices)
+
 static ui_menu_entry_t petui_settings_menu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
@@ -575,11 +578,13 @@ static ui_menu_entry_t petui_settings_menu[] = {
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivepetcbm2_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_peripheralieee_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
+      NULL, NULL, printerieee_settings_menu },
+    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
+      (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_settings_pet_menu },
     { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, pet_menu },

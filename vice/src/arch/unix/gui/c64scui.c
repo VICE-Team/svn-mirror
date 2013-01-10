@@ -71,6 +71,7 @@
 #include "uiperipheraliec.h"
 #include "uiplus256k.h"
 #include "uiplus60k.h"
+#include "uiprinteriec.h"
 #include "uiram.h"
 #include "uiramcart.h"
 #include "uiretroreplay.h"
@@ -665,6 +666,8 @@ static ui_menu_entry_t x64_snapshot_submenu[] = {
     { NULL }
 };
 
+UI_MENU_DEFINE_TOGGLE(VirtualDevices)
+
 static ui_menu_entry_t x64_settings_submenu[] = {
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_performance_settings_menu },
@@ -674,11 +677,13 @@ static ui_menu_entry_t x64_settings_submenu[] = {
       NULL, NULL, uikeyboard_settings_menu },
     { "", UI_MENU_TYPE_NONE,
       NULL, NULL, ui_sound_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, ui_drivec64_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, ui_peripheraliec_settings_menu },
-    { "", UI_MENU_TYPE_NONE,
+    { N_("Printer settings"), UI_MENU_TYPE_NORMAL, 
+      NULL, NULL, printeriec_settings_menu },
+    { N_("Enable Virtual Devices"), UI_MENU_TYPE_TICK, 
+      (ui_callback_t)toggle_VirtualDevices, NULL, NULL },
+    { "--", UI_MENU_TYPE_SEPARATOR,
       NULL, NULL, joystick_settings_c64_menu },
 #ifdef HAVE_MOUSE
     { N_("Mouse emulation"), UI_MENU_TYPE_NORMAL,
