@@ -121,7 +121,7 @@ void ui_check_mouse_cursor(void)
     if (machine_class != VICE_MACHINE_VSID) {
         video_canvas_t *canvas;
         if ((canvas = get_active_canvas()) == NULL) {
-            log_error(ui_log, "ui_check_mouse_cursor canvas == NULL");
+            DBG(("ui_check_mouse_cursor canvas == NULL"));
             mouse_cursor_grab(0, NULL);
             return;
         }
