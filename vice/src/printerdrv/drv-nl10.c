@@ -2014,9 +2014,9 @@ int drv_nl10_init(void)
         return -1;
     }
 
-    if (palette_load("mps803" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
+    if (palette_load("nl10" FSDEV_EXT_SEP_STR "vpl", palette) < 0) {
         log_error(drvnl10_log, "Cannot load palette file `%s'.",
-                  "mps803" FSDEV_EXT_SEP_STR "vpl");
+                  "nl10" FSDEV_EXT_SEP_STR "vpl");
         return -1;
     }
 
