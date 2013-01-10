@@ -178,8 +178,13 @@ int main_program(int argc, char **argv)
     log_message(LOG_DEFAULT, "Current OS: %s", platform_get_runtime_os());
     log_message(LOG_DEFAULT, "Current CPU: %s", platform_get_runtime_cpu());
     log_message(LOG_DEFAULT, " ");
-    log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
-                program_name, machine_name);
+    if (machine_class == VICE_MACHINE_VSID) {
+        log_message(LOG_DEFAULT, "Welcome to %s, the free portable SID Player.",
+                    program_name);
+    } else {
+        log_message(LOG_DEFAULT, "Welcome to %s, the free portable %s Emulator.",
+                    program_name, machine_name);
+    }
     log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "Current VICE team members:");
     log_message(LOG_DEFAULT, "D. Lem, A. Matthies, M. Pottendorfer, S. Trikaliotis, M. van den Heuvel,");
