@@ -227,9 +227,8 @@ copy ..\..\..\..\data\PRINTER\mps803.vpl %VICEDIR%\PRINTER
 copy ..\..\..\..\data\PRINTER\nl10-cbm   %VICEDIR%\PRINTER
 
 mkdir %VICEDIR%\doc
-copy  "..\..\..\..\doc\vice.inf" %VICEDIR%\doc
-
-copy ..\doc\Vice_for_OS2.txt %VICEDIR%\doc
+copy  "..\..\..\..\doc\vice.inf"               %VICEDIR%\doc
+copy  "..\..\..\..\doc\readmes\Readme-OS2/.txt %VICEDIR%\doc
 
 mkdir %VICEDIR%\doc\readme
 copy  ..\..\..\..\AUTHORS                %VICEDIR%\doc\readme

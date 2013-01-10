@@ -66,6 +66,10 @@ rm `find SDLVICE-$VICEVERSION-$WINXX -name "x11_*.vkm"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "win*.v*"`
 rm `find SDLVICE-$VICEVERSION-$WINXX -name "*.vsc"`
 rm SDLVICE-$VICEVERSION-$WINXX/html/texi2html
+mkdir SDLVICE-$VICEVERSION-$WINXX/doc
+cp $TOPSRCDIR/doc/vice.chm SDLVICE-$VICEVERSION-$WINXX/doc
+cp $TOPSRCDIR/doc/vice.hlp SDLVICE-$VICEVERSION-$WINXX/doc
+cp $TOPSRCDIR/doc/vice.pdf SDLVICE-$VICEVERSION-$WINXX/doc
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q SDLVICE-$VICEVERSION-$WINXX.zip SDLVICE-$VICEVERSION-$WINXX

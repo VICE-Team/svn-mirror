@@ -39,6 +39,10 @@ done
 cp $TOPSRCDIR/src/arch/sdl/dingoo-files/vicerc-native Dingoo-$VICEVERSION/vicerc-native
 cp $TOPSRCDIR/src/arch/sdl/dingoo-files/hotkey-native Dingoo-$VICEVERSION/sdl-hotkey-C64.vkm
 
+mkdir Dingoo-$VICEVERSION/doc
+cp $TOPSRCDIR/doc/readmes.ReadmeSDL.txt Dingoo-$VICEVERSION/doc
+cp $TOPSRCDIR/doc/vice.txt Dingoo-$VICEVERSION/doc
+
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q Dingoo-$VICEVERSION.zip Dingoo-$VICEVERSION

@@ -49,6 +49,8 @@ rm `find SDLVICE-dingoo-$VICEVERSION -name "dos_*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "os2*.vkm"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "win_*.v*"`
 rm `find SDLVICE-dingoo-$VICEVERSION -name "*.vsc"`
+mkdir SDLVICE-dingoo-$VICEVERSION/doc
+cp $TOPSRCDIR/doc/vice.txt SDLVICE-dingoo-$VICEVERSION/doc
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q SDLVICE-dingoo-$VICEVERSION.zip SDLVICE-dingoo-$VICEVERSION

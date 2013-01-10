@@ -115,6 +115,11 @@ mkdir %VICEDIR%\html\plain
 copy ..\..\..\..\doc\html\plain\* %VICEDIR%\html\plain
 copy ..\..\..\..\FEEDBACK %VICEDIR%
 copy ..\..\..\..\README %VICEDIR%
+copy ..\..\..\..\doc\readmes\ReadmeSDL.txt %VICEDIR%
+mkdir %VICEDIR%\doc
+copy ..\..\..\..\doc\vice.chm %VICEDIR\doc
+copy ..\..\..\..\doc\vice.hlp %VICEDIR\doc
+copy ..\..\..\..\doc\vice.pdf %VICEDIR\doc
 echo OPENWATCOM SDL WIN32 port binary distribution directory generated as %VICEDIR%
 goto end
 :missingwatcom

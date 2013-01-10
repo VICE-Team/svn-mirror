@@ -71,6 +71,9 @@ rm SDLVICE-$BEOSCPU-beos-$VICEVERSION/html/texi2html
 # just in case ...
 rm -f -r `find SDLVICE-$BEOSCPU-beos-$VICEVERSION -name ".svn"`
 
+mkdir SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
+cp $TOPSRCDIR/doc/vice.pdf SDLVICE-$BEOSCPU-beos-$VICEVERSION/doc
+
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q SDLVICE-$BEOSCPU-beos-$VICEVERSION.zip SDLVICE-$BEOSCPU-beos-$VICEVERSION

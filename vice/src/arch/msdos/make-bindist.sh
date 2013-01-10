@@ -57,6 +57,8 @@ rm `find dosvice -name "x11_*.vkm"`
 rm `find dosvice -name "sdl*.vkm"`
 rm `find dosvice -name "*.vsc"`
 rm dosvice/html/texi2html
+mkdir dosvice/doc
+cp $TOPSRCDIR/doc/vice.txt dosvice/doc
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q vice$VICEVERMAJOR$VICEVERMINOR.zip dosvice

@@ -126,6 +126,9 @@ rm `find SDLVICE-$AMIGAFLAVOR -name "x11_*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "amiga*.vkm"`
 rm `find SDLVICE-$AMIGAFLAVOR -name "*.vsc"`
 rm SDLVICE-$AMIGAFLAVOR/html/texi2html
+mkdir SDLVICE-$AMIGAFLAVOR/doc
+cp $TOPSRCDIR/doc/vice.guide SDLVICE-$AMIGAFLAVOR/doc
+cp $TOPSRCDIR/doc/vice.pdf SDLVICE-$AMIGAFLAVOR/doc
 if test x"$ZIPKIND" = "xzip"; then
   tar cf SDLVICE-$AMIGAFLAVOR.tar SDLVICE-$AMIGAFLAVOR SDLVICE-$AMIGAFLAVOR.info
   gzip SDLVICE-$AMIGAFLAVOR.tar
