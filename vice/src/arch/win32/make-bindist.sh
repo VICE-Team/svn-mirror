@@ -91,6 +91,10 @@ rm `find $WINVICE -name "beos_*.vkm"`
 rm `find $WINVICE -name "sdl*.vkm"`
 rm `find $WINVICE -name "x11_*.vkm"`
 rm $WINVICE/html/texi2html
+mkdir $WINVICE/doc
+cp $TOPSRCDIR/doc/vice.chm $WINVICE/doc
+cp $TOPSRCDIR/doc/vice.hlp $WINVICE/doc
+cp $TOPSRCDIR/doc/vice.pdf $WINVICE/doc
 if test x"$ZIPKIND" = "xzip"; then
   if test x"$ZIP" = "x"; then
     zip -r -9 -q $WINVICE.zip $WINVICE
