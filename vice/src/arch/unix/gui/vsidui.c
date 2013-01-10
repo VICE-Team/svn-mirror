@@ -511,7 +511,7 @@ int vsid_ui_init(void)
     int res;
     video_canvas_t *canvas = vicii_get_canvas();
 
-    res = ui_open_canvas_window(canvas, _("VSIDUI: The SID Emulator"), VSID_WINDOW_MINW, VSID_WINDOW_MINH, 0);
+    res = ui_open_canvas_window(canvas, _("VSID: The SID Emulator"), VSID_WINDOW_MINW, VSID_WINDOW_MINH, 0);
     if (res < 0) {
         return -1;
     }
