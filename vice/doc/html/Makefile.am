@@ -17,11 +17,9 @@ doc_DATA = \
 	plain/65C02.txt \
 	plain/65CE02.txt \
 	plain/6809and6309.txt \
-	plain/BUGS \
 	plain/COPYING \
 	plain/NEWS \
 	plain/PETdoc.txt \
-	plain/TODO \
 	plain/VIC-Addendum.txt \
 	plain/VIC-Article.txt \
 	plain/VIC-Artikel.txt \

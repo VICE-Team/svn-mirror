@@ -1,25 +1,25 @@
 
-  VICE  2.4							Nov 2012
+  VICE  2.4                                                        Nov 2012
 
 
-		 _______________
-		|      ||      ||
-		|      ||      ||____________________________
-		|      ||      ||    ||         ||          ||
-		|      ||      ||    ||    |    ||    ______||
-		|      ||      ||    ||    |----||          ||
-		|      ||      ||    ||    |    ||    ------||
-		|              ||____||_________||__________||
-		 \            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-		  \          //
-		   \________//   Versatile Commodore 8-bit Emulator
+                 _______________
+                |      ||      ||
+                |      ||      ||____________________________
+                |      ||      ||    ||         ||          ||
+                |      ||      ||    ||    |    ||    ______||
+                |      ||      ||    ||    |----||          ||
+                |      ||      ||    ||    |    ||    ------||
+                |              ||____||_________||__________||
+                 \            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                  \          //
+                   \________//   Versatile Commodore 8-bit Emulator
 
 
 
  ----------------------------------------------------------------------------
 
 
- This is version 2.3 of VICE, the multi-platform C64, C128, VIC20,
+ This is version 2.4 of VICE, the multi-platform C64, C128, VIC20,
  PET, PLUS4 and CBM-II emulator.  This version can be compiled for
  MSDOS, Win32, RiscOS, OS/2, BeOS, QNX 4.x, QNX 6.x, AmigaOS, GP2X,
  Dingoo, Syllable, SkyOS and for most Unix systems provided with
@@ -66,50 +66,80 @@
    - doc/html/plain/NEWS, list of user-visible changes between this
      and older versions of VICE;
 
-   - doc/html/plain/BUGS, a list of the most important known bugs of
-     this release (please read it before reporting bugs);
-
-   - doc/html/plain/TODO, a list of what we would like to do next
-     (this is no promise!);
-
-   - FEEDBACK, something you should read before sending mail to
-     any of the authors;
+   - FEEDBACK, something you should read before reporting bugs or sending mail 
+     to any of the authors;
 
  The following documents are provided in the source distribution:
 
-   - doc/vice.texi, the complete documentation;
+   - in the doc/html/plain directory:
+ 
+     - 64doc.txt, documentation about the C64 internals;
+     - PETdoc.txt, documentation about the PET internals;
+     - cbm_basic_tokens.txt, a list of the CBM BASIC tokens, as supported by the 
+       petcat utility;
+     - serial.txt, description of the IEC serial bus used on the C64, VIC20 and 
+       C128;
+     - drive_info.txt, information about the CBM disk drives;
+     - VIC-Article.txt, VIC-Artikel.txt, documentation about the VIC-II 
+       internals;
+     - VIC-Addendum.txt, some corrections and additions to above article;
+     - pixel_aspect.txt, documentation on how pixel aspect ratio has been
+       determined;
+     - 65802and65816.txt, documentation on the 65802 and 65816 CPUs;
+     - 65C02.txt, documentation on the 65C02 CPU;
+     - 65CE02.txt, documentation on the 65CE02 CPU;
+     - 6809and6309.txt, documentation on the 6809 and 6309 CPUs;
+     - z80.txt, documentation on the Z80 CPU;
 
-   - doc/html/plain/64doc.txt, documentation about the C64 internals;
+   - in the doc directory:
 
-   - doc/html/plain/PETdoc.txt, documentation about the PET internals;
+     - vice.texi, the complete documentation; documentation in various different
+       formats may be generated from it (vice.txt, vice.pdf, vice.chm, vice.hlp, 
+       vice.guide, vice.inf, vice.info)
+     - NLS-Howto.txt, some documentation about Unix NLS support;
+     - iec-bus.txt, overview of the VICE IEC bus emulation;
+     - CIA-README.txt, overview of the VICE CIA emulation;
+     - coding-guidelines.txt, description of VICE coding style
+     - Documentation-Howto.txt, information on how to edit the documentation
+     - Doxygen-Howto.txt, how to generate doxygen documentation
+     - MacOSX-ResourceTree.txt, overview of the Mac OSX resource tree
 
-   - doc/html/plain/cbm_basic_tokens.txt, a list of the CBM BASIC
-     tokens, as supported by the petcat utility;
+   - in the doc/readmes directory:
 
-   - doc/html/plain/serial.txt, description of the IEC serial bus used
-     on the C64, VIC20 and C128;
+     - Readme-DOS.txt, MS-DOS specific documentation;
+     - Readme-BeOS.txt, BeOS specific documentation;
+     - Readme-Amiga.txt, Amiga specific documentation;
+     - Readme-MacOSX.txt, Mac OSX specific documentation;
+     - Readme-OS2.txt, OS/2 specific documentation;
+     - Readme-SDL.txt, SDL specific documentation;
 
-   - doc/html/plain/drive_info.txt, information about the CBM disk
-     drives;
+   - in the doc/building directory:
 
-   - doc/Readme.dos, MS-DOS specific documentation;
-
-   - doc/Readme.beos, BeOS specific documentation;
-
-   - doc/Win32-Howto.txt, how to compile the Win32 port.
-
-   - doc/NLS-Howto.txt, some documentation about Unix NLS support;
-
-   - doc/MSDOS-Howto.txt, how to compile the MSDOS port.
-
-   - doc/MSDOS-Ethernet-Howto.txt, how to compile the MSDOS port with
-     ethernet support.
-
-   - doc/iec-bus.txt, overview of the VICE IEC bus emulation;
+     - MSDOS-Howto.txt, how to compile the MSDOS port.
+     - MSDOS-Ethernet-Howto.txt, how to compile the MSDOS port with ethernet 
+       support.
+     - OpenWatcom-Howto.txt, how to compile the MSDOS port with open watcom
+     - Win32-Mingw32-Howto.txt, how to compile the Win32 port using ming32
+     - Win32-Cygwin-Howto.txt, how to compile the Win32 port using cygwin
+     - Linux-Mingw32-Howto.txt, how to crosscompile the Win32 port on linux
+     - GP2X-Howto.txt, how to compile the GP2X port
+     - MacOSX-Howto.txt, how to compile the Mac OSX port
+     - Minix-Howto.txt, how to compile the Minix port
+     - OpenVMS-Howto.txt, how to compile the OpenVMS port
+     - SDL-Howto.txt, how to compile the SDL port
 
  For the latest news, have a look at the VICE home page:
 
      http://vice-emu.sourceforge.net/
+
+ Also some information that was previously included in the distribution has been
+ moved into our wiki at sourceforge:
+
+   - The TODO list,
+     http://vice-emu.sourceforge.net/wiki/index.php/Todo#New_Features
+
+   - The list of known BUGS,
+     http://vice-emu.sourceforge.net/wiki/index.php/Todo#Known_Issues
 
  New versions are made available quite often, so please stay tuned.
 
