@@ -20257,7 +20257,8 @@ Amiga ports.
 @b{Magnus Lind}
 Atari ST mouse and Atari CX-22 trackball emulation and pixel
 aspect fixes. Improved the Amiga mouse emulation. Improved
-the vic20 sound output. Improved sound fragment size handling.
+the vic20 sound output. Added windows POV hat support.
+Improved sound fragment size handling.
 
 @item
 @b{Wolfgang Lorenz}

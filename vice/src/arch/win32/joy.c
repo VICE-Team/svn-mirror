@@ -93,6 +93,7 @@ typedef struct _JoyInfo {
     char *name;
     JoyAxis *axes;
     JoyButton *buttons;
+    int numPOVs;
 } JoyInfo;
 
 static JoyInfo *joystick_list = NULL;
@@ -150,6 +151,18 @@ static BOOL CALLBACK EnumJoyButtons(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvR
         }
         s->next = button;
     }
+    return DIENUM_CONTINUE;
+}
+
+static BOOL CALLBACK EnumJoyPOVs(LPCDIDEVICEOBJECTINSTANCE lpddoi, LPVOID pvRef)
+{
+    JoyInfo *joy;
+
+    joy = (JoyInfo*)pvRef;
+
+    //  Save info about POV
+    joy->numPOVs += 1;
+
     return DIENUM_CONTINUE;
 }
 
@@ -285,6 +298,8 @@ int joystick_di_open(int index, int dev)
             joy->buttons = NULL;
         }
         IDirectInputDevice_EnumObjects(joystick_di_devices[index], EnumJoyButtons, (LPVOID)joy, DIDFT_BUTTON);
+        joy->numPOVs = 0;
+        IDirectInputDevice_EnumObjects(joystick_di_devices[index], EnumJoyPOVs, (LPVOID)joy, DIDFT_POV);
         return 1;
     } else {
         return 0;
@@ -761,6 +776,7 @@ static BOOL CALLBACK EnumCallBack(LPCDIDEVICEINSTANCE lpddi, LPVOID pvref)
     new_joystick->name = lib_stralloc(lpddi->tszInstanceName);
     new_joystick->axes = NULL;
     new_joystick->buttons = NULL;
+    new_joystick->numPOVs = 0;
 
     if (joystick_list == NULL) {
         joystick_list = new_joystick;
@@ -908,6 +924,24 @@ static BYTE joystick_di5_update(int joy_no)
         joy = joy->next;
         i++;
     }
+    if (joy && joy->numPOVs > 0) {
+        for (i = 0; i < joy->numPOVs; ++i) {
+            if (LOWORD(js.rgdwPOV[i]) != 0xffff) {
+                if (js.rgdwPOV[i] > 20250 && js.rgdwPOV[i] < 33750) {
+                    value |= 4;
+                }
+                if (js.rgdwPOV[i] > 2250 && js.rgdwPOV[i] < 15750) {
+                    value |= 8;
+                }
+                if (js.rgdwPOV[i] > 29250 || js.rgdwPOV[i] < 6750) {
+                    value |= 1;
+                }
+                if (js.rgdwPOV[i] > 11250 && js.rgdwPOV[i] < 24750) {
+                    value |= 2;
+                }
+            }
+        }
+    }
     if (joy && (joystick_autofire_button[joy_no] > 0)) {
         button = joy->buttons;
         i = 0;
@@ -1012,8 +1046,10 @@ void joystick_update(void)
     {
         joy_winmm_priv_t* current_joy = joy_winmm_list;
         int index = JOYDEV_HW1;
+        int has_pov;
         
         while (current_joy) {
+            has_pov = current_joy->joy_caps.wCaps & (JOYCAPS_HASPOV | JOYCAPS_POV4DIR | JOYCAPS_POVCTS);
             idx = -1;
             if (joystick_port_map[0] == index && idx == -1) {
                 idx = 0;
@@ -1045,10 +1081,27 @@ void joystick_update(void)
                         addflag = 0;
                 }
                 joy_info.dwFlags = JOY_RETURNBUTTONS | JOY_RETURNCENTERED | JOY_RETURNX | JOY_RETURNY | addflag;
+                if (has_pov) {
+                    joy_info.dwFlags |= JOY_RETURNPOVCTS;
+                }
                 value = 0;
                 joy_info.dwSize = sizeof(JOYINFOEX);
                 result = joyGetPosEx(current_joy->uJoyID, &joy_info);
                 if (result == JOYERR_NOERROR) {
+                    if (has_pov && joy_info.dwPOV != JOY_POVCENTERED) {
+                        if (joy_info.dwPOV > 20250 && joy_info.dwPOV < 33750) {
+                            value |= 4;
+                        }
+                        if (joy_info.dwPOV > 2250 && joy_info.dwPOV < 15750) {
+                            value |= 8;
+                        }
+                        if (joy_info.dwPOV > 29250 || joy_info.dwPOV < 6750) {
+                            value |= 1;
+                        }
+                        if (joy_info.dwPOV > 11250 && joy_info.dwPOV < 24750) {
+                            value |= 2;
+                        }
+                    }
                     if (joy_info.dwXpos <= current_joy->joy_caps.wXmin + (current_joy->joy_caps.wXmax - current_joy->joy_caps.wXmin) / 4) {
                         value |= 4;
                     }
