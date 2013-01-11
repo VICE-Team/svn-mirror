@@ -2588,6 +2588,62 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDMS_C232_NTSC_SV, "C232 NTSC" },
 /* tr */ { IDMS_C232_NTSC_TR, "C232 NTSC" },
 
+/* en */ { IDMS_VIC20_MODEL_SETTINGS,    "VIC20 model settings..." },
+/* da */ { IDMS_VIC20_MODEL_SETTINGS_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VIC20_MODEL_SETTINGS_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VIC20_MODEL_SETTINGS_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VIC20_MODEL_SETTINGS_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VIC20_MODEL_SETTINGS_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VIC20_MODEL_SETTINGS_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VIC20_MODEL_SETTINGS_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_MODEL_SETTINGS_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VIC20_MODEL_SETTINGS_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VIC20_MODEL_SETTINGS_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VIC20_MODEL_SETTINGS_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VIC20_MODEL_SETTINGS_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_VIC20_PAL,    "VIC20 PAL" },
+/* da */ { IDMS_VIC20_PAL_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VIC20_PAL_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VIC20_PAL_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VIC20_PAL_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VIC20_PAL_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VIC20_PAL_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VIC20_PAL_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_PAL_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VIC20_PAL_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VIC20_PAL_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VIC20_PAL_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VIC20_PAL_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_VIC20_NTSC,    "VIC20 NTSC" },
+/* da */ { IDMS_VIC20_NTSC_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VIC20_NTSC_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VIC20_NTSC_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VIC20_NTSC_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VIC20_NTSC_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VIC20_NTSC_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VIC20_NTSC_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_NTSC_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VIC20_NTSC_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VIC20_NTSC_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VIC20_NTSC_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VIC20_NTSC_TR, "" },  /* fuzzy */
+
+/* en */ { IDMS_VIC21,    "VIC21" },
+/* da */ { IDMS_VIC21_DA, "" },  /* fuzzy */
+/* de */ { IDMS_VIC21_DE, "" },  /* fuzzy */
+/* es */ { IDMS_VIC21_ES, "" },  /* fuzzy */
+/* fr */ { IDMS_VIC21_FR, "" },  /* fuzzy */
+/* hu */ { IDMS_VIC21_HU, "" },  /* fuzzy */
+/* it */ { IDMS_VIC21_IT, "" },  /* fuzzy */
+/* ko */ { IDMS_VIC21_KO, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC21_NL, "" },  /* fuzzy */
+/* pl */ { IDMS_VIC21_PL, "" },  /* fuzzy */
+/* ru */ { IDMS_VIC21_RU, "" },  /* fuzzy */
+/* sv */ { IDMS_VIC21_SV, "" },  /* fuzzy */
+/* tr */ { IDMS_VIC21_TR, "" },  /* fuzzy */
+
 /* en */ { IDMS_C64DTV_MODEL_SETTINGS,    "C64DTV model settings..." },
 /* da */ { IDMS_C64DTV_MODEL_SETTINGS_DA, "C64DTV-modelindstillinger..." },
 /* de */ { IDMS_C64DTV_MODEL_SETTINGS_DE, "C64DTV Modell Einstellungen..." },

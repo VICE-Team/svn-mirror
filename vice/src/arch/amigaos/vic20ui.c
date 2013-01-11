@@ -33,6 +33,7 @@
 #include "translate.h"
 #include "uicart.h"
 #include "uilib.h"
+#include "vic20model.h"
 #include "vic20ui.h"
 #include "vic20uires.h"
 
@@ -83,6 +84,15 @@ static int vic20_ui_specific(video_canvas_t *canvas, int idm)
     switch (idm) {
         case IDM_VIC_SETTINGS:
             ui_vic_settings_dialog();
+            break;
+        case IDM_VIC20_MODEL_VIC20_PAL:
+            vic20model_set(VIC20MODEL_VIC20_PAL);
+            break;
+        case IDM_VIC20_MODEL_VIC20_NTSC:
+            vic20model_set(VIC20MODEL_VIC20_NTSC);
+            break;
+        case IDM_VIC20_MODEL_VIC21:
+            vic20model_set(VIC20MODEL_VIC21);
             break;
         case IDM_PALETTE_SETTINGS:
             ui_video_palette_settings_dialog(canvas, "VICExternalPalette", "VICPaletteFile", translate_text(IDS_VIC_PALETTE_FILENAME));
