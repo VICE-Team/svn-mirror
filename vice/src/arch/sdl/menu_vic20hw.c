@@ -58,6 +58,7 @@
 
 #include "resources.h"
 #include "uimenu.h"
+#include "vic20model.h"
 
 enum {
     BLOCK_0 = 1,
@@ -125,6 +126,43 @@ static const ui_menu_entry_t vic20_memory_common_menu[] = {
     SDL_MENU_LIST_END
 };
 
+/* VIC20 MODEL SELECTION */
+
+static UI_MENU_CALLBACK(custom_VIC20Model_callback)
+{
+    int model, selected;
+
+    selected = vice_ptr_to_int(param);
+
+    if (activated) {
+        vic20model_set(selected);
+    } else {
+        model = vic20model_get();
+
+        if (selected == model) {
+            return sdl_menu_text_tick;
+        }
+    }
+
+    return NULL;
+}
+
+static const ui_menu_entry_t vic20_model_submenu[] = {
+    { "VIC20 PAL",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VIC20Model_callback,
+      (ui_callback_data_t)VIC20MODEL_VIC20_PAL },
+    { "VIC20 NTSC",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VIC20Model_callback,
+      (ui_callback_data_t)VIC20MODEL_VIC20_NTSC },
+    { "VIC21",
+      MENU_ENTRY_RESOURCE_RADIO,
+      custom_VIC20Model_callback,
+      (ui_callback_data_t)VIC20MODEL_VIC21 },
+    SDL_MENU_LIST_END
+};
+
 UI_MENU_DEFINE_TOGGLE(Mouse)
 UI_MENU_DEFINE_TOGGLE(RAMBlock0)
 UI_MENU_DEFINE_TOGGLE(RAMBlock1)
@@ -134,6 +172,10 @@ UI_MENU_DEFINE_TOGGLE(RAMBlock5)
 UI_MENU_DEFINE_TOGGLE(IEEE488)
 
 const ui_menu_entry_t vic20_hardware_menu[] = {
+    { "Select VIC20 model",
+      MENU_ENTRY_SUBMENU,
+      submenu_callback,
+      (ui_callback_data_t)vic20_model_submenu },
     { "Joystick settings",
       MENU_ENTRY_SUBMENU,
       submenu_callback,
