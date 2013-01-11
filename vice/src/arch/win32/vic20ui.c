@@ -57,10 +57,11 @@
 #include "uisoundsampler.h"
 #include "uitfe.h"
 #include "uivic.h"
+#include "uivic20model.h"
+#include "uivicset.h"
 #include "uivideo.h"
 #include "vic20ui.h"
 #include "winmain.h"
-#include "uivicset.h"
 
 static const unsigned int romset_dialog_resources[UIROM_TYPE_MAX] = {
     IDD_VIC20ROM_RESOURCE_DIALOG,
@@ -287,6 +288,7 @@ ui_menu_translation_table_t vic20ui_menu_translation_table[] = {
     { IDM_TOGGLE_VIRTUAL_DEVICES, IDS_MI_TOGGLE_VIRTUAL_DEVICES },
     { IDM_IEEE488, IDS_MI_IEEE488 },
     { IDM_PADDLES, IDS_MI_PADDLES },
+    { IDM_VIC20MODEL_SETTINGS, IDS_MI_VIC20MODEL_SETTINGS },
     { IDM_AUTOSTART_SETTINGS, IDS_MI_AUTOSTART_SETTINGS },
     { IDM_VIDEO_SETTINGS, IDS_MI_VIDEO_SETTINGS },
     { IDM_DEVICEMANAGER, IDS_MI_DEVICEMANAGER },
@@ -527,6 +529,9 @@ static void vic20_ui_specific(WPARAM wparam, HWND hwnd)
     TCHAR *st_name;
 
     switch (wparam) {
+        case IDM_VIC20MODEL_SETTINGS:
+            ui_vic20model_settings_dialog(hwnd);
+            break;
         case IDM_CART_VIC20_GENERIC:
             uicart_attach_special(hwnd, translate_text(IDS_SELECT_GENERIC), UILIB_FILTER_ALL, CARTRIDGE_VIC20_GENERIC);
             break;

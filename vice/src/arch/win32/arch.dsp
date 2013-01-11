@@ -645,6 +645,10 @@ SOURCE=.\uivic.c
 # End Source File
 # Begin Source File
 
+SOURCE=.\uivic20model.c
+# End Source File
+# Begin Source File
+
 SOURCE=.\uivicii.c
 # End Source File
 # Begin Source File
