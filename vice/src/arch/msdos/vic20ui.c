@@ -52,6 +52,7 @@
 #ifdef HAVE_TFE
 #include "uitfe.h"
 #endif
+#include "uivic20model.h"
 #include "uivideo.h"
 #include "util.h"
 #include "vic20ui.h"
@@ -453,6 +454,8 @@ int vic20ui_init(void)
     tui_menu_add(ui_attach_submenu, attach_cartridge_menu_items);
     tui_menu_add(ui_detach_submenu, detach_cartridge_menu_items);
     tui_menu_add(ui_special_submenu, special_menu_items);
+
+    uivic20model_init(ui_special_submenu);
 
     ui_ioextensions_submenu = tui_menu_create("I/O Extensions", 1);
 
