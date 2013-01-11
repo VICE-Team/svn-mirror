@@ -56,6 +56,10 @@
 #include "vice-event.h"
 #include "vsync.h"
 
+#ifdef USE_GNOMEUI
+extern int ui_open_manual(const char *path);
+#endif
+
 static UI_CALLBACK(change_working_directory)
 {
     char *wd;
@@ -145,6 +149,29 @@ static UI_CALLBACK(powerup_reset)
 static UI_CALLBACK(browse_manual)
 {
     const char *bcommand = NULL;
+
+    /* first try to open the manual using desktop mechanisms */
+#ifdef USE_GNOMEUI
+    const char *path;
+    int res;
+
+#ifdef MACOSX_BUNDLE
+    /* On Macs the manual path is relative to the bundle. */
+    path = util_concat(archdep_boot_path(), "/../doc/", NULL);
+#else
+    path = util_concat(DOCDIR, "/", NULL);
+#endif
+    res = ui_open_manual(path);
+    lib_free(path);
+    if (res == 0) {
+        return;
+    }
+#endif
+
+    /* FIXME: desktop neutral ways to find the default application may be used
+              here first (xdg-open) */
+
+    /* as a last resort, use HTMLBrowserCommand */
 
     resources_get_string("HTMLBrowserCommand", &bcommand);
 

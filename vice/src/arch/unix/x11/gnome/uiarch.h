@@ -309,6 +309,8 @@ extern void ui_set_drop_callback(void *cb);
 
 extern unsigned char *convert_utf8(unsigned char *s);
 
+extern int ui_open_manual(const char *path);
+
 /* UI logging goes here.  */
 extern log_t ui_log;
 

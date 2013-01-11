@@ -381,4 +381,30 @@ void ui_exit(void)
     vsync_suspend_speed_eval();
 }
 
-
+/* open the manual using gnome desktop mechanism */
+int ui_open_manual(const char *path)
+{
+/* gtk_show_uri exists since 2.14 */
+#if GTK_CHECK_VERSION(2, 14, 0)
+    GError *error = NULL;
+    gboolean res;
+    char *uri;
+    /* first try opening the pdf */
+    uri = util_concat("file://", path, "vice.pdf", NULL);
+    res = gtk_show_uri(NULL, uri, GDK_CURRENT_TIME, &error);
+    lib_free(uri);
+    g_clear_error(&error);
+    if (res) {
+        return 0;
+    }
+    /* try opening the html doc */
+    uri = util_concat("file://", path, "vice_toc.html", NULL);
+    res = gtk_show_uri(NULL, uri, GDK_CURRENT_TIME, &error);
+    lib_free(uri);
+    g_clear_error(&error);
+    if (res) {
+        return 0;
+    }
+#endif
+    return -1;
+}
