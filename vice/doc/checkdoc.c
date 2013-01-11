@@ -118,10 +118,14 @@ int getstr(FILE *f, char *str)
 #define IS_VSID         (1<<7)
 #define IS_C64          (1<<8)
 #define IS_C64SC        (1<<9)
+#define IS_SCPU64       (1<<10)
 
-#define IS_CARTCONV     (1<<10)
-#define IS_PETCAT       (1<<11)
-#define IS_C1541        (1<<12)
+#define IS_CARTCONV     (1<<11)
+#define IS_PETCAT       (1<<12)
+#define IS_C1541        (1<<13)
+
+#define NUMPROGS 14
+#define NUMEMUS 11
 
 const char *emustring[0x10] = {
     "PLUS4",
@@ -134,6 +138,7 @@ const char *emustring[0x10] = {
     "VSID",
     "C64",
     "C64SC",
+    "SCPU64",
     "cartconv",
     "petcat",
     "c1541"
@@ -448,6 +453,7 @@ int printlist(ITEM *list, char *hdr, int flags)
                     && (list->flags != IS_B500)
                     && (list->flags != IS_PLUS4)
                     && (list->flags != IS_CBM2)
+                    && (list->flags != IS_SCPU64)
                     && (list->flags != IS_CARTCONV)
                     && (list->flags != IS_PETCAT)
                     && (list->flags != IS_C1541)
@@ -456,7 +462,7 @@ int printlist(ITEM *list, char *hdr, int flags)
                         printf("\n%s\n\n", hdr);i++;
                     }
                     printf("%-40s", list->string);
-                    for (i=0;i<10;i++) {
+                    for (i=0;i<NUMEMUS;i++) {
                         if (list->flags & (1<<i)) {
                             printf("%s  ", emustring[i]);
                         } else {
@@ -570,6 +576,7 @@ void checkresources(void)
     i += printlist(&reslistnew, "CBM-II-5x0", IS_B500);
     i += printlist(&reslistnew, "CBM-II", IS_CBM2);
     i += printlist(&reslistnew, "PLUS4", IS_PLUS4);
+    i += printlist(&reslistnew, "SCPU64", IS_SCPU64);
 
     if (i == 0) {
         printf("none - well done.\n");
@@ -779,6 +786,7 @@ void checkoptions(void)
         printlist(&optlistnew, "CBM-II-5x0", IS_B500);
         printlist(&optlistnew, "CBM-II", IS_CBM2);
         printlist(&optlistnew, "PLUS4", IS_PLUS4);
+        printlist(&optlistnew, "SCPU64", IS_SCPU64);
 
         printlist(&optlistnew, "petcat", IS_PETCAT);
         printlist(&optlistnew, "cartconv", IS_CARTCONV);
@@ -919,6 +927,7 @@ FILE *tf;
     readvicerc(tf,"VSID", IS_VSID);
     readvicerc(tf,"C64", IS_C64);
     readvicerc(tf,"C64SC", IS_C64SC);
+    readvicerc(tf,"SCPU64", IS_SCPU64);
     fclose(tf);
 
     tf = fopen(viceoptname,"rb");
@@ -937,6 +946,7 @@ FILE *tf;
     readviceopt(tf,"VSID", IS_VSID);
     readviceopt(tf,"C64", IS_C64);
     readviceopt(tf,"C64SC", IS_C64SC);
+    readviceopt(tf,"SCPU64", IS_SCPU64);
     readviceopt(tf,"petcat", IS_PETCAT);
     readviceopt(tf,"cartconv", IS_CARTCONV);
     readviceopt(tf,"c1541", IS_C1541);

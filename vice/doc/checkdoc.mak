@@ -14,7 +14,8 @@ PROGS= \
 	../src/xcbm2 \
 	../src/xvic \
 	../src/xplus4 \
-	../src/xpet
+	../src/xpet \
+	../src/xscpu64
 
 all: help
 
@@ -54,6 +55,8 @@ vice.opts.tmp: $(PROGS) checkdoc.mak
 	LANGUAGE="en" xplus4 -help >> vice.opts.tmp
 	echo "[PET]" >> vice.opts.tmp
 	LANGUAGE="en" xpet -help >> vice.opts.tmp
+	echo "[SCPU64]" >> vice.opts.tmp
+	LANGUAGE="en" xscpu64 -help >> vice.opts.tmp
 	echo "[petcat]" >> vice.opts.tmp
 	-LANGUAGE="en" petcat -help | tr '[]' '()' >> vice.opts.tmp
 	echo "[cartconv]" >> vice.opts.tmp
@@ -72,6 +75,7 @@ vice.rc.tmp: $(PROGS) checkdoc.mak
 	xvic -config vice.rc.tmp -initbreak 0xfd22 -moncommands checkdoc.mon
 	xplus4 -config vice.rc.tmp -initbreak 0xfff6 -moncommands checkdoc.mon
 	xpet -config vice.rc.tmp -initbreak 0xfd16 -moncommands checkdoc.mon
+	xscpu64 -config vice.rc.tmp -initbreak 0xfce2 -moncommands checkdoc.mon
 	
 checkdoc: checkdoc.c
 	echo "creating checkdoc"
