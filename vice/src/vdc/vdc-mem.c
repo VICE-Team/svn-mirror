@@ -458,6 +458,9 @@ void vdc_store(WORD addr, BYTE value)
     }
 }
 
+/*
+FIXME: need vdc_peek() because at the moment the monitor is destructive reading $d601 in some cases
+*/
 
 BYTE vdc_read(WORD addr)
 {
@@ -509,7 +512,6 @@ BYTE vdc_read(WORD addr)
         /* NOTE - Status ($80) is currently unsupported and always returns 1 (ready) */
         retval = 0x80 | vdc.revision;
 
-        /* NOTE - nothing sets the lightpen triggered flag yet, so this should always return 0 (invalid pen address) */
         /* Emulate lightpen flag. */
         if (vdc.light_pen.triggered) {
             retval |= 0x40;
