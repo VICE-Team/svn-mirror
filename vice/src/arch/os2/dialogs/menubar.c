@@ -97,6 +97,7 @@
 #endif
 
 #ifdef __XVIC__
+#include "vic20model.h"
 #include "vic.h"
 #endif
 
@@ -628,6 +629,14 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_DTV3NTSC:
         case IDM_HUMMERNTSC:
             dtvmodel_set(DTVMODEL_V2_PAL + idm - IDM_DTV2PAL);
+            return;
+#endif
+
+#if defined(__XVIC__)
+        case IDM_VIC20PAL:
+        case IDM_VIC20NTSC:
+        case IDM_VIC21:
+            vic20model_set(VIC20MODEL_VIC20_PAL + idm - IDM_VIC20PAL);
             return;
 #endif
 
@@ -2293,6 +2302,13 @@ void menu_select(HWND hwnd, USHORT item)
 
             resources_get_int("c64dtvromrw", &val);
             WinCheckMenuItem(hwnd, IDM_C64DTV_FLASHROM_RW, val);
+#endif
+
+#ifdef __XVIC__
+            val = vic20model_get();
+            WinCheckMenuItem(hwnd, IDM_VIC20PAL, val == VIC20MODEL_VIC20_PAL);
+            WinCheckMenuItem(hwnd, IDM_VIC20NTSC, val == VIC20MODEL_VIC20_NTSC);
+            WinCheckMenuItem(hwnd, IDM_VIC21, val == VIC20MODEL_VIC21);
 #endif
 
 #ifdef __XPET__

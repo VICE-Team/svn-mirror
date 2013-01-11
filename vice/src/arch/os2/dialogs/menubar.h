@@ -677,6 +677,11 @@
 #define IDM_PET8296                  0x27b
 #define IDM_PETSUPER                 0x27c
 
+#define IDM_VIC20_MODEL              0x33d
+#define IDM_VIC20PAL                 0x33e
+#define IDM_VIC20NTSC                0x33f
+#define IDM_VIC21                    0x340
+
 #define IDM_CRTC                     0x27d
 
 #define IDM_VIDEOSIZE                0x27f

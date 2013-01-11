@@ -744,6 +744,15 @@ BEGIN
         MENUITEM "S~witch upper/lower case charset",      IDM_CHARSET,                  MIS_TEXT
 #endif
 
+#ifdef __XVIC__
+        SUBMENU "VIC20 model",                            IDM_VIC20_MODEL,              MIS_TEXT
+        BEGIN
+            MENUITEM "VIC20 PAL",                         IDM_VIC20PAL,                 MIS_TEXT
+            MENUITEM "VIC20 NTSC",                        IDM_VIC20NTSC,                MIS_TEXT
+            MENUITEM "VIC21",                             IDM_VIC21,                    MIS_TEXT
+        END
+#endif
+
 #ifdef __X128
         MENUITEM "RAM banks 2 & 3",                       IDM_C128FULLBANKS,            MIS_TEXT
 #endif
