@@ -45,6 +45,15 @@
 
 /*#define REG_DEBUG*/
 
+/* bitmask to set the unused bits in returned register values */
+static const BYTE regmask[38] = {
+    0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
+    0xFC, 0xE0, 0x80, 0xE0, 0x00, 0x00, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
+    0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
+    0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F
+};
+
 static void vdc_write_data(void)
 {
     int ptr;
@@ -464,14 +473,6 @@ FIXME: need vdc_peek() because at the moment the monitor is destructive reading 
 
 BYTE vdc_read(WORD addr)
 {
-    /* bitmask to set the unused bits in returned register values */
-    static const BYTE regmask[38] = {
-        0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
-        0xFC, 0xE0, 0x80, 0xE0, 0x00, 0x00, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xE0,
-        0x00, 0x00, 0x00, 0x00, 0x00, 0xE0, 0x00, 0x00,
-        0x00, 0x00, 0x00, 0x00, 0xF0, 0x3F
-    };
     BYTE retval;
     int ptr;
 
@@ -534,4 +535,43 @@ BYTE vdc_ram_read(WORD addr)
 void vdc_ram_store(WORD addr, BYTE value)
 {
     vdc.ram[addr & vdc.vdc_address_mask] = value;
+}
+
+
+int vdc_dump(void)
+{
+    unsigned int r, c, regnum=0;
+
+    mon_out("VDC Revision: %d\n", vdc.revision);
+    mon_out("Vertical Blanking Period: ");
+    mon_out(((vdc.raster.current_line <= vdc.border_height) || (vdc.raster.current_line > (vdc.border_height + vdc.screen_ypix))) ? "Yes" : "No");
+    mon_out("\nLight Pen Triggered: ");
+    mon_out(vdc.light_pen.triggered ? "Yes" : "No");
+    mon_out("\nActive Register: %d\n", vdc.update_reg);
+  
+    /* Dump the internal VDC registers */
+    mon_out("\nVDC Internal Registers:\n");
+    for (r = 0; r < 5; r++) {
+        mon_out("%02x: ", regnum);
+        for (c = 0; c < 8; c++) {
+            if (regnum <= 37)
+            {
+                mon_out("%02x ", vdc.regs[regnum] | regmask[regnum]);
+            }
+            regnum++;
+            if (c == 3)
+            {
+                mon_out(" ");
+            }
+        }
+        mon_out("\n");
+    }
+
+    /*
+      TODO:
+      Add STATUS when it's actually supported
+      Expand on VDC internal register settings
+      Current memory address etc.
+    */
+    return 0;
 }
