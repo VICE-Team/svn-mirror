@@ -291,8 +291,8 @@ libarch_a_SOURCES = \
 	uiv364speech.h \
 	uivic.c \
 	uivic.h \
-	uivic20.c \
-	uivic20.h \
+	uivic20model.c \
+	uivic20model.h \
 	uivicii.h \
 	uivicii.c \
 	uivicset.h \
