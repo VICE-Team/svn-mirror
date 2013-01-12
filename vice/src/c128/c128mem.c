@@ -356,16 +356,21 @@ BYTE zero_read(WORD addr)
         case 0:
             return pport.dir_read;
         case 1:
-            /* set real values of bits 0-6 */
-            retval = pport.data_read & 0x7f;
+            retval = pport.data_read;
 
-            /* set real value of bit 7 */
+            /* set real value of read bit 7 */
             if (pport.data_falloff_bit7 && (pport.data_set_clk_bit7 < maincpu_clk)) {
                 pport.data_falloff_bit7 = 0;
                 pport.data_set_bit7 = 0;
             }
 
-            return retval | pport.data_set_bit7;
+            /* set real value of bit 7 */
+            if (!(pport.dir_read & 0x80)) {
+               retval &= 0x7f;
+               retval |= pport.data_set_bit7;
+            }
+
+            return retval;
     }
 
     return mem_page_zero[addr];

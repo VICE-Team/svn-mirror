@@ -35,6 +35,7 @@
 
 #include "machine.h"
 #include "maincpu.h"
+#include "monitor.h"
 #include "types.h"
 #include "vdc-mem.h"
 #include "vdc.h"
