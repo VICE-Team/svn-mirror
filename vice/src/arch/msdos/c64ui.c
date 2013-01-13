@@ -99,6 +99,8 @@ static TUI_MENU_CALLBACK(toggle_MouseType_callback)
             return "Smart";
         case MOUSE_TYPE_MICROMYS:
             return "MicroMys";
+        case MOUSE_TYPE_KOALAPAD:
+            return "Koalapad";
         default:
             return "unknown";
     }
