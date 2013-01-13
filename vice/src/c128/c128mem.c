@@ -1023,7 +1023,7 @@ static BYTE peek_bank_io(WORD addr)
         case 0xd500:
             return mmu_peek(addr);
         case 0xd600:
-            return vdc_read(addr);
+            return vdc_peek(addr);
         case 0xd700:
             return c64io_d700_peek(addr);
         case 0xd800:

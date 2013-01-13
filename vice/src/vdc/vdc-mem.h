@@ -33,6 +33,7 @@
 
 extern void vdc_store(WORD addr, BYTE value);
 extern BYTE vdc_read(WORD addr);
+extern BYTE vdc_peek(WORD addr);
 
 extern void vdc_ram_store(WORD addr, BYTE value);
 extern BYTE vdc_ram_read(WORD addr);

@@ -468,9 +468,6 @@ void vdc_store(WORD addr, BYTE value)
     }
 }
 
-/*
-FIXME: need vdc_peek() because at the moment the monitor is destructive reading $d601 in some cases
-*/
 
 BYTE vdc_read(WORD addr)
 {
@@ -527,6 +524,29 @@ BYTE vdc_read(WORD addr)
         return retval;
     }
 }
+
+
+BYTE vdc_peek(WORD addr)    /* No sidefx read of external VDC registers */
+{
+    if (addr & 1) { /* read $d601 (and mirrors $d603/5/7....$d6ff)  */
+
+        /* Read VDCs RAM without incrementing the pointer */
+        if (vdc.update_reg == 31) {
+            return vdc.ram[((vdc.regs[18] << 8) + vdc.regs[19]) & vdc.vdc_address_mask];
+        }
+
+        /* Make sure light pen flag is not altered if either light pen position register is read */
+        if (vdc.update_reg == 16 || vdc.update_reg == 17) {
+            return (vdc.regs[vdc.update_reg]);
+        }
+
+        return vdc_read(addr);  /* Use existing read function for rest */
+    } else {    /* read $d600 (and mirrors $d602/4/6....$d6fe) */
+        /* read of $d600 is non destructive, so just use the value calculated in vdc_read() */
+        return vdc_read(addr);
+    }
+}
+
 
 BYTE vdc_ram_read(WORD addr)
 {
