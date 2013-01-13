@@ -519,20 +519,31 @@ void archdep_ui_init(int argc, char *argv[])
        case we have `libgnomeui' around.
        For now I discard gnome-specific options. FIXME MP */
 
-    char *fake_argv[2];
-    int fake_argc = 1;
-    char **fake_args = fake_argv;
-
     if (console_mode) {
         return;
     }
 
-    fake_argv[0] = argv[0];
-    fake_argv[1] = NULL;
-    gtk_init(&fake_argc, &fake_args);
+#ifdef DEBUG_X11UI
+{
+    int i;
+    for (i = 1; i < argc; i++) {
+        DBG(("arg %d:%s\n", i, argv[i]));
+    }
+}
+#endif
 
+    gtk_init(&argc, &argv);
 #ifdef HAVE_HWSCALE
-    gtk_gl_init_check(&fake_argc, &fake_args);
+    gtk_gl_init_check(&argc, &argv);
+#endif
+
+#ifdef DEBUG_X11UI
+{
+    int i;
+    for (i = 1; i < argc; i++) {
+        DBG(("arg %d:%s\n", i, argv[i]));
+    }
+}
 #endif
 }
 
