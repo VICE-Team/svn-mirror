@@ -11591,6 +11591,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_MOUSE_MICROMYS_SV, "MicroMys-mus" },
 /* tr */ { IDS_MOUSE_MICROMYS_TR, "MicroMys mouse" },
 
+/* en */ { IDS_MOUSE_KOALAPAD,    "Koalapad" },
+/* da */ { IDS_MOUSE_KOALAPAD_DA, "" },  /* fuzzy */
+/* de */ { IDS_MOUSE_KOALAPAD_DE, "" },  /* fuzzy */
+/* es */ { IDS_MOUSE_KOALAPAD_ES, "" },  /* fuzzy */
+/* fr */ { IDS_MOUSE_KOALAPAD_FR, "" },  /* fuzzy */
+/* hu */ { IDS_MOUSE_KOALAPAD_HU, "" },  /* fuzzy */
+/* it */ { IDS_MOUSE_KOALAPAD_IT, "" },  /* fuzzy */
+/* ko */ { IDS_MOUSE_KOALAPAD_KO, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_KOALAPAD_NL, "" },  /* fuzzy */
+/* pl */ { IDS_MOUSE_KOALAPAD_PL, "" },  /* fuzzy */
+/* ru */ { IDS_MOUSE_KOALAPAD_RU, "" },  /* fuzzy */
+/* sv */ { IDS_MOUSE_KOALAPAD_SV, "" },  /* fuzzy */
+/* tr */ { IDS_MOUSE_KOALAPAD_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_AUTOSTART_VIRTUAL_FS,    "Virtual FS" },
 /* da */ { IDS_AUTOSTART_VIRTUAL_FS_DA, "Virtuelt FS" },
 /* de */ { IDS_AUTOSTART_VIRTUAL_FS_DE, "Virtual FS" },

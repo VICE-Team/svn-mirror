@@ -44,6 +44,7 @@ static int ui_mouse_type_translate[] = {
     IDS_MOUSE_ST,
     IDS_MOUSE_SMART,
     IDS_MOUSE_MICROMYS,
+    IDS_MOUSE_KOALAPAD,
     0
 };
 
@@ -58,6 +59,7 @@ static const int ui_mouse_type_values[] = {
     MOUSE_TYPE_ST,
     MOUSE_TYPE_SMART,
     MOUSE_TYPE_MICROMYS,
+    MOUSE_TYPE_KOALAPAD,
     -1
 };
 
