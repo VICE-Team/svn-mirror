@@ -30,6 +30,8 @@
  *
  */
 
+/* #define DEBUG_MAIN */
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -67,6 +69,11 @@
 #include "version.h"
 #include "video.h"
 
+#ifdef DEBUG_MAIN
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 #ifdef __OS2__
 const
@@ -87,6 +94,7 @@ int main_program(int argc, char **argv)
        -config  => use specified configuration file
        -console => no user interface
     */
+    DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 0; i < argc; i++) {
 #ifndef __OS2__
         if (strcmp(argv[i], "-console") == 0) {
@@ -109,6 +117,7 @@ int main_program(int argc, char **argv)
     textdomain(PACKAGE);
 #endif
 
+    DBG(("main:archdep_init(argc:%d)\n", argc));
     archdep_init(&argc, argv);
 
     if (atexit(main_exit) < 0) {
@@ -139,6 +148,7 @@ int main_program(int argc, char **argv)
     /* Initialize the user interface.  `ui_init()' might need to handle the
        command line somehow, so we call it before parsing the options.
        (e.g. under X11, the `-display' option is handled independently).  */
+    DBG(("main:ui_init(argc:%d)\n", argc));
     if (!console_mode && ui_init(&argc, argv) < 0) {
         archdep_startup_log_error("Cannot initialize the UI.\n");
         return -1;
@@ -163,6 +173,7 @@ int main_program(int argc, char **argv)
         archdep_startup_log_error("Cannot startup logging system.\n");
     }
 
+    DBG(("main:initcmdline_check_args(argc:%d)\n", argc));
     if (initcmdline_check_args(argc, argv) < 0) {
         return -1;
     }
@@ -170,6 +181,7 @@ int main_program(int argc, char **argv)
     program_name = archdep_program_name();
 
     /* VICE boot sequence.  */
+    log_message(LOG_DEFAULT, " ");
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
     log_message(LOG_DEFAULT, "OS compiled for: %s", platform_get_compile_time_os());
     log_message(LOG_DEFAULT, "GUI compiled for: %s", platform_get_ui());

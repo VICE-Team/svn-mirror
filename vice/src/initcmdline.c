@@ -25,6 +25,8 @@
  *
  */
 
+/* #define DEBUG_CMDLINE */
+
 #include "vice.h"
 
 #include <ctype.h>
@@ -46,6 +48,11 @@
 #include "translate.h"
 #include "util.h"
 
+#ifdef DEBUG_CMDLINE
+#define DBG(x)  printf x
+#else
+#define DBG(x)
+#endif
 
 static char *autostart_string = NULL;
 static char *startup_disk_images[4];
@@ -288,16 +295,19 @@ int initcmdline_check_psid(void)
 
 int initcmdline_check_args(int argc, char **argv)
 {
+    DBG(("initcmdline_check_args (argc:%d)\n", argc));
     if (cmdline_parse(&argc, argv) < 0) {
         archdep_startup_log_error("Error parsing command-line options, bailing out. For help use '-help'\n");
         return -1;
     }
+    DBG(("initcmdline_check_args 1 (argc:%d)\n", argc));
 
     /* The last orphan option is the same as `-autostart'.  */
-    if (argc >= 1 && autostart_string == NULL) {
+    if ((argc > 1) && (autostart_string == NULL)) {
         autostart_string = lib_stralloc(argv[1]);
         argc--, argv++;
     }
+    DBG(("initcmdline_check_args 2 (argc:%d)\n", argc));
 
     if (argc > 1) {
         int len = 0, j;
