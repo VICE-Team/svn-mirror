@@ -54,6 +54,8 @@ static ui_menu_entry_t mousetype_submenu[] = {
       (ui_callback_data_t)MOUSE_TYPE_SMART, NULL },
     { "MicroMys", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
       (ui_callback_data_t)MOUSE_TYPE_MICROMYS, NULL },
+    { "Koalapad", UI_MENU_TYPE_TICK, (ui_callback_t)radio_Mousetype,
+      (ui_callback_data_t)MOUSE_TYPE_KOALAPAD, NULL },
     { NULL }
 };
 

@@ -671,7 +671,7 @@ void mouse_shutdown(void)
 
 void mouse_button_left(int pressed)
 {
-    BYTE joypin = ((mouse_type == MOUSE_TYPE_PADDLE) ? 4 : 16);
+    BYTE joypin = (((mouse_type == MOUSE_TYPE_PADDLE) || (mouse_type == MOUSE_TYPE_KOALAPAD)) ? 4 : 16);
 
     if (pressed) {
         joystick_set_value_or(mouse_port, joypin);
@@ -686,13 +686,16 @@ void mouse_button_right(int pressed)
         case MOUSE_TYPE_1351:
         case MOUSE_TYPE_SMART:
         case MOUSE_TYPE_MICROMYS:
+            /* "joystick up" */
             if (pressed) {
                 joystick_set_value_or(mouse_port, 1);
             } else {
                 joystick_set_value_and(mouse_port, ~1);
             }
             break;
+        case MOUSE_TYPE_KOALAPAD:
         case MOUSE_TYPE_PADDLE:
+            /* "joystick right" */
             if (pressed) {
                 joystick_set_value_or(mouse_port, 8);
             } else {
@@ -768,6 +771,8 @@ BYTE mouse_get_x(void)
             return mouse_get_1351_x();
         case MOUSE_TYPE_PADDLE:
             return mouse_get_paddle_x();
+        case MOUSE_TYPE_KOALAPAD:
+            return 255 - mouse_get_paddle_x();
         case MOUSE_TYPE_NEOS:
         case MOUSE_TYPE_AMIGA:
         case MOUSE_TYPE_ST:
@@ -792,6 +797,7 @@ BYTE mouse_get_y(void)
         case MOUSE_TYPE_SMART:
         case MOUSE_TYPE_MICROMYS:
             return mouse_get_1351_y();
+        case MOUSE_TYPE_KOALAPAD:
         case MOUSE_TYPE_PADDLE:
             return mouse_get_paddle_y();
         case MOUSE_TYPE_NEOS:

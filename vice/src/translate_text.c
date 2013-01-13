@@ -12018,20 +12018,21 @@ translate_t string_table[] = {
 #endif
 
 /* mouse.c */
-/* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)")},
+/* TRANSLATORS: actual mouse types should not get translated */
+/* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, "VÊlg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus Typ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratÛn  (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Inteligente)"},
-/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, "SÈlectionner le type de souris (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, "VÊlg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus Typ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratÛn (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, "SÈlectionner le type de souris (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrÍt≥a, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, "≤Î—’‡ÿ‚’ ‚ÿﬂ ‹ÎËÿ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "V‰lj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = paddlar, 4 = CX-22, 5 = ST, 6 = Smart)"},
-/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seÁin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart)"},
+/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, "≤Î—’‡ÿ‚’ ‚ÿﬂ ‹ÎËÿ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "V‰lj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seÁin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
 #endif
 
 /* ps2mouse.c */
