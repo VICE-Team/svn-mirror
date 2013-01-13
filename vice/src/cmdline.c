@@ -170,7 +170,8 @@ int cmdline_parse(int *argc, char **argv)
 {
     int i = 1;
 
-    while (i < *argc) {
+    while ((i < *argc) && (argv[i] != NULL)) {
+        /* printf("%d:%s\n", i, argv[i]); */
         if ((argv[i][0] == '-') || (argv[i][0] == '+')) {
             int is_ambiguous, retval;
             cmdline_option_ram_t *p;
@@ -242,6 +243,7 @@ int cmdline_parse(int *argc, char **argv)
     /* Remove all the parsed options.  */
     {
         int j, args;
+        /* printf("argc:%d i:%d\n", *argc, i); */
         for (j = 1, args = 1; (j < *argc) && (argv[i] != NULL); j++, i++, args++) {
             argv[j] = argv[i];
             /* printf("%d %d=%d:%s\n", args, j, i, argv[j]); */
