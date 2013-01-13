@@ -28,7 +28,7 @@
  */
 
 /* #define DEBUG_X11UI */
-/* #define DEBUGMOUSECURSOR */   /* dont use a blank mouse cursor */
+/* #define DEBUGMOUSECURSOR */  /* dont use a blank mouse cursor */
 /* #define DEBUGNOMOUSEGRAB */  /* dont grab mouse */
 
 #include "vice.h"
@@ -223,7 +223,8 @@ static void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
             xoff = x - ptrx;
             yoff = y - ptry;
 
-            w = canvas->draw_buffer->canvas_physical_width;
+            /* w = canvas->draw_buffer->canvas_physical_width; */
+            w = gtk_widget_get_allocated_width(canvas->emuwindow);
             h = canvas->draw_buffer->canvas_physical_height;
 
             /* DBG(("ptrx:%d ptry:%d x:%d y:%d w:%d h:%d", ptrx, ptry, x, y, w, h)); */
@@ -300,8 +301,8 @@ static void mouse_handler(GtkWidget *w, GdkEvent *event, gpointer data)
                     /* DBG(("warp to: x:%d y:%d", ptrx, ptry)); */
                     gdk_display_warp_pointer (display, screen, ptrx + xoff, ptry + yoff);
                 } else {
-                    mouse_dx = (ptrx - mouse_lasteventx) * 2 / (canvas->videoconfig->doublesizex + 1);
-                    mouse_dy = (ptry - mouse_lasteventy) * 2 / (canvas->videoconfig->doublesizey + 1);
+                    mouse_dx = (ptrx - mouse_lasteventx) / (canvas->videoconfig->doublesizex + 1);
+                    mouse_dy = (ptry - mouse_lasteventy) / (canvas->videoconfig->doublesizey + 1);
                     DBG(("mouse move dx:%8d dy:%8d", mouse_dx, mouse_dy));
                     mouse_move((float)mouse_dx, (float)mouse_dy);
                     mouse_lasteventx = ptrx;

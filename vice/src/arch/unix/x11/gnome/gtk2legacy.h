@@ -98,6 +98,7 @@ extern void gtk_combo_box_text_append_text(GtkComboBoxText *combo_box, const gch
 #if !GTK_CHECK_VERSION(3, 0, 0)
 /* since 3.0 ? */
 extern int gtk_widget_get_allocated_height(GtkWidget *widget);
+extern int gtk_widget_get_allocated_width(GtkWidget *widget);
 #endif
 
 /* Work around an incompatible change in GDK header files

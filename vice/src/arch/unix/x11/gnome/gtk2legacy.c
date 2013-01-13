@@ -74,5 +74,11 @@ int gtk_widget_get_allocated_height(GtkWidget *widget)
     gtk_widget_get_allocation(widget, &allocation);
     return allocation.height;
 }
+int gtk_widget_get_allocated_width(GtkWidget *widget)
+{
+    GtkAllocation allocation;
+    gtk_widget_get_allocation(widget, &allocation);
+    return allocation.width;
+}
 #endif
 
