@@ -241,14 +241,12 @@ int cmdline_parse(int *argc, char **argv)
 
     /* Remove all the parsed options.  */
     {
-        int j;
-
-        for (j = 1; j < (*argc - i); j++) {
-            argv[j] = argv[i + j - 1];
-            /* printf("%d=%d:%s\n",j,i+j-1,argv[j]); */
+        int j, args;
+        for (j = 1, args = 1; (j < *argc) && (argv[i] != NULL); j++, i++, args++) {
+            argv[j] = argv[i];
+            /* printf("%d %d=%d:%s\n", args, j, i, argv[j]); */
         }
-
-        *argc -= i;
+        *argc = args;
     }
 
     return 0;
