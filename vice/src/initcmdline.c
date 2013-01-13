@@ -303,13 +303,15 @@ int initcmdline_check_args(int argc, char **argv)
         int len = 0, j;
 
         for (j = 1; j < argc; j++) {
-            len += (int)strlen(argv[j]);
+            len += argv[j] ? (int)strlen(argv[j]) : 0;
         }
 
         {
             char *txt = lib_calloc(1, len + argc + 1);
             for (j = 1; j < argc; j++) {
-                strcat(strcat(txt, " "), argv[j]);
+                if (argv[j]) {
+                    strcat(strcat(txt, " "), argv[j]);
+                }
             }
             archdep_startup_log_error("Extra arguments on command-line: %s\n",
                                       txt);

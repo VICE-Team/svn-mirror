@@ -171,7 +171,7 @@ int cmdline_parse(int *argc, char **argv)
     int i = 1;
 
     while (i < *argc) {
-        if (*argv[i] == '-' || *argv[i] == '+') {
+        if ((argv[i][0] == '-') || (argv[i][0] == '+')) {
             int is_ambiguous, retval;
             cmdline_option_ram_t *p;
 
@@ -180,10 +180,14 @@ int cmdline_parse(int *argc, char **argv)
                 return -1;
             }
 
-            /* `--' delimits the end of the option list.  */
             if (argv[i][1] == '-') {
-                i++;
-                break;
+                /* `--' delimits the end of the option list.  */
+                if (argv[i][2] == '\0') {
+                    i++;
+                    break;
+                }
+                archdep_startup_log_error("Invalid option '%s'.\n", argv[i]);
+                return -1;
             }
 
             p = lookup(argv[i], &is_ambiguous);
@@ -239,8 +243,9 @@ int cmdline_parse(int *argc, char **argv)
     {
         int j;
 
-        for (j = 1; j <= (*argc - i); j++) {
+        for (j = 1; j < (*argc - i); j++) {
             argv[j] = argv[i + j - 1];
+            /* printf("%d=%d:%s\n",j,i+j-1,argv[j]); */
         }
 
         *argc -= i;
