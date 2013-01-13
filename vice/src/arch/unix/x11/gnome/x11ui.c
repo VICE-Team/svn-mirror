@@ -950,9 +950,6 @@ int ui_open_canvas_window(video_canvas_t *c, const char *title, int w, int h, in
         mouse_init_cursor();
         gtk_init_lightpen();
 
-        /* FIXME: is this correct ?! */
-        c->offx = c->geometry->screen_size.width - w;
-        DBG(("ui_open_canvas_window lp offset=%i (scrw: %i w: %i)", c->offx, c->geometry->screen_size.width, w));
     }
 
     ui_init_checkbox_style();
@@ -1360,10 +1357,6 @@ void ui_resize_canvas_window(video_canvas_t *canvas)
     {
         set_window_resources(canvas, window_xpos, window_ypos, window_width, window_height);
     }
-
-    /* FIXME: is this correct ?! */
-    canvas->offx = canvas->geometry->screen_size.width - window_width;
-    DBG(("ui_resize_canvas_window lp offset=%i (scrw: %i w: %i)", canvas->offx, canvas->geometry->screen_size.width, window_width));
 
     DBG(("ui_resize_canvas_window exit (w:%d h:%d)", window_width, window_height));
 

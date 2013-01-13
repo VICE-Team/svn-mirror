@@ -75,6 +75,7 @@ struct lp_type_s {
 };
 typedef struct lp_type_s lp_type_t;
 
+/* note: xoffs=24; yoffs=0 gives "pixel perfect" match */
 static const lp_type_t lp_type[LIGHTPEN_TYPE_NUM] = {
     /* Pen with button Up (e.g. Atari CX75) */
     { PEN, 0x00, 0x01, 0, 0 },

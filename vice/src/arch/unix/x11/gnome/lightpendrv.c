@@ -71,15 +71,16 @@ void x11_lightpen_update(void)
         gtk_widget_get_allocation(c->emuwindow, &allocation);
         w = allocation.width;
         h = allocation.height;
-        fx = w / (float) (c->geometry->screen_size.width - c->offx);
+
+        fx = w / (float) (c->geometry->screen_size.width);
         fy = h / (float) (c->geometry->last_displayed_line -
                 c->geometry->first_displayed_line + 1);
 
 #ifdef DEBUG_LIGHTPEN
-        fprintf(stderr,"pre : x = %i, y = %i, b = %02x, w: %d, h:%d, fx = %f, fy = %f divx:%d %d divy:%d out: x=%i y=%i\n",
+        fprintf(stderr,"pre : x = %i, y = %i, b = %02x, w: %d, h:%d, fx = %f, fy = %f divx:%d divy:%d   out: x=%i y=%i (%i-%i)\n",
                 x, y, buttons, w, h, fx, fy,
-                c->geometry->screen_size.width , c->offx, c->geometry->last_displayed_line - c->geometry->first_displayed_line + 1,
-                (int)(x / fx), (int)(y / fy)
+                c->geometry->screen_size.width , c->geometry->last_displayed_line - c->geometry->first_displayed_line + 1,
+                (int)(x / fx), (int)(y / fy), c->geometry->first_displayed_line, c->geometry->last_displayed_line
                );
 #endif
         x /= fx;
