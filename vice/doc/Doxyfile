@@ -687,7 +687,10 @@ EXCLUDE_SYMBOLS        =
 # the \include command).
 
 EXAMPLE_PATH           = . \
-                         ./building
+                         ./building \
+                         ./readmes \
+                         ./html/plain \
+                         ./..
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 
@@ -695,7 +698,9 @@ EXAMPLE_PATH           = . \
 # blank all files are included.
 
 EXAMPLE_PATTERNS       = ./*.txt \
-                         ./*.doxy
+                         ./*.doxy \
+                         ./../README \
+                         ./../FEEDBACK
 
 # If the EXAMPLE_RECURSIVE tag is set to YES then subdirectories will be 
 # searched for input files to be used with the \include or \dontinclude 
@@ -731,7 +736,10 @@ FILTER_PATTERNS        = *.c=./src2doxy.sh \
                          *.h=./src2doxy.sh \
                          *.hpp=./src2doxy.sh \
                          *.cpp=./src2doxy.sh \
-                         *.txt=./txt2doxy.sh
+                         *.txt=./txt2doxy.sh \
+                         */README=./txt2doxy.sh \
+                         */INSTALL=./txt2doxy.sh \
+                         */FEEDBACK=./txt2doxy.sh
 
 # If the FILTER_SOURCE_FILES tag is set to YES, the input filter (if set using 
 # INPUT_FILTER) will be used to filter the input files when producing source 
@@ -745,7 +753,10 @@ FILTER_SOURCE_FILES    = YES
 # using *.ext= (so without naming a filter). This option only has effect when 
 # FILTER_SOURCE_FILES is enabled.
 
-FILTER_SOURCE_PATTERNS = *.txt=./txt2doxy.sh
+FILTER_SOURCE_PATTERNS = *.txt=./txt2doxy.sh \
+                         */README=./txt2doxy.sh \
+                         */INSTALL=./txt2doxy.sh \
+                         */FEEDBACK=./txt2doxy.sh
 
 #---------------------------------------------------------------------------
 # configuration options related to source browsing

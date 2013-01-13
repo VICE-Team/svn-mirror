@@ -208,11 +208,12 @@ using the mkdoxy.sh script
 
 prerequisites:
 - the source must be configured for the configuration you want to generate the
-documentation for (the script derives some information from config.h)
-- you need the doxygen package installed, and the graphviz package for the call
-graphs (if enabled). the script also uses some basic *nix tools and shell stuff,
-so in reality it will probably only work on *nix or a properly configured cygwin
-or mingw environment.
+documentation for (the script derives some information from config.h, so 
+actually copying it over from a configured source is enough)
+- you need the doxygen package installed (>=1.7.6.1 recommended), and the 
+graphviz package for the call graphs (if enabled). the script also uses some 
+basic *nix tools and shell stuff, so in reality it will probably only work on 
+*nix or a properly configured cygwin or mingw environment.
 
 the script takes 3 arguments:
 
@@ -232,7 +233,7 @@ NOTE: options to enable call graphs or the source browser are not yet implemente
 increases - a lot even for the call graphs) if you want to play with these 
 features, enable them manually in Doxyfile.
 
-currently handled are:
+currently correctly handled are:
 
 emulators: vsid, x64, x64sc
 ports: linux
@@ -246,6 +247,6 @@ Example:
 # ./mkdoxy.sh x64sc linux gtk
 
 running the script without arguments will use the defaults, which are currently
-hardcoded as "x64sc linux gtk" (and should at some point get autodetected)
+hardcoded as "all linux gtk" (and should at some point get autodetected)
 
 using "all" as the first argument will generate documentation for all emulators.

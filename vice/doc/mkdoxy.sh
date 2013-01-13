@@ -289,6 +289,10 @@ case "$1" in
     INPUT+="$VIC20_INPUT"
     INPUT+="$VIC_INPUT"
    ;;
+"xscpu64")
+    INPUT+="$C64_INPUT"
+    INPUT+="$SID_INPUT $VICII_INPUT"
+   ;;
 *)
    ;;
 esac
@@ -534,6 +538,13 @@ case "$1" in
     GUI_COCOA_EXCLUDE+="$XVIC_GUI_COCOA_EXCLUDE"
     GUI_SDL_EXCLUDE+="$XVIC_GUI_SDL_EXCLUDE"
    ;;
+"xscpu64")
+    MACHINE_EXCLUDE="$XSCPU64EXCLUDE"
+    GUI_GTK_EXCLUDE+="$XSCPU64_GUI_GTK_EXCLUDE"
+    GUI_WIN32_EXCLUDE+="$XSCPU64_GUI_WIN32_EXCLUDE"
+    GUI_COCOA_EXCLUDE+="$XSCPU64_GUI_COCOA_EXCLUDE"
+    GUI_SDL_EXCLUDE+="$XSCPU64_GUI_SDL_EXCLUDE"
+   ;;
 *)
    ;;
 esac
@@ -586,6 +597,8 @@ function makedocs
 {
     echo "making docs for "$1" source ("$2", "$3") ["$VERSION"]" 
     OUTPUT="./doxy/"$1"/"
+    rm -rf $OUTPUT
+    mkdir -p $OUTPUT
     getinputs $1 $2 $3
     getexcludes $1 $2 $3
     echo "INPUT="$INPUT
@@ -604,6 +617,29 @@ function makedocs
 }
 
 ################################################################################
+# this function creates and index.html entry page in ./doxy
+################################################################################
+
+function makeindex
+{
+    echo "making index.html"
+    OUTPUT="./doxy/index.html"
+
+    echo "<html><head>" > $OUTPUT
+    echo "<title>VICE doxy</title></head><body>" >> $OUTPUT
+    echo "<h1>VICE doxy</h1>" >> $OUTPUT
+
+    for I in x64 x64sc x64dtv xscpu64 x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid; do \
+        if [ -a ./doxy/$I ]; then \
+            echo $I; \
+            echo "<a href=\""$I"/html/index.html\">"$I"</a>" >> $OUTPUT; \
+        fi; \
+    done
+
+    echo "</body></html>" >> $OUTPUT
+}
+
+################################################################################
 # handle commandline arguments
 ################################################################################
 
@@ -612,7 +648,7 @@ function makedocs
 # TODO: optionally enable source browser
 
 # defaults
-MACHINE="x64sc"
+MACHINE="all"
 PORT="linux"
 GUI="gtk"
 
@@ -637,7 +673,7 @@ case "$1" in
    MACHINE="x64sc"
    ;;
 "xcbm2")
-   MACHINE="x64sc"
+   MACHINE="xcbm2"
    ;;
 "xcbm5x0")
    MACHINE="xcbm5x0"
@@ -650,6 +686,9 @@ case "$1" in
    ;;
 "xvic")
    MACHINE="xvic"
+   ;;
+"xscpu64")
+   MACHINE="xscpu64"
    ;;
 *)
    ;;
@@ -706,6 +745,9 @@ if [ "$MACHINE" = "all" ]; then
     makedocs "xpet" $PORT $GUI
     makedocs "xplus4" $PORT $GUI
     makedocs "xvic" $PORT $GUI
+    makedocs "xscpu64" $PORT $GUI
 else
     makedocs $MACHINE $PORT $GUI
 fi
+
+makeindex
