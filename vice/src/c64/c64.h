@@ -58,8 +58,31 @@
 #define C64_PALN_RFSH_PER_SEC  (1.0 / ((double)C64_PALN_CYCLES_PER_RFSH \
                                        / (double)C64_PALN_CYCLES_PER_SEC))
 
+/*
+    NOTE: fall-off cycles are heavily chip- and temperature dependant. as a
+          consequence it is very hard to find suitable realistic values that
+          always work and we can only tweak them based on testcases. (unless we
+          want to make it configureable or emulate temperature over time =))
+
+          it probably makes sense to tweak the values for a warmed up CPU, since
+          this is likely how (old) programs were coded and tested :)
+*/
+
 /* $01 bits 6 and 7 fall-off cycles (1->0), average is about 350 msec for a 6510 */
-#define C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES 350000
+/* NOTE: the unused bits of the 6510 seem to be much more temperature dependant
+         and the fall-off time decreases quicker and more drastically than on a
+         8500
+*/
+/* #define C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES 350000 */
+/*
+   cpuports.prg from the lorenz testsuite will fail when the falloff takes more
+   than 1373 cycles. this suggests that he tested on a well warmed up c64 :)
+   he explicitly delays by ~1280 cycles and mentions capacitance, so he probably 
+   even was aware of what happens.
+   values ~1374 trigger a bug in cpuports.prg :)
+   larger values make cpuports.prg fail
+ */
+#define C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES 1373
 
 /* $01 bits 6 and 7 fall-off cycles (1->0), average is about 1500 msec for a 8500 */
 #define C64_CPU8500_DATA_PORT_FALL_OFF_CYCLES 1500000
