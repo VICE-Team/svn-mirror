@@ -252,13 +252,13 @@ BYTE zero_read(WORD addr)
             }
 
             /* set real value of bit 6 */
-            if (!(pport.data_read & 0x40)) {
+            if (!(pport.dir_read & 0x40)) {
                 retval &= 0xbf;
                 retval |= pport.data_set_bit6;
             }
 
             /* set real value of bit 7 */
-            if (!(pport.data_read & 0x80)) {
+            if (!(pport.dir_read & 0x80)) {
                 retval &= 0x7f;
                 retval |= pport.data_set_bit7;
             }
