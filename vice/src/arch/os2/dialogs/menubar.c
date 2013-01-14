@@ -1360,6 +1360,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_MOUSE_TYPE_MICROMYS:
             resources_set_int("Mousetype", MOUSE_TYPE_MICROMYS);
             return;
+        case IDM_MOUSE_TYPE_KOALAPAD:
+            resources_set_int("Mousetype", MOUSE_TYPE_KOALAPAD);
+            return;
         case IDM_MOUSE_PORT_1:
             resources_set_int("Mouseport", 1);
             return;
@@ -2359,6 +2362,7 @@ void menu_select(HWND hwnd, USHORT item)
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_ST, val == MOUSE_TYPE_ST);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_SMART, val == MOUSE_TYPE_SMART);
             WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_MICROMYS, val == MOUSE_TYPE_MICROMYS);
+            WinCheckMenuItem(hwnd, IDM_MOUSE_TYPE_KOALAPAD, val == MOUSE_TYPE_KOALAPAD);
             return;
         case IDM_MOUSE_PORT:
             resources_get_int("Mouseport", &val);

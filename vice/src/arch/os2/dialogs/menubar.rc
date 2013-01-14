@@ -516,6 +516,7 @@ BEGIN
             MENUITEM "Atari ~ST",                         IDM_MOUSE_TYPE_ST,            MIS_TEXT
             MENUITEM "Smart",                             IDM_MOUSE_TYPE_SMART,         MIS_TEXT
             MENUITEM "MicroMys",                          IDM_MOUSE_TYPE_MICROMYS,      MIS_TEXT
+            MENUITEM "Koalapad",                          IDM_MOUSE_TYPE_KOALAPAD,      MIS_TEXT
         END
         SUBMENU "Mouse port",                             IDM_MOUSE_PORT,               MIS_TEXT
         BEGIN

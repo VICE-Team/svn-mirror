@@ -433,6 +433,7 @@
 #define IDM_MOUSE_TYPE_ST            0x2af
 #define IDM_MOUSE_TYPE_SMART         0x30e
 #define IDM_MOUSE_TYPE_MICROMYS      0x32b
+#define IDM_MOUSE_TYPE_KOALAPAD      0x341
 
 #define IDM_MOUSE_PORT               0x15e
 #define IDM_MOUSE_PORT_1             0x15f
