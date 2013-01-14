@@ -122,10 +122,27 @@ static GtkWidget *build_confirm_dialog(GtkWidget **confirm_dialog_message)
     *confirm_dialog_message = gtk_label_new("");
     gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(confirm_dialog))), *confirm_dialog_message,TRUE,TRUE,0);
     gtk_widget_show(*confirm_dialog_message);
+    gtk_widget_show(confirm_dialog);
+    gtk_widget_set_size_request(confirm_dialog, (gtk_widget_get_allocated_width(gtk_dialog_get_action_area(GTK_DIALOG(confirm_dialog))) * 40) / 30, 
+                                    gtk_widget_get_allocated_height(gtk_dialog_get_action_area(GTK_DIALOG(confirm_dialog))) * 3);
 
     return confirm_dialog;
 }
 
+static GtkWidget *build_yesno_dialog(GtkWidget **yesno_dialog_message)
+{
+    GtkWidget *yesno_dialog;
+
+    yesno_dialog = gtk_dialog_new_with_buttons("", NULL, GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_NO,
+                                                 GTK_RESPONSE_NO, GTK_STOCK_YES, GTK_RESPONSE_YES, NULL);
+    *yesno_dialog_message = gtk_label_new("");
+    gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(yesno_dialog))), *yesno_dialog_message,TRUE,TRUE,0);
+    gtk_widget_show(*yesno_dialog_message);
+    gtk_widget_show(yesno_dialog);
+    gtk_widget_set_size_request(yesno_dialog, gtk_widget_get_allocated_width(gtk_dialog_get_action_area(GTK_DIALOG(yesno_dialog))) * 2, 
+                                    gtk_widget_get_allocated_height(gtk_dialog_get_action_area(GTK_DIALOG(yesno_dialog))) * 3);
+    return yesno_dialog;
+}
 
 /* Ask for a string.  The user can confirm or cancel. */
 ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen)
@@ -203,6 +220,26 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     ui_popdown(confirm_dialog);
 
     return (res == GTK_RESPONSE_YES) ? UI_BUTTON_YES : (res == GTK_RESPONSE_NO) ? UI_BUTTON_NO : UI_BUTTON_CANCEL;
+}
+
+ui_button_t ui_ask_yesno(const char *title, const char *text)
+{
+    static GtkWidget *yesno_dialog = NULL, *yesno_dialog_message = NULL;
+    gint res;
+
+    vsync_suspend_speed_eval();
+    if (!yesno_dialog) {
+        yesno_dialog = build_yesno_dialog(&yesno_dialog_message);
+        g_signal_connect(G_OBJECT(yesno_dialog), "destroy", G_CALLBACK(gtk_widget_destroyed), &yesno_dialog);
+    }
+
+    gtk_label_set_text(GTK_LABEL(yesno_dialog_message),text);
+
+    ui_popup(yesno_dialog, title, FALSE);
+    res = gtk_dialog_run(GTK_DIALOG(yesno_dialog));
+    ui_popdown(yesno_dialog);
+
+    return (res == GTK_RESPONSE_YES) ? UI_BUTTON_YES : UI_BUTTON_NO;
 }
 
 ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf, unsigned int buflen)
@@ -290,7 +327,7 @@ int ui_extend_image_dialog(void)
 
     vsync_suspend_speed_eval();
     /* FIXME: this must be updated to deal with all kinds of images/sizes */
-    b = ui_ask_confirmation(_("Extend disk image"), (_("Do you want to extend the disk image to 40 tracks?")));
+    b = ui_ask_yesno(_("Extend disk image"), (_("Do you want to extend the disk image to 40 tracks?")));
     return (b == UI_BUTTON_YES) ? 1 : 0;
 }
 
@@ -342,14 +379,15 @@ void ui_exit(void)
 {
     ui_button_t b;
     int value;
-    char *s = util_concat("Exit ", machine_name, _(" emulator"), NULL);
+    char *s = util_concat(_("Exit "), (machine_class != VICE_MACHINE_VSID) ? machine_name : "SID", 
+                          _(" emulator"), NULL);
 
 #ifdef HAVE_FULLSCREEN
     fullscreen_suspend(1);
 #endif
     resources_get_int("ConfirmOnExit", &value);
     if (value) {
-        b = ui_ask_confirmation(s, _("Do you really want to exit?"));
+        b = ui_ask_yesno(s, _("Do you really want to exit?"));
     } else {
         b = UI_BUTTON_YES;
     }

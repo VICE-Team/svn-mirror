@@ -96,6 +96,8 @@ extern char *ui_select_file(const char *title, read_contents_func_type read_cont
 extern ui_button_t ui_input_string(const char *title, const char *prompt, char *buf, unsigned int buflen);
 
 extern ui_button_t ui_ask_confirmation(const char *title, const char *text);
+extern ui_button_t ui_ask_yesno(const char *title, const char *text);
+
 extern void ui_autorepeat_on(void);
 extern void ui_autorepeat_off(void);
 extern void ui_pause_emulation(int flag);

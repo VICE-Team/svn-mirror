@@ -2083,6 +2083,12 @@ ui_button_t ui_ask_confirmation(const char *title, const char *text)
     return button;
 }
 
+/* FIXME: make dialog with just "yes" and "no" buttons */
+ui_button_t ui_ask_yesno(const char *title, const char *text)
+{
+    return ui_ask_confirmation(title, text);
+}
+
 /* Update the menu items with a checkmark according to the current resource
    values.  */
 void ui_update_menus(void)

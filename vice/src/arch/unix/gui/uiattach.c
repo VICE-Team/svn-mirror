@@ -217,7 +217,7 @@ static UI_CALLBACK(create_new_tape)
     switch (button) {
         case UI_BUTTON_OK:
             if (util_file_exists(filename)) {
-                if (ui_ask_confirmation(_("File exists"),
+                if (ui_ask_yesno(_("File exists"),
                                         _("Do you want to overwrite it?")) !=
                         UI_BUTTON_OK) {
                     overwrite = 0;
