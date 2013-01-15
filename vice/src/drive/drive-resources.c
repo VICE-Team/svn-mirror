@@ -50,6 +50,8 @@ static int drive_true_emulation;
 
 /* Is drive sound emulation switched on?  */
 int drive_sound_emulation;
+/* volume of the drive sound */
+int drive_sound_emulation_volume;
 
 static int set_drive_true_emulation(int val, void *param)
 {
@@ -90,6 +92,15 @@ static int set_drive_true_emulation(int val, void *param)
 static int set_drive_sound_emulation(int val, void *param)
 {
     drive_sound_emulation = val;
+    return 0;
+}
+
+static int set_drive_sound_emulation_volume(int val, void *param)
+{
+    if ((val < 0) || (val > 4000)) {
+        return -1;
+    }
+    drive_sound_emulation_volume = val;
     return 0;
 }
 
@@ -265,6 +276,8 @@ static const resource_int_t resources_int[] = {
       &drive_true_emulation, set_drive_true_emulation, NULL },
     { "DriveSoundEmulation", 0, RES_EVENT_NO, (resource_value_t)0,
       &drive_sound_emulation, set_drive_sound_emulation, NULL },
+    { "DriveSoundEmulationVolume", 1000, RES_EVENT_NO, (resource_value_t)1000,
+      &drive_sound_emulation_volume, set_drive_sound_emulation_volume, NULL },
     { NULL }
 };
 

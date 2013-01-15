@@ -71,6 +71,7 @@ static pal_templ_t ctrls[] = {
     { N_("Odd lines offset"), "PALOddLineOffset", 2, 1 },
     /* volume settings */
     { N_("Volume"), "SoundVolume", 40, 0 },
+    { N_("Drives Volume"), "DriveSoundEmulationVolume", 1, 0 },
 };
 
 #define NUMSLIDERS (sizeof(ctrls) / sizeof(pal_templ_t))
@@ -88,7 +89,7 @@ static int getmaxlen(void)
 }
 static void pal_ctrl_update_internal(pal_res_t *ctrldata)
 {
-    int i, enabled, rmode, filter, ispal;
+    int i, enabled, rmode, filter, ispal, drvsnd;
     video_canvas_t *canvas;
 
     ctrldata = ctrldata->first;
@@ -97,7 +98,11 @@ static void pal_ctrl_update_internal(pal_res_t *ctrldata)
     if (machine_class == VICE_MACHINE_VSID) {
         enabled = (1 << 9);
     } else {
-        enabled = 0x3ff;
+        enabled = 0xffff;
+        resources_get_int("DriveSoundEmulation", &drvsnd);
+        if (!drvsnd) {
+            enabled &= ~(1 << 10);
+        }
         if (canvas) {
             rmode = canvas->videoconfig->rendermode;
             filter = canvas->videoconfig->filter;

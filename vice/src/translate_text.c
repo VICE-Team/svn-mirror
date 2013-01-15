@@ -7719,6 +7719,40 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_DRIVE_SOUND_TR, "Disk sürücülerinin ses emülasyonunu pasifleþtir"},
 #endif
 
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_SET_DRIVE_SOUND_VOLUME,    N_("Set volume for disk drive sound emulation (0-4000)")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SET_DRIVE_SOUND_VOLUME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_SOUND_VOLUME_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_DRIVE_SOUND_VOLUME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_DRIVE_SOUND_VOLUME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SET_DRIVE_SOUND_VOLUME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SET_DRIVE_SOUND_VOLUME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SET_DRIVE_SOUND_VOLUME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_DRIVE_SOUND_VOLUME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_DRIVE_SOUND_VOLUME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_DRIVE_SOUND_VOLUME_TR, ""},  /* fuzzy */
+#endif
+
+/* drive/drive-cmdline-options.c */
+/* en */ {IDCLS_P_VOLUME,    N_("<Volume>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_VOLUME_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_VOLUME_DE, "<Lautstärke>"},
+/* es */ {IDCLS_P_VOLUME_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_VOLUME_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_VOLUME_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_VOLUME_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_VOLUME_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_VOLUME_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_VOLUME_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_VOLUME_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_VOLUME_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_VOLUME_TR, ""},  /* fuzzy */
+#endif
+
 /* drive/drive-cmdline-options.c, drive/iec/plus4exp/plus4exp-cmdline-options.c,
    drive/iec/c64exp/c64exp-cmdline-options.c, printerdrv/interface-serial.c,
    attach.c, lightpen.c, c128/functionrom.c, userport/userport_joystick.c,
