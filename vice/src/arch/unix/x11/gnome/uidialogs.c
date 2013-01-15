@@ -71,6 +71,16 @@
     DEFINE_BUTTON_CALLBACK(UI_BUTTON_CONTENTS)
     DEFINE_BUTTON_CALLBACK(UI_BUTTON_AUTOSTART)
 
+static void text_response(GtkDialog *dialog, gint arg1, gpointer user_data)
+{
+    GtkWidget *show_text = user_data;
+
+    /* whatever response we get, we want to close / destroy the window */
+    if (show_text) {
+        gtk_widget_destroy(show_text);
+    }
+}
+
 static GtkWidget* build_show_text(const gchar *text, int width, int height)
 {
     GtkWidget *show_text, *textw, *scrollw;
@@ -192,13 +202,12 @@ void ui_show_text(const char *title, const char *text, int width, int height)
     vsync_suspend_speed_eval();
     show_text = build_show_text((const gchar*)text, width, height);
     g_signal_connect(G_OBJECT(show_text), "destroy", G_CALLBACK(gtk_widget_destroyed), &show_text);
-    ui_popup(show_text, title, FALSE);
-    gtk_dialog_run(GTK_DIALOG(show_text));
-    ui_popdown(show_text);
+    g_signal_connect(G_OBJECT(show_text), "response", G_CALLBACK(text_response), show_text);
 
-    if (show_text) {
-        gtk_widget_destroy(show_text);
-    }
+    ui_make_window_transient(get_active_toplevel(), show_text);
+    gtk_window_set_modal(GTK_WINDOW(show_text), TRUE);
+    gtk_window_set_title(GTK_WINDOW(show_text), title);
+    gtk_widget_show(show_text);
 }
 
 /* Ask for a confirmation. */

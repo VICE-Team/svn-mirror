@@ -50,8 +50,9 @@ static void contrib_cb(GtkWidget *w, GdkEvent *event, gpointer data)
 
 static void response_cb(GtkWidget *w, gint id, gpointer data)
 {
-    if (id == GTK_RESPONSE_CANCEL) {
+    if ((id == GTK_RESPONSE_CANCEL) || (id == GTK_RESPONSE_DELETE_EVENT)) {
         gtk_widget_hide(GTK_WIDGET(data));
+        ui_unblock_shells();
     }
 }
 
@@ -137,6 +138,8 @@ void ui_about(gpointer data)
         gdk_window_raise(gtk_widget_get_window(about));
     }
 
+    gtk_window_set_modal(GTK_WINDOW(about), TRUE);
     ui_make_window_transient(get_active_toplevel(), about);
     gtk_widget_show(about);
+    ui_block_shells();
 }
