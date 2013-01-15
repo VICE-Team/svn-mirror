@@ -45,13 +45,12 @@
 #include "resources.h"
 #include "romset.h"
 #include "sysfile.h"
+#include "translate.h"
 #include "types.h"
 #include "util.h"
 
 
 static log_t romset_log = LOG_DEFAULT;
-
-static int romset_source_file;
 
 int romset_resources_init(void)
 {
@@ -80,19 +79,19 @@ static int option_romsetarchiveselect(const char *value, void *extra_param)
 static const cmdline_option_t cmdline_options[] = {
     { "-romsetfile", CALL_FUNCTION, 1,
       option_romsetfile, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       0, 0,
-      0, 0,
-      "", "load the given romset file" },
+      N_("<File>"), N_("load the given romset file") },
     { "-romsetarchive", CALL_FUNCTION, 1,
       option_romsetarchive, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       0, 0,
-      0, 0,
-      "", "load the given romset archive" },
+      N_("<File>"), N_("load the given romset archive") },
     { "-romsetarchiveselect", CALL_FUNCTION, 1,
       option_romsetarchiveselect, NULL, NULL, NULL,
+      USE_PARAM_STRING, USE_DESCRIPTION_STRING,
       0, 0,
-      0, 0,
-      "", "select the given item from the current romset archive" },
+      N_("<Item number>"), N_("select the given item from the current romset archive") },
     { 0 }
 };
 
