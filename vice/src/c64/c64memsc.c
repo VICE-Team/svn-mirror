@@ -147,26 +147,7 @@ void mem_toggle_watchpoints(int flag, void *context)
 
 /* ------------------------------------------------------------------------- */
 
-/* $00/$01 unused bits emulation, as investigated by groepaz:
-
-   it actually seems to work like this... somewhat unexpected indeed
-
-   a) unused bits of $00 (DDR) are actually implemented and working. any value
-      written to them can be read back and also affects $01 (DATA) the same as
-      with the used bits.
-   b) unused bits of $01 are also implemented and working. when a bit is
-      programmed as output, any value written to it can be read back. when a bit
-      is programmed as input it will read back as 0, if 1 is written to it then
-      it will read back as 1 for some time and drop back to 0 (the already
-      emulated case of when bitfading occurs)
-
-   educated guess on why this happens: on the CPU actually the full 8 bit of
-   the i/o port are implemented. what is missing for bit 6 and bit 7 are the
-   actual input/output driver stages only - which (imho) completely explains
-   the above described behavior :)
-
-
-   The following is how the unused bits are emulated:
+/* $00/$01 unused bits emulation
 
    - There are 2 different unused bits, 1) the output bits, 2) the input bits
    - The output bits can be (re)set when the data-direction is set to output
@@ -177,8 +158,10 @@ void mem_toggle_watchpoints(int flag, void *context)
      down to 0 in a certain amount of time.
    - When an unused input bit already had the drop-off timer running, and is
      set to 1 again, the drop-off timer will restart.
-   - Any flip (1->0, 0->1) of the unused bits in the data-direction register
-     ($00) will reset the unused input bits in question.
+   - when a an unused bit changes from output to input, and the current output
+     bit is 1, the drop-off timer will restart again
+
+    see testprogs/CPU/cpuport for details and tests
 */
 
 static void clk_overflow_callback(CLOCK sub, void *unused_data)
@@ -235,9 +218,12 @@ BYTE zero_read(WORD addr)
 
     switch ((BYTE)addr) {
         case 0:
+            /* printf("zero_read %02x %02x: ddr:%02x data:%02x (rd: ddr:%02x data:%02x)\n", addr, pport.dir_read, pport.dir, pport.data, pport.dir_read, pport.data_read); */
             return pport.dir_read;
         case 1:
             retval = pport.data_read;
+
+            /* discharge the "capacitor" */
 
             /* set real value of read bit 6 */
             if (pport.data_falloff_bit6 && (pport.data_set_clk_bit6 < maincpu_clk)) {
@@ -251,18 +237,20 @@ BYTE zero_read(WORD addr)
                 pport.data_set_bit7 = 0;
             }
 
+            /* for unused bits in input mode, the value comes from the "capacitor" */
+
             /* set real value of bit 6 */
             if (!(pport.dir_read & 0x40)) {
-                retval &= 0xbf;
+                retval &= ~0x40;
                 retval |= pport.data_set_bit6;
             }
 
             /* set real value of bit 7 */
             if (!(pport.dir_read & 0x80)) {
-                retval &= 0x7f;
+                retval &= ~0x80;
                 retval |= pport.data_set_bit7;
             }
-
+            /* printf("zero_read %02x %02x: ddr:%02x data:%02x (rd: ddr:%02x data:%02x)\n", addr, retval, pport.dir, pport.data, pport.dir_read, pport.data_read); */
             return retval;
     }
 
@@ -283,6 +271,7 @@ void zero_store(WORD addr, BYTE value)
 
     switch ((BYTE)addr) {
         case 0:
+            /* printf("zero_store %02x %02x: ddr:%02x data:%02x\n", addr, value, pport.dir, pport.data); */
             if (vbank == 0) {
                 if (c64_256k_enabled) {
                     c64_256k_ram_segment0_store((WORD)0, vicii_read_phi1());
@@ -297,17 +286,26 @@ void zero_store(WORD addr, BYTE value)
                 mem_ram[0] = vicii_read_phi1();
                 machine_handle_pending_alarms(1);
             }
+            /* when switching an unused bit from output (where it contained a
+               stable value) to input mode (where the input is floating), some
+               of the charge is transferred to the floating input */
 
             /* check if bit 6 has flipped */
-            if ((pport.dir ^ value) & 0x40) {
-                pport.data_set_bit6 = 0;
-                pport.data_falloff_bit6 = 0;
+            if ((pport.dir & 0x40)) {
+                if ((pport.dir ^ value) & 0x40) {
+                    pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                    pport.data_set_bit6 = pport.data & 0x40;
+                    pport.data_falloff_bit6 = 1;
+                }
             }
 
             /* check if bit 7 has flipped */
-            if ((pport.dir ^ value) & 0x80) {
-                pport.data_set_bit7 = 0;
-                pport.data_falloff_bit7 = 0;
+            if ((pport.dir & 0x80)) {
+                if ((pport.dir ^ value) & 0x80) {
+                    pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
+                    pport.data_set_bit7 = pport.data & 0x80;
+                    pport.data_falloff_bit7 = 1;
+                }
             }
 
             if (pport.dir != value) {
@@ -316,6 +314,7 @@ void zero_store(WORD addr, BYTE value)
             }
             break;
         case 1:
+            /* printf("zero_store %02x %02x: ddr:%02x data:%02x\n", addr, value, pport.dir, pport.data); */
             if (vbank == 0) {
                 if (c64_256k_enabled) {
                     c64_256k_ram_segment0_store((WORD)1, vicii_read_phi1());
@@ -331,15 +330,15 @@ void zero_store(WORD addr, BYTE value)
                 machine_handle_pending_alarms(1);
             }
 
-            /* update value if input, otherwise don't touch */
-            if (!(pport.dir & 0x80)) {
+            /* when writing to an unused bit that is output, charge the "capacitor",
+               otherwise don't touch it */
+            if (pport.dir & 0x80) {
                 pport.data_set_bit7 = value & 0x80;
                 pport.data_set_clk_bit7 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
                 pport.data_falloff_bit7 = 1;
             }
 
-            /* update value if input, otherwise don't touch */
-            if (!(pport.dir & 0x40)) {
+            if (pport.dir & 0x40) {
                 pport.data_set_bit6 = value & 0x40;
                 pport.data_set_clk_bit6 = maincpu_clk + C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES;
                 pport.data_falloff_bit6 = 1;

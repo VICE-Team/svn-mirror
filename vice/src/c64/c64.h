@@ -66,6 +66,8 @@
 
           it probably makes sense to tweak the values for a warmed up CPU, since
           this is likely how (old) programs were coded and tested :)
+
+          see testprogs/CPU/cpuport for details and tests
 */
 
 /* $01 bits 6 and 7 fall-off cycles (1->0), average is about 350 msec for a 6510 */
@@ -73,16 +75,12 @@
          and the fall-off time decreases quicker and more drastically than on a
          8500
 */
-/* #define C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES 350000 */
+#define C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES 350000
 /*
-   cpuports.prg from the lorenz testsuite will fail when the falloff takes more
-   than 1373 cycles. this suggests that he tested on a well warmed up c64 :)
-   he explicitly delays by ~1280 cycles and mentions capacitance, so he probably 
-   even was aware of what happens.
-   values ~1374 trigger a bug in cpuports.prg :)
-   larger values make cpuports.prg fail
+   cpuports.prg from the lorenz testsuite will fail when the falloff takes less
+   than 5984 cycles. he explicitly delays by ~1280 cycles and mentions capacitance, 
+   so he probably even was aware of what happens.
  */
-#define C64_CPU6510_DATA_PORT_FALL_OFF_CYCLES 1373
 
 /* $01 bits 6 and 7 fall-off cycles (1->0), average is about 1500 msec for a 8500 */
 #define C64_CPU8500_DATA_PORT_FALL_OFF_CYCLES 1500000
