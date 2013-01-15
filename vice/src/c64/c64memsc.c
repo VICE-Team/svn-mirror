@@ -307,6 +307,7 @@ void zero_store(WORD addr, BYTE value)
             /* check if bit 7 has flipped */
             if ((pport.dir ^ value) & 0x80) {
                 pport.data_set_bit7 = 0;
+                pport.data_falloff_bit7 = 0;
             }
 
             if (pport.dir != value) {
