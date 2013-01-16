@@ -17,6 +17,7 @@ if test x"$n2" = "x3"; then
 else
     linefeed="\\n"
 fi
+rm -f try.tmp
 
 $ECHO "/*"
 $ECHO " * infocontrib.h - Text of contributors to VICE, as used in info.c"
