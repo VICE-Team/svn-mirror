@@ -122,8 +122,8 @@ log_t ui_log = LOG_ERR;
 #define VSID_WINDOW_MINW     (400)
 #define VSID_WINDOW_MINH     (300)
 /* minimum size of regular emulator window */
-#define WINDOW_MINW     (320 / 2)
-#define WINDOW_MINH     (200 / 2)
+#define WINDOW_MINW     (320 / 2 + 1)
+#define WINDOW_MINH     (200 / 2 + 1)
 
 /* FIXME: perhaps also move these into app_shell_type */
 int have_cbm_font = FALSE;
@@ -801,8 +801,8 @@ static void get_initial_window_geo(video_canvas_t *canvas, int *x, int *y, int *
     } else {
         if ((window_width < WINDOW_MINW) || (window_height < WINDOW_MINH)) {
             /* FIXME: use proper defaults here */
-            window_width = WINDOW_MINW;
-            window_height = WINDOW_MINH;
+            window_width = WINDOW_MINW-1;
+            window_height = WINDOW_MINH-1;
             /* not initialized yet?
             window_width = canvas->draw_buffer->canvas_physical_width;
             window_height = canvas->draw_buffer->canvas_physical_height;
