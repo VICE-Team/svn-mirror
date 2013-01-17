@@ -270,7 +270,7 @@ ui_button_t ui_change_dir(const char *title, const char *prompt, char *buf, unsi
         r = UI_BUTTON_CANCEL;
     }
 
-    lib_free(fname);
+    g_free(fname);
     return r;
 }
 
