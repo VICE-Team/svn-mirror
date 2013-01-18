@@ -451,6 +451,10 @@ static int set_autodetect_size(int autodetect_size, void *param)
 
 static int set_version4(int val, void *param)
 {
+    if (!ide64_rom_list_item) {
+        settings_version4 = val;
+        return 0;
+    }
     if (settings_version4 != val) {
         ide64_unregister();
         settings_version4 = val;
