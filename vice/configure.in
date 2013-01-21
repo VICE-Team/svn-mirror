@@ -3508,6 +3508,31 @@ AC_OUTPUT([Makefile
            src/arch/amigaos/info-files/Makefile
            src/arch/amigaos/info-files/morphos/Makefile
            src/arch/amigaos/mui/Makefile
+           src/arch/android/Makefile
+           src/arch/android/AnVICE/Makefile
+           src/arch/android/AnVICE/.settings/Makefile
+           src/arch/android/AnVICE/assets/Makefile
+           src/arch/android/AnVICE/jni/Makefile
+           src/arch/android/AnVICE/jni/locnet/Makefile
+           src/arch/android/AnVICE/jni/locnet_al/Makefile
+           src/arch/android/AnVICE/jni/sdl/Makefile
+           src/arch/android/AnVICE/jni/vice_common/Makefile
+           src/arch/android/AnVICE/jni/vice_driver/Makefile
+           src/arch/android/AnVICE/jni/vice_main/Makefile
+           src/arch/android/AnVICE/jni/vice_vicii/Makefile
+           src/arch/android/AnVICE/jni/vice_x64/Makefile
+           src/arch/android/AnVICE/res/Makefile
+           src/arch/android/AnVICE/res/drawable/Makefile
+           src/arch/android/AnVICE/res/layout/Makefile
+           src/arch/android/AnVICE/res/values/Makefile
+           src/arch/android/AnVICE/src/Makefile
+           src/arch/android/AnVICE/src/com/Makefile
+           src/arch/android/AnVICE/src/com/locnet/Makefile
+           src/arch/android/AnVICE/src/com/locnet/vice/Makefile
+           src/arch/android/AnVICE/src/org/Makefile
+           src/arch/android/AnVICE/src/org/ab/Makefile
+           src/arch/android/AnVICE/src/org/ab/nativelayer/Makefile
+           src/arch/android/AnVICE/src/org/ab/uae/Makefile
            src/arch/beos/Makefile
            src/arch/msdos/Makefile
            src/arch/os2/Makefile

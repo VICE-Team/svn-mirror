@@ -1,6 +1,6 @@
 if SDL_COMPILE
 
-SUBDIRS = sdl
+SUBDIRS = android sdl
 
 else
 

@@ -1,0 +1,3 @@
+SUBDIRS = \
+	nativelayer \
+	uae
