@@ -111,13 +111,39 @@ void ui_handle_misc_sdl_event(SDL_Event e)
     }
 }
 
+#ifdef ANDROID_COMPILE
+#include "loader.h"
+
+extern int loader_loadstate;
+extern int loader_savestate;
+extern int loader_turbo;
+extern int loader_showinfo;
+extern int loader_true_drive;
+extern char savestate_filename[256];
+extern void loader_save_snapshot(char *name);
+extern void loader_load_snapshot(char *name);
+extern void loader_set_warpmode(int on);
+extern void loader_set_statusbar(int val);
+extern void loader_set_drive_true_emulation(int val);
+static int oldx = 0, oldy = 0, down_x, down_y;
+int old_joy_direction = 0;
+extern int mouse_x, mouse_y;
+#endif
+
 #if 0
 /* unused ? */
 void ui_dispatch_next_event(void)
 {
+#ifdef ANDROID_COMPILE
+    struct locnet_al_event event;
+
+    if (Android_PollEvent(&event)) {
+#else		
     SDL_Event e;
+
     if (SDL_PollEvent(&e)) {
         ui_handle_misc_sdl_event(e);
+#endif	
     } else {
         /* Add a small delay to not hog the host CPU when remote
            monitor is being used. */
@@ -132,6 +158,254 @@ ui_menu_action_t ui_dispatch_events(void)
     SDL_Event e;
     ui_menu_action_t retval = MENU_ACTION_NONE;
 
+#ifdef ANDROID_COMPILE
+    struct locnet_al_event event1;
+
+    if (loader_showinfo) {
+        int value = loader_showinfo;
+
+        loader_showinfo = 0;
+        loader_set_statusbar((value == 1) ? 1 : 0);
+    }
+    if (loader_true_drive) {
+        int value = loader_true_drive;
+
+        loader_true_drive = 0;
+        loader_set_drive_true_emulation((value == 1) ? 1 : 0);
+    }
+    if (loader_turbo) {
+        int value = loader_turbo;
+
+        loader_turbo = 0;
+        loader_set_warpmode((value == 1) ? 1 : 0);
+    }
+    if (loadf->frameskip) {
+        int value = loadf->frameskip;
+
+        loadf->frameskip = 0;		
+        resources_set_int("RefreshRate", ((value > 0) && (value <= 10)) ? (value + 1) : 1);
+    }
+    if (loadf->abort) {
+        loadf->abort = 0;
+        ui_pause_emulation(1);
+        ui_sdl_quit();
+        ui_pause_emulation(0);
+        return MENU_ACTION_NONE;
+    } else if (loader_loadstate) {
+        loader_loadstate = 0;
+        loader_load_snapshot(savestate_filename);
+        ui_pause_emulation(0);
+        return MENU_ACTION_NONE;
+    } else if (loader_savestate) {
+        loader_savestate = 0;
+        loader_save_snapshot(savestate_filename);
+        ui_pause_emulation(0);
+        return MENU_ACTION_NONE;
+    }
+
+    int stopPoll = 0;
+
+    while ((!stopPoll) && Android_PollEvent(&event1)) {
+        struct locnet_al_event *event = &event1;
+
+        switch (event->eventType) {
+            case SDL_MOUSEMOTION:
+                {
+                    //locnet, 2011-06-16, detect auto calibrate
+                    if ((event->x == -2048) && (event->y == -2048)) {
+                        down_x = -1;
+                        down_y = -1;
+                        oldx = 0;
+                        oldy = 0;
+                        stopPoll = 1;
+                    //locnet, 2011-07-01, detect pure relative move
+                    } else if ((event->down_x == -1024) && (event->down_y == -1024)) {
+                        down_x = 0;
+                        down_y = 0;
+                        oldx = 0;
+                        oldy = 0;
+                    } else if ((down_x != event->down_x) || (down_y != event->down_y)) {
+                        down_x = event->down_x;
+                        down_y = event->down_y;
+                        oldx = down_x;
+                        oldy = down_y;
+                    }
+                    mouse_move((int)(event->x - oldx), (int)(event->y - oldy));
+                    oldx = event->x;
+                    oldy = event->y;
+                }
+                break;
+            case SDL_MOUSEBUTTONDOWN:
+                {
+                    if ((event->down_x >= 0) && (event->down_y >= 0)) {
+                        mouse_x = 640 * event->down_x / 1000.0f - 64;
+                        mouse_y = 400 * (1000 - event->down_y) / 1000.0f - 200;
+                    }
+                    if (event->keycode >= 0) {
+                        mouse_button((int)(event->keycode) ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT, 1);
+                    }
+                    stopPoll = 1;
+                }
+                break;
+            case SDL_MOUSEBUTTONUP:
+                {
+                    if (event->keycode >= 0) {
+                        mouse_button((int)(event->keycode) ? SDL_BUTTON_RIGHT : SDL_BUTTON_LEFT, 0);
+                    }
+                    stopPoll = 1;
+                }
+                break;
+            case SDL_JOYAXISMOTION:
+                {
+                    float x = event->x / 256.0f;
+                    float y = event->y / 256.0f;
+                    int left = 0, top = 0, right = 0, bot = 0;
+                    int value;
+
+                    if (y < -DEAD_ZONE) {
+                        top = 1;
+                    }
+                    if (y > DEAD_ZONE) {
+                        bot = 1;
+                    }
+                    if (x < -DEAD_ZONE) {
+                        left = 1;
+                    }
+                    if (x > DEAD_ZONE) {
+                        right = 1;
+                    }
+
+                    value = 0;
+
+                    if (left) {
+                        value |= 4;
+                    }
+                    if (right) {
+                        value |= 8;
+                    }
+                    if (top) {
+                        value |= 1;
+                    }
+                    if (bot) {
+                        value |= 2;
+                    }
+                    retval = sdljoy_axis_event(0, 0, event->x / 256.0f * 32767);
+                    ui_menu_action_t retval2 = sdljoy_axis_event(0, 1, event->y / 256.0f * 32767);
+                    if (retval == MENU_ACTION_NONE) {
+                        retval = retval2;
+                    }
+                    old_joy_direction = value;
+                    stopPoll = 1;
+                }
+                break;
+            case SDL_JOYBUTTONDOWN:
+                {
+                    retval = sdljoy_button_event(0, event->keycode, 1);
+
+                    //2011-09-20, buffer overflow when autofire if stopPoll
+                    if (!Android_HasRepeatEvent(SDL_JOYBUTTONDOWN, event->keycode)) {
+                        stopPoll = 1;
+                    }
+                }
+                break;
+            case SDL_JOYBUTTONUP:
+                {
+                    retval = sdljoy_button_event(0, event->keycode, 0);
+
+                    //2011-09-20, buffer overflow when autofire if stopPoll
+                    if (!Android_HasRepeatEvent(SDL_JOYBUTTONUP, event->keycode)) {
+                        stopPoll = 1;
+                    }
+                }
+                break;
+            case SDL_KEYUP:
+            case SDL_KEYDOWN:
+                {
+                    static int ctrl_down = 0;
+                    static int alt_down = 0;
+                    static int shift_down = 0;
+
+                    int down = (event->eventType == SDL_KEYDOWN);
+                    unsigned long modifier = event->modifier;
+                    int ctrl = ((modifier & KEYBOARD_CTRL_FLAG) != 0);
+                    int alt = ((modifier & KEYBOARD_ALT_FLAG) != 0);
+                    int shift = ((modifier & KEYBOARD_SHIFT_FLAG) != 0);
+                    unsigned long kcode = (unsigned long)event->keycode;
+
+                    int kmod = 0;
+
+                    if (ctrl) {
+                        kmod |= KMOD_LCTRL;
+                    }
+                    if (alt) {
+                        kmod |= KMOD_LALT;
+                    }
+                    if (shift) {
+                        kmod |= KMOD_LSHIFT;
+                    }
+                    if (down) {
+                        if (ctrl || (kcode == SDLK_TAB)) {
+                            if (!ctrl_down) {
+                                keyboard_key_pressed((unsigned long)SDLK_TAB);
+                            }
+                            ctrl_down++;
+                        }
+                        if (alt || (kcode == SDLK_LCTRL)) {
+                            if (!alt_down) {
+                                keyboard_key_pressed((unsigned long)SDLK_LCTRL);
+                            }
+                            alt_down++;
+                        }
+                        if (shift || (kcode == SDLK_LSHIFT)) {
+                            if (!shift_down) {
+                                keyboard_key_pressed((unsigned long)SDLK_LSHIFT);
+                            }
+                            shift_down++;
+                        }
+                        retval = sdlkbd_press(kcode, 0);
+                    } else {
+                        retval = sdlkbd_release(kcode, 0);
+
+                        if (ctrl || (kcode == SDLK_TAB)) {
+                            if (kcode == SDLK_TAB) {
+                                ctrl_down = 0;
+                            }
+                            if (ctrl_down) {
+                                ctrl_down--;
+                            }
+                            if (!ctrl_down) {
+                                keyboard_key_released((unsigned long)SDLK_TAB);
+                            }
+                        }
+                        if (alt || (kcode == SDLK_LCTRL)) {
+                            if (kcode == SDLK_LCTRL) {
+                                alt_down = 0;
+                            }
+                            if (alt_down) {
+                                alt_down--;
+                            }
+                            if (!alt_down) {
+                                keyboard_key_released((unsigned long)SDLK_LCTRL);
+                            }
+                        }
+                        if (shift || (kcode == SDLK_LSHIFT)) {
+                            if (kcode == SDLK_LSHIFT) {
+                                shift_down = 0;
+                            }
+                            if (shift_down) {
+                                shift_down--;
+                            }
+                            if (!shift_down) {
+                                keyboard_key_released((unsigned long)SDLK_LSHIFT);
+                            }
+                        }
+                    }
+                    stopPoll = 1;
+                }
+                break;
+        }
+    }
+#else
     while (SDL_PollEvent(&e)) {
         switch (e.type) {
             case SDL_KEYDOWN:
@@ -176,6 +450,7 @@ ui_menu_action_t ui_dispatch_events(void)
             break;
         }
     }
+#endif
     return retval;
 }
 

@@ -1037,7 +1037,11 @@ static int sound_run_sound(void)
             return 0;
         }
         if (snddata.bufptr + nr > SOUND_BUFSIZE) {
+#ifndef ANDROID_COMPILE
             return sound_error(translate_text(IDGS_SOUND_BUFFER_OVERFLOW));
+#else
+            return 0;
+#endif
         }
         bufferptr = snddata.buffer + snddata.bufptr * snddata.sound_output_channels;
         sound_machine_calculate_samples(snddata.psid,

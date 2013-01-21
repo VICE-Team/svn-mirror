@@ -562,8 +562,13 @@ static int set_mouse_type(int val, void *param)
 }
 
 static const resource_int_t resources_int[] = {
+#ifdef ANDROID_COMPILE
+    { "Mouse", 1, RES_EVENT_SAME, NULL,
+      &_mouse_enabled, set_mouse_enabled, NULL },
+#else
     { "Mouse", 0, RES_EVENT_SAME, NULL,
       &_mouse_enabled, set_mouse_enabled, NULL },
+#endif
     { NULL }
 };
 

@@ -286,12 +286,21 @@ static const resource_string_t resources_string[] = {
 static const resource_int_t resources_int[] = {
     { "SDLBitdepth", VICE_DEFAULT_BITDEPTH, RES_EVENT_NO, NULL,
       &sdl_bitdepth, set_sdl_bitdepth, NULL },
+#ifdef ANDROID_COMPILE
+    { "SDLLimitMode", SDL_LIMIT_MODE_MAX, RES_EVENT_NO, NULL,
+      &sdl_limit_mode, set_sdl_limit_mode, NULL },
+    { "SDLCustomWidth", 320, RES_EVENT_NO, NULL,
+      &sdl_custom_width, set_sdl_custom_width, NULL },
+    { "SDLCustomHeight", 200, RES_EVENT_NO, NULL,
+      &sdl_custom_height, set_sdl_custom_height, NULL },
+#else
     { "SDLLimitMode", SDL_LIMIT_MODE_OFF, RES_EVENT_NO, NULL,
       &sdl_limit_mode, set_sdl_limit_mode, NULL },
     { "SDLCustomWidth", 800, RES_EVENT_NO, NULL,
       &sdl_custom_width, set_sdl_custom_width, NULL },
     { "SDLCustomHeight", 600, RES_EVENT_NO, NULL,
       &sdl_custom_height, set_sdl_custom_height, NULL },
+#endif
     { "SDLWindowWidth", 0, RES_EVENT_NO, NULL,
       &sdl_window_width, set_sdl_window_width, NULL },
     { "SDLWindowHeight", 0, RES_EVENT_NO, NULL,
@@ -605,7 +614,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
     }
 
     if (canvas == sdl_active_canvas) {
+#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
+#endif
 #ifndef HAVE_HWSCALE
         new_screen = SDL_SetVideoMode(actual_width, actual_height, sdl_bitdepth, flags);
         new_width = new_screen->w;
@@ -643,7 +654,9 @@ static video_canvas_t *sdl_canvas_create(video_canvas_t *canvas, unsigned int *w
             }
         }
 #endif
+#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
+#endif
     } else {
 #ifdef HAVE_HWSCALE
         /* free the old hwscale screen when hwscaled screen is switched away */
@@ -913,9 +926,13 @@ static void sdl_video_resize(unsigned int w, unsigned int h)
             flags = SDL_OPENGL | SDL_SWSURFACE | SDL_RESIZABLE;
         }
 
+#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_IGNORE);
+#endif
         sdl_active_canvas->hwscale_screen = SDL_SetVideoMode((int)w, (int)h, sdl_bitdepth, flags);
+#ifndef ANDROID_COMPILE
         SDL_EventState(SDL_VIDEORESIZE, SDL_ENABLE);
+#endif
 
 #ifdef SDL_DEBUG
         if (!sdl_active_canvas->hwscale_screen) {

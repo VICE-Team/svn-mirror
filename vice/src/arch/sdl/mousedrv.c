@@ -36,7 +36,12 @@
 #include "ui.h"
 #include "vsyncapi.h"
 
+#ifdef ANDROID_COMPILE
+int mouse_x, mouse_y;
+#else
 static int mouse_x, mouse_y;
+#endif
+
 static unsigned long mouse_timestamp = 0;
 
 void mousedrv_mouse_changed(void)

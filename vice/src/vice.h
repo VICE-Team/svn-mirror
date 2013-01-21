@@ -41,7 +41,11 @@
 #ifdef IDE_COMPILE
 # include <ide-config.h> /* standard config file for IDE based compiles. */
 #else
-# include <config.h> /* Automagically created by the `configure' script.  */
+# ifdef ANDROID_COMPILE
+#  include <config.android.h>
+# else
+#  include <config.h> /* Automagically created by the `configure' script.  */
+# endif
 #endif
 
 /* ------------------------------------------------------------------------- */

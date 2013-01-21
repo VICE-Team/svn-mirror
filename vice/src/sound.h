@@ -35,7 +35,12 @@
 
 
 /* Sound defaults.  */
+#ifdef ANDROID_COMPILE
+#define SOUND_SAMPLE_RATE 22050
+#else
 #define SOUND_SAMPLE_RATE 44100
+#endif
+
 #define SOUND_CHANNELS_MAX 2
 #define SOUND_BUFSIZE 32768
 #define SOUND_SIDS_MAX 3

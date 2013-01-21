@@ -1,5 +1,6 @@
 SUBDIRS = \
 	amigaos \
+	android \
 	beos \
 	macosx \
 	mingw32 \
