@@ -123,7 +123,7 @@ static void mon_register_set_val(int mem, int reg_id, WORD val)
         WDC65816_REGS_SET_SP(reg_ptr, (WORD)val);
         break;
       case e_DPR:
-        WDC65816_REGS_SET_DPR(reg_ptr, (WORD)val);
+        WDC65816_REGS_SET_DPR(reg_ptr, (BYTE)val);
         break;
       case e_PBR:
         WDC65816_REGS_SET_PBR(reg_ptr, (BYTE)val);

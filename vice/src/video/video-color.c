@@ -436,8 +436,8 @@ static void video_cbm_palette_to_ycbcr(const video_cbm_palette_t *p, video_ycbcr
            admittedly slightly ugly but simple and effective :) */
         palette_entry_t src;
         for (i = 0; i < p->num_entries; i++) {
-            src.red = p->entries[i].luminance;
-            src.green = p->entries[i].angle;
+            src.red = (BYTE)p->entries[i].luminance;
+            src.green = (BYTE)p->entries[i].angle;
             src.blue = p->entries[i].direction;
             video_convert_rgb_to_ycbcr(&src, &ycbcr->entries[i]);
         }
