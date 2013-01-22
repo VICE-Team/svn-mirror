@@ -2,7 +2,6 @@ SUBDIRS = \
 	.settings \
 	assets \
 	jni \
-	res \
 	src
 
 EXTRA_DIST = \
@@ -16,4 +15,18 @@ EXTRA_DIST = \
 	proguard.cfg \
 	proguard-project.txt \
 	project.properties \
-	README.txt
+	README.txt \
+	res/drawable/file.png \
+	res/drawable/folder.png \
+	res/drawable/icon.png \
+	res/drawable/icon32.png \
+	res/layout/file_row.xml \
+	res/layout/keymapper.xml \
+	res/layout/prefs.xml \
+	res/layout/scale.xml \
+	res/layout/slider.xml \
+	res/layout/system.xml \
+	res/values/defaults.xml \
+	res/values/dimens.xml \
+	res/values/strings.xml \
+	res/values/themes.xml
