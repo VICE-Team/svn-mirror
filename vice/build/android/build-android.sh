@@ -24,4 +24,4 @@ ndk-build
 echo generating apk
 ant debug
 cd ../../../..
-mv src/arch/android/bin/PreConfig-debug.apk ./AnVICE-arm.apk
+mv src/arch/android/AnVICE/bin/PreConfig-debug.apk ./AnVICE-arm.apk
