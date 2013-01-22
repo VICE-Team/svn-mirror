@@ -2242,7 +2242,7 @@
       JUMP(reg_pc);                        \
   } while (0)
 
-#define RTS(load_func)           \
+#define RTS()                    \
   do {                           \
       INC_PC(SIZE_1);            \
       FETCH_PARAM_DUMMY(reg_pc); \
