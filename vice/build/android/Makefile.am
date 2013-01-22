@@ -1,1 +1,3 @@
-EXTRA_DIST = build-android.sh
+EXTRA_DIST = \
+	build-android.sh \
+	build-android.sh.in
