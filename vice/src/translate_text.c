@@ -4909,23 +4909,6 @@ translate_t string_table[] = {
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
 #endif
 
-/* initcmdline.c */
-/* en */ {IDCLS_SID_PLAYER_MODE,    N_("SID player mode")},
-#ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SID_PLAYER_MODE_DA, "SID-afspiller tilstand"},
-/* de */ {IDCLS_SID_PLAYER_MODE_DE, "SID Player Modus"},
-/* es */ {IDCLS_SID_PLAYER_MODE_ES, "Modo SID player"},
-/* fr */ {IDCLS_SID_PLAYER_MODE_FR, "Mode jukebox SID"},
-/* hu */ {IDCLS_SID_PLAYER_MODE_HU, "SID lejátszó mód"},
-/* it */ {IDCLS_SID_PLAYER_MODE_IT, "Modalità del SID player"},
-/* ko */ {IDCLS_SID_PLAYER_MODE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SID_PLAYER_MODE_NL, "SID playermodus"},
-/* pl */ {IDCLS_SID_PLAYER_MODE_PL, "Tryb odtwarzacza SID"},
-/* ru */ {IDCLS_SID_PLAYER_MODE_RU, "SID player mode"},
-/* sv */ {IDCLS_SID_PLAYER_MODE_SV, "SID-spelarläge"},
-/* tr */ {IDCLS_SID_PLAYER_MODE_TR, "SID çalar modu"},
-#endif
-
 /* c64/psid.c */
 /* en */ {IDCLS_OVERWRITE_PSID_SETTINGS,    N_("Override PSID settings for Video standard and SID model")},
 #ifdef HAS_TRANSLATION

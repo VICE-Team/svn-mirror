@@ -90,10 +90,10 @@ static int cmdline_help(const char *param, void *extra_param)
     return 0;   /* OSF1 cc complains */
 }
 
-static int cmdline_dummy_callback(const char *param, void *extra_param)
+static int cmdline_config(const char *param, void *extra_param)
 {
     /* "-config" needs to be handled before this gets called
-       but they also need to be registered as cmdline options,
+       but it also needs to be registered as a cmdline option,
        hence this kludge. */
     return 0;
 }
@@ -173,7 +173,7 @@ static const cmdline_option_t common_cmdline_options[] = {
       IDCLS_UNUSED, IDCLS_SHOW_COMMAND_LINE_OPTIONS,
       NULL, NULL },
     { "-config", CALL_FUNCTION, 1,
-      cmdline_dummy_callback, NULL, NULL, NULL,
+      cmdline_config, NULL, NULL, NULL,
       USE_PARAM_ID, USE_DESCRIPTION_ID,
       IDCLS_P_FILE, IDCLS_SPECIFY_CONFIG_FILE,
       NULL, NULL },

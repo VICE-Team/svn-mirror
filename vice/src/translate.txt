@@ -494,9 +494,6 @@ IDCLS_MAP_CART_IO_2
    c64/cart/tfe.c */
 IDCLS_MAP_CART_IO_3
 
-/* initcmdline.c */
-IDCLS_SID_PLAYER_MODE
-
 /* c64/psid.c */
 IDCLS_OVERWRITE_PSID_SETTINGS
 
