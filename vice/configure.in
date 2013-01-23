@@ -3510,6 +3510,7 @@ AC_OUTPUT([Makefile
            src/arch/amigaos/info-files/morphos/Makefile
            src/arch/amigaos/mui/Makefile
            src/arch/android/Makefile
+           src/arch/android/AnVICE/AndroidManifest.xml
            src/arch/android/AnVICE/Makefile
            src/arch/android/AnVICE/.settings/Makefile
            src/arch/android/AnVICE/assets/Makefile
