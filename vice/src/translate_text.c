@@ -1222,7 +1222,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_CPUHISTORY_DESCRIPTION,    N_("Show <count> last executed commands.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DA, "Vis <antal> senest eksekverede instruktioner."},
-/* de */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DE, "Zeige [<Zähler>] zuletzt ausgeführte Kommandos"},
+/* de */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DE, "Zeige <Zähler> zuletzt ausgeführte Kommandos"},
 /* es */ {IDGS_MON_CPUHISTORY_DESCRIPTION_ES, "Show <contador> último comando ejecutado."},
 /* fr */ {IDGS_MON_CPUHISTORY_DESCRIPTION_FR, "Afficher les <count> dernières commandes exécutées."},
 /* hu */ {IDGS_MON_CPUHISTORY_DESCRIPTION_HU, "<darab> utoljára végrehajtott utasítás mutatása."},
@@ -12152,6 +12152,91 @@ translate_t string_table[] = {
 /* ru */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_RU, "Length of memory block initialized with the same pattern"},
 /* sv */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_SV, "Längd på minnesblock som initierats med samma mönster"},
 /* tr */ {IDCLS_LENGTH_BLOCK_SAME_PATTERN_TR, "Ayný desenle balangýç ayarlarý yapýlan bellek bloðu uzunluðu"},
+#endif
+
+/* romset.c */
+/* en */ {IDCLS_PB_FILE,    N_("<File>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_PB_FILE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_PB_FILE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_PB_FILE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_PB_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_PB_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_PB_FILE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_PB_FILE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_PB_FILE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_PB_FILE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_PB_FILE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_PB_FILE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_PB_FILE_TR, ""},  /* fuzzy */
+#endif
+
+/* romset.c */
+/* en */ {IDCLS_LOAD_ROMSET_FILE,    N_("load the given romset file")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_LOAD_ROMSET_FILE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_LOAD_ROMSET_FILE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_LOAD_ROMSET_FILE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_LOAD_ROMSET_FILE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_LOAD_ROMSET_FILE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_LOAD_ROMSET_FILE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_LOAD_ROMSET_FILE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_LOAD_ROMSET_FILE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_LOAD_ROMSET_FILE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_LOAD_ROMSET_FILE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_LOAD_ROMSET_FILE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_LOAD_ROMSET_FILE_TR, ""},  /* fuzzy */
+#endif
+
+/* romset.c */
+/* en */ {IDCLS_LOAD_ROMSET_ARCHIVE,    N_("load the given romset archive")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_LOAD_ROMSET_ARCHIVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_LOAD_ROMSET_ARCHIVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_LOAD_ROMSET_ARCHIVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_LOAD_ROMSET_ARCHIVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_LOAD_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_LOAD_ROMSET_ARCHIVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_LOAD_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_LOAD_ROMSET_ARCHIVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_LOAD_ROMSET_ARCHIVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_LOAD_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_LOAD_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_LOAD_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
+#endif
+
+/* romset.c */
+/* en */ {IDCLS_P_ITEM_NUMBER,    N_("<Item number>")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_P_ITEM_NUMBER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_P_ITEM_NUMBER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_P_ITEM_NUMBER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_P_ITEM_NUMBER_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_P_ITEM_NUMBER_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_P_ITEM_NUMBER_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_P_ITEM_NUMBER_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ITEM_NUMBER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_ITEM_NUMBER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_P_ITEM_NUMBER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_P_ITEM_NUMBER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_P_ITEM_NUMBER_TR, ""},  /* fuzzy */
+#endif
+
+/* romset.c */
+/* en */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE,    N_("select the given item from the current romset archive")},
+#ifdef HAS_TRANSLATION
+/* da */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_FR, ""},  /* fuzzy */
+/* hu */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
+/* it */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_IT, ""},  /* fuzzy */
+/* ko */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
 #endif
 
 /* sound.c */
