@@ -8,6 +8,7 @@ EXTRA_DIST = \
 	.classpath \
 	.project \
 	AndroidManifest.xml \
+	AndroidManifest.xml.in \
 	build.xml \
 	clean.sh \
 	config.android.h \
