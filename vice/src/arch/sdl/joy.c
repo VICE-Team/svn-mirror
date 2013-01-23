@@ -232,7 +232,7 @@ static const cmdline_option_t cmdline_options[] = {
 #ifdef HAVE_SDL_NUMJOYSTICKS
     { "-joymap", SET_RESOURCE, 1, NULL, NULL, "JoyMapFile", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
-      N_("<name>"), "Specify name of joystick map file" },
+      "<name>", "Specify name of joystick map file" },
     { "-joythreshold", SET_RESOURCE, 1, NULL, NULL, "JoyThreshold", NULL,
       USE_PARAM_STRING, USE_DESCRIPTION_STRING, IDCLS_UNUSED, IDCLS_UNUSED,
       "<0-32767>", "Set joystick threshold" },
