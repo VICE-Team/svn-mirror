@@ -10,4 +10,5 @@ SUBDIRS = \
 
 EXTRA_DIST = \
 	Android.mk \
-	Application.mk
+	Application.mk \
+	Application.proto
