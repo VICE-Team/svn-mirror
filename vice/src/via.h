@@ -42,7 +42,8 @@
 #define VIA_T1LH        7  /* Timer 1 latch high */
 #define VIA_T2CL        8  /* Timer 2 count low - read only */
 #define VIA_T2LL        8  /* Timer 2 latch low - write only */
-#define VIA_T2CH        9  /* Timer 2 latch/count high */
+#define VIA_T2CH        9  /* Timer 2 count high - read only */
+#define VIA_T2LH        9  /* Timer 2 latch high - write only */
 
 #define VIA_SR          10 /* Serial port shift register */
 #define VIA_ACR         11 /* Auxiliary control register */
@@ -85,7 +86,8 @@ typedef struct via_context_s {
     int ifr;
     int ier;
     unsigned int tal;
-    unsigned int tbl;
+    BYTE t2cl; /* IF: T2 counter low */
+    BYTE t2ch; /* IF: T2 counter high */
     CLOCK tau;
     CLOCK tbu;
     CLOCK tai;
@@ -101,6 +103,7 @@ typedef struct via_context_s {
     BYTE ilb;
     int ca2_state;
     int cb2_state;
+    BYTE shift_state;          /* IF: state helper for shift register */
     struct alarm_s *t1_alarm;
     struct alarm_s *t2_alarm;
     signed int log;            /* init to LOG_ERR */
@@ -172,3 +175,4 @@ extern int viacore_snapshot_read_module(struct via_context_s *via_context,
                                         struct snapshot_s *s);
 extern int viacore_dump(via_context_t *via_context);
 #endif
+

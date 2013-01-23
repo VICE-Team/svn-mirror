@@ -159,6 +159,7 @@ static void store_pra(via_context_t *via_context, BYTE byte, BYTE oldpa_value,
 
 static void undump_pra(via_context_t *via_context, BYTE byte)
 {
+
 }
 
 static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
@@ -178,18 +179,41 @@ static void store_prb(via_context_t *via_context, BYTE byte, BYTE poldpb,
     via2p->drive->led_last_change_clk = *(via_context->clk_ptr);
     via2p->drive->led_status = (byte & 8) ? 1 : 0;
 
-    if (((poldpb ^ byte) & 0x3) && (byte & 0x4)) {
-        /* Stepper motor */
-#if 0
-        /* FIXME: this code is supposed to be more correct, but breaks the AR loader */
-        drive_move_head(((byte - via2p->drive->current_half_track + 3) & 3) - 1, via2p->drive);
-#else
-        if ((poldpb & 0x3) == ((byte + 1) & 0x3)) {
-            drive_move_head(-1, via2p->drive);
-        } else if ((poldpb & 0x3) == ((byte - 1) & 0x3)) {
-            drive_move_head(+1, via2p->drive);
+    /* IF: based on 1540008-01, the original 'Long Board' schematics
+       Stepper motor control is the 2 bit value set here demuxed to 4 lines.
+       The lines drive the inputs lines of a stepper motor and represent coil control.
+       The stepper lines are only enabled if the drive motor is on.
+       The rotor moves to absolute positions controlled by activating the coils - the programming method
+       suggests a binary counter circuitry, but that is not the case, the similarity is just a side effect.
+       Note, how switching the drive motor on/off may move the stepper motor as well.
+    */
+    /* Process stepper motor if the drive motor is on */
+    if (byte & 0x4) {
+        /* vice track numbering starts with 2... we need the real, physical track number */
+        int track_number = via2p->drive->current_half_track - 2;
+
+        /* the new coil line activated */
+        int new_stepper_position = byte & 3;
+
+        /* the previous coil line currently active 
+           track 0: position 0
+           track 1: position 1
+           track 2: position 2
+           track 3: position 3
+           track 4: position 0
+           ... */
+        int old_stepper_position = track_number & 3;
+
+        /* the steps travelled and the direction */
+        int step_count = (new_stepper_position - old_stepper_position) & 3;
+        if (step_count == 3) {
+            step_count = -1;
         }
-#endif
+
+        /* presumably only single steps work */
+        if (step_count == 1 || step_count == -1) {
+            drive_move_head(step_count, via2p->drive);
+        }
     }
     if ((poldpb ^ byte) & 0x60) {   /* Zone bits */
         rotation_speed_zone_set((byte >> 5) & 0x3, via2p->number);
@@ -295,7 +319,7 @@ static BYTE read_pra(via_context_t *via_context, WORD addr)
     rotation_byte_read(via2p->drive);
 
     byte = ((via2p->drive->GCR_read & ~(via_context->via[VIA_DDRA]))
-            | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
+           | (via_context->via[VIA_PRA] & via_context->via[VIA_DDRA]));
 
     via2p->drive->byte_ready_level = 0;
 
@@ -314,8 +338,8 @@ static BYTE read_prb(via_context_t *via_context)
 
     rotation_rotate_disk(via2p->drive);
     byte = ((rotation_sync_found(via2p->drive)
-             | drive_writeprotect_sense(via2p->drive))
-            & ~(via_context->via[VIA_DDRB]))
+           | drive_writeprotect_sense(via2p->drive))
+           & ~(via_context->via[VIA_DDRB]))
            | (via_context->via[VIA_PRB] & via_context->via[VIA_DDRB]);
 
 
