@@ -1,6 +1,6 @@
 #!/bin/sh
 
-VICEVERSION=2.4.1
+VICEVERSION=2.4.2
 
 # see if we are in the top of the tree
 if [ ! -f configure.in ]; then

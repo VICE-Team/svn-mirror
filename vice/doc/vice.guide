@@ -705,13 +705,14 @@ The different settings are described in see @{"CBM-II model" Link "CBM-II model"
 SCPU64 emulator features
 ========================
 
-The SCPU64 emulates a C64 equiped with a SuperCPU64 V2.
+The XSCPU64 emulator is a simulation of a C64 equipped with a
+SuperCPU64 V2B. Features:
 
    * 20 MHz asynchronous single cycle 65816 CPU core with proper dummy
      and invalid cycle handling.
 
-   * 128 KiB static RAM, 16 MiB SIMM RAM, 128 KiB EPROM emulated and
-     their respective timing details.
+   * 128 KiB static RAM, 0-16 MiB SIMM RAM, 64-512 KiB EPROM emulated
+     and their respective timing details.
 
    * All RAM optimization configurations supported with write buffer.
 
@@ -722,15 +723,35 @@ The SCPU64 emulates a C64 equiped with a SuperCPU64 V2.
 
    * Hardware registers and switches implemented.
 
+   * Replacement SCPU64 ROM compatible with the original to avoid
+     distribution problems
+
+   * It's using the single cycle VICII core for accurate simulation
+
 Still to do:
+
+   * Measure and verify VICII interrupt phase shift
+
+   * Measure and verify BA phase shift
 
    * SIMM RAM extra 7.5 cycle refresh delay every 10us missing.
 
-   * DOS memory map does not exists.
+   * CPU NMI support for "reset" button
 
-   * RamLink hardware registers flag does not exists.
+The emulation is quite accurate but not perfect. If you code something
+timing intensive using this simulation please always check it on real
+hardware to avoid bad surprises.
 
-   * CPU ABORT support for "reset" button
+The hardware itself is asynchronous in nature, therefore caution must
+be taken to not do long timing loops without synchronization in 20 MHz
+mode. Also don't squeeze out the last remaining cycles without leaving
+a safety buffer.  Synchronization points can be created by doing I/O
+reads or writes and leaving a few hundred cycles left each frame will
+not hurt.
+
+Otherwise it can happen that the code is running on this version of
+VICE or my SCPU64 V2+C128D perfectly but nowhere else due to
+manufacturing variations and frequency drifts.
 
 
 @EndNode
@@ -1713,6 +1734,11 @@ file for the PET 2001 is
 
 As you can see, the file even uses the same syntax as the resource
 file, it is just a bit stripped down.
+
+While a Romset file is processed, the directory where the Romset file
+was found is temporarily prepended to the search path (`Directory'
+resource). This also means that if you have a setting for `Directory'
+in it, its effect is limited to the Romset file itself.
 
 
 @EndNode
@@ -15566,12 +15592,12 @@ The VICE core team:
    * Marcus Sutton Made some console, dialog and joystick fixes for the
      BeOS port.  Maintains the BeOS port.
 
-     Ulrich Schulz Maintains the Dingoo port(s).
+   * Ulrich Schulz Maintains the Dingoo port(s).
 
    * Kajtar Zsolt Wrote the IDE64 interface emulation, FD2000/4000
-     drive emulation and alot of fixes. Improved the mouse support.
-     Added drive burst modification support. Added 1541 drive sounds
-     emulation. Improved c64 cart emulation.
+     drive emulation, SCPU64 emulation and alot of fixes. Improved the
+     mouse support. Added drive burst modification support. Added 1541
+     drive sounds emulation. Improved c64 cart emulation.
 
 Former/inactive team members:
 
@@ -15775,7 +15801,8 @@ External contributors:
 
    * Magnus Lind Atari ST mouse and Atari CX-22 trackball emulation and
      pixel aspect fixes. Improved the Amiga mouse emulation. Improved
-     the vic20 sound output. Improved sound fragment size handling.
+     the vic20 sound output. Added windows POV hat support.  Improved
+     sound fragment size handling.
 
    * Wolfgang Lorenz Wrote an excellent 6510 test suite that helped us
      to debug the CPU emulation.
@@ -15981,39 +16008,39 @@ with.  :-)
 Copyright
 *********
 
-   * Copyright (C) 1998-2012 Dag Lem
+   * Copyright (C) 1998-2013 Dag Lem
 
-   * Copyright (C) 1999-2012 Andreas Matthies
+   * Copyright (C) 1999-2013 Andreas Matthies
 
-   * Copyright (C) 1999-2012 Martin Pottendorfer
+   * Copyright (C) 1999-2013 Martin Pottendorfer
 
-   * Copyright (C) 2005-2012 Marco van den Heuvel
+   * Copyright (C) 2005-2013 Marco van den Heuvel
 
-   * Copyright (C) 2006-2012 Christian Vogelgsang
+   * Copyright (C) 2006-2013 Christian Vogelgsang
 
-   * Copyright (C) 2007-2012 Fabrizio Gennari
+   * Copyright (C) 2007-2013 Fabrizio Gennari
 
-   * Copyright (C) 2007-2012 Daniel Kahlin
+   * Copyright (C) 2007-2013 Daniel Kahlin
 
-   * Copyright (C) 2009-2012 Groepaz
+   * Copyright (C) 2009-2013 Groepaz
 
-   * Copyright (C) 2009-2012 Ingo Korb
+   * Copyright (C) 2009-2013 Ingo Korb
 
-   * Copyright (C) 2009-2012 Errol Smith
+   * Copyright (C) 2009-2013 Errol Smith
 
-   * Copyright (C) 2010-2012 Olaf Seibert
+   * Copyright (C) 2010-2013 Olaf Seibert
 
-   * Copyright (C) 2011-2012 Marcus Sutton
+   * Copyright (C) 2011-2013 Marcus Sutton
 
-   * Copyright (C) 2011-2012 Ulrich Schulz
+   * Copyright (C) 2011-2013 Ulrich Schulz
 
-   * Copyright (C) 2011-2012 Stefan Haubenthal
+   * Copyright (C) 2011-2013 Stefan Haubenthal
 
-   * Copyright (C) 2011-2012 Thomas Giesel
+   * Copyright (C) 2011-2013 Thomas Giesel
 
-   * Copyright (C) 2011-2012 Kajtar Zsolt
+   * Copyright (C) 2011-2013 Kajtar Zsolt
 
-   * Copyright (C) 2012-2012 Benjamin 'BeRo' Rosseaux
+   * Copyright (C) 2012-2013 Benjamin 'BeRo' Rosseaux
 
    * Copyright (C) 2000-2011 Spiro Trikaliotis
 

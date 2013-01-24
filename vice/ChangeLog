@@ -1,6 +1,1424 @@
 ------------------------------------------------------------------------------
 
-2012-12-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+2013-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.in,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/android/AnVICE/src/com/locnet/vice/Makefile.am,
+	src/arch/win32/vice-version.bat, src/monitor/mon_parse.c,
+	src/monitor/mon_parse.h, src/version.h: VICE 2.4.2
+
+2013-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/respet.rc,
+	src/arch/win32/resscpu64.rc, src/arch/win32/resvic20.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2013-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Slight fix.
+
+2013-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE, src/arch/android/AnVICE/jni/Application.mk:
+	Added 'auto-signing' if available to the android build script.
+
+2013-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/Application.mk: Some android build fixes.
+
+2013-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2013-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, po/da.po, po/de.po, po/es.po,
+	po/fr.po, po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po,
+	po/sv.po, po/tr.po, po/translations-status.txt,
+	src/arch/android/AnVICE/AndroidManifest.xml: Did a 'make update-po'.
+
+2013-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/romset.c, src/translate.txt, src/translate_text.c: Translation
+	fix.
+
+2013-01-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/Application.mk,
+	src/arch/android/AnVICE/jni/Application.proto,
+	src/arch/android/AnVICE/jni/Makefile.am: Added multiple cpu support to
+	the android build script.
+
+2013-01-23  Benjamin Rosseaux <benjamin@rosseaux.com>
+
+	* src/core/viacore.c, src/drive/iecieee/via2d.c, src/via.h: - Applied
+	VIA timer2+SR part (verified, but should be included temporary only,
+	until I've a better more complete solution for it, except only for
+	these current special cases in this patch) and 1541 head stepping part
+	(verified, so it can be included permanent) of the latest SPS patch 
+
+2013-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/joy.c: No translations in sdl.
+
+2013-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/Makefile.am: Forgot this one.
+
+2013-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/android/AnVICE/AndroidManifest.xml.in: Added
+	auto-versioning for the android manifest file.
+
+2013-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/Makefile.am, build/android/build-android.sh.in,
+	configure.in: Added build-android.sh.in for automatic version
+	generation for the android port.
+
+2013-01-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh: Fixed slightly.
+
+2013-01-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/65816core.c, src/main65816cpu.c, src/main65816cpu.h,
+	src/scpu64/Makefile.am, src/scpu64/scpu64-cmdline-options.c,
+	src/scpu64/scpu64-cmdline-options.h, src/scpu64/scpu64-resources.c,
+	src/scpu64/scpu64-resources.h, src/scpu64/scpu64-snapshot.c,
+	src/scpu64/scpu64-snapshot.h, src/scpu64/scpu64.c,
+	src/scpu64/scpu64.h, src/scpu64/scpu64cpu.c, src/scpu64/scpu64cpu.h,
+	src/scpu64/scpu64gluelogic.c, src/scpu64/scpu64gluelogic.h,
+	src/scpu64/scpu64mem.c, src/scpu64/scpu64mem.h,
+	src/scpu64/scpu64meminit.c, src/scpu64/scpu64meminit.h,
+	src/scpu64/scpu64memsnapshot.c, src/scpu64/scpu64memsnapshot.h,
+	src/scpu64/scpu64rom.c, src/scpu64/scpu64rom.h: Fix svn properties.
+
+2013-01-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/65816core.c: Fix define.
+
+2013-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/res/Makefile.am,
+	src/arch/android/AnVICE/res/drawable/Makefile.am,
+	src/arch/android/AnVICE/res/layout/Makefile.am,
+	src/arch/android/AnVICE/res/values/Makefile.am: Makefiles not allowed
+	in the android res directory.
+
+2013-01-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/initcmdline.c, src/translate.txt, src/translate_text.c: Remove
+	remnants of old -vsid cmdline option.
+
+2013-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_register65816.c, src/monitor/mon_util.c,
+	src/video/video-color.c: Fixed some warnings.
+
+2013-01-21  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/Makefile.am, src/arch/android,
+	src/arch/android/AnVICE, src/arch/android/AnVICE/.settings,
+	src/arch/android/AnVICE/.settings/Makefile.am,
+	src/arch/android/AnVICE/Makefile.am, src/arch/android/AnVICE/assets,
+	src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/jni, src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_al,
+	src/arch/android/AnVICE/jni/locnet_al/Makefile.am,
+	src/arch/android/AnVICE/jni/sdl,
+	src/arch/android/AnVICE/jni/sdl/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_common,
+	src/arch/android/AnVICE/jni/vice_common/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_driver,
+	src/arch/android/AnVICE/jni/vice_driver/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_main,
+	src/arch/android/AnVICE/jni/vice_main/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_vicii,
+	src/arch/android/AnVICE/jni/vice_vicii/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64,
+	src/arch/android/AnVICE/jni/vice_x64/Makefile.am,
+	src/arch/android/AnVICE/res, src/arch/android/AnVICE/res/Makefile.am,
+	src/arch/android/AnVICE/res/drawable,
+	src/arch/android/AnVICE/res/drawable/Makefile.am,
+	src/arch/android/AnVICE/res/layout,
+	src/arch/android/AnVICE/res/layout/Makefile.am,
+	src/arch/android/AnVICE/res/values,
+	src/arch/android/AnVICE/res/values/Makefile.am,
+	src/arch/android/AnVICE/src, src/arch/android/AnVICE/src/Makefile.am,
+	src/arch/android/AnVICE/src/com,
+	src/arch/android/AnVICE/src/com/Makefile.am,
+	src/arch/android/AnVICE/src/com/locnet,
+	src/arch/android/AnVICE/src/com/locnet/Makefile.am,
+	src/arch/android/AnVICE/src/com/locnet/vice,
+	src/arch/android/AnVICE/src/com/locnet/vice/Makefile.am,
+	src/arch/android/AnVICE/src/org,
+	src/arch/android/AnVICE/src/org/Makefile.am,
+	src/arch/android/AnVICE/src/org/ab,
+	src/arch/android/AnVICE/src/org/ab/Makefile.am,
+	src/arch/android/AnVICE/src/org/ab/nativelayer,
+	src/arch/android/AnVICE/src/org/ab/nativelayer/Makefile.am,
+	src/arch/android/AnVICE/src/org/ab/uae,
+	src/arch/android/AnVICE/src/org/ab/uae/Makefile.am,
+	src/arch/android/Makefile.am: Added makefiles for the android parts.
+
+2013-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Forgot this.
+
+2013-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/Makefile.am, build/android, build/android/Makefile.am,
+	build/android/build-android.sh: Added an android build script.
+
+2013-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp: Fixed main
+	call arguments, port works now, on some devices it doesn't start till
+	the second 'activation' though.
+
+2013-01-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/sound.h: Small android fix.
+
+2013-01-17  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/cart/ide64.c: Do not re-register when not registered
+
+2013-01-17  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/arch/unix/x11/gnome/uidialogs.c: "Returns : The currently
+	selected filename [...] Free with g_free()", says
+	gtk_file_chooser_get_filename ()'s documentation. Freeing it with
+	lib_free() was causing a crash
+
+2013-01-16  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Tweaked around `WINDOW_MINW' and
+	`WINDOW_MINH' to make those emu work which feature a real
+	pixel_aspect_ratio in their respective videochip geometry. The fix may
+	be wrong, but as of now serves the purpose.
+
+2013-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_common/Android.mk,
+	src/arch/sdl/joy.c, src/arch/sdl/menu_snapshot.c,
+	src/arch/sdl/mousedrv.c, src/arch/sdl/ui.c, src/arch/sdl/uimenu.c,
+	src/arch/sdl/uipoll.c, src/arch/sdl/uistatusbar.c,
+	src/arch/sdl/video.c, src/autostart.c, src/drive/drive-resources.c,
+	src/monitor/mon_parse.c, src/monitor/mon_parse.y, src/mouse.c,
+	src/sound.c, src/sounddrv/soundsdl.c: More android fixes.
+
+2013-01-16  groepaz <groepaz@gmx.net>
+
+	* src/geninfocontrib_h.sh: remove tempfile
+
+2013-01-16  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_driver/Android.mk,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk,
+	src/arch/android/AnVICE/jni/vice_vicii/Android.mk: More android
+	makefile fixes.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_common/Android.mk: Fixed for
+	current code.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x64/Android.mk: Fixed for current
+	code.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_main/Android.mk: Fixed for current
+	code.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet/Android.mk: Fixed for new current
+	vice code.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/vice.h: Changed to use the config.android.h file when compiling
+	for android.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/config.android.h: Added config.android.h as
+	config.h replacement for android.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android, src/arch/android, src/arch/android/AnVICE,
+	src/arch/android/AnVICE/.classpath, src/arch/android/AnVICE/.project,
+	src/arch/android/AnVICE/.settings,
+	src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/android/AnVICE/README.txt, src/arch/android/AnVICE/assets,
+	src/arch/android/AnVICE/build.xml, src/arch/android/AnVICE/clean.sh,
+	src/arch/android/AnVICE/jni,
+	src/arch/android/AnVICE/jni/AndroidBuild.sh,
+	src/arch/android/AnVICE/jni/setEnvironment-r5b.sh,
+	src/arch/android/AnVICE/jni/vice,
+	src/arch/android/AnVICE/local.properties,
+	src/arch/android/AnVICE/proguard-project.txt,
+	src/arch/android/AnVICE/proguard.cfg,
+	src/arch/android/AnVICE/project.properties,
+	src/arch/android/AnVICE/res, src/arch/android/AnVICE/src: Moved the
+	android dir to a more appropriate location.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/vice: Removed the 'old' vice directory in
+	preparation for going to the current vice code.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/AndroidBuild.sh,
+	android/AnVICE/jni/setEnvironment-r5b.sh: Removed some unneeded
+	scripts.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/clean.sh: Added a 'cleaning' script.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE: Added some more svn ignores.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE, android/AnVICE/build.xml,
+	android/AnVICE/default.properties, android/AnVICE/local.properties,
+	android/AnVICE/proguard-project.txt,
+	android/AnVICE/project.properties: Added files needed for ant.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/locnet/Android.mk: Fixed linkage of libvice.so,
+	next step is fixing the java part.
+
+2013-01-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/gnome/uidialogs.c: do not block main loop when
+	ui_show_text is active
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/vice_vicii/Android.mk: Fixed compilation of
+	libvice_vicii.
+
+2013-01-15  groepaz <groepaz@gmx.net>
+
+	* src/romset.c: fix commandline options help strings
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/vice_driver/Android.mk: Fixed compilation of
+	libvice_driver.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/vice_common/Android.mk: Fixed compilation of
+	libvice_common.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/vice_x64/Android.mk: Fixed compilation of
+	libvice_x64.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/vice_main/Android.mk: Fixed compilation of
+	libvice_main.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE/jni/locnet_al/Android.mk: Fixed liblocnet_al.a
+	compilation.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE, android/AnVICE/jni/locnet/Android.mk: Fixed locnet
+	compilation.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android/AnVICE, android/AnVICE/.classpath, android/AnVICE/.project,
+	android/AnVICE/.settings,
+	android/AnVICE/.settings/org.eclipse.jdt.core.prefs,
+	android/AnVICE/AndroidManifest.xml, android/AnVICE/README.txt,
+	android/AnVICE/assets, android/AnVICE/assets/gpl.txt,
+	android/AnVICE/assets/sdl-vicerc, android/AnVICE/assets/sdl_sym.vkm,
+	android/AnVICE/default.properties, android/AnVICE/jni,
+	android/AnVICE/jni/Android.mk, android/AnVICE/jni/AndroidBuild.sh,
+	android/AnVICE/jni/Application.mk, android/AnVICE/jni/locnet,
+	android/AnVICE/jni/locnet/Android.mk,
+	android/AnVICE/jni/locnet/include,
+	android/AnVICE/jni/locnet/include/AndroidOSfunc.h,
+	android/AnVICE/jni/locnet/include/loader.h,
+	android/AnVICE/jni/locnet/include/locnet_vk.h,
+	android/AnVICE/jni/locnet/locnet_loader.cpp,
+	android/AnVICE/jni/locnet_al, android/AnVICE/jni/locnet_al/Android.mk,
+	android/AnVICE/jni/locnet_al/AndroidOSfunc.cpp,
+	android/AnVICE/jni/locnet_al/keycodes.h,
+	android/AnVICE/jni/locnet_al/missing.cpp, android/AnVICE/jni/sdl,
+	android/AnVICE/jni/sdl/include, android/AnVICE/jni/sdl/include/SDL,
+	android/AnVICE/jni/sdl/include/SDL.h,
+	android/AnVICE/jni/sdl/include/SDL_active.h,
+	android/AnVICE/jni/sdl/include/SDL_audio.h,
+	android/AnVICE/jni/sdl/include/SDL_byteorder.h,
+	android/AnVICE/jni/sdl/include/SDL_cdrom.h,
+	android/AnVICE/jni/sdl/include/SDL_config.h,
+	android/AnVICE/jni/sdl/include/SDL_config.h.default,
+	android/AnVICE/jni/sdl/include/SDL_config.h.in,
+	android/AnVICE/jni/sdl/include/SDL_config_android.h,
+	android/AnVICE/jni/sdl/include/SDL_config_dreamcast.h,
+	android/AnVICE/jni/sdl/include/SDL_config_macos.h,
+	android/AnVICE/jni/sdl/include/SDL_config_macosx.h,
+	android/AnVICE/jni/sdl/include/SDL_config_minimal.h,
+	android/AnVICE/jni/sdl/include/SDL_config_nds.h,
+	android/AnVICE/jni/sdl/include/SDL_config_os2.h,
+	android/AnVICE/jni/sdl/include/SDL_config_symbian.h,
+	android/AnVICE/jni/sdl/include/SDL_config_win32.h,
+	android/AnVICE/jni/sdl/include/SDL_copying.h,
+	android/AnVICE/jni/sdl/include/SDL_cpuinfo.h,
+	android/AnVICE/jni/sdl/include/SDL_endian.h,
+	android/AnVICE/jni/sdl/include/SDL_error.h,
+	android/AnVICE/jni/sdl/include/SDL_events.h,
+	android/AnVICE/jni/sdl/include/SDL_getenv.h,
+	android/AnVICE/jni/sdl/include/SDL_joystick.h,
+	android/AnVICE/jni/sdl/include/SDL_keyboard.h,
+	android/AnVICE/jni/sdl/include/SDL_keysym.h,
+	android/AnVICE/jni/sdl/include/SDL_loadso.h,
+	android/AnVICE/jni/sdl/include/SDL_main.h,
+	android/AnVICE/jni/sdl/include/SDL_mouse.h,
+	android/AnVICE/jni/sdl/include/SDL_mutex.h,
+	android/AnVICE/jni/sdl/include/SDL_name.h,
+	android/AnVICE/jni/sdl/include/SDL_opengl.h,
+	android/AnVICE/jni/sdl/include/SDL_platform.h,
+	android/AnVICE/jni/sdl/include/SDL_quit.h,
+	android/AnVICE/jni/sdl/include/SDL_rwops.h,
+	android/AnVICE/jni/sdl/include/SDL_screenkeyboard.h,
+	android/AnVICE/jni/sdl/include/SDL_stdinc.h,
+	android/AnVICE/jni/sdl/include/SDL_syswm.h,
+	android/AnVICE/jni/sdl/include/SDL_thread.h,
+	android/AnVICE/jni/sdl/include/SDL_timer.h,
+	android/AnVICE/jni/sdl/include/SDL_types.h,
+	android/AnVICE/jni/sdl/include/SDL_version.h,
+	android/AnVICE/jni/sdl/include/SDL_video.h,
+	android/AnVICE/jni/sdl/include/begin_code.h,
+	android/AnVICE/jni/sdl/include/close_code.h,
+	android/AnVICE/jni/sdl/include/doxyfile,
+	android/AnVICE/jni/setEnvironment-r5b.sh, android/AnVICE/jni/vice,
+	android/AnVICE/jni/vice_common,
+	android/AnVICE/jni/vice_common/Android.mk,
+	android/AnVICE/jni/vice_driver,
+	android/AnVICE/jni/vice_driver/Android.mk,
+	android/AnVICE/jni/vice_main, android/AnVICE/jni/vice_main/Android.mk,
+	android/AnVICE/jni/vice_vicii,
+	android/AnVICE/jni/vice_vicii/Android.mk, android/AnVICE/jni/vice_x64,
+	android/AnVICE/jni/vice_x64/Android.mk, android/AnVICE/proguard.cfg,
+	android/AnVICE/res, android/AnVICE/res/drawable,
+	android/AnVICE/res/drawable/file.png,
+	android/AnVICE/res/drawable/folder.png,
+	android/AnVICE/res/drawable/icon.png,
+	android/AnVICE/res/drawable/icon32.png, android/AnVICE/res/layout,
+	android/AnVICE/res/layout/file_row.xml,
+	android/AnVICE/res/layout/keymapper.xml,
+	android/AnVICE/res/layout/prefs.xml,
+	android/AnVICE/res/layout/scale.xml,
+	android/AnVICE/res/layout/slider.xml,
+	android/AnVICE/res/layout/system.xml, android/AnVICE/res/values,
+	android/AnVICE/res/values/defaults.xml,
+	android/AnVICE/res/values/dimens.xml,
+	android/AnVICE/res/values/strings.xml,
+	android/AnVICE/res/values/themes.xml, android/AnVICE/src,
+	android/AnVICE/src/com, android/AnVICE/src/com/locnet,
+	android/AnVICE/src/com/locnet/vice,
+	android/AnVICE/src/com/locnet/vice/DosBoxAudio.java,
+	android/AnVICE/src/com/locnet/vice/DosBoxControl.java,
+	android/AnVICE/src/com/locnet/vice/DosBoxLauncher.java,
+	android/AnVICE/src/com/locnet/vice/DosBoxMenuUtility.java,
+	android/AnVICE/src/com/locnet/vice/DosBoxSurfaceView.java,
+	android/AnVICE/src/com/locnet/vice/Globals.java,
+	android/AnVICE/src/com/locnet/vice/PreConfig.java,
+	android/AnVICE/src/org, android/AnVICE/src/org/ab,
+	android/AnVICE/src/org/ab/nativelayer,
+	android/AnVICE/src/org/ab/nativelayer/ImportFileView.java,
+	android/AnVICE/src/org/ab/nativelayer/ImportView.java,
+	android/AnVICE/src/org/ab/uae,
+	android/AnVICE/src/org/ab/uae/FloppyImportView.java,
+	android/AnVICE/src/org/ab/uae/RomImportView.java: Imported the source
+	of AnVICE, including 'old' vice source, once the ndk makefiles have
+	been fixed to properly compile the 'old' vice source it will be
+	stepped up to the current source.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uimouse.c: Added koalapad to the windows gui.
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_mouse.c: Added koalapad to the sdl gui.
+
+2013-01-15  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/drive/drive-cmdline-options.c, src/drive/drive-resources.c,
+	src/drive/drive-sound.c, src/translate.txt, src/translate_text.c:
+	added resource to set drive sound emulation volume (see devlog)
+
+2013-01-15  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* android: Added an android directory for the android related files to
+	go into, port will be based on the already existing android port
+	'AnVICE 1.0.5' and updated/fixed for the current code.
+
+2013-01-15  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128mem.c, src/c64/c64.h, src/c64/c64mem.c,
+	src/c64/c64memsc.c, src/c64/vsidmem.c: rework cpu port unused bits
+	emulation, fixes lorenz test and new test programs
+
+2013-01-15  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64memsc.c: added missed counter reset, still not perfect
+
+2013-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added koalapad to the os/2 gui.
+
+2013-01-14  groepaz <groepaz@gmx.net>
+
+	* src/c64/c64.h: tweak 6510 fall-off delay, fixes bug 3600678
+
+2013-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Fixed.
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uiattach.c, src/arch/unix/gui/vsidui.c,
+	src/arch/unix/ui.h, src/arch/unix/x11/gnome/uidialogs.c,
+	src/arch/unix/x11/xaw/x11ui.c: added yes/no dialog (without cancel)
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c, src/initcmdline.c, src/main.c: unbreak no args
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c: and another :)
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c: better fix
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: allow passing gtk commandline
+	options (must come first on the commandline)
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/cmdline.c, src/initcmdline.c: improve handling of extra
+	arguments
+
+2013-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/c128ui.c, src/arch/msdos/c64ui.c,
+	src/arch/msdos/scpu64ui.c: Added koalapad to the dos tui.
+
+2013-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/scpu64ui.cc: Forgot about the scpu64 gui in beos.
+
+2013-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/vicemenu.cc: Added koalapad
+	to the beos gui.
+
+2013-01-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/mui/uimouse.c: Added koalapad to the amiga gui.
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/lightpendrv.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/lightpen.c: fixed gtk lightpen
+	driver
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uimouse.c, src/mouse.c, src/mouse.h,
+	src/translate_text.c: added mousetype for koalapad (see devlog)
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/gtk2legacy.c,
+	src/arch/unix/x11/gnome/gtk2legacy.h,
+	src/arch/unix/x11/gnome/x11mouse.c: unbreak gtk mouse driver
+
+2013-01-13  groepaz <groepaz@gmx.net>
+
+	* doc/Doxyfile, doc/Doxygen-Howto.txt, doc/mainpage.dox,
+	doc/mkdoxy.sh: fixed doxy generation, updated script for xscpu64,
+	properly create target dir, include some more of the textfiles in the
+	tree, create entry page with links to individual docs
+
+2013-01-13  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2013-01-12  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/c128/c128mem.c, src/vdc/vdc-mem.c, src/vdc/vdc-mem.h: Add
+	vdc_peek() for reads of VDC external registers without sidefx
+
+2013-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c, src/vdc/vdc-mem.c: Fixed $01 behavior and added
+	missing includes.
+
+2013-01-12  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed.
+
+2013-01-12  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/c128/c128mem.c, src/vdc/vdc-mem.c, src/vdc/vdc-mem.h: Add
+	monitor dump for VDC including internal VDC registers
+
+2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resmenu.txt,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvic20.rc,
+	src/arch/win32/uivic20model.c, src/arch/win32/uivic20model.h,
+	src/arch/win32/vic20ui.c, src/arch/win32/watcom/arch.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win64/arch.vcproj: Added
+	vic20 model selection to the windows gui.
+
+2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_vic20hw.c: Added vic20 model selection to the sdl
+	gui.
+
+2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added vic20 model selection to the
+	os/2 gui.
+
+2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/Makefile.am, src/arch/msdos/uivic20model.c,
+	src/arch/msdos/uivic20model.h, src/arch/msdos/vic20ui.c: Added vic20
+	model selection to the dos tui.
+
+2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/intl.txt, src/arch/amigaos/intl_text.c,
+	src/arch/amigaos/uires.h, src/arch/amigaos/vic20ui.c,
+	src/arch/amigaos/vic20uires.h: Added vic20 model selection to the
+	amiga gui.
+
+2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/arch/win32/joy.c: Applied windows POV hat support
+	patch by Magnus Lind.
+
+2013-01-11  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/c128/c128mem.c, src/vdc/vdc-mem.c: Add VDC external registers to
+	monitor IO command (again)
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* doc/checkdoc.c, doc/checkdoc.mak: updated checkdoc for scpu64
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uicommands.c, src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uidialogs.c: try opening vice.pdf, then
+	vice_toc.html using gtk mechanisms first before falling back to
+	HTMLBrowserCommand
+
+2013-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/make-bindist.sh, src/arch/beos/make-bindist.sh,
+	src/arch/msdos/make-bindist.sh, src/arch/os2/watcom/makebindist.bat,
+	src/arch/sdl/make-bindist_amiga.sh, src/arch/sdl/make-bindist_beos.sh,
+	src/arch/sdl/make-bindist_dingoo.sh,
+	src/arch/sdl/make-bindist_dingoo_native.sh,
+	src/arch/sdl/make-bindist_win32.sh,
+	src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/make-bindist.bat: Added appropriate vice.*
+	files to the various make-bindist scripts.
+
+2013-01-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/make-bindist.sh,
+	src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win64/make-msvc-bindist.bat: Added vice.chm, vice.hlp and
+	vice.pdf to the windows make-bindist scripts.
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uidrivec128.c: added missed menus
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* data/PRINTER/Makefile.am, data/PRINTER/nl10.vpl,
+	src/printerdrv/drv-nl10.c: added seperate nl10 palette file for
+	consistancy
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/openGL_sync.c: log cosmetics
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11mouse.c: removed debug message from log
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vsidui.c: fixed window title
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/main.c: log cosmetics
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/cbm2ui.c,
+	src/arch/unix/gui/petui.c, src/arch/unix/gui/plus4ui.c,
+	src/arch/unix/gui/scpu64ui.c: remove speed items from left click menu
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/vic20ui.c: remove speed items from left click menu
+
+2013-01-10  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uidrivec64.c, src/arch/unix/gui/uidrivec64dtv.c,
+	src/arch/unix/gui/uidrivepetcbm2.c, src/arch/unix/gui/uidriveplus4.c,
+	src/arch/unix/gui/uidrivevic20.c, src/arch/unix/gui/uiperipheraliec.c,
+	src/arch/unix/gui/uiperipheraliec.h,
+	src/arch/unix/gui/uiperipheralieee.c,
+	src/arch/unix/gui/uiperipheralieee.h, src/arch/unix/gui/vic20ui.c:
+	cleaned up drive- vs peripherial menus
+
+2013-01-09  groepaz <groepaz@gmx.net>
+
+	* README, doc/html/Makefile.am, doc/html/plain/BUGS,
+	doc/html/plain/TODO: removed obsolete BUGS and TODO and updated README
+	to reflect the actual contents of doc/
+
+2013-01-09  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/TODO: removed outdated TODO
+
+2013-01-09  groepaz <groepaz@gmx.net>
+
+	* FEEDBACK: added bug tracker url
+
+2013-01-09  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html: added link to nightly builds
+
+2013-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/unix/qnx6/make-bindist.sh: Fixed logo links.
+
+2013-01-09  groepaz <groepaz@gmx.net>
+
+	* doc/html/index.html, doc/vice.pdf, doc/vice.txt: removed
+	obsolete/broken link
+
+2013-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_c64model.c: Added new c64 models to the sdl gui.
+
+2013-01-09  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/make-bindist_qnx6.sh,
+	src/arch/unix/hpux/make-bindist.sh,
+	src/arch/unix/qnx6/make-bindist.sh,
+	src/arch/unix/skyos/make-bindist.sh: Added the new c64 rom files to
+	various make-bindist scripts.
+
+2013-01-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uiedit.h, src/arch/unix/gui/vic20ui.c,
+	src/arch/unix/x11/gnome/uiedit.c, src/arch/unix/x11/xaw/uiedit.c:
+	since right click menu is now the same as settings, use the same
+	internal structure. also cleaned up left click menu
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/makebindist.bat: Added the new c64 rom files to
+	the os/2 make-bindist script.
+
+2013-01-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/scpu64ui.c, src/arch/unix/gui/uic64dtv.c,
+	src/arch/unix/gui/uips2mouse.c, src/arch/unix/gui/uips2mouse.h,
+	src/arch/unix/gui/vic20ui.c: moved mouse/lightpen/paddle emulation
+	items one level up into settings menu
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/win32-msvc/make-bindist.bat,
+	src/arch/sdl/win32-watcom/make-watcom-bindist.bat,
+	src/arch/sdl/win64-msvc/make-bindist.bat,
+	src/arch/sdl/winmips-msvc/make-bindist.bat,
+	src/arch/win32/make-msvc-bindist.bat,
+	src/arch/win32/watcom/make-watcom-bindist.bat,
+	src/arch/win64/make-msvc-bindist.bat: Added the new c64 rom files to
+	the windows and sdl project files.
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uic64.c: Added new c64 models to the windows gui.
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/vic20.tgt, src/arch/os2/watcom/vice.wpj,
+	src/arch/sdl/win32-msvc/vic20.dsp,
+	src/arch/sdl/win32-watcom/vic20.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win64-msvc/vic20.vcproj,
+	src/arch/sdl/winmips-msvc/vic20.mak, src/arch/win32/vic20.dsp,
+	src/arch/win32/watcom/vic20.tgt, src/arch/win32/watcom/vice.wpj,
+	src/arch/win64/vic20.vcproj: Added vic20model.c to the various project
+	files.
+
+2013-01-08  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/vic20ui.c: menu deduplication, removed essentially
+	pointless options menu
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
+	src/arch/os2/dialogs/menubar.rc: Added new c64 models to the os/2 gui.
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/msdos/uic64model.c: Added new c64 models to the dos tui.
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/beos/c64ui.cc, src/arch/beos/constants.h,
+	src/arch/beos/vicemenu.cc: Added new c64 models to the beos gui.
+
+2013-01-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/amigaos/c64uires.h, src/arch/amigaos/intl.txt,
+	src/arch/amigaos/intl_text.c, src/arch/amigaos/uires.h,
+	src/arch/unix/gui/c64ui.c: Added new c64 models to the amiga gui.
+
+2013-01-08  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64dtvui.c,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/arch/unix/gui/cbm2ui.c, src/arch/unix/gui/petui.c,
+	src/arch/unix/gui/plus4ui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uiromset.c, src/arch/unix/gui/vic20ui.c,
+	src/romset.c: Remove the resources RomsetArchiveName,
+	RomsetArchiveActive, RomsetFileName and RomsetSourceFile, which
+	basically did nothing. Removed the GUI elements that refer to them
+	from the X11 GUIs. (win32 needs to be done, that is the only other
+	one).
+
+2013-01-08  Olaf Seibert <rhialto@falu.nl>
+
+	* src/init.c, src/romset.c, src/romset.h: Add command line options to
+	load romset files and archives (*.vrs, *.vra).
+
+2013-01-08  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/c64/c64mem.c, src/c64/c64meminit.c, src/c64/c64memlimit.c,
+	src/c64/c64memlimit.h: The MAX machine modification. Quite a hack now,
+	but hopefully it will be sorted out later in a cleaner way together
+	with the internal memory expansions.
+
+2013-01-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/vic20ui.c,
+	src/translate.txt, src/translate_text.c, src/vic20/Makefile.am,
+	src/vic20/vic20-cmdline-options.c, src/vic20/vic20model.c,
+	src/vic20/vic20model.h: added model selection for vic20
+
+2013-01-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uicolor.c: fix broken colors with cairo
+	software rendering
+
+2013-01-07  groepaz <groepaz@gmx.net>
+
+	* src/c128/c128model.c, src/c128/c128model.h,
+	src/c64dtv/c64dtvmodel.c, src/c64dtv/c64dtvmodel.h,
+	src/cbm2/cbm2model.c, src/cbm2/cbm2model.h, src/plus4/plus4model.c,
+	src/plus4/plus4model.h: made all model detail access functions static,
+	if needed an api similar to what is in c64model.h (that doesnt break
+	compilation of all ports on internal detail changes) should be created
+
+2013-01-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/win32/uic64.c, src/c64/c64model.c, src/c64/c64model.h,
+	src/c64/c64scmodel.c: unbreak win32
+
+2013-01-07  Olaf Seibert <rhialto@falu.nl>
+
+	* doc/vice.texi: Document changed search path while processing rom set
+	files.
+
+2013-01-07  Olaf Seibert <rhialto@falu.nl>
+
+	* data/PET/rom1g.vrs, data/PET/rom2b.vrs, data/PET/rom2g.vrs,
+	data/PET/rom4b40.vrs, data/PET/rom4b80.vrs, data/PET/rom4g40.vrs,
+	data/PET/romsuperpet.vrs: Add some DOS ROM names to PET romset files.
+
+2013-01-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/romset.c: When processing a romset file or romset archive,
+	prepend the directory where it was found to the sysfile search path.
+
+2013-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added gtkglext-3.0 check and warning when found.
+
+2013-01-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/c64scpu64.dsp, src/arch/win64/c64scpu64.vcproj:
+	Removed c64embedded.c from the various project files.
+
+2013-01-07  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h, src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/x11ui.c: fixed color handling when using cairo
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/linenoise.c,
+	src/arch/unix/x11/gnome/uimon.c: better working (yet still ugly)
+	workaround to make sure the initial monitor prompt shows up reliably
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uicontents.c,
+	src/arch/unix/x11/gnome/uifilechooser.c,
+	src/arch/unix/x11/gnome/x11ui.c: use pango only if HAVE_PANGO
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: setup the application icon
+	correctly in gtk3
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uidrivestatus.c: hide drive led correctly
+	when cairo is used
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* src/c64/vsid-resources.c: added missing resource
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: dont make background black in vsid
+
+2013-01-06  groepaz <groepaz@gmx.net>
+
+	* data/C64/Makefile.am, data/C64/edkernal, data/C64/gskernal,
+	data/C64/jpchrgen, data/C64/jpkernal, data/C64/sxkernal,
+	src/arch/unix/gui/c64scui.c, src/arch/unix/gui/c64ui.c,
+	src/c64/c64-cmdline-options.c, src/c64/c64-resources.c,
+	src/c64/c64meminit.c, src/c64/c64model.c, src/c64/c64model.h,
+	src/c64/c64scmodel.c, src/translate_text.c: added remaining missing
+	c64 models (see devlog)
+
+2013-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/os2/watcom/c64commonvsidscscpu.tgt,
+	src/arch/os2/watcom/vice.wpj, src/arch/sdl/win32-msvc/arch.dsp,
+	src/arch/sdl/win32-msvc/c64scpu64.dsp,
+	src/arch/sdl/win32-msvc/scpu64.dsp,
+	src/arch/sdl/win32-watcom/c64commonvsidscscpu.tgt,
+	src/arch/sdl/win32-watcom/scpu64.tgt,
+	src/arch/sdl/win32-watcom/vice.wpj,
+	src/arch/sdl/win32-watcom/xscpu64.tgt,
+	src/arch/sdl/win64-msvc/arch.vcproj,
+	src/arch/sdl/win64-msvc/c64scpu64.vcproj,
+	src/arch/sdl/win64-msvc/scpu64.vcproj,
+	src/arch/sdl/winmips-msvc/arch.mak,
+	src/arch/sdl/winmips-msvc/c64scpu64.mak,
+	src/arch/sdl/winmips-msvc/scpu64.mak, src/arch/win32/scpu64.dsp,
+	src/arch/win32/vice.dsw, src/arch/win32/watcom/scpu64.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/watcom/xscpu64.tgt,
+	src/arch/win64/scpu64.vcproj, src/arch/win64/vice.sln: Fixed the
+	various project files for the latest scpu64 changes.
+
+2013-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/plus4/plus4.h: Tests on real plus4 show that the unused bit on
+	the 7501/8501 does not drop off, so removed drop-off definitions.
+
+2013-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/Makefile.am, src/arch/sdl/xbox: Removed obsolete
+	directory.
+
+2013-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/menu_drive.c: Fixed.
+
+2013-01-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/65816core.c, src/main65816cpu.c: Changed the 'interrupt'
+	variable to 'interrupt65816', because of a conflict with a function of
+	the same name.
+
+2013-01-06  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uifliplist.c, src/arch/unix/x11/xaw/uiarch.h,
+	src/arch/unix/x11/xaw/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uidrivestatus.h, src/arch/unix/x11/xaw/uimenu.c,
+	src/arch/unix/x11/xaw/uistatusbar.c,
+	src/arch/unix/x11/xaw/uitapestatus.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/imagecontents/tapecontents.c, src/util.c: Found and worked around
+	the issue with pop-up menus that change at the very last moment before
+	popping up. Renamed all menu class instances to start with a lowercase
+	letter as is usual.
+
+2013-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uiarch.h, src/arch/unix/x11/gnome/uicolor.c,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/videoarch.h, src/arch/unix/x11/gnome/x11ui.c:
+	use HAVE_CAIRO directly
+
+2013-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added check for pango.
+
+2013-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h, src/arch/unix/x11/gnome/x11ui.c:
+	removed forced hwscale disable
+
+2013-01-05  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h: updated for config options
+
+2013-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Fixed a typo.
+
+2013-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added check for cairo when using gtk2, will define
+	HAVE_CAIRO when found and HAVE_CAIRO will always be defined when using
+	gtk3.
+
+2013-01-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Added --enable-gnomeui3 for gtk3 support, added
+	--disable-vte and made vte optional instead of mandatory in the
+	configure script.
+
+2013-01-04  groepaz <groepaz@gmx.net>
+
+	* data/C128/x11_pos.vkm, data/C128/x11_sym.vkm: improved x128 keymap a
+	bit
+
+2013-01-04  groepaz <groepaz@gmx.net>
+
+	* build/amigaos, build/beos, build/macosx, build/mingw32,
+	build/minix3, build/nextstep, build/openstep, build/openwatcom,
+	build/qnx4, build/rhapsody: updated svn ignores
+
+2013-01-04  groepaz <groepaz@gmx.net>
+
+	* doc/building, doc/readmes: updated svn ignores
+
+2013-01-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/amigaos/info-files, src/arch/amigaos/info-files/morphos,
+	src/arch/amigaos/mui, src/arch/os2/doc, src/arch/os2/fonts,
+	src/arch/os2/icons, src/arch/os2/unused, src/arch/os2/unused/pm,
+	src/arch/os2/vac++/ctools, src/arch/os2/vac++/incl,
+	src/arch/os2/vac++/x128, src/arch/os2/vac++/x64,
+	src/arch/os2/vac++/x64dtv, src/arch/os2/vac++/x64sc,
+	src/arch/os2/vac++/xcbm2, src/arch/os2/vac++/xcbm5x0,
+	src/arch/os2/vac++/xpet, src/arch/os2/vac++/xplus4,
+	src/arch/os2/vac++/xvic, src/arch/os2/watcom, src/arch/sdl/qnx4,
+	src/arch/unix/gp2x/gpe-files, src/arch/unix/hpux, src/arch/unix/minix,
+	src/arch/unix/next_open_rhap, src/arch/unix/qnx4, src/arch/unix/qnx6,
+	src/arch/unix/sco_sol, src/arch/unix/skyos, src/arch/unix/skyos/icons,
+	src/arch/watcom-source-wrappers, src/arch/win32/evc,
+	src/arch/win32/mingw32, src/arch/win32/msvc,
+	src/arch/win32/msvc/wpcap, src/arch/win32/msvc/wpcap/net,
+	src/arch/win32/watcom, src/lib/libffmpeg,
+	src/lib/libffmpeg/libavcodec, src/lib/libffmpeg/libavdevice,
+	src/lib/libffmpeg/libavformat, src/lib/libffmpeg/libavutil,
+	src/lib/libffmpeg/libswscale: updated svn ignores
+
+2013-01-04  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uidrivestatus.c: always display drive
+	widgets if drive is enabled, truedrive or not
+
+2013-01-03  groepaz <groepaz@gmx.net>
+
+	* src/petcat.c: fixed petscii conversion issues
+
+2013-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/Makefile.am, doc/building/OpenWatcom-Howto.txt,
+	src/arch/win32/watcom/Makefile.am, src/arch/win32/watcom/README.txt:
+	Moved the ow building instructions to the correct location and updated
+	it.
+
+2013-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/watcom/README.txt: Updated.
+
+2013-01-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/Makefile.am, build/amigaos/Makefile.am,
+	build/beos/Makefile.am, build/macosx/Makefile.am,
+	build/mingw32/Makefile.am, build/minix3/Makefile.am,
+	build/nextstep/Makefile.am, build/openstep/Makefile.am,
+	build/openwatcom/Makefile.am, build/qnx4/Makefile.am,
+	build/rhapsody/Makefile.am, configure.in, doc/Makefile.am,
+	doc/building/Makefile.am, doc/readmes/Makefile.am,
+	src/arch/Makefile.am, src/arch/amigaos/Makefile.am,
+	src/arch/amigaos/info-files/Makefile.am,
+	src/arch/amigaos/info-files/morphos/Makefile.am,
+	src/arch/amigaos/mui/Makefile.am, src/arch/os2/Makefile.am,
+	src/arch/os2/doc/Makefile.am, src/arch/os2/fonts/Makefile.am,
+	src/arch/os2/icons/Makefile.am, src/arch/os2/icons/x64dtv.ico,
+	src/arch/os2/icons/x64sc.ico, src/arch/os2/icons/xcbm5x0.ico,
+	src/arch/os2/icons/xscpu64.ico, src/arch/os2/makedist.cmd,
+	src/arch/os2/unused/Makefile.am, src/arch/os2/unused/pm/Makefile.am,
+	src/arch/os2/vac++/Makefile.am, src/arch/os2/vac++/ctools/Makefile.am,
+	src/arch/os2/vac++/incl/Makefile.am,
+	src/arch/os2/vac++/x128/Makefile.am,
+	src/arch/os2/vac++/x64/Makefile.am,
+	src/arch/os2/vac++/x64dtv/Makefile.am,
+	src/arch/os2/vac++/x64sc/Makefile.am,
+	src/arch/os2/vac++/xcbm2/Makefile.am,
+	src/arch/os2/vac++/xcbm5x0/Makefile.am,
+	src/arch/os2/vac++/xpet/Makefile.am,
+	src/arch/os2/vac++/xplus4/Makefile.am,
+	src/arch/os2/vac++/xvic/Makefile.am, src/arch/os2/watcom/Makefile.am,
+	src/arch/os2/watcom/makebindist.bat, src/arch/sdl/Makefile.am,
+	src/arch/sdl/qnx4/Makefile.am, src/arch/unix/Makefile.am,
+	src/arch/unix/gp2x/Makefile.am,
+	src/arch/unix/gp2x/gpe-files/Makefile.am,
+	src/arch/unix/hpux/Makefile.am, src/arch/unix/minix/Makefile.am,
+	src/arch/unix/next_open_rhap/Makefile.am,
+	src/arch/unix/qnx4/Makefile.am, src/arch/unix/qnx6/Makefile.am,
+	src/arch/unix/sco_sol/Makefile.am, src/arch/unix/skyos/Makefile.am,
+	src/arch/unix/skyos/icons/Makefile.am,
+	src/arch/watcom-source-wrappers/Makefile.am,
+	src/arch/win32/Makefile.am, src/arch/win32/evc/Makefile.am,
+	src/arch/win32/mingw32/Makefile.am, src/arch/win32/msvc/Makefile.am,
+	src/arch/win32/msvc/wpcap/Makefile.am,
+	src/arch/win32/msvc/wpcap/net/Makefile.am,
+	src/arch/win32/watcom/Makefile.am, src/lib/Makefile.am,
+	src/lib/libffmpeg/Makefile.am,
+	src/lib/libffmpeg/libavcodec/Makefile.am,
+	src/lib/libffmpeg/libavdevice/Makefile.am,
+	src/lib/libffmpeg/libavformat/Makefile.am,
+	src/lib/libffmpeg/libavutil/Makefile.am,
+	src/lib/libffmpeg/libswscale/Makefile.am: Cleaned up the building
+	system a bit, now all files in a directory are 'controlled' by the
+	makefile in that directory (no more guessing where to go to add/change
+	a file).
+
+2013-01-03  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uiarch.h,
+	src/arch/unix/x11/xaw/uidrivestatus.c,
+	src/arch/unix/x11/xaw/uistatusbar.c, src/arch/unix/x11/xaw/x11ui.c,
+	src/c64/vsidstubs.c, src/drive/drive-resources.c, src/drive/drive.c,
+	src/drive/drive.h: Xaw: Removed the confusing drive_mapping[] (which
+	shuffles drive UI elements around based on being enabled) from the
+	app_shell. It was confusing, even more so in the new layout. Do more
+	work on showing UI for any drive which exists, even if TDE isn't on.
+	Other UIs would show only drives with a disk attached. If the gnome UI
+	and the common gnome/xaw code is changed to match, it could be even
+	better (the fliplist is missing).
+
+2013-01-03  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/scpu64/scpu64.c: Also fix xscpu64.
+
+2013-01-02  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/sdl/ui.c, src/arch/sdl/uimenu.c, src/arch/sdl/vsidui.c,
+	src/arch/sdl/vsidui_sdl.h, src/c128/c128.c, src/c64/vsid.c,
+	src/c64dtv/c64dtv.c, src/cbm2/cbm2.c, src/cbm2/cbm5x0.c,
+	src/machine.h, src/main.c, src/pet/pet.c, src/plus4/plus4.c,
+	src/vic20/vic20.c: Stop vsid UI code from being linked into all SDL
+	emulators and obliterate vsid_mode.
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/keyboard.c: dont load keymap at vsid startup
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/datasette.c: removed debug msg
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uivsidcontrol.c: fixed handling of utf8
+	strings
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in: Removed an seemingly unused portion of the configure
+	script.
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/resc64.rc: Windows gui drop-down box size fix.
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uidrivestatus.c: oops
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiarch.h,
+	src/arch/unix/x11/gnome/uidrivestatus.c,
+	src/arch/unix/x11/gnome/uitapestatus.c,
+	src/arch/unix/x11/gnome/x11ui.c: fixed tape- and drive status widgets
+	for drawing with cairo
+
+2013-01-02  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c: Worded it better.
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/c128/c128mem.c, src/c64/c64mem.c, src/c64/c64memsc.c,
+	src/c64/vsidmem.c: Once and for all fixed the $00/$01 emulation for
+	the 6510 and 8502, and added comments on how it is emulated, if this
+	is somehow incorrect please fix.
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/datasette.c: properly stop tape motor when no tap image is
+	active
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/c1541.c: its not 2003 anymore :)
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uidatasette.c: fixed menu types
+
+2013-01-02  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uiscreenshot.c: added options for
+	koala/doodle screenshots to dialog
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po,
+	src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resacia.rc, src/arch/win32/resautostart.rc,
+	src/arch/win32/resc128.rc, src/arch/win32/resc64.rc,
+	src/arch/win32/resc64_256k.rc, src/arch/win32/resc64dtv.rc,
+	src/arch/win32/rescbm2.rc, src/arch/win32/rescbm2common.rc,
+	src/arch/win32/rescbm5x0.rc, src/arch/win32/rescia.rc,
+	src/arch/win32/resdigimax.rc, src/arch/win32/resdqbb.rc,
+	src/arch/win32/resds12c887rtc.rc, src/arch/win32/reseasyflash.rc,
+	src/arch/win32/resexpert.rc, src/arch/win32/resgeoram.rc,
+	src/arch/win32/reside64.rc, src/arch/win32/resisepic.rc,
+	src/arch/win32/reslightpen.rc, src/arch/win32/resmagicvoice.rc,
+	src/arch/win32/resmidi.rc, src/arch/win32/resmmc64.rc,
+	src/arch/win32/resmmcreplay.rc, src/arch/win32/respet.rc,
+	src/arch/win32/respetdww.rc, src/arch/win32/respetreu.rc,
+	src/arch/win32/resplus256k.rc, src/arch/win32/resplus4.rc,
+	src/arch/win32/resplus60k.rc, src/arch/win32/resramcart.rc,
+	src/arch/win32/resretroreplay.rc, src/arch/win32/resreu.rc,
+	src/arch/win32/resrs232user.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/ressid.rc, src/arch/win32/ressidcart.rc,
+	src/arch/win32/ressiddtv.rc, src/arch/win32/ressoundexpander.rc,
+	src/arch/win32/ressoundsampler.rc, src/arch/win32/rested.rc,
+	src/arch/win32/restfe.rc, src/arch/win32/resv364speech.rc,
+	src/arch/win32/resvic.rc, src/arch/win32/resvic20.rc,
+	src/arch/win32/resvicii.rc, src/arch/win32/resvsid.rc,
+	src/translate_text.c: Did a 'make trans-update' for the major update
+	of the french translations.
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/html/plain/65802and65816.txt, doc/html/plain/65CE02.txt: Some
+	WIP updates.
+
+2013-01-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/Makefile.am, build/vms, build/xbox-sdl,
+	src/arch/unix/Makefile.am, src/arch/unix/vms: Removed obsolete
+	xbox-sdl and vms files/directories.
+
+2013-01-02  Andrea Musuruane <musuruan@gmail.com>
+
+	* po/it.po, po/translations-status.txt: Updated.
+
+2013-01-01  Paul Dubé
+
+	* po/fr.po, po/translations-status.txt: Updated.
+
+2013-01-02  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uistatusbar.c: Tweak layout.
+
+2013-01-02  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uinetplay.c,
+	src/arch/unix/x11/xaw/uistatusbar.c: It helps to add the new file...
+
+2013-01-02  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/gui/uinetplay.c, src/arch/unix/x11/xaw/Makefile.am,
+	src/arch/unix/x11/xaw/uiarch.h, src/arch/unix/x11/xaw/uipalcontrol.c,
+	src/arch/unix/x11/xaw/uistatusbar.c, src/arch/unix/x11/xaw/x11ui.c:
+	Add a NetPlay dialog to the Xaw GUI.
+
+2013-01-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/arch/unix/x11/xaw/uistatusbar.c: Remove tape status on XAW for
+	DTV and SCPU64
+
+2013-01-01  groepaz <groepaz@gmx.net>
+
+	* src/monitor/mon_util.c, src/monitor/mon_util.h,
+	src/monitor/monitor.c, src/translate.txt, src/translate_text.c: added
+	-monlog command line option to redirect monitor output to a file,
+	inspired by patch from a.fachat
+
+2013-01-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am: Fixed the res.h rebuilt issue.
+
+2013-01-01  Paul Dubé
+
+	* po/fr.po, po/translations-status.txt: Updated.
+
+2013-01-01  pottendo <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2013-01-01  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uiscreenshot.c,
+	src/arch/unix/x11/xaw/uistatusbar.c,
+	src/arch/unix/x11/xaw/uitapestatus.c, src/arch/unix/x11/xaw/x11ui.c:
+	Revamp layout of temporary statusbar items (recording/playback
+	buttons).
+
+2013-01-01  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: Updated.
+
+2013-01-01  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/sid/sid-resources.c: xscpu64 can have stereo SIDs
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c: These need to be saved too
+
+2012-12-31  groepaz <groepaz@gmx.net>
+
+	* doc/vice.texi: Add phase shifts to todo
+
+2012-12-31  groepaz <groepaz@gmx.net>
+
+	* src/6510dtvcore.c: added missing memmap_mem_read, fixes bug #3597945
+
+2012-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* README, doc/vice.texi, src/arch/amigaos/mui/mui.c,
+	src/arch/beos/ui.cc, src/arch/msdos/menudefs.c,
+	src/arch/os2/dialogs/dialogs.rc, src/arch/sdl/menu_help.c,
+	src/arch/unix/macosx/Info.plist, src/arch/unix/x11/gnome/about.c,
+	src/arch/unix/x11/xaw/about.c, src/arch/win32/res.rc: Changed the
+	2012's to 2013's, happy new year.
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi: Update contrib
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* doc/vice.texi: Update docs
+
+2012-12-31  Kajtar Zsolt <soci@c64.rulez.org>
+
+	* src/scpu64/scpu64cpu.c: Simplify
+
+2012-12-31  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* ChangeLog, configure.in, doc/html/Makefile.am,
 	doc/html/plain/65802and65816.txt, doc/html/plain/65CE02.txt,

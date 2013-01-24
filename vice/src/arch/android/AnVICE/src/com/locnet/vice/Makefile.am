@@ -3,6 +3,6 @@ EXTRA_DIST = \
 	DosBoxControl.java \
 	DosBoxLauncher.java \
 	DosBoxMenuUtility.java \
-	DosBoxSurfaceView.jave \
+	DosBoxSurfaceView.java \
 	Globals.java \
 	PreConfig.java
