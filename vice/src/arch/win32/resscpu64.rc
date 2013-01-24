@@ -1010,13 +1010,13 @@ BEGIN
   IDS_C64BURSTMOD_CAPTION        "Ustawienia trybu synchronicznego napêdu C64"
   IDS_C64BURSTMOD_ENABLE         "W³±cz modyfikacjê trybu synchronicznego napêdu C64"
   IDS_C64BURSTMOD_CIA            "CIA trybu synchronicznego napêdu C64"
-  IDS_SCPU64_CAPTION             "SuperCPU64 settings"
-  IDS_SCPU64_SIMM_SIZE           "SIMM size"
-  IDS_SCPU64_JIFFY_SWITCH_ENABLE "Enable the jiffy switch"
-  IDS_SCPU64_SPEED_SWITCH_ENABLE "Enable the speed switch"
-  IDS_MI_NETWORK_SETTINGS       "Netplay (eksperymentalne)..."
+  IDS_SCPU64_CAPTION             "Ustawienia SuperCPU64"
+  IDS_SCPU64_SIMM_SIZE           "Ilo¶æ SIMM"
+  IDS_SCPU64_JIFFY_SWITCH_ENABLE "W³±cz prze³±cznik jiffy"
+  IDS_SCPU64_SPEED_SWITCH_ENABLE "W³±cz prze³±cznik speed"
+  IDS_MI_NETWORK_SETTINGS       "Gra sieciowa (eksperymentalne)..."
   IDS_MI_C64BURSTMOD_SETTINGS   "Ustawienia trybu synchronicznego napêdu C64..."
-  IDS_MI_SCPU64_SETTINGS        "SuperCPU64 settings..."
+  IDS_MI_SCPU64_SETTINGS        "Ustawienia SuperCPU64..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

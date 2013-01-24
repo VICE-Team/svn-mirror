@@ -2,12 +2,12 @@
 # Copyright (C) 2005-2011
 # This file is distributed under the same license as the PACKAGE package.
 # Marco van den Heuvel <blackystardust68@yahoo.com>, 2005-2011.
-# 
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-23 13:33-0800\n"
+"POT-Creation-Date: 2013-01-24 11:47-0800\n"
 "PO-Revision-Date: 2011-02-16 20:47+0100\n"
 "Last-Translator: Marco van den Heuvel <blackystardust68@yahoo.com>\n"
 "Language-Team: nl <nl@li.org>\n"
@@ -10074,7 +10074,9 @@ msgstr "Zet CIA 2 model (0 = oud 6526, 1 = nieuw 6526A)"
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
 "pet64, ultimax)"
-msgstr "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"
+msgstr ""
+"Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
+"pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4134
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"

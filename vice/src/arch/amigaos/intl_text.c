@@ -1163,7 +1163,7 @@ intl_translate_t intl_string_table[] = {
 /* en */ { IDMS_COPY,    "Copy" },
 /* da */ { IDMS_COPY_DA, "KopiÈr" },
 /* de */ { IDMS_COPY_DE, "Kopie" },
-/* es */ { IDMS_COPY_ES, "copiar" },
+/* es */ { IDMS_COPY_ES, "Copiar" },
 /* fr */ { IDMS_COPY_FR, "Copier" },
 /* hu */ { IDMS_COPY_HU, "M·sol" },
 /* it */ { IDMS_COPY_IT, "Copia" },
@@ -1393,7 +1393,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDMS_NETPLAY_IT, "Netplay (sperimentale)..." },
 /* ko */ { IDMS_NETPLAY_KO, "≥›«√∑π¿Ã (Ω««Ë¿˚)..." },
 /* nl */ { IDMS_NETPLAY_NL, "Netplay (experimenteel)..." },
-/* pl */ { IDMS_NETPLAY_PL, "Netplay (eksperymentalne)..." },
+/* pl */ { IDMS_NETPLAY_PL, "Gra sieciowa (eksperymentalne)..." },
 /* ru */ { IDMS_NETPLAY_RU, "Netplay (experimental)..." },
 /* sv */ { IDMS_NETPLAY_SV, "N‰tverksspel (experimentellt)..." },
 /* tr */ { IDMS_NETPLAY_TR, "Netplay (deneysel)..." },
@@ -2386,7 +2386,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64SX_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64SX_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64SX_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64SX_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64SX_PAL_NL, "C64 SX PAL" },
 /* pl */ { IDMS_C64SX_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C64SX_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64SX_PAL_SV, "" },  /* fuzzy */
@@ -2400,7 +2400,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64SX_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64SX_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64SX_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64SX_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64SX_NTSC_NL, "C64 SX NTSC" },
 /* pl */ { IDMS_C64SX_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C64SX_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64SX_NTSC_SV, "" },  /* fuzzy */
@@ -2414,7 +2414,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64_JAP_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64_JAP_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64_JAP_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64_JAP_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64_JAP_NL, "Japans" },
 /* pl */ { IDMS_C64_JAP_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C64_JAP_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64_JAP_SV, "" },  /* fuzzy */
@@ -2428,7 +2428,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_C64_GS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_C64_GS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_C64_GS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_C64_GS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_C64_GS_NL, "C64 GS" },
 /* pl */ { IDMS_C64_GS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_C64_GS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_C64_GS_SV, "" },  /* fuzzy */
@@ -2442,7 +2442,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_PET64_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_PET64_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_PET64_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PET64_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_PET64_PAL_NL, "PET64 PAL" },
 /* pl */ { IDMS_PET64_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_PET64_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PET64_PAL_SV, "" },  /* fuzzy */
@@ -2456,7 +2456,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_PET64_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_PET64_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_PET64_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_PET64_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_PET64_NTSC_NL, "PET64 NTSC" },
 /* pl */ { IDMS_PET64_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_PET64_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_PET64_NTSC_SV, "" },  /* fuzzy */
@@ -2470,7 +2470,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_ULTIMAX_HU, "" },  /* fuzzy */
 /* it */ { IDMS_ULTIMAX_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_ULTIMAX_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_ULTIMAX_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_ULTIMAX_NL, "MAX Machine" },
 /* pl */ { IDMS_ULTIMAX_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_ULTIMAX_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ULTIMAX_SV, "" },  /* fuzzy */
@@ -2596,7 +2596,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VIC20_MODEL_SETTINGS_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VIC20_MODEL_SETTINGS_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VIC20_MODEL_SETTINGS_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC20_MODEL_SETTINGS_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_MODEL_SETTINGS_NL, "VIC20 model instellingen..." },
 /* pl */ { IDMS_VIC20_MODEL_SETTINGS_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VIC20_MODEL_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VIC20_MODEL_SETTINGS_SV, "" },  /* fuzzy */
@@ -2610,7 +2610,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VIC20_PAL_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VIC20_PAL_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VIC20_PAL_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC20_PAL_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_PAL_NL, "VIC20 PAL" },
 /* pl */ { IDMS_VIC20_PAL_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VIC20_PAL_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VIC20_PAL_SV, "" },  /* fuzzy */
@@ -2624,7 +2624,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VIC20_NTSC_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VIC20_NTSC_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VIC20_NTSC_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC20_NTSC_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC20_NTSC_NL, "VIC20 NTSC" },
 /* pl */ { IDMS_VIC20_NTSC_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VIC20_NTSC_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VIC20_NTSC_SV, "" },  /* fuzzy */
@@ -2638,7 +2638,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDMS_VIC21_HU, "" },  /* fuzzy */
 /* it */ { IDMS_VIC21_IT, "" },  /* fuzzy */
 /* ko */ { IDMS_VIC21_KO, "" },  /* fuzzy */
-/* nl */ { IDMS_VIC21_NL, "" },  /* fuzzy */
+/* nl */ { IDMS_VIC21_NL, "VIC21" },
 /* pl */ { IDMS_VIC21_PL, "" },  /* fuzzy */
 /* ru */ { IDMS_VIC21_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_VIC21_SV, "" },  /* fuzzy */
@@ -3465,7 +3465,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDMS_SCPU64_SETTINGS_IT, "Impostazioni SuperCPU64..." },
 /* ko */ { IDMS_SCPU64_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_SCPU64_SETTINGS_NL, "SuperCPU64 instellingen..." },
-/* pl */ { IDMS_SCPU64_SETTINGS_PL, "" },  /* fuzzy */
+/* pl */ { IDMS_SCPU64_SETTINGS_PL, "Ustawienia SuperCPU64..." },
 /* ru */ { IDMS_SCPU64_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_SCPU64_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_SCPU64_SETTINGS_TR, "" },  /* fuzzy */
@@ -4095,7 +4095,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDMS_ENABLE_PETHRE_IT, "Attiva scheda alta risoluzione del PET" },
 /* ko */ { IDMS_ENABLE_PETHRE_KO, "" },  /* fuzzy */
 /* nl */ { IDMS_ENABLE_PETHRE_NL, "Activeer PET High Res Emulator bord" },
-/* pl */ { IDMS_ENABLE_PETHRE_PL, "" },  /* fuzzy */
+/* pl */ { IDMS_ENABLE_PETHRE_PL, "W≥±cz uk≥ad emulatora PET hi-res" },
 /* ru */ { IDMS_ENABLE_PETHRE_RU, "" },  /* fuzzy */
 /* sv */ { IDMS_ENABLE_PETHRE_SV, "" },  /* fuzzy */
 /* tr */ { IDMS_ENABLE_PETHRE_TR, "" },  /* fuzzy */
@@ -5425,7 +5425,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_NETPLAY_SETTINGS_IT, "Impostazioni Netplay" },
 /* ko */ { IDS_NETPLAY_SETTINGS_KO, "≥›«√∑π¿Ã º≥¡§" },
 /* nl */ { IDS_NETPLAY_SETTINGS_NL, "Netplay instellingen" },
-/* pl */ { IDS_NETPLAY_SETTINGS_PL, "Ustawienia netplay" },
+/* pl */ { IDS_NETPLAY_SETTINGS_PL, "Ustawienia gry sieciowej" },
 /* ru */ { IDS_NETPLAY_SETTINGS_RU, "Ω–·‚‡ﬁŸ⁄ÿ ·’‚’“ﬁŸ ÿ”‡Î" },
 /* sv */ { IDS_NETPLAY_SETTINGS_SV, "Inst‰llningar fˆr n‰tverksspel" },
 /* tr */ { IDS_NETPLAY_SETTINGS_TR, "Netplay Ayarlar˝" },
@@ -11138,7 +11138,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SCPU64_JIFFY_ENABLED_IT, "Interruttore Jiffy attivo" },
 /* ko */ { IDS_SCPU64_JIFFY_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SCPU64_JIFFY_ENABLED_NL, "Jiffy schakelaar Aan/Uit" },
-/* pl */ { IDS_SCPU64_JIFFY_ENABLED_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_JIFFY_ENABLED_PL, "Prze≥±cznik jiffy w≥±czony" },
 /* ru */ { IDS_SCPU64_JIFFY_ENABLED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SCPU64_JIFFY_ENABLED_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SCPU64_JIFFY_ENABLED_TR, "" },  /* fuzzy */
@@ -11152,7 +11152,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SCPU64_SPEED_ENABLED_IT, "Interruttore di velocit‡ attivo" },
 /* ko */ { IDS_SCPU64_SPEED_ENABLED_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SCPU64_SPEED_ENABLED_NL, "Snelheid schakelaar Aan/Uit" },
-/* pl */ { IDS_SCPU64_SPEED_ENABLED_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_SPEED_ENABLED_PL, "Prze≥±cznik speed w≥±czony" },
 /* ru */ { IDS_SCPU64_SPEED_ENABLED_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SCPU64_SPEED_ENABLED_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SCPU64_SPEED_ENABLED_TR, "" },  /* fuzzy */
@@ -11166,7 +11166,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SCPU64_SIMM_SIZE_IT, "Dimensione SIMM" },
 /* ko */ { IDS_SCPU64_SIMM_SIZE_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SCPU64_SIMM_SIZE_NL, "SIMM grootte" },
-/* pl */ { IDS_SCPU64_SIMM_SIZE_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_SIMM_SIZE_PL, "Ilo∂Ê SIMM" },
 /* ru */ { IDS_SCPU64_SIMM_SIZE_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SCPU64_SIMM_SIZE_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SCPU64_SIMM_SIZE_TR, "" },  /* fuzzy */
@@ -11180,7 +11180,7 @@ intl_translate_t intl_string_table[] = {
 /* it */ { IDS_SCPU64_SETTINGS_IT, "Impostazioni SuperCPU64" },
 /* ko */ { IDS_SCPU64_SETTINGS_KO, "" },  /* fuzzy */
 /* nl */ { IDS_SCPU64_SETTINGS_NL, "SuperCPU64 instellingen" },
-/* pl */ { IDS_SCPU64_SETTINGS_PL, "" },  /* fuzzy */
+/* pl */ { IDS_SCPU64_SETTINGS_PL, "Ustawienia SuperCPU64" },
 /* ru */ { IDS_SCPU64_SETTINGS_RU, "" },  /* fuzzy */
 /* sv */ { IDS_SCPU64_SETTINGS_SV, "" },  /* fuzzy */
 /* tr */ { IDS_SCPU64_SETTINGS_TR, "" },  /* fuzzy */
@@ -11599,7 +11599,7 @@ intl_translate_t intl_string_table[] = {
 /* hu */ { IDS_MOUSE_KOALAPAD_HU, "" },  /* fuzzy */
 /* it */ { IDS_MOUSE_KOALAPAD_IT, "" },  /* fuzzy */
 /* ko */ { IDS_MOUSE_KOALAPAD_KO, "" },  /* fuzzy */
-/* nl */ { IDS_MOUSE_KOALAPAD_NL, "" },  /* fuzzy */
+/* nl */ { IDS_MOUSE_KOALAPAD_NL, "Koalapad" },
 /* pl */ { IDS_MOUSE_KOALAPAD_PL, "" },  /* fuzzy */
 /* ru */ { IDS_MOUSE_KOALAPAD_RU, "" },  /* fuzzy */
 /* sv */ { IDS_MOUSE_KOALAPAD_SV, "" },  /* fuzzy */

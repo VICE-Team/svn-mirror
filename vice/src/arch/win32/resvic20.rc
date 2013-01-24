@@ -1122,7 +1122,7 @@ BEGIN
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander instellingen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler instellingen (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC instellingen..."
-    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model instellingen..."
 END
 
 
@@ -1382,3 +1382,5 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
+
+

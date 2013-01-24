@@ -1222,7 +1222,7 @@ translate_t string_table[] = {
 /* en */ {IDGS_MON_CPUHISTORY_DESCRIPTION,    N_("Show <count> last executed commands.")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DA, "Vis <antal> senest eksekverede instruktioner."},
-/* de */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DE, "Zeige <Zähler> zuletzt ausgeführte Kommandos"},
+/* de */ {IDGS_MON_CPUHISTORY_DESCRIPTION_DE, "Zeige [<Zähler>] zuletzt ausgeführte Kommandos"},
 /* es */ {IDGS_MON_CPUHISTORY_DESCRIPTION_ES, "Show <contador> último comando ejecutado."},
 /* fr */ {IDGS_MON_CPUHISTORY_DESCRIPTION_FR, "Afficher les <count> dernières commandes exécutées."},
 /* hu */ {IDGS_MON_CPUHISTORY_DESCRIPTION_HU, "<darab> utoljára végrehajtott utasítás mutatása."},
@@ -4188,18 +4188,18 @@ translate_t string_table[] = {
 /* c64/c64-cmdline-options.c, scpu64/scpu64-cmdline-options.c */
 /* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_C64_MODEL_DA, "Vælg C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* de */ {IDCLS_SET_C64_MODEL_DE, "Wähle C64 Modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* es */ {IDCLS_SET_C64_MODEL_ES, "Seleccionar modelo C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* fr */ {IDCLS_SET_C64_MODEL_FR, "Définir le modèle C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
+/* da */ {IDCLS_SET_C64_MODEL_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_C64_MODEL_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_C64_MODEL_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_C64_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_C64_MODEL_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_C64_MODEL_IT, "Imposta modello C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
+/* it */ {IDCLS_SET_C64_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_C64_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_C64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* pl */ {IDCLS_SET_C64_MODEL_PL, "Okre¶l model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* ru */ {IDCLS_SET_C64_MODEL_RU, "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* sv */ {IDCLS_SET_C64_MODEL_SV, "Välj C64-modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* tr */ {IDCLS_SET_C64_MODEL_TR, "C64 modelini belirle (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
+/* pl */ {IDCLS_SET_C64_MODEL_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_C64_MODEL_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_C64_MODEL_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
 #endif
 
 /* c128/c128-cmdline-options.c */
@@ -4246,7 +4246,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_VIC20_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_VIC20_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_VIC20_MODEL_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_VIC20_MODEL_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VIC20_MODEL_NL, "Zet VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"},
 /* pl */ {IDCLS_SET_VIC20_MODEL_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_VIC20_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_VIC20_MODEL_SV, ""},  /* fuzzy */
@@ -4835,7 +4835,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_USERPORT_JOY_IT, "Attiva adattatore joystick su userport"},
 /* ko */ {IDCLS_ENABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_USERPORT_JOY_NL, "Activeer Userport joystick adapter"},
-/* pl */ {IDCLS_ENABLE_USERPORT_JOY_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_JOY_PL, "W³±cz z³±cze userportu joysticka"},
 /* ru */ {IDCLS_ENABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
@@ -4852,7 +4852,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_USERPORT_JOY_IT, "Disattiva adattatore joystick su userport"},
 /* ko */ {IDCLS_DISABLE_USERPORT_JOY_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_USERPORT_JOY_NL, "De Userport joystick adapter uitschakelen"},
-/* pl */ {IDCLS_DISABLE_USERPORT_JOY_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_JOY_PL, "Wy³±cz z³±cze userportu joysticka"},
 /* ru */ {IDCLS_DISABLE_USERPORT_JOY_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_JOY_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_JOY_TR, ""},  /* fuzzy */
@@ -4869,7 +4869,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_USERPORT_JOY_TYPE_IT, "Imposta il tipo di adattatore joystick su userport (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
 /* ko */ {IDCLS_SET_USERPORT_JOY_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_USERPORT_JOY_TYPE_NL, "Zet Userport joystick adapter soort (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
-/* pl */ {IDCLS_SET_USERPORT_JOY_TYPE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_USERPORT_JOY_TYPE_PL, "Okre¶l typ z³±cza userportu joysticka (0: CGA/Protovision, 1: PET, 2: Hummer, 3: OEM, 4: DXS/HIT, 5: Kingsoft, 6: Starbyte)"},
 /* ru */ {IDCLS_SET_USERPORT_JOY_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_USERPORT_JOY_TYPE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_USERPORT_JOY_TYPE_TR, ""},  /* fuzzy */
@@ -4886,7 +4886,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_USERPORT_RTC_IT, "Attiva RTC su userport"},
 /* ko */ {IDCLS_ENABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_USERPORT_RTC_NL, "Activeer de Userport RTC uitbreiding"},
-/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_USERPORT_RTC_PL, "W³±cz Userport RTC"},
 /* ru */ {IDCLS_ENABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
@@ -4903,7 +4903,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_USERPORT_RTC_IT, "Disattiva RTC su userport"},
 /* ko */ {IDCLS_DISABLE_USERPORT_RTC_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_USERPORT_RTC_NL, "De Userport RTC uitbreiding uischakelen"},
-/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_USERPORT_RTC_PL, "Wy³±cz Userport RTC"},
 /* ru */ {IDCLS_DISABLE_USERPORT_RTC_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_USERPORT_RTC_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_USERPORT_RTC_TR, ""},  /* fuzzy */
@@ -7712,7 +7712,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_DRIVE_SOUND_VOLUME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DRIVE_SOUND_VOLUME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DRIVE_SOUND_VOLUME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_NL, "Zet de volume van de diskdrive geluidemulatie (0-4000)"},
 /* pl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SET_DRIVE_SOUND_VOLUME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_SOUND_VOLUME_SV, ""},  /* fuzzy */
@@ -7722,18 +7722,18 @@ translate_t string_table[] = {
 /* drive/drive-cmdline-options.c */
 /* en */ {IDCLS_P_VOLUME,    N_("<Volume>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_P_VOLUME_DA, ""},  /* fuzzy */
+/* da */ {IDCLS_P_VOLUME_DA, "<Lydstyrke>"},
 /* de */ {IDCLS_P_VOLUME_DE, "<Lautstärke>"},
-/* es */ {IDCLS_P_VOLUME_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_P_VOLUME_FR, ""},  /* fuzzy */
+/* es */ {IDCLS_P_VOLUME_ES, "<Volumen>"},
+/* fr */ {IDCLS_P_VOLUME_FR, "<Volume>"},
 /* hu */ {IDCLS_P_VOLUME_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_P_VOLUME_IT, ""},  /* fuzzy */
+/* it */ {IDCLS_P_VOLUME_IT, "<Volume>"},
 /* ko */ {IDCLS_P_VOLUME_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_VOLUME_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_P_VOLUME_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_P_VOLUME_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_P_VOLUME_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_P_VOLUME_TR, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_VOLUME_NL, "<Volume>"},
+/* pl */ {IDCLS_P_VOLUME_PL, "<G³o¶no¶æ>"},
+/* ru */ {IDCLS_P_VOLUME_RU, "<Volume>"},
+/* sv */ {IDCLS_P_VOLUME_SV, "<Volym>"},
+/* tr */ {IDCLS_P_VOLUME_TR, "<Ses Düzeyi>"},
 #endif
 
 /* drive/drive-cmdline-options.c, drive/iec/plus4exp/plus4exp-cmdline-options.c,
@@ -7837,7 +7837,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_UNDERSIZED_HANDLING_IT, "Seleziona come gestire il sottodimensionamento dell'input, (0: scale up, 1: borderize)"},
 /* ko */ {IDCLS_UNDERSIZED_HANDLING_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_UNDERSIZED_HANDLING_NL, "Selecteer de manier waarop de te kleine invoer moet worden afgehandeld, (0: maak groter, 1: maak border)"},
-/* pl */ {IDCLS_UNDERSIZED_HANDLING_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_UNDERSIZED_HANDLING_PL, "Wybierz sposób obs³ugi ma³ego obrazu (0: skaluj, 1: dodaj ramkê)"},
 /* ru */ {IDCLS_UNDERSIZED_HANDLING_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_UNDERSIZED_HANDLING_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_UNDERSIZED_HANDLING_TR, ""},  /* fuzzy */
@@ -11542,13 +11542,13 @@ translate_t string_table[] = {
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DA, ""},  /* fuzzy */
 /* de */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_ES, ""},  /* fuzzy */
+/* es */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_ES, "Grabar salida del monitor tambien en fichero"},
 /* fr */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_NL, "Schrijf uitvoer van de monitor ook naar een bestand"},
+/* pl */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_PL, "Zapisuj wyj¶cie monitora równie¿ do pliku"},
 /* ru */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_TR, ""},  /* fuzzy */
@@ -12038,18 +12038,18 @@ translate_t string_table[] = {
 /* TRANSLATORS: actual mouse types should not get translated */
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, "Vælg mussetype (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus Typ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, "Sélectionner le type de souris (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, "²ëÑÕàØâÕ âØß ÜëèØ (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, "Välj mustyp (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
-/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, "Mouse tipini seçin (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"},
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
 #endif
 
 /* ps2mouse.c */
@@ -12157,18 +12157,18 @@ translate_t string_table[] = {
 /* romset.c */
 /* en */ {IDCLS_PB_FILE,    N_("<File>")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_PB_FILE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_PB_FILE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_PB_FILE_ES, ""},  /* fuzzy */
-/* fr */ {IDCLS_PB_FILE_FR, ""},  /* fuzzy */
-/* hu */ {IDCLS_PB_FILE_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_PB_FILE_IT, ""},  /* fuzzy */
-/* ko */ {IDCLS_PB_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_PB_FILE_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_PB_FILE_PL, ""},  /* fuzzy */
-/* ru */ {IDCLS_PB_FILE_RU, ""},  /* fuzzy */
-/* sv */ {IDCLS_PB_FILE_SV, ""},  /* fuzzy */
-/* tr */ {IDCLS_PB_FILE_TR, ""},  /* fuzzy */
+/* da */ {IDCLS_PB_FILE_DA, "<Fil>"},
+/* de */ {IDCLS_PB_FILE_DE, "<Datei>"},
+/* es */ {IDCLS_PB_FILE_ES, "<Fichero>"},
+/* fr */ {IDCLS_PB_FILE_FR, "<Fichier>"},
+/* hu */ {IDCLS_PB_FILE_HU, "<Fájl>"},
+/* it */ {IDCLS_PB_FILE_IT, "<File>"},
+/* ko */ {IDCLS_PB_FILE_KO, "<ÆÄÀÏ>"},
+/* nl */ {IDCLS_PB_FILE_NL, "<Bestand>"},
+/* pl */ {IDCLS_PB_FILE_PL, "<Plik>"},
+/* ru */ {IDCLS_PB_FILE_RU, "<ÄÐÙÛ>"},
+/* sv */ {IDCLS_PB_FILE_SV, "<Arkiv>"},
+/* tr */ {IDCLS_PB_FILE_TR, "<Dosya>"},
 #endif
 
 /* romset.c */
@@ -12181,7 +12181,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_LOAD_ROMSET_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_LOAD_ROMSET_FILE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_LOAD_ROMSET_FILE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_LOAD_ROMSET_FILE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_LOAD_ROMSET_FILE_NL, "Laad het opgegeven romsetbestand"},
 /* pl */ {IDCLS_LOAD_ROMSET_FILE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_LOAD_ROMSET_FILE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_LOAD_ROMSET_FILE_SV, ""},  /* fuzzy */
@@ -12198,7 +12198,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_LOAD_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_LOAD_ROMSET_ARCHIVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_LOAD_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_LOAD_ROMSET_ARCHIVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_LOAD_ROMSET_ARCHIVE_NL, "Laad het opgegeven romsetarchief"},
 /* pl */ {IDCLS_LOAD_ROMSET_ARCHIVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_LOAD_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_LOAD_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
@@ -12215,7 +12215,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_P_ITEM_NUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ITEM_NUMBER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_ITEM_NUMBER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_P_ITEM_NUMBER_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_P_ITEM_NUMBER_NL, "<Item nummer>"},
 /* pl */ {IDCLS_P_ITEM_NUMBER_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_P_ITEM_NUMBER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_ITEM_NUMBER_SV, ""},  /* fuzzy */
@@ -12232,7 +12232,7 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_NL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_NL, "selecteer het opgegeven item van het huidige romsetarchief"},
 /* pl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_PL, ""},  /* fuzzy */
 /* ru */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
@@ -13697,7 +13697,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_SET_SIMM_SIZE_IT, "Dimensione della RAM SIMM (0/1/4/8/16 MB)"},
 /* ko */ {IDCLS_SET_SIMM_SIZE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_SIMM_SIZE_NL, "Grootte van het SIMM RAM (0/1/4/8/16 MB)"},
-/* pl */ {IDCLS_SET_SIMM_SIZE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_SIMM_SIZE_PL, "Ilo¶æ SIMM RAM-u (0/1/4/8/16 MB)"},
 /* ru */ {IDCLS_SET_SIMM_SIZE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_SIMM_SIZE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_SIMM_SIZE_TR, ""},  /* fuzzy */
@@ -13714,7 +13714,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_JIFFY_SWITCH_IT, "Attiva interruttore Jiffy"},
 /* ko */ {IDCLS_ENABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_JIFFY_SWITCH_NL, "Activeer Jiffy schakelaar"},
-/* pl */ {IDCLS_ENABLE_JIFFY_SWITCH_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_JIFFY_SWITCH_PL, "W³±cz prze³±cznik Jiffy"},
 /* ru */ {IDCLS_ENABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_JIFFY_SWITCH_TR, ""},  /* fuzzy */
@@ -13731,7 +13731,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_JIFFY_SWITCH_IT, "Disattiva interruttore Jiffy"},
 /* ko */ {IDCLS_DISABLE_JIFFY_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_JIFFY_SWITCH_NL, "Jiffy schakelaar uitschakelen"},
-/* pl */ {IDCLS_DISABLE_JIFFY_SWITCH_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_JIFFY_SWITCH_PL, "Wy³±cz prze³±cznik Jiffy"},
 /* ru */ {IDCLS_DISABLE_JIFFY_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_JIFFY_SWITCH_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_JIFFY_SWITCH_TR, ""},  /* fuzzy */
@@ -13748,7 +13748,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_ENABLE_SPEED_SWITCH_IT, "Attiva interruttore di velocità"},
 /* ko */ {IDCLS_ENABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_ENABLE_SPEED_SWITCH_NL, "Activeer snelheid schakelaar"},
-/* pl */ {IDCLS_ENABLE_SPEED_SWITCH_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_ENABLE_SPEED_SWITCH_PL, "W³±cz prze³±cznik Speed"},
 /* ru */ {IDCLS_ENABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_ENABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_ENABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */
@@ -13765,7 +13765,7 @@ translate_t string_table[] = {
 /* it */ {IDCLS_DISABLE_SPEED_SWITCH_IT, "Disattiva interruttore di velocità"},
 /* ko */ {IDCLS_DISABLE_SPEED_SWITCH_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_DISABLE_SPEED_SWITCH_NL, "Snelheid schakelaar uischakelen"},
-/* pl */ {IDCLS_DISABLE_SPEED_SWITCH_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_DISABLE_SPEED_SWITCH_PL, "Wy³±cz prze³±cznik Speed"},
 /* ru */ {IDCLS_DISABLE_SPEED_SWITCH_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_DISABLE_SPEED_SWITCH_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_DISABLE_SPEED_SWITCH_TR, ""},  /* fuzzy */

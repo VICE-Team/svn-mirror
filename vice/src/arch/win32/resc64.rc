@@ -992,7 +992,7 @@ BEGIN
   IDS_C64BURSTMOD_CAPTION       "Ustawienia trybu synchronicznego napêdu C64"
   IDS_C64BURSTMOD_ENABLE        "W³±cz modyfikacjê trybu synchronicznego napêdu C64"
   IDS_C64BURSTMOD_CIA           "CIA trybu synchronicznego napêdu C64"
-  IDS_MI_NETWORK_SETTINGS       "Netplay (eksperymentalne)..."
+  IDS_MI_NETWORK_SETTINGS       "Gra sieciowa (eksperymentalne)..."
   IDS_MI_PLUS60K_SETTINGS       "Ustawienia PLUS60K..."
   IDS_MI_PLUS256K_SETTINGS      "Ustawienia PLUS256K..."
   IDS_MI_C64_256K_SETTINGS      "Ustawienia 256K..."
