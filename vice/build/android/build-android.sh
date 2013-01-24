@@ -149,6 +149,7 @@ if test x"$builddebug" = "xyes"; then
 else
   ant release
   rm -f vice-*.keystore
+  rm -f ant.properties
   cd ../../../..
   mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
 fi
