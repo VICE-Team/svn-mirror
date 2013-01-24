@@ -86,7 +86,7 @@ fi
 if test x"$CPUS" = "xarmeabi armeabi-v7a mips x86"; then
   CPULABEL="all"
 else
-  CPULABEL=$CPUS"
+  CPULABEL=$CPUS
 fi
 
 cd src

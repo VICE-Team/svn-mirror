@@ -86,7 +86,7 @@ fi
 if test x"$CPUS" = "xarmeabi armeabi-v7a mips x86"; then
   CPULABEL="all"
 else
-  CPULABEL=$CPUS"
+  CPULABEL=$CPUS
 fi
 
 cd src
@@ -99,7 +99,7 @@ echo generating src/infocontrib.h
 cd arch/android/AnVICE/jni
 echo generating Application.mk
 cp Application.proto Application.mk
-echo >>Application.proto "APP_ABI := $CPUS"
+echo >>Application.mk "APP_ABI := $CPUS"
 cd ..
 echo building libvice.so
 ndk-build
@@ -107,3 +107,4 @@ echo generating apk
 ant debug
 cd ../../../..
 mv src/arch/android/AnVICE/bin/PreConfig-debug.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
