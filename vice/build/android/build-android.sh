@@ -21,6 +21,10 @@ x86build=no
 
 showusage=no
 
+buildrelease=no
+builddevrelease=no
+builddebug=no
+
 # check options
 for i in $*
 do
@@ -39,12 +43,15 @@ do
   if test x"$i" = "xhelp"; then
     showusage=yes
   fi
+  if test x"$i" = "xrelease"; then
+    buildrelease=yes
+  fi
 done
 
 if test x"$showusage" = "xyes"; then
-  echo "Usage: $0 [<cpu types>] [help]"
+  echo "Usage: $0 [release] [<cpu types>] [help]"
+  echo "release indicates that the binary needs to be build as a official release as opposed to a developent release."
   echo "cpu-types: armeabi, armeabi-v7a, mips, x86."
-  echo ""
   echo "if no cpu-type is given armeabi will be built by default."
   exit 1
 fi
@@ -89,6 +96,22 @@ else
   CPULABEL=$CPUS
 fi
 
+if test x"$buildrelease" = "xyes"; then
+  if [ ! -f vice-release.keystore ]; then
+    echo "vice-release.keystore not found, will fallback on a debug build"
+    buildrelease=no
+    builddebug=yes
+  fi
+else
+  if [ ! -f vice-dev.keystore ]; then
+    echo "vice-dev.keystore not found, will use a debug key instead"
+    builddebug=yes
+  else
+    builddebug=no
+    builddevrelease=yes
+  fi
+fi
+
 cd src
 echo generating src/translate_table.h
 . ./gentranslatetable.sh <translate.txt >translate_table.h
@@ -99,11 +122,35 @@ echo generating src/infocontrib.h
 cd arch/android/AnVICE/jni
 echo generating Application.mk
 cp Application.proto Application.mk
-echo >>Application.proto "APP_ABI := $CPUS"
+echo >>Application.mk "APP_ABI := $CPUS"
 cd ..
 echo building libvice.so
 ndk-build
+
 echo generating apk
-ant debug
-cd ../../../..
-mv src/arch/android/AnVICE/bin/PreConfig-debug.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+
+if test x"$buildrelease" = "xyes"; then
+  cp $curdir/vice-release.keystore ./
+  echo >ant.properties "key.store=vice-release.keystore"
+  echo >>ant.properties "key.alias=vice_release"
+fi
+
+if test x"$builddevrelease" = "xyes"; then
+  cp $curdir/vice-dev.keystore ./
+  echo >ant.properties "key.store=vice-dev.keystore"
+  echo >>ant.properties "key.alias=vice_dev"
+fi
+
+if test x"$builddebug" = "xyes"; then
+  rm -f ant.properties
+  ant debug
+  cd ../../../..
+  mv src/arch/android/AnVICE/bin/PreConfig-debug.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+else
+  ant release
+  rm -f vice-*.keystore
+  cd ../../../..
+  mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+fi
+
+echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
