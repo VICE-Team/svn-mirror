@@ -762,8 +762,10 @@ char *archdep_get_runtime_cpu(void)
 
 /* x86/amd64/x86_64 */
 #if !defined(RUNTIME_CPU_HANDLED) && (defined(__i386__) || defined(__i486__) || defined(__i586__) || defined(__i686__) || defined(__amd64__) || defined(__x86_64__))
+#ifndef ANDROID_COMPILE
 #define RUNTIME_CPU_HANDLED
     return platform_get_x86_runtime_cpu();
+#endif
 #endif
 
 /* TODO: add runtime cpu detection code for other cpu's */
