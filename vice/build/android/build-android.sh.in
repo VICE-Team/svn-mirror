@@ -154,4 +154,8 @@ else
   mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
 fi
 
-echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+if [ ! -f AnVICE-\($CPULABEL\)-$VICEVERSION.apk ]; then
+  echo build not completed, check for errors in the output
+else
+  echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+fi
