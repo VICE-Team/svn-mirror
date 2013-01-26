@@ -1,5 +1,11 @@
 /*
- *  Copyright (C) 2011 Locnet (android.locnet@gmail.com)
+ * loader.h
+ *
+ * Written by
+ *  Locnet <android.locnet@gmail.com>
+ *
+ * This file is part of VICE, the Versatile Commodore Emulator.
+ * See README for copyright notice.
  *
  *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -13,42 +19,37 @@
  *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *  02111-1307  USA.
+ *
  */
 
-#ifndef	LOCNET_LOADER
+#ifndef LOCNET_LOADER
 #define LOCNET_LOADER
 
 #include "AndroidOSfunc.h"
 
-#define KEYBOARD_CTRL_FLAG 0x1
-#define KEYBOARD_ALT_FLAG 0x02
-#define KEYBOARD_SHIFT_FLAG 0x04
+#define KEYBOARD_CTRL_FLAG    0x01
+#define KEYBOARD_ALT_FLAG     0x02
+#define KEYBOARD_SHIFT_FLAG   0x04
 
 #define KEYBOARD_NONE 0
 
-//extern bool	enableSound;
-//extern bool	enableCycleHack;
-//extern bool	enableRefreshHack;
-
-struct loader_config
-{
-	unsigned long rowbytes;
-	char *videoBuffer;
-	jobject	bmph;
-	jshortArray audioBuffer;
-	unsigned long memsize;
-	unsigned long frameskip;
-	unsigned long cycles;
-	unsigned long soundEnable;
-	unsigned long cycleHack;
-	unsigned long refreshHack;
-	long width;
-	long height;
-	//long scale_width;
-	//long scale_height;
-	char abort;
-	char pause;
+struct loader_config {
+    unsigned long rowbytes;
+    char *videoBuffer;
+    jobject bmph;
+    jshortArray audioBuffer;
+    unsigned long memsize;
+    unsigned long frameskip;
+    unsigned long cycles;
+    unsigned long soundEnable;
+    unsigned long cycleHack;
+    unsigned long refreshHack;
+    long width;
+    long height;
+    char abort;
+    char pause;
 };
 
 extern struct loader_config *loadf;
