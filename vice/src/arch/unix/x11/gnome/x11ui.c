@@ -551,51 +551,44 @@ int ui_init2(int *argc, char **argv)
 int ui_init(int *argc, char **argv)
 #endif	/* USE_UI_THREADS */
 {
-    /* Fake Gnome to see empty arguments; 
-       Generaly we should use a `popt_table', either by converting the
-       registered options to this, or to introduce popt in the generic part,
-       case we have `libgnomeui' around.
-       For now I discard gnome-specific options. FIXME MP */
-
     if (console_mode) {
         return 0;
     }
-
+    
     XInitThreads();
     /* init threads */	
     gdk_threads_init();
 
-    fake_argv[0] = argv[0];
-    fake_argv[1] = NULL;
+    gtk_init(argc, &argv);
 
 #ifdef DEBUG_X11UI
-{
-    int i;
-    for (i = 1; i < argc; i++) {
-        DBG(("arg %d:%s\n", i, argv[i]));
+    {
+	int i;
+	for (i = 1; i < *argc; i++) {
+	    DBG(("arg %d:%s\n", i, argv[i]));
+	}
     }
-}
 #endif
-
-    gtk_init(&argc, &argv);
+    
 #ifdef HAVE_HWSCALE
-    if (gtk_gl_init_check(&fake_argc, &fake_args) == TRUE) {
+    if (gtk_gl_init_check(argc, &argv) == TRUE) {
 	glClear(GL_COLOR_BUFFER_BIT);
 	glDisable (GL_DEPTH_TEST);
 	glEnable(GL_TEXTURE_RECTANGLE_EXT);
 	glTexEnvi(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_ENV_MODE, GL_DECAL);
 	glEnable(GL_BLEND);
+    }
+    
 #endif
 
 #ifdef DEBUG_X11UI
-{
-    int i;
-    for (i = 1; i < argc; i++) {
-        DBG(("arg %d:%s\n", i, argv[i]));
+    {
+	int i;
+	for (i = 1; i < *argc; i++) {
+	    DBG(("arg %d:%s\n", i, argv[i]));
+	}
     }
-}
 #endif
-}
 
 #ifdef USE_XF86_EXTENSIONS
     display = gdk_x11_get_default_xdisplay();
