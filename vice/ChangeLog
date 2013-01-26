@@ -1,26 +1,105 @@
+------------------------------------------------------------------------------
+
 2013-01-26  pottendo  <pottendo@aon.at>
 
-	* configure.in: Added checks for
-	pthreads.h/semaphore.h/-lpthread. 
+	* src/arch/unix/x11/gnome/x11ui.c: (ui_init): Fixed aftermerge
+	inconsistencies.
+
+2013-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/readmes/Makefile.am: Added Readme-Unix.txt to the Makefile.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* po/de.po: Updated.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* doc/readmes/Readme-Unix.txt: Updated.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* doc/readmes/Readme-Unix.txt: New file.
+
+2013-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/src/com/locnet/vice/DosBoxMenuUtility.java:
+	Code style cleanups.
+
+2013-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in: Don't assume the build completed
+	without errors.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/xrandr.c:
+	Deactivated debug macros.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* configure.in: Changed option to `--with-uithreads' instead of
+	`--with-ui-threads'.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* configure.in: Added checks for pthreads.h/semaphore.h/-lpthread.
 	Added new option `--with-uithreads'.
+
+2013-01-26  pottendo  <pottendo@aon.at>
+
 	* src/arch/unix/x11/gnome/gnomevideo.c (video_canvas_resize): handle
-	multithreaded UI.
-	(video_canvas_refresh): ditto.
+	multithreaded UI. (video_canvas_refresh): ditto.
+
+2013-01-26  pottendo  <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c: wrap relevant calls in case
-	USE_UI_THREADS is there, to call respective UI functions in
-	correct thread_context.
+	USE_UI_THREADS is there, to call respective UI functions in correct
+	thread_context.
+
+2013-01-26  pottendo  <pottendo@aon.at>
 
 	* src/arch/unix/ui-threads.[ch]: New files.
+
+2013-01-26  pottendo  <pottendo@aon.at>
 
 	* src/arch/unix/Makefile.am (EXTRA_libarch_a_SOURCES): Added
 	`ui-threads.[ch]'.
 
+2013-01-26  pottendo  <pottendo@aon.at>
+
 	* src/Makefile.am (emu_extlibs): Kludge by adding @ARCH_LIBS@ at the
 	end, to resolve linking dependency from arch/unix/libarch.a
 
+2013-01-26  pottendo <pottendo@aon.at>
 
-------------------------------------------------------------------------------
+	* src/arch/unix/x11/video_mbuffer.c,
+	src/arch/unix/x11/video_mbuffer.h: moved and renamed to
+	src/arch/ui-threads.[ch]
+
+2013-01-26  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/ui-threads.h: New files.
+
+2013-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet/include/AndroidOSfunc.h,
+	src/arch/android/AnVICE/jni/locnet/include/loader.h,
+	src/arch/android/AnVICE/jni/locnet/include/locnet_vk.h,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/jni/locnet_al/AndroidOSfunc.cpp,
+	src/arch/android/AnVICE/jni/locnet_al/keycodes.h,
+	src/arch/android/AnVICE/jni/locnet_al/missing.cpp,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxAudio.java,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxControl.java,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxLauncher.java: Code
+	style cleanups.
+
+2013-01-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/sdl/archdep_unix.c,
+	src/platform/platform_x86_runtime_cpu.c: Fixed for x86 android.
 
 2013-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -198,6 +277,26 @@
 	src/arch/android/AnVICE/src/org/ab/uae/Makefile.am,
 	src/arch/android/Makefile.am: Added makefiles for the android parts.
 
+2013-01-20  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c: Further cleanup.
+
+2013-01-20  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c: Use semaphores to synchronize
+	machine thread with event thread. Further cleanup.
+
+2013-01-20  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c: Use semaphores to synchronize
+	machine thread with event thread.
+
+2013-01-20  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/video_mbuffer.c,
+	src/arch/unix/x11/video_mbuffer.h: First cleanup.
+
 2013-01-20  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* configure.in: Forgot this.
@@ -227,6 +326,17 @@
 	selected filename [...] Free with g_free()", says
 	gtk_file_chooser_get_filename ()'s documentation. Freeing it with
 	lib_free() was causing a crash
+
+2013-01-16  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/video_mbuffer.c:
+	More ui coroutines, all emus except x128 now work. Get vsync_freq
+	everytime, as in PETs this is dynamic.
+
+2013-01-16  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c: Resize fixed.
 
 2013-01-16  pottendo <pottendo@aon.at>
 
@@ -524,6 +634,19 @@
 
 	* src/c64/c64memsc.c: added missed counter reset, still not perfect
 
+2013-01-14  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/video_mbuffer.c: Small improvements.
+
+2013-01-14  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/video_mbuffer.c:
+	Added a dedicated thread to handle GUI events - this is a coroutine to
+	the machine thread, but independent from the display thread. Good
+	results.
+
 2013-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/arch/os2/dialogs/menubar.c, src/arch/os2/dialogs/menubar.h,
@@ -536,6 +659,23 @@
 2013-01-14  Marco van den Heuvel <blackystardust68@yahoo.com>
 
 	* src/c64/c64mem.c, src/c64/c64memsc.c, src/c64/vsidmem.c: Fixed.
+
+2013-01-13  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c: Added explicit synchronisation of
+	machinethread, waiting for display in case of gtk+ dispatching.
+
+2013-01-13  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/video_mbuffer.c:
+	Fixed blending - credits to gw! Let dthread process the gtk+ events
+	after rendering. This is still to be improved, but we're progressing!
+
+2013-01-13  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/video_mbuffer.c: timestamps of buffers are only set
+	when jitter exceeds +/-50ms off the realtime.
 
 2013-01-13  groepaz <groepaz@gmx.net>
 
@@ -632,6 +772,13 @@
 
 	* src/c128/c128mem.c, src/vdc/vdc-mem.c, src/vdc/vdc-mem.h: Add
 	monitor dump for VDC including internal VDC registers
+
+2013-01-11  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/video_mbuffer.c, src/arch/unix/x11/video_mbuffer.h:
+	timestamp of machinethread only derived once ... still jitter visible
+	:(
 
 2013-01-11  Marco van den Heuvel <blackystardust68@yahoo.com>
 
@@ -907,6 +1054,15 @@
 	but hopefully it will be sorted out later in a cleaner way together
 	with the internal memory expansions.
 
+2013-01-07  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/video_mbuffer.c,
+	src/arch/unix/x11/video_mbuffer.h: Improved by having a constant time
+	raster with machine freq instead of deriving from machine thread,
+	which jitters +/- several milliseconds. Still not sure, if blending
+	works.
+
 2013-01-07  groepaz <groepaz@gmx.net>
 
 	* src/arch/unix/gui/Makefile.am, src/arch/unix/gui/vic20ui.c,
@@ -1056,6 +1212,41 @@
 	the issue with pop-up menus that change at the very last moment before
 	popping up. Renamed all menu class instances to start with a lowercase
 	letter as is usual.
+
+2013-01-05  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c: fixed lpos after rendering.
+
+2013-01-05  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/video_mbuffer.c,
+	src/arch/unix/x11/video_mbuffer.h: Proof of concept for a
+	multithreaded GUI (based on pthreads) for *nix. Milestone 1 reached:
+	same function as 'normal' but implemented with 2 threads: a machine
+	thread and a GUI thread. The code is not clean yet for merging.
+
+2013-01-05  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Some blending occurs. Still
+	strange.
+
+2013-01-05  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Added comment.
+
+2013-01-05  pottendo <pottendo@aon.at>
+
+	* src/arch/unix/x11/Makefile.am, src/arch/unix/x11/gnome/gnomevideo.c,
+	* src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/x11/video_mbuffer.c,
+	src/arch/unix/x11/video_mbuffer.h: Proof of concept for a
+	multithreaded GUI (based on pthreads) for *nix. Milestone 1 reached:
+	same function as 'normal' but implemented with 2 threads: a machine
+	thread and a GUI thread. The code is not clean yet for merging.
+
+2013-01-05  pottendo <pottendo@aon.at>
+
+	* configure.in: temporarily added hardwired -lpthread (multithreaded
+	*nix GUI).
 
 2013-01-05  groepaz <groepaz@gmx.net>
 
