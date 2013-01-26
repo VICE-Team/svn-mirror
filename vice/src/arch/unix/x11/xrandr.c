@@ -49,7 +49,7 @@
 #include "openGL_sync.h"
 #endif
 
-#define DEBUG_XRANDR
+/* #define DEBUG_XRANDR */
 
 static log_t xrandr_log = LOG_ERR;
 static int no_xrandr = 1;

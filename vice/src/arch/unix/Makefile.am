@@ -45,6 +45,9 @@ INCLUDES = \
 
 noinst_LIBRARIES = libarch.a
 
+libarch_a_DEPENDENCIES = @VICE_UI_THREADS@
+libarch_a_LIBADD = @VICE_UI_THREADS@
+
 libarch_a_SOURCES = \
 	archdep.c \
 	archdep.h \
@@ -77,6 +80,10 @@ libarch_a_SOURCES = \
 	vmstermios.h \
 	vsyncarch.c \
 	vsiduiunix.h
+
+EXTRA_libarch_a_SOURCES = \
+	ui-threads.h \
+	ui-threads.c 
 
 .PHONY: x11
 x11:

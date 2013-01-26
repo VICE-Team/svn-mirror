@@ -1,3 +1,25 @@
+2013-01-26  pottendo  <pottendo@aon.at>
+
+	* configure.in: Added checks for
+	pthreads.h/semaphore.h/-lpthread. 
+	Added new option `--with-ui-threads'.
+	* src/arch/unix/x11/gnome/gnomevideo.c (video_canvas_resize): handle
+	multithreaded UI.
+	(video_canvas_refresh): ditto.
+
+	* src/arch/unix/x11/gnome/x11ui.c: wrap relevant calls in case
+	USE_UI_THREADS is there, to call respective UI functions in
+	correct thread_context.
+
+	* src/arch/unix/ui-threads.[ch]: New files.
+
+	* src/arch/unix/Makefile.am (EXTRA_libarch_a_SOURCES): Added
+	`ui-threads.[ch]'.
+
+	* src/Makefile.am (emu_extlibs): Kludge by adding @ARCH_LIBS@ at the
+	end, to resolve linking dependency from arch/unix/libarch.a
+
+
 ------------------------------------------------------------------------------
 
 2013-01-24  Marco van den Heuvel <blackystardust68@yahoo.com>
