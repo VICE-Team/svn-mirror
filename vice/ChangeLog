@@ -2,7 +2,7 @@
 
 	* configure.in: Added checks for
 	pthreads.h/semaphore.h/-lpthread. 
-	Added new option `--with-ui-threads'.
+	Added new option `--with-uithreads'.
 	* src/arch/unix/x11/gnome/gnomevideo.c (video_canvas_resize): handle
 	multithreaded UI.
 	(video_canvas_refresh): ditto.
