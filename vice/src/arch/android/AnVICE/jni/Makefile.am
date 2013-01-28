@@ -2,6 +2,7 @@ SUBDIRS = \
 	locnet \
 	locnet_al \
 	sdl \
+	vice_c64exp \
 	vice_common \
 	vice_commonall \
 	vice_driver \
