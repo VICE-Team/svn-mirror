@@ -40,6 +40,12 @@ do
   if test x"$i" = "xx86"; then
     x86build=yes
   fi
+  if test x"$i" = "xall-cpu"; then
+    armbuild=yes
+    arm7abuild=yes
+    mipsbuild=yes
+    x86build=yes
+  fi
   if test x"$i" = "xhelp"; then
     showusage=yes
   fi
@@ -51,7 +57,7 @@ done
 if test x"$showusage" = "xyes"; then
   echo "Usage: $0 [release] [<cpu types>] [help]"
   echo "release indicates that the binary needs to be build as a official release as opposed to a developent release."
-  echo "cpu-types: armeabi, armeabi-v7a, mips, x86."
+  echo "cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all)."
   echo "if no cpu-type is given armeabi will be built by default."
   exit 1
 fi
@@ -154,4 +160,8 @@ else
   mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
 fi
 
-echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+if [ ! -f AnVICE-\($CPULABEL\)-$VICEVERSION.apk ]; then
+  echo build not completed, check for errors in the output
+else
+  echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+fi
