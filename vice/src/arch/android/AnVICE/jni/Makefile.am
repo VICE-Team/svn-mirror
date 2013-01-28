@@ -3,6 +3,7 @@ SUBDIRS = \
 	locnet_al \
 	sdl \
 	vice_common \
+	vice_commonall \
 	vice_driver \
 	vice_main \
 	vice_vicii \

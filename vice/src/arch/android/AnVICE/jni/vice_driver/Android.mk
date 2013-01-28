@@ -11,7 +11,6 @@ $(MY_PATH2)/src/fsdevice \
 $(MY_PATH2)/src/tape \
 $(MY_PATH2)/src/imagecontents \
 $(MY_PATH2)/src/fileio \
-$(MY_PATH2)/src/core \
 $(MY_PATH2)/src/printerdrv \
 $(MY_PATH2)/src/rs232drv \
 $(MY_PATH2)/src/diskimage
@@ -49,24 +48,6 @@ LOCAL_CPP_EXTENSION := .cpp
 # Uncomment to also add C sources
 LOCAL_SRC_FILES += $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
 LOCAL_SRC_FILES += \
-	$(MY_PATH2)/src/serial/fsdrive.c \
-	$(MY_PATH2)/src/serial/serial.c \
-	$(MY_PATH2)/src/serial/serial-device.c \
-	$(MY_PATH2)/src/serial/serial-iec.c \
-	$(MY_PATH2)/src/serial/serial-iec-bus.c \
-	$(MY_PATH2)/src/serial/serial-iec-device.c \
-	$(MY_PATH2)/src/serial/serial-iec-lib.c \
-	$(MY_PATH2)/src/serial/serial-realdevice.c \
-	$(MY_PATH2)/src/serial/serial-trap.c \
-	$(MY_PATH2)/src/sounddrv/soundaiff.c \
-	$(MY_PATH2)/src/sounddrv/sounddummy.c \
-	$(MY_PATH2)/src/sounddrv/sounddump.c \
-	$(MY_PATH2)/src/sounddrv/soundfs.c \
-	$(MY_PATH2)/src/sounddrv/soundiff.c \
-	$(MY_PATH2)/src/sounddrv/soundmovie.c \
-	$(MY_PATH2)/src/sounddrv/soundsdl.c \
-	$(MY_PATH2)/src/sounddrv/soundvoc.c \
-	$(MY_PATH2)/src/sounddrv/soundwav.c \
 	$(MY_PATH2)/src/gfxoutputdrv/bmpdrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/doodledrv.c \
 	$(MY_PATH2)/src/gfxoutputdrv/gfxoutput.c \
