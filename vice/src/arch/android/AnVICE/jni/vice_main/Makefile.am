@@ -1,1 +1,1 @@
-EXTRA_DIST = Android.mk
+EXTRA_DIST = Android.mk.proto
