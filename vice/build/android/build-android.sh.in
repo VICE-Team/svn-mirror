@@ -127,7 +127,7 @@ echo generating src/infocontrib.h
 . ./geninfocontrib_h.sh <../doc/vice.texi | sed -f infocontrib.sed >infocontrib.h
 cd arch/android/AnVICE/jni
 echo generating Application.mk
-cp Application.proto Application.mk
+cp Application.mk.proto Application.mk
 echo >>Application.mk "APP_ABI := $CPUS"
 cd ..
 echo building libvice.so
