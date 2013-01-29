@@ -14,7 +14,8 @@ SUBDIRS = \
 	vice_tape \
 	vice_vicii \
 	vice_viciisc \
-	vice_x64
+	vice_x64 \
+	vice_xvic
 
 EXTRA_DIST = \
 	Android.mk \
