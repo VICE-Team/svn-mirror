@@ -5,6 +5,7 @@ SUBDIRS = \
 	vice_c64exp \
 	vice_common \
 	vice_commonall \
+	vice_crtc \
 	vice_driver \
 	vice_main \
 	vice_vicii \
