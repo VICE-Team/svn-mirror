@@ -3548,8 +3548,8 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/jni/vice_common/Makefile
            src/arch/android/AnVICE/jni/vice_commonall/Makefile
            src/arch/android/AnVICE/jni/vice_crtc/Makefile
-           src/arch/android/AnVICE/jni/vice_driver/Makefile
            src/arch/android/AnVICE/jni/vice_main/Makefile
+           src/arch/android/AnVICE/jni/vice_tape/Makefile
            src/arch/android/AnVICE/jni/vice_vicii/Makefile
            src/arch/android/AnVICE/jni/vice_viciisc/Makefile
            src/arch/android/AnVICE/jni/vice_x64/Makefile

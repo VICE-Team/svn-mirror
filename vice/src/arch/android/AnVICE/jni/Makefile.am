@@ -7,8 +7,8 @@ SUBDIRS = \
 	vice_common \
 	vice_commonall \
 	vice_crtc \
-	vice_driver \
 	vice_main \
+	vice_tape \
 	vice_vicii \
 	vice_viciisc \
 	vice_x64
