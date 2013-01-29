@@ -7,6 +7,7 @@ SUBDIRS = \
 	vice_common \
 	vice_commonall \
 	vice_crtc \
+	vice_iec \
 	vice_ieeepar \
 	vice_main \
 	vice_tape \
