@@ -5,15 +5,8 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := vice_commoncart
 
 MY_PATH2 := ../../../../../..
-$(MY_PATH2)/src/c64/cart
 
 CG_SUBDIRS := \
-$(MY_PATH2)/src/sid \
-$(MY_PATH2)/src/raster \
-$(MY_PATH2)/src/video \
-$(MY_PATH2)/src/monitor \
-$(MY_PATH2)/src/core \
-$(MY_PATH2)/src/platform
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 
@@ -56,7 +49,15 @@ LOCAL_CPP_EXTENSION := .cpp
 #LOCAL_SRC_FILES := $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.cpp))))
 # Uncomment to also add C sources
 #LOCAL_SRC_FILES += $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
-	
+LOCAL_SRC_FILES += \
+	$(MY_PATH2)/src/c64/cart/c64acia1.c \
+	$(MY_PATH2)/src/c64/cart/digimax.c \
+	$(MY_PATH2)/src/c64/cart/ds12c887rtc.c \
+	$(MY_PATH2)/src/c64/cart/georam.c \
+	$(MY_PATH2)/src/c64/cart/sfx_soundexpander.c \
+	$(MY_PATH2)/src/c64/cart/sfx_soundsampler.c \
+	$(MY_PATH2)/src/c64/cart/tfe.c
+
 # LOCAL_STATIC_LIBRARIES := sdl_mixer sdl tremor stlport
 #LOCAL_STATIC_LIBRARIES := locnet_al
 
