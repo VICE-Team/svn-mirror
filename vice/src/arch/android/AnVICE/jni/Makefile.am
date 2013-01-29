@@ -6,10 +6,10 @@ SUBDIRS = \
 	vice_cbm2common \
 	vice_common \
 	vice_commonall \
+	vice_commoncart \
 	vice_crtc \
 	vice_iec \
 	vice_ieeepar \
-	vice_main \
 	vice_tape \
 	vice_vicii \
 	vice_viciisc \
