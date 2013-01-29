@@ -8,6 +8,7 @@ SUBDIRS = \
 	vice_driver \
 	vice_main \
 	vice_vicii \
+	vice_viciisc \
 	vice_x64
 
 EXTRA_DIST = \
