@@ -3,6 +3,7 @@ SUBDIRS = \
 	locnet_al \
 	sdl \
 	vice_c64exp \
+	vice_cbm2common \
 	vice_common \
 	vice_commonall \
 	vice_crtc \
