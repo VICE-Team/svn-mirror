@@ -7,17 +7,11 @@ LOCAL_MODULE := vice_main
 MY_PATH2 := ../../../../../..
 
 CG_SUBDIRS := \
-$(MY_PATH2)/src/rtc \
 $(MY_PATH2)/src/c64/cart \
 $(MY_PATH2)/src/drive/iec \
-$(MY_PATH2)/src/drive/iecieee \
 $(MY_PATH2)/src/drive/ieee \
-$(MY_PATH2)/src/drive \
 $(MY_PATH2)/src/iecbus \
-$(MY_PATH2)/src/lib/p64 \
-$(MY_PATH2)/src/parallel \
-$(MY_PATH2)/src/vdrive \
-$(MY_PATH2)/src/userport
+$(MY_PATH2)/src/parallel
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 
