@@ -2,7 +2,7 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 
-LOCAL_MODULE := vice_xcbm2
+LOCAL_MODULE := vice_xcbm5x0
 
 MY_PATH2 := ../../../../../..
 
@@ -50,12 +50,12 @@ LOCAL_CPP_EXTENSION := .cpp
 # Uncomment to also add C sources
 #LOCAL_SRC_FILES += $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
 LOCAL_SRC_FILES += \
-	$(MY_PATH2)/src/cbm2/cbm2.c \
-	$(MY_PATH2)/src/cbm2/cbm2-resources.c \
-	$(MY_PATH2)/src/cbm2/cbm2-snapshot.c \
-	$(MY_PATH2)/src/cbm2/cbm2mem.c \
-	$(MY_PATH2)/src/cbm2/cbm2rom.c \
-	$(MY_PATH2)/src/cbm2/cbm2video.c
+	$(MY_PATH2)/src/cbm2/cbm5x0.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0-resources.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0-snapshot.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0mem.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0rom.c \
+	$(MY_PATH2)/src/cbm2/cbm5x0video.c
 
 # LOCAL_STATIC_LIBRARIES := sdl_mixer sdl tremor stlport
 #LOCAL_STATIC_LIBRARIES := locnet_al
