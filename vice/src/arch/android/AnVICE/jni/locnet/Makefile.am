@@ -2,5 +2,5 @@ EXTRA_DIST = \
 	include/AndroidOSfunc.h \
 	include/loader.h \
 	include/locnet_vk.h \
-	Android.mk \
+	Android-x64.mk.proto \
 	locnet_loader.cpp

@@ -15,7 +15,9 @@ SUBDIRS = \
 	vice_vicii \
 	vice_viciisc \
 	vice_vsid \
+	vice_x128 \
 	vice_x64 \
+	vice_x64dtv \
 	vice_x64sc \
 	vice_xcbm2 \
 	vice_xcbm5x0 \
@@ -25,5 +27,5 @@ SUBDIRS = \
 	vice_xvic
 
 EXTRA_DIST = \
-	Android.mk \
+	Android.mk.proto \
 	Application.mk.proto
