@@ -16,6 +16,7 @@ SUBDIRS = \
 	vice_viciisc \
 	vice_x64 \
 	vice_x64sc \
+	vice_xplus4 \
 	vice_xscpu64 \
 	vice_xvic
 
