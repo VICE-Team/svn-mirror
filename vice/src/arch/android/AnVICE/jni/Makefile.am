@@ -15,6 +15,7 @@ SUBDIRS = \
 	vice_vicii \
 	vice_viciisc \
 	vice_x64 \
+	vice_x64sc \
 	vice_xvic
 
 EXTRA_DIST = \
