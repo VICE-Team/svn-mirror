@@ -14,6 +14,7 @@ SUBDIRS = \
 	vice_tape \
 	vice_vicii \
 	vice_viciisc \
+	vice_vsid \
 	vice_x64 \
 	vice_x64sc \
 	vice_xcbm2 \
