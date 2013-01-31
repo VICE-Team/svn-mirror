@@ -130,6 +130,10 @@ void ui_vsid_settime(const int sec)
 {
     char str[32];
     /* we cant properly add a margin around the label, so we add a leading space instead */
+    if (console_mode) {
+	return;
+    }
+    
     sprintf(str, " %2d:%02d", sec / 60, sec % 60);
     gtk_label_set_text(app_shells[0].speed_label, str);
     if (statustext_display_time > 0) {

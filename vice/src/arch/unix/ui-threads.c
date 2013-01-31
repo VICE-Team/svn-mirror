@@ -32,7 +32,7 @@
 #error "pthreads not evailable in config.h - check config.log"
 #endif
 
-/* #define DEBUG_MBUFFER  */
+/* #define DEBUG_MBUFFER */
 
 #include <time.h>
 #include <pthread.h>
@@ -42,6 +42,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "machine.h"
 #include "videoarch.h"
 #include "vsync.h"
 #include "ui-threads.h"
@@ -177,6 +178,10 @@ void dthread_build_screen_canvas(video_canvas_t *c)
 
 int dthread_ui_open_canvas_window(video_canvas_t *c, const char *t, int wi, int he, int na) 
 {
+    if (is_coroutine) {
+	return ui_open_canvas_window2(c, t, wi, he, na);
+    }
+    
     canvas = c;
     title = t;
     width = wi;
@@ -188,6 +193,10 @@ int dthread_ui_open_canvas_window(video_canvas_t *c, const char *t, int wi, int 
 
 int dthread_ui_init(int *ac, char **av)
 {
+    if (is_coroutine) {
+	return ui_init2(ac, av);
+    }
+    
     argc=ac;
     argv=av;
     dthread_coroutine(CR_INIT);
@@ -202,6 +211,8 @@ void dthread_ui_dispatch_events(void)
 	ui_dispatch_events2();
 	return;
     } else {
+	DBG(("call to %s - update: %d, is_coroutine %d", __FUNCTION__,	
+	     update, is_coroutine));
 	update = 1;
  	if (sem_post(&ethread_sem) != 0) {
 	    log_debug("sem_post() failed, %s", __FUNCTION__);
@@ -217,6 +228,9 @@ void dthread_ui_dispatch_events(void)
 
 int dthread_ui_init_finish()
 {
+    if (is_coroutine) {
+	return ui_init_finish2();
+    }
     dthread_coroutine(CR_INIT_FINISH);
     return int_ret;
 }
@@ -238,6 +252,10 @@ int dthread_configure_callback_canvas(void *w, void *e, void *cd)
 
 void dthread_ui_trigger_resize(void)
 {
+    if (is_coroutine) {
+	return ui_trigger_resize2();
+    }
+    
     dthread_coroutine(CR_RESIZE);
 }
 
@@ -259,6 +277,11 @@ void video_dthread_init(void)
     struct sched_param param;
     pthread_attr_t attr;
     
+
+    if (console_mode) {
+	is_coroutine = 1;
+	return;
+    }
     
     if (pthread_mutexattr_settype(&mta, PTHREAD_MUTEX_RECURSIVE) < 0) {
 	log_debug("pthread_mutexattr_settype() failed, %s", __FUNCTION__);
@@ -274,6 +297,7 @@ void video_dthread_init(void)
 	log_debug("pthread_attr_init() failed, %s", __FUNCTION__);
 	exit (-1);      
     }
+
     if (pthread_attr_setinheritsched(&attr, PTHREAD_EXPLICIT_SCHED)) {
 	log_debug("pthread_setinheritsched() failed, %s", __FUNCTION__);
 	exit (-1);
