@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AnVICE</string>
+    <string name="app_name">@VICE@</string>
     <string name="help">- Volume Up/Down is mapped to respective buttons in Mouse/Joystick mode.\n\n- (Menu->Buttons->Show Buttons) to check onscreen buttons and joystick area.\n\n- Advance user can edit /sdcard/sdl-vicerc for customization.\n\n- To use D-Pad as arrow keys make sure Joystick Keys is disabled. \n\n- Alternative keys: [\\]=>\':\' [End]=>\'@\' [PgDn]=>\'*\'</string>
     <string name="acknowledge">The emulation part of the software is based on GPL source code of DOSBox 0.74 from DOSBox Team (available at www.dosbox.com).</string>
     <string name="keymapper">Button Mapper</string>

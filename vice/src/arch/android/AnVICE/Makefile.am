@@ -16,6 +16,7 @@ EXTRA_DIST = \
 	proguard.cfg \
 	proguard-project.txt \
 	project.properties \
+	res_values_strings.xml.proto \
 	README.txt \
 	res/drawable/file.png \
 	res/drawable/folder.png \
@@ -29,5 +30,4 @@ EXTRA_DIST = \
 	res/layout/system.xml \
 	res/values/defaults.xml \
 	res/values/dimens.xml \
-	res/values/strings.xml \
 	res/values/themes.xml

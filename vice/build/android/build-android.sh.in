@@ -25,6 +25,8 @@ buildrelease=no
 builddevrelease=no
 builddebug=no
 
+buildemulators=0
+
 # check options
 for i in $*
 do
@@ -52,14 +54,98 @@ do
   if test x"$i" = "xrelease"; then
     buildrelease=yes
   fi
+  if test x"$i" = "xx64"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="x64"
+    emulib="libx64.so"
+    emuname="AnVICE_x64"
+  fi
+  if test x"$i" = "xx64sc"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="x64sc"
+    emulib="libx64sc.so"
+    emuname="AnVICE_x64sc"
+  fi
+  if test x"$i" = "xx64dtv"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="x64dtv"
+    emulib="libx64dtv.so"
+    emuname="AnVICE_x64dtv"
+  fi
+  if test x"$i" = "xxscpu64"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="xscpu64"
+    emulib="libxscpu64.so"
+    emuname="AnVICE_xscpu64"
+  fi
+  if test x"$i" = "xx128"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="x128"
+    emulib="libx128.so"
+    emuname="AnVICE_x128"
+  fi
+  if test x"$i" = "xxcbm2"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="xcbm2"
+    emulib="libxcbm2.so"
+    emuname="AnVICE_xcbm2"
+  fi
+  if test x"$i" = "xxcbm5x0"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="xcbm5x0"
+    emulib="libxcbm5x0.so"
+    emuname="AnVICE_xcbm5x0"
+  fi
+  if test x"$i" = "xxpet"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="xpet"
+    emulib="libxpet.so"
+    emuname="AnVICE_xpet"
+  fi
+  if test x"$i" = "xxplus4"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="xplus4"
+    emulib="libxplus4.so"
+    emuname="AnVICE_xplus4"
+  fi
+  if test x"$i" = "xxvic"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="xvic"
+    emulib="libxvic.so"
+    emuname="AnVICE_xvic"
+  fi
+  if test x"$i" = "xvsid"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="vsid"
+    emulib="libvsid.so"
+    emuname="AnVICE_vsid"
+  fi
+  if test x"$i" = "xall-emu"; then
+    buildemulators=`expr $buildemulators + 1`
+    emulator="all emulators"
+    emulib="libvice.so"
+    emuname="AnVICE"
+  fi
 done
 
 if test x"$showusage" = "xyes"; then
-  echo "Usage: $0 [release] [<cpu types>] [help]"
+  echo "Usage: $0 [release] [<cpu types>] [emulator] [help]"
   echo "release indicates that the binary needs to be build as a official release as opposed to a developent release."
   echo "cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all)."
   echo "if no cpu-type is given armeabi will be built by default."
+  echo "emulators: x64, x64sc, x64dtv, xscpu64, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic, vsid (or all-emu for all emulators)."
   exit 1
+fi
+
+if test x"$buildemulators" = "x0"; then
+  emulator="x64"
+  emulib="libx64.so"
+  emuname="AnVICE_x64"
+else
+  if test x"$buildemulators" != "x1"; then
+    echo "Only one emulator option can be given"
+    exit 1
+  fi
 fi
 
 CPUS=""
@@ -119,19 +205,56 @@ else
 fi
 
 cd src
+
 echo generating src/translate_table.h
 . ./gentranslatetable.sh <translate.txt >translate_table.h
+
 echo generating src/translate.h
 . ./gentranslate_h.sh <translate.txt >translate.h
+
 echo generating src/infocontrib.h
 . ./geninfocontrib_h.sh <../doc/vice.texi | sed -f infocontrib.sed >infocontrib.h
+
 cd arch/android/AnVICE/jni
+
 echo generating Application.mk
 cp Application.mk.proto Application.mk
 echo >>Application.mk "APP_ABI := $CPUS"
+
+echo clearing out all Android.mk files
+for i in `find . -name "Android.mk"`
+do
+  rm -f $i
+done
+
+echo generating Android.mk files for $emulator
+if test x"$emulator" = "xx64"; then
+  cp Android.mk.proto Android.mk
+  cp locnet/Android-x64.mk.proto locnet/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
+  cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_commoncart/Android.mk.proto vice_commoncart/Android.mk
+  cp vice_iec/Android.mk.proto vice_iec/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_vicii/Android.mk.proto vice_vicii/Android.mk
+  cp vice_x64/Android.mk.proto vice_x64/Android.mk
+fi
+
+echo building $emulib
 cd ..
-echo building libvice.so
+if test x"$emulator" = "xx64"; then
+   sed s/@VICE@/AnVICE_x64/ <res_values_string.xml.proto >res/values/strings.xml
+fi
 ndk-build
+
+echo generating launch java file
+if test x"$emulator" = "xx64"; then
+   sed s/@VICE@/x64/ <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+fi
 
 echo generating apk
 
@@ -151,17 +274,17 @@ if test x"$builddebug" = "xyes"; then
   rm -f ant.properties
   ant debug
   cd ../../../..
-  mv src/arch/android/AnVICE/bin/PreConfig-debug.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+  mv src/arch/android/AnVICE/bin/PreConfig-debug.apk ./$emuname-\($CPULABEL\)-$VICEVERSION.apk
 else
   ant release
   rm -f vice-*.keystore
   rm -f ant.properties
   cd ../../../..
-  mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+  mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./$emuname-\($CPULABEL\)-$VICEVERSION.apk
 fi
 
 if [ ! -f AnVICE-\($CPULABEL\)-$VICEVERSION.apk ]; then
   echo build not completed, check for errors in the output
 else
-  echo Android port binary generated as AnVICE-\($CPULABEL\)-$VICEVERSION.apk
+  echo Android port binary generated as $emuname-\($CPULABEL\)-$VICEVERSION.apk
 fi

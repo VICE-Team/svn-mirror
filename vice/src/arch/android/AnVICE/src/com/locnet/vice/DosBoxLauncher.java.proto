@@ -100,7 +100,7 @@ public class DosBoxLauncher extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         {
-            System.loadLibrary("vice");
+            System.loadLibrary("@VICE@");
         }
 
         mSurfaceView = new DosBoxSurfaceView(this);
