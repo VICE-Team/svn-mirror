@@ -10886,20 +10886,20 @@ translate_t string_table[] = {
 #endif
 
 /* video/video-cmdline-options.c */
-/* en */ {IDCLS_SET_VIDEO_FILTER,    N_("Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x")},
+/* en */ {IDCLS_SET_VIDEO_FILTER,    N_("Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)")},
 #ifdef HAS_TRANSLATION
-/* da */ {IDCLS_SET_VIDEO_FILTER_DA, "Vælg renderingsfilter (0:intet, 1:CRT-emulering, 2: scale2x)"},
-/* de */ {IDCLS_SET_VIDEO_FILTER_DE, "Wähle Rendering Filter, 0:kein, 1:CRT Emulation, 2: Scale2x"},
-/* es */ {IDCLS_SET_VIDEO_FILTER_ES, "Seleccionar filtro de renderizador, 0:no, 1:emulación CRT, 2: escala2x"},
-/* fr */ {IDCLS_SET_VIDEO_FILTER_FR, "Sélectionner le filtre de rendu (0:aucun, 1:Ému CRT, 2: Scale2x)"},
+/* da */ {IDCLS_SET_VIDEO_FILTER_DA, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VIDEO_FILTER_DE, ""},  /* fuzzy */
+/* es */ {IDCLS_SET_VIDEO_FILTER_ES, ""},  /* fuzzy */
+/* fr */ {IDCLS_SET_VIDEO_FILTER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_VIDEO_FILTER_HU, ""},  /* fuzzy */
-/* it */ {IDCLS_SET_VIDEO_FILTER_IT, "Seleziona il filtro di rendering, 0:none, 1:CRT emulation, 2: scale2x"},
+/* it */ {IDCLS_SET_VIDEO_FILTER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_VIDEO_FILTER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_VIDEO_FILTER_NL, "Selecteer de rendering filter: 0:geen, 1:CRT emulatie, 2:Schaal2x"},
-/* pl */ {IDCLS_SET_VIDEO_FILTER_PL, "Wybierz filtr renderera, 0:brak, 1: emulacja CRT, 2: skalowanie2x"},
-/* ru */ {IDCLS_SET_VIDEO_FILTER_RU, "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"},
-/* sv */ {IDCLS_SET_VIDEO_FILTER_SV, "Ange rendreringsfiler, 0:ingen, 1:CRT-emulering, 2:scale2x"},
-/* tr */ {IDCLS_SET_VIDEO_FILTER_TR, "Görüntü oluþturma filitresini seç, 0:yok, 1:CRT emülasyonu, 2: geniþlet2x"},
+/* nl */ {IDCLS_SET_VIDEO_FILTER_NL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_VIDEO_FILTER_PL, ""},  /* fuzzy */
+/* ru */ {IDCLS_SET_VIDEO_FILTER_RU, ""},  /* fuzzy */
+/* sv */ {IDCLS_SET_VIDEO_FILTER_SV, ""},  /* fuzzy */
+/* tr */ {IDCLS_SET_VIDEO_FILTER_TR, ""},  /* fuzzy */
 #endif
 
 /* video/video-cmdline-options.c */
