@@ -77,6 +77,7 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/c64/plus60k.c \
 	$(MY_PATH2)/src/c64/psid.c \
 	$(MY_PATH2)/src/c64/reloc65.c \
+	$(MY_PATH2)/src/maincpu.c
 	
 LOCAL_ARM_MODE := arm
 

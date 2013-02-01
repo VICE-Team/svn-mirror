@@ -228,6 +228,7 @@ do
 done
 
 echo generating Android.mk files for $emulator
+
 if test x"$emulator" = "xx64"; then
   cp Android.mk.proto Android.mk
   cp locnet/Android-x64.mk.proto locnet/Android.mk
@@ -244,16 +245,43 @@ if test x"$emulator" = "xx64"; then
   cp vice_x64/Android.mk.proto vice_x64/Android.mk
 fi
 
+if test x"$emulator" = "xx64sc"; then
+  cp Android.mk.proto Android.mk
+  cp locnet/Android-x64sc.mk.proto locnet/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
+  cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_commoncart/Android.mk.proto vice_commoncart/Android.mk
+  cp vice_iec/Android.mk.proto vice_iec/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_viciisc/Android.mk.proto vice_viciisc/Android.mk
+  cp vice_x64sc/Android.mk.proto vice_x64sc/Android.mk
+fi
+
 echo building $emulib
 cd ..
+
 if test x"$emulator" = "xx64"; then
    sed s/@VICE@/AnVICE_x64/ <res_values_string.xml.proto >res/values/strings.xml
 fi
+
+if test x"$emulator" = "xx64sc"; then
+   sed s/@VICE@/AnVICE_x64sc/ <res_values_string.xml.proto >res/values/strings.xml
+fi
+
 ndk-build
 
 echo generating launch java file
+
 if test x"$emulator" = "xx64"; then
    sed s/@VICE@/x64/ <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+fi
+
+if test x"$emulator" = "xx64sc"; then
+   sed s/@VICE@/x64sc/ <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 echo generating apk
@@ -283,7 +311,7 @@ else
   mv src/arch/android/AnVICE/bin/PreConfig-release.apk ./$emuname-\($CPULABEL\)-$VICEVERSION.apk
 fi
 
-if [ ! -f AnVICE-\($CPULABEL\)-$VICEVERSION.apk ]; then
+if [ ! -f $emuname-\($CPULABEL\)-$VICEVERSION.apk ]; then
   echo build not completed, check for errors in the output
 else
   echo Android port binary generated as $emuname-\($CPULABEL\)-$VICEVERSION.apk
