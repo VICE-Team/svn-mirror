@@ -1,4 +1,5 @@
 EXTRA_DIST = \
 	gpl.txt \
 	sdl_sym.vkm \
-	sdl-vicerc
+	sdl-vicerc-x64 \
+	sdl-vicerc-x64sc

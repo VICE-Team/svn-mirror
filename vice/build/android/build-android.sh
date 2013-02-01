@@ -266,10 +266,12 @@ cd ..
 
 if test x"$emulator" = "xx64"; then
    sed s/@VICE@/AnVICE_x64/ <res_values_string.xml.proto >res/values/strings.xml
+   cp assets/sdl-vicerc-x64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64sc"; then
    sed s/@VICE@/AnVICE_x64sc/ <res_values_string.xml.proto >res/values/strings.xml
+   cp assets/sdl-vicerc-x64sc assets/sdl-vicerc
 fi
 
 ndk-build

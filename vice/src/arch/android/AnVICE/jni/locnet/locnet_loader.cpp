@@ -45,8 +45,15 @@ int loader_get_drive_true_emulation();
 
 }
 
-char autostart_filename[256] = "";
+#ifdef __X64__
 char execute_file[256] = "/sdcard/x64";
+#endif
+
+#ifdef __X64SC__
+char execute_file[256] = "/sdcard/x64sc";
+#endif
+
+char autostart_filename[256] = "";
 char execute_path[256] = "/sdcard/";
 char savestate_filename[256];
 int loader_loadstate = 0;
