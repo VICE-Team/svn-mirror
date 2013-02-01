@@ -160,7 +160,7 @@ msgid ""
 "Could not load function ROM image\n"
 "'%s'"
 msgstr ""
-"Non è possibile caricarie l'immagine della function ROM\n"
+"Non è possibile caricare l'immagine della Function ROM\n"
 "'%s'"
 
 #: src/arch/unix/gui/c128ui.c:325 src/arch/win32/resc128.rc.po.c:732
@@ -1182,7 +1182,7 @@ msgstr "Tipo immagine sconosciuto"
 
 #: src/arch/unix/gui/uiattach.c:353
 msgid "Smart-attach disk/tape"
-msgstr "Selezione intelligente"
+msgstr "Selezione intelligente disco/nastro"
 
 #: src/arch/unix/gui/uiattach.c:356 src/arch/win32/res.rc.po.c:1508
 #: src/arch/win32/resautostart.rc.po.c:43
@@ -1296,7 +1296,7 @@ msgstr "Seleziona immagine cartuccia"
 
 #: src/arch/unix/gui/uic64cart.c:59
 msgid "Cannot attach cartridge"
-msgstr "Non è possibile seleziona la cartuccia"
+msgstr "Non è possibile selezionare la cartuccia"
 
 #: src/arch/unix/gui/uic64cart.c:102
 msgid "Smart attach CRT image"
@@ -1715,7 +1715,7 @@ msgstr "Emulazione CRT"
 #: src/arch/unix/gui/uivicii.c:105 src/arch/win32/res.rc.po.c:1048
 #: src/arch/amigaos/intl_text.c.po.c:10184
 msgid "Scale2x"
-msgstr "Scale2x"
+msgstr "Scalatura 2x"
 
 #: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uisettings.c:111
 #: src/arch/unix/gui/uited.c:130 src/arch/unix/gui/uivdc.c:133
@@ -2049,7 +2049,7 @@ msgstr "Drive #11: Modello"
 #: src/arch/unix/gui/uidrivec64dtv.c:96 src/arch/unix/gui/uidriveplus4.c:280
 #: src/arch/unix/gui/uidrivevic20.c:119
 msgid "Drive #11 expansion"
-msgstr "Drive #11: Espasione"
+msgstr "Drive #11: Espansione"
 
 #: src/arch/unix/gui/uidrivec128.c:226 src/arch/unix/gui/uidrivec64.c:99
 #: src/arch/unix/gui/uidrivec64dtv.c:99 src/arch/unix/gui/uidrivepetcbm2.c:147
@@ -8918,23 +8918,22 @@ msgstr "il device '%s' non è stato trovato oppure non è supportato."
 #: src/translate_text.c.po.c:312
 #, c-format
 msgid "Recording device %s doesn't exist!"
-msgstr "Il device di registrazione %s non esiste!"
+msgstr "Il dispositivo di registrazione %s non esiste!"
 
 #: src/translate_text.c.po.c:329
 msgid "Recording device must be different from playback device"
 msgstr ""
-"Il device di registrazione deve essere differente da quello di riproduzione"
+"Il dispositivo di registrazione deve essere differente da quello di riproduzione"
 
 #: src/translate_text.c.po.c:346
 #, c-format
 msgid "Warning! Recording device %s seems to be a realtime device!"
 msgstr ""
-"Attenzione! Il device di registrazione %s sembra essere un dispositivo "
-"realtime!"
+"Attenzione! Il dispositivo di registrazione %s sembra essere di tipo realtime!"
 
 #: src/translate_text.c.po.c:363
 msgid "The recording device doesn't support current sound parameters"
-msgstr "Il device di registrazione non supporta i parametri attuali"
+msgstr "Il dispositivo di registrazione non supporta i parametri attuali"
 
 #: src/translate_text.c.po.c:380
 msgid "Sound buffer overflow (cycle based)"
@@ -9325,7 +9324,7 @@ msgid ""
 "Display current label mappings.  If no memory space is specified, show\n"
 "all labels."
 msgstr ""
-"Mostra l'associazione delle etichette correnti. Se non è specificato alcun\n"
+"Mostra l'associazione delle etichette correnti. Se non è specificato alcuno\n"
 "spazio di memoria, verranno mostrate tutte le etichette."
 
 #: src/translate_text.c.po.c:1606
@@ -9478,7 +9477,7 @@ msgid ""
 "Optionally, an address range can be specified."
 msgstr ""
 "Mostra la mappa di memoria. La maschera può essere specificata per\n"
-"mostrare solo quelle locazioni con accessi un un certo tipo. La maschera\n"
+"mostrare solo quelle locazioni con accessi di un certo tipo. La maschera\n"
 "è un numero con i bit \"ioRWXrwx\", dove RWX sono per la ROM e\n"
 "rwx per la RAM.\n"
 "Opzionalmente, può essere specificato anche un intervallo di indirizzi."
@@ -9720,7 +9719,7 @@ msgstr "Carica automaticamente immagine un'immagine disco/cassetta o programma"
 
 #: src/translate_text.c.po.c:2462
 msgid "Attach file to device. (device 32 = cart)"
-msgstr "Seleziona il file per la perifica. (periferica 32 = cartuccia)"
+msgstr "Seleziona il file per la periferica. (periferica 32 = cartuccia)"
 
 #: src/translate_text.c.po.c:2479
 msgid ""
@@ -9788,7 +9787,7 @@ msgid ""
 "specified.\n"
 "If device is 0, the file is read from the file system."
 msgstr ""
-"Carica il file specificato in memroia all'indirizzo specificato. Imposta\n"
+"Carica il file specificato in memoria all'indirizzo specificato. Imposta\n"
 "i puntatori del BASIC in modo appropriato se caricato nella memoria\n"
 "del computer (non su tutti gli emulatori).\n"
 "Usa (altrimenti ignora) l'indirizzo di caricamento su due byte del file\n"
@@ -11616,7 +11615,7 @@ msgstr "Disattiva hardware scaling"
 
 #: src/translate_text.c.po.c:10803
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr "Seleziona il filtro di rendering, 0:none, 1:CRT emulation, 2: scale2x"
+msgstr "Seleziona il filtro di rendering, 0:nessuno, 1:emulazione CRT, 2: scalatura 2x"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"
