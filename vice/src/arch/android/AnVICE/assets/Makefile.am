@@ -6,4 +6,5 @@ EXTRA_DIST = \
 	sdl-vicerc-x64sc \
 	sdl-vicerc-x128 \
 	sdl-vicerc-xcbm2 \
+	sdl-vicerc-xcbm5x0 \
 	sdl-vicerc-xscpu64
