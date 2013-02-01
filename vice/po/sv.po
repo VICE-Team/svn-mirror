@@ -11564,7 +11564,7 @@ msgstr "Inaktivera maskinvaruskalning"
 
 #: src/translate_text.c.po.c:10803
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr "Ange rendreringsfiler, 0:ingen, 1:CRT-emulering, 2:scale2x"
+msgstr "Ange rendreringsfiler, 0:ingen, 1:CRT-emulering, 2: scale2x"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"

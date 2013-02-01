@@ -1715,7 +1715,7 @@ msgstr "Emulazione CRT"
 #: src/arch/unix/gui/uivicii.c:105 src/arch/win32/res.rc.po.c:1048
 #: src/arch/amigaos/intl_text.c.po.c:10184
 msgid "Scale2x"
-msgstr "Scalatura 2x"
+msgstr "Scale2x"
 
 #: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uisettings.c:111
 #: src/arch/unix/gui/uited.c:130 src/arch/unix/gui/uivdc.c:133
@@ -11615,7 +11615,7 @@ msgstr "Disattiva hardware scaling"
 
 #: src/translate_text.c.po.c:10803
 msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr "Seleziona il filtro di rendering, 0:nessuno, 1:emulazione CRT, 2: scalatura 2x"
+msgstr "Seleziona il filtro di rendering, 0:nessuno, 1:emulazione CRT, 2: scale2x"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"
