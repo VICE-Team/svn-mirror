@@ -8,4 +8,5 @@ EXTRA_DIST = \
 	sdl-vicerc-xcbm2 \
 	sdl-vicerc-xcbm5x0 \
 	sdl-vicerc-xpet \
+	sdl-vicerc-xplus4 \
 	sdl-vicerc-xscpu64
