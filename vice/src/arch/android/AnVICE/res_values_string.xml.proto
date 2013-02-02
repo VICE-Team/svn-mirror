@@ -24,7 +24,7 @@
     <string name="pref_start_summary">Savestate will bind to the disk in Drive 8 BEFORE emulator started</string>
 -->    
     <string name="pref_start_summary">Savestate will bind to the autostart image BEFORE emulator started</string>
-    <string name="pref_rom">C64 ROM (KERNAL)</string>
+    <string name="pref_rom">@VICE_ROM@</string>
     <string name="pref_floppy_count">No. of Floppy Drives</string>
     <string name="pref_floppy_count_summary">Some games only work with 1 floppy drive</string>
 <!-- 

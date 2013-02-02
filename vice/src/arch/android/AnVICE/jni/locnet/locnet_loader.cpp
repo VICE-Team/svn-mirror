@@ -53,6 +53,42 @@ char execute_file[256] = "/sdcard/x64";
 char execute_file[256] = "/sdcard/x64sc";
 #endif
 
+#ifdef __X64DTV__
+char execute_file[256] = "/sdcard/x64dtv";
+#endif
+
+#ifdef __XSCPU64__
+char execute_file[256] = "/sdcard/xscpu64";
+#endif
+
+#ifdef __X128__
+char execute_file[256] = "/sdcard/x128";
+#endif
+
+#ifdef __XCBM2__
+char execute_file[256] = "/sdcard/xcbm2";
+#endif
+
+#ifdef __XCBM5X0__
+char execute_file[256] = "/sdcard/xcbm5x0";
+#endif
+
+#ifdef __XPET__
+char execute_file[256] = "/sdcard/xpet";
+#endif
+
+#ifdef __XPLUS4__
+char execute_file[256] = "/sdcard/xplus4";
+#endif
+
+#ifdef __XVIC__
+char execute_file[256] = "/sdcard/xvic";
+#endif
+
+#ifdef __VSID__
+char execute_file[256] = "/sdcard/vsid";
+#endif
+
 char autostart_filename[256] = "";
 char execute_path[256] = "/sdcard/";
 char savestate_filename[256];

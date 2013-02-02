@@ -202,7 +202,6 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/vsync.c \
 	$(MY_PATH2)/src/zfile.c \
 	$(MY_PATH2)/src/zipcode.c \
-	$(MY_PATH2)/src/mouse.c \
 	$(MY_PATH2)/src/midi.c \
 	$(MY_PATH2)/src/sounddrv/soundaiff.c \
 	$(MY_PATH2)/src/sounddrv/sounddummy.c \

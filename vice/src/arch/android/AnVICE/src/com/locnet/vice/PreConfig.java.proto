@@ -53,9 +53,12 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String PREF_KEY_TRUE_DRIVE_ON = "pref_key_true_drive_on";
     public static final String PREF_KEY_SCREEN_BORDER_ON = "pref_key_screen_border_on";
 
-    public static final String KERNAL_NAME = "KERNAL";
-    public static final String BASIC_NAME = "BASIC";
-    public static final String CHARGEN_NAME = "CHARGEN";
+    public static final String C64_KERNAL_NAME = "KERNAL";
+    public static final String C64_BASIC_NAME = "BASIC";
+    public static final String C64_CHARGEN_NAME = "CHARGEN";
+
+    public static final String C64DTV_ROM_NAME = "DTVROM.BIN";
+
     public static final String DRIVE_NAME = "DRIVES";
 
     @Override
@@ -92,11 +95,11 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-            setFileSummary(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
-            setFileSummary(PREF_KEY_FLOPPY1, sp.getString(Globals.PREFKEY_F1, null));
-            setFileSummary(PREF_KEY_FLOPPY2, sp.getString(Globals.PREFKEY_F2, null));
-            setFileSummary(PREF_KEY_FLOPPY3, sp.getString(Globals.PREFKEY_F3, null));
-            setFileSummary(PREF_KEY_FLOPPY4, sp.getString(Globals.PREFKEY_F4, null));
+            @VICE_EMU@(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
+            @VICE_EMU@(PREF_KEY_FLOPPY1, sp.getString(Globals.PREFKEY_F1, null));
+            @VICE_EMU@(PREF_KEY_FLOPPY2, sp.getString(Globals.PREFKEY_F2, null));
+            @VICE_EMU@(PREF_KEY_FLOPPY3, sp.getString(Globals.PREFKEY_F3, null));
+            @VICE_EMU@(PREF_KEY_FLOPPY4, sp.getString(Globals.PREFKEY_F4, null));
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
@@ -181,7 +184,7 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         }
     }
 
-    void setFileSummary(String key, String file) {
+    void setFileSummaryc64(String key, String file) {
         Preference pref = (Preference)getPreferenceScreen().findPreference(key);
         if (pref != null) {
             if (PREF_KEY_ROM.equals(key) && (file != null)) {
@@ -189,9 +192,9 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
                 String warning = "";
 
                 if (path.endsWith("c64") || (path.endsWith("C64"))) {
-                    warning += getWarning(path, KERNAL_NAME);
-                    warning += getWarning(path, BASIC_NAME);
-                    warning += getWarning(path, CHARGEN_NAME);
+                    warning += getWarning(path, C64_KERNAL_NAME);
+                    warning += getWarning(path, C64_BASIC_NAME);
+                    warning += getWarning(path, C64_CHARGEN_NAME);
 
                     if (warning.length() > 0) {
                         warning = "\nWarning: missing" + warning;
@@ -199,6 +202,33 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
                     setTrueDriveSummary(new File(path).getParent());
                 } else {
                     warning = "\nWarning: ROM must be in a folder named \"c64\"";
+                }
+                pref.setSummary(file + warning);
+            } else {
+                pref.setSummary((file != null) ? file : "(empty)");
+            }
+        }
+    }
+
+    void setFileSummaryc64dtv(String key, String file) {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
+        if (pref != null) {
+            if (PREF_KEY_ROM.equals(key) && (file != null)) {
+                String path = new File(file).getParent();
+                String warning = "";
+
+                if (path.endsWith("c64dtv") || (path.endsWith("C64DTV"))) {
+                    warning += getWarning(path, C64_KERNAL_NAME);
+                    warning += getWarning(path, C64_BASIC_NAME);
+                    warning += getWarning(path, C64_CHARGEN_NAME);
+                    warning += getWarning(path, C64DTV_ROM_NAME);
+
+                    if (warning.length() > 0) {
+                        warning = "\nWarning: missing" + warning;
+                    }
+                    setTrueDriveSummary(new File(path).getParent());
+                } else {
+                    warning = "\nWarning: ROM must be in a folder named \"c64dtv\"";
                 }
                 pref.setSummary(file + warning);
             } else {
@@ -222,23 +252,23 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             if (requestCode == Globals.PREFKEY_ROM_INT) {
                 prefKey = Globals.PREFKEY_ROM;
                 path = extras.getStringExtra("currentFile");
-                setFileSummary(PREF_KEY_ROM, path);
+                @VICE_EMU@(PREF_KEY_ROM, path);
             } else if (requestCode == Globals.PREFKEY_F1_INT) {
                 prefKey = Globals.PREFKEY_F1;
                 path = extras.getStringExtra("currentFile");
-                setFileSummary(PREF_KEY_FLOPPY1, path);
+                @VICE_EMU@(PREF_KEY_FLOPPY1, path);
             } else if (requestCode == Globals.PREFKEY_F2_INT) {
                 prefKey = Globals.PREFKEY_F2;
                 path = extras.getStringExtra("currentFile");
-                setFileSummary(PREF_KEY_FLOPPY2, path);
+                @VICE_EMU@(PREF_KEY_FLOPPY2, path);
             } else if (requestCode == Globals.PREFKEY_F3_INT) {
                 prefKey = Globals.PREFKEY_F3;
                 path = extras.getStringExtra("currentFile");
-                setFileSummary(PREF_KEY_FLOPPY3, path);
+                @VICE_EMU@(PREF_KEY_FLOPPY3, path);
             } else if (requestCode == Globals.PREFKEY_F4_INT) {
                 prefKey = Globals.PREFKEY_F4;
                 path = extras.getStringExtra("currentFile");
-                setFileSummary(PREF_KEY_FLOPPY4, path);
+                @VICE_EMU@(PREF_KEY_FLOPPY4, path);
             }
             if (prefKey != null) {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -250,16 +280,16 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             String prefKey = null;
             if (requestCode == Globals.PREFKEY_F1_INT) {
                 prefKey = Globals.PREFKEY_F1;
-                setFileSummary(PREF_KEY_FLOPPY1, null);
+                @VICE_EMU@(PREF_KEY_FLOPPY1, null);
             } else if (requestCode == Globals.PREFKEY_F2_INT) {
                 prefKey = Globals.PREFKEY_F2;
-                setFileSummary(PREF_KEY_FLOPPY2, null);
+                @VICE_EMU@(PREF_KEY_FLOPPY2, null);
             } else if (requestCode == Globals.PREFKEY_F3_INT) {
                 prefKey = Globals.PREFKEY_F3;
-                setFileSummary(PREF_KEY_FLOPPY3, null);
+                @VICE_EMU@(PREF_KEY_FLOPPY3, null);
             } else if (requestCode == Globals.PREFKEY_F4_INT) {
                 prefKey = Globals.PREFKEY_F4;
-                setFileSummary(PREF_KEY_FLOPPY4, null);
+                @VICE_EMU@(PREF_KEY_FLOPPY4, null);
             }
             if (prefKey != null) {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);

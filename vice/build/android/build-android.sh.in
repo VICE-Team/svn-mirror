@@ -261,29 +261,55 @@ if test x"$emulator" = "xx64sc"; then
   cp vice_x64sc/Android.mk.proto vice_x64sc/Android.mk
 fi
 
+if test x"$emulator" = "xx64dtv"; then
+  cp Android.mk.proto Android.mk
+  cp locnet/Android-x64dtv.mk.proto locnet/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_iec/Android.mk.proto vice_iec/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_vicii/Android.mk.proto vice_vicii/Android.mk
+  cp vice_x64dtv/Android.mk.proto vice_x64dtv/Android.mk
+fi
+
 echo building $emulib
 cd ..
 
 if test x"$emulator" = "xx64"; then
-   sed s/@VICE@/AnVICE_x64/ <res_values_string.xml.proto >res/values/strings.xml
+   sed -e s/@VICE@/AnVICE_x64/g -e s/@VICE_ROM@/C64 ROM (KERNAL)/g <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-x64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed s/@VICE@/AnVICE_x64sc/ <res_values_string.xml.proto >res/values/strings.xml
+   sed -e s/@VICE@/AnVICE_x64sc/g -e s/@VICE_ROM@/C64SC ROM (KERNAL)/g <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-x64sc assets/sdl-vicerc
+fi
+
+if test x"$emulator" = "xx64dtv"; then
+   sed -e s/@VICE@/AnVICE_x64dtv/g -e s/@VICE_ROM@/C64DTV ROM (KERNAL)/g <res_values_string.xml.proto >res/values/strings.xml
+   cp assets/sdl-vicerc-x64dtv assets/sdl-vicerc
 fi
 
 ndk-build
 
-echo generating launch java file
+echo generating needed java files
 
 if test x"$emulator" = "xx64"; then
-   sed s/@VICE@/x64/ <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc64/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed s/@VICE@/x64sc/ <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed -e s/@VICE@/x64sc/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc64/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+fi
+
+if test x"$emulator" = "xx64dtv"; then
+   sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc64dtv/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
 fi
 
 echo generating apk

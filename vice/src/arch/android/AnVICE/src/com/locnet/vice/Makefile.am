@@ -5,4 +5,4 @@ EXTRA_DIST = \
 	DosBoxMenuUtility.java \
 	DosBoxSurfaceView.java \
 	Globals.java \
-	PreConfig.java
+	PreConfig.java.proto

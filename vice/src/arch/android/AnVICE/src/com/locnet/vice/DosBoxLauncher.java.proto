@@ -244,18 +244,18 @@ public class DosBoxLauncher extends Activity {
             nativeSetOption(DosBoxMenuUtility.DOSBOX_OPTION_ID_TRUE_DRIVE_ON, (trueDrive) ? 1 : -1, null);
             {
                 if ((rPath == null) || (rPath.length() == 0)) {
-                    rPath = "/sdcard/c64/kernal";
+                    rPath = "/sdcard/@VICE_DATA_PATH@/@VICE_DATA_FILE@";
                 }
                 int pos = rPath.lastIndexOf('/');
                 if (pos >= 0) {
-                    rPath = rPath.substring(0, pos); // /sdcard/c64
+                    rPath = rPath.substring(0, pos); // /sdcard/@VICE_DATA_PATH@
                 }
                 pos = rPath.lastIndexOf('/');
                 if (pos >= 0) {
                     rPath = rPath.substring(0, pos); // /sdcard
                 }
                 rPath = rPath + "/";
-                DosBoxMenuUtility.copyDataFile(this, rPath + "c64/");
+                DosBoxMenuUtility.copyDataFile(this, rPath + "@VICE_DATA_PATH@/");
                 nativeSetOption(DosBoxMenuUtility.DOSBOX_OPTION_ID_CHANGE_ROM, 0, rPath);
             }
 
