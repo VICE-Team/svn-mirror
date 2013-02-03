@@ -279,17 +279,17 @@ echo building $emulib
 cd ..
 
 if test x"$emulator" = "xx64"; then
-   sed -e s/@VICE@/AnVICE_x64/g -e s/@VICE_ROM@/C64 ROM (KERNAL)/g <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-x64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed -e s/@VICE@/AnVICE_x64sc/g -e s/@VICE_ROM@/C64SC ROM (KERNAL)/g <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-x64sc assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64dtv"; then
-   sed -e s/@VICE@/AnVICE_x64dtv/g -e s/@VICE_ROM@/C64DTV ROM (KERNAL)/g <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-x64dtv assets/sdl-vicerc
 fi
 

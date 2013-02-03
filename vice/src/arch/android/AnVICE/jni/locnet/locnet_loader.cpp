@@ -108,7 +108,7 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
 {
     Android_Init(env, obj, bitmap, width, height);
     int i = 0;
-    const char *argv[11];
+    const char *argv[15];
 
     argv[i++] = execute_file;
     argv[i++] = "-chdir";
@@ -128,9 +128,19 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
     if (loader_border == 1) {
         argv[i++] = "-sdllimitmode";
         argv[i++] = "0";
+    } else {
+        argv[i++] = "-sdllimitmode";
+        argv[i++] = "1";
     }
     argv[i++] = "-autostart";
     argv[i++] = autostart_filename;
+
+#if defined(__X64__) || defined(__X64SC__) || defined(__X64DTV__)
+    argv[i++] = "+VICIIdsize";
+    argv[i++] = "+VICIIhwscale";
+    argv[i++] = "-VICIIfilter";
+    argv[i++] = "0";
+#endif
 
     loader_true_drive = 0;
 
