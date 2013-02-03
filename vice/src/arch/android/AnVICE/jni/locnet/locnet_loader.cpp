@@ -135,7 +135,7 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
     argv[i++] = "-autostart";
     argv[i++] = autostart_filename;
 
-#if defined(__X64__) || defined(__X64SC__) || defined(__X64DTV__)
+#if defined(__X64__) || defined(__X64SC__) || defined(__X64DTV__) || defined(__XSCPU64__)
     argv[i++] = "+VICIIdsize";
     argv[i++] = "+VICIIhwscale";
     argv[i++] = "-VICIIfilter";

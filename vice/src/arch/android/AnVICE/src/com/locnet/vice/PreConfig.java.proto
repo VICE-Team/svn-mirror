@@ -59,6 +59,8 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
 
     public static final String C64DTV_ROM_NAME = "DTVROM.BIN";
 
+    public static final String SCPU64_ROM_NAME = "SCPU64";
+
     public static final String DRIVE_NAME = "DRIVES";
 
     @Override
@@ -229,6 +231,30 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
                     setTrueDriveSummary(new File(path).getParent());
                 } else {
                     warning = "\nWarning: ROM must be in a folder named \"c64dtv\"";
+                }
+                pref.setSummary(file + warning);
+            } else {
+                pref.setSummary((file != null) ? file : "(empty)");
+            }
+        }
+    }
+
+    void setFileSummaryscpu64(String key, String file) {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
+        if (pref != null) {
+            if (PREF_KEY_ROM.equals(key) && (file != null)) {
+                String path = new File(file).getParent();
+                String warning = "";
+
+                if (path.endsWith("scpu64") || (path.endsWith("SCPU64"))) {
+                    warning += getWarning(path, SCPU64_ROM_NAME);
+
+                    if (warning.length() > 0) {
+                        warning = "\nWarning: missing" + warning;
+                    }
+                    setTrueDriveSummary(new File(path).getParent());
+                } else {
+                    warning = "\nWarning: ROM must be in a folder named \"scpu64\"";
                 }
                 pref.setSummary(file + warning);
             } else {

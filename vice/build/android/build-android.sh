@@ -275,6 +275,22 @@ if test x"$emulator" = "xx64dtv"; then
   cp vice_x64dtv/Android.mk.proto vice_x64dtv/Android.mk
 fi
 
+if test x"$emulator" = "xxscpu64"; then
+  cp Android.mk.proto Android.mk
+  cp locnet/Android-xscpu64.mk.proto locnet/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
+  cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_commoncart/Android.mk.proto vice_commoncart/Android.mk
+  cp vice_iec/Android.mk.proto vice_iec/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_viciisc/Android.mk.proto vice_viciisc/Android.mk
+  cp vice_xscpu64/Android.mk.proto vice_xscpu64/Android.mk
+fi
+
 echo building $emulib
 cd ..
 
@@ -291,6 +307,11 @@ fi
 if test x"$emulator" = "xx64dtv"; then
    sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-x64dtv assets/sdl-vicerc
+fi
+
+if test x"$emulator" = "xxscpu64"; then
+   sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   cp assets/sdl-vicerc-xscpu64 assets/sdl-vicerc
 fi
 
 ndk-build
@@ -310,6 +331,11 @@ fi
 if test x"$emulator" = "xx64dtv"; then
    sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
    sed s/@VICE_EMU@/setFileSummaryc64dtv/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+fi
+
+if test x"$emulator" = "xxscpu64"; then
+   sed -e s/@VICE@/xscpu64/g -e s/@VICE_DATA_PATH@/scpu64/g -e s/@VICE_DATA_FILE@/scpu64/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryscpu64/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
 fi
 
 echo generating apk
