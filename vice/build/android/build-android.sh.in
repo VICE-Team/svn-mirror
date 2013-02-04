@@ -204,7 +204,7 @@ else
   fi
 fi
 
-if test x"$emulator" = "xx128" -o x"$emulator" = "xxcbm2" -o x"$emulator" = "xxcbm5x0" -o x"$emulator" = "xxpet" -o x"$emulator" = "xxplus4" -o x"$emulator" = "xvsid"; then
+if test x"$emulator" = "xx128" -o x"$emulator" = "xxcbm2" -o x"$emulator" = "xxcbm5x0" -o x"$emulator" = "xxpet" -o x"$emulator" = "xvsid"; then
   echo not yet supported
   exit 1
 fi
@@ -309,6 +309,18 @@ if test x"$emulator" = "xxvic"; then
   cp vice_xvic/Android.mk.proto vice_xvic/Android.mk
 fi
 
+if test x"$emulator" = "xxplus4"; then
+  cp Android.mk.proto Android.mk
+  cp locnet/Android-xplus4.mk.proto locnet/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_iec/Android.mk.proto vice_iec/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_xplus4/Android.mk.proto vice_xplus4/Android.mk
+fi
+
 echo building $emulib
 cd ..
 
@@ -335,6 +347,11 @@ fi
 if test x"$emulator" = "xxvic"; then
    sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-xvic assets/sdl-vicerc
+fi
+
+if test x"$emulator" = "xxplus4"; then
+   sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   cp assets/sdl-vicerc-xplus4 assets/sdl-vicerc
 fi
 
 ndk-build
@@ -364,6 +381,11 @@ fi
 if test x"$emulator" = "xxvic"; then
    sed -e s/@VICE@/xvic/g -e s/@VICE_DATA_PATH@/vic20/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
    sed s/@VICE_EMU@/setFileSummaryvic20/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+fi
+
+if test x"$emulator" = "xxplus4"; then
+   sed -e s/@VICE@/xplus4/g -e s/@VICE_DATA_PATH@/plus4/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryplus4/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
 fi
 
 echo generating apk

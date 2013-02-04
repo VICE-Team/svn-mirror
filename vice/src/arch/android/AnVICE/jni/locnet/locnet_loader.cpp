@@ -149,6 +149,13 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
     argv[i++] = "0";
 #endif
 
+#ifdef __XPLUS4__
+    argv[i++] = "+TEDdsize";
+    argv[i++] = "+TEDhwscale";
+    argv[i++] = "-TEDfilter";
+    argv[i++] = "0";
+#endif
+
     loader_true_drive = 0;
 
     main(i, (char **)argv);
