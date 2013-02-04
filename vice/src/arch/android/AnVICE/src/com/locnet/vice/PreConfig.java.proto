@@ -263,6 +263,32 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         }
     }
 
+    void setFileSummaryvic20(String key, String file) {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
+        if (pref != null) {
+            if (PREF_KEY_ROM.equals(key) && (file != null)) {
+                String path = new File(file).getParent();
+                String warning = "";
+
+                if (path.endsWith("vic20") || (path.endsWith("VIC20"))) {
+                    warning += getWarning(path, C64_KERNAL_NAME);
+                    warning += getWarning(path, C64_BASIC_NAME);
+                    warning += getWarning(path, C64_CHARGEN_NAME);
+
+                    if (warning.length() > 0) {
+                        warning = "\nWarning: missing" + warning;
+                    }
+                    setTrueDriveSummary(new File(path).getParent());
+                } else {
+                    warning = "\nWarning: ROM must be in a folder named \"vic20\"";
+                }
+                pref.setSummary(file + warning);
+            } else {
+                pref.setSummary((file != null) ? file : "(empty)");
+            }
+        }
+    }
+
     void enableFloppy(String key, boolean enabled) {
         Preference pref = (Preference)getPreferenceScreen().findPreference(key);
         if (pref != null) {
