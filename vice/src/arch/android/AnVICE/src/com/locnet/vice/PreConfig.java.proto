@@ -65,6 +65,13 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String CBM5X0_BASIC_NAME = "BASIC.500";
     public static final String CBM5X0_CHARGEN_NAME = "CHARGEN.500";
 
+    public static final String C128_CHARGEN_NAME = "CHARGEN";
+    public static final String C128_KERNAL_NAME = "KERNAL";
+    public static final String C128_BASICLO_NAME = "BASICLO";
+    public static final String C128_BASICHI_NAME = "BASICHI";
+    public static final String C128_BASIC64_NAME = "BASIC64";
+    public static final String C128_KERNAL64_NAME = "KERNAL64";
+
     public static final String DRIVE_NAME = "DRIVES";
 
     @Override
@@ -336,6 +343,35 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
                     setTrueDriveSummary(new File(path).getParent());
                 } else {
                     warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
+                }
+                pref.setSummary(file + warning);
+            } else {
+                pref.setSummary((file != null) ? file : "(empty)");
+            }
+        }
+    }
+
+    void setFileSummaryc128(String key, String file) {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
+        if (pref != null) {
+            if (PREF_KEY_ROM.equals(key) && (file != null)) {
+                String path = new File(file).getParent();
+                String warning = "";
+
+                if (path.endsWith("c128") || (path.endsWith("C128"))) {
+                    warning += getWarning(path, C128_CHARGEN_NAME);
+                    warning += getWarning(path, C128_KERNAL_NAME);
+                    warning += getWarning(path, C128_BASICLO_NAME);
+                    warning += getWarning(path, C128_BASICHI_NAME);
+                    warning += getWarning(path, C128_BASIC64_NAME);
+                    warning += getWarning(path, C128_KERNAL64_NAME);
+
+                    if (warning.length() > 0) {
+                        warning = "\nWarning: missing" + warning;
+                    }
+                    setTrueDriveSummary(new File(path).getParent());
+                } else {
+                    warning = "\nWarning: ROM must be in a folder named \"c128\"";
                 }
                 pref.setSummary(file + warning);
             } else {

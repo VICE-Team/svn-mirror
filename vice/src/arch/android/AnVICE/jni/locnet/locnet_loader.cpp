@@ -108,7 +108,7 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
 {
     Android_Init(env, obj, bitmap, width, height);
     int i = 0;
-    const char *argv[15];
+    const char *argv[19];
 
     argv[i++] = execute_file;
     argv[i++] = "-chdir";
@@ -154,6 +154,19 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
     argv[i++] = "+TEDhwscale";
     argv[i++] = "-TEDfilter";
     argv[i++] = "0";
+#endif
+
+#ifdef __X128__
+    argv[i++] = "+VICIIdsize";
+    argv[i++] = "+VICIIhwscale";
+    argv[i++] = "-VICIIfilter";
+    argv[i++] = "0";
+/*
+    argv[i++] = "+VDCdsize";
+    argv[i++] = "+VDChwscale";
+    argv[i++] = "-VDCfilter";
+    argv[i++] = "0";
+*/
 #endif
 
     loader_true_drive = 0;
