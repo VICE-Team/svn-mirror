@@ -1225,3 +1225,17 @@ int iec_available_busses(void)
 {
     return 0;
 }
+
+#ifdef ANDROID_COMPILE
+static int loader_true_drive = 0;
+
+void loader_set_drive_true_emulation(int val)
+{
+    loader_true_drive = val;
+}
+
+int loader_get_drive_true_emulation()
+{
+    return loader_true_drive;
+}
+#endif
