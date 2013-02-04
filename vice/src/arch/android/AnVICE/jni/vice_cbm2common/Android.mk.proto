@@ -19,6 +19,11 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../locnet/include \
 				$(LOCAL_PATH) \
 				$(LOCAL_PATH)/../../../../../../src/arch/sdl \
+				$(LOCAL_PATH)/../../../../../../src/drive \
+				$(LOCAL_PATH)/../../../../../../src/lib/p64 \
+				$(LOCAL_PATH)/../../../../../../src/userport \
+				$(LOCAL_PATH)/../../../../../../src/sid \
+				$(LOCAL_PATH)/../../../../../../src/rtc \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)
@@ -47,7 +52,8 @@ LOCAL_SRC_FILES := \
 	$(MY_PATH2)/src/cbm2/cbm2romset.c \
 	$(MY_PATH2)/src/cbm2/cbm2sound.c \
 	$(MY_PATH2)/src/cbm2/cbm2tpi1.c \
-	$(MY_PATH2)/src/cbm2/cbm2tpi2.c
+	$(MY_PATH2)/src/cbm2/cbm2tpi2.c \
+	$(MY_PATH2)/src/mouse.c
 
 LOCAL_ARM_MODE := arm
 

@@ -641,7 +641,7 @@ char *Android_VideoGetBuffer()
 {
     char * result = 0;
 
-    jobject videoBuffer = gEnv->CallObjectMethod( JavaCallbackThread, JavaVideoGetBuffer );
+    jobject videoBuffer = gEnv->CallObjectMethod(JavaCallbackThread, JavaVideoGetBuffer);
     if (videoBuffer != 0) {
         result = (char *)gEnv->GetDirectBufferAddress(videoBuffer);
         gEnv->DeleteLocalRef(videoBuffer);
