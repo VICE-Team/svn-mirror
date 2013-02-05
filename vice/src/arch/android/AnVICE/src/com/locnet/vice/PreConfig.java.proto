@@ -65,6 +65,10 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String CBM5X0_BASIC_NAME = "BASIC.500";
     public static final String CBM5X0_CHARGEN_NAME = "CHARGEN.500";
 
+    public static final String CBM2_KERNAL_NAME = "KERNAL";
+    public static final String CBM2_BASIC_NAME = "BASIC.128";
+    public static final String CBM2_CHARGEN_NAME = "CHARGEN.600";
+
     public static final String C128_CHARGEN_NAME = "CHARGEN";
     public static final String C128_KERNAL_NAME = "KERNAL";
     public static final String C128_BASICLO_NAME = "BASICLO";
@@ -372,6 +376,32 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
                     setTrueDriveSummary(new File(path).getParent());
                 } else {
                     warning = "\nWarning: ROM must be in a folder named \"c128\"";
+                }
+                pref.setSummary(file + warning);
+            } else {
+                pref.setSummary((file != null) ? file : "(empty)");
+            }
+        }
+    }
+
+    void setFileSummarycbm2(String key, String file) {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
+        if (pref != null) {
+            if (PREF_KEY_ROM.equals(key) && (file != null)) {
+                String path = new File(file).getParent();
+                String warning = "";
+
+                if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
+                    warning += getWarning(path, CBM2_KERNAL_NAME);
+                    warning += getWarning(path, CBM2_BASIC_NAME);
+                    warning += getWarning(path, CBM2_CHARGEN_NAME);
+
+                    if (warning.length() > 0) {
+                        warning = "\nWarning: missing" + warning;
+                    }
+                    setTrueDriveSummary(new File(path).getParent());
+                } else {
+                    warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
                 }
                 pref.setSummary(file + warning);
             } else {
