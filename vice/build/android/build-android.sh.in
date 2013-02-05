@@ -7,7 +7,7 @@ X64SC_STATUS_MESSAGE="x64sc compiles correctly and runs correctly albeit slow, o
 X64DTV_STATUS_MESSAGE="x64dtv compiles correctly and runs correctly."
 XSCPU64_STATUS_MESSAGE="xscpu64 compiles correctly and runs correctly albeit slow, only meant for high end android devices."
 X128_STATUS_MESSAGE="x128 compiles correctly and runs correctly, vdc display is untested and might need work."
-XCBM2_STATUS_MESSAGE="xcbm2 compiles correctly but crashes or doesn't start at all, needs debugging."
+XCBM2_STATUS_MESSAGE="xcbm2 compiles correctly and runs correctly, needs a device which can handle 640x200 screen size."
 XCBM5X0_STATUS_MESSAGE="xcbm5x0 compiles correctly and runs correctly."
 XPET_STATUS_MESSAGE="xpet doesn't compile yet."
 XPLUS4_STATUS_MESSAGE="xplus4 compiles correctly and runs correctly."
@@ -219,11 +219,6 @@ else
   fi
 fi
 
-if test x"$emulator" = "xxpet"; then
-  echo not yet supported
-  exit 1
-fi
-
 cd src
 
 echo generating src/translate_table.h
@@ -378,6 +373,18 @@ if test x"$emulator" = "xxcbm2"; then
   cp vice_crtc/Android.mk.proto vice_crtc/Android.mk
 fi
 
+if test x"$emulator" = "xxpet"; then
+  cp Android.mk.proto Android.mk
+  cp locnet/Android-xpet.mk.proto locnet/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_xpet/Android.mk.proto vice_xpet/Android.mk
+  cp vice_crtc/Android.mk.proto vice_crtc/Android.mk
+fi
+
 echo building $emulib
 cd ..
 
@@ -424,6 +431,11 @@ fi
 if test x"$emulator" = "xxcbm2"; then
    sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-xcbm2 assets/sdl-vicerc
+fi
+
+if test x"$emulator" = "xxpet"; then
+   sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   cp assets/sdl-vicerc-xpet assets/sdl-vicerc
 fi
 
 ndk-build
@@ -473,6 +485,11 @@ fi
 if test x"$emulator" = "xxcbm2"; then
    sed -e s/@VICE@/xcbm2/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
    sed s/@VICE_EMU@/setFileSummarycbm2/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+fi
+
+if test x"$emulator" = "xxpet"; then
+   sed -e s/@VICE@/xpet/g -e s/@VICE_DATA_PATH@/pet/g -e s/@VICE_DATA_FILE@/kernal4/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummarypet/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
 fi
 
 echo generating apk
