@@ -2,6 +2,17 @@
 
 VICEVERSION=2.4.2
 
+X64_STATUS_MESSAGE="x64 compiles correctly and runs correctly."
+X64SC_STATUS_MESSAGE="x64sc compiles correctly and runs correctly albeit slow, only meant for high end android devices."
+X64DTV_STATUS_MESSAGE="x64dtv compiles correctly and runs correctly."
+XSCPU64_STATUS_MESSAGE="xscpu64 compiles correctly and runs correctly albeit slow, only meant for high end android devices."
+X128_STATUS_MESSAGE="x128 compiles correctly and runs correctly, vdc display is untested and might need work."
+XCBM2_STATUS_MESSAGE="xcbm2 compiles correctly but crashes or doesn't start at all, needs debugging."
+XCBM5X0_STATUS_MESSAGE="xcbm5x0 compiles correctly and runs correctly."
+XPET_STATUS_MESSAGE="xpet doesn't compile yet."
+XPLUS4_STATUS_MESSAGE="xplus4 compiles correctly and runs correctly."
+XVIC_STATUS_MESSAGE="xvic compiles correctly and runs correctly, screen dimensions needs some work."
+
 # see if we are in the top of the tree
 if [ ! -f configure.in ]; then
   cd ../..
@@ -59,60 +70,70 @@ do
     emulator="x64"
     emulib="libx64.so"
     emuname="AnVICE_x64"
+    STATUS_MESSAGE=$X64_STATUS_MESSAGE
   fi
   if test x"$i" = "xx64sc"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="x64sc"
     emulib="libx64sc.so"
     emuname="AnVICE_x64sc"
+    STATUS_MESSAGE=$X64SC_STATUS_MESSAGE
   fi
   if test x"$i" = "xx64dtv"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="x64dtv"
     emulib="libx64dtv.so"
     emuname="AnVICE_x64dtv"
+    STATUS_MESSAGE=$X64DTV_STATUS_MESSAGE
   fi
   if test x"$i" = "xxscpu64"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="xscpu64"
     emulib="libxscpu64.so"
     emuname="AnVICE_xscpu64"
+    STATUS_MESSAGE=$XSCPU64_STATUS_MESSAGE
   fi
   if test x"$i" = "xx128"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="x128"
     emulib="libx128.so"
     emuname="AnVICE_x128"
+    STATUS_MESSAGE=$X128_STATUS_MESSAGE
   fi
   if test x"$i" = "xxcbm2"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="xcbm2"
     emulib="libxcbm2.so"
     emuname="AnVICE_xcbm2"
+    STATUS_MESSAGE=$XCBM2_STATUS_MESSAGE
   fi
   if test x"$i" = "xxcbm5x0"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="xcbm5x0"
     emulib="libxcbm5x0.so"
     emuname="AnVICE_xcbm5x0"
+    STATUS_MESSAGE=$XCBM5X0_STATUS_MESSAGE
   fi
   if test x"$i" = "xxpet"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="xpet"
     emulib="libxpet.so"
     emuname="AnVICE_xpet"
+    STATUS_MESSAGE=$XPET_STATUS_MESSAGE
   fi
   if test x"$i" = "xxplus4"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="xplus4"
     emulib="libxplus4.so"
     emuname="AnVICE_xplus4"
+    STATUS_MESSAGE=$XPLUS4_STATUS_MESSAGE
   fi
   if test x"$i" = "xxvic"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="xvic"
     emulib="libxvic.so"
     emuname="AnVICE_xvic"
+    STATUS_MESSAGE=$XVIC_STATUS_MESSAGE
   fi
   if test x"$i" = "xvsid"; then
     buildemulators=`expr $buildemulators + 1`
@@ -510,4 +531,5 @@ if [ ! -f $emuname-\($CPULABEL\)-$VICEVERSION.apk ]; then
   echo build not completed, check for errors in the output
 else
   echo Android port binary generated as $emuname-\($CPULABEL\)-$VICEVERSION.apk
+  echo $STATUS_MESSAGE
 fi

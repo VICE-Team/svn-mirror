@@ -169,17 +169,12 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
 */
 #endif
 
-/*
-#ifdef __XCBM2__
+#if defined(__XCBM2__) || defined(__XPET__)
     argv[i++] = "+Crtcdsize";
     argv[i++] = "+Crtchwscale";
     argv[i++] = "-Crtcfilter";
     argv[i++] = "0";
 #endif
-*/
-
-    argv[i++] = "-logfile";
-    argv[i++] = "/sdcard/vice.log";
 
     loader_true_drive = 0;
 
