@@ -135,12 +135,6 @@ do
     emuname="AnVICE_xvic"
     STATUS_MESSAGE=$XVIC_STATUS_MESSAGE
   fi
-  if test x"$i" = "xvsid"; then
-    buildemulators=`expr $buildemulators + 1`
-    emulator="vsid"
-    emulib="libvsid.so"
-    emuname="AnVICE_vsid"
-  fi
   if test x"$i" = "xall-emu"; then
     buildemulators=`expr $buildemulators + 1`
     emulator="all emulators"
@@ -154,7 +148,7 @@ if test x"$showusage" = "xyes"; then
   echo "release indicates that the binary needs to be build as a official release as opposed to a developent release."
   echo "cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all)."
   echo "if no cpu-type is given armeabi will be built by default."
-  echo "emulators: x64, x64sc, x64dtv, xscpu64, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic, vsid (or all-emu for all emulators)."
+  echo "emulators: x64, x64sc, x64dtv, xscpu64, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic (or all-emu for all emulators)."
   exit 1
 fi
 
@@ -371,15 +365,6 @@ if test x"$emulator" = "xx128"; then
   cp vice_x128/Android.mk.proto vice_x128/Android.mk
 fi
 
-if test x"$emulator" = "xvsid"; then
-  cp Android.mk.proto Android.mk
-  cp locnet/Android-vsid.mk.proto locnet/Android.mk
-  cp locnet_al/Android.mk.proto locnet_al/Android.mk
-  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
-  cp vice_vicii/Android.mk.proto vice_vicii/Android.mk
-  cp vice_vsid/Android.mk.proto vice_vsid/Android.mk
-fi
-
 if test x"$emulator" = "xxcbm2"; then
   cp Android.mk.proto Android.mk
   cp locnet/Android-xcbm2.mk.proto locnet/Android.mk
@@ -436,11 +421,6 @@ if test x"$emulator" = "xx128"; then
    cp assets/sdl-vicerc-x128 assets/sdl-vicerc
 fi
 
-if test x"$emulator" = "xvsid"; then
-   sed -e 's/@VICE@/AnVICE_vsid/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
-   cp assets/sdl-vicerc-vsid assets/sdl-vicerc
-fi
-
 if test x"$emulator" = "xxcbm2"; then
    sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
    cp assets/sdl-vicerc-xcbm2 assets/sdl-vicerc
@@ -488,11 +468,6 @@ fi
 if test x"$emulator" = "xx128"; then
    sed -e s/@VICE@/x128/g -e s/@VICE_DATA_PATH@/c128/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
    sed s/@VICE_EMU@/setFileSummaryc128/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
-fi
-
-if test x"$emulator" = "xvsid"; then
-   sed -e s/@VICE@/vsid/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64/g <src/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxcbm2"; then

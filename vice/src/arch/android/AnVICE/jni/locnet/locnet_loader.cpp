@@ -85,10 +85,6 @@ char execute_file[256] = "/sdcard/xplus4";
 char execute_file[256] = "/sdcard/xvic";
 #endif
 
-#ifdef __VSID__
-char execute_file[256] = "/sdcard/vsid";
-#endif
-
 char autostart_filename[256] = "";
 char execute_path[256] = "/sdcard/";
 char savestate_filename[256];
@@ -135,7 +131,7 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
     argv[i++] = "-autostart";
     argv[i++] = autostart_filename;
 
-#if defined(__X64__) || defined(__X64SC__) || defined(__X64DTV__) || defined(__XSCPU64__) || defined(__XCBM5X0__) || defined(__VSID__)
+#if defined(__X64__) || defined(__X64SC__) || defined(__X64DTV__) || defined(__XSCPU64__) || defined(__XCBM5X0__)
     argv[i++] = "+VICIIdsize";
     argv[i++] = "+VICIIhwscale";
     argv[i++] = "-VICIIfilter";
