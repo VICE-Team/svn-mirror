@@ -389,52 +389,52 @@ echo building $emulib
 cd ..
 
 if test x"$emulator" = "xx64"; then
-   sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-x64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-x64sc assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64dtv"; then
-   sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-x64dtv assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxscpu64"; then
-   sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-xscpu64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxvic"; then
-   sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-xvic assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxplus4"; then
-   sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-xplus4 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
-   sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx128"; then
-   sed -e 's/@VICE@/AnVICE_x128/g' -e 's/@VICE_ROM@/C128 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_x128/g' -e 's/@VICE_ROM@/C128 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-x128 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxcbm2"; then
-   sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-xcbm2 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxpet"; then
-   sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res_values_string.xml.proto >res/values/strings.xml
+   sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res-proto/values/strings.xml >res/values/strings.xml
    cp assets/sdl-vicerc-xpet assets/sdl-vicerc
 fi
 

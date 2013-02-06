@@ -1,7 +1,8 @@
 SUBDIRS = \
 	.settings \
 	assets \
-	jni
+	jni \
+	res-proto
 
 EXTRA_DIST = \
 	.classpath \
@@ -15,7 +16,6 @@ EXTRA_DIST = \
 	proguard.cfg \
 	proguard-project.txt \
 	project.properties \
-	res_values_strings.xml.proto \
 	README.txt \
 	res/drawable/file.png \
 	res/drawable/folder.png \
