@@ -1,8 +1,7 @@
 SUBDIRS = \
 	.settings \
 	assets \
-	jni \
-	src
+	jni
 
 EXTRA_DIST = \
 	.classpath \
@@ -31,3 +30,14 @@ EXTRA_DIST = \
 	res/values/defaults.xml \
 	res/values/dimens.xml \
 	res/values/themes.xml
+	src/com/locnet/vice/DosBoxAudio.java \
+	src/com/locnet/vice/DosBoxControl.java \
+	src/com/locnet/vice/DosBoxLauncher.java.proto \
+	src/com/locnet/vice/DosBoxMenuUtility.java \
+	src/com/locnet/vice/DosBoxSurfaceView.java \
+	src/com/locnet/vice/Globals.java \
+	src/com/locnet/vice/PreConfig.java.proto \
+	src/org/ab/nativelayer/ImportFileView.java \
+	src/org/ab/nativelayer/ImportView.java \
+	src/org/ab/uae/FloppyImportView.java \
+	src/org/ab/uae/RomImportView.java
