@@ -5,6 +5,7 @@
 #
 # Written by
 #  Spiro Trikaliotis <spiro.trikaliotis@gmx.de>
+#  Marco van den Heuvel <blackystardust68@yahoo.com>
 #
 # This file is part of VICE, the Versatile Commodore Emulator.
 # See README for copyright notice.
@@ -24,6 +25,36 @@
 #  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
 #  02111-1307  USA.
 #
+
+generate_configure_in() {
+	# $1 - major automake version
+	# $2 - minor automake version
+	# $3 - build
+
+	configure_needs_ac=no
+	if [ $1 -gt 1 ]; then
+		configure_needs_ac=yes
+	else
+		if [ $2 -gt 12 ]; then
+			configure_needs_ac=yes
+		fi
+	fi
+
+	if test x"$configure_needs_ac" = "xyes"; then
+		sed s/AM_CONFIG_HEADER/AC_CONFIG_HEADERS/g <configure.proto >configure.ac
+	else
+		cp configure.proto configure.ac
+	fi
+}
+
+get_automake_version() {
+	# $1 - "automake"
+	# $2 - "(GNU"
+	# $3 - "Automake)"
+	# $4 - version
+
+	automake_version=$4
+}
 
 do_command() {
 	# $1 - command
@@ -47,8 +78,14 @@ do_autoconf() {
 }
 
 do_autoheader() {
-	if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.in`" = x ]; then
-		do_command autoheader
+	if [ -e configure.in ]; then
+		if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.in`" = x ]; then
+			do_command autoheader
+		fi
+	else
+		if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.ac`" = x ]; then
+			do_command autoheader
+		fi
 	fi
 }
 
@@ -78,7 +115,14 @@ buildfiles() {
 	done
 }
 
-SUBDIRECTORIES=`sed -ne "s/.*AC_CONFIG_SUBDIRS(\(.*\)).*/\1/p" configure.in`
+automake_line=`automake --version`
+get_automake_version $automake_line
+old_IFS=$IFS
+IFS="."
+generate_configure_in $automake_version
+IFS=$old_IFS
+
+SUBDIRECTORIES=`sed -ne "s/.*AC_CONFIG_SUBDIRS(\(.*\)).*/\1/p" configure.ac`
 
 for A in $SUBDIRECTORIES; do
 	(

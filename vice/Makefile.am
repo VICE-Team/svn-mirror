@@ -8,6 +8,7 @@ SUBDIRS = $(POSUB) src build data man doc
 COMMON_EXTRA_DIST = .descr \
 	AUTHORS \
 	build.minix \
+	configure.proto \
 	ChangeLog.1 \
 	ChangeLog.2 \
 	COPYING \
