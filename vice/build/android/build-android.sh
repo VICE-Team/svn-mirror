@@ -9,7 +9,7 @@ XSCPU64_STATUS_MESSAGE="xscpu64 compiles correctly and runs correctly albeit slo
 X128_STATUS_MESSAGE="x128 compiles correctly and runs correctly, vdc display is untested and might need work."
 XCBM2_STATUS_MESSAGE="xcbm2 compiles correctly and runs correctly, needs a device which can handle 640x200 screen size."
 XCBM5X0_STATUS_MESSAGE="xcbm5x0 compiles correctly and runs correctly."
-XPET_STATUS_MESSAGE="xpet doesn't compile yet."
+XPET_STATUS_MESSAGE="xcbm2 compiles correctly and runs correctly, needs a device which can handle 640x200 screen size."
 XPLUS4_STATUS_MESSAGE="xplus4 compiles correctly and runs correctly."
 XVIC_STATUS_MESSAGE="xvic compiles correctly and runs correctly, screen dimensions needs some work."
 

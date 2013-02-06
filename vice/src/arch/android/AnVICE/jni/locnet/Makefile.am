@@ -8,6 +8,7 @@ EXTRA_DIST = \
 	Android-x128.mk.proto \
 	Android-xcbm2.mk.proto \
 	Android-xcbm5x0.mk.proto \
+	Android-xpet.mk.proto \
 	Android-xplus4.mk.proto \
 	Android-xscpu64.mk.proto \
 	Android-xvic.mk.proto \
