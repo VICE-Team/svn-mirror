@@ -4,6 +4,7 @@
 docdir = $(realdocdir)
 
 BUILDING_DOX = \
+	Android-Howto.txt \
 	GP2X-Howto.txt \
 	Linux-Mingw32-Howto.txt \
 	MacOSX-Howto.txt \
