@@ -1,3 +1,9 @@
+/* Be aware that the original version of this file is located in
+ * src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java
+ *
+ * when making changes only make them to the file in the proper location
+ */
+
 /*
  * PreConfig.java
  *
