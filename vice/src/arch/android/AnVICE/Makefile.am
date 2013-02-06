@@ -1,6 +1,7 @@
 SUBDIRS = \
 	.settings \
 	assets \
+	assets-proto \
 	jni \
 	res-proto \
 	src-proto

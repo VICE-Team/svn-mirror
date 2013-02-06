@@ -390,52 +390,52 @@ cd ..
 
 if test x"$emulator" = "xx64"; then
    sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-x64 assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-x64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64sc"; then
    sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-x64sc assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-x64sc assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx64dtv"; then
    sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-x64dtv assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-x64dtv assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxscpu64"; then
    sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-xscpu64 assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-xscpu64 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxvic"; then
    sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-xvic assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-xvic assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxplus4"; then
    sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-xplus4 assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-xplus4 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
    sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xx128"; then
    sed -e 's/@VICE@/AnVICE_x128/g' -e 's/@VICE_ROM@/C128 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-x128 assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-x128 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxcbm2"; then
    sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-xcbm2 assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-xcbm2 assets/sdl-vicerc
 fi
 
 if test x"$emulator" = "xxpet"; then
    sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets/sdl-vicerc-xpet assets/sdl-vicerc
+   cp assets-proto/sdl-vicerc-xpet assets/sdl-vicerc
 fi
 
 ndk-build
@@ -443,53 +443,53 @@ ndk-build
 echo generating needed java files
 
 if test x"$emulator" = "xx64"; then
-   sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc64/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed -e s/@VICE@/x64sc/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/x64sc/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc64/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx64dtv"; then
-   sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64dtv/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc64dtv/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxscpu64"; then
-   sed -e s/@VICE@/xscpu64/g -e s/@VICE_DATA_PATH@/scpu64/g -e s/@VICE_DATA_FILE@/scpu64/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryscpu64/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/xscpu64/g -e s/@VICE_DATA_PATH@/scpu64/g -e s/@VICE_DATA_FILE@/scpu64/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryscpu64/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxvic"; then
-   sed -e s/@VICE@/xvic/g -e s/@VICE_DATA_PATH@/vic20/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryvic20/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/xvic/g -e s/@VICE_DATA_PATH@/vic20/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryvic20/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxplus4"; then
-   sed -e s/@VICE@/xplus4/g -e s/@VICE_DATA_PATH@/plus4/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryplus4/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/xplus4/g -e s/@VICE_DATA_PATH@/plus4/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryplus4/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
-   sed -e s/@VICE@/xcbm5x0/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal.500/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummarycbm5x0/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/xcbm5x0/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal.500/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummarycbm5x0/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx128"; then
-   sed -e s/@VICE@/x128/g -e s/@VICE_DATA_PATH@/c128/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc128/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/x128/g -e s/@VICE_DATA_PATH@/c128/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummaryc128/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxcbm2"; then
-   sed -e s/@VICE@/xcbm2/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummarycbm2/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/xcbm2/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummarycbm2/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxpet"; then
-   sed -e s/@VICE@/xpet/g -e s/@VICE_DATA_PATH@/pet/g -e s/@VICE_DATA_FILE@/kernal4/g <src-proto/com/locnet/vice/DosBoxLauncher.java.proto >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummarypet/g <src-proto/com/locnet/vice/PreConfig.java.proto >src/com/locnet/vice/PreConfig.java
+   sed -e s/@VICE@/xpet/g -e s/@VICE_DATA_PATH@/pet/g -e s/@VICE_DATA_FILE@/kernal4/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+   sed s/@VICE_EMU@/setFileSummarypet/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 echo generating apk
