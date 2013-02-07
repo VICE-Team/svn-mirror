@@ -561,7 +561,7 @@ int ui_init(int *argc, char **argv)
     gdk_threads_init();
 #endif
 
-    gtk_init(&argc, &argv);
+    gtk_init(argc, &argv);
 
 #ifdef DEBUG_X11UI
     {
@@ -646,9 +646,14 @@ int ui_init_finish()
 #else
     char *usexf86ext = "no";
 #endif
+#ifdef USE_UI_THREADS
+    char *useuithreads = "yes";
+#else
+    char *useuithreads = "no";
+#endif
     ui_log = log_open("X11");
 
-    log_message(ui_log, "GTK version compiled with: %d.%d (xf86 ext:%s cairo:%s pango:%s VTE:%s hwscale:%s fullscreen:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usexf86ext, usecairo, usepango, usevte, usegl, usefs);
+    log_message(ui_log, "GTK version compiled with: %d.%d (xf86 ext:%s cairo:%s pango:%s VTE:%s hwscale:%s fullscreen:%s ui-threads:%s)", GTK_MAJOR_VERSION, GTK_MINOR_VERSION, usexf86ext, usecairo, usepango, usevte, usegl, usefs, useuithreads);
 
 #ifdef HAVE_PANGO
     have_cbm_font = TRUE;
