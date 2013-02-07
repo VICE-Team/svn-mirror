@@ -1,13 +1,13 @@
 # Polish Translation for VICE
 # Copyright (C) 2002 Free Software Foundation, Inc.
 # Mariusz Młynek <flooder@poczta.onet.pl>, 2002.
-# Jarek Sobolewski <r@sledinmay.com>, 2011, 2012.
+# Jarek Sobolewski <r@sledinmay.com>, 2011-2013.
 msgid ""
 msgstr ""
-"Project-Id-Version: VICE 2.3\n"
+"Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-24 14:21-0800\n"
-"PO-Revision-Date: 2013-01-03 03:06+0100\n"
+"POT-Creation-Date: 2013-02-07 07:27+0100\n"
+"PO-Revision-Date: 2013-02-07 08:20+0100\n"
 "Last-Translator: Jarek Sobolewski <r@sledinmay.com>\n"
 "Language-Team: pl <pl@li.org>\n"
 "Language: pl\n"
@@ -696,12 +696,11 @@ msgstr "obsługa kolizji we/wy"
 
 #: src/arch/unix/gui/c64ui.c:191 src/arch/amigaos/intl_text.c.po.c:2385
 msgid "Japanese"
-msgstr ""
+msgstr "Japoński"
 
 #: src/arch/unix/gui/c64ui.c:199 src/arch/amigaos/intl_text.c.po.c:2441
-#, fuzzy
 msgid "MAX Machine"
-msgstr "Typ maszyny"
+msgstr "Maszyna MAX"
 
 #: src/arch/unix/gui/c64ui.c:227
 msgid "Old PAL-G"
@@ -3020,58 +3019,50 @@ msgstr "Ukryj pliki inne niż P00"
 #: src/arch/unix/gui/uiperipheraliec.c:130
 #: src/arch/unix/gui/uiperipheraliec.c:154
 #: src/arch/unix/gui/uiperipheralieee.c:118
-#, fuzzy
 msgid "Drive #8 device type"
-msgstr "Typ stacji dyskietek #8"
+msgstr "Typ urządzenia napędu #8"
 
 #: src/arch/unix/gui/uiperipheraliec.c:131
 #: src/arch/unix/gui/uiperipheraliec.c:155
 #: src/arch/unix/gui/uiperipheralieee.c:119
-#, fuzzy
 msgid "Drive #8 options"
-msgstr "Rozszerzenie napędu #8"
+msgstr "Opcje napędu #8"
 
 #: src/arch/unix/gui/uiperipheraliec.c:136
 #: src/arch/unix/gui/uiperipheraliec.c:160
 #: src/arch/unix/gui/uiperipheralieee.c:124
-#, fuzzy
 msgid "Drive #9 device type"
-msgstr "Typ stacji dyskietek #9"
+msgstr "Typ urządzenia napędu #9"
 
 #: src/arch/unix/gui/uiperipheraliec.c:137
 #: src/arch/unix/gui/uiperipheraliec.c:161
 #: src/arch/unix/gui/uiperipheralieee.c:125
-#, fuzzy
 msgid "Drive #9 options"
-msgstr "Rozszerzenie napędu #9"
+msgstr "Opcje napędu #9"
 
 #: src/arch/unix/gui/uiperipheraliec.c:142
 #: src/arch/unix/gui/uiperipheraliec.c:166
 #: src/arch/unix/gui/uiperipheralieee.c:130
-#, fuzzy
 msgid "Drive #10 device type"
-msgstr "Typ stacji dyskietek #10"
+msgstr "Typ urządzenia napędu #10"
 
 #: src/arch/unix/gui/uiperipheraliec.c:143
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheralieee.c:131
-#, fuzzy
 msgid "Drive #10 options"
-msgstr "Rozszerzenie napędu #10"
+msgstr "Opcje napędu #10"
 
 #: src/arch/unix/gui/uiperipheraliec.c:148
 #: src/arch/unix/gui/uiperipheraliec.c:172
 #: src/arch/unix/gui/uiperipheralieee.c:136
-#, fuzzy
 msgid "Drive #11 device type"
-msgstr "Typ stacji dyskietek #11"
+msgstr "Typ urządzenia napędu  #11"
 
 #: src/arch/unix/gui/uiperipheraliec.c:149
 #: src/arch/unix/gui/uiperipheraliec.c:173
 #: src/arch/unix/gui/uiperipheralieee.c:137
-#, fuzzy
 msgid "Drive #11 options"
-msgstr "Rozszerzenie napędu #11"
+msgstr "Opcje napędu #11"
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:7930
@@ -4075,9 +4066,8 @@ msgid "Tune %d"
 msgstr "Ton %d"
 
 #: src/arch/unix/gui/vsidui.c:514
-#, fuzzy
 msgid "VSID: The SID emulator"
-msgstr "VSIDUI: Emulator SID"
+msgstr "VSID: Emulator SID"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:62
 msgid "VICE is FREE software!"
@@ -4332,9 +4322,8 @@ msgid "Volume"
 msgstr "Głośność"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:74
-#, fuzzy
 msgid "Drives Volume"
-msgstr "Zasoby napędu"
+msgstr "Głośność napędów"
 
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
@@ -7719,9 +7708,8 @@ msgid "Enable MasC=uerade I/O swap"
 msgstr "Włącz zamianę we/wy MasC=uerade"
 
 #: src/arch/win32/resvic20.rc.po.c:563
-#, fuzzy
 msgid "VIC20 model"
-msgstr "Model VIC"
+msgstr "Model VIC20"
 
 #: src/arch/win32/resvic20.rc.po.c:564 src/arch/amigaos/intl_text.c.po.c:2161
 msgid "VIC-1112 IEEE-488 module"
@@ -7783,9 +7771,8 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Wybierz stały plik RAM Mega-Cart"
 
 #: src/arch/win32/resvic20.rc.po.c:591 src/arch/amigaos/intl_text.c.po.c:2567
-#, fuzzy
 msgid "VIC20 model settings"
-msgstr "Ustawienia modelu C128"
+msgstr "Ustawienia modelu VIC20"
 
 #: src/arch/win32/resvicii.rc.po.c:46
 msgid "Sprite Collisions"
@@ -7925,29 +7912,24 @@ msgid "Drean"
 msgstr "Drean"
 
 #: src/arch/amigaos/intl_text.c.po.c:2357
-#, fuzzy
 msgid "C64 SX PAL"
-msgstr "C64 PAL"
+msgstr "C64 SX PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2371
-#, fuzzy
 msgid "C64 SX NTSC"
-msgstr "C64 NTSC"
+msgstr "C64 SX NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2399
-#, fuzzy
 msgid "C64 GS"
-msgstr "C64 NTSC"
+msgstr "C64 GS"
 
 #: src/arch/amigaos/intl_text.c.po.c:2413
-#, fuzzy
 msgid "PET64 PAL"
-msgstr "C64 PAL"
+msgstr "PET64 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2427
-#, fuzzy
 msgid "PET64 NTSC"
-msgstr "C64 NTSC"
+msgstr "PET64 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2455
 msgid "Custom C64 model"
@@ -7978,18 +7960,16 @@ msgid "C232 NTSC"
 msgstr "C232 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2581
-#, fuzzy
 msgid "VIC20 PAL"
-msgstr "CBM620 PAL"
+msgstr "VIC20 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2595
-#, fuzzy
 msgid "VIC20 NTSC"
-msgstr "CBM620 NTSC"
+msgstr "VIC20 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2609
 msgid "VIC21"
-msgstr ""
+msgstr "VIC21"
 
 #: src/arch/amigaos/intl_text.c.po.c:2637
 msgid "C64DTV V2 PAL"
@@ -8781,7 +8761,7 @@ msgstr "Mysz MicroMys"
 
 #: src/arch/amigaos/intl_text.c.po.c:11570
 msgid "Koalapad"
-msgstr ""
+msgstr "Koalapad"
 
 #: src/arch/amigaos/intl_text.c.po.c:11766
 msgid "Save to EasyFlash CRT file on detach"
@@ -10052,11 +10032,12 @@ msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
 msgstr "Ustaw model CIA 2 (0 = stary 6526, 1 = nowy 6526A)"
 
 #: src/translate_text.c.po.c:4117
-#, fuzzy
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
 "pet64, ultimax)"
-msgstr "Określ model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
+msgstr ""
+"Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
+"pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4134
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
@@ -10071,9 +10052,8 @@ msgstr ""
 "c232)"
 
 #: src/translate_text.c.po.c:4168
-#, fuzzy
 msgid "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"
-msgstr "Ustaw model C128 (c128/c128dcr, pal/ntsc)"
+msgstr "Wybierz model VIC20 (vic20/vic20pal/vic20ntsc, vic21)"
 
 #: src/translate_text.c.po.c:4185
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
@@ -10764,7 +10744,7 @@ msgstr "Wyłącz emulację odgłosów stacji dysków"
 
 #: src/translate_text.c.po.c:7625
 msgid "Set volume for disk drive sound emulation (0-4000)"
-msgstr ""
+msgstr "Ustaw głośność emulacji odgłosów stacji dysków (0-4000)"
 
 #: src/translate_text.c.po.c:7676
 msgid "Set drive type (0: no drive)"
@@ -11513,8 +11493,8 @@ msgid "Disable hardware scaling"
 msgstr "Wyłącz skalowanie sprzętowe"
 
 #: src/translate_text.c.po.c:10803
-msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
-msgstr "Wybierz filtr renderera, 0:brak, 1: emulacja CRT, 2: scale2x"
+msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
+msgstr "Wybierz filtr renderera: (0:brak, 1: emulacja CRT, 2: scale2x)"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"
@@ -11777,13 +11757,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Wybierz port joysticka, do którego podłączona jest mysz"
 
 #: src/translate_text.c.po.c:11953
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
 msgstr ""
-"Ustaw typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrętła, 4 = CX-22, 5 = "
-"ST, 6 = Smart)"
+"Wybierz typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrętła, 4 = CX-22, 5 "
+"= ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"
 
 #: src/translate_text.c.po.c:11970
 msgid "Enable PS/2 mouse on userport"
@@ -11810,23 +11789,20 @@ msgid "Length of memory block initialized with the same pattern"
 msgstr "Długość bloku pamięci zainicjowanego z tym samym wzorcem"
 
 #: src/translate_text.c.po.c:12089
-#, fuzzy
 msgid "load the given romset file"
-msgstr "Nie można zapisać pliku zestawu ROM-ów"
+msgstr "Wczytaj dany plik zestawu ROM-ów"
 
 #: src/translate_text.c.po.c:12106
-#, fuzzy
 msgid "load the given romset archive"
-msgstr "Nie można zapisać archiwum zestawu ROM-ów"
+msgstr "Wczytaj dane archiwum zestawu ROM-ów"
 
 #: src/translate_text.c.po.c:12123
-#, fuzzy
 msgid "Item number"
-msgstr "Numer tonu"
+msgstr "Liczba elementu"
 
 #: src/translate_text.c.po.c:12140
 msgid "select the given item from the current romset archive"
-msgstr ""
+msgstr "Wybierz dany element z obecnego zestawu ROM-ów."
 
 #: src/translate_text.c.po.c:12174
 msgid "Disable sound playback"
