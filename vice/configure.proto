@@ -2709,6 +2709,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
          AC_CHECK_LIB(pthread, pthread_create,
                    [ X_LIBS="-lpthread $X_LIBS";
                      LINK_X_LIBS="-lpthread $LINK_X_LIBS";
+		     CFLAGS="$CFLAGS -pthread";
   		   VICE_UI_THREADS="ui-threads.o";
                      AC_DEFINE(USE_UI_THREADS,,[Enable multithreaded UI.])
   		 ],,$X_LIBS)
@@ -3565,6 +3566,8 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/jni/vice_xplus4/Makefile
            src/arch/android/AnVICE/jni/vice_xscpu64/Makefile
            src/arch/android/AnVICE/jni/vice_xvic/Makefile
+           src/arch/android/AnVICE/res-proto/Makefile
+           src/arch/android/AnVICE/res-proto/values/Makefile
            src/arch/android/AnVICE/src-proto/Makefile
            src/arch/android/AnVICE/src-proto/com/Makefile
            src/arch/android/AnVICE/src-proto/com/locnet/Makefile
