@@ -555,11 +555,13 @@ int ui_init(int *argc, char **argv)
         return 0;
     }
     
+#ifdef USE_UI_THREADS
     XInitThreads();
     /* init threads */	
     gdk_threads_init();
+#endif
 
-    gtk_init(argc, &argv);
+    gtk_init(&argc, &argv);
 
 #ifdef DEBUG_X11UI
     {
