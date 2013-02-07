@@ -106,6 +106,7 @@ public class DosBoxLauncher extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         {
+            /* @VICE@ will be replaced during build time with the name of the library needed by the android build script. */
             System.loadLibrary("@VICE@");
         }
 
@@ -250,10 +251,13 @@ public class DosBoxLauncher extends Activity {
             nativeSetOption(DosBoxMenuUtility.DOSBOX_OPTION_ID_TRUE_DRIVE_ON, (trueDrive) ? 1 : -1, null);
             {
                 if ((rPath == null) || (rPath.length() == 0)) {
+                    /* @VICE_DATA_PATH@ will be replaced during build time with the name of the path for the roms by the android build-script. */
+                    /* @VICE_DATA_FILE@ will be replaced during build time with the name of the kernal by the android build-script. */
                     rPath = "/sdcard/@VICE_DATA_PATH@/@VICE_DATA_FILE@";
                 }
                 int pos = rPath.lastIndexOf('/');
                 if (pos >= 0) {
+                    /* @VICE_DATA_PATH@ will be replaced during build time with the name of the path for the roms by the android build-script. */
                     rPath = rPath.substring(0, pos); // /sdcard/@VICE_DATA_PATH@
                 }
                 pos = rPath.lastIndexOf('/');
@@ -261,6 +265,7 @@ public class DosBoxLauncher extends Activity {
                     rPath = rPath.substring(0, pos); // /sdcard
                 }
                 rPath = rPath + "/";
+                /* @VICE_DATA_PATH@ will be replaced during build time with the name of the path for the roms by the android build-script. */
                 DosBoxMenuUtility.copyDataFile(this, rPath + "@VICE_DATA_PATH@/");
                 nativeSetOption(DosBoxMenuUtility.DOSBOX_OPTION_ID_CHANGE_ROM, 0, rPath);
             }

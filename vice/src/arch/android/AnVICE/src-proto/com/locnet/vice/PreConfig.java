@@ -123,10 +123,15 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
+            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
             @VICE_EMU@(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
+            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
             @VICE_EMU@(PREF_KEY_FLOPPY1, sp.getString(Globals.PREFKEY_F1, null));
+            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
             @VICE_EMU@(PREF_KEY_FLOPPY2, sp.getString(Globals.PREFKEY_F2, null));
+            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
             @VICE_EMU@(PREF_KEY_FLOPPY3, sp.getString(Globals.PREFKEY_F3, null));
+            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
             @VICE_EMU@(PREF_KEY_FLOPPY4, sp.getString(Globals.PREFKEY_F4, null));
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
@@ -463,22 +468,27 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             if (requestCode == Globals.PREFKEY_ROM_INT) {
                 prefKey = Globals.PREFKEY_ROM;
                 path = extras.getStringExtra("currentFile");
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_ROM, path);
             } else if (requestCode == Globals.PREFKEY_F1_INT) {
                 prefKey = Globals.PREFKEY_F1;
                 path = extras.getStringExtra("currentFile");
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY1, path);
             } else if (requestCode == Globals.PREFKEY_F2_INT) {
                 prefKey = Globals.PREFKEY_F2;
                 path = extras.getStringExtra("currentFile");
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY2, path);
             } else if (requestCode == Globals.PREFKEY_F3_INT) {
                 prefKey = Globals.PREFKEY_F3;
                 path = extras.getStringExtra("currentFile");
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY3, path);
             } else if (requestCode == Globals.PREFKEY_F4_INT) {
                 prefKey = Globals.PREFKEY_F4;
                 path = extras.getStringExtra("currentFile");
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY4, path);
             }
             if (prefKey != null) {
@@ -491,15 +501,19 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             String prefKey = null;
             if (requestCode == Globals.PREFKEY_F1_INT) {
                 prefKey = Globals.PREFKEY_F1;
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY1, null);
             } else if (requestCode == Globals.PREFKEY_F2_INT) {
                 prefKey = Globals.PREFKEY_F2;
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY2, null);
             } else if (requestCode == Globals.PREFKEY_F3_INT) {
                 prefKey = Globals.PREFKEY_F3;
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY3, null);
             } else if (requestCode == Globals.PREFKEY_F4_INT) {
                 prefKey = Globals.PREFKEY_F4;
+                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
                 @VICE_EMU@(PREF_KEY_FLOPPY4, null);
             }
             if (prefKey != null) {
