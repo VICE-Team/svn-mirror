@@ -1,6 +1,5 @@
 SUBDIRS = \
 	.settings \
-	assets \
 	assets-proto \
 	jni \
 	res-proto \
@@ -19,6 +18,7 @@ EXTRA_DIST = \
 	proguard-project.txt \
 	project.properties \
 	README.txt \
+	assets/gpl.txt \
 	res/drawable/file.png \
 	res/drawable/folder.png \
 	res/drawable/icon.png \
