@@ -6,8 +6,7 @@ LOCAL_MODULE := vice_crtc
 
 MY_PATH2 := ../../../../../..
 
-CG_SUBDIRS := \
-$(MY_PATH2)/src/crtc
+CG_SUBDIRS := $(MY_PATH2)/src/crtc
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 

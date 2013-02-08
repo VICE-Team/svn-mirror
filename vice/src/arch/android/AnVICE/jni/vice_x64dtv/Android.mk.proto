@@ -6,8 +6,7 @@ LOCAL_MODULE := vice_x64dtv
 
 MY_PATH2 := ../../../../../..
 
-CG_SUBDIRS := \
-$(MY_PATH2)/src/c64dtv
+CG_SUBDIRS := $(MY_PATH2)/src/c64dtv
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 

@@ -6,8 +6,7 @@ LOCAL_MODULE := vice_c64exp
 
 MY_PATH2 := ../../../../../..
 
-CG_SUBDIRS := \
-$(MY_PATH2)/src/drive/iec/c64exp
+CG_SUBDIRS := $(MY_PATH2)/src/drive/iec/c64exp
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 

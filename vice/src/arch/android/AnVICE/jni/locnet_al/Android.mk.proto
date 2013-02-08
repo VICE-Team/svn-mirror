@@ -28,8 +28,6 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.cpp))))
 
-#LOCAL_LDLIBS := -ljnigraphics
-
 LOCAL_ARM_MODE := arm
 
 include $(BUILD_STATIC_LIBRARY)

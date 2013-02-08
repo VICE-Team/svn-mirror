@@ -49,6 +49,34 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceManager;
 
 public class PreConfig extends PreferenceActivity implements OnSharedPreferenceChangeListener {
+
+    /* the following variable will be used for the machine type currently being compiled.
+       @VICE_MACHINE@ will be replaced by the number of the machine type.
+       machine types:
+       0 = x64
+       1 = x64sc
+       2 = xscpu64
+       3 = x64dtv
+       4 = x128
+       5 = xcbm2
+       6 = xcbm5x0
+       7 = xpet
+       8 = xplus4
+       9 = xvic
+     */
+    public static final int MACHINE_TYPE = @VICE_MACHINE@;
+
+    public static final int MACHINE_X64 = 0;
+    public static final int MACHINE_X64SC = 1;
+    public static final int MACHINE_XSCPU64 = 2;
+    public static final int MACHINE_X64DTV = 3;
+    public static final int MACHINE_X128 = 4;
+    public static final int MACHINE_XCBM2 = 5;
+    public static final int MACHINE_XCBM5X0 = 6;
+    public static final int MACHINE_XPET = 7;
+    public static final int MACHINE_XPLUS4 = 8;
+    public static final int MACHINE_XVIC = 9;
+
     public static final String PREF_KEY_START = "pref_key_start";
     public static final String PREF_KEY_NTSC_ON = "pref_key_ntsc_on";
     public static final String PREF_KEY_ROM = "pref_key_rom";
@@ -123,16 +151,11 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-            @VICE_EMU@(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
-            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-            @VICE_EMU@(PREF_KEY_FLOPPY1, sp.getString(Globals.PREFKEY_F1, null));
-            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-            @VICE_EMU@(PREF_KEY_FLOPPY2, sp.getString(Globals.PREFKEY_F2, null));
-            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-            @VICE_EMU@(PREF_KEY_FLOPPY3, sp.getString(Globals.PREFKEY_F3, null));
-            /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-            @VICE_EMU@(PREF_KEY_FLOPPY4, sp.getString(Globals.PREFKEY_F4, null));
+            setFileSummary(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
+            setFileSummary(PREF_KEY_FLOPPY1, sp.getString(Globals.PREFKEY_F1, null));
+            setFileSummary(PREF_KEY_FLOPPY2, sp.getString(Globals.PREFKEY_F2, null));
+            setFileSummary(PREF_KEY_FLOPPY3, sp.getString(Globals.PREFKEY_F3, null));
+            setFileSummary(PREF_KEY_FLOPPY4, sp.getString(Globals.PREFKEY_F4, null));
         }
         getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
     }
@@ -217,236 +240,158 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         }
     }
 
-    void setFileSummaryc64(String key, String file) {
+    void setFileSummary(String key, String file) {
         Preference pref = (Preference)getPreferenceScreen().findPreference(key);
         if (pref != null) {
             if (PREF_KEY_ROM.equals(key) && (file != null)) {
                 String path = new File(file).getParent();
                 String warning = "";
 
-                if (path.endsWith("c64") || (path.endsWith("C64"))) {
-                    warning += getWarning(path, C64_KERNAL_NAME);
-                    warning += getWarning(path, C64_BASIC_NAME);
-                    warning += getWarning(path, C64_CHARGEN_NAME);
+                if (MACHINE_TYPE == MACHINE_X64 || MACHINE_TYPE == MACHINE_X64SC) {
+                    if (path.endsWith("c64") || (path.endsWith("C64"))) {
+                        warning += getWarning(path, C64_KERNAL_NAME);
+                        warning += getWarning(path, C64_BASIC_NAME);
+                        warning += getWarning(path, C64_CHARGEN_NAME);
 
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"c64\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"c64\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummaryc64dtv(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_X64DTV) {
+                    if (path.endsWith("c64dtv") || (path.endsWith("C64DTV"))) {
+                        warning += getWarning(path, C64_KERNAL_NAME);
+                        warning += getWarning(path, C64_BASIC_NAME);
+                        warning += getWarning(path, C64_CHARGEN_NAME);
+                        warning += getWarning(path, C64DTV_ROM_NAME);
 
-                if (path.endsWith("c64dtv") || (path.endsWith("C64DTV"))) {
-                    warning += getWarning(path, C64_KERNAL_NAME);
-                    warning += getWarning(path, C64_BASIC_NAME);
-                    warning += getWarning(path, C64_CHARGEN_NAME);
-                    warning += getWarning(path, C64DTV_ROM_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"c64dtv\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"c64dtv\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummaryscpu64(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_XSCPU64) {
+                    if (path.endsWith("scpu64") || (path.endsWith("SCPU64"))) {
+                        warning += getWarning(path, SCPU64_ROM_NAME);
 
-                if (path.endsWith("scpu64") || (path.endsWith("SCPU64"))) {
-                    warning += getWarning(path, SCPU64_ROM_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"scpu64\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"scpu64\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummaryvic20(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_XVIC) {
+                    if (path.endsWith("vic20") || (path.endsWith("VIC20"))) {
+                        warning += getWarning(path, C64_KERNAL_NAME);
+                        warning += getWarning(path, C64_BASIC_NAME);
+                        warning += getWarning(path, C64_CHARGEN_NAME);
 
-                if (path.endsWith("vic20") || (path.endsWith("VIC20"))) {
-                    warning += getWarning(path, C64_KERNAL_NAME);
-                    warning += getWarning(path, C64_BASIC_NAME);
-                    warning += getWarning(path, C64_CHARGEN_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"vic20\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"vic20\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummaryplus4(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_XPLUS4) {
+                    if (path.endsWith("plus4") || (path.endsWith("PLUS4"))) {
+                        warning += getWarning(path, C64_KERNAL_NAME);
+                        warning += getWarning(path, C64_BASIC_NAME);
 
-                if (path.endsWith("plus4") || (path.endsWith("PLUS4"))) {
-                    warning += getWarning(path, C64_KERNAL_NAME);
-                    warning += getWarning(path, C64_BASIC_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"plus4\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"plus4\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummarycbm5x0(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_XCBM5X0) {
+                    if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
+                        warning += getWarning(path, CBM5X0_KERNAL_NAME);
+                        warning += getWarning(path, CBM5X0_BASIC_NAME);
+                        warning += getWarning(path, CBM5X0_CHARGEN_NAME);
 
-                if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
-                    warning += getWarning(path, CBM5X0_KERNAL_NAME);
-                    warning += getWarning(path, CBM5X0_BASIC_NAME);
-                    warning += getWarning(path, CBM5X0_CHARGEN_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummaryc128(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_X128) {
+                    if (path.endsWith("c128") || (path.endsWith("C128"))) {
+                        warning += getWarning(path, C128_CHARGEN_NAME);
+                        warning += getWarning(path, C128_KERNAL_NAME);
+                        warning += getWarning(path, C128_BASICLO_NAME);
+                        warning += getWarning(path, C128_BASICHI_NAME);
+                        warning += getWarning(path, C128_BASIC64_NAME);
+                        warning += getWarning(path, C128_KERNAL64_NAME);
 
-                if (path.endsWith("c128") || (path.endsWith("C128"))) {
-                    warning += getWarning(path, C128_CHARGEN_NAME);
-                    warning += getWarning(path, C128_KERNAL_NAME);
-                    warning += getWarning(path, C128_BASICLO_NAME);
-                    warning += getWarning(path, C128_BASICHI_NAME);
-                    warning += getWarning(path, C128_BASIC64_NAME);
-                    warning += getWarning(path, C128_KERNAL64_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"c128\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"c128\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummarycbm2(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_XCBM2) {
+                    if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
+                        warning += getWarning(path, CBM2_KERNAL_NAME);
+                        warning += getWarning(path, CBM2_BASIC_NAME);
+                        warning += getWarning(path, CBM2_CHARGEN_NAME);
 
-                if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
-                    warning += getWarning(path, CBM2_KERNAL_NAME);
-                    warning += getWarning(path, CBM2_BASIC_NAME);
-                    warning += getWarning(path, CBM2_CHARGEN_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
-            } else {
-                pref.setSummary((file != null) ? file : "(empty)");
-            }
-        }
-    }
 
-    void setFileSummarypet(String key, String file) {
-        Preference pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
+                if (MACHINE_TYPE == MACHINE_XPET) {
+                    if (path.endsWith("pet") || (path.endsWith("PET"))) {
+                        warning += getWarning(path, PET_KERNAL_NAME);
+                        warning += getWarning(path, PET_BASIC_NAME);
+                        warning += getWarning(path, PET_CHARGEN_NAME);
+                        warning += getWarning(path, PET_EDITOR_NAME);
 
-                if (path.endsWith("pet") || (path.endsWith("PET"))) {
-                    warning += getWarning(path, PET_KERNAL_NAME);
-                    warning += getWarning(path, PET_BASIC_NAME);
-                    warning += getWarning(path, PET_CHARGEN_NAME);
-                    warning += getWarning(path, PET_EDITOR_NAME);
-
-                    if (warning.length() > 0) {
-                        warning = "\nWarning: missing" + warning;
+                        if (warning.length() > 0) {
+                            warning = "\nWarning: missing" + warning;
+                        }
+                        setTrueDriveSummary(new File(path).getParent());
+                    } else {
+                        warning = "\nWarning: ROM must be in a folder named \"pet\"";
                     }
-                    setTrueDriveSummary(new File(path).getParent());
-                } else {
-                    warning = "\nWarning: ROM must be in a folder named \"pet\"";
+                    pref.setSummary(file + warning);
                 }
-                pref.setSummary(file + warning);
             } else {
                 pref.setSummary((file != null) ? file : "(empty)");
             }
@@ -468,28 +413,23 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             if (requestCode == Globals.PREFKEY_ROM_INT) {
                 prefKey = Globals.PREFKEY_ROM;
                 path = extras.getStringExtra("currentFile");
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_ROM, path);
+                setFileSummary(PREF_KEY_ROM, path);
             } else if (requestCode == Globals.PREFKEY_F1_INT) {
                 prefKey = Globals.PREFKEY_F1;
                 path = extras.getStringExtra("currentFile");
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY1, path);
+                setFileSummary(PREF_KEY_FLOPPY1, path);
             } else if (requestCode == Globals.PREFKEY_F2_INT) {
                 prefKey = Globals.PREFKEY_F2;
                 path = extras.getStringExtra("currentFile");
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY2, path);
+                setFileSummary(PREF_KEY_FLOPPY2, path);
             } else if (requestCode == Globals.PREFKEY_F3_INT) {
                 prefKey = Globals.PREFKEY_F3;
                 path = extras.getStringExtra("currentFile");
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY3, path);
+                setFileSummary(PREF_KEY_FLOPPY3, path);
             } else if (requestCode == Globals.PREFKEY_F4_INT) {
                 prefKey = Globals.PREFKEY_F4;
                 path = extras.getStringExtra("currentFile");
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY4, path);
+                setFileSummary(PREF_KEY_FLOPPY4, path);
             }
             if (prefKey != null) {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
@@ -501,20 +441,16 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             String prefKey = null;
             if (requestCode == Globals.PREFKEY_F1_INT) {
                 prefKey = Globals.PREFKEY_F1;
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY1, null);
+                setFileSummary(PREF_KEY_FLOPPY1, null);
             } else if (requestCode == Globals.PREFKEY_F2_INT) {
                 prefKey = Globals.PREFKEY_F2;
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY2, null);
+                setFileSummary(PREF_KEY_FLOPPY2, null);
             } else if (requestCode == Globals.PREFKEY_F3_INT) {
                 prefKey = Globals.PREFKEY_F3;
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY3, null);
+                setFileSummary(PREF_KEY_FLOPPY3, null);
             } else if (requestCode == Globals.PREFKEY_F4_INT) {
                 prefKey = Globals.PREFKEY_F4;
-                /* @VICE_EMU@ will be replaced during build time with the correct function name by the android build-script. */
-                @VICE_EMU@(PREF_KEY_FLOPPY4, null);
+                setFileSummary(PREF_KEY_FLOPPY4, null);
             }
             if (prefKey != null) {
                 SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);

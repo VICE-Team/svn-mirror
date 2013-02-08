@@ -47,8 +47,7 @@ LOCAL_CPP_EXTENSION := .cpp
 
 LOCAL_SRC_FILES := $(foreach F, $(CG_SUBDIRS), $(addprefix $(F)/,$(notdir $(wildcard $(LOCAL_PATH)/$(F)/*.c))))
 
-LOCAL_SRC_FILES += \
-	$(MY_PATH2)/src/mouse.c
+LOCAL_SRC_FILES += $(MY_PATH2)/src/mouse.c
 
 LOCAL_ARM_MODE := arm
 

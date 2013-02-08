@@ -13,10 +13,21 @@ XPET_STATUS_MESSAGE="xcbm2 compiles correctly and runs correctly, needs a device
 XPLUS4_STATUS_MESSAGE="xplus4 compiles correctly and runs correctly."
 XVIC_STATUS_MESSAGE="xvic compiles correctly and runs correctly, screen dimensions needs some work."
 
+MACHINE_X64="0"
+MACHINE_X64SC="1"
+MACHINE_XSCPU64="2"
+MACHINE_X64DTV="3"
+MACHINE_X128="4"
+MACHINE_XCBM2="5"
+MACHINE_XCBM5X0="6"
+MACHINE_XPET="7"
+MACHINE_XPLUS4="8"
+MACHINE_XVIC="9"
+
 # see if we are in the top of the tree
-if [ ! -f configure.in ]; then
+if [ ! -f configure.proto ]; then
   cd ../..
-  if [ ! -f configure.in ]; then
+  if [ ! -f configure.proto ]; then
     echo "please run this script from the base of the VICE directory"
     exit 1
   fi
@@ -71,6 +82,7 @@ do
     emulib="libx64.so"
     emuname="AnVICE_x64"
     STATUS_MESSAGE=$X64_STATUS_MESSAGE
+    MACHINE=$MACHINE_X64
   fi
   if test x"$i" = "xx64sc"; then
     buildemulators=`expr $buildemulators + 1`
@@ -78,6 +90,7 @@ do
     emulib="libx64sc.so"
     emuname="AnVICE_x64sc"
     STATUS_MESSAGE=$X64SC_STATUS_MESSAGE
+    MACHINE=$MACHINE_X64SC
   fi
   if test x"$i" = "xx64dtv"; then
     buildemulators=`expr $buildemulators + 1`
@@ -85,6 +98,7 @@ do
     emulib="libx64dtv.so"
     emuname="AnVICE_x64dtv"
     STATUS_MESSAGE=$X64DTV_STATUS_MESSAGE
+    MACHINE=$MACHINE_X64DTV
   fi
   if test x"$i" = "xxscpu64"; then
     buildemulators=`expr $buildemulators + 1`
@@ -92,6 +106,7 @@ do
     emulib="libxscpu64.so"
     emuname="AnVICE_xscpu64"
     STATUS_MESSAGE=$XSCPU64_STATUS_MESSAGE
+    MACHINE=$MACHINE_XSCPU64
   fi
   if test x"$i" = "xx128"; then
     buildemulators=`expr $buildemulators + 1`
@@ -99,6 +114,7 @@ do
     emulib="libx128.so"
     emuname="AnVICE_x128"
     STATUS_MESSAGE=$X128_STATUS_MESSAGE
+    MACHINE=$MACHINE_X128
   fi
   if test x"$i" = "xxcbm2"; then
     buildemulators=`expr $buildemulators + 1`
@@ -106,6 +122,7 @@ do
     emulib="libxcbm2.so"
     emuname="AnVICE_xcbm2"
     STATUS_MESSAGE=$XCBM2_STATUS_MESSAGE
+    MACHINE=$MACHINE_XCBM2
   fi
   if test x"$i" = "xxcbm5x0"; then
     buildemulators=`expr $buildemulators + 1`
@@ -113,6 +130,7 @@ do
     emulib="libxcbm5x0.so"
     emuname="AnVICE_xcbm5x0"
     STATUS_MESSAGE=$XCBM5X0_STATUS_MESSAGE
+    MACHINE=$MACHINE_XCBM5X0
   fi
   if test x"$i" = "xxpet"; then
     buildemulators=`expr $buildemulators + 1`
@@ -120,6 +138,7 @@ do
     emulib="libxpet.so"
     emuname="AnVICE_xpet"
     STATUS_MESSAGE=$XPET_STATUS_MESSAGE
+    MACHINE=$MACHINE_XPET
   fi
   if test x"$i" = "xxplus4"; then
     buildemulators=`expr $buildemulators + 1`
@@ -127,6 +146,7 @@ do
     emulib="libxplus4.so"
     emuname="AnVICE_xplus4"
     STATUS_MESSAGE=$XPLUS4_STATUS_MESSAGE
+    MACHINE=$MACHINE_XPLUS4
   fi
   if test x"$i" = "xxvic"; then
     buildemulators=`expr $buildemulators + 1`
@@ -134,6 +154,7 @@ do
     emulib="libxvic.so"
     emuname="AnVICE_xvic"
     STATUS_MESSAGE=$XVIC_STATUS_MESSAGE
+    MACHINE=$MACHINE_XVIC
   fi
   if test x"$i" = "xall-emu"; then
     buildemulators=`expr $buildemulators + 1`
@@ -452,54 +473,46 @@ ndk-build
 
 echo generating needed java files
 
+sed s/@VICE_MACHINE@/$MACHINE/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
+
 if test x"$emulator" = "xx64"; then
    sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx64sc"; then
    sed -e s/@VICE@/x64sc/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx64dtv"; then
    sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc64dtv/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxscpu64"; then
    sed -e s/@VICE@/xscpu64/g -e s/@VICE_DATA_PATH@/scpu64/g -e s/@VICE_DATA_FILE@/scpu64/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryscpu64/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxvic"; then
    sed -e s/@VICE@/xvic/g -e s/@VICE_DATA_PATH@/vic20/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryvic20/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxplus4"; then
    sed -e s/@VICE@/xplus4/g -e s/@VICE_DATA_PATH@/plus4/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryplus4/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
    sed -e s/@VICE@/xcbm5x0/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal.500/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummarycbm5x0/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xx128"; then
    sed -e s/@VICE@/x128/g -e s/@VICE_DATA_PATH@/c128/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummaryc128/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxcbm2"; then
    sed -e s/@VICE@/xcbm2/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummarycbm2/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 if test x"$emulator" = "xxpet"; then
    sed -e s/@VICE@/xpet/g -e s/@VICE_DATA_PATH@/pet/g -e s/@VICE_DATA_FILE@/kernal4/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
-   sed s/@VICE_EMU@/setFileSummarypet/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 fi
 
 echo generating apk

@@ -6,8 +6,7 @@ LOCAL_MODULE := vice_xscpu64
 
 MY_PATH2 := ../../../../../..
 
-CG_SUBDIRS := \
-$(MY_PATH2)/src/scpu64
+CG_SUBDIRS := $(MY_PATH2)/src/scpu64
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 
