@@ -9,9 +9,9 @@
 echo "Generating Minix-3.x binary archive"
 
 # see if we are in the top of the tree
-if [ ! -f configure.in ]; then
+if [ ! -f configure.proto ]; then
   cd ../..
-  if [ ! -f configure.in ]; then
+  if [ ! -f configure.proto ]; then
     echo "please run this script from the base of the VICE directory"
     echo "or from the appropriate build directory"
     exit 1

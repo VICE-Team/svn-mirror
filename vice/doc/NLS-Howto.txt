@@ -86,7 +86,7 @@ the main VICE menu and select the language you want to use.
 4 Adding new messages
 ---------------------
 
-1. Edit the ALL_LINGUAS line in 'configure.in' and add your
+1. Edit the ALL_LINGUAS line in 'configure.proto' and add your
    language code. In this example we will use Italian, so we
    will add "it":
 

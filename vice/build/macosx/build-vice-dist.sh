@@ -11,13 +11,13 @@
 
 echo "---------- Build Mac Binary Distribution ----------"
 
-# check for vice version in configure.in
-if [ ! -e configure.in ]; then
+# check for vice version in configure.proto
+if [ ! -e configure.proto ]; then
   echo "please run this script from inside the VICE source directory!"
   exit 1
 fi
 # fetch vice version
-eval `grep 'VICE_VERSION_[A-Z]*=' configure.in`
+eval `grep 'VICE_VERSION_[A-Z]*=' configure.proto`
 if test x"$VICE_VERSION_BUILD" = "x" -o x"$VICE_VERSION_BUILD" = "x0" ; then
   VICE_VERSION=$VICE_VERSION_MAJOR"."$VICE_VERSION_MINOR
 else

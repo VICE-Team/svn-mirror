@@ -1,9 +1,6 @@
 //#ifndef _CONFIG_H
 //#define _CONFIG_H
 
-/* src/config.h.  Generated automatically by configure.  */
-/* src/config.h.in.  Generated automatically from configure.in by autoheader.  */
-
 #ifndef __OS2__
 #define __OS2__ /* Operating System is OS/2 */
 #endif

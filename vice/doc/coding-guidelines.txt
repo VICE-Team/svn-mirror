@@ -88,7 +88,7 @@ Common code guidelines
 
 Many different compilers are used to compile the common code parts.
 
-- When using headers which are tested for in configure.in don't assume they
+- When using headers which are tested for in configure.proto don't assume they
   exist, use the #ifdef HAVE_*_H instead.
 
 - Don't use C++ style comments (// comment), use C-style comments instead

@@ -194,8 +194,8 @@ if [ $SNAPSHOT = 1 -o "$OWN_TAG" != "" ]; then
   fi
 
   # patch VICE_VERSION_BUILD
-  echo "patching configure.in: $TAG"
-  PATCH_VVB="$SRC_DIR/configure.in"
+  echo "patching configure.proto: $TAG"
+  PATCH_VVB="$SRC_DIR/configure.proto"
   perl -pi -e "s/(VICE_VERSION_BUILD=\d+).*\$/\$1$TAG/" $PATCH_VVB
   if [ $? != 0 ]; then
     echo "ERROR: patching..."
