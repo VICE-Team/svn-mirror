@@ -104,7 +104,7 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
 {
     Android_Init(env, obj, bitmap, width, height);
     int i = 0;
-    const char *argv[21];
+    const char *argv[20];
 
     argv[i++] = execute_file;
     argv[i++] = "-chdir";
@@ -170,6 +170,40 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
     argv[i++] = "+Crtchwscale";
     argv[i++] = "-Crtcfilter";
     argv[i++] = "0";
+#endif
+
+    argv[i++] = "-directory";
+
+#if defined(__X64__) || defined(__X64SC__)
+    argv[i++] = "/vice/c64:/sdcard/vice/c64:/sd-ext/vice/c64:/emmc/vice/c64";
+#endif
+
+#ifdef __XSCPU64__
+    argv[i++] = "/vice/scpu64:/sdcard/vice/scpu64:/sd-ext/vice/scpu64:/emmc/vice/scpu64";
+#endif
+
+#ifdef __X64DTV__
+    argv[i++] = "/vice/c64dtv:/sdcard/vice/c64dtv:/sd-ext/vice/c64dtv:/emmc/vice/c64dtv";
+#endif
+
+#ifdef __X128__
+    argv[i++] = "/vice/c128:/sdcard/vice/c128:/sd-ext/vice/c128:/emmc/vice/c128";
+#endif
+
+#if defined(__XCBM2__) || defined(__XCBM5X0__)
+    argv[i++] = "/vice/cbm-ii:/sdcard/vice/cbm-ii:/sd-ext/vice/cbm-ii:/emmc/vice/cbm-ii";
+#endif
+
+#ifdef __XPET__
+    argv[i++] = "/vice/pet:/sdcard/vice/pet:/sd-ext/vice/pet:/emmc/vice/pet";
+#endif
+
+#ifdef __XPLUS4__
+    argv[i++] = "/vice/plus4:/sdcard/vice/plus4:/sd-ext/vice/plus4:/emmc/vice/plus4";
+#endif
+
+#ifdef __XVIC__
+    argv[i++] = "/vice/vic20:/sdcard/vice/vic20:/sd-ext/vice/vic20:/emmc/vice/vic20";
 #endif
 
     loader_true_drive = 0;
