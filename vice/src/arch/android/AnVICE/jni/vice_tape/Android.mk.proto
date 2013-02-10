@@ -6,8 +6,7 @@ LOCAL_MODULE := vice_tape
 
 MY_PATH2 := ../../../../../..
 
-CG_SUBDIRS := \
-$(MY_PATH2)/src/tape
+CG_SUBDIRS := $(MY_PATH2)/src/tape
 
 # Add more subdirs here, like src/subdir1 src/subdir2
 
