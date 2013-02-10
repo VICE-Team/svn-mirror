@@ -156,7 +156,6 @@ static bool inside_monitor = FALSE;
 static unsigned int instruction_count;
 static bool skip_jsrs;
 static int wait_for_return_level;
-static bool trigger_break_on_next_instruction;
 
 const char *_mon_space_strings[] = {
     "Default", "Computer", "Disk8", "Disk9", "Disk10", "Disk11", "<<Invalid>>"
@@ -1223,7 +1222,6 @@ void monitor_init(monitor_interface_t *maincpu_interface_init,
     instruction_count = 0;
     skip_jsrs = FALSE;
     wait_for_return_level = 0;
-    trigger_break_on_next_instruction = FALSE;
     mon_breakpoint_init();
     data_buf_len = 0;
     asm_mode = 0;
@@ -1914,9 +1912,12 @@ void mon_instructions_next(int count)
 {
     if (count >= 0) {
         mon_out("Nexting through the next %d instruction(s).\n", count);
+        instruction_count = count;
     }
-    instruction_count = (count >= 0) ? count : 1;
-    wait_for_return_level = 0;
+    else {
+        instruction_count = 1;
+    }
+    wait_for_return_level = (int)((MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 1 : 0);
     skip_jsrs = TRUE;
     exit_mon = 1;
 
@@ -1931,7 +1932,10 @@ void mon_instructions_next(int count)
 void mon_instruction_return(void)
 {
     instruction_count = 1;
-    wait_for_return_level = 1;
+    wait_for_return_level = (int)((MONITOR_GET_OPCODE(default_memspace) == OP_RTS
+                                || MONITOR_GET_OPCODE(default_memspace) == OP_RTI) ? 0 	 
+                                : (MONITOR_GET_OPCODE(default_memspace) == OP_JSR) ? 2
+                                : 1);
     skip_jsrs = TRUE;
     exit_mon = 1;
 
@@ -2093,7 +2097,6 @@ static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned 
     WORD addr = 0;
 
     count = watch_load_count[mem];
-    watch_load_count[mem] = 0;
     while (count) {
         count--;
         addr = watch_load_array[count][mem];
@@ -2101,6 +2104,7 @@ static bool watchpoints_check_loads(MEMSPACE mem, unsigned int lastpc, unsigned 
             trap = TRUE;
         }
     }
+    watch_load_count[mem] = 0;
     return trap;
 }
 
@@ -2140,21 +2144,12 @@ int monitor_force_import(MEMSPACE mem)
 /* called by cpu core */
 void monitor_check_icount(WORD pc)
 {
-    if (trigger_break_on_next_instruction) {
-        trigger_break_on_next_instruction = FALSE;
-        if (monitor_mask[default_memspace] & MI_STEP) {
-            monitor_mask[default_memspace] &= ~MI_STEP;
-            disassemble_on_entry = 1;
-        }
-        if (!monitor_mask[default_memspace]) {
-            interrupt_monitor_trap_off(mon_interfaces[default_memspace]->int_status);
-        }
-
-        monitor_startup(e_default_space);
-    }
-
     if (!instruction_count) {
         return;
+    }
+
+    if (wait_for_return_level == 0) {
+        instruction_count--;
     }
 
     if (skip_jsrs == TRUE) {
@@ -2180,13 +2175,19 @@ void monitor_check_icount(WORD pc)
         }
     }
 
-    if (wait_for_return_level == 0) {
-        instruction_count--;
+    if (instruction_count != 0) {
+        return;
     }
 
-    if (instruction_count == 0) {
-        trigger_break_on_next_instruction = TRUE;
+    if (monitor_mask[default_memspace] & MI_STEP) {
+        monitor_mask[default_memspace] &= ~MI_STEP;
+        disassemble_on_entry = 1;
     }
+    if (!monitor_mask[default_memspace]) {
+        interrupt_monitor_trap_off(mon_interfaces[default_memspace]->int_status);
+    }
+
+    monitor_startup(e_default_space);
 }
 
 /* called by cpu core */

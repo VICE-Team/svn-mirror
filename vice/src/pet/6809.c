@@ -127,15 +127,15 @@ h6809_regs_t h6809_regs;
                 if (monitor_mask[CALLER]) {                             \
                     EXPORT_REGISTERS(); \
                 }                               \
+                if (monitor_mask[CALLER] & (MI_STEP)) {               \
+                    monitor_check_icount((WORD)PC);                   \
+                    IMPORT_REGISTERS();                               \
+                }                                                     \
                 if (monitor_mask[CALLER] & (MI_BREAK)) {              \
                     if (monitor_check_breakpoints(CALLER, (WORD)PC)) {                              \
                         monitor_startup(CALLER);                      \
                         IMPORT_REGISTERS();                           \
                     }                                                 \
-                }                                                     \
-                if (monitor_mask[CALLER] & (MI_STEP)) {               \
-                    monitor_check_icount((WORD)PC);                   \
-                    IMPORT_REGISTERS();                               \
                 }                                                     \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {              \
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)PC); \

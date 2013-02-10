@@ -386,28 +386,31 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
     monitor_cpu_type_t *monitor_cpu;
     bool must_stop = FALSE;
     MON_ADDR instpc;
+    MON_ADDR loadstorepc;
+    char is_loadstore = 0;
     const char *op_str;
     const char *action_str;
 
     monitor_cpu = monitor_cpu_for_memspace[mem];
+    instpc = new_addr(mem, (monitor_cpu->mon_register_get_val)(mem, e_PC));
+    loadstorepc = new_addr(mem, lastpc);
 
     switch (op) {
         case e_load:
             list = watchpoints_load[mem];
             op_str = "load";
-            instpc = new_addr(mem, lastpc);
+            is_loadstore = 1;
             break;
 
         case e_store:
             list = watchpoints_store[mem];
             op_str = "store";
-            instpc = new_addr(mem, lastpc);
+            is_loadstore = 1;
             break;
 
         default: /* e_exec */
             list = breakpoints[mem];
             op_str = "exec";
-            instpc = new_addr(mem, (monitor_cpu->mon_register_get_val)(mem, e_PC));
             break;
     }
 
@@ -456,6 +459,9 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
                 mon_out("\n");
             }
 
+            if (is_loadstore) {
+                mon_disassemble_with_regdump(mem, loadstorepc);
+            }
             mon_disassemble_with_regdump(mem, instpc);
 
             if (cp->command) {

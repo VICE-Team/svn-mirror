@@ -550,13 +550,13 @@ static void export_registers(void)
             if (monitor_mask[e_comp_space]) {                                             \
                 export_registers();                                                       \
             }                                                                             \
+            if (monitor_mask[e_comp_space] & (MI_STEP)) {                                 \
+                monitor_check_icount((WORD)z80_reg_pc);                                   \
+            }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_BREAK)) {                                \
                 if (monitor_check_breakpoints(e_comp_space, (WORD)z80_reg_pc)) {          \
                     monitor_startup(e_comp_space);                                        \
                 }                                                                         \
-            }                                                                             \
-            if (monitor_mask[e_comp_space] & (MI_STEP)) {                                 \
-                monitor_check_icount((WORD)z80_reg_pc);                                   \
             }                                                                             \
             if (monitor_mask[e_comp_space] & (MI_WATCH)) {                                \
                 monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)z80_reg_pc);            \

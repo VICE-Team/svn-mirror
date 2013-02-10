@@ -351,16 +351,15 @@
                     IMPORT_REGISTERS();                                        \
                 if (monitor_mask[CALLER])                                      \
                     EXPORT_REGISTERS();                                        \
-                if (monitor_mask[CALLER] & (MI_BREAK)) {                       \
-                    if (monitor_check_breakpoints(CALLER,                      \
-                        (WORD)reg_pc)) {                                       \
-                        monitor_startup(CALLER);                               \
-                        IMPORT_REGISTERS();                                    \
-                    }                                                          \
-                }                                                              \
                 if (monitor_mask[CALLER] & (MI_STEP)) {                        \
                     monitor_check_icount((WORD)reg_pc);                        \
                     IMPORT_REGISTERS();                                        \
+                }                                                              \
+                if (monitor_mask[CALLER] & (MI_BREAK)) {                       \
+                    if (monitor_check_breakpoints(CALLER, (WORD)reg_pc)) {     \
+                        monitor_startup(CALLER);                               \
+                        IMPORT_REGISTERS();                                    \
+                    }                                                          \
                 }                                                              \
                 if (monitor_mask[CALLER] & (MI_WATCH)) {                       \
                     monitor_check_watchpoints(LAST_OPCODE_ADDR, (WORD)reg_pc); \
