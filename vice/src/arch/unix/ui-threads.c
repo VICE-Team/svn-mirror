@@ -66,13 +66,14 @@ static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
 static pthread_mutex_t dlock = PTHREAD_MUTEX_INITIALIZER;
 static sem_t mthread_sem, ethread_sem;
 static void *widget, *event, *client_data;
-static int is_coroutine = 0;
+static int is_coroutine = 1;	/* start with single threaded execution */
 static int do_refresh;
 static double machine_freq;
 static long laststamp, mrp_usec;
 
-static struct s_mbufs buffers[MAX_BUFFERS+1];
+static struct s_mbufs buffers[MAX_APP_SHELLS][MAX_BUFFERS];
 static int cpos = 0, lpos = 0, csize, update = 0;
+static int app_shell_count = 0;
 #define NEXT(x) ((++x == MAX_BUFFERS) ? 0 : x)
 static int width, height, no_autorepeat;
 const char *title;
@@ -92,25 +93,29 @@ static void *dthread_func(void *attr);
 static void *ethread_func(void *attr);
 
     
-void mbuffer_init(void *widget, int w, int h, int depth)
+void mbuffer_init(void *widget, int w, int h, int depth, int shell)
 {
     int i;
+    DBG(("widget %p, w=%d, h=%d, shell=%d", widget, w, h, shell));
     csize = w * h * depth;
     for (i = 0; i < MAX_BUFFERS; i++) { 
-	lib_free(buffers[i].buffer);
-	buffers[i].buffer = lib_malloc(csize);
-	memset(buffers[i].buffer, -1, csize);
-	buffers[i].w = w;
-	buffers[i].h = h;
+	lib_free(buffers[shell][i].buffer);
+	buffers[shell][i].buffer = lib_malloc(csize);
+	memset(buffers[shell][i].buffer, -1, csize);
+	buffers[shell][i].w = w;
+	buffers[shell][i].h = h;
 	if (i > 0) {
-	    buffers[i-1].next = &buffers[i];
+	    buffers[shell][i-1].next = &buffers[shell][i];
 	}
     }
-    buffers[i-1].next = &buffers[0];
+    buffers[shell][i-1].next = &buffers[shell][0];
     cpos = 0;
+    if (shell > app_shell_count) {
+	app_shell_count = shell;
+    }
 }
 
-unsigned char *mbuffer_get_buffer(struct timespec *t) 
+unsigned char *mbuffer_get_buffer(struct timespec *t, int shell) 
 {
     unsigned char *curr;
     int tmppos = cpos;
@@ -124,9 +129,9 @@ unsigned char *mbuffer_get_buffer(struct timespec *t)
     }
     
     /* stamp in usecs */
-    curr = buffers[cpos].buffer;
+    curr = buffers[shell][cpos].buffer;
     tmppos = NEXT(cpos);
-    memcpy(buffers[tmppos].buffer, curr, csize); /* copy fullframe */
+    memcpy(buffers[shell][tmppos].buffer, curr, csize); /* copy fullframe */
     cpos = tmppos;
     if (cpos == lpos) {
 	DBG(("out of buffers: %s", __FUNCTION__));
@@ -141,8 +146,8 @@ unsigned char *mbuffer_get_buffer(struct timespec *t)
 	laststamp = tmpstamp;
     }
     
-    buffers[cpos].stamp = laststamp;
-    return buffers[cpos].buffer;
+    buffers[shell][cpos].stamp = laststamp;
+    return buffers[shell][cpos].buffer;
 }
 
 void tsAdd (const struct timespec *time1, 
@@ -206,12 +211,12 @@ int dthread_ui_init(int *ac, char **av)
 void dthread_ui_dispatch_events(void) 
 {
     if (update || is_coroutine) {
-	DBG(("recursive call to %s - update: %d, is_coroutine %d", __FUNCTION__, 
+	DBG2(("recursive call to %s - update: %d, is_coroutine %d", __FUNCTION__, 
 	     update, is_coroutine));
 	ui_dispatch_events2();
 	return;
     } else {
-	DBG(("call to %s - update: %d, is_coroutine %d", __FUNCTION__,	
+	DBG2(("call to %s - update: %d, is_coroutine %d", __FUNCTION__,	
 	     update, is_coroutine));
 	update = 1;
  	if (sem_post(&ethread_sem) != 0) {
@@ -279,7 +284,7 @@ void video_dthread_init(void)
     
 
     if (console_mode) {
-	is_coroutine = 1;
+	is_coroutine = 1;	/* enforce single threaded execution */
 	return;
     }
     
@@ -312,7 +317,8 @@ void video_dthread_init(void)
 	log_debug("sem_init() failed, %s", __FUNCTION__);
 	exit (-1);
     }
-	
+
+    is_coroutine = 0;		/* use multithreaded executionfrom now on */
     if (pthread_create(&dthread, &attr, dthread_func, NULL) < 0) {
 	log_debug("pthread_create() failed, %s", __FUNCTION__);
 	exit (-1);
@@ -348,7 +354,7 @@ void dthread_unlock(void)
 
 /* internal routines */
 
-int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha)
+int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int shell)
 {
     int ret = 1;
     unsigned long dt1, dt2;
@@ -362,7 +368,7 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha)
     /* find display frame interval where we fit in */
     if (count < 0) count += MAX_BUFFERS;
     for (i = 0; i < count; i++) {
-	if (buffers[np].stamp > dt) {
+	if (buffers[shell][np].stamp > dt) {
 	    break;
 	}
 	np ++;
@@ -374,8 +380,8 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha)
     if (np2 < 0) {
 	np2 += MAX_BUFFERS;
     }
-    dt1 = dt - buffers[np2].stamp;
-    dt2 = buffers[np].stamp - buffers[np2].stamp;
+    dt1 = dt - buffers[shell][np2].stamp;
+    dt2 = buffers[shell][np].stamp - buffers[shell][np2].stamp;
     if (dt1 > dt2) {
 	/* DBG(("dthread dropping frames")); */
 	return 0;
@@ -388,9 +394,9 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha)
 #if 0
     for (i = 0; i < MAX_BUFFERS; i++) {
 	long ddd;
-	ddd = buffers[i].next->stamp - buffers[i].stamp;
+	ddd = buffers[shell][i].next->stamp - buffers[shell][i].stamp;
 	DBG(("from %d, i %d  stamp %ld  diff %ld", 
-	     np2, i, buffers[i].stamp, ddd));
+	     np2, i, buffers[shell][i].stamp, ddd));
     }
 #endif
 	
@@ -433,8 +439,8 @@ static void *dthread_func(void *arg)
 	    pthread_mutex_unlock(&mutex);
 	    /* clock_gettime(CLOCK_REALTIME, &t1); */
 	    /* find frame to time 'now' as this is best in sync with the display
-	       refresh cycle, in case blank sync is active */
-	    if (dthread_calc_frames(TS_TOUSEC(now), &from, &to, &alpha)) {
+	       refresh cycle, in case vblank synchronization is active */
+	    if (dthread_calc_frames(TS_TOUSEC(now), &from, &to, &alpha, 0)) {
 		gl_render_canvas(widget, canvas, buffers, from, to, alpha);
 		lpos = from;	/* set to `from' as a frame may be drawn twice */
 #if 0

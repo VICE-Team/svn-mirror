@@ -515,9 +515,6 @@ void ui_restore_focus(void)
 /******************************************************************************/
 void archdep_ui_init(int argc, char *argv[])
 {
-#ifdef USE_UI_THREADS
-    video_dthread_init();
-#endif
 }
 
 static void atexit_handler(void)
@@ -542,6 +539,9 @@ static void atexit_handler(void)
 #ifdef USE_UI_THREADS
 int ui_init(int *argc, char **argv)
 {
+#ifdef USE_UI_THREADS
+    video_dthread_init();
+#endif
     return dthread_ui_init(argc, argv);
 }
 

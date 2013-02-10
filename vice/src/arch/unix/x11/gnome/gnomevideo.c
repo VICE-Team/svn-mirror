@@ -228,7 +228,7 @@ void video_canvas_resize(video_canvas_t *canvas, char resize_canvas)
 
 #ifdef HAVE_HWSCALE
 #ifdef USE_UI_THREADS
-    mbuffer_init(canvas, imgw, imgh, 4);
+    mbuffer_init(canvas, imgw, imgh, 4, canvas->app_shell);
 #else
     lib_free(canvas->hwscale_image);
     /* canvas->hwscale_image = lib_malloc(gdk_image_get_width(canvas->gdk_image) * gdk_image_get_height(canvas->gdk_image) * 4); */
@@ -307,7 +307,7 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 	struct timespec t1;
 
 	clock_gettime(CLOCK_REALTIME, &t1);
-	canvas->hwscale_image = mbuffer_get_buffer(&t1);
+	canvas->hwscale_image = mbuffer_get_buffer(&t1, canvas->app_shell);
 #endif
         video_canvas_render(canvas, canvas->hwscale_image, 
 			    w, h, xs, ys, xi, yi, 

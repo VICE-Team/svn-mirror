@@ -28,8 +28,8 @@
 #define __ui_threads_h
 
 #define MAX_BUFFERS 8
-void mbuffer_init(void *widget, int w, int h, int depth);
-unsigned char *mbuffer_get_buffer(struct timespec *ts);
+void mbuffer_init(void *widget, int w, int h, int depth, int shell);
+unsigned char *mbuffer_get_buffer(struct timespec *ts, int shell);
 struct s_mbufs
 {
     long stamp; /* timestamp in usecs */
