@@ -462,7 +462,9 @@ bool mon_breakpoint_check_checkpoint(MEMSPACE mem, unsigned int addr, unsigned i
             if (is_loadstore) {
                 mon_disassemble_with_regdump(mem, loadstorepc);
             }
-            mon_disassemble_with_regdump(mem, instpc);
+            if (!is_loadstore || cp->stop) {
+                mon_disassemble_with_regdump(mem, instpc);
+            }
 
             if (cp->command) {
                 mon_out("Executing: %s\n", cp->command);
