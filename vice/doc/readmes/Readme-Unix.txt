@@ -4,7 +4,7 @@ Date: 2013-01-26
 Started by: pottendo@gmx.net
 
 This document contains some relevant information for the Unix ports of
-VICE.
+VICE - it may feel a bit linux-centric; I apologize in advance for that.
 
 The port is maintained by a few people who contributed in the
 respective parts.
@@ -71,4 +71,31 @@ VICEs video chip emulation offer `Video Cache'. This has to be
 disabled: 
 e.g. via commandline: xplus4 +TEDvcache) or via menu
   Settings -> VICII Settings -> Video Cache)
+
+Realtime Priorities (may help to avoid jerky output):
+If you see:
+  ui-threads: failed to set realtime priority for VICE - this is no
+  problem!
+on your console when starting up an emulator and if you encounter
+jerky output, you may once again revisit the article: 
+   http://paradoxuncreated.com/Blog/wordpress/?p=2268
+In addition to those measures, you may tweak the bit of performance by
+allowing user processes setting RT priorities by:
+
+$ grep realtime /proc/self/limits 
+Max realtime priority 0 0 
+Max realtime timeout unlimited unlimited us 
+
+$ sudo vi /etc/security/limits.d/20-rtprio.conf 
+@users soft rtprio 20
+@users hard rtprio 20
+
+... logout / login:
+
+$ grep realtime /proc/self/limits 
+Max realtime priority 20 20 
+Max realtime timeout unlimited unlimited us 
+
+This may look different on other Unix flavors - however, you get the
+idea and, again, don't expect too much gain by this measure.
 
