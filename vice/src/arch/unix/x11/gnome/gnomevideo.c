@@ -304,9 +304,10 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
 #ifdef USE_UI_THREADS
-	struct timespec t1;
-	clock_gettime(CLOCK_REALTIME, &t1);
-	canvas->hwscale_image = mbuffer_get_buffer(&t1, canvas->app_shell);
+	struct timespec t1[MAX_APP_SHELLS];
+	clock_gettime(CLOCK_REALTIME, &t1[canvas->app_shell]);
+	canvas->hwscale_image = 
+	    mbuffer_get_buffer(&t1[canvas->app_shell], canvas->app_shell);
 #endif
         video_canvas_render(canvas, canvas->hwscale_image, 
 			    w, h, xs, ys, xi, yi, 
@@ -315,13 +316,17 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
 #if 0
 	/* timing probe */
 	{
-	    static struct timespec t0, t2;
+	    static struct timespec t0[MAX_APP_SHELLS], t2[MAX_APP_SHELLS];
 	    
-	    clock_gettime(CLOCK_REALTIME, &t2);
-	    DBG(("emulation rate: %ldus, rendertime: %ldus", 
-		 (TS_TOUSEC(t1) - TS_TOUSEC(t0)), 
-		 (TS_TOUSEC(t2) - TS_TOUSEC(t1)))); 
-	    memcpy(&t0, &t1, sizeof(struct timespec));
+	    clock_gettime(CLOCK_REALTIME, &t2[canvas->app_shell]);
+	    DBG(("shell %d - emulation rate: %ldus, rendertime: %ldus", 
+		 canvas->app_shell,
+		 (TS_TOUSEC(t1[canvas->app_shell]) - 
+		  TS_TOUSEC(t0[canvas->app_shell])), 
+		 (TS_TOUSEC(t2[canvas->app_shell]) - 
+		  TS_TOUSEC(t1[canvas->app_shell])))); 
+	    memcpy(&t0[canvas->app_shell], &t1[canvas->app_shell], 
+		   sizeof(struct timespec));
 	}
 #endif
     } else
