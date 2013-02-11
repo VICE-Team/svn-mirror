@@ -104,6 +104,10 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String PREF_KEY_TRUE_DRIVE_ON = "pref_key_true_drive_on";
     public static final String PREF_KEY_SCREEN_BORDER_ON = "pref_key_screen_border_on";
 
+    public static final String KERNAL_NAME = "KERNAL";
+    public static final String BASIC_NAME = "BASIC";
+    public static final String CHARGEN_NAME = "CHARGEN";
+
     public static final String C64_KERNAL_NAME = "KERNAL";
     public static final String C64_BASIC_NAME = "BASIC";
     public static final String C64_CHARGEN_NAME = "CHARGEN";
