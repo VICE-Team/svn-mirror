@@ -92,6 +92,7 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final int ROMS_ASSET = 2;
     public static final int ROMS_EMBEDDED = 3;
 
+    public static native void nativeSetRomHandling(int state);
 
     public static final String PREF_KEY_START = "pref_key_start";
     public static final String PREF_KEY_NTSC_ON = "pref_key_ntsc_on";
@@ -142,6 +143,8 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
 
         String key = PREF_KEY_START;
         Preference pref;
+
+        nativeSetRomHandling(ROMS_TYPE);
 
         key = PREF_KEY_START;
         pref = (Preference)getPreferenceScreen().findPreference(key);

@@ -209,6 +209,8 @@ if test x"$buildemulators" = "x0"; then
   emulator="x64"
   emulib="libx64.so"
   emuname="AnVICE_x64"
+  STATUS_MESSAGE=$X64_STATUS_MESSAGE
+  MACHINE=$MACHINE_X64
 else
   if test x"$buildemulators" != "x1"; then
     echo "Only one emulator option can be specified"

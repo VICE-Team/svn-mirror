@@ -95,6 +95,7 @@ int loader_turbo = 0;
 int loader_true_drive = 0;
 int loader_ntsc = 0;
 int loader_border = 0;
+int loader_rom_handling = 0;
 
 #define main SDL_main
 
@@ -174,37 +175,39 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStart(JNIEnv *env, job
 
     argv[i++] = "-directory";
 
+    if (loader_rom_handling) {
 #if defined(__X64__) || defined(__X64SC__)
-    argv[i++] = "/vice/c64:/sdcard/vice/c64:/sd-ext/vice/c64:/emmc/vice/c64:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/c64:/sdcard/vice/c64:/sd-ext/vice/c64:/emmc/vice/c64:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #ifdef __XSCPU64__
-    argv[i++] = "/vice/scpu64:/sdcard/vice/scpu64:/sd-ext/vice/scpu64:/emmc/vice/scpu64:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/scpu64:/sdcard/vice/scpu64:/sd-ext/vice/scpu64:/emmc/vice/scpu64:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #ifdef __X64DTV__
-    argv[i++] = "/vice/c64dtv:/sdcard/vice/c64dtv:/sd-ext/vice/c64dtv:/emmc/vice/c64dtv:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/c64dtv:/sdcard/vice/c64dtv:/sd-ext/vice/c64dtv:/emmc/vice/c64dtv:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #ifdef __X128__
-    argv[i++] = "/vice/c128:/sdcard/vice/c128:/sd-ext/vice/c128:/emmc/vice/c128:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/c128:/sdcard/vice/c128:/sd-ext/vice/c128:/emmc/vice/c128:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #if defined(__XCBM2__) || defined(__XCBM5X0__)
-    argv[i++] = "/vice/cbm-ii:/sdcard/vice/cbm-ii:/sd-ext/vice/cbm-ii:/emmc/vice/cbm-ii:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/cbm-ii:/sdcard/vice/cbm-ii:/sd-ext/vice/cbm-ii:/emmc/vice/cbm-ii:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #ifdef __XPET__
-    argv[i++] = "/vice/pet:/sdcard/vice/pet:/sd-ext/vice/pet:/emmc/vice/pet:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/pet:/sdcard/vice/pet:/sd-ext/vice/pet:/emmc/vice/pet:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #ifdef __XPLUS4__
-    argv[i++] = "/vice/plus4:/sdcard/vice/plus4:/sd-ext/vice/plus4:/emmc/vice/plus4:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/plus4:/sdcard/vice/plus4:/sd-ext/vice/plus4:/emmc/vice/plus4:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
 
 #ifdef __XVIC__
-    argv[i++] = "/vice/vic20:/sdcard/vice/vic20:/sd-ext/vice/vic20:/emmc/vice/vic20:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
+        argv[i++] = "/vice/vic20:/sdcard/vice/vic20:/sd-ext/vice/vic20:/emmc/vice/vic20:/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:/emmc/vice/drives";
 #endif
+    }
 
     loader_true_drive = 0;
 
@@ -351,6 +354,11 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativePause(JNIEnv *env, job
         myLoader.pause = (myLoader.pause) ? 0 : 1;
     }
     ui_pause_emulation(myLoader.pause);
+}
+
+extern "C" void Java_com_locnet_vice_PreConfig_nativeSetRomHandling(jint state)
+{
+    loader_rom_handling = state;
 }
 
 extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeStop(JNIEnv *env, jobject obj)
