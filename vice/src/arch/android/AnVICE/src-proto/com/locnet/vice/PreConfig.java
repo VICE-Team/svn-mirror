@@ -63,8 +63,16 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
        7 = xpet
        8 = xplus4
        9 = xvic
+     100 = all emulators
      */
     public static final int MACHINE_TYPE = @VICE_MACHINE@;
+
+    /* The following variable will be used to indicate the kind of rom checking needed:
+       0 = external roms, check search path for the needed roms
+       1 = asset roms, no check needed, just copy before use
+       2 = embedded roms, no check needed, no copy needed
+     */
+    public static final int ROMS_TYPE = @VICE_ROMS@;
 
     public static final int MACHINE_X64 = 0;
     public static final int MACHINE_X64SC = 1;
@@ -76,6 +84,7 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final int MACHINE_XPET = 7;
     public static final int MACHINE_XPLUS4 = 8;
     public static final int MACHINE_XVIC = 9;
+    public static final int MACHINE_ALL = 100;
 
     public static final String PREF_KEY_START = "pref_key_start";
     public static final String PREF_KEY_NTSC_ON = "pref_key_ntsc_on";
