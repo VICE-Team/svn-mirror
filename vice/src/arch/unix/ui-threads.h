@@ -37,7 +37,7 @@ struct s_mbufs
     int h;
     unsigned char *buffer;
     struct s_mbufs *next;
-    /*GLu */ unsigned int bindId;	/* XXX Fixme: try to avoid GL specifics */
+    /*GLu */ unsigned int bindId; /* XXX Fixme: try to avoid GL specifics */
 };
 
 void video_dthread_init(void);
@@ -51,6 +51,5 @@ void dthread_ui_dispatch_events(void);
 void dthread_ui_trigger_resize(void);
 void dthread_ui_trigger_window_resize(video_canvas_t *c);
 int dthread_configure_callback_canvas(void *w, void *e, void *cd);
-void dthread_trigger_refresh(void *w, video_canvas_t *c);
 
 #endif /* __ui_threads_h */

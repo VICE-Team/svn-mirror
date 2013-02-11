@@ -67,12 +67,18 @@ static pthread_mutex_t dlock = PTHREAD_MUTEX_INITIALIZER;
 static sem_t mthread_sem, ethread_sem;
 static void *widget, *event, *client_data;
 static int is_coroutine = 1;	/* start with single threaded execution */
-static int do_refresh;
 static double machine_freq;
 static long laststamp, mrp_usec;
-
+typedef struct {
+    int cpos;
+    int lpos;
+    int csize;
+    void *canvas;
+    void *widget;
+} buffer_ptrs_s;
 static struct s_mbufs buffers[MAX_APP_SHELLS][MAX_BUFFERS];
-static int cpos = 0, lpos = 0, csize, update = 0;
+static buffer_ptrs_s bptrs[MAX_APP_SHELLS];
+static int update = 0;
 static int app_shell_count = 0;
 #define NEXT(x) ((++x == MAX_BUFFERS) ? 0 : x)
 static int width, height, no_autorepeat;
@@ -93,15 +99,15 @@ static void *dthread_func(void *attr);
 static void *ethread_func(void *attr);
 
     
-void mbuffer_init(void *widget, int w, int h, int depth, int shell)
+void mbuffer_init(void *canvas, int w, int h, int depth, int shell)
 {
     int i;
     DBG(("widget %p, w=%d, h=%d, shell=%d", widget, w, h, shell));
-    csize = w * h * depth;
+    bptrs[shell].csize = w * h * depth;
     for (i = 0; i < MAX_BUFFERS; i++) { 
 	lib_free(buffers[shell][i].buffer);
-	buffers[shell][i].buffer = lib_malloc(csize);
-	memset(buffers[shell][i].buffer, -1, csize);
+	buffers[shell][i].buffer = lib_malloc(bptrs[shell].csize);
+	memset(buffers[shell][i].buffer, -1, bptrs[shell].csize);
 	buffers[shell][i].w = w;
 	buffers[shell][i].h = h;
 	if (i > 0) {
@@ -109,7 +115,8 @@ void mbuffer_init(void *widget, int w, int h, int depth, int shell)
 	}
     }
     buffers[shell][i-1].next = &buffers[shell][0];
-    cpos = 0;
+    bptrs[shell].cpos = 0;
+    bptrs[shell].canvas = canvas;
     if (shell > app_shell_count) {
 	app_shell_count = shell;
     }
@@ -118,7 +125,7 @@ void mbuffer_init(void *widget, int w, int h, int depth, int shell)
 unsigned char *mbuffer_get_buffer(struct timespec *t, int shell) 
 {
     unsigned char *curr;
-    int tmppos = cpos;
+    int tmppos = bptrs[shell].cpos;
     long tmpstamp, j;
     struct timespec ts = *t;
     
@@ -129,11 +136,12 @@ unsigned char *mbuffer_get_buffer(struct timespec *t, int shell)
     }
     
     /* stamp in usecs */
-    curr = buffers[shell][cpos].buffer;
-    tmppos = NEXT(cpos);
-    memcpy(buffers[shell][tmppos].buffer, curr, csize); /* copy fullframe */
-    cpos = tmppos;
-    if (cpos == lpos) {
+    curr = buffers[shell][bptrs[shell].cpos].buffer;
+    tmppos = NEXT(bptrs[shell].cpos);
+    /* copy fullframe */
+    memcpy(buffers[shell][tmppos].buffer, curr, bptrs[shell].csize); 
+    bptrs[shell].cpos = tmppos;
+    if (bptrs[shell].cpos == bptrs[shell].lpos) {
 	DBG(("out of buffers: %s", __FUNCTION__));
     }
 
@@ -146,8 +154,8 @@ unsigned char *mbuffer_get_buffer(struct timespec *t, int shell)
 	laststamp = tmpstamp;
     }
     
-    buffers[shell][cpos].stamp = laststamp;
-    return buffers[shell][cpos].buffer;
+    buffers[shell][bptrs[shell].cpos].stamp = laststamp;
+    return buffers[shell][bptrs[shell].cpos].buffer;
 }
 
 void tsAdd (const struct timespec *time1, 
@@ -164,20 +172,14 @@ void tsAdd (const struct timespec *time1,
 }
 
 /* display thread routines - should go elsewehere later on */
-void dthread_trigger_refresh(void *w, video_canvas_t *c)
-{
-    widget = w;
-    canvas = c;
-    do_refresh = 1;
-}
-
 void dthread_build_screen_canvas(video_canvas_t *c)
 {
     if (is_coroutine) {
 	build_screen_canvas_widget2(c);
 	return;
     }
-    canvas = c;
+    canvas = bptrs[c->app_shell].canvas = c;
+    widget = bptrs[c->app_shell].widget = c->emuwindow;
     dthread_coroutine(CR_CANVAS_WIDGET);
 }
 
@@ -187,7 +189,8 @@ int dthread_ui_open_canvas_window(video_canvas_t *c, const char *t, int wi, int 
 	return ui_open_canvas_window2(c, t, wi, he, na);
     }
     
-    canvas = c;
+    canvas = bptrs[c->app_shell].canvas = c;
+    widget = bptrs[c->app_shell].widget = c->emuwindow;
     title = t;
     width = wi;
     height = he;
@@ -248,7 +251,7 @@ int dthread_configure_callback_canvas(void *w, void *e, void *cd)
 	return configure_callback_canvas2(w, e, cd);
     }
     
-    widget = w;
+    widget = bptrs[((video_canvas_t *) cd)->app_shell].widget = w;
     event = e;
     client_data = cd;
     dthread_coroutine(CR_CONFIGURE_CALLBACK);
@@ -270,7 +273,8 @@ void dthread_ui_trigger_window_resize(video_canvas_t *c)
 	ui_trigger_window_resize2(c);
 	return;
     }
-    canvas = c;
+    canvas = bptrs[canvas->app_shell].canvas = c;
+    widget = bptrs[c->app_shell].widget = c->emuwindow;
     dthread_coroutine(CR_WINDOW_RESIZE);
 }
 
@@ -330,7 +334,7 @@ void video_dthread_init(void)
     
     param.sched_priority = 20;
     if (pthread_setschedparam(dthread, SCHED_RR, &param)) {
-      log_debug("pthread_setschedparam() failed, %s", __FUNCTION__);
+	log_message(LOG_DEFAULT, "ui-threads: failed to set realtime priority for VICE - this is no problem!\n\trefer to Readme-Unix.txt (http://vice-emu.svn.sourceforge.net/viewvc/vice-emu/trunk/vice/doc/readmes/Readme-Unix.txt)");
     }
     pthread_detach(dthread);
     pthread_detach(ethread);
@@ -358,8 +362,8 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int sh
 {
     int ret = 1;
     unsigned long dt1, dt2;
-    int np = lpos;
-    int count = cpos - lpos;
+    int np = bptrs[shell].lpos;
+    int count = bptrs[shell].cpos - bptrs[shell].lpos;
     int i;
     
     /* subtract machine cycle once */
@@ -395,7 +399,7 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int sh
     for (i = 0; i < MAX_BUFFERS; i++) {
 	long ddd;
 	ddd = buffers[shell][i].next->stamp - buffers[shell][i].stamp;
-	DBG(("from %d, i %d  stamp %ld  diff %ld", 
+	DBG(("shell %d: from %d, i %d  stamp %ld  diff %ld", shell,
 	     np2, i, buffers[shell][i].stamp, ddd));
     }
 #endif
@@ -411,8 +415,8 @@ static void *dthread_func(void *arg)
     /* static struct timespec t1; */
     
     int ret;
-    
     DBG(("Display thread started..."));
+    
     while (1) {
 	if (pthread_mutex_lock(&mutex) < 0) {
 	    log_debug("pthread_mutex_lock() failed, %s", __FUNCTION__);
@@ -433,28 +437,32 @@ static void *dthread_func(void *arg)
 	DBG2(("action is: %d, %ld", do_action, TS_TOUSEC(now)/1000));
 	
 	if (do_action == CR_REDRAW) {
-    	    int from, to, alpha;
+    	    int from, to, alpha, shell;
 	    
 	    do_action = CR_NOTHING;
 	    pthread_mutex_unlock(&mutex);
 	    /* clock_gettime(CLOCK_REALTIME, &t1); */
 	    /* find frame to time 'now' as this is best in sync with the display
 	       refresh cycle, in case vblank synchronization is active */
-	    if (dthread_calc_frames(TS_TOUSEC(now), &from, &to, &alpha, 0)) {
-		gl_render_canvas(widget, canvas, buffers, from, to, alpha);
-		lpos = from;	/* set to `from' as a frame may be drawn twice */
+	    for (shell = 0; shell <= app_shell_count; shell++) {
+		if (dthread_calc_frames(TS_TOUSEC(now), &from, &to, &alpha, shell)) {
+		    gl_render_canvas(bptrs[shell].widget, bptrs[shell].canvas, 
+				     buffers[shell], from, to, alpha, 
+				     shell == get_active_shell());
+		    bptrs[shell].lpos = from; /* set to `from' as a frame may be drawn twice */
 #if 0
-		/* timing probe */
-		{
-		    static struct timespec t2, t3;
-		    
-		    clock_gettime(CLOCK_REALTIME, &t2);
-		    long diff = TS_TOUSEC(t2) - TS_TOUSEC(t1);
-		    float fps = 1000 * 1000.0 / (TS_TOUSEC(t1) - TS_TOUSEC(t3));
-		    DBG(("glrender time: %5ldus  fps %3.2f", diff, fps));
-		    memcpy(&t3, &t1, sizeof(struct timespec));
-		}
+		    /* timing probe */
+		    {
+			static struct timespec t2, t3;
+			
+			clock_gettime(CLOCK_REALTIME, &t2);
+			long diff = TS_TOUSEC(t2) - TS_TOUSEC(t1);
+			float fps = 1000 * 1000.0 / (TS_TOUSEC(t1) - TS_TOUSEC(t3));
+			DBG(("glrender time: %5ldus  fps %3.2f", diff, fps));
+			memcpy(&t3, &t1, sizeof(struct timespec));
+		    }
 #endif
+		}
 	    }
 	    continue;
 	} else if (do_action == CR_CANVAS_WIDGET) {

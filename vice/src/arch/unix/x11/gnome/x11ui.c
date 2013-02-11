@@ -558,7 +558,7 @@ int ui_init(int *argc, char **argv)
 #ifdef USE_UI_THREADS
     XInitThreads();
     /* init threads */	
-    gdk_threads_init();
+    /* gdk_threads_init(); */ /* commented out, as it causes troubles on NetBSD */
 #endif
 
     gtk_init(argc, &argv);
@@ -567,7 +567,7 @@ int ui_init(int *argc, char **argv)
     {
 	int i;
 	for (i = 1; i < *argc; i++) {
-	    DBG(("arg %d:%s\n", i, argv[i]));
+	    DBG(("arg %d:%s", i, argv[i]));
 	}
     }
 #endif
@@ -1776,8 +1776,8 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
 #ifdef HAVE_FULLSCREEN
     int keep_aspect_ratio;
 #endif
-    GdkGLContext *gl_context = gtk_widget_get_gl_context (w);
-    GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable (w);
+    GdkGLContext *gl_context;
+    GdkGLDrawable *gl_drawable;
 #endif
 
     if ((e->width < WINDOW_MINW) || (e->height < WINDOW_MINH)) {
@@ -1810,7 +1810,6 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
     /* get size of drawing buffer */
     ow = canvas->draw_buffer->canvas_physical_width;
     oh = canvas->draw_buffer->canvas_physical_height;
-
 #ifdef HAVE_FULLSCREEN
     /* in fullscreen mode, scale with aspect ratio */
     if (canvas->fullscreenconfig->enable) {
@@ -1829,7 +1828,8 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
     }
     DBG(("configure_callback_canvas (ow: %f oh:%f)", ow, oh));
 #endif
-
+    gl_context = gtk_widget_get_gl_context (w);
+    gl_drawable = gtk_widget_get_gl_drawable (w);
     if (gl_context != NULL && gl_drawable != NULL) {
         gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
         /* setup viewport */
@@ -1980,11 +1980,16 @@ void gl_draw_quad(float alpha, int tw, int th)
 }
 
 void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas, 
-		      struct s_mbufs *buffers, int from, int to, int a)
+		      struct s_mbufs *buffers, int from, int to, int a, int do_swap)
 {
     int tw, th, d, i = 0;
     float alpha, alpha_fullframe;
     struct s_mbufs *t;
+
+    if (!GTK_IS_WIDGET(w)) {
+	DBG(("widget not initalized %s", __FUNCTION__));
+	return;
+    }
     
     GdkGLContext *gl_context = gtk_widget_get_gl_context(w);
     GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable(w);
@@ -2044,7 +2049,9 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     }
 #endif
     
-    gdk_gl_drawable_swap_buffers (gl_drawable);
+    if (do_swap) {
+	gdk_gl_drawable_swap_buffers (gl_drawable);
+    }     
     gdk_gl_drawable_gl_end (gl_drawable);
 }
 
@@ -2068,7 +2075,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
 #ifdef USE_UI_THREADS
-	dthread_trigger_refresh(w, canvas);
+	; /* handled by the display thread, Reuse drawing code one day for #else branch */
 #else
         int tw, th;
         GdkGLContext *gl_context = gtk_widget_get_gl_context(w);

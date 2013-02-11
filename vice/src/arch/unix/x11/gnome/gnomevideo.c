@@ -305,7 +305,6 @@ void video_canvas_refresh(video_canvas_t *canvas, unsigned int xs, unsigned int 
     if (canvas->videoconfig->hwscale) {
 #ifdef USE_UI_THREADS
 	struct timespec t1;
-
 	clock_gettime(CLOCK_REALTIME, &t1);
 	canvas->hwscale_image = mbuffer_get_buffer(&t1, canvas->app_shell);
 #endif
