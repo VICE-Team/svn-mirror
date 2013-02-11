@@ -223,7 +223,7 @@ if test x"$romhandling" = "x-1"; then
   exit 1
 fi
 
-if test x"$romhandling" - "x"; then
+if test x"$romhandling" = "x"; then
   romhandling="2"
 fi
 
