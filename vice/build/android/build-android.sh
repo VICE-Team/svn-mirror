@@ -23,6 +23,7 @@ MACHINE_XCBM5X0="6"
 MACHINE_XPET="7"
 MACHINE_XPLUS4="8"
 MACHINE_XVIC="9"
+MACHINE_ALL="100"
 
 # see if we are in the top of the tree
 if [ ! -f configure.proto ]; then
@@ -48,6 +49,7 @@ builddevrelease=no
 builddebug=no
 
 buildemulators=0
+romhandling=""
 
 # check options
 for i in $*
@@ -161,15 +163,45 @@ do
     emulator="all emulators"
     emulib="libvice.so"
     emuname="AnVICE"
+    MACHINE=$MACHINE_ALL
+  fi
+  if test x"$i" = "xexternalroms"; then
+    if test x"$romhandling" = "x"; then
+      romhandling="0"
+    else
+      romhandling="-1"
+    fi
+  fi
+  if test x"$i" = "xpushedroms"; then
+    if test x"$romhandling" = "x"; then
+      romhandling="1"
+    else
+      romhandling="-1"
+    fi
+  fi
+  if test x"$i" = "xassetroms"; then
+    if test x"$romhandling" = "x"; then
+      romhandling="2"
+    else
+      romhandling="-1"
+    fi
+  fi
+  if test x"$i" = "xembeddedroms"; then
+    if test x"$romhandling" = "x"; then
+      romhandling="3"
+    else
+      romhandling="-1"
+    fi
   fi
 done
 
 if test x"$showusage" = "xyes"; then
-  echo "Usage: $0 [release] [<cpu types>] [emulator] [help]"
+  echo "Usage: $0 [release] [<cpu types>] [emulator] [rom handling} [help]"
   echo "release indicates that the binary needs to be build as a official release as opposed to a developent release."
   echo "cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all)."
   echo "if no cpu-type is given armeabi will be built by default."
   echo "emulators: x64, x64sc, x64dtv, xscpu64, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic (or all-emu for all emulators)."
+  echo "rom handling: externalroms, pushedroms, assetroms, embeddedroms (default assetroms)"
   exit 1
 fi
 
@@ -179,9 +211,18 @@ if test x"$buildemulators" = "x0"; then
   emuname="AnVICE_x64"
 else
   if test x"$buildemulators" != "x1"; then
-    echo "Only one emulator option can be given"
+    echo "Only one emulator option can be specified"
     exit 1
   fi
+fi
+
+if test x"$romhandling" = "x-1"; then
+  echo "Only 1 type of rom handling can be specified"
+  exit 1
+fi
+
+if test x"$romhandling" - "x"; then
+  romhandling="2"
 fi
 
 CPUS=""
@@ -473,7 +514,7 @@ ndk-build
 
 echo generating needed java files
 
-sed s/@VICE_MACHINE@/$MACHINE/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
+sed -e s/@VICE_MACHINE@/$MACHINE/g -e s/@VICE_ROMS@/$romhandling/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 
 if test x"$emulator" = "xx64"; then
    sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java

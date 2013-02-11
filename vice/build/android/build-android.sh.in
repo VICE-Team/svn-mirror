@@ -172,16 +172,23 @@ do
       romhandling="-1"
     fi
   fi
-  if test x"$i" = "xassetroms"; then
+  if test x"$i" = "xpushedroms"; then
     if test x"$romhandling" = "x"; then
       romhandling="1"
     else
       romhandling="-1"
     fi
   fi
-  if test x"$i" = "xembeddedroms"; then
+  if test x"$i" = "xassetroms"; then
     if test x"$romhandling" = "x"; then
       romhandling="2"
+    else
+      romhandling="-1"
+    fi
+  fi
+  if test x"$i" = "xembeddedroms"; then
+    if test x"$romhandling" = "x"; then
+      romhandling="3"
     else
       romhandling="-1"
     fi
@@ -194,7 +201,7 @@ if test x"$showusage" = "xyes"; then
   echo "cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all)."
   echo "if no cpu-type is given armeabi will be built by default."
   echo "emulators: x64, x64sc, x64dtv, xscpu64, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic (or all-emu for all emulators)."
-  echo "rom handling: externalroms, assetroms, embeddedroms"
+  echo "rom handling: externalroms, pushedroms, assetroms, embeddedroms (default assetroms)"
   exit 1
 fi
 
@@ -212,6 +219,10 @@ fi
 if test x"$romhandling" = "x-1"; then
   echo "Only 1 type of rom handling can be specified"
   exit 1
+fi
+
+if test x"$romhandling" - "x"; then
+  romhandling="2"
 fi
 
 CPUS=""
