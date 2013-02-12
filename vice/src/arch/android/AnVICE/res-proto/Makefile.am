@@ -1,1 +1,3 @@
-SUBDIRS = values
+SUBDIRS = \
+	layout \
+	values

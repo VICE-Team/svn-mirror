@@ -25,7 +25,6 @@ EXTRA_DIST = \
 	res/drawable/icon32.png \
 	res/layout/file_row.xml \
 	res/layout/keymapper.xml \
-	res/layout/prefs.xml \
 	res/layout/scale.xml \
 	res/layout/slider.xml \
 	res/layout/system.xml \

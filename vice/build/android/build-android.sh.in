@@ -512,6 +512,18 @@ if test x"$emulator" = "xxpet"; then
    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
 fi
 
+if test x"$emulator" = "xall emulators"; then
+   sed 's/@VICE@/AnVICE/g' <res-proto/values/strings.xml >res/values/strings.xml
+   cat assets-proto/sdl-vicerc-x64 assets-proto/sdl-vicerc-x64sc assets-proto/sdl-vicerc-x64dtv assets-proto/sdl-vicerc-xscpu64 assets-proto/sdl-vicerc-x128 assets-proto/sdl-vicerc-xcbm2 assets-proto/sdl-vicerc-xcbm5x0 assets-proto/sdl-vicerc-xpet assets-proto/sdl-vicerc-xplus4 assets-proto/sdl-vicerc-xvic >assets/sdl-vicerc
+   cp res-proto/layout/prefs-allemus.xml res/layout/prefs.xml
+else
+   if test x"$romhandling" = "x0"; then
+      cp res-proto/layout/prefs-externalroms.xml res/layout/prefs.xml
+   else
+      cp res-proto/layout/prefs-viceroms.xml res/layout/prefs.xml
+   fi
+fi
+
 ndk-build
 
 echo generating needed java files

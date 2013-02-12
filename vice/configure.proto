@@ -3567,6 +3567,7 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/jni/vice_xscpu64/Makefile
            src/arch/android/AnVICE/jni/vice_xvic/Makefile
            src/arch/android/AnVICE/res-proto/Makefile
+           src/arch/android/AnVICE/res-proto/layout/Makefile
            src/arch/android/AnVICE/res-proto/values/Makefile
            src/arch/android/AnVICE/src-proto/Makefile
            src/arch/android/AnVICE/src-proto/com/Makefile
