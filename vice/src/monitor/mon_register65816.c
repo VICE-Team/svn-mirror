@@ -186,7 +186,7 @@ static void mon_register_print(int mem)
     } else {
         mon_out("  PB ADDR");
         mon_out(WDC65816_REGS_GET_65816_M(regs) ? " AR BR" : " CREG");
-        mon_out(WDC65816_REGS_GET_65816_X(regs) ? " XR YR" : " XREG YREG");
+        mon_out(WDC65816_REGS_GET_65816_X(regs) ? " XH XR YH YR" : " XREG YREG");
         mon_out(" STCK DPRE DB NVMXDIZC E");
 
         if (mem == e_comp_space && mon_interfaces[mem]->get_line_cycle != NULL) {
@@ -206,8 +206,10 @@ static void mon_register_print(int mem)
                     mon_register_get_val(mem, e_A));
         }
         if (WDC65816_REGS_GET_65816_X(regs)) {
-            mon_out(" %02x %02x",
+            mon_out(" %02x %02x %02x %02x",
+                  mon_register_get_val(mem, e_X) >> 8,
                   mon_register_get_val(mem, e_X) & 0xff,
+                  mon_register_get_val(mem, e_Y) >> 8,
                   mon_register_get_val(mem, e_Y) & 0xff);
         } else {
             mon_out(" %04x %04x",
