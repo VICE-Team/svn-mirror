@@ -75,6 +75,13 @@ extern void gtk_widget_set_tooltip_text(GtkWidget * widget, const char * text);
 #define gtk_widget_get_visible(w) GTK_WIDGET_VISIBLE(w)
 #endif
 
+#if !GTK_CHECK_VERSION(2, 20, 0)
+/* since 2.20 ? */
+#define gdk_drag_context_list_targets(c) (c)->targets
+/* since 2.20 ? */
+#define gdk_drag_context_get_selected_action(c) (c)->action
+#endif
+
 #if !GTK_CHECK_VERSION(2, 22, 0)
 /* since 2.22, deprecated since 2.22 (?) */
 #define gdk_image_get_visual(w) (w)->visual
