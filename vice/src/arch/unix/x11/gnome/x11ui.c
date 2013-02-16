@@ -1490,11 +1490,9 @@ void ui_trigger_window_resize2(video_canvas_t *canvas)
 void ui_trigger_window_resize(video_canvas_t *canvas)
 #endif
 {
-    app_shell_type *appshell;
     int window_xpos, window_ypos, window_width, window_height;
     GdkEvent event;
     if (canvas) {
-        appshell = &app_shells[canvas->app_shell];
         ui_dispatch_events();
         get_window_resources(canvas, &window_xpos, &window_ypos, &window_width, &window_height);
         DBG(("ui_trigger_window_resize (w:%d h:%d)", window_width, window_height));
@@ -1985,9 +1983,12 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     int tw, th, d, i = 0;
     float alpha, alpha_fullframe;
     struct s_mbufs *t;
-
+	    
     if (!GTK_IS_WIDGET(w)) {
 	DBG(("widget not initalized %s", __FUNCTION__));
+	return;
+    }
+    if (canvas->videoconfig->hwscale == 0) {
 	return;
     }
     
@@ -2001,10 +2002,14 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glEnable(GL_BLEND);
-
-    /* this is just a test to see if buffers[from].buffer is blended with 
-       buffers[to].buffer */
+    
     d = ((to - from) + MAX_BUFFERS) % MAX_BUFFERS + 1;
+    if (d == 1) {
+	t = &buffers[from];
+	alpha = 1.0;
+	goto lframe;
+    }
+	
     if (d <= 2) {
 	alpha = ((float) a / 1000);
 	alpha_fullframe = 1.0f - alpha;
@@ -2026,6 +2031,7 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
 	gl_update_texture(t);
 	gl_draw_quad(alpha_fullframe, tw, th);      
     }
+  lframe:
     glBlendFunc(GL_ONE, GL_ONE);    
     gl_update_texture(t);
     gl_draw_quad(alpha, tw, th);
@@ -2057,26 +2063,55 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
 
 #endif	/* USE_UI_THREADS */
 
+void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
+		       video_canvas_t *canvas)
+{
+#if !defined(HAVE_CAIRO)
+        int x = e->area.x;
+        int y = e->area.y;
+        int width = e->area.width;
+        int height = e->area.height;
+
+        gdk_draw_image(w->window, app_gc, canvas->gdk_image, x, y, x, y, 
+		       width, height);
+#else
+        canvas->cairo_ctx = 
+	    gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
+        if (canvas->cairo_ctx != NULL) {
+            /* FIXME: this always redraws the entire canvas area */
+            gdk_cairo_set_source_pixbuf(canvas->cairo_ctx, 
+					canvas->gdk_pixbuf, 0, 0);
+            cairo_paint (canvas->cairo_ctx);
+            cairo_destroy(canvas->cairo_ctx);
+        }
+#endif	/* !HAVE_CAIRO */
+}
+
 /* this callback actually renders the canvas to screen using opengl or gtk */
-gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data)
+gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data) 
 {
     video_canvas_t *canvas = (video_canvas_t *)client_data;
 
     /* DBG(("exposure callback")); */
     
-    if ((canvas == NULL) || (canvas->app_shell >= num_app_shells) || 
+    if ((canvas == NULL) || 
+	(canvas->app_shell >= num_app_shells) || 
         (canvas != app_shells[canvas->app_shell].canvas)) {
         log_error(ui_log, "exposure_callback_canvas: bad params");
         return 0;
     }
+#ifdef USE_UI_THREADS
+    if (canvas->videoconfig->hwscale == 0) {
+	gtk_render_canvas(w, e, client_data, canvas);
+    }
+    return 0; /* rendering is handled by the display thread, 
+		 XXX Reuse drawing code one day for #else branch */
+#endif
 
     /* DBG(("exposure_callback_canvas canvas w/h %d/%d", canvas->gdk_image->width, canvas->gdk_image->height)); */
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
-#ifdef USE_UI_THREADS
-	; /* handled by the display thread, Reuse drawing code one day for #else branch */
-#else
         int tw, th;
         GdkGLContext *gl_context = gtk_widget_get_gl_context(w);
         GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable(w);
@@ -2099,16 +2134,16 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         /* FIXME! */
         tw = canvas->draw_buffer->canvas_physical_width;
         th = canvas->draw_buffer->canvas_physical_height;
-#endif
+#endif /* !HAVE_CAIRO */
 
 #ifdef __BIG_ENDIAN__
 #ifndef GL_ABGR_EXT
     #error "Your headers do not supply GL_ABGR_EXT. Disable HWSCALE and try again."
-#endif
+#endif	/* GL_ABGR_EXT */
         glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_ABGR_EXT, GL_UNSIGNED_BYTE, canvas->hwscale_image);
 #else
         glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, canvas->hwscale_image);
-#endif
+#endif	/* __BIG_ENDIAN__ */
 
         glBegin (GL_QUADS);
 
@@ -2125,27 +2160,10 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
 
         gdk_gl_drawable_swap_buffers (gl_drawable);
         gdk_gl_drawable_gl_end (gl_drawable);
-#endif	/* USE_UI_THREADS */
-    } else
-#endif
-    {
-        int x = e->area.x;
-        int y = e->area.y;
-        int width = e->area.width;
-        int height = e->area.height;
 
-#if !defined(HAVE_CAIRO)
-        gdk_draw_image(w->window, app_gc, canvas->gdk_image, x, y, x, y, width, height);
-#else
-        canvas->cairo_ctx = gdk_cairo_create(gtk_widget_get_window(canvas->emuwindow));
-        if (canvas->cairo_ctx != NULL) {
-            /* FIXME: this always redraws the entire canvas area */
-            gdk_cairo_set_source_pixbuf(canvas->cairo_ctx, canvas->gdk_pixbuf, 0, 0);
-            cairo_paint (canvas->cairo_ctx);
-            cairo_destroy(canvas->cairo_ctx);
-        }
-#endif
-    }
-
+	return 0;
+    } 
+#endif	/* HAVE_HWSCALE */
+    gtk_render_canvas(w, e, client_data, canvas);
     return 0;
 }

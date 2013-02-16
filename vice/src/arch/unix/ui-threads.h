@@ -52,4 +52,18 @@ void dthread_ui_trigger_resize(void);
 void dthread_ui_trigger_window_resize(video_canvas_t *c);
 int dthread_configure_callback_canvas(void *w, void *e, void *cd);
 
+int ui_init2(int *argc, char **argv);
+int ui_init_finish2(void);
+void build_screen_canvas2(video_canvas_t *c);
+int ui_open_canvas_window2(video_canvas_t *c, const char *t, int wi, int he, int na);
+void ui_dispatch_events2(void);
+void ui_trigger_resize2(void);
+void ui_trigger_window_resize2(video_canvas_t *c);
+#if 0
+int configure_callback_canvas2(void *w, void *e, void *cd);
+void gl_render_canvas(void *w, video_canvas_t *canvas, struct s_mbufs *buffers,
+		      int from, int to, int a, int do_s);
+#endif
+
+
 #endif /* __ui_threads_h */

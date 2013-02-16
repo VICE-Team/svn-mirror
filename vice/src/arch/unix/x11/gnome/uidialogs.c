@@ -422,6 +422,9 @@ void ui_exit(void)
         ui_dispatch_events();
 
         lib_free(s);
+#ifdef USE_UI_THREADS
+	video_dthread_shutdown();
+#endif
         exit(0);
     }
     lib_free(s);

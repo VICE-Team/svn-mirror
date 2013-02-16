@@ -180,7 +180,7 @@ void video_canvas_destroy(video_canvas_t *canvas)
     /* FIXME */
 #endif
 
-#ifdef HAVE_HWSCALE
+#if defined(HAVE_HWSCALE) && !defined(USE_UI_THREADS)
         lib_free(canvas->hwscale_image);
 #endif
     }

@@ -29,7 +29,7 @@
 #include "vice.h"
 
 #ifndef USE_UI_THREADS
-#error "pthreads not evailable in config.h - check config.log"
+#error "USE_UI_THREADS not evailable in config.h - check config.log"
 #endif
 
 /* #define DEBUG_MBUFFER */
@@ -42,6 +42,7 @@
 
 #include "lib.h"
 #include "log.h"
+#include "resources.h"
 #include "machine.h"
 #include "videoarch.h"
 #include "vsync.h"
@@ -60,6 +61,8 @@
 /* the freq. should be configurable */
 #define REFRESH_FREQ (8 * 1000 * 1000)
 static struct timespec reltime = { 0, REFRESH_FREQ };
+static pthread_t dthread;
+static pthread_t ethread;
 static pthread_cond_t cond  = PTHREAD_COND_INITIALIZER;
 static pthread_cond_t coroutine  = PTHREAD_COND_INITIALIZER;
 static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -79,6 +82,7 @@ typedef struct {
 static struct s_mbufs buffers[MAX_APP_SHELLS][MAX_BUFFERS];
 static buffer_ptrs_s bptrs[MAX_APP_SHELLS];
 static int update = 0;
+static int emu_running = 1;
 static int app_shell_count = 0;
 #define NEXT(x) ((++x == MAX_BUFFERS) ? 0 : x)
 static int width, height, no_autorepeat;
@@ -91,14 +95,28 @@ static video_canvas_t *canvas;
 /* coroutine func IDs */
 typedef enum { CR_NOTHING, CR_REDRAW, CR_CANVAS_WIDGET, CR_OPEN_CANVAS, 
 	       CR_DISPATCH_EVENTS, CR_INIT, CR_INIT_FINISH, CR_CONFIGURE_CALLBACK, 
-	       CR_RESIZE, CR_WINDOW_RESIZE } coroutine_t;
+	       CR_RESIZE, CR_WINDOW_RESIZE, CR_SHUTDOWN } coroutine_t;
 static coroutine_t do_action = CR_NOTHING;
 /* prototypes for internals */
 static void dthread_coroutine(coroutine_t a);
 static void *dthread_func(void *attr);
 static void *ethread_func(void *attr);
+/* resources */
+static int do_blending;
+static int set_alpha_blending(int val, void *p)
+{
+    DBG(("Toggle alpha blending: %d -> %d", do_blending, val));
+    do_blending = val;
+}
 
-    
+static resource_int_t resources_uithreads[] = {
+    { "AlphaBlending", 1, RES_EVENT_NO, NULL,
+      &do_blending, set_alpha_blending, NULL },
+    { NULL }
+};
+
+
+
 void mbuffer_init(void *canvas, int w, int h, int depth, int shell)
 {
     int i;
@@ -280,22 +298,16 @@ void dthread_ui_trigger_window_resize(video_canvas_t *c)
 
 void video_dthread_init(void)
 {
-    pthread_t dthread;
-    pthread_t ethread;
     struct sched_param param;
     pthread_attr_t attr;
-    
 
+    resources_register_int(resources_uithreads);
+    
     if (console_mode) {
 	is_coroutine = 1;	/* enforce single threaded execution */
 	return;
     }
     
-    if (pthread_mutex_init(&dlock, NULL) < 0) {
-	log_debug("pthread_mutex_init() failed, %s", __FUNCTION__);
-	exit (-1);
-    }
-	
     if (pthread_attr_init(&attr)) {
 	log_debug("pthread_attr_init() failed, %s", __FUNCTION__);
 	exit (-1);      
@@ -334,6 +346,11 @@ void video_dthread_init(void)
     pthread_detach(ethread);
 }
 
+void video_dthread_shutdown(void)
+{
+    dthread_coroutine(CR_SHUTDOWN);
+}
+
 void dthread_lock(void) 
 {
     if (pthread_mutex_lock(&dlock) < 0) {
@@ -359,6 +376,11 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int sh
     int np = bptrs[shell].lpos;
     int count = bptrs[shell].cpos - bptrs[shell].lpos;
     int i;
+    
+    if (!do_blending) {
+	*from = *to = bptrs[shell].cpos;
+	return 1;
+    }
     
     /* subtract machine cycle once */
     dt -= mrp_usec;
@@ -411,7 +433,7 @@ static void *dthread_func(void *arg)
     int ret;
     DBG(("Display thread started..."));
     
-    while (1) {
+    while (emu_running) {
 	if (pthread_mutex_lock(&mutex) < 0) {
 	    log_debug("pthread_mutex_lock() failed, %s", __FUNCTION__);
 	    exit (-1);
@@ -481,6 +503,8 @@ static void *dthread_func(void *arg)
 	} else if (do_action == CR_WINDOW_RESIZE) {
 	    is_coroutine = 1;
 	    ui_trigger_window_resize2(canvas);
+	} else if (do_action == CR_SHUTDOWN) {
+	    emu_running = 0;
 	}
 	if (is_coroutine) {
 	    DBG2(("syncronised call for action: %d- intermediate", do_action));
@@ -495,6 +519,7 @@ static void *dthread_func(void *arg)
 	    exit (-1);
 	}
     }
+    exit(0);
 }
 
 static void dthread_coroutine(coroutine_t action) 
@@ -542,7 +567,7 @@ static void *ethread_func(void *arg)
     
     /* this thread takes only care on gtk+ events */
     DBG(("GUI Event handler thread started..."));
-    while (1) {
+    while (emu_running) {
 	ret = sem_wait(&ethread_sem);
 	if (ret < 0) {
 	    if (errno == EINTR) {
@@ -558,4 +583,5 @@ static void *ethread_func(void *arg)
 	    exit (-1);
 	}
     }
+    exit(0);
 }

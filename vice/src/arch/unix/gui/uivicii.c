@@ -119,6 +119,10 @@ UI_MENU_DEFINE_TOGGLE(VICIIAudioLeak)
 UI_MENU_DEFINE_TOGGLE_COND(VICIIHwScale, HwScalePossible, NOTHING)
 #endif
 
+#ifdef USE_UI_THREADS
+UI_MENU_DEFINE_TOGGLE(AlphaBlending)
+#endif
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 
@@ -211,6 +215,10 @@ ui_menu_entry_t vicii_submenu[] = {
       (ui_callback_data_t)"AspectRatio", NULL },
 #endif
 #endif /* USE_GNOMEUI */
+#endif
+#ifdef USE_UI_THREADS
+    { N_("Alpha Blending"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_AlphaBlending, NULL, NULL },
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { "--", UI_MENU_TYPE_SEPARATOR },
