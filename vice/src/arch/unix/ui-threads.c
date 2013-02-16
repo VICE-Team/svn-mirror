@@ -115,8 +115,6 @@ static resource_int_t resources_uithreads[] = {
     { NULL }
 };
 
-
-
 void mbuffer_init(void *canvas, int w, int h, int depth, int shell)
 {
     int i;
@@ -470,7 +468,7 @@ static void *dthread_func(void *arg)
 		    /* timing probe */
 		    {
 			static struct timespec t2, t3;
-			
+			    
 			clock_gettime(CLOCK_REALTIME, &t2);
 			long diff = TS_TOUSEC(t2) - TS_TOUSEC(t1);
 			float fps = 1000 * 1000.0 / (TS_TOUSEC(t1) - TS_TOUSEC(t3));

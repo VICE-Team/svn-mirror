@@ -122,6 +122,16 @@ extern UI_CALLBACK(set_custom_aspect_ratio);
 #endif /* USE_GNOMEUI */
 #endif
 
+#ifdef USE_UI_THREADS
+static int get_hw_scale(int m)
+{
+    int n;
+    resources_get_int("TEDHwScale", &n);
+    return n && m;
+}
+UI_MENU_DEFINE_TOGGLE_COND(AlphaBlending, TEDHwScale, get_hw_scale)
+#endif
+
 #ifdef HAVE_OPENGL_SYNC
 UI_MENU_DEFINE_TOGGLE_COND(openGL_sync, openGL_no_sync, openGL_available)
 
@@ -185,6 +195,10 @@ ui_menu_entry_t ted_submenu[] = {
 #endif /* HAVE_XVIDEO */
 #endif /* USE_GNOMEUI */
 #endif /* HAVE_HWSCALE */
+#ifdef USE_UI_THREADS
+    { N_("Alpha Blending"), UI_MENU_TYPE_TICK,
+      (ui_callback_t)toggle_AlphaBlending, NULL, NULL },
+#endif
 #ifdef HAVE_OPENGL_SYNC
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("OpenGL Rastersynchronization"), UI_MENU_TYPE_TICK,

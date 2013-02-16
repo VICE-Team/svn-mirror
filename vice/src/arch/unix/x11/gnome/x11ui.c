@@ -1939,7 +1939,6 @@ void gl_setup_textures(video_canvas_t *c, struct s_mbufs *buffers)
 }
 */
 
-#ifdef USE_UI_THREADS
 void gl_update_texture(struct s_mbufs *buffer)
 {
     int tw, th;
@@ -2061,8 +2060,6 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     gdk_gl_drawable_gl_end (gl_drawable);
 }
 
-#endif	/* USE_UI_THREADS */
-
 void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
 		       video_canvas_t *canvas)
 {
@@ -2104,65 +2101,27 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
     if (canvas->videoconfig->hwscale == 0) {
 	gtk_render_canvas(w, e, client_data, canvas);
     }
-    return 0; /* rendering is handled by the display thread, 
-		 XXX Reuse drawing code one day for #else branch */
+    return 0; /* rendering is handled by the display thread */ 
 #endif
 
-    /* DBG(("exposure_callback_canvas canvas w/h %d/%d", canvas->gdk_image->width, canvas->gdk_image->height)); */
+    /* DBG(("exposure_callback_canvas canvas w/h %d/%d", 
+       canvas->gdk_image->width, canvas->gdk_image->height)); */
 
 #ifdef HAVE_HWSCALE
     if (canvas->videoconfig->hwscale) {
-        int tw, th;
-        GdkGLContext *gl_context = gtk_widget_get_gl_context(w);
-        GdkGLDrawable *gl_drawable = gtk_widget_get_gl_drawable(w);
-        gdk_gl_drawable_gl_begin(gl_drawable, gl_context);
-
-/* XXX make use of glXBindTexImageEXT aka texture from pixmap extension */
-
-        glClear(GL_COLOR_BUFFER_BIT);
-        glDisable (GL_DEPTH_TEST);
-
-        glEnable(GL_TEXTURE_RECTANGLE_EXT);
-        glBindTexture(GL_TEXTURE_RECTANGLE_EXT, canvas->screen_texture);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_RECTANGLE_EXT, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-
+	static struct s_mbufs t;
 #if !defined(HAVE_CAIRO)
-        tw = canvas->gdk_image->width;
-        th = canvas->gdk_image->height;
+        t.w = canvas->gdk_image->width;
+        t.h = canvas->gdk_image->height;
 #else
         /* FIXME! */
-        tw = canvas->draw_buffer->canvas_physical_width;
-        th = canvas->draw_buffer->canvas_physical_height;
+        t.w = canvas->draw_buffer->canvas_physical_width;
+        t.h = canvas->draw_buffer->canvas_physical_height;
 #endif /* !HAVE_CAIRO */
-
-#ifdef __BIG_ENDIAN__
-#ifndef GL_ABGR_EXT
-    #error "Your headers do not supply GL_ABGR_EXT. Disable HWSCALE and try again."
-#endif	/* GL_ABGR_EXT */
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_ABGR_EXT, GL_UNSIGNED_BYTE, canvas->hwscale_image);
-#else
-        glTexImage2D(GL_TEXTURE_RECTANGLE_EXT, 0, GL_RGBA, tw, th, 0, GL_RGBA, GL_UNSIGNED_BYTE, canvas->hwscale_image);
-#endif	/* __BIG_ENDIAN__ */
-
-        glBegin (GL_QUADS);
-
-        /* Lower Right Of Texture */
-        glTexCoord2f(0.0f, 0.0f); glVertex2f(-(tw/2), (th/2));
-        /* Upper Right Of Texture */
-        glTexCoord2f(0.0f, th); glVertex2f(-(tw/2), -(th/2));
-        /* Upper Left Of Texture */
-        glTexCoord2f(tw, th); glVertex2f((tw/2), -(th/2));
-        /* Lower Left Of Texture */
-        glTexCoord2f(tw, 0.0f); glVertex2f((tw/2), (th/2));
-
-        glEnd ();
-
-        gdk_gl_drawable_swap_buffers (gl_drawable);
-        gdk_gl_drawable_gl_end (gl_drawable);
-
+	t.buffer = canvas->hwscale_image;
+	gl_render_canvas(w, canvas, &t, 0, 0, 1, 1);
 	return 0;
-    } 
+    }
 #endif	/* HAVE_HWSCALE */
     gtk_render_canvas(w, e, client_data, canvas);
     return 0;

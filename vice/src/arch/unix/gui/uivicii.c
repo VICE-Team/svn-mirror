@@ -120,7 +120,13 @@ UI_MENU_DEFINE_TOGGLE_COND(VICIIHwScale, HwScalePossible, NOTHING)
 #endif
 
 #ifdef USE_UI_THREADS
-UI_MENU_DEFINE_TOGGLE(AlphaBlending)
+static int get_hw_scale(int m)
+{
+    int n;
+    resources_get_int("VICIIHwScale", &n);
+    return n && m;
+}
+UI_MENU_DEFINE_TOGGLE_COND(AlphaBlending, VICIIHwScale, get_hw_scale)
 #endif
 
 #ifdef HAVE_OPENGL_SYNC

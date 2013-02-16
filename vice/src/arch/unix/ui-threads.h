@@ -27,18 +27,8 @@
 #ifndef __ui_threads_h
 #define __ui_threads_h
 
-#define MAX_BUFFERS 8
 void mbuffer_init(void *widget, int w, int h, int depth, int shell);
 unsigned char *mbuffer_get_buffer(struct timespec *ts, int shell);
-struct s_mbufs
-{
-    long stamp; /* timestamp in usecs */
-    int w;
-    int h;
-    unsigned char *buffer;
-    struct s_mbufs *next;
-    /*GLu */ unsigned int bindId; /* XXX Fixme: try to avoid GL specifics */
-};
 
 void video_dthread_init(void);
 void dthread_lock();
