@@ -282,7 +282,6 @@ void video_dthread_init(void)
 {
     pthread_t dthread;
     pthread_t ethread;
-    pthread_mutexattr_t mta;
     struct sched_param param;
     pthread_attr_t attr;
     
@@ -292,12 +291,7 @@ void video_dthread_init(void)
 	return;
     }
     
-    if (pthread_mutexattr_settype(&mta, PTHREAD_MUTEX_RECURSIVE) < 0) {
-	log_debug("pthread_mutexattr_settype() failed, %s", __FUNCTION__);
-	exit (-1);
-    }
-
-    if (pthread_mutex_init(&dlock, &mta) < 0) {
+    if (pthread_mutex_init(&dlock, NULL) < 0) {
 	log_debug("pthread_mutex_init() failed, %s", __FUNCTION__);
 	exit (-1);
     }
