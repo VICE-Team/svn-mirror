@@ -1939,6 +1939,7 @@ void gl_setup_textures(video_canvas_t *c, struct s_mbufs *buffers)
 }
 */
 
+#ifdef HAVE_HWSCALE
 void gl_update_texture(struct s_mbufs *buffer)
 {
     int tw, th;
@@ -2059,6 +2060,7 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     }     
     gdk_gl_drawable_gl_end (gl_drawable);
 }
+#endif  /* HAVE_HWSCALE */
 
 void gtk_render_canvas(GtkWidget *w, GdkEventExpose *e, gpointer client_data,
 		       video_canvas_t *canvas)
