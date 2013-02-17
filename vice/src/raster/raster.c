@@ -391,6 +391,9 @@ void raster_set_geometry(raster_t *raster,
     geometry->gfx_size.height = gfx_height;
     geometry->text_size.width = text_width;
     geometry->text_size.height = text_height;
+    if (!geometry->char_pixel_width) { /* Default to 8 if not defined */
+        geometry->char_pixel_width = 8;
+    }
 
     geometry->gfx_position.x = gfx_position_x;
     geometry->gfx_position.y = gfx_position_y;

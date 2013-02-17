@@ -63,13 +63,12 @@ static int update_for_minor_changes(raster_t *raster,
                                       changed_start_char,
                                       changed_end_char);
 
-        /* Convert from character to pixel coordinates.  FIXME: Hardcoded
-           `8'.  */
+        /* Convert from character to pixel coordinates. */
         *changed_start = raster->geometry->gfx_position.x + raster->xsmooth
-                         + 8 * changed_start_char;
+                         + raster->geometry->char_pixel_width * changed_start_char;
 
         *changed_end = raster->geometry->gfx_position.x + raster->xsmooth
-                       + 8 * (changed_end_char + 1) - 1;
+                       + raster->geometry->char_pixel_width * (changed_end_char + 1) - 1;
     }
 
     /* FIXME: Why always doing so?  */

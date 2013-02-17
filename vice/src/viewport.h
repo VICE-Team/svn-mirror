@@ -93,6 +93,8 @@ struct geometry_s {
     unsigned int extra_offscreen_border_right;
     /* true pixel aspect ratio of the current video mode */
     float pixel_aspect_ratio;
+    /* width of each char in pixels (usually 8, but VDC on X128 can change this) */
+    unsigned int char_pixel_width;
 };
 typedef struct geometry_s geometry_t;
 

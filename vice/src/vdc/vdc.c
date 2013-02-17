@@ -118,7 +118,8 @@ static void vdc_set_geometry(void)
     vdc_25row_stop_line = vdc_25row_start_line + screen_ypix;
 
     vdc_80col_start_pixel = border_width;
-    vdc_80col_stop_pixel = vdc_80col_start_pixel + 8 * vdc.screen_text_cols;
+    /* FIXME this probably doesn't allow for char widths != 8 (or 16 in 40col mode) */
+    vdc_80col_stop_pixel = vdc_80col_start_pixel + ((vdc.regs[25] & 0x10) ? 16 : 8) * vdc.screen_text_cols; /* Allow for pixel-double (40col) mode */
 
     displayed_width = VDC_SCREEN_WIDTH;
     displayed_height = last_displayed_line - first_displayed_line + 1;
@@ -149,6 +150,7 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         0, 0); /* extra off screen border left / right */
 
     raster->geometry->pixel_aspect_ratio = vdc_get_pixel_aspect();
+    raster->geometry->char_pixel_width = ((vdc.regs[25] & 0x10) ? 16 : 8);
     raster->viewport->crt_type = vdc_get_crt_type();
 }
 
@@ -187,6 +189,10 @@ static int init_raster(void)
     }
 
     raster->border_color = 0;
+
+    /* FIXME: this seems to be the only way to disable cache on VDC.
+       The GUI (at least on win32) doesn't let you do it */
+    /* raster->cache_enabled = 0; */  /* Force disable cache for testing non-cache mode */
 
     return 0;
 }
@@ -284,7 +290,11 @@ static void vdc_update_geometry(void)
         vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     }
 
+    /* FIXME the horizontal positioning just looks wrong and could put the screen all over the place, and doesn't allow for char widths != 8 */
     vdc.hsync_shift = 80 + (102 - vdc.regs[2]) * 8;
+    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        vdc.hsync_shift = 80 + (55 - vdc.regs[2]) * 16;
+    }
 
     if ((VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8 < vdc.hsync_shift) {
         vdc.hsync_shift = (VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8;
