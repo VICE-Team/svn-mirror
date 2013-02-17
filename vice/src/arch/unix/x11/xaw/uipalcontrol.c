@@ -64,7 +64,9 @@ static pal_res_t ctrls[] = {
     { N_("Tint"),             "+ColorTint",        2000, },
     { N_("Odd lines phase"),  "+PALOddLinePhase",  2000, },
     { N_("Odd lines offset"), "+PALOddLineOffset", 2000, },
+    /* volume settings */
     { N_("Volume"),           "SoundVolume",        100, },
+    { N_("Drives Volume"),    "DriveSoundEmulationVolume", 4000 },
 };
 
 typedef struct {
