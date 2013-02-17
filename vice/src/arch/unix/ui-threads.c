@@ -102,7 +102,7 @@ static void dthread_coroutine(coroutine_t a);
 static void *dthread_func(void *attr);
 static void *ethread_func(void *attr);
 /* resources */
-static int do_blending;
+static int do_blending = 1;
 static int set_alpha_blending(int val, void *p)
 {
     DBG(("Toggle alpha blending: %d -> %d", do_blending, val));
