@@ -30,6 +30,7 @@ import org.ab.nativelayer.ImportView;
 import org.ab.uae.FloppyImportView;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -265,27 +266,61 @@ public class DosBoxMenuUtility {
     }
 
     static public void copyConfigFile(DosBoxLauncher context) {
-        copyFile(context, CONFIG_PATH, CONFIG_FILE);
+        copyFile(context, CONFIG_PATH, CONFIG_FILE, CONFIG_FILE);
     }
 
-    static public void copyDataFile(DosBoxLauncher context, String targetPath) {
-        copyFile(context, targetPath, DATA_FILE);
-    }
-
-    static public void copyLicenseFile(DosBoxLauncher context) {
-        copyFile(context, CONFIG_PATH, LICENSE_FILE);
-    }
-
-    static private void copyFile(DosBoxLauncher context, String targetPath, String file) {
+    static public void copyAssetFile(PreConfig context, String file, String targetFile, String targetPath) {
         try {
-            InputStream myInput = new FileInputStream(targetPath + file);
+            InputStream myInput = new FileInputStream(targetPath + targetFile);
             myInput.close();
             myInput = null;
         }
         catch (FileNotFoundException f) {
             try {
                 InputStream myInput = context.getAssets().open(file);
-                OutputStream myOutput = new FileOutputStream(targetPath + file);
+
+                File myDirectory = new File(targetPath);
+                myDirectory.mkdirs();
+                File outputFile = new File(myDirectory, targetFile);
+                FileOutputStream myOutput = new FileOutputStream(outputFile);
+                byte[] buffer = new byte[1024];
+                int length;
+                while ((length = myInput.read(buffer)) > 0) {
+                    myOutput.write(buffer, 0, length);
+                }
+                myOutput.flush();
+                myOutput.close();
+                myInput.close();
+            }
+            catch (IOException e) {
+            }
+        }
+        catch (IOException e) {
+        }
+    }
+
+    static public void copyDataFile(DosBoxLauncher context, String targetPath) {
+        copyFile(context, targetPath, DATA_FILE, DATA_FILE);
+    }
+
+    static public void copyLicenseFile(DosBoxLauncher context) {
+        copyFile(context, CONFIG_PATH, LICENSE_FILE, LICENSE_FILE);
+    }
+
+    static private void copyFile(DosBoxLauncher context, String targetPath, String file, String targetFile) {
+        try {
+            InputStream myInput = new FileInputStream(targetPath + targetFile);
+            myInput.close();
+            myInput = null;
+        }
+        catch (FileNotFoundException f) {
+            try {
+                InputStream myInput = context.getAssets().open(file);
+
+                File myDirectory = new File(targetPath);
+                myDirectory.mkdirs();
+                File outputFile = new File(myDirectory, targetFile);
+                FileOutputStream myOutput = new FileOutputStream(outputFile);
                 byte[] buffer = new byte[1024];
                 int length;
                 while ((length = myInput.read(buffer)) > 0) {

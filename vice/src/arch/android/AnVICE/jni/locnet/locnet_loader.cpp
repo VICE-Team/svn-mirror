@@ -356,7 +356,7 @@ extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativePause(JNIEnv *env, job
     ui_pause_emulation(myLoader.pause);
 }
 
-extern "C" void Java_com_locnet_vice_PreConfig_nativeSetRomHandling(jint state)
+extern "C" void Java_com_locnet_vice_DosBoxLauncher_nativeSetRomHandling(jint state)
 {
     loader_rom_handling = state;
 }

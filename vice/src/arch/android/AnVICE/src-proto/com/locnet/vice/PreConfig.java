@@ -92,8 +92,6 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final int ROMS_ASSET = 2;
     public static final int ROMS_EMBEDDED = 3;
 
-    public static native void nativeSetRomHandling(int state);
-
     public static final String PREF_KEY_START = "pref_key_start";
     public static final String PREF_KEY_NTSC_ON = "pref_key_ntsc_on";
     public static final String PREF_KEY_ROM = "pref_key_rom";
@@ -108,35 +106,68 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String BASIC_NAME = "BASIC";
     public static final String CHARGEN_NAME = "CHARGEN";
 
-    public static final String C64_KERNAL_NAME = "KERNAL";
-    public static final String C64_BASIC_NAME = "BASIC";
-    public static final String C64_CHARGEN_NAME = "CHARGEN";
+    public static final String C64_KERNAL_NAME = "kernal";
+    public static final String C64_BASIC_NAME = "basic";
+    public static final String C64_CHARGEN_NAME = "chargen";
+    public static final String C64_SDL_SYM_NAME = "sdl_sym.vkm";
 
-    public static final String C64DTV_ROM_NAME = "DTVROM.BIN";
+    public static final String C64DTV_KERNAL_NAME = "kernal";
+    public static final String C64DTV_BASIC_NAME = "basic";
+    public static final String C64DTV_CHARGEN_NAME = "chargen";
+    public static final String C64DTV_ROM_NAME = "dtvrom.bin";
+    public static final String C64DTV_SDL_SYM_NAME = "sdl_sym.vkm";
 
-    public static final String SCPU64_ROM_NAME = "SCPU64";
+    public static final String SCPU64_CHARGEN_NAME = "chargen";
+    public static final String SCPU64_ROM_NAME = "scpu64";
+    public static final String SCPU64_SDL_SYM_NAME = "sdl_sym.vkm";
 
-    public static final String CBM5X0_KERNAL_NAME = "KERNAL.500";
-    public static final String CBM5X0_BASIC_NAME = "BASIC.500";
-    public static final String CBM5X0_CHARGEN_NAME = "CHARGEN.500";
+    public static final String CBM5X0_KERNAL_NAME = "kernal.500";
+    public static final String CBM5X0_BASIC_NAME = "basic.500";
+    public static final String CBM5X0_CHARGEN_NAME = "chargen.500";
+    public static final String CBM5X0_SDL_SYM_NAME = "sdl_buks.vkm";
 
-    public static final String CBM2_KERNAL_NAME = "KERNAL";
-    public static final String CBM2_BASIC_NAME = "BASIC.128";
-    public static final String CBM2_CHARGEN_NAME = "CHARGEN.600";
+    public static final String CBM2_KERNAL_NAME = "kernal";
+    public static final String CBM2_BASIC_NAME = "basic.128";
+    public static final String CBM2_CHARGEN_NAME = "chargen.600";
+    public static final String CBM2_SDL_SYM_NAME = "sdl_buks.vkm";
 
-    public static final String C128_CHARGEN_NAME = "CHARGEN";
-    public static final String C128_KERNAL_NAME = "KERNAL";
-    public static final String C128_BASICLO_NAME = "BASICLO";
-    public static final String C128_BASICHI_NAME = "BASICHI";
-    public static final String C128_BASIC64_NAME = "BASIC64";
-    public static final String C128_KERNAL64_NAME = "KERNAL64";
+    public static final String C128_KERNAL_NAME = "kernal";
+    public static final String C128_CHARGEN_NAME = "chargen";
+    public static final String C128_BASICLO_NAME = "basiclo";
+    public static final String C128_BASICHI_NAME = "basichi";
+    public static final String C128_BASIC64_NAME = "basic64";
+    public static final String C128_KERNAL64_NAME = "kernal64";
+    public static final String C128_SDL_SYM_NAME = "sdl_sym.vkm";
 
-    public static final String PET_KERNAL_NAME = "KERNAL4";
-    public static final String PET_BASIC_NAME = "BASIC4";
-    public static final String PET_CHARGEN_NAME = "CHARGEN";
-    public static final String PET_EDITOR_NAME = "EDIT4B80";
+    public static final String PET_KERNAL_NAME = "kernal4";
+    public static final String PET_BASIC_NAME = "basic4";
+    public static final String PET_CHARGEN_NAME = "chargen";
+    public static final String PET_EDITOR_NAME = "edit4b80";
+    public static final String PET_SDL_SYM_NAME = "sdl_sym.vkm";
+
+    public static final String PLUS4_KERNAL_NAME = "kernal";
+    public static final String PLUS4_BASIC_NAME = "basic";
+    public static final String PLUS4_3PLUS1LO_NAME = "3PLUS1LO";
+    public static final String PLUS4_3PLUS1HI_NAME = "3PLUS1HI";
+    public static final String PLUS4_SDL_SYM_NAME = "sdl_sym.vkm";
+
+    public static final String VIC20_KERNAL_NAME = "kernal";
+    public static final String VIC20_BASIC_NAME = "basic";
+    public static final String VIC20_CHARGEN_NAME = "chargen";
+    public static final String VIC20_SDL_SYM_NAME = "sdl_sym.vkm";
 
     public static final String DRIVE_NAME = "DRIVES";
+
+    public static final String C64_PATH = "c64";
+    public static final String SCPU64_PATH = "scpu64";
+    public static final String C64DTV_PATH = "c64dtv";
+    public static final String C128_PATH = "c128";
+    public static final String CBM2_PATH = "cbm-ii";
+    public static final String PET_PATH = "pet";
+    public static final String PLUS4_PATH = "plus4";
+    public static final String VIC20_PATH = "vic20";
+
+    public static final String DRIVE_PATH = "drives";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,8 +178,6 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
 
         String key = PREF_KEY_START;
         Preference pref;
-
-        nativeSetRomHandling(ROMS_TYPE);
 
         key = PREF_KEY_START;
         pref = (Preference)getPreferenceScreen().findPreference(key);
@@ -165,7 +194,11 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             });
         }
 
-        setRomHandler(PREF_KEY_ROM, Globals.PREFKEY_ROM_INT);
+        /* only set rom handler if external roms are used */
+        if (ROMS_TYPE == ROMS_EXTERNAL) {
+            setRomHandler(PREF_KEY_ROM, Globals.PREFKEY_ROM_INT);
+        }
+
         setFloppyHandler(PREF_KEY_FLOPPY1, Globals.PREFKEY_F1_INT);
         setFloppyHandler(PREF_KEY_FLOPPY2, Globals.PREFKEY_F2_INT);
         setFloppyHandler(PREF_KEY_FLOPPY3, Globals.PREFKEY_F3_INT);
@@ -174,7 +207,11 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         {
             SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
 
-            setFileSummary(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
+            /* only set rom file summary if external roms are used */
+            if (ROMS_TYPE == ROMS_EXTERNAL) {
+                setFileSummary(PREF_KEY_ROM, sp.getString(Globals.PREFKEY_ROM, null));
+            }
+
             setFileSummary(PREF_KEY_FLOPPY1, sp.getString(Globals.PREFKEY_F1, null));
             setFileSummary(PREF_KEY_FLOPPY2, sp.getString(Globals.PREFKEY_F2, null));
             setFileSummary(PREF_KEY_FLOPPY3, sp.getString(Globals.PREFKEY_F3, null));
@@ -192,8 +229,172 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     void setEnableStart() {
         Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START);
         if (pref != null) {
-            String path = PreferenceManager.getDefaultSharedPreferences(this).getString(Globals.PREFKEY_ROM, null);
-            if ((path != null) && (path.length() > 0)) {
+
+            /* external roms, check for rom location */
+            if (ROMS_TYPE == ROMS_EXTERNAL) {
+                String path = PreferenceManager.getDefaultSharedPreferences(this).getString(Globals.PREFKEY_ROM, null);
+                if ((path != null) && (path.length() > 0)) {
+                    pref.setEnabled(true);
+                }
+            }
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (MACHINE_TYPE == MACHINE_X64 || MACHINE_TYPE == MACHINE_X64SC) {
+                    if (!checkC64ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XSCPU64) {
+                    if (!checkSCPU64ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_X64DTV) {
+                    if (!checkC64DTVROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_X128) {
+                    if (!checkC128ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XCBM2) {
+                    if (!checkCBM2ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XCBM5X0) {
+                    if (!checkCBM5X0ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XPET) {
+                    if (!checkPETROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XPLUS4) {
+                    if (!checkPLUS4ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XVIC) {
+                    if (!checkVIC20ROMS()) {
+                        should_enable = false;
+                    }
+                }
+
+                if (should_enable) {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                } else {
+                    pref.setSummary("Some needed files are missing.");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (MACHINE_TYPE == MACHINE_X64 || MACHINE_TYPE == MACHINE_X64SC || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkC64ROMS()) {
+                        if (!copyC64ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XSCPU64 || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkSCPU64ROMS()) {
+                        if (!copySCPU64ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_X64DTV || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkC64DTVROMS()) {
+                        if (!copyC64DTVROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_X128 || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkC128ROMS()) {
+                        if (!copyC128ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XCBM2 || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkCBM2ROMS()) {
+                        if (!copyCBM2ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XCBM5X0 || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkCBM5X0ROMS()) {
+                        if (!copyCBM5X0ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XPET || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkPETROMS()) {
+                        if (!copyPETROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XPLUS4 || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkPLUS4ROMS()) {
+                        if (!copyPLUS4ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (MACHINE_TYPE == MACHINE_XVIC || MACHINE_TYPE == MACHINE_ALL) {
+                    if (!checkVIC20ROMS()) {
+                        if (!copyVIC20ROMS()) {
+                            should_enable = false;
+                        }
+                    }
+                }
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (should_enable) {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                } else {
+                    pref.setSummary("Some needed files cannot be copied.");
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
                 pref.setEnabled(true);
             }
         }
@@ -223,6 +424,376 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         }
     }
 
+    boolean checkC64ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(C64_PATH, C64_KERNAL_NAME);
+        present += checkFileExistanceInPath(C64_PATH, C64_BASIC_NAME);
+        present += checkFileExistanceInPath(C64_PATH, C64_CHARGEN_NAME);
+        present += checkFileExistanceInPath(C64_PATH, C64_SDL_SYM_NAME);
+
+        return (present == 4) ? true : false;
+    }
+
+    boolean checkC64DTVROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(C64DTV_PATH, C64DTV_KERNAL_NAME);
+        present += checkFileExistanceInPath(C64DTV_PATH, C64DTV_BASIC_NAME);
+        present += checkFileExistanceInPath(C64DTV_PATH, C64DTV_CHARGEN_NAME);
+        present += checkFileExistanceInPath(C64DTV_PATH, C64DTV_ROM_NAME);
+        present += checkFileExistanceInPath(C64DTV_PATH, C64_SDL_SYM_NAME);
+
+        return (present == 5) ? true : false;
+    }
+
+    boolean checkSCPU64ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(SCPU64_PATH, SCPU64_CHARGEN_NAME);
+        present += checkFileExistanceInPath(SCPU64_PATH, SCPU64_ROM_NAME);
+        present += checkFileExistanceInPath(SCPU64_PATH, SCPU64_SDL_SYM_NAME);
+
+        return (present == 3) ? true : false;
+    }
+
+    boolean checkCBM5X0ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(CBM2_PATH, CBM5X0_KERNAL_NAME);
+        present += checkFileExistanceInPath(CBM2_PATH, CBM5X0_BASIC_NAME);
+        present += checkFileExistanceInPath(CBM2_PATH, CBM5X0_CHARGEN_NAME);
+        present += checkFileExistanceInPath(CBM2_PATH, CBM5X0_SDL_SYM_NAME);
+
+        return (present == 4) ? true : false;
+    }
+
+    boolean checkCBM2ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(CBM2_PATH, CBM2_KERNAL_NAME);
+        present += checkFileExistanceInPath(CBM2_PATH, CBM2_BASIC_NAME);
+        present += checkFileExistanceInPath(CBM2_PATH, CBM2_CHARGEN_NAME);
+        present += checkFileExistanceInPath(CBM2_PATH, CBM2_SDL_SYM_NAME);
+
+        return (present == 4) ? true : false;
+    }
+
+    boolean checkC128ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(C128_PATH, C128_CHARGEN_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNAL_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_BASICLO_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_BASICHI_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_BASIC64_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_KERNAL64_NAME);
+        present += checkFileExistanceInPath(C128_PATH, C128_SDL_SYM_NAME);
+
+        return (present == 7) ? true : false;
+    }
+
+    boolean checkPETROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(PET_PATH, PET_KERNAL_NAME);
+        present += checkFileExistanceInPath(PET_PATH, PET_BASIC_NAME);
+        present += checkFileExistanceInPath(PET_PATH, PET_CHARGEN_NAME);
+        present += checkFileExistanceInPath(PET_PATH, PET_EDITOR_NAME);
+        present += checkFileExistanceInPath(PET_PATH, PET_SDL_SYM_NAME);
+
+        return (present == 5) ? true : false;
+    }
+
+    boolean checkPLUS4ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(PLUS4_PATH, PLUS4_KERNAL_NAME);
+        present += checkFileExistanceInPath(PLUS4_PATH, PLUS4_BASIC_NAME);
+        present += checkFileExistanceInPath(PLUS4_PATH, PLUS4_3PLUS1LO_NAME);
+        present += checkFileExistanceInPath(PLUS4_PATH, PLUS4_3PLUS1HI_NAME);
+        present += checkFileExistanceInPath(PLUS4_PATH, PLUS4_SDL_SYM_NAME);
+
+        return (present == 5) ? true : false;
+    }
+
+    boolean checkVIC20ROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(VIC20_PATH, VIC20_KERNAL_NAME);
+        present += checkFileExistanceInPath(VIC20_PATH, VIC20_BASIC_NAME);
+        present += checkFileExistanceInPath(VIC20_PATH, VIC20_CHARGEN_NAME);
+        present += checkFileExistanceInPath(VIC20_PATH, VIC20_SDL_SYM_NAME);
+
+        return (present == 4) ? true : false;
+    }
+
+    boolean checkDRIVEROMS() {
+        int present = 0;
+
+        present += checkFileExistanceInPath(DRIVE_PATH, "d1541II");
+        present += checkFileExistanceInPath(DRIVE_PATH, "d1571cr");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos1001");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos1541");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos1551");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos1570");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos1571");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos2000");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos2031");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos2040");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos3040");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos4000");
+        present += checkFileExistanceInPath(DRIVE_PATH, "dos4040");
+
+        return (present == 13) ? true : false;
+    }
+
+    boolean copyC64ROMS() {
+        if (!copyAssetFileToPath(C64_PATH, C64_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64_PATH, C64_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64_PATH, C64_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64_PATH, C64_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyC64DTVROMS() {
+        if (!copyAssetFileToPath(C64DTV_PATH, C64DTV_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64DTV_PATH, C64DTV_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64DTV_PATH, C64DTV_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64DTV_PATH, C64DTV_ROM_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C64DTV_PATH, C64DTV_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copySCPU64ROMS() {
+        if (!copyAssetFileToPath(SCPU64_PATH, SCPU64_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(SCPU64_PATH, SCPU64_ROM_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(SCPU64_PATH, SCPU64_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyCBM5X0ROMS() {
+        if (!copyAssetFileToPath(CBM2_PATH, CBM5X0_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(CBM2_PATH, CBM5X0_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(CBM2_PATH, CBM5X0_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(CBM2_PATH, CBM5X0_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyCBM2ROMS() {
+        if (!copyAssetFileToPath(CBM2_PATH, CBM2_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(CBM2_PATH, CBM2_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(CBM2_PATH, CBM2_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(CBM2_PATH, CBM2_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyC128ROMS() {
+        if (!copyAssetFileToPath(C128_PATH, C128_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_BASICLO_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_BASICHI_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_BASIC64_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_KERNAL64_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(C128_PATH, C128_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyPETROMS() {
+        if (!copyAssetFileToPath(PET_PATH, PET_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PET_PATH, PET_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PET_PATH, PET_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PET_PATH, PET_EDITOR_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PET_PATH, PET_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyPLUS4ROMS() {
+        if (!copyAssetFileToPath(PLUS4_PATH, PLUS4_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PLUS4_PATH, PLUS4_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PLUS4_PATH, PLUS4_3PLUS1LO_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PLUS4_PATH, PLUS4_3PLUS1HI_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(PLUS4_PATH, PLUS4_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyVIC20ROMS() {
+        if (!copyAssetFileToPath(VIC20_PATH, VIC20_KERNAL_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(VIC20_PATH, VIC20_BASIC_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(VIC20_PATH, VIC20_CHARGEN_NAME)) {
+            return false;
+        }
+        if (!copyAssetFileToPath(VIC20_PATH, VIC20_SDL_SYM_NAME)) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyDRIVEROMS() {
+        if (!copyAssetFileToPath(DRIVE_PATH, "d1541II")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "d1571cr")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos1001")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos1541")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos1551")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos1570")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos1571")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos2000")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos2031")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos2040")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos3040")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos4000")) {
+            return false;
+        }
+        if (!copyAssetFileToPath(DRIVE_PATH, "dos4040")) {
+            return false;
+        }
+        return true;
+    }
+
+    boolean copyAssetFileToPath(String path, String file) {
+        DosBoxMenuUtility.copyAssetFile(this, path + "_" + file, file, "/sdcard/vice/" + path);
+        if (checkFileExistance("/sdcard/vice/" + path, file) == 0) {
+            DosBoxMenuUtility.copyAssetFile(this, path + "_" + file, file, "/sd-ext/vice/" + path);
+            if (checkFileExistance("/sd-ext/vice/" + path, file) == 0) {
+                DosBoxMenuUtility.copyAssetFile(this, path + "_" + file, file, "/emmc/vice/" + path);
+                if (checkFileExistance("/emmc/vice/" + path, file) == 0) {
+                    DosBoxMenuUtility.copyAssetFile(this, path + "_" + file, file, "/vice/" + path);
+                    if (checkFileExistance("/vice/" + path, file) == 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    int checkFileExistanceInPath(String path, String file) {
+        int result = 0;
+
+        result = checkFileExistance("/vice/" + path, file);
+        result += checkFileExistance("/sdcard/vice/" + path, file);
+        result += checkFileExistance("/sd-ext/vice/" + path, file);
+        result += checkFileExistance("/emmc/vice/" + path, file);
+
+        return (result != 0) ? 1 : 0;
+    }
+
+    int checkFileExistance(String path, String file) {
+        int result = 1;
+
+        try {
+            File temp = new File(path, file);
+            if (!temp.exists()) {
+                result = 0;
+            }
+            temp = null;
+        }
+        catch (SecurityException e) {
+        }
+
+        return result;
+    }
+
     String getWarning(String path, String file) {
         String result = "";
 
@@ -245,18 +816,32 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
             String summary = getString(R.string.pref_true_drive_on_summary);
             boolean found = false;
 
-            if ((path != null) && (path.length() > 0)) {
-                File temp = new File(path, DRIVE_NAME);
-                try {
-                    if (temp.exists()) {
-                        found = true;
+            /* external roms, check if the drive rom exists */
+            if (ROMS_TYPE == ROMS_EXTERNAL) {
+                if ((path != null) && (path.length() > 0)) {
+                    File temp = new File(path, DRIVE_NAME);
+                    try {
+                        if (temp.exists()) {
+                            found = true;
+                        }
+                    }
+                    catch (SecurityException e) {
                     }
                 }
-                catch (SecurityException e) {
+                if (!found) {
+                    summary += "\nWarning: missing " + DRIVE_NAME + " ROMs";
                 }
             }
-            if (!found) {
-                summary += "\nWarning: missing " + DRIVE_NAME + " ROMs";
+
+            /* pushed roms, check for existance */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                if (!checkDRIVEROMS()) {
+                    summary += "\nWarning: some drive roms are missing";
+                }
+            }
+
+            /* asset roms, check for existance, if not present copy them */
+            if (ROMS_TYPE == ROMS_ASSET) {
             }
 
             pref.setSummary(summary);
@@ -266,154 +851,162 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     void setFileSummary(String key, String file) {
         Preference pref = (Preference)getPreferenceScreen().findPreference(key);
         if (pref != null) {
-            if (PREF_KEY_ROM.equals(key) && (file != null)) {
-                String path = new File(file).getParent();
-                String warning = "";
 
-                if (MACHINE_TYPE == MACHINE_X64 || MACHINE_TYPE == MACHINE_X64SC) {
-                    if (path.endsWith("c64") || (path.endsWith("C64"))) {
-                        warning += getWarning(path, C64_KERNAL_NAME);
-                        warning += getWarning(path, C64_BASIC_NAME);
-                        warning += getWarning(path, C64_CHARGEN_NAME);
+            /* external roms, check for location and deal with the dialog item */
+            if (ROMS_TYPE == ROMS_EXTERNAL) {
+                if (PREF_KEY_ROM.equals(key) && (file != null)) {
+                    String path = new File(file).getParent();
+                    String warning = "";
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                    if (MACHINE_TYPE == MACHINE_X64 || MACHINE_TYPE == MACHINE_X64SC) {
+                        if (path.endsWith("c64") || (path.endsWith("C64"))) {
+                            warning += getWarning(path, C64_KERNAL_NAME);
+                            warning += getWarning(path, C64_BASIC_NAME);
+                            warning += getWarning(path, C64_CHARGEN_NAME);
+
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"c64\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"c64\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_X64DTV) {
-                    if (path.endsWith("c64dtv") || (path.endsWith("C64DTV"))) {
-                        warning += getWarning(path, C64_KERNAL_NAME);
-                        warning += getWarning(path, C64_BASIC_NAME);
-                        warning += getWarning(path, C64_CHARGEN_NAME);
-                        warning += getWarning(path, C64DTV_ROM_NAME);
+                    if (MACHINE_TYPE == MACHINE_X64DTV) {
+                        if (path.endsWith("c64dtv") || (path.endsWith("C64DTV"))) {
+                            warning += getWarning(path, C64_KERNAL_NAME);
+                            warning += getWarning(path, C64_BASIC_NAME);
+                            warning += getWarning(path, C64_CHARGEN_NAME);
+                            warning += getWarning(path, C64DTV_ROM_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"c64dtv\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"c64dtv\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_XSCPU64) {
-                    if (path.endsWith("scpu64") || (path.endsWith("SCPU64"))) {
-                        warning += getWarning(path, SCPU64_ROM_NAME);
+                    if (MACHINE_TYPE == MACHINE_XSCPU64) {
+                        if (path.endsWith("scpu64") || (path.endsWith("SCPU64"))) {
+                            warning += getWarning(path, SCPU64_ROM_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"scpu64\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"scpu64\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_XVIC) {
-                    if (path.endsWith("vic20") || (path.endsWith("VIC20"))) {
-                        warning += getWarning(path, C64_KERNAL_NAME);
-                        warning += getWarning(path, C64_BASIC_NAME);
-                        warning += getWarning(path, C64_CHARGEN_NAME);
+                    if (MACHINE_TYPE == MACHINE_XVIC) {
+                        if (path.endsWith("vic20") || (path.endsWith("VIC20"))) {
+                            warning += getWarning(path, C64_KERNAL_NAME);
+                            warning += getWarning(path, C64_BASIC_NAME);
+                            warning += getWarning(path, C64_CHARGEN_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"vic20\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"vic20\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_XPLUS4) {
-                    if (path.endsWith("plus4") || (path.endsWith("PLUS4"))) {
-                        warning += getWarning(path, C64_KERNAL_NAME);
-                        warning += getWarning(path, C64_BASIC_NAME);
+                    if (MACHINE_TYPE == MACHINE_XCBM5X0) {
+                        if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
+                            warning += getWarning(path, CBM5X0_KERNAL_NAME);
+                            warning += getWarning(path, CBM5X0_BASIC_NAME);
+                            warning += getWarning(path, CBM5X0_CHARGEN_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"plus4\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_XCBM5X0) {
-                    if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
-                        warning += getWarning(path, CBM5X0_KERNAL_NAME);
-                        warning += getWarning(path, CBM5X0_BASIC_NAME);
-                        warning += getWarning(path, CBM5X0_CHARGEN_NAME);
+                    if (MACHINE_TYPE == MACHINE_X128) {
+                        if (path.endsWith("c128") || (path.endsWith("C128"))) {
+                            warning += getWarning(path, C64_CHARGEN_NAME);
+                            warning += getWarning(path, C64_KERNAL_NAME);
+                            warning += getWarning(path, C128_BASICLO_NAME);
+                            warning += getWarning(path, C128_BASICHI_NAME);
+                            warning += getWarning(path, C128_BASIC64_NAME);
+                            warning += getWarning(path, C128_KERNAL64_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"c128\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_X128) {
-                    if (path.endsWith("c128") || (path.endsWith("C128"))) {
-                        warning += getWarning(path, C128_CHARGEN_NAME);
-                        warning += getWarning(path, C128_KERNAL_NAME);
-                        warning += getWarning(path, C128_BASICLO_NAME);
-                        warning += getWarning(path, C128_BASICHI_NAME);
-                        warning += getWarning(path, C128_BASIC64_NAME);
-                        warning += getWarning(path, C128_KERNAL64_NAME);
+                    if (MACHINE_TYPE == MACHINE_XCBM2) {
+                        if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
+                            warning += getWarning(path, CBM2_KERNAL_NAME);
+                            warning += getWarning(path, CBM2_BASIC_NAME);
+                            warning += getWarning(path, CBM2_CHARGEN_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"c128\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_XCBM2) {
-                    if (path.endsWith("cbm-ii") || (path.endsWith("CBM-II"))) {
-                        warning += getWarning(path, CBM2_KERNAL_NAME);
-                        warning += getWarning(path, CBM2_BASIC_NAME);
-                        warning += getWarning(path, CBM2_CHARGEN_NAME);
+                    if (MACHINE_TYPE == MACHINE_XPET) {
+                        if (path.endsWith("pet") || (path.endsWith("PET"))) {
+                            warning += getWarning(path, PET_KERNAL_NAME);
+                            warning += getWarning(path, PET_BASIC_NAME);
+                            warning += getWarning(path, PET_CHARGEN_NAME);
+                            warning += getWarning(path, PET_EDITOR_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"pet\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"cbm-ii\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
-                }
 
-                if (MACHINE_TYPE == MACHINE_XPET) {
-                    if (path.endsWith("pet") || (path.endsWith("PET"))) {
-                        warning += getWarning(path, PET_KERNAL_NAME);
-                        warning += getWarning(path, PET_BASIC_NAME);
-                        warning += getWarning(path, PET_CHARGEN_NAME);
-                        warning += getWarning(path, PET_EDITOR_NAME);
+                    if (MACHINE_TYPE == MACHINE_XPLUS4) {
+                        if (path.endsWith("plus4") || (path.endsWith("PLUS4"))) {
+                            warning += getWarning(path, C64_KERNAL_NAME);
+                            warning += getWarning(path, C64_BASIC_NAME);
+                            warning += getWarning(path, PLUS4_3PLUS1LO_NAME);
+                            warning += getWarning(path, PLUS4_3PLUS1HI_NAME);
 
-                        if (warning.length() > 0) {
-                            warning = "\nWarning: missing" + warning;
+                            if (warning.length() > 0) {
+                                warning = "\nWarning: missing" + warning;
+                            }
+                            setTrueDriveSummary(new File(path).getParent());
+                        } else {
+                            warning = "\nWarning: ROM must be in a folder named \"plus4\"";
                         }
-                        setTrueDriveSummary(new File(path).getParent());
-                    } else {
-                        warning = "\nWarning: ROM must be in a folder named \"pet\"";
+                        pref.setSummary(file + warning);
                     }
-                    pref.setSummary(file + warning);
+                } else {
+                    pref.setSummary((file != null) ? file : "(empty)");
                 }
             } else {
                 pref.setSummary((file != null) ? file : "(empty)");

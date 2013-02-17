@@ -54,29 +54,37 @@ romhandling=""
 # check options
 for i in $*
 do
+  validoption=no
   if test x"$i" = "xarmeabi"; then
     armbuild=yes
+    validoption=yes
   fi
   if test x"$i" = "xarmeabi-v7a"; then
     arm7abuild=yes
+    validoption=yes
   fi
   if test x"$i" = "xmips"; then
     mipsbuild=yes
+    validoption=yes
   fi
   if test x"$i" = "xx86"; then
     x86build=yes
+    validoption=yes
   fi
   if test x"$i" = "xall-cpu"; then
     armbuild=yes
     arm7abuild=yes
     mipsbuild=yes
     x86build=yes
+    validoption=yes
   fi
   if test x"$i" = "xhelp"; then
     showusage=yes
+    validoption=yes
   fi
   if test x"$i" = "xrelease"; then
     buildrelease=yes
+    validoption=yes
   fi
   if test x"$i" = "xx64"; then
     buildemulators=`expr $buildemulators + 1`
@@ -85,6 +93,7 @@ do
     emuname="AnVICE_x64"
     STATUS_MESSAGE=$X64_STATUS_MESSAGE
     MACHINE=$MACHINE_X64
+    validoption=yes
   fi
   if test x"$i" = "xx64sc"; then
     buildemulators=`expr $buildemulators + 1`
@@ -93,6 +102,7 @@ do
     emuname="AnVICE_x64sc"
     STATUS_MESSAGE=$X64SC_STATUS_MESSAGE
     MACHINE=$MACHINE_X64SC
+    validoption=yes
   fi
   if test x"$i" = "xx64dtv"; then
     buildemulators=`expr $buildemulators + 1`
@@ -101,6 +111,7 @@ do
     emuname="AnVICE_x64dtv"
     STATUS_MESSAGE=$X64DTV_STATUS_MESSAGE
     MACHINE=$MACHINE_X64DTV
+    validoption=yes
   fi
   if test x"$i" = "xxscpu64"; then
     buildemulators=`expr $buildemulators + 1`
@@ -109,6 +120,7 @@ do
     emuname="AnVICE_xscpu64"
     STATUS_MESSAGE=$XSCPU64_STATUS_MESSAGE
     MACHINE=$MACHINE_XSCPU64
+    validoption=yes
   fi
   if test x"$i" = "xx128"; then
     buildemulators=`expr $buildemulators + 1`
@@ -117,6 +129,7 @@ do
     emuname="AnVICE_x128"
     STATUS_MESSAGE=$X128_STATUS_MESSAGE
     MACHINE=$MACHINE_X128
+    validoption=yes
   fi
   if test x"$i" = "xxcbm2"; then
     buildemulators=`expr $buildemulators + 1`
@@ -125,6 +138,7 @@ do
     emuname="AnVICE_xcbm2"
     STATUS_MESSAGE=$XCBM2_STATUS_MESSAGE
     MACHINE=$MACHINE_XCBM2
+    validoption=yes
   fi
   if test x"$i" = "xxcbm5x0"; then
     buildemulators=`expr $buildemulators + 1`
@@ -133,6 +147,7 @@ do
     emuname="AnVICE_xcbm5x0"
     STATUS_MESSAGE=$XCBM5X0_STATUS_MESSAGE
     MACHINE=$MACHINE_XCBM5X0
+    validoption=yes
   fi
   if test x"$i" = "xxpet"; then
     buildemulators=`expr $buildemulators + 1`
@@ -141,6 +156,7 @@ do
     emuname="AnVICE_xpet"
     STATUS_MESSAGE=$XPET_STATUS_MESSAGE
     MACHINE=$MACHINE_XPET
+    validoption=yes
   fi
   if test x"$i" = "xxplus4"; then
     buildemulators=`expr $buildemulators + 1`
@@ -149,6 +165,7 @@ do
     emuname="AnVICE_xplus4"
     STATUS_MESSAGE=$XPLUS4_STATUS_MESSAGE
     MACHINE=$MACHINE_XPLUS4
+    validoption=yes
   fi
   if test x"$i" = "xxvic"; then
     buildemulators=`expr $buildemulators + 1`
@@ -157,6 +174,7 @@ do
     emuname="AnVICE_xvic"
     STATUS_MESSAGE=$XVIC_STATUS_MESSAGE
     MACHINE=$MACHINE_XVIC
+    validoption=yes
   fi
   if test x"$i" = "xall-emu"; then
     buildemulators=`expr $buildemulators + 1`
@@ -164,6 +182,7 @@ do
     emulib="libvice.so"
     emuname="AnVICE"
     MACHINE=$MACHINE_ALL
+    validoption=yes
   fi
   if test x"$i" = "xexternalroms"; then
     if test x"$romhandling" = "x"; then
@@ -171,6 +190,7 @@ do
     else
       romhandling="-1"
     fi
+    validoption=yes
   fi
   if test x"$i" = "xpushedroms"; then
     if test x"$romhandling" = "x"; then
@@ -178,6 +198,7 @@ do
     else
       romhandling="-1"
     fi
+    validoption=yes
   fi
   if test x"$i" = "xassetroms"; then
     if test x"$romhandling" = "x"; then
@@ -185,6 +206,7 @@ do
     else
       romhandling="-1"
     fi
+    validoption=yes
   fi
   if test x"$i" = "xembeddedroms"; then
     if test x"$romhandling" = "x"; then
@@ -192,6 +214,11 @@ do
     else
       romhandling="-1"
     fi
+    validoption=yes
+  fi
+  if test x"$validoption" != "xyes"; then
+    echo "unknown option: $i"
+    exit 1
   fi
 done
 
@@ -225,6 +252,13 @@ fi
 
 if test x"$romhandling" = "x"; then
   romhandling="2"
+fi
+
+if test x"$emulator" = "xall emulators"; then
+  if test x"$romhandling" = "x0"; then
+    echo "Cannot use external roms for all emulators"
+    exit 1
+  fi
 fi
 
 CPUS=""
@@ -453,75 +487,75 @@ echo building $emulib
 cd ..
 
 if test x"$emulator" = "xx64"; then
-   sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-x64 assets/sdl-vicerc
-   cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-x64 assets/sdl-vicerc
+  cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-x64sc assets/sdl-vicerc
-   cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-x64sc assets/sdl-vicerc
+  cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xx64dtv"; then
-   sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-x64dtv assets/sdl-vicerc
-   cp ../../../../data/C64DTV/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-x64dtv assets/sdl-vicerc
+  cp ../../../../data/C64DTV/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xxscpu64"; then
-   sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-xscpu64 assets/sdl-vicerc
-   cp ../../../../data/SCPU64/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-xscpu64 assets/sdl-vicerc
+  cp ../../../../data/SCPU64/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xxvic"; then
-   sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-xvic assets/sdl-vicerc
-   cp ../../../../data/VIC20/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-xvic assets/sdl-vicerc
+  cp ../../../../data/VIC20/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xxplus4"; then
-   sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-xplus4 assets/sdl-vicerc
-   cp ../../../../data/PLUS4/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-xplus4 assets/sdl-vicerc
+  cp ../../../../data/PLUS4/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
-   sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
-   cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
+  cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xx128"; then
-   sed -e 's/@VICE@/AnVICE_x128/g' -e 's/@VICE_ROM@/C128 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-x128 assets/sdl-vicerc
-   cp ../../../../data/C128/sdl_sym.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_x128/g' -e 's/@VICE_ROM@/C128 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-x128 assets/sdl-vicerc
+  cp ../../../../data/C128/sdl_sym.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xxcbm2"; then
-   sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-xcbm2 assets/sdl-vicerc
-   cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-xcbm2 assets/sdl-vicerc
+  cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xxpet"; then
-   sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cp assets-proto/sdl-vicerc-xpet assets/sdl-vicerc
-   cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cp assets-proto/sdl-vicerc-xpet assets/sdl-vicerc
+  cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
 fi
 
 if test x"$emulator" = "xall emulators"; then
-   sed 's/@VICE@/AnVICE/g' <res-proto/values/strings.xml >res/values/strings.xml
-   cat assets-proto/sdl-vicerc-x64 assets-proto/sdl-vicerc-x64sc assets-proto/sdl-vicerc-x64dtv assets-proto/sdl-vicerc-xscpu64 assets-proto/sdl-vicerc-x128 assets-proto/sdl-vicerc-xcbm2 assets-proto/sdl-vicerc-xcbm5x0 assets-proto/sdl-vicerc-xpet assets-proto/sdl-vicerc-xplus4 assets-proto/sdl-vicerc-xvic >assets/sdl-vicerc
-   cp res-proto/layout/prefs-allemus.xml res/layout/prefs.xml
+  sed 's/@VICE@/AnVICE/g' <res-proto/values/strings.xml >res/values/strings.xml
+  cat assets-proto/sdl-vicerc-x64 assets-proto/sdl-vicerc-x64sc assets-proto/sdl-vicerc-x64dtv assets-proto/sdl-vicerc-xscpu64 assets-proto/sdl-vicerc-x128 assets-proto/sdl-vicerc-xcbm2 assets-proto/sdl-vicerc-xcbm5x0 assets-proto/sdl-vicerc-xpet assets-proto/sdl-vicerc-xplus4 assets-proto/sdl-vicerc-xvic >assets/sdl-vicerc
+  cp res-proto/layout/prefs-allemus.xml res/layout/prefs.xml
 else
-   if test x"$romhandling" = "x0"; then
-      cp res-proto/layout/prefs-externalroms.xml res/layout/prefs.xml
-   else
-      cp res-proto/layout/prefs-viceroms.xml res/layout/prefs.xml
-   fi
+  if test x"$romhandling" = "x0"; then
+    cp res-proto/layout/prefs-externalroms.xml res/layout/prefs.xml
+  else
+    cp res-proto/layout/prefs-viceroms.xml res/layout/prefs.xml
+  fi
 fi
 
 ndk-build
@@ -531,43 +565,43 @@ echo generating needed java files
 sed -e s/@VICE_MACHINE@/$MACHINE/g -e s/@VICE_ROMS@/$romhandling/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 
 if test x"$emulator" = "xx64"; then
-   sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xx64sc"; then
-   sed -e s/@VICE@/x64sc/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/x64sc/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xx64dtv"; then
-   sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/x64dtv/g -e s/@VICE_DATA_PATH@/c64dtv/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xxscpu64"; then
-   sed -e s/@VICE@/xscpu64/g -e s/@VICE_DATA_PATH@/scpu64/g -e s/@VICE_DATA_FILE@/scpu64/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/xscpu64/g -e s/@VICE_DATA_PATH@/scpu64/g -e s/@VICE_DATA_FILE@/scpu64/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xxvic"; then
-   sed -e s/@VICE@/xvic/g -e s/@VICE_DATA_PATH@/vic20/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/xvic/g -e s/@VICE_DATA_PATH@/vic20/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xxplus4"; then
-   sed -e s/@VICE@/xplus4/g -e s/@VICE_DATA_PATH@/plus4/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/xplus4/g -e s/@VICE_DATA_PATH@/plus4/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
-   sed -e s/@VICE@/xcbm5x0/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal.500/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/xcbm5x0/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal.500/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xx128"; then
-   sed -e s/@VICE@/x128/g -e s/@VICE_DATA_PATH@/c128/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/x128/g -e s/@VICE_DATA_PATH@/c128/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xxcbm2"; then
-   sed -e s/@VICE@/xcbm2/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/xcbm2/g -e s/@VICE_DATA_PATH@/cbm-ii/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 if test x"$emulator" = "xxpet"; then
-   sed -e s/@VICE@/xpet/g -e s/@VICE_DATA_PATH@/pet/g -e s/@VICE_DATA_FILE@/kernal4/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
+  sed -e s/@VICE@/xpet/g -e s/@VICE_DATA_PATH@/pet/g -e s/@VICE_DATA_FILE@/kernal4/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
 echo generating apk
