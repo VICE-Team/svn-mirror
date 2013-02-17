@@ -61,6 +61,8 @@
 /* the freq. should be configurable */
 #define REFRESH_FREQ (8 * 1000 * 1000)
 static struct timespec reltime = { 0, REFRESH_FREQ };
+static int dthread_rfp = 8;
+static int dthread_ghosting = 1;
 static pthread_t dthread;
 static pthread_t ethread;
 static pthread_cond_t cond  = PTHREAD_COND_INITIALIZER;
@@ -103,15 +105,34 @@ static void *dthread_func(void *attr);
 static void *ethread_func(void *attr);
 /* resources */
 static int do_blending = 1;
+
 static int set_alpha_blending(int val, void *p)
 {
     DBG(("Toggle alpha blending: %d -> %d", do_blending, val));
     do_blending = val;
 }
 
+static int set_dthread_rfp(int val, void *p)
+{
+    DBG(("Setting dthread rfp %dms", dthread_rfp));
+    dthread_rfp = val;
+    reltime.tv_nsec = val * 1000L * 1000L;
+}
+
+static int set_dthread_ghosting(int val, void *p)
+{
+    val = (val < 1) ? 1 : (val > (MAX_BUFFERS - 1)) ? (MAX_BUFFERS - 1) : val;
+    DBG(("Setting dthread ghosting %d frames", dthread_ghosting));
+    dthread_ghosting = val;
+}
+
 static resource_int_t resources_uithreads[] = {
     { "AlphaBlending", 1, RES_EVENT_NO, NULL,
       &do_blending, set_alpha_blending, NULL },
+    { "DThreadRate", 8, RES_EVENT_NO, NULL,
+      &dthread_rfp, set_dthread_rfp, NULL },
+    { "DThreadGhosting", 1, RES_EVENT_NO, NULL,
+      &dthread_ghosting, set_dthread_ghosting, NULL },
     { NULL }
 };
 
@@ -394,7 +415,7 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int sh
 	    np = 0;
 	}
     }
-    int np2 = np - 1;
+    int np2 = np - dthread_ghosting;
     if (np2 < 0) {
 	np2 += MAX_BUFFERS;
     }
