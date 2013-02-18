@@ -25,6 +25,23 @@ MACHINE_XPLUS4="8"
 MACHINE_XVIC="9"
 MACHINE_ALL="100"
 
+C64_ROMS="kernal basic chargen sdl_sym.vkm"
+C64DTV_ROMS="kernal basic chargen dtvrom.bin sdl_sym.vkm"
+SCPU64_ROMS="chargen scpu64 sdl_sym.vkm"
+CBM5X0_ROMS="kernal.500 basic.500 chargen.500 sdl_buks.vkm"
+CBM2_ROMS="kernal basic.128 chargen.600 sdl_buks.vkm"
+C128_ROMS="kernal chargen basiclo basichi basic64 kernal64 sdl_sym.vkm"
+PET_ROMS="kernal4 basic4 chargen edit4b80 sdl_sym.vkm"
+PLUS4_ROMS="kernal basic 3plus1lo 3plus1hi sdl_sym.vkm"
+VIC20_ROMS="kernal basic chargen sdl_sym.vkm"
+DRIVE_ROMS="d1541II d1571cr dos1001 dos1541 dos1551 dos1570 dos1571 dos2000 dos2031 dos2040 dos3040 dos4000 dos4040"
+
+ROMS_EXTERNAL="0"
+ROMS_PUSHED="1"
+ROMS_ASSET="2"
+ROMS_EMBEDDED="3"
+ROMS_INVALID="-1"
+
 # see if we are in the top of the tree
 if [ ! -f configure.proto ]; then
   cd ../..
@@ -186,33 +203,33 @@ do
   fi
   if test x"$i" = "xexternalroms"; then
     if test x"$romhandling" = "x"; then
-      romhandling="0"
+      romhandling=$ROMS_EXTERNAL
     else
-      romhandling="-1"
+      romhandling=$ROMS_INVALID
     fi
     validoption=yes
   fi
   if test x"$i" = "xpushedroms"; then
     if test x"$romhandling" = "x"; then
-      romhandling="1"
+      romhandling=$ROMS_PUSHED
     else
-      romhandling="-1"
+      romhandling=$ROMS_INVALID
     fi
     validoption=yes
   fi
   if test x"$i" = "xassetroms"; then
     if test x"$romhandling" = "x"; then
-      romhandling="2"
+      romhandling=$ROMS_ASSET
     else
-      romhandling="-1"
+      romhandling=$ROMS_INVALID
     fi
     validoption=yes
   fi
   if test x"$i" = "xembeddedroms"; then
     if test x"$romhandling" = "x"; then
-      romhandling="3"
+      romhandling=$ROMS_EMBEDDED
     else
-      romhandling="-1"
+      romhandling=$ROMS_INVALID
     fi
     validoption=yes
   fi
@@ -245,17 +262,17 @@ else
   fi
 fi
 
-if test x"$romhandling" = "x-1"; then
+if test x"$romhandling" = "x$ROMS_INVALID"; then
   echo "Only 1 type of rom handling can be specified"
   exit 1
 fi
 
 if test x"$romhandling" = "x"; then
-  romhandling="2"
+  romhandling=$ROMS_ASSET
 fi
 
 if test x"$emulator" = "xall emulators"; then
-  if test x"$romhandling" = "x0"; then
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
     echo "Cannot use external roms for all emulators"
     exit 1
   fi
@@ -486,64 +503,87 @@ fi
 echo building $emulib
 cd ..
 
+rm assets/*
+cp assets-proto/gpl.txt assets
+
 if test x"$emulator" = "xx64"; then
   sed -e 's/@VICE@/AnVICE_x64/g' -e 's/@VICE_ROM@/C64 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-x64 assets/sdl-vicerc
-  cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xx64sc"; then
   sed -e 's/@VICE@/AnVICE_x64sc/g' -e 's/@VICE_ROM@/C64SC ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-x64sc assets/sdl-vicerc
-  cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/C64/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xx64dtv"; then
   sed -e 's/@VICE@/AnVICE_x64dtv/g' -e 's/@VICE_ROM@/C64DTV ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-x64dtv assets/sdl-vicerc
-  cp ../../../../data/C64DTV/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/C64DTV/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xxscpu64"; then
   sed -e 's/@VICE@/AnVICE_xscpu64/g' -e 's/@VICE_ROM@/SCPU64 ROM \(SCPU64\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xscpu64 assets/sdl-vicerc
-  cp ../../../../data/SCPU64/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/SCPU64/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xxvic"; then
   sed -e 's/@VICE@/AnVICE_xvic/g' -e 's/@VICE_ROM@/VIC20 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xvic assets/sdl-vicerc
-  cp ../../../../data/VIC20/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/VIC20/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xxplus4"; then
   sed -e 's/@VICE@/AnVICE_xplus4/g' -e 's/@VICE_ROM@/PLUS4 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xplus4 assets/sdl-vicerc
-  cp ../../../../data/PLUS4/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/PLUS4/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xxcbm5x0"; then
   sed -e 's/@VICE@/AnVICE_xcbm5x0/g' -e 's/@VICE_ROM@/CBM5X0 ROM \(KERNAL.500\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xcbm5x0 assets/sdl-vicerc
-  cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xx128"; then
   sed -e 's/@VICE@/AnVICE_x128/g' -e 's/@VICE_ROM@/C128 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-x128 assets/sdl-vicerc
-  cp ../../../../data/C128/sdl_sym.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/C128/sdl_sym.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xxcbm2"; then
   sed -e 's/@VICE@/AnVICE_xcbm2/g' -e 's/@VICE_ROM@/CBM2 ROM \(KERNAL\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xcbm2 assets/sdl-vicerc
-  cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xxpet"; then
   sed -e 's/@VICE@/AnVICE_xpet/g' -e 's/@VICE_ROM@/PET ROM \(KERNAL4\)/g' <res-proto/values/strings.xml >res/values/strings.xml
   cp assets-proto/sdl-vicerc-xpet assets/sdl-vicerc
-  cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
+    cp ../../../../data/CBM-II/sdl_buks.vkm assets/sdl_sym.vkm
+  fi
 fi
 
 if test x"$emulator" = "xall emulators"; then
@@ -556,6 +596,76 @@ else
   else
     cp res-proto/layout/prefs-viceroms.xml res/layout/prefs.xml
   fi
+fi
+
+if test x"$romhandling" = "x$ROMS_ASSET"; then
+  if test x"$emulator" = "xx64" -o x"$emulator" = "xx64sc" -o x"$emulator" = "xall emulators"; then
+    for i in $C64_ROMS
+    do
+      cp ../../../../data/C64/$i assets/c64_$i
+    done
+  fi
+
+  if test x"$emulator" = "xx64dtv" -o x"$emulator" = "xall emulators"; then
+    for i in $C64DTV_ROMS
+    do
+      cp ../../../../data/C64DTV/$i assets/c64dtv_$i
+    done
+  fi
+
+  if test x"$emulator" = "xxscpu64" -o x"$emulator" = "xall emulators"; then
+    for i in $SCPU64_ROMS
+    do
+      cp ../../../../data/SCPU64/$i assets/scpu64_$i
+    done
+  fi
+
+  if test x"$emulator" = "xx128" -o x"$emulator" = "xall emulators"; then
+    for i in $C128_ROMS
+    do
+      cp ../../../../data/C128/$i assets/c128_$i
+    done
+  fi
+
+  if test x"$emulator" = "xxcbm2" -o x"$emulator" = "xall emulators"; then
+    for i in $CBM2_ROMS
+    do
+      cp ../../../../data/CBM-II/$i assets/cbm-ii_$i
+    done
+  fi
+
+  if test x"$emulator" = "xxcbm5x0" -o x"$emulator" = "xall emulators"; then
+    for i in $CBM5X0_ROMS
+    do
+      cp ../../../../data/CBM-II/$i assets/cbm-ii_$i
+    done
+  fi
+
+  if test x"$emulator" = "xxpet" -o x"$emulator" = "xall emulators"; then
+    for i in $PET_ROMS
+    do
+      cp ../../../../data/PET/$i assets/pet_$i
+    done
+  fi
+
+  if test x"$emulator" = "xxplus4" -o x"$emulator" = "xall emulators"; then
+    for i in $PLUS4_ROMS
+    do
+      cp ../../../../data/PLUS4/$i assets/plus4_$i
+    done
+  fi
+
+  if test x"$emulator" = "xxvic" -o x"$emulator" = "xall emulators"; then
+    for i in $VIC20_ROMS
+    do
+      cp ../../../../data/VIC20/$i assets/vic20_$i
+    done
+  fi
+
+  for i in $DRIVE_ROMS
+  do
+    cp ../../../../data/DRIVES/$i assets/drives_$i
+  done
 fi
 
 ndk-build
