@@ -1,6 +1,16 @@
 SUBDIRS = \
 	locnet \
 	locnet_al \
+	locnet_x64 \
+	locnet_x64sc \
+	locnet_x64dtv \
+	locnet_xscpu64 \
+	locnet_x128 \
+	locnet_xcbm2 \
+	locnet_xcbm5x0 \
+	locnet_xpet \
+	locnet_xplus4 \
+	locnet_xvic \
 	sdl \
 	vice_c64cart \
 	vice_c64exp \

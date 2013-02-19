@@ -18,11 +18,38 @@
     <string name="change_floppy_3">Change Drive 10</string>
     <string name="change_floppy_4">Change Drive 11</string>
 
+    <string name="pref_start_x64">Start X64</string>
+    <string name="pref_start_summary_x64">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_x64sc">Start X64SC</string>
+    <string name="pref_start_summary_x64sc">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_xscpu64">Start XSCPU64</string>
+    <string name="pref_start_summary_xscpu64">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_x64dtv">Start X64DTV</string>
+    <string name="pref_start_summary_xdtv">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_x128">Start X128</string>
+    <string name="pref_start_summary_x128">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_xcbm2">Start XCBM2</string>
+    <string name="pref_start_summary_xcbm2">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_xcbm5x0">Start XCBM5X0</string>
+    <string name="pref_start_summary_xcbm5x0">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_xpet">Start XPET</string>
+    <string name="pref_start_summary_xpet">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_xplus4">Start XPLUS4</string>
+    <string name="pref_start_summary_xplus4">Savestate will bind to the autostart image BEFORE emulator started</string>
+
+    <string name="pref_start_xvic">Start XVIC</string>
+    <string name="pref_start_summary_xvic">Savestate will bind to the autostart image BEFORE emulator started</string>
+
     <string name="pref_category_preconfig">Boot Parameters</string>
     <string name="pref_start">Start Emulator</string>
-<!-- 
-    <string name="pref_start_summary">Savestate will bind to the disk in Drive 8 BEFORE emulator started</string>
--->    
     <string name="pref_start_summary">Savestate will bind to the autostart image BEFORE emulator started</string>
     <string name="pref_rom">@VICE_ROM@</string>
     <string name="pref_floppy_count">No. of Floppy Drives</string>

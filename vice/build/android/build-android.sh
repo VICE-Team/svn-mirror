@@ -31,7 +31,7 @@ SCPU64_ROMS="chargen scpu64 sdl_sym.vkm"
 CBM5X0_ROMS="kernal.500 basic.500 chargen.500 sdl_buks.vkm"
 CBM2_ROMS="kernal basic.128 chargen.600 sdl_buks.vkm"
 C128_ROMS="kernal chargen basiclo basichi basic64 kernal64 sdl_sym.vkm"
-PET_ROMS="kernal4 basic4 chargen edit4b80 sdl_sym.vkm"
+PET_ROMS="kernal4 basic4 chargen edit4b80 sdl_buks.vkm"
 PLUS4_ROMS="kernal basic 3plus1lo 3plus1hi sdl_sym.vkm"
 VIC20_ROMS="kernal basic chargen sdl_sym.vkm"
 DRIVE_ROMS="d1541II d1571cr dos1001 dos1541 dos1551 dos1570 dos1571 dos2000 dos2031 dos2040 dos3040 dos4000 dos4040"
@@ -361,7 +361,7 @@ echo generating Android.mk files for $emulator
 
 if test x"$emulator" = "xx64"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-x64.mk.proto locnet/Android.mk
+  cp locnet_x64/Android.mk.proto locnet_x64/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
   cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
@@ -377,7 +377,7 @@ fi
 
 if test x"$emulator" = "xx64sc"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-x64sc.mk.proto locnet/Android.mk
+  cp locnet_x64sc/Android.mk.proto locnet_x64sc/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
   cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
@@ -393,7 +393,7 @@ fi
 
 if test x"$emulator" = "xx64dtv"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-x64dtv.mk.proto locnet/Android.mk
+  cp locnet_x64dtv/Android.mk.proto locnet_x64dtv/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
   cp vice_common/Android.mk.proto vice_common/Android.mk
@@ -407,7 +407,7 @@ fi
 
 if test x"$emulator" = "xxscpu64"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-xscpu64.mk.proto locnet/Android.mk
+  cp locnet_xscpu64/Android.mk.proto locnet_xscpu64/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
   cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
@@ -423,7 +423,7 @@ fi
 
 if test x"$emulator" = "xxvic"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-xvic.mk.proto locnet/Android.mk
+  cp locnet_xvic/Android.mk.proto locnet_xvic/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_common/Android.mk.proto vice_common/Android.mk
   cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
@@ -436,7 +436,7 @@ fi
 
 if test x"$emulator" = "xxplus4"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-xplus4.mk.proto locnet/Android.mk
+  cp locnet_xplus4/Android.mk.proto locnet_xplus4/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_common/Android.mk.proto vice_common/Android.mk
   cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
@@ -448,7 +448,7 @@ fi
 
 if test x"$emulator" = "xxcbm5x0"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-xplus4.mk.proto locnet/Android.mk
+  cp locnet_xcbm5x0/Android.mk.proto locnet_xcbm5x0/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_common/Android.mk.proto vice_common/Android.mk
   cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
@@ -461,7 +461,7 @@ fi
 
 if test x"$emulator" = "xx128"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-x128.mk.proto locnet/Android.mk
+  cp locnet_x128/Android.mk.proto locnet_x128/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
   cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
@@ -477,7 +477,7 @@ fi
 
 if test x"$emulator" = "xxcbm2"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-xcbm2.mk.proto locnet/Android.mk
+  cp locnet_xcbm2/Android.mk.proto locnet_xcbm2/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_common/Android.mk.proto vice_common/Android.mk
   cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
@@ -490,7 +490,7 @@ fi
 
 if test x"$emulator" = "xxpet"; then
   cp Android.mk.proto Android.mk
-  cp locnet/Android-xpet.mk.proto locnet/Android.mk
+  cp locnet_xpet/Android.mk.proto locnet_xpet/Android.mk
   cp locnet_al/Android.mk.proto locnet_al/Android.mk
   cp vice_common/Android.mk.proto vice_common/Android.mk
   cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
@@ -498,6 +498,43 @@ if test x"$emulator" = "xxpet"; then
   cp vice_tape/Android.mk.proto vice_tape/Android.mk
   cp vice_xpet/Android.mk.proto vice_xpet/Android.mk
   cp vice_crtc/Android.mk.proto vice_crtc/Android.mk
+fi
+
+if test x"$emulator" = "xall emulators"; then
+  cp Android.mk.proto Android.mk
+  cp locnet_x64/Android.mk.proto locnet_x64/Android.mk
+  cp locnet_x64sc/Android.mk.proto locnet_x64sc/Android.mk
+  cp locnet_x64dtv/Android.mk.proto locnet_x64dtv/Android.mk
+  cp locnet_x128/Android.mk.proto locnet_x128/Android.mk
+  cp locnet_xcbm2/Android.mk.proto locnet_xcbm2/Android.mk
+  cp locnet_xcbm5x0/Android.mk.proto locnet_xcbm5x0/Android.mk
+  cp locnet_xpet/Android.mk.proto locnet_xpet/Android.mk
+  cp locnet_xplus4/Android.mk.proto locnet_xplus4/Android.mk
+  cp locnet_xscpu64/Android.mk.proto locnet_xscpu64/Android.mk
+  cp locnet_xvic/Android.mk.proto locnet_xvic/Android.mk
+  cp locnet_al/Android.mk.proto locnet_al/Android.mk
+  cp vice_c64cart/Android.mk.proto vice_c64cart/Android.mk
+  cp vice_c64exp/Android.mk.proto vice_c64exp/Android.mk
+  cp vice_cbm2common/Android.mk.proto vice_cbm2common/Android.mk
+  cp vice_common/Android.mk.proto vice_common/Android.mk
+  cp vice_commonall/Android.mk.proto vice_commonall/Android.mk
+  cp vice_commoncart/Android.mk.proto vice_commoncart/Android.mk
+  cp vice_crtc/Android.mk.proto vice_crtc/Android.mk
+  cp vice_iec/Android.mk.proto vice_iec/Android.mk
+  cp vice_ieeepar/Android.mk.proto vice_ieeepar/Android.mk
+  cp vice_tape/Android.mk.proto vice_tape/Android.mk
+  cp vice_vicii/Android.mk.proto vice_vicii/Android.mk
+  cp vice_viciisc/Android.mk.proto vice_viciisc/Android.mk
+  cp vice_x64/Android.mk.proto vice_x64/Android.mk
+  cp vice_x64sc/Android.mk.proto vice_x64sc/Android.mk
+  cp vice_x64dtv/Android.mk.proto vice_x64dtv/Android.mk
+  cp vice_x128/Android.mk.proto vice_x128/Android.mk
+  cp vice_xcbm2/Android.mk.proto vice_xcbm2/Android.mk
+  cp vice_xcbm5x0/Android.mk.proto vice_xcbm5x0/Android.mk
+  cp vice_xpet/Android.mk.proto vice_xpet/Android.mk
+  cp vice_xplus4/Android.mk.proto vice_xplus4/Android.mk
+  cp vice_xscpu64/Android.mk.proto vice_xscpu64/Android.mk
+  cp vice_xvic/Android.mk.proto vice_xvic/Android.mk
 fi
 
 echo building $emulib
@@ -591,7 +628,7 @@ if test x"$emulator" = "xall emulators"; then
   cat assets-proto/sdl-vicerc-x64 assets-proto/sdl-vicerc-x64sc assets-proto/sdl-vicerc-x64dtv assets-proto/sdl-vicerc-xscpu64 assets-proto/sdl-vicerc-x128 assets-proto/sdl-vicerc-xcbm2 assets-proto/sdl-vicerc-xcbm5x0 assets-proto/sdl-vicerc-xpet assets-proto/sdl-vicerc-xplus4 assets-proto/sdl-vicerc-xvic >assets/sdl-vicerc
   cp res-proto/layout/prefs-allemus.xml res/layout/prefs.xml
 else
-  if test x"$romhandling" = "x0"; then
+  if test x"$romhandling" = "x$ROMS_EXTERNAL"; then
     cp res-proto/layout/prefs-externalroms.xml res/layout/prefs.xml
   else
     cp res-proto/layout/prefs-viceroms.xml res/layout/prefs.xml

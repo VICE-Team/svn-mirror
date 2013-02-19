@@ -108,8 +108,44 @@ public class DosBoxLauncher extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         {
-            /* @VICE@ will be replaced during build time with the name of the library needed by the android build script. */
-            System.loadLibrary("@VICE@");
+            Intent intent = getIntent();
+            int message = intent.getIntExtra(PreConfig.EXTRA_MESSAGE);
+
+            if (PreConfig.MACHINE_TYPE != PreConfig.MACHINE_ALL) {
+                /* @VICE@ will be replaced during build time with the name of the library needed by the android build script. */
+                System.loadLibrary("@VICE@");
+            } else {
+                if (message == PreConfig.MACHINE_X64) {
+                    System.loadLibrary("libx64.so");
+                }
+                if (message == PreConfig.MACHINE_X64SC) {
+                    System.loadLibrary("libx64sc.so");
+                }
+                if (message == PreConfig.MACHINE_XSCPU64) {
+                    System.loadLibrary("libxscpu64.so");
+                }
+                if (message == PreConfig.MACHINE_X64DTV) {
+                    System.loadLibrary("libx64dtv.so");
+                }
+                if (message == PreConfig.MACHINE_X128) {
+                    System.loadLibrary("libx128.so");
+                }
+                if (message == PreConfig.MACHINE_XCBM2) {
+                    System.loadLibrary("libxcbm2.so");
+                }
+                if (message == PreConfig.MACHINE_XCBM5X0) {
+                    System.loadLibrary("libxcbm5x0.so");
+                }
+                if (message == PreConfig.MACHINE_XPET) {
+                    System.loadLibrary("libxpet.so");
+                }
+                if (message == PreConfig.MACHINE_XPLUS4) {
+                    System.loadLibrary("libxplus4.so");
+                }
+                if (message == PreConfig.MACHINE_XVIC) {
+                    System.loadLibrary("libxvic.so");
+                }
+            }
         }
 
         nativeSetRomHandling(PreConfig.ROMS_TYPE);

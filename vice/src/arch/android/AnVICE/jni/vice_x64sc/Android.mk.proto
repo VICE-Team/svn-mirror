@@ -29,6 +29,7 @@ LOCAL_C_INCLUDES :=	$(LOCAL_PATH)/include \
 				$(LOCAL_PATH)/../../../../../../src/video \
 				$(LOCAL_PATH)/../../../../../../src/viciisc \
 				$(LOCAL_PATH)/../../../../../../src/drive/iec/c64exp \
+				$(LOCAL_PATH)/../../../../../../src/rtc \
 				$(LOCAL_PATH)/../../../../../../src \
 				$(LOCAL_PATH)/../.. \
 				$(LOCAL_PATH)

@@ -3542,6 +3542,16 @@ AC_OUTPUT([Makefile
            src/arch/android/AnVICE/assets-proto/Makefile
            src/arch/android/AnVICE/jni/Makefile
            src/arch/android/AnVICE/jni/locnet/Makefile
+           src/arch/android/AnVICE/jni/locnet_x64/Makefile
+           src/arch/android/AnVICE/jni/locnet_x64dtv/Makefile
+           src/arch/android/AnVICE/jni/locnet_x64sc/Makefile
+           src/arch/android/AnVICE/jni/locnet_x128/Makefile
+           src/arch/android/AnVICE/jni/locnet_xcbm2/Makefile
+           src/arch/android/AnVICE/jni/locnet_xcbm5x0/Makefile
+           src/arch/android/AnVICE/jni/locnet_xpet/Makefile
+           src/arch/android/AnVICE/jni/locnet_xplus4/Makefile
+           src/arch/android/AnVICE/jni/locnet_xscpu64/Makefile
+           src/arch/android/AnVICE/jni/locnet_xvic/Makefile
            src/arch/android/AnVICE/jni/locnet_al/Makefile
            src/arch/android/AnVICE/jni/sdl/Makefile
            src/arch/android/AnVICE/jni/vice_c64cart/Makefile

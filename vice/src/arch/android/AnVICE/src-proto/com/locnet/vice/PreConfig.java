@@ -102,6 +102,17 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String PREF_KEY_TRUE_DRIVE_ON = "pref_key_true_drive_on";
     public static final String PREF_KEY_SCREEN_BORDER_ON = "pref_key_screen_border_on";
 
+    public static final String PREF_KEY_START_X64 = "pref_key_start_x64";
+    public static final String PREF_KEY_START_X64SC = "pref_key_start_x64sc";
+    public static final String PREF_KEY_START_XSCPU64 = "pref_key_start_xscpu64";
+    public static final String PREF_KEY_START_X64DTV = "pref_key_start_x64dtv";
+    public static final String PREF_KEY_START_X128 = "pref_key_start_x128";
+    public static final String PREF_KEY_START_XCBM2 = "pref_key_start_xcbm2";
+    public static final String PREF_KEY_START_XCBM5X0 = "pref_key_start_xcbm5x0";
+    public static final String PREF_KEY_START_XPET = "pref_key_start_xpet";
+    public static final String PREF_KEY_START_XPLUS4 = "pref_key_start_xplus4";
+    public static final String PREF_KEY_START_XVIC = "pref_key_start_xvic";
+
     public static final String KERNAL_NAME = "KERNAL";
     public static final String BASIC_NAME = "BASIC";
     public static final String CHARGEN_NAME = "CHARGEN";
@@ -143,12 +154,12 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
     public static final String PET_BASIC_NAME = "basic4";
     public static final String PET_CHARGEN_NAME = "chargen";
     public static final String PET_EDITOR_NAME = "edit4b80";
-    public static final String PET_SDL_SYM_NAME = "sdl_sym.vkm";
+    public static final String PET_SDL_SYM_NAME = "sdl_buks.vkm";
 
     public static final String PLUS4_KERNAL_NAME = "kernal";
     public static final String PLUS4_BASIC_NAME = "basic";
-    public static final String PLUS4_3PLUS1LO_NAME = "3PLUS1LO";
-    public static final String PLUS4_3PLUS1HI_NAME = "3PLUS1HI";
+    public static final String PLUS4_3PLUS1LO_NAME = "3plus1lo";
+    public static final String PLUS4_3PLUS1HI_NAME = "3plus1hi";
     public static final String PLUS4_SDL_SYM_NAME = "sdl_sym.vkm";
 
     public static final String VIC20_KERNAL_NAME = "kernal";
@@ -169,6 +180,8 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
 
     public static final String DRIVE_PATH = "drives";
 
+    public final static String EXTRA_MESSAGE = "com.locnet.vice.MESSAGE";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,20 +192,175 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
         String key = PREF_KEY_START;
         Preference pref;
 
-        key = PREF_KEY_START;
-        pref = (Preference)getPreferenceScreen().findPreference(key);
-        if (pref != null) {
-            setEnableStart();
-            pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-                public boolean onPreferenceClick(Preference preference) {
-                    Intent settingsIntent = new Intent();
-                    settingsIntent.setClass(context, DosBoxLauncher.class);
-                    startActivityForResult(settingsIntent, 20);
+        if (MACHINE_TYPE != MACHINE_ALL) {
+            key = PREF_KEY_START;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStart();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_ALL);
+                        startActivityForResult(settingsIntent, 20);
 
-                    return true;
-                }
-            });
+                        return true;
+                    }
+                });
+            }
+        } else {
+            key = PREF_KEY_START_X64;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartX64();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_X64);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_X64SC;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartX64SC();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_X64SC);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_XSCPU64;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartXSCPU64();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_XSCPU64);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_X64DTV;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartX64DTV();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_X64DTV);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_X128;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartX128();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_X128);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_XCBM2;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartXCBM2();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_XCBM2);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_XCBM5X0;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartXCBM5X0();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_XCBM5X0);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_XPET;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartXPET();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_XPET);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_XPLUS4;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartXPLUS4();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_XPLUS4);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
+            key = PREF_KEY_START_XVIC;
+            pref = (Preference)getPreferenceScreen().findPreference(key);
+            if (pref != null) {
+                setEnableStartXVIC();
+                pref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                    public boolean onPreferenceClick(Preference preference) {
+                        Intent settingsIntent = new Intent();
+                        settingsIntent.setClass(context, DosBoxLauncher.class);
+                        settingsIntent.putExtra(EXTRA_MESSAGE, MACHINE_XVIC);
+                        startActivityForResult(settingsIntent, 20);
+
+                        return true;
+                    }
+                });
+            }
         }
+
 
         /* only set rom handler if external roms are used */
         if (ROMS_TYPE == ROMS_EXTERNAL) {
@@ -390,6 +558,426 @@ public class PreConfig extends PreferenceActivity implements OnSharedPreferenceC
                     pref.setSummary("");
                 } else {
                     pref.setSummary("Some needed files cannot be copied.");
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartX64() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_X64);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkC64ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkC64ROMS()) {
+                    if (!copyC64ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartX64SC() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_X64SC);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkC64ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkC64ROMS()) {
+                    if (!copyC64ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartXSCPU64() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_XSCPU64);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkSCPU64ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkSCPU64ROMS()) {
+                    if (!copySCPU64ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartX64DTV() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_X64DTV);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkC64DTVROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkC64DTVROMS()) {
+                    if (!copyC64DTVROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartX128() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_X128);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkC128ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkC128ROMS()) {
+                    if (!copyC128ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartXCBM2() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_XCBM2);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkCBM2ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkCBM2ROMS()) {
+                    if (!copyCBM2ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartXCBM5X0() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_XCBM5X0);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkCBM5X0ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkCBM5X0ROMS()) {
+                    if (!copyCBM5X0ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartXPET() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_XPET);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkPETROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkPETROMS()) {
+                    if (!copyPETROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartXPLUS4() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_XPLUS4);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkPLUS4ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkPLUS4ROMS()) {
+                    if (!copyPLUS4ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
+                }
+            }
+
+            /* embedded roms, no need to check, just enable */
+            if (ROMS_TYPE == ROMS_EMBEDDED) {
+                pref.setEnabled(true);
+            }
+        }
+    }
+
+    void setEnableStartXVIC() {
+        Preference pref = (Preference)getPreferenceScreen().findPreference(PREF_KEY_START_XVIC);
+        if (pref != null) {
+
+            /* pushed roms, check for presence of roms in any of the hardcoded locations */
+            if (ROMS_TYPE == ROMS_PUSHED) {
+                boolean should_enable = true;
+
+                if (!checkVIC20ROMS()) {
+                    pref.setSummary("Some needed files are missing.");
+                } else {
+                    pref.setEnabled(true);
+                    pref.setSummary("");
+                }
+            }
+
+
+            /* asset roms, check for presence of roms and when missing copy roms to correct location */
+            if (ROMS_TYPE == ROMS_ASSET) {
+                boolean should_enable = true;
+
+                if (!checkDRIVEROMS()) {
+                    copyDRIVEROMS();
+                }
+
+                if (!checkVIC20ROMS()) {
+                    if (!copyVIC20ROMS()) {
+                        pref.setSummary("Some needed files cannot be copied.");
+                    } else {
+                        pref.setEnabled(true);
+                        pref.setSummary("");
+                    }
                 }
             }
 
