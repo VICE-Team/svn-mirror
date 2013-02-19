@@ -624,7 +624,7 @@ if test x"$emulator" = "xxpet"; then
 fi
 
 if test x"$emulator" = "xall emulators"; then
-  sed 's/@VICE@/AnVICE/g' <res-proto/values/strings.xml >res/values/strings.xml
+  sed -e 's/@VICE@/AnVICE/g' -e 's/@VICE_ROM@/No ROM/g' <res-proto/values/strings.xml >res/values/strings.xml
   cat assets-proto/sdl-vicerc-x64 assets-proto/sdl-vicerc-x64sc assets-proto/sdl-vicerc-x64dtv assets-proto/sdl-vicerc-xscpu64 assets-proto/sdl-vicerc-x128 assets-proto/sdl-vicerc-xcbm2 assets-proto/sdl-vicerc-xcbm5x0 assets-proto/sdl-vicerc-xpet assets-proto/sdl-vicerc-xplus4 assets-proto/sdl-vicerc-xvic >assets/sdl-vicerc
   cp res-proto/layout/prefs-allemus.xml res/layout/prefs.xml
 else
@@ -711,7 +711,7 @@ echo generating needed java files
 
 sed -e s/@VICE_MACHINE@/$MACHINE/g -e s/@VICE_ROMS@/$romhandling/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 
-if test x"$emulator" = "xx64"; then
+if test x"$emulator" = "xx64" -o x"$emulator" = "xall emulators"; then
   sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 
