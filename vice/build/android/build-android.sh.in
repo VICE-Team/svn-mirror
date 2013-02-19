@@ -711,7 +711,7 @@ echo generating needed java files
 
 sed -e s/@VICE_MACHINE@/$MACHINE/g -e s/@VICE_ROMS@/$romhandling/g <src-proto/com/locnet/vice/PreConfig.java >src/com/locnet/vice/PreConfig.java
 
-if test x"$emulator" = "xx64"; then
+if test x"$emulator" = "xx64" -o x"$emulator" = "xall emulators"; then
   sed -e s/@VICE@/x64/g -e s/@VICE_DATA_PATH@/c64/g -e s/@VICE_DATA_FILE@/kernal/g <src-proto/com/locnet/vice/DosBoxLauncher.java >src/com/locnet/vice/DosBoxLauncher.java
 fi
 

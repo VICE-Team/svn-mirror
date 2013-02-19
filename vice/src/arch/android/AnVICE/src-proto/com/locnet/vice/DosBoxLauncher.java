@@ -109,41 +109,41 @@ public class DosBoxLauncher extends Activity {
         super.onCreate(savedInstanceState);
         {
             Intent intent = getIntent();
-            int message = intent.getIntExtra(PreConfig.EXTRA_MESSAGE);
+            int message = intent.getIntExtra(PreConfig.EXTRA_MESSAGE, 0);
 
             if (PreConfig.MACHINE_TYPE != PreConfig.MACHINE_ALL) {
                 /* @VICE@ will be replaced during build time with the name of the library needed by the android build script. */
                 System.loadLibrary("@VICE@");
             } else {
                 if (message == PreConfig.MACHINE_X64) {
-                    System.loadLibrary("libx64.so");
+                    System.loadLibrary("x64");
                 }
                 if (message == PreConfig.MACHINE_X64SC) {
-                    System.loadLibrary("libx64sc.so");
+                    System.loadLibrary("x64sc");
                 }
                 if (message == PreConfig.MACHINE_XSCPU64) {
-                    System.loadLibrary("libxscpu64.so");
+                    System.loadLibrary("xscpu64");
                 }
                 if (message == PreConfig.MACHINE_X64DTV) {
-                    System.loadLibrary("libx64dtv.so");
+                    System.loadLibrary("x64dtv");
                 }
                 if (message == PreConfig.MACHINE_X128) {
-                    System.loadLibrary("libx128.so");
+                    System.loadLibrary("x128");
                 }
                 if (message == PreConfig.MACHINE_XCBM2) {
-                    System.loadLibrary("libxcbm2.so");
+                    System.loadLibrary("xcbm2");
                 }
                 if (message == PreConfig.MACHINE_XCBM5X0) {
-                    System.loadLibrary("libxcbm5x0.so");
+                    System.loadLibrary("xcbm5x0");
                 }
                 if (message == PreConfig.MACHINE_XPET) {
-                    System.loadLibrary("libxpet.so");
+                    System.loadLibrary("xpet");
                 }
                 if (message == PreConfig.MACHINE_XPLUS4) {
-                    System.loadLibrary("libxplus4.so");
+                    System.loadLibrary("xplus4");
                 }
                 if (message == PreConfig.MACHINE_XVIC) {
-                    System.loadLibrary("libxvic.so");
+                    System.loadLibrary("xvic");
                 }
             }
         }

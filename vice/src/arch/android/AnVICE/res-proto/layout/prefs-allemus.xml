@@ -95,14 +95,6 @@
 		android:title="@string/pref_category_preconfig">
 			    
 		<Preference
-			android:key="pref_key_rom"
-			android:title="@string/pref_rom"
-			android:persistent="false"
-			android:selectable="true"
-			android:enabled="true"
-		/>
-
-		<Preference
 			android:key="pref_key_floppy1"
 			android:title="@string/pref_floppy1"
 			android:persistent="false"
