@@ -72,8 +72,10 @@ static pal_templ_t ctrls[] = {
     /* volume settings */
     { N_("Volume"), "SoundVolume", 40, 0 },
     { N_("Drives Volume"), "DriveSoundEmulationVolume", 1, 0 },
+#ifdef USE_UI_THREADS
     { N_("Display Thread Rate"), "DThreadRate", 80, 0 },
     { N_("Display Thread Ghosting"), "DThreadGhosting", 900, 0 },
+#endif
 };
 
 #define NUMSLIDERS (sizeof(ctrls) / sizeof(pal_templ_t))
