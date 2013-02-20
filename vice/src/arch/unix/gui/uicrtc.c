@@ -192,7 +192,7 @@ ui_menu_entry_t crtc_submenu[] = {
 #ifdef USE_UI_THREADS
     { N_("Alpha Blending"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_AlphaBlending, NULL, NULL,
-      KEYSYM_b, UI_HOTMOD_META },
+      KEYSYM_v, UI_HOTMOD_META },
 #endif
 #ifdef HAVE_OPENGL_SYNC
     { "--", UI_MENU_TYPE_SEPARATOR },
