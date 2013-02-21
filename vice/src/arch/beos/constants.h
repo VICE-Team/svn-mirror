@@ -27,9 +27,8 @@
 #ifndef VICE__CONSTANTS_H__
 #define VICE__CONSTANTS_H__
 
-#ifndef uint32
-#define uint32 unsigned int
-#endif
+// Use system typedef for uint32
+#include <SupportDefs.h>
 
 // Messages for window interaction with application
 

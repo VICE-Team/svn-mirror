@@ -41,6 +41,7 @@
 
 extern "C" {
 #include "archdep.h"
+#include "c128ui.h"
 #include "cartridge.h"
 #include "constants.h"
 #include "mouse.h"
@@ -205,7 +206,7 @@ ui_res_value_list c128_ui_res_values[] = {
 
 static int c128sidaddressbase[] = { 0xd4, 0xd7, 0xde, 0xdf, -1 };
 
-void c128_ui_specific(void *msg, void *window)
+static void c128_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_VIDEO_VDC_SETTINGS:
@@ -266,7 +267,6 @@ void c128_ui_specific(void *msg, void *window)
     }
 }
 
-extern "C" {
 int c128ui_init(void)
 {
     ui_register_machine_specific(c128_ui_specific);
@@ -278,6 +278,4 @@ int c128ui_init(void)
 
 void c128ui_shutdown(void)
 {
-}
-
 }

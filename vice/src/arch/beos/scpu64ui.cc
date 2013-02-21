@@ -47,6 +47,7 @@ extern "C" {
 #include "keyboard.h"
 #include "mouse.h"
 #include "resources.h"
+#include "scpu64ui.h"
 #include "types.h"
 #include "ui.h"
 #include "ui_file.h"
@@ -310,7 +311,7 @@ static void scpu64_ui_attach_cartridge(int menu)
 
 static int scpu64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
-void scpu64_ui_specific(void *msg, void *window)
+static void scpu64_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_CART_ATTACH_CRT:      
@@ -441,24 +442,15 @@ void scpu64_ui_specific(void *msg, void *window)
     }
 }
 
-extern "C" {
-int scpu64ui_common_init(void)
+int scpu64ui_init(void)
 {
     ui_register_machine_specific(scpu64_ui_specific);
     ui_register_menu_toggles(scpu64_ui_menu_toggles);
+    ui_register_res_values(scpu64_ui_res_values);
     ui_update_menus();
     return 0;
 }
 
-int scpu64ui_init(void)
-{
-    /* Hack to avoid sc-only VICIIModel resource. */
-    ui_register_res_values(&scpu64_ui_res_values[1]);
-    return scpu64ui_common_init();
-}
-
 void scpu64ui_shutdown(void)
 {
-}
-
 }

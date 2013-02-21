@@ -41,6 +41,7 @@
 
 extern "C" {
 #include "archdep.h"
+#include "c64ui.h"
 #include "c64model.h"
 #include "cartridge.h"
 #include "constants.h"
@@ -317,7 +318,7 @@ static void c64_ui_attach_cartridge(int menu)
 
 static int c64sidaddressbase[] = { 0xd4, 0xd5, 0xd6, 0xd7, 0xde, 0xdf, -1 };
 
-void c64_ui_specific(void *msg, void *window)
+static void c64_ui_specific(void *msg, void *window)
 {
     switch (((BMessage*)msg)->what) {
         case MENU_CART_ATTACH_CRT:      
@@ -478,8 +479,7 @@ void c64_ui_specific(void *msg, void *window)
     }
 }
 
-extern "C" {
-int c64ui_common_init(void)
+static int c64ui_common_init(void)
 {
     ui_register_machine_specific(c64_ui_specific);
     ui_register_menu_toggles(c64_ui_menu_toggles);
@@ -502,6 +502,4 @@ int c64scui_init(void)
 
 void c64ui_shutdown(void)
 {
-}
-
 }
