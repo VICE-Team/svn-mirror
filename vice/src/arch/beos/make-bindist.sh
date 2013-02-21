@@ -3,24 +3,29 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <cpu> <--enable-arch> <zip|nozip> <x64sc-included> <top-srcdir>
-#                 $1      $2             $3    $4              $5          $6               $7
+# make-bindist.sh <strip> <vice-version> <cpu> <--enable-arch> <zip|nozip> <extra64s-included> <top-srcdir>
+#                 $1      $2             $3    $4              $5          $6                  $7
 
 STRIP=$1
 VICEVERSION=$2
 CPU=$3
 ENABLEARCH=$4
 ZIPKIND=$5
-X64SC=$6
+EXTRA64S=$6
 TOPSRCDIR=$7
 
-if test x"$X64SC" = "xyes"; then
-  SCFILE="x64sc"
+if test x"$EXTRA64S" = "xyes"; then
+  EXTRAFILES="x64sc"
+  EXTRADATADIRS=""
+elif test x"$EXTRA64S" = "xboth"; then
+  EXTRAFILES="xscpu64 x64sc"
+  EXTRADATADIRS="SCPU64"
 else
-  SCFILE=""
+  EXTRAFILES=""
+  EXTRADATADIRS=""
 fi
 
-EMULATORS="x64 x64dtv xscpu64 $SCFILE x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
+EMULATORS="x64 x64dtv $EXTRAFILES x128 xcbm2 xcbm5x0 xpet xplus4 xvic vsid"
 CONSOLE_TOOLS="c1541 cartconv petcat"
 EXECUTABLES="$EMULATORS $CONSOLE_TOOLS"
 
@@ -32,6 +37,8 @@ do
     exit 1
   fi
 done
+
+COPYDATADIRS="C128 C64 C64DTV CBM-II DRIVES PET PLUS4 PRINTER $EXTRADATADIRS VIC20 fonts"
 
 echo Generating BEOS port binary distribution.
 if test x"$CPU" = "xpowerpc" -o x"$CPU" = "xppc"; then
@@ -47,12 +54,11 @@ do
   $STRIP src/$i
   cp src/$i BeVICE-$VICEVERSION.$BEOSCPU
 done
-cp -a $TOPSRCDIR/data/C128 $TOPSRCDIR/data/C64 BeVICE-$VICEVERSION.$BEOSCPU
-cp -a $TOPSRCDIR/data/C64DTV $TOPSRCDIR/data/CBM-II BeVICE-$VICEVERSION.$BEOSCPU
-cp -a $TOPSRCDIR/data/DRIVES $TOPSRCDIR/data/PET BeVICE-$VICEVERSION.$BEOSCPU
-cp -a $TOPSRCDIR/data/PLUS4 $TOPSRCDIR/data/PRINTER BeVICE-$VICEVERSION.$BEOSCPU
-cp -a $TOPSRCDIR/data/SCPU64 $TOPSRCDIR/data/VIC20 BeVICE-$VICEVERSION.$BEOSCPU
-cp -a $TOPSRCDIR/data/fonts BeVICE-$VICEVERSION.$BEOSCPU
+
+for i in $COPYDATADIRS
+do
+  cp -a $TOPSRCDIR/data/$i BeVICE-$VICEVERSION.$BEOSCPU
+done
 
 cp -a $TOPSRCDIR/doc/html BeVICE-$VICEVERSION.$BEOSCPU
 cp $TOPSRCDIR/doc/readmes/Readme-BeOS.txt BeVICE-$VICEVERSION.$BEOSCPU
