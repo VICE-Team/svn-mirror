@@ -28,7 +28,7 @@
     <string name="pref_start_summary_xscpu64">Savestate will bind to the autostart image BEFORE emulator started</string>
 
     <string name="pref_start_x64dtv">Start X64DTV</string>
-    <string name="pref_start_summary_xdtv">Savestate will bind to the autostart image BEFORE emulator started</string>
+    <string name="pref_start_summary_x64dtv">Savestate will bind to the autostart image BEFORE emulator started</string>
 
     <string name="pref_start_x128">Start X128</string>
     <string name="pref_start_summary_x128">Savestate will bind to the autostart image BEFORE emulator started</string>
