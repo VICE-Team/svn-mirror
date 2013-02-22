@@ -7,7 +7,7 @@
 		android:summary="@string/pref_start_summary_x64"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -16,7 +16,7 @@
 		android:summary="@string/pref_start_summary_x64sc"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -25,7 +25,7 @@
 		android:summary="@string/pref_start_summary_xscpu64"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -34,7 +34,7 @@
 		android:summary="@string/pref_start_summary_x64dtv"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -43,7 +43,7 @@
 		android:summary="@string/pref_start_summary_x128"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -52,7 +52,7 @@
 		android:summary="@string/pref_start_summary_xcbm2"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -61,7 +61,7 @@
 		android:summary="@string/pref_start_summary_xcbm5x0"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -70,7 +70,7 @@
 		android:summary="@string/pref_start_summary_xpet"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -79,7 +79,7 @@
 		android:summary="@string/pref_start_summary_xplus4"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<Preference
@@ -88,7 +88,7 @@
 		android:summary="@string/pref_start_summary_xvic"
 		android:persistent="false"
 		android:selectable="true"
-		android:enabled="false"
+		android:enabled="true"
 	/>
 
 	<PreferenceCategory
