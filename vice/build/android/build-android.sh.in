@@ -240,12 +240,31 @@ do
 done
 
 if test x"$showusage" = "xyes"; then
-  echo "Usage: $0 [release] [<cpu types>] [emulator] [rom handling} [help]"
-  echo "release indicates that the binary needs to be build as a official release as opposed to a developent release."
-  echo "cpu-types: armeabi, armeabi-v7a, mips, x86 (or all-cpu for all)."
-  echo "if no cpu-type is given armeabi will be built by default."
-  echo "emulators: x64, x64sc, x64dtv, xscpu64, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic (or all-emu for all emulators)."
-  echo "rom handling: externalroms, pushedroms, assetroms, embeddedroms (default assetroms)"
+  echo "Usage: $0 [<options>]"
+  echo "  release      - build an official release version"
+  echo "cpu-types:"
+  echo "  armeabi      - build for soft-fpu arm device"
+  echo "  armeabi-v7a  - build for hw-fpu arm device"
+  echo "  mips         - build for mips device"
+  echo "  x86          - build for x86 device"
+  echo "  all-cpu      - build for all cpu devices"
+  echo "emulators:"
+  echo "  x64          - build x64     \(AnVICE_x64\)     only"
+  echo "  x64sc        - build x64sc   \(AnVICE_x64sc\)   only"
+  echo "  xscpu64      - build xscpu64 \(AnVICE_xscpu64\) only"
+  echo "  x64dtv       - build x64dtv  \(AnVICE_x64dtv\)  only"
+  echo "  x128         - build x128    \(AnVICE_x128\)    only"
+  echo "  xcbm2        - build xcbm2   \(AnVICE_xcbm2\)   only"
+  echo "  xcbm5x0      - build xcbm5x0 \(AnVICE_xcvm5x0\) only"
+  echo "  xpet         - build xpet    \(AnVICE_xpet\)    only"
+  echo "  xplus4       - build xplus4  \(AnVICE_xplus4\)  only"
+  echo "  xvic         - build xvic    \(AnVICE_xvic\)    only"
+  echo "  all-emu      - build all     \(AnVICE\)"
+  echo "roms:"
+  echo "  externalroms - use external roms that the user has to put in place"
+  echo "  pushedroms   - use external roms put in place by the push.sh script"
+  echo "  assetroms    - roms will be inside the .apk and put int place automatically"
+  echo "  embeddedroms - roms will be inside the shared object\(s\) in the .apk"
   exit 1
 fi
 
