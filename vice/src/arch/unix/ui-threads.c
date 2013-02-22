@@ -108,8 +108,9 @@ static int do_blending = 1;
 
 static int set_alpha_blending(int val, void *p)
 {
-    DBG(("Toggle alpha blending: %d -> %d", do_blending, val));
+    log_message(LOG_DEFAULT, _("Alpha blending %s"), val ? _("enabled") : _("disabled")); 
     do_blending = val;
+    return 0;
 }
 
 static int set_dthread_rfp(int val, void *p)
@@ -117,6 +118,7 @@ static int set_dthread_rfp(int val, void *p)
     DBG(("Setting dthread rfp %dms", dthread_rfp));
     dthread_rfp = val;
     reltime.tv_nsec = val * 1000L * 1000L;
+    return 0;
 }
 
 static int set_dthread_ghosting(int val, void *p)
@@ -124,6 +126,7 @@ static int set_dthread_ghosting(int val, void *p)
     val = (val < 1) ? 1 : (val > (MAX_BUFFERS - 1)) ? (MAX_BUFFERS - 1) : val;
     DBG(("Setting dthread ghosting %d frames", dthread_ghosting));
     dthread_ghosting = val;
+    return 0;
 }
 
 static resource_int_t resources_uithreads[] = {
@@ -402,7 +405,7 @@ int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int sh
     }
     
     /* subtract machine cycle once */
-    dt -= mrp_usec;
+    dt -= (((dthread_ghosting / 2)+1) * mrp_usec);
 	
     /* find display frame interval where we fit in */
     if (count < 0) count += MAX_BUFFERS;
@@ -484,7 +487,8 @@ static void *dthread_func(void *arg)
 		    gl_render_canvas(bptrs[shell].widget, bptrs[shell].canvas, 
 				     buffers[shell], from, to, alpha, 
 				     shell == get_active_shell());
-		    bptrs[shell].lpos = from; /* set to `from' as a frame may be drawn twice */
+		    /* set to `from' as a frame may be drawn twice */
+		    bptrs[shell].lpos = to - 1;
 #if 0
 		    /* timing probe */
 		    {
@@ -559,12 +563,15 @@ static void dthread_coroutine(coroutine_t action)
     }
     while (!is_coroutine) {
 	clock_gettime(CLOCK_REALTIME, &ts);
-	ts.tv_sec += 3;
+	ts.tv_sec += 10;
 	DBG2(("syncronised call for action: %d - before condwait", action));
 	ret = pthread_cond_timedwait(&coroutine, &mutex, &ts);
 	if (ret == ETIMEDOUT) {
-	    DBG2(("synchronized call for action %d - retrying", action));
-	    goto retry;
+	    log_message(LOG_DEFAULT, 
+			"%s: timeout synchronized call for action %d", 
+			__FUNCTION__, action);
+	    /* goto retry; */
+	    exit (-1);		/* continuation is probably not meaningful */
 	}
 	if (ret < 0) {
 	    log_debug("pthread_cond_timedwait() failed, %s", __FUNCTION__);

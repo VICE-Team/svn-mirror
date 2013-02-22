@@ -146,6 +146,7 @@ enum ui_keysym_s {
     KEYSYM_s = GDK_KEY_s,
     KEYSYM_t = GDK_KEY_t,
     KEYSYM_u = GDK_KEY_u,
+    KEYSYM_v = GDK_KEY_v,
     KEYSYM_w = GDK_KEY_w,
     KEYSYM_z = GDK_KEY_z,
     KEYSYM_F9  = GDK_KEY_F9 ,
