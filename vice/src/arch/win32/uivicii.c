@@ -6,6 +6,7 @@
  *  Ettore Perazzoli <ettore@comm2000.it>
  *  Tibor Biczo <crown@mail.matav.hu>
  *  Gunnar Ruthenberg <Krill.Plush@gmail.com>
+ *  Marco van den Heuvel <blackystardust68@yahoo.com>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -31,6 +32,7 @@
 
 #include <windows.h>
 
+#include "machine.h"
 #include "res.h"
 #include "resources.h"
 #include "system.h"
@@ -50,16 +52,127 @@ static uilib_localize_dialog_param vicii_dialog[] = {
     { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
     { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
     { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
+    { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
     { IDOK, IDS_OK, 0 },
     { IDCANCEL, IDS_CANCEL, 0 },
     { 0, 0, 0 }
 };
 
+static uilib_localize_dialog_param viciisc_dialog[] = {
+    { 0, IDS_VICII_CAPTION, -1 },
+    { IDC_VICII_BORDERSGROUP, IDS_VICII_BORDERSGROUP, 0 },
+    { IDC_TOGGLE_VICII_NORMALBORDERS, IDS_VICII_NORMALBORDERS, 0 },
+    { IDC_TOGGLE_VICII_FULLBORDERS, IDS_VICII_FULLBORDERS, 0 },
+    { IDC_TOGGLE_VICII_DEBUGBORDERS, IDS_VICII_DEBUGBORDERS, 0 },
+    { IDC_TOGGLE_VICII_NOBORDERS, IDS_VICII_NOBORDERS, 0 },
+    { IDC_VICII_SPRITEGROUP, IDS_VICII_SPRITEGROUP, 0 },
+    { IDC_TOGGLE_VICII_SSC, IDS_VICII_SPRITECOLL, 0 },
+    { IDC_TOGGLE_VICII_SBC, IDS_VICII_BACKCOLL, 0 },
+    { IDC_TOGGLE_VICII_NEWLUM, IDS_VICII_LUMINANCE, 0 },
+    { IDC_C64VICII_LABEL, IDS_VICII_MODEL, 0 },
+    { IDC_C64GLUELOGIC_LABEL, IDS_GLUE_LOGIC, 0 },
+    { IDOK, IDS_OK, 0 },
+    { IDCANCEL, IDS_CANCEL, 0 },
+    { 0, 0, 0 }
+};
+
+static const int ui_c64vicii[] = {
+    IDS_6569_PAL,
+    IDS_8565_PAL,
+    IDS_6569R1_OLD_PAL,
+    IDS_6567_NTSC,
+    IDS_8562_NTSC,
+    IDS_6567R56A_OLD_NTSC,
+    IDS_6572_PAL_N,
+    0
+};
+
+static const int ui_c64vicii_values[] = {
+    VICII_MODEL_6569,
+    VICII_MODEL_8565,
+    VICII_MODEL_6569R1,
+    VICII_MODEL_6567,
+    VICII_MODEL_8562,
+    VICII_MODEL_6567R56A,
+    VICII_MODEL_6572,
+    -1
+};
+
+static const TCHAR *ui_c64video_standard[] = {
+    TEXT("PAL-G"),
+    TEXT("NTSC-M"),
+    TEXT("Old NTSC-M"),
+    TEXT("PAL-N"),
+    0
+};
+
+static const int ui_c64video_standard_values[] = {
+    MACHINE_SYNC_PAL,
+    MACHINE_SYNC_NTSC,
+    MACHINE_SYNC_NTSCOLD,
+    MACHINE_SYNC_PALN,
+    0
+};
+
+static const int ui_c64gluelogic[] = {
+    IDS_DISCRETE,
+    IDS_CUSTOM_IC,
+    0
+};
+
+static const int ui_c64gluelogic_values[] = {
+    0,
+    1,
+    -1
+};
+
 static void init_vicii_dialog(HWND hwnd)
 {
-    int n;
+    HWND sub_hwnd;
+    int i, n;
+    int res_value, index;
+    TCHAR st[20];
 
-    uilib_localize_dialog(hwnd, vicii_dialog);
+    if (machine_class == VICE_MACHINE_C64SC) {
+        uilib_localize_dialog(hwnd, viciisc_dialog);
+    } else {
+        uilib_localize_dialog(hwnd, vicii_dialog);
+    }
+
+    sub_hwnd = GetDlgItem(hwnd, IDC_C64VICII_LIST);
+    if (machine_class == VICE_MACHINE_C64SC) {
+        resources_get_int("VICIIModel", &res_value);
+        for (i = 0; ui_c64vicii[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), translate_text(ui_c64vicii[i]));
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            if (ui_c64vicii_values[i] == res_value) {
+                index = i;
+            }
+        }
+    } else {
+        resources_get_int("MachineVideoStandard", &res_value);
+        for (i = 0; ui_c64video_standard[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), ui_c64video_standard[i]);
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            if (ui_c64video_standard_values[i] == res_value) {
+                index = i;
+            }
+        }
+    }
+    SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)index, 0);
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        resources_get_int("GlueLogic", &res_value);
+        sub_hwnd = GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST);
+        for (i = 0; ui_c64gluelogic[i] != 0; i++) {
+            _stprintf(st, TEXT("%s"), translate_text(ui_c64gluelogic[i]));
+            SendMessage(sub_hwnd, CB_ADDSTRING, 0, (LPARAM)st);
+            if (ui_c64gluelogic_values[i] == res_value) {
+                index = i;
+            }
+        }
+        SendMessage(sub_hwnd, CB_SETCURSEL, (WPARAM)index, 0);
+    }
 
     resources_get_int("VICIIBorderMode", &n);
     switch (n) {
@@ -100,6 +213,16 @@ static void end_vicii_dialog(HWND hwnd)
     resources_set_int("VICIICheckSbColl", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_SBC) == BST_CHECKED ? 1 : 0 ));
 
     resources_set_int("VICIINewLuminances", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_VICII_NEWLUM) == BST_CHECKED ? 1 : 0 ));
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        resources_set_int("VICIIModel", ui_c64vicii_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)]);
+    } else {
+        resources_set_int("MachineVideoStandard", ui_c64video_standard_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64VICII_LIST), CB_GETCURSEL, 0, 0)]);
+    }
+
+    if (machine_class == VICE_MACHINE_C64SC) {
+        resources_set_int("GlueLogic", ui_c64gluelogic_values[(int)SendMessage(GetDlgItem(hwnd, IDC_C64GLUELOGIC_LIST), CB_GETCURSEL, 0, 0)]);
+    }
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -123,6 +246,8 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
                 case IDC_TOGGLE_VICII_SSC:
                 case IDC_TOGGLE_VICII_SBC:
                 case IDC_TOGGLE_VICII_NEWLUM:
+                case IDC_C64VICII_LIST:
+                case IDC_C64GLUELOGIC_LIST:
                     break;
                 case IDOK:
                     end_vicii_dialog(hwnd);
@@ -137,5 +262,9 @@ static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM l
 
 void ui_vicii_settings_dialog(HWND hwnd)
 {
-    DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd, dialog_proc);
+    if (machine_class == VICE_MACHINE_C64SC) {
+        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICIISC_DIALOG), hwnd, dialog_proc);
+    } else {
+        DialogBox(winmain_instance, MAKEINTRESOURCE(IDD_VICII_DIALOG), hwnd, dialog_proc);
+    }
 }

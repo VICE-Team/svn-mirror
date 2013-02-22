@@ -827,8 +827,8 @@ WVList
 0
 187
 MItem
-10
-..\uic64.c
+15
+..\uic64_256k.c
 188
 WString
 4
@@ -845,8 +845,8 @@ WVList
 0
 191
 MItem
-15
-..\uic64_256k.c
+18
+..\uic64burstmod.c
 192
 WString
 4
@@ -863,8 +863,8 @@ WVList
 0
 195
 MItem
-18
-..\uic64burstmod.c
+14
+..\uic64cart.c
 196
 WString
 4
@@ -881,8 +881,8 @@ WVList
 0
 199
 MItem
-14
-..\uic64cart.c
+13
+..\uic64dtv.c
 200
 WString
 4
@@ -899,8 +899,8 @@ WVList
 0
 203
 MItem
-13
-..\uic64dtv.c
+18
+..\uic64dtvmodel.c
 204
 WString
 4
@@ -917,8 +917,8 @@ WVList
 0
 207
 MItem
-18
-..\uic64dtvmodel.c
+15
+..\uic64model.c
 208
 WString
 4

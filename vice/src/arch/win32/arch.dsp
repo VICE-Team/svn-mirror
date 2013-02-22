@@ -349,10 +349,6 @@ SOURCE=.\uic128model.c
 # End Source File
 # Begin Source File
 
-SOURCE=.\uic64.c
-# End Source File
-# Begin Source File
-
 SOURCE=.\uic64_256k.c
 # End Source File
 # Begin Source File
@@ -370,6 +366,10 @@ SOURCE=.\uic64dtv.c
 # Begin Source File
 
 SOURCE=.\uic64dtvmodel.c
+# End Source File
+# Begin Source File
+
+SOURCE=.\uic64model.c
 # End Source File
 # Begin Source File
 

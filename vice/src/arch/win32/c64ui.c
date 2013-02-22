@@ -38,10 +38,11 @@
 #include "translate.h"
 #include "ui.h"
 #include "uiacia.h"
-#include "uic64.h"
 #include "uic64_256k.h"
 #include "uic64burstmod.h"
 #include "uic64cart.h"
+#include "uic64model.h"
+#include "uicia.h"
 #include "uidigimax.h"
 #include "uidqbb.h"
 #include "uidrivec64.h"
@@ -327,6 +328,7 @@ ui_menu_translation_table_t c64ui_menu_translation_table[] = {
     { IDM_MOUSE_SETTINGS, IDS_MI_MOUSE_SETTINGS },
     { IDM_LIGHTPEN_SETTINGS, IDS_MI_LIGHTPEN_SETTINGS },
     { IDM_SID_SETTINGS, IDS_MI_SID_SETTINGS },
+    { IDM_CIA_SETTINGS, IDS_MI_CIA_SETTINGS },
     { IDM_RS232_SETTINGS, IDS_MI_RS232_SETTINGS },
     { IDM_REU_SETTINGS, IDS_MI_REU_SETTINGS },
     { IDM_GEORAM_SETTINGS, IDS_MI_GEORAM_SETTINGS },
@@ -571,6 +573,9 @@ static void c64_ui_specific(WPARAM wparam, HWND hwnd)
             break;
         case IDM_GEORAM_SETTINGS:
             ui_georam_settings_dialog(hwnd);
+            break;
+        case IDM_CIA_SETTINGS:
+            ui_cia_settings_dialog(hwnd, 2);
             break;
         case IDM_RAMCART_SETTINGS:
             ui_ramcart_settings_dialog(hwnd);

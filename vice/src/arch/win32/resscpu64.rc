@@ -525,7 +525,7 @@ END
 
 // dialog template for all languages
 
-IDD_C64SCMODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 170
+IDD_C64MODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 80
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION ""
 FONT 8, "MS Sans Serif"
@@ -535,81 +535,10 @@ BEGIN
     COMBOBOX      IDC_C64MODEL_LIST,
                   45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
 
-    LTEXT         "", IDC_C64VICII_LABEL,
-                  4, 32, 60, 8  
-    COMBOBOX      IDC_C64VICII_LIST,
-                  45, 31, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    AUTOCHECKBOX  "", IDC_C64LUMINANCES,
-                  45, 46, 95, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    LTEXT         "", IDC_C64SID_LABEL,
-                  4, 62, 60, 8
-    COMBOBOX      IDC_C64SID_LIST,
-                  45, 61, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    LTEXT         "", IDC_C64CIA1_LABEL,
-                  4, 82, 60, 8
-    COMBOBOX      IDC_C64CIA1_LIST,
-                  45, 81, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    LTEXT         "", IDC_C64CIA2_LABEL,
-                  4, 102, 60, 8
-    COMBOBOX      IDC_C64CIA2_LIST,
-                  45, 101, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    LTEXT         "", IDC_C64GLUELOGIC_LABEL,
-                  4, 122, 60, 8
-    COMBOBOX      IDC_C64GLUELOGIC_LIST,
-                  45, 121, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
     DEFPUSHBUTTON   "", IDOK,
-                    20, 150, 50, 14, WS_TABSTOP
+                    20, 60, 50, 14, WS_TABSTOP
     PUSHBUTTON      "", IDCANCEL,
-                    80, 150, 50, 14, WS_TABSTOP
-END
-
-// -----------------------------------------------------------------------------
-
-// dialog template for all languages
-
-IDD_C64MODEL_SETTINGS_DIALOG DIALOG DISCARDABLE 0, 0, 150, 170
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
-CAPTION ""
-FONT 8, "MS Sans Serif"
-BEGIN
-    LTEXT         "", IDC_C64MODEL_LABEL,
-                  4, 12, 60, 8
-    COMBOBOX      IDC_C64MODEL_LIST,
-                  45, 11, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    LTEXT         "", IDC_C64VICII_LABEL,
-                  4, 32, 60, 8  
-    COMBOBOX      IDC_C64VICII_LIST,
-                  45, 31, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    AUTOCHECKBOX  "", IDC_C64LUMINANCES,
-                  45, 46, 95, 10, BS_AUTOCHECKBOX | WS_TABSTOP
-
-    LTEXT         "", IDC_C64SID_LABEL,
-                  4, 62, 60, 8
-    COMBOBOX      IDC_C64SID_LIST,
-                  45, 61, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    LTEXT         "", IDC_C64CIA1_LABEL,
-                  4, 82, 60, 8
-    COMBOBOX      IDC_C64CIA1_LIST,
-                  45, 81, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    LTEXT         "", IDC_C64CIA2_LABEL,
-                  4, 102, 60, 8
-    COMBOBOX      IDC_C64CIA2_LIST,
-                  45, 101, 90, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
-
-    DEFPUSHBUTTON   "", IDOK,
-                    20, 150, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL,
-                    80, 150, 50, 14, WS_TABSTOP
+                    80, 60, 50, 14, WS_TABSTOP
 END
 
 // -----------------------------------------------------------------------------
@@ -641,16 +570,6 @@ STRINGTABLE
 LANGUAGE LANG_ENGLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64 model"
-  IDS_VICII_MODEL                "VIC-II model"
-  IDS_NEW_LUMINANCES             "New luminances"
-  IDS_SID_MODEL                  "SID model"
-  IDS_CIA1_MODEL                 "CIA 1 model"
-  IDS_CIA2_MODEL                 "CIA 2 model"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (old)"
-  IDS_6526A_NEW                  "6526A (new)"
-  IDS_DISCRETE                   "Discrete"
-  IDS_CUSTOM_IC                  "Custom IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (old PAL)"
@@ -678,16 +597,6 @@ STRINGTABLE
 LANGUAGE LANG_DANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64-model"
-  IDS_VICII_MODEL                "VIC-II-model"
-  IDS_NEW_LUMINANCES             "Nye lysstyrker"
-  IDS_SID_MODEL                  "SID-model"
-  IDS_CIA1_MODEL                 "CIA 1 model"
-  IDS_CIA2_MODEL                 "CIA 2 model"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (gammel)"
-  IDS_6526A_NEW                  "6526A (ny)"
-  IDS_DISCRETE                   "Diskret"
-  IDS_CUSTOM_IC                  "Egen IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (gammel PAL)"
@@ -715,16 +624,6 @@ STRINGTABLE
 LANGUAGE LANG_GERMAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64 Modell"
-  IDS_VICII_MODEL                "VIC-II Modell"
-  IDS_NEW_LUMINANCES             "Neue Helligkeitsemulation"
-  IDS_SID_MODEL                  "SID Modell"
-  IDS_CIA1_MODEL                 "CIA 1 Modell"
-  IDS_CIA2_MODEL                 "CIA 2 Modell"
-  IDS_GLUE_LOGIC                 "Glue Logik"
-  IDS_6526_OLD                   "6526 (alt)"
-  IDS_6526A_NEW                  "6526A (neu)"
-  IDS_DISCRETE                   "Diskret"
-  IDS_CUSTOM_IC                  "Benutzerdefinierte IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (alt PAL)"
@@ -752,16 +651,6 @@ STRINGTABLE
 LANGUAGE LANG_SPANISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "Modelo C64"
-  IDS_VICII_MODEL                "Modelo VIC-II"
-  IDS_NEW_LUMINANCES             "Nuevas luminancias"
-  IDS_SID_MODEL                  "Modelo SID"
-  IDS_CIA1_MODEL                 "Modelo CIA 1"
-  IDS_CIA2_MODEL                 "Modelo CIA 2"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (antiguo)"
-  IDS_6526A_NEW                  "6526A (nuevo)"
-  IDS_DISCRETE                   "Discreto"
-  IDS_CUSTOM_IC                  "IC habitual"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (PAL antiguo)"
@@ -789,16 +678,6 @@ STRINGTABLE
 LANGUAGE LANG_FRENCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "Modèle C64"
-  IDS_VICII_MODEL                "Modèle VIC-II"
-  IDS_NEW_LUMINANCES             "Nouvelles luminescences"
-  IDS_SID_MODEL                  "Modèle SID"
-  IDS_CIA1_MODEL                 "Modèle CIA 1"
-  IDS_CIA2_MODEL                 "Modèle CIA 2"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (ancien)"
-  IDS_6526A_NEW                  "6526A (récent)"
-  IDS_DISCRETE                   "Discrète"
-  IDS_CUSTOM_IC                  "IC Personnalisé"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (ancien PAL)"
@@ -829,16 +708,6 @@ STRINGTABLE
 LANGUAGE LANG_HUNGARIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64 model"
-  IDS_VICII_MODEL                "VIC-II model"
-  IDS_NEW_LUMINANCES             "New luminances"
-  IDS_SID_MODEL                  "SID modell"
-  IDS_CIA1_MODEL                 "CIA 1 model"
-  IDS_CIA2_MODEL                 "CIA 2 model"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (old)"
-  IDS_6526A_NEW                  "6526A (new)"
-  IDS_DISCRETE                   "Discrete"
-  IDS_CUSTOM_IC                  "Custom IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (old PAL)"
@@ -869,16 +738,6 @@ STRINGTABLE
 LANGUAGE LANG_ITALIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "Modello C64"
-  IDS_VICII_MODEL                "Modello VIC-II"
-  IDS_NEW_LUMINANCES             "Nuove luminanze"
-  IDS_SID_MODEL                  "Modello SID"
-  IDS_CIA1_MODEL                 "Modello CIA 1"
-  IDS_CIA2_MODEL                 "Modello CIA 2"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (vecchio)"
-  IDS_6526A_NEW                  "6526A (nuovo)"
-  IDS_DISCRETE                   "Discreto"
-  IDS_CUSTOM_IC                  "IC personalizzato"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (PAL vecchio)"
@@ -909,16 +768,6 @@ STRINGTABLE
 LANGUAGE LANG_KOREAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64 ¸ðµ¨"
-  IDS_VICII_MODEL                "VIC-II ¸ðµ¨"
-  IDS_NEW_LUMINANCES             "¼¼·Î¿î ¹à±â"
-  IDS_SID_MODEL                  "SID ¸ðµ¨"
-  IDS_CIA1_MODEL                 "CIA 1 ¸ðµ¨"
-  IDS_CIA2_MODEL                 "CIA 2 ¸ðµ¨"
-  IDS_GLUE_LOGIC                 "±Û·ç ·ÎÁ÷"
-  IDS_6526_OLD                   "6526 (¿À·¡µÈ)"
-  IDS_6526A_NEW                  "6526A (»õ·Î¿î)"
-  IDS_DISCRETE                   "´Ù¸¥"
-  IDS_CUSTOM_IC                  "Ä¿½ºÅÒ IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (¿Ãµå PAL)"
@@ -949,16 +798,6 @@ STRINGTABLE
 LANGUAGE LANG_DUTCH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64 model"
-  IDS_VICII_MODEL                "VIC-II model"
-  IDS_NEW_LUMINANCES             "Nieuwe kleuren"
-  IDS_SID_MODEL                  "SID model"
-  IDS_CIA1_MODEL                 "CIA 1 model"
-  IDS_CIA2_MODEL                 "CIA 2 model"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (oud)"
-  IDS_6526A_NEW                  "6526A (nieuw)"
-  IDS_DISCRETE                   "Diskreet"
-  IDS_CUSTOM_IC                  "Aangepast IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (oud PAL)"
@@ -989,16 +828,6 @@ STRINGTABLE
 LANGUAGE LANG_POLISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "Model C64"
-  IDS_VICII_MODEL                "Model VIC-II"
-  IDS_NEW_LUMINANCES             "Nowy typ jaskrawo¶ci"
-  IDS_SID_MODEL                  "Model SID-a"
-  IDS_CIA1_MODEL                 "Model CIA 1"
-  IDS_CIA2_MODEL                 "Model CIA 2"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (stary)"
-  IDS_6526A_NEW                  "6526A (nowy)"
-  IDS_DISCRETE                   "Dyskretny"
-  IDS_CUSTOM_IC                  "W³asne IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (stary PAL)"
@@ -1032,16 +861,6 @@ STRINGTABLE
 LANGUAGE LANG_RUSSIAN, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "¼ÞÔÕÛì C64"
-  IDS_VICII_MODEL                "¼ÞÔÕÛì VIC-II"
-  IDS_NEW_LUMINANCES             "New luminances"
-  IDS_SID_MODEL                  "ÜÞÔÕÛì ×ÒãÚÞÓÕÝÕàÐâÞàÐ SID"
-  IDS_CIA1_MODEL                 "¼ÞÔÕÛì CIA 1"
-  IDS_CIA2_MODEL                 "¼ÞÔÕÛì CIA 2"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (old)"
-  IDS_6526A_NEW                  "6526A (new)"
-  IDS_DISCRETE                   "Discrete"
-  IDS_CUSTOM_IC                  "Custom IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (old PAL)"
@@ -1072,16 +891,6 @@ STRINGTABLE
 LANGUAGE LANG_SWEDISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64-modell"
-  IDS_VICII_MODEL                "VIC II-modell"
-  IDS_NEW_LUMINANCES             "Nya ljusstyrkor"
-  IDS_SID_MODEL                  "SID-modell"
-  IDS_CIA1_MODEL                 "CIA 1-modell"
-  IDS_CIA2_MODEL                 "CIA 2-modell"
-  IDS_GLUE_LOGIC                 "Klisterlogik"
-  IDS_6526_OLD                   "6526 (gammal)"
-  IDS_6526A_NEW                  "6526A (ny)"
-  IDS_DISCRETE                   "Diskret"
-  IDS_CUSTOM_IC                  "Egen krets"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (gammal PAL)"
@@ -1112,16 +921,6 @@ STRINGTABLE
 LANGUAGE LANG_TURKISH, SUBLANG_NEUTRAL
 BEGIN
   IDS_C64_MODEL                  "C64 modeli"
-  IDS_VICII_MODEL                "VIC-II modeli"
-  IDS_NEW_LUMINANCES             "Yeni parlaklýklar"
-  IDS_SID_MODEL                  "SID modeli"
-  IDS_CIA1_MODEL                 "CIA 1 modeli"
-  IDS_CIA2_MODEL                 "CIA 2 modeli"
-  IDS_GLUE_LOGIC                 "Glue logic"
-  IDS_6526_OLD                   "6526 (eski)"
-  IDS_6526A_NEW                  "6526A (yeni)"
-  IDS_DISCRETE                   "Baðlantýyý kes"
-  IDS_CUSTOM_IC                  "Özel IC"
   IDS_6569_PAL                   "6569 (PAL)"
   IDS_8565_PAL                   "8565 (PAL)"
   IDS_6569R1_OLD_PAL             "6569R1 (eski PAL)"
@@ -1144,5 +943,3 @@ END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-

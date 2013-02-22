@@ -10,9 +10,10 @@
 #pragma code_page(28591)
 #endif
 
+
 // template of dialog for all languages
 
-IDD_VICII_DIALOG DIALOG DISCARDABLE 0, 0, 145, 160
+IDD_VICII_DIALOG DIALOG DISCARDABLE 0, 0, 145, 190
 STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -34,8 +35,52 @@ BEGIN
     AUTOCHECKBOX    "", IDC_TOGGLE_VICII_NEWLUM,
                     15, 125, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
 
-    DEFPUSHBUTTON   "", IDOK, 15, 140, 50, 14, WS_TABSTOP
-    PUSHBUTTON      "", IDCANCEL, 70, 140, 50, 14, WS_TABSTOP
+    LTEXT           "", IDC_C64VICII_LABEL,
+                    4, 142, 60, 8
+    COMBOBOX        IDC_C64VICII_LIST,
+                    45, 141, 50, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 15, 170, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 70, 170, 50, 14, WS_TABSTOP
+END
+
+
+// template of dialog for all languages
+
+IDD_VICIISC_DIALOG DIALOG DISCARDABLE 0, 0, 145, 205
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+FONT 8, "MS Sans Serif"
+BEGIN
+    GROUPBOX        "", IDC_VICII_BORDERSGROUP,
+                    10, 5, 125, 70
+    AUTORADIOBUTTON "", IDC_TOGGLE_VICII_NORMALBORDERS,
+                    15, 15, 115, 10, BS_AUTORADIOBUTTON | WS_GROUP | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_TOGGLE_VICII_FULLBORDERS,
+                    15, 30, 115, 10, BS_AUTORADIOBUTTON | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_TOGGLE_VICII_DEBUGBORDERS,
+                    15, 45, 115, 10, BS_AUTORADIOBUTTON | WS_TABSTOP
+    AUTORADIOBUTTON "", IDC_TOGGLE_VICII_NOBORDERS,
+                    15, 60, 115, 10, BS_AUTORADIOBUTTON | WS_TABSTOP
+    GROUPBOX        "", IDC_VICII_SPRITEGROUP, 10, 80, 125, 40
+    AUTOCHECKBOX    "", IDC_TOGGLE_VICII_SSC,
+                    15, 90, 115, 10, BS_AUTOCHECKBOX | WS_GROUP | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_TOGGLE_VICII_SBC,
+                    15, 105, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+    AUTOCHECKBOX    "", IDC_TOGGLE_VICII_NEWLUM,
+                    15, 125, 115, 10, BS_AUTOCHECKBOX | WS_TABSTOP
+
+    LTEXT           "", IDC_C64VICII_LABEL,
+                    4, 142, 60, 8  
+    COMBOBOX        IDC_C64VICII_LIST,
+                    45, 141, 70, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    LTEXT           "", IDC_C64GLUELOGIC_LABEL,
+                    4, 157, 60, 8
+    COMBOBOX        IDC_C64GLUELOGIC_LIST,
+                    45, 156, 70, 80, CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
+
+    DEFPUSHBUTTON   "", IDOK, 15, 185, 50, 14, WS_TABSTOP
+    PUSHBUTTON      "", IDCANCEL, 70, 185, 50, 14, WS_TABSTOP
 END
 
 
@@ -54,6 +99,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "New luminances"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -72,6 +121,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-til-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-til-baggrunds-kollision"
     IDS_VICII_LUMINANCE     "Nye lysstyrker"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -90,6 +143,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-sprite Kollisionen"
     IDS_VICII_BACKCOLL      "Sprite-Hintergrund Kollisionen"
     IDS_VICII_LUMINANCE     "Neue Helligkeitsemulation"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -108,6 +165,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Colisiones sprite-sprite"
     IDS_VICII_BACKCOLL      "Colisiones sprite-fondo"
     IDS_VICII_LUMINANCE     "Nuevas luminancias"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -126,6 +187,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Collisions sprite-sprite"
     IDS_VICII_BACKCOLL      "Collisions sprite-arrière-plan"
     IDS_VICII_LUMINANCE     "Nouvelles luminescences"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -147,6 +212,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "New luminances"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -168,6 +237,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Collisioni sprite-sprite"
     IDS_VICII_BACKCOLL      "Collisioni sprite-sfondo"
     IDS_VICII_LUMINANCE     "Nuove luminanze"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -189,6 +262,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "½ºÇÁ¶óÀÌÆ®-½ºÇÁ¶óÀÌÆ® Ãæµ¹"
     IDS_VICII_BACKCOLL      "½ºÇÁ¶óÀÌÆ®-¹è°æ Ãæµ¹"
     IDS_VICII_LUMINANCE     "¼¼·Î¿î ¹à±â"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -210,6 +287,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-sprite botsingen"
     IDS_VICII_BACKCOLL      "Sprite-achtergrond botsingen"
     IDS_VICII_LUMINANCE     "Nieuwe kleuren"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -231,6 +312,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Kolizje duszków"
     IDS_VICII_BACKCOLL      "Kolizje duszków z t³em"
     IDS_VICII_LUMINANCE     "Nowy typ jaskrawo¶ci"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -255,6 +340,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-sprite collisions"
     IDS_VICII_BACKCOLL      "Sprite-background collisions"
     IDS_VICII_LUMINANCE     "New luminances"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
@@ -276,6 +365,10 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Sprite-till-sprite-kollision"
     IDS_VICII_BACKCOLL      "Sprite-till-bakgrund-kollision"
     IDS_VICII_LUMINANCE     "Nya ljusstyrkor"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 
 
@@ -297,9 +390,11 @@ BEGIN
     IDS_VICII_SPRITECOLL    "Yartýk-yaratýk çarpýþmalarý"
     IDS_VICII_BACKCOLL      "Yaratýk-arkaplan çarpýþmalarý"
     IDS_VICII_LUMINANCE     "Yeni parlaklýklar"
+    IDS_VICII_MODEL         "VIC-II model"
+    IDS_GLUE_LOGIC          "Glue logic"
+    IDS_DISCRETE            "Discrete"
+    IDS_CUSTOM_IC           "Custom IC"
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)
 #endif
-
-
