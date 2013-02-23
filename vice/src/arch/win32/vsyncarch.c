@@ -25,6 +25,7 @@
  */
 
 
+#define WINVER 0x0500
 #include <windows.h>
 
 #include "vice.h"
@@ -71,6 +72,21 @@ void vsyncarch_init(void)
 
 // -------------------------------------------------------------------------
 
+static void win32_mouse_jitter(void)
+{
+    INPUT ip;
+
+    ip.type = INPUT_MOUSE;
+    ip.mi.dx = 0;
+    ip.mi.dy = 0;
+    ip.mi.mouseData = 0;
+    ip.mi.dwFlags = MOUSEEVENTF_MOVE;
+    ip.mi.time = 0;
+    ip.mi.dwExtraInfo = 0;
+
+    SendInput(1, &ip, sizeof(INPUT));
+}
+
 // Display speed (percentage) and frame rate (frames per second).
 void vsyncarch_display_speed(double speed, double frame_rate, int warp_enabled)
 {
@@ -90,6 +106,9 @@ void vsyncarch_sleep(signed long delay)
 
 void vsyncarch_presync(void)
 {
+    /* prevent screensaver */
+    win32_mouse_jitter();
+
     /* Update mouse */
     mouse_update_mouse();
 
