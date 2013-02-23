@@ -67,9 +67,55 @@ builddebug=no
 
 buildemulators=0
 romhandling=""
+options=""
+
+# no options, go into interactive mode
+if test x"$1" = "x"; then
+  echo "No parameters give, entering interactive mode."
+  echo ""
+
+  echo "Is this an official release build ? [n]"
+  read answer
+  if test x"$answer" != "x" -a x"$answer" != "n"; then
+    options="$options release"
+  fi
+
+  echo "What cpu(s) to compile for ? (armeabi, armeabi-v7a, mips, x86, all) [armeabi]"
+  read answer
+  if test x"$answer" = "xall"; then
+    options="$options all-cpu"
+  else
+    if test x"$answer" != "x"; then
+      options="$options $answer"
+    fi
+  fi
+
+  echo "What emulator to build ?"
+  echi "(x64, x64sc, xscpu64, x64dtv, x128, xcbm2, xcbm5x0, xpet, xplus4, xvic, all) [x64]"
+  read answer
+  if test x"$answer" = "xall"; then
+    options="$options all-emu"
+  else
+    if test x"$answer" != "x"; then
+      options="$options $answer"
+    fi
+  fi
+
+  echo "What type of rom handling to use ? (external, pushed, asset, embedded) [asset]"
+  echo "  external - use external roms that the user has to put in place"
+  echo "  pushed   - use external roms put in place by the push.sh script"
+  echo "  asset    - roms will be inside the .apk and put int place automatically"
+  echo "  embedded - roms will be inside the shared object\(s\) in the .apk"
+  read answer
+  if test x"$answer" != "x"; then
+    options="$options "$answer"roms"
+  fi
+else
+  options=$*
+fi
 
 # check options
-for i in $*
+for i in $options
 do
   validoption=no
   if test x"$i" = "xarmeabi"; then
