@@ -11,7 +11,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-01-24 14:21-0800\n"
+"POT-Creation-Date: 2013-02-24 15:23-0800\n"
 "PO-Revision-Date: 2013-01-02 02:17-0500\n"
 "Last-Translator: Paul Dubé <: DubePaul @t 0utl0ok d0t.com :>\n"
 "Language-Team: fr <fr@li.org>\n"
@@ -346,15 +346,13 @@ msgstr "Suédois"
 #: src/arch/unix/gui/c128ui.c:539 src/arch/unix/gui/c128ui.c:548
 #: src/arch/unix/gui/c64scui.c:169 src/arch/unix/gui/c64scui.c:179
 #: src/arch/unix/gui/c64ui.c:241 src/arch/unix/gui/c64ui.c:251
-#: src/arch/unix/gui/cbm2ui.c:260 src/arch/win32/resc64.rc.po.c:608
-#: src/arch/win32/rescia.rc.po.c:51 src/arch/win32/resscpu64.rc.po.c:604
+#: src/arch/unix/gui/cbm2ui.c:260 src/arch/win32/rescia.rc.po.c:51
 #: src/arch/amigaos/intl_text.c.po.c:11892
 msgid "6526 (old)"
 msgstr "6526 (ancien)"
 
 #: src/arch/unix/gui/c128ui.c:541 src/arch/unix/gui/c128ui.c:550
-#: src/arch/unix/gui/cbm2ui.c:262 src/arch/win32/resc64.rc.po.c:609
-#: src/arch/win32/rescia.rc.po.c:52 src/arch/win32/resscpu64.rc.po.c:605
+#: src/arch/unix/gui/cbm2ui.c:262 src/arch/win32/rescia.rc.po.c:52
 #: src/arch/amigaos/intl_text.c.po.c:11906
 msgid "6526A (new)"
 msgstr "6526A (récent)"
@@ -370,8 +368,7 @@ msgstr "Type de machine"
 
 #: src/arch/unix/gui/c128ui.c:561 src/arch/unix/gui/c64dtvui.c:154
 #: src/arch/unix/gui/c64scui.c:200 src/arch/unix/gui/c64ui.c:262
-#: src/arch/unix/gui/cbm2ui.c:278 src/arch/win32/resc64.rc.po.c:602
-#: src/arch/win32/resscpu64.rc.po.c:598
+#: src/arch/unix/gui/cbm2ui.c:278 src/arch/win32/resvicii.rc.po.c:92
 #: src/arch/amigaos/intl_text.c.po.c:11948
 msgid "VIC-II model"
 msgstr "Modèle VIC-II"
@@ -381,8 +378,7 @@ msgstr "Modèle VIC-II"
 #: src/arch/unix/gui/cbm2ui.c:280 src/arch/unix/gui/cbm2ui.c:313
 #: src/arch/unix/gui/petui.c:123 src/arch/unix/gui/plus4ui.c:139
 #: src/arch/unix/gui/vic20ui.c:159 src/arch/unix/gui/vsidui.c:235
-#: src/arch/win32/res.rc.po.c:1384 src/arch/win32/resc64.rc.po.c:604
-#: src/arch/win32/resscpu64.rc.po.c:600 src/arch/amigaos/intl_text.c.po.c:9834
+#: src/arch/win32/res.rc.po.c:1384 src/arch/amigaos/intl_text.c.po.c:9834
 msgid "SID model"
 msgstr "Modèle SID"
 
@@ -392,15 +388,12 @@ msgstr "Modèle VDC"
 
 #: src/arch/unix/gui/c128ui.c:567 src/arch/unix/gui/c64scui.c:204
 #: src/arch/unix/gui/c64ui.c:266 src/arch/unix/gui/cbm2ui.c:315
-#: src/arch/win32/resc64.rc.po.c:605 src/arch/win32/rescia.rc.po.c:49
-#: src/arch/win32/resscpu64.rc.po.c:601
-#: src/arch/amigaos/intl_text.c.po.c:11962
+#: src/arch/win32/rescia.rc.po.c:49 src/arch/amigaos/intl_text.c.po.c:11962
 msgid "CIA 1 model"
 msgstr "Modèle CIA 1"
 
 #: src/arch/unix/gui/c128ui.c:569 src/arch/unix/gui/c64scui.c:206
-#: src/arch/unix/gui/c64ui.c:268 src/arch/win32/resc64.rc.po.c:606
-#: src/arch/win32/rescia.rc.po.c:50 src/arch/win32/resscpu64.rc.po.c:602
+#: src/arch/unix/gui/c64ui.c:268 src/arch/win32/rescia.rc.po.c:50
 #: src/arch/amigaos/intl_text.c.po.c:11976
 msgid "CIA 2 model"
 msgstr "Modèle CIA 2"
@@ -436,7 +429,7 @@ msgstr "Paramètres ROM"
 #: src/arch/unix/gui/c128ui.c:600 src/arch/unix/gui/c64dtvui.c:184
 #: src/arch/unix/gui/c64scui.c:574 src/arch/unix/gui/c64ui.c:634
 #: src/arch/unix/gui/cbm2ui.c:431 src/arch/win32/res.rc.po.c:1519
-#: src/arch/win32/resvicii.rc.po.c:40 src/arch/amigaos/intl_text.c.po.c:3421
+#: src/arch/win32/resvicii.rc.po.c:82 src/arch/amigaos/intl_text.c.po.c:3421
 #: src/arch/amigaos/intl_text.c.po.c:9176
 msgid "VIC-II settings"
 msgstr "Paramètres VIC-II"
@@ -629,14 +622,14 @@ msgstr "Ancien PAL C64"
 msgid "C64 old NTSC"
 msgstr "Ancien NTSC C64"
 
-#: src/arch/unix/gui/c64scui.c:153 src/arch/win32/resc64.rc.po.c:614
-#: src/arch/win32/resscpu64.rc.po.c:610
+#: src/arch/unix/gui/c64scui.c:153 src/arch/win32/resc64.rc.po.c:538
+#: src/arch/win32/resscpu64.rc.po.c:533
 #: src/arch/amigaos/intl_text.c.po.c:11822
 msgid "6569R1 (old PAL)"
 msgstr "6569R1 (ancien PAL)"
 
-#: src/arch/unix/gui/c64scui.c:159 src/arch/win32/resc64.rc.po.c:617
-#: src/arch/win32/resscpu64.rc.po.c:613
+#: src/arch/unix/gui/c64scui.c:159 src/arch/win32/resc64.rc.po.c:541
+#: src/arch/win32/resscpu64.rc.po.c:536
 #: src/arch/amigaos/intl_text.c.po.c:11864
 msgid "6567R56A (old NTSC)"
 msgstr "6567R56A (ancien NTSC)"
@@ -646,25 +639,22 @@ msgstr "6567R56A (ancien NTSC)"
 msgid "6526 (new)"
 msgstr "6526 (nouveau)"
 
-#: src/arch/unix/gui/c64scui.c:189 src/arch/win32/resc64.rc.po.c:610
-#: src/arch/win32/resscpu64.rc.po.c:606
+#: src/arch/unix/gui/c64scui.c:189 src/arch/win32/resvicii.rc.po.c:94
 #: src/arch/amigaos/intl_text.c.po.c:11920
 msgid "Discrete"
 msgstr "Discrète"
 
-#: src/arch/unix/gui/c64scui.c:191 src/arch/win32/resc64.rc.po.c:611
-#: src/arch/win32/resscpu64.rc.po.c:607
+#: src/arch/unix/gui/c64scui.c:191 src/arch/win32/resvicii.rc.po.c:95
 #: src/arch/amigaos/intl_text.c.po.c:11934
 msgid "Custom IC"
 msgstr "IC Personnalisé"
 
 #: src/arch/unix/gui/c64scui.c:197 src/arch/unix/gui/c64ui.c:259
-#: src/arch/win32/resc64.rc.po.c:601 src/arch/win32/resscpu64.rc.po.c:597
+#: src/arch/win32/resc64.rc.po.c:535 src/arch/win32/resscpu64.rc.po.c:530
 msgid "C64 model"
 msgstr "Modèle C64"
 
-#: src/arch/unix/gui/c64scui.c:208 src/arch/win32/resc64.rc.po.c:607
-#: src/arch/win32/resscpu64.rc.po.c:603
+#: src/arch/unix/gui/c64scui.c:208 src/arch/win32/resvicii.rc.po.c:93
 #: src/arch/amigaos/intl_text.c.po.c:11990
 msgid "Glue logic"
 msgstr "Glue logic"
@@ -1655,7 +1645,7 @@ msgstr "À propos de VICE"
 
 #: src/arch/unix/gui/uicommands.c:668 src/arch/unix/gui/uidatasette.c:99
 #: src/arch/unix/gui/vsidui.c:349 src/arch/unix/gui/vsidui.c:447
-#: src/arch/unix/x11/gnome/uipalcontrol.c:253 src/arch/win32/res.rc.po.c:1392
+#: src/arch/unix/x11/gnome/uipalcontrol.c:257 src/arch/win32/res.rc.po.c:1392
 #: src/arch/win32/res.rc.po.c:1463 src/arch/win32/resc128.rc.po.c:91
 #: src/arch/win32/resc64.rc.po.c:91 src/arch/win32/resc64dtv.rc.po.c:58
 #: src/arch/win32/rescbm2.rc.po.c:78 src/arch/win32/rescbm5x0.rc.po.c:78
@@ -1722,16 +1712,16 @@ msgstr "Émulation CRT"
 msgid "Scale2x"
 msgstr "Scale2x"
 
-#: src/arch/unix/gui/uicrtc.c:104 src/arch/unix/gui/uisettings.c:111
-#: src/arch/unix/gui/uited.c:130 src/arch/unix/gui/uivdc.c:133
-#: src/arch/unix/gui/uivic.c:126 src/arch/unix/gui/uivicii.c:127
+#: src/arch/unix/gui/uicrtc.c:114 src/arch/unix/gui/uisettings.c:111
+#: src/arch/unix/gui/uited.c:140 src/arch/unix/gui/uivdc.c:133
+#: src/arch/unix/gui/uivic.c:136 src/arch/unix/gui/uivicii.c:137
 msgid "Enter refresh rate"
 msgstr "Entrer le taux de rafraîchissement"
 
-#: src/arch/unix/gui/uicrtc.c:105 src/arch/unix/gui/uisettings.c:112
-#: src/arch/unix/gui/uisettings.c:377 src/arch/unix/gui/uited.c:131
-#: src/arch/unix/gui/uivdc.c:134 src/arch/unix/gui/uivic.c:127
-#: src/arch/unix/gui/uivicii.c:128 src/arch/win32/res.rc.po.c:1237
+#: src/arch/unix/gui/uicrtc.c:115 src/arch/unix/gui/uisettings.c:112
+#: src/arch/unix/gui/uisettings.c:377 src/arch/unix/gui/uited.c:141
+#: src/arch/unix/gui/uivdc.c:134 src/arch/unix/gui/uivic.c:137
+#: src/arch/unix/gui/uivicii.c:138 src/arch/win32/res.rc.po.c:1237
 #: src/arch/win32/res.rc.po.c:1401 src/arch/win32/resc128.rc.po.c:151
 #: src/arch/win32/resc64.rc.po.c:153 src/arch/win32/resc64dtv.rc.po.c:118
 #: src/arch/win32/rescbm2.rc.po.c:138 src/arch/win32/rescbm5x0.rc.po.c:138
@@ -1741,95 +1731,100 @@ msgstr "Entrer le taux de rafraîchissement"
 msgid "Refresh rate"
 msgstr "Taux de rafraîchissement"
 
-#: src/arch/unix/gui/uicrtc.c:149 src/arch/unix/gui/uited.c:155
-#: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:154
-#: src/arch/unix/gui/uivicii.c:175 src/arch/win32/res.rc.po.c:1427
+#: src/arch/unix/gui/uicrtc.c:159 src/arch/unix/gui/uited.c:165
+#: src/arch/unix/gui/uivdc.c:166 src/arch/unix/gui/uivic.c:164
+#: src/arch/unix/gui/uivicii.c:185 src/arch/win32/res.rc.po.c:1427
 #: src/arch/amigaos/intl_text.c.po.c:1713
 msgid "Double size"
 msgstr "Double taille"
 
-#: src/arch/unix/gui/uicrtc.c:151 src/arch/unix/gui/uivdc.c:168
+#: src/arch/unix/gui/uicrtc.c:161 src/arch/unix/gui/uivdc.c:168
 msgid "Stretch vertically"
 msgstr "Étirer verticallement"
 
-#: src/arch/unix/gui/uicrtc.c:153 src/arch/unix/gui/uited.c:157
-#: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:156
-#: src/arch/unix/gui/uivicii.c:177 src/arch/win32/res.rc.po.c:1428
+#: src/arch/unix/gui/uicrtc.c:163 src/arch/unix/gui/uited.c:167
+#: src/arch/unix/gui/uivdc.c:170 src/arch/unix/gui/uivic.c:166
+#: src/arch/unix/gui/uivicii.c:187 src/arch/win32/res.rc.po.c:1428
 #: src/arch/amigaos/intl_text.c.po.c:1727
 msgid "Double scan"
 msgstr "Double scan"
 
-#: src/arch/unix/gui/uicrtc.c:155 src/arch/unix/gui/uited.c:159
-#: src/arch/unix/gui/uivdc.c:172 src/arch/unix/gui/uivic.c:158
-#: src/arch/unix/gui/uivicii.c:179 src/arch/win32/res.rc.po.c:1433
+#: src/arch/unix/gui/uicrtc.c:165 src/arch/unix/gui/uited.c:169
+#: src/arch/unix/gui/uivdc.c:172 src/arch/unix/gui/uivic.c:168
+#: src/arch/unix/gui/uivicii.c:189 src/arch/win32/res.rc.po.c:1433
 #: src/arch/amigaos/intl_text.c.po.c:1699
 msgid "Video cache"
 msgstr "Cache vidéo"
 
-#: src/arch/unix/gui/uicrtc.c:158 src/arch/unix/gui/uited.c:162
-#: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:161
-#: src/arch/unix/gui/uivicii.c:184
+#: src/arch/unix/gui/uicrtc.c:168 src/arch/unix/gui/uited.c:172
+#: src/arch/unix/gui/uivdc.c:175 src/arch/unix/gui/uivic.c:171
+#: src/arch/unix/gui/uivicii.c:194
 msgid "Colors"
 msgstr "Couleurs"
 
-#: src/arch/unix/gui/uicrtc.c:161 src/arch/unix/gui/uited.c:165
-#: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:168
-#: src/arch/unix/gui/uivicii.c:187 src/arch/win32/res.rc.po.c:1047
+#: src/arch/unix/gui/uicrtc.c:171 src/arch/unix/gui/uited.c:175
+#: src/arch/unix/gui/uivdc.c:178 src/arch/unix/gui/uivic.c:178
+#: src/arch/unix/gui/uivicii.c:197 src/arch/win32/res.rc.po.c:1047
 #: src/arch/amigaos/intl_text.c.po.c:10198
 msgid "Render filter"
 msgstr "Filtre de rendu"
 
-#: src/arch/unix/gui/uicrtc.c:164 src/arch/unix/gui/uited.c:170
-#: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:173
-#: src/arch/unix/gui/uivicii.c:192
+#: src/arch/unix/gui/uicrtc.c:174 src/arch/unix/gui/uited.c:180
+#: src/arch/unix/gui/uivdc.c:181 src/arch/unix/gui/uivic.c:183
+#: src/arch/unix/gui/uivicii.c:202
 msgid "Audio leak emulation"
 msgstr "Émulation de fuite audio"
 
-#: src/arch/unix/gui/uicrtc.c:168 src/arch/unix/gui/uited.c:174
-#: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:177
-#: src/arch/unix/gui/uivicii.c:201
+#: src/arch/unix/gui/uicrtc.c:178 src/arch/unix/gui/uited.c:184
+#: src/arch/unix/gui/uivdc.c:185 src/arch/unix/gui/uivic.c:187
+#: src/arch/unix/gui/uivicii.c:211
 msgid "Hardware scaling"
 msgstr "Mise à l'échelle matérielle"
 
-#: src/arch/unix/gui/uicrtc.c:170 src/arch/unix/gui/uited.c:176
-#: src/arch/unix/gui/uivdc.c:187 src/arch/unix/gui/uivic.c:179
-#: src/arch/unix/gui/uivicii.c:203 src/arch/win32/res.rc.po.c:1240
+#: src/arch/unix/gui/uicrtc.c:180 src/arch/unix/gui/uited.c:186
+#: src/arch/unix/gui/uivdc.c:187 src/arch/unix/gui/uivic.c:189
+#: src/arch/unix/gui/uivicii.c:213 src/arch/win32/res.rc.po.c:1240
 msgid "Keep aspect ratio"
 msgstr "Conserver le rapport d'aspect"
 
-#: src/arch/unix/gui/uicrtc.c:172 src/arch/unix/gui/uited.c:178
-#: src/arch/unix/gui/uivdc.c:189 src/arch/unix/gui/uivic.c:181
-#: src/arch/unix/gui/uivicii.c:205 src/arch/win32/res.rc.po.c:1241
+#: src/arch/unix/gui/uicrtc.c:182 src/arch/unix/gui/uited.c:188
+#: src/arch/unix/gui/uivdc.c:189 src/arch/unix/gui/uivic.c:191
+#: src/arch/unix/gui/uivicii.c:215 src/arch/win32/res.rc.po.c:1241
 msgid "True aspect ratio"
 msgstr "Ratio de proportions réel"
 
-#: src/arch/unix/gui/uicrtc.c:176 src/arch/unix/gui/uited.c:182
-#: src/arch/unix/gui/uivdc.c:193 src/arch/unix/gui/uivic.c:185
-#: src/arch/unix/gui/uivicii.c:209
+#: src/arch/unix/gui/uicrtc.c:186 src/arch/unix/gui/uited.c:192
+#: src/arch/unix/gui/uivdc.c:193 src/arch/unix/gui/uivic.c:195
+#: src/arch/unix/gui/uivicii.c:219
 msgid "Set custom aspect ratio"
 msgstr "Rapport d'aspect personnalisé"
 
-#: src/arch/unix/gui/uicrtc.c:184 src/arch/unix/gui/uited.c:190
-#: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:193
-#: src/arch/unix/gui/uivicii.c:217
+#: src/arch/unix/gui/uicrtc.c:193 src/arch/unix/gui/uited.c:199
+#: src/arch/unix/gui/uivic.c:202 src/arch/unix/gui/uivicii.c:226
+msgid "Alpha Blending"
+msgstr ""
+
+#: src/arch/unix/gui/uicrtc.c:199 src/arch/unix/gui/uited.c:205
+#: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:208
+#: src/arch/unix/gui/uivicii.c:232
 msgid "OpenGL Rastersynchronization"
 msgstr "Rastersynchronization OpenGL"
 
-#: src/arch/unix/gui/uicrtc.c:186 src/arch/unix/gui/uited.c:192
-#: src/arch/unix/gui/uivdc.c:203 src/arch/unix/gui/uivic.c:195
-#: src/arch/unix/gui/uivicii.c:219
+#: src/arch/unix/gui/uicrtc.c:201 src/arch/unix/gui/uited.c:207
+#: src/arch/unix/gui/uivdc.c:203 src/arch/unix/gui/uivic.c:210
+#: src/arch/unix/gui/uivicii.c:234
 msgid "Desktop Refreshrate"
 msgstr "Taux de rafraîchissement du bureau"
 
-#: src/arch/unix/gui/uicrtc.c:191 src/arch/unix/gui/uited.c:197
-#: src/arch/unix/gui/uivdc.c:208 src/arch/unix/gui/uivic.c:200
-#: src/arch/unix/gui/uivicii.c:224
+#: src/arch/unix/gui/uicrtc.c:206 src/arch/unix/gui/uited.c:212
+#: src/arch/unix/gui/uivdc.c:208 src/arch/unix/gui/uivic.c:215
+#: src/arch/unix/gui/uivicii.c:239
 msgid "Fullscreen settings"
 msgstr "Paramètres Plein écran"
 
-#: src/arch/unix/gui/uicrtc.c:195 src/arch/unix/gui/uited.c:201
-#: src/arch/unix/gui/uivdc.c:212 src/arch/unix/gui/uivic.c:203
-#: src/arch/unix/gui/uivicii.c:228
+#: src/arch/unix/gui/uicrtc.c:210 src/arch/unix/gui/uited.c:216
+#: src/arch/unix/gui/uivdc.c:212 src/arch/unix/gui/uivic.c:218
+#: src/arch/unix/gui/uivicii.c:243
 msgid "Use XSync()"
 msgstr "Utiliser XSync()"
 
@@ -3833,9 +3828,9 @@ msgstr "Défaut"
 msgid "Full"
 msgstr "Complet"
 
-#: src/arch/unix/gui/uited.c:168 src/arch/unix/gui/uivic.c:171
-#: src/arch/unix/gui/uivicii.c:190 src/arch/win32/rested.rc.po.c:34
-#: src/arch/win32/resvic.rc.po.c:34 src/arch/win32/resvicii.rc.po.c:41
+#: src/arch/unix/gui/uited.c:178 src/arch/unix/gui/uivic.c:181
+#: src/arch/unix/gui/uivicii.c:200 src/arch/win32/rested.rc.po.c:34
+#: src/arch/win32/resvic.rc.po.c:34 src/arch/win32/resvicii.rc.po.c:83
 #: src/arch/amigaos/intl_text.c.po.c:11290
 msgid "Border mode"
 msgstr "Mode Bordure"
@@ -3888,23 +3883,22 @@ msgstr "Rév 2"
 msgid "64KB video memory"
 msgstr "Mémoire vidéo de 64Ko"
 
-#: src/arch/unix/gui/uivic.c:164 src/arch/amigaos/intl_text.c.po.c:3253
+#: src/arch/unix/gui/uivic.c:174 src/arch/amigaos/intl_text.c.po.c:3253
 #: src/arch/amigaos/intl_text.c.po.c:8308
 msgid "Color settings"
 msgstr "Paramètres de couleurs"
 
-#: src/arch/unix/gui/uivicii.c:182 src/arch/win32/resc64.rc.po.c:603
-#: src/arch/win32/resscpu64.rc.po.c:599 src/arch/win32/resvicii.rc.po.c:49
+#: src/arch/unix/gui/uivicii.c:192 src/arch/win32/resvicii.rc.po.c:91
 #: src/arch/amigaos/intl_text.c.po.c:9162
 msgid "New luminances"
 msgstr "Nouvelles luminescences"
 
-#: src/arch/unix/gui/uivicii.c:195 src/arch/win32/resvicii.rc.po.c:47
+#: src/arch/unix/gui/uivicii.c:205 src/arch/win32/resvicii.rc.po.c:89
 #: src/arch/amigaos/intl_text.c.po.c:9134
 msgid "Sprite-sprite collisions"
 msgstr "Collisions sprite-sprite"
 
-#: src/arch/unix/gui/uivicii.c:197 src/arch/win32/resvicii.rc.po.c:48
+#: src/arch/unix/gui/uivicii.c:207 src/arch/win32/resvicii.rc.po.c:90
 #: src/arch/amigaos/intl_text.c.po.c:9148
 msgid "Sprite-background collisions"
 msgstr "Collisions sprite-arrière-plan"
@@ -4344,15 +4338,23 @@ msgstr "Volume"
 msgid "Drives Volume"
 msgstr "Ressources des lecteurs"
 
+#: src/arch/unix/x11/gnome/uipalcontrol.c:76
+msgid "Display Thread Rate"
+msgstr ""
+
+#: src/arch/unix/x11/gnome/uipalcontrol.c:77
+msgid "Display Thread Ghosting"
+msgstr ""
+
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
-#: src/arch/unix/x11/gnome/uipalcontrol.c:201
+#: src/arch/unix/x11/gnome/uipalcontrol.c:205
 #: src/arch/amigaos/intl_text.c.po.c:3281
 #: src/arch/amigaos/intl_text.c.po.c:8336
 msgid "CRT emulation settings"
 msgstr "Paramètres d'émulation CRT"
 
-#: src/arch/unix/x11/gnome/uipalcontrol.c:201
+#: src/arch/unix/x11/gnome/uipalcontrol.c:205
 msgid "Mixer"
 msgstr "Mixeur"
 
@@ -6219,7 +6221,7 @@ msgid "Drive sync factor"
 msgstr "Facteur de synchro du lecteur"
 
 #: src/arch/win32/res.rc.po.c:1406 src/arch/win32/resc128.rc.po.c:243
-#: src/arch/win32/resc64.rc.po.c:223 src/arch/win32/rescbm2.rc.po.c:209
+#: src/arch/win32/resc64.rc.po.c:224 src/arch/win32/rescbm2.rc.po.c:209
 #: src/arch/win32/rescbm5x0.rc.po.c:208 src/arch/win32/respet.rc.po.c:194
 #: src/arch/win32/resplus4.rc.po.c:212 src/arch/win32/resscpu64.rc.po.c:210
 #: src/arch/win32/resvic20.rc.po.c:222 src/arch/amigaos/intl_text.c.po.c:3659
@@ -6227,7 +6229,7 @@ msgid "Cartridge/IO settings"
 msgstr "Paramètres E/S cartouche"
 
 #: src/arch/win32/res.rc.po.c:1407 src/arch/win32/resc128.rc.po.c:277
-#: src/arch/win32/resc64.rc.po.c:263 src/arch/win32/resc64dtv.rc.po.c:203
+#: src/arch/win32/resc64.rc.po.c:264 src/arch/win32/resc64dtv.rc.po.c:203
 #: src/arch/win32/rescbm2.rc.po.c:223 src/arch/win32/rescbm5x0.rc.po.c:222
 #: src/arch/win32/respet.rc.po.c:213 src/arch/win32/resplus4.rc.po.c:228
 #: src/arch/win32/resscpu64.rc.po.c:247 src/arch/win32/resvic20.rc.po.c:251
@@ -6236,7 +6238,7 @@ msgid "Language"
 msgstr "Langage"
 
 #: src/arch/win32/res.rc.po.c:1408 src/arch/win32/resc128.rc.po.c:293
-#: src/arch/win32/resc64.rc.po.c:279 src/arch/win32/resc64dtv.rc.po.c:219
+#: src/arch/win32/resc64.rc.po.c:280 src/arch/win32/resc64dtv.rc.po.c:219
 #: src/arch/win32/rescbm2.rc.po.c:239 src/arch/win32/rescbm5x0.rc.po.c:238
 #: src/arch/win32/respet.rc.po.c:229 src/arch/win32/resplus4.rc.po.c:244
 #: src/arch/win32/resscpu64.rc.po.c:263 src/arch/win32/resvic20.rc.po.c:267
@@ -6396,8 +6398,8 @@ msgstr "Activer les touches joystick"
 msgid "Virtual device traps"
 msgstr "Activer les périphériques virtuels"
 
-#: src/arch/win32/res.rc.po.c:1507 src/arch/win32/resc64.rc.po.c:619
-#: src/arch/win32/resscpu64.rc.po.c:615 src/arch/amigaos/intl_text.c.po.c:2245
+#: src/arch/win32/res.rc.po.c:1507 src/arch/win32/resc64.rc.po.c:543
+#: src/arch/win32/resscpu64.rc.po.c:538 src/arch/amigaos/intl_text.c.po.c:2245
 #: src/arch/amigaos/intl_text.c.po.c:12004
 msgid "C64 model settings"
 msgstr "Paramètres du modèle C64"
@@ -6879,62 +6881,62 @@ msgstr "Interface d'émulation IEEE488"
 msgid "C128 model settings"
 msgstr "Paramètres du modèle C128"
 
-#: src/arch/win32/resc64.rc.po.c:612 src/arch/win32/resscpu64.rc.po.c:608
+#: src/arch/win32/resc64.rc.po.c:536 src/arch/win32/resscpu64.rc.po.c:531
 #: src/arch/amigaos/intl_text.c.po.c:11794
 msgid "6569 (PAL)"
 msgstr "6569 (PAL)"
 
-#: src/arch/win32/resc64.rc.po.c:613 src/arch/win32/resscpu64.rc.po.c:609
+#: src/arch/win32/resc64.rc.po.c:537 src/arch/win32/resscpu64.rc.po.c:532
 #: src/arch/amigaos/intl_text.c.po.c:11808
 msgid "8565 (PAL)"
 msgstr "8565 (PAL)"
 
-#: src/arch/win32/resc64.rc.po.c:615 src/arch/win32/resscpu64.rc.po.c:611
+#: src/arch/win32/resc64.rc.po.c:539 src/arch/win32/resscpu64.rc.po.c:534
 #: src/arch/amigaos/intl_text.c.po.c:11836
 msgid "6567 (NTSC)"
 msgstr "6567 (NTSC)"
 
-#: src/arch/win32/resc64.rc.po.c:616 src/arch/win32/resscpu64.rc.po.c:612
+#: src/arch/win32/resc64.rc.po.c:540 src/arch/win32/resscpu64.rc.po.c:535
 #: src/arch/amigaos/intl_text.c.po.c:11850
 msgid "8562 (NTSC)"
 msgstr "8562 (NTSC)"
 
-#: src/arch/win32/resc64.rc.po.c:618 src/arch/win32/resscpu64.rc.po.c:614
+#: src/arch/win32/resc64.rc.po.c:542 src/arch/win32/resscpu64.rc.po.c:537
 #: src/arch/amigaos/intl_text.c.po.c:11878
 msgid "6572 (PAL-N)"
 msgstr "6572 (PAL-N)"
 
-#: src/arch/win32/resc64.rc.po.c:620 src/arch/win32/resc64.rc.po.c:627
-#: src/arch/win32/resscpu64.rc.po.c:616 src/arch/win32/resscpu64.rc.po.c:624
+#: src/arch/win32/resc64.rc.po.c:544 src/arch/win32/resc64.rc.po.c:551
+#: src/arch/win32/resscpu64.rc.po.c:539 src/arch/win32/resscpu64.rc.po.c:547
 msgid "C64 drive burst modification settings"
 msgstr "Paramètres de l'émulation de Burst Lecteur C64"
 
-#: src/arch/win32/resc64.rc.po.c:621 src/arch/win32/resscpu64.rc.po.c:617
+#: src/arch/win32/resc64.rc.po.c:545 src/arch/win32/resscpu64.rc.po.c:540
 msgid "Enable the C64 drive burst modification"
 msgstr "Activer l'émulation de Burst Lecteur C64"
 
-#: src/arch/win32/resc64.rc.po.c:622 src/arch/win32/resscpu64.rc.po.c:618
+#: src/arch/win32/resc64.rc.po.c:546 src/arch/win32/resscpu64.rc.po.c:541
 msgid "C64 drive burst modification CIA"
 msgstr "Modification CIA Burst Lecteur C64"
 
-#: src/arch/win32/resc64.rc.po.c:623 src/arch/win32/resscpu64.rc.po.c:623
+#: src/arch/win32/resc64.rc.po.c:547 src/arch/win32/resscpu64.rc.po.c:546
 #: src/arch/amigaos/intl_text.c.po.c:1363
 msgid "Netplay (experimental)"
 msgstr "Jeu en réseau (experimental)"
 
-#: src/arch/win32/resc64.rc.po.c:624 src/arch/win32/resplus60k.rc.po.c:28
+#: src/arch/win32/resc64.rc.po.c:548 src/arch/win32/resplus60k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3785
 #: src/arch/amigaos/intl_text.c.po.c:8028
 msgid "PLUS60K settings"
 msgstr "Paramètres PLUS60K"
 
-#: src/arch/win32/resc64.rc.po.c:625 src/arch/win32/resplus256k.rc.po.c:24
+#: src/arch/win32/resc64.rc.po.c:549 src/arch/win32/resplus256k.rc.po.c:24
 #: src/arch/amigaos/intl_text.c.po.c:3827
 #: src/arch/amigaos/intl_text.c.po.c:7972
 msgid "PLUS256K settings"
 msgstr "Paramètres PLUS256K"
 
-#: src/arch/win32/resc64.rc.po.c:626 src/arch/win32/resc64_256k.rc.po.c:28
+#: src/arch/win32/resc64.rc.po.c:550 src/arch/win32/resc64_256k.rc.po.c:28
 #: src/arch/amigaos/intl_text.c.po.c:3841
 #: src/arch/amigaos/intl_text.c.po.c:6389
 msgid "256K settings"
@@ -7598,22 +7600,22 @@ msgstr "Périphérique Userport"
 msgid "Userport baud rate"
 msgstr "Vitesse du Userport"
 
-#: src/arch/win32/resscpu64.rc.po.c:619 src/arch/win32/resscpu64.rc.po.c:625
+#: src/arch/win32/resscpu64.rc.po.c:542 src/arch/win32/resscpu64.rc.po.c:548
 #: src/arch/amigaos/intl_text.c.po.c:3435
 #: src/arch/amigaos/intl_text.c.po.c:11150
 msgid "SuperCPU64 settings"
 msgstr "Paramètres SuperCPU64"
 
-#: src/arch/win32/resscpu64.rc.po.c:620
+#: src/arch/win32/resscpu64.rc.po.c:543
 #: src/arch/amigaos/intl_text.c.po.c:11136
 msgid "SIMM size"
 msgstr "Taille de la SIMM"
 
-#: src/arch/win32/resscpu64.rc.po.c:621
+#: src/arch/win32/resscpu64.rc.po.c:544
 msgid "Enable the jiffy switch"
 msgstr "Activer 'Jiffy Switch'"
 
-#: src/arch/win32/resscpu64.rc.po.c:622
+#: src/arch/win32/resscpu64.rc.po.c:545
 msgid "Enable the speed switch"
 msgstr "Activer l'interrupteur Vitesse"
 
@@ -7690,22 +7692,22 @@ msgid "SFX Sound Sampler settings"
 msgstr "Paramètres du SFX Sound Sampler"
 
 #: src/arch/win32/rested.rc.po.c:35 src/arch/win32/resvic.rc.po.c:35
-#: src/arch/win32/resvicii.rc.po.c:42
+#: src/arch/win32/resvicii.rc.po.c:84
 msgid "Normal borders"
 msgstr "Bordures normales"
 
 #: src/arch/win32/rested.rc.po.c:36 src/arch/win32/resvic.rc.po.c:36
-#: src/arch/win32/resvicii.rc.po.c:43
+#: src/arch/win32/resvicii.rc.po.c:85
 msgid "Full borders"
 msgstr "Bordures complètes"
 
 #: src/arch/win32/rested.rc.po.c:37 src/arch/win32/resvic.rc.po.c:37
-#: src/arch/win32/resvicii.rc.po.c:44
+#: src/arch/win32/resvicii.rc.po.c:86
 msgid "Debug borders"
 msgstr "Bordures de déboguage"
 
 #: src/arch/win32/rested.rc.po.c:38 src/arch/win32/resvic.rc.po.c:38
-#: src/arch/win32/resvicii.rc.po.c:45
+#: src/arch/win32/resvicii.rc.po.c:87
 msgid "No borders"
 msgstr "Pas de bordures"
 
@@ -7825,7 +7827,7 @@ msgstr "Sélectionner le fichier de RAM non-volatile Mega-Cart"
 msgid "VIC20 model settings"
 msgstr "Paramètres du modèle C128"
 
-#: src/arch/win32/resvicii.rc.po.c:46
+#: src/arch/win32/resvicii.rc.po.c:88
 msgid "Sprite Collisions"
 msgstr "Collisions de Sprites"
 
@@ -11586,7 +11588,8 @@ msgid "Disable hardware scaling"
 msgstr "Désactiver le \"scaling\" matériel"
 
 #: src/translate_text.c.po.c:10803
-msgid "Select rendering filter, 0:none, 1:CRT emulation, 2: scale2x"
+#, fuzzy
+msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
 msgstr "Sélectionner le filtre de rendu (0:aucun, 1:Ému CRT, 2: Scale2x)"
 
 #: src/translate_text.c.po.c:10820
