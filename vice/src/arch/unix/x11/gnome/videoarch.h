@@ -74,7 +74,7 @@ struct video_canvas_s {
 typedef struct video_canvas_s video_canvas_t;
 
 /* structure for multibuffering */
-#define MAX_BUFFERS 8
+#define MAX_BUFFERS 12
 struct s_mbufs
 {
     long stamp; /* timestamp in usecs */
@@ -83,6 +83,7 @@ struct s_mbufs
     unsigned char *buffer;
     struct s_mbufs *next;
     /*GLu */ unsigned int bindId; /* XXX Fixme: try to avoid GL specifics */
+    float alpha;
 };
 
 #endif

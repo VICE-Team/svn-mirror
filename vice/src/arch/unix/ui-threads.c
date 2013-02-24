@@ -62,7 +62,7 @@
 #define REFRESH_FREQ (8 * 1000 * 1000)
 static struct timespec reltime = { 0, REFRESH_FREQ };
 static int dthread_rfp = 8;
-static int dthread_ghosting = 1;
+static int dthread_ghosting = 2;
 static pthread_t dthread;
 static pthread_t ethread;
 static pthread_cond_t cond  = PTHREAD_COND_INITIALIZER;
@@ -86,7 +86,8 @@ static buffer_ptrs_s bptrs[MAX_APP_SHELLS];
 static int update = 0;
 static int emu_running = 1;
 static int app_shell_count = 0;
-#define NEXT(x) ((++x == MAX_BUFFERS) ? 0 : x)
+#define NEXT(x,y) (((x)+(y)) % MAX_BUFFERS)
+#define PREV(x,y) ((((x)-(y)) + MAX_BUFFERS) % MAX_BUFFERS)
 static int width, height, no_autorepeat;
 const char *title;
 static int *argc;
@@ -120,10 +121,9 @@ static int set_dthread_rfp(int val, void *p)
     reltime.tv_nsec = val * 1000L * 1000L;
     return 0;
 }
-
 static int set_dthread_ghosting(int val, void *p)
 {
-    val = (val < 1) ? 1 : (val > (MAX_BUFFERS - 1)) ? (MAX_BUFFERS - 1) : val;
+    val = (val < 2) ? 2 : (val > 6) ? 6 : val;
     DBG(("Setting dthread ghosting %d frames", dthread_ghosting));
     dthread_ghosting = val;
     return 0;
@@ -177,7 +177,7 @@ unsigned char *mbuffer_get_buffer(struct timespec *t, int shell)
     
     /* stamp in usecs */
     curr = buffers[shell][bptrs[shell].cpos].buffer;
-    tmppos = NEXT(bptrs[shell].cpos);
+    tmppos = NEXT(bptrs[shell].cpos, 1);
     /* copy fullframe */
     memcpy(buffers[shell][tmppos].buffer, curr, bptrs[shell].csize); 
     bptrs[shell].cpos = tmppos;
@@ -391,60 +391,91 @@ void dthread_unlock(void)
 
 /* internal routines */
 
-int dthread_calc_frames(unsigned long dt, int *from, int *to, int *alpha, int shell)
+/* weights for frames used for ghosting */
+static float weights[MAX_BUFFERS][MAX_BUFFERS] = {
+    { -1, -1, -1, -1, -1, -1, -1, -1 }, /* not used*/
+    { 1, -1, -1, -1, -1, -1, -1, -1 },	/* not used */
+    { 1, 1, -1, -1, -1, -1, -1, -1 },
+    { 1.0, 0.8, 0.2, -1, -1, -1, -1, -1 },
+    { 0.2, 0.8, 0.8, 0.2, -1, -1, -1, -1 },
+    { 0.2, 0.8, 0.65, 0.25, 0.1, -1, -1, -1 },
+    { 0.1, 0.25, 0.65, 0.65, 0.25, 0.1, -1, -1 },
+    { 0.1, 0.25, 0.65, 0.55, 0.25, 0.15, 0.05, -1 } /* not used */
+};
+
+static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
 {
-    int ret = 1;
+    int last;			/* index of last frame to be drawn */
+    int first;			/* index of first frame to be drawn */
+    int count;			/* number of frames not drawn yet */
     unsigned long dt1, dt2;
-    int np = bptrs[shell].lpos;
-    int count = bptrs[shell].cpos - bptrs[shell].lpos;
-    int i;
+    int i, dg2;			/* helpers */
+    float a1, a2;
+    struct s_mbufs *t;
     
     if (!do_blending) {
 	*from = *to = bptrs[shell].cpos;
-	return 1;
+	buffers[shell][*from].alpha = 1.0;
+	return 1;		/* render frame */
     }
     
-    /* subtract machine cycle once */
-    dt -= (((dthread_ghosting / 2)+1) * mrp_usec);
+    last = bptrs[shell].lpos;
+    count = PREV(bptrs[shell].cpos, last);
+    /* subtract machine cycles */
+    dg2 = dthread_ghosting / 2;
+    now -= (dg2 * mrp_usec);	/* adjust `now' to fit ghosting */
 	
     /* find display frame interval where we fit in */
-    if (count < 0) count += MAX_BUFFERS;
     for (i = 0; i < count; i++) {
-	if (buffers[shell][np].stamp > dt) {
+	if (buffers[shell][last].stamp > now) {
 	    break;
 	}
-	np ++;
-	if (np == MAX_BUFFERS) {
-	    np = 0;
-	}
+	last = NEXT(last, 1);
     }
-    int np2 = np - dthread_ghosting;
-    if (np2 < 0) {
-	np2 += MAX_BUFFERS;
-    }
-    dt1 = dt - buffers[shell][np2].stamp;
-    dt2 = buffers[shell][np].stamp - buffers[shell][np2].stamp;
+    first = PREV(last, 1);
+    dt1 = now - buffers[shell][first].stamp;
+    dt2 = buffers[shell][last].stamp - buffers[shell][first].stamp;
     if (dt1 > dt2) {
 	/* DBG(("dthread dropping frames")); */
-	return 0;
-    } else {
-	*alpha = 1000 * ((float) dt1 / dt2);
+	return 0;		/* do not render frames */
+    } 
+    /* calculate alpha according to position of `now' between 2 frames */
+    a1 = ((float) dt1 / dt2);
+    a2 = (1.0 - a1);
+
+    /* full range of to be drawn frames */
+    first = NEXT(PREV(last, dthread_ghosting), 1); 
+    t = &buffers[shell][first];
+    
+    /* calculate alpha for frames prior to adjusted `now' */
+    for (i = 0; i < dg2; i++) {
+	t->alpha = a2 * weights[dthread_ghosting][i];
+	DBG2(("will draw from: %d, stamp: %ld, alpha: %f", first, t->stamp,
+	     t->alpha));
+	t = t->next;
     }
-    /* DBG(("delta frames: %u us, dt1: %u us, alpha: %d", 
-	 dt2, dt1, *alpha));
-    */
+    /* calculate alpha for frames after adjusted `now' */
+    for (i = dg2; i < dthread_ghosting; i++) {
+	t->alpha = a1 * weights[dthread_ghosting][i];
+	
+	DBG2(("will draw to:   %d, stamp: %ld, alpha: %f", last, t->stamp,
+	     t->alpha));
+	t = t->next;
+    }
+
+    *from = first;
+    *to = last;
+
 #if 0
     for (i = 0; i < MAX_BUFFERS; i++) {
 	long ddd;
 	ddd = buffers[shell][i].next->stamp - buffers[shell][i].stamp;
 	DBG(("shell %d: from %d, i %d  stamp %ld  diff %ld", shell,
-	     np2, i, buffers[shell][i].stamp, ddd));
+	     first, i, buffers[shell][i].stamp, ddd));
     }
 #endif
 	
-    *to = np;
-    *from = np2;
-    return ret;
+    return 1;			/* render frames */
 }
 
 static void *dthread_func(void *arg)
@@ -475,7 +506,7 @@ static void *dthread_func(void *arg)
 	DBG2(("action is: %d, %ld", do_action, TS_TOUSEC(now)/1000));
 	
 	if (do_action == CR_REDRAW) {
-    	    int from, to, alpha, shell;
+    	    int from, to, shell;
 	    
 	    do_action = CR_NOTHING;
 	    pthread_mutex_unlock(&mutex);
@@ -483,12 +514,12 @@ static void *dthread_func(void *arg)
 	    /* find frame to time 'now' as this is best in sync with the display
 	       refresh cycle, in case vblank synchronization is active */
 	    for (shell = 0; shell <= app_shell_count; shell++) {
-		if (dthread_calc_frames(TS_TOUSEC(now), &from, &to, &alpha, shell)) {
+		if (dthread_calc_frames(TS_TOUSEC(now), &from, &to, shell)) {
 		    gl_render_canvas(bptrs[shell].widget, bptrs[shell].canvas, 
-				     buffers[shell], from, to, alpha, 
+				     buffers[shell], from, to, 
 				     shell == get_active_shell());
-		    /* set to `from' as a frame may be drawn twice */
-		    bptrs[shell].lpos = to - 1;
+		    /* set to `from' as a frames may be drawn twice */
+		    bptrs[shell].lpos = from;
 #if 0
 		    /* timing probe */
 		    {
@@ -554,7 +585,7 @@ static void dthread_coroutine(coroutine_t action)
 	log_debug("pthread_mutex_lock() failed, %s", __FUNCTION__);
 	exit (-1);
     }
-  retry:    
+    /* retry:    */
     do_action = action;
     DBG2(("syncronised call for action: %d - start", action));
     if (pthread_cond_signal(&cond) < 0) {

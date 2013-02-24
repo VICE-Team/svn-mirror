@@ -1233,7 +1233,7 @@ int x11ui_fullscreen(int enable)
         /* window managers (bug detected on compiz 0.7.4) may ignore
          * fullscreen requests for windows not visible inside the screen.
          * This can happen especially when using XRandR to resize the desktop.
-         * This tries to workaround that problem by ensuring^Whinting that the
+         * This tries to workaround that problem by ensuring hinting that the
          * window should be placed to the top-left corner. GTK/X sucks. */
         gtk_window_move(GTK_WINDOW(s), 0, 0);
         gtk_window_fullscreen(GTK_WINDOW(s));
@@ -1945,6 +1945,8 @@ void gl_update_texture(struct s_mbufs *buffer)
     int tw, th;
     tw = buffer->w;
     th = buffer->h;
+    /* DBG(("update texture: %ld, %f", buffer->stamp, buffer->alpha)); */
+
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glBindTexture(GL_TEXTURE_RECTANGLE_EXT, buffer->bindId);
 #ifdef __BIG_ENDIAN__
@@ -1978,10 +1980,9 @@ void gl_draw_quad(float alpha, int tw, int th)
 }
 
 void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas, 
-		      struct s_mbufs *buffers, int from, int to, int a, int do_swap)
+		      struct s_mbufs *buffers, int from, int to, int do_swap)
 {
     int tw, th, d, i = 0;
-    float alpha, alpha_fullframe;
     struct s_mbufs *t;
 	    
     if (!GTK_IS_WIDGET(w)) {
@@ -1999,42 +2000,33 @@ void gl_render_canvas(GtkWidget *w, video_canvas_t *canvas,
     tw = buffers[0].w;
     th = buffers[0].h;
 
+    /* DBG(("%s: from: %d, to: %d", __FUNCTION__, from, to)); */
+    
     glClear(GL_COLOR_BUFFER_BIT);
     glEnable(GL_TEXTURE_RECTANGLE_EXT);
     glEnable(GL_BLEND);
     
+    t = &buffers[from];
     d = ((to - from) + MAX_BUFFERS) % MAX_BUFFERS + 1;
-    if (d == 1) {
-	t = &buffers[from];
-	alpha = 1.0;
+    if (d < 2) {
 	goto lframe;
     }
 	
-    if (d <= 2) {
-	alpha = ((float) a / 1000);
-	alpha_fullframe = 1.0f - alpha;
-    }
-    else {
-	alpha = alpha_fullframe = 1.0f / d;
-	/* alpha = ((float) a / 1000) - alpha_fullframe * (d - 1); */
-	/* alpha = powf( (float) a / 1000, 0.1545f); */
-    }
-    
     glBlendFunc( GL_ONE, GL_ONE );
-    gl_update_texture(&buffers[from]);
-    gl_draw_quad(alpha_fullframe, tw, th);
+    gl_update_texture(t);
+    gl_draw_quad(t->alpha, tw, th);
     
     d-=2;                 /* first has been drawn, last is outside of loop */
-    t = buffers[from].next;
+    t = t->next;
     for (i = 0; i < d; i++, t=t->next) {
 	glBlendFunc(GL_ONE, GL_ONE);    
 	gl_update_texture(t);
-	gl_draw_quad(alpha_fullframe, tw, th);      
+	gl_draw_quad(t->alpha, tw, th);      
     }
   lframe:
     glBlendFunc(GL_ONE, GL_ONE);    
     gl_update_texture(t);
-    gl_draw_quad(alpha, tw, th);
+    gl_draw_quad(t->alpha, tw, th);
 
 #if 0
     /* draw vertical line as reference for smooth animations */
@@ -2121,7 +2113,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         t.h = canvas->draw_buffer->canvas_physical_height;
 #endif /* !HAVE_CAIRO */
 	t.buffer = canvas->hwscale_image;
-	gl_render_canvas(w, canvas, &t, 0, 0, 1, 1);
+	gl_render_canvas(w, canvas, &t, 0, 0, 1);
 	return 0;
     }
 #endif	/* HAVE_HWSCALE */

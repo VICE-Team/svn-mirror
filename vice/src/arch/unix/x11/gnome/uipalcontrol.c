@@ -74,7 +74,7 @@ static pal_templ_t ctrls[] = {
     { N_("Drives Volume"), "DriveSoundEmulationVolume", 1, 0 },
 #ifdef USE_UI_THREADS
     { N_("Display Thread Rate"), "DThreadRate", 80, 0 },
-    { N_("Display Thread Ghosting"), "DThreadGhosting", 900, 0 },
+    { N_("Display Thread Ghosting"), "DThreadGhosting", 500, 0 },
 #endif
 };
 

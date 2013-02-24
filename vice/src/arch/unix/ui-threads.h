@@ -52,7 +52,7 @@ void ui_trigger_window_resize2(video_canvas_t *c);
 #if 0
 int configure_callback_canvas2(void *w, void *e, void *cd);
 void gl_render_canvas(void *w, video_canvas_t *canvas, struct s_mbufs *buffers,
-		      int from, int to, int a, int do_s);
+		      int from, int to, int do_s);
 #endif
 
 
