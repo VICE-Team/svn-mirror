@@ -29,7 +29,7 @@
  *
  */
 
-/* #define DEBUG_X11UI */
+#define DEBUG_X11UI
 
 #define _UI_C /* WTH is this? */
 
@@ -2113,6 +2113,7 @@ gboolean exposure_callback_canvas(GtkWidget *w, GdkEventExpose *e, gpointer clie
         t.h = canvas->draw_buffer->canvas_physical_height;
 #endif /* !HAVE_CAIRO */
 	t.buffer = canvas->hwscale_image;
+	t.alpha = 1.0;
 	gl_render_canvas(w, canvas, &t, 0, 0, 1);
 	return 0;
     }
