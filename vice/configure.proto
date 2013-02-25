@@ -168,12 +168,6 @@ fi
 
 AM_CONDITIONAL(GNOMEUI, test x"$enable_gnomeui" = "xyes")
 
-if test x"$with_uithreads" = "xyes" ; then
-  AC_DEFINE(USE_UI_THREADS,,[Use multi-threaded UI.])
-fi
-
-AM_CONDITIONAL(USE_UI_THREADS, test x"$with_uithreads" = "xyes")
-
 if test x"$with_cocoa" = "xyes" ; then
   AC_DEFINE(MACOSX_COCOA,,[Use Cocoa on Macs.])
 fi
@@ -2553,6 +2547,7 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
           AC_MSG_RESULT(no)
         )
       PKG_CHECK_MODULES(GTKGL, [gtkglext-1.0],
+          have_gtkglext1=yes; 
           AC_DEFINE(HAVE_HWSCALE,,[Enable arbitrary window scaling]),
           AC_MSG_RESULT(no)
         )
@@ -2702,20 +2697,24 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
   AC_SUBST(VICE_SYNC)
 
   if test x"$with_uithreads" = "xyes" ; then
-    AC_CHECK_HEADER(pthread.h,,,[#include <pthread.h>])
-    if test x"$ac_cv_header_pthread_h" = "xyes" ; then
-      AC_CHECK_HEADER(semaphore.h,,,[#include <semaphore.h>])
-      if test x"$ac_cv_header_semaphore_h" = "xyes" ; then
-         AC_CHECK_LIB(pthread, pthread_create,
-                   [ X_LIBS="-lpthread $X_LIBS";
-                     LINK_X_LIBS="-lpthread $LINK_X_LIBS";
-		     CFLAGS="$CFLAGS -pthread";
-  		   VICE_UI_THREADS="ui-threads.o";
-                     AC_DEFINE(USE_UI_THREADS,,[Enable multithreaded UI.])
-  		 ],,$X_LIBS)
+    if test x"$have_gtkglext1" != "xyes" -a x"$have_gtkglext3" != "xyes" ; then
+      AC_MSG_WARN([no suitable GL hardware scaling support found, disabling --with-uithreads])
+    else
+      AC_CHECK_HEADER(pthread.h,,,[#include <pthread.h>])
+      if test x"$ac_cv_header_pthread_h" = "xyes" ; then
+        AC_CHECK_HEADER(semaphore.h,,,[#include <semaphore.h>])
+        if test x"$ac_cv_header_semaphore_h" = "xyes" ; then
+           AC_CHECK_LIB(pthread, pthread_create,
+                     [ X_LIBS="-lpthread $X_LIBS";
+                       LINK_X_LIBS="-lpthread $LINK_X_LIBS";
+  		     CFLAGS="$CFLAGS -pthread";
+    		   VICE_UI_THREADS="ui-threads.o";
+                       AC_DEFINE(USE_UI_THREADS,,[Enable multithreaded UI.])
+    		 ],,$X_LIBS)
+        fi
       fi
+      AC_SUBST(VICE_UI_THREADS)
     fi
-    AC_SUBST(VICE_UI_THREADS)
   fi
 
   dnl Check for XFree86 header and library extensions.
