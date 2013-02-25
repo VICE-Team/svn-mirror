@@ -29,7 +29,7 @@
  *
  */
 
-#define DEBUG_X11UI
+/* #define DEBUG_X11UI */
 
 #define _UI_C /* WTH is this? */
 
