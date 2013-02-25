@@ -64,6 +64,12 @@ else
   X64SC_INCLUDED = no
 endif
 
+if SUPPORT_XSCPU64
+  XSCPU64_INCLUDED = yes
+else
+  XSCPU64_INCLUDED = no
+endif
+
 .PHONY: vsid x64 x64sc x128 x64dtv xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 c1541 petcat cartconv
 vsid:
 	(cd src; $(MAKE) vsid-all)
@@ -84,8 +90,10 @@ x64dtv:
 	(cd src; $(MAKE) x64dtv-all)
 endif
 
+if SUPPORT_XSCPU64
 xscpu64:
 	(cd src; $(MAKE) xscpu64-all)
+endif
 
 xvic:
 	(cd src; $(MAKE) xvic-all)
@@ -139,16 +147,16 @@ endif
 if BEOS_COMPILE
 if SDL_COMPILE
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(XSCPU64_INCLUDED) $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist_beos.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(XSCPU64_INCLUDED) $(top_srcdir)
 else
 bindist:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ nozip $(X64SC_INCLUDED) $(XSCPU64_INCLUDED) $(top_srcdir)
 
 bindistzip:
-	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(top_srcdir)
+	$(SHELL) @ARCH_SRC_DIR@/make-bindist.sh $(STRIP) $(VICE_VERSION) $(host_cpu) @ENABLE_ARCH@ zip $(X64SC_INCLUDED) $(XSCPU64_INCLUDED) $(top_srcdir)
 endif
 endif
 

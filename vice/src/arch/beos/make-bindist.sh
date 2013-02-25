@@ -3,25 +3,28 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 #
-# make-bindist.sh <strip> <vice-version> <cpu> <--enable-arch> <zip|nozip> <extra64s-included> <top-srcdir>
-#                 $1      $2             $3    $4              $5          $6                  $7
+# make-bindist.sh <strip> <vice-version> <cpu> <--enable-arch> <zip|nozip> <c64sc-included> <scpu64sc-included> <top-srcdir>
+#                 $1      $2             $3    $4              $5          $6               $7                  $8
 
 STRIP=$1
 VICEVERSION=$2
 CPU=$3
 ENABLEARCH=$4
 ZIPKIND=$5
-EXTRA64S=$6
-TOPSRCDIR=$7
+X64SCINCLUDED=$6
+XSCPU64INCLUDED=$7
+TOPSRCDIR=$8
 
-if test x"$EXTRA64S" = "xyes"; then
+if test x"$X64SCINCLUDED" = "xyes"; then
   EXTRAFILES="x64sc"
-  EXTRADATADIRS=""
-elif test x"$EXTRA64S" = "xboth"; then
-  EXTRAFILES="xscpu64 x64sc"
-  EXTRADATADIRS="SCPU64"
 else
   EXTRAFILES=""
+fi
+
+if test x"$XSCPU64INCLUDED" = "xyes"; then
+  EXTRAFILES="$EXTRAFILES xscpu64"
+  EXTRADATADIRS="SCPU64"
+else
   EXTRADATADIRS=""
 fi
 

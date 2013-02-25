@@ -2929,6 +2929,13 @@ else
   AM_CONDITIONAL(SUPPORT_X64SC, true)
 fi
 
+dnl disable building of xscpu64 for beos
+if test x"$is_beos" = xyes"; then
+  AM_CONDITIONAL(SUPPORT_XSCPU64, false)
+else
+  AM_CONDITIONAL(SUPPORT_XSCPU64, true)
+fi
+
 dnl Setup the system-specific object files.
 if test x"$enable_sdlui" = "xyes"; then
   ARCH_DIR="\$(top_builddir)/src/arch/sdl"

@@ -828,6 +828,14 @@ x64sc_owbin =
 x64sc_bin =
 endif
 
+if SUPPORT_XSCPU64
+xscpu64_owbin = xscpu64
+xscpu64_bin = xscpu64
+else
+xscpu64_owbin =
+xscpu64_bin =
+endif
+
 if SUPPORT_CMDLINE_TOOLS
 c1541 = c1541
 petcat = petcat
@@ -852,12 +860,12 @@ xplus4ow_SOURCES = maincpu.c
 xvicow_SOURCES = maincpu.c
 
 if OWCC
-OW_progs = vsidow x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow xcbm5x0ow xscpu64ow
+OW_progs = vsidow x64ow $(x64sc_owbin) x128ow $(x64dtv_owbin) xvicow xpetow xplus4ow xcbm2ow xcbm5x0ow $(xscpu64_owbin)
 else
 OW_progs =
 endif
 
-bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 xscpu64 $(c1541) $(petcat) $(cartconv) $(OW_progs)
+bin_PROGRAMS = vsid x64 $(x64sc_bin) x128 $(x64dtv_bin) xvic xpet xplus4 xcbm2 xcbm5x0 $(xscpu64_bin) $(c1541) $(petcat) $(cartconv) $(OW_progs)
 
 EXTRA_PROGRAMS =
 
