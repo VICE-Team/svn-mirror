@@ -37,6 +37,10 @@
 #include "monitor.h"
 #include <string.h>
 
+#ifdef FEATURE_CPUMEMHISTORY
+#include "monitor.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* MACHINE_STUFF should define/undef
@@ -526,5 +530,27 @@ static const BYTE burst_status_tab[] = {
 
 #endif /* !ALLOW_UNALIGNED_ACCESS */
 
+#ifdef FEATURE_CPUMEMHISTORY
+#warning "CPUMEMHISTORY implementation for x64dtv is incomplete"
+#if 0
+void memmap_mem_store(unsigned int addr, unsigned int value)
+{
+    monitor_memmap_store(addr, MEMMAP_RAM_W);
+    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
+}
+
+void memmap_mark_read(unsigned int addr)
+{
+    monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
+    memmap_state &= ~(MEMMAP_STATE_OPCODE);
+}
+
+BYTE memmap_mem_read(unsigned int addr)
+{
+    memmap_mark_read(addr);
+    return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
+}
+#endif
+#endif
 
 #include "../maincpu.c"

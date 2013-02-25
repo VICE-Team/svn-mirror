@@ -60,6 +60,7 @@ libvsid_a_SOURCES = \
 	vsid-snapshot.c \
 	vsidcia1.c \
 	vsidcia2.c \
+	vsidcpu.c \
 	vsidmem.c \
 	vsidstubs.c
 
@@ -79,6 +80,7 @@ libc64_a_SOURCES = \
 	c64cia.h \
 	c64cia1.c \
 	c64cia2.c \
+	vsidcpu.c \
 	c64datasette.c \
 	c64drive.c \
 	c64embedded.c \

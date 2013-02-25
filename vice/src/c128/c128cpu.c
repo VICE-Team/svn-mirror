@@ -34,6 +34,10 @@
 #include "viciitypes.h"
 #include "z80.h"
 
+#ifdef FEATURE_CPUMEMHISTORY
+#include "monitor.h"
+#endif
+
 /* ------------------------------------------------------------------------- */
 
 /* MACHINE_STUFF should define/undef
@@ -113,5 +117,26 @@ static void clk_overflow_callback(CLOCK sub, void *unused_data)
 #define CPU_ADDITIONAL_RESET() c128cpu_memory_refresh_clk = 11
 
 #define CPU_ADDITIONAL_INIT() clk_guard_add_callback(maincpu_clk_guard, clk_overflow_callback, NULL)
+
+#ifdef FEATURE_CPUMEMHISTORY
+#warning "CPUMEMHISTORY implementation for x128 is incomplete"
+void memmap_mem_store(unsigned int addr, unsigned int value)
+{
+    monitor_memmap_store(addr, MEMMAP_RAM_W);
+    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
+}
+
+void memmap_mark_read(unsigned int addr)
+{
+    monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
+    memmap_state &= ~(MEMMAP_STATE_OPCODE);
+}
+
+BYTE memmap_mem_read(unsigned int addr)
+{
+    memmap_mark_read(addr);
+    return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
+}
+#endif
 
 #include "../maincpu.c"

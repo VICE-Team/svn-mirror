@@ -1,9 +1,7 @@
 /*
- * cbm2cpu.c - Emulation of the main 6509 processor.
+ * vsidcpu.c - Emulation of the main 6510 processor used for vsid and x64
  *
- * Written by
- *  Ettore Perazzoli <ettore@comm2000.it>
- *  Andreas Boose <viceteam@t-online.de>
+ * Written by groepaz <groepaz@gmx.net>
  *
  * This file is part of VICE, the Versatile Commodore Emulator.
  * See README for copyright notice.
@@ -27,19 +25,20 @@
 
 #include "vice.h"
 
-#include "cbm2.h"
+#include "maincpu.h"
 #include "mem.h"
-#include "types.h"
 
 #ifdef FEATURE_CPUMEMHISTORY
 #include "monitor.h"
+#include "c64pla.h"
 #endif
+
+/* ------------------------------------------------------------------------- */
 
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
  - TRACE
- - JUMP
 
  The following are optional:
 
@@ -47,34 +46,44 @@
  - PAGE_ONE
  - STORE_IND
  - LOAD_IND
+ - DMA_FUNC
+ - DMA_ON_RESET
 
 */
 
-/* ------------------------------------------------------------------------- */
-
-#define PAGE_ZERO mem_page_zero
-#define PAGE_ONE  mem_page_one
-
-#define LOAD_ZERO(addr) \
-    PAGE_ZERO[(addr) & 0xff]
-
-#define STORE_IND(addr, value) \
-    (*_mem_write_ind_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value))
-
-#define LOAD_IND(addr) \
-    (*_mem_read_ind_tab_ptr[(addr) >> 8])((WORD)(addr))
-
 #ifdef FEATURE_CPUMEMHISTORY
-#warning "CPUMEMHISTORY implementation for xcbm2 is incomplete"
 void memmap_mem_store(unsigned int addr, unsigned int value)
 {
-    monitor_memmap_store(addr, MEMMAP_RAM_W);
+    if ((addr >= 0xd000) && (addr <= 0xdfff)) {
+        monitor_memmap_store(addr, MEMMAP_I_O_W);
+    } else {
+        monitor_memmap_store(addr, MEMMAP_RAM_W);
+    }
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
 void memmap_mark_read(unsigned int addr)
 {
-    monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
+    switch (addr >> 12) {
+        case 0xa:
+        case 0xb:
+        case 0xe:
+        case 0xf:
+            memmap_state |= MEMMAP_STATE_IGNORE;
+            if (pport.data_read & (1 << ((addr >> 14) & 1))) {
+                monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_ROM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_ROM_R);
+            } else {
+                monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
+            }
+            memmap_state &= ~(MEMMAP_STATE_IGNORE);
+            break;
+        case 0xd:
+            monitor_memmap_store(addr, MEMMAP_I_O_R);
+            break;
+        default:
+            monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
+            break;
+    }
     memmap_state &= ~(MEMMAP_STATE_OPCODE);
 }
 
@@ -84,5 +93,5 @@ BYTE memmap_mem_read(unsigned int addr)
     return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
 }
 #endif
-    
+
 #include "../maincpu.c"

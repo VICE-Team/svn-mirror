@@ -317,9 +317,6 @@ cpucore_sources = \
 cpudtvcore_sources = \
 	6510dtvcore.c
 
-maincpu_sources = \
-	maincpu.c
-
 EXTRA_DIST = \
 	6510core.c \
 	65816core.c \
@@ -887,7 +884,7 @@ vsid_libs =  \
 	$(resid_libs) \
 	$(platform_lib)
 
-vsid_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
+vsid_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 vsid_LDADD = $(vsid_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 vsid_DEPENDENCIES = $(vsid_libs)
 vsid_LDFLAGS = @vsid_LDFLAGS@
@@ -939,7 +936,7 @@ x64_libs =  \
 	$(resid_libs) \
 	$(platform_lib)
 
-x64_SOURCES = $(base_sources) $(maincpu_sources) $(mouse_sources) $(midi_sources)
+x64_SOURCES = $(base_sources) $(mouse_sources) $(midi_sources)
 x64_LDADD = $(x64_libs) $(emu_extlibs) @TFE_LIBS@ @NETPLAY_LIBS@
 x64_DEPENDENCIES = $(x64_libs)
 x64_LDFLAGS = @x64_LDFLAGS@

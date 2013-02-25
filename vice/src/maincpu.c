@@ -48,7 +48,6 @@
 #include "traps.h"
 #include "types.h"
 
-
 /* MACHINE_STUFF should define/undef
 
  - NEED_REG_PC
@@ -79,57 +78,10 @@
 
 /* ------------------------------------------------------------------------- */
 
-#ifndef STORE_ZERO
-#define STORE_ZERO(addr, value) \
-    (*_mem_write_tab_ptr[0])((WORD)(addr), (BYTE)(value))
-#endif
-
-#ifndef LOAD_ZERO
-#define LOAD_ZERO(addr) \
-    (*_mem_read_tab_ptr[0])((WORD)(addr))
-#endif
-
 #ifdef FEATURE_CPUMEMHISTORY
-#ifndef C64DTV
+#ifndef C64DTV /* FIXME: fix DTV and remove this */
 
-/* HACK this is C64 specific */
-
-void memmap_mem_store(unsigned int addr, unsigned int value)
-{
-    if ((addr >= 0xd000) && (addr <= 0xdfff)) {
-        monitor_memmap_store(addr, MEMMAP_I_O_W);
-    } else {
-        monitor_memmap_store(addr, MEMMAP_RAM_W);
-    }
-    (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
-}
-
-BYTE memmap_mem_read(unsigned int addr)
-{
-    switch (addr >> 12) {
-        case 0xa:
-        case 0xb:
-        case 0xe:
-        case 0xf:
-            memmap_state |= MEMMAP_STATE_IGNORE;
-            if (LOAD_ZERO(1) & (1 << ((addr >> 14) & 1))) {
-                monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_ROM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_ROM_R);
-            } else {
-                monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
-            }
-            memmap_state &= ~(MEMMAP_STATE_IGNORE);
-            break;
-        case 0xd:
-            monitor_memmap_store(addr, MEMMAP_I_O_R);
-            break;
-        default:
-            monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
-            break;
-    }
-    memmap_state &= ~(MEMMAP_STATE_OPCODE);
-    return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
-}
-
+/* map access functions to memmap hooks */
 #ifndef STORE
 #define STORE(addr, value) \
     memmap_mem_store(addr, value)
@@ -138,6 +90,16 @@ BYTE memmap_mem_read(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     memmap_mem_read(addr)
+#endif
+
+#ifndef STORE_ZERO
+#define STORE_ZERO(addr, value) \
+    memmap_mem_store((addr) & 0xff, value)
+#endif
+
+#ifndef LOAD_ZERO
+#define LOAD_ZERO(addr) \
+    memmap_mem_read((addr) & 0xff)
 #endif
 
 #endif /* C64DTV */
@@ -151,6 +113,16 @@ BYTE memmap_mem_read(unsigned int addr)
 #ifndef LOAD
 #define LOAD(addr) \
     (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr))
+#endif
+
+#ifndef STORE_ZERO
+#define STORE_ZERO(addr, value) \
+    (*_mem_write_tab_ptr[0])((WORD)(addr), (BYTE)(value))
+#endif
+
+#ifndef LOAD_ZERO
+#define LOAD_ZERO(addr) \
+    (*_mem_read_tab_ptr[0])((WORD)(addr))
 #endif
 
 #define LOAD_ADDR(addr) \

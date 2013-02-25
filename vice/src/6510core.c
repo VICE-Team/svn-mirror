@@ -2019,7 +2019,7 @@ static const BYTE rewind_fetch_tab[] = {
 #ifndef C64DTV
         /* HACK to cope with FETCH_OPCODE optimization in x64 */
         if (((int)reg_pc) < bank_limit) {
-            memmap_mem_read(reg_pc);
+            memmap_mark_read(reg_pc);
         }
 #endif
         if (p0 == 0x20) {
