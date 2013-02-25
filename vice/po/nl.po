@@ -1796,7 +1796,7 @@ msgstr "Zet aangepaste aspect verhouding"
 #: src/arch/unix/gui/uicrtc.c:193 src/arch/unix/gui/uited.c:199
 #: src/arch/unix/gui/uivic.c:202 src/arch/unix/gui/uivicii.c:226
 msgid "Alpha Blending"
-msgstr ""
+msgstr "Alpha Blending"
 
 #: src/arch/unix/gui/uicrtc.c:199 src/arch/unix/gui/uited.c:205
 #: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:208
@@ -4323,11 +4323,11 @@ msgstr "Drives Volume"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:76
 msgid "Display Thread Rate"
-msgstr ""
+msgstr "Display draad snelheid"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:77
 msgid "Display Thread Ghosting"
-msgstr ""
+msgstr "display draad ghosting"
 
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
@@ -11544,9 +11544,8 @@ msgid "Disable hardware scaling"
 msgstr "Hardwareschaling uitschakelen"
 
 #: src/translate_text.c.po.c:10803
-#, fuzzy
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-msgstr "Selecteer de rendering filter: 0:geen, 1:CRT emulatie, 2:Scale2x"
+msgstr "Selecteer de rendering filter: (0: geen, 1: CRT emulatie, 2: Scale2x)"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"
