@@ -3121,7 +3121,7 @@ BEGIN
   IDS_FULLSCREEN                  "Pantalla completa/DirectX"
   IDS_CRT_EMULATION               "Emulación CRT"
   IDS_RENDER_FILTER               "Filtro de renderizado"
-  IDS_SCALE2X                     "Escala 2x"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Ajustes de video"
   IDS_FILE_SYSTEM                 "Fichero de sistema"
 #ifdef HAVE_OPENCBM
@@ -6348,7 +6348,7 @@ BEGIN
   IDS_FULLSCREEN                  "Volscherm/DirectX"
   IDS_CRT_EMULATION               "CRT emulatie"
   IDS_RENDER_FILTER               "Render filter"
-  IDS_SCALE2X                     "Schaal2x"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Video instellingen"
   IDS_FILE_SYSTEM                 "Bestandssysteem"
 #ifdef HAVE_OPENCBM
@@ -6994,7 +6994,7 @@ BEGIN
   IDS_FULLSCREEN                  "Pe³ny ekran/DirectX"
   IDS_CRT_EMULATION               "Emulacja CRT"
   IDS_RENDER_FILTER               "Filtr renderera"
-  IDS_SCALE2X                     "Skalowanie2x"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Ustawienia wideo"
   IDS_FILE_SYSTEM                 "System plików"
 #ifdef HAVE_OPENCBM
@@ -8935,7 +8935,7 @@ BEGIN
   IDS_FULLSCREEN                  "Tam Ekran/DirectX"
   IDS_CRT_EMULATION               "CRT emülasyonu"
   IDS_RENDER_FILTER               "Ýmge oluþturma filtresi"
-  IDS_SCALE2X                     "2x Geniþlet"
+  IDS_SCALE2X                     "Scale2x"
   IDS_VIDEO_SETTINGS              "Görüntü ayarlarý"
   IDS_FILE_SYSTEM                 "Dosya sistemi"
 #ifdef HAVE_OPENCBM

@@ -722,7 +722,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000                 "4/8KB Modul Image bei $A000 einlegen"
     IDS_ATTACH_4_CART_B000                   "4KB Modul Image bei $B000 einlegen"
     IDS_IO_SWAP                              "MasC=uerade I/O swap aktivieren"
-    IDS_VIC20MODEL                           "VIC20 model"
+    IDS_VIC20MODEL                           "VIC20 Modell"
     IDS_MI_IEEE488                           "VIC-1112 IEEE-488 Modul"
     IDS_MI_PADDLES                           "Paddles aktivieren"
     IDS_MI_CART_VIC20_GENERIC                "Generisches Image..."
@@ -750,7 +750,7 @@ BEGIN
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "SFX Sound Expander Einstellungen (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "SFX Sound Sampler Einstellungen (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "VIC Einstellungen..."
-    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 Modell Einstellungen..."
 END
 
 
@@ -782,7 +782,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000                 "Insertar 4/8KB imagen cartucho en $A000"
     IDS_ATTACH_4_CART_B000                   "Insertar 4KB imagen cartucho en $B000"
     IDS_IO_SWAP                              "Permitir intercambio MasC=uerade Entrada/Salida"
-    IDS_VIC20MODEL                           "VIC20 model"
+    IDS_VIC20MODEL                           "Modelo VIC20"
     IDS_MI_IEEE488                           "Módulo VIC-1112 IEEE-488"
     IDS_MI_PADDLES                           "Permitir paddles"
     IDS_MI_CART_VIC20_GENERIC                "Imagen generica..."
@@ -810,7 +810,7 @@ BEGIN
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Ajustes SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Ajustes SFX Sound Sampler (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Ajustes VIC..."
-    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MI_VIC20MODEL_SETTINGS               "Ajustes modelo VIC20..."
 END
 
 
@@ -1157,7 +1157,7 @@ BEGIN
     IDS_ATTACH_4_8_CART_A000                 "Wsuñ 4/8KB obraz w $A000"
     IDS_ATTACH_4_CART_B000                   "Wsuñ 4KB obraz w $B000"
     IDS_IO_SWAP                              "W³±cz zamianê we/wy MasC=uerade"
-    IDS_VIC20MODEL                           "VIC20 model"
+    IDS_VIC20MODEL                           "Model VIC20"
     IDS_MI_IEEE488                           "Modu³ IEEE-488 VIC-1112"
     IDS_MI_PADDLES                           "W³±cz pokrêt³a steruj±ce"
     IDS_MI_CART_VIC20_GENERIC                "Standardowy obraz..."
@@ -1185,7 +1185,7 @@ BEGIN
     IDS_MI_SFX_SE_SETTINGS_MASCUERADE        "Ustawienia SFX Sound Expander (MasC=uerade)..."
     IDS_MI_SFX_SS_SETTINGS_MASCUERADE        "Ustawienia samplera d¼wiêku SFX (MasC=uerade)..."
     IDS_MI_VIC_SETTINGS                      "Ustawienia VIC..."
-    IDS_MI_VIC20MODEL_SETTINGS               "VIC20 model settings..."
+    IDS_MI_VIC20MODEL_SETTINGS               "Ustawienia modelu VIC20..."
 END
 #ifndef WINDRES_CP_IGNORE
 #pragma code_page(28591)

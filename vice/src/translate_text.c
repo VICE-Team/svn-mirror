@@ -340,7 +340,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_ES, "No existe el periférico %s de grabación "},
 /* fr */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_FR, "Le périphérique d'enregistrement %s n'existe pas!"},
 /* hu */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_HU, "A %s felvevõ eszköz nem létezik!"},
-/* it */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_IT, "Il device di registrazione %s non esiste!"},
+/* it */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_IT, "Il dispositivo di registrazione %s non esiste!"},
 /* ko */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_NL, "Opnameapparaat %s bestaat niet!"},
 /* pl */ {IDGS_RECORD_DEVICE_S_NOT_EXIST_PL, "Urz±dzenie zapisu %s nie istnieje!"},
@@ -357,7 +357,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_RECORD_DIFFERENT_PLAYBACK_ES, "Periferico de grabación y reproducción tienen que ser diferentes"},
 /* fr */ {IDGS_RECORD_DIFFERENT_PLAYBACK_FR, "Le périphérique de son d'enregistrement doivent être différents"},
 /* hu */ {IDGS_RECORD_DIFFERENT_PLAYBACK_HU, "A felvevõ és lejátszó eszközöknek különböznie kell"},
-/* it */ {IDGS_RECORD_DIFFERENT_PLAYBACK_IT, "Il device di registrazione deve essere differente da quello di riproduzione"},
+/* it */ {IDGS_RECORD_DIFFERENT_PLAYBACK_IT, "Il dispositivo di registrazione deve essere differente da quello di riproduzione"},
 /* ko */ {IDGS_RECORD_DIFFERENT_PLAYBACK_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_RECORD_DIFFERENT_PLAYBACK_NL, "Opnameapparaat moet anders zijn dan afspeelapparaat"},
 /* pl */ {IDGS_RECORD_DIFFERENT_PLAYBACK_PL, "Urz±dzenie zapisu musi byæ inne ni¿ urz±dzenie odtwarzania"},
@@ -374,7 +374,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_WARNING_RECORDING_REALTIME_ES, "¡Precaución! periférico de grabación %s parece ser un periferico en tiempo real"},
 /* fr */ {IDGS_WARNING_RECORDING_REALTIME_FR, "Attention! Le périphérique d'enregistrement %s semble être un périphérique temps réel"},
 /* hu */ {IDGS_WARNING_RECORDING_REALTIME_HU, "Figyelem! A %s felvevõ eszköz úgy tûnik, valós idejû eszköz!"},
-/* it */ {IDGS_WARNING_RECORDING_REALTIME_IT, "Attenzione! Il device di registrazione %s sembra essere un dispositivo realtime!"},
+/* it */ {IDGS_WARNING_RECORDING_REALTIME_IT, "Attenzione! Il dispositivo di registrazione %s sembra essere di tipo realtime!"},
 /* ko */ {IDGS_WARNING_RECORDING_REALTIME_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_WARNING_RECORDING_REALTIME_NL, "Waarschuwing! Opnameapparaat %s lijkt een realtime apparaat te zijn!"},
 /* pl */ {IDGS_WARNING_RECORDING_REALTIME_PL, "Ostrze¿enie! Urz±dzenie zapisu %s dzia³a chyba w czasie rzeczywistym!"},
@@ -391,7 +391,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_ES, "El periférico de grabación no soporta los actuales parametros de sonido"},
 /* fr */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_FR, "Le périphérique d'enregistrement ne supporte pas les paramètres actuels"},
 /* hu */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_HU, "A felvevõ eszköz nem támogatja az aktuális hangbeállításokat"},
-/* it */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_IT, "Il device di registrazione non supporta i parametri attuali"},
+/* it */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_IT, "Il dispositivo di registrazione non supporta i parametri attuali"},
 /* ko */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_NL, "Het opname apparaat ondersteunt de huidige geluid opties niet"},
 /* pl */ {IDGS_RECORD_NOT_SUPPORT_SOUND_PAR_PL, "Urz±dzenie zapisu nie obs³uguje obecnych parametrów d¼wiêku"},
@@ -1617,7 +1617,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_ES, "Muestra mapeado de etiquetas actual. Si no se especifica espacio de\nmemoria, muestra todas las etiquetas."},
 /* fr */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_FR, "Affiche les étiquettes mémoires actuelles. Si aucune adresse mémoire\nn'est spécifiée, affichera toutes les étiquettes."},
 /* hu */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_HU, "Az aktuális címke leképezések mutatása.  Ha nincs a memória tér megadva, az\nösszeset mutatja."},
-/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcun\nspazio di memoria, verranno mostrate tutte le etichette."},
+/* it */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_IT, "Mostra l'associazione delle etichette correnti. Se non è specificato alcuno\nspazio di memoria, verranno mostrate tutte le etichette."},
 /* ko */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_NL, "Toon huidige label koppelingen. Als er geen geheugenruimte is opgegeven\nworden all labels getoont."},
 /* pl */ {IDGS_MON_SHOW_LABELS_DESCRIPTION_PL, "Pokazuje obecne mapowania notatek. Je¶li nie okre¶lono obszaru pamiêci,\npokazuje wszystkie notatki."},
@@ -1991,7 +1991,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_ES, "Mostrar el mapa de memoria. La mascara puede definirse para mostrar\nsólo aquellas localizaciones con un determinado tipo(s). La máscara es\nun número con bits \"ioRVXrvx\", donde RWX son para ROM y rwx son\npara RAM. Opcionalmente, se puede especificar un rango de direcciones."},
 /* fr */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_FR, "Affiche le plan de la mémoire. Un masque peut être spécifié pour\nne montrer que les emplacements avec accès à certains type(s).\nLe masque est un nombre avec les bits \"ioRWXrwx\", ou RWX est\npour le ROM et rwx pour le RAM.\nOptionnellement, une plage d'adresses peut être spécifiée."},
 /* hu */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_HU, "A memória térkép mutatása. A maszk úgy állítható, hogy csak azokat a\nhelyeket mutassa, amelyek a megadott eléréssel rendelkeznek. A maszk\negy szám az \"ioRWXrwx\" bitekkel, ahol az RWX a ROM-ra, az rwx a RAM-ra\nvonatkozik. Tetszés szerint egy címtartomány is megadható."},
-/* it */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_IT, "Mostra la mappa di memoria. La maschera può essere specificata per\nmostrare solo quelle locazioni con accessi un un certo tipo. La maschera\nè un numero con i bit \"ioRWXrwx\", dove RWX sono per la ROM e\nrwx per la RAM.\nOpzionalmente, può essere specificato anche un intervallo di indirizzi."},
+/* it */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_IT, "Mostra la mappa di memoria. La maschera può essere specificata per\nmostrare solo quelle locazioni con accessi di un certo tipo. La maschera\nè un numero con i bit \"ioRWXrwx\", dove RWX sono per la ROM e\nrwx per la RAM.\nOpzionalmente, può essere specificato anche un intervallo di indirizzi."},
 /* ko */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_NL, "Toon de memmap. Het masker kan worden opgegeven zodat er alleen de\nadressen met toegrijpingen van een bepaalde soort(en) zal worden getoond.\nHet masker is een nummer met de bits \"ioRWXrwx\", waar RWX is voor ROM,\nen rwx voor RAM. Er kan optioneel een adres bereik worden opgegeven."},
 /* pl */ {IDGS_MON_MEMMAPSHOW_DESCRIPTION_PL, "Pokazuje mapê pamiêci. By pokazaæ tylko obszar dostêpów danego typu,\nmo¿na okre¶liæ maskê. Maska to numer zawieraj±cy bity \"ioRWXrwx\", gdzie\nRWX to ROM, a rwx to RAM. Opcjonalnie mo¿na okre¶liæ zakres adresów."},
@@ -2510,7 +2510,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_MON_ATTACH_DESCRIPTION_ES, "Inserta fichero en periférico (periférico 32=cartucho)"},
 /* fr */ {IDGS_MON_ATTACH_DESCRIPTION_FR, "Attacher un fichier à un périphérique. (Périph. 32 = cartouche)"},
 /* hu */ {IDGS_MON_ATTACH_DESCRIPTION_HU, "Fájl csatolása az eszközhöz. (32-es eszköz = cart)"},
-/* it */ {IDGS_MON_ATTACH_DESCRIPTION_IT, "Seleziona il file per la perifica. (periferica 32 = cartuccia)"},
+/* it */ {IDGS_MON_ATTACH_DESCRIPTION_IT, "Seleziona il file per la periferica. (periferica 32 = cartuccia)"},
 /* ko */ {IDGS_MON_ATTACH_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_ATTACH_DESCRIPTION_NL, "Koppel bestand aan apparaat. (apparaat 32 = cart"},
 /* pl */ {IDGS_MON_ATTACH_DESCRIPTION_PL, "Pod³±cz plik pod urz±dzenie (urz±dzenie 32 = cart)"},
@@ -2731,7 +2731,7 @@ translate_t string_table[] = {
 /* es */ {IDGS_MON_LOAD_DESCRIPTION_ES, "Cargar el fichero especificado en la dirección de memoria indicada. Actualizar\npunteros BASIC apropiadamente si se carga en la memoria del ordenador\n(no en todos los emuladores).\nUsar dirección de dos bytes del fichero si no se indica otra dirección.\nSi el periférico es 0, el fichero se lee del sistema."},
 /* fr */ {IDGS_MON_LOAD_DESCRIPTION_FR, "Charge le fichier spécifié en mémoire à l'adresse spécifiée. Règle les\npointeurs BASIC correctement si chargée dans la mémoire de l'ordinateur\n(sur certains émulateurs seulement). Utilise l'adresse à deux bits du\nfichier si aucune adresse de chargement n'est spécifiée.\nSi le périphérique est 0, le fichier est lu du système de fichiers."},
 /* hu */ {IDGS_MON_LOAD_DESCRIPTION_HU, "A megadott fájl betöltése a megadott címre. A BASIC mutatókat\na megfelelõ módon beállítja, ha a számítógép memóriába tölti az adatot\n(nem minden emulátornál). Ha nincs cím megadva, az amúgy figyelmen hagyott\nkét bájtos betöltési címet használja a fájlból.\nHa az eszköz 0, a fájlt a fájlrendszerrõl olvassa."},
-/* it */ {IDGS_MON_LOAD_DESCRIPTION_IT, "Carica il file specificato in memroia all'indirizzo specificato. Imposta\ni puntatori del BASIC in modo appropriato se caricato nella memoria\ndel computer (non su tutti gli emulatori).\nUsa (altrimenti ignora) l'indirizzo di caricamento su due byte del file\nse non viene specificato alcun indirizzo.\nSe la periferica è 0, il file viene letto dal file system."},
+/* it */ {IDGS_MON_LOAD_DESCRIPTION_IT, "Carica il file specificato in memoria all'indirizzo specificato. Imposta\ni puntatori del BASIC in modo appropriato se caricato nella memoria\ndel computer (non su tutti gli emulatori).\nUsa (altrimenti ignora) l'indirizzo di caricamento su due byte del file\nse non viene specificato alcun indirizzo.\nSe la periferica è 0, il file viene letto dal file system."},
 /* ko */ {IDGS_MON_LOAD_DESCRIPTION_KO, ""},  /* fuzzy */
 /* nl */ {IDGS_MON_LOAD_DESCRIPTION_NL, "Laad het opgegeven bestand naar geheugen op het opgegeven adres. Zet de BASIC\nstart en eind indicators correct als het bestand naar het computer geheugen\ngeladen wordt (niet alle emulatoren). De eerste twee bytes van het bestand\nzullen als laad adres worden gebruikt als er geen adres is opgegeven. Als\nhet apparaat 0 is dan zal het bestand van het bestandssysteem worden geladen."},
 /* pl */ {IDGS_MON_LOAD_DESCRIPTION_PL, "Wczytaj podany plik do pamiêci w konkretnym adresie. Ustaw wska¼niki\nBASIC odpowiednio, jesli zostan± wczytane do pamiêci komputera\n(nie wszystkie emulatory). U¿yj (w innym razie ignoruje) dwubajtowego\nadresu wczytywania z pliku, je¶li nie zosta³ podany adres.\nJe¶li urz±dzenie jest 0, plik zostaje oczytany z systemu plików."},
@@ -4189,14 +4189,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_C64_MODEL,    N_("Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_C64_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_C64_MODEL_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_C64_MODEL_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_C64_MODEL_DE, "Wähle C64 Modell (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
+/* es */ {IDCLS_SET_C64_MODEL_ES, "Seleccionar modelo C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
 /* fr */ {IDCLS_SET_C64_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_C64_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_C64_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_C64_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_C64_MODEL_NL, "Zet C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
-/* pl */ {IDCLS_SET_C64_MODEL_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_C64_MODEL_PL, "Wybierz model C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, pet64, ultimax)"},
 /* ru */ {IDCLS_SET_C64_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_C64_MODEL_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_C64_MODEL_TR, ""},  /* fuzzy */
@@ -4240,14 +4240,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_VIC20_MODEL,    N_("Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_VIC20_MODEL_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_VIC20_MODEL_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_VIC20_MODEL_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_VIC20_MODEL_DE, "Wähle VIC20 Modell (vic20/vic20pal/vic20ntsc, vic21)"},
+/* es */ {IDCLS_SET_VIC20_MODEL_ES, "Seleccionar modelo  VIC20 (vic20/vic20pal/vic20ntsc, vic21)"},
 /* fr */ {IDCLS_SET_VIC20_MODEL_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_VIC20_MODEL_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_VIC20_MODEL_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_VIC20_MODEL_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_VIC20_MODEL_NL, "Zet VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"},
-/* pl */ {IDCLS_SET_VIC20_MODEL_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_VIC20_MODEL_PL, "Wybierz model VIC20 (vic20/vic20pal/vic20ntsc, vic21)"},
 /* ru */ {IDCLS_SET_VIC20_MODEL_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_VIC20_MODEL_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_VIC20_MODEL_TR, ""},  /* fuzzy */
@@ -7706,14 +7706,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SET_DRIVE_SOUND_VOLUME,    N_("Set volume for disk drive sound emulation (0-4000)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SET_DRIVE_SOUND_VOLUME_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SET_DRIVE_SOUND_VOLUME_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SET_DRIVE_SOUND_VOLUME_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SET_DRIVE_SOUND_VOLUME_DE, "Lautstärke für Floppygeräusch Emulation (0-4000)"},
+/* es */ {IDCLS_SET_DRIVE_SOUND_VOLUME_ES, "Ajustar volumen para emulación sonido disquetera (0-400)"},
 /* fr */ {IDCLS_SET_DRIVE_SOUND_VOLUME_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SET_DRIVE_SOUND_VOLUME_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_DRIVE_SOUND_VOLUME_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_DRIVE_SOUND_VOLUME_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_NL, "Zet de volume van de diskdrive geluidemulatie (0-4000)"},
-/* pl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SET_DRIVE_SOUND_VOLUME_PL, "Ustaw g³o¶no¶æ emulacji odg³osów stacji dysków (0-4000)"},
 /* ru */ {IDCLS_SET_DRIVE_SOUND_VOLUME_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_DRIVE_SOUND_VOLUME_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_DRIVE_SOUND_VOLUME_TR, ""},  /* fuzzy */
@@ -10895,8 +10895,8 @@ translate_t string_table[] = {
 /* hu */ {IDCLS_SET_VIDEO_FILTER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SET_VIDEO_FILTER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SET_VIDEO_FILTER_KO, ""},  /* fuzzy */
-/* nl */ {IDCLS_SET_VIDEO_FILTER_NL, ""},  /* fuzzy */
-/* pl */ {IDCLS_SET_VIDEO_FILTER_PL, ""},  /* fuzzy */
+/* nl */ {IDCLS_SET_VIDEO_FILTER_NL, "Selecteer de rendering filter: (0: geen, 1: CRT emulatie, 2: Scale2x)"},
+/* pl */ {IDCLS_SET_VIDEO_FILTER_PL, "Wybierz filtr renderera: (0:brak, 1: emulacja CRT, 2: scale2x)"},
 /* ru */ {IDCLS_SET_VIDEO_FILTER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SET_VIDEO_FILTER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SET_VIDEO_FILTER_TR, ""},  /* fuzzy */
@@ -11541,7 +11541,7 @@ translate_t string_table[] = {
 /* en */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE,    N_("Write monitor output also to file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DE, ""},  /* fuzzy */
+/* de */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_DE, "Monitor Ausgabe auch auf Datei schreiben"},
 /* es */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_ES, "Grabar salida del monitor tambien en fichero"},
 /* fr */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_WRITE_MONITOR_LOG_TO_FILE_HU, ""},  /* fuzzy */
@@ -12039,14 +12039,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_MOUSE_TYPE,    N_("Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_MOUSE_TYPE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_MOUSE_TYPE_DE, "Maus Typ auswählen (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
+/* es */ {IDCLS_SELECT_MOUSE_TYPE_ES, "Seleccionar tipo de ratón (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"},
 /* fr */ {IDCLS_SELECT_MOUSE_TYPE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_MOUSE_TYPE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_MOUSE_TYPE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_MOUSE_TYPE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_MOUSE_TYPE_NL, "Selecteer de muis soort (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"},
-/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_MOUSE_TYPE_PL, "Wybierz typ myszy (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = pokrêt³a, 4 = CX-22, 5 = ST, 6 = Smart, 7 = Micromys, 8 = Koalapad)"},
 /* ru */ {IDCLS_SELECT_MOUSE_TYPE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_MOUSE_TYPE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SELECT_MOUSE_TYPE_TR, ""},  /* fuzzy */
@@ -12175,14 +12175,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_LOAD_ROMSET_FILE,    N_("load the given romset file")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_LOAD_ROMSET_FILE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_LOAD_ROMSET_FILE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_LOAD_ROMSET_FILE_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_LOAD_ROMSET_FILE_DE, "Lade angegebene ROM Satz Datei!"},
+/* es */ {IDCLS_LOAD_ROMSET_FILE_ES, "Cargar el fichero romset dado"},
 /* fr */ {IDCLS_LOAD_ROMSET_FILE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_LOAD_ROMSET_FILE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_LOAD_ROMSET_FILE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_LOAD_ROMSET_FILE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_LOAD_ROMSET_FILE_NL, "Laad het opgegeven romsetbestand"},
-/* pl */ {IDCLS_LOAD_ROMSET_FILE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_LOAD_ROMSET_FILE_PL, "Wczytaj dany plik zestawu ROM-ów"},
 /* ru */ {IDCLS_LOAD_ROMSET_FILE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_LOAD_ROMSET_FILE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_LOAD_ROMSET_FILE_TR, ""},  /* fuzzy */
@@ -12192,14 +12192,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_LOAD_ROMSET_ARCHIVE,    N_("load the given romset archive")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_LOAD_ROMSET_ARCHIVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_LOAD_ROMSET_ARCHIVE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_LOAD_ROMSET_ARCHIVE_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_LOAD_ROMSET_ARCHIVE_DE, "Lade angegebenes ROM Satz Archiv!"},
+/* es */ {IDCLS_LOAD_ROMSET_ARCHIVE_ES, "Cargar el archivo romset dado"},
 /* fr */ {IDCLS_LOAD_ROMSET_ARCHIVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_LOAD_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_LOAD_ROMSET_ARCHIVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_LOAD_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_LOAD_ROMSET_ARCHIVE_NL, "Laad het opgegeven romsetarchief"},
-/* pl */ {IDCLS_LOAD_ROMSET_ARCHIVE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_LOAD_ROMSET_ARCHIVE_PL, "Wczytaj dane archiwum zestawu ROM-ów"},
 /* ru */ {IDCLS_LOAD_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_LOAD_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_LOAD_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
@@ -12209,14 +12209,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_P_ITEM_NUMBER,    N_("<Item number>")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_P_ITEM_NUMBER_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_P_ITEM_NUMBER_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_P_ITEM_NUMBER_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_P_ITEM_NUMBER_DE, "<Titel Nummer>"},
+/* es */ {IDCLS_P_ITEM_NUMBER_ES, "<Número ítem>"},
 /* fr */ {IDCLS_P_ITEM_NUMBER_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_P_ITEM_NUMBER_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_P_ITEM_NUMBER_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_P_ITEM_NUMBER_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_P_ITEM_NUMBER_NL, "<Item nummer>"},
-/* pl */ {IDCLS_P_ITEM_NUMBER_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_P_ITEM_NUMBER_PL, "<Liczba elementu>"},
 /* ru */ {IDCLS_P_ITEM_NUMBER_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_P_ITEM_NUMBER_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_P_ITEM_NUMBER_TR, ""},  /* fuzzy */
@@ -12226,14 +12226,14 @@ translate_t string_table[] = {
 /* en */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE,    N_("select the given item from the current romset archive")},
 #ifdef HAS_TRANSLATION
 /* da */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DA, ""},  /* fuzzy */
-/* de */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DE, ""},  /* fuzzy */
-/* es */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_ES, ""},  /* fuzzy */
+/* de */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_DE, "Auswahl des aktuellen ROM Satz Archivs auswählen"},
+/* es */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_ES, "Seleccionar del archivo romset actual el ítem dado"},
 /* fr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_FR, ""},  /* fuzzy */
 /* hu */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_HU, ""},  /* fuzzy */
 /* it */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_IT, ""},  /* fuzzy */
 /* ko */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_KO, ""},  /* fuzzy */
 /* nl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_NL, "selecteer het opgegeven item van het huidige romsetarchief"},
-/* pl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_PL, ""},  /* fuzzy */
+/* pl */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_PL, "Wybierz dany element z obecnego zestawu ROM-ów."},
 /* ru */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_RU, ""},  /* fuzzy */
 /* sv */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_SV, ""},  /* fuzzy */
 /* tr */ {IDCLS_SELECT_ITEM_FROM_ROMSET_ARCHIVE_TR, ""},  /* fuzzy */
