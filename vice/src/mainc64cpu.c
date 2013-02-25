@@ -186,10 +186,9 @@ void memmap_mem_store(unsigned int addr, unsigned int value)
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
-BYTE memmap_mem_read(unsigned int addr)
+/* mark as read (no side effects) */
+void memmap_mark_read(unsigned int addr)
 {
-    check_ba();
-
     switch (addr >> 12) {
         case 0xa:
         case 0xb:
@@ -211,6 +210,13 @@ BYTE memmap_mem_read(unsigned int addr)
             break;
     }
     memmap_state &= ~(MEMMAP_STATE_OPCODE);
+}
+
+/* read byte, check BA and mark as read */
+BYTE memmap_mem_read(unsigned int addr)
+{
+    check_ba();
+    memmap_mark_read(addr);
     return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
 }
 

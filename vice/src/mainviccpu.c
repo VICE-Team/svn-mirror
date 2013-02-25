@@ -84,7 +84,8 @@ void memmap_mem_store(unsigned int addr, unsigned int value)
     (*_mem_write_tab_ptr[(addr) >> 8])((WORD)(addr), (BYTE)(value));
 }
 
-BYTE memmap_mem_read(unsigned int addr)
+/* mark as read (no side effects) */
+void memmap_mark_read(unsigned int addr)
 {
     if (((addr >= 0x9000) && (addr <= 0x93ff)) || ((addr >= 0x9800) && (addr <= 0x9fff))) {
         monitor_memmap_store(addr, MEMMAP_I_O_R);
@@ -94,6 +95,12 @@ BYTE memmap_mem_read(unsigned int addr)
         monitor_memmap_store(addr, (memmap_state & MEMMAP_STATE_OPCODE) ? MEMMAP_RAM_X : (memmap_state & MEMMAP_STATE_INSTR) ? 0 : MEMMAP_RAM_R);
     }
     memmap_state &= ~(MEMMAP_STATE_OPCODE);
+}
+
+/* read byte and mark as read */
+BYTE memmap_mem_read(unsigned int addr)
+{
+    memmap_mark_read(addr);
     return (*_mem_read_tab_ptr[(addr) >> 8])((WORD)(addr));
 }
 
