@@ -2930,7 +2930,7 @@ else
 fi
 
 dnl disable building of xscpu64 for beos
-if test x"$is_beos" = xyes"; then
+if test x"$is_beos" = "xyes"; then
   AM_CONDITIONAL(SUPPORT_XSCPU64, false)
 else
   AM_CONDITIONAL(SUPPORT_XSCPU64, true)
