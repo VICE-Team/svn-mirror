@@ -1368,11 +1368,14 @@ static void setup_aspect_geo(video_canvas_t *canvas, int winw, int winh)
     appshell->geo.min_aspect = 1.0f;
     appshell->geo.max_aspect = 1.0f;
 
+    /* FIXME: doing the same also in fullscreen mode seems to work just fine -
+              needs some more testing */
+/*
 #ifdef HAVE_FULLSCREEN
     if (canvas->fullscreenconfig->enable) {
-        /* TODO */
     } else {
 #endif
+*/
         taspect = get_aspect(canvas);
         if (taspect > 0.0f) {
             aspect = ((float)winw * taspect) / ((float)winh);
@@ -1384,9 +1387,11 @@ static void setup_aspect_geo(video_canvas_t *canvas, int winw, int winh)
                 appshell->geo.max_height = 0;
             }
         }
+/*
 #ifdef HAVE_FULLSCREEN
     }
 #endif
+*/
     DBG(("setup_aspect_geo out min w:%d h:%d max w:%d h:%d asp %f %f", appshell->geo.min_width, appshell->geo.min_height, 
          appshell->geo.max_width, appshell->geo.max_height, appshell->geo.min_aspect, appshell->geo.max_aspect));
 }
@@ -1494,7 +1499,20 @@ void ui_trigger_window_resize(video_canvas_t *canvas)
     GdkEvent event;
     if (canvas) {
         ui_dispatch_events();
-        get_window_resources(canvas, &window_xpos, &window_ypos, &window_width, &window_height);
+#ifdef HAVE_FULLSCREEN
+        if (canvas->fullscreenconfig->enable) {
+            DBG(("FIXME: ui_trigger_window_resize (fullscreen)"));
+            /* FIXME: instead of getting the window dimensions from the resources,
+                      they should be determined from the current fullscreen mode.
+            */
+            return; /* HACK: exiting here will do less harm than resizing with
+                             the wrong dimensions */
+        } else {
+#endif
+            get_window_resources(canvas, &window_xpos, &window_ypos, &window_width, &window_height);
+#ifdef HAVE_FULLSCREEN
+        }
+#endif
         DBG(("ui_trigger_window_resize (w:%d h:%d)", window_width, window_height));
         event.configure.width = window_width;
         event.configure.height = window_height - 
@@ -1789,8 +1807,20 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
         return 0;
     }
 
-    DBG(("configure_callback_canvas (e->width %d e->height %d canvas_width %d canvas_height %d)",
-         e->width, e->height, canvas->draw_buffer->canvas_width, canvas->draw_buffer->canvas_height));
+
+#ifdef DEBUG_X11UI
+#ifdef HAVE_FULLSCREEN
+    if (canvas->fullscreenconfig) {
+        DBG(("configure_callback_canvas (fullscreen: %d e->width %d e->height %d canvas_width %d canvas_height %d)",
+            canvas->fullscreenconfig->enable, e->width, e->height, canvas->draw_buffer->canvas_width, canvas->draw_buffer->canvas_height));
+    } else {
+#endif
+        DBG(("configure_callback_canvas (fullscreen: -- e->width %d e->height %d canvas_width %d canvas_height %d)",
+            e->width, e->height, canvas->draw_buffer->canvas_width, canvas->draw_buffer->canvas_height));
+#ifdef HAVE_FULLSCREEN
+    }
+#endif
+#endif
 
     /* This should work, but doesn't... Sigh...
     c->draw_buffer->canvas_width = e->width;
@@ -1824,7 +1854,7 @@ gboolean configure_callback_canvas(GtkWidget *w, GdkEvent *event, gpointer clien
             }
         }
     }
-    DBG(("configure_callback_canvas (ow: %f oh:%f)", ow, oh));
+    DBG(("configure_callback_canvas scaled: (ow: %f oh:%f)", ow, oh));
 #endif
     gl_context = gtk_widget_get_gl_context (w);
     gl_drawable = gtk_widget_get_gl_drawable (w);
