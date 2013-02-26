@@ -25,6 +25,8 @@
  *
  */
 
+#ifdef HAVE_RS232
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -127,3 +129,5 @@ UI_CALLBACK(set_rs232_dump_file)
 {
     uilib_select_file((char *)UI_MENU_CB_PARAM, _("File to dump RS232 to"), UILIB_FILTER_ALL);
 }
+
+#endif

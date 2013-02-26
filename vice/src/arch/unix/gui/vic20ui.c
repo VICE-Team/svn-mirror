@@ -63,7 +63,9 @@
 #include "uiprinteriec.h"
 #include "uiram.h"
 #include "uiromset.h"
+#ifdef HAVE_RS232
 #include "uirs232c64c128.h"
+#endif
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -383,13 +385,6 @@ static UI_CALLBACK(set_joystick_device)
     }
 }
 #endif
-/*------------------------------------------------------------*/
-
-static ui_menu_entry_t rs232_settings_menu[] = {
-    { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
-      NULL, NULL, uirs232_vic20_submenu },
-    { NULL }
-};
 
 /*------------------------------------------------------------*/
 
@@ -542,8 +537,10 @@ static ui_menu_entry_t vic20_menu[] = {
       NULL, NULL, vic_submenu },
     { N_("I/O extensions"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_extensions_submenu },
-    { "", UI_MENU_TYPE_NONE,
-      NULL, NULL, rs232_settings_menu },
+#ifdef HAVE_RS232
+    { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
+      NULL, NULL, uirs232_vic20_submenu },
+#endif
     { NULL }
 };
 

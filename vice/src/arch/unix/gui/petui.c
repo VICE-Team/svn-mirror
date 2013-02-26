@@ -58,7 +58,9 @@
 #include "uiprinterieee.h"
 #include "uiram.h"
 #include "uiromset.h"
+#ifdef HAVE_RS232
 #include "uirs232petplus4cbm2.h"
+#endif
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -369,8 +371,10 @@ static ui_menu_entry_t model_settings_submenu[] = {
     { "--", UI_MENU_TYPE_SEPARATOR },
     { N_("SuperPET I/O enable (disables 8x96)"), UI_MENU_TYPE_TICK,
       (ui_callback_t)toggle_SuperPET, NULL, NULL },
+#ifdef HAVE_RS232
     { N_("SuperPET ACIA"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232petplus4cbm2_submenu },
+#endif
     { N_("SuperPET CPU Switch"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, superpet_cpuswitch_submenu },
     { N_("SuperPET 6809 ROMs"), UI_MENU_TYPE_NORMAL,

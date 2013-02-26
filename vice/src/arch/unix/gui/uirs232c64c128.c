@@ -25,6 +25,8 @@
  *
  */
 
+#ifdef HAVE_RS232
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -200,3 +202,5 @@ ui_menu_entry_t uirs232_vic20_submenu[] = {
       (ui_callback_data_t)"RsDevice4", NULL },
     { NULL }
 };
+
+#endif

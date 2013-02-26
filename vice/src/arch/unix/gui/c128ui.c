@@ -76,7 +76,9 @@
 #include "uiretroreplay.h"
 #include "uireu.h"
 #include "uiromset.h"
+#ifdef HAVE_RS232
 #include "uirs232c64c128.h"
+#endif
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"
@@ -605,8 +607,10 @@ static ui_menu_entry_t c128_menu[] = {
       NULL, NULL, sid_submenu },
     { N_("Memory and I/O extensions"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, io_extensions_submenu },
+#ifdef HAVE_RS232
     { N_("RS232 settings"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, uirs232_c128_submenu },
+#endif
     { NULL }
 };
 

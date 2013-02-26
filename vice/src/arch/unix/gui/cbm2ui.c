@@ -54,7 +54,9 @@
 #include "uiprinterieee.h"
 #include "uiram.h"
 #include "uiromset.h"
+#ifdef HAVE_RS232
 #include "uirs232petplus4cbm2.h"
+#endif
 #include "uiscreenshot.h"
 #include "uisettings.h"
 #include "uisid.h"

@@ -25,6 +25,8 @@
  *
  */
 
+#ifdef HAVE_RS232
+
 #include "vice.h"
 
 #include <stdio.h>
@@ -63,3 +65,5 @@ ui_menu_entry_t rs232user_baudrate_submenu[] = {
       (ui_callback_t)radio_RsUserBaud, (ui_callback_data_t)9600, NULL },
     { NULL }
 };
+
+#endif
