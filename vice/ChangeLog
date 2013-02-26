@@ -1,5 +1,1228 @@
 ------------------------------------------------------------------------------
 
+2013-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog, build/android/build-android.sh, configure.proto,
+	doc/vice.chm, doc/vice.guide, doc/vice.hlp, doc/vice.inf,
+	doc/vice.pdf, doc/vice.txt, po/da.po, po/de.po, po/es.po, po/fr.po,
+	po/hu.po, po/it.po, po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po,
+	po/tr.po, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/win32/vice-version.bat, src/resid/INSTALL, src/version.h:
+	VICE 2.4.3
+
+
+2013-02-26  groepaz <groepaz@gmx.net>
+
+	* src/raster/raster-line.c, src/raster/raster-resources.c: fix x64sc
+	rendering with video cache disabled, fixes bug #3605964
+
+2013-02-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/unix/macosx/make-bindist.sh: Fixed file command >= 5.12
+	problem.
+
+2013-02-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fix incorrect resizing in
+	fullscreen, fixes bug #3605470
+
+2013-02-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/c128ui.c, src/arch/unix/gui/c64scui.c,
+	src/arch/unix/gui/c64ui.c, src/arch/unix/gui/cbm2ui.c,
+	src/arch/unix/gui/petui.c, src/arch/unix/gui/scpu64ui.c,
+	src/arch/unix/gui/uirs232.c, src/arch/unix/gui/uirs232c64c128.c,
+	src/arch/unix/gui/uirs232petplus4cbm2.c,
+	src/arch/unix/gui/uirs232user.c, src/arch/unix/gui/vic20ui.c: added
+	some missing ifdef HAVE_RS232. fixes bug #3604045
+
+2013-02-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/gui/uijoystick2.c: changed conflicting hotkey, fixes
+	bug #3603342
+
+2013-02-26  groepaz <groepaz@gmx.net>
+
+	* src/arch/unix/x11/gnome/uimenu.c: added sanity check and respective
+	error message for when a hotkey is incorrectly redefined
+
+2013-02-25  pottendo  <pottendo@aon.at>
+
+	* configure.proto: Removed wrong unconditional AC_DEFINE of
+	`USE_UI_THREADS'. Added check for proper GL support. If not available
+	disable --with-uithreads and issue a warning.
+
+2013-02-25  groepaz <groepaz@gmx.net>
+
+	* src/6510core.c, src/Makefile.am, src/c128/c128cpu.c,
+	src/c64/Makefile.am, src/c64/vsidcpu.c, src/c64dtv/c64dtvcpu.c,
+	src/cbm2/cbm2cpu.c, src/maincpu.c, src/pet/petcpu.c,
+	src/plus4/plus4cpu.c: removed c64 specific hack from maincpu.c, hook
+	up zeropage accesses to memmap properly, fixes bug #3603868
+
+2013-02-25  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Removed DEBUG macro.
+
+2013-02-25  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: fixed 3605936.
+
+2013-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto: Fixed.
+
+2013-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/tr.po, src/arch/amigaos/intl_text.c, src/arch/win32/res.rc,
+	src/arch/win32/resc64.rc, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resvic20.rc, src/arch/win32/resvicii.rc,
+	src/translate_text.c: Did a 'make trans-update'.
+
+2013-02-25  groepaz <groepaz@gmx.net>
+
+	* src/6510dtvcore.c, src/mainc64cpu.c, src/mainviccpu.c: fix bug
+	#3604055
+
+2013-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/nl.po, po/translations-status.txt: Updated.
+
+2013-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/translations-status.txt: Updated.
+
+2013-02-25  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* Makefile.am, configure.proto, src/Makefile.am,
+	src/arch/beos/make-bindist.sh: Disabled building of xscpu64 for beos.
+
+2013-02-24  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/da.po, po/de.po, po/es.po, po/fr.po, po/hu.po, po/it.po,
+	po/ko.po, po/nl.po, po/pl.po, po/ru.po, po/sv.po, po/tr.po: Did a
+	'make update-po'.
+
+2013-02-24  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/ui-threads.h,
+	src/arch/unix/x11/gnome/uipalcontrol.c,
+	src/arch/unix/x11/gnome/videoarch.h, src/arch/unix/x11/gnome/x11ui.c:
+	Adjusted range of ghosting slider. limit ghosting from 2 to 6 frames.
+	Rewritten to implement proper multiframe blending (ghosting).
+	Calculate/store weighted alpha per frame. Cleanup. Adjust to new
+	`dthread_calc_frames'. Fixed wrong calculation of lpos. increased to
+	support 6 frames ghosting. Reworked to use alpha passed in struct.
+
+2013-02-24  Manuel Antonio Rodriguez Bas <formater@winuaespanol.com>
+
+	* po/es.po: update
+
+2013-02-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Added interactive mode to the android build script when no parameters
+	are given.
+
+2013-02-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/vsyncarch.c: Added code for the windows port to
+	prevent the screensaver from activating.
+
+2013-02-23  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/uic64model.c, src/arch/win32/uic64model.h: Forgot to
+	add these.
+
+2013-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/win32/Makefile.am, src/arch/win32/arch.dsp,
+	src/arch/win32/c64ui.c, src/arch/win32/resc64.rc,
+	src/arch/win32/resdialogs.txt, src/arch/win32/resscpu64.rc,
+	src/arch/win32/resstrings.txt, src/arch/win32/resvicii.rc,
+	src/arch/win32/scpu64ui.c, src/arch/win32/uivicii.c,
+	src/arch/win32/watcom/arch.tgt, src/arch/win32/watcom/cartconv.tgt,
+	src/arch/win32/watcom/vice.wpj, src/arch/win32/x64.dsp,
+	src/arch/win32/x64sc.dsp, src/arch/win32/xscpu64.dsp,
+	src/arch/win64/arch.vcproj, src/arch/win64/x64.vcproj,
+	src/arch/win64/x64sc.vcproj, src/arch/win64/xscpu64.vcproj: Rewrote
+	the windows c64(sc) model selection code, sid-settings luminance
+	settings have been removed, cia settings has its own dialog, vicii
+	model and glue logic settings have been moved to the vicii settings
+	dialog.
+
+2013-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Updated the help text.
+
+2013-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/res-proto/layout/prefs-allemus.xml: Start
+	buttons permanently set to enabled.
+
+2013-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets-proto,
+	src/arch/android/AnVICE/res-proto/layout: Added some svn ignores.
+
+2013-02-22  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/res-proto/values/strings.xml: Fixed.
+
+2013-02-22  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/uiarch.h: exit
+	in case of coroutine timeout occurs. Cleanup. Added KEYSYM_v.
+
+2013-02-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/c128ui.cc, src/arch/beos/c64ui.cc,
+	src/arch/beos/constants.h, src/arch/beos/scpu64ui.cc: BeOS code
+	cleanup and minor fixes.
+
+2013-02-21  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/beos/make-bindist.sh: Make the BeVICE bindist script only
+	include xscpu64 if $6 = "both".
+
+2013-02-20  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c: Changed hotkey
+	for toggling alpha blending to Alt-v.
+
+2013-02-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh: Updated the android build script.
+
+2013-02-19  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in,
+	src/arch/android/AnVICE/res-proto/layout/prefs-allemus.xml,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/DosBoxLauncher.java:
+	Fixed multi-emulator support for android.
+
+2013-02-19  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c: Make new sliders for dthread
+	control dependent from USE_UI_THREADS.
+
+2013-02-18  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/res-proto/layout/prefs-allemus.xml,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/DosBoxLauncher.java,
+	configure.proto, src/arch/android/AnVICE/assets,
+	src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/Android-x128.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-x64.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-x64dtv.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-x64sc.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-xcbm2.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-xcbm5x0.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-xpet.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-xplus4.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-xscpu64.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-xvic.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x128,
+	src/arch/android/AnVICE/jni/locnet_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x128/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x64,
+	src/arch/android/AnVICE/jni/locnet_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x64dtv,
+	src/arch/android/AnVICE/jni/locnet_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64dtv/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_x64sc,
+	src/arch/android/AnVICE/jni/locnet_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_x64sc/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_xcbm2,
+	src/arch/android/AnVICE/jni/locnet_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xcbm2/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_xcbm5x0,
+	src/arch/android/AnVICE/jni/locnet_xcbm5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xcbm5x0/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_xpet,
+	src/arch/android/AnVICE/jni/locnet_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xpet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_xplus4,
+	src/arch/android/AnVICE/jni/locnet_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xplus4/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_xscpu64,
+	src/arch/android/AnVICE/jni/locnet_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xscpu64/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet_xvic,
+	src/arch/android/AnVICE/jni/locnet_xvic/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_xvic/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x128,
+	src/arch/android/AnVICE/jni/vice_x64dtv,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0,
+	src/arch/android/AnVICE/jni/vice_xplus4,
+	src/arch/android/AnVICE/jni/vice_xvic,
+	src/arch/android/AnVICE/res-proto/values/strings.xml,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java:
+	Added multi-emulator support to android, wip, doesn't quite work yet.
+
+2013-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/assets, src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/assets/gpl.txt,
+	src/arch/android/AnVICE/assets-proto/Makefile.am,
+	src/arch/android/AnVICE/assets-proto/gpl.txt,
+	src/arch/android/AnVICE/res/layout: Finished android support for asset
+	roms.
+
+2013-02-17  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/DosBoxLauncher.java,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxMenuUtility.java:
+	Some android rom updates.
+
+2013-02-17  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/xaw/uipalcontrol.c: Add slider for drive sound
+	volume.
+
+2013-02-17  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uipalcontrol.c, src/arch/unix/ui-threads.c:
+	New resources. See below. enable blending as default. new resource
+	"DTthreadRate" controls the rate display thread. new resource
+	"DThreadGhosting" defines the number of frames to be blended. Those
+	can be controlled in the PAL Ctrl Widget (as of now).
+
+2013-02-17  Ingo Korb <ingo@akana.de>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Wrap local gl_* functions into a
+	HAVE_HWSCALE check to un-break compilation without HAVE_HWSCALE.
+
+2013-02-17  Ingo Korb <ingo@akana.de>
+
+	* src/arch/unix/x11/gnome/gtk2legacy.h: Define
+	gdk_drag_context_list_targets and gdk_drag_context_get_selected_action
+	compatibility macros for GTK <2.21.1 instead of <2.20
+
+2013-02-17  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	src/arch/unix/ui-threads.c: enable blending as default. Hotkey 'Alt-b'
+	for toggline blending. Likewise. Likewise. Likewise.
+
+2013-02-17  Errol Smith <strobe@kludgesoft.com> 
+
+	* src/raster/raster-line-changes.c, src/raster/raster.c,
+	src/vdc/vdc-draw.c, src/vdc/vdc.c, src/viewport.h: Implement VDC 40
+	column mode (aka "pixel double" mode). Fixes bug # 2947582
+
+2013-02-16  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/uicrtc.c, src/arch/unix/gui/uited.c,
+	src/arch/unix/gui/uivic.c, src/arch/unix/gui/uivicii.c,
+	src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/ui-threads.h, src/arch/unix/x11/gnome/videoarch.h: moved
+	from ui-threads.h. Added GUI for toggling of blending. Added GUI for
+	toggling of blending. Added GUI for toggling of blending. Cleanup.
+	Allow only if HWScale is on.
+
+2013-02-16  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/gui/uivicii.c, src/arch/unix/ui-threads.c,
+	src/arch/unix/x11/gnome/x11ui.c, src/arch/unix/ui-threads.h,
+	src/arch/unix/x11/gnome/gnomevideo.c,
+	src/arch/unix/x11/gnome/uidialogs.c: call for dthread shutdown. Added
+	prototypes. Added GUI for toggling of blending. Start of cleanup. New
+	function. Manage toggling of blending (not finished yet). New
+	Function. Manage shutdown. Manage toggling of blending. fixes software
+	rendering (if toggled from UI).
+
+2013-02-16  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c: Removed mutex attribute
+	PTHREAD_MUTEX_RECURSIVE for dlock.
+
+2013-02-15  Marcus Sutton <loggedoubt@gmail.com>
+
+	* src/arch/unix/x11/gnome/gtk2legacy.h: Add compatibility macros for
+	GTK+ 2.18.
+
+2013-02-13  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/monitor/mon_register65816.c: For 65816, when not in emulation
+	mode and the index registers are in 8bit mode XH (X register
+	hidden/high) and YH are shown.
+
+2013-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/res-proto/layout,
+	src/arch/android/AnVICE/res-proto/layout/prefs-allemus.xml,
+	configure.proto, src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/res/layout/prefs.xml,
+	src/arch/android/AnVICE/res-proto/Makefile.am,
+	src/arch/android/AnVICE/res-proto/layout/Makefile.am,
+	src/arch/android/AnVICE/res-proto/layout/prefs-externalroms.xml,
+	src/arch/android/AnVICE/res-proto/layout/prefs-viceroms.xml: More
+	android rom changes.
+
+2013-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java:
+	Fixed.
+
+2013-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Fixed a typo.
+
+2013-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp: Some default
+	fixes.
+
+2013-02-11  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/gnomevideo.c: introduced shell specific
+	timing for ui-threads. Fixes x128 timing for blending.
+
+2013-02-11  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/ui-threads.h, src/arch/unix/x11/gnome/gnomevideo.c:
+	check window before any gtkgl specifics. Avoids critical assertions
+	during startup, when window isn't properly initialized. Check widget
+	plausibility. cleanup. finalized support for multiple shells, x128
+	works starts to work again, still refresh problems remain.
+
+2013-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java:
+	Decided to keep the old rom behavior as a rom-option of the android
+	build script.
+
+2013-02-11  pottendo  <pottendo@aon.at>
+
+	* doc/readmes/Readme-Unix.txt: Added a small chapter about RT priority
+	setting.
+
+2013-02-11  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java:
+	Started on adding rom handling to the android port.
+
+2013-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp: Changed
+	android roms search path, hard-coded now to /vice/<emulator>:
+	/sdcard/vice/<emulator>:/sd-ext/vice/<emulator>:/emmc/vice/<emulator>:
+	/vice/drives:/sdcard/vice/drives:/sd-ext/vice/drives:
+	/emmc/vice/drives.
+
+2013-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/Makefile.am, build/android/push-roms.sh: Added a
+	script for android to tranfer vice roms to a device.
+
+2013-02-10  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_tape/Android.mk.proto: Style fix.
+
+2013-02-10  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/mon_breakpoint.c: When tracing a load or a store, only
+	print the line which caused the load or store
+
+2013-02-10  Fabrizio Gennari <fabrizio.ge@tiscali.it>
+
+	* src/monitor/mon_breakpoint.c, src/6510core.c, src/6510dtvcore.c,
+	src/65816core.c, src/65c02core.c, src/c128/z80.c,
+	src/monitor/monitor.c, src/pet/6809.c: After stopping on a watchpoint,
+	the "next" command was skipping one instruction (breakpoints worked
+	fine). Also, when stopping on a watchpoint, print both the line which
+	caused the break and the next line which will be executed
+
+2013-02-10  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c, src/arch/unix/x11/gnome/x11ui.c,
+	src/arch/unix/ui-threads.h, src/arch/unix/x11/gnome/gnomevideo.c:
+	reworked to support more than one app_shell - x128 still doesn't work
+	yet. Moved initialization for threaded execution from
+	`archdep_ui_init()' to here. use `is_coroutine' to enable
+	multithreaded execution. For initialization, stay single threaded.
+	Should fix: vice-emu-Bugs-3603051 - tbc, though.
+
+2013-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64dtv,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm2,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xscpu64: Rom search
+	path for android has been changed, /vice/<emulator>
+	/sdcard/vice/<emulator> /sd-ext/vice/<emulator> /emmc/vice/<emulator>
+	will be searched respectively.
+
+2013-02-08  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/assets,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java,
+	src/arch/android/AnVICE/jni/locnet_al/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_c64exp/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_crtc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vicii/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_viciisc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto: Some
+	simplifications.
+
+2013-02-07  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/amigaos/build-os4-native.sh, build/beos/ppc-build-sdl.sh,
+	build/beos/ppc-build.sh, build/macosx/build-vice-dist.sh,
+	build/macosx/build-vice-release.sh, build/minix3/build-package.sh,
+	build/minix3/build-sdl-package.sh, build/nextstep/build.sh,
+	build/openstep/build.sh, build/openwatcom/win32-build.sh,
+	build/qnx4/build.sh, build/rhapsody/build.sh, doc/NLS-Howto.txt,
+	doc/coding-guidelines.txt, src/arch/os2/watcom/ide-config.h: Changed
+	configure.in to configure.proto.
+
+2013-02-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Print whether ui-threads are used
+	among the compilation options. Revert bad &argc.
+
+2013-02-07  Olaf Seibert <rhialto@falu.nl>
+
+	* configure.proto: Add some missing output files.
+
+2013-02-07  Olaf Seibert <rhialto@falu.nl>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Make unthreaded GTK GUI work by not
+	initializing threads. Threaded version left as an exercise to the
+	reader.
+
+2013-02-06  Jarek Sobolewski <r@sledinmay.com>
+
+	* po/pl.po: Updated.
+
+2013-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/DosBoxLauncher.java:
+	Added some comments.
+
+2013-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl_sym.vkm: Fixed the android sdl
+	keymap issues.
+
+2013-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/src-proto/com/locnet/vice/DosBoxLauncher.java,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java:
+	Added some important comments.
+
+2013-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.proto, src/arch/android/AnVICE/assets-proto, Makefile.am,
+	autogen.sh, configure.in: Because of the latest automake (1.13)
+	autogen failed, the autogen script has been extended to fix the
+	problem, configure.ac is generated by the autogen script now, and
+	configure.in is gone, so be aware to edit configure.proto when making
+	changes.
+
+2013-02-06  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/assets, src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/assets-proto,
+	src/arch/android/AnVICE/assets-proto/Makefile.am,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64dtv,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm2,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xscpu64, configure.in,
+	src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x128,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64dtv,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xcbm2,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xcbm5x0,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xpet,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xplus4,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xscpu64,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xvic,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-x128,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xcbm5x0,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xpet,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xplus4,
+	src/arch/android/AnVICE/assets-proto/sdl-vicerc-xvic: More
+	restructuring.
+
+2013-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh.in,
+	src/arch/android/AnVICE/src-proto,
+	src/arch/android/AnVICE/src-proto/com,
+	src/arch/android/AnVICE/src-proto/com/locnet,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/DosBoxLauncher.java,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/PreConfig.java,
+	src/arch/android/AnVICE/Makefile.am, configure.in,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxLauncher.java.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto,
+	src/arch/android/AnVICE/src-proto/Makefile.am,
+	src/arch/android/AnVICE/src-proto/com/Makefile.am,
+	src/arch/android/AnVICE/src-proto/com/locnet/Makefile.am,
+	src/arch/android/AnVICE/src-proto/com/locnet/vice/Makefile.am: More
+	restructuring.
+
+2013-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/res-proto,
+	src/arch/android/AnVICE/res-proto/values,
+	src/arch/android/AnVICE/res-proto/values/strings.xml,
+	src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/res-proto/Makefile.am,
+	src/arch/android/AnVICE/res-proto/values/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xpet,
+	src/arch/android/AnVICE/res_values_string.xml.proto: More
+	restructuring.
+
+2013-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/Makefile.am, src/arch/android/AnVICE/src,
+	src/arch/android/AnVICE/src/com,
+	src/arch/android/AnVICE/src/com/locnet,
+	src/arch/android/AnVICE/src/com/locnet/vice, configure.in,
+	src/arch/android/AnVICE/src/Makefile.am,
+	src/arch/android/AnVICE/src/com/Makefile.am,
+	src/arch/android/AnVICE/src/com/locnet/Makefile.am,
+	src/arch/android/AnVICE/src/com/locnet/vice/Makefile.am,
+	src/arch/android/AnVICE/src/org,
+	src/arch/android/AnVICE/src/org/Makefile.am,
+	src/arch/android/AnVICE/src/org/ab,
+	src/arch/android/AnVICE/src/org/ab/Makefile.am,
+	src/arch/android/AnVICE/src/org/ab/nativelayer,
+	src/arch/android/AnVICE/src/org/ab/nativelayer/Makefile.am,
+	src/arch/android/AnVICE/src/org/ab/uae,
+	src/arch/android/AnVICE/src/org/ab/uae/Makefile.am: Restructured a bit
+	to remove unneeded items from the generated apk.
+
+2013-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xpet.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_crtc,
+	src/arch/android/AnVICE/jni/vice_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xpet,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto,
+	src/arch/android/AnVICE/jni/vice_cbm2common,
+	src/arch/android/AnVICE/jni/vice_xcbm2: Added xpet support for
+	android.
+
+2013-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/building/Android-Howto.txt, doc/building/Makefile.am: Added a
+	building howto for android.
+
+2013-02-05  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xcbm2.mk.proto: Fixed xcbm2
+	for android.
+
+2013-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp, configure.in,
+	src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-vsid,
+	src/arch/android/AnVICE/jni/locnet/Android-vsid.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vsid: Removed vsid for android.
+
+2013-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp: Added status
+	messages for the emulators to the android build script.
+
+2013-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xcbm2.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/jni/vice_crtc/Android.mk.proto,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xcbm2,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Android.mk.proto: Added xcbm2
+	support for android, it doesn't work yet though, needs debugging.
+
+2013-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/assets/sdl-vicerc-vsid,
+	src/arch/android/AnVICE/jni/locnet/Android-vsid.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vsid/Android.mk.proto: Made changes
+	for vsid for android, vsid doesn't start yet, vsid for android might
+	get 'undone' anyways since there already is a sid player on android
+	using the vice engine.
+
+2013-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-x128.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x128,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto,
+	src/arch/android/AnVICE/jni/vice_x128/Android.mk.proto: Added x128
+	support for android, vdc display still needs some work.
+
+2013-02-04  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xcbm5x0.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xcbm5x0,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto,
+	src/arch/android/AnVICE/jni/locnet_al/AndroidOSfunc.cpp,
+	src/arch/android/AnVICE/jni/vice_cbm2common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0/Android.mk.proto: Added
+	xcbm5x0 support for android.
+
+2013-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xplus4.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xplus4,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto:
+	Added xplus4 support for android, display still needs some work.
+
+2013-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/sdl-vicerc-xvic: Changed the height
+	of the android screen for xvic.
+
+2013-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xvic.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xvic,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto:
+	Added xvic support for android, display still needs some work.
+
+2013-02-03  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-xscpu64.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/jni/vice_xscpu64,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xscpu64,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto:
+	Added xspu64 support for android.
+
+2013-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64dtv,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64sc: Fixed x64dtv for
+	android.
+
+2013-02-02  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-x64dtv.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/src/com/locnet/vice,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxLauncher.java.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java.proto,
+	src/arch/android/AnVICE/res_values_string.xml.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java: x64dtv for
+	android compiles, but needs more changes to actually work.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-vsid: Added the vsid android
+	sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xvic: Added the xvic android
+	sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xplus4: Added the xplus4
+	android sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xpet: Added the xpet android
+	sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xcbm5x0: Added the xcbm5x0
+	android sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xcbm2: Added the xcbm2
+	android sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x128: Added the x128 android
+	sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-xscpu64: Added the xscpu64
+	android sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64dtv: Added the x64dtv
+	android sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/sdl-vicerc-x64sc: Updated the android
+	x64sc sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/assets/sdl-vicerc-x64: Updated the android
+	x64 sdl ini file.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/translate_text.c: Fixed a translation inconsistency.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/pl.po, po/es.po, po/it.po, po/nl.po, po/sv.po, po/tr.po: Fixed
+	the 'Scale2x' translations.
+
+2013-02-01  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* po/it.po: Some Italian translation corrections by Enrico
+	Bruttomesso.
+
+2013-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_crtc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xpet/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vsid/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_cbm2common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0/Android.mk.proto: Some
+	android makefile preparations.
+
+2013-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/assets,
+	src/arch/android/AnVICE/jni/locnet/Android-x64.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android-x64sc.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/locnet_loader.cpp,
+	src/arch/android/AnVICE/assets/Makefile.am,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64,
+	src/arch/android/AnVICE/assets/sdl-vicerc-x64sc,
+	src/arch/android/AnVICE/assets/sdl-vicerc: Fixed x64sc for android,
+	only suitable for high end android devices.
+
+2013-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/locnet/Android-x64sc.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64sc,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_viciisc,
+	src/arch/android/AnVICE/jni/vice_viciisc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/res/values: Added x64sc to the android build
+	script, the generated binary doesn't run (yet) though, more debugging
+	might be needed.
+
+2013-01-31  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE, src/arch/android/AnVICE/jni,
+	src/arch/android/AnVICE/jni/locnet,
+	src/arch/android/AnVICE/jni/locnet/Android-x64.mk.proto,
+	src/arch/android/AnVICE/Makefile.am,
+	src/arch/android/AnVICE/src/com/locnet/vice,
+	src/arch/android/AnVICE/jni/vice_tape,
+	src/arch/android/AnVICE/jni/vice_tape/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_al,
+	src/arch/android/AnVICE/jni/vice_c64exp,
+	src/arch/android/AnVICE/jni/vice_c64exp/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vicii,
+	src/arch/android/AnVICE/jni/vice_vicii/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxLauncher.java.proto,
+	src/arch/android/AnVICE/res_values_string.xml.proto,
+	src/arch/android/AnVICE/src/com/locnet/vice/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_commonall,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/res/values,
+	src/arch/android/AnVICE/jni/vice_c64cart,
+	src/arch/android/AnVICE/jni/vice_c64cart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_common,
+	src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commoncart,
+	src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_iec,
+	src/arch/android/AnVICE/jni/vice_iec/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_ieeepar,
+	src/arch/android/AnVICE/jni/vice_ieeepar/Android.mk.proto,
+	src/arch/android/AnVICE/res/values/strings.xml,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxLauncher.java:
+	Android x64 is working again.
+
+2013-01-31  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/x11ui.c: Cleanup.
+
+2013-01-31  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/ui-threads.c: In case of console mode run single
+	threaded.
+
+2013-01-31  pottendo  <pottendo@aon.at>
+
+	* src/arch/unix/x11/gnome/uistatusbar.c: return in case of console
+	mode. Fixes 3602717.
+
+2013-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/locnet_al/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet_al/Android.mk,
+	src/arch/android/AnVICE/jni/locnet_al/Makefile.am: Last Android.mk ->
+	Android.mk.proto rename.
+
+2013-01-30  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/locnet/Android-x64.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x128,
+	src/arch/android/AnVICE/jni/vice_x64dtv,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Android.mk.proto,
+	configure.in, src/arch/android/AnVICE/jni/vice_x128/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk.proto,
+	src/arch/android/AnVICE/jni/Android.mk,
+	src/arch/android/AnVICE/jni/Android.mk.proto,
+	src/arch/android/AnVICE/jni/locnet/Android.mk,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk,
+	src/arch/android/AnVICE/jni/vice_commonall/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x128/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64dtv/Makefile.am: Added the rest of
+	the 'missing' android modules.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_vsid,
+	src/arch/android/AnVICE/jni/vice_vsid/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_vsid/Makefile.am: Added an
+	'vice_vsid' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0, configure.in,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm5x0/Makefile.am: Added an
+	'vice_xcbm5x0' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_xcbm2,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_xcbm2/Makefile.am: Added an
+	'vice_xcbm2' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xpet,
+	src/arch/android/AnVICE/jni/vice_xpet/Android.mk.proto, configure.in,
+	src/arch/android/AnVICE/jni/vice_xpet/Makefile.am: Added an
+	'vice_xpet' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xplus4,
+	src/arch/android/AnVICE/jni/vice_xplus4/Android.mk.proto,
+	configure.in, src/arch/android/AnVICE/jni/vice_xplus4/Makefile.am:
+	Added an 'vice_xplus4' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xscpu64,
+	src/arch/android/AnVICE/jni/vice_xscpu64/Android.mk.proto,
+	configure.in, src/arch/android/AnVICE/jni/vice_xscpu64/Makefile.am:
+	Added an 'vice_xscpu64' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64sc,
+	src/arch/android/AnVICE/jni/vice_x64sc/Android.mk.proto, configure.in,
+	src/arch/android/AnVICE/jni/vice_x64sc/Makefile.am: Added an
+	'vice_x64sc' android module.
+
+2013-01-29  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* doc/vice.texi, src/infocontrib.sed: Added 'Locnet' to the list of
+	external contributors.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_xvic,
+	src/arch/android/AnVICE/jni/vice_xvic/Android.mk.proto, configure.in,
+	src/arch/android/AnVICE/jni/vice_xvic/Makefile.am: Added an
+	'vice_xvic' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto: Fixed the
+	vice_x64 android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commonall/Android.mk: Fixed the
+	vice_commonall android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_c64cart,
+	src/arch/android/AnVICE/jni/vice_c64cart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_c64cart/Makefile.am: Added an
+	'vice_c64cart' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto: Fixed
+	the vice_commoncart android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_commoncart,
+	src/arch/android/AnVICE/jni/vice_commoncart/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_commoncart/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_main: Added an 'vice_commoncart'
+	android module and removed the vice_main android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_iec,
+	src/arch/android/AnVICE/jni/vice_iec/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_iec/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk.proto: Added an
+	'vice_iec' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, vice/configure.in,
+	src/arch/android/AnVICE/jni/vice_ieeepar,
+	src/arch/android/AnVICE/jni/vice_ieeepar/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_ieeepar/Makefile.am: Added an
+	'vice_ieeepar' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_tape,
+	src/arch/android/AnVICE/jni/vice_tape/Android.mk.proto, configure.in,
+	src/arch/android/AnVICE/jni/vice_driver,
+	src/arch/android/AnVICE/jni/vice_tape/Makefile.am: Added an
+	'vice_tape' android module and removed the vice_driver android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_driver/Android.mk.proto: Fixed the
+	android vice_common module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_cbm2common,
+	src/arch/android/AnVICE/jni/vice_cbm2common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_cbm2common/Makefile.am: Added an
+	'vice_cbm2common' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_c64exp,
+	src/arch/android/AnVICE/jni/vice_crtc,
+	src/arch/android/AnVICE/jni/vice_crtc/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_viciisc, configure.in,
+	src/arch/android/AnVICE/jni/vice_crtc/Makefile.am: Added an
+	'vice_crtc' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_viciisc,
+	src/arch/android/AnVICE/jni/vice_viciisc/Android.mk.proto,
+	configure.in, src/arch/android/AnVICE/jni/vice_viciisc/Makefile.am:
+	Added an 'vice_viciisc' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_c64exp,
+	src/arch/android/AnVICE/jni/vice_c64exp/Android.mk.proto,
+	configure.in, src/arch/android/AnVICE/jni/vice_main/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_c64exp/Makefile.am: Added an
+	'vice_c64exp' android module.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/vice_vicii/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_common/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_common/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_driver/Android.mk.proto,
+	src/arch/android/AnVICE/jni/vice_common/Android.mk,
+	src/arch/android/AnVICE/jni/vice_driver/Android.mk,
+	src/arch/android/AnVICE/jni/vice_driver/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk,
+	src/arch/android/AnVICE/jni/vice_main/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_vicii/Android.mk,
+	src/arch/android/AnVICE/jni/vice_vicii/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_x64/Android.mk,
+	src/arch/android/AnVICE/jni/vice_x64/Makefile.am: For non-common
+	targets renamed the Android.mk files to Android.mk.proto, the
+	build-script will wind up generating the correct Android.mk files
+	before using ndk-build.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/jni/Makefile.am, configure.in,
+	src/arch/android/AnVICE/jni/vice_commonall,
+	src/arch/android/AnVICE/jni/vice_commonall/Android.mk,
+	src/arch/android/AnVICE/jni/vice_commonall/Makefile.am,
+	src/arch/android/AnVICE/jni/vice_driver/Android.mk,
+	src/arch/android/AnVICE/jni/vice_main/Android.mk: Added an
+	'vice_commonall' android module for code that is common to all
+	emulators and vsid.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in,
+	src/arch/android/AnVICE/jni/Makefile.am,
+	src/arch/android/AnVICE/jni/Application.mk,
+	src/arch/android/AnVICE/jni/Application.mk.proto,
+	src/arch/android/AnVICE/jni/Application.proto: Changed
+	Application.proto to Application.mk.proto and removed Application.mk
+	(it will be generated by the android build script).
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* configure.in, src/arch/android/AnVICE/AndroidManifest.xml,
+	src/arch/android/AnVICE/AndroidManifest.xml.in: Added auto-numbering
+	for android:versionCode.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* build/android/build-android.sh, build/android/build-android.sh.in:
+	Added 'all-cpu' argument to the android build script.
+
+2013-01-28  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* src/arch/android/AnVICE/src/com/locnet/vice/PreConfig.java,
+	src/arch/android/AnVICE/src/com/locnet/vice/DosBoxSurfaceView.java,
+	src/arch/android/AnVICE/src/com/locnet/vice/Globals.java,
+	src/arch/android/AnVICE/src/org/ab/nativelayer/ImportFileView.java,
+	src/arch/android/AnVICE/src/org/ab/nativelayer/ImportView.java,
+	src/arch/android/AnVICE/src/org/ab/uae/FloppyImportView.java,
+	src/arch/android/AnVICE/src/org/ab/uae/RomImportView.java: More
+	code-style cleanups.
+
+2013-01-26  Marco van den Heuvel <blackystardust68@yahoo.com>
+
+	* ChangeLog: Intermediate Changelog update for the recently merged
+	threaded video driver branch.
+
 2013-01-26  pottendo  <pottendo@aon.at>
 
 	* src/arch/unix/x11/gnome/x11ui.c: (ui_init): Fixed aftermerge

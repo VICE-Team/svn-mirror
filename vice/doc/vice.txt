@@ -15162,6 +15162,8 @@ pixel aspect fixes. Improved the Amiga mouse emulation. Improved
 the vic20 sound output. Added windows POV hat support.  Improved
 sound fragment size handling.
 
+* Locnet Made the initial android port of x64.
+
 * Wolfgang Lorenz Wrote an excellent 6510 test suite that helped us
 to debug the CPU emulation.
 
