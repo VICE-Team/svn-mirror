@@ -37,6 +37,8 @@ if [ x"$BIN_FORMAT" = "x" ]; then
     BIN_FORMAT=x86_64
   elif [ x"$BIN_TYPE" = "xexecutable ppc" ]; then
     BIN_FORMAT=ppc
+  elif [ x"$BIN_TYPE" = "xppc_7400 executable" ]; then
+    BIN_FORMAT=ppc
   else
     echo "fatal: unknown bin type '$BIN_TYPE'"
     exit 1
