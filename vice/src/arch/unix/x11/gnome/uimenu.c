@@ -29,12 +29,7 @@
 /* Warning: this code sucks.  It does work, but it sucks.  */
 
 /* #define DEBUG_MENUS */
-
-#ifdef DEBUG_MENUS
-#define DBG(_x_)  log_debug _x_
-#else
-#define DBG(_x_)
-#endif
+/* #define DEBUG_HOTKEYS */ /* undefine to get a list of all hotkeys at startup */
 
 #include "vice.h"
 
@@ -51,6 +46,18 @@
 #include "uimenu.h"
 #include "util.h"
 #include "x11menu.h"
+
+#ifdef DEBUG_MENUS
+#define DBG(_x_)  log_debug _x_
+#else
+#define DBG(_x_)
+#endif
+
+#ifdef DEBUG_HOTKEYS
+#define DBGHK(_x_)  log_debug _x_
+#else
+#define DBGHK(_x_)
+#endif
 
 /* Separator item.  */
 ui_menu_entry_t ui_menu_separator[] = {
@@ -74,11 +81,7 @@ static struct {
 #define MAX_UPDATE_MENU_LIST_SIZE 1024
 typedef struct {
     char *name;
-#ifdef GNOME_MENUS
-    GnomeUIInfo *uiinfo;
-#else
     GtkWidget *w;
-#endif
     ui_callback_t cb;
     ui_menu_cb_obj obj;
     gint handlerid;
@@ -87,6 +90,17 @@ typedef struct {
 static GList *checkmark_list = NULL;
 
 int num_checkmark_menu_items = 0; /* !static because vsidui needs it. ugly! */
+
+/* list of all hotkeys for sanity checking */
+#define MAX_HOTKEYS     50
+typedef struct {
+    char *name;
+    guint key;
+    ui_hotkey_modifier_t mod;
+} hotkey_t;
+
+static int numhotkeys = 0;
+static hotkey_t hotkeys[MAX_HOTKEYS];
 
 /* ------------------------------------------------------------------------- */
 
@@ -98,17 +112,43 @@ int ui_menu_init()
 static void delete_checkmark_cb(GtkWidget *w, gpointer data)
 {
     checkmark_t *cm;
-    
+
     cm = (checkmark_t *)data;
     checkmark_list = g_list_remove(checkmark_list, data);
     lib_free(cm->name);
     lib_free(cm);
 }
 
-static void add_accelerator(GtkWidget *w, GtkAccelGroup *accel, guint accel_key, ui_hotkey_modifier_t mod)
+static void add_accelerator(const char *name, GtkWidget *w, GtkAccelGroup *accel, guint accel_key, ui_hotkey_modifier_t mod)
 {
     GtkAccelFlags flags = 0;
+    int i, f;
 
+    /* first do sanity checks and warn about hotkeys that are redefined (which
+       seems to be a common error :)) */
+    f = 0;
+    for (i = 0; i < numhotkeys; ++i) {
+        if ((hotkeys[i].key == accel_key) && (hotkeys[i].mod == mod)) {
+            f = 1;
+            if (strcmp(name, hotkeys[i].name) != 0) {
+                log_error(LOG_DEFAULT, "add_accelerator: hotkey idx:%2d key:%04x '%c' mod:%04x redefined from '%s' to '%s'.", i, accel_key, accel_key, mod, hotkeys[i].name, name);
+                f = 2;
+            }
+        }
+    }
+    if (f == 0) {
+        if (numhotkeys == MAX_HOTKEYS) {
+            log_error(LOG_DEFAULT, "add_accelerator: too many hotkeys, increase MAX_HOTKEYS");
+        } else {
+            hotkeys[numhotkeys].key = accel_key;
+            hotkeys[numhotkeys].mod = mod;
+            hotkeys[numhotkeys].name = strdup(name);
+            DBGHK(("add_accelerator: new hotkey idx:%2d key:%04x '%c' mod:%04x (%s)", numhotkeys, accel_key, accel_key, mod, name));
+            ++numhotkeys;
+        }
+    }
+
+    /* actually add the hotkey as accelerator */
     if (mod & UI_HOTMOD_CONTROL) {
         flags |= GDK_CONTROL_MASK;
     }
@@ -240,7 +280,7 @@ void ui_menu_create(GtkWidget *w, GtkAccelGroup *accel, const char *menu_name, u
             ui_menu_create(sub, accel, list[i].string, list[i].sub_menu);
         } else {            /* no submenu */
             if (accel && list[i].hotkey_keysym != KEYSYM_NONE && list[i].callback != NULL && new_item != NULL) {
-                add_accelerator(new_item, accel, list[i].hotkey_keysym, list[i].hotkey_modifier);
+                add_accelerator(list[i].string, new_item, accel, list[i].hotkey_keysym, list[i].hotkey_modifier);
             }
         }
     }
