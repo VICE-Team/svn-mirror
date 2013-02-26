@@ -389,7 +389,7 @@ static ui_menu_entry_t joystick_settings_c64_submenu[] = {
     { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
     { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { NULL }
 };
 
@@ -420,7 +420,7 @@ static ui_menu_entry_t joystick_settings_c64dtv_submenu[] = {
     { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
     { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { NULL }
 };
 
@@ -464,7 +464,7 @@ static ui_menu_entry_t joystick_settings_pet_submenu[] = {
     { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
     { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { NULL }
 };
 
@@ -491,7 +491,7 @@ static ui_menu_entry_t joystick_settings_vic20_submenu[] = {
     { N_("Joystick in extra port #2"), UI_MENU_TYPE_NORMAL,
       NULL, NULL, set_joystick_device_4_submenu },
     { N_("Swap userport joysticks"), UI_MENU_TYPE_NORMAL,
-      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META },
+      (ui_callback_t)swap_userport_joystick_ports, NULL, NULL, KEYSYM_u, UI_HOTMOD_META | UI_HOTMOD_SHIFT },
     { NULL }
 };
 
