@@ -416,7 +416,7 @@ static void handle_visible_line_without_cache(raster_t *raster)
 
     cache = &raster->cache[raster->current_line];
 
-    if (raster->dont_cache
+    if (raster->dont_cache || raster->dont_cache_all
         || (raster->sprite_status != NULL && raster->sprite_status->dma_msk != 0)
         || cache->is_dirty
         || cache->blank
