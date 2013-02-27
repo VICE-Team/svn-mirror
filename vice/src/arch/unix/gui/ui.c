@@ -44,7 +44,6 @@ static int is_paused = 0;
 static void pause_trap(WORD addr, void *data)
 {
     ui_display_paused(1);
-    is_paused = 1;
     vsync_suspend_speed_eval();
     while (is_paused) {
         ui_dispatch_next_event();
@@ -53,7 +52,8 @@ static void pause_trap(WORD addr, void *data)
 
 void ui_pause_emulation(int flag)
 {
-    if (flag) {
+    if (flag && !is_paused) {
+        is_paused = 1;
         interrupt_maincpu_trigger_trap(pause_trap, 0);
     } else {
         ui_display_paused(0);
