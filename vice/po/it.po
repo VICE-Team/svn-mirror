@@ -8,14 +8,13 @@ msgstr ""
 "Project-Id-Version: VICE 2.3\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-26 13:09-0800\n"
-"PO-Revision-Date: 2013-01-02 15:29+0100\n"
+"PO-Revision-Date: 2013-02-27 14:50+0100\n"
 "Last-Translator: Andrea Musuruane <musuruan@gmail.com>\n"
 "Language-Team: it <it@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=iso-8859-1\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.5.4\n"
+"X-Generator: Poedit 1.5.5\n"
 
 #: src/arch/unix/joy.c:102 src/arch/unix/macosx/joy.c:564
 msgid "Set device for joystick port 1"
@@ -359,7 +358,7 @@ msgstr "Modello C128"
 #: src/arch/unix/gui/c128ui.c:561 src/arch/win32/resc128.rc.po.c:692
 #: src/arch/amigaos/intl_text.c.po.c:10814
 msgid "Machine type"
-msgstr "Tipo macchina"
+msgstr "Tipo computer"
 
 #: src/arch/unix/gui/c128ui.c:563 src/arch/unix/gui/c64dtvui.c:154
 #: src/arch/unix/gui/c64scui.c:202 src/arch/unix/gui/c64ui.c:264
@@ -395,7 +394,7 @@ msgstr "Modello CIA 2"
 
 #: src/arch/unix/gui/c128ui.c:574 src/translate_text.c.po.c:3896
 msgid "Always switch to C64 mode on reset"
-msgstr "Usa sempre in modalità C64 al reset"
+msgstr "Vai sempre in modalità C64 al reset"
 
 #: src/arch/unix/gui/c128ui.c:596 src/arch/unix/gui/c64dtvui.c:178
 #: src/arch/unix/gui/c64scui.c:570 src/arch/unix/gui/c64ui.c:630
@@ -688,12 +687,11 @@ msgstr "Gestione delle collisioni di I/O"
 
 #: src/arch/unix/gui/c64ui.c:193 src/arch/amigaos/intl_text.c.po.c:2385
 msgid "Japanese"
-msgstr ""
+msgstr "Giapponese"
 
 #: src/arch/unix/gui/c64ui.c:201 src/arch/amigaos/intl_text.c.po.c:2441
-#, fuzzy
 msgid "MAX Machine"
-msgstr "Tipo macchina"
+msgstr "MAX Machine"
 
 #: src/arch/unix/gui/c64ui.c:229
 msgid "Old PAL-G"
@@ -1797,7 +1795,7 @@ msgstr "Imposta proporzioni video"
 #: src/arch/unix/gui/uicrtc.c:193 src/arch/unix/gui/uited.c:199
 #: src/arch/unix/gui/uivic.c:202 src/arch/unix/gui/uivicii.c:226
 msgid "Alpha Blending"
-msgstr ""
+msgstr "Alpha Blending"
 
 #: src/arch/unix/gui/uicrtc.c:199 src/arch/unix/gui/uited.c:205
 #: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:208
@@ -3017,58 +3015,50 @@ msgstr "Nascondi i file non P00"
 #: src/arch/unix/gui/uiperipheraliec.c:130
 #: src/arch/unix/gui/uiperipheraliec.c:154
 #: src/arch/unix/gui/uiperipheralieee.c:118
-#, fuzzy
 msgid "Drive #8 device type"
-msgstr "Drive #8: Tipo floppy disk"
+msgstr "Drive #8: Tipo periferica"
 
 #: src/arch/unix/gui/uiperipheraliec.c:131
 #: src/arch/unix/gui/uiperipheraliec.c:155
 #: src/arch/unix/gui/uiperipheralieee.c:119
-#, fuzzy
 msgid "Drive #8 options"
-msgstr "Drive #8: Espansione"
+msgstr "Drive #8: Opzioni"
 
 #: src/arch/unix/gui/uiperipheraliec.c:136
 #: src/arch/unix/gui/uiperipheraliec.c:160
 #: src/arch/unix/gui/uiperipheralieee.c:124
-#, fuzzy
 msgid "Drive #9 device type"
-msgstr "Drive #9: Tipo floppy disk"
+msgstr "Drive #9: Tipo periferica"
 
 #: src/arch/unix/gui/uiperipheraliec.c:137
 #: src/arch/unix/gui/uiperipheraliec.c:161
 #: src/arch/unix/gui/uiperipheralieee.c:125
-#, fuzzy
 msgid "Drive #9 options"
-msgstr "Drive #9: Espansione"
+msgstr "Drive #9: Opzioni"
 
 #: src/arch/unix/gui/uiperipheraliec.c:142
 #: src/arch/unix/gui/uiperipheraliec.c:166
 #: src/arch/unix/gui/uiperipheralieee.c:130
-#, fuzzy
 msgid "Drive #10 device type"
-msgstr "Drive #10: Tipo floppy disk"
+msgstr "Drive #10: Tipo periferica"
 
 #: src/arch/unix/gui/uiperipheraliec.c:143
 #: src/arch/unix/gui/uiperipheraliec.c:167
 #: src/arch/unix/gui/uiperipheralieee.c:131
-#, fuzzy
 msgid "Drive #10 options"
-msgstr "Drive #10: Espansione"
+msgstr "Drive #10: Opzioni"
 
 #: src/arch/unix/gui/uiperipheraliec.c:148
 #: src/arch/unix/gui/uiperipheraliec.c:172
 #: src/arch/unix/gui/uiperipheralieee.c:136
-#, fuzzy
 msgid "Drive #11 device type"
-msgstr "Drive #11: Tipo floppy disk"
+msgstr "Drive #11: Tipo periferica"
 
 #: src/arch/unix/gui/uiperipheraliec.c:149
 #: src/arch/unix/gui/uiperipheraliec.c:173
 #: src/arch/unix/gui/uiperipheralieee.c:137
-#, fuzzy
 msgid "Drive #11 options"
-msgstr "Drive #11: Espasione"
+msgstr "Drive #11: Opzioni"
 
 #: src/arch/unix/gui/uipetdww.c:39 src/arch/win32/respetdww.rc.po.c:26
 #: src/arch/amigaos/intl_text.c.po.c:7930
@@ -4071,9 +4061,8 @@ msgid "Tune %d"
 msgstr "Melodia %d"
 
 #: src/arch/unix/gui/vsidui.c:514
-#, fuzzy
 msgid "VSID: The SID emulator"
-msgstr "VSIDUI: L'emulatore del SID"
+msgstr "VSID: L'emulatore del SID"
 
 #: src/arch/unix/x11/gnome/about.c:38 src/arch/unix/x11/xaw/about.c:62
 msgid "VICE is FREE software!"
@@ -4126,9 +4115,8 @@ msgstr ""
 "Emir Akaydin (aka: Skate) - Turco\n"
 
 #: src/arch/unix/x11/gnome/about.c:122
-#, fuzzy
 msgid "(c) 1998 - 2013 The VICE Team"
-msgstr "(c) 1998 - 2012 The VICE Team"
+msgstr "(c) 1998 - 2013 The VICE Team"
 
 #: src/arch/unix/x11/gnome/about.c:129 src/arch/win32/res.rc.po.c:1083
 #: src/arch/win32/res.rc.po.c:1569 src/arch/amigaos/intl_text.c.po.c:4429
@@ -4329,17 +4317,16 @@ msgid "Volume"
 msgstr "Volume"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:74
-#, fuzzy
 msgid "Drives Volume"
-msgstr "Risorse dei drive"
+msgstr "Volume dei drive"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:76
 msgid "Display Thread Rate"
-msgstr ""
+msgstr "Mostra il Thread Rate"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:77
 msgid "Display Thread Ghosting"
-msgstr ""
+msgstr "Mostra il Thread Ghosting"
 
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
@@ -4354,121 +4341,112 @@ msgid "Mixer"
 msgstr "Mixer"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:421
-#, fuzzy
 msgid "Oversize handling"
-msgstr "Gestione delle collisioni di I/O"
+msgstr "Gestione sovradimensionamento"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:424
 msgid "scale down"
-msgstr ""
+msgstr "rimpicciolisci"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:425
 msgid "crop left top"
-msgstr ""
+msgstr "ritaglia in alto a sinistra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:426
 msgid "crop center top"
-msgstr ""
+msgstr "ritaglia in alto al centro"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:427
 msgid "crop right top"
-msgstr ""
+msgstr "ritaglia in alto a destra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:428
 msgid "crop left center"
-msgstr ""
+msgstr "ritaglia al centro a sinistra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:429
 msgid "crop center"
-msgstr ""
+msgstr "ritaglia al centro"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:430
 msgid "crop right center"
-msgstr ""
+msgstr "ritaglia al centro a destra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:431
 msgid "crop left bottom"
-msgstr ""
+msgstr "ritaglia in basso a sinistra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:432
 msgid "crop center bottom"
-msgstr ""
+msgstr "ritaglia in basso al centro"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:433
 msgid "crop right bottom"
-msgstr ""
+msgstr "ritaglia in basso a destra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:446
 msgid "Undersize handling"
-msgstr ""
+msgstr "Gestione sottodimensionamento"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:448
 msgid "scale up"
-msgstr ""
+msgstr "ingrandisci"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:449
-#, fuzzy
 msgid "add borders"
-msgstr "Senza bordi"
+msgstr "aggiungi bordi"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:462
-#, fuzzy
 msgid "Multicolor handling"
-msgstr "Gestione delle collisioni di I/O"
+msgstr "Gestione multicolor"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:464
 msgid "b&w"
-msgstr ""
+msgstr "b&n"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:465
-#, fuzzy
 msgid "2 colors"
-msgstr "colore"
+msgstr "2 colori"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:466
-#, fuzzy
 msgid "4 colors"
-msgstr "colore"
+msgstr "4 colori"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:467
 msgid "gray scale"
-msgstr ""
+msgstr "scala di grigi"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:468
 msgid "best cell colors"
-msgstr ""
+msgstr "migliori colori celle"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:481
-#, fuzzy
 msgid "TED luma handling"
-msgstr "Gestione 40 tracce"
+msgstr "Gestione luminanza del TED"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:483
 msgid "ignore"
-msgstr ""
+msgstr "ignora"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:484
 msgid "dither"
-msgstr ""
+msgstr "dither"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:498
-#, fuzzy
 msgid "CRTC textcolor"
-msgstr "Colori CRTC"
+msgstr "Colore del testo CRTC"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:499
-#, fuzzy
 msgid "white"
-msgstr "Bianco"
+msgstr "bianco"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:500
-#, fuzzy
 msgid "amber"
-msgstr "Ambra"
+msgstr "ambra"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:501
 msgid "green"
-msgstr ""
+msgstr "verde"
 
 #: src/arch/unix/x11/gnome/uiscreenshot.c:549
 #: src/arch/unix/x11/xaw/uiscreenshot.c:163
@@ -4861,94 +4839,76 @@ msgid "Version 0.0"
 msgstr "Versione 0.0"
 
 #: src/arch/win32/res.rc.po.c:182
-#, fuzzy
 msgid "Copyright (c) 1998-2013 Dag Lem"
-msgstr "Copyright (c) 1998-2012 Dag Lem"
+msgstr "Copyright (c) 1998-2013 Dag Lem"
 
 #: src/arch/win32/res.rc.po.c:183
-#, fuzzy
 msgid "Copyright (c) 1999-2013 Andreas Matthies"
-msgstr "Copyright (c) 1999-2012 Andreas Matthies"
+msgstr "Copyright (c) 1999-2013 Andreas Matthies"
 
 #: src/arch/win32/res.rc.po.c:184
-#, fuzzy
 msgid "Copyright (c) 1999-2013 Martin Pottendorfer"
-msgstr "Copyright (c) 1999-2012 Martin Pottendorfer"
+msgstr "Copyright (c) 1999-2013 Martin Pottendorfer"
 
 #: src/arch/win32/res.rc.po.c:185
-#, fuzzy
 msgid "Copyright (c) 2005-2013 Marco van den Heuvel"
-msgstr "Copyright (c) 2005-2012 Marco van den Heuvel"
+msgstr "Copyright (c) 2005-2013 Marco van den Heuvel"
 
 #: src/arch/win32/res.rc.po.c:186
-#, fuzzy
 msgid "Copyright (c) 2006-2013 Christian Vogelgsang"
-msgstr "Copyright (c) 2006-2012 Christian Vogelgsang"
+msgstr "Copyright (c) 2006-2013 Christian Vogelgsang"
 
 #: src/arch/win32/res.rc.po.c:187
-#, fuzzy
 msgid "Copyright (c) 2007-2013 Fabrizio Gennari"
-msgstr "Copyright (c) 2007-2012 Fabrizio Gennari"
+msgstr "Copyright (c) 2007-2013 Fabrizio Gennari"
 
 #: src/arch/win32/res.rc.po.c:188
-#, fuzzy
 msgid "Copyright (c) 2007-2013 Daniel Kahlin"
-msgstr "Copyright (c) 2007-2012 Daniel Kahlin"
+msgstr "Copyright (c) 2007-2013 Daniel Kahlin"
 
 #: src/arch/win32/res.rc.po.c:189
-#, fuzzy
 msgid "Copyright (c) 2008-2013 Antti S. Lankila"
-msgstr "Copyright (c) 2008-2012 Antti S. Lankila"
+msgstr "Copyright (c) 2008-2013 Antti S. Lankila"
 
 #: src/arch/win32/res.rc.po.c:190
-#, fuzzy
 msgid "Copyright (c) 2009-2013 Groepaz"
-msgstr "Copyright (c) 2009-2012 Groepaz"
+msgstr "Copyright (c) 2009-2013 Groepaz"
 
 #: src/arch/win32/res.rc.po.c:191
-#, fuzzy
 msgid "Copyright (c) 2009-2013 Ingo Korb"
-msgstr "Copyright (c) 2009-2012 Ingo Korb"
+msgstr "Copyright (c) 2009-2013 Ingo Korb"
 
 #: src/arch/win32/res.rc.po.c:192
-#, fuzzy
 msgid "Copyright (c) 2009-2013 Errol Smith"
-msgstr "Copyright (c) 2009-2012 Errol Smith"
+msgstr "Copyright (c) 2009-2013 Errol Smith"
 
 #: src/arch/win32/res.rc.po.c:193
-#, fuzzy
 msgid "Copyright (c) 2010-2013 Olaf Seibert"
-msgstr "Copyright (c) 2010-2012 Olaf Seibert"
+msgstr "Copyright (c) 2010-2013 Olaf Seibert"
 
 #: src/arch/win32/res.rc.po.c:194
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Marcus Sutton"
-msgstr "Copyright (c) 2011-2012 Marcus Sutton"
+msgstr "Copyright (c) 2011-2013 Marcus Sutton"
 
 #: src/arch/win32/res.rc.po.c:195
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Ulrich Schulz"
-msgstr "Copyright (c) 2011-2012 Ulrich Schulz"
+msgstr "Copyright (c) 2011-2013 Ulrich Schulz"
 
 #: src/arch/win32/res.rc.po.c:196
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Stefan Haubenthal"
-msgstr "Copyright (c) 2011-2012 Stefan Haubenthal"
+msgstr "Copyright (c) 2011-2013 Stefan Haubenthal"
 
 #: src/arch/win32/res.rc.po.c:197
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Thomas Giesel"
-msgstr "Copyright (c) 2011-2012 Thomas Giesel"
+msgstr "Copyright (c) 2011-2013 Thomas Giesel"
 
 #: src/arch/win32/res.rc.po.c:198
-#, fuzzy
 msgid "Copyright (c) 2011-2013 Kajtar Zsolt"
-msgstr "Copyright (c) 2011-2012 Kajtar Zsolt"
+msgstr "Copyright (c) 2011-2013 Kajtar Zsolt"
 
 #: src/arch/win32/res.rc.po.c:199
-#, fuzzy
 msgid "Copyright (c) 2012-2013 Benjamin 'BeRo' Rosseaux"
-msgstr "Copyright (c) 2012-2012 Benjamin 'BeRo' Rosseaux"
+msgstr "Copyright (c) 2012-2013 Benjamin 'BeRo' Rosseaux"
 
 #: src/arch/win32/res.rc.po.c:964 src/arch/amigaos/intl_text.c.po.c:5493
 msgid "VICE Question"
@@ -7752,9 +7712,8 @@ msgid "Enable MasC=uerade I/O swap"
 msgstr "Attiva I/O swap MasC=uerade"
 
 #: src/arch/win32/resvic20.rc.po.c:563
-#, fuzzy
 msgid "VIC20 model"
-msgstr "Modello VIC"
+msgstr "Modello VIC20"
 
 #: src/arch/win32/resvic20.rc.po.c:564 src/arch/amigaos/intl_text.c.po.c:2161
 msgid "VIC-1112 IEEE-488 module"
@@ -7816,9 +7775,8 @@ msgid "Select Mega-Cart non-volatile RAM file"
 msgstr "Seleziona file non-volatile RAM Mega-Cart"
 
 #: src/arch/win32/resvic20.rc.po.c:591 src/arch/amigaos/intl_text.c.po.c:2567
-#, fuzzy
 msgid "VIC20 model settings"
-msgstr "Impostazioni modello C128"
+msgstr "Impostazioni modello VIC20"
 
 #: src/arch/win32/resvicii.rc.po.c:88
 msgid "Sprite Collisions"
@@ -7958,29 +7916,24 @@ msgid "Drean"
 msgstr "Drean"
 
 #: src/arch/amigaos/intl_text.c.po.c:2357
-#, fuzzy
 msgid "C64 SX PAL"
-msgstr "C64 PAL"
+msgstr "C64 SX PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2371
-#, fuzzy
 msgid "C64 SX NTSC"
-msgstr "C64 NTSC"
+msgstr "C64 SX NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2399
-#, fuzzy
 msgid "C64 GS"
-msgstr "C64 NTSC"
+msgstr "C64 GS"
 
 #: src/arch/amigaos/intl_text.c.po.c:2413
-#, fuzzy
 msgid "PET64 PAL"
-msgstr "C64 PAL"
+msgstr "PET64 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2427
-#, fuzzy
 msgid "PET64 NTSC"
-msgstr "C64 NTSC"
+msgstr "PET64 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2455
 msgid "Custom C64 model"
@@ -8011,18 +7964,16 @@ msgid "C232 NTSC"
 msgstr "C232 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2581
-#, fuzzy
 msgid "VIC20 PAL"
-msgstr "CBM620 PAL"
+msgstr "VIC20 PAL"
 
 #: src/arch/amigaos/intl_text.c.po.c:2595
-#, fuzzy
 msgid "VIC20 NTSC"
-msgstr "CBM620 NTSC"
+msgstr "VIC20 NTSC"
 
 #: src/arch/amigaos/intl_text.c.po.c:2609
 msgid "VIC21"
-msgstr ""
+msgstr "VIC21"
 
 #: src/arch/amigaos/intl_text.c.po.c:2637
 msgid "C64DTV V2 PAL"
@@ -8248,7 +8199,7 @@ msgstr "Questa porta non è mappata su una porta dell'Amiga"
 
 #: src/arch/amigaos/intl_text.c.po.c:5171
 msgid "This machine may not have a SID"
-msgstr "Questa macchina potrebbe non avere un SID"
+msgstr "Questo computer potrebbe non avere un SID"
 
 #: src/arch/amigaos/intl_text.c.po.c:5185
 #, c-format
@@ -8819,7 +8770,7 @@ msgstr "Mouse MicroMys"
 
 #: src/arch/amigaos/intl_text.c.po.c:11570
 msgid "Koalapad"
-msgstr ""
+msgstr "Koalapad"
 
 #: src/arch/amigaos/intl_text.c.po.c:11766
 msgid "Save to EasyFlash CRT file on detach"
@@ -10137,11 +10088,12 @@ msgid "Set CIA 2 model (0 = old 6526, 1 = new 6526A)"
 msgstr "Imposta modello CIA 2 (0 = 6526 vecchio, 1 = 6526A nuovo)"
 
 #: src/translate_text.c.po.c:4117
-#, fuzzy
 msgid ""
 "Set C64 model (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, c64gs, "
 "pet64, ultimax)"
-msgstr "Imposta modello C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean)"
+msgstr ""
+"Imposta modello C64 (c64/c64c/c64old, ntsc/newntsc/oldntsc, drean, jap, "
+"c64gs, pet64, ultimax)"
 
 #: src/translate_text.c.po.c:4134
 msgid "Set C128 model (c128/c128dcr, pal/ntsc)"
@@ -10156,9 +10108,8 @@ msgstr ""
 "cv364, c232)"
 
 #: src/translate_text.c.po.c:4168
-#, fuzzy
 msgid "Set VIC20 model (vic20/vic20pal/vic20ntsc, vic21)"
-msgstr "Imposta modello C128 (c128/c128dcr, pal/ntsc)"
+msgstr "Imposta modello VIC20 (vic20/vic20pal/vic20ntsc, vic21)"
 
 #: src/translate_text.c.po.c:4185
 msgid "Set DTV model (v2/v2pal/v2ntsc, v3/v3pal/v3ntsc, hummer)"
@@ -10490,12 +10441,11 @@ msgstr "Disattiva la modalità RRNet dell'emulazione TFE"
 
 #: src/translate_text.c.po.c:5719
 msgid "Reset machine if a cartridge is attached or detached"
-msgstr "Fare il reset della macchina se una cartuccia è collegata o rimossa"
+msgstr "Fare il reset del computer se una cartuccia è collegata o rimossa"
 
 #: src/translate_text.c.po.c:5736
 msgid "Do not reset machine if a cartridge is attached or detached"
-msgstr ""
-"Non fare il reset della macchina se una cartuccia è collegata o rimossa"
+msgstr "Non fare il reset del computer se una cartuccia è collegata o rimossa"
 
 #: src/translate_text.c.po.c:5804
 msgid "Attach generic 16kB Ultimax cartridge image"
@@ -10859,7 +10809,7 @@ msgstr "Disattiva emulazione audio dei disk drive"
 
 #: src/translate_text.c.po.c:7625
 msgid "Set volume for disk drive sound emulation (0-4000)"
-msgstr ""
+msgstr "Imposta il volume per l'emulazione audio del disk drive (0-4000)"
 
 #: src/translate_text.c.po.c:7676
 msgid "Set drive type (0: no drive)"
@@ -11618,10 +11568,9 @@ msgid "Disable hardware scaling"
 msgstr "Disattiva hardware scaling"
 
 #: src/translate_text.c.po.c:10803
-#, fuzzy
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
 msgstr ""
-"Seleziona il filtro di rendering, 0:nessuno, 1:emulazione CRT, 2: scale2x"
+"Seleziona il filtro di rendering, (0: none, 1: CRT emulation, 2: scale2x)"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"
@@ -11789,9 +11738,8 @@ msgid "Execute monitor commands from file"
 msgstr "Esegui i comandi del monitor da un file"
 
 #: src/translate_text.c.po.c:11455
-#, fuzzy
 msgid "Write monitor output also to file"
-msgstr "Esegui i comandi del monitor da un file"
+msgstr "Scrivi anche su file l'output del monitor"
 
 #: src/translate_text.c.po.c:11472
 msgid "Set an initial breakpoint for the monitor"
@@ -11886,13 +11834,12 @@ msgid "Select the joystick port the mouse is attached to"
 msgstr "Seleziona la porta joystick a cui è collegato il mouse"
 
 #: src/translate_text.c.po.c:11953
-#, fuzzy
 msgid ""
 "Select the mouse type (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
 "CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
 msgstr ""
 "Seleziona il tipo di mouse (0 = 1351, 1 = NEOS, 2 = Amiga, 3 = Paddles, 4 = "
-"CX-22, 5 = ST, 6 = Smart)"
+"CX-22, 5 = ST, 6 = Smart, 7 = Micromys 8 = Koalapad)"
 
 #: src/translate_text.c.po.c:11970
 msgid "Enable PS/2 mouse on userport"
@@ -11919,23 +11866,20 @@ msgid "Length of memory block initialized with the same pattern"
 msgstr "Lunghezza del blocco di memoria inizializzato con lo stesso pattern"
 
 #: src/translate_text.c.po.c:12089
-#, fuzzy
 msgid "load the given romset file"
-msgstr "Non è possibile salvare il file del romset!"
+msgstr "carica il file del ROM set specificato"
 
 #: src/translate_text.c.po.c:12106
-#, fuzzy
 msgid "load the given romset archive"
-msgstr "Non è possibile salvare l'archivio del romset!"
+msgstr "carica l'archivio del ROM set specificato"
 
 #: src/translate_text.c.po.c:12123
-#, fuzzy
 msgid "Item number"
-msgstr "Numero melodia"
+msgstr "Numero voce"
 
 #: src/translate_text.c.po.c:12140
 msgid "select the given item from the current romset archive"
-msgstr ""
+msgstr "seleziona la voce specificata dall'archivio del ROM set attuale"
 
 #: src/translate_text.c.po.c:12174
 msgid "Disable sound playback"
