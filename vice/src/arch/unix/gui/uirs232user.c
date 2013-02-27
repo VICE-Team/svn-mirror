@@ -25,9 +25,9 @@
  *
  */
 
-#ifdef HAVE_RS232
-
 #include "vice.h"
+
+#ifdef HAVE_RS232
 
 #include <stdio.h>
 
