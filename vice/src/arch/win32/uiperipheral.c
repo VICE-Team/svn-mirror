@@ -368,19 +368,6 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
     TCHAR st[MAX_PATH];
     int devtype = ATTACH_DEVICE_NONE;
 
-    if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED) {
-        GetDlgItemText(hwnd, IDC_DISKIMAGE, st, MAX_PATH);
-        system_wcstombs(s, st, MAX_PATH);
-        if (file_system_attach_disk(num, s) < 0 ) {
-            ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
-            return 0;
-        }
-    } else {
-        if ((IsDlgButtonChecked(hwnd, IDC_SELECTDIR) == BST_CHECKED) && file_system_get_disk_name(num)) {
-            file_system_detach_disk(num);
-        }
-    }
-
     if (iec_available_busses() & IEC_BUS_IEC) {
         resources_set_int_sprintf("IECDevice%d", (IsDlgButtonChecked(hwnd, IDC_TOGGLE_USEIECDEVICE) == BST_CHECKED), num);
     }
@@ -405,6 +392,19 @@ static BOOL store_dialog_results(HWND hwnd, unsigned int num)
     GetDlgItemText(hwnd, IDC_DIR, st, MAX_PATH);
     system_wcstombs(s, st, MAX_PATH);
     resources_set_string_sprintf("FSDevice%dDir", s, num);
+
+    if (IsDlgButtonChecked(hwnd, IDC_SELECTDISK) == BST_CHECKED) {
+        GetDlgItemText(hwnd, IDC_DISKIMAGE, st, MAX_PATH);
+        system_wcstombs(s, st, MAX_PATH);
+        if (file_system_attach_disk(num, s) < 0 ) {
+            ui_error(translate_text(IDS_CANNOT_ATTACH_FILE));
+            return 0;
+        }
+    } else {
+        if ((IsDlgButtonChecked(hwnd, IDC_SELECTDIR) == BST_CHECKED) && file_system_get_disk_name(num)) {
+            file_system_detach_disk(num);
+        }
+    }
 
     return 1;
 }
