@@ -72,6 +72,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vsid-snapshot.obj"
 	-@erase "$(INTDIR)\vsidcia1.obj"
 	-@erase "$(INTDIR)\vsidcia2.obj"
+	-@erase "$(INTDIR)\vsidcpu.obj"
 	-@erase "$(INTDIR)\vsidmem.obj"
 	-@erase "$(INTDIR)\vsidstubs.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -145,6 +146,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\vsid-snapshot.obj" \
 	"$(INTDIR)\vsidcia1.obj" \
 	"$(INTDIR)\vsidcia2.obj" \
+	"$(INTDIR)\vsidcpu.obj" \
 	"$(INTDIR)\vsidmem.obj" \
 	"$(INTDIR)\vsidstubs.obj" \
 	".\libs\base\Release\base.lib"
@@ -201,6 +203,7 @@ CLEAN :
 	-@erase "$(INTDIR)\vsid-snapshot.obj"
 	-@erase "$(INTDIR)\vsidcia1.obj"
 	-@erase "$(INTDIR)\vsidcia2.obj"
+	-@erase "$(INTDIR)\vsidcpu.obj"
 	-@erase "$(INTDIR)\vsidmem.obj"
 	-@erase "$(INTDIR)\vsidstubs.obj"
 	-@erase "$(INTDIR)\vc60.idb"
@@ -274,6 +277,7 @@ LIB32_OBJS= \
 	"$(INTDIR)\vsid-snapshot.obj" \
 	"$(INTDIR)\vsidcia1.obj" \
 	"$(INTDIR)\vsidcia2.obj" \
+	"$(INTDIR)\vsidcpu.obj" \
 	"$(INTDIR)\vsidmem.obj" \
 	"$(INTDIR)\vsidstubs.obj" \
 	".\libs\base\Debug\base.lib"
@@ -454,6 +458,12 @@ SOURCE=..\..\..\c64\vsidcia1.c
 SOURCE=..\..\..\c64\vsidcia2.c
 
 "$(INTDIR)\vsidcia2.obj" : $(SOURCE) "$(INTDIR)"
+	$(CPP) $(CPP_PROJ) $(SOURCE)
+
+
+SOURCE=..\..\..\c64\vsidcpu.c
+
+"$(INTDIR)\vsidcpu.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
 
 

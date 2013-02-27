@@ -91,20 +91,6 @@ SOURCE=..\..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\..\maincpu.c
-
-!IF  "$(CFG)" == "vsid - Win32 Release"
-
-# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy /Ob2
-# SUBTRACT CPP /Ox /Og /Os
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\vice.manifest
 # End Source File
 # End Target

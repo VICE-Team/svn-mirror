@@ -178,6 +178,10 @@ SOURCE=..\..\..\c64\vsidcia2.c
 # End Source File
 # Begin Source File
 
+SOURCE=..\..\..\c64\vsidcpu.c
+# End Source File
+# Begin Source File
+
 SOURCE=..\..\..\c64\vsidmem.c
 # End Source File
 # Begin Source File

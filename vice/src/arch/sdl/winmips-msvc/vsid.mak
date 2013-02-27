@@ -49,7 +49,6 @@ CLEAN :"arch - Win32 ReleaseCLEAN" "base - Win32 ReleaseCLEAN" "vsidlib - Win32 
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\main.obj"
-	-@erase "$(INTDIR)\maincpu.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\vsid.exe"
 
@@ -103,7 +102,6 @@ LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib comctl32.lib winmm.lib ole32.lib wsock32.lib version.lib SDLmain.lib SDL.lib opengl32.lib /nologo /subsystem:windows /incremental:no /pdb:"$(OUTDIR)\vsid.pdb" /machine:MIPS /out:"$(OUTDIR)\vsid.exe" 
 LINK32_OBJS= \
 	"$(INTDIR)\main.obj" \
-	"$(INTDIR)\maincpu.obj" \
 	".\libs\arch\Release\arch.lib" \
 	".\libs\base\Release\base.lib" \
 	".\libs\vsidlib\Release\vsidlib.lib" \
@@ -146,7 +144,6 @@ CLEAN :"arch - Win32 DebugCLEAN" "base - Win32 DebugCLEAN" "vsidlib - Win32 Debu
 CLEAN :
 !ENDIF 
 	-@erase "$(INTDIR)\main.obj"
-	-@erase "$(INTDIR)\maincpu.obj"
 	-@erase "$(INTDIR)\vc60.idb"
 	-@erase "$(OUTDIR)\vsid.exe"
 	-@erase "$(OUTDIR)\vsid.ilk"
@@ -202,7 +199,6 @@ LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib comdlg32.lib advapi32.lib shell32.lib comctl32.lib winmm.lib ole32.lib wsock32.lib version.lib SDLmain.lib SDL.lib opengl32.lib /nologo /subsystem:windows /incremental:yes /pdb:"$(OUTDIR)\vsid.pdb" /debug /machine:MIPS /nodefaultlib:"msvcrt.lib" /out:"$(OUTDIR)\vsid.exe" /pdbtype:sept 
 LINK32_OBJS= \
 	"$(INTDIR)\main.obj" \
-	"$(INTDIR)\maincpu.obj" \
 	".\libs\arch\Debug\arch.lib" \
 	".\libs\base\Debug\base.lib" \
 	".\libs\vsidlib\Debug\vsidlib.lib" \
@@ -542,31 +538,6 @@ SOURCE=..\..\..\main.c
 
 "$(INTDIR)\main.obj" : $(SOURCE) "$(INTDIR)"
 	$(CPP) $(CPP_PROJ) $(SOURCE)
-
-
-SOURCE=..\..\..\maincpu.c
-
-!IF  "$(CFG)" == "vsid - Win32 Release"
-
-CPP_SWITCHES=/nologo /MD /W3 /GX /Ot /Oa /Ow /Oi /Op /Oy /Ob2 /I ".\\" /I "..\\" /I "..\..\\" /I "..\..\..\\" /I "..\..\..\drive" /I "..\..\..\vdrive" /I "..\..\..\monitor" /I "..\..\..\lib\p64" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "NDEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vsid.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
-
-"$(INTDIR)\maincpu.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) @<<
-  $(CPP_SWITCHES) $(SOURCE)
-<<
-
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 Debug"
-
-CPP_SWITCHES=/nologo /MDd /W3 /GX /Z7 /Od /I ".\\" /I "..\\" /I "..\..\\" /I "..\..\..\\" /I "..\..\..\platform" /I "..\..\..\drive" /I "..\..\..\vdrive" /I "..\..\..\monitor" /I "..\..\..\lib\p64" /D "WIN32" /D "WINMIPS" /D "IDE_COMPILE" /D "_DEBUG" /D "_WINDOWS" /Fp"$(INTDIR)\vsid.pch" /YX /Fo"$(INTDIR)\\" /Fd"$(INTDIR)\\"  /c 
-
-"$(INTDIR)\maincpu.obj" : $(SOURCE) "$(INTDIR)"
-	$(CPP) @<<
-  $(CPP_SWITCHES) $(SOURCE)
-<<
-
-
-!ENDIF 
 
 
 !ENDIF 

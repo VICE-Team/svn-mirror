@@ -96,7 +96,6 @@ EXTRA_DIST = \
 	video.tgt \
 	vsid.tgt \
 	vsidlib.tgt \
-	vsid-maincpu.c \
 	vsid-menubar.c \
 	x128-dlg-fileio.c \
 	x128-menubar.c \

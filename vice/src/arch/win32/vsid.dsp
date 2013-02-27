@@ -151,29 +151,6 @@ SOURCE=..\..\main.c
 # End Source File
 # Begin Source File
 
-SOURCE=..\..\maincpu.c
-
-!IF  "$(CFG)" == "vsid - Win32 Release"
-
-# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy /Ob2
-# SUBTRACT CPP /Ox /Og /Os
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 Debug"
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 DX Release"
-
-# ADD BASE CPP /Ot /Oa /Ow /Oi /Op /Oy /Ob2
-# SUBTRACT BASE CPP /Ox /Og /Os
-# ADD CPP /Ot /Oa /Ow /Oi /Op /Oy /Ob2
-# SUBTRACT CPP /Ox /Og /Os
-
-!ELSEIF  "$(CFG)" == "vsid - Win32 DX Debug"
-
-!ENDIF 
-
-# End Source File
-# Begin Source File
-
 SOURCE=.\resvsid.rc
 
 !IF  "$(CFG)" == "vsid - Win32 Release"
