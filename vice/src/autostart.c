@@ -78,6 +78,7 @@
 #endif
 
 static void autostart_done(void);
+static void autostart_finish(void);
 
 /* Kernal addresses.  Set by `autostart_init()'.  */
 
@@ -152,6 +153,9 @@ int autostart_ignore_reset = 0; /* FIXME: only used by datasette.c, does it real
 
 /* additional random delay of up to 10 frames */
 #define AUTOSTART_RAND() (1 + (int)(((float)machine_get_cycles_per_frame()) * 10.0f * rand() / (RAND_MAX + 1.0)))
+
+/* flag for special case handling of C128 80 columns mode */
+static int c128_column4080_key;
 
 /* ------------------------------------------------------------------------- */
 
@@ -433,7 +437,7 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
 
     line_length = (int)(lnmx < 0 ? -lnmx : mem_read((WORD)(lnmx)) + 1);
 
-    DBG(("check(%s)", s));
+    DBG(("check(%s) addr:%04x column:%d, linelen:%d blnsw:%04x(%d)", s, screen_addr, cursor_column, line_length, blnsw, mem_read(blnsw)));
 
     if (!kbdbuf_is_empty()) {
         return NOT_YET;
@@ -461,7 +465,6 @@ static enum { YES, NO, NOT_YET } check(const char *s, unsigned int blink_mode)
             return NOT_YET;
         }
     }
-
     return YES;
 }
 
@@ -615,10 +618,32 @@ void autostart_trigger_monitor(int enable)
     trigger_monitor = enable;
 }
 
+/* this is called after successful loading */
+static void autostart_finish(void)
+{
+    if (autostart_run_mode == AUTOSTART_MODE_RUN) {
+        log_message(autostart_log, "Starting program.");
+        if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
+            kbdbuf_feed("GRAPHIC5:");
+        }
+        kbdbuf_feed(AutostartRunCommand);
+    } else {
+        log_message(autostart_log, "Program loaded.");
+        if ((machine_class == VICE_MACHINE_C128) && (c128_column4080_key == 0)) {
+            kbdbuf_feed("GRAPHIC5\x0d");
+        }
+    }
+}
+
 /* This is called if all steps of an autostart operation were passed successfully */
-void autostart_done(void)
+static void autostart_done(void)
 {
     autostartmode = AUTOSTART_DONE;
+
+    if (machine_class == VICE_MACHINE_C128) {
+        /* restore original state of key */
+        resources_set_int("40/80ColumnKey", c128_column4080_key);
+    }
 
     /* Enter monitor after done */
     if (trigger_monitor) {
@@ -653,12 +678,7 @@ static void disk_eof_callback(void)
     }
 
     if (autostartmode != AUTOSTART_NONE) {
-        if (autostart_run_mode == AUTOSTART_MODE_RUN) {
-            log_message(autostart_log, "Starting program.");
-            kbdbuf_feed(AutostartRunCommand);
-        } else {
-            log_message(autostart_log, "Program loaded.");
-        }
+        autostart_finish();
     }
 
     autostart_done();
@@ -729,11 +749,7 @@ static void advance_loadingtape(void)
     switch (check("READY.", AUTOSTART_WAIT_BLINK)) {
         case YES:
             disable_warp_if_was_requested();
-
-            if (autostart_run_mode == AUTOSTART_MODE_RUN) {
-                log_message(autostart_log, "Starting program.");
-                kbdbuf_feed(AutostartRunCommand);
-            }
+            autostart_finish();
             autostart_done();
             break;
         case NO:
@@ -783,10 +799,12 @@ static void advance_hasdisk(void)
                     traps = 0;
                 }
             }
+
             tmp = lib_msprintf("LOAD\"%s\",8%s:\r",
                                autostart_program_name ?
                                autostart_program_name : "*",
                                autostart_basic_load ? "" : ",1");
+            DBG(("advance_hasdisk '%s'", tmp));
             kbdbuf_feed(tmp);
             lib_free(tmp);
 
@@ -795,9 +813,7 @@ static void advance_hasdisk(void)
                     autostartmode = AUTOSTART_WAITSEARCHINGFOR;
                 } else {
                     /* be most compatible if warp is disabled */
-                    if (autostart_run_mode == AUTOSTART_MODE_RUN) {
-                        kbdbuf_feed(AutostartRunCommand);
-                    }
+                    autostart_finish();
                     autostart_done();
                 }
             } else {
@@ -881,11 +897,7 @@ static void advance_waitloadready(void)
         case YES:
             log_message(autostart_log, "Ready");
             disable_warp_if_was_requested();
-
-            if (autostart_run_mode == AUTOSTART_MODE_RUN) {
-                kbdbuf_feed(AutostartRunCommand);
-                log_message(autostart_log, "Running program");
-            }
+            autostart_finish();
             autostart_done();
             break;
         case NO:
@@ -984,6 +996,14 @@ static void reboot_for_autostart(const char *program_name, unsigned int mode,
 
     log_message(autostart_log, "Resetting the machine to autostart '%s'",
                 program_name ? program_name : "*");
+
+    /* on x128 autostart will only work in 40 columns mode (and can not be fixed
+       easily for VDC mode). We work around that by switching to 40 columns and
+       back if needed */
+    if (machine_class == VICE_MACHINE_C128) {
+        resources_get_int("40/80ColumnKey", &c128_column4080_key);
+        resources_set_int("40/80ColumnKey", 1);
+    }
 
     mem_powerup();
 
