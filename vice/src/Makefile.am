@@ -826,7 +826,7 @@ x64sc_bin =
 endif
 
 if SUPPORT_XSCPU64
-xscpu64_owbin = xscpu64
+xscpu64_owbin = xscpu64ow
 xscpu64_bin = xscpu64
 else
 xscpu64_owbin =
