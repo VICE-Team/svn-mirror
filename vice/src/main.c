@@ -107,7 +107,10 @@ int main_program(int argc, char **argv)
             if ((i + 1) < argc) {
                 vice_config_file = lib_stralloc(argv[++i]);
             }
-        } else if ((!strcmp(argv[i], "-help")) || (!strcmp(argv[i], "--help"))) {
+        } else if ((!strcmp(argv[i], "-help")) ||
+                   (!strcmp(argv[i], "--help")) ||
+                   (!strcmp(argv[i], "-h")) ||
+                   (!strcmp(argv[i], "-?"))) {
             ishelp = 1;
         }
     }
