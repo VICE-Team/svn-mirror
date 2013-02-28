@@ -346,7 +346,11 @@ static int ffmpegmovie_init_audio(int speed, int channels, soundmovie_buffer_t *
     c = st->codec;
     c->codec_id = ffmpegdrv_fmt->audio_codec;
     c->codec_type = AVMEDIA_TYPE_AUDIO;
+#if LIBAVFORMAT_VERSION_MAJOR < 53
     c->sample_fmt = SAMPLE_FMT_S16;
+#else
+    c->sample_fmt = AV_SAMPLE_FMT_S16;
+#endif
 
     /* put sample parameters */
     c->bit_rate = audio_bitrate;
@@ -621,13 +625,16 @@ static int ffmpegdrv_init_file(void)
         return 0;
     }
 
+#if LIBAVFORMAT_VERSION_MAJOR < 53
     if ((*ffmpeglib.p_av_set_parameters)(ffmpegdrv_oc, NULL) < 0) {
         log_debug("ffmpegdrv: Invalid output format parameters");
         return -1;
     }
 
     (*ffmpeglib.p_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
-
+#else
+    (*ffmpeglib.p_av_dump_format)(ffmpegdrv_oc, 0, ffmpegdrv_oc->filename, 1);
+#endif
     if (video_st && (ffmpegdrv_open_video(ffmpegdrv_oc, video_st) < 0)) {
         ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_VSTREAM));
         screenshot_stop_recording();
@@ -640,15 +647,24 @@ static int ffmpegdrv_init_file(void)
     }
 
     if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
+#if LIBAVFORMAT_VERSION_MAJOR < 53
         if ((*ffmpeglib.p_url_fopen)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
                                      URL_WRONLY) < 0) {
+#else
+        if ((*ffmpeglib.p_avio_open)(&ffmpegdrv_oc->pb, ffmpegdrv_oc->filename,
+                            AVIO_FLAG_WRITE) < 0) {
+#endif
             ui_error(translate_text(IDGS_FFMPEG_CANNOT_OPEN_S), ffmpegdrv_oc->filename);
             screenshot_stop_recording();
             return -1;
         }
     }
 
+#if LIBAVFORMAT_VERSION_MAJOR < 53
     (*ffmpeglib.p_av_write_header)(ffmpegdrv_oc);
+#else
+    (*ffmpeglib.p_avformat_write_header)(ffmpegdrv_oc,NULL);
+#endif
 
     log_debug("ffmpegdrv: Initialized file successfully");
 
@@ -737,7 +753,11 @@ static int ffmpegdrv_close(screenshot_t *screenshot)
         (*ffmpeglib.p_av_write_trailer)(ffmpegdrv_oc);
         if (!(ffmpegdrv_fmt->flags & AVFMT_NOFILE)) {
             /* close the output file */
+#if LIBAVFORMAT_VERSION_MAJOR < 53
             (*ffmpeglib.p_url_fclose)(ffmpegdrv_oc->pb);
+#else
+            (*ffmpeglib.p_avio_close)(ffmpegdrv_oc->pb);
+#endif
         }
     }
 

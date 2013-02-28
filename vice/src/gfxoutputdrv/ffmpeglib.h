@@ -81,13 +81,23 @@ typedef int (*avpicture_get_size_t)(int, int, int);
 typedef void (*av_init_packet_t)(AVPacket *pkt);
 typedef void (*av_register_all_t)(void);
 typedef AVStream* (*av_new_stream_t)(AVFormatContext*, int);
+#if LIBAVFORMAT_VERSION_MAJOR < 53
 typedef int (*av_set_parameters_t)(AVFormatContext*, AVFormatParameters*);
 typedef int (*av_write_header_t)(AVFormatContext*);
+#else
+typedef int (*avformat_write_header_t) (AVFormatContext*,AVDictionary **);
+#endif
 typedef int (*av_write_frame_t)(AVFormatContext*, AVPacket*);
 typedef int (*av_write_trailer_t)(AVFormatContext*);
+#if LIBAVFORMAT_VERSION_MAJOR < 53
 typedef int (*url_fopen_t)(ByteIOContext**, const char*, int);
 typedef int (*url_fclose_t)(ByteIOContext*);
 typedef void (*dump_format_t)(AVFormatContext *, int, const char*, int);
+#else
+typedef int (*avio_open_t) (AVIOContext**, const char*, int);
+typedef int (*avio_close_t) (AVIOContext*);
+typedef void (*av_dump_format_t) (AVFormatContext *, int, const char*, int);
+#endif
 typedef AVOutputFormat* (*av_guess_format_t)(const char*, const char*, const char*);
 typedef int (*img_convert_t)(AVPicture*, int, AVPicture*, int, int, int);
 
@@ -119,13 +129,23 @@ struct ffmpeglib_s {
     av_init_packet_t            p_av_init_packet;
     av_register_all_t           p_av_register_all;
     av_new_stream_t             p_av_new_stream;
+#if LIBAVFORMAT_VERSION_MAJOR >= 53
+    avformat_write_header_t     p_avformat_write_header;
+#else
     av_set_parameters_t         p_av_set_parameters;
     av_write_header_t           p_av_write_header;
+#endif
     av_write_frame_t            p_av_write_frame;
     av_write_trailer_t          p_av_write_trailer;
+#if LIBAVFORMAT_VERSION_MAJOR >= 53
+    avio_open_t                 p_avio_open;
+    avio_close_t                p_avio_close;
+    av_dump_format_t            p_av_dump_format;
+#else
     url_fopen_t                 p_url_fopen;
     url_fclose_t                p_url_fclose;
     dump_format_t               p_dump_format;
+#endif
 #if LIBAVFORMAT_VERSION_MAJOR < 53
     guess_format_t              p_guess_format;
 #else
