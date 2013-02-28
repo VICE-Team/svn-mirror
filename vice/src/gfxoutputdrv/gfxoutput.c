@@ -91,34 +91,36 @@ gfxoutputdrv_t *gfxoutput_drivers_iter_next(void)
     return NULL;
 }
 
-int gfxoutput_early_init(void)
+int gfxoutput_early_init(int drivers)
 {
     /* Initialize graphics output driver list.  */
     gfxoutputdrv_list = lib_malloc(sizeof(gfxoutputdrv_list_t));
     gfxoutputdrv_list->drv = NULL;
     gfxoutputdrv_list->next = NULL;
 
-    gfxoutput_init_bmp();
-    gfxoutput_init_doodle();
-    gfxoutput_init_koala();
+    if (drivers) {
+        gfxoutput_init_bmp();
+        gfxoutput_init_doodle();
+        gfxoutput_init_koala();
 #if defined(HAVE_GIF) || (defined(WIN32) && !defined(USE_SDLUI))
-    gfxoutput_init_gif();
+        gfxoutput_init_gif();
 #endif
-    gfxoutput_init_iff();
+        gfxoutput_init_iff();
 #ifdef HAVE_JPEG
-    gfxoutput_init_jpeg();
+        gfxoutput_init_jpeg();
 #endif
-    gfxoutput_init_pcx();
+        gfxoutput_init_pcx();
 #ifdef HAVE_PNG
-    gfxoutput_init_png();
+        gfxoutput_init_png();
 #endif
-    gfxoutput_init_ppm();
+        gfxoutput_init_ppm();
 #ifdef HAVE_FFMPEG
-    gfxoutput_init_ffmpeg();
+        gfxoutput_init_ffmpeg();
 #endif
 #ifdef HAVE_QUICKTIME
-    gfxoutput_init_quicktime();
+        gfxoutput_init_quicktime();
 #endif
+    }
 
     return 0;
 }
@@ -197,7 +199,7 @@ gfxoutputdrv_t *gfxoutput_get_driver(const char *drvname)
     return current->drv;
 }
 
-int gfxoutput_resources_init()
+int gfxoutput_resources_init(void)
 {
     gfxoutputdrv_list_t *current = gfxoutputdrv_list;
 
@@ -215,7 +217,7 @@ int gfxoutput_resources_init()
     return 0;
 }
 
-int gfxoutput_cmdline_options_init()
+int gfxoutput_cmdline_options_init(void)
 {
     gfxoutputdrv_list_t *current = gfxoutputdrv_list;
 

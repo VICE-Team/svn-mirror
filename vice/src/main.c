@@ -89,6 +89,7 @@ int main_program(int argc, char **argv)
 {
     int i;
     char *program_name;
+    int ishelp = 0;
 
     /* Check for -config and -console before initializing the user interface.
        -config  => use specified configuration file
@@ -97,15 +98,17 @@ int main_program(int argc, char **argv)
     DBG(("main:early cmdline(argc:%d)\n", argc));
     for (i = 0; i < argc; i++) {
 #ifndef __OS2__
-        if (strcmp(argv[i], "-console") == 0) {
+        if ((!strcmp(argv[i], "-console")) || (!strcmp(argv[i], "--console"))) {
             console_mode = 1;
             video_disabled_mode = 1;
         } else
 #endif
-        if (strcmp(argv[i], "-config") == 0) {
+        if ((!strcmp(argv[i], "-config")) || (!strcmp(argv[i], "--config"))) {
             if ((i + 1) < argc) {
                 vice_config_file = lib_stralloc(argv[++i]);
             }
+        } else if ((!strcmp(argv[i], "-help")) || (!strcmp(argv[i], "--help"))) {
+            ishelp = 1;
         }
     }
 
@@ -133,8 +136,7 @@ int main_program(int argc, char **argv)
     /* Initialize system file locator.  */
     sysfile_init(machine_name);
 
-    gfxoutput_early_init();
-
+    gfxoutput_early_init(!ishelp);
     if (init_resources() < 0 || init_cmdline_options() < 0) {
         return -1;
     }
@@ -159,13 +161,15 @@ int main_program(int argc, char **argv)
     translate_arch_language_init();
 #endif
 
-    /* Load the user's default configuration file.  */
-    if (resources_load(NULL) < 0) {
-        /* The resource file might contain errors, and thus certain
-           resources might have been initialized anyway.  */
-        if (resources_set_defaults() < 0) {
-            archdep_startup_log_error("Cannot set defaults.\n");
-            return -1;
+    if (!ishelp) {
+        /* Load the user's default configuration file.  */
+        if (resources_load(NULL) < 0) {
+            /* The resource file might contain errors, and thus certain
+            resources might have been initialized anyway.  */
+            if (resources_set_defaults() < 0) {
+                archdep_startup_log_error("Cannot set defaults.\n");
+                return -1;
+            }
         }
     }
 
