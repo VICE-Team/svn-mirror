@@ -51,6 +51,10 @@
 #include "videoarch.h"
 #include "vsync.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
+
 static UI_CALLBACK(info_dialog_close_callback)
 {
     *((ui_button_t *)UI_MENU_CB_PARAM) = 1;
@@ -138,7 +142,11 @@ UI_CALLBACK(ui_about)
                                         "",
                                         "V I C E",
                                         "",
+#ifdef USE_SVN_REVISION
+                                        "Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#else
                                         "Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#endif
 #ifdef UNSTABLE
                                         "(unstable)",
 #endif

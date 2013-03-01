@@ -336,6 +336,7 @@ EXTRA_DIST = \
 	debug.h.in \
 	fixpoint.c \
 	geninfocontrib_h.sh \
+	gensvnversion.sh \
 	gentranslate_h.sh \
 	gentranslate_h.sh.in \
 	gentranslatetable.sh \
@@ -449,15 +450,26 @@ else
 OWCC_LIBS =
 endif
 
+if USE_SVN_REVISION
+SVN_VERSION_HEADER = svnversion.h
+else
+SVN_VERSION_HEADER =
+endif
+
 if HAVE_TRANSLATION
-BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
+BUILT_SOURCES = translate.h translate_table.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 
 translate_table.h:	$(srcdir)/translate.txt $(srcdir)/gentranslatetable.sh
 	echo "generating translate_table.h..."
 	$(SHELL) $(srcdir)/gentranslatetable.sh <$(srcdir)/translate.txt >translate_table.h
 else
-BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) infocontrib.h
+BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 endif
+
+svnversion.h:	$(srcdir)/svnversion_dummy.h
+	echo "generating svnversion.h"
+	$(SHELL) $(srcdir)/gensvnversion.sh >$(srcdir)/svnversion.h $(SVN)
+	touch svnversion_dummy.h
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi
 	echo "generating infocontrib.h..."

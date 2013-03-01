@@ -46,6 +46,10 @@
 #include "version.h"
 #include "winmain.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
+
 int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
 {
     char *version;
@@ -54,9 +58,17 @@ int CALLBACK about_dialog_proc(HWND dialog, UINT msg, UINT wparam, LONG lparam)
     switch (msg) {
         case WM_INITDIALOG:
 #ifdef UNSTABLE
+#ifdef USE_SVN_REVISION
+            version = lib_msprintf(translate_text(IDS_VERSION_S_REV_S_UNSTABLE), VERSION, VICE_SVN_REV_STRING, PLATFORM);
+#else
             version = lib_msprintf(translate_text(IDS_VERSION_S_UNSTABLE), VERSION, PLATFORM);
+#endif
 #else /* #ifdef UNSTABLE */
+#ifdef USE_SVN_REVISION
+            version = lib_msprintf(translate_text(IDS_VERSION_S_REV_S), VERSION, VICE_SVN_REV_STRING, PLATFORM);
+#else
             version = lib_msprintf(translate_text(IDS_VERSION_S), VERSION, PLATFORM);
+#endif
 #endif /* #ifdef UNSTABLE */
             st_version = system_mbstowcs_alloc(version);
             SetDlgItemText(dialog, IDC_ABOUT_VERSION, st_version);

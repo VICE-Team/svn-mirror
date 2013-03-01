@@ -31,6 +31,10 @@
 #include "uiarch.h"
 #include "version.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
+
 GtkWidget *about;
 
 static void license_cb(GtkWidget *w, GdkEvent *event, gpointer data)
@@ -119,6 +123,9 @@ void ui_about(gpointer data)
         about = g_object_new(GTK_TYPE_ABOUT_DIALOG,
                              "name", "V I C E",
                              "version", VERSION " (GTK+ " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#ifdef USE_SVN_REVISION
+                             "revision", VICE_SVN_REV_STRING,
+#endif
                              "copyright", _("(c) 1998 - 2013 The VICE Team"),
                              "comments", "Versatile Commodore Emulator",
                              "authors", authors,

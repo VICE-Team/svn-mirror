@@ -42,6 +42,10 @@
 #include "util.h"
 #include "version.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
+
 #ifdef WINMIPS
 static char *concat_all(char **text)
 {
@@ -318,7 +322,11 @@ static UI_MENU_CALLBACK(about_callback)
         sdl_ui_clear();
         sdl_ui_print_center("VICE", 0);
         sdl_ui_print_center("Versatile Commodore Emulator", 1);
+#ifdef USE_SVN_REVISION
+        sdl_ui_print_center("Version " VERSION " rev " VICE_SVN_REV_STRING, 2);
+#else
         sdl_ui_print_center("Version " VERSION, 2);
+#endif
         sdl_ui_print_center("SDL " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER, 3);
         sdl_ui_print_center("The VICE Team", 5);
         sdl_ui_print_center("(C) 1998-2013 Dag Lem", 6);

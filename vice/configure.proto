@@ -303,6 +303,7 @@ AC_PROG_CPP
 AC_CHECK_PROG(AR, ar, ar, ar)
 AC_CHECK_TOOL(RANLIB, ranlib, :)
 AC_CHECK_TOOL(STRIP, strip, :)
+AC_CHECK_PROG(SVN, svn, svn, :)
 AC_PROG_INSTALL
 AC_PROG_LN_S
 AC_PROG_YACC
@@ -320,6 +321,18 @@ else
 fi
 
 AC_CHECK_PROGS(DOS2UNIX, dos2unix, dos2unix)
+
+if test x"$SVN" != "x:"; then
+  svnrevision=`$SVN info -r 'HEAD' | grep Revision | cut -d " " -f 2`
+  if test x"$svnrevision" != "x"; then
+    AM_CONDITIONAL(USE_SVN_REVISION, true)
+    AC_DEFINE(USE_SVN_REVISION,,[define when using the svn revision in addition to the version])
+  else
+    AM_CONDITIONAL(USE_SVN_REVISION, false)
+  fi
+else
+  AM_CONDITIONAL(USE_SVN_REVISION, false)
+fi
 
 dnl Setup crosscompiling.
 if test x"$host_vendor" = "xgo32" -o x"$host_vendor" = "xmsdos" -o x"$host_os" = "xmsdosdjgpp"; then

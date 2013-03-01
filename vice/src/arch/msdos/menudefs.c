@@ -78,6 +78,9 @@
 #include "video.h"
 #include "videoarch.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
 
 /* ------------------------------------------------------------------------- */
 
@@ -573,7 +576,11 @@ static TUI_MENU_CALLBACK(show_copyright_callback)
     if (been_activated) {
         const char *str_list = "\n"
                                "                               V I C E\n"
+#ifdef USE_SVN_REVISION
+                               "                             Version " VERSION "rev " VICE_SVN_REV_STRING "\n"
+#else
                                "                             Version " VERSION "\n"
+#endif
 #ifdef UNSTABLE
                                "                              (unstable)\n"
 #endif

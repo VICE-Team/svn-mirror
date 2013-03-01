@@ -98,6 +98,10 @@ extern "C" {
 #include "vicewindow.h"
 #include "videoarch.h"
 #include "vsync.h"
+
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
 }
 
 /* sometimes we may need pointers to the ViceWindows */
@@ -883,7 +887,11 @@ void ui_dispatch_events(void)
             case MENU_ABOUT:
                 char *abouttext;
 
+#ifdef USE_SVN_REVISION
+                abouttext = util_concat("BeVICE Version ", VERSION, "rev " VICE_SVN_REV_STRING " (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n",
+#else
                 abouttext = util_concat("BeVICE Version ", VERSION, " (", PLATFORM_CPU, " ", PLATFORM_OS, " ", PLATFORM_COMPILER, ")\n",
+#endif
                                         "(c) 1998-2013 Dag Lem\n",
                                         "(c) 1999-2013 Andreas Matthies\n",
                                         "(c) 1999-2013 Martin Pottendorfer\n",

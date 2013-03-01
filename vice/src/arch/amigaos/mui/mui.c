@@ -40,6 +40,10 @@
 #include "intl.h"
 #include "translate.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
+
 ui_to_from_t *ui_find_resource(ui_to_from_t *data, char *resource)
 {
     while (data->resource != NULL) {
@@ -396,7 +400,11 @@ void ui_about(void)
         "",
         "Versatile Commodore Emulator",
         "",
+#ifdef USE_SVN_REVISION
+        "Version " VERSION "rev " VICE_SVN_REV_STRING " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#else
         "Version " VERSION " (" PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#endif
         "",
         "The VICE Team",
         "Copyright \xa9 1998-2013 Dag Lem",
