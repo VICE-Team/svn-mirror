@@ -28,7 +28,7 @@
 
 #include "vice.h"
 
-#ifndef USE_UI_THREADS
+#if !defined(USE_UI_THREADS) || !defined(HAVE_HWSCALE)
 #error "USE_UI_THREADS not evailable in config.h - check config.log"
 #endif
 
