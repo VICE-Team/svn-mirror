@@ -83,9 +83,7 @@ do_autoheader() {
 			do_command autoheader
 		fi
 	else
-		if [ ! x"`sed -ne "s/.*AM_CONFIG_HEADER\((.*)\).*/\1/p" configure.ac`" = x ]; then
-			do_command autoheader
-		fi
+		do_command autoheader
 	fi
 }
 
