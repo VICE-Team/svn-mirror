@@ -6,7 +6,7 @@ msgstr ""
 "Project-Id-Version: VICE 2.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-02-26 13:09-0800\n"
-"PO-Revision-Date: 2013-01-26 20:58+0100\n"
+"PO-Revision-Date: 2013-03-02 14:16+0100\n"
 "Last-Translator: pottendo (pottendo@gmx.net)\n"
 "Language-Team: de <de@li.org>\n"
 "Language: \n"
@@ -1789,7 +1789,7 @@ msgstr "Seitenverhältnis"
 #: src/arch/unix/gui/uicrtc.c:193 src/arch/unix/gui/uited.c:199
 #: src/arch/unix/gui/uivic.c:202 src/arch/unix/gui/uivicii.c:226
 msgid "Alpha Blending"
-msgstr ""
+msgstr "Alpha Blending"
 
 #: src/arch/unix/gui/uicrtc.c:199 src/arch/unix/gui/uited.c:205
 #: src/arch/unix/gui/uivdc.c:201 src/arch/unix/gui/uivic.c:208
@@ -4306,11 +4306,11 @@ msgstr "Floppy Geräuschlautstärke"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:76
 msgid "Display Thread Rate"
-msgstr ""
+msgstr "Darstellungsrate"
 
 #: src/arch/unix/x11/gnome/uipalcontrol.c:77
 msgid "Display Thread Ghosting"
-msgstr ""
+msgstr "Bildanzahl Alpha Blending"
 
 #. we cant properly add a margin around the frame label, so we add a
 #. leading space instead
@@ -11500,9 +11500,8 @@ msgid "Disable hardware scaling"
 msgstr "Hardwareunterstützung für Skalierung deaktivieren"
 
 #: src/translate_text.c.po.c:10803
-#, fuzzy
 msgid "Select rendering filter: (0: none, 1: CRT emulation, 2: scale2x)"
-msgstr "Wähle Rendering Filter, 0:kein, 1:CRT Emulation, 2: Scale2x"
+msgstr "Wähle Rendering Filter: (0: kein, 1: CRT Emulation, 2: Scale2x)"
 
 #: src/translate_text.c.po.c:10820
 msgid "Use an internal calculated palette"
