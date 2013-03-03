@@ -79,7 +79,7 @@
 23 0x17  roml      -         io        romh     ultimax
 
 24 0x18
-25 0x19                      chr
+25 0x19
 26 0x1a            romh      chr       ker
 27 0x1b  roml      romh      chr       ker      16k game
 28 0x1c
