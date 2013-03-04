@@ -261,25 +261,28 @@ char *ui_select_file(const char *title, read_contents_func_type read_contents_fu
 
     g_signal_connect(G_OBJECT(file_selector), "destroy", G_CALLBACK(gtk_widget_destroyed), &file_selector);
 
+    ui_popup(file_selector, title, FALSE);
     res = gtk_dialog_run(GTK_DIALOG(file_selector));
+    ui_popdown(file_selector);
+    
     switch (res) {
-        case GTK_RESPONSE_ACCEPT:
-        case GTK_RESPONSE_OK:
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selector));
-            *button_return = UI_BUTTON_OK;
-            break;
-        case GTK_RESPONSE_NO:
-            filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selector));
-            *button_return = UI_BUTTON_AUTOSTART;
-            break;
-        default:
-            *button_return = UI_BUTTON_CANCEL;
-            auto_start_button = NULL;
-            gtk_widget_destroy(file_selector);
-            return NULL;
-            break;
+    case GTK_RESPONSE_ACCEPT:
+    case GTK_RESPONSE_OK:
+	filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selector));
+	*button_return = UI_BUTTON_OK;
+	break;
+    case GTK_RESPONSE_NO:
+	filename = gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(file_selector));
+	*button_return = UI_BUTTON_AUTOSTART;
+	break;
+    default:
+	*button_return = UI_BUTTON_CANCEL;
+	auto_start_button = NULL;
+	gtk_widget_destroy(file_selector);
+	return NULL;
+	break;
     }
-
+    
     if (attach_wp) {
         *attach_wp = gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(wp));
     }
