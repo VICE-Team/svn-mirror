@@ -4,12 +4,7 @@
 #
 # written by Marco van den Heuvel <blackystardust68@yahoo.com>
 
-svnrevision=`$1 info -r 'HEAD' | grep Revision | cut -d " " -f 2`
-
-# see if we need to fall back on the local revision
-if test x"$svnrevision" = "x"; then
-  svnrevision=`$1 info | grep Revision | cut -d " " -f 2`
-fi
+svnrevision=`$1 info | grep Revision | cut -d " " -f 2`
 
 echo "/*"
 echo " * svnversion.h - SVN revision defines."
