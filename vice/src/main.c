@@ -69,6 +69,10 @@
 #include "version.h"
 #include "video.h"
 
+#ifdef USE_SVN_REVISION
+#include "svnversion.h"
+#endif
+
 #ifdef DEBUG_MAIN
 #define DBG(x)  printf x
 #else
@@ -189,7 +193,11 @@ int main_program(int argc, char **argv)
 
     /* VICE boot sequence.  */
     log_message(LOG_DEFAULT, " ");
+#ifdef USE_SVN_REVISION
+    log_message(LOG_DEFAULT, "*** VICE Version %s, rev %s ***", VERSION, VICE_SVN_REV_STRING);
+#else
     log_message(LOG_DEFAULT, "*** VICE Version %s ***", VERSION);
+#endif
     log_message(LOG_DEFAULT, "OS compiled for: %s", platform_get_compile_time_os());
     log_message(LOG_DEFAULT, "GUI compiled for: %s", platform_get_ui());
     log_message(LOG_DEFAULT, "CPU compiled for: %s", platform_get_compile_time_cpu());
