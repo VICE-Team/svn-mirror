@@ -64,10 +64,47 @@ static int move_buttons_group[] = {
     0
 };
 
+static int c64_models[] = {
+    IDS_C64_PAL,
+    IDS_C64C_PAL,
+    IDS_C64_OLD_PAL,
+    IDS_C64_NTSC,
+    IDS_C64C_NTSC,
+    IDS_C64_OLD_NTSC,
+    IDS_DREAN,
+    IDS_C64_SX_PAL,
+    IDS_C64_SX_NTSC,
+    IDS_JAPANESE,
+    IDS_C64_GS,
+    IDS_PET64_PAL,
+    IDS_PET64_NTSC,
+    IDS_MAX_MACHINE,
+    IDS_UNKNOWN,
+    0
+};
+
+static int c64_models_values[] = {
+    C64MODEL_C64_PAL,
+    C64MODEL_C64C_PAL,
+    C64MODEL_C64_OLD_PAL,
+    C64MODEL_C64_NTSC,
+    C64MODEL_C64C_NTSC,
+    C64MODEL_C64_OLD_NTSC,
+    C64MODEL_C64_PAL_N,
+    C64MODEL_C64SX_PAL,
+    C64MODEL_C64SX_NTSC,
+    C64MODEL_C64_JAP,
+    C64MODEL_C64_GS,
+    C64MODEL_PET64_PAL,
+    C64MODEL_PET64_NTSC,
+    C64MODEL_ULTIMAX,
+    C64MODEL_UNKNOWN
+};
+
 static void init_c64model_dialog(HWND hwnd)
 {
     HWND temp_hwnd;
-    int res_value;
+    int res_value, index;
     int xpos, i;
     RECT rect;
 
@@ -96,27 +133,19 @@ static void init_c64model_dialog(HWND hwnd)
     uilib_center_buttons(hwnd, move_buttons_group, 0);
 
     temp_hwnd = GetDlgItem(hwnd, IDC_C64MODEL_LIST);
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 PAL");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64C PAL");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 old PAL");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64C NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 old NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Drean");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 SX PAL");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 SX NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"Japanese");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"C64 GS");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"PET64 PAL");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"PET64 NTSC");
-    SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)"MAX Machine");
     res_value = c64model_get();
-    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    for (i = 0; c64_models[i] != 0; i++) {
+        SendMessage(temp_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(c64_models[i]));
+        if (res_value == c64_models_values[i]) {
+            index = i;
+        }
+    }
+    SendMessage(temp_hwnd, CB_SETCURSEL, (WPARAM)index, 0);
 }
 
 static void end_c64model_dialog(HWND hwnd)
 {
-    c64model_set((int)SendMessage(GetDlgItem(hwnd, IDC_C64MODEL_LIST), CB_GETCURSEL, 0, 0));
+    c64model_set((int)c64_models_values[SendMessage(GetDlgItem(hwnd, IDC_C64MODEL_LIST), CB_GETCURSEL, 0, 0)]);
 }
 
 static INT_PTR CALLBACK dialog_proc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
