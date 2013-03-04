@@ -638,7 +638,7 @@
         infoController = [[VICEInformationWindowController alloc] init];
     }
     [infoController showWindow:self];
-    [infoController setInformationText:[NSString stringWithCString:info encoding:NSUTF8StringEncoding]];
+    [infoController setInformationText:[NSString stringWithCString:info encoding:NSISOLatin1StringEncoding]];
 }
 
 // ----- Resource Updates -----
