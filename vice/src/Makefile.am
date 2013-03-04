@@ -466,9 +466,12 @@ else
 BUILT_SOURCES = translate.h $(EMBEDDED_H_FILES) $(OWCC_LIBS) $(SVN_VERSION_HEADER) infocontrib.h
 endif
 
-svnversion.h:	$(srcdir)/svnversion_dummy.h
+svnversion.h:	svnversion_dummy.h
 	echo "generating svnversion.h"
 	$(SHELL) $(srcdir)/gensvnversion.sh >$(srcdir)/svnversion.h $(SVN)
+	touch svnversion_dummy.h
+
+svnversion_dummy.h:
 	touch svnversion_dummy.h
 
 infocontrib.h:	$(top_srcdir)/doc/vice.texi
