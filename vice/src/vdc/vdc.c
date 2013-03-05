@@ -99,6 +99,7 @@ static void vdc_set_geometry(void)
     unsigned int vdc_25row_start_line, vdc_25row_stop_line;
     unsigned int displayed_width, displayed_height;
     unsigned int vdc_80col_start_pixel, vdc_80col_stop_pixel;
+    unsigned int charwidth;
 
     raster = &vdc.raster;
 
@@ -117,9 +118,13 @@ static void vdc_set_geometry(void)
     vdc_25row_start_line = border_height;
     vdc_25row_stop_line = vdc_25row_start_line + screen_ypix;
 
+    if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
+        charwidth = 2 * (vdc.regs[22] >> 4);
+    } else { /* 80 column mode */
+        charwidth = 1 + (vdc.regs[22] >> 4);
+    }
     vdc_80col_start_pixel = border_width;
-    /* FIXME this probably doesn't allow for char widths != 8 (or 16 in 40col mode) */
-    vdc_80col_stop_pixel = vdc_80col_start_pixel + ((vdc.regs[25] & 0x10) ? 16 : 8) * vdc.screen_text_cols; /* Allow for pixel-double (40col) mode */
+    vdc_80col_stop_pixel = vdc_80col_start_pixel + charwidth * vdc.screen_text_cols;
 
     displayed_width = VDC_SCREEN_WIDTH;
     displayed_height = last_displayed_line - first_displayed_line + 1;
@@ -150,7 +155,7 @@ printf("LD: %03i FD: %03i\n", last_displayed_line, first_displayed_line);
                         0, 0); /* extra off screen border left / right */
 
     raster->geometry->pixel_aspect_ratio = vdc_get_pixel_aspect();
-    raster->geometry->char_pixel_width = ((vdc.regs[25] & 0x10) ? 16 : 8);
+    raster->geometry->char_pixel_width = charwidth;
     raster->viewport->crt_type = vdc_get_crt_type();
 }
 
@@ -268,6 +273,9 @@ static void vdc_update_geometry(void)
                 screen_text_cols
                 hsync_shift
                 border_width    */
+    
+    int charwidth, hsync;
+
     /* Leave this fixed so the window isn't getting constantly resized */
     vdc.screen_height = VDC_SCREEN_HEIGHT;
 
@@ -290,17 +298,25 @@ static void vdc_update_geometry(void)
         vdc.screen_text_cols = VDC_SCREEN_MAX_TEXTCOLS;
     }
 
-    /* FIXME the horizontal positioning just looks wrong and could put the screen all over the place, and doesn't allow for char widths != 8 */
-    vdc.hsync_shift = 80 + (102 - vdc.regs[2]) * 8;
     if(vdc.regs[25] & 0x10) { /* double pixel a.k.a 40column mode */
-        vdc.hsync_shift = 80 + (55 - vdc.regs[2]) * 16;
+        charwidth = 2 * (vdc.regs[22] >> 4);
+        hsync = 62 * 16            /* 992 */
+            - vdc.regs[2] * charwidth;       /* default (55) - 880 = 112 */
+    } else { /* 80 column mode */
+        charwidth = 1 + (vdc.regs[22] >> 4);
+        hsync = 116 * 8            /* 928 */
+            - vdc.regs[2] * charwidth;       /* default (102) - 816 = 112 */
     }
-
-    if ((VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8 < vdc.hsync_shift) {
-        vdc.hsync_shift = (VDC_SCREEN_MAX_TEXTCOLS - vdc.screen_text_cols) * 8;
+    if (hsync < 0) {
+            hsync = 0;
     }
+    vdc.hsync_shift = hsync;
 
-    vdc.border_width = VDC_SCREEN_BORDERWIDTH + vdc.hsync_shift;
+    /* clamp the display within the right edge of the screen */
+    if (vdc.hsync_shift + (vdc.screen_text_cols * charwidth) > VDC_SCREEN_WIDTH ) {
+        vdc.hsync_shift = VDC_SCREEN_WIDTH - (vdc.screen_text_cols * charwidth);
+    }
+    vdc.border_width = vdc.hsync_shift;
 
     vdc.update_geometry = 0;
 }

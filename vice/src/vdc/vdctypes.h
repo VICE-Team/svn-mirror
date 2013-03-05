@@ -40,7 +40,7 @@
 
 #define VDC_DOT_CLOCK 16000000.0
 
-#define VDC_SCREEN_WIDTH              848 /* Approx resolution based on experiment - real vdc has ~106 columns * 8 = 848 */
+#define VDC_SCREEN_WIDTH              856 /* Approx resolution based on experiment - real vdc shows ~107 columns * 8 = 856 */
 #define VDC_SCREEN_HEIGHT             312 /* Vertical resolution (PAL) based on default kernal settings */
 
 #define VDC_SCREEN_XPIX               800
