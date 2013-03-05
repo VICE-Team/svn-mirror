@@ -468,7 +468,7 @@ endif
 
 svnversion.h:	svnversion_dummy.h
 	echo "generating svnversion.h"
-	$(SHELL) $(srcdir)/gensvnversion.sh >$(srcdir)/svnversion.h $(SVN)
+	$(SHELL) $(srcdir)/gensvnversion.sh >$(srcdir)/svnversion.h $(SVN) $(top_srcdir)
 	touch svnversion_dummy.h
 
 svnversion_dummy.h:
