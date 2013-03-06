@@ -226,9 +226,12 @@ static int output_option;
 
 /* divisors for fragment size calculation */
 static int fragment_divisor[] = {
-    4, /* 5ms */
-    2, /* 10 ms */
-    1  /* 20 ms */
+    32, /* 100ms / 32 = 0.625ms */
+    16, /* 100ms / 16 = 1.25ms */
+     8, /* 100ms / 8 = 2.5ms */
+     4, /* 100ms / 4 = 5ms */
+     2, /* 100ms / 2 = 10 ms */
+     1  /* 100ms / 1 = 20 ms, actually unused (since it is not practical) */
 };
 
 /* I need this to serialize close_sound and enablesound/sound_open in
@@ -315,6 +318,11 @@ static int set_buffer_size(int val, void *param)
 
 static int set_fragment_size(int val, void *param)
 {
+    if (val < 0) {
+        val = 0;
+    } else if (val > SOUND_FRAGMENT_VERY_LARGE) {
+        val = SOUND_FRAGMENT_VERY_LARGE;
+    }
     fragment_size = val;
     sound_state_changed = TRUE;
     return 0;
@@ -831,6 +839,9 @@ int sound_open(void)
      * audio is generated. It also improves the estimate of optimal frame
      * length for vsync, which is closely tied to audio and uses the fragment
      * information to calculate it. */
+    /* note: in practise it is actually better to use fragments that are as
+     *       small as possible, as that will allow the whole system to catch up
+     *       faster and compensate errors better. */
     fragsize = speed / ((rfsh_per_sec < 1.0) ? 1 : ((int)rfsh_per_sec))
                / fragment_divisor[fragment_size];
     if (pdev) {

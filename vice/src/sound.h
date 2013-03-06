@@ -116,9 +116,11 @@ static inline SWORD sound_audio_mix(int ch1, int ch2)
 #define SOUND_ADJUST_EXACT      2
 
 /* Fragment sizes */
-#define SOUND_FRAGMENT_SMALL    0
-#define SOUND_FRAGMENT_MEDIUM   1
-#define SOUND_FRAGMENT_LARGE    2
+#define SOUND_FRAGMENT_VERY_SMALL    0
+#define SOUND_FRAGMENT_SMALL         1
+#define SOUND_FRAGMENT_MEDIUM        2
+#define SOUND_FRAGMENT_LARGE         3
+#define SOUND_FRAGMENT_VERY_LARGE    4
 
 /* Sound output modes */
 #define SOUND_OUTPUT_SYSTEM   0
