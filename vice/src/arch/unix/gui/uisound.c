@@ -88,12 +88,16 @@ static ui_menu_entry_t set_sound_buffer_size_submenu[] = {
 };
 
 static ui_menu_entry_t set_sound_fragment_size_submenu[] = {
+    { N_("Very small"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
+      (ui_callback_data_t)SOUND_FRAGMENT_VERY_SMALL, NULL },
     { N_("Small"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
       (ui_callback_data_t)SOUND_FRAGMENT_SMALL, NULL },
     { N_("Medium"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
       (ui_callback_data_t)SOUND_FRAGMENT_MEDIUM, NULL },
     { N_("Large"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
       (ui_callback_data_t)SOUND_FRAGMENT_LARGE, NULL },
+    { N_("Very large"), UI_MENU_TYPE_TICK, (ui_callback_t)radio_SoundFragmentSize,
+      (ui_callback_data_t)SOUND_FRAGMENT_VERY_LARGE, NULL },
     { NULL }
 };
 
