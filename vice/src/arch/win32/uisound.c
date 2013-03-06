@@ -69,6 +69,24 @@ static int ui_sound_adjusting[] = {
     SOUND_ADJUST_EXACT
 };
 
+static int ui_sound_fragment_size[] = {
+    IDS_SOUND_FRAGMENT_SIZE_V_SMALL,
+    IDS_SOUND_FRAGMENT_SIZE_SMALL,
+    IDS_SOUND_FRAGMENT_SIZE_MEDIUM,
+    IDS_SOUND_FRAGMENT_SIZE_LARGE,
+    IDS_SOUND_FRAGMENT_SIZE_V_LARGE,
+    0
+};
+
+static int ui_sound_fragment_size_values[] = {
+    SOUND_FRAGMENT_VERY_SMALL,
+    SOUND_FRAGMENT_SMALL,
+    SOUND_FRAGMENT_MEDIUM,
+    SOUND_FRAGMENT_LARGE,
+    SOUND_FRAGMENT_VERY_LARGE,
+    -1
+};
+
 static uilib_localize_dialog_param sound_dialog[] = {
     { 0, IDS_SOUND_CAPTION, -1 },
 #ifdef USE_DXSOUND
@@ -230,11 +248,13 @@ static void init_sound_dialog(HWND hwnd)
 #endif
         
     snd_hwnd = GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE);
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_SMALL));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_MEDIUM));
-    SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(IDS_SOUND_FRAGMENT_SIZE_LARGE));
     resources_get_int("SoundFragmentSize", &res_value);
-    SendMessage(snd_hwnd, CB_SETCURSEL, (WPARAM)res_value, 0);
+    for (i = 0; ui_sound_fragment_size[i] != 0; i++) {
+        SendMessage(snd_hwnd, CB_ADDSTRING, 0, (LPARAM)translate_text(ui_sound_fragment_size[i]));
+        if (ui_sound_fragment_size_values[i] == res_value) {
+            SendMessage(snd_hwnd, CB_SETCURSEL, i, 0);
+        }
+    }
 }
 
 static void end_sound_dialog(HWND hwnd)
@@ -242,7 +262,7 @@ static void end_sound_dialog(HWND hwnd)
     resources_set_int("SoundOutput", (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_OUTPUT), CB_GETCURSEL, 0, 0));
     resources_set_int("SoundSampleRate", ui_sound_freq[SendMessage(GetDlgItem(hwnd,IDC_SOUND_FREQ), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundBufferSize", ui_sound_buffer[SendMessage(GetDlgItem(hwnd,IDC_SOUND_BUFFER), CB_GETCURSEL, 0, 0)]);
-    resources_set_int("SoundFragmentSize", (int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE), CB_GETCURSEL, 0, 0));
+    resources_set_int("SoundFragmentSize", ui_sound_fragment_size_values[(int)SendMessage(GetDlgItem(hwnd, IDC_SOUND_FRAGMENT_SIZE), CB_GETCURSEL, 0, 0)]);
     resources_set_int("SoundSpeedAdjustment", ui_sound_adjusting[SendMessage(GetDlgItem(hwnd, IDC_SOUND_SYNCH), CB_GETCURSEL, 0, 0)]);
 }
 

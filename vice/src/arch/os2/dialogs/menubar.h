@@ -505,9 +505,11 @@
 #define IDM_SYNCADJUST               0x199
 #define IDM_SYNCEXACT                0x19a
 
+#define IDM_FRAGVERYSMALL            0x342
 #define IDM_FRAGSMALL                0x1c7
 #define IDM_FRAGMEDIUM               0x1c8
 #define IDM_FRAGLARGE                0x1c9
+#define IDM_FRAGVERYLARGE            0x343
 
 #define IDM_BUF010                   0x202
 #define IDM_BUF025                   0x205

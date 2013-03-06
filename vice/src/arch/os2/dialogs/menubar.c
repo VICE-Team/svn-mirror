@@ -1572,6 +1572,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
         case IDM_SYNCEXACT:
             resources_set_int("SoundSpeedAdjustment", idm - IDM_SYNCFLEX);
             return;
+        case IDM_FRAGVERYSMALL:
+            resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_VERY_SMALL);
+            return;
         case IDM_FRAGSMALL:
             resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_SMALL);
             return;
@@ -1580,6 +1583,9 @@ void menu_action(HWND hwnd, USHORT idm) //, MPARAM mp2)
             return;
         case IDM_FRAGLARGE:
             resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_LARGE);
+            return;
+        case IDM_FRAGVERYLARGE:
+            resources_set_int("SoundFragmentSize", SOUND_FRAGMENT_VERY_LARGE);
             return;
         case IDM_SR8000:
             resources_set_int("SoundSampleRate", 8000);
@@ -2678,9 +2684,11 @@ void menu_select(HWND hwnd, USHORT item)
             return;
         case IDM_SOUNDFRAG:
             resources_get_int("SoundFragmentSize", &val);
+            WinCheckMenuItem(hwnd, IDM_FRAGVERYSMALL, val == SOUND_FRAGMENT_VERY_SMALL);
             WinCheckMenuItem(hwnd, IDM_FRAGSMALL, val == SOUND_FRAGMENT_SMALL);
             WinCheckMenuItem(hwnd, IDM_FRAGMEDIUM, val == SOUND_FRAGMENT_MEDIUM);
             WinCheckMenuItem(hwnd, IDM_FRAGLARGE,  val == SOUND_FRAGMENT_LARGE);
+            WinCheckMenuItem(hwnd, IDM_FRAGVERYLARGE,  val == SOUND_FRAGMENT_VERY_LARGE);
             return;
         case IDM_SAMPLINGRATE:
             resources_get_int("SoundSampleRate", &val);

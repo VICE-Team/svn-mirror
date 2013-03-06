@@ -1270,9 +1270,11 @@ BEGIN
         END
         SUBMENU "~Fragment Size",                         IDM_SOUNDFRAG,                MIS_TEXT
         BEGIN
+            MENUITEM "~Very small",                       IDM_FRAGVERYSMALL,            MIS_TEXT
             MENUITEM "~Small",                            IDM_FRAGSMALL,                MIS_TEXT
             MENUITEM "~Medium",                           IDM_FRAGMEDIUM,               MIS_TEXT
             MENUITEM "~Large",                            IDM_FRAGLARGE,                MIS_TEXT
+            MENUITEM "V~ery large",                       IDM_FRAGVERYLARGE,            MIS_TEXT
         END
         SUBMENU "Output ~Device",                         IDM_SOUNDDEV,                 MIS_TEXT
         BEGIN

@@ -68,17 +68,22 @@ static char *ui_sound_adjusting_text[] = {
     "Exact"
 };
 
-static int ui_sound_fragment_size_count = 3;
+static int ui_sound_fragment_size_count = 5;
+
 static int ui_sound_fragment_size[] = {
+    SOUND_FRAGMENT_VERY_SMALL,
     SOUND_FRAGMENT_SMALL,
     SOUND_FRAGMENT_MEDIUM,
-    SOUND_FRAGMENT_LARGE
+    SOUND_FRAGMENT_LARGE,
+    SOUND_FRAGMENT_VERY_LARGE
 };
 
 static char *ui_sound_fragment_size_text[] = {
+    "Very small",
     "Small",
     "Medium",
     "Large"
+    "Very large"
 };
 
 class SoundWindow : public BWindow {

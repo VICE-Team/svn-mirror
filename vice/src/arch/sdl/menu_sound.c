@@ -280,6 +280,10 @@ static ui_menu_entry_t sound_output_mode_menu[] = {
 };
 
 static ui_menu_entry_t fragment_size_menu[] = {
+    { "Very small",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundFragmentSize_callback,
+      (ui_callback_data_t)SOUND_FRAGMENT_VERY_SMALL },
     { "Small",
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundFragmentSize_callback,
@@ -292,6 +296,10 @@ static ui_menu_entry_t fragment_size_menu[] = {
       MENU_ENTRY_RESOURCE_RADIO,
       radio_SoundFragmentSize_callback,
       (ui_callback_data_t)SOUND_FRAGMENT_LARGE },
+    { "Very large",
+      MENU_ENTRY_RESOURCE_RADIO,
+      radio_SoundFragmentSize_callback,
+      (ui_callback_data_t)SOUND_FRAGMENT_VERY_LARGE },
     SDL_MENU_LIST_END
 };
 

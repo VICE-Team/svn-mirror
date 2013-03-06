@@ -94,12 +94,16 @@ static TUI_MENU_CALLBACK(sound_fragment_size_submenu_callback)
     resources_get_int("SoundFragmentSize", &value);
 
     switch (value) {
+        case SOUND_FRAGMENT_VERY_SMALL:
+            return "Very small";
         case SOUND_FRAGMENT_SMALL:
             return "Small";
         case SOUND_FRAGMENT_MEDIUM:
             return "Medium";
         case SOUND_FRAGMENT_LARGE:
             return "Large";
+        case SOUND_FRAGMENT_VERY_LARGE:
+            return "Very large";
         default:
             return "Unknown";
     }
@@ -174,6 +178,10 @@ static tui_menu_item_def_t sound_synchronization_submenu[] = {
 };
 
 static tui_menu_item_def_t sound_fragment_size_submenu[] = {
+    { "_Very small",
+      "Use a very small fragment size",
+      radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_VERY_SMALL, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
     { "_Small",
       "Use a small fragment size",
       radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_SMALL, 0,
@@ -185,6 +193,10 @@ static tui_menu_item_def_t sound_fragment_size_submenu[] = {
     { "_Large",
       "Use a large fragment size",
       radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_LARGE, 0,
+      TUI_MENU_BEH_CLOSE, NULL, NULL },
+    { "V_ery large",
+      "Use a very large fragment size",
+      radio_SoundFragmentSize_callback, (void *)SOUND_FRAGMENT_VERY_LARGE, 0,
       TUI_MENU_BEH_CLOSE, NULL, NULL },
     { NULL }
 };

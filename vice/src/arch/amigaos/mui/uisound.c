@@ -90,18 +90,22 @@ static const int ui_sound_adjusting_values[] = {
 };
 
 static int ui_sound_fragment_size_translate[] = {
+    IDS_VERY_SMALL,
     IDS_SMALL,
     IDS_MEDIUM,
     IDS_LARGE,
+    IDS_VERY_LARGE,
     0
 };
 
 static char *ui_sound_fragment_size[countof(ui_sound_fragment_size_translate)];
 
 static const int ui_sound_fragment_size_values[] = {
+    SOUND_FRAGMENT_VERY_SMALL,
     SOUND_FRAGMENT_SMALL,
     SOUND_FRAGMENT_MEDIUM,
     SOUND_FRAGMENT_LARGE,
+    SOUND_FRAGMENT_VERY_LARGE,
     -1
 };
 

@@ -11269,6 +11269,20 @@ intl_translate_t intl_string_table[] = {
 /* sv */ { IDS_SOUND_RECORD_SETTINGS_SV, "Inställningar för ljudinspelning" },
 /* tr */ { IDS_SOUND_RECORD_SETTINGS_TR, "Ses kayýt ayarlarý" },
 
+/* en */ { IDS_VERY_SMALL,    "Very small" },
+/* da */ { IDS_VERY_SMALL_DA, "" },  /* fuzzy */
+/* de */ { IDS_VERY_SMALL_DE, "" },  /* fuzzy */
+/* es */ { IDS_VERY_SMALL_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VERY_SMALL_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VERY_SMALL_HU, "" },  /* fuzzy */
+/* it */ { IDS_VERY_SMALL_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VERY_SMALL_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VERY_SMALL_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VERY_SMALL_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VERY_SMALL_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VERY_SMALL_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VERY_SMALL_TR, "" },  /* fuzzy */
+
 /* en */ { IDS_SMALL,    "Small" },
 /* da */ { IDS_SMALL_DA, "Lille" },
 /* de */ { IDS_SMALL_DE, "Klein" },
@@ -11310,6 +11324,20 @@ intl_translate_t intl_string_table[] = {
 /* ru */ { IDS_LARGE_RU, "±ÞÛìèÞÙ" },
 /* sv */ { IDS_LARGE_SV, "Stor" },
 /* tr */ { IDS_LARGE_TR, "Büyük" },
+
+/* en */ { IDS_VERY_LARGE,    "Very large" },
+/* da */ { IDS_VERY_LARGE_DA, "" },  /* fuzzy */
+/* de */ { IDS_VERY_LARGE_DE, "" },  /* fuzzy */
+/* es */ { IDS_VERY_LARGE_ES, "" },  /* fuzzy */
+/* fr */ { IDS_VERY_LARGE_FR, "" },  /* fuzzy */
+/* hu */ { IDS_VERY_LARGE_HU, "" },  /* fuzzy */
+/* it */ { IDS_VERY_LARGE_IT, "" },  /* fuzzy */
+/* ko */ { IDS_VERY_LARGE_KO, "" },  /* fuzzy */
+/* nl */ { IDS_VERY_LARGE_NL, "" },  /* fuzzy */
+/* pl */ { IDS_VERY_LARGE_PL, "" },  /* fuzzy */
+/* ru */ { IDS_VERY_LARGE_RU, "" },  /* fuzzy */
+/* sv */ { IDS_VERY_LARGE_SV, "" },  /* fuzzy */
+/* tr */ { IDS_VERY_LARGE_TR, "" },  /* fuzzy */
 
 /* en */ { IDS_BORDER_MODE,    "Border mode" },
 /* da */ { IDS_BORDER_MODE_DA, "Ramme-tilstand" },
