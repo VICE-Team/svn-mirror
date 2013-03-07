@@ -322,19 +322,20 @@ BMenuBar *menu_create(int machine_class)
 
     if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64DTV ||
         machine_class == VICE_MACHINE_C128 || machine_class == VICE_MACHINE_VIC20 ||
-        machine_class == VICE_MACHINE_VSID || machine_class == VICE_MACHINE_SCPU64) {
+        machine_class == VICE_MACHINE_VSID) {
         uppermenu->AddItem(menu = new BMenu("Video Standard"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("PAL-G", new BMessage(MENU_SYNC_FACTOR_PAL)));
             menu->AddItem(new BMenuItem("NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSC)));
     }
 
-    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_SCPU64 || machine_class == VICE_MACHINE_VSID) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_VSID) {
             menu->AddItem(new BMenuItem("Old NTSC-M", new BMessage(MENU_SYNC_FACTOR_NTSCOLD)));
             menu->AddItem(new BMenuItem("PAL-N", new BMessage(MENU_SYNC_FACTOR_PALN)));
     }
 
-    if (machine_class == VICE_MACHINE_C64SC || machine_class == VICE_MACHINE_SCPU64) {
+    if (machine_class == VICE_MACHINE_C64 || machine_class == VICE_MACHINE_C64SC ||
+        machine_class == VICE_MACHINE_SCPU64) {
         uppermenu->AddItem(menu = new BMenu("C64 model"));
             menu->SetRadioMode(true);
             menu->AddItem(new BMenuItem("C64 PAL", new BMessage(MENU_C64_MODEL_C64_PAL)));
@@ -352,6 +353,7 @@ BMenuBar *menu_create(int machine_class)
             menu->AddItem(new BMenuItem("PET64 NTSC", new BMessage(MENU_C64_MODEL_PET64_NTSC)));
             menu->AddItem(new BMenuItem("MAX Machine", new BMessage(MENU_C64_MODEL_ULTIMAX)));
             menu->AddItem(submenu = new BMenu("Custom"));
+            if (machine_class != VICE_MACHINE_C64) {
                 submenu->AddItem(extsubmenu = new BMenu("VICII model"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("6569 (PAL)", new BMessage(MENU_VICII_MODEL_6569_PAL)));
@@ -362,6 +364,7 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->AddItem(new BMenuItem("6567R56A (old NTSC)", new BMessage(MENU_VICII_MODEL_6567R56A_OLD_NTSC)));
                     extsubmenu->AddItem(new BMenuItem("6572 (PAL-N)", new BMessage(MENU_VICII_MODEL_6572_PAL_N)));
                 submenu->AddItem(new BMenuItem("New luminances", new BMessage(MENU_VICII_NEW_LUMINANCES)));
+            }
                 submenu->AddItem(extsubmenu = new BMenu("CIA-1 model"));
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA1_MODEL_6526_OLD)));
@@ -370,10 +373,12 @@ BMenuBar *menu_create(int machine_class)
                     extsubmenu->SetRadioMode(true);
                     extsubmenu->AddItem(new BMenuItem("6526 (old)", new BMessage(MENU_CIA2_MODEL_6526_OLD)));
                     extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_CIA2_MODEL_6526A_NEW)));
+            if (machine_class != VICE_MACHINE_C64) {
                 submenu->AddItem(extsubmenu = new BMenu("Glue logic"));
                     extsubmenu->SetRadioMode(true);
-                    extsubmenu->AddItem(new BMenuItem("discrete", new BMessage(MENU_GLUE_LOGIC_DISCRETE)));
-                    extsubmenu->AddItem(new BMenuItem("6526A (new)", new BMessage(MENU_GLUE_LOGIC_CUSTOM_IC)));
+                    extsubmenu->AddItem(new BMenuItem("Discrete", new BMessage(MENU_GLUE_LOGIC_DISCRETE)));
+                    extsubmenu->AddItem(new BMenuItem("Custom IC", new BMessage(MENU_GLUE_LOGIC_CUSTOM_IC)));
+            }
     }
 
     if (machine_class == VICE_MACHINE_PET || machine_class == VICE_MACHINE_PLUS4 ||
