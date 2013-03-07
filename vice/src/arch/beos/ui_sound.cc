@@ -158,7 +158,6 @@ SoundWindow::SoundWindow()
     r.right = r.left + r.Width() / 4;
     r.OffsetBy(2 * r.Width(), 0);
     r.InsetBy(5, 5);
-    r.bottom -= 20;
     box = new BBox(r, "Fragment Size");
     box->SetViewColor(220, 220, 220, 0);
     box->SetLabel("Fragment Size");
