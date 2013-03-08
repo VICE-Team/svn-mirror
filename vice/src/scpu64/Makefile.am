@@ -15,7 +15,11 @@ INCLUDES = \
 	-I$(top_srcdir)/src/vdc \
 	-I$(top_srcdir)/src/rtc
 
+if SUPPORT_XSCPU64
 noinst_LIBRARIES = libscpu64.a
+else
+noinst_LIBRARIES =
+endif
 
 libscpu64_a_SOURCES = \
 	scpu64-cmdline-options.c \
