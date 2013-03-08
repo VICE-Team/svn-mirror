@@ -432,3 +432,6 @@ dist dist-all:
 	$(MAKE) distdir
 	$(AMTAR) chf - $(distdir) | GZIP=$(GZIP_ENV) gzip -c >$(distdir).tar.gz
 	$(am__remove_distdir)
+
+$(top_srcdir)/configure.ac: $(top_srcdir)/configure.proto
+	$(am__cd) $(srcdir) && $(SHELL) autogen.sh
