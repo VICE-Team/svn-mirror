@@ -82,7 +82,7 @@ static char *ui_sound_fragment_size_text[] = {
     "Very small",
     "Small",
     "Medium",
-    "Large"
+    "Large",
     "Very large"
 };
 
