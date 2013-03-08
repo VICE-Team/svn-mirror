@@ -496,6 +496,10 @@ static void *dthread_func(void *arg)
 	    tsAdd(&now, &reltime, &to);
 	    ret = pthread_cond_timedwait(&cond, &mutex, &to);
 	    if (ret == ETIMEDOUT) {
+		if (do_action != CR_NOTHING) {
+		    DBG(("%s: race condition with co-routine, action %d triggered", __FUNCTION__, do_action));
+		    break;
+		}
 		do_action = CR_REDRAW;
 	    }
 	    if (ret < 0) {
