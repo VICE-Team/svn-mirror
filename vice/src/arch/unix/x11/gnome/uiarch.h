@@ -202,6 +202,7 @@ enum ui_keysym_s {
     KEYSYM_s = GDK_s,
     KEYSYM_t = GDK_t,
     KEYSYM_u = GDK_u,
+    KEYSYM_v = GDK_v,
     KEYSYM_w = GDK_w,
     KEYSYM_z = GDK_z,
     KEYSYM_F9  = GDK_F9 ,
