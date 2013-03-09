@@ -1,5 +1,5 @@
 /*
- * uidrivestatus.c - Xaw drive status code
+ * uidrivestatus.c - Xaw(3d) drive status code
  *
  * Written by
  *  Olaf Seibert <rhialto@falu.nl>
@@ -29,7 +29,12 @@
 
 #include "vice.h"
 
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Tip.h>
+#else
 #include <X11/Xaw/Tip.h>
+#endif
 
 #include "drive.h"
 #include "lib.h"

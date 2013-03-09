@@ -1,5 +1,5 @@
 /*
- * uicontents.c - Xaw only, UI controls for image contents (disk and tape)
+ * uicontents.c - Xaw(3d) only, UI controls for image contents (disk and tape)
  *
  * Written by
  *  Olaf Seibert <rhialto@falu.nl>
@@ -49,7 +49,13 @@
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/SmeBSB.h>
+#else
 #include <X11/Xaw/SmeBSB.h>
+#endif
 
 /*
  * FIXME: we want these to be static.

@@ -1,5 +1,5 @@
 /*
- * uitapestatus.c - Xaw only, UI controls for Datasette emulation
+ * uitapestatus.c - Xaw(3d) only, UI controls for Datasette emulation
  *
  * Written by
  *  Olaf Seibert <rhialto@falu.nl>
@@ -43,8 +43,22 @@
 #include "resources.h"
 #include "videoarch.h"
 
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Simple.h>
+#include <X11/Xaw3d/Tip.h>
+#else
 #include <X11/Xaw/Simple.h>
 #include <X11/Xaw/Tip.h>
+#endif
+
+#ifndef XawRDisplayList
+#define XawRDisplayList         "XawDisplayList"
+#endif
+
+#ifndef XawNdisplayList
+#define XawNdisplayList         "displayList"
+#endif
 
 /* #define DEBUG_X11UI */
 #ifdef DEBUG_X11UI

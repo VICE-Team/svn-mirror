@@ -32,8 +32,16 @@
 #include <X11/Intrinsic.h>
 #include <X11/CompositeP.h>
 #include <X11/Composite.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/ViewportP.h>
+#include <X11/Xaw3d/Viewport.h>
+#else
 #include <X11/Xaw/ViewportP.h>
 #include <X11/Xaw/Viewport.h>
+#endif
+
 #include "MultiListP.h"
 #include "MultiList.h"
 #include "ScrListP.h"

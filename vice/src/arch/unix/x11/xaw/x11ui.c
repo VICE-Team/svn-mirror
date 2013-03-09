@@ -1,5 +1,5 @@
 /*
- * x11ui.c - Simple Xaw-based graphical user interface.  It uses widgets
+ * x11ui.c - Simple Xaw(3d)-based graphical user interface.  It uses widgets
  * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
@@ -50,6 +50,19 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/SimpleMenu.h>
+#include <X11/Xaw3d/SmeBSB.h>
+#include <X11/Xaw3d/SmeLine.h>
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Paned.h>
+#include <X11/Xaw3d/Box.h>
+#include <X11/Xaw3d/AsciiText.h>
+#include <X11/Xaw3d/Tip.h>
+#else
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
@@ -59,6 +72,7 @@
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/AsciiText.h>
 #include <X11/Xaw/Tip.h>
+#endif
 
 #include <X11/keysym.h>
 

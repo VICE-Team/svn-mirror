@@ -1,5 +1,5 @@
 /*
- * uicartridge.c - Cartridge save image dialog for the Xaw widget set.
+ * uicartridge.c - Cartridge save image dialog for the Xaw(3d) widget set.
  *
  * Written by
  *  Nathan Huizinga <nathan.huizinga@chess.nl>
@@ -32,6 +32,18 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Box.h>
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/MenuButton.h>
+#include <X11/Xaw3d/Paned.h>
+#include <X11/Xaw3d/SimpleMenu.h>
+#include <X11/Xaw3d/SmeBSB.h>
+#include <X11/Xaw3d/Toggle.h>
+#else
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
@@ -40,9 +52,14 @@
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/Toggle.h>
+#endif
 
 #ifndef ENABLE_TEXTFIELD
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/AsciiText.h>
+#else
 #include <X11/Xaw/AsciiText.h>
+#endif
 #else
 #include "widgets/TextField.h"
 #endif

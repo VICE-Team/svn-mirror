@@ -2670,7 +2670,8 @@ if test x"$is_unix_x11" = "xyes" -a x"$enable_sdlui" != "xyes"; then
     else
       AC_CHECK_LIB(Xaw3d, XawFormDoLayout,
                    [ X_LIBS="-lXaw3d $X_LIBS";
-                     LINK_X_LIBS="-lXaw3d $LINK_X_LIBS"],
+                     LINK_X_LIBS="-lXaw3d $LINK_X_LIBS";
+                     AC_DEFINE(USE_XAW3D,,[Enable Xaw3d.])],
                    [ MISSING_X_LIBS="$MISSING_X_LIBS Xaw3d" ],
                    $X_LIBS $X_PRE_LIBS)
     fi

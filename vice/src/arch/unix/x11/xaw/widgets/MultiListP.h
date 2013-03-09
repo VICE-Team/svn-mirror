@@ -53,7 +53,13 @@
 #ifndef VICE_MULTILISTP_H_
 #define VICE_MULTILISTP_H_
 
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/SimpleP.h>
+#else
 #include <X11/Xaw/SimpleP.h>
+#endif
+
 #include "MultiList.h"
 
 /*---------------------------------------------------------------------------*

@@ -1,5 +1,5 @@
 /*
- * uipalcontrol.c - Xaw only, UI controls for CRT emu
+ * uipalcontrol.c - Xaw(3d) only, UI controls for CRT emu
  *
  * Written by
  *  Olaf Seibert <rhialto@falu.nl>
@@ -32,11 +32,21 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/StringDefs.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Scrollbar.h>
+#include <X11/Xaw3d/Label.h>
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Toggle.h>
+#else
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Scrollbar.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/Toggle.h>
+#endif
 
 #include "lib.h"
 #include "util.h"

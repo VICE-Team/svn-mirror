@@ -24,7 +24,13 @@
 
 #include "DirMgr.h"
 
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Cardinals.h>
+#else
 #include <X11/Xaw/Cardinals.h>
+#endif
+
 #include <X11/CoreP.h>
 #include <X11/Core.h>
 

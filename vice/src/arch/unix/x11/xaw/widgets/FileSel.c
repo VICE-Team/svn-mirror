@@ -48,11 +48,21 @@
 #include <X11/CompositeP.h>
 #include <X11/Composite.h>
 #include <X11/cursorfont.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Simple.h>
+#include <X11/Xaw3d/Label.h>
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Toggle.h>
+#else
 #include <X11/Xaw/Simple.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Toggle.h>
+#endif
 
 #include "ScrList.h"
 #include "FileSelP.h"
@@ -60,7 +70,11 @@
 #ifdef ENABLE_TEXTFIELD         /* [EP] 11/14/96 */
 #include "TextField.h"
 #else
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/AsciiText.h>
+#else
 #include <X11/Xaw/AsciiText.h>
+#endif
 #endif
 
 #define NO_BUSY_GRAB

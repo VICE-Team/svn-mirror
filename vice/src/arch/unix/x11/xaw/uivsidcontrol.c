@@ -31,6 +31,18 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/SimpleMenu.h>
+#include <X11/Xaw3d/SmeBSB.h>
+#include <X11/Xaw3d/SmeLine.h>
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Paned.h>
+#include <X11/Xaw3d/Box.h>
+#include <X11/Xaw3d/AsciiText.h>
+#else
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeBSB.h>
 #include <X11/Xaw/SmeLine.h>
@@ -39,6 +51,7 @@
 #include <X11/Xaw/Paned.h>
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/AsciiText.h>
+#endif
 
 #include "lib.h"
 #include "ui.h"

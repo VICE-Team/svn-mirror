@@ -1,5 +1,5 @@
 /*
- * uistatusbar.c - Xaw status-bar code, as far as it isn't in the drive
+ * uistatusbar.c - Xaw(3d) status-bar code, as far as it isn't in the drive
  *                 or tape status code.
  *
  * Written by
@@ -33,10 +33,21 @@
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
 #include <X11/Shell.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Box.h>
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Porthole.h>
+#include <X11/Xaw3d/Tip.h>
+#else
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Porthole.h>
+#include <X11/Xaw/Tip.h>
+#endif
 
 #include "ioutil.h"
 #include "lib.h"

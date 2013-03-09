@@ -30,10 +30,19 @@
 
 #ifdef HAVE_NETWORK
 
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Command.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Label.h>
+#include <X11/Xaw3d/Toggle.h>
+#else
 #include <X11/Xaw/Command.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/Toggle.h>
+#endif
+
 #include <widgets/TextField.h>
 
 #include "lib.h"

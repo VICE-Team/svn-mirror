@@ -1,5 +1,5 @@
 /*
- * about.c - Simple Xaw-based graphical user interface.  It uses widgets
+ * about.c - Simple Xaw(3d)-based graphical user interface.  It uses widgets
  * from the Free Widget Foundation and Robert W. McMullen.
  *
  * Written by
@@ -38,11 +38,21 @@
 #include <unistd.h>
 
 #include <X11/Intrinsic.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/Paned.h>
+#include <X11/Xaw3d/Form.h>
+#include <X11/Xaw3d/Box.h>
+#include <X11/Xaw3d/Label.h>
+#include <X11/Xaw3d/Command.h>
+#else
 #include <X11/Xaw/Paned.h>
 #include <X11/Xaw/Form.h>
 #include <X11/Xaw/Box.h>
 #include <X11/Xaw/Label.h>
 #include <X11/Xaw/Command.h>
+#endif
 
 #include "info.h"
 #include "platform_discovery.h"
@@ -143,9 +153,17 @@ UI_CALLBACK(ui_about)
                                         "V I C E",
                                         "",
 #ifdef USE_SVN_REVISION
+#ifdef USE_XAW3D
+                                        "Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW3D " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#else
                                         "Version " VERSION " rev " VICE_SVN_REV_STRING " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#endif
+#else
+#ifdef USE_XAW3D
+                                        "Version " VERSION " (XAW3D " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
 #else
                                         "Version " VERSION " (XAW " PLATFORM_CPU " " PLATFORM_OS " " PLATFORM_COMPILER ")",
+#endif
 #endif
 #ifdef UNSTABLE
                                         "(unstable)",

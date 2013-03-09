@@ -34,9 +34,18 @@
 
 #include <X11/Xlib.h>
 #include <X11/Intrinsic.h>
+
+/* Xaw or Xaw3d */
+#ifdef USE_XAW3D
+#include <X11/Xaw3d/SimpleMenu.h>
+#include <X11/Xaw3d/SmeLine.h>
+#include <X11/Xaw3d/SmeBSB.h>
+#else
 #include <X11/Xaw/SimpleMenu.h>
 #include <X11/Xaw/SmeLine.h>
 #include <X11/Xaw/SmeBSB.h>
+#endif
+
 #include <X11/IntrinsicI.h>
 
 #include "checkmark.xbm"
