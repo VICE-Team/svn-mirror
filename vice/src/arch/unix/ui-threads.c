@@ -481,6 +481,7 @@ static int dthread_calc_frames(unsigned long now, int *from, int *to, int shell)
 static void *dthread_func(void *arg)
 {
     static struct timespec now, to;
+    int do_draw = 0;
     /* static struct timespec t1; */
     
     int ret;
@@ -498,9 +499,9 @@ static void *dthread_func(void *arg)
 	    if (ret == ETIMEDOUT) {
 		if (do_action != CR_NOTHING) {
 		    DBG(("%s: race condition with co-routine, action %d triggered", __FUNCTION__, do_action));
-		    break;
-		}
-		do_action = CR_REDRAW;
+		} /* this can go away again - just want to know if it's triggered */
+		do_draw = 1;
+		break;
 	    }
 	    if (ret < 0) {
 		log_debug("pthread_cond_wait() failed, %s", __FUNCTION__);
@@ -509,10 +510,10 @@ static void *dthread_func(void *arg)
 	}
 	DBG2(("action is: %d, %ld", do_action, TS_TOUSEC(now)/1000));
 	
-	if (do_action == CR_REDRAW) {
+	if (do_draw) {
     	    int from, to, shell;
 	    
-	    do_action = CR_NOTHING;
+	    do_draw = 0;
 	    pthread_mutex_unlock(&mutex);
 	    /* clock_gettime(CLOCK_REALTIME, &t1); */
 	    /* find frame to time 'now' as this is best in sync with the display
