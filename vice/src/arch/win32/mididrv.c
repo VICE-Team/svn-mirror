@@ -229,7 +229,7 @@ int mididrv_in_open(void)
     }
 
     if (midi_in_dev != -1) {
-        ret = midiInOpen(&handle_in, midi_in_dev, (DWORD)midi_callback, 0, CALLBACK_FUNCTION);
+        ret = midiInOpen(&handle_in, midi_in_dev, (DWORD_PTR)midi_callback, 0, CALLBACK_FUNCTION);
         if (ret != MMSYSERR_NOERROR) {
             log_error(mididrv_log, "Cannot open MIDI-In device #%d!", midi_in_dev);
             handle_in = 0;
